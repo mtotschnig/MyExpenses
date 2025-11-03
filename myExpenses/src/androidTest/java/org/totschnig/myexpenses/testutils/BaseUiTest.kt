@@ -87,13 +87,19 @@ import org.totschnig.myexpenses.test.R as RT
 data class TransactionInfo(
     val accountId: Long,
     val amount: Long,
-    val category: Long? = null,
+    val splitParts: List<TransactionInfo>? = null,
+    val category: Long? = if (splitParts != null) DatabaseConstants.SPLIT_CATID else null,
     val party: Long? = null,
     val tags: List<Long> = emptyList(),
-    val splitParts: List<TransactionInfo>? = null,
     val attachments: List<Uri> = emptyList(),
     val debtId: Long? = null
-)
+) {
+    init {
+        if(splitParts != null) {
+            require(category == DatabaseConstants.SPLIT_CATID)
+        }
+    }
+}
 
 abstract class BaseUiTest<A : ProtectedFragmentActivity> {
     private var isLarge = false
@@ -370,7 +376,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         id: Long,
         expectedTransaction: TransactionInfo
     ) {
-        val (expectedAccount, expectedAmount, expectedCategory, expectedParty, expectedTags, expectedSplitParts, expectedAttachments) =
+        val (expectedAccount, expectedAmount, expectedSplitParts, expectedCategory, expectedParty, expectedTags, expectedAttachments) =
             expectedTransaction
 
         val transaction = repository.loadTransaction(id)

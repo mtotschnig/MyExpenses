@@ -239,7 +239,6 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
                 TransactionInfo(
                     accountId = account.id,
                     amount = -2100L,
-                    category = DatabaseConstants.SPLIT_CATID,
                     party = partyId,
                     splitParts = buildList {
                         repeat(6) {

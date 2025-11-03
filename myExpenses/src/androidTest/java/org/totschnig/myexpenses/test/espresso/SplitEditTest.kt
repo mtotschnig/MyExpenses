@@ -291,7 +291,6 @@ class SplitEditTest : BaseExpenseEditTest() {
                 TransactionInfo(
                     accountId = account1.id,
                     amount = partCount * partAmount * 100L,
-                    category = DatabaseConstants.SPLIT_CATID,
                     splitParts = buildList {
                         repeat(partCount) {
                             add(
@@ -421,7 +420,6 @@ class SplitEditTest : BaseExpenseEditTest() {
             TransactionInfo(
                 accountId = account1.id,
                 amount = 20000,
-                category = DatabaseConstants.SPLIT_CATID,
                 splitParts = listOf(
                     TransactionInfo(
                         accountId = account1.id,
@@ -461,7 +459,6 @@ class SplitEditTest : BaseExpenseEditTest() {
             TransactionInfo(
                 accountId = account1.id,
                 amount = 20000,
-                category = DatabaseConstants.SPLIT_CATID,
                 splitParts = listOf(
                     TransactionInfo(
                         accountId = account1.id,
