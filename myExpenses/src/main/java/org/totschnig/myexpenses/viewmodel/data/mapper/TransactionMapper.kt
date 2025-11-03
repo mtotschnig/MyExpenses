@@ -34,7 +34,6 @@ object TransactionMapper {
             categoryIcon = transaction.categoryIcon,
             accountId = transaction.accountId,
             tags = repositoryTransaction.tags ?: emptyList(),
-            attachments = emptyList(), //TODO
             methodId = transaction.methodId,
             methodLabel = null, //TODO
             originalAmount = transaction.originalAmount?.let {
@@ -84,7 +83,6 @@ object TransactionMapper {
             categoryPath = template.categoryPath,
             categoryIcon = null, //TODO
             accountId = template.accountId,
-            attachments = emptyList(), //TODO
             methodId = template.methodId,
             methodLabel = null, //TODO
             originalAmount = template.originalAmount?.let {

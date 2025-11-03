@@ -57,7 +57,6 @@ data class TransactionEditData(
     val categoryIcon: String? = null,
     val accountId: Long,
     val tags: List<Tag> = emptyList(), //only used for split parts
-    val attachments: List<Uri> = emptyList(),
     val methodId: Long? = null,
     val methodLabel: String? = null,
     val originalAmount: Money? = null,
