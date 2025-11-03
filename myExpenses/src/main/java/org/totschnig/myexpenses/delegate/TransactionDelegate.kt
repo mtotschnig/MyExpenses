@@ -490,10 +490,10 @@ abstract class TransactionDelegate(
                 methodRowBinding.Method.MethodOutlier.isVisible = false
             } else {
                 methodSpinner.setSelection(0)
-                if (methodLabel != null) {
+                if (methodId != null && methodLabel != null) {
                     methodSpinner.spinner.isVisible = false
                     with(methodRowBinding.Method.MethodOutlier) {
-                        text = methodLabel!!.translateIfPredefined(context)
+                        text = methodLabel?.translateIfPredefined(context)
                         isVisible = true
                     }
                 } else {
@@ -501,9 +501,13 @@ abstract class TransactionDelegate(
                 }
             }
         } else {
-            methodSpinner.spinner.isVisible = true
-            methodRowBinding.Method.MethodOutlier.isVisible = false
-            methodSpinner.setSelection(0)
+            if (methodsAdapter.count > 0) {
+                methodSpinner.spinner.isVisible = true
+                methodRowBinding.Method.MethodOutlier.isVisible = false
+                methodSpinner.setSelection(0)
+            } else {
+                methodRowBinding.MethodRow.visibility = View.GONE
+            }
         }
         methodRowBinding.ClearMethod.root.isVisible = methodId != null
         setReferenceNumberVisibility()
@@ -600,8 +604,7 @@ abstract class TransactionDelegate(
 
     fun setMethods(paymentMethods: List<PaymentMethod>?) {
         methodsLoaded = true
-        if (paymentMethods.isNullOrEmpty()) {
-            methodId = null
+        if (paymentMethods.isNullOrEmpty() && methodId == null) {
             methodRowBinding.MethodRow.visibility = View.GONE
         } else {
             methodRowBinding.MethodRow.visibility = View.VISIBLE
@@ -609,7 +612,9 @@ abstract class TransactionDelegate(
                 setMethodSelection(null)
             }
             methodsAdapter.clear()
-            methodsAdapter.addAll(paymentMethods)
+            if (paymentMethods?.isNotEmpty() == true) {
+                methodsAdapter.addAll(paymentMethods)
+            }
             setMethodSelection()
         }
     }

@@ -35,7 +35,7 @@ object TransactionMapper {
             accountId = transaction.accountId,
             tags = repositoryTransaction.tags ?: emptyList(),
             methodId = transaction.methodId,
-            methodLabel = null, //TODO
+            methodLabel = transaction.methodLabel,
             originalAmount = transaction.originalAmount?.let {
                 Money(
                     currencyContext[transaction.originalCurrency!!],

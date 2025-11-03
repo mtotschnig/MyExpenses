@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
@@ -128,8 +129,12 @@ data class Transaction(
     /**
      * Read-only property holding the category icon.
      */
-    val categoryIcon: String? = null
+    val categoryIcon: String? = null,
 
+    /**
+     * Read-only property holding the payment method label
+     */
+    val methodLabel: String? = null
 ) {
 
     val isTransfer: Boolean = transferAccountId != null
@@ -166,7 +171,8 @@ data class Transaction(
             KEY_SEALED,
             KEY_PAYEE_NAME,
             KEY_STATUS,
-            KEY_ICON
+            KEY_ICON,
+            KEY_METHOD_LABEL
         )
 
         /**
@@ -200,7 +206,8 @@ data class Transaction(
                 sealed = getBoolean(KEY_SEALED),
                 payeeName = getStringOrNull(KEY_PAYEE_NAME),
                 status = getInt(KEY_STATUS),
-                categoryIcon = getStringOrNull(KEY_ICON)
+                categoryIcon = getStringOrNull(KEY_ICON),
+                methodLabel = getStringOrNull(KEY_METHOD_LABEL)
             )
         }
     }

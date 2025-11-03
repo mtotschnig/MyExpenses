@@ -17,10 +17,13 @@ import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isChecked
 import androidx.test.espresso.matcher.ViewMatchers.isNotChecked
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
 import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import com.adevinta.android.barista.internal.viewaction.NestedEnabledScrollToAction.nestedScrollToAction
 import com.google.common.truth.Truth.assertThat
 import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Matchers
 import org.totschnig.myexpenses.R
@@ -30,9 +33,11 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.db2.loadTransactions
 import org.totschnig.myexpenses.delegate.TransactionDelegate
+import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 
 const val TEMPLATE_TITLE = "Espresso template"
 const val ACCOUNT_LABEL_1 = "Test label 1"
@@ -170,5 +175,20 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
     fun setCategory() {
         onView(withId(R.id.Category)).perform(click())
         composeTestRule.onNodeWithText(CATEGORY_LABEL).performClick()
+    }
+
+    fun setMethod(method: PreDefinedPaymentMethod) {
+        onView(withId(R.id.MethodSpinner)).perform(nestedScrollToAction(), click())
+        onData(
+            allOf(
+                instanceOf(PaymentMethod::class.java),
+                withMethod(getString(method.resId))
+            )
+        ).perform(click())
+    }
+
+    fun checkMethod(method: PreDefinedPaymentMethod) {
+        onView(withId(R.id.MethodSpinner)).check(matches(withSpinnerText(containsString(getString(method.resId)))))
+
     }
 }

@@ -243,9 +243,9 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
                     splitParts = buildList {
                         repeat(6) {
                             add(TransactionInfo(
-                                account.id,
-                                -100L*(it+1),
-                                categoryId,
+                                accountId = account.id,
+                                amount = -100L*(it+1),
+                                category = categoryId,
                                 tags = listOf(tagId)
                             ))
                         }

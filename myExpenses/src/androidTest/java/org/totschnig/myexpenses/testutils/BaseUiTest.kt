@@ -92,7 +92,8 @@ data class TransactionInfo(
     val party: Long? = null,
     val tags: List<Long> = emptyList(),
     val attachments: List<Uri> = emptyList(),
-    val debtId: Long? = null
+    val debtId: Long? = null,
+    val methodId: Long? = null
 ) {
     init {
         if(splitParts != null) {
@@ -376,7 +377,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         id: Long,
         expectedTransaction: TransactionInfo
     ) {
-        val (expectedAccount, expectedAmount, expectedSplitParts, expectedCategory, expectedParty, expectedTags, expectedAttachments) =
+        val (expectedAccount, expectedAmount, expectedSplitParts, expectedCategory, expectedParty, expectedTags, expectedAttachments, expectedDebt, expectedMethod) =
             expectedTransaction
 
         val transaction = repository.loadTransaction(id)
@@ -387,6 +388,8 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
             assertThat(accountId).isEqualTo(expectedAccount)
             assertThat(categoryId).isEqualTo(expectedCategory)
             assertThat(payeeId).isEqualTo(expectedParty)
+            assertThat(debtId).isEqualTo(expectedDebt)
+            assertThat(methodId).isEqualTo(expectedMethod)
         }
         assertThat(transaction.data.tagList).containsExactlyElementsIn(expectedTags)
         assertThat(attachments).containsExactlyElementsIn(expectedAttachments)

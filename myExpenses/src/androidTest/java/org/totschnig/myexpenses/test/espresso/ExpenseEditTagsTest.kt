@@ -85,8 +85,7 @@ class ExpenseEditTagsTest : BaseExpenseEditTest() {
             baseFixture()
             val transaction = repository.insertTransaction(
                 accountId = account1.id,
-                amount = 100,
-                equivalentAmount = 13
+                amount = 100
             )
             repository.saveTagsForTransaction(longArrayOf(tagId1), transaction.id)
             launch(getIntentForEditTransaction(transaction.id))

@@ -15,9 +15,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import com.adevinta.android.barista.internal.viewaction.NestedEnabledScrollToAction.nestedScrollToAction
 import org.hamcrest.CoreMatchers.allOf
-import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.CoreMatchers.`is`
 import org.junit.After
@@ -44,7 +42,6 @@ import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible
 import org.totschnig.myexpenses.testutils.TestShard4
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.toolbarTitle
-import org.totschnig.myexpenses.testutils.withMethod
 import org.totschnig.myexpenses.testutils.withStatus
 import java.util.Currency
 
@@ -108,21 +105,12 @@ class OrientationChangeTest : BaseExpenseEditTest() {
         val i = Intent(targetContext, ExpenseEdit::class.java)
         i.putExtra(DatabaseConstants.KEY_ROWID, id)
         testScenario = ActivityScenario.launch(i)
-        //Thread.sleep(100) //unfortunately needed if test starts in landscape
         closeSoftKeyboard()
-        onView(withId(R.id.MethodSpinner)).perform(nestedScrollToAction(), click())
-        val string = getString(PreDefinedPaymentMethod.CREDITCARD.resId)
-        onData(
-            allOf(
-                instanceOf(org.totschnig.myexpenses.viewmodel.data.PaymentMethod::class.java),
-                withMethod(string)
-            )
-        ).perform(click())
-        onView(withId(R.id.MethodSpinner)).check(matches(withSpinnerText(containsString(string))))
+        setMethod(PreDefinedPaymentMethod.CREDITCARD)
+        checkMethod(PreDefinedPaymentMethod.CREDITCARD)
         doWithRotation {
             onIdle()
-            onView(withId(R.id.MethodSpinner)).check(matches(withSpinnerText(containsString(string))))
-        }
+            checkMethod(PreDefinedPaymentMethod.CREDITCARD)        }
     }
 
 
