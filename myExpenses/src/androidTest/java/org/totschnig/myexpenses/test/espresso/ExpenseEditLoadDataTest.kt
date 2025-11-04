@@ -350,7 +350,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             it.onActivity { activity: ExpenseEdit ->
                 assertThat(activity.isTemplate).isTrue()
             }
-            checkToolbarTitle(R.string.menu_edit_template)
+            checkToolbarTitleForTemplate(true, Transactions.TYPE_SPLIT)
             checkEffectiveVisible(R.id.SplitRow)
             checkEffectiveGone(R.id.OperationType)
             onView(withId(R.id.list))

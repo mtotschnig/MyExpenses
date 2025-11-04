@@ -572,7 +572,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
         protected const val TEMPLATES_INCREASE_USAGE = 17
         protected const val SQLITE_SEQUENCE_TABLE = 19
         protected const val AGGREGATE_ID = 20
-        protected const val UNCOMMITTED = 21
         protected const val TRANSACTIONS_GROUPS = 22
         protected const val TRANSACTIONS_SUMS = 24
         protected const val TRANSACTION_MOVE = 25
@@ -590,7 +589,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
         protected const val MAPPED_TRANSFER_ACCOUNTS = 41
         protected const val CHANGES = 42
         protected const val SETTINGS = 43
-        protected const val TEMPLATES_UNCOMMITTED = 44
         protected const val ACCOUNT_ID_GROUPING = 45
         protected const val ACCOUNT_ID_SORT = 46
         protected const val AUTOFILL = 47
@@ -605,7 +603,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
         protected const val TRANSACTIONS_TAGS = 56
         protected const val TAG_ID = 57
         protected const val TEMPLATES_TAGS = 58
-        protected const val UNCOMMITTED_ID = 59
         protected const val PLANINSTANCE_STATUS_SINGLE = 60
         protected const val TRANSACTION_LINK_TRANSFER = 61
         protected const val ACCOUNTS_TAGS = 62

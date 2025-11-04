@@ -69,7 +69,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.AUTHORITY
 import org.totschnig.myexpenses.provider.TransactionProvider.DEBTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
-import org.totschnig.myexpenses.provider.TransactionProvider.UNCOMMITTED_URI
 import org.totschnig.myexpenses.provider.buildTransactionRowSelect
 import org.totschnig.myexpenses.provider.checkForSealedDebt
 import org.totschnig.myexpenses.provider.filter.Criterion
@@ -231,7 +230,6 @@ open class ContentResolvingAndroidViewModel(application: Application) :
             contentResolver.notifyChange(TRANSACTIONS_URI, null, true)
             contentResolver.notifyChange(ACCOUNTS_URI, null, false)
             contentResolver.notifyChange(DEBTS_URI, null, false)
-            contentResolver.notifyChange(UNCOMMITTED_URI, null, false)
             bulkDeleteStateInternal.update {
                 DeleteState.DeleteComplete(success, failure)
             }

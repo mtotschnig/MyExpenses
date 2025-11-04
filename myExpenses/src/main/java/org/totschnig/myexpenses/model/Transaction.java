@@ -96,9 +96,7 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_CURRENCY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI;
-import static org.totschnig.myexpenses.provider.TransactionProvider.UNCOMMITTED_URI;
 import static org.totschnig.myexpenses.util.CurrencyFormatterKt.formatMoney;
 
 /**
@@ -452,17 +450,6 @@ public class Transaction extends Model implements ITransaction {
     return te == null ? null : getInstanceFromTemplateWithTags(repository, te);
   }
 
-  public static Transaction getInstanceFromTemplate(Repository repository, long id) {
-    Template te = Template.getInstanceFromDb(repository.getContentResolver(), id);
-    return te == null ? null : getInstanceFromTemplate(repository, te);
-  }
-
-  @Nullable
-  public static kotlin.Triple<Transaction, List<Tag>, Boolean> getInstanceFromTemplateIfOpen(Repository repository, long id, long instanceId) {
-    Template te = Template.getInstanceFromDbIfInstanceIsOpen(repository.getContentResolver(), id, instanceId);
-    return te == null ? null : getInstanceFromTemplateWithTags(repository, te);
-  }
-
   public static Transaction getInstanceFromTemplate(Repository repository, Template te) {
     Transaction tr;
     switch (te.operationType()) {
@@ -561,11 +548,6 @@ public class Transaction extends Model implements ITransaction {
     return new Transaction(accountId, new Money(currencyUnit, 0L), parentId);
   }
 
-  public static int undelete(ContentResolver contentResolver, long id) {
-    Uri uri = ContentUris.appendId(CONTENT_URI.buildUpon(), id)
-        .appendPath(TransactionProvider.URI_SEGMENT_UNDELETE).build();
-    return contentResolver.update(uri, null, null, null);
-  }
 
   public Transaction() {
     final ZonedDateTime now = ZonedDateTime.now();
@@ -725,61 +707,9 @@ public class Transaction extends Model implements ITransaction {
     return args.toArray(new String[0]);
   }
 
-  /**
-   * all Split Parts are cloned and we work with the uncommitted clones
-   * @param clone  if true an uncommited clone of the instance is prepared
-   */
-  public void prepareForEdit(Repository repository, boolean clone, boolean withCurrentDate) {
-    if (withCurrentDate) {
-      final ZonedDateTime now = ZonedDateTime.now();
-      setDate(now);
-      setValueDate(now);
-    }
-    //TODO this needs to be moved into a transaction
-    if (isSplit()) {
-      Long oldId = getId();
-      if (clone) {
-        status = STATUS_UNCOMMITTED;
-        saveAsNew(repository);
-      }
-      String idStr = String.valueOf(oldId);
-      //we only create uncommited clones if none exist yet
-      Cursor c = repository.getContentResolver().query(
-              uriForParts(getContentUri(), oldId),
-              new String[]{KEY_ROWID},
-              "NOT EXISTS (SELECT 1 from " + getUncommittedView()
-              + " WHERE " + KEY_PARENTID + " = ?)", new String[]{idStr}, null);
-      if (c != null) {
-        c.moveToFirst();
-        while (!c.isAfterLast()) {
-          Pair<Transaction, List<Tag>> part = getSplitPart(repository, c.getLong(0));
-          if (part != null) {
-            Transaction t = part.getFirst();
-            t.status = STATUS_UNCOMMITTED;
-            t.setParentId(getId());
-            t.saveAsNew(repository);
-            t.saveTags(repository, part.getSecond());
-          }
-          c.moveToNext();
-        }
-        c.close();
-      }
-    } else if (clone) {
-      setId(0);
-      setUuid(null);
-    }
-  }
 
   protected Pair<Transaction, List<Tag>> getSplitPart(Repository repository, long partId) {
     return Transaction.getInstanceFromDbWithTags(repository, partId, null);
-  }
-
-  public Uri getContentUri() {
-    return CONTENT_URI;
-  }
-
-  public String getUncommittedView() {
-    return VIEW_UNCOMMITTED;
   }
 
   public ArrayList<ContentProviderOperation> buildSaveOperations(ContentResolver contentResolver, boolean withCommit) {
@@ -820,7 +750,6 @@ public class Transaction extends Model implements ITransaction {
   }
 
   protected Uri getUriForSave(boolean callerIsSyncAdapter) {
-    if (getStatus() == STATUS_UNCOMMITTED) return UNCOMMITTED_URI;
     if (callerIsSyncAdapter) return CALLER_IS_SYNC_ADAPTER_URI;
     return CONTENT_URI;
   }

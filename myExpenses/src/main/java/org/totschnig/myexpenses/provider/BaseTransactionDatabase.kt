@@ -126,7 +126,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_CHANGES_EXTENDED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_PRIORITIZED_PRICES
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.sync.json.TransactionChange
@@ -937,7 +936,6 @@ abstract class BaseTransactionDatabase(
             execSQL("DROP TRIGGER IF EXISTS insert_after_update_change_log")
             execSQL("DROP TRIGGER IF EXISTS update_change_log")
             execSQL("DROP VIEW IF EXISTS $VIEW_COMMITTED")
-            execSQL("DROP VIEW IF EXISTS $VIEW_UNCOMMITTED")
             execSQL("DROP VIEW IF EXISTS $VIEW_ALL")
             execSQL("DROP VIEW IF EXISTS $VIEW_EXTENDED")
             execSQL("DROP VIEW IF EXISTS $VIEW_CHANGES_EXTENDED")
@@ -1158,7 +1156,6 @@ abstract class BaseTransactionDatabase(
             execSQL("DROP TRIGGER IF EXISTS insert_after_update_change_log")
             execSQL("DROP TRIGGER IF EXISTS update_change_log")
             execSQL("DROP VIEW IF EXISTS $VIEW_COMMITTED")
-            execSQL("DROP VIEW IF EXISTS $VIEW_UNCOMMITTED")
             execSQL("DROP VIEW IF EXISTS $VIEW_ALL")
             execSQL("DROP VIEW IF EXISTS $VIEW_EXTENDED")
             execSQL("DROP VIEW IF EXISTS $VIEW_CHANGES_EXTENDED")

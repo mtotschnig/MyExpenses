@@ -109,8 +109,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_PRIORITIZED_PRICES;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_ALL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_EXTENDED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_UNCOMMITTED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_DEPENDENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_PEER;
@@ -203,15 +201,11 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   public static final Uri TRANSACTIONS_URI =
       Uri.parse("content://" + AUTHORITY + "/transactions");
-  public static final Uri UNCOMMITTED_URI =
-      Uri.parse("content://" + AUTHORITY + "/transactionsUncommitted");
   public static final Uri EXTENDED_URI =
           TRANSACTIONS_URI.buildUpon().appendQueryParameter(
                   TransactionProvider.QUERY_PARAMETER_EXTENDED, "1").build();
   public static final Uri TEMPLATES_URI =
       Uri.parse("content://" + AUTHORITY + "/templates");
-  public static final Uri TEMPLATES_UNCOMMITTED_URI =
-      Uri.parse("content://" + AUTHORITY + "/templatesUncommitted");
   public static final Uri CATEGORIES_URI =
       Uri.parse("content://" + AUTHORITY + "/categories");
   public static final Uri PAYEES_URI =
@@ -489,11 +483,6 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
         break;
       }
-      case UNCOMMITTED:
-        qb = SupportSQLiteQueryBuilder.builder(VIEW_UNCOMMITTED);
-        if (projection == null)
-          projection = DatabaseConstants.getProjectionBase();
-        break;
       case TRANSACTION_ID:
         qb = SupportSQLiteQueryBuilder.builder(VIEW_ALL  + equivalentAmountJoin(getHomeCurrency()));
         projection = prepareProjectionForTransactions(projection, VIEW_ALL, false, true);
@@ -743,11 +732,6 @@ public class TransactionProvider extends BaseTransactionProvider {
               VIEW_TEMPLATES_EXTENDED + "." + KEY_ROWID + " AS " + KEY_ROWID, KEY_SEALED};
         }
 
-        break;
-      case TEMPLATES_UNCOMMITTED:
-        qb = SupportSQLiteQueryBuilder.builder(VIEW_TEMPLATES_UNCOMMITTED);
-        if (projection == null)
-          projection = templateProjection(null);
         break;
       case TEMPLATE_ID:
         qb = SupportSQLiteQueryBuilder.builder(VIEW_TEMPLATES_ALL);
@@ -1013,7 +997,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     int uriMatch = URI_MATCHER.match(uri);
     maybeSetDirty(uriMatch);
     switch (uriMatch) {
-      case TRANSACTIONS, UNCOMMITTED -> {
+      case TRANSACTIONS -> {
         Long equivalentAmount = values.getAsLong(KEY_EQUIVALENT_AMOUNT);
         values.remove(KEY_EQUIVALENT_AMOUNT);
         String tagList = values.getAsString(KEY_TAGLIST);
@@ -1212,16 +1196,11 @@ public class TransactionProvider extends BaseTransactionProvider {
     if (uriMatch == TRANSACTIONS) {
       notifyChange(ACCOUNTS_URI, false);
       notifyChange(DEBTS_URI, false);
-      //notifyChange(UNCOMMITTED_URI, false);
     } else if (uriMatch == ACCOUNTS) {
       notifyAccountChange();
       notifyChange(BANKS_URI, false);
-    } else if (uriMatch == TEMPLATES) {
-      notifyChange(TEMPLATES_UNCOMMITTED_URI, false);
     } else if (uriMatch == DEBTS) {
       notifyChange(PAYEES_URI, false);
-    } else if (uriMatch == UNCOMMITTED) {
-      notifyChange(DEBTS_URI, false);
     } else if (uriMatch == TRANSACTION_ATTACHMENTS) {
       notifyChange(TRANSACTIONS_URI, false);
     } else if (uriMatch == TRANSACTION_TRANSFORM_TO_TRANSFER) {
@@ -1243,7 +1222,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     int uriMatch = URI_MATCHER.match(uri);
     maybeSetDirty(uriMatch);
     switch (uriMatch) {
-      case TRANSACTIONS, UNCOMMITTED -> count = db.delete(TABLE_TRANSACTIONS, where, whereArgs);
+      case TRANSACTIONS -> count = db.delete(TABLE_TRANSACTIONS, where, whereArgs);
       case TRANSACTION_ID -> {
         //maybe TODO ?: where and whereArgs are ignored
         segment = uri.getPathSegments().get(1);
@@ -1379,18 +1358,12 @@ public class TransactionProvider extends BaseTransactionProvider {
       notifyChange(TRANSACTIONS_URI, callerIsNotSyncAdapter(uri));
       notifyChange(ACCOUNTS_URI, false);
       notifyChange(DEBTS_URI, false);
-      //notifyChange(UNCOMMITTED_URI, false);
     } else {
       if (uriMatch == ACCOUNTS || uriMatch == ACCOUNT_ID) {
         notifyAccountChange();
       }
-      if (uriMatch == TEMPLATES || uriMatch == TEMPLATE_ID) {
-        notifyChange(TEMPLATES_UNCOMMITTED_URI, false);
-      }
       if (uriMatch == DEBT_ID) {
         notifyChange(PAYEES_URI, false);
-      } else if (uriMatch == UNCOMMITTED) {
-        notifyChange(DEBTS_URI, false);
       } else if (uriMatch == TRANSACTION_ID_ATTACHMENT_ID) {
         notifyChange(TRANSACTIONS_URI, false);
       } else if (uriMatch == BANK_ID) {
@@ -1422,9 +1395,9 @@ public class TransactionProvider extends BaseTransactionProvider {
     log("UPDATE Uri: %s, values: %s", uri, values);
     final String lastPathSegment = uri.getLastPathSegment();
     switch (uriMatch) {
-      case TRANSACTIONS, UNCOMMITTED ->
+      case TRANSACTIONS ->
               count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, values, where, whereArgs);
-      case TRANSACTION_ID, UNCOMMITTED_ID -> {
+      case TRANSACTION_ID -> {
         Long equivalentAmount = values.getAsLong(KEY_EQUIVALENT_AMOUNT);
         values.remove(KEY_EQUIVALENT_AMOUNT);
         String tagList = values.getAsString(KEY_TAGLIST);
@@ -1586,7 +1559,6 @@ public class TransactionProvider extends BaseTransactionProvider {
       notifyChange(TRANSACTIONS_URI, callerIsNotSyncAdapter(uri));
       notifyChange(ACCOUNTS_URI, false);
       notifyChange(DEBTS_URI, false);
-      //notifyChange(UNCOMMITTED_URI, false);
       notifyChange(CATEGORIES_URI, false);
     } else if (
       //we do not need to refresh cursors on the usage counters
@@ -1599,9 +1571,6 @@ public class TransactionProvider extends BaseTransactionProvider {
     if (uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS || uriMatch == TEMPLATES_INCREASE_USAGE) {
       notifyChange(TEMPLATES_URI, false);
     }
-    if (uriMatch == TEMPLATES || uriMatch == TEMPLATE_ID) {
-      notifyChange(TEMPLATES_UNCOMMITTED_URI, false);
-    }
     if (uriMatch == BUDGET_CATEGORY) {
       notifyChange(CATEGORIES_URI, false);
       notifyChange(BUDGETS_URI, false);
@@ -1612,9 +1581,6 @@ public class TransactionProvider extends BaseTransactionProvider {
     }
     if (uriMatch == ACCOUNTS || uriMatch == ACCOUNT_ID) {
       notifyAccountChange();
-    }
-    if (uriMatch == UNCOMMITTED_ID || uriMatch == UNCOMMITTED) {
-      notifyChange(UNCOMMITTED_URI, false);
     }
     if (uriMatch == CATEGORY_ID || uriMatch == METHOD_ID) {
       notifyChange(TRANSACTIONS_URI, false);
@@ -1790,11 +1756,9 @@ public class TransactionProvider extends BaseTransactionProvider {
   static {
     URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
     URI_MATCHER.addURI(AUTHORITY, "transactions", TRANSACTIONS);
-    URI_MATCHER.addURI(AUTHORITY, "transactionsUncommitted/", UNCOMMITTED);
     URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_GROUPS + "/*", TRANSACTIONS_GROUPS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_SUMS_FOR_ACCOUNTS, TRANSACTIONS_SUMS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#", TRANSACTION_ID);
-    URI_MATCHER.addURI(AUTHORITY, "transactionsUncommitted/#", UNCOMMITTED_ID);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_MOVE + "/#", TRANSACTION_MOVE);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_TOGGLE_CRSTATUS, TRANSACTION_TOGGLE_CRSTATUS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_UNDELETE, TRANSACTION_UNDELETE);
@@ -1817,7 +1781,6 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "methods/" + URI_SEGMENT_TYPE_FILTER + "/*", METHODS_FILTERED);
     URI_MATCHER.addURI(AUTHORITY, "accounttypes_methods", ACCOUNTTYPES_METHODS);
     URI_MATCHER.addURI(AUTHORITY, "templates", TEMPLATES);
-    URI_MATCHER.addURI(AUTHORITY, "templatesUncommitted", TEMPLATES_UNCOMMITTED);
     URI_MATCHER.addURI(AUTHORITY, "templates/#", TEMPLATE_ID);
     URI_MATCHER.addURI(AUTHORITY, "templates/#/" + URI_SEGMENT_INCREASE_USAGE, TEMPLATES_INCREASE_USAGE);
     URI_MATCHER.addURI(AUTHORITY, "sqlite_sequence/*", SQLITE_SEQUENCE_TABLE);

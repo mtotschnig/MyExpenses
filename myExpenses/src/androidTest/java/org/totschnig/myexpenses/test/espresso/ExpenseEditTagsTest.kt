@@ -53,8 +53,8 @@ class ExpenseEditTagsTest : BaseExpenseEditTest() {
                 id = repository.loadTransactions(account1.id).first().id,
                 TransactionInfo(
                     accountId = account1.id,
-                    amount = 10100,
-                    tags = listOf(tagId2)
+                    amount = -10100,
+                    tags = listOf(tagId1)
                 )
             )
         }

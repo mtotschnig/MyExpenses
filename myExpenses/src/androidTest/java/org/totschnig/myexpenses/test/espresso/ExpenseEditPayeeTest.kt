@@ -2,13 +2,11 @@ package org.totschnig.myexpenses.test.espresso
 
 import androidx.test.espresso.Espresso.onIdle
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isChecked
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSubstring
-import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.CoreMatchers.allOf
@@ -20,7 +18,6 @@ import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.deleteParty
 import org.totschnig.myexpenses.db2.insertTemplate
 import org.totschnig.myexpenses.db2.insertTransaction
-import org.totschnig.myexpenses.db2.loadTransactions
 import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
@@ -31,7 +28,6 @@ import org.totschnig.myexpenses.testutils.TEMPLATE_TITLE
 import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.viewmodel.data.Debt
-import java.util.concurrent.CompletableFuture.allOf
 
 // fails on Nexus 7 emulator Portrait
 @TestShard2
@@ -60,7 +56,7 @@ class ExpenseEditPayeeTest : BaseExpenseEditTest() {
     }
 
     suspend fun fixture(withIban: String? = null, withDebt: Boolean = false) {
-        baseFixture()
+        baseFixture(withIban, withDebt)
         launch()
         assertThat(load()).isEmpty()
     }

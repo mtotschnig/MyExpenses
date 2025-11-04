@@ -73,7 +73,6 @@ open class CurrencyFormatter(
         contentResolver.notifyChange(TransactionProvider.TEMPLATES_URI, null, false)
         contentResolver.notifyChange(TransactionProvider.TRANSACTIONS_URI, null, false)
         contentResolver.notifyChange(TransactionProvider.ACCOUNTS_URI, null, false)
-        contentResolver.notifyChange(TransactionProvider.UNCOMMITTED_URI, null, false)
     }
 
     private fun initNumberFormat(): NumberFormat {

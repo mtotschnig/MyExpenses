@@ -405,18 +405,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       db.execSQL("PRAGMA foreign_keys=ON;");
       db.execSQL("PRAGMA recursive_triggers = ON;");
     }
-    try {
-      String uncommitedSelect = String.format(Locale.ROOT, "(SELECT %s from %s where %s = %d)",
-          KEY_ROWID, TABLE_TRANSACTIONS, KEY_STATUS, STATUS_UNCOMMITTED);
-      String uncommitedParentSelect = String.format(Locale.ROOT, "%s IN %s", KEY_PARENTID, uncommitedSelect);
-      final String whereClause = String.format(Locale.ROOT,
-          "%1$s IN %2$s OR %3$s OR %4$s IN (SELECT %5$s FROM %6$s WHERE %3$s)",
-          KEY_ROWID, uncommitedSelect, uncommitedParentSelect, KEY_TRANSFER_PEER, KEY_ROWID, TABLE_TRANSACTIONS);
-      Timber.d(whereClause);
-      MoreDbUtilsKt.safeUpdateWithSealed(db, () -> db.delete(TABLE_TRANSACTIONS, whereClause, null));
-    } catch (SQLiteException e) {
-      CrashHandler.report(e);
-    }
   }
 
   @Override
@@ -2151,7 +2139,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
   private void createOrRefreshViews(SupportSQLiteDatabase db) {
     db.execSQL("DROP VIEW IF EXISTS " + VIEW_COMMITTED);
-    db.execSQL("DROP VIEW IF EXISTS " + VIEW_UNCOMMITTED);
     db.execSQL("DROP VIEW IF EXISTS " + VIEW_ALL);
     db.execSQL("DROP VIEW IF EXISTS " + VIEW_EXTENDED);
     db.execSQL("DROP VIEW IF EXISTS " + VIEW_CHANGES_EXTENDED);
@@ -2161,7 +2148,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     String tagGroupBy = DbConstantsKt.tagGroupBy(TABLE_TRANSACTIONS);
     String viewDefinition = buildViewDefinition(TABLE_TRANSACTIONS);
     db.execSQL("CREATE VIEW " + VIEW_COMMITTED + viewDefinition + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED  + tagGroupBy + ";");
-    db.execSQL("CREATE VIEW " + VIEW_UNCOMMITTED + viewDefinition + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + tagGroupBy + ";");
     db.execSQL("CREATE VIEW " + VIEW_ALL + viewExtended);
     db.execSQL("CREATE VIEW " + VIEW_EXTENDED + viewExtended + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED);
 
@@ -2174,11 +2160,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
   private void createOrRefreshTemplateViews(SupportSQLiteDatabase db) {
     db.execSQL("DROP VIEW IF EXISTS " + VIEW_TEMPLATES_ALL);
     db.execSQL("DROP VIEW IF EXISTS " + VIEW_TEMPLATES_EXTENDED);
-    db.execSQL("DROP VIEW IF EXISTS " + VIEW_TEMPLATES_UNCOMMITTED);
 
-    String viewTemplates = buildViewDefinition(TABLE_TEMPLATES);
     String viewTemplatesExtended = buildViewDefinitionExtended(TABLE_TEMPLATES);
-    db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_UNCOMMITTED + viewTemplates + " WHERE " + KEY_STATUS + " = " + STATUS_UNCOMMITTED + tagGroupBy(TABLE_TEMPLATES) + ";");
     db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_ALL + viewTemplatesExtended);
     db.execSQL("CREATE VIEW " + VIEW_TEMPLATES_EXTENDED + viewTemplatesExtended + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED + ";");
   }

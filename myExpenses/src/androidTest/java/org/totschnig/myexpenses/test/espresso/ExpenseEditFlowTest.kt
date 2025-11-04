@@ -48,7 +48,6 @@ import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_2
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
-import org.totschnig.myexpenses.testutils.toolbarTitle
 import org.totschnig.myexpenses.testutils.uriStartsWith
 import org.totschnig.myexpenses.testutils.withAdaptedData
 import org.totschnig.myexpenses.testutils.withIdAndParent

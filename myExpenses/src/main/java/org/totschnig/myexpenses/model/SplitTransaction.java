@@ -23,7 +23,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
-import static org.totschnig.myexpenses.provider.TransactionProvider.UNCOMMITTED_URI;
 
 import android.content.ContentProviderOperation;
 import android.content.ContentResolver;
@@ -43,30 +42,9 @@ public class SplitTransaction extends Transaction implements ISplit {
       + " IN (SELECT " + KEY_ROWID + " FROM " + TABLE_TRANSACTIONS + " where "
       + KEY_PARENTID + " = ?))";
 
-  public SplitTransaction() {
-    super();
-    setCatId(DatabaseConstants.SPLIT_CATID);
-  }
-
-
-
-  public SplitTransaction(long accountId) {
-    super(accountId, (Long) null);
-    setCatId(DatabaseConstants.SPLIT_CATID);
-  }
-
   public SplitTransaction(long accountId, Money amount) {
     super(accountId, amount);
     setCatId(DatabaseConstants.SPLIT_CATID);
-  }
-
-  @Override
-  protected Uri getUriForSave(boolean callerIsSyncAdapter) {
-    return getStatus() == STATUS_UNCOMMITTED ? UNCOMMITTED_URI : super.getUriForSave(callerIsSyncAdapter);
-  }
-
-  public static SplitTransaction getNewInstance(Repository repository, long accountId, CurrencyUnit currencyUnit)  {
-    return getNewInstance(repository, accountId, currencyUnit, true);
   }
 
   public static SplitTransaction getNewInstance(Repository repository, long accountId, CurrencyUnit currencyUnit, boolean forEdit)  {
@@ -111,9 +89,5 @@ public class SplitTransaction extends Transaction implements ISplit {
   @Override
   public int operationType() {
     return TYPE_SPLIT;
-  }
-
-  public static void cleanupCanceledEdit(ContentResolver contentResolver, Long id) {
-    cleanupCanceledEdit(contentResolver, id, UNCOMMITTED_URI, PART_OR_PEER_SELECT);
   }
 }

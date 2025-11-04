@@ -42,7 +42,6 @@ import org.totschnig.myexpenses.ui.DisplayParty;
 import org.totschnig.myexpenses.util.TextUtils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.licence.LicenceHandler;
-import org.totschnig.myexpenses.viewmodel.data.PlanInstance;
 import org.totschnig.myexpenses.viewmodel.data.Tag;
 
 import java.util.ArrayList;
@@ -64,7 +63,6 @@ import static org.totschnig.myexpenses.provider.CursorExtKt.getStringOrNull;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID;
@@ -90,8 +88,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIO
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_UNCOMMITTED;
 import static org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI;
 
 public class Template extends Transaction implements ITransfer, ISplit {
@@ -351,45 +347,9 @@ public class Template extends Transaction implements ITransfer, ISplit {
     setParentId(parentId);
   }
 
-  @Nullable
-  public static Template getTypedNewInstance(Repository repository, int operationType, long accountId, @NonNull CurrencyUnit currencyUnit, boolean forEdit, Long parentId) {
-    Template t = new Template(repository, accountId, currencyUnit, operationType, parentId);
-    if (forEdit && t.isSplit()) {
-      if (!t.persistForEdit(repository)) {
-        return null;
-      }
-    }
-    return t;
-  }
-
   private boolean persistForEdit(Repository repository) {
     setStatus(STATUS_UNCOMMITTED);
     return save(repository) != null;
-  }
-
-  /**
-   * @return a template that is linked to the calendar event with id planId, but only if the instance instanceId
-   * has not yet been dealt with
-   */
-  public static Template getInstanceForPlanIfInstanceIsOpen(ContentResolver contentResolver, long planId, long instanceId) {
-    Cursor c = contentResolver.query(
-            TEMPLATES_URI,
-        null,
-        KEY_PLANID + "= ? AND NOT exists(SELECT 1 from " + TABLE_PLAN_INSTANCE_STATUS
-            + " WHERE " + KEY_INSTANCEID + " = ? AND " + KEY_TEMPLATEID + " = " + KEY_ROWID + ")",
-        new String[]{String.valueOf(planId), String.valueOf(instanceId)},
-        null);
-    if (c == null) {
-      return null;
-    }
-    if (c.getCount() == 0) {
-      c.close();
-      return null;
-    }
-    c.moveToFirst();
-    Template t = new Template(c);
-    c.close();
-    return t;
   }
 
   @Nullable
@@ -417,28 +377,6 @@ public class Template extends Transaction implements ITransfer, ISplit {
     }
     return t;
   }
-
-  public static Template getInstanceFromDbIfInstanceIsOpen(ContentResolver contentResolver, long id, long instanceId) {
-    Cursor c = contentResolver.query(
-            TEMPLATES_URI,
-        null,
-        KEY_ROWID + "= ? AND NOT exists(SELECT 1 from " + TABLE_PLAN_INSTANCE_STATUS
-            + " WHERE " + KEY_INSTANCEID + " = ? AND " + KEY_TEMPLATEID + " = " + KEY_ROWID + ")",
-        new String[]{String.valueOf(id), String.valueOf(instanceId)},
-        null);
-    if (c == null) {
-      return null;
-    }
-    if (c.getCount() == 0) {
-      c.close();
-      return null;
-    }
-    c.moveToFirst();
-    Template t = new Template(c);
-    c.close();
-    return t;
-  }
-
   @Override
   @NonNull
   public Uri save(@NotNull Repository repository, @Nullable PlannerUtils plannerUtils, boolean withCommit) {
@@ -642,14 +580,6 @@ public class Template extends Transaction implements ITransfer, ISplit {
     this.planExecutionAutomatic = planExecutionAutomatic;
   }
 
-  public int getPlanExecutionAdvance() {
-    return planExecutionAdvance;
-  }
-
-  public void setPlanExecutionAdvance(int planExecutionAdvance) {
-    this.planExecutionAdvance = planExecutionAdvance;
-  }
-
   public String getTitle() {
     return title;
   }
@@ -681,15 +611,6 @@ public class Template extends Transaction implements ITransfer, ISplit {
     }
   }
 
-  public Uri getContentUri() {
-    return TEMPLATES_URI;
-  }
-
-  @Override
-  public String getUncommittedView() {
-    return VIEW_TEMPLATES_UNCOMMITTED;
-  }
-
   @Override
   protected String getPartOrPeerSelect() {
     return PART_SELECT;
@@ -709,10 +630,6 @@ public class Template extends Transaction implements ITransfer, ISplit {
   @Override
   public void setTransferPeer(@Nullable Long transferPeer) {
     throw new IllegalStateException("Transfer templates have no transferPeer");
-  }
-
-  public static void cleanupCanceledEdit(ContentResolver contentResolver, Long id) {
-    cleanupCanceledEdit(contentResolver, id, TEMPLATES_URI, PART_SELECT);
   }
 
   public Action getDefaultAction() {
