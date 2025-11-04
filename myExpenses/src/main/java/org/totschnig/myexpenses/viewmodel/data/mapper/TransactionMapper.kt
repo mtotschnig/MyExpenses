@@ -96,10 +96,10 @@ object TransactionMapper {
             debtId = template.debtId,
             comment = template.comment,
             transferEditData = template.transferAccountId?.let {
-                TransferEditData(
+                TransferEditData(//for templates peer information is created when instantiated
                     transferAccountId = it,
                     transferPeer = null,
-                    transferAmount = null //TODO is this correct?
+                    transferAmount = null
                 )
             },
             isSealed = template.sealed,
@@ -129,17 +129,8 @@ object TransactionMapper {
         val template = repositoryTemplate.data
         return map(template, currencyContext).copy(
             templateEditData = mapTemplateEditData(repositoryTemplate),
-            transferEditData = template.transferAccountId?.let {
-                TransferEditData(
-                    transferAccountId = it,
-                    transferPeer = null,
-                    transferAmount = null //TODO is this correct?
-                )
-            },
             splitParts = repositoryTemplate.splitParts?.map {
-                map(it, currencyContext).copy(
-                    isSplitPart = true
-                )
+                map(it, currencyContext).copy(isSplitPart = true)
             },
             tags = repositoryTemplate.tags ?: emptyList()
         )
