@@ -86,11 +86,12 @@ import java.util.Locale
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Provider
+import androidx.core.net.toUri
 
 class SyncAdapter @JvmOverloads constructor(
     context: Context,
     autoInitialize: Boolean,
-    allowParallelSyncs: Boolean = false
+    allowParallelSyncs: Boolean = false,
 ) : AbstractThreadedSyncAdapter(context, autoInitialize, allowParallelSyncs) {
     private var shouldNotify = true
 
@@ -113,13 +114,13 @@ class SyncAdapter @JvmOverloads constructor(
     @Suppress("SameParameterValue")
     private fun getUserDataWithDefault(
         accountManager: AccountManager, account: Account,
-        key: String, defaultValue: String
+        key: String, defaultValue: String,
     ): String = accountManager.getUserData(account, key) ?: defaultValue
 
     @SuppressLint("MissingPermission")
     override fun onPerformSync(
         account: Account, extras: Bundle, authority: String,
-        provider: ContentProviderClient, syncResult: SyncResult
+        provider: ContentProviderClient, syncResult: SyncResult,
     ) {
         lastSynStart = LocalTime.now()
         currentAccount = account
@@ -390,7 +391,7 @@ class SyncAdapter @JvmOverloads constructor(
                                             backend.readAccountMetaData().onSuccess {
                                                 if (updateAccountFromMetadata(
                                                         provider,
-                                                        syncDelegate,
+                                                        syncDelegate.account.id,
                                                         it
                                                     )
                                                 ) {
@@ -420,6 +421,7 @@ class SyncAdapter @JvmOverloads constructor(
                                         remoteChanges = mergeResult.second
                                         if (remoteChanges.isNotEmpty()) {
                                             syncDelegate.writeRemoteChangesToDb(
+                                                context,
                                                 provider,
                                                 remoteChanges
                                             )
@@ -542,8 +544,8 @@ class SyncAdapter @JvmOverloads constructor(
     @Throws(RemoteException::class, OperationApplicationException::class)
     private fun updateAccountFromMetadata(
         provider: ContentProviderClient,
-        syncDelegate: SyncDelegate,
-        accountMetaData: AccountMetaData
+        accountId: Long,
+        accountMetaData: AccountMetaData,
     ): Boolean {
         val ops = ArrayList<ContentProviderOperation>()
         ops.add(TransactionProvider.pauseChangeTrigger())
@@ -560,12 +562,12 @@ class SyncAdapter @JvmOverloads constructor(
         if (accountMetaData._criterion() != 0L) {
             values.put(KEY_CRITERION, accountMetaData._criterion())
         }
-        val id: Long = syncDelegate.account.id
+
         ops.add(
             ContentProviderOperation.newUpdate(
                 ContentUris.withAppendedId(
                     TransactionProvider.ACCOUNTS_URI,
-                    id
+                    accountId
                 )
             ).withValues(values).build()
         )
@@ -573,7 +575,7 @@ class SyncAdapter @JvmOverloads constructor(
         val exchangeRate = accountMetaData.exchangeRate()
         if (exchangeRate != null && homeCurrency != null && homeCurrency == accountMetaData.exchangeRateOtherCurrency()) {
             val uri =
-                ContentUris.appendId(TransactionProvider.ACCOUNT_EXCHANGE_RATE_URI.buildUpon(), id)
+                ContentUris.appendId(TransactionProvider.ACCOUNT_EXCHANGE_RATE_URI.buildUpon(), accountId)
                     .appendEncodedPath(currency)
                     .appendEncodedPath(homeCurrency).build()
             ops.add(
@@ -597,7 +599,7 @@ class SyncAdapter @JvmOverloads constructor(
     private fun handleAutoBackupSync(
         account: Account,
         provider: ContentProviderClient,
-        backend: SyncBackendProvider
+        backend: SyncBackendProvider,
     ) {
         val autoBackupFileUri = getStringSetting(provider, KEY_UPLOAD_AUTO_BACKUP_URI)
         if (autoBackupFileUri != null) {
@@ -611,7 +613,7 @@ class SyncAdapter @JvmOverloads constructor(
                         fileName = "backup-" + SimpleDateFormat("yyyMMdd", Locale.US).format(Date())
                     }
                     log().i("Storing backup %s (%s)", fileName, autoBackupFileUri)
-                    backend.storeBackup(Uri.parse(autoBackupFileUri), fileName)
+                    backend.storeBackup(autoBackupFileUri.toUri(), fileName)
                     removeSetting(provider, KEY_UPLOAD_AUTO_BACKUP_URI)
                     removeSetting(provider, KEY_UPLOAD_AUTO_BACKUP_NAME)
                     maybeNotifyUser(
@@ -648,7 +650,7 @@ class SyncAdapter @JvmOverloads constructor(
         backend: SyncBackendProvider,
         syncResult: SyncResult,
         @StringRes resId: Int,
-        defaultDelay: Long = IO_DEFAULT_DELAY_MILLIS
+        defaultDelay: Long = IO_DEFAULT_DELAY_MILLIS,
     ) {
         log().w(ioException)
         if (!handleAuthException(ioException, account)) {
@@ -726,7 +728,7 @@ class SyncAdapter @JvmOverloads constructor(
         title: String,
         content: CharSequence,
         account: Account? = null,
-        intent: Intent? = null
+        intent: Intent? = null,
     ) {
         val builder = NotificationBuilderWrapper.bigTextStyleBuilder(
             context, NotificationBuilderWrapper.CHANNEL_ID_SYNC, title, content
@@ -789,7 +791,7 @@ class SyncAdapter @JvmOverloads constructor(
     @Throws(RemoteException::class)
     private fun getLocalChanges(
         provider: ContentProviderClient, accountId: Long,
-        sequenceNumber: Long
+        sequenceNumber: Long,
     ): List<TransactionChange> {
         val result: MutableList<TransactionChange> = mutableListOf()
         val changesUri = buildChangesUri(sequenceNumber, accountId)
@@ -915,7 +917,7 @@ class SyncAdapter @JvmOverloads constructor(
     private fun getBooleanSetting(
         provider: ContentProviderClient,
         prefKey: PrefKey,
-        defaultValue: Boolean
+        defaultValue: Boolean,
     ): Boolean {
         val value = getStringSetting(provider, prefHandler.getKey(prefKey))
         return if (value != null) value == java.lang.Boolean.TRUE.toString() else defaultValue
@@ -959,7 +961,6 @@ class SyncAdapter @JvmOverloads constructor(
     }
 
     companion object {
-        const val BATCH_SIZE = 100
         const val KEY_RESET_REMOTE_ACCOUNT = "reset_remote_account"
         const val KEY_UPLOAD_AUTO_BACKUP_URI = "upload_auto_backup_uri"
         const val KEY_UPLOAD_AUTO_BACKUP_NAME = "upload_auto_backup_name"

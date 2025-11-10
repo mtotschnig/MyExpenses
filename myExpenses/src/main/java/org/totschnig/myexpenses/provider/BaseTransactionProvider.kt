@@ -25,6 +25,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
 import androidx.sqlite.db.SupportSQLiteQueryBuilder
 import arrow.core.Tuple6
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.totschnig.myexpenses.MyApplication
@@ -229,8 +232,12 @@ import org.totschnig.myexpenses.provider.TransactionProvider.KEY_REPLACE
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_CALLER_IS_IN_BULK
 import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_BUDGET_ALLOCATIONS
+import org.totschnig.myexpenses.provider.TransactionProvider.pauseChangeTrigger
+import org.totschnig.myexpenses.provider.TransactionProvider.resumeChangeTrigger
 import org.totschnig.myexpenses.provider.filter.Operation
+import org.totschnig.myexpenses.sync.json.AdapterFactory
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ResultUnit
@@ -256,6 +263,12 @@ import kotlin.math.pow
 
 fun Uri.Builder.appendBooleanQueryParameter(key: String): Uri.Builder =
     appendQueryParameter(key, "1")
+
+object SyncContract {
+    const val METHOD_APPLY_CHANGES = "applyChangesFromFile"
+    private const val FILE_NAME = "pending_sync.json"
+    fun getSyncFile(context: Context) = File(context.cacheDir, FILE_NAME)
+}
 
 abstract class BaseTransactionProvider : ContentProvider() {
     var dirty = false
@@ -453,18 +466,19 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     companion object {
 
-        fun balanceUri(date: String?, forBalanceSheet: Boolean) = TransactionProvider.ACCOUNTS_URI.buildUpon()
-            .appendQueryParameter(
-                TransactionProvider.QUERY_PARAMETER_FULL_PROJECTION_WITH_SUMS,
-                date
-            )
-            .apply {
-                if (forBalanceSheet)
-                    appendBooleanQueryParameter(
-                        TransactionProvider.QUERY_PARAMETER_BALANCE_SHEET
-                    )
-            }
-            .build()
+        fun balanceUri(date: String?, forBalanceSheet: Boolean) =
+            TransactionProvider.ACCOUNTS_URI.buildUpon()
+                .appendQueryParameter(
+                    TransactionProvider.QUERY_PARAMETER_FULL_PROJECTION_WITH_SUMS,
+                    date
+                )
+                .apply {
+                    if (forBalanceSheet)
+                        appendBooleanQueryParameter(
+                            TransactionProvider.QUERY_PARAMETER_BALANCE_SHEET
+                        )
+                }
+                .build()
 
         val CATEGORY_TREE_URI: Uri
             get() = TransactionProvider.CATEGORIES_URI.buildUpon()
@@ -549,7 +563,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 .build()
 
         fun groupingUriBuilder(grouping: Grouping): Uri.Builder =
-            TransactionProvider.TRANSACTIONS_URI
+            TRANSACTIONS_URI
                 .buildUpon()
                 .appendPath(URI_SEGMENT_GROUPS)
                 .appendPath(grouping.name)
@@ -700,7 +714,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
         val cte = if (minimal) "" else {
             val endOfDay = if (date == "now") runBlocking {
                 enumValueOrDefault(
-                    dataStore.data.first()[prefHandler.getStringPreferencesKey(PrefKey.CRITERION_FUTURE)], FutureCriterion.EndOfDay
+                    dataStore.data.first()[prefHandler.getStringPreferencesKey(PrefKey.CRITERION_FUTURE)],
+                    FutureCriterion.EndOfDay
                 )
             } != FutureCriterion.Current else true
             val aggregateInvisible = runBlocking {
@@ -964,17 +979,22 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         .create().sql
                 )
             }
-            val accountGrouping =  runBlocking {
+            val accountGrouping = runBlocking {
                 enumValueOrDefault(
-                    dataStore.data.first()[prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING)], AccountGrouping.TYPE
+                    dataStore.data.first()[prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING)],
+                    AccountGrouping.TYPE
                 )
             }
             val sortByFlagFirst = runBlocking {
                 dataStore.data.first()[prefHandler.getBooleanPreferencesKey(PrefKey.SORT_ACCOUNT_LIST_BY_FLAG_FIRST)] != false
             }
-            val sortOrderForGrouping = if (accountGrouping == AccountGrouping.TYPE) "$KEY_IS_ASSET DESC,$KEY_TYPE_SORT_KEY DESC," else ""
+            val sortOrderForGrouping =
+                if (accountGrouping == AccountGrouping.TYPE) "$KEY_IS_ASSET DESC,$KEY_TYPE_SORT_KEY DESC," else ""
             val sortByFlag = if (sortByFlagFirst) "$KEY_FLAG_SORT_KEY DESC," else ""
-            buildUnionQuery(subQueries.toTypedArray(), "$KEY_IS_AGGREGATE,$sortOrderForGrouping$sortByFlag$sortOrder")
+            buildUnionQuery(
+                subQueries.toTypedArray(),
+                "$KEY_IS_AGGREGATE,$sortOrderForGrouping$sortByFlag$sortOrder"
+            )
         }
         return "$cte\n$query"
     }
@@ -1159,7 +1179,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     fun oldestTransactionForCurrency(
         db: SupportSQLiteDatabase,
-        currency: String
+        currency: String,
     ) =
         Bundle(1).apply {
             db.query(
@@ -1241,7 +1261,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 KEY_SEALED -> "max($KEY_SEALED)"
                 KEY_SORT_BY -> "'${prefHandler.getString(SORT_BY_AGGREGATE, KEY_DATE)}'"
                 KEY_SORT_DIRECTION -> "'${prefHandler.getString(SORT_DIRECTION_AGGREGATE, "DESC")}'"
-                else -> throw java.lang.IllegalArgumentException("unknown column $it")
+                else -> throw IllegalArgumentException("unknown column $it")
             } + " AS $it"
         }.toTypedArray()
 
@@ -1265,7 +1285,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 KEY_SEALED -> "(select max($KEY_SEALED) from $TABLE_ACCOUNTS where $KEY_CURRENCY = $KEY_CODE)"
                 KEY_SORT_BY, KEY_SORT_DIRECTION -> it
 
-                else -> throw java.lang.IllegalArgumentException("unknown column $it")
+                else -> throw IllegalArgumentException("unknown column $it")
             } + " AS $it"
         }.toTypedArray()
     }
@@ -1393,7 +1413,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         val result = try {
             block()
         } catch (e: Exception) {
-            Timber.tag(TAG).e(e,"Query failed: ${lazyMessage()}")
+            Timber.tag(TAG).e(e, "Query failed: ${lazyMessage()}")
             throw e
         }
         val endTime = Instant.now()
@@ -1403,7 +1423,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
     } else try {
         block()
     } catch (e: Exception) {
-        Timber.tag(TAG).e(e,"Query failed: ${lazyMessage()}")
+        Timber.tag(TAG).e(e, "Query failed: ${lazyMessage()}")
         throw e
     }
 
@@ -1972,7 +1992,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         transactionId: Long,
         tagIds: Set<Long>,
         replace: Boolean,
-        forTemplate: Boolean = false
+        forTemplate: Boolean = false,
     ) {
         val table = if (forTemplate) TABLE_TEMPLATES_TAGS else TABLE_TRANSACTIONS_TAGS
         val column = if (forTemplate) KEY_TEMPLATEID else KEY_TRANSACTIONID
@@ -2015,7 +2035,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
         saveTransactionTags(
             extras.getLong(KEY_TRANSACTIONID),
             extras.getLongArray(KEY_TAGLIST)!!.toSet(),
-            extras.getBoolean(KEY_REPLACE, true))
+            extras.getBoolean(KEY_REPLACE, true)
+        )
     }
 
     @JvmOverloads
@@ -2023,7 +2044,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         transactionId: Long,
         tagList: String?,
         replace: Boolean,
-        forTemplate: Boolean = false
+        forTemplate: Boolean = false,
     ) {
         if (tagList == null) return
         saveTransactionTags(
@@ -2231,7 +2252,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
      * @param baseTable if not null, extended projection is calculated
      */
     fun templateProjection(
-        baseTable: String?
+        baseTable: String?,
     ): Array<String> = buildList {
         add(KEY_ROWID)
         add(KEY_AMOUNT)
@@ -2483,6 +2504,44 @@ abstract class BaseTransactionProvider : ContentProvider() {
             setTransactionSuccessful()
         } finally {
             endTransaction()
+        }
+    }
+
+    private val gson: Gson = GsonBuilder()
+        .registerTypeAdapterFactory(AdapterFactory.create())
+        .create()
+
+
+    fun applyChangesFromSync(extras: Bundle) {
+        val db = helper.writableDatabase
+        val accountId = extras.getLong(KEY_ACCOUNTID)
+        val currency = currencyContext[extras.getString(KEY_CURRENCY)!!]
+        val accountTypeId = extras.getLong(KEY_TYPE)
+        val changes = SyncContract.getSyncFile(context!!).reader().use {
+            gson.fromJson<List<TransactionChange>>(
+                it,
+                object : TypeToken<List<TransactionChange>>() {}.type
+            )
+        }
+
+        val handler = SyncHandler(
+            accountId,
+            currency,
+            accountTypeId,
+            Repository(context!!, currencyContext, prefHandler, dataStore),
+            currencyContext = currencyContext,
+        )
+
+        db.beginTransaction()
+        return try {
+            pauseChangeTrigger(db)
+            changes.forEach {
+                applyBatch(handler.collectOperations(it))
+            }
+            resumeChangeTrigger(db)
+            db.setTransactionSuccessful()
+        } finally {
+            db.endTransaction()
         }
     }
 }

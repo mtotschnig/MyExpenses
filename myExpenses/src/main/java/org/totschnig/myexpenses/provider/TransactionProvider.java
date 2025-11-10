@@ -183,6 +183,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
+import timber.log.Timber;
+
 public class TransactionProvider extends BaseTransactionProvider {
 
   public static final String AUTHORITY = BuildConfig.APPLICATION_ID;
@@ -1615,6 +1617,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       for (int i = 0; i < numOperations; i++) {
         final ContentProviderOperation contentProviderOperation = operations.get(i);
         try {
+          Timber.d("URI: %s", contentProviderOperation.getUri());
           results[i] = contentProviderOperation.apply(this, results, i);
         } catch (Exception e) {
           Map<String, String> customData = new HashMap<>();
@@ -1747,6 +1750,10 @@ public class TransactionProvider extends BaseTransactionProvider {
       case METHOD_CLEANUP_UNUSED_PAYEES -> {
         cleanupUnusedPayees(getHelper().getWritableDatabase());
         notifyChange(PAYEES_URI, false);
+        return null;
+      }
+      case SyncContract.METHOD_APPLY_CHANGES ->  {
+        applyChangesFromSync(Objects.requireNonNull(extras));
         return null;
       }
     }

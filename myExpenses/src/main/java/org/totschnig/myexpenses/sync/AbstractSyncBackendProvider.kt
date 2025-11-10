@@ -483,7 +483,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     override val categories: Result<List<CategoryExport>>
         get() = kotlin.runCatching {
             readFileContents(false, categoriesFilename, true)?.let {
-                gson.fromJson<List<CategoryExport>>(
+                gson.fromJson(
                     it,
                     object : TypeToken<ArrayList<CategoryExport>>() {}.type
                 )
