@@ -161,7 +161,7 @@ class OnboardingActivity : SyncBackendSetupActivity() {
     fun setupFromSyncAccounts(syncAccounts: List<AccountMetaData>) {
         doWithEncryptionCheck {
             showSnackBarIndefinite(R.string.progress_dialog_fetching_data_from_sync_backend)
-            syncViewModel.setupFromSyncAccounts(syncAccounts.map { it.uuid() }, accountName!!)
+            syncViewModel.setupFromSyncAccounts(syncAccounts.map { it.uuid }, accountName!!)
                 .observe(this) { result ->
                     dismissSnackBar()
                     result.onSuccess {
@@ -173,7 +173,7 @@ class OnboardingActivity : SyncBackendSetupActivity() {
         }
     }
 
-    private inner class MyPagerAdapter(activity: FragmentActivity) :
+    private class MyPagerAdapter(activity: FragmentActivity) :
         FragmentStateAdapter(activity) {
         fun getFragmentName(currentPosition: Int): String {
             //https://stackoverflow.com/a/61178226/1199911

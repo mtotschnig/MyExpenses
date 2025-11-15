@@ -100,7 +100,6 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
@@ -116,6 +115,7 @@ import org.totschnig.myexpenses.util.ui.getDateMode
 import org.totschnig.myexpenses.viewmodel.LoadResult
 import org.totschnig.myexpenses.viewmodel.TransactionDetailViewModel
 import org.totschnig.myexpenses.viewmodel.data.Transaction
+import org.totschnig.myexpenses.viewmodel.data.getIndicatorPrefixForLabel
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import javax.inject.Inject
@@ -617,7 +617,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                 text = buildAnnotatedString {
                     var isNotEmpty = false
                     when {
-                        part.isTransfer -> Transfer.getIndicatorPrefixForLabel(
+                        part.isTransfer -> getIndicatorPrefixForLabel(
                             part.amount.amountMinor
                         ) + part.transferAccount
                         part.isSplit -> getString(R.string.split_transaction)

@@ -1,0 +1,34 @@
+[
+  {
+    "type": "created",
+    "uuid": "c1385e32-3d8c-4ed8-b1f2-0c461934e28e",
+    "timeStamp": 1762989155,
+    "comment": "Def",
+    "date": 1762989109,
+    "valueDate": 1762989109,
+    "amount": -12300,
+    "payeeName": "Joe",
+    "crStatus": "UNRECONCILED",
+    "status": 0,
+    "referenceNumber": "",
+    "tagsV2": [
+      {
+        "label": "Abc"
+      }
+    ],
+    "categoryInfo": [
+      {
+        "color": -7542017,
+        "icon": "right-from-bracket",
+        "label": "Financial expenses",
+        "type": 1,
+        "uuid": "7c114bca-fe60-48eb-a644-dbbf0f3f041c"
+      },
+      {
+        "icon": "piggy-bank",
+        "label": "Bank charges",
+        "uuid": "48e47f4e-f06a-434e-a35b-da7af806a386"
+      }
+    ]
+  }
+]

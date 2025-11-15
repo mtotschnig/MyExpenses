@@ -792,7 +792,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         selectionArgs = new String[]{uri.getQueryParameter(KEY_ACCOUNTID), uri.getQueryParameter(KEY_SYNC_SEQUENCE_LOCAL)};
         qb = SupportSQLiteQueryBuilder.builder(VIEW_CHANGES_EXTENDED);
         if (projection == null) {
-          projection = TransactionChange.PROJECTION;
+          projection = TransactionChange.Companion.getPROJECTION();
         }
         break;
       case SETTINGS: {

@@ -237,7 +237,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_BUDGET_
 import org.totschnig.myexpenses.provider.TransactionProvider.pauseChangeTrigger
 import org.totschnig.myexpenses.provider.TransactionProvider.resumeChangeTrigger
 import org.totschnig.myexpenses.provider.filter.Operation
-import org.totschnig.myexpenses.sync.json.AdapterFactory
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ResultUnit
@@ -2507,10 +2506,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         }
     }
 
-    private val gson: Gson = GsonBuilder()
-        .registerTypeAdapterFactory(AdapterFactory.create())
-        .create()
-
+    private val gson: Gson = GsonBuilder().create()
 
     fun applyChangesFromSync(extras: Bundle) {
         val db = helper.writableDatabase

@@ -17,16 +17,27 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.model.Sort.Companion.preferredOrderByForTemplates
-import org.totschnig.myexpenses.model.Transfer
-import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.provider.requireLong
 import org.totschnig.myexpenses.util.formatMoney
+import org.totschnig.myexpenses.viewmodel.data.RIGHT_ARROW
 import java.util.Locale
-import javax.inject.Inject
 
 class TemplateWidgetService : RemoteViewsService() {
 
@@ -76,8 +87,8 @@ class TemplateRemoteViewsFactory(
             if (isTransfer) {
                 val accountLabel = cursor.getStringOrNull(KEY_ACCOUNT_LABEL)
                 val transferAccountLabel = cursor.getStringOrNull(KEY_TRANSFER_ACCOUNT_LABEL)
-                if (amount.amountMinor < 0) "$accountLabel ${Transfer.RIGHT_ARROW} $transferAccountLabel"
-                else "$transferAccountLabel ${Transfer.RIGHT_ARROW} $accountLabel"
+                if (amount.amountMinor < 0) "$accountLabel $RIGHT_ARROW $transferAccountLabel"
+                else "$transferAccountLabel $RIGHT_ARROW $accountLabel"
             } else cursor.getString(KEY_PATH)
         )
         if (!TextUtils.isEmpty(comment)) {

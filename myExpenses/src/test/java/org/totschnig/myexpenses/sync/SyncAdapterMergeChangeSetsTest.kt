@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.totschnig.myexpenses.sync.json.TransactionChange
 
 @RunWith(RobolectricTestRunner::class)
 class SyncAdapterMergeChangeSetsTest : SyncAdapterBaseTest() {
@@ -31,6 +32,19 @@ class SyncAdapterMergeChangeSetsTest : SyncAdapterBaseTest() {
         val result = syncDelegate.mergeChangeSets(first, second)
         assertThat(result.first).isEqualTo(first)
         assertThat(result.second).isEqualTo(second)
+    }
+
+    @Test
+    fun listsWithConflictShouldHonourLast() {
+        val first = buildList {
+            add(buildUpdated().setUuid("random1").setTimeStamp(1).setComment("Kommentar").build())
+        }
+        val second = buildList {
+            add(buildUpdated().setUuid("random1").setTimeStamp(2).setComment("Commentary").build())
+        }
+        val result: Pair<List<TransactionChange>, List<TransactionChange>> = syncDelegate.mergeChangeSets(first, second)
+        assertThat(result.first.first().comment()).isNull()
+        assertThat(result.second.first().comment()).isEqualTo("Commentary")
     }
 
     @Test

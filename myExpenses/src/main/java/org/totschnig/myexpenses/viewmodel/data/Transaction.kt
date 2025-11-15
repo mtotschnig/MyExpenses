@@ -73,6 +73,21 @@ import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import java.time.ZonedDateTime
 
+const val RIGHT_ARROW = '▶'
+const val LEFT_ARROW = '◀'
+const val BI_ARROW = '⇄'
+
+/**
+ * @return if amount is negative, we transfer money into the transfer account, so we
+ * return the in direction char (RIGHT_ARROW), otherwise LEFT_ARROW
+ */
+fun getIndicatorPrefixForLabel(amount: Long) = getIndicatorCharForLabel(amount < 0).toString() + " "
+
+/**
+ * @param direction true is in, false is out
+ * @return RIGHT_ARROW for in, LEFT_ARROW for out
+ */
+fun getIndicatorCharForLabel(direction: Boolean) = if (direction) RIGHT_ARROW else LEFT_ARROW
 
 data class Transaction(
     val id: Long,
@@ -103,7 +118,7 @@ data class Transaction(
     val icon: String? = null,
     val iban: String? = null,
     val status: Int = STATUS_NONE,
-    val type: Byte = FLAG_NEUTRAL
+    val type: Byte = FLAG_NEUTRAL,
 ) {
     val isSameCurrency: Boolean
         get() = transferAmount?.let { amount.currencyUnit == it.currencyUnit } != false
@@ -117,7 +132,7 @@ data class Transaction(
     companion object {
         fun projection(
             context: Context,
-            prefHandler: PrefHandler
+            prefHandler: PrefHandler,
         ) = arrayOf(
             KEY_ROWID,
             KEY_DATE,
@@ -166,7 +181,7 @@ data class Transaction(
             repository: Repository,
             currencyContext: CurrencyContext,
             homeCurrency: CurrencyUnit,
-            accountType: AccountType? = null
+            accountType: AccountType? = null,
         ): Transaction {
             val currencyUnit = currencyContext[getString(KEY_CURRENCY)]
             val transferAccountId = getLongOrNull(KEY_TRANSFER_ACCOUNT)

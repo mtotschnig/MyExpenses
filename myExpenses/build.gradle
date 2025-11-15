@@ -183,18 +183,7 @@ dependencies {
     implementation libs.dagger
     implementation libs.android.state
     kapt libs.android.state.processor
-    implementation libs.gson
-
-    api libs.auto.value.annotations
-    kapt libs.auto.value
-
-    kapt libs.auto.value.gson
-    api libs.auto.value.gson.runtime
-
-    kapt libs.auto.value.cursor
-    implementation libs.auto.value.cursor.annotations
-
-    kapt libs.auto.value.parcel
+    api libs.gson
 
     implementation project(':PlayLicensingOrig')
     implementation libs.itextpdf

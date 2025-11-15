@@ -135,7 +135,11 @@ class SyncAdapter @JvmOverloads constructor(
         if (getBooleanSetting(provider, PrefKey.SYNC_WIFI_ONLY, false) &&
             !isConnectedWifi(context)
         ) {
-            val message = concatResStrings(context, R.string.wifi_not_connected, R.string.synchronization_postponed)
+            val message = concatResStrings(
+                context,
+                R.string.wifi_not_connected,
+                R.string.synchronization_postponed
+            )
             log().i(message)
             if (extras.getBoolean(ContentResolver.SYNC_EXTRAS_MANUAL)) {
                 maybeNotifyUser(notificationTitle, message, account)
@@ -187,7 +191,8 @@ class SyncAdapter @JvmOverloads constructor(
                     handleAutoBackupSync(account, provider, backend)
                     if (extras.getBoolean(
                             KEY_AUTO_BACKUP_ONLY
-                        )) {
+                        )
+                    ) {
                         return@runBlocking
                     }
                     val selectionArgs: Array<String>
@@ -376,7 +381,7 @@ class SyncAdapter @JvmOverloads constructor(
                                                 syncDelegate.removeMetadataChange(remoteChanges)
                                         }
                                         if (localMetadataChange != null && remoteMetadataChange != null) {
-                                            if (localMetadataChange.timeStamp() > remoteMetadataChange.timeStamp()) {
+                                            if (localMetadataChange.timeStamp > remoteMetadataChange.timeStamp) {
                                                 remoteMetadataChange = null
                                             } else {
                                                 localMetadataChange = null
@@ -551,16 +556,16 @@ class SyncAdapter @JvmOverloads constructor(
         ops.add(TransactionProvider.pauseChangeTrigger())
         val values = ContentValues()
 
-        values.put(KEY_LABEL, accountMetaData.label())
-        values.put(KEY_OPENING_BALANCE, accountMetaData.openingBalance())
-        values.put(KEY_DESCRIPTION, accountMetaData.description())
-        val currency = accountMetaData.currency()
+        values.put(KEY_LABEL, accountMetaData.label)
+        values.put(KEY_OPENING_BALANCE, accountMetaData.openingBalance)
+        values.put(KEY_DESCRIPTION, accountMetaData.description)
+        val currency = accountMetaData.currency
         values.put(KEY_CURRENCY, currency)
-        values.put(KEY_TYPE, repository.requireAccountTypeForSync(accountMetaData.type()).id)
-        values.put(KEY_COLOR, accountMetaData.color())
-        values.put(KEY_EXCLUDE_FROM_TOTALS, accountMetaData._excludeFromTotals())
-        if (accountMetaData._criterion() != 0L) {
-            values.put(KEY_CRITERION, accountMetaData._criterion())
+        values.put(KEY_TYPE, repository.requireAccountTypeForSync(accountMetaData.type).id)
+        values.put(KEY_COLOR, accountMetaData.color)
+        values.put(KEY_EXCLUDE_FROM_TOTALS, accountMetaData.excludeFromTotals)
+        if (accountMetaData.criterion != 0L) {
+            values.put(KEY_CRITERION, accountMetaData.criterion)
         }
 
         ops.add(
@@ -572,10 +577,13 @@ class SyncAdapter @JvmOverloads constructor(
             ).withValues(values).build()
         )
         val homeCurrency = prefHandler.getString(PrefKey.HOME_CURRENCY, null)
-        val exchangeRate = accountMetaData.exchangeRate()
-        if (exchangeRate != null && homeCurrency != null && homeCurrency == accountMetaData.exchangeRateOtherCurrency()) {
+        val exchangeRate = accountMetaData.exchangeRate
+        if (exchangeRate != null && homeCurrency != null && homeCurrency == accountMetaData.exchangeRateOtherCurrency) {
             val uri =
-                ContentUris.appendId(TransactionProvider.ACCOUNT_EXCHANGE_RATE_URI.buildUpon(), accountId)
+                ContentUris.appendId(
+                    TransactionProvider.ACCOUNT_EXCHANGE_RATE_URI.buildUpon(),
+                    accountId
+                )
                     .appendEncodedPath(currency)
                     .appendEncodedPath(homeCurrency).build()
             ops.add(
@@ -655,7 +663,8 @@ class SyncAdapter @JvmOverloads constructor(
         log().w(ioException)
         if (!handleAuthException(ioException, account)) {
             syncResult.stats.numIoExceptions++
-            syncResult.delayUntil = getIoDelaySeconds(backend.suggestDelay(ioException, defaultDelay))
+            syncResult.delayUntil =
+                getIoDelaySeconds(backend.suggestDelay(ioException, defaultDelay))
             notifyIoException(resId, account)
         }
     }
@@ -812,17 +821,19 @@ class SyncAdapter @JvmOverloads constructor(
             provider.query(changesUri, null, null, null, null)?.use { changesCursor ->
                 if (changesCursor.moveToFirst()) {
                     do {
-                        var transactionChange = TransactionChange.create(changesCursor).let {
-                            if (it.equivalentAmount() != null) {
+                        var transactionChange = TransactionChange.fromCursor(changesCursor).let {
+                            if (it.equivalentAmount != null) {
                                 val homeCurrency = currencyContext.homeCurrencyString
-                                it.toBuilder().setEquivalentCurrency(homeCurrency).build()
+                                it.copy(equivalentCurrency = homeCurrency)
                             } else it
                         }
                         changesCursor.getLongOrNull(KEY_CATID)?.let { catId ->
                             if (catId == NULL_ROW_ID) {
-                                transactionChange = transactionChange.toBuilder().setCategoryInfo(
-                                    listOf(CategoryInfo(NULL_CHANGE_INDICATOR, ""))
-                                ).build()
+                                transactionChange = transactionChange.copy(
+                                    categoryInfo = listOf(
+                                        CategoryInfo(NULL_CHANGE_INDICATOR, "")
+                                    )
+                                )
                             } else {
                                 provider.query(
                                     ContentUris.withAppendedId(
@@ -831,54 +842,46 @@ class SyncAdapter @JvmOverloads constructor(
                                     ),
                                     null, null, null, null
                                 )?.use { cursor ->
-                                    transactionChange =
-                                        transactionChange.toBuilder().setCategoryInfo(
-                                            CategoryInfo.fromCursor(cursor)
-                                        ).build()
+                                    transactionChange = transactionChange.copy(
+                                        categoryInfo = CategoryInfo.fromCursor(cursor)
+                                    )
                                 }
                             }
                         }
                         result.add(
-                            when (transactionChange.type()) {
-                                TransactionChange.Type.tags -> transactionChange.toBuilder()
-                                    .setType(TransactionChange.Type.updated)
-                                    .setTagsV2(
-                                        //noinspection Recycle
-                                        provider.query(
-                                            TransactionProvider.TRANSACTIONS_TAGS_URI,
-                                            null,
-                                            "$KEY_TRANSACTIONID = (SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?)",
-                                            arrayOf(transactionChange.uuid()),
-                                            null
-                                        )?.useAndMapToSet { cursor ->
-                                            TagInfo(
-                                                cursor.getString(KEY_LABEL),
-                                                cursor.getIntOrNull(KEY_COLOR)
+                            when (transactionChange.type) {
+
+                                TransactionChange.Type.tags -> transactionChange.copy(
+                                    type = TransactionChange.Type.updated,
+                                    tagsV2 =  provider.query(
+                                        TransactionProvider.TRANSACTIONS_TAGS_URI,
+                                        null,
+                                        "$KEY_TRANSACTIONID = (SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?)",
+                                        arrayOf(transactionChange.uuid),
+                                        null
+                                    )?.useAndMapToSet { cursor ->
+                                        TagInfo(
+                                            cursor.getString(KEY_LABEL),
+                                            cursor.getIntOrNull(KEY_COLOR)
+                                        )
+                                    } ?: emptySet()
+                                )
+                                TransactionChange.Type.attachments -> transactionChange.copy(
+                                    type = TransactionChange.Type.updated,
+                                    attachments =                                         provider.query(
+                                        TransactionProvider.ATTACHMENTS_URI
+                                            .buildUpon()
+                                            .appendQueryParameter(
+                                                KEY_UUID,
+                                                transactionChange.uuid
                                             )
-                                        } ?: emptySet()
-                                    )
-                                    .build()
-
-                                TransactionChange.Type.attachments -> transactionChange.toBuilder()
-                                    .setType(TransactionChange.Type.updated)
-                                    .setAttachments(
-                                        //noinspection Recycle
-                                        provider.query(
-                                            TransactionProvider.ATTACHMENTS_URI
-                                                .buildUpon()
-                                                .appendQueryParameter(
-                                                    KEY_UUID,
-                                                    transactionChange.uuid()
-                                                )
-                                                .build(),
-                                            arrayOf(KEY_UUID),
-                                            null,
-                                            arrayOf(transactionChange.uuid()),
-                                            null
-                                        )?.useAndMapToSet { it.getString(0) } ?: emptySet()
-                                    )
-                                    .build()
-
+                                            .build(),
+                                        arrayOf(KEY_UUID),
+                                        null,
+                                        arrayOf(transactionChange.uuid),
+                                        null
+                                    )?.useAndMapToSet { it.getString(0) } ?: emptySet()
+                                )
                                 else -> transactionChange
                             }
                         )
@@ -955,7 +958,11 @@ class SyncAdapter @JvmOverloads constructor(
     override fun onSyncCanceled() {
         if (BuildConfig.DEBUG) {
             notifyUser("Debug", "Sync canceled")
-            log().w("Sync for %s was started at %s and is now cancelled", currentAccount, lastSynStart)
+            log().w(
+                "Sync for %s was started at %s and is now cancelled",
+                currentAccount,
+                lastSynStart
+            )
         }
         super.onSyncCanceled()
     }

@@ -67,7 +67,7 @@ abstract class AbstractSyncBackendViewModel(application: Application) :
         emit(GenericAccountService.getSyncBackendProvider(getApplication(), syncAccountName)
             .mapCatching { syncBackendProvider ->
                 if (syncBackendProvider.remoteAccountList.mapNotNull { it.getOrNull() }
-                        .any { it.uuid() == uuid }
+                        .any { it.uuid == uuid }
                 ) {
                     throw Exception(
                         TextUtils.concatResStrings(

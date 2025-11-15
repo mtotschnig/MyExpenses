@@ -12,12 +12,13 @@ import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.provider.SyncHandler
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import java.util.*
 
 @RunWith(RobolectricTestRunner::class)
 class SyncAdapterWriteToDbTest: BaseTestWithRepository() {
-    private lateinit var syncDelegate: SyncDelegate
+    private lateinit var syncDelegate: SyncHandler
     private lateinit var ops: ArrayList<ContentProviderOperation>
 
     @Before
@@ -26,13 +27,11 @@ class SyncAdapterWriteToDbTest: BaseTestWithRepository() {
     }
 
     private fun setupSync() {
-        syncDelegate = SyncDelegate(currencyContext, featureManager, repository, homeCurrency)
-        syncDelegate.account = Account(label = "", currency = "EUR", type = AccountType.CASH)
+        syncDelegate = SyncHandler(0, currencyContext["EUR"], 1, repository, currencyContext)
     }
 
     private fun setupSyncWithFakeResolver() {
-        syncDelegate = SyncDelegate(currencyContext, featureManager, repository, homeCurrency) { _, _ -> 1 }
-        syncDelegate.account = Account(label = "", currency = "EUR", type = AccountType.CASH)
+        syncDelegate = SyncHandler(0, currencyContext["EUR"], 1, repository, currencyContext) { _, _ -> 1 }
     }
 
     private val featureManager = Mockito.mock(FeatureManager::class.java)
@@ -47,7 +46,7 @@ class SyncAdapterWriteToDbTest: BaseTestWithRepository() {
                 .setCurrentTimeStamp()
                 .setAmount(123L)
                 .build()
-        syncDelegate.collectOperations(change, ops)
+        val ops = syncDelegate.collectOperations(change)
         assertThat(ops).hasSize(1)
         assertThat(ops[0].isInsert).isTrue()
     }
@@ -62,7 +61,7 @@ class SyncAdapterWriteToDbTest: BaseTestWithRepository() {
                 .setAmount(123L)
                 .setTags(setOf("tag"))
                 .build()
-        syncDelegate.collectOperations(change, ops)
+        val ops = syncDelegate.collectOperations(change)
         assertThat(ops).hasSize(2)
         assertThat(ops[0].isInsert).isTrue()
         assertThat(ops[1].uri.path).isEqualTo("/transactions/tags")
@@ -77,7 +76,7 @@ class SyncAdapterWriteToDbTest: BaseTestWithRepository() {
                 .setUuid("any")
                 .setCurrentTimeStamp()
                 .build()
-        syncDelegate.collectOperations(change, ops)
+        val ops = syncDelegate.collectOperations(change)
         assertThat(ops).hasSize(1)
         assertThat(ops[0].isDelete).isTrue()
     }

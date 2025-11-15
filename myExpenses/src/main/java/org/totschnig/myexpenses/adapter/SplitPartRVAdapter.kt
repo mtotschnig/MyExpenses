@@ -17,11 +17,11 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.SplitPartRowBinding
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 import org.totschnig.myexpenses.viewmodel.data.Tag
+import org.totschnig.myexpenses.viewmodel.data.getIndicatorPrefixForLabel
 
 class SplitPartRVAdapter(
     context: Context,
@@ -72,7 +72,7 @@ class SplitPartRVAdapter(
             binding.category.text = buildSpannedString {
                 append(
                     when {
-                        transaction.isTransfer -> Transfer.getIndicatorPrefixForLabel(transaction.amount.amountMinor) + transaction.transferAccount
+                        transaction.isTransfer -> getIndicatorPrefixForLabel(transaction.amount.amountMinor) + transaction.transferAccount
                         else -> transaction.categoryPath ?: ""
                     }
                 )

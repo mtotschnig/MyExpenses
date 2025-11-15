@@ -6,8 +6,8 @@ import android.content.OperationApplicationException
 import android.os.Bundle
 import android.os.RemoteException
 import androidx.annotation.VisibleForTesting
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.findByAccountAndUuid
 import org.totschnig.myexpenses.feature.Feature
@@ -15,11 +15,8 @@ import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
+import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.SyncContract
-import org.totschnig.myexpenses.sync.json.AdapterFactory
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import timber.log.Timber
 
@@ -33,9 +30,7 @@ class SyncDelegate(
 
     lateinit var account: Account
 
-    private val gson: Gson = GsonBuilder()
-        .registerTypeAdapterFactory(AdapterFactory.create())
-        .create()
+    private val json = Json { ignoreUnknownKeys = true }
 
     @Throws(RemoteException::class, OperationApplicationException::class)
     fun writeRemoteChangesToDb(
@@ -45,7 +40,7 @@ class SyncDelegate(
     ) {
         if (remoteChanges.isNotEmpty()) {
             SyncContract.getSyncFile(context).writer().use { writer ->
-                writer.write(gson.toJson(remoteChanges).also {
+                writer.write(json.encodeToString(remoteChanges).also {
                     Timber.d("Remote changes :\n%s", it)
                 })
             }
@@ -53,9 +48,9 @@ class SyncDelegate(
             provider.call(
                 SyncContract.METHOD_APPLY_CHANGES,
                 null, Bundle(3).apply {
-                    putLong(KEY_ACCOUNTID, account.id)
-                    putString(KEY_CURRENCY, account.currency)
-                    putLong(KEY_TYPE, account.type.id)
+                    putLong(DatabaseConstants.KEY_ACCOUNTID, account.id)
+                    putString(DatabaseConstants.KEY_CURRENCY, account.currency)
+                    putLong(DatabaseConstants.KEY_TYPE, account.type.id)
                 }
             )
         }
@@ -71,7 +66,7 @@ class SyncDelegate(
         val i = changeList.iterator()
         while (i.hasNext()) {
             val change = i.next()
-            change.parentUuid()?.let {
+            change.parentUuid?.let {
                 ensureList(splitsPerUuid, it).add(change)
                 i.remove()
             }
@@ -80,26 +75,26 @@ class SyncDelegate(
         //When a split transaction is changed, we do not necessarily have an entry for the parent, so we
         //create one here
         splitsPerUuid.keys.forEach { uuid: String ->
-            if (!changeList.any { change: TransactionChange -> change.uuid() == uuid }) {
+            if (!changeList.any { change: TransactionChange -> change.uuid == uuid }) {
                 splitsPerUuid[uuid]?.let { list ->
                     changeList.add(
-                        TransactionChange.builder().setType(TransactionChange.Type.updated)
-                            .setTimeStamp(list[0].timeStamp()).setUuid(uuid).build()
+                        TransactionChange(
+                            type = TransactionChange.Type.updated,
+                            timeStamp = list[0].timeStamp,
+                            uuid = uuid
+                        )
                     )
                 }
             }
         }
         return changeList.map { change: TransactionChange ->
-            if (splitsPerUuid.containsKey(change.uuid())) change.toBuilder()
-                .setSplitPartsAndValidate(splitsPerUuid[change.uuid()]!!).build() else change
-        }
-    }
-
-    private fun TransactionChange.Builder.setSplitPartsAndValidate(value: List<TransactionChange>): TransactionChange.Builder {
-        return if (value.all { it.parentUuid() == uuid() }) {
-            setSplitParts(value)
-        } else {
-            throw IllegalStateException("parts parentUuid does not match parents uuid")
+            splitsPerUuid[change.uuid]?.let { parts ->
+                if (parts.all { it.parentUuid == change.uuid }) {
+                    change.copy(splitParts = parts)
+                } else {
+                    throw IllegalStateException("parts parentUuid does not match parents uuid")
+                }
+            } ?: change
         }
     }
 
@@ -118,7 +113,7 @@ class SyncDelegate(
         (firstResult + secondResult)
             .filter { obj: TransactionChange -> obj.isCreateOrUpdate }
             .forEach { change: TransactionChange ->
-                ensureList(updatesPerUuid, change.uuid()).add(
+                ensureList(updatesPerUuid, change.uuid).add(
                     change
                 )
             }
@@ -149,7 +144,7 @@ class SyncDelegate(
         mergedMap: HashMap<String, TransactionChange>,
     ): List<TransactionChange> {
         return input.map { change ->
-            change.takeIf { it.isCreateOrUpdate }?.nullifyIfNeeded(mergedMap[change.uuid()])
+            change.takeIf { it.isCreateOrUpdate }?.nullifyIfNeeded(mergedMap[change.uuid])
                 ?: change
         }.distinct()
     }
@@ -160,64 +155,32 @@ class SyncDelegate(
      * been overwritten from being written again either remotely or locally
      */
     private fun TransactionChange.nullifyIfNeeded(merged: TransactionChange?): TransactionChange {
-        return if (merged == null) this
-        else toBuilder().apply {
-            if (comment() != null && merged.comment() != null && merged.comment() != comment()) {
-                setComment(null)
-            }
-            if (date() != null && merged.date() != null && merged.date() != date()) {
-                setDate(null)
-            }
-            if (valueDate() != null && merged.valueDate() != null && merged.valueDate() != valueDate()) {
-                setValueDate(null)
-            }
-            if (amount() != null && merged.amount() != null && merged.amount() != amount()) {
-                setAmount(null)
-            }
-            if ((label() != null || categoryInfo() != null) &&
-                (merged.label() != null || merged.categoryInfo() != null) &&
-                (merged.label() != label() || merged.categoryInfo() != categoryInfo())
-            ) {
-                setLabel(null)
-                setCategoryInfo(null)
-            }
-            if (payeeName() != null && merged.payeeName() != null && merged.payeeName() != payeeName()) {
-                setPayeeName(null)
-            }
-            if (transferAccount() != null && merged.transferAccount() != null && merged.transferAccount() != transferAccount()) {
-                setTransferAccount(null)
-            }
-            if (methodLabel() != null && merged.methodLabel() != null && merged.methodLabel() != methodLabel()) {
-                setMethodLabel(null)
-            }
-            if (crStatus() != null && merged.crStatus() != null && merged.crStatus() != crStatus()) {
-                setCrStatus(null)
-            }
-
-            if (status() != null && merged.status() != null && merged.status() != status()) {
-                setStatus(null)
-            }
-            if (referenceNumber() != null && merged.referenceNumber() != null && merged.referenceNumber() != referenceNumber()) {
-                setReferenceNumber(null)
-            }
-            if ((pictureUri() != null || attachments() != null) &&
-                (merged.pictureUri() != null || merged.attachments() != null) &&
-                (merged.pictureUri() != pictureUri() || merged.attachments() != attachments())
-
-            ) {
-                setPictureUri(null)
-                setAttachments(null)
-            }
-            if (splitParts() != null && merged.splitParts() != null && merged.splitParts() != splitParts()) {
-                setSplitParts(null)
-            }
-            if ((tags() != null || tagsV2() != null) &&
-                (merged.tags() != null || merged.tagsV2() != null) &&
-                (merged.tags() != tags() || merged.tagsV2() != merged.tagsV2())
-            ) {
-                setTags(null)
-            }
-        }.build()
+        if (merged == null) return this
+        return this.copy(
+            comment = if (comment != null && merged.comment != null && merged.comment != comment) null else comment,
+            date = if (date != null && merged.date != null && merged.date != date) null else date,
+            valueDate = if (valueDate != null && merged.valueDate != null && merged.valueDate != valueDate) null else valueDate,
+            amount = if (amount != null && merged.amount != null && merged.amount != amount) null else amount,
+            label = if ((label != null || categoryInfo != null) && (merged.label != null || merged.categoryInfo != null) && (merged.label != label || merged.categoryInfo != categoryInfo)) null else label,
+            categoryInfo = if ((label != null || categoryInfo != null) && (merged.label != null || merged.categoryInfo != null) && (merged.label != label || merged.categoryInfo != categoryInfo)) null else categoryInfo,
+            payeeName = if (payeeName != null && merged.payeeName != null && merged.payeeName != payeeName) null else payeeName,
+            transferAccount = if (transferAccount != null && merged.transferAccount != null && merged.transferAccount != transferAccount) null else transferAccount,
+            methodLabel = if (methodLabel != null && merged.methodLabel != null && merged.methodLabel != methodLabel) null else methodLabel,
+            crStatus = if (crStatus != null && merged.crStatus != null && merged.crStatus != crStatus) null else crStatus,
+            status = if (status != null && merged.status != null && merged.status != status) null else status,
+            referenceNumber = if (referenceNumber != null && merged.referenceNumber != null && merged.referenceNumber != referenceNumber) null else referenceNumber,
+            pictureUri = if ((pictureUri != null || attachments != null) && (merged.pictureUri != null || merged.attachments != null) && (merged.pictureUri != pictureUri || merged.attachments != attachments)) null else pictureUri,
+            attachments = if ((pictureUri != null || attachments != null) && (merged.pictureUri != null || merged.attachments != null) && (merged.pictureUri != pictureUri || merged.attachments != attachments)) null else attachments,
+            splitParts = if (splitParts != null && merged.splitParts != null) {
+                splitParts.map { part ->
+                    merged.splitParts.find { it.uuid == part.uuid }?.let { mergedPart ->
+                        part.nullifyIfNeeded(mergedPart)
+                    } ?: part
+                }
+            } else splitParts,
+            tags = if ((tags != null || tagsV2 != null) && (merged.tags != null || merged.tagsV2 != null) && (merged.tags != tags || merged.tagsV2 != merged.tagsV2)) null else tags,
+            tagsV2 = if ((tags != null || tagsV2 != null) && (merged.tags != null || merged.tagsV2 != null) && (merged.tags != tags || merged.tagsV2 != merged.tagsV2)) null else tagsV2
+        )
     }
 
     private fun mergeChanges(input: List<TransactionChange>): List<TransactionChange> =
@@ -227,7 +190,7 @@ class SyncDelegate(
     fun mergeUpdates(changeList: List<TransactionChange>): TransactionChange {
         check(changeList.isNotEmpty()) { "nothing to merge" }
         return changeList
-            .sortedBy { if (it.isCreate) 0L else it.timeStamp() }
+            .sortedBy { if (it.isCreate) 0L else it.timeStamp }
             .reduce { initial: TransactionChange, change: TransactionChange ->
                 mergeUpdate(
                     initial,
@@ -240,90 +203,53 @@ class SyncDelegate(
         initial: TransactionChange,
         change: TransactionChange,
     ): TransactionChange {
-        check(initial.uuid() == change.uuid()) { "Can only merge changes with same uuid" }
+        check(initial.uuid == change.uuid) { "Can only merge changes with same uuid" }
         if (initial.isDelete) return initial
         if (change.isDelete) return change
-        val builder = initial.toBuilder()
-        if (change.parentUuid() != null) {
-            builder.setParentUuid(change.parentUuid())
+
+        var result = initial
+        if (change.parentUuid != null) result = result.copy(parentUuid = change.parentUuid)
+        if (change.comment != null) result = result.copy(comment = change.comment)
+        if (change.date != null) result = result.copy(date = change.date)
+        if (change.valueDate != null) result = result.copy(valueDate = change.valueDate)
+        if (change.amount != null) result = result.copy(amount = change.amount)
+        if (change.label != null) result = result.copy(label = change.label)
+        if (change.payeeName != null) result = result.copy(payeeName = change.payeeName)
+        if (change.transferAccount != null) result = result.copy(transferAccount = change.transferAccount)
+        if (change.methodLabel != null) result = result.copy(methodLabel = change.methodLabel)
+        if (change.crStatus != null) result = result.copy(crStatus = change.crStatus)
+        if (change.status != null) result = result.copy(status = change.status)
+        if (change.referenceNumber != null) result = result.copy(referenceNumber = change.referenceNumber)
+        if (change.pictureUri != null) result = result.copy(pictureUri = change.pictureUri)
+        if (change.splitParts != null) {
+            val merged = mergeChanges((initial.splitParts ?: emptyList()) + change.splitParts)
+            result = result.copy(splitParts = merged)
         }
-        if (change.comment() != null) {
-            builder.setComment(change.comment())
-        }
-        if (change.date() != null) {
-            builder.setDate(change.date())
-        }
-        if (change.valueDate() != null) {
-            builder.setDate(change.valueDate())
-        }
-        if (change.amount() != null) {
-            builder.setAmount(change.amount())
-        }
-        if (change.label() != null) {
-            builder.setLabel(change.label())
-        }
-        if (change.payeeName() != null) {
-            builder.setPayeeName(change.payeeName())
-        }
-        if (change.transferAccount() != null) {
-            builder.setTransferAccount(change.transferAccount())
-        }
-        if (change.methodLabel() != null) {
-            builder.setMethodLabel(change.methodLabel())
-        }
-        if (change.crStatus() != null) {
-            builder.setCrStatus(change.crStatus())
-        }
-        if (change.status() != null) {
-            builder.setStatus(change.status())
-        }
-        if (change.referenceNumber() != null) {
-            builder.setReferenceNumber(change.referenceNumber())
-        }
-        if (change.pictureUri() != null) {
-            builder.setPictureUri(change.pictureUri())
-        }
-        if (change.splitParts() != null) {
-            val merged = mergeChanges(
-                (initial.splitParts() ?: emptyList()) + (change.splitParts() ?: emptyList())
-            )
-            builder.setSplitParts(merged)
-        }
-        if (change.tags() != null) {
-            builder.setTags(change.tags())
-        }
-        if (change.tagsV2() != null) {
-            builder.setTagsV2(change.tagsV2())
-        }
-        if (change.attachments() != null) {
-            builder.setAttachments(change.attachments())
-        }
-        if (change.categoryInfo() != null) {
-            builder.setCategoryInfo(change.categoryInfo())
-        }
-        return builder.setCurrentTimeStamp().build()
+        if (change.tags != null) result = result.copy(tags = change.tags)
+        if (change.tagsV2 != null) result = result.copy(tagsV2 = change.tagsV2)
+        if (change.attachments != null) result = result.copy(attachments = change.attachments)
+        if (change.categoryInfo != null) result = result.copy(categoryInfo = change.categoryInfo)
+
+        return result.copy(timeStamp = System.currentTimeMillis() / 1000)
     }
 
     private fun findDeletedUuids(list: List<TransactionChange>): List<String> =
-        list.filter { obj: TransactionChange -> obj.isDelete }
-            .map { obj: TransactionChange -> obj.uuid() }
+        list.filter { it.isDelete }.map { it.uuid }
 
     private fun filterDeleted(
         input: List<TransactionChange>,
         deletedUuids: List<String>,
     ): List<TransactionChange> {
         return input.filter { change: TransactionChange ->
-            change.isDelete || !deletedUuids.contains(
-                change.uuid()
-            )
+            change.isDelete || !deletedUuids.contains(change.uuid)
         }
     }
 
     fun findMetadataChange(input: List<TransactionChange>) =
-        input.findLast { value: TransactionChange -> value.type() == TransactionChange.Type.metadata }
+        input.findLast { it.type == TransactionChange.Type.metadata }
 
     fun removeMetadataChange(input: List<TransactionChange>) =
-        input.filter { value: TransactionChange -> value.type() != TransactionChange.Type.metadata }
+        input.filter { it.type != TransactionChange.Type.metadata }
 
     fun requireFeatureForAccount(context: Context, name: String): Feature? {
         BackendService.forAccount(name).getOrNull()?.feature?.let {

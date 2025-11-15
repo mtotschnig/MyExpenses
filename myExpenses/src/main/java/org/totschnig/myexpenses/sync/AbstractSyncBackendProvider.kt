@@ -60,7 +60,6 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         context.getSharedPreferences("${sharedPreferencesName}_sync", 0)
     }
     private val gson: Gson = GsonBuilder()
-        .registerTypeAdapterFactory(AdapterFactory.create())
         .create()
     private var appInstance: String? = null
     private var encryptionPassword: String? = null
@@ -189,7 +188,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     protected fun maybeDecrypt(
         inputStream: InputStream,
         maybeDecrypt: Boolean = true
-    ) = try {
+    ): InputStream = try {
         if (maybeDecrypt && isEncrypted) EncryptionHelper.decrypt(
             inputStream,
             encryptionPassword
@@ -223,13 +222,13 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
                 log().w("found empty transaction change in json")
                 iterator.remove()
             } else {
-                transactionChange.pictureUri()?.let {
-                    if (transactionChange.attachments()?.isNotEmpty() == true) {
+                transactionChange.pictureUri?.let {
+                    if (transactionChange.attachments?.isNotEmpty() == true) {
                         CrashHandler.report(IllegalStateException("found attachments and legacy pictureUri together"))
                     } else {
-                        iterator.set(transactionChange.toBuilder().setAttachments(
-                            setOf(mapLegacyPictureDuringRead(it))
-                        ).build())
+                        iterator.set(transactionChange.copy(
+                            attachments =  setOf(mapLegacyPictureDuringRead(it))
+                        ))
                     }
                 }
             }
@@ -269,7 +268,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     }
 
     private fun ensureAttachmentsOnRead(changeSet: List<TransactionChange>) {
-        val attachments = changeSet.flatMap { it.attachments() ?: emptyList() }.toSet()
+        val attachments = changeSet.flatMap { it.attachments ?: emptyList() }.toSet()
 
         if (attachments.isEmpty()) return
         //noinspection Recycle
@@ -338,7 +337,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
 
     @Throws(IOException::class)
     private fun ensureAttachmentsOnWrite(changeSet: List<TransactionChange>) {
-        val attachments = changeSet.flatMap { it.attachments() ?: emptyList() }.toSet()
+        val attachments = changeSet.flatMap { it.attachments ?: emptyList() }.toSet()
         if (attachments.isNotEmpty()) {
             context.contentResolver.query(
                 TransactionProvider.ATTACHMENTS_URI,
@@ -364,7 +363,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     ): SequenceNumber {
         val nextSequence = getLastSequence(lastSequenceNumber).next()
         val finalChangeSet = if (appInstance != null) {
-            changeSet.map { it.toBuilder().setAppInstance(appInstance).build() }
+            changeSet.map { it.copy(appInstance = appInstance) }
         } else changeSet
 
         val fileName = "_${nextSequence.number}.$extensionForData"
@@ -390,7 +389,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     @Throws(IOException::class)
     protected abstract fun saveUriToCollection(fileName: String, uri: Uri, collection: Res, maybeEncrypt: Boolean = true)
 
-    protected fun buildMetadata(account: Account?): String {
+    protected fun buildMetadata(account: Account): String {
         return gson.toJson(
             AccountMetaData.from(
                 account,
@@ -481,7 +480,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     }
 
     override val categories: Result<List<CategoryExport>>
-        get() = kotlin.runCatching {
+        get() = runCatching {
             readFileContents(false, categoriesFilename, true)?.let {
                 gson.fromJson(
                     it,
@@ -497,7 +496,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
             childrenForCollection(folder)
                 .mapNotNull { res ->
                     nameForResource(res)?.let { getNameWithoutExtension(it) }?.let { uuid ->
-                        maybeDecrypt(getInputStream(res))?.let {
+                        maybeDecrypt(getInputStream(res)).let {
                             uuid to Json.decodeFromStream(it)
                         }
                     }

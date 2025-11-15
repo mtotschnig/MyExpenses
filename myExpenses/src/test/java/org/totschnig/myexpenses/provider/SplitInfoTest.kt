@@ -10,8 +10,7 @@ import org.totschnig.myexpenses.db2.calculateSplitSummary
 import org.totschnig.myexpenses.db2.insertTransaction
 
 @RunWith(RobolectricTestRunner::class)
-
-class SplitInfoTest  : BaseTestWithRepository() {
+class SplitInfoTest : BaseTestWithRepository() {
     private var testAccountId: Long = 0
     private var main1: Long = 0
     private var main2: Long = 0
@@ -62,7 +61,12 @@ class SplitInfoTest  : BaseTestWithRepository() {
     @Test
     fun shouldReturnNullForNoIcon() {
         val splitId = repository.insertTransaction(testAccountId, 100).id
-        repository.insertTransaction(testAccountId, 100, parentId = splitId, categoryId = writeCategory("noIcon"))
+        repository.insertTransaction(
+            testAccountId,
+            100,
+            parentId = splitId,
+            categoryId = writeCategory("noIcon")
+        )
         val list = repository.calculateSplitSummary(splitId)!!
         assertThat(list.map { it.first }).containsExactly("noIcon")
         assertThat(list.map { it.second }).containsExactly(null)

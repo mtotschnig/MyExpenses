@@ -45,6 +45,7 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSA
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTIONS_UUID_INDEX_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSACTION_ATTRIBUTES_CREATE;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSFER_PEER_TRIGGER;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSFER_SEALED_UPDATE_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.VIEW_WITH_ACCOUNT_DEFINITION;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.createOrRefreshTransactionLinkedTableTriggers;
@@ -469,6 +470,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     createOrRefreshAccountTriggers(db);
     createCategoryTypeTriggers(db);
     createOrRefreshEquivalentAmountTriggers(db);
+    db.execSQL(TRANSFER_PEER_TRIGGER);
 
     db.execSQL(SETTINGS_CREATE);
     //TODO evaluate if we should get rid of the split transaction category id
@@ -2100,6 +2102,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
       if (oldVersion < 181) {
         createOrRefreshViews(db);
+      }
+
+      if (oldVersion < 182) {
+          db.execSQL(TRANSFER_PEER_TRIGGER);
       }
 
       TransactionProvider.resumeChangeTrigger(db);

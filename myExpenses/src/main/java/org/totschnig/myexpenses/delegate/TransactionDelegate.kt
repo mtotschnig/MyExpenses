@@ -478,7 +478,7 @@ abstract class TransactionDelegate(
             for (i in 0 until methodsAdapter.count) {
                 val pm = methodsAdapter.getItem(i)
                 if (pm != null) {
-                    if (pm.id() == methodId) {
+                    if (pm.id == methodId) {
                         methodSpinner.setSelection(i + 1)
                         found = true
                         break
@@ -585,7 +585,7 @@ abstract class TransactionDelegate(
                 //TODO Use IdAdapter
             object : ArrayAdapter<PaymentMethod>(context, android.R.layout.simple_spinner_item) {
                 override fun getItemId(position: Int): Long {
-                    return getItem(position)?.id() ?: 0L
+                    return getItem(position)?.id ?: 0L
                 }
             }
         methodsAdapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item)

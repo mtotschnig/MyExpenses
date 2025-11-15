@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.sync.json
 
-import androidx.annotation.Keep
+import kotlinx.serialization.Serializable
 
-@Keep
+
+@Serializable
 data class TagInfo(val label: String, val color: Int?)

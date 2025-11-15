@@ -36,7 +36,7 @@ import java.time.LocalDate
 fun withMethod(label: String): Matcher<Any> =
     object : BoundedMatcher<Any, PaymentMethod>(PaymentMethod::class.java) {
         override fun matchesSafely(myObj: PaymentMethod): Boolean {
-            return myObj.label().equals(label)
+            return myObj.label == label
         }
 
         override fun describeTo(description: Description) {

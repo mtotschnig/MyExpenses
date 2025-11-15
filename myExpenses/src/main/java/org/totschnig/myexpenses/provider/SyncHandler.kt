@@ -67,14 +67,13 @@ class SyncHandler(
         val ops = ArrayList<ContentProviderOperation>()
         val uri = TRANSACTIONS_URI.fromSyncAdapter()
         var skipped = false
-        val offset = ops.size
         val tagIds: List<Long>? = buildList {
-            change.tags()?.let { addAll(repository.extractTagIds(it, tagToId)) }
-            change.tagsV2()?.let { addAll(repository.extractTagIdsV2(it, tagToId)) }
+            change.tags?.let { addAll(repository.extractTagIds(it, tagToId)) }
+            change.tagsV2?.let { addAll(repository.extractTagIdsV2(it, tagToId)) }
         }.takeIf { it.isNotEmpty() }
-        when (change.type()) {
+        when (change.type) {
             TransactionChange.Type.created -> {
-                val transactionId = resolver(accountId, change.uuid())
+                val transactionId = resolver(accountId, change.uuid)
                 if (transactionId > -1) {
                     if (parentOffset > -1) {
                         //if we find a split part that already exists, we need to assume that it has already been synced
@@ -90,48 +89,51 @@ class SyncHandler(
                                 .withValueBackReference(KEY_PARENTID, parentOffset)
                                 .build()
                         )
-                        val tagOpsSize = tagIds
-                            ?.let { saveTagLinks(it, transactionId) }
-                            ?.also { ops.addAll(it) }
-                            ?.size
-                            ?: 0
-                        val attachmentOpsSize = change.attachments()
-                            ?.let { saveAttachmentLinks(it, transactionId, null) }
-                            ?.also { ops.addAll(it) }
-                            ?.size
-                            ?: 0
+                        tagIds?.let {
+                            ops.addAll(saveTagLinks(it, null, 0))
+                        }
+
+                        change.attachments?.let {
+                            ops.addAll(saveAttachmentLinks(it, null, 0))
+                        }
                     } else {
                         skipped = true
                         SyncAdapter.log()
                             .i("Uuid found in changes already exists locally, likely a transfer implicitly created from its peer")
                     }
                 } else {
-                    ops.add(ContentProviderOperation.newInsert(uri)
-                        .withValues(change.toContentValues(true).apply {
-                            put(KEY_ACCOUNTID, accountId)
-                        }).apply {
-                            if (parentOffset != -1) {
-                                withValueBackReference(KEY_PARENTID, parentOffset)
+                    ops.add(
+                        ContentProviderOperation.newInsert(uri)
+                            .withValues(change.toContentValues(true).apply {
+                                put(KEY_ACCOUNTID, accountId)
+                                if (parentOffset == -1) {
+                                    change.parentUuid?.let {
+                                        val parentId = resolver(accountId, it)
+                                        if (parentId != -1L) {
+                                            put(KEY_PARENTID, parentId)
+                                        }
+                                    }
+                                }
+                            }).apply {
+                                if (parentOffset != -1) {
+                                    withValueBackReference(KEY_PARENTID, parentOffset)
+                                }
                             }
-                        }
-                        .build()
+                            .build()
                     )
-                    val tagOpsSize = tagIds
-                        ?.let { saveTagLinks(it, null, offset) }
-                        ?.also { ops.addAll(it) }
-                        ?.size
-                        ?: 0
-                    val attachmentOpsSize = change.attachments()
-                        ?.let { saveAttachmentLinks(it, null, offset) }
-                        ?.also { ops.addAll(it) }
-                        ?.size
-                        ?: 0
+                    tagIds?.let {
+                        ops.addAll(saveTagLinks(it, null, 0))
+                    }
+
+                    change.attachments?.let {
+                        ops.addAll(saveAttachmentLinks(it, null, 0))
+                    }
                 }
             }
 
             TransactionChange.Type.updated -> {
                 val values: ContentValues = change.toContentValues(false)
-                val transactionId = resolver(accountId, change.uuid())
+                val transactionId = resolver(accountId, change.uuid)
                 if (transactionId != -1L || parentOffset != -1) {
                     if (values.size() > 0 || parentOffset != -1) {
                         val builder = ContentProviderOperation.newUpdate(uri)
@@ -144,7 +146,7 @@ class SyncHandler(
                         } else {
                             builder.withSelection(
                                 "$KEY_UUID = ?",
-                                arrayOf(change.uuid())
+                                arrayOf(change.uuid)
                             )
                         }
                         if (parentOffset != -1) {
@@ -155,32 +157,28 @@ class SyncHandler(
                         }
                         ops.add(builder.build())
                     }
-                    val tagOpsSize = tagIds
-                        ?.let { list ->
+                    tagIds?.let { list ->
+                        ops.addAll(
                             saveTagLinks(
                                 list,
                                 transactionId.takeIf { it != -1L },
                                 parentOffset.takeIf { it != -1 })
-                        }
-                        ?.also { ops.addAll(it) }
-                        ?.size
-                        ?: 0
-                    val attachmentOpsSize = change.attachments()
-                        ?.let { set ->
+                        )
+                    }
+                    change.attachments?.let { set ->
+                        ops.addAll(
                             saveAttachmentLinks(
                                 set,
                                 transactionId.takeIf { it != -1L },
                                 parentOffset.takeIf { it != -1 }
                             )
-                        }
-                        ?.also { ops.addAll(it) }
-                        ?.size
-                        ?: 0
+                        )
+                    }
                 }
             }
 
             TransactionChange.Type.deleted -> {
-                val transactionId = resolver(accountId, change.uuid())
+                val transactionId = resolver(accountId, change.uuid)
                 if (transactionId != -1L) {
                     ops.add(
                         ContentProviderOperation.newDelete(
@@ -191,7 +189,7 @@ class SyncHandler(
                         )
                             .withSelection(
                                 "$KEY_UUID = ? AND $KEY_ACCOUNTID = ?",
-                                arrayOf(change.uuid(), accountId.toString())
+                                arrayOf(change.uuid, accountId.toString())
                             )
                             .build()
                     )
@@ -204,7 +202,7 @@ class SyncHandler(
                         uri.buildUpon()
                             .appendPath(TransactionProvider.URI_SEGMENT_UNSPLIT).build()
                     )
-                        .withValue(KEY_UUID, change.uuid())
+                        .withValue(KEY_UUID, change.uuid)
                         .build()
                 )
             }
@@ -214,7 +212,7 @@ class SyncHandler(
                     ContentProviderOperation.newAssertQuery(TRANSACTIONS_URI)
                         .withSelection(
                             "$KEY_UUID = ? AND $KEY_STATUS == $STATUS_ARCHIVE",
-                            arrayOf(change.uuid())
+                            arrayOf(change.uuid)
                         )
                         .withExpectedCount(1).build()
                 )
@@ -223,7 +221,7 @@ class SyncHandler(
                         uri.buildUpon()
                             .appendPath(TransactionProvider.URI_SEGMENT_UNARCHIVE).build()
                     )
-                        .withValue(KEY_UUID, change.uuid())
+                        .withValue(KEY_UUID, change.uuid)
                         .build()
                 )
             }
@@ -233,9 +231,9 @@ class SyncHandler(
                     ContentProviderOperation.newUpdate(
                         uri.buildUpon()
                             .appendPath(TransactionProvider.URI_SEGMENT_LINK_TRANSFER)
-                            .appendPath(change.uuid()).build()
+                            .appendPath(change.uuid).build()
                     )
-                        .withValue(KEY_UUID, change.referenceNumber())
+                        .withValue(KEY_UUID, change.referenceNumber)
                         .build()
                 )
             }
@@ -243,9 +241,9 @@ class SyncHandler(
             else -> {}
         }
         if (change.isCreateOrUpdate && !skipped) {
-            change.splitParts()?.let { splitParts ->
+            change.splitParts?.let { splitParts ->
                 splitParts.forEach { splitChange: TransactionChange ->
-                    require(change.uuid() == splitChange.parentUuid())
+                    require(change.uuid == splitChange.parentUuid)
                     //back reference is only used when we insert a new split,
                     //for updating an existing split we search for its _id via its uuid
                     ops.addAll(
@@ -263,76 +261,77 @@ class SyncHandler(
     private fun TransactionChange.toContentValues(forInsert: Boolean): ContentValues {
         val values = ContentValues()
         if (forInsert) {
-            values.put(KEY_UUID, uuid())
+            values.put(KEY_UUID, uuid)
         }
-        amount()?.let {
+        amount?.let {
             values.put(KEY_AMOUNT, Money(currency, it).amountMinor)
         }
-        transferAccount()
+        transferAccount
             ?.let { findTransferAccount(it) }
             ?.let { transferAccountId ->
-                resolver(transferAccountId, uuid()).takeIf { peer -> peer != -1L }?.let {
-                    values.put(KEY_TRANSFER_ACCOUNT, transferAccountId)
-                    values.put(KEY_TRANSFER_PEER, it)
+                values.put(KEY_TRANSFER_ACCOUNT, transferAccountId)
+                if (forInsert) {
+                    resolver(transferAccountId, uuid).takeIf { peer -> peer != -1L }?.let {
+                        values.put(KEY_TRANSFER_PEER, it)
+                    }
                 }
             }
 
-        comment()?.let {
+        comment?.let {
             if (it.isEmpty()) {
                 values.putNull(KEY_COMMENT)
             } else {
                 values.put(KEY_COMMENT, it)
             }
         }
-        val date = date()
         if (date != null || forInsert) {
             values.put(KEY_DATE, date ?: System.currentTimeMillis())
         }
-        val valueDate = date()
+
         if (valueDate != null || forInsert) {
             values.put(KEY_VALUE_DATE, valueDate ?: date ?: System.currentTimeMillis())
         }
-        amount()?.let { values.put(KEY_AMOUNT, it) }
-        if (splitParts()?.isNotEmpty() == true) {
+        amount?.let { values.put(KEY_AMOUNT, it) }
+        if (splitParts?.isNotEmpty() == true) {
             values.put(KEY_CATID, DatabaseConstants.SPLIT_CATID)
-        } else if (categoryInfo()?.firstOrNull()?.uuid == NULL_CHANGE_INDICATOR) {
+        } else if (categoryInfo?.firstOrNull()?.uuid == NULL_CHANGE_INDICATOR) {
             values.putNull(KEY_CATID)
         } else {
             this.extractCatId()?.let { values.put(KEY_CATID, it) }
         }
-        if (payeeName() == NULL_CHANGE_INDICATOR) {
+        if (payeeName == NULL_CHANGE_INDICATOR) {
             values.putNull(KEY_PAYEEID)
         } else {
-            payeeName()?.let { name ->
+            payeeName?.let { name ->
                 extractParty(name)?.let {
                     values.put(KEY_PAYEEID, it)
                 }
             }
         }
-        if (methodLabel() == NULL_CHANGE_INDICATOR) {
+        if (methodLabel == NULL_CHANGE_INDICATOR) {
             values.putNull(KEY_METHODID)
         } else {
-            methodLabel()?.let { label ->
+            methodLabel?.let { label ->
                 values.put(KEY_METHODID, extractMethodId(label))
             }
         }
-        crStatus()?.let { values.put(KEY_CR_STATUS, it) }
-        status()?.let { values.put(KEY_STATUS, it) }
-        referenceNumber()?.let { values.put(KEY_REFERENCE_NUMBER, it) }
-        if (originalAmount() != null && originalCurrency() != null) {
-            if (originalAmount() == Long.MIN_VALUE) {
+        crStatus?.let { values.put(KEY_CR_STATUS, it) }
+        status?.let { values.put(KEY_STATUS, it) }
+        referenceNumber?.let { values.put(KEY_REFERENCE_NUMBER, it) }
+        if (originalAmount != null && originalCurrency != null) {
+            if (originalAmount == Long.MIN_VALUE) {
                 values.putNull(KEY_ORIGINAL_AMOUNT)
                 values.putNull(KEY_ORIGINAL_CURRENCY)
             } else {
-                values.put(KEY_ORIGINAL_AMOUNT, originalAmount())
-                values.put(KEY_ORIGINAL_CURRENCY, originalCurrency())
+                values.put(KEY_ORIGINAL_AMOUNT, originalAmount)
+                values.put(KEY_ORIGINAL_CURRENCY, originalCurrency)
             }
         }
-        if (equivalentAmount() != null && equivalentCurrency() != null) {
-            if (equivalentAmount() == Long.MIN_VALUE || equivalentCurrency() != homeCurrency.code) {
+        if (equivalentAmount!= null && equivalentCurrency != null) {
+            if (equivalentAmount == Long.MIN_VALUE || equivalentCurrency != homeCurrency.code) {
                 values.putNull(KEY_EQUIVALENT_AMOUNT)
-            } else if (equivalentCurrency() == homeCurrency.code) {
-                values.put(KEY_EQUIVALENT_AMOUNT, equivalentAmount())
+            } else {
+                values.put(KEY_EQUIVALENT_AMOUNT, equivalentAmount)
             }
         }
         return values
@@ -382,10 +381,10 @@ class SyncHandler(
     }
 
     private fun TransactionChange.extractCatId(): Long? {
-        return label()?.let {
+        return label?.let {
             CategoryHelper.insert(repository, it, categoryToId, false)
             categoryToId[it] ?: throw IOException("Saving category $it failed")
-        } ?:  categoryInfo()?.let { repository.ensureCategoryPath(it) }
+        } ?: categoryInfo?.let { repository.ensureCategoryPath(it) }
     }
 
     private fun extractParty(party: String): Long? =

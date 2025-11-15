@@ -80,12 +80,12 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
     private fun SyncViewModel.SyncAccountData.prepare(): List<AccountRow> =
         buildList {
             localAccountsNotSynced.forEach { local ->
-                val remoteAccount = remoteAccounts.find { remote -> remote.uuid() == local.uuid }
+                val remoteAccount = remoteAccounts.find { remote -> remote.uuid == local.uuid }
                 add(
                     AccountRow(
                         label = remoteAccount?.let {
-                            if (it.label() == local.label) local.label else
-                                local.label.take(15) + "/" + it.label().take(15)
+                            if (it.label == local.label) local.label else
+                                local.label.take(15) + "/" + it.label.take(15)
                         } ?: local.label,
                         uuid = local.uuid,
                         isLocal = true,
@@ -95,12 +95,12 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                 )
             }
             remoteAccounts
-                .filter { remote -> !localAccountsNotSynced.any { local -> local.uuid == remote.uuid() } }
+                .filter { remote -> !localAccountsNotSynced.any { local -> local.uuid == remote.uuid } }
                 .forEach {
                     add(
                         AccountRow(
-                            label = it.label(),
-                            uuid = it.uuid(),
+                            label = it.label,
+                            uuid = it.uuid,
                             isLocal = false,
                             isRemote = true,
                             isSealed = false
@@ -228,7 +228,7 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                                         },
                                         remoteAccounts = data.remoteAccounts.filter { account ->
                                             viewModel.dialogState.any {
-                                                it.key == account.uuid() && it.value == SyncSource.DEFAULT
+                                                it.key == account.uuid && it.value == SyncSource.DEFAULT
                                             }
                                         },
                                         conflicts = viewModel.dialogState.entries.filter {
@@ -236,7 +236,7 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                                         }.map { entry ->
                                             Triple(
                                                 data.localAccountsNotSynced.first { it.uuid == entry.key },
-                                                data.remoteAccounts.first { it.uuid() == entry.key },
+                                                data.remoteAccounts.first { it.uuid == entry.key },
                                                 entry.value!!
                                             )
                                         }

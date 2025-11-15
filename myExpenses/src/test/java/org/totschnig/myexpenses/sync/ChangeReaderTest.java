@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.totschnig.myexpenses.sync.json.AdapterFactory;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.sync.json.Utils;
 
@@ -21,7 +20,6 @@ public class ChangeReaderTest {
   @Before
   public void setup() {
     gson = new GsonBuilder()
-        .registerTypeAdapterFactory(AdapterFactory.create())
         .create();
   }
 

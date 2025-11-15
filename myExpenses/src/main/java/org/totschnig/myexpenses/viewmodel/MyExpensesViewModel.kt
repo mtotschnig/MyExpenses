@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
-import android.content.ContentProviderOperation
 import android.content.ContentUris
 import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
@@ -62,6 +61,7 @@ import org.totschnig.myexpenses.db2.addAttachments
 import org.totschnig.myexpenses.db2.calculateSplitSummary
 import org.totschnig.myexpenses.db2.createTransaction
 import org.totschnig.myexpenses.db2.entities.Transaction
+import org.totschnig.myexpenses.db2.groupToSplitTransaction
 import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.db2.loadAttachments
 import org.totschnig.myexpenses.db2.loadBanks
@@ -82,7 +82,6 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Model.generateUuid
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.SortDirection
-import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model2.Bank
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefKey
@@ -94,21 +93,17 @@ import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.GROUPING_AGGR
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_BY_AGGREGATE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_DIRECTION_AGGREGATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
@@ -118,18 +113,12 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VISIBLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
-import org.totschnig.myexpenses.provider.TransactionProvider.AUTHORITY
 import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
-import org.totschnig.myexpenses.provider.TransactionProvider.EXTENDED_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_REPLACE
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_SAVE_TRANSACTION_TAGS
-import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_DISTINCT
-import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_GROUP_BY
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_MAPPED_OBJECTS
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES
-import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_TRANSACTION_ID_LIST
 import org.totschnig.myexpenses.provider.TransactionProvider.SORT_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_LINK_TRANSFER
@@ -143,14 +132,9 @@ import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
-import org.totschnig.myexpenses.provider.filter.Operation
-import org.totschnig.myexpenses.provider.getLong
-import org.totschnig.myexpenses.provider.getLongOrNull
-import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.mapToListCatching
 import org.totschnig.myexpenses.provider.mapToListWithExtra
 import org.totschnig.myexpenses.provider.triggerAccountListRefresh
-import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -169,7 +153,6 @@ import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import java.time.LocalDate
-import java.util.Locale
 
 enum class ScrollToCurrentDate { Never, AppLaunch, AccountOpen }
 
@@ -756,93 +739,7 @@ open class MyExpensesViewModel(
     }
 
     fun split(ids: LongArray) = liveData(context = coroutineContext()) {
-        val count = ids.size
-        val projection = arrayOf(
-            KEY_ACCOUNTID,
-            KEY_CURRENCY,
-            KEY_PAYEEID,
-            KEY_CR_STATUS,
-            "avg($KEY_DATE) AS $KEY_DATE",
-            "sum($KEY_AMOUNT) AS $KEY_AMOUNT",
-            "sum($KEY_EQUIVALENT_AMOUNT) AS $KEY_EQUIVALENT_AMOUNT"
-        )
-
-        val groupBy = String.format(
-            Locale.ROOT,
-            "%s, %s, %s, %s",
-            "$VIEW_EXTENDED.$KEY_ACCOUNTID",
-            "$VIEW_EXTENDED.$KEY_CURRENCY",
-            KEY_PAYEEID,
-            KEY_CR_STATUS
-        )
-        contentResolver.query(
-            EXTENDED_URI.buildUpon()
-                .appendQueryParameter(QUERY_PARAMETER_TRANSACTION_ID_LIST, ids.joinToString())
-                .appendQueryParameter(QUERY_PARAMETER_GROUP_BY, groupBy)
-                .appendQueryParameter(QUERY_PARAMETER_DISTINCT, "1")
-                .build(),
-            projection, null, null, null
-        )?.use { cursor ->
-            emit(
-                when (cursor.count) {
-                    1 -> {
-                        cursor.moveToFirst()
-                        val accountId = cursor.getLong(KEY_ACCOUNTID)
-                        val currencyUnit = currencyContext[cursor.getString(KEY_CURRENCY)]
-                        val amount = Money(
-                            currencyUnit,
-                            cursor.getLong(KEY_AMOUNT)
-                        )
-                        val equivalentAmount = Money(
-                            currencyContext.homeCurrencyUnit,
-                            cursor.getLong(KEY_EQUIVALENT_AMOUNT)
-                        )
-                        val payeeId = cursor.getLongOrNull(KEY_PAYEEID)
-                        val date = cursor.getLong(KEY_DATE)
-                        val crStatus =
-                            enumValueOrDefault(
-                                cursor.getString(KEY_CR_STATUS),
-                                CrStatus.UNRECONCILED
-                            )
-                        val parent = SplitTransaction.getNewInstance(
-                            repository,
-                            accountId,
-                            currencyUnit,
-                            false
-                        ).also {
-                            it.amount = amount
-                            it.date = date
-                            it.party = payeeId?.let { DisplayParty(it, "") }
-                            it.crStatus = crStatus
-                            it.equivalentAmount = equivalentAmount
-                        }
-                        val operations = parent.buildSaveOperations(contentResolver, false)
-                        val where = KEY_ROWID + " " + Operation.IN.getOp(count)
-                        val selectionArgs = ids.map { it.toString() }.toTypedArray()
-                        operations.add(
-                            ContentProviderOperation.newUpdate(TRANSACTIONS_URI)
-                                .withValues(ContentValues().apply {
-                                    put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
-                                    put(KEY_DATE, parent.date)
-                                    putNull(KEY_PAYEEID)
-                                })
-                                .withValueBackReference(KEY_PARENTID, 0)
-                                .withSelection(where, selectionArgs)
-                                .withExpectedCount(count)
-                                .build()
-                        )
-                        contentResolver.applyBatch(AUTHORITY, operations)
-                        Result.success(true)
-                    }
-
-                    0 -> Result.failure(IllegalStateException().also {
-                        CrashHandler.report(it)
-                    })
-
-                    else -> Result.success(false)
-                }
-            )
-        }
+        emit(repository.groupToSplitTransaction(ids))
     }
 
     fun revokeSplit(id: Long) = liveData(context = coroutineContext()) {

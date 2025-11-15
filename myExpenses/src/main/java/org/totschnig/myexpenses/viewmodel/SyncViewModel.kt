@@ -64,7 +64,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
         liveData(context = coroutineContext()) {
             try {
                 configureLocalAccountForSync(accountName, uuid)
-            } catch (e: SQLiteConstraintException) {
+            } catch (_: SQLiteConstraintException) {
                 emit(Result.failure(AccountSealedException()))
             }
             resetRemote(accountName, uuid)
@@ -246,7 +246,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
                 val syncAccounts = if (shouldQueryRemoteAccounts)
                     syncBackendProvider.remoteAccountList
                         .mapNotNull { it.getOrNull() }
-                        .filter { remoteAccount -> !localAccounts.any { it.isSynced && it.uuid == remoteAccount.uuid() } } else emptyList()
+                        .filter { remoteAccount -> !localAccounts.any { it.isSynced && it.uuid == remoteAccount.uuid } } else emptyList()
                 val backups =
                     if (shouldReturnBackups) syncBackendProvider.storedBackups else emptyList()
                 SyncAccountData(
@@ -286,7 +286,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
                     syncBackendProvider.remoteAccountList
                         .asSequence()
                         .mapNotNull { it.getOrNull() }
-                        .filter { accountMetaData -> accountUuids.contains(accountMetaData.uuid()) }
+                        .filter { accountMetaData -> accountUuids.contains(accountMetaData.uuid) }
                         .map { accountMetaData ->
                             accountMetaData.toAccount(
                                 currencyContext.homeCurrencyString,

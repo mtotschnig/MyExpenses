@@ -133,7 +133,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 import kotlin.math.pow
 
-const val DATABASE_VERSION = 181
+const val DATABASE_VERSION = 182
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -581,6 +581,11 @@ val UPDATE_ACCOUNT_EXCHANGE_RATE_TRIGGER =
 
 const val DEFAULT_FLAG_TRIGGER =
     """CREATE TRIGGER protect_default_flag BEFORE DELETE ON $TABLE_ACCOUNT_FLAGS WHEN (OLD.$KEY_ROWID = 0) BEGIN SELECT RAISE (FAIL, 'default flag can not be deleted'); END;"""
+
+const val TRANSFER_PEER_TRIGGER =
+    """CREATE TRIGGER link_transfer_peer AFTER INSERT ON $TABLE_TRANSACTIONS WHEN new.$KEY_TRANSFER_PEER IS NOT NULL
+        BEGIN UPDATE $TABLE_TRANSACTIONS SET $KEY_TRANSFER_PEER = new.$KEY_ROWID WHERE $KEY_ROWID = new.$KEY_TRANSFER_PEER;
+        END;"""
 
 abstract class BaseTransactionDatabase(
     val context: Context,

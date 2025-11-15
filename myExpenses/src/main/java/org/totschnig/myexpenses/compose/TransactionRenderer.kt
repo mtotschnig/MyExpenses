@@ -70,12 +70,13 @@ import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
 import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
+import org.totschnig.myexpenses.viewmodel.data.getIndicatorCharForLabel
+import org.totschnig.myexpenses.viewmodel.data.getIndicatorPrefixForLabel
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import kotlin.text.Typography.ellipsis
@@ -109,7 +110,7 @@ abstract class ItemRenderer(
                 if (categoryPath != null) append(" (")
                 accountLabel?.let { append("$it ") }
                 if (forLegacy || accountLabel != null) {
-                    append(Transfer.getIndicatorPrefixForLabel(displayAmount.amountMinor))
+                    append(getIndicatorPrefixForLabel(displayAmount.amountMinor))
                 }
                 transferAccountLabel?.let { append(it) }
                 if (categoryPath != null) append(")")
@@ -300,7 +301,7 @@ abstract class ItemRenderer(
                     icon != null -> Icon(icon)
 
                     isTransfer -> CharIcon(
-                        char = if (accountLabel != null) '⬧' else Transfer.getIndicatorCharForLabel(
+                        char = if (accountLabel != null) '⬧' else getIndicatorCharForLabel(
                             displayAmount.amountMinor > 0
                         )
                     )

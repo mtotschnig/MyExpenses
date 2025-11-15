@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.dialog.ArchiveInfo
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Model.generateUuid
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.uriBuilderForTransactionList
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -20,6 +21,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_END
@@ -44,29 +46,40 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.AUTHORITY
+import org.totschnig.myexpenses.provider.TransactionProvider.EXTENDED_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_ARCHIVE
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_CAN_BE_ARCHIVED
+import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_DISTINCT
+import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_GROUP_BY
+import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_TRANSACTION_ID_LIST
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_UNARCHIVE
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
+import org.totschnig.myexpenses.provider.filter.Operation
 import org.totschnig.myexpenses.provider.getBoolean
+import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.provider.withLimit
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.joinArrays
 import org.totschnig.myexpenses.util.toEpoch
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.util.Locale
 
 fun Transaction.asContentValues(forInsert: Boolean) = ContentValues().apply {
     put(KEY_COMMENT, comment)
@@ -177,7 +190,7 @@ fun Repository.createTransfer(
         )
     )
 
-    val results = contentResolver.applyBatch(TransactionProvider.AUTHORITY, operations)
+    val results = contentResolver.applyBatch(AUTHORITY, operations)
 
     val first = ContentUris.parseId(results[0].uri!!)
     val second = ContentUris.parseId(results[1].uri!!)
@@ -229,7 +242,7 @@ fun Repository.updateTransfer(
             .withValues(destinationTransaction.asContentValues(true)) // we need to set the uuid again
             .build()
     )
-    val results = contentResolver.applyBatch(TransactionProvider.AUTHORITY, operations)
+    val results = contentResolver.applyBatch(AUTHORITY, operations)
     return results[0].count == 1 && results[1].count == 1
 }
 
@@ -308,7 +321,7 @@ fun Repository.createSplitTransaction(
     }
 
     // --- Atomically execute all operations ---
-    val results = contentResolver.applyBatch(TransactionProvider.AUTHORITY, operations)
+    val results = contentResolver.applyBatch(AUTHORITY, operations)
 
     // --- Construct the final return object ---
     val parentId = ContentUris.parseId(results[0].uri!!)
@@ -409,7 +422,7 @@ fun Repository.updateSplitTransaction(
         operations.add(operation.build())
     }
 
-    val results = contentResolver.applyBatch(TransactionProvider.AUTHORITY, operations)
+    val results = contentResolver.applyBatch(AUTHORITY, operations)
     return results.mapIndexed { index, result ->
         //first result is delete, others either insert or update
         if (index == 0) true else result.uri != null || result.count == 1
@@ -543,7 +556,7 @@ fun Repository.unarchive(id: Long) {
                 .build()
         )
     }
-    val result = contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
+    val result = contentResolver.applyBatch(AUTHORITY, ops)
     val affectedRows = result[1].count
     if (affectedRows != 1) {
         CrashHandler.report(Exception("Unarchive returned $affectedRows affected rows"))
@@ -741,12 +754,8 @@ private fun getTransferOperations(
             .withValueBackReference(KEY_TRANSFER_PEER, offset)
             .build(),
 
-        // Operation at index (offset + 2): Update the source to link to the destination.
-        ContentProviderOperation.newUpdate(TRANSACTIONS_URI)
-            .withSelection("$KEY_ROWID = ?", emptyArray())//replaced by back reference
-            .withSelectionBackReference(0, offset)
-            .withValueBackReference(KEY_TRANSFER_PEER, offset + 1)
-            .build()
+        //the source is updated by trigger TRANSFER_PEER_TRIGGER
+
     )
 }
 
@@ -755,4 +764,97 @@ fun Repository.undeleteTransaction(id: Long): Int {
         .appendPath(TransactionProvider.URI_SEGMENT_UNDELETE)
         .build()
     return contentResolver.update(uri, null, null, null)
+}
+
+fun Repository.groupToSplitTransaction(ids: LongArray): Result<Boolean> {
+    val count = ids.size
+    val projection = arrayOf(
+        KEY_ACCOUNTID,
+        KEY_CURRENCY,
+        KEY_PAYEEID,
+        KEY_CR_STATUS,
+        "avg($KEY_DATE) AS $KEY_DATE",
+        "sum($KEY_AMOUNT) AS $KEY_AMOUNT",
+        "sum($KEY_EQUIVALENT_AMOUNT) AS $KEY_EQUIVALENT_AMOUNT"
+    )
+
+    val groupBy = String.format(
+        Locale.ROOT,
+        "%s, %s, %s, %s",
+        "$VIEW_EXTENDED.$KEY_ACCOUNTID",
+        "$VIEW_EXTENDED.$KEY_CURRENCY",
+        KEY_PAYEEID,
+        KEY_CR_STATUS
+    )
+    return contentResolver.query(
+        EXTENDED_URI.buildUpon()
+            .appendQueryParameter(QUERY_PARAMETER_TRANSACTION_ID_LIST, ids.joinToString())
+            .appendQueryParameter(QUERY_PARAMETER_GROUP_BY, groupBy)
+            .appendQueryParameter(QUERY_PARAMETER_DISTINCT, "1")
+            .build(),
+        projection, null, null, null
+    )!!.use { cursor ->
+
+            when (cursor.count) {
+                1 -> {
+                    cursor.moveToFirst()
+                    val accountId = cursor.getLong(KEY_ACCOUNTID)
+                    val currencyUnit = currencyContext[cursor.getString(KEY_CURRENCY)]
+                    val amount = Money(
+                        currencyUnit,
+                        cursor.getLong(KEY_AMOUNT)
+                    )
+                    val equivalentAmount = Money(
+                        currencyContext.homeCurrencyUnit,
+                        cursor.getLong(KEY_EQUIVALENT_AMOUNT)
+                    )
+                    val payeeId = cursor.getLongOrNull(KEY_PAYEEID)
+                    val date = cursor.getLong(KEY_DATE)
+                    val crStatus =
+                        enumValueOrDefault(
+                            cursor.getString(KEY_CR_STATUS),
+                            CrStatus.UNRECONCILED
+                        )
+                    val parent = Transaction(
+                        accountId = accountId,
+                        amount = amount.amountMinor,
+                        categoryId = DatabaseConstants.SPLIT_CATID,
+                        date = date,
+                        uuid = generateUuid(),
+                        payeeId = payeeId,
+                        crStatus = crStatus,
+                        equivalentAmount = equivalentAmount.amountMinor
+                    )
+                    val operations = ArrayList<ContentProviderOperation>()
+                    operations.add(
+                        ContentProviderOperation.newInsert(TRANSACTIONS_URI)
+                            .withValues(parent.asContentValues(true))
+                            .build()
+                    )
+                    val where = KEY_ROWID + " " + Operation.IN.getOp(count)
+                    val selectionArgs = ids.map { it.toString() }.toTypedArray()
+
+                    operations.add(
+                        ContentProviderOperation.newUpdate(TRANSACTIONS_URI)
+                            .withValues(ContentValues().apply {
+                                put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
+                                put(KEY_DATE, parent.date)
+                                putNull(KEY_PAYEEID)
+                            })
+                            .withValueBackReference(KEY_PARENTID, 0)
+                            .withSelection(where, selectionArgs)
+                            .withExpectedCount(count)
+                            .build()
+                    )
+                    contentResolver.applyBatch(AUTHORITY, operations)
+                    Result.success(true)
+                }
+
+                0 -> Result.failure(IllegalStateException().also {
+                    CrashHandler.report(it)
+                })
+
+                else -> Result.success(false)
+            }
+    }
 }

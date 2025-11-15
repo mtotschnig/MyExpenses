@@ -35,23 +35,23 @@ class AccountMetaDataDialogFragment: ComposeBaseDialogFragment3() {
         AccountMetaData(data)
     }
 
-    override val title: CharSequence?
-        get() = data.label()
+    override val title: CharSequence
+        get() = data.label
 
 
     @Composable
     private fun AccountMetaData(data: AccountMetaData) {
-        val type = AccountType.initialAccountTypes.firstOrNull() {
-                it.name == data.type() || it.nameForSyncLegacy == data.type()
+        val type = AccountType.initialAccountTypes.firstOrNull {
+                it.name == data.type|| it.nameForSyncLegacy == data.type
             }?.localizedName(LocalContext.current)
-            ?: data.type()
+            ?: data.type
 
-        data.description().takeIf { it.isNotEmpty() }?.let {
+        data.description.takeIf { it.isNotEmpty() }?.let {
             AccountMetaDataRow(R.string.description, it)
         }
-        AccountMetaDataRow(label = R.string.currency, value = data.currency())
+        AccountMetaDataRow(label = R.string.currency, value = data.currency)
         AccountMetaDataRow(label = R.string.type, value = type)
-        AccountMetaDataRow(label = R.string.uuid, value = data.uuid())
+        AccountMetaDataRow(label = R.string.uuid, value = data.uuid)
     }
 
     @Composable

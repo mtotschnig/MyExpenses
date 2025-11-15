@@ -35,7 +35,6 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -67,10 +66,12 @@ import org.totschnig.myexpenses.viewmodel.Payee
 import org.totschnig.myexpenses.viewmodel.PrintLayoutConfigurationViewModel.Companion.asColumns
 import org.totschnig.myexpenses.viewmodel.ReferenceNumber
 import org.totschnig.myexpenses.viewmodel.Tags
+import org.totschnig.myexpenses.viewmodel.data.BI_ARROW
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.HeaderData
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
+import org.totschnig.myexpenses.viewmodel.data.getIndicatorPrefixForLabel
 import org.totschnig.myexpenses.viewmodel.data.mergeTransfers
 import timber.log.Timber
 import java.io.IOException
@@ -494,7 +495,7 @@ object PdfPrinter {
                     })
                 header2Table.addCell(
                     helper.printToCell(
-                        Transfer.BI_ARROW + " " + currencyFormatter.formatMoney(sumTransfer),
+                        "$BI_ARROW ${currencyFormatter.formatMoney(sumTransfer)}",
                         FontType.TRANSFER
                     ).apply {
                         horizontalAlignment = Element.ALIGN_CENTER
@@ -657,7 +658,7 @@ object PdfPrinter {
                             if (isNotEmpty()) {
                                 append(" ")
                             }
-                            append(Transfer.getIndicatorPrefixForLabel(displayAmount.amountMinor) + transferAccountLabel)
+                            append(getIndicatorPrefixForLabel(displayAmount.amountMinor) + transferAccountLabel)
                         }
                     })
                 }

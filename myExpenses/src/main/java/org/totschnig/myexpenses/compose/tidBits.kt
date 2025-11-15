@@ -55,10 +55,10 @@ import org.totschnig.myexpenses.compose.scrollbar.STICKY_HEADER_CONTENT_TYPE
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.ui.DisplayProgress
 import org.totschnig.myexpenses.util.ui.displayProgress
+import org.totschnig.myexpenses.viewmodel.data.BI_ARROW
 import java.text.DecimalFormat
 import kotlin.experimental.and
 import kotlin.experimental.inv
@@ -261,7 +261,7 @@ fun SumDetails(
                 .semantics {
                     contentDescription = "$transferSumLabel: $transferSumFormatted"
                 },
-            text = Transfer.BI_ARROW + " " + transferSumFormatted,
+            text = "$BI_ARROW $transferSumFormatted",
             color = LocalColors.current.transfer
         )
     }

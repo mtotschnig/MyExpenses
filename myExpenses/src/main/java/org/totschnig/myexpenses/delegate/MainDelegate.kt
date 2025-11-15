@@ -25,7 +25,6 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_TITLE
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
-import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.PrefKey.AUTO_FILL_HINT_SHOWN
 import org.totschnig.myexpenses.preference.shouldStartAutoFill
@@ -41,6 +40,7 @@ import org.totschnig.myexpenses.util.ui.configurePopupAnchor
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.DisplayDebt
+import org.totschnig.myexpenses.viewmodel.data.RIGHT_ARROW
 import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
 import java.math.BigDecimal
 import java.time.LocalDateTime
@@ -389,7 +389,7 @@ abstract class MainDelegate(
                     .withAmountColor(viewBinding.root.context.resources, amount.sign)
             )
             withInstallment?.let {
-                add(" ${Transfer.RIGHT_ARROW} ")
+                add(" $RIGHT_ARROW ")
                 val futureBalance = money.amountMajor - it
                 add(
                     try {

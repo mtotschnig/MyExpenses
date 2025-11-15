@@ -10,7 +10,6 @@ import android.widget.ExpandableListView
 import android.widget.ImageView
 import android.widget.TextView
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 
@@ -28,7 +27,6 @@ class SyncBackendAdapter(
     private val accountMetaDataMap = SparseArray<List<Result<AccountMetaData>>?>()
     private val layoutInflater = LayoutInflater.from(context)
     private var localAccountInfo: List<LocalAccountInfo>? = null
-    private val repository = context.injector.repository()
 
     fun getMetaData(groupPosition: Int, childPosititon: Int) = getChild(groupPosition, childPosititon).getOrNull()
 
@@ -50,7 +48,7 @@ class SyncBackendAdapter(
         accountMetaData.onSuccess {
             labelTextView.text = it.toString()
             result.findViewById<View>(R.id.color1)
-                .setBackgroundColor(it.color())
+                .setBackgroundColor(it.color)
             when (getSyncState(groupPosition, childPosition)) {
                 SyncState.UNKNOWN, SyncState.ERROR -> syncStateView.visibility = View.GONE
                 SyncState.SYNCED_TO_THIS -> {
@@ -152,7 +150,7 @@ class SyncBackendAdapter(
 
     private fun getSyncState(groupPosition: Int, childPosition: Int) =
         getChild(groupPosition, childPosition).map { accountMetaData ->
-            localAccountInfo?.find { it.uuid == accountMetaData.uuid() }?.let {
+            localAccountInfo?.find { it.uuid == accountMetaData.uuid }?.let {
                 if (it.isSealed) SyncState.SEALED else when (it.syncAccountName) {
                     getBackendLabel(groupPosition) -> SyncState.SYNCED_TO_THIS
                     null -> SyncState.UNSYNCED

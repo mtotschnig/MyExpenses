@@ -174,7 +174,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     .appendQueryParameter(QUERY_PARAMETER_ACCOUNT_TYPE_LIST, type.id.toString())
                     .build(), null, null, null, null, false
             )
-                .mapToList { PaymentMethod.create(it) }
+                .mapToList { PaymentMethod.from(it) }
                 .collect {
                     methods.postValue(it)
                 }
