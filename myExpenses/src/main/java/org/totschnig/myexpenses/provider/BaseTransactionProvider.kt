@@ -25,11 +25,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
 import androidx.sqlite.db.SupportSQLiteQueryBuilder
 import arrow.core.Tuple6
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.json.Json
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.FutureCriterion
@@ -2196,7 +2194,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
         return try {
             beginTransaction()
-            TransactionProvider.pauseChangeTrigger(this)
+            pauseChangeTrigger(this)
             //set equivalent amounts based on parents rate
             execSQL(
                 """WITH parent AS (SELECT 1.0 * $KEY_EQUIVALENT_AMOUNT / $KEY_AMOUNT AS rate FROM $TABLE_TRANSACTIONS ${
@@ -2228,7 +2226,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             }
             //parent is deleted
             val count = delete(TABLE_TRANSACTIONS, "$KEY_UUID = ?", arrayOf(uuid))
-            TransactionProvider.resumeChangeTrigger(this)
+            resumeChangeTrigger(this)
             setTransactionSuccessful()
             count
         } finally {
@@ -2506,18 +2504,13 @@ abstract class BaseTransactionProvider : ContentProvider() {
         }
     }
 
-    private val gson: Gson = GsonBuilder().create()
-
     fun applyChangesFromSync(extras: Bundle) {
         val db = helper.writableDatabase
         val accountId = extras.getLong(KEY_ACCOUNTID)
         val currency = currencyContext[extras.getString(KEY_CURRENCY)!!]
         val accountTypeId = extras.getLong(KEY_TYPE)
         val changes = SyncContract.getSyncFile(context!!).reader().use {
-            gson.fromJson<List<TransactionChange>>(
-                it,
-                object : TypeToken<List<TransactionChange>>() {}.type
-            )
+            Json.decodeFromString<List<TransactionChange>>(it.readText())
         }
 
         val handler = SyncHandler(

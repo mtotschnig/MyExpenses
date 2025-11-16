@@ -10,12 +10,14 @@ import org.totschnig.myexpenses.sync.json.TransactionChange
 class SyncAdapterMergeChangeSetsTest : SyncAdapterBaseTest() {
     @Test
     fun listsWithoutMatchingShouldBeReturnedIdentical() {
-        val first = buildList {
-            add(buildCreated().setUuid("random1").setAmount(123).build())
-        }
-        val second = buildList {
-            add(buildCreated().setUuid("random2").setComment("Commentary").build())
-        }
+        val first = listOf(
+            buildCreated("random1")
+                .copy(amount = 123)
+        )
+        val second = listOf(
+            buildCreated("random2")
+                .copy(comment = "Commentary")
+        )
         val result = syncDelegate.mergeChangeSets(first, second)
         assertThat(result.first).isEqualTo(first)
         assertThat(result.second).isEqualTo(second)
@@ -23,12 +25,14 @@ class SyncAdapterMergeChangeSetsTest : SyncAdapterBaseTest() {
 
     @Test
     fun listsWithMatchingWithoutConflictShouldBeReturnedIdentical() {
-        val first = buildList {
-            add(buildCreated().setUuid("random1").setAmount(123).build())
-        }
-        val second = buildList {
-            add(buildCreated().setUuid("random1").setComment("Commentary").build())
-        }
+        val first = listOf(
+            buildCreated("random1")
+                .copy(amount = 123)
+        )
+        val second = listOf(
+            buildCreated("random1")
+                .copy(comment = "Commentary")
+        )
         val result = syncDelegate.mergeChangeSets(first, second)
         assertThat(result.first).isEqualTo(first)
         assertThat(result.second).isEqualTo(second)
@@ -36,25 +40,31 @@ class SyncAdapterMergeChangeSetsTest : SyncAdapterBaseTest() {
 
     @Test
     fun listsWithConflictShouldHonourLast() {
-        val first = buildList {
-            add(buildUpdated().setUuid("random1").setTimeStamp(1).setComment("Kommentar").build())
-        }
-        val second = buildList {
-            add(buildUpdated().setUuid("random1").setTimeStamp(2).setComment("Commentary").build())
-        }
-        val result: Pair<List<TransactionChange>, List<TransactionChange>> = syncDelegate.mergeChangeSets(first, second)
-        assertThat(result.first.first().comment()).isNull()
-        assertThat(result.second.first().comment()).isEqualTo("Commentary")
+        val first = listOf(
+            buildUpdated("random1").copy(
+                timeStamp = 1,
+                comment = "Kommentar"
+            )
+        )
+        val second = listOf(
+            buildUpdated("random1").copy(
+                timeStamp = 2, comment = "Commentary"
+            )
+        )
+        val result: Pair<List<TransactionChange>, List<TransactionChange>> =
+            syncDelegate.mergeChangeSets(first, second)
+        assertThat(result.first.first().comment).isNull()
+        assertThat(result.second.first().comment).isEqualTo("Commentary")
     }
 
     @Test
     fun deleteInSameSetShouldTriggerRemovalOfRelatedChanges() {
         val uuid = "random"
-        val deleteChange = buildDeleted().setUuid(uuid).build()
-        val first = buildList {
-            add(buildCreated().setUuid(uuid).build())
-            add(deleteChange)
-        }
+        val deleteChange = buildDeleted(uuid)
+        val first = listOf(
+            buildCreated(uuid),
+            deleteChange
+        )
         val result = syncDelegate.mergeChangeSets(first, emptyList())
         assertThat(result.first).hasSize(1)
         assertThat(result.first.first()).isEqualTo(deleteChange)
@@ -64,12 +74,8 @@ class SyncAdapterMergeChangeSetsTest : SyncAdapterBaseTest() {
     @Test
     fun deleteInDifferentSetShouldTriggerRemovalOfRelatedChanges() {
         val uuid = "random"
-        val first = buildList {
-            add(buildUpdated().setUuid(uuid).build())
-        }
-        val second = buildList {
-            add(buildDeleted().setUuid(uuid).build())
-        }
+        val first = listOf(buildUpdated(uuid))
+        val second = listOf(buildDeleted(uuid))
         val result = syncDelegate.mergeChangeSets(first, second)
         assertThat(result.first).isEmpty()
         assertThat(result.second).isEqualTo(second)
@@ -78,10 +84,10 @@ class SyncAdapterMergeChangeSetsTest : SyncAdapterBaseTest() {
     @Test
     fun updatesShouldBeMerged() {
         val uuid = "random"
-        val first = buildList {
-            add(buildUpdated().setUuid(uuid).build())
-            add(buildUpdated().setUuid(uuid).build())
-        }
+        val first = listOf(
+            buildUpdated(uuid),
+            buildUpdated(uuid)
+        )
         val result = syncDelegate.mergeChangeSets(first, emptyList())
         assertThat(result.first).hasSize(1)
     }
@@ -89,10 +95,10 @@ class SyncAdapterMergeChangeSetsTest : SyncAdapterBaseTest() {
     @Test
     fun insertCanBeMergedWithUpdate() {
         val uuid = "random"
-        val first = buildList {
-            add(buildCreated().setUuid(uuid).build())
-            add(buildUpdated().setUuid(uuid).build())
-        }
+        val first = listOf(
+            buildCreated(uuid),
+            buildUpdated(uuid)
+        )
         val result = syncDelegate.mergeChangeSets(first, emptyList())
         assertThat(result.first).hasSize(1)
     }

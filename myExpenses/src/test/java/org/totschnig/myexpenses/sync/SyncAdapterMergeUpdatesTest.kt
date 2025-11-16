@@ -11,10 +11,8 @@ import org.totschnig.myexpenses.sync.json.TransactionChange
 class SyncAdapterMergeUpdatesTest : SyncAdapterBaseTest() {
     @Test
     fun shouldReturnSameElement() {
-        val change = buildUpdated().setUuid("random").build()
-        val changes = buildList {
-            add(change)
-        }
+        val change = buildUpdated("random")
+        val changes = listOf(change)
         val merge = syncDelegate.mergeUpdates(changes)
         assertThat(merge).isEqualTo(change)
     }
@@ -26,30 +24,30 @@ class SyncAdapterMergeUpdatesTest : SyncAdapterBaseTest() {
 
     @Test
     fun shouldReturnFirstDeleted() {
-        val changes = buildList {
-            add(buildDeleted().setUuid("random").build())
-            add(buildUpdated().setUuid("random").build())
-        }
+        val changes = listOf(
+            buildDeleted("random"),
+            buildUpdated("random")
+        )
         val merge = syncDelegate.mergeUpdates(changes)
         assertThat(merge.isDelete).isTrue()
     }
 
     @Test
     fun shouldReturnSecondDeleted() {
-        val changes = buildList {
-            add(buildUpdated().setUuid("random").build())
-            add(buildDeleted().setUuid("random").build())
-        }
+        val changes = listOf(
+            buildUpdated("random"),
+            buildDeleted("random")
+        )
         val merge = syncDelegate.mergeUpdates(changes)
         assertThat(merge.isDelete).isTrue()
     }
 
     @Test
     fun shouldThrowOnUpdatesWithDistinctUuids() {
-        val changes = buildList {
-            add(buildUpdated().setUuid("one").build())
-            add(buildUpdated().setUuid("two").build())
-        }
+        val changes = listOf(
+            buildUpdated("one"),
+            buildUpdated("two")
+        )
         mergeUpdatesAndExpectIllegalStateException(changes)
     }
 
@@ -57,7 +55,7 @@ class SyncAdapterMergeUpdatesTest : SyncAdapterBaseTest() {
         try {
             syncDelegate.mergeUpdates(changes)
             Assert.fail("Expected IllegalStateException to be thrown")
-        } catch (expected: IllegalStateException) {
+        } catch (_: IllegalStateException) {
             //expected
         }
     }
@@ -67,13 +65,14 @@ class SyncAdapterMergeUpdatesTest : SyncAdapterBaseTest() {
         val uuid = "one"
         val comment = "My comment"
         val amount = 123L
-        val changes = buildList {
-            add(buildUpdated().setUuid(uuid).setComment(comment).build())
-            add(buildUpdated().setUuid(uuid).setAmount(amount).build())
-        }
+
+        val changes = listOf(
+            buildUpdated(uuid).copy(comment = comment),
+            buildUpdated(uuid).copy(amount = amount)
+        )
         val merge = syncDelegate.mergeUpdates(changes)
-        assertThat(merge.comment()).isEqualTo(comment)
-        assertThat(merge.amount()).isEqualTo(amount)
+        assertThat(merge.comment).isEqualTo(comment)
+        assertThat(merge.amount).isEqualTo(amount)
     }
 
     @Test
@@ -83,26 +82,23 @@ class SyncAdapterMergeUpdatesTest : SyncAdapterBaseTest() {
         val comment2 = "My later comment"
         val later = System.currentTimeMillis()
         val earlier = later - 10000
-        val changes = buildList {
-            add(
-                TransactionChange.builder()
-                    .setType(TransactionChange.Type.updated)
-                    .setUuid(uuid)
-                    .setTimeStamp(later)
-                    .setComment(comment2)
-                    .build()
+        val changes = listOf(
+            TransactionChange(
+                type = TransactionChange.Type.updated,
+                uuid = uuid,
+                timeStamp = later,
+                comment = comment2
+            ),
+            TransactionChange(
+                type = TransactionChange.Type.updated,
+                uuid = uuid,
+                timeStamp = earlier,
+                comment = comment1
             )
-            add(
-                TransactionChange.builder()
-                    .setType(TransactionChange.Type.updated)
-                    .setUuid(uuid)
-                    .setTimeStamp(earlier)
-                    .setComment(comment1)
-                    .build()
-            )
-        }
+        )
+
 
         val merge = syncDelegate.mergeUpdates(changes)
-        assertThat(merge.comment()).isEqualTo(comment2)
+        assertThat(merge.comment).isEqualTo(comment2)
     }
 }

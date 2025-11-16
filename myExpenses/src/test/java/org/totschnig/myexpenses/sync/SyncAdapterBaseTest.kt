@@ -14,19 +14,15 @@ open class SyncAdapterBaseTest: BaseTestWithRepository() {
         homeCurrency = CurrencyUnit.DebugInstance
     )
 
-    fun buildCreated(): TransactionChange.Builder {
-        return buildWithTimestamp().setType(TransactionChange.Type.created)
-    }
+    fun buildCreated(uuid: String) = buildWithTimestamp(uuid,TransactionChange.Type.created)
 
-    private fun buildWithTimestamp(): TransactionChange.Builder {
-        return TransactionChange.builder().setCurrentTimeStamp()
-    }
+    fun buildDeleted(uuid: String) = buildWithTimestamp(uuid,TransactionChange.Type.deleted)
 
-    fun buildDeleted(): TransactionChange.Builder {
-        return buildWithTimestamp().setType(TransactionChange.Type.deleted)
-    }
+    fun buildUpdated(uuid: String) = buildWithTimestamp(uuid,TransactionChange.Type.updated)
 
-    fun buildUpdated(): TransactionChange.Builder {
-        return buildWithTimestamp().setType(TransactionChange.Type.updated)
-    }
+
+    private fun buildWithTimestamp(uuid: String, type: TransactionChange.Type) =
+        TransactionChange(
+            uuid = uuid, type = type, timeStamp = TransactionChange.currentTimStamp
+        )
 }

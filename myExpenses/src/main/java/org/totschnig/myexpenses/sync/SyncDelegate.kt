@@ -230,7 +230,7 @@ class SyncDelegate(
         if (change.attachments != null) result = result.copy(attachments = change.attachments)
         if (change.categoryInfo != null) result = result.copy(categoryInfo = change.categoryInfo)
 
-        return result.copy(timeStamp = System.currentTimeMillis() / 1000)
+        return result.withCurrentTimeStamp()
     }
 
     private fun findDeletedUuids(list: List<TransactionChange>): List<String> =

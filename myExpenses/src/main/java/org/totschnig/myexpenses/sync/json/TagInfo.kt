@@ -4,4 +4,4 @@ import kotlinx.serialization.Serializable
 
 
 @Serializable
-data class TagInfo(val label: String, val color: Int?)
+data class TagInfo(val label: String, val color: Int? = null)

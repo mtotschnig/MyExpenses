@@ -65,8 +65,8 @@ data class CategoryInfo(
 
 typealias CategoryPath = List<CategoryInfo>
 
-@Keep
 @Parcelize
+@Serializable
 data class CategoryExport(
     override val uuid: String,
     override val label: String,

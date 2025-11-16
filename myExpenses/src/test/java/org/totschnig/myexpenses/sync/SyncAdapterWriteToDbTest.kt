@@ -5,16 +5,11 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
-import org.totschnig.myexpenses.feature.FeatureManager
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.SyncHandler
+import org.totschnig.myexpenses.sync.json.TagInfo
 import org.totschnig.myexpenses.sync.json.TransactionChange
-import java.util.*
 
 @RunWith(RobolectricTestRunner::class)
 class SyncAdapterWriteToDbTest: BaseTestWithRepository() {
@@ -34,18 +29,15 @@ class SyncAdapterWriteToDbTest: BaseTestWithRepository() {
         syncDelegate = SyncHandler(0, currencyContext["EUR"], 1, repository, currencyContext) { _, _ -> 1 }
     }
 
-    private val featureManager = Mockito.mock(FeatureManager::class.java)
-    private val homeCurrency = CurrencyUnit.DebugInstance
-
     @Test
     fun createdChangeShouldBeCollectedAsInsertOperation() {
         setupSync()
-        val change = TransactionChange.builder()
-                .setType(TransactionChange.Type.created)
-                .setUuid("any")
-                .setCurrentTimeStamp()
-                .setAmount(123L)
-                .build()
+        val change = TransactionChange(
+            type = TransactionChange.Type.created,
+            uuid = "any",
+            timeStamp = TransactionChange.currentTimStamp,
+            amount = 123L
+        )
         val ops = syncDelegate.collectOperations(change)
         assertThat(ops).hasSize(1)
         assertThat(ops[0].isInsert).isTrue()
@@ -54,13 +46,13 @@ class SyncAdapterWriteToDbTest: BaseTestWithRepository() {
     @Test
     fun createChangeWithTag() {
         setupSync()
-        val change = TransactionChange.builder()
-                .setType(TransactionChange.Type.created)
-                .setUuid("any")
-                .setCurrentTimeStamp()
-                .setAmount(123L)
-                .setTags(setOf("tag"))
-                .build()
+        val change = TransactionChange(
+            type = TransactionChange.Type.created,
+            uuid = "any",
+            timeStamp = TransactionChange.currentTimStamp,
+            amount = 123L,
+            tagsV2 = setOf(TagInfo("tag"))
+        )
         val ops = syncDelegate.collectOperations(change)
         assertThat(ops).hasSize(2)
         assertThat(ops[0].isInsert).isTrue()
@@ -71,11 +63,11 @@ class SyncAdapterWriteToDbTest: BaseTestWithRepository() {
     @Test
     fun deletedChangeShouldBeCollectedAsDeleteOperation() {
         setupSyncWithFakeResolver()
-        val change = TransactionChange.builder()
-                .setType(TransactionChange.Type.deleted)
-                .setUuid("any")
-                .setCurrentTimeStamp()
-                .build()
+        val change = TransactionChange(
+            type = TransactionChange.Type.deleted,
+            uuid = "any",
+            timeStamp = TransactionChange.currentTimStamp
+        )
         val ops = syncDelegate.collectOperations(change)
         assertThat(ops).hasSize(1)
         assertThat(ops[0].isDelete).isTrue()

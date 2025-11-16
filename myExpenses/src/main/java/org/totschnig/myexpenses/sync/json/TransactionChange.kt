@@ -92,7 +92,12 @@ data class TransactionChange(
 
     }
 
+    fun withCurrentTimeStamp() = copy(timeStamp = timeStamp)
+
     companion object {
+
+        val currentTimStamp = System.currentTimeMillis() / 1000
+
         fun fromCursor(cursor: Cursor): TransactionChange {
             return TransactionChange(
                 type = cursor.getEnum(KEY_TYPE, Type.created),

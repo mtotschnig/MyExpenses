@@ -10,9 +10,6 @@ import android.provider.Settings
 import android.text.TextUtils
 import android.util.Base64
 import androidx.annotation.CallSuper
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
@@ -36,7 +33,9 @@ import org.totschnig.myexpenses.sync.SyncAdapter.Companion.IO_LOCK_DELAY_MILLIS
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.encrypted
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.notEncrypted
 import org.totschnig.myexpenses.sync.SyncBackendProvider.EncryptionException.Companion.wrongPassphrase
-import org.totschnig.myexpenses.sync.json.*
+import org.totschnig.myexpenses.sync.json.AccountMetaData
+import org.totschnig.myexpenses.sync.json.ChangeSet
+import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.sync.json.Utils.getChanges
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.Utils
@@ -46,9 +45,15 @@ import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.util.io.MIME_TYPE_OCTET_STREAM
 import org.totschnig.myexpenses.util.io.getFileExtension
 import org.totschnig.myexpenses.util.io.getNameWithoutExtension
-import java.io.*
+import java.io.BufferedReader
+import java.io.ByteArrayInputStream
+import java.io.FileNotFoundException
+import java.io.IOException
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.io.OutputStream
 import java.security.GeneralSecurityException
-import java.util.*
+import java.util.Locale
 
 abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) :
     SyncBackendProvider, ResourceStorage<Res> {
@@ -59,8 +64,6 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     val sharedPreferences: SharedPreferences by lazy {
         context.getSharedPreferences("${sharedPreferencesName}_sync", 0)
     }
-    private val gson: Gson = GsonBuilder()
-        .create()
     private var appInstance: String? = null
     private var encryptionPassword: String? = null
     val mimeTypeForData: String
@@ -207,11 +210,8 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         inputStream: InputStream
     ): ChangeSet {
         log().i("getChangeSetFromInputStream for $sequenceNumber")
-        val changes: MutableList<TransactionChange>? =
-            BufferedReader(InputStreamReader(maybeDecrypt(inputStream))).use { reader ->
-                getChanges(gson, reader)
-            }
-        if (changes.isNullOrEmpty()) {
+        val changes  = getChanges(maybeDecrypt(inputStream)).toMutableList()
+        if (changes.isEmpty()) {
             return ChangeSet.empty(sequenceNumber)
         }
         val iterator = changes.listIterator()
@@ -306,15 +306,13 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     }
 
     protected fun getAccountMetaDataFromInputStream(inputStream: InputStream): Result<AccountMetaData> =
-        try {
-            BufferedReader(InputStreamReader(maybeDecrypt(inputStream))).use { bufferedReader ->
-                val accountMetaData = gson.fromJson(bufferedReader, AccountMetaData::class.java)
-                    ?: throw IOException("accountMetaData not found in input stream")
-                Result.success(accountMetaData)
+        runCatching {
+            maybeDecrypt(inputStream).bufferedReader().use {
+                Json.decodeFromString<AccountMetaData>(it.readText())
             }
-        } catch (e: Exception) {
-            log().e(e)
-            Result.failure(e)
+
+        }.onFailure {
+            log().e(it)
         }
 
     protected fun merge(changeSetList: List<ChangeSet>): ChangeSet? {
@@ -367,7 +365,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         } else changeSet
 
         val fileName = "_${nextSequence.number}.$extensionForData"
-        val fileContents = gson.toJson(finalChangeSet)
+        val fileContents =  Json.encodeToString(finalChangeSet)
         ensureAttachmentsOnWrite(finalChangeSet)
         log().i("Writing to %s", fileName)
         log().i(fileContents)
@@ -390,7 +388,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     protected abstract fun saveUriToCollection(fileName: String, uri: Uri, collection: Res, maybeEncrypt: Boolean = true)
 
     protected fun buildMetadata(account: Account): String {
-        return gson.toJson(
+        return Json.encodeToString(
             AccountMetaData.from(
                 account,
                 context.injector.currencyContext().homeCurrencyString
@@ -458,7 +456,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
             false,
             null,
             categoriesFilename,
-            gson.toJson(categories),
+            Json.encodeToString(categories),
             mimeTypeForData,
             true
         )
@@ -482,10 +480,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     override val categories: Result<List<CategoryExport>>
         get() = runCatching {
             readFileContents(false, categoriesFilename, true)?.let {
-                gson.fromJson(
-                    it,
-                    object : TypeToken<ArrayList<CategoryExport>>() {}.type
-                )
+                Json.decodeFromString<List<CategoryExport>>(it)
             }
                 ?: throw FileNotFoundException(context.getString(R.string.not_exist_file_desc) + ": " + categoriesFilename)
         }
@@ -510,7 +505,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         )
 
         return BufferedReader(InputStreamReader(maybeDecrypt(inputStream))).use { bufferedReader ->
-            gson.fromJson(bufferedReader, BudgetExport::class.java)
+            Json.decodeFromString<BudgetExport>(bufferedReader.readText())
         }
     }
 
