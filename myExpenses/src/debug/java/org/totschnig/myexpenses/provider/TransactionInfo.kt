@@ -2,7 +2,7 @@ package org.totschnig.myexpenses.provider
 
 import android.content.ContentValues
 import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.Model
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
@@ -43,7 +43,7 @@ data class TransactionInfo @JvmOverloads constructor(
             put(KEY_PAYEEID, payeeId)
             put(KEY_ACCOUNTID, accountId)
             put(KEY_CR_STATUS, crStatus.name)
-            put(KEY_UUID, Model.generateUuid())
+            put(KEY_UUID, generateUuid())
             put(KEY_DEBT_ID, debtId)
             put(KEY_CATID, catId)
             put(KEY_METHODID, methodId)

@@ -95,10 +95,10 @@ import org.totschnig.myexpenses.fragment.TemplatesList
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Plan.Recurrence
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.disableAutoFill
 import org.totschnig.myexpenses.preference.enableAutoFill
@@ -906,7 +906,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             newInstance = true
             transaction.copy(
                 id = 0,
-                uuid = Model.generateUuid(),
+                uuid = generateUuid(),
                 crStatus = CrStatus.UNRECONCILED
             )
         } else transaction).let { t ->
@@ -1215,7 +1215,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         splitPartLauncher.launch(
             TransactionEditData(
                 id = 0,
-                uuid = Model.generateUuid(),
+                uuid = generateUuid(),
                 accountId = account.id,
                 amount = Money(account.currency, prefillAmount ?: BigDecimal.ZERO),
                 templateEditData = if (isMainTemplate) TemplateEditData() else null,

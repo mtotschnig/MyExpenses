@@ -17,9 +17,9 @@ import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.model.DEFAULT_FLAG_ID
-import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_INACTIVE
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
@@ -656,7 +656,7 @@ abstract class BaseTransactionDatabase(
                     cursor.asSequence.forEach {
                         execSQL(
                             "update accounts set uuid = ? where _id =?",
-                            arrayOf(Model.generateUuid(), it.getLong(0))
+                            arrayOf(generateUuid(), it.getLong(0))
                         )
                     }
                 }
@@ -799,7 +799,7 @@ abstract class BaseTransactionDatabase(
                 update(
                     "categories",
                     ContentValues(1).apply {
-                        put(KEY_UUID, Model.generateUuid())
+                        put(KEY_UUID, generateUuid())
                     },
                     "_id = ?",
                     arrayOf(it.getLong(0).toString())
@@ -851,7 +851,7 @@ abstract class BaseTransactionDatabase(
             attachmentValues.clear()
             joinValues.clear()
             attachmentValues.put(KEY_URI, uri)
-            attachmentValues.put(KEY_UUID, Model.generateUuid())
+            attachmentValues.put(KEY_UUID, generateUuid())
             val id = insert("attachments", attachmentValues)
             joinValues.put(KEY_ATTACHMENT_ID, id)
             transactionIds.forEach {
@@ -863,7 +863,7 @@ abstract class BaseTransactionDatabase(
             cursor.asSequence.forEach {
                 attachmentValues.clear()
                 attachmentValues.put(KEY_URI, it.getString(0))
-                attachmentValues.put(KEY_UUID, Model.generateUuid())
+                attachmentValues.put(KEY_UUID, generateUuid())
                 insert("attachments", attachmentValues)
             }
         }
@@ -1115,7 +1115,7 @@ abstract class BaseTransactionDatabase(
                 cursor.asSequence.forEach {
                     execSQL(
                         "update budgets set uuid = ? where _id =?",
-                        arrayOf(Model.generateUuid(), it.getLong(0))
+                        arrayOf(generateUuid(), it.getLong(0))
                     )
                 }
             }
@@ -1203,8 +1203,8 @@ abstract class BaseTransactionDatabase(
         """)
         execSQL("DROP TABLE accounts_old")
         execSQL("CREATE UNIQUE INDEX accounts_uuid ON accounts(uuid)")
-        createOrRefreshAccountTriggers();
-        createOrRefreshAccountMetadataTrigger();
+        createOrRefreshAccountTriggers()
+        createOrRefreshAccountMetadataTrigger()
 
         execSQL("ALTER TABLE accounttype_paymentmethod RENAME to accounttype_paymentmethod_old")
         execSQL("CREATE TABLE accounttype_paymentmethod (type integer references account_types(_id), method_id integer references paymentmethods(_id), primary key (type,method_id))")
@@ -1234,8 +1234,8 @@ abstract class BaseTransactionDatabase(
         """)
         execSQL("DROP TABLE accounts_old")
         execSQL("CREATE UNIQUE INDEX accounts_uuid ON accounts(uuid)")
-        createOrRefreshAccountTriggers();
-        createOrRefreshAccountMetadataTrigger();
+        createOrRefreshAccountTriggers()
+        createOrRefreshAccountMetadataTrigger()
     }
 
     fun SupportSQLiteDatabase.upgradeTo180() {

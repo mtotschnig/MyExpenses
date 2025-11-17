@@ -81,18 +81,16 @@ open class Repository @Inject constructor(
             if (it.moveToFirst()) it.getString(0) else null
         }
 
-    fun saveDebt(debt: Debt): Long {
-        return if (debt.id == 0L) {
-            contentResolver.insert(DEBTS_URI, debt.toContentValues())!!.let {
-                ContentUris.parseId(it)
-            }
-        } else {
-            contentResolver.update(
-                ContentUris.withAppendedId(DEBTS_URI, debt.id),
-                debt.toContentValues(), null, null
-            )
-            debt.id
+    fun saveDebt(debt: Debt): Long = if (debt.id == 0L) {
+        contentResolver.insert(DEBTS_URI, debt.toContentValues())!!.let {
+            ContentUris.parseId(it)
         }
+    } else {
+        contentResolver.update(
+            ContentUris.withAppendedId(DEBTS_URI, debt.id),
+            debt.toContentValues(), null, null
+        )
+        debt.id
     }
 
     fun deleteTransaction(id: Long, markAsVoid: Boolean = false, inBulk: Boolean = false): Boolean {

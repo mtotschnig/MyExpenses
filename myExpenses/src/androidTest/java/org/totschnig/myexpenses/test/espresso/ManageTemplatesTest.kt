@@ -33,7 +33,7 @@ import org.totschnig.myexpenses.db2.createTemplate
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.insertTemplate
-import org.totschnig.myexpenses.model.Model.generateUuid
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.CalendarProviderProxy

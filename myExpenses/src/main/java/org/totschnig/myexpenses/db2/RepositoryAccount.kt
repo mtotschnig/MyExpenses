@@ -10,7 +10,7 @@ import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.Flow
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.Model
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BANK_ID
@@ -163,7 +163,7 @@ fun Account.toContentValues() = ContentValues().apply {
 }
 
 fun Repository.createAccount(account: Account): Account {
-    val uuid = account.uuid ?: Model.generateUuid()
+    val uuid = account.uuid ?: generateUuid()
     val initialValues = account.toContentValues().apply {
         put(KEY_UUID, uuid)
     }

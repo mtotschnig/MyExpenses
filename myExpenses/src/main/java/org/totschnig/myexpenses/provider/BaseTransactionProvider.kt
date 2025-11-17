@@ -41,7 +41,7 @@ import org.totschnig.myexpenses.di.DataModule
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.Model
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.model2.CategoryExport
@@ -1725,7 +1725,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             TABLE_ATTACHMENTS,
             ContentValues(2).apply {
                 put(KEY_URI, uriString)
-                put(KEY_UUID, uuid ?: Model.generateUuid())
+                put(KEY_UUID, uuid ?: generateUuid())
             }
         )
         val uri = uriString.toUri()
@@ -2131,7 +2131,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                             val idString: String = it.getString(0)
                             db.execSQL(
                                 "UPDATE $TABLE_TRANSACTIONS SET $KEY_UUID = ? WHERE $KEY_ROWID = ? OR $KEY_TRANSFER_PEER = ?",
-                                arrayOf(Model.generateUuid(), idString, idString)
+                                arrayOf(generateUuid(), idString, idString)
                             )
                             it.moveToNext()
                         }

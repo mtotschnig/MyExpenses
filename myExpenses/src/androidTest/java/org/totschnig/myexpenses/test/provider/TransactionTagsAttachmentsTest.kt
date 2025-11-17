@@ -1,7 +1,7 @@
 package org.totschnig.myexpenses.test.provider
 
 import android.content.ContentValues
-import org.totschnig.myexpenses.model.Model
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.TransactionInfo
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -86,7 +86,7 @@ class TransactionTagsAttachmentsTest: BaseDbTest() {
                     DatabaseConstants.TABLE_ATTACHMENTS,
                 ContentValues(1).apply {
                     put(DatabaseConstants.KEY_URI, uri)
-                    put(DatabaseConstants.KEY_UUID, Model.generateUuid())
+                    put(DatabaseConstants.KEY_UUID, generateUuid())
                 }
             ))
             put(DatabaseConstants.KEY_TRANSACTIONID, transactionId)

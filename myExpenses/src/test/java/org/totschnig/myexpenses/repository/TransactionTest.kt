@@ -20,7 +20,7 @@ import org.totschnig.myexpenses.db2.transactionExists
 import org.totschnig.myexpenses.db2.updateTransaction
 import org.totschnig.myexpenses.db2.updateTransfer
 import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.Model.generateUuid
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.TransactionProvider

@@ -8,7 +8,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import org.totschnig.myexpenses.dialog.ArchiveInfo
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.Model
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
@@ -177,7 +177,7 @@ fun SupportSQLiteDatabase.archive(extras: Bundle): Long {
             put(KEY_COMMENT, start.format(formatter) + " - " + end.format(formatter))
             put(KEY_STATUS, STATUS_ARCHIVE)
             put(KEY_CR_STATUS, crStatus)
-            put(KEY_UUID, Model.generateUuid())
+            put(KEY_UUID, generateUuid())
         })
         update(
             table = TABLE_TRANSACTIONS,

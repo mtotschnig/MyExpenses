@@ -20,7 +20,7 @@ import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.loadTemplate
 import org.totschnig.myexpenses.db2.requireParty
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Model.generateUuid
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.provider.DatabaseConstants
 
@@ -37,11 +37,11 @@ class TemplateTest: BaseTestWithRepository() {
         mAccount1 = insertAccount(
             label = "TestAccount 1",
             openingBalance = 100,
-            currency = CurrencyUnit.Companion.DebugInstance.code
+            currency = CurrencyUnit.DebugInstance.code
         )
         mAccount2 = insertAccount(
             label = "TestAccount 2",
-            currency = CurrencyUnit.Companion.DebugInstance.code,
+            currency = CurrencyUnit.DebugInstance.code,
             openingBalance = 100,
             description = "Secondary account"
         )

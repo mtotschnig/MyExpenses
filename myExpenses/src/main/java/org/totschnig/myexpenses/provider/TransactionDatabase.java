@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.provider;
 
 import static android.database.sqlite.SQLiteDatabase.CONFLICT_IGNORE;
 import static android.database.sqlite.SQLiteDatabase.CONFLICT_NONE;
+import static org.totschnig.myexpenses.model.UuidKt.generateUuid;
 import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_EXPENSE;
 import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_INCOME;
 import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_NEUTRAL;
@@ -82,7 +83,6 @@ import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Grouping;
-import org.totschnig.myexpenses.model.Model;
 import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod;
 import org.totschnig.myexpenses.preference.PrefHandler;
@@ -1061,7 +1061,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
             if (c.moveToFirst()) {
               ContentValues templateValues = new ContentValues();
               while (c.getPosition() < c.getCount()) {
-                templateValues.put("uuid", Model.generateUuid());
+                templateValues.put("uuid", generateUuid());
                 long templateId = c.getLong(c.getColumnIndexOrThrow("_id"));
                 db.update("templates", CONFLICT_NONE, templateValues, "_id = " + templateId, null);
                 c.moveToNext();

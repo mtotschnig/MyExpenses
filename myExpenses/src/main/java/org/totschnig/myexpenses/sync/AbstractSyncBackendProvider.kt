@@ -17,7 +17,7 @@ import org.apache.commons.lang3.StringUtils
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.injector
-import org.totschnig.myexpenses.model.Model
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.model2.BudgetExport
 import org.totschnig.myexpenses.model2.CategoryExport
@@ -242,7 +242,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         if (shardNumber == 0) accountRes else getResInAccountDir(folderForShard(shardNumber))
 
     @Throws(IOException::class)
-    private fun mapLegacyPictureDuringRead(uri: String) = Model.generateUuid().also {
+    private fun mapLegacyPictureDuringRead(uri: String) = generateUuid().also {
         storeAttachmentToDatabase(uri, it, getInputStreamForLegacyPicture(uri))
     }
 
@@ -522,7 +522,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         val existingLockToken = getLockToken()
         log().i("ExistingLockToken: %s", existingLockToken)
         if (TextUtils.isEmpty(existingLockToken) || shouldOverrideLock(existingLockToken)) {
-            val newLockToken = Model.generateUuid()
+            val newLockToken = generateUuid()
             setLockToken(newLockToken)
             saveLockTokenToPreferences(newLockToken, System.currentTimeMillis(), true)
         } else {

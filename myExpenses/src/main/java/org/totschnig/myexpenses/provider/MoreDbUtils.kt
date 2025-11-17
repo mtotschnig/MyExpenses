@@ -22,14 +22,14 @@ import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.localizedLabelForPaymentMethod
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE_LIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE_LABEL
+import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE_LIST
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
@@ -117,7 +117,7 @@ fun unlinkTransfers(
         val result1 = db.update(TABLE_TRANSACTIONS, ContentValues().apply {
             putNull(KEY_TRANSFER_PEER)
             putNull(KEY_TRANSFER_ACCOUNT)
-            put(KEY_UUID, Model.generateUuid())
+            put(KEY_UUID, generateUuid())
         }, "$KEY_ROWID = ?", arrayOf(id))
         check(result1 == 1) {
             "Update by rowId yielded $result1 affected rows"
@@ -125,7 +125,7 @@ fun unlinkTransfers(
         val result2 = db.update(TABLE_TRANSACTIONS, ContentValues().apply {
             putNull(KEY_TRANSFER_PEER)
             putNull(KEY_TRANSFER_ACCOUNT)
-            put(KEY_UUID, Model.generateUuid())
+            put(KEY_UUID, generateUuid())
         }, "$KEY_TRANSFER_PEER = ?", arrayOf(id))
         check(result2 == 1) {
             "Update by transferPeer yielded $result2 affected rows"

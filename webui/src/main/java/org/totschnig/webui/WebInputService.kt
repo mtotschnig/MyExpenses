@@ -72,7 +72,7 @@ import org.totschnig.myexpenses.feature.ServerStateObserver
 import org.totschnig.myexpenses.feature.WebUiBinder
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.Model
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE_LIST
@@ -551,7 +551,7 @@ class WebInputService : LifecycleService(), IWebInputService {
                 transaction.toEntity(
                     repository.getCurrencyUnitForAccount(transaction.account)!!
                 ).copy(
-                    uuid = Model.generateUuid()
+                    uuid = generateUuid()
                 )
             ).id
             call.response.headers.append(HttpHeaders.Location, "/transactions/$id")

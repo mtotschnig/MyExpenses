@@ -12,7 +12,7 @@ import org.totschnig.myexpenses.db2.entities.Template.Action
 import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.Model.generateUuid
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.preference.PrefKey

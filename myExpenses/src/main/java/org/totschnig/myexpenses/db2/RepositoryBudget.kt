@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model2.BudgetExport
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.budgetUri
@@ -277,7 +278,7 @@ fun Repository.deleteBudget(id: Long) =
 fun Repository.saveBudget(budget: Budget, initialAmount: Long?, uuid: String? = null): Long {
     val contentValues = budget.toContentValues(initialAmount)
     return if (budget.id == 0L) {
-        contentValues.put(KEY_UUID, uuid ?: Model.generateUuid())
+        contentValues.put(KEY_UUID, uuid ?: generateUuid())
         contentResolver.insert(BUDGETS_URI, contentValues)
             ?.let { ContentUris.parseId(it) } ?: -1
     } else {
@@ -297,7 +298,7 @@ fun Repository.saveBudgetOp(
 ): ContentProviderOperation {
     val contentValues = budget.toContentValues(initialAmount)
     return if (budget.id == 0L) {
-        contentValues.put(KEY_UUID, uuid ?: Model.generateUuid())
+        contentValues.put(KEY_UUID, uuid ?: generateUuid())
         ContentProviderOperation.newInsert(BUDGETS_URI)
             .withValues(contentValues)
             .build()
