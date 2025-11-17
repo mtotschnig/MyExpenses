@@ -9,7 +9,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
@@ -111,7 +110,6 @@ data class TransactionChange(
                 originalAmount = cursor.getLongOrNull(KEY_ORIGINAL_AMOUNT),
                 originalCurrency = cursor.getStringOrNull(KEY_ORIGINAL_CURRENCY),
                 equivalentAmount = cursor.getLongOrNull(KEY_EQUIVALENT_AMOUNT),
-                label = cursor.getStringOrNull(KEY_LABEL),
                 payeeName = cursor.getStringOrNull(KEY_PAYEE_NAME),
                 transferAccount = cursor.getStringOrNull(KEY_TRANSFER_ACCOUNT),
                 methodLabel = cursor.getStringOrNull(KEY_METHOD_LABEL),
