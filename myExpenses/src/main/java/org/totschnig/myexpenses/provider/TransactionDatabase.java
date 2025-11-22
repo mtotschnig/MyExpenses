@@ -2105,7 +2105,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
 
       if (oldVersion < 182) {
-          db.execSQL(TRANSFER_PEER_TRIGGER);
+          upgradeTo182(db);
       }
 
       TransactionProvider.resumeChangeTrigger(db);
@@ -2154,7 +2154,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     String tagGroupBy = DbConstantsKt.tagGroupBy(TABLE_TRANSACTIONS);
     String viewDefinition = buildViewDefinition(TABLE_TRANSACTIONS);
     db.execSQL("CREATE VIEW " + VIEW_COMMITTED + viewDefinition + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED  + tagGroupBy + ";");
-    db.execSQL("CREATE VIEW " + VIEW_ALL + viewExtended);
     db.execSQL("CREATE VIEW " + VIEW_EXTENDED + viewExtended + " WHERE " + KEY_STATUS + " != " + STATUS_UNCOMMITTED);
 
     db.execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES));

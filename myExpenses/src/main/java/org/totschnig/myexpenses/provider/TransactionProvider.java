@@ -102,7 +102,6 @@ import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATE
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TAGS;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTACHMENTS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_CHANGES_EXTENDED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED;
@@ -486,8 +485,8 @@ public class TransactionProvider extends BaseTransactionProvider {
         break;
       }
       case TRANSACTION_ID:
-        qb = SupportSQLiteQueryBuilder.builder(VIEW_ALL  + equivalentAmountJoin(getHomeCurrency()));
-        projection = prepareProjectionForTransactions(projection, VIEW_ALL, false, true);
+        qb = SupportSQLiteQueryBuilder.builder(VIEW_EXTENDED  + equivalentAmountJoin(getHomeCurrency()));
+        projection = prepareProjectionForTransactions(projection, VIEW_EXTENDED, false, true);
         additionalWhere.append(KEY_ROWID + "=").append(uri.getPathSegments().get(1));
         break;
       case TRANSACTIONS_SUMS: {

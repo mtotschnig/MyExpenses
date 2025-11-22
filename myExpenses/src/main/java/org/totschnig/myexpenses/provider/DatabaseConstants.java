@@ -435,8 +435,10 @@ public class DatabaseConstants {
   public static final String TABLE_CURRENCIES = "currency";
   public static final String VIEW_COMMITTED = "transactions_committed";
   public static final String VIEW_WITH_ACCOUNT = "transactions_with_account";
+  public static final String VIEW_UNCOMMITTED = "transactions_uncommitted";
   public static final String VIEW_ALL = "transactions_all";
   static final String VIEW_TEMPLATES_ALL = "templates_all";
+  public static final String VIEW_TEMPLATES_UNCOMMITTED = "templates_uncommitted";
   public static final String VIEW_EXTENDED = "transactions_extended";
   static final String VIEW_CHANGES_EXTENDED = "changes_extended";
   static final String VIEW_TEMPLATES_EXTENDED = "templates_extended";

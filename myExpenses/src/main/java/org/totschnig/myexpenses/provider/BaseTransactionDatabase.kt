@@ -126,6 +126,8 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_CHANGES_EXTENDED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_PRIORITIZED_PRICES
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_UNCOMMITTED
+import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED
 import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.sync.json.TransactionChange
@@ -499,7 +501,7 @@ fun SupportSQLiteDatabase.createOrRefreshTransactionLinkedTableTriggers() {
 
 fun SupportSQLiteDatabase.linkedTableTrigger(
     operation: String,
-    table: String
+    table: String,
 ) {
     val reference = when (operation) {
         "INSERT" -> "new"
@@ -589,7 +591,7 @@ const val TRANSFER_PEER_TRIGGER =
 
 abstract class BaseTransactionDatabase(
     val context: Context,
-    val prefHandler: PrefHandler
+    val prefHandler: PrefHandler,
 ) :
     SupportSQLiteOpenHelper.Callback(DATABASE_VERSION) {
 
@@ -656,7 +658,7 @@ abstract class BaseTransactionDatabase(
                     cursor.asSequence.forEach {
                         execSQL(
                             "update accounts set uuid = ? where _id =?",
-                            arrayOf(generateUuid(), it.getLong(0))
+                            arrayOf<Any>(generateUuid(), it.getLong(0))
                         )
                     }
                 }
@@ -941,6 +943,7 @@ abstract class BaseTransactionDatabase(
             execSQL("DROP TRIGGER IF EXISTS insert_after_update_change_log")
             execSQL("DROP TRIGGER IF EXISTS update_change_log")
             execSQL("DROP VIEW IF EXISTS $VIEW_COMMITTED")
+            execSQL("DROP VIEW IF EXISTS $VIEW_UNCOMMITTED")
             execSQL("DROP VIEW IF EXISTS $VIEW_ALL")
             execSQL("DROP VIEW IF EXISTS $VIEW_EXTENDED")
             execSQL("DROP VIEW IF EXISTS $VIEW_CHANGES_EXTENDED")
@@ -1115,7 +1118,7 @@ abstract class BaseTransactionDatabase(
                 cursor.asSequence.forEach {
                     execSQL(
                         "update budgets set uuid = ? where _id =?",
-                        arrayOf(generateUuid(), it.getLong(0))
+                        arrayOf<Any>(generateUuid(), it.getLong(0))
                     )
                 }
             }
@@ -1161,6 +1164,7 @@ abstract class BaseTransactionDatabase(
             execSQL("DROP TRIGGER IF EXISTS insert_after_update_change_log")
             execSQL("DROP TRIGGER IF EXISTS update_change_log")
             execSQL("DROP VIEW IF EXISTS $VIEW_COMMITTED")
+            execSQL("DROP VIEW IF EXISTS $VIEW_UNCOMMITTED")
             execSQL("DROP VIEW IF EXISTS $VIEW_ALL")
             execSQL("DROP VIEW IF EXISTS $VIEW_EXTENDED")
             execSQL("DROP VIEW IF EXISTS $VIEW_CHANGES_EXTENDED")
@@ -1245,6 +1249,13 @@ abstract class BaseTransactionDatabase(
         }
     }
 
+    fun SupportSQLiteDatabase.upgradeTo182() {
+        execSQL(TRANSFER_PEER_TRIGGER)
+        execSQL("DROP VIEW IF EXISTS $VIEW_UNCOMMITTED")
+        execSQL("DROP VIEW IF EXISTS $VIEW_TEMPLATES_UNCOMMITTED")
+        execSQL("DROP VIEW IF EXISTS $VIEW_ALL")
+    }
+
     protected fun SupportSQLiteDatabase.createOrRefreshAccountTriggers() {
         execSQL("DROP TRIGGER IF EXISTS update_account_sync_null")
         execSQL("DROP TRIGGER IF EXISTS sort_key_default")
@@ -1285,7 +1296,7 @@ abstract class BaseTransactionDatabase(
 
     private fun SupportSQLiteDatabase.migrateCurrency(
         oldCurrency: String,
-        newCurrency: CurrencyEnum
+        newCurrency: CurrencyEnum,
     ) {
         if (query(
                 "accounts",
@@ -1381,7 +1392,7 @@ abstract class BaseTransactionDatabase(
                 cte: String,
                 aggregateExpression: String,
                 associationTable: String,
-                associated: Pair<String, String>? = null
+                associated: Pair<String, String>? = null,
             ): String {
                 return "$cte as (SELECT $KEY_TRANSACTIONID, $aggregateExpression FROM $associationTable " +
                         (associated?.let { "LEFT JOIN ${it.first} ON ${it.second} = ${it.first}.$KEY_ROWID" }
