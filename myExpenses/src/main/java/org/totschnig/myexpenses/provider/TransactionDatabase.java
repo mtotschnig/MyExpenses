@@ -17,6 +17,7 @@ package org.totschnig.myexpenses.provider;
 
 import static android.database.sqlite.SQLiteDatabase.CONFLICT_IGNORE;
 import static android.database.sqlite.SQLiteDatabase.CONFLICT_NONE;
+import static org.totschnig.myexpenses.db2.RepositoryPlanKt.updateCustomAppUri;
 import static org.totschnig.myexpenses.model.UuidKt.generateUuid;
 import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_EXPENSE;
 import static org.totschnig.myexpenses.model2.PaymentMethodKt.PAYMENT_METHOD_INCOME;
@@ -83,7 +84,6 @@ import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyEnum;
 import org.totschnig.myexpenses.model.Grouping;
-import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
@@ -1217,10 +1217,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
             Cursor c = MoreDbUtilsKt.query(db,"templates", new String[]{"_id", "plan_id"}, "plan_id IS NOT null", null, null, null, null, null);
             if (c.moveToFirst()) {
               while (!c.isAfterLast()) {
-                Plan.updateCustomAppUri(
-                        MyApplication.Companion.getInstance().getContentResolver(),
+                updateCustomAppUri(
+                        getContext(),
                         c.getLong(1),
-                        BaseTransactionProvider.Companion.templateUri(c.getLong(0)).toString()
+                        c.getLong(0)
                 );
                 c.moveToNext();
               }

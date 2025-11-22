@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.test.espresso
 
 import android.Manifest
-import android.content.ContentUris
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onData
@@ -28,13 +27,15 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TransactionType
 import org.totschnig.myexpenses.db2.countTransactionsPerAccount
+import org.totschnig.myexpenses.db2.createPlan
 import org.totschnig.myexpenses.db2.createSplitTemplate
 import org.totschnig.myexpenses.db2.createTemplate
 import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.deletePlan
+import org.totschnig.myexpenses.db2.entities.Recurrence
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.insertTemplate
 import org.totschnig.myexpenses.model.generateUuid
-import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -42,7 +43,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
-import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.TestShard3
@@ -197,15 +197,13 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
             uuid = generateUuid(),
         )
         val now = ZonedDateTime.now()
-        val event = Plan(
-            now.toLocalDate(),
-            "FREQ=WEEKLY;COUNT=10;WKST=SU",
+
+        val eventId = repository.createPlan(
             title,
-            "Description"
-        )
-        val eventId = ContentUris.parseId(
-            event.save(contentResolver, PlannerUtils(app, prefHandler))!!
-        )
+            description = "description",
+            date = now.toLocalDate(),
+            recurrence = Recurrence.WEEKLY
+        ).id
         try {
             val id = repository.createTemplate(
                 template.copy(planId = eventId)
@@ -247,7 +245,7 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
                 )
             }
         } finally {
-            Plan.delete(contentResolver, eventId)
+            repository.deletePlan(eventId)
         }
     }
 

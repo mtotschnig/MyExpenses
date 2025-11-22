@@ -1,10 +1,12 @@
 package org.totschnig.myexpenses.viewmodel.data
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.database.Cursor
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.entities.prettyTimeInfo
 import org.totschnig.myexpenses.db2.loadTagsForTransaction
 import org.totschnig.myexpenses.db2.loadTemplate
 import org.totschnig.myexpenses.db2.localizedLabelForPaymentMethod
@@ -13,7 +15,6 @@ import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.DEBT_LABEL_EXPRESSION
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.KEY_DEBT_LABEL
@@ -177,6 +178,7 @@ data class Transaction(
             "${effectiveTypeExpression(typeWithFallBack(prefHandler))} AS $KEY_TYPE"
         )
 
+        @SuppressLint("MissingPermission")
         fun Cursor.readTransaction(
             repository: Repository,
             currencyContext: CurrencyContext,
@@ -218,10 +220,9 @@ data class Transaction(
                 ),
                 referenceNumber = getStringOrNull(KEY_REFERENCE_NUMBER),
                 originTemplate = getLongOrNull(KEY_TEMPLATEID)?.let { templateId ->
-                    repository.loadTemplate(templateId)?.data?.planId?.let { planId ->
-                        Plan.getInstanceFromDb(repository.contentResolver, planId)?.let {
-                            Plan.prettyTimeInfo(repository.context, it.rRule, it.dtStart)
-                        } ?: repository.context.getString(R.string.plan_event_deleted)
+                    repository.loadTemplate(templateId)?.takeIf { it.data.planId != 0L }?.let {
+                        it.plan?.let { prettyTimeInfo(repository.context, it.rRule, it.dtStart) }
+                         ?: repository.context.getString(R.string.plan_event_deleted)
                     }
                 },
                 isSealed = getInt(KEY_SEALED) > 0,

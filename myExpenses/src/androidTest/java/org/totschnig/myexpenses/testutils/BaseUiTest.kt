@@ -11,7 +11,6 @@ import androidx.appcompat.widget.MenuPopupWindow.MenuDropDownListView
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.test.core.app.ActivityScenario
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
@@ -41,7 +40,6 @@ import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.Matchers.not
 import org.junit.Assume
 import org.junit.Before
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.TestApp
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
@@ -51,6 +49,7 @@ import org.totschnig.myexpenses.db2.RepositoryTemplate
 import org.totschnig.myexpenses.db2.createSplitTemplate
 import org.totschnig.myexpenses.db2.createSplitTransaction
 import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.entities.Recurrence
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.db2.findAccountType
@@ -64,7 +63,6 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.generateUuid
-import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.model2.Account.Companion.DEFAULT_COLOR
 import org.totschnig.myexpenses.model2.Category
@@ -125,6 +123,9 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
 
     val currencyContext: CurrencyContext
         get() = app.appComponent.currencyContext()
+
+    protected val repository: Repository
+        get() = app.appComponent.repository()
 
 
     val homeCurrency: CurrencyUnit by lazy { currencyContext.homeCurrencyUnit }
@@ -307,14 +308,6 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         return result!!
     }
 
-    protected val repository: Repository
-        get() = Repository(
-            ApplicationProvider.getApplicationContext<MyApplication>(),
-            currencyContext,
-            prefHandler,
-            dataStore
-        )
-
     val contentResolver: ContentResolver = repository.contentResolver
 
     @Throws(TimeoutException::class)
@@ -422,7 +415,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         expectedCategory: Long? = null,
         expectedParty: Long? = null,
         expectedMethod: Long? = null,
-        expectedPlanRecurrence: Plan.Recurrence = Plan.Recurrence.NONE,
+        expectedPlanRecurrence: Recurrence = Recurrence.NONE,
         checkPlanInstance: Boolean = false
     ): RepositoryTemplate {
         val templateId = contentResolver.query(
@@ -455,9 +448,9 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
                 .containsExactlyElementsIn(expectedSplitParts)
         }
 
-        if (expectedPlanRecurrence != Plan.Recurrence.NONE) {
+        if (expectedPlanRecurrence != Recurrence.NONE) {
             assertThat(template.plan!!.id).isGreaterThan(0)
-            if (expectedPlanRecurrence != Plan.Recurrence.CUSTOM) {
+            if (expectedPlanRecurrence != Recurrence.CUSTOM) {
                 val today = LocalDate.now()
                 assertThat(template.plan.rRule).isEqualTo(expectedPlanRecurrence.toRule(today))
             }

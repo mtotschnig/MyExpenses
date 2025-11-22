@@ -17,10 +17,10 @@ import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
+import org.totschnig.myexpenses.db2.entities.Recurrence
 import org.totschnig.myexpenses.dialog.addAllAccounts
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.isNullOr0
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
@@ -82,7 +82,7 @@ class TransferDelegate(
         transaction: TransactionEditData?,
         withTypeSpinner: Boolean,
         savedInstanceState: Bundle?,
-        recurrence: Plan.Recurrence?,
+        recurrence: Recurrence?,
         withAutoFill: Boolean
     ) {
         if (transaction?.transferEditData != null) {

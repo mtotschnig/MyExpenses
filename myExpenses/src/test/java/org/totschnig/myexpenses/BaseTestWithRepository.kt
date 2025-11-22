@@ -4,7 +4,6 @@ import android.content.ContentResolver
 import android.content.ContentUris
 import androidx.test.core.app.ApplicationProvider
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
-import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.createAccount
 import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.saveCategory
@@ -28,12 +27,7 @@ abstract class BaseTestWithRepository {
 
     val exchangeRateHandler = application.appComponent.exchangeRateHandler()
 
-    val repository: Repository = Repository(
-        application,
-        currencyContext,
-        prefHandler,
-        dataStore
-    )
+    val repository = application.appComponent.repository()
 
     val contentResolver: ContentResolver = repository.contentResolver
 

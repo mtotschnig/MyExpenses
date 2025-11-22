@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.testutils
 import android.Manifest
 import android.content.Context
 import android.os.Build
-import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.filter
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.onChildren
@@ -76,7 +75,7 @@ abstract class TestMain(locale: String?) : BaseMyExpensesTest() {
 
     @After
     fun cleanUp() {
-        app.fixture.cleanup(contentResolver)
+        app.fixture.cleanup()
     }
 
     fun runScenario(scenario: String) {

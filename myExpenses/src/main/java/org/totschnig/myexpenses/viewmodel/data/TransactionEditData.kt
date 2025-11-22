@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.viewmodel.data
 
 import android.content.Context
-import android.net.Uri
 import android.os.Parcelable
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
@@ -10,11 +9,10 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TransactionType
+import org.totschnig.myexpenses.db2.entities.Recurrence
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Plan
-import org.totschnig.myexpenses.model.Plan.Recurrence
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.util.ICurrencyFormatter
@@ -23,10 +21,23 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Parcelize
+data class PlanLoadedData(
+    val id: Long,
+    val dtStart: Long,
+    val rRule: String?
+    ) : Parcelable
+
+@Parcelize
+data class InitialPlanData(
+    val title: String?,
+    val recurrence: Recurrence,
+    val date: LocalDate,
+) : Parcelable
+
+@Parcelize
 data class PlanEditData(
     val isPlanExecutionAutomatic: Boolean,
     val planExecutionAdvance: Int,
-    val plan: Plan?
 ) : Parcelable
 
 @Parcelize
@@ -34,7 +45,8 @@ data class TemplateEditData(
     val templateId: Long = 0,
     val title: String = "",
     val defaultAction: Template.Action = Template.Action.EDIT,
-    val planEditData: PlanEditData? = null
+    val planEditData: PlanEditData? = null,
+    val plan: PlanLoadedData? = null,
 ) : Parcelable
 
 @Parcelize
@@ -69,12 +81,12 @@ data class TransactionEditData(
     val templateEditData: TemplateEditData? = null,
     val comment: String? = null,
     val referenceNumber: String? = null,
-    val initialPlan: Triple<String?, Recurrence, LocalDate>? = null,
+    val initialPlan: InitialPlanData? = null,
     val transferEditData: TransferEditData? = null,
     val isSealed: Boolean = false,
     val isSplitPart: Boolean = false,
     val splitParts: List<TransactionEditData>? = null,
-    val planInstanceId: Long? = null
+    val planInstanceId: Long? = null,
 ) : Parcelable {
     @IgnoredOnParcel
     val isSplit = categoryId == DatabaseConstants.SPLIT_CATID
@@ -95,7 +107,7 @@ data class TransactionEditData(
 
     fun compileDescription(
         ctx: Context,
-        currencyFormatter: ICurrencyFormatter
+        currencyFormatter: ICurrencyFormatter,
     ) = buildString {
         append(ctx.getString(R.string.amount))
         append(" : ")

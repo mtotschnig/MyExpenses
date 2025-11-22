@@ -7,14 +7,14 @@ import android.content.ContentValues
 import androidx.annotation.VisibleForTesting
 import androidx.core.content.contentValuesOf
 import org.totschnig.myexpenses.db2.Repository.Companion.RECORD_SEPARATOR
+import org.totschnig.myexpenses.db2.entities.Plan
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.entities.Template.Action
 import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Plan
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -92,7 +92,7 @@ data class RepositoryTemplate(
     val data: Template,
     val splitParts: List<RepositoryTemplate>? = null,
     val plan: Plan? = null,
-    val tags: List<Tag>? = null
+    val tags: List<Tag>? = null,
 ) {
     val id = data.id
     val title = data.title
@@ -101,7 +101,7 @@ data class RepositoryTemplate(
 
     suspend fun instantiate(
         currencyContext: CurrencyContext,
-        exchangeRateHandler: ExchangeRateHandler
+        exchangeRateHandler: ExchangeRateHandler,
     ): RepositoryTransaction {
         return RepositoryTransaction(
             data = data.instantiate(),
@@ -142,7 +142,7 @@ data class RepositoryTemplate(
     companion object {
         fun fromTransaction(
             t: RepositoryTransaction,
-            title: String = ""
+            title: String = "",
         ) = RepositoryTemplate(
             data = Template.deriveFrom(t.data, title),
             splitParts = t.splitParts?.map {
@@ -162,7 +162,7 @@ fun Repository.getPayeeForTemplate(id: Long) = contentResolver.findBySelection(
 private fun ContentResolver.findBySelection(
     selection: String,
     selectionArgs: Array<String>,
-    column: String
+    column: String,
 ) =
     query(
         TEMPLATES_URI,
@@ -224,7 +224,10 @@ fun Repository.loadTemplate(
                 splitParts = if (template.isSplit)
                     loadSplitParts(template.id).map { RepositoryTemplate(it) }
                 else null,
-                plan = template.planId?.let { Plan.getInstanceFromDb(contentResolver, it) },
+                plan = template.planId?.let {
+                    //noinspection MissingPermission
+                    loadPlan(it)
+                },
                 tags = if (withTags) loadTagsForTemplate(templateId) else null
             )
         }
@@ -241,7 +244,7 @@ private fun Repository.loadSplitParts(templateId: Long) = contentResolver.query(
 }
 
 fun Repository.updateTemplate(
-    repositoryTransaction: RepositoryTemplate
+    repositoryTransaction: RepositoryTemplate,
 ) = when {
     repositoryTransaction.isSplit -> updateSplitTemplate(
         repositoryTransaction.data,
@@ -252,7 +255,7 @@ fun Repository.updateTemplate(
 }
 
 fun Repository.updateSplitTemplate(
-    parentTemplate: Template, splitParts: List<Template>
+    parentTemplate: Template, splitParts: List<Template>,
 ): Boolean {
     // --- Validation ---
     require(parentTemplate.isSplit) { "Parent transaction must be a split." }
@@ -323,7 +326,7 @@ fun Repository.updateSplitTemplate(
 }
 
 fun Repository.updateTemplate(
-    template: Template
+    template: Template,
 ) = contentResolver.update(
     ContentUris.withAppendedId(TEMPLATES_URI, template.id),
     template.asContentValues(false),
@@ -337,7 +340,10 @@ fun Repository.createTemplate(template: RepositoryTemplate) =
             template.splitParts!!.map { it.data })
 
         else -> createTemplate(template.data)
-
+    }.also { template ->
+        template.plan?.id?.let  {
+            updateCustomAppUri(it, template.id)
+        }
     }
 
 @VisibleForTesting
@@ -358,7 +364,7 @@ fun Repository.createTemplate(template: Template): RepositoryTemplate {
 @VisibleForTesting
 fun Repository.createSplitTemplate(
     parentTemplate: Template,
-    splits: List<Template>
+    splits: List<Template>,
 ): RepositoryTemplate {
     // --- Validation ---
     require(parentTemplate.isSplit) { "Parent transaction must be a split." }
@@ -413,7 +419,7 @@ suspend fun Repository.instantiateTemplate(
     exchangeRateHandler: ExchangeRateHandler,
     planInstanceInfo: PlanInstanceInfo,
     currencyContext: CurrencyContext,
-    ifOpen: Boolean = false
+    ifOpen: Boolean = false,
 ): RepositoryTransaction? {
     val template = (if (ifOpen) loadTemplateIfInstanceIsOpen(
         planInstanceInfo.templateId,
@@ -483,13 +489,11 @@ fun Repository.updateNewPlanEnabled(licenceHandler: LicenceHandler) {
 }
 
 fun Repository.deleteTemplate(id: Long, deletePlan: Boolean = false) {
-    val t = loadTemplate(id)
-    if (t == null) {
-        return
-    }
+    val t = loadTemplate(id) ?: return
     if (t.data.planId != null) {
         if (deletePlan) {
-            Plan.delete(contentResolver, t.data.planId)
+            //noinspection MissingPermission
+            deletePlan(t.data.planId)
         }
         contentResolver.delete(
             PLAN_INSTANCE_STATUS_URI,
@@ -507,7 +511,7 @@ fun Repository.deleteTemplate(id: Long, deletePlan: Boolean = false) {
 
 fun Repository.getPlanInstance(
     planId: Long,
-    date: Long
+    date: Long,
 ) = contentResolver.query(
     TEMPLATES_URI.buildUpon().appendQueryParameter(
         TransactionProvider.QUERY_PARAMETER_WITH_INSTANCE,
@@ -541,7 +545,7 @@ fun Repository.getPlanInstance(
 fun Repository.linkTemplateWithTransaction(
     templateId: Long,
     transactionId: Long,
-    instanceId: Long
+    instanceId: Long,
 ) {
     contentResolver.insert(
         PLAN_INSTANCE_STATUS_URI,
@@ -563,7 +567,7 @@ fun Repository.insertTemplate(
     payeeId: Long? = null,
     methodId: Long? = null,
     comment: String? = null,
-    debtId: Long? = null
+    debtId: Long? = null,
 ) = createTemplate(
     Template(
         title = title,

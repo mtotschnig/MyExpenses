@@ -7,13 +7,10 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Plan
+import org.totschnig.myexpenses.db2.entities.Recurrence
 import org.totschnig.myexpenses.preference.shouldStartAutoFillWithFocus
 import org.totschnig.myexpenses.viewmodel.TransactionEditViewModel
-import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
-import java.time.LocalDateTime
 
 class CategoryDelegate(
     viewBinding: OneExpenseBinding,
@@ -33,7 +30,7 @@ class CategoryDelegate(
         transaction: TransactionEditData?,
         withTypeSpinner: Boolean,
         savedInstanceState: Bundle?,
-        recurrence: Plan.Recurrence?,
+        recurrence: Recurrence?,
         withAutoFill: Boolean
     ) {
         super.bind(

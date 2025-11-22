@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.AUTOFILL_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.DEBTS_URI
@@ -50,7 +51,8 @@ open class Repository @Inject constructor(
     val context: Context,
     val currencyContext: CurrencyContext,
     val prefHandler: PrefHandler,
-    val dataStore: DataStore<Preferences>
+    val dataStore: DataStore<Preferences>,
+    val plannerUtils: PlannerUtils
 ) {
     companion object {
         const val UUID_SEPARATOR = ":"

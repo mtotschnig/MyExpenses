@@ -35,7 +35,9 @@ import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.asCategoryType
+import org.totschnig.myexpenses.db2.entities.Recurrence
 import org.totschnig.myexpenses.db2.entities.Template
+import org.totschnig.myexpenses.db2.entities.prettyTimeInfo
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.dialog.addAllAccounts
 import org.totschnig.myexpenses.model.AccountFlag
@@ -43,10 +45,9 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -65,8 +66,10 @@ import org.totschnig.myexpenses.util.ui.addChipsBulk
 import org.totschnig.myexpenses.util.ui.getDateMode
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
+import org.totschnig.myexpenses.viewmodel.data.InitialPlanData
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.viewmodel.data.PlanEditData
+import org.totschnig.myexpenses.viewmodel.data.PlanLoadedData
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.viewmodel.data.TemplateEditData
 import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
@@ -236,7 +239,7 @@ abstract class TransactionDelegate(
         transaction: TransactionEditData?,
         withTypeSpinner: Boolean,
         savedInstanceState: Bundle?,
-        recurrence: Plan.Recurrence?,
+        recurrence: Recurrence?,
         withAutoFill: Boolean,
     ) {
         viewBinding.Category.setOnClickListener { host.startSelectCategory() }
@@ -290,7 +293,7 @@ abstract class TransactionDelegate(
             recurrenceSpinner.adapter = recurrenceAdapter
             recurrence?.let {
                 recurrenceSpinner.setSelection(recurrenceAdapter.getPosition(it))
-                if (isTemplate && it != Plan.Recurrence.NONE) {
+                if (isTemplate && it != Recurrence.NONE) {
                     configurePlanDependents(true)
                 }
                 configureLastDayButton()
@@ -318,7 +321,7 @@ abstract class TransactionDelegate(
         viewBinding.Amount.visibility = View.VISIBLE
         //}
         //after setLocalDateTime, so that the plan info can override the date
-        configurePlan(transaction?.templateEditData?.planEditData?.plan, false)
+        transaction?.templateEditData?.plan?.let { configurePlan(it, false) }
         configureLastDayButton()
 
         viewBinding.ClearCategory.setOnClickListener {
@@ -732,7 +735,7 @@ abstract class TransactionDelegate(
     }
 
     private fun showCustomRecurrenceInfo() {
-        if (recurrenceSpinner.selectedItem === Plan.Recurrence.CUSTOM) {
+        if (recurrenceSpinner.selectedItem === Recurrence.CUSTOM) {
             (context as ExpenseEdit).showDismissibleSnackBar(R.string.plan_custom_recurrence_info)
         }
     }
@@ -742,7 +745,7 @@ abstract class TransactionDelegate(
 
     fun configureLastDayButton() {
         val visible =
-            recurrenceSpinner.selectedItem === Plan.Recurrence.MONTHLY && configuredDate.dayOfMonth > 28
+            recurrenceSpinner.selectedItem === Recurrence.MONTHLY && configuredDate.dayOfMonth > 28
         viewBinding.LastDay.isVisible = visible
         if (!visible) {
             viewBinding.LastDay.isChecked = false
@@ -834,39 +837,37 @@ abstract class TransactionDelegate(
                     if (forSave && title.isEmpty()) {
                         viewBinding.Title.error = context.getString(R.string.required)
                         null
-                    } else transaction.copy(
-                        templateEditData = TemplateEditData(
-                            title = title,
-                            defaultAction = Template.Action.entries[viewBinding.DefaultAction.selectedItemPosition],
-                            planEditData = if (recurrenceSpinner.selectedItemPosition > 0 || this@TransactionDelegate.planId != null) {
-                                PlanEditData(
-                                    isPlanExecutionAutomatic = planExecutionButton.isChecked,
-                                    planExecutionAdvance = viewBinding.advanceExecutionSeek.progress,
-                                    plan = Plan(
-                                        this@TransactionDelegate.planId ?: 0L,
-                                        planButton.date,
-                                        selectedRecurrence,
-                                        title,
-                                        transaction.compileDescription(context, currencyFormatter)
-                                    )
-                                )
+                    } else {
+                        transaction.copy(
+                            initialPlan = if (recurrenceSpinner.selectedItemPosition > 0 && this@TransactionDelegate.planId == null) {
+                                InitialPlanData(title, selectedRecurrence, planButton.date)
                             } else null,
-                        ),
-                    ).let {
-                        if (it.amount.amountMinor == 0L &&
-                            (it.transferEditData?.transferAmount?.amountMinor ?: 0L) == 0L &&
-                            forSave
-                        ) {
-                            if (it.templateEditData?.planEditData?.plan == null && it.templateEditData?.defaultAction == Template.Action.SAVE) {
-                                host.showSnackBar(context.getString(R.string.template_default_action_without_amount_hint))
-                                return null
+                            templateEditData = TemplateEditData(
+                                title = title,
+                                defaultAction = Template.Action.entries[viewBinding.DefaultAction.selectedItemPosition],
+                                planEditData = if (recurrenceSpinner.selectedItemPosition > 0 || this@TransactionDelegate.planId != null) {
+                                    PlanEditData(
+                                        isPlanExecutionAutomatic = planExecutionButton.isChecked,
+                                        planExecutionAdvance = viewBinding.advanceExecutionSeek.progress,
+                                    )
+                                } else null,
+                            ),
+                        ).let {
+                            if (it.amount.amountMinor == 0L &&
+                                (it.transferEditData?.transferAmount?.amountMinor ?: 0L) == 0L &&
+                                forSave
+                            ) {
+                                if (it.templateEditData?.planEditData == null && it.templateEditData?.defaultAction == Template.Action.SAVE) {
+                                    host.showSnackBar(context.getString(R.string.template_default_action_without_amount_hint))
+                                    return null
+                                }
+                                if (it.templateEditData?.planEditData != null && it.templateEditData.planEditData.isPlanExecutionAutomatic) {
+                                    host.showSnackBar(context.getString(R.string.plan_automatic_without_amount_hint))
+                                    return null
+                                }
                             }
-                            if (it.templateEditData?.planEditData?.plan != null && it.templateEditData.planEditData.isPlanExecutionAutomatic) {
-                                host.showSnackBar(context.getString(R.string.plan_automatic_without_amount_hint))
-                                return null
-                            }
+                            it
                         }
-                        it
                     }
 
 
@@ -888,7 +889,7 @@ abstract class TransactionDelegate(
                     transaction.copy(
                         referenceNumber = methodRowBinding.Number.text.toString(),
                         initialPlan = if (forSave && !isSplitPart && host.createTemplate)
-                            Triple(
+                            InitialPlanData(
                                 title.takeIf { it.isNotEmpty() },
                                 selectedRecurrence,
                                 dateEditBinding.DateButton.date
@@ -900,10 +901,10 @@ abstract class TransactionDelegate(
     }
 
     private val selectedRecurrence
-        get() = (recurrenceSpinner.selectedItem as? Plan.Recurrence)?.let {
-            if (it == Plan.Recurrence.MONTHLY && configuredDate.dayOfMonth > 28 && viewBinding.LastDay.isChecked)
-                Plan.Recurrence.LAST_DAY_OF_MONTH else it
-        } ?: Plan.Recurrence.NONE
+        get() = (recurrenceSpinner.selectedItem as? Recurrence)?.let {
+            if (it == Recurrence.MONTHLY && configuredDate.dayOfMonth > 28 && viewBinding.LastDay.isChecked)
+                Recurrence.LAST_DAY_OF_MONTH else it
+        } ?: Recurrence.NONE
 
     protected fun validateAmountInput(): BigDecimal? =
         viewBinding.Amount.getAmount(showToUser = false)
@@ -998,20 +999,18 @@ abstract class TransactionDelegate(
         viewBinding.PayeeLabel.setText(if (viewBinding.Amount.type) R.string.payer else R.string.payee)
     }
 
-    private fun updatePlanButton(plan: Plan) {
-        planButton.overrideText(Plan.prettyTimeInfo(context, plan.rRule, plan.dtStart))
+    private fun updatePlanButton(plan: PlanLoadedData) {
+        planButton.overrideText(prettyTimeInfo(context, plan.rRule, plan.dtStart))
     }
 
-    fun configurePlan(plan: Plan?, fromObserver: Boolean) {
-        plan?.let {
-            updatePlanButton(it)
-            if (viewBinding.Title.text.toString() == "") viewBinding.Title.setText(it.title)
-            if (!fromObserver) {
-                recurrenceSpinner.spinner.visibility = View.GONE
-                configurePlanDependents(true)
-            }
-            host.observePlan(it.id)
+    fun configurePlan(plan: PlanLoadedData, fromObserver: Boolean) {
+        updatePlanButton(plan)
+        //if (viewBinding.Title.text.toString() == "") viewBinding.Title.setText(it.title)
+        if (!fromObserver) {
+            recurrenceSpinner.spinner.visibility = View.GONE
+            configurePlanDependents(true)
         }
+        host.observePlan(plan.id)
     }
 
     private fun configurePlanDependents(visibility: Boolean) {
@@ -1079,7 +1078,7 @@ abstract class TransactionDelegate(
     }
 
     fun originTemplateLoaded(template: TemplateEditData) {
-        template.planEditData?.plan?.let { plan ->
+        template.plan?.let { plan ->
             setPlannerRowVisibility(true)
             recurrenceSpinner.spinner.visibility = View.GONE
             updatePlanButton(plan)

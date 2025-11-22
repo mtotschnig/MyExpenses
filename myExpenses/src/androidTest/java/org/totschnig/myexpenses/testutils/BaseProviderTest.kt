@@ -11,16 +11,12 @@ import android.test.ProviderTestCase2
 import android.test.RenamingDelegatingContext
 import android.test.mock.MockContentResolver
 import android.test.mock.MockContext
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.test.platform.app.InstrumentationRegistry
-import org.mockito.Mockito
 import org.totschnig.myexpenses.TestApp
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model2.Account
@@ -53,9 +49,10 @@ open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(
     protected val repository: Repository
         get() = Repository(
             targetContextWrapper,
-            Mockito.mock(CurrencyContext::class.java),
+            app.appComponent.currencyContext(),
             prefHandler,
-            Mockito.mock(DataStore::class.java) as DataStore<Preferences>
+            app.appComponent.preferencesDataStore(),
+            app.appComponent.plannerUtils()
         )
 
     val contentResolver: ContentResolver

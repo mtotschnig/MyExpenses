@@ -30,13 +30,13 @@ import org.totschnig.myexpenses.compose.FutureCriterion
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.getGrouping
 import org.totschnig.myexpenses.db2.preDefinedName
+import org.totschnig.myexpenses.db2.updatePlan
 import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.dialog.name
 import org.totschnig.myexpenses.fragment.preferences.PreferenceUiFragment.Companion.compactItemRendererTitle
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyEnum
-import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.model.Sort
 import org.totschnig.myexpenses.preference.PrefKey
@@ -284,12 +284,14 @@ class UpgradeHandlerViewModel(application: Application) :
                         )?.useAndMapToList {
                             Template.fromCursor(it)
                         }?.forEach {
-                            Plan.updateDescription(
-                                it.planId,
-                                TransactionMapper.map(it, currencyContext)
-                                    .compileDescription(localizedContext, currencyFormatter),
-                                contentResolver
-                            )
+                            it.planId?.let { planId ->
+                                repository.updatePlan(
+                                    planId,
+                                    title = null,
+                                    description = TransactionMapper.map(it, currencyContext)
+                                        .compileDescription(localizedContext, currencyFormatter),
+                                )
+                            }
                         }
                     } catch (e: SecurityException) {
                         //permission missing

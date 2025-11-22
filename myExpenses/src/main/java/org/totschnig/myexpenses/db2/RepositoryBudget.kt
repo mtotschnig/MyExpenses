@@ -8,7 +8,6 @@ import androidx.annotation.VisibleForTesting
 import kotlinx.coroutines.flow.first
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
 import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model2.BudgetExport

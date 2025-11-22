@@ -315,6 +315,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
     @Inject
     lateinit var openHelperProvider: Provider<SupportSQLiteOpenHelper>
 
+    @Inject
+    lateinit var repository: Repository
+
     val collate: String
         get() = prefHandler.collate
 
@@ -2517,7 +2520,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             accountId,
             currency,
             accountTypeId,
-            Repository(context!!, currencyContext, prefHandler, dataStore),
+            repository,
             currencyContext = currencyContext,
         )
 

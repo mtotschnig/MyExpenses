@@ -14,6 +14,8 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.addAttachments
 import org.totschnig.myexpenses.db2.createSplitTransaction
 import org.totschnig.myexpenses.db2.createTemplate
+import org.totschnig.myexpenses.db2.deletePlan
+import org.totschnig.myexpenses.db2.entities.Plan
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.db2.findAccountType
@@ -21,6 +23,8 @@ import org.totschnig.myexpenses.db2.findCategory
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.insertTransfer
 import org.totschnig.myexpenses.db2.requireParty
+import org.totschnig.myexpenses.db2.createPlan
+import org.totschnig.myexpenses.db2.entities.Recurrence
 import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.db2.setGrouping
 import org.totschnig.myexpenses.db2.storeExchangeRate
@@ -30,7 +34,6 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_BANK
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CCARD
-import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.myApplication
@@ -86,8 +89,8 @@ class Fixture(inst: Instrumentation) {
         "WebDAV - https://my.private.cloud/webdav/MyExpenses"
     }
 
-    fun cleanup(contentResolver: ContentResolver) {
-        Plan.delete(contentResolver, planId)
+    fun cleanup() {
+        repository.deletePlan(planId)
     }
 
     fun setup(
@@ -97,7 +100,6 @@ class Fixture(inst: Instrumentation) {
         defaultCurrency: CurrencyUnit
     ) {
         this.repository = repository
-        val contentResolver = repository.contentResolver
         val foreignCurrency =
             appContext.appComponent.currencyContext()[if (defaultCurrency.code == "EUR") "GBP" else "EUR"]
         val exchangeRate = when(defaultCurrency.code) {
@@ -334,15 +336,13 @@ class Fixture(inst: Instrumentation) {
             ),
             uuid = generateUuid()
         )
-        val plan = Plan(
-            LocalDate.now(),
-            "FREQ=WEEKLY;COUNT=10;WKST=SU",
+
+        planId = repository.createPlan(
             template.title,
-            "Description"
-        )
-        planId = ContentUris.parseId(
-            plan.save(contentResolver, plannerUtils)!!
-        )
+            description = "Description",
+            date = LocalDate.now(),
+            recurrence = Recurrence.WEEKLY
+        ).id
         repository.createTemplate(
             template.copy(planId = planId)
         )

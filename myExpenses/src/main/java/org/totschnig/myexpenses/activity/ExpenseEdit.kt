@@ -14,6 +14,8 @@
  */
 package org.totschnig.myexpenses.activity
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.content.ActivityNotFoundException
 import android.content.ContentUris
@@ -35,6 +37,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.annotation.MenuRes
+import androidx.annotation.RequiresPermission
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
@@ -66,10 +69,12 @@ import org.totschnig.myexpenses.databinding.AttachmentItemBinding
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
+import org.totschnig.myexpenses.db2.CalendarIntegrationNotAvailableException
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.db2.asCategoryType
+import org.totschnig.myexpenses.db2.entities.Recurrence
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.delegate.CategoryDelegate
 import org.totschnig.myexpenses.delegate.MainDelegate
@@ -96,8 +101,6 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Plan
-import org.totschnig.myexpenses.model.Plan.Recurrence
 import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.disableAutoFill
@@ -373,6 +376,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
     }
 
+    @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHelpVariant(HELP_VARIANT_TRANSACTION, false)
@@ -1345,11 +1349,13 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     }
 
     private inner class PlanObserver : ContentObserver(Handler()) {
+        @RequiresPermission(allOf = [Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR])
         override fun onChange(selfChange: Boolean) {
             refreshPlanData(true)
         }
     }
 
+    @RequiresPermission(allOf = [Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR])
     private fun refreshPlanData(fromObserver: Boolean) {
         delegate.planId?.let { planId ->
             viewModel.plan(planId).observe(this) { plan ->
@@ -1493,7 +1499,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                         "Error while saving picture"
                     }
 
-                    is Plan.CalendarIntegrationNotAvailableException -> {
+                    is CalendarIntegrationNotAvailableException -> {
                         delegate.recurrenceSpinner.setSelection(0)
                         "Recurring transactions are not available, because calendar integration is not functional on this device."
                     }
@@ -1636,7 +1642,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         PlanMonthFragment.newInstance(
             originTemplate.title,
             originTemplate.templateId,
-            originTemplate.planEditData?.plan?.id ?: 0L,
+            originTemplate.plan?.id ?: 0L,
             color, true, prefHandler
         ).show(
             supportFragmentManager,

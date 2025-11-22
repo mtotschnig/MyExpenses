@@ -33,6 +33,9 @@ import org.totschnig.myexpenses.db2.createSplitTransaction
 import org.totschnig.myexpenses.db2.createTemplate
 import org.totschnig.myexpenses.db2.createTransaction
 import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.deletePlan
+import org.totschnig.myexpenses.db2.entities.Plan
+import org.totschnig.myexpenses.db2.entities.Recurrence
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.db2.insertTemplate
@@ -40,13 +43,12 @@ import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.insertTransfer
 import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.db2.markAsExported
+import org.totschnig.myexpenses.db2.createPlan
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_EXPORTED
-import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone
@@ -402,15 +404,12 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             amount = 700L,
             uuid = generateUuid()
         )
-        val event = Plan(
-            LocalDate.now(),
-            Plan.Recurrence.DAILY,
-            "Daily plan",
-             "Description"
-        )
-        val eventId = ContentUris.parseId(
-            event.save(contentResolver, PlannerUtils(app, prefHandler))!!
-        )
+        val eventId = repository.createPlan(
+            title = "Daily plan",
+            description = "description",
+            date = LocalDate.now(),
+            recurrence = Recurrence.DAILY
+        ).id
         val plan = repository.createTemplate(
             template.copy(planId = eventId)
         )
@@ -431,7 +430,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 .check(matches(withText("Daily plan")))
 
         }
-        Plan.delete(contentResolver, eventId)
+        repository.deletePlan(eventId)
     }
 
     @Test

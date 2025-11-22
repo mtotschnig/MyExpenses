@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.service
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.PendingIntent
@@ -8,6 +9,7 @@ import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import android.provider.CalendarContract
+import androidx.annotation.RequiresPermission
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
@@ -137,6 +139,7 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
         notify(message)
     }
 
+    @RequiresPermission(allOf = [Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR])
     @SuppressLint("InlinedApi")
     override suspend fun doWork(): Result {
         val nowZDT = ZonedDateTime.now()

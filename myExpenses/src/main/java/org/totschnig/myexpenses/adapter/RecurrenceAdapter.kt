@@ -5,8 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
-import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.Plan.Recurrence
+import org.totschnig.myexpenses.db2.entities.Recurrence
 
 class RecurrenceAdapter(context: Context?) : ArrayAdapter<Recurrence?>(context!!, android.R.layout.simple_spinner_item,
         arrayOf(Recurrence.NONE, Recurrence.ONETIME, Recurrence.DAILY, Recurrence.WEEKLY, Recurrence.MONTHLY, Recurrence.YEARLY, Recurrence.CUSTOM)) {

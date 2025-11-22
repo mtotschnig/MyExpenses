@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
+import org.totschnig.myexpenses.db2.entities.Recurrence
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_NEGATIVE
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_POSITIVE
@@ -24,7 +25,6 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_PREFKEY
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_TITLE
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.PrefKey.AUTO_FILL_HINT_SHOWN
 import org.totschnig.myexpenses.preference.shouldStartAutoFill
@@ -81,7 +81,7 @@ abstract class MainDelegate(
         transaction: TransactionEditData?,
         withTypeSpinner: Boolean,
         savedInstanceState: Bundle?,
-        recurrence: Plan.Recurrence?,
+        recurrence: Recurrence?,
         withAutoFill: Boolean,
     ) {
         super.bind(

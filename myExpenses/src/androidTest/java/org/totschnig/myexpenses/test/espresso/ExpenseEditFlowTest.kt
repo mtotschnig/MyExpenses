@@ -31,13 +31,14 @@ import org.totschnig.myexpenses.db2.createPaymentMethod
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.deleteAllTags
 import org.totschnig.myexpenses.db2.deleteMethod
+import org.totschnig.myexpenses.db2.deletePlan
+import org.totschnig.myexpenses.db2.entities.Recurrence
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.insertTemplate
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.loadPrice
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
-import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model2.PAYMENT_METHOD_EXPENSE
 import org.totschnig.myexpenses.model2.PaymentMethod
 import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
@@ -169,17 +170,17 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         launchForResult()
         clickMenuItem(R.id.CREATE_TEMPLATE_COMMAND)
         setTitle()
-        selectRecurrenceFromSpinner(Plan.Recurrence.DAILY)
+        selectRecurrenceFromSpinner(Recurrence.DAILY)
         setAmount(5)
         clickFab()
         val template =
             assertTemplate(
                 expectedAccount = account1.id,
                 expectedAmount = -500,
-                expectedPlanRecurrence = Plan.Recurrence.DAILY,
+                expectedPlanRecurrence = Recurrence.DAILY,
                 checkPlanInstance = true
             )
-        Plan.delete(contentResolver, template.plan!!.id)
+        repository.deletePlan(template.data.planId!!)
     }
 
     @Test
@@ -188,14 +189,14 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         launchForResult()
         clickMenuItem(R.id.CREATE_TEMPLATE_COMMAND)
         setTitle()
-        selectRecurrenceFromSpinner(Plan.Recurrence.CUSTOM)
+        selectRecurrenceFromSpinner(Recurrence.CUSTOM)
         setAmount(5)
         clickFab()
         val template =
             assertTemplate(
                 expectedAccount = account1.id,
                 expectedAmount = -500,
-                expectedPlanRecurrence = Plan.Recurrence.CUSTOM,
+                expectedPlanRecurrence = Recurrence.CUSTOM,
                 checkPlanInstance = true
             )
         intended(
@@ -204,7 +205,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
                 hasData(uriStartsWith(CalendarContract.Events.CONTENT_URI.toString()))
             )
         )
-        Plan.delete(contentResolver, template.plan!!.id)
+        repository.deletePlan(template.data.planId!!)
     }
 
     @Test
@@ -212,14 +213,14 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         Intents.init()
         launchNewTemplate()
         setTitle()
-        selectRecurrenceFromSpinner(Plan.Recurrence.CUSTOM)
+        selectRecurrenceFromSpinner(Recurrence.CUSTOM)
         setAmount(5)
         clickFab()
         val template =
             assertTemplate(
                 expectedAccount = account1.id,
                 expectedAmount = -500,
-                expectedPlanRecurrence = Plan.Recurrence.CUSTOM
+                expectedPlanRecurrence = Recurrence.CUSTOM
             )
         intended(
             allOf(
@@ -227,7 +228,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
                 hasData(uriStartsWith(CalendarContract.Events.CONTENT_URI.toString()))
             )
         )
-        Plan.delete(contentResolver, template.plan!!.id)
+        repository.deletePlan(template.data.planId!!)
     }
 
     private fun linkWithTag() {
@@ -236,12 +237,12 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         clickFab()
     }
 
-    private fun selectRecurrenceFromSpinner(recurrence: Plan.Recurrence) {
-        onView(withId(R.id.Recurrence)).perform(click())
+    private fun selectRecurrenceFromSpinner(recurrence: Recurrence) {
+        onView(withId(R.id.Recurrence)).perform(scrollTo(), click())
 
         onData(
             allOf(
-                instanceOf(Plan.Recurrence::class.java),
+                instanceOf(Recurrence::class.java),
                 `is`(recurrence)
             )
         ).perform(click())

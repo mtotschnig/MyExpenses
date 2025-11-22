@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.viewmodel
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.ContentUris
@@ -8,6 +9,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import androidx.annotation.RequiresPermission
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.content.pm.ShortcutManagerCompat.FLAG_MATCH_PINNED
 import androidx.lifecycle.LiveData
@@ -29,9 +31,11 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
 import org.totschnig.myexpenses.db2.RepositoryTemplate
 import org.totschnig.myexpenses.db2.addAttachments
+import org.totschnig.myexpenses.db2.createPlan
 import org.totschnig.myexpenses.db2.createTemplate
 import org.totschnig.myexpenses.db2.createTransaction
 import org.totschnig.myexpenses.db2.deleteAttachments
+import org.totschnig.myexpenses.db2.entities.Recurrence
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.getCategoryPath
 import org.totschnig.myexpenses.db2.getCurrencyUnitForAccount
@@ -39,6 +43,7 @@ import org.totschnig.myexpenses.db2.getLastUsedOpenAccount
 import org.totschnig.myexpenses.db2.linkTemplateWithTransaction
 import org.totschnig.myexpenses.db2.loadActiveTagsForAccount
 import org.totschnig.myexpenses.db2.loadAttachments
+import org.totschnig.myexpenses.db2.loadPlan
 import org.totschnig.myexpenses.db2.loadTemplate
 import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.db2.requireParty
@@ -51,10 +56,9 @@ import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.Sort
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
@@ -107,6 +111,7 @@ import org.totschnig.myexpenses.util.io.getFileExtension
 import org.totschnig.myexpenses.util.io.getNameWithoutExtension
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
+import org.totschnig.myexpenses.viewmodel.data.PlanLoadedData
 import org.totschnig.myexpenses.viewmodel.data.TemplateEditData
 import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
 import org.totschnig.myexpenses.viewmodel.data.TransactionEditResult
@@ -159,9 +164,9 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             )
         ).mapToList { DataTemplate.fromCursor(it) }
 
-
-    fun plan(planId: Long): LiveData<Plan?> = liveData(context = coroutineContext()) {
-        emit(Plan.getInstanceFromDb(contentResolver, planId))
+    @RequiresPermission(allOf = [Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR])
+    fun plan(planId: Long): LiveData<PlanLoadedData?> = liveData(context = coroutineContext()) {
+        emit(repository.loadPlan(planId)?.let { TransactionMapper.mapPlan(it) })
     }
 
     fun loadMethods(isIncome: Boolean, type: AccountType) {
@@ -197,10 +202,25 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         )
     }
 
+    private fun TransactionEditData.maybeCreateInitialPlan() = initialPlan?.let {
+        val title = initialPlan.title
+            ?: party?.name
+            ?: categoryPath?.takeIf { it.isNotEmpty() }
+            ?: comment?.takeIf { it.isNotEmpty() }
+            ?: localizedContext.getString(R.string.menu_create_template)
+        //noinspection MissingPermission
+        title to if (initialPlan.recurrence != Recurrence.NONE) repository.createPlan(
+            title,
+            compileDescription(application, currencyFormatter),
+            initialPlan.date,
+            initialPlan.recurrence
+        ) else null
+    }
+
     @SuppressLint("MissingPermission")
     suspend fun save(
         transaction: TransactionEditData,
-        userSetExchangeRate: BigDecimal?
+        userSetExchangeRate: BigDecimal?,
     ): Result<TransactionEditResult> = withContext(coroutineContext()) {
         runCatching {
             val transaction = transaction.copy(
@@ -210,17 +230,14 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 }
             )
             val result = if (transaction.isTemplate) {
-                val plan = transaction.templateEditData?.planEditData?.plan?.apply {
-                    save(contentResolver, plannerUtils)
-                }
+                val planId = transaction.maybeCreateInitialPlan()?.second?.id
                 val template = TransactionMapper.mapTemplate(transaction).let {
-                    if (plan != null) it.copy(data = it.data.copy(planId = plan.id)) else
-                        it
+                    if (planId != null) it.copy(data = it.data.copy(planId = planId)) else it
                 }
                 val id = if (transaction.id == 0L) {
                     val id = repository.createTemplate(template).id
                     repository.updateNewPlanEnabled(licenceHandler)
-                    if (plan != null) {
+                    if (planId != null) {
                         PlanExecutor.enqueueSelf(application, prefHandler, forceImmediate = true)
                     }
                     id
@@ -231,7 +248,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 TransactionEditResult(
                     id = id,
                     amount = template.data.amount,
-                    planId = plan?.id
+                    planId = planId
                 )
             } else {
                 val repositoryTransaction = TransactionMapper.mapTransaction(transaction)
@@ -241,32 +258,15 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     repository.updateTransaction(repositoryTransaction)
                     repositoryTransaction
                 }
-                val planId = transaction.initialPlan?.let { (title, recurrence, date) ->
-                    val title = title
-                        ?: transaction.party?.name
-                        ?: transaction.categoryPath?.takeIf { it.isNotEmpty() }
-                        ?: transaction.comment?.takeIf { it.isNotEmpty() }
-                        ?: localizedContext.getString(R.string.menu_create_template)
-                    val plan = if (recurrence !== Plan.Recurrence.NONE) {
-                        Plan(
-                            date,
-                            recurrence,
-                            title,
-                            transaction.compileDescription(localizedContext, currencyFormatter)
-                        ).apply {
-                            save(contentResolver, plannerUtils)
-                        }
-                    } else null
+                val planId = transaction.maybeCreateInitialPlan()?.also { (title, plan) ->
                     val template = repository.createTemplate(
                         RepositoryTemplate.fromTransaction(
                             repositoryTransaction,
                             title
                         ).let {
-                            if (plan != null) it.copy(data = it.data.copy(planId = plan.id)) else
-                                it
+                            if (plan?.id != null) it.copy(data = it.data.copy(planId = plan.id)) else it
                         }
                     )
-                    repository.updateNewPlanEnabled(licenceHandler)
                     if (plan != null) {
                         repository.linkTemplateWithTransaction(
                             template.id,
@@ -274,8 +274,8 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                             CalendarProviderProxy.calculateId(plan.dtStart)
                         )
                     }
-                    plan?.id
-                }
+                    repository.updateNewPlanEnabled(licenceHandler)
+                }?.second?.id
                 if (transaction.planInstanceId != null && transaction.originTemplate != null) {
                     repository.linkTemplateWithTransaction(
                         transaction.originTemplate.templateId,
@@ -429,7 +429,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
     suspend fun newTemplate(
         operationType: Int,
         parentId: Long?,
-        defaultAction: Template.Action
+        defaultAction: Template.Action,
     ): TransactionEditData? = withContext(coroutineContext()) {
         repository.getLastUsedOpenAccount()?.let {
             TransactionEditData(
@@ -529,10 +529,10 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             InstantiationTask.TRANSACTION_FROM_TEMPLATE -> {
                 val template = repository.loadTemplate(rowId, withTags = true)
                 template?.instantiate(currencyContext, exchangeRateHandler)?.let {
-                        TransactionMapper.map(it, currencyContext).copy(
-                            originTemplate = TransactionMapper.mapTemplateEditData(template)
-                        )
-                    }
+                    TransactionMapper.map(it, currencyContext).copy(
+                        originTemplate = TransactionMapper.mapTemplateEditData(template)
+                    )
+                }
             }
 
             InstantiationTask.TRANSACTION -> repository.loadTransaction(rowId, withTags = true)
