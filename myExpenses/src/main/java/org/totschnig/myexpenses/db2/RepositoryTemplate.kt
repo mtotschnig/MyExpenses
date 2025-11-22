@@ -102,9 +102,12 @@ data class RepositoryTemplate(
     suspend fun instantiate(
         currencyContext: CurrencyContext,
         exchangeRateHandler: ExchangeRateHandler,
+        planInstanceInfo: PlanInstanceInfo? = null,
     ): RepositoryTransaction {
         return RepositoryTransaction(
-            data = data.instantiate(),
+            data = data.instantiate().let {
+                if (planInstanceInfo?.date != null) it.copy(date = planInstanceInfo.date / 1000) else it
+            },
             transferPeer = if (data.isTransfer) {
                 Transaction(
                     accountId = data.transferAccountId!!,
@@ -134,7 +137,7 @@ data class RepositoryTemplate(
                     uuid = generateUuid()
                 )
             } else null,
-            splitParts = splitParts?.map { it.instantiate(currencyContext, exchangeRateHandler) },
+            splitParts = splitParts?.map { it.instantiate(currencyContext, exchangeRateHandler, planInstanceInfo) },
             tags = tags
         )
     }
@@ -341,7 +344,7 @@ fun Repository.createTemplate(template: RepositoryTemplate) =
 
         else -> createTemplate(template.data)
     }.also { template ->
-        template.plan?.id?.let  {
+        template.plan?.id?.let {
             updateCustomAppUri(it, template.id)
         }
     }
@@ -427,31 +430,32 @@ suspend fun Repository.instantiateTemplate(
     ) else loadTemplate(planInstanceInfo.templateId)) ?: return null
 
     val t = createTransaction(
-        template.instantiate(currencyContext, exchangeRateHandler).let { transaction ->
-            if (template.data.dynamic) {
-                val homeCurrency = currencyContext.homeCurrencyUnit
-                val account = loadAccount(template.data.accountId)!!
-                val currency = currencyContext[account.currency]
-                val amount = Money(currency, template.data.amount)
-                transaction.copy(
-                    data = transaction.data.copy(
-                        equivalentAmount = try {
-                            val date = planInstanceInfo.date?.let {
-                                epoch2LocalDate(it / 1000)
-                            } ?: LocalDate.now()
-                            val rate = exchangeRateHandler.loadExchangeRate(
-                                currency,
-                                homeCurrency,
-                                date
-                            )
-                            Money(homeCurrency, amount.amountMajor.multiply(rate)).amountMinor
-                        } catch (_: Exception) {
-                            (amount.amountMinor * account.exchangeRate).roundToLong()
-                        }
+        template.instantiate(currencyContext, exchangeRateHandler, planInstanceInfo)
+            .let { transaction ->
+                if (template.data.dynamic) {
+                    val homeCurrency = currencyContext.homeCurrencyUnit
+                    val account = loadAccount(template.data.accountId)!!
+                    val currency = currencyContext[account.currency]
+                    val amount = Money(currency, template.data.amount)
+                    transaction.copy(
+                        data = transaction.data.copy(
+                            equivalentAmount = try {
+                                val date = planInstanceInfo.date?.let {
+                                    epoch2LocalDate(it / 1000)
+                                } ?: LocalDate.now()
+                                val rate = exchangeRateHandler.loadExchangeRate(
+                                    currency,
+                                    homeCurrency,
+                                    date
+                                )
+                                Money(homeCurrency, amount.amountMajor.multiply(rate)).amountMinor
+                            } catch (_: Exception) {
+                                (amount.amountMinor * account.exchangeRate).roundToLong()
+                            }
+                        )
                     )
-                )
-            } else transaction
-        }
+                } else transaction
+            }
     )
     saveTagsForTransaction(loadTagsForTemplate(planInstanceInfo.templateId).map { it.id }, t.id)
     if (planInstanceInfo.instanceId != null) {

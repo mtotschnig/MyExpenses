@@ -3,14 +3,12 @@ package org.totschnig.myexpenses.test.espresso
 import android.content.Intent
 import android.provider.CalendarContract
 import androidx.test.espresso.Espresso.closeSoftKeyboard
-import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.pressImeActionButton
 import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.action.ViewActions.scrollTo
-import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
@@ -19,8 +17,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.google.common.truth.Truth.assertThat
 import org.hamcrest.CoreMatchers.allOf
-import org.hamcrest.CoreMatchers.instanceOf
-import org.hamcrest.CoreMatchers.`is`
 import org.junit.After
 import org.junit.Assume
 import org.junit.Before
@@ -50,7 +46,6 @@ import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.uriStartsWith
-import org.totschnig.myexpenses.testutils.withAdaptedData
 import org.totschnig.myexpenses.testutils.withIdAndParent
 import java.time.LocalDate
 
@@ -173,13 +168,12 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         selectRecurrenceFromSpinner(Recurrence.DAILY)
         setAmount(5)
         clickFab()
-        val template =
-            assertTemplate(
-                expectedAccount = account1.id,
-                expectedAmount = -500,
-                expectedPlanRecurrence = Recurrence.DAILY,
-                checkPlanInstance = true
-            )
+        val template = assertTemplate(
+            expectedAccount = account1.id,
+            expectedAmount = -500,
+            expectedPlanRecurrence = Recurrence.DAILY,
+            checkPlanInstance = true
+        )
         repository.deletePlan(template.data.planId!!)
     }
 
@@ -192,13 +186,12 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         selectRecurrenceFromSpinner(Recurrence.CUSTOM)
         setAmount(5)
         clickFab()
-        val template =
-            assertTemplate(
-                expectedAccount = account1.id,
-                expectedAmount = -500,
-                expectedPlanRecurrence = Recurrence.CUSTOM,
-                checkPlanInstance = true
-            )
+        val template = assertTemplate(
+            expectedAccount = account1.id,
+            expectedAmount = -500,
+            expectedPlanRecurrence = Recurrence.CUSTOM,
+            checkPlanInstance = true
+        )
         intended(
             allOf(
                 hasAction(Intent.ACTION_VIEW),
@@ -216,12 +209,11 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         selectRecurrenceFromSpinner(Recurrence.CUSTOM)
         setAmount(5)
         clickFab()
-        val template =
-            assertTemplate(
-                expectedAccount = account1.id,
-                expectedAmount = -500,
-                expectedPlanRecurrence = Recurrence.CUSTOM
-            )
+        val template = assertTemplate(
+            expectedAccount = account1.id,
+            expectedAmount = -500,
+            expectedPlanRecurrence = Recurrence.CUSTOM
+        )
         intended(
             allOf(
                 hasAction(Intent.ACTION_VIEW),
@@ -235,19 +227,6 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         onView(withId(R.id.TagSelection)).perform(click())
         onView(withId(R.id.tag_edit)).perform(replaceText("Tag"), pressImeActionButton())
         clickFab()
-    }
-
-    private fun selectRecurrenceFromSpinner(recurrence: Recurrence) {
-        onView(withId(R.id.Recurrence)).perform(scrollTo(), click())
-
-        onData(
-            allOf(
-                instanceOf(Recurrence::class.java),
-                `is`(recurrence)
-            )
-        ).perform(click())
-
-        onView(withId(R.id.Recurrence)).check(matches(withAdaptedData(`is`(recurrence))))
     }
 
     //Bug https://github.com/mtotschnig/MyExpenses/issues/1426
@@ -279,7 +258,8 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         setAmount(10000)
         setAmount(1, R.id.EquivalentAmount)
         clickFab()
-        val price = repository.loadPrice(homeCurrency, currencyContext["PYG"],
+        val price = repository.loadPrice(
+            homeCurrency, currencyContext["PYG"],
             LocalDate.now(),
             ExchangeRateSource.User
         )
@@ -304,10 +284,12 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         onView(withId(R.id.Comment))
             .perform(
                 scrollTo(),
-                replaceText("New comment"))
+                replaceText("New comment")
+            )
         closeSoftKeyboard()
         clickFab()
-        val price = repository.loadPrice(homeCurrency, currencyContext["DKK"],
+        val price = repository.loadPrice(
+            homeCurrency, currencyContext["DKK"],
             LocalDate.now(),
             ExchangeRateSource.User
         )

@@ -484,11 +484,11 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:visibility="gone"
-                            app:layout_constraintEnd_toStartOf="@id/TB"
+                            app:layout_constraintEnd_toStartOf="@id/PlanExecution"
                             tools:ignore="MissingConstraints" />
 
                         <CheckBox
-                            android:id="@+id/TB"
+                            android:id="@+id/PlanExecution"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -511,7 +511,7 @@
                             android:visibility="gone"
                             app:layout_constraintBottom_toBottomOf="@id/PB"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/TB"
+                            app:layout_constraintStart_toEndOf="@+id/PlanExecution"
                             app:layout_constraintTop_toTopOf="@id/PB"
                             app:srcCompat="@drawable/ic_menu_edit"
                             tools:ignore="UnusedAttribute" />

@@ -233,7 +233,7 @@ abstract class TransactionDelegate(
     val planButton: DateButton
         get() = viewBinding.PB
     private val planExecutionButton: CompoundButton
-        get() = viewBinding.TB
+        get() = viewBinding.PlanExecution
 
     open fun bind(
         transaction: TransactionEditData?,

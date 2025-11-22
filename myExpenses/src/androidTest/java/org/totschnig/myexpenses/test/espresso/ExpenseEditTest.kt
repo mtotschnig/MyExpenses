@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.test.espresso
 import android.widget.Button
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.hasErrorText
@@ -10,6 +11,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import com.adevinta.android.barista.interaction.BaristaSeekBarInteractions
 import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import org.hamcrest.Matchers.allOf
@@ -23,6 +25,8 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
 import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.deletePlan
+import org.totschnig.myexpenses.db2.entities.Recurrence
 import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.db2.insertTemplate
@@ -231,6 +235,27 @@ class ExpenseEditTest : BaseExpenseEditTest() {
         clickFab()
         onView(withId(R.id.Title))
             .check(matches(hasErrorText(getString(R.string.required))))
+    }
+
+    @Test
+    fun saveTemplateData() {
+        launchNewTemplate(TYPE_TRANSACTION)
+        setAmount(111)
+        setTitle()
+        selectRecurrenceFromSpinner(Recurrence.DAILY)
+        //set execution to automatic
+        onView(withId(R.id.PlanExecution)).perform(scrollTo(), click())
+        BaristaSeekBarInteractions.setProgressTo(R.id.advanceExecutionSeek, 15)
+        clickFab()
+        assertTemplate(
+            expectedAccount = account1.id,
+            expectedAmount = -11100,
+            expectedPlanRecurrence = Recurrence.DAILY,
+            expectedPlanExecutionAutomatic = true,
+            expectedPlanExecutionAdvance = 15
+        ).also {
+            repository.deletePlan(it.data.planId!!)
+        }
     }
 
     @Test

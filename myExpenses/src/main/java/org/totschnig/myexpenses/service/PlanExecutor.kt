@@ -24,6 +24,7 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.createTransaction
 import org.totschnig.myexpenses.db2.loadTemplateForPlanIfInstanceIsOpen
 import org.totschnig.myexpenses.db2.getLabelForAccount
+import org.totschnig.myexpenses.db2.instantiateTemplate
 import org.totschnig.myexpenses.db2.linkTemplateWithTransaction
 import org.totschnig.myexpenses.db2.loadTagsForTemplate
 import org.totschnig.myexpenses.db2.planCount
@@ -48,6 +49,7 @@ import org.totschnig.myexpenses.util.epochMillis2LocalDate
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.toEpochMillis
+import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import timber.log.Timber
 import java.time.LocalDate
 import java.time.LocalTime
@@ -240,7 +242,7 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                                 builder.setContentText(content)
                                 if (template.data.planExecutionAutomatic) {
                                     val transaction = repository.createTransaction(template.instantiate(
-                                        currencyContext, exchangeRateHandler
+                                        currencyContext, exchangeRateHandler, PlanInstanceInfo(template.id, instanceId, date)
                                     ))
                                     repository.linkTemplateWithTransaction(template.id, transaction.id, instanceId)
                                     repository.saveTagsForTransaction(repository.loadTagsForTemplate(template.id).map { it.id }, transaction.id)

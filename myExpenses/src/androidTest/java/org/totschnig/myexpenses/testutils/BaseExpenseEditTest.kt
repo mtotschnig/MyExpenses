@@ -25,6 +25,7 @@ import com.google.common.truth.Truth.assertThat
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.CoreMatchers.instanceOf
+import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.Matchers
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
@@ -35,6 +36,7 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
+import org.totschnig.myexpenses.db2.entities.Recurrence
 import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.db2.loadTransactions
 import org.totschnig.myexpenses.delegate.TransactionDelegate
@@ -149,6 +151,19 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
         onView(withId(R.id.Title))
             .perform(replaceText(TEMPLATE_TITLE))
         closeSoftKeyboard()
+    }
+
+    protected fun selectRecurrenceFromSpinner(recurrence: Recurrence) {
+        onView(withId(R.id.Recurrence)).perform(scrollTo(), click())
+
+        onData(
+            allOf(
+                instanceOf(Recurrence::class.java),
+                `is`(recurrence)
+            )
+        ).perform(click())
+
+        onView(withId(R.id.Recurrence)).check(matches(withAdaptedData(`is`(recurrence))))
     }
 
     protected fun assertTransfer(

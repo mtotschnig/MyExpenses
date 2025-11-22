@@ -19,10 +19,17 @@ import org.totschnig.myexpenses.db2.insertTemplate
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.loadTemplate
 import org.totschnig.myexpenses.db2.requireParty
+import org.totschnig.myexpenses.di.ZonedDateTimeAdapter
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.util.toEpoch
+import org.totschnig.myexpenses.util.toEpochMillis
+import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZonedDateTime
 
 @RunWith(RobolectricTestRunner::class)
 class TemplateTest: BaseTestWithRepository() {
@@ -49,8 +56,10 @@ class TemplateTest: BaseTestWithRepository() {
         payeeId = repository.requireParty("N.N")!!
     }
 
-    private fun RepositoryTemplate.instantiate() = runBlocking {
-        instantiate(currencyContext, exchangeRateHandler)
+    private fun RepositoryTemplate.instantiate(date: Long? = null) = runBlocking {
+        instantiate(currencyContext, exchangeRateHandler, date?.let {
+            PlanInstanceInfo(templateId = data.id, date = date)
+        })
     }
 
 
@@ -137,6 +146,14 @@ class TemplateTest: BaseTestWithRepository() {
                 assertThat(categoryId).isEqualTo(template.splitParts.first().data.categoryId)
             }
         }
+    }
+
+    @Test
+    fun instantiateWithDate() {
+        val template = buildTransactionTemplate()
+        val dateInThePast = LocalDateTime.now().minusDays(30)
+        val transaction = template.instantiate(dateInThePast.toEpochMillis()).data
+        assertThat(transaction.date).isEqualTo(dateInThePast.toEpoch())
     }
 
     private fun buildTransactionTemplate() = repository.insertTemplate(

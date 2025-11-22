@@ -205,7 +205,9 @@ object TransactionMapper {
             transferAccountId = transactionEditData.transferEditData?.transferAccountId,
             payeeId = transactionEditData.party?.id,
             uuid = transactionEditData.uuid,
-            tagList = transactionEditData.tags.map { it.id }
+            tagList = transactionEditData.tags.map { it.id },
+            planExecutionAutomatic = templateEditData.planEditData?.isPlanExecutionAutomatic ?: false,
+            planExecutionAdvance = templateEditData.planEditData?.planExecutionAdvance ?: 0
         )
         return RepositoryTemplate(
             data = template,

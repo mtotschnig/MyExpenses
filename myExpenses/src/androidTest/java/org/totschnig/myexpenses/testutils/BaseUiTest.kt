@@ -416,6 +416,8 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         expectedParty: Long? = null,
         expectedMethod: Long? = null,
         expectedPlanRecurrence: Recurrence = Recurrence.NONE,
+        expectedPlanExecutionAutomatic: Boolean = false,
+        expectedPlanExecutionAdvance: Int = 0,
         checkPlanInstance: Boolean = false
     ): RepositoryTemplate {
         val templateId = contentResolver.query(
@@ -438,6 +440,8 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
             assertThat(categoryId).isEqualTo(expectedCategory)
             assertThat(payeeId).isEqualTo(expectedParty)
             assertThat(methodId).isEqualTo(expectedMethod)
+            assertThat(planExecutionAutomatic).isEqualTo(expectedPlanExecutionAutomatic)
+            assertThat(planExecutionAdvance).isEqualTo(expectedPlanExecutionAdvance)
         }
         assertThat(tags.map { it.label }).containsExactlyElementsIn(expectedTags)
 
