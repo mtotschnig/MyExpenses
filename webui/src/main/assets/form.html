@@ -46,15 +46,13 @@
                                         @click="if (!menuOpen) { positionPopup($event, $refs.menu); activeTransaction = item }; menuOpen = !menuOpen">
                                         <td class="p-1" x-text="item.dateFormatted"></td>
                                         <td class="w-full p-1">
-                                            <!-- Case 2: Handle regular transaction display -->
-                                            <div class="flex flex-wrap items-baseline gap-x-2">
-                                                <template x-if="item.referenceNumber">
-                                                    <span x-text="'(' + item.referenceNumber + ')'"></span>
+                                            <div class="transaction-details">
+                                                <template x-if="item.number">
+                                                    <span x-text="'(' + item.number + ')'"></span>
                                                 </template>
                                                 <template x-if="item.category == 0">
-                                                    <div x-text="messages.split_transaction"></div>
+                                                    <span  x-text="messages.split_transaction"></span>
                                                 </template>
-                                                <!-- Part 2: Category/Account Path with Transfer Indicator -->
                                                 <template x-if="item.category != 0 && item.categoryPath">
                                                     <span>
                                                         <!-- Prepend transfer indicator if it's a transfer -->
@@ -63,19 +61,16 @@
                                                     </span>
                                                 </template>
 
-                                                <!-- Part 3: Comment -->
                                                 <template x-if="item.comment">
-                                                    <span class="italic" x-text="item.comment"></span>
+                                                    <span><span class="italic" x-text="item.comment"></span></span>
                                                 </template>
 
-                                                <!-- Part 4: Payee Name -->
                                                 <template x-if="item.partyName">
-                                                    <span class="underline" x-text="item.partyName"></span>
+                                                    <span><span class="underline" x-text="item.partyName"></span></span>
                                                 </template>
 
-                                                <!-- Part 5: Tag Labels -->
                                                 <template x-if="item.tagLabels && item.tagLabels.length > 0">
-                                                    <span class="font-semibold" x-text="item.tagLabels.join(', ')"></span>
+                                                    <span><span class="font-semibold" x-text="item.tagLabels.join(', ')"></span></span>
                                                 </template>
                                             </div>
                                         </td>
