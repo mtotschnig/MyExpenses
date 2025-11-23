@@ -305,8 +305,7 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
         get() = prefHandler.isProtected
 
     private fun controlWebUi(action: String) {
-        val intent = serviceIntent
-        if (intent != null) {
+        serviceIntent.onSuccess { intent ->
             intent.setAction(action)
             val componentName =
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && action == START_ACTION) {
@@ -324,7 +323,7 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
                     report(e)
                 }
             }
-        } else {
+        }.onFailure {
             prefHandler.putBoolean(PrefKey.UI_WEB, false)
         }
     }
