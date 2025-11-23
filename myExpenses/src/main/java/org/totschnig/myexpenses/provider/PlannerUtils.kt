@@ -305,9 +305,9 @@ const val INVALID_CALENDAR_ID = "-1"
                 eventValues.put(CalendarContract.Events.CALENDAR_ID, newValue.toLong())
                 contentResolver.query(
                     TEMPLATES_URI, arrayOf(
-                        DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PLANID
+                        KEY_ROWID, KEY_PLANID
                     ),
-                    DatabaseConstants.KEY_PLANID + " IS NOT null", null, null
+                    "$KEY_PLANID IS NOT null", null, null
                 )?.use { plan ->
                     if (plan.moveToFirst()) {
                         do {

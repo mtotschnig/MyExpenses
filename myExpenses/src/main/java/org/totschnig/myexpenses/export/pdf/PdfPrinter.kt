@@ -41,8 +41,9 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.printLayout
 import org.totschnig.myexpenses.preference.printLayoutColumnWidths
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_PARENTID
+import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.util.AppDirHelper.timeStampedFile
@@ -161,8 +162,8 @@ object PdfPrinter {
             "application/pdf", "pdf"
         ) ?: throw createFileFailure(context, destDir, fileName)
         val document = getDocument(context, prefHandler)
-        val sortBy = if (DatabaseConstants.KEY_AMOUNT == account.sortBy) {
-            "abs(" + DatabaseConstants.KEY_AMOUNT + ")"
+        val sortBy = if (KEY_AMOUNT == account.sortBy) {
+            "abs($KEY_AMOUNT)"
         } else {
             account.sortBy
         }
@@ -718,7 +719,7 @@ object PdfPrinter {
 
             transaction.print()
 
-            if (DatabaseConstants.SPLIT_CATID == transaction.catId) {
+            if (SPLIT_CATID == transaction.catId) {
                 splitCursor(transaction.id).use { it ->
                     val list = it.asSequence.map {
                         Transaction2.fromCursor(

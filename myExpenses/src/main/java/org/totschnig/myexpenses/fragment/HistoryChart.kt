@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import androidx.annotation.ColorInt
 import androidx.core.content.ContextCompat
 import androidx.core.content.IntentCompat
+import androidx.core.content.withStyledAttributes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -50,6 +51,13 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_GROUP_START
+import org.totschnig.myexpenses.provider.KEY_SECOND_GROUP
+import org.totschnig.myexpenses.provider.KEY_SUM_EXPENSES
+import org.totschnig.myexpenses.provider.KEY_SUM_INCOME
+import org.totschnig.myexpenses.provider.KEY_SUM_TRANSFERS
+import org.totschnig.myexpenses.provider.KEY_YEAR
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.filter.Criterion
@@ -71,10 +79,6 @@ import java.time.temporal.JulianFields
 import java.util.Calendar
 import java.util.Locale
 import javax.inject.Inject
-import androidx.core.content.withStyledAttributes
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
 
 class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     private var _binding: HistoryChartBinding? = null
@@ -109,7 +113,7 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
 
     val accountId
         get() = requireActivity().intent.getLongExtra(
-            DatabaseConstants.KEY_ACCOUNTID,
+            KEY_ACCOUNTID,
             0
         )
 
@@ -258,8 +262,8 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
 
     private fun buildGroupingClause(x: Int): String? = when (grouping) {
         Grouping.DAY -> DatabaseConstants.DAY_START_JULIAN + " = " + x
-        Grouping.WEEK -> DatabaseConstants.getWeekStartJulian() + " = " + julianDayFromWeekNumber(x.toFloat())
-        Grouping.MONTH -> DatabaseConstants.getYearOfMonthStart() + " = " + x / MONTH_GROUPING_YEAR_X + " AND " + DatabaseConstants.getMonth() + " = " + x % MONTH_GROUPING_YEAR_X
+        Grouping.WEEK -> DatabaseConstants.weekStartJulian + " = " + julianDayFromWeekNumber(x.toFloat())
+        Grouping.MONTH -> DatabaseConstants.yearOfMonthStart + " = " + x / MONTH_GROUPING_YEAR_X + " AND " + DatabaseConstants.month + " = " + x % MONTH_GROUPING_YEAR_X
         Grouping.YEAR -> DatabaseConstants.YEAR + " = " + x
         else -> null
     }
@@ -362,14 +366,14 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     override fun onLoadFinished(loader: Loader<Cursor?>, cursor: Cursor?) {
         val context = activity as ProtectedFragmentActivity? ?: return
         if (cursor != null && cursor.moveToFirst()) {
-            val columnIndexGroupSumIncome = cursor.getColumnIndex(DatabaseConstants.KEY_SUM_INCOME)
+            val columnIndexGroupSumIncome = cursor.getColumnIndex(KEY_SUM_INCOME)
             val columnIndexGroupSumExpense =
-                cursor.getColumnIndex(DatabaseConstants.KEY_SUM_EXPENSES)
+                cursor.getColumnIndex(KEY_SUM_EXPENSES)
             val columnIndexGroupSumTransfer =
-                cursor.getColumnIndex(DatabaseConstants.KEY_SUM_TRANSFERS)
-            val columnIndexGroupYear = cursor.getColumnIndex(DatabaseConstants.KEY_YEAR)
-            val columnIndexGroupSecond = cursor.getColumnIndex(DatabaseConstants.KEY_SECOND_GROUP)
-            val columnIndexGroupStart = cursor.getColumnIndex(DatabaseConstants.KEY_GROUP_START)
+                cursor.getColumnIndex(KEY_SUM_TRANSFERS)
+            val columnIndexGroupYear = cursor.getColumnIndex(KEY_YEAR)
+            val columnIndexGroupSecond = cursor.getColumnIndex(KEY_SECOND_GROUP)
+            val columnIndexGroupStart = cursor.getColumnIndex(KEY_GROUP_START)
             val barEntries = ArrayList<BarEntry>()
             val lineEntries = ArrayList<Entry>()
             val xAxis = binding.historyChart.xAxis

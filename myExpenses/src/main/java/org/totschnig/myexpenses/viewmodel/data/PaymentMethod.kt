@@ -1,9 +1,9 @@
 package org.totschnig.myexpenses.viewmodel.data
 
 import android.database.Cursor
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_IS_NUMBERED
+import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString

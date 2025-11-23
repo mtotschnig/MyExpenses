@@ -35,8 +35,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_BANK
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
 import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_2
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
@@ -85,7 +84,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
     @Test
     fun formForTransactionIsPrepared() {
         launch(getIntentForNewTransaction().apply {
-            putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
+            putExtra(Transactions.OPERATION_TYPE, TYPE_TRANSACTION)
         }).use {
             checkEffectiveVisible(
                 R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
@@ -110,7 +109,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
     @Test
     fun statusIsShownWhenBankAccountIsSelected() {
         launch(intent.apply {
-            putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
+            putExtra(Transactions.OPERATION_TYPE, TYPE_TRANSACTION)
             putExtra(KEY_ACCOUNTID, account2.id)
         }).use {
             checkEffectiveVisible(R.id.Status)
@@ -178,7 +177,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
     fun formForTemplateIsPrepared() {
         //New Templates are created without account_id passed in via intent
         launch(intent.apply {
-            putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
+            putExtra(Transactions.OPERATION_TYPE, TYPE_TRANSACTION)
             putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true)
         }).use {
             checkEffectiveVisible(
@@ -194,7 +193,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
         val allAccounts = arrayOf(account1, account2)
         for (a in allAccounts) {
             val i = intent.apply {
-                putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
+                putExtra(Transactions.OPERATION_TYPE, TYPE_TRANSACTION)
                 putExtra(KEY_ACCOUNTID, a.id)
             }
             launch(i).use {
@@ -208,7 +207,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
         //We test with an account that is not sorted first, in order to verify that account is kept
         //after save and new fab is clicked
         launch(intent.apply {
-            putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
+            putExtra(Transactions.OPERATION_TYPE, TYPE_TRANSACTION)
             putExtra(KEY_ACCOUNTID, account2.id)
         }).use {
             val success = getString(R.string.save_transaction_and_new_success)

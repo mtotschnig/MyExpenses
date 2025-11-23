@@ -6,7 +6,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_INFO
 
 @RunWith(RobolectricTestRunner::class)
 class PlanInfoCursorWrapperTest {

@@ -21,7 +21,7 @@ import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.TEMPLATE_TITLE
-import org.totschnig.myexpenses.testutils.TransactionInfo
+import org.totschnig.shared_test.TransactionInfo
 
 class ExpenseEditMethodTest : BaseExpenseEditTest() {
 

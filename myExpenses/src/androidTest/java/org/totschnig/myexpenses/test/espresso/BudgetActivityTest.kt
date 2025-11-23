@@ -39,7 +39,10 @@ import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_BUDGET
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_SECOND_GROUP
+import org.totschnig.myexpenses.provider.KEY_YEAR
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
@@ -83,7 +86,7 @@ class BudgetActivityTest : BaseComposeTest<BudgetActivity>() {
                 targetContext,
                 BudgetActivity::class.java
             ).apply {
-                putExtra(DatabaseConstants.KEY_ROWID, budgetId)
+                putExtra(KEY_ROWID, budgetId)
             })
     }
 
@@ -125,10 +128,10 @@ class BudgetActivityTest : BaseComposeTest<BudgetActivity>() {
 
     private fun setCategoryBudget(budgetId: Long, categoryId: Long, amount: Long) {
         val contentValues = ContentValues(1)
-        contentValues.put(DatabaseConstants.KEY_BUDGET, amount)
+        contentValues.put(KEY_BUDGET, amount)
         val now = LocalDate.now()
-        contentValues.put(DatabaseConstants.KEY_YEAR, now.year)
-        contentValues.put(DatabaseConstants.KEY_SECOND_GROUP, now.monthValue - 1)
+        contentValues.put(KEY_YEAR, now.year)
+        contentValues.put(KEY_SECOND_GROUP, now.monthValue - 1)
         val budgetUri = BaseTransactionProvider.budgetUri(budgetId)
         val result = repository.contentResolver.update(
             ContentUris.withAppendedId(budgetUri, categoryId),

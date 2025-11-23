@@ -15,7 +15,7 @@ import org.totschnig.myexpenses.db2.insertTransfer
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.TestShard1
 import org.totschnig.myexpenses.testutils.cleanup
@@ -152,7 +152,7 @@ class CriterionReachedTestTransfer : BaseExpenseEditTest() {
             amount = -4000
         ).data.id
         launchForResult(getIntentForNewTransaction().apply {
-            putExtra(DatabaseConstants.KEY_ROWID, transactionId)
+            putExtra(KEY_ROWID, transactionId)
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
         }).use {
             setAmount(editedAmount)
@@ -179,7 +179,7 @@ class CriterionReachedTestTransfer : BaseExpenseEditTest() {
         ).data.id
 
         launchForResult(getIntentForNewTransaction().apply {
-            putExtra(DatabaseConstants.KEY_ROWID, transactionId)
+            putExtra(KEY_ROWID, transactionId)
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
         }).use {
             clickMenuItem(R.id.INVERT_COMMAND)

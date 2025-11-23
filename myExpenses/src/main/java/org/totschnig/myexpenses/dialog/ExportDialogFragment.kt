@@ -36,7 +36,8 @@ import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.ui.configurePopupAnchor
 import org.totschnig.myexpenses.util.ui.postScrollToBottom
@@ -383,10 +384,10 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
                 R.id.START_EXPORT_COMMAND
             )
             if (accountInfo.id > 0) {
-                putLong(DatabaseConstants.KEY_ROWID, accountInfo.id)
+                putLong(KEY_ROWID, accountInfo.id)
             } else {
                 if (accountInfo.id != HOME_AGGREGATE_ID) {
-                    putString(DatabaseConstants.KEY_CURRENCY, accountInfo.currency)
+                    putString(KEY_CURRENCY, accountInfo.currency)
                 }
                 val mergeAccounts = binding.mergeAccounts.isChecked
                 putBoolean(KEY_MERGE_P, mergeAccounts)

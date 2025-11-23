@@ -10,7 +10,7 @@ import org.totschnig.myexpenses.activity.DebtActivity
 import org.totschnig.myexpenses.compose.DebtRenderer
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_DEBT_ID
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
 import javax.inject.Inject
@@ -25,7 +25,7 @@ class DebtDetailsDialogFragment : ComposeBaseDialogFragment() {
     @Inject
     lateinit var currencyFormatter: ICurrencyFormatter
 
-    val debt by lazy { viewModel.loadDebt(requireArguments().getLong(DatabaseConstants.KEY_DEBT_ID)) }
+    val debt by lazy { viewModel.loadDebt(requireArguments().getLong(KEY_DEBT_ID)) }
 
     @Composable
     override fun BuildContent() {
@@ -58,7 +58,7 @@ class DebtDetailsDialogFragment : ComposeBaseDialogFragment() {
     companion object {
         fun newInstance(debtId: Long) = DebtDetailsDialogFragment().apply {
             arguments = Bundle().apply {
-                putLong(DatabaseConstants.KEY_DEBT_ID, debtId)
+                putLong(KEY_DEBT_ID, debtId)
             }
         }
     }

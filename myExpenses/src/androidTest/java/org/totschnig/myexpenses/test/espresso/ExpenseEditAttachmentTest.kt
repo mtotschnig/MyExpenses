@@ -28,8 +28,8 @@ import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.loadTransactions
 import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
-import org.totschnig.myexpenses.testutils.TransactionInfo
 import org.totschnig.myexpenses.testutils.addDebugAttachment
+import org.totschnig.shared_test.TransactionInfo
 
 class ExpenseEditAttachmentTest : BaseExpenseEditTest() {
 

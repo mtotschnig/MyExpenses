@@ -11,14 +11,14 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.IdHolder
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_ASSET
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUPPORTS_RECONCILIATION
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE_SORT_KEY
+import org.totschnig.myexpenses.provider.KEY_ACCOUNT_TYPE_LABEL
+import org.totschnig.myexpenses.provider.KEY_COUNT
+import org.totschnig.myexpenses.provider.KEY_IS_ASSET
+import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_SUPPORTS_RECONCILIATION
+import org.totschnig.myexpenses.provider.KEY_TYPE
+import org.totschnig.myexpenses.provider.KEY_TYPE_SORT_KEY
 import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getIntIfExists
 import org.totschnig.myexpenses.provider.getLong
@@ -78,12 +78,12 @@ data class AccountType(
         val qifToInternalMap: BiMap<String, String> = HashBiMap.create()
 
         init {
-            qifToInternalMap.put("Cash", PREDEFINED_NAME_CASH)
-            qifToInternalMap.put("Bank", PREDEFINED_NAME_BANK)
-            qifToInternalMap.put("CCard", PREDEFINED_NAME_CCARD)
-            qifToInternalMap.put("Invst", PREDEFINED_NAME_INVESTMENT)
-            qifToInternalMap.put("Oth A", PREDEFINED_NAME_ASSET)
-            qifToInternalMap.put("Oth L", PREDEFINED_NAME_LIABILITY)
+            qifToInternalMap["Cash"] = PREDEFINED_NAME_CASH
+            qifToInternalMap["Bank"] = PREDEFINED_NAME_BANK
+            qifToInternalMap["CCard"] = PREDEFINED_NAME_CCARD
+            qifToInternalMap["Invst"] = PREDEFINED_NAME_INVESTMENT
+            qifToInternalMap["Oth A"] = PREDEFINED_NAME_ASSET
+            qifToInternalMap["Oth L"] = PREDEFINED_NAME_LIABILITY
         }
 
         fun qif2Internal(qifName: String) = qifToInternalMap[qifName]

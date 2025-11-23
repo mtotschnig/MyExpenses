@@ -158,6 +158,7 @@ tasks.withType(Test).configureEach {
 }
 
 dependencies {
+    api project(':core')
     //LeakCanary leads to failure of Screengrab's LocaleUtil:
     //https://github.com/fastlane/fastlane/issues/19521#issuecomment-1170017435
     //debugImplementation libs.leakcanary.android

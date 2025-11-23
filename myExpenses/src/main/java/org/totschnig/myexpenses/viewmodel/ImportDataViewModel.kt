@@ -30,11 +30,11 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.ContribFeatureNotAvailableException
 import org.totschnig.myexpenses.model.CrStatus.Companion.fromQifName
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.util.io.FileUtils
 
 data class ImportResult(val label: String, val successCount: Int)
@@ -57,7 +57,7 @@ abstract class ImportDataViewModel(application: Application) :
     private fun getDefaultAccountName(uri: Uri): String {
         var displayName = contentResolver.getDisplayName(uri)
         if (FileUtils.getExtension(displayName).equals("qif", ignoreCase = true)) {
-            displayName = displayName.substring(0, displayName.lastIndexOf('.'))
+            displayName = displayName.take(displayName.lastIndexOf('.'))
         }
         return displayName.replace('-', ' ').replace('_', ' ')
     }
@@ -161,7 +161,7 @@ abstract class ImportDataViewModel(application: Application) :
                 referenceNumber = number,
                 amount = Money(currencyUnit, amount).amountMinor,
                 accountId = a.id,
-                categoryId = if (isSplit) DatabaseConstants.SPLIT_CATID else
+                categoryId = if (isSplit) SPLIT_CATID else
                     findCategory(payeeId, autofill),
                 payeeId = payeeId,
                 transferAccountId = transferAccount?.id,

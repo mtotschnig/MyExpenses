@@ -83,7 +83,7 @@ import org.totschnig.myexpenses.dialog.CriterionReachedDialogFragment.Companion.
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.getLocale
 import org.totschnig.myexpenses.util.ui.DisplayProgress

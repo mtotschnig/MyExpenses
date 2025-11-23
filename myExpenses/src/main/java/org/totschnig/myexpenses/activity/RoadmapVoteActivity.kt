@@ -1,12 +1,14 @@
 package org.totschnig.myexpenses.activity
 
 import android.os.Bundle
-import android.view.*
+import android.view.ContextMenu
 import android.view.ContextMenu.ContextMenuInfo
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +23,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.retrofit.Issue
 import org.totschnig.myexpenses.retrofit.Vote
 import org.totschnig.myexpenses.ui.ContextAwareRecyclerView.RecyclerContextMenuInfo
@@ -258,7 +260,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
         get() {
             var currentTotalWeight = 0
             for ((_, value) in voteWeights) {
-                currentTotalWeight += +value
+                currentTotalWeight += value
             }
             return currentTotalWeight
         }
@@ -286,7 +288,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
                     .title(dataSetFiltered!![info.position].title)
                     .max(available)
                     .extra(Bundle(2).apply {
-                        putInt(DatabaseConstants.KEY_ROWID, info.id.toInt())
+                        putInt(KEY_ROWID, info.id.toInt())
                         putInt(KEY_POSITION, info.position)
                     })
                 if (value != null) {
@@ -302,11 +304,11 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
     }
 
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
-        if (which == OnDialogResultListener.BUTTON_POSITIVE) {
+        if (which == BUTTON_POSITIVE) {
             when (dialogTag) {
                 DIALOG_TAG_ISSUE_VOTE -> {
                     val value = extras.getInt(SimpleSeekBarDialog.SEEKBAR_VALUE)
-                    val issueId = extras.getInt(DatabaseConstants.KEY_ROWID)
+                    val issueId = extras.getInt(KEY_ROWID)
                     if (value > 0) {
                         voteWeights[issueId] = value
                     } else {
@@ -373,7 +375,7 @@ class RoadmapVoteActivity : ProtectedFragmentActivity(), OnDialogResultListener 
         }
     }
 
-    private inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textView: TextView = itemView.findViewById(R.id.text)
         val weightView: TextView = itemView.findViewById(R.id.weight)
     }

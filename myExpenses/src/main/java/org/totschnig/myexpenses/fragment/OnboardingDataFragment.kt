@@ -29,7 +29,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountNames
 import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.ui.bindListener
@@ -76,7 +76,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
         super.onSaveInstanceState(outState)
         val selectedItem = binding.Currency.selectedItem as? Currency
         if (selectedItem != null) {
-            outState.putString(DatabaseConstants.KEY_CURRENCY, selectedItem.code)
+            outState.putString(KEY_CURRENCY, selectedItem.code)
         }
         val label = binding.Label.text.toString()
         outState.putBoolean(
@@ -160,7 +160,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
 
         //currency
         val currencyAdapter = binding.Currency.configureCurrencySpinner(this)
-        val code = savedInstanceState?.getString(DatabaseConstants.KEY_CURRENCY)
+        val code = savedInstanceState?.getString(KEY_CURRENCY)
         val currency =
             if (code != null) create(code, requireActivity()) else currencyViewModel.default
         currencyAdapter.clear()

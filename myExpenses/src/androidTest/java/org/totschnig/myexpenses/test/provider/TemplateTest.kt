@@ -1,7 +1,7 @@
 package org.totschnig.myexpenses.test.provider
 
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.KEY_PARENTID
+import org.totschnig.myexpenses.provider.TABLE_TEMPLATES
 import org.totschnig.myexpenses.provider.TemplateInfo
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.insert
@@ -11,11 +11,11 @@ import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 class TemplateTest : BaseTemplateTest() {
 
     private fun insertSplitTemplate() = mDb.insert(
-        DatabaseConstants.TABLE_TEMPLATES,
+        TABLE_TEMPLATES,
         TemplateInfo(testAccountId, 100, "Template daily").contentValues
     ).also {
         mDb.insert(
-            DatabaseConstants.TABLE_TEMPLATES,
+            TABLE_TEMPLATES,
             TemplateInfo(testAccountId, 100, "", parentId = it).contentValues
         )
     }

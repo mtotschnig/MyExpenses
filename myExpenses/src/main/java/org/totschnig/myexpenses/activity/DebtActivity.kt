@@ -11,7 +11,9 @@ import org.totschnig.myexpenses.dialog.DebtDetailsDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.fragment.PartiesList
 import org.totschnig.myexpenses.injector
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_DEBT_ID
+import org.totschnig.myexpenses.provider.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
 import org.totschnig.myexpenses.viewmodel.data.DisplayDebt
 import timber.log.Timber
@@ -29,9 +31,9 @@ abstract class DebtActivity : ProtectedFragmentActivity() {
 
     fun editDebt(debt: DisplayDebt) {
         startActivityForResult(Intent(this, DebtEdit::class.java).apply {
-            putExtra(DatabaseConstants.KEY_PAYEEID, debt.payeeId)
-            putExtra(DatabaseConstants.KEY_PAYEE_NAME, debt.payeeName)
-            putExtra(DatabaseConstants.KEY_DEBT_ID, debt.id)
+            putExtra(KEY_PAYEEID, debt.payeeId)
+            putExtra(KEY_PAYEE_NAME, debt.payeeName)
+            putExtra(KEY_DEBT_ID, debt.id)
         }, DEBT_EDIT_REQUEST)
     }
 

@@ -26,17 +26,17 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_CR_STATUS
 
 @Parcelize
 @Serializable
-@SerialName(DatabaseConstants.KEY_CR_STATUS)
+@SerialName(KEY_CR_STATUS)
 data class CrStatusCriterion(override val values: List<CrStatus>) : SimpleCriterion<CrStatus>() {
 
     @IgnoredOnParcel
     override val id: Int = R.id.FILTER_STATUS_COMMAND
     @IgnoredOnParcel
-    override val column = DatabaseConstants.KEY_CR_STATUS
+    override val column = KEY_CR_STATUS
     @IgnoredOnParcel
     override val operation = Operation.IN
 

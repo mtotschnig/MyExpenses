@@ -6,10 +6,6 @@ import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.insertTransfer
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_TRANSFERS
 import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 
 @RunWith(RobolectricTestRunner::class)
@@ -46,7 +42,7 @@ class AccountSumTest: BaseTestWithRepository() {
         contentResolver.query(
             TransactionProvider.ACCOUNTS_FULL_URI,
             null,
-            DatabaseConstants.KEY_ROWID + "= ?",
+            "$KEY_ROWID= ?",
             arrayOf(testAccountId1.toString()),
             null
         ).useAndAssert {
@@ -61,7 +57,7 @@ class AccountSumTest: BaseTestWithRepository() {
         contentResolver.query(
             TransactionProvider.ACCOUNTS_FULL_URI,
             null,  // get all the columns
-            DatabaseConstants.KEY_ROWID + "= ?",
+            "$KEY_ROWID= ?",
             arrayOf(testAccountId2.toString()),
             null // use default the sort order
         ).useAndAssert {

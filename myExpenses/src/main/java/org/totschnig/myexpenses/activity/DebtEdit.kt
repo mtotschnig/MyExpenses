@@ -10,8 +10,10 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.OneDebtBinding
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_DEBT_ID
+import org.totschnig.myexpenses.provider.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.KEY_PAYEE_NAME
 import org.totschnig.myexpenses.ui.ButtonWithDialog
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
@@ -26,13 +28,13 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
     private val currencyViewModel: CurrencyViewModel by viewModels()
 
     val payeeName: String
-        get() = intent.getStringExtra(DatabaseConstants.KEY_PAYEE_NAME)!!
+        get() = intent.getStringExtra(KEY_PAYEE_NAME)!!
 
     val payeeId: Long
-        get() = intent.getLongExtra(DatabaseConstants.KEY_PAYEEID, 0)
+        get() = intent.getLongExtra(KEY_PAYEEID, 0)
 
     private val debtId: Long
-        get() = intent.getLongExtra(DatabaseConstants.KEY_DEBT_ID, 0)
+        get() = intent.getLongExtra(KEY_DEBT_ID, 0)
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)

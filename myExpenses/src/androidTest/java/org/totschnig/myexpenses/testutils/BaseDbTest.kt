@@ -4,13 +4,14 @@ package org.totschnig.myexpenses.testutils
 
 import androidx.sqlite.db.SupportSQLiteDatabase
 import org.totschnig.myexpenses.provider.AccountInfo
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTACHMENTS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.SPLIT_CATID
+import org.totschnig.myexpenses.provider.TABLE_ACCOUNTS
+import org.totschnig.myexpenses.provider.TABLE_ATTACHMENTS
+import org.totschnig.myexpenses.provider.TABLE_CATEGORIES
+import org.totschnig.myexpenses.provider.TABLE_DEBTS
+import org.totschnig.myexpenses.provider.TABLE_PAYEES
+import org.totschnig.myexpenses.provider.TABLE_TEMPLATES
 import org.totschnig.myexpenses.provider.insert
 
 open class BaseDbTest : BaseProviderTest() {
@@ -37,7 +38,7 @@ open class BaseDbTest : BaseProviderTest() {
             mDb.delete(TABLE_DEBTS, null, emptyArray())
             mDb.delete(TABLE_ACCOUNTS, null, emptyArray())
             mDb.delete(TABLE_PAYEES, null, emptyArray())
-            mDb.delete(TABLE_CATEGORIES, DatabaseConstants.KEY_ROWID + " != ?", arrayOf(DatabaseConstants.SPLIT_CATID.toString()))
+            mDb.delete(TABLE_CATEGORIES, "$KEY_ROWID != ?", arrayOf(SPLIT_CATID.toString()))
             mDb.delete(TABLE_TEMPLATES, null, emptyArray())
             mDb.delete(TABLE_ATTACHMENTS, null, emptyArray())
         }

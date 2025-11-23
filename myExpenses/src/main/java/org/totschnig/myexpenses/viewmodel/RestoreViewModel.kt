@@ -29,11 +29,14 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.BACKUP_DB_FILE_NAME
 import org.totschnig.myexpenses.provider.BACKUP_PREF_FILE_NAME
 import org.totschnig.myexpenses.provider.CALENDAR_FULL_PATH_PROJECTION
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
+import org.totschnig.myexpenses.provider.KEY_URI
 import org.totschnig.myexpenses.provider.DatabaseVersionPeekHelper
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
+import org.totschnig.myexpenses.provider.KEY_PLANID
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_SYNC_ACCOUNT_NAME
+import org.totschnig.myexpenses.provider.KEY_UUID
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.PlannerUtils.Companion.copyEventData
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -115,7 +118,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
         viewModelScope.launch(coroutineDispatcher) {
             val fileUri: Uri? = BundleCompat.getParcelable(args, KEY_FILE_PATH, Uri::class.java)
             val syncAccountName: String? =
-                if (fileUri == null) args.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME) else null
+                if (fileUri == null) args.getString(KEY_SYNC_ACCOUNT_NAME) else null
             val backupFromSync: String? =
                 if (fileUri == null) args.getString(KEY_BACKUP_FROM_SYNC) else null
             val password: String? = args.getString(KEY_PASSWORD)
@@ -394,7 +397,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                     val backupFiles = backupPictureDir.listFiles() ?: emptyArray()
                     contentResolver.query(
                         TransactionProvider.ATTACHMENTS_URI,
-                        arrayOf(DatabaseConstants.KEY_ROWID, KEY_URI),
+                        arrayOf(KEY_ROWID, KEY_URI),
                         null,
                         null,
                         null
@@ -474,10 +477,10 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
         val accounts = listOf(*GenericAccountService.getAccountNames(application))
         val activeAccounts = mutableSetOf<String>()
         val projection =
-            arrayOf(DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)
+            arrayOf(KEY_ROWID, KEY_SYNC_ACCOUNT_NAME)
         contentResolver.query(
             TransactionProvider.ACCOUNTS_URI, projection,
-            DatabaseConstants.KEY_SYNC_ACCOUNT_NAME + " IS NOT null", null, null
+            "$KEY_SYNC_ACCOUNT_NAME IS NOT null", null, null
         )?.use {
             val sharedPreferences = application.settings
             val editor = sharedPreferences.edit()
@@ -582,10 +585,9 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                     )
                     contentResolver.query(
                         TEMPLATES_URI, arrayOf(
-                            DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PLANID,
-                            DatabaseConstants.KEY_UUID
-                        ), DatabaseConstants.KEY_PLANID
-                                + " IS NOT null", null, null
+                            KEY_ROWID, KEY_PLANID,
+                            KEY_UUID
+                        ), "$KEY_PLANID IS NOT null", null, null
                     )?.use { plan ->
                         if (plan.moveToFirst()) {
                             do {
@@ -608,7 +610,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                                             )
                                             if (newPlanId != oldPlanId) {
                                                 planValues.put(
-                                                    DatabaseConstants.KEY_PLANID,
+                                                    KEY_PLANID,
                                                     newPlanId
                                                 )
                                                 val updated = contentResolver.update(
@@ -661,7 +663,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                                         } == false
                                     ) {
                                         //need to set eventId to null
-                                        planValues.putNull(DatabaseConstants.KEY_PLANID)
+                                        planValues.putNull(KEY_PLANID)
                                         contentResolver.update(
                                             ContentUris.withAppendedId(
                                                 TEMPLATES_URI,

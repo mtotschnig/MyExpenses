@@ -129,8 +129,8 @@ enum class Grouping {
     val queryArgumentForThisSecond: String?
         get() = when (this) {
             DAY -> DatabaseConstants.THIS_DAY
-            WEEK -> DatabaseConstants.getThisWeek()
-            MONTH -> DatabaseConstants.getThisMonth()
+            WEEK -> DatabaseConstants.thisWeek
+            MONTH -> DatabaseConstants.thisMonth
             else -> null
         }
 

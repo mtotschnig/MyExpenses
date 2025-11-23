@@ -38,11 +38,14 @@ import org.totschnig.myexpenses.db2.insertTemplate
 import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.KEY_INSTANCEID
+import org.totschnig.myexpenses.provider.KEY_TEMPLATEID
+import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_PARENTID
+import org.totschnig.myexpenses.provider.KEY_TITLE
+import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.TestShard3
@@ -101,7 +104,7 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
                         defaultAction = defaultAction,
                         title = title,
                         amount = -1200L,
-                        categoryId = DatabaseConstants.SPLIT_CATID,
+                        categoryId = SPLIT_CATID,
                         uuid = generateUuid()
                     ), listOf(
                         Template(
@@ -136,7 +139,7 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
         assertThat(
             repository.count(
                 TransactionProvider.TRANSACTIONS_URI,
-                DatabaseConstants.KEY_ACCOUNTID + " = ? AND " + DatabaseConstants.KEY_PARENTID + " IS NULL",
+                "$KEY_ACCOUNTID = ? AND $KEY_PARENTID IS NULL",
                 arrayOf(account1.id.toString())
             )
         ).isEqualTo(1)
@@ -209,7 +212,7 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
                 template.copy(planId = eventId)
             ).id
             launch()
-            onData(withRowString(DatabaseConstants.KEY_TITLE, "Espresso Plan"))
+            onData(withRowString(KEY_TITLE, "Espresso Plan"))
                 .perform(click())
             onView(
                 allOf(
@@ -259,7 +262,7 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
             .isEqualTo(0)
         launch()
         val title = "Espresso $type Template $defaultAction"
-        onData(withRowString(DatabaseConstants.KEY_TITLE, title))
+        onData(withRowString(KEY_TITLE, title))
             .perform(click())
         when (defaultAction) {
             Template.Action.SAVE -> verifySaveAction()

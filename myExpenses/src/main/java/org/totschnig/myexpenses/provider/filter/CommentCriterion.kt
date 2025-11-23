@@ -24,12 +24,11 @@ import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import kotlin.reflect.KClass
+import org.totschnig.myexpenses.provider.KEY_COMMENT
 
 @Parcelize
 @Serializable
-@SerialName(DatabaseConstants.KEY_COMMENT)
+@SerialName(KEY_COMMENT)
 data class CommentCriterion(override val searchString: String?) : TextCriterion() {
 
     @IgnoredOnParcel
@@ -39,7 +38,7 @@ data class CommentCriterion(override val searchString: String?) : TextCriterion(
         get() = CommentCriterion
 
     @IgnoredOnParcel
-    override val column = DatabaseConstants.KEY_COMMENT
+    override val column = KEY_COMMENT
 
     companion object: DisplayInfo {
 

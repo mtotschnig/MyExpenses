@@ -24,13 +24,13 @@ import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_CATID
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.categoryTreeSelect
 
 @Parcelize
 @Serializable
-@SerialName(DatabaseConstants.KEY_CATID)
+@SerialName(KEY_CATID)
 data class CategoryCriterion(
     override val label: String,
     override val values: List<Long>,
@@ -44,7 +44,7 @@ data class CategoryCriterion(
     override val id = R.id.FILTER_CATEGORY_COMMAND
 
     @IgnoredOnParcel
-    override val column = DatabaseConstants.KEY_CATID
+    override val column = KEY_CATID
 
     override val displayInfo: DisplayInfo
         get() = CategoryCriterion

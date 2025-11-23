@@ -4,7 +4,8 @@ import android.net.Uri
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DataBaseAccount
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.filter.Criterion
 
 interface IAccount {
@@ -14,9 +15,9 @@ interface IAccount {
     val queryParameter: Pair<String, String>?
         get() = if (accountId != DataBaseAccount.HOME_AGGREGATE_ID) {
             if (accountId < 0) {
-                DatabaseConstants.KEY_CURRENCY to currency
+                KEY_CURRENCY to currency
             } else {
-                DatabaseConstants.KEY_ACCOUNTID to accountId.toString()
+                KEY_ACCOUNTID to accountId.toString()
             }
         } else null
 }

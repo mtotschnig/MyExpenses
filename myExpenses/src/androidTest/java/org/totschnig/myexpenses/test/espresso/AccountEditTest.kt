@@ -26,7 +26,7 @@ import org.totschnig.myexpenses.db2.findAnyOpenByLabel
 import org.totschnig.myexpenses.db2.getUuidForAccount
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.preference.dynamicExchangeRatesDefaultKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.Espresso.wait
 import org.totschnig.myexpenses.testutils.TestShard1
@@ -42,7 +42,7 @@ class AccountEditTest : BaseUiTest<AccountEdit>() {
     private fun launch(id: Long? = null) {
         val i = Intent(targetContext, AccountEdit::class.java).apply {
             if (id != null) {
-                putExtra(DatabaseConstants.KEY_ROWID, id)
+                putExtra(KEY_ROWID, id)
             }
         }
         testScenario = ActivityScenario.launchActivityForResult(i)

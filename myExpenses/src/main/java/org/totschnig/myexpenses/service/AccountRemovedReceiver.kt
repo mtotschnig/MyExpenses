@@ -9,7 +9,7 @@ import android.content.Context
 import android.content.Intent
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -26,10 +26,10 @@ class AccountRemovedReceiver : BroadcastReceiver() {
                 ) {
             doAsync {
                 try {
-                    val where = "${DatabaseConstants.KEY_SYNC_ACCOUNT_NAME} = ? "
+                    val where = "$KEY_SYNC_ACCOUNT_NAME = ? "
                     context.contentResolver.update(
                         TransactionProvider.ACCOUNTS_URI, ContentValues(1).apply {
-                            putNull(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)
+                            putNull(KEY_SYNC_ACCOUNT_NAME)
                         },
                         where, arrayOf(intent.getStringExtra(KEY_ACCOUNT_NAME))
                     )

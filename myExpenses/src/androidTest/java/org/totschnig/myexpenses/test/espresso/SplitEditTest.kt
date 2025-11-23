@@ -18,11 +18,14 @@ import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isEnabled
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.adevinta.android.barista.interaction.BaristaScrollInteractions
 import com.adevinta.android.barista.internal.matcher.HelperMatchers.menuIdMatcher
 import com.adevinta.android.barista.internal.viewaction.NestedEnabledScrollToAction.nestedScrollToAction
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.test.runTest
+import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
 import org.junit.After
 import org.junit.Assume
@@ -34,35 +37,31 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.createParty
 import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.loadTransactions
+import org.totschnig.myexpenses.db2.writeTag
 import org.totschnig.myexpenses.model2.Party
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_TEMPLATEID
+import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
 import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_2
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
+import org.totschnig.myexpenses.testutils.CATEGORY_ICON
 import org.totschnig.myexpenses.testutils.CATEGORY_LABEL
 import org.totschnig.myexpenses.testutils.DEBT_LABEL
+import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone
 import org.totschnig.myexpenses.testutils.PARTY_NAME
+import org.totschnig.myexpenses.testutils.TAG_LABEL
 import org.totschnig.myexpenses.testutils.TestShard5
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.isOrchestrated
-import org.totschnig.myexpenses.testutils.toolbarTitle
 import org.totschnig.myexpenses.testutils.withAccountGrouped
-import org.totschnig.myexpenses.viewmodel.data.Debt
-import androidx.test.espresso.matcher.ViewMatchers.withSubstring
-import kotlinx.coroutines.test.runTest
-import org.hamcrest.Matchers.allOf
-import org.totschnig.myexpenses.db2.loadTransactions
-import org.totschnig.myexpenses.db2.writeTag
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.testutils.CATEGORY_ICON
-import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone
-import org.totschnig.myexpenses.testutils.TAG_LABEL
-import org.totschnig.myexpenses.testutils.TransactionInfo
 import org.totschnig.myexpenses.testutils.withCategoryIcon
 import org.totschnig.myexpenses.testutils.withViewCount
+import org.totschnig.myexpenses.viewmodel.data.Debt
+import org.totschnig.shared_test.TransactionInfo
 
 @TestShard5
 class SplitEditTest : BaseExpenseEditTest() {
@@ -242,7 +241,7 @@ class SplitEditTest : BaseExpenseEditTest() {
             account1.id,
             -10000,
             expectedSplitParts = listOf(-5000, -5000),
-            expectedCategory = DatabaseConstants.SPLIT_CATID
+            expectedCategory = SPLIT_CATID
         )
     }
 
@@ -499,7 +498,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         assertTemplate(
             expectedAccount = account1.id,
             expectedAmount = 20000,
-            expectedCategory = DatabaseConstants.SPLIT_CATID,
+            expectedCategory = SPLIT_CATID,
             expectedSplitParts = listOf(15000, 5000)
         )
     }
@@ -528,7 +527,7 @@ class SplitEditTest : BaseExpenseEditTest() {
             expectedAccount = account1.id,
             expectedAmount = 20000,
             expectedSplitParts = listOf(15000, 5000),
-            expectedCategory = DatabaseConstants.SPLIT_CATID
+            expectedCategory = SPLIT_CATID
         )
     }
 

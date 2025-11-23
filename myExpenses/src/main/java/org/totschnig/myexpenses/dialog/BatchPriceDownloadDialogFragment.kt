@@ -8,7 +8,7 @@ import androidx.fragment.app.activityViewModels
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.DateRangePickerScaffold
 import org.totschnig.myexpenses.injector
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SOURCE
+import org.totschnig.myexpenses.provider.KEY_SOURCE
 import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.viewmodel.PriceHistoryViewModel
 

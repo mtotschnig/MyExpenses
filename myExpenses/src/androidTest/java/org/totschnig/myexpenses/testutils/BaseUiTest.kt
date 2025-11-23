@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.ContentResolver
 import android.content.Context
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.appcompat.widget.MenuPopupWindow.MenuDropDownListView
@@ -68,37 +67,20 @@ import org.totschnig.myexpenses.model2.Account.Companion.DEFAULT_COLOR
 import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_TITLE
+import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.PlannerUtils
+import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
+import org.totschnig.shared_test.TransactionInfo
 import java.time.LocalDate
 import java.util.concurrent.TimeoutException
 import org.totschnig.myexpenses.test.R as RT
-
-data class TransactionInfo(
-    val accountId: Long,
-    val amount: Long,
-    val splitParts: List<TransactionInfo>? = null,
-    val category: Long? = if (splitParts != null) DatabaseConstants.SPLIT_CATID else null,
-    val party: Long? = null,
-    val tags: List<Long> = emptyList(),
-    val attachments: List<Uri> = emptyList(),
-    val debtId: Long? = null,
-    val methodId: Long? = null
-) {
-    init {
-        if(splitParts != null) {
-            require(category == DatabaseConstants.SPLIT_CATID)
-        }
-    }
-}
 
 abstract class BaseUiTest<A : ProtectedFragmentActivity> {
     private var isLarge = false
@@ -337,7 +319,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
     }
 
     protected fun prepareSplit(accountId: Long) = repository.createSplitTransaction(
-        Transaction(accountId = accountId, amount = 10000, categoryId = DatabaseConstants.SPLIT_CATID, uuid = generateUuid()),
+        Transaction(accountId = accountId, amount = 10000, categoryId = SPLIT_CATID, uuid = generateUuid()),
         listOf(
             Transaction(accountId = accountId, amount = 5000, uuid = generateUuid()),
             Transaction(accountId = accountId, amount = 5000, uuid = generateUuid())
@@ -345,7 +327,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
     ).id
 
     protected fun prepareSplitTemplate(accountId: Long)  = repository.createSplitTemplate(
-        Template(title = TEMPLATE_TITLE, accountId = accountId, amount = 10000, categoryId = DatabaseConstants.SPLIT_CATID, uuid = generateUuid()),
+        Template(title = TEMPLATE_TITLE, accountId = accountId, amount = 10000, categoryId = SPLIT_CATID, uuid = generateUuid()),
         listOf(
             Template(accountId = accountId, amount = 5000, title = "", uuid = generateUuid()),
             Template(accountId = accountId, amount = 5000, title = "", uuid = generateUuid())

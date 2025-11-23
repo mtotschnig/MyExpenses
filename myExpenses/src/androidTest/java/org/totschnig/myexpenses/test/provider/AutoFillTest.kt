@@ -3,10 +3,17 @@ package org.totschnig.myexpenses.test.provider
 import android.content.ContentUris
 import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
+import org.totschnig.myexpenses.provider.DatabaseConstants.CAT_AS_LABEL
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_CATID
+import org.totschnig.myexpenses.provider.KEY_COMMENT
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_METHODID
+import org.totschnig.myexpenses.provider.TABLE_CATEGORIES
+import org.totschnig.myexpenses.provider.TABLE_PAYEES
 import org.totschnig.myexpenses.provider.PayeeInfo
+import org.totschnig.myexpenses.provider.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.TransactionInfo
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.insert
@@ -57,7 +64,7 @@ class AutoFillTest : BaseDbTest() {
         )
 
         for (testTransaction in testTransactions) {
-            mDb.insert(DatabaseConstants.TABLE_TRANSACTIONS, testTransaction!!.contentValues)
+            mDb.insert(TABLE_TRANSACTIONS, testTransaction!!.contentValues)
         }
     }
 
@@ -95,13 +102,13 @@ class AutoFillTest : BaseDbTest() {
 
     private fun testAutoLoadForPayee(payeeId: Long, transaction: TransactionInfo?) {
         val projection = arrayOf(
-            DatabaseConstants.KEY_CURRENCY,
-            DatabaseConstants.KEY_AMOUNT,
-            DatabaseConstants.KEY_CATID,
-            DatabaseConstants.CAT_AS_LABEL,
-            DatabaseConstants.KEY_COMMENT,
-            DatabaseConstants.KEY_ACCOUNTID,
-            DatabaseConstants.KEY_METHODID
+            KEY_CURRENCY,
+            KEY_AMOUNT,
+            KEY_CATID,
+            CAT_AS_LABEL,
+            KEY_COMMENT,
+            KEY_ACCOUNTID,
+            KEY_METHODID
         )
         mockContentResolver.query(
             ContentUris.withAppendedId(TransactionProvider.AUTOFILL_URI, payeeId),

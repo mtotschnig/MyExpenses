@@ -1,11 +1,13 @@
 package org.totschnig.myexpenses.viewmodel.data
 
 import android.database.Cursor
-import android.graphics.Color
 import android.os.Parcelable
 import androidx.annotation.ColorInt
 import kotlinx.parcelize.Parcelize
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_COLOR
+import org.totschnig.myexpenses.provider.KEY_COUNT
+import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.getIntIfExists
 import org.totschnig.myexpenses.provider.getIntOrNull
 import org.totschnig.myexpenses.provider.getLong
@@ -28,10 +30,10 @@ data class Tag(
 
     companion object {
         fun fromCursor(cursor: Cursor) = Tag(
-            id = cursor.getLong(DatabaseConstants.KEY_ROWID),
-            label = cursor.getString(DatabaseConstants.KEY_LABEL),
-            color = cursor.getIntOrNull(DatabaseConstants.KEY_COLOR),
-            count = cursor.getIntIfExists(DatabaseConstants.KEY_COUNT) ?: 0
+            id = cursor.getLong(KEY_ROWID),
+            label = cursor.getString(KEY_LABEL),
+            color = cursor.getIntOrNull(KEY_COLOR),
+            count = cursor.getIntIfExists(KEY_COUNT) ?: 0
         )
     }
 }

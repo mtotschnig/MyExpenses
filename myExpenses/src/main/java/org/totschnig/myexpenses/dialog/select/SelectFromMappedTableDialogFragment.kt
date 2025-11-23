@@ -14,15 +14,14 @@
  */
 package org.totschnig.myexpenses.dialog.select
 
-import android.os.Bundle
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_CODE
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.TABLE_ACCOUNTS
+import org.totschnig.myexpenses.provider.TABLE_CURRENCIES
 import org.totschnig.myexpenses.provider.filter.IdCriterion
 import org.totschnig.myexpenses.provider.filter.KEY_CRITERION
 import kotlin.math.abs
@@ -32,7 +31,7 @@ abstract class SelectFromMappedTableDialogFragment<T : IdCriterion>(
     typeParameterClass: Class<T>,
 ) : SelectFilterDialog<T>(withNullItem, typeParameterClass) {
     override val column: String
-        get() = DatabaseConstants.KEY_LABEL
+        get() = KEY_LABEL
     override val selection: String?
         get() = accountSelection(requireArguments().getLong(KEY_ROWID))
     override val selectionArgs: Array<String>?

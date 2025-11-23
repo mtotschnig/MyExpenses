@@ -13,7 +13,11 @@ import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.instantiateTemplate
 import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_DATE
+import org.totschnig.myexpenses.provider.KEY_INSTANCEID
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_TEMPLATEID
+import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.ExchangeRateHandler
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
@@ -54,12 +58,12 @@ class PlanNotificationClickHandler : IntentService("PlanNotificationClickHandler
             .setSmallIcon(R.drawable.ic_stat_notification_sigma)
             .setContentTitle(title)
         val notificationId = extras.getInt(MyApplication.KEY_NOTIFICATION_ID)
-        val templateId = extras.getLong(DatabaseConstants.KEY_TEMPLATEID)
-        val instanceId = extras.getLong(DatabaseConstants.KEY_INSTANCEID)
+        val templateId = extras.getLong(KEY_TEMPLATEID)
+        val instanceId = extras.getLong(KEY_INSTANCEID)
         when (action) {
             PlanExecutor.ACTION_APPLY -> {
                 val date =
-                    extras.getLong(DatabaseConstants.KEY_DATE, Instant.now().toEpochMilli())
+                    extras.getLong(KEY_DATE, Instant.now().toEpochMilli())
                 val t =
                     runBlocking {
                         repository.instantiateTemplate(
@@ -73,8 +77,8 @@ class PlanNotificationClickHandler : IntentService("PlanNotificationClickHandler
                         R.plurals.save_transaction_from_template_success, 1, 1
                     )
                     val displayIntent = Intent(this, MyExpenses::class.java)
-                        .putExtra(DatabaseConstants.KEY_ROWID, t.data.accountId)
-                        .putExtra(DatabaseConstants.KEY_TRANSACTIONID, t.id)
+                        .putExtra(KEY_ROWID, t.data.accountId)
+                        .putExtra(KEY_TRANSACTIONID, t.id)
                     val resultIntent = PendingIntent.getActivity(
                         this, notificationId, displayIntent,
                         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
@@ -88,9 +92,9 @@ class PlanNotificationClickHandler : IntentService("PlanNotificationClickHandler
 
             PlanExecutor.ACTION_CANCEL -> {
                 val values = ContentValues()
-                values.putNull(DatabaseConstants.KEY_TRANSACTIONID)
-                values.put(DatabaseConstants.KEY_TEMPLATEID, templateId)
-                values.put(DatabaseConstants.KEY_INSTANCEID, instanceId)
+                values.putNull(KEY_TRANSACTIONID)
+                values.put(KEY_TEMPLATEID, templateId)
+                values.put(KEY_INSTANCEID, instanceId)
                 try {
                     getContentResolver().insert(
                         TransactionProvider.PLAN_INSTANCE_STATUS_URI,

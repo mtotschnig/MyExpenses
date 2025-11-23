@@ -20,7 +20,7 @@ import org.totschnig.myexpenses.model.Grouping.NONE
 import org.totschnig.myexpenses.model.Grouping.WEEK
 import org.totschnig.myexpenses.model.Grouping.YEAR
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
+import org.totschnig.myexpenses.provider.KEY_GROUPING
 import org.totschnig.myexpenses.widget.BudgetWidget
 import org.totschnig.myexpenses.widget.updateWidgets
 import timber.log.Timber

@@ -28,13 +28,13 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.TestExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.RepositoryTransaction
+import org.totschnig.myexpenses.db2.createPlan
 import org.totschnig.myexpenses.db2.createSplitTemplate
 import org.totschnig.myexpenses.db2.createSplitTransaction
 import org.totschnig.myexpenses.db2.createTemplate
 import org.totschnig.myexpenses.db2.createTransaction
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.deletePlan
-import org.totschnig.myexpenses.db2.entities.Plan
 import org.totschnig.myexpenses.db2.entities.Recurrence
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.entities.Transaction
@@ -43,12 +43,14 @@ import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.insertTransfer
 import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.db2.markAsExported
-import org.totschnig.myexpenses.db2.createPlan
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_EXPORTED
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_SEALED
+import org.totschnig.myexpenses.provider.KEY_TEMPLATEID
+import org.totschnig.myexpenses.provider.SPLIT_CATID
+import org.totschnig.myexpenses.provider.STATUS_EXPORTED
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone
@@ -107,7 +109,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         buildAccount("Test account 2", currency = foreignCurrency.code, dynamicExchangeRates = true)
 
     private fun load(id: Long) = launchAndWait(intent.apply {
-        putExtra(DatabaseConstants.KEY_ROWID, id)
+        putExtra(KEY_ROWID, id)
     })
 
     @Test
@@ -277,7 +279,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     private fun testTransferClone(loadFromPeer: Boolean) {
         launchAndWait(intent.apply {
             putExtra(
-                DatabaseConstants.KEY_ROWID,
+                KEY_ROWID,
                 (if (loadFromPeer) transfer.transferPeer!! else transfer.data).id
             )
             putExtra(ExpenseEdit.KEY_CLONE, true)
@@ -328,7 +330,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             Transaction(
                 amount = 0L,
                 accountId = account1.id,
-                categoryId = DatabaseConstants.SPLIT_CATID,
+                categoryId = SPLIT_CATID,
                 uuid = generateUuid()
             ), emptyList<Transaction>()
         )
@@ -346,7 +348,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     @Test
     fun shouldPopulateWithSplitTemplateAndLoadParts() {
         launchAndWait(intent.apply {
-            putExtra(DatabaseConstants.KEY_TEMPLATEID, buildSplitTemplate())
+            putExtra(KEY_TEMPLATEID, buildSplitTemplate())
         }).use {
             it.onActivity { activity: ExpenseEdit ->
                 assertThat(activity.isTemplate).isTrue()
@@ -363,7 +365,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     fun shouldPopulateFromSplitTemplateAndLoadParts() {
         launchAndWait(intent.apply {
             action = ExpenseEdit.ACTION_CREATE_FROM_TEMPLATE
-            putExtra(DatabaseConstants.KEY_TEMPLATEID, buildSplitTemplate())
+            putExtra(KEY_TEMPLATEID, buildSplitTemplate())
         }).use {
             it.onActivity { activity: ExpenseEdit ->
                 assertThat(activity.isTemplate).isFalse()
@@ -381,7 +383,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             Template(
                 amount = 0L,
                 accountId = account1.id,
-                categoryId = DatabaseConstants.SPLIT_CATID,
+                categoryId = SPLIT_CATID,
                 title = "Split",
                 uuid = generateUuid()
             ), listOf(
@@ -415,7 +417,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         )
 
         launchAndWait(intent.apply {
-            putExtra(DatabaseConstants.KEY_TEMPLATEID, plan.id)
+            putExtra(KEY_TEMPLATEID, plan.id)
         }).use {
             checkEffectiveVisible(
                 R.id.TitleRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
@@ -442,7 +444,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         )
         launchAndWait(intent.apply {
             action = ExpenseEdit.ACTION_CREATE_FROM_TEMPLATE
-            putExtra(DatabaseConstants.KEY_TEMPLATEID, template.id)
+            putExtra(KEY_TEMPLATEID, template.id)
         }).use {
             checkEffectiveVisible(
                 R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
@@ -488,7 +490,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         val sealedAccount = buildAccount("Sealed account")
         val sealed = repository.insertTransaction(accountId = sealedAccount.id, amount = 500L)
         val values = ContentValues(1)
-        values.put(DatabaseConstants.KEY_SEALED, true)
+        values.put(KEY_SEALED, true)
         app.contentResolver.update(
             ContentUris.withAppendedId(
                 TransactionProvider.ACCOUNTS_URI,

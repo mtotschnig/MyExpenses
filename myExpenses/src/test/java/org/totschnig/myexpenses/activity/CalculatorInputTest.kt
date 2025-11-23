@@ -17,7 +17,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.annotation.Config
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import java.math.BigDecimal
 
 @RunWith(AndroidJUnit4::class)
@@ -74,7 +74,7 @@ class CalculatorInputTest {
         assertThat(scenario.result.resultCode).isEqualTo(Activity.RESULT_OK)
         val resultData = scenario.result.resultData
         assertThat(resultData).isNotNull()
-        val resultAmountStr = resultData.getStringExtra(DatabaseConstants.KEY_AMOUNT)
+        val resultAmountStr = resultData.getStringExtra(KEY_AMOUNT)
         assertThat(resultAmountStr).isNotNull()
         // Using BigDecimal for accurate comparison
         assertThat(BigDecimal(resultAmountStr)).isEqualTo(BigDecimal("12.5"))
@@ -106,7 +106,7 @@ class CalculatorInputTest {
     fun testInitialAmountPassed_displaysCorrectly() {
         val initialAmount = "98.76"
         val intent = Intent(ApplicationProvider.getApplicationContext(), CalculatorInput::class.java)
-        intent.putExtra(DatabaseConstants.KEY_AMOUNT, initialAmount)
+        intent.putExtra(KEY_AMOUNT, initialAmount)
         launchActivity(intent)
         testHelper("98.76")
     }

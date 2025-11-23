@@ -7,7 +7,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.injector
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
+import org.totschnig.myexpenses.provider.KEY_TEMPLATEID
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import org.totschnig.myexpenses.viewmodel.TemplatesListViewModel
 

@@ -13,7 +13,7 @@ import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.insertTransfer
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.KEY_SEALED
 import org.totschnig.myexpenses.provider.TransactionProvider
 
 @RunWith(RobolectricTestRunner::class)

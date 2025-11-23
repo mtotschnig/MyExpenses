@@ -5,7 +5,15 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.KEY_COLOR
+import org.totschnig.myexpenses.provider.KEY_ICON
+import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_LEVEL
+import org.totschnig.myexpenses.provider.KEY_MATCHES_FILTER
+import org.totschnig.myexpenses.provider.KEY_PARENTID
+import org.totschnig.myexpenses.provider.KEY_PATH
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_TYPE
 import org.totschnig.myexpenses.viewmodel.data.Category
 
 @RunWith(AndroidJUnit4::class)
@@ -34,7 +42,7 @@ class CategoryViewModelTest {
             label: String,
             path: String = if (parent == null) label else ""
         ) =
-            addRow(arrayOf(id, parent, label, null, null, path, 1, path.split(" -> ").size, null))
+            addRow(arrayOf<Any?>(id, parent, label, null, null, path, 1, path.split(" -> ").size, null))
         cursor.addCat(1, null, "Car")
         cursor.addCat(2, 1, "Fuel", "Car -> Fuel")
         cursor.addCat(3, null, "Care")

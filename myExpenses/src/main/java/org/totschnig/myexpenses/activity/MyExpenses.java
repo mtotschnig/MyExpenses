@@ -28,7 +28,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import androidx.annotation.NonNull;
 
 import static org.totschnig.myexpenses.activity.ConstantsKt.EDIT_REQUEST;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_ROWID;
 
 /**
  * This is the main activity where all expenses are listed

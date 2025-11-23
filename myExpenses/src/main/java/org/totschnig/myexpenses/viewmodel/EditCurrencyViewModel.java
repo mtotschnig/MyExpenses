@@ -1,7 +1,7 @@
 package org.totschnig.myexpenses.viewmodel;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_CODE;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_LABEL;
 
 import android.app.Application;
 import android.content.ContentResolver;

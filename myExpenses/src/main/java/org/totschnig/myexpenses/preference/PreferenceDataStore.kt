@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC
+import org.totschnig.myexpenses.provider.KEY_DYNAMIC
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.IOException
 import javax.inject.Inject

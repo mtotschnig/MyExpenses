@@ -30,7 +30,7 @@ import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
 
 @Ignore("For unknown reason, testing for expense works, while testing for income fails. We run this test connected for the moment.")

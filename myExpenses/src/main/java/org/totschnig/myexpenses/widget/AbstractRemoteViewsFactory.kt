@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.view.ContextThemeWrapper
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import javax.inject.Inject
@@ -35,7 +35,7 @@ abstract class AbstractRemoteViewsFactory(
     override fun getItemId(position: Int) = cursor?.takeIf {
         !it.isClosed && it.moveToPosition(position)
     }?.let {
-        it.getLong(it.getColumnIndexOrThrow(DatabaseConstants.KEY_ROWID))
+        it.getLong(it.getColumnIndexOrThrow(KEY_ROWID))
     } ?: 0
 
     override fun hasStableIds() = true

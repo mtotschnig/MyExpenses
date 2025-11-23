@@ -3,13 +3,13 @@ package org.totschnig.myexpenses.test.provider
 import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
+import org.totschnig.myexpenses.provider.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_SEALED
+import org.totschnig.myexpenses.provider.TABLE_DEBTS
+import org.totschnig.myexpenses.provider.TABLE_PAYEES
 import org.totschnig.myexpenses.provider.PayeeInfo
+import org.totschnig.myexpenses.provider.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.TransactionInfo
 import org.totschnig.myexpenses.provider.insert
 import org.totschnig.myexpenses.provider.update
@@ -53,7 +53,7 @@ class TransactionDebtTest: BaseDbTest() {
             Debt(0, "Closed debt", "", payeeId1, 100000, currency, System.currentTimeMillis() / 1000).toContentValues()
         )
         closedTransaction = mDb.insert(
-            DatabaseConstants.TABLE_TRANSACTIONS,
+            TABLE_TRANSACTIONS,
             TransactionInfo(
                 accountId = testAccountId,
                 amount = 0,
@@ -69,7 +69,7 @@ class TransactionDebtTest: BaseDbTest() {
     fun testUpdateTransactionForSealedDebtShouldFail() {
         try {
             mDb.update(
-                DatabaseConstants.TABLE_TRANSACTIONS,
+                TABLE_TRANSACTIONS,
                 ContentValues(1).apply { put(KEY_AMOUNT, 5000) },
                 "$KEY_ROWID = ?", arrayOf(closedTransaction.toString())
             )
@@ -82,7 +82,7 @@ class TransactionDebtTest: BaseDbTest() {
     fun testDeleteTransactionForSealedDebtShouldFail() {
         try {
             mDb.delete(
-                DatabaseConstants.TABLE_TRANSACTIONS,
+                TABLE_TRANSACTIONS,
                 "$KEY_ROWID = ?", arrayOf(closedTransaction.toString())
             )
             kotlin.test.fail("Delete of transaction for closed debt did not raise SQLiteConstraintException")
@@ -102,7 +102,7 @@ class TransactionDebtTest: BaseDbTest() {
 
         try {
             mDb.insert(
-                DatabaseConstants.TABLE_TRANSACTIONS,
+                TABLE_TRANSACTIONS,
                 testTransaction.contentValues
             )
             kotlin.test.fail("Insert into closed debt dit no raise SQLiteConstraintException")

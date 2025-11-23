@@ -25,12 +25,11 @@ import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DataBaseAccount
-import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_EXPORTED
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_EXCLUDE_FROM_TOTALS
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_STATUS
+import org.totschnig.myexpenses.provider.STATUS_EXPORTED
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
@@ -97,7 +96,7 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                     val accountIds = if (accountId > 0L) {
                         listOf(accountId)
                     } else {
-                        var selection = "${DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS} = 0"
+                        var selection = "$KEY_EXCLUDE_FROM_TOTALS = 0"
                         var selectionArgs: Array<String>? = null
                         if (currency != null) {
                             selection += " AND $KEY_CURRENCY = ?"

@@ -49,6 +49,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.Insets
+import androidx.core.net.toUri
 import androidx.core.os.BundleCompat
 import androidx.core.os.LocaleListCompat
 import androidx.core.view.ViewCompat
@@ -82,6 +83,7 @@ import eltos.simpledialogfragment.form.Hint
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import eltos.simpledialogfragment.form.Spinner
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
@@ -90,6 +92,11 @@ import org.totschnig.myexpenses.activity.ContribInfoDialogActivity.Companion.get
 import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.KEY_OCR_RESULT
 import org.totschnig.myexpenses.databinding.ActivityWithFragmentBinding
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_NEGATIVE
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_POSITIVE
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_MESSAGE
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_POSITIVE_BUTTON_LABEL
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_TAG_POSITIVE_BUNDLE
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.DialogUtils.PasswordDialogUnlockedCallback
@@ -115,8 +122,13 @@ import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
+import org.totschnig.myexpenses.provider.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_COLOR
+import org.totschnig.myexpenses.provider.KEY_DATE
+import org.totschnig.myexpenses.provider.KEY_PATH
+import org.totschnig.myexpenses.provider.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.KEY_SYNC_ACCOUNT_NAME
+import org.totschnig.myexpenses.provider.KEY_URI
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.service.PlanExecutor.Companion.enqueueSelf
 import org.totschnig.myexpenses.sync.GenericAccountService
@@ -153,14 +165,6 @@ import java.time.LocalTime
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.sign
-import androidx.core.net.toUri
-import kotlinx.coroutines.flow.StateFlow
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_NEGATIVE
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_POSITIVE
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_MESSAGE
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_POSITIVE_BUTTON_LABEL
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_TAG_POSITIVE_BUNDLE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
 
 abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.MessageDialogListener,
     ConfirmationDialogListener, EasyPermissions.PermissionCallbacks, AmountInput.Host, ContribIFace,
@@ -246,7 +250,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         val intent = Intent(this, CalculatorInput::class.java).apply {
             forwardDataEntryFromWidget(this)
             if (amount != null) {
-                putExtra(DatabaseConstants.KEY_AMOUNT, amount.toString())
+                putExtra(KEY_AMOUNT, amount.toString())
             }
             putExtra(CalculatorInput.EXTRA_KEY_INPUT_ID, id)
             putExtra(KEY_COLOR, color)
@@ -656,7 +660,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             DIALOG_INACTIVE_BACKEND -> {
                 if (which == OnDialogResultListener.BUTTON_POSITIVE) {
                     GenericAccountService.activateSync(
-                        extras.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)!!,
+                        extras.getString(KEY_SYNC_ACCOUNT_NAME)!!,
                         prefHandler
                     )
                 }
@@ -667,9 +671,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 startEditFromOcrResult(
                     BundleCompat.getParcelable(extras, KEY_OCR_RESULT, OcrResult::class.java)!!
                         .selectCandidates(
-                            extras.getInt(DatabaseConstants.KEY_AMOUNT),
-                            extras.getInt(DatabaseConstants.KEY_DATE),
-                            extras.getInt(DatabaseConstants.KEY_PAYEE_NAME)
+                            extras.getInt(KEY_AMOUNT),
+                            extras.getInt(KEY_DATE),
+                            extras.getInt(KEY_PAYEE_NAME)
                         ),
                     BundleCompat.getParcelable(extras, KEY_URI, Uri::class.java)!!
                 )
@@ -1487,7 +1491,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     fun requestSync(accountName: String, uuid: String? = null) {
         if (!GenericAccountService.requestSync(accountName, uuid = uuid)) {
             val bundle = Bundle(1)
-            bundle.putString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, accountName)
+            bundle.putString(KEY_SYNC_ACCOUNT_NAME, accountName)
             SimpleDialog.build()
                 .msg(getString(R.string.warning_backend_deactivated))
                 .pos(getString(R.string.button_activate_again))
@@ -1544,7 +1548,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                                 "${getString(R.string.amount)}: ${it.amountCandidates[0]}"
                             )
 
-                            else -> Spinner.plain(DatabaseConstants.KEY_AMOUNT)
+                            else -> Spinner.plain(KEY_AMOUNT)
                                 .placeholder(R.string.amount)
                                 .items(*it.amountCandidates.toTypedArray())
                                 .preset(0)
@@ -1555,7 +1559,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                                 "${getString(R.string.date)}: ${it.dateCandidates[0]}"
                             )
 
-                            else -> Spinner.plain(DatabaseConstants.KEY_DATE)
+                            else -> Spinner.plain(KEY_DATE)
                                 .placeholder(R.string.date)
                                 .items(
                                     *it.dateCandidates.map(this::displayDateCandidate)
@@ -1569,7 +1573,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                                 "${getString(R.string.payee)}: ${it.payeeCandidates[0]}"
                             )
 
-                            else -> Spinner.plain(DatabaseConstants.KEY_PAYEE_NAME)
+                            else -> Spinner.plain(KEY_PAYEE_NAME)
                                 .placeholder(R.string.payee)
                                 .items(*it.payeeCandidates.map(Payee::name).toTypedArray())
                                 .preset(0)

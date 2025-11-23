@@ -21,7 +21,7 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.adapter.CurrencyAdapter
 import org.totschnig.myexpenses.dialog.EditCurrencyDialog
 import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.EditCurrencyViewModel
 import java.util.*
@@ -107,7 +107,7 @@ class CurrencyList : ListFragment() {
                     getString(
                         R.string.change_fraction_digits_result,
                         result,
-                        data.getStringExtra(DatabaseConstants.KEY_CURRENCY)
+                        data.getStringExtra(KEY_CURRENCY)
                     )
                 )
             }

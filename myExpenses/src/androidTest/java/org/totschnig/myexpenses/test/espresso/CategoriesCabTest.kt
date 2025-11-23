@@ -45,8 +45,11 @@ import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
+import org.totschnig.myexpenses.provider.KEY_BUDGET
+import org.totschnig.myexpenses.provider.KEY_PARENTID
+import org.totschnig.myexpenses.provider.KEY_SECOND_GROUP
+import org.totschnig.myexpenses.provider.KEY_TYPE
+import org.totschnig.myexpenses.provider.KEY_YEAR
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseComposeTest
 import org.totschnig.myexpenses.testutils.TestShard1
@@ -134,9 +137,9 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
         @Suppress("SameParameterValue") amount: Long
     ) {
         with(ContentValues(1)) {
-            put(DatabaseConstants.KEY_BUDGET, amount)
-            put(DatabaseConstants.KEY_YEAR, 2022)
-            put(DatabaseConstants.KEY_SECOND_GROUP, 7)
+            put(KEY_BUDGET, amount)
+            put(KEY_YEAR, 2022)
+            put(KEY_SECOND_GROUP, 7)
             contentResolver.update(
                 BaseTransactionProvider.budgetAllocationUri(budgetId, categoryId),
                 this, null, null
@@ -249,7 +252,7 @@ class CategoriesCabTest : BaseComposeTest<ManageCategories>() {
             assertThat(
                 repository.count(
                     TransactionProvider.CATEGORIES_URI,
-                    "${DatabaseConstants.KEY_PARENTID} = ?", arrayOf(categoryId.toString())
+                    "$KEY_PARENTID = ?", arrayOf(categoryId.toString())
                 )
             ).isEqualTo(1)
         }

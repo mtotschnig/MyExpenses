@@ -25,11 +25,11 @@ import org.totschnig.myexpenses.db2.deletePrice
 import org.totschnig.myexpenses.db2.savePrice
 import org.totschnig.myexpenses.export.createFileFailure
 import org.totschnig.myexpenses.model.ExportFormat
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAX_VALUE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SOURCE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
+import org.totschnig.myexpenses.provider.KEY_COMMODITY
+import org.totschnig.myexpenses.provider.KEY_DATE
+import org.totschnig.myexpenses.provider.KEY_MAX_VALUE
+import org.totschnig.myexpenses.provider.KEY_SOURCE
+import org.totschnig.myexpenses.provider.KEY_VALUE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getLocalDate
 import org.totschnig.myexpenses.provider.mapToListWithExtra

@@ -18,7 +18,8 @@ import org.totschnig.myexpenses.fragment.SyncBackendList
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_SYNC_ACCOUNT_NAME
+import org.totschnig.myexpenses.provider.KEY_UUID
 import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory.Companion.ACTION_RECONFIGURE
@@ -98,12 +99,12 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
         super.onPositive(args, checked)
         when (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
             R.id.SYNC_UNLINK_COMMAND -> {
-                listFragment.syncUnlink(args.getString(DatabaseConstants.KEY_UUID)!!)
+                listFragment.syncUnlink(args.getString(KEY_UUID)!!)
             }
 
             R.id.SYNC_REMOVE_BACKEND_COMMAND -> {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    val accountName = args.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)!!
+                    val accountName = args.getString(KEY_SYNC_ACCOUNT_NAME)!!
                     if (syncViewModel.removeBackend(accountName)) {
                         listFragment.reloadAccountList()
                         if (prefHandler.cloudStorage == accountName) {
@@ -132,7 +133,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
 
             R.id.SYNC_LINK_COMMAND_REMOTE_DO -> {
                 BundleCompat.getSerializable(args, KEY_ACCOUNT, Account::class.java)?.let { account ->
-                    if (account.uuid == intent.getStringExtra(DatabaseConstants.KEY_UUID)) {
+                    if (account.uuid == intent.getStringExtra(KEY_UUID)) {
                         incomingAccountDeleted = true
                         onBackPressedCallback.isEnabled = true
                     }

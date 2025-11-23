@@ -4,17 +4,12 @@ import android.content.Context
 import android.os.Bundle
 import androidx.test.core.app.ApplicationProvider
 import org.junit.After
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 
 @RunWith(RobolectricTestRunner::class)
@@ -44,8 +39,7 @@ class SyncHandlerTest : BaseTestWithRepository() {
     }
 
     @Test
-    fun `applyChangesFromSync should correctly create a new transaction`() {
-        // Arrange: Stage the JSON file for this specific test case
+    fun `should correctly create a new transaction`() {
         prepareSyncFile(context, "sync_create_new_transaction.json")
 
         val extras = Bundle().apply {
@@ -54,15 +48,38 @@ class SyncHandlerTest : BaseTestWithRepository() {
             putLong(KEY_TYPE, 1L)
         }
 
-        // Act: Run the method you want to test
         provider.applyChangesFromSync(extras)
 
-        // Assert: Query the database to verify the new transaction was created correctly
         provider.query(
             TransactionProvider.TRANSACTIONS_URI,
             null,
             "$KEY_UUID = ?",
-            arrayOf("c1385e32-3d8c-4ed8-b1f2-0c461934e28e"), // Use the UUID from the test JSON
+            arrayOf("c1385e32-3d8c-4ed8-b1f2-0c461934e28e"),
+            null
+        ).useAndAssert {
+            hasCount(1)
+            movesToFirst()
+        }
+        repository
+    }
+
+    @Test
+    fun `should correctly create a new split transaction`() {
+        prepareSyncFile(context, "sync_create_new_split_transaction_legacy.json")
+
+        val extras = Bundle().apply {
+            putLong(KEY_ACCOUNTID, accountId)
+            putString(KEY_CURRENCY, currencyContext.homeCurrencyString)
+            putLong(KEY_TYPE, 1L)
+        }
+
+        provider.applyChangesFromSync(extras)
+
+        provider.query(
+            TransactionProvider.TRANSACTIONS_URI,
+            null,
+            "$KEY_UUID = ?",
+            arrayOf("7bf6c4ed-09d2-4237-ae6c-0ec0b8fe41c3"), // Use the UUID from the test JSON
             null
         ).useAndAssert {
             hasCount(1)
@@ -72,7 +89,6 @@ class SyncHandlerTest : BaseTestWithRepository() {
 
     @After
     fun tearDown() {
-        // Clean up the temporary sync file
         SyncContract.getSyncFile(context).delete()
     }
 }

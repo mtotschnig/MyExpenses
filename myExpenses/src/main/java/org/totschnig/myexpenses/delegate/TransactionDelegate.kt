@@ -50,7 +50,7 @@ import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translat
 import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.DateButton
 import org.totschnig.myexpenses.ui.MyTextWatcher
@@ -713,7 +713,7 @@ abstract class TransactionDelegate(
         when (newType) {
 
             TYPE_SPLIT -> {
-                catId = DatabaseConstants.SPLIT_CATID
+                catId = SPLIT_CATID
             }
 
             TYPE_TRANSACTION -> {

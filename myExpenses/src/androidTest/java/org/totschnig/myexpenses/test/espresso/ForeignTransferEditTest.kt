@@ -8,7 +8,7 @@ import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.insertTransfer
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
 import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_2
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
@@ -51,7 +51,7 @@ class ForeignTransferEditTest : BaseExpenseEditTest() {
     @Test
     fun shouldSaveForeignTransfer() {
         val i = intent
-        i.putExtra(DatabaseConstants.KEY_ROWID, transfer)
+        i.putExtra(KEY_ROWID, transfer)
         testScenario = ActivityScenario.launchActivityForResult(i)
         androidx.test.espresso.Espresso.onIdle()
         closeKeyboardAndSave()

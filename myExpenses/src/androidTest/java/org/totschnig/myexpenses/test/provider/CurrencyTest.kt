@@ -2,7 +2,8 @@ package org.totschnig.myexpenses.test.provider
 
 import junit.framework.TestCase
 import org.totschnig.myexpenses.provider.AccountInfo
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.TABLE_ACCOUNTS
+import org.totschnig.myexpenses.provider.TABLE_CURRENCIES
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.insert
 import org.totschnig.myexpenses.testutils.BaseDbTest
@@ -25,7 +26,7 @@ class CurrencyTest : BaseDbTest() {
     fun testShouldDeleteUnUsedCurrency() {
         mDb
             .insert(
-                DatabaseConstants.TABLE_CURRENCIES,
+                TABLE_CURRENCIES,
                 testCurrency.contentValues
             )
         val result = getMockContentResolver().delete(
@@ -41,12 +42,12 @@ class CurrencyTest : BaseDbTest() {
 
         mDb
             .insert(
-                DatabaseConstants.TABLE_CURRENCIES,
+                TABLE_CURRENCIES,
                 testCurrency.contentValues
             )
         mDb
             .insert(
-                DatabaseConstants.TABLE_ACCOUNTS,
+                TABLE_ACCOUNTS,
                 testAccount.contentValues
             )
         val result = getMockContentResolver().delete(

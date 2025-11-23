@@ -19,8 +19,8 @@ import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.CATEGORY_ICON
 import org.totschnig.myexpenses.testutils.CATEGORY_LABEL
 import org.totschnig.myexpenses.testutils.TEMPLATE_TITLE
-import org.totschnig.myexpenses.testutils.TransactionInfo
 import org.totschnig.myexpenses.testutils.withCategoryIcon
+import org.totschnig.shared_test.TransactionInfo
 
 
 class ExpenseEditCategoryTest : BaseExpenseEditTest() {

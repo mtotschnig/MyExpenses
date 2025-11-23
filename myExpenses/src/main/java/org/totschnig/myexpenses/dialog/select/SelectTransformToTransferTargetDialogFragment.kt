@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 
 class SelectTransformToTransferTargetDialogFragment : SelectSingleAccountDialogFragment() {

@@ -22,7 +22,7 @@ import org.totschnig.myexpenses.fragment.OnBoardingPrivacyFragment
 import org.totschnig.myexpenses.fragment.OnboardingDataFragment
 import org.totschnig.myexpenses.fragment.OnboardingUiFragment
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.versionNumber
@@ -152,7 +152,7 @@ class OnboardingActivity : SyncBackendSetupActivity() {
 
     fun setupFromBackup(backup: String?, password: String?) {
         doRestore(Bundle(4).apply {
-            putString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, accountName)
+            putString(KEY_SYNC_ACCOUNT_NAME, accountName)
             putString(KEY_BACKUP_FROM_SYNC, backup)
             putString(KEY_PASSWORD, password)
         })

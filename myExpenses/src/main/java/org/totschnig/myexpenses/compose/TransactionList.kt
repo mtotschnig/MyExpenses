@@ -64,7 +64,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.SortDirection
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.toEpoch
 import org.totschnig.myexpenses.viewmodel.data.BudgetData
@@ -570,7 +570,7 @@ private fun Header() {
         account = PageAccount(
             1,
             AccountType.CASH,
-            DatabaseConstants.KEY_DATE,
+            KEY_DATE,
             SortDirection.DESC,
             Grouping.NONE,
             CurrencyUnit.DebugInstance,
@@ -601,7 +601,7 @@ private fun HeaderWithBudgetProgress() {
         account = PageAccount(
             1,
             AccountType.CASH,
-            DatabaseConstants.KEY_DATE,
+            KEY_DATE,
             SortDirection.DESC,
             Grouping.NONE,
             CurrencyUnit.DebugInstance,

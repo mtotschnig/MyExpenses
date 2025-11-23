@@ -6,11 +6,11 @@ import android.net.Uri
 import android.os.Bundle
 import com.google.common.truth.Truth.assertThat
 import org.totschnig.myexpenses.provider.AccountInfo
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
+import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.KEY_URI
+import org.totschnig.myexpenses.provider.KEY_URI_LIST
+import org.totschnig.myexpenses.provider.TABLE_ACCOUNTS
+import org.totschnig.myexpenses.provider.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.TransactionInfo
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ATTACHMENTS_URI
@@ -71,7 +71,7 @@ class AttachmentTest : BaseDbTest() {
                 TransactionProvider.DUAL_URI,
                 TransactionProvider.METHOD_DELETE_ATTACHMENTS, null, Bundle(2).apply {
                     putLong(KEY_TRANSACTIONID, transactionId)
-                    putStringArray(DatabaseConstants.KEY_URI_LIST, arrayOf(uri))
+                    putStringArray(KEY_URI_LIST, arrayOf(uri))
                 })!!.getBoolean(KEY_RESULT)
             ).isTrue()
         } else {

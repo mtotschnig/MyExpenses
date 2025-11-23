@@ -12,7 +12,7 @@ import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
 import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_2
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
@@ -222,7 +222,7 @@ class CriterionReachedTest : BaseExpenseEditTest() {
             amount = existingAmount
         ).id
         launchForResult(getIntentForNewTransaction().apply {
-            putExtra(DatabaseConstants.KEY_ROWID, transactionId)
+            putExtra(KEY_ROWID, transactionId)
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
         }).use {
             if (editedAmount.sign != existingAmount.sign) {
@@ -256,7 +256,7 @@ class CriterionReachedTest : BaseExpenseEditTest() {
             amount = existingAmount
         ).id
         launchForResult(getIntentForNewTransaction().apply {
-            putExtra(DatabaseConstants.KEY_ROWID, transactionId)
+            putExtra(KEY_ROWID, transactionId)
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
         }).use {
             if (editedAmount.sign != existingAmount.sign) {

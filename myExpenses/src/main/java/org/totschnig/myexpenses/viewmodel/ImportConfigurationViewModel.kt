@@ -5,7 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 
 open class ImportConfigurationViewModel(application: Application, val savedStateHandle: SavedStateHandle) :

@@ -12,7 +12,9 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.markAsExported
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_SEALED
+import org.totschnig.myexpenses.provider.KEY_STATUS
+import org.totschnig.myexpenses.provider.STATUS_EXPORTED
 import org.totschnig.myexpenses.provider.TransactionProvider
 
 
@@ -36,10 +38,10 @@ class SealedAccountMarkExportedTest: BaseTestWithRepository() {
         )
 
         val values = ContentValues(1)
-        values.put(DatabaseConstants.KEY_SEALED, true)
+        values.put(KEY_SEALED, true)
         resolver.update(ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, sealedAccount), values, null, null)
         repository.markAsExported(sealedAccount, null)
-        val cursor = resolver.query(TransactionProvider.TRANSACTIONS_URI, arrayOf("count(*)"), "${DatabaseConstants.KEY_STATUS} = ${DatabaseConstants.STATUS_EXPORTED}", null, null)!!
+        val cursor = resolver.query(TransactionProvider.TRANSACTIONS_URI, arrayOf("count(*)"), "$KEY_STATUS = $STATUS_EXPORTED", null, null)!!
         cursor.moveToFirst()
         assertThat(cursor.getInt(0)).isEqualTo(1)
         cursor.close()

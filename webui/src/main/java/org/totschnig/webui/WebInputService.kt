@@ -75,16 +75,16 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE_LIST
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LEVEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
+import org.totschnig.myexpenses.provider.KEY_ACCOUNT_TYPE_LIST
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_IS_NUMBERED
+import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_LEVEL
+import org.totschnig.myexpenses.provider.KEY_PARENTID
+import org.totschnig.myexpenses.provider.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_SEALED
+import org.totschnig.myexpenses.provider.KEY_TYPE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.useAndMapToList
@@ -529,6 +529,7 @@ class WebInputService : LifecycleService(), IWebInputService {
         put("/transactions/{id}") {
             val transaction = call.receive<TransactionDTO>()
             val id = call.parameters["id"]!!.toLong()
+            require(transaction.id == id)
             val updated = repository.updateTransaction(
                 transaction.toEntity(repository.getCurrencyUnitForAccount(transaction.account)!!)
             )
@@ -592,7 +593,7 @@ class WebInputService : LifecycleService(), IWebInputService {
                             AppDirHelper
                                 .getAppDirFiles(this@WebInputService)
                                 .getOrThrow()
-                                .map { it ->
+                                .map {
                                     mapOf(
                                         "name" to it.format(this@WebInputService),
                                         "link" to "download/${it.name}"

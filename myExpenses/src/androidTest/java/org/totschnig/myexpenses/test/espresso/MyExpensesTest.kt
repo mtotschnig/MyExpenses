@@ -40,7 +40,7 @@ import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowMenu
 import org.totschnig.myexpenses.testutils.TestShard4
@@ -145,7 +145,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
         intended(
             allOf(
                 hasComponent(AccountEdit::class.java.name),
-                not(hasExtraWithKey(DatabaseConstants.KEY_ROWID))
+                not(hasExtraWithKey(KEY_ROWID))
             )
         )
         onView(withId(R.id.Label)).perform(
@@ -182,7 +182,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
             allOf(
                 hasComponent(
                     AccountEdit::class.java.name
-                ), hasExtraWithKey(DatabaseConstants.KEY_ROWID)
+                ), hasExtraWithKey(KEY_ROWID)
             )
         )
     }

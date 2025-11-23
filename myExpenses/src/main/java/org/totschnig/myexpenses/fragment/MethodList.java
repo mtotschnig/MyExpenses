@@ -15,6 +15,11 @@
 
 package org.totschnig.myexpenses.fragment;
 
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_MAPPED_TEMPLATES;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_MAPPED_TRANSACTIONS;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_ROWID;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.Cursor;
@@ -31,10 +36,7 @@ import android.widget.SimpleCursorAdapter;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.ManageMethods;
 import org.totschnig.myexpenses.activity.MethodEdit;
-import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.provider.TransactionProvider;
-import org.totschnig.myexpenses.task.TaskExecutionFragment;
 
 import java.util.ArrayList;
 
@@ -53,7 +55,7 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
     View v = inflater.inflate(R.layout.methods_list, container, false);
     final ListView lv = v.findViewById(R.id.list);
     // Create an array to specify the fields we want to display in the list
-    String[] from = new String[]{DatabaseConstants.KEY_LABEL};
+    String[] from = new String[]{KEY_LABEL};
     // and an array of the fields we want to bind those fields to 
     int[] to = new int[]{android.R.id.text1};
     // Now create a simple cursor adapter and set it to display
@@ -98,7 +100,7 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
     AdapterContextMenuInfo menuInfo = (AdapterContextMenuInfo) info;
     if (command == R.id.EDIT_COMMAND) {
       Intent i = new Intent(getActivity(), MethodEdit.class);
-      i.putExtra(DatabaseConstants.KEY_ROWID, menuInfo.id);
+      i.putExtra(KEY_ROWID, menuInfo.id);
       startActivity(i);
       finishActionMode();
       return true;
@@ -113,9 +115,9 @@ public class MethodList extends ContextualActionBarFragment implements LoaderMan
       return true;
     }
     if (command == R.id.DELETE_COMMAND) {
-      int columnIndexMappedTransactions = mMethodsCursor.getColumnIndex(DatabaseConstants.KEY_MAPPED_TRANSACTIONS);
-      int columnIndexMappedTemplates = mMethodsCursor.getColumnIndex(DatabaseConstants.KEY_MAPPED_TEMPLATES);
-      int columnIndexRowId = mMethodsCursor.getColumnIndex(DatabaseConstants.KEY_ROWID);
+      int columnIndexMappedTransactions = mMethodsCursor.getColumnIndex(KEY_MAPPED_TRANSACTIONS);
+      int columnIndexMappedTemplates = mMethodsCursor.getColumnIndex(KEY_MAPPED_TEMPLATES);
+      int columnIndexRowId = mMethodsCursor.getColumnIndex(KEY_ROWID);
       int mappedTransactionsCount = 0, mappedTemplatesCount = 0;
       ArrayList<Long> idList = new ArrayList<>();
       for (int i = 0; i < positions.size(); i++) {

@@ -17,7 +17,7 @@ import org.totschnig.myexpenses.db2.entities.Recurrence
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.data.Account
@@ -150,7 +150,7 @@ class SplitDelegate(
 
     override fun buildMainTransaction(account: Account): TransactionEditData =
         super.buildMainTransaction(account).copy(
-            categoryId = DatabaseConstants.SPLIT_CATID,
+            categoryId = SPLIT_CATID,
             splitParts = splitParts
         )
 

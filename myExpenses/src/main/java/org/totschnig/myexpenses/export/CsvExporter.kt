@@ -8,7 +8,7 @@ import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.TransactionDTO
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_LEVEL
 import org.totschnig.myexpenses.provider.filter.Criterion
 import java.time.format.DateTimeFormatter
 
@@ -60,7 +60,7 @@ class CsvExporter(
     ): Result<DocumentFile> {
         numberOfCategoryColumns = context.contentResolver.query(
             BaseTransactionProvider.CATEGORY_TREE_URI,
-            arrayOf("max(${DatabaseConstants.KEY_LEVEL})"),
+            arrayOf("max($KEY_LEVEL)"),
             null, null, null
         )?.use {
             it.moveToFirst()

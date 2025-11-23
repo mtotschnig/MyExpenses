@@ -48,7 +48,7 @@ import org.totschnig.myexpenses.model.PREDEFINED_NAME_BANK
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.util.toEpoch
@@ -169,7 +169,7 @@ class ExportTest : BaseTestWithRepository() {
             Transaction(
                 accountId = account1.id,
                 amount = split1,
-                categoryId = DatabaseConstants.SPLIT_CATID,
+                categoryId = SPLIT_CATID,
                 date = splitDate,
                 payeeId = repository.requireParty("N.N."),
                 uuid = generateUuid()

@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.task;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_PLANID;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_UUID;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -67,7 +68,7 @@ public class GenericTask<T> extends AsyncTask<T, Void, Object> {
             if (eventCursor.moveToFirst()) {
               values.put(KEY_PLANID, eventCursor.getLong(0));
               cr.update(TransactionProvider.TEMPLATES_URI, values,
-                  DatabaseConstants.KEY_UUID + " = ?",
+                  KEY_UUID + " = ?",
                   new String[]{uuid});
             }
             eventCursor.close();

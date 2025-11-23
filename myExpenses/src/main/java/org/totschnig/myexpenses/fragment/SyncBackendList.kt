@@ -40,7 +40,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.SyncBackendProvider
 import org.totschnig.myexpenses.util.licence.LicenceHandler
@@ -235,7 +235,7 @@ class SyncBackendList : Fragment(), OnGroupExpandListener,
                             ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
                             R.string.remove
                         )
-                        putString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, syncAccountName)
+                        putString(KEY_SYNC_ACCOUNT_NAME, syncAccountName)
                     })
                         .show(parentFragmentManager, "SYNC_REMOVE_BACKEND")
                 } else {

@@ -35,7 +35,6 @@ import org.totschnig.myexpenses.dialog.getDisplayName
 import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.ImportFileResultHandler
 import org.totschnig.myexpenses.util.ImportFileResultHandler.FileNameHostFragment
 import org.totschnig.myexpenses.util.linkInputsWithLabels
@@ -53,6 +52,7 @@ import org.totschnig.myexpenses.dialog.addAllAccountTypes
 import org.totschnig.myexpenses.dialog.configureCurrencySpinner
 import org.totschnig.myexpenses.dialog.configureTypeSpinner
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.ui.SpinnerHelper
 
 class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnItemSelectedListener,
@@ -101,7 +101,7 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
         savedInstanceState: Bundle?
     ): View {
         if (savedInstanceState != null) {
-            currency = savedInstanceState.getString(DatabaseConstants.KEY_CURRENCY)
+            currency = savedInstanceState.getString(KEY_CURRENCY)
         }
         _binding = ImportCsvParseBinding.inflate(inflater, container, false)
         _fileNameBinding = FilenameBinding.bind(binding.root)
@@ -233,7 +233,7 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
         if (uri != null) {
             outState.putString(prefKey, uri.toString())
         }
-        outState.putString(DatabaseConstants.KEY_CURRENCY, currency)
+        outState.putString(KEY_CURRENCY, currency)
     }
 
     @Deprecated("Deprecated in Java")

@@ -13,13 +13,13 @@ data class BudgetInfo(
     val end: String? = null
 ) {
     val contentValues: ContentValues = ContentValues().apply {
-        put(DatabaseConstants.KEY_TITLE, title)
-        put(DatabaseConstants.KEY_DESCRIPTION, description)
-        put(DatabaseConstants.KEY_GROUPING, grouping.name)
-        put(DatabaseConstants.KEY_BUDGET, amount)
-        put(DatabaseConstants.KEY_ACCOUNTID, accountId)
-        putNull(DatabaseConstants.KEY_CURRENCY)
-        put(DatabaseConstants.KEY_START, start)
-        put(DatabaseConstants.KEY_END, end)
+        put(KEY_TITLE, title)
+        put(KEY_DESCRIPTION, description)
+        put(KEY_GROUPING, grouping.name)
+        put(KEY_BUDGET, amount)
+        put(KEY_ACCOUNTID, accountId)
+        putNull(KEY_CURRENCY)
+        put(KEY_START, start)
+        put(KEY_END, end)
     }
 }

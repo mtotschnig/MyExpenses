@@ -14,9 +14,9 @@ import app.cash.copper.flow.observeQuery
 import eltos.simpledialogfragment.form.ColorField
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_COLOR
+import org.totschnig.myexpenses.provider.KEY_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.util.toggle
@@ -109,7 +109,7 @@ class TagListViewModel(application: Application, savedStateHandle: SavedStateHan
                             }
                         }, null, null
                     )
-                } catch (e: SQLiteConstraintException) {
+                } catch (_: SQLiteConstraintException) {
                     0
                 } == 1
             )

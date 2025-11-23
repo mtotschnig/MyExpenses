@@ -24,11 +24,14 @@ import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_PARENTID
+import org.totschnig.myexpenses.provider.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.TABLE_PAYEES
 
 @Parcelize
 @Serializable
-@SerialName(DatabaseConstants.KEY_PAYEEID)
+@SerialName(KEY_PAYEEID)
 data class PayeeCriterion(
     override val label: String,
     override val values: List<Long>
@@ -41,7 +44,7 @@ data class PayeeCriterion(
     @IgnoredOnParcel
     override val id: Int = R.id.FILTER_PAYEE_COMMAND
     @IgnoredOnParcel
-    override val column = DatabaseConstants.KEY_PAYEEID
+    override val column = KEY_PAYEEID
 
     override val displayInfo: DisplayInfo
         get() = PayeeCriterion
@@ -51,9 +54,9 @@ data class PayeeCriterion(
             super.getSelection(false)
         } else {
             val selection = Operation.IN.getOp(values.size)
-            (column + " IN (SELECT " + DatabaseConstants.KEY_ROWID + " FROM "
-                    + DatabaseConstants.TABLE_PAYEES + " WHERE " + DatabaseConstants.KEY_PARENTID + " " + selection + " OR "
-                    + DatabaseConstants.KEY_ROWID + " " + selection + ")")
+            (column + " IN (SELECT " + KEY_ROWID + " FROM "
+                    + TABLE_PAYEES + " WHERE " + KEY_PARENTID + " " + selection + " OR "
+                    + KEY_ROWID + " " + selection + ")")
         }
     }
 

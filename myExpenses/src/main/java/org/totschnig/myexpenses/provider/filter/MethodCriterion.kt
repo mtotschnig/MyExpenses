@@ -24,11 +24,11 @@ import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_METHODID
 
 @Parcelize
 @Serializable
-@SerialName(DatabaseConstants.KEY_METHODID)
+@SerialName(KEY_METHODID)
 data class MethodCriterion(
     override val label: String,
     override val values: List<Long>
@@ -38,7 +38,7 @@ data class MethodCriterion(
     @IgnoredOnParcel
     override val id = R.id.FILTER_METHOD_COMMAND
     @IgnoredOnParcel
-    override val column = DatabaseConstants.KEY_METHODID
+    override val column = KEY_METHODID
 
     override val displayInfo: DisplayInfo
         get() = MethodCriterion

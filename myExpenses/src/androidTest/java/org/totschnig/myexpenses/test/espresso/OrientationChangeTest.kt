@@ -14,7 +14,6 @@ import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
-import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.CoreMatchers.`is`
@@ -33,7 +32,7 @@ import org.totschnig.myexpenses.model.PREDEFINED_NAME_BANK
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
 import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_2
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
@@ -85,7 +84,7 @@ class OrientationChangeTest : BaseExpenseEditTest() {
             amount = 500L
         ).id
         val i = Intent(targetContext, ExpenseEdit::class.java)
-        i.putExtra(DatabaseConstants.KEY_ROWID, id)
+        i.putExtra(KEY_ROWID, id)
         testScenario = ActivityScenario.launch(i)
         setAccount(ACCOUNT_LABEL_2)
         checkAccount(ACCOUNT_LABEL_2)
@@ -103,7 +102,7 @@ class OrientationChangeTest : BaseExpenseEditTest() {
             methodId = repository.findPaymentMethod(PreDefinedPaymentMethod.DIRECTDEBIT.name)
         ).id
         val i = Intent(targetContext, ExpenseEdit::class.java)
-        i.putExtra(DatabaseConstants.KEY_ROWID, id)
+        i.putExtra(KEY_ROWID, id)
         testScenario = ActivityScenario.launch(i)
         closeSoftKeyboard()
         setMethod(PreDefinedPaymentMethod.CREDITCARD)
@@ -122,7 +121,7 @@ class OrientationChangeTest : BaseExpenseEditTest() {
             methodId = repository.findPaymentMethod(PreDefinedPaymentMethod.DIRECTDEBIT.name)
         ).id
         val i = Intent(targetContext, ExpenseEdit::class.java)
-        i.putExtra(DatabaseConstants.KEY_ROWID, id)
+        i.putExtra(KEY_ROWID, id)
         testScenario = ActivityScenario.launch(i)
         closeSoftKeyboard()
         //onView(withId(R.id.Status)).perform(nestedScrollToAction(), click()) leads to Status spinner
@@ -163,7 +162,7 @@ class OrientationChangeTest : BaseExpenseEditTest() {
         ).id
         testScenario = ActivityScenario.launch(
             Intent(targetContext, ExpenseEdit::class.java).apply {
-                putExtra(DatabaseConstants.KEY_ROWID, id)
+                putExtra(KEY_ROWID, id)
             })
         doWithRotation {
             onIdle()

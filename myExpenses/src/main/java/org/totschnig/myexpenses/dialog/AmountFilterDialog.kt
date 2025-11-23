@@ -13,7 +13,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.FilterAmountBinding
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.filter.AmountCriterion
 import org.totschnig.myexpenses.provider.filter.AmountCriterion.Companion.create
 import org.totschnig.myexpenses.provider.filter.KEY_CRITERION
@@ -24,7 +24,7 @@ import org.totschnig.myexpenses.util.ui.withOkClick
 class AmountFilterDialog : DialogViewBinding<FilterAmountBinding>() {
 
     val currency: CurrencyUnit by lazy {
-        BundleCompat.getSerializable(requireArguments(), DatabaseConstants.KEY_CURRENCY,
+        BundleCompat.getSerializable(requireArguments(), KEY_CURRENCY,
             CurrencyUnit::class.java)!!
     }
 
@@ -105,7 +105,7 @@ class AmountFilterDialog : DialogViewBinding<FilterAmountBinding>() {
         fun newInstance(requestKey: String, currency: CurrencyUnit?, amountCriterion: AmountCriterion?) =
             AmountFilterDialog().apply {
                 arguments = configureArguments(requestKey).apply {
-                    putSerializable(DatabaseConstants.KEY_CURRENCY, currency)
+                    putSerializable(KEY_CURRENCY, currency)
                     putParcelable(KEY_CRITERION, amountCriterion)
                 }
             }

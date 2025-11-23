@@ -43,7 +43,7 @@ import org.totschnig.myexpenses.db2.writeTag
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.model2.Party
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
@@ -53,10 +53,10 @@ import org.totschnig.myexpenses.testutils.PARTY_NAME
 import org.totschnig.myexpenses.testutils.TAG_LABEL
 import org.totschnig.myexpenses.testutils.TEMPLATE_TITLE
 import org.totschnig.myexpenses.testutils.TestShard3
-import org.totschnig.myexpenses.testutils.TransactionInfo
 import org.totschnig.myexpenses.testutils.addDebugAttachment
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.isOrchestrated
+import org.totschnig.shared_test.TransactionInfo
 import java.time.LocalDateTime
 
 @TestShard3
@@ -242,12 +242,14 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
                     party = partyId,
                     splitParts = buildList {
                         repeat(6) {
-                            add(TransactionInfo(
-                                accountId = account.id,
-                                amount = -100L*(it+1),
-                                category = categoryId,
-                                tags = listOf(tagId)
-                            ))
+                            add(
+                                TransactionInfo(
+                                    accountId = account.id,
+                                    amount = -100L * (it + 1),
+                                    category = categoryId,
+                                    tags = listOf(tagId)
+                                )
+                            )
                         }
                     }
                 )
@@ -336,7 +338,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
             null, null, null, null
         )!!.use {
             it.moveToFirst()
-            it.getLong(DatabaseConstants.KEY_ROWID)
+            it.getLong(KEY_ROWID)
         }
         launch(-currencyId)
         assertListSize(2)

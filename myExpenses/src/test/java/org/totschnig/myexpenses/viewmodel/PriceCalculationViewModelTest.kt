@@ -13,9 +13,12 @@ import org.totschnig.myexpenses.db2.savePrice
 import org.totschnig.myexpenses.db2.storeExchangeRate
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
+import org.totschnig.myexpenses.provider.KEY_COMMODITY
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_DATE
+import org.totschnig.myexpenses.provider.KEY_EQUIVALENT_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_EXCHANGE_RATE
+import org.totschnig.myexpenses.provider.KEY_VALUE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.PRICES_URI
 import org.totschnig.myexpenses.provider.requireString
@@ -297,8 +300,8 @@ class PriceCalculationViewModelTest: BaseTestWithRepository() {
         reCalculatePrices(newHomeCurrency)
         return contentResolver.query(
             PRICES_URI,
-            arrayOf(DatabaseConstants.KEY_DATE, DatabaseConstants.KEY_COMMODITY, DatabaseConstants.KEY_VALUE),
-            "${DatabaseConstants.KEY_CURRENCY} = ?",
+            arrayOf(KEY_DATE, KEY_COMMODITY, KEY_VALUE),
+            "$KEY_CURRENCY = ?",
             arrayOf(newHomeCurrency),
             null
         )!!.useAndMapToList { Triple(it.requireString(0), it.requireString(1), it.getDouble(2)) }

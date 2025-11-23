@@ -19,7 +19,7 @@ import static org.totschnig.myexpenses.activity.ConstantsKt.CALCULATOR_REQUEST;
 import static org.totschnig.myexpenses.activity.ConstantsKt.CONTRIB_REQUEST;
 import static org.totschnig.myexpenses.activity.ContribInfoDialogActivity.KEY_FEATURE;
 import static org.totschnig.myexpenses.preference.PrefKey.UI_FONT_SIZE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_AMOUNT;
 
 import android.content.ContentResolver;
 import android.content.Context;

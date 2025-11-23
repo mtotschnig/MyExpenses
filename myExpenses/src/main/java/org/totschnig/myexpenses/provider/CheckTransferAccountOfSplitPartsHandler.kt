@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.provider
 import android.content.AsyncQueryHandler
 import android.content.ContentResolver
 import android.database.Cursor
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 class CheckTransferAccountOfSplitPartsHandler(cr: ContentResolver) : AsyncQueryHandler(cr) {
@@ -19,7 +18,7 @@ class CheckTransferAccountOfSplitPartsHandler(cr: ContentResolver) : AsyncQueryH
             listener.onResult(Result.success(emptyList()))
         } else {
             startQuery(TOKEN, listener, TransactionProvider.TRANSACTIONS_URI, arrayOf("distinct $KEY_TRANSFER_ACCOUNT"),
-                "$KEY_TRANSFER_ACCOUNT is not null AND ${DatabaseConstants.KEY_PARENTID} IN (${itemIds.joinToString()})", null, null)
+                "$KEY_TRANSFER_ACCOUNT is not null AND $KEY_PARENTID IN (${itemIds.joinToString()})", null, null)
         }
     }
 

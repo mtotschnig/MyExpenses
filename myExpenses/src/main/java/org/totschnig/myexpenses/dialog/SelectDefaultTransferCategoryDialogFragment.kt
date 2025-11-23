@@ -3,8 +3,7 @@ package org.totschnig.myexpenses.dialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
+import org.totschnig.myexpenses.provider.KEY_PATH
 import org.totschnig.myexpenses.viewmodel.data.Category
 
 class SelectDefaultTransferCategoryDialogFragment: SelectCategoryBaseDialogFragment() {

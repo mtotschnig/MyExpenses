@@ -31,9 +31,9 @@ import org.totschnig.myexpenses.activity.ManageSyncBackends
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DbUtils
+import org.totschnig.myexpenses.provider.KEY_KEY
+import org.totschnig.myexpenses.provider.KEY_UUID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler
@@ -228,7 +228,7 @@ class GenericAccountService : Service() {
                     storePassword(context, account, it)
                     context.contentResolver.delete(
                         TransactionProvider.SETTINGS_URI,
-                        DatabaseConstants.KEY_KEY + " = ?", arrayOf(legacyPasswordKey)
+                        "$KEY_KEY = ?", arrayOf(legacyPasswordKey)
                     )
                 }
             }

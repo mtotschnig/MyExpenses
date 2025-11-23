@@ -11,14 +11,15 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_GROUPING
 import org.totschnig.myexpenses.util.enumValueOrDefault
 
 class HistoryViewModel(application: Application, val savedStateHandle: SavedStateHandle) :
     ContentResolvingAndroidViewModel(application) {
-    private val accountId by lazy { savedStateHandle.get<Long>(DatabaseConstants.KEY_ACCOUNTID) }
+    private val accountId by lazy { savedStateHandle.get<Long>(KEY_ACCOUNTID) }
     private val defaultGrouping: Grouping by lazy {
-        savedStateHandle.get<Grouping>(DatabaseConstants.KEY_GROUPING)
+        savedStateHandle.get<Grouping>(KEY_GROUPING)
             .takeIf { it != Grouping.NONE }
             ?: Grouping.MONTH
     }

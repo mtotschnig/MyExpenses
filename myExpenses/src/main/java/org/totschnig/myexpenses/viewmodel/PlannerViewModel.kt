@@ -23,8 +23,8 @@ import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.db2.instantiateTemplate
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.util.ExchangeRateHandler
@@ -51,7 +51,7 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
 
     data class Month(val year: Int, val month: Int, val startDay: Int = 1) {
         init {
-            if (month < 0 || month > 12) throw IllegalArgumentException()
+            if (month !in 0..12) throw IllegalArgumentException()
         }
 
         fun next(): Month {

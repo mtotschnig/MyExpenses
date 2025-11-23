@@ -10,7 +10,8 @@ import org.totschnig.myexpenses.feature.OcrResult
 import org.totschnig.myexpenses.feature.Payee
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.Utils
 import timber.log.Timber
@@ -93,7 +94,7 @@ abstract class AbstractOcrHandlerImpl(
         buildList {
             application.contentResolver.query(
                 TransactionProvider.PAYEES_URI,
-                arrayOf(DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PAYEE_NAME),
+                arrayOf(KEY_ROWID, KEY_PAYEE_NAME),
                 null, null, null
             )?.use { cursor ->
                 if (cursor.moveToFirst()) {

@@ -26,8 +26,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -40,12 +38,8 @@ import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.activity.BaseActivity;
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity;
-import org.totschnig.myexpenses.adapter.CurrencyAdapter;
-import org.totschnig.myexpenses.adapter.IdAdapter;
-import org.totschnig.myexpenses.model.AccountType;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.provider.DatabaseConstants;
 import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.distrib.DistributionHelper;
 
@@ -56,6 +50,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import static org.totschnig.myexpenses.activity.ConstantsKt.IMPORT_FILENAME_REQUEST_CODE;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_UUID;
 
 public class DialogUtils {
   private DialogUtils() {
@@ -215,7 +210,7 @@ public class DialogUtils {
     Bundle b = new Bundle();
     b.putString(ConfirmationDialogFragment.KEY_MESSAGE,
         context.getString(R.string.dialog_confirm_sync_unlink, syncAccountName));
-    b.putString(DatabaseConstants.KEY_UUID, uuid);
+    b.putString(KEY_UUID, uuid);
     b.putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.SYNC_UNLINK_COMMAND);
     b.putInt(ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL, R.string.menu_sync_unlink);
     ConfirmationDialogFragment.newInstance(b).show(context.getSupportFragmentManager(), "SYNC_UNLINK");

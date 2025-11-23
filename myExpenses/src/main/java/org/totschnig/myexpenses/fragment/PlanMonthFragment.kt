@@ -34,7 +34,12 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.dialog.OrphanedTransactionDialog
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_COLOR
+import org.totschnig.myexpenses.provider.KEY_INSTANCEID
+import org.totschnig.myexpenses.provider.KEY_PLANID
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_TEMPLATEID
+import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.ColorUtils.isBrightColor
 import org.totschnig.myexpenses.util.Utils
@@ -71,7 +76,7 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
     }
 
     private fun setupStateListDrawable() {
-        val accountColor = requireArguments().getInt(DatabaseConstants.KEY_COLOR)
+        val accountColor = requireArguments().getInt(KEY_COLOR)
         stateListDrawable = StateListDrawable()
         val surfaceColor =
             UiUtils.getColor(requireContext(), com.google.android.material.R.attr.colorSurface)
@@ -166,7 +171,7 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
                     builder.build(),
                     null, String.format(
                         Locale.US, CalendarContract.Instances.EVENT_ID + " = %d",
-                        requireArguments().getLong(DatabaseConstants.KEY_PLANID)
+                        requireArguments().getLong(KEY_PLANID)
                     ),
                     null,
                     null
@@ -176,11 +181,11 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
             INSTANCE_STATUS_CURSOR -> return CursorLoader(
                 requireActivity(),
                 TransactionProvider.PLAN_INSTANCE_STATUS_URI, arrayOf(
-                    DatabaseConstants.KEY_TEMPLATEID,
-                    DatabaseConstants.KEY_INSTANCEID,
-                    DatabaseConstants.KEY_TRANSACTIONID
+                    KEY_TEMPLATEID,
+                    KEY_INSTANCEID,
+                    KEY_TRANSACTIONID
                 ),
-                DatabaseConstants.KEY_TEMPLATEID + " = ?", arrayOf(templateId.toString()),
+                "$KEY_TEMPLATEID = ?", arrayOf(templateId.toString()),
                 null
             )
         }
@@ -188,7 +193,7 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
     }
 
     private val templateId: Long
-        get() = requireArguments().getLong(DatabaseConstants.KEY_ROWID)
+        get() = requireArguments().getLong(KEY_ROWID)
 
     override fun onLoadFinished(loader: Loader<Cursor?>, data: Cursor?) {
         if (data == null) {
@@ -218,10 +223,10 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
                 while (!data.isAfterLast) {
                     instance2TransactionMap[data.getLong(
                         data.getColumnIndexOrThrow(
-                            DatabaseConstants.KEY_INSTANCEID
+                            KEY_INSTANCEID
                         )
                     )] =
-                        data.getLong(data.getColumnIndexOrThrow(DatabaseConstants.KEY_TRANSACTIONID))
+                        data.getLong(data.getColumnIndexOrThrow(KEY_TRANSACTIONID))
                     data.moveToNext()
                 }
                 refreshView()
@@ -259,7 +264,7 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
             val dateTime = datetimeList[position]
             val calculateId = CalendarProviderProxy.calculateId(dateTime)
             val planInstanceState = getState(calculateId)
-            val brightColor = isBrightColor(requireArguments().getInt(DatabaseConstants.KEY_COLOR))
+            val brightColor = isBrightColor(requireArguments().getInt(KEY_COLOR))
             val themeResId = if (brightColor) R.style.LightBackground else R.style.DarkBackground
             val transactionId = instance2TransactionMap[calculateId]
             if (selectedDates.contains(dateTime)) {
@@ -378,9 +383,9 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
             val args = Bundle()
             args.putString(TOOLBAR_TITLE, title)
             args.putInt(THEME_RESOURCE, R.style.CaldroidCustom)
-            args.putLong(DatabaseConstants.KEY_PLANID, planId)
-            args.putInt(DatabaseConstants.KEY_COLOR, color)
-            args.putLong(DatabaseConstants.KEY_ROWID, templateId)
+            args.putLong(KEY_PLANID, planId)
+            args.putInt(KEY_COLOR, color)
+            args.putLong(KEY_ROWID, templateId)
             args.putBoolean(SIX_WEEKS_IN_CALENDAR, false)
             args.putBoolean(KEY_READ_ONLY, readOnly)
             args.putInt(

@@ -77,9 +77,9 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_GROUPING
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.util.ColorUtils
@@ -179,7 +179,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         val whereFilter = IntentCompat.getParcelableExtra(intent, KEY_FILTER, Criterion::class.java)
         if (savedInstanceState == null) {
             viewModel.initWithAccount(
-                intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0),
+                intent.getLongExtra(KEY_ACCOUNTID, 0),
                 intent.getSerializableExtra(KEY_GROUPING) as? Grouping ?: Grouping.NONE,
                 whereFilter
             )

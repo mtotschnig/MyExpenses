@@ -20,94 +20,93 @@ import static android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE;
 import static org.totschnig.myexpenses.provider.ArchiveKt.archive;
 import static org.totschnig.myexpenses.provider.ArchiveKt.canBeArchived;
 import static org.totschnig.myexpenses.provider.ArchiveKt.unarchive;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_ACCOUNTID;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_AMOUNT;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_ATTACHMENT_ID;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_BUDGET;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_BUDGETID;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_CATID;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_CODE;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_COLOR;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_COMMODITY;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_COUNT;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_CR_STATUS;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_CURRENCY;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_CURRENCY_OTHER;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_CURRENCY_SELF;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_DATE;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_EQUIVALENT_AMOUNT;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_EXCHANGE_RATE;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_FLAG;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_FLAG_SORT_KEY;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_GROUPING;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_INSTANCEID;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_IS_NUMBERED;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_LABEL;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_LAST_USED;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_METHODID;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_PARENTID;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_PAYEEID;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_PAYEE_NAME;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_ROWID;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_SEALED;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_SORT_BY;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_SORT_DIRECTION;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_SORT_KEY;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_STATUS;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_SUM;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_SYNC_SEQUENCE_LOCAL;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_TAGID;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_TAGLIST;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_TEMPLATEID;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_TITLE;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_TRANSACTIONID;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_TRANSFER_ACCOUNT;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_TRANSFER_PEER;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_TYPE;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_TYPE_SORT_KEY;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_URI;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_URI_LIST;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_USAGES;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_UUID;
+import static org.totschnig.myexpenses.provider.ConstantsKt.METHOD_FLAG_SORT;
+import static org.totschnig.myexpenses.provider.ConstantsKt.METHOD_TYPE_SORT;
+import static org.totschnig.myexpenses.provider.ConstantsKt.NULL_ROW_ID;
+import static org.totschnig.myexpenses.provider.ConstantsKt.SPLIT_CATID;
+import static org.totschnig.myexpenses.provider.ConstantsKt.TABLE_ACCOUNTS;
+import static org.totschnig.myexpenses.provider.ConstantsKt.TABLE_ACCOUNTS_TAGS;
+import static org.totschnig.myexpenses.provider.ConstantsKt.TABLE_ACCOUNTTYES_METHODS;
+import static org.totschnig.myexpenses.provider.ConstantsKt.TABLE_ACCOUNT_EXCHANGE_RATES;
+import static org.totschnig.myexpenses.provider.ConstantsKt.TABLE_ACCOUNT_FLAGS;
+import static org.totschnig.myexpenses.provider.ConstantsKt.TABLE_ACCOUNT_TYPES;
+import static org.totschnig.myexpenses.provider.ConstantsKt.TABLE_ATTACHMENTS;
+import static org.totschnig.myexpenses.provider.ConstantsKt.TABLE_BANKS;
+import static org.totschnig.myexpenses.provider.ConstantsKt.TABLE_BUDGETS;
+import static org.totschnig.myexpenses.provider.ConstantsKt.TABLE_BUDGET_ALLOCATIONS;
+import static org.totschnig.myexpenses.provider.ConstantsKt.TABLE_CATEGORIES;
+import static org.totschnig.myexpenses.provider.ConstantsKt.TABLE_CHANGES;
+import static org.totschnig.myexpenses.provider.ConstantsKt.TABLE_CURRENCIES;
+import static org.totschnig.myexpenses.provider.ConstantsKt.TABLE_DEBTS;
+import static org.totschnig.myexpenses.provider.ConstantsKt.TABLE_EVENT_CACHE;
+import static org.totschnig.myexpenses.provider.ConstantsKt.TABLE_METHODS;
+import static org.totschnig.myexpenses.provider.ConstantsKt.TABLE_PAYEES;
+import static org.totschnig.myexpenses.provider.ConstantsKt.TABLE_PLAN_INSTANCE_STATUS;
+import static org.totschnig.myexpenses.provider.ConstantsKt.TABLE_PRICES;
+import static org.totschnig.myexpenses.provider.ConstantsKt.TABLE_SETTINGS;
+import static org.totschnig.myexpenses.provider.ConstantsKt.TABLE_SYNC_STATE;
+import static org.totschnig.myexpenses.provider.ConstantsKt.TABLE_TAGS;
+import static org.totschnig.myexpenses.provider.ConstantsKt.TABLE_TEMPLATES;
+import static org.totschnig.myexpenses.provider.ConstantsKt.TABLE_TEMPLATES_TAGS;
+import static org.totschnig.myexpenses.provider.ConstantsKt.TABLE_TRANSACTIONS;
+import static org.totschnig.myexpenses.provider.ConstantsKt.TABLE_TRANSACTIONS_TAGS;
+import static org.totschnig.myexpenses.provider.ConstantsKt.TABLE_TRANSACTION_ATTACHMENTS;
+import static org.totschnig.myexpenses.provider.ConstantsKt.VIEW_CHANGES_EXTENDED;
+import static org.totschnig.myexpenses.provider.ConstantsKt.VIEW_COMMITTED;
+import static org.totschnig.myexpenses.provider.ConstantsKt.VIEW_EXTENDED;
+import static org.totschnig.myexpenses.provider.ConstantsKt.VIEW_PRIORITIZED_PRICES;
+import static org.totschnig.myexpenses.provider.ConstantsKt.VIEW_TEMPLATES_ALL;
+import static org.totschnig.myexpenses.provider.ConstantsKt.VIEW_TEMPLATES_EXTENDED;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTACHMENT_ID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY_OTHER;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY_SELF;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG_SORT_KEY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_NUMBERED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_BY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE_SORT_KEY;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI_LIST;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.METHOD_FLAG_SORT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.METHOD_TYPE_SORT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.NULL_ROW_ID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS_TAGS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTTYES_METHODS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_EXCHANGE_RATES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_FLAGS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_TYPES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTACHMENTS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BANKS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGETS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGET_ALLOCATIONS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CHANGES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_EVENT_CACHE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PRICES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SETTINGS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SYNC_STATE;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TAGS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TEMPLATES_TAGS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TAGS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTACHMENTS;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_CHANGES_EXTENDED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_PRIORITIZED_PRICES;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_ALL;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_TEMPLATES_EXTENDED;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_DEPENDENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_PEER;
@@ -1487,12 +1486,12 @@ public class TransactionProvider extends BaseTransactionProvider {
                         " (SELECT 1 FROM " + TABLE_ACCOUNTTYES_METHODS +
                         " WHERE " + KEY_TYPE + " = " +
                         " (SELECT " + KEY_TYPE + " FROM " + TABLE_ACCOUNTS +
-                        " WHERE " + DatabaseConstants.KEY_ROWID + " = ?) " +
+                        " WHERE " + KEY_ROWID + " = ?) " +
                         " AND " + KEY_METHODID + " = " + TABLE_TRANSACTIONS + "." + KEY_METHODID + ")" +
                         " THEN " + KEY_METHODID +
                         " ELSE null " +
                         " END " +
-                        " WHERE " + DatabaseConstants.KEY_ROWID + " = ? " +
+                        " WHERE " + KEY_ROWID + " = ? " +
                         " AND ( " + KEY_TRANSFER_ACCOUNT + " IS NULL OR " + KEY_TRANSFER_ACCOUNT + "  != ? )",
                 new String[]{target, target, segment, target});
         count = 1;
@@ -1507,7 +1506,7 @@ public class TransactionProvider extends BaseTransactionProvider {
                         " THEN '" + "CLEARED" + "'" +
                         " ELSE " + KEY_CR_STATUS +
                         " END" +
-                        " WHERE " + DatabaseConstants.KEY_ROWID + " = ? ",
+                        " WHERE " + KEY_ROWID + " = ? ",
                 new String[]{uri.getPathSegments().get(1)});
         count = 1;
       }

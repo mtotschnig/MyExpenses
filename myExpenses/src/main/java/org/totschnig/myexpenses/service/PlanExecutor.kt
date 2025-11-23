@@ -22,11 +22,10 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.createTransaction
-import org.totschnig.myexpenses.db2.loadTemplateForPlanIfInstanceIsOpen
 import org.totschnig.myexpenses.db2.getLabelForAccount
-import org.totschnig.myexpenses.db2.instantiateTemplate
 import org.totschnig.myexpenses.db2.linkTemplateWithTransaction
 import org.totschnig.myexpenses.db2.loadTagsForTemplate
+import org.totschnig.myexpenses.db2.loadTemplateForPlanIfInstanceIsOpen
 import org.totschnig.myexpenses.db2.planCount
 import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.injector
@@ -36,8 +35,12 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.TimePreference
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
+import org.totschnig.myexpenses.provider.KEY_DATE
+import org.totschnig.myexpenses.provider.KEY_INSTANCEID
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_TEMPLATEID
+import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.util.ExchangeRateHandler
 import org.totschnig.myexpenses.util.ICurrencyFormatter
@@ -249,11 +252,11 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                                     val displayIntent: Intent =
                                         Intent(applicationContext, MyExpenses::class.java)
                                             .putExtra(
-                                                DatabaseConstants.KEY_ROWID,
+                                                KEY_ROWID,
                                                 template.data.accountId
                                             )
                                             .putExtra(
-                                                DatabaseConstants.KEY_TRANSACTIONID,
+                                                KEY_TRANSACTIONID,
                                                 transaction.id
                                             )
                                     resultIntent = PendingIntent.getActivity(
@@ -275,11 +278,11 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                                                 notificationId
                                             )
                                             .putExtra(
-                                                DatabaseConstants.KEY_TEMPLATEID,
+                                                KEY_TEMPLATEID,
                                                 template.id
                                             )
                                             .putExtra(
-                                                DatabaseConstants.KEY_INSTANCEID,
+                                                KEY_INSTANCEID,
                                                 instanceId
                                             ) //we also put the title in the intent, because we need it while we update the notification
                                             .putExtra(KEY_TITLE, title)
@@ -301,17 +304,17 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                                                 notificationId
                                             )
                                             .putExtra(
-                                                DatabaseConstants.KEY_TEMPLATEID,
+                                                KEY_TEMPLATEID,
                                                 template.id
                                             )
-                                            .putExtra(DatabaseConstants.KEY_INSTANCEID, instanceId)
+                                            .putExtra(KEY_INSTANCEID, instanceId)
                                     val useDateFromPlan =
                                         "noon" == prefHandler.getString(
                                             PrefKey.PLANNER_MANUAL_TIME,
                                             "noon"
                                         )
                                     if (useDateFromPlan) {
-                                        editIntent.putExtra(DatabaseConstants.KEY_DATE, date / 1000)
+                                        editIntent.putExtra(KEY_DATE, date / 1000)
                                     }
                                     resultIntent = PendingIntent.getActivity(
                                         applicationContext,
@@ -334,12 +337,12 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                                         .putExtra(MyApplication.KEY_NOTIFICATION_ID, notificationId)
                                         .putExtra(KEY_TITLE, title)
                                         .putExtra(
-                                            DatabaseConstants.KEY_TEMPLATEID,
+                                            KEY_TEMPLATEID,
                                             template.id
                                         )
-                                        .putExtra(DatabaseConstants.KEY_INSTANCEID, instanceId)
+                                        .putExtra(KEY_INSTANCEID, instanceId)
                                     if (useDateFromPlan) {
-                                        applyIntent.putExtra(DatabaseConstants.KEY_DATE, date)
+                                        applyIntent.putExtra(KEY_DATE, date)
                                     }
                                     builder.addAction(
                                         R.drawable.ic_menu_save,

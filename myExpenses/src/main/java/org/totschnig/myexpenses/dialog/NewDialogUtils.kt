@@ -20,9 +20,9 @@ import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.enumValueOrDefault
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
+import org.totschnig.myexpenses.provider.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_SHORT_NAME
 import org.totschnig.myexpenses.viewmodel.data.Account
 
 fun Spinner.configureDateFormat(
@@ -72,7 +72,6 @@ fun ContentResolver.getDisplayName(
         } catch (_: SecurityException) {
             //this can happen if the user has restored a backup and
             //we do not have a persistable permission
-            null
         }
     }
     return uri.lastPathSegment ?: "UNKNOWN"
@@ -108,7 +107,7 @@ fun GroupedSpinnerAdapter<AccountFlag, Account>.addAllAccounts(data: List<Accoun
     addAll(data.groupBy { it.flag }.toList().sortedByDescending { it.first.sortKey })
 }
 
-fun buildPartyEditDialog(partyId: Long?, name:String?, shortName:String?) = SimpleFormDialog.build()
+fun buildPartyEditDialog(partyId: Long?, name:String?, shortName:String?): SimpleFormDialog = SimpleFormDialog.build()
     .fields(
         Input.name(KEY_PAYEE_NAME)
             .inputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)

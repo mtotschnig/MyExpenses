@@ -3,7 +3,7 @@ package org.totschnig.myexpenses.dialog.select
 import android.net.Uri
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.localizedLabelForPaymentMethod
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.KEY_CRITERION
 import org.totschnig.myexpenses.provider.filter.MethodCriterion

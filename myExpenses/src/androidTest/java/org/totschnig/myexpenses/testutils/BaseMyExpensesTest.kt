@@ -26,7 +26,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.TestMyExpenses
 import org.totschnig.myexpenses.compose.TEST_TAG_DIALOG
 import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_ROWID
 
 abstract class BaseMyExpensesTest : BaseComposeTest<TestMyExpenses>() {
     private val countingResource = CountingIdlingResource("CheckSealed")
@@ -35,7 +35,7 @@ abstract class BaseMyExpensesTest : BaseComposeTest<TestMyExpenses>() {
     fun launch(id: Long? = null) {
         testScenario = ActivityScenario.launch(
             Intent(targetContext, TestMyExpenses::class.java).apply {
-                putExtra(DatabaseConstants.KEY_ROWID, id)
+                putExtra(KEY_ROWID, id)
             })
         testScenario.onActivity { activity ->
             activity?.let {

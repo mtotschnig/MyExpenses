@@ -19,12 +19,12 @@ import org.totschnig.myexpenses.db2.loadTransactions
 import org.totschnig.myexpenses.db2.saveTagsForTemplate
 import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.db2.writeTag
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
+import org.totschnig.myexpenses.provider.KEY_TEMPLATEID
 import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.TAG_LABEL
 import org.totschnig.myexpenses.testutils.TEMPLATE_TITLE
-import org.totschnig.myexpenses.testutils.TransactionInfo
+import org.totschnig.shared_test.TransactionInfo
 
 private const val TAG_LABEL_2 = "Unwichtig"
 

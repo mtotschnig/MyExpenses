@@ -16,7 +16,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.EditCurrencyBinding
 import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.form.FormFieldNotEmptyValidator
 import org.totschnig.myexpenses.util.form.FormValidator
@@ -141,13 +141,13 @@ class EditCurrencyDialog : DialogViewBinding<EditCurrencyBinding>() {
     private fun readFractionDigitsFromUI(): Int {
         return try {
             binding.edtCurrencyFractionDigits.text.toString().toInt()
-        } catch (e: NumberFormatException) {
+        } catch (_: NumberFormatException) {
             -1
         }
     }
 
     private val currency: Currency?
-        get() = requireArguments().getSerializable(DatabaseConstants.KEY_CURRENCY) as Currency?
+        get() = requireArguments().getSerializable(KEY_CURRENCY) as Currency?
 
     private fun onOkClick() {
         val validator = FormValidator()
@@ -192,7 +192,7 @@ class EditCurrencyDialog : DialogViewBinding<EditCurrencyBinding>() {
             it.onActivityResult(targetRequestCode, Activity.RESULT_OK, result?.let {
                 Intent().apply {
                     putExtra(KEY_RESULT, it)
-                    putExtra(DatabaseConstants.KEY_CURRENCY, currency!!.code)
+                    putExtra(KEY_CURRENCY, currency!!.code)
                 }
             })
         }
@@ -205,7 +205,7 @@ class EditCurrencyDialog : DialogViewBinding<EditCurrencyBinding>() {
         @JvmStatic
         fun newInstance(currency: Currency?) = EditCurrencyDialog().apply {
             arguments = Bundle(1).apply {
-                putSerializable(DatabaseConstants.KEY_CURRENCY, currency)
+                putSerializable(KEY_CURRENCY, currency)
             }
         }
     }

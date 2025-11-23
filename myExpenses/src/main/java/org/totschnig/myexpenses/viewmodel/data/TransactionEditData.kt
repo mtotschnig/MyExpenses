@@ -13,7 +13,7 @@ import org.totschnig.myexpenses.db2.entities.Recurrence
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.formatMoney
@@ -89,7 +89,7 @@ data class TransactionEditData(
     val planInstanceId: Long? = null,
 ) : Parcelable {
     @IgnoredOnParcel
-    val isSplit = categoryId == DatabaseConstants.SPLIT_CATID
+    val isSplit = categoryId == SPLIT_CATID
 
     @IgnoredOnParcel
     val isTransfer = transferEditData != null

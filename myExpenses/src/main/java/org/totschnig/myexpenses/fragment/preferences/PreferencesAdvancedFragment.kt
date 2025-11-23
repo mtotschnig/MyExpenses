@@ -6,7 +6,6 @@ import androidx.annotation.Keep
 import androidx.fragment.app.activityViewModels
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
-import androidx.preference.PreferenceCategory
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.list.CustomListDialog
 import eltos.simpledialogfragment.list.SimpleListDialog
@@ -19,9 +18,8 @@ import org.totschnig.myexpenses.feature.Module
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_PATH
 import org.totschnig.myexpenses.util.AppDirHelper
-import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 import timber.log.Timber
 import java.io.File
@@ -43,7 +41,7 @@ class PreferencesAdvancedFragment : BasePreferenceFragment(),
             SELECT_CATEGORY_REQUEST,
             this
         ) { _, bundle ->
-            setDefaultTransferCategoryPath(bundle.getString(DatabaseConstants.KEY_PATH)!!)
+            setDefaultTransferCategoryPath(bundle.getString(KEY_PATH)!!)
         }
     }
 

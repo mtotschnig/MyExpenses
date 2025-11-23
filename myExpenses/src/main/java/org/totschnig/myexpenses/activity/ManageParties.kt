@@ -18,7 +18,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.fragment.PartiesList
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
 
 const val HELP_VARIANT_MERGE_MODE = "mergeMode"

@@ -9,9 +9,10 @@ import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import com.google.common.truth.Truth.assertThat
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
+import org.totschnig.myexpenses.provider.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_PLANID
+import org.totschnig.myexpenses.provider.KEY_PLAN_INFO
+import org.totschnig.myexpenses.provider.TABLE_TEMPLATES
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.insert
 import org.totschnig.myexpenses.testutils.BaseTemplateTest
@@ -62,7 +63,7 @@ class PlanInfoTest : BaseTemplateTest() {
         val orderedElements = LongArray(3)
         do {
             val planId = cursor.getLong(cursor.getColumnIndexOrThrow(KEY_PLANID))
-            val planInfo = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_PLAN_INFO))
+            val planInfo = cursor.getString(cursor.getColumnIndexOrThrow(KEY_PLAN_INFO))
             with(getInstrumentation().targetContext) {
                 assertThat(planInfo).contains(when (planId) {
                     dailyPlan.id -> getString(R.string.daily_plain)
@@ -102,7 +103,7 @@ class PlanInfoTest : BaseTemplateTest() {
         }
         //we only need/must add one row
         mDb.insert(
-                DatabaseConstants.TABLE_TEMPLATES,
+                TABLE_TEMPLATES,
                 templateInfos[0].contentValues
         )
         mockContentResolver.query(

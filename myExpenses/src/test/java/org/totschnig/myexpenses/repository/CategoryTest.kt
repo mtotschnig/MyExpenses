@@ -21,9 +21,9 @@ import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.CATEGORY_TREE_URI
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.budgetAllocationUri
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.KEY_BUDGET
+import org.totschnig.myexpenses.provider.KEY_CATID
+import org.totschnig.myexpenses.provider.KEY_TYPE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
@@ -101,7 +101,7 @@ class CategoryTest : BaseTestWithRepository() {
         contentResolver.update(
             ContentUris.withAppendedId(TransactionProvider.CATEGORIES_URI, sub),
             ContentValues().apply {
-                put(DatabaseConstants.KEY_TYPE, FLAG_INCOME.toInt())
+                put(KEY_TYPE, FLAG_INCOME.toInt())
             },
             null,
             null

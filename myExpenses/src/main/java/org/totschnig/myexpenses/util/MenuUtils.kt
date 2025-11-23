@@ -21,8 +21,8 @@ import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.model.SortDirection.ASC
 import org.totschnig.myexpenses.model.SortDirection.DESC
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.provider.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.ui.resolveThemeColor

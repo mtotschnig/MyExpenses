@@ -3,7 +3,9 @@ package org.totschnig.myexpenses.viewmodel.data
 import android.content.Context
 import android.database.Cursor
 import org.totschnig.myexpenses.model.CurrencyEnum
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_CODE
+import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_USAGES
 import org.totschnig.myexpenses.provider.getIntIfExistsOr0
 import org.totschnig.myexpenses.util.Utils
 import java.io.Serializable
@@ -33,18 +35,18 @@ data class Currency(val code: String, val displayName: String, val usages: Int =
         fun create(code: String, locale: Locale) = Currency(code, findDisplayName(code, locale))
 
         fun create(cursor: Cursor, locale: Locale): Currency {
-            val code = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_CODE))
-            val label = cursor.getString(cursor.getColumnIndexOrThrow(DatabaseConstants.KEY_LABEL))
-            val usages = cursor.getIntIfExistsOr0(DatabaseConstants.KEY_USAGES)
+            val code = cursor.getString(cursor.getColumnIndexOrThrow(KEY_CODE))
+            val label = cursor.getString(cursor.getColumnIndexOrThrow(KEY_LABEL))
+            val usages = cursor.getIntIfExistsOr0(KEY_USAGES)
             return Currency(code, label ?: findDisplayName(code, locale), usages)
         }
 
         private fun findDisplayName(code: String, locale: Locale) = try {
             java.util.Currency.getInstance(code).getDisplayName(locale)
-        } catch (ignored: IllegalArgumentException) {
+        } catch (_: IllegalArgumentException) {
             try {
                 CurrencyEnum.valueOf(code).description
-            } catch (ignored: IllegalArgumentException) {
+            } catch (_: IllegalArgumentException) {
                 code
             }
         }

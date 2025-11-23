@@ -2,7 +2,19 @@ package org.totschnig.myexpenses.test.provider
 
 import android.content.ContentValues
 import org.totschnig.myexpenses.model.generateUuid
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_ATTACHMENT_COUNT
+import org.totschnig.myexpenses.provider.KEY_ATTACHMENT_ID
+import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_TAGID
+import org.totschnig.myexpenses.provider.KEY_TAGLIST
+import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.KEY_URI
+import org.totschnig.myexpenses.provider.KEY_UUID
+import org.totschnig.myexpenses.provider.TABLE_ATTACHMENTS
+import org.totschnig.myexpenses.provider.TABLE_TAGS
+import org.totschnig.myexpenses.provider.TABLE_TRANSACTIONS
+import org.totschnig.myexpenses.provider.TABLE_TRANSACTIONS_TAGS
+import org.totschnig.myexpenses.provider.TABLE_TRANSACTION_ATTACHMENTS
 import org.totschnig.myexpenses.provider.TransactionInfo
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.insert
@@ -24,7 +36,7 @@ class TransactionTagsAttachmentsTest: BaseDbTest() {
      */
     fun testAggregateJoinedTables() {
         val transactionId = mDb.insert(
-            DatabaseConstants.TABLE_TRANSACTIONS,
+            TABLE_TRANSACTIONS,
             TransactionInfo(
                 testAccountId, 1000,
                 comment = "Transaction with associated data"
@@ -44,8 +56,8 @@ class TransactionTagsAttachmentsTest: BaseDbTest() {
         attachmentCount: Int
     ) {
         val projection = arrayOf(
-            DatabaseConstants.KEY_TAGLIST,
-            DatabaseConstants.KEY_ATTACHMENT_COUNT
+            KEY_TAGLIST,
+            KEY_ATTACHMENT_COUNT
         )
         mockContentResolver.query(
             TransactionProvider.EXTENDED_URI,
@@ -65,31 +77,31 @@ class TransactionTagsAttachmentsTest: BaseDbTest() {
     }
 
     private fun insertTag(tag: String, transactionId: Long) = mDb.insert(
-        DatabaseConstants.TABLE_TRANSACTIONS_TAGS,
+        TABLE_TRANSACTIONS_TAGS,
         ContentValues(2).apply {
             put(
-                DatabaseConstants.KEY_TAGID, mDb.insert(
-                    DatabaseConstants.TABLE_TAGS,
+                KEY_TAGID, mDb.insert(
+                    TABLE_TAGS,
                 ContentValues(1).apply {
-                    put(DatabaseConstants.KEY_LABEL, tag)
+                    put(KEY_LABEL, tag)
                 }
             ))
-            put(DatabaseConstants.KEY_TRANSACTIONID, transactionId)
+            put(KEY_TRANSACTIONID, transactionId)
         }
     )
 
     private fun insertAttachment(uri: String, transactionId: Long) = mDb.insert(
-        DatabaseConstants.TABLE_TRANSACTION_ATTACHMENTS,
+        TABLE_TRANSACTION_ATTACHMENTS,
         ContentValues(2).apply {
             put(
-                DatabaseConstants.KEY_ATTACHMENT_ID, mDb.insert(
-                    DatabaseConstants.TABLE_ATTACHMENTS,
+                KEY_ATTACHMENT_ID, mDb.insert(
+                    TABLE_ATTACHMENTS,
                 ContentValues(1).apply {
-                    put(DatabaseConstants.KEY_URI, uri)
-                    put(DatabaseConstants.KEY_UUID, generateUuid())
+                    put(KEY_URI, uri)
+                    put(KEY_UUID, generateUuid())
                 }
             ))
-            put(DatabaseConstants.KEY_TRANSACTIONID, transactionId)
+            put(KEY_TRANSACTIONID, transactionId)
         }
     )
 }

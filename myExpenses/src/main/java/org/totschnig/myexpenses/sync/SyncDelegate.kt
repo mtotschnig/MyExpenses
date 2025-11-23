@@ -6,7 +6,6 @@ import android.content.OperationApplicationException
 import android.os.Bundle
 import android.os.RemoteException
 import androidx.annotation.VisibleForTesting
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.findByAccountAndUuid
@@ -15,7 +14,9 @@ import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_TYPE
 import org.totschnig.myexpenses.provider.SyncContract
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import timber.log.Timber
@@ -48,9 +49,9 @@ class SyncDelegate(
             provider.call(
                 SyncContract.METHOD_APPLY_CHANGES,
                 null, Bundle(3).apply {
-                    putLong(DatabaseConstants.KEY_ACCOUNTID, account.id)
-                    putString(DatabaseConstants.KEY_CURRENCY, account.currency)
-                    putLong(DatabaseConstants.KEY_TYPE, account.type.id)
+                    putLong(KEY_ACCOUNTID, account.id)
+                    putString(KEY_CURRENCY, account.currency)
+                    putLong(KEY_TYPE, account.type.id)
                 }
             )
         }
@@ -178,8 +179,8 @@ class SyncDelegate(
                     } ?: part
                 }
             } else splitParts,
-            tags = if ((tags != null || tagsV2 != null) && (merged.tags != null || merged.tagsV2 != null) && (merged.tags != tags || merged.tagsV2 != merged.tagsV2)) null else tags,
-            tagsV2 = if ((tags != null || tagsV2 != null) && (merged.tags != null || merged.tagsV2 != null) && (merged.tags != tags || merged.tagsV2 != merged.tagsV2)) null else tagsV2
+            tags = if ((tags != null || tagsV2 != null) && (merged.tags != null || merged.tagsV2 != null) && (merged.tags != tags || merged.tagsV2 != tagsV2)) null else tags,
+            tagsV2 = if ((tags != null || tagsV2 != null) && (merged.tags != null || merged.tagsV2 != null) && (merged.tags != tags || merged.tagsV2 != tagsV2)) null else tagsV2
         )
     }
 

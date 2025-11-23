@@ -10,10 +10,6 @@ import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.compose.FutureCriterion
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME
 import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 import java.time.LocalDateTime
 

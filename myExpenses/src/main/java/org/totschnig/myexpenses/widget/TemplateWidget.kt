@@ -10,7 +10,8 @@ import org.totschnig.myexpenses.activity.showTemplateInstantiationResult
 import org.totschnig.myexpenses.db2.instantiateTemplate
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.doAsync
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
@@ -25,7 +26,7 @@ class TemplateWidget : AbstractListWidget(
     override val emptyTextResourceId = R.string.no_templates
 
     override fun handleWidgetClick(context: Context, intent: Intent) {
-        val templateId = intent.getLongExtra(DatabaseConstants.KEY_ROWID, 0)
+        val templateId = intent.getLongExtra(KEY_ROWID, 0)
         when (intent.getStringExtra(KEY_CLICK_ACTION)) {
             null -> {
                 context.startActivity(Intent(context, ManageTemplates::class.java).apply {
@@ -61,7 +62,7 @@ class TemplateWidget : AbstractListWidget(
                 ).apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                     action = ExpenseEdit.ACTION_CREATE_FROM_TEMPLATE
-                    putExtra(DatabaseConstants.KEY_TEMPLATEID, templateId)
+                    putExtra(KEY_TEMPLATEID, templateId)
                     putExtra(EXTRA_START_FROM_WIDGET, true)
                     putExtra(EXTRA_START_FROM_WIDGET_DATA_ENTRY, true)
                 })

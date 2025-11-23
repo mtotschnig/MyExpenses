@@ -21,14 +21,13 @@ import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import kotlin.reflect.KClass
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 
-const val ACCOUNT_COLUMN = DatabaseConstants.KEY_ACCOUNTID
+const val ACCOUNT_COLUMN = KEY_ACCOUNTID
 
 @Parcelize
 @Serializable
-@SerialName(DatabaseConstants.KEY_ACCOUNTID)
+@SerialName(KEY_ACCOUNTID)
 data class AccountCriterion(
     override val label: String,
     override val values: List<Long>

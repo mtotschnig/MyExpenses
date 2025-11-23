@@ -21,8 +21,9 @@ import org.totschnig.myexpenses.db2.updateTransaction
 import org.totschnig.myexpenses.db2.updateTransfer
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.generateUuid
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_USAGES
+import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.useAndMapToOne
@@ -167,7 +168,7 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
                 amount = 100L,
                 comment = "test split",
                 date = date,
-                categoryId = DatabaseConstants.SPLIT_CATID,
+                categoryId = SPLIT_CATID,
                 uuid = generateUuid()
             ), listOf(
                 Transaction(
@@ -220,7 +221,7 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
                 accountId = account1,
                 amount = 100L,
                 comment = "test split",
-                categoryId = DatabaseConstants.SPLIT_CATID,
+                categoryId = SPLIT_CATID,
                 uuid = generateUuid()
             ), listOf(
                 Transaction(
@@ -269,7 +270,7 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
                 accountId = account1,
                 amount = 100L,
                 comment = "test split with transfer",
-                categoryId = DatabaseConstants.SPLIT_CATID,
+                categoryId = SPLIT_CATID,
                 uuid = generateUuid()
             ),
             listOf(
@@ -317,7 +318,7 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
                 accountId = account1,
                 amount = 100L,
                 comment = "test split with transfer",
-                categoryId = DatabaseConstants.SPLIT_CATID,
+                categoryId = SPLIT_CATID,
                 uuid = generateUuid()
             ),
             listOf(
@@ -406,7 +407,7 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
                 accountId = account1,
                 amount = 100L,
                 comment = "test split",
-                categoryId = DatabaseConstants.SPLIT_CATID,
+                categoryId = SPLIT_CATID,
                 uuid = generateUuid()
             ), listOf(
                 Transaction(
@@ -435,7 +436,7 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
 
     private fun getUsage(catId: Long, baseUri: Uri) = repository.contentResolver.query(
         baseUri.buildUpon().appendPath(catId.toString()).build(),
-        arrayOf(DatabaseConstants.KEY_USAGES),
+        arrayOf(KEY_USAGES),
         null, null, null
     )!!.useAndMapToOne {
         it.getLong(0)
