@@ -21,7 +21,7 @@ import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.TEMPLATE_TITLE
-import org.totschnig.shared_test.TransactionInfo
+import org.totschnig.shared_test.TransactionData
 
 class ExpenseEditMethodTest : BaseExpenseEditTest() {
 
@@ -39,7 +39,7 @@ class ExpenseEditMethodTest : BaseExpenseEditTest() {
             clickFab() // save transaction
             assertTransaction(
                 id = repository.loadTransactions(account1.id).first().id,
-                TransactionInfo(
+                TransactionData(
                     accountId = account1.id,
                     amount = -10100,
                     methodId = repository.findPaymentMethod(PreDefinedPaymentMethod.CREDITCARD.name)
@@ -65,7 +65,7 @@ class ExpenseEditMethodTest : BaseExpenseEditTest() {
 
             assertTransaction(
                 id = repository.loadTransactions(account1.id).first().id,
-                TransactionInfo(
+                TransactionData(
                     accountId = account1.id,
                     amount = 100,
                     methodId = pm
@@ -116,7 +116,7 @@ class ExpenseEditMethodTest : BaseExpenseEditTest() {
 
             assertTransaction(
                 id = repository.loadTransactions(account1.id).first().id,
-                TransactionInfo(
+                TransactionData(
                     accountId = account1.id,
                     amount = 100,
                     methodId = pm

@@ -10,13 +10,19 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
-import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
+import org.totschnig.myexpenses.db2.extractTagId
+import org.totschnig.myexpenses.db2.findCategory
+import org.totschnig.myexpenses.db2.findParty
+import org.totschnig.shared_test.TransactionData
+import org.totschnig.shared_test.assertTransaction
+import org.totschnig.shared_test.findCategoryPath
 
 @RunWith(RobolectricTestRunner::class)
 class SyncHandlerTest : BaseTestWithRepository() {
     private lateinit var provider: BaseTransactionProvider
     private lateinit var context: Context
     private var accountId: Long = 0
+
     private fun prepareSyncFile(context: Context, resourceName: String) {
         // Read the JSON content from your test resources
         val jsonContent = javaClass.classLoader!!
@@ -30,6 +36,14 @@ class SyncHandlerTest : BaseTestWithRepository() {
         // Write the test JSON to that file
         syncFile.writeText(jsonContent)
     }
+
+    private fun findTransactionByUuid(uuid: String) = provider.query(
+        TransactionProvider.TRANSACTIONS_URI,
+        arrayOf(KEY_ROWID),
+        "$KEY_UUID = ?",
+        arrayOf(uuid),
+        null
+    )!!.useAndMapToOne { it.getLong(0) }!!
 
     @Before
     fun setUp() {
@@ -50,17 +64,15 @@ class SyncHandlerTest : BaseTestWithRepository() {
 
         provider.applyChangesFromSync(extras)
 
-        provider.query(
-            TransactionProvider.TRANSACTIONS_URI,
-            null,
-            "$KEY_UUID = ?",
-            arrayOf("c1385e32-3d8c-4ed8-b1f2-0c461934e28e"),
-            null
-        ).useAndAssert {
-            hasCount(1)
-            movesToFirst()
-        }
-        repository
+        val id = findTransactionByUuid("c1385e32-3d8c-4ed8-b1f2-0c461934e28e")
+        repository.assertTransaction(id, TransactionData(
+            comment = "Def",
+            accountId = accountId,
+            amount = -12300,
+            category = repository.findCategoryPath("Financial expenses", "Bank charges"),
+            party = repository.findParty("Joe"),
+            tags = listOf(repository.extractTagId("Abc"))
+        ))
     }
 
     @Test
@@ -75,16 +87,26 @@ class SyncHandlerTest : BaseTestWithRepository() {
 
         provider.applyChangesFromSync(extras)
 
-        provider.query(
-            TransactionProvider.TRANSACTIONS_URI,
-            null,
-            "$KEY_UUID = ?",
-            arrayOf("7bf6c4ed-09d2-4237-ae6c-0ec0b8fe41c3"), // Use the UUID from the test JSON
-            null
-        ).useAndAssert {
-            hasCount(1)
-            movesToFirst()
-        }
+        val id = findTransactionByUuid("7bf6c4ed-09d2-4237-ae6c-0ec0b8fe41c3")
+        repository.assertTransaction(id, TransactionData(
+            comment = "Split",
+            accountId = accountId,
+            amount = -3300,
+            category = SPLIT_CATID,
+            splitParts = listOf(
+                TransactionData(
+                    accountId = accountId,
+                    amount = -1100,
+                    category = repository.findCategory("Geschenke")
+                ),
+                TransactionData(
+                    accountId = accountId,
+                    amount = -2200,
+                    category = repository.findCategoryPath("Bekleidung", "Kleidung")
+                ),
+            )
+        ))
+
     }
 
     @After

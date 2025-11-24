@@ -56,7 +56,7 @@ import org.totschnig.myexpenses.testutils.TestShard3
 import org.totschnig.myexpenses.testutils.addDebugAttachment
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.isOrchestrated
-import org.totschnig.shared_test.TransactionInfo
+import org.totschnig.shared_test.TransactionData
 import java.time.LocalDateTime
 
 @TestShard3
@@ -236,14 +236,14 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
                 .perform(click())
             assertTransaction(
                 repository.loadTransactions(account.id).first().id,
-                TransactionInfo(
+                TransactionData(
                     accountId = account.id,
                     amount = -2100L,
                     party = partyId,
                     splitParts = buildList {
                         repeat(6) {
                             add(
-                                TransactionInfo(
+                                TransactionData(
                                     accountId = account.id,
                                     amount = -100L * (it + 1),
                                     category = categoryId,

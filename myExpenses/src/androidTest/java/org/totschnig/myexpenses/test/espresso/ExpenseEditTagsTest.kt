@@ -24,7 +24,7 @@ import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.TAG_LABEL
 import org.totschnig.myexpenses.testutils.TEMPLATE_TITLE
-import org.totschnig.shared_test.TransactionInfo
+import org.totschnig.shared_test.TransactionData
 
 private const val TAG_LABEL_2 = "Unwichtig"
 
@@ -51,7 +51,7 @@ class ExpenseEditTagsTest : BaseExpenseEditTest() {
             clickFab() // save transaction
             assertTransaction(
                 id = repository.loadTransactions(account1.id).first().id,
-                TransactionInfo(
+                TransactionData(
                     accountId = account1.id,
                     amount = -10100,
                     tags = listOf(tagId1)
@@ -103,7 +103,7 @@ class ExpenseEditTagsTest : BaseExpenseEditTest() {
             clickFab() // save transaction
             assertTransaction(
                 id = repository.loadTransactions(account1.id).first().id,
-                TransactionInfo(
+                TransactionData(
                     accountId = account1.id,
                     amount = 100,
                     tags = listOf(tagId2)
@@ -171,7 +171,7 @@ class ExpenseEditTagsTest : BaseExpenseEditTest() {
             clickFab() // save transaction
             assertTransaction(
                 id = repository.loadTransactions(account1.id).first().id,
-                TransactionInfo(
+                TransactionData(
                     accountId = account1.id,
                     amount = 100,
                     tags = listOf(tagId2)

@@ -29,7 +29,7 @@ import org.totschnig.myexpenses.db2.loadTransactions
 import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.addDebugAttachment
-import org.totschnig.shared_test.TransactionInfo
+import org.totschnig.shared_test.TransactionData
 
 class ExpenseEditAttachmentTest : BaseExpenseEditTest() {
 
@@ -76,7 +76,7 @@ class ExpenseEditAttachmentTest : BaseExpenseEditTest() {
             clickFab() // save transaction
             assertTransaction(
                 id = repository.loadTransactions(account1.id).first().id,
-                TransactionInfo(
+                TransactionData(
                     accountId = account1.id,
                     amount = -10100,
                     attachments = listOf(resultUri)

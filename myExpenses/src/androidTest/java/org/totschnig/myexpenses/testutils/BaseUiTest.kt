@@ -52,7 +52,6 @@ import org.totschnig.myexpenses.db2.entities.Recurrence
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.db2.findAccountType
-import org.totschnig.myexpenses.db2.loadAttachments
 import org.totschnig.myexpenses.db2.loadTagsForTemplate
 import org.totschnig.myexpenses.db2.loadTemplate
 import org.totschnig.myexpenses.db2.loadTransaction
@@ -77,7 +76,8 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
-import org.totschnig.shared_test.TransactionInfo
+import org.totschnig.shared_test.TransactionData
+import org.totschnig.shared_test.assertTransaction
 import java.time.LocalDate
 import java.util.concurrent.TimeoutException
 import org.totschnig.myexpenses.test.R as RT
@@ -350,42 +350,9 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
 
     protected fun assertTransaction(
         id: Long,
-        expectedTransaction: TransactionInfo
+        expectedTransaction: TransactionData
     ) {
-        val (expectedAccount, expectedAmount, expectedSplitParts, expectedCategory, expectedParty, expectedTags, expectedAttachments, expectedDebt, expectedMethod) =
-            expectedTransaction
-
-        val transaction = repository.loadTransaction(id)
-        val attachments = repository.loadAttachments(id)
-
-        with(transaction.data) {
-            assertThat(amount).isEqualTo(expectedAmount)
-            assertThat(accountId).isEqualTo(expectedAccount)
-            assertThat(categoryId).isEqualTo(expectedCategory)
-            assertThat(payeeId).isEqualTo(expectedParty)
-            assertThat(debtId).isEqualTo(expectedDebt)
-            assertThat(methodId).isEqualTo(expectedMethod)
-        }
-        assertThat(transaction.data.tagList).containsExactlyElementsIn(expectedTags)
-        assertThat(attachments).containsExactlyElementsIn(expectedAttachments)
-
-        if (expectedSplitParts == null) {
-            assertThat(transaction.splitParts).isNull()
-        } else {
-            assertThat(transaction.splitParts).isNotNull()
-            assertThat(transaction.splitParts!!.size).isEqualTo(expectedSplitParts.size)
-            // 2. Map the actual split parts into the same data structure as the expected parts.
-            val actualSplitPartsAsInfo = transaction.splitParts.map { actualPart ->
-                TransactionInfo(
-                    accountId = actualPart.data.accountId,
-                    amount = actualPart.data.amount,
-                    category = actualPart.data.categoryId,
-                    tags = actualPart.data.tagList,
-                    debtId = actualPart.data.debtId
-                )
-            }
-            assertThat(actualSplitPartsAsInfo).containsExactlyElementsIn(expectedSplitParts)
-        }
+        repository.assertTransaction(id, expectedTransaction)
     }
 
     protected fun assertTemplate(

@@ -56,9 +56,7 @@ import static org.totschnig.myexpenses.provider.ChangeLogTriggersKt.createOrRefr
 import static org.totschnig.myexpenses.provider.ChangeLogTriggersKt.createOrRefreshEquivalentAmountTriggers;
 import static org.totschnig.myexpenses.provider.ConstantsKt.*;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.*;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.buildViewDefinition;
-import static org.totschnig.myexpenses.provider.DbConstantsKt.tagGroupBy;
 import static org.totschnig.myexpenses.util.ColorUtils.MAIN_COLORS;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 

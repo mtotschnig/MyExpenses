@@ -20,7 +20,7 @@ import org.totschnig.myexpenses.testutils.CATEGORY_ICON
 import org.totschnig.myexpenses.testutils.CATEGORY_LABEL
 import org.totschnig.myexpenses.testutils.TEMPLATE_TITLE
 import org.totschnig.myexpenses.testutils.withCategoryIcon
-import org.totschnig.shared_test.TransactionInfo
+import org.totschnig.shared_test.TransactionData
 
 
 class ExpenseEditCategoryTest : BaseExpenseEditTest() {
@@ -45,7 +45,7 @@ class ExpenseEditCategoryTest : BaseExpenseEditTest() {
             clickFab() // save transaction
             assertTransaction(
                 id = repository.loadTransactions(account1.id).first().id,
-                TransactionInfo(
+                TransactionData(
                     accountId = account1.id,
                     amount = -10100,
                     category = categoryId

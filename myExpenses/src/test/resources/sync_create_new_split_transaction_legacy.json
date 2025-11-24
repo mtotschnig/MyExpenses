@@ -1,0 +1,85 @@
+[
+  {
+    "type": "created",
+    "uuid": "7bf6c4ed-09d2-4237-ae6c-0ec0b8fe41c3",
+    "timeStamp": 1763909705,
+    "comment": "Split",
+    "date": 1763909685,
+    "valueDate": 1763909685,
+    "amount": -3300,
+    "crStatus": "UNRECONCILED",
+    "status": 0,
+    "referenceNumber": "",
+    "splitParts": [
+      {
+        "type": "created",
+        "uuid": "e92e3a35-f686-4697-b897-5a8480611dac",
+        "timeStamp": 1763909705,
+        "parentUuid": "7bf6c4ed-09d2-4237-ae6c-0ec0b8fe41c3",
+        "comment": "",
+        "date": 0,
+        "valueDate": 0,
+        "amount": -1100,
+        "crStatus": "UNRECONCILED",
+        "status": 0,
+        "referenceNumber": "",
+        "categoryInfo": [
+          {
+            "color": -3147530,
+            "icon": "gift",
+            "label": "Geschenke",
+            "type": 1,
+            "uuid": "ed8be4e1-084b-470c-9da7-1907ca385e85"
+          }
+        ]
+      },
+      {
+        "type": "created",
+        "uuid": "7f6a5633-42c9-4c45-a617-1c4228703882",
+        "timeStamp": 1763909705,
+        "parentUuid": "7bf6c4ed-09d2-4237-ae6c-0ec0b8fe41c3",
+        "comment": "",
+        "date": 0,
+        "valueDate": 0,
+        "amount": -2200,
+        "crStatus": "UNRECONCILED",
+        "status": 0,
+        "referenceNumber": "",
+        "categoryInfo": [
+          {
+            "color": -13253935,
+            "icon": "clothing",
+            "label": "Bekleidung",
+            "type": 1,
+            "uuid": "38ef3dd1-4049-40b5-a9d9-19e44b605700"
+          },
+          {
+            "icon": "shirt",
+            "label": "Kleidung",
+            "uuid": "696add61-a8cf-4652-a30b-f8c024fc1d4b"
+          }
+        ]
+      },
+      {
+        "type": "updated",
+        "uuid": "e92e3a35-f686-4697-b897-5a8480611dac",
+        "timeStamp": 1763909705,
+        "parentUuid": "7bf6c4ed-09d2-4237-ae6c-0ec0b8fe41c3",
+        "date": 1763909685
+      },
+      {
+        "type": "updated",
+        "uuid": "7f6a5633-42c9-4c45-a617-1c4228703882",
+        "timeStamp": 1763909705,
+        "parentUuid": "7bf6c4ed-09d2-4237-ae6c-0ec0b8fe41c3",
+        "date": 1763909685
+      }
+    ],
+    "categoryInfo": [
+      {
+        "label": "",
+        "uuid": "__NULL__"
+      }
+    ]
+  }
+]

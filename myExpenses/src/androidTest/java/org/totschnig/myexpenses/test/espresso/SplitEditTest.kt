@@ -61,7 +61,7 @@ import org.totschnig.myexpenses.testutils.withAccountGrouped
 import org.totschnig.myexpenses.testutils.withCategoryIcon
 import org.totschnig.myexpenses.testutils.withViewCount
 import org.totschnig.myexpenses.viewmodel.data.Debt
-import org.totschnig.shared_test.TransactionInfo
+import org.totschnig.shared_test.TransactionData
 
 @TestShard5
 class SplitEditTest : BaseExpenseEditTest() {
@@ -287,13 +287,13 @@ class SplitEditTest : BaseExpenseEditTest() {
             assertFinishing()
             assertTransaction(
                 id = repository.loadTransactions(account1.id).first().id,
-                TransactionInfo(
+                TransactionData(
                     accountId = account1.id,
                     amount = partCount * partAmount * 100L,
                     splitParts = buildList {
                         repeat(partCount) {
                             add(
-                                TransactionInfo(
+                                TransactionData(
                                     accountId = account1.id,
                                     amount = partAmount * 100L,
                                     tags = listOf(tagId),
@@ -416,15 +416,15 @@ class SplitEditTest : BaseExpenseEditTest() {
         assertFinishing()
         assertTransaction(
             id = id,
-            TransactionInfo(
+            TransactionData(
                 accountId = account1.id,
                 amount = 20000,
                 splitParts = listOf(
-                    TransactionInfo(
+                    TransactionData(
                         accountId = account1.id,
                         amount = 15000
                     ),
-                    TransactionInfo(
+                    TransactionData(
                         accountId = account1.id,
                         amount = 5000
                     )
@@ -455,15 +455,15 @@ class SplitEditTest : BaseExpenseEditTest() {
         assertFinishing()
         assertTransaction(
             id = id,
-            TransactionInfo(
+            TransactionData(
                 accountId = account1.id,
                 amount = 20000,
                 splitParts = listOf(
-                    TransactionInfo(
+                    TransactionData(
                         accountId = account1.id,
                         amount = 15000
                     ),
-                    TransactionInfo(
+                    TransactionData(
                         accountId = account1.id,
                         amount = 5000
                     )
