@@ -453,7 +453,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
             doHBCI(
                 credentials,
                 work = { _, _, handle ->
-                    val jobs: Map<AccountInformation, HBCIJob> = accounts.associateWith { accountInformation ->
+                    val jobs = accounts.associateWith { accountInformation ->
                         val konto = Konto(
                             "DE",
                             accountInformation.blz ?: credentials.blz,
@@ -549,7 +549,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         }?.any { it } == true
     }
 
-    private fun HBCIJob.setStartParam(localDate: LocalDate) {
+    private fun HBCIJob<*>.setStartParam(localDate: LocalDate) {
         setParam(
             "startdate",
             Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())
@@ -581,7 +581,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                                 konto.iban
                             )
                         )
-                        val umsatzJob: HBCIJob = handle.newJob("KUmsAll")
+                        val umsatzJob = handle.newJob("KUmsAll")
                         val kontoParam = konto.also {
                             if (it.bic == null) {
                                 it.bic = bankingCredentials.bank?.bic

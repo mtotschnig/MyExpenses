@@ -183,7 +183,7 @@ data class Transaction(
         fun fromCursor(cursor: Cursor) = with(cursor) {
             Transaction(
                 id = getLong(KEY_ROWID),
-                comment = getString(KEY_COMMENT),
+                comment = getStringOrNull(KEY_COMMENT),
                 date = getLong(KEY_DATE),
                 valueDate = getLong(KEY_VALUE_DATE),
                 amount = getLong(KEY_AMOUNT),

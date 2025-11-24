@@ -361,3 +361,9 @@ tasks.register('echoPublishTag') {
 configurations.configureEach {
     exclude group: 'com.google.j2objc', module: 'j2objc-annotations'
 }
+
+tasks.register("r8Version") {
+    doLast {
+        println(com.android.tools.r8.Version.getVersionString())
+    }
+}

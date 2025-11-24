@@ -28,6 +28,12 @@ android {
     buildFeatures {
         compose true
     }
+    packagingOptions {
+        // Add this block to solve the duplicate file error
+        resources {
+            excludes += '/META-INF/*'
+        }
+    }
 }
 
 dependencies {

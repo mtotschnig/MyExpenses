@@ -1,7 +1,6 @@
 package org.totschnig.sqlcrypt
 
 import android.content.Context
-import android.os.Build
 import androidx.annotation.Keep
 import net.zetetic.database.sqlcipher.SQLiteDatabase
 import net.zetetic.database.sqlcipher.SupportOpenHelperFactory
@@ -17,11 +16,7 @@ private const val PASSPHRASE_LENGTH = 32
 class SQLiteOpenHelperFactory : SqlCryptProvider {
     private fun passPhrase(context: Context): ByteArray =
         PassphraseRepository(context, File(context.filesDir, "passphrase.bin")) {
-            val random = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                SecureRandom.getInstanceStrong()
-            } else {
-                SecureRandom()
-            }
+            val random = SecureRandom.getInstanceStrong()
             val result = ByteArray(PASSPHRASE_LENGTH)
 
             random.nextBytes(result)
