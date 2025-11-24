@@ -42,10 +42,7 @@
                 android:enabled="false"
                 android:focusable="false"
                 android:importantForAutofill="no"
-                android:inputType="none"
-                tools:targetApi="o">
-
-            </EditText>
+                android:inputType="none" />
 
             <ImageView
                 android:id="@+id/btn_browse"

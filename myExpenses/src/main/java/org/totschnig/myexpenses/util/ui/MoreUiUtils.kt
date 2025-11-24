@@ -230,11 +230,7 @@ fun ImageView.setAttachmentInfo(info: AttachmentInfo) {
     if (info.thumbnail != null) {
         setImageBitmap(info.thumbnail)
     } else if (info.typeIcon != null) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            setImageIcon(info.typeIcon)
-        } else {
-            CrashHandler.report(IllegalStateException())
-        }
+        setImageIcon(info.typeIcon)
     } else {
         scaleType = ImageView.ScaleType.CENTER
         setImageResource(info.fallbackResource ?: 0)

@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.ContentValues
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
-import android.os.Build
 import android.os.Parcelable
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.lifecycle.liveData
@@ -57,7 +56,7 @@ class TemplatesListViewModel(application: Application) :
                 context,
                 ShortcutManagerCompat.FLAG_MATCH_PINNED
             )
-            if (result && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (result) {
                 itemIds.filter { itemId ->
                     shortcuts.any { it.id == ShortcutHelper.idTemplate(itemId) }
                 }.forEach {

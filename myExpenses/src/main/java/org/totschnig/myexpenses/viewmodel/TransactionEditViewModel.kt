@@ -7,7 +7,6 @@ import android.content.ContentUris
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresPermission
 import androidx.core.content.pm.ShortcutManagerCompat
@@ -304,7 +303,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 }
             }
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && transaction.templateEditData != null && transaction.id != 0L) {
+            if (transaction.templateEditData != null && transaction.id != 0L) {
                 if (
                     ShortcutManagerCompat.getShortcuts(getApplication(), FLAG_MATCH_PINNED)
                         .any {

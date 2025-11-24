@@ -1,18 +1,12 @@
 package org.totschnig.myexpenses.io
 
-import okhttp3.internal.toImmutableList
-import org.totschnig.myexpenses.db2.RepositoryTransaction
-import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.CrStatus.Companion.fromQifName
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import java.math.BigDecimal
 import java.util.Date
-import kotlin.collections.get
 
 data class ImportAccount(
     val type: String? = PREDEFINED_NAME_CASH,
@@ -128,7 +122,7 @@ data class ImportTransaction(
                 status = status,
                 number = number,
                 method = method,
-                tags = if (tags.isEmpty()) null else tags.toImmutableList(),
+                tags = if (tags.isEmpty()) null else tags,
                 splits = if (splits.isEmpty()) null else splits.mapNotNull { split -> split.build() }
             )
         }

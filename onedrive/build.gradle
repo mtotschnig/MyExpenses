@@ -48,10 +48,4 @@ dependencies {
 configurations.configureEach {
     exclude group:"com.google.guava", module:"guava"
     //exclude group:"androidx.credentials", module:"credentials-play-services-auth"
-
-    resolutionStrategy {
-        dependencySubstitution {
-            substitute module("com.azure:azure-core") using module("com.github.mtotschnig.Azure-Core:azure-core:0ccd6e7285")
-        }
-    }
 }

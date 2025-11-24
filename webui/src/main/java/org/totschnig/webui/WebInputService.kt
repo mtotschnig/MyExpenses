@@ -366,7 +366,6 @@ class WebInputService : LifecycleService(), IWebInputService {
                                 )
                                     .addAction(
                                         0,
-                                        0,
                                         getString(R.string.stop),
                                         //noinspection InlinedApi
                                         PendingIntent.getService(

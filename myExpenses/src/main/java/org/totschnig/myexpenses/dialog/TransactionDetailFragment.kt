@@ -15,7 +15,6 @@
 package org.totschnig.myexpenses.dialog
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
@@ -530,7 +529,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                                     contentDescription = null
                                 )
 
-                                info.typeIcon != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ->
+                                info.typeIcon != null ->
                                     Image(
                                         modifier = Modifier
                                             .clickable(onClick = onClick)

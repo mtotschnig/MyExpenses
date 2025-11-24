@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.util
 
 import android.content.Context
 import android.net.Uri
-import android.os.Build
 import android.text.format.Formatter
 import androidx.annotation.WorkerThread
 import androidx.core.content.FileProvider
@@ -15,8 +14,35 @@ import org.totschnig.myexpenses.util.io.displayName
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
+import kotlin.Boolean
+import kotlin.Exception
+import kotlin.IllegalArgumentException
+import kotlin.IllegalStateException
+import kotlin.Long
+import kotlin.Pair
 import kotlin.Result
+import kotlin.String
+import kotlin.Throwable
+import kotlin.Triple
+import kotlin.collections.List
+import kotlin.collections.filter
+import kotlin.collections.filterNotNull
+import kotlin.collections.firstOrNull
+import kotlin.collections.map
+import kotlin.collections.mapNotNull
+import kotlin.collections.mapOf
+import kotlin.collections.sortedByDescending
+import kotlin.let
+import kotlin.map
+import kotlin.mapCatching
+import kotlin.onFailure
+import kotlin.runCatching
+import kotlin.takeIf
+import kotlin.text.format
+import kotlin.to
+import androidx.core.net.toUri
 
 data class FileInfo(val name: String, val size: Long) {
     fun format(context: Context) = "$name (${Formatter.formatFileSize(context, size)})"
@@ -33,8 +59,8 @@ object AppDirHelper {
         }.onFailure { CrashHandler.report(it) }
 
     @WorkerThread
-    fun getAppDirFiles(context: Context): Result<List<FileInfo>> = getAppDir(context).map {
-        it.listFiles()
+    fun getAppDirFiles(context: Context): Result<List<FileInfo>> = getAppDir(context).map { dir ->
+        dir.listFiles()
             .filter { (it.length() > 0) && !it.isDirectory }
             .mapNotNull { file ->
                 file.name?.let {
@@ -56,7 +82,7 @@ object AppDirHelper {
     private fun getAppDirFromPref(context: Context): Result<DocumentFile?> =
         runCatching {
             context.injector.prefHandler().getString(PrefKey.APP_DIR, null)?.let {
-                val pref = Uri.parse(it)
+                val pref = it.toUri()
                 if ("file" == pref.scheme) {
                     val appDir = File(pref.path!!)
                     if (appDir.mkdir() || appDir.isDirectory) {
@@ -173,18 +199,16 @@ object AppDirHelper {
      * @return either positive Result or negative Result with problem description
      */
     fun checkAppDir(context: Context): Result<DocumentFile> = getAppDir(context).mapCatching {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            val uri = it.uri
-            if ("file" == uri.scheme) {
-                try {
-                    getContentUriForFile(context, File(File(uri.path!!), "test"))
-                } catch (e: IllegalArgumentException) {
-                    throw localizedThrowable(
-                        context,
-                        R.string.app_dir_not_compatible_with_nougat,
-                        uri.toString()
-                    )
-                }
+        val uri = it.uri
+        if ("file" == uri.scheme) {
+            try {
+                getContentUriForFile(context, File(File(uri.path!!), "test"))
+            } catch (_: IllegalArgumentException) {
+                throw localizedThrowable(
+                    context,
+                    R.string.app_dir_not_compatible_with_nougat,
+                    uri.toString()
+                )
             }
         }
         it.takeIf { isWritableDirectory(it) } ?:
@@ -200,10 +224,7 @@ object AppDirHelper {
         "file" -> try {
             getContentUriForFile(context, File(uri.path!!))
         } catch (e: IllegalArgumentException) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                throw NougatFileProviderException(e)
-            }
-            uri
+            throw NougatFileProviderException(e)
         }
 
         "content" -> uri

@@ -316,7 +316,6 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
             )
         }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     fun removeBackend(accountName: String) =
         get(getApplication()).removeAccountExplicitly(getAccount(accountName))
 

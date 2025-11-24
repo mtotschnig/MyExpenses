@@ -5,7 +5,6 @@ import android.app.SearchManager
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
-import android.os.Build
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.Menu
@@ -101,7 +100,6 @@ fun createCheckedIconDrawable(context: Context, @DrawableRes icon: Int): LayerDr
 
     // Outer oval with stroke
     val shadowWidth = dp(1.5f)
-    val padding = dp(3f)
     val outerOval = GradientDrawable().apply {
         shape = GradientDrawable.OVAL
         setStroke(shadowWidth, colorOnSurface)
@@ -132,12 +130,10 @@ fun createCheckedIconDrawable(context: Context, @DrawableRes icon: Int): LayerDr
             shadowWidth,
             shadowWidth
         )
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            setLayerGravity(2, Gravity.CENTER)
-            setLayerSize(0, dp(24f), dp(24f))
-            setLayerSize(1, dp(21f), dp(21f))
-            setLayerSize(2, dp(18f), dp(18f))
-        }
+        setLayerGravity(2, Gravity.CENTER)
+        setLayerSize(0, dp(24f), dp(24f))
+        setLayerSize(1, dp(21f), dp(21f))
+        setLayerSize(2, dp(18f), dp(18f))
     }
 }
 

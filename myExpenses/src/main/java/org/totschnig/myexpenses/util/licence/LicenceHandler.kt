@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.util.licence
 import android.app.Application
 import android.content.Context
 import android.net.Uri
-import android.os.Build
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -155,9 +154,7 @@ open class LicenceHandler(
                 this@LicenceHandler,
                 prefHandler
             )
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                ShortcutHelper.configureSplitShortcut(context, isContribEnabled)
-            }
+            ShortcutHelper.configureSplitShortcut(context, isContribEnabled)
         }
     }
 

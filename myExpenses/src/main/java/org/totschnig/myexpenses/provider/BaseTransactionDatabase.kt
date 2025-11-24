@@ -1247,7 +1247,7 @@ abstract class BaseTransactionDatabase(
     }
 
     fun SupportSQLiteDatabase.createOrRefreshCategoryMainCategoryUniqueLabel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && "robolectric" != Build.FINGERPRINT) {
+        if ("robolectric" != Build.FINGERPRINT) {
             execSQL("DROP INDEX if exists categories_label")
             execSQL(CATEGORY_LABEL_INDEX_CREATE)
         } else {

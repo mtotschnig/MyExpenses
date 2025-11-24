@@ -7,11 +7,9 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
-import android.database.CursorWrapper
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteDatabase.CONFLICT_IGNORE
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
@@ -1283,15 +1281,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
         return true
     }
 
-    fun wrapWithResultCompat(cursor: Cursor, extras: Bundle) = when {
-        extras.isEmpty -> cursor
-        Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> cursor.apply {
-            setExtras(extras)
-        }
-
-        else -> object : CursorWrapper(cursor) {
-            override fun getExtras() = extras
-        }
+    fun wrapWithResultCompat(cursor: Cursor, extras: Bundle) = if (extras.isEmpty) cursor
+    else cursor.apply {
+        setExtras(extras)
     }
 
     fun handleAccountProperty(
@@ -1525,7 +1517,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     fun deleteAttachment(db: SupportSQLiteDatabase, attachmentId: Long, uriString: String?) {
 
-        val uri = Uri.parse(uriString ?: findAttachment(db, attachmentId))
+        val uri = (uriString ?: findAttachment(db, attachmentId)!!).toUri()
         if (uri.authority != AppDirHelper.getFileProviderAuthority(context!!)) {
             Timber.d("External, releasePersistableUriPermission")
             if (try {

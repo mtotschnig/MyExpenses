@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.util
 
 import android.content.Context
 import android.net.Uri
-import android.os.Build
 import android.os.Environment
 import androidx.core.content.ContextCompat
 import org.totschnig.myexpenses.MyApplication
@@ -88,7 +87,7 @@ object PictureDirHelper {
         return try {
             getContentUriForFile(application, outputMediaFile)
         } catch (e: IllegalArgumentException) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && !temp) {
+            if (!temp) {
                 throw NougatFileProviderException(e)
             }
             Uri.fromFile(outputMediaFile)

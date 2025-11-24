@@ -837,22 +837,16 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 } else {
 
                     val intent = Intent().apply {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            val channelId = if (
-                                NotificationManagerCompat.from(this@BaseActivity)
-                                    .areNotificationsEnabled()
-                            ) NotificationBuilderWrapper.CHANNEL_ID_PLANNER else null
-                            action = when (channelId) {
-                                null -> Settings.ACTION_APP_NOTIFICATION_SETTINGS
-                                else -> Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS
-                            }
-                            channelId?.let { putExtra(Settings.EXTRA_CHANNEL_ID, it) }
-                            putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
-                        } else {
-                            action = "android.settings.APP_NOTIFICATION_SETTINGS"
-                            putExtra("app_package", packageName)
-                            putExtra("app_uid", applicationInfo.uid)
+                        val channelId = if (
+                            NotificationManagerCompat.from(this@BaseActivity)
+                                .areNotificationsEnabled()
+                        ) NotificationBuilderWrapper.CHANNEL_ID_PLANNER else null
+                        action = when (channelId) {
+                            null -> Settings.ACTION_APP_NOTIFICATION_SETTINGS
+                            else -> Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS
                         }
+                        channelId?.let { putExtra(Settings.EXTRA_CHANNEL_ID, it) }
+                        putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
                     }
                     startActivity(intent)
                 }
@@ -1287,7 +1281,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                     Bundle().apply {
                         putString(ConfirmationDialogFragment.KEY_PREFKEY, prefKey)
                         putCharSequence(
-                            ConfirmationDialogFragment.KEY_MESSAGE,
+                            KEY_MESSAGE,
                             TextUtils.concat(
                                 Utils.getTextWithAppName(
                                     this@BaseActivity,
@@ -1316,13 +1310,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     private fun areNotificationsEnabled(channelId: String) =
         if (NotificationManagerCompat.from(this).areNotificationsEnabled()) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-                val channel = manager.getNotificationChannel(channelId)
-                channel?.importance != NotificationManager.IMPORTANCE_NONE
-            } else {
-                true
-            }
+            val manager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            val channel = manager.getNotificationChannel(channelId)
+            channel?.importance != NotificationManager.IMPORTANCE_NONE
         } else false
 
     fun requestCalendarPermission() {

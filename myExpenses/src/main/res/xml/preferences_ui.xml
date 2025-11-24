@@ -155,8 +155,7 @@
     <PreferenceCategory
         android:key="category_home_screen_shortcuts"
         android:title="@string/pref_ui_home_screen_shortcuts"
-        my:initialExpandedChildrenCount="1"
-        my:isPreferenceVisible="@bool/pin_shortcut_support">
+        my:initialExpandedChildrenCount="1">
 
         <Preference
             android:key="@string/pref_shortcut_create_transaction_key"
@@ -177,8 +176,7 @@
 
         <Preference
             android:summary="@string/select_template"
-            android:title="@string/template"
-            my:isPreferenceVisible="@bool/is26">
+            android:title="@string/template">
             <intent
                 android:targetClass="org.totschnig.myexpenses.activity.TemplateShortcutSelect"
                 android:targetPackage="@string/application_id" />
