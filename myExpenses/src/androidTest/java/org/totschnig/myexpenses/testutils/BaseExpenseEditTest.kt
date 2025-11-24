@@ -171,7 +171,7 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
         expectedAccount: Long,
         expectedAmount: Long,
         expectedTransferAccount: Long,
-        expectedTransferAmount: Long
+        expectedTransferAmount: Long,
     ) {
         val transaction = repository.loadTransaction(id)
         with(transaction.data) {
@@ -241,13 +241,13 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
 
     fun checkToolbarTitleForTemplate(
         edit: Boolean = false,
-        @Transactions.TransactionType transactionType: Int = TYPE_TRANSACTION
+        @Transactions.TransactionType transactionType: Int = TYPE_TRANSACTION,
     ) {
         toolbarTitle().check(
             matches(
                 withText(
-                    getString(
-                        if (edit) R.string.menu_edit_template else R.string.menu_create_template
+                    if (edit) getString(
+                        R.string.menu_edit_template
                     ) + " (" + getString(
                         when (transactionType) {
                             TYPE_TRANSACTION -> R.string.transaction
@@ -255,7 +255,14 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
                             TYPE_TRANSFER -> R.string.transfer
                             else -> throw IllegalArgumentException()
                         }
-                    ) + ")"
+                    ) + ")" else getString(
+                        when (transactionType) {
+                            TYPE_TRANSACTION -> R.string.menu_create_template_for_transaction
+                            TYPE_SPLIT -> R.string.menu_create_template_for_split
+                            TYPE_TRANSFER -> R.string.menu_create_template_for_transfer
+                            else -> throw IllegalArgumentException()
+                        }
+                    )
                 )
             )
         )

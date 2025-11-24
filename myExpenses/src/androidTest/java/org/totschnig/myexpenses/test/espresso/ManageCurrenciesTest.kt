@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.test.espresso
 
+import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -95,6 +96,7 @@ class ManageCurrenciesTest : BaseUiTest<ManageCurrencies>() {
         } else {
             BaristaCheckboxInteractions.uncheck(R.id.checkBox)
         }
+        Espresso.closeSoftKeyboard()
         onView(withId(android.R.id.button1)).perform(click())
         onData(Matchers.`is`(currency))
             .inAdapterView(withId(android.R.id.list)).check(matches(withText(containsString("3"))))
