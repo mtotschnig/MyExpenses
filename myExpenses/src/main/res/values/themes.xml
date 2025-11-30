@@ -38,6 +38,8 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="colorOnSurface">@android:color/black</item>
     </style>
 
+    <style name="EditDialog" parent="EditDialogBase" />
+
     <style name="EditDialogBase" parent="Theme.Material3.DayNight.DialogWhenLarge">
         <item name="colorPrimaryDark">?colorSurface</item>
         <item name="windowActionModeOverlay">true</item>
