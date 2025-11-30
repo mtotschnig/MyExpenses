@@ -1143,10 +1143,12 @@ public class TransactionProvider extends BaseTransactionProvider {
       }*/
       case TRANSACTION_ATTRIBUTES ->  {
         insertTransactionAttribute(db, values);
+        notifyChange(TRANSACTIONS_ATTRIBUTES_URI, false);
         return TRANSACTIONS_ATTRIBUTES_URI;
       }
       case ACCOUNT_ATTRIBUTES ->  {
         insertAccountAttribute(db, values);
+        notifyChange(ACCOUNTS_ATTRIBUTES_URI, false);
         return ACCOUNTS_ATTRIBUTES_URI;
       }
       case ATTACHMENTS ->  {

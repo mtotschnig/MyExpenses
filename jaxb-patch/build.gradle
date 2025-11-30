@@ -1,0 +1,31 @@
+plugins {
+    id 'java-library'
+    id 'com.github.johnrengelman.shadow' version '8.1.1'
+}
+java {
+    sourceCompatibility JavaVersion.VERSION_11
+    targetCompatibility JavaVersion.VERSION_11
+}
+
+dependencies {
+    implementation 'com.sun.xml.bind:jaxb-impl:2.3.9'
+    implementation libs.xercesimpl
+}
+
+shadowJar {
+    archiveClassifier.set('patched')
+}
+
+configurations {
+    patchedJarApiElements {
+        canBeConsumed = true
+        canBeResolved = false
+
+        attributes {
+            attribute(Usage.USAGE_ATTRIBUTE, objects.named(Usage, Usage.JAVA_RUNTIME))
+        }
+
+        outgoing.artifacts.clear()
+        outgoing.artifact(tasks.named('shadowJar'))
+    }
+}

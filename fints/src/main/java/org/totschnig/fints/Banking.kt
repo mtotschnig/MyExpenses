@@ -1,12 +1,12 @@
 package org.totschnig.fints
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
 import android.widget.TextView
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -31,9 +31,12 @@ import androidx.compose.material.icons.filled.AccountBalance
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Checklist
 import androidx.compose.material.icons.filled.Link
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
@@ -63,6 +66,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalAutofillManager
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -75,8 +79,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.phrase.Phrase
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
+import kotlinx.parcelize.Parcelize
 import org.kapott.hbci.structures.Konto
 import org.totschnig.fints.BankingViewModel.WorkState.*
 import org.totschnig.myexpenses.MyApplication
@@ -89,10 +95,26 @@ import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.UiText
 import org.totschnig.myexpenses.compose.rememberMutableStateMapOf
+import org.totschnig.myexpenses.db2.AccountInformation
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.model2.Bank
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.enumValueOrDefault
 import java.time.LocalDate
 import org.totschnig.fints.R as RF
+
+
+enum class GeschaeftsFall(val jobName: String) {
+    HKCAZ("KUmsAllCamt"), HKKAZ("KUmsAll")
+}
+
+@Parcelize
+data class AccountImportConfig(
+    val alreadyImported: Boolean = false,
+    val isSelected: Boolean = false,
+    val targetAccountId: Long = 0L,
+    val geschaeftsFall: GeschaeftsFall = GeschaeftsFall.HKCAZ,
+) : Parcelable
 
 class Banking : ProtectedFragmentActivity() {
 
@@ -287,13 +309,13 @@ class Banking : ProtectedFragmentActivity() {
             DialogState.AccountSelection -> {
                 val accounts = (workState as? AccountsLoaded)?.accounts
                     ?: return
-                val selectedAccounts = rememberMutableStateMapOf<Int, Long>()
+                val selectedAccounts = rememberMutableStateMapOf<Int, AccountImportConfig>()
                 var nrDays: Long? by remember { mutableStateOf(null) }
                 val importMaxDuration = remember { derivedStateOf { nrDays == null } }
 
                 val availableAccounts =
                     viewModel.accounts.collectAsState()
-                val targetOptions = remember {
+                val targetOptions: State<List<Pair<Long, String>>> = remember {
                     derivedStateOf {
                         buildList {
                             add(0L to getString(R.string.menu_create_account))
@@ -320,7 +342,8 @@ class Banking : ProtectedFragmentActivity() {
                                     bankingCredentials.value,
                                     workState.bank,
                                     workState.accounts.mapIndexedNotNull { index, pair ->
-                                        selectedAccounts[index]?.let { pair.first to it }
+                                        selectedAccounts[index]?.takeIf { it.isSelected }
+                                            ?.let { pair.first to it }
                                     },
                                     nrDays?.let { LocalDate.now().minusDays(it) }
                                 )
@@ -341,31 +364,46 @@ class Banking : ProtectedFragmentActivity() {
                         ) {
                             Error(errorMessage = errorState.value)
                             Help(buildList {
-                                add(RF.string.select_accounts_help_1)
+                                add(stringResource(RF.string.select_accounts_help_1))
                                 if (!calledFromOnboarding) {
-                                    add(RF.string.select_accounts_help_2)
+                                    add(stringResource(RF.string.select_accounts_help_2))
                                 }
-                                add(RF.string.select_accounts_help_3)
+                                add(
+                                    Phrase.from(LocalContext.current.getText(RF.string.select_accounts_help_3))
+                                        .put("update", stringResource(RF.string.menu_sync_account))
+                                        .format()
+                                )
                             })
 
                             accounts.forEachIndexed { index, account ->
                                 AccountRow(
-                                    account.first,
-                                    !account.second,
-                                    targetOptions.value.find { it.first == selectedAccounts[index] }?.second,
-                                    targetOptions.value.filterNot {
-                                        it.first != 0L && selectedAccounts.values.contains(
-                                            it.first
+                                    account = account.first,
+                                    config = account.second?.let {
+                                        AccountImportConfig(
+                                            alreadyImported = true,
+                                            geschaeftsFall = it.geschaeftsFallWithDefault
                                         )
+                                    } ?: selectedAccounts.getOrPut(index) { AccountImportConfig() },
+                                    targetOptions = targetOptions.value.filter { (id) ->
+                                        id == 0L || selectedAccounts.none { it.key != index && it.value.targetAccountId == id }
                                     }
-                                ) { selected, accountId ->
-                                    if (selected) selectedAccounts[index] =
-                                        accountId else selectedAccounts.remove(
-                                        index
-                                    )
+                                ) { config ->
+                                    //if account has been imported in the past, we set new geschaeftsfall immediately
+                                    if (config.alreadyImported) {
+                                        account.second?.let {
+                                            viewModel.updateGeschaeftsFall(
+                                                it.accountId,
+                                                config.geschaeftsFall
+                                            )
+                                        } ?: run {
+                                            CrashHandler.report(IllegalStateException("Expected non-null AccountInformation"))
+                                        }
+                                    } else {
+                                        selectedAccounts[index] = config
+                                    }
                                 }
                             }
-                            if (!accounts.all { it.second }) {
+                            if (!accounts.all { it.second != null }) {
                                 Column(Modifier.selectableGroup()) {
                                     Row(
                                         Modifier
@@ -480,9 +518,9 @@ class Banking : ProtectedFragmentActivity() {
                         ) {
                             Error(errorMessage = errorState.value)
                             Help(buildList {
-                                add(RF.string.fints_intro_1)
+                                add(stringResource(RF.string.fints_intro_1))
                                 if (calledFromOnboarding) {
-                                    add(RF.string.fints_intro_2)
+                                    add(stringResource(RF.string.fints_intro_2))
                                 }
                             })
                             BankingCredentials(
@@ -580,10 +618,8 @@ class Banking : ProtectedFragmentActivity() {
     }
 
     @Composable
-    fun Help(@StringRes resIds: List<Int>) {
-        val help = resIds.joinTo(SpannableStringBuilder(), " ") {
-            getText(it)
-        }
+    fun Help(parts: List<CharSequence>) {
+        val help = parts.joinTo(SpannableStringBuilder(), " ")
         AndroidView(
             modifier = Modifier
                 .width(OutlinedTextFieldDefaults.MinWidth)
@@ -601,7 +637,7 @@ fun BankRow(
     onShow: (Bank) -> Unit = {},
     onResetTanMechanism: ((Bank) -> Unit)? = null,
     onMigrate: ((Bank) -> Unit)? = null,
-    onSync: (Bank) -> Unit = {}
+    onSync: (Bank) -> Unit = {},
 ) {
     val showMenu = rememberSaveable { mutableStateOf(false) }
     Row(
@@ -661,40 +697,95 @@ fun BankRow(
 @Composable
 fun AccountRow(
     account: Konto,
-    selectable: Boolean,
-    selected: String?,
+    config: AccountImportConfig,
     targetOptions: List<Pair<Long, String>>,
-    onSelectionChange: (Boolean, Long) -> Unit,
+    onConfigurationChange: (AccountImportConfig) -> Unit,
 ) {
-    Row {
-        if (selectable) {
-            val showMenu = rememberSaveable { mutableStateOf(false) }
-            Checkbox(checked = selected != null, onCheckedChange = {
-                if (targetOptions.size > 1 && it) {
-                    showMenu.value = true
-                }
-                onSelectionChange.invoke(it, 0)
-            })
-            if (showMenu.value)
-                HierarchicalMenu(
-                    expanded = showMenu, title = stringResource(id = RF.string.import_into),
-                    menu = Menu(targetOptions.map {
-                        MenuEntry(label = UiText.StringValue(it.second)) {
-                            onSelectionChange.invoke(true, it.first)
+    var showAdvancedOptions by remember { mutableStateOf(false) }
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+    ) {
+        Box {
+            Row(
+                // 2. Add padding inside the Card and center content vertically.
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 4.dp, vertical = 3.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (!config.alreadyImported) {
+                    val showMenu = rememberSaveable { mutableStateOf(false) }
+                    Checkbox(checked = config.isSelected, onCheckedChange = {
+                        if (targetOptions.size > 1 && it) {
+                            showMenu.value = true
+                        } else {
+                            onConfigurationChange(
+                                config.copy(
+                                    isSelected = it,
+                                    targetAccountId = 0L
+                                )
+                            )
                         }
                     })
-                )
-        } else {
-            Icon(
-                modifier = Modifier.width(48.dp),
-                imageVector = Icons.Filled.Link,
-                contentDescription = "Account is already imported"
-            )
-        }
-        Column {
-            Text(text = "${account.type} ${account.name}${account.name2?.let { " $it" } ?: ""}")
-            Text(account.dbNumber)
-            selected?.let { Text(stringResource(id = RF.string.import_into) + " " + it) }
+                    if (showMenu.value)
+                        HierarchicalMenu(
+                            expanded = showMenu, title = stringResource(id = RF.string.import_into),
+                            menu = Menu(targetOptions.map {
+                                MenuEntry(label = UiText.StringValue(it.second)) {
+                                    onConfigurationChange(
+                                        config.copy(
+                                            isSelected = true,
+                                            targetAccountId = it.first
+                                        )
+                                    )
+                                }
+                            })
+                        )
+                } else {
+                    Icon(
+                        modifier = Modifier.width(48.dp),
+                        imageVector = Icons.Filled.Link,
+                        contentDescription = stringResource(RF.string.account_is_already_imported)
+                    )
+                }
+                Column {
+                    Text(text = "${account.type} ${account.name}${account.name2?.let { " $it" } ?: ""}")
+                    Text(account.dbNumber)
+                    if (config.isSelected) {
+                        targetOptions.find { it.first == config.targetAccountId }?.second?.let {
+                            Text(
+                                stringResource(id = RF.string.import_into) + " " + it
+                            )
+                        }
+                    }
+                    if (showAdvancedOptions) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            GeschaeftsFall.entries.forEach { protocol ->
+                                RadioButton(
+                                    selected = (protocol == config.geschaeftsFall),
+                                    onClick = {
+                                        onConfigurationChange(config.copy(geschaeftsFall = protocol))
+                                    }
+                                )
+                                Text(text = protocol.name)
+                            }
+                        }
+                    }
+                }
+            }
+            if (config.alreadyImported || config.isSelected) {
+                IconButton(
+                    modifier = Modifier.align(Alignment.TopEnd),
+                    onClick = { showAdvancedOptions = !showAdvancedOptions }) {
+                    Icon(
+                        imageVector = Icons.Default.Settings,
+                        contentDescription = stringResource(id = RF.string.change_protocol)
+                    )
+                }
+            }
         }
     }
 }
@@ -728,4 +819,18 @@ private fun BankDemo() {
             )
         )
     }
+}
+
+@Preview
+@Composable
+private fun AccountRowDemo() {
+    AccountRow(
+        account = Konto().apply {
+            name = "Konto"
+            type = "Giro"
+            number = "123"
+        },
+        targetOptions = emptyList(),
+        config = AccountImportConfig(isSelected = true)
+    ) { }
 }

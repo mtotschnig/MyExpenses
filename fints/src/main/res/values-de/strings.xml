@@ -40,7 +40,7 @@
     <string name="import_into">Importieren nach</string>
     <string name="select_accounts_help_1">Wählen Sie die Konten aus, die Sie mit <i>Meine Ausgaben</i> verwalten möchten.</string>
     <string name="select_accounts_help_2">Sie können diese entweder in ein neues Konto importieren, oder ein bestehendes Konto (mit der Ausnahme von Bargeldkonten) als Ziel auswählen. In letzterem Fall, müssen Sie den Eröffnungssaldo manuell anpassen.</string>
-    <string name="select_accounts_help_3">Nicht alle Banken erlauben den Zugriff auf alle Konten über eine Schnittstelle, die <i>Meine Ausgaben</i> versteht (Zum Beispiel funktionieren bei den Sparkassen Kreditkarten nicht). Am Startbildschirm, wenn ein mit der Bank verknüpftes Konto dargestellt wird, wählen Sie zur Aktualisierung im Menü <i>Umsätze abrufen</i>.</string>
+    <string name="select_accounts_help_3">Nicht alle Banken erlauben den Zugriff auf alle Konten über eine Schnittstelle, die <i>Meine Ausgaben</i> versteht (Zum Beispiel funktionieren bei den Sparkassen Kreditkarten nicht). Am Startbildschirm, wenn ein mit der Bank verknüpftes Konto dargestellt wird, wählen Sie zur Aktualisierung im Menü <i>{update}</i>.</string>
     <string name="fints_intro_1"><i>Meine Ausgaben</i> erlaubt das Laden von Konto-Informationen (Buchungsverlauf) von ihrer Bank in Deutschland, sofern diese FinTS unterstützt. Das Auslösen von Zahlungen wird nicht unterstützt.</string>
     <string name="fints_intro_2">Von den Einstellungen aus können weitere Bankzugänge konfiguriert werden.</string>
     <string name="tan_medium_selection_prompt">Bitte wählen Sie die Bezeichnung des gewünschten TAN-Mediums aus:</string>
@@ -51,4 +51,6 @@
     <string name="password_securely_stored">Password sicher gespeichert.</string>
     <string name="migrate">Migrieren</string>
     <string name="reset_stored_configuration">TAN-Verfahren zurücksetzen</string>
+    <string name="change_protocol">Protokoll auswählen</string>
+    <string name="account_is_already_imported">Konto ist bereits importiert</string>
 </resources>

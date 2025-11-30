@@ -4,7 +4,12 @@ import android.content.ContentUris
 import android.content.ContentValues
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import org.totschnig.myexpenses.model2.Bank
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_ATTRIBUTE_NAME
@@ -19,7 +24,6 @@ import org.totschnig.myexpenses.provider.KEY_USER_ID
 import org.totschnig.myexpenses.provider.KEY_VALUE
 import org.totschnig.myexpenses.provider.KEY_VERSION
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.useAndMapToList
 import java.time.LocalDate
 
 fun Repository.loadBanks(): Flow<List<Bank>> {
@@ -71,41 +75,47 @@ data class AccountInformation(
     val subnumber: String?,
     val iban: String?,
     val bic: String?,
-    val lastSynced: LocalDate?
+    val lastSynced: LocalDate?,
+    val geschaeftsFall: String?,
 ) {
     companion object {
-        fun fromMap(accountId: Long, accountTypeId: Long, map: Map<Attribute, String>) = AccountInformation(
-            accountId = accountId,
-            accountTypeId = accountTypeId,
-            name = map[BankingAttribute.NAME],
-            blz = map[BankingAttribute.BLZ],
-            number = map[BankingAttribute.NUMBER],
-            subnumber = map[BankingAttribute.SUBNUMBER],
-            iban = map[BankingAttribute.IBAN],
-            bic = map[BankingAttribute.BIC],
-            lastSynced = map[BankingAttribute.LAST_SYCNED_WITH_BANK]?.let { LocalDate.parse(it) }
-        )
+        fun fromMap(accountId: Long, accountTypeId: Long, map: Map<Attribute, String>) =
+            AccountInformation(
+                accountId = accountId,
+                accountTypeId = accountTypeId,
+                name = map[BankingAttribute.NAME],
+                blz = map[BankingAttribute.BLZ],
+                number = map[BankingAttribute.NUMBER],
+                subnumber = map[BankingAttribute.SUBNUMBER],
+                iban = map[BankingAttribute.IBAN],
+                bic = map[BankingAttribute.BIC],
+                lastSynced = map[BankingAttribute.LAST_SYCNED_WITH_BANK]?.let { LocalDate.parse(it) },
+                geschaeftsFall = map[BankingAttribute.GESCHAEFTS_FALL]
+            )
     }
 }
 
-fun Repository.importedAccounts(bankId: Long): List<AccountInformation> =
-    contentResolver.query(
+@OptIn(ExperimentalCoroutinesApi::class)
+fun Repository.importedAccounts(bankId: Long): Flow<List<AccountInformation>> =
+    contentResolver.observeQuery(
         TransactionProvider.ACCOUNTS_URI,
         arrayOf(KEY_ROWID, KEY_TYPE),
         "$KEY_BANK_ID = ?",
         arrayOf(bankId.toString()),
         KEY_ROWID
-    )?.useAndMapToList { cursor ->
-      accountInformation(cursor.getLong(0), cursor.getLong(1))
-    }?.filterNotNull() ?: emptyList()
+    ).mapToList { cursor -> cursor.getLong(0) to cursor.getLong(1) }
+        .flatMapLatest { list ->
+            if (list.isEmpty()) flowOf(emptyList()) else
+                combine(list.map { (id, type) -> accountInformation(id, type) }) { it.toList() }
+        }
 
-//noinspection Recycle
-fun Repository.accountInformation(accountId: Long, accountTypeId: Long): AccountInformation? = contentResolver.query(
-    TransactionProvider.ACCOUNTS_ATTRIBUTES_URI,
-    arrayOf(KEY_CONTEXT, KEY_ATTRIBUTE_NAME, KEY_VALUE),
-    "$KEY_ACCOUNTID = ? AND $KEY_CONTEXT = '${BankingAttribute.CONTEXT}'",
-    arrayOf(accountId.toString()),
-    null
-)?.useAndMapToList { cursor -> Attribute.from(cursor) }?.let {
-    AccountInformation.fromMap(accountId, accountTypeId, it.toMap())
-}
+
+fun Repository.accountInformation(accountId: Long, accountTypeId: Long): Flow<AccountInformation> =
+    contentResolver.observeQuery(
+        TransactionProvider.ACCOUNTS_ATTRIBUTES_URI,
+        arrayOf(KEY_CONTEXT, KEY_ATTRIBUTE_NAME, KEY_VALUE),
+        "$KEY_ACCOUNTID = ? AND $KEY_CONTEXT = '${BankingAttribute.CONTEXT}'",
+        arrayOf(accountId.toString()),
+        null
+    ).mapToList { cursor -> Attribute.from(cursor) }
+        .map { AccountInformation.fromMap(accountId, accountTypeId, it.toMap()) }

@@ -164,7 +164,7 @@ dependencies {
     api(libs.androidx.datastore.preferences)
     coreLibraryDesugaring libs.android.desugar
     implementation project(':transactionscontract')
-    implementation libs.phrase
+    api libs.phrase
     implementation platform(libs.androidx.compose.bom)
     implementation libs.compose.ui
     implementation libs.compose.animation.graphics

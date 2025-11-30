@@ -16,15 +16,15 @@ fun Konto.toAccount(bank: Bank, openingBalance: Long) = Account(
     color = bank.asWellKnown?.color ?: Account.DEFAULT_COLOR
 )
 
-val Konto.asAttributes
-    get() = buildMap {
-        name?.let { put(BankingAttribute.NAME, it) }
-        number?.let { put(BankingAttribute.NUMBER, it) }
-        subnumber?.let { put(BankingAttribute.SUBNUMBER, it) }
-        iban?.let { put(BankingAttribute.IBAN, it) }
-        bic?.let { put(BankingAttribute.BIC, it) }
-        blz?.let { put(BankingAttribute.BLZ, it) }
-    }
+fun Konto.getAsAttributes(geschaeftsFall: GeschaeftsFall) = buildMap {
+    name?.let { put(BankingAttribute.NAME, it) }
+    number?.let { put(BankingAttribute.NUMBER, it) }
+    subnumber?.let { put(BankingAttribute.SUBNUMBER, it) }
+    iban?.let { put(BankingAttribute.IBAN, it) }
+    bic?.let { put(BankingAttribute.BIC, it) }
+    blz?.let { put(BankingAttribute.BLZ, it) }
+    put(BankingAttribute.GESCHAEFTS_FALL, geschaeftsFall.name)
+}
 
 
 val Konto.dbNumber: String

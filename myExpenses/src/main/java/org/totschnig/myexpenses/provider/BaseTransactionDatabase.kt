@@ -28,7 +28,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 import kotlin.math.pow
 
-const val DATABASE_VERSION = 182
+const val DATABASE_VERSION = 183
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -1147,6 +1147,13 @@ abstract class BaseTransactionDatabase(
         execSQL("DROP VIEW IF EXISTS $VIEW_UNCOMMITTED")
         execSQL("DROP VIEW IF EXISTS $VIEW_TEMPLATES_UNCOMMITTED")
         execSQL("DROP VIEW IF EXISTS $VIEW_ALL")
+    }
+
+    fun SupportSQLiteDatabase.upgradeTo183() {
+        safeInsert("attributes", ContentValues().apply {
+            put("attribute_name", BankingAttribute.GESCHAEFTS_FALL.name)
+            put("context", BankingAttribute.GESCHAEFTS_FALL.context)
+        })
     }
 
     protected fun SupportSQLiteDatabase.createOrRefreshAccountTriggers() {
