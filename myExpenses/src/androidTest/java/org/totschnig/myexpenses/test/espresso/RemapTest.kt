@@ -16,6 +16,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.containsString
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.TEST_TAG_SELECT_DIALOG
@@ -72,24 +73,17 @@ class RemapTest : BaseMyExpensesTest() {
         openCab(R.id.REMAP_PARENT)
         onView(withText(R.string.date)).perform(click())
 
-        // 1. Define the target date we want to click.
-        val targetDate = LocalDate.now().withDayOfMonth(1)
-
         val locale = targetContext.resources.configuration.locales[0]
-        val expectedContentDescription = getMonthDayOfWeekDay(targetDate.toEpoch()*1000, locale)
+        val expectedContentDescription = getMonthDayOfWeekDay(remapDate.toEpoch()*1000, locale)
 
-        // 3. Find the day using the generated string and click it.
-        onView(ViewMatchers.withContentDescription(expectedContentDescription))
+        onView(ViewMatchers.withContentDescription(containsString(expectedContentDescription)))
             .inRoot(isDialog())
             .perform(click())
 
-
-        // 3. Click the "OK" button on the date picker dialog.
         onView(withId(com.google.android.material.R.id.confirm_button))
             .inRoot(isDialog())
             .perform(click())
 
-        // 4. Finally, confirm the remap operation in your app's dialog.
         confirmRemap(clone)
         // 5. Assertions
         if (clone) {
