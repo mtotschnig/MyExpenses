@@ -1475,7 +1475,11 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     }
 
     open fun startBanking() {
-        startActivity(Intent(this, bankingFeature.bankingActivityClass))
+        bankingFeature.bankingActivityClass?.let {
+            startActivity(Intent(this, bankingFeature.bankingActivityClass))
+        } ?: run {
+            showSnackBar("BankingFeature not installed")
+        }
     }
 
     fun requestSync(accountName: String, uuid: String? = null) {

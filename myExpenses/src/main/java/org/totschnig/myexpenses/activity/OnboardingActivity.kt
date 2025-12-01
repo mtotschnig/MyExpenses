@@ -198,7 +198,11 @@ class OnboardingActivity : SyncBackendSetupActivity() {
     }
 
     override fun startBanking() {
-        startBanking.launch(Intent(this, bankingFeature.bankingActivityClass))
+        bankingFeature.bankingActivityClass?.let {
+            startBanking.launch(Intent(this, bankingFeature.bankingActivityClass))
+        } ?: run {
+            showSnackBar("BankingFeature not installed")
+        }
     }
 
     override val snackBarContainerId: Int

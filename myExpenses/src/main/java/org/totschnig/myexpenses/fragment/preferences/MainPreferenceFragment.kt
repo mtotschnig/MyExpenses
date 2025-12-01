@@ -102,7 +102,6 @@ class MainPreferenceFragment : BasePreferenceFragment(),
         requirePreference<Preference>(PrefKey.CATEGORY_SECURITY).title = protectionTitle
         with(requirePreference<Preference>(PrefKey.BANKING_FINTS)) {
             summary = "FinTS (${Locale.GERMANY.displayCountry})"
-            isVisible = preferenceActivity.bankingFeature != BankingFeature
         }
 
         viewModel.appData.observe(this) {
