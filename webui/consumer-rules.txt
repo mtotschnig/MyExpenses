@@ -39,3 +39,12 @@
 -dontwarn org.eclipse.jetty.npn.NextProtoNego$ServerProvider
 -dontwarn org.eclipse.jetty.npn.NextProtoNego
 -dontwarn reactor.blockhound.integration.BlockHoundIntegration
+-dontwarn jdk.jfr.Category
+-dontwarn jdk.jfr.DataAmount
+-dontwarn jdk.jfr.Description
+-dontwarn jdk.jfr.Enabled
+-dontwarn jdk.jfr.Event
+-dontwarn jdk.jfr.FlightRecorder
+-dontwarn jdk.jfr.Label
+-dontwarn jdk.jfr.MemoryAddress
+-dontwarn jdk.jfr.Name
