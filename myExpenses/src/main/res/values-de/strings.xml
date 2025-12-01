@@ -1043,4 +1043,6 @@
     <string name="show_invisible">Verborgene Konten</string>
     <string name="show_zero">Konten mit Nullsaldo</string>
     <string name="content_description_clear_party">Ausgewählte Partei entfernen</string>
+    <string name="content_description_select_recent_file">Wählen Sie aus aktuellen Dateien aus</string>
+    <string name="content_description_browse_device_files">Durchsuchen Sie Dateien auf diesem Gerät</string>
 </resources>
