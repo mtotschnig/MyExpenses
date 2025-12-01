@@ -52,5 +52,6 @@
     <string name="migrate">Migrieren</string>
     <string name="reset_stored_configuration">TAN-Verfahren zurücksetzen</string>
     <string name="change_protocol">Protokoll auswählen</string>
-    <string name="account_is_already_imported">Konto ist bereits importiert</string>
+    <string name="account_is_already_imported">Konto ist bereits importiert.</string>
+    <string name="account_type_not_supported">Kontoart %s wird nicht unterstützt.</string>
 </resources>

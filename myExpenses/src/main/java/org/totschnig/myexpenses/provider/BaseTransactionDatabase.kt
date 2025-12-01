@@ -1151,8 +1151,8 @@ abstract class BaseTransactionDatabase(
 
     fun SupportSQLiteDatabase.upgradeTo183() {
         safeInsert("attributes", ContentValues().apply {
-            put("attribute_name", BankingAttribute.GESCHAEFTS_FALL.name)
-            put("context", BankingAttribute.GESCHAEFTS_FALL.context)
+            put("attribute_name", BankingAttribute.GESCHAEFTS_VORFALL.name)
+            put("context", BankingAttribute.GESCHAEFTS_VORFALL.context)
         })
     }
 

@@ -76,7 +76,7 @@ data class AccountInformation(
     val iban: String?,
     val bic: String?,
     val lastSynced: LocalDate?,
-    val geschaeftsFall: String?,
+    val geschaeftsVorfall: String?,
 ) {
     companion object {
         fun fromMap(accountId: Long, accountTypeId: Long, map: Map<Attribute, String>) =
@@ -90,7 +90,7 @@ data class AccountInformation(
                 iban = map[BankingAttribute.IBAN],
                 bic = map[BankingAttribute.BIC],
                 lastSynced = map[BankingAttribute.LAST_SYCNED_WITH_BANK]?.let { LocalDate.parse(it) },
-                geschaeftsFall = map[BankingAttribute.GESCHAEFTS_FALL]
+                geschaeftsVorfall = map[BankingAttribute.GESCHAEFTS_VORFALL]
             )
     }
 }

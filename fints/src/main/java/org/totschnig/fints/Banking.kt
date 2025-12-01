@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -95,17 +96,17 @@ import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.UiText
 import org.totschnig.myexpenses.compose.rememberMutableStateMapOf
-import org.totschnig.myexpenses.db2.AccountInformation
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.model2.Bank
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.enumValueOrDefault
 import java.time.LocalDate
 import org.totschnig.fints.R as RF
 
-
-enum class GeschaeftsFall(val jobName: String) {
-    HKCAZ("KUmsAllCamt"), HKKAZ("KUmsAll")
+/**
+ * Geschäftsvorfall
+ */
+enum class GV(val jobName: String, val bpdName: String) {
+    HKCAZ("KUmsAllCamt", "KUmsZeitCamt"), HKKAZ("KUmsAll", "KUmsZeit")
 }
 
 @Parcelize
@@ -113,7 +114,7 @@ data class AccountImportConfig(
     val alreadyImported: Boolean = false,
     val isSelected: Boolean = false,
     val targetAccountId: Long = 0L,
-    val geschaeftsFall: GeschaeftsFall = GeschaeftsFall.HKCAZ,
+    val gv: GV,
 ) : Parcelable
 
 class Banking : ProtectedFragmentActivity() {
@@ -307,8 +308,7 @@ class Banking : ProtectedFragmentActivity() {
     ) {
         when (dialogState) {
             DialogState.AccountSelection -> {
-                val accounts = (workState as? AccountsLoaded)?.accounts
-                    ?: return
+                val (bank, supportedGvs, accounts) = (workState as? AccountsLoaded ?: return)
                 val selectedAccounts = rememberMutableStateMapOf<Int, AccountImportConfig>()
                 var nrDays: Long? by remember { mutableStateOf(null) }
                 val importMaxDuration = remember { derivedStateOf { nrDays == null } }
@@ -340,8 +340,8 @@ class Banking : ProtectedFragmentActivity() {
                             onClick = {
                                 viewModel.importAccounts(
                                     bankingCredentials.value,
-                                    workState.bank,
-                                    workState.accounts.mapIndexedNotNull { index, pair ->
+                                    bank,
+                                    accounts.mapIndexedNotNull { index, pair ->
                                         selectedAccounts[index]?.takeIf { it.isSelected }
                                             ?.let { pair.first to it }
                                     },
@@ -354,7 +354,10 @@ class Banking : ProtectedFragmentActivity() {
                         }
                     },
                     dismissButton = {
-                        TextButton(onClick = { dismiss(false) }) {
+                        TextButton(onClick = {
+                            viewModel.onSetupDialogDismissed()
+                            dismiss(false)
+                        }) {
                             Text(stringResource(id = android.R.string.cancel))
                         }
                     },
@@ -376,24 +379,31 @@ class Banking : ProtectedFragmentActivity() {
                             })
 
                             accounts.forEachIndexed { index, account ->
+
                                 AccountRow(
                                     account = account.first,
-                                    config = account.second?.let {
-                                        AccountImportConfig(
-                                            alreadyImported = true,
-                                            geschaeftsFall = it.geschaeftsFallWithDefault
-                                        )
-                                    } ?: selectedAccounts.getOrPut(index) { AccountImportConfig() },
+                                    supportedGvs = supportedGvs,
+                                    config = if(supportedGvs.isEmpty()) null else {
+                                        val standardGV = supportedGvs.first()
+                                        account.second?.let {
+                                            AccountImportConfig(
+                                                alreadyImported = true,
+                                                gv = it.gv(standardGV)
+                                            )
+                                        } ?: selectedAccounts.getOrPut(index) {
+                                            AccountImportConfig(gv = standardGV)
+                                        }
+                                    },
                                     targetOptions = targetOptions.value.filter { (id) ->
                                         id == 0L || selectedAccounts.none { it.key != index && it.value.targetAccountId == id }
                                     }
                                 ) { config ->
-                                    //if account has been imported in the past, we set new geschaeftsfall immediately
+                                    //if account has been imported in the past, we set new geschaeftsvorfall immediately
                                     if (config.alreadyImported) {
                                         account.second?.let {
-                                            viewModel.updateGeschaeftsFall(
+                                            viewModel.updateGv(
                                                 it.accountId,
-                                                config.geschaeftsFall
+                                                config.gv
                                             )
                                         } ?: run {
                                             CrashHandler.report(IllegalStateException("Expected non-null AccountInformation"))
@@ -697,11 +707,14 @@ fun BankRow(
 @Composable
 fun AccountRow(
     account: Konto,
-    config: AccountImportConfig,
+    supportedGvs: List<GV> = GV.entries.toList(),
+    config: AccountImportConfig?,
     targetOptions: List<Pair<Long, String>>,
     onConfigurationChange: (AccountImportConfig) -> Unit,
 ) {
     var showAdvancedOptions by remember { mutableStateOf(false) }
+    val kontoType = account.kontoType
+    val isSupported = kontoType?.isSupported != false
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -716,67 +729,93 @@ fun AccountRow(
                     .padding(horizontal = 4.dp, vertical = 3.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                if (!config.alreadyImported) {
-                    val showMenu = rememberSaveable { mutableStateOf(false) }
-                    Checkbox(checked = config.isSelected, onCheckedChange = {
-                        if (targetOptions.size > 1 && it) {
-                            showMenu.value = true
-                        } else {
-                            onConfigurationChange(
-                                config.copy(
-                                    isSelected = it,
-                                    targetAccountId = 0L
-                                )
-                            )
-                        }
-                    })
-                    if (showMenu.value)
-                        HierarchicalMenu(
-                            expanded = showMenu, title = stringResource(id = RF.string.import_into),
-                            menu = Menu(targetOptions.map {
-                                MenuEntry(label = UiText.StringValue(it.second)) {
-                                    onConfigurationChange(
-                                        config.copy(
-                                            isSelected = true,
-                                            targetAccountId = it.first
-                                        )
-                                    )
-                                }
-                            })
+                when {
+                    !isSupported || config == null -> {
+                        Spacer(Modifier.width(48.dp))
+                    }
+                    config.alreadyImported -> {
+                        Icon(
+                            modifier = Modifier.width(48.dp),
+                            imageVector = Icons.Filled.Link,
+                            contentDescription = stringResource(RF.string.account_is_already_imported)
                         )
-                } else {
-                    Icon(
-                        modifier = Modifier.width(48.dp),
-                        imageVector = Icons.Filled.Link,
-                        contentDescription = stringResource(RF.string.account_is_already_imported)
-                    )
+                    }
+
+                    else -> {
+                        val showMenu = rememberSaveable { mutableStateOf(false) }
+                        Checkbox(checked = config.isSelected, onCheckedChange = {
+                            if (targetOptions.size > 1 && it) {
+                                showMenu.value = true
+                            } else {
+                                onConfigurationChange(
+                                    config.copy(
+                                        isSelected = it,
+                                        targetAccountId = 0L
+                                    )
+                                )
+                            }
+                        })
+                        if (showMenu.value)
+                            HierarchicalMenu(
+                                expanded = showMenu,
+                                title = stringResource(id = RF.string.import_into),
+                                menu = Menu(targetOptions.map {
+                                    MenuEntry(label = UiText.StringValue(it.second)) {
+                                        onConfigurationChange(
+                                            config.copy(
+                                                isSelected = true,
+                                                targetAccountId = it.first
+                                            )
+                                        )
+                                    }
+                                })
+                            )
+                    }
                 }
                 Column {
                     Text(text = "${account.type} ${account.name}${account.name2?.let { " $it" } ?: ""}")
                     Text(account.dbNumber)
-                    if (config.isSelected) {
+                    if (config?.isSelected == true) {
                         targetOptions.find { it.first == config.targetAccountId }?.second?.let {
                             Text(
                                 stringResource(id = RF.string.import_into) + " " + it
                             )
                         }
                     }
-                    if (showAdvancedOptions) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            GeschaeftsFall.entries.forEach { protocol ->
-                                RadioButton(
-                                    selected = (protocol == config.geschaeftsFall),
-                                    onClick = {
-                                        onConfigurationChange(config.copy(geschaeftsFall = protocol))
+
+                    when {
+                        config == null -> {
+                            Text("Bank unterstützt weder HKCAZ noch HKKAZ")
+                        }
+
+                        isSupported -> {
+                            if (showAdvancedOptions) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    supportedGvs.forEach { protocol ->
+                                        RadioButton(
+                                            selected = (protocol == config.gv),
+                                            onClick = {
+                                                onConfigurationChange(config.copy(gv = protocol))
+                                            }
+                                        )
+                                        Text(text = protocol.name)
                                     }
-                                )
-                                Text(text = protocol.name)
+                                }
                             }
+                        }
+
+                        else -> {
+                            Text(
+                                stringResource(
+                                    RF.string.account_type_not_supported,
+                                    kontoType.label
+                                )
+                            )
                         }
                     }
                 }
             }
-            if (config.alreadyImported || config.isSelected) {
+            if (isSupported && supportedGvs.size > 1 && config != null && (config.alreadyImported || config.isSelected)) {
                 IconButton(
                     modifier = Modifier.align(Alignment.TopEnd),
                     onClick = { showAdvancedOptions = !showAdvancedOptions }) {
@@ -831,6 +870,21 @@ private fun AccountRowDemo() {
             number = "123"
         },
         targetOptions = emptyList(),
-        config = AccountImportConfig(isSelected = true)
+        config = AccountImportConfig(isSelected = true, gv = GV.HKCAZ)
+    ) { }
+}
+
+@Preview
+@Composable
+private fun AccountRowDisabledDemo() {
+    AccountRow(
+        account = Konto().apply {
+            name = "Konto"
+            type = "Giro"
+            number = "123"
+            acctype = "30" //Wertpapierdepot
+        },
+        targetOptions = emptyList(),
+        config = null
     ) { }
 }

@@ -32,6 +32,9 @@ data class BankingCredentials(
     val blz: String
         get() = bankLeitZahl.filter { !it.isWhitespace() }
 
+    private val isIngDiba
+        get() = blz == WellKnownBank.ING.blz.getOrNull(0)
+
     val hbciVersion: HBCIVersion
-        get() = if (blz == WellKnownBank.ING.blz.getOrNull(0)) HBCIVersion.HBCI_PLUS else HBCIVersion.HBCI_300
+        get() = if (isIngDiba) HBCIVersion.HBCI_PLUS else HBCIVersion.HBCI_300
 }

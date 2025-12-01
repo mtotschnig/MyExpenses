@@ -112,8 +112,8 @@ data class SecMech(val id: String, val name: String) {
     }
 }
 
-val AccountInformation.geschaeftsFallWithDefault
-    get() =  enumValueOrDefault(geschaeftsFall, GeschaeftsFall.HKCAZ)
+fun AccountInformation.gv(default: GV) =
+    enumValueOrDefault<GV>(geschaeftsVorfall, default)
 
 class BankingViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
     @Inject
@@ -238,6 +238,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
         data class AccountsLoaded(
             val bank: Bank,
+            val supportedGvs: List<GV>,
             /*
                 Konto to AccountInformation which is non null, if account has already been imported
              */
@@ -253,8 +254,8 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
     private fun logTree() = Timber.tag(BankingFeature.TAG)
 
-    private fun log(msg: String) {
-        logTree().i(msg)
+    private fun log(msg: String, vararg args: Any?) {
+        logTree().i(msg, *args)
     }
 
     private fun log(exception: Throwable) {
@@ -350,6 +351,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
             HBCIUtils.doneThread()
             return Result.failure(e)
         }
+
         try {
             return Result.success(work(info, passport, handle))
         } catch (e: Exception) {
@@ -386,15 +388,19 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                 forceNewFile = bankingCredentials.isNew,
                 work = { info, passport, _ ->
 
-                    info to passport.accounts.apply {
-                        forEach {
-                            if (it.bic == null) {
-                                it.bic = info.bic
+                    Triple(
+                        info,
+                        passport.accounts.apply {
+                            forEach {
+                                if (it.bic == null) {
+                                    it.bic = info.bic
+                                }
                             }
-                        }
-                    }
+                        },
+                        passport.supportedGvs()
+                    )
                 }
-            ).onSuccess { (info, accounts) ->
+            ).onSuccess { (info, accounts, supportedGvs) ->
 
                 val bank = if (bankingCredentials.isNew) {
                     logEvent(Tracker.EVENT_FINTS_BANK_ADDED, bankingCredentials)
@@ -412,14 +418,17 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     error("Keine Konten ermittelbar")
                     _workState.value = WorkState.Abort
                 } else {
+                    accounts.forEach {
+                        log("%s (Type: %s, acctype: %s)", it.name, it.type, it.acctype)
+                    }
                     if (bankingCredentials.isNew) {
                         _workState.value =
-                            WorkState.AccountsLoaded(bank, accounts.map { it to null })
+                            WorkState.AccountsLoaded(bank, supportedGvs, accounts.map { it to null })
                     } else {
                         repository.importedAccounts(bankingCredentials.bank!!.id)
                             .collect { accountInfoList ->
                                 _workState.value = WorkState.AccountsLoaded(
-                                    bank,
+                                    bank, supportedGvs,
                                     accounts.map { konto ->
                                         konto to accountInfoList.find {
                                             it.iban == konto.iban || (it.number == konto.number && it.subnumber == konto.subnumber)
@@ -471,9 +480,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
             doHBCI(
                 credentials,
                 work = { _, passport, handle ->
-                    passport.bpd.forEach {
-                        Timber.tag("BPD").d("%s : %s", it.key, it.value)
-                    }
+
                     val jobs = accounts.associateWith { accountInformation ->
                         val konto = Konto(
                             "DE",
@@ -485,13 +492,20 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                             it.iban = accountInformation.iban
                             it.bic = accountInformation.bic ?: credentials.bank?.bic
                         }
-
-                        handle.newJob(accountInformation.geschaeftsFallWithDefault.jobName).apply {
-                            setParam("my", konto)
-                            log("Setting my param to $konto")
-                            setStartParam(accountInformation.lastSynced!!)
-                            addToQueue()
+                        val supportedGvs = passport.supportedGvs()
+                        if (supportedGvs.isEmpty()) {
+                            error("Bank unterstützt weder HKCAZ noch HKKAZ")
+                            _workState.value = WorkState.Abort
+                            return@doHBCI
                         }
+                        val gv = accountInformation.gv(supportedGvs.first())
+                        handle.newJob(gv.jobName)
+                            .apply {
+                                setParam("my", konto)
+                                log("Setting my param to $konto")
+                                setStartParam(accountInformation.lastSynced!!)
+                                addToQueue()
+                            }
                     }
 
                     val status: HBCIExecStatus = handle.execute()
@@ -583,6 +597,13 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         )
     }
 
+    private fun HBCIPassport.supportedGvs() =
+        GV.entries.filter { bpd.supports(it) }
+
+    private fun Properties.supports(gv: GV) = stringPropertyNames().any {
+        it.matches(Regex("""Params[^.]*\.${gv.bpdName}[^.]*\.SegHead\.version"""))
+    }
+
     fun importAccounts(
         bankingCredentials: BankingCredentials,
         bank: Bank,
@@ -609,7 +630,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                                 konto.iban
                             )
                         )
-                        val umsatzJob = handle.newJob(targetAccountConfig.geschaeftsFall.jobName)
+                        val umsatzJob = handle.newJob(targetAccountConfig.gv.jobName)
                         val kontoParam = konto.also {
                             if (it.bic == null) {
                                 it.bic = bankingCredentials.bank?.bic
@@ -662,7 +683,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
 
                         repository.saveAccountAttributes(
                             accountId,
-                            konto.getAsAttributes(targetAccountConfig.geschaeftsFall)
+                            konto.getAsAttributes(targetAccountConfig.gv)
                         )
 
                         for (umsLine in result.flatData) {
@@ -698,11 +719,11 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         }
     }
 
-    fun updateGeschaeftsFall(accountId: Long, geschaeftsFall: GeschaeftsFall) {
+    fun updateGv(accountId: Long, gv: GV) {
         viewModelScope.launch(context = coroutineContext()) {
             repository.saveAccountAttributes(
                 accountId,
-                mapOf(BankingAttribute.GESCHAEFTS_FALL to geschaeftsFall.name)
+                mapOf(BankingAttribute.GESCHAEFTS_VORFALL to gv.name)
             )
         }
     }
@@ -904,6 +925,10 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                 }
             }
         }
+
+    fun onSetupDialogDismissed() {
+        importedAccountsJob?.cancel()
+    }
 
     val banks: StateFlow<List<Bank>> by lazy {
         repository.loadBanks().stateIn(

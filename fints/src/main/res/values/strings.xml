@@ -54,5 +54,6 @@
     <string name="migrate">Migrate</string>
     <string name="reset_stored_configuration">Reset stored TAN mechanism</string>
     <string name="change_protocol">Select protocol</string>
-    <string name="account_is_already_imported">Account is already imported</string>
+    <string name="account_is_already_imported">Account is already imported.</string>
+    <string name="account_type_not_supported">Account type %s is not supported.</string>
 </resources>
