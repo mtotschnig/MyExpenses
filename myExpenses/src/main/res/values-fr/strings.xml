@@ -1059,4 +1059,6 @@
     <string name="show_invisible">Comptes cachés</string>
     <string name="show_zero">Comptes à solde zéro</string>
     <string name="content_description_clear_party">Supprimer le tiers sélectionné</string>
+    <string name="content_description_browse_device_files">Parcourez les fichiers sur cet appareil</string>
+    <string name="content_description_select_recent_file">Sélectionnez parmi des fichiers récents</string>
 </resources>
