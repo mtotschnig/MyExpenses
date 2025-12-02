@@ -7,15 +7,15 @@
     <!-- Subcategory under "Other income" -->
     <string name="Sub_1_2">Детское пособие</string>
     <!-- Subcategory under "Other income" -->
-    <string name="Sub_1_3">Налоговый кредит</string>
+    <string name="Sub_1_3">Налоговый вычет</string>
     <!-- Subcategory under "Other income" -->
     <string name="Sub_1_4">Азартные игры</string>
     <!-- Subcategory under "Other income" -->
     <string name="Sub_1_5">Взаимное страхование</string>
     <!-- Subcategory under "Other income" -->
-    <string name="Sub_1_6">Социальное обеспечение</string>
+    <string name="Sub_1_6">Социальные выплаты</string>
     <!-- Main category -->
-    <string name="Main_2">Выход на пенсию</string>
+    <string name="Main_2">Пенсионные доходы</string>
     <!-- Subcategory under "Retirement" -->
     <string name="Sub_2_1">Пенсионный фонд</string>
     <!-- Subcategory under "Retirement" -->
@@ -39,9 +39,9 @@
     <!-- Subcategory under "Salary" -->
     <string name="Sub_4_3">Прочие премии</string>
     <!-- Subcategory under "Salary" -->
-    <string name="Sub_4_4">Гонорар за успех</string>
+    <string name="Sub_4_4">Премия за результат</string>
     <!-- Subcategory under "Salary" -->
-    <string name="Sub_4_5">Чистый оклад</string>
+    <string name="Sub_4_5">Чистая зарплата</string>
     <!-- Main category -->
     <string name="Main_5">Прочий доход</string>
     <!-- Subcategory under "Misc. income" -->
@@ -49,13 +49,13 @@
     <!-- Subcategory under "Misc. income" -->
     <string name="Sub_5_2">Возвраты</string>
     <!-- Subcategory under "Misc. income" -->
-    <string name="Sub_5_3">Продажа б/у товаров</string>
+    <string name="Sub_5_3">Продажа подержанных вещей</string>
     <!-- Main category -->
     <string name="Main_6">Еда</string>
     <!-- Subcategory under "Food" -->
     <string name="Sub_6_1">Бар</string>
     <!-- Subcategory under "Food" -->
-    <string name="Sub_6_2">Пекарня</string>
+    <string name="Sub_6_2">Выпечка</string>
     <!-- Subcategory under "Food" -->
     <string name="Sub_6_3">Столовая</string>
     <!-- Subcategory under "Food" -->
@@ -77,7 +77,7 @@
     <!-- Subcategory under "Pets" -->
     <string name="Sub_7_3">Уход</string>
     <!-- Subcategory under "Pets" -->
-    <string name="Sub_7_4">Ветеринарный врач</string>
+    <string name="Sub_7_4">Ветеринар</string>
     <!-- Main category -->
     <string name="Main_8">Страхование</string>
     <!-- Subcategory under "Insurance" -->
@@ -129,11 +129,11 @@
     <!-- Subcategory under "Financial expenses" -->
     <string name="Sub_13_4">Возврат</string>
     <!-- Main category -->
-    <string name="Main_14">Расходы на профессиональные услуги</string>
+    <string name="Main_14">Профессиональные расходы</string>
     <!-- Subcategory under "Professional expenses" -->
-    <string name="Sub_14_1">Не возвращаемое</string>
+    <string name="Sub_14_1">Невозмещаемые расходы</string>
     <!-- Subcategory under "Professional expenses" -->
-    <string name="Sub_14_2">Возвращаемое</string>
+    <string name="Sub_14_2">Возмещаемые расходы</string>
     <!-- Main category -->
     <string name="Main_15">Налоги</string>
     <!-- Subcategory under "Taxes" -->
@@ -141,7 +141,7 @@
     <!-- Subcategory under "Taxes" -->
     <string name="Sub_15_2">Земельный налог</string>
     <!-- Subcategory under "Taxes" -->
-    <string name="Sub_15_3">Налог на добавленную стоимость</string>
+    <string name="Sub_15_3">Налог с продаж</string>
     <!-- Main category -->
     <string name="Main_16">Жилье</string>
     <!-- Subcategory under "Housing" -->
@@ -153,7 +153,7 @@
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_4">Мебель</string>
     <!-- Subcategory under "Housing" -->
-    <string name="Sub_16_5">Коммунальные платежи</string>
+    <string name="Sub_16_5">Обслуживание дома</string>
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_6">Отопление</string>
     <!-- Subcategory under "Housing" -->
@@ -163,7 +163,7 @@
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_9">Электричество</string>
     <!-- Subcategory under "Housing" -->
-    <string name="Sub_16_10">Кухонная техника</string>
+    <string name="Sub_16_10">Крупная бытовая техника</string>
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_11">Оборудование</string>
     <!-- Subcategory under "Housing" -->
@@ -171,7 +171,7 @@
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_13">Сад</string>
     <!-- Subcategory under "Housing" -->
-    <string name="Sub_16_14">Домработник</string>
+    <string name="Sub_16_14">Помощник по дому</string>
     <!-- Subcategory under "Housing" -->
     <string name="Sub_16_15">Телефон</string>
     <!-- Subcategory under "Housing" -->
@@ -183,7 +183,7 @@
     <!-- Subcategory under "Leisures" -->
     <string name="Sub_17_2">Боулинг</string>
     <!-- Subcategory under "Leisures" -->
-    <string name="Sub_17_3">Кинотеатр</string>
+    <string name="Sub_17_3">Кино</string>
     <!-- Subcategory under "Leisures" -->
     <string name="Sub_17_4">Ночной клуб</string>
     <!-- Subcategory under "Leisures" -->
@@ -197,7 +197,7 @@
     <!-- Subcategory under "Leisures" -->
     <string name="Sub_17_9">Концерты</string>
     <!-- Subcategory under "Leisures" -->
-    <string name="Sub_17_10">Спортивные игры</string>
+    <string name="Sub_17_10">Спорт</string>
     <!-- Subcategory under "Leisures" -->
     <string name="Sub_17_11">Видео</string>
     <!-- Subcategory under "Leisures" -->
@@ -219,15 +219,15 @@
     <!-- Subcategory under "Health" -->
     <string name="Sub_19_3">Больница</string>
     <!-- Subcategory under "Health" -->
-    <string name="Sub_19_4">Кинезитерапевт</string>
+    <string name="Sub_19_4">Кинезиотерапевт</string>
     <!-- Subcategory under "Health" -->
-    <string name="Sub_19_5">Доктор</string>
+    <string name="Sub_19_5">Врач</string>
     <!-- Subcategory under "Health" -->
     <string name="Sub_19_6">Офтальмолог</string>
     <!-- Subcategory under "Health" -->
     <string name="Sub_19_7">Остеопат</string>
     <!-- Subcategory under "Health" -->
-    <string name="Sub_19_8">Химик</string>
+    <string name="Sub_19_8">Аптека / Лекарства</string>
     <!-- Subcategory under "Health" -->
     <string name="Sub_19_9">Социальное обеспечение</string>
     <!-- Main category -->
@@ -243,7 +243,7 @@
     <!-- Subcategory under "Transport" -->
     <string name="Sub_21_2">Метро</string>
     <!-- Subcategory under "Transport" -->
-    <string name="Sub_21_3">Пошлина</string>
+    <string name="Sub_21_3">Платные дороги</string>
     <!-- Subcategory under "Transport" -->
     <string name="Sub_21_4">Поезд</string>
     <!-- Subcategory under "Transport" -->
@@ -251,7 +251,7 @@
     <!-- Subcategory under "Transport" -->
     <string name="Sub_21_6">Самолет</string>
     <!-- Main category -->
-    <string name="Main_22">Праздники</string>
+    <string name="Main_22">Отпуск</string>
     <!-- Subcategory under "Holidays" -->
     <string name="Sub_22_1">Жилье</string>
     <!-- Subcategory under "Holidays" -->
