@@ -1046,4 +1046,6 @@
     <string name="remap_payee_null">Плательщик/Получатель будет удалён из всех выделенных операций.</string>
     <string name="show_invisible">Скрытые счета</string>
     <string name="show_zero">Счета с нулевым балансом</string>
+    <string name="content_description_browse_device_files">Просмотреть файлы на этом устройстве</string>
+    <string name="content_description_select_recent_file">Выбрать из недавних файлов</string>
 </resources>
