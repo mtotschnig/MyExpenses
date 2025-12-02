@@ -368,7 +368,7 @@
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d rekeningen met munteenheid %2$s zijn bijgewerkt.</string>
     <string name="hint_auto_fill">Moeten de gegevens van de laatste transactie automatisch worden ingevuld voor dezelfde begunstigde/betaler? Je kunt dit gedrag altijd wijzigen via de instellingen.</string>
     <string name="dialog_export_applied_to_filter">Alleen transacties die overeenkomen met het huidige filter worden in aanmerking genomen.</string>
-    <string name="pref_manage_stale_images_title">Verouderde beelden</string>
+    <string name="pref_manage_stale_images_title">Verouderde afbeeldingen</string>
     <string name="export_handle_deleted_update_balance">Openingssaldo bijwerken</string>
     <string name="io_error_unable_to_create_file">Kan bestand %1$s niet maken in map %2$s</string>
     <string name="import_accounts_success">%1$d rekeningen succesvol geïmporteerd.</string>
@@ -769,7 +769,7 @@
         <item quantity="other">%1$d categorieën zijn bijgewerkt met iconen.</item>
     </plurals>
     <string name="extended_upgrade_goodie_github">Extra %d maanden worden eenmalig toegekend aan gebruikers die al in het bezit zijn van de Uitgebreide Licentie</string>
-    <string name="eu_vat_info">Voor inwoners van de Europese Unie zijn de getoonde prijzen exclusief BTW.</string>
+    <string name="eu_vat_info">Voor inwoners van de Europese Unie zijn de getoonde prijzen exclusief btw.</string>
     <string name="extend_until">Verlengen tot %1$s voor %2$s</string>
     <string name="input_label_passphrase">Wachtwoordzin</string>
     <string name="icons_for_categories">Iconen voor categorieën</string>
@@ -954,4 +954,6 @@
     <string name="show_invisible">Verborgen accounts</string>
     <string name="show_zero">Rekeningen met een nulsaldo</string>
     <string name="content_description_clear_party">Geselecteerde partij wissen</string>
+    <string name="content_description_browse_device_files">Blader door bestanden op dit apparaat</string>
+    <string name="content_description_select_recent_file">Selecteer uit recente bestanden</string>
 </resources>
