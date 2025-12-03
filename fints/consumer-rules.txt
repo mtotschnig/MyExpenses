@@ -23,6 +23,24 @@
 -keep class org.kapott.hbci.GV.GVKUmsAll { *; }
 -keep class org.kapott.hbci.GV.GVKUmsAllCamt { *; }
 -keep class org.kapott.hbci.GV.GVTAN2Step { *; }
+-keep class org.kapott.hbci.GV.parsers.** { *; }
+-keep class com.sun.xml.bind.** { *; }
+-keep class javax.xml.** { *; }
+-keep class org.kapott.hbci.sepa.jaxb.** { *; }
 
 # needed with R8 full mode
 #-dontwarn org.xmlpull.v1.**
+
+#via com.sun.xml.bind
+-dontwarn com.sun.xml.fastinfoset.sax.AttributesHolder
+-dontwarn com.sun.xml.fastinfoset.stax.StAXDocumentParser
+-dontwarn com.sun.xml.fastinfoset.stax.StAXDocumentSerializer
+-dontwarn java.awt.Component
+-dontwarn java.awt.datatransfer.DataFlavor
+-dontwarn java.awt.datatransfer.Transferable
+-dontwarn java.beans.Introspector
+-dontwarn javax.lang.model.SourceVersion
+-dontwarn org.jvnet.fastinfoset.VocabularyApplicationData
+-dontwarn org.jvnet.staxex.Base64Data
+-dontwarn org.jvnet.staxex.XMLStreamReaderEx
+-dontwarn org.jvnet.staxex.XMLStreamWriterEx
