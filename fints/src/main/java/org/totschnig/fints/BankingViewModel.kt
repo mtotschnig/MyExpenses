@@ -419,7 +419,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     _workState.value = WorkState.Abort
                 } else {
                     accounts.forEach {
-                        log("%s (Type: %s, acctype: %s)", it.name, it.type, it.acctype)
+                        log("Konto: %s", it.toString())
                     }
                     if (bankingCredentials.isNew) {
                         _workState.value =

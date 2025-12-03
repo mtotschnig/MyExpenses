@@ -26,7 +26,6 @@ fun Konto.getAsAttributes(gv: GV) = buildMap {
     put(BankingAttribute.GESCHAEFTS_VORFALL, gv.name)
 }
 
-
 val Konto.dbNumber: String
     get() = number + (subnumber?.let { "/$it" } ?: "")
 
