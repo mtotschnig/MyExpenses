@@ -1043,4 +1043,6 @@
     <string name="show_invisible">Скрити сметки</string>
     <string name="show_zero">Сметки с нулев баланс</string>
     <string name="content_description_clear_party">Премахни избрания контрагент</string>
+    <string name="content_description_browse_device_files">Разгледайте файловете на това устройство</string>
+    <string name="content_description_select_recent_file">Изберете от последните файлове</string>
 </resources>

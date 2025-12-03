@@ -17,9 +17,9 @@
     <string name="account">חשבון</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">סוגי חשבונות</string>
-    <string name="account_type_asset">חשבון הנכס</string>
-    <string name="account_type_bank">חשבון בנק</string>
-    <string name="account_type_cash">חשבון מזומן</string>
+    <string name="account_type_asset">נכסים אחרים</string>
+    <string name="account_type_bank">בנק</string>
+    <string name="account_type_cash">מזומן</string>
     <string name="account_type_ccard">כרטיס אשראי</string>
     <string name="account_type_liability">התחייבויות אחרות</string>
     <string name="already_defined">%1$s כבר מוגדר</string>
@@ -979,4 +979,5 @@
     <string name="flag_unflagged">אין דגלון</string>
     <string name="flag_favorite">מועדף</string>
     <string name="select_accounts_for_flag">בחירת חשבונות לדגלון %s</string>
+    <string name="content_description_select_recent_file">בחירה מהקבצים האחרונים</string>
 </resources>
