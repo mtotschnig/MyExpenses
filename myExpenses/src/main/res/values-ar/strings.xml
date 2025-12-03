@@ -24,7 +24,7 @@
     <string name="account_type_liability">حساب الالتزامات</string>
     <string name="already_defined">%1$s معرّف مسبقاً</string>
     <string name="amount">القيمة</string>
-    <string name="app_name">نفقاتي</string>
+    <string name="app_name">مصروفاتي</string>
     <string name="backup_success">تم حفظ قاعدة البيانات والتفضيلات في الذاكرة بنجاح (%1$s).</string>
     <string name="category">التصنيف</string>
     <string name="contrib_feature_ad_free_label">بدون إعلانات</string>
