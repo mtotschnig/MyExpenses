@@ -310,7 +310,7 @@ class Banking : ProtectedFragmentActivity() {
             DialogState.AccountSelection -> {
                 val (bank, supportedGvs, accounts) = (workState as? AccountsLoaded ?: return)
                 val selectedAccounts = rememberMutableStateMapOf<Int, AccountImportConfig>()
-                var nrDays: Long? by remember { mutableStateOf(null) }
+                var nrDays: Long? by rememberSaveable { mutableStateOf(null) }
                 val importMaxDuration = remember { derivedStateOf { nrDays == null } }
 
                 val availableAccounts =
@@ -712,7 +712,7 @@ fun AccountRow(
     targetOptions: List<Pair<Long, String>>,
     onConfigurationChange: (AccountImportConfig) -> Unit,
 ) {
-    var showAdvancedOptions by remember { mutableStateOf(false) }
+    var showAdvancedOptions by rememberSaveable { mutableStateOf(false) }
     val kontoType = account.kontoType
     val isSupported = kontoType?.isSupported != false
     Card(
