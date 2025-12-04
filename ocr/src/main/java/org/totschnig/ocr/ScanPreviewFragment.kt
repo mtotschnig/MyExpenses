@@ -73,7 +73,7 @@ class ScanPreviewFragment : DialogViewBinding<ScanPreviewBinding>() {
     }
 
     fun handleData(intent: Intent?) {
-        intent?.let { viewModel.handleData(it) } ?: run { dismissSnackBar() }
+        viewModel.handleData(intent)
     }
 
     private val scanUri: Uri
