@@ -51,9 +51,6 @@ class SplitDelegate(
     @State
     var userSetAmount: Boolean = false
 
-    @State
-    var splitParts: ArrayList<TransactionEditData> = ArrayList()
-
     override fun bind(
         transaction: TransactionEditData?,
         withTypeSpinner: Boolean,
@@ -129,7 +126,6 @@ class SplitDelegate(
                 splitParts.add(part)
             }
         }
-
         showSplits(splitParts)
     }
 

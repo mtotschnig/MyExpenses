@@ -341,9 +341,15 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
     }
 
+    var pendingSplitPartLauncherResult: ArrayList<TransactionEditData>? = null
+
     val splitPartLauncher = registerForActivityResult(splitPartContract) { resultData ->
         resultData?.let {
-            (delegate as SplitDelegate).addSplitParts(it)
+            if (accountsLoaded) {
+                (delegate as SplitDelegate).addSplitParts(it)
+            } else {
+                pendingSplitPartLauncherResult = it
+            }
             setDirty()
         }
     }
@@ -801,7 +807,13 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     }
                 }
                 accountsLoaded = true
-                if (mIsResumed) setupListeners()
+                if (mIsResumed) {
+                    setupListeners()
+                }
+                pendingSplitPartLauncherResult?.let {
+                    (delegate as? SplitDelegate)?.addSplitParts(it)
+                    pendingSplitPartLauncherResult = null
+                }
             }
         }
     }

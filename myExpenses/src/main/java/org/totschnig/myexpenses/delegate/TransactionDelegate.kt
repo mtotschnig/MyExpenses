@@ -104,6 +104,9 @@ abstract class TransactionDelegate(
     @State
     var isSplitPart = false
 
+    @State
+    var splitParts: ArrayList<TransactionEditData> = ArrayList()
+
     @Inject
     lateinit var prefHandler: PrefHandler
 
@@ -718,11 +721,13 @@ abstract class TransactionDelegate(
 
             TYPE_TRANSACTION -> {
                 catId = null
+                splitParts.clear()
             }
 
             TYPE_TRANSFER -> {
                 catId = null
                 methodId = null
+                splitParts.clear()
             }
         }
         host.restartWithType(newType)
