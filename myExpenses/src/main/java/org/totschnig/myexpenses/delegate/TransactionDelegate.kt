@@ -122,6 +122,9 @@ abstract class TransactionDelegate(
     @Inject
     lateinit var repository: Repository
 
+    @State
+    var userSetAmount: Boolean = false
+
     val homeCurrency by lazy {
         currencyContext.homeCurrencyUnit
     }
@@ -266,6 +269,10 @@ abstract class TransactionDelegate(
             //editText too late corrupt inputType
             viewBinding.Amount.setFractionDigits(transaction.amount.currencyUnit.fractionDigits)
             isSplitPart = transaction.isSplitPart
+
+            if (transaction.amount.amountMinor != 0L) {
+                userSetAmount = true
+            }
         } else {
             try {
                 StateSaver.restoreInstanceState(this, savedInstanceState)
@@ -347,6 +354,9 @@ abstract class TransactionDelegate(
     open fun onAmountChanged() {
         if (isSplitPart) {
             host.configureFloatingActionButton()
+        }
+        if (!userSetAmount && !isProcessingLinkedAmountInputs) {
+            userSetAmount = true
         }
     }
 

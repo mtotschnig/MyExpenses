@@ -48,9 +48,6 @@ class SplitDelegate(
     lateinit var adapter: SplitPartRVAdapter
     private var transactionSum: Long = 0
 
-    @State
-    var userSetAmount: Boolean = false
-
     override fun bind(
         transaction: TransactionEditData?,
         withTypeSpinner: Boolean,
@@ -65,10 +62,6 @@ class SplitDelegate(
             recurrence,
             withAutoFill
         )
-
-        if ((transaction?.amount?.amountMinor ?: 0L) != 0L) {
-            userSetAmount = true
-        }
 
         viewBinding.CategoryRow.isVisible = false
         viewBinding.SplitRow.isVisible = true
@@ -136,9 +129,6 @@ class SplitDelegate(
 
     override fun onAmountChanged() {
         super.onAmountChanged()
-        if (!userSetAmount && !isProcessingLinkedAmountInputs) {
-            userSetAmount = true
-        }
         if (!isProcessingLinkedAmountInputs) {
             updateBalance()
         }
