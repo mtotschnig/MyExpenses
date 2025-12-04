@@ -67,7 +67,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalAutofillManager
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -372,7 +372,7 @@ class Banking : ProtectedFragmentActivity() {
                                     add(stringResource(RF.string.select_accounts_help_2))
                                 }
                                 add(
-                                    Phrase.from(LocalContext.current.getText(RF.string.select_accounts_help_3))
+                                    Phrase.from(LocalResources.current.getText(RF.string.select_accounts_help_3))
                                         .put("update", stringResource(RF.string.menu_sync_account))
                                         .format()
                                 )

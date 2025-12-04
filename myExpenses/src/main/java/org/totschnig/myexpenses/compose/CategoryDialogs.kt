@@ -25,7 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -41,7 +41,7 @@ fun CategoryEdit(
     onSave: (String, String?, Byte) -> Unit = { _, _, _ -> }
 ) {
     val fieldPadding = 12.dp
-    val context = LocalContext.current
+    val resources = LocalResources.current
     var label by rememberSaveable { mutableStateOf(dialogState.category?.label ?: "") }
     val icon = rememberSaveable { mutableStateOf(dialogState.category?.icon) }
     var typeFlags by rememberSaveable {
@@ -54,8 +54,8 @@ fun CategoryEdit(
 
     val isError = if (shouldValidate) {
         when {
-            dialogState.error -> context.getString(R.string.already_defined, label)
-            label.isBlank() -> context.getString(R.string.required)
+            dialogState.error -> resources.getString(R.string.already_defined, label)
+            label.isBlank() -> resources.getString(R.string.required)
             else -> null
         }
     } else null

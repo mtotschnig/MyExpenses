@@ -53,6 +53,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -198,7 +199,7 @@ private fun AccountTypeList(
     onSortClick: (Boolean) -> Unit,
     paddingValues: PaddingValues
 ) {
-    val context = LocalContext.current
+    val resources = LocalResources.current
 
     if (accountTypes.isEmpty()) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -214,7 +215,7 @@ private fun AccountTypeList(
     ) {
         groups[true]?.let { assetTypes ->
             section(
-                context.getString(R.string.balance_sheet_section_assets),
+                resources.getString(R.string.balance_sheet_section_assets),
                 assetTypes,
                 onEditClick,
                 onDeleteClick,
@@ -226,7 +227,7 @@ private fun AccountTypeList(
         }
         groups[false]?.let { liabilityTypes ->
             section(
-                context.getString(R.string.balance_sheet_section_liabilities),
+                resources.getString(R.string.balance_sheet_section_liabilities),
                 liabilityTypes,
                 onEditClick,
                 onDeleteClick,
