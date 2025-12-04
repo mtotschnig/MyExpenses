@@ -52,7 +52,7 @@ googleHttpClient = "1.47.1"
 gridlayout = "1.1.0"
 gson = "2.13.2"
 guava = "33.5.0-android"
-hbci4jCore = "3.1.88"
+hbci4jCore = "hbci4j-core-3.1.91"
 itextpdf = "5.5.13.3"
 jacksonCore = "2.20.1"
 junitparams = "1.1.1"
@@ -195,7 +195,7 @@ google-http-client-android = { module = "com.google.http-client:google-http-clie
 google-http-client-gson = { module = "com.google.http-client:google-http-client-gson", version.ref = "googleHttpClient" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
-hbci4j-core = { module = "com.github.hbci4j:hbci4j-core", version.ref = "hbci4jCore" }
+hbci4j-core = { module = "com.github.hbci4j:hbci4java", version.ref = "hbci4jCore" }
 itextpdf = { module = "com.itextpdf:itextpdf", version.ref = "itextpdf" }
 jackson-core = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jacksonCore" }
 junit = { module = "junit:junit", version.ref = "junitVersion" }
