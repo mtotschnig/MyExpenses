@@ -62,8 +62,12 @@ class RemapTest : BaseMyExpensesTest() {
 
     private fun doRemapDate(clone: Boolean) {
         val account1 = buildAccount("K1")
-        val sourceDate = LocalDate.now().withDayOfMonth(15)
-        val remapDate = LocalDate.now().withDayOfMonth(1)
+        val today = LocalDate.now()
+        val sourceDate = today
+        val remapDate = if (today.dayOfMonth > 15)
+            today.minusDays(10)
+        else
+            today.plusDays(10)
         val transaction = repository.insertTransaction(
             accountId = account1.id,
             amount = amount,
@@ -74,9 +78,10 @@ class RemapTest : BaseMyExpensesTest() {
         onView(withText(R.string.date)).perform(click())
 
         val locale = targetContext.resources.configuration.locales[0]
-        val expectedContentDescription = getMonthDayOfWeekDay(remapDate.toEpoch()*1000, locale)
 
-        onView(ViewMatchers.withContentDescription(containsString(expectedContentDescription)))
+        val expectedContentDescription = getMonthDayOfWeekDay(remapDate.toEpoch() * 1000, locale)
+
+        onView(ViewMatchers.withContentDescription(expectedContentDescription))
             .inRoot(isDialog())
             .perform(click())
 
@@ -90,7 +95,7 @@ class RemapTest : BaseMyExpensesTest() {
             runBlocking {
                 val transactions = repository.loadTransactions(account1.id)
                 assertThat(transactions.size).isEqualTo(2)
-                val source = transactions.first {it.id == transaction.id }
+                val source = transactions.first { it.id == transaction.id }
                 assertThat(epoch2LocalDate(source.date)).isEqualTo(sourceDate)
                 val clone = transactions.first { it.id != transaction.id }
                 assertThat(epoch2LocalDate(clone.date)).isEqualTo(remapDate)
