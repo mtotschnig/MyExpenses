@@ -54,10 +54,12 @@ import java.time.format.DateTimeFormatter
 import java.util.concurrent.ThreadLocalRandom
 import org.totschnig.myexpenses.test.R as RT
 
+val debugAttachment: Uri = Uri.parse("file:///android_asset/screenshot.jpg")
+
 fun Repository.addDebugAttachment(transactionId: Long) {
     addAttachments(
         transactionId,
-        listOf(Uri.parse("file:///android_asset/screenshot.jpg"))
+        listOf(debugAttachment)
     )
 }
 

@@ -33,7 +33,9 @@ import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.compose.TEST_TAG_SELECT_DIALOG
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.createParty
+import org.totschnig.myexpenses.db2.createSplitTransaction
 import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.insertTransfer
 import org.totschnig.myexpenses.db2.loadTransaction
@@ -41,9 +43,11 @@ import org.totschnig.myexpenses.db2.loadTransactions
 import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.db2.writeTag
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
@@ -55,25 +59,29 @@ import org.totschnig.myexpenses.testutils.TEMPLATE_TITLE
 import org.totschnig.myexpenses.testutils.TestShard3
 import org.totschnig.myexpenses.testutils.addDebugAttachment
 import org.totschnig.myexpenses.testutils.cleanup
+import org.totschnig.myexpenses.testutils.debugAttachment
 import org.totschnig.myexpenses.testutils.isOrchestrated
 import org.totschnig.shared_test.TransactionData
 import java.time.LocalDateTime
 
 @TestShard3
 class MyExpensesCabTest : BaseMyExpensesTest() {
-    private val origListSize = 6
+    private var origListSize = 0
     private lateinit var account: Account
     private var opId: Long = 0
     private var partyId: Long = 0
     private var tagId: Long = 0
     private var categoryId: Long = 0
 
-
-    private fun doLaunch(excludeFromTotals: Boolean = false, initialOpCount: Int = 6) {
+    private fun baseFixture(excludeFromTotals: Boolean = false) {
         account = buildAccount("Test account 1", excludeFromTotals = excludeFromTotals)
         partyId = repository.createParty(Party.create(name = PARTY_NAME)!!)!!.id
         categoryId = writeCategory(CATEGORY_LABEL, icon = CATEGORY_ICON, type = FLAG_INCOME)
         tagId = repository.writeTag(TAG_LABEL)
+    }
+
+    private fun doLaunch(excludeFromTotals: Boolean = false, initialOpCount: Int = 1) {
+        baseFixture(excludeFromTotals)
 
         opId = (1..initialOpCount).map { i ->
             val id = repository.insertTransaction(
@@ -87,6 +95,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
             repository.addDebugAttachment(id)
             id
         }.first()
+        origListSize = initialOpCount
         launch(account.id)
     }
 
@@ -110,12 +119,106 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
     }
 
     @Test
-    fun cloneCommandIncreasesListSize() {
+    fun cloneTransaction() = runTest {
         doLaunch()
         assertListSize(origListSize)
         clickContextItem(R.string.menu_clone_transaction)
         closeKeyboardAndSave()
         assertListSize(origListSize + 1)
+        assertTransaction(
+            repository.loadTransactions(account.id).maxOf { it.id },
+            TransactionData(
+                category = categoryId,
+                accountId = account.id,
+                amount = -100L,
+                party = partyId,
+                tags = listOf(tagId),
+                attachments = listOf(debugAttachment)
+            )
+        )
+    }
+
+    @Test
+    fun cloneTransfer() = runTest {
+        account = buildAccount("Test account 1")
+        val transferAccount = buildAccount("Test account 2")
+        val (_, peer) = repository.insertTransfer(
+            accountId = account.id,
+            transferAccountId = transferAccount.id,
+            amount = -100L
+        )
+        launch(account.id)
+        assertListSize(1)
+        clickContextItem(R.string.menu_clone_transaction)
+        closeKeyboardAndSave()
+        assertListSize(2)
+        val newPeer = repository.loadTransactions(transferAccount.id).maxOf { it.id }
+        assertThat(newPeer).isNotEqualTo(peer)
+        assertTransaction(
+            repository.loadTransactions(account.id).maxOf { it.id },
+            TransactionData(
+                accountId = account.id,
+                amount = -100L,
+                category = prefHandler.defaultTransferCategory,
+                transferAccount = transferAccount.id,
+                transferPeer = newPeer
+            )
+        )
+        cleanup {
+            repository.deleteAccount(transferAccount.id)
+        }
+    }
+
+    @Test
+    fun cloneSplit() = runTest {
+        baseFixture()
+        repository.createSplitTransaction(
+            parentTransaction = Transaction(
+                categoryId = SPLIT_CATID,
+                accountId = account.id,
+                amount = -100L,
+                uuid = generateUuid()
+            ),
+            splitTransactions = listOf(
+                Transaction(
+                    accountId = account.id,
+                    amount = -50L,
+                    uuid = generateUuid(),
+                    categoryId = categoryId
+                ),
+
+                Transaction(
+                    accountId = account.id,
+                    amount = -50L,
+                    uuid = generateUuid(),
+                    tagList = listOf(tagId)
+                )
+            )
+        )
+        launch(account.id)
+        assertListSize(1)
+        clickContextItem(R.string.menu_clone_transaction)
+        closeKeyboardAndSave()
+        assertListSize(2)
+        assertTransaction(
+            repository.loadTransactions(account.id).maxOf { it.id },
+            TransactionData(
+                accountId = account.id,
+                amount = -100L,
+                splitParts = listOf(
+                    TransactionData(
+                        accountId = account.id,
+                        amount = -50,
+                        category = categoryId
+                    ),
+                    TransactionData(
+                        accountId = account.id,
+                        amount = -50,
+                        tags = listOf(tagId)
+                    )
+                )
+            )
+        )
     }
 
     @Test
@@ -149,29 +252,26 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
 
     @Test
     fun deleteCommandDecreasesListSize() {
-        doLaunch()
         doDelete(useCab = false, cancel = false)
     }
 
     @Test
     fun deleteCommandDecreasesListSizeCab() {
-        doLaunch()
         doDelete(useCab = true, cancel = false)
     }
 
     @Test
     fun deleteCommandCancelKeepsListSize() {
-        doLaunch()
         doDelete(useCab = false, cancel = true)
     }
 
     @Test
     fun deleteCommandCancelKeepsListSizeCab() {
-        doLaunch()
         doDelete(useCab = true, cancel = true)
     }
 
     private fun doDelete(useCab: Boolean, cancel: Boolean) {
+        doLaunch(initialOpCount = if (cancel) 1 else 2)
         assertListSize(origListSize)
         triggerDelete(useCab)
         onView(withText(if (cancel) android.R.string.cancel else R.string.menu_delete))
@@ -216,45 +316,40 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
     }
 
     @Test
-    fun splitCommandCreatesSplitTransaction() {
-        doLaunch()
-        doSplitCommandTest()
-    }
+    fun splitCommandCreatesSplitTransaction() = doSplitCommandTest(false)
 
     @Test
-    fun withAccountExcludedFromTotalsSplitCommandCreatesSplitTransaction() {
-        doLaunch(true)
-        doSplitCommandTest()
-    }
+    fun withAccountExcludedFromTotalsSplitCommandCreatesSplitTransaction() =
+        doSplitCommandTest(true)
 
-    private fun doSplitCommandTest() {
-        runTest {
-            openCab(R.id.SELECT_ALL_COMMAND)
-            clickMenuItem(R.id.SPLIT_TRANSACTION_COMMAND, true)
-            handleContribDialog(ContribFeature.SPLIT_TRANSACTION)
-            onView(withText(R.string.menu_split_transaction))
-                .perform(click())
-            assertTransaction(
-                repository.loadTransactions(account.id).first().id,
-                TransactionData(
-                    accountId = account.id,
-                    amount = -2100L,
-                    party = partyId,
-                    splitParts = buildList {
-                        repeat(6) {
-                            add(
-                                TransactionData(
-                                    accountId = account.id,
-                                    amount = -100L * (it + 1),
-                                    category = categoryId,
-                                    tags = listOf(tagId)
-                                )
+    private fun doSplitCommandTest(excludeFromTotals: Boolean) = runTest {
+        val partCount = 5
+        doLaunch(excludeFromTotals, initialOpCount = partCount)
+        openCab(R.id.SELECT_ALL_COMMAND)
+        clickMenuItem(R.id.SPLIT_TRANSACTION_COMMAND, true)
+        handleContribDialog(ContribFeature.SPLIT_TRANSACTION)
+        onView(withText(R.string.menu_split_transaction))
+            .perform(click())
+        assertTransaction(
+            repository.loadTransactions(account.id).first().id,
+            TransactionData(
+                accountId = account.id,
+                amount = -1500L,
+                party = partyId,
+                splitParts = buildList {
+                    repeat(partCount) {
+                        add(
+                            TransactionData(
+                                accountId = account.id,
+                                amount = -100L * (it + 1),
+                                category = categoryId,
+                                tags = listOf(tagId)
                             )
-                        }
+                        )
                     }
-                )
+                }
             )
-        }
+        )
     }
 
 
@@ -283,7 +378,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
 
     @Test
     fun transformToTransfer() {
-        doLaunch(initialOpCount = 1)
+        doLaunch()
         val transferAccount = buildAccount("Test account 2")
         clickContextItem(R.string.menu_transform_to_transfer)
         composeTestRule.onNode(hasAnyAncestor(hasTestTag(TEST_TAG_SELECT_DIALOG)) and hasText("Test account 2"))

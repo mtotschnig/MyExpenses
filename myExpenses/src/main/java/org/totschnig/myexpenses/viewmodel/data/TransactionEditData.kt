@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.db2.entities.Recurrence
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.util.ICurrencyFormatter
@@ -24,8 +25,8 @@ import java.time.LocalDateTime
 data class PlanLoadedData(
     val id: Long,
     val dtStart: Long,
-    val rRule: String?
-    ) : Parcelable
+    val rRule: String?,
+) : Parcelable
 
 @Parcelize
 data class InitialPlanData(
@@ -104,6 +105,14 @@ data class TransactionEditData(
         isTransfer -> TYPE_TRANSFER
         else -> TYPE_TRANSACTION
     }
+
+    val createNew: TransactionEditData
+        get() = copy(
+            id = 0,
+            uuid = generateUuid(),
+            crStatus = CrStatus.UNRECONCILED,
+            splitParts = splitParts?.map { it.createNew }
+        )
 
     fun compileDescription(
         ctx: Context,

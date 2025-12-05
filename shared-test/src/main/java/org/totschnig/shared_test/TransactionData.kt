@@ -13,7 +13,9 @@ data class TransactionData(
     val attachments: List<Uri> = emptyList(),
     val debtId: Long? = null,
     val methodId: Long? = null,
-    val comment: String? = null
+    val comment: String? = null,
+    val transferAccount: Long? = null,
+    val transferPeer: Long? = null
 ) {
     init {
         if (splitParts != null) {

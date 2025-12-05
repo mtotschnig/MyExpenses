@@ -5,6 +5,7 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.findCategory
 import org.totschnig.myexpenses.db2.loadAttachments
 import org.totschnig.myexpenses.db2.loadTransaction
+import kotlin.math.exp
 
 fun Repository.findCategoryPath(vararg path: String) =
     path.fold(null as Long?) { parentId, segment ->
@@ -13,32 +14,31 @@ fun Repository.findCategoryPath(vararg path: String) =
 
 fun Repository.assertTransaction(
     id: Long,
-    expectedTransaction: TransactionData
+    expected: TransactionData
 ) {
-    val (expectedAccount, expectedAmount, expectedSplitParts, expectedCategory, expectedParty, expectedTags, expectedAttachments, expectedDebt, expectedMethod, expectedComment) =
-        expectedTransaction
 
     val transaction = loadTransaction(id)
     val attachments = loadAttachments(id)
 
     with(transaction.data) {
-        assertThat(amount).isEqualTo(expectedAmount)
-        assertThat(accountId).isEqualTo(expectedAccount)
-        assertThat(categoryId).isEqualTo(expectedCategory)
-        assertThat(payeeId).isEqualTo(expectedParty)
-        assertThat(debtId).isEqualTo(expectedDebt)
-        assertThat(methodId).isEqualTo(expectedMethod)
-        assertThat(comment).isEqualTo(expectedComment)
+        assertThat(amount).isEqualTo(expected.amount)
+        assertThat(accountId).isEqualTo(expected.accountId)
+        assertThat(categoryId).isEqualTo(expected.category)
+        assertThat(payeeId).isEqualTo(expected.party)
+        assertThat(debtId).isEqualTo(expected.debtId)
+        assertThat(methodId).isEqualTo(expected.methodId)
+        assertThat(comment).isEqualTo(expected.comment)
+        assertThat(transferAccountId).isEqualTo(expected.transferAccount)
+        assertThat(transferPeerId).isEqualTo(expected.transferPeer)
     }
-    assertThat(transaction.data.tagList).containsExactlyElementsIn(expectedTags)
-    assertThat(attachments).containsExactlyElementsIn(expectedAttachments)
+    assertThat(transaction.data.tagList).containsExactlyElementsIn(expected.tags)
+    assertThat(attachments).containsExactlyElementsIn(expected.attachments)
 
-    if (expectedSplitParts == null) {
+    if (expected.splitParts == null) {
         assertThat(transaction.splitParts).isNull()
     } else {
         val parts = transaction.splitParts!!
-        assertThat(parts.size).isEqualTo(expectedSplitParts.size)
-        // 2. Map the actual split parts into the same data structure as the expected parts.
+        assertThat(parts.size).isEqualTo(expected.splitParts.size)
         val actualSplitPartsAsInfo = parts.map { actualPart ->
             TransactionData(
                 accountId = actualPart.data.accountId,
@@ -48,6 +48,6 @@ fun Repository.assertTransaction(
                 debtId = actualPart.data.debtId
             )
         }
-        assertThat(actualSplitPartsAsInfo).containsExactlyElementsIn(expectedSplitParts)
+        assertThat(actualSplitPartsAsInfo).containsExactlyElementsIn(expected.splitParts)
     }
 }

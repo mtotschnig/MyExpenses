@@ -920,11 +920,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         parentId = transaction.parentId ?: 0L
         val t = (if (isClone) {
             newInstance = true
-            transaction.copy(
-                id = 0,
-                uuid = generateUuid(),
-                crStatus = CrStatus.UNRECONCILED
-            )
+            transaction.createNew
         } else transaction).let { t ->
             intent.getLongExtra(KEY_DATE, 0).takeIf { it != 0L }?.let {
                 epoch2LocalDateTime(it).let {
