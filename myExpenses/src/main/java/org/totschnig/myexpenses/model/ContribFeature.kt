@@ -87,7 +87,7 @@ enum class ContribFeature(
             WEB_UI -> R.string.contrib_feature_web_ui_label
             CATEGORY_TREE -> R.string.contrib_feature_category_tree_label
             BANKING -> R.string.title_fints
-            ContribFeature.AUTOMATIC_FX_DOWNLOAD -> R.string.enable_automatic_daily_exchange_rate_download
+            AUTOMATIC_FX_DOWNLOAD -> R.string.enable_automatic_daily_exchange_rate_download
         }
 
     fun getLimitReachedWarning(ctx: Context): String {
@@ -127,23 +127,25 @@ enum class ContribFeature(
 
             TrialMode.DURATION ->
                 if (licenceHandler.usagesLeft(this))
-                    getLimitReachedWarning(context) else HtmlCompat.fromHtml(
-                    buildString {
-                        append(context.getString(
-                            R.string.dialog_contrib_trial_info,
-                            currentLicence,
-                            "<i>" + context.getString(labelResId) + "</i>",
-                            TRIAL_DURATION_DAYS,
-                            Utils.getDateFormatSafe(context)
-                                .format(Date(licenceHandler.getEndOfTrial(this@ContribFeature)))
-                        ))
-                        if (isPlay) {
-                            append(" ")
-                            append(context.getString(R.string.dialog_contrib_trial_info_play))
-                        }
-                    },
-                    HtmlCompat.FROM_HTML_MODE_LEGACY
-                )
+                    HtmlCompat.fromHtml(
+                        buildString {
+                            append(context.getString(
+                                R.string.dialog_contrib_trial_info,
+                                currentLicence,
+                                "<i>" + context.getString(labelResId) + "</i>",
+                                TRIAL_DURATION_DAYS,
+                                Utils.getDateFormatSafe(context)
+                                    .format(Date(licenceHandler.getEndOfTrial(this@ContribFeature)))
+                            ))
+                            if (isPlay) {
+                                append(" ")
+                                append(context.getString(R.string.dialog_contrib_trial_info_play))
+                            }
+                        },
+                        HtmlCompat.FROM_HTML_MODE_LEGACY
+                    )
+                else
+                    getLimitReachedWarning(context)
 
             TrialMode.UNLIMITED -> context.getString(
                 R.string.dialog_contrib_usage_limit_with_dialog,
