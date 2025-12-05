@@ -125,7 +125,7 @@ fun Repository.createTransaction(repositoryTransaction: RepositoryTransaction) =
 
     repositoryTransaction.isSplit -> createSplitTransaction(
         repositoryTransaction.data,
-        repositoryTransaction.splitParts!!.map { it.data }
+        repositoryTransaction.splitParts!!.map { it.data to it.transferPeer  }
     )
 
     else -> createTransaction(repositoryTransaction.data)
@@ -290,6 +290,7 @@ fun Repository.createSplitTransaction(
     splitParts.forEach { (splitPart, peer) ->
         if (peer == null) {
             // --- This is a REGULAR split part ---
+            require(splitPart.transferAccountId == null)
             operations.add(
                 ContentProviderOperation.newInsert(TRANSACTIONS_URI)
                     .withValues(splitPart.asContentValues(true))
