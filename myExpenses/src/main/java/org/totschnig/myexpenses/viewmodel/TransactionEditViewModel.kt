@@ -285,7 +285,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 TransactionEditResult(
                     id = saved.id,
                     amount = repositoryTransaction.data.amount,
-                    transferPeer = repositoryTransaction.transferPeer?.id,
+                    transferPeer = saved.transferPeer?.id,
                     transferAmount = repositoryTransaction.transferPeer?.amount,
                     planId = planId
                 )
