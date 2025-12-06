@@ -15,8 +15,10 @@ data class TransactionData(
     val methodId: Long? = null,
     val comment: String? = null,
     val transferAccount: Long? = null,
-    val transferPeer: Long? = null
+    val transferPeer: Long? = null,
+    val _transferAmount: Long? = null,
 ) {
+    val transferAmount = _transferAmount ?: if (transferAccount != null) - amount else null
     init {
         if (splitParts != null) {
             require(category == SPLIT_CATID)

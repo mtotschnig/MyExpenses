@@ -21,7 +21,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
 import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.adevinta.android.barista.internal.viewaction.NestedEnabledScrollToAction.nestedScrollToAction
-import com.google.common.truth.Truth.assertThat
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.CoreMatchers.instanceOf
@@ -37,7 +36,6 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
 import org.totschnig.myexpenses.db2.entities.Recurrence
-import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.db2.loadTransactions
 import org.totschnig.myexpenses.delegate.TransactionDelegate
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
@@ -58,9 +56,6 @@ const val TAG_LABEL = "Wichtig"
 
 abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
     lateinit var account1: Account
-
-    val transferCategoryId
-        get() = prefHandler.defaultTransferCategory
 
     suspend fun load() = repository.loadTransactions(account1.id)
 
@@ -164,24 +159,6 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
         ).perform(click())
 
         onView(withId(R.id.Recurrence)).check(matches(withAdaptedData(`is`(recurrence))))
-    }
-
-    protected fun assertTransfer(
-        id: Long,
-        expectedAccount: Long,
-        expectedAmount: Long,
-        expectedTransferAccount: Long,
-        expectedTransferAmount: Long,
-    ) {
-        val transaction = repository.loadTransaction(id)
-        with(transaction.data) {
-            assertThat(amount).isEqualTo(expectedAmount)
-            assertThat(accountId).isEqualTo(expectedAccount)
-        }
-        with(transaction.transferPeer!!) {
-            assertThat(amount).isEqualTo(expectedTransferAmount)
-            assertThat(accountId).isEqualTo(expectedTransferAccount)
-        }
     }
 
     protected fun launch(i: Intent = getIntentForNewTransaction()): ActivityScenario<TestExpenseEdit> =

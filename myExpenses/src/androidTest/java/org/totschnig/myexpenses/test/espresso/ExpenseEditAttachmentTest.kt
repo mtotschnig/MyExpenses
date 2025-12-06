@@ -24,9 +24,11 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.loadTransactions
 import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
+import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_2
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.addDebugAttachment
 import org.totschnig.shared_test.TransactionData
@@ -81,6 +83,49 @@ class ExpenseEditAttachmentTest : BaseExpenseEditTest() {
                     amount = -10100,
                     attachments = listOf(resultUri)
                 )
+            )
+        }
+    }
+
+    @Test
+    fun shouldSaveAttachmentsForTransfer() {
+        runTest {
+            val resultUri =
+                Uri.parse("file:///android_asset/screenshot.jpg")
+            val fakeResult = Instrumentation.ActivityResult(Activity.RESULT_OK,
+                Intent().apply {
+
+                    putExtra(CropImage.CROP_IMAGE_EXTRA_RESULT, CropImage.ActivityResult(
+                        Uri.parse("content://org.totschnig.myexpenses.debug.fileprovider/cache/Scan.jpg"),
+                        resultUri,
+                        null,
+                        null,
+                        null,
+                        0,
+                        null,
+                        0
+                    ))
+                }
+            )
+
+            Intents.intending(IntentMatchers.hasComponent(CropImageActivity::class.java.name)).respondWith(fakeResult)
+
+            account1 = buildAccount(ACCOUNT_LABEL_1)
+            val account2 = buildAccount(ACCOUNT_LABEL_2)
+            launchForResult()
+            setOperationType(Transactions.TYPE_TRANSFER)
+            setAmount(101)
+            onView(withId(R.id.newAttachment)).perform(click())
+            onData(menuIdMatcher(R.id.PHOTO_COMMAND)).perform(click())
+            clickFab() // save transaction
+            assertFinishing()
+            assertTransfer(
+                id = repository.loadTransactions(account1.id).first().id,
+                expectedAccount = account1.id,
+                expectedAmount = -10100,
+                expectedTransferAccount = account2.id,
+                expectedPeer = repository.loadTransactions(account2.id).first().id,
+                expectedAttachments = listOf(resultUri)
             )
         }
     }

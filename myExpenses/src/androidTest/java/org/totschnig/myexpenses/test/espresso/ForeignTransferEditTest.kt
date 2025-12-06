@@ -20,6 +20,7 @@ import java.util.Currency
 class ForeignTransferEditTest : BaseExpenseEditTest() {
     private var transfer: Long = 0
     lateinit var account2: Account
+    private var peer: Long = 0
     @Before
     fun fixture() {
         val currency1 = CurrencyUnit(Currency.getInstance("USD"))
@@ -32,12 +33,14 @@ class ForeignTransferEditTest : BaseExpenseEditTest() {
             ACCOUNT_LABEL_2,
             currency = currency2.code
         )
-        transfer = repository.insertTransfer(
+        val transaction = repository.insertTransfer(
             accountId = account1.id,
             transferAccountId = account2.id,
             amount = -2000L,
             transferAmount = 3000L,
-        ).data.id
+        )
+        transfer = transaction.data.id
+        peer = transaction.transferPeer!!.id
     }
 
     @After
@@ -56,6 +59,13 @@ class ForeignTransferEditTest : BaseExpenseEditTest() {
         androidx.test.espresso.Espresso.onIdle()
         closeKeyboardAndSave()
         assertFinishing()
-        assertTransfer(transfer, account1.id , -2000L, account2.id, 3000L)
+        assertTransfer(
+            id = transfer,
+            expectedAccount = account1.id,
+            expectedAmount = -2000L,
+            expectedTransferAccount = account2.id,
+            expectedTransferAmount = 3000L,
+            expectedPeer = peer
+        )
     }
 }

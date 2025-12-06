@@ -5,7 +5,6 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.findCategory
 import org.totschnig.myexpenses.db2.loadAttachments
 import org.totschnig.myexpenses.db2.loadTransaction
-import kotlin.math.exp
 
 fun Repository.findCategoryPath(vararg path: String) =
     path.fold(null as Long?) { parentId, segment ->
@@ -18,7 +17,6 @@ fun Repository.assertTransaction(
 ) {
 
     val transaction = loadTransaction(id)
-    val attachments = loadAttachments(id)
 
     with(transaction.data) {
         assertThat(amount).isEqualTo(expected.amount)
@@ -31,8 +29,21 @@ fun Repository.assertTransaction(
         assertThat(transferAccountId).isEqualTo(expected.transferAccount)
         assertThat(transferPeerId).isEqualTo(expected.transferPeer)
     }
-    assertThat(transaction.data.tagList).containsExactlyElementsIn(expected.tags)
+    val attachments = loadAttachments(id)
     assertThat(attachments).containsExactlyElementsIn(expected.attachments)
+    if (expected.transferAccount != null) {
+        with(transaction.transferPeer!!) {
+            assertThat(accountId).isEqualTo(expected.transferAccount)
+            assertThat(this.id).isEqualTo(expected.transferPeer)
+            assertThat(transferAccountId).isEqualTo(expected.accountId)
+            assertThat(transferPeerId).isEqualTo(id)
+            assertThat(amount).isEqualTo(expected.transferAmount)
+        }
+        val attachments = loadAttachments(expected.transferPeer!!)
+        assertThat(attachments).containsExactlyElementsIn(expected.attachments)
+    }
+    assertThat(transaction.data.tagList).containsExactlyElementsIn(expected.tags)
+
 
     if (expected.splitParts == null) {
         assertThat(transaction.splitParts).isNull()

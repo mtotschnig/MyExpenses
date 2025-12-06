@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.ContentResolver
 import android.content.Context
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.appcompat.widget.MenuPopupWindow.MenuDropDownListView
@@ -109,6 +110,8 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
     protected val repository: Repository
         get() = app.appComponent.repository()
 
+    val transferCategoryId
+        get() = prefHandler.defaultTransferCategory
 
     val homeCurrency: CurrencyUnit by lazy { currencyContext.homeCurrencyUnit }
 
@@ -353,6 +356,26 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         expectedTransaction: TransactionData
     ) {
         repository.assertTransaction(id, expectedTransaction)
+    }
+
+    protected fun assertTransfer(
+        id: Long,
+        expectedAccount: Long,
+        expectedAmount: Long,
+        expectedTransferAccount: Long,
+        expectedPeer: Long,
+        expectedTransferAmount: Long ?= null,
+        expectedAttachments: List<Uri> = emptyList()
+    ) {
+        repository.assertTransaction(id, TransactionData(
+            amount = expectedAmount,
+            accountId = expectedAccount,
+            transferAccount = expectedTransferAccount,
+            _transferAmount = expectedTransferAmount,
+            transferPeer = expectedPeer,
+            category = transferCategoryId,
+            attachments = expectedAttachments
+        ))
     }
 
     protected fun assertTemplate(

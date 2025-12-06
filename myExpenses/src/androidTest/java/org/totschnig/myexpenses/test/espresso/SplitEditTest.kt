@@ -618,7 +618,7 @@ class SplitEditTest : BaseExpenseEditTest() {
                     TransactionData(
                         accountId = account1.id,
                         amount = -7000L,
-                        category = prefHandler.defaultTransferCategory,
+                        category = transferCategoryId,
                         transferAccount = account2.id,
                         transferPeer = newPeer
                     )

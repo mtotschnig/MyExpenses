@@ -159,7 +159,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
             TransactionData(
                 accountId = account.id,
                 amount = -100L,
-                category = prefHandler.defaultTransferCategory,
+                category = transferCategoryId,
                 transferAccount = transferAccount.id,
                 transferPeer = newPeer
             )
