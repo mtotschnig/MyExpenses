@@ -612,9 +612,9 @@ abstract class TransactionDelegate(
         )
     }
 
-    fun resetOperationType() {
+    fun resetOperationType(newType: Int = operationType) {
         operationTypeSpinner.setSelection(
-            operationTypeAdapter.getPosition(OperationType(operationType))
+            operationTypeAdapter.getPosition(OperationType(newType))
         )
     }
 
@@ -689,25 +689,23 @@ abstract class TransactionDelegate(
                 val newType =
                     (operationTypeSpinner.getItemAtPosition(position) as OperationType).type
                 if (host.isValidType(newType)) {
-                    if (newType == TYPE_TRANSFER) {
-                        if (checkTransferEnabled()) {
-                            restartWithType(newType)
+                    when (newType) {
+                        TYPE_TRANSFER -> if (checkTransferEnabled()) {
+                            restartWithTypeInternal(TYPE_TRANSFER)
                         } else {
                             host.showTransferAccountMissingMessage()
                             resetOperationType()
                         }
-                    } else if (newType == TYPE_SPLIT) {
-                        if (isTemplate) {
+                        TYPE_SPLIT -> if (isTemplate) {
                             if (prefHandler.getBoolean(PrefKey.NEW_SPLIT_TEMPLATE_ENABLED, true)) {
-                                restartWithType(newType)
+                                restartWithTypeInternal(TYPE_SPLIT)
                             } else {
                                 host.contribFeatureRequested(ContribFeature.SPLIT_TEMPLATE)
                             }
                         } else {
                             host.contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION)
                         }
-                    } else {
-                        restartWithType(newType)
+                        TYPE_TRANSACTION -> restartWithTypeInternal(TYPE_TRANSACTION)
                     }
                 }
             }
@@ -721,7 +719,17 @@ abstract class TransactionDelegate(
         }
     }
 
+    /**
+     * This is supposed to be called when we want to start with a new type, but
+     * need to make sure that spinner holds the correct value, in order to prevent race condition in
+     * Android Spinner state handling
+     */
     fun restartWithType(@Transactions.TransactionType newType: Int) {
+        resetOperationType(newType)
+        restartWithTypeInternal(newType)
+    }
+
+    private fun restartWithTypeInternal(@Transactions.TransactionType newType: Int) {
         //sanitize instance state
         when (newType) {
 

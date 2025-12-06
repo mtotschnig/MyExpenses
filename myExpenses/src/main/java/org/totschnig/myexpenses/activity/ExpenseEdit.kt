@@ -206,6 +206,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
      */
     @State
     var operationType = 0
+
     private lateinit var mManager: LoaderManager
 
     @State
@@ -486,7 +487,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             // fetch the transaction or create a new instance
             else if (task != null) {
                 lifecycleScope.launch {
-                    populateFromTask( viewModel.read(mRowId, task, isClone, extras), task)
+                    populateFromTask(viewModel.read(mRowId, task, isClone, extras), task)
                 }
             } else {
                 operationType =
@@ -1283,15 +1284,17 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
                     isSaving = true
                     lifecycleScope.launch {
-                        onSaved(viewModel.save(
-                            transaction.copy(
-                                planInstanceId = planInstanceId.takeIf { it > 0L },
-                                originTemplate = originTemplateId.takeIf { it > 0L }?.let {
-                                    TemplateEditData(templateId = it)
-                                },
-                            ),
-                            userSetExchangeRate = (delegate as? MainDelegate)?.userSetExchangeRate
-                        ))
+                        onSaved(
+                            viewModel.save(
+                                transaction.copy(
+                                    planInstanceId = planInstanceId.takeIf { it > 0L },
+                                    originTemplate = originTemplateId.takeIf { it > 0L }?.let {
+                                        TemplateEditData(templateId = it)
+                                    },
+                                ),
+                                userSetExchangeRate = (delegate as? MainDelegate)?.userSetExchangeRate
+                            )
+                        )
                     }
                     if (wasStartedFromWidget) {
                         when (operationType) {
