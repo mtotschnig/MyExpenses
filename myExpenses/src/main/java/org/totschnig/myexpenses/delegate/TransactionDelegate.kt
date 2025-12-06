@@ -735,7 +735,7 @@ abstract class TransactionDelegate(
             }
 
             TYPE_TRANSFER -> {
-                catId = null
+                catId = prefHandler.defaultTransferCategory
                 methodId = null
                 splitParts.clear()
             }

@@ -34,6 +34,7 @@ import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.SplitPartRVAdapter
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.createParty
 import org.totschnig.myexpenses.db2.deleteAccount
@@ -326,7 +327,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         onView(withId(R.id.list)).check(matches(hasChildCount(count)))
     }
 
-    private fun setupData() {
+    private fun setupData(categoryType: Byte = FLAG_INCOME) {
         partyId = repository.createParty(Party.create(name = PARTY_NAME)!!)!!.id
         debtId = repository.saveDebt(
             Debt(
@@ -339,7 +340,7 @@ class SplitEditTest : BaseExpenseEditTest() {
                 date = System.currentTimeMillis() / 1000,
             )
         )
-        categoryId = writeCategory(CATEGORY_LABEL, icon = CATEGORY_ICON, type = FLAG_INCOME)
+        categoryId = writeCategory(CATEGORY_LABEL, icon = CATEGORY_ICON, type = categoryType)
         tagId = repository.writeTag(TAG_LABEL)
     }
 
@@ -348,7 +349,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         amount: Int = 50,
         toggleType: Boolean = false,
         initialChildCount: Int = 0,
-        extended: Boolean = false
+        extended: Boolean = false,
     ) {
         repeat(times) {
             closeSoftKeyboard()
@@ -576,6 +577,54 @@ class SplitEditTest : BaseExpenseEditTest() {
         createParts(2, 50, initialChildCount = 1)
         checkAccount(ACCOUNT_LABEL_2)
         clickFab()
+        cleanup {
+            repository.deleteAccount(account2.id)
+        }
+    }
+
+    @Test
+    fun createSplitWithTransferPart() = runTest {
+        val account2 = buildAccount("Test Account 2")
+        setupData(FLAG_EXPENSE)
+        launchWithAccountSetup()
+        closeSoftKeyboard()
+        createParts(1, extended = true)
+        onView(withId(R.id.CREATE_PART_COMMAND)).perform(scrollTo(), click())
+        onView(withId(R.id.Account)).check(matches(not(isEnabled())))
+        setAmount(70)
+        setOperationType(Transactions.TYPE_TRANSFER)
+        onView(withId(R.id.Account)).check(matches(not(isEnabled())))
+        onView(withId(R.id.TransferAccount)).perform(scrollTo(), click())
+        onData(
+            withAccountGrouped(account2.label)
+        ).perform(click())
+        clickFab()//save part
+        checkPartCount(2)
+        clickFab() //save parent
+        val newPeer = repository.loadTransactions(account2.id).first().id
+        assertTransaction(
+            id = repository.loadTransactions(account1.id).first().id,
+            TransactionData(
+                accountId = account1.id,
+                amount = -12000,
+                splitParts = listOf(
+                    TransactionData(
+                        accountId = account1.id,
+                        amount = -5000,
+                        tags = listOf(tagId),
+                        category = categoryId,
+                        debtId = debtId
+                    ),
+                    TransactionData(
+                        accountId = account1.id,
+                        amount = -7000L,
+                        category = prefHandler.defaultTransferCategory,
+                        transferAccount = account2.id,
+                        transferPeer = newPeer
+                    )
+                )
+            )
+        )
         cleanup {
             repository.deleteAccount(account2.id)
         }
