@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.test.espresso
 
+import android.Manifest
 import android.widget.Button
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -11,6 +12,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.rule.GrantPermissionRule
 import com.adevinta.android.barista.interaction.BaristaSeekBarInteractions
 import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
@@ -19,6 +21,7 @@ import org.hamcrest.Matchers.containsString
 import org.hamcrest.Matchers.`is`
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
@@ -53,6 +56,11 @@ class ExpenseEditTest : BaseExpenseEditTest() {
     private lateinit var yenAccount: Account
     private lateinit var currency1: CurrencyUnit
     private lateinit var currency2: CurrencyUnit
+
+    @get:Rule
+    var grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
+        Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR
+    )
 
     @Before
     fun fixture() {

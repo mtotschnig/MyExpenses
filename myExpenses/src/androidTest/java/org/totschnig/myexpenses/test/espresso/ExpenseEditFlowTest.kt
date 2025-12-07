@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.test.espresso
 
+import android.Manifest
 import android.content.Intent
 import android.provider.CalendarContract
 import androidx.test.espresso.Espresso.closeSoftKeyboard
@@ -15,11 +16,12 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasData
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.rule.GrantPermissionRule
 import com.google.common.truth.Truth.assertThat
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.After
-import org.junit.Assume
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.ACTION_CREATE_FROM_TEMPLATE
@@ -28,6 +30,7 @@ import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.deleteAllTags
 import org.totschnig.myexpenses.db2.deleteMethod
 import org.totschnig.myexpenses.db2.deletePlan
+import org.totschnig.myexpenses.db2.deleteTemplate
 import org.totschnig.myexpenses.db2.entities.Recurrence
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.findAccountType
@@ -53,6 +56,11 @@ import java.time.LocalDate
 class ExpenseEditFlowTest : BaseExpenseEditTest() {
     var templateId: Long = 0
     var methodId: Long = 0
+
+    @get:Rule
+    var grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
+        Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR
+    )
 
     @Before
     fun fixture() {
@@ -154,9 +162,10 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         linkWithTag()
         setAmount(5)
         clickFab()
-        assertTemplate(account1.id, -500, expectedTags = listOf("Tag"))
+        val template = assertTemplate(account1.id, -500, expectedTags = listOf("Tag"))
         cleanup {
             repository.deleteAllTags()
+            repository.deleteTemplate(template.id)
         }
     }
 
@@ -175,6 +184,9 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
             checkPlanInstance = true
         )
         repository.deletePlan(template.data.planId!!)
+        cleanup {
+            repository.deleteTemplate(template.id)
+        }
     }
 
     @Test
@@ -199,6 +211,10 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
             )
         )
         repository.deletePlan(template.data.planId!!)
+        Intents.release()
+        cleanup {
+            repository.deleteTemplate(template.id)
+        }
     }
 
     @Test
@@ -221,6 +237,10 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
             )
         )
         repository.deletePlan(template.data.planId!!)
+        Intents.release()
+        cleanup {
+            repository.deleteTemplate(template.id)
+        }
     }
 
     private fun linkWithTag() {
@@ -240,9 +260,10 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         linkWithTag()
         clickFab()
         //asserts that template is still without tags
-        assertTemplate(account1.id, 500, templateTitle = "Template")
+        val template = assertTemplate(account1.id, 500, templateTitle = "Template")
         cleanup {
             repository.deleteAllTags()
+            repository.deleteTemplate(template.id)
         }
     }
 
@@ -264,15 +285,18 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
             ExchangeRateSource.User
         )
         assertThat(price).isEqualToIgnoringScale("0.0001")
+        cleanup {
+            repository.deleteAccount(account2.id)
+        }
     }
 
     //https://github.com/mtotschnig/MyExpenses/issues/1793
     @Test
     fun doNotStorePriceWhenTransactionIsEditedButAmountIsUntouched() {
-        Assume.assumeFalse(homeCurrency.code == "DKK")
+        val foreignCurrency = if (homeCurrency.code == "DKK") "GBP" else "DKK"
         val account2 = buildAccount(
             ACCOUNT_LABEL_2,
-            currency = "DKK",
+            currency = foreignCurrency,
             dynamicExchangeRates = true
         )
         val transaction = repository.insertTransaction(
@@ -289,10 +313,13 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         closeSoftKeyboard()
         clickFab()
         val price = repository.loadPrice(
-            homeCurrency, currencyContext["DKK"],
+            homeCurrency, currencyContext[foreignCurrency],
             LocalDate.now(),
             ExchangeRateSource.User
         )
         assertThat(price).isNull()
+        cleanup {
+            repository.deleteAccount(account2.id)
+        }
     }
 }

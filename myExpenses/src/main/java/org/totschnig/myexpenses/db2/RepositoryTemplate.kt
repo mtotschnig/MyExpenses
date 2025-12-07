@@ -57,6 +57,7 @@ import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import org.totschnig.myexpenses.viewmodel.data.PlanInstance
 import org.totschnig.myexpenses.viewmodel.data.Tag
+import java.lang.UnsupportedOperationException
 import java.time.LocalDate
 import kotlin.math.roundToLong
 
@@ -94,10 +95,14 @@ data class RepositoryTemplate(
     val plan: Plan? = null,
     val tags: List<Tag>? = null,
 ) {
-    val id = data.id
-    val title = data.title
-    val isTransfer = data.isTransfer
-    val isSplit = splitParts != null
+    val id: Long
+        get() = data.id
+    val title: String
+        get() = data.title
+    val isTransfer: Boolean
+        get() = data.isTransfer
+    val isSplit: Boolean
+        get() = splitParts != null
 
     suspend fun instantiate(
         currencyContext: CurrencyContext,
@@ -124,7 +129,7 @@ data class RepositoryTemplate(
                             )
                             Money(transferCurrency, -amount.amountMajor.multiply(rate)).amountMinor
                         } catch (e: Exception) {
-                            if (e !is java.lang.UnsupportedOperationException) {
+                            if (e !is UnsupportedOperationException) {
                                 CrashHandler.report(e)
                             }
                             0
