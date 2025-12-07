@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.util.epoch2LocalDateTime
+import org.totschnig.myexpenses.viewmodel.data.PlanEditData
 import org.totschnig.myexpenses.viewmodel.data.PlanLoadedData
 import org.totschnig.myexpenses.viewmodel.data.TemplateEditData
 import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
@@ -19,7 +20,7 @@ import java.time.ZoneId
 object TransactionMapper {
     fun map(
         repositoryTransaction: RepositoryTransaction,
-        currencyContext: CurrencyContext
+        currencyContext: CurrencyContext,
     ): TransactionEditData {
         val transaction = repositoryTransaction.data
         val currencyUnit = currencyContext[transaction.currency!!]
@@ -121,13 +122,19 @@ object TransactionMapper {
             defaultAction = template.defaultAction,
             plan = repositoryTemplate.plan?.let {
                 mapPlan(it)
-            }
+            },
+            planEditData = if (repositoryTemplate.plan != null) {
+                PlanEditData(
+                    isPlanExecutionAutomatic = repositoryTemplate.data.planExecutionAutomatic,
+                    planExecutionAdvance = repositoryTemplate.data.planExecutionAdvance
+                )
+            } else null
         )
     }
 
     fun map(
         repositoryTemplate: RepositoryTemplate,
-        currencyContext: CurrencyContext
+        currencyContext: CurrencyContext,
     ): TransactionEditData {
         val template = repositoryTemplate.data
         return map(template, currencyContext).copy(
@@ -141,7 +148,8 @@ object TransactionMapper {
 
     fun mapTransaction(
         transactionEditData: TransactionEditData,
-        date: Long = transactionEditData.date.atZone(ZoneId.systemDefault()).toInstant().epochSecond
+        date: Long = transactionEditData.date.atZone(ZoneId.systemDefault())
+            .toInstant().epochSecond,
     ): RepositoryTransaction {
         val transaction = Transaction(
             id = transactionEditData.id,
@@ -206,7 +214,8 @@ object TransactionMapper {
             payeeId = transactionEditData.party?.id,
             uuid = transactionEditData.uuid,
             tagList = transactionEditData.tags.map { it.id },
-            planExecutionAutomatic = templateEditData.planEditData?.isPlanExecutionAutomatic ?: false,
+            planExecutionAutomatic = templateEditData.planEditData?.isPlanExecutionAutomatic
+                ?: false,
             planExecutionAdvance = templateEditData.planEditData?.planExecutionAdvance ?: 0
         )
         return RepositoryTemplate(

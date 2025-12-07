@@ -854,6 +854,7 @@ abstract class TransactionDelegate(
                 valueDate = if (dateEditBinding.Date2Button.isVisible) dateEditBinding.Date2Button.date else date.toLocalDate(),
                 crStatus = this@TransactionDelegate.crStatus,
                 parentId = parentId,
+                planId = this@TransactionDelegate.planId
             ).let { transaction ->
                 val title = viewBinding.Title.text.toString()
                 if (isMainTemplate) {
