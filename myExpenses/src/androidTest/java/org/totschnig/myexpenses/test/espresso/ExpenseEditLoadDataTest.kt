@@ -11,12 +11,14 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
+import androidx.test.espresso.matcher.ViewMatchers.isChecked
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.GrantPermissionRule
+import com.adevinta.android.barista.assertion.BaristaProgressBarAssertions.assertProgress
 import com.google.common.truth.Truth.assertThat
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.After
@@ -404,7 +406,9 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             accountId = account1.id,
             title = "Daily plan",
             amount = 700L,
-            uuid = generateUuid()
+            uuid = generateUuid(),
+            planExecutionAutomatic = true,
+            planExecutionAdvance = 7
         )
         val eventId = repository.createPlan(
             title = "Daily plan",
@@ -428,6 +432,8 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 assertThat(activity.isTemplate).isTrue()
             }
             checkAmount(7)
+            onView(withId(R.id.PlanExecution)).check(matches(isChecked()))
+            assertProgress(R.id.advanceExecutionSeek, 7)
             onView(withId(R.id.Title))
                 .check(matches(withText("Daily plan")))
 

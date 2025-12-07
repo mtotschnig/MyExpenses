@@ -322,4 +322,10 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
             repository.deleteAccount(account2.id)
         }
     }
+
+    //https://github.com/mtotschnig/MyExpenses/issues/1803
+    @Test
+    fun loadAndSavePlan() {
+        TODO()
+    }
 }
