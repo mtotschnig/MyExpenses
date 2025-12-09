@@ -109,10 +109,12 @@ data class RepositoryTemplate(
         exchangeRateHandler: ExchangeRateHandler,
         planInstanceInfo: PlanInstanceInfo? = null,
     ): RepositoryTransaction {
+        val date = planInstanceInfo?.date?.div(1000)
+        val instanceData = data.instantiate().let {
+            if (date != null) it.copy(date = date) else it
+        }
         return RepositoryTransaction(
-            data = data.instantiate().let {
-                if (planInstanceInfo?.date != null) it.copy(date = planInstanceInfo.date / 1000) else it
-            },
+            data = instanceData,
             transferPeer = if (data.isTransfer) {
                 Transaction(
                     accountId = data.transferAccountId!!,
@@ -139,6 +141,7 @@ data class RepositoryTemplate(
                     comment = data.comment,
                     categoryPath = data.categoryPath,
                     currency = data.currency,
+                    date = instanceData.date,
                     uuid = generateUuid()
                 )
             } else null,

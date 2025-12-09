@@ -10,13 +10,13 @@ import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.db2.RepositoryTemplate
 import org.totschnig.myexpenses.db2.createTemplate
-import org.totschnig.myexpenses.db2.createTransaction
 import org.totschnig.myexpenses.db2.deleteTemplate
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.db2.insertTemplate
 import org.totschnig.myexpenses.db2.insertTransaction
+import org.totschnig.myexpenses.db2.instantiateTemplate
 import org.totschnig.myexpenses.db2.loadTemplate
 import org.totschnig.myexpenses.db2.requireParty
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -54,9 +54,7 @@ class TemplateTest: BaseTestWithRepository() {
     }
 
     private fun RepositoryTemplate.instantiate(date: Long? = null) = runBlocking {
-        instantiate(currencyContext, exchangeRateHandler, date?.let {
-            PlanInstanceInfo(templateId = data.id, date = date)
-        })
+        repository.instantiateTemplate(exchangeRateHandler, PlanInstanceInfo(templateId = data.id, date = date), currencyContext)!!
     }
 
 
@@ -74,7 +72,7 @@ class TemplateTest: BaseTestWithRepository() {
         runBlocking {
 
         }
-        repository.createTransaction(t.instantiate())
+        t.instantiate()
         assertThat(repository.getTransactionSum(mAccount1)).isEqualTo(start + 2 * amount)
         repository.deleteTemplate(t.id)
         Truth.assertWithMessage("Template deleted, but can still be retrieved").that(repository.loadTemplate(t.id, require = false)).isNull()
@@ -148,6 +146,22 @@ class TemplateTest: BaseTestWithRepository() {
     @Test
     fun instantiateWithDate() {
         val template = buildTransactionTemplate()
+        val dateInThePast = LocalDateTime.now().minusDays(30)
+        val transaction = template.instantiate(dateInThePast.toEpochMillis()).data
+        assertThat(transaction.date).isEqualTo(dateInThePast.toEpoch())
+    }
+
+    @Test
+    fun instantiateTransferWithDate() {
+        val template = buildTransferTemplate()
+        val dateInThePast = LocalDateTime.now().minusDays(30)
+        val transaction = template.instantiate(dateInThePast.toEpochMillis()).data
+        assertThat(transaction.date).isEqualTo(dateInThePast.toEpoch())
+    }
+
+    @Test
+    fun instantiateSplitWithDate() {
+        val template = buildSplitTemplate()
         val dateInThePast = LocalDateTime.now().minusDays(30)
         val transaction = template.instantiate(dateInThePast.toEpochMillis()).data
         assertThat(transaction.date).isEqualTo(dateInThePast.toEpoch())
