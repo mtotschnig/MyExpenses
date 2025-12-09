@@ -4,8 +4,10 @@ import android.widget.Spinner
 import com.google.common.truth.Truth.assertThat
 import org.junit.After
 import org.junit.Before
+import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.SpinnerItem
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.findAccountFlag
 import org.totschnig.myexpenses.db2.findAccountType
@@ -21,7 +23,6 @@ import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
 import java.util.Currency
-import kotlin.test.Test
 
 @TestShard2
 class ExpenseEditAccountSpinnerTest: BaseExpenseEditTest() {
@@ -73,6 +74,14 @@ class ExpenseEditAccountSpinnerTest: BaseExpenseEditTest() {
                 }
             }
             assertThat(actualOrder).containsExactlyElementsIn(expectedOrder).inOrder()
+        }
+    }
+
+    //https://github.com/mtotschnig/MyExpenses/issues/1775
+    @Test
+    fun transferAccountSelectionIsValid() {
+        launch(getBaseIntent(Transactions.TYPE_TRANSFER)).use {
+            checkAccount("ZZZ", R.id.TransferAccount)
         }
     }
 }

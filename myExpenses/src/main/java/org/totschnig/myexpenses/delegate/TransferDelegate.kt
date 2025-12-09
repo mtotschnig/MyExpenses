@@ -85,12 +85,12 @@ class TransferDelegate(
         recurrence: Recurrence?,
         withAutoFill: Boolean
     ) {
-        if (transaction?.transferEditData != null) {
-            transferAccountId = transaction.transferEditData.transferAccountId
-            transferPeer = transaction.transferEditData.transferPeer
-            passedInTransferAmount = transaction.transferEditData.transferAmount?.amountMinor
-            passedInTransferAccountId = transaction.transferEditData.transferAccountId
-            transaction.transferEditData.transferAmount?.let {
+        transaction?.transferEditData?.let { data ->
+            transferAccountId = data.transferAccountId.takeIf { it != 0L }
+            transferPeer = data.transferPeer
+            passedInTransferAmount = data.transferAmount?.amountMinor
+            passedInTransferAccountId = transferAccountId
+            data.transferAmount?.let {
                 viewBinding.TransferAmount.setFractionDigits(it.currencyUnit.fractionDigits)
             }
         }

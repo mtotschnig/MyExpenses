@@ -167,7 +167,6 @@ class ExpenseEditTest : BaseExpenseEditTest() {
             clickMenuItem(R.id.CREATE_TEMPLATE_COMMAND)
             checkEffectiveVisible(R.id.TitleRow, R.id.Recurrence)
             checkAccountDependents()
-
         }
     }
 

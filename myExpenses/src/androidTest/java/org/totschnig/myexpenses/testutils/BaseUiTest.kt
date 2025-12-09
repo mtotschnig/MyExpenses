@@ -341,8 +341,8 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         onView(withId(R.id.fab)).perform(click())
     }
 
-    fun checkAccount(label: String) {
-        onView(withId(R.id.Account)).check(matches(withSpinnerText(containsString(label))))
+    fun checkAccount(label: String, spinnerId: Int = R.id.Account) {
+        onView(withId(spinnerId)).check(matches(withSpinnerText(containsString(label))))
     }
 
     fun setAccount(label: String) {
