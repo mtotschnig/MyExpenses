@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.BuildConfig
-import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.KEY_PARENTID
@@ -101,6 +100,7 @@ open class TransactionPagingSource(
             //if the previous page was loaded from an offset between 0 and loadSize,
             //we must take care to load only the missing items before the offset
             val loadSize = if (position < 0) params.loadSize + position else params.loadSize
+            val fetchSize = loadSize + 1 // We'll fetch one more item as a lookahead.
             Timber.i("Requesting data for account %d at position %d", account.id, position)
             var selection = "$KEY_PARENTID IS NULL"
             var selectionArgs: Array<String>? = null
@@ -112,9 +112,9 @@ open class TransactionPagingSource(
                 }
             }
             val startTime = if (BuildConfig.DEBUG) Instant.now() else null
-            val origList = withContext(Dispatchers.IO) {
+            val fullList = withContext(Dispatchers.IO) {
                 contentResolver.query(
-                    uri.withLimit(loadSize, position.coerceAtLeast(0)),
+                    uri.withLimit(fetchSize, position.coerceAtLeast(0)),
                     projection,
                     selection,
                     selectionArgs,
@@ -136,19 +136,30 @@ open class TransactionPagingSource(
                     }.toList()
                 }
             } ?: emptyList()
-            val (dropHalfTransfer, mergedList) = if (account.isAggregate) {
-                val mergeResult =
-                    origList.mergeTransfers(account, currencyContext.homeCurrencyString)
-                //if the two halves of a transfer are split between two pages, we
-                //drop the half at the end of the list, and reduce the offset for the next load by 1
-                val dropHalfTransfer = mergeResult.lastOrNull()?.let {
-                    it.transferPeer != null && it.type != FLAG_NEUTRAL
-                } == true
-                dropHalfTransfer to if (dropHalfTransfer) mergeResult.dropLast(1) else mergeResult
-            } else false to origList
+
+            val itemsForThisPage = fullList.take(loadSize) // The items that actually belong to this page.
+            val lookaheadItem = fullList.getOrNull(loadSize) // The (N+1)th item.
+
+            var dropHalfTransfer = false
+            var mergedList = if (account.isAggregate) {
+                itemsForThisPage.mergeTransfers(account, currencyContext.homeCurrencyString)
+            } else itemsForThisPage
+
+            // Handle the boundary condition.
+            // Check if the VERY LAST item in merged list is a half-transfer.
+            val lastItemTransferPeer = mergedList.lastOrNull()?.transferPeer
+            val lookAheadItemId = lookaheadItem?.id
+            if (lastItemTransferPeer != null && lookAheadItemId != null && lastItemTransferPeer == lookAheadItemId ) {
+                // The other half is on the next page. For consistency,
+                // we drop the half-transfer from this page. It will be
+                // correctly merged at the top of the next page.
+                mergedList = mergedList.dropLast(1)
+                dropHalfTransfer = true
+            }
+
 
             val prevKey = if (position > 0) (position - params.loadSize) else null
-            val nextKey = if (origList.size < params.loadSize) null else
+            val nextKey = if (fullList.size < fetchSize) null else
                 position + params.loadSize - if (dropHalfTransfer) 1 else 0
             Timber.i("Setting prevKey %d, nextKey %d", prevKey, nextKey)
             return LoadResult.Page(
