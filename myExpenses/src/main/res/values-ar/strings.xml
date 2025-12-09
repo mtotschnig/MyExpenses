@@ -1070,4 +1070,6 @@
     <string name="show_invisible">الحسابات المخفية</string>
     <string name="show_zero">حسابات الرصيد الصفري</string>
     <string name="content_description_clear_party">مسح المجموعة المحددة</string>
+    <string name="content_description_browse_device_files">تصفح الملفات على هذا الجهاز</string>
+    <string name="content_description_select_recent_file">اختر من الملفات الحديثة</string>
 </resources>
