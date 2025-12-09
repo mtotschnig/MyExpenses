@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="versions">
+        <item>824;4.0.5.1</item>
         <item>823;4.0.5</item>
         <item>813;4.0.4</item>
         <item>811;4.0.3</item>
@@ -146,6 +147,7 @@
     <string name="project_board_403">166</string>
     <string name="project_board_404">168</string>
     <string name="project_board_405">173</string>
+    <string name="project_board_4051">174</string>
 
     <string-array name="whats_new_361">
         <item>@string/whats_new_361_1</item>
@@ -209,5 +211,8 @@
     </string-array>
     <string-array name="whats_new_405">
         <item>FinTS: HKCAZ (camt)</item>
+    </string-array>
+    <string-array name="whats_new_4051">
+        <item>@string/bug_fixes</item>
     </string-array>
 </resources>
