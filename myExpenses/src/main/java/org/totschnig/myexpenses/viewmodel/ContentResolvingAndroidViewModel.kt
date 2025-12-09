@@ -61,6 +61,7 @@ import org.totschnig.myexpenses.provider.KEY_SEALED
 import org.totschnig.myexpenses.provider.KEY_STATUS
 import org.totschnig.myexpenses.provider.KEY_SUM
 import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.STATUS_HELPER
 import org.totschnig.myexpenses.provider.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_MINIMAL_URI
@@ -159,7 +160,7 @@ open class ContentResolvingAndroidViewModel(application: Application) :
         query: String? = null,
         queryArgs: Array<String>? = null,
         withAggregates: Boolean = true,
-        sortOrder: String? = null
+        sortOrder: String? = null,
     ): Flow<List<AccountMinimal>> = contentResolver.observeQuery(
         if (withAggregates) ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES else ACCOUNTS_MINIMAL_URI,
         null, query, queryArgs, sortOrder, false
@@ -296,7 +297,7 @@ open class ContentResolvingAndroidViewModel(application: Application) :
         date: LocalDate? = null,
         showSealed: Boolean = false,
         showZero: Boolean = true,
-        sortOrder: String? = null
+        sortOrder: String? = null,
     ) =
         contentResolver.observeQuery(
             uri = with(DEBTS_URI.buildUpon()) {
@@ -330,7 +331,7 @@ open class ContentResolvingAndroidViewModel(application: Application) :
         account: Account,
         filter: Criterion?,
         handleDelete: Int,
-        helperComment: String?
+        helperComment: String?,
     ) {
         val ops = ArrayList<ContentProviderOperation>()
         var handleDeleteOperation: ContentProviderOperation? = null
@@ -359,7 +360,11 @@ open class ContentResolvingAndroidViewModel(application: Application) :
         if (filter != null) {
             selectionArgs = joinArrays(selectionArgs, filter.getSelectionArgs(false))
         }
-        updateTransferPeersForTransactionDelete(ops, rowSelect, selectionArgs)
+        updateTransferPeersForTransactionDelete(
+            ops,
+            "$KEY_TRANSFER_PEER IN ($rowSelect)",
+            selectionArgs
+        )
         ops.add(
             ContentProviderOperation.newDelete(
                 TRANSACTIONS_URI

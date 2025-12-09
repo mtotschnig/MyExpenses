@@ -200,7 +200,7 @@ fun Repository.storeExchangeRate(
     accountId: Long,
     exchangeRate: Double,
     currency: String,
-    homeCurrency: String
+    homeCurrency: String,
 ) {
     contentResolver.insert(
         buildExchangeRateUri(accountId, currency, homeCurrency),
@@ -224,7 +224,7 @@ fun Repository.deleteAccount(accountId: Long): String? {
     val accountIdString = accountId.toString()
     updateTransferPeersForTransactionDelete(
         ops,
-        buildTransactionRowSelect(null),
+        "$KEY_TRANSFER_ACCOUNT = ?",
         arrayOf(accountIdString)
     )
     ops.add(
@@ -296,7 +296,7 @@ fun Repository.findAnyOpen(column: String? = null, search: String? = null) = con
 fun updateTransferPeersForTransactionDelete(
     ops: java.util.ArrayList<ContentProviderOperation>,
     rowSelect: String,
-    selectionArgs: Array<String>?
+    selectionArgs: Array<String>?,
 ) {
     ops.add(
         ContentProviderOperation.newUpdate(ACCOUNTS_URI)
@@ -311,7 +311,7 @@ fun updateTransferPeersForTransactionDelete(
         ContentProviderOperation.newUpdate(TRANSACTIONS_URI)
             .withValues(args)
             .withSelection(
-                "$KEY_TRANSFER_PEER IN ($rowSelect)",
+                rowSelect,
                 selectionArgs
             )
             .build()
