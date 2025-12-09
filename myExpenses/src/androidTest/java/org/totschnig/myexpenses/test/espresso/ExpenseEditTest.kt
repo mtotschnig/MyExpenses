@@ -27,9 +27,13 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
+import org.totschnig.myexpenses.db2.createPlan
+import org.totschnig.myexpenses.db2.createTemplate
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.deletePlan
+import org.totschnig.myexpenses.db2.deleteTemplate
 import org.totschnig.myexpenses.db2.entities.Recurrence
+import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.db2.insertTemplate
@@ -37,6 +41,7 @@ import org.totschnig.myexpenses.db2.loadTemplate
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_BANK
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
@@ -44,6 +49,7 @@ import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_2
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible
+import org.totschnig.myexpenses.testutils.TEMPLATE_TITLE
 import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.dateButtonHasDate
@@ -281,6 +287,41 @@ class ExpenseEditTest : BaseExpenseEditTest() {
             assertThat(restored.data.isTransfer).isTrue()
             assertThat(restored.data.amount).isEqualTo(-amount * 100L)
         }
+    }
+
+    //https://github.com/mtotschnig/MyExpenses/issues/1803
+    @Test
+    fun loadAndSaveTemplateWithPlan() {
+        val planId = repository.createPlan(
+            TEMPLATE_TITLE,
+            description = "Description",
+            date = LocalDate.now(),
+            recurrence = Recurrence.WEEKLY
+        ).id
+
+        val data = Template(
+            accountId = account1.id,
+            title = TEMPLATE_TITLE,
+            amount = -90000L,
+            uuid = generateUuid(),
+            planId = planId
+        )
+        val template = repository.createTemplate(data)
+
+        launch(getIntentForEditTemplate(template.id)).use {
+            val amount = 2
+            setAmount(amount)
+            clickFab()
+        }
+        assertTemplate(
+            expectedAccount = account1.id,
+            expectedAmount = -200,
+            expectedPlanId = planId,
+            expectedPlanRecurrence = Recurrence.WEEKLY
+        )
+
+        cleanup { repository.deleteTemplate(template.id) }
+        repository.deletePlan(planId)
     }
 
     @Test

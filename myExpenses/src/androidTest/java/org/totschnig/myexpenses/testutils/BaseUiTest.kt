@@ -390,7 +390,8 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         expectedPlanRecurrence: Recurrence = Recurrence.NONE,
         expectedPlanExecutionAutomatic: Boolean = false,
         expectedPlanExecutionAdvance: Int = 0,
-        checkPlanInstance: Boolean = false
+        checkPlanInstance: Boolean = false,
+        expectedPlanId: Long? = null,
     ): RepositoryTemplate {
         val templateId = contentResolver.query(
             TEMPLATES_URI,
@@ -425,12 +426,18 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         }
 
         if (expectedPlanRecurrence != Recurrence.NONE) {
-            assertThat(template.plan!!.id).isGreaterThan(0)
             if (expectedPlanRecurrence != Recurrence.CUSTOM) {
                 val today = LocalDate.now()
-                assertThat(template.plan.rRule).isEqualTo(expectedPlanRecurrence.toRule(today))
+                assertThat(template.plan!!.rRule).isEqualTo(expectedPlanRecurrence.toRule(today))
             }
+            if (expectedPlanId != null) {
+                assertThat(template.data.planId).isEqualTo(expectedPlanId)
+            } else {
+                assertThat(template.data.planId).isGreaterThan(0)
+            }
+
         } else {
+            assertThat(template.data.planId).isNull()
             assertThat(template.plan).isNull()
         }
         if (checkPlanInstance) {
