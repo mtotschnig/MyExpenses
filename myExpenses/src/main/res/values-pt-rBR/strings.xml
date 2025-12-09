@@ -1013,4 +1013,53 @@
     <string name="pref_account_list_display_configuration_title">Lista de contas</string>
     <string name="account_type_investment">Investimentos</string>
     <string name="pref_ui_home_screen_shortcuts_show_new_balance_title">Mostrar novo saldo após a transação ser salva</string>
+    <string name="remap_payee_null">Pagador Pagador/Beneficiário serão removidos de todas as transações selecionadas.</string>
+    <string name="print_configuration_empty">Por favor, adicione pelo menos um campo para ser impresso.</string>
+    <plurals name="import_prices_success_message">
+        <item quantity="one">Dados válidos encontrados em %d linha.</item>
+        <item quantity="many">Dados válidos encontrados em %d de linhas.</item>
+        <item quantity="other">Dados válidos encontrados em %d linhas.</item>
+    </plurals>
+    <plurals name="import_prices_failure_message">
+        <item quantity="one">%d linha não pôde ser processada.</item>
+        <item quantity="many">Não foi possível processar %d linhas.</item>
+        <item quantity="other">Não foi possível processar %d linhas.</item>
+    </plurals>
+    <string name="confirm_process_file_message">Você tem certeza de que quer importar preços de \'%1$s\' de \'%2$s\'? Novos preços podem afetar valores equivalentes existentes.</string>
+    <string name="warning_expense_category_credit">Você está atribuindo uma categoria de despesa a uma transação de renda. Como consequência, a transação reduzirá a soma das suas despesas e, por padrão, será mostrada em vermelho.</string>
+    <string name="warning_income_category_debit">Você está atribuindo uma categoria de renda a uma transação de despesa. Como consequência, a transação reduzirá a soma da sua renda e, por padrão, será mostrada em verde.</string>
+    <string name="pref_dynamic_exchange_rates_dynamic">Taxas dinâmicas para todas as contas</string>
+    <string name="pref_dynamic_exchange_rates_static">Taxas estáticas para todas as contas</string>
+    <string name="pref_dynamic_exchange_rates_per_account">Configure cada conta individualmente</string>
+    <string name="category_type_main">Categoria principal</string>
+    <string name="category_type_sub">Subcategoria</string>
+    <string name="category_description_base">%1$s, nível %2$d</string>
+    <plurals name="category_description_children_suffix">
+        <item quantity="one">, contém una subcategoria de nível %2$d.</item>
+        <item quantity="many">, contém %1$d subcategorias de nível %2$d.</item>
+        <item quantity="other">, contém %1$d subcategorias de nível %2$d.</item>
+    </plurals>
+    <string name="edit_account_type">Editar tipo de conta</string>
+    <string name="new_account_type">Novo tipo de conta</string>
+    <string name="pref_print_layout_summary">Configure a largura e a composição das colunas.</string>
+    <string name="menu_account_flags">Marcadores</string>
+    <string name="menu_flag">Marcador</string>
+    <string name="edit_account_flag">Editar marcador</string>
+    <string name="new_account_flag">Novo marcador</string>
+    <string name="flag_unflagged">Sem marcador</string>
+    <string name="flag_favorite">Favorito</string>
+    <string name="supports_reconciliation">Apoia a Reconciliação</string>
+    <string name="aggregate_invisible">Incluir contas invisíveis nas contas agregadas e no balanço patrimonial.</string>
+    <string name="select_accounts_for_flag">Selecione as contas para o marcador %s</string>
+    <string name="menu_cleanup">Arrumar</string>
+    <plurals name="warning_cleanup_parties">
+        <item quantity="one">%d contraparte não utilizada será excluída.</item>
+        <item quantity="many">%d contrapartes não utilizadas serão excluídas.</item>
+        <item quantity="other">%d contrapartes não utilizadas serão excluídas.</item>
+    </plurals>
+    <string name="show_invisible">Contas ocultas</string>
+    <string name="show_zero">Contas com saldo zero</string>
+    <string name="content_description_clear_party">Limpar contraparte selecionada</string>
+    <string name="content_description_browse_device_files">Navegue pelos arquivos neste dispositivo</string>
+    <string name="content_description_select_recent_file">Selecione entre arquivos recentes</string>
 </resources>
