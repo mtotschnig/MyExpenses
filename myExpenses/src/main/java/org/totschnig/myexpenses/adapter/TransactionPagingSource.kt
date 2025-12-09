@@ -25,6 +25,7 @@ import org.totschnig.myexpenses.provider.withLimit
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import org.totschnig.myexpenses.viewmodel.data.mergeTransfers
+import org.totschnig.myexpenses.viewmodel.data.pickForMerge
 import timber.log.Timber
 import java.time.Duration
 import java.time.Instant
@@ -100,7 +101,7 @@ open class TransactionPagingSource(
             //if the previous page was loaded from an offset between 0 and loadSize,
             //we must take care to load only the missing items before the offset
             val loadSize = if (position < 0) params.loadSize + position else params.loadSize
-            val fetchSize = loadSize + 1 // We'll fetch one more item as a lookahead.
+            val fetchSize = if (account.isAggregate) loadSize + 1 else loadSize // We'll fetch one more item as a lookahead.
             Timber.i("Requesting data for account %d at position %d", account.id, position)
             var selection = "$KEY_PARENTID IS NULL"
             var selectionArgs: Array<String>? = null
@@ -138,29 +139,26 @@ open class TransactionPagingSource(
             } ?: emptyList()
 
             val itemsForThisPage = fullList.take(loadSize) // The items that actually belong to this page.
-            val lookaheadItem = fullList.getOrNull(loadSize) // The (N+1)th item.
+            val lookaheadItem = if (account.isAggregate) fullList.getOrNull(loadSize) else null // The (N+1)th item.
 
-            var dropHalfTransfer = false
-            var mergedList = if (account.isAggregate) {
-                itemsForThisPage.mergeTransfers(account, currencyContext.homeCurrencyString)
+            var includeNextHalfTransfer = false
+            val mergedList = if (account.isAggregate) {
+                itemsForThisPage.mergeTransfers(account, currencyContext.homeCurrencyString).let { merged ->
+                    val lastItem = merged.lastOrNull()
+                    val lookAheadItemId = lookaheadItem?.id
+                    if (lastItem?.transferPeer != null && lookAheadItemId != null && lastItem.transferPeer == lookAheadItemId ) {
+                        includeNextHalfTransfer = true
+                        // We pull the half transfer in and advance nextKey by one more
+                        merged.toMutableList().also {
+                            it[it.lastIndex] = listOf(lastItem, lookaheadItem).pickForMerge(account, currencyContext.homeCurrencyString)
+                        }
+                    } else merged
+                }
             } else itemsForThisPage
-
-            // Handle the boundary condition.
-            // Check if the VERY LAST item in merged list is a half-transfer.
-            val lastItemTransferPeer = mergedList.lastOrNull()?.transferPeer
-            val lookAheadItemId = lookaheadItem?.id
-            if (lastItemTransferPeer != null && lookAheadItemId != null && lastItemTransferPeer == lookAheadItemId ) {
-                // The other half is on the next page. For consistency,
-                // we drop the half-transfer from this page. It will be
-                // correctly merged at the top of the next page.
-                mergedList = mergedList.dropLast(1)
-                dropHalfTransfer = true
-            }
-
 
             val prevKey = if (position > 0) (position - params.loadSize) else null
             val nextKey = if (fullList.size < fetchSize) null else
-                position + params.loadSize - if (dropHalfTransfer) 1 else 0
+                position + params.loadSize + if (includeNextHalfTransfer) 1 else 0
             Timber.i("Setting prevKey %d, nextKey %d", prevKey, nextKey)
             return LoadResult.Page(
                 data = mergedList,

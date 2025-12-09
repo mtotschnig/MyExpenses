@@ -79,6 +79,7 @@ import org.totschnig.myexpenses.provider.getStringIfExists
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.provider.splitStringList
 import org.totschnig.myexpenses.ui.DisplayParty
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import java.time.ZonedDateTime
@@ -310,13 +311,24 @@ fun Iterable<Transaction2>.mergeTransfers(
         .map { (_, list) ->
             if (list.size == 1)
                 list.first()
-            else (
-                    if (!account.isHomeAggregate)
-                        list.first()
-                    else
-                        list.firstOrNull { it.currency == homeCurrency } ?: list.first()
-                    )
-                .copy(type = FLAG_NEUTRAL)
+            else list.pickForMerge(account, homeCurrency)
         }
+}
+
+fun List<Transaction2>.pickForMerge(
+    account: DataBaseAccount,
+    homeCurrency: String,
+): Transaction2 {
+    require(account.isAggregate)
+    return if (size != 2) {
+        CrashHandler.report(IllegalArgumentException("expected 2 sides of transfer"))
+        first()
+    } else {
+        val candidate = if (!account.isHomeAggregate)
+            first()
+        else
+            firstOrNull { it.currency == homeCurrency } ?: first()
+        candidate.copy(type = FLAG_NEUTRAL)
+    }
 }
 
