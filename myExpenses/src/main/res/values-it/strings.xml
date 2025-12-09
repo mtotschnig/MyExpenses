@@ -1055,4 +1055,6 @@
     <string name="show_invisible">Conti nascosti</string>
     <string name="show_zero">Conti a saldo zero</string>
     <string name="content_description_clear_party">Cancella la parte selezionata</string>
+    <string name="content_description_browse_device_files">Esplora i file su questo dispositivo</string>
+    <string name="content_description_select_recent_file">Seleziona tra i file recenti</string>
 </resources>
