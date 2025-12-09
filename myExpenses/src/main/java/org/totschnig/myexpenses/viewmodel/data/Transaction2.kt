@@ -122,7 +122,7 @@ data class Transaction2(
     val icon: String? = null,
     val attachmentCount: Int = 0,
     val type: Byte = FLAG_NEUTRAL,
-    val isSameCurrency: Boolean = true
+    val isSameCurrency: Boolean = true,
 ) : Parcelable {
 
     val isSplit: Boolean
@@ -157,7 +157,7 @@ data class Transaction2(
             accountId: Long,
             grouping: Grouping,
             prefHandler: PrefHandler,
-            extended: Boolean = true
+            extended: Boolean = true,
         ) = buildList {
             addAll(
                 projection(
@@ -176,7 +176,7 @@ data class Transaction2(
         private fun projection(
             grouping: Grouping,
             extended: Boolean,
-            prefHandler: PrefHandler
+            prefHandler: PrefHandler,
         ): Array<String> =
             listOf(
                 KEY_ROWID,
@@ -232,7 +232,7 @@ data class Transaction2(
             currencyContext: CurrencyContext,
             cursor: Cursor,
             tags: Map<String, Pair<String, Int?>>,
-            accountCurrency: CurrencyUnit? = null
+            accountCurrency: CurrencyUnit? = null,
         ): Transaction2 {
             val currency = cursor.getString(KEY_CURRENCY)
             val amountRaw = cursor.getLong(KEY_DISPLAY_AMOUNT)
@@ -244,7 +244,12 @@ data class Transaction2(
             return Transaction2(
                 id = cursor.getLongOrNull(KEY_ROWID) ?: 0,
                 currency = currency,
-                amount = if (accountCurrency != null && currencyUnit.code != accountCurrency.code) Money(currencyUnit, cursor.getLong(KEY_AMOUNT)) else null,
+                amount = if (accountCurrency != null && currencyUnit.code != accountCurrency.code)
+                    Money(
+                        currencyUnit,
+                        cursor.getLong(KEY_AMOUNT)
+                    )
+                else null,
                 displayAmount = displayAmount,
                 parentId = cursor.getLongOrNull(KEY_PARENTID),
                 _date = cursor.getLong(KEY_DATE),
@@ -296,14 +301,22 @@ data class Transaction2(
     }
 }
 
-fun Iterable<Transaction2>.mergeTransfers(account: DataBaseAccount, homeCurrency: String): List<Transaction2> {
+fun Iterable<Transaction2>.mergeTransfers(
+    account: DataBaseAccount,
+    homeCurrency: String,
+): List<Transaction2> {
     require(account.isAggregate)
     return groupBy { max(it.id, it.transferPeer ?: 0) }
         .map { (_, list) ->
-            if (list.size == 1) list.first() else
-                (if (!account.isHomeAggregate) list.first() else
-                    list.firstOrNull { it.currency == homeCurrency }
-                        ?: list.first()).copy(type = FLAG_NEUTRAL)
+            if (list.size == 1)
+                list.first()
+            else (
+                    if (!account.isHomeAggregate)
+                        list.first()
+                    else
+                        list.firstOrNull { it.currency == homeCurrency } ?: list.first()
+                    )
+                .copy(type = FLAG_NEUTRAL)
         }
 }
 
