@@ -216,7 +216,8 @@ object TransactionMapper {
             tagList = transactionEditData.tags.map { it.id },
             planExecutionAutomatic = templateEditData.planEditData?.isPlanExecutionAutomatic
                 ?: false,
-            planExecutionAdvance = templateEditData.planEditData?.planExecutionAdvance ?: 0
+            planExecutionAdvance = templateEditData.planEditData?.planExecutionAdvance ?: 0,
+            debtId = transactionEditData.debtId
         )
         return RepositoryTemplate(
             data = template,

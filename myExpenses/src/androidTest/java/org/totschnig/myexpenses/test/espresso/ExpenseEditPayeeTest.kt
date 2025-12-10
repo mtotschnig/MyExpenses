@@ -108,6 +108,25 @@ class ExpenseEditPayeeTest : BaseExpenseEditTest() {
         }
     }
 
+    @Test
+    fun shouldSaveDebtForTemplate() {
+        runTest {
+            baseFixture(withDebt = true)
+            launchNewTemplate()
+            setTitle()
+            setAmount(101)
+            setDebt()
+            clickFab()
+            onIdle()
+            assertTemplate(
+                expectedAccount = account1.id,
+                expectedAmount = -10100,
+                expectedParty = partyId,
+                expectedDebt = debtId
+            )
+        }
+    }
+
     private fun verifyDebt() {
         onView(withId(R.id.DebtCheckBox)).check(
             matches(
