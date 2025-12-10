@@ -315,7 +315,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
         assertTemplate(
             expectedAccount = account1.id,
             expectedAmount = -200,
-            expectedPlanId = planId,
+            expectedPlan = planId,
             expectedPlanRecurrence = Recurrence.WEEKLY
         )
 

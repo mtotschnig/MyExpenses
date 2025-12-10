@@ -230,16 +230,23 @@ fun Repository.loadTemplate(
 )!!.use { cursor ->
     when {
         cursor.moveToFirst() -> Template.fromCursor(cursor).let { template ->
+            val tags = if (withTags) loadTagsForTemplate(templateId) else null
             RepositoryTemplate(
-                data = template,
+                data = template.copy(tagList = tags?.map { it.id } ?: emptyList()),
                 splitParts = if (template.isSplit)
-                    loadSplitParts(template.id).map { RepositoryTemplate(it) }
+                    loadSplitParts(template.id).map {
+                        val tags = if (withTags) loadTagsForTemplate(it.id) else null
+                        RepositoryTemplate(
+                            data = it.copy(tagList = tags?.map { it.id } ?: emptyList()),
+                            tags = tags
+                        )
+                    }
                 else null,
                 plan = template.planId?.let {
                     //noinspection MissingPermission
                     loadPlan(it)
                 },
-                tags = if (withTags) loadTagsForTemplate(templateId) else null
+                tags = tags
             )
         }
 
@@ -435,7 +442,7 @@ suspend fun Repository.instantiateTemplate(
     val template = (if (ifOpen) loadTemplateIfInstanceIsOpen(
         planInstanceInfo.templateId,
         planInstanceInfo.instanceId!!
-    ) else loadTemplate(planInstanceInfo.templateId)) ?: return null
+    ) else loadTemplate(planInstanceInfo.templateId, withTags = true)) ?: return null
 
     val t = createTransaction(
         template.instantiate(currencyContext, exchangeRateHandler, planInstanceInfo)
@@ -465,7 +472,6 @@ suspend fun Repository.instantiateTemplate(
                 } else transaction
             }
     )
-    saveTagsForTransaction(loadTagsForTemplate(planInstanceInfo.templateId).map { it.id }, t.id)
     if (planInstanceInfo.instanceId != null) {
         linkTemplateWithTransaction(planInstanceInfo.templateId, t.id, planInstanceInfo.instanceId)
     }

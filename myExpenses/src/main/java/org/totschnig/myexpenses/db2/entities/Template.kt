@@ -96,7 +96,8 @@ data class Template(
         currency = currency,
         payeeName = payeeName,
         methodLabel = methodLabel,
-        uuid = generateUuid()
+        uuid = generateUuid(),
+        tagList = tagList
     )
 
     companion object {

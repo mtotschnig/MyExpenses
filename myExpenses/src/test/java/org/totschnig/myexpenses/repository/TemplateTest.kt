@@ -18,7 +18,9 @@ import org.totschnig.myexpenses.db2.insertTemplate
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.instantiateTemplate
 import org.totschnig.myexpenses.db2.loadTemplate
+import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.db2.requireParty
+import org.totschnig.myexpenses.db2.writeTag
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.model.generateUuid
@@ -35,6 +37,7 @@ class TemplateTest: BaseTestWithRepository() {
     private var mAccount2: Long = 0
     private var categoryId: Long = 0
     private var payeeId: Long = 0
+    private var tagId: Long = 0
 
     @Before
     fun setUp() {
@@ -51,6 +54,7 @@ class TemplateTest: BaseTestWithRepository() {
         )
         categoryId = writeCategory("TestCategory", null)
         payeeId = repository.requireParty("N.N")!!
+        tagId = repository.writeTag("Tag")
     }
 
     private fun RepositoryTemplate.instantiate(date: Long? = null) = runBlocking {
@@ -107,38 +111,43 @@ class TemplateTest: BaseTestWithRepository() {
     @Test
     fun testTransactionFromTemplate() {
         val template = buildTransactionTemplate()
-        val transaction = template.instantiate().data
-        assertThat(transaction.categoryId).isEqualTo(template.data.categoryId)
-        assertThat(transaction.accountId).isEqualTo(template.data.accountId)
-        assertThat(transaction.payeeId).isEqualTo(template.data.payeeId)
-        assertThat(transaction.methodId).isEqualTo(template.data.methodId)
-        assertThat(transaction.comment).isEqualTo(template.data.comment)
+        val transaction = template.instantiate().id
+        with(repository.loadTransaction(transaction).data) {
+            assertThat(categoryId).isEqualTo(template.data.categoryId)
+            assertThat(accountId).isEqualTo(template.data.accountId)
+            assertThat(payeeId).isEqualTo(template.data.payeeId)
+            assertThat(methodId).isEqualTo(template.data.methodId)
+            assertThat(comment).isEqualTo(template.data.comment)
+        }
     }
 
     @Test
     fun testTransferFromTemplate() {
         val template = buildTransferTemplate()
-        val transaction = template.instantiate().data
-        assertThat(transaction.isTransfer).isTrue()
-        assertThat(transaction.accountId).isEqualTo(template.data.accountId)
-        assertThat(transaction.comment).isEqualTo(template.data.comment)
-        assertThat(transaction.transferAccountId).isEqualTo(template.data.transferAccountId)
+        val transaction = template.instantiate().id
+        with(repository.loadTransaction(transaction)) {
+            assertThat(isTransfer).isTrue()
+            assertThat(data.accountId).isEqualTo(template.data.accountId)
+            assertThat(data.comment).isEqualTo(template.data.comment)
+            assertThat(data.transferAccountId).isEqualTo(template.data.transferAccountId)
+        }
     }
 
     @Test
     fun testSplitFromTemplate() {
         val template = buildSplitTemplate()
-        val transaction = template.instantiate()
-        with(transaction.data) {
+        val transaction = template.instantiate().id
+        with(repository.loadTransaction(transaction)) {
             assertThat(isSplit).isTrue()
-            assertThat(accountId).isEqualTo(template.data.accountId)
-            assertThat(comment).isEqualTo(template.data.comment)
-        }
-        with(transaction.splitParts!!) {
-            assertThat(size).isEqualTo(1)
-            with(first().data) {
-                assertThat(comment).isEqualTo(template.splitParts!!.first().data.comment)
-                assertThat(categoryId).isEqualTo(template.splitParts.first().data.categoryId)
+            assertThat(data.accountId).isEqualTo(template.data.accountId)
+            assertThat(data.comment).isEqualTo(template.data.comment)
+            with(splitParts!!) {
+                assertThat(size).isEqualTo(1)
+                with(first().data) {
+                    assertThat(comment).isEqualTo(template.splitParts!!.first().data.comment)
+                    assertThat(categoryId).isEqualTo(template.splitParts.first().data.categoryId)
+                    assertThat(tagList).isEqualTo(listOf(tagId))
+                }
             }
         }
     }
@@ -201,7 +210,8 @@ class TemplateTest: BaseTestWithRepository() {
                         comment = "Some comment part",
                         title = "",
                         categoryId = categoryId,
-                        uuid = generateUuid()
+                        uuid = generateUuid(),
+                        tagList = listOf(tagId)
                     )
                 )
             )

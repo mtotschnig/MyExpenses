@@ -248,7 +248,6 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                                         currencyContext, exchangeRateHandler, PlanInstanceInfo(template.id, instanceId, date)
                                     ))
                                     repository.linkTemplateWithTransaction(template.id, transaction.id, instanceId)
-                                    repository.saveTagsForTransaction(repository.loadTagsForTemplate(template.id).map { it.id }, transaction.id)
                                     val displayIntent: Intent =
                                         Intent(applicationContext, MyExpenses::class.java)
                                             .putExtra(

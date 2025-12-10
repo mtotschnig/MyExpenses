@@ -210,14 +210,15 @@ class SplitEditTest : BaseExpenseEditTest() {
     @Test
     fun newTemplate() {
         account1 = buildAccount(ACCOUNT_LABEL_1)
+        setupData(FLAG_EXPENSE)
         launchNewTemplate(Transactions.TYPE_SPLIT)
-        setOperationType(Transactions.TYPE_SPLIT)
         newTemplateHelper()
     }
 
     @Test
     fun newTemplateWithTypeSpinner() {
         account1 = buildAccount(ACCOUNT_LABEL_1)
+        setupData(FLAG_EXPENSE)
         launchNewTemplate(Transactions.TYPE_TRANSACTION)
         setOperationType(Transactions.TYPE_SPLIT)
         newTemplateHelper()
@@ -234,14 +235,25 @@ class SplitEditTest : BaseExpenseEditTest() {
     }
 
     private fun newTemplateHelper() {
-        createParts(2)
+        val partCount = 2
+        createParts(partCount, extended = true)
         setTitle()
         clickFab()
         assertFinishing()
         assertTemplate(
             account1.id,
-            -10000,
-            expectedSplitParts = listOf(-5000, -5000),
+            -5000L*partCount,
+            expectedSplitParts = buildList {
+                repeat(partCount) {
+                    add(TransactionData(
+                        accountId = account1.id,
+                        amount = -5000,
+                        category = categoryId,
+                        debtId = debtId,
+                        tags = listOf(tagId)
+                    ))
+                }
+            },
             expectedCategory = SPLIT_CATID
         )
     }
@@ -500,7 +512,10 @@ class SplitEditTest : BaseExpenseEditTest() {
             expectedAccount = account1.id,
             expectedAmount = 20000,
             expectedCategory = SPLIT_CATID,
-            expectedSplitParts = listOf(15000, 5000)
+            expectedSplitParts = listOf(
+                TransactionData(accountId = account1.id, amount = 15000),
+                TransactionData(accountId = account1.id, amount = 5000)
+            )
         )
     }
 
@@ -527,7 +542,10 @@ class SplitEditTest : BaseExpenseEditTest() {
         assertTemplate(
             expectedAccount = account1.id,
             expectedAmount = 20000,
-            expectedSplitParts = listOf(15000, 5000),
+            expectedSplitParts = listOf(
+                TransactionData(accountId = account1.id, amount = 15000),
+                TransactionData(accountId = account1.id, amount = 5000)
+            ),
             expectedCategory = SPLIT_CATID
         )
     }

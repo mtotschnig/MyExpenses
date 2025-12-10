@@ -383,7 +383,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         expectedAmount: Long,
         templateTitle: String = TEMPLATE_TITLE,
         expectedTags: List<String> = emptyList(),
-        expectedSplitParts: List<Long>? = null,
+        expectedSplitParts: List<TransactionData>? = null,
         expectedCategory: Long? = null,
         expectedParty: Long? = null,
         expectedMethod: Long? = null,
@@ -391,7 +391,8 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         expectedPlanExecutionAutomatic: Boolean = false,
         expectedPlanExecutionAdvance: Int = 0,
         checkPlanInstance: Boolean = false,
-        expectedPlanId: Long? = null,
+        expectedPlan: Long? = null,
+        expectedDebt: Long? = null,
     ): RepositoryTemplate {
         val templateId = contentResolver.query(
             TEMPLATES_URI,
@@ -404,8 +405,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
                 .isTrue()
             it.getLong(0)
         }
-        val template = repository.loadTemplate(templateId)!!
-        val tags = repository.loadTagsForTemplate(templateId)
+        val template = repository.loadTemplate(templateId, withTags = true)!!
         with(template.data) {
             assertThat(amount).isEqualTo(expectedAmount)
             assertThat(title).isEqualTo(templateTitle)
@@ -415,14 +415,26 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
             assertThat(methodId).isEqualTo(expectedMethod)
             assertThat(planExecutionAutomatic).isEqualTo(expectedPlanExecutionAutomatic)
             assertThat(planExecutionAdvance).isEqualTo(expectedPlanExecutionAdvance)
+            assertThat(debtId).isEqualTo(expectedDebt)
         }
-        assertThat(tags.map { it.label }).containsExactlyElementsIn(expectedTags)
+        assertThat(template.tags?.map { it.label }).containsExactlyElementsIn(expectedTags)
 
         if (expectedSplitParts == null) {
             assertThat(template.splitParts).isNull()
         } else {
-            assertThat(template.splitParts!!.map { it.data.amount })
-                .containsExactlyElementsIn(expectedSplitParts)
+            val parts = template.splitParts!!
+            assertThat(parts.size).isEqualTo(expectedSplitParts.size)
+            val actualSplitPartsAsInfo = parts.map { actualPart ->
+                TransactionData(
+                    accountId = actualPart.data.accountId,
+                    amount = actualPart.data.amount,
+                    category = actualPart.data.categoryId,
+                    tags = actualPart.data.tagList,
+                    debtId = actualPart.data.debtId,
+                    transferAccount = actualPart.data.transferAccountId
+                )
+            }
+            assertThat(actualSplitPartsAsInfo).containsExactlyElementsIn(expectedSplitParts)
         }
 
         if (expectedPlanRecurrence != Recurrence.NONE) {
@@ -430,8 +442,8 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
                 val today = LocalDate.now()
                 assertThat(template.plan!!.rRule).isEqualTo(expectedPlanRecurrence.toRule(today))
             }
-            if (expectedPlanId != null) {
-                assertThat(template.data.planId).isEqualTo(expectedPlanId)
+            if (expectedPlan != null) {
+                assertThat(template.data.planId).isEqualTo(expectedPlan)
             } else {
                 assertThat(template.data.planId).isGreaterThan(0)
             }
