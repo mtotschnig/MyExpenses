@@ -7,6 +7,7 @@ import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
 import androidx.test.core.app.ActivityScenario
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
@@ -432,6 +433,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 assertThat(activity.isTemplate).isTrue()
             }
             checkAmount(7)
+            closeSoftKeyboard()
             onView(withId(R.id.PlanExecution)).check(matches(isChecked()))
             assertProgress(R.id.advanceExecutionSeek, 7)
             onView(withId(R.id.Title))
