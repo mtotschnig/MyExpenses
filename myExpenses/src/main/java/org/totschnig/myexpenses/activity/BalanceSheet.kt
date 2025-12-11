@@ -34,6 +34,7 @@ import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -103,11 +104,14 @@ fun BalanceSheetView(
     onNavigate: (BalanceAccount) -> Unit = {},
     onSetDate: (LocalDate) -> Unit = {},
     onPrint: () -> Unit = {},
+    showHiddenState: MutableState<Boolean>,
+    showZeroState: MutableState<Boolean>,
+    showChartState: MutableState<Boolean>
 ) {
 
-    var showHidden by rememberSaveable { mutableStateOf(true) }
-    var showZero by rememberSaveable { mutableStateOf(true) }
-    var showChart by rememberSaveable { mutableStateOf(false) }
+    var showHidden by showHiddenState
+    var showZero by showZeroState
+    var showChart by showChartState
 
     val datePickerState = rememberDatePickerState(
         initialSelectedDateMillis = System.currentTimeMillis()
@@ -137,7 +141,7 @@ fun BalanceSheetView(
             },
             navigationIcon = {
                 IconButton(onClick = onClose) {
-                    androidx.compose.material3.Icon(
+                    Icon(
                         Icons.Filled.Close,
                         contentDescription = "Close"
                     )
@@ -147,7 +151,7 @@ fun BalanceSheetView(
             actions = {
                 val expanded = rememberSaveable { mutableStateOf(false) }
                 IconButton(onClick = { expanded.value = true }) {
-                    androidx.compose.material3.Icon(
+                    Icon(
                         Icons.Filled.Settings,
                         contentDescription = "Options"
                     )
@@ -651,7 +655,10 @@ fun BalanceSheet() {
                 type = AccountType.CASH,
                 currentBalance = 10000, // $100.00 (loan debt)
             )
-        )
+        ),
+        showHiddenState = remember { mutableStateOf(false) },
+        showZeroState = remember { mutableStateOf(false) },
+        showChartState = remember { mutableStateOf(false) },
     )
 }
 

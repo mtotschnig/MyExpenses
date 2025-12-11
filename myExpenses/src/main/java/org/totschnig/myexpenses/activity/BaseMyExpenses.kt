@@ -86,6 +86,7 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import myiconpack.IcActionTemplateAdd
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AccountList
 import org.totschnig.myexpenses.compose.AppTheme
@@ -455,8 +456,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
             R.id.SHOW_STATUS_HANDLE_COMMAND -> {
                 currentAccount?.let {
-                    viewModel.persistShowStatusHandle(!item.isChecked)
-                    invalidateOptionsMenu()
+                    lifecycleScope.launch {
+                        viewModel.showStatusHandle.set(!item.isChecked)
+                        invalidateOptionsMenu()
+                    }
                 }
                 true
             }
@@ -749,7 +752,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                 { toggleDynamicExchangeRate(it) }
                             } else null,
                             listState = viewModel.listState,
-                            showEquivalentWorth = viewModel.showEquivalentWorth()
+                            showEquivalentWorth = viewModel.showEquivalentWorth.flow
                                 .collectAsState(false).value,
                             expansionHandlerGroups = viewModel.expansionHandler("collapsedHeadersDrawer_${accountGrouping.value}"),
                             expansionHandlerAccounts = viewModel.expansionHandler("expandedAccounts"),
@@ -956,7 +959,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
             getChildAt(0)?.isVerticalScrollBarEnabled = false
             lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.showEquivalentWorth().collect {
+                    viewModel.showEquivalentWorth.flow.collect {
                         configureEquivalentWorthMenuItemIcon(
                             menu.findItem(R.id.EQUIVALENT_WORTH_COMMAND),
                             it
@@ -1055,7 +1058,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     }
                     val coroutineScope = rememberCoroutineScope()
                     val preferredSearchType =
-                        viewModel.preferredSearchType().collectAsState(TYPE_COMPLEX).value
+                        viewModel.preferredSearchType.flow.collectAsState(TYPE_COMPLEX).value
                     if (showFilterDialog) {
                         currentAccount?.let {
                             FilterDialog(
@@ -1070,7 +1073,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                     showFilterDialog = false
                                 }, onConfirmRequest = { preferredSearchType, criterion ->
                                     coroutineScope.launch {
-                                        viewModel.persistPreferredSearchType(preferredSearchType)
+                                        viewModel.preferredSearchType.set(preferredSearchType)
                                         currentFilter.persist(criterion)
                                         showFilterDialog = false
                                         invalidateOptionsMenu()
@@ -1126,7 +1129,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
         val showStatusHandle = if (account.isAggregate || !account.type.supportsReconciliation)
             false
         else
-            viewModel.showStatusHandle().collectAsState(initial = true).value
+            viewModel.showStatusHandle.flow.collectAsState(initial = true).value
 
         val onToggleCrStatus: ((Long) -> Unit)? = if (showStatusHandle) {
             {
@@ -1261,7 +1264,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                                                 })
                                             add(
                                                 MenuEntry(
-                                                    icon = myiconpack.IcActionTemplateAdd,
+                                                    icon = IcActionTemplateAdd,
                                                     label = R.string.menu_create_template_from_transaction,
                                                     command = "CREATE_TEMPLATE_FROM_TRANSACTION"
                                                 ) { createTemplate(transaction) })
@@ -1788,7 +1791,9 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
 
     fun handleNavigationClick(item: MenuItem) = when (item.itemId) {
         R.id.EQUIVALENT_WORTH_COMMAND -> {
-            viewModel.persistShowEquivalentWorth(!item.isChecked)
+            lifecycleScope.launch {
+                viewModel.showEquivalentWorth.set(!item.isChecked)
+            }
             true
         }
 
@@ -2067,7 +2072,10 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                             }.onFailure {
                                 showDismissibleSnackBar(it.safeMessage)
                             }
-                    }
+                    },
+                    showHiddenState = viewModel.balanceSheetShowHidden.asState(),
+                    showZeroState = viewModel.balanceSheetShowZero.asState(),
+                    showChartState = viewModel.balanceSheetShowChart.asState(),
                 )
             }
         }
@@ -2177,7 +2185,7 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                     setEnabledAndVisible(reconciliationAvailable)
                     if (reconciliationAvailable) {
                         lifecycleScope.launch {
-                            isChecked = viewModel.showStatusHandle().first()
+                            isChecked = viewModel.showStatusHandle.flow.first()
                             checkMenuIcon(this@apply, R.drawable.ic_square)
                         }
                     }
