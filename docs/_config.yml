@@ -134,6 +134,11 @@ amazon:
   en: "www.amazon.com"
   pt: "www.amazon.com.br"
 versions:
+  -   - 4.0.5
+      - '2025-12-11'
+      - en: 'FinTS: HKCAZ (camt)'
+      - github2: '173'
+        mastodon: '115661336364646450'
   -   - 4.0.4
       - '2025-09-11'
       - ar: 'المستفيد / الدافع: صقل واجهة المستخدم'
