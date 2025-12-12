@@ -154,7 +154,7 @@ class SplitEditTest : BaseExpenseEditTest() {
  */
     @Test
     fun bug1664() {
-        buildAccount("Test Account 2") //for transfer
+        val account2 = buildAccount("Test Account 2") //for transfer
         launchWithAccountSetup()
         setAmount(10)
         onView(withId(R.id.CREATE_PART_COMMAND)).perform(nestedScrollToAction(), click())
@@ -166,6 +166,9 @@ class SplitEditTest : BaseExpenseEditTest() {
         checkAmount(7)
         clickFab()//saves part and returns to main
         checkPartCount(2)
+        cleanup {
+            repository.deleteAccount(account2.id)
+        }
     }
 
     @Test
@@ -242,16 +245,18 @@ class SplitEditTest : BaseExpenseEditTest() {
         assertFinishing()
         assertTemplate(
             account1.id,
-            -5000L*partCount,
+            -5000L * partCount,
             expectedSplitParts = buildList {
                 repeat(partCount) {
-                    add(TransactionData(
-                        accountId = account1.id,
-                        amount = -5000,
-                        category = categoryId,
-                        debtId = debtId,
-                        tags = listOf(tagId)
-                    ))
+                    add(
+                        TransactionData(
+                            accountId = account1.id,
+                            amount = -5000,
+                            category = categoryId,
+                            debtId = debtId,
+                            tags = listOf(tagId)
+                        )
+                    )
                 }
             },
             expectedCategory = SPLIT_CATID
@@ -640,6 +645,44 @@ class SplitEditTest : BaseExpenseEditTest() {
                         transferAccount = account2.id,
                         transferPeer = newPeer
                     )
+                )
+            )
+        )
+        cleanup {
+            repository.deleteAccount(account2.id)
+        }
+    }
+
+    @Test
+    fun createSplitTemplateWithTransferPart() = runTest {
+        account1 = buildAccount(ACCOUNT_LABEL_1)
+        val account2 = buildAccount("Test Account 2")
+        setupData(FLAG_EXPENSE)
+        launchNewTemplate(Transactions.TYPE_TRANSACTION)
+        setOperationType(Transactions.TYPE_SPLIT)
+        setTitle()
+        onView(withId(R.id.CREATE_PART_COMMAND)).perform(scrollTo(), click())
+        onView(withId(R.id.Account)).check(matches(not(isEnabled())))
+        setAmount(70)
+        setOperationType(Transactions.TYPE_TRANSFER)
+        onView(withId(R.id.Account)).check(matches(not(isEnabled())))
+        onView(withId(R.id.TransferAccount)).perform(scrollTo(), click())
+        onData(
+            withAccountGrouped(account2.label)
+        ).perform(click())
+        clickFab()//save part
+        checkPartCount(1)
+        clickFab() //save parent
+        assertTemplate(
+            expectedAccount = account1.id,
+            expectedAmount = -7000,
+            expectedCategory = SPLIT_CATID,
+            expectedSplitParts = listOf(
+                TransactionData(
+                    accountId = account1.id,
+                    amount = -7000,
+                    transferAccount = account2.id,
+                    category = transferCategoryId
                 )
             )
         )

@@ -463,6 +463,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 BundleCompat.getParcelable(extras, KEY_SPLIT_PART, TransactionEditData::class.java)
                     ?.also {
                         mRowId = it.id
+                        isTemplate = it.templateEditData != null
                     }
             }
             newInstance =
