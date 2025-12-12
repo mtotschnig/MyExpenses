@@ -80,7 +80,7 @@ data class Template(
 
     val isSplitPart: Boolean = parentId != null
 
-    fun instantiate() = Transaction(
+    fun instantiate(uuid: String) = Transaction(
         accountId = accountId,
         amount = amount,
         transferAccountId = transferAccountId,
@@ -96,7 +96,7 @@ data class Template(
         currency = currency,
         payeeName = payeeName,
         methodLabel = methodLabel,
-        uuid = generateUuid(),
+        uuid = uuid,
         tagList = tagList
     )
 

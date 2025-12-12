@@ -339,7 +339,7 @@ fun Repository.createSplitTransaction(
             // Transfer split part
             val sourceId = ContentUris.parseId(results[resultIndex].uri!!)
             val peerId = ContentUris.parseId(results[resultIndex + 1].uri!!)
-            resultIndex += 3 // Move past all 3 transfer operations
+            resultIndex += 2
             RepositoryTransaction(
                 splitPart.copy(
                     id = sourceId,

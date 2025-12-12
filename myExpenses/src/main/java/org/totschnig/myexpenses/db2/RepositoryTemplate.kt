@@ -110,7 +110,8 @@ data class RepositoryTemplate(
         planInstanceInfo: PlanInstanceInfo? = null,
     ): RepositoryTransaction {
         val date = planInstanceInfo?.date?.div(1000)
-        val instanceData = data.instantiate().let {
+        val uuid = generateUuid()
+        val instanceData = data.instantiate(uuid).let {
             if (date != null) it.copy(date = date) else it
         }
         return RepositoryTransaction(
@@ -142,7 +143,7 @@ data class RepositoryTemplate(
                     categoryPath = data.categoryPath,
                     currency = data.currency,
                     date = instanceData.date,
-                    uuid = generateUuid()
+                    uuid = uuid
                 )
             } else null,
             splitParts = splitParts?.map { it.instantiate(currencyContext, exchangeRateHandler, planInstanceInfo) },

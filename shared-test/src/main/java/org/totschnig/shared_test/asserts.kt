@@ -58,7 +58,8 @@ fun Repository.assertTransaction(
                 tags = actualPart.data.tagList,
                 debtId = actualPart.data.debtId,
                 transferPeer = actualPart.data.transferPeerId,
-                transferAccount = actualPart.data.transferAccountId
+                transferAccount = actualPart.data.transferAccountId,
+                comment = actualPart.data.comment,
             )
         }
         assertThat(actualSplitPartsAsInfo).containsExactlyElementsIn(expected.splitParts)
