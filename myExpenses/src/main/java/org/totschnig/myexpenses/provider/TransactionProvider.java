@@ -138,6 +138,7 @@ import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.mapAccountProjecti
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.mapPaymentMethodProjection;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.suggestNewCategoryColor;
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.tableForPaymentMethodQuery;
+import static org.totschnig.myexpenses.provider.SyncContract.METHOD_APPLY_CHANGES;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
 
 import android.content.ContentProviderOperation;
@@ -1752,9 +1753,8 @@ public class TransactionProvider extends BaseTransactionProvider {
         notifyChange(PAYEES_URI, false);
         return null;
       }
-      case SyncContract.METHOD_APPLY_CHANGES ->  {
-        applyChangesFromSync(Objects.requireNonNull(extras));
-        return null;
+      case METHOD_APPLY_CHANGES ->  {
+        return applyChangesFromSync(Objects.requireNonNull(extras));
       }
     }
     return null;

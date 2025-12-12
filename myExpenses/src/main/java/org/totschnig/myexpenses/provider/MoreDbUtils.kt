@@ -694,24 +694,22 @@ fun Cursor.calculateEquivalentAmount(homeCurrency: CurrencyUnit, baseAmount: Mon
         )
     )
 
-fun SupportSQLiteDatabase.uuidForTransaction(id: Long): String = query(
+fun SupportSQLiteDatabase.uuidForTransaction(id: Long): String? = query(
     table = TABLE_TRANSACTIONS,
     columns = arrayOf(KEY_UUID),
     selection = "$KEY_ROWID = ?",
     selectionArgs = arrayOf(id)
 ).use {
-    it.moveToFirst()
-    it.getString(0)
+    if (it.moveToFirst()) it.getString(0) else null
 }
 
-fun SupportSQLiteDatabase.findTransactionByUuid(uuid: String) = query(
+fun SupportSQLiteDatabase.findTransactionByUuid(uuid: String): Long? = query(
     table = TABLE_TRANSACTIONS,
     columns = arrayOf(KEY_ROWID),
     selection = "$KEY_UUID = ?",
     selectionArgs = arrayOf(uuid)
 ).use {
-    it.moveToFirst()
-    it.getLong(0)
+    if (it.moveToFirst()) it.getLong(0) else null
 }
 
 fun SupportSQLiteDatabase.getForeignKeyInfoAsString(tableName: String) =

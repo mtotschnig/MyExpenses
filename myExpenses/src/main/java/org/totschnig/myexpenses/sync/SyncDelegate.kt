@@ -18,6 +18,9 @@ import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_TYPE
 import org.totschnig.myexpenses.provider.SyncContract
+import org.totschnig.myexpenses.provider.SyncContract.KEY_EXCEPTION
+import org.totschnig.myexpenses.provider.SyncContract.KEY_RESULT
+import org.totschnig.myexpenses.provider.SyncContract.METHOD_APPLY_CHANGES
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import timber.log.Timber
 
@@ -45,15 +48,17 @@ class SyncDelegate(
                     Timber.d("Remote changes :\n%s", it)
                 })
             }
-
-            provider.call(
-                SyncContract.METHOD_APPLY_CHANGES,
+            val result = provider.call(
+                METHOD_APPLY_CHANGES,
                 null, Bundle(3).apply {
                     putLong(KEY_ACCOUNTID, account.id)
                     putString(KEY_CURRENCY, account.currency)
                     putLong(KEY_TYPE, account.type.id)
                 }
             )
+            if (result?.getBoolean(KEY_RESULT) != true) {
+                throw OperationApplicationException(result?.getString(KEY_EXCEPTION))
+            }
         }
     }
 
@@ -98,6 +103,7 @@ class SyncDelegate(
             } ?: change
         }
     }
+
 
     fun mergeChangeSets(
         first: List<TransactionChange>, second: List<TransactionChange>,
@@ -185,7 +191,11 @@ class SyncDelegate(
     }
 
     private fun mergeChanges(input: List<TransactionChange>): List<TransactionChange> =
-        input.groupBy(TransactionChange::uuid).map { entry -> mergeUpdates(entry.value) }
+        input.groupBy(TransactionChange::uuid).flatMap { entry ->
+            val specials = entry.value.filter { !it.isCreateOrUpdate }
+            val createOrUpdates = mergeUpdates(entry.value.filter { it.isCreateOrUpdate })
+            listOf(createOrUpdates) + specials
+        }
 
     @VisibleForTesting
     fun mergeUpdates(changeList: List<TransactionChange>): TransactionChange {
@@ -216,11 +226,13 @@ class SyncDelegate(
         if (change.amount != null) result = result.copy(amount = change.amount)
         if (change.label != null) result = result.copy(label = change.label)
         if (change.payeeName != null) result = result.copy(payeeName = change.payeeName)
-        if (change.transferAccount != null) result = result.copy(transferAccount = change.transferAccount)
+        if (change.transferAccount != null) result =
+            result.copy(transferAccount = change.transferAccount)
         if (change.methodLabel != null) result = result.copy(methodLabel = change.methodLabel)
         if (change.crStatus != null) result = result.copy(crStatus = change.crStatus)
         if (change.status != null) result = result.copy(status = change.status)
-        if (change.referenceNumber != null) result = result.copy(referenceNumber = change.referenceNumber)
+        if (change.referenceNumber != null) result =
+            result.copy(referenceNumber = change.referenceNumber)
         if (change.pictureUri != null) result = result.copy(pictureUri = change.pictureUri)
         if (change.splitParts != null) {
             val merged = mergeChanges((initial.splitParts ?: emptyList()) + change.splitParts)

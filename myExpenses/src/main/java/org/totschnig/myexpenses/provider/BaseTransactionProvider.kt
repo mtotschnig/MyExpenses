@@ -109,6 +109,8 @@ object SyncContract {
     const val METHOD_APPLY_CHANGES = "applyChangesFromFile"
     private const val FILE_NAME = "pending_sync.json"
     fun getSyncFile(context: Context) = File(context.cacheDir, FILE_NAME)
+    const val KEY_RESULT = "result";
+    const val KEY_EXCEPTION = "exception"
 }
 
 abstract class BaseTransactionProvider : ContentProvider() {
@@ -2023,10 +2025,15 @@ abstract class BaseTransactionProvider : ContentProvider() {
         "(SELECT %1\$s FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?)".format(Locale.ROOT, colum)
 
     fun SupportSQLiteDatabase.unsplit(values: ContentValues, callerIsNotSyncAdapter: Boolean): Int {
-        val uuid =
-            values.getAsString(KEY_UUID) ?: uuidForTransaction(values.getAsLong(KEY_ROWID))
-        val transactionId = values.getAsLong(KEY_ROWID) ?: findTransactionByUuid(KEY_UUID)
-
+        val passedInUuid = values.getAsString(KEY_UUID)
+        val passedInRowId = values.getAsLong(KEY_ROWID)
+        require(passedInUuid != null || passedInRowId != null)
+        val uuid = passedInUuid
+            ?: uuidForTransaction(passedInRowId)
+            ?: throw Exception("Missing uuid")
+        val transactionId = passedInRowId
+            ?: findTransactionByUuid(passedInUuid)
+            ?: throw Exception("Missing transaction id")
 
         val crStatusSubSelect = subSelectTemplate(KEY_CR_STATUS)
         val payeeIdSubSelect = subSelectTemplate(KEY_PAYEEID)
@@ -2345,7 +2352,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         }
     }
 
-    fun applyChangesFromSync(extras: Bundle) {
+    fun applyChangesFromSync(extras: Bundle): Bundle {
         val db = helper.writableDatabase
         val accountId = extras.getLong(KEY_ACCOUNTID)
         val currency = currencyContext[extras.getString(KEY_CURRENCY)!!]
@@ -2370,6 +2377,14 @@ abstract class BaseTransactionProvider : ContentProvider() {
             }
             resumeChangeTrigger(db)
             db.setTransactionSuccessful()
+            Bundle().apply {
+                putBoolean(SyncContract.KEY_RESULT, true)
+            }
+        } catch (e: Throwable) {
+            Bundle().apply {
+                putBoolean(SyncContract.KEY_RESULT, false)
+                putString(SyncContract.KEY_EXCEPTION, e.message)
+            }
         } finally {
             db.endTransaction()
         }
