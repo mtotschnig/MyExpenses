@@ -53,7 +53,6 @@ import org.totschnig.myexpenses.db2.entities.Recurrence
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.db2.findAccountType
-import org.totschnig.myexpenses.db2.loadTagsForTemplate
 import org.totschnig.myexpenses.db2.loadTemplate
 import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.db2.saveCategory
@@ -73,6 +72,7 @@ import org.totschnig.myexpenses.provider.KEY_TITLE
 import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.SPLIT_CATID
+import org.totschnig.myexpenses.provider.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
@@ -139,7 +139,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         val accountId = contentResolver.query(
             TransactionProvider.ACCOUNTS_URI,
             arrayOf(KEY_ROWID),
-            "$KEY_LABEL = ?",
+            "${TABLE_ACCOUNTS}.$KEY_LABEL = ?",
             arrayOf(label),
             null
         )!!.use {

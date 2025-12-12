@@ -10,9 +10,13 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import kotlinx.coroutines.test.runTest
 import org.hamcrest.Matchers.allOf
+import org.junit.After
+import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
+import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.deleteAllTags
 import org.totschnig.myexpenses.db2.insertTemplate
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.loadTransactions
@@ -24,6 +28,7 @@ import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.TAG_LABEL
 import org.totschnig.myexpenses.testutils.TEMPLATE_TITLE
+import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.shared_test.TransactionData
 
 private const val TAG_LABEL_2 = "Unwichtig"
@@ -33,151 +38,144 @@ class ExpenseEditTagsTest : BaseExpenseEditTest() {
     var tagId1: Long = 0
     var tagId2: Long = 0
 
-    private fun baseFixture() {
+    @Before
+    fun baseFixture() {
         account1 = buildAccount(ACCOUNT_LABEL_1)
         tagId1 = repository.writeTag(TAG_LABEL)
         tagId2 = repository.writeTag(TAG_LABEL_2)
     }
 
-    @Test
-    fun shouldSaveTags() {
-        runTest {
-            baseFixture()
-            launch()
-            setAmount(101)
-            onView(withId(R.id.TagSelection)).perform(click())
-            onView(withText(TAG_LABEL)).perform(click())
-            clickFab() // confirm tag selection
-            clickFab() // save transaction
-            assertTransaction(
-                id = repository.loadTransactions(account1.id).first().id,
-                TransactionData(
-                    accountId = account1.id,
-                    amount = -10100,
-                    tags = listOf(tagId1)
-                )
-            )
+    @After
+    fun clearDb() {
+        cleanup {
+            repository.deleteAccount(account1.id)
+            repository.deleteAllTags()
         }
     }
 
     @Test
-    fun shouldSaveTagsForTemplate() {
-        runTest {
-            baseFixture()
-            launchNewTemplate()
-            setAmount(101)
-            setTitle()
-            onView(withId(R.id.TagSelection)).perform(click())
-            onView(withText(TAG_LABEL)).perform(click())
-            clickFab() // confirm tag selection
-            clickFab() // save transaction
-            assertTemplate(
-                expectedAccount = account1.id,
-                expectedAmount = -10100,
-                expectedTags = listOf(TAG_LABEL)
-            )
-        }
-    }
-
-    @Test
-    fun shouldLoadAndUpdateTags() {
-        runTest {
-            baseFixture()
-            val transaction = repository.insertTransaction(
+    fun shouldSaveTags() = runTest {
+        launch()
+        setAmount(101)
+        onView(withId(R.id.TagSelection)).perform(click())
+        onView(withText(TAG_LABEL)).perform(click())
+        clickFab() // confirm tag selection
+        clickFab() // save transaction
+        assertTransaction(
+            id = repository.loadTransactions(account1.id).first().id,
+            TransactionData(
                 accountId = account1.id,
-                amount = 100
+                amount = -10100,
+                tags = listOf(tagId1)
             )
-            repository.saveTagsForTransaction(longArrayOf(tagId1), transaction.id)
-            launch(getIntentForEditTransaction(transaction.id))
-            onView(
-                allOf(
-                    isDescendantOfA(withId(R.id.TagGroup)),
-                    withText(TAG_LABEL)
-                )
-            ).check(matches(isDisplayed()))
-            closeSoftKeyboard()
-            onView(withId(R.id.TagSelection)).perform(click())
-            onView(withText(TAG_LABEL)).perform(click()) //unselect
-            onView(withText(TAG_LABEL_2)).perform(click()) //select
-            clickFab() // confirm tag selection
-            clickFab() // save transaction
-            assertTransaction(
-                id = repository.loadTransactions(account1.id).first().id,
-                TransactionData(
-                    accountId = account1.id,
-                    amount = 100,
-                    tags = listOf(tagId2)
-                )
-            )
-        }
+        )
     }
 
     @Test
-    fun shouldLoadAndUpdateTagsForTemplate() {
-        runTest {
-            baseFixture()
-            val template = repository.insertTemplate(
-                title = TEMPLATE_TITLE,
+    fun shouldSaveTagsForTemplate() = runTest {
+        launchNewTemplate()
+        setAmount(101)
+        setTitle()
+        onView(withId(R.id.TagSelection)).perform(click())
+        onView(withText(TAG_LABEL)).perform(click())
+        clickFab() // confirm tag selection
+        clickFab() // save transaction
+        assertTemplate(
+            expectedAccount = account1.id,
+            expectedAmount = -10100,
+            expectedTags = listOf(TAG_LABEL)
+        )
+    }
+
+    @Test
+    fun shouldLoadAndUpdateTags() = runTest {
+        val transaction = repository.insertTransaction(
+            accountId = account1.id,
+            amount = 100
+        )
+        repository.saveTagsForTransaction(longArrayOf(tagId1), transaction.id)
+        launch(getIntentForEditTransaction(transaction.id))
+        onView(
+            allOf(
+                isDescendantOfA(withId(R.id.TagGroup)),
+                withText(TAG_LABEL)
+            )
+        ).check(matches(isDisplayed()))
+        closeSoftKeyboard()
+        onView(withId(R.id.TagSelection)).perform(click())
+        onView(withText(TAG_LABEL)).perform(click()) //unselect
+        onView(withText(TAG_LABEL_2)).perform(click()) //select
+        clickFab() // confirm tag selection
+        clickFab() // save transaction
+        assertTransaction(
+            id = repository.loadTransactions(account1.id).first().id,
+            TransactionData(
                 accountId = account1.id,
                 amount = 100,
+                tags = listOf(tagId2)
             )
-            repository.saveTagsForTemplate(listOf(tagId1), template.id)
-            launch(getIntentForEditTemplate(template.id))
-            onView(
-                allOf(
-                    isDescendantOfA(withId(R.id.TagGroup)),
-                    withText(TAG_LABEL)
-                )
-            ).check(matches(isDisplayed()))
-            closeSoftKeyboard()
-            onView(withId(R.id.TagSelection)).perform(click())
-            onView(withText(TAG_LABEL)).perform(click()) //unselect
-            onView(withText(TAG_LABEL_2)).perform(click()) //select
-            clickFab() // confirm tag selection
-            clickFab() // save transaction
-            assertTemplate(
-                expectedAccount = account1.id,
-                expectedAmount = 100,
-                expectedTags = listOf(TAG_LABEL_2)
-            )
-        }
+        )
     }
 
     @Test
-    fun shouldLoadAndUpdateTagsForTransactionFromTemplate() {
-        runTest {
-            baseFixture()
-            val template = repository.insertTemplate(
-                title = TEMPLATE_TITLE,
+    fun shouldLoadAndUpdateTagsForTemplate() = runTest {
+        val template = repository.insertTemplate(
+            title = TEMPLATE_TITLE,
+            accountId = account1.id,
+            amount = 100,
+        )
+        repository.saveTagsForTemplate(listOf(tagId1), template.id)
+        launch(getIntentForEditTemplate(template.id))
+        onView(
+            allOf(
+                isDescendantOfA(withId(R.id.TagGroup)),
+                withText(TAG_LABEL)
+            )
+        ).check(matches(isDisplayed()))
+        closeSoftKeyboard()
+        onView(withId(R.id.TagSelection)).perform(click())
+        onView(withText(TAG_LABEL)).perform(click()) //unselect
+        onView(withText(TAG_LABEL_2)).perform(click()) //select
+        clickFab() // confirm tag selection
+        clickFab() // save transaction
+        assertTemplate(
+            expectedAccount = account1.id,
+            expectedAmount = 100,
+            expectedTags = listOf(TAG_LABEL_2)
+        )
+    }
+
+    @Test
+    fun shouldLoadAndUpdateTagsForTransactionFromTemplate() = runTest {
+        val template = repository.insertTemplate(
+            title = TEMPLATE_TITLE,
+            accountId = account1.id,
+            amount = 100,
+        )
+        repository.saveTagsForTemplate(listOf(tagId1), template.id)
+        launch(intent.apply {
+            action = ExpenseEdit.ACTION_CREATE_FROM_TEMPLATE
+            putExtra(KEY_TEMPLATEID, template.id)
+        })
+        onView(
+            allOf(
+                isDescendantOfA(withId(R.id.TagGroup)),
+                withText(TAG_LABEL)
+            )
+        ).check(matches(isDisplayed()))
+        closeSoftKeyboard()
+        onView(withId(R.id.TagSelection)).perform(click())
+        onView(withText(TAG_LABEL)).perform(click()) //unselect
+        onView(withText(TAG_LABEL_2)).perform(click()) //select
+        clickFab() // confirm tag selection
+        clickFab() // save transaction
+        assertTransaction(
+            id = repository.loadTransactions(account1.id).first().id,
+            TransactionData(
                 accountId = account1.id,
                 amount = 100,
+                tags = listOf(tagId2)
             )
-            repository.saveTagsForTemplate(listOf(tagId1), template.id)
-            launch(intent.apply {
-                action = ExpenseEdit.ACTION_CREATE_FROM_TEMPLATE
-                putExtra(KEY_TEMPLATEID, template.id)
-            })
-            onView(
-                allOf(
-                    isDescendantOfA(withId(R.id.TagGroup)),
-                    withText(TAG_LABEL)
-                )
-            ).check(matches(isDisplayed()))
-            closeSoftKeyboard()
-            onView(withId(R.id.TagSelection)).perform(click())
-            onView(withText(TAG_LABEL)).perform(click()) //unselect
-            onView(withText(TAG_LABEL_2)).perform(click()) //select
-            clickFab() // confirm tag selection
-            clickFab() // save transaction
-            assertTransaction(
-                id = repository.loadTransactions(account1.id).first().id,
-                TransactionData(
-                    accountId = account1.id,
-                    amount = 100,
-                    tags = listOf(tagId2)
-                )
-            )
-        }
-
+        )
     }
 }
