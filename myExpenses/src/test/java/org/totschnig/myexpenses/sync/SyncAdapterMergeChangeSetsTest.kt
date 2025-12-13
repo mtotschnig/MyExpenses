@@ -72,6 +72,28 @@ class SyncAdapterMergeChangeSetsTest : SyncAdapterBaseTest() {
     }
 
     @Test
+    fun cudWithSpecials() {
+        val created = buildCreated("random1")
+        val updated = buildUpdated("random1")
+        val special = buildSpecial("random1")
+        val first = listOf(
+            created,
+            updated,
+            special
+        )
+        val result = syncDelegate.mergeChangeSets(first, emptyList())
+        assertThat(result.first).isEqualTo(listOf(created, special))
+    }
+
+    @Test
+    fun onlySpecials() {
+        val special = buildSpecial("random1")
+        val first = listOf(special)
+        val result = syncDelegate.mergeChangeSets(first, emptyList())
+        assertThat(result.first).isEqualTo(first)
+    }
+
+    @Test
     fun deleteInDifferentSetShouldTriggerRemovalOfRelatedChanges() {
         val uuid = "random"
         val first = listOf(buildUpdated(uuid))

@@ -73,6 +73,10 @@ data class TransactionChange(
     val isDelete: Boolean
         get() = type == Type.deleted
 
+    val isCUD: Boolean
+        get() = isCreate || isUpdate || isDelete
+
+
     val isEmpty: Boolean
         get() = isCreateOrUpdate && comment == null && date == null && amount == null &&
             label == null && payeeName == null && transferAccount == null && methodLabel == null &&

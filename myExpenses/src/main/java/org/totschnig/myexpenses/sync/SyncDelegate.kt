@@ -192,10 +192,11 @@ class SyncDelegate(
 
     private fun mergeChanges(input: List<TransactionChange>): List<TransactionChange> =
         input.groupBy(TransactionChange::uuid).flatMap { entry ->
-            val specials = entry.value.filter { !it.isCreateOrUpdate }
-            val createOrUpdates = mergeUpdates(entry.value.filter { it.isCreateOrUpdate })
-            listOf(createOrUpdates) + specials
+            val (cudItems, specials) = entry.value.partition { it.isCUD }
+            if (cudItems.isEmpty()) specials else
+                listOf(mergeUpdates(cudItems)) + specials
         }
+
 
     @VisibleForTesting
     fun mergeUpdates(changeList: List<TransactionChange>): TransactionChange {
