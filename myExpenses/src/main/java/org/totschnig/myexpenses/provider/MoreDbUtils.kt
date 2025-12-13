@@ -685,14 +685,7 @@ fun insertEventAndUpdatePlan(
 }
 
 fun Cursor.calculateEquivalentAmount(homeCurrency: CurrencyUnit, baseAmount: Money) =
-    getLongOrNull(KEY_EQUIVALENT_AMOUNT)?.let { Money(homeCurrency, it) } ?: Money(
-        homeCurrency, baseAmount.amountMajor.multiply(
-            calculateRealExchangeRate(
-                getDouble(KEY_EXCHANGE_RATE),
-                baseAmount.currencyUnit, homeCurrency
-            )
-        )
-    )
+    getLongOrNull(KEY_AMOUNT_HOME_EQUIVALENT)?.let { Money(homeCurrency, it) }?.amountMajor
 
 fun SupportSQLiteDatabase.uuidForTransaction(id: Long): String? = query(
     table = TABLE_TRANSACTIONS,

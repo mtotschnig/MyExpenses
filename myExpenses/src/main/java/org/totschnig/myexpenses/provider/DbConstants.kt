@@ -626,7 +626,7 @@ fun transactionListAsCTE(catId: String, forHome: String?) =
             ")"
 
 fun buildViewDefinition(tableName: String) =
-    " AS ${getCategoryTreeForView()} ${transactionsJoin(tableName, false)}"
+    " AS ${getCategoryTreeForView()} ${transactionsJoin(tableName, withPlanInstance = false)}"
 
 private fun transactionsJoin(
     tableName: String = TABLE_TRANSACTIONS,
