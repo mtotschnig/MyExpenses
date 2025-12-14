@@ -2024,6 +2024,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
     private fun subSelectTemplate(colum: String) =
         "(SELECT %1\$s FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?)".format(Locale.ROOT, colum)
 
+    /**
+     * @return number of split parts + 1 (for parent)
+     */
     fun SupportSQLiteDatabase.unsplit(values: ContentValues, callerIsNotSyncAdapter: Boolean): Int {
         val passedInUuid = values.getAsString(KEY_UUID)
         val passedInRowId = values.getAsLong(KEY_ROWID)
@@ -2057,10 +2060,12 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 """.trimMargin()
             )
             //parts are promoted to independence
-            execSQL(
-                "UPDATE $TABLE_TRANSACTIONS SET $KEY_PARENTID = null, $KEY_CR_STATUS = $crStatusSubSelect, $KEY_PAYEEID = $payeeIdSubSelect WHERE $KEY_PARENTID = ?",
-                arrayOf(uuid, uuid, transactionId)
-            )
+            val partUpdateCount = compileStatement("UPDATE $TABLE_TRANSACTIONS SET $KEY_PARENTID = null, $KEY_CR_STATUS = $crStatusSubSelect, $KEY_PAYEEID = $payeeIdSubSelect WHERE $KEY_PARENTID = ?").use {
+                it.bindString(1, uuid)
+                it.bindString(2, uuid)
+                it.bindLong(3, transactionId)
+                it.executeUpdateDelete()
+            }
             //Change is recorded
             if (callerIsNotSyncAdapter) {
                 execSQL(
@@ -2073,10 +2078,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 )
             }
             //parent is deleted
-            val count = delete(TABLE_TRANSACTIONS, "$KEY_UUID = ?", arrayOf(uuid))
+            val parentDeleteCount = delete(TABLE_TRANSACTIONS, "$KEY_UUID = ?", arrayOf(uuid))
             resumeChangeTrigger(this)
             setTransactionSuccessful()
-            count
+            partUpdateCount + parentDeleteCount
         } finally {
             endTransaction()
         }

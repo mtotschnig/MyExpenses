@@ -313,7 +313,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String URI_SEGMENT_TYPE_FILTER = "typeFilter";
   public static final String URI_SEGMENT_BUDGET_ALLOCATIONS = "allocations";
   public static final String URI_SEGMENT_DEFAULT_BUDGET_ALLOCATIONS = "defaultBudgetAllocations";
-  public static final String URI_SEGMENT_UNSPLIT = "unsplit";
+  public static final Uri UNSPLIT_URI = Uri.parse("content://" + AUTHORITY + "/transactions/unsplit");
   public static final String URI_SEGMENT_LINK_TRANSFER = "link_transfer";
   public static final String URI_SEGMENT_UNLINK_TRANSFER = "unlink_transfer";
   public static final String URI_SEGMENT_TRANSFORM_TO_TRANSFER = "transform_to_transfer";
@@ -1770,7 +1770,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_TOGGLE_CRSTATUS, TRANSACTION_TOGGLE_CRSTATUS);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_UNDELETE, TRANSACTION_UNDELETE);
     //uses uuid in order to be usable from sync adapter
-    URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_UNSPLIT, UNSPLIT);
+    URI_MATCHER.addURI(AUTHORITY, "transactions/unsplit", UNSPLIT);
     URI_MATCHER.addURI(AUTHORITY, "categories", CATEGORIES);
     URI_MATCHER.addURI(AUTHORITY, "categories/#", CATEGORY_ID);
     URI_MATCHER.addURI(AUTHORITY, "accounts", ACCOUNTS);
