@@ -147,7 +147,7 @@ fun Repository.updateTransaction(repositoryTransaction: RepositoryTransaction) =
 }
 
 fun Repository.createTransaction(transaction: Transaction): RepositoryTransaction {
-    require(transaction.id == 0L) { "Use updateTemplate for existing templates" }
+    require(transaction.id == 0L) { "Use updateTransaction for existing transactions" }
     require(transaction.transferAccountId == null) { "Use createTransfer instead" }
     require(transaction.categoryId != SPLIT_CATID) { "Use createSplitTransaction instead" }
     require((transaction.originalAmount != null) == (transaction.originalCurrency != null)) {

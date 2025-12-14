@@ -9,9 +9,9 @@ android {
     defaultConfig {
         missingDimensionStrategy 'textRecognition', 'extern'
         minSdk project.minSdkVersion
-        consumerProguardFiles("consumer-rules.txt")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resourceConfigurations = resConfig
+        proguardFiles 'consumer-rules.txt'
     }
     compileOptions {
         coreLibraryDesugaringEnabled true

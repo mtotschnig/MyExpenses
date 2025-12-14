@@ -258,10 +258,9 @@ class TransferDelegate(
         forSave: Boolean,
         account: Account
     ): TransactionEditData? {
-        val currentAccount = currentAccount()!!
         val transferAccount = transferAccount()!!
-        val amount = validateAmountInput(forSave, currentAccount.currency).getOrNull()
-        val isSame = currentAccount.currency == transferAccount.currency
+        val amount = validateAmountInput(forSave, account.currency).getOrNull()
+        val isSame = account.currency == transferAccount.currency
         val transferAmount = if (isSame && amount != null) {
             amount.negate()
         } else {
@@ -276,24 +275,22 @@ class TransferDelegate(
             if (amount == null && transferAmount == null) {
                 null
             } else {
-                buildTemplate(account, transferAccount).let {
-                    if (!amount.isNullOr0() || transferAmount.isNullOr0()) {
-                        buildTemplate(account, transferAccount).copy(
-                            amount = amount ?: Money(currentAccount.currency, 0),
-                        )
-                    } else if (!isSame && transferAmount != null) {
-                        buildTemplate(transferAccount, account).copy(
-                            amount = transferAmount
-                            )
-                        //viewBinding.Amount.setError(null)
-                    } else it
-                }
+                if (!amount.isNullOr0() || transferAmount.isNullOr0()) {
+                    buildTemplate(account, transferAccount).copy(
+                        amount = amount ?: Money(account.currency, 0),
+                    )
+                } else if (!isSame && transferAmount != null) {
+                    buildTemplate(transferAccount, account).copy(
+                        amount = transferAmount
+                    )
+                    //viewBinding.Amount.setError(null)
+                } else buildTemplate(account, transferAccount)
             }
         } else {
             if (amount == null || transferAmount == null) {
                 null
             } else TransactionEditData(
-                accountId = currentAccount.id,
+                accountId = account.id,
                 amount = amount,
                 categoryId = catId,
                 categoryPath = label,

@@ -2104,12 +2104,12 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
 
       if (oldVersion < 182) {
-          upgradeTo182(db);
+        upgradeTo182(db);
       }
 
-        if (oldVersion < 183) {
-            upgradeTo183(db);
-        }
+      if (oldVersion < 183) {
+        upgradeTo183(db);
+      }
 
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {
