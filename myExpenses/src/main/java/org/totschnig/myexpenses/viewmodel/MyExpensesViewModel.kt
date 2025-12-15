@@ -178,7 +178,7 @@ open class MyExpensesViewModel(
 
     val showEquivalentWorth by lazy {
         PreferenceAccessor(dataStore,
-            booleanPreferencesKey("showEquivalentWorth"), defaultValue = true)
+            booleanPreferencesKey("showEquivalentWorth"), defaultValue = false)
     }
 
     val preferredSearchType by lazy {
