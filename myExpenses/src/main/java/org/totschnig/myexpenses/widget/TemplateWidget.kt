@@ -3,6 +3,8 @@ package org.totschnig.myexpenses.widget
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.ManageTemplates
@@ -44,13 +46,15 @@ class TemplateWidget : AbstractListWidget(
                     ).show()
                 } else {
                     doAsync {
-                        context.showTemplateInstantiationResult(
-                            if (repository.instantiateTemplate(
+                        val successCount = if (repository.instantiateTemplate(
                                 exchangeRateHandler,
                                 PlanInstanceInfo(templateId),
                                 currencyContext
-                            ) == null) 0 else 1
-                        )
+                            ) == null
+                        ) 0 else 1
+                        withContext(Dispatchers.Main) {
+                            context.showTemplateInstantiationResult(successCount)
+                        }
                     }
                 }
             }
