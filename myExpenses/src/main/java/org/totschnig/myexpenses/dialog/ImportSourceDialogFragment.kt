@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.PopupMenu
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.google.android.material.snackbar.Snackbar
@@ -22,9 +23,8 @@ import org.totschnig.myexpenses.util.ImportFileResultHandler
 import org.totschnig.myexpenses.util.ImportFileResultHandler.FileNameHostFragment
 import org.totschnig.myexpenses.util.ImportFileResultHandler.handleFilenameRequestResult
 import org.totschnig.myexpenses.util.PermissionHelper.canReadUri
+import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.ImportSourceViewModel
-import androidx.core.net.toUri
-import okhttp3.HttpUrl.Companion.toHttpUrl
 
 abstract class ImportSourceDialogFragment : BaseDialogFragment(),
     DialogInterface.OnClickListener, FileNameHostFragment {
@@ -87,7 +87,12 @@ abstract class ImportSourceDialogFragment : BaseDialogFragment(),
                     val popupMenu = popup.menu
                     popup.setOnMenuItemClickListener { item ->
                         uri = it[item.itemId].uri
-                        handleFilenameRequestResult(this, uri)
+                        try {
+                            handleFilenameRequestResult(this, uri)
+                        } catch (throwable: Exception) {
+                            uri = null
+                            showSnackBar(throwable.safeMessage, Snackbar.LENGTH_LONG, null)
+                        }
                         setButtonState()
                         true
                     }
@@ -115,7 +120,7 @@ abstract class ImportSourceDialogFragment : BaseDialogFragment(),
                     handleFilenameRequestResult(this, uri)
                 } catch (throwable: Throwable) {
                     uri = null
-                    showSnackBar(throwable.message!!, Snackbar.LENGTH_LONG, null)
+                    showSnackBar(throwable.safeMessage, Snackbar.LENGTH_LONG, null)
                 }
             }
         }
