@@ -404,7 +404,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     if (!db.isReadOnly()) {
       db.execSQL("PRAGMA foreign_keys=ON;");
       db.execSQL("PRAGMA recursive_triggers = ON;");
+      checkDefaultTransferCategory(db);
     }
+
   }
 
   @Override

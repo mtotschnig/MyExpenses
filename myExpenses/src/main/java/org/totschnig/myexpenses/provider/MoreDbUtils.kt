@@ -161,8 +161,11 @@ fun transformToTransfer(
     return try {
         //insert transfer peer into transfer account
         val transferPeer = db.compileStatement(
-            """INSERT INTO $TABLE_TRANSACTIONS ($KEY_ACCOUNTID, $KEY_TRANSFER_ACCOUNT, $KEY_UUID, $KEY_TRANSFER_PEER, $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, $KEY_AMOUNT, $KEY_CATID)
-            SELECT $transferAccountId, $KEY_ACCOUNTID, $KEY_UUID, $transactionId, $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, -$KEY_AMOUNT, coalesce($KEY_CATID, ?) FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = ?
+            """INSERT INTO $TABLE_TRANSACTIONS (
+                   $KEY_ACCOUNTID,     $KEY_TRANSFER_ACCOUNT, $KEY_UUID, $KEY_TRANSFER_PEER, $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, $KEY_AMOUNT,  $KEY_CATID)
+            SELECT $transferAccountId, $KEY_ACCOUNTID,        $KEY_UUID, $transactionId,     $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, -$KEY_AMOUNT, coalesce($KEY_CATID, ?)
+            FROM $TABLE_TRANSACTIONS
+            WHERE $KEY_ROWID = ?
             """
         ).use {
             if (defaultTransferCategory != null) {
