@@ -15,6 +15,7 @@ import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.deleteAllTags
 import org.totschnig.myexpenses.db2.insertTemplate
@@ -25,6 +26,7 @@ import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.db2.writeTag
 import org.totschnig.myexpenses.provider.KEY_TEMPLATEID
 import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
+import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_2
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.TAG_LABEL
 import org.totschnig.myexpenses.testutils.TEMPLATE_TITLE
@@ -69,6 +71,47 @@ class ExpenseEditTagsTest : BaseExpenseEditTest() {
                 tags = listOf(tagId1)
             )
         )
+    }
+
+    @Test
+    fun shouldSaveTagsForBothSidesOfTransfer() = runTest {
+        val account2 = buildAccount(
+            ACCOUNT_LABEL_2
+        )
+        launch()
+        setOperationType(Transactions.TYPE_TRANSFER)
+        setAmount(101)
+        onView(withId(R.id.TagSelection)).perform(click())
+        onView(withText(TAG_LABEL)).perform(click())
+        clickFab() // confirm tag selection
+        clickFab() // save transaction
+        val transfer = repository.loadTransactions(account1.id).first().id
+        val peer = repository.loadTransactions(account2.id).first().id
+        assertTransaction(
+            id = transfer,
+            TransactionData(
+                accountId = account1.id,
+                amount = -10100,
+                tags = listOf(tagId1),
+                category = transferCategoryId,
+                transferAccount = account2.id,
+                transferPeer = peer
+            )
+        )
+        assertTransaction(
+            id = peer,
+            TransactionData(
+                accountId = account2.id,
+                amount = 10100,
+                tags = listOf(tagId1),
+                category = transferCategoryId,
+                transferAccount = account1.id,
+                transferPeer = transfer
+            )
+        )
+        cleanup {
+            repository.deleteAccount(account2.id)
+        }
     }
 
     @Test
