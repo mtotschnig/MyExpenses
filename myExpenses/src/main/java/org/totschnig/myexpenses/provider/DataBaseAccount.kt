@@ -71,9 +71,6 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
             }
         }
 
-        fun uriForTransactionList(shortenComment: Boolean, extended: Boolean = true): Uri =
-            uriBuilderForTransactionList(shortenComment, extended).build()
-
         fun uriBuilderForTransactionList(
             shortenComment: Boolean,
             extended: Boolean = true

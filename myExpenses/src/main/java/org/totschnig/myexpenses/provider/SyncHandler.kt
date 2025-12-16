@@ -17,6 +17,7 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.UNSPLIT_URI
 import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import java.io.IOException
@@ -176,10 +177,7 @@ class SyncHandler(
 
             TransactionChange.Type.unsplit -> {
                 ops.add(
-                    ContentProviderOperation.newUpdate(
-                        uri.buildUpon()
-                            .appendPath(TransactionProvider.URI_SEGMENT_UNSPLIT).build()
-                    )
+                    ContentProviderOperation.newUpdate(UNSPLIT_URI)
                         .withValue(KEY_UUID, change.uuid)
                         .build()
                 )

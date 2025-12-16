@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.repository
 
+import android.content.ContentUris
 import android.content.ContentValues
 import android.net.Uri
 import com.google.common.truth.Truth.assertThat
@@ -28,6 +29,8 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.useAndMapToOne
 import org.totschnig.myexpenses.util.toEpoch
+import org.totschnig.shared_test.TransactionData
+import org.totschnig.shared_test.assertTransaction
 import java.time.LocalDateTime
 
 @RunWith(RobolectricTestRunner::class)
@@ -252,7 +255,7 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
                 )
             )
         )
-        assertThat(repository.updateTransaction(updated)).isTrue()
+        repository.updateTransaction(updated)
         val restored = repository.loadTransaction(updated.data.id)
         assertThat(restored.splitParts).hasSize(2)
         val originalPart = restored.splitParts!!.first { it.data.uuid == originalParts.first() }
@@ -260,6 +263,148 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
         assertThat(restored.splitParts.filter { it.data.uuid == originalParts[1] }).hasSize(0)
         val newPart = restored.splitParts.first { it.data.uuid != originalParts.first() }
         assertThat(newPart.data.amount).isEqualTo(40L)
+    }
+
+    @Test
+    fun testUpdateSplitRemoveTransferPart() {
+        val splitTransferUuid1 = generateUuid()
+        val splitTransferUuid2 = generateUuid()
+        val split = repository.createSplitTransaction(
+            Transaction(
+                accountId = account1,
+                amount = 200L,
+                comment = "test split with transfer",
+                categoryId = SPLIT_CATID,
+                uuid = generateUuid()
+            ),
+            listOf(
+                Transaction(
+                    accountId = account1,
+                    amount = 100L,
+                    transferAccountId = account2,
+                    uuid = splitTransferUuid1
+                ) to Transaction(
+                    accountId = account2,
+                    amount = -100L,
+                    transferAccountId = account1,
+                    uuid = splitTransferUuid1
+                ),
+                Transaction(
+                    accountId = account1,
+                    amount = 100L,
+                    transferAccountId = account2,
+                    uuid = splitTransferUuid2
+                ) to Transaction(
+                    accountId = account2,
+                    amount = -100L,
+                    transferAccountId = account1,
+                    uuid = splitTransferUuid2
+                )
+            )
+        )
+        val expectedPeer = split.splitParts!!.first().transferPeer!!.id
+        // we remove one transfer part, and add a normal part
+        val updated = split.copy(
+            splitParts = listOf(split.splitParts.first(),
+                RepositoryTransaction(
+                    data = Transaction(
+                        accountId = account1,
+                        amount = 100L,
+                        uuid = generateUuid()
+                    )
+                )
+            )
+        )
+        repository.updateTransaction(updated)
+        repository.assertTransaction(
+            split.data.id,
+            TransactionData(
+                comment = "test split with transfer",
+                accountId = account1,
+                amount = 200L,
+                splitParts = listOf(
+                    TransactionData(
+                        accountId = account1,
+                        amount = 100L,
+                        transferAccount = account2,
+                        transferPeer = expectedPeer
+                    ),
+                    TransactionData(
+                        accountId = account1,
+                        amount = 100L,
+                    )
+                )
+            )
+        )
+    }
+
+    @Test
+    fun testUpdateSplitAddTransferPart() {
+        val split = repository.createSplitTransaction(
+            Transaction(
+                accountId = account1,
+                amount = 100L,
+                comment = "test split with transfer",
+                categoryId = SPLIT_CATID,
+                uuid = generateUuid()
+            ),
+            listOf(
+                Transaction(
+                    accountId = account1,
+                    amount = 100L,
+                    uuid = generateUuid()
+                )
+            )
+        )
+
+        // we add one transfer part
+        val splitTransferUuid = generateUuid()
+        val updated = split.copy(
+            splitParts = listOf(
+                split.splitParts!!.first().let {
+                    it.copy(
+                        data = it.data.copy(amount = 50L)
+                    )
+                },
+                RepositoryTransaction(
+                    data = Transaction(
+                        accountId = account1,
+                        amount = 50L,
+                        transferAccountId = account2,
+                        uuid = splitTransferUuid
+                    ),
+                    transferPeer = Transaction(
+                        accountId = account2,
+                        amount = -50L,
+                        transferAccountId = account1,
+                        uuid = splitTransferUuid
+                    )
+                )
+            )
+        )
+        val results = repository.updateTransaction(updated)
+        //0 delete old parts //1 update parent // 2 update first part // 3 insert transfer // 4 insert peer
+        val expectedPeer = ContentUris.parseId(results[4].uri!!)
+        repository.assertTransaction(
+            split.data.id,
+            TransactionData(
+                comment = "test split with transfer",
+                accountId = account1,
+                amount = 100L,
+                splitParts = listOf(
+                    TransactionData(
+                        accountId = account1,
+                        amount = 50L,
+                        transferAccount = account2,
+                        transferPeer = expectedPeer
+                    ),
+                    TransactionData(
+                        accountId = account1,
+                        amount = 50L,
+                    )
+                )
+            )
+        )
     }
 
     @Test

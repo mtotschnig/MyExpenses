@@ -404,7 +404,9 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     if (!db.isReadOnly()) {
       db.execSQL("PRAGMA foreign_keys=ON;");
       db.execSQL("PRAGMA recursive_triggers = ON;");
+      checkDefaultTransferCategory(db);
     }
+
   }
 
   @Override
@@ -2104,12 +2106,12 @@ public class TransactionDatabase extends BaseTransactionDatabase {
       }
 
       if (oldVersion < 182) {
-          upgradeTo182(db);
+        upgradeTo182(db);
       }
 
-        if (oldVersion < 183) {
-            upgradeTo183(db);
-        }
+      if (oldVersion < 183) {
+        upgradeTo183(db);
+      }
 
       TransactionProvider.resumeChangeTrigger(db);
     } catch (SQLException e) {

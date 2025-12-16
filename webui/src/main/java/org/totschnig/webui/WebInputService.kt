@@ -529,20 +529,13 @@ class WebInputService : LifecycleService(), IWebInputService {
             val transaction = call.receive<TransactionDTO>()
             val id = call.parameters["id"]!!.toLong()
             require(transaction.id == id)
-            val updated = repository.updateTransaction(
+            repository.updateTransaction(
                 transaction.toEntity(repository.getCurrencyUnitForAccount(transaction.account)!!)
             )
-            if (updated) {
-                call.respond(
-                    HttpStatusCode.OK,
-                    getString(R.string.save_transaction_and_new_success)
-                )
-            } else {
-                call.respond(
-                    HttpStatusCode.Conflict,
-                    "Error while saving transaction."
-                )
-            }
+            call.respond(
+                HttpStatusCode.OK,
+                getString(R.string.save_transaction_and_new_success)
+            )
         }
 
         post("/transactions") {

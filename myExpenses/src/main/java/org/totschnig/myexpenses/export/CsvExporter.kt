@@ -242,6 +242,10 @@ class CsvExporter(
                 appendQ(payee)
                 append(delimiter)
                 it.handleAmount(this@apply)
+                if (withCurrencyColumn) {
+                    appendQ(currency)
+                    append(delimiter)
+                }
                 it.handleLabel(this@apply)
                 appendQ(it.comment)
                 append(delimiter)
@@ -254,6 +258,24 @@ class CsvExporter(
                 appendQ("")
                 append(delimiter)
                 handleList(it.tagList)
+                if (withOriginalAmount) {
+                    append(delimiter)
+                    if (it.originalCurrency != null) {
+                        appendQ(
+                            nfFormats.getValue(currencyContext[it.originalCurrency]).format(it.originalAmount)
+                        )
+                    }
+                    append(delimiter)
+                    if (it.originalCurrency != null) {
+                        appendQ(it.originalCurrency)
+                    }
+                }
+                if (withEquivalentAmountHeader) {
+                    append(delimiter)
+                    it.equivalentAmount?.let {
+                        appendQ(nfFormats.getValue(currencyContext.homeCurrencyUnit).format(it))
+                    }
+                }
             }
         }.toString()
 }

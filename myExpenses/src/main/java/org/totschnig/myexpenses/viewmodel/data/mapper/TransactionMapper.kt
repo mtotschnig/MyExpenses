@@ -183,7 +183,8 @@ object TransactionMapper {
                 categoryId = transactionEditData.categoryId,
                 comment = transactionEditData.comment,
                 transferPeerId = transactionEditData.id,
-                uuid = transactionEditData.uuid
+                uuid = transactionEditData.uuid,
+                tagList = transactionEditData.tags.map { it.id }
             )
         }
         return RepositoryTransaction(

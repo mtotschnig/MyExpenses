@@ -77,6 +77,7 @@ Code has also been contributed by:
 - [Ayman Abdelghany](https://github.com/AymanDF) (Applying Sonar code quality checks)
 - [eltos](https://github.com/eltos) (Improved Input Dialogs and Color Pickers)
 - [tillgraeger](https://github.com/tillgraeger) implemented several tickets ([#640](https://github.com/mtotschnig/MyExpenses/issues/640), [#704](https://github.com/mtotschnig/MyExpenses/issues/704), [#638](https://github.com/mtotschnig/MyExpenses/issues/638)) in the context of his internship.
+- [arnaldotecadm](https://github.com/arnaldotecadm) implemented JSON export
 
 Build
 =====

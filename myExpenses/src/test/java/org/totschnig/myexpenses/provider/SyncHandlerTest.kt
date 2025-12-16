@@ -7,9 +7,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
-import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.db2.extractTagId
 import org.totschnig.myexpenses.db2.findCategory
 import org.totschnig.myexpenses.db2.findParty
@@ -18,10 +16,8 @@ import org.totschnig.shared_test.assertTransaction
 import org.totschnig.shared_test.findCategoryPath
 
 @RunWith(RobolectricTestRunner::class)
-class SyncHandlerTest : BaseTestWithRepository() {
-    private lateinit var provider: BaseTransactionProvider
+class SyncHandlerTest : TransactionProviderBaseTest() {
     private lateinit var context: Context
-    private var accountId: Long = 0
 
     private fun prepareSyncFile(context: Context, resourceName: String) {
         // Read the JSON content from your test resources
@@ -47,9 +43,7 @@ class SyncHandlerTest : BaseTestWithRepository() {
 
     @Before
     fun setUp() {
-        provider = Robolectric.buildContentProvider(TransactionProvider::class.java).create().get()
         context = ApplicationProvider.getApplicationContext()
-        accountId = insertAccount("Test Account")
     }
 
     @Test

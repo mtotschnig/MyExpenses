@@ -1447,5 +1447,18 @@ abstract class BaseTransactionDatabase(
             )
         }
     }
+
+    fun SupportSQLiteDatabase.checkDefaultTransferCategory() {
+        prefHandler.defaultTransferCategory?.let { transfer ->
+            if (!query(
+                    "SELECT 1 FROM $TABLE_CATEGORIES WHERE $KEY_ROWID = ?",
+                    arrayOf(transfer)
+                ).use { it.moveToFirst() }
+            ) {
+                prefHandler.defaultTransferCategory = null
+                CrashHandler.report(IllegalArgumentException("Default transfer category $transfer was stale and has been set to null."))
+            }
+        }
+    }
 }
 

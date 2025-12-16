@@ -753,7 +753,8 @@ abstract class BaseMyExpenses : LaunchActivity(), OnDialogResultListener, Contri
                             } else null,
                             listState = viewModel.listState,
                             showEquivalentWorth = viewModel.showEquivalentWorth.flow
-                                .collectAsState(false).value,
+                                .collectAsState(false).value &&
+                                    data.any { it.isHomeAggregate },
                             expansionHandlerGroups = viewModel.expansionHandler("collapsedHeadersDrawer_${accountGrouping.value}"),
                             expansionHandlerAccounts = viewModel.expansionHandler("expandedAccounts"),
                             bankIcon = { modifier, id ->

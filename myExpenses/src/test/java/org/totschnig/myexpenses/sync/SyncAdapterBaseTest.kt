@@ -20,6 +20,8 @@ open class SyncAdapterBaseTest: BaseTestWithRepository() {
 
     fun buildUpdated(uuid: String) = buildWithTimestamp(uuid,TransactionChange.Type.updated)
 
+    fun buildSpecial(uuid: String) = buildWithTimestamp(uuid,TransactionChange.Type.unsplit)
+
 
     private fun buildWithTimestamp(uuid: String, type: TransactionChange.Type) =
         TransactionChange(

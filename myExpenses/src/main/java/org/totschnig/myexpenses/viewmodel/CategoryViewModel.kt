@@ -648,7 +648,7 @@ open class CategoryViewModel(
     fun defaultTransferCategory() = liveData(context = coroutineContext()) {
         emit(
             prefHandler.defaultTransferCategory?.let {
-                repository.getCategoryPath(it)
+                repository.getCategoryPath(it) ?: "Category $it not found"
             } ?: getString(R.string.unmapped)
         )
     }

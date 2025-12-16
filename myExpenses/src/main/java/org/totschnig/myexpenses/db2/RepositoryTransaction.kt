@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.db2
 
 import android.content.ContentProviderOperation
+import android.content.ContentProviderResult
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
@@ -50,6 +51,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.SPLIT_CATID
+import org.totschnig.myexpenses.provider.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.AUTHORITY
 import org.totschnig.myexpenses.provider.TransactionProvider.EXTENDED_URI
@@ -109,7 +111,7 @@ data class RepositoryTransaction(
     val data: Transaction,
     val transferPeer: Transaction? = null,
     val splitParts: List<RepositoryTransaction>? = null,
-    val tags: List<Tag>? = null
+    val tags: List<Tag>? = null,
 ) {
     val id = data.id
     val isTransfer = transferPeer != null
@@ -125,29 +127,27 @@ fun Repository.createTransaction(repositoryTransaction: RepositoryTransaction) =
 
     repositoryTransaction.isSplit -> createSplitTransaction(
         repositoryTransaction.data,
-        repositoryTransaction.splitParts!!.map { it.data to it.transferPeer  }
+        repositoryTransaction.splitParts!!.map { it.data to it.transferPeer }
     )
 
     else -> createTransaction(repositoryTransaction.data)
 }
 
-fun Repository.updateTransaction(repositoryTransaction: RepositoryTransaction) = when {
+fun Repository.updateTransaction(repositoryTransaction: RepositoryTransaction): Array<ContentProviderResult> =
+    when {
 
-    repositoryTransaction.isTransfer -> updateTransfer(
-        repositoryTransaction.data,
-        repositoryTransaction.transferPeer!!
-    )
+        repositoryTransaction.isTransfer -> updateTransfer(
+            repositoryTransaction.data,
+            repositoryTransaction.transferPeer!!
+        )
 
-    repositoryTransaction.isSplit -> updateSplitTransaction(
-        repositoryTransaction.data,
-        repositoryTransaction.splitParts!!.map { it.data }
-    )
+        repositoryTransaction.isSplit -> updateSplitTransaction(repositoryTransaction)
 
-    else -> updateTransaction(repositoryTransaction.data)
-}
+        else -> updateTransaction(repositoryTransaction.data)
+    }
 
 fun Repository.createTransaction(transaction: Transaction): RepositoryTransaction {
-    require(transaction.id == 0L) { "Use updateTemplate for existing templates" }
+    require(transaction.id == 0L) { "Use updateTransaction for existing transactions" }
     require(transaction.transferAccountId == null) { "Use createTransfer instead" }
     require(transaction.categoryId != SPLIT_CATID) { "Use createSplitTransaction instead" }
     require((transaction.originalAmount != null) == (transaction.originalCurrency != null)) {
@@ -166,16 +166,23 @@ fun Repository.createTransaction(transaction: Transaction): RepositoryTransactio
 }
 
 fun Repository.updateTransaction(
-    transaction: Transaction
-) = contentResolver.update(
-    ContentUris.withAppendedId(TRANSACTIONS_URI, transaction.id),
-    transaction.asContentValues(false),
-    null, null
-) == 1
+    transaction: Transaction,
+) = contentResolver.applyBatch(
+    AUTHORITY,
+    ArrayList<ContentProviderOperation>().apply {
+        add(
+            ContentProviderOperation.newUpdate(
+                ContentUris.withAppendedId(TRANSACTIONS_URI, transaction.id)
+            )
+                .withValues(transaction.asContentValues(false))
+                .build()
+        )
+    }
+)
 
 fun Repository.createTransfer(
     sourceTransaction: Transaction,
-    destinationTransaction: Transaction
+    destinationTransaction: Transaction,
 ): RepositoryTransaction {
     require(sourceTransaction.date == destinationTransaction.date)
     requireNotNull(sourceTransaction.uuid)
@@ -203,8 +210,8 @@ fun Repository.createTransfer(
 
 fun Repository.updateTransfer(
     sourceTransaction: Transaction,
-    destinationTransaction: Transaction
-): Boolean {
+    destinationTransaction: Transaction,
+): Array<ContentProviderResult> {
     require(
         sourceTransaction.transferAccountId == destinationTransaction.accountId &&
                 sourceTransaction.accountId == destinationTransaction.transferAccountId
@@ -242,14 +249,13 @@ fun Repository.updateTransfer(
             .withValues(destinationTransaction.asContentValues(true)) // we need to set the uuid again
             .build()
     )
-    val results = contentResolver.applyBatch(AUTHORITY, operations)
-    return results[0].count == 1 && results[1].count == 1
+    return contentResolver.applyBatch(AUTHORITY, operations)
 }
 
 @VisibleForTesting
 fun Repository.createSplitTransaction(
     parentTransaction: Transaction,
-    splitTransactions: List<Transaction>
+    splitTransactions: List<Transaction>,
 ): RepositoryTransaction = createSplitTransaction(
     parentTransaction,
     splitTransactions.map { it to null }
@@ -259,7 +265,7 @@ fun Repository.createSplitTransaction(
 @JvmName("createSplitTransactionWithTransfers")
 fun Repository.createSplitTransaction(
     parentTransaction: Transaction,
-    splitParts: List<Pair<Transaction, Transaction?>>
+    splitParts: List<Pair<Transaction, Transaction?>>,
 ): RepositoryTransaction {
     // --- Validation ---
     require(parentTransaction.isSplit) { "Parent transaction must be a split." }
@@ -284,7 +290,6 @@ fun Repository.createSplitTransaction(
 
     // Prepare to build the complete return objects
     val finalSplitParts = mutableListOf<RepositoryTransaction>()
-    var opIndex = 1 // Start counting operations after the parent
 
     // --- Process each split part ---
     splitParts.forEach { (splitPart, peer) ->
@@ -299,7 +304,6 @@ fun Repository.createSplitTransaction(
             )
             // Prepare the final object, ID will be filled in later
             finalSplitParts.add(RepositoryTransaction(splitPart))
-            opIndex++
         } else {
             // --- This is a TRANSFER split part ---
             operations.addAll(
@@ -317,7 +321,6 @@ fun Repository.createSplitTransaction(
                     peer
                 )
             )
-            opIndex += 3 // A transfer adds 3 operations
         }
     }
 
@@ -356,43 +359,39 @@ fun Repository.createSplitTransaction(
 }
 
 
-fun Repository.updateSplitTransaction(
-    parentTransaction: Transaction,
-    splitParts: List<Transaction>
-): Boolean {
+fun Repository.updateSplitTransaction(repositoryTransaction: RepositoryTransaction): Array<ContentProviderResult> {
     // --- Validation ---
+    val parentTransaction = repositoryTransaction.data
     require(parentTransaction.isSplit) { "Parent transaction must be a split." }
-    require(splitParts.sumOf { it.amount } == parentTransaction.amount) { "Sum of splits must equal parent amount." }
-    require(splitParts.all { it.date == parentTransaction.date }) {
+    val splitParts = repositoryTransaction.splitParts!!
+    require(splitParts.sumOf { it.data.amount } == parentTransaction.amount) { "Sum of splits must equal parent amount." }
+    require(splitParts.all { it.data.date == parentTransaction.date }) {
         "Split transactions date must match parent date."
     }
-    require(splitParts.all { it.accountId == parentTransaction.accountId }) { "All splits must be in the same account." }
+    require(splitParts.all { it.data.accountId == parentTransaction.accountId }) { "All splits must be in the same account." }
 
     val operations = ArrayList<ContentProviderOperation>()
 
     // --- 1. Handle Deletions ---
     // Get IDs of parts that have a non-zero ID (i.e., they already exist in the DB).
     val keepIds = splitParts.mapNotNull { if (it.id != 0L) it.id else null }
+    val placeholders = List(keepIds.size) { "?" }.joinToString(",")
 
-    if (keepIds.isEmpty()) {
-        // If no existing parts are being kept, delete all children of the parent.
-        operations.add(
-            ContentProviderOperation.newDelete(TRANSACTIONS_URI)
-                .withSelection("$KEY_PARENTID = ?", arrayOf(parentTransaction.id.toString()))
-                .build()
-        )
-    } else {
-        // Otherwise, delete any children that are NOT in the list of IDs to keep.
-        val placeholders = List(keepIds.size) { "?" }.joinToString(",")
-        val selection = "$KEY_PARENTID = ? AND $KEY_ROWID NOT IN ($placeholders)"
-        val selectionArgs = arrayOf(parentTransaction.id.toString()) + keepIds.map { it.toString() }
+    val deleteSubquery =
+        "SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_PARENTID = ? AND $KEY_ROWID NOT IN ($placeholders)"
 
-        operations.add(
-            ContentProviderOperation.newDelete(TRANSACTIONS_URI)
-                .withSelection(selection, selectionArgs)
-                .build()
-        )
-    }
+    val selection = "$KEY_ROWID IN ($deleteSubquery) OR $KEY_TRANSFER_PEER IN ($deleteSubquery)"
+
+    // The selection arguments need to be duplicated because the subquery appears twice.
+    val baseArgs = arrayOf(parentTransaction.id.toString())
+    val keepArgs = keepIds.map { it.toString() }.toTypedArray()
+    val selectionArgs = baseArgs + keepArgs + baseArgs + keepArgs
+
+    operations.add(
+        ContentProviderOperation.newDelete(TRANSACTIONS_URI)
+            .withSelection(selection, selectionArgs)
+            .build()
+    )
 
     // --- 2. Update Parent Transaction ---
     operations.add(
@@ -403,37 +402,53 @@ fun Repository.updateSplitTransaction(
             .build()
     )
 
-    // --- 3. Insert New Parts and Update Existing Parts ---
     for (transaction in splitParts) {
-        val operation = if (transaction.id == 0L) {
-            // NEW: This is a new split part, so insert it.
-            ContentProviderOperation.newInsert(TRANSACTIONS_URI)
-                .withValues(
-                    transaction.asContentValues(true)
-                        .apply {
-                            put(KEY_PARENTID, parentTransaction.id)
-                        })
+        if (transaction.id == 0L) {
+            if (transaction.isTransfer) {
+                operations.addAll(
+                    getTransferOperations(
+                        source = transaction.data,
+                        destination = transaction.transferPeer!!,
+                        offset = operations.size,
+                        parentId = parentTransaction.id
+                    )
+                )
+            } else {
+                operations.add(
+                    ContentProviderOperation.newInsert(TRANSACTIONS_URI)
+                        .withValues(
+                            transaction.data.asContentValues(true)
+                                .apply {
+                                    put(KEY_PARENTID, parentTransaction.id)
+                                })
+                        .build()
+                )
+            }
         } else {
-            // EXISTING: This part already exists, so update it.
-            ContentProviderOperation.newUpdate(
-                ContentUris.withAppendedId(TRANSACTIONS_URI, transaction.id)
+            operations.add(
+                ContentProviderOperation.newUpdate(
+                    ContentUris.withAppendedId(TRANSACTIONS_URI, transaction.id)
+                )
+                    .withValues(transaction.data.asContentValues(false)).build()
             )
-                .withValues(transaction.asContentValues(false))
+            transaction.transferPeer?.let {
+                operations.add(
+                    ContentProviderOperation.newUpdate(
+                        ContentUris.withAppendedId(TRANSACTIONS_URI, it.id)
+                    )
+                        .withValues(it.asContentValues(false)).build()
+                )
+            }
         }
-        operations.add(operation.build())
     }
 
-    val results = contentResolver.applyBatch(AUTHORITY, operations)
-    return results.mapIndexed { index, result ->
-        //first result is delete, others either insert or update
-        if (index == 0) true else result.uri != null || result.count == 1
-    }.all { it }
+    return contentResolver.applyBatch(AUTHORITY, operations)
 }
 
 suspend fun Repository.loadTransactions(
     accountId: Long,
     limit: Int? = 200,
-    withTags: Boolean = false
+    withTags: Boolean = false,
 ): List<Transaction> {
     val filter = FilterPersistence(
         dataStore = dataStore,
@@ -509,7 +524,7 @@ fun Repository.getTransactionSum(account: DataBaseAccount, filter: Criterion? = 
 fun Repository.getTransactionSum(
     id: Long,
     currency: String? = null,
-    filter: Criterion? = null
+    filter: Criterion? = null,
 ): Long {
     var selection =
         "$KEY_ACCOUNTID = ? AND $WHERE_NOT_SPLIT_PART AND $WHERE_NOT_VOID"
@@ -533,7 +548,7 @@ fun Repository.getTransactionSum(
 
 fun Repository.archive(
     accountId: Long,
-    range: Pair<LocalDate, LocalDate>
+    range: Pair<LocalDate, LocalDate>,
 ) = contentResolver.call(TransactionProvider.DUAL_URI, METHOD_ARCHIVE, null, Bundle().apply {
     putLong(KEY_ACCOUNTID, accountId)
     putSerializable(KEY_START, range.first)
@@ -566,7 +581,7 @@ fun Repository.unarchive(id: Long) {
 
 fun Repository.canBeArchived(
     accountId: Long,
-    range: Pair<LocalDate, LocalDate>
+    range: Pair<LocalDate, LocalDate>,
 ) = BundleCompat.getParcelable(
     contentResolver.call(
         TransactionProvider.DUAL_URI,
@@ -580,7 +595,7 @@ fun Repository.canBeArchived(
 )!!
 
 fun Repository.countTransactionsPerAccount(
-    accountId: Long
+    accountId: Long,
 ) = count(
     TRANSACTIONS_URI,
     "$KEY_ACCOUNTID = ? AND $KEY_PARENTID is null",
@@ -618,7 +633,7 @@ fun Repository.getPayeeForTransaction(id: Long) = contentResolver.findBySelectio
 private fun ContentResolver.findBySelection(
     selection: String,
     selectionArgs: Array<String>,
-    column: String
+    column: String,
 ) =
     query(
         TRANSACTIONS_URI
@@ -658,7 +673,7 @@ fun Repository.insertTransaction(
     comment: String? = null,
     methodId: Long? = null,
     referenceNumber: String? = null,
-    debtId: Long? = null
+    debtId: Long? = null,
 ): RepositoryTransaction = createTransaction(
     Transaction(
         accountId = accountId,
@@ -690,7 +705,7 @@ fun Repository.insertTransfer(
     date: LocalDateTime = LocalDateTime.now(),
     payeeId: Long? = null,
     comment: String? = null,
-    uuid: String = generateUuid()
+    uuid: String = generateUuid(),
 ): RepositoryTransaction = createTransfer(
     Transaction(
         accountId = accountId,
@@ -730,7 +745,8 @@ private fun getTransferOperations(
     source: Transaction,
     destination: Transaction,
     offset: Int,
-    parentBackRefIndex: Int? = null
+    parentBackRefIndex: Int? = null,
+    parentId: Long? = null,
 ): List<ContentProviderOperation> {
     // The builder for the source transaction, which may or may not be linked to a parent.
     require(
@@ -746,6 +762,9 @@ private fun getTransferOperations(
             .apply {
                 if (parentBackRefIndex != null) {
                     withValueBackReference(KEY_PARENTID, parentBackRefIndex)
+                }
+                if (parentId != null) {
+                    withValue(KEY_PARENTID, parentId)
                 }
             }.build(),
 
@@ -796,66 +815,66 @@ fun Repository.groupToSplitTransaction(ids: LongArray): Result<Boolean> {
         projection, null, null, null
     )!!.use { cursor ->
 
-            when (cursor.count) {
-                1 -> {
-                    cursor.moveToFirst()
-                    val accountId = cursor.getLong(KEY_ACCOUNTID)
-                    val currencyUnit = currencyContext[cursor.getString(KEY_CURRENCY)]
-                    val amount = Money(
-                        currencyUnit,
-                        cursor.getLong(KEY_AMOUNT)
+        when (cursor.count) {
+            1 -> {
+                cursor.moveToFirst()
+                val accountId = cursor.getLong(KEY_ACCOUNTID)
+                val currencyUnit = currencyContext[cursor.getString(KEY_CURRENCY)]
+                val amount = Money(
+                    currencyUnit,
+                    cursor.getLong(KEY_AMOUNT)
+                )
+                val equivalentAmount = Money(
+                    currencyContext.homeCurrencyUnit,
+                    cursor.getLong(KEY_EQUIVALENT_AMOUNT)
+                )
+                val payeeId = cursor.getLongOrNull(KEY_PAYEEID)
+                val date = cursor.getLong(KEY_DATE)
+                val crStatus =
+                    enumValueOrDefault(
+                        cursor.getString(KEY_CR_STATUS),
+                        CrStatus.UNRECONCILED
                     )
-                    val equivalentAmount = Money(
-                        currencyContext.homeCurrencyUnit,
-                        cursor.getLong(KEY_EQUIVALENT_AMOUNT)
-                    )
-                    val payeeId = cursor.getLongOrNull(KEY_PAYEEID)
-                    val date = cursor.getLong(KEY_DATE)
-                    val crStatus =
-                        enumValueOrDefault(
-                            cursor.getString(KEY_CR_STATUS),
-                            CrStatus.UNRECONCILED
-                        )
-                    val parent = Transaction(
-                        accountId = accountId,
-                        amount = amount.amountMinor,
-                        categoryId = SPLIT_CATID,
-                        date = date,
-                        uuid = generateUuid(),
-                        payeeId = payeeId,
-                        crStatus = crStatus,
-                        equivalentAmount = equivalentAmount.amountMinor
-                    )
-                    val operations = ArrayList<ContentProviderOperation>()
-                    operations.add(
-                        ContentProviderOperation.newInsert(TRANSACTIONS_URI)
-                            .withValues(parent.asContentValues(true))
-                            .build()
-                    )
-                    val where = KEY_ROWID + " " + Operation.IN.getOp(count)
-                    val selectionArgs = ids.map { it.toString() }.toTypedArray()
+                val parent = Transaction(
+                    accountId = accountId,
+                    amount = amount.amountMinor,
+                    categoryId = SPLIT_CATID,
+                    date = date,
+                    uuid = generateUuid(),
+                    payeeId = payeeId,
+                    crStatus = crStatus,
+                    equivalentAmount = equivalentAmount.amountMinor
+                )
+                val operations = ArrayList<ContentProviderOperation>()
+                operations.add(
+                    ContentProviderOperation.newInsert(TRANSACTIONS_URI)
+                        .withValues(parent.asContentValues(true))
+                        .build()
+                )
+                val where = KEY_ROWID + " " + Operation.IN.getOp(count)
+                val selectionArgs = ids.map { it.toString() }.toTypedArray()
 
-                    operations.add(
-                        ContentProviderOperation.newUpdate(TRANSACTIONS_URI)
-                            .withValues(ContentValues().apply {
-                                put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
-                                put(KEY_DATE, parent.date)
-                                putNull(KEY_PAYEEID)
-                            })
-                            .withValueBackReference(KEY_PARENTID, 0)
-                            .withSelection(where, selectionArgs)
-                            .withExpectedCount(count)
-                            .build()
-                    )
-                    contentResolver.applyBatch(AUTHORITY, operations)
-                    Result.success(true)
-                }
-
-                0 -> Result.failure(IllegalStateException().also {
-                    CrashHandler.report(it)
-                })
-
-                else -> Result.success(false)
+                operations.add(
+                    ContentProviderOperation.newUpdate(TRANSACTIONS_URI)
+                        .withValues(ContentValues().apply {
+                            put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name)
+                            put(KEY_DATE, parent.date)
+                            putNull(KEY_PAYEEID)
+                        })
+                        .withValueBackReference(KEY_PARENTID, 0)
+                        .withSelection(where, selectionArgs)
+                        .withExpectedCount(count)
+                        .build()
+                )
+                contentResolver.applyBatch(AUTHORITY, operations)
+                Result.success(true)
             }
+
+            0 -> Result.failure(IllegalStateException().also {
+                CrashHandler.report(it)
+            })
+
+            else -> Result.success(false)
+        }
     }
 }
