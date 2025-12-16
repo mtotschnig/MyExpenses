@@ -1072,4 +1072,12 @@
     <string name="content_description_clear_party">مسح المجموعة المحددة</string>
     <string name="content_description_browse_device_files">تصفح الملفات على هذا الجهاز</string>
     <string name="content_description_select_recent_file">اختر من الملفات الحديثة</string>
+    <plurals name="import_prices_success_message">
+        <item quantity="zero">تم العثور على بيانات</item>
+        <item quantity="one">تم العثور على بيانات</item>
+        <item quantity="two">تم العثور على بيانات</item>
+        <item quantity="few">تم العثور على بيانات</item>
+        <item quantity="many">تم العثور على بيانات</item>
+        <item quantity="other">تم العثور على بيانات</item>
+    </plurals>
 </resources>
