@@ -737,7 +737,7 @@ open class MyExpensesViewModel(
                 values,
                 null,
                 null
-            ) == 1
+            ) > 0
         ) {
             emit(ResultUnit)
         } else {
