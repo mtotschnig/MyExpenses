@@ -36,7 +36,7 @@ import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
-class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
+class RemapHandler(val activity: MyExpenses) : FragmentResultListener {
 
     init {
         for (requestKey in listOf(MAP_ACCOUNT_REQUEST, MAP_METHOD_REQUEST)) {

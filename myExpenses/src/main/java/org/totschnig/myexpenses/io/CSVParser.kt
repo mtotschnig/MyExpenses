@@ -12,10 +12,9 @@ import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.export.qif.QifUtils
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.util.timeFormatter
 import java.math.BigDecimal
 import java.time.LocalTime
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 import java.util.Calendar
 
 class CSVParser(
@@ -144,7 +143,7 @@ class CSVParser(
                 try {
                     LocalTime.parse(
                         timeRecord,
-                        DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
+                        context.timeFormatter
                     )
                 } catch (_: Exception) {
                     null

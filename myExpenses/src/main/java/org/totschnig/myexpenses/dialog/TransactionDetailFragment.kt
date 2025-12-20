@@ -56,6 +56,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -107,6 +108,7 @@ import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
+import org.totschnig.myexpenses.util.timeFormatter
 import org.totschnig.myexpenses.util.ui.UiUtils.DateMode.BOOKING_VALUE
 import org.totschnig.myexpenses.util.ui.UiUtils.DateMode.DATE_TIME
 import org.totschnig.myexpenses.util.ui.getBestForeground
@@ -359,7 +361,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
         if (!transaction.isArchive) {
             val dateMode = getDateMode(transaction.accountType, prefHandler)
             val dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)
-            val timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
+            val timeFormatter = LocalContext.current.timeFormatter
 
             val dateText = buildString {
                 append(transaction.date.format(dateFormatter))
