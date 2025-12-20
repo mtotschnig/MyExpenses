@@ -166,6 +166,7 @@ dependencies {
     implementation project(':transactionscontract')
     api libs.phrase
     implementation platform(libs.androidx.compose.bom)
+    implementation("androidx.navigation:navigation-compose:2.9.6")
     implementation libs.compose.ui
     implementation libs.compose.animation.graphics
     implementation libs.androidx.compose.material3

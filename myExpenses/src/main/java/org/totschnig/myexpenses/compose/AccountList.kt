@@ -74,22 +74,23 @@ import java.text.DecimalFormat
 
 @Composable
 fun AccountList(
+    modifier: Modifier = Modifier,
     accountData: List<FullAccount>,
     grouping: AccountGrouping,
     selectedAccount: Long,
     listState: LazyListState,
-    showEquivalentWorth: Boolean,
-    onSelected: (Long) -> Unit,
-    onEdit: (FullAccount) -> Unit,
-    onDelete: (FullAccount) -> Unit,
-    onSetFlag: (Long, Long?) -> Unit,
-    onToggleSealed: (FullAccount) -> Unit,
-    onToggleExcludeFromTotals: (FullAccount) -> Unit,
-    onToggleDynamicExchangeRate: ((FullAccount) -> Unit)?,
+    showEquivalentWorth: Boolean = false,
+    onSelected: (Long) -> Unit = {},
+    onEdit: (FullAccount) -> Unit = {},
+    onDelete: (FullAccount) -> Unit = {},
+    onSetFlag: (Long, Long?) -> Unit = { _, _ -> },
+    onToggleSealed: (FullAccount) -> Unit = {},
+    onToggleExcludeFromTotals: (FullAccount) -> Unit = {},
+    onToggleDynamicExchangeRate: ((FullAccount) -> Unit)? = null,
     expansionHandlerGroups: ExpansionHandler,
     expansionHandlerAccounts: ExpansionHandler,
-    bankIcon: (@Composable (Modifier, Long) -> Unit)?,
-    flags: List<AccountFlag>
+    bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
+    flags: List<AccountFlag> = emptyList(),
 ) {
     val context = LocalContext.current
     val collapsedGroupIds = expansionHandlerGroups.state.collectAsState(initial = null).value
@@ -100,7 +101,7 @@ fun AccountList(
         val grouped: Map<String, List<FullAccount>> =
             accountData.groupBy { getHeaderId(grouping, it) }
         LazyColumnWithScrollbarAndBottomPadding(
-            modifier = Modifier.background(MaterialTheme.colorScheme.background),
+            modifier = modifier.background(MaterialTheme.colorScheme.background),
             state = listState,
             itemsAvailable = accountData.size + grouped.size,
             withFab = false,
@@ -364,7 +365,11 @@ fun AccountCard(
                                     flags.filter { it.id != DEFAULT_FLAG_ID }.map {
                                         val isChecked = account.flag.id == it.id
                                         CheckableMenuEntry(
-                                            label = UiText.StringValue(it.localizedLabel(LocalContext.current)),
+                                            label = UiText.StringValue(
+                                                it.localizedLabel(
+                                                    LocalContext.current
+                                                )
+                                            ),
                                             command = "SET_FLAG",
                                             isRadio = true,
                                             isChecked = isChecked
@@ -372,7 +377,7 @@ fun AccountCard(
                                             if (isChecked) {
                                                 onSetFlag(account.id, DEFAULT_FLAG_ID)
                                             } else
-                                            onSetFlag(account.id, it.id)
+                                                onSetFlag(account.id, it.id)
                                         }
                                     }
                                 )

@@ -143,7 +143,7 @@ enum class FutureCriterion {
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TransactionList(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     lazyPagingItems: LazyPagingItems<Transaction2>,
     headerData: HeaderDataResult,
     budgetData: State<BudgetData?>,
