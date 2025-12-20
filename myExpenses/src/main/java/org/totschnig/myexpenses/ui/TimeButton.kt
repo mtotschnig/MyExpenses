@@ -5,13 +5,11 @@ import android.text.format.DateFormat.is24HourFormat
 import android.util.AttributeSet
 import com.evernote.android.state.State
 import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.ui.preferredTimePickerBuilder
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 
 class TimeButton @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -25,8 +23,9 @@ class TimeButton @JvmOverloads constructor(
         time = LocalTime.now()
     }
 
-    private var timeFormatter: DateTimeFormatter =
-        DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
+    private val timeFormatter: DateTimeFormatter by lazy {
+        DateTimeFormatter.ofPattern(if (is24HourFormat(context)) "HH:mm" else "h:mm a")
+    }
 
     override fun buildDialog() = preferredTimePickerBuilder(context)
         .setHour(time.hour)
