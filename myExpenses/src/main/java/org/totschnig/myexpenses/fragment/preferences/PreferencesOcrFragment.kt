@@ -40,7 +40,7 @@ class PreferencesOcrFragment : BasePreferenceFragment() {
                         LocalDate.now().format(DateTimeFormatter.ofPattern(line))
                     }
                     true
-                } catch (e: Exception) {
+                } catch (_: Exception) {
                     preferenceActivity.showSnackBar(R.string.date_format_illegal)
                     false
                 }
@@ -70,7 +70,7 @@ class PreferencesOcrFragment : BasePreferenceFragment() {
                     LocalTime.now().format(DateTimeFormatter.ofPattern(line))
                 }
                 true
-            } catch (e: Exception) {
+            } catch (_: Exception) {
                 preferenceActivity.showSnackBar(R.string.date_format_illegal)
                 false
             }

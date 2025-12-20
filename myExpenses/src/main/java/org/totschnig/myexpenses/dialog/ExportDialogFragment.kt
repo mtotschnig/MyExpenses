@@ -17,7 +17,11 @@ package org.totschnig.myexpenses.dialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.text.*
+import android.text.Editable
+import android.text.InputFilter
+import android.text.Spanned
+import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.EditText
@@ -39,6 +43,7 @@ import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGAT
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.timeFormatterPattern
 import org.totschnig.myexpenses.util.ui.configurePopupAnchor
 import org.totschnig.myexpenses.util.ui.postScrollToBottom
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_CREATE_HELPER
@@ -154,11 +159,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
                 } catch (_: IllegalArgumentException) {
                     null
                 }) != null
-            } ?: DateTimeFormatterBuilder.getLocalizedDateTimePattern(
-            null,
-            FormatStyle.SHORT,
-            IsoChronology.INSTANCE, Locale.getDefault()
-        )
+            } ?: requireContext().timeFormatterPattern
         binding.timeFormat.setText(timeFormat)
         binding.timeFormat.addTextChangedListener(DateFormatWatcher(binding.timeFormat))
         configureDateTimeFormat()
