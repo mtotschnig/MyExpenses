@@ -10,10 +10,10 @@ import kotlinx.coroutines.CoroutineDispatcher
 import okhttp3.OkHttpClient
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.BaseActivity
-import org.totschnig.myexpenses.activity.BaseMyExpenses
 import org.totschnig.myexpenses.activity.CsvImportActivity
 import org.totschnig.myexpenses.activity.EditActivity
 import org.totschnig.myexpenses.activity.ExpenseEdit
+import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.activity.PreferenceActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.db2.Repository
@@ -179,7 +179,7 @@ interface AppComponent {
 
     fun inject(expenseEdit: ExpenseEdit)
 
-    fun inject(myExpenses: BaseMyExpenses)
+    fun inject(myExpenses: MyExpenses)
 
     fun inject(preferenceActivity: PreferenceActivity)
 

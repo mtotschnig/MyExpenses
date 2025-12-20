@@ -84,6 +84,7 @@ import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 import java.util.Collections
 import kotlin.math.absoluteValue
+import androidx.compose.ui.platform.LocalResources
 
 data class ScrollCalculationResult(
     val index: Int,
@@ -495,7 +496,7 @@ fun HeaderRenderer(
                         .size(42.dp),
                     progress = progress,
                     fontSize = 12.sp,
-                    color = Color(account.color(LocalContext.current.resources)),
+                    color = Color(account.color(LocalResources.current)),
                     excessColor = LocalColors.current.expense
                 )
 
@@ -568,15 +569,16 @@ private fun Header() {
     )
     HeaderRenderer(
         account = PageAccount(
-            1,
-            AccountType.CASH,
-            KEY_DATE,
-            SortDirection.DESC,
-            Grouping.NONE,
-            CurrencyUnit.DebugInstance,
-            false,
-            1234,
-            0
+            id = 1,
+            type = AccountType.CASH,
+            sortBy = KEY_DATE,
+            sortDirection = SortDirection.DESC,
+            grouping = Grouping.NONE,
+            currencyUnit = CurrencyUnit.DebugInstance,
+            sealed = false,
+            openingBalance = 1234,
+            currentBalance = 0,
+            label = "ar"
         ),
         headerId = 2022001,
         headerRow = headerRow,
@@ -599,15 +601,16 @@ private fun HeaderWithBudgetProgress() {
     )
     HeaderRenderer(
         account = PageAccount(
-            1,
-            AccountType.CASH,
-            KEY_DATE,
-            SortDirection.DESC,
-            Grouping.NONE,
-            CurrencyUnit.DebugInstance,
-            false,
-            1234,
-            0
+            id = 1,
+            type = AccountType.CASH,
+            sortBy = KEY_DATE,
+            sortDirection = SortDirection.DESC,
+            grouping = Grouping.NONE,
+            currencyUnit = CurrencyUnit.DebugInstance,
+            sealed = false,
+            openingBalance = 1234,
+            currentBalance = 0,
+            label = "Konto"
         ),
         headerId = 2022001,
         headerRow = headerRow,

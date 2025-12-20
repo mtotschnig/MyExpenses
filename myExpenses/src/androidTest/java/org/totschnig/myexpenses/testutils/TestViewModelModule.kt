@@ -31,8 +31,9 @@ object TestViewModelModule : ViewModelModule() {
     }
 }
 
-class DecoratingMyExpensesViewModel(application: Application,
-                                    savedStateHandle: SavedStateHandle
+class DecoratingMyExpensesViewModel(
+    application: Application,
+    savedStateHandle: SavedStateHandle,
 ) : MyExpensesViewModel(application, savedStateHandle) {
     val countingResource = CountingIdlingResource("TransactionPaging", true)
 
@@ -62,7 +63,7 @@ class FakeSyncBackendViewModel(application: Application) :
 
     override fun accountMetadata(
         accountName: String,
-        isFeatureAvailable: Boolean
+        isFeatureAvailable: Boolean,
     ): LiveData<Result<List<Result<AccountMetaData>>>> = liveData {
         val syncedAccount = with(getApplication<TestApp>().fixture) {
             when (accountName) {
@@ -72,7 +73,18 @@ class FakeSyncBackendViewModel(application: Application) :
                 else -> throw IllegalStateException()
             }
         }
-        emit(Result.success(listOf(Result.success(AccountMetaData.from(syncedAccount, getApplication<MyApplication>().appComponent.currencyContext().homeCurrencyString)))))
+        emit(
+            Result.success(
+                listOf(
+                    Result.success(
+                        AccountMetaData.from(
+                            syncedAccount,
+                            getApplication<MyApplication>().appComponent.currencyContext().homeCurrencyString
+                        )
+                    )
+                )
+            )
+        )
     }
 }
 
@@ -84,7 +96,7 @@ class DecoratedTransactionPagingSource(
     currencyContext: CurrencyContext,
     coroutineScope: CoroutineScope,
     private val countingIdlingResource: CountingIdlingResource,
-    prefHandler: PrefHandler
+    prefHandler: PrefHandler,
 ) : TransactionPagingSource(
     context,
     account,
