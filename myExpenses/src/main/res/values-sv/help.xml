@@ -26,4 +26,10 @@
     <string name="help_ManageParties_select_mapping_info">Välj en part genom att knacka på den.</string>
     <string name="cab_create_template_from_transaction_help_text">Definiera en ny mall som baseras på den valda transaktionen. Kommer att uppmärksamma dig om mallens titel.</string>
     <string name="menu_reset_help_text">Det här kommandot kommer att exportera alla transaktioner på det aktuella kontot till en fil på SD-kortet i QIF eller CSV-format. Du kan välja att ta bort de exporterade transaktionerna, i så fall justeras det ingående saldot automatiskt. Alternativt, om transaktionerna inte tas bort kommer de att markeras som exporterade. Mina utgifter kan dela filen direkt efter exporten via FTP, e-post eller någon annan fildelningsapp, om du konfigurerar den att göra det i Inställningarna. Om ett sökfilter är aktivt så kommer endast de transaktioner som kartlagts av detta filter att beaktas.</string>
+    <string name="help_ExpenseEdit_transaction_title">Formulär för transaktioner</string>
+    <string name="help_ExpenseEdit_transfer_title">Formulär för överföringar</string>
+    <string name="help_ExpenseEdit_split_title">Formulär för uppdelningar</string>
+    <string name="help_AccountEdit_title">Formulär för konton</string>
+    <string name="help_BudgetEdit_title">Formulär för budgetar</string>
+    <string name="form_method_help_text">Detta fält är bara tillgängligt om det aktuella kontot är av en typ som är knuten till en betalningsmetod. Som standard är endast bankkonton knutna till betalningsmetoder (check, kreditkort, insättning, direkt debitering). Gå till Inställningar -&gt; Hantera -&gt; Betalningsmetoder för att konfigurera anknytningen mellan kontotyper och betalningsmetoder. När du väljer en metod som är definierad som numrerad blir ytterligare ett fält, där ett referensnummer kan anges, tillgängligt.</string>
 </resources>
