@@ -114,4 +114,11 @@
     <string name="Sub_19_9">Personnummer</string>
     <string name="Main_18">Lån/Inteckningar</string>
     <string name="Sub_7_4">Operationsveterinär</string>
+    <string name="Main_3">Huvudkategori</string>
+    <string name="Sub_6_7">Självbetjäning</string>
+    <string name="Main_16">Boende</string>
+    <string name="Sub_21_5">Spårvagn</string>
+    <string name="Sub_22_1">Boende</string>
+    <string name="Sub_3_3">Inkomster av kapital</string>
+    <string name="Sub_16_10">Vitvaror</string>
 </resources>
