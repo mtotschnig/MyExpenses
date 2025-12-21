@@ -6,20 +6,21 @@ screenshot_titles:
   summarize: Sammanställ alla dina konton
   split: Dela upp till flera kategorier
   budget: Årligen, månadsvis och veckobaserade budgetar
+  distribution: Cirkeldiagram
 store:
   highlight_3: Sammanfatta din finansiella situation per dag, vecka eller år
   full_description_intro: '{app_name} håller koll på dina utgifter och din inkomst
     direkt i din smarttelefon och i din surfplatta.'
-  highlight_2: Dela din data mellan flera telefoner och surfplattor via WebDAV och
-    Google Drive
+  highlight_2: Dela din data mellan flera telefoner och surfplattor via WebDAV 
+    och Google Drive
   full_description_contrib: 'Premium-funktioner låses upp vid köp utav en av de följande
     licensnycklarna:'
-  highlight_1: Håll koll på dina utgifter och inkomsten med flera konton, mallar och
-    kategorier
+  highlight_1: Håll koll på dina utgifter och inkomsten med flera konton, mallar
+    och kategorier
   full_description_contrib_amazon: 'Många extra funktioner låses upp vid köp utav
     en av de följande licensnycklarna, t.ex:'
-  short_description: 'Personlig ekonomihanterare som är enkel att använda: rik funktionalitet
-    och källkoden är öppen'
+  short_description: 'Lättanvänd personlig ekonomihanterare: rik på funktioner och
+    med öppen källkod'
 customer_support: Kundsupport
 imprint: Avtryck
 permissions:
@@ -29,8 +30,9 @@ permissions:
   heading: <i>{app_name}</i> kräver följande <u>behörigheter</u>
   calendar:
     label: Kalender
-    explanation: Planer för framtida och återkommande överföringar lagras antingen
-      i en speciell lokal kalender eller i någon annan kalender som du anger.
+    explanation: Planer för framtida och återkommande överföringar lagras 
+      antingen i en speciell lokal kalender eller i någon annan kalender som du 
+      anger.
   internet:
     explanation_usage_tracking: Anonym spårning av användning
     explanation_crash_reporting: Kraschrapporter
@@ -50,22 +52,24 @@ sections:
 contrib:
   feature:
     roadmap_voting: Rösta rätt på <b>färdplan för utveckling</b>
-    plans_unlimited: Lås upp förmågan att skapa mer än tre abonnemang för återkommande
-      överföringar
+    plans_unlimited: Lås upp förmågan att skapa mer än tre abonnemang för 
+      återkommande överföringar
     accounts_unlimited: Lås upp förmågan att skapa mer än fem konton
     scan_receipt: '<b>Skanna kvitton</b>: Extrahera summa, datum och betalare automatiskt'
     ad_free: <b>Inga annonser</b>
     print: <b>Skriv ut</b>listan för överföringar till en PDF-fil
-    email_support: <b>Hjälp via e-post</b> med garanterat svar inom 2 arbetsdagar
+    email_support: <b>Hjälp via e-post</b> med garanterat svar inom 2 
+      arbetsdagar
     cloud_sync: '<b>Molnsynkronisering</b>: Datan kan synkas mellan flera enheter'
-    split_template: Obegränsat antal <b>mallar och abonnemang för uppdelade överföringar</b>
+    split_template: Obegränsat antal <b>mallar och abonnemang för uppdelade 
+      överföringar</b>
     split_transaction: '<b>Dela upp överföring</b>: En enkel överföring kan delas
       upp till flera delar (kategorier och överföringar)'
-    auto_backup: <b>Automatiserad säkerhetskopiering</b> varje dag med valfri uppladdning
-      till molnlagring
+    auto_backup: <b>Automatiserad säkerhetskopiering</b> varje dag med valfri 
+      uppladdning till molnlagring
     webui: <b>Webb-baserat användargränssnitt</b>
-    csv_import: Sofistikerad, anpassningsbar <b>CSV-importering</b> (applikationer
-      för kalkylblad)
+    csv_import: Sofistikerad, anpassningsbar <b>CSV-importering</b> 
+      (applikationer för kalkylblad)
     history_chart: <b>Historiskt diagram</b> (Kassaflöde)
   subscription: Prenumeration
   one-time-payment: Engångsbetalning
@@ -76,21 +80,25 @@ features:
   reconciliation: '<b>Rekonsolidering</b>: Jämför enkelt överföringsstatus med dina
     kontoutdrag'
   export: <b>Exportera</b> till QIF och CSV. <b>Importera</b> från QIF
-  homescreen: Hemskärm <b>widget</b> och <b>genvägar</b> för snabb inmatning av data
-  password: Datan kan skyddas med <b>lösenord</b> eller din enhets <b>låsskärm</b>
-  plans: Obegränsat antal <b>mallar</b> och upp till tre abonnemang för <b>återkommande</b>
-    överföringar
-  light_theme: <b>Tema</b> (mörkt och ljust) och <b>storlek på typsnitt</b> kan anpassas
-  manage_accounts: Upp till fem konton med <b>överföringar</b> (även mellan olika
-    valutor)
+  homescreen: Hemskärm <b>widget</b> och <b>genvägar</b> för snabb inmatning av 
+    data
+  password: Datan kan skyddas med <b>lösenord</b> eller din enhets 
+    <b>låsskärm</b>
+  plans: Obegränsat antal <b>mallar</b> och upp till tre abonnemang för 
+    <b>återkommande</b> överföringar
+  light_theme: <b>Tema</b> (mörkt och ljust) och <b>storlek på typsnitt</b> kan 
+    anpassas
+  manage_accounts: Upp till fem konton med <b>överföringar</b> (även mellan 
+    olika valutor)
 screenshots:
-  budget: Definiera hur mycket du tänker spendera i årliga, månatliga eller veckovisa
-    budgetar
+  budget: Definiera hur mycket du tänker spendera i årliga, månatliga eller 
+    veckovisa budgetar
   distribution: Visualisera distribueringen per kategori
-  sync: Synka krypterad kontodata på flera enheter via privata eller publika molntjänster.
+  sync: Synka krypterad kontodata på flera enheter via privata eller publika 
+    molntjänster.
   group: Gruppera dina överföringar per dag, vecka, månad och år
-  summarize: Summera alla dina konton (Sofistikerad hantering av växlingskurser per
-    konto och per överföring)
+  summarize: Summera alla dina konton (Sofistikerad hantering av växlingskurser 
+    per konto och per överföring)
   split: Dela upp en överföring till flera kategorier
   history: Förstå hur din finansiella situation utvecklar sig med tiden
   export: Skriv ut till PDF och växla via QIF och CSV.
@@ -104,6 +112,7 @@ hero_sub:
   use: Enkel att använda
   functionality: Rik på funktioner
 extended-key: Förlängd nyckel
-imprint_text: Ansvarig för innehållet på den här webbsidan och för utveckling, underhåll
-  och distribuering av <i>{app_name}</i>
+imprint_text: Ansvarig för innehållet på den här webbsidan och för utveckling, 
+  underhåll och distribuering av <i>{app_name}</i>
 professional-key: Professionell nyckel
+contrib-key: Bidragsnyckel
