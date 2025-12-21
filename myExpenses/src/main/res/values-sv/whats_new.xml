@@ -10,4 +10,5 @@
     <string name="whats_new_367">Kategorier kan nu konfigureras som kostnads- eller intäktskategorier, vilket kommer att påverka hur kostnads- och intäktssummorna beräknas.</string>
     <string name="whats_new_361_2">Filer i applikationens mapp (säkerhetskopior och exporteringar) kan delas eller bli borttagna.</string>
     <string name="whats_new_370">Menyn på huvudskärmen kan anpassas fullt ut.</string>
+    <string name="whats_new_388">Transaktioner kan arkiveras.</string>
 </resources>
