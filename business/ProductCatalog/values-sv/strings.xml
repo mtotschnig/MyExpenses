@@ -8,4 +8,16 @@
     <string name="history_title">Historiskt diagram</string>
     <string name="budget_description">Definiera hur mycket du avser att spendera varje år, per månad eller veckovisa budgetar</string>
     <string name="splittemplate_title">Delad mall</string>
+    <string name="categorytree_title">Kategoriträd</string>
+    <string name="accountsunlimited_title">Obegränsat antal konton</string>
+    <string name="accountsunlimited_description">Lås upp möjligheten att skapa fler än fem konton.</string>
+    <string name="adfree_title">Ingen reklam</string>
+    <string name="adfree_description">Ingen reklam.</string>
+    <string name="csvimport_title">CSV-import</string>
+    <string name="distribution_title">Cirkeldiagram</string>
+    <string name="print_title">Skriv ut</string>
+    <string name="print_description">Skriv ut transaktionslistan till en PDF-fil</string>
+    <string name="synchronization_title">Molnsynkronisering</string>
+    <string name="splittransaction_title">Dela upp transaktion</string>
+    <string name="professional_benefit_2">E-postsupport</string>
 </resources>
