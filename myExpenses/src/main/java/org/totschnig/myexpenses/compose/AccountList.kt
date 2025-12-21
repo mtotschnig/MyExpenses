@@ -63,6 +63,7 @@ import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.DEFAULT_FLAG_ID
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.util.calculateRealExchangeRate
@@ -147,6 +148,72 @@ fun AccountList(
 }
 
 @Composable
+fun AccountListV2(
+    modifier: Modifier = Modifier,
+    accountData: List<FullAccount>,
+    grouping: AccountGrouping,
+    selectedAccount: Long,
+    listState: LazyListState,
+    onSelected: (Long) -> Unit = {},
+    onEdit: (FullAccount) -> Unit = {},
+    onDelete: (FullAccount) -> Unit = {},
+    onSetFlag: (Long, Long?) -> Unit = { _, _ -> },
+    onToggleSealed: (FullAccount) -> Unit = {},
+    onToggleExcludeFromTotals: (FullAccount) -> Unit = {},
+    onToggleDynamicExchangeRate: ((FullAccount) -> Unit)? = null,
+    bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
+    flags: List<AccountFlag> = emptyList(),
+) {
+    val context = LocalContext.current
+
+    val grouped: Map<String, List<FullAccount>>? =
+        if (grouping == AccountGrouping.NONE) null else accountData.groupBy {
+            getHeaderId(
+                grouping,
+                it
+            )
+        }
+    LazyColumnWithScrollbarAndBottomPadding(
+        modifier = modifier,
+        state = listState,
+        itemsAvailable = accountData.size + (grouped?.size ?: 0),
+        withFab = false,
+        testTag = TEST_TAG_ACCOUNTS,
+    ) {
+        if (grouped == null) {
+            accountData.forEach { account ->
+                item(key = account.id) {
+                    AccountCardV2(
+                        account,
+                        isSelected = account.id == selectedAccount,
+                        onSelected = { onSelected(account.id) },
+                    )
+                }
+            }
+        } else {
+            grouped.forEach { group ->
+                val headerId = group.key
+                item {
+                    Header(getHeaderTitle(context, grouping, group.value.first()), true) {}
+                }
+                group.value.forEachIndexed { index, account ->
+                    if (true) {
+                        item(key = account.id) {
+                            AccountCardV2(
+                                account,
+                                isSelected = account.id == selectedAccount,
+                                onSelected = { onSelected(account.id) },
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+@Composable
 private fun Header(
     header: String,
     isExpanded: Boolean,
@@ -195,6 +262,8 @@ private fun getHeaderId(
 
     AccountGrouping.CURRENCY ->
         if (account.id == HOME_AGGREGATE_ID) AGGREGATE_HOME_CURRENCY_CODE else account.currency
+
+    AccountGrouping.FLAG -> account.flag.label
 }
 
 private fun getHeaderTitle(
@@ -214,6 +283,35 @@ private fun getHeaderTitle(
         context.getString(R.string.menu_aggregates)
     else
         Currency.create(account.currency, context).toString()
+
+    AccountGrouping.FLAG -> account.flag.localizedLabel(context)
+}
+
+@Composable
+fun AccountCardV2(
+    account: FullAccount,
+    isSelected: Boolean = false,
+    onSelected: () -> Unit = {},
+) {
+
+    val format = LocalCurrencyFormatter.current
+    val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .height(48.dp)
+            .conditional(isSelected) {
+                background(activatedBackgroundColor)
+            }
+            .clickable(onClick = onSelected),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(account.label)
+        Text(format.convAmount(account.currentBalance, account.currencyUnit))
+    }
 }
 
 @OptIn(ExperimentalFoundationApi::class)

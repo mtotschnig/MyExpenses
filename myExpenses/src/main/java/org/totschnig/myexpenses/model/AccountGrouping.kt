@@ -9,6 +9,7 @@ import org.totschnig.myexpenses.R
 enum class AccountGrouping(@param:StringRes val title: Int) {
     TYPE(R.string.type),
     CURRENCY(R.string.currency),
+    FLAG(R.string.menu_flag),
     NONE(R.string.grouping_none)
     ;
 }

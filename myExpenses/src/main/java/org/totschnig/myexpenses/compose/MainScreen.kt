@@ -7,16 +7,21 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowRight
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.automirrored.filled.ReceiptLong
 import androidx.compose.material.icons.filled.AccountBalance
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.FilterList
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
@@ -28,6 +33,7 @@ import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SecondaryScrollableTabRow
 import androidx.compose.material3.Tab
@@ -36,6 +42,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -55,6 +62,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -63,6 +71,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.collectAsLazyPagingItems
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.AccountGrouping
@@ -72,12 +85,13 @@ import org.totschnig.myexpenses.viewmodel.data.HeaderDataEmpty
 
 sealed class Screen(val route: String, val icon: ImageVector, @StringRes val resourceId: Int) {
     object Accounts : Screen("accounts", Icons.Default.AccountBalance, R.string.accounts)
-    object Transactions : Screen("transactions", Icons.AutoMirrored.Default.ReceiptLong, R.string.transaction)
+    object Transactions :
+        Screen("transactions", Icons.AutoMirrored.Default.ReceiptLong, R.string.transaction)
 }
 
 @Composable
 fun MainScreen(viewModel: MyExpensesV2ViewModel) {
-    val result = viewModel.filteredAccounts.collectAsStateWithLifecycle().value
+    val result = viewModel.accountDataV2.collectAsStateWithLifecycle().value
 
     when {
         result == null -> {
@@ -132,9 +146,9 @@ fun MyBottomAppBar(navController: NavController) {
                 IconButton(
                     onClick = {
                         navController.navigate(screen.route) {
-                            popUpTo(navController.graph.findStartDestination().id) { saveState = true }
-                            launchSingleTop = true
-                            restoreState = true
+                            //popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                            //launchSingleTop = true
+                            //restoreState = true
                         }
                     },
                 ) {
@@ -168,7 +182,7 @@ fun MyBottomAppBar(navController: NavController) {
 fun TransactionScreen(
     accounts: List<FullAccount>,
     viewModel: MyExpensesV2ViewModel,
-    navController: NavController
+    navController: NavController,
 ) {
 
     Scaffold(
@@ -191,19 +205,46 @@ fun TransactionScreen(
         }
     ) { paddingValues ->
 
-        val pagerState = rememberPagerState(pageCount = { accounts.size })
         val activeGrouping by viewModel.activeGrouping.collectAsStateWithLifecycle()
         val availableFilters by viewModel.availableGroupFilters.collectAsStateWithLifecycle()
-        val activeFilter by viewModel.activeGroupFilter.collectAsStateWithLifecycle()
+        var activeFilter: String? by remember { mutableStateOf(null) }
         val coroutineScope = rememberCoroutineScope()
         val tabRowState = rememberCollapsingTabRowState()
 
-        val currentPage = accounts.indexOfFirst { it.id == viewModel.selectedAccountId }.coerceAtLeast(0)
+        val filteredAccounts = remember {
+            derivedStateOf {
+                if (activeFilter == null || activeGrouping == AccountGrouping.NONE) accounts else
+                    accounts.filter { account ->
+                        // Filter the list based on the active strategy and filter key
+                        when (activeGrouping) {
+                            AccountGrouping.CURRENCY -> account.currencyUnit.code == activeFilter
+                            AccountGrouping.TYPE -> account.type.name == activeFilter
+                            AccountGrouping.FLAG -> account.flag.label == activeFilter
+                            else -> true
+                        }
+                    }
+            }
+        }
+
+        val currentFilteredList = filteredAccounts.value
+
+        val pagerState = rememberPagerState(pageCount = { currentFilteredList.size })
 
         LaunchedEffect(viewModel.selectedAccountId) {
+            val currentPage =
+                currentFilteredList.indexOfFirst { it.id == viewModel.selectedAccountId }.coerceAtLeast(0)
             if (pagerState.currentPage != currentPage) {
                 pagerState.scrollToPage(currentPage)
             }
+        }
+        LaunchedEffect(pagerState.settledPage) {
+            val selected = currentFilteredList[pagerState.settledPage].id
+            viewModel.selectAccount(selected)
+            viewModel.scrollToAccountIfNeeded(
+                pagerState.currentPage,
+                selected,
+                true
+            )
         }
 
         Column(
@@ -218,28 +259,29 @@ fun TransactionScreen(
                     .clipToBounds()
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box {
-                        GroupingMenu(
-                            anchor = { showMenu ->
-                                IconButton(onClick = showMenu) {
-                                    Icon(
-                                        imageVector = Icons.Default.Settings,
-                                        contentDescription = "Configure grouping"
-                                    )
-                                }
-                            },
-                            activeGrouping = activeGrouping,
-                            availableFilters = availableFilters,
-                            activeFilter = activeFilter,
-                            onGroupingChange = viewModel::setGrouping,
-                            onFilterChange = viewModel::setGroupFilter
-                        )
+                    if (activeGrouping != AccountGrouping.NONE && availableFilters.size > 1) {
+                        Box {
+                            FilterMenu(
+                                anchor = { showMenu ->
+                                    IconButton(onClick = showMenu) {
+                                        Icon(
+                                            imageVector = Icons.Default.Settings,
+                                            contentDescription = "Select"
+                                        )
+                                    }
+                                },
+                                availableFilters = availableFilters,
+                                onFilterChange = { filter ->
+                                    activeFilter = filter
+                                },
+                            )
+                        }
                     }
                     SecondaryScrollableTabRow(
-                        selectedTabIndex = pagerState.currentPage,
+                        selectedTabIndex = pagerState.currentPage.coerceAtMost(currentFilteredList.lastIndex),
                         edgePadding = 0.dp
                     ) {
-                        accounts.forEachIndexed { index, account ->
+                        currentFilteredList.forEachIndexed { index, account ->
                             Tab(
                                 selected = pagerState.currentPage == index,
                                 onClick = {
@@ -255,10 +297,11 @@ fun TransactionScreen(
             }
             HorizontalPager(
                 state = pagerState,
+                key = { currentFilteredList[it].id },
                 verticalAlignment = Alignment.Top,
                 modifier = Modifier.fillMaxSize() // The pager fills the rest of the column
             ) { page ->
-                val account = accounts[page]
+                val account = currentFilteredList[page]
                 val pageAccount = account.toPageAccount
                 val lazyPagingItems =
                     viewModel.items.getValue(pageAccount).collectAsLazyPagingItems()
@@ -284,13 +327,30 @@ fun TransactionScreen(
 fun AccountsScreen(
     accounts: List<FullAccount>,
     viewModel: MyExpensesV2ViewModel,
-    navController: NavController
+    navController: NavController,
 ) {
+    val activeGrouping by viewModel.activeGrouping.collectAsStateWithLifecycle()
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text("Accounts") },
                 actions = {
+                    val activeGrouping by viewModel.activeGrouping.collectAsStateWithLifecycle()
+
+                    Box { // The Box is needed to anchor the menu
+                        GroupingMenu(
+                            anchor = { showMenu ->
+                                IconButton(onClick = showMenu) {
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Default.List,
+                                        contentDescription = "Filter and Group"
+                                    )
+                                }
+                            },
+                            activeGrouping = activeGrouping,
+                            onGroupingChange = viewModel::setGrouping,
+                        )
+                    }
                     // Action specific to the Accounts screen
                     IconButton(onClick = { /* TODO: Add new account */ }) {
                         Icon(Icons.Default.Add, contentDescription = "Add Account")
@@ -303,15 +363,12 @@ fun AccountsScreen(
             MyBottomAppBar(navController = navController)
         }
     ) { paddingValues ->
-        val grouping = AccountGrouping.NONE
-        AccountList(
+        AccountListV2(
             Modifier.padding(paddingValues),
             accountData = accounts,
-            grouping = grouping,
+            grouping = activeGrouping,
             selectedAccount = viewModel.selectedAccountId,
             listState = viewModel.listState,
-            expansionHandlerGroups = viewModel.expansionHandler("collapsedHeadersDrawer_${grouping}"),
-            expansionHandlerAccounts = viewModel.expansionHandler("expandedAccounts"),
             onSelected = {
                 viewModel.selectAccount(it)
                 navController.navigate(Screen.Transactions.route)
@@ -325,83 +382,68 @@ fun AccountsScreen(
 fun GroupingMenu(
     anchor: @Composable (() -> Unit) -> Unit,
     activeGrouping: AccountGrouping,
-    availableFilters: List<String>,
-    activeFilter: String?,
     onGroupingChange: (AccountGrouping) -> Unit,
-    onFilterChange: (String?) -> Unit,
 ) {
-    var showMainMenu by remember { mutableStateOf(false) }
-    var showGroupingSubMenu by remember { mutableStateOf(false) }
-    var showFilterSubMenu by remember { mutableStateOf(false) }
+    var showMenu by remember { mutableStateOf(false) }
     val groupingOptions = remember { AccountGrouping.entries.toTypedArray() }
-    val allLabel = "ALL"
 
     // The anchor composable (our gear icon) is passed in
-    anchor { showMainMenu = true }
+    anchor { showMenu = true }
 
-    // Main Dropdown
+    // This is the single-level DropdownMenu
     DropdownMenu(
-        expanded = showMainMenu,
-        onDismissRequest = { showMainMenu = false }
+        expanded = showMenu,
+        onDismissRequest = { showMenu = false }
     ) {
-        // "Group by" entry, which opens a submenu
-        DropdownMenuItem(
-            text = { Text("Group by") },
-            onClick = { showGroupingSubMenu = true },
-            trailingIcon = {
-                Icon(
-                    Icons.AutoMirrored.Default.ArrowRight,
-                    contentDescription = "Open group by options"
-                )
-            }
+        Text(
+            modifier = Modifier.padding(start = 4.dp),
+            text = stringResource(R.string.menu_grouping),
+            style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.primary
         )
-        // "Filter by" entry, also opens a submenu
-        // Only enable it if grouping is active and there are filters
-        DropdownMenuItem(
-            text = { Text("Show") },
-            onClick = { showFilterSubMenu = true },
-            enabled = activeGrouping != AccountGrouping.NONE && availableFilters.isNotEmpty(),
-            trailingIcon = {
-                Icon(
-                    Icons.AutoMirrored.Default.ArrowRight,
-                    contentDescription = "Open filter by options"
-                )
-            }
-        )
-    }
 
-    // --- Submenus ---
-
-    // Grouping Submenu
-    DropdownMenu(
-        expanded = showGroupingSubMenu,
-        onDismissRequest = { showGroupingSubMenu = false }
-    ) {
+        // 2. Add the selectable grouping options directly.
         groupingOptions.forEach { option ->
             DropdownMenuItem(
-                text = { Text(option.toString()) },
+                text = {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        RadioButton(
+                            selected = activeGrouping == option,
+                            onClick = null // onClick is handled by the parent item
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        Text(option.toString())
+                    }
+                },
                 onClick = {
                     onGroupingChange(option)
-                    // Close all menus
-                    showGroupingSubMenu = false
-                    showMainMenu = false
+                    showMenu = false // Close the menu after selection
                 }
             )
         }
     }
+}
 
+@Composable
+fun FilterMenu(
+    anchor: @Composable (() -> Unit) -> Unit,
+    availableFilters: List<String>,
+    onFilterChange: (String?) -> Unit,
+) {
+    var showMenu by remember { mutableStateOf(false) }
+
+    // The anchor composable (our gear icon) is passed in
+    anchor { showMenu = true }
     // Filter Submenu
     DropdownMenu(
-        expanded = showFilterSubMenu,
-        onDismissRequest = { showFilterSubMenu = false }
+        expanded = showMenu,
+        onDismissRequest = { showMenu = false }
     ) {
         DropdownMenuItem(
-            text = { Text(allLabel) },
+            text = { Text("ALL") },
             onClick = {
                 onFilterChange(null)
-                // Close all menus
-                showFilterSubMenu = false
-                showMainMenu = false
+                showMenu = false
             }
         )
         availableFilters.forEach { filter ->
@@ -409,14 +451,13 @@ fun GroupingMenu(
                 text = { Text(filter) },
                 onClick = {
                     onFilterChange(filter)
-                    // Close all menus
-                    showFilterSubMenu = false
-                    showMainMenu = false
+                    showMenu = false
                 }
             )
         }
     }
 }
+
 
 private val TabRowHeight = 48.dp
 

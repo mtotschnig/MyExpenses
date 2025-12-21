@@ -16,7 +16,7 @@ class SplashActivity : Activity() {
         (application as? MyApplication)?.also {
             startActivity(Intent(this, if (it.appComponent.prefHandler()
                     .getInt(PrefKey.CURRENT_VERSION, -1) == -1
-            ) OnboardingActivity::class.java else MyExpenses::class.java).apply {
+            ) OnboardingActivity::class.java else MyExpensesV2::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
             })
         } ?: run {

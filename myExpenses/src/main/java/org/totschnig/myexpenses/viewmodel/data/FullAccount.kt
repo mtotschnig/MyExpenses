@@ -120,7 +120,17 @@ data class FullAccount(
 
     val toPageAccount: PageAccount
         get() = PageAccount(
-            id, type, sortBy, sortDirection, grouping, currencyUnit, sealed, openingBalance, _color
+            id = id,
+            type = type,
+            sortBy = sortBy,
+            sortDirection = sortDirection,
+            grouping = grouping,
+            currencyUnit = currencyUnit,
+            sealed = sealed,
+            openingBalance = openingBalance,
+            currentBalance = currentBalance,
+            _color = _color,
+            label = label
         )
 
     /**
@@ -191,15 +201,17 @@ data class FullAccount(
 
 @Immutable
 data class PageAccount(
-    override val id: Long,
-    override val type: AccountType,
-    override val sortBy: String,
-    override val sortDirection: SortDirection,
-    override val grouping: Grouping,
+    override val id: Long = 0,
+    override val type: AccountType = AccountType.CASH,
+    override val sortBy: String = KEY_DATE,
+    override val sortDirection: SortDirection = SortDirection.DESC,
+    override val grouping: Grouping = Grouping.NONE,
     override val currencyUnit: CurrencyUnit,
-    val sealed: Boolean,
-    val openingBalance: Long,
-    override val _color: Int,
+    val sealed: Boolean = false,
+    val openingBalance: Long = 0,
+    val currentBalance: Long = 0,
+    override val _color: Int = -1,
+    val label: String,
 ) : BaseAccount() {
     override val currency: String = currencyUnit.code
 
@@ -210,4 +222,28 @@ data class PageAccount(
             grouping,
             prefHandler
         )
+
+    companion object {
+        fun fromCursor(cursor: Cursor, currencyContext: CurrencyContext): PageAccount {
+            val sortBy = cursor.getString(KEY_SORT_BY)
+                .takeIf { it == KEY_DATE || it == KEY_AMOUNT }
+                ?: KEY_DATE
+            return PageAccount(
+                id = cursor.getLong(KEY_ROWID),
+                label = cursor.getString(KEY_LABEL),
+                currencyUnit = currencyContext[cursor.getString(KEY_CURRENCY)],
+                _color = cursor.getInt(KEY_COLOR),
+                type = AccountType.fromAccountCursor(cursor),
+                sealed = cursor.getInt(KEY_SEALED) == 1,
+                openingBalance = cursor.getLong(KEY_OPENING_BALANCE),
+                currentBalance = cursor.getLong(KEY_CURRENT_BALANCE),
+                grouping = if (sortBy == KEY_DATE) cursor.getEnum(
+                    KEY_GROUPING,
+                    Grouping.NONE
+                ) else Grouping.NONE,
+                sortBy = sortBy,
+                sortDirection = cursor.getEnum(KEY_SORT_DIRECTION, SortDirection.DESC)
+            )
+        }
+    }
 }

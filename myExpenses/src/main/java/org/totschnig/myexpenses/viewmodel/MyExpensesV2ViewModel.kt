@@ -30,25 +30,17 @@ class MyExpensesV2ViewModel(
     private val _activeGrouping = MutableStateFlow(AccountGrouping.NONE)
     val activeGrouping: StateFlow<AccountGrouping> = _activeGrouping.asStateFlow()
 
-    // State for Level 2 decision (String key, e.g., "EUR" or "Checking")
-    private val _activeGroupFilter = MutableStateFlow<String?>(null)
-    val activeGroupFilter: StateFlow<String?> = _activeGroupFilter.asStateFlow()
 
     // Functions for the UI to call
     fun setGrouping(grouping: AccountGrouping) {
         _activeGrouping.value = grouping
-        _activeGroupFilter.value = null // Reset filter when grouping changes
-    }
-
-    fun setGroupFilter(filter: String?) {
-        _activeGroupFilter.value = filter
     }
 
     val accountDataV2: StateFlow<Result<List<FullAccount>>?> by lazy {
         contentResolver.observeQuery(
             uri = ACCOUNTS_URI
                 .buildUpon()
-                .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_FULL_PROJECTION_WITH_SUMS)
+                .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_FULL_PROJECTION_WITH_SUMS, "now")
                 .build(),
             selection = "$KEY_VISIBLE = 1",
             notifyForDescendants = true
@@ -68,31 +60,10 @@ class MyExpensesV2ViewModel(
                 when (grouping) {
                     AccountGrouping.CURRENCY -> accounts.map { it.currencyUnit.code }.distinct()
                     AccountGrouping.TYPE -> accounts.map { it.type.name }.distinct() // Assuming type is an enum
-                    //AccountGrouping.BY_FLAG -> { /* logic to get distinct flags */ emptyList() }
+                    AccountGrouping.FLAG -> { accounts.map { it.flag.label }.distinct() }
                     AccountGrouping.NONE -> emptyList()
                 }
             } ?: emptyList()
         }
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
-
-    // Derived state: The final, filtered list of accounts for the TabRow
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val filteredAccounts: StateFlow<Result<List<FullAccount>>?> =
-        combine(accountDataV2, activeGrouping, activeGroupFilter) { result, grouping, filter ->
-            result?.map { accounts ->
-                if (grouping == AccountGrouping.NONE || filter == null) {
-                    accounts // If no grouping or filter, show all
-                } else {
-                    accounts.filter { account ->
-                        // Filter the list based on the active strategy and filter key
-                        when (grouping) {
-                            AccountGrouping.CURRENCY -> account.currencyUnit.code == filter
-                            AccountGrouping.TYPE -> account.type.name == filter
-                            //AccountGrouping.BY_FLAG -> { /* logic to filter by flag */ true }
-                            AccountGrouping.NONE -> true
-                        }
-                    }
-                }
-            }
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 }
