@@ -10,7 +10,7 @@ import androidx.preference.EditTextPreference
  * This is meant for preferences with localized defaults, so that when the locale changes, we do not
  * end up with the persisted default from the previous locale
  */
-abstract class LocalizedFormatEditTextPreference constructor(context: Context, attrs: AttributeSet) :
+abstract class LocalizedFormatEditTextPreference(context: Context, attrs: AttributeSet) :
         EditTextPreference(context, attrs) {
     var onValidationErrorListener: OnValidationErrorListener? = null
 

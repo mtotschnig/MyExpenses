@@ -6,7 +6,7 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.validateDateFormat
 import java.text.SimpleDateFormat
 
-class DateFormatPreference constructor(context: Context, attrs: AttributeSet) :
+class DateFormatPreference(context: Context, attrs: AttributeSet) :
         LocalizedFormatEditTextPreference(context, attrs) {
     override fun getDefaultValue(): String? = (Utils.getFrameworkDateFormatSafe(context) as? SimpleDateFormat)?.toPattern()
     override fun validate(newValue: String) = validateDateFormat(context, newValue)
