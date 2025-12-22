@@ -8,6 +8,7 @@ import androidx.compose.runtime.Stable
 import androidx.core.content.res.ResourcesCompat
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.AccountFlag
+import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -63,15 +64,13 @@ import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
 import java.time.LocalDate
+import kotlin.math.absoluteValue
 import kotlin.math.roundToLong
 import kotlin.math.sign
 
 abstract class BaseAccount : DataBaseAccount() {
     abstract val _color: Int
     abstract val currencyUnit: CurrencyUnit
-    /**
-     * null for aggregate accounts
-     */
     abstract val type: AccountType
     fun color(resources: Resources): Int = if (isAggregate)
         ResourcesCompat.getColor(resources, R.color.colorAggregate, null) else _color
@@ -113,7 +112,8 @@ data class FullAccount(
     val bankId: Long? = null,
     val initialExchangeRate: Double? = null,
     val latestExchangeRate: Pair<LocalDate, Double>? = null,
-    val dynamic: Boolean = false
+    val dynamic: Boolean = false,
+    override val accountGrouping: AccountGrouping? = null
 ) : BaseAccount() {
 
     override val currency: String = currencyUnit.code
@@ -130,7 +130,8 @@ data class FullAccount(
             openingBalance = openingBalance,
             currentBalance = currentBalance,
             _color = _color,
-            label = label
+            label = label,
+            accountGrouping = accountGrouping
         )
 
     /**
@@ -153,8 +154,9 @@ data class FullAccount(
             val sortBy = cursor.getString(KEY_SORT_BY)
                 .takeIf { it == KEY_DATE || it == KEY_AMOUNT }
                 ?: KEY_DATE
+            val id = cursor.getLong(KEY_ROWID)
             return FullAccount(
-                id = cursor.getLong(KEY_ROWID),
+                id = id.absoluteValue,
                 label = cursor.getString(KEY_LABEL),
                 description = cursor.getStringOrNull(KEY_DESCRIPTION),
                 currencyUnit = currencyContext[cursor.getString(KEY_CURRENCY)],
@@ -193,7 +195,12 @@ data class FullAccount(
                 latestExchangeRate = cursor.getDoubleOrNull(KEY_LATEST_EXCHANGE_RATE)?.let {
                     cursor.getLocalDate(KEY_LATEST_EXCHANGE_RATE_DATE) to it
                 },
-                dynamic = cursor.getBoolean(KEY_DYNAMIC)
+                dynamic = cursor.getBoolean(KEY_DYNAMIC),
+                accountGrouping = when {
+                    id == HOME_AGGREGATE_ID -> AccountGrouping.NONE
+                    id < 0 -> AccountGrouping.CURRENCY
+                    else -> null
+                }
             )
         }
     }
@@ -212,13 +219,14 @@ data class PageAccount(
     val currentBalance: Long = 0,
     override val _color: Int = -1,
     val label: String,
+    override val accountGrouping: AccountGrouping? = null
 ) : BaseAccount() {
     override val currency: String = currencyUnit.code
 
     //Tuple4 of Uri / projection / selection / selectionArgs
     fun loadingInfo(prefHandler: PrefHandler): Pair<Uri, Array<String>> =
         uriForTransactionList(shortenComment = true) to Transaction2.projection(
-            id,
+            isAggregate,
             grouping,
             prefHandler
         )

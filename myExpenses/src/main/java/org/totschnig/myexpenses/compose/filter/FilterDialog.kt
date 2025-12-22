@@ -607,7 +607,7 @@ fun FilterDialogEmpty() {
             id = 1,
             label = "Test account",
             currencyUnit = CurrencyUnit.DebugInstance,
-            type = AccountType.CASH
+            type = AccountType.CASH,
         ),
         sumInfo = SumInfo.EMPTY,
     )

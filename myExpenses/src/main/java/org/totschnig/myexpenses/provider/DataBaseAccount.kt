@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.provider
 
 import android.net.Uri
+import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.model2.AccountInfoWithGrouping
 import org.totschnig.myexpenses.provider.TransactionProvider.EXTENDED_URI
@@ -19,9 +20,9 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
     override val accountId: Long
         get() = id
 
-    val isHomeAggregate get() = isHomeAggregate(id)
+    val isHomeAggregate get() = accountGrouping == AccountGrouping.NONE
 
-    val isAggregate get() = isAggregate(id)
+    val isAggregate get() = accountGrouping != null
 
     val sortOrder: String
         get() = "${sortBy.let { if (it == KEY_AMOUNT) "abs($it)" else it }} $sortDirection"
@@ -34,7 +35,7 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
     fun uriBuilderForTransactionList(
         shortenComment: Boolean = false,
         extended: Boolean = true
-    ) = uriBuilderForTransactionList(id, currency, shortenComment, extended)
+    ) = uriBuilderForTransactionList(id, currency, accountGrouping, shortenComment, extended)
 
     companion object {
 
@@ -53,21 +54,27 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
         fun uriBuilderForTransactionList(
             accountId: Long,
             currency: String?,
+            accountGrouping: AccountGrouping? = when {
+                isHomeAggregate(accountId) -> AccountGrouping.NONE
+                isAggregate(accountId) -> AccountGrouping.CURRENCY
+                else -> null
+            },
             shortenComment: Boolean = false,
             extended: Boolean = true
         ): Uri.Builder {
             val uriBuilder =
                 uriBuilderForTransactionList(shortenComment, extended)
-            return when {
-                !isAggregate(accountId) -> uriBuilder.apply {
+            return when(accountGrouping) {
+                null -> uriBuilder.apply {
                     appendQueryParameter(KEY_ACCOUNTID, accountId.toString())
                 }
 
-                isHomeAggregate(accountId) -> uriBuilder
+                AccountGrouping.NONE -> uriBuilder
 
-                else -> uriBuilder.apply {
+                AccountGrouping.CURRENCY -> uriBuilder.apply {
                     appendQueryParameter(KEY_CURRENCY, currency)
                 }
+                else -> TODO()
             }
         }
 

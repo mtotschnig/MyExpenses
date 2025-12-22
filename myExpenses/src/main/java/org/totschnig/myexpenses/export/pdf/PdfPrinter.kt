@@ -172,7 +172,7 @@ object PdfPrinter {
             extended = true
         )
         val projection = Transaction2.projection(
-            account.id,
+            account.isAggregate,
             account.grouping,
             prefHandler
         )

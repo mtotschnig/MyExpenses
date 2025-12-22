@@ -63,7 +63,6 @@ import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.DEFAULT_FLAG_ID
-import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.util.calculateRealExchangeRate
@@ -72,6 +71,8 @@ import org.totschnig.myexpenses.util.isolateText
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import java.text.DecimalFormat
+
+const val SIGMA = "Σ"
 
 @Composable
 fun AccountList(
@@ -112,12 +113,18 @@ fun AccountList(
                 val headerId = group.key
                 val isGroupHidden = collapsedGroupIds.contains(headerId)
                 item {
-                    Header(getHeaderTitle(context, grouping, group.value.first()), !isGroupHidden) {
-                        expansionHandlerGroups.toggle(headerId)
-                    }
+                    Header(
+                        header = getHeaderTitle(
+                            context = context,
+                            grouping = grouping,
+                            account = group.value.first()
+                        ),
+                        isExpanded = !isGroupHidden,
+                        onToggleExpand = { expansionHandlerGroups.toggle(headerId) }
+                    )
                 }
-                group.value.forEachIndexed { index, account ->
-                    if (!isGroupHidden) {
+                if (!isGroupHidden) {
+                    group.value.forEachIndexed { index, account ->
                         item(key = account.id) {
                             //TODO add collectionItemInfo
                             AccountCard(
@@ -154,6 +161,7 @@ fun AccountListV2(
     grouping: AccountGrouping,
     selectedAccount: Long,
     listState: LazyListState,
+    expansionHandlerGroups: ExpansionHandler,
     onSelected: (Long) -> Unit = {},
     onEdit: (FullAccount) -> Unit = {},
     onDelete: (FullAccount) -> Unit = {},
@@ -164,7 +172,10 @@ fun AccountListV2(
     bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
     flags: List<AccountFlag> = emptyList(),
 ) {
+
     val context = LocalContext.current
+    val collapsedGroupIds =
+        expansionHandlerGroups.state.collectAsState(initial = null).value ?: return
 
     val grouped: Map<String, List<FullAccount>>? =
         if (grouping == AccountGrouping.NONE) null else accountData.groupBy {
@@ -193,11 +204,20 @@ fun AccountListV2(
         } else {
             grouped.forEach { group ->
                 val headerId = group.key
+                val isGroupHidden = collapsedGroupIds.contains(headerId)
                 item {
-                    Header(getHeaderTitle(context, grouping, group.value.first()), true) {}
+                    Header(
+                        header = getHeaderTitle(
+                            context = context,
+                            grouping = grouping,
+                            account = group.value.first()
+                        ),
+                        isExpanded = !isGroupHidden,
+                        onToggleExpand = { expansionHandlerGroups.toggle(headerId) }
+                    )
                 }
-                group.value.forEachIndexed { index, account ->
-                    if (true) {
+                if (!isGroupHidden) {
+                    group.value.forEachIndexed { index, account ->
                         item(key = account.id) {
                             AccountCardV2(
                                 account,
@@ -217,7 +237,8 @@ fun AccountListV2(
 private fun Header(
     header: String,
     isExpanded: Boolean,
-    onHeaderClick: () -> Unit,
+    onToggleExpand: () -> Unit,
+    onNavigate: (() -> Unit)? = null,
 ) {
     HorizontalDivider(
         color = colorResource(id = androidx.appcompat.R.color.material_grey_300),
@@ -225,7 +246,7 @@ private fun Header(
     )
     Row(
         modifier = Modifier
-            .clickable(onClick = onHeaderClick)
+            .clickable(onClick = onNavigate ?: onToggleExpand)
             .semantics(mergeDescendants = true) {}
             .padding(start = dimensionResource(id = R.dimen.drawer_padding)),
         verticalAlignment = Alignment.CenterVertically
@@ -242,6 +263,9 @@ private fun Header(
         Icon(
             modifier = Modifier
                 .minimumInteractiveComponentSize()
+                .conditional(onNavigate != null) {
+                    clickable(onClick = onToggleExpand)
+                }
                 .rotate(rotationAngle),
             imageVector = Icons.Default.ExpandLess,
             contentDescription = stringResource(
@@ -375,7 +399,7 @@ fun AccountCard(
                 if (account.bankId == null || bankIcon == null) {
                     ColorCircle(modifier, color) {
                         if (account.isAggregate) {
-                            Text(fontSize = 13.sp, text = "Σ", color = Color.White)
+                            Text(fontSize = 13.sp, text = SIGMA, color = Color.White)
                         }
                     }
                 } else bankIcon.invoke(modifier, account.bankId)

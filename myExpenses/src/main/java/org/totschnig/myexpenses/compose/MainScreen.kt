@@ -69,6 +69,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.AccountGrouping
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.HeaderDataEmpty
@@ -201,9 +202,9 @@ fun TransactionScreen(
         val coroutineScope = rememberCoroutineScope()
         val tabRowState = rememberCollapsingTabRowState()
 
-        val filteredAccounts = remember {
+        val accountList = remember {
             derivedStateOf {
-                if (activeFilter == null || activeGrouping == AccountGrouping.NONE) accounts else
+                (if (activeFilter == null || activeGrouping == AccountGrouping.NONE) accounts else
                     accounts.filter { account ->
                         // Filter the list based on the active strategy and filter key
                         when (activeGrouping) {
@@ -212,23 +213,28 @@ fun TransactionScreen(
                             AccountGrouping.FLAG -> account.flag.label == activeFilter
                             else -> true
                         }
-                    }
+                    }) + FullAccount(
+                    id = -1,
+                    label = activeFilter ?: "Grand Total",
+                    currencyUnit = activeFilter?.let { viewModel.currencyContext[it] } ?: viewModel.currencyContext.homeCurrencyUnit,
+                    type = AccountType.CASH,
+                    accountGrouping = if (activeFilter != null) activeGrouping else AccountGrouping.NONE,
+                )
             }
-        }
+        }.value
 
-        val currentFilteredList = filteredAccounts.value
-
-        val pagerState = rememberPagerState(pageCount = { currentFilteredList.size })
+        val pagerState = rememberPagerState(pageCount = { accountList.size })
 
         LaunchedEffect(viewModel.selectedAccountId) {
             val currentPage =
-                currentFilteredList.indexOfFirst { it.id == viewModel.selectedAccountId }.coerceAtLeast(0)
-            if (pagerState.currentPage != currentPage) {
+                accountList.indexOfFirst { it.id == viewModel.selectedAccountId }
+            if (currentPage > -1 && pagerState.currentPage != currentPage) {
                 pagerState.scrollToPage(currentPage)
             }
         }
+
         LaunchedEffect(pagerState.settledPage) {
-            val selected = currentFilteredList[pagerState.settledPage].id
+            val selected = accountList[pagerState.settledPage].id
             viewModel.selectAccount(selected)
             viewModel.scrollToAccountIfNeeded(
                 pagerState.currentPage,
@@ -267,13 +273,15 @@ fun TransactionScreen(
                             )
                         }
                     }
+                    val selectedTabIndex =
+                        pagerState.currentPage.coerceAtMost(accountList.lastIndex)
                     SecondaryScrollableTabRow(
-                        selectedTabIndex = pagerState.currentPage.coerceAtMost(currentFilteredList.lastIndex),
+                        selectedTabIndex = selectedTabIndex,
                         edgePadding = 0.dp
                     ) {
-                        currentFilteredList.forEachIndexed { index, account ->
+                        accountList.forEachIndexed { index, account ->
                             Tab(
-                                selected = pagerState.currentPage == index,
+                                selected = selectedTabIndex == index,
                                 onClick = {
                                     coroutineScope.launch {
                                         pagerState.animateScrollToPage(index)
@@ -287,11 +295,11 @@ fun TransactionScreen(
             }
             HorizontalPager(
                 state = pagerState,
-                key = { currentFilteredList[it].id },
+                key = { accountList[it].id },
                 verticalAlignment = Alignment.Top,
                 modifier = Modifier.fillMaxSize() // The pager fills the rest of the column
             ) { page ->
-                val account = currentFilteredList[page]
+                val account = accountList[page]
                 val pageAccount = account.toPageAccount
                 val lazyPagingItems =
                     viewModel.items.getValue(pageAccount).collectAsLazyPagingItems()
@@ -359,6 +367,7 @@ fun AccountsScreen(
             grouping = activeGrouping,
             selectedAccount = viewModel.selectedAccountId,
             listState = viewModel.listState,
+            expansionHandlerGroups = viewModel.expansionHandler("collapsedHeadersDrawer_${activeGrouping}"),
             onSelected = {
                 viewModel.selectAccount(it)
                 navController.navigate(Screen.Transactions.route)
