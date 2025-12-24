@@ -2,6 +2,8 @@ package org.totschnig.shared_test
 
 import android.net.Uri
 import org.totschnig.myexpenses.provider.SPLIT_CATID
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 data class TransactionData(
     val accountId: Long,
@@ -17,6 +19,8 @@ data class TransactionData(
     val transferAccount: Long? = null,
     val transferPeer: Long? = null,
     val _transferAmount: Long? = null,
+    val date: LocalDateTime? = null,
+    val valueDate: LocalDate? = null,
 ) {
     val transferAmount = _transferAmount ?: if (transferAccount != null) - amount else null
     init {

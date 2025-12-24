@@ -799,7 +799,7 @@ abstract class TransactionDelegate(
     private fun readLocalDateTime(dateEdit: DateButton): LocalDateTime {
         return LocalDateTime.of(
             dateEdit.date,
-            if (dateEditBinding.TimeButton.isVisible) dateEditBinding.TimeButton.time else LocalTime.now()
+            if (dateEditBinding.TimeButton.isVisible) dateEditBinding.TimeButton.time else LocalTime.NOON
         )
     }
 
@@ -812,8 +812,6 @@ abstract class TransactionDelegate(
     protected fun buildTemplate(account: Account, transferAccount: Account?) = TransactionEditData(
         templateEditData = TemplateEditData(),
         amount = Money(homeCurrency, BigDecimal.ZERO),
-        date = LocalDateTime.now(),
-        valueDate = LocalDate.now(),
         party = null,
         categoryId = null,
         accountId = account.id,
