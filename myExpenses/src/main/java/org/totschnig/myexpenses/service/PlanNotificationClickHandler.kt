@@ -64,14 +64,13 @@ class PlanNotificationClickHandler : IntentService("PlanNotificationClickHandler
             PlanExecutor.ACTION_APPLY -> {
                 val date =
                     extras.getLong(KEY_DATE, Instant.now().toEpochMilli())
-                val t =
-                    runBlocking {
-                        repository.instantiateTemplate(
-                            exchangeRateHandler,
-                            PlanInstanceInfo(templateId, instanceId, date),
-                            currencyContext
-                        )
-                    }
+                val t = runBlocking {
+                    repository.instantiateTemplate(
+                        exchangeRateHandler,
+                        PlanInstanceInfo(templateId, instanceId, date),
+                        currencyContext
+                    )
+                }
                 if (t != null) {
                     message = resources.getQuantityString(
                         R.plurals.save_transaction_from_template_success, 1, 1
@@ -96,7 +95,7 @@ class PlanNotificationClickHandler : IntentService("PlanNotificationClickHandler
                 values.put(KEY_TEMPLATEID, templateId)
                 values.put(KEY_INSTANCEID, instanceId)
                 try {
-                    getContentResolver().insert(
+                    contentResolver.insert(
                         TransactionProvider.PLAN_INSTANCE_STATUS_URI,
                         values
                     )
