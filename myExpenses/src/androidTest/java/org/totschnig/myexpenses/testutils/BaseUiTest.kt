@@ -16,17 +16,22 @@ import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.NoMatchingViewException
+import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers
+import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isChecked
+import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isNotChecked
+import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
@@ -34,8 +39,10 @@ import androidx.test.uiautomator.UiDevice
 import com.adevinta.android.barista.interaction.BaristaEditTextInteractions
 import com.adevinta.android.barista.interaction.BaristaScrollInteractions
 import com.adevinta.android.barista.internal.matcher.HelperMatchers.menuIdMatcher
+import com.google.android.material.textfield.TextInputEditText
 import com.google.common.truth.Truth.assertThat
 import com.google.common.truth.Truth.assertWithMessage
+import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.Matchers.not
 import org.junit.Assume
@@ -76,12 +83,16 @@ import org.totschnig.myexpenses.provider.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
+import org.totschnig.myexpenses.util.toEpoch
 import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 import org.totschnig.shared_test.TransactionData
 import org.totschnig.shared_test.assertTransaction
 import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeoutException
 import org.totschnig.myexpenses.test.R as RT
+import com.google.android.material.R as RM
 
 abstract class BaseUiTest<A : ProtectedFragmentActivity> {
     private var isLarge = false
@@ -300,7 +311,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         var iterations = 0
         while (true) {
             try {
-                onView(withId(com.google.android.material.R.id.snackbar_text))
+                onView(withId(RM.id.snackbar_text))
                     .check(matches(isDisplayed()))
             } catch (_: Exception) {
                 return
@@ -351,9 +362,61 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
             .perform(click())
     }
 
+    //select Date when MaterialDatePicker is open
+    fun setDate(date: LocalDate) {
+        val locale = targetContext.resources.configuration.locales[0]
+        val expectedContentDescription = getMonthDayOfWeekDay(date.toEpoch() * 1000, locale)
+        onView(withContentDescription(expectedContentDescription))
+            .inRoot(isDialog())
+            .perform(click())
+        onView(withId(RM.id.confirm_button))
+            .inRoot(isDialog())
+            .perform(click())
+    }
+
+    //select Time when MaterialTimePicker is open
+    fun setTime(time: LocalTime) {
+        try {
+            onView(
+                allOf(
+                    withId(RM.id.material_clock_period_toggle),
+                    withContentDescription(targetContext.getString(RM.string.material_timepicker_text_input_mode_description))
+                )
+            ).inRoot(isDialog())
+                .perform(click())
+        } catch (_: NoMatchingViewException) {
+            // This exception is expected and okay. It means we are already in text input mode.
+            // We can ignore it and proceed.
+        }
+
+        onView(
+            allOf(
+                isDescendantOfA(withId(RM.id.material_hour_text_input)),
+                isAssignableFrom(TextInputEditText::class.java)
+                )
+        )
+            .inRoot(isDialog())
+            .perform(replaceText(time.format(DateTimeFormatter.ofPattern("HH"))))
+
+        onView(withId(RM.id.material_minute_text_input)).perform(click())
+        onView(
+            allOf(
+                isDescendantOfA(withId(RM.id.material_minute_text_input)),
+                isAssignableFrom(TextInputEditText::class.java)
+            )
+        )
+            .inRoot(isDialog())
+            .perform(replaceText(time.format(DateTimeFormatter.ofPattern("mm"))))
+
+        onView(withId(RM.id.material_timepicker_ok_button))
+            .inRoot(isDialog())
+            .perform(click())
+    }
+
+
     protected fun assertTransaction(
         id: Long,
-        expectedTransaction: TransactionData
+        expectedTransaction: TransactionData,
     ) {
         repository.assertTransaction(id, expectedTransaction)
     }
@@ -364,8 +427,8 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         expectedAmount: Long,
         expectedTransferAccount: Long,
         expectedPeer: Long,
-        expectedTransferAmount: Long ?= null,
-        expectedAttachments: List<Uri> = emptyList()
+        expectedTransferAmount: Long? = null,
+        expectedAttachments: List<Uri> = emptyList(),
     ) {
         repository.assertTransaction(id, TransactionData(
             amount = expectedAmount,

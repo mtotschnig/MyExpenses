@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.util.epoch2LocalDateTime
+import org.totschnig.myexpenses.util.toEpoch
 import org.totschnig.myexpenses.viewmodel.data.PlanEditData
 import org.totschnig.myexpenses.viewmodel.data.PlanLoadedData
 import org.totschnig.myexpenses.viewmodel.data.TemplateEditData
@@ -148,13 +149,13 @@ object TransactionMapper {
 
     fun mapTransaction(
         transactionEditData: TransactionEditData,
-        date: Long = transactionEditData.date.atZone(ZoneId.systemDefault())
-            .toInstant().epochSecond,
+        date: Long = transactionEditData.date.toEpoch(),
     ): RepositoryTransaction {
         val transaction = Transaction(
             id = transactionEditData.id,
             amount = transactionEditData.amount.amountMinor,
             date = date,
+            valueDate = transactionEditData.valueDate.toEpoch(),
             accountId = transactionEditData.accountId,
             categoryId = transactionEditData.categoryId,
             methodId = transactionEditData.methodId,

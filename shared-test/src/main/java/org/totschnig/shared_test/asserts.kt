@@ -5,6 +5,7 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.findCategory
 import org.totschnig.myexpenses.db2.loadAttachments
 import org.totschnig.myexpenses.db2.loadTransaction
+import org.totschnig.myexpenses.util.toEpoch
 
 fun Repository.findCategoryPath(vararg path: String) =
     path.fold(null as Long?) { parentId, segment ->
@@ -13,7 +14,7 @@ fun Repository.findCategoryPath(vararg path: String) =
 
 fun Repository.assertTransaction(
     id: Long,
-    expected: TransactionData
+    expected: TransactionData,
 ) {
 
     val transaction = loadTransaction(id)
@@ -28,6 +29,13 @@ fun Repository.assertTransaction(
         assertThat(comment).isEqualTo(expected.comment)
         assertThat(transferAccountId).isEqualTo(expected.transferAccount)
         assertThat(transferPeerId).isEqualTo(expected.transferPeer)
+        if (expected.date != null) {
+            assertThat(date).isEqualTo(expected.date.toEpoch())
+        }
+        if (expected.valueDate != null) {
+            assertThat(valueDate).isEqualTo(expected.valueDate.toEpoch())
+        }
+
     }
     val attachments = loadAttachments(id)
     assertThat(attachments).containsExactlyElementsIn(expected.attachments)

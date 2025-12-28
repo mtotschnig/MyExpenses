@@ -6,7 +6,6 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.hasErrorText
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -52,7 +51,6 @@ import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible
 import org.totschnig.myexpenses.testutils.TEMPLATE_TITLE
 import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
-import org.totschnig.myexpenses.testutils.dateButtonHasDate
 import java.time.LocalDate
 import java.util.Currency
 
@@ -321,26 +319,5 @@ class ExpenseEditTest : BaseExpenseEditTest() {
 
         cleanup { repository.deleteTemplate(template.id) }
         repository.deletePlan(planId)
-    }
-
-    @Test
-    fun shouldChangeDate() {
-        launch(getIntentForNewTransaction()).use {
-            val today = LocalDate.now()
-            onView(withId(R.id.DateButton))
-                .check(matches(dateButtonHasDate(today)))
-            onView(withId(R.id.DateButton)).perform(click())
-            val newDate = if (today.dayOfMonth == 1) today.plusDays(1) else today.minusDays(1)
-            onView(
-                allOf(
-                    withText(newDate.dayOfMonth.toString()), // The day number
-                    ViewMatchers.isDescendantOfA(withId(com.google.android.material.R.id.month_grid)), // Ensure it's within the calendar grid
-                    isDisplayed() // Ensure it's currently visible
-                )
-            ).perform(click())
-            onView(withId(com.google.android.material.R.id.confirm_button)).perform(click())
-            onView(withId(R.id.DateButton))
-                .check(matches(dateButtonHasDate(newDate)))
-        }
     }
 }

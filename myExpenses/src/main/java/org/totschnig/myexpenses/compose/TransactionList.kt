@@ -577,8 +577,7 @@ private fun Header() {
             currencyUnit = CurrencyUnit.DebugInstance,
             sealed = false,
             openingBalance = 1234,
-            currentBalance = 0,
-            label = "ar"
+            _color = 0,
         ),
         headerId = 2022001,
         headerRow = headerRow,
@@ -609,8 +608,7 @@ private fun HeaderWithBudgetProgress() {
             currencyUnit = CurrencyUnit.DebugInstance,
             sealed = false,
             openingBalance = 1234,
-            currentBalance = 0,
-            label = "Konto"
+            _color = 0
         ),
         headerId = 2022001,
         headerRow = headerRow,

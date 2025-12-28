@@ -10,13 +10,11 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.RootMatchers.isDialog
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
 import org.hamcrest.CoreMatchers.allOf
-import org.hamcrest.CoreMatchers.containsString
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.TEST_TAG_SELECT_DIALOG
@@ -38,9 +36,7 @@ import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.TestShard4
 import org.totschnig.myexpenses.testutils.cleanup
-import org.totschnig.myexpenses.testutils.getMonthDayOfWeekDay
 import org.totschnig.myexpenses.util.epoch2LocalDate
-import org.totschnig.myexpenses.util.toEpoch
 import java.time.LocalDate
 import java.time.LocalDateTime
 
@@ -63,7 +59,6 @@ class RemapTest : BaseMyExpensesTest() {
     private fun doRemapDate(clone: Boolean) {
         val account1 = buildAccount("K1")
         val today = LocalDate.now()
-        val sourceDate = today
         val remapDate = if (today.dayOfMonth > 15)
             today.minusDays(10)
         else
@@ -71,23 +66,13 @@ class RemapTest : BaseMyExpensesTest() {
         val transaction = repository.insertTransaction(
             accountId = account1.id,
             amount = amount,
-            date = sourceDate.atTime(12, 0)
+            date = today.atTime(12, 0)
         )
         launch(account1.id)
         openCab(R.id.REMAP_PARENT)
         onView(withText(R.string.date)).perform(click())
 
-        val locale = targetContext.resources.configuration.locales[0]
-
-        val expectedContentDescription = getMonthDayOfWeekDay(remapDate.toEpoch() * 1000, locale)
-
-        onView(ViewMatchers.withContentDescription(expectedContentDescription))
-            .inRoot(isDialog())
-            .perform(click())
-
-        onView(withId(com.google.android.material.R.id.confirm_button))
-            .inRoot(isDialog())
-            .perform(click())
+        setDate(remapDate)
 
         confirmRemap(clone)
         // 5. Assertions
@@ -96,7 +81,7 @@ class RemapTest : BaseMyExpensesTest() {
                 val transactions = repository.loadTransactions(account1.id)
                 assertThat(transactions.size).isEqualTo(2)
                 val source = transactions.first { it.id == transaction.id }
-                assertThat(epoch2LocalDate(source.date)).isEqualTo(sourceDate)
+                assertThat(epoch2LocalDate(source.date)).isEqualTo(today)
                 val clone = transactions.first { it.id != transaction.id }
                 assertThat(epoch2LocalDate(clone.date)).isEqualTo(remapDate)
             }

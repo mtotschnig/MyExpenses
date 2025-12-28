@@ -443,7 +443,7 @@ suspend fun Repository.instantiateTemplate(
     val template = (if (ifOpen) loadTemplateIfInstanceIsOpen(
         planInstanceInfo.templateId,
         planInstanceInfo.instanceId!!
-    ) else loadTemplate(planInstanceInfo.templateId, withTags = true)) ?: return null
+    ) else loadTemplate(planInstanceInfo.templateId, withTags = true, require = false)) ?: return null
 
     val t = createTransaction(
         template.instantiate(currencyContext, exchangeRateHandler, planInstanceInfo)
