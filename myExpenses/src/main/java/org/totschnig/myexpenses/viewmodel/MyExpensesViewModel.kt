@@ -782,7 +782,7 @@ open class MyExpensesViewModel(
                         dataStore.data.first()[prefHandler.getStringPreferencesKey(PrefKey.TRANSACTION_AMOUNT_COLOR_SOURCE)],
                         ColorSource.TYPE
                     )
-                    PdfPrinter.print(localizedContext, account, it, whereFilter, colorSource)
+                    PdfPrinter.print(localizedContext, account.toPageAccount, it, whereFilter, colorSource)
                 }
             }
         }

@@ -53,14 +53,14 @@ class MyExpensesV2ViewModel(
 
     // Derived state: What are the available filter options for the current grouping?
     @OptIn(ExperimentalCoroutinesApi::class)
-    val availableGroupFilters: StateFlow<List<String>> = activeGrouping.flatMapLatest { grouping ->
+    val availableGroupFilters: StateFlow<List<Any>> = activeGrouping.flatMapLatest { grouping ->
         // This maps the master account list to a list of unique group keys
         accountDataV2.map { result ->
             result?.getOrNull()?.let { accounts ->
                 when (grouping) {
-                    AccountGrouping.CURRENCY -> accounts.map { it.currencyUnit.code }.distinct()
-                    AccountGrouping.TYPE -> accounts.map { it.type.name }.distinct() // Assuming type is an enum
-                    AccountGrouping.FLAG -> { accounts.map { it.flag.label }.distinct() }
+                    AccountGrouping.CURRENCY -> accounts.map { it.currencyUnit }.distinct()
+                    AccountGrouping.TYPE -> accounts.map { it.type }.distinct() // Assuming type is an enum
+                    AccountGrouping.FLAG -> { accounts.map { it.flag }.distinct() }
                     AccountGrouping.NONE -> emptyList()
                 }
             } ?: emptyList()

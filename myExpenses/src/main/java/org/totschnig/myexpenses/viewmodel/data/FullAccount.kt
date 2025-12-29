@@ -1,12 +1,13 @@
 package org.totschnig.myexpenses.viewmodel.data
 
-import android.content.res.Resources
+import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.core.content.res.ResourcesCompat
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.SIGMA
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountType
@@ -69,22 +70,79 @@ import kotlin.math.roundToLong
 import kotlin.math.sign
 
 abstract class BaseAccount : DataBaseAccount() {
-    abstract val _color: Int
     abstract val currencyUnit: CurrencyUnit
-    abstract val type: AccountType
-    fun color(resources: Resources): Int = if (isAggregate)
-        ResourcesCompat.getColor(resources, R.color.colorAggregate, null) else _color
+    abstract val label: String
+    abstract val type: AccountType?
+    abstract val flag: AccountFlag?
+    abstract fun toPageAccount(context: Context): PageAccount
+
+    open fun labelV2(context: Context) = label
+}
+
+@Stable
+data class AggregateAccount(
+    override val id: Long = 0,
+    override val currencyUnit: CurrencyUnit,
+    override val type: AccountType?,
+    override val flag: AccountFlag?,
+    val openingBalance: Long = 0,
+    val currentBalance: Long = 0,
+    val sumIncome: Long = 0,
+    val sumExpense: Long = 0,
+    val sumTransfer: Long = 0L,
+    val equivalentOpeningBalance: Long = openingBalance,
+    val equivalentCurrentBalance: Long = currentBalance,
+    val equivalentSumIncome: Long = sumIncome,
+    val equivalentSumExpense: Long = sumExpense,
+    val equivalentSumTransfer: Long = sumTransfer,
+    override val grouping: Grouping = Grouping.NONE,
+    override val sortBy: String = KEY_DATE,
+    override val sortDirection: SortDirection = SortDirection.DESC,
+    val reconciledTotal: Long = 0L,
+    val clearedTotal: Long = 0L,
+    val hasCleared: Boolean = false,
+    val total: Long? = null,
+    val equivalentTotal: Long? = null,
+    val accountGrouping: AccountGrouping
+): BaseAccount() {
+    override val currency: String = currencyUnit.code
+
+    override val label: String
+        get() = throw UnsupportedOperationException("Use labelV2")
+
+    override fun labelV2(context: Context): String = when(accountGrouping) {
+        AccountGrouping.TYPE -> type!!.localizedName(context) + " ($SIGMA)"
+        AccountGrouping.CURRENCY -> currencyUnit.code + " ($SIGMA)"
+        AccountGrouping.FLAG -> flag!!.localizedLabel(context) + " ($SIGMA)"
+        AccountGrouping.NONE -> context.getString(R.string.grand_total)
+    }
+
+    override fun toPageAccount(context: Context) = PageAccount(
+            id = id,
+            type = type,
+            flag = flag,
+            sortBy = sortBy,
+            sortDirection = sortDirection,
+            grouping = grouping,
+            currencyUnit = currencyUnit,
+            sealed = false,
+            openingBalance = openingBalance,
+            currentBalance = currentBalance,
+            color = ResourcesCompat.getColor(context.resources, R.color.colorAggregate, null),
+            label = labelV2(context),
+            accountGrouping = accountGrouping
+        )
 }
 
 @Stable
 data class FullAccount(
     override val id: Long,
-    val label: String,
+    override val label: String,
     val description: String? = null,
     override val currencyUnit: CurrencyUnit,
-    override val _color: Int = -1,
+    val color: Int = -1,
     override val type: AccountType,
-    val flag: AccountFlag = AccountFlag.DEFAULT,
+    override val flag: AccountFlag = AccountFlag.DEFAULT,
     val sealed: Boolean = false,
     val openingBalance: Long = 0,
     val currentBalance: Long = 0,
@@ -113,7 +171,6 @@ data class FullAccount(
     val initialExchangeRate: Double? = null,
     val latestExchangeRate: Pair<LocalDate, Double>? = null,
     val dynamic: Boolean = false,
-    override val accountGrouping: AccountGrouping? = null
 ) : BaseAccount() {
 
     override val currency: String = currencyUnit.code
@@ -122,6 +179,7 @@ data class FullAccount(
         get() = PageAccount(
             id = id,
             type = type,
+            flag = flag,
             sortBy = sortBy,
             sortDirection = sortDirection,
             grouping = grouping,
@@ -129,9 +187,9 @@ data class FullAccount(
             sealed = sealed,
             openingBalance = openingBalance,
             currentBalance = currentBalance,
-            _color = _color,
+            color = color,
             label = label,
-            accountGrouping = accountGrouping
+            accountGrouping = null
         )
 
     /**
@@ -144,6 +202,8 @@ data class FullAccount(
                         (currentBalance * 100F / it)
                     } else 0f
         }
+
+    override fun toPageAccount(context: Context) = toPageAccount
 
     companion object {
 
@@ -160,7 +220,7 @@ data class FullAccount(
                 label = cursor.getString(KEY_LABEL),
                 description = cursor.getStringOrNull(KEY_DESCRIPTION),
                 currencyUnit = currencyContext[cursor.getString(KEY_CURRENCY)],
-                _color = cursor.getInt(KEY_COLOR),
+                color = cursor.getInt(KEY_COLOR),
                 type = AccountType.fromAccountCursor(cursor),
                 flag = AccountFlag.fromAccountCursor(cursor),
                 sealed = cursor.getInt(KEY_SEALED) == 1,
@@ -196,11 +256,6 @@ data class FullAccount(
                     cursor.getLocalDate(KEY_LATEST_EXCHANGE_RATE_DATE) to it
                 },
                 dynamic = cursor.getBoolean(KEY_DYNAMIC),
-                accountGrouping = when {
-                    id == HOME_AGGREGATE_ID -> AccountGrouping.NONE
-                    id < 0 -> AccountGrouping.CURRENCY
-                    else -> null
-                }
             )
         }
     }
@@ -209,49 +264,39 @@ data class FullAccount(
 @Immutable
 data class PageAccount(
     override val id: Long = 0,
-    override val type: AccountType = AccountType.CASH,
+    val type: AccountType? = AccountType.CASH,
+    val flag: AccountFlag? = AccountFlag.DEFAULT,
     override val sortBy: String = KEY_DATE,
     override val sortDirection: SortDirection = SortDirection.DESC,
     override val grouping: Grouping = Grouping.NONE,
-    override val currencyUnit: CurrencyUnit,
+    val currencyUnit: CurrencyUnit,
     val sealed: Boolean = false,
     val openingBalance: Long = 0,
     val currentBalance: Long = 0,
-    override val _color: Int = -1,
     val label: String,
-    override val accountGrouping: AccountGrouping? = null
-) : BaseAccount() {
+    //not null for aggregate accounts
+    val accountGrouping: AccountGrouping? = null,
+    val color: Int = -1
+) : DataBaseAccount() {
     override val currency: String = currencyUnit.code
 
-    //Tuple4 of Uri / projection / selection / selectionArgs
+    //Pair of Uri / projection
     fun loadingInfo(prefHandler: PrefHandler): Pair<Uri, Array<String>> =
-        uriForTransactionList(shortenComment = true) to Transaction2.projection(
+        uriBuilderForTransactionList(extended = true).build() to Transaction2.projection(
             isAggregate,
             grouping,
             prefHandler
         )
 
-    companion object {
-        fun fromCursor(cursor: Cursor, currencyContext: CurrencyContext): PageAccount {
-            val sortBy = cursor.getString(KEY_SORT_BY)
-                .takeIf { it == KEY_DATE || it == KEY_AMOUNT }
-                ?: KEY_DATE
-            return PageAccount(
-                id = cursor.getLong(KEY_ROWID),
-                label = cursor.getString(KEY_LABEL),
-                currencyUnit = currencyContext[cursor.getString(KEY_CURRENCY)],
-                _color = cursor.getInt(KEY_COLOR),
-                type = AccountType.fromAccountCursor(cursor),
-                sealed = cursor.getInt(KEY_SEALED) == 1,
-                openingBalance = cursor.getLong(KEY_OPENING_BALANCE),
-                currentBalance = cursor.getLong(KEY_CURRENT_BALANCE),
-                grouping = if (sortBy == KEY_DATE) cursor.getEnum(
-                    KEY_GROUPING,
-                    Grouping.NONE
-                ) else Grouping.NONE,
-                sortBy = sortBy,
-                sortDirection = cursor.getEnum(KEY_SORT_DIRECTION, SortDirection.DESC)
-            )
-        }
-    }
+    fun uriBuilderForTransactionList(
+        extended: Boolean,
+    ) = uriBuilderForTransactionList(
+        accountId = id,
+        currency = currency,
+        type = type?.id,
+        flag = flag?.id,
+        accountGrouping = accountGrouping,
+        shortenComment = true,
+        extended = extended
+    )
 }

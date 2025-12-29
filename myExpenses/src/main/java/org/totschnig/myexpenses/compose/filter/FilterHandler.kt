@@ -47,7 +47,7 @@ import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.provider.filter.TransferCriterion
-import org.totschnig.myexpenses.viewmodel.data.BaseAccount
+import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import kotlin.reflect.KClass
 
 interface FilterHandlerScope {
@@ -97,7 +97,7 @@ interface FilterHandlerScope {
 
 @Composable
 fun FilterHandler(
-    account: BaseAccount,
+    account: PageAccount,
     requestKey: String,
     onResult: (SimpleCriterion<*>?, SimpleCriterion<*>?) -> Unit,
     content: @Composable FilterHandlerScope.() -> Unit

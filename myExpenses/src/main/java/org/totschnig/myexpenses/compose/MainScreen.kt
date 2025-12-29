@@ -54,6 +54,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -68,9 +69,12 @@ import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
+import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.HeaderDataEmpty
 
@@ -198,26 +202,30 @@ fun TransactionScreen(
 
         val activeGrouping by viewModel.activeGrouping.collectAsStateWithLifecycle()
         val availableFilters by viewModel.availableGroupFilters.collectAsStateWithLifecycle()
-        var activeFilter: String? by remember { mutableStateOf(null) }
+        var activeFilter: Any? by remember { mutableStateOf(null) }
         val coroutineScope = rememberCoroutineScope()
         val tabRowState = rememberCollapsingTabRowState()
 
         val accountList = remember {
             derivedStateOf {
-                (if (activeFilter == null || activeGrouping == AccountGrouping.NONE) accounts else
+                val filtered = if (activeFilter == null || activeGrouping == AccountGrouping.NONE)
+                    accounts
+                else
                     accounts.filter { account ->
                         // Filter the list based on the active strategy and filter key
                         when (activeGrouping) {
-                            AccountGrouping.CURRENCY -> account.currencyUnit.code == activeFilter
-                            AccountGrouping.TYPE -> account.type.name == activeFilter
-                            AccountGrouping.FLAG -> account.flag.label == activeFilter
+                            AccountGrouping.CURRENCY -> account.currencyUnit == activeFilter
+                            AccountGrouping.TYPE -> account.type == activeFilter
+                            AccountGrouping.FLAG -> account.flag == activeFilter
                             else -> true
                         }
-                    }) + FullAccount(
-                    id = -1,
-                    label = activeFilter ?: "Grand Total",
-                    currencyUnit = activeFilter?.let { viewModel.currencyContext[it] } ?: viewModel.currencyContext.homeCurrencyUnit,
-                    type = AccountType.CASH,
+                    }
+                filtered + AggregateAccount(
+                    currencyUnit = if (activeGrouping == AccountGrouping.CURRENCY) {
+                        activeFilter as? CurrencyUnit ?: viewModel.currencyContext.homeCurrencyUnit
+                    } else viewModel.currencyContext.homeCurrencyUnit,
+                    type = if (activeGrouping == AccountGrouping.TYPE) activeFilter as? AccountType else null,
+                    flag = if (activeGrouping == AccountGrouping.FLAG) activeFilter as? AccountFlag else null,
                     accountGrouping = if (activeFilter != null) activeGrouping else AccountGrouping.NONE,
                 )
             }
@@ -287,7 +295,7 @@ fun TransactionScreen(
                                         pagerState.animateScrollToPage(index)
                                     }
                                 },
-                                text = { Text(account.label, maxLines = 1) }
+                                text = { Text(account.labelV2(LocalContext.current), maxLines = 1) }
                             )
                         }
                     }
@@ -295,14 +303,14 @@ fun TransactionScreen(
             }
             HorizontalPager(
                 state = pagerState,
-                key = { accountList[it].id },
+                key = { activeFilter to accountList[it].id },
                 verticalAlignment = Alignment.Top,
-                modifier = Modifier.fillMaxSize() // The pager fills the rest of the column
+                modifier = Modifier.fillMaxSize()
             ) { page ->
                 val account = accountList[page]
-                val pageAccount = account.toPageAccount
-                val lazyPagingItems =
-                    viewModel.items.getValue(pageAccount).collectAsLazyPagingItems()
+                val context = LocalContext.current
+                val pageAccount = remember { account.toPageAccount(context = context) }
+                val lazyPagingItems = viewModel.items.getValue(pageAccount).collectAsLazyPagingItems()
                 TransactionList(
                     lazyPagingItems = lazyPagingItems,
                     headerData = HeaderDataEmpty(pageAccount),
@@ -313,7 +321,7 @@ fun TransactionScreen(
                     onBudgetClick = { _, _ -> },
                     showSumDetails = viewModel.showSumDetails.collectAsState(initial = true).value,
                     scrollToCurrentDate = viewModel.scrollToCurrentDate.getValue(account.id),
-                    renderer = NewTransactionRenderer(null),
+                    renderer = NewTransactionRenderer(LocalDateFormatter.current),
                     isFiltered = false
                 )
             }
@@ -426,10 +434,11 @@ fun GroupingMenu(
 @Composable
 fun FilterMenu(
     anchor: @Composable (() -> Unit) -> Unit,
-    availableFilters: List<String>,
-    onFilterChange: (String?) -> Unit,
+    availableFilters: List<Any>,
+    onFilterChange: (Any?) -> Unit,
 ) {
     var showMenu by remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     // The anchor composable (our gear icon) is passed in
     anchor { showMenu = true }
@@ -447,7 +456,16 @@ fun FilterMenu(
         )
         availableFilters.forEach { filter ->
             DropdownMenuItem(
-                text = { Text(filter) },
+                text = {
+                    Text(
+                        when (filter) {
+                            is CurrencyUnit -> filter.code
+                            is AccountType -> filter.localizedName(context)
+                            is AccountFlag -> filter.localizedLabel(context)
+                            else -> "ERROR"
+                        }
+                    )
+                },
                 onClick = {
                     onFilterChange(filter)
                     showMenu = false

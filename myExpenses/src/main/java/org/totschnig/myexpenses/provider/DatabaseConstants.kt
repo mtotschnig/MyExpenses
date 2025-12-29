@@ -118,18 +118,18 @@ object DatabaseConstants {
             localizedLabelForPaymentMethod(context, KEY_METHOD_LABEL) + " AS " + KEY_METHOD_LABEL,
             KEY_CR_STATUS,
             KEY_REFERENCE_NUMBER,
-            YEAR_OF_WEEK_START + " AS " + KEY_YEAR_OF_WEEK_START,
-            YEAR_OF_MONTH_START + " AS " + KEY_YEAR_OF_MONTH_START,
-            YEAR + " AS " + KEY_YEAR,
-            MONTH + " AS " + KEY_MONTH,
-            WEEK + " AS " + KEY_WEEK,
-            DAY + " AS " + KEY_DAY,
-            THIS_YEAR_OF_WEEK_START + " AS " + KEY_THIS_YEAR_OF_WEEK_START,
-            THIS_YEAR_OF_MONTH_START + " AS " + KEY_THIS_YEAR_OF_MONTH_START,
-            THIS_YEAR + " AS " + KEY_THIS_YEAR,
-            THIS_WEEK + " AS " + KEY_THIS_WEEK,
-            THIS_DAY + " AS " + KEY_THIS_DAY,
-            WEEK_START + " AS " + KEY_WEEK_START
+            "$YEAR_OF_WEEK_START AS $KEY_YEAR_OF_WEEK_START",
+            "$YEAR_OF_MONTH_START AS $KEY_YEAR_OF_MONTH_START",
+            "$YEAR AS $KEY_YEAR",
+            "$MONTH AS $KEY_MONTH",
+            "$WEEK AS $KEY_WEEK",
+            "$DAY AS $KEY_DAY",
+            "$THIS_YEAR_OF_WEEK_START AS $KEY_THIS_YEAR_OF_WEEK_START",
+            "$THIS_YEAR_OF_MONTH_START AS $KEY_THIS_YEAR_OF_MONTH_START",
+            "$THIS_YEAR AS $KEY_THIS_YEAR",
+            "$THIS_WEEK AS $KEY_THIS_WEEK",
+            "$THIS_DAY AS $KEY_THIS_DAY",
+            "$WEEK_START AS $KEY_WEEK_START"
         )
 
         //extended

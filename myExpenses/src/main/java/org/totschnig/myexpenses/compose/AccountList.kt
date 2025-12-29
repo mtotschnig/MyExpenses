@@ -385,7 +385,7 @@ fun AccountCard(
             val modifier = Modifier
                 .padding(end = 6.dp)
                 .size((dimensionResource(id = R.dimen.account_list_aggregate_letter_font_size).value * 2).dp)
-            val color = Color(account.color(LocalResources.current))
+            val color = Color(account.color)
 
             account.progress?.let { (sign, progress) ->
                 DonutInABox(
@@ -679,7 +679,7 @@ private fun AccountPreview() {
             label = "Account",
             description = "Description",
             currencyUnit = CurrencyUnit.DebugInstance,
-            _color = android.graphics.Color.RED,
+            color = android.graphics.Color.RED,
             openingBalance = 0,
             currentBalance = 1000,
             sumIncome = 2000,

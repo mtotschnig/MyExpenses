@@ -1033,7 +1033,7 @@ open class MyExpenses : LaunchActivity(), OnDialogResultListener, ContribIFace,
     private fun editAccount(account: FullAccount) {
         startActivityForResult(Intent(this, AccountEdit::class.java).apply {
             putExtra(KEY_ROWID, account.id)
-            putExtra(KEY_COLOR, account._color)
+            putExtra(KEY_COLOR, account.color)
         }, EDIT_ACCOUNT_REQUEST)
 
     }
@@ -1102,7 +1102,7 @@ open class MyExpenses : LaunchActivity(), OnDialogResultListener, ContribIFace,
                     if (showFilterDialog) {
                         currentAccount?.let {
                             FilterDialog(
-                                account = it,
+                                account = it.toPageAccount,
                                 sumInfo = sumInfo.value,
                                 //we are only interested in the current value, since as soon as we persist new value,
                                 //the dialog is dismissed
@@ -1166,7 +1166,7 @@ open class MyExpenses : LaunchActivity(), OnDialogResultListener, ContribIFace,
             if (account.sealed) finishActionMode()
         }
 
-        val showStatusHandle = if (account.isAggregate || !account.type.supportsReconciliation)
+        val showStatusHandle = if (account.isAggregate || account.type?.supportsReconciliation == false)
             false
         else
             viewModel.showStatusHandle.flow.collectAsState(initial = true).value
@@ -1616,7 +1616,7 @@ open class MyExpenses : LaunchActivity(), OnDialogResultListener, ContribIFace,
                 startActivityForResult(
                     Intent(this, ExpenseEdit::class.java).apply {
                         putExtra(KEY_ROWID, transaction.id)
-                        putExtra(KEY_COLOR, transaction.color ?: currentAccount?._color)
+                        putExtra(KEY_COLOR, transaction.color ?: currentAccount?.color)
                         if (clone) {
                             putExtra(ExpenseEdit.KEY_CLONE, true)
                         }
@@ -1728,7 +1728,7 @@ open class MyExpenses : LaunchActivity(), OnDialogResultListener, ContribIFace,
                 candidate?.let {
                     putExtra(KEY_ACCOUNTID, it.id)
                     putExtra(KEY_CURRENCY, it.currency)
-                    putExtra(KEY_COLOR, it._color)
+                    putExtra(KEY_COLOR, it.color)
                 }
                 val accountId = selectedAccountId
                 if (isAggregate(accountId)) {
@@ -2325,7 +2325,7 @@ open class MyExpenses : LaunchActivity(), OnDialogResultListener, ContribIFace,
                                 currentBalance,
                                 criterion,
                                 0,
-                                _color,
+                                color,
                                 currencyUnit,
                                 label,
                                 sealed
@@ -2362,7 +2362,7 @@ open class MyExpenses : LaunchActivity(), OnDialogResultListener, ContribIFace,
     private fun configureUiWithCurrentAccount(account: FullAccount?, animateProgress: Boolean) {
         if (account != null) {
             prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, account.id)
-            tintFab(account.color(resources))
+            tintFab(account.color)
             setBalance(account, animateProgress)
         }
         updateFab()
@@ -2410,7 +2410,7 @@ open class MyExpenses : LaunchActivity(), OnDialogResultListener, ContribIFace,
 
             ACCOUNT_VISUAL_COLOR -> {
                 (binding.toolbar.accountColorIndicator.background as GradientDrawable).setColor(
-                    account._color
+                    account.color
                 )
             }
 
@@ -2421,7 +2421,7 @@ open class MyExpenses : LaunchActivity(), OnDialogResultListener, ContribIFace,
                     submitData(
                         sections = DisplayProgress.calcProgressVisualRepresentation(progress)
                             .forViewSystem(
-                                account._color,
+                                account.color,
                                 getAmountColor(sign)
                             ).also {
                                 Timber.d("Sections: %s", progress)
@@ -2444,7 +2444,7 @@ open class MyExpenses : LaunchActivity(), OnDialogResultListener, ContribIFace,
                 submitData(
                     sections = DisplayProgress.calcProgressVisualRepresentation(progress)
                         .forViewSystem(
-                            account._color,
+                            account.color,
                             getAmountColor(sign)
                         ).also {
                             Timber.d("Sections: %s", progress)

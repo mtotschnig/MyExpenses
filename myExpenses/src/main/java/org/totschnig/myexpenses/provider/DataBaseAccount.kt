@@ -20,22 +20,17 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
     override val accountId: Long
         get() = id
 
-    val isHomeAggregate get() = accountGrouping == AccountGrouping.NONE
+    val isHomeAggregate get() = false
 
-    val isAggregate get() = accountGrouping != null
+    val isAggregate get() = false
 
     val sortOrder: String
         get() = "${sortBy.let { if (it == KEY_AMOUNT) "abs($it)" else it }} $sortDirection"
 
     fun uriForTransactionList(
         shortenComment: Boolean = false,
-        extended: Boolean = true
-    ): Uri = uriBuilderForTransactionList(shortenComment, extended).build()
-
-    fun uriBuilderForTransactionList(
-        shortenComment: Boolean = false,
-        extended: Boolean = true
-    ) = uriBuilderForTransactionList(id, currency, accountGrouping, shortenComment, extended)
+        extended: Boolean = true,
+    ): Uri = uriBuilderForTransactionList(id, currency, null, null,  null, shortenComment, extended).build()
 
     companion object {
 
@@ -54,33 +49,32 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
         fun uriBuilderForTransactionList(
             accountId: Long,
             currency: String?,
+            type: Long? = null,
+            flag: Long? = null,
             accountGrouping: AccountGrouping? = when {
                 isHomeAggregate(accountId) -> AccountGrouping.NONE
                 isAggregate(accountId) -> AccountGrouping.CURRENCY
                 else -> null
             },
             shortenComment: Boolean = false,
-            extended: Boolean = true
+            extended: Boolean = true,
         ): Uri.Builder {
-            val uriBuilder =
-                uriBuilderForTransactionList(shortenComment, extended)
-            return when(accountGrouping) {
-                null -> uriBuilder.apply {
-                    appendQueryParameter(KEY_ACCOUNTID, accountId.toString())
-                }
+            return uriBuilderForTransactionList(shortenComment, extended).apply {
+                when (accountGrouping) {
+                    null -> appendQueryParameter(KEY_ACCOUNTID, accountId.toString())
 
-                AccountGrouping.NONE -> uriBuilder
+                    AccountGrouping.CURRENCY -> appendQueryParameter(KEY_CURRENCY, currency!!)
 
-                AccountGrouping.CURRENCY -> uriBuilder.apply {
-                    appendQueryParameter(KEY_CURRENCY, currency)
+                    AccountGrouping.TYPE -> appendQueryParameter(KEY_ACCOUNT_TYPE, type!!.toString())
+                    AccountGrouping.FLAG -> appendQueryParameter(KEY_FLAG, flag!!.toString())
+                    else -> {}
                 }
-                else -> TODO()
             }
         }
 
         fun uriBuilderForTransactionList(
             shortenComment: Boolean,
-            extended: Boolean = true
+            extended: Boolean = true,
         ): Uri.Builder =
             (if (extended) EXTENDED_URI else TRANSACTIONS_URI)
                 .buildUpon().apply {

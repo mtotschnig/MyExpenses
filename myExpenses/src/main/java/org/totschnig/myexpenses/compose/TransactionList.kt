@@ -59,12 +59,9 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.compose.scrollbar.STICKY_HEADER_CONTENT_TYPE
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.SortDirection
-import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.toEpoch
 import org.totschnig.myexpenses.viewmodel.data.BudgetData
@@ -84,7 +81,6 @@ import java.time.ZonedDateTime
 import java.time.temporal.ChronoUnit
 import java.util.Collections
 import kotlin.math.absoluteValue
-import androidx.compose.ui.platform.LocalResources
 
 data class ScrollCalculationResult(
     val index: Int,
@@ -496,7 +492,7 @@ fun HeaderRenderer(
                         .size(42.dp),
                     progress = progress,
                     fontSize = 12.sp,
-                    color = Color(account.color(LocalResources.current)),
+                    color = Color(account.color),
                     excessColor = LocalColors.current.expense
                 )
 
@@ -570,14 +566,9 @@ private fun Header() {
     HeaderRenderer(
         account = PageAccount(
             id = 1,
-            type = AccountType.CASH,
-            sortBy = KEY_DATE,
-            sortDirection = SortDirection.DESC,
-            grouping = Grouping.NONE,
             currencyUnit = CurrencyUnit.DebugInstance,
-            sealed = false,
             openingBalance = 1234,
-            _color = 0,
+            label = "ar",
         ),
         headerId = 2022001,
         headerRow = headerRow,
@@ -601,14 +592,9 @@ private fun HeaderWithBudgetProgress() {
     HeaderRenderer(
         account = PageAccount(
             id = 1,
-            type = AccountType.CASH,
-            sortBy = KEY_DATE,
-            sortDirection = SortDirection.DESC,
-            grouping = Grouping.NONE,
             currencyUnit = CurrencyUnit.DebugInstance,
-            sealed = false,
             openingBalance = 1234,
-            _color = 0
+            label = "ar"
         ),
         headerId = 2022001,
         headerRow = headerRow,
