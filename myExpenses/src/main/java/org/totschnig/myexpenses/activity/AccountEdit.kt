@@ -15,6 +15,7 @@
 package org.totschnig.myexpenses.activity
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -25,6 +26,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.TooltipCompat
 import androidx.lifecycle.Lifecycle
@@ -54,6 +56,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.provider.KEY_COLOR
 import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.KEY_UUID
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountNames
@@ -180,7 +183,8 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             DialogUtils.showSyncUnlinkConfirmationDialog(this, syncAccountName, uuid)
         }
         with(binding.SyncHelp) {
-            val helpText = getString(R.string.synchronization) + ": " + getString(R.string.menu_help)
+            val helpText =
+                getString(R.string.synchronization) + ": " + getString(R.string.menu_help)
             contentDescription = helpText
             TooltipCompat.setTooltipText(this, helpText)
             setOnClickListener {
@@ -213,7 +217,8 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.accountTypes.collect { accountTypes ->
                     accountTypeAdapter.addAllAccountTypes(accountTypes)
-                    (accountType.takeIf { it != 0L } ?: accountTypes.find { it.isCashAccount }?.id)?.let {
+                    (accountType.takeIf { it != 0L }
+                        ?: accountTypes.find { it.isCashAccount }?.id)?.let {
                         accountTypeSpinner.setSelection(accountTypeAdapter.getPosition(it))
                     }
                 }
@@ -379,6 +384,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
                     //will be reported to user when he tries so safe
                 }
             }
+
             R.id.Sync -> {
                 if (position > 0) {
                     contribFeatureRequested(ContribFeature.SYNCHRONIZATION)
@@ -386,6 +392,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
                     syncAccountName = null
                 }
             }
+
             R.id.AccountType -> {
                 if (id > 0L) {
                     accountType = id
@@ -559,4 +566,26 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
     override val exchangeRateEdit: ExchangeRateEdit
         get() = binding.ERR.ExchangeRate
 
+    companion object {
+
+        /**
+         * Contract for **creating a new account**.
+         * Takes no input (Unit).
+         * Returns the ID of the newly created account if successful, otherwise null.
+         */
+        class CreateContract : ActivityResultContract<Unit, Long?>() {
+            override fun createIntent(context: Context, input: Unit): Intent {
+                return Intent(context, AccountEdit::class.java).apply {
+                    putExtra(KEY_COLOR, Account.DEFAULT_COLOR)
+                }
+            }
+
+            override fun parseResult(resultCode: Int, intent: Intent?): Long? {
+                if (resultCode != RESULT_OK) {
+                    return null
+                }
+                return intent?.getLongExtra(KEY_ROWID, -1L)?.takeIf { it != -1L }
+            }
+        }
+    }
 }

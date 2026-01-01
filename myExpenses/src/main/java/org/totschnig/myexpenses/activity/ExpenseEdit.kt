@@ -307,8 +307,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     }
 
     private val createAccountForTransfer =
-        registerForActivityResult(StartActivityForResult()) {
-            if (it.resultCode == RESULT_OK) {
+        registerForActivityResult(AccountEdit.Companion.CreateContract()) {
+            if (it != null) {
                 delegate.restartWithType(TYPE_TRANSFER)
             }
         }
@@ -1213,7 +1213,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             }
 
             R.id.CREATE_ACCOUNT_FOR_TRANSFER_COMMAND -> {
-                createAccountForTransfer.launch(createAccountIntent)
+                createAccountForTransfer.launch(Unit)
             }
         }
         return false

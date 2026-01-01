@@ -463,7 +463,7 @@ fun LazyListScope.accountTypeSection(
                 .padding(vertical = 4.dp)
         ) {
             Text(
-                text = section.type.localizedName(LocalContext.current),
+                text = section.type.title(LocalContext.current),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.weight(1f)

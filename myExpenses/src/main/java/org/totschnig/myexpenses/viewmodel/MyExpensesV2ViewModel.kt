@@ -9,15 +9,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.model.AccountGrouping
-import org.totschnig.myexpenses.provider.KEY_VISIBLE
+import org.totschnig.myexpenses.model.AccountGroupingKey
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
-import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.mapToListCatching
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 
@@ -26,23 +25,42 @@ class MyExpensesV2ViewModel(
     savedStateHandle: SavedStateHandle,
 ) : MyExpensesViewModel(application, savedStateHandle) {
 
-    // State for Level 1 decision
-    private val _activeGrouping = MutableStateFlow(AccountGrouping.NONE)
-    val activeGrouping: StateFlow<AccountGrouping> = _activeGrouping.asStateFlow()
+    private val _activeFilter = MutableStateFlow<AccountGroupingKey?>(null)
+    val activeFilter: StateFlow<AccountGroupingKey?> = _activeFilter.asStateFlow()
 
 
     // Functions for the UI to call
     fun setGrouping(grouping: AccountGrouping) {
-        _activeGrouping.value = grouping
+        viewModelScope.launch {
+            accountGrouping.set(grouping)
+        }
+    }
+
+    //remove active filter if it is different from passed in grouping key
+    fun maybeResetFilter(filter: AccountGroupingKey) {
+        if (_activeFilter.value != filter) {
+            setFilter(null)
+        }
+    }
+
+    fun setFilter(filter: AccountGroupingKey?) {
+        _activeFilter.value = filter
+    }
+
+    fun navigateToGroup(filter: AccountGroupingKey) {
+        setFilter(filter)
+        selectAccount(0)
     }
 
     val accountDataV2: StateFlow<Result<List<FullAccount>>?> by lazy {
         contentResolver.observeQuery(
             uri = ACCOUNTS_URI
                 .buildUpon()
-                .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_FULL_PROJECTION_WITH_SUMS, "now")
+                .appendQueryParameter(
+                    TransactionProvider.QUERY_PARAMETER_FULL_PROJECTION_WITH_SUMS,
+                    "now"
+                )
                 .build(),
-            selection = "$KEY_VISIBLE = 1",
             notifyForDescendants = true
         )
             .mapToListCatching {
@@ -53,17 +71,17 @@ class MyExpensesV2ViewModel(
 
     // Derived state: What are the available filter options for the current grouping?
     @OptIn(ExperimentalCoroutinesApi::class)
-    val availableGroupFilters: StateFlow<List<Any>> = activeGrouping.flatMapLatest { grouping ->
-        // This maps the master account list to a list of unique group keys
-        accountDataV2.map { result ->
-            result?.getOrNull()?.let { accounts ->
-                when (grouping) {
-                    AccountGrouping.CURRENCY -> accounts.map { it.currencyUnit }.distinct()
-                    AccountGrouping.TYPE -> accounts.map { it.type }.distinct() // Assuming type is an enum
-                    AccountGrouping.FLAG -> { accounts.map { it.flag }.distinct() }
-                    AccountGrouping.NONE -> emptyList()
-                }
-            } ?: emptyList()
-        }
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+    val availableGroupFilters: StateFlow<List<AccountGroupingKey>> by lazy {
+        accountGrouping.flow.flatMapLatest { grouping ->
+            // This maps the master account list to a list of unique group keys
+            accountDataV2.map { result ->
+                result?.getOrNull()?.let { accounts ->
+                    when (grouping) {
+                        AccountGrouping.NONE -> emptyList()
+                        else -> accounts.map { grouping.getGroupKey(it) }.distinct()
+                    }
+                } ?: emptyList()
+            }
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+    }
 }

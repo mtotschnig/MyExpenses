@@ -124,7 +124,7 @@ open class GroupedSpinnerAdapter<H, T : IdHolder>(
 class AccountAdapter(context: Context): GroupedSpinnerAdapter<AccountFlag, Account>(
     context,
     itemToString = { it.label },
-    headerToString = { if (it.id == 0L) "" else it.localizedLabel(context) }
+    headerToString = { if (it.id == 0L) "" else it.title(context) }
 ) {
     override fun showHeader(header: AccountFlag) = header.id != 0L
 }

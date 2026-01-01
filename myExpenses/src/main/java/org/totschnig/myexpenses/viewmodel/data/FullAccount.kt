@@ -81,7 +81,6 @@ abstract class BaseAccount : DataBaseAccount() {
 
 @Stable
 data class AggregateAccount(
-    override val id: Long = 0,
     override val currencyUnit: CurrencyUnit,
     override val type: AccountType?,
     override val flag: AccountFlag?,
@@ -105,15 +104,16 @@ data class AggregateAccount(
     val equivalentTotal: Long? = null,
     val accountGrouping: AccountGrouping
 ): BaseAccount() {
+    override val id: Long = 0
     override val currency: String = currencyUnit.code
 
     override val label: String
         get() = throw UnsupportedOperationException("Use labelV2")
 
     override fun labelV2(context: Context): String = when(accountGrouping) {
-        AccountGrouping.TYPE -> type!!.localizedName(context) + " ($SIGMA)"
+        AccountGrouping.TYPE -> type!!.title(context) + " ($SIGMA)"
         AccountGrouping.CURRENCY -> currencyUnit.code + " ($SIGMA)"
-        AccountGrouping.FLAG -> flag!!.localizedLabel(context) + " ($SIGMA)"
+        AccountGrouping.FLAG -> flag!!.title(context) + " ($SIGMA)"
         AccountGrouping.NONE -> context.getString(R.string.grand_total)
     }
 
@@ -202,6 +202,9 @@ data class FullAccount(
                         (currentBalance * 100F / it)
                     } else 0f
         }
+
+    val visible: Boolean
+        get() = flag.isVisible
 
     override fun toPageAccount(context: Context) = toPageAccount
 

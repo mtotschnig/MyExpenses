@@ -39,7 +39,7 @@ data class AccountType(
     val isAsset: Boolean = true,
     val supportsReconciliation: Boolean = false,
     val count: Int? = null
-) : IdHolder, Parcelable {
+) : IdHolder, Parcelable, AccountGroupingKey {
     @IgnoredOnParcel
     val asContentValues: ContentValues
         get() = contentValuesOf(
@@ -62,7 +62,7 @@ data class AccountType(
     val isCashAccount: Boolean
         get() = name == PREDEFINED_NAME_CASH
 
-    fun localizedName(context: Context) = when (name) {
+    override fun title(context: Context) = when (name) {
         PREDEFINED_NAME_CASH -> R.string.account_type_cash
         PREDEFINED_NAME_BANK -> R.string.account_type_bank
         PREDEFINED_NAME_CCARD -> R.string.account_type_ccard

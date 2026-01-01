@@ -113,7 +113,7 @@ class ManageAccountFlags : ProtectedFragmentActivity(),
                         SortUtilityDialogFragment.newInstance(
                             ArrayList(
                                 uiState.accountFlags.map {
-                                    SortableItem(it.id, it.localizedLabel(this))
+                                    SortableItem(it.id, it.title(this))
                                 }
                             ))
                             .show(supportFragmentManager, "SORT_FLAGS")
@@ -355,7 +355,7 @@ fun AccountFlagItem(
         Spacer(Modifier.size(PADDING_ICON.sp))
         val context = LocalContext.current
         Text(
-            text = flag.localizedLabel(context) +
+            text = flag.title(context) +
                     ((flag.count ?: 0).takeIf { it > 0 }?.let { " ($it)" } ?: ""),
             modifier = Modifier
                 .weight(WEIGHT_LABEL),
@@ -404,7 +404,7 @@ private fun AddEditAccountFlagDialog(
 ) {
     val context = LocalContext.current
 
-    var label by remember { mutableStateOf(editingAccountFlag.localizedLabel(context)) }
+    var label by remember { mutableStateOf(editingAccountFlag.title(context)) }
     val icon = rememberSaveable { mutableStateOf(editingAccountFlag.icon) }
 
     val showIconSelection = rememberSaveable { mutableStateOf(false) }
@@ -417,7 +417,7 @@ private fun AddEditAccountFlagDialog(
             AccountFlag.isReservedName(label) ||
                     allFlags.any {
                         it.id != editingAccountFlag.id &&
-                                (it.label == label || it.localizedLabel(context) == label)
+                                (it.label == label || it.title(context) == label)
                     }
         }
     }
@@ -474,7 +474,7 @@ private fun AccountSelectionDialog(
     DialogFrame2(
         title = stringResource(
             R.string.select_accounts_for_flag,
-            flag.localizedLabel(LocalContext.current)
+            flag.title(LocalContext.current)
         ),
         positiveButton = ButtonDefinition(
             text = android.R.string.ok,

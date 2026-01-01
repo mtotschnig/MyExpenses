@@ -78,11 +78,12 @@ import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.SortDirection
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model2.Bank
 import org.totschnig.myexpenses.preference.ColorSource
+import org.totschnig.myexpenses.preference.EnumPreferenceAccessor
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.PreferenceAccessor
 import org.totschnig.myexpenses.preference.enumValueOrDefault
@@ -299,13 +300,9 @@ open class MyExpensesViewModel(
         }
     }
 
-    val accountGrouping: Flow<AccountGrouping> by lazy {
-        dataStore.data.map {
-            enumValueOrDefault(
-                it[prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING)],
-                AccountGrouping.TYPE
-            )
-        }
+    val accountGrouping by lazy {
+        EnumPreferenceAccessor(dataStore,
+            prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING), defaultValue = AccountGrouping.TYPE)
     }
 
     private val pageSize = 150

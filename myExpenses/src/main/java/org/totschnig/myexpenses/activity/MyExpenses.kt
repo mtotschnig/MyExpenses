@@ -230,7 +230,7 @@ import kotlin.math.sign
 const val DIALOG_TAG_OCR_DISAMBIGUATE = "DISAMBIGUATE"
 const val DIALOG_TAG_NEW_BALANCE = "NEW_BALANCE"
 
-open class MyExpenses : LaunchActivity(), OnDialogResultListener, ContribIFace,
+open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultListener, ContribIFace,
     NewProgressDialogFragment.Host {
 
     private lateinit var adHandler: AdHandler
@@ -275,7 +275,6 @@ open class MyExpenses : LaunchActivity(), OnDialogResultListener, ContribIFace,
 
     private var currentBalance: String = ""
 
-    lateinit var viewModel: MyExpensesViewModel
     private val upgradeHandlerViewModel: UpgradeHandlerViewModel by viewModels()
     private val exportViewModel: ExportViewModel by viewModels()
     private val roadmapViewModel: RoadmapViewModel by viewModels()
@@ -723,9 +722,7 @@ open class MyExpenses : LaunchActivity(), OnDialogResultListener, ContribIFace,
                                 data.any { it.isHomeAggregate }
                         }
 
-                        val accountGrouping = viewModel.accountGrouping.collectAsState(
-                            AccountGrouping.TYPE
-                        )
+                        val accountGrouping = viewModel.accountGrouping.asState()
 
                         AccountList(
                             accountData = data,
@@ -1029,14 +1026,6 @@ open class MyExpenses : LaunchActivity(), OnDialogResultListener, ContribIFace,
     }
 
     override val snackBarContainerId = R.id.main_content
-
-    private fun editAccount(account: FullAccount) {
-        startActivityForResult(Intent(this, AccountEdit::class.java).apply {
-            putExtra(KEY_ROWID, account.id)
-            putExtra(KEY_COLOR, account.color)
-        }, EDIT_ACCOUNT_REQUEST)
-
-    }
 
     @OptIn(ExperimentalFoundationApi::class)
     @Composable
@@ -1802,22 +1791,22 @@ open class MyExpenses : LaunchActivity(), OnDialogResultListener, ContribIFace,
     }
 
     private val createAccount =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == RESULT_OK) {
-                selectedAccountId = it.data!!.getLongExtra(KEY_ROWID, 0)
+        registerForActivityResult(AccountEdit.Companion.CreateContract()) {
+            if (it != null) {
+                selectedAccountId = it
             }
         }
 
     private val createAccountForTransfer =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == RESULT_OK) {
+        registerForActivityResult(AccountEdit.Companion.CreateContract()) {
+            if (it != null) {
                 createRow(TYPE_TRANSFER)
             }
         }
 
     private fun createAccountDo() {
         closeDrawer()
-        createAccount.launch(createAccountIntent)
+        createAccount.launch(Unit)
     }
 
     private fun configureEquivalentWorthMenuItemIcon(menuItem: MenuItem, checked: Boolean) {
@@ -1867,7 +1856,7 @@ open class MyExpenses : LaunchActivity(), OnDialogResultListener, ContribIFace,
             }
 
             R.id.CREATE_ACCOUNT_FOR_TRANSFER_COMMAND -> {
-                createAccountForTransfer.launch(createAccountIntent)
+                createAccountForTransfer.launch(Unit)
             }
 
             R.id.SAFE_MODE_COMMAND -> {
@@ -1905,35 +1894,6 @@ open class MyExpenses : LaunchActivity(), OnDialogResultListener, ContribIFace,
                     ?: run {
                         Toast.makeText(this, "F-Droid not installed", Toast.LENGTH_LONG).show()
                     }
-            }
-
-            R.id.DELETE_ACCOUNT_COMMAND_DO -> {
-                val accountIds = tag as LongArray
-                val manageHiddenFragment =
-                    supportFragmentManager.findFragmentByTag(MANAGE_HIDDEN_FRAGMENT_TAG)
-                if (manageHiddenFragment != null) {
-                    supportFragmentManager.beginTransaction().remove(manageHiddenFragment).commit()
-                }
-                showSnackBarIndefinite(R.string.progress_dialog_deleting)
-                viewModel.deleteAccounts(accountIds).observe(
-                    this
-                ) { result ->
-                    result.onSuccess {
-                        showSnackBar(
-                            resources.getQuantityString(
-                                R.plurals.delete_success,
-                                accountIds.size,
-                                accountIds.size
-                            )
-                        )
-                    }.onFailure {
-                        if (it is AccountSealedException) {
-                            showSnackBar(R.string.object_sealed_debt)
-                        } else {
-                            showDeleteFailureFeedback(null)
-                        }
-                    }
-                }
             }
 
             R.id.PRINT_COMMAND -> AppDirHelper.checkAppDir(this)
@@ -1990,11 +1950,7 @@ open class MyExpenses : LaunchActivity(), OnDialogResultListener, ContribIFace,
                 )
             }
 
-            R.id.EDIT_ACCOUNT_COMMAND -> currentAccount?.let { editAccount(it) }
-
-            R.id.DELETE_ACCOUNT_COMMAND -> currentAccount?.let { confirmAccountDelete(it) }
-
-            R.id.TOGGLE_SEALED_COMMAND -> currentAccount?.let { toggleAccountSealed(it) }
+            R.id.TOGGLE_SEALED_COMMAND -> toggleAccountSealed()
 
             R.id.EXCLUDE_FROM_TOTALS_COMMAND -> currentAccount?.let { toggleExcludeFromTotals(it) }
 
@@ -2057,6 +2013,10 @@ open class MyExpenses : LaunchActivity(), OnDialogResultListener, ContribIFace,
             else -> return false
         }
         return true
+    }
+
+    private fun toggleAccountSealed(account: FullAccount? = currentAccount) {
+        account?.let { toggleAccountSealed(it, binding.accountPanel.root) }
     }
 
     fun openBalanceSheet() {
@@ -2616,51 +2576,6 @@ open class MyExpenses : LaunchActivity(), OnDialogResultListener, ContribIFace,
         } ?: run {
             showSnackBar(R.string.no_accounts)
         }
-    }
-
-    private fun confirmAccountDelete(account: FullAccount) {
-        MessageDialogFragment.newInstance(
-            resources.getQuantityString(
-                R.plurals.dialog_title_warning_delete_account,
-                1,
-                1
-            ),
-            getString(
-                R.string.warning_delete_account,
-                account.label
-            ) + " " + getString(R.string.continue_confirmation),
-            MessageDialogFragment.Button(
-                R.string.menu_delete,
-                R.id.DELETE_ACCOUNT_COMMAND_DO,
-                longArrayOf(account.id)
-            ),
-            null,
-            MessageDialogFragment.noButton(), 0
-        )
-            .show(supportFragmentManager, "DELETE_ACCOUNT")
-    }
-
-    private fun toggleAccountSealed(account: FullAccount) {
-        if (account.sealed) {
-            viewModel.setSealed(account.id, false)
-        } else {
-            if (account.syncAccountName == null) {
-                viewModel.setSealed(account.id, true)
-            } else {
-                showSnackBar(
-                    getString(R.string.warning_synced_account_cannot_be_closed),
-                    Snackbar.LENGTH_LONG, null, null, binding.accountPanel.accountList
-                )
-            }
-        }
-    }
-
-    private fun toggleExcludeFromTotals(account: FullAccount) {
-        viewModel.setExcludeFromTotals(account.id, !account.excludeFromTotals)
-    }
-
-    private fun toggleDynamicExchangeRate(account: FullAccount) {
-        viewModel.setDynamicExchangeRate(account.id, !account.dynamic)
     }
 
     val navigationView: NavigationView

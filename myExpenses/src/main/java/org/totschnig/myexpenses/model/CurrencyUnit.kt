@@ -1,9 +1,10 @@
 package org.totschnig.myexpenses.model
 
+import android.content.Context
 import androidx.annotation.VisibleForTesting
 import androidx.compose.runtime.Immutable
 import java.io.Serializable
-import java.util.*
+import java.util.Currency
 
 @Immutable
 data class CurrencyUnit(
@@ -11,7 +12,7 @@ data class CurrencyUnit(
     val symbol: String,
     val fractionDigits: Int,
     val description: String
-) : Serializable {
+) : Serializable, AccountGroupingKey {
     @VisibleForTesting
     constructor(currency: Currency) : this(
         currency.currencyCode, currency.symbol, currency.defaultFractionDigits,
@@ -24,6 +25,9 @@ data class CurrencyUnit(
         fractionDigits,
         code
     )
+
+    override val id: String = code
+    override fun title(context: Context) = org.totschnig.myexpenses.viewmodel.data.Currency.create(code, context).toString()
 
     companion object {
         val DebugInstance by lazy { CurrencyUnit(Currency.getInstance("EUR")) }

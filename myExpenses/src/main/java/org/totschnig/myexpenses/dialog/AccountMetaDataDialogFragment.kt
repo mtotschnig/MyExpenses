@@ -43,7 +43,7 @@ class AccountMetaDataDialogFragment: ComposeBaseDialogFragment3() {
     private fun AccountMetaData(data: AccountMetaData) {
         val type = AccountType.initialAccountTypes.firstOrNull {
                 it.name == data.type|| it.nameForSyncLegacy == data.type
-            }?.localizedName(LocalContext.current)
+            }?.title(LocalContext.current)
             ?: data.type
 
         data.description.takeIf { it.isNotEmpty() }?.let {

@@ -5,7 +5,6 @@ package org.totschnig.myexpenses.compose
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,7 +19,6 @@ import androidx.compose.material.icons.automirrored.filled.ReceiptLong
 import androidx.compose.material.icons.filled.AccountBalance
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -33,6 +31,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SecondaryScrollableTabRow
+import androidx.compose.material3.ShortNavigationBar
+import androidx.compose.material3.ShortNavigationBarItem
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -71,6 +71,7 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
+import org.totschnig.myexpenses.model.AccountGroupingKey
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
@@ -85,8 +86,19 @@ sealed class Screen(val route: String, val icon: ImageVector, @StringRes val res
 }
 
 @Composable
-fun MainScreen(viewModel: MyExpensesV2ViewModel) {
+fun MainScreen(
+    viewModel: MyExpensesV2ViewModel,
+    onEdit: (FullAccount) -> Unit,
+    onDelete: (FullAccount) -> Unit,
+    onSetFlag: (Long, Long?) -> Unit,
+    onToggleSealed: (FullAccount) -> Unit,
+    onToggleExcludeFromTotals: (FullAccount) -> Unit,
+    onToggleDynamicExchangeRate: ((FullAccount) -> Unit)?,
+    flags: List<AccountFlag> = emptyList(),
+) {
     val result = viewModel.accountDataV2.collectAsStateWithLifecycle().value
+
+    val accountGrouping = viewModel.accountGrouping.asState()
 
     when {
         result == null -> {
@@ -107,10 +119,22 @@ fun MainScreen(viewModel: MyExpensesV2ViewModel) {
                     startDestination = Screen.Accounts.route, //TODO should be configurable
                 ) {
                     composable(Screen.Transactions.route) {
-                        TransactionScreen(accounts, viewModel, navController)
+                        TransactionScreen(accounts, accountGrouping.value, viewModel, navController)
                     }
                     composable(Screen.Accounts.route) {
-                        AccountsScreen(accounts, viewModel, navController)
+                        AccountsScreen(
+                            accounts = accounts,
+                            accountGrouping.value,
+                            viewModel = viewModel,
+                            navController = navController,
+                            onEdit = onEdit,
+                            onDelete = onDelete,
+                            onSetFlag = onSetFlag,
+                            onToggleSealed = onToggleSealed,
+                            onToggleExcludeFromTotals = onToggleExcludeFromTotals,
+                            onToggleDynamicExchangeRate = onToggleDynamicExchangeRate,
+                            flags = flags
+                        )
                     }
                 }
             }
@@ -130,23 +154,14 @@ fun EmptyState() {
 @Composable
 fun MyBottomAppBar(navController: NavController) {
     val items = listOf(Screen.Accounts, Screen.Transactions) // Define your nav items
-
-    BottomAppBar(
-        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 0.dp),
-        actions = {
-            val navBackStackEntry by navController.currentBackStackEntryAsState()
-            val currentDestination = navBackStackEntry?.destination
-
-            items.forEach { screen ->
-                IconButton(
-                    onClick = {
-                        navController.navigate(screen.route) {
-                            //popUpTo(navController.graph.findStartDestination().id) { saveState = true }
-                            //launchSingleTop = true
-                            //restoreState = true
-                        }
-                    },
-                ) {
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+    ShortNavigationBar {
+        items.forEach { screen ->
+            ShortNavigationBarItem(
+                selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
+                onClick = { navController.navigate(screen.route) },
+                icon = {
                     Icon(
                         imageVector = screen.icon,
                         contentDescription = stringResource(screen.resourceId),
@@ -156,19 +171,11 @@ fun MyBottomAppBar(navController: NavController) {
                             MaterialTheme.colorScheme.onSurfaceVariant
                         }
                     )
-                }
-            }
-        },
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = { /* TODO: Open new transaction screen */ },
-                containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
-                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-            ) {
-                Icon(Icons.Default.Add, "Add transaction")
-            }
+                },
+                label = { Text(stringResource(screen.resourceId)) }
+            )
         }
-    )
+    }
 }
 
 
@@ -176,6 +183,7 @@ fun MyBottomAppBar(navController: NavController) {
 @Composable
 fun TransactionScreen(
     accounts: List<FullAccount>,
+    accountGrouping: AccountGrouping,
     viewModel: MyExpensesV2ViewModel,
     navController: NavController,
 ) {
@@ -197,36 +205,30 @@ fun TransactionScreen(
         },
         bottomBar = {
             MyBottomAppBar(navController)
+        },
+        floatingActionButton = {
+            MyFloatingActionButton(onClick = {}, contentDescription = "Add Transaction")
         }
     ) { paddingValues ->
-
-        val activeGrouping by viewModel.activeGrouping.collectAsStateWithLifecycle()
         val availableFilters by viewModel.availableGroupFilters.collectAsStateWithLifecycle()
-        var activeFilter: Any? by remember { mutableStateOf(null) }
+        val activeFilter by viewModel.activeFilter.collectAsStateWithLifecycle()
         val coroutineScope = rememberCoroutineScope()
         val tabRowState = rememberCollapsingTabRowState()
 
         val accountList = remember {
             derivedStateOf {
-                val filtered = if (activeFilter == null || activeGrouping == AccountGrouping.NONE)
+                val filtered = if (activeFilter == null || accountGrouping == AccountGrouping.NONE)
                     accounts
                 else
-                    accounts.filter { account ->
-                        // Filter the list based on the active strategy and filter key
-                        when (activeGrouping) {
-                            AccountGrouping.CURRENCY -> account.currencyUnit == activeFilter
-                            AccountGrouping.TYPE -> account.type == activeFilter
-                            AccountGrouping.FLAG -> account.flag == activeFilter
-                            else -> true
-                        }
-                    }
-                filtered + AggregateAccount(
-                    currencyUnit = if (activeGrouping == AccountGrouping.CURRENCY) {
+                    accounts.filter { account -> accountGrouping.getGroupKey(account) == activeFilter }
+                val visible = filtered.filter { it.visible }
+                visible + AggregateAccount(
+                    currencyUnit = if (accountGrouping == AccountGrouping.CURRENCY) {
                         activeFilter as? CurrencyUnit ?: viewModel.currencyContext.homeCurrencyUnit
                     } else viewModel.currencyContext.homeCurrencyUnit,
-                    type = if (activeGrouping == AccountGrouping.TYPE) activeFilter as? AccountType else null,
-                    flag = if (activeGrouping == AccountGrouping.FLAG) activeFilter as? AccountFlag else null,
-                    accountGrouping = if (activeFilter != null) activeGrouping else AccountGrouping.NONE,
+                    type = if (accountGrouping == AccountGrouping.TYPE) activeFilter as? AccountType else null,
+                    flag = if (accountGrouping == AccountGrouping.FLAG) activeFilter as? AccountFlag else null,
+                    accountGrouping = if (activeFilter != null) accountGrouping else AccountGrouping.NONE,
                 )
             }
         }.value
@@ -263,7 +265,7 @@ fun TransactionScreen(
                     .clipToBounds()
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    if (activeGrouping != AccountGrouping.NONE && availableFilters.size > 1) {
+                    if (accountGrouping != AccountGrouping.NONE && availableFilters.size > 1) {
                         Box {
                             FilterMenu(
                                 anchor = { showMenu ->
@@ -275,9 +277,7 @@ fun TransactionScreen(
                                     }
                                 },
                                 availableFilters = availableFilters,
-                                onFilterChange = { filter ->
-                                    activeFilter = filter
-                                },
+                                onFilterChange = viewModel::setFilter,
                             )
                         }
                     }
@@ -310,7 +310,8 @@ fun TransactionScreen(
                 val account = accountList[page]
                 val context = LocalContext.current
                 val pageAccount = remember { account.toPageAccount(context = context) }
-                val lazyPagingItems = viewModel.items.getValue(pageAccount).collectAsLazyPagingItems()
+                val lazyPagingItems =
+                    viewModel.items.getValue(pageAccount).collectAsLazyPagingItems()
                 TransactionList(
                     lazyPagingItems = lazyPagingItems,
                     headerData = HeaderDataEmpty(pageAccount),
@@ -332,16 +333,22 @@ fun TransactionScreen(
 @Composable
 fun AccountsScreen(
     accounts: List<FullAccount>,
+    accountGrouping: AccountGrouping,
     viewModel: MyExpensesV2ViewModel,
     navController: NavController,
+    onEdit: (FullAccount) -> Unit,
+    onDelete: (FullAccount) -> Unit,
+    onSetFlag: (Long, Long?) -> Unit,
+    onToggleSealed: (FullAccount) -> Unit,
+    onToggleExcludeFromTotals: (FullAccount) -> Unit,
+    onToggleDynamicExchangeRate: ((FullAccount) -> Unit)?,
+    flags: List<AccountFlag> = emptyList(),
 ) {
-    val activeGrouping by viewModel.activeGrouping.collectAsStateWithLifecycle()
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text("Accounts") },
                 actions = {
-                    val activeGrouping by viewModel.activeGrouping.collectAsStateWithLifecycle()
 
                     Box { // The Box is needed to anchor the menu
                         GroupingMenu(
@@ -353,7 +360,7 @@ fun AccountsScreen(
                                     )
                                 }
                             },
-                            activeGrouping = activeGrouping,
+                            activeGrouping = accountGrouping,
                             onGroupingChange = viewModel::setGrouping,
                         )
                     }
@@ -367,20 +374,48 @@ fun AccountsScreen(
         bottomBar = {
             // It shares the same bottom navigation component
             MyBottomAppBar(navController = navController)
+        },
+        floatingActionButton = {
+            MyFloatingActionButton(onClick = {}, contentDescription = "Add Account")
         }
     ) { paddingValues ->
         AccountListV2(
-            Modifier.padding(paddingValues),
             accountData = accounts,
-            grouping = activeGrouping,
+            scaffoldPadding = paddingValues,
+            grouping = accountGrouping,
             selectedAccount = viewModel.selectedAccountId,
             listState = viewModel.listState,
-            expansionHandlerGroups = viewModel.expansionHandler("collapsedHeadersDrawer_${activeGrouping}"),
+            expansionHandlerGroups = viewModel.expansionHandler("collapsedHeadersDrawer_${accountGrouping}"),
             onSelected = {
-                viewModel.selectAccount(it)
+                if (accountGrouping != AccountGrouping.NONE) {
+                    viewModel.maybeResetFilter(accountGrouping.getGroupKey(it))
+                }
+                viewModel.selectAccount(it.id)
                 navController.navigate(Screen.Transactions.route)
-            }
+            },
+            onGroupSelected = {
+                viewModel.navigateToGroup(it)
+                navController.navigate(Screen.Transactions.route)
+            },
+            onEdit = onEdit,
+            onDelete = onDelete,
+            onSetFlag = onSetFlag,
+            onToggleSealed = onToggleSealed,
+            onToggleExcludeFromTotals = onToggleExcludeFromTotals,
+            onToggleDynamicExchangeRate = onToggleDynamicExchangeRate,
+            flags = flags
         )
+    }
+}
+
+@Composable
+private fun MyFloatingActionButton(onClick: () -> Unit, contentDescription: String) {
+    FloatingActionButton(
+        onClick = onClick,
+        containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
+        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
+    ) {
+        Icon(Icons.Default.Add, contentDescription)
     }
 }
 
@@ -434,8 +469,8 @@ fun GroupingMenu(
 @Composable
 fun FilterMenu(
     anchor: @Composable (() -> Unit) -> Unit,
-    availableFilters: List<Any>,
-    onFilterChange: (Any?) -> Unit,
+    availableFilters: List<AccountGroupingKey>,
+    onFilterChange: (AccountGroupingKey?) -> Unit,
 ) {
     var showMenu by remember { mutableStateOf(false) }
     val context = LocalContext.current
@@ -457,14 +492,7 @@ fun FilterMenu(
         availableFilters.forEach { filter ->
             DropdownMenuItem(
                 text = {
-                    Text(
-                        when (filter) {
-                            is CurrencyUnit -> filter.code
-                            is AccountType -> filter.localizedName(context)
-                            is AccountFlag -> filter.localizedLabel(context)
-                            else -> "ERROR"
-                        }
-                    )
+                    Text(filter.title(context))
                 },
                 onClick = {
                     onFilterChange(filter)

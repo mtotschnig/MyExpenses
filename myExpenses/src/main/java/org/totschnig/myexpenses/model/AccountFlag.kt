@@ -25,13 +25,13 @@ const val PREDEFINED_NAME_INACTIVE = "_INACTIVE_"
 const val DEFAULT_FLAG_ID = 0L
 
 data class AccountFlag(
-    val id: Long = 0,
+    override val id: Long = 0,
     val label: String,
     val sortKey: Int = 0,
     val icon: String? = null,
     val isVisible: Boolean = true,
     val count: Int? = null
-) {
+): AccountGroupingKey {
 
     val asContentValues: ContentValues
         get() = contentValuesOf(
@@ -45,7 +45,7 @@ data class AccountFlag(
             }
         }
 
-    fun localizedLabel(context: Context) = when (label) {
+    override fun title(context: Context) = when (label) {
         PREDEFINED_NAME_DEFAULT -> R.string.flag_unflagged
         PREDEFINED_NAME_FAVORITE -> R.string.flag_favorite
         PREDEFINED_NAME_INACTIVE -> R.string.flag_inactive

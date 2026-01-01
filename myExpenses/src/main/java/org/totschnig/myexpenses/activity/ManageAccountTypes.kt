@@ -97,7 +97,7 @@ class ManageAccountTypes : ProtectedFragmentActivity(),
                         SortUtilityDialogFragment.newInstance(
                             ArrayList(
                                 uiState.accountTypes.filter { it.isAsset  == isAsset }.map {
-                                    SortableItem(it.id, it.localizedName(this))
+                                    SortableItem(it.id, it.title(this))
                                 }
                             ))
                             .show(supportFragmentManager, "SORT_TYPES")
@@ -286,7 +286,7 @@ private fun AccountTypeItem(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = accountType.localizedName(context) +
+            text = accountType.title(context) +
                     ((accountType.count ?: 0).takeIf { it > 0 }?.let { " ($it)" } ?: ""),
             style = MaterialTheme.typography.bodyLarge,
         )
@@ -339,7 +339,7 @@ private fun AddEditAccountTypeDialog(
             AccountType.isReservedName(name) ||
                     allTypes.any {
                         it.id != editingAccountType.id &&
-                                (it.name == name || it.localizedName(context) == name)
+                                (it.name == name || it.title(context) == name)
                     }
         }
     }
