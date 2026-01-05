@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
 
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
+ --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
     <string name="help_menu_commands">Menu commands</string>
     <string name="help_contextual_actions">Contextual actions</string>
     <string name="help_contextual_actions_help">The menu for contextual actions gets displayed by long tapping on a list entry.</string>
@@ -83,7 +83,7 @@
     <string name="cab_ManageCategories_move_help_text">Any category (together with its sub-categories) can be moved to a new parent category. Sub-categories can be transformed to main categories.</string>
     <string name="cab_ManageCategories_merge_help_text">Categories of the same type can be merged.</string>
     <string name="menu_categories_setup_default_help_text">A set of default categories will be imported.</string>
-    <string name="menu_categories_export_help_text">Categories will be exported to QIF file.</string>
+    <string name="menu_categories_export_help_text">Categories will be exported to a QIF file.</string>
     <string name="menu_chart_help_text">Toggle the visibility of the chart.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">The selected categories will be used for filtering the transaction list.</string>
     <string name="menu_ManageCategories_search_help_text">Only main and sub categories which match your query will be displayed.</string>
