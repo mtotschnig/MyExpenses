@@ -723,10 +723,13 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                         }
 
                         val accountGrouping = viewModel.accountGrouping.asState()
+                            .value
+                            .takeIf { it != AccountGrouping.FLAG }
+                            ?: AccountGrouping.DEFAULT
 
                         AccountList(
                             accountData = data,
-                            grouping = accountGrouping.value,
+                            grouping = accountGrouping,
                             selectedAccount = selectedAccountId,
                             onSelected = {
                                 selectedAccountId = it
@@ -758,7 +761,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                             showEquivalentWorth = viewModel.showEquivalentWorth.flow
                                 .collectAsState(false).value &&
                                     data.any { it.isHomeAggregate },
-                            expansionHandlerGroups = viewModel.expansionHandler("collapsedHeadersDrawer_${accountGrouping.value}"),
+                            expansionHandlerGroups = viewModel.expansionHandler("collapsedHeadersDrawer_${accountGrouping}"),
                             expansionHandlerAccounts = viewModel.expansionHandler("expandedAccounts"),
                             bankIcon = { modifier, id ->
                                 banks.value.find { it.id == id }

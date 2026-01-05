@@ -77,6 +77,7 @@ abstract class BaseAccount : DataBaseAccount() {
     abstract fun toPageAccount(context: Context): PageAccount
     abstract fun color(resources: Resources): Int
     open fun labelV2(context: Context) = label
+    fun aggregateColor(resources: Resources) = ResourcesCompat.getColor(resources, R.color.colorAggregate, null)
 }
 
 @Stable
@@ -117,7 +118,13 @@ data class AggregateAccount(
         AccountGrouping.NONE -> context.getString(R.string.grand_total)
     }
 
-    override fun color(resources: Resources) = ResourcesCompat.getColor(resources, R.color.colorAggregate, null)
+    @Deprecated("Used only on legacy Main Screen")
+    override val isHomeAggregate = accountGrouping == AccountGrouping.NONE
+
+    @Deprecated("Used only on legacy Main Screen")
+    override val isAggregate = true
+
+    override fun color(resources: Resources) = aggregateColor(resources)
 
     override fun toPageAccount(context: Context) = PageAccount(
             id = id,
@@ -177,7 +184,7 @@ data class FullAccount(
 
     override val currency: String = currencyUnit.code
 
-    override fun color(resources: Resources) = color
+    override fun color(resources: Resources) = if (isAggregate) aggregateColor(resources) else color
 
     val toPageAccount: PageAccount
         get() = PageAccount(

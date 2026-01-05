@@ -310,7 +310,7 @@ open class MyExpensesViewModel(
             defaultValue = AccountGrouping.NONE,
             mapper = object : Mapper<AccountGrouping<*>, String> {
                 override fun toPreference(userValue: AccountGrouping<*>): String {
-                    return userValue::class.simpleName ?: "NONE"
+                    return userValue.name
                 }
 
                 override fun fromPreference(persistedValue: String): AccountGrouping<*> {
@@ -319,7 +319,8 @@ open class MyExpensesViewModel(
                         "TYPE" -> AccountGrouping.TYPE
                         "CURRENCY" -> AccountGrouping.CURRENCY
                         "FLAG" -> AccountGrouping.FLAG
-                        else -> AccountGrouping.NONE // Default fallback
+                        "NONE" -> AccountGrouping.NONE
+                        else -> AccountGrouping.DEFAULT // Default fallback
                     }
                 }
             }

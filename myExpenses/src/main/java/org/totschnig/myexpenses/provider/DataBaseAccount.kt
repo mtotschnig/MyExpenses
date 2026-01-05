@@ -20,9 +20,11 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
     override val accountId: Long
         get() = id
 
-    val isHomeAggregate get() = false
+    @Deprecated("Used only on legacy Main Screen")
+    open val isHomeAggregate get() = isHomeAggregate(id)
 
-    val isAggregate get() = false
+    @Deprecated("Used only on legacy Main Screen")
+    open val isAggregate get() = isAggregate(id)
 
     val sortOrder: String
         get() = "${sortBy.let { if (it == KEY_AMOUNT) "abs($it)" else it }} $sortDirection"

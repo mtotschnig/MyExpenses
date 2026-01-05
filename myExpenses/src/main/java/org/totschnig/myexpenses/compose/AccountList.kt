@@ -205,7 +205,9 @@ fun AccountListV2(
                 HeaderV2(
                     header = group.key.title(context),
                     currency = group.key as? CurrencyUnit ?: LocalHomeCurrency.current,
-                    total = group.value.filter { !it.excludeFromTotals }.sumOf { it.currentBalance },
+                    total = group.value.filter { !it.excludeFromTotals }.sumOf {
+                        if (grouping == AccountGrouping.CURRENCY) it.currentBalance else it.equivalentCurrentBalance
+                    },
                     onToggleExpand = { expansionHandlerGroups.toggle(headerId) },
                     onNavigate = { onGroupSelected(group.key) }
                 )
@@ -380,18 +382,19 @@ fun AccountCardV2(
     ) {
         Text(text = account.label, modifier = Modifier.weight(1f))
         Text(format.convAmount(account.currentBalance, account.currencyUnit))
-        OverFlowMenu(menu = accountMenu(
-            context = LocalContext.current,
-            homeCurrency = LocalHomeCurrency.current,
-            account = account,
-            onEdit = onEdit,
-            onDelete = onDelete,
-            onSetFlag = onSetFlag,
-            onToggleSealed = onToggleSealed,
-            onToggleExcludeFromTotals = onToggleExcludeFromTotals,
-            onToggleDynamicExchangeRate = onToggleDynamicExchangeRate,
-            flags = flags
-        )
+        OverFlowMenu(
+            menu = accountMenu(
+                context = LocalContext.current,
+                homeCurrency = LocalHomeCurrency.current,
+                account = account,
+                onEdit = onEdit,
+                onDelete = onDelete,
+                onSetFlag = onSetFlag,
+                onToggleSealed = onToggleSealed,
+                onToggleExcludeFromTotals = onToggleExcludeFromTotals,
+                onToggleDynamicExchangeRate = onToggleDynamicExchangeRate,
+                flags = flags
+            )
         )
     }
 }
