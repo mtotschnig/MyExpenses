@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.viewmodel.data
 
 import android.content.Context
+import android.content.res.Resources
 import android.database.Cursor
 import android.net.Uri
 import androidx.compose.runtime.Immutable
@@ -65,7 +66,6 @@ import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
 import java.time.LocalDate
-import kotlin.math.absoluteValue
 import kotlin.math.roundToLong
 import kotlin.math.sign
 
@@ -75,7 +75,7 @@ abstract class BaseAccount : DataBaseAccount() {
     abstract val type: AccountType?
     abstract val flag: AccountFlag?
     abstract fun toPageAccount(context: Context): PageAccount
-
+    abstract fun color(resources: Resources): Int
     open fun labelV2(context: Context) = label
 }
 
@@ -102,7 +102,7 @@ data class AggregateAccount(
     val hasCleared: Boolean = false,
     val total: Long? = null,
     val equivalentTotal: Long? = null,
-    val accountGrouping: AccountGrouping
+    val accountGrouping: AccountGrouping<*>
 ): BaseAccount() {
     override val id: Long = 0
     override val currency: String = currencyUnit.code
@@ -117,6 +117,8 @@ data class AggregateAccount(
         AccountGrouping.NONE -> context.getString(R.string.grand_total)
     }
 
+    override fun color(resources: Resources) = ResourcesCompat.getColor(resources, R.color.colorAggregate, null)
+
     override fun toPageAccount(context: Context) = PageAccount(
             id = id,
             type = type,
@@ -128,7 +130,7 @@ data class AggregateAccount(
             sealed = false,
             openingBalance = openingBalance,
             currentBalance = currentBalance,
-            color = ResourcesCompat.getColor(context.resources, R.color.colorAggregate, null),
+            color = color(context.resources),
             label = labelV2(context),
             accountGrouping = accountGrouping
         )
@@ -175,6 +177,8 @@ data class FullAccount(
 
     override val currency: String = currencyUnit.code
 
+    override fun color(resources: Resources) = color
+
     val toPageAccount: PageAccount
         get() = PageAccount(
             id = id,
@@ -210,55 +214,53 @@ data class FullAccount(
 
     companion object {
 
-        fun fromCursor(
-            cursor: Cursor,
+        fun Cursor.fromCursor(
             currencyContext: CurrencyContext,
         ): FullAccount {
-            val sortBy = cursor.getString(KEY_SORT_BY)
+            val sortBy = getString(KEY_SORT_BY)
                 .takeIf { it == KEY_DATE || it == KEY_AMOUNT }
                 ?: KEY_DATE
-            val id = cursor.getLong(KEY_ROWID)
             return FullAccount(
-                id = id.absoluteValue,
-                label = cursor.getString(KEY_LABEL),
-                description = cursor.getStringOrNull(KEY_DESCRIPTION),
-                currencyUnit = currencyContext[cursor.getString(KEY_CURRENCY)],
-                color = cursor.getInt(KEY_COLOR),
-                type = AccountType.fromAccountCursor(cursor),
-                flag = AccountFlag.fromAccountCursor(cursor),
-                sealed = cursor.getInt(KEY_SEALED) == 1,
-                openingBalance = cursor.getLong(KEY_OPENING_BALANCE),
-                currentBalance = cursor.getLong(KEY_CURRENT_BALANCE),
-                sumIncome = cursor.getLong(KEY_SUM_INCOME),
-                sumExpense = cursor.getLong(KEY_SUM_EXPENSES),
-                sumTransfer = cursor.getLong(KEY_SUM_TRANSFERS),
-                grouping = if (sortBy == KEY_DATE) cursor.getEnum(
+                id = getLong(KEY_ROWID),
+                label = getString(KEY_LABEL),
+                description = getStringOrNull(KEY_DESCRIPTION),
+                currencyUnit = currencyContext[getString(KEY_CURRENCY)],
+                color = getInt(KEY_COLOR),
+                type = AccountType.fromAccountCursor(this),
+                flag = AccountFlag.fromAccountCursor(this),
+                sealed = getInt(KEY_SEALED) == 1,
+                openingBalance = getLong(KEY_OPENING_BALANCE),
+                currentBalance = getLong(KEY_CURRENT_BALANCE),
+                sumIncome = getLong(KEY_SUM_INCOME),
+                sumExpense = getLong(KEY_SUM_EXPENSES),
+                sumTransfer = getLong(KEY_SUM_TRANSFERS),
+                grouping = if (sortBy == KEY_DATE) getEnum(
                     KEY_GROUPING,
                     Grouping.NONE
                 ) else Grouping.NONE,
                 sortBy = sortBy,
-                sortDirection = cursor.getEnum(KEY_SORT_DIRECTION, SortDirection.DESC),
-                syncAccountName = cursor.getStringOrNull(KEY_SYNC_ACCOUNT_NAME),
-                reconciledTotal = cursor.getLong(KEY_RECONCILED_TOTAL),
-                clearedTotal = cursor.getLong(KEY_CLEARED_TOTAL),
-                hasCleared = cursor.getInt(KEY_HAS_CLEARED) > 0,
-                uuid = cursor.getStringOrNull(KEY_UUID),
-                criterion = cursor.getLong(KEY_CRITERION).takeIf { it != 0L },
-                total = if (cursor.getBoolean(KEY_HAS_FUTURE)) cursor.getLong(KEY_TOTAL) else null,
-                equivalentTotal = if (cursor.getBoolean(KEY_HAS_FUTURE)) cursor.getDouble(KEY_EQUIVALENT_TOTAL).roundToLong() else null,
-                excludeFromTotals = cursor.getBoolean(KEY_EXCLUDE_FROM_TOTALS),
-                lastUsed = cursor.getLong(KEY_LAST_USED),
-                bankId = cursor.getLongOrNull(KEY_BANK_ID),
-                equivalentOpeningBalance = cursor.getLong(KEY_EQUIVALENT_OPENING_BALANCE),
-                equivalentCurrentBalance = cursor.getDouble(KEY_EQUIVALENT_CURRENT_BALANCE).roundToLong(),
-                equivalentSumIncome = cursor.getLong(KEY_EQUIVALENT_INCOME),
-                equivalentSumExpense = cursor.getLong(KEY_EQUIVALENT_EXPENSES),
-                equivalentSumTransfer = cursor.getLong(KEY_EQUIVALENT_TRANSFERS),
-                initialExchangeRate = cursor.getDoubleOrNull(KEY_EXCHANGE_RATE),
-                latestExchangeRate = cursor.getDoubleOrNull(KEY_LATEST_EXCHANGE_RATE)?.let {
-                    cursor.getLocalDate(KEY_LATEST_EXCHANGE_RATE_DATE) to it
+                sortDirection = getEnum(KEY_SORT_DIRECTION, SortDirection.DESC),
+                syncAccountName = getStringOrNull(KEY_SYNC_ACCOUNT_NAME),
+                reconciledTotal = getLong(KEY_RECONCILED_TOTAL),
+                clearedTotal = getLong(KEY_CLEARED_TOTAL),
+                hasCleared = getInt(KEY_HAS_CLEARED) > 0,
+                uuid = getStringOrNull(KEY_UUID),
+                criterion = getLong(KEY_CRITERION).takeIf { it != 0L },
+                total = if (getBoolean(KEY_HAS_FUTURE)) getLong(KEY_TOTAL) else null,
+                equivalentTotal = if (getBoolean(KEY_HAS_FUTURE)) getDouble(KEY_EQUIVALENT_TOTAL).roundToLong() else null,
+                excludeFromTotals = getBoolean(KEY_EXCLUDE_FROM_TOTALS),
+                lastUsed = getLong(KEY_LAST_USED),
+                bankId = getLongOrNull(KEY_BANK_ID),
+                equivalentOpeningBalance = getLong(KEY_EQUIVALENT_OPENING_BALANCE),
+                equivalentCurrentBalance = getDouble(KEY_EQUIVALENT_CURRENT_BALANCE).roundToLong(),
+                equivalentSumIncome = getLong(KEY_EQUIVALENT_INCOME),
+                equivalentSumExpense = getLong(KEY_EQUIVALENT_EXPENSES),
+                equivalentSumTransfer = getLong(KEY_EQUIVALENT_TRANSFERS),
+                initialExchangeRate = getDoubleOrNull(KEY_EXCHANGE_RATE),
+                latestExchangeRate = getDoubleOrNull(KEY_LATEST_EXCHANGE_RATE)?.let {
+                    getLocalDate(KEY_LATEST_EXCHANGE_RATE_DATE) to it
                 },
-                dynamic = cursor.getBoolean(KEY_DYNAMIC),
+                dynamic = getBoolean(KEY_DYNAMIC),
             )
         }
     }
@@ -278,7 +280,7 @@ data class PageAccount(
     val currentBalance: Long = 0,
     val label: String,
     //not null for aggregate accounts
-    val accountGrouping: AccountGrouping? = null,
+    val accountGrouping: AccountGrouping<*>? = null,
     val color: Int = -1
 ) : DataBaseAccount() {
     override val currency: String = currencyUnit.code

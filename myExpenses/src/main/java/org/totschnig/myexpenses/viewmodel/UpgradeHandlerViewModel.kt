@@ -175,7 +175,7 @@ class UpgradeHandlerViewModel(application: Application) :
                                     edit.putString(
                                         key,
                                         `val`.substring(sepIndex + 1) + ";" + SimpleCriterion.escapeSeparator(
-                                            `val`.substring(0, sepIndex)
+                                            `val`.take(sepIndex)
                                         )
                                     )
                                 }

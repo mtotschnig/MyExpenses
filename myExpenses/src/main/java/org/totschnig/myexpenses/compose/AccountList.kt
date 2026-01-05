@@ -75,6 +75,7 @@ import org.totschnig.myexpenses.util.isolateText
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import java.text.DecimalFormat
+import java.util.Comparator
 
 const val SIGMA = "Σ"
 
@@ -82,7 +83,7 @@ const val SIGMA = "Σ"
 fun AccountList(
     modifier: Modifier = Modifier,
     accountData: List<FullAccount>,
-    grouping: AccountGrouping,
+    grouping: AccountGrouping<*>,
     selectedAccount: Long,
     listState: LazyListState,
     showEquivalentWorth: Boolean = false,
@@ -163,7 +164,7 @@ fun AccountListV2(
     modifier: Modifier = Modifier,
     scaffoldPadding: PaddingValues = PaddingValues(0.dp),
     accountData: List<FullAccount>,
-    grouping: AccountGrouping,
+    grouping: AccountGrouping<*>,
     selectedAccount: Long,
     listState: LazyListState,
     expansionHandlerGroups: ExpansionHandler,
@@ -185,6 +186,7 @@ fun AccountListV2(
 
     val grouped: Map<AccountGroupingKey, List<FullAccount>> =
         accountData.groupBy { grouping.getGroupKey(it) }
+            .toSortedMap(grouping.comparator as Comparator<in AccountGroupingKey>)
 
     LazyColumnWithScrollbar(
         modifier = modifier,
@@ -314,7 +316,7 @@ private fun HeaderV2(
 }
 
 private fun getHeaderId(
-    grouping: AccountGrouping,
+    grouping: AccountGrouping<*>,
     account: FullAccount,
 ) = when (grouping) {
     AccountGrouping.NONE -> if (account.id > 0) "0" else "1"
@@ -329,7 +331,7 @@ private fun getHeaderId(
 
 private fun getHeaderTitle(
     context: Context,
-    grouping: AccountGrouping,
+    grouping: AccountGrouping<*>,
     account: FullAccount,
 ) = when (grouping) {
     AccountGrouping.NONE -> context.getString(
@@ -441,7 +443,7 @@ fun AccountCard(
             val modifier = Modifier
                 .padding(end = 6.dp)
                 .size((dimensionResource(id = R.dimen.account_list_aggregate_letter_font_size).value * 2).dp)
-            val color = Color(account.color)
+            val color = Color(account.color(resources = LocalContext.current.resources))
 
             account.progress?.let { (sign, progress) ->
                 DonutInABox(

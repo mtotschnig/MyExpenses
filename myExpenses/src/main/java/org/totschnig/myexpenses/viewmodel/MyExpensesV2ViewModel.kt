@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.mapToListCatching
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
+import org.totschnig.myexpenses.viewmodel.data.FullAccount.Companion.fromCursor
 
 class MyExpensesV2ViewModel(
     application: Application,
@@ -30,7 +31,7 @@ class MyExpensesV2ViewModel(
 
 
     // Functions for the UI to call
-    fun setGrouping(grouping: AccountGrouping) {
+    fun setGrouping(grouping: AccountGrouping<*>) {
         viewModelScope.launch {
             accountGrouping.set(grouping)
         }
@@ -64,7 +65,7 @@ class MyExpensesV2ViewModel(
             notifyForDescendants = true
         )
             .mapToListCatching {
-                FullAccount.fromCursor(it, currencyContext)
+                it.fromCursor(currencyContext)
             }
             .stateIn(viewModelScope, SharingStarted.Lazily, null)
     }
@@ -75,12 +76,10 @@ class MyExpensesV2ViewModel(
         accountGrouping.flow.flatMapLatest { grouping ->
             // This maps the master account list to a list of unique group keys
             accountDataV2.map { result ->
-                result?.getOrNull()?.let { accounts ->
-                    when (grouping) {
-                        AccountGrouping.NONE -> emptyList()
-                        else -> accounts.map { grouping.getGroupKey(it) }.distinct()
-                    }
-                } ?: emptyList()
+                result
+                    ?.getOrNull()
+                    ?.let { accounts -> grouping.sortedGroupKeys(accounts) }
+                    ?: emptyList()
             }
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
     }

@@ -75,8 +75,8 @@ class QifImport : ProtectedFragmentActivity() {
             )
             .commitNow()
         importViewModel.importData(mUri, qifDateFormat, accountId, currencyContext[currency], withTransactions,
-            withCategories, withParties, encoding, autoFillCategories).observe(this) {
-                it.onFailure {
+            withCategories, withParties, encoding, autoFillCategories).observe(this) { result ->
+            result.onFailure {
                     if (it !is ContribFeatureNotAvailableException) {
                         CrashHandler.report(it)
                     }

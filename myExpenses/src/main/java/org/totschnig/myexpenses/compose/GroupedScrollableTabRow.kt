@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.compose
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ScrollableTabRow
-import androidx.compose.material3.SecondaryScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -87,8 +86,8 @@ fun <T> GroupedScrollableTabRow(
 @Preview
 @Composable
 fun AccountGroupingTabs() {
-    val selectedGrouping: AccountGrouping = AccountGrouping.NONE
-    val onTabSelected: (AccountGrouping) -> Unit = { }
+    val selectedGrouping: AccountGrouping<*> = AccountGrouping.NONE
+    val onTabSelected: (AccountGrouping<*>) -> Unit = { }
     // 1. Prepare the mixed list of items.
     val tabItems = remember {
         listOf(

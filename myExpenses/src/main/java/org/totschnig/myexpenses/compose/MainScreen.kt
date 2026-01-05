@@ -6,11 +6,9 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
@@ -18,17 +16,15 @@ import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.automirrored.filled.ReceiptLong
 import androidx.compose.material.icons.filled.AccountBalance
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.FilterAlt
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.BottomAppBarDefaults
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SecondaryScrollableTabRow
 import androidx.compose.material3.ShortNavigationBar
@@ -62,6 +58,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -88,6 +85,7 @@ sealed class Screen(val route: String, val icon: ImageVector, @StringRes val res
 @Composable
 fun MainScreen(
     viewModel: MyExpensesV2ViewModel,
+    onNavigateToSettings: () -> Unit,
     onEdit: (FullAccount) -> Unit,
     onDelete: (FullAccount) -> Unit,
     onSetFlag: (Long, Long?) -> Unit,
@@ -99,6 +97,12 @@ fun MainScreen(
     val result = viewModel.accountDataV2.collectAsStateWithLifecycle().value
 
     val accountGrouping = viewModel.accountGrouping.asState()
+
+    val navigationIcon: @Composable () -> Unit = {
+        IconButton(onClick = onNavigateToSettings) {
+            Icon(Icons.Default.Settings, contentDescription = "Settings")
+        }
+    }
 
     when {
         result == null -> {
@@ -119,12 +123,19 @@ fun MainScreen(
                     startDestination = Screen.Accounts.route, //TODO should be configurable
                 ) {
                     composable(Screen.Transactions.route) {
-                        TransactionScreen(accounts, accountGrouping.value, viewModel, navController)
+                        TransactionScreen(
+                            navigationIcon = navigationIcon,
+                            accounts = accounts,
+                            accountGrouping = accountGrouping.value,
+                            viewModel = viewModel,
+                            navController = navController
+                        )
                     }
                     composable(Screen.Accounts.route) {
                         AccountsScreen(
+                            navigationIcon = navigationIcon,
                             accounts = accounts,
-                            accountGrouping.value,
+                            accountGrouping = accountGrouping.value,
                             viewModel = viewModel,
                             navController = navController,
                             onEdit = onEdit,
@@ -160,7 +171,16 @@ fun MyBottomAppBar(navController: NavController) {
         items.forEach { screen ->
             ShortNavigationBarItem(
                 selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
-                onClick = { navController.navigate(screen.route) },
+                onClick = {
+                    navController.navigate(screen.route) {
+                        // This logic is for bottom nav clicks ONLY
+                        popUpTo(navController.graph.findStartDestination().id) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                },
                 icon = {
                     Icon(
                         imageVector = screen.icon,
@@ -182,8 +202,9 @@ fun MyBottomAppBar(navController: NavController) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TransactionScreen(
+    navigationIcon: @Composable () -> Unit = {},
     accounts: List<FullAccount>,
-    accountGrouping: AccountGrouping,
+    accountGrouping: AccountGrouping<*>,
     viewModel: MyExpensesV2ViewModel,
     navController: NavController,
 ) {
@@ -191,6 +212,7 @@ fun TransactionScreen(
     Scaffold(
         topBar = {
             TopAppBar(
+                navigationIcon = navigationIcon,
                 title = {
                     Column {
                         Text("TODO")
@@ -266,20 +288,11 @@ fun TransactionScreen(
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     if (accountGrouping != AccountGrouping.NONE && availableFilters.size > 1) {
-                        Box {
-                            FilterMenu(
-                                anchor = { showMenu ->
-                                    IconButton(onClick = showMenu) {
-                                        Icon(
-                                            imageVector = Icons.Default.Settings,
-                                            contentDescription = "Select"
-                                        )
-                                    }
-                                },
-                                availableFilters = availableFilters,
-                                onFilterChange = viewModel::setFilter,
-                            )
-                        }
+                        FilterMenu(
+                            activeFilter = activeFilter,
+                            availableFilters = availableFilters,
+                            onFilterChange = viewModel::setFilter,
+                        )
                     }
                     val selectedTabIndex =
                         pagerState.currentPage.coerceAtMost(accountList.lastIndex)
@@ -332,8 +345,9 @@ fun TransactionScreen(
 
 @Composable
 fun AccountsScreen(
+    navigationIcon: @Composable () -> Unit = {},
     accounts: List<FullAccount>,
-    accountGrouping: AccountGrouping,
+    accountGrouping: AccountGrouping<*>,
     viewModel: MyExpensesV2ViewModel,
     navController: NavController,
     onEdit: (FullAccount) -> Unit,
@@ -347,23 +361,14 @@ fun AccountsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
+                navigationIcon = navigationIcon,
                 title = { Text("Accounts") },
                 actions = {
 
-                    Box { // The Box is needed to anchor the menu
-                        GroupingMenu(
-                            anchor = { showMenu ->
-                                IconButton(onClick = showMenu) {
-                                    Icon(
-                                        imageVector = Icons.AutoMirrored.Default.List,
-                                        contentDescription = "Filter and Group"
-                                    )
-                                }
-                            },
-                            activeGrouping = accountGrouping,
-                            onGroupingChange = viewModel::setGrouping,
-                        )
-                    }
+                    GroupingMenu(
+                        activeGrouping = accountGrouping,
+                        onGroupingChange = viewModel::setGrouping,
+                    )
                     // Action specific to the Accounts screen
                     IconButton(onClick = { /* TODO: Add new account */ }) {
                         Icon(Icons.Default.Add, contentDescription = "Add Account")
@@ -422,84 +427,72 @@ private fun MyFloatingActionButton(onClick: () -> Unit, contentDescription: Stri
 
 @Composable
 fun GroupingMenu(
-    anchor: @Composable (() -> Unit) -> Unit,
-    activeGrouping: AccountGrouping,
-    onGroupingChange: (AccountGrouping) -> Unit,
+    activeGrouping: AccountGrouping<*>,
+    onGroupingChange: (AccountGrouping<*>) -> Unit,
 ) {
-    var showMenu by remember { mutableStateOf(false) }
-    val groupingOptions = remember { AccountGrouping.entries.toTypedArray() }
+    Box {
+        val showMenu = remember { mutableStateOf(false) }
+        val groupingOptions = remember { AccountGrouping.ALL_VALUES }
 
-    // The anchor composable (our gear icon) is passed in
-    anchor { showMenu = true }
-
-    // This is the single-level DropdownMenu
-    DropdownMenu(
-        expanded = showMenu,
-        onDismissRequest = { showMenu = false }
-    ) {
-        Text(
-            modifier = Modifier.padding(start = 4.dp),
-            text = stringResource(R.string.menu_grouping),
-            style = MaterialTheme.typography.titleSmall,
-            color = MaterialTheme.colorScheme.primary
-        )
-
-        // 2. Add the selectable grouping options directly.
-        groupingOptions.forEach { option ->
-            DropdownMenuItem(
-                text = {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        RadioButton(
-                            selected = activeGrouping == option,
-                            onClick = null // onClick is handled by the parent item
-                        )
-                        Spacer(Modifier.width(8.dp))
-                        Text(option.toString())
-                    }
-                },
-                onClick = {
-                    onGroupingChange(option)
-                    showMenu = false // Close the menu after selection
-                }
+        IconButton(onClick = { showMenu.value = true }) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Default.List,
+                contentDescription = "Filter and Group"
             )
         }
+        HierarchicalMenu(
+            expanded = showMenu,
+            menu = Menu(groupingOptions.map { option ->
+                CheckableMenuEntry(
+                    label = UiText.StringValue(option.toString()),
+                    action = { onGroupingChange(option) },
+                    command = "CHANGE_GROUPING",
+                    isChecked = activeGrouping == option,
+                    isRadio = true
+                )
+            }),
+            title = stringResource(R.string.menu_grouping)
+        )
     }
 }
 
 @Composable
 fun FilterMenu(
-    anchor: @Composable (() -> Unit) -> Unit,
+    activeFilter: AccountGroupingKey?,
     availableFilters: List<AccountGroupingKey>,
     onFilterChange: (AccountGroupingKey?) -> Unit,
 ) {
-    var showMenu by remember { mutableStateOf(false) }
-    val context = LocalContext.current
-
-    // The anchor composable (our gear icon) is passed in
-    anchor { showMenu = true }
-    // Filter Submenu
-    DropdownMenu(
-        expanded = showMenu,
-        onDismissRequest = { showMenu = false }
-    ) {
-        DropdownMenuItem(
-            text = { Text("ALL") },
-            onClick = {
-                onFilterChange(null)
-                showMenu = false
-            }
-        )
-        availableFilters.forEach { filter ->
-            DropdownMenuItem(
-                text = {
-                    Text(filter.title(context))
-                },
-                onClick = {
-                    onFilterChange(filter)
-                    showMenu = false
-                }
+    Box {
+        val showMenu = remember { mutableStateOf(false) }
+        val context = LocalContext.current
+        IconButton(onClick = { showMenu.value = true }) {
+            Icon(
+                imageVector = Icons.Default.FilterAlt,
+                contentDescription = "Filter"
             )
         }
+        HierarchicalMenu(
+            expanded = showMenu,
+            menu = Menu(
+                listOf(
+                    CheckableMenuEntry(
+                        label = UiText.StringResource(R.string.show_all),
+                        action = { onFilterChange(null) },
+                        command = "RESET_FILTER",
+                        isChecked = activeFilter == null,
+                        isRadio = true
+                    )
+                ) +
+                        availableFilters.map { filter ->
+                            CheckableMenuEntry(
+                                label = UiText.StringValue(filter.title(context)),
+                                action = { onFilterChange(filter) },
+                                command = "CHANGE_FILTER",
+                                isChecked = activeFilter == filter,
+                                isRadio = true
+                            )
+                        }),
+        )
     }
 }
 

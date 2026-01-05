@@ -83,7 +83,7 @@ import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model2.Bank
 import org.totschnig.myexpenses.preference.ColorSource
-import org.totschnig.myexpenses.preference.EnumPreferenceAccessor
+import org.totschnig.myexpenses.preference.Mapper
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.PreferenceAccessor
 import org.totschnig.myexpenses.preference.enumValueOrDefault
@@ -146,6 +146,7 @@ import org.totschnig.myexpenses.viewmodel.data.BalanceAccount.Companion.partitio
 import org.totschnig.myexpenses.viewmodel.data.BudgetData
 import org.totschnig.myexpenses.viewmodel.data.BudgetRow
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
+import org.totschnig.myexpenses.viewmodel.data.FullAccount.Companion.fromCursor
 import org.totschnig.myexpenses.viewmodel.data.HeaderData
 import org.totschnig.myexpenses.viewmodel.data.HeaderDataEmpty
 import org.totschnig.myexpenses.viewmodel.data.HeaderDataError
@@ -300,9 +301,29 @@ open class MyExpensesViewModel(
         }
     }
 
-    val accountGrouping by lazy {
-        EnumPreferenceAccessor(dataStore,
-            prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING), defaultValue = AccountGrouping.TYPE)
+
+    val accountGrouping: PreferenceAccessor<AccountGrouping<*>, String> by lazy {
+
+        PreferenceAccessor(
+            dataStore = dataStore,
+            key = prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING),
+            defaultValue = AccountGrouping.NONE,
+            mapper = object : Mapper<AccountGrouping<*>, String> {
+                override fun toPreference(userValue: AccountGrouping<*>): String {
+                    return userValue::class.simpleName ?: "NONE"
+                }
+
+                override fun fromPreference(persistedValue: String): AccountGrouping<*> {
+                    // Deserialize from the string name
+                    return when (persistedValue) {
+                        "TYPE" -> AccountGrouping.TYPE
+                        "CURRENCY" -> AccountGrouping.CURRENCY
+                        "FLAG" -> AccountGrouping.FLAG
+                        else -> AccountGrouping.NONE // Default fallback
+                    }
+                }
+            }
+        )
     }
 
     private val pageSize = 150
@@ -444,7 +465,7 @@ open class MyExpensesViewModel(
             notifyForDescendants = true
         )
             .mapToListCatching {
-                FullAccount.fromCursor(it, currencyContext)
+                it.fromCursor(currencyContext)
             }
             .stateIn(viewModelScope, SharingStarted.Lazily, null)
     }

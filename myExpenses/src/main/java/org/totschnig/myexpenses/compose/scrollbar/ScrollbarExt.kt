@@ -16,6 +16,7 @@
 
 package org.totschnig.myexpenses.compose.scrollbar
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -83,3 +84,40 @@ fun LazyListState.scrollbarState(
 
 private inline fun <T> List<T>.floatSumOf(selector: (T) -> Float): Float =
     fold(initial = 0f) { accumulator, listItem -> accumulator + selector(listItem) }
+
+
+/**
+ * Calculates a [ScrollbarState] driven by the changes in a [ScrollState].
+ */
+@Composable
+fun ScrollState.scrollbarState(): ScrollbarState {
+    val state = remember { ScrollbarState() }
+
+    LaunchedEffect(this) {
+        snapshotFlow {
+            if (maxValue == 0) {
+                return@snapshotFlow scrollbarStateValue(
+                    thumbSizePercent = 1f,
+                    thumbMovedPercent = 0f,
+                )
+            }
+
+            val totalContentSize = maxValue + viewportSize
+
+            val thumbSizePercent =
+                viewportSize.toFloat() / totalContentSize
+
+            val thumbMovedPercent =
+                value.toFloat() / maxValue
+
+            scrollbarStateValue(
+                thumbSizePercent = thumbSizePercent,
+                thumbMovedPercent = thumbMovedPercent,
+            )
+        }
+            .distinctUntilChanged()
+            .collect { state.onScroll(it) }
+    }
+
+    return state
+}

@@ -826,10 +826,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 )
             }
             val accountGrouping = runBlocking {
-                enumValueOrDefault(
-                    dataStore.data.first()[prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING)],
-                    AccountGrouping.TYPE
-                )
+                dataStore.data.first()[prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING)]?.let {
+                    AccountGrouping.valueOf(it)
+                } ?: AccountGrouping.TYPE
             }
             val sortByFlagFirst = runBlocking {
                 dataStore.data.first()[prefHandler.getBooleanPreferencesKey(PrefKey.SORT_ACCOUNT_LIST_BY_FLAG_FIRST)] != false

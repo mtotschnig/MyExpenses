@@ -51,7 +51,7 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
             currency: String?,
             type: Long? = null,
             flag: Long? = null,
-            accountGrouping: AccountGrouping? = when {
+            accountGrouping: AccountGrouping<*>? = when {
                 isHomeAggregate(accountId) -> AccountGrouping.NONE
                 isAggregate(accountId) -> AccountGrouping.CURRENCY
                 else -> null

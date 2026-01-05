@@ -44,9 +44,20 @@
         android:summary="@string/customize"
         android:title="@string/menu" />
 
-    <Preference
-        android:key="@string/pref_account_list_display_configuration_key"
-        android:title="@string/pref_account_list_display_configuration_title" />
+    <PreferenceCategory
+        android:key="category_account_list"
+        android:title="@string/pref_account_list_display_configuration_title">
+
+        <SwitchPreferenceCompat
+            android:title="Legacy"
+            android:defaultValue="true"
+            android:key="@string/pref_ui_main_screen_legacy_key" />
+
+        <Preference
+            android:key="@string/pref_account_list_display_configuration_key"
+            android:title="@string/pref_account_list_display_configuration_title" />
+
+    </PreferenceCategory>
 
     <PreferenceCategory
         android:key="category_auto_fill"

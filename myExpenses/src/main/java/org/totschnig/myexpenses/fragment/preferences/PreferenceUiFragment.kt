@@ -178,6 +178,10 @@ class PreferenceUiFragment : BasePreferenceFragment() {
             entries = daysEntries
             entryValues = daysValues
         }
+
+        with(requirePreference<Preference>(PrefKey.ACCOUNT_LIST_DISPLAY_CONFIGURATION)) {
+            title = getString(R.string.menu_grouping) + " / " + getString(R.string.display_options_sort_list_by)
+        }
     }
 
     override fun onPreferenceTreeClick(preference: Preference) = when {

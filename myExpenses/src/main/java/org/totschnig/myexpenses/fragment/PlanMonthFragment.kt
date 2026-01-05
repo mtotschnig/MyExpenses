@@ -376,8 +376,12 @@ class PlanMonthFragment : CaldroidFragment(), LoaderManager.LoaderCallbacks<Curs
         const val INSTANCES_CURSOR = 1
         const val INSTANCE_STATUS_CURSOR = 2
         fun newInstance(
-            title: String?, templateId: Long, planId: Long, color: Int,
-            readOnly: Boolean, prefHandler: PrefHandler
+            title: String?,
+            templateId: Long,
+            planId: Long,
+            color: Int,
+            readOnly: Boolean,
+            prefHandler: PrefHandler,
         ): PlanMonthFragment {
             val f = PlanMonthFragment()
             val args = Bundle()

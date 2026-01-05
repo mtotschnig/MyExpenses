@@ -5,6 +5,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModelProvider
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.MainScreen
 import org.totschnig.myexpenses.injector
@@ -23,6 +24,9 @@ class MyExpensesV2: BaseMyExpenses<MyExpensesV2ViewModel>() {
             AppTheme {
                 MainScreen(
                     viewModel,
+                    onNavigateToSettings = {
+                        dispatchCommand(R.id.SETTINGS_COMMAND, null)
+                    },
                     onEdit = ::editAccount,
                     onDelete = ::confirmAccountDelete,
                     onSetFlag = viewModel::setFlag,
