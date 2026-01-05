@@ -32,4 +32,12 @@
     <string name="help_AccountEdit_title">Formulär för konton</string>
     <string name="help_BudgetEdit_title">Formulär för budgetar</string>
     <string name="form_method_help_text">Detta fält är bara tillgängligt om det aktuella kontot är av en typ som är knuten till en betalningsmetod. Som standard är endast bankkonton knutna till betalningsmetoder (check, kreditkort, insättning, direkt debitering). Gå till Inställningar -&gt; Hantera -&gt; Betalningsmetoder för att konfigurera anknytningen mellan kontotyper och betalningsmetoder. När du väljer en metod som är definierad som numrerad blir ytterligare ett fält, där ett referensnummer kan anges, tillgängligt.</string>
+    <string name="help_MethodEdit_title">Formulär för betalningsmetoder</string>
+    <string name="cab_remove_help_text">Ta bort den valda bakänden.</string>
+    <string name="menu_BudgetActivity_edit_help_text">Ändra budgetens definition.</string>
+    <string name="help_ManageBudgets_title">Lista över alla budgetar</string>
+    <string name="cab_MyExpenses_filter_help_text">Sök efter överföringar med samma egenskaper.</string>
+    <string name="help_ManageCategories_select_filter_info">Klicka på en post för att påbörja multi-val.</string>
+    <string name="form_calculator_help_text"><![CDATA[Knappen <img src="?calcIcon"> öppnar kalkylatorn.]]></string>
+    <string name="menu_save_help_text">Spara datan och stäng formuläret.</string>
 </resources>
