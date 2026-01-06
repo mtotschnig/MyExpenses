@@ -954,4 +954,8 @@
         <item quantity="other">%d linhas não puderam ser processadas.</item>
     </plurals>
     <string name="pref_account_list_display_configuration_title">Lista de contas</string>
+    <string name="account_type_investment">Conta de investimentos</string>
+    <string name="pref_dynamic_exchange_rates_per_account">Configurar cada conta individualmente</string>
+    <string name="category_type_main">Categoria Principal</string>
+    <string name="category_type_sub">Subcategoria</string>
 </resources>
