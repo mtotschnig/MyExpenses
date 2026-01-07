@@ -14,7 +14,6 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.content.res.AppCompatResources
@@ -199,7 +198,6 @@ import org.totschnig.myexpenses.util.ui.dateTimeFormatter
 import org.totschnig.myexpenses.util.ui.dateTimeFormatterLegacy
 import org.totschnig.myexpenses.util.ui.displayProgress
 import org.totschnig.myexpenses.util.ui.getAmountColor
-import org.totschnig.myexpenses.viewmodel.AccountSealedException
 import org.totschnig.myexpenses.viewmodel.CompletedAction
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.DeleteState.DeleteComplete
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.DeleteState.DeleteProgress
@@ -239,12 +237,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
 
     private val accountData: List<FullAccount>
         get() = viewModel.accountData.value?.getOrNull() ?: emptyList()
-
-    var selectedAccountId: Long
-        get() = viewModel.selectedAccountId
-        set(value) {
-            viewModel.selectAccount(value)
-        }
 
     private val accountForNewTransaction: FullAccount?
         get() = currentAccount?.let { current ->
@@ -1259,8 +1251,8 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                                 buildList {
                                     add(
                                         MenuEntry(
-                                            icon = Icons.Filled.Loupe,
                                             label = R.string.details,
+                                            icon = Icons.Filled.Loupe,
                                             command = "DETAILS"
                                         ) {
                                             showDetails(
@@ -1274,8 +1266,8 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                                         if (transaction.isArchive) {
                                             add(
                                                 MenuEntry(
-                                                    icon = Icons.Filled.Unarchive,
                                                     label = R.string.menu_unpack,
+                                                    icon = Icons.Filled.Unarchive,
                                                     command = "UNPACK_ARCHIVE"
                                                 ) {
                                                     unarchive(transaction)
@@ -1288,23 +1280,23 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                                         } else {
                                             add(
                                                 MenuEntry(
-                                                    icon = Icons.Filled.ContentCopy,
                                                     label = R.string.menu_clone_transaction,
+                                                    icon = Icons.Filled.ContentCopy,
                                                     command = "CLONE"
                                                 ) {
                                                     edit(transaction, true)
                                                 })
                                             add(
                                                 MenuEntry(
-                                                    icon = IcActionTemplateAdd,
                                                     label = R.string.menu_create_template_from_transaction,
+                                                    icon = IcActionTemplateAdd,
                                                     command = "CREATE_TEMPLATE_FROM_TRANSACTION"
                                                 ) { createTemplate(transaction) })
                                             if (transaction.crStatus == CrStatus.VOID) {
                                                 add(
                                                     MenuEntry(
-                                                        icon = Icons.Filled.RestoreFromTrash,
                                                         label = R.string.menu_undelete_transaction,
+                                                        icon = Icons.Filled.RestoreFromTrash,
                                                         command = "UNDELETE_TRANSACTION"
                                                     ) {
                                                         undelete(listOf(transaction.id))
@@ -1331,8 +1323,8 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                                                 transaction.isSplit -> {
                                                     add(
                                                         MenuEntry(
-                                                            icon = Icons.AutoMirrored.Filled.CallSplit,
                                                             label = R.string.menu_ungroup_split_transaction,
+                                                            icon = Icons.AutoMirrored.Filled.CallSplit,
                                                             command = "UNGROUP_SPLIT"
                                                         ) {
                                                             ungroupSplit(transaction)
@@ -1342,8 +1334,8 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                                                 transaction.isTransfer -> {
                                                     add(
                                                         MenuEntry(
-                                                            icon = Icons.Filled.LinkOff,
                                                             label = R.string.menu_unlink_transfer,
+                                                            icon = Icons.Filled.LinkOff,
                                                             command = "UNLINK_TRANSFER"
                                                         ) {
                                                             unlinkTransfer(transaction)
@@ -1354,8 +1346,8 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                                                     if (accountCount >= 2) {
                                                         add(
                                                             MenuEntry(
-                                                                icon = Icons.Filled.Link,
                                                                 label = R.string.menu_transform_to_transfer,
+                                                                icon = Icons.Filled.Link,
                                                                 command = "TRANSFORM_TRANSFER"
                                                             ) {
                                                                 transformToTransfer(transaction)
@@ -1367,8 +1359,8 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                                     }
                                     add(
                                         SubMenuEntry(
-                                            icon = Icons.Filled.Search,
                                             label = R.string.filter,
+                                            icon = Icons.Filled.Search,
                                             subMenu = org.totschnig.myexpenses.compose.Menu(
                                                 buildList {
                                                     if (transaction.catId != null && !transaction.isSplit) {
@@ -1704,15 +1696,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
         }
     }
 
-    /**
-     * start ExpenseEdit Activity for a new transaction/transfer/split
-     * Originally the form for transaction is rendered, user can change from spinner in toolbar
-     */
-    suspend fun createRowIntent(type: Int, isIncome: Boolean) = getEditIntent()?.apply {
-        putExtra(Transactions.OPERATION_TYPE, type)
-        putExtra(ExpenseEdit.KEY_INCOME, isIncome)
-    }
-
     override suspend fun getEditIntent(): Intent? {
         val candidate = accountForNewTransaction
         return if (candidate != null || getHiddenAccountCount() > 0) {
@@ -1733,21 +1716,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
         }
     }
 
-    private fun createRow(type: Int, isIncome: Boolean = false) {
-        if (type == TYPE_SPLIT) {
-            contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION)
-        } else if (type == TYPE_TRANSFER && accountCount == 1) {
-            showTransferAccountMissingMessage()
-        } else {
-            createRowDo(type, isIncome)
-        }
-    }
-
-    private fun createRowDo(type: Int, isIncome: Boolean) {
-        lifecycleScope.launch {
-            createRowIntent(type, isIncome)?.let { startEdit(it) }
-        }
-    }
 
     override fun startEdit(intent: Intent) {
         floatingActionButton.hide()
@@ -1793,17 +1761,10 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
         )
     }
 
-    private val createAccount =
-        registerForActivityResult(AccountEdit.Companion.CreateContract()) {
-            if (it != null) {
-                selectedAccountId = it
-            }
-        }
-
     private val createAccountForTransfer =
         registerForActivityResult(AccountEdit.Companion.CreateContract()) {
             if (it != null) {
-                createRow(TYPE_TRANSFER)
+                createRow(TYPE_TRANSFER, transferEnabled = accountCount > 1)
             }
         }
 
@@ -2104,11 +2065,13 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
             popup.setOnMenuItemClickListener { item ->
                 trackCommand(item.itemId)
                 createRow(
-                    when (item.itemId) {
+                    type = when (item.itemId) {
                         R.string.split_transaction -> TYPE_SPLIT
                         R.string.transfer -> TYPE_TRANSFER
                         else -> Transactions.TYPE_TRANSACTION
-                    }, item.itemId == R.string.income
+                    },
+                    transferEnabled = accountCount > 1,
+                    isIncome = item.itemId == R.string.income
                 )
                 true
             }

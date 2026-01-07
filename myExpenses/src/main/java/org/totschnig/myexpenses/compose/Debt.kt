@@ -228,8 +228,8 @@ fun DebtRenderer(
                         add(delete("DELETE_DEBT") { onDelete(transactions.size) })
                         add(
                             SubMenuEntry(
-                                icon = Icons.Filled.Share,
                                 label = R.string.share,
+                                icon = Icons.Filled.Share,
                                 subMenu = Menu(
                                     DebtViewModel.ExportFormat.entries.map { format ->
                                         MenuEntry(

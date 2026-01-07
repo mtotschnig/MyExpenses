@@ -92,10 +92,10 @@ class NewProgressDialogFragment : ComposeBaseDialogFragment3() {
                                 HierarchicalMenu(expanded = showOptions, menu = Menu(
                                     action.targets.mapIndexed { index, uri ->
                                         MenuEntry(
-                                            command = action::class.simpleName ?: "action",
                                             label = UiText.StringValue(
                                                 uri.lastPathSegment ?: uri.toString()
-                                            )
+                                            ),
+                                            command = action::class.simpleName ?: "action"
                                         ) { host?.onAction(action, index) }
                                     }
                                 ))

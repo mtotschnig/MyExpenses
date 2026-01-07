@@ -352,8 +352,8 @@ class ManageCategories : ProtectedFragmentActivity(),
                                                             }
                                                         },
                                                         MenuEntry(
-                                                            icon = Icons.Filled.Add,
                                                             label = R.string.subcategory,
+                                                            icon = Icons.Filled.Add,
                                                             command = "CREATE_SUBCATEGORY"
                                                         ) {
                                                             if (cat.level > 1) {
@@ -366,8 +366,8 @@ class ManageCategories : ProtectedFragmentActivity(),
                                                             }
                                                         },
                                                         MenuEntry(
-                                                            icon = myiconpack.ArrowsAlt,
                                                             label = R.string.menu_move,
+                                                            icon = myiconpack.ArrowsAlt,
                                                             command = "MOVE_CATEGORY"
                                                         ) { showMoveTargetDialog(cat) }
                                                     )

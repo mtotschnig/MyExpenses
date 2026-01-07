@@ -671,31 +671,31 @@ fun BankRow(
             add(MenuEntry.delete("DELETE_BANK") { onDelete(bank) })
             add(
                 MenuEntry(
-                    command = "LIST_ACCOUNTS",
                     label = R.string.accounts,
-                    icon = Icons.Filled.Checklist
+                    icon = Icons.Filled.Checklist,
+                    command = "LIST_ACCOUNTS"
                 ) { onShow(bank) }
             )
             add(
                 MenuEntry(
-                    command = "SYNC_ALL",
                     label = RF.string.menu_sync_account,
-                    icon = Icons.Filled.Sync
+                    icon = Icons.Filled.Sync,
+                    command = "SYNC_ALL"
                 ) { onSync(bank) }
             )
             onMigrate?.let {
                 add(
                     MenuEntry(
-                        command = "MIGRATION",
-                        label = UiText.StringValue("v1 -> v2")
+                        label = UiText.StringValue("v1 -> v2"),
+                        command = "MIGRATION"
                     ) { onMigrate(bank) }
                 )
             }
             onResetTanMechanism?.let {
                 add(
                     MenuEntry(
-                        command = "RESET_TAN",
-                        label = RF.string.reset_stored_configuration
+                        label = RF.string.reset_stored_configuration,
+                        command = "RESET_TAN"
                     ) { onResetTanMechanism(bank) }
                 )
             }

@@ -2,10 +2,17 @@ package org.totschnig.myexpenses.activity
 
 import android.content.Intent
 import android.view.View
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyExpenses.Companion.MANAGE_HIDDEN_FRAGMENT_TAG
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.provider.KEY_COLOR
 import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.viewmodel.AccountSealedException
@@ -102,4 +109,45 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
     protected fun toggleDynamicExchangeRate(account: FullAccount) {
         viewModel.setDynamicExchangeRate(account.id, !account.dynamic)
     }
+
+    var selectedAccountId: Long
+        get() = viewModel.selectedAccountId
+        set(value) {
+            viewModel.selectAccount(value)
+        }
+
+    protected val createAccount =
+        registerForActivityResult(AccountEdit.Companion.CreateContract()) {
+            if (it != null) {
+                selectedAccountId = it
+            }
+        }
+
+    fun createRow(
+        @Transactions.TransactionType type: Int,
+        transferEnabled: Boolean,
+        isIncome: Boolean = false,
+    ) {
+        when (type) {
+            TYPE_SPLIT -> contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION)
+            TYPE_TRANSFER if !transferEnabled -> showTransferAccountMissingMessage()
+            else -> createRowDo(type, isIncome)
+        }
+    }
+
+    fun createRowDo(type: Int, isIncome: Boolean) {
+        lifecycleScope.launch {
+            createRowIntent(type, isIncome)?.let { startEdit(it) }
+        }
+    }
+
+    /**
+     * start ExpenseEdit Activity for a new transaction/transfer/split
+     * Originally the form for transaction is rendered, user can change from spinner in toolbar
+     */
+    suspend fun createRowIntent(type: Int, isIncome: Boolean) = getEditIntent()?.apply {
+        putExtra(Transactions.OPERATION_TYPE, type)
+        putExtra(ExpenseEdit.KEY_INCOME, isIncome)
+    }
+
 }

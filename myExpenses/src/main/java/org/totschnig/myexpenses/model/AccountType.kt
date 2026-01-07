@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.provider.KEY_SUPPORTS_RECONCILIATION
 import org.totschnig.myexpenses.provider.KEY_TYPE
 import org.totschnig.myexpenses.provider.KEY_TYPE_SORT_KEY
 import org.totschnig.myexpenses.provider.getBoolean
+import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getIntIfExists
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString
@@ -104,7 +105,8 @@ data class AccountType(
             name = cursor.getString(KEY_LABEL),
             isAsset = cursor.getBoolean(KEY_IS_ASSET),
             supportsReconciliation = cursor.getBoolean(KEY_SUPPORTS_RECONCILIATION),
-            count = cursor.getIntIfExists(KEY_COUNT)
+            count = cursor.getIntIfExists(KEY_COUNT),
+            sortKey = cursor.getInt(KEY_TYPE_SORT_KEY)
         )
 
         fun withName(name: String) = AccountType(name = name)
@@ -113,7 +115,8 @@ data class AccountType(
             id = cursor.getLong(KEY_TYPE),
             name = cursor.getString(KEY_ACCOUNT_TYPE_LABEL),
             isAsset = cursor.getBoolean(KEY_IS_ASSET),
-            supportsReconciliation = cursor.getBoolean(KEY_SUPPORTS_RECONCILIATION)
+            supportsReconciliation = cursor.getBoolean(KEY_SUPPORTS_RECONCILIATION),
+            sortKey = cursor.getInt(KEY_TYPE_SORT_KEY)
         )
 
         fun isReservedName(name: String) = name.startsWith("_") && name.endsWith("_")

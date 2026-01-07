@@ -56,6 +56,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.AppEvent.EditAccount
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.toggle
@@ -71,6 +72,7 @@ import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOM
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.util.calculateRealExchangeRate
 import org.totschnig.myexpenses.util.convAmount
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.isolateText
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
@@ -170,12 +172,7 @@ fun AccountListV2(
     expansionHandlerGroups: ExpansionHandler,
     onSelected: (FullAccount) -> Unit = {},
     onGroupSelected: (AccountGroupingKey) -> Unit = {},
-    onEdit: (FullAccount) -> Unit = {},
-    onDelete: (FullAccount) -> Unit = {},
-    onSetFlag: (Long, Long?) -> Unit = { _, _ -> },
-    onToggleSealed: (FullAccount) -> Unit = {},
-    onToggleExcludeFromTotals: (FullAccount) -> Unit = {},
-    onToggleDynamicExchangeRate: ((FullAccount) -> Unit)? = null,
+    onEvent: EventHandler,
     bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
     flags: List<AccountFlag> = emptyList(),
 ) {
@@ -186,7 +183,10 @@ fun AccountListV2(
 
     val grouped: Map<AccountGroupingKey, List<FullAccount>> =
         accountData.groupBy { grouping.getGroupKey(it) }
-            .toSortedMap(grouping.comparator as Comparator<in AccountGroupingKey>)
+
+    val sortedGroupKeys = remember(grouped, grouping) {
+        grouped.keys.sortedWith(grouping.comparator as Comparator<in AccountGroupingKey>)
+    }
 
     LazyColumnWithScrollbar(
         modifier = modifier,
@@ -198,33 +198,29 @@ fun AccountListV2(
             bottom = scaffoldPadding.calculateBottomPadding()
         )
     ) {
-        grouped.forEach { group ->
-            val headerId = group.key.id.toString()
+        sortedGroupKeys.forEach { groupKey ->
+            val group = grouped.getValue(groupKey)
+            val headerId = groupKey.id.toString()
             val isGroupHidden = collapsedGroupIds.contains(headerId)
             item {
                 HeaderV2(
-                    header = group.key.title(context),
-                    currency = group.key as? CurrencyUnit ?: LocalHomeCurrency.current,
-                    total = group.value.filter { !it.excludeFromTotals }.sumOf {
+                    header = groupKey.title(context),
+                    currency = groupKey as? CurrencyUnit ?: LocalHomeCurrency.current,
+                    total = group.filter { !it.excludeFromTotals }.sumOf {
                         if (grouping == AccountGrouping.CURRENCY) it.currentBalance else it.equivalentCurrentBalance
                     },
                     onToggleExpand = { expansionHandlerGroups.toggle(headerId) },
-                    onNavigate = { onGroupSelected(group.key) }
+                    onNavigate = { onGroupSelected(groupKey) }
                 )
             }
             if (!isGroupHidden) {
-                group.value.filter { it.visible }.forEach { account ->
+                group.filter { it.visible }.forEach { account ->
                     item(key = account.id) {
                         AccountCardV2(
                             account,
                             isSelected = account.id == selectedAccount,
                             onSelected = { onSelected(account) },
-                            onEdit = onEdit,
-                            onDelete = onDelete,
-                            onSetFlag = onSetFlag,
-                            onToggleSealed = onToggleSealed,
-                            onToggleExcludeFromTotals = onToggleExcludeFromTotals,
-                            onToggleDynamicExchangeRate = onToggleDynamicExchangeRate,
+                            onEvent = onEvent,
                             flags = flags
                         )
                     }
@@ -357,12 +353,7 @@ fun AccountCardV2(
     account: FullAccount,
     isSelected: Boolean = false,
     onSelected: () -> Unit = {},
-    onEdit: (FullAccount) -> Unit = {},
-    onDelete: (FullAccount) -> Unit = {},
-    onSetFlag: (Long, Long?) -> Unit = { _, _ -> },
-    onToggleSealed: (FullAccount) -> Unit = {},
-    onToggleExcludeFromTotals: (FullAccount) -> Unit = {},
-    onToggleDynamicExchangeRate: ((FullAccount) -> Unit)? = null,
+    onEvent: EventHandler,
     flags: List<AccountFlag> = emptyList(),
 ) {
 
@@ -387,12 +378,7 @@ fun AccountCardV2(
                 context = LocalContext.current,
                 homeCurrency = LocalHomeCurrency.current,
                 account = account,
-                onEdit = onEdit,
-                onDelete = onDelete,
-                onSetFlag = onSetFlag,
-                onToggleSealed = onToggleSealed,
-                onToggleExcludeFromTotals = onToggleExcludeFromTotals,
-                onToggleDynamicExchangeRate = onToggleDynamicExchangeRate,
+                onEvent = onEvent,
                 flags = flags
             )
         )
@@ -538,12 +524,37 @@ fun AccountCard(
                     context = LocalContext.current,
                     homeCurrency = homeCurrency,
                     account = account,
-                    onEdit = onEdit,
-                    onDelete = onDelete,
-                    onSetFlag = onSetFlag,
-                    onToggleSealed = onToggleSealed,
-                    onToggleExcludeFromTotals = onToggleExcludeFromTotals,
-                    onToggleDynamicExchangeRate = onToggleDynamicExchangeRate,
+                    onEvent = object : EventHandler {
+                        override fun invoke(event: AppEvent) {
+                            when(event) {
+                                is AppEvent.DeleteAccount -> {
+                                    onDelete(event.account)
+                                }
+                                is EditAccount -> {
+                                    onEdit(event.account)
+                                }
+                                is AppEvent.SetFlag -> {
+                                    onSetFlag(event.accountId, event.flagId)
+                                }
+                                is AppEvent.ToggleDynamicExchangeRate -> {
+                                    onToggleDynamicExchangeRate?.invoke(event.account)
+                                }
+                                is AppEvent.ToggleExcludeFromTotals -> {
+                                    onToggleExcludeFromTotals(event.account)
+                                }
+                                is AppEvent.ToggleSealed -> {
+                                    onToggleSealed(event.account)
+                                }
+                                else -> {
+                                    CrashHandler.throwOrReport(IllegalArgumentException("$event not handled"))
+                                }
+                            }
+                        }
+
+                        override val canToggleDynamicExchangeRate: Boolean
+                            get() = onToggleDynamicExchangeRate != null
+
+                    },
                     flags = flags
                 )
             )
@@ -669,24 +680,19 @@ private fun accountMenu(
     context: Context,
     homeCurrency: CurrencyUnit,
     account: FullAccount,
-    onEdit: (FullAccount) -> Unit,
-    onDelete: (FullAccount) -> Unit,
-    onSetFlag: (Long, Long?) -> Unit,
-    onToggleSealed: (FullAccount) -> Unit,
-    onToggleExcludeFromTotals: (FullAccount) -> Unit,
-    onToggleDynamicExchangeRate: ((FullAccount) -> Unit)?,
+    onEvent: EventHandler,
     flags: List<AccountFlag>,
 ) = Menu(
     buildList {
         if (account.id > 0) {
             if (!account.sealed) {
-                add(edit("EDIT_ACCOUNT") { onEdit(account) })
+                add(edit("EDIT_ACCOUNT") { onEvent(EditAccount(account)) })
             }
-            add(delete("DELETE_ACCOUNT") { onDelete(account) })
+            add(delete("DELETE_ACCOUNT") { onEvent(AppEvent.DeleteAccount(account)) })
             add(
                 SubMenuEntry(
-                    icon = Icons.Filled.Flag,
                     label = R.string.menu_flag,
+                    icon = Icons.Filled.Flag,
                     subMenu = Menu(
                         flags.filter { it.id != DEFAULT_FLAG_ID }.map {
                             val isChecked = account.flag.id == it.id
@@ -698,10 +704,7 @@ private fun accountMenu(
                                 isRadio = true,
                                 isChecked = isChecked
                             ) {
-                                if (isChecked) {
-                                    onSetFlag(account.id, DEFAULT_FLAG_ID)
-                                } else
-                                    onSetFlag(account.id, it.id)
+                                onEvent(AppEvent.SetFlag(account.id, if (isChecked) null else it.id))
                             }
                         }
                     )
@@ -709,7 +712,7 @@ private fun accountMenu(
             )
             add(
                 toggle("ACCOUNT", account.sealed) {
-                    onToggleSealed(account)
+                    onEvent(AppEvent.ToggleSealed(account))
                 }
             )
             add(
@@ -718,20 +721,18 @@ private fun accountMenu(
                     label = R.string.menu_exclude_from_totals,
                     command = "EXCLUDE_FROM_TOTALS_COMMAND"
                 ) {
-                    onToggleExcludeFromTotals(account)
+                    onEvent(AppEvent.ToggleExcludeFromTotals(account))
                 })
-            onToggleDynamicExchangeRate
-                ?.takeIf { account.currency != homeCurrency.code }
-                ?.let {
-                    add(
-                        CheckableMenuEntry(
-                            isChecked = account.dynamic,
-                            label = R.string.dynamic_exchange_rate,
-                            command = "DYNAMIC_EXCHANGE_RATE"
-                        ) {
-                            onToggleDynamicExchangeRate(account)
-                        })
-                }
+            if (account.currency != homeCurrency.code) {
+                add(
+                    CheckableMenuEntry(
+                        isChecked = account.dynamic,
+                        label = R.string.dynamic_exchange_rate,
+                        command = "DYNAMIC_EXCHANGE_RATE"
+                    ) {
+                        onEvent(AppEvent.ToggleDynamicExchangeRate(account))
+                    })
+            }
         }
     }
 )

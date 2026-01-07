@@ -184,8 +184,8 @@ fun BalanceSheetView(
                                 highlight.value = null
                             },
                             MenuEntry(
-                                icon = Icons.Filled.Print,
                                 label = R.string.menu_print,
+                                icon = Icons.Filled.Print,
                                 command = "PRINT_BALANCE"
                             ) {
                                 onPrint()
