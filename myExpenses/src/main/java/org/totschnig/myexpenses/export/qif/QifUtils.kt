@@ -211,7 +211,8 @@ object QifUtils {
             if (fromTransaction.isTransfer) {
                 if (fromTransaction.toAccount != fromAccount.memo) {
                     allAccounts.find { it.memo == fromTransaction.toAccount }?.let { toAccount ->
-                        val transferPeer = toAccount.transactions.firstOrNull { toTransaction ->
+                        //pair of transaction, and if it is a split part
+                        val transferPeer: Pair<ImportTransaction, Boolean>? = toAccount.transactions.firstOrNull { toTransaction ->
                             twoSidesOfTheSameTransfer(fromAccount, fromTransaction, toAccount, toTransaction)
                         }?.let { it to false } ?:
                         (toAccount.transactions.firstNotNullOfOrNull { toTransaction ->
@@ -231,11 +232,11 @@ object QifUtils {
                     }
                 } else fromTransaction
             }
-            else if (fromTransaction.isTransfer) {
+            else if (fromTransaction.isSplit) {
                 fromTransaction.copy(splits = fromTransaction.splits?.mapNotNull { split ->
                     if (split.isTransfer) {
                         if (split.toAccount != fromAccount.memo) {
-                            allAccounts.find { it.memo == fromTransaction.toAccount }?.let { toAccount ->
+                            allAccounts.find { it.memo == split.toAccount }?.let { toAccount ->
                                 val transferPeer = toAccount.transactions.firstOrNull { toTransaction ->
                                     twoSidesOfTheSameTransfer(
                                         fromAccount,
