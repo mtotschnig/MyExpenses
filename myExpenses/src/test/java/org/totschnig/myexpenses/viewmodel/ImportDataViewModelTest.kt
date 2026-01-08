@@ -96,7 +96,7 @@ class ImportDataViewModelTest : BaseTestWithRepository() {
                 transactions = listOf(
                     ImportTransaction(
                         date = Date(),
-                        valueDAte = null,
+                        valueDate = null,
                         amount = BigDecimal.TEN,
                         payee = "Joe",
                         memo = "Comment",
@@ -152,7 +152,7 @@ class ImportDataViewModelTest : BaseTestWithRepository() {
                 transactions = listOf(
                     ImportTransaction(
                         date = date,
-                        valueDAte = null,
+                        valueDate = null,
                         amount = BigDecimal.TEN.negate(),
                         payee = null,
                         memo = "Comment",
@@ -172,7 +172,7 @@ class ImportDataViewModelTest : BaseTestWithRepository() {
                 transactions = listOf(
                     ImportTransaction(
                         date = date,
-                        valueDAte = null,
+                        valueDate = null,
                         amount = BigDecimal.TEN,
                         payee = null,
                         memo = "Comment",
@@ -223,7 +223,7 @@ class ImportDataViewModelTest : BaseTestWithRepository() {
                 transactions = listOf(
                     ImportTransaction(
                         date = Date(),
-                        valueDAte = null,
+                        valueDate = null,
                         amount = BigDecimal.TEN,
                         payee = "Joe",
                         memo = "Comment",
@@ -238,7 +238,7 @@ class ImportDataViewModelTest : BaseTestWithRepository() {
                         splits = listOf(
                             ImportTransaction(
                                 date = Date(),
-                                valueDAte = null,
+                                valueDate = null,
                                 amount = BigDecimal(5),
                                 payee = null,
                                 memo = "Comment 1",
@@ -254,7 +254,7 @@ class ImportDataViewModelTest : BaseTestWithRepository() {
                             ),
                             ImportTransaction(
                                 date = Date(),
-                                valueDAte = null,
+                                valueDate = null,
                                 amount = BigDecimal(5),
                                 payee = null,
                                 memo = "Comment 2",

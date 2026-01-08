@@ -59,7 +59,7 @@ data class ImportAccount(
 
 data class ImportTransaction(
     val date: Date,
-    val valueDAte: Date?,
+    val valueDate: Date?,
     val amount: BigDecimal,
     val payee: String?,
     val memo: String?,
@@ -111,7 +111,7 @@ data class ImportTransaction(
         fun build(): ImportTransaction? = amount?.let {
             ImportTransaction(
                 date = date,
-                valueDAte = valueDate,
+                valueDate = valueDate,
                 amount = it,
                 payee = payee,
                 memo = memo,
