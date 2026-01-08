@@ -84,11 +84,13 @@ Build
 
 Requires Java 21
 
+Build with dynamic feature modules, and OCR feature depending on external OCR helper app:
+
 ```sh
 git clone https://github.com/mtotschnig/MyExpenses.git
 cd MyExpenses
 export ANDROID_HOME={sdk-dir}
-./gradlew build
+./gradlew myExpenses:packageExternReleaseUniversalApk
 ```
 
 Integrate
