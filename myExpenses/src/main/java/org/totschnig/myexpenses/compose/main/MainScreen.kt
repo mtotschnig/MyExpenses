@@ -1,27 +1,31 @@
 @file:OptIn(ExperimentalMaterial3Api::class)
 
-package org.totschnig.myexpenses.compose
+package org.totschnig.myexpenses.compose.main
 
 import androidx.annotation.StringRes
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.automirrored.filled.ReceiptLong
 import androidx.compose.material.icons.filled.AccountBalance
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.FilterAlt
+import androidx.compose.material.icons.filled.ExpandLess
+import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Card
@@ -39,6 +43,7 @@ import androidx.compose.material3.ShortNavigationBarItem
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -49,6 +54,7 @@ import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -64,8 +70,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -77,20 +88,38 @@ import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.AccountListV2
+import org.totschnig.myexpenses.compose.AccountSummaryV2
+import org.totschnig.myexpenses.compose.FutureCriterion
+import org.totschnig.myexpenses.compose.HierarchicalMenu
+import org.totschnig.myexpenses.compose.LocalColors
+import org.totschnig.myexpenses.compose.LocalDateFormatter
+import org.totschnig.myexpenses.compose.Menu
+import org.totschnig.myexpenses.compose.MenuEntry
+import org.totschnig.myexpenses.compose.NewTransactionRenderer
+import org.totschnig.myexpenses.compose.TransactionList
+import org.totschnig.myexpenses.compose.UiText
+import org.totschnig.myexpenses.compose.rememberStaticState
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
+import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
-import org.totschnig.myexpenses.model.AccountGroupingKey
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.model.SortDirection
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
-import org.totschnig.myexpenses.viewmodel.data.HeaderDataEmpty
+import kotlin.math.roundToInt
 
-sealed class Screen(val route: String, val icon: ImageVector, @param:StringRes val resourceId: Int) {
+sealed class Screen(
+    val route: String,
+    val icon: ImageVector,
+    @param:StringRes val resourceId: Int,
+) {
     object Accounts : Screen("accounts", Icons.Default.AccountBalance, R.string.accounts)
     object Transactions :
         Screen("transactions", Icons.AutoMirrored.Default.ReceiptLong, R.string.transaction)
@@ -110,6 +139,10 @@ sealed class AppEvent {
         val isIncome: Boolean = false,
         val transferEnabled: Boolean = true,
     ) : AppEvent()
+
+    data class SetAccountGrouping(val newGrouping: AccountGrouping<*>) : AppEvent()
+    data class SetTransactionGrouping(val grouping: Grouping) : AppEvent()
+    data class SetTransactionSort(val sortBy: String, val sortDirection: SortDirection) : AppEvent()
 }
 
 interface EventHandler {
@@ -187,6 +220,17 @@ fun EmptyState() {
     Text("No accounts found")
 }
 
+fun NavController.navigateSingleTopTo(screen: Screen) {
+    navigate(screen.route) {
+        popUpTo(graph.findStartDestination().id) {
+            saveState = true
+        }
+        launchSingleTop = true
+        restoreState = true
+    }
+}
+
+
 @Composable
 fun MyBottomAppBar(navController: NavController) {
     val items = listOf(Screen.Accounts, Screen.Transactions) // Define your nav items
@@ -197,14 +241,7 @@ fun MyBottomAppBar(navController: NavController) {
             ShortNavigationBarItem(
                 selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                 onClick = {
-                    navController.navigate(screen.route) {
-                        // This logic is for bottom nav clicks ONLY
-                        popUpTo(navController.graph.findStartDestination().id) {
-                            saveState = true
-                        }
-                        launchSingleTop = true
-                        restoreState = true
-                    }
+                    navController.navigateSingleTopTo(screen)
                 },
                 icon = {
                     Icon(
@@ -234,51 +271,87 @@ fun TransactionScreen(
     navController: NavController,
     onEvent: EventHandler,
 ) {
+    val availableFilters by viewModel.availableGroupFilters.collectAsStateWithLifecycle()
+    val activeFilter by viewModel.activeFilter.collectAsStateWithLifecycle()
+    val coroutineScope = rememberCoroutineScope()
+    val tabRowState = rememberCollapsingTabRowState()
+
+    val accountList = remember(accounts) {
+        derivedStateOf {
+            val filtered = if (activeFilter == null || accountGrouping == AccountGrouping.NONE)
+                accounts
+            else
+                accounts.filter { account -> accountGrouping.getGroupKey(account) == activeFilter }
+            val visible = filtered.filter { it.visible }
+            visible + AggregateAccount(
+                currencyUnit = if (accountGrouping == AccountGrouping.CURRENCY) {
+                    activeFilter as? CurrencyUnit ?: viewModel.currencyContext.homeCurrencyUnit
+                } else viewModel.currencyContext.homeCurrencyUnit,
+                type = if (accountGrouping == AccountGrouping.TYPE) activeFilter as? AccountType else null,
+                flag = if (accountGrouping == AccountGrouping.FLAG) activeFilter as? AccountFlag else null,
+                accountGrouping = if (activeFilter != null) accountGrouping else AccountGrouping.NONE,
+            )
+        }
+    }.value
+
+    val pagerState = rememberPagerState(pageCount = { accountList.size })
+
+    var selectedBalanceType by rememberSaveable { mutableStateOf(BalanceType.CURRENT) }
+
+    val currentAccount = remember(accountList) {
+        derivedStateOf {
+            accountList[pagerState.settledPage]
+        }
+    }
 
     Scaffold(
         topBar = {
             TopAppBar(
                 navigationIcon = navigationIcon,
                 title = {
-                    Column {
-                        Text("TODO")
-                        Text(
-                            text = stringResource(id = R.string.current_balance),
-                            style = MaterialTheme.typography.bodyLarge
+                    if (currentAccount.value is FullAccount) {
+                        BalanceHeader(
+                            currentAccount = currentAccount.value as FullAccount,
+                            displayBalanceType = selectedBalanceType,
+                            onDisplayBalanceTypeChange = { newType ->
+                                selectedBalanceType = newType
+                                // You would also notify your ViewModel here:
+                                // onEvent(AppEvent.SetDisplayBalanceType(newType))
+                            }
                         )
+                    } else {
+                        Text(currentAccount.value.labelV2(LocalContext.current))
                     }
                 },
-                actions = {},
+                actions = {
+                    val menu = listOf(
+                        MenuItem.Sort,
+                        MenuItem.Grouping,
+                    )
+                    menu.forEach {
+                        when (it) {
+                            MenuItem.Sort -> TransactionSortMenu(currentAccount.value) { sortBy, sortDirection ->
+                                onEvent(AppEvent.SetTransactionSort(sortBy, sortDirection))
+                            }
+
+                            MenuItem.Grouping -> {
+                                TransactionGroupingMenu(
+                                    currentGroup = currentAccount.value.grouping
+                                ) {
+                                    onEvent(AppEvent.SetTransactionGrouping(it))
+                                }
+                            }
+
+                            else -> {}
+                        }
+                    }
+                },
             )
         },
         bottomBar = {
             MyBottomAppBar(navController)
         }
     ) { paddingValues ->
-        val availableFilters by viewModel.availableGroupFilters.collectAsStateWithLifecycle()
-        val activeFilter by viewModel.activeFilter.collectAsStateWithLifecycle()
-        val coroutineScope = rememberCoroutineScope()
-        val tabRowState = rememberCollapsingTabRowState()
-
-        val accountList = remember {
-            derivedStateOf {
-                val filtered = if (activeFilter == null || accountGrouping == AccountGrouping.NONE)
-                    accounts
-                else
-                    accounts.filter { account -> accountGrouping.getGroupKey(account) == activeFilter }
-                val visible = filtered.filter { it.visible }
-                visible + AggregateAccount(
-                    currencyUnit = if (accountGrouping == AccountGrouping.CURRENCY) {
-                        activeFilter as? CurrencyUnit ?: viewModel.currencyContext.homeCurrencyUnit
-                    } else viewModel.currencyContext.homeCurrencyUnit,
-                    type = if (accountGrouping == AccountGrouping.TYPE) activeFilter as? AccountType else null,
-                    flag = if (accountGrouping == AccountGrouping.FLAG) activeFilter as? AccountFlag else null,
-                    accountGrouping = if (activeFilter != null) accountGrouping else AccountGrouping.NONE,
-                )
-            }
-        }.value
-
-        val pagerState = rememberPagerState(pageCount = { accountList.size })
 
         LaunchedEffect(viewModel.selectedAccountId) {
             val currentPage =
@@ -315,7 +388,7 @@ fun TransactionScreen(
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         if (accountGrouping != AccountGrouping.NONE && availableFilters.size > 1) {
-                            FilterMenu(
+                            AccountFilterMenu(
                                 activeFilter = activeFilter,
                                 availableFilters = availableFilters,
                                 onFilterChange = viewModel::setFilter,
@@ -354,12 +427,12 @@ fun TransactionScreen(
                 ) { page ->
                     val account = accountList[page]
                     val context = LocalContext.current
-                    val pageAccount = remember { account.toPageAccount(context = context) }
+                    val pageAccount = remember(account) { account.toPageAccount(context = context) }
                     val lazyPagingItems =
                         viewModel.items.getValue(pageAccount).collectAsLazyPagingItems()
                     TransactionList(
                         lazyPagingItems = lazyPagingItems,
-                        headerData = HeaderDataEmpty(pageAccount),
+                        headerData = remember(account) { viewModel.headerData(pageAccount) }.collectAsState().value,
                         budgetData = rememberStaticState(null),
                         selectionHandler = null,
                         futureCriterion = viewModel.futureCriterion.collectAsState(initial = FutureCriterion.EndOfDay).value,
@@ -405,14 +478,10 @@ fun AccountsScreen(
                 title = { Text("Accounts") },
                 actions = {
 
-                    GroupingMenu(
+                    AccountGroupingMenu(
                         activeGrouping = accountGrouping,
-                        onGroupingChange = viewModel::setGrouping,
+                        onGroupingChange = { onEvent(AppEvent.SetAccountGrouping(it)) },
                     )
-                    // Action specific to the Accounts screen
-                    IconButton(onClick = { /* TODO: Add new account */ }) {
-                        Icon(Icons.Default.Add, contentDescription = "Add Account")
-                    }
                 }
             )
         },
@@ -439,11 +508,11 @@ fun AccountsScreen(
                     viewModel.maybeResetFilter(accountGrouping.getGroupKey(it))
                 }
                 viewModel.selectAccount(it.id)
-                navController.navigate(Screen.Transactions.route)
+                navController.navigateSingleTopTo(Screen.Transactions)
             },
             onGroupSelected = {
                 viewModel.navigateToGroup(it)
-                navController.navigate(Screen.Transactions.route)
+                navController.navigateSingleTopTo(Screen.Transactions)
             },
             onEvent = onEvent,
             flags = flags
@@ -513,12 +582,15 @@ private fun FloatingActionToolbar(
                     )
                 }
                 HierarchicalMenu(
-                    expanded = showMenu, menu = Menu(
+                    expanded = showMenu,
+                    menu = Menu(
                         listOf(
                             MenuEntry(
                                 icon = { painterResource(R.drawable.ic_expense) },
                                 tint = Color.Unspecified,
-                                label = UiText.StringResource(R.string.expense),
+                                label = UiText.StringResource(
+                                    R.string.expense
+                                ),
                                 command = "Expense",
                                 action = { onNewTransaction(TYPE_TRANSACTION, false) }
                             ),
@@ -531,13 +603,17 @@ private fun FloatingActionToolbar(
                             ),
                             MenuEntry(
                                 icon = { painterResource(R.drawable.ic_menu_forward) },
-                                label = UiText.StringResource(R.string.transfer),
+                                label = UiText.StringResource(
+                                    R.string.transfer
+                                ),
                                 command = "Transfer",
                                 action = { onNewTransaction(TYPE_TRANSFER, false) }
                             ),
                             MenuEntry(
                                 icon = { painterResource(R.drawable.ic_menu_split) },
-                                label = UiText.StringResource(R.string.split_transaction),
+                                label = UiText.StringResource(
+                                    R.string.split_transaction
+                                ),
                                 command = "Split transaction",
                                 action = { onNewTransaction(TYPE_SPLIT, false) }
                             ),
@@ -548,78 +624,6 @@ private fun FloatingActionToolbar(
         }
     }
 }
-
-@Composable
-fun GroupingMenu(
-    activeGrouping: AccountGrouping<*>,
-    onGroupingChange: (AccountGrouping<*>) -> Unit,
-) {
-    Box {
-        val showMenu = remember { mutableStateOf(false) }
-        val groupingOptions = remember { AccountGrouping.ALL_VALUES }
-
-        IconButton(onClick = { showMenu.value = true }) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Default.List,
-                contentDescription = "Filter and Group"
-            )
-        }
-        HierarchicalMenu(
-            expanded = showMenu,
-            menu = Menu(groupingOptions.map { option ->
-                CheckableMenuEntry(
-                    label = UiText.StringValue(option.toString()),
-                    action = { onGroupingChange(option) },
-                    command = "CHANGE_GROUPING",
-                    isChecked = activeGrouping == option,
-                    isRadio = true
-                )
-            }),
-            title = stringResource(R.string.menu_grouping)
-        )
-    }
-}
-
-@Composable
-fun FilterMenu(
-    activeFilter: AccountGroupingKey?,
-    availableFilters: List<AccountGroupingKey>,
-    onFilterChange: (AccountGroupingKey?) -> Unit,
-) {
-    Box {
-        val showMenu = remember { mutableStateOf(false) }
-        val context = LocalContext.current
-        IconButton(onClick = { showMenu.value = true }) {
-            Icon(
-                imageVector = Icons.Default.FilterAlt,
-                contentDescription = "Filter"
-            )
-        }
-        HierarchicalMenu(
-            expanded = showMenu,
-            menu = Menu(
-                listOf(
-                    CheckableMenuEntry(
-                        label = UiText.StringResource(R.string.show_all),
-                        action = { onFilterChange(null) },
-                        command = "RESET_FILTER",
-                        isChecked = activeFilter == null,
-                        isRadio = true
-                    )
-                ) +
-                        availableFilters.map { filter ->
-                            CheckableMenuEntry(
-                                label = UiText.StringValue(filter.title(context)),
-                                action = { onFilterChange(filter) },
-                                command = "CHANGE_FILTER",
-                                isChecked = activeFilter == filter,
-                                isRadio = true
-                            )
-                        }),
-        )
-    }
-}
-
 
 private val TabRowHeight = 48.dp
 
@@ -654,6 +658,144 @@ class CollapsingTabRowState(
     }
 }
 
+// You can place this in your model package or near the TransactionScreen
+enum class BalanceType(@param:StringRes val resourceId: Int) {
+    CURRENT(R.string.current_balance),
+    TOTAL(R.string.menu_aggregates),
+    CLEARED(R.string.total_cleared),
+    RECONCILED(R.string.total_reconciled)
+}
+
+@Composable
+private fun BalanceHeader(
+    currentAccount: FullAccount,
+    // The balance type to display in the main title area
+    displayBalanceType: BalanceType,// A callback to change the primary display type
+    onDisplayBalanceTypeChange: (BalanceType) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    var isSummaryPopupVisible by remember { mutableStateOf(false) }
+    val rotationAngle by animateFloatAsState(
+        targetValue = if (isSummaryPopupVisible) 0F else 180F
+    )
+
+    Box(modifier = modifier) {
+        Row(
+            modifier = Modifier.clickable {
+                isSummaryPopupVisible = !isSummaryPopupVisible
+            },
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = currentAccount.labelV2(LocalContext.current),
+                    style = MaterialTheme.typography.titleMedium,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                // Show the currently selected display balance
+                Text(
+                    text = getBalanceForType(
+                        currentAccount,
+                        displayBalanceType
+                    ).toString(), // Helper function
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+            // The icon now clearly signals that a summary overlay will open
+            Icon(
+                modifier = Modifier.rotate(rotationAngle),
+                imageVector = Icons.Default.ExpandLess,
+                contentDescription = "stringResource(R.string.show_balance_summary)"
+            )
+        }
+
+        // The Popup that shows the full summary
+        if (isSummaryPopupVisible) {
+            val topAppBarHeight = TopAppBarDefaults.TopAppBarExpandedHeight
+            val offsetInPixels = with(LocalDensity.current) {
+                IntOffset(x = 0, y = topAppBarHeight.toPx().roundToInt())
+            }
+            Popup(
+                offset = offsetInPixels,
+                alignment = Alignment.TopStart,
+                onDismissRequest = { isSummaryPopupVisible = false },
+                properties = PopupProperties(focusable = true)
+            ) {
+                Card(
+                    elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+                ) {
+                    AccountSummaryV2(
+                        currentAccount,
+                        displayBalanceType,
+                        onDisplayBalanceTypeChange
+                    )
+                }
+            }
+        }
+    }
+}
+
+
+/**
+ *                     Column(
+ *                         modifier = Modifier
+ *                             .padding(horizontal = 16.dp, vertical = 8.dp)
+ *                             .widthIn(min = 280.dp),
+ *                         verticalArrangement = Arrangement.spacedBy(4.dp)
+ *                     ) {
+ *                         // Header for the popup
+ *                         Text("Balance Summary", style = MaterialTheme.typography.titleSmall, modifier = Modifier.padding(bottom = 4.dp))
+ *                         // List all balances
+ *                         BalanceType.entries.forEach { balanceType ->
+ *                             val isSelected = balanceType == displayBalanceType
+ *                             BalanceDetailRow(
+ *                                 label = stringResource(balanceType.resourceId),
+ *                                 balance = getBalanceForType(currentAccount, balanceType).toString(),
+ *                                 // Highlight the currently selected display balance
+ *                                 highlight = isSelected,
+ *                                 // Clicking a row in the summary changes the main display
+ *                                 onClick = {
+ *                                     onDisplayBalanceTypeChange(balanceType)
+ *                                     isSummaryPopupVisible = false
+ *                                 }
+ *                             )
+ *                         }
+ *                     }
+ */
+
+// Helper composable for a single row in the summary popup
+@Composable
+private fun BalanceDetailRow(
+    label: String,
+    balance: String,
+    highlight: Boolean,
+    onClick: () -> Unit,
+) {
+    val fontWeight = if (highlight) FontWeight.Bold else FontWeight.Normal
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(vertical = 4.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(text = label, style = MaterialTheme.typography.bodyMedium, fontWeight = fontWeight)
+        Text(text = balance, style = MaterialTheme.typography.bodyMedium, fontWeight = fontWeight)
+    }
+}
+
+// Dummy helper function - you would replace this with real logic
+private fun getBalanceForType(account: FullAccount, type: BalanceType): Any? {
+    return when (type) {
+        BalanceType.CURRENT -> account.currentBalance
+        BalanceType.TOTAL -> account.total // Assuming this exists
+        BalanceType.CLEARED -> account.clearedTotal // Assuming this exists
+        BalanceType.RECONCILED -> account.reconciledTotal // Assuming this exists
+    }
+}
 
 @Preview(showBackground = true)
 @Composable

@@ -51,15 +51,19 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.compose.AppEvent.EditAccount
+import org.totschnig.myexpenses.compose.main.AppEvent.EditAccount
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.toggle
+import org.totschnig.myexpenses.compose.main.AppEvent
+import org.totschnig.myexpenses.compose.main.BalanceType
+import org.totschnig.myexpenses.compose.main.EventHandler
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbarAndBottomPadding
 import org.totschnig.myexpenses.model.AccountFlag
@@ -526,25 +530,31 @@ fun AccountCard(
                     account = account,
                     onEvent = object : EventHandler {
                         override fun invoke(event: AppEvent) {
-                            when(event) {
+                            when (event) {
                                 is AppEvent.DeleteAccount -> {
                                     onDelete(event.account)
                                 }
+
                                 is EditAccount -> {
                                     onEdit(event.account)
                                 }
+
                                 is AppEvent.SetFlag -> {
                                     onSetFlag(event.accountId, event.flagId)
                                 }
+
                                 is AppEvent.ToggleDynamicExchangeRate -> {
                                     onToggleDynamicExchangeRate?.invoke(event.account)
                                 }
+
                                 is AppEvent.ToggleExcludeFromTotals -> {
                                     onToggleExcludeFromTotals(event.account)
                                 }
+
                                 is AppEvent.ToggleSealed -> {
                                     onToggleSealed(event.account)
                                 }
+
                                 else -> {
                                     CrashHandler.throwOrReport(IllegalArgumentException("$event not handled"))
                                 }
@@ -562,16 +572,6 @@ fun AccountCard(
 
         val visibleState = remember { MutableTransitionState(!isCollapsed) }
         visibleState.targetState = !isCollapsed
-        val borderColor = MaterialTheme.colorScheme.onSurface
-        fun Modifier.drawSumLine() = drawBehind {
-            val strokeWidth = 2 * density
-            drawLine(
-                borderColor,
-                Offset(0f, 0f),
-                Offset(size.width, 0f),
-                strokeWidth
-            )
-        }
 
         val accountCurrencyIsolated = isolateText(account.currencyUnit.symbol)
         val homeCurrencyIsolated = isolateText(homeCurrency.symbol)
@@ -675,6 +675,112 @@ fun AccountCard(
     }
 }
 
+@Composable
+fun AccountSummaryV2(
+    account: FullAccount,
+    displayBalanceType: BalanceType,
+    onDisplayBalanceTypeChange: (BalanceType) -> Unit
+) {
+    val homeCurrency = LocalHomeCurrency.current
+    Column(modifier = Modifier.padding(end = 16.dp)) {
+        val format = LocalCurrencyFormatter.current
+        val isFx = account.currency != homeCurrency.code
+        val fXFormat = remember { DecimalFormat("#.############") }
+
+        SumRowV2(
+            label = R.string.opening_balance,
+            formattedAmount = format.convAmount(account.openingBalance, account.currencyUnit),
+            formattedEquivalentAmount = if (isFx) format.convAmount(
+                account.equivalentOpeningBalance,
+                homeCurrency
+            ) else null
+        )
+
+        if (account.sumIncome != 0L) {
+            SumRowV2(
+                label = R.string.sum_income,
+                formattedAmount = format.convAmount(account.sumIncome, account.currencyUnit),
+                formattedEquivalentAmount = if (isFx) format.convAmount(
+                    account.equivalentSumIncome,
+                    homeCurrency
+                ) else null
+            )
+        }
+
+        if (account.sumExpense != 0L) {
+            SumRowV2(
+                label = R.string.sum_expenses,
+                formattedAmount = format.convAmount(account.sumExpense, account.currencyUnit),
+                formattedEquivalentAmount = if (isFx) format.convAmount(
+                    account.equivalentSumExpense,
+                    homeCurrency
+                ) else null
+            )
+        }
+
+        if (account.sumTransfer != 0L) {
+            SumRowV2(
+                label = R.string.sum_transfer,
+                formattedAmount = format.convAmount(account.sumTransfer, account.currencyUnit),
+                formattedEquivalentAmount = if (isFx) format.convAmount(
+                    account.equivalentSumTransfer,
+                    homeCurrency
+                ) else null
+            )
+        }
+
+        account.total?.let {
+            SumRowV2(
+                label = R.string.menu_aggregates,
+                formattedAmount = format.convAmount(account.total, account.currencyUnit),
+                formattedEquivalentAmount = if (isFx) format.convAmount(
+                    account.equivalentTotal!!,
+                    homeCurrency
+                ) else null,
+                highlight = displayBalanceType == BalanceType.TOTAL,
+                onClick = { onDisplayBalanceTypeChange(BalanceType.TOTAL) },
+                modifier = Modifier.drawSumLine()
+            )
+        }
+
+        SumRowV2(
+            label = R.string.current_balance,
+            formattedAmount = format.convAmount(account.currentBalance, account.currencyUnit),
+            formattedEquivalentAmount = if (isFx) format.convAmount(
+                account.equivalentCurrentBalance,
+                homeCurrency
+            ) else null,
+            highlight = displayBalanceType == BalanceType.CURRENT,
+            onClick = { onDisplayBalanceTypeChange(BalanceType.CURRENT) },
+            modifier = Modifier.conditional(account.total == null) {
+                drawSumLine()
+            }
+        )
+
+        account.criterion?.let {
+            SumRowV2(
+                label = if (it > 0) R.string.saving_goal else R.string.credit_limit,
+                formattedAmount = format.convAmount(it, account.currencyUnit)
+            )
+        }
+
+        if (!(account.isAggregate || !account.type.supportsReconciliation)) {
+            SumRowV2(
+                label = R.string.total_cleared,
+                formattedAmount = format.convAmount(account.clearedTotal, account.currencyUnit),
+                highlight = displayBalanceType == BalanceType.CLEARED,
+                onClick = { onDisplayBalanceTypeChange(BalanceType.CLEARED) },
+            )
+            SumRowV2(
+                label = R.string.total_reconciled,
+                formattedAmount = format.convAmount(account.reconciledTotal, account.currencyUnit),
+                highlight = displayBalanceType == BalanceType.RECONCILED,
+                onClick = { onDisplayBalanceTypeChange(BalanceType.RECONCILED) },
+            )
+        }
+    }
+}
+
 
 private fun accountMenu(
     context: Context,
@@ -704,7 +810,12 @@ private fun accountMenu(
                                 isRadio = true,
                                 isChecked = isChecked
                             ) {
-                                onEvent(AppEvent.SetFlag(account.id, if (isChecked) null else it.id))
+                                onEvent(
+                                    AppEvent.SetFlag(
+                                        account.id,
+                                        if (isChecked) null else it.id
+                                    )
+                                )
                             }
                         }
                     )
@@ -753,6 +864,49 @@ fun SumRow(label: Int, formattedAmount: String, modifier: Modifier = Modifier) {
             maxLines = 1
         )
         Text(formattedAmount, modifier)
+    }
+}
+
+@Composable
+fun SumRowV2(
+    label: Int,
+    formattedAmount: String,
+    formattedEquivalentAmount: String? = null,
+    highlight: Boolean = false,
+    onClick: (() -> Unit)? = null,
+    modifier: Modifier = Modifier,
+) {
+    val fontWeight = if (highlight) FontWeight.Bold else FontWeight.Normal
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .optional(onClick) { clickable(onClick = it) },
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            text = stringResource(label),
+            modifier = Modifier.weight(1f),
+            maxLines = 1,
+            fontWeight = fontWeight,
+        )
+        Column(modifier) {
+            Text(formattedAmount)
+            formattedEquivalentAmount?.let { Text(it) }
+        }
+    }
+}
+
+@Composable
+fun Modifier.drawSumLine(): Modifier {
+    val borderColor = MaterialTheme.colorScheme.onSurface
+    return drawBehind {
+        val strokeWidth = 2 * density
+        drawLine(
+            borderColor,
+            Offset(0f, 0f),
+            Offset(size.width, 0f),
+            strokeWidth
+        )
     }
 }
 

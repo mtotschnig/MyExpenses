@@ -5,10 +5,10 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModelProvider
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.compose.AppEvent
+import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.AppTheme
-import org.totschnig.myexpenses.compose.EventHandler
-import org.totschnig.myexpenses.compose.MainScreen
+import org.totschnig.myexpenses.compose.main.EventHandler
+import org.totschnig.myexpenses.compose.main.MainScreen
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 
@@ -40,9 +40,8 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
                                     event.flagId
                                 )
 
-                                is AppEvent.ToggleDynamicExchangeRate -> toggleDynamicExchangeRate(
-                                    event.account
-                                )
+                                is AppEvent.ToggleDynamicExchangeRate ->
+                                    toggleDynamicExchangeRate(event.account)
 
                                 is AppEvent.ToggleExcludeFromTotals -> toggleExcludeFromTotals(event.account)
                                 is AppEvent.ToggleSealed -> toggleAccountSealed(event.account)
@@ -52,6 +51,9 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
                                     event.transferEnabled,
                                     event.isIncome
                                 )
+                                is AppEvent.SetAccountGrouping -> viewModel.setGrouping(event.newGrouping)
+                                is AppEvent.SetTransactionGrouping -> viewModel.persistGrouping(event.grouping)
+                                is AppEvent.SetTransactionSort -> viewModel.persistSortDirection(event.sortBy, event.sortDirection)
                             }
                         }
 

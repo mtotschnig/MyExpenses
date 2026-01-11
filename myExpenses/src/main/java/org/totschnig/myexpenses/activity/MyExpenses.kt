@@ -485,9 +485,9 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
     }
 
     protected open fun handleSortDirection(item: MenuItem) =
-        getSortDirectionFromMenuItemId(item.itemId)?.let { newSortDirection ->
+        getSortDirectionFromMenuItemId(item.itemId)?.let { (sort, direction) ->
             if (!item.isChecked) {
-                viewModel.persistSortDirection(selectedAccountId, newSortDirection)
+                viewModel.persistSortDirection(sort, direction)
             }
             true
         } == true
@@ -495,7 +495,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
     private fun handleGrouping(item: MenuItem) =
         Utils.getGroupingFromMenuItemId(item.itemId)?.let { newGrouping ->
             if (!item.isChecked) {
-                viewModel.persistGrouping(selectedAccountId, newGrouping)
+                viewModel.persistGrouping(newGrouping)
             }
             true
         } == true
@@ -1150,10 +1150,11 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
             if (account.sealed) finishActionMode()
         }
 
-        val showStatusHandle = if (account.isAggregate || account.type?.supportsReconciliation == false)
-            false
-        else
-            viewModel.showStatusHandle.flow.collectAsState(initial = true).value
+        val showStatusHandle =
+            if (account.isAggregate || account.type?.supportsReconciliation == false)
+                false
+            else
+                viewModel.showStatusHandle.flow.collectAsState(initial = true).value
 
         val onToggleCrStatus: ((Long) -> Unit)? = if (showStatusHandle) {
             {
@@ -1182,15 +1183,15 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                 .whereFilter
                 .collectAsState(null)
             filter.value?.let { filter ->
-                FilterHandler(account, "confirmFilterDirect_${account.id}", {
-                    oldValue, newValue ->
+                FilterHandler(account, "confirmFilterDirect_${account.id}", { oldValue, newValue ->
                     if (newValue != null && oldValue != null) {
                         lifecycleScope.launch {
                             currentFilter.replaceCriterion(oldValue, newValue)
                         }
                     }
                 }) {
-                    FilterCard(filter,
+                    FilterCard(
+                        filter,
                         editFilter = { handleEdit(it) },
                         clearAllFilter = { confirmClearFilter() },
                         clearFilter = {

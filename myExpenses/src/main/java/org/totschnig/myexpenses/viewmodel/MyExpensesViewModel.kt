@@ -503,28 +503,27 @@ open class MyExpensesViewModel(
 
     fun sumInfo(account: PageAccount) = sums.getValue(account)
 
-    fun persistGrouping(accountId: Long, grouping: Grouping) {
+    fun persistGrouping(grouping: Grouping) {
         viewModelScope.launch(context = coroutineContext()) {
-            if (accountId == DataBaseAccount.HOME_AGGREGATE_ID) {
+            if (selectedAccountId == DataBaseAccount.HOME_AGGREGATE_ID) {
                 prefHandler.putString(GROUPING_AGGREGATE, grouping.name)
                 triggerAccountListRefresh()
             } else {
-                repository.setGrouping(accountId, grouping)
+                repository.setGrouping(selectedAccountId, grouping)
             }
         }
     }
 
-    fun persistSortDirection(accountId: Long, sort: Pair<String, SortDirection>) {
+    fun persistSortDirection(sort: String, direction: SortDirection) {
         viewModelScope.launch(context = coroutineContext()) {
-            if (accountId == DataBaseAccount.HOME_AGGREGATE_ID) {
-                persistSortDirectionHomeAggregate(sort)
-                triggerAccountListRefresh()
+            if (selectedAccountId == DataBaseAccount.HOME_AGGREGATE_ID) {
+                persistSortDirectionHomeAggregate(sort, direction)
             } else {
                 contentResolver.update(
-                    ContentUris.withAppendedId(SORT_URI, accountId)
+                    ContentUris.withAppendedId(SORT_URI, selectedAccountId)
                         .buildUpon()
-                        .appendPath(sort.first)
-                        .appendPath(sort.second.name)
+                        .appendPath(sort)
+                        .appendPath(direction.name)
                         .build(),
                     null, null, null
                 )
@@ -532,9 +531,9 @@ open class MyExpensesViewModel(
         }
     }
 
-    private fun persistSortDirectionHomeAggregate(sort: Pair<String, SortDirection>) {
-        prefHandler.putString(SORT_BY_AGGREGATE, sort.first)
-        prefHandler.putString(SORT_DIRECTION_AGGREGATE, sort.second.name)
+    private fun persistSortDirectionHomeAggregate(sort: String, direction: SortDirection) {
+        prefHandler.putString(SORT_BY_AGGREGATE, sort)
+        prefHandler.putString(SORT_DIRECTION_AGGREGATE, direction.name)
         triggerAccountListRefresh()
     }
 
