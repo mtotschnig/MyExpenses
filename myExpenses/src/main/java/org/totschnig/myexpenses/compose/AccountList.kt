@@ -11,6 +11,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -78,6 +79,8 @@ import org.totschnig.myexpenses.util.calculateRealExchangeRate
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.isolateText
+import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
+import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import java.text.DecimalFormat
@@ -503,13 +506,13 @@ fun AccountCard(
                     )
                     if (account.flag.icon != null) {
                         val contentDescription = account.flag.title(LocalContext.current)
-                        (Icon(
+                        Icon(
                             icon = account.flag.icon,
                             size = 12.sp,
                             modifier = Modifier.semantics {
                                 this.contentDescription = contentDescription
                             }
-                        ))
+                        )
                     }
                 }
                 AnimatedVisibility(visible = isCollapsed) {
@@ -677,108 +680,188 @@ fun AccountCard(
 
 @Composable
 fun AccountSummaryV2(
-    account: FullAccount,
+    account: BaseAccount,
     displayBalanceType: BalanceType,
-    onDisplayBalanceTypeChange: (BalanceType) -> Unit
+    onDisplayBalanceTypeChange: (BalanceType) -> Unit,
 ) {
-    val homeCurrency = LocalHomeCurrency.current
-    Column(modifier = Modifier.padding(end = 16.dp)) {
-        val format = LocalCurrencyFormatter.current
-        val isFx = account.currency != homeCurrency.code
-        val fXFormat = remember { DecimalFormat("#.############") }
-
-        SumRowV2(
-            label = R.string.opening_balance,
-            formattedAmount = format.convAmount(account.openingBalance, account.currencyUnit),
-            formattedEquivalentAmount = if (isFx) format.convAmount(
-                account.equivalentOpeningBalance,
-                homeCurrency
-            ) else null
-        )
-
-        if (account.sumIncome != 0L) {
-            SumRowV2(
-                label = R.string.sum_income,
-                formattedAmount = format.convAmount(account.sumIncome, account.currencyUnit),
-                formattedEquivalentAmount = if (isFx) format.convAmount(
-                    account.equivalentSumIncome,
-                    homeCurrency
-                ) else null
+    Column(modifier = Modifier.padding(16.dp)) {
+        when (account) {
+            is FullAccount -> AccountSummaryV2(
+                account,
+                displayBalanceType,
+                onDisplayBalanceTypeChange
             )
-        }
 
-        if (account.sumExpense != 0L) {
-            SumRowV2(
-                label = R.string.sum_expenses,
-                formattedAmount = format.convAmount(account.sumExpense, account.currencyUnit),
-                formattedEquivalentAmount = if (isFx) format.convAmount(
-                    account.equivalentSumExpense,
-                    homeCurrency
-                ) else null
-            )
-        }
-
-        if (account.sumTransfer != 0L) {
-            SumRowV2(
-                label = R.string.sum_transfer,
-                formattedAmount = format.convAmount(account.sumTransfer, account.currencyUnit),
-                formattedEquivalentAmount = if (isFx) format.convAmount(
-                    account.equivalentSumTransfer,
-                    homeCurrency
-                ) else null
-            )
-        }
-
-        account.total?.let {
-            SumRowV2(
-                label = R.string.menu_aggregates,
-                formattedAmount = format.convAmount(account.total, account.currencyUnit),
-                formattedEquivalentAmount = if (isFx) format.convAmount(
-                    account.equivalentTotal!!,
-                    homeCurrency
-                ) else null,
-                highlight = displayBalanceType == BalanceType.TOTAL,
-                onClick = { onDisplayBalanceTypeChange(BalanceType.TOTAL) },
-                modifier = Modifier.drawSumLine()
-            )
-        }
-
-        SumRowV2(
-            label = R.string.current_balance,
-            formattedAmount = format.convAmount(account.currentBalance, account.currencyUnit),
-            formattedEquivalentAmount = if (isFx) format.convAmount(
-                account.equivalentCurrentBalance,
-                homeCurrency
-            ) else null,
-            highlight = displayBalanceType == BalanceType.CURRENT,
-            onClick = { onDisplayBalanceTypeChange(BalanceType.CURRENT) },
-            modifier = Modifier.conditional(account.total == null) {
-                drawSumLine()
-            }
-        )
-
-        account.criterion?.let {
-            SumRowV2(
-                label = if (it > 0) R.string.saving_goal else R.string.credit_limit,
-                formattedAmount = format.convAmount(it, account.currencyUnit)
-            )
-        }
-
-        if (!(account.isAggregate || !account.type.supportsReconciliation)) {
-            SumRowV2(
-                label = R.string.total_cleared,
-                formattedAmount = format.convAmount(account.clearedTotal, account.currencyUnit),
-                highlight = displayBalanceType == BalanceType.CLEARED,
-                onClick = { onDisplayBalanceTypeChange(BalanceType.CLEARED) },
-            )
-            SumRowV2(
-                label = R.string.total_reconciled,
-                formattedAmount = format.convAmount(account.reconciledTotal, account.currencyUnit),
-                highlight = displayBalanceType == BalanceType.RECONCILED,
-                onClick = { onDisplayBalanceTypeChange(BalanceType.RECONCILED) },
+            is AggregateAccount -> AccountSummaryV2(
+                account,
+                displayBalanceType,
+                onDisplayBalanceTypeChange
             )
         }
     }
+}
+
+@Composable
+fun AccountSummaryV2(
+    account: FullAccount,
+    displayBalanceType: BalanceType,
+    onDisplayBalanceTypeChange: (BalanceType) -> Unit,
+) {
+    val homeCurrency = LocalHomeCurrency.current
+    val isFx = account.currency != homeCurrency.code
+    val fXFormat = remember { DecimalFormat("#.############") }
+
+    SumRowV2(
+        label = R.string.opening_balance,
+        amount = account.openingBalance,
+        currency = account.currencyUnit,
+        formattedEquivalentAmount = account.equivalentOpeningBalance.takeIf { isFx }
+    )
+
+    if (account.sumIncome != 0L) {
+        SumRowV2(
+            label = R.string.sum_income,
+            amount = account.sumIncome,
+            currency = account.currencyUnit,
+            formattedEquivalentAmount = account.equivalentSumIncome.takeIf { isFx }
+        )
+    }
+
+    if (account.sumExpense != 0L) {
+        SumRowV2(
+            label = R.string.sum_expenses,
+            amount = account.sumExpense,
+            currency = account.currencyUnit,
+            formattedEquivalentAmount = account.equivalentSumExpense.takeIf { isFx }
+        )
+    }
+
+    if (account.sumTransfer != 0L) {
+        SumRowV2(
+            label = R.string.sum_transfer,
+            amount = account.sumTransfer,
+            currency = account.currencyUnit,
+            formattedEquivalentAmount = account.equivalentSumTransfer.takeIf { isFx }
+        )
+    }
+
+    account.total?.let {
+        SumRowV2(
+            label = R.string.menu_aggregates,
+            amount = account.total,
+            currency = account.currencyUnit,
+            formattedEquivalentAmount = account.equivalentTotal.takeIf { isFx },
+            highlight = displayBalanceType == BalanceType.TOTAL,
+            onClick = { onDisplayBalanceTypeChange(BalanceType.TOTAL) },
+            modifier = Modifier.drawSumLine()
+        )
+    }
+
+    SumRowV2(
+        label = R.string.current_balance,
+        amount = account.currentBalance,
+        currency = account.currencyUnit,
+        formattedEquivalentAmount = account.equivalentCurrentBalance.takeIf { isFx },
+        highlight = displayBalanceType == BalanceType.CURRENT,
+        onClick = { onDisplayBalanceTypeChange(BalanceType.CURRENT) },
+        modifier = Modifier.conditional(account.total == null) {
+            drawSumLine()
+        }
+    )
+
+    account.criterion?.let {
+        SumRowV2(
+            label = if (it > 0) R.string.saving_goal else R.string.credit_limit,
+            amount = it,
+            currency = account.currencyUnit,
+        )
+    }
+
+    if (account.type.supportsReconciliation) {
+        SumRowV2(
+            label = R.string.total_cleared,
+            amount = account.clearedTotal,
+            currency = account.currencyUnit,
+            highlight = displayBalanceType == BalanceType.CLEARED,
+            onClick = { onDisplayBalanceTypeChange(BalanceType.CLEARED) },
+        )
+        SumRowV2(
+            label = R.string.total_reconciled,
+            amount = account.reconciledTotal,
+            currency = account.currencyUnit,
+            highlight = displayBalanceType == BalanceType.RECONCILED,
+            onClick = { onDisplayBalanceTypeChange(BalanceType.RECONCILED) },
+        )
+    }
+}
+
+@Composable
+fun AccountSummaryV2(
+    account: AggregateAccount,
+    displayBalanceType: BalanceType,
+    onDisplayBalanceTypeChange: (BalanceType) -> Unit,
+) {
+    val homeCurrency = LocalHomeCurrency.current
+    val isFx = account.currency != homeCurrency.code
+
+    SumRowV2(
+        label = R.string.opening_balance,
+        amount = account.openingBalance ?: account.equivalentOpeningBalance,
+        currency = account.currencyUnit,
+        formattedEquivalentAmount = account.equivalentOpeningBalance.takeIf { isFx }
+    )
+
+    (account.sumIncome ?: account.equivalentSumIncome).takeIf { it != 0L }?.let {
+        SumRowV2(
+            label = R.string.sum_income,
+            amount = it,
+            currency = account.currencyUnit,
+            formattedEquivalentAmount = account.equivalentSumIncome.takeIf { isFx }
+        )
+    }
+
+    (account.sumExpense ?: account.equivalentSumExpense).takeIf { it != 0L }?.let {
+        SumRowV2(
+            label = R.string.sum_expenses,
+            amount = it,
+            currency = account.currencyUnit,
+            formattedEquivalentAmount = account.equivalentSumExpense.takeIf { isFx }
+        )
+    }
+
+    (account.sumTransfer ?: account.equivalentSumTransfer).takeIf { it != 0L }?.let {
+        SumRowV2(
+            label = R.string.sum_transfer,
+            amount = it,
+            currency = account.currencyUnit,
+            formattedEquivalentAmount = account.equivalentSumTransfer.takeIf { isFx }
+        )
+    }
+
+    val displayTotal = account.total ?: account.equivalentTotal.takeIf { it != 0L }
+    displayTotal?.let {
+        SumRowV2(
+            label = R.string.menu_aggregates,
+            amount = it,
+            currency = account.currencyUnit,
+            formattedEquivalentAmount = account.equivalentTotal.takeIf { isFx },
+            highlight = displayBalanceType == BalanceType.TOTAL,
+            onClick = { onDisplayBalanceTypeChange(BalanceType.TOTAL) },
+            modifier = Modifier.drawSumLine()
+        )
+    }
+
+    SumRowV2(
+        label = R.string.current_balance,
+        amount = account.currentBalance ?: account.equivalentCurrentBalance,
+        currency = account.currencyUnit,
+        formattedEquivalentAmount = account.equivalentCurrentBalance.takeIf { isFx },
+        highlight = displayBalanceType == BalanceType.CURRENT,
+        onClick = { onDisplayBalanceTypeChange(BalanceType.CURRENT) },
+        modifier = Modifier.conditional(displayTotal == null) {
+            drawSumLine()
+        }
+    )
 }
 
 
@@ -870,13 +953,14 @@ fun SumRow(label: Int, formattedAmount: String, modifier: Modifier = Modifier) {
 @Composable
 fun SumRowV2(
     label: Int,
-    formattedAmount: String,
-    formattedEquivalentAmount: String? = null,
+    amount: Long,
+    currency: CurrencyUnit,
+    formattedEquivalentAmount: Long? = null,
     highlight: Boolean = false,
     onClick: (() -> Unit)? = null,
     modifier: Modifier = Modifier,
 ) {
-    val fontWeight = if (highlight) FontWeight.Bold else FontWeight.Normal
+    val fontWeight = if (highlight) FontWeight.Bold else null
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -889,9 +973,11 @@ fun SumRowV2(
             maxLines = 1,
             fontWeight = fontWeight,
         )
-        Column(modifier) {
-            Text(formattedAmount)
-            formattedEquivalentAmount?.let { Text(it) }
+        Column(modifier, horizontalAlignment = Alignment.End) {
+            AmountText(amount, currency)
+            formattedEquivalentAmount?.let {
+                AmountText(it, LocalHomeCurrency.current, fontSize = 10.sp)
+            }
         }
     }
 }

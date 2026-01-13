@@ -7,7 +7,7 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.createAccount
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.SortDirection
+import org.totschnig.myexpenses.model.sort.SortDirection
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.KEY_ACCOUNT_TYPE_LABEL
 import org.totschnig.myexpenses.provider.KEY_AMOUNT

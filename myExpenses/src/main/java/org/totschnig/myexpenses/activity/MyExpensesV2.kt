@@ -14,6 +14,8 @@ import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 
 class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
 
+    override val drawToTopEdge = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[MyExpensesV2ViewModel::class.java]
@@ -52,8 +54,9 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
                                     event.isIncome
                                 )
                                 is AppEvent.SetAccountGrouping -> viewModel.setGrouping(event.newGrouping)
-                                is AppEvent.SetTransactionGrouping -> viewModel.persistGrouping(event.grouping)
-                                is AppEvent.SetTransactionSort -> viewModel.persistSortDirection(event.sortBy, event.sortDirection)
+                                is AppEvent.SetTransactionGrouping -> viewModel.persistGroupingV2(event.grouping)
+                                is AppEvent.SetTransactionSort -> viewModel.persistSortV2(event.transactionSort)
+                                is AppEvent.ToggleCrStatus -> toggleCrStatus(event.transactionId)
                             }
                         }
 

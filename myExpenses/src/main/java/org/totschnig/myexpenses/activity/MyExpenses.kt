@@ -141,7 +141,6 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.CheckSealedHandler
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isAggregate
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_AMOUNT
@@ -487,7 +486,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
     protected open fun handleSortDirection(item: MenuItem) =
         getSortDirectionFromMenuItemId(item.itemId)?.let { (sort, direction) ->
             if (!item.isChecked) {
-                viewModel.persistSortDirection(sort, direction)
+                viewModel.persistSort(sort, direction)
             }
             true
         } == true
@@ -1156,13 +1155,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
             else
                 viewModel.showStatusHandle.flow.collectAsState(initial = true).value
 
-        val onToggleCrStatus: ((Long) -> Unit)? = if (showStatusHandle) {
-            {
-                checkSealed(listOf(it), withTransfer = false) {
-                    viewModel.toggleCrStatus(it)
-                }
-            }
-        } else null
+        val onToggleCrStatus: ((Long) -> Unit)? = if (showStatusHandle) ::toggleCrStatus else null
 
         val headerData = remember(account) { viewModel.headerData(account) }
 
@@ -2549,38 +2542,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
         get() {
             return binding.accountPanel.expansionContent
         }
-
-    open val checkSealedHandler by lazy { CheckSealedHandler(contentResolver) }
-
-    fun checkSealed(itemIds: List<Long>, withTransfer: Boolean = true, onChecked: Runnable) {
-        checkSealedHandler.check(itemIds, withTransfer) { result ->
-            lifecycleScope.launchWhenResumed {
-                result.onSuccess {
-                    if (it.first && it.second) {
-                        onChecked.run()
-                    } else {
-                        warnSealedAccount(!it.first, !it.second, itemIds.size > 1)
-                    }
-                }.onFailure {
-                    showSnackBar(it.safeMessage)
-                }
-            }
-        }
-    }
-
-    private fun warnSealedAccount(sealedAccount: Boolean, sealedDebt: Boolean, multiple: Boolean) {
-        val resIds = mutableListOf<Int>()
-        if (multiple) {
-            resIds.add(R.string.warning_account_for_transaction_is_closed)
-        }
-        if (sealedAccount) {
-            resIds.add(R.string.object_sealed)
-        }
-        if (sealedDebt) {
-            resIds.add(R.string.object_sealed_debt)
-        }
-        showSnackBar(TextUtils.concatResStrings(this, *resIds.toIntArray()))
-    }
 
     private fun checkReset() {
         exportViewModel.checkAppDir().observe(this) { result ->

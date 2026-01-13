@@ -46,7 +46,7 @@ import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.export.CategoryExporter
 import org.totschnig.myexpenses.export.createFileFailure
 import org.totschnig.myexpenses.model.ExportFormat
-import org.totschnig.myexpenses.model.Sort
+import org.totschnig.myexpenses.model.sort.Sort
 import org.totschnig.myexpenses.model2.CategoryExport
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES

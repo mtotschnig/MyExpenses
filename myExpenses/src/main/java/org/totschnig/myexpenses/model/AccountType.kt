@@ -116,7 +116,7 @@ data class AccountType(
             name = cursor.getString(KEY_ACCOUNT_TYPE_LABEL),
             isAsset = cursor.getBoolean(KEY_IS_ASSET),
             supportsReconciliation = cursor.getBoolean(KEY_SUPPORTS_RECONCILIATION),
-            sortKey = cursor.getInt(KEY_TYPE_SORT_KEY)
+            sortKey = cursor.getIntIfExists(KEY_TYPE_SORT_KEY) ?: 0
         )
 
         fun isReservedName(name: String) = name.startsWith("_") && name.endsWith("_")

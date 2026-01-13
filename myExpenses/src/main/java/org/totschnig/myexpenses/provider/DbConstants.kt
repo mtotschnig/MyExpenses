@@ -23,7 +23,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_TRA
 import org.totschnig.myexpenses.provider.filter.Criterion
 
 private fun requireIdParameter(parameter: String) {
-    require(parameter.isDigitsOnly())
+    require(parameter.isDigitsOnly()) { "Invalid parameter: $parameter" }
 }
 
 /**

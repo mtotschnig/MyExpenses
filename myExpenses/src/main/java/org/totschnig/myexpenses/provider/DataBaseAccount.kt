@@ -2,7 +2,7 @@ package org.totschnig.myexpenses.provider
 
 import android.net.Uri
 import org.totschnig.myexpenses.model.AccountGrouping
-import org.totschnig.myexpenses.model.SortDirection
+import org.totschnig.myexpenses.model.sort.SortDirection
 import org.totschnig.myexpenses.model2.AccountInfoWithGrouping
 import org.totschnig.myexpenses.provider.TransactionProvider.EXTENDED_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_SEARCH
@@ -53,26 +53,35 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
             currency: String?,
             type: Long? = null,
             flag: Long? = null,
-            accountGrouping: AccountGrouping<*>? = when {
+            accountGrouping: AccountGrouping<*>? = null,
+            shortenComment: Boolean = false,
+            extended: Boolean = true,
+        ): Uri.Builder = uriBuilderForTransactionList(shortenComment, extended)
+            .appendQueryParameter(accountId, currency, type, flag, accountGrouping)
+
+        fun Uri.Builder.appendQueryParameter(
+            accountId: Long,
+            currency: String?,
+            type: Long? = null,
+            flag: Long? = null,
+            accountGrouping: AccountGrouping<*>? = null,
+        ): Uri.Builder {
+            when (accountGrouping ?: when {
                 isHomeAggregate(accountId) -> AccountGrouping.NONE
                 isAggregate(accountId) -> AccountGrouping.CURRENCY
                 else -> null
-            },
-            shortenComment: Boolean = false,
-            extended: Boolean = true,
-        ): Uri.Builder {
-            return uriBuilderForTransactionList(shortenComment, extended).apply {
-                when (accountGrouping) {
-                    null -> appendQueryParameter(KEY_ACCOUNTID, accountId.toString())
+            }) {
+                null -> appendQueryParameter(KEY_ACCOUNTID, accountId.toString())
 
-                    AccountGrouping.CURRENCY -> appendQueryParameter(KEY_CURRENCY, currency!!)
+                AccountGrouping.CURRENCY -> appendQueryParameter(KEY_CURRENCY, currency!!)
 
-                    AccountGrouping.TYPE -> appendQueryParameter(KEY_ACCOUNT_TYPE, type!!.toString())
-                    AccountGrouping.FLAG -> appendQueryParameter(KEY_FLAG, flag!!.toString())
-                    else -> {}
-                }
+                AccountGrouping.TYPE -> appendQueryParameter(KEY_ACCOUNT_TYPE, type!!.toString())
+                AccountGrouping.FLAG -> appendQueryParameter(KEY_FLAG, flag!!.toString())
+                else -> {}
             }
+            return this
         }
+
 
         fun uriBuilderForTransactionList(
             shortenComment: Boolean,

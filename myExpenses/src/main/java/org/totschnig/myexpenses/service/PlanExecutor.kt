@@ -24,10 +24,8 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.createTransaction
 import org.totschnig.myexpenses.db2.getLabelForAccount
 import org.totschnig.myexpenses.db2.linkTemplateWithTransaction
-import org.totschnig.myexpenses.db2.loadTagsForTemplate
 import org.totschnig.myexpenses.db2.loadTemplateForPlanIfInstanceIsOpen
 import org.totschnig.myexpenses.db2.planCount
-import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money

@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.model
+package org.totschnig.myexpenses.model.sort
 
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes

@@ -79,7 +79,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.SortDirection
+import org.totschnig.myexpenses.model.sort.SortDirection
 import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model2.Bank
 import org.totschnig.myexpenses.preference.ColorSource
@@ -301,7 +301,6 @@ open class MyExpensesViewModel(
         }
     }
 
-
     val accountGrouping: PreferenceAccessor<AccountGrouping<*>, String> by lazy {
 
         PreferenceAccessor(
@@ -352,10 +351,17 @@ open class MyExpensesViewModel(
         }.stateIn(viewModelScope, SharingStarted.Lazily, SumInfo.EMPTY)
     }
 
+    private val headerDataV2: Map<PageAccount, StateFlow<HeaderDataResult>> = lazyMap { account ->
+        buildHeaderData(account, true)
+    }
     @OptIn(ExperimentalCoroutinesApi::class)
     private val headerData: Map<PageAccount, StateFlow<HeaderDataResult>> = lazyMap { account ->
+        buildHeaderData(account)
+    }
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun buildHeaderData(account: PageAccount, v2: Boolean = false) =
         filterPersistence.getValue(account.id).whereFilter.flatMapLatest { filter ->
-            val groupingQuery = account.groupingQuery(filter)
+            val groupingQuery = if (v2) account.groupingQueryV2(filter) else account.groupingQuery(filter)
             contentResolver.observeQuery(
                 uri = groupingQuery.first.build(),
                 selection = groupingQuery.second,
@@ -381,7 +387,6 @@ open class MyExpensesViewModel(
                     ?: HeaderDataError(account)
             }
         }.stateIn(viewModelScope, SharingStarted.Lazily, HeaderDataEmpty(account))
-    }
 
     private val pagingSourceFactories: Map<PageAccount, ClearingLastPagingSourceFactory<Int, Transaction2, *>> =
         lazyMap {
@@ -472,6 +477,7 @@ open class MyExpensesViewModel(
     }
 
     fun headerData(account: PageAccount) = headerData.getValue(account)
+    fun headerDataV2(account: PageAccount) = headerDataV2.getValue(account)
 
     fun budgetData(account: PageAccount): Flow<BudgetData?> =
         if (licenceHandler.hasTrialAccessTo(ContribFeature.BUDGET)) {
@@ -503,6 +509,7 @@ open class MyExpensesViewModel(
 
     fun sumInfo(account: PageAccount) = sums.getValue(account)
 
+
     fun persistGrouping(grouping: Grouping) {
         viewModelScope.launch(context = coroutineContext()) {
             if (selectedAccountId == DataBaseAccount.HOME_AGGREGATE_ID) {
@@ -514,7 +521,7 @@ open class MyExpensesViewModel(
         }
     }
 
-    fun persistSortDirection(sort: String, direction: SortDirection) {
+    fun persistSort(sort: String, direction: SortDirection) {
         viewModelScope.launch(context = coroutineContext()) {
             if (selectedAccountId == DataBaseAccount.HOME_AGGREGATE_ID) {
                 persistSortDirectionHomeAggregate(sort, direction)

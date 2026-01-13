@@ -10,7 +10,7 @@ import org.junit.Assert.assertThrows
 import org.junit.Rule
 import org.junit.Test
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.SortDirection
+import org.totschnig.myexpenses.model.sort.SortDirection
 import org.totschnig.myexpenses.provider.AccountInfo
 import org.totschnig.myexpenses.provider.BudgetInfo
 import org.totschnig.myexpenses.provider.KEY_AMOUNT

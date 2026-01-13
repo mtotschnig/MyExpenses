@@ -13,8 +13,11 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.provider.CheckSealedHandler
 import org.totschnig.myexpenses.provider.KEY_COLOR
 import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.util.TextUtils
+import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.AccountSealedException
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
@@ -150,4 +153,41 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
         putExtra(ExpenseEdit.KEY_INCOME, isIncome)
     }
 
+    protected fun toggleCrStatus(transactionId: Long) {
+        checkSealed(listOf(transactionId), withTransfer = false) {
+            viewModel.toggleCrStatus(transactionId)
+        }
+    }
+
+    open val checkSealedHandler by lazy { CheckSealedHandler(contentResolver) }
+
+    fun checkSealed(itemIds: List<Long>, withTransfer: Boolean = true, onChecked: Runnable) {
+        checkSealedHandler.check(itemIds, withTransfer) { result ->
+            lifecycleScope.launchWhenResumed {
+                result.onSuccess {
+                    if (it.first && it.second) {
+                        onChecked.run()
+                    } else {
+                        warnSealedAccount(!it.first, !it.second, itemIds.size > 1)
+                    }
+                }.onFailure {
+                    showSnackBar(it.safeMessage)
+                }
+            }
+        }
+    }
+
+    private fun warnSealedAccount(sealedAccount: Boolean, sealedDebt: Boolean, multiple: Boolean) {
+        val resIds = mutableListOf<Int>()
+        if (multiple) {
+            resIds.add(R.string.warning_account_for_transaction_is_closed)
+        }
+        if (sealedAccount) {
+            resIds.add(R.string.object_sealed)
+        }
+        if (sealedDebt) {
+            resIds.add(R.string.object_sealed_debt)
+        }
+        showSnackBar(TextUtils.concatResStrings(this, *resIds.toIntArray()))
+    }
 }

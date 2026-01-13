@@ -1344,14 +1344,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
         selection: String?,
         selectionArgs: Array<String>?,
     ): Cursor {
+        val accountQuery = uri.accountSelector
 
-        val (accountSelector, accountQuery) = uri.getQueryParameter(KEY_ACCOUNTID)?.let {
-            it to "$KEY_ACCOUNTID = ?"
-        } ?: uri.getQueryParameter(KEY_CURRENCY).let {
-            it to ((if (it != null) "$KEY_CURRENCY = ? AND " else "") + "$KEY_EXCLUDE_FROM_TOTALS = 0")
-        }
-
-        val forHome: String? = if (accountSelector == null) homeCurrency else null
+        //Grand total account or aggregate account for type or flag
+        val forHome: String? = if (uri.getQueryParameter(KEY_ACCOUNTID) != null && uri.getQueryParameter(KEY_CURRENCY) != null) homeCurrency else null
 
         val group = enumValueOrDefault(uri.pathSegments[2], Grouping.NONE)
 
@@ -1419,11 +1415,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
             }
         }.toTypedArray()
 
-        val finalArgs = buildList {
-            accountSelector?.let { add(it) }
-            selectionArgs?.let { addAll(it) }
-        }.toTypedArray()
-
         val sql = buildTransactionGroupCte(
             accountQuery,
             selection,
@@ -1432,11 +1423,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
         ) + " " +
                 SupportSQLiteQueryBuilder.builder(CTE_TRANSACTION_GROUPS)
                     .columns(projection)
-                    .selection(null, finalArgs)
+                    .selection(null, selectionArgs)
                     .groupBy(groupBy)
                     .create()
                     .sql
-        return db.measureAndLogQuery(uri, sql, selection, finalArgs)
+        return db.measureAndLogQuery(uri, sql, selection, selectionArgs)
     }
 
     fun insertAttribute(db: SupportSQLiteDatabase, values: ContentValues) {

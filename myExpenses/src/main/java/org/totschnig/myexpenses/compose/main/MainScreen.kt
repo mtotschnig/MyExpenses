@@ -9,12 +9,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
@@ -24,9 +22,13 @@ import androidx.compose.material.icons.automirrored.filled.ReceiptLong
 import androidx.compose.material.icons.filled.AccountBalance
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.DoneAll
+import androidx.compose.material.icons.filled.DragHandle
 import androidx.compose.material.icons.filled.ExpandLess
-import androidx.compose.material.icons.filled.ExpandMore
+import androidx.compose.material.icons.filled.Functions
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.TableChart
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -36,6 +38,7 @@ import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SecondaryScrollableTabRow
 import androidx.compose.material3.ShortNavigationBar
@@ -43,7 +46,6 @@ import androidx.compose.material3.ShortNavigationBarItem
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -68,14 +70,20 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntRect
+import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupPositionProvider
 import androidx.compose.ui.window.PopupProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -90,6 +98,7 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AccountListV2
 import org.totschnig.myexpenses.compose.AccountSummaryV2
+import org.totschnig.myexpenses.compose.AmountText
 import org.totschnig.myexpenses.compose.FutureCriterion
 import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.LocalColors
@@ -97,6 +106,7 @@ import org.totschnig.myexpenses.compose.LocalDateFormatter
 import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.NewTransactionRenderer
+import org.totschnig.myexpenses.compose.TooltipIconButton
 import org.totschnig.myexpenses.compose.TransactionList
 import org.totschnig.myexpenses.compose.UiText
 import org.totschnig.myexpenses.compose.rememberStaticState
@@ -109,11 +119,12 @@ import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.SortDirection
+import org.totschnig.myexpenses.model.sort.TransactionSort
+import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
+import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
-import kotlin.math.roundToInt
 
 sealed class Screen(
     val route: String,
@@ -142,7 +153,8 @@ sealed class AppEvent {
 
     data class SetAccountGrouping(val newGrouping: AccountGrouping<*>) : AppEvent()
     data class SetTransactionGrouping(val grouping: Grouping) : AppEvent()
-    data class SetTransactionSort(val sortBy: String, val sortDirection: SortDirection) : AppEvent()
+    data class SetTransactionSort(val transactionSort: TransactionSort) : AppEvent()
+    data class ToggleCrStatus(val transactionId: Long) : AppEvent()
 }
 
 interface EventHandler {
@@ -275,63 +287,89 @@ fun TransactionScreen(
     val activeFilter by viewModel.activeFilter.collectAsStateWithLifecycle()
     val coroutineScope = rememberCoroutineScope()
     val tabRowState = rememberCollapsingTabRowState()
+    val aggregateTransactionGrouping by viewModel.currentAggregateGrouping.collectAsStateWithLifecycle(
+        Grouping.NONE
+    )
+    val aggregateTransactionSort by viewModel.currentAggregateSort.collectAsStateWithLifecycle(
+        TransactionSort.DATE_DESC
+    )
 
-    val accountList = remember(accounts) {
+    val accountList by remember(accounts) {
         derivedStateOf {
             val filtered = if (activeFilter == null || accountGrouping == AccountGrouping.NONE)
                 accounts
             else
                 accounts.filter { account -> accountGrouping.getGroupKey(account) == activeFilter }
-            val visible = filtered.filter { it.visible }
-            visible + AggregateAccount(
-                currencyUnit = if (accountGrouping == AccountGrouping.CURRENCY) {
-                    activeFilter as? CurrencyUnit ?: viewModel.currencyContext.homeCurrencyUnit
-                } else viewModel.currencyContext.homeCurrencyUnit,
+            val aggregateAccountGrouping =
+                if (activeFilter != null) accountGrouping else AccountGrouping.NONE
+            filtered.filter { it.visible } + AggregateAccount(
+                currencyUnit = activeFilter as? CurrencyUnit
+                    ?: viewModel.currencyContext.homeCurrencyUnit,
                 type = if (accountGrouping == AccountGrouping.TYPE) activeFilter as? AccountType else null,
                 flag = if (accountGrouping == AccountGrouping.FLAG) activeFilter as? AccountFlag else null,
-                accountGrouping = if (activeFilter != null) accountGrouping else AccountGrouping.NONE,
-            )
+                grouping = aggregateTransactionGrouping,
+                accountGrouping = aggregateAccountGrouping,
+                sortBy = aggregateTransactionSort.column,
+                sortDirection = aggregateTransactionSort.sortDirection,
+                equivalentOpeningBalance = filtered.sumOf { it.equivalentOpeningBalance },
+                equivalentCurrentBalance = filtered.sumOf { it.equivalentCurrentBalance },
+                equivalentSumIncome = filtered.sumOf { it.equivalentSumIncome },
+                equivalentSumExpense = filtered.sumOf { it.equivalentSumExpense },
+                equivalentSumTransfer = filtered.sumOf { it.equivalentSumTransfer },
+                equivalentTotal = filtered.sumOf {
+                    it.equivalentTotal ?: it.equivalentCurrentBalance
+                },
+            ).let { aggregateAccount ->
+                if (aggregateAccountGrouping == AccountGrouping.CURRENCY) aggregateAccount.copy(
+                    openingBalance = filtered.sumOf { it.openingBalance },
+                    currentBalance = filtered.sumOf { it.currentBalance },
+                    sumIncome = filtered.sumOf { it.sumIncome },
+                    sumExpense = filtered.sumOf { it.sumExpense },
+                    sumTransfer = filtered.sumOf { it.sumTransfer },
+                    total = filtered.sumOf { it.total ?: it.currentBalance },
+                ) else aggregateAccount
+            }
         }
-    }.value
+    }
 
     val pagerState = rememberPagerState(pageCount = { accountList.size })
 
-    var selectedBalanceType by rememberSaveable { mutableStateOf(BalanceType.CURRENT) }
+    LaunchedEffect(accountList.size) {
+        if (pagerState.currentPage >= accountList.size) {
+            pagerState.scrollToPage(accountList.lastIndex)
+        }
+    }
 
     val currentAccount = remember(accountList) {
         derivedStateOf {
-            accountList[pagerState.settledPage]
+            accountList[pagerState.settledPage.coerceIn(0, accountList.lastIndex)]
         }
     }
+
+    var selectedBalanceType by rememberSaveable { mutableStateOf(BalanceType.CURRENT) }
 
     Scaffold(
         topBar = {
             TopAppBar(
                 navigationIcon = navigationIcon,
                 title = {
-                    if (currentAccount.value is FullAccount) {
-                        BalanceHeader(
-                            currentAccount = currentAccount.value as FullAccount,
-                            displayBalanceType = selectedBalanceType,
-                            onDisplayBalanceTypeChange = { newType ->
-                                selectedBalanceType = newType
-                                // You would also notify your ViewModel here:
-                                // onEvent(AppEvent.SetDisplayBalanceType(newType))
-                            }
-                        )
-                    } else {
-                        Text(currentAccount.value.labelV2(LocalContext.current))
-                    }
+                    BalanceHeader(
+                        currentAccount = currentAccount.value,
+                        displayBalanceType = selectedBalanceType,
+                        onDisplayBalanceTypeChange = { newType ->
+                            selectedBalanceType = newType
+                        }
+                    )
                 },
                 actions = {
-                    val menu = listOf(
+                    val menu = listOfNotNull(
                         MenuItem.Sort,
-                        MenuItem.Grouping,
+                        if (currentAccount.value.sortBy == KEY_DATE) MenuItem.Grouping else null,
                     )
                     menu.forEach {
                         when (it) {
-                            MenuItem.Sort -> TransactionSortMenu(currentAccount.value) { sortBy, sortDirection ->
-                                onEvent(AppEvent.SetTransactionSort(sortBy, sortDirection))
+                            MenuItem.Sort -> TransactionSortMenu(currentAccount.value) {
+                                onEvent(AppEvent.SetTransactionSort(it))
                             }
 
                             MenuItem.Grouping -> {
@@ -421,7 +459,9 @@ fun TransactionScreen(
                 }
                 HorizontalPager(
                     state = pagerState,
-                    key = { activeFilter to accountList[it].id },
+                    key = { pageIndex ->
+                        "${accountGrouping.name}_${activeFilter?.id}_${accountList[pageIndex].id}"
+                    },
                     verticalAlignment = Alignment.Top,
                     modifier = Modifier.fillMaxSize()
                 ) { page ->
@@ -430,9 +470,20 @@ fun TransactionScreen(
                     val pageAccount = remember(account) { account.toPageAccount(context = context) }
                     val lazyPagingItems =
                         viewModel.items.getValue(pageAccount).collectAsLazyPagingItems()
+
+                    val showStatusHandle =
+                        if (account.isAggregate || account.type?.supportsReconciliation == false)
+                            false
+                        else
+                            viewModel.showStatusHandle.flow.collectAsState(initial = true).value
+
+                    val onToggleCrStatus: ((Long) -> Unit)? = if (showStatusHandle) {
+                        { onEvent(AppEvent.ToggleCrStatus(it)) }
+                    } else null
+
                     TransactionList(
                         lazyPagingItems = lazyPagingItems,
-                        headerData = remember(account) { viewModel.headerData(pageAccount) }.collectAsState().value,
+                        headerData = remember(account) { viewModel.headerDataV2(pageAccount) }.collectAsState().value,
                         budgetData = rememberStaticState(null),
                         selectionHandler = null,
                         futureCriterion = viewModel.futureCriterion.collectAsState(initial = FutureCriterion.EndOfDay).value,
@@ -440,7 +491,10 @@ fun TransactionScreen(
                         onBudgetClick = { _, _ -> },
                         showSumDetails = viewModel.showSumDetails.collectAsState(initial = true).value,
                         scrollToCurrentDate = viewModel.scrollToCurrentDate.getValue(account.id),
-                        renderer = NewTransactionRenderer(LocalDateFormatter.current),
+                        renderer = NewTransactionRenderer(
+                            LocalDateFormatter.current,
+                            onToggleCrStatus = onToggleCrStatus
+                        ),
                         isFiltered = false
                     )
                 }
@@ -477,6 +531,11 @@ fun AccountsScreen(
                 navigationIcon = navigationIcon,
                 title = { Text("Accounts") },
                 actions = {
+
+                    TooltipIconButton(
+                        tooltip = stringResource(R.string.balance_sheet),
+                        imageVector = Icons.Default.TableChart
+                    ) { }
 
                     AccountGroupingMenu(
                         activeGrouping = accountGrouping,
@@ -659,29 +718,41 @@ class CollapsingTabRowState(
 }
 
 // You can place this in your model package or near the TransactionScreen
-enum class BalanceType(@param:StringRes val resourceId: Int) {
-    CURRENT(R.string.current_balance),
-    TOTAL(R.string.menu_aggregates),
-    CLEARED(R.string.total_cleared),
-    RECONCILED(R.string.total_reconciled)
+
+enum class BalanceType(
+    @param:StringRes val resourceId: Int,
+    val icon: ImageVector,
+) {
+    CURRENT(R.string.current_balance, Icons.Default.DragHandle),
+    TOTAL(R.string.menu_aggregates, Icons.Default.Functions),
+    CLEARED(R.string.total_cleared, Icons.Default.Check),
+    RECONCILED(R.string.total_reconciled, Icons.Default.DoneAll)
 }
 
 @Composable
 private fun BalanceHeader(
-    currentAccount: FullAccount,
-    // The balance type to display in the main title area
-    displayBalanceType: BalanceType,// A callback to change the primary display type
+    currentAccount: BaseAccount,
+    displayBalanceType: BalanceType,
     onDisplayBalanceTypeChange: (BalanceType) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var isSummaryPopupVisible by remember { mutableStateOf(false) }
+    var isSummaryPopupVisible by rememberSaveable { mutableStateOf(false) }
+
     val rotationAngle by animateFloatAsState(
         targetValue = if (isSummaryPopupVisible) 0F else 180F
     )
 
-    Box(modifier = modifier) {
+    val validatedBalanceType = displayBalanceType.takeIf {
+        when (displayBalanceType) {
+            BalanceType.CURRENT -> true
+            BalanceType.TOTAL -> (currentAccount.total ?: currentAccount.equivalentTotal) != null
+            BalanceType.CLEARED, BalanceType.RECONCILED -> currentAccount is FullAccount && currentAccount.type.supportsReconciliation
+        }
+    } ?: BalanceType.CURRENT
+
+    Box {
         Row(
-            modifier = Modifier.clickable {
+            modifier = modifier.clickable {
                 isSummaryPopupVisible = !isSummaryPopupVisible
             },
             verticalAlignment = Alignment.CenterVertically
@@ -693,17 +764,32 @@ private fun BalanceHeader(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
-                // Show the currently selected display balance
-                Text(
-                    text = getBalanceForType(
-                        currentAccount,
-                        displayBalanceType
-                    ).toString(), // Helper function
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    val iconTint = when (validatedBalanceType) {
+                        BalanceType.CLEARED -> colorResource(id = R.color.CLEARED)
+                        BalanceType.RECONCILED -> colorResource(id = R.color.RECONCILED)
+                        else -> colorResource(id = R.color.UNRECONCILED)
+                    }
+
+                    Icon(
+                        imageVector = validatedBalanceType.icon,
+                        contentDescription = stringResource(validatedBalanceType.resourceId),
+                        modifier = Modifier
+                            .padding(end = 8.dp)
+                            .size(18.dp),
+                        tint = iconTint
+                    )
+
+                    AmountText(
+                        getBalanceForType(
+                            currentAccount,
+                            validatedBalanceType
+                        ), currentAccount.currencyUnit,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 14.sp
+                    )
+                }
             }
-            // The icon now clearly signals that a summary overlay will open
             Icon(
                 modifier = Modifier.rotate(rotationAngle),
                 imageVector = Icons.Default.ExpandLess,
@@ -713,87 +799,54 @@ private fun BalanceHeader(
 
         // The Popup that shows the full summary
         if (isSummaryPopupVisible) {
-            val topAppBarHeight = TopAppBarDefaults.TopAppBarExpandedHeight
-            val offsetInPixels = with(LocalDensity.current) {
-                IntOffset(x = 0, y = topAppBarHeight.toPx().roundToInt())
-            }
+
             Popup(
-                offset = offsetInPixels,
-                alignment = Alignment.TopStart,
                 onDismissRequest = { isSummaryPopupVisible = false },
-                properties = PopupProperties(focusable = true)
+                properties = PopupProperties(focusable = true),
+                popupPositionProvider = object : PopupPositionProvider {
+                    override fun calculatePosition(
+                        anchorBounds: IntRect,
+                        windowSize: IntSize,
+                        layoutDirection: LayoutDirection,
+                        popupContentSize: IntSize,
+                    ): IntOffset {
+                        return anchorBounds.bottomLeft
+                    }
+                }
             ) {
-                Card(
-                    elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
-                ) {
-                    AccountSummaryV2(
-                        currentAccount,
-                        displayBalanceType,
-                        onDisplayBalanceTypeChange
-                    )
+                //overwrite TitleTypography
+                ProvideTextStyle(MaterialTheme.typography.bodyMedium) {
+                    Box(modifier = Modifier.padding(horizontal = 16.dp)) {
+                        Card(
+                            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+                        ) {
+                            AccountSummaryV2(
+                                currentAccount,
+                                displayBalanceType,
+                                onDisplayBalanceTypeChange
+                            )
+                        }
+                    }
                 }
             }
         }
     }
 }
 
+private fun getBalanceForType(account: BaseAccount, type: BalanceType): Long {
+    return when (account) {
+        is FullAccount -> when (type) {
+            BalanceType.CURRENT -> account.currentBalance
+            BalanceType.TOTAL -> account.total!!
+            BalanceType.CLEARED -> account.clearedTotal
+            BalanceType.RECONCILED -> account.reconciledTotal
+        }
 
-/**
- *                     Column(
- *                         modifier = Modifier
- *                             .padding(horizontal = 16.dp, vertical = 8.dp)
- *                             .widthIn(min = 280.dp),
- *                         verticalArrangement = Arrangement.spacedBy(4.dp)
- *                     ) {
- *                         // Header for the popup
- *                         Text("Balance Summary", style = MaterialTheme.typography.titleSmall, modifier = Modifier.padding(bottom = 4.dp))
- *                         // List all balances
- *                         BalanceType.entries.forEach { balanceType ->
- *                             val isSelected = balanceType == displayBalanceType
- *                             BalanceDetailRow(
- *                                 label = stringResource(balanceType.resourceId),
- *                                 balance = getBalanceForType(currentAccount, balanceType).toString(),
- *                                 // Highlight the currently selected display balance
- *                                 highlight = isSelected,
- *                                 // Clicking a row in the summary changes the main display
- *                                 onClick = {
- *                                     onDisplayBalanceTypeChange(balanceType)
- *                                     isSummaryPopupVisible = false
- *                                 }
- *                             )
- *                         }
- *                     }
- */
-
-// Helper composable for a single row in the summary popup
-@Composable
-private fun BalanceDetailRow(
-    label: String,
-    balance: String,
-    highlight: Boolean,
-    onClick: () -> Unit,
-) {
-    val fontWeight = if (highlight) FontWeight.Bold else FontWeight.Normal
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick)
-            .padding(vertical = 4.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Text(text = label, style = MaterialTheme.typography.bodyMedium, fontWeight = fontWeight)
-        Text(text = balance, style = MaterialTheme.typography.bodyMedium, fontWeight = fontWeight)
-    }
-}
-
-// Dummy helper function - you would replace this with real logic
-private fun getBalanceForType(account: FullAccount, type: BalanceType): Any? {
-    return when (type) {
-        BalanceType.CURRENT -> account.currentBalance
-        BalanceType.TOTAL -> account.total // Assuming this exists
-        BalanceType.CLEARED -> account.clearedTotal // Assuming this exists
-        BalanceType.RECONCILED -> account.reconciledTotal // Assuming this exists
+        is AggregateAccount -> when (type) {
+            BalanceType.CURRENT -> account.currentBalance ?: account.equivalentCurrentBalance
+            BalanceType.TOTAL -> account.total ?: account.equivalentTotal
+            else -> account.equivalentCurrentBalance
+        }
     }
 }
 

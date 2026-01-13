@@ -15,8 +15,9 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.SortDirection
+import org.totschnig.myexpenses.model.sort.SortDirection
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_BANK_ID
@@ -55,6 +56,7 @@ import org.totschnig.myexpenses.provider.KEY_SUM_TRANSFERS
 import org.totschnig.myexpenses.provider.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.KEY_TOTAL
 import org.totschnig.myexpenses.provider.KEY_UUID
+import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getDouble
 import org.totschnig.myexpenses.provider.getDoubleOrNull
@@ -69,13 +71,15 @@ import java.time.LocalDate
 import kotlin.math.roundToLong
 import kotlin.math.sign
 
-abstract class BaseAccount : DataBaseAccount() {
+sealed class BaseAccount : DataBaseAccount() {
     abstract val currencyUnit: CurrencyUnit
     abstract val label: String
     abstract val type: AccountType?
     abstract val flag: AccountFlag?
     abstract fun toPageAccount(context: Context): PageAccount
     abstract fun color(resources: Resources): Int
+    abstract val total: Long?
+    abstract val equivalentTotal: Long?
     open fun labelV2(context: Context) = label
     fun aggregateColor(resources: Resources) = ResourcesCompat.getColor(resources, R.color.colorAggregate, null)
 }
@@ -85,24 +89,24 @@ data class AggregateAccount(
     override val currencyUnit: CurrencyUnit,
     override val type: AccountType?,
     override val flag: AccountFlag?,
-    val openingBalance: Long = 0,
-    val currentBalance: Long = 0,
-    val sumIncome: Long = 0,
-    val sumExpense: Long = 0,
-    val sumTransfer: Long = 0L,
-    val equivalentOpeningBalance: Long = openingBalance,
-    val equivalentCurrentBalance: Long = currentBalance,
-    val equivalentSumIncome: Long = sumIncome,
-    val equivalentSumExpense: Long = sumExpense,
-    val equivalentSumTransfer: Long = sumTransfer,
+    val openingBalance: Long? = null,
+    val currentBalance: Long? = null,
+    val sumIncome: Long? = null,
+    val sumExpense: Long? = null,
+    val sumTransfer: Long? = null,
+    val equivalentOpeningBalance: Long = openingBalance ?: 0,
+    val equivalentCurrentBalance: Long = currentBalance ?: 0,
+    val equivalentSumIncome: Long = sumIncome ?: 0,
+    val equivalentSumExpense: Long = sumExpense ?: 0,
+    val equivalentSumTransfer: Long = sumTransfer ?: 0,
     override val grouping: Grouping = Grouping.NONE,
     override val sortBy: String = KEY_DATE,
     override val sortDirection: SortDirection = SortDirection.DESC,
     val reconciledTotal: Long = 0L,
     val clearedTotal: Long = 0L,
     val hasCleared: Boolean = false,
-    val total: Long? = null,
-    val equivalentTotal: Long? = null,
+    override val total: Long? = null,
+    override val equivalentTotal: Long = total ?: 0,
     val accountGrouping: AccountGrouping<*>
 ): BaseAccount() {
     override val id: Long = 0
@@ -135,8 +139,8 @@ data class AggregateAccount(
             grouping = grouping,
             currencyUnit = currencyUnit,
             sealed = false,
-            openingBalance = openingBalance,
-            currentBalance = currentBalance,
+            openingBalance = openingBalance ?: equivalentOpeningBalance,
+            currentBalance = currentBalance ?: equivalentCurrentBalance,
             color = color(context.resources),
             label = labelV2(context),
             accountGrouping = accountGrouping
@@ -172,8 +176,8 @@ data class FullAccount(
     val hasCleared: Boolean = false,
     val uuid: String? = null,
     val criterion: Long? = 0,
-    val total: Long? = null,
-    val equivalentTotal: Long? = null,
+    override val total: Long? = null,
+    override val equivalentTotal: Long? = null,
     val excludeFromTotals: Boolean = false,
     val lastUsed: Long = 0L,
     val bankId: Long? = null,
@@ -311,4 +315,16 @@ data class PageAccount(
         shortenComment = true,
         extended = extended
     )
+
+    fun groupingQueryV2(filter: Criterion?): Triple<Uri.Builder, String?, Array<String>?> {
+        val selection = filter?.getSelectionForParts()
+        val args = filter?.getSelectionArgs(true)
+        return Triple(
+            BaseTransactionProvider.groupingUriBuilder(grouping).apply {
+                appendQueryParameter(id, currency, type?.id, flag?.id, accountGrouping)
+            },
+            selection,
+            args
+        )
+    }
 }

@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.model
+package org.totschnig.myexpenses.model.sort
 
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.provider.KEY_SORT_KEY
 import org.totschnig.myexpenses.provider.KEY_TITLE
 import org.totschnig.myexpenses.provider.KEY_USAGES
 import org.totschnig.myexpenses.util.enumValueOrNull
+import java.lang.IllegalArgumentException
 
 enum class Sort(val commandId: Int, val isDescending: Boolean = true) {
     USAGES(R.id.SORT_USAGES_COMMAND),
@@ -31,7 +32,7 @@ enum class Sort(val commandId: Int, val isDescending: Boolean = true) {
     private fun toDatabaseColumn(collate: String) = when (this) {
         USAGES -> KEY_USAGES
         LAST_USED -> KEY_LAST_USED
-        AMOUNT -> "abs($KEY_AMOUNT)"
+        AMOUNT -> "abs(${KEY_AMOUNT})"
         TITLE -> "$KEY_TITLE COLLATE $collate"
         LABEL -> "$KEY_LABEL COLLATE $collate"
         ACCOUNT -> "$KEY_ACCOUNT_LABEL COLLATE $collate"
@@ -109,7 +110,7 @@ enum class Sort(val commandId: Int, val isDescending: Boolean = true) {
             collate: String,
             tableName: String? = null
         ): String? {
-            if (!restrictedSet.contains(defaultSort)) throw java.lang.IllegalArgumentException(
+            if (!restrictedSet.contains(defaultSort)) throw IllegalArgumentException(
                 "%s is not part of %s".format(defaultSort, restrictedSet)
             )
             val configuredOrDefault = enumValueOrNull<Sort>(

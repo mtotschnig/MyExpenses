@@ -70,8 +70,8 @@ import org.totschnig.myexpenses.db2.getCurrencyForAccount
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.Sort
-import org.totschnig.myexpenses.model.Sort.Companion.preferredOrderByForTemplatesWithPlans
+import org.totschnig.myexpenses.model.sort.Sort
+import org.totschnig.myexpenses.model.sort.Sort.Companion.preferredOrderByForTemplatesWithPlans
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.KEY_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.KEY_AMOUNT

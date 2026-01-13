@@ -15,8 +15,8 @@ import android.widget.RemoteViewsService
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Sort
-import org.totschnig.myexpenses.model.Sort.Companion.preferredOrderByForTemplates
+import org.totschnig.myexpenses.model.sort.Sort
+import org.totschnig.myexpenses.model.sort.Sort.Companion.preferredOrderByForTemplates
 import org.totschnig.myexpenses.provider.KEY_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_COLOR

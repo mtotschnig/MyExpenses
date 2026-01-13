@@ -46,7 +46,7 @@ import org.totschnig.myexpenses.compose.CheckBoxWithLabel
 import org.totschnig.myexpenses.compose.scrollbar.ColumnWithScrollbar
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountGrouping
-import org.totschnig.myexpenses.model.Sort
+import org.totschnig.myexpenses.model.sort.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.KEY_SORT_KEY
