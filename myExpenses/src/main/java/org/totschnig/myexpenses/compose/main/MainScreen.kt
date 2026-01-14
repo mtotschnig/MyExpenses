@@ -141,7 +141,7 @@ sealed class AppEvent {
     data class EditAccount(val account: FullAccount) : AppEvent()
     object CreateAccount : AppEvent()
     data class DeleteAccount(val account: FullAccount) : AppEvent()
-    data class SetFlag(val accountId: Long, val flagId: Long?) : AppEvent()
+    data class SetFlag(val accountId: Long, val flagId: Long) : AppEvent()
     data class ToggleSealed(val account: FullAccount) : AppEvent()
     data class ToggleExcludeFromTotals(val account: FullAccount) : AppEvent()
     data class ToggleDynamicExchangeRate(val account: FullAccount) : AppEvent()

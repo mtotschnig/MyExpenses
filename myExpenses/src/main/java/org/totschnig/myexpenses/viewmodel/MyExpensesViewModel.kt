@@ -609,7 +609,7 @@ open class MyExpensesViewModel(
         setAccountProperty(accountId, KEY_DYNAMIC, dynamicExchangeRate)
     }
 
-    fun setFlag(accountId: Long, flagId: Long?) {
+    fun setFlag(accountId: Long, flagId: Long) {
         setAccountProperty(accountId, KEY_FLAG, flagId)
     }
 

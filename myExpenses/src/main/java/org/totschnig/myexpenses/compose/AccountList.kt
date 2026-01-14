@@ -99,7 +99,7 @@ fun AccountList(
     onSelected: (Long) -> Unit = {},
     onEdit: (FullAccount) -> Unit = {},
     onDelete: (FullAccount) -> Unit = {},
-    onSetFlag: (Long, Long?) -> Unit = { _, _ -> },
+    onSetFlag: (Long, Long) -> Unit = { _, _ -> },
     onToggleSealed: (FullAccount) -> Unit = {},
     onToggleExcludeFromTotals: (FullAccount) -> Unit = {},
     onToggleDynamicExchangeRate: ((FullAccount) -> Unit)? = null,
@@ -402,7 +402,7 @@ fun AccountCard(
     onSelected: () -> Unit = {},
     onEdit: (FullAccount) -> Unit = {},
     onDelete: (FullAccount) -> Unit = {},
-    onSetFlag: (Long, Long?) -> Unit = { _, _ -> },
+    onSetFlag: (Long, Long) -> Unit = { _, _ -> },
     onToggleSealed: (FullAccount) -> Unit = {},
     onToggleExcludeFromTotals: (FullAccount) -> Unit = {},
     onToggleDynamicExchangeRate: ((FullAccount) -> Unit)? = null,
@@ -896,7 +896,7 @@ private fun accountMenu(
                                 onEvent(
                                     AppEvent.SetFlag(
                                         account.id,
-                                        if (isChecked) null else it.id
+                                        if (isChecked) DEFAULT_FLAG_ID else it.id
                                     )
                                 )
                             }
