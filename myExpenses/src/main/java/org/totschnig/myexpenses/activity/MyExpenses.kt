@@ -24,7 +24,14 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.add
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
@@ -641,12 +648,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                         exportViewModel.resultProcessed()
                     }
                 }
-            }
-        }
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.pdfResult.collectPrintResult()
             }
         }
 
@@ -1514,7 +1515,8 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                     isFiltered = filter.value != null,
                     splitInfoResolver = {
                         viewModel.splitInfo(it)
-                    }
+                    },
+                    windowInsets = WindowInsets.navigationBars.add(WindowInsets.displayCutout)
                 )
             }
         }
@@ -1993,7 +1995,15 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
             AppTheme {
                 val data =
                     viewModel.accountsForBalanceSheet.collectAsState(LocalDate.now() to emptyList()).value
+                val paddingValues =
+                    WindowInsets.navigationBars
+                        .add(WindowInsets.displayCutout)
+                        .only(WindowInsetsSides.End)
+                        .asPaddingValues()
                 BalanceSheetView(
+                    modifier = Modifier
+                        .background(MaterialTheme.colorScheme.background)
+                        .padding(paddingValues),
                     data.second,
                     viewModel.debtSum.collectAsState(0).value,
                     data.first,
@@ -2020,17 +2030,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                     onSetDate = {
                         viewModel.setBalanceDate(it)
                     },
-                    onPrint = {
-                        AppDirHelper.checkAppDir(this)
-                            .onSuccess {
-                                contribFeatureRequested(
-                                    ContribFeature.PRINT,
-                                    ExportViewModel.PRINT_BALANCE_SHEET
-                                )
-                            }.onFailure {
-                                showDismissibleSnackBar(it.safeMessage)
-                            }
-                    },
+                    onPrint = ::printBalanceSheet,
                     showHiddenState = viewModel.balanceSheetShowHidden.asState(),
                     showZeroState = viewModel.balanceSheetShowZero.asState(),
                     showChartState = viewModel.balanceSheetShowChart.asState(),

@@ -439,7 +439,7 @@ open class MyExpensesViewModel(
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val accountsForBalanceSheet: Flow<Pair<LocalDate, List<BalanceAccount>>> =
+    val accountsForBalanceSheet: StateFlow<Pair<LocalDate, List<BalanceAccount>>> =
         balanceDate.flatMapLatest { date ->
             contentResolver.observeQuery(
                 balanceUri(if (date == LocalDate.now()) "now" else date.toString(), true),
@@ -452,7 +452,7 @@ open class MyExpensesViewModel(
         }.stateIn(viewModelScope, SharingStarted.Lazily, LocalDate.now() to emptyList())
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val debtSum: Flow<Long> = balanceDate.flatMapLatest { date ->
+    val debtSum: StateFlow<Long> = balanceDate.flatMapLatest { date ->
         loadDebts(
             date = date,
             showSealed = true,

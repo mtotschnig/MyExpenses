@@ -6,18 +6,15 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.offset
-import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSizeIn
 import androidx.compose.foundation.lazy.LazyColumn
@@ -29,7 +26,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Print
-import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -53,6 +50,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalResources
@@ -61,6 +59,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
@@ -72,14 +71,16 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AmountText
 import org.totschnig.myexpenses.compose.CheckableMenuEntry
 import org.totschnig.myexpenses.compose.ColoredAmountText
-import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.LocalDateFormatter
 import org.totschnig.myexpenses.compose.LocalHomeCurrency
 import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.PieChartCompose
+import org.totschnig.myexpenses.compose.TooltipIconButton
+import org.totschnig.myexpenses.compose.TooltipIconMenu
 import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.compose.filter.ActionButton
+import org.totschnig.myexpenses.compose.optional
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.epochMillis2LocalDate
@@ -94,9 +95,59 @@ import kotlin.math.abs
 import kotlin.math.absoluteValue
 import kotlin.math.roundToLong
 
+@Composable
+fun BalanceSheetOptions(
+    showHiddenState: MutableState<Boolean>?,
+    showZeroState: MutableState<Boolean>?,
+    showChartState: MutableState<Boolean>,
+    highlight: MutableState<Triple<Boolean, Int, Long?>?>,
+    onPrint: () -> Unit,
+) {
+    TooltipIconButton(
+        tooltip = stringResource(R.string.menu_print),
+        imageVector = Icons.Filled.Print,
+        onClick = onPrint
+    )
+    TooltipIconMenu(
+        tooltip = "Options",
+        imageVector = Icons.Filled.Tune,
+        menu = Menu(
+            listOfNotNull(
+                showHiddenState?.let {
+                    CheckableMenuEntry(
+                        label = R.string.show_invisible,
+                        command = "TOGGLE_SHOW_INVISIBLE",
+                        it.value
+                    ) {
+                        showHiddenState.value = !showHiddenState.value
+                    }
+                },
+                showZeroState?.let {
+                    CheckableMenuEntry(
+                        label = R.string.show_zero,
+                        command = "TOGGLE_SHOW_ZERO",
+                        it.value
+                    ) {
+                        showZeroState.value= !showZeroState.value
+                    }
+                },
+                CheckableMenuEntry(
+                    label = R.string.menu_chart,
+                    command = "TOGGLE_CHART_BALANCE",
+                    showChartState.value
+                ) {
+                    showChartState.value = !showChartState.value
+                    highlight.value = null
+                }
+            )
+        )
+    )
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BalanceSheetView(
+    modifier: Modifier = Modifier,
     accounts: List<BalanceAccount>,
     debtSum: Long = 0L,
     date: LocalDate = LocalDate.now(),
@@ -106,31 +157,10 @@ fun BalanceSheetView(
     onPrint: () -> Unit = {},
     showHiddenState: MutableState<Boolean>,
     showZeroState: MutableState<Boolean>,
-    showChartState: MutableState<Boolean>
+    showChartState: MutableState<Boolean>,
 ) {
 
-    var showHidden by showHiddenState
-    var showZero by showZeroState
-    var showChart by showChartState
-
-    val datePickerState = rememberDatePickerState(
-        initialSelectedDateMillis = System.currentTimeMillis()
-    )
-
-    var showDatePicker by rememberSaveable { mutableStateOf(false) }
-
-    val horizontalPadding = dimensionResource(R.dimen.padding_main_screen)
-
-    val paddingValues =
-        WindowInsets.navigationBars
-            .add(WindowInsets.displayCutout)
-            .only(WindowInsetsSides.End)
-            .asPaddingValues()
-    Column(
-        Modifier
-            .background(MaterialTheme.colorScheme.background)
-            .padding(paddingValues)
-    ) {
+    Column(modifier) {
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
         //Triple of asset or liability, position in section, index of account or null for Debts
         val highlight = remember { mutableStateOf<Triple<Boolean, Int, Long?>?>(null) }
@@ -149,240 +179,243 @@ fun BalanceSheetView(
             },
             scrollBehavior = scrollBehavior,
             actions = {
-                val expanded = rememberSaveable { mutableStateOf(false) }
-                IconButton(onClick = { expanded.value = true }) {
-                    Icon(
-                        Icons.Filled.Settings,
-                        contentDescription = "Options"
-                    )
-                }
-                HierarchicalMenu(
-                    expanded, Menu(
-                        listOfNotNull(
-                            if (accounts.any { !it.isVisible })
-                                CheckableMenuEntry(
-                                    label = R.string.show_invisible,
-                                    command = "TOGGLE_SHOW_INVISIBLE",
-                                    showHidden
-                                ) {
-                                    showHidden = !showHidden
-                                } else null,
-                            if (accounts.any { it.currentBalance == 0L })
-                                CheckableMenuEntry(
-                                    label = R.string.show_zero,
-                                    command = "TOGGLE_SHOW_ZERO",
-                                    showZero
-                                ) {
-                                    showZero = !showZero
-                                } else null,
-                            CheckableMenuEntry(
-                                label = R.string.menu_chart,
-                                command = "TOGGLE_CHART_BALANCE",
-                                showChart
-                            ) {
-                                showChart = !showChart
-                                highlight.value = null
-                            },
-                            MenuEntry(
-                                label = R.string.menu_print,
-                                icon = Icons.Filled.Print,
-                                command = "PRINT_BALANCE"
-                            ) {
-                                onPrint()
-                            }
-                        )))
+                BalanceSheetOptions(
+                    showHiddenState.takeIf { accounts.any { !it.isVisible } },
+                    showZeroState.takeIf { accounts.any { it.currentBalance == 0L } },
+                    showChartState,
+                    highlight,
+                    onPrint
+                )
             },
             colors = TopAppBarDefaults.topAppBarColors()
         )
 
-        Text(
-            modifier = Modifier
-                .padding(end = horizontalPadding)
-                .clickable {
-                    datePickerState.selectedDateMillis = date.toEpoch() * 1000
-                    showDatePicker = true
-                }
-                .align(Alignment.End),
-            text = LocalDateFormatter.current.format(date),
-            textDecoration = TextDecoration.Underline
+        BalanceSheetViewInner(
+            accounts = accounts,
+            debtSum = debtSum,
+            date = date,
+            onSetDate = onSetDate,
+            showChart = showChartState.value,
+            highlight = highlight,
+            nestedScrollConnection = scrollBehavior.nestedScrollConnection,
+            showHidden = showHiddenState.value,
+            showZero = showZeroState.value,
+            onNavigate = onNavigate,
+            bottomPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
         )
-        if (showDatePicker) {
-            Popup(
-                properties = PopupProperties(focusable = true),
-                onDismissRequest = {
-                    showDatePicker = false
-                }
-            ) {
+    }
+}
 
-                BoxWithConstraints(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .offset(y = 64.dp)
-                        .shadow(elevation = 4.dp)
-                        .background(MaterialTheme.colorScheme.surface)
-                        .padding(16.dp)
-                ) {
-                    val maxWidth = this.maxWidth
-                    val isNarrow = maxWidth < 360.dp
-                    if (isNarrow && datePickerState.displayMode == DisplayMode.Picker) {
-                        Box(
-                            modifier = Modifier.requiredSizeIn(
-                                minWidth = 360.dp,
-                                minHeight = 568.dp
-                            )
-                        ) {
-                            DatePicker(
-                                modifier = Modifier.scale(maxWidth / 360.dp),
-                                state = datePickerState
-                            )
-                        }
-                    } else {
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ColumnScope.BalanceSheetViewInner(
+    accounts: List<BalanceAccount>,
+    debtSum: Long,
+    date: LocalDate,
+    onSetDate: (LocalDate) -> Unit,
+    showChart: Boolean,
+    highlight: MutableState<Triple<Boolean, Int, Long?>?>,
+    nestedScrollConnection: NestedScrollConnection? = null,
+    showHidden: Boolean,
+    showZero: Boolean,
+    onNavigate: (BalanceAccount) -> Unit,
+    bottomPadding: Dp,
+) {
+
+    val horizontalPadding = dimensionResource(R.dimen.padding_main_screen)
+    val datePickerState = rememberDatePickerState(
+        initialSelectedDateMillis = System.currentTimeMillis()
+    )
+    var showDatePicker by rememberSaveable { mutableStateOf(false) }
+
+    Text(
+        modifier = Modifier
+            .padding(end = horizontalPadding)
+            .clickable {
+                datePickerState.selectedDateMillis = date.toEpoch() * 1000
+                showDatePicker = true
+            }
+            .align(Alignment.End),
+        text = LocalDateFormatter.current.format(date),
+        textDecoration = TextDecoration.Underline
+    )
+    if (showDatePicker) {
+        Popup(
+            properties = PopupProperties(focusable = true),
+            onDismissRequest = {
+                showDatePicker = false
+            }
+        ) {
+
+            BoxWithConstraints(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .offset(y = 64.dp)
+                    .shadow(elevation = 4.dp)
+                    .background(MaterialTheme.colorScheme.surface)
+                    .padding(16.dp)
+            ) {
+                val maxWidth = this.maxWidth
+                val isNarrow = maxWidth < 360.dp
+                if (isNarrow && datePickerState.displayMode == DisplayMode.Picker) {
+                    Box(
+                        modifier = Modifier.requiredSizeIn(
+                            minWidth = 360.dp,
+                            minHeight = 568.dp
+                        )
+                    ) {
                         DatePicker(
-                            modifier = Modifier.verticalScroll(rememberScrollState()),
+                            modifier = Modifier.scale(maxWidth / 360.dp),
                             state = datePickerState
                         )
                     }
-                    ActionButton(
-                        modifier = Modifier.align(Alignment.TopEnd),
-                        hintText = stringResource(R.string.confirm),
-                        icon = Icons.Filled.Done
-                    ) {
-                        showDatePicker = false
-                        datePickerState.selectedDateMillis?.let {
-                            onSetDate(epochMillis2LocalDate(it))
-                        }
+                } else {
+                    DatePicker(
+                        modifier = Modifier.verticalScroll(rememberScrollState()),
+                        state = datePickerState
+                    )
+                }
+                ActionButton(
+                    modifier = Modifier.align(Alignment.TopEnd),
+                    hintText = stringResource(R.string.confirm),
+                    icon = Icons.Filled.Done
+                ) {
+                    showDatePicker = false
+                    datePickerState.selectedDateMillis?.let {
+                        onSetDate(epochMillis2LocalDate(it))
                     }
                 }
             }
         }
+    }
 
-        val (assets, totalAssets, liabilities, totalLiabilities) = accounts.partitionByAccountType()
+    val (assets, totalAssets, liabilities, totalLiabilities) = accounts.partitionByAccountType()
 
-        val assetsWithDebts = totalAssets + (debtSum.takeIf { it > 0L } ?: 0L)
-        val liabilitiesWithDebts = totalLiabilities + (debtSum.takeIf { it < 0L } ?: 0L)
-        val ratio = if (assetsWithDebts > 0L && liabilitiesWithDebts < 0L)
-            assetsWithDebts.toFloat() / -liabilitiesWithDebts else 1f
-        val angles = if (ratio > 1f) 360f to 360f / ratio else
-            360f * ratio to 360f
-        LayoutHelper(
-            showChart = showChart,
-            chart = { modifier ->
-                Box(
-                    modifier = modifier
-                        .fillMaxWidth()
-                ) {
-                    RenderChart(
-                        modifier = Modifier
-                            .fillMaxSize(0.95f)
-                            .align(Alignment.Center),
-                        inner = false,
-                        accounts = assets.flatMap { it.accounts },
-                        debts = debtSum.takeIf { it > 0 },
-                        highlight = highlight,
-                        angle = angles.first,
-                    )
-                    RenderChart(
-                        modifier = Modifier
-                            .fillMaxSize(0.75f)
-                            .align(Alignment.Center),
-                        inner = true,
-                        accounts = liabilities.flatMap { it.accounts },
-                        debts = debtSum.takeIf { it < 0 },
-                        highlight = highlight,
-                        angle = angles.second,
-                    )
+    val assetsWithDebts = totalAssets + (debtSum.takeIf { it > 0L } ?: 0L)
+    val liabilitiesWithDebts = totalLiabilities + (debtSum.takeIf { it < 0L } ?: 0L)
+    val ratio = if (assetsWithDebts > 0L && liabilitiesWithDebts < 0L)
+        assetsWithDebts.toFloat() / -liabilitiesWithDebts else 1f
+    val angles = if (ratio > 1f) 360f to 360f / ratio else
+        360f * ratio to 360f
+    LayoutHelper(
+        showChart = showChart,
+        chart = { modifier ->
+            Box(
+                modifier = modifier
+                    .fillMaxWidth()
+            ) {
+                RenderChart(
+                    modifier = Modifier
+                        .fillMaxSize(0.95f)
+                        .align(Alignment.Center),
+                    inner = false,
+                    accounts = assets.flatMap { it.accounts },
+                    debts = debtSum.takeIf { it > 0 },
+                    highlight = highlight,
+                    angle = angles.first,
+                )
+                RenderChart(
+                    modifier = Modifier
+                        .fillMaxSize(0.75f)
+                        .align(Alignment.Center),
+                    inner = true,
+                    accounts = liabilities.flatMap { it.accounts },
+                    debts = debtSum.takeIf { it < 0 },
+                    highlight = highlight,
+                    angle = angles.second,
+                )
+            }
+        },
+        data = { modifier ->
+
+            val listState = rememberLazyListState()
+            fun lookup(id: Long?): Int {
+                var totalIndex = 0// Assets
+                assets.forEach { section ->
+                    totalIndex++ // section header
+                    section.accounts.forEach {
+                        totalIndex++ //item
+                        if (it.id == id) {
+                            return totalIndex
+                        }
+                    }
                 }
-            },
-            data = { modifier ->
-
-                val listState = rememberLazyListState()
-                fun lookup(id: Long?): Int {
-                    var totalIndex = 0// Assets
-                    assets.forEach { section ->
-                        totalIndex++ // section header
-                        section.accounts.forEach {
-                            totalIndex++ //item
-                            if (it.id == id) {
-                                return totalIndex
-                            }
+                totalIndex += 2 //Divider / Liabilities
+                liabilities.forEach { section ->
+                    totalIndex++ // section header
+                    section.accounts.forEach {
+                        totalIndex++ //item
+                        if (it.id == id) {
+                            return totalIndex
                         }
                     }
-                    totalIndex += 2 //Divider / Liabilities
-                    liabilities.forEach { section ->
-                        totalIndex++ // section header
-                        section.accounts.forEach {
-                            totalIndex++ //item
-                            if (it.id == id) {
-                                return totalIndex
-                            }
-                        }
-                    }
-                    totalIndex += 2 //Divider / Debts
-                    return totalIndex
                 }
-                LazyColumn(
-                    modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-                    contentPadding = PaddingValues(
-                        start = horizontalPadding,
-                        end = horizontalPadding,
-                        bottom = WindowInsets.navigationBars.asPaddingValues()
-                            .calculateBottomPadding()
-                    ),
-                    state = listState
-                ) {
+                totalIndex += 2 //Divider / Debts
+                return totalIndex
+            }
+            LazyColumn(
+                modifier = modifier.optional(nestedScrollConnection) {
+                    nestedScroll(it)
+                },
+                contentPadding = PaddingValues(
+                    start = horizontalPadding,
+                    end = horizontalPadding,
+                    bottom = bottomPadding
+                ),
+                state = listState
+            ) {
 
-                    accountTypeChapter(
-                        title = R.string.balance_sheet_section_assets,
-                        total = totalAssets,
-                        sections = assets,
-                        showHidden = showHidden,
-                        showZero = showZero,
-                        highlight = highlight.value?.third,
-                        onNavigate = onNavigate
-                    )
-                    accountTypeChapter(
-                        title = R.string.balance_sheet_section_liabilities,
-                        total = totalLiabilities,
-                        sections = liabilities,
-                        showHidden = showHidden,
-                        showZero = showZero,
-                        highlight = highlight.value?.third,
-                        onNavigate = onNavigate
-                    )
+                accountTypeChapter(
+                    title = R.string.balance_sheet_section_assets,
+                    total = totalAssets,
+                    sections = assets,
+                    showHidden = showHidden,
+                    showZero = showZero,
+                    highlight = highlight.value?.third,
+                    onNavigate = onNavigate
+                )
+                accountTypeChapter(
+                    title = R.string.balance_sheet_section_liabilities,
+                    total = totalLiabilities,
+                    sections = liabilities,
+                    showHidden = showHidden,
+                    showZero = showZero,
+                    highlight = highlight.value?.third,
+                    onNavigate = onNavigate
+                )
 
-                    if (debtSum != 0L) {
-                        item {
-                            BalanceSheetSectionHeaderView(
-                                name = stringResource(R.string.debts),
-                                total = debtSum,
-                                highlight = highlight.value != null && highlight.value?.third == null,
-                                absolute = false
-                            )
-                        }
-                        item {
-                            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
-                        }
-                    }
-
+                if (debtSum != 0L) {
                     item {
                         BalanceSheetSectionHeaderView(
-                            name = stringResource(R.string.balance_sheet_net_worth),
-                            total = totalAssets + totalLiabilities + debtSum,
+                            name = stringResource(R.string.debts),
+                            total = debtSum,
+                            highlight = highlight.value != null && highlight.value?.third == null,
                             absolute = false
                         )
                     }
-                }
-                LaunchedEffect(highlight.value) {
-                    highlight.value?.let {
-                        lookup(it.third)
-                    }?.let {
-                        Timber.d("Scrolling to $it")
-                        listState.animateScrollToItem(it)
+                    item {
+                        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
                     }
                 }
+
+                item {
+                    BalanceSheetSectionHeaderView(
+                        name = stringResource(R.string.balance_sheet_net_worth),
+                        total = totalAssets + totalLiabilities + debtSum,
+                        absolute = false
+                    )
+                }
             }
-        )
-    }
+            LaunchedEffect(highlight.value) {
+                highlight.value?.let {
+                    lookup(it.third)
+                }?.let {
+                    Timber.d("Scrolling to $it")
+                    listState.animateScrollToItem(it)
+                }
+            }
+        }
+    )
 }
 
 fun LazyListScope.accountTypeChapter(
@@ -598,7 +631,7 @@ fun LayoutHelper(
 @Composable
 fun BalanceSheet() {
     BalanceSheetView(
-        listOf(
+        accounts = listOf(
             BalanceAccount(
                 label = "Checking Account",
                 type = AccountType.CASH,

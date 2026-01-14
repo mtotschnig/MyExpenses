@@ -1,8 +1,11 @@
 package org.totschnig.myexpenses.activity
 
 import android.content.Intent
+import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
@@ -16,15 +19,27 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.provider.CheckSealedHandler
 import org.totschnig.myexpenses.provider.KEY_COLOR
 import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.AccountSealedException
+import org.totschnig.myexpenses.viewmodel.ExportViewModel
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
+import java.io.Serializable
 
 abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
 
     lateinit var viewModel: T
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.pdfResult.collectPrintResult()
+            }
+        }
+    }
 
     protected fun editAccount(account: FullAccount) {
         startActivity(Intent(this, AccountEdit::class.java).apply {
@@ -85,6 +100,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
                     }
                 }
             }
+
             else -> return false
         }
         return true
@@ -189,5 +205,32 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
             resIds.add(R.string.object_sealed_debt)
         }
         showSnackBar(TextUtils.concatResStrings(this, *resIds.toIntArray()))
+    }
+
+    fun printBalanceSheet() {
+        AppDirHelper.checkAppDir(this)
+            .onSuccess {
+                contribFeatureRequested(
+                    ContribFeature.PRINT,
+                    ExportViewModel.PRINT_BALANCE_SHEET
+                )
+            }.onFailure {
+                showDismissibleSnackBar(it.safeMessage)
+            }
+    }
+
+    override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
+        when (feature) {
+            ContribFeature.PRINT -> {
+                showProgressSnackBar(
+                    getString(R.string.progress_dialog_printing, "PDF")
+                )
+                if (tag == ExportViewModel.PRINT_BALANCE_SHEET) {
+                    viewModel.printBalanceSheet()
+                }
+            }
+            else -> super.contribFeatureCalled(feature, tag)
+        }
+
     }
 }

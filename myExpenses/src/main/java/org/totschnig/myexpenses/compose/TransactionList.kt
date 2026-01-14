@@ -153,6 +153,7 @@ fun TransactionList(
     scrollToCurrentDate: MutableState<Boolean>,
     renderer: ItemRenderer,
     isFiltered: Boolean,
+    windowInsets: WindowInsets = WindowInsets(),
     splitInfoResolver: suspend (Long) -> List<Pair<String , String?>>? = { null }
 ) {
     val listState = rememberLazyListState()
@@ -228,8 +229,7 @@ fun TransactionList(
                 modifier = modifier.nestedScroll(nestedScrollInterop),
                 state = listState,
                 fastScroll = true,
-                contentPadding = WindowInsets.navigationBars
-                    .add(WindowInsets.displayCutout)
+                contentPadding = windowInsets
                     .add(WindowInsets(bottom = dimensionResource(R.dimen.fab_related_bottom_padding)))
                     .asPaddingValues(),
                 itemsAvailable = lazyPagingItems.itemCount,

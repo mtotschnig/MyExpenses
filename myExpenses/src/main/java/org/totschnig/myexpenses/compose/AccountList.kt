@@ -202,7 +202,7 @@ fun AccountListV2(
         testTag = TEST_TAG_ACCOUNTS,
         contentPadding = PaddingValues(
             top = scaffoldPadding.calculateTopPadding(),
-            bottom = scaffoldPadding.calculateBottomPadding()
+            bottom = scaffoldPadding.calculateBottomPadding() + dimensionResource(R.dimen.fab_related_bottom_padding)
         )
     ) {
         sortedGroupKeys.forEach { groupKey ->

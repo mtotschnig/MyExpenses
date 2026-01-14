@@ -8,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -17,6 +18,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ReceiptLong
 import androidx.compose.material.icons.filled.AccountBalance
@@ -28,15 +30,19 @@ import androidx.compose.material.icons.filled.DragHandle
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.Functions
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.TableChart
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Scaffold
@@ -45,10 +51,13 @@ import androidx.compose.material3.ShortNavigationBar
 import androidx.compose.material3.ShortNavigationBarItem
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -71,9 +80,11 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
@@ -96,6 +107,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.BalanceSheetOptions
+import org.totschnig.myexpenses.activity.BalanceSheetViewInner
 import org.totschnig.myexpenses.compose.AccountListV2
 import org.totschnig.myexpenses.compose.AccountSummaryV2
 import org.totschnig.myexpenses.compose.AmountText
@@ -106,7 +119,6 @@ import org.totschnig.myexpenses.compose.LocalDateFormatter
 import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.NewTransactionRenderer
-import org.totschnig.myexpenses.compose.TooltipIconButton
 import org.totschnig.myexpenses.compose.TransactionList
 import org.totschnig.myexpenses.compose.UiText
 import org.totschnig.myexpenses.compose.rememberStaticState
@@ -125,6 +137,8 @@ import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
+import timber.log.Timber
+import java.time.LocalDate
 
 sealed class Screen(
     val route: String,
@@ -155,6 +169,7 @@ sealed class AppEvent {
     data class SetTransactionGrouping(val grouping: Grouping) : AppEvent()
     data class SetTransactionSort(val transactionSort: TransactionSort) : AppEvent()
     data class ToggleCrStatus(val transactionId: Long) : AppEvent()
+    object PrintBalanceSheet : AppEvent()
 }
 
 interface EventHandler {
@@ -515,6 +530,11 @@ fun TransactionScreen(
     }
 }
 
+enum class AccountScreenTab(@StringRes val resourceId: Int) {
+    LIST(R.string.accounts),
+    BALANCE_SHEET(R.string.balance_sheet)
+}
+
 @Composable
 fun AccountsScreen(
     navigationIcon: @Composable () -> Unit = {},
@@ -525,22 +545,47 @@ fun AccountsScreen(
     onEvent: EventHandler,
     flags: List<AccountFlag> = emptyList(),
 ) {
+
+    val selectedTab = rememberSaveable { mutableStateOf(AccountScreenTab.LIST) }
+    val showHiddenState = viewModel.balanceSheetShowHidden.asState()
+    val showZeroState = viewModel.balanceSheetShowZero.asState()
+    val showChartState = viewModel.balanceSheetShowChart.asState()
+    val highlight = remember { mutableStateOf<Triple<Boolean, Int, Long?>?>(null) }
+
+    fun navigateToAccount(id: Long) {
+        viewModel.selectAccount(id)
+        navController.navigateSingleTopTo(Screen.Transactions)
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
                 navigationIcon = navigationIcon,
-                title = { Text("Accounts") },
+                title = {
+                    Title(selectedTab)
+                },
                 actions = {
+                    when (selectedTab.value) {
+                        AccountScreenTab.LIST -> {
+                            AccountGroupingMenu(
+                                activeGrouping = accountGrouping,
+                                onGroupingChange = { onEvent(AppEvent.SetAccountGrouping(it)) },
+                            )
+                        }
 
-                    TooltipIconButton(
-                        tooltip = stringResource(R.string.balance_sheet),
-                        imageVector = Icons.Default.TableChart
-                    ) { }
+                        AccountScreenTab.BALANCE_SHEET -> {
+                            val accounts =
+                                viewModel.accountsForBalanceSheet.collectAsState(LocalDate.now() to emptyList()).value.second
+                            BalanceSheetOptions(
+                                showHiddenState.takeIf { accounts.any { !it.isVisible } },
+                                showZeroState.takeIf { accounts.any { it.currentBalance == 0L } },
+                                showChartState,
+                                highlight,
+                                onPrint = { onEvent(AppEvent.PrintBalanceSheet) }
+                            )
+                        }
+                    }
 
-                    AccountGroupingMenu(
-                        activeGrouping = accountGrouping,
-                        onGroupingChange = { onEvent(AppEvent.SetAccountGrouping(it)) },
-                    )
                 }
             )
         },
@@ -555,27 +600,119 @@ fun AccountsScreen(
             )
         }
     ) { paddingValues ->
-        AccountListV2(
-            accountData = accounts,
-            scaffoldPadding = paddingValues,
-            grouping = accountGrouping,
-            selectedAccount = viewModel.selectedAccountId,
-            listState = viewModel.listState,
-            expansionHandlerGroups = viewModel.expansionHandler("collapsedHeadersDrawer_${accountGrouping}"),
-            onSelected = {
-                if (accountGrouping != AccountGrouping.NONE) {
-                    viewModel.maybeResetFilter(accountGrouping.getGroupKey(it))
-                }
-                viewModel.selectAccount(it.id)
-                navController.navigateSingleTopTo(Screen.Transactions)
+        if (selectedTab.value == AccountScreenTab.BALANCE_SHEET) {
+            val data =
+                viewModel.accountsForBalanceSheet.collectAsState(LocalDate.now() to emptyList()).value
+            //Triple of asset or liability, position in section, index of account or null for Debts
+            Column(modifier = Modifier.padding(paddingValues)) {
+                BalanceSheetViewInner(
+                    accounts = data.second,
+                    debtSum = viewModel.debtSum.collectAsState(0).value,
+                    date = data.first,
+                    onNavigate = {
+                       viewModel.setFilter(null)
+                        navigateToAccount(it.id)
+                    },
+                    onSetDate = {
+                        viewModel.setBalanceDate(it)
+                    },
+                    showChart = showChartState.value,
+                    highlight = highlight,
+                    showHidden = showHiddenState.value,
+                    showZero = showZeroState.value,
+                    bottomPadding = dimensionResource(R.dimen.fab_related_bottom_padding)
+                )
+            }
+        } else {
+            AccountListV2(
+                accountData = accounts,
+                scaffoldPadding = paddingValues,
+                grouping = accountGrouping,
+                selectedAccount = viewModel.selectedAccountId,
+                listState = viewModel.listState,
+                expansionHandlerGroups = viewModel.expansionHandler("collapsedHeadersDrawer_${accountGrouping}"),
+                onSelected = {
+                    if (accountGrouping != AccountGrouping.NONE) {
+                        viewModel.maybeResetFilter(accountGrouping.getGroupKey(it))
+                    }
+                    navigateToAccount(it.id)
+                },
+                onGroupSelected = {
+                    viewModel.navigateToGroup(it)
+                    navController.navigateSingleTopTo(Screen.Transactions)
+                },
+                onEvent = onEvent,
+                flags = flags
+            )
+        }
+    }
+}
+
+@Composable
+private fun Title(
+    selectedTab: MutableState<AccountScreenTab>,
+) {
+    var isDropdownExpanded by remember { mutableStateOf(false) }
+    ExposedDropdownMenuBox(
+        expanded = isDropdownExpanded,
+        onExpandedChange = { isDropdownExpanded = !isDropdownExpanded }
+    ) {
+
+        val textMeasurer = rememberTextMeasurer()
+        val style = LocalTextStyle.current
+        val options = AccountScreenTab.entries.map { stringResource(it.resourceId) }
+        val maxTextWidth = remember {
+            // Get the string for all possible options
+            // Measure each one and find the maximum width
+            options.maxOf { text ->
+                textMeasurer.measure(text, style).size.width
+            }.also {
+                Timber.d("Max text width: $it")
+            }
+        }
+
+        TextField(
+            state = TextFieldState(stringResource(selectedTab.value.resourceId)),
+            readOnly = true,
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.Transparent,
+                unfocusedContainerColor = Color.Transparent,
+                disabledContainerColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                disabledIndicatorColor = Color.Transparent,
+            ),
+            // The dropdown arrow
+            trailingIcon = {
+                ExposedDropdownMenuDefaults.TrailingIcon(expanded = isDropdownExpanded)
             },
-            onGroupSelected = {
-                viewModel.navigateToGroup(it)
-                navController.navigateSingleTopTo(Screen.Transactions)
-            },
-            onEvent = onEvent,
-            flags = flags
+            contentPadding = PaddingValues(
+                start = 0.dp,
+                end = 0.dp,
+                top = 16.dp,
+                bottom = 16.dp
+            ),
+            modifier = Modifier
+                //48.dp is space for the drop down
+                .width(with(LocalDensity.current) { maxTextWidth.toDp() + 48.dp })
+                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
         )
+
+        // This is the actual dropdown menu that appears.
+        ExposedDropdownMenu(
+            expanded = isDropdownExpanded,
+            onDismissRequest = { isDropdownExpanded = false }
+        ) {
+            AccountScreenTab.entries.forEach { tab ->
+                DropdownMenuItem(
+                    text = { Text(stringResource(tab.resourceId)) },
+                    onClick = {
+                        selectedTab.value = tab
+                        isDropdownExpanded = false
+                    }
+                )
+            }
+        }
     }
 }
 
@@ -854,4 +991,10 @@ private fun getBalanceForType(account: BaseAccount, type: BalanceType): Long {
 @Composable
 fun EmptyStatePreview() {
     EmptyState()
+}
+
+@Preview
+@Composable
+fun TitlePreview() {
+    Title(mutableStateOf(AccountScreenTab.LIST))
 }

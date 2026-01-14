@@ -1716,7 +1716,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
-    suspend fun StateFlow<Result<Pair<Uri, String>>?>.collectPrintResult(): Nothing =
+    suspend fun StateFlow<Result<Pair<Uri, String>>?>.collectPrintResult() {
         collect { result ->
             result?.let {
                 dismissSnackBar()
@@ -1746,6 +1746,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 onPdfResultProcessed()
             }
         }
+    }
 
     open fun onPdfResultProcessed() {
 

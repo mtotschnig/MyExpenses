@@ -57,6 +57,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
                                 is AppEvent.SetTransactionGrouping -> viewModel.persistGroupingV2(event.grouping)
                                 is AppEvent.SetTransactionSort -> viewModel.persistSortV2(event.transactionSort)
                                 is AppEvent.ToggleCrStatus -> toggleCrStatus(event.transactionId)
+                                AppEvent.PrintBalanceSheet -> printBalanceSheet()
                             }
                         }
 
