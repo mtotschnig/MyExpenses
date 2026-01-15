@@ -40,4 +40,9 @@
     <string name="help_ManageCategories_select_filter_info">Klicka på en post för att påbörja multi-val.</string>
     <string name="form_calculator_help_text"><![CDATA[Knappen <img src="?calcIcon"> öppnar kalkylatorn.]]></string>
     <string name="menu_save_help_text">Spara datan och stäng formuläret.</string>
+    <string name="help_ExpenseEdit_templateSplit_title">Formulär för delade mallar</string>
+    <string name="help_ManageTemplates_plans_info_applied">Instansen har verkställts.</string>
+    <string name="form_comment_help_text">Ange eventuella anteckningar om objektet.</string>
+    <string name="form_synchronization_help_text_select">Välj en bakände för moln-synkronisering.</string>
+    <string name="menu_HistoryActivity_history_show_balance_help_text">Växla synligheten för saldot.</string>
 </resources>
