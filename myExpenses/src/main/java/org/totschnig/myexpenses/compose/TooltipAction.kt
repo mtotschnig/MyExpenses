@@ -13,6 +13,7 @@ import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 
@@ -40,11 +41,12 @@ fun TooltipIconButton(
 
 @Composable
 fun TooltipIconMenu(
+    modifier: Modifier = Modifier,
     tooltip: String,
     imageVector: ImageVector,
     menu: Menu
 ) {
-    Box {
+    Box(modifier) {
         val showMenu = remember { mutableStateOf(false) }
 
         TooltipIconButton(

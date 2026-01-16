@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.compose
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -23,7 +22,6 @@ import androidx.compose.material.icons.filled.RadioButtonUnchecked
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -32,7 +30,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,9 +42,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import myiconpack.ArrowsAlt
 import org.totschnig.myexpenses.R
 
-data class Menu(val entries: List<IMenuEntry>)
+typealias Menu = List<IMenuEntry>
 
 sealed interface IMenuEntry {
     val label: UiText
@@ -112,7 +110,13 @@ data class MenuEntry(
     override val command: String? = null,
     override val action: () -> Unit,
 ) : IActionMenuEntry {
-    constructor(label: Int, icon: ImageVector? = null, tint: Color? = null, command: String, action: () -> Unit) : this(
+    constructor(
+        label: Int,
+        icon: ImageVector? = null,
+        tint: Color? = null,
+        command: String,
+        action: () -> Unit,
+    ) : this(
         label = UiText.StringResource(label),
         icon = if (icon != null) {
             @Composable { rememberVectorPainter(image = icon) }
@@ -158,17 +162,12 @@ fun OverFlowMenu(
     modifier: Modifier = Modifier,
     menu: Menu,
 ) {
-    val showMenu = rememberSaveable { mutableStateOf(false) }
-    Box(modifier = modifier) {
-        IconButton(
-            onClick = { showMenu.value = true }) {
-            Icon(
-                Icons.Filled.MoreVert,
-                stringResource(id = androidx.appcompat.R.string.abc_action_menu_overflow_description)
-            )
-        }
-        HierarchicalMenu(expanded = showMenu, menu = menu)
-    }
+    TooltipIconMenu(
+        modifier = modifier,
+        tooltip = stringResource(id = androidx.appcompat.R.string.abc_action_menu_overflow_description),
+        imageVector = Icons.Filled.MoreVert,
+        menu = menu,
+    )
 }
 
 /**
@@ -220,7 +219,7 @@ private fun EntryListRenderer(
     offset: Dp = 0.dp,
 ) {
     val tracker = LocalTracker.current
-    menu.entries.forEach { entry ->
+    menu.forEach { entry ->
         when (entry) {
             is IActionMenuEntry -> {
                 DropdownMenuItem(
@@ -290,24 +289,20 @@ private fun Entry() {
 private fun Overflow() {
     fun emptyEntry(label: Int) = MenuEntry(label = UiText.StringResource(label), command = "") {}
     OverFlowMenu(
-        menu = Menu(
-            entries = listOf(
-                emptyEntry(R.string.menu_learn_more),
-                SubMenuEntry(
-                    label = R.string.hide, subMenu = Menu(
-                        entries = listOf(
-                            MenuEntry(
-                                label = R.string.menu_edit,
-                                icon = Icons.Filled.Edit,
-                                command = ""
-                            ) {},
-                            MenuEntry(
-                                label = R.string.menu_move,
-                                icon = myiconpack.ArrowsAlt,
-                                command = ""
-                            ) {}
-                        )
-                    )
+        menu = listOf(
+            emptyEntry(R.string.menu_learn_more),
+            SubMenuEntry(
+                label = R.string.hide, subMenu = listOf(
+                    MenuEntry(
+                        label = R.string.menu_edit,
+                        icon = Icons.Filled.Edit,
+                        command = ""
+                    ) {},
+                    MenuEntry(
+                        label = R.string.menu_move,
+                        icon = ArrowsAlt,
+                        command = ""
+                    ) {}
                 )
             )
         )

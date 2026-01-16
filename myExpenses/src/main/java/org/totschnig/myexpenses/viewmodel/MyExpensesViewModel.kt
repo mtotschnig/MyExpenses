@@ -3,10 +3,12 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.content.ContentUris
 import android.content.ContentValues
+import android.content.res.Resources
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteException
 import android.os.Bundle
 import android.os.Parcelable
+import android.text.TextUtils.concat
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -77,6 +79,7 @@ import org.totschnig.myexpenses.export.pdf.PdfPrinter
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.sort.SortDirection
@@ -137,7 +140,11 @@ import org.totschnig.myexpenses.provider.mapToListCatching
 import org.totschnig.myexpenses.provider.mapToListWithExtra
 import org.totschnig.myexpenses.provider.triggerAccountListRefresh
 import org.totschnig.myexpenses.util.AppDirHelper
+import org.totschnig.myexpenses.util.CurrencyFormatter
+import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.ResultUnit
+import org.totschnig.myexpenses.util.TextUtils.withAmountColor
+import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_UPDATE_BALANCE
@@ -155,6 +162,7 @@ import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import java.time.LocalDate
+import kotlin.math.sign
 
 enum class ScrollToCurrentDate { Never, AppLaunch, AccountOpen }
 
@@ -225,6 +233,17 @@ open class MyExpensesViewModel(
     val selectedTransactionSum: Long
         get() = selectionState.value.sumOf { it.amount.amountMinor }
 
+    fun actionModeTitle(currencyFormatter: ICurrencyFormatter, currencyUnit: CurrencyUnit, resources: Resources): CharSequence =
+        concat(
+            selectionState.value.size.toString(),
+            " (Σ: ",
+            with(selectedTransactionSum) {
+                currencyFormatter.convAmount(this, currencyUnit)
+                    .withAmountColor(resources, sign)
+            },
+            ")"
+        )
+
     @Parcelize
     data class SelectionInfo(
         val id: Long,
@@ -259,11 +278,18 @@ open class MyExpensesViewModel(
         if (scrollToCurrentDatePreference == ScrollToCurrentDate.AccountOpen) {
             scrollToCurrentDate.getValue(accountId).value = true
         }
+        prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, selectedAccountId)
     }
+
+    val selectAllState: MutableState<Boolean> = mutableStateOf(false)
 
     @OptIn(SavedStateHandleSaveableApi::class)
     val selectionState: MutableState<List<SelectionInfo>> =
         savedStateHandle.saveable("selectionState") { mutableStateOf(emptyList()) }
+
+    fun clearSelection() {
+        selectionState.value = emptyList()
+    }
 
     val selectionHandler = object : SelectionHandler {
         override fun toggle(transaction: Transaction2) {

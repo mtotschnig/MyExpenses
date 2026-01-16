@@ -1,9 +1,11 @@
 package org.totschnig.myexpenses.viewmodel.data
 
 import android.database.Cursor
+import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model2.AccountWithGroupingKey
 import org.totschnig.myexpenses.provider.KEY_COLOR
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_CURRENT_BALANCE
@@ -34,13 +36,14 @@ data class BalanceSection(
 data class BalanceAccount(
     val id: Long = 0,
     val label: String,
-    val type: AccountType,
     val currentBalance: Long,
+    override val type: AccountType = AccountType.CASH,
+    override val flag: AccountFlag = AccountFlag.DEFAULT,
     val color: Int = 0,
-    val currency: CurrencyUnit = CurrencyUnit.DebugInstance,
+    override val currencyUnit: CurrencyUnit = CurrencyUnit.DebugInstance,
     val equivalentCurrentBalance: Long = currentBalance,
     val isVisible: Boolean = true,
-) {
+): AccountWithGroupingKey {
     companion object {
 
         fun fromCursor(
@@ -50,11 +53,12 @@ data class BalanceAccount(
             id = cursor.getLong(KEY_ROWID),
             label = cursor.getString(KEY_LABEL),
             type = AccountType.fromAccountCursor(cursor),
+            flag = AccountFlag.fromAccountCursor(cursor),
             color = cursor.getInt(KEY_COLOR),
             currentBalance = cursor.getLong(KEY_CURRENT_BALANCE),
             equivalentCurrentBalance = cursor.getDouble(KEY_EQUIVALENT_CURRENT_BALANCE)
                 .roundToLong(),
-            currency = currencyContext[cursor.getString(KEY_CURRENCY)],
+            currencyUnit = currencyContext[cursor.getString(KEY_CURRENCY)],
             isVisible = cursor.getBoolean(KEY_VISIBLE)
         )
 

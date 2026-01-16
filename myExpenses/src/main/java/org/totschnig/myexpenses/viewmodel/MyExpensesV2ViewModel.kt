@@ -1,9 +1,12 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.saveable
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -17,12 +20,16 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.activity.StartScreen
+import org.totschnig.myexpenses.compose.main.AccountScreenTab
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.sort.TransactionSort
 import org.totschnig.myexpenses.preference.EnumPreferenceAccessor
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.PreferenceAccessor
+import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.GROUPING_AGGREGATE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
@@ -173,4 +180,22 @@ class MyExpensesV2ViewModel(
             }
         }
     }
+
+    val startScreen: StartScreen by lazy {
+        prefHandler.enumValueOrDefault(PrefKey.UI_START_SCREEN, StartScreen.LastVisited)
+    }
+
+    fun setLastVisited(screen: StartScreen) {
+        prefHandler.putString(PrefKey.UI_SCREEN_LAST_VISITED, screen.name)
+    }
+
+    fun setLastVisited(accountScreenTab: AccountScreenTab) {
+        setLastVisited(
+            when (accountScreenTab) {
+                AccountScreenTab.LIST -> StartScreen.Accounts
+                AccountScreenTab.BALANCE_SHEET -> StartScreen.BalanceSheet
+            }
+        )
+    }
+
 }

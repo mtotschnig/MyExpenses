@@ -36,15 +36,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.CallSplit
-import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.filled.Link
-import androidx.compose.material.icons.filled.LinkOff
-import androidx.compose.material.icons.filled.Loupe
-import androidx.compose.material.icons.filled.RestoreFromTrash
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Unarchive
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -52,6 +43,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -77,7 +69,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
@@ -93,27 +84,19 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import myiconpack.IcActionTemplateAdd
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AccountList
 import org.totschnig.myexpenses.compose.AppTheme
-import org.totschnig.myexpenses.compose.CompactTransactionRenderer
-import org.totschnig.myexpenses.compose.DateTimeFormatInfo
 import org.totschnig.myexpenses.compose.FutureCriterion
-import org.totschnig.myexpenses.compose.MenuEntry
-import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
-import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
-import org.totschnig.myexpenses.compose.MenuEntry.Companion.select
-import org.totschnig.myexpenses.compose.NewTransactionRenderer
 import org.totschnig.myexpenses.compose.RenderType
-import org.totschnig.myexpenses.compose.SubMenuEntry
 import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
 import org.totschnig.myexpenses.compose.TransactionList
-import org.totschnig.myexpenses.compose.UiText
 import org.totschnig.myexpenses.compose.filter.FilterCard
 import org.totschnig.myexpenses.compose.filter.FilterDialog
 import org.totschnig.myexpenses.compose.filter.FilterHandler
 import org.totschnig.myexpenses.compose.filter.TYPE_COMPLEX
+import org.totschnig.myexpenses.compose.main.AppEvent
+import org.totschnig.myexpenses.compose.main.EventHandler
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
@@ -122,7 +105,6 @@ import org.totschnig.myexpenses.db2.countAccounts
 import org.totschnig.myexpenses.dialog.ArchiveDialogFragment
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_CHECKBOX_LABEL
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_NEGATIVE
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_POSITIVE
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_MESSAGE
@@ -132,20 +114,16 @@ import org.totschnig.myexpenses.dialog.CriterionReachedDialogFragment
 import org.totschnig.myexpenses.dialog.ExportDialogFragment
 import org.totschnig.myexpenses.dialog.HelpDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
-import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.dialog.TransactionListComposeDialogFragment
 import org.totschnig.myexpenses.dialog.progress.NewProgressDialogFragment
-import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment.Companion.KEY_IS_INCOME
 import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment.Companion.TRANSFORM_TO_TRANSFER_REQUEST
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isAggregate
@@ -155,27 +133,15 @@ import org.totschnig.myexpenses.provider.KEY_CLEARED_TOTAL
 import org.totschnig.myexpenses.provider.KEY_COLOR
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_DATE
-import org.totschnig.myexpenses.provider.KEY_GROUPING
 import org.totschnig.myexpenses.provider.KEY_LABEL
 import org.totschnig.myexpenses.provider.KEY_RECONCILED_TOTAL
 import org.totschnig.myexpenses.provider.KEY_ROWID
-import org.totschnig.myexpenses.provider.KEY_SECOND_GROUP
 import org.totschnig.myexpenses.provider.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
-import org.totschnig.myexpenses.provider.KEY_YEAR
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailedException
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
-import org.totschnig.myexpenses.provider.filter.AmountCriterion
-import org.totschnig.myexpenses.provider.filter.CategoryCriterion
-import org.totschnig.myexpenses.provider.filter.CommentCriterion
-import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
-import org.totschnig.myexpenses.provider.filter.MethodCriterion
-import org.totschnig.myexpenses.provider.filter.Operation
-import org.totschnig.myexpenses.provider.filter.PayeeCriterion
-import org.totschnig.myexpenses.provider.filter.SimpleCriterion
-import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.retrofit.Vote
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
@@ -183,13 +149,12 @@ import org.totschnig.myexpenses.ui.SnackbarAction
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ContribUtils
 import org.totschnig.myexpenses.util.TextUtils
-import org.totschnig.myexpenses.util.TextUtils.withAmountColor
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.ads.AdHandler
 import org.totschnig.myexpenses.util.ads.NoOpAdHandler
 import org.totschnig.myexpenses.util.checkMenuIcon
 import org.totschnig.myexpenses.util.configureSortDirectionMenu
-import org.totschnig.myexpenses.util.convAmount
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.isGithub
@@ -199,16 +164,12 @@ import org.totschnig.myexpenses.util.getSortDirectionFromMenuItemId
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.util.ui.DisplayProgress
-import org.totschnig.myexpenses.util.ui.asDateTimeFormatter
-import org.totschnig.myexpenses.util.ui.dateTimeFormatter
-import org.totschnig.myexpenses.util.ui.dateTimeFormatterLegacy
 import org.totschnig.myexpenses.util.ui.displayProgress
 import org.totschnig.myexpenses.util.ui.getAmountColor
 import org.totschnig.myexpenses.viewmodel.CompletedAction
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.DeleteState.DeleteComplete
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.DeleteState.DeleteProgress
 import org.totschnig.myexpenses.viewmodel.ExportViewModel
-import org.totschnig.myexpenses.viewmodel.KEY_ROW_IDS
 import org.totschnig.myexpenses.viewmodel.ModalProgressViewModel
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import org.totschnig.myexpenses.viewmodel.OpenAction
@@ -220,12 +181,10 @@ import org.totschnig.myexpenses.viewmodel.TransactionListViewModel
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
-import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import org.totschnig.myexpenses.viewmodel.repository.RoadmapRepository
 import timber.log.Timber
 import java.io.Serializable
 import java.math.BigDecimal
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.Locale
 import javax.inject.Inject
@@ -251,10 +210,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                 ?.maxByOrNull { it.lastUsed }
         }
 
-    val currentFilter: FilterPersistence
-        get() = viewModel.filterPersistence.getValue(selectedAccountId)
-
-    val currentAccount: FullAccount?
+    override val currentAccount: FullAccount?
         get() = accountData.find { it.id == selectedAccountId }
 
     private val currentPage: Int
@@ -273,7 +229,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
 
     private var currentBalance: String = ""
 
-    private val upgradeHandlerViewModel: UpgradeHandlerViewModel by viewModels()
     private val exportViewModel: ExportViewModel by viewModels()
     private val roadmapViewModel: RoadmapViewModel by viewModels()
     private val progressViewModel: ModalProgressViewModel by viewModels()
@@ -290,13 +245,9 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
 
     private var actionMode: ActionMode? = null
 
-    var selectionState
-        get() = viewModel.selectionState.value
-        set(value) {
-            viewModel.selectionState.value = value
-        }
-
-    private val selectAllState: MutableState<Boolean> = mutableStateOf(false)
+    override fun finishActionMode() {
+        actionMode?.finish()
+    }
 
     var sumInfo: MutableState<SumInfo> = mutableStateOf(SumInfo.EMPTY)
 
@@ -306,29 +257,12 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
             viewModel.showFilterDialog = value
         }
 
-    fun finishActionMode() {
-        actionMode?.finish()
-    }
-
     override fun onWebUiActivated() {
         invalidateOptionsMenu()
     }
 
-    private val formattedSelectedTransactionSum
-        get() = with(viewModel.selectedTransactionSum) {
-            currencyFormatter.convAmount(this, currentAccount!!.currencyUnit)
-                .withAmountColor(resources, sign)
-        }
-
     private fun updateActionModeTitle() {
-        actionMode?.title = if (selectionState.size > 1) {
-            android.text.TextUtils.concat(
-                selectionState.size.toString(),
-                " (Σ: ",
-                formattedSelectedTransactionSum,
-                ")"
-            )
-        } else selectionState.size.toString()
+        actionMode?.title = viewModel.actionModeTitle(currencyFormatter, currentAccount!!.currencyUnit, resources)
     }
 
     private fun startMyActionMode() {
@@ -363,38 +297,24 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                     mode: ActionMode,
                     menu: Menu,
                 ) = with(menu) {
-                    findItem(R.id.REMAP_ACCOUNT_COMMAND).isVisible = accountCount > 1
-                    val hasTransfer = selectionState.any { it.isTransfer }
-                    val hasSplit = selectionState.any { it.isSplit }
-                    val hasVoid = selectionState.any { it.crStatus == CrStatus.VOID }
-                    findItem(R.id.REMAP_PAYEE_COMMAND).isVisible = !hasTransfer
-                    findItem(R.id.REMAP_CATEGORY_COMMAND).isVisible = !hasSplit
-                    findItem(R.id.REMAP_METHOD_COMMAND).isVisible = !hasTransfer
-                    findItem(R.id.SPLIT_TRANSACTION_COMMAND).isVisible = !hasSplit && !hasVoid
-                    findItem(R.id.LINK_TRANSFER_COMMAND).isVisible =
-                        selectionState.count() == 2 &&
-                                !hasSplit && !hasTransfer && !hasVoid &&
-                                viewModel.canLinkSelection()
-                    findItem(R.id.UNDELETE_COMMAND).isVisible = hasVoid
+                    listOf(
+                        R.id.REMAP_ACCOUNT_COMMAND,
+                        R.id.REMAP_PAYEE_COMMAND,
+                        R.id.REMAP_CATEGORY_COMMAND,
+                        R.id.REMAP_METHOD_COMMAND,
+                        R.id.SPLIT_TRANSACTION_COMMAND,
+                        R.id.LINK_TRANSFER_COMMAND,
+                        R.id.UNDELETE_COMMAND
+                    ).forEach {
+                        findItem(it).isVisible = shouldShowCommand(it, accountCount)
+                    }
                     true
                 }
 
                 override fun onActionItemClicked(
                     mode: ActionMode,
                     item: MenuItem,
-                ): Boolean {
-                    if (remapHandler.handleActionItemClick(item.itemId)) return true
-                    when (item.itemId) {
-                        R.id.DELETE_COMMAND -> delete(selectionState.map { it.id to it.crStatus })
-                        R.id.MAP_TAG_COMMAND -> tagHandler.tag()
-                        R.id.SPLIT_TRANSACTION_COMMAND -> split(selectionState.map { it.id })
-                        R.id.LINK_TRANSFER_COMMAND -> linkTransfer()
-                        R.id.SELECT_ALL_COMMAND -> selectAll()
-                        R.id.UNDELETE_COMMAND -> undelete(selectionState.map { it.id })
-                        else -> return false
-                    }
-                    return true
-                }
+                ) = onContextItemClicked(item.itemId)
 
                 override fun onDestroyActionMode(mode: ActionMode) {
                     actionMode = null
@@ -405,27 +325,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
         } else actionMode?.invalidate()
         updateActionModeTitle()
     }
-
-    private fun selectAll() {
-        selectAllState.value = true
-    }
-
-    private fun linkTransfer() {
-        val itemIds = selectionState.map { it.id }
-        checkSealed(itemIds) {
-            showConfirmationDialog(
-                tag = "LINK_TRANSFER",
-                message = getString(R.string.warning_link_transfer) + " " + getString(R.string.continue_confirmation),
-                commandPositive = R.id.LINK_TRANSFER_COMMAND,
-                commandPositiveLabel = R.string.menu_create_transfer
-            ) {
-                putLongArray(KEY_ROW_IDS, itemIds.toLongArray())
-            }
-        }
-    }
-
-    lateinit var remapHandler: RemapHandler
-    lateinit var tagHandler: TagHandler
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
@@ -539,7 +438,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
         viewModel = ViewModelProvider(this)[modelClass]
         with(injector) {
             inject(viewModel)
-            inject(upgradeHandlerViewModel)
             inject(exportViewModel)
             inject(roadmapViewModel)
             inject(pricesViewModel)
@@ -548,11 +446,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
         setContentView(binding.root)
         setupToolbar(false)
         toolbar.isVisible = false
-        if (savedInstanceState == null) {
-            newVersionCheck()
-            //voteReminderCheck();
-            selectedAccountId = prefHandler.getLong(PrefKey.CURRENT_ACCOUNT, 0L)
-        }
 
         binding.viewPagerMain.viewPager.setContent {
             val upgradeInfo = upgradeHandlerViewModel.upgradeInfo.collectAsState().value
@@ -799,35 +692,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
 
             }
         }
-        remapHandler = RemapHandler(this)
-        tagHandler = TagHandler(this)
 
-        viewModel.cloneAndRemapProgress.observe(
-            this
-        ) { (first, second): Pair<Int, Int> ->
-            val progressDialog =
-                supportFragmentManager.findFragmentByTag(PROGRESS_TAG) as? ProgressDialogFragment
-            val totalProcessed = first + second
-            if (progressDialog != null) {
-                if (totalProcessed < progressDialog.max) {
-                    progressDialog.setProgress(totalProcessed)
-                } else {
-                    if (second == 0) {
-                        showSnackBar(R.string.clone_and_remap_result)
-                    } else {
-                        showSnackBar(
-                            String.format(
-                                Locale.ROOT,
-                                "%d out of %d failed",
-                                second,
-                                totalProcessed
-                            )
-                        )
-                    }
-                    supportFragmentManager.beginTransaction().remove(progressDialog).commit()
-                }
-            }
-        }
         if (resources.getInteger(R.integer.window_size_class) == 1) {
             toolbar.setNavigationIcon(R.drawable.ic_menu)
             binding.accountPanel.root.isVisible =
@@ -1199,13 +1064,11 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
             }
 
             headerData.collectAsState().value.let { headerData ->
-                val withCategoryIcon =
-                    viewModel.withCategoryIcon.collectAsState(initial = true).value
                 val lazyPagingItems =
                     viewModel.items.getValue(account).collectAsLazyPagingItems()
                 if (!account.sealed) {
-                    LaunchedEffect(selectAllState.value) {
-                        if (selectAllState.value) {
+                    LaunchedEffect(viewModel.selectAllState.value) {
+                        if (viewModel.selectAllState.value) {
                             if (lazyPagingItems.loadState.prepend.endOfPaginationReached &&
                                 lazyPagingItems.loadState.append.endOfPaginationReached
                             ) {
@@ -1224,7 +1087,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                                     )
                                 )
                             }
-                            selectAllState.value = false
+                            viewModel.selectAllState.value = false
                         }
                     }
                 }
@@ -1232,7 +1095,20 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                 val modificationAllowed =
                     !account.sealed && bulkDeleteState.value !is DeleteProgress
                 val colorSource =
-                    viewModel.colorSource.collectAsState(initial = ColorSource.TYPE).value
+                    viewModel.colorSource.collectAsState(initial = ColorSource.TYPE)
+                val withCategoryIcon =
+                    viewModel.withCategoryIcon.collectAsState(initial = true)
+                val renderType = viewModel.renderer.collectAsState(initial = RenderType.New)
+                val renderer = remember { derivedStateOf {
+                    Timber.d("init renderer ${renderType.value}")
+                    rendererFactory(
+                        renderType.value,
+                        account,
+                        withCategoryIcon.value,
+                        colorSource.value,
+                        onToggleCrStatus
+                    )
+                } }
                 TransactionList(
                     modifier = Modifier.weight(1f),
                     lazyPagingItems = lazyPagingItems,
@@ -1240,238 +1116,41 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                     budgetData = remember(account.grouping) { viewModel.budgetData(account) }
                         .collectAsState(null),
                     selectionHandler = if (modificationAllowed) viewModel.selectionHandler else null,
-                    menuGenerator = remember(modificationAllowed) {
-                        { transaction ->
-                            org.totschnig.myexpenses.compose.Menu(
-                                buildList {
-                                    add(
-                                        MenuEntry(
-                                            label = R.string.details,
-                                            icon = Icons.Filled.Loupe,
-                                            command = "DETAILS"
-                                        ) {
-                                            showDetails(
-                                                transaction.id,
-                                                transaction.isArchive,
-                                                currentFilter.takeIf { transaction.isArchive },
-                                                currentAccount?.sortOrder.takeIf { transaction.isArchive }
-                                            )
-                                        })
-                                    if (modificationAllowed) {
-                                        if (transaction.isArchive) {
-                                            add(
-                                                MenuEntry(
-                                                    label = R.string.menu_unpack,
-                                                    icon = Icons.Filled.Unarchive,
-                                                    command = "UNPACK_ARCHIVE"
-                                                ) {
-                                                    unarchive(transaction)
-                                                })
-                                            add(delete("DELETE_TRANSACTION") {
-                                                lifecycleScope.launch {
-                                                    deleteArchive(transaction)
-                                                }
-                                            })
-                                        } else {
-                                            add(
-                                                MenuEntry(
-                                                    label = R.string.menu_clone_transaction,
-                                                    icon = Icons.Filled.ContentCopy,
-                                                    command = "CLONE"
-                                                ) {
-                                                    edit(transaction, true)
-                                                })
-                                            add(
-                                                MenuEntry(
-                                                    label = R.string.menu_create_template_from_transaction,
-                                                    icon = IcActionTemplateAdd,
-                                                    command = "CREATE_TEMPLATE_FROM_TRANSACTION"
-                                                ) { createTemplate(transaction) })
-                                            if (transaction.crStatus == CrStatus.VOID) {
-                                                add(
-                                                    MenuEntry(
-                                                        label = R.string.menu_undelete_transaction,
-                                                        icon = Icons.Filled.RestoreFromTrash,
-                                                        command = "UNDELETE_TRANSACTION"
-                                                    ) {
-                                                        undelete(listOf(transaction.id))
-                                                    })
-                                            }
-                                            if (transaction.crStatus != CrStatus.VOID) {
-                                                add(edit("EDIT_TRANSACTION") {
-                                                    edit(transaction)
-                                                })
-                                            }
-                                            add(delete("DELETE_TRANSACTION") {
-                                                delete(listOf(transaction.id to transaction.crStatus))
-                                            })
-                                            add(
-                                                select("SELECT_TRANSACTION") {
-                                                    viewModel.selectionState.value = listOf(
-                                                        MyExpensesViewModel.SelectionInfo(
-                                                            transaction
-                                                        )
-                                                    )
-                                                }
-                                            )
-                                            when {
-                                                transaction.isSplit -> {
-                                                    add(
-                                                        MenuEntry(
-                                                            label = R.string.menu_ungroup_split_transaction,
-                                                            icon = Icons.AutoMirrored.Filled.CallSplit,
-                                                            command = "UNGROUP_SPLIT"
-                                                        ) {
-                                                            ungroupSplit(transaction)
-                                                        })
-                                                }
-
-                                                transaction.isTransfer -> {
-                                                    add(
-                                                        MenuEntry(
-                                                            label = R.string.menu_unlink_transfer,
-                                                            icon = Icons.Filled.LinkOff,
-                                                            command = "UNLINK_TRANSFER"
-                                                        ) {
-                                                            unlinkTransfer(transaction)
-                                                        })
-                                                }
-
-                                                else -> {
-                                                    if (accountCount >= 2) {
-                                                        add(
-                                                            MenuEntry(
-                                                                label = R.string.menu_transform_to_transfer,
-                                                                icon = Icons.Filled.Link,
-                                                                command = "TRANSFORM_TRANSFER"
-                                                            ) {
-                                                                transformToTransfer(transaction)
-                                                            })
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                    add(
-                                        SubMenuEntry(
-                                            label = R.string.filter,
-                                            icon = Icons.Filled.Search,
-                                            subMenu = org.totschnig.myexpenses.compose.Menu(
-                                                buildList {
-                                                    if (transaction.catId != null && !transaction.isSplit) {
-                                                        if (transaction.categoryPath != null) {
-                                                            add(
-                                                                MenuEntry(
-                                                                    label = UiText.StringValue(
-                                                                        transaction.categoryPath
-                                                                    ),
-                                                                    command = "FILTER_FOR_CATEGORY"
-                                                                ) {
-                                                                    addFilterCriterion(
-                                                                        CategoryCriterion(
-                                                                            transaction.categoryPath,
-                                                                            transaction.catId
-                                                                        )
-                                                                    )
-                                                                })
-                                                        } else {
-                                                            report(
-                                                                IllegalStateException("Category path is null")
-                                                            )
-                                                        }
-                                                    }
-                                                    if (transaction.party?.id != null) {
-                                                        add(
-                                                            MenuEntry(
-                                                                label = UiText.StringValue(
-                                                                    transaction.party.name
-                                                                ),
-                                                                command = "FILTER_FOR_PAYEE"
-                                                            ) {
-                                                                addFilterCriterion(
-                                                                    PayeeCriterion(
-                                                                        transaction.party.name,
-                                                                        transaction.party.id
-                                                                    )
-                                                                )
-                                                            }
-                                                        )
-                                                    }
-                                                    if (transaction.methodId != null) {
-                                                        val label =
-                                                            transaction.methodLabel!!.translateIfPredefined(
-                                                                this@MyExpenses
-                                                            )
-                                                        add(
-                                                            MenuEntry(
-                                                                label = UiText.StringValue(label),
-                                                                command = "FILTER_FOR_METHOD"
-                                                            ) {
-                                                                addFilterCriterion(
-                                                                    MethodCriterion(
-                                                                        label,
-                                                                        transaction.methodId
-                                                                    )
-                                                                )
-                                                            }
-                                                        )
-                                                    }
-                                                    if (transaction.tagList.isNotEmpty()) {
-                                                        val label =
-                                                            transaction.tagList.joinToString { it.second }
-                                                        add(
-                                                            MenuEntry(
-                                                                label = UiText.StringValue(label),
-                                                                command = "FILTER_FOR_METHOD"
-                                                            ) {
-                                                                addFilterCriterion(
-                                                                    TagCriterion(
-                                                                        label,
-                                                                        transaction.tagList.map { it.first }
-                                                                    )
-                                                                )
-                                                            }
-                                                        )
-                                                    }
-                                                    add(
-                                                        MenuEntry(
-                                                            label = UiText.StringValue(
-                                                                currencyFormatter.formatMoney(
-                                                                    transaction.displayAmount
-                                                                )
-                                                            ),
-                                                            command = "FILTER_FOR_AMOUNT"
-                                                        ) {
-                                                            addFilterCriterion(
-                                                                AmountCriterion(
-                                                                    operation = Operation.EQ,
-                                                                    values = listOf(transaction.displayAmount.amountMinor),
-                                                                    currency = transaction.displayAmount.currencyUnit.code,
-                                                                    sign = transaction.displayAmount.amountMinor > 0
-                                                                )
-                                                            )
-                                                        }
-                                                    )
-                                                    if (!transaction.comment.isNullOrEmpty()) {
-                                                        add(
-                                                            MenuEntry(
-                                                                label = UiText.StringValue(
-                                                                    transaction.comment
-                                                                ),
-                                                                command = "FILTER_FOR_AMOUNT"
-                                                            ) {
-                                                                addFilterCriterion(
-                                                                    CommentCriterion(transaction.comment)
-                                                                )
-                                                            }
-                                                        )
-                                                    }
-                                                }
-                                            )
-                                        ))
+                    viewModel.selectAllState,
+                    onEvent = object: EventHandler {
+                        override fun invoke(event: AppEvent) {
+                            when(event) {
+                                is AppEvent.ShowDetails -> {
+                                    showDetails(
+                                        event.transaction.id,
+                                        event.transaction.isArchive,
+                                        currentFilter.takeIf { event.transaction.isArchive },
+                                        currentAccount?.sortOrder.takeIf { event.transaction.isArchive }
+                                    )
                                 }
-                            )
+
+                                is AppEvent.Unarchive -> unarchive(event.transactionId)
+                                is AppEvent.Delete -> lifecycleScope.launch {
+                                    if (event.transaction.isArchive) {
+                                        deleteArchive(event.transaction)
+                                    } else {
+                                        delete(listOf(event.transaction.id to event.transaction.crStatus))
+                                    }
+                                }
+                                is AppEvent.Edit -> edit(event.transaction, event.clone)
+                                is AppEvent.CreateTemplate -> createTemplate(event.transaction)
+                                is AppEvent.UnDelete -> undelete(listOf(event.transactionId))
+                                is AppEvent.Select -> viewModel.selectionState.value =
+                                    listOf(MyExpensesViewModel.SelectionInfo(event.transaction))
+                                is AppEvent.Ungroup -> ungroupSplit(event.transaction)
+                                is AppEvent.Unlink -> unlinkTransfer(event.transaction)
+                                is AppEvent.TransformToTransfer -> transformToTransfer(event.transaction)
+                                is AppEvent.AddFilter -> addFilterCriterion(event.criterion)
+                                is AppEvent.SelectAllListTooLarge -> selectAllListTooLarge()
+                                else -> CrashHandler.throwOrReport(IllegalArgumentException("$event not handled"))
+                            }
                         }
+
                     },
                     futureCriterion = viewModel.futureCriterion.collectAsState(initial = FutureCriterion.EndOfDay).value,
                     expansionHandler = viewModel.expansionHandlerForTransactionGroups(account),
@@ -1480,201 +1159,15 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                     },
                     showSumDetails = viewModel.showSumDetails.collectAsState(initial = true).value,
                     scrollToCurrentDate = viewModel.scrollToCurrentDate.getValue(account.id),
-                    renderer = when (viewModel.renderer.collectAsState(initial = RenderType.New).value) {
-                        RenderType.New -> {
-                            NewTransactionRenderer(
-                                dateTimeFormatter(account, prefHandler, this@MyExpenses),
-                                withCategoryIcon,
-                                colorSource,
-                                onToggleCrStatus
-                            )
-                        }
-
-                        RenderType.Legacy -> {
-                            CompactTransactionRenderer(
-                                dateTimeFormatterLegacy(
-                                    account,
-                                    prefHandler,
-                                    this@MyExpenses
-                                )?.let {
-                                    DateTimeFormatInfo(
-                                        (it.first as SimpleDateFormat).asDateTimeFormatter,
-                                        it.second
-                                    )
-                                },
-                                withCategoryIcon,
-                                prefHandler.getBoolean(
-                                    PrefKey.UI_ITEM_RENDERER_ORIGINAL_AMOUNT,
-                                    false
-                                ),
-                                colorSource,
-                                onToggleCrStatus
-                            )
-                        }
-                    },
+                    renderer = renderer.value,
                     isFiltered = filter.value != null,
                     splitInfoResolver = {
                         viewModel.splitInfo(it)
                     },
-                    windowInsets = WindowInsets.navigationBars.add(WindowInsets.displayCutout)
+                    windowInsets = WindowInsets.navigationBars.add(WindowInsets.displayCutout),
+                    modificationsAllowed = modificationAllowed,
+                    accountCount = accountCount
                 )
-            }
-        }
-    }
-
-    private fun undelete(itemIds: List<Long>) {
-        checkSealed(itemIds) {
-            viewModel.undeleteTransactions(itemIds).observe(this) { result: Int ->
-                finishActionMode()
-                showSnackBar("${getString(R.string.menu_undelete_transaction)}: $result")
-            }
-        }
-    }
-
-    private fun unarchive(transaction: Transaction2) {
-        showConfirmationDialog(
-            tag = "UNARCHIVE",
-            message = getString(R.string.warning_unarchive),
-            commandPositive = R.id.UNARCHIVE_COMMAND,
-            commandPositiveLabel = R.string.menu_unpack
-        ) {
-            putLong(KEY_ROWID, transaction.id)
-        }
-    }
-
-    private fun ungroupSplit(transaction: Transaction2) {
-        showConfirmationDialog(
-            tag = "UNSPLIT_TRANSACTION",
-            message = getString(R.string.warning_ungroup_split_transactions),
-            commandPositive = R.id.UNGROUP_SPLIT_COMMAND,
-            commandPositiveLabel = R.string.menu_ungroup_split_transaction
-        ) {
-            putLong(KEY_ROWID, transaction.id)
-        }
-    }
-
-    private fun unlinkTransfer(transaction: Transaction2) {
-        showConfirmationDialog(
-            tag = "UNLINK_TRANSFER",
-            message = getString(R.string.warning_unlink_transfer),
-            commandPositive = R.id.UNLINK_TRANSFER_COMMAND,
-            commandPositiveLabel = R.string.menu_unlink_transfer
-        ) {
-            putLong(KEY_ROWID, transaction.id)
-        }
-    }
-
-    private fun transformToTransfer(transaction: Transaction2) {
-        SelectTransformToTransferTargetDialogFragment.newInstance(transaction)
-            .show(supportFragmentManager, "SELECT_ACCOUNT")
-    }
-
-    private fun createTemplate(transaction: Transaction2) {
-        checkSealed(listOf(transaction.id)) {
-            if (transaction.isSplit && !prefHandler.getBoolean(
-                    PrefKey.NEW_SPLIT_TEMPLATE_ENABLED,
-                    true
-                )
-            ) {
-                showContribDialog(ContribFeature.SPLIT_TEMPLATE, null)
-            } else {
-                startActivity(Intent(this, ExpenseEdit::class.java).apply {
-                    action = ExpenseEdit.ACTION_CREATE_TEMPLATE_FROM_TRANSACTION
-                    putExtra(KEY_ROWID, transaction.id)
-                })
-            }
-        }
-    }
-
-    private fun edit(transaction: Transaction2, clone: Boolean = false) {
-        checkSealed(listOf(transaction.id)) {
-            if (transaction.transferPeerIsPart == true) {
-                showSnackBar(
-                    if (transaction.transferPeerIsArchived == true) R.string.warning_archived_transfer_cannot_be_edited else R.string.warning_splitpartcategory_context
-                )
-            } else {
-                startActivityForResult(
-                    Intent(this, ExpenseEdit::class.java).apply {
-                        putExtra(KEY_ROWID, transaction.id)
-                        putExtra(KEY_COLOR, transaction.color ?: currentAccount?.color)
-                        if (clone) {
-                            putExtra(ExpenseEdit.KEY_CLONE, true)
-                        }
-
-                    }, EDIT_REQUEST
-                )
-            }
-        }
-    }
-
-    private fun split(itemIds: List<Long>) {
-        checkSealed(itemIds) {
-            contribFeatureRequested(
-                ContribFeature.SPLIT_TRANSACTION,
-                itemIds.toLongArray()
-            )
-        }
-
-    }
-
-    private suspend fun deleteArchive(transaction: Transaction2) {
-        val count = withContext(Dispatchers.IO) {
-            viewModel.childCount(transaction.id)
-        }
-        checkSealed(listOf(transaction.id)) {
-            val message = buildString {
-                append(getString(R.string.warning_delete_archive, count))
-                if (transaction.crStatus == CrStatus.RECONCILED) {
-                    append(" ")
-                    append(getString(R.string.warning_delete_reconciled))
-                }
-            }
-
-            showConfirmationDialog(
-                tag = "DELETE_TRANSACTION",
-                message = message,
-                commandPositive = R.id.DELETE_COMMAND_DO,
-                commandPositiveLabel = R.string.menu_delete
-            ) {
-                putInt(
-                    ConfirmationDialogFragment.KEY_TITLE,
-                    R.string.dialog_title_warning_delete_archive
-                )
-                putLongArray(KEY_ROW_IDS, longArrayOf(transaction.id))
-            }
-        }
-    }
-
-    private fun delete(transactions: List<Pair<Long, CrStatus>>) {
-        val hasReconciled = transactions.any { it.second == CrStatus.RECONCILED }
-        val hasNotVoid = transactions.any { it.second != CrStatus.VOID }
-        val itemIds = transactions.map { it.first }
-        checkSealed(itemIds) {
-            var message = resources.getQuantityString(
-                R.plurals.warning_delete_transaction,
-                transactions.size,
-                transactions.size
-            )
-            if (hasReconciled) {
-                message += " " + getString(R.string.warning_delete_reconciled)
-            }
-            showConfirmationDialog(
-                tag = "DELETE_TRANSACTION",
-                message = message,
-                commandPositive = R.id.DELETE_COMMAND_DO,
-                commandPositiveLabel = R.string.menu_delete
-            ) {
-                putInt(
-                    ConfirmationDialogFragment.KEY_TITLE,
-                    R.string.dialog_title_warning_delete_transaction
-                )
-                if (hasNotVoid) {
-                    putString(
-                        KEY_CHECKBOX_LABEL,
-                        getString(R.string.mark_void_instead_of_delete)
-                    )
-                }
-                putLongArray(KEY_ROW_IDS, itemIds.toLongArray())
             }
         }
     }
@@ -2018,7 +1511,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                             TransactionListComposeDialogFragment.newInstance(
                                 TransactionListViewModel.LoadingInfo(
                                     accountId = it.id,
-                                    currency = it.currency,
+                                    currency = it.currencyUnit,
                                     label = it.label,
                                     color = it.color,
                                     withTransfers = true,
@@ -2281,7 +1774,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
      */
     private fun configureUiWithCurrentAccount(account: FullAccount?, animateProgress: Boolean) {
         if (account != null) {
-            prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, account.id)
             tintFab(account.color)
             setBalance(account, animateProgress)
         }
@@ -2436,105 +1928,23 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
         invalidateOptionsMenu()
     }
 
-    private fun Intent.fillIntentForGroupingFromTag(tag: Int) {
-        val year = (tag / 1000)
-        val groupingSecond = (tag % 1000)
-        putExtra(KEY_YEAR, year)
-        putExtra(KEY_SECOND_GROUP, groupingSecond)
-    }
-
-    private fun Intent.forwardCurrentConfiguration(currentAccount: FullAccount) {
-        putExtra(KEY_ACCOUNTID, currentAccount.id)
-        putExtra(KEY_GROUPING, currentAccount.grouping)
-        if (currentFilter.whereFilter.value != null) {
-            putExtra(KEY_FILTER, currentFilter.whereFilter.value)
-        }
-    }
-
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
-        currentAccount?.also { currentAccount ->
-            when (feature) {
-                ContribFeature.DISTRIBUTION -> {
-                    recordUsage(feature)
-                    startActivity(Intent(this, DistributionActivity::class.java).apply {
-                        forwardCurrentConfiguration(currentAccount)
-                    })
-                }
+        when (feature) {
 
-                ContribFeature.HISTORY -> {
-                    recordUsage(feature)
-                    startActivity(Intent(this, HistoryActivity::class.java).apply {
-                        forwardCurrentConfiguration(currentAccount)
-                    })
-                }
-
-                ContribFeature.SPLIT_TRANSACTION -> {
-                    if (tag != null) {
-                        showConfirmationDialog(
-                            tag = "SPLIT_TRANSACTION",
-                            message = getString(R.string.warning_split_transactions),
-                            commandPositive = R.id.SPLIT_TRANSACTION_COMMAND,
-                            commandPositiveLabel = R.string.menu_split_transaction
-                        ) {
-                            putLongArray(KEY_ROW_IDS, tag as LongArray?)
-                        }
+            ContribFeature.OCR -> {
+                if (featureViewModel.isFeatureAvailable(this, Feature.OCR)) {
+                    if ((tag as Boolean)) {
+                        //ocrViewModel.startOcrFeature(Uri.parse("file:///android_asset/OCR.jpg"), supportFragmentManager);
+                        startMediaChooserDo("SCAN")
                     } else {
-                        createRowDo(TYPE_SPLIT, false)
+                        activateOcrMode()
                     }
+                } else {
+                    featureViewModel.requestFeature(this, Feature.OCR)
                 }
-
-                ContribFeature.PRINT -> {
-                    showProgressSnackBar(
-                        getString(R.string.progress_dialog_printing, "PDF")
-                    )
-                    if (tag == ExportViewModel.PRINT_TRANSACTION_LIST) {
-                        viewModel.print(currentAccount, currentFilter.whereFilter.value)
-                    } else if (tag == ExportViewModel.PRINT_BALANCE_SHEET) {
-                        viewModel.printBalanceSheet()
-                    }
-                }
-
-                ContribFeature.BUDGET -> {
-                    if (tag != null) {
-                        val (budgetId, headerId) = tag as Pair<Long, Int>
-                        startActivity(Intent(this, BudgetActivity::class.java).apply {
-                            putExtra(KEY_ROWID, budgetId)
-                            fillIntentForGroupingFromTag(headerId)
-                        })
-                    } else {
-                        recordUsage(feature)
-                        val i = Intent(this, ManageBudgets::class.java)
-                        startActivity(i)
-                    }
-                }
-
-                ContribFeature.OCR -> {
-                    if (featureViewModel.isFeatureAvailable(this, Feature.OCR)) {
-                        if ((tag as Boolean)) {
-                            //ocrViewModel.startOcrFeature(Uri.parse("file:///android_asset/OCR.jpg"), supportFragmentManager);
-                            startMediaChooserDo("SCAN")
-                        } else {
-                            activateOcrMode()
-                        }
-                    } else {
-                        featureViewModel.requestFeature(this, Feature.OCR)
-                    }
-                }
-
-                ContribFeature.BANKING -> {
-                    val (bankId, accountId, accountTypeId) = tag as Triple<Long, Long, Long>
-                    bankingFeature.startSyncFragment(
-                        bankId,
-                        accountId,
-                        accountTypeId,
-                        supportFragmentManager
-                    )
-                }
-
-                else -> super.contribFeatureCalled(feature, tag)
             }
-        } ?: run {
-            showSnackBar(R.string.no_accounts)
+
+            else -> super.contribFeatureCalled(feature, tag)
         }
     }
 
@@ -2594,62 +2004,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
         }
     }
 
-    /**
-     * check if this is the first invocation of a new version
-     * in which case help dialog is presented
-     * also is used for hooking version specific upgrade procedures
-     * and display information to be presented upon app launch
-     */
-    fun newVersionCheck() {
-        val prevVersion = prefHandler.getInt(PrefKey.CURRENT_VERSION, -1)
-        val currentVersion = DistributionHelper.versionNumber
-        if (prevVersion < currentVersion) {
-            if (prevVersion == -1) {
-                return
-            }
-            upgradeHandlerViewModel.upgrade(this, prevVersion, currentVersion)
-
-            showVersionDialog(prevVersion)
-        } else {
-            lifecycleScope.launch(Dispatchers.IO) {
-                if ((!licenceHandler.hasTrialAccessTo(ContribFeature.SYNCHRONIZATION)
-                            && viewModel.repository.countAccounts(
-                        "$KEY_SYNC_ACCOUNT_NAME IS NOT NULL",
-                        null
-                    ) > 0
-                            && !prefHandler.getBoolean(
-                        PrefKey.SYNC_UPSELL_NOTIFICATION_SHOWN,
-                        false
-                    )
-                            )
-                ) {
-                    prefHandler.putBoolean(PrefKey.SYNC_UPSELL_NOTIFICATION_SHOWN, true)
-                    ContribUtils.showContribNotification(
-                        this@MyExpenses,
-                        ContribFeature.SYNCHRONIZATION
-                    )
-                }
-            }
-        }
-        checkCalendarPermission()
-    }
-
-    private fun checkCalendarPermission() {
-        if ("-1" != prefHandler.getString(PrefKey.PLANNER_CALENDAR_ID, "-1")) {
-            checkPermissionsForPlaner()
-        }
-    }
-
-    fun balance(accountId: Long, reset: Boolean) {
-        viewModel.balanceAccount(accountId, reset).observe(
-            this
-        ) { result ->
-            result.onFailure {
-                showSnackBar(it.safeMessage)
-            }
-        }
-    }
-
     private fun Bundle.addFilter() {
         putParcelable(
             KEY_FILTER,
@@ -2670,89 +2024,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
         exportViewModel.startExport(args)
     }
 
-    fun addFilterCriterion(c: SimpleCriterion<*>) {
-        lifecycleScope.launch {
-            currentFilter.addCriterion(c)
-            invalidateOptionsMenu()
-        }
-    }
-
-    override fun onPositive(args: Bundle, checked: Boolean) {
-        super.onPositive(args, checked)
-        when (args.getInt(KEY_COMMAND_POSITIVE)) {
-            R.id.DELETE_COMMAND_DO -> {
-                finishActionMode()
-                viewModel.deleteTransactions(args.getLongArray(KEY_ROW_IDS)!!, checked)
-            }
-
-            R.id.BALANCE_COMMAND_DO -> {
-                balance(args.getLong(KEY_ROWID), checked)
-            }
-
-            R.id.REMAP_COMMAND -> {
-                remapHandler.remap(args, checked)
-                finishActionMode()
-            }
-
-            R.id.SPLIT_TRANSACTION_COMMAND -> {
-                finishActionMode()
-                val ids = args.getLongArray(KEY_ROW_IDS)!!
-                viewModel.split(ids).observe(this) { result ->
-                    showSnackBar(
-                        result.fold(
-                            onSuccess = {
-                                if (it) {
-                                    recordUsage(ContribFeature.SPLIT_TRANSACTION)
-                                    if (ids.size > 1)
-                                        getString(R.string.split_transaction_one_success)
-                                    else
-                                        getString(
-                                            R.string.split_transaction_group_success,
-                                            ids.size
-                                        )
-                                } else getString(R.string.split_transaction_not_possible)
-                            },
-                            onFailure = {
-                                report(it)
-                                it.safeMessage
-                            }
-                        ))
-                }
-            }
-
-            R.id.UNGROUP_SPLIT_COMMAND -> {
-                viewModel.revokeSplit(args.getLong(KEY_ROWID)).observe(this) { result ->
-                    result.onSuccess {
-                        showSnackBar(getString(R.string.ungroup_split_transaction_success))
-                    }.onFailure {
-                        report(it)
-                        showSnackBar(it.safeMessage)
-                    }
-                }
-            }
-
-            R.id.LINK_TRANSFER_COMMAND -> {
-                finishActionMode()
-                viewModel.linkTransfer(args.getLongArray(KEY_ROW_IDS)!!).observeAndReportFailure()
-            }
-
-            R.id.UNLINK_TRANSFER_COMMAND -> {
-                viewModel.unlinkTransfer(args.getLong(KEY_ROWID)).observeAndReportFailure()
-            }
-
-            R.id.TRANSFORM_TO_TRANSFER_COMMAND -> {
-                viewModel.transformToTransfer(
-                    args.getLong(KEY_TRANSACTIONID),
-                    args.getLong(KEY_ROWID)
-                ).observeAndReportFailure()
-            }
-
-            R.id.UNARCHIVE_COMMAND -> {
-                viewModel.unarchive(args.getLong(KEY_ROWID))
-            }
-        }
-    }
-
     override fun onAction(action: CompletedAction, index: Int?) {
         when (action) {
             is ShareAction -> baseViewModel.share(
@@ -2765,15 +2036,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
             is OpenAction -> startActionView(action.targets[index ?: 0], action.mimeType)
 
             else -> {}
-        }
-    }
-
-    private fun LiveData<Result<Unit>>.observeAndReportFailure() {
-        observe(this@MyExpenses) { result ->
-            result.onFailure {
-                report(it)
-                showSnackBar(it.safeMessage)
-            }
         }
     }
 

@@ -10,7 +10,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.CheckableMenuEntry
-import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.TooltipIconMenu
 import org.totschnig.myexpenses.compose.UiText
 import org.totschnig.myexpenses.model.AccountGrouping
@@ -29,7 +28,7 @@ fun AccountGroupingMenu(
     TooltipIconMenu(
         tooltip = stringResource(R.string.menu_grouping),
         imageVector = Icons.AutoMirrored.Default.List,
-        menu = Menu(groupingOptions.map { option ->
+        menu = groupingOptions.map { option ->
             CheckableMenuEntry(
                 label = UiText.StringValue(option.toString()),
                 action = { onGroupingChange(option) },
@@ -37,7 +36,7 @@ fun AccountGroupingMenu(
                 isChecked = activeGrouping == option,
                 isRadio = true
             )
-        })
+        }
     )
 }
 
@@ -52,25 +51,23 @@ fun AccountFilterMenu(
     TooltipIconMenu(
         tooltip = stringResource(R.string.filter),
         imageVector = Icons.Default.FilterAlt,
-        menu = Menu(
-            listOf(
-                CheckableMenuEntry(
-                    label = UiText.StringResource(R.string.show_all),
-                    action = { onFilterChange(null) },
-                    command = "RESET_FILTER",
-                    isChecked = activeFilter == null,
-                    isRadio = true
-                )
-            ) +
-                    availableFilters.map { filter ->
-                        CheckableMenuEntry(
-                            label = UiText.StringValue(filter.title(context)),
-                            action = { onFilterChange(filter) },
-                            command = "CHANGE_FILTER",
-                            isChecked = activeFilter == filter,
-                            isRadio = true
-                        )
-                    })
+        menu = listOf(
+            CheckableMenuEntry(
+                label = UiText.StringResource(R.string.show_all),
+                action = { onFilterChange(null) },
+                command = "RESET_FILTER",
+                isChecked = activeFilter == null,
+                isRadio = true
+            )
+        ) + availableFilters.map { filter ->
+            CheckableMenuEntry(
+                label = UiText.StringValue(filter.title(context)),
+                action = { onFilterChange(filter) },
+                command = "CHANGE_FILTER",
+                isChecked = activeFilter == filter,
+                isRadio = true
+            )
+        }
     )
 }
 
@@ -81,18 +78,16 @@ fun TransactionSortMenu(
 ) {
 
     TooltipIconMenu(
-        stringResource(R.string.display_options_sort_list_by),
-        Icons.Default.SortByAlpha,
-        menu = Menu(
-            entries = TransactionSort.entries.map {
-                CheckableMenuEntry(
-                    label = UiText.StringValue("${stringResource(it.label)} / ${stringResource(it.sortDirection.label)}"),
-                    action = { onSortChange(it) },
-                    isChecked = currentAccount.sortDirection == it.sortDirection && currentAccount.sortBy == it.column,
-                    isRadio = true
-                )
-            }
-        )
+        tooltip = stringResource(R.string.display_options_sort_list_by),
+        imageVector = Icons.Default.SortByAlpha,
+        menu = TransactionSort.entries.map {
+            CheckableMenuEntry(
+                label = UiText.StringValue("${stringResource(it.label)} / ${stringResource(it.sortDirection.label)}"),
+                action = { onSortChange(it) },
+                isChecked = currentAccount.sortDirection == it.sortDirection && currentAccount.sortBy == it.column,
+                isRadio = true
+            )
+        }
     )
 }
 
@@ -105,19 +100,15 @@ fun TransactionGroupingMenu(
     TooltipIconMenu(
         tooltip = stringResource(R.string.menu_grouping),
         imageVector = Icons.AutoMirrored.Default.List,
-        menu = Menu(
-            entries = buildList {
-                Grouping.entries.forEach { grouping ->
-                    add(
-                        CheckableMenuEntry(
-                            label = UiText.StringResource(grouping.label),
-                            action = { onGroupingChange(grouping) },
-                            isChecked = grouping == currentGroup,
-                            isRadio = true
-                        )
-                    )
-                }
+        menu = buildList {
+            Grouping.entries.map { grouping ->
+                CheckableMenuEntry(
+                    label = UiText.StringResource(grouping.label),
+                    action = { onGroupingChange(grouping) },
+                    isChecked = grouping == currentGroup,
+                    isRadio = true
+                )
             }
-        )
+        }
     )
 }

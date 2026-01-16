@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.sort.SortDirection
+import org.totschnig.myexpenses.model2.AccountWithGroupingKey
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DataBaseAccount
@@ -184,7 +185,7 @@ data class FullAccount(
     val initialExchangeRate: Double? = null,
     val latestExchangeRate: Pair<LocalDate, Double>? = null,
     val dynamic: Boolean = false,
-) : BaseAccount() {
+) : BaseAccount(), AccountWithGroupingKey {
 
     override val currency: String = currencyUnit.code
 

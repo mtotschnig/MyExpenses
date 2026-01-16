@@ -1,6 +1,9 @@
 package org.totschnig.myexpenses.model2
 
 import android.net.Uri
+import org.totschnig.myexpenses.model.AccountFlag
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DataBaseAccount
@@ -39,4 +42,10 @@ interface AccountInfoWithGrouping: IAccount {
             args
         )
     }
+}
+
+interface AccountWithGroupingKey {
+    val currencyUnit: CurrencyUnit
+    val flag: AccountFlag
+    val type: AccountType
 }

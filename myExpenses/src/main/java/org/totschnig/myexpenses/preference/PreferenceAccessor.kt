@@ -9,7 +9,9 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.util.enumValueOrDefault
 
@@ -32,6 +34,19 @@ interface Mapper<U, P> {
 }
 
 /**
+ * A sealed class representing the state of a preference value being loaded from a data source.
+ * This allows the UI to explicitly handle the initial loading state.
+ */
+sealed interface PreferenceState<out T> {
+    /** The preference value has not been loaded yet. */
+    data object Loading : PreferenceState<Nothing>
+
+    /** The preference value has been successfully loaded. */
+    data class Loaded<T>(val value: T) : PreferenceState<T>
+}
+
+
+/**
  * A helper class that encapsulates the logic for reading and writing
  * a specific preference from a DataStore.
  *
@@ -50,13 +65,23 @@ class PreferenceAccessor<U, P>(
     private val defaultValue: U,
     private val mapper: Mapper<U, P>,
 ) {
-    /**
-     * A Flow that emits the current value of the preference, converted to the
-     * user-facing type U.
-     */
-    val flow: Flow<U> = dataStore.data.map { preferences ->
-        preferences[key]?.let { mapper.fromPreference(it) } ?: defaultValue
-    }
+
+    private val dataStoreFlow: Flow<U> = dataStore.data
+        .map { preferences ->
+            preferences[key]?.let { mapper.fromPreference(it) } ?: defaultValue
+        }
+
+
+    val flow: Flow<U> = dataStoreFlow
+        .onStart { emit(defaultValue) }
+        .distinctUntilChanged()
+
+    val statefulFlow: Flow<PreferenceState<U>> = dataStoreFlow
+        .map<U, PreferenceState<U>> { loadedValue ->
+            PreferenceState.Loaded(loadedValue)
+        }
+        .onStart { emit(PreferenceState.Loading) }
+        .distinctUntilChanged()
 
     /**
      * Persists a new user-facing value by converting it to the persisted type

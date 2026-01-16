@@ -11,7 +11,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -534,39 +533,23 @@ fun AccountCard(
                     onEvent = object : EventHandler {
                         override fun invoke(event: AppEvent) {
                             when (event) {
-                                is AppEvent.DeleteAccount -> {
-                                    onDelete(event.account)
-                                }
+                                is AppEvent.DeleteAccount -> onDelete(event.account)
 
-                                is EditAccount -> {
-                                    onEdit(event.account)
-                                }
+                                is EditAccount -> onEdit(event.account)
 
-                                is AppEvent.SetFlag -> {
-                                    onSetFlag(event.accountId, event.flagId)
-                                }
+                                is AppEvent.SetFlag -> onSetFlag(event.accountId, event.flagId)
 
-                                is AppEvent.ToggleDynamicExchangeRate -> {
+                                is AppEvent.ToggleDynamicExchangeRate ->
                                     onToggleDynamicExchangeRate?.invoke(event.account)
-                                }
 
-                                is AppEvent.ToggleExcludeFromTotals -> {
+                                is AppEvent.ToggleExcludeFromTotals ->
                                     onToggleExcludeFromTotals(event.account)
-                                }
 
-                                is AppEvent.ToggleSealed -> {
-                                    onToggleSealed(event.account)
-                                }
+                                is AppEvent.ToggleSealed -> onToggleSealed(event.account)
 
-                                else -> {
-                                    CrashHandler.throwOrReport(IllegalArgumentException("$event not handled"))
-                                }
+                                else -> CrashHandler.throwOrReport(IllegalArgumentException("$event not handled"))
                             }
                         }
-
-                        override val canToggleDynamicExchangeRate: Boolean
-                            get() = onToggleDynamicExchangeRate != null
-
                     },
                     flags = flags
                 )
@@ -871,65 +854,61 @@ private fun accountMenu(
     account: FullAccount,
     onEvent: EventHandler,
     flags: List<AccountFlag>,
-) = Menu(
-    buildList {
-        if (account.id > 0) {
-            if (!account.sealed) {
-                add(edit("EDIT_ACCOUNT") { onEvent(EditAccount(account)) })
-            }
-            add(delete("DELETE_ACCOUNT") { onEvent(AppEvent.DeleteAccount(account)) })
-            add(
-                SubMenuEntry(
-                    label = R.string.menu_flag,
-                    icon = Icons.Filled.Flag,
-                    subMenu = Menu(
-                        flags.filter { it.id != DEFAULT_FLAG_ID }.map {
-                            val isChecked = account.flag.id == it.id
-                            CheckableMenuEntry(
-                                label = UiText.StringValue(
-                                    it.title(context)
-                                ),
-                                command = "SET_FLAG",
-                                isRadio = true,
-                                isChecked = isChecked
-                            ) {
-                                onEvent(
-                                    AppEvent.SetFlag(
-                                        account.id,
-                                        if (isChecked) DEFAULT_FLAG_ID else it.id
-                                    )
-                                )
-                            }
-                        }
-                    )
-                )
-            )
-            add(
-                toggle("ACCOUNT", account.sealed) {
-                    onEvent(AppEvent.ToggleSealed(account))
+) = buildList {
+    if (account.id > 0) {
+        if (!account.sealed) {
+            add(edit("EDIT_ACCOUNT") { onEvent(EditAccount(account)) })
+        }
+        add(delete("DELETE_ACCOUNT") { onEvent(AppEvent.DeleteAccount(account)) })
+        add(
+            SubMenuEntry(
+                label = R.string.menu_flag,
+                icon = Icons.Filled.Flag,
+                subMenu = flags.filter { it.id != DEFAULT_FLAG_ID }.map {
+                    val isChecked = account.flag.id == it.id
+                    CheckableMenuEntry(
+                        label = UiText.StringValue(
+                            it.title(context)
+                        ),
+                        command = "SET_FLAG",
+                        isRadio = true,
+                        isChecked = isChecked
+                    ) {
+                        onEvent(
+                            AppEvent.SetFlag(
+                                account.id,
+                                if (isChecked) DEFAULT_FLAG_ID else it.id
+                            )
+                        )
+                    }
                 }
             )
+        )
+        add(
+            toggle("ACCOUNT", account.sealed) {
+                onEvent(AppEvent.ToggleSealed(account))
+            }
+        )
+        add(
+            CheckableMenuEntry(
+                isChecked = account.excludeFromTotals,
+                label = R.string.menu_exclude_from_totals,
+                command = "EXCLUDE_FROM_TOTALS_COMMAND"
+            ) {
+                onEvent(AppEvent.ToggleExcludeFromTotals(account))
+            })
+        if (account.currency != homeCurrency.code) {
             add(
                 CheckableMenuEntry(
-                    isChecked = account.excludeFromTotals,
-                    label = R.string.menu_exclude_from_totals,
-                    command = "EXCLUDE_FROM_TOTALS_COMMAND"
+                    isChecked = account.dynamic,
+                    label = R.string.dynamic_exchange_rate,
+                    command = "DYNAMIC_EXCHANGE_RATE"
                 ) {
-                    onEvent(AppEvent.ToggleExcludeFromTotals(account))
+                    onEvent(AppEvent.ToggleDynamicExchangeRate(account))
                 })
-            if (account.currency != homeCurrency.code) {
-                add(
-                    CheckableMenuEntry(
-                        isChecked = account.dynamic,
-                        label = R.string.dynamic_exchange_rate,
-                        command = "DYNAMIC_EXCHANGE_RATE"
-                    ) {
-                        onEvent(AppEvent.ToggleDynamicExchangeRate(account))
-                    })
-            }
         }
     }
-)
+}
 
 
 @OptIn(ExperimentalFoundationApi::class)

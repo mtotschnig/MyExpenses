@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.compose
 
+import android.content.Context
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -13,13 +14,20 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.add
 import androidx.compose.foundation.layout.asPaddingValues
-import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.CallSplit
+import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.Link
+import androidx.compose.material.icons.filled.LinkOff
+import androidx.compose.material.icons.filled.Loupe
+import androidx.compose.material.icons.filled.RestoreFromTrash
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Unarchive
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -55,13 +63,30 @@ import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import kotlinx.coroutines.launch
+import myiconpack.IcActionTemplateAdd
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
+import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
+import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
+import org.totschnig.myexpenses.compose.MenuEntry.Companion.select
+import org.totschnig.myexpenses.compose.main.AppEvent
+import org.totschnig.myexpenses.compose.main.EventHandler
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.compose.scrollbar.STICKY_HEADER_CONTENT_TYPE
+import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
 import org.totschnig.myexpenses.model.sort.SortDirection
+import org.totschnig.myexpenses.provider.filter.AmountCriterion
+import org.totschnig.myexpenses.provider.filter.CategoryCriterion
+import org.totschnig.myexpenses.provider.filter.CommentCriterion
+import org.totschnig.myexpenses.provider.filter.MethodCriterion
+import org.totschnig.myexpenses.provider.filter.Operation
+import org.totschnig.myexpenses.provider.filter.PayeeCriterion
+import org.totschnig.myexpenses.provider.filter.TagCriterion
+import org.totschnig.myexpenses.util.ICurrencyFormatter
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.toEpoch
 import org.totschnig.myexpenses.viewmodel.data.BudgetData
@@ -145,7 +170,8 @@ fun TransactionList(
     headerData: HeaderDataResult,
     budgetData: State<BudgetData?>,
     selectionHandler: SelectionHandler?,
-    menuGenerator: (Transaction2) -> Menu? = { null },
+    selectAllState: MutableState<Boolean>,
+    onEvent: EventHandler,
     futureCriterion: FutureCriterion,
     expansionHandler: ExpansionHandler?,
     onBudgetClick: (Long, Int) -> Unit,
@@ -153,16 +179,40 @@ fun TransactionList(
     scrollToCurrentDate: MutableState<Boolean>,
     renderer: ItemRenderer,
     isFiltered: Boolean,
+    modificationsAllowed: Boolean,
     windowInsets: WindowInsets = WindowInsets(),
-    splitInfoResolver: suspend (Long) -> List<Pair<String , String?>>? = { null }
+    splitInfoResolver: suspend (Long) -> List<Pair<String, String?>>? = { null },
+    accountCount: Int,
 ) {
+
+    if (selectionHandler != null) {
+        LaunchedEffect(selectAllState.value) {
+            if (selectAllState.value) {
+                if (lazyPagingItems.loadState.prepend.endOfPaginationReached &&
+                    lazyPagingItems.loadState.append.endOfPaginationReached
+                ) {
+                    var jndex = 0
+                    while (jndex < lazyPagingItems.itemCount) {
+                        lazyPagingItems.peek(jndex)?.let {
+                            selectionHandler.selectConditional(it)
+                        }
+                        jndex++
+                    }
+                } else {
+                    onEvent(AppEvent.SelectAllListTooLarge)
+                }
+                selectAllState.value = false
+            }
+        }
+    }
+
     val listState = rememberLazyListState()
     val collapsedIds = if (expansionHandler != null)
         expansionHandler.state.collectAsState(initial = null).value
     else emptySet()
 
     val splitInfoCache = remember(lazyPagingItems.loadState.refresh) {
-        Collections.synchronizedMap(HashMap<Long, List<Pair<String , String?>>?>())
+        Collections.synchronizedMap(HashMap<Long, List<Pair<String, String?>>?>())
     }
     val scope = rememberCoroutineScope()
 
@@ -223,7 +273,10 @@ fun TransactionList(
                 defaultValue = showSumDetails,
                 showSumDetails
             )
+
             val nestedScrollInterop = rememberNestedScrollInteropConnection()
+            val context = LocalContext.current
+            val amountFormatter = LocalCurrencyFormatter.current
 
             LazyColumnWithScrollbar(
                 modifier = modifier.nestedScroll(nestedScrollInterop),
@@ -349,7 +402,16 @@ fun TransactionList(
                                                 )
                                             },
                                         selectionHandler = selectionHandler,
-                                        menuGenerator = menuGenerator,
+                                        menuGenerator = {
+                                            transactionMenu(
+                                                modificationsAllowed,
+                                                accountCount,
+                                                context,
+                                                amountFormatter,
+                                                it,
+                                                onEvent
+                                            )
+                                        },
                                         resolvedSplitInfo = resolvedSplitInfo.value
                                     )
                                 }
@@ -535,6 +597,235 @@ interface SelectionHandler {
     fun selectConditional(transaction: Transaction2) {
         if (isSelectable(transaction)) select(transaction)
     }
+}
+
+private fun transactionMenu(
+    modificationAllowed: Boolean,
+    accountCount: Int,
+    context: Context,
+    currencyFormatter: ICurrencyFormatter,
+    transaction: Transaction2,
+    onEvent: EventHandler,
+) = buildList {
+    add(
+        MenuEntry(
+            label = R.string.details,
+            icon = Icons.Filled.Loupe,
+            command = "DETAILS"
+        ) {
+            onEvent(AppEvent.ShowDetails(transaction))
+        })
+    if (modificationAllowed) {
+        if (transaction.isArchive) {
+            add(
+                MenuEntry(
+                    label = R.string.menu_unpack,
+                    icon = Icons.Filled.Unarchive,
+                    command = "UNPACK_ARCHIVE"
+                ) {
+                    onEvent(AppEvent.Unarchive(transaction.id))
+                })
+            add(delete("DELETE_ARCHIVE") {
+                onEvent(AppEvent.Delete(transaction))
+            })
+        } else {
+            add(
+                MenuEntry(
+                    label = R.string.menu_clone_transaction,
+                    icon = Icons.Filled.ContentCopy,
+                    command = "CLONE"
+                ) {
+                    onEvent(AppEvent.Edit(transaction, true))
+                })
+            add(
+                MenuEntry(
+                    label = R.string.menu_create_template_from_transaction,
+                    icon = IcActionTemplateAdd,
+                    command = "CREATE_TEMPLATE_FROM_TRANSACTION"
+                ) { onEvent(AppEvent.CreateTemplate(transaction)) })
+            if (transaction.crStatus == CrStatus.VOID) {
+                add(
+                    MenuEntry(
+                        label = R.string.menu_undelete_transaction,
+                        icon = Icons.Filled.RestoreFromTrash,
+                        command = "UNDELETE_TRANSACTION"
+                    ) {
+                        onEvent(AppEvent.UnDelete(transaction.id))
+                    })
+            } else {
+                add(edit("EDIT_TRANSACTION") {
+                    onEvent(AppEvent.Edit(transaction, false))
+                })
+            }
+            add(delete("DELETE_TRANSACTION") {
+                onEvent(AppEvent.Delete(transaction))
+            })
+            add(select("SELECT_TRANSACTION") {
+                onEvent(AppEvent.Select(transaction))
+            })
+            when {
+                transaction.isSplit -> {
+                    add(
+                        MenuEntry(
+                            label = R.string.menu_ungroup_split_transaction,
+                            icon = Icons.AutoMirrored.Filled.CallSplit,
+                            command = "UNGROUP_SPLIT"
+                        ) {
+                            onEvent(AppEvent.Ungroup(transaction))
+                        })
+                }
+
+                transaction.isTransfer -> {
+                    add(
+                        MenuEntry(
+                            label = R.string.menu_unlink_transfer,
+                            icon = Icons.Filled.LinkOff,
+                            command = "UNLINK_TRANSFER"
+                        ) {
+                            onEvent(AppEvent.Unlink(transaction))
+                        })
+                }
+
+                else -> {
+                    if (accountCount >= 2) {
+                        add(
+                            MenuEntry(
+                                label = R.string.menu_transform_to_transfer,
+                                icon = Icons.Filled.Link,
+                                command = "TRANSFORM_TRANSFER"
+                            ) {
+                                onEvent(AppEvent.TransformToTransfer(transaction))
+                            })
+                    }
+                }
+            }
+        }
+    }
+    add(
+        SubMenuEntry(
+            label = R.string.filter,
+            icon = Icons.Filled.Search,
+            subMenu = buildList {
+                if (transaction.catId != null && !transaction.isSplit) {
+                    if (transaction.categoryPath != null) {
+                        add(
+                            MenuEntry(
+                                label = UiText.StringValue(
+                                    transaction.categoryPath
+                                ),
+                                command = "FILTER_FOR_CATEGORY"
+                            ) {
+                                onEvent(
+                                    AppEvent.AddFilter(
+                                        CategoryCriterion(
+                                            transaction.categoryPath,
+                                            transaction.catId
+                                        )
+                                    )
+                                )
+                            })
+                    } else {
+                        report(
+                            IllegalStateException("Category path is null")
+                        )
+                    }
+                }
+                if (transaction.party?.id != null) {
+                    add(
+                        MenuEntry(
+                            label = UiText.StringValue(
+                                transaction.party.name
+                            ),
+                            command = "FILTER_FOR_PAYEE"
+                        ) {
+                            onEvent(
+                                AppEvent.AddFilter(
+                                    PayeeCriterion(
+                                        transaction.party.name,
+                                        transaction.party.id
+                                    )
+                                )
+                            )
+                        }
+                    )
+                }
+                if (transaction.methodId != null) {
+                    val label =
+                        transaction.methodLabel!!.translateIfPredefined(context)
+                    add(
+                        MenuEntry(
+                            label = UiText.StringValue(label),
+                            command = "FILTER_FOR_METHOD"
+                        ) {
+                            onEvent(
+                                AppEvent.AddFilter(
+                                    MethodCriterion(
+                                        label,
+                                        transaction.methodId
+                                    )
+                                )
+                            )
+                        }
+                    )
+                }
+                if (transaction.tagList.isNotEmpty()) {
+                    val label =
+                        transaction.tagList.joinToString { it.second }
+                    add(
+                        MenuEntry(
+                            label = UiText.StringValue(label),
+                            command = "FILTER_FOR_METHOD"
+                        ) {
+                            onEvent(
+                                AppEvent.AddFilter(
+                                    TagCriterion(
+                                        label,
+                                        transaction.tagList.map { it.first }
+                                    )
+                                ))
+                        }
+                    )
+                }
+                add(
+                    MenuEntry(
+                        label = UiText.StringValue(
+                            currencyFormatter.formatMoney(
+                                transaction.displayAmount
+                            )
+                        ),
+                        command = "FILTER_FOR_AMOUNT"
+                    ) {
+                        onEvent(
+                            AppEvent.AddFilter(
+                                AmountCriterion(
+                                    operation = Operation.EQ,
+                                    values = listOf(transaction.displayAmount.amountMinor),
+                                    currency = transaction.displayAmount.currencyUnit.code,
+                                    sign = transaction.displayAmount.amountMinor > 0
+                                )
+                            )
+                        )
+                    }
+                )
+                if (!transaction.comment.isNullOrEmpty()) {
+                    add(
+                        MenuEntry(
+                            label = UiText.StringValue(
+                                transaction.comment
+                            ),
+                            command = "FILTER_FOR_AMOUNT"
+                        ) {
+                            onEvent(
+                                AppEvent.AddFilter(
+                                    CommentCriterion(transaction.comment)
+                                )
+                            )
+                        }
+                    )
+                }
+            }
+        )
+    )
 }
 
 

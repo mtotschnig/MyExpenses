@@ -52,7 +52,6 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.Help
 import org.totschnig.myexpenses.compose.ButtonRow
-import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.OverFlowMenu
 import org.totschnig.myexpenses.compose.conditional
@@ -70,7 +69,7 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
         val uuid: String,
         val isLocal: Boolean,
         val isRemote: Boolean,
-        val isSealed: Boolean
+        val isSealed: Boolean,
     ) : Parcelable
 
     private val viewModel: SetupSyncViewModel by viewModels()
@@ -114,7 +113,11 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
     }
 
     val data: SyncViewModel.SyncAccountData by lazy {
-        BundleCompat.getParcelable(requireArguments(), KEY_DATA, SyncViewModel.SyncAccountData::class.java)!!
+        BundleCompat.getParcelable(
+            requireArguments(),
+            KEY_DATA,
+            SyncViewModel.SyncAccountData::class.java
+        )!!
     }
 
     @Composable
@@ -129,7 +132,9 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
         ) {
             item {
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 8.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
@@ -139,32 +144,30 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                         text = data.accountName
                     )
                     OverFlowMenu(
-                        menu = Menu(
-                            listOf(
-                                MenuEntry(
-                                    label = R.string.menu_help,
-                                    command = "HELP"
-                                ) {
-                                    startActivity(
-                                        Intent(
-                                            requireContext(),
-                                            Help::class.java
-                                        ).apply {
-                                            putExtra(
-                                                HelpDialogFragment.KEY_CONTEXT,
-                                                "SetupSync"
-                                            )
-                                            putExtra(
-                                                HelpDialogFragment.KEY_TITLE,
-                                                "${getString(R.string.synchronization)} - ${
-                                                    getString(
-                                                        R.string.setup
-                                                    )
-                                                }"
-                                            )
-                                        })
-                                }
-                            )
+                        menu = listOf(
+                            MenuEntry(
+                                label = R.string.menu_help,
+                                command = "HELP"
+                            ) {
+                                startActivity(
+                                    Intent(
+                                        requireContext(),
+                                        Help::class.java
+                                    ).apply {
+                                        putExtra(
+                                            HelpDialogFragment.KEY_CONTEXT,
+                                            "SetupSync"
+                                        )
+                                        putExtra(
+                                            HelpDialogFragment.KEY_TITLE,
+                                            "${getString(R.string.synchronization)} - ${
+                                                getString(
+                                                    R.string.setup
+                                                )
+                                            }"
+                                        )
+                                    })
+                            }
                         )
                     )
                 }
@@ -174,9 +177,18 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
                         text = stringResource(id = R.string.account) + " (UUID)",
                         fontWeight = FontWeight.Bold
                     )
-                    Text(modifier = Modifier.weight(SOURCE_WEIGHT), text = "Local", fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
+                    Text(
+                        modifier = Modifier.weight(SOURCE_WEIGHT),
+                        text = "Local",
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Center
+                    )
                     Spacer(modifier = Modifier.width(LocalMinimumInteractiveComponentSize.current))
-                    Text(modifier = Modifier.weight(SOURCE_WEIGHT), text = "Remote", fontWeight = FontWeight.Bold)
+                    Text(
+                        modifier = Modifier.weight(SOURCE_WEIGHT),
+                        text = "Remote",
+                        fontWeight = FontWeight.Bold
+                    )
                 }
                 HorizontalDivider()
             }
@@ -310,7 +322,7 @@ class SetupSyncDialogFragment : ComposeBaseDialogFragment(), SimpleDialog.OnDial
 private fun Account(
     item: AccountRow,
     linkState: SyncSource?,
-    onLinkClick: (() -> Unit)
+    onLinkClick: (() -> Unit),
 ) {
     Column {
 
@@ -396,11 +408,14 @@ private fun Account(
 @Preview(widthDp = 246)
 @Composable
 fun AccountPreview() {
-    Account(AccountRow("Test-Level-${Build.VERSION.SDK_INT}", "Test-UUID",
-        isLocal = true,
-        isRemote = true,
-        isSealed = false
-    ), null) { }
+    Account(
+        AccountRow(
+            "Test-Level-${Build.VERSION.SDK_INT}", "Test-UUID",
+            isLocal = true,
+            isRemote = true,
+            isSealed = false
+        ), null
+    ) { }
 }
 
 private const val LABEL_WEIGHT = 3f

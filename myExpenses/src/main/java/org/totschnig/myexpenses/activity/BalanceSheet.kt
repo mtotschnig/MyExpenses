@@ -73,8 +73,6 @@ import org.totschnig.myexpenses.compose.CheckableMenuEntry
 import org.totschnig.myexpenses.compose.ColoredAmountText
 import org.totschnig.myexpenses.compose.LocalDateFormatter
 import org.totschnig.myexpenses.compose.LocalHomeCurrency
-import org.totschnig.myexpenses.compose.Menu
-import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.PieChartCompose
 import org.totschnig.myexpenses.compose.TooltipIconButton
 import org.totschnig.myexpenses.compose.TooltipIconMenu
@@ -111,35 +109,33 @@ fun BalanceSheetOptions(
     TooltipIconMenu(
         tooltip = "Options",
         imageVector = Icons.Filled.Tune,
-        menu = Menu(
-            listOfNotNull(
-                showHiddenState?.let {
-                    CheckableMenuEntry(
-                        label = R.string.show_invisible,
-                        command = "TOGGLE_SHOW_INVISIBLE",
-                        it.value
-                    ) {
-                        showHiddenState.value = !showHiddenState.value
-                    }
-                },
-                showZeroState?.let {
-                    CheckableMenuEntry(
-                        label = R.string.show_zero,
-                        command = "TOGGLE_SHOW_ZERO",
-                        it.value
-                    ) {
-                        showZeroState.value= !showZeroState.value
-                    }
-                },
+        menu = listOfNotNull(
+            showHiddenState?.let {
                 CheckableMenuEntry(
-                    label = R.string.menu_chart,
-                    command = "TOGGLE_CHART_BALANCE",
-                    showChartState.value
+                    label = R.string.show_invisible,
+                    command = "TOGGLE_SHOW_INVISIBLE",
+                    it.value
                 ) {
-                    showChartState.value = !showChartState.value
-                    highlight.value = null
+                    showHiddenState.value = !showHiddenState.value
                 }
-            )
+            },
+            showZeroState?.let {
+                CheckableMenuEntry(
+                    label = R.string.show_zero,
+                    command = "TOGGLE_SHOW_ZERO",
+                    it.value
+                ) {
+                    showZeroState.value = !showZeroState.value
+                }
+            },
+            CheckableMenuEntry(
+                label = R.string.menu_chart,
+                command = "TOGGLE_CHART_BALANCE",
+                showChartState.value
+            ) {
+                showChartState.value = !showChartState.value
+                highlight.value = null
+            }
         )
     )
 }
@@ -542,10 +538,10 @@ fun BalanceAccountItemView(
         )
         Column(horizontalAlignment = Alignment.End) {
             ColoredAmountText(account.equivalentCurrentBalance, homeCurrency, absolute = true)
-            if (account.currency.code != homeCurrency.code && account.currentBalance != 0L) {
+            if (account.currencyUnit.code != homeCurrency.code && account.currentBalance != 0L) {
                 AmountText(
                     account.currentBalance.absoluteValue,
-                    account.currency,
+                    account.currencyUnit,
                     fontSize = 10.sp
                 )
             }
@@ -634,7 +630,6 @@ fun BalanceSheet() {
         accounts = listOf(
             BalanceAccount(
                 label = "Checking Account",
-                type = AccountType.CASH,
                 currentBalance = 500000, // $5,000.00 (assuming cents)
             ),
             BalanceAccount(
@@ -654,16 +649,15 @@ fun BalanceSheet() {
             ),
             BalanceAccount(
                 label = "USD Cash",
-                type = AccountType.CASH,
                 currentBalance = 200000, // €2,000.00
-                currency = CurrencyUnit(Currency.getInstance("USD")),
+                currencyUnit = CurrencyUnit(Currency.getInstance("USD")),
                 equivalentCurrentBalance = (200000 * 0.92).roundToLong()
             ),
             BalanceAccount(
                 label = "JPY Account",
                 type = AccountType.BANK,
                 currentBalance = 5000000, // ¥50,000.00
-                currency = CurrencyUnit(Currency.getInstance("JPY")),
+                currencyUnit = CurrencyUnit(Currency.getInstance("JPY")),
                 equivalentCurrentBalance = (5000000 * 0.0075).roundToLong(),
             ),
             BalanceAccount(
@@ -673,9 +667,8 @@ fun BalanceSheet() {
             ),
             BalanceAccount(
                 label = "GBP Cash",
-                type = AccountType.CASH,
                 currentBalance = 100000, // £1,000.00
-                currency = CurrencyUnit(Currency.getInstance("GBP")),
+                currencyUnit = CurrencyUnit(Currency.getInstance("GBP")),
                 equivalentCurrentBalance = (100000 * 1.28).roundToLong(),
             ),
             BalanceAccount(
@@ -685,7 +678,6 @@ fun BalanceSheet() {
             ),
             BalanceAccount(
                 label = "Petty Cash",
-                type = AccountType.CASH,
                 currentBalance = 10000, // $100.00 (loan debt)
             )
         ),

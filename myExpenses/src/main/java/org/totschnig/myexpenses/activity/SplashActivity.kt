@@ -9,6 +9,10 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.preference.PrefKey
 import kotlin.system.exitProcess
 
+enum class Version {
+    V1, V2
+}
+
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,10 +26,7 @@ class SplashActivity : Activity() {
                         prefHandler.getInt(PrefKey.CURRENT_VERSION, -1) == -1
                             -> OnboardingActivity::class.java
 
-                        prefHandler.getBoolean(
-                            PrefKey.UI_MAIN_SCREEN_LEGACY,
-                            true
-                        ) -> MyExpenses::class.java
+                        prefHandler.mainScreenLegacy -> MyExpenses::class.java
 
                         else -> MyExpensesV2::class.java
                     }

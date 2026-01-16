@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.annotation.StringRes
 import androidx.compose.runtime.saveable.Saver
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.model2.AccountWithGroupingKey
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 
 interface AccountGroupingKey {
@@ -35,7 +36,7 @@ sealed class AccountGrouping<T : AccountGroupingKey>(
             TYPE -> "TYPE"
         }
 
-    abstract fun getGroupKey(account: FullAccount): T
+    abstract fun getGroupKey(account: AccountWithGroupingKey): T
 
     open fun sortedGroupKeys(accounts: List<FullAccount>): List<T> = accounts
         .map { getGroupKey(it) }
@@ -46,28 +47,28 @@ sealed class AccountGrouping<T : AccountGroupingKey>(
         title = R.string.type,
         comparator = compareByDescending(AccountType::sortKey)
     ) {
-        override fun getGroupKey(account: FullAccount) = account.type
+        override fun getGroupKey(account: AccountWithGroupingKey) = account.type
     }
 
     data object CURRENCY : AccountGrouping<CurrencyUnit>(
         title = R.string.currency,
         comparator = compareBy(CurrencyUnit::code)
     ) {
-        override fun getGroupKey(account: FullAccount) = account.currencyUnit
+        override fun getGroupKey(account: AccountWithGroupingKey) = account.currencyUnit
     }
 
     data object FLAG : AccountGrouping<AccountFlag>(
         title = R.string.menu_flag,
         comparator = compareByDescending(AccountFlag::sortKey)
     ) {
-        override fun getGroupKey(account: FullAccount) = account.flag
+        override fun getGroupKey(account: AccountWithGroupingKey) = account.flag
     }
 
     data object NONE : AccountGrouping<AccountGroupingKey.Ungrouped>(
         title = R.string.grouping_none,
         comparator = compareBy { 0 }
     ) {
-        override fun getGroupKey(account: FullAccount) = AccountGroupingKey.Ungrouped
+        override fun getGroupKey(account: AccountWithGroupingKey) = AccountGroupingKey.Ungrouped
         override fun sortedGroupKeys(accounts: List<FullAccount>): List<AccountGroupingKey.Ungrouped> =
             emptyList()
     }

@@ -23,7 +23,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.ButtonRow
 import org.totschnig.myexpenses.compose.HierarchicalMenu
-import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.UiText
 import org.totschnig.myexpenses.dialog.ComposeBaseDialogFragment3
@@ -79,7 +78,7 @@ class NewProgressDialogFragment : ComposeBaseDialogFragment3() {
                             val showOptions = remember { mutableStateOf(false) }
                             TextButton(
                                 onClick = {
-                                    if ( it.bulk || it.targets.size == 1) {
+                                    if (it.bulk || it.targets.size == 1) {
                                         host?.onAction(it)
                                     } else {
                                         showOptions.value = true
@@ -89,8 +88,9 @@ class NewProgressDialogFragment : ComposeBaseDialogFragment3() {
                                 Text(stringResource(it.label))
                             }
                             it.takeIf { !it.bulk && it.targets.size > 1 }?.let { action ->
-                                HierarchicalMenu(expanded = showOptions, menu = Menu(
-                                    action.targets.mapIndexed { index, uri ->
+                                HierarchicalMenu(
+                                    expanded = showOptions,
+                                    menu = action.targets.mapIndexed { index, uri ->
                                         MenuEntry(
                                             label = UiText.StringValue(
                                                 uri.lastPathSegment ?: uri.toString()
@@ -98,7 +98,7 @@ class NewProgressDialogFragment : ComposeBaseDialogFragment3() {
                                             command = action::class.simpleName ?: "action"
                                         ) { host?.onAction(action, index) }
                                     }
-                                ))
+                                )
                             }
                         }
                     }
