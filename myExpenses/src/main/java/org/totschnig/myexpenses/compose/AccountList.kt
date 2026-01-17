@@ -16,8 +16,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ShowChart
@@ -216,11 +218,12 @@ fun AccountListV2(
                         if (grouping == AccountGrouping.CURRENCY) it.currentBalance else it.equivalentCurrentBalance
                     },
                     onToggleExpand = { expansionHandlerGroups.toggle(headerId) },
-                    onNavigate = { onGroupSelected(groupKey) }
+                    onNavigate = if (group.size < 2) null else { { onGroupSelected(groupKey) } }
                 )
             }
             if (!isGroupHidden) {
-                group.filter { it.visible }.forEach { account ->
+                //if we group by flag we also show the members of a group that is configured as invisible
+                (if (grouping == AccountGrouping.FLAG) group else group.filter { it.visible }).forEach { account ->
                     item(key = account.id) {
                         AccountCardV2(
                             account,
@@ -284,7 +287,7 @@ private fun Header(
 private fun HeaderV2(
     header: String,
     onToggleExpand: () -> Unit,
-    onNavigate: () -> Unit,
+    onNavigate: (() -> Unit)?,
     total: Long,
     currency: CurrencyUnit,
 ) {
@@ -297,6 +300,7 @@ private fun HeaderV2(
     Row(
         modifier = Modifier
             .clickable(onClick = onToggleExpand)
+            .heightIn(min = 48.dp)
             .semantics(mergeDescendants = true) {}
             .padding(start = 16.dp, end = 4.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -308,13 +312,15 @@ private fun HeaderV2(
             color = colorResource(id = R.color.material_grey)
         )
         Text(format.convAmount(total, currency))
-        IconButton(
-            onClick = onNavigate
-        ) {
-            Icon(
-                Icons.Filled.ChevronRight,
-                "VIEW ALL"
-            )
+        if (onNavigate == null) {
+            Spacer(Modifier.width(48.dp))
+        } else  {
+            IconButton(onClick = onNavigate) {
+                Icon(
+                    Icons.Filled.ChevronRight,
+                    "VIEW ALL"
+                )
+            }
         }
     }
 }

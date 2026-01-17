@@ -216,7 +216,8 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     SORT_ACCOUNT_LIST_BY_FLAG_FIRST("sort_account_list_by_flag_first"),
     UI_MAIN_SCREEN_VERSION(R.string.pref_ui_main_screen_version_key),
     UI_START_SCREEN(R.string.pref_ui_start_screen_key),
-    UI_SCREEN_LAST_VISITED("ui_screen_last_visited")
+    UI_SCREEN_LAST_VISITED("ui_screen_last_visited"),
+    UI_SCREEN_LAST_ACCOUNT_GROUP_FILTER("ui_screen_last_account_group_filter")
     ;
 
     @Deprecated("")

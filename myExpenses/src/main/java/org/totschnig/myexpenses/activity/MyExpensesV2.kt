@@ -24,7 +24,7 @@ enum class StartScreen {
 
 class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
 
-    override val drawToTopEdge = true
+    override fun handleRootWindowInsets() {}
 
     override val currentAccount: FullAccount?
         get() = viewModel.accountDataV2.value?.getOrNull()?.find { it.id == selectedAccountId }

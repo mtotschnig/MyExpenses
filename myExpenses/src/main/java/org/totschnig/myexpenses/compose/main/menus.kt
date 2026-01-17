@@ -1,8 +1,8 @@
 package org.totschnig.myexpenses.compose.main
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.FilterAlt
+import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.filled.SortByAlpha
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -27,7 +27,7 @@ fun AccountGroupingMenu(
 
     TooltipIconMenu(
         tooltip = stringResource(R.string.menu_grouping),
-        imageVector = Icons.AutoMirrored.Default.List,
+        imageVector = Icons.Default.GridView,
         menu = groupingOptions.map { option ->
             CheckableMenuEntry(
                 label = UiText.StringValue(option.toString()),
@@ -99,16 +99,14 @@ fun TransactionGroupingMenu(
 
     TooltipIconMenu(
         tooltip = stringResource(R.string.menu_grouping),
-        imageVector = Icons.AutoMirrored.Default.List,
-        menu = buildList {
-            Grouping.entries.map { grouping ->
-                CheckableMenuEntry(
-                    label = UiText.StringResource(grouping.label),
-                    action = { onGroupingChange(grouping) },
-                    isChecked = grouping == currentGroup,
-                    isRadio = true
-                )
-            }
+        imageVector = Icons.Default.GridView,
+        menu = Grouping.entries.map { grouping ->
+            CheckableMenuEntry(
+                label = UiText.StringResource(grouping.label),
+                action = { onGroupingChange(grouping) },
+                isChecked = grouping == currentGroup,
+                isRadio = true
+            )
         }
     )
 }

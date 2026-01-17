@@ -1,12 +1,9 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
-import androidx.compose.runtime.mutableLongStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.saveable
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -15,6 +12,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
@@ -29,6 +27,7 @@ import org.totschnig.myexpenses.model.sort.TransactionSort
 import org.totschnig.myexpenses.preference.EnumPreferenceAccessor
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.PreferenceAccessor
+import org.totschnig.myexpenses.preference.PreferenceState
 import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.GROUPING_AGGREGATE
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -36,6 +35,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.mapToListCatching
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount.Companion.fromCursor
+import timber.log.Timber
 
 class MyExpensesV2ViewModel(
     application: Application,
@@ -45,14 +45,13 @@ class MyExpensesV2ViewModel(
     private val _activeFilter = MutableStateFlow<AccountGroupingKey?>(null)
     val activeFilter: StateFlow<AccountGroupingKey?> = _activeFilter.asStateFlow()
 
-    // Functions for the UI to call
     fun setGrouping(grouping: AccountGrouping<*>) {
+        setFilter(null)
         viewModelScope.launch {
             accountGrouping.set(grouping)
         }
     }
 
-    //remove active filter if it is different from passed in grouping key
     fun maybeResetFilter(filter: AccountGroupingKey) {
         if (_activeFilter.value != filter) {
             setFilter(null)
@@ -61,6 +60,22 @@ class MyExpensesV2ViewModel(
 
     fun setFilter(filter: AccountGroupingKey?) {
         _activeFilter.value = filter
+        if (filter != null) {
+            prefHandler.putString(PrefKey.UI_SCREEN_LAST_ACCOUNT_GROUP_FILTER, filter.id.toString())
+        } else {
+            prefHandler.remove(PrefKey.UI_SCREEN_LAST_ACCOUNT_GROUP_FILTER)
+        }
+    }
+
+    fun setStartFilter() {
+        Timber.d("setStartFilter")
+        startFilter?.let { start ->
+            availableGroupFilters.value?.let { available ->
+                available.firstOrNull { it.id.toString() == start }?.let {
+                    setFilter(it)
+                }
+            }
+        }
     }
 
     fun navigateToGroup(filter: AccountGroupingKey) {
@@ -87,16 +102,19 @@ class MyExpensesV2ViewModel(
 
     // Derived state: What are the available filter options for the current grouping?
     @OptIn(ExperimentalCoroutinesApi::class)
-    val availableGroupFilters: StateFlow<List<AccountGroupingKey>> by lazy {
-        accountGrouping.flow.flatMapLatest { grouping ->
-            // This maps the master account list to a list of unique group keys
-            accountDataV2.map { result ->
-                result
-                    ?.getOrNull()
-                    ?.let { accounts -> grouping.sortedGroupKeys(accounts) }
-                    ?: emptyList()
+    val availableGroupFilters: StateFlow<List<AccountGroupingKey>?> by lazy {
+        accountGrouping.statefulFlow.flatMapLatest { preferenceState ->
+            if (preferenceState is PreferenceState.Loading) {
+                emptyFlow()
+            } else {
+                accountDataV2.map { result ->
+                    result
+                        ?.getOrNull()
+                        ?.let { accounts -> (preferenceState as PreferenceState.Loaded).value.sortedGroupKeys(accounts) }
+                }
             }
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+        }.stateIn(viewModelScope, SharingStarted.Lazily, null)
     }
 
 
@@ -185,10 +203,13 @@ class MyExpensesV2ViewModel(
         prefHandler.enumValueOrDefault(PrefKey.UI_START_SCREEN, StartScreen.LastVisited)
     }
 
+    val startFilter by lazy {
+        prefHandler.getString(PrefKey.UI_SCREEN_LAST_ACCOUNT_GROUP_FILTER)
+    }
+
     fun setLastVisited(screen: StartScreen) {
         prefHandler.putString(PrefKey.UI_SCREEN_LAST_VISITED, screen.name)
     }
-
     fun setLastVisited(accountScreenTab: AccountScreenTab) {
         setLastVisited(
             when (accountScreenTab) {

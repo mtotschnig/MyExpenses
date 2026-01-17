@@ -67,7 +67,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -142,6 +141,7 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_
 import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
+import org.totschnig.myexpenses.model.AccountGroupingKey
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
@@ -224,6 +224,8 @@ fun MainScreen(
 
     val accountGrouping = viewModel.accountGrouping.asState()
 
+    val availableFilters = viewModel.availableGroupFilters.collectAsStateWithLifecycle().value
+
     val navigationIcon: @Composable () -> Unit = {
         TooltipIconButton(
             tooltip = stringResource(R.string.settings_label),
@@ -232,7 +234,7 @@ fun MainScreen(
     }
 
     when {
-        result == null -> {
+        result == null || availableFilters == null -> {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
@@ -242,6 +244,9 @@ fun MainScreen(
         }
 
         result.isSuccess -> {
+            LaunchedEffect(Unit) {
+                viewModel.setStartFilter()
+            }
             val accounts = result.getOrNull()
             if (accounts.isNullOrEmpty()) {
                 EmptyState()
@@ -262,11 +267,12 @@ fun MainScreen(
                             navigationIcon = navigationIcon,
                             accounts = accounts,
                             accountGrouping = accountGrouping.value,
+                            availableFilters = availableFilters,
                             viewModel = viewModel,
                             navController = navController,
                             onEvent = onEvent,
                             onPrepareMenuItem = onPrepareMenuItem,
-                            renderFactory
+                            renderFactory = renderFactory
                         )
                     }
                     composable(Screen.Accounts.route) {
@@ -346,6 +352,7 @@ fun TransactionScreen(
     navigationIcon: @Composable () -> Unit = {},
     accounts: List<FullAccount>,
     accountGrouping: AccountGrouping<*>,
+    availableFilters: List<AccountGroupingKey>,
     viewModel: MyExpensesV2ViewModel,
     navController: NavController,
     onEvent: EventHandler,
@@ -355,7 +362,7 @@ fun TransactionScreen(
     LaunchedEffect(Unit) {
         viewModel.setLastVisited(StartScreen.Transactions)
     }
-    val availableFilters by viewModel.availableGroupFilters.collectAsStateWithLifecycle()
+
     val activeFilter by viewModel.activeFilter.collectAsStateWithLifecycle()
     val coroutineScope = rememberCoroutineScope()
     val tabRowState = rememberCollapsingTabRowState()
@@ -382,7 +389,7 @@ fun TransactionScreen(
                     filteredByGroupFilter
                 else
                     filteredByGroupFilter.filter { it.visible }
-            if (filteredByGroupFilter.size > 2)
+            if (filteredByGroupFilter.size < 2)
                 filteredByVisibility
             else filteredByVisibility + AggregateAccount(
                 currencyUnit = activeFilter as? CurrencyUnit
@@ -629,6 +636,7 @@ fun TransactionScreen(
                         }
                     }
                     TransactionList(
+                        modifier = Modifier.fillMaxSize(),
                         lazyPagingItems = lazyPagingItems,
                         headerData = remember(account) { viewModel.headerDataV2(pageAccount) }.collectAsState().value,
                         budgetData = rememberStaticState(null),
@@ -636,7 +644,7 @@ fun TransactionScreen(
                         selectAllState = viewModel.selectAllState,
                         onEvent = onEvent,
                         futureCriterion = viewModel.futureCriterion.collectAsState(initial = FutureCriterion.EndOfDay).value,
-                        expansionHandler = null,
+                        expansionHandler = viewModel.expansionHandlerForTransactionGroups(pageAccount),
                         onBudgetClick = { _, _ -> },
                         showSumDetails = viewModel.showSumDetails.collectAsState(initial = true).value,
                         scrollToCurrentDate = viewModel.scrollToCurrentDate.getValue(account.id),
@@ -749,7 +757,7 @@ fun AccountsScreen(
                                 viewModel.maybeResetFilter(accountGrouping.getGroupKey(it))
                             }
                         } else {
-                            //if we set the transaction screen to filter by the invisible flag,
+                            //by setting the transaction screen to filter by the invisible flag,
                             //we make sure that account is displayed
                             viewModel.setGrouping(AccountGrouping.FLAG)
                             viewModel.setFilter(it.flag)
