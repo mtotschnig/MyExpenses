@@ -32,7 +32,7 @@
     <string name="menu_sort_direction_help_text">Transactions can be sorted in ascending (oldest on top) or descending (latest on top) direction.</string>
     <string name="menu_distribution_help_text">Display the distribution of your expenses per category. You can also long click on a group header to inspect the distribution for a specific period of time.</string>
     <string name="menu_budget_help_text">Manage daily, weekly, monthly or yearly budgets for the currently displayed account.</string>
-    <string name="menu_history_help_text">Display a cash flow diagram: How did your expense and income evolve over days, weeks, months or years?</string>
+    <string name="menu_history_help_text">Display a cash flow diagram: How have your expenses and income evolved throughout the last days, weeks, months or years?</string>
     <string name="menu_manage_plans_help_text">Opens the list of templates and plans, where you can apply, edit or delete them, and also define plans for future and recurrent transactions.</string>
     <string name="menu_balance_help_text">This command opens a dialog displaying the last reconciled balance and the cleared balance. You can compare the latter to your bank statement, and mark all cleared transactions as reconciled. Optionally you can decide to delete reconciled transactions.</string>
     <string name="menu_print_help_text">Generates a printable view of the transactions currently displayed.</string>
