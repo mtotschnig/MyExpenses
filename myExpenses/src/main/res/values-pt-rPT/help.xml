@@ -32,7 +32,7 @@
     <string name="menu_sort_direction_help_text">As transações podem ser ordenadas de forma ascendente (mais antiga no topo) ou descendente (mais recente no topo).</string>
     <string name="menu_distribution_help_text">Exibir a distribuição das suas despesas por categoria. Pode também clicar longamente num cabeçalho de um grupo para examinar a distribuição para um período de tempo específico.</string>
     <string name="menu_budget_help_text">Gerir orçamentos diários, semanais, mensais ou anuais para a conta exibida no momento.</string>
-    <string name="menu_history_help_text">Mostre um diagrama de fluxo de caixa: Como as suas despesas e receitas evoluíram ao longo dos dias, semanas, meses ou anos\?</string>
+    <string name="menu_history_help_text">Mostre um diagrama de fluxo de caixa: Como as suas despesas e receitas evoluíram ao longo dos dias, semanas, meses ou anos?</string>
     <string name="menu_manage_plans_help_text">Abre a lista de modelos e planos, onde os pode aplicar, editar ou eliminar, e também definir planos para transações futuras e recorrentes.</string>
     <string name="menu_balance_help_text">Este comando abre um diálogo que exibe o último saldo reconciliado e o saldo liquidado. Pode comparar o último com o seu extrato bancário. Opcionalmente pode optar por eliminar transações reconciliadas.</string>
     <string name="menu_print_help_text">Cria uma vista imprimível das transações atualmente exibidas.</string>
