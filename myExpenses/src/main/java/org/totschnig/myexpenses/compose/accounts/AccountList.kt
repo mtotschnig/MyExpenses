@@ -77,7 +77,7 @@ import org.totschnig.myexpenses.compose.SubMenuEntry
 import org.totschnig.myexpenses.compose.TEST_TAG_ACCOUNTS
 import org.totschnig.myexpenses.compose.UiText
 import org.totschnig.myexpenses.compose.conditional
-import org.totschnig.myexpenses.compose.main.BalanceType
+import org.totschnig.myexpenses.compose.transactions.BalanceType
 import org.totschnig.myexpenses.compose.optional
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbarAndBottomPadding

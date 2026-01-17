@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.activity.StartScreen
-import org.totschnig.myexpenses.compose.main.AccountScreenTab
+import org.totschnig.myexpenses.compose.accounts.AccountScreenTab
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
 import org.totschnig.myexpenses.model.Grouping

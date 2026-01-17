@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.compose.main
+package org.totschnig.myexpenses.compose.transactions
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FilterAlt
@@ -17,28 +17,6 @@ import org.totschnig.myexpenses.model.AccountGroupingKey
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.sort.TransactionSort
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
-
-@Composable
-fun AccountGroupingMenu(
-    activeGrouping: AccountGrouping<*>,
-    onGroupingChange: (AccountGrouping<*>) -> Unit,
-) {
-    val groupingOptions = remember { AccountGrouping.ALL_VALUES }
-
-    TooltipIconMenu(
-        tooltip = stringResource(R.string.menu_grouping),
-        imageVector = Icons.Default.GridView,
-        menu = groupingOptions.map { option ->
-            CheckableMenuEntry(
-                label = UiText.StringValue(option.toString()),
-                action = { onGroupingChange(option) },
-                command = "CHANGE_GROUPING",
-                isChecked = activeGrouping == option,
-                isRadio = true
-            )
-        }
-    )
-}
 
 @Composable
 fun AccountFilterMenu(

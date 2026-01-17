@@ -2,28 +2,12 @@ package org.totschnig.myexpenses.compose
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateMapOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.saveable.mapSaver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.runtime.toMutableStateMap
-
-/**
- * A helper function to create a simple, immutable State object for previews
- * or for providing a default value to a Composable that requires a State parameter.
- */
-@Composable
-fun <T> rememberStaticState(value: T): State<T> {
-    return remember {
-        object : State<T> {
-            override val value: T = value
-        }
-    }
-}
-
 
 //https://stackoverflow.com/a/68887484/1199911
 @Composable
