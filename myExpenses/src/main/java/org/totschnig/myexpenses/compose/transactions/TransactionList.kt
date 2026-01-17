@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.compose
+package org.totschnig.myexpenses.compose.transactions
 
 import android.content.Context
 import androidx.activity.compose.LocalActivity
@@ -66,11 +66,23 @@ import kotlinx.coroutines.launch
 import myiconpack.IcActionTemplateAdd
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
+import org.totschnig.myexpenses.compose.DonutInABox
+import org.totschnig.myexpenses.compose.ExpansionHandle
+import org.totschnig.myexpenses.compose.LocalColors
+import org.totschnig.myexpenses.compose.LocalCurrencyFormatter
+import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.select
-import org.totschnig.myexpenses.compose.main.AppEvent
-import org.totschnig.myexpenses.compose.main.EventHandler
+import org.totschnig.myexpenses.compose.SubMenuEntry
+import org.totschnig.myexpenses.compose.SumDetails
+import org.totschnig.myexpenses.compose.TEST_TAG_GROUP_SUMMARY
+import org.totschnig.myexpenses.compose.UiText
+import org.totschnig.myexpenses.compose.amountSemantics
+import org.totschnig.myexpenses.compose.conditional
+import org.totschnig.myexpenses.compose.headerSemantics
+import org.totschnig.myexpenses.compose.optional
+import org.totschnig.myexpenses.compose.rememberMutableStateMapOf
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.compose.scrollbar.STICKY_HEADER_CONTENT_TYPE
 import org.totschnig.myexpenses.model.CrStatus
@@ -78,13 +90,6 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
 import org.totschnig.myexpenses.model.sort.SortDirection
-import org.totschnig.myexpenses.provider.filter.AmountCriterion
-import org.totschnig.myexpenses.provider.filter.CategoryCriterion
-import org.totschnig.myexpenses.provider.filter.CommentCriterion
-import org.totschnig.myexpenses.provider.filter.MethodCriterion
-import org.totschnig.myexpenses.provider.filter.Operation
-import org.totschnig.myexpenses.provider.filter.PayeeCriterion
-import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.util.formatMoney
@@ -162,6 +167,30 @@ enum class FutureCriterion {
     EndOfDay, Current
 }
 
+enum class TransactionEvent {
+    ShowDetails,
+    UnArchive,
+    Delete,
+    Edit,
+    Clone,
+    CreateTemplate,
+    UnDelete,
+    Select,
+    Ungroup,
+    Unlink,
+    TransformToTransfer,
+    AddFilterCategory,
+    AddFilterPayee,
+    AddFilterAmount,
+    AddFilterMethod,
+    AddFilterTag,
+    AddFilterComment
+}
+
+interface TransactionEventHandler {
+    operator fun invoke(event: TransactionEvent, transaction: Transaction2)
+}
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TransactionList(
@@ -171,9 +200,10 @@ fun TransactionList(
     budgetData: State<BudgetData?>,
     selectionHandler: SelectionHandler?,
     selectAllState: MutableState<Boolean>,
-    onEvent: EventHandler,
+    onSelectAllListTooLarge: () -> Unit,
+    onEvent: TransactionEventHandler,
     futureCriterion: FutureCriterion,
-    expansionHandler: ExpansionHandler?,
+    expansionHandler: org.totschnig.myexpenses.compose.ExpansionHandler?,
     onBudgetClick: (Long, Int) -> Unit,
     showSumDetails: Boolean,
     scrollToCurrentDate: MutableState<Boolean>,
@@ -199,7 +229,7 @@ fun TransactionList(
                         jndex++
                     }
                 } else {
-                    onEvent(AppEvent.SelectAllListTooLarge)
+                    onSelectAllListTooLarge()
                 }
                 selectAllState.value = false
             }
@@ -269,10 +299,11 @@ fun TransactionList(
                     scrollToCurrentDate.value = false
                 }
             }
-            val headersWithSumDetails = rememberMutableStateMapOf<Int, Boolean>(
-                defaultValue = showSumDetails,
-                showSumDetails
-            )
+            val headersWithSumDetails =
+                rememberMutableStateMapOf<Int, Boolean>(
+                    defaultValue = showSumDetails,
+                    showSumDetails
+                )
 
             val nestedScrollInterop = rememberNestedScrollInteropConnection()
             val context = LocalContext.current
@@ -496,7 +527,12 @@ fun HeaderData(
             }
         }
         if (showSumDetails) {
-            SumDetails(headerRow.incomeSum, headerRow.expenseSum, headerRow.transferSum, alignStart)
+            SumDetails(
+                headerRow.incomeSum,
+                headerRow.expenseSum,
+                headerRow.transferSum,
+                alignStart
+            )
         }
     }
 }
@@ -605,7 +641,7 @@ private fun transactionMenu(
     context: Context,
     currencyFormatter: ICurrencyFormatter,
     transaction: Transaction2,
-    onEvent: EventHandler,
+    onEvent: TransactionEventHandler,
 ) = buildList {
     add(
         MenuEntry(
@@ -613,7 +649,7 @@ private fun transactionMenu(
             icon = Icons.Filled.Loupe,
             command = "DETAILS"
         ) {
-            onEvent(AppEvent.ShowDetails(transaction))
+            onEvent(TransactionEvent.ShowDetails, transaction)
         })
     if (modificationAllowed) {
         if (transaction.isArchive) {
@@ -623,10 +659,10 @@ private fun transactionMenu(
                     icon = Icons.Filled.Unarchive,
                     command = "UNPACK_ARCHIVE"
                 ) {
-                    onEvent(AppEvent.Unarchive(transaction.id))
+                    onEvent(TransactionEvent.UnArchive, transaction)
                 })
             add(delete("DELETE_ARCHIVE") {
-                onEvent(AppEvent.Delete(transaction))
+                onEvent(TransactionEvent.Delete, transaction)
             })
         } else {
             add(
@@ -635,14 +671,14 @@ private fun transactionMenu(
                     icon = Icons.Filled.ContentCopy,
                     command = "CLONE"
                 ) {
-                    onEvent(AppEvent.Edit(transaction, true))
+                    onEvent(TransactionEvent.Clone, transaction)
                 })
             add(
                 MenuEntry(
                     label = R.string.menu_create_template_from_transaction,
                     icon = IcActionTemplateAdd,
                     command = "CREATE_TEMPLATE_FROM_TRANSACTION"
-                ) { onEvent(AppEvent.CreateTemplate(transaction)) })
+                ) { onEvent(TransactionEvent.CreateTemplate, transaction) })
             if (transaction.crStatus == CrStatus.VOID) {
                 add(
                     MenuEntry(
@@ -650,18 +686,18 @@ private fun transactionMenu(
                         icon = Icons.Filled.RestoreFromTrash,
                         command = "UNDELETE_TRANSACTION"
                     ) {
-                        onEvent(AppEvent.UnDelete(transaction.id))
+                        onEvent(TransactionEvent.UnDelete, transaction)
                     })
             } else {
                 add(edit("EDIT_TRANSACTION") {
-                    onEvent(AppEvent.Edit(transaction, false))
+                    onEvent(TransactionEvent.Edit, transaction)
                 })
             }
             add(delete("DELETE_TRANSACTION") {
-                onEvent(AppEvent.Delete(transaction))
+                onEvent(TransactionEvent.Delete, transaction)
             })
             add(select("SELECT_TRANSACTION") {
-                onEvent(AppEvent.Select(transaction))
+                onEvent(TransactionEvent.Select, transaction)
             })
             when {
                 transaction.isSplit -> {
@@ -671,7 +707,7 @@ private fun transactionMenu(
                             icon = Icons.AutoMirrored.Filled.CallSplit,
                             command = "UNGROUP_SPLIT"
                         ) {
-                            onEvent(AppEvent.Ungroup(transaction))
+                            onEvent(TransactionEvent.Ungroup, transaction)
                         })
                 }
 
@@ -682,7 +718,7 @@ private fun transactionMenu(
                             icon = Icons.Filled.LinkOff,
                             command = "UNLINK_TRANSFER"
                         ) {
-                            onEvent(AppEvent.Unlink(transaction))
+                            onEvent(TransactionEvent.Unlink, transaction)
                         })
                 }
 
@@ -694,7 +730,7 @@ private fun transactionMenu(
                                 icon = Icons.Filled.Link,
                                 command = "TRANSFORM_TRANSFER"
                             ) {
-                                onEvent(AppEvent.TransformToTransfer(transaction))
+                                onEvent(TransactionEvent.TransformToTransfer, transaction)
                             })
                     }
                 }
@@ -715,14 +751,7 @@ private fun transactionMenu(
                                 ),
                                 command = "FILTER_FOR_CATEGORY"
                             ) {
-                                onEvent(
-                                    AppEvent.AddFilter(
-                                        CategoryCriterion(
-                                            transaction.categoryPath,
-                                            transaction.catId
-                                        )
-                                    )
-                                )
+                                onEvent(TransactionEvent.AddFilterCategory, transaction)
                             })
                     } else {
                         report(
@@ -738,14 +767,7 @@ private fun transactionMenu(
                             ),
                             command = "FILTER_FOR_PAYEE"
                         ) {
-                            onEvent(
-                                AppEvent.AddFilter(
-                                    PayeeCriterion(
-                                        transaction.party.name,
-                                        transaction.party.id
-                                    )
-                                )
-                            )
+                            onEvent(TransactionEvent.AddFilterPayee, transaction)
                         }
                     )
                 }
@@ -754,17 +776,12 @@ private fun transactionMenu(
                         transaction.methodLabel!!.translateIfPredefined(context)
                     add(
                         MenuEntry(
-                            label = UiText.StringValue(label),
+                            label = UiText.StringValue(
+                                label
+                            ),
                             command = "FILTER_FOR_METHOD"
                         ) {
-                            onEvent(
-                                AppEvent.AddFilter(
-                                    MethodCriterion(
-                                        label,
-                                        transaction.methodId
-                                    )
-                                )
-                            )
+                            onEvent(TransactionEvent.AddFilterMethod, transaction)
                         }
                     )
                 }
@@ -773,16 +790,12 @@ private fun transactionMenu(
                         transaction.tagList.joinToString { it.second }
                     add(
                         MenuEntry(
-                            label = UiText.StringValue(label),
+                            label = UiText.StringValue(
+                                label
+                            ),
                             command = "FILTER_FOR_METHOD"
                         ) {
-                            onEvent(
-                                AppEvent.AddFilter(
-                                    TagCriterion(
-                                        label,
-                                        transaction.tagList.map { it.first }
-                                    )
-                                ))
+                            onEvent(TransactionEvent.AddFilterTag, transaction)
                         }
                     )
                 }
@@ -795,16 +808,7 @@ private fun transactionMenu(
                         ),
                         command = "FILTER_FOR_AMOUNT"
                     ) {
-                        onEvent(
-                            AppEvent.AddFilter(
-                                AmountCriterion(
-                                    operation = Operation.EQ,
-                                    values = listOf(transaction.displayAmount.amountMinor),
-                                    currency = transaction.displayAmount.currencyUnit.code,
-                                    sign = transaction.displayAmount.amountMinor > 0
-                                )
-                            )
-                        )
+                        onEvent(TransactionEvent.AddFilterAmount, transaction)
                     }
                 )
                 if (!transaction.comment.isNullOrEmpty()) {
@@ -815,11 +819,7 @@ private fun transactionMenu(
                             ),
                             command = "FILTER_FOR_AMOUNT"
                         ) {
-                            onEvent(
-                                AppEvent.AddFilter(
-                                    CommentCriterion(transaction.comment)
-                                )
-                            )
+                            onEvent(TransactionEvent.AddFilterComment, transaction)
                         }
                     )
                 }
@@ -827,7 +827,6 @@ private fun transactionMenu(
         )
     )
 }
-
 
 @OptIn(ExperimentalLayoutApi::class)
 @Preview(locale = "ar")

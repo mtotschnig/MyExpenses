@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.compose
+package org.totschnig.myexpenses.compose.accounts
 
 import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
@@ -59,13 +59,26 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.compose.main.AppEvent.EditAccount
+import org.totschnig.myexpenses.compose.AmountText
+import org.totschnig.myexpenses.compose.CheckableMenuEntry
+import org.totschnig.myexpenses.compose.ColorCircle
+import org.totschnig.myexpenses.compose.DonutInABox
+import org.totschnig.myexpenses.compose.ExpansionHandle
+import org.totschnig.myexpenses.compose.HierarchicalMenu
+import org.totschnig.myexpenses.compose.LocalColors
+import org.totschnig.myexpenses.compose.LocalCurrencyFormatter
+import org.totschnig.myexpenses.compose.LocalDateFormatter
+import org.totschnig.myexpenses.compose.LocalHomeCurrency
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.toggle
-import org.totschnig.myexpenses.compose.main.AppEvent
+import org.totschnig.myexpenses.compose.OverFlowMenu
+import org.totschnig.myexpenses.compose.SubMenuEntry
+import org.totschnig.myexpenses.compose.TEST_TAG_ACCOUNTS
+import org.totschnig.myexpenses.compose.UiText
+import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.compose.main.BalanceType
-import org.totschnig.myexpenses.compose.main.EventHandler
+import org.totschnig.myexpenses.compose.optional
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbarAndBottomPadding
 import org.totschnig.myexpenses.model.AccountFlag
@@ -78,7 +91,6 @@ import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOM
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.util.calculateRealExchangeRate
 import org.totschnig.myexpenses.util.convAmount
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.isolateText
 import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
@@ -88,6 +100,19 @@ import java.text.DecimalFormat
 import java.util.Comparator
 
 const val SIGMA = "Σ"
+
+sealed class AccountEvent {
+    data object Edit : AccountEvent()
+    data object Delete : AccountEvent()
+    data class SetFlag(val flagId: Long) : AccountEvent()
+    data object ToggleSealed : AccountEvent()
+    data object ToggleExcludeFromTotals : AccountEvent()
+    data object ToggleDynamicExchangeRate : AccountEvent()
+}
+
+interface AccountEventHandler {
+    operator fun invoke(event: AccountEvent, account: FullAccount)
+}
 
 @Composable
 fun AccountList(
@@ -105,8 +130,8 @@ fun AccountList(
     onToggleExcludeFromTotals: (FullAccount) -> Unit = {},
     onToggleDynamicExchangeRate: ((FullAccount) -> Unit)? = null,
     flags: List<AccountFlag> = emptyList(),
-    expansionHandlerGroups: ExpansionHandler,
-    expansionHandlerAccounts: ExpansionHandler,
+    expansionHandlerGroups: org.totschnig.myexpenses.compose.ExpansionHandler,
+    expansionHandlerAccounts: org.totschnig.myexpenses.compose.ExpansionHandler,
     bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
 ) {
     val context = LocalContext.current
@@ -177,10 +202,10 @@ fun AccountListV2(
     grouping: AccountGrouping<*>,
     selectedAccount: Long,
     listState: LazyListState,
-    expansionHandlerGroups: ExpansionHandler,
+    expansionHandlerGroups: org.totschnig.myexpenses.compose.ExpansionHandler,
     onSelected: (FullAccount) -> Unit = {},
     onGroupSelected: (AccountGroupingKey) -> Unit = {},
-    onEvent: EventHandler,
+    onEvent: AccountEventHandler,
     bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
     flags: List<AccountFlag> = emptyList(),
 ) {
@@ -213,12 +238,15 @@ fun AccountListV2(
             item {
                 HeaderV2(
                     header = groupKey.title(context),
-                    currency = groupKey as? CurrencyUnit ?: LocalHomeCurrency.current,
+                    currency = groupKey as? CurrencyUnit
+                        ?: LocalHomeCurrency.current,
                     total = group.filter { !it.excludeFromTotals }.sumOf {
                         if (grouping == AccountGrouping.CURRENCY) it.currentBalance else it.equivalentCurrentBalance
                     },
                     onToggleExpand = { expansionHandlerGroups.toggle(headerId) },
-                    onNavigate = if (group.size < 2) null else { { onGroupSelected(groupKey) } }
+                    onNavigate = if (group.size < 2) null else {
+                        { onGroupSelected(groupKey) }
+                    }
                 )
             }
             if (!isGroupHidden) {
@@ -314,7 +342,7 @@ private fun HeaderV2(
         Text(format.convAmount(total, currency))
         if (onNavigate == null) {
             Spacer(Modifier.width(48.dp))
-        } else  {
+        } else {
             IconButton(onClick = onNavigate) {
                 Icon(
                     Icons.Filled.ChevronRight,
@@ -365,7 +393,7 @@ fun AccountCardV2(
     account: FullAccount,
     isSelected: Boolean = false,
     onSelected: () -> Unit = {},
-    onEvent: EventHandler,
+    onEvent: AccountEventHandler,
     flags: List<AccountFlag> = emptyList(),
 ) {
 
@@ -452,11 +480,16 @@ fun AccountCard(
                     progress = progress,
                     fontSize = 10.sp,
                     color = color,
-                    excessColor = LocalColors.current.amountColor(sign)
+                    excessColor = LocalColors.current.amountColor(
+                        sign
+                    )
                 )
             } ?: run {
                 if (account.bankId == null || bankIcon == null) {
-                    ColorCircle(modifier, color) {
+                    ColorCircle(
+                        modifier,
+                        color
+                    ) {
                         if (account.isAggregate) {
                             Text(fontSize = 13.sp, text = SIGMA, color = Color.White)
                         }
@@ -511,7 +544,7 @@ fun AccountCard(
                     )
                     if (account.flag.icon != null) {
                         val contentDescription = account.flag.title(LocalContext.current)
-                        Icon(
+                        org.totschnig.myexpenses.compose.Icon(
                             icon = account.flag.icon,
                             size = 12.sp,
                             modifier = Modifier.semantics {
@@ -536,24 +569,23 @@ fun AccountCard(
                     context = LocalContext.current,
                     homeCurrency = homeCurrency,
                     account = account,
-                    onEvent = object : EventHandler {
-                        override fun invoke(event: AppEvent) {
+                    onEvent = object : AccountEventHandler {
+                        override fun invoke(event: AccountEvent, account: FullAccount) {
                             when (event) {
-                                is AppEvent.DeleteAccount -> onDelete(event.account)
+                                is AccountEvent.Delete -> onDelete(account)
 
-                                is EditAccount -> onEdit(event.account)
+                                is AccountEvent.Edit -> onEdit(account)
 
-                                is AppEvent.SetFlag -> onSetFlag(event.accountId, event.flagId)
+                                is AccountEvent.SetFlag -> onSetFlag(account.id, event.flagId)
 
-                                is AppEvent.ToggleDynamicExchangeRate ->
-                                    onToggleDynamicExchangeRate?.invoke(event.account)
+                                is AccountEvent.ToggleDynamicExchangeRate ->
+                                    onToggleDynamicExchangeRate?.invoke(account)
 
-                                is AppEvent.ToggleExcludeFromTotals ->
-                                    onToggleExcludeFromTotals(event.account)
+                                is AccountEvent.ToggleExcludeFromTotals ->
+                                    onToggleExcludeFromTotals(account)
 
-                                is AppEvent.ToggleSealed -> onToggleSealed(event.account)
+                                is AccountEvent.ToggleSealed -> onToggleSealed(account)
 
-                                else -> CrashHandler.throwOrReport(IllegalArgumentException("$event not handled"))
                             }
                         }
                     },
@@ -636,7 +668,10 @@ fun AccountCard(
                 if (showEquivalent && (account.equivalentTotal != 0L || account.equivalentCurrentBalance != 0L)) {
 
                     account.latestExchangeRate?.let { (date, rate) ->
-                        val dateFormatted = LocalDateFormatter.current.format(date)
+                        val dateFormatted =
+                            LocalDateFormatter.current.format(
+                                date
+                            )
                         val realRate =
                             calculateRealExchangeRate(rate, account.currencyUnit, homeCurrency)
                         Text(
@@ -858,14 +893,14 @@ private fun accountMenu(
     context: Context,
     homeCurrency: CurrencyUnit,
     account: FullAccount,
-    onEvent: EventHandler,
+    onEvent: AccountEventHandler,
     flags: List<AccountFlag>,
 ) = buildList {
     if (account.id > 0) {
         if (!account.sealed) {
-            add(edit("EDIT_ACCOUNT") { onEvent(EditAccount(account)) })
+            add(edit("EDIT_ACCOUNT") { onEvent(AccountEvent.Edit, account) })
         }
-        add(delete("DELETE_ACCOUNT") { onEvent(AppEvent.DeleteAccount(account)) })
+        add(delete("DELETE_ACCOUNT") { onEvent(AccountEvent.Delete, account) })
         add(
             SubMenuEntry(
                 label = R.string.menu_flag,
@@ -881,10 +916,8 @@ private fun accountMenu(
                         isChecked = isChecked
                     ) {
                         onEvent(
-                            AppEvent.SetFlag(
-                                account.id,
-                                if (isChecked) DEFAULT_FLAG_ID else it.id
-                            )
+                            AccountEvent.SetFlag(if (isChecked) DEFAULT_FLAG_ID else it.id),
+                            account
                         )
                     }
                 }
@@ -892,7 +925,7 @@ private fun accountMenu(
         )
         add(
             toggle("ACCOUNT", account.sealed) {
-                onEvent(AppEvent.ToggleSealed(account))
+                onEvent(AccountEvent.ToggleSealed, account)
             }
         )
         add(
@@ -901,7 +934,7 @@ private fun accountMenu(
                 label = R.string.menu_exclude_from_totals,
                 command = "EXCLUDE_FROM_TOTALS_COMMAND"
             ) {
-                onEvent(AppEvent.ToggleExcludeFromTotals(account))
+                onEvent(AccountEvent.ToggleExcludeFromTotals, account)
             })
         if (account.currency != homeCurrency.code) {
             add(
@@ -910,7 +943,7 @@ private fun accountMenu(
                     label = R.string.dynamic_exchange_rate,
                     command = "DYNAMIC_EXCHANGE_RATE"
                 ) {
-                    onEvent(AppEvent.ToggleDynamicExchangeRate(account))
+                    onEvent(AccountEvent.ToggleDynamicExchangeRate, account)
                 })
         }
     }
@@ -961,7 +994,11 @@ fun SumRowV2(
         Column(modifier, horizontalAlignment = Alignment.End) {
             AmountText(amount, currency)
             formattedEquivalentAmount?.let {
-                AmountText(it, LocalHomeCurrency.current, fontSize = 10.sp)
+                AmountText(
+                    it,
+                    LocalHomeCurrency.current,
+                    fontSize = 10.sp
+                )
             }
         }
     }

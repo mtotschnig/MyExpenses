@@ -62,7 +62,7 @@ import org.totschnig.myexpenses.activity.EDIT_REQUEST
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.ManageTemplates
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
-import org.totschnig.myexpenses.compose.COMMENT_SEPARATOR
+import org.totschnig.myexpenses.compose.transactions.COMMENT_SEPARATOR
 import org.totschnig.myexpenses.databinding.TemplatesListBinding
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.entities.Template

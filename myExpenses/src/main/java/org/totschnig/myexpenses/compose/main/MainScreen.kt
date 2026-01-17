@@ -11,6 +11,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -38,6 +39,7 @@ import androidx.compose.material.icons.filled.DoneAll
 import androidx.compose.material.icons.filled.DragHandle
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.Functions
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Card
@@ -89,10 +91,14 @@ import androidx.compose.ui.input.nestedscroll.NestedScrollSource
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.CollectionInfo
+import androidx.compose.ui.semantics.collectionInfo
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextOverflow
@@ -114,27 +120,23 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BalanceSheetOptions
 import org.totschnig.myexpenses.activity.BalanceSheetViewInner
-import org.totschnig.myexpenses.activity.RenderFactory
 import org.totschnig.myexpenses.activity.StartScreen
-import org.totschnig.myexpenses.compose.AccountListV2
-import org.totschnig.myexpenses.compose.AccountSummaryV2
+import org.totschnig.myexpenses.compose.accounts.AccountListV2
+import org.totschnig.myexpenses.compose.accounts.AccountSummaryV2
 import org.totschnig.myexpenses.compose.AmountText
 import org.totschnig.myexpenses.compose.ColoredAmountText
-import org.totschnig.myexpenses.compose.FutureCriterion
 import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.LocalColors
 import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.OverFlowMenu
-import org.totschnig.myexpenses.compose.RenderType
+import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
 import org.totschnig.myexpenses.compose.TooltipIconButton
-import org.totschnig.myexpenses.compose.TransactionList
 import org.totschnig.myexpenses.compose.UiText
-import org.totschnig.myexpenses.compose.rememberStaticState
+import org.totschnig.myexpenses.compose.accounts.AccountEventHandler
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
@@ -146,14 +148,12 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.sort.TransactionSort
-import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.provider.KEY_DATE
-import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
-import org.totschnig.myexpenses.viewmodel.data.Transaction2
+import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import timber.log.Timber
 import java.time.LocalDate
 
@@ -174,13 +174,7 @@ enum class AccountScreenTab(@param:StringRes val resourceId: Int) {
 
 sealed class AppEvent {
     object NavigateToSettings : AppEvent()
-    data class EditAccount(val account: FullAccount) : AppEvent()
     object CreateAccount : AppEvent()
-    data class DeleteAccount(val account: FullAccount) : AppEvent()
-    data class SetFlag(val accountId: Long, val flagId: Long) : AppEvent()
-    data class ToggleSealed(val account: FullAccount) : AppEvent()
-    data class ToggleExcludeFromTotals(val account: FullAccount) : AppEvent()
-    data class ToggleDynamicExchangeRate(val account: FullAccount) : AppEvent()
     data class CreateTransaction(
         val type: Int,
         val isIncome: Boolean = false,
@@ -190,24 +184,12 @@ sealed class AppEvent {
     data class SetAccountGrouping(val newGrouping: AccountGrouping<*>) : AppEvent()
     data class SetTransactionGrouping(val grouping: Grouping) : AppEvent()
     data class SetTransactionSort(val transactionSort: TransactionSort) : AppEvent()
-    data class ToggleCrStatus(val transactionId: Long) : AppEvent()
     object PrintBalanceSheet : AppEvent()
-    data class ShowDetails(val transaction: Transaction2) : AppEvent()
-    data class Unarchive(val transactionId: Long) : AppEvent()
-    data class Delete(val transaction: Transaction2) : AppEvent()
-    data class Edit(val transaction: Transaction2, val clone: Boolean) : AppEvent()
-    data class CreateTemplate(val transaction: Transaction2) : AppEvent()
-    data class UnDelete(val transactionId: Long) : AppEvent()
-    data class Select(val transaction: Transaction2) : AppEvent()
-    data class Ungroup(val transaction: Transaction2) : AppEvent()
-    data class Unlink(val transaction: Transaction2) : AppEvent()
-    data class TransformToTransfer(val transaction: Transaction2) : AppEvent()
-    data class AddFilter(val criterion: SimpleCriterion<*>) : AppEvent()
     data class ContextMenuItemClicked(@param:IdRes val itemId: Int) : AppEvent()
-    object SelectAllListTooLarge : AppEvent()
+    object Search: AppEvent()
 }
 
-interface EventHandler {
+interface AppEventHandler {
     operator fun invoke(event: AppEvent)
 }
 
@@ -215,10 +197,11 @@ interface EventHandler {
 fun MainScreen(
     viewModel: MyExpensesV2ViewModel,
     startScreen: StartScreen,
-    onEvent: EventHandler,
-    renderFactory: RenderFactory,
+    onAppEvent: AppEventHandler,
+    onAccountEvent: org.totschnig.myexpenses.compose.accounts.AccountEventHandler,
     onPrepareMenuItem: (itemId: Int, accountCount: Int) -> Boolean,
     flags: List<AccountFlag> = emptyList(),
+    pageContent: @Composable (pageAccount: PageAccount, accountCount: Int) -> Unit,
 ) {
     val result = viewModel.accountDataV2.collectAsStateWithLifecycle().value
 
@@ -230,7 +213,7 @@ fun MainScreen(
         TooltipIconButton(
             tooltip = stringResource(R.string.settings_label),
             imageVector = Icons.Default.Settings,
-        ) { onEvent(AppEvent.NavigateToSettings) }
+        ) { onAppEvent(AppEvent.NavigateToSettings) }
     }
 
     when {
@@ -270,9 +253,9 @@ fun MainScreen(
                             availableFilters = availableFilters,
                             viewModel = viewModel,
                             navController = navController,
-                            onEvent = onEvent,
+                            onEvent = onAppEvent,
                             onPrepareMenuItem = onPrepareMenuItem,
-                            renderFactory = renderFactory
+                            pageContent = pageContent
                         )
                     }
                     composable(Screen.Accounts.route) {
@@ -283,7 +266,8 @@ fun MainScreen(
                             accountGrouping = accountGrouping.value,
                             viewModel = viewModel,
                             navController = navController,
-                            onEvent = onEvent,
+                            onEvent = onAppEvent,
+                            onAccountEvent = onAccountEvent,
                             flags = flags
                         )
                     }
@@ -349,15 +333,15 @@ fun MyBottomAppBar(navController: NavController) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TransactionScreen(
-    navigationIcon: @Composable () -> Unit = {},
+    navigationIcon: @Composable (() -> Unit) = {},
     accounts: List<FullAccount>,
     accountGrouping: AccountGrouping<*>,
     availableFilters: List<AccountGroupingKey>,
     viewModel: MyExpensesV2ViewModel,
     navController: NavController,
-    onEvent: EventHandler,
+    onEvent: AppEventHandler,
     onPrepareMenuItem: (itemId: Int, accountCount: Int) -> Boolean,
-    renderFactory: RenderFactory,
+    pageContent: @Composable ((pageAccount: PageAccount, accountCount: Int) -> Unit),
 ) {
     LaunchedEffect(Unit) {
         viewModel.setLastVisited(StartScreen.Transactions)
@@ -454,21 +438,25 @@ fun TransactionScreen(
                     },
                     actions = {
                         val menu = listOfNotNull(
+                            MenuItem.Search,
                             MenuItem.Sort,
                             if (currentAccount.value.sortBy == KEY_DATE) MenuItem.Grouping else null,
                         )
                         menu.forEach {
                             when (it) {
+                                MenuItem.Search -> TooltipIconButton(
+                                    tooltip = stringResource(R.string.menu_search),
+                                    imageVector = Icons.Default.Search
+                                ) { onEvent(AppEvent.Search) }
+
                                 MenuItem.Sort -> TransactionSortMenu(currentAccount.value) {
                                     onEvent(AppEvent.SetTransactionSort(it))
                                 }
 
-                                MenuItem.Grouping -> {
-                                    TransactionGroupingMenu(
-                                        currentGroup = currentAccount.value.grouping
-                                    ) {
-                                        onEvent(AppEvent.SetTransactionGrouping(it))
-                                    }
+                                MenuItem.Grouping -> TransactionGroupingMenu(
+                                    currentGroup = currentAccount.value.grouping
+                                ) {
+                                    onEvent(AppEvent.SetTransactionGrouping(it))
                                 }
 
                                 else -> {}
@@ -595,64 +583,24 @@ fun TransactionScreen(
                     }
                 }
                 HorizontalPager(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.onSurface)
+                        .testTag(TEST_TAG_PAGER)
+                        .semantics {
+                            collectionInfo = CollectionInfo(1, accounts.size)
+                        },
                     state = pagerState,
+                    pageSpacing = 10.dp,
                     key = { pageIndex ->
                         "${accountGrouping.name}_${activeFilter?.id}_${accountList[pageIndex].id}"
                     },
                     verticalAlignment = Alignment.Top,
-                    modifier = Modifier.fillMaxSize()
                 ) { page ->
                     val account = accountList[page]
                     val context = LocalContext.current
                     val pageAccount = remember(account) { account.toPageAccount(context = context) }
-                    val lazyPagingItems =
-                        viewModel.items.getValue(pageAccount).collectAsLazyPagingItems()
-
-                    val showStatusHandle =
-                        if (account.isAggregate || account.type?.supportsReconciliation == false)
-                            false
-                        else
-                            viewModel.showStatusHandle.flow.collectAsState(initial = true).value
-
-                    val onToggleCrStatus: ((Long) -> Unit)? = if (showStatusHandle) {
-                        { onEvent(AppEvent.ToggleCrStatus(it)) }
-                    } else null
-
-                    val modificationsAllowed = !pageAccount.sealed
-                    val colorSource =
-                        viewModel.colorSource.collectAsState(initial = ColorSource.TYPE)
-                    val withCategoryIcon =
-                        viewModel.withCategoryIcon.collectAsState(initial = true)
-                    val renderType = viewModel.renderer.collectAsState(initial = RenderType.New)
-                    val renderer = remember {
-                        derivedStateOf {
-                            renderFactory(
-                                renderType.value,
-                                pageAccount,
-                                withCategoryIcon.value,
-                                colorSource.value,
-                                onToggleCrStatus
-                            )
-                        }
-                    }
-                    TransactionList(
-                        modifier = Modifier.fillMaxSize(),
-                        lazyPagingItems = lazyPagingItems,
-                        headerData = remember(account) { viewModel.headerDataV2(pageAccount) }.collectAsState().value,
-                        budgetData = rememberStaticState(null),
-                        selectionHandler = if (modificationsAllowed) viewModel.selectionHandler else null,
-                        selectAllState = viewModel.selectAllState,
-                        onEvent = onEvent,
-                        futureCriterion = viewModel.futureCriterion.collectAsState(initial = FutureCriterion.EndOfDay).value,
-                        expansionHandler = viewModel.expansionHandlerForTransactionGroups(pageAccount),
-                        onBudgetClick = { _, _ -> },
-                        showSumDetails = viewModel.showSumDetails.collectAsState(initial = true).value,
-                        scrollToCurrentDate = viewModel.scrollToCurrentDate.getValue(account.id),
-                        renderer = renderer.value,
-                        isFiltered = false,
-                        modificationsAllowed = modificationsAllowed,
-                        accountCount = accounts.size
-                    )
+                    pageContent(pageAccount, accounts.size)
                 }
             }
             FloatingActionToolbar(
@@ -679,8 +627,9 @@ fun AccountsScreen(
     accountGrouping: AccountGrouping<*>,
     viewModel: MyExpensesV2ViewModel,
     navController: NavController,
-    onEvent: EventHandler,
+    onEvent: AppEventHandler,
     flags: List<AccountFlag> = emptyList(),
+    onAccountEvent: AccountEventHandler,
 ) {
 
     val selectedTab = rememberSaveable { mutableStateOf(startTab) }
@@ -792,7 +741,7 @@ fun AccountsScreen(
                     viewModel.navigateToGroup(it)
                     navigateSingleTopTo(navController, Screen.Transactions)
                 },
-                onEvent = onEvent,
+                onEvent = onAccountEvent,
                 flags = flags
             )
         }

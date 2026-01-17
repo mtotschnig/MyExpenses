@@ -26,7 +26,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.activity.BudgetWidgetConfigure
-import org.totschnig.myexpenses.compose.FutureCriterion
+import org.totschnig.myexpenses.compose.transactions.FutureCriterion
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.getGrouping
 import org.totschnig.myexpenses.db2.preDefinedName

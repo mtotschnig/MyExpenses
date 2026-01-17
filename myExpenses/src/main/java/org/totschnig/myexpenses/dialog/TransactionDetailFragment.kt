@@ -82,7 +82,7 @@ import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.ViewIntentProvider
 import org.totschnig.myexpenses.compose.ButtonRow
-import org.totschnig.myexpenses.compose.COMMENT_SEPARATOR
+import org.totschnig.myexpenses.compose.transactions.COMMENT_SEPARATOR
 import org.totschnig.myexpenses.compose.ColoredAmountText
 import org.totschnig.myexpenses.compose.Icon
 import org.totschnig.myexpenses.compose.LocalDateFormatter
@@ -93,7 +93,7 @@ import org.totschnig.myexpenses.compose.emToDp
 import org.totschnig.myexpenses.compose.filter.FilterCard
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.compose.size
-import org.totschnig.myexpenses.compose.voidMarker
+import org.totschnig.myexpenses.compose.transactions.voidMarker
 import org.totschnig.myexpenses.db2.FinTsAttribute
 import org.totschnig.myexpenses.feature.BankingFeature
 import org.totschnig.myexpenses.injector

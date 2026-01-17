@@ -1,4 +1,4 @@
-package org.totschnig.myexpenses.compose
+package org.totschnig.myexpenses.compose.transactions
 
 import android.content.Context
 import androidx.compose.foundation.BorderStroke
@@ -66,6 +66,14 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.CharIcon
+import org.totschnig.myexpenses.compose.HierarchicalMenu
+import org.totschnig.myexpenses.compose.Icon
+import org.totschnig.myexpenses.compose.Menu
+import org.totschnig.myexpenses.compose.conditional
+import org.totschnig.myexpenses.compose.emToDp
+import org.totschnig.myexpenses.compose.optional
+import org.totschnig.myexpenses.compose.size
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -137,7 +145,7 @@ abstract class ItemRenderer(
                 withStyle(style = SpanStyle(fontStyle = FontStyle.Italic)) {
                     append(
                         if (comment.length > 100)
-                            comment.substring(0, 100) + ellipsis
+                            comment.take(100) + ellipsis
                         else comment
                     )
                 }
@@ -278,12 +286,24 @@ abstract class ItemRenderer(
             Box(modifier = Modifier.size(30.sp), contentAlignment = Alignment.Center) {
                 when {
                     isSplit -> if (resolvedSplitIcons?.isNotEmpty() == true) {
-                        Icon(resolvedSplitIcons[0], modifier = Modifier.align(Alignment.TopStart).fillMaxSize(0.5f), size = null)
+                        Icon(
+                            resolvedSplitIcons[0],
+                            modifier = Modifier.align(Alignment.TopStart).fillMaxSize(0.5f),
+                            size = null
+                        )
                         resolvedSplitIcons.getOrNull(1)?.let {
-                            Icon(it, modifier = Modifier.align(Alignment.TopEnd).fillMaxSize(0.5f), size = null)
+                            Icon(
+                                it,
+                                modifier = Modifier.align(Alignment.TopEnd).fillMaxSize(0.5f),
+                                size = null
+                            )
                         }
                         resolvedSplitIcons.getOrNull(2)?.let {
-                            Icon(it, modifier = Modifier.align(Alignment.BottomStart).fillMaxSize(0.5f), size = null)
+                            Icon(
+                                it,
+                                modifier = Modifier.align(Alignment.BottomStart).fillMaxSize(0.5f),
+                                size = null
+                            )
                         }
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.CallSplit,
@@ -361,7 +381,7 @@ abstract class ItemRenderer(
         style: TextStyle = LocalTextStyle.current,
         displayAmount: Money = this.displayAmount,
     ) {
-        ColoredAmountText(
+        org.totschnig.myexpenses.compose.ColoredAmountText(
             money = if (type == FLAG_NEUTRAL) displayAmount.absolute() else displayAmount,
             style = style,
             type = colorSource.transformType(type)

@@ -51,8 +51,8 @@ import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.adapter.ClearingLastPagingSourceFactory
 import org.totschnig.myexpenses.adapter.TransactionPagingSource
 import org.totschnig.myexpenses.compose.DataStoreExpansionHandler
-import org.totschnig.myexpenses.compose.FutureCriterion
-import org.totschnig.myexpenses.compose.SelectionHandler
+import org.totschnig.myexpenses.compose.transactions.FutureCriterion
+import org.totschnig.myexpenses.compose.transactions.SelectionHandler
 import org.totschnig.myexpenses.compose.addToSelection
 import org.totschnig.myexpenses.compose.filter.TYPE_COMPLEX
 import org.totschnig.myexpenses.compose.toggle
@@ -534,7 +534,6 @@ open class MyExpensesViewModel(
         } else emptyFlow()
 
     fun sumInfo(account: PageAccount) = sums.getValue(account)
-
 
     fun persistGrouping(grouping: Grouping) {
         viewModelScope.launch(context = coroutineContext()) {

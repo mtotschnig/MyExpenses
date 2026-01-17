@@ -7,7 +7,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
-import org.totschnig.myexpenses.compose.FutureCriterion
+import org.totschnig.myexpenses.compose.transactions.FutureCriterion
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert

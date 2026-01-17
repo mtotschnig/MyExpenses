@@ -8,7 +8,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.core.content.res.ResourcesCompat
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.compose.SIGMA
+import org.totschnig.myexpenses.compose.accounts.SIGMA
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountType
