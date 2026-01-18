@@ -3,6 +3,7 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
+        maven { url "https://central.sonatype.com/repository/maven-snapshots/" }
     }
 }
 dependencyResolutionManagement {
@@ -14,6 +15,7 @@ dependencyResolutionManagement {
             url "https://jitpack.io"
         }
         maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven { url "https://central.sonatype.com/repository/maven-snapshots/" }
     }
 }
 //include ':mlkit'

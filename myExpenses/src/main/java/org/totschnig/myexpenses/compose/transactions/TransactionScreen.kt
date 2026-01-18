@@ -395,23 +395,22 @@ fun TransactionScreen(
             FloatingActionToolbar(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = 16.dp),
-                onNewTransaction = { type, isIncome ->
-                    onEvent(
-                        AppEvent.CreateTransaction(
-                            type = type, isIncome = isIncome, transferEnabled = accounts.size > 1
-                        )
+                    .padding(bottom = 16.dp)
+            ) { type, isIncome ->
+                onEvent(
+                    AppEvent.CreateTransaction(
+                        type = type, isIncome = isIncome, transferEnabled = accounts.size > 1
                     )
-                },
-            )
+                )
+            }
         }
     }
 }
 
 @Composable
 private fun FloatingActionToolbar(
+    modifier: Modifier = Modifier,
     onNewTransaction: (type: Int, isIncome: Boolean) -> Unit,
-    modifier: Modifier = Modifier.Companion,
 ) {
     val showMenu = remember { mutableStateOf(false) }
 
@@ -538,8 +537,8 @@ enum class BalanceType(
 private fun BalanceHeader(
     currentAccount: BaseAccount,
     displayBalanceType: BalanceType,
+    modifier: Modifier = Modifier,
     onDisplayBalanceTypeChange: (BalanceType) -> Unit,
-    modifier: Modifier = Modifier.Companion,
 ) {
     var isSummaryPopupVisible by rememberSaveable { mutableStateOf(false) }
 

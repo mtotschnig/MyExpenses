@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.dynamic-feature'
-    id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp'
+    id 'com.android.legacy-kapt'
 }
 android {
     compileSdk project.compileSdkVersion
@@ -15,9 +15,6 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
     }
     namespace 'org.totschnig.drive'
 }
@@ -42,6 +39,6 @@ dependencies {
         exclude group: 'org.apache.httpcomponents'
     }
 
-    kapt libs.dagger.compiler
+    ksp libs.dagger.compiler
     implementation libs.dagger
 }

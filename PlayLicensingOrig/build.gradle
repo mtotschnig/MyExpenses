@@ -5,7 +5,6 @@ android {
   compileSdkVersion project.compileSdkVersion
   defaultConfig {
     minSdkVersion project.minSdkVersion
-    targetSdkVersion project.targetSdkVersion
   }
   sourceSets {
     main {
@@ -14,4 +13,10 @@ android {
       res.srcDirs = ['res']
     }
   }
+    lint {
+        targetSdk 36
+    }
+    testOptions {
+        targetSdk 36
+    }
 }

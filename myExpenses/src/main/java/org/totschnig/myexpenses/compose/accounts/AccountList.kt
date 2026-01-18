@@ -98,6 +98,7 @@ import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import java.text.DecimalFormat
 import java.util.Comparator
+import androidx.compose.ui.platform.LocalResources
 
 const val SIGMA = "Σ"
 
@@ -472,7 +473,7 @@ fun AccountCard(
             val modifier = Modifier
                 .padding(end = 6.dp)
                 .size((dimensionResource(id = R.dimen.account_list_aggregate_letter_font_size).value * 2).dp)
-            val color = Color(account.color(resources = LocalContext.current.resources))
+            val color = Color(account.color(resources = LocalResources.current))
 
             account.progress?.let { (sign, progress) ->
                 DonutInABox(
@@ -774,24 +775,22 @@ fun AccountSummaryV2(
             label = R.string.menu_aggregates,
             amount = account.total,
             currency = account.currencyUnit,
+            modifier = Modifier.drawSumLine(),
             formattedEquivalentAmount = account.equivalentTotal.takeIf { isFx },
-            highlight = displayBalanceType == BalanceType.TOTAL,
-            onClick = { onDisplayBalanceTypeChange(BalanceType.TOTAL) },
-            modifier = Modifier.drawSumLine()
-        )
+            highlight = displayBalanceType == BalanceType.TOTAL
+        ) { onDisplayBalanceTypeChange(BalanceType.TOTAL) }
     }
 
     SumRowV2(
         label = R.string.current_balance,
         amount = account.currentBalance,
         currency = account.currencyUnit,
-        formattedEquivalentAmount = account.equivalentCurrentBalance.takeIf { isFx },
-        highlight = displayBalanceType == BalanceType.CURRENT,
-        onClick = { onDisplayBalanceTypeChange(BalanceType.CURRENT) },
         modifier = Modifier.conditional(account.total == null) {
             drawSumLine()
-        }
-    )
+        },
+        formattedEquivalentAmount = account.equivalentCurrentBalance.takeIf { isFx },
+        highlight = displayBalanceType == BalanceType.CURRENT
+    ) { onDisplayBalanceTypeChange(BalanceType.CURRENT) }
 
     account.criterion?.let {
         SumRowV2(
@@ -807,15 +806,13 @@ fun AccountSummaryV2(
             amount = account.clearedTotal,
             currency = account.currencyUnit,
             highlight = displayBalanceType == BalanceType.CLEARED,
-            onClick = { onDisplayBalanceTypeChange(BalanceType.CLEARED) },
-        )
+        ) { onDisplayBalanceTypeChange(BalanceType.CLEARED) }
         SumRowV2(
             label = R.string.total_reconciled,
             amount = account.reconciledTotal,
             currency = account.currencyUnit,
             highlight = displayBalanceType == BalanceType.RECONCILED,
-            onClick = { onDisplayBalanceTypeChange(BalanceType.RECONCILED) },
-        )
+        ) { onDisplayBalanceTypeChange(BalanceType.RECONCILED) }
     }
 }
 
@@ -868,24 +865,22 @@ fun AccountSummaryV2(
             label = R.string.menu_aggregates,
             amount = it,
             currency = account.currencyUnit,
+            modifier = Modifier.drawSumLine(),
             formattedEquivalentAmount = account.equivalentTotal.takeIf { isFx },
-            highlight = displayBalanceType == BalanceType.TOTAL,
-            onClick = { onDisplayBalanceTypeChange(BalanceType.TOTAL) },
-            modifier = Modifier.drawSumLine()
-        )
+            highlight = displayBalanceType == BalanceType.TOTAL
+        ) { onDisplayBalanceTypeChange(BalanceType.TOTAL) }
     }
 
     SumRowV2(
         label = R.string.current_balance,
         amount = account.currentBalance ?: account.equivalentCurrentBalance,
         currency = account.currencyUnit,
-        formattedEquivalentAmount = account.equivalentCurrentBalance.takeIf { isFx },
-        highlight = displayBalanceType == BalanceType.CURRENT,
-        onClick = { onDisplayBalanceTypeChange(BalanceType.CURRENT) },
         modifier = Modifier.conditional(displayTotal == null) {
             drawSumLine()
-        }
-    )
+        },
+        formattedEquivalentAmount = account.equivalentCurrentBalance.takeIf { isFx },
+        highlight = displayBalanceType == BalanceType.CURRENT
+    ) { onDisplayBalanceTypeChange(BalanceType.CURRENT) }
 }
 
 
@@ -973,10 +968,10 @@ fun SumRowV2(
     label: Int,
     amount: Long,
     currency: CurrencyUnit,
+    modifier: Modifier = Modifier,
     formattedEquivalentAmount: Long? = null,
     highlight: Boolean = false,
     onClick: (() -> Unit)? = null,
-    modifier: Modifier = Modifier,
 ) {
     val fontWeight = if (highlight) FontWeight.Bold else null
     Row(

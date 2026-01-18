@@ -32,7 +32,7 @@ class AccountsMinimalTest : BaseTestWithRepository() {
     }
 
     fun runQueryTest(
-        accountGrouping: AccountGrouping = AccountGrouping.NONE,
+        accountGrouping: AccountGrouping<*> = AccountGrouping.NONE,
         withAggregates: Boolean = false,
         withCustomSort: Boolean = false,
         vararg expected: String
