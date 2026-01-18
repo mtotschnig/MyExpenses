@@ -48,8 +48,8 @@ fun epoch2ZonedDateTime(
 fun LocalDateTime.toEpoch() =
     ZonedDateTime.of(this, ZoneId.systemDefault()).toEpochSecond()
 
-fun LocalDate.toEpoch() =
-    ZonedDateTime.of(this, LocalTime.now(), ZoneId.systemDefault()).toEpochSecond()
+fun LocalDate.toEpoch(atTime: LocalTime = LocalTime.NOON) =
+    ZonedDateTime.of(this, atTime, ZoneId.systemDefault()).toEpochSecond()
 
 fun LocalDateTime.toEpochMillis() = toEpoch() * 1000
 
