@@ -304,7 +304,7 @@ class WebDavClient(
             if (innerEx != null) {
                 var cert: X509Certificate? = null
                 try {
-                    cert = (innerEx as CertPathValidatorException)
+                    cert = innerEx
                         .certPath
                         .certificates[0] as X509Certificate
                 } catch (e2: Exception) {
