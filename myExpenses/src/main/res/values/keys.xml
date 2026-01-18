@@ -301,4 +301,7 @@
     <string name="pref_equivalent_amounts_automatic_update_key">equivalent_amounts_automatic_update</string>
     <string name="pref_ui_home_screen_shortcuts_show_new_balance_key">ui_home_screen_shortcuts_show_new_balance</string>
     <string name="autofill">Autofill</string>
+    <string name="pref_ui_main_screen_version_key">ui_main_screen</string>
+    <string name="pref_ui_start_screen_key">ui_start_screen</string>
+
 </resources>

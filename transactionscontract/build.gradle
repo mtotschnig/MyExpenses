@@ -7,12 +7,17 @@ android {
 
     defaultConfig {
         minSdkVersion project.minSdkVersion
-        targetSdkVersion project.targetSdkVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
     namespace 'org.totschnig.myexpenses.contract'
+    lint {
+        targetSdk 36
+    }
+    testOptions {
+        targetSdk 36
+    }
 }
 
 dependencies {

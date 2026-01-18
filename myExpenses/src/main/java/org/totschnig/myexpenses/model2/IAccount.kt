@@ -1,6 +1,9 @@
 package org.totschnig.myexpenses.model2
 
 import android.net.Uri
+import org.totschnig.myexpenses.model.AccountFlag
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DataBaseAccount
@@ -11,6 +14,7 @@ import org.totschnig.myexpenses.provider.filter.Criterion
 interface IAccount {
     val accountId: Long
     val currency: String
+
 
     val queryParameter: Pair<String, String>?
         get() = if (accountId != DataBaseAccount.HOME_AGGREGATE_ID) {
@@ -38,4 +42,10 @@ interface AccountInfoWithGrouping: IAccount {
             args
         )
     }
+}
+
+interface AccountWithGroupingKey {
+    val currencyUnit: CurrencyUnit
+    val flag: AccountFlag
+    val type: AccountType
 }

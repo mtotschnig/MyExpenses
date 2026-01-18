@@ -17,9 +17,9 @@ import androidx.core.view.get
 import androidx.core.view.size
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
-import org.totschnig.myexpenses.model.SortDirection
-import org.totschnig.myexpenses.model.SortDirection.ASC
-import org.totschnig.myexpenses.model.SortDirection.DESC
+import org.totschnig.myexpenses.model.sort.SortDirection
+import org.totschnig.myexpenses.model.sort.SortDirection.ASC
+import org.totschnig.myexpenses.model.sort.SortDirection.DESC
 import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.sync.GenericAccountService

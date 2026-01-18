@@ -69,8 +69,8 @@ import org.totschnig.myexpenses.viewmodel.ReferenceNumber
 import org.totschnig.myexpenses.viewmodel.Tags
 import org.totschnig.myexpenses.viewmodel.data.BI_ARROW
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
-import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.HeaderData
+import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import org.totschnig.myexpenses.viewmodel.data.getIndicatorPrefixForLabel
 import org.totschnig.myexpenses.viewmodel.data.mergeTransfers
@@ -133,7 +133,7 @@ object PdfPrinter {
     @Throws(IOException::class, DocumentException::class)
     fun print(
         context: Context,
-        account: FullAccount,
+        account: PageAccount,
         destDir: DocumentFile,
         filter: Criterion?,
         colorSource: ColorSource,
@@ -172,7 +172,7 @@ object PdfPrinter {
             extended = true
         )
         val projection = Transaction2.projection(
-            account.id,
+            account.isAggregate,
             account.grouping,
             prefHandler
         )
@@ -301,7 +301,7 @@ object PdfPrinter {
         transactionCursor: Cursor,
         helper: PdfHelper,
         context: Context,
-        account: FullAccount,
+        account: PageAccount,
         filter: Criterion?,
         currencyUnit: CurrencyUnit,
         currencyFormatter: ICurrencyFormatter,

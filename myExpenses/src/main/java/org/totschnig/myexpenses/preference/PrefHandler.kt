@@ -7,6 +7,7 @@ import androidx.preference.PreferenceFragmentCompat
 import kotlinx.serialization.json.Json
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.Version
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.dialog.MenuItem
@@ -174,6 +175,9 @@ interface PrefHandler {
     val cloudStorage: String?
         get() = getString(PrefKey.AUTO_BACKUP_CLOUD)
             ?.takeIf { it != AccountPreference.SYNCHRONIZATION_NONE }
+
+    val mainScreenLegacy: Boolean
+        get() = enumValueOrDefault(PrefKey.UI_MAIN_SCREEN_VERSION, Version.V1) == Version.V1
 
     companion object {
         const val AUTOMATIC_EXCHANGE_RATE_DOWNLOAD_PREF_KEY_PREFIX =

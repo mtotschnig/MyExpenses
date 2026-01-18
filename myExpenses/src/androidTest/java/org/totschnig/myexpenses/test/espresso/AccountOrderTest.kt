@@ -13,7 +13,7 @@ import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.findAccountFlag
 import org.totschnig.myexpenses.db2.updateAccount
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_INACTIVE
-import org.totschnig.myexpenses.model.Sort
+import org.totschnig.myexpenses.model.sort.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.KEY_FLAG
 import org.totschnig.myexpenses.provider.KEY_LAST_USED

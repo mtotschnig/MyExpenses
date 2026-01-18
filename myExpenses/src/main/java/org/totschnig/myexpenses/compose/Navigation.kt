@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.compose
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -23,7 +22,7 @@ import androidx.compose.material.icons.filled.RadioButtonUnchecked
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,23 +30,27 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import myiconpack.ArrowsAlt
 import org.totschnig.myexpenses.R
 
-data class Menu(val entries: List<IMenuEntry>)
+typealias Menu = List<IMenuEntry>
 
 sealed interface IMenuEntry {
     val label: UiText
-    val icon: ImageVector?
+    val icon: @Composable (() -> Painter)?
+    val tint: Color?
 }
 
 sealed interface IActionMenuEntry : IMenuEntry {
@@ -56,12 +59,18 @@ sealed interface IActionMenuEntry : IMenuEntry {
 }
 
 data class SubMenuEntry(
-    override val icon: ImageVector? = null,
     override val label: UiText,
-    val subMenu: Menu
+    override val icon: @Composable (() -> Painter)? = null,
+    override val tint: Color? = null,
+    val subMenu: Menu,
 ) : IMenuEntry {
-    constructor(icon: ImageVector? = null, label: Int, subMenu: Menu) :
-            this(icon, UiText.StringResource(label), subMenu)
+    constructor(label: Int, icon: ImageVector? = null, subMenu: Menu) : this(
+        label = UiText.StringResource(label),
+        icon = if (icon != null) {
+            @Composable { rememberVectorPainter(image = icon) }
+        } else null,
+        subMenu = subMenu
+    )
 }
 
 data class CheckableMenuEntry(
@@ -69,53 +78,79 @@ data class CheckableMenuEntry(
     override val command: String? = null,
     val isChecked: Boolean,
     val isRadio: Boolean = false,
-    override val action: () -> Unit
+    override val action: () -> Unit,
 ) : IActionMenuEntry {
-    constructor(label: Int, command: String, isChecked: Boolean, isRadio: Boolean = false, action: () -> Unit) :
+    constructor(
+        label: Int,
+        command: String,
+        isChecked: Boolean,
+        isRadio: Boolean = false,
+        action: () -> Unit,
+    ) :
             this(UiText.StringResource(label), command, isChecked, isRadio, action)
 
-    override val icon: ImageVector
-        get() = when {
-            isRadio && isChecked -> Icons.Filled.RadioButtonChecked
-            isRadio -> Icons.Filled.RadioButtonUnchecked
-            isChecked -> Icons.Filled.CheckBox
-            else -> Icons.Filled.CheckBoxOutlineBlank
+    override val icon: @Composable () -> Painter
+        get() = {
+            rememberVectorPainter(
+                when {
+                    isRadio && isChecked -> Icons.Filled.RadioButtonChecked
+                    isRadio -> Icons.Filled.RadioButtonUnchecked
+                    isChecked -> Icons.Filled.CheckBox
+                    else -> Icons.Filled.CheckBoxOutlineBlank
+                }
+            )
         }
+    override val tint: Color? = null
 }
 
 data class MenuEntry(
-    override val icon: ImageVector? = null,
     override val label: UiText,
+    override val icon: @Composable (() -> Painter)? = null,
+    override val tint: Color? = null,
     override val command: String? = null,
-    override val action: () -> Unit
+    override val action: () -> Unit,
 ) : IActionMenuEntry {
-    constructor(icon: ImageVector? = null, label: Int, command: String, action: () -> Unit) :
-            this(icon, UiText.StringResource(label), command, action)
+    constructor(
+        label: Int,
+        icon: ImageVector? = null,
+        tint: Color? = null,
+        command: String,
+        action: () -> Unit,
+    ) : this(
+        label = UiText.StringResource(label),
+        icon = if (icon != null) {
+            @Composable { rememberVectorPainter(image = icon) }
+        } else null,
+        tint = tint,
+        command = command,
+        action = action
+    )
+
     companion object {
         fun delete(command: String, action: () -> Unit) = MenuEntry(
-            icon = Icons.Filled.Delete,
             label = R.string.menu_delete,
+            icon = Icons.Filled.Delete,
             command = command,
             action = action
         )
 
         fun edit(command: String, action: () -> Unit) = MenuEntry(
-            icon = Icons.Filled.Edit,
             label = R.string.menu_edit,
+            icon = Icons.Filled.Edit,
             command = command,
             action = action
         )
 
         fun select(command: String, action: () -> Unit) = MenuEntry(
-            icon = Icons.Filled.Check,
             label = R.string.select,
+            icon = Icons.Filled.Check,
             command = command,
             action = action
         )
 
         fun toggle(command: String, isSealed: Boolean, action: () -> Unit) = MenuEntry(
-            icon = if (isSealed) Icons.Filled.LockOpen else Icons.Filled.Lock,
             label = if (isSealed) R.string.menu_reopen else R.string.menu_close,
+            icon = if (isSealed) Icons.Filled.LockOpen else Icons.Filled.Lock,
             command = command + "_ " + if (isSealed) "_REOPEN" else "_CLOSE",
             action = action
         )
@@ -125,19 +160,14 @@ data class MenuEntry(
 @Composable
 fun OverFlowMenu(
     modifier: Modifier = Modifier,
-    menu: Menu
+    menu: Menu,
 ) {
-    val showMenu = rememberSaveable { mutableStateOf(false) }
-    Box(modifier = modifier) {
-        IconButton(
-            onClick = { showMenu.value = true }) {
-            Icon(
-                Icons.Filled.MoreVert,
-                stringResource(id = androidx.appcompat.R.string.abc_action_menu_overflow_description)
-            )
-        }
-        HierarchicalMenu(expanded = showMenu, menu = menu)
-    }
+    TooltipIconMenu(
+        modifier = modifier,
+        tooltip = stringResource(id = androidx.appcompat.R.string.abc_action_menu_overflow_description),
+        imageVector = Icons.Filled.MoreVert,
+        menu = menu,
+    )
 }
 
 /**
@@ -148,7 +178,7 @@ fun OverFlowMenu(
 fun HierarchicalMenu(
     expanded: MutableState<Boolean>,
     menu: Menu,
-    title: String? = null
+    title: String? = null,
 ) {
     DropdownMenu(
         modifier = Modifier.testTag(TEST_TAG_CONTEXT_MENU),
@@ -156,7 +186,11 @@ fun HierarchicalMenu(
         onDismissRequest = { expanded.value = false }
     ) {
         title?.let {
-            Text(text = it, style = MaterialTheme.typography.labelMedium, modifier = Modifier.padding(start = 12.dp))
+            Text(
+                text = it,
+                style = MaterialTheme.typography.labelMedium,
+                modifier = Modifier.padding(start = 12.dp)
+            )
         }
         EntryListRenderer(expanded, menu)
     }
@@ -165,12 +199,13 @@ fun HierarchicalMenu(
 @Composable
 private fun RowScope.EntryContent(entry: IMenuEntry, offset: Dp = 0.dp) {
     Spacer(modifier = Modifier.width(offset))
-    entry.icon?.also {
+    entry.icon?.let {
         Icon(
             modifier = Modifier
                 .padding(end = 5.dp)
                 .size(24.dp),
-            imageVector = it,
+            painter = it(),
+            tint = entry.tint ?: LocalContentColor.current,
             contentDescription = null
         )
     }
@@ -181,10 +216,10 @@ private fun RowScope.EntryContent(entry: IMenuEntry, offset: Dp = 0.dp) {
 private fun EntryListRenderer(
     expanded: MutableState<Boolean>,
     menu: Menu,
-    offset: Dp = 0.dp
+    offset: Dp = 0.dp,
 ) {
     val tracker = LocalTracker.current
-    menu.entries.forEach { entry ->
+    menu.forEach { entry ->
         when (entry) {
             is IActionMenuEntry -> {
                 DropdownMenuItem(
@@ -242,8 +277,8 @@ private fun Entry() {
     Row(verticalAlignment = Alignment.CenterVertically) {
         EntryContent(
             MenuEntry(
-                icon = Icons.Filled.Edit,
                 label = R.string.menu_edit,
+                icon = Icons.Filled.Edit,
                 command = ""
             ) {})
     }
@@ -254,24 +289,20 @@ private fun Entry() {
 private fun Overflow() {
     fun emptyEntry(label: Int) = MenuEntry(label = UiText.StringResource(label), command = "") {}
     OverFlowMenu(
-        menu = Menu(
-            entries = listOf(
-                emptyEntry(R.string.menu_learn_more),
-                SubMenuEntry(
-                    label = R.string.hide, subMenu = Menu(
-                        entries = listOf(
-                            MenuEntry(
-                                icon = Icons.Filled.Edit,
-                                label = R.string.menu_edit,
-                                command = ""
-                            ) {},
-                            MenuEntry(
-                                icon = myiconpack.ArrowsAlt,
-                                label = R.string.menu_move,
-                                command = ""
-                            ) {}
-                        )
-                    )
+        menu = listOf(
+            emptyEntry(R.string.menu_learn_more),
+            SubMenuEntry(
+                label = R.string.hide, subMenu = listOf(
+                    MenuEntry(
+                        label = R.string.menu_edit,
+                        icon = Icons.Filled.Edit,
+                        command = ""
+                    ) {},
+                    MenuEntry(
+                        label = R.string.menu_move,
+                        icon = ArrowsAlt,
+                        command = ""
+                    ) {}
                 )
             )
         )

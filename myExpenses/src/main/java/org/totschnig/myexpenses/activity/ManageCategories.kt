@@ -59,7 +59,7 @@ import org.totschnig.myexpenses.dialog.SelectCategoryMoveTargetDialogFragment
 import org.totschnig.myexpenses.dialog.SetupCategoriesConfirmDialogFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.model.Sort
+import org.totschnig.myexpenses.model.sort.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_ICON
@@ -191,7 +191,10 @@ class ManageCategories : ProtectedFragmentActivity(),
         observeSyncResult()
         observeMergeResult()
         val preSelected = this.preSelected
-        supportFragmentManager.setFragmentResultListener(SetupCategoriesConfirmDialogFragment.IMPORT_OK, this) { _,_ ->
+        supportFragmentManager.setFragmentResultListener(
+            SetupCategoriesConfirmDialogFragment.IMPORT_OK,
+            this
+        ) { _, _ ->
             showSnackBarIndefinite(R.string.menu_categories_setup_default)
             viewModel.importCats()
         }
@@ -301,7 +304,8 @@ class ManageCategories : ProtectedFragmentActivity(),
                                         if (preSelected?.isEmpty() == false)
                                             state.data.getExpandedForSelected(preSelected) else emptyList()
                                     }
-                                    val nestedScrollInterop = rememberNestedScrollInteropConnection()
+                                    val nestedScrollInterop =
+                                        rememberNestedScrollInteropConnection()
                                     Category(
                                         modifier = Modifier.nestedScroll(nestedScrollInterop),
                                         category = if (action == Action.SELECT_FILTER)
@@ -321,7 +325,7 @@ class ManageCategories : ProtectedFragmentActivity(),
                                         ),
                                         menuGenerator = remember {
                                             { cat ->
-                                                if (action == Action.SELECT_FILTER) null else Menu(
+                                                if (action == Action.SELECT_FILTER) null else
                                                     listOfNotNull(
                                                         if ((choiceMode as? ChoiceMode.SingleChoiceMode)?.selectParentOnClick == false) {
                                                             select("SELECT_CATEGORY") {
@@ -352,8 +356,8 @@ class ManageCategories : ProtectedFragmentActivity(),
                                                             }
                                                         },
                                                         MenuEntry(
-                                                            icon = Icons.Filled.Add,
                                                             label = R.string.subcategory,
+                                                            icon = Icons.Filled.Add,
                                                             command = "CREATE_SUBCATEGORY"
                                                         ) {
                                                             if (cat.level > 1) {
@@ -366,12 +370,11 @@ class ManageCategories : ProtectedFragmentActivity(),
                                                             }
                                                         },
                                                         MenuEntry(
-                                                            icon = myiconpack.ArrowsAlt,
                                                             label = R.string.menu_move,
+                                                            icon = myiconpack.ArrowsAlt,
                                                             command = "MOVE_CATEGORY"
                                                         ) { showMoveTargetDialog(cat) }
                                                     )
-                                                )
                                             }
                                         },
                                         choiceMode = choiceMode,
@@ -466,7 +469,7 @@ class ManageCategories : ProtectedFragmentActivity(),
             actionMode = startSupportActionMode(object : ActionMode.Callback {
                 override fun onCreateActionMode(
                     mode: ActionMode,
-                    menu: Menu
+                    menu: Menu,
                 ): Boolean {
                     val action = intent.asAction
                     if (action == Action.MANAGE) {
@@ -495,7 +498,7 @@ class ManageCategories : ProtectedFragmentActivity(),
 
                 override fun onPrepareActionMode(
                     mode: ActionMode,
-                    menu: Menu
+                    menu: Menu,
                 ): Boolean {
                     menu.findItem(R.id.MERGE_COMMAND)?.isVisible =
                         selectedCategories(selectionState)?.let { list ->
@@ -506,7 +509,7 @@ class ManageCategories : ProtectedFragmentActivity(),
 
                 override fun onActionItemClicked(
                     mode: ActionMode,
-                    item: MenuItem
+                    item: MenuItem,
                 ): Boolean = when (item.itemId) {
                     R.id.DELETE_COMMAND -> {
                         selectedCategories(selectionState)?.let { list ->
@@ -554,7 +557,7 @@ class ManageCategories : ProtectedFragmentActivity(),
     private val dismissCallback = object : Snackbar.Callback() {
         override fun onDismissed(
             transientBottomBar: Snackbar,
-            event: Int
+            event: Int,
         ) {
             if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION || event == DISMISS_EVENT_TIMEOUT)
                 viewModel.messageShown()

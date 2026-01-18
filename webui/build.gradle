@@ -1,14 +1,13 @@
 plugins {
     id 'com.android.dynamic-feature'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp'
 }
 android {
     compileSdk project.compileSdkVersion
 
     defaultConfig {
         missingDimensionStrategy 'textRecognition', 'extern'
-        minSdkVersion project.minSdkVersion
+        minSdk project.minSdkVersion
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         proguardFiles 'consumer-rules.txt'
@@ -18,9 +17,6 @@ android {
         coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
     }
     packagingOptions {
         resources {
@@ -36,7 +32,7 @@ dependencies {
     coreLibraryDesugaring libs.android.desugar
     implementation project(":myExpenses")
     implementation libs.androidx.lifecycle.service
-    kapt libs.dagger.compiler
+    ksp libs.dagger.compiler
     implementation libs.dagger
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit

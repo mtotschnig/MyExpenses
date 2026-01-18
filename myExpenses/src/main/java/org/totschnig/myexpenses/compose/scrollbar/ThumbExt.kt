@@ -16,15 +16,17 @@
 
 package org.totschnig.myexpenses.compose.scrollbar
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
-import kotlin.isNaN
+import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
 /**
@@ -39,6 +41,17 @@ fun LazyListState.rememberDraggableScroller(
     scroll = ::scrollToItem,
 )
 
+@Composable
+fun ScrollState.rememberDraggableScroller(): (Float) -> Unit {
+    val scope = rememberCoroutineScope()
+    return remember {
+        { newPercentage ->
+            scope.launch {
+                scrollTo((maxValue * newPercentage).roundToInt())
+            }
+        }
+    }
+}
 
 /**
  * Generic function to react to [Scrollbar] thumb displacements in a lazy layout.
@@ -50,7 +63,7 @@ private inline fun rememberDraggableScroller(
     itemsAvailable: Int,
     crossinline scroll: suspend (index: Int) -> Unit,
 ): (Float) -> Unit {
-    var percentage by remember { mutableFloatStateOf(Float.Companion.NaN) }
+    var percentage by remember { mutableFloatStateOf(Float.NaN) }
     val itemCount by rememberUpdatedState(itemsAvailable)
 
     LaunchedEffect(percentage) {

@@ -155,7 +155,7 @@ data class Transaction2(
     companion object {
 
         fun projection(
-            accountId: Long,
+            isAggregate: Boolean,
             grouping: Grouping,
             prefHandler: PrefHandler,
             extended: Boolean = true,
@@ -169,7 +169,7 @@ data class Transaction2(
             )
             add(KEY_ORIGINAL_CURRENCY)
             add(KEY_ORIGINAL_AMOUNT)
-            if (DataBaseAccount.isAggregate(accountId) && extended) {
+            if (isAggregate && extended) {
                 addAll(additionalAggregateColumns)
             }
         }.toTypedArray()

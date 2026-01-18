@@ -11,12 +11,11 @@ buildscript {
 
 plugins {
     id 'com.android.application'
-    id 'kotlin-android'
     id 'kotlin-parcelize'
-    id 'kotlin-kapt'
     id 'com.google.devtools.ksp'
     id 'org.jetbrains.kotlin.plugin.compose'
     id 'org.jetbrains.kotlin.plugin.serialization'
+    id 'com.android.legacy-kapt'
 }
 
 def getPropertyIfDefined(property, defaultValue) {
@@ -50,9 +49,6 @@ android {
         coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
-    }
-    kotlinOptions {
-        jvmTarget = "17"
     }
 
     /*signingConfigs {
@@ -109,12 +105,6 @@ android {
         }
     }
 
-    variantFilter { variant ->
-        if (project.hasProperty("buildType") && variant.buildType.name != project.ext.buildType) {
-            setIgnore(true)
-        }
-    }
-
     testOptions {
         execution 'ANDROIDX_TEST_ORCHESTRATOR'
         unitTests {
@@ -128,6 +118,7 @@ android {
     buildFeatures {
         viewBinding true
         compose true
+        buildConfig true
     }
     //It does not seem possible to define dynamicFeatures dependent on variant
     //If you want to build intern variant, you need to include mlkit (+ at least one of ':mlkit_latn', ':mlkit_han', ':mlkit_deva', ':mlkit_jpan', ':mlkit_kore') and/or tesseract module
@@ -166,6 +157,7 @@ dependencies {
     implementation project(':transactionscontract')
     api libs.phrase
     implementation platform(libs.androidx.compose.bom)
+    implementation(libs.androidx.navigation.compose)
     implementation libs.compose.ui
     implementation libs.compose.animation.graphics
     implementation libs.androidx.compose.material3
@@ -179,7 +171,7 @@ dependencies {
     implementation libs.donut.compose
     implementation libs.donut
 
-    kapt libs.dagger.compiler
+    ksp libs.dagger.compiler
     implementation libs.dagger
     implementation libs.android.state
     kapt libs.android.state.processor

@@ -213,7 +213,11 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     UI_HOME_SCREEN_SHORTCUTS_SHOW_NEW_BALANCE(R.string.pref_ui_home_screen_shortcuts_show_new_balance_key),
     ACCOUNT_LIST_DISPLAY_CONFIGURATION(R.string.pref_account_list_display_configuration_key),
     INVISIBLE_ACCOUNTS_ARE_AGGREGATED("invisible_accounts_are_aggregated"),
-    SORT_ACCOUNT_LIST_BY_FLAG_FIRST("sort_account_list_by_flag_first")
+    SORT_ACCOUNT_LIST_BY_FLAG_FIRST("sort_account_list_by_flag_first"),
+    UI_MAIN_SCREEN_VERSION(R.string.pref_ui_main_screen_version_key),
+    UI_START_SCREEN(R.string.pref_ui_start_screen_key),
+    UI_SCREEN_LAST_VISITED("ui_screen_last_visited"),
+    UI_SCREEN_LAST_ACCOUNT_GROUP_FILTER("ui_screen_last_account_group_filter")
     ;
 
     @Deprecated("")

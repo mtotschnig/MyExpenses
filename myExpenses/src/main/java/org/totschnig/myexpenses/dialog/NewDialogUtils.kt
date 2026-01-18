@@ -86,7 +86,7 @@ fun Spinner.configureCurrencySpinner(listener: AdapterView.OnItemSelectedListene
 
 fun Spinner.configureTypeSpinner() = GroupedSpinnerAdapter<Boolean, AccountType>(
     context,
-    itemToString = { it.localizedName(context) },
+    itemToString = { it.title(context) },
     headerToString = { context.getString(if(it) R.string.balance_sheet_section_assets else R.string.balance_sheet_section_liabilities) }
 ).also {
     setAdapter(it)
@@ -96,8 +96,8 @@ fun GroupedSpinnerAdapter<Boolean, AccountType>.addAllAccountTypes(data: List<Ac
     clear()
     addAll(data.groupBy { it.isAsset }.let { map ->
         listOfNotNull(
-            map[true]?.let { assets -> true to assets.sortedBy { it.localizedName(context) } },
-            map[false]?.let { liabilities -> false to liabilities.sortedBy { it.localizedName(context) } }
+            map[true]?.let { assets -> true to assets.sortedBy { it.title(context) } },
+            map[false]?.let { liabilities -> false to liabilities.sortedBy { it.title(context) } }
         )
     })
 }

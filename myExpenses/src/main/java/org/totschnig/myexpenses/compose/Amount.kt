@@ -9,10 +9,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -71,6 +75,7 @@ fun ColoredAmountText(
     postfix: String = "",
     type: Byte? = null,
     absolute: Boolean = false,
+    colorFix: Boolean = true,
 ) {
     ColoredAmountText(
         money = Money(currency, amount),
@@ -82,7 +87,8 @@ fun ColoredAmountText(
         prefix = prefix,
         postfix = postfix,
         type = type,
-        absolute = absolute
+        absolute = absolute,
+        colorFix = colorFix
     )
 }
 
@@ -98,30 +104,59 @@ fun ColoredAmountText(
     postfix: String = "",
     type: Byte? = null,
     absolute: Boolean = false,
+    colorFix: Boolean = true,
 ) {
     val type = type ?: when (money.amountMinor.sign) {
         1 -> FLAG_INCOME
         -1 -> FLAG_EXPENSE
         else -> FLAG_NEUTRAL
     }
-
-    Text(
-        modifier = modifier
-            .conditional(withBorder) {
-                amountBorder(type.typeBorderColor)
-            }
-            .amountSemantics(money),
-        fontWeight = fontWeight,
-        textAlign = textAlign,
-        style = style,
-        text = prefix + LocalCurrencyFormatter.current.formatCurrency(
-            money.amountMajor.let {
-                if (absolute) it.abs() else it
-            },
-            money.currencyUnit
-        ) + postfix,
-        color = type.typeTextColor
+    val formatCurrency = LocalCurrencyFormatter.current.formatCurrency(
+        money.amountMajor.let {
+            if (absolute) it.abs() else it
+        },
+        money.currencyUnit
     )
+    if (colorFix) {
+        Text(
+            modifier = modifier
+                .conditional(withBorder) {
+                    amountBorder(type.typeBorderColor)
+                }
+                .amountSemantics(money),
+            fontWeight = fontWeight,
+            textAlign = textAlign,
+            style = style,
+            text = prefix + formatCurrency + postfix,
+            color = type.typeTextColor
+        )
+    } else {
+        Text(
+            modifier = modifier
+                .conditional(withBorder) {
+                    amountBorder(type.typeBorderColor)
+                }
+                .amountSemantics(money),
+            fontWeight = fontWeight,
+            textAlign = textAlign,
+            style = style,
+            text = coloredAmountText(formatCurrency, prefix, postfix, type.typeTextColor)
+        )
+    }
+}
+
+@Composable
+fun coloredAmountText(
+    money: String,
+    prefix: String,
+    postfix: String,
+    type: Color,
+): AnnotatedString = buildAnnotatedString {
+    append(prefix)
+    withStyle(style = SpanStyle(color = type)) {
+        append(money)
+    }
+    append(postfix)
 }
 
 @Preview

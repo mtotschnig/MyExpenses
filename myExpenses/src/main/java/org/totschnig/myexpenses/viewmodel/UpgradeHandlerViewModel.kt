@@ -26,7 +26,7 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.activity.BudgetWidgetConfigure
-import org.totschnig.myexpenses.compose.FutureCriterion
+import org.totschnig.myexpenses.compose.transactions.FutureCriterion
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.getGrouping
 import org.totschnig.myexpenses.db2.preDefinedName
@@ -38,7 +38,7 @@ import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
-import org.totschnig.myexpenses.model.Sort
+import org.totschnig.myexpenses.model.sort.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enableAutoFill
 import org.totschnig.myexpenses.preference.enumValueOrDefault
@@ -175,7 +175,7 @@ class UpgradeHandlerViewModel(application: Application) :
                                     edit.putString(
                                         key,
                                         `val`.substring(sepIndex + 1) + ";" + SimpleCriterion.escapeSeparator(
-                                            `val`.substring(0, sepIndex)
+                                            `val`.take(sepIndex)
                                         )
                                     )
                                 }

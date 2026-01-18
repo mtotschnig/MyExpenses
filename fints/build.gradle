@@ -1,8 +1,7 @@
 plugins {
     id 'com.android.dynamic-feature'
-    id 'kotlin-android'
     id 'kotlin-parcelize'
-    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp'
     alias libs.plugins.compose.compiler
 }
 
@@ -22,11 +21,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     buildFeatures {
         compose true
+        buildConfig true
     }
     packagingOptions {
         // Add this block to solve the duplicate file error
@@ -58,7 +55,7 @@ dependencies {
 
     implementation libs.androidx.core.ktx
 
-    kapt libs.dagger.compiler
+    ksp libs.dagger.compiler
     implementation libs.dagger
 
     testImplementation libs.junit

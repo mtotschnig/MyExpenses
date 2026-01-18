@@ -39,14 +39,37 @@
         android:title="@string/pref_ui_language_title"
         my:useSimpleSummaryProvider="true" />
 
+    <ListPreference
+        android:defaultValue="V1"
+        android:entries="@array/pref_ui_main_screen_version_values"
+        android:entryValues="@array/pref_ui_main_screen_version_values"
+        android:key="@string/pref_ui_main_screen_version_key"
+        my:useSimpleSummaryProvider="true"
+        android:title="Version" />
+
     <Preference
         android:key="@string/pref_customize_main_menu_key"
         android:summary="@string/customize"
         android:title="@string/menu" />
 
-    <Preference
-        android:key="@string/pref_account_list_display_configuration_key"
-        android:title="@string/pref_account_list_display_configuration_title" />
+    <ListPreference
+        android:defaultValue="LastVisited"
+        android:entries="@array/pref_start_screen_entries"
+        android:entryValues="@array/pref_start_screen_values"
+        android:key="@string/pref_ui_start_screen_key"
+        android:title="Start screen"
+        my:useSimpleSummaryProvider="true" />
+
+
+    <PreferenceCategory
+        android:key="category_account_list"
+        android:title="@string/pref_account_list_display_configuration_title">
+
+        <Preference
+            android:key="@string/pref_account_list_display_configuration_key"
+            android:title="@string/pref_account_list_display_configuration_title" />
+
+    </PreferenceCategory>
 
     <PreferenceCategory
         android:key="category_auto_fill"

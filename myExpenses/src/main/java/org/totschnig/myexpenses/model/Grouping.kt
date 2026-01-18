@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.model
 
 import android.content.Context
+import androidx.annotation.StringRes
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.provider.DatabaseConstants
@@ -23,14 +24,14 @@ import kotlin.math.min
 /**
  * grouping of transactions
  */
-enum class Grouping {
-    NONE,
-    DAY,
-    WEEK,
-    MONTH {
+enum class Grouping(@param:StringRes val label: Int) {
+    NONE(R.string.grouping_none),
+    DAY(R.string.grouping_day),
+    WEEK(R.string.grouping_week),
+    MONTH(R.string.grouping_month) {
         override val minValue = 0
     },
-    YEAR;
+    YEAR(R.string.grouping_year);
 
     open val minValue = 1
 

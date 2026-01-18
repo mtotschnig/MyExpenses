@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentResultListener
 import org.totschnig.myexpenses.fragment.ConfirmTagDialogFragment
 import org.totschnig.myexpenses.fragment.TagList.Companion.KEY_TAG_LIST
 
-class TagHandler(val activity: MyExpenses): FragmentResultListener {
+class TagHandler(val activity: BaseMyExpenses<*>): FragmentResultListener {
 
     init {
         activity.supportFragmentManager.setFragmentResultListener(CONFIRM_MAP_TAG_REQUEST, activity, this)

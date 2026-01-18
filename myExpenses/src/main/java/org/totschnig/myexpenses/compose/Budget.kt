@@ -60,7 +60,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Sort
+import org.totschnig.myexpenses.model.sort.Sort
 import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Category

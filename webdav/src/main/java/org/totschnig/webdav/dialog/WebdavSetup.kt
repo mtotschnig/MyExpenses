@@ -184,6 +184,6 @@ class WebdavSetup : EditActivity() {
         }
 
         override fun isValid(): Boolean =
-            fields[0].text.toString().trim { it <= ' ' }.toHttpUrlOrNull() != null
+            fields[0].text.toString().trim().toHttpUrlOrNull() != null
     }
 }

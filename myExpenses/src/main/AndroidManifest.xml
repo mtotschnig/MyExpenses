@@ -407,6 +407,8 @@
             android:exported="false"
             android:theme="@style/EditDialog"/>
 
+        <activity android:name="org.totschnig.myexpenses.activity.MyExpensesV2" />
+
         <service
             android:name=".sync.GenericAccountService"
             android:exported="false">

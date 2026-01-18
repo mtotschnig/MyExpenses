@@ -9,8 +9,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Icon
@@ -41,14 +43,14 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.SortableItem
 import org.totschnig.myexpenses.compose.ButtonRow
 import org.totschnig.myexpenses.compose.CheckBoxWithLabel
+import org.totschnig.myexpenses.compose.scrollbar.ColumnWithScrollbar
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountGrouping
-import org.totschnig.myexpenses.model.Sort
+import org.totschnig.myexpenses.model.sort.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.KEY_SORT_KEY
 import org.totschnig.myexpenses.provider.triggerAccountListRefresh
-import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel
 
 class AccountListDisplayConfigurationDialogFragment : ComposeBaseDialogFragment3() {
@@ -62,7 +64,6 @@ class AccountListDisplayConfigurationDialogFragment : ComposeBaseDialogFragment3
         get() = prefHandler.getBooleanPreferencesKey(PrefKey.SORT_ACCOUNT_LIST_BY_FLAG_FIRST)
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         injector.inject(viewModel)
         super.onCreate(savedInstanceState)
@@ -71,19 +72,17 @@ class AccountListDisplayConfigurationDialogFragment : ComposeBaseDialogFragment3
     @Composable
     override fun ColumnScope.MainContent() {
 
-        var selectedGrouping by rememberSaveable {
+        var selectedGrouping by rememberSaveable(stateSaver = AccountGrouping.Saver) {
             mutableStateOf(AccountGrouping.TYPE)
         }
+
         var sortByFlagFirst by rememberSaveable {
             mutableStateOf(false)
         }
 
         LaunchedEffect(Unit) {
             with(dataStore.data.first()) {
-                selectedGrouping =  enumValueOrDefault(
-                    this[accountGroupingKey],
-                    AccountGrouping.TYPE
-                )
+                this[accountGroupingKey]?.let { selectedGrouping = AccountGrouping.valueOf(it) }
                 sortByFlagFirst = this[sortByFlagKey] != false
             }
         }
@@ -97,43 +96,61 @@ class AccountListDisplayConfigurationDialogFragment : ComposeBaseDialogFragment3
             )
         }
 
-        Text(stringResource(R.string.menu_grouping), style = MaterialTheme.typography.titleMedium)
-        Spacer(Modifier.height(4.dp))
-        RadioGroupSection(
-            options = AccountGrouping.entries.map { it.title },
-            selectedIndex = selectedGrouping.ordinal,
-            onOptionSelected = { selectedGrouping = AccountGrouping.entries[it] }
-        )
-
-        Spacer(Modifier.height(16.dp))
-
-        Text(
-            stringResource(R.string.display_options_sort_list_by),
-            style = MaterialTheme.typography.titleMedium
-        )
-        Spacer(Modifier.height(4.dp))
-        CheckBoxWithLabel(
-            label = "Sort by flag first",
-            checked = sortByFlagFirst
+        ColumnWithScrollbar(
+            modifier = Modifier.weight(1f)
         ) {
-            sortByFlagFirst = it
-        }
-        val scope = rememberCoroutineScope()
-        RadioGroupSection(
-            options = Sort.accountSortLabels,
-            selectedIndex = Sort.accountSort.indexOf(selectedSort),
-            onOptionSelected = { selectedSort = Sort.accountSort[it] },
-            editableIndex = Sort.accountSort.indexOf(Sort.CUSTOM) to {
-                scope.launch {
-                    SortUtilityDialogFragment.newInstance(
-                        ArrayList(
-                            viewModel.accountsMinimal(withAggregates = false, sortOrder = KEY_SORT_KEY).first()
-                                .map { SortableItem(it.id, it.label) }
-                        ))
-                        .show(childFragmentManager, "SORT_ACCOUNTS")
-                }
+
+            Text(
+                stringResource(R.string.menu_grouping),
+                style = MaterialTheme.typography.titleMedium
+            )
+
+            Spacer(Modifier.height(4.dp))
+
+            RadioGroupSection(
+                options = AccountGrouping.ALL_VALUES.map { it.title },
+                selectedIndex = selectedGrouping.ordinal,
+                onOptionSelected = { selectedGrouping = AccountGrouping.ALL_VALUES[it] }
+            )
+
+            Spacer(Modifier.height(16.dp))
+
+            Text(
+                stringResource(R.string.display_options_sort_list_by),
+                style = MaterialTheme.typography.titleMedium
+            )
+
+            Spacer(Modifier.height(4.dp))
+
+            CheckBoxWithLabel(
+                label = "Sort by flag first",
+                checked = sortByFlagFirst
+            ) {
+                sortByFlagFirst = it
             }
-        )
+
+            val scope = rememberCoroutineScope()
+
+            RadioGroupSection(
+                options = Sort.accountSortLabels,
+                selectedIndex = Sort.accountSort.indexOf(selectedSort),
+                onOptionSelected = { selectedSort = Sort.accountSort[it] },
+                editableIndex = Sort.accountSort.indexOf(Sort.CUSTOM) to {
+                    scope.launch {
+                        SortUtilityDialogFragment.newInstance(
+                            ArrayList(
+                                viewModel.accountsMinimal(
+                                    withAggregates = false,
+                                    sortOrder = KEY_SORT_KEY
+                                ).first()
+                                    .map { SortableItem(it.id, it.label) }
+                            ))
+                            .show(childFragmentManager, "SORT_ACCOUNTS")
+                    }
+                }
+            )
+        }
+
         ButtonRow {
             TextButton(onClick = {
                 lifecycleScope.launch {
@@ -159,7 +176,7 @@ private fun RadioGroupSection(
     selectedIndex: Int,
     onOptionSelected: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    editableIndex: Pair<Int, () -> Unit>? = null
+    editableIndex: Pair<Int, () -> Unit>? = null,
 ) {
     Column(modifier.selectableGroup()) {
         options.forEachIndexed { index, text ->

@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.dynamic-feature'
-    id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp'
 }
 android {
     compileSdk project.compileSdkVersion
@@ -14,9 +13,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     buildFeatures {
         viewBinding true
     }
@@ -28,6 +24,6 @@ dependencies {
     implementation(libs.dav4android)
     implementation libs.androidx.appcompat
     implementation libs.okhttp
-    kapt libs.dagger.compiler
+    ksp libs.dagger.compiler
     implementation libs.dagger
 }

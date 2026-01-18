@@ -1,7 +1,8 @@
 package org.totschnig.myexpenses.provider
 
 import android.net.Uri
-import org.totschnig.myexpenses.model.SortDirection
+import org.totschnig.myexpenses.model.AccountGrouping
+import org.totschnig.myexpenses.model.sort.SortDirection
 import org.totschnig.myexpenses.model2.AccountInfoWithGrouping
 import org.totschnig.myexpenses.provider.TransactionProvider.EXTENDED_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_SEARCH
@@ -19,22 +20,19 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
     override val accountId: Long
         get() = id
 
-    val isHomeAggregate get() = isHomeAggregate(id)
+    @Deprecated("Used only on legacy Main Screen")
+    open val isHomeAggregate get() = isHomeAggregate(id)
 
-    val isAggregate get() = isAggregate(id)
+    @Deprecated("Used only on legacy Main Screen")
+    open val isAggregate get() = isAggregate(id)
 
     val sortOrder: String
         get() = "${sortBy.let { if (it == KEY_AMOUNT) "abs($it)" else it }} $sortDirection"
 
     fun uriForTransactionList(
         shortenComment: Boolean = false,
-        extended: Boolean = true
-    ): Uri = uriBuilderForTransactionList(shortenComment, extended).build()
-
-    fun uriBuilderForTransactionList(
-        shortenComment: Boolean = false,
-        extended: Boolean = true
-    ) = uriBuilderForTransactionList(id, currency, shortenComment, extended)
+        extended: Boolean = true,
+    ): Uri = uriBuilderForTransactionList(id, currency, null, null,  null, shortenComment, extended).build()
 
     companion object {
 
@@ -53,27 +51,41 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
         fun uriBuilderForTransactionList(
             accountId: Long,
             currency: String?,
+            type: Long? = null,
+            flag: Long? = null,
+            accountGrouping: AccountGrouping<*>? = null,
             shortenComment: Boolean = false,
-            extended: Boolean = true
+            extended: Boolean = true,
+        ): Uri.Builder = uriBuilderForTransactionList(shortenComment, extended)
+            .appendQueryParameter(accountId, currency, type, flag, accountGrouping)
+
+        fun Uri.Builder.appendQueryParameter(
+            accountId: Long,
+            currency: String?,
+            type: Long? = null,
+            flag: Long? = null,
+            accountGrouping: AccountGrouping<*>? = null,
         ): Uri.Builder {
-            val uriBuilder =
-                uriBuilderForTransactionList(shortenComment, extended)
-            return when {
-                !isAggregate(accountId) -> uriBuilder.apply {
-                    appendQueryParameter(KEY_ACCOUNTID, accountId.toString())
-                }
+            when (accountGrouping ?: when {
+                isHomeAggregate(accountId) -> AccountGrouping.NONE
+                isAggregate(accountId) -> AccountGrouping.CURRENCY
+                else -> null
+            }) {
+                null -> appendQueryParameter(KEY_ACCOUNTID, accountId.toString())
 
-                isHomeAggregate(accountId) -> uriBuilder
+                AccountGrouping.CURRENCY -> appendQueryParameter(KEY_CURRENCY, currency!!)
 
-                else -> uriBuilder.apply {
-                    appendQueryParameter(KEY_CURRENCY, currency)
-                }
+                AccountGrouping.TYPE -> appendQueryParameter(KEY_ACCOUNT_TYPE, type!!.toString())
+                AccountGrouping.FLAG -> appendQueryParameter(KEY_FLAG, flag!!.toString())
+                else -> {}
             }
+            return this
         }
+
 
         fun uriBuilderForTransactionList(
             shortenComment: Boolean,
-            extended: Boolean = true
+            extended: Boolean = true,
         ): Uri.Builder =
             (if (extended) EXTENDED_URI else TRANSACTIONS_URI)
                 .buildUpon().apply {

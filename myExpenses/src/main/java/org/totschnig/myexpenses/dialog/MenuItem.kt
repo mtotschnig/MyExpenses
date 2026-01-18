@@ -18,11 +18,12 @@ import org.totschnig.myexpenses.util.TextUtils
 sealed class MenuItem(
     @param:IdRes val id: Int,
     @param:StringRes private val labelRes: Int,
-    @param:DrawableRes val icon: Int? = null,
+    @param:DrawableRes val icon: Int,
     @param:MenuRes val subMenu: Int? = null,
     val isCheckable: Boolean = false,
     val isEnabledByDefault: Boolean = true,
 ) : Parcelable {
+
     open fun getLabel(context: Context) = context.getString(labelRes)
 
     data object Search : MenuItem(

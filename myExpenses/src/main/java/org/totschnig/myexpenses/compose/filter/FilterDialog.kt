@@ -104,8 +104,7 @@ import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.provider.filter.TransferCriterion
 import org.totschnig.myexpenses.provider.filter.asSet
 import org.totschnig.myexpenses.viewmodel.SumInfo
-import org.totschnig.myexpenses.viewmodel.data.BaseAccount
-import org.totschnig.myexpenses.viewmodel.data.FullAccount
+import org.totschnig.myexpenses.viewmodel.data.PageAccount
 
 const val COMPLEX_AND = 0
 const val COMPLEX_OR = 1
@@ -116,7 +115,7 @@ const val TYPE_COMPLEX = 1
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun FilterDialog(
-    account: BaseAccount,
+    account: PageAccount,
     sumInfo: SumInfo,
     initialPreferredSearchType: Int = TYPE_COMPLEX,
     criterion: Criterion? = null,
@@ -289,7 +288,7 @@ fun FilterDialog(
                         if (sumInfo.mappedCategories) CategoryCriterion else null,
                         AmountCriterion,
                         CommentCriterion,
-                        if (account.isAggregate || account.type.supportsReconciliation)
+                        if (account.isAggregate || account.type?.supportsReconciliation == true)
                             CrStatusCriterion else null,
                         if (sumInfo.mappedPayees) PayeeCriterion else null,
                         if (sumInfo.mappedMethods) MethodCriterion else null,
@@ -603,11 +602,11 @@ private fun Set<Criterion>.isSimple(selectedComplex: Int) =
 @Composable
 fun FilterDialogEmpty() {
     FilterDialog(
-        account = FullAccount(
+        account = PageAccount(
             id = 1,
             label = "Test account",
             currencyUnit = CurrencyUnit.DebugInstance,
-            type = AccountType.CASH
+            type = AccountType.CASH,
         ),
         sumInfo = SumInfo.EMPTY,
     )
@@ -617,7 +616,7 @@ fun FilterDialogEmpty() {
 @Composable
 fun FilterDialogPreview() {
     FilterDialog(
-        account = FullAccount(
+        account = PageAccount(
             id = 1,
             label = "Test account",
             currencyUnit = CurrencyUnit.DebugInstance,

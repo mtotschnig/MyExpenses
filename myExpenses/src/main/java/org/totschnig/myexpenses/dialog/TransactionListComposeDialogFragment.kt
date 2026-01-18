@@ -20,8 +20,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
-import org.totschnig.myexpenses.compose.CompactTransactionRenderer
-import org.totschnig.myexpenses.compose.DateTimeFormatInfo
+import org.totschnig.myexpenses.compose.transactions.CompactTransactionRenderer
+import org.totschnig.myexpenses.compose.transactions.DateTimeFormatInfo
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID

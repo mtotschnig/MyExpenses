@@ -31,6 +31,8 @@ import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
@@ -46,7 +48,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -148,7 +152,6 @@ fun LazyColumnWithScrollbar(
                 state.DraggableScrollbar(
                     modifier = Modifier
                         .fillMaxHeight()
-                        .windowInsetsPadding(WindowInsets.systemBars)
                         .padding(horizontal = 2.dp)
                         .align(Alignment.CenterEnd),
                     state = scrollbarState,
@@ -167,6 +170,48 @@ fun LazyColumnWithScrollbar(
         }
     }
 }
+
+@Composable
+fun ColumnWithScrollbar(
+    modifier: Modifier = Modifier,
+    fastScroll: Boolean = false,
+    verticalArrangement: Arrangement.Vertical = Arrangement.Top,
+    content: @Composable ColumnScope.() -> Unit,
+) {
+    val state = rememberScrollState()
+    Box(modifier = modifier) {
+        Column(
+            modifier = Modifier.verticalScroll(state),
+            verticalArrangement = verticalArrangement,
+            content = content
+        )
+        val scrollbarState = state.scrollbarState()
+        Timber.d("thumbSizePercent %f", scrollbarState.thumbSizePercent)
+        if (scrollbarState.thumbSizePercent < 1f) {
+            if (fastScroll) {
+                state.DraggableScrollbar(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .windowInsetsPadding(WindowInsets.systemBars)
+                        .padding(horizontal = 2.dp)
+                        .align(Alignment.CenterEnd),
+                    state = scrollbarState,
+                    orientation = Vertical,
+                    onThumbMoved = state.rememberDraggableScroller()
+                )
+            } else {
+                state.DecorativeScrollbar(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .align(Alignment.CenterEnd),
+                    state = scrollbarState,
+                    orientation = Vertical
+                )
+            }
+        }
+    }
+}
+
 
 
 /**
@@ -275,6 +320,7 @@ private fun Modifier.scrollThumb(
     interactionSource: InteractionSource,
 ): Modifier {
     val colorState = scrollbarThumbColor(scrollableState, interactionSource)
+    Timber.d("colorState %s", colorState.value)
     return this then ScrollThumbElement { colorState.value }
 }
 
@@ -321,7 +367,7 @@ private fun scrollbarThumbColor(
     scrollableState: ScrollableState,
     interactionSource: InteractionSource,
 ): State<Color> {
-    var state by remember { mutableStateOf(ThumbState.Dormant) }
+    var thumbState by remember { mutableStateOf(ThumbState.Inactive) }
     val pressed by interactionSource.collectIsPressedAsState()
     val hovered by interactionSource.collectIsHoveredAsState()
     val dragged by interactionSource.collectIsDraggedAsState()
@@ -329,7 +375,7 @@ private fun scrollbarThumbColor(
             (pressed || hovered || dragged || scrollableState.isScrollInProgress)
 
     val color = animateColorAsState(
-        targetValue = when (state) {
+        targetValue = when (thumbState) {
             ThumbState.Active -> MaterialTheme.colorScheme.onSurface.copy(0.5f)
             ThumbState.Inactive -> MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f)
             ThumbState.Dormant -> Color.Transparent
@@ -339,13 +385,23 @@ private fun scrollbarThumbColor(
         ),
         label = "Scrollbar thumb color",
     )
-    LaunchedEffect(active) {
-        when (active) {
-            true -> state = ThumbState.Active
-            false -> if (state == ThumbState.Active) {
-                state = ThumbState.Inactive
+
+    LaunchedEffect(active, thumbState) {
+        when {
+            // If the user is actively interacting, always be Active.
+            active -> {
+                thumbState = ThumbState.Active
+            }
+            // If the state is Inactive (either initially or after being Active),
+            // start a timer to fade to Dormant.
+            thumbState == ThumbState.Inactive -> {
                 delay(SCROLLBAR_INACTIVE_TO_DORMANT_TIME_IN_MS)
-                state = ThumbState.Dormant
+                thumbState = ThumbState.Dormant
+            }
+            // If the state is Active but the user is no longer interacting,
+            // transition to Inactive, which will then trigger the case above.
+            thumbState == ThumbState.Active -> {
+                thumbState = ThumbState.Inactive
             }
         }
     }

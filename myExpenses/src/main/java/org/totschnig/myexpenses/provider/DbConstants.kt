@@ -23,7 +23,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_TRA
 import org.totschnig.myexpenses.provider.filter.Criterion
 
 private fun requireIdParameter(parameter: String) {
-    require(parameter.isDigitsOnly())
+    require(parameter.isDigitsOnly()) { "Invalid parameter: $parameter" }
 }
 
 /**
@@ -54,8 +54,8 @@ val Uri.templateQuerySelector: String?
     }
 
 /**
- * with parameter KEY_ACCOUNTID show single account, with parameter KEY_CURRENCY show for all
- * accounts with given currency (if not excluded from totals), otherwise all transactions (if not
+ * with parameter KEY_ACCOUNTID show single account, with parameter KEY_CURRENCY/KEY_ACCOUNT_TYPE/$KEY_FLAG show for all
+ * accounts with given currency/type/flag (if not excluded from totals), otherwise all transactions (if not
  * excluded from totals) = Grand total account. With include_all passed in exclude from totals is ignored
  */
 
@@ -66,9 +66,10 @@ val Uri.accountSelector: String
                 requireIdParameter(it)
                 "= $it"
             } ?: (" IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_EXCLUDE_FROM_TOTALS=0 " +
-                    (getQueryParameter(KEY_CURRENCY)?.let {
-                        "AND $KEY_CURRENCY = '$it'"
-                    } ?: "") + ")")
+                    (getQueryParameter(KEY_CURRENCY)?.let { "AND $KEY_CURRENCY = '$it'" } ?: "") +
+                    (getQueryParameter(KEY_ACCOUNT_TYPE)?.let { "AND $KEY_ACCOUNT_TYPE = $it" } ?: "") +
+                    (getQueryParameter(KEY_FLAG)?.let { "AND $KEY_FLAG = $it" } ?: "") +
+                    ")")
             )
 
 fun checkSealedWithAlias(baseTable: String) =

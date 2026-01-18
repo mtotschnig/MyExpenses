@@ -1,12 +1,11 @@
 package org.totschnig.myexpenses.sync.json
 
 import android.os.Parcelable
-import androidx.annotation.NonNull
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.SortDirection
+import org.totschnig.myexpenses.model.sort.SortDirection
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.KEY_DATE
 
@@ -26,7 +25,6 @@ data class AccountMetaData(
     val criterion: Long = 0L
 ) : Parcelable {
 
-    @NonNull
     override fun toString(): String {
         return "$label ($currency)"
     }

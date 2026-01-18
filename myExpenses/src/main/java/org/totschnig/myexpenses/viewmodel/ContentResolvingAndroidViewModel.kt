@@ -25,7 +25,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.compose.RenderType
+import org.totschnig.myexpenses.compose.transactions.RenderType
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.asContentValues
 import org.totschnig.myexpenses.db2.countAccounts

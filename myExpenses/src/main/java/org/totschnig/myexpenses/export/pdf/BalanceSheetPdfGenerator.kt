@@ -152,7 +152,7 @@ class BalanceSheetPdfGenerator(private val context: Context) {
     ) {
         addLine(
             table = table,
-            label = section.type.localizedName(context),
+            label = section.type.title(context),
             amount = section.total,
             isAbsolute = true,
             labelFontType = FontType.BALANCE_SECTION
@@ -160,7 +160,7 @@ class BalanceSheetPdfGenerator(private val context: Context) {
 
         for (account in section.accounts) {
             val printreal =
-                account.currency.code != homeCurrencyUnit.code && account.currentBalance != 0L
+                account.currencyUnit.code != homeCurrencyUnit.code && account.currentBalance != 0L
             addLine(
                 table = table,
                 label = account.label,
@@ -178,7 +178,7 @@ class BalanceSheetPdfGenerator(private val context: Context) {
                     table = table,
                     label = null,
                     amount = account.currentBalance,
-                    currency = account.currency,
+                    currency = account.currencyUnit,
                     isAbsolute = true,
                     labelFontType = FontType.NORMAL,
                     expenseFontType = FontType.EXPENSE_SMALL,

@@ -165,7 +165,7 @@ fun dateTimeFormatter(account: PageAccount, prefHandler: PrefHandler, context: C
         else -> DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
     }
 
-fun dateTimeFormatterLegacy(account: BaseAccount, prefHandler: PrefHandler, context: Context) =
+fun dateTimeFormatterLegacy(account: PageAccount, prefHandler: PrefHandler, context: Context) =
     when (account.grouping) {
         Grouping.DAY -> {
             timeFormatter(account.type, prefHandler, context)?.let {

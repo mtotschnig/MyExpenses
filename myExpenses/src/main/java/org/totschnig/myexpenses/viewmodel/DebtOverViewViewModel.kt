@@ -15,8 +15,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.export.pdf.DebtOverviewPdfGenerator
-import org.totschnig.myexpenses.model.Sort
-import org.totschnig.myexpenses.model.SortDirection
+import org.totschnig.myexpenses.model.sort.Sort
+import org.totschnig.myexpenses.model.sort.SortDirection
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.data.DisplayDebt

@@ -62,7 +62,7 @@ import org.totschnig.myexpenses.activity.EDIT_REQUEST
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.ManageTemplates
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
-import org.totschnig.myexpenses.compose.COMMENT_SEPARATOR
+import org.totschnig.myexpenses.compose.transactions.COMMENT_SEPARATOR
 import org.totschnig.myexpenses.databinding.TemplatesListBinding
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.entities.Template
@@ -70,8 +70,8 @@ import org.totschnig.myexpenses.db2.getCurrencyForAccount
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.Sort
-import org.totschnig.myexpenses.model.Sort.Companion.preferredOrderByForTemplatesWithPlans
+import org.totschnig.myexpenses.model.sort.Sort
+import org.totschnig.myexpenses.model.sort.Sort.Companion.preferredOrderByForTemplatesWithPlans
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.KEY_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.KEY_AMOUNT

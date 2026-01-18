@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import org.totschnig.myexpenses.compose.transactions.tagBorder
 
 inline fun Modifier.conditional(
     condition: Boolean,

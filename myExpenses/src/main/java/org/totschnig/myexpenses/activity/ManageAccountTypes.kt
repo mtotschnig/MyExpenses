@@ -65,7 +65,6 @@ import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.ButtonDefinition
 import org.totschnig.myexpenses.compose.DialogFrame
 import org.totschnig.myexpenses.compose.HierarchicalMenu
-import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment
@@ -75,7 +74,7 @@ import org.totschnig.myexpenses.viewmodel.AccountTypeViewModel
 import org.totschnig.myexpenses.viewmodel.AccountTypesUiState
 
 class ManageAccountTypes : ProtectedFragmentActivity(),
-    SortUtilityDialogFragment.OnConfirmListener  {
+    SortUtilityDialogFragment.OnConfirmListener {
 
     val viewModel: AccountTypeViewModel by viewModels()
 
@@ -96,8 +95,8 @@ class ManageAccountTypes : ProtectedFragmentActivity(),
                     onSort = { isAsset ->
                         SortUtilityDialogFragment.newInstance(
                             ArrayList(
-                                uiState.accountTypes.filter { it.isAsset  == isAsset }.map {
-                                    SortableItem(it.id, it.localizedName(this))
+                                uiState.accountTypes.filter { it.isAsset == isAsset }.map {
+                                    SortableItem(it.id, it.title(this))
                                 }
                             ))
                             .show(supportFragmentManager, "SORT_TYPES")
@@ -123,7 +122,7 @@ private fun ManageAccountTypesScreen(
     onDelete: (AccountType) -> Unit = {},
     onDialogDismiss: () -> Unit = {},
     onSave: (name: String, isAsset: Boolean, supportsReconciliation: Boolean) -> Unit = { _, _, _ -> },
-    onSort: (Boolean) -> Unit = {}
+    onSort: (Boolean) -> Unit = {},
 ) {
     val scrollBehavior = pinnedScrollBehavior()
     Scaffold(
@@ -197,7 +196,7 @@ private fun AccountTypeList(
     onEditClick: (AccountType) -> Unit,
     onDeleteClick: (AccountType) -> Unit,
     onSortClick: (Boolean) -> Unit,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
 ) {
     val resources = LocalResources.current
 
@@ -242,13 +241,20 @@ private fun LazyListScope.section(
     list: List<AccountType>,
     onEditClick: (AccountType) -> Unit,
     onDeleteClick: (AccountType) -> Unit,
-    onSort: () -> Unit
+    onSort: () -> Unit,
 ) {
     item {
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Text(title, style = MaterialTheme.typography.titleMedium)
             IconButton(onClick = onSort) {
-                Icon(Icons.AutoMirrored.Filled.Sort, contentDescription = stringResource(R.string.menu_sort))
+                Icon(
+                    Icons.AutoMirrored.Filled.Sort,
+                    contentDescription = stringResource(R.string.menu_sort)
+                )
             }
         }
     }
@@ -267,7 +273,7 @@ private fun AccountTypeItem(
     modifier: Modifier,
     accountType: AccountType,
     onEditClick: () -> Unit,
-    onDeleteClick: () -> Unit
+    onDeleteClick: () -> Unit,
 ) {
     val context = LocalContext.current
 
@@ -286,20 +292,17 @@ private fun AccountTypeItem(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = accountType.localizedName(context) +
+            text = accountType.title(context) +
                     ((accountType.count ?: 0).takeIf { it > 0 }?.let { " ($it)" } ?: ""),
             style = MaterialTheme.typography.bodyLarge,
         )
         if (!accountType.isPredefined) {
-            val menu = Menu(
-                buildList {
-                    add(MenuEntry.edit("EDIT_FLAG", onEditClick))
-                    if ((accountType.count ?: 0) == 0) {
-                        add(MenuEntry.delete("DELETE_FLAG", onDeleteClick))
-                    }
+            HierarchicalMenu(showMenu, buildList {
+                add(MenuEntry.edit("EDIT_FLAG", onEditClick))
+                if ((accountType.count ?: 0) == 0) {
+                    add(MenuEntry.delete("DELETE_FLAG", onDeleteClick))
                 }
-            )
-            HierarchicalMenu(showMenu, menu)
+            })
         }
     }
 }
@@ -311,7 +314,7 @@ private fun AddEditAccountTypeDialog(
     onDismiss: () -> Unit = {},
     onSave: (name: String, isAsset: Boolean, supportsReconciliation: Boolean) -> Unit =
         { _, _, _ -> },
-    allTypes: List<AccountType> = emptyList()
+    allTypes: List<AccountType> = emptyList(),
 ) {
 
     val context = LocalContext.current
@@ -339,7 +342,7 @@ private fun AddEditAccountTypeDialog(
             AccountType.isReservedName(name) ||
                     allTypes.any {
                         it.id != editingAccountType.id &&
-                                (it.name == name || it.localizedName(context) == name)
+                                (it.name == name || it.title(context) == name)
                     }
         }
     }

@@ -92,7 +92,6 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.DenseTextField
 import org.totschnig.myexpenses.compose.HierarchicalMenu
-import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.UiText
 import org.totschnig.myexpenses.compose.rememberMutableStateMapOf
@@ -383,7 +382,7 @@ class Banking : ProtectedFragmentActivity() {
                                 AccountRow(
                                     account = account.first,
                                     supportedGvs = supportedGvs,
-                                    config = if(supportedGvs.isEmpty()) null else {
+                                    config = if (supportedGvs.isEmpty()) null else {
                                         val standardGV = supportedGvs.first()
                                         account.second?.let {
                                             AccountImportConfig(
@@ -666,42 +665,39 @@ fun BankRow(
             Text(bank.userId)
         }
     }
-    val menu = Menu(
-        buildList {
-            add(MenuEntry.delete("DELETE_BANK") { onDelete(bank) })
+    HierarchicalMenu(showMenu, buildList {
+        add(MenuEntry.delete("DELETE_BANK") { onDelete(bank) })
+        add(
+            MenuEntry(
+                label = R.string.accounts,
+                icon = Icons.Filled.Checklist,
+                command = "LIST_ACCOUNTS"
+            ) { onShow(bank) }
+        )
+        add(
+            MenuEntry(
+                label = RF.string.menu_sync_account,
+                icon = Icons.Filled.Sync,
+                command = "SYNC_ALL"
+            ) { onSync(bank) }
+        )
+        onMigrate?.let {
             add(
                 MenuEntry(
-                    command = "LIST_ACCOUNTS",
-                    label = R.string.accounts,
-                    icon = Icons.Filled.Checklist
-                ) { onShow(bank) }
+                    label = UiText.StringValue("v1 -> v2"),
+                    command = "MIGRATION"
+                ) { onMigrate(bank) }
             )
-            add(
-                MenuEntry(
-                    command = "SYNC_ALL",
-                    label = RF.string.menu_sync_account,
-                    icon = Icons.Filled.Sync
-                ) { onSync(bank) }
-            )
-            onMigrate?.let {
-                add(
-                    MenuEntry(
-                        command = "MIGRATION",
-                        label = UiText.StringValue("v1 -> v2")
-                    ) { onMigrate(bank) }
-                )
-            }
-            onResetTanMechanism?.let {
-                add(
-                    MenuEntry(
-                        command = "RESET_TAN",
-                        label = RF.string.reset_stored_configuration
-                    ) { onResetTanMechanism(bank) }
-                )
-            }
         }
-    )
-    HierarchicalMenu(showMenu, menu)
+        onResetTanMechanism?.let {
+            add(
+                MenuEntry(
+                    label = RF.string.reset_stored_configuration,
+                    command = "RESET_TAN"
+                ) { onResetTanMechanism(bank) }
+            )
+        }
+    })
 }
 
 @Composable
@@ -733,6 +729,7 @@ fun AccountRow(
                     !isSupported || config == null -> {
                         Spacer(Modifier.width(48.dp))
                     }
+
                     config.alreadyImported -> {
                         Icon(
                             modifier = Modifier.width(48.dp),
@@ -759,7 +756,7 @@ fun AccountRow(
                             HierarchicalMenu(
                                 expanded = showMenu,
                                 title = stringResource(id = RF.string.import_into),
-                                menu = Menu(targetOptions.map {
+                                menu = targetOptions.map {
                                     MenuEntry(label = UiText.StringValue(it.second)) {
                                         onConfigurationChange(
                                             config.copy(
@@ -768,7 +765,7 @@ fun AccountRow(
                                             )
                                         )
                                     }
-                                })
+                                }
                             )
                     }
                 }

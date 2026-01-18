@@ -992,18 +992,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         showSnackBar(getText(message), duration)
     }
 
-    @JvmOverloads
-    fun showSnackBar(
-        message: CharSequence,
-        duration: Int = Snackbar.LENGTH_LONG,
-        snackBarAction: SnackbarAction? = null,
-        callback: Snackbar.Callback? = null,
-    ) {
-        snackBarContainer?.let {
-            showSnackBar(message, duration, snackBarAction, callback, it)
-        } ?: showSnackBarFallBack(message)
-    }
-
     private fun showSnackBarFallBack(message: CharSequence) {
         reportMissingSnackBarContainer()
         Toast.makeText(this, message, Toast.LENGTH_LONG).show()
@@ -1020,7 +1008,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         message: CharSequence,
         total: Int = 0,
         progress: Int = 0,
-        container: View? = null,
+        container: View? = snackBarContainer,
     ) {
         (container ?: snackBarContainer)?.also {
             val displayMessage = if (total > 0) "$message ($progress/$total)" else message
@@ -1063,29 +1051,31 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
+    @JvmOverloads
     fun showSnackBar(
         message: CharSequence,
-        duration: Int,
-        snackBarAction: SnackbarAction?,
-        callback: Snackbar.Callback?,
-        container: View,
+        duration: Int = Snackbar.LENGTH_LONG,
+        snackBarAction: SnackbarAction? = null,
+        callback: Snackbar.Callback? = null,
+        container: View? = null,
     ) {
-        snackBar = Snackbar.make(container, message, duration).apply {
-            UiUtils.increaseSnackbarMaxLines(this)
-            if (snackBarAction != null) {
-                setAction(snackBarAction.label, snackBarAction.listener)
-            }
-            if (callback != null) {
-                addCallback(callback)
-            }
-            addCallback(object : Snackbar.Callback() {
-                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                    snackBar = null
+        (container ?: snackBarContainer)?.also {
+            snackBar = Snackbar.make(it, message, duration).apply {
+                UiUtils.increaseSnackbarMaxLines(this)
+                if (snackBarAction != null) {
+                    setAction(snackBarAction.label, snackBarAction.listener)
                 }
-            })
-            show()
-        }
-
+                if (callback != null) {
+                    addCallback(callback)
+                }
+                addCallback(object : Snackbar.Callback() {
+                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                        snackBar = null
+                    }
+                })
+                show()
+            }
+        } ?: showSnackBarFallBack(message)
     }
 
     fun dismissSnackBar() {
@@ -1502,11 +1492,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
-    val createAccountIntent
-        get() = Intent(this, AccountEdit::class.java).apply {
-            putExtra(KEY_COLOR, Account.DEFAULT_COLOR)
-        }
-
     fun showTransferAccountMissingMessage() {
         showMessage(
             getString(R.string.dialog_command_disabled_insert_transfer),
@@ -1731,7 +1716,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
-    suspend fun StateFlow<Result<Pair<Uri, String>>?>.collectPrintResult(): Nothing =
+    suspend fun StateFlow<Result<Pair<Uri, String>>?>.collectPrintResult() {
         collect { result ->
             result?.let {
                 dismissSnackBar()
@@ -1761,6 +1746,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 onPdfResultProcessed()
             }
         }
+    }
 
     open fun onPdfResultProcessed() {
 

@@ -72,7 +72,6 @@ import org.totschnig.myexpenses.compose.CheckBoxWithLabel
 import org.totschnig.myexpenses.compose.DialogFrame
 import org.totschnig.myexpenses.compose.DialogFrame2
 import org.totschnig.myexpenses.compose.IconSelectorDialog
-import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.OverFlowMenu
 import org.totschnig.myexpenses.compose.size
@@ -84,7 +83,7 @@ import org.totschnig.myexpenses.viewmodel.AccountFlagsViewModel
 import org.totschnig.myexpenses.viewmodel.AccountForSelection
 
 private const val SIZE_ICON = 24f
-private const val PADDING_ICON= 4f
+private const val PADDING_ICON = 4f
 private const val WEIGHT_LABEL = 7f
 private const val WEIGHT_VISIBLE = 2f
 
@@ -113,7 +112,7 @@ class ManageAccountFlags : ProtectedFragmentActivity(),
                         SortUtilityDialogFragment.newInstance(
                             ArrayList(
                                 uiState.accountFlags.map {
-                                    SortableItem(it.id, it.localizedLabel(this))
+                                    SortableItem(it.id, it.title(this))
                                 }
                             ))
                             .show(supportFragmentManager, "SORT_FLAGS")
@@ -155,7 +154,7 @@ fun ManageFlagsScreen(
     aggregateInvisible: Boolean,
     onSort: () -> Unit,
     onSetAggregateInvisible: (Boolean) -> Unit,
-    onSaveSelection: (Set<Long>) -> Unit
+    onSaveSelection: (Set<Long>) -> Unit,
 ) {
     var showConfigDialog by rememberSaveable { mutableStateOf(false) }
     val scrollBehavior = pinnedScrollBehavior()
@@ -243,7 +242,7 @@ fun ManageFlagsScreen(
             title = "${stringResource(R.string.menu_account_flags)} ${stringResource(R.string.settings_label)}",
             onDismissRequest = { showConfigDialog = false },
             positiveButton = null,
-            negativeButtonLabel =  R.string.menu_close
+            negativeButtonLabel = R.string.menu_close
         ) {
             CheckBoxWithLabel(
                 label = stringResource(R.string.aggregate_invisible),
@@ -270,7 +269,7 @@ fun AccountFlagList(
     onDeleteClick: (Long) -> Unit,
     onToggleVisibility: (Long, Boolean) -> Unit,
     onStartSelection: (AccountFlag) -> Unit,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
 ) {
     Column(
         modifier = Modifier
@@ -303,7 +302,7 @@ fun AccountFlagList(
             modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
-            itemsIndexed(list, key = { index, item -> item.id }) { index, flag ->
+            itemsIndexed(list, key = { _, item -> item.id }) { index, flag ->
                 AccountFlagItem(
                     modifier = Modifier.animateItem(),
                     flag = flag,
@@ -335,7 +334,7 @@ fun AccountFlagItem(
     onToggleVisibility: (Boolean) -> Unit,
     onEditClick: () -> Unit,
     onDeleteClick: () -> Unit,
-    onStartSelection: () -> Unit
+    onStartSelection: () -> Unit,
 ) {
 
     Row(
@@ -355,7 +354,7 @@ fun AccountFlagItem(
         Spacer(Modifier.size(PADDING_ICON.sp))
         val context = LocalContext.current
         Text(
-            text = flag.localizedLabel(context) +
+            text = flag.title(context) +
                     ((flag.count ?: 0).takeIf { it > 0 }?.let { " ($it)" } ?: ""),
             modifier = Modifier
                 .weight(WEIGHT_LABEL),
@@ -376,18 +375,15 @@ fun AccountFlagItem(
             }
         }
         if (flag.id > 0) {
-            val menu = Menu(
-                buildList {
-                    add(MenuEntry.edit("EDIT_FLAG", onEditClick))
-                    if ((flag.count ?: 0) == 0) {
-                        add(MenuEntry.delete("DELETE_FLAG", onDeleteClick))
-                    }
-                    add(MenuEntry.select("SELECT_ACCOUNTS_FOR_FLAG") {
-                        onStartSelection()
-                    })
+            OverFlowMenu(menu = buildList {
+                add(MenuEntry.edit("EDIT_FLAG", onEditClick))
+                if ((flag.count ?: 0) == 0) {
+                    add(MenuEntry.delete("DELETE_FLAG", onDeleteClick))
                 }
-            )
-            OverFlowMenu(menu = menu)
+                add(MenuEntry.select("SELECT_ACCOUNTS_FOR_FLAG") {
+                    onStartSelection()
+                })
+            })
         } else {
             Spacer(modifier = Modifier.width(LocalMinimumInteractiveComponentSize.current))
         }
@@ -400,11 +396,11 @@ private fun AddEditAccountFlagDialog(
     onDismiss: () -> Unit = {},
     onSave: (name: String, icon: String?) -> Unit =
         { _, _ -> },
-    allFlags: List<AccountFlag> = emptyList()
+    allFlags: List<AccountFlag> = emptyList(),
 ) {
     val context = LocalContext.current
 
-    var label by remember { mutableStateOf(editingAccountFlag.localizedLabel(context)) }
+    var label by remember { mutableStateOf(editingAccountFlag.title(context)) }
     val icon = rememberSaveable { mutableStateOf(editingAccountFlag.icon) }
 
     val showIconSelection = rememberSaveable { mutableStateOf(false) }
@@ -417,7 +413,7 @@ private fun AddEditAccountFlagDialog(
             AccountFlag.isReservedName(label) ||
                     allFlags.any {
                         it.id != editingAccountFlag.id &&
-                                (it.label == label || it.localizedLabel(context) == label)
+                                (it.label == label || it.title(context) == label)
                     }
         }
     }
@@ -463,7 +459,7 @@ private fun AddEditAccountFlagDialog(
 private fun AccountSelectionDialog(
     selectingAccountsForFlag: Pair<AccountFlag, List<AccountForSelection>>,
     onDismiss: () -> Unit,
-    onSave: (Set<Long>) -> Unit
+    onSave: (Set<Long>) -> Unit,
 ) {
     val (flag, accounts) = selectingAccountsForFlag
 
@@ -474,7 +470,7 @@ private fun AccountSelectionDialog(
     DialogFrame2(
         title = stringResource(
             R.string.select_accounts_for_flag,
-            flag.localizedLabel(LocalContext.current)
+            flag.title(LocalContext.current)
         ),
         positiveButton = ButtonDefinition(
             text = android.R.string.ok,

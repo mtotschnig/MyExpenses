@@ -27,11 +27,11 @@ import org.totschnig.myexpenses.adapter.FontSizeAdapter
 import org.totschnig.myexpenses.adapter.FontSizeAdapter.Companion.updateTextSize
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.CheckBoxWithLabel
-import org.totschnig.myexpenses.compose.CompactTransactionRenderer
-import org.totschnig.myexpenses.compose.DateTimeFormatInfo
-import org.totschnig.myexpenses.compose.GroupDivider
-import org.totschnig.myexpenses.compose.NewTransactionRenderer
-import org.totschnig.myexpenses.compose.RenderType
+import org.totschnig.myexpenses.compose.transactions.CompactTransactionRenderer
+import org.totschnig.myexpenses.compose.transactions.DateTimeFormatInfo
+import org.totschnig.myexpenses.compose.transactions.GroupDivider
+import org.totschnig.myexpenses.compose.transactions.NewTransactionRenderer
+import org.totschnig.myexpenses.compose.transactions.RenderType
 import org.totschnig.myexpenses.databinding.OnboardingThemeSelectionBinding
 import org.totschnig.myexpenses.databinding.OnboardingWizzardUiBinding
 import org.totschnig.myexpenses.model.CurrencyContext

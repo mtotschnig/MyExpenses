@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.fragment.preferences
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.os.Build
@@ -21,6 +22,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.Version
 import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.dialog.AccountListDisplayConfigurationDialogFragment
 import org.totschnig.myexpenses.dialog.CustomizeMenuDialogFragment
@@ -178,6 +180,12 @@ class PreferenceUiFragment : BasePreferenceFragment() {
             entries = daysEntries
             entryValues = daysValues
         }
+
+        with(requirePreference<Preference>(PrefKey.ACCOUNT_LIST_DISPLAY_CONFIGURATION)) {
+            title = getString(R.string.menu_grouping) + " / " + getString(R.string.display_options_sort_list_by)
+        }
+
+        configureUiVersionDependencies()
     }
 
     override fun onPreferenceTreeClick(preference: Preference) = when {
@@ -275,6 +283,18 @@ class PreferenceUiFragment : BasePreferenceFragment() {
             val locale = Locale.forLanguageTag(localeString)
             locale.getDisplayName(locale)
         }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
+        when(key) {
+            getKey(PrefKey.UI_MAIN_SCREEN_VERSION) -> configureUiVersionDependencies()
+        }
+    }
+
+    private fun configureUiVersionDependencies() {
+        val legacy = prefHandler.mainScreenLegacy
+        requirePreference<Preference>(PrefKey.CUSTOMIZE_MAIN_MENU).isVisible = legacy
+        requirePreference<Preference>(PrefKey.UI_START_SCREEN).isVisible = !legacy
+    }
 
     companion object {
         fun Context.compactItemRendererTitle() =

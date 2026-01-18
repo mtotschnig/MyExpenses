@@ -128,7 +128,7 @@ class MethodEdit : EditActivity(), CompoundButton.OnCheckedChangeListener, OnIco
     private fun setUpAccountTypeGrid(allTypes: List<AccountType>, checked: List<Long>?) {
         allTypes.forEach { accountType ->
             binding.AccountTypeGrid.addView(AppCompatCheckBox(this).also {
-                it.text = accountType.localizedName(this)
+                it.text = accountType.title(this)
                 it.isChecked = checked?.contains(accountType.id) == true
                 it.tag = accountType.id
                 it.setOnCheckedChangeListener(this)

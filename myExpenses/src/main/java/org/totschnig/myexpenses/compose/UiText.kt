@@ -10,19 +10,17 @@ sealed interface UiText {
     @JvmInline
     value class StringValue(val str: String) : UiText
     @JvmInline
-    value class StringResource(@StringRes val resourceId: Int) : UiText
+    value class StringResource(@param:StringRes val resourceId: Int) : UiText
 
     class StringResourceWithArgs(
-        @StringRes val resourceId: Int,
+        @param:StringRes val resourceId: Int,
         vararg val args: Any
     ) : UiText
 
     @Composable
-    fun asString(): String {
-        return when (this) {
-            is StringValue -> str
-            is StringResource -> stringResource(id = resourceId)
-            is StringResourceWithArgs -> stringResource(id = resourceId, formatArgs = args)
-        }
+    fun asString() = when (this) {
+        is StringValue -> str
+        is StringResource -> stringResource(id = resourceId)
+        is StringResourceWithArgs -> stringResource(id = resourceId, formatArgs = args)
     }
 }

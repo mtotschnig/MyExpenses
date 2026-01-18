@@ -219,6 +219,11 @@
         <item>@string/pref_scroll_to_current_date_account_open</item>
     </string-array>
 
+    <string-array name="pref_ui_main_screen_version_values">
+        <item>V1</item>
+        <item>V2</item>
+    </string-array>
+
     <string-array name="template_default_action_entries">
         <item>@string/menu_save</item>
         <item>@string/menu_edit</item>
@@ -399,5 +404,16 @@
         <item>@string/pref_dynamic_exchange_rates_static</item>
         <item>@string/pref_dynamic_exchange_rates_per_account</item>
     </string-array>
-
+    <string-array name="pref_start_screen_entries">
+        <item>Last visited</item>
+        <item>@string/accounts</item>
+        <item>@string/import_select_transactions</item>
+        <item>@string/balance_sheet</item>
+    </string-array>
+    <string-array name="pref_start_screen_values">
+        <item>LastVisited</item>
+        <item>Accounts</item>
+        <item>Transactions</item>
+        <item>BalanceSheet</item>
+    </string-array>
 </resources>

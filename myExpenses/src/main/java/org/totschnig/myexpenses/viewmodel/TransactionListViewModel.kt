@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.db2.asCategoryType
 import org.totschnig.myexpenses.db2.tagMapFlow
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.uriBuilderForTransactionList
 import org.totschnig.myexpenses.provider.KEY_CATID
 import org.totschnig.myexpenses.provider.KEY_DISPLAY_AMOUNT
@@ -84,7 +85,7 @@ class TransactionListViewModel(
                 flow2 = contentResolver.observeQuery(
                     transactionUri,
                     Transaction2.projection(
-                        accountId,
+                        DataBaseAccount.isAggregate(accountId),
                         Grouping.NONE,
                         prefHandler,
                         extended = false

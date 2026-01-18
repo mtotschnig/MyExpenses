@@ -349,7 +349,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
     private suspend fun onSelectionChanged(
         chart: PieChart,
         tree: Category,
-        listState: LazyListState
+        listState: LazyListState,
     ) {
         val position = tree.children.indexOf(selectionState.value)
         if (position > -1) {
@@ -525,7 +525,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         choiceMode: ChoiceMode,
         expansionMode: ExpansionMode,
         accountInfo: DistributionAccountInfo,
-        listState: LazyListState
+        listState: LazyListState,
     ) {
         val nestedScrollInterop = rememberNestedScrollInteropConnection()
         Category(
@@ -537,34 +537,32 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             listState = listState,
             menuGenerator = remember {
                 { category ->
-                    org.totschnig.myexpenses.compose.Menu(
-                        buildList {
+                    buildList {
+                        add(
+                            MenuEntry(
+                                label = R.string.menu_show_transactions,
+                                icon = Icons.AutoMirrored.Filled.List,
+                                command = "SHOW_TRANSACTIONS"
+                            ) {
+                                lifecycleScope.launch {
+                                    showTransactions(
+                                        category,
+                                        category.id.sign > 0
+                                    )
+                                }
+                            }
+                        )
+                        if (category.level == 1 && category.color != null)
                             add(
                                 MenuEntry(
-                                    Icons.AutoMirrored.Filled.List,
-                                    R.string.menu_show_transactions,
-                                    "SHOW_TRANSACTIONS"
+                                    label = R.string.color,
+                                    icon = Icons.Filled.Palette,
+                                    command = "COLOR"
                                 ) {
-                                    lifecycleScope.launch {
-                                        showTransactions(
-                                            category,
-                                            category.id.sign > 0
-                                        )
-                                    }
+                                    editCategoryColor(category.id, category.color)
                                 }
                             )
-                            if (category.level == 1 && category.color != null)
-                                add(
-                                    MenuEntry(
-                                        Icons.Filled.Palette,
-                                        R.string.color,
-                                        "COLOR"
-                                    ) {
-                                        editCategoryColor(category.id, category.color)
-                                    }
-                                )
-                        }
-                    )
+                    }
                 }
             },
             withTypeColors = false

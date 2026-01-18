@@ -165,7 +165,7 @@ import androidx.sqlite.db.SupportSQLiteQueryBuilder;
 import org.totschnig.myexpenses.BuildConfig;
 import org.totschnig.myexpenses.db2.RepositoryPaymentMethodKt;
 import org.totschnig.myexpenses.model.CrStatus;
-import org.totschnig.myexpenses.model.Sort;
+import org.totschnig.myexpenses.model.sort.Sort;
 import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.filter.Operation;
 import org.totschnig.myexpenses.sync.json.TransactionChange;

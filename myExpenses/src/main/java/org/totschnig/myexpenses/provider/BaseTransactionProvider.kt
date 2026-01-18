@@ -28,7 +28,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.compose.FutureCriterion
+import org.totschnig.myexpenses.compose.transactions.FutureCriterion
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
@@ -826,10 +826,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 )
             }
             val accountGrouping = runBlocking {
-                enumValueOrDefault(
-                    dataStore.data.first()[prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING)],
-                    AccountGrouping.TYPE
-                )
+                dataStore.data.first()[prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING)]?.let {
+                    AccountGrouping.valueOf(it).takeIf { it != AccountGrouping.FLAG }
+                } ?: AccountGrouping.DEFAULT
             }
             val sortByFlagFirst = runBlocking {
                 dataStore.data.first()[prefHandler.getBooleanPreferencesKey(PrefKey.SORT_ACCOUNT_LIST_BY_FLAG_FIRST)] != false
@@ -1345,14 +1344,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
         selection: String?,
         selectionArgs: Array<String>?,
     ): Cursor {
+        val accountQuery = uri.accountSelector
 
-        val (accountSelector, accountQuery) = uri.getQueryParameter(KEY_ACCOUNTID)?.let {
-            it to "$KEY_ACCOUNTID = ?"
-        } ?: uri.getQueryParameter(KEY_CURRENCY).let {
-            it to ((if (it != null) "$KEY_CURRENCY = ? AND " else "") + "$KEY_EXCLUDE_FROM_TOTALS = 0")
-        }
-
-        val forHome: String? = if (accountSelector == null) homeCurrency else null
+        //Grand total account or aggregate account for type or flag
+        val forHome: String? = if (uri.getQueryParameter(KEY_ACCOUNTID) != null && uri.getQueryParameter(KEY_CURRENCY) != null) homeCurrency else null
 
         val group = enumValueOrDefault(uri.pathSegments[2], Grouping.NONE)
 
@@ -1420,11 +1415,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
             }
         }.toTypedArray()
 
-        val finalArgs = buildList {
-            accountSelector?.let { add(it) }
-            selectionArgs?.let { addAll(it) }
-        }.toTypedArray()
-
         val sql = buildTransactionGroupCte(
             accountQuery,
             selection,
@@ -1433,11 +1423,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
         ) + " " +
                 SupportSQLiteQueryBuilder.builder(CTE_TRANSACTION_GROUPS)
                     .columns(projection)
-                    .selection(null, finalArgs)
+                    .selection(null, selectionArgs)
                     .groupBy(groupBy)
                     .create()
                     .sql
-        return db.measureAndLogQuery(uri, sql, selection, finalArgs)
+        return db.measureAndLogQuery(uri, sql, selection, selectionArgs)
     }
 
     fun insertAttribute(db: SupportSQLiteDatabase, values: ContentValues) {
