@@ -160,6 +160,10 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
                 "${t(R.string.payer_or_payee)}: ${t(R.string.ui_refinement)}"
             )
 
+            "406" -> arrayOf(
+                "${t(R.string.redesign)}  (${t(R.string.experimental)})"
+            )
+
             else -> {
                 //noinspection DiscouragedApi
                 val resId = res.getIdentifier(
