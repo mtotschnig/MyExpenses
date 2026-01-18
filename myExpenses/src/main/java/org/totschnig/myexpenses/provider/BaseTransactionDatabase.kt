@@ -28,7 +28,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 import kotlin.math.pow
 
-const val DATABASE_VERSION = 183
+const val DATABASE_VERSION = 184
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -1325,6 +1325,7 @@ abstract class BaseTransactionDatabase(
             append(", Tree.$KEY_PATH, Tree.$KEY_ICON, Tree.$KEY_TYPE, $KEY_COLOR, $KEY_CURRENCY, $KEY_SEALED, $KEY_EXCLUDE_FROM_TOTALS, $KEY_DYNAMIC")
             append(", $TABLE_ACCOUNTS.$KEY_TYPE AS $KEY_ACCOUNT_TYPE")
             append(", $TABLE_ACCOUNTS.$KEY_LABEL AS $KEY_ACCOUNT_LABEL")
+            append(", $TABLE_ACCOUNTS.$KEY_FLAG AS $KEY_FLAG")
         }
         if (tableName == TABLE_TRANSACTIONS) {
             append(", $TABLE_PLAN_INSTANCE_STATUS.$KEY_TEMPLATEID, ")
