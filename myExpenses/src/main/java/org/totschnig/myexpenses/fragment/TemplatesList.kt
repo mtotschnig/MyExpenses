@@ -38,11 +38,13 @@ import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.AdapterView
 import android.widget.AdapterView.AdapterContextMenuInfo
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.SimpleCursorAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.util.size
 import androidx.core.view.isVisible
@@ -516,15 +518,38 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         } ?: run { (activity as ProtectedFragmentActivity).showSnackBar(msg) }
     }
 
+// In TemplatesList.kt
+
     fun showSnackbar(dialogFragment: DialogFragment, msg: String) {
-        dialogFragment.dialog?.window?.also {
-            val snackbar = Snackbar.make(it.decorView, msg, Snackbar.LENGTH_LONG)
-            UiUtils.increaseSnackbarMaxLines(snackbar)
-            snackbar.show()
-        } ?: run {
+        val dialog = dialogFragment.dialog
+        if (dialog == null || !dialogFragment.isAdded) {
             Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
+            return
         }
+
+        val content = dialog.findViewById<FrameLayout>(android.R.id.content) ?: return
+
+        val coordinatorLayout = CoordinatorLayout(dialog.context).apply {
+            layoutParams = FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT
+            )
+        }
+
+        content.addView(coordinatorLayout)
+
+        val snackbar = Snackbar.make(coordinatorLayout, msg, Snackbar.LENGTH_LONG)
+            .addCallback(object : Snackbar.Callback() {
+                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                    super.onDismissed(transientBottomBar, event)
+                    content.removeView(coordinatorLayout)
+                }
+            })
+
+        UiUtils.increaseSnackbarMaxLines(snackbar)
+        snackbar.show()
     }
+
 
     fun dispatchDeleteDo(tag: LongArray) {
         showSnackbar(getString(R.string.progress_dialog_deleting))
