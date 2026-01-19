@@ -18,7 +18,7 @@
     <string name="menu_sort_direction_help_text">Muameleler artan (en eski en üstte) ya da azalan (en yeni en üstte) yönde sıralanabilirler.</string>
     <string name="menu_distribution_help_text">Harcamalarınızın kategori başına dağılımını görüntüleyin. Ayrıca herhangi bir grup başlığına uzun tıklayarak belli bir zaman bölümü için dağılımı inceleyebilirsiniz.</string>
     <string name="menu_budget_help_text">Güncel olarak görüntülenen hesap için günlük, haftalık, aylık veya senelik bütçeleri yönetin.</string>
-    <string name="menu_history_help_text">Nakit akışı grafiği gösterir: Gelir ve harcamalarınız yıllık, aylık, haftalık ve günlük olarak nasıl gelişti?</string>
+    <string name="menu_history_help_text">Nakit akışı grafiği gösterir: Son günlerde, haftalarda, aylarda veya yıllarda harcamalarınız ve gelirleriniz nasıl bir değişim gösterdi?</string>
     <string name="menu_manage_plans_help_text">Gelecekteki ve tekrar eden muameleleri tanımlayabileceğiniz ve bunları uygulamanıza, düzenlemenize ve silmenize imkân veren şablonlar ve planlar listesini açar.</string>
     <string name="menu_balance_help_text">Bu komut son mutabık ve kullanılabilir bakiyeyi gösteren bir diyalog açar. Kullanılabilir bakiyeyi banka hesabınız ile karşılaştırabilir ve tüm çözümlenmiş muameleleri uzlaşmış olarak işaretleyebilirsiniz. Seçime dayalı olarak, uzlaşmış muameleleri silmeye de karar verebilirsiniz.</string>
     <string name="menu_print_help_text">Şu anda gösterilen muamelelerin yazdırılabilir görüntüsünü oluşturur.</string>
