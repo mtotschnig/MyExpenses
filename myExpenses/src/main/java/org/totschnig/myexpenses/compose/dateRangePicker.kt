@@ -1,7 +1,10 @@
 package org.totschnig.myexpenses.compose
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DateRangePicker
@@ -68,7 +71,7 @@ fun DialogFragment.DateRangePickerScaffold(
     enabled: Boolean? = null,
     doWork: suspend (Pair<LocalDate, LocalDate>) -> Unit,
 ) {
-    Column {
+    Column(Modifier.windowInsetsPadding(WindowInsets.safeDrawing)) {
         val dateFormatter = remember { DatePickerDefaults.dateFormatter() }
         var isWorking by remember { mutableStateOf(false) }
         val scope = rememberCoroutineScope()

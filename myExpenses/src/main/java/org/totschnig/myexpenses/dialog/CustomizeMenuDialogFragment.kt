@@ -111,7 +111,7 @@ private fun MenuConfigurator(
         itemsAvailable = MenuItem.values.size,
     ) {
         itemsIndexed(activeItems, key = { _, item -> item.id }) { index, item ->
-            ReorderableItem(reorderableLazyListState, key = item.id) { isDragging ->
+            ReorderableItem(reorderableLazyListState, key = item.id) { _ ->
                 val customActions = buildList {
                     if (index > 0) {
                         add(
@@ -221,7 +221,7 @@ private fun ItemRow(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Checkbox(checked = checked, enabled = onCheckedChange != null, onCheckedChange = null)
-        item.icon?.let {
+        item.icon.let {
             Icon(
                 modifier = Modifier.padding(horizontal = 8.dp),
                 painter = painterResource(id = it),
