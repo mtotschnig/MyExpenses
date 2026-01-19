@@ -16,11 +16,11 @@ const val KEY_SPLIT_PART_LIST = "splitPartList"
  *        or null to create a new part.
  * Output: The saved TransactionEditData object, or null if the user canceled.
  */
-abstract class EditSplitPartContract : ActivityResultContract<TransactionEditData?, ArrayList<TransactionEditData>?>() {
+abstract class EditSplitPartContract : ActivityResultContract<TransactionEditData, ArrayList<TransactionEditData>?>() {
 
     abstract fun prepareIntent(intent: Intent)
 
-    override fun createIntent(context: Context, input: TransactionEditData?): Intent {
+    override fun createIntent(context: Context, input: TransactionEditData): Intent {
 
         // Create an intent to launch the ExpenseEdit activity.
         val intent = Intent(context, ExpenseEdit::class.java).apply {

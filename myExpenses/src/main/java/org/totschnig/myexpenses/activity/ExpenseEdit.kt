@@ -162,6 +162,7 @@ import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDate
 import javax.inject.Inject
+import kotlin.math.sign
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
 
 
@@ -483,7 +484,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             if (splitPart != null) {
                 isSplitPart = true
                 populate(splitPart, false)
-                delegate.setType(intent.getBooleanExtra(KEY_INCOME, false))
+                if (splitPart.amount.amountMinor.sign == 0) {
+                    delegate.setType(intent.getBooleanExtra(KEY_INCOME, false))
+                }
             }
             // fetch the transaction or create a new instance
             else if (task != null) {

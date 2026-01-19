@@ -3,7 +3,7 @@ package org.totschnig.myexpenses.test.espresso
 import android.content.Intent
 import android.graphics.Color
 import android.widget.LinearLayout
-import androidx.recyclerview.widget.RecyclerView
+import androidx.annotation.IdRes
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
@@ -409,20 +409,32 @@ class SplitEditTest : BaseExpenseEditTest() {
         }
     }
 
+    private fun editSplitPart(position: Int = 0) {
+        contextActionOnSplitPart(R.id.EDIT_COMMAND, position)
+    }
+
+    private fun deleteSplitPart(position: Int = 0) {
+        contextActionOnSplitPart(R.id.DELETE_COMMAND, position)
+    }
+
+
+    private fun contextActionOnSplitPart(@IdRes action: Int, position: Int = 0) {
+        onView(withId(R.id.list)).perform(
+            RecyclerViewActions.actionOnItemAtPosition<SplitPartRVAdapter.ViewHolder>(
+                position,
+                click()
+            )
+        )
+        onData(menuIdMatcher(action)).perform(click())
+    }
+
     @Test
     fun loadEditSaveSplit() {
         val id = launchEdit()
         checkPartCount(2)
         closeSoftKeyboard()
         BaristaScrollInteractions.scrollTo(R.id.list)
-        onView(withId(R.id.list))
-            .perform(
-                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                    0,
-                    click()
-                )
-            )
-        onView(withText(R.string.menu_edit)).perform(click())
+        editSplitPart()
         setAmount(150)
         onView(withId(R.id.MANAGE_TEMPLATES_COMMAND)).check(doesNotExist())
         onView(withId(R.id.CREATE_TEMPLATE_COMMAND)).check(doesNotExist())
@@ -458,14 +470,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         checkPartCount(2)
         closeSoftKeyboard()
         BaristaScrollInteractions.scrollTo(R.id.list)
-        onView(withId(R.id.list))
-            .perform(
-                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                    0,
-                    click()
-                )
-            )
-        onView(withText(R.string.menu_delete)).perform(click())
+        deleteSplitPart()
         createParts(1, 150, initialChildCount = 1)
         checkAmount(100) // amount should not be updated (https://github.com/mtotschnig/MyExpenses/issues/1349)
         setAmount(200)
@@ -496,14 +501,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         checkPartCount(2)
         closeSoftKeyboard()
         BaristaScrollInteractions.scrollTo(R.id.list)
-        onView(withId(R.id.list))
-            .perform(
-                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                    0,
-                    click()
-                )
-            )
-        onView(withText(R.string.menu_edit)).perform(click())
+        editSplitPart()
         setAmount(150)
         onView(withId(R.id.MANAGE_TEMPLATES_COMMAND)).check(doesNotExist())
         onView(withId(R.id.CREATE_TEMPLATE_COMMAND)).check(doesNotExist())
@@ -531,14 +529,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         checkPartCount(2)
         closeSoftKeyboard()
         BaristaScrollInteractions.scrollTo(R.id.list)
-        onView(withId(R.id.list))
-            .perform(
-                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
-                    0,
-                    click()
-                )
-            )
-        onView(withText(R.string.menu_delete)).perform(click())
+        deleteSplitPart()
         createParts(1, 150, initialChildCount = 1)
         checkAmount(100) // amount should not be updated (https://github.com/mtotschnig/MyExpenses/issues/1349)
         setAmount(200)
@@ -581,6 +572,22 @@ class SplitEditTest : BaseExpenseEditTest() {
     }
 
     @Test
+    fun keepTypeOfPart() {
+        launchWithAccountSetup()
+        setAmount(-100)
+        //create a negative part that exceeds parent amount
+        createParts(1, 200)
+        //when we now create a part, the amount should be prefilled with a positive amount making up for the difference
+        onView(withId(R.id.CREATE_PART_COMMAND)).perform(nestedScrollToAction(), click())
+        checkAmount(100)
+        checkType(true)
+        clickFab()
+        editSplitPart(1)
+        checkAmount(100)
+        checkType(true)
+    }
+
+    @Test
     fun createPartsAndDelete() {
         account1 = buildAccount(ACCOUNT_LABEL_1)
         val account2 = buildAccount(ACCOUNT_LABEL_2)
@@ -589,13 +596,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         })
         createParts(2, 50)
         checkAccount(ACCOUNT_LABEL_2)
-        onView(withId(R.id.list)).perform(
-            RecyclerViewActions.actionOnItemAtPosition<SplitPartRVAdapter.ViewHolder>(
-                0,
-                click()
-            )
-        )
-        onData(menuIdMatcher(R.id.DELETE_COMMAND)).perform(click())
+        deleteSplitPart()
         checkAccount(ACCOUNT_LABEL_2)
         createParts(2, 50, initialChildCount = 1)
         checkAccount(ACCOUNT_LABEL_2)
