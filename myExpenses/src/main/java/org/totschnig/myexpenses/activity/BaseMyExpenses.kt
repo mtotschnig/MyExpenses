@@ -130,6 +130,9 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
 
     abstract fun finishActionMode()
 
+    @get:Composable
+    abstract val transactionListWindowInsets: WindowInsets
+
     var selectionState
         get() = viewModel.selectionState.value
         set(value) {
@@ -1073,13 +1076,15 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
                     splitInfoResolver = {
                         viewModel.splitInfo(it)
                     },
-                    windowInsets = WindowInsets.navigationBars.add(WindowInsets.displayCutout),
+                    windowInsets = transactionListWindowInsets,
                     modificationsAllowed = modificationAllowed,
                     accountCount = accountCount
                 )
             }
         }
     }
+
+
 
     fun confirmClearFilter() {
         ConfirmationDialogFragment.newInstance(Bundle().apply {

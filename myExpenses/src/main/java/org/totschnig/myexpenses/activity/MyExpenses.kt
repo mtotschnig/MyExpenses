@@ -193,6 +193,10 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
     private val currentPage: Int
         get() = accountData.indexOfFirst { it.id == selectedAccountId }.coerceAtLeast(0)
 
+    @get:Composable
+    override val transactionListWindowInsets: WindowInsets
+        get() = WindowInsets.navigationBars.add(WindowInsets.displayCutout)
+
     @Inject
     lateinit var discoveryHelper: IDiscoveryHelper
 

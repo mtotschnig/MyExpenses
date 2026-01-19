@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.activity
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.ViewModelProvider
@@ -29,6 +31,10 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
 
     override val currentAccount: FullAccount?
         get() = viewModel.accountDataV2.value?.getOrNull()?.find { it.id == selectedAccountId }
+
+    @get:Composable
+    override val transactionListWindowInsets: WindowInsets
+        get() = WindowInsets()
 
     override fun finishActionMode() {
         viewModel.selectionState.value = emptyList()
