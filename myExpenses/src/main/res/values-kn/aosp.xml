@@ -149,4 +149,6 @@
     <string name="flag_inactive">"ನಿಷ್ಕ್ರಿಯವಾಗಿದೆ"</string>
     <string name="count">"ಗಣನೆ"</string>
     <string name="empty">"ಖಾಲಿ"</string>
+    <string name="options">"ಆಯ್ಕೆಗಳು"</string>
+    <string name="reports">"ವರದಿಗಳು"</string>
 </resources>

@@ -82,4 +82,6 @@
     <string name="already_exists">"ມີຊື່ນີ້ແລ້ວ"</string>
     <string name="flag_inactive">"ບໍ່ໄດ້ນຳໃຊ້"</string>
     <string name="count">"ນັບ"</string>
+    <string name="options">"ຕົວເລືອກ"</string>
+    <string name="reports">"ລາຍ​ງານ​"</string>
 </resources>

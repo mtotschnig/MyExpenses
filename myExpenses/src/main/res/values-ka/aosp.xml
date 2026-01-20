@@ -97,4 +97,7 @@
     <string name="already_exists">"სახელი უკვე არსებობს"</string>
     <string name="flag_inactive">"არააქტიური"</string>
     <string name="count">"დათვლაA"</string>
+    <string name="options">"ვარიანტები"</string>
+    <string name="reports">"ანგარიშები"</string>
+    <string name="tools">ხელსაწყოები</string>
 </resources>

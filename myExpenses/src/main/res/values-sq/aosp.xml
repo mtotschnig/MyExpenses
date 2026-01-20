@@ -90,4 +90,7 @@
     <string name="flag_inactive">"Joaktive"</string>
     <string name="count">"Numëro"</string>
     <string name="empty">"Bosh"</string>
+    <string name="options">"Opsionet"</string>
+    <string name="reports">"Raportet"</string>
+    <string name="tools">Mjete</string>
 </resources>

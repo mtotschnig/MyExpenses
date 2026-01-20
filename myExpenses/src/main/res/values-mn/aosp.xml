@@ -88,4 +88,6 @@
     <string name="flag_inactive">"Идэвхгүй"</string>
     <string name="count">"Тоо"</string>
     <string name="empty">Empty"</string>
+    <string name="options">"Сонголтууд"</string>
+    <string name="reports">"Тайлангууд"</string>
 </resources>

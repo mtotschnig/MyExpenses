@@ -61,4 +61,5 @@
     <string name="widgets">"Виджеттер"</string>
     <string name="menu_import">"Өткөрүп алуу"</string>
     <string name="flag_inactive">"Өчүрүлгөн"</string>
+    <string name="options">"Параметрлер"</string>
 </resources>

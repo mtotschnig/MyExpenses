@@ -82,4 +82,6 @@
     <string name="already_exists">"အမည်ရှိပြီးသားဖြစ်သည်။"</string>
     <string name="flag_inactive">"အသုံးမပြုပါ"</string>
     <string name="count">"ရေတွက်ပါ"</string>
+    <string name="options">"ရွေးစရာများ"</string>
+    <string name="reports">"အစီရင်ခံစာများ"</string>
 </resources>

@@ -172,4 +172,7 @@
     <string name="flag_inactive">"Неактивно"</string>
     <string name="count">"Кількість"</string>
     <string name="empty">"Порожньо"</string>
+    <string name="options">"Параметри"</string>
+    <string name="reports">"Звіти"</string>
+    <string name="tools">Інструменти</string>
 </resources>

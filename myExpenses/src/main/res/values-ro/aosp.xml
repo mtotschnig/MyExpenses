@@ -159,4 +159,6 @@
     <string name="flag_inactive">"Inactiv"</string>
     <string name="count">"Număr"</string>
     <string name="empty">"Gol"</string>
+    <string name="options">"Opțiuni"</string>
+    <string name="reports">"Rapoarte"</string>
 </resources>

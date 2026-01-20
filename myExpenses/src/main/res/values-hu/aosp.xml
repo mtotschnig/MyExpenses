@@ -174,4 +174,7 @@
     <string name="flag_inactive">"Inaktív"</string>
     <string name="count">"Szám"</string>
     <string name="empty">"Üres"</string>
+    <string name="options">"Lehetőségek"</string>
+    <string name="reports">"Jelentések"</string>
+    <string name="tools">Eszközök</string>
 </resources>

@@ -134,4 +134,6 @@
     <string name="flag_inactive">"Inativo"</string>
     <string name="count">"Número"</string>
     <string name="empty">"Vazio"</string>
+    <string name="options">"Opções"</string>
+    <string name="reports">"Relatórios"</string>
 </resources>

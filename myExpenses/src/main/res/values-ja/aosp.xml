@@ -170,4 +170,7 @@
     <string name="flag_inactive">"無効"</string>
     <string name="count">"数値の個数"</string>
     <string name="empty">"空白"</string>
+    <string name="options">"オプション"</string>
+    <string name="reports">"レポート"</string>
+    <string name="tools">ツール</string>
 </resources>

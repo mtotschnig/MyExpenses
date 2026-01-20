@@ -87,4 +87,6 @@
     <string name="already_exists">"Името веќе постои"</string>
     <string name="flag_inactive">"Неактивна"</string>
     <string name="count">"Преброј"</string>
+    <string name="options">"Опции"</string>
+    <string name="reports">"Извештаи"</string>
 </resources>

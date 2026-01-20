@@ -152,4 +152,6 @@
     <string name="flag_inactive">"செயலில் இல்லை"</string>
     <string name="count">"எண்ணிக்கை"</string>
     <string name="empty">"காலி"</string>
+    <string name="options">"விருப்பங்கள்"</string>
+    <string name="reports">"அறிக்கைகள்"</string>
 </resources>

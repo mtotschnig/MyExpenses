@@ -171,4 +171,6 @@
     <string name="flag_inactive">"غير نشطة"</string>
     <string name="count">"العدد"</string>
     <string name="empty">"فارغ"</string>
+    <string name="options">"الخيارات"</string>
+    <string name="reports">"التّقارير"</string>
 </resources>

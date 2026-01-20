@@ -8,4 +8,5 @@
     <string name="color">"Colour"</string>
     <string name="color_component_title">"Choose colour"</string>
     <string name="percent_long">"{value,plural, =1{1 per cent}other{# per cent}}"</string>
+    <string name="options">"Options"</string>
 </resources>

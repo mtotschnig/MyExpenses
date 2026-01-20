@@ -174,4 +174,7 @@
     <string name="flag_inactive">"Неактивна"</string>
     <string name="count">"Брой"</string>
     <string name="empty">"Празни"</string>
+    <string name="options">"Опции"</string>
+    <string name="reports">"Справки"</string>
+    <string name="tools">Инструменти</string>
 </resources>

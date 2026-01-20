@@ -142,4 +142,6 @@
     <string name="menu_import">"আমদানি করুন"</string>
     <string name="already_exists">"এই নাম ইতোমধ্যে আছে"</string>
     <string name="flag_inactive">"অ্যাক্টিভ নেই"</string>
+    <string name="options">"বিকল্প"</string>
+    <string name="reports">"প্রতিবেদন"</string>
 </resources>

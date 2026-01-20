@@ -171,4 +171,7 @@
     <string name="flag_inactive">"Etkin değil"</string>
     <string name="count">"Say"</string>
     <string name="empty">"Boş"</string>
+    <string name="options">"Seçenekler"</string>
+    <string name="reports">"Raporlar"</string>
+    <string name="tools">Araçlar</string>
 </resources>

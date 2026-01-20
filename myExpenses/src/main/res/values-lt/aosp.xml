@@ -99,4 +99,6 @@
     <string name="flag_inactive">"Neaktyvi"</string>
     <string name="count">"Kiekis"</string>
     <string name="empty">"Tuščia"</string>
+    <string name="options">"Parinktys"</string>
+    <string name="reports">"~Ataskaitos"</string>
 </resources>

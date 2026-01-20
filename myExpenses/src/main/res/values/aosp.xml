@@ -317,4 +317,10 @@
     <string name="count">Count</string>
     <!-- LibreOffice sc/messages.po FNDLK -->
     <string name="empty">Empty</string>
+    <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -r accessibility_screen_option res |  sed 's/ msgid="[[:digit:]]*"//' | sed 's/accessibility_screen_option/options/' | aosp_helper -->
+    <string name="options">Options</string>
+    <!-- LibreOffice dbaccess/messages.po EhPGD -->
+    <string name="reports">"Reports"</string>
+    <!-- Thunderbird mail/messenger/appmenu.ftl appmenu-tools-panel-title -->
+    <string name="tools">Tools</string>
 </resources>

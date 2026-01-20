@@ -50,6 +50,7 @@ import androidx.navigation.compose.rememberNavController
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.StartScreen
 import org.totschnig.myexpenses.compose.TooltipIconButton
+import org.totschnig.myexpenses.compose.accounts.AccountEventHandler
 import org.totschnig.myexpenses.compose.accounts.AccountScreenTab
 import org.totschnig.myexpenses.compose.accounts.AccountsScreen
 import org.totschnig.myexpenses.compose.transactions.Action
@@ -109,7 +110,7 @@ fun MainScreen(
     viewModel: MyExpensesV2ViewModel,
     startScreen: StartScreen,
     onAppEvent: AppEventHandler,
-    onAccountEvent: org.totschnig.myexpenses.compose.accounts.AccountEventHandler,
+    onAccountEvent: AccountEventHandler,
     onPrepareMenuItem: (itemId: Int, accountCount: Int) -> Boolean,
     flags: List<AccountFlag> = emptyList(),
     pageContent: @Composable (pageAccount: PageAccount, accountCount: Int) -> Unit,

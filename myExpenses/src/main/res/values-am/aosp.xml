@@ -100,4 +100,6 @@
     <string name="flag_inactive">"ያልነቃ"</string>
     <string name="count">"መቁጠሪያ"</string>
     <string name="empty">"ባዶ"</string>
+    <string name="options">"አማራጮች"</string>
+    <string name="reports">"መግለጫ"</string>
 </resources>

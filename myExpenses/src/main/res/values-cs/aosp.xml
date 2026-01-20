@@ -175,4 +175,7 @@
     <string name="flag_inactive">"Neaktivní"</string>
     <string name="count">"Počet čísel"</string>
     <string name="empty">"Prázdné"</string>
+    <string name="options">"Možnosti"</string>
+    <string name="reports">"Sestavy"</string>
+    <string name="tools">Nástroje</string>
 </resources>

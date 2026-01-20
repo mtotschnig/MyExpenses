@@ -107,7 +107,7 @@ fun BalanceSheetOptions(
         onClick = onPrint
     )
     TooltipIconMenu(
-        tooltip = "Options",
+        tooltip = stringResource(R.string.options),
         imageVector = Icons.Filled.Tune,
         menu = listOfNotNull(
             showHiddenState?.let {

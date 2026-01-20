@@ -89,4 +89,6 @@
     <string name="flag_inactive">"बंद है"</string>
     <string name="count">"गिनती"</string>
     <string name="empty">"रिक्त"</string>
+    <string name="options">"विकल्प"</string>
+    <string name="reports">"रिपोर्ट"</string>
 </resources>

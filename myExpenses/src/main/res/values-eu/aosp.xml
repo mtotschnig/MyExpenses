@@ -170,4 +170,7 @@
     <string name="flag_inactive">"Inaktibo"</string>
     <string name="count">"Zenbakia"</string>
     <string name="empty">"Hutsik"</string>
+    <string name="options">"Aukerak"</string>
+    <string name="reports">"Txostenak"</string>
+    <string name="tools">Tresnak</string>
 </resources>

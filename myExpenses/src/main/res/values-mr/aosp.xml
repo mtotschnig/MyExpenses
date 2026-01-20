@@ -83,4 +83,6 @@
     <string name="already_exists">"नाव आधीच अस्तित्वात आहे"</string>
     <string name="flag_inactive">"बंद आहे"</string>
     <string name="empty">"रिकामे"</string>
+    <string name="options">"पर्याय"</string>
+    <string name="reports">"अहवाल"</string>
 </resources>

@@ -143,4 +143,6 @@
     <string name="already_exists">"නම දැනටමත් පවතී"</string>
     <string name="flag_inactive">"අක්‍රිය"</string>
     <string name="count">"අංකය"</string>
+    <string name="options">"විකල්ප"</string>
+    <string name="reports">"වාර්තා"</string>
 </resources>

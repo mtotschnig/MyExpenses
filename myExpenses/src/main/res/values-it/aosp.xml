@@ -172,4 +172,7 @@
     <string name="flag_inactive">"Non attiva"</string>
     <string name="count">"Numero"</string>
     <string name="empty">"Vuoto"</string>
+    <string name="options">"Opzioni"</string>
+    <string name="reports">"Rapporti"</string>
+    <string name="tools">Strumenti</string>
 </resources>

@@ -133,4 +133,5 @@
     <string name="widgets">"Widget"</string>
     <string name="menu_import">"Import"</string>
     <string name="flag_inactive">"Tidak aktif"</string>
+    <string name="options">"Pilihan"</string>
 </resources>

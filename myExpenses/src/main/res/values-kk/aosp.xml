@@ -98,4 +98,7 @@
     <string name="flag_inactive">"Өшірулі"</string>
     <string name="count">"Саны"</string>
     <string name="empty">"Бос"</string>
+    <string name="options">"Oпциялар"</string>
+    <string name="reports">"Есептемелер"</string>
+    <string name="tools">Құралдар</string>
 </resources>

@@ -166,4 +166,7 @@
     <string name="already_exists">"Tên đã tồn tại"</string>
     <string name="flag_inactive">"Không hoạt động"</string>
     <string name="count">"Đếm"</string>
+    <string name="options">"Tùy chọn"</string>
+    <string name="reports">"Báo cáo"</string>
+    <string name="tools">Công cụ</string>
 </resources>

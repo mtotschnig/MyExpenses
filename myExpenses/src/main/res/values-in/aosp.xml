@@ -108,4 +108,7 @@
     <string name="already_exists">"Nama sudah ada"</string>
     <string name="flag_inactive">"Tidak aktif"</string>
     <string name="empty">"Kosong"</string>
+    <string name="options">"Opsi"</string>
+    <string name="reports">"Laporan"</string>
+    <string name="tools">Alat</string>
 </resources>

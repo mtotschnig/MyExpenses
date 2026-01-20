@@ -107,4 +107,7 @@
     <string name="flag_inactive">"Ei aktiivinen"</string>
     <string name="count">"Laske"</string>
     <string name="empty">"Tyhjä"</string>
+    <string name="options">"Asetukset"</string>
+    <string name="reports">"Raportit"</string>
+    <string name="tools">Työkalut</string>
 </resources>

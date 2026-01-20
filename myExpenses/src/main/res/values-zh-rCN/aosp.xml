@@ -170,4 +170,7 @@
     <string name="flag_inactive">"未使用"</string>
     <string name="count">"数值计数"</string>
     <string name="empty">"空"</string>
+    <string name="options">"选项"</string>
+    <string name="reports">"报表"</string>
+    <string name="tools">工具</string>
 </resources>

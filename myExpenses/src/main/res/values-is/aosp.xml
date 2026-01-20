@@ -106,4 +106,7 @@
     <string name="flag_inactive">"Óvirkt"</string>
     <string name="count">"Fjöldi"</string>
     <string name="empty">"Tómt"</string>
+    <string name="options">"Valkostir"</string>
+    <string name="reports">"Skýrslur"</string>
+    <string name="tools">Verkfæri</string>
 </resources>

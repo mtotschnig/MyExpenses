@@ -88,7 +88,6 @@ import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.main.AppEventHandler
 import org.totschnig.myexpenses.compose.main.parseMenu
 import org.totschnig.myexpenses.compose.main.rememberCollapsingTabRowState
-import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
@@ -96,7 +95,6 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.sort.TransactionSort
-import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
@@ -210,31 +208,15 @@ fun TransactionScreen(
                         )
                     },
                     actions = {
-                        val menu = listOfNotNull(
-                            MenuItem.Search,
-                            MenuItem.Sort,
-                            if (currentAccount.value.sortBy == KEY_DATE) MenuItem.Grouping else null,
+
+                        TooltipIconButton(
+                            tooltip = stringResource(R.string.menu_search),
+                            imageVector = Icons.Default.Search
+                        ) { onEvent(AppEvent.Search) }
+                        ViewOptionsMenu(
+                            currentAccount = currentAccount.value,
+                            onEvent = onEvent
                         )
-                        menu.forEach { item ->
-                            when (item) {
-                                MenuItem.Search -> TooltipIconButton(
-                                    tooltip = stringResource(R.string.menu_search),
-                                    imageVector = Icons.Default.Search
-                                ) { onEvent(AppEvent.Search) }
-
-                                MenuItem.Sort -> TransactionSortMenu(currentAccount.value) {
-                                    onEvent(AppEvent.SetTransactionSort(it))
-                                }
-
-                                MenuItem.Grouping -> TransactionGroupingMenu(
-                                    currentGroup = currentAccount.value.grouping
-                                ) {
-                                    onEvent(AppEvent.SetTransactionGrouping(it))
-                                }
-
-                                else -> {}
-                            }
-                        }
                     },
                 )
                 AnimatedVisibility(

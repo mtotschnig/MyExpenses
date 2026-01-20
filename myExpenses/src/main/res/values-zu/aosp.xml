@@ -83,4 +83,6 @@
     <string name="menu_import">"Ngenisa"</string>
     <string name="already_exists">"Igama selikhona"</string>
     <string name="flag_inactive">"Akusebenzi"</string>
+    <string name="options">"Izinketho"</string>
+    <string name="reports">"Imibiko"</string>
 </resources>

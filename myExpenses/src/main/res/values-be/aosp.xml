@@ -150,4 +150,7 @@
     <string name="flag_inactive">"Неактыўная"</string>
     <string name="count">"Колькасць"</string>
     <string name="empty">"Пустыя"</string>
+    <string name="options">"Параметры"</string>
+    <string name="reports">"Справаздачы"</string>
+    <string name="tools">Інструменты</string>
 </resources>

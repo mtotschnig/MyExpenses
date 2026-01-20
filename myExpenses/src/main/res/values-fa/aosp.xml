@@ -86,4 +86,6 @@
     <string name="already_exists">"نام از قبل وجود دارد"</string>
     <string name="flag_inactive">"غیرفعال"</string>
     <string name="count">"تعداد"</string>
+    <string name="options">"گزینه‌ها"</string>
+    <string name="reports">"گزارش‌ها"</string>
 </resources>

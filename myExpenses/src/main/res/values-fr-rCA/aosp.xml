@@ -15,4 +15,5 @@
     <string name="layout">"Disposition"</string>
     <string name="widgets">"Widgets"</string>
     <string name="flag_inactive">"Inactive"</string>
+    <string name="options">"Options"</string>
 </resources>

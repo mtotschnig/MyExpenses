@@ -88,4 +88,6 @@
     <string name="already_exists">"नाम पहिले नै अवस्थित छ"</string>
     <string name="flag_inactive">"निष्क्रिय छ"</string>
     <string name="count">"गणना"</string>
+    <string name="options">"विकल्पहरू"</string>
+    <string name="reports">"प्रतिवेदनहरू"</string>
 </resources>

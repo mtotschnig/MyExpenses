@@ -100,4 +100,6 @@
     <string name="flag_inactive">"Onaktief"</string>
     <string name="count">"Tel"</string>
     <string name="empty">"Leeg"</string>
+    <string name="options">"Opsies"</string>
+    <string name="reports">"Verslae"</string>
 </resources>

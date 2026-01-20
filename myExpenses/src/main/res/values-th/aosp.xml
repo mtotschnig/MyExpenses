@@ -162,4 +162,7 @@
     <string name="flag_inactive">"ไม่ใช้งาน"</string>
     <string name="count">"นับจำนวน"</string>
     <string name="empty">"ว่าง"</string>
+    <string name="options">"ตัวเลือก"</string>
+    <string name="reports">"รายงาน"</string>
+    <string name="tools">เครื่องมือ</string>
 </resources>

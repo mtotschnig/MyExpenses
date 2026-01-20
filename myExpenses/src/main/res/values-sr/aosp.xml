@@ -84,4 +84,7 @@
     <string name="flag_inactive">"Неактивно"</string>
     <string name="count">"Бројање"</string>
     <string name="empty">"Празно"</string>
+    <string name="options">"Опције"</string>
+    <string name="reports">"Извештаји"</string>
+    <string name="tools">Алати</string>
 </resources>

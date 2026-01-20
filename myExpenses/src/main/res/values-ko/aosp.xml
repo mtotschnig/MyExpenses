@@ -162,4 +162,7 @@
     <string name="flag_inactive">"비활성"</string>
     <string name="count">"개수"</string>
     <string name="empty">"비어있음"</string>
+    <string name="options">"옵션"</string>
+    <string name="reports">"보고서"</string>
+    <string name="tools">도구</string>
 </resources>

@@ -165,4 +165,7 @@
     <string name="flag_inactive">"Neaktivno"</string>
     <string name="count">"Brojanje"</string>
     <string name="empty">"Prazno"</string>
+    <string name="options">"Opcije"</string>
+    <string name="reports">"Izvještaji"</string>
+    <string name="tools">Alati</string>
 </resources>

@@ -81,4 +81,6 @@
     <string name="already_exists">"Bunday nom allaqachon mavjud"</string>
     <string name="flag_inactive">"Nofaol"</string>
     <string name="count">"Miqdor"</string>
+    <string name="options">"Parametrlar"</string>
+    <string name="reports">"Hisobotlar"</string>
 </resources>

@@ -169,4 +169,7 @@
     <string name="flag_inactive">"未啟用"</string>
     <string name="count">"數量"</string>
     <string name="empty">"空白"</string>
+    <string name="options">"選項"</string>
+    <string name="reports">"報表"</string>
+    <string name="tools">工具</string>
 </resources>

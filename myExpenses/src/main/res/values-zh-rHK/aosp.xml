@@ -126,4 +126,5 @@
     <string name="widgets">"小工具"</string>
     <string name="menu_import">"匯入"</string>
     <string name="flag_inactive">"未啟用"</string>
+    <string name="options">"選項"</string>
 </resources>

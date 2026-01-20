@@ -144,4 +144,6 @@
     <string name="flag_inactive">"ఇన్‌యాక్టివ్"</string>
     <string name="count">"లెక్క"</string>
     <string name="empty">"ఖాళీ"</string>
+    <string name="options">"ఆప్షన్‌లు"</string>
+    <string name="reports">"నివేదనలు"</string>
 </resources>

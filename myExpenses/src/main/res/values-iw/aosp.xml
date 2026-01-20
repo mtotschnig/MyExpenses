@@ -164,4 +164,6 @@
     <string name="flag_inactive">"לא פעיל"</string>
     <string name="count">"ספירה"</string>
     <string name="empty">"ריק"</string>
+    <string name="options">"אפשרויות"</string>
+    <string name="reports">"דוחות"</string>
 </resources>

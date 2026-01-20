@@ -74,4 +74,6 @@
     <string name="widgets">"Pripomočki"</string>
     <string name="menu_import">"Uvozi"</string>
     <string name="flag_inactive">"Neaktivna"</string>
+    <string name="options">"Možnosti"</string>
+    <string name="tools">Orodja</string>
 </resources>
