@@ -14,7 +14,9 @@ import org.totschnig.myexpenses.compose.accounts.AccountEventHandler
 import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.main.AppEventHandler
 import org.totschnig.myexpenses.compose.main.MainScreen
+import org.totschnig.myexpenses.compose.transactions.Action
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
@@ -76,11 +78,14 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
                             when (event) {
 
                                 AppEvent.CreateAccount -> createAccount.launch(Unit)
-                                is AppEvent.CreateTransaction -> createRow(
-                                    event.type,
-                                    event.transferEnabled,
-                                    event.isIncome
-                                )
+                                is AppEvent.CreateTransaction -> when(event.action) {
+                                    Action.Scan -> contribFeatureRequested(ContribFeature.OCR, true)
+                                    else -> createRow(
+                                        event.action.type,
+                                        event.transferEnabled,
+                                        event.action == Action.Income
+                                    )
+                                }
 
                                 is AppEvent.SetAccountGrouping -> viewModel.setGrouping(event.newGrouping)
                                 is AppEvent.SetTransactionGrouping -> viewModel.persistGroupingV2(
@@ -91,10 +96,9 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
                                 AppEvent.PrintBalanceSheet -> printBalanceSheet()
                                 is AppEvent.ContextMenuItemClicked -> onContextItemClicked(event.itemId)
                                 AppEvent.Search -> showFilterDialog = true
-                                AppEvent.NavigateToSettings -> dispatchCommand(
-                                    R.id.SETTINGS_COMMAND,
-                                    null
-                                )
+
+                                is AppEvent.MenuItemClicked -> dispatchCommand(event.itemId, null)
+
                             }
                         }
                     },
@@ -106,11 +110,6 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
                             when(event) {
                                 is AccountEvent.Delete -> confirmAccountDelete(account)
                                 is AccountEvent.Edit -> editAccount(account)
-                                AppEvent.NavigateToSettings -> dispatchCommand(
-                                    R.id.SETTINGS_COMMAND,
-                                    null
-                                )
-
                                 is AccountEvent.SetFlag -> viewModel.setFlag(
                                     account.id,
                                     event.flagId

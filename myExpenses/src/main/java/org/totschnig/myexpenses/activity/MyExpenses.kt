@@ -1108,10 +1108,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                 contentResolver.notifyChange(TRANSACTIONS_URI, null, false)
             }
 
-            R.id.HISTORY_COMMAND -> contribFeatureRequested(ContribFeature.HISTORY)
-
-            R.id.DISTRIBUTION_COMMAND -> contribFeatureRequested(ContribFeature.DISTRIBUTION)
-
             R.id.RESET_COMMAND -> checkReset()
 
             R.id.OCR_DOWNLOAD_COMMAND -> {
@@ -1191,18 +1187,9 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
 
             R.id.DYNAMIC_EXCHANGE_RATE_COMMAND -> currentAccount?.let { toggleDynamicExchangeRate(it) }
 
-            R.id.BUDGET_COMMAND -> contribFeatureRequested(ContribFeature.BUDGET, null)
-
             R.id.HELP_COMMAND_DRAWER -> startActivity(Intent(this, Help::class.java).apply {
                 putExtra(HelpDialogFragment.KEY_CONTEXT, "NavigationDrawer")
             })
-
-            R.id.MANAGE_TEMPLATES_COMMAND -> startActivity(
-                Intent(
-                    this,
-                    ManageTemplates::class.java
-                )
-            )
 
             R.id.SHARE_COMMAND -> startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
                 putExtra(
@@ -1231,14 +1218,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                     BackupRestoreActivity::class.java
                 ).apply {
                     setAction(BackupRestoreActivity.ACTION_RESTORE)
-                })
-
-            R.id.MANAGE_PARTIES_COMMAND -> startActivity(
-                Intent(
-                    this,
-                    ManageParties::class.java
-                ).apply {
-                    setAction(Action.MANAGE.name)
                 })
 
             R.id.BALANCE_SHEET_COMMAND -> {
@@ -1711,23 +1690,14 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
     }
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
-        when (feature) {
-
-            ContribFeature.OCR -> {
-                if (featureViewModel.isFeatureAvailable(this, Feature.OCR)) {
-                    if ((tag as Boolean)) {
-                        //ocrViewModel.startOcrFeature(Uri.parse("file:///android_asset/OCR.jpg"), supportFragmentManager);
-                        startMediaChooserDo("SCAN")
-                    } else {
-                        activateOcrMode()
-                    }
-                } else {
-                    featureViewModel.requestFeature(this, Feature.OCR)
-                }
+        if (feature == ContribFeature.OCR && (tag as? Boolean) == false) {
+            if (featureViewModel.isFeatureAvailable(this, Feature.OCR)) {
+                activateOcrMode()
+            } else {
+                featureViewModel.requestFeature(this, Feature.OCR)
             }
-
-            else -> super.contribFeatureCalled(feature, tag)
         }
+        else super.contribFeatureCalled(feature, tag)
     }
 
     val navigationView: NavigationView

@@ -35,7 +35,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BalanceSheetOptions
 import org.totschnig.myexpenses.activity.BalanceSheetViewInner
@@ -44,12 +43,10 @@ import org.totschnig.myexpenses.compose.TooltipIconMenu
 import org.totschnig.myexpenses.compose.UiText
 import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.main.AppEventHandler
-import org.totschnig.myexpenses.compose.main.MyBottomAppBar
 import org.totschnig.myexpenses.compose.main.MyFloatingActionButton
-import org.totschnig.myexpenses.compose.main.Screen
-import org.totschnig.myexpenses.compose.main.navigateSingleTopTo
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
+import org.totschnig.myexpenses.model.AccountGroupingKey
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import timber.log.Timber
@@ -68,10 +65,11 @@ fun AccountsScreen(
     accounts: List<FullAccount>,
     accountGrouping: AccountGrouping<*>,
     viewModel: MyExpensesV2ViewModel,
-    navController: NavController,
+    bottomBar: @Composable (() -> Unit),
     onEvent: AppEventHandler,
     flags: List<AccountFlag> = emptyList(),
     onAccountEvent: AccountEventHandler,
+    onNavigateToTransactions: () -> Unit
 ) {
 
     val selectedTab = rememberSaveable { mutableStateOf(startTab) }
@@ -86,9 +84,16 @@ fun AccountsScreen(
     val highlight = remember { mutableStateOf<Triple<Boolean, Int, Long?>?>(null) }
 
     fun navigateToAccount(id: Long) {
+
         viewModel.selectAccount(id)
-        navigateSingleTopTo(navController, Screen.Transactions)
+        onNavigateToTransactions()
     }
+
+    fun navigateToGroup(id: AccountGroupingKey) {
+        viewModel.navigateToGroup(id)
+        onNavigateToTransactions()
+    }
+
 
     Scaffold(
         topBar = {
@@ -124,9 +129,7 @@ fun AccountsScreen(
                 }
             )
         },
-        bottomBar = {
-            MyBottomAppBar(navController)
-        },
+        bottomBar = bottomBar,
         floatingActionButton = {
             MyFloatingActionButton(
                 onClick = { onEvent(AppEvent.CreateAccount) },
@@ -179,10 +182,7 @@ fun AccountsScreen(
                     }
                     navigateToAccount(it.id)
                 },
-                onGroupSelected = {
-                    viewModel.navigateToGroup(it)
-                    navigateSingleTopTo(navController, Screen.Transactions)
-                },
+                onGroupSelected = ::navigateToGroup,
                 onEvent = onAccountEvent,
                 flags = flags
             )

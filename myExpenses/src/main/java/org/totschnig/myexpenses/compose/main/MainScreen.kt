@@ -2,28 +2,41 @@ package org.totschnig.myexpenses.compose.main
 
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ReceiptLong
+import androidx.compose.material.icons.automirrored.filled.ShowChart
 import androidx.compose.material.icons.filled.AccountBalance
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.ShortNavigationBar
 import androidx.compose.material3.ShortNavigationBarItem
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -39,7 +52,9 @@ import org.totschnig.myexpenses.activity.StartScreen
 import org.totschnig.myexpenses.compose.TooltipIconButton
 import org.totschnig.myexpenses.compose.accounts.AccountScreenTab
 import org.totschnig.myexpenses.compose.accounts.AccountsScreen
+import org.totschnig.myexpenses.compose.transactions.Action
 import org.totschnig.myexpenses.compose.transactions.TransactionScreen
+import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.Grouping
@@ -54,15 +69,24 @@ sealed class Screen(
 ) {
     object Accounts : Screen("accounts", Icons.Default.AccountBalance, R.string.accounts)
     object Transactions :
-        Screen("transactions", Icons.AutoMirrored.Default.ReceiptLong, R.string.transaction)
+        Screen(
+            "transactions",
+            Icons.AutoMirrored.Default.ReceiptLong,
+            R.string.import_select_transactions
+        )
+
+    object Reports :
+        Screen("reports", Icons.AutoMirrored.Default.ShowChart, R.string.reports)
+
+    object Tools :
+        Screen("tools", Icons.Default.Build, R.string.tools)
+
 }
 
 sealed class AppEvent {
-    object NavigateToSettings : AppEvent()
     object CreateAccount : AppEvent()
     data class CreateTransaction(
-        val type: Int,
-        val isIncome: Boolean = false,
+        val action: Action,
         val transferEnabled: Boolean = true,
     ) : AppEvent()
 
@@ -71,13 +95,15 @@ sealed class AppEvent {
     data class SetTransactionSort(val transactionSort: TransactionSort) : AppEvent()
     object PrintBalanceSheet : AppEvent()
     data class ContextMenuItemClicked(@param:IdRes val itemId: Int) : AppEvent()
-    object Search: AppEvent()
+    object Search : AppEvent()
+    data class MenuItemClicked(@param:IdRes val itemId: Int) : AppEvent()
 }
 
 interface AppEventHandler {
     operator fun invoke(event: AppEvent)
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
     viewModel: MyExpensesV2ViewModel,
@@ -98,7 +124,7 @@ fun MainScreen(
         TooltipIconButton(
             tooltip = stringResource(R.string.settings_label),
             imageVector = Icons.Default.Settings,
-        ) { onAppEvent(AppEvent.NavigateToSettings) }
+        ) { onAppEvent(AppEvent.MenuItemClicked(R.id.SETTINGS_COMMAND)) }
     }
 
     when {
@@ -123,6 +149,21 @@ fun MainScreen(
                 require(accounts.isNotEmpty())
                 val navController = rememberNavController()
 
+                val showBottomSheetFor = remember { mutableStateOf<Screen?>(null) }
+                val sheetState = rememberModalBottomSheetState()
+
+                fun onNavigation(screen: Screen) {
+                    when (screen) {
+                        Screen.Accounts, Screen.Transactions -> {
+                            navigateSingleTopTo(navController, screen)
+                        }
+
+                        Screen.Reports, Screen.Tools -> {
+                            showBottomSheetFor.value = screen
+                        }
+                    }
+                }
+
                 NavHost(
                     navController = navController,
                     startDestination = when (startScreen) {
@@ -137,7 +178,12 @@ fun MainScreen(
                             accountGrouping = accountGrouping.value,
                             availableFilters = availableFilters,
                             viewModel = viewModel,
-                            navController = navController,
+                            bottomBar = {
+                                MyBottomAppBar(
+                                    navController = navController,
+                                    onSelected = ::onNavigation
+                                )
+                            },
                             onEvent = onAppEvent,
                             onPrepareMenuItem = onPrepareMenuItem,
                             pageContent = pageContent
@@ -150,11 +196,48 @@ fun MainScreen(
                             accounts = accounts,
                             accountGrouping = accountGrouping.value,
                             viewModel = viewModel,
-                            navController = navController,
+                            bottomBar = {
+                                MyBottomAppBar(
+                                    navController = navController,
+                                    onSelected = ::onNavigation
+                                )
+                            },
                             onEvent = onAppEvent,
                             onAccountEvent = onAccountEvent,
                             flags = flags
-                        )
+                        ) {
+                            navigateTo(navController, Screen.Transactions)
+                        }
+                    }
+                }
+                if (showBottomSheetFor.value != null) {
+                    ModalBottomSheet(
+                        onDismissRequest = { showBottomSheetFor.value = null },
+                        sheetState = sheetState,
+                        contentWindowInsets = { WindowInsets.navigationBars }
+                    ) {
+                        val items = when (showBottomSheetFor.value) {
+                            Screen.Tools -> listOf(
+                                MenuItem.Templates, MenuItem.Parties
+                            )
+
+                            Screen.Reports -> listOf(
+                                MenuItem.Budget, MenuItem.Distribution, MenuItem.History
+                            )
+
+                            else -> return@ModalBottomSheet
+                        }
+
+                        items.forEach {
+                            ListItem(
+                                modifier = Modifier.clickable {
+                                    showBottomSheetFor.value = null
+                                    onAppEvent(AppEvent.MenuItemClicked(it.id))
+                                },
+                                headlineContent = { Text(it.getLabel(LocalContext.current)) },
+                                leadingContent = { Icon(painterResource(it.icon), contentDescription = null) },
+                            )
+                        }
                     }
                 }
             }
@@ -171,6 +254,13 @@ fun EmptyState() {
     Text("No accounts found")
 }
 
+fun navigateTo(
+    controller: NavController,
+    screen: Screen,
+) {
+    controller.navigate(screen.route)
+}
+
 fun navigateSingleTopTo(
     controller: NavController,
     screen: Screen,
@@ -185,23 +275,28 @@ fun navigateSingleTopTo(
 }
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyBottomAppBar(navController: NavController) {
-    val items = listOf(Screen.Accounts, Screen.Transactions) // Define your nav items
+fun MyBottomAppBar(
+    navController: NavController,
+    onSelected: (Screen) -> Unit,
+) {
+
+    val items = listOf(Screen.Accounts, Screen.Transactions, Screen.Reports, Screen.Tools)
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
+
     ShortNavigationBar {
         items.forEach { screen ->
+            val selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true
             ShortNavigationBarItem(
-                selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
-                onClick = {
-                    navigateSingleTopTo(navController, screen)
-                },
+                selected = selected,
+                onClick = { onSelected(screen) },
                 icon = {
                     Icon(
                         imageVector = screen.icon,
                         contentDescription = stringResource(screen.resourceId),
-                        tint = if (currentDestination?.hierarchy?.any { it.route == screen.route } == true) {
+                        tint = if (selected) {
                             MaterialTheme.colorScheme.primary
                         } else {
                             MaterialTheme.colorScheme.onSurfaceVariant

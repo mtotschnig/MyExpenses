@@ -57,6 +57,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment
+import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
@@ -223,6 +224,23 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
         if (super.dispatchCommand(command, tag)) {
             return true
         } else when (command) {
+
+            R.id.HISTORY_COMMAND -> contribFeatureRequested(ContribFeature.HISTORY)
+
+            R.id.DISTRIBUTION_COMMAND -> contribFeatureRequested(ContribFeature.DISTRIBUTION)
+
+            R.id.BUDGET_COMMAND -> contribFeatureRequested(ContribFeature.BUDGET, null)
+
+            R.id.MANAGE_TEMPLATES_COMMAND -> startActivity(
+                Intent(this, ManageTemplates::class.java)
+            )
+
+            R.id.MANAGE_PARTIES_COMMAND -> startActivity(
+                Intent(this, ManageParties::class.java).apply {
+                    setAction(Action.MANAGE.name)
+                }
+            )
+
             R.id.DELETE_ACCOUNT_COMMAND_DO -> {
                 val accountIds = tag as LongArray
                 val manageHiddenFragment =
@@ -249,6 +267,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
                     }
                 }
             }
+
             R.id.CLEAR_FILTER_COMMAND -> {
                 lifecycleScope.launch {
                     currentFilter.persist(null)
@@ -454,6 +473,13 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
                         accountTypeId,
                         supportFragmentManager
                     )
+                }
+
+                ContribFeature.OCR -> if (featureViewModel.isFeatureAvailable(this, Feature.OCR)) {
+                    //ocrViewModel.startOcrFeature(Uri.parse("file:///android_asset/OCR.jpg"), supportFragmentManager);
+                    startMediaChooserDo("SCAN")
+                } else {
+                    featureViewModel.requestFeature(this, Feature.OCR)
                 }
 
                 else -> super.contribFeatureCalled(feature, tag)
@@ -976,16 +1002,18 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
                 val withCategoryIcon =
                     viewModel.withCategoryIcon.collectAsState(initial = true)
                 val renderType = viewModel.renderer.collectAsState(initial = RenderType.New)
-                val renderer = remember { derivedStateOf {
-                    Timber.d("init renderer ${renderType.value}")
-                    rendererFactory(
-                        renderType.value,
-                        account,
-                        withCategoryIcon.value,
-                        colorSource.value,
-                        onToggleCrStatus
-                    )
-                } }
+                val renderer = remember {
+                    derivedStateOf {
+                        Timber.d("init renderer ${renderType.value}")
+                        rendererFactory(
+                            renderType.value,
+                            account,
+                            withCategoryIcon.value,
+                            colorSource.value,
+                            onToggleCrStatus
+                        )
+                    }
+                }
                 TransactionList(
                     modifier = Modifier.weight(1f),
                     lazyPagingItems = lazyPagingItems,
@@ -995,9 +1023,9 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
                     selectionHandler = if (modificationAllowed) viewModel.selectionHandler else null,
                     selectAllState = viewModel.selectAllState,
                     onSelectAllListTooLarge = { selectAllListTooLarge() },
-                    onEvent = object: TransactionEventHandler {
+                    onEvent = object : TransactionEventHandler {
                         override fun invoke(event: TransactionEvent, transaction: Transaction2) {
-                            when(event) {
+                            when (event) {
                                 TransactionEvent.ShowDetails -> {
                                     showDetails(
                                         transaction.id,
@@ -1015,27 +1043,34 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
                                         delete(listOf(transaction.id to transaction.crStatus))
                                     }
                                 }
+
                                 TransactionEvent.Edit -> edit(transaction, false)
                                 TransactionEvent.Clone -> edit(transaction, true)
                                 TransactionEvent.CreateTemplate -> createTemplate(transaction)
                                 TransactionEvent.UnDelete -> undelete(listOf(transaction.id))
                                 TransactionEvent.Select -> viewModel.selectionState.value =
                                     listOf(SelectionInfo(transaction))
+
                                 TransactionEvent.Ungroup -> ungroupSplit(transaction)
                                 TransactionEvent.Unlink -> unlinkTransfer(transaction)
-                                TransactionEvent.TransformToTransfer -> transformToTransfer(transaction)
+                                TransactionEvent.TransformToTransfer -> transformToTransfer(
+                                    transaction
+                                )
+
                                 TransactionEvent.AddFilterCategory -> addFilterCriterion(
                                     CategoryCriterion(
                                         transaction.categoryPath!!,
                                         transaction.catId!!
                                     )
                                 )
+
                                 TransactionEvent.AddFilterPayee -> addFilterCriterion(
                                     PayeeCriterion(
                                         transaction.party!!.name,
                                         transaction.party.id!!
                                     )
                                 )
+
                                 TransactionEvent.AddFilterAmount -> addFilterCriterion(
                                     AmountCriterion(
                                         operation = Operation.EQ,
@@ -1044,6 +1079,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
                                         sign = transaction.displayAmount.amountMinor > 0
                                     )
                                 )
+
                                 TransactionEvent.AddFilterMethod -> addFilterCriterion(
                                     MethodCriterion(
                                         transaction.methodLabel!!.translateIfPredefined(this@BaseMyExpenses),
@@ -1057,6 +1093,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
                                         transaction.tagList.map { it.first }
                                     )
                                 )
+
                                 TransactionEvent.AddFilterComment -> addFilterCriterion(
                                     CommentCriterion(transaction.comment)
                                 )
@@ -1083,7 +1120,6 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
             }
         }
     }
-
 
 
     fun confirmClearFilter() {
