@@ -219,23 +219,27 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
 
     @Test
     fun testUpdateSplit() {
+        val date = LocalDateTime.now().toEpoch()
         val split = repository.createSplitTransaction(
             Transaction(
                 accountId = account1,
                 amount = 100L,
                 comment = "test split",
                 categoryId = SPLIT_CATID,
-                uuid = generateUuid()
+                uuid = generateUuid(),
+                date = date
             ), listOf(
                 Transaction(
                     accountId = account1,
                     amount = 50L,
-                    uuid = generateUuid()
+                    uuid = generateUuid(),
+                    date = date
                 ),
                 Transaction(
                     accountId = account1,
                     amount = 50L,
-                    uuid = generateUuid()
+                    uuid = generateUuid(),
+                    date = date
                 )
             )
         )
@@ -250,7 +254,8 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
                     data = Transaction(
                         accountId = account1,
                         amount = 40L,
-                        uuid = generateUuid()
+                        uuid = generateUuid(),
+                        date = date
                     )
                 )
             )
@@ -267,6 +272,7 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
 
     @Test
     fun testUpdateSplitRemoveTransferPart() {
+        val date = LocalDateTime.now().toEpoch()
         val splitTransferUuid1 = generateUuid()
         val splitTransferUuid2 = generateUuid()
         val split = repository.createSplitTransaction(
@@ -275,30 +281,35 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
                 amount = 200L,
                 comment = "test split with transfer",
                 categoryId = SPLIT_CATID,
-                uuid = generateUuid()
+                uuid = generateUuid(),
+                date = date
             ),
             listOf(
                 Transaction(
                     accountId = account1,
                     amount = 100L,
                     transferAccountId = account2,
-                    uuid = splitTransferUuid1
+                    uuid = splitTransferUuid1,
+                    date = date
                 ) to Transaction(
                     accountId = account2,
                     amount = -100L,
                     transferAccountId = account1,
-                    uuid = splitTransferUuid1
+                    uuid = splitTransferUuid1,
+                    date = date
                 ),
                 Transaction(
                     accountId = account1,
                     amount = 100L,
                     transferAccountId = account2,
-                    uuid = splitTransferUuid2
+                    uuid = splitTransferUuid2,
+                    date = date
                 ) to Transaction(
                     accountId = account2,
                     amount = -100L,
                     transferAccountId = account1,
-                    uuid = splitTransferUuid2
+                    uuid = splitTransferUuid2,
+                    date = date
                 )
             )
         )
@@ -310,7 +321,8 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
                     data = Transaction(
                         accountId = account1,
                         amount = 100L,
-                        uuid = generateUuid()
+                        uuid = generateUuid(),
+                        date = date
                     )
                 )
             )
@@ -340,19 +352,22 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
 
     @Test
     fun testUpdateSplitAddTransferPart() {
+        val date = LocalDateTime.now().toEpoch()
         val split = repository.createSplitTransaction(
             Transaction(
                 accountId = account1,
                 amount = 100L,
                 comment = "test split with transfer",
                 categoryId = SPLIT_CATID,
-                uuid = generateUuid()
+                uuid = generateUuid(),
+                date = date
             ),
             listOf(
                 Transaction(
                     accountId = account1,
                     amount = 100L,
-                    uuid = generateUuid()
+                    uuid = generateUuid(),
+                    date = date
                 )
             )
         )
@@ -371,13 +386,15 @@ abstract class BaseTransactionTest(val withChangeTriggers: Boolean) : BaseTestWi
                         accountId = account1,
                         amount = 50L,
                         transferAccountId = account2,
-                        uuid = splitTransferUuid
+                        uuid = splitTransferUuid,
+                        date = date
                     ),
                     transferPeer = Transaction(
                         accountId = account2,
                         amount = -50L,
                         transferAccountId = account1,
-                        uuid = splitTransferUuid
+                        uuid = splitTransferUuid,
+                        date = date
                     )
                 )
             )
