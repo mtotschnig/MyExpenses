@@ -173,7 +173,7 @@ fun AccountsScreen(
                 accountData = accounts,
                 scaffoldPadding = paddingValues,
                 grouping = accountGrouping,
-                selectedAccount = viewModel.selectedAccountId,
+                selectedAccount = viewModel.selectedAccountId.value,
                 listState = viewModel.listState,
                 expansionHandlerGroups = viewModel.expansionHandler("collapsedHeadersDrawer_${accountGrouping}"),
                 onSelected = {

@@ -3,9 +3,7 @@ package org.totschnig.myexpenses.compose.main
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ReceiptLong
@@ -15,7 +13,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.BottomAppBarDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
@@ -32,14 +29,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -58,9 +53,12 @@ import org.totschnig.myexpenses.compose.transactions.TransactionScreen
 import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
+import org.totschnig.myexpenses.model.AccountGroupingKey
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.sort.TransactionSort
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
+import org.totschnig.myexpenses.viewmodel.SumInfo
+import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 
 sealed class Screen(
@@ -109,17 +107,17 @@ interface AppEventHandler {
 fun MainScreen(
     viewModel: MyExpensesV2ViewModel,
     startScreen: StartScreen,
+    accounts: List<FullAccount>,
+    availableFilters: List<AccountGroupingKey>,
     onAppEvent: AppEventHandler,
     onAccountEvent: AccountEventHandler,
-    onPrepareMenuItem: (itemId: Int, accountCount: Int) -> Boolean,
+    onPrepareContextMenuItem: (itemId: Int, accountCount: Int) -> Boolean,
+    onPrepareMenuItem: (itemId: Int) -> Boolean,
     flags: List<AccountFlag> = emptyList(),
     pageContent: @Composable (pageAccount: PageAccount, accountCount: Int) -> Unit,
 ) {
-    val result = viewModel.accountDataV2.collectAsStateWithLifecycle().value
 
     val accountGrouping = viewModel.accountGrouping.asState()
-
-    val availableFilters = viewModel.availableGroupFilters.collectAsStateWithLifecycle().value
 
     val navigationIcon: @Composable () -> Unit = {
         TooltipIconButton(
@@ -128,124 +126,110 @@ fun MainScreen(
         ) { onAppEvent(AppEvent.MenuItemClicked(R.id.SETTINGS_COMMAND)) }
     }
 
-    when {
-        result == null || availableFilters == null -> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                CircularProgressIndicator()
+    LaunchedEffect(Unit) {
+        viewModel.setStartFilter()
+    }
+
+    if (accounts.isEmpty()) {
+        EmptyState()
+    } else {
+
+        require(accounts.isNotEmpty())
+        val navController = rememberNavController()
+
+        val showBottomSheetFor = remember { mutableStateOf<Screen?>(null) }
+        val sheetState = rememberModalBottomSheetState()
+
+        fun onNavigation(screen: Screen) {
+            when (screen) {
+                Screen.Accounts, Screen.Transactions -> {
+                    navigateSingleTopTo(navController, screen)
+                }
+
+                Screen.Reports, Screen.Tools -> {
+                    showBottomSheetFor.value = screen
+                }
             }
         }
 
-        result.isSuccess -> {
-            LaunchedEffect(Unit) {
-                viewModel.setStartFilter()
-            }
-            val accounts = result.getOrNull()
-            if (accounts.isNullOrEmpty()) {
-                EmptyState()
-            } else {
-
-                require(accounts.isNotEmpty())
-                val navController = rememberNavController()
-
-                val showBottomSheetFor = remember { mutableStateOf<Screen?>(null) }
-                val sheetState = rememberModalBottomSheetState()
-
-                fun onNavigation(screen: Screen) {
-                    when (screen) {
-                        Screen.Accounts, Screen.Transactions -> {
-                            navigateSingleTopTo(navController, screen)
-                        }
-
-                        Screen.Reports, Screen.Tools -> {
-                            showBottomSheetFor.value = screen
-                        }
-                    }
-                }
-
-                NavHost(
-                    navController = navController,
-                    startDestination = when (startScreen) {
-                        StartScreen.Accounts, StartScreen.BalanceSheet -> Screen.Accounts
-                        else -> Screen.Transactions
-                    }.route
-                ) {
-                    composable(Screen.Transactions.route) {
-                        TransactionScreen(
-                            navigationIcon = navigationIcon,
-                            accounts = accounts,
-                            accountGrouping = accountGrouping.value,
-                            availableFilters = availableFilters,
-                            viewModel = viewModel,
-                            bottomBar = {
-                                MyBottomAppBar(
-                                    navController = navController,
-                                    onSelected = ::onNavigation
-                                )
-                            },
-                            onEvent = onAppEvent,
-                            onPrepareMenuItem = onPrepareMenuItem,
-                            pageContent = pageContent
+        NavHost(
+            navController = navController,
+            startDestination = when (startScreen) {
+                StartScreen.Accounts, StartScreen.BalanceSheet -> Screen.Accounts
+                else -> Screen.Transactions
+            }.route
+        ) {
+            composable(Screen.Transactions.route) {
+                TransactionScreen(
+                    navigationIcon = navigationIcon,
+                    accounts = accounts,
+                    accountGrouping = accountGrouping.value,
+                    availableFilters = availableFilters,
+                    viewModel = viewModel,
+                    bottomBar = {
+                        MyBottomAppBar(
+                            navController = navController,
+                            onSelected = ::onNavigation
                         )
-                    }
-                    composable(Screen.Accounts.route) {
-                        AccountsScreen(
-                            if (startScreen == StartScreen.BalanceSheet) AccountScreenTab.BALANCE_SHEET else AccountScreenTab.LIST,
-                            navigationIcon = navigationIcon,
-                            accounts = accounts,
-                            accountGrouping = accountGrouping.value,
-                            viewModel = viewModel,
-                            bottomBar = {
-                                MyBottomAppBar(
-                                    navController = navController,
-                                    onSelected = ::onNavigation
-                                )
-                            },
-                            onEvent = onAppEvent,
-                            onAccountEvent = onAccountEvent,
-                            flags = flags
-                        ) {
-                            navigateTo(navController, Screen.Transactions)
-                        }
-                    }
-                }
-                if (showBottomSheetFor.value != null) {
-                    ModalBottomSheet(
-                        onDismissRequest = { showBottomSheetFor.value = null },
-                        sheetState = sheetState,
-                        contentWindowInsets = { WindowInsets.navigationBars }
-                    ) {
-                        val items = when (showBottomSheetFor.value) {
-                            Screen.Tools -> listOf(
-                                MenuItem.Templates, MenuItem.Parties
-                            )
-
-                            Screen.Reports -> listOf(
-                                MenuItem.Budget, MenuItem.Distribution, MenuItem.History
-                            )
-
-                            else -> return@ModalBottomSheet
-                        }
-
-                        items.forEach {
-                            ListItem(
-                                modifier = Modifier.clickable {
-                                    showBottomSheetFor.value = null
-                                    onAppEvent(AppEvent.MenuItemClicked(it.id))
-                                },
-                                headlineContent = { Text(it.getLabel(LocalContext.current)) },
-                                leadingContent = { Icon(painterResource(it.icon), contentDescription = null) },
-                            )
-                        }
-                    }
+                    },
+                    onEvent = onAppEvent,
+                    onPrepareContextMenuItem = onPrepareContextMenuItem,
+                    onPrepareMenuItem = onPrepareMenuItem,
+                    pageContent = pageContent
+                )
+            }
+            composable(Screen.Accounts.route) {
+                AccountsScreen(
+                    if (startScreen == StartScreen.BalanceSheet) AccountScreenTab.BALANCE_SHEET else AccountScreenTab.LIST,
+                    navigationIcon = navigationIcon,
+                    accounts = accounts,
+                    accountGrouping = accountGrouping.value,
+                    viewModel = viewModel,
+                    bottomBar = {
+                        MyBottomAppBar(
+                            navController = navController,
+                            onSelected = ::onNavigation
+                        )
+                    },
+                    onEvent = onAppEvent,
+                    onAccountEvent = onAccountEvent,
+                    flags = flags
+                ) {
+                    navigateTo(navController, Screen.Transactions)
                 }
             }
         }
+        if (showBottomSheetFor.value != null) {
+            ModalBottomSheet(
+                onDismissRequest = { showBottomSheetFor.value = null },
+                sheetState = sheetState,
+                contentWindowInsets = { WindowInsets.navigationBars }
+            ) {
+                val items = when (showBottomSheetFor.value) {
+                    Screen.Tools -> listOf(
+                        MenuItem.Templates, MenuItem.Parties
+                    )
 
-        result.isFailure -> {
-            Text("Error: ${result.exceptionOrNull()}")
+                    Screen.Reports -> listOf(
+                        MenuItem.Budget, MenuItem.Distribution, MenuItem.History
+                    )
+
+                    else -> return@ModalBottomSheet
+                }
+
+                items
+                    .filter { onPrepareMenuItem(it.id) }
+                    .forEach {
+                    ListItem(
+                        modifier = Modifier.clickable {
+                            showBottomSheetFor.value = null
+                            onAppEvent(AppEvent.MenuItemClicked(it.id))
+                        },
+                        headlineContent = { Text(it.getLabel(LocalContext.current)) },
+                        leadingContent = { Icon(painterResource(it.icon), contentDescription = null) },
+                    )
+                }
+            }
         }
     }
 }

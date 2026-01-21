@@ -2,12 +2,18 @@ package org.totschnig.myexpenses.activity
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
-import org.totschnig.myexpenses.R
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.accounts.AccountEvent
 import org.totschnig.myexpenses.compose.accounts.AccountEventHandler
@@ -21,6 +27,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.SumInfo
+import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 
 enum class StartScreen {
@@ -31,8 +38,8 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
 
     override fun handleRootWindowInsets() {}
 
-    override val currentAccount: FullAccount?
-        get() = viewModel.accountDataV2.value?.getOrNull()?.find { it.id == selectedAccountId }
+    override val currentAccount: BaseAccount?
+        get() = viewModel.accountList.value.find { it.id == selectedAccountId }
 
     @get:Composable
     override val transactionListWindowInsets: WindowInsets
@@ -57,76 +64,110 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
         }
 
         setContent {
-
             AppTheme {
-                LaunchedEffect(currentAccount?.id) {
-                    with(currentAccount) {
-                        if (this != null) {
-                            sumInfo.value = SumInfo.EMPTY
-                            viewModel.sumInfo(toPageAccount).collect {
-                                sumInfo.value = it
-                            }
+                val result = viewModel.accountDataV2.collectAsStateWithLifecycle().value
+                val availableFilters =
+                    viewModel.availableGroupFilters.collectAsStateWithLifecycle().value
+                when {
+                    result == null || availableFilters == null -> {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CircularProgressIndicator()
                         }
                     }
-                }
 
-                MainScreen(
-                    viewModel,
-                    startScreen,
-                    onAppEvent = object : AppEventHandler {
-                        override fun invoke(event: AppEvent) {
-                            when (event) {
+                    result.isFailure -> {
+                        Text("Error: ${result.exceptionOrNull()}")
+                    }
 
-                                AppEvent.CreateAccount -> createAccount.launch(Unit)
-                                is AppEvent.CreateTransaction -> when(event.action) {
-                                    Action.Scan -> contribFeatureRequested(ContribFeature.OCR, true)
-                                    else -> createRow(
-                                        event.action.type,
-                                        event.transferEnabled,
-                                        event.action == Action.Income
-                                    )
+                    else -> {
+                        LaunchedEffect(
+                            viewModel.accountList.collectAsState().value.isNotEmpty(),
+                            viewModel.selectedAccountId.collectAsState().value
+                        ) {
+                            with(currentAccount) {
+                                if (this != null) {
+                                    sumInfo.value = SumInfo.EMPTY
+                                    viewModel.sumInfo(toPageAccount(this@MyExpensesV2)).collect {
+                                        sumInfo.value = it
+                                    }
+                                }
+                            }
+                        }
+                        MainScreen(
+                            viewModel,
+                            startScreen,
+                            result.getOrThrow(),
+                            availableFilters,
+                            onAppEvent = object : AppEventHandler {
+                                override fun invoke(event: AppEvent) {
+                                    when (event) {
+
+                                        AppEvent.CreateAccount -> createAccount.launch(Unit)
+                                        is AppEvent.CreateTransaction -> when (event.action) {
+                                            Action.Scan -> contribFeatureRequested(
+                                                ContribFeature.OCR,
+                                                true
+                                            )
+
+                                            else -> createRow(
+                                                event.action.type,
+                                                event.transferEnabled,
+                                                event.action == Action.Income
+                                            )
+                                        }
+
+                                        is AppEvent.SetAccountGrouping -> viewModel.setGrouping(event.newGrouping)
+                                        is AppEvent.SetTransactionGrouping -> viewModel.persistGroupingV2(
+                                            event.grouping
+                                        )
+
+                                        is AppEvent.SetTransactionSort -> viewModel.persistSortV2(event.transactionSort)
+                                        AppEvent.PrintBalanceSheet -> printBalanceSheet()
+                                        is AppEvent.ContextMenuItemClicked -> onContextItemClicked(event.itemId)
+                                        AppEvent.Search -> showFilterDialog = true
+
+                                        is AppEvent.MenuItemClicked -> dispatchCommand(
+                                            event.itemId,
+                                            null
+                                        )
+
+                                    }
+                                }
+                            },
+                            onAccountEvent = object : AccountEventHandler {
+                                override fun invoke(
+                                    event: AccountEvent,
+                                    account: FullAccount,
+                                ) {
+                                    when (event) {
+                                        is AccountEvent.Delete -> confirmAccountDelete(account)
+                                        is AccountEvent.Edit -> editAccount(account)
+                                        is AccountEvent.SetFlag -> viewModel.setFlag(
+                                            account.id,
+                                            event.flagId
+                                        )
+
+                                        is AccountEvent.ToggleDynamicExchangeRate ->
+                                            toggleDynamicExchangeRate(account)
+
+                                        is AccountEvent.ToggleExcludeFromTotals -> toggleExcludeFromTotals(
+                                            account
+                                        )
+
+                                        is AccountEvent.ToggleSealed -> toggleAccountSealed(account)
+                                    }
                                 }
 
-                                is AppEvent.SetAccountGrouping -> viewModel.setGrouping(event.newGrouping)
-                                is AppEvent.SetTransactionGrouping -> viewModel.persistGroupingV2(
-                                    event.grouping
-                                )
-
-                                is AppEvent.SetTransactionSort -> viewModel.persistSortV2(event.transactionSort)
-                                AppEvent.PrintBalanceSheet -> printBalanceSheet()
-                                is AppEvent.ContextMenuItemClicked -> onContextItemClicked(event.itemId)
-                                AppEvent.Search -> showFilterDialog = true
-
-                                is AppEvent.MenuItemClicked -> dispatchCommand(event.itemId, null)
-
-                            }
-                        }
-                    },
-                    onAccountEvent = object  : AccountEventHandler {
-                        override fun invoke(
-                            event: AccountEvent,
-                            account: FullAccount,
-                        ) {
-                            when(event) {
-                                is AccountEvent.Delete -> confirmAccountDelete(account)
-                                is AccountEvent.Edit -> editAccount(account)
-                                is AccountEvent.SetFlag -> viewModel.setFlag(
-                                    account.id,
-                                    event.flagId
-                                )
-
-                                is AccountEvent.ToggleDynamicExchangeRate ->
-                                    toggleDynamicExchangeRate(account)
-
-                                is AccountEvent.ToggleExcludeFromTotals -> toggleExcludeFromTotals(account)
-                                is AccountEvent.ToggleSealed -> toggleAccountSealed(account)
-                            }
-                        }
-
-                    },
-                    onPrepareMenuItem = ::shouldShowCommand,
-                    flags = viewModel.accountFlags.collectAsState(emptyList()).value
-                ) { pageAccount, accountCount -> Page(pageAccount, accountCount) }
+                            },
+                            onPrepareContextMenuItem = ::isContextMenuItemVisible,
+                            onPrepareMenuItem = { itemId -> currentAccount.isMenuItemVisible(itemId) },
+                            flags = viewModel.accountFlags.collectAsState(emptyList()).value
+                        ) { pageAccount, accountCount -> Page(pageAccount, accountCount) }
+                    }
+                }
             }
         }
     }

@@ -67,7 +67,6 @@ fun FloatingActionToolbar(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            // Main Action Text - make it clickable
             IconButton(
                 onClick = {
                     onAction(lastAction)
@@ -79,14 +78,12 @@ fun FloatingActionToolbar(
                 )
             }
 
-            // Divider to create the "split button" look
             VerticalDivider(
                 modifier = Modifier
                     .height(24.dp)
                     .width(1.dp),
             )
 
-            // Box to anchor the dropdown menu
             Box {
                 val rotationAngle by animateFloatAsState(
                     targetValue = if (showMenu.value) 180F else 0F,

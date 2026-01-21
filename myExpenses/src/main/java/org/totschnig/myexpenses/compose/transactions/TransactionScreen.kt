@@ -41,6 +41,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -88,13 +89,8 @@ import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.main.AppEventHandler
 import org.totschnig.myexpenses.compose.main.parseMenu
 import org.totschnig.myexpenses.compose.main.rememberCollapsingTabRowState
-import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
-import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.sort.TransactionSort
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
@@ -111,7 +107,8 @@ fun TransactionScreen(
     viewModel: MyExpensesV2ViewModel,
     bottomBar: @Composable (() -> Unit),
     onEvent: AppEventHandler,
-    onPrepareMenuItem: (itemId: Int, accountCount: Int) -> Boolean,
+    onPrepareContextMenuItem: (itemId: Int, accountCount: Int) -> Boolean,
+    onPrepareMenuItem: (itemId: Int) -> Boolean,
     pageContent: @Composable ((pageAccount: PageAccount, accountCount: Int) -> Unit),
 ) {
     LaunchedEffect(Unit) {
@@ -121,60 +118,10 @@ fun TransactionScreen(
     val activeFilter by viewModel.activeFilter.collectAsStateWithLifecycle()
     val coroutineScope = rememberCoroutineScope()
     val tabRowState = rememberCollapsingTabRowState()
-    val aggregateTransactionGrouping by viewModel.currentAggregateGrouping.collectAsStateWithLifecycle(
-        Grouping.NONE
-    )
-    val aggregateTransactionSort by viewModel.currentAggregateSort.collectAsStateWithLifecycle(
-        TransactionSort.DATE_DESC
-    )
 
-    val accountList by remember(accounts) {
-        derivedStateOf {
-            val filteredByGroupFilter =
-                if (activeFilter == null || accountGrouping == AccountGrouping.NONE)
-                    accounts
-                else
-                    accounts.filter { account -> accountGrouping.getGroupKey(account) == activeFilter }
-            val aggregateAccountGrouping =
-                if (activeFilter != null) accountGrouping else AccountGrouping.NONE
-            //if we group by flag, and filter by a given flag,
-            // we want to show all accounts with that flag ignoring visibility
-            val filteredByVisibility =
-                if (accountGrouping == AccountGrouping.FLAG && activeFilter != null)
-                    filteredByGroupFilter
-                else
-                    filteredByGroupFilter.filter { it.visible }
-            if (filteredByGroupFilter.size < 2)
-                filteredByVisibility
-            else filteredByVisibility + AggregateAccount(
-                currencyUnit = activeFilter as? CurrencyUnit
-                    ?: viewModel.currencyContext.homeCurrencyUnit,
-                type = if (accountGrouping == AccountGrouping.TYPE) activeFilter as? AccountType else null,
-                flag = if (accountGrouping == AccountGrouping.FLAG) activeFilter as? AccountFlag else null,
-                grouping = aggregateTransactionGrouping,
-                accountGrouping = aggregateAccountGrouping,
-                sortBy = aggregateTransactionSort.column,
-                sortDirection = aggregateTransactionSort.sortDirection,
-                equivalentOpeningBalance = filteredByGroupFilter.sumOf { it.equivalentOpeningBalance },
-                equivalentCurrentBalance = filteredByGroupFilter.sumOf { it.equivalentCurrentBalance },
-                equivalentSumIncome = filteredByGroupFilter.sumOf { it.equivalentSumIncome },
-                equivalentSumExpense = filteredByGroupFilter.sumOf { it.equivalentSumExpense },
-                equivalentSumTransfer = filteredByGroupFilter.sumOf { it.equivalentSumTransfer },
-                equivalentTotal = filteredByGroupFilter.sumOf {
-                    it.equivalentTotal ?: it.equivalentCurrentBalance
-                },
-            ).let { aggregateAccount ->
-                if (aggregateAccountGrouping == AccountGrouping.CURRENCY) aggregateAccount.copy(
-                    openingBalance = filteredByGroupFilter.sumOf { it.openingBalance },
-                    currentBalance = filteredByGroupFilter.sumOf { it.currentBalance },
-                    sumIncome = filteredByGroupFilter.sumOf { it.sumIncome },
-                    sumExpense = filteredByGroupFilter.sumOf { it.sumExpense },
-                    sumTransfer = filteredByGroupFilter.sumOf { it.sumTransfer },
-                    total = filteredByGroupFilter.sumOf { it.total ?: it.currentBalance },
-                ) else aggregateAccount
-            }
-        }
-    }
+    val accountList = viewModel.accountList.collectAsState(emptyList()).value.takeIf {
+        it.isNotEmpty()
+    } ?: return
 
     val pagerState = rememberPagerState(pageCount = { accountList.size })
 
@@ -217,6 +164,10 @@ fun TransactionScreen(
                             currentAccount = currentAccount.value,
                             onEvent = onEvent
                         )
+                        ActionMenu(
+                            onEvent = onEvent,
+                            onPrepareMenuItem = onPrepareMenuItem
+                        )
                     },
                 )
                 AnimatedVisibility(
@@ -251,7 +202,7 @@ fun TransactionScreen(
                                         context = context,
                                         menuRes = R.menu.transactionlist_context,
                                         onPrepareMenuItem = {
-                                            onPrepareMenuItem(
+                                            onPrepareContextMenuItem(
                                                 it,
                                                 accountList.size
                                             )
@@ -269,9 +220,10 @@ fun TransactionScreen(
         bottomBar = bottomBar
     ) { paddingValues ->
 
-        LaunchedEffect(viewModel.selectedAccountId) {
+        val selectedAccountId = viewModel.selectedAccountId.collectAsState().value
+        LaunchedEffect(selectedAccountId) {
             val currentPage =
-                accountList.indexOfFirst { it.id == viewModel.selectedAccountId }
+                accountList.indexOfFirst { it.id == selectedAccountId }
             if (currentPage > -1 && pagerState.currentPage != currentPage) {
                 pagerState.scrollToPage(currentPage)
             }
@@ -356,11 +308,20 @@ fun TransactionScreen(
                     pageContent(pageAccount, accounts.size)
                 }
             }
+
+            val scope = rememberCoroutineScope()
+
             FloatingActionToolbar(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = 16.dp)
+                    .padding(bottom = 16.dp),
+                lastAction = viewModel.lastAction.flow.collectAsState(Action.Expense).value
             ) { action ->
+
+                scope.launch {
+                    viewModel.lastAction.set(action)
+                }
+
                 onEvent(
                     AppEvent.CreateTransaction(
                         action = action,

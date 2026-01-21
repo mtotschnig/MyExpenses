@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.graphics.drawable.GradientDrawable
-import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -78,9 +77,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.compose.accounts.AccountList
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
+import org.totschnig.myexpenses.compose.accounts.AccountList
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
@@ -94,7 +93,6 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_POSITIVE_BUTTON_LABEL
 import org.totschnig.myexpenses.dialog.CriterionInfo
 import org.totschnig.myexpenses.dialog.CriterionReachedDialogFragment
-import org.totschnig.myexpenses.dialog.ExportDialogFragment
 import org.totschnig.myexpenses.dialog.HelpDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.TransactionListComposeDialogFragment
@@ -105,7 +103,6 @@ import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isAggregate
@@ -122,12 +119,10 @@ import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailedException
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
-import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.retrofit.Vote
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.ui.SnackbarAction
-import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.ads.AdHandler
@@ -139,7 +134,6 @@ import org.totschnig.myexpenses.util.distrib.DistributionHelper.isGithub
 import org.totschnig.myexpenses.util.distrib.ReviewManager
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.getSortDirectionFromMenuItemId
-import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.util.ui.DisplayProgress
 import org.totschnig.myexpenses.util.ui.displayProgress
@@ -147,8 +141,6 @@ import org.totschnig.myexpenses.util.ui.getAmountColor
 import org.totschnig.myexpenses.viewmodel.CompletedAction
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.DeleteState.DeleteComplete
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.DeleteState.DeleteProgress
-import org.totschnig.myexpenses.viewmodel.ExportViewModel
-import org.totschnig.myexpenses.viewmodel.ModalProgressViewModel
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import org.totschnig.myexpenses.viewmodel.OpenAction
 import org.totschnig.myexpenses.viewmodel.PriceCalculationViewModel
@@ -163,7 +155,6 @@ import timber.log.Timber
 import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDate
-import java.util.Locale
 import javax.inject.Inject
 import kotlin.math.sign
 
@@ -210,9 +201,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
 
     private var currentBalance: String = ""
 
-    private val exportViewModel: ExportViewModel by viewModels()
     private val roadmapViewModel: RoadmapViewModel by viewModels()
-    private val progressViewModel: ModalProgressViewModel by viewModels()
     private val pricesViewModel: PriceCalculationViewModel by viewModels()
 
     lateinit var binding: ActivityMainBinding
@@ -245,8 +234,8 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                     mode: ActionMode,
                     menu: Menu,
                 ): Boolean {
-                    return currentAccount?.let {
-                        if (!it.sealed) {
+                    return currentAccount?.let { account ->
+                        if (!account.sealed) {
                             menuInflater.inflate(R.menu.transactionlist_context, menu)
                             if (resources.getBoolean(R.bool.showTransactionBulkActions)) {
                                 listOf(
@@ -279,7 +268,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                         R.id.LINK_TRANSFER_COMMAND,
                         R.id.UNDELETE_COMMAND
                     ).forEach {
-                        findItem(it).isVisible = shouldShowCommand(it, accountCount)
+                        findItem(it).isVisible = isContextMenuItemVisible(it, accountCount)
                     }
                     true
                 }
@@ -344,13 +333,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                 true
             }
 
-            R.id.ARCHIVE_COMMAND -> {
-                currentAccount?.let {
-                    ArchiveDialogFragment.newInstance(it).show(supportFragmentManager, "ARCHIVE")
-                }
-                true
-            }
-
             R.id.SEARCH_COMMAND -> {
                 showFilterDialog = true
                 true
@@ -411,7 +393,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
         viewModel = ViewModelProvider(this)[modelClass]
         with(injector) {
             inject(viewModel)
-            inject(exportViewModel)
             inject(roadmapViewModel)
             inject(pricesViewModel)
         }
@@ -426,6 +407,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                 MainContent()
             }
         }
+
         setupToolbarClickHandlers()
 
         lifecycleScope.launch {
@@ -463,55 +445,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                         }
 
                         else -> {}
-                    }
-                }
-            }
-        }
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                exportViewModel.publishProgress.collect { progress ->
-                    progress?.let {
-                        progressViewModel.appendToMessage(it)
-                    }
-                }
-            }
-        }
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                exportViewModel.result.collect { result ->
-                    result?.let { (exportFormat, documentList) ->
-                        val legacyShare =
-                            prefHandler.getBoolean(
-                                PrefKey.PERFORM_SHARE,
-                                false
-                            ) && shareTarget.isNotEmpty()
-                        val uriList = documentList.map { it.uri }
-                        progressViewModel.onTaskCompleted(
-                            buildList {
-                                if (!legacyShare && documentList.isNotEmpty()) {
-                                    if (exportFormat == ExportFormat.CSV) {
-                                        add(
-                                            OpenAction(
-                                                mimeType = exportFormat.mimeType,
-                                                targets = uriList
-                                            )
-                                        )
-                                    }
-                                    add(
-                                        ShareAction(
-                                            mimeType = exportFormat.mimeType,
-                                            targets = uriList
-                                        )
-                                    )
-                                }
-                            }
-                        )
-                        if (legacyShare && documentList.isNotEmpty()) {
-                            shareExport(exportFormat, uriList)
-                        }
-                        exportViewModel.resultProcessed()
                     }
                 }
             }
@@ -822,10 +755,10 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
 
         adHandler = adHandlerFactory.create(binding.viewPagerMain.adContainer, this)
         if (adHandler != NoOpAdHandler) {
-            binding.viewPagerMain.adContainer.getViewTreeObserver().addOnGlobalLayoutListener(
+            binding.viewPagerMain.adContainer.viewTreeObserver.addOnGlobalLayoutListener(
                 object : OnGlobalLayoutListener {
                     override fun onGlobalLayout() {
-                        binding.viewPagerMain.adContainer.getViewTreeObserver()
+                        binding.viewPagerMain.adContainer.viewTreeObserver
                             .removeOnGlobalLayoutListener(this)
                         adHandler.startBanner()
                     }
@@ -838,7 +771,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
         }
 
         if (!isScanMode()) {
-            floatingActionButton.setVisibility(View.INVISIBLE)
+            floatingActionButton.visibility = View.INVISIBLE
         }
 
         if (savedInstanceState == null) {
@@ -885,9 +818,9 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
             AppTheme {
                 LaunchedEffect(accountData) {
                     if (accountData.isNotEmpty()) {
-                        currentAccount?.let {
+                        currentAccount?.let { account ->
                             lifecycleScope.launch {
-                                viewModel.sumInfo(it.toPageAccount).collect {
+                                viewModel.sumInfo(account.toPageAccount).collect {
                                     invalidateOptionsMenu()
                                     sumInfo.value = it
                                 }
@@ -902,7 +835,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
 
                 if (accountData.isNotEmpty()) {
                     val pagerState = rememberPagerState(
-                        accountData.indexOfFirst { viewModel.selectedAccountId == it.id }
+                        accountData.indexOfFirst { selectedAccountId == it.id }
                             .coerceAtLeast(0)
                     ) { accountData.count() }
                     LaunchedEffect(viewModel.selectedAccountId) {
@@ -1032,14 +965,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
             }
         } else false
 
-    private fun shareExport(format: ExportFormat, uriList: List<Uri>) {
-        baseViewModel.share(
-            this, uriList,
-            shareTarget,
-            "text/" + format.name.lowercase(Locale.US)
-        )
-    }
-
     private val createAccountForTransfer =
         registerForActivityResult(AccountEdit.Companion.CreateContract()) {
             if (it != null) {
@@ -1108,8 +1033,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                 contentResolver.notifyChange(TRANSACTIONS_URI, null, false)
             }
 
-            R.id.RESET_COMMAND -> checkReset()
-
             R.id.OCR_DOWNLOAD_COMMAND -> {
                 val intent = Intent(Intent.ACTION_VIEW).apply {
                     data = "market://details?id=org.totschnig.ocr.tesseract".toUri()
@@ -1126,16 +1049,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                         Toast.makeText(this, "F-Droid not installed", Toast.LENGTH_LONG).show()
                     }
             }
-
-            R.id.PRINT_COMMAND -> AppDirHelper.checkAppDir(this)
-                .onSuccess {
-                    contribFeatureRequested(
-                        ContribFeature.PRINT,
-                        ExportViewModel.PRINT_TRANSACTION_LIST
-                    )
-                }.onFailure {
-                    showDismissibleSnackBar(it.safeMessage)
-                }
 
             R.id.BALANCE_COMMAND -> {
                 with(currentAccount!!) {
@@ -1196,7 +1109,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                     Intent.EXTRA_TEXT,
                     Utils.getTellAFriendMessage(this@MyExpenses).toString()
                 )
-                setType("text/plain")
+                type = "text/plain"
             }, getResources().getText(R.string.menu_share)))
 
             R.id.CANCEL_CALLBACK_COMMAND -> finishActionMode()
@@ -1208,7 +1121,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                     this,
                     BackupRestoreActivity::class.java
                 ).apply {
-                    setAction(BackupRestoreActivity.ACTION_BACKUP)
+                    action = BackupRestoreActivity.ACTION_BACKUP
                 })
 
 
@@ -1217,7 +1130,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                     this,
                     BackupRestoreActivity::class.java
                 ).apply {
-                    setAction(BackupRestoreActivity.ACTION_RESTORE)
+                    action = BackupRestoreActivity.ACTION_RESTORE
                 })
 
             R.id.BALANCE_SHEET_COMMAND -> {
@@ -1358,7 +1271,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                 menu.add(Menu.NONE, menuItem.id, Menu.NONE, menuItem.getLabel(this))
             }
                 .apply {
-                    menuItem.icon?.let { setIcon(it) }
+                    setIcon(menuItem.icon)
                     isCheckable = menuItem.isCheckable
                     setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
                 }
@@ -1377,6 +1290,18 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                 checkMenuIcon(it, R.drawable.ic_scan)
             }
             with(currentAccount!!) {
+                listOf(
+                    R.id.DISTRIBUTION_COMMAND,
+                    R.id.HISTORY_COMMAND,
+                    R.id.RESET_COMMAND,
+                    R.id.PRINT_COMMAND,
+                    R.id.SYNC_COMMAND,
+                    R.id.FINTS_SYNC_COMMAND,
+                    R.id.ARCHIVE_COMMAND
+                ).forEach {
+                    menu.findItem(it)?.setEnabledAndVisible(isMenuItemVisible(it))
+                }
+
                 val reconciliationAvailable = type.supportsReconciliation && !sealed
                 val groupingMenu = menu.findItem(R.id.GROUPING_COMMAND)
                 val groupingEnabled = sortBy == KEY_DATE
@@ -1392,9 +1317,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                     configureSortDirectionMenu(this@MyExpenses, it, sortBy, sortDirection)
                 }
 
-                menu.findItem(R.id.BALANCE_COMMAND)
-                    ?.setEnabledAndVisible(reconciliationAvailable && !isAggregate)
-
                 menu.findItem(R.id.SHOW_STATUS_HANDLE_COMMAND)?.apply {
                     setEnabledAndVisible(reconciliationAvailable)
                     if (reconciliationAvailable) {
@@ -1405,26 +1327,16 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                     }
                 }
 
-                menu.findItem(R.id.SYNC_COMMAND)?.setEnabledAndVisible(syncAccountName != null)
                 menu.findItem(R.id.FINTS_SYNC_COMMAND)?.apply {
-                    setEnabledAndVisible(bankId != null)
-                    if (bankId != null) {
-                        title = bankingFeature.syncMenuTitle(this@MyExpenses)
-                    }
+                    title = bankingFeature.syncMenuTitle(this@MyExpenses)
                 }
-                menu.findItem(R.id.ARCHIVE_COMMAND)
-                    ?.setEnabledAndVisible(!isAggregate && !sealed && hasItems)
             }
             menu.findItem(R.id.SEARCH_COMMAND)?.let {
                 it.setEnabledAndVisible(hasItems)
                 it.isChecked = currentFilter.whereFilter.value != null
                 checkMenuIcon(it, R.drawable.ic_menu_search)
             }
-            menu.findItem(R.id.DISTRIBUTION_COMMAND)
-                ?.setEnabledAndVisible(sumInfo.value.mappedCategories)
-            menu.findItem(R.id.HISTORY_COMMAND)?.setEnabledAndVisible(hasItems)
-            menu.findItem(R.id.RESET_COMMAND)?.setEnabledAndVisible(hasItems)
-            menu.findItem(R.id.PRINT_COMMAND)?.setEnabledAndVisible(hasItems)
+
         } else {
             for (item in listOf(
                 R.id.SEARCH_COMMAND,
@@ -1446,9 +1358,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
 
         return super.onPrepareOptionsMenu(menu)
     }
-
-    private val hasItems
-        get() = sumInfo.value.hasItems
 
     private fun setupToolbarClickHandlers() {
         listOf(binding.toolbar.subtitle, binding.toolbar.title).forEach {
@@ -1704,77 +1613,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
         get() {
             return binding.accountPanel.expansionContent
         }
-
-    private fun checkReset() {
-        exportViewModel.checkAppDir().observe(this) { result ->
-            result.onSuccess {
-                currentAccount?.let { account ->
-                    if (account.isAggregate) {
-                        //for aggregate account sealed is checked for each account during export
-                        showExportDialog(emptyList())
-                    } else if (account.sealed) {
-                        showExportDialog(listOf(R.string.account_closed))
-                    } else {
-                        checkSealedHandler.checkAccount(account.id) { result ->
-                            result.onSuccess {
-                                showExportDialog(
-                                    listOfNotNull(
-                                        if (!it.first) R.string.object_sealed else null,
-                                        if (!it.second) R.string.object_sealed_debt else null
-                                    )
-                                )
-                            }
-                                .onFailure {
-                                    showSnackBar(it.safeMessage)
-                                }
-                        }
-                    }
-                }
-            }.onFailure {
-                showDismissibleSnackBar(it.safeMessage)
-            }
-        }
-    }
-
-    private fun showExportDialog(cannotResetConditions: List<Int>) {
-        currentAccount?.let {
-            with(it) {
-                exportViewModel.hasExported(this)
-                    .observe(this@MyExpenses) { hasExported ->
-                        ExportDialogFragment.newInstance(
-                            ExportDialogFragment.AccountInfo(
-                                id,
-                                label,
-                                currency,
-                                cannotResetConditions,
-                                hasExported,
-                                currentFilter.whereFilter.value != null
-                            )
-                        ).show(supportFragmentManager, "EXPORT")
-                    }
-            }
-        }
-    }
-
-    private fun Bundle.addFilter() {
-        putParcelable(
-            KEY_FILTER,
-            currentFilter.whereFilter.value
-        )
-    }
-
-    fun startExport(args: Bundle) {
-        args.addFilter()
-        supportFragmentManager.beginTransaction()
-            .add(
-                NewProgressDialogFragment.newInstance(
-                    getString(R.string.pref_category_title_export)
-                ),
-                PROGRESS_TAG
-            )
-            .commitNow()
-        exportViewModel.startExport(args)
-    }
 
     override fun onAction(action: CompletedAction, index: Int?) {
         when (action) {

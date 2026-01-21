@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.activity
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -8,10 +9,7 @@ import androidx.annotation.IdRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.add
-import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,34 +31,38 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyExpenses.Companion.MANAGE_HIDDEN_FRAGMENT_TAG
+import org.totschnig.myexpenses.compose.filter.FilterCard
+import org.totschnig.myexpenses.compose.filter.FilterDialog
+import org.totschnig.myexpenses.compose.filter.FilterHandler
+import org.totschnig.myexpenses.compose.filter.TYPE_COMPLEX
 import org.totschnig.myexpenses.compose.transactions.CompactTransactionRenderer
 import org.totschnig.myexpenses.compose.transactions.DateTimeFormatInfo
-import org.totschnig.myexpenses.compose.transactions.TransactionEventHandler
 import org.totschnig.myexpenses.compose.transactions.FutureCriterion
 import org.totschnig.myexpenses.compose.transactions.ItemRenderer
 import org.totschnig.myexpenses.compose.transactions.NewTransactionRenderer
 import org.totschnig.myexpenses.compose.transactions.RenderType
 import org.totschnig.myexpenses.compose.transactions.TransactionEvent
+import org.totschnig.myexpenses.compose.transactions.TransactionEventHandler
 import org.totschnig.myexpenses.compose.transactions.TransactionList
-import org.totschnig.myexpenses.compose.filter.FilterCard
-import org.totschnig.myexpenses.compose.filter.FilterDialog
-import org.totschnig.myexpenses.compose.filter.FilterHandler
-import org.totschnig.myexpenses.compose.filter.TYPE_COMPLEX
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
 import org.totschnig.myexpenses.db2.countAccounts
+import org.totschnig.myexpenses.dialog.ArchiveDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_CHECKBOX_LABEL
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_POSITIVE
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_MESSAGE
+import org.totschnig.myexpenses.dialog.ExportDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
+import org.totschnig.myexpenses.dialog.progress.NewProgressDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefKey
@@ -96,10 +98,14 @@ import org.totschnig.myexpenses.viewmodel.AccountSealedException
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.DeleteState.DeleteProgress
 import org.totschnig.myexpenses.viewmodel.ExportViewModel
 import org.totschnig.myexpenses.viewmodel.KEY_ROW_IDS
+import org.totschnig.myexpenses.viewmodel.ModalProgressViewModel
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel.SelectionInfo
+import org.totschnig.myexpenses.viewmodel.OpenAction
+import org.totschnig.myexpenses.viewmodel.ShareAction
 import org.totschnig.myexpenses.viewmodel.SumInfo
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel
+import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
@@ -123,8 +129,10 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
     lateinit var tagHandler: TagHandler
 
     val upgradeHandlerViewModel: UpgradeHandlerViewModel by viewModels()
+    private val exportViewModel: ExportViewModel by viewModels()
+    private val progressViewModel: ModalProgressViewModel by viewModels()
 
-    abstract val currentAccount: FullAccount?
+    abstract val currentAccount: BaseAccount?
 
     val currentFilter: FilterPersistence
         get() = viewModel.filterPersistence.getValue(selectedAccountId)
@@ -146,11 +154,88 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
         tagHandler = TagHandler(this)
         with(injector) {
             inject(upgradeHandlerViewModel)
+            inject(exportViewModel)
         }
         if (savedInstanceState == null) {
             newVersionCheck()
             //voteReminderCheck();
         }
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                exportViewModel.publishProgress.collect { progress ->
+                    progress?.let {
+                        progressViewModel.appendToMessage(it)
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                exportViewModel.result.collect { result ->
+                    result?.let { (exportFormat, documentList) ->
+                        val legacyShare =
+                            prefHandler.getBoolean(
+                                PrefKey.PERFORM_SHARE,
+                                false
+                            ) && shareTarget.isNotEmpty()
+                        val uriList = documentList.map { it.uri }
+                        progressViewModel.onTaskCompleted(
+                            buildList {
+                                if (!legacyShare && documentList.isNotEmpty()) {
+                                    if (exportFormat == ExportFormat.CSV) {
+                                        add(
+                                            OpenAction(
+                                                mimeType = exportFormat.mimeType,
+                                                targets = uriList
+                                            )
+                                        )
+                                    }
+                                    add(
+                                        ShareAction(
+                                            mimeType = exportFormat.mimeType,
+                                            targets = uriList
+                                        )
+                                    )
+                                }
+                            }
+                        )
+                        if (legacyShare && documentList.isNotEmpty()) {
+                            shareExport(exportFormat, uriList)
+                        }
+                        exportViewModel.resultProcessed()
+                    }
+                }
+            }
+        }
+    }
+
+    fun startExport(args: Bundle) {
+        args.addFilter()
+        supportFragmentManager.beginTransaction()
+            .add(
+                NewProgressDialogFragment.newInstance(
+                    getString(R.string.pref_category_title_export)
+                ),
+                PROGRESS_TAG
+            )
+            .commitNow()
+        exportViewModel.startExport(args)
+    }
+
+    private fun Bundle.addFilter() {
+        putParcelable(
+            KEY_FILTER,
+            currentFilter.whereFilter.value
+        )
+    }
+
+    private fun shareExport(format: ExportFormat, uriList: List<Uri>) {
+        baseViewModel.share(
+            this, uriList,
+            shareTarget,
+            "text/" + format.name.lowercase(Locale.US)
+        )
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -225,6 +310,24 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
             return true
         } else when (command) {
 
+            R.id.ARCHIVE_COMMAND -> {
+                (currentAccount as? FullAccount)?.let {
+                    ArchiveDialogFragment.newInstance(it).show(supportFragmentManager, "ARCHIVE")
+                }
+            }
+
+            R.id.PRINT_COMMAND -> AppDirHelper.checkAppDir(this)
+                .onSuccess {
+                    contribFeatureRequested(
+                        ContribFeature.PRINT,
+                        ExportViewModel.PRINT_TRANSACTION_LIST
+                    )
+                }.onFailure {
+                    showDismissibleSnackBar(it.safeMessage)
+                }
+
+            R.id.RESET_COMMAND -> checkReset()
+
             R.id.HISTORY_COMMAND -> contribFeatureRequested(ContribFeature.HISTORY)
 
             R.id.DISTRIBUTION_COMMAND -> contribFeatureRequested(ContribFeature.DISTRIBUTION)
@@ -237,7 +340,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
 
             R.id.MANAGE_PARTIES_COMMAND -> startActivity(
                 Intent(this, ManageParties::class.java).apply {
-                    setAction(Action.MANAGE.name)
+                    action = Action.MANAGE.name
                 }
             )
 
@@ -280,6 +383,57 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
         return true
     }
 
+    private fun checkReset() {
+        exportViewModel.checkAppDir().observe(this) { result ->
+            result.onSuccess {
+                currentAccount?.let { account ->
+                    if (account.isAggregate) {
+                        //for aggregate account sealed is checked for each account during export
+                        showExportDialog(emptyList())
+                    } else if ((account as FullAccount).sealed) {
+                        showExportDialog(listOf(R.string.account_closed))
+                    } else {
+                        checkSealedHandler.checkAccount(account.id) { result ->
+                            result.onSuccess {
+                                showExportDialog(
+                                    listOfNotNull(
+                                        if (!it.first) R.string.object_sealed else null,
+                                        if (!it.second) R.string.object_sealed_debt else null
+                                    )
+                                )
+                            }
+                                .onFailure {
+                                    showSnackBar(it.safeMessage)
+                                }
+                        }
+                    }
+                }
+            }.onFailure {
+                showDismissibleSnackBar(it.safeMessage)
+            }
+        }
+    }
+
+    private fun showExportDialog(cannotResetConditions: List<Int>) {
+        currentAccount?.let {
+            with(it) {
+                exportViewModel.hasExported(this)
+                    .observe(this@BaseMyExpenses) { hasExported ->
+                        ExportDialogFragment.newInstance(
+                            ExportDialogFragment.AccountInfo(
+                                id,
+                                label,
+                                currency,
+                                cannotResetConditions,
+                                hasExported,
+                                currentFilter.whereFilter.value != null
+                            )
+                        ).show(supportFragmentManager, "EXPORT")
+                    }
+            }
+        }
+    }
+
     protected fun toggleAccountSealed(account: FullAccount, snackBarContainer: View? = null) {
         if (account.sealed) {
             viewModel.setSealed(account.id, false)
@@ -304,7 +458,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
     }
 
     var selectedAccountId: Long
-        get() = viewModel.selectedAccountId
+        get() = viewModel.selectedAccountId.value
         set(value) {
             viewModel.selectAccount(value)
         }
@@ -400,7 +554,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
         putExtra(KEY_SECOND_GROUP, groupingSecond)
     }
 
-    private fun Intent.forwardCurrentConfiguration(currentAccount: FullAccount) {
+    private fun Intent.forwardCurrentConfiguration(currentAccount: BaseAccount) {
         putExtra(KEY_ACCOUNTID, currentAccount.id)
         putExtra(KEY_GROUPING, currentAccount.grouping)
         if (currentFilter.whereFilter.value != null) {
@@ -445,7 +599,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
                         getString(R.string.progress_dialog_printing, "PDF")
                     )
                     if (tag == ExportViewModel.PRINT_TRANSACTION_LIST) {
-                        viewModel.print(currentAccount, currentFilter.whereFilter.value)
+                        viewModel.print(currentAccount.toPageAccount(this), currentFilter.whereFilter.value)
                     } else if (tag == ExportViewModel.PRINT_BALANCE_SHEET) {
                         viewModel.printBalanceSheet()
                     }
@@ -538,7 +692,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
                 startActivityForResult(
                     Intent(this, ExpenseEdit::class.java).apply {
                         putExtra(KEY_ROWID, transaction.id)
-                        putExtra(KEY_COLOR, transaction.color ?: currentAccount?.color)
+                        putExtra(KEY_COLOR, transaction.color ?: currentAccount?.color(resources))
                         if (clone) {
                             putExtra(ExpenseEdit.KEY_CLONE, true)
                         }
@@ -643,7 +797,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
         }
     }
 
-    fun shouldShowCommand(itemId: Int, accountCount: Int): Boolean {
+    fun isContextMenuItemVisible(itemId: Int, accountCount: Int): Boolean {
         val hasTransfer = selectionState.any { it.isTransfer }
         val hasSplit = selectionState.any { it.isSplit }
         val hasVoid = selectionState.any { it.crStatus == CrStatus.VOID }
@@ -659,6 +813,18 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
                         viewModel.canLinkSelection()
 
             R.id.UNDELETE_COMMAND -> hasVoid
+            else -> true
+        }
+    }
+
+    fun BaseAccount?.isMenuItemVisible(itemId: Int): Boolean {
+        return when (itemId) {
+            R.id.SYNC_COMMAND -> (this as? FullAccount)?.syncAccountName != null
+            R.id.HISTORY_COMMAND, R.id.RESET_COMMAND, R.id.PRINT_COMMAND -> hasItems
+            R.id.DISTRIBUTION_COMMAND -> sumInfo.value.mappedCategories
+            R.id.BALANCE_COMMAND -> this is FullAccount && !isAggregate && type.supportsReconciliation && !sealed
+            R.id.FINTS_SYNC_COMMAND -> (this as? FullAccount)?.bankId != null
+            R.id.ARCHIVE_COMMAND -> this is FullAccount && !isAggregate && !sealed && hasItems
             else -> true
         }
     }
@@ -894,8 +1060,11 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
 
     val sumInfo: MutableState<SumInfo> = mutableStateOf(SumInfo.EMPTY)
 
+    val hasItems
+        get() = sumInfo.value.hasItems
+
     @Composable
-    fun Page(account: PageAccount, accountCount: Int) {
+    fun Page(account: PageAccount, accountCount: Int, v2: Boolean = false) {
         val coroutineScope = rememberCoroutineScope()
         val preferredSearchType =
             viewModel.preferredSearchType.flow.collectAsState(TYPE_COMPLEX).value
@@ -933,7 +1102,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
 
         val onToggleCrStatus: ((Long) -> Unit)? = if (showStatusHandle) ::toggleCrStatus else null
 
-        val headerData = remember(account) { viewModel.headerData(account) }
+        val headerData = remember(account) { viewModel.headerData(account, v2) }
 
         Column(
             modifier = Modifier

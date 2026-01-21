@@ -31,6 +31,7 @@ import androidx.core.text.HtmlCompat
 import androidx.core.view.isVisible
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.BaseMyExpenses
 import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.databinding.ExportDialogBinding
 import org.totschnig.myexpenses.export.AbstractExporter.Companion.ENCODING_LATIN_1
@@ -379,7 +380,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
             putInt(KEY_DELIMITER, delimiter.code)
             putInt(KEY_EXPORT_HANDLE_DELETED, handleDeleted)
         }
-        (requireActivity() as MyExpenses).startExport(Bundle().apply {
+        (requireActivity() as BaseMyExpenses<*>).startExport(Bundle().apply {
             putInt(
                 ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
                 R.id.START_EXPORT_COMMAND

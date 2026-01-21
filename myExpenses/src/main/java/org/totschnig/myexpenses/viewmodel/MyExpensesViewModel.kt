@@ -12,7 +12,6 @@ import android.text.TextUtils.concat
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.core.database.getLongOrNull
@@ -51,11 +50,11 @@ import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.adapter.ClearingLastPagingSourceFactory
 import org.totschnig.myexpenses.adapter.TransactionPagingSource
 import org.totschnig.myexpenses.compose.DataStoreExpansionHandler
-import org.totschnig.myexpenses.compose.transactions.FutureCriterion
-import org.totschnig.myexpenses.compose.transactions.SelectionHandler
 import org.totschnig.myexpenses.compose.addToSelection
 import org.totschnig.myexpenses.compose.filter.TYPE_COMPLEX
 import org.totschnig.myexpenses.compose.toggle
+import org.totschnig.myexpenses.compose.transactions.FutureCriterion
+import org.totschnig.myexpenses.compose.transactions.SelectionHandler
 import org.totschnig.myexpenses.compose.unselect
 import org.totschnig.myexpenses.db2.RepositoryTransaction
 import org.totschnig.myexpenses.db2.addAttachments
@@ -82,8 +81,8 @@ import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.sort.SortDirection
 import org.totschnig.myexpenses.model.generateUuid
+import org.totschnig.myexpenses.model.sort.SortDirection
 import org.totschnig.myexpenses.model2.Bank
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.Mapper
@@ -140,7 +139,6 @@ import org.totschnig.myexpenses.provider.mapToListCatching
 import org.totschnig.myexpenses.provider.mapToListWithExtra
 import org.totschnig.myexpenses.provider.triggerAccountListRefresh
 import org.totschnig.myexpenses.util.AppDirHelper
-import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
@@ -166,7 +164,8 @@ import kotlin.math.sign
 
 enum class ScrollToCurrentDate { Never, AppLaunch, AccountOpen }
 
-private const val KEY_BALANCE_DATE = "balanceDate"
+private const val BALANCE_DATE_KEY = "balanceDate"
+private const val SELECTED_ACCOUNT_KEY = "selectedAccountId"
 
 open class MyExpensesViewModel(
     application: Application,
@@ -268,18 +267,17 @@ open class MyExpensesViewModel(
             get() = transferAccount != null
     }
 
-    @OptIn(SavedStateHandleSaveableApi::class)
-    var selectedAccountId by savedStateHandle.saveable {
-        mutableLongStateOf(0L)
-    }
+    private val _selectedAccountId = savedStateHandle.getStateFlow(SELECTED_ACCOUNT_KEY, 0L)
+    val selectedAccountId: StateFlow<Long> = _selectedAccountId
 
     fun selectAccount(accountId: Long) {
-        selectedAccountId = accountId
+        savedStateHandle[SELECTED_ACCOUNT_KEY] = accountId // This updates the StateFlow
         if (scrollToCurrentDatePreference == ScrollToCurrentDate.AccountOpen) {
             scrollToCurrentDate.getValue(accountId).value = true
         }
-        prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, selectedAccountId)
+        prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, accountId)
     }
+
 
     val selectAllState: MutableState<Boolean> = mutableStateOf(false)
 
@@ -458,10 +456,10 @@ open class MyExpensesViewModel(
 
     @OptIn(SavedStateHandleSaveableApi::class)
     var balanceDate =
-        savedStateHandle.getLiveData<LocalDate>(KEY_BALANCE_DATE, LocalDate.now()).asFlow()
+        savedStateHandle.getLiveData<LocalDate>(BALANCE_DATE_KEY, LocalDate.now()).asFlow()
 
     fun setBalanceDate(date: LocalDate) {
-        savedStateHandle[KEY_BALANCE_DATE] = date
+        savedStateHandle[BALANCE_DATE_KEY] = date
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -502,8 +500,10 @@ open class MyExpensesViewModel(
             .stateIn(viewModelScope, SharingStarted.Lazily, null)
     }
 
-    fun headerData(account: PageAccount) = headerData.getValue(account)
-    fun headerDataV2(account: PageAccount) = headerDataV2.getValue(account)
+    fun headerData(account: PageAccount, v2: Boolean) = if (v2)
+        headerDataV2.getValue(account)
+    else
+        headerData.getValue(account)
 
     fun budgetData(account: PageAccount): Flow<BudgetData?> =
         if (licenceHandler.hasTrialAccessTo(ContribFeature.BUDGET)) {
@@ -537,22 +537,22 @@ open class MyExpensesViewModel(
 
     fun persistGrouping(grouping: Grouping) {
         viewModelScope.launch(context = coroutineContext()) {
-            if (selectedAccountId == DataBaseAccount.HOME_AGGREGATE_ID) {
+            if (selectedAccountId.value == DataBaseAccount.HOME_AGGREGATE_ID) {
                 prefHandler.putString(GROUPING_AGGREGATE, grouping.name)
                 triggerAccountListRefresh()
             } else {
-                repository.setGrouping(selectedAccountId, grouping)
+                repository.setGrouping(selectedAccountId.value, grouping)
             }
         }
     }
 
     fun persistSort(sort: String, direction: SortDirection) {
         viewModelScope.launch(context = coroutineContext()) {
-            if (selectedAccountId == DataBaseAccount.HOME_AGGREGATE_ID) {
+            if (selectedAccountId.value == DataBaseAccount.HOME_AGGREGATE_ID) {
                 persistSortDirectionHomeAggregate(sort, direction)
             } else {
                 contentResolver.update(
-                    ContentUris.withAppendedId(SORT_URI, selectedAccountId)
+                    ContentUris.withAppendedId(SORT_URI, selectedAccountId.value)
                         .buildUpon()
                         .appendPath(sort)
                         .appendPath(direction.name)
@@ -824,7 +824,7 @@ open class MyExpensesViewModel(
         }
     }
 
-    fun print(account: FullAccount, whereFilter: Criterion?) {
+    fun print(account: PageAccount, whereFilter: Criterion?) {
         viewModelScope.launch(coroutineContext()) {
             _pdfResult.update {
                 AppDirHelper.checkAppDir(getApplication()).mapCatching {
@@ -832,7 +832,7 @@ open class MyExpensesViewModel(
                         dataStore.data.first()[prefHandler.getStringPreferencesKey(PrefKey.TRANSACTION_AMOUNT_COLOR_SOURCE)],
                         ColorSource.TYPE
                     )
-                    PdfPrinter.print(localizedContext, account.toPageAccount, it, whereFilter, colorSource)
+                    PdfPrinter.print(localizedContext, account, it, whereFilter, colorSource)
                 }
             }
         }
