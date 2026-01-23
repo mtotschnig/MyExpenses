@@ -59,6 +59,8 @@ import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.dialog.progress.NewProgressDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment
+import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment.Companion.KEY_IS_INCOME
+import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment.Companion.TRANSFORM_TO_TRANSFER_REQUEST
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
@@ -71,6 +73,7 @@ import org.totschnig.myexpenses.provider.CheckSealedHandler
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_COLOR
 import org.totschnig.myexpenses.provider.KEY_GROUPING
+import org.totschnig.myexpenses.provider.KEY_LABEL
 import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.KEY_SECOND_GROUP
 import org.totschnig.myexpenses.provider.KEY_SYNC_ACCOUNT_NAME
@@ -244,6 +247,23 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
                         }
                     }
                 }
+            }
+        }
+
+        supportFragmentManager.setFragmentResultListener(
+            TRANSFORM_TO_TRANSFER_REQUEST,
+            this
+        ) { _, bundle ->
+            val isIncome = bundle.getBoolean(KEY_IS_INCOME)
+            val target = bundle.getString(KEY_LABEL)
+            val from = if (isIncome) target else currentAccount!!.label
+            val to = if (isIncome) currentAccount!!.label else target
+            showConfirmationDialog(
+                "TRANSFORM_TRANSFER",
+                getString(R.string.warning_transform_to_transfer, from, to),
+                R.id.TRANSFORM_TO_TRANSFER_COMMAND
+            ) {
+                putAll(bundle)
             }
         }
     }
