@@ -2,20 +2,18 @@ package org.totschnig.myexpenses.service
 
 import android.app.IntentService
 import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.ContentValues
 import android.content.Intent
 import android.database.sqlite.SQLiteConstraintException
 import kotlinx.coroutines.runBlocking
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.instantiateTemplate
 import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.provider.KEY_INSTANCEID
-import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -36,6 +34,9 @@ class PlanNotificationClickHandler : IntentService("PlanNotificationClickHandler
 
     @Inject
     lateinit var repository: Repository
+
+    @Inject
+    lateinit var prefHandler: PrefHandler
 
     @Deprecated("Deprecated in Java")
     override fun onCreate() {
@@ -75,13 +76,8 @@ class PlanNotificationClickHandler : IntentService("PlanNotificationClickHandler
                     message = resources.getQuantityString(
                         R.plurals.save_transaction_from_template_success, 1, 1
                     )
-                    val displayIntent = Intent(this, MyExpenses::class.java)
-                        .putExtra(KEY_ROWID, t.data.accountId)
-                        .putExtra(KEY_TRANSACTIONID, t.id)
-                    val resultIntent = PendingIntent.getActivity(
-                        this, notificationId, displayIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                    )
+                    val resultIntent = prefHandler.createShowDetailsIntent(applicationContext, notificationId, t.data)
+
                     builder.setContentIntent(resultIntent)
                     builder.setAutoCancel(true)
                 } else {

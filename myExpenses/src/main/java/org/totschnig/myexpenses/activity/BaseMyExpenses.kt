@@ -164,6 +164,8 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
         if (savedInstanceState == null) {
             newVersionCheck()
             //voteReminderCheck();
+
+            showTransactionFromIntent(intent)
         }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -298,6 +300,12 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
+        intent.extras?.let {
+            val fromExtra = it.getLong(KEY_ROWID, 0)
+            if (fromExtra != 0L) {
+                selectedAccountId = fromExtra
+            }
+        }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.pdfResult.collectPrintResult()
@@ -1364,4 +1372,20 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
         set(value) {
             viewModel.showFilterDialog = value
         }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        intent.extras?.let {
+            selectedAccountId = it.getLong(KEY_ROWID)
+        }
+        showTransactionFromIntent(intent)
+    }
+
+    fun showTransactionFromIntent(intent: Intent) {
+        val transactionId = intent.getLongExtra(KEY_TRANSACTIONID, -1L)
+        if (transactionId != -1L) {
+            showDetails(transactionId)
+            intent.removeExtra(KEY_TRANSACTIONID)
+        }
+    }
 }

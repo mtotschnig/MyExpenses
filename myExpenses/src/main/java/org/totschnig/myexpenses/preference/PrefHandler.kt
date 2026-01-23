@@ -1,17 +1,24 @@
 package org.totschnig.myexpenses.preference
 
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.preference.PreferenceFragmentCompat
 import kotlinx.serialization.json.Json
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.MyExpenses
+import org.totschnig.myexpenses.activity.MyExpensesV2
 import org.totschnig.myexpenses.activity.Version
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.FLAG_TRANSFER
+import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.dialog.valueOf
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.toDayOfWeek
 import org.totschnig.myexpenses.viewmodel.Account
@@ -28,6 +35,7 @@ import org.totschnig.myexpenses.viewmodel.ReferenceNumber
 import org.totschnig.myexpenses.viewmodel.Tags
 import java.util.Calendar
 import java.util.Locale
+import kotlin.jvm.java
 
 interface PrefHandler {
     fun getKey(key: PrefKey): String
@@ -178,6 +186,25 @@ interface PrefHandler {
 
     val mainScreenLegacy: Boolean
         get() = enumValueOrDefault(PrefKey.UI_MAIN_SCREEN_VERSION, Version.V1) == Version.V1
+
+    fun createShowDetailsIntent(
+        context: Context,
+        requestCode: Int,
+        transaction: Transaction
+    ) = PendingIntent.getActivity(
+        context,
+        requestCode,
+        Intent(context, if (mainScreenLegacy) {
+            MyExpenses::class.java
+        } else {
+            MyExpensesV2::class.java
+        }
+        ).apply {
+            putExtra(KEY_ROWID, transaction.accountId)
+            putExtra(KEY_TRANSACTIONID, transaction.id)
+        },
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+    )
 
     companion object {
         const val AUTOMATIC_EXCHANGE_RATE_DOWNLOAD_PREF_KEY_PREFIX =

@@ -111,7 +111,6 @@ import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.provider.KEY_LABEL
 import org.totschnig.myexpenses.provider.KEY_RECONCILED_TOTAL
 import org.totschnig.myexpenses.provider.KEY_ROWID
-import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailedException
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
@@ -710,16 +709,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
 
         if (!isScanMode()) {
             floatingActionButton.visibility = View.INVISIBLE
-        }
-
-        if (savedInstanceState == null) {
-            intent.extras?.let {
-                val fromExtra = Utils.getFromExtra(it, KEY_ROWID, 0)
-                if (fromExtra != 0L) {
-                    selectedAccountId = fromExtra
-                }
-                showTransactionFromIntent(it)
-            }
         }
 
         reviewManager.init(this)
@@ -1611,15 +1600,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
         });
       }*/
 
-
-    fun showTransactionFromIntent(extras: Bundle) {
-        val idFromNotification = extras.getLong(KEY_TRANSACTIONID, 0)
-        if (idFromNotification != 0L) {
-            showDetails(idFromNotification, false)
-            intent.removeExtra(KEY_TRANSACTIONID)
-        }
-    }
-
     override val scrollsHorizontally: Boolean = true
 
     override fun contribFeatureNotCalled(feature: ContribFeature) {
@@ -1640,14 +1620,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                     reviewManager.onEditTransactionResult(this)
                 }
             }
-        }
-    }
-
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        intent.extras?.let {
-            selectedAccountId = it.getLong(KEY_ROWID)
-            showTransactionFromIntent(it)
         }
     }
 
