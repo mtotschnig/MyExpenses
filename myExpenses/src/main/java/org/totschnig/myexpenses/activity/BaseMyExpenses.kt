@@ -599,7 +599,10 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
                         getString(R.string.progress_dialog_printing, "PDF")
                     )
                     if (tag == ExportViewModel.PRINT_TRANSACTION_LIST) {
-                        viewModel.print(currentAccount.toPageAccount(this), currentFilter.whereFilter.value)
+                        viewModel.print(
+                            currentAccount.toPageAccount(this),
+                            currentFilter.whereFilter.value
+                        )
                     } else if (tag == ExportViewModel.PRINT_BALANCE_SHEET) {
                         viewModel.printBalanceSheet()
                     }

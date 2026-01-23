@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
@@ -14,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.accounts.AccountEvent
 import org.totschnig.myexpenses.compose.accounts.AccountEventHandler
@@ -25,6 +27,10 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isAggregate
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_COLOR
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.SumInfo
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
@@ -119,14 +125,23 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
                                             )
                                         }
 
-                                        is AppEvent.SetAccountGrouping -> viewModel.setGrouping(event.newGrouping)
+                                        is AppEvent.SetAccountGrouping -> viewModel.setGrouping(
+                                            event.newGrouping
+                                        )
+
                                         is AppEvent.SetTransactionGrouping -> viewModel.persistGroupingV2(
                                             event.grouping
                                         )
 
-                                        is AppEvent.SetTransactionSort -> viewModel.persistSortV2(event.transactionSort)
+                                        is AppEvent.SetTransactionSort -> viewModel.persistSortV2(
+                                            event.transactionSort
+                                        )
+
                                         AppEvent.PrintBalanceSheet -> printBalanceSheet()
-                                        is AppEvent.ContextMenuItemClicked -> onContextItemClicked(event.itemId)
+                                        is AppEvent.ContextMenuItemClicked -> onContextItemClicked(
+                                            event.itemId
+                                        )
+
                                         AppEvent.Search -> showFilterDialog = true
 
                                         is AppEvent.MenuItemClicked -> dispatchCommand(
@@ -169,6 +184,31 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
                     }
                 }
             }
+        }
+    }
+
+    private val accountForNewTransaction: FullAccount?
+        get() = currentAccount as? FullAccount ?: viewModel.accountDataV2.value?.getOrNull()
+            ?.maxByOrNull { it.lastUsed }
+
+
+    override suspend fun getEditIntent(): Intent? {
+        val candidate = accountForNewTransaction
+        return if (candidate != null) {
+            super.getEditIntent()!!.apply {
+                candidate.let {
+                    putExtra(KEY_ACCOUNTID, it.id)
+                    putExtra(KEY_CURRENCY, it.currency)
+                    putExtra(KEY_COLOR, it.color)
+                }
+                val accountId = selectedAccountId
+                if (isAggregate(accountId)) {
+                    putExtra(ExpenseEdit.KEY_AUTOFILL_MAY_SET_ACCOUNT, true)
+                }
+            }
+        } else {
+            showSnackBar(R.string.no_accounts)
+            null
         }
     }
 }

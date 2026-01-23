@@ -84,7 +84,6 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
 import org.totschnig.myexpenses.databinding.ActivityMainBinding
-import org.totschnig.myexpenses.dialog.ArchiveDialogFragment
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_NEGATIVE
@@ -143,7 +142,6 @@ import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.Delet
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.DeleteState.DeleteProgress
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import org.totschnig.myexpenses.viewmodel.OpenAction
-import org.totschnig.myexpenses.viewmodel.PriceCalculationViewModel
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel
 import org.totschnig.myexpenses.viewmodel.ShareAction
 import org.totschnig.myexpenses.viewmodel.SumInfo
@@ -202,7 +200,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
     private var currentBalance: String = ""
 
     private val roadmapViewModel: RoadmapViewModel by viewModels()
-    private val pricesViewModel: PriceCalculationViewModel by viewModels()
 
     lateinit var binding: ActivityMainBinding
 
@@ -394,7 +391,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
         with(injector) {
             inject(viewModel)
             inject(roadmapViewModel)
-            inject(pricesViewModel)
         }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -797,7 +793,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
     @Composable
     private fun MainContent() {
 
-        LaunchedEffect(currentAccount?.id) {
+        LaunchedEffect(viewModel.selectedAccountId.collectAsState().value) {
             with(currentAccount) {
                 configureUiWithCurrentAccount(this, false)
                 if (this != null) {
