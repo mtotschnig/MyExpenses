@@ -446,42 +446,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
             }
         }
 
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.bulkDeleteState.filterNotNull().collect { result ->
-                    when (result) {
-                        is DeleteProgress -> {
-                            showProgressSnackBar(
-                                getString(R.string.progress_dialog_deleting),
-                                result.total,
-                                result.count
-                            )
-                        }
-
-                        is DeleteComplete -> {
-                            showSnackBar(
-                                buildList {
-                                    if (result.success > 0) {
-                                        add(
-                                            resources.getQuantityString(
-                                                R.plurals.delete_success,
-                                                result.success,
-                                                result.success
-                                            )
-                                        )
-                                    }
-                                    if (result.failure > 0) {
-                                        add(deleteFailureMessage(null))
-                                    }
-                                }.joinToString(" ")
-                            )
-                            viewModel.bulkDeleteCompleteShown()
-                        }
-                    }
-                }
-            }
-        }
-
         if (resources.getDimensionPixelSize(R.dimen.drawerWidth) > resources.displayMetrics.widthPixels) {
             binding.accountPanel.root.layoutParams.width = resources.displayMetrics.widthPixels
         }

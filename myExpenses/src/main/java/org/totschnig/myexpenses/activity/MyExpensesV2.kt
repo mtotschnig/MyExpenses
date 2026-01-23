@@ -180,7 +180,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
                             onPrepareContextMenuItem = ::isContextMenuItemVisible,
                             onPrepareMenuItem = { itemId -> currentAccount.isMenuItemVisible(itemId) },
                             flags = viewModel.accountFlags.collectAsState(emptyList()).value
-                        ) { pageAccount, accountCount -> Page(pageAccount, accountCount) }
+                        ) { pageAccount, accountCount -> Page(pageAccount, accountCount, v2 = true) }
                     }
                 }
             }

@@ -298,8 +298,7 @@ fun TransactionScreen(
                     state = pagerState,
                     pageSpacing = 10.dp,
                     key = { pageIndex ->
-                        "${accountGrouping.name}_${activeFilter?.id}_${accountList[pageIndex].id}"
-                    },
+                        accountList.getOrNull(pageIndex)?.id ?: pageIndex                    },
                     verticalAlignment = Alignment.Top,
                 ) { page ->
                     val account = accountList[page]

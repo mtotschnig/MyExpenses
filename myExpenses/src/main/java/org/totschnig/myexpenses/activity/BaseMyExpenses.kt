@@ -27,6 +27,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
@@ -95,6 +96,7 @@ import org.totschnig.myexpenses.util.ui.asDateTimeFormatter
 import org.totschnig.myexpenses.util.ui.dateTimeFormatter
 import org.totschnig.myexpenses.util.ui.dateTimeFormatterLegacy
 import org.totschnig.myexpenses.viewmodel.AccountSealedException
+import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.DeleteState.DeleteComplete
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.DeleteState.DeleteProgress
 import org.totschnig.myexpenses.viewmodel.ExportViewModel
 import org.totschnig.myexpenses.viewmodel.KEY_ROW_IDS
@@ -204,6 +206,42 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
                             shareExport(exportFormat, uriList)
                         }
                         exportViewModel.resultProcessed()
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.bulkDeleteState.filterNotNull().collect { result ->
+                    when (result) {
+                        is DeleteProgress -> {
+                            showProgressSnackBar(
+                                getString(R.string.progress_dialog_deleting),
+                                result.total,
+                                result.count
+                            )
+                        }
+
+                        is DeleteComplete -> {
+                            showSnackBar(
+                                buildList {
+                                    if (result.success > 0) {
+                                        add(
+                                            resources.getQuantityString(
+                                                R.plurals.delete_success,
+                                                result.success,
+                                                result.success
+                                            )
+                                        )
+                                    }
+                                    if (result.failure > 0) {
+                                        add(deleteFailureMessage(null))
+                                    }
+                                }.joinToString(" ")
+                            )
+                            viewModel.bulkDeleteCompleteShown()
+                        }
                     }
                 }
             }
