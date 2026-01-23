@@ -57,7 +57,6 @@ import org.totschnig.myexpenses.model.AccountGroupingKey
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.sort.TransactionSort
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
-import org.totschnig.myexpenses.viewmodel.SumInfo
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 
@@ -109,6 +108,7 @@ fun MainScreen(
     startScreen: StartScreen,
     accounts: List<FullAccount>,
     availableFilters: List<AccountGroupingKey>,
+    selectedAccountId: Long,
     onAppEvent: AppEventHandler,
     onAccountEvent: AccountEventHandler,
     onPrepareContextMenuItem: (itemId: Int, accountCount: Int) -> Boolean,
@@ -165,6 +165,7 @@ fun MainScreen(
                     accounts = accounts,
                     accountGrouping = accountGrouping.value,
                     availableFilters = availableFilters,
+                    selectedAccountId = selectedAccountId,
                     viewModel = viewModel,
                     bottomBar = {
                         MyBottomAppBar(
@@ -184,6 +185,7 @@ fun MainScreen(
                     navigationIcon = navigationIcon,
                     accounts = accounts,
                     accountGrouping = accountGrouping.value,
+                    selectedAccountId = selectedAccountId,
                     viewModel = viewModel,
                     bottomBar = {
                         MyBottomAppBar(

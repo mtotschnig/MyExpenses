@@ -72,7 +72,6 @@ import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.form.AmountInput
 import eltos.simpledialogfragment.form.AmountInputHostDialog
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -138,8 +137,6 @@ import org.totschnig.myexpenses.util.ui.DisplayProgress
 import org.totschnig.myexpenses.util.ui.displayProgress
 import org.totschnig.myexpenses.util.ui.getAmountColor
 import org.totschnig.myexpenses.viewmodel.CompletedAction
-import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.DeleteState.DeleteComplete
-import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.DeleteState.DeleteProgress
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import org.totschnig.myexpenses.viewmodel.OpenAction
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel
@@ -757,7 +754,8 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
     @Composable
     private fun MainContent() {
 
-        LaunchedEffect(viewModel.selectedAccountId.collectAsState().value) {
+        val selectedAccountIdFromState = viewModel.selectedAccountId.collectAsState().value
+        LaunchedEffect(selectedAccountIdFromState) {
             with(currentAccount) {
                 configureUiWithCurrentAccount(this, false)
                 if (this != null) {
@@ -798,7 +796,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                         accountData.indexOfFirst { selectedAccountId == it.id }
                             .coerceAtLeast(0)
                     ) { accountData.count() }
-                    LaunchedEffect(viewModel.selectedAccountId) {
+                    LaunchedEffect(selectedAccountIdFromState) {
                         if (pagerState.currentPage != currentPage) {
                             pagerState.scrollToPage(currentPage)
                         }

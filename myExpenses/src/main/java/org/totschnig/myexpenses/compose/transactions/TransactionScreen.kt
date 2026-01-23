@@ -104,6 +104,7 @@ fun TransactionScreen(
     accounts: List<FullAccount>,
     accountGrouping: AccountGrouping<*>,
     availableFilters: List<AccountGroupingKey>,
+    selectedAccountId: Long,
     viewModel: MyExpensesV2ViewModel,
     bottomBar: @Composable (() -> Unit),
     onEvent: AppEventHandler,
@@ -220,7 +221,6 @@ fun TransactionScreen(
         bottomBar = bottomBar
     ) { paddingValues ->
 
-        val selectedAccountId = viewModel.selectedAccountId.collectAsState().value
         LaunchedEffect(selectedAccountId) {
             val currentPage =
                 accountList.indexOfFirst { it.id == selectedAccountId }

@@ -64,6 +64,7 @@ fun AccountsScreen(
     navigationIcon: @Composable (() -> Unit) = {},
     accounts: List<FullAccount>,
     accountGrouping: AccountGrouping<*>,
+    selectedAccountId: Long,
     viewModel: MyExpensesV2ViewModel,
     bottomBar: @Composable (() -> Unit),
     onEvent: AppEventHandler,
@@ -173,7 +174,7 @@ fun AccountsScreen(
                 accountData = accounts,
                 scaffoldPadding = paddingValues,
                 grouping = accountGrouping,
-                selectedAccount = viewModel.selectedAccountId.value,
+                selectedAccount = selectedAccountId,
                 listState = viewModel.listState,
                 expansionHandlerGroups = viewModel.expansionHandler("collapsedHeadersDrawer_${accountGrouping}"),
                 onSelected = {

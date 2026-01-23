@@ -89,9 +89,10 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
                     }
 
                     else -> {
+                        val selectedAccountIdFromState = viewModel.selectedAccountId.collectAsState().value
                         LaunchedEffect(
                             viewModel.accountList.collectAsState().value.isNotEmpty(),
-                            viewModel.selectedAccountId.collectAsState().value
+                            selectedAccountIdFromState
                         ) {
                             with(currentAccount) {
                                 if (this != null) {
@@ -107,6 +108,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
                             startScreen,
                             result.getOrThrow(),
                             availableFilters,
+                            selectedAccountId = selectedAccountIdFromState,
                             onAppEvent = object : AppEventHandler {
                                 override fun invoke(event: AppEvent) {
                                     when (event) {
