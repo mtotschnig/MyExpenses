@@ -108,7 +108,7 @@ fun TransactionScreen(
     viewModel: MyExpensesV2ViewModel,
     bottomBar: @Composable (() -> Unit),
     onEvent: AppEventHandler,
-    onPrepareContextMenuItem: (itemId: Int, accountCount: Int) -> Boolean,
+    onPrepareContextMenuItem: (itemId: Int) -> Boolean,
     onPrepareMenuItem: (itemId: Int) -> Boolean,
     pageContent: @Composable ((pageAccount: PageAccount, accountCount: Int) -> Unit),
 ) {
@@ -202,12 +202,7 @@ fun TransactionScreen(
                                     parseMenu(
                                         context = context,
                                         menuRes = R.menu.transactionlist_context,
-                                        onPrepareMenuItem = {
-                                            onPrepareContextMenuItem(
-                                                it,
-                                                accountList.size
-                                            )
-                                        }
+                                        onPrepareMenuItem = onPrepareContextMenuItem
                                     ) {
                                         onEvent(AppEvent.ContextMenuItemClicked(it))
                                     }

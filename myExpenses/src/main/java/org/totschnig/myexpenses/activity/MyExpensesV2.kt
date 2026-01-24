@@ -40,6 +40,9 @@ enum class StartScreen {
     LastVisited, Accounts, Transactions, BalanceSheet
 }
 
+/**
+ * TBD: ReviewManager, AdManager, Tests, WebUI, Status Handle configuration, Upgrade Handling, New balance
+ */
 class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
 
     override fun handleRootWindowInsets() {}
@@ -50,6 +53,9 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
     @get:Composable
     override val transactionListWindowInsets: WindowInsets
         get() = WindowInsets()
+
+    override val accountCount: Int
+        get() = viewModel.accountList.value.size
 
     override fun finishActionMode() {
         viewModel.selectionState.value = emptyList()

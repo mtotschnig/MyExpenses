@@ -147,6 +147,8 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
     @get:Composable
     abstract val transactionListWindowInsets: WindowInsets
 
+    abstract val accountCount: Int
+
     var selectionState
         get() = viewModel.selectionState.value
         set(value) {
@@ -376,6 +378,11 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
             return true
         } else when (command) {
 
+
+            R.id.CREATE_ACCOUNT_FOR_TRANSFER_COMMAND -> {
+                createAccountForTransfer.launch(Unit)
+            }
+
             R.id.ARCHIVE_COMMAND -> {
                 (currentAccount as? FullAccount)?.let {
                     ArchiveDialogFragment.newInstance(it).show(supportFragmentManager, "ARCHIVE")
@@ -448,6 +455,13 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
         }
         return true
     }
+
+    private val createAccountForTransfer =
+        registerForActivityResult(AccountEdit.Companion.CreateContract()) {
+            if (it != null) {
+                createRow(TYPE_TRANSFER, transferEnabled = accountCount > 1)
+            }
+        }
 
     private fun checkReset() {
         exportViewModel.checkAppDir().observe(this) { result ->
@@ -866,7 +880,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
         }
     }
 
-    fun isContextMenuItemVisible(itemId: Int, accountCount: Int): Boolean {
+    fun isContextMenuItemVisible(itemId: Int): Boolean {
         val hasTransfer = selectionState.any { it.isTransfer }
         val hasSplit = selectionState.any { it.isSplit }
         val hasVoid = selectionState.any { it.crStatus == CrStatus.VOID }

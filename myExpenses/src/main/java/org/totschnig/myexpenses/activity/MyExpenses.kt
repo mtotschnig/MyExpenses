@@ -197,7 +197,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
 
     lateinit var binding: ActivityMainBinding
 
-    val accountCount
+    override val accountCount
         get() = accountData.count { it.id > 0 }
 
     suspend fun getHiddenAccountCount() = withContext(Dispatchers.IO) {
@@ -259,7 +259,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                         R.id.LINK_TRANSFER_COMMAND,
                         R.id.UNDELETE_COMMAND
                     ).forEach {
-                        findItem(it).isVisible = isContextMenuItemVisible(it, accountCount)
+                        findItem(it).isVisible = isContextMenuItemVisible(it)
                     }
                     true
                 }
@@ -889,12 +889,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
             }
         } else false
 
-    private val createAccountForTransfer =
-        registerForActivityResult(AccountEdit.Companion.CreateContract()) {
-            if (it != null) {
-                createRow(TYPE_TRANSFER, transferEnabled = accountCount > 1)
-            }
-        }
 
     private fun createAccountDo() {
         closeDrawer()
@@ -945,10 +939,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                         }
                     }
                 }
-            }
-
-            R.id.CREATE_ACCOUNT_FOR_TRANSFER_COMMAND -> {
-                createAccountForTransfer.launch(Unit)
             }
 
             R.id.SAFE_MODE_COMMAND -> {

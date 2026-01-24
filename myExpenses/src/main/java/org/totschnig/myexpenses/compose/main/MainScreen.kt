@@ -111,7 +111,7 @@ fun MainScreen(
     selectedAccountId: Long,
     onAppEvent: AppEventHandler,
     onAccountEvent: AccountEventHandler,
-    onPrepareContextMenuItem: (itemId: Int, accountCount: Int) -> Boolean,
+    onPrepareContextMenuItem: (itemId: Int) -> Boolean,
     onPrepareMenuItem: (itemId: Int) -> Boolean,
     flags: List<AccountFlag> = emptyList(),
     pageContent: @Composable (pageAccount: PageAccount, accountCount: Int) -> Unit,
