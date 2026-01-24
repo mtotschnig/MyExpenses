@@ -714,10 +714,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
         reviewManager.init(this)
     }
 
-    override fun onPdfResultProcessed() {
-        viewModel.pdfResultProcessed()
-    }
-
     override val snackBarContainerId = R.id.main_content
 
     @OptIn(ExperimentalFoundationApi::class)

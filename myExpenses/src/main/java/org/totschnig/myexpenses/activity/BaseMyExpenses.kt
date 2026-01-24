@@ -1388,4 +1388,8 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
             intent.removeExtra(KEY_TRANSACTIONID)
         }
     }
+
+    override fun onPdfResultProcessed() {
+        viewModel.pdfResultProcessed()
+    }
 }
