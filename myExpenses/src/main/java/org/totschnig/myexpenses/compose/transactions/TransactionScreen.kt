@@ -106,11 +106,11 @@ fun TransactionScreen(
     availableFilters: List<AccountGroupingKey>,
     selectedAccountId: Long,
     viewModel: MyExpensesV2ViewModel,
-    bottomBar: @Composable (() -> Unit),
+    bottomBar: @Composable () -> Unit,
     onEvent: AppEventHandler,
-    onPrepareContextMenuItem: (itemId: Int) -> Boolean,
-    onPrepareMenuItem: (itemId: Int) -> Boolean,
-    pageContent: @Composable ((pageAccount: PageAccount, accountCount: Int) -> Unit),
+    onPrepareContextMenuItem: (Int) -> Boolean,
+    onPrepareMenuItem: (Int) -> Boolean,
+    pageContent: @Composable (PageAccount) -> Unit
 ) {
     LaunchedEffect(Unit) {
         viewModel.setLastVisited(StartScreen.Transactions)
@@ -299,7 +299,7 @@ fun TransactionScreen(
                     val account = accountList[page]
                     val context = LocalContext.current
                     val pageAccount = remember(account) { account.toPageAccount(context = context) }
-                    pageContent(pageAccount, accounts.size)
+                    pageContent(pageAccount)
                 }
             }
 

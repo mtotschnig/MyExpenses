@@ -79,6 +79,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
 import org.totschnig.myexpenses.compose.accounts.AccountList
+import org.totschnig.myexpenses.compose.accounts.EmptyState
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
@@ -798,23 +799,19 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                         Page(account = accountData[it].toPageAccount, accountCount)
                     }
                 } else {
-                    Column(
-                        modifier = Modifier
-                            .wrapContentSize()
-                            .padding(dimensionResource(id = R.dimen.padding_main_screen)),
-                        verticalArrangement = Arrangement.spacedBy(5.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            modifier = Modifier.wrapContentSize(),
-                            textAlign = TextAlign.Center,
-                            text = stringResource(id = R.string.no_accounts)
-                        )
-                        Button(onClick = { createAccountDo() }) {
-                            Text(text = stringResource(id = R.string.menu_create_account))
-                        }
-                    }
+                    EmptyState(::createAccountDo)
                 }
+            }
+        }
+    }
+
+
+    override fun createAccountWithCheck() {
+        lifecycleScope.launch {
+            if (accountCount + getHiddenAccountCount() < ContribFeature.FREE_ACCOUNTS) {
+                createAccountDo()
+            } else {
+                showContribDialog(ContribFeature.ACCOUNTS_UNLIMITED, null)
             }
         }
     }
@@ -890,9 +887,9 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
         } else false
 
 
-    private fun createAccountDo() {
+    override fun createAccountDo() {
         closeDrawer()
-        createAccount.launch(Unit)
+        super.createAccountDo()
     }
 
     private fun configureEquivalentWorthMenuItemIcon(menuItem: MenuItem, checked: Boolean) {
@@ -928,17 +925,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
             }
 
             R.id.CREATE_ACCOUNT_COMMAND -> {
-                if (licenceHandler.hasAccessTo(ContribFeature.ACCOUNTS_UNLIMITED)) {
-                    createAccountDo()
-                } else {
-                    lifecycleScope.launch {
-                        if (accountCount + getHiddenAccountCount() < ContribFeature.FREE_ACCOUNTS) {
-                            createAccountDo()
-                        } else {
-                            showContribDialog(ContribFeature.ACCOUNTS_UNLIMITED, null)
-                        }
-                    }
-                }
+                createAccount()
             }
 
             R.id.SAFE_MODE_COMMAND -> {

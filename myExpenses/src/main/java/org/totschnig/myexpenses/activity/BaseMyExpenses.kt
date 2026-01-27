@@ -550,6 +550,26 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
             }
         }
 
+    protected fun createAccount() {
+        if (licenceHandler.hasAccessTo(ContribFeature.ACCOUNTS_UNLIMITED)) {
+            createAccountDo()
+        } else {
+            createAccountWithCheck()
+        }
+    }
+
+    open fun createAccountWithCheck() {
+        if (accountCount < ContribFeature.FREE_ACCOUNTS) {
+            createAccountDo()
+        } else {
+            showContribDialog(ContribFeature.ACCOUNTS_UNLIMITED, null)
+        }
+    }
+
+    open fun createAccountDo() {
+        createAccount.launch(Unit)
+    }
+
     fun createRow(
         @Transactions.TransactionType type: Int,
         transferEnabled: Boolean,

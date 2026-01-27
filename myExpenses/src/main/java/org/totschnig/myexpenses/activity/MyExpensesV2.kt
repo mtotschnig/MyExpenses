@@ -41,7 +41,8 @@ enum class StartScreen {
 }
 
 /**
- * TBD: ReviewManager, AdManager, Tests, WebUI, Status Handle configuration, Upgrade Handling, New balance
+ * TBD: ReviewManager, AdManager, Tests, WebUI, Status Handle configuration, Upgrade Handling,
+ * New balance, Manage types and flags, Help
  */
 class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
 
@@ -109,17 +110,18 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
                                 }
                             }
                         }
+                        val accounts = result.getOrThrow()
                         MainScreen(
                             viewModel,
                             startScreen,
-                            result.getOrThrow(),
+                            accounts,
                             availableFilters,
                             selectedAccountId = selectedAccountIdFromState,
                             onAppEvent = object : AppEventHandler {
                                 override fun invoke(event: AppEvent) {
                                     when (event) {
 
-                                        AppEvent.CreateAccount -> createAccount.launch(Unit)
+                                        AppEvent.CreateAccount -> createAccount()
                                         is AppEvent.CreateTransaction -> when (event.action) {
                                             Action.Scan -> contribFeatureRequested(
                                                 ContribFeature.OCR,
@@ -188,7 +190,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
                             onPrepareContextMenuItem = ::isContextMenuItemVisible,
                             onPrepareMenuItem = { itemId -> currentAccount.isMenuItemVisible(itemId) },
                             flags = viewModel.accountFlags.collectAsState(emptyList()).value
-                        ) { pageAccount, accountCount -> Page(pageAccount, accountCount, v2 = true) }
+                        ) { pageAccount -> Page(pageAccount, accounts.size, v2 = true) }
                     }
                 }
             }
