@@ -70,8 +70,10 @@ import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translat
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.CheckSealedHandler
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isAggregate
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_COLOR
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_GROUPING
 import org.totschnig.myexpenses.provider.KEY_LABEL
 import org.totschnig.myexpenses.provider.KEY_ROWID
@@ -120,6 +122,8 @@ import timber.log.Timber
 import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.Locale
+import java.util.Optional
+import kotlin.jvm.optionals.getOrNull
 
 typealias RenderFactory = (
     renderType: RenderType,
@@ -150,6 +154,8 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
     abstract val transactionListWindowInsets: WindowInsets
 
     abstract val accountCount: Int
+
+    abstract suspend fun accountForNewTransaction(): Optional<FullAccount>?
 
     var selectionState
         get() = viewModel.selectionState.value
@@ -1438,5 +1444,25 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
         } !" to true
 
         else -> "Data loading failed" to false
+    }
+
+    override final suspend fun getEditIntent(): Intent? {
+        val candidate = accountForNewTransaction()
+        return if (candidate != null) {
+            super.getEditIntent()!!.apply {
+                candidate.getOrNull()?.let {
+                    putExtra(KEY_ACCOUNTID, it.id)
+                    putExtra(KEY_CURRENCY, it.currency)
+                    putExtra(KEY_COLOR, it.color)
+                }
+                val accountId = selectedAccountId
+                if (isAggregate(accountId)) {
+                    putExtra(ExpenseEdit.KEY_AUTOFILL_MAY_SET_ACCOUNT, true)
+                }
+            }
+        } else {
+            showSnackBar(R.string.no_accounts)
+            null
+        }
     }
 }

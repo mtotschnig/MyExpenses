@@ -138,6 +138,7 @@ import timber.log.Timber
 import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDate
+import java.util.Optional
 import javax.inject.Inject
 import kotlin.math.sign
 
@@ -154,12 +155,12 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
     private val accountData: List<FullAccount>
         get() = viewModel.accountData.value?.getOrNull() ?: emptyList()
 
-    private val accountForNewTransaction: FullAccount?
-        get() = currentAccount?.let { current ->
+    override suspend fun accountForNewTransaction() = currentAccount?.let { current ->
             current.takeIf { !it.isAggregate } ?: viewModel.accountData.value?.getOrNull()
                 ?.filter { !it.isAggregate && (current.isHomeAggregate || it.currency == current.currency) }
                 ?.maxByOrNull { it.lastUsed }
-        }
+        }?.let { Optional.of(it) } ?:
+            if (getHiddenAccountCount() > 0) Optional.empty() else null
 
     override val currentAccount: FullAccount?
         get() = accountData.find { it.id == selectedAccountId }
@@ -809,27 +810,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
             activateOcrMode()
         }
     }
-
-    override suspend fun getEditIntent(): Intent? {
-        val candidate = accountForNewTransaction
-        return if (candidate != null || getHiddenAccountCount() > 0) {
-            super.getEditIntent()!!.apply {
-                candidate?.let {
-                    putExtra(KEY_ACCOUNTID, it.id)
-                    putExtra(KEY_CURRENCY, it.currency)
-                    putExtra(KEY_COLOR, it.color)
-                }
-                val accountId = selectedAccountId
-                if (isAggregate(accountId)) {
-                    putExtra(ExpenseEdit.KEY_AUTOFILL_MAY_SET_ACCOUNT, true)
-                }
-            }
-        } else {
-            showSnackBar(R.string.no_accounts)
-            null
-        }
-    }
-
 
     override fun startEdit(intent: Intent) {
         floatingActionButton.hide()
