@@ -79,6 +79,8 @@ import org.totschnig.myexpenses.provider.KEY_SECOND_GROUP
 import org.totschnig.myexpenses.provider.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.KEY_YEAR
+import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
+import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailedException
 import org.totschnig.myexpenses.provider.filter.AmountCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CommentCriterion
@@ -1425,5 +1427,16 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
 
     override fun onPdfResultProcessed() {
         viewModel.pdfResultProcessed()
+    }
+
+    fun Throwable.processDataLoadingFailure() = when (this) {
+        is SQLiteDowngradeFailedException -> "Database cannot be downgraded from a newer version. Please either uninstall MyExpenses, before reinstalling, or upgrade to a new version." to true
+        is SQLiteUpgradeFailedException -> "Database upgrade failed. Please contact ${
+            getString(
+                R.string.support_email
+            )
+        } !" to true
+
+        else -> "Data loading failed" to false
     }
 }

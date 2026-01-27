@@ -3,9 +3,15 @@ package org.totschnig.myexpenses.activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,6 +19,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.totschnig.myexpenses.R
@@ -69,11 +78,9 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
             inject(viewModel)
         }
         val startScreen = viewModel.startScreen.let {
-            if (it == StartScreen.LastVisited) {
+            if (it == StartScreen.LastVisited)
                 prefHandler.enumValueOrDefault(PrefKey.UI_SCREEN_LAST_VISITED, StartScreen.Accounts)
-            } else {
-                it
-            }
+            else it
         }
 
         setContent {
@@ -82,6 +89,39 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
                 val availableFilters =
                     viewModel.availableGroupFilters.collectAsStateWithLifecycle().value
                 when {
+                    result?.isFailure == true -> {
+                        val (message, forceQuit) = result.exceptionOrNull()!!
+                            .processDataLoadingFailure()
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(dimensionResource(R.dimen.padding_main_screen)),
+                            // These two lines replace the Box's contentAlignment and the Column's horizontalAlignment
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(message)
+                            // Applying spacing manually since we are using Arrangement.Center
+                            // which takes precedence over Arrangement.spacedBy
+                            Spacer(modifier = Modifier.height(4.dp))
+                            if (!forceQuit) {
+                                Button(onClick = {
+                                    dispatchCommand(
+                                        R.id.SAFE_MODE_COMMAND,
+                                        null
+                                    )
+                                }) {
+                                    Text(stringResource(R.string.safe_mode))
+                                }
+                                Spacer(modifier = Modifier.height(4.dp))
+                            }
+
+                            Button(onClick = { dispatchCommand(R.id.QUIT_COMMAND, null) }) {
+                                Text(stringResource(R.string.button_label_close))
+                            }
+                        }
+
+                    }
                     result == null || availableFilters == null -> {
                         Box(
                             modifier = Modifier.fillMaxSize(),
@@ -91,12 +131,9 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
                         }
                     }
 
-                    result.isFailure -> {
-                        Text("Error: ${result.exceptionOrNull()}")
-                    }
-
                     else -> {
-                        val selectedAccountIdFromState = viewModel.selectedAccountId.collectAsState().value
+                        val selectedAccountIdFromState =
+                            viewModel.selectedAccountId.collectAsState().value
                         LaunchedEffect(
                             viewModel.accountList.collectAsState().value.isNotEmpty(),
                             selectedAccountIdFromState
