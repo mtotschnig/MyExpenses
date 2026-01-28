@@ -94,17 +94,12 @@ import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isAggregate
-import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_CLEARED_TOTAL
-import org.totschnig.myexpenses.provider.KEY_COLOR
-import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.provider.KEY_LABEL
 import org.totschnig.myexpenses.provider.KEY_RECONCILED_TOTAL
 import org.totschnig.myexpenses.provider.KEY_ROWID
-import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.retrofit.Vote
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
@@ -887,29 +882,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
 
             R.id.CREATE_ACCOUNT_COMMAND -> {
                 createAccount()
-            }
-
-            R.id.SAFE_MODE_COMMAND -> {
-                prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, true)
-                viewModel.triggerAccountListRefresh()
-                contentResolver.notifyChange(TRANSACTIONS_URI, null, false)
-            }
-
-            R.id.OCR_DOWNLOAD_COMMAND -> {
-                val intent = Intent(Intent.ACTION_VIEW).apply {
-                    data = "market://details?id=org.totschnig.ocr.tesseract".toUri()
-                }
-                packageManager.queryIntentActivities(intent, 0)
-                    .map { it.activityInfo }
-                    .find {
-                        it.packageName == "org.fdroid.fdroid" || it.packageName == "org.fdroid.basic"
-                    }?.let {
-                        intent.component = ComponentName(it.applicationInfo.packageName, it.name)
-                        startActivity(intent)
-                    }
-                    ?: run {
-                        Toast.makeText(this, "F-Droid not installed", Toast.LENGTH_LONG).show()
-                    }
             }
 
             R.id.BALANCE_COMMAND -> {

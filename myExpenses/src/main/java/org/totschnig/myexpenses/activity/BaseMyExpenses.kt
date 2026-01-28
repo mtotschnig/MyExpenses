@@ -1,9 +1,11 @@
 package org.totschnig.myexpenses.activity
 
+import android.content.ComponentName
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.IdRes
 import androidx.compose.foundation.background
@@ -20,6 +22,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
@@ -83,6 +86,7 @@ import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.KEY_YEAR
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteDowngradeFailedException
 import org.totschnig.myexpenses.provider.TransactionDatabase.SQLiteUpgradeFailedException
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.filter.AmountCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CommentCriterion
@@ -386,6 +390,28 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
             return true
         } else when (command) {
 
+            R.id.OCR_DOWNLOAD_COMMAND -> {
+                val intent = Intent(Intent.ACTION_VIEW).apply {
+                    data = "market://details?id=org.totschnig.ocr.tesseract".toUri()
+                }
+                packageManager.queryIntentActivities(intent, 0)
+                    .map { it.activityInfo }
+                    .find {
+                        it.packageName == "org.fdroid.fdroid" || it.packageName == "org.fdroid.basic"
+                    }?.let {
+                        intent.component = ComponentName(it.applicationInfo.packageName, it.name)
+                        startActivity(intent)
+                    }
+                    ?: run {
+                        Toast.makeText(this, "F-Droid not installed", Toast.LENGTH_LONG).show()
+                    }
+            }
+
+            R.id.SAFE_MODE_COMMAND -> {
+                prefHandler.putBoolean(PrefKey.DB_SAFE_MODE, true)
+                viewModel.triggerAccountListRefresh()
+                contentResolver.notifyChange(TRANSACTIONS_URI, null, false)
+            }
 
             R.id.CREATE_ACCOUNT_FOR_TRANSFER_COMMAND -> {
                 createAccountForTransfer.launch(Unit)
@@ -1446,7 +1472,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
         else -> "Data loading failed" to false
     }
 
-    override final suspend fun getEditIntent(): Intent? {
+    final override suspend fun getEditIntent(): Intent? {
         val candidate = accountForNewTransaction()
         return if (candidate != null) {
             super.getEditIntent()!!.apply {
