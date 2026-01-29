@@ -47,7 +47,8 @@ enum class StartScreen {
 
 /**
  * TBD: ReviewManager, AdManager, Tests, WebUI, Status Handle configuration, Upgrade Handling,
- * New balance, Manage types and flags, Help
+ * New balance, Manage types and flags, Help, Reconciliation, Tell a friend,
+ * Copy balance to clipboard, Budget progress
  */
 class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
 
@@ -156,18 +157,21 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
                                     when (event) {
 
                                         AppEvent.CreateAccount -> createAccount()
-                                        is AppEvent.CreateTransaction -> when (event.action) {
-                                            Action.Scan -> contribFeatureRequested(
-                                                ContribFeature.OCR,
-                                                true
-                                            )
+                                        is AppEvent.CreateTransaction ->
+                                            if (preCreateRowCheckForSealed()) {
+                                                when (event.action) {
+                                                    Action.Scan -> contribFeatureRequested(
+                                                        ContribFeature.OCR,
+                                                        true
+                                                    )
 
-                                            else -> createRow(
-                                                event.action.type,
-                                                event.transferEnabled,
-                                                event.action == Action.Income
-                                            )
-                                        }
+                                                    else -> createRow(
+                                                        event.action.type,
+                                                        event.transferEnabled,
+                                                        event.action == Action.Income
+                                                    )
+                                                }
+                                            }
 
                                         is AppEvent.SetAccountGrouping -> viewModel.setGrouping(
                                             event.newGrouping

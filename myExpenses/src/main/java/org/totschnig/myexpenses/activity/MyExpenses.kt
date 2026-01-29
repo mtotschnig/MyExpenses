@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.activity
 
-import android.content.ComponentName
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
@@ -11,7 +10,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -46,7 +44,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.Insets
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.net.toUri
 import androidx.core.os.BundleCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
@@ -103,7 +100,6 @@ import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.retrofit.Vote
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
-import org.totschnig.myexpenses.ui.SnackbarAction
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.ads.AdHandler
@@ -910,25 +906,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                 }
             }
 
-            R.id.SYNC_COMMAND -> currentAccount?.takeIf { it.syncAccountName != null }?.let {
-                requestSync(
-                    accountName = it.syncAccountName!!,
-                    uuid = if (prefHandler.getBoolean(
-                            PrefKey.SYNC_NOW_ALL,
-                            false
-                        )
-                    ) null else it.uuid
-                )
-            }
-
-            R.id.FINTS_SYNC_COMMAND -> currentAccount?.takeIf { it.bankId != null }?.let {
-                contribFeatureRequested(
-                    ContribFeature.BANKING,
-                    Triple(it.bankId, it.id, it.type.id)
-                )
-            }
-
-            R.id.TOGGLE_SEALED_COMMAND -> toggleAccountSealed()
+            R.id.TOGGLE_SEALED_COMMAND -> currentAccount?.let { toggleAccountSealed(it) }
 
             R.id.EXCLUDE_FROM_TOTALS_COMMAND -> currentAccount?.let { toggleExcludeFromTotals(it) }
 
@@ -976,8 +954,8 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
         return true
     }
 
-    private fun toggleAccountSealed(account: FullAccount? = currentAccount) {
-        account?.let { toggleAccountSealed(it, binding.accountPanel.root) }
+    private fun toggleAccountSealed(account: FullAccount) {
+        toggleAccountSealed(account, binding.accountPanel.root)
     }
 
     fun openBalanceSheet() {
@@ -1259,16 +1237,9 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
 
     override fun onFabClicked() {
         super.onFabClicked()
-        when {
-            currentAccount?.sealed == true -> showSnackBar(
-                message = getString(R.string.account_closed),
-                snackBarAction = SnackbarAction(getString(R.string.menu_reopen)) {
-                    dispatchCommand(R.id.TOGGLE_SEALED_COMMAND, null)
-                }
-            )
-
-            isScanMode() -> contribFeatureRequested(ContribFeature.OCR, true)
-            else -> createRowDo(Transactions.TYPE_TRANSACTION, false)
+        if (preCreateRowCheckForSealed()) {
+            if (isScanMode()) contribFeatureRequested(ContribFeature.OCR, true)
+            else createRowDo(Transactions.TYPE_TRANSACTION, false)
         }
     }
 

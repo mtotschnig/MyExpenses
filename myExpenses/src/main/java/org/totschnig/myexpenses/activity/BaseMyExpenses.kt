@@ -97,6 +97,7 @@ import org.totschnig.myexpenses.provider.filter.Operation
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
+import org.totschnig.myexpenses.ui.SnackbarAction
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ContribUtils
 import org.totschnig.myexpenses.util.TextUtils
@@ -389,6 +390,27 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
         if (super.dispatchCommand(command, tag)) {
             return true
         } else when (command) {
+            R.id.SYNC_COMMAND -> (currentAccount as? FullAccount)
+                ?.takeIf { it.syncAccountName != null }
+                ?.let {
+                    requestSync(
+                        accountName = it.syncAccountName!!,
+                        uuid = if (prefHandler.getBoolean(
+                                PrefKey.SYNC_NOW_ALL,
+                                false
+                            )
+                        ) null else it.uuid
+                    )
+                }
+
+            R.id.FINTS_SYNC_COMMAND -> (currentAccount as? FullAccount)
+                ?.takeIf { it.bankId != null }
+                ?.let {
+                    contribFeatureRequested(
+                        ContribFeature.BANKING,
+                        Triple(it.bankId, it.id, it.type.id)
+                    )
+                }
 
             R.id.OCR_DOWNLOAD_COMMAND -> {
                 val intent = Intent(Intent.ACTION_VIEW).apply {
@@ -603,6 +625,16 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
     open fun createAccountDo() {
         createAccount.launch(Unit)
     }
+
+    fun preCreateRowCheckForSealed() = if ((currentAccount as? FullAccount)?.sealed == true) {
+        showSnackBar(
+            message = getString(R.string.account_closed),
+            snackBarAction = SnackbarAction(getString(R.string.menu_reopen)) {
+                dispatchCommand(R.id.TOGGLE_SEALED_COMMAND, null)
+            }
+        )
+        false
+    } else true
 
     fun createRow(
         @Transactions.TransactionType type: Int,
