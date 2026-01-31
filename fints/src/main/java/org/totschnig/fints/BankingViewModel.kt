@@ -590,7 +590,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         }?.any { it } == true
     }
 
-    private fun HBCIJob.setStartParam(localDate: LocalDate) {
+    private fun HBCIJob<*>.setStartParam(localDate: LocalDate) {
         setParam(
             "startdate",
             Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant())

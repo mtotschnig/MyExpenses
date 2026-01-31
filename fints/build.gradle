@@ -46,7 +46,7 @@ dependencies {
     implementation libs.androidx.runtime.livedata
 
     implementation project(path: ':jaxb-patch', configuration: 'patchedJarApiElements')
-    implementation(libs.hbci4j.core) {
+    implementation(libs.hbci4j) {
         exclude group: "org.glassfish.jaxb"
         exclude group: "javax.xml.bind"
     }
