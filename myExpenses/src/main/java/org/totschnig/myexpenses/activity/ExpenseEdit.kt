@@ -1494,7 +1494,13 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 } else doFinish()
             } else {
                 if (delegate.recurrenceSpinner.selectedItem === Recurrence.CUSTOM) {
-                    launchPlanView(true, transaction.planId!!)
+                    if (transaction.planId != null) {
+                        launchPlanView(true, transaction.planId)
+                    } else {
+                        CrashHandler.report(IllegalStateException("PlanId is null"))
+                        hideKeyboard()
+                        doFinish()
+                    }
                 } else { //make sure soft keyboard is closed
                     hideKeyboard()
                     doFinish()
