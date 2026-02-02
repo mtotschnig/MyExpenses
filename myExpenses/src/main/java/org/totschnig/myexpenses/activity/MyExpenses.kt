@@ -84,7 +84,6 @@ import org.totschnig.myexpenses.dialog.CriterionReachedDialogFragment
 import org.totschnig.myexpenses.dialog.HelpDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.TransactionListComposeDialogFragment
-import org.totschnig.myexpenses.dialog.progress.NewProgressDialogFragment
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountGrouping
@@ -115,11 +114,8 @@ import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.util.ui.DisplayProgress
 import org.totschnig.myexpenses.util.ui.displayProgress
 import org.totschnig.myexpenses.util.ui.getAmountColor
-import org.totschnig.myexpenses.viewmodel.CompletedAction
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
-import org.totschnig.myexpenses.viewmodel.OpenAction
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel
-import org.totschnig.myexpenses.viewmodel.ShareAction
 import org.totschnig.myexpenses.viewmodel.SumInfo
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel
@@ -136,8 +132,7 @@ import kotlin.math.sign
 const val DIALOG_TAG_OCR_DISAMBIGUATE = "DISAMBIGUATE"
 const val DIALOG_TAG_NEW_BALANCE = "NEW_BALANCE"
 
-open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultListener, ContribIFace,
-    NewProgressDialogFragment.Host {
+open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultListener, ContribIFace {
 
     private lateinit var adHandler: AdHandler
 
@@ -1418,21 +1413,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
         get() {
             return binding.accountPanel.expansionContent
         }
-
-    override fun onAction(action: CompletedAction, index: Int?) {
-        when (action) {
-            is ShareAction -> baseViewModel.share(
-                this,
-                action.targets,
-                "",
-                action.mimeType
-            )
-
-            is OpenAction -> startActionView(action.targets[index ?: 0], action.mimeType)
-
-            else -> {}
-        }
-    }
 
     override fun onNegative(args: Bundle) {
         val command = args.getInt(KEY_COMMAND_NEGATIVE)

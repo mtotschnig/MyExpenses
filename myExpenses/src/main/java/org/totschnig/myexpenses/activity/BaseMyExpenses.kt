@@ -108,6 +108,7 @@ import org.totschnig.myexpenses.util.ui.asDateTimeFormatter
 import org.totschnig.myexpenses.util.ui.dateTimeFormatter
 import org.totschnig.myexpenses.util.ui.dateTimeFormatterLegacy
 import org.totschnig.myexpenses.viewmodel.AccountSealedException
+import org.totschnig.myexpenses.viewmodel.CompletedAction
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.DeleteState.DeleteComplete
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.DeleteState.DeleteProgress
 import org.totschnig.myexpenses.viewmodel.ExportViewModel
@@ -138,7 +139,8 @@ typealias RenderFactory = (
     onToggleCrStatus: ((Long) -> Unit)?,
 ) -> ItemRenderer
 
-abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
+abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
+    NewProgressDialogFragment.Host {
 
     lateinit var viewModel: T
     lateinit var remapHandler: RemapHandler
@@ -1521,6 +1523,21 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity() {
         } else {
             showSnackBar(R.string.no_accounts)
             null
+        }
+    }
+
+    override fun onAction(action: CompletedAction, index: Int?) {
+        when (action) {
+            is ShareAction -> baseViewModel.share(
+                this,
+                action.targets,
+                "",
+                action.mimeType
+            )
+
+            is OpenAction -> startActionView(action.targets[index ?: 0], action.mimeType)
+
+            else -> {}
         }
     }
 }
