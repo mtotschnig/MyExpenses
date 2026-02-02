@@ -220,19 +220,20 @@ fun Repository.updateTransfer(
         sourceTransaction.transferPeerId == destinationTransaction.id &&
                 sourceTransaction.id == destinationTransaction.transferPeerId
     )
-    val operations = ArrayList<ContentProviderOperation>()
 
-    //we set the transfer peers uuid to null initially to prevent violation of unique index which
-    //happens if the account after update is identical to transferAccountId before update
+    val operations = ArrayList<ContentProviderOperation>()
     val destinationUri = ContentUris.withAppendedId(TRANSACTIONS_URI, destinationTransaction.id)
-    val uuidNullValues = ContentValues(1).apply {
-        putNull(KEY_UUID)
+
+    val destinationOriginalStatus = destinationTransaction.status
+    val tempStatusValues = ContentValues(1).apply {
+       put(KEY_STATUS, -1)
     }
     operations.add(
         ContentProviderOperation
             .newUpdate(destinationUri)
-            .withValues(uuidNullValues).build()
+            .withValues(tempStatusValues).build()
     )
+
     operations.add(
         ContentProviderOperation.newUpdate(
             ContentUris.withAppendedId(
@@ -246,7 +247,8 @@ fun Repository.updateTransfer(
 
     operations.add(
         ContentProviderOperation.newUpdate(destinationUri)
-            .withValues(destinationTransaction.asContentValues(true)) // we need to set the uuid again
+            .withValues(destinationTransaction.asContentValues(false))
+            .withValue(KEY_STATUS, destinationOriginalStatus)
             .build()
     )
     return contentResolver.applyBatch(AUTHORITY, operations)
