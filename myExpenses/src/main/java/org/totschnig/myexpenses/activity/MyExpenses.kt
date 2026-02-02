@@ -1281,6 +1281,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
         binding.toolbar.progressPercent.isVisible = accountVisual == ACCOUNT_VISUAL_PROGRESS
         binding.toolbar.accountColorIndicator.isVisible = accountVisual == ACCOUNT_VISUAL_COLOR
         binding.toolbar.bankIcon.isVisible = accountVisual == ACCOUNT_VISUAL_ICON
+
         when (accountVisual) {
             ACCOUNT_VISUAL_ICON -> {
                 viewModel.banks.value.find { it.id == account.bankId }?.let {

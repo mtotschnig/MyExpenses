@@ -15,11 +15,11 @@
 package org.totschnig.myexpenses.activity
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.provider.CalendarContract
 import androidx.core.app.NavUtils
 import androidx.core.app.TaskStackBuilder
+import androidx.core.net.toUri
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
@@ -52,7 +52,7 @@ class ManageTemplates : ProtectedFragmentActivity(), ConfirmationDialogListener,
         title = getString(R.string.menu_manage_plans)
         val uriString = intent.getStringExtra(CalendarContract.Events.CUSTOM_APP_URI)
         if (uriString != null) {
-            val uriPath = Uri.parse(uriString).pathSegments
+            val uriPath = uriString.toUri().pathSegments
             try {
                 calledFromCalendarWithId =
                     uriPath[uriPath.size - 1].toLong() //legacy uri had account_id/template_id

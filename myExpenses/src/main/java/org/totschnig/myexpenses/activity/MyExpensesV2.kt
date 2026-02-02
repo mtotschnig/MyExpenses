@@ -48,7 +48,7 @@ enum class StartScreen {
 /**
  * TBD: ReviewManager, AdManager, Tests, WebUI, Status Handle configuration, Upgrade Handling,
  * New balance, Manage types and flags, Help, Reconciliation, Tell a friend,
- * Copy balance to clipboard, Budget progress
+ * Copy balance to clipboard, Budget progress, Bank icon
  */
 class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
 
