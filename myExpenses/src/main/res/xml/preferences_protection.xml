@@ -68,7 +68,7 @@
         <SwitchPreferenceCompat
             android:defaultValue="true"
             android:key="@string/pref_ui_home_screen_shortcuts_show_new_balance_key"
-            android:title="@string/pref_ui_home_screen_shortcuts_show_new_balance_title" />
+            android:summary="@string/pref_ui_home_screen_shortcuts_show_new_balance_title" />
     </PreferenceCategory>
     <Preference
         android:key="@string/pref_encrypt_database_info_key"
