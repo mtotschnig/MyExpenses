@@ -177,7 +177,7 @@ class SyncHandler(
 
             TransactionChange.Type.unsplit -> {
                 ops.add(
-                    ContentProviderOperation.newUpdate(UNSPLIT_URI)
+                    ContentProviderOperation.newUpdate(UNSPLIT_URI.fromSyncAdapter())
                         .withValue(KEY_UUID, change.uuid)
                         .build()
                 )

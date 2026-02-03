@@ -94,13 +94,14 @@ class SyncDelegate(
             }
         }
         return changeList.map { change: TransactionChange ->
-            splitsPerUuid[change.uuid]?.let { parts ->
-                if (parts.all { it.parentUuid == change.uuid }) {
-                    change.copy(splitParts = parts)
-                } else {
-                    throw IllegalStateException("parts parentUuid does not match parents uuid")
-                }
-            } ?: change
+            if (change.type == TransactionChange.Type.unsplit) change else
+                splitsPerUuid[change.uuid]?.let { parts ->
+                    if (parts.all { it.parentUuid == change.uuid }) {
+                        change.copy(splitParts = parts)
+                    } else {
+                        throw IllegalStateException("parts parentUuid does not match parents uuid")
+                    }
+                } ?: change
         }
     }
 
