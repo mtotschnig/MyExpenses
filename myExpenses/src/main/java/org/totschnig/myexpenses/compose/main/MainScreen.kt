@@ -122,11 +122,13 @@ fun MainScreen(
 
     val accountGrouping = viewModel.accountGrouping.asState()
 
+    val onNavigateToSettings =
+        { onAppEvent(event = AppEvent.MenuItemClicked(R.id.SETTINGS_COMMAND)) }
     val navigationIcon: @Composable () -> Unit = {
         TooltipIconButton(
             tooltip = stringResource(R.string.settings_label),
-            imageVector = Icons.Default.Settings,
-        ) { onAppEvent(AppEvent.MenuItemClicked(R.id.SETTINGS_COMMAND)) }
+            imageVector = Icons.Default.Settings, onNavigateToSettings,
+        )
     }
 
     LaunchedEffect(Unit) {
@@ -138,7 +140,10 @@ fun MainScreen(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            EmptyState { onAppEvent(AppEvent.CreateAccount) }
+            EmptyState(
+                onCreateAccount = { onAppEvent(event = AppEvent.CreateAccount) },
+                onNavigateToSettings = onNavigateToSettings
+            )
         }
     } else {
         val navController = rememberNavController()

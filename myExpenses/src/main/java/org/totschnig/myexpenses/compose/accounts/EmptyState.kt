@@ -19,7 +19,8 @@ import org.totschnig.myexpenses.R
 
 @Composable
 fun EmptyState(
-    onCreateAccount: () -> Unit = {}
+    onCreateAccount: () -> Unit = {},
+    onNavigateToSettings: (() -> Unit)? = null
 ) {
     Column(
         modifier = Modifier
@@ -35,6 +36,11 @@ fun EmptyState(
         )
         Button(onClick = onCreateAccount) {
             Text(text = stringResource(id = R.string.menu_create_account))
+        }
+        onNavigateToSettings?.let {
+            Button(onClick = it) {
+                Text(text = stringResource(R.string.settings_label))
+            }
         }
     }
 }
