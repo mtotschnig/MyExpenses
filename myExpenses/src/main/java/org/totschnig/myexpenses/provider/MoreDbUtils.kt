@@ -29,6 +29,8 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.PlannerUtils.Companion.copyEventData
 import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.pauseChangeTrigger
+import org.totschnig.myexpenses.provider.TransactionProvider.resumeChangeTrigger
 import org.totschnig.myexpenses.provider.filter.Operation
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountNames
@@ -42,6 +44,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Category
 import timber.log.Timber
 import java.io.File
+import kotlin.IllegalStateException
 
 fun <T> SupportSQLiteDatabase.safeUpdateWithSealed(runnable: () -> T): T {
     beginTransaction()
@@ -107,7 +110,9 @@ fun linkTransfers(
 ): Int {
     db.beginTransaction()
     try {
+        pauseChangeTrigger(db)
         //both transactions get uuid from first transaction
+
         val sql = """UPDATE $TABLE_TRANSACTIONS SET
             $KEY_CATID = null,
             $KEY_PAYEEID = null,
@@ -117,9 +122,15 @@ fun linkTransfers(
             WHERE $KEY_UUID = ? AND EXISTS (SELECT 1 FROM $TABLE_TRANSACTIONS where $KEY_UUID = ?)"""
         db.compileStatement(sql).use {
             it.bindAllArgsAsStrings(listOf(uuid1, uuid2, uuid2, uuid1, uuid2))
-            val result1 = it.executeUpdateDelete()
-            check(result1 == 1) {
-                "Update for $uuid1 yielded $result1 affected rows"
+            when(val result1 = it.executeUpdateDelete()) {
+                0 -> {
+                    Timber.d("$uuid1 maybe already linked")
+                    return@use
+                }
+                1 -> {}
+                else -> {
+                    throw IllegalStateException("Update for $uuid1 yielded $result1 affected rows")
+                }
             }
             it.bindAllArgsAsStrings(listOf(uuid1, uuid1, uuid1, uuid2, uuid1))
             val result2 = it.executeUpdateDelete()
@@ -142,6 +153,7 @@ fun linkTransfers(
                 it.execute()
             }
         }
+        resumeChangeTrigger(db)
         db.setTransactionSuccessful()
     } finally {
         db.endTransaction()
