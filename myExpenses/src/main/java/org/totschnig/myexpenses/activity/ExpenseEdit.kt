@@ -1491,6 +1491,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                         getString(R.string.save_transaction_and_new_success),
                         Snackbar.LENGTH_SHORT
                     )
+                    isSaving = false
                 } else doFinish()
             } else {
                 if (delegate.recurrenceSpinner.selectedItem === Recurrence.CUSTOM) {
@@ -1531,7 +1532,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 }
             )
         }
-        isSaving = false
     }
 
     fun launchPlanView(forResult: Boolean, planId: Long) {
