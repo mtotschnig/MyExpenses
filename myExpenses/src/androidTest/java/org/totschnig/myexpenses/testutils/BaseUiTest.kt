@@ -209,8 +209,9 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         onData(menuIdMatcher(menuItemId)).inRoot(RootMatchers.isPlatformPopup())
             .check(
                 matches(
-                    hasDescendant(if (checked) isChecked() else isNotChecked()))
+                    hasDescendant(if (checked) isChecked() else isNotChecked())
                 )
+            )
         pressBack()
     }
 
@@ -325,23 +326,46 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         }
     }
 
-    protected fun writeCategory(label: String, parentId: Long? = null, type: Byte = FLAG_EXPENSE, icon: String? = null) =
-        repository.saveCategory(Category(label = label, parentId = parentId, type = type, icon = icon))!!
+    protected fun writeCategory(
+        label: String,
+        parentId: Long? = null,
+        type: Byte = FLAG_EXPENSE,
+        icon: String? = null,
+    ) =
+        repository.saveCategory(
+            Category(
+                label = label,
+                parentId = parentId,
+                type = type,
+                icon = icon
+            )
+        )!!
 
     fun unlock() {
         (app.appComponent.licenceHandler() as MockLicenceHandler).setLockState(false)
     }
 
     protected fun prepareSplit(accountId: Long) = repository.createSplitTransaction(
-        Transaction(accountId = accountId, amount = 10000, categoryId = SPLIT_CATID, uuid = generateUuid()),
+        Transaction(
+            accountId = accountId,
+            amount = 10000,
+            categoryId = SPLIT_CATID,
+            uuid = generateUuid()
+        ),
         listOf(
             Transaction(accountId = accountId, amount = 5000, uuid = generateUuid()),
             Transaction(accountId = accountId, amount = 5000, uuid = generateUuid())
         )
     ).id
 
-    protected fun prepareSplitTemplate(accountId: Long)  = repository.createSplitTemplate(
-        Template(title = TEMPLATE_TITLE, accountId = accountId, amount = 10000, categoryId = SPLIT_CATID, uuid = generateUuid()),
+    protected fun prepareSplitTemplate(accountId: Long) = repository.createSplitTemplate(
+        Template(
+            title = TEMPLATE_TITLE,
+            accountId = accountId,
+            amount = 10000,
+            categoryId = SPLIT_CATID,
+            uuid = generateUuid()
+        ),
         listOf(
             Template(accountId = accountId, amount = 5000, title = "", uuid = generateUuid()),
             Template(accountId = accountId, amount = 5000, title = "", uuid = generateUuid())
@@ -375,13 +399,10 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
     }
 
     //select Time when MaterialTimePicker is open
-    fun setTime(time: LocalTime) {
+    fun setTime(time: LocalTime, is24HourFormat: Boolean) {
         try {
             onView(
-                allOf(
-                    withId(RM.id.material_clock_period_toggle),
-                    withContentDescription(targetContext.getString(RM.string.material_timepicker_text_input_mode_description))
-                )
+                withId(RM.id.material_timepicker_mode_button)
             ).inRoot(isDialog())
                 .perform(click())
         } catch (_: NoMatchingViewException) {
@@ -393,10 +414,18 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
             allOf(
                 isDescendantOfA(withId(RM.id.material_hour_text_input)),
                 isAssignableFrom(TextInputEditText::class.java)
-                )
+            )
         )
             .inRoot(isDialog())
-            .perform(replaceText(time.format(DateTimeFormatter.ofPattern("HH"))))
+            .perform(
+                replaceText(
+                    time.format(
+                        DateTimeFormatter.ofPattern(
+                            if (is24HourFormat) "HH" else "hh"
+                        )
+                    )
+                )
+            )
 
         onView(withId(RM.id.material_minute_text_input)).perform(click())
         onView(
@@ -430,15 +459,17 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         expectedTransferAmount: Long? = null,
         expectedAttachments: List<Uri> = emptyList(),
     ) {
-        repository.assertTransaction(id, TransactionData(
-            amount = expectedAmount,
-            accountId = expectedAccount,
-            transferAccount = expectedTransferAccount,
-            _transferAmount = expectedTransferAmount,
-            transferPeer = expectedPeer,
-            category = transferCategoryId,
-            attachments = expectedAttachments
-        ))
+        repository.assertTransaction(
+            id, TransactionData(
+                amount = expectedAmount,
+                accountId = expectedAccount,
+                transferAccount = expectedTransferAccount,
+                _transferAmount = expectedTransferAmount,
+                transferPeer = expectedPeer,
+                category = transferCategoryId,
+                attachments = expectedAttachments
+            )
+        )
     }
 
     protected fun assertTemplate(

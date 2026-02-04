@@ -13,10 +13,4 @@ android {
       res.srcDirs = ['res']
     }
   }
-    lint {
-        targetSdk 36
-    }
-    testOptions {
-        targetSdk 36
-    }
 }

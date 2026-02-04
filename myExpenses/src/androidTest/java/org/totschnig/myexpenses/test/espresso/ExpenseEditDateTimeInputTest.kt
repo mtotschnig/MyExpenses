@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.test.espresso
 
+import android.text.format.DateFormat
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -137,7 +138,7 @@ class ExpenseEditDateTimeInputTest(
         if (config.expectedTimeVisible) {
             checkEffectiveVisible(R.id.TimeButton)
             onView(withId(R.id.TimeButton)).perform(click())
-            setTime(newTime)
+            setTime(newTime, DateFormat.is24HourFormat(targetContext))
         } else {
             checkEffectiveGone(R.id.TimeButton)
         }

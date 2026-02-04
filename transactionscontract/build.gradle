@@ -12,12 +12,6 @@ android {
 
     }
     namespace 'org.totschnig.myexpenses.contract'
-    lint {
-        targetSdk 36
-    }
-    testOptions {
-        targetSdk 36
-    }
 }
 
 dependencies {

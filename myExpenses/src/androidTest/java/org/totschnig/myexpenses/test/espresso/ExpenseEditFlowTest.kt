@@ -59,7 +59,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
 
     @get:Rule
     var grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR
+        Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR, Manifest.permission.POST_NOTIFICATIONS
     )
 
     @Before

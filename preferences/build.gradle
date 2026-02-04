@@ -21,12 +21,6 @@ android {
     buildTypes.all {
         consumerProguardFiles "proguard-rules.pro"
     }
-    lint {
-        targetSdk 36
-    }
-    testOptions {
-        targetSdk 36
-    }
 }
 
 dependencies {
