@@ -89,4 +89,5 @@
     <string name="count">"Преброј"</string>
     <string name="options">"Опции"</string>
     <string name="reports">"Извештаи"</string>
+    <string name="actions">Actions"</string>
 </resources>

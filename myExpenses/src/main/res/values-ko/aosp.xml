@@ -165,4 +165,5 @@
     <string name="options">"옵션"</string>
     <string name="reports">"보고서"</string>
     <string name="tools">도구</string>
+    <string name="actions">"동작"</string>
 </resources>

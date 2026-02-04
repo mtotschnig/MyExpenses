@@ -111,4 +111,5 @@
     <string name="empty">"Tühi"</string>
     <string name="options">"Valikud"</string>
     <string name="reports">"Aruanded"</string>
+    <string name="actions">"Toimingud"</string>
 </resources>

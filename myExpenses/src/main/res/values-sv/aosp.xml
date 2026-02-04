@@ -111,4 +111,5 @@
     <string name="empty">"Tom"</string>
     <string name="options">"Alternativ"</string>
     <string name="reports">"Rapporter"</string>
+    <string name="actions">"Åtgärder"</string>
 </resources>

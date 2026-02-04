@@ -1121,5 +1121,4 @@
     <string name="content_description_clear_party">Clear selected party</string>
     <string name="content_description_browse_device_files">Browse files on this device</string>
     <string name="content_description_select_recent_file">Select from recent files</string>
-    <string name="actions">Actions</string>
 </resources>

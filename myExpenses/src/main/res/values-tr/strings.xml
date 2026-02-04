@@ -1045,5 +1045,4 @@
     <string name="menu_cleanup">Temizle</string>
     <string name="content_description_browse_device_files">Bu aygıttaki dosyalara göz at</string>
     <string name="content_description_select_recent_file">Son dosyalardan seç</string>
-    <string name="actions">Eylemler</string>
 </resources>

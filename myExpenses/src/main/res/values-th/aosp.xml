@@ -165,4 +165,5 @@
     <string name="options">"ตัวเลือก"</string>
     <string name="reports">"รายงาน"</string>
     <string name="tools">เครื่องมือ</string>
+    <string name="actions">"การกระทำ"</string>
 </resources>

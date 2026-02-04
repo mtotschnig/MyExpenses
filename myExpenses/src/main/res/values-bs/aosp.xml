@@ -89,4 +89,5 @@
     <string name="empty">"Prazno"</string>
     <string name="options">"Opcije"</string>
     <string name="reports">"Izvještaji"</string>
+    <string name="actions">"Akcije"</string>
 </resources>

@@ -104,4 +104,5 @@
     <string name="empty">"Դատարկ"</string>
     <string name="options">"Ընտրանքներ"</string>
     <string name="reports">"Հաշվետվություններ"</string>
+    <string name="actions">"Գործողություններ"</string>
 </resources>

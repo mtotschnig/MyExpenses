@@ -110,4 +110,5 @@
     <string name="empty">"Tom"</string>
     <string name="options">"Alternativer"</string>
     <string name="reports">"Rapporter"</string>
+    <string name="actions">"Handlinger"</string>
 </resources>

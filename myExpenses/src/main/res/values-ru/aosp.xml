@@ -177,4 +177,5 @@
     <string name="options">"Параметры"</string>
     <string name="reports">"Отчёты"</string>
     <string name="tools">Инструменты</string>
+    <string name="actions">"Действия"</string>
 </resources>
