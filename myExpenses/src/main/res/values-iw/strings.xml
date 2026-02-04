@@ -980,4 +980,5 @@
     <string name="flag_favorite">מועדף</string>
     <string name="select_accounts_for_flag">בחירת חשבונות לדגלון %s</string>
     <string name="content_description_select_recent_file">בחירה מהקבצים האחרונים</string>
+    <string name="actions">פעולות</string>
 </resources>

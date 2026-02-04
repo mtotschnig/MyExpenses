@@ -993,4 +993,6 @@
     <string name="menu_cleanup">Počisti</string>
     <string name="show_invisible">Skriveni računi</string>
     <string name="show_zero">Računi sa saldom od nula</string>
+    <string name="content_description_browse_device_files">Pregledaj datoteke na ovom uređaju</string>
+    <string name="content_description_select_recent_file">Odaberi iz nedavnih datoteka</string>
 </resources>
