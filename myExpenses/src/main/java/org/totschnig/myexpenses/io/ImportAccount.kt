@@ -38,6 +38,11 @@ data class ImportAccount(
             this.type = AccountType.qif2Internal(type)
         }
 
+        fun typeInternal(type: String) = apply {
+            this.type = type
+        }
+
+
         fun memo(memo: String) = apply { this.memo = memo }
         fun desc(desc: String) = apply { this.desc = desc }
         fun openingBalance(openingBalance: BigDecimal) =

@@ -37,7 +37,7 @@ class CSVParser(
     val tags: MutableSet<String> = mutableSetOf()
 
     private fun requireAccount(label: String) =
-        accountBuilders.find { it.memo == label } ?: ImportAccount.Builder().memo(label).type(type.name)
+        accountBuilders.find { it.memo == label } ?: ImportAccount.Builder().memo(label).typeInternal(type.name)
             .also {
                 accountBuilders.add(it)
             }
