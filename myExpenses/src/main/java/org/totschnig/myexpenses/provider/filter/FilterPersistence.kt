@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.serialization.json.Json
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 const val KEY_FILTER = "filter"
 
@@ -95,7 +96,10 @@ class FilterPersistence(
     suspend fun removeCriterion(criterion: Criterion) {
         update { oldValue ->
             when (oldValue) {
-                null -> throw IllegalStateException()
+                null -> {
+                    CrashHandler.report(IllegalStateException("Cannot remove $criterion from null"))
+                    null
+                }
                 is ComplexCriterion -> {
                     oldValue.criteria.mapNotNull {
                         if (it == criterion) null else it
