@@ -225,7 +225,6 @@
     <string name="menu_balance_sheet_help_text">Die Bilanz zeigt den Nettowert aller Ihrer Konten als Differenz zwischen Ihren Vermögenswerten (was Sie besitzen) und Ihren Verbindlichkeiten (was Sie schulden). Er spiegelt Ihre finanzielle Situation zu einem ausgewählten Zeitpunkt wider – sei es in der Vergangenheit, in der Gegenwart oder sogar in der Zukunft. Die Darstellung der Bilanz wird auch durch Markierungen beeinflusst (die die Einbeziehung von Konten in die Summen ändern können).</string>
     <string name="cab_flag_help_text">Weisen Sie dem ausgewählten Konto eine Markierung zu, z. B. „Favorit“ oder „Inaktiv“.</string>
     <string name="form_payer_or_payee_help_text"><![CDATA[In diesem Feld können Sie einen Zahler/Zahlungsempfänger auswählen oder einen neuen anlegen. Beginnen Sie mit der Eingabe des Namens; es werden Ihnen Vorschläge angezeigt. Wenn kein Vorschlag ausgewählt wird, wird ein neuer Eintrag erstellt. Wenn ein Vorschlag ausgewählt wird, wird dieser als Symbol angezeigt.
-
         <br><img src="ic_menu_edit"> Details der ausgewählten Partei bearbeiten.
         <br><img src="ic_menu_close_clear_cancel"> Aktuelle Auswahl entfernen. Das Textfeld wird anschließend wieder angezeigt.]]></string>
 </resources>
