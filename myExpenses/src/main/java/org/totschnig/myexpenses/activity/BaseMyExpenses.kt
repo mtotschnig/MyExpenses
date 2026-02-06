@@ -53,6 +53,7 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
 import org.totschnig.myexpenses.db2.countAccounts
 import org.totschnig.myexpenses.dialog.ArchiveDialogFragment
+import org.totschnig.myexpenses.dialog.BalanceDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_CHECKBOX_LABEL
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_POSITIVE
@@ -69,16 +70,19 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.ExportFormat
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.CheckSealedHandler
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isAggregate
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_CLEARED_TOTAL
 import org.totschnig.myexpenses.provider.KEY_COLOR
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_GROUPING
 import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_RECONCILED_TOTAL
 import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.KEY_SECOND_GROUP
 import org.totschnig.myexpenses.provider.KEY_SYNC_ACCOUNT_NAME
@@ -103,6 +107,7 @@ import org.totschnig.myexpenses.util.ContribUtils
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
+import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.ui.asDateTimeFormatter
 import org.totschnig.myexpenses.util.ui.dateTimeFormatter
@@ -393,6 +398,31 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
         if (super.dispatchCommand(command, tag)) {
             return true
         } else when (command) {
+            R.id.BALANCE_COMMAND -> {
+                (currentAccount as? FullAccount)?.let {
+                    if (it.hasCleared) {
+                        BalanceDialogFragment.newInstance(Bundle().apply {
+
+                            putLong(KEY_ROWID, it.id)
+                            putString(KEY_LABEL, it.label)
+                            putString(
+                                KEY_RECONCILED_TOTAL,
+                                currencyFormatter.formatMoney(
+                                    Money(it.currencyUnit, it.reconciledTotal)
+                                )
+                            )
+                            putString(
+                                KEY_CLEARED_TOTAL,
+                                currencyFormatter.formatMoney(
+                                    Money(it.currencyUnit, it.clearedTotal)
+                                )
+                            )
+                        }).show(supportFragmentManager, "BALANCE_ACCOUNT")
+                    } else {
+                        showSnackBar(R.string.dialog_command_disabled_balance)
+                    }
+                }
+            }
             R.id.SYNC_COMMAND -> (currentAccount as? FullAccount)
                 ?.takeIf { it.syncAccountName != null }
                 ?.let {

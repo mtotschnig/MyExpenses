@@ -19,7 +19,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.MyExpenses
+import org.totschnig.myexpenses.activity.BaseMyExpenses
 import org.totschnig.myexpenses.databinding.BalanceBinding
 import org.totschnig.myexpenses.provider.KEY_CLEARED_TOTAL
 import org.totschnig.myexpenses.provider.KEY_LABEL
@@ -52,7 +52,7 @@ class BalanceDialogFragment : DialogViewBinding<BalanceBinding>(), DialogInterfa
     }
 
     override fun onClick(dialog: DialogInterface, which: Int) {
-        val ctx = activity as MyExpenses? ?: return
+        val ctx = activity as? BaseMyExpenses<*> ?: return
         requireArguments().putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.BALANCE_COMMAND_DO)
         ctx.onPositive(requireArguments(), binding.balanceDelete.isChecked)
     }

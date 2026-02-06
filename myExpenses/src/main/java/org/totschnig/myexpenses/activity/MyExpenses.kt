@@ -73,7 +73,6 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
 import org.totschnig.myexpenses.databinding.ActivityMainBinding
-import org.totschnig.myexpenses.dialog.BalanceDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_NEGATIVE
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_POSITIVE
@@ -91,11 +90,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.KEY_CLEARED_TOTAL
 import org.totschnig.myexpenses.provider.KEY_DATE
-import org.totschnig.myexpenses.provider.KEY_LABEL
-import org.totschnig.myexpenses.provider.KEY_RECONCILED_TOTAL
-import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.retrofit.Vote
 import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
@@ -873,32 +868,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
 
             R.id.CREATE_ACCOUNT_COMMAND -> {
                 createAccount()
-            }
-
-            R.id.BALANCE_COMMAND -> {
-                with(currentAccount!!) {
-                    if (hasCleared) {
-                        BalanceDialogFragment.newInstance(Bundle().apply {
-
-                            putLong(KEY_ROWID, id)
-                            putString(KEY_LABEL, label)
-                            putString(
-                                KEY_RECONCILED_TOTAL,
-                                currencyFormatter.formatMoney(
-                                    Money(currencyUnit, reconciledTotal)
-                                )
-                            )
-                            putString(
-                                KEY_CLEARED_TOTAL,
-                                currencyFormatter.formatMoney(
-                                    Money(currencyUnit, clearedTotal)
-                                )
-                            )
-                        }).show(supportFragmentManager, "BALANCE_ACCOUNT")
-                    } else {
-                        showSnackBar(R.string.dialog_command_disabled_balance)
-                    }
-                }
             }
 
             R.id.TOGGLE_SEALED_COMMAND -> currentAccount?.let { toggleAccountSealed(it) }

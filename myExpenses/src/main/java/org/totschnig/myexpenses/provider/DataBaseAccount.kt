@@ -46,7 +46,7 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
 
         fun isHomeAggregate(id: Long) = id == HOME_AGGREGATE_ID
 
-        fun isAggregate(id: Long) = id < 0
+        fun isAggregate(id: Long) = id <= 0
 
         fun uriBuilderForTransactionList(
             accountId: Long,
