@@ -178,12 +178,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
             inject(upgradeHandlerViewModel)
             inject(exportViewModel)
         }
-        if (savedInstanceState == null) {
-            newVersionCheck()
-            //voteReminderCheck();
 
-            showTransactionFromIntent(intent)
-        }
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 exportViewModel.publishProgress.collect { progress ->
@@ -317,6 +312,12 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
+        if (savedInstanceState == null) {
+            newVersionCheck()
+            //voteReminderCheck();
+
+            showTransactionFromIntent(intent)
+        }
         intent.extras?.let {
             val fromExtra = it.getLong(KEY_ROWID, 0)
             if (fromExtra != 0L) {
