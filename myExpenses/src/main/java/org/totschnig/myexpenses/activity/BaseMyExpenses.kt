@@ -990,13 +990,15 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
     }
 
     fun BaseAccount?.isMenuItemVisible(itemId: Int): Boolean {
+        val isReal = this is FullAccount && !isAggregate
         return when (itemId) {
             R.id.SYNC_COMMAND -> (this as? FullAccount)?.syncAccountName != null
-            R.id.HISTORY_COMMAND, R.id.RESET_COMMAND, R.id.PRINT_COMMAND -> hasItems
-            R.id.DISTRIBUTION_COMMAND -> sumInfo.value.mappedCategories
-            R.id.BALANCE_COMMAND -> this is FullAccount && !isAggregate && type.supportsReconciliation && !sealed
+            R.id.HISTORY_COMMAND -> isReal //TODO extend to deal with new type/flag aggregates
+            R.id.RESET_COMMAND, R.id.PRINT_COMMAND -> hasItems
+            R.id.DISTRIBUTION_COMMAND -> isReal && sumInfo.value.mappedCategories
+            R.id.BALANCE_COMMAND -> isReal && type.supportsReconciliation && !sealed //TODO extend to deal with new type/flag aggregates
             R.id.FINTS_SYNC_COMMAND -> (this as? FullAccount)?.bankId != null
-            R.id.ARCHIVE_COMMAND -> this is FullAccount && !isAggregate && !sealed && hasItems
+            R.id.ARCHIVE_COMMAND -> isReal && !sealed && hasItems
             else -> true
         }
     }
