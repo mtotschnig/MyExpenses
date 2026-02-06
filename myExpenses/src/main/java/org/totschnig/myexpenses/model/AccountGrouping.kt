@@ -5,6 +5,7 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.saveable.Saver
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model2.AccountWithGroupingKey
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 
 interface AccountGroupingKey {
@@ -83,7 +84,10 @@ sealed class AccountGrouping<T : AccountGroupingKey>(
                 "CURRENCY" -> CURRENCY
                 "FLAG" -> FLAG
                 "NONE" -> NONE
-                else -> throw IllegalArgumentException("No AccountGrouping $value")
+                else -> {
+                    CrashHandler.report(IllegalArgumentException("No AccountGrouping $value"))
+                    DEFAULT
+                }
             }
         }
 
