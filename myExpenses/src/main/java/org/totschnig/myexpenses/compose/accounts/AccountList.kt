@@ -48,6 +48,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -56,6 +57,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.totschnig.myexpenses.R
@@ -77,10 +79,10 @@ import org.totschnig.myexpenses.compose.SubMenuEntry
 import org.totschnig.myexpenses.compose.TEST_TAG_ACCOUNTS
 import org.totschnig.myexpenses.compose.UiText
 import org.totschnig.myexpenses.compose.conditional
-import org.totschnig.myexpenses.compose.transactions.BalanceType
 import org.totschnig.myexpenses.compose.optional
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbarAndBottomPadding
+import org.totschnig.myexpenses.compose.transactions.BalanceType
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
@@ -97,8 +99,6 @@ import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import java.text.DecimalFormat
-import java.util.Comparator
-import androidx.compose.ui.platform.LocalResources
 
 const val SIGMA = "Σ"
 
@@ -259,7 +259,8 @@ fun AccountListV2(
                             isSelected = account.id == selectedAccount,
                             onSelected = { onSelected(account) },
                             onEvent = onEvent,
-                            flags = flags
+                            flags = flags,
+                            bankIcon = bankIcon
                         )
                     }
                 }
@@ -396,6 +397,7 @@ fun AccountCardV2(
     onSelected: () -> Unit = {},
     onEvent: AccountEventHandler,
     flags: List<AccountFlag> = emptyList(),
+    bankIcon: @Composable ((Modifier, Long) -> Unit)? = null,
 ) {
 
     val format = LocalCurrencyFormatter.current
@@ -412,6 +414,10 @@ fun AccountCardV2(
             .padding(end = 4.dp, start = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        AccountIndicator(
+            account = account,
+            bankIcon = bankIcon
+        )
         Text(text = account.label, modifier = Modifier.weight(1f))
         Text(format.convAmount(account.currentBalance, account.currencyUnit))
         OverFlowMenu(
@@ -423,6 +429,42 @@ fun AccountCardV2(
                 flags = flags
             )
         )
+    }
+}
+
+@Composable
+fun AccountIndicator(
+    size: Dp = (dimensionResource(id = R.dimen.account_list_aggregate_letter_font_size).value * 2).dp,
+    account: FullAccount,
+    bankIcon: @Composable ((Modifier, Long) -> Unit)?,
+) {
+    val color = Color(account.color(resources = LocalResources.current))
+
+    val modifier = Modifier
+        .padding(end = 6.dp)
+        .size(size)
+
+    account.progress?.let { (sign, progress) ->
+        DonutInABox(
+            modifier = modifier,
+            progress = progress,
+            fontSize = 10.sp,
+            color = color,
+            excessColor = LocalColors.current.amountColor(
+                sign
+            )
+        )
+    } ?: run {
+        if (account.bankId == null || bankIcon == null) {
+            ColorCircle(
+                modifier,
+                color
+            ) {
+                if (account.isAggregate) {
+                    Text(fontSize = 13.sp, text = SIGMA, color = Color.White)
+                }
+            }
+        } else bankIcon.invoke(modifier, account.bankId)
     }
 }
 
@@ -470,33 +512,10 @@ fun AccountCard(
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            val modifier = Modifier
-                .padding(end = 6.dp)
-                .size((dimensionResource(id = R.dimen.account_list_aggregate_letter_font_size).value * 2).dp)
-            val color = Color(account.color(resources = LocalResources.current))
-
-            account.progress?.let { (sign, progress) ->
-                DonutInABox(
-                    modifier = modifier,
-                    progress = progress,
-                    fontSize = 10.sp,
-                    color = color,
-                    excessColor = LocalColors.current.amountColor(
-                        sign
-                    )
-                )
-            } ?: run {
-                if (account.bankId == null || bankIcon == null) {
-                    ColorCircle(
-                        modifier,
-                        color
-                    ) {
-                        if (account.isAggregate) {
-                            Text(fontSize = 13.sp, text = SIGMA, color = Color.White)
-                        }
-                    }
-                } else bankIcon.invoke(modifier, account.bankId)
-            }
+            AccountIndicator(
+                account = account,
+                bankIcon = bankIcon
+            )
 
             if (account.sealed) {
                 Icon(
@@ -1032,6 +1051,35 @@ private fun AccountPreview() {
             criterion = 5000,
             excludeFromTotals = true
         ),
+    )
+}
+
+@Preview
+@Composable
+private fun AccountPreview2() {
+    AccountCardV2(
+        account = FullAccount(
+            id = 1,
+            label = "Account",
+            description = "Description",
+            currencyUnit = CurrencyUnit.DebugInstance,
+            color = android.graphics.Color.RED,
+            openingBalance = 0,
+            currentBalance = 1000,
+            sumIncome = 2000,
+            sumExpense = 1000,
+            sealed = true,
+            type = AccountType.CASH,
+            criterion = 5000,
+            excludeFromTotals = true
+        ),
+        onEvent = object : AccountEventHandler {
+            override fun invoke(
+                event: AccountEvent,
+                account: FullAccount
+            ) {
+            }
+        }
     )
 }
 

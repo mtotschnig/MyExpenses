@@ -48,8 +48,8 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.StartScreen
 import org.totschnig.myexpenses.compose.TooltipIconButton
 import org.totschnig.myexpenses.compose.accounts.AccountEventHandler
-import org.totschnig.myexpenses.compose.accounts.AccountScreenTab
 import org.totschnig.myexpenses.compose.accounts.AccountsScreen
+import org.totschnig.myexpenses.compose.accounts.AccountsScreenTab
 import org.totschnig.myexpenses.compose.accounts.EmptyState
 import org.totschnig.myexpenses.compose.transactions.Action
 import org.totschnig.myexpenses.compose.transactions.TransactionScreen
@@ -117,6 +117,7 @@ fun MainScreen(
     onPrepareContextMenuItem: (itemId: Int) -> Boolean,
     onPrepareMenuItem: (itemId: Int) -> Boolean,
     flags: List<AccountFlag> = emptyList(),
+    bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
     pageContent: @Composable (pageAccount: PageAccount) -> Unit,
 ) {
 
@@ -187,12 +188,13 @@ fun MainScreen(
                     onEvent = onAppEvent,
                     onPrepareContextMenuItem = onPrepareContextMenuItem,
                     onPrepareMenuItem = onPrepareMenuItem,
-                    pageContent = pageContent
+                    pageContent = pageContent,
+                    bankIcon = bankIcon
                 )
             }
             composable(Screen.Accounts.route) {
                 AccountsScreen(
-                    if (startScreen == StartScreen.BalanceSheet) AccountScreenTab.BALANCE_SHEET else AccountScreenTab.LIST,
+                    if (startScreen == StartScreen.BalanceSheet) AccountsScreenTab.BALANCE_SHEET else AccountsScreenTab.LIST,
                     navigationIcon = navigationIcon,
                     accounts = accounts,
                     accountGrouping = accountGrouping.value,
@@ -206,7 +208,8 @@ fun MainScreen(
                     },
                     onEvent = onAppEvent,
                     onAccountEvent = onAccountEvent,
-                    flags = flags
+                    flags = flags,
+                    bankIcon = bankIcon
                 ) {
                     navigateTo(navController, Screen.Transactions)
                 }

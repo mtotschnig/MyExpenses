@@ -84,6 +84,7 @@ import org.totschnig.myexpenses.compose.ColoredAmountText
 import org.totschnig.myexpenses.compose.OverFlowMenu
 import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
 import org.totschnig.myexpenses.compose.TooltipIconButton
+import org.totschnig.myexpenses.compose.accounts.AccountIndicator
 import org.totschnig.myexpenses.compose.accounts.AccountSummaryV2
 import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.main.AppEventHandler
@@ -110,6 +111,7 @@ fun TransactionScreen(
     onEvent: AppEventHandler,
     onPrepareContextMenuItem: (Int) -> Boolean,
     onPrepareMenuItem: (Int) -> Boolean,
+    bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
     pageContent: @Composable (PageAccount) -> Unit
 ) {
     LaunchedEffect(Unit) {
@@ -152,7 +154,8 @@ fun TransactionScreen(
                             displayBalanceType = selectedBalanceType,
                             onDisplayBalanceTypeChange = { newType ->
                                 selectedBalanceType = newType
-                            }
+                            },
+                            bankIcon = bankIcon
                         )
                     },
                     actions = {
@@ -342,6 +345,7 @@ private fun BalanceHeader(
     currentAccount: BaseAccount,
     displayBalanceType: BalanceType,
     modifier: Modifier = Modifier,
+    bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
     onDisplayBalanceTypeChange: (BalanceType) -> Unit,
 ) {
     var isSummaryPopupVisible by rememberSaveable { mutableStateOf(false) }
@@ -365,37 +369,42 @@ private fun BalanceHeader(
             },
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = currentAccount.labelV2(LocalContext.current),
-                    style = MaterialTheme.typography.titleMedium,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    val iconTint = when (validatedBalanceType) {
-                        BalanceType.CLEARED -> colorResource(id = R.color.CLEARED)
-                        BalanceType.RECONCILED -> colorResource(id = R.color.RECONCILED)
-                        else -> colorResource(id = R.color.UNRECONCILED)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                (currentAccount as? FullAccount)?.let {
+                    AccountIndicator(12.dp, currentAccount, bankIcon)
+                }
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = currentAccount.labelV2(LocalContext.current),
+                        style = MaterialTheme.typography.titleMedium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        val iconTint = when (validatedBalanceType) {
+                            BalanceType.CLEARED -> colorResource(id = R.color.CLEARED)
+                            BalanceType.RECONCILED -> colorResource(id = R.color.RECONCILED)
+                            else -> colorResource(id = R.color.UNRECONCILED)
+                        }
+
+                        Icon(
+                            imageVector = validatedBalanceType.icon,
+                            contentDescription = stringResource(validatedBalanceType.resourceId),
+                            modifier = Modifier
+                                .padding(end = 8.dp)
+                                .size(18.dp),
+                            tint = iconTint
+                        )
+
+                        AmountText(
+                            getBalanceForType(
+                                currentAccount,
+                                validatedBalanceType
+                            ), currentAccount.currencyUnit,
+                            fontWeight = FontWeight.SemiBold,
+                            fontSize = 14.sp
+                        )
                     }
-
-                    Icon(
-                        imageVector = validatedBalanceType.icon,
-                        contentDescription = stringResource(validatedBalanceType.resourceId),
-                        modifier = Modifier
-                            .padding(end = 8.dp)
-                            .size(18.dp),
-                        tint = iconTint
-                    )
-
-                    AmountText(
-                        getBalanceForType(
-                            currentAccount,
-                            validatedBalanceType
-                        ), currentAccount.currencyUnit,
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 14.sp
-                    )
                 }
             }
             Icon(

@@ -52,7 +52,7 @@ import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import timber.log.Timber
 import java.time.LocalDate
 
-enum class AccountScreenTab(@param:StringRes val resourceId: Int) {
+enum class AccountsScreenTab(@param:StringRes val resourceId: Int) {
     LIST(R.string.accounts),
     BALANCE_SHEET(R.string.balance_sheet)
 }
@@ -60,7 +60,7 @@ enum class AccountScreenTab(@param:StringRes val resourceId: Int) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AccountsScreen(
-    startTab: AccountScreenTab,
+    startTab: AccountsScreenTab,
     navigationIcon: @Composable (() -> Unit) = {},
     accounts: List<FullAccount>,
     accountGrouping: AccountGrouping<*>,
@@ -70,6 +70,7 @@ fun AccountsScreen(
     onEvent: AppEventHandler,
     flags: List<AccountFlag> = emptyList(),
     onAccountEvent: AccountEventHandler,
+    bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
     onNavigateToTransactions: () -> Unit
 ) {
 
@@ -107,14 +108,14 @@ fun AccountsScreen(
                 },
                 actions = {
                     when (selectedTab.value) {
-                        AccountScreenTab.LIST -> {
+                        AccountsScreenTab.LIST -> {
                             AccountGroupingMenu(
                                 activeGrouping = accountGrouping,
                                 onGroupingChange = { onEvent(AppEvent.SetAccountGrouping(it)) },
                             )
                         }
 
-                        AccountScreenTab.BALANCE_SHEET -> {
+                        AccountsScreenTab.BALANCE_SHEET -> {
                             val accounts =
                                 viewModel.accountsForBalanceSheet.collectAsState(LocalDate.now() to emptyList()).value.second
                             BalanceSheetOptions(
@@ -138,7 +139,7 @@ fun AccountsScreen(
             )
         }
     ) { paddingValues ->
-        if (selectedTab.value == AccountScreenTab.BALANCE_SHEET) {
+        if (selectedTab.value == AccountsScreenTab.BALANCE_SHEET) {
             val data =
                 viewModel.accountsForBalanceSheet.collectAsState(LocalDate.now() to emptyList()).value
             Column(modifier = Modifier.padding(paddingValues)) {
@@ -185,7 +186,8 @@ fun AccountsScreen(
                 },
                 onGroupSelected = ::navigateToGroup,
                 onEvent = onAccountEvent,
-                flags = flags
+                flags = flags,
+                bankIcon = bankIcon
             )
         }
     }
@@ -194,8 +196,8 @@ fun AccountsScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun Title(
-    selectedTab: AccountScreenTab,
-    setSelectedTab: (AccountScreenTab) -> Unit = {},
+    selectedTab: AccountsScreenTab,
+    setSelectedTab: (AccountsScreenTab) -> Unit = {},
 ) {
     var isDropdownExpanded by remember { mutableStateOf(false) }
     ExposedDropdownMenuBox(
@@ -205,7 +207,7 @@ private fun Title(
 
         val textMeasurer = rememberTextMeasurer()
         val style = LocalTextStyle.current
-        val options = AccountScreenTab.entries.map { stringResource(it.resourceId) }
+        val options = AccountsScreenTab.entries.map { stringResource(it.resourceId) }
         val maxTextWidth = remember {
             // Get the string for all possible options
             // Measure each one and find the maximum width
@@ -248,7 +250,7 @@ private fun Title(
             expanded = isDropdownExpanded,
             onDismissRequest = { isDropdownExpanded = false }
         ) {
-            AccountScreenTab.entries.forEach { tab ->
+            AccountsScreenTab.entries.forEach { tab ->
                 DropdownMenuItem(
                     text = { Text(stringResource(tab.resourceId)) },
                     onClick = {
@@ -286,6 +288,6 @@ fun AccountGroupingMenu(
 @Preview
 @Composable
 fun TitlePreview() {
-    Title(AccountScreenTab.LIST)
+    Title(AccountsScreenTab.LIST)
 }
 

@@ -146,6 +146,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
                             }
                         }
                         val accounts = result.getOrThrow()
+                        val banks = viewModel.banks.collectAsState()
                         MainScreen(
                             viewModel,
                             startScreen,
@@ -227,7 +228,16 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
                             },
                             onPrepareContextMenuItem = ::isContextMenuItemVisible,
                             onPrepareMenuItem = { itemId -> currentAccount.isMenuItemVisible(itemId) },
-                            flags = viewModel.accountFlags.collectAsState(emptyList()).value
+                            flags = viewModel.accountFlags.collectAsState(emptyList()).value,
+                            bankIcon = { modifier, id ->
+                                banks.value.find { it.id == id }
+                                    ?.let { bank ->
+                                        bankingFeature.bankIconRenderer?.invoke(
+                                            modifier,
+                                            bank
+                                        )
+                                    }
+                            }
                         ) { pageAccount -> Page(pageAccount, accounts.size, v2 = true) }
                     }
                 }
