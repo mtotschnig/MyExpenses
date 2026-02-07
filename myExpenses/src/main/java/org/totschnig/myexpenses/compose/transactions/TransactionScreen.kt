@@ -134,9 +134,13 @@ fun TransactionScreen(
         }
     }
 
-    val currentAccount = remember(accountList) {
+    val currentAccount by remember(accountList) {
         derivedStateOf {
-            accountList[pagerState.settledPage.coerceIn(0, accountList.lastIndex)]
+            if (accountList.size > 1) {
+                accountList[pagerState.settledPage.coerceIn(0, accountList.lastIndex)]
+            } else {
+                accountList.first()
+            }
         }
     }
 
@@ -150,7 +154,7 @@ fun TransactionScreen(
                     navigationIcon = navigationIcon,
                     title = {
                         BalanceHeader(
-                            currentAccount = currentAccount.value,
+                            currentAccount = currentAccount,
                             displayBalanceType = selectedBalanceType,
                             onDisplayBalanceTypeChange = { newType ->
                                 selectedBalanceType = newType
@@ -165,7 +169,7 @@ fun TransactionScreen(
                             imageVector = Icons.Default.Search
                         ) { onEvent(AppEvent.Search) }
                         ViewOptionsMenu(
-                            currentAccount = currentAccount.value,
+                            currentAccount = currentAccount,
                             onEvent = onEvent
                         )
                         ActionMenu(
@@ -194,7 +198,7 @@ fun TransactionScreen(
                             ColoredAmountText(
                                 prefix = "${viewModel.selectionState.value.size}  (Σ: ",
                                 amount = viewModel.selectedTransactionSum,
-                                currency = currentAccount.value.currencyUnit,
+                                currency = currentAccount.currencyUnit,
                                 postfix = ")",
                                 colorFix = false
                             )
@@ -219,22 +223,24 @@ fun TransactionScreen(
         bottomBar = bottomBar
     ) { paddingValues ->
 
-        LaunchedEffect(selectedAccountId) {
-            val currentPage =
-                accountList.indexOfFirst { it.id == selectedAccountId }
-            if (currentPage > -1 && pagerState.currentPage != currentPage) {
-                pagerState.scrollToPage(currentPage)
+        if (accountList.size > 1) {
+            LaunchedEffect(selectedAccountId) {
+                val currentPage =
+                    accountList.indexOfFirst { it.id == selectedAccountId }
+                if (currentPage > -1 && pagerState.currentPage != currentPage) {
+                    pagerState.scrollToPage(currentPage)
+                }
             }
-        }
 
-        LaunchedEffect(pagerState.settledPage) {
-            val selected = accountList[pagerState.settledPage].id
-            viewModel.selectAccount(selected)
-            viewModel.scrollToAccountIfNeeded(
-                pagerState.currentPage,
-                selected,
-                true
-            )
+            LaunchedEffect(pagerState.settledPage) {
+                val selected = accountList[pagerState.settledPage].id
+                viewModel.selectAccount(selected)
+                viewModel.scrollToAccountIfNeeded(
+                    pagerState.currentPage,
+                    selected,
+                    true
+                )
+            }
         }
 
         Box(
@@ -242,68 +248,69 @@ fun TransactionScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .nestedScroll(tabRowState.nestedScrollConnection)
-            ) {
+            if (accountList.size > 1) {
                 Column(
                     modifier = Modifier
-                        .height(with(LocalDensity.current) { tabRowState.heightPx.toDp() })
-                        .clipToBounds()
+                        .fillMaxSize()
+                        .nestedScroll(tabRowState.nestedScrollConnection)
                 ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        if (accountGrouping != AccountGrouping.NONE && availableFilters.size > 1) {
-                            AccountFilterMenu(
-                                activeFilter = activeFilter,
-                                availableFilters = availableFilters,
-                                onFilterChange = viewModel::setFilter,
-                            )
-                        }
-                        val selectedTabIndex =
-                            pagerState.currentPage.coerceAtMost(accountList.lastIndex)
-                        SecondaryScrollableTabRow(
-                            selectedTabIndex = selectedTabIndex,
-                            edgePadding = 0.dp
-                        ) {
-                            accountList.forEachIndexed { index, account ->
-                                Tab(
-                                    selected = selectedTabIndex == index,
-                                    onClick = {
-                                        coroutineScope.launch {
-                                            pagerState.animateScrollToPage(index)
-                                        }
-                                    },
-                                    text = {
-                                        Text(
-                                            account.labelV2(LocalContext.current),
-                                            maxLines = 1
-                                        )
-                                    }
+                    Column(
+                        modifier = Modifier
+                            .height(with(LocalDensity.current) { tabRowState.heightPx.toDp() })
+                            .clipToBounds()
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            if (accountGrouping != AccountGrouping.NONE && availableFilters.size > 1) {
+                                AccountFilterMenu(
+                                    activeFilter = activeFilter,
+                                    availableFilters = availableFilters,
+                                    onFilterChange = viewModel::setFilter,
                                 )
+                            }
+                            val selectedTabIndex =
+                                pagerState.currentPage.coerceAtMost(accountList.lastIndex)
+                            SecondaryScrollableTabRow(
+                                selectedTabIndex = selectedTabIndex,
+                                edgePadding = 0.dp
+                            ) {
+                                accountList.forEachIndexed { index, account ->
+                                    Tab(
+                                        selected = selectedTabIndex == index,
+                                        onClick = {
+                                            coroutineScope.launch {
+                                                pagerState.animateScrollToPage(index)
+                                            }
+                                        },
+                                        text = {
+                                            Text(
+                                                account.labelV2(LocalContext.current),
+                                                maxLines = 1
+                                            )
+                                        }
+                                    )
+                                }
                             }
                         }
                     }
+                    HorizontalPager(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(MaterialTheme.colorScheme.onSurface)
+                            .testTag(TEST_TAG_PAGER)
+                            .semantics {
+                                collectionInfo = CollectionInfo(1, accounts.size)
+                            },
+                        state = pagerState,
+                        pageSpacing = 10.dp,
+                        key = { pageIndex ->
+                            accountList.getOrNull(pageIndex)?.id ?: pageIndex                        },
+                        verticalAlignment = Alignment.Top,
+                    ) { page ->
+                        TransactionListPage(accountList[page], pageContent)
+                    }
                 }
-                HorizontalPager(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(MaterialTheme.colorScheme.onSurface)
-                        .testTag(TEST_TAG_PAGER)
-                        .semantics {
-                            collectionInfo = CollectionInfo(1, accounts.size)
-                        },
-                    state = pagerState,
-                    pageSpacing = 10.dp,
-                    key = { pageIndex ->
-                        accountList.getOrNull(pageIndex)?.id ?: pageIndex                    },
-                    verticalAlignment = Alignment.Top,
-                ) { page ->
-                    val account = accountList[page]
-                    val context = LocalContext.current
-                    val pageAccount = remember(account) { account.toPageAccount(context = context) }
-                    pageContent(pageAccount)
-                }
+            } else {
+                TransactionListPage(accountList.first(), pageContent)
             }
 
             val scope = rememberCoroutineScope()
@@ -328,6 +335,16 @@ fun TransactionScreen(
             }
         }
     }
+}
+
+@Composable
+private fun TransactionListPage(
+    account: BaseAccount,
+    pageContent: @Composable (PageAccount) -> Unit
+) {
+    val context = LocalContext.current
+    val pageAccount = remember(account) { account.toPageAccount(context = context) }
+    pageContent(pageAccount)
 }
 
 enum class BalanceType(
