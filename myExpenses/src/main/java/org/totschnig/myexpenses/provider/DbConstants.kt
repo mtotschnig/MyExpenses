@@ -67,7 +67,7 @@ val Uri.accountSelector: String
                 "= $it"
             } ?: (" IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_EXCLUDE_FROM_TOTALS=0 " +
                     (getQueryParameter(KEY_CURRENCY)?.let { "AND $KEY_CURRENCY = '$it'" } ?: "") +
-                    (getQueryParameter(KEY_ACCOUNT_TYPE)?.let { "AND $KEY_ACCOUNT_TYPE = $it" } ?: "") +
+                    (getQueryParameter(KEY_ACCOUNT_TYPE)?.let { "AND $KEY_TYPE = $it" } ?: "") +
                     (getQueryParameter(KEY_FLAG)?.let { "AND $KEY_FLAG = $it" } ?: "") +
                     ")")
             )
