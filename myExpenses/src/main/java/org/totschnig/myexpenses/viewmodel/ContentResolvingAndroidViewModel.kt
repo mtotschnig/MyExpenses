@@ -36,8 +36,6 @@ import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.db2.getAccountFlags
 import org.totschnig.myexpenses.db2.getAccountTypes
 import org.totschnig.myexpenses.db2.getTransactionSum
-import org.totschnig.myexpenses.db2.loadAccountFlow
-import org.totschnig.myexpenses.db2.loadAggregateAccountFlow
 import org.totschnig.myexpenses.db2.saveParty
 import org.totschnig.myexpenses.db2.updateNewPlanEnabled
 import org.totschnig.myexpenses.db2.updateTransferPeersForTransactionDelete
@@ -166,11 +164,6 @@ open class ContentResolvingAndroidViewModel(application: Application) :
         null, query, queryArgs, sortOrder, false
     )
         .mapToList { AccountMinimal.fromCursor(localizedContext, it) }
-
-    fun account(accountId: Long): Flow<Account> = if (accountId > 0)
-        repository.loadAccountFlow(accountId)
-    else
-        repository.loadAggregateAccountFlow(accountId)
 
     val accountTypesRaw by lazy {
         repository.getAccountTypes()

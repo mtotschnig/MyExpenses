@@ -245,7 +245,7 @@ class MyExpensesV2ViewModel(
             if (selectedAccountId.value == 0L) {
                 groupingMap.getValue(
                     aggregateKey(
-                        accountGrouping.flow.first(),
+                        accountGrouping.get(),
                         _activeFilter.value
                     )
                 ).set(grouping)
@@ -260,7 +260,7 @@ class MyExpensesV2ViewModel(
             if (selectedAccountId.value == 0L) {
                 sortMap.getValue(
                     aggregateKey(
-                        accountGrouping.flow.first(),
+                        accountGrouping.get(),
                         _activeFilter.value
                     )
                 ).set(transactionSort)

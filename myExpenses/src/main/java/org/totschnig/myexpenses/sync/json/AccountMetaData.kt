@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.sync.json
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
+import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.sort.SortDirection
@@ -36,6 +37,7 @@ data class AccountMetaData(
         openingBalance,
         currency,
         AccountType.withName(type),
+        AccountFlag.DEFAULT,
         color,
         criterion,
         syncAccount,

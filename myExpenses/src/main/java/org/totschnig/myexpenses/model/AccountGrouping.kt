@@ -18,9 +18,13 @@ interface AccountGroupingKey {
     }
 }
 
+const val KEY_ACCOUNT_GROUPING = "ACCOUNT_GROUPING"
+const val KEY_ACCOUNT_GROUPING_GROUP = "ACCOUNT_GROUPING_GROUP"
+
 /**
  * grouping of accounts in account list
  */
+
 sealed class AccountGrouping<T : AccountGroupingKey>(
     @param:StringRes val title: Int,
     val comparator: Comparator<T>,

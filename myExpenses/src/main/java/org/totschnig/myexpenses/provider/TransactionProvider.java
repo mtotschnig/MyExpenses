@@ -196,6 +196,8 @@ public class TransactionProvider extends BaseTransactionProvider {
       Uri.parse("content://" + AUTHORITY + "/accountsbase");
   public static final Uri ACCOUNTS_AGGREGATE_URI =
       Uri.parse("content://" + AUTHORITY + "/accounts/aggregates");
+  public static final Uri AGGREGATE_V2_URI =
+      Uri.parse("content://" + AUTHORITY + "/aggregates");
   //returns accounts with aggregate accounts, limited to id and label
   public static final Uri ACCOUNTS_MINIMAL_URI =
       Uri.parse("content://" + AUTHORITY + "/accountsMinimal");
@@ -617,10 +619,33 @@ public class TransactionProvider extends BaseTransactionProvider {
           projection = aggregateHomeProjection(projection);
         } else {
           qb = SupportSQLiteQueryBuilder.builder(TABLE_CURRENCIES);
-          projection = aggregateProjection(projection);
+          projection = aggregateCurrencyProjection(projection);
           additionalWhere.append(TABLE_CURRENCIES + "." + KEY_ROWID + "= abs(").append(currencyId).append(")");
         }
         break;
+      case AGGREGATE_V2:
+        AccountGrouping<?> grouping = AccountGrouping.Companion.valueOf(uri.getPathSegments().get(1));
+        String group = uri.getPathSegments().get(2);
+        if (grouping.equals(AccountGrouping.CURRENCY.INSTANCE)) {
+          qb = SupportSQLiteQueryBuilder.builder(TABLE_CURRENCIES);
+          projection = aggregateCurrencyProjection(projection);
+          //group is currency code
+          additionalWhere.append(KEY_CODE).append("='").append(group).append("'");
+        } else if (grouping.equals(AccountGrouping.FLAG.INSTANCE)) {
+          qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNT_FLAGS);
+          projection = aggregateFlagProjection(projection);
+          //group is flag id
+          additionalWhere.append(KEY_ROWID).append("=").append(group);
+        } else if (grouping.equals(AccountGrouping.TYPE.INSTANCE)) {
+          qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNT_TYPES);
+          projection = aggregateTypeProjection(projection);
+          //group is type id
+          additionalWhere.append(KEY_ROWID).append("=").append(group);
+        } else {
+          qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS);
+          projection = aggregateHomeProjection(projection);
+        }
+          break;
       case ACCOUNT_ID:
         qb = SupportSQLiteQueryBuilder.builder(getAccountsWithExchangeRate());
         additionalWhere.append(TABLE_ACCOUNTS + "." + KEY_ROWID + "=").append(uri.getPathSegments().get(1));
@@ -1796,6 +1821,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "currencies", CURRENCIES);
     URI_MATCHER.addURI(AUTHORITY, "currencies/" + URI_SEGMENT_CHANGE_FRACTION_DIGITS + "/*/#", CURRENCIES_CHANGE_FRACTION_DIGITS);
     URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates/*", AGGREGATE_ID);
+    URI_MATCHER.addURI(AUTHORITY, "aggregates/*/*", AGGREGATE_V2);
     URI_MATCHER.addURI(AUTHORITY, "methods_transactions", MAPPED_METHODS);
     URI_MATCHER.addURI(AUTHORITY, "dual", DUAL);
     URI_MATCHER.addURI(AUTHORITY, "eventcache", EVENT_CACHE);

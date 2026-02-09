@@ -14,7 +14,6 @@ import androidx.core.net.toUri
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.fragment.AccountWidgetConfigurationFragment
 import org.totschnig.myexpenses.injector
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.Account
@@ -145,7 +144,7 @@ class AccountRemoteViewsFactory(
             buttons: List<AccountWidgetConfigurationFragment.Button>
         ) {
             with(remoteViews) {
-                val account = Account.fromCursor(cursor, AccountType.fromAccountCursor(cursor))
+                val account = Account.fromCursor(cursor)
                 setBackgroundColorSave(
                     R.id.divider3,
                     if (account.isAggregate) ContextCompat.getColor(context, R.color.colorAggregate)
@@ -153,7 +152,7 @@ class AccountRemoteViewsFactory(
                 )
                 val sum = cursor.getLong(cursor.getColumnIndexOrThrow(sumColumn))
                 val currentBalance = Money(currencyContext[account.currency], sum)
-                setTextViewText(R.id.line1, account.getLabelForScreenTitle(context))
+                setTextViewText(R.id.line1, account.getLabelForScreenTitle(context, currencyContext))
                 setTextViewText(
                     R.id.note,
                     currencyFormatter.formatMoney(currentBalance)

@@ -10,6 +10,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
@@ -71,6 +72,11 @@ class PreferenceAccessor<U, P>(
             preferences[key]?.let { mapper.fromPreference(it) } ?: defaultValue
         }
 
+    /**
+     * Gets the current persisted value from the DataStore,
+     * or the default value if none is set.
+     */
+    suspend fun get(): U = dataStoreFlow.first()
 
     val flow: Flow<U> = dataStoreFlow
         .onStart { emit(defaultValue) }

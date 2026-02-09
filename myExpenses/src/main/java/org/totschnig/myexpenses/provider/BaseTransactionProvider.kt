@@ -432,6 +432,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         protected const val TEMPLATES_INCREASE_USAGE = 17
         protected const val SQLITE_SEQUENCE_TABLE = 19
         protected const val AGGREGATE_ID = 20
+        protected const val AGGREGATE_V2 = 21
         protected const val TRANSACTIONS_GROUPS = 22
         protected const val TRANSACTIONS_SUMS = 24
         protected const val TRANSACTION_MOVE = 25
@@ -1089,11 +1090,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         (columns ?: arrayOf(
             KEY_LABEL,
             KEY_OPENING_BALANCE,
-            KEY_CURRENCY,
-            KEY_GROUPING,
-            KEY_SEALED,
-            KEY_SORT_BY,
-            KEY_SORT_DIRECTION
+            KEY_CURRENCY
         )).map {
             when (it) {
                 KEY_LABEL -> "'${wrappedContext.getString(R.string.grand_total)}'"
@@ -1102,34 +1099,56 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         ")"
 
                 KEY_CURRENCY -> "'$AGGREGATE_HOME_CURRENCY_CODE'"
-                KEY_GROUPING -> "'${prefHandler.getString(GROUPING_AGGREGATE, "NONE")}'"
-                KEY_SEALED -> "max($KEY_SEALED)"
-                KEY_SORT_BY -> "'${prefHandler.getString(SORT_BY_AGGREGATE, KEY_DATE)}'"
-                KEY_SORT_DIRECTION -> "'${prefHandler.getString(SORT_DIRECTION_AGGREGATE, "DESC")}'"
                 else -> throw IllegalArgumentException("unknown column $it")
             } + " AS $it"
         }.toTypedArray()
 
-    fun aggregateProjection(columns: Array<String>?): Array<String> {
+    fun aggregateCurrencyProjection(columns: Array<String>?): Array<String> {
         val accountSelect =
-            "from $TABLE_ACCOUNTS where $KEY_CURRENCY = $KEY_CODE AND $KEY_EXCLUDE_FROM_TOTALS = 0"
+            "FROM $TABLE_ACCOUNTS WHERE $KEY_CURRENCY = $KEY_CODE AND $KEY_EXCLUDE_FROM_TOTALS = 0"
         return (columns ?: arrayOf(
             KEY_LABEL,
             KEY_OPENING_BALANCE,
-            KEY_CURRENCY,
-            KEY_GROUPING,
-            KEY_SEALED,
-            KEY_SORT_BY,
-            KEY_SORT_DIRECTION
+            KEY_CURRENCY
         )).map {
             when (it) {
                 KEY_LABEL -> KEY_CODE
-                KEY_OPENING_BALANCE -> "(select $aggregateFunction($KEY_OPENING_BALANCE) $accountSelect)"
+                KEY_OPENING_BALANCE -> "(SELECT $aggregateFunction($KEY_OPENING_BALANCE) $accountSelect)"
                 KEY_CURRENCY -> KEY_CODE
-                KEY_GROUPING -> "$TABLE_CURRENCIES.$KEY_GROUPING"
-                KEY_SEALED -> "(select max($KEY_SEALED) from $TABLE_ACCOUNTS where $KEY_CURRENCY = $KEY_CODE)"
-                KEY_SORT_BY, KEY_SORT_DIRECTION -> it
+                else -> throw IllegalArgumentException("unknown column $it")
+            } + " AS $it"
+        }.toTypedArray()
+    }
 
+    fun aggregateTypeProjection(columns: Array<String>?): Array<String> {
+        val accountSelect =
+            "FROM $TABLE_ACCOUNTS WHERE $KEY_TYPE = $TABLE_ACCOUNT_TYPES.$KEY_ROWID AND $KEY_EXCLUDE_FROM_TOTALS = 0"
+        return (columns ?: arrayOf(
+            KEY_LABEL,
+            KEY_OPENING_BALANCE,
+            KEY_CURRENCY
+        )).map {
+            when (it) {
+                KEY_LABEL -> KEY_LABEL
+                KEY_OPENING_BALANCE -> "(SELECT $aggregateFunction($KEY_OPENING_BALANCE) $accountSelect)"
+                KEY_CURRENCY -> "'$AGGREGATE_HOME_CURRENCY_CODE'"
+                else -> throw IllegalArgumentException("unknown column $it")
+            } + " AS $it"
+        }.toTypedArray()
+    }
+
+    fun aggregateFlagProjection(columns: Array<String>?): Array<String> {
+        val accountSelect =
+            "FROM $TABLE_ACCOUNTS WHERE $KEY_FLAG = $TABLE_ACCOUNT_FLAGS.$KEY_ROWID AND $KEY_EXCLUDE_FROM_TOTALS = 0"
+        return (columns ?: arrayOf(
+            KEY_LABEL,
+            KEY_OPENING_BALANCE,
+            KEY_CURRENCY
+        )).map {
+            when (it) {
+                KEY_LABEL -> KEY_FLAG_LABEL
+                KEY_OPENING_BALANCE -> "(SELECT $aggregateFunction($KEY_OPENING_BALANCE) $accountSelect)"
+                KEY_CURRENCY -> "'$AGGREGATE_HOME_CURRENCY_CODE'"
                 else -> throw IllegalArgumentException("unknown column $it")
             } + " AS $it"
         }.toTypedArray()

@@ -67,9 +67,12 @@ import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDia
 import org.totschnig.myexpenses.dialog.select.SelectTransformToTransferTargetDialogFragment.Companion.TRANSFORM_TO_TRANSFER_REQUEST
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.ExportFormat
+import org.totschnig.myexpenses.model.KEY_ACCOUNT_GROUPING
+import org.totschnig.myexpenses.model.KEY_ACCOUNT_GROUPING_GROUP
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
 import org.totschnig.myexpenses.preference.ColorSource
@@ -125,6 +128,7 @@ import org.totschnig.myexpenses.viewmodel.OpenAction
 import org.totschnig.myexpenses.viewmodel.ShareAction
 import org.totschnig.myexpenses.viewmodel.SumInfo
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel
+import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
@@ -754,7 +758,17 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
     }
 
     private fun Intent.forwardCurrentConfiguration(currentAccount: BaseAccount) {
-        putExtra(KEY_ACCOUNTID, currentAccount.id)
+        if (currentAccount is AggregateAccount) {
+            putExtra(KEY_ACCOUNT_GROUPING, currentAccount.accountGrouping.name)
+            when(currentAccount.accountGrouping) {
+                AccountGrouping.CURRENCY -> putExtra(KEY_ACCOUNT_GROUPING_GROUP, currentAccount.currency)
+                AccountGrouping.FLAG -> putExtra(KEY_ACCOUNT_GROUPING_GROUP, currentAccount.flag!!.id.toString())
+                AccountGrouping.TYPE -> putExtra(KEY_ACCOUNT_GROUPING_GROUP, currentAccount.type!!.id.toString())
+                else -> {}
+            }
+        } else {
+            putExtra(KEY_ACCOUNTID, currentAccount.id)
+        }
         putExtra(KEY_GROUPING, currentAccount.grouping)
         if (currentFilter.whereFilter.value != null) {
             putExtra(KEY_FILTER, currentFilter.whereFilter.value)
@@ -1023,10 +1037,9 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
         val isReal = this is FullAccount && !isAggregate
         return when (itemId) {
             R.id.SYNC_COMMAND -> (this as? FullAccount)?.syncAccountName != null
-            R.id.HISTORY_COMMAND -> isReal //TODO extend to deal with new type/flag aggregates
-            R.id.RESET_COMMAND, R.id.PRINT_COMMAND -> hasItems
+            R.id.HISTORY_COMMAND, R.id.RESET_COMMAND, R.id.PRINT_COMMAND -> hasItems
             R.id.DISTRIBUTION_COMMAND -> isReal && sumInfo.value.mappedCategories
-            R.id.BALANCE_COMMAND -> isReal && type.supportsReconciliation && !sealed //TODO extend to deal with new type/flag aggregates
+            R.id.BALANCE_COMMAND -> isReal && type.supportsReconciliation && !sealed
             R.id.FINTS_SYNC_COMMAND -> (this as? FullAccount)?.bankId != null
             R.id.ARCHIVE_COMMAND -> isReal && !sealed && hasItems
             else -> true

@@ -157,17 +157,18 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     ): View {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.accountInfo(
-                    accountId
-                ).collect { (account, grouping) ->
+                viewModel.accountInfo(requireActivity().intent.extras!!).collect { (account, grouping) ->
                     val currency = currencyContext[account.currency]
                     accountInfo = HistoryAccountInfo(
-                        account.id,
-                        account.getLabelForScreenTitle(requireActivity()),
-                        currency,
-                        account.color,
-                        Money(currency, account.openingBalance),
-                        grouping
+                        accountId = account.id,
+                        label = account.getLabelForScreenTitle(requireActivity(), currencyContext),
+                        currencyUnit = currency,
+                        color = account.color,
+                        openingBalance = Money(currency, account.openingBalance),
+                        grouping = grouping,
+                        typeId = account.typeId,
+                        flagId = account.flagId,
+                        accountGrouping = account.accountGrouping
                     )
                     (requireActivity() as ProtectedFragmentActivity).supportActionBar?.title =
                         accountInfo.label

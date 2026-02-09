@@ -3,13 +3,18 @@ package org.totschnig.myexpenses.db2
 import android.content.ContentProviderOperation
 import android.content.ContentUris
 import android.content.ContentValues
+import android.os.Bundle
 import androidx.core.content.contentValuesOf
 import androidx.core.database.getStringOrNull
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.Flow
+import org.totschnig.myexpenses.model.AccountFlag
+import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.model.KEY_ACCOUNT_GROUPING
+import org.totschnig.myexpenses.model.KEY_ACCOUNT_GROUPING_GROUP
 import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
@@ -21,7 +26,6 @@ import org.totschnig.myexpenses.provider.KEY_DESCRIPTION
 import org.totschnig.myexpenses.provider.KEY_DYNAMIC
 import org.totschnig.myexpenses.provider.KEY_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.KEY_EXCLUDE_FROM_TOTALS
-import org.totschnig.myexpenses.provider.KEY_GROUPING
 import org.totschnig.myexpenses.provider.KEY_LABEL
 import org.totschnig.myexpenses.provider.KEY_LAST_USED
 import org.totschnig.myexpenses.provider.KEY_OPENING_BALANCE
@@ -39,12 +43,11 @@ import org.totschnig.myexpenses.provider.STATUS_NONE
 import org.totschnig.myexpenses.provider.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_AGGREGATE_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.AGGREGATE_V2_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
-import org.totschnig.myexpenses.provider.buildTransactionRowSelect
 import org.totschnig.myexpenses.provider.filter.Criterion
-import org.totschnig.myexpenses.provider.getBoolean
-import org.totschnig.myexpenses.provider.getEnum
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.withLimit
@@ -108,7 +111,7 @@ fun Repository.loadAccount(accountId: Long): Account? {
         null, null, null
     )?.use {
         if (it.moveToFirst()) {
-            Account.fromCursor(it, AccountType.fromAccountCursor(it))
+            Account.fromCursor(it)
         } else null
     }
 }
@@ -120,14 +123,14 @@ fun Repository.loadAccountFlow(accountId: Long): Flow<Account> {
         Account.PROJECTION,
         null, null, null
     ).mapToOne {
-        Account.fromCursor(it, AccountType.fromAccountCursor(it))
+        Account.fromCursor(it)
     }
 }
 
 fun Repository.loadAggregateAccountFlow(accountId: Long): Flow<Account> {
     require(accountId < 0L)
     return contentResolver.observeQuery(
-        ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_AGGREGATE_URI, accountId),
+        ContentUris.withAppendedId(ACCOUNTS_AGGREGATE_URI, accountId),
         null, null, null, null
     ).mapToOne {
         Account(
@@ -135,9 +138,32 @@ fun Repository.loadAggregateAccountFlow(accountId: Long): Flow<Account> {
             label = it.getString(KEY_LABEL),
             currency = it.getString(KEY_CURRENCY),
             openingBalance = it.getLong(KEY_OPENING_BALANCE),
-            grouping = it.getEnum(KEY_GROUPING, Grouping.NONE),
-            isSealed = it.getBoolean(KEY_SEALED),
-            type = AccountType(name = "Aggregate")
+            type = AccountType(name = "Aggregate"),
+            flag = AccountFlag.DEFAULT,
+        )
+    }
+}
+
+fun Repository.loadAggregateAccountFlowV2(extras: Bundle): Flow<Account> {
+    val accountGrouping = AccountGrouping.valueOf(extras.getString(KEY_ACCOUNT_GROUPING)!!)
+    val group = extras.getString(KEY_ACCOUNT_GROUPING_GROUP)!!
+    return contentResolver.observeQuery(
+        AGGREGATE_V2_URI
+            .buildUpon()
+            .appendPath(accountGrouping.name)
+            .appendPath(group)
+            .build(),
+        null, null, null, null
+    ).mapToOne {
+        val label = it.getString(KEY_LABEL)
+        Account(
+            id = 0,
+            label = label,
+            currency = if (accountGrouping == AccountGrouping.CURRENCY) group else  it.getString(KEY_CURRENCY),
+            openingBalance = it.getLong(KEY_OPENING_BALANCE),
+            type = if (accountGrouping == AccountGrouping.TYPE) AccountType(id = group.toLong(), name = label) else AccountType(name="Aggregate"),
+            accountGrouping = accountGrouping,
+            flag = if (accountGrouping == AccountGrouping.FLAG) AccountFlag(id = group.toLong(), label = label) else AccountFlag.DEFAULT,
         )
     }
 }
