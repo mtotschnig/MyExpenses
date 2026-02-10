@@ -77,7 +77,6 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_GROUPING
 import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.filter.Criterion
@@ -179,7 +178,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         val whereFilter = IntentCompat.getParcelableExtra(intent, KEY_FILTER, Criterion::class.java)
         if (savedInstanceState == null) {
             viewModel.initWithAccount(
-                intent.getLongExtra(KEY_ACCOUNTID, 0),
+                intent.extras!!,
                 intent.getSerializableExtra(KEY_GROUPING) as? Grouping ?: Grouping.NONE,
                 whereFilter
             )
@@ -188,7 +187,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.accountInfo.filterNotNull().collect {
-                    supportActionBar?.title = it.label(this@DistributionActivity)
+                    supportActionBar?.title = it.label(this@DistributionActivity, currencyContext)
                 }
             }
         }
@@ -287,21 +286,24 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 val expansionMode = ExpansionMode.DefaultCollapsed(
                     rememberMutableStateListOf()
                 )
-                if (incomeTree.children.isEmpty() && expenseTree.children.isEmpty()) {
+                Column {
                     if (whereFilter != null) {
                         FilterCard(whereFilter, clearAllFilter = clearFilter)
                     }
-                    Text(
-                        modifier = Modifier.align(Alignment.Center),
-                        text = stringResource(id = R.string.no_mapped_transactions),
-                        textAlign = TextAlign.Center
-                    )
-                } else {
                     val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
-                    Column {
-                        if (whereFilter != null) {
-                            FilterCard(whereFilter, clearAllFilter = clearFilter)
+                    if (incomeTree.children.isEmpty() && expenseTree.children.isEmpty()) {
+                        Box(
+                            modifier = Modifier.weight(1f),
+                            // This aligns the content of the Box (the Text) to the center
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.no_mapped_transactions),
+                                textAlign = TextAlign.Center
+                            )
                         }
+                    } else {
+
                         LayoutHelper(
                             data = { modifier, _ ->
                                 RenderTree(
@@ -339,8 +341,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                 }
                             }
                         )
-                        RenderSumLine(accountInfo, sums)
                     }
+                    RenderSumLine(accountInfo, sums)
                 }
             }
         }
@@ -420,6 +422,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 .fillMaxSize()
                 .padding(WindowInsets.navigationBars.asPaddingValues())
         ) {
+            val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
             when {
                 categoryTree.value === Category.LOADING || accountInfo == null -> {
                     CircularProgressIndicator(
@@ -430,18 +433,25 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 }
 
                 categoryTree.value.children.isEmpty() -> {
-                    if (whereFilter != null) {
-                        FilterCard(whereFilter, clearAllFilter = clearFilter)
+                    Column {
+                        if (whereFilter != null) {
+                            FilterCard(whereFilter, clearAllFilter = clearFilter)
+                        }
+                        Box(
+                            modifier = Modifier.weight(1f),
+                            // This aligns the content of the Box (the Text) to the center
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.no_mapped_transactions),
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                        RenderSumLine(accountInfo, sums)
                     }
-                    Text(
-                        modifier = Modifier.align(Alignment.Center),
-                        text = stringResource(id = R.string.no_mapped_transactions),
-                        textAlign = TextAlign.Center
-                    )
                 }
 
                 else -> {
-                    val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
                     Column {
                         if (whereFilter != null) {
                             FilterCard(whereFilter, clearAllFilter = clearFilter)

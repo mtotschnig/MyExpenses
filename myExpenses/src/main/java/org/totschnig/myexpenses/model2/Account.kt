@@ -50,6 +50,7 @@ import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongIfExists
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
+import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 import java.io.Serializable
 
 data class Account(
@@ -60,7 +61,7 @@ data class Account(
     override val currency: String,
     val type: AccountType,
     val flag: AccountFlag = AccountFlag.DEFAULT,
-    val color: Int = DEFAULT_COLOR,
+    override val color: Int = DEFAULT_COLOR,
     val criterion: Long? = null,
     val syncAccountName: String? = null,
     val excludeFromTotals: Boolean = false,
@@ -76,14 +77,15 @@ data class Account(
     val bankId: Long? = null,
     val dynamicExchangeRates: Boolean = false,
     override val accountGrouping: AccountGrouping<*>? =  null
-) : DataBaseAccount(), Serializable {
+) : DataBaseAccount(), Serializable, DistributionAccountInfo {
 
     override val flagId = flag.id
+
     override val typeId = type.id
 
     fun createIn(repository: Repository) = repository.createAccount(this)
 
-    fun getLabelForScreenTitle(context: Context, currencyContext: CurrencyContext) =
+    override fun label(context: Context, currencyContext: CurrencyContext) =
         when {
             isHomeAggregate -> context.getString(R.string.grand_total)
             else -> when(accountGrouping) {

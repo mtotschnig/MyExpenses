@@ -49,6 +49,10 @@ interface AccountInfoWithGrouping : IAccount {
         )
     }
 
+    override val queryParameter: Pair<String, String>?
+        get() = if (accountId != 0L) super.queryParameter else
+            DataBaseAccount.queryParameter(accountId, currency, typeId, flagId, accountGrouping)
+
     fun groupingQueryV2(filter: Criterion?): Triple<Uri.Builder, String?, Array<String>?> {
         val selection = filter?.getSelectionForParts()
         val args = filter?.getSelectionArgs(true)

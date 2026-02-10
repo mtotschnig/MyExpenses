@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.ContentProviderOperation
 import android.content.ContentResolver
 import android.database.sqlite.SQLiteConstraintException
+import android.os.Bundle
 import android.text.TextUtils
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -36,6 +37,9 @@ import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.db2.getAccountFlags
 import org.totschnig.myexpenses.db2.getAccountTypes
 import org.totschnig.myexpenses.db2.getTransactionSum
+import org.totschnig.myexpenses.db2.loadAccountFlow
+import org.totschnig.myexpenses.db2.loadAggregateAccountFlow
+import org.totschnig.myexpenses.db2.loadAggregateAccountFlowV2
 import org.totschnig.myexpenses.db2.saveParty
 import org.totschnig.myexpenses.db2.updateNewPlanEnabled
 import org.totschnig.myexpenses.db2.updateTransferPeersForTransactionDelete
@@ -153,6 +157,16 @@ open class ContentResolvingAndroidViewModel(application: Application) :
     val dateInfo: Flow<DateInfo> = flow {
         emit(DateInfo.load(contentResolver))
     }.flowOn(Dispatchers.IO)
+
+
+    fun account(extras: Bundle): Flow<Account> = if (extras.containsKey(KEY_ACCOUNTID)) {
+        val accountId = extras.getLong(KEY_ACCOUNTID)
+        if (accountId > 0)
+            repository.loadAccountFlow(accountId)
+        else
+            repository.loadAggregateAccountFlow(accountId)
+    } else
+        repository.loadAggregateAccountFlowV2(extras)
 
     fun accountsMinimal(
         query: String? = null,

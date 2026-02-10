@@ -59,6 +59,26 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
         ): Uri.Builder = uriBuilderForTransactionList(shortenComment, extended)
             .appendQueryParameter(accountId, currency, type, flag, accountGrouping)
 
+        fun queryParameter(
+            accountId: Long,
+            currency: String?,
+            type: Long? = null,
+            flag: Long? = null,
+            accountGrouping: AccountGrouping<*>? = null,
+        ) : Pair<String, String>? = when (accountGrouping ?: when {
+            isHomeAggregate(accountId) -> AccountGrouping.NONE
+            isAggregate(accountId) -> AccountGrouping.CURRENCY
+            else -> null
+        }) {
+            null -> KEY_ACCOUNTID to accountId.toString()
+
+            AccountGrouping.CURRENCY -> KEY_CURRENCY to currency!!
+
+            AccountGrouping.TYPE -> KEY_ACCOUNT_TYPE to type!!.toString()
+            AccountGrouping.FLAG -> KEY_FLAG to flag!!.toString()
+            else -> null
+        }
+
         fun Uri.Builder.appendQueryParameter(
             accountId: Long,
             currency: String?,
@@ -66,18 +86,8 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
             flag: Long? = null,
             accountGrouping: AccountGrouping<*>? = null,
         ): Uri.Builder {
-            when (accountGrouping ?: when {
-                isHomeAggregate(accountId) -> AccountGrouping.NONE
-                isAggregate(accountId) -> AccountGrouping.CURRENCY
-                else -> null
-            }) {
-                null -> appendQueryParameter(KEY_ACCOUNTID, accountId.toString())
-
-                AccountGrouping.CURRENCY -> appendQueryParameter(KEY_CURRENCY, currency!!)
-
-                AccountGrouping.TYPE -> appendQueryParameter(KEY_ACCOUNT_TYPE, type!!.toString())
-                AccountGrouping.FLAG -> appendQueryParameter(KEY_FLAG, flag!!.toString())
-                else -> {}
+            queryParameter(accountId, currency, type, flag, accountGrouping)?.let {
+                appendQueryParameter(it.first, it.second)
             }
             return this
         }

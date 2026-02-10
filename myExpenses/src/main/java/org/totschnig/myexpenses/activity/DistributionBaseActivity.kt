@@ -165,7 +165,7 @@ abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
                     grouping = viewModel.grouping,
                     groupingClause = viewModel.filterClause,
                     groupingArgs = viewModel.whereFilter.value?.getSelectionArgs(true) ?: emptyArray(),
-                    label = if (category.level == 0) accountInfo.label(this) else category.label,
+                    label = if (category.level == 0) accountInfo.label(this, currencyContext) else category.label,
                     type = incomeType,
                     aggregateNeutral = viewModel.aggregateNeutral.first(),
                     icon = category.icon

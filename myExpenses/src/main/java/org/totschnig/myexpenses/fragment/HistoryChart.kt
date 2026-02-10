@@ -161,7 +161,7 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                     val currency = currencyContext[account.currency]
                     accountInfo = HistoryAccountInfo(
                         accountId = account.id,
-                        label = account.getLabelForScreenTitle(requireActivity(), currencyContext),
+                        label = account.label(requireActivity(), currencyContext),
                         currencyUnit = currency,
                         color = account.color,
                         openingBalance = Money(currency, account.openingBalance),

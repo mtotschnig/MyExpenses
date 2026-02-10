@@ -3,6 +3,8 @@ package org.totschnig.myexpenses.viewmodel.data
 import android.content.ContentValues
 import android.content.Context
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.model.AccountGrouping
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
@@ -29,7 +31,7 @@ data class Budget(
     val title: String,
     val description: String?,
     override val currency: String,
-    val grouping: Grouping,
+    override val grouping: Grouping,
     override val color: Int,
     val start: LocalDate?,
     val end: LocalDate?,
@@ -75,9 +77,18 @@ data class Budget(
         }
     }
 
-    override fun label(context: Context) = accountName
+    override fun label(context: Context, currencyContext: CurrencyContext) = label(context)
+
+    fun label(context: Context) = accountName
         ?: if (accountId == HOME_AGGREGATE_ID) context.getString(R.string.grand_total)
         else currency
+
+    override val typeId: Long?
+        get() = null
+    override val flagId: Long?
+        get() = null
+    override val accountGrouping: AccountGrouping<*>?
+        get() = null
 
     /**
      * @param budget We add the initial budget to the content values,

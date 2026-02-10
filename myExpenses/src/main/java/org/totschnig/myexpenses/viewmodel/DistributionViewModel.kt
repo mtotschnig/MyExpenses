@@ -1,8 +1,7 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
-import android.content.ContentUris
-import android.content.Context
+import android.os.Bundle
 import androidx.annotation.VisibleForTesting
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -21,18 +20,16 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.provider.KEY_COLOR
-import org.totschnig.myexpenses.provider.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.KEY_LABEL
-import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.data.Category
-import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 
 class DistributionViewModel(application: Application, savedStateHandle: SavedStateHandle) :
-    DistributionViewModelBase<DistributionAccountInfo>(application, savedStateHandle) {
+    DistributionViewModelBase<Account>(application, savedStateHandle) {
 
     enum class SumLineBehaviour {
         WithoutTotal, PercentageTotal, PercentageExpense
@@ -53,54 +50,47 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
         }
     }
 
-    private fun getGroupingPrefKey(accountId: Long) =
-        stringPreferencesKey("distributionGrouping_$accountId")
+    private fun getGroupingPrefKey(account: Account) =
+        stringPreferencesKey(
+            "distributionGrouping_" + when(account.accountGrouping) {
+                AccountGrouping.NONE -> HOME_AGGREGATE_ID
+                AccountGrouping.CURRENCY -> account.currency
+                AccountGrouping.FLAG -> account.flagId
+                AccountGrouping.TYPE -> account.typeId
+                null -> account.id
+            }
+        )
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     fun initWithAccount(
-        accountId: Long,
+        extras: Bundle,
         defaultGrouping: Grouping,
         whereFilter: Criterion?
     ) {
-        val isAggregate = accountId < 0
-        val base =
-            if (isAggregate) TransactionProvider.ACCOUNTS_AGGREGATE_URI else TransactionProvider.ACCOUNTS_URI
-        val projection = if (isAggregate) arrayOf(KEY_LABEL, KEY_CURRENCY) else arrayOf(
-            KEY_LABEL,
-            KEY_CURRENCY,
-            KEY_COLOR
-        )
         viewModelScope.launch(coroutineContext()) {
-            contentResolver.query(
-                ContentUris.withAppendedId(base, accountId),
-                projection, null, null, null
-            )?.use {
-                if (it.moveToFirst()) {
-                    _accountInfo.tryEmit(object : DistributionAccountInfo {
-                        val label = it.getString(0)
-                        override val accountId = accountId
-                        override fun label(context: Context) = label
-                        override val currency = it.getString(1)
-                        override val color = if (isAggregate) -1 else it.getInt(2)
-                    })
-                }
+            account(extras).collect {
+                _accountInfo.tryEmit(it)
             }
         }
         viewModelScope.launch {
-            dataStore.data.map {
-                enumValueOrDefault(it[getGroupingPrefKey(accountId)], defaultGrouping)
-            }
-                .distinctUntilChanged()
-                .collect { setGrouping(it) }
-        }
+            accountInfo
+                .filterNotNull()
+                .flatMapLatest { account ->
+                    dataStore.data.map {
+                        enumValueOrDefault(it[getGroupingPrefKey(account)], defaultGrouping)
+                    }
+                        .distinctUntilChanged()
+                }.collect { setGrouping(it) }
 
-        _whereFilter.update { whereFilter }
+            _whereFilter.update { whereFilter }
+        }
     }
 
     fun persistGrouping(grouping: Grouping) {
         accountInfo.value?.let {
             viewModelScope.launch {
                 dataStore.edit { preference ->
-                    preference[getGroupingPrefKey(it.accountId)] = grouping.name
+                    preference[getGroupingPrefKey(it)] = grouping.name
                 }
             }
         }
@@ -192,6 +182,7 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
     companion object {
         @VisibleForTesting
         const val SHOW_EXPENSE_KEY = "distributionShowExpense"
+
         @VisibleForTesting
         const val SHOW_INCOME_KEY = "distributionShowIncome"
     }

@@ -152,7 +152,7 @@ class AccountRemoteViewsFactory(
                 )
                 val sum = cursor.getLong(cursor.getColumnIndexOrThrow(sumColumn))
                 val currentBalance = Money(currencyContext[account.currency], sum)
-                setTextViewText(R.id.line1, account.getLabelForScreenTitle(context, currencyContext))
+                setTextViewText(R.id.line1, account.label(context, currencyContext))
                 setTextViewText(
                     R.id.note,
                     currencyFormatter.formatMoney(currentBalance)

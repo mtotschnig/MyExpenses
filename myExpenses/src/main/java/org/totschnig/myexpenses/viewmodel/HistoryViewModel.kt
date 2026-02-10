@@ -6,17 +6,12 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import org.totschnig.myexpenses.db2.loadAccountFlow
-import org.totschnig.myexpenses.db2.loadAggregateAccountFlow
-import org.totschnig.myexpenses.db2.loadAggregateAccountFlowV2
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_GROUPING
 import org.totschnig.myexpenses.util.enumValueOrDefault
@@ -41,15 +36,6 @@ class HistoryViewModel(application: Application, val savedStateHandle: SavedStat
         account, grouping ->
         account to grouping
     }
-
-    fun account(extras: Bundle): Flow<Account> = if (extras.containsKey(KEY_ACCOUNTID)) {
-        val accountId = extras.getLong(KEY_ACCOUNTID)
-        if (accountId > 0)
-            repository.loadAccountFlow(accountId)
-        else
-            repository.loadAggregateAccountFlow(accountId)
-    } else
-        repository.loadAggregateAccountFlowV2(extras)
 
     fun persistGrouping(grouping: Grouping) {
         viewModelScope.launch {
