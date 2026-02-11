@@ -7,6 +7,7 @@ import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
+import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import org.junit.After
 import org.junit.Before
@@ -56,7 +57,7 @@ class MyExpensesAmountSearchFilterTest : BaseMyExpensesTest() {
         amountIsDisplayed(AMOUNT1, 0)
         amountIsDisplayed(AMOUNT2, 1)
         selectFilter(R.string.amount) {
-            onView(withId(R.id.amount1)).perform(typeText("12"))
+            onView(withId(R.id.amount1)).inRoot(isDialog()) .perform(typeText("12"))
             closeSoftKeyboard()
             onView(withId(android.R.id.button1)).perform(click())
         }
