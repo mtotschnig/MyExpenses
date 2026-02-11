@@ -32,17 +32,19 @@ import androidx.core.view.isVisible
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseMyExpenses
-import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.databinding.ExportDialogBinding
 import org.totschnig.myexpenses.export.AbstractExporter.Companion.ENCODING_LATIN_1
 import org.totschnig.myexpenses.export.AbstractExporter.Companion.ENCODING_UTF_8
 import org.totschnig.myexpenses.export.AbstractExporter.Companion.ENCODING_UTF_8_BOM
+import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_FLAG
 import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_TYPE
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.timeFormatterPattern
 import org.totschnig.myexpenses.util.ui.configurePopupAnchor
@@ -89,19 +91,49 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
             ExportDialogBinding.inflate(it)
         }
 
-        if (accountInfo.id == HOME_AGGREGATE_ID) {
-            allP = true
-            warningText = getString(R.string.warning_reset_account_all, "")
-            fileName = "export-$now"
-        } else {
-            if (accountInfo.id < 0L) {
+        when (accountInfo.id) {
+            HOME_AGGREGATE_ID -> {
                 allP = true
-                fileName = "export-${accountInfo.currency}-$now"
-                warningText =
-                    getString(R.string.warning_reset_account_all, " (${accountInfo.currency})")
-            } else {
-                fileName = Utils.escapeForFileName(accountInfo.label) + "-" + now
-                warningText = getString(R.string.warning_reset_account)
+                warningText = getString(R.string.warning_reset_account_all, "")
+                fileName = "export-$now"
+            }
+            0L -> {
+                allP = true
+                when(AccountGrouping.valueOf(accountInfo.aggregate!!.first)) {
+                    AccountGrouping.CURRENCY -> {
+                        fileName = "export-${accountInfo.currency}-$now"
+                        warningText =
+                            getString(R.string.warning_reset_account_all, " (${accountInfo.currency})")
+                    }
+                    AccountGrouping.FLAG -> {
+                        val (flag, id) = accountInfo.aggregate.second!!
+                        fileName = "export-FLAG-$id-$now"
+                        warningText =
+                            getString(R.string.warning_reset_account_all, " ($flag)")
+                    }
+                    AccountGrouping.NONE -> {
+                        warningText = getString(R.string.warning_reset_account_all, "")
+                        fileName = "export-$now"
+                    }
+                    AccountGrouping.TYPE -> {
+                        val (type, id) = accountInfo.aggregate.second!!
+                        fileName = "export-TYPE-$id-$now"
+                        warningText =
+                            getString(R.string.warning_reset_account_all, " ($type)")
+                    }
+                }
+
+            }
+            else -> {
+                if (accountInfo.id < 0L) {
+                    allP = true
+                    fileName = "export-${accountInfo.currency}-$now"
+                    warningText =
+                        getString(R.string.warning_reset_account_all, " (${accountInfo.currency})")
+                } else {
+                    fileName = Utils.escapeForFileName(accountInfo.label) + "-" + now
+                    warningText = getString(R.string.warning_reset_account)
+                }
             }
         }
         if (accountInfo.isFiltered) {
@@ -389,7 +421,22 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
                 putLong(KEY_ROWID, accountInfo.id)
             } else {
                 if (accountInfo.id != HOME_AGGREGATE_ID) {
-                    putString(KEY_CURRENCY, accountInfo.currency)
+                    if (accountInfo.id < 0) {
+                        putString(KEY_CURRENCY, accountInfo.currency)
+                    } else {
+                        when(AccountGrouping.valueOf(accountInfo.aggregate!!.first)) {
+                            AccountGrouping.CURRENCY -> {
+                                putString(KEY_CURRENCY, accountInfo.currency)
+                            }
+                            AccountGrouping.FLAG -> {
+                                putLong(KEY_FLAG, accountInfo.aggregate.second!!.second!!)
+                            }
+                            AccountGrouping.NONE -> {}
+                            AccountGrouping.TYPE -> {
+                                putLong(KEY_TYPE, accountInfo.aggregate.second!!.second!!)
+                            }
+                        }
+                    }
                 }
                 val mergeAccounts = binding.mergeAccounts.isChecked
                 putBoolean(KEY_MERGE_P, mergeAccounts)
@@ -441,7 +488,8 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
         val currency: String,
         val cannotResetConditions: List<Int>,
         val hasExported: Boolean,
-        val isFiltered: Boolean
+        val isFiltered: Boolean,
+        val aggregate: Pair<String, Pair<String, Long?>?>? = null
     ) : Serializable
 
     companion object {

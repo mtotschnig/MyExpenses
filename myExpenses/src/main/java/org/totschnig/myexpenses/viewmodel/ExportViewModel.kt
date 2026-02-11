@@ -27,8 +27,10 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_EXCLUDE_FROM_TOTALS
+import org.totschnig.myexpenses.provider.KEY_FLAG
 import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.KEY_STATUS
+import org.totschnig.myexpenses.provider.KEY_TYPE
 import org.totschnig.myexpenses.provider.STATUS_EXPORTED
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.Criterion
@@ -92,6 +94,9 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                     val filter = BundleCompat.getParcelable(args, KEY_FILTER, Criterion::class.java)
                     val fileName = args.getString(KEY_FILE_NAME)!!
                     val delimiter = args.getChar(KEY_DELIMITER)
+                    val flag = args.getLong(KEY_FLAG, -1)
+                    val type = args.getLong(KEY_TYPE, -1)
+
 
                     val accountIds = if (accountId > 0L) {
                         listOf(accountId)
@@ -101,6 +106,12 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                         if (currency != null) {
                             selection += " AND $KEY_CURRENCY = ?"
                             selectionArgs = arrayOf(currency)
+                        } else if (flag != -1L) {
+                            selection += " AND $KEY_FLAG = ?"
+                            selectionArgs = arrayOf(flag.toString())
+                        } else if (type != -1L) {
+                            selection += " AND $KEY_TYPE = ?"
+                            selectionArgs = arrayOf(type.toString())
                         }
                         //noinspection Recycle
                         application.contentResolver.query(

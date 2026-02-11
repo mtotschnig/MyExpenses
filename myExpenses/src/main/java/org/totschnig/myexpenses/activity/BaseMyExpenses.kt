@@ -277,16 +277,18 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
             TRANSFORM_TO_TRANSFER_REQUEST,
             this
         ) { _, bundle ->
-            val isIncome = bundle.getBoolean(KEY_IS_INCOME)
-            val target = bundle.getString(KEY_LABEL)
-            val from = if (isIncome) target else currentAccount!!.label
-            val to = if (isIncome) currentAccount!!.label else target
-            showConfirmationDialog(
-                "TRANSFORM_TRANSFER",
-                getString(R.string.warning_transform_to_transfer, from, to),
-                R.id.TRANSFORM_TO_TRANSFER_COMMAND
-            ) {
-                putAll(bundle)
+            (currentAccount as? FullAccount)?.let { currentAccount ->
+                val isIncome = bundle.getBoolean(KEY_IS_INCOME)
+                val target = bundle.getString(KEY_LABEL)
+                val from = if (isIncome) target else currentAccount.label
+                val to = if (isIncome) currentAccount.label else target
+                showConfirmationDialog(
+                    "TRANSFORM_TRANSFER",
+                    getString(R.string.warning_transform_to_transfer, from, to),
+                    R.id.TRANSFORM_TO_TRANSFER_COMMAND
+                ) {
+                    putAll(bundle)
+                }
             }
         }
     }
@@ -427,6 +429,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                     }
                 }
             }
+
             R.id.SYNC_COMMAND -> (currentAccount as? FullAccount)
                 ?.takeIf { it.syncAccountName != null }
                 ?.let {
@@ -588,18 +591,28 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
     }
 
     private fun showExportDialog(cannotResetConditions: List<Int>) {
-        currentAccount?.let {
-            with(it) {
+        currentAccount?.let { account ->
+            with(account) {
                 exportViewModel.hasExported(this)
                     .observe(this@BaseMyExpenses) { hasExported ->
                         ExportDialogFragment.newInstance(
                             ExportDialogFragment.AccountInfo(
-                                id,
-                                label,
-                                currency,
-                                cannotResetConditions,
-                                hasExported,
-                                currentFilter.whereFilter.value != null
+                                id = id,
+                                label = labelV2(this@BaseMyExpenses),
+                                currency = currency,
+                                cannotResetConditions = cannotResetConditions,
+                                hasExported = hasExported,
+                                isFiltered = currentFilter.whereFilter.value != null,
+                                aggregate = (this as? AggregateAccount)?.let {
+                                    Pair(
+                                        it.accountGrouping.name, when (it.accountGrouping) {
+                                            AccountGrouping.CURRENCY -> it.currency to null
+                                            AccountGrouping.FLAG -> it.flag!!.let { it.title(this@BaseMyExpenses) to it.id }
+                                            AccountGrouping.TYPE -> it.type!!.let { it.title(this@BaseMyExpenses) to it.id }
+                                            AccountGrouping.NONE -> null
+                                        }
+                                    )
+                                }
                             )
                         ).show(supportFragmentManager, "EXPORT")
                     }
@@ -760,10 +773,22 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
     private fun Intent.forwardCurrentConfiguration(currentAccount: BaseAccount) {
         if (currentAccount is AggregateAccount) {
             putExtra(KEY_ACCOUNT_GROUPING, currentAccount.accountGrouping.name)
-            when(currentAccount.accountGrouping) {
-                AccountGrouping.CURRENCY -> putExtra(KEY_ACCOUNT_GROUPING_GROUP, currentAccount.currency)
-                AccountGrouping.FLAG -> putExtra(KEY_ACCOUNT_GROUPING_GROUP, currentAccount.flag!!.id.toString())
-                AccountGrouping.TYPE -> putExtra(KEY_ACCOUNT_GROUPING_GROUP, currentAccount.type!!.id.toString())
+            when (currentAccount.accountGrouping) {
+                AccountGrouping.CURRENCY -> putExtra(
+                    KEY_ACCOUNT_GROUPING_GROUP,
+                    currentAccount.currency
+                )
+
+                AccountGrouping.FLAG -> putExtra(
+                    KEY_ACCOUNT_GROUPING_GROUP,
+                    currentAccount.flag!!.id.toString()
+                )
+
+                AccountGrouping.TYPE -> putExtra(
+                    KEY_ACCOUNT_GROUPING_GROUP,
+                    currentAccount.type!!.id.toString()
+                )
+
                 else -> {}
             }
         } else {

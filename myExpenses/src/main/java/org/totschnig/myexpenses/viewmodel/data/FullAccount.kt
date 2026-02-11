@@ -72,14 +72,13 @@ import kotlin.math.sign
 
 sealed class BaseAccount : DataBaseAccount() {
     abstract val currencyUnit: CurrencyUnit
-    abstract val label: String
     abstract val type: AccountType?
     abstract val flag: AccountFlag?
     abstract fun toPageAccount(context: Context): PageAccount
     abstract fun color(resources: Resources): Int
     abstract val total: Long?
     abstract val equivalentTotal: Long?
-    open fun labelV2(context: Context) = label
+    abstract fun labelV2(context: Context): String
     fun aggregateColor(resources: Resources) = ResourcesCompat.getColor(resources, R.color.colorAggregate, null)
     override val flagId: Long?
         get() = flag?.id
@@ -114,9 +113,6 @@ data class AggregateAccount(
 ): BaseAccount() {
     override val id: Long = 0
     override val currency: String = currencyUnit.code
-
-    override val label: String
-        get() = throw UnsupportedOperationException("Use labelV2")
 
     override fun labelV2(context: Context): String = when(accountGrouping) {
         AccountGrouping.TYPE -> type!!.title(context) + " ($SIGMA)"
@@ -153,7 +149,7 @@ data class AggregateAccount(
 @Stable
 data class FullAccount(
     override val id: Long,
-    override val label: String,
+    val label: String,
     val description: String? = null,
     override val currencyUnit: CurrencyUnit,
     val color: Int = -1,
@@ -194,6 +190,8 @@ data class FullAccount(
     override val currency: String = currencyUnit.code
 
     override fun color(resources: Resources) = if (isAggregate) aggregateColor(resources) else color
+
+    override fun labelV2(context: Context) = label
 
     val toPageAccount: PageAccount
         get() = PageAccount(
