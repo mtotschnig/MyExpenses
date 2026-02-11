@@ -15,6 +15,49 @@
 
 package org.totschnig.myexpenses.provider;
 
+import android.content.ContentProviderOperation;
+import android.content.ContentProviderResult;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.OperationApplicationException;
+import android.content.UriMatcher;
+import android.database.Cursor;
+import android.database.MatrixCursor;
+import android.database.sqlite.SQLiteConstraintException;
+import android.net.Uri;
+import android.os.Bundle;
+import android.text.TextUtils;
+
+import org.totschnig.myexpenses.BuildConfig;
+import org.totschnig.myexpenses.db2.RepositoryPaymentMethodKt;
+import org.totschnig.myexpenses.model.AccountGrouping;
+import org.totschnig.myexpenses.model.CrStatus;
+import org.totschnig.myexpenses.model.sort.Sort;
+import org.totschnig.myexpenses.preference.PrefKey;
+import org.totschnig.myexpenses.provider.filter.Operation;
+import org.totschnig.myexpenses.sync.json.TransactionChange;
+import org.totschnig.myexpenses.util.Preconditions;
+import org.totschnig.myexpenses.util.Utils;
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
+import org.totschnig.myexpenses.util.cursor.PlanInfoCursorWrapper;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Objects;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
+import androidx.sqlite.db.SupportSQLiteDatabase;
+import androidx.sqlite.db.SupportSQLiteOpenHelper;
+import androidx.sqlite.db.SupportSQLiteQueryBuilder;
+import timber.log.Timber;
+
 import static android.database.sqlite.SQLiteDatabase.CONFLICT_IGNORE;
 import static android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE;
 import static org.totschnig.myexpenses.provider.ArchiveKt.archive;
@@ -140,49 +183,6 @@ import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.suggestNewCategory
 import static org.totschnig.myexpenses.provider.MoreDbUtilsKt.tableForPaymentMethodQuery;
 import static org.totschnig.myexpenses.provider.SyncContract.METHOD_APPLY_CHANGES;
 import static org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup.CALENDAR;
-
-import android.content.ContentProviderOperation;
-import android.content.ContentProviderResult;
-import android.content.ContentResolver;
-import android.content.ContentUris;
-import android.content.ContentValues;
-import android.content.OperationApplicationException;
-import android.content.UriMatcher;
-import android.database.Cursor;
-import android.database.MatrixCursor;
-import android.database.sqlite.SQLiteConstraintException;
-import android.net.Uri;
-import android.os.Bundle;
-import android.text.TextUtils;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.VisibleForTesting;
-import androidx.sqlite.db.SupportSQLiteDatabase;
-import androidx.sqlite.db.SupportSQLiteOpenHelper;
-import androidx.sqlite.db.SupportSQLiteQueryBuilder;
-
-import org.totschnig.myexpenses.BuildConfig;
-import org.totschnig.myexpenses.db2.RepositoryPaymentMethodKt;
-import org.totschnig.myexpenses.model.CrStatus;
-import org.totschnig.myexpenses.model.sort.Sort;
-import org.totschnig.myexpenses.preference.PrefKey;
-import org.totschnig.myexpenses.provider.filter.Operation;
-import org.totschnig.myexpenses.sync.json.TransactionChange;
-import org.totschnig.myexpenses.util.Preconditions;
-import org.totschnig.myexpenses.util.Utils;
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
-import org.totschnig.myexpenses.util.cursor.PlanInfoCursorWrapper;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Objects;
-
-import timber.log.Timber;
 
 public class TransactionProvider extends BaseTransactionProvider {
 
