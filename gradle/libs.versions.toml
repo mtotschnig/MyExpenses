@@ -40,7 +40,7 @@ espressoVersion = "3.7.0"
 evernote = "1.4.1"
 composeBom = "2026.01.01"
 
-dagger = "2.59"
+dagger = "2.59.1"
 datastorePreferences = "1.2.0"
 donut = "c11f2d1aeb"
 flexbox = "3.0.0"
