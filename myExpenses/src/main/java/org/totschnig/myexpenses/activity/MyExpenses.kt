@@ -1097,7 +1097,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                     setEnabledAndVisible(reconciliationAvailable)
                     if (reconciliationAvailable) {
                         lifecycleScope.launch {
-                            isChecked = viewModel.showStatusHandle.flow.first()
+                            isChecked = viewModel.showStatusHandle.get()
                             checkMenuIcon(this@apply, R.drawable.ic_square)
                         }
                     }

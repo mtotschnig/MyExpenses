@@ -1336,13 +1336,19 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
             if (account.sealed) finishActionMode()
         }
 
-        val showStatusHandle =
-            if (account.isAggregate || account.type?.supportsReconciliation == false)
-                false
-            else
-                viewModel.showStatusHandle.flow.collectAsState(initial = true).value
+        val showStatusHandleState = viewModel.showStatusHandle.flow.collectAsState(initial = false)
 
-        val onToggleCrStatus: ((Long) -> Unit)? = if (showStatusHandle) ::toggleCrStatus else null
+        val onToggleCrStatus = remember {
+            derivedStateOf {
+                if (if (account.isAggregate || account.type?.supportsReconciliation == false) {
+                        false
+                    } else {
+                        showStatusHandleState.value
+                    }
+                ) ::toggleCrStatus else null
+            }
+        }
+
 
         val headerData = remember(account) { viewModel.headerData(account, v2) }
 
@@ -1421,7 +1427,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                             account,
                             withCategoryIcon.value,
                             colorSource.value,
-                            onToggleCrStatus
+                            onToggleCrStatus.value
                         )
                     }
                 }
