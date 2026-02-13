@@ -773,24 +773,15 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
     private fun Intent.forwardCurrentConfiguration(currentAccount: BaseAccount) {
         if (currentAccount is AggregateAccount) {
             putExtra(KEY_ACCOUNT_GROUPING, currentAccount.accountGrouping.name)
-            when (currentAccount.accountGrouping) {
-                AccountGrouping.CURRENCY -> putExtra(
-                    KEY_ACCOUNT_GROUPING_GROUP,
-                    currentAccount.currency
-                )
-
-                AccountGrouping.FLAG -> putExtra(
-                    KEY_ACCOUNT_GROUPING_GROUP,
-                    currentAccount.flag!!.id.toString()
-                )
-
-                AccountGrouping.TYPE -> putExtra(
-                    KEY_ACCOUNT_GROUPING_GROUP,
-                    currentAccount.type!!.id.toString()
-                )
-
-                else -> {}
-            }
+            putExtra(
+                KEY_ACCOUNT_GROUPING_GROUP,
+                when (currentAccount.accountGrouping) {
+                    AccountGrouping.CURRENCY -> currentAccount.currency
+                    AccountGrouping.FLAG -> currentAccount.flag!!.id.toString()
+                    AccountGrouping.TYPE -> currentAccount.type!!.id.toString()
+                    else -> "Unit"
+                }
+            )
         } else {
             putExtra(KEY_ACCOUNTID, currentAccount.id)
         }
