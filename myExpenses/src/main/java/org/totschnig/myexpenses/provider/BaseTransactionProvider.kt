@@ -1366,7 +1366,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         val accountQuery = uri.accountSelector
 
         //Grand total account or aggregate account for type or flag
-        val forHome: String? = if (uri.getQueryParameter(KEY_ACCOUNTID) != null && uri.getQueryParameter(KEY_CURRENCY) != null) homeCurrency else null
+        val forHome: String? = if (uri.getQueryParameter(KEY_ACCOUNTID) == null && uri.getQueryParameter(KEY_CURRENCY) == null) homeCurrency else null
 
         val group = enumValueOrDefault(uri.pathSegments[2], Grouping.NONE)
 
