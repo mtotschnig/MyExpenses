@@ -445,10 +445,13 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                             .takeIf { it != AccountGrouping.FLAG }
                             ?: AccountGrouping.DEFAULT
 
+                        val selectedAccountIdFromState =
+                            viewModel.selectedAccountId.collectAsState().value
+
                         AccountList(
                             accountData = data,
                             grouping = accountGrouping,
-                            selectedAccount = selectedAccountId,
+                            selectedAccount = selectedAccountIdFromState,
                             onSelected = {
                                 selectedAccountId = it
                                 closeDrawer()
