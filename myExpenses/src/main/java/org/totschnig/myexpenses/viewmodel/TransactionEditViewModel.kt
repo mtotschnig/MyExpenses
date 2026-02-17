@@ -501,7 +501,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         }
 
     /**
-     * as a side effect reads tags and attachments
+     * as a side effect sets attachments
      */
     suspend fun read(
         rowId: Long,
@@ -560,8 +560,6 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             ).let {
                 TransactionMapper.map(it, currencyContext)
             }
-        }.also {
-            tagsLiveData.postValue(it?.tags)
         }
     }
 

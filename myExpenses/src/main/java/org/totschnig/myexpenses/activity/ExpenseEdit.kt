@@ -482,6 +482,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             }
 
             if (splitPart != null) {
+                newInstance = false
                 isSplitPart = true
                 populate(splitPart, false)
                 if (splitPart.amount.amountMinor.sign == 0) {
@@ -966,6 +967,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             createNew = newInstance && prefHandler.getBoolean(saveAndNewPrefKey, false)
             configureFloatingActionButton()
         }
+        viewModel.updateTags(transaction.tags, false)
         invalidateOptionsMenu()
     }
 

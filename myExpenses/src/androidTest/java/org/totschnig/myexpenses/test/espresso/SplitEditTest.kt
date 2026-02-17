@@ -16,6 +16,7 @@ import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.hasChildCount
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isEnabled
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSubstring
@@ -585,6 +586,15 @@ class SplitEditTest : BaseExpenseEditTest() {
         editSplitPart(1)
         checkAmount(100)
         checkType(true)
+    }
+
+    @Test
+    fun keepTagsForPart() {
+        setupData(FLAG_EXPENSE)
+        launchWithAccountSetup()
+        createParts(1, extended = true)
+        editSplitPart()
+        onView(withText(TAG_LABEL)).check(matches(isDisplayed()))
     }
 
     @Test
