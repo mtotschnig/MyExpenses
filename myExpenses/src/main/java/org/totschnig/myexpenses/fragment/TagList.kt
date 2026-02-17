@@ -239,7 +239,6 @@ class TagList : Fragment(), OnDialogResultListener {
      * why we add it explicitly here
      */
     private fun resultIntent(newTag: Tag?) = Intent().apply {
-        putExtra(KEY_ACCOUNTID, requireActivity().intent.getLongExtra(KEY_ACCOUNTID, 0))
         putParcelableArrayListExtra(
             KEY_TAG_LIST,
             ArrayList(

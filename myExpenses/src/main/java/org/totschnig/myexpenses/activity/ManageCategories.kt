@@ -429,7 +429,6 @@ class ManageCategories : ProtectedFragmentActivity(),
                     .filter { selected.contains(it.id) }
                     .joinToString(separator = ",") { it.label }
                 setResult(RESULT_FIRST_USER, Intent().apply {
-                    putExtra(KEY_ACCOUNTID, intent.getLongExtra(KEY_ACCOUNTID, 0))
                     putExtra(KEY_ROWID, selected.toLongArray())
                     putExtra(KEY_LABEL, label)
                 })

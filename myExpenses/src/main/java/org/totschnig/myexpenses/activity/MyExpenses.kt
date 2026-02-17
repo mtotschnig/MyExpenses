@@ -750,8 +750,8 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                         state = pagerState,
                         pageSpacing = 10.dp,
                         key = { accountData[it].id }
-                    ) {
-                        Timber.i("Rendering page $it")
+                    ) { pageIndex ->
+                        val isCurrentPage = pagerState.currentPage == pageIndex
                         LaunchedEffect(selectionState.size) {
                             if (selectionState.isNotEmpty()) {
                                 startMyActionMode()
@@ -759,7 +759,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                                 finishActionMode()
                             }
                         }
-                        Page(account = accountData[it].toPageAccount, accountCount)
+                        Page(account = accountData[pageIndex].toPageAccount, accountCount, isCurrentPage)
                     }
                 } else {
                     EmptyState(::createAccountDo)

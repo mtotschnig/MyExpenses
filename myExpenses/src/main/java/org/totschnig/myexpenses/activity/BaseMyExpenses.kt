@@ -1297,11 +1297,17 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
         get() = sumInfo.value.hasItems
 
     @Composable
-    fun Page(account: PageAccount, accountCount: Int, v2: Boolean = false) {
+    fun Page(
+        account: PageAccount,
+        accountCount: Int,
+        isCurrentPage: Boolean,
+        v2: Boolean = false,
+    ) {
         val coroutineScope = rememberCoroutineScope()
         val preferredSearchType =
             viewModel.preferredSearchType.flow.collectAsState(TYPE_COMPLEX).value
-        if (showFilterDialog) {
+        if (showFilterDialog && isCurrentPage) {
+            Timber.d("showFilterDialog for page ${account.label}")
             FilterDialog(
                 account = account,
                 sumInfo = sumInfo.value,

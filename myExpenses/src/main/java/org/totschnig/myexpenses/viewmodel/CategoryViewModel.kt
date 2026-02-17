@@ -207,7 +207,7 @@ open class CategoryViewModel(
     }.flatMapLatest { (type, filter, sortOrder) ->
         val (selection, selectionArgs) = joinQueryAndAccountFilter(
             null,
-            savedStateHandle.get<Long>(KEY_ACCOUNTID),
+            savedStateHandle,
             KEY_LABEL_NORMALIZED, KEY_CATID, "_Tree_"
         )
         categoryTree(

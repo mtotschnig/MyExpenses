@@ -10,6 +10,7 @@ import android.text.TextUtils
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
@@ -43,8 +44,14 @@ import org.totschnig.myexpenses.db2.loadAggregateAccountFlowV2
 import org.totschnig.myexpenses.db2.saveParty
 import org.totschnig.myexpenses.db2.updateNewPlanEnabled
 import org.totschnig.myexpenses.db2.updateTransferPeersForTransactionDelete
-import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment
+import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment.Companion.accountSelection
+import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment.Companion.accountSelectionArgs
+import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment.Companion.accountSelectionArgsV2
+import org.totschnig.myexpenses.dialog.select.SelectFromMappedTableDialogFragment.Companion.accountSelectionV2
+import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.KEY_ACCOUNT_GROUPING
+import org.totschnig.myexpenses.model.KEY_ACCOUNT_GROUPING_GROUP
 import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.Account
@@ -394,7 +401,7 @@ open class ContentResolvingAndroidViewModel(application: Application) :
 
     fun joinQueryAndAccountFilter(
         filter: String?,
-        accountId: Long?,
+        savedStateHandle: SavedStateHandle,
         filterColumn: String,
         linkColumn: String,
         tableName: String,
@@ -403,27 +410,30 @@ open class ContentResolvingAndroidViewModel(application: Application) :
             if (TextUtils.isEmpty(filter)) null else "$filterColumn LIKE ?"
         val filterSelectionArgs: Array<String>? = if (TextUtils.isEmpty(filter)) null else
             arrayOf("%${Utils.escapeSqlLikeExpression(Utils.normalize(filter))}%")
-        val accountSelection = if (accountId == null) null else
-            StringBuilder("exists (SELECT 1 from $TABLE_TRANSACTIONS WHERE $linkColumn = $tableName.$KEY_ROWID").apply {
-                SelectFromMappedTableDialogFragment.accountSelection(accountId)?.let {
-                    append(" AND ")
-                    append(it)
-                }
-                append(")")
-            }
-        val accountSelectionArgs: Array<String>? =
-            if (accountId == null) null else SelectFromMappedTableDialogFragment.accountSelectionArgs(
-                accountId
-            )
+        val accountId: Long? = savedStateHandle[KEY_ACCOUNTID]
+        val isV2 = savedStateHandle.contains(KEY_ACCOUNT_GROUPING)
+        val (accountSelection, accountSelectionArgs) = if (accountId == null) {
+            if (isV2) {
+                val accountGrouping =
+                    AccountGrouping.valueOf(savedStateHandle[KEY_ACCOUNT_GROUPING]!!)
+                val group = savedStateHandle.get<String>(KEY_ACCOUNT_GROUPING_GROUP)!!
+                accountSelectionV2(accountGrouping) to
+                        accountSelectionArgsV2(accountGrouping, group)
+            } else null to null
+        } else accountSelection(accountId) to accountSelectionArgs(accountId)
 
-        val selection = buildString {
-            filterSelection?.let { append(it) }
+        return buildString {
+            filterSelection?.let { this.append(it) }
             accountSelection?.let {
-                if (isNotEmpty()) append(" AND ")
-                append(it)
+                if (isNotEmpty()) this.append(" AND ")
+                this.append("exists (SELECT 1 from $TABLE_TRANSACTIONS WHERE $linkColumn = $tableName.$KEY_ROWID")
+                if (it.isNotEmpty()) {
+                    this.append(" AND ")
+                    this.append(it)
+                }
+                this.append(")")
             }
-        }.takeIf { it.isNotEmpty() }
-        return selection to joinArrays(filterSelectionArgs, accountSelectionArgs)
+        }.takeIf { it.isNotEmpty() } to joinArrays(filterSelectionArgs, accountSelectionArgs)
     }
 
     fun saveParty(id: Long, name: String, shortName: String?): LiveData<Boolean> =

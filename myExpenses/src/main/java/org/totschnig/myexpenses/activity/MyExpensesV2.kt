@@ -134,7 +134,8 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
                             viewModel.selectedAccountId.collectAsState().value
                         LaunchedEffect(
                             viewModel.accountList.collectAsState().value.isNotEmpty(),
-                            selectedAccountIdFromState
+                            selectedAccountIdFromState,
+                            viewModel.activeFilter.collectAsState().value //reloading when filter changes, because aggregate accounts have same id (0)
                         ) {
                             with(currentAccount) {
                                 if (this != null) {
@@ -238,7 +239,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
                                         )
                                     }
                             }
-                        ) { pageAccount -> Page(pageAccount, accounts.size, v2 = true) }
+                        ) { pageAccount, isCurrent -> Page(pageAccount, accounts.size, isCurrent, v2 = true) }
                     }
                 }
             }

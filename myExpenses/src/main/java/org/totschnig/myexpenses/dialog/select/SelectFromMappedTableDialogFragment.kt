@@ -14,12 +14,15 @@
  */
 package org.totschnig.myexpenses.dialog.select
 
+import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_CODE
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_FLAG
 import org.totschnig.myexpenses.provider.KEY_LABEL
 import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_TYPE
 import org.totschnig.myexpenses.provider.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.TABLE_CURRENCIES
 import org.totschnig.myexpenses.provider.filter.IdCriterion
@@ -33,7 +36,7 @@ abstract class SelectFromMappedTableDialogFragment<T : IdCriterion>(
     override val column: String
         get() = KEY_LABEL
     override val selection: String?
-        get() = accountSelection(requireArguments().getLong(KEY_ROWID))
+        get() = accountSelection(requireArguments().getLong(KEY_ROWID)).takeIf { it.isNotEmpty() }
     override val selectionArgs: Array<String>?
         get() = accountSelectionArgs(requireArguments().getLong(KEY_ROWID))
 
@@ -48,15 +51,26 @@ abstract class SelectFromMappedTableDialogFragment<T : IdCriterion>(
         fun accountSelection(accountId: Long) =
             if (accountId > 0) "$KEY_ACCOUNTID = ?"
             else if (accountId != HOME_AGGREGATE_ID) {
-                KEY_ACCOUNTID + " IN " +
-                        "(SELECT " + KEY_ROWID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_CURRENCY +
-                        " = (SELECT " + KEY_CODE + " FROM " + TABLE_CURRENCIES + " WHERE " + KEY_ROWID + " = ?))"
-            } else null
+                "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_CURRENCY = (SELECT $KEY_CODE FROM $TABLE_CURRENCIES WHERE $KEY_ROWID = ?))"
+            } else ""
+
+        fun accountSelectionV2(accountGrouping: AccountGrouping<*>) =
+            if (accountGrouping == AccountGrouping.NONE) null
+            else "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE " +
+            when(accountGrouping) {
+                AccountGrouping.CURRENCY -> KEY_CURRENCY
+                AccountGrouping.FLAG -> KEY_FLAG
+               AccountGrouping.TYPE -> KEY_TYPE
+            } + " = ?)"
 
         fun accountSelectionArgs(accountId: Long): Array<String>? {
             return if (accountId == HOME_AGGREGATE_ID) null else arrayOf(
                 abs(accountId).toString()
             )
+        }
+
+        fun accountSelectionArgsV2(accountGrouping: AccountGrouping<*>, group: String): Array<String>? {
+            return if (accountGrouping == AccountGrouping.NONE) null else arrayOf(group)
         }
     }
 }

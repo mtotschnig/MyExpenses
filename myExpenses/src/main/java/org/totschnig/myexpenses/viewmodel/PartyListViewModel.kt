@@ -118,7 +118,7 @@ class PartyListViewModel(
             .flatMapLatest { filter ->
                 val (selection, selectionArgs) = joinQueryAndAccountFilter(
                     filter,
-                    savedStateHandle.get<Long>(KEY_ACCOUNTID),
+                    savedStateHandle,
                     KEY_PAYEE_NAME_NORMALIZED, KEY_PAYEEID, TABLE_PAYEES
                 )
                 contentResolver.observeQuery(

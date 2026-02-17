@@ -118,7 +118,7 @@ fun MainScreen(
     onPrepareMenuItem: (itemId: Int) -> Boolean,
     flags: List<AccountFlag> = emptyList(),
     bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
-    pageContent: @Composable (pageAccount: PageAccount) -> Unit,
+    pageContent: @Composable (pageAccount: PageAccount, isCurrent: Boolean) -> Unit,
 ) {
 
     val accountGrouping = viewModel.accountGrouping.asState()

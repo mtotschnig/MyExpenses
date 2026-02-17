@@ -49,7 +49,7 @@ class ManageTags: ProtectedFragmentActivity() {
     }
 
     override fun doHome() {
-        setResult(FragmentActivity.RESULT_CANCELED, tagList.cancelIntent())
+        setResult(RESULT_CANCELED, tagList.cancelIntent())
         finish()
     }
 }

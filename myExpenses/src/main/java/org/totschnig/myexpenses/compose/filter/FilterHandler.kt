@@ -175,7 +175,7 @@ fun FilterHandler(
         }
 
         override fun handleCategoryEdit(categoryCriterion: CategoryCriterion?) {
-            getCategory.launch(account.id to categoryCriterion)
+            getCategory.launch(account to categoryCriterion)
         }
 
         override fun handleMethodEdit(methodCriterion: MethodCriterion?) {
@@ -186,11 +186,11 @@ fun FilterHandler(
         }
 
         override fun handlePayeeEdit(payeeCriterion: PayeeCriterion?) {
-            getPayee.launch(account.id to payeeCriterion)
+            getPayee.launch(account to payeeCriterion)
         }
 
         override fun handleTagEdit(tagCriterion: TagCriterion?) {
-            getTags.launch(account.id to tagCriterion)
+            getTags.launch(account to tagCriterion)
         }
 
         override fun handleTransferEdit(transferCriterion: TransferCriterion?) {

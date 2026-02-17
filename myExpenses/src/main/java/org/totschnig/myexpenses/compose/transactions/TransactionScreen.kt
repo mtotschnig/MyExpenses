@@ -112,7 +112,7 @@ fun TransactionScreen(
     onPrepareContextMenuItem: (Int) -> Boolean,
     onPrepareMenuItem: (Int) -> Boolean,
     bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
-    pageContent: @Composable (PageAccount) -> Unit
+    pageContent: @Composable (PageAccount, Boolean) -> Unit
 ) {
     LaunchedEffect(Unit) {
         viewModel.setLastVisited(StartScreen.Transactions)
@@ -306,11 +306,12 @@ fun TransactionScreen(
                             accountList.getOrNull(pageIndex)?.id ?: pageIndex                        },
                         verticalAlignment = Alignment.Top,
                     ) { page ->
-                        TransactionListPage(accountList[page], pageContent)
+                        val isCurrentPage = pagerState.currentPage == page
+                        TransactionListPage(accountList[page], isCurrentPage, pageContent)
                     }
                 }
             } else {
-                TransactionListPage(accountList.first(), pageContent)
+                TransactionListPage(accountList.first(), true, pageContent)
             }
 
             val scope = rememberCoroutineScope()
@@ -340,11 +341,12 @@ fun TransactionScreen(
 @Composable
 private fun TransactionListPage(
     account: BaseAccount,
-    pageContent: @Composable (PageAccount) -> Unit
+    isCurrent: Boolean,
+    pageContent: @Composable (PageAccount, Boolean) -> Unit
 ) {
     val context = LocalContext.current
     val pageAccount = remember(account) { account.toPageAccount(context = context) }
-    pageContent(pageAccount)
+    pageContent(pageAccount, isCurrent)
 }
 
 enum class BalanceType(
