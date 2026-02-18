@@ -91,7 +91,7 @@ class MyExpensesV2ViewModel(
         }
     }
 
-    fun navigateToGroup(filter: AccountGroupingKey) {
+    fun navigateToGroup(filter: AccountGroupingKey?) {
         setFilter(filter)
         selectAccount(0)
     }

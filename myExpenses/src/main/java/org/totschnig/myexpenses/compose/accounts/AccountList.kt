@@ -205,7 +205,7 @@ fun AccountListV2(
     listState: LazyListState,
     expansionHandlerGroups: org.totschnig.myexpenses.compose.ExpansionHandler,
     onSelected: (FullAccount) -> Unit = {},
-    onGroupSelected: (AccountGroupingKey) -> Unit = {},
+    onGroupSelected: (AccountGroupingKey?) -> Unit = {},
     onEvent: AccountEventHandler,
     bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
     flags: List<AccountFlag> = emptyList(),
@@ -266,6 +266,20 @@ fun AccountListV2(
                 }
             }
         }
+        if (grouped.size > 1) {
+            item {
+                HeaderV2(
+                    header = AccountGroupingKey.Ungrouped.title(context),
+                    currency = LocalHomeCurrency.current,
+                    total = accountData.filter { !it.excludeFromTotals }.sumOf {
+                        it.equivalentCurrentBalance
+                    },
+                    onToggleExpand = null,
+                    onNavigate =  { onGroupSelected(null) },
+                    dividerThickness = 4.dp
+                )
+            }
+        }
     }
 }
 
@@ -316,20 +330,23 @@ private fun Header(
 @Composable
 private fun HeaderV2(
     header: String,
-    onToggleExpand: () -> Unit,
+    onToggleExpand: (() -> Unit)?,
     onNavigate: (() -> Unit)?,
     total: Long,
     currency: CurrencyUnit,
+    dividerThickness: Dp = 2.dp
 ) {
 
     val format = LocalCurrencyFormatter.current
     HorizontalDivider(
         color = colorResource(id = androidx.appcompat.R.color.material_grey_300),
-        thickness = 2.dp
+        thickness = dividerThickness
     )
     Row(
         modifier = Modifier
-            .clickable(onClick = onToggleExpand)
+            .optional(onToggleExpand) {
+                clickable(onClick = it)
+            }
             .heightIn(min = 48.dp)
             .semantics(mergeDescendants = true) {}
             .padding(start = 16.dp, end = 4.dp),
