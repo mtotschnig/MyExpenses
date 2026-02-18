@@ -164,7 +164,7 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
                 "${t(R.string.redesign)}  (${t(R.string.experimental)})"
             )
 
-            "4061" -> arrayOf(
+            "4061", "4062" -> arrayOf(
                 t(R.string.bug_fixes),
                 "${t(R.string.ui_refinement)} (v2)"
             )
