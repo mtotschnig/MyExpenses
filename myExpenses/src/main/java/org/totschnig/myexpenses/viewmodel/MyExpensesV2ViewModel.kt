@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -291,4 +292,8 @@ class MyExpensesV2ViewModel(
         )
     }
 
+    val sortByFlagFirst by lazy {
+        PreferenceAccessor(dataStore,
+            prefHandler.getBooleanPreferencesKey(PrefKey.SORT_ACCOUNT_LIST_BY_FLAG_FIRST), defaultValue = true)
+    }
 }

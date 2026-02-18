@@ -168,10 +168,12 @@ fun TransactionScreen(
                             tooltip = stringResource(R.string.menu_search),
                             imageVector = Icons.Default.Search
                         ) { onEvent(AppEvent.Search) }
-                        ViewOptionsMenu(
+
+                        TransactionsViewOptionsMenu(
                             currentAccount = currentAccount,
                             onEvent = onEvent
                         )
+
                         ActionMenu(
                             onEvent = onEvent,
                             onPrepareMenuItem = onPrepareMenuItem

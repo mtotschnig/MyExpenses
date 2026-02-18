@@ -10,12 +10,17 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -23,7 +28,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.adapter.SortableItem
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.accounts.AccountEvent
 import org.totschnig.myexpenses.compose.accounts.AccountEventHandler
@@ -31,10 +39,15 @@ import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.main.AppEventHandler
 import org.totschnig.myexpenses.compose.main.MainScreen
 import org.totschnig.myexpenses.compose.transactions.Action
+import org.totschnig.myexpenses.dialog.SortSelect
+import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.sort.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
+import org.totschnig.myexpenses.provider.KEY_SORT_KEY
+import org.totschnig.myexpenses.provider.triggerAccountListRefresh
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.SumInfo
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
@@ -47,10 +60,10 @@ enum class StartScreen {
 
 /**
  * TBD: ReviewManager, AdManager, Tests, WebUI, Status Handle configuration, Upgrade Handling,
- * New balance, Manage types and flags, Help, Reconciliation, Tell a friend,
+ * New balance, Manage types and flags, Help, Tell a friend,
  * Copy balance to clipboard, Budget progress, Bank icon
  */
-class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
+class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(), SortUtilityDialogFragment.OnConfirmListener {
 
     override fun handleRootWindowInsets() {}
 
@@ -68,6 +81,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
         viewModel.selectionState.value = emptyList()
     }
 
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[MyExpensesV2ViewModel::class.java]
@@ -148,6 +162,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
                         }
                         val accounts = result.getOrThrow()
                         val banks = viewModel.banks.collectAsState()
+                        val showSortDialog = rememberSaveable { mutableStateOf(false) }
                         MainScreen(
                             viewModel,
                             startScreen,
@@ -199,6 +214,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
                                             null
                                         )
 
+                                        AppEvent.Sort -> showSortDialog.value = true
                                     }
                                 }
                             },
@@ -240,6 +256,57 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
                                     }
                             }
                         ) { pageAccount, isCurrent -> Page(pageAccount, accounts.size, isCurrent, v2 = true) }
+
+                        if (showSortDialog.value) {
+                            val sortByFlagFirst = rememberSaveable {
+                                mutableStateOf(false)
+                            }
+                            LaunchedEffect(Unit) {
+                                sortByFlagFirst.value = viewModel.sortByFlagFirst.get()
+                            }
+
+                            val selectedSort = rememberSaveable {
+                                mutableStateOf(
+                                    prefHandler.enumValueOrDefault(
+                                        PrefKey.SORT_ORDER_ACCOUNTS,
+                                        Sort.USAGES
+                                    )
+                                )
+                            }
+                            val scope = rememberCoroutineScope()
+                            AlertDialog(
+                                onDismissRequest = { showSortDialog.value = false },
+                                confirmButton =  {
+                                    Button(onClick = {
+                                        scope.launch {
+                                            prefHandler.putString(PrefKey.SORT_ORDER_ACCOUNTS, selectedSort.value.name)
+                                            viewModel.sortByFlagFirst.set(sortByFlagFirst.value)
+                                            contentResolver.triggerAccountListRefresh()
+                                            showSortDialog.value = false
+                                        }
+                                    }) {
+                                        Text(stringResource(id = android.R.string.ok))
+                                    }
+                                },
+                                text = {
+                                    Column {
+                                        SortSelect(sortByFlagFirst, selectedSort) {
+                                            scope.launch {
+                                                SortUtilityDialogFragment.newInstance(
+                                                    ArrayList(
+                                                        viewModel.accountsMinimal(
+                                                            withAggregates = false,
+                                                            sortOrder = KEY_SORT_KEY
+                                                        ).first()
+                                                            .map { SortableItem(it.id, it.label) }
+                                                    ))
+                                                    .show(supportFragmentManager, "SORT_ACCOUNTS")
+                                            }
+                                        }
+                                    }
+                                }
+                            )
+                        }
                     }
                 }
             }
@@ -250,4 +317,8 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>() {
         currentAccount as? FullAccount ?:
         viewModel.accountDataV2.value?.getOrNull()?.maxByOrNull { it.lastUsed }
     )
+
+    override fun onSortOrderConfirmed(sortedIds: LongArray) {
+        viewModel.sortAccounts(sortedIds)
+    }
 }

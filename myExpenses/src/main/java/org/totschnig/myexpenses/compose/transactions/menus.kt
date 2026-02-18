@@ -1,8 +1,8 @@
 package org.totschnig.myexpenses.compose.transactions
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.FilterAlt
-import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.SortByAlpha
 import androidx.compose.material.icons.filled.Tune
@@ -56,7 +56,7 @@ fun AccountFilterMenu(
 }
 
 @Composable
-fun ViewOptionsMenu(
+fun TransactionsViewOptionsMenu(
     currentAccount: BaseAccount,
     onEvent: AppEventHandler,
 ) {
@@ -83,7 +83,7 @@ fun ViewOptionsMenu(
             ),
             SubMenuEntry(
                 label = R.string.menu_grouping,
-                icon = Icons.Default.GridView,
+                icon = Icons.Default.DateRange,
                 subMenu = Grouping.entries.map { grouping ->
                     CheckableMenuEntry(
                         label = UiText.StringResource(grouping.label),

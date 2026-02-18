@@ -9,10 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Icon
@@ -23,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -37,8 +36,10 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.html.Entities
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.SortableItem
 import org.totschnig.myexpenses.compose.ButtonRow
@@ -76,18 +77,18 @@ class AccountListDisplayConfigurationDialogFragment : ComposeBaseDialogFragment3
             mutableStateOf(AccountGrouping.TYPE)
         }
 
-        var sortByFlagFirst by rememberSaveable {
+        val sortByFlagFirst = rememberSaveable {
             mutableStateOf(false)
         }
 
         LaunchedEffect(Unit) {
             with(dataStore.data.first()) {
                 this[accountGroupingKey]?.let { selectedGrouping = AccountGrouping.valueOf(it) }
-                sortByFlagFirst = this[sortByFlagKey] != false
+                sortByFlagFirst.value = this[sortByFlagKey] != false
             }
         }
 
-        var selectedSort by rememberSaveable {
+        val selectedSort = rememberSaveable {
             mutableStateOf(
                 prefHandler.enumValueOrDefault(
                     PrefKey.SORT_ORDER_ACCOUNTS,
@@ -108,56 +109,35 @@ class AccountListDisplayConfigurationDialogFragment : ComposeBaseDialogFragment3
             Spacer(Modifier.height(4.dp))
 
             RadioGroupSection(
-                options = AccountGrouping.ALL_VALUES.map { it.title },
+                options = AccountGrouping.V1_VALUES.map { it.title },
                 selectedIndex = selectedGrouping.ordinal,
-                onOptionSelected = { selectedGrouping = AccountGrouping.ALL_VALUES[it] }
+                onOptionSelected = { selectedGrouping = AccountGrouping.V1_VALUES[it] }
             )
 
             Spacer(Modifier.height(16.dp))
-
-            Text(
-                stringResource(R.string.display_options_sort_list_by),
-                style = MaterialTheme.typography.titleMedium
-            )
-
-            Spacer(Modifier.height(4.dp))
-
-            CheckBoxWithLabel(
-                label = "Sort by flag first",
-                checked = sortByFlagFirst
-            ) {
-                sortByFlagFirst = it
-            }
-
             val scope = rememberCoroutineScope()
-
-            RadioGroupSection(
-                options = Sort.accountSortLabels,
-                selectedIndex = Sort.accountSort.indexOf(selectedSort),
-                onOptionSelected = { selectedSort = Sort.accountSort[it] },
-                editableIndex = Sort.accountSort.indexOf(Sort.CUSTOM) to {
-                    scope.launch {
-                        SortUtilityDialogFragment.newInstance(
-                            ArrayList(
-                                viewModel.accountsMinimal(
-                                    withAggregates = false,
-                                    sortOrder = KEY_SORT_KEY
-                                ).first()
-                                    .map { SortableItem(it.id, it.label) }
-                            ))
-                            .show(childFragmentManager, "SORT_ACCOUNTS")
-                    }
+            SortSelect(sortByFlagFirst, selectedSort) {
+                scope.launch {
+                    SortUtilityDialogFragment.newInstance(
+                        ArrayList(
+                            viewModel.accountsMinimal(
+                                withAggregates = false,
+                                sortOrder = KEY_SORT_KEY
+                            ).first()
+                                .map { SortableItem(it.id, it.label) }
+                        ))
+                        .show(childFragmentManager, "SORT_ACCOUNTS")
                 }
-            )
+            }
         }
 
         ButtonRow {
             TextButton(onClick = {
                 lifecycleScope.launch {
-                    prefHandler.putString(PrefKey.SORT_ORDER_ACCOUNTS, selectedSort.name)
+                    prefHandler.putString(PrefKey.SORT_ORDER_ACCOUNTS, selectedSort.value.name)
                     dataStore.edit { preference ->
                         preference[accountGroupingKey] = selectedGrouping.name
-                        preference[sortByFlagKey] = sortByFlagFirst
+                        preference[sortByFlagKey] = sortByFlagFirst.value
                     }
                     requireContext().contentResolver.triggerAccountListRefresh()
                     dismiss()
@@ -168,6 +148,34 @@ class AccountListDisplayConfigurationDialogFragment : ComposeBaseDialogFragment3
             }
         }
     }
+}
+
+@Suppress("UnusedReceiverParameter")
+@Composable
+fun ColumnScope.SortSelect(
+    sortByFlagFirst: MutableState<Boolean>,
+    selectedSort: MutableState<Sort>,
+    onCustomSort: () -> Unit,
+) {
+    Text(
+        stringResource(R.string.display_options_sort_list_by),
+        style = MaterialTheme.typography.titleMedium
+    )
+
+    Spacer(Modifier.height(4.dp))
+
+    CheckBoxWithLabel(
+        label = "Sort by flag first",
+        checked = sortByFlagFirst.value
+    ) {
+        sortByFlagFirst.value = it
+    }
+    RadioGroupSection(
+        options = Sort.accountSortLabels,
+        selectedIndex = Sort.accountSort.indexOf(selectedSort.value),
+        onOptionSelected = { selectedSort.value = Sort.accountSort[it] },
+        editableIndex = Sort.accountSort.indexOf(Sort.CUSTOM) to onCustomSort
+    )
 }
 
 @Composable

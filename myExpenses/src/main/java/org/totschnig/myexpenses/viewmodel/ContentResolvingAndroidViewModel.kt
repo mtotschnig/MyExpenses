@@ -67,6 +67,7 @@ import org.totschnig.myexpenses.provider.KEY_OPENING_BALANCE
 import org.totschnig.myexpenses.provider.KEY_PARENTID
 import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.KEY_SEALED
+import org.totschnig.myexpenses.provider.KEY_SORT_KEY
 import org.totschnig.myexpenses.provider.KEY_STATUS
 import org.totschnig.myexpenses.provider.KEY_SUM
 import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
@@ -77,6 +78,8 @@ import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_MINIMAL_UR
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.AUTHORITY
 import org.totschnig.myexpenses.provider.TransactionProvider.DEBTS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_SORT_ACCOUNTS
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.buildTransactionRowSelect
 import org.totschnig.myexpenses.provider.checkForSealedDebt
@@ -453,6 +456,19 @@ open class ContentResolvingAndroidViewModel(application: Application) :
                     }
             )
         }
+
+    fun sortAccounts(sortedIds: LongArray) {
+        viewModelScope.launch(context = coroutineContext()) {
+            contentResolver.call(
+                DUAL_URI,
+                METHOD_SORT_ACCOUNTS,
+                null,
+                Bundle(1).apply {
+                    putLongArray(KEY_SORT_KEY, sortedIds)
+                }
+            )
+        }
+    }
 
     /*    fun loadDebugDebts(count: Int = 10) {
             debts.postValue(List(

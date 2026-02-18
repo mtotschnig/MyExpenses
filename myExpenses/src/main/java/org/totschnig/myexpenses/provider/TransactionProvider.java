@@ -587,6 +587,8 @@ public class TransactionProvider extends BaseTransactionProvider {
                     Sort.Companion.preferredOrderByForAccounts(PrefKey.SORT_ORDER_ACCOUNTS, prefHandler, Sort.LABEL, getCollate(), null);
             if (uri.getBooleanQueryParameter(QUERY_PARAMETER_BALANCE_SHEET, false)) {
               sortOrder = KEY_TYPE_SORT_KEY + " DESC, " + sortOrder;
+            } else {
+              sortOrder = getSortByFlag() + sortOrder;
             }
           }
           if (projection != null) {

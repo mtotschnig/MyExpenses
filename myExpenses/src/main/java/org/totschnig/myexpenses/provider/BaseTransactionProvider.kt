@@ -831,12 +831,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
                     AccountGrouping.valueOf(it).takeIf { it != AccountGrouping.FLAG }
                 } ?: AccountGrouping.DEFAULT
             }
-            val sortByFlagFirst = runBlocking {
-                dataStore.data.first()[prefHandler.getBooleanPreferencesKey(PrefKey.SORT_ACCOUNT_LIST_BY_FLAG_FIRST)] != false
-            }
+
             val sortOrderForGrouping =
                 if (accountGrouping == AccountGrouping.TYPE) "$KEY_IS_ASSET DESC,$KEY_TYPE_SORT_KEY DESC," else ""
-            val sortByFlag = if (sortByFlagFirst) "$KEY_FLAG_SORT_KEY DESC," else ""
+
             buildUnionQuery(
                 subQueries.toTypedArray(),
                 "$KEY_IS_AGGREGATE,$sortOrderForGrouping$sortByFlag$sortOrder"
@@ -844,6 +842,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
         }
         return "$cte\n$query"
     }
+
+    val sortByFlag: String
+        get() = if (runBlocking {
+                dataStore.data.first()[prefHandler.getBooleanPreferencesKey(PrefKey.SORT_ACCOUNT_LIST_BY_FLAG_FIRST)] != false
+            }) "$KEY_FLAG_SORT_KEY DESC," else ""
 
     @Synchronized
     fun backup(context: Context, backupDir: File, lenientMode: Boolean): Result<Unit> {

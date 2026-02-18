@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.SortByAlpha
 import androidx.compose.material.icons.outlined.Category
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -39,6 +40,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BalanceSheetOptions
 import org.totschnig.myexpenses.activity.BalanceSheetViewInner
 import org.totschnig.myexpenses.compose.CheckableMenuEntry
+import org.totschnig.myexpenses.compose.TooltipIconButton
 import org.totschnig.myexpenses.compose.TooltipIconMenu
 import org.totschnig.myexpenses.compose.UiText
 import org.totschnig.myexpenses.compose.main.AppEvent
@@ -96,7 +98,6 @@ fun AccountsScreen(
         onNavigateToTransactions()
     }
 
-
     Scaffold(
         topBar = {
             TopAppBar(
@@ -113,6 +114,10 @@ fun AccountsScreen(
                                 activeGrouping = accountGrouping,
                                 onGroupingChange = { onEvent(AppEvent.SetAccountGrouping(it)) },
                             )
+                            TooltipIconButton(
+                                tooltip = stringResource(R.string.display_options_sort_list_by),
+                                imageVector = Icons.Default.SortByAlpha
+                            ) { onEvent(AppEvent.Sort) }
                         }
 
                         AccountsScreenTab.BALANCE_SHEET -> {
@@ -240,7 +245,7 @@ private fun Title(
                 bottom = 16.dp
             ),
             modifier = Modifier
-                //48.dp is space for the drop down
+                //48.dp is space for the drop-down
                 .width(with(LocalDensity.current) { maxTextWidth.toDp() + 48.dp })
                 .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
         )

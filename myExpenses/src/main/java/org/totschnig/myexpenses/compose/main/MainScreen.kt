@@ -98,6 +98,7 @@ sealed class AppEvent {
     data class ContextMenuItemClicked(@param:IdRes val itemId: Int) : AppEvent()
     object Search : AppEvent()
     data class MenuItemClicked(@param:IdRes val itemId: Int) : AppEvent()
+    object Sort : AppEvent()
 }
 
 interface AppEventHandler {
