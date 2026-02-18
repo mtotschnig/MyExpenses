@@ -40,6 +40,8 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BalanceSheetOptions
 import org.totschnig.myexpenses.activity.BalanceSheetViewInner
 import org.totschnig.myexpenses.compose.CheckableMenuEntry
+import org.totschnig.myexpenses.compose.MenuEntry
+import org.totschnig.myexpenses.compose.OverFlowMenu
 import org.totschnig.myexpenses.compose.TooltipIconButton
 import org.totschnig.myexpenses.compose.TooltipIconMenu
 import org.totschnig.myexpenses.compose.UiText
@@ -110,14 +112,18 @@ fun AccountsScreen(
                 actions = {
                     when (selectedTab.value) {
                         AccountsScreenTab.LIST -> {
+
                             AccountGroupingMenu(
                                 activeGrouping = accountGrouping,
                                 onGroupingChange = { onEvent(AppEvent.SetAccountGrouping(it)) },
                             )
+
                             TooltipIconButton(
                                 tooltip = stringResource(R.string.display_options_sort_list_by),
                                 imageVector = Icons.Default.SortByAlpha
                             ) { onEvent(AppEvent.Sort) }
+
+                            ManageEntitiesMenu(onEvent)
                         }
 
                         AccountsScreenTab.BALANCE_SHEET -> {
@@ -289,6 +295,23 @@ fun AccountGroupingMenu(
         }
     )
 }
+
+@Composable
+fun ManageEntitiesMenu(onEvent: AppEventHandler) {
+    OverFlowMenu(
+        menu = listOf(
+            MenuEntry(
+                label = UiText.StringResource(R.string.menu_account_types),
+                action = { onEvent(AppEvent.MenuItemClicked(R.id.MANAGE_ACCOUNT_TYPES_COMMAND)) }
+            ),
+            MenuEntry(
+                label = UiText.StringResource(R.string.menu_account_flags),
+                action = { onEvent(AppEvent.MenuItemClicked(R.id.ACCOUNT_FLAGS_COMMAND)) }
+            )
+        )
+    )
+}
+
 
 @Preview
 @Composable

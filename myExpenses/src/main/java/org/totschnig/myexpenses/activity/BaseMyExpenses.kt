@@ -404,6 +404,13 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
         if (super.dispatchCommand(command, tag)) {
             return true
         } else when (command) {
+            R.id.MANAGE_ACCOUNT_TYPES_COMMAND -> {
+                startActivity(Intent(this, ManageAccountTypes::class.java))
+            }
+
+            R.id.ACCOUNT_FLAGS_COMMAND -> {
+                startActivity(Intent(this, ManageAccountFlags::class.java))
+            }
             R.id.BALANCE_COMMAND -> {
                 (currentAccount as? FullAccount)?.let {
                     if (it.hasCleared) {

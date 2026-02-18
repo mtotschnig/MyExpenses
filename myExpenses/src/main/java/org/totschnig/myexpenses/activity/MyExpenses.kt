@@ -861,13 +861,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
         if (super.dispatchCommand(command, tag)) {
             return true
         } else when (command) {
-            R.id.MANAGE_ACCOUNT_TYPES_COMMAND -> {
-                startActivity(Intent(this, ManageAccountTypes::class.java))
-            }
-
-            R.id.ACCOUNT_FLAGS_COMMAND -> {
-                startActivity(Intent(this, ManageAccountFlags::class.java))
-            }
 
             R.id.CREATE_ACCOUNT_COMMAND -> {
                 createAccount()
