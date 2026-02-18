@@ -36,7 +36,7 @@
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">导入 CSV</string>
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">无限数量的拆分款项模板</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>电子邮件支持</b>，保证在2个工作日内回复</string>
-    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">对<b>程序开发者的未来蓝图</b>进行投票</string>
+    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">对<b>程序开发路线图</b>的投票权</string>
     <string name="contrib_feature_history_label" tools:ignore="UnusedResources">收支历史图表</string>
     <string name="licence_status_free">免费版</string>
     <string name="contrib_key">贡献版密钥(Contrib Key)</string>
@@ -57,7 +57,7 @@
     <string name="dialog_command_disabled_balance">没有已结算或已入帐的交易需要去对帐。</string>
     <string name="dialog_command_disabled_insert_transfer">需要建立第二个账户才可以互相转账。</string>
     <string name="dialog_contrib_reminder_remove_limitation">移除这个限制并访问更多功能，方法是升级 <i>{app_name}</i>。</string>
-    <string name="dialog_contrib_text_1"><i>{app_name}</i>提供开放源代码。</string>
+    <string name="dialog_contrib_text_1"><i>{app_name}</i>以开源方式提供。</string>
     <string name="dialog_contrib_text_2">请透过升级来赞助<i>{app_name}</i>，还可以解锁得到以下更多的功能:</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">依据您目前许可证(%2$s)的权限，您可以建立%1$d个账户。</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">依据您目前的版本(%2$s)的权限，您可以创建%1$d个收支计划。</string>
@@ -480,7 +480,7 @@
     <string name="menu_sync_download">下载并同步</string>
     <string name="pref_sync_frequency_summary">数据应多久同步一次（以小时为单位）。</string>
     <string name="dialog_confirm_sync_unlink">如果您将该账户从%s取消链接，则同步状态将丢失。当您稍后再次链接它们时，则需要重新执行完整的同步。</string>
-    <string name="dialog_sync_link">具有通用唯一识别码UUID %s的账户在本地数据库和远程后端中都存在的情况下。当您链接两者时，首先要确认是要将本地数据上载到远程后端，还是要将远端数据下载到本地数据库。</string>
+    <string name="dialog_sync_link">本地数据库和远程后端中都有 uuid 为 %s 的账户。当您链接两者时，首先要确认是要将本地数据上载到远程后端，还是要将远端数据下载到本地数据库。</string>
     <string name="dialog_command_sync_link_remote">从远程下载</string>
     <string name="dialog_command_sync_link_local">从本地上载</string>
     <string name="dialog_synced_to_other">具有uuid %s的账户已存在于本地数据库中，并且已链接到其他远程后端。</string>
