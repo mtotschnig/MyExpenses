@@ -1,27 +1,46 @@
-<i>Moji troškovi</i> vaš je vrhunski alat za jednostavno praćenje troškova i upravljanje financijama, nadohvat ruke!
+Aplikacija „Moji troškovi” prati tvoje troškove i prihode izravno na tvom mobitelu i tabletu.
 
-Glavne značajke:
+* Do pet računa s <b>prijenosima</b> (uključujući različite valute)
+* Neograničen broj <b>predložaka</b> i do tri plana za <b>ponavljajuće</b> transakcije
+* <b>Izvoz</b> u QIF i CSV. <b>Uvoz</b> iz QIF
+* Podaci se mogu zaštititi <b>lozinkom</b> ili <b>zaključavanjem ekrana</b> uređaja
+* <b>Tema</b> (tamna i svijetla) i <b>veličina fonta</b> se mogu prilagoditi
+* <b>Usklađivanje</b>: Jednostavno usporedi stanje transakcija s tvojim bankovnim izvatcima
+* Widget na početnom ekranu i <b>prečaci</b> za brzi unos podataka
 
-     • <b>Praćenje troškova bez napora</b>: Neometano pratite svoje troškove i prihode, bilo da koristite pametni telefon ili tablet.
-     • <b>Fleksibilno upravljanje računom</b>: Upravljajte s višestrukim računima bez napora, uključujući prijenose između različitih valuta.
-     • <b>Pojednostavljeno financijsko planiranje</b>: jednostavno postavite planove za ponavljajuće transakcije.
-     • <b>Besprijekorno upravljanje podacima</b>: Izvoz i uvoz podataka s lakoćom pomoću QIF i CSV formata.
-     • <b>Poboljšana sigurnost</b>: Zaštitite svoje podatke lozinkom ili sigurnošću zaključanog zaslona uređaja.
-     • <b>Prilagodljivo iskustvo</b>: Prilagodite aplikaciju svojim željama pomoću prilagodljivih tema i veličina fonta.
-     • <b>Usklađivanje bankovnih izvoda</b>: Jednostavno usporedite status transakcije sa svojim bankovnim izvodima za točno financijsko praćenje.
-     • <b>Brzi unos podataka</b>: Uživajte u praktičnom pristupu pomoću widgeta i prečaca na početnom zaslonu.
-     • <b>Moćna analiza podataka</b>: filtrirajte svoje podatke na temelju različitih kriterija i vizualizirajte distribuciju i povijesne trendove pomoću dinamičkih grafikona.
+Premium funkcije se otključavaju kupnjom jedne od sljedećih licenca ključeva:
 
-Otključajte Premium značajke:
+<b>Ključ doprinositelja</b>
 
-     • <i>Ključ doprinositelja</i>: Otključajte neograničene račune, planove ponavljajućih transakcija i još mnogo toga.
-     • <i>Prošireni ključ</i>: Uživajte u sinkronizaciji u oblaku, automatiziranim sigurnosnim kopijama i sofisticiranom CSV uvozu.
-     • <i>Profesionalni ključ</i>: Podignite svoje financijsko upravljanje na višu razinu s alatima za proračun, skeniranjem računa i podrškom putem e-pošte.
+* <b>Bez oglasa</b>
+* Neograničen broj <b>računa</b>
+* Neograničen broj planova za <b>ponavljajuće</b> transakcije
+* <b>Tortni dijagram</b>: Vizualiziraj statističku raspodjelu transakcija po kategorijama kroz različita razdoblja (godine, mjeseci, tjedni, dani)
+* <b>Podjela transakcije</b>: Jedna transakcija se može podijeliti u više dijelova (kategorije i prijenosi)
+* <b>Ispis</b> popisa transakcija u PDF datoteku
+* <b>Prilaganje slike</b>: Snimi kamerom ili odaberi iz galerije
 
-<i>Moji troškovi</i> zahtijevaju sljedeće <u>dozvole</u>:
+<b>Prošireni ključ</b>
 
-     • <i>Kalendar</i>: Planovi za buduće i ponavljajuće transakcije pohranjuju se ili u poseban lokalni kalendar ili u bilo koji drugi kalendar koji dodijelite.
-     • <i>Internet</i>: Anonimno praćenje korištenja, izvješća o rušenju programa, sinkronizacija u oblaku.
-     • <i>Računi</i>: Sinkronizacija između uređaja putem usluga u oblaku.
+* Sve funkcije kao Ključ doprinositelja
+* <b>Sinkronizacija u oblaku</b>: Podaci se mogu sinkronizirati između više uređaja (Webdav, Dropbox)
+* Dnevno <b>automatsko sigurnosno kopiranje</b> s opcionalnim prijenosom u oblak
+* Napredan, prilagodljiv <b>CSV uvoz</b> (za tablične aplikacije)
 
-Preuzmite kontrolu nad svojim financijama kao nikada prije koristeći <i>Moje troškove</i>!
+<b>Profesionalni ključ</b>
+
+* Sve funkcije kao Prošireni ključ
+* <b>Budžetiranje</b>: Usporedba potrošnje s ograničenjima po kategoriji na dnevnoj, tjednoj, mjesečnoj ili godišnjoj razini
+* <b>Dijagram povijesti</b> (novčani tok)
+* <b>Skeniranje računa</b>: Automatsko izdvajanje iznosa, datuma i primatelja
+* <b>Korisničko web sučelje</b>
+* Neograničen broj <b>predložaka i planova za podijeljene transakcije</b>
+* <b>E-mail podrška</b> s jamstvom odgovora unutar 2 radna dana
+* Pravo glasa u <b>planu razvoja</b>
+
+<i>Aplikacija „Moji troškovi”</i> zahtijeva sljedeće <u>dozvole</u>:
+
+* <i>Kalendar</i>: Planovi za buduće i ponavljajuće transakcije spremaju se u poseban lokalni kalendar ili bilo koji drugi kalendar koji odrediš.
+* <i>Spremište</i>: Spremište QIF i CSV izvoznih datoteka te sigurnosnih kopija.
+* <i>Internet</i>: Validacija licence, sinkronizacija u oblaku.
+* <i>Računi</i>: Sinkronizacija između uređaja putem cloud usluga.
