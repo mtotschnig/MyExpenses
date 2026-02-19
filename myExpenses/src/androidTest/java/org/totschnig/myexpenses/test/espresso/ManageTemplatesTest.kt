@@ -52,6 +52,7 @@ import org.totschnig.myexpenses.testutils.TestShard3
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.withDrawableState
 import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
+import java.time.LocalTime
 import java.time.ZonedDateTime
 
 //TODO test CAB actions
@@ -199,12 +200,12 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
             amount = -1200L,
             uuid = generateUuid(),
         )
-        val now = ZonedDateTime.now()
+        val today = ZonedDateTime.now().with(LocalTime.NOON)
 
         val eventId = repository.createPlan(
             title,
             description = "description",
-            date = now.toLocalDate(),
+            date = today.toLocalDate(),
             recurrence = Recurrence.WEEKLY
         ).id
         try {
@@ -231,7 +232,7 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
             )
                 .inRoot(RootMatchers.isPlatformPopup())
                 .perform(click())
-            if(action == Template.Action.EDIT) {
+            if (action == Template.Action.EDIT) {
                 clickFab()
             }
             contentResolver.query(
@@ -244,7 +245,7 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
                 hasLong(KEY_TRANSACTIONID) { isGreaterThan(0) }
                 hasLong(
                     KEY_INSTANCEID,
-                    CalendarProviderProxy.calculateId(now.toEpochSecond() * 1000)
+                    CalendarProviderProxy.calculateId(today.toEpochSecond() * 1000)
                 )
             }
         } finally {
