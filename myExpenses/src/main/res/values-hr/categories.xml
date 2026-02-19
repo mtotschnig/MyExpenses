@@ -81,7 +81,7 @@
     <!-- Main category -->
     <string name="Main_8">Osiguranje</string>
     <!-- Subcategory under "Insurance" -->
-    <string name="Sub_8_1">Vozilo</string>
+    <string name="Sub_8_1">Auto</string>
     <!-- Subcategory under "Insurance" -->
     <string name="Sub_8_2">Zdravlje</string>
     <!-- Subcategory under "Insurance" -->
@@ -91,7 +91,7 @@
     <!-- Subcategory under "Insurance" -->
     <string name="Sub_8_5">Život</string>
     <!-- Main category -->
-    <string name="Main_9">Vozilo</string>
+    <string name="Main_9">Auto</string>
     <!-- Subcategory under "Car" -->
     <string name="Sub_9_1">Gorivo</string>
     <!-- Subcategory under "Car" -->
@@ -99,7 +99,7 @@
     <!-- Subcategory under "Car" -->
     <string name="Sub_9_3">Održavanje</string>
     <!-- Subcategory under "Car" -->
-    <string name="Sub_9_4">Parkiralište</string>
+    <string name="Sub_9_4">Parkiranje</string>
     <!-- Subcategory under "Car" -->
     <string name="Sub_9_5">Novčane kazne</string>
     <!-- Main category -->
