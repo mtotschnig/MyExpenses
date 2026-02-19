@@ -6,7 +6,7 @@ hr:
     functionality: "Mnoštvo funkcija"
     source: "Otvoreni kod"
   menu_title:
-    more_information: VIše informacija
+    more_information: Više informacija
   sections:
     features: Funkcije
     premium: Premium
@@ -68,7 +68,7 @@ hr:
         poseban lokalni kalendar ili u bilo koji drugi kalendar koji odrediš.
       label: Kalendar
     heading: <i>{app_name}</i> zahtijeva sljedeće <u>dozvole</u>
-  contrib-key: Contrib Ključ
+  contrib-key: Ključ doprinositelja
   extended-key: Prošireni ključ
   professional-key: Profesionalni ključ
   screenshot_titles:
