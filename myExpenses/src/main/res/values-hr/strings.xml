@@ -204,7 +204,7 @@
     <string name="pref_category_title_export">Izvezi</string>
     <string name="pref_category_title_import">Uvezi</string>
     <string name="pref_category_title_manage">Upravljaj</string>
-    <string name="pref_category_title_more_information">VIše informacija</string>
+    <string name="pref_category_title_more_information">Više informacija</string>
     <string name="pref_category_title_ui">Korisničko sučelje</string>
     <string name="pref_custom_currency_title">Prilagodi valute</string>
     <string name="pref_enter_licence_title">Upiši ključ</string>
@@ -328,7 +328,7 @@
     <string name="warning_password_contrib">Postavljanje sigurnosnog pitanja omogućuje otključavanje programa u slučaju da zaboraviš lozinku.</string>
     <string name="warning_reset_account">Ako nastaviš, sve transakcije na ovom računu će se nepovratno izbrisati iz baze podataka.</string>
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
-    <string name="warning_reset_account_all">Ako nastaviš, transakcije će se nepovratno izbrisati iz baze podataka za SVE račune%1$s.</string>
+    <string name="warning_reset_account_all">Ako nastaviš, transakcije će se nepovratno izbrisati iz baze podataka za sve račune%1$s.</string>
     <string name="warning_restore">Baza podataka i osobne postavke obnovit će se iz datoteke „%1$s”. Sadašnji podaci će se izbrisati.</string>
     <string name="warning_splitpartcategory_context">Prijenosi koje su dio višedjelne transakcije mogu se urediti samo u kontekstu višedjelne transakcije.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Odaberi broj između %1$d i %2$d</string>
