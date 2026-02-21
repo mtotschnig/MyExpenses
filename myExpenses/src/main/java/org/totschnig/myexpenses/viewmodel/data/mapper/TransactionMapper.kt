@@ -16,7 +16,6 @@ import org.totschnig.myexpenses.viewmodel.data.PlanLoadedData
 import org.totschnig.myexpenses.viewmodel.data.TemplateEditData
 import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
 import org.totschnig.myexpenses.viewmodel.data.TransferEditData
-import java.time.ZoneId
 
 object TransactionMapper {
     fun map(
@@ -62,7 +61,7 @@ object TransactionMapper {
                 TransferEditData(
                     transferAccountId = it.accountId,
                     transferPeer = it.id,
-                    transferAmount = Money(currencyUnit, it.amount)
+                    transferAmount = Money(currencyContext[it.currency!!], it.amount)
                 )
             },
             isSealed = transaction.sealed,
@@ -171,6 +170,7 @@ object TransactionMapper {
             payeeId = transactionEditData.party?.id,
             transferPeerId = transactionEditData.transferEditData?.transferPeer,
             debtId = transactionEditData.debtId,
+            currency = transactionEditData.amount.currencyUnit.code,
             tagList = transactionEditData.tags.map { it.id }
         )
         val transferPeer = transactionEditData.transferEditData?.let { transferEditData ->
@@ -185,6 +185,7 @@ object TransactionMapper {
                 comment = transactionEditData.comment,
                 transferPeerId = transactionEditData.id,
                 uuid = transactionEditData.uuid,
+                currency = (transferEditData.transferAmount ?: transactionEditData.amount).currencyUnit.code,
                 tagList = transactionEditData.tags.map { it.id }
             )
         }
@@ -219,7 +220,8 @@ object TransactionMapper {
             planExecutionAutomatic = templateEditData.planEditData?.isPlanExecutionAutomatic
                 ?: false,
             planExecutionAdvance = templateEditData.planEditData?.planExecutionAdvance ?: 0,
-            debtId = transactionEditData.debtId
+            debtId = transactionEditData.debtId,
+            currency = transactionEditData.amount.currencyUnit.code
         )
         return RepositoryTemplate(
             data = template,
