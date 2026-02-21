@@ -832,7 +832,7 @@
     <string name="pref_news_title">Novedades</string>
     <string name="debt_managment">Gestión de la deuda</string>
     <string name="backup_save_to_sync_backend">Guardar como %s</string>
-    <string name="debt_I_owe">Yo debo %s</string>
+    <string name="debt_I_owe">Yo debo a %s</string>
     <string name="debt_owes_me">Me deben %s</string>
     <string name="debt">Deuda</string>
     <plurals name="debt_mapped_transactions">

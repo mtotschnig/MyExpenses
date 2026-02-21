@@ -857,6 +857,7 @@
     <string name="new_version">New version</string>
     <string name="menu_new_debt">New debt</string>
     <string name="debt_owes_me">%s owes me</string>
+    <!-- %s is replaced with the name of the party to whom the debt is owed -->
     <string name="debt_I_owe">I owe %s</string>
     <!-- Appears in the transaction form as label for the checkbox that allows to link the transaction to a debt  -->
     <string name="debt">Debt</string>
