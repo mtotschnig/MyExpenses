@@ -24,7 +24,7 @@ hr:
       roadmap_voting: Pravo glasanja u <b>planiranju razvoja</b>
       webui: <b>Internetsko korisničko sučelje</b>
       scan_receipt: '<b>Snimi račune</b>: Automatski izdvoji iznos, datum i primaoca'
-      budgeting: '<b>Proračun</b>: Usporedi potrošnju s tvojim postavljenim ograničenjima
+      budgeting: '<b>Budžetiranje</b>: Usporedi potrošnju s tvojim postavljenim ograničenjima
         po kategoriji na dnevnoj, tjednoj, mjesečnoj ili godišnjoj osnovi.'
       history_chart: <b>Dijagram povijesti</b> (Novčani tok)
       email_support: <b>Podrška putem e-pošte</b> sa zajamčenim odgovorom u roku
@@ -74,7 +74,7 @@ hr:
   screenshot_titles:
     group: Grupirajte se po godini, mjesecu ili tjednu
     summarize: Zbroji sve tvoje račune
-    budget: Godišnji, mjesečni i tjedni proračun
+    budget: Godišnji, mjesečni i tjedni budžeti
     split: Podijeli u kategorije
     distribution: Kružni dijagram
     history: Povijest tvoje financijske situacije
@@ -99,7 +99,7 @@ hr:
     full_description_contrib: 'Premium funkcije otključavaju se kupnjom jednog od
       sljedećih licencnih ključeva:'
   features:
-    homescreen: <b>Programčić</b> početnog ekrana i <b>prečaci</b> za brzi unos 
+    homescreen: <b>Widget</b> na početnom ekranu i <b>prečaci</b> za brzi unos 
       podataka
     reconciliation: '<b>Usklađivanje</b>: Jednostavno usporedi stanje transakcije
       s bankovnim izvadcima'
@@ -119,8 +119,8 @@ hr:
     history: Pogledaj kako se tvoja financijska situacija razvija kroz vrijeme
     distribution: Vizualiziraj distribuciju po kategorijama
     split: Podijeli jednu transakciju u više kategorija
-    budget: Definiraj koliko namjeravaš trošiti u godišnjim, mjesečnim ili 
-      tjednim proračunima
+    budget: Odredi koliko namjeravaš trošiti u godišnjim, mjesečnim ili tjednim 
+      budžetima
     summarize: Zbroji sve svoje račune (sofisticirano rukovanje tečajevima po 
       računu i po transakciji)
     group: Grupiraj transakcije po danu, tjednu, mjesecu i godini
