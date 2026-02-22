@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.dialog.valueOf
 import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.toDayOfWeek
 import org.totschnig.myexpenses.viewmodel.Account
 import org.totschnig.myexpenses.viewmodel.Amount
@@ -180,9 +181,16 @@ interface PrefHandler {
     val shouldDebug: Boolean
         get() = getBoolean(PrefKey.DEBUG_LOGGING, BuildConfig.DEBUG)
 
-    val cloudStorage: String?
+    var cloudStorage: String?
         get() = getString(PrefKey.AUTO_BACKUP_CLOUD)
             ?.takeIf { it != AccountPreference.SYNCHRONIZATION_NONE }
+        set(value) {
+            if (value == null) {
+                remove(PrefKey.AUTO_BACKUP_CLOUD)
+            } else {
+                putString(PrefKey.AUTO_BACKUP_CLOUD, value)
+            }
+        }
 
     val mainScreenLegacy: Boolean
         get() = enumValueOrDefault(PrefKey.UI_MAIN_SCREEN_VERSION, Version.V1) == Version.V1
@@ -191,7 +199,7 @@ interface PrefHandler {
         context: Context,
         requestCode: Int,
         transaction: Transaction
-    ) = PendingIntent.getActivity(
+    ): PendingIntent = PendingIntent.getActivity(
         context,
         requestCode,
         Intent(context, if (mainScreenLegacy) {
@@ -214,10 +222,10 @@ interface PrefHandler {
 }
 
 inline fun <reified T : Enum<T>> PrefHandler.enumValueOrDefault(prefKey: PrefKey, default: T): T =
-    org.totschnig.myexpenses.util.enumValueOrDefault(getStringSafe(prefKey, default.name), default)
+    enumValueOrDefault(getStringSafe(prefKey, default.name), default)
 
 inline fun <reified T : Enum<T>> PrefHandler.enumValueOrDefault(prefKey: String, default: T): T =
-    org.totschnig.myexpenses.util.enumValueOrDefault(getStringSafe(prefKey, default.name), default)
+    enumValueOrDefault(getStringSafe(prefKey, default.name), default)
 
 fun PrefHandler.getStringSafe(prefKey: PrefKey, default: String) = try {
     getString(prefKey, default)

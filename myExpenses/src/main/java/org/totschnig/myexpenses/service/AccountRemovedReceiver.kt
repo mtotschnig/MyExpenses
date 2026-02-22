@@ -19,11 +19,17 @@ import timber.log.Timber
 class AccountRemovedReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         Timber.i(intent.action)
-        Timber.i(intent.getStringExtra(KEY_ACCOUNT_TYPE) + "/" + intent.getStringExtra(KEY_ACCOUNT_NAME))
+        val accountName = intent.getStringExtra(KEY_ACCOUNT_NAME)
+        val accountType = intent.getStringExtra(KEY_ACCOUNT_TYPE)
+        Timber.i("%s/%s", accountType, accountName)
+        val prefHandler = context.injector.prefHandler()
         if (intent.action == AccountManager.ACTION_ACCOUNT_REMOVED &&
-            intent.getStringExtra(KEY_ACCOUNT_TYPE) == GenericAccountService.ACCOUNT_TYPE &&
-            context.injector.prefHandler().getInt(PrefKey.CURRENT_VERSION, 0) > 0
+            accountType == GenericAccountService.ACCOUNT_TYPE &&
+            prefHandler.getInt(PrefKey.CURRENT_VERSION, 0) > 0
                 ) {
+            if (prefHandler.cloudStorage == accountName) {
+                prefHandler.cloudStorage = null
+            }
             doAsync {
                 try {
                     val where = "$KEY_SYNC_ACCOUNT_NAME = ? "
@@ -31,7 +37,7 @@ class AccountRemovedReceiver : BroadcastReceiver() {
                         TransactionProvider.ACCOUNTS_URI, ContentValues(1).apply {
                             putNull(KEY_SYNC_ACCOUNT_NAME)
                         },
-                        where, arrayOf(intent.getStringExtra(KEY_ACCOUNT_NAME))
+                        where, arrayOf(accountName)
                     )
                 } catch (e: Exception) {
                     CrashHandler.report(e)
