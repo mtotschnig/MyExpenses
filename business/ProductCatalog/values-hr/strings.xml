@@ -2,7 +2,7 @@
 <resources>
     <string name="history_title">Dijagram povijesti</string>
     <string name="history_description">Pogledaj kako se tvoja financijska situacija razvija kroz vrijeme</string>
-    <string name="budget_description">Odredi koliko namjeravaš trošiti u godišnjim, mjesečnim ili tjednim proračunima</string>
+    <string name="budget_description">Odredi koliko namjeravaš trošiti u godišnjim, mjesečnim ili tjednim budžetima</string>
     <string name="ocr_title">Snimi račun</string>
     <string name="ocr_description">Automatski izdvoji iznos, datum i primaoca</string>
     <string name="webui_title">Internetsko korisničko sučelje</string>
@@ -26,7 +26,7 @@
     <string name="professional_benefit_3">Pravo glasa o planu razvoja</string>
     <string name="splittemplate_title">Predložak višedjelne transakcije</string>
     <string name="splittemplate_description">Neograničen broj predložaka i planova za višedjelne transakcije</string>
-    <string name="budget_title">Izrada proračuna</string>
+    <string name="budget_title">Budžetiranje</string>
     <string name="webui_description">Za unos podataka koristi tvoj desktop preglednik</string>
     <string name="csvimport_title">CSV uvoz</string>
     <string name="distribution_description">Prikaži statističku distribuciju transakcija po kategorijama kroz razdoblja (godine, mjeseci, tjedni, dani)</string>
