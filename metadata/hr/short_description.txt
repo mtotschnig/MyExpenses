@@ -1,1 +1,1 @@
-Jednostavan osobni upravljač financijama: mnoštvo funkcija i otvorenog koda.
+Jednostavan osobni upravljač financijama: mnoštvo funkcija i otvorenog koda
