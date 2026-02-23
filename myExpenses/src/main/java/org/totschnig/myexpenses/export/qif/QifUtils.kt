@@ -199,6 +199,17 @@ object QifUtils {
         .map { it.copy(transactions = transformUnknownTransfers(it, it.transactions, accounts)) }
         .map { it.copy(transactions = reduceTransfers(it, accounts)) }
 
+    private fun pickBestTransferPeer(
+        fromAccount: ImportAccount,
+        fromTransaction: ImportTransaction,
+        toAccount: ImportAccount,
+        toTransactions: List<ImportTransaction>?
+    ): ImportTransaction? = toTransactions?.filter { toTransaction ->
+        twoSidesOfTheSameTransfer(fromAccount, fromTransaction, toAccount, toTransaction)
+    }?.let { candidates ->
+        candidates.firstOrNull { it.amount?.compareTo(fromTransaction.amount.negate()) == 0 } ?: candidates.firstOrNull()
+    }
+
     /**
      * We remove one side of the transfer (either the one that is not part of a split or the one
      * that is an expense.
@@ -212,18 +223,10 @@ object QifUtils {
                 if (fromTransaction.toAccount != fromAccount.memo) {
                     allAccounts.find { it.memo == fromTransaction.toAccount }?.let { toAccount ->
                         //pair of transaction, and if it is a split part
-                        val transferPeer: Pair<ImportTransaction, Boolean>? = toAccount.transactions.firstOrNull { toTransaction ->
-                            twoSidesOfTheSameTransfer(fromAccount, fromTransaction, toAccount, toTransaction)
-                        }?.let { it to false } ?:
+                        val transferPeer: Pair<ImportTransaction, Boolean>? =
+                           pickBestTransferPeer(fromAccount, fromTransaction, toAccount, toAccount.transactions) ?.let { it to false } ?:
                         (toAccount.transactions.firstNotNullOfOrNull { toTransaction ->
-                            toTransaction.splits?.firstOrNull { split ->
-                                twoSidesOfTheSameTransfer(
-                                    fromAccount,
-                                    fromTransaction,
-                                    toAccount,
-                                    split
-                                )
-                            }
+                            pickBestTransferPeer(fromAccount, fromTransaction, toAccount, toTransaction.splits)
                         })?.let { it to true }
                         if (transferPeer == null) fromTransaction
                         else if (fromTransaction.amount.signum() == 1 && !transferPeer.second) fromTransaction.copy(
@@ -237,14 +240,7 @@ object QifUtils {
                     if (split.isTransfer) {
                         if (split.toAccount != fromAccount.memo) {
                             allAccounts.find { it.memo == split.toAccount }?.let { toAccount ->
-                                val transferPeer = toAccount.transactions.firstOrNull { toTransaction ->
-                                    twoSidesOfTheSameTransfer(
-                                        fromAccount,
-                                        split,
-                                        toAccount,
-                                        toTransaction
-                                    )
-                                }
+                                val transferPeer = pickBestTransferPeer(fromAccount, split, toAccount, toAccount.transactions)
                                 if (transferPeer == null) split else split.copy(toAmount = transferPeer.amount)
                             }
                         } else split
