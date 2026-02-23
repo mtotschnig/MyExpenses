@@ -234,8 +234,15 @@ fun Repository.loadTemplate(
     when {
         cursor.moveToFirst() -> Template.fromCursor(cursor).let { template ->
             val tags = if (withTags) loadTagsForTemplate(templateId) else null
+            val plan = template.planId?.let {
+                //noinspection MissingPermission
+                loadPlan(it)
+            }
             RepositoryTemplate(
-                data = template.copy(tagList = tags?.map { it.id } ?: emptyList()),
+                data = template.copy(
+                    tagList = tags?.map { it.id } ?: emptyList(),
+                    planId = if (plan == null) null else template.planId
+                ),
                 splitParts = if (template.isSplit)
                     loadSplitParts(template.id).map {
                         val tags = if (withTags) loadTagsForTemplate(it.id) else null
@@ -245,10 +252,7 @@ fun Repository.loadTemplate(
                         )
                     }
                 else null,
-                plan = template.planId?.let {
-                    //noinspection MissingPermission
-                    loadPlan(it)
-                },
+                plan = plan,
                 tags = tags
             )
         }
