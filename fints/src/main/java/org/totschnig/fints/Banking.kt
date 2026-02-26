@@ -670,15 +670,15 @@ fun BankRow(
         add(
             MenuEntry(
                 label = R.string.accounts,
-                icon = Icons.Filled.Checklist,
-                command = "LIST_ACCOUNTS"
+                command = "LIST_ACCOUNTS",
+                icon = Icons.Filled.Checklist
             ) { onShow(bank) }
         )
         add(
             MenuEntry(
                 label = RF.string.menu_sync_account,
-                icon = Icons.Filled.Sync,
-                command = "SYNC_ALL"
+                command = "SYNC_ALL",
+                icon = Icons.Filled.Sync
             ) { onSync(bank) }
         )
         onMigrate?.let {

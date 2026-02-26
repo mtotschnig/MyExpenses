@@ -38,19 +38,17 @@ fun AccountFilterMenu(
         menu = listOf(
             CheckableMenuEntry(
                 label = UiText.StringResource(R.string.show_all),
-                action = { onFilterChange(null) },
-                command = "RESET_FILTER",
                 isChecked = activeFilter == null,
+                command = "RESET_FILTER",
                 isRadio = true
-            )
+            ) { onFilterChange(null) }
         ) + availableFilters.map { filter ->
             CheckableMenuEntry(
                 label = UiText.StringValue(filter.title(context)),
-                action = { onFilterChange(filter) },
-                command = "CHANGE_FILTER",
                 isChecked = activeFilter == filter,
+                command = "CHANGE_FILTER",
                 isRadio = true
-            )
+            ) { onFilterChange(filter) }
         }
     )
 }
@@ -66,7 +64,6 @@ fun TransactionsViewOptionsMenu(
         menu = listOf(
             SubMenuEntry(
                 label = R.string.display_options_sort_list_by,
-                icon = Icons.Default.SortByAlpha,
                 subMenu = TransactionSort.entries.map {
                     CheckableMenuEntry(
                         label = UiText.StringValue(
@@ -79,18 +76,19 @@ fun TransactionsViewOptionsMenu(
                         isChecked = currentAccount.sortDirection == it.sortDirection && currentAccount.sortBy == it.column,
                         isRadio = true
                     ) { onEvent(AppEvent.SetTransactionSort(it)) }
-                }
+                },
+                icon = Icons.Default.SortByAlpha
             ),
             SubMenuEntry(
                 label = R.string.menu_grouping,
-                icon = Icons.Default.DateRange,
                 subMenu = Grouping.entries.map { grouping ->
                     CheckableMenuEntry(
                         label = UiText.StringResource(grouping.label),
                         isChecked = grouping == currentAccount.grouping,
                         isRadio = true
                     ) { onEvent(AppEvent.SetTransactionGrouping(grouping)) }
-                }
+                },
+                icon = Icons.Default.DateRange
             )
         )
     )

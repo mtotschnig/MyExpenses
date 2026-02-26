@@ -551,8 +551,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                         add(
                             MenuEntry(
                                 label = R.string.menu_show_transactions,
-                                icon = Icons.AutoMirrored.Filled.List,
-                                command = "SHOW_TRANSACTIONS"
+                                command = "SHOW_TRANSACTIONS",
+                                icon = Icons.AutoMirrored.Filled.List
                             ) {
                                 lifecycleScope.launch {
                                     showTransactions(
@@ -566,8 +566,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                             add(
                                 MenuEntry(
                                     label = R.string.color,
-                                    icon = Icons.Filled.Palette,
-                                    command = "COLOR"
+                                    command = "COLOR",
+                                    icon = Icons.Filled.Palette
                                 ) {
                                     editCategoryColor(category.id, category.color)
                                 }

@@ -646,8 +646,8 @@ private fun transactionMenu(
     add(
         MenuEntry(
             label = R.string.details,
-            icon = Icons.Filled.Loupe,
-            command = "DETAILS"
+            command = "DETAILS",
+            icon = Icons.Filled.Loupe
         ) {
             onEvent(TransactionEvent.ShowDetails, transaction)
         })
@@ -656,8 +656,8 @@ private fun transactionMenu(
             add(
                 MenuEntry(
                     label = R.string.menu_unpack,
-                    icon = Icons.Filled.Unarchive,
-                    command = "UNPACK_ARCHIVE"
+                    command = "UNPACK_ARCHIVE",
+                    icon = Icons.Filled.Unarchive
                 ) {
                     onEvent(TransactionEvent.UnArchive, transaction)
                 })
@@ -668,23 +668,23 @@ private fun transactionMenu(
             add(
                 MenuEntry(
                     label = R.string.menu_clone_transaction,
-                    icon = Icons.Filled.ContentCopy,
-                    command = "CLONE"
+                    command = "CLONE",
+                    icon = Icons.Filled.ContentCopy
                 ) {
                     onEvent(TransactionEvent.Clone, transaction)
                 })
             add(
                 MenuEntry(
                     label = R.string.menu_create_template_from_transaction,
-                    icon = IcActionTemplateAdd,
-                    command = "CREATE_TEMPLATE_FROM_TRANSACTION"
+                    command = "CREATE_TEMPLATE_FROM_TRANSACTION",
+                    icon = IcActionTemplateAdd
                 ) { onEvent(TransactionEvent.CreateTemplate, transaction) })
             if (transaction.crStatus == CrStatus.VOID) {
                 add(
                     MenuEntry(
                         label = R.string.menu_undelete_transaction,
-                        icon = Icons.Filled.RestoreFromTrash,
-                        command = "UNDELETE_TRANSACTION"
+                        command = "UNDELETE_TRANSACTION",
+                        icon = Icons.Filled.RestoreFromTrash
                     ) {
                         onEvent(TransactionEvent.UnDelete, transaction)
                     })
@@ -704,8 +704,8 @@ private fun transactionMenu(
                     add(
                         MenuEntry(
                             label = R.string.menu_ungroup_split_transaction,
-                            icon = Icons.AutoMirrored.Filled.CallSplit,
-                            command = "UNGROUP_SPLIT"
+                            command = "UNGROUP_SPLIT",
+                            icon = Icons.AutoMirrored.Filled.CallSplit
                         ) {
                             onEvent(TransactionEvent.Ungroup, transaction)
                         })
@@ -715,8 +715,8 @@ private fun transactionMenu(
                     add(
                         MenuEntry(
                             label = R.string.menu_unlink_transfer,
-                            icon = Icons.Filled.LinkOff,
-                            command = "UNLINK_TRANSFER"
+                            command = "UNLINK_TRANSFER",
+                            icon = Icons.Filled.LinkOff
                         ) {
                             onEvent(TransactionEvent.Unlink, transaction)
                         })
@@ -727,8 +727,8 @@ private fun transactionMenu(
                         add(
                             MenuEntry(
                                 label = R.string.menu_transform_to_transfer,
-                                icon = Icons.Filled.Link,
-                                command = "TRANSFORM_TRANSFER"
+                                command = "TRANSFORM_TRANSFER",
+                                icon = Icons.Filled.Link
                             ) {
                                 onEvent(TransactionEvent.TransformToTransfer, transaction)
                             })
@@ -740,7 +740,6 @@ private fun transactionMenu(
     add(
         SubMenuEntry(
             label = R.string.filter,
-            icon = Icons.Filled.Search,
             subMenu = buildList {
                 if (transaction.catId != null && !transaction.isSplit) {
                     if (transaction.categoryPath != null) {
@@ -823,7 +822,8 @@ private fun transactionMenu(
                         }
                     )
                 }
-            }
+            },
+            icon = Icons.Filled.Search
         )
     )
 }

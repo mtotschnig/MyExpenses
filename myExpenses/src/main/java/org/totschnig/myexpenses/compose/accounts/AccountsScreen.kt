@@ -287,11 +287,10 @@ fun AccountGroupingMenu(
         menu = groupingOptions.map { option ->
             CheckableMenuEntry(
                 label = UiText.StringValue(option.toString()),
-                action = { onGroupingChange(option) },
-                command = "CHANGE_GROUPING",
                 isChecked = activeGrouping == option,
+                command = "CHANGE_GROUPING",
                 isRadio = true
-            )
+            ) { onGroupingChange(option) }
         }
     )
 }
@@ -301,13 +300,11 @@ fun ManageEntitiesMenu(onEvent: AppEventHandler) {
     OverFlowMenu(
         menu = listOf(
             MenuEntry(
-                label = UiText.StringResource(R.string.menu_account_types),
-                action = { onEvent(AppEvent.MenuItemClicked(R.id.MANAGE_ACCOUNT_TYPES_COMMAND)) }
-            ),
+                label = UiText.StringResource(R.string.menu_account_types)
+            ) { onEvent(AppEvent.MenuItemClicked(R.id.MANAGE_ACCOUNT_TYPES_COMMAND)) },
             MenuEntry(
-                label = UiText.StringResource(R.string.menu_account_flags),
-                action = { onEvent(AppEvent.MenuItemClicked(R.id.ACCOUNT_FLAGS_COMMAND)) }
-            )
+                label = UiText.StringResource(R.string.menu_account_flags)
+            ) { onEvent(AppEvent.MenuItemClicked(R.id.ACCOUNT_FLAGS_COMMAND)) }
         )
     )
 }

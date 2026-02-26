@@ -229,7 +229,6 @@ fun DebtRenderer(
                         add(
                             SubMenuEntry(
                                 label = R.string.share,
-                                icon = Icons.Filled.Share,
                                 subMenu = DebtViewModel.ExportFormat.entries.map { format ->
                                     MenuEntry(
                                         label = format.resId,
@@ -237,15 +236,16 @@ fun DebtRenderer(
                                     ) {
                                         onShare(format)
                                     }
-                                }
+                                },
+                                icon = Icons.Filled.Share
                             )
                         )
                         if (debt.currency.code != homeCurrency.code) {
                             add(
                                 CheckableMenuEntry(
                                     label = R.string.menu_equivalent_amount,
-                                    command = "DEBT_EQUIVALENT",
-                                    showEquivalentAmount.value
+                                    isChecked = showEquivalentAmount.value,
+                                    command = "DEBT_EQUIVALENT"
                                 ) {
                                     showEquivalentAmount.value = !showEquivalentAmount.value
                                 }

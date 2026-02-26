@@ -39,6 +39,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -51,6 +53,7 @@ sealed interface IMenuEntry {
     val label: UiText
     val icon: @Composable (() -> Painter)?
     val tint: Color?
+    val contentDescription: String?
 }
 
 sealed interface IActionMenuEntry : IMenuEntry {
@@ -60,34 +63,44 @@ sealed interface IActionMenuEntry : IMenuEntry {
 
 data class SubMenuEntry(
     override val label: UiText,
+    val subMenu: Menu,
     override val icon: @Composable (() -> Painter)? = null,
     override val tint: Color? = null,
-    val subMenu: Menu,
+    override val contentDescription: String? = null
 ) : IMenuEntry {
-    constructor(label: Int, icon: ImageVector? = null, subMenu: Menu) : this(
+    constructor(label: Int, subMenu: Menu, icon: ImageVector? = null) : this(
         label = UiText.StringResource(label),
+        subMenu = subMenu,
         icon = if (icon != null) {
             @Composable { rememberVectorPainter(image = icon) }
-        } else null,
-        subMenu = subMenu
+        } else null
     )
 }
 
 data class CheckableMenuEntry(
     override val label: UiText,
-    override val command: String? = null,
     val isChecked: Boolean,
+    override val command: String? = null,
     val isRadio: Boolean = false,
+    override val contentDescription: String? = null,
     override val action: () -> Unit,
 ) : IActionMenuEntry {
     constructor(
         label: Int,
-        command: String,
         isChecked: Boolean,
+        command: String,
         isRadio: Boolean = false,
+        contentDescription: String? = null,
         action: () -> Unit,
     ) :
-            this(UiText.StringResource(label), command, isChecked, isRadio, action)
+            this(
+                UiText.StringResource(label),
+                isChecked,
+                command,
+                isRadio,
+                contentDescription,
+                action
+            )
 
     override val icon: @Composable () -> Painter
         get() = {
@@ -105,53 +118,53 @@ data class CheckableMenuEntry(
 
 data class MenuEntry(
     override val label: UiText,
+    override val command: String? = null,
     override val icon: @Composable (() -> Painter)? = null,
     override val tint: Color? = null,
-    override val command: String? = null,
+    override val contentDescription: String? = null,
     override val action: () -> Unit,
 ) : IActionMenuEntry {
     constructor(
         label: Int,
+        command: String,
         icon: ImageVector? = null,
         tint: Color? = null,
-        command: String,
+        contentDescription: String? = null,
         action: () -> Unit,
     ) : this(
-        label = UiText.StringResource(label),
-        icon = if (icon != null) {
+        UiText.StringResource(label),
+        command,
+        if (icon != null) {
             @Composable { rememberVectorPainter(image = icon) }
-        } else null,
-        tint = tint,
-        command = command,
-        action = action
+        } else null, tint, contentDescription, action
     )
 
     companion object {
         fun delete(command: String, action: () -> Unit) = MenuEntry(
             label = R.string.menu_delete,
-            icon = Icons.Filled.Delete,
             command = command,
+            icon = Icons.Filled.Delete,
             action = action
         )
 
         fun edit(command: String, action: () -> Unit) = MenuEntry(
             label = R.string.menu_edit,
-            icon = Icons.Filled.Edit,
             command = command,
+            icon = Icons.Filled.Edit,
             action = action
         )
 
         fun select(command: String, action: () -> Unit) = MenuEntry(
             label = R.string.select,
-            icon = Icons.Filled.Check,
             command = command,
+            icon = Icons.Filled.Check,
             action = action
         )
 
         fun toggle(command: String, isSealed: Boolean, action: () -> Unit) = MenuEntry(
             label = if (isSealed) R.string.menu_reopen else R.string.menu_close,
-            icon = if (isSealed) Icons.Filled.LockOpen else Icons.Filled.Lock,
             command = command + "_ " + if (isSealed) "_REOPEN" else "_CLOSE",
+            icon = if (isSealed) Icons.Filled.LockOpen else Icons.Filled.Lock,
             action = action
         )
     }
@@ -227,7 +240,12 @@ private fun EntryListRenderer(
                         testTag(it)
                     },
                     text = {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.optional(entry.contentDescription) {
+                                semantics { contentDescription = it }
+                            }
+                        ) {
                             EntryContent(entry, offset)
                         }
                     },
@@ -278,8 +296,8 @@ private fun Entry() {
         EntryContent(
             MenuEntry(
                 label = R.string.menu_edit,
-                icon = Icons.Filled.Edit,
-                command = ""
+                command = "",
+                icon = Icons.Filled.Edit
             ) {})
     }
 }
@@ -295,13 +313,13 @@ private fun Overflow() {
                 label = R.string.hide, subMenu = listOf(
                     MenuEntry(
                         label = R.string.menu_edit,
-                        icon = Icons.Filled.Edit,
-                        command = ""
+                        command = "",
+                        icon = Icons.Filled.Edit
                     ) {},
                     MenuEntry(
                         label = R.string.menu_move,
-                        icon = ArrowsAlt,
-                        command = ""
+                        command = "",
+                        icon = ArrowsAlt
                     ) {}
                 )
             )

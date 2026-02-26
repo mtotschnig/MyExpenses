@@ -935,23 +935,23 @@ private fun accountMenu(
         add(
             SubMenuEntry(
                 label = R.string.menu_flag,
-                icon = Icons.Filled.Flag,
                 subMenu = flags.filter { it.id != DEFAULT_FLAG_ID }.map {
                     val isChecked = account.flag.id == it.id
                     CheckableMenuEntry(
                         label = UiText.StringValue(
                             it.title(context)
                         ),
+                        isChecked = isChecked,
                         command = "SET_FLAG",
-                        isRadio = true,
-                        isChecked = isChecked
+                        isRadio = true
                     ) {
                         onEvent(
                             AccountEvent.SetFlag(if (isChecked) DEFAULT_FLAG_ID else it.id),
                             account
                         )
                     }
-                }
+                },
+                icon = Icons.Filled.Flag
             )
         )
         add(
@@ -961,8 +961,8 @@ private fun accountMenu(
         )
         add(
             CheckableMenuEntry(
-                isChecked = account.excludeFromTotals,
                 label = R.string.menu_exclude_from_totals,
+                isChecked = account.excludeFromTotals,
                 command = "EXCLUDE_FROM_TOTALS_COMMAND"
             ) {
                 onEvent(AccountEvent.ToggleExcludeFromTotals, account)
@@ -970,8 +970,8 @@ private fun accountMenu(
         if (account.currency != homeCurrency.code) {
             add(
                 CheckableMenuEntry(
-                    isChecked = account.dynamic,
                     label = R.string.dynamic_exchange_rate,
+                    isChecked = account.dynamic,
                     command = "DYNAMIC_EXCHANGE_RATE"
                 ) {
                     onEvent(AccountEvent.ToggleDynamicExchangeRate, account)

@@ -113,8 +113,8 @@ fun BalanceSheetOptions(
             showHiddenState?.let {
                 CheckableMenuEntry(
                     label = R.string.show_invisible,
-                    command = "TOGGLE_SHOW_INVISIBLE",
-                    it.value
+                    isChecked = it.value,
+                    command = "TOGGLE_SHOW_INVISIBLE"
                 ) {
                     showHiddenState.value = !showHiddenState.value
                 }
@@ -122,16 +122,16 @@ fun BalanceSheetOptions(
             showZeroState?.let {
                 CheckableMenuEntry(
                     label = R.string.show_zero,
-                    command = "TOGGLE_SHOW_ZERO",
-                    it.value
+                    isChecked = it.value,
+                    command = "TOGGLE_SHOW_ZERO"
                 ) {
                     showZeroState.value = !showZeroState.value
                 }
             },
             CheckableMenuEntry(
                 label = R.string.menu_chart,
-                command = "TOGGLE_CHART_BALANCE",
-                showChartState.value
+                isChecked = showChartState.value,
+                command = "TOGGLE_CHART_BALANCE"
             ) {
                 showChartState.value = !showChartState.value
                 highlight.value = null

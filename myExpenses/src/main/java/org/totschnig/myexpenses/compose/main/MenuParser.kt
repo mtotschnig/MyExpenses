@@ -42,14 +42,14 @@ private fun AMenu.map(
                 menuItem.subMenu?.let {
                     SubMenuEntry(
                         label = UiText.StringValue(menuItem.title.toString()),
+                        subMenu = it.map(context, onPrepareMenuItem, onMenuItemClicked),
                         icon = {
                             rememberDrawablePainter(menuItem.icon)
-                        },
-                        subMenu = it.map(context, onPrepareMenuItem, onMenuItemClicked)
+                        }
                     )
                 } ?: MenuEntry(
-                    command = context.resources.getResourceName(menuItem.itemId),
                     label = UiText.StringValue(menuItem.title.toString()),
+                    command = context.resources.getResourceName(menuItem.itemId),
                     icon = {
                         rememberDrawablePainter(menuItem.icon)
                     }
