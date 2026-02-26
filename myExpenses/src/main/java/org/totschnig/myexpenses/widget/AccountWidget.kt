@@ -103,7 +103,7 @@ class AccountWidget :
         val accountId = intent.getLongExtra(KEY_ROWID, 0)
         val startIntent = when (val clickAction = intent.getStringExtra(KEY_CLICK_ACTION)) {
             null -> {
-                Intent(context, MyExpenses::class.java).apply {
+                Intent(context, prefHandler.mainScreenClass).apply {
                     putExtra(KEY_ROWID, accountId)
                 }
             }

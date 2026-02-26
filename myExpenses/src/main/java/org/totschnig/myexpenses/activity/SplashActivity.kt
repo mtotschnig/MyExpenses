@@ -22,14 +22,12 @@ class SplashActivity : Activity() {
             startActivity(
                 Intent(
                     this,
-                    when {
-                        prefHandler.getInt(PrefKey.CURRENT_VERSION, -1) == -1
-                            -> OnboardingActivity::class.java
-
-                        prefHandler.mainScreenLegacy -> MyExpenses::class.java
-
-                        else -> MyExpensesV2::class.java
-                    }
+                    if (prefHandler.getInt(
+                            PrefKey.CURRENT_VERSION,
+                            -1
+                        ) == -1
+                    ) OnboardingActivity::class.java
+                    else prefHandler.mainScreenClass
                 ).apply {
                     flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
                 })

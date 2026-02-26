@@ -195,6 +195,9 @@ interface PrefHandler {
     val mainScreenLegacy: Boolean
         get() = enumValueOrDefault(PrefKey.UI_MAIN_SCREEN_VERSION, Version.V1) == Version.V1
 
+    val mainScreenClass: Class<*>
+        get() = if (mainScreenLegacy) MyExpenses::class.java else MyExpensesV2::class.java
+
     fun createShowDetailsIntent(
         context: Context,
         requestCode: Int,
@@ -202,12 +205,7 @@ interface PrefHandler {
     ): PendingIntent = PendingIntent.getActivity(
         context,
         requestCode,
-        Intent(context, if (mainScreenLegacy) {
-            MyExpenses::class.java
-        } else {
-            MyExpensesV2::class.java
-        }
-        ).apply {
+        Intent(context, mainScreenClass).apply {
             putExtra(KEY_ROWID, transaction.accountId)
             putExtra(KEY_TRANSACTIONID, transaction.id)
         },
