@@ -372,7 +372,7 @@ open class LicenceHandler(
 
     suspend fun handleExpiration() {
         val licenceDuration = validUntilMillis - validSinceMillis
-        if (TimeUnit.MILLISECONDS.toDays(licenceDuration) > 240) { // roughly eight months
+        if (TimeUnit.MILLISECONDS.toDays(licenceDuration) > 760) { // roughly 25 months
             licenceStatus = LicenceStatus.EXTENDED_FALLBACK
             licenseStatusPrefs.putString(LICENSE_STATUS_KEY, LicenceStatus.EXTENDED_FALLBACK.name)
             licenseStatusPrefs.remove(LICENSE_VALID_UNTIL_KEY)
