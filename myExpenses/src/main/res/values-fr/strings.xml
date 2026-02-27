@@ -747,7 +747,7 @@
     <!-- If this mode is active, the action button will open the camera for scanning a receipt  -->
     <string name="menu_scan_mode">Mode Scan</string>
     <!-- Button that triggers the scan operation -->
-    <string name="button_scan">Analyse</string>
+    <string name="button_scan">Scanner</string>
     <string name="pref_ocr_total_indicators_title">Indicateurs du montant total</string>
     <string name="pref_ocr_total_indicators_summary">Une liste de chaînes, qui identifie la valeur totale d\'un reçu. Mettez chaque valeur sur une nouvelle ligne. Laissez vide pour restaurer la valeur par défaut.</string>
     <string name="pref_ocr_date_formats_title">Formats de date</string>
