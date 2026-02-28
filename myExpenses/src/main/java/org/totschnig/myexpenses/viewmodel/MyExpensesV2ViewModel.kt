@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
-import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -14,7 +13,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
@@ -136,34 +134,36 @@ class MyExpensesV2ViewModel(
                         filteredByGroupFilter
                     else
                         filteredByGroupFilter.filter { it.visible }
-                if (filteredByGroupFilter.size < 2)
-                    filteredByVisibility
-                else filteredByVisibility + AggregateAccount(
-                    currencyUnit = activeFilter as? CurrencyUnit
-                        ?: currencyContext.homeCurrencyUnit,
-                    type = if (accountGrouping == AccountGrouping.TYPE) activeFilter as? AccountType else null,
-                    flag = if (accountGrouping == AccountGrouping.FLAG) activeFilter as? AccountFlag else null,
-                    grouping = aggregateGrouping,
-                    accountGrouping = aggregateAccountGrouping,
-                    sortBy = aggregateSort.column,
-                    sortDirection = aggregateSort.sortDirection,
-                    equivalentOpeningBalance = filteredByGroupFilter.sumOf { it.equivalentOpeningBalance },
-                    equivalentCurrentBalance = filteredByGroupFilter.sumOf { it.equivalentCurrentBalance },
-                    equivalentSumIncome = filteredByGroupFilter.sumOf { it.equivalentSumIncome },
-                    equivalentSumExpense = filteredByGroupFilter.sumOf { it.equivalentSumExpense },
-                    equivalentSumTransfer = filteredByGroupFilter.sumOf { it.equivalentSumTransfer },
-                    equivalentTotal = filteredByGroupFilter.sumOf {
-                        it.equivalentTotal ?: it.equivalentCurrentBalance
-                    },
-                ).let { aggregateAccount ->
-                    if (aggregateAccountGrouping == AccountGrouping.CURRENCY) aggregateAccount.copy(
-                        openingBalance = filteredByGroupFilter.sumOf { it.openingBalance },
-                        currentBalance = filteredByGroupFilter.sumOf { it.currentBalance },
-                        sumIncome = filteredByGroupFilter.sumOf { it.sumIncome },
-                        sumExpense = filteredByGroupFilter.sumOf { it.sumExpense },
-                        sumTransfer = filteredByGroupFilter.sumOf { it.sumTransfer },
-                        total = filteredByGroupFilter.sumOf { it.total ?: it.currentBalance },
-                    ) else aggregateAccount
+                if (filteredByGroupFilter.size < 2) filteredByVisibility
+                else {
+                    val filteredForTotals = filteredByGroupFilter.filter { !it.excludeFromTotals }
+                    filteredByVisibility + AggregateAccount(
+                        currencyUnit = activeFilter as? CurrencyUnit
+                            ?: currencyContext.homeCurrencyUnit,
+                        type = if (accountGrouping == AccountGrouping.TYPE) activeFilter as? AccountType else null,
+                        flag = if (accountGrouping == AccountGrouping.FLAG) activeFilter as? AccountFlag else null,
+                        grouping = aggregateGrouping,
+                        accountGrouping = aggregateAccountGrouping,
+                        sortBy = aggregateSort.column,
+                        sortDirection = aggregateSort.sortDirection,
+                        equivalentOpeningBalance = filteredForTotals.sumOf { it.equivalentOpeningBalance },
+                        equivalentCurrentBalance = filteredForTotals.sumOf { it.equivalentCurrentBalance },
+                        equivalentSumIncome = filteredForTotals.sumOf { it.equivalentSumIncome },
+                        equivalentSumExpense = filteredForTotals.sumOf { it.equivalentSumExpense },
+                        equivalentSumTransfer = filteredForTotals.sumOf { it.equivalentSumTransfer },
+                        equivalentTotal = filteredForTotals.sumOf {
+                            it.equivalentTotal ?: it.equivalentCurrentBalance
+                        },
+                    ).let { aggregateAccount ->
+                        if (aggregateAccountGrouping == AccountGrouping.CURRENCY) aggregateAccount.copy(
+                            openingBalance = filteredForTotals.sumOf { it.openingBalance },
+                            currentBalance = filteredForTotals.sumOf { it.currentBalance },
+                            sumIncome = filteredForTotals.sumOf { it.sumIncome },
+                            sumExpense = filteredForTotals.sumOf { it.sumExpense },
+                            sumTransfer = filteredForTotals.sumOf { it.sumTransfer },
+                            total = filteredForTotals.sumOf { it.total ?: it.currentBalance },
+                        ) else aggregateAccount
+                    }
                 }
             }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
         }
