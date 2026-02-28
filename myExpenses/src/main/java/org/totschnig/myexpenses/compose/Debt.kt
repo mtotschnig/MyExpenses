@@ -211,7 +211,11 @@ fun DebtRenderer(
                             runningTotal = runningTotal,
                             currency,
                             index == count - 1,
-                            onTransactionClick = { onTransactionClick(transaction.id) },
+                            onTransactionClick = {
+                                onTransactionClick(
+                                    transaction.parentId ?: transaction.id
+                                )
+                            },
                             trendIcon = trendIcon
                         )
                     }

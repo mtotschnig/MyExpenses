@@ -80,7 +80,8 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
                         enumValueOrDefault(it[getGroupingPrefKey(account)], defaultGrouping)
                     }
                         .distinctUntilChanged()
-                }.collect { setGrouping(it) }
+                }
+                .collect { setGrouping(it) }
         }
         _whereFilter.update { whereFilter }
     }
