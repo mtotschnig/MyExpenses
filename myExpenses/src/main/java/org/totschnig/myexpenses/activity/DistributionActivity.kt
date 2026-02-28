@@ -208,15 +208,16 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
 
                 val typeFlags = viewModel.typeFlags.collectAsState(initial = false to true)
                 val (showIncome, showExpense) = typeFlags.value
+                val whereFilter = viewModel.whereFilter.collectAsState().value
                 when {
                     showIncome && showExpense -> {
-                        RenderCombined(viewModel.whereFilter.collectAsState().value, ::clearFilter)
+                        RenderCombined(whereFilter, ::clearFilter)
                     }
 
                     !showIncome && !showExpense -> throw IllegalStateException()
                     else -> RenderSingle(
                         showIncome,
-                        viewModel.whereFilter.collectAsState().value,
+                        whereFilter,
                         ::clearFilter
                     )
                 }

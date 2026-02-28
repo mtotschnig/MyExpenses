@@ -81,9 +81,8 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
                     }
                         .distinctUntilChanged()
                 }.collect { setGrouping(it) }
-
-            _whereFilter.update { whereFilter }
         }
+        _whereFilter.update { whereFilter }
     }
 
     fun persistGrouping(grouping: Grouping) {
