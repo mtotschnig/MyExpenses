@@ -19,6 +19,8 @@ import org.totschnig.myexpenses.db2.insertTemplate
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.instantiateTemplate
 import org.totschnig.myexpenses.db2.loadTemplate
+import org.totschnig.myexpenses.db2.loadTemplateForPlanIfInstanceIsOpen
+import org.totschnig.myexpenses.db2.loadTemplateIfInstanceIsOpen
 import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.db2.loadTransactions
 import org.totschnig.myexpenses.db2.requireParty
@@ -26,12 +28,14 @@ import org.totschnig.myexpenses.db2.writeTag
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.model.generateUuid
+import org.totschnig.myexpenses.provider.CalendarProviderProxy.calculateId
 import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.util.toEpoch
 import org.totschnig.myexpenses.util.toEpochMillis
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import org.totschnig.shared_test.TransactionData
 import org.totschnig.shared_test.assertTransaction
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @RunWith(RobolectricTestRunner::class)
@@ -215,6 +219,105 @@ class TemplateTest : BaseTestWithRepository() {
         val dateInThePast = LocalDateTime.now().minusDays(30)
         val transaction = template.instantiate(dateInThePast.toEpochMillis()).data
         assertThat(transaction.date).isEqualTo(dateInThePast.toEpoch())
+    }
+
+    @Test
+    fun returnNullIfInstanceExists() = runTest {
+        val templateWithPlan = repository.createTemplate(
+            Template(
+                title = "Mock plan",
+                accountId = account1,
+                amount = 1234,
+                categoryId = categoryId,
+                uuid = generateUuid(),
+                payeeId = payeeId,
+                planId = 1001
+            )
+        )
+        val date = LocalDate.now().toEpoch()
+        val instanceId = calculateId(date * 1000)
+        repository.instantiateTemplate(
+            exchangeRateHandler,
+            PlanInstanceInfo(templateId = templateWithPlan.id, date = date, instanceId = instanceId),
+            currencyContext
+        )
+        assertThat(
+            repository.loadTemplateIfInstanceIsOpen(
+                templateWithPlan.id,
+                instanceId
+            )
+        ).isNull()
+    }
+
+    @Test
+    fun returnInstanceIfOpen() = runTest {
+        val templateWithPlan = repository.createTemplate(
+            Template(
+                title = "Mock plan",
+                accountId = account1,
+                amount = 1234,
+                categoryId = categoryId,
+                uuid = generateUuid(),
+                payeeId = payeeId,
+                planId = 1001
+            )
+        )
+        val date = LocalDate.now().toEpoch()
+        val instanceId = calculateId(date * 1000)
+        assertThat(
+            repository.loadTemplateIfInstanceIsOpen(
+                templateWithPlan.id,
+                instanceId
+            )
+        ).isNotNull()
+    }
+
+    @Test
+    fun returnNullForPlanIfExists() = runTest {
+        val planId = 1001L
+        val templateWithPlan = repository.createTemplate(
+            Template(
+                title = "Mock plan",
+                accountId = account1,
+                amount = 1234,
+                categoryId = categoryId,
+                uuid = generateUuid(),
+                payeeId = payeeId,
+                planId = planId
+            )
+        )
+
+        val date = LocalDate.now().toEpoch()
+        val instanceId = calculateId(date * 1000)
+        repository.instantiateTemplate(
+            exchangeRateHandler,
+            PlanInstanceInfo(templateId = templateWithPlan.id, date = date, instanceId = instanceId),
+            currencyContext
+        )
+        val template = repository.loadTemplateForPlanIfInstanceIsOpen(planId, instanceId)
+        assertThat(template).isNull()
+    }
+
+    @Test
+    fun loadTemplateForPlanIfOpenWithTags() = runTest {
+        val planId = 1001L
+        repository.createTemplate(
+            Template(
+                title = "Mock plan",
+                accountId = account1,
+                amount = 1234,
+                categoryId = categoryId,
+                uuid = generateUuid(),
+                payeeId = payeeId,
+                planId = planId,
+                tagList = listOf(tagId)
+            )
+        )
+        val date = LocalDate.now().toEpoch()
+        val instanceId = calculateId(date * 1000)
+        val template = repository.loadTemplateForPlanIfInstanceIsOpen(planId, instanceId)
+        assertThat(template).isNotNull()
+        assertThat(template!!.tags!!.map { it.id }).containsExactly(tagId)
     }
 
     private fun buildTransactionTemplate() = repository.insertTemplate(

@@ -211,7 +211,7 @@ fun Repository.loadTemplateIfInstanceIsOpen(templateId: Long, instanceId: Long) 
 
 fun Repository.loadTemplateForPlanIfInstanceIsOpen(planId: Long, instanceId: Long) =
     loadTemplate(
-        planId,
+        null,
         selection = "$KEY_PLANID = ? AND $IS_OPEN_CHECK",
         selectionArgs = arrayOf(planId.toString(), instanceId.toString()),
         require = false,
@@ -219,9 +219,9 @@ fun Repository.loadTemplateForPlanIfInstanceIsOpen(planId: Long, instanceId: Lon
     )
 
 fun Repository.loadTemplate(
-    templateId: Long,
+    templateId: Long? = null,
     selection: String? = "$KEY_ROWID = ?",
-    selectionArgs: Array<String>? = arrayOf(templateId.toString()),
+    selectionArgs: Array<String>? = arrayOf(requireNotNull(templateId).toString()),
     require: Boolean = true,
     withTags: Boolean = false,
 ) = contentResolver.query(
@@ -233,7 +233,7 @@ fun Repository.loadTemplate(
 )!!.use { cursor ->
     when {
         cursor.moveToFirst() -> Template.fromCursor(cursor).let { template ->
-            val tags = if (withTags) loadTagsForTemplate(templateId) else null
+            val tags = if (withTags) loadTagsForTemplate(template.id) else null
             val plan = template.planId?.let {
                 //noinspection MissingPermission
                 loadPlan(it)
