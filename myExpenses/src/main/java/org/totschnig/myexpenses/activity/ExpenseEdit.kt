@@ -124,7 +124,6 @@ import org.totschnig.myexpenses.provider.KEY_URI
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.ui.ContextAwareRecyclerView
 import org.totschnig.myexpenses.ui.DateButton
-import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.ui.ExchangeRateEdit
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
@@ -591,7 +590,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 if (operationType != TYPE_TRANSFER) {
                     discoveryHelper.discover(
                         this, amountInput.typeButton, 1,
-                        DiscoveryHelper.Feature.ExpenseIncomeSwitch
+                        IDiscoveryHelper.Feature.ExpenseIncomeSwitch
                     )
                 }
             }
@@ -1025,7 +1024,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         if (shouldLoadMethods) {
             loadMethods(currentAccount)
         }
-        discoveryHelper.markDiscovered(DiscoveryHelper.Feature.ExpenseIncomeSwitch)
+        discoveryHelper.markDiscovered(IDiscoveryHelper.Feature.ExpenseIncomeSwitch)
         showCategoryWarning()
     }
 

@@ -76,7 +76,6 @@ import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.service.BudgetWidgetUpdateWorker
 import org.totschnig.myexpenses.service.PlanExecutor
 import org.totschnig.myexpenses.sync.GenericAccountService
-import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -234,7 +233,7 @@ class UpgradeHandlerViewModel(application: Application) :
                     )?.use {
                         if (it.moveToFirst()) {
                             if (it.getInt(0) > 0) {
-                                discoveryHelper.markDiscovered(DiscoveryHelper.Feature.ExpenseIncomeSwitch)
+                                discoveryHelper.markDiscovered(IDiscoveryHelper.Feature.ExpenseIncomeSwitch)
                             }
                         }
                     }

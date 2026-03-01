@@ -1,17 +1,47 @@
 package org.totschnig.myexpenses.ui
 
 import android.app.Activity
+import android.content.Context
 import android.view.View
+import org.totschnig.myexpenses.R
 
 interface IDiscoveryHelper {
-    fun discover(context: Activity, target: View, daysSinceInstall: Int, feature: DiscoveryHelper.Feature,
+    fun discover(context: Activity, target: View, daysSinceInstall: Int, feature: Feature,
                  measureTarget: Boolean = false): Boolean
 
-    fun markDiscovered(feature: DiscoveryHelper.Feature)
+    fun markDiscovered(feature: Feature)
 
     companion object NO_OP : IDiscoveryHelper {
-        override fun discover(context: Activity, target: View, daysSinceInstall: Int, feature: DiscoveryHelper.Feature, measureTarget: Boolean) = false
+        override fun discover(context: Activity, target: View, daysSinceInstall: Int, feature: Feature, measureTarget: Boolean) = false
 
-        override fun markDiscovered(feature: DiscoveryHelper.Feature) {}
+        override fun markDiscovered(feature: Feature) {}
+    }
+
+    enum class Feature(val key: String) {
+        ExpenseIncomeSwitch("showDiscoveryExpenseIncomeSwitch") {
+            override fun toTitle(context: Context) = with(context) {
+                String.format("%s / %s", getString(R.string.expense), getString(R.string.income))
+            }
+        },
+        FabLongPress("showDiscoveryFabLongPress") {
+            override fun toTitle(context: Context) = with(context) {
+                String.format(
+                    "%s / %s / %s / %s",
+                    getString(R.string.transfer),
+                    getString(R.string.split_transaction),
+                    getString(R.string.income),
+                    getString(R.string.expense)
+                )
+            }
+        };
+
+        open fun getLabelResId(ctx: Context) = when (this) {
+            ExpenseIncomeSwitch -> R.string.discover_feature_expense_income_switch
+            FabLongPress -> R.string.discover_feature_fab_long_press
+        }
+
+        fun toDescription(context: Context) = context.getString(getLabelResId(context))
+
+        abstract fun toTitle(context: Context): String
     }
 }

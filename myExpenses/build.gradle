@@ -191,8 +191,6 @@ dependencies {
     implementation libs.caldroid
     api libs.simpledialogfragments
 
-    implementation libs.taptargetview
-
     implementation libs.commons.collections4
 
     api libs.timber

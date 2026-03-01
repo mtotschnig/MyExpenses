@@ -38,7 +38,7 @@ easypermissionsKtx = "7ab6997271"
 emailIntentBuilder = "2.0.0"
 espressoVersion = "3.7.0"
 evernote = "1.4.1"
-composeBom = "2026.02.00"
+composeBom = "2026.02.01"
 
 dagger = "2.59.2"
 datastorePreferences = "1.2.0"
@@ -54,7 +54,7 @@ gson = "2.13.2"
 guava = "33.5.0-android"
 hbci4j = "657e81d30c"
 itextpdf = "5.5.13.3"
-jacksonCore = "2.21.0"
+jacksonCore = "2.21.1"
 jaxbImpl = "2.3.9"
 junitparams = "1.1.1"
 junitVersion = "4.13.2"
@@ -95,7 +95,6 @@ simpledialogfragments = "d1e6d27700"
 slf4jApi = "2.0.17"
 snakeyaml = "2.6"
 sqlcipher = "4.12.0"
-taptargetview = "1.15.0"
 tesseract4androidOpenmp = "4.8.0"
 mlkitTextRecognition = "16.0.1"
 mlkitTextRecognitionBundledCommon = "17.0.0"
@@ -242,7 +241,6 @@ screengrab = { module = "tools.fastlane:screengrab", version.ref = "screengrab" 
 simpledialogfragments = { module = "com.github.mtotschnig:SimpleDialogFragments", version.ref = "simpledialogfragments" }
 slf4j-api = { module = "org.slf4j:slf4j-api", version.ref = "slf4jApi" }
 snakeyaml = { module = "org.yaml:snakeyaml", version.ref = "snakeyaml" }
-taptargetview = { module = "com.getkeepsafe.taptargetview:taptargetview", version.ref = "taptargetview" }
 tesseract4android-openmp = { module = "cz.adaptech.tesseract4android:tesseract4android-openmp", version.ref = "tesseract4androidOpenmp" }
 text-recognition = { module = "com.google.mlkit:text-recognition", version.ref = "mlkitTextRecognition" }
 text-recognition-bundled-common = { module = "com.google.mlkit:text-recognition-bundled-common", version.ref = "mlkitTextRecognitionBundledCommon" }

@@ -92,7 +92,6 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.retrofit.Vote
-import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.Utils
@@ -260,7 +259,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                     this,
                     it,
                     3,
-                    DiscoveryHelper.Feature.FabLongPress
+                    IDiscoveryHelper.Feature.FabLongPress
                 )
             }
         }
@@ -992,7 +991,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
 
     fun setupFabSubMenu() {
         floatingActionButton.setOnLongClickListener { fab ->
-            discoveryHelper.markDiscovered(DiscoveryHelper.Feature.FabLongPress)
+            discoveryHelper.markDiscovered(IDiscoveryHelper.Feature.FabLongPress)
             val popup = PopupMenu(this, fab)
             val popupMenu = popup.menu
             popup.setOnMenuItemClickListener { item ->

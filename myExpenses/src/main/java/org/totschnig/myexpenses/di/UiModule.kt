@@ -9,7 +9,6 @@ import org.totschnig.myexpenses.activity.ViewIntentProvider
 import org.totschnig.myexpenses.activity.SystemViewIntentProvider
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.ICurrencyFormatter
@@ -57,8 +56,7 @@ open class UiModule {
 
     @Provides
     @Singleton
-    open fun provideDiscoveryHelper(prefHandler: PrefHandler): IDiscoveryHelper =
-        DiscoveryHelper(prefHandler)
+    open fun provideDiscoveryHelper(prefHandler: PrefHandler): IDiscoveryHelper = IDiscoveryHelper.NO_OP
 
     @Provides
     @Singleton
