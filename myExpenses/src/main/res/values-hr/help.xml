@@ -28,7 +28,7 @@
     <string name="help_ManageCategories_manage_context">Pritisni na unos za prikaz kontekstualnog izbornika. Dugim dodirom pokreni višestruki odabir.</string>
     <string name="help_ManageCategories_expand_collapse"><![CDATA[Pritisni ikonu <img src="ic_expand_more">/<img src="ic_expand_less"> za rasklapanje ili sklapanje kategorije.]]></string>
     <string name="popup_MyExpenses_toolbar_intro">Dodirom na alatnoj traci (etiketa računa ili trenutačni saldo) otvara se izbornik sa sljedećim unosima:</string>
-    <string name="menu_budget_help_text">Upravljaj dnevnim, tjednim, mjesečnim ili godišnjim proračunima za trenutačno prikazani račun.</string>
+    <string name="menu_budget_help_text">Upravljaj dnevnim, tjednim, mjesečnim ili godišnjim budžetima za trenutačno prikazani račun.</string>
     <string name="menu_print_help_text">Generira prikaz ispisa trenutačno prikazanih transakcija.</string>
     <string name="cab_create_template_from_transaction_help_text">Definiraj novi predložak na temelju odabrane transakcije. Morat ćeš zadati naslov predloška.</string>
     <string name="cab_ManageTemplates_plans_create_instance_edit_help_text">Stvori transakciju u vrijeme odabrane instance događaja i unesi njen obrazac za uređivanje gdje je možeš promijeniti prije spremanja.</string>
@@ -53,13 +53,13 @@
     <string name="cab_ManageCategories_select_filter_select_help_text">Odabrane kategorije će se koristiti za filtriranje popisa transakcija.</string>
     <string name="help_ExpenseEdit_transfer_title">Obrazac za prijenose</string>
     <string name="menu_save_help_text">Spremi podatke i zatvori obrazac.</string>
-    <string name="help_ManageBudgets_title">Popis svih proračuna</string>
+    <string name="help_ManageBudgets_title">Popis svih budžeta</string>
     <string name="help_WebUI_info_2">Internetsko korisničko sučelje trenutačno ne podržava prijenose ili podijeljene transakcije.</string>
     <string name="help_ManageParties_manage_info">Ovaj ekran prikazuje popis stranaka koje se koriste za automatsko popunjavanje polja Platiša/Primalac.</string>
     <string name="help_ExpenseEdit_transaction_title">Obrazac za transakcije</string>
-    <string name="help_BudgetEdit_title">Obrazac za proračune</string>
-    <string name="help_BudgetEdit_info">Koristi ovaj obrazac za izradu novog proračuna ili za uređivanje postojećeg.</string>
-    <string name="form_BudgetEdit_title_help_text">Naslov proračuna pomaže prepoznati proračun u popisu proračuna.</string>
+    <string name="help_BudgetEdit_title">Obrazac za budžete</string>
+    <string name="help_BudgetEdit_info">Koristi ovaj obrazac za izradu novog budžeta ili za uređivanje postojećeg.</string>
+    <string name="form_BudgetEdit_title_help_text">Naslov budžeta pomaže da ga se identificira u popisu budžeta.</string>
     <string name="help_MethodEdit_title">Obrazac za načine plaćanja</string>
     <string name="help_WebUI_info_1">Pozovi prikazani URL u podnaslovu putem web preglednika na tvom računalu.</string>
     <string name="cab_ManageCategories_create_sub_cat_help_text">Otvara dijalog za stvaranje nove potkategorije ispod odabrane kategorije. Potkategorije se mogu smjestiti na proizvoljnu razinu.</string>
@@ -135,13 +135,13 @@
     <string name="help_fab_confirm_selection">Koristi plutajući gumb radnje za potvrđivanje odabira.</string>
     <string name="help_ManageParties_mergeMode_info_1">Odaberi duple sudionike koje želiš spojiti.</string>
     <string name="menu_HistoryActivity_history_show_balance_help_text">Uključi/Isključi prikaz salda.</string>
-    <string name="menu_BudgetActivity_edit_help_text">Promijeni definiciju proračuna.</string>
+    <string name="menu_BudgetActivity_edit_help_text">Promijeni definiciju budžeta.</string>
     <string name="menu_budget_allocated_only_help_text">Aktiviranjem ove opcije prikazuju se samo kategorije za koje je neki iznos alociran.</string>
-    <string name="menu_BudgetActivity_delete_help_text">Trenutačno prikazani proračun će se izbrisati.</string>
+    <string name="menu_BudgetActivity_delete_help_text">Trenutačno prikazani budžet će se izbrisati.</string>
     <string name="form_DebtEdit_date_help_text">Upiši datum nastanka duga.</string>
     <string name="menu_type_filter_help_text">Kada je ova opcija aktivirana možeš odabrati prikaz samo kategorija troškova, prihoda ili prijenosa.</string>
     <string name="menu_create_account_help_text">Stvori novi račun. Besplatna verzija je ograničena na pet računa.</string>
-    <string name="form_BudgetEdit_amount_help_text">Količina novca koji je dostupan u kontekstu ovog proračuna.</string>
+    <string name="form_BudgetEdit_amount_help_text">Količina novca koji je dostupan u kontekstu ovog budžeta.</string>
     <string name="help_ManageTags_manage_info">Stvori nove oznake upisivanjem u tekstualno polje.</string>
     <string name="help_ManageTags_context_menu_info">Dodirni ikonu &lt;img src=more&gt; za uređivanje, dodjeljivanje boje ili brisanje oznake.</string>
     <string name="form_plan_help_text_mode">Plan se može postaviti na automatski ili ručno. Kada se pojavi instanca jednog automatskog plana, transakcija će se stvoriti, a ti ćeš primiti obavijest. Kada je plan postavljen ručno, također ćeš primiti obavijest s mogućnošću otkazivanja, izmjene ili primjene predloška.</string>
@@ -159,7 +159,7 @@
     <string name="cab_sync_now_help_text">Pokreni trenutnu sinkronizaciju s odabranim pozadinskim sustavom.</string>
     <string name="cab_sync_unlink_help_text">Odabrani račun se više neće sinkronizirati u pozadinski sustav</string>
     <string name="menu_HistoryActivity_grouping_help_text">Promijeni prikaz na dnevno, tjedno, mjesečno ili godišnje grupiranje tvojih podataka o novčanom toku.</string>
-    <string name="form_BudgetEdit_filter_help_text">Proračuni se mogu filtrirati prema kategorijama, strankama, načinima ili stanjima. U obzir se uzimaju samo transakcije koje odgovaraju ovim filtrima.</string>
+    <string name="form_BudgetEdit_filter_help_text">Budžeti se mogu filtrirati prema kategorijama, strankama, načinima ili stanjima. U obzir se uzimaju samo transakcije koje odgovaraju ovim filtrima.</string>
     <string name="cab_remap_help_text">Koristi naredbe u ovom podizborniku, ako želiš promijeniti zadano svojstvo (račun, kategorija, platiša/primalac ili način plaćanja) za sve odabrane transakcije.</string>
     <string name="menu_chart_help_text">Uključi/Isključi vidljivost dijagrama.</string>
     <string name="help_HistoryActivity_info">Ovaj ekran prikazuje tvoj novčani tok, kako se tvoji troškovi i prihodi razvijaju tijekom godina, mjeseci, tjedana ili dana.</string>
