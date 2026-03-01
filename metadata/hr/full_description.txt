@@ -1,46 +1,27 @@
-Aplikacija „Moji troškovi” prati tvoje troškove i prihode izravno na tvom mobitelu i tabletu.
+<i>Moji troškovi</i> je ultimativan alat za jednostavno praćenje troškova i upravljanje financijama, uvijek nadohvat ruke!
 
-* Do pet računa s <b>prijenosima</b> (uključujući različite valute)
-* Neograničen broj <b>predložaka</b> i do tri plana za <b>ponavljajuće</b> transakcije
-* <b>Izvoz</b> u QIF i CSV. <b>Uvoz</b> iz QIF
-* Podaci se mogu zaštititi <b>lozinkom</b> ili <b>zaključavanjem ekrana</b> uređaja
-* <b>Tema</b> (tamna i svijetla) i <b>veličina fonta</b> se mogu prilagoditi
-* <b>Usklađivanje</b>: Jednostavno usporedi stanje transakcija s tvojim bankovnim izvatcima
-* Widget na početnom ekranu i <b>prečaci</b> za brzi unos podataka
+**Ključne funkcije:**
 
-Premium funkcije se otključavaju kupnjom jedne od sljedećih licenca ključeva:
+• <b>Jednostavno praćenje troškova</b>: Prati svoje rashode i prihode bez napora, bilo da koristiš mobitel ili tablet.
+• <b>Fleksibilno upravljanje računima</b>: Upravljaj s više računa, uključujući prijenose između različitih valuta.
+• <b>Pojednostavljeno financijsko planiranje</b>: Postavi planove za ponavljajuće transakcije.
+• <b>Besprijekorno upravljanje podacima</b>: Izvozi i uvozi podatke u QIF i CSV formatima.
+• <b>Poboljšana sigurnost</b>: Zaštiti svoje podatke lozinkom ili zaključavanjem ekrana uređaja.
+• <b>Prilagodljivo korisničko iskustvo</b>: Prilagodi aplikaciju svojim željama uz prilagodljive teme i veličine fonta.
+• <b>Usklađivanje s bankovnim izvodima</b>: Usporedi stanje transakcija s bankovnim izvodima za precizno praćenja financija.
+• <b>Brzi unos podataka</b>: Koristi praktičan pristup putem widgeta i prečaca na početnom ekranu.
+• <b>Napredna analiza podataka</b>: Filtriraj podatke prema različitim kriterijima te vizualiziraj raspodjelu i povijesne trendove pomoću dinamičnih dijagrama.
 
-<b>Ključ doprinositelja</b>
+**Otključaj premium funkcije:**
 
-* <b>Bez oglasa</b>
-* Neograničen broj <b>računa</b>
-* Neograničen broj planova za <b>ponavljajuće</b> transakcije
-* <b>Tortni dijagram</b>: Vizualiziraj statističku raspodjelu transakcija po kategorijama kroz različita razdoblja (godine, mjeseci, tjedni, dani)
-* <b>Podjela transakcije</b>: Jedna transakcija se može podijeliti u više dijelova (kategorije i prijenosi)
-* <b>Ispis</b> popisa transakcija u PDF datoteku
-* <b>Prilaganje slike</b>: Snimi kamerom ili odaberi iz galerije
+• <i>Ključ doprinositelja</i>: Otključaj neograničen broj računa, planove ponavljajućih transakcija i više.
+• <i>Prošireni ključ</i>: Uživaj u sinkronizaciji u oblaku, automatiziranim sigurnosnim kopijama i naprednom CSV uvozu.
+• <i>Profesionalni ključ</i>: Digni upravljanje financijama na višu razinu uz alate za budžetiranje, skeniranje računa i podršku putem e-pošte.
 
-<b>Prošireni ključ</b>
+<i>Moji troškovi</i> zahtijeva sljedeće <u>dozvole</u> za:
 
-* Sve funkcije kao Ključ doprinositelja
-* <b>Sinkronizacija u oblaku</b>: Podaci se mogu sinkronizirati između više uređaja (Webdav, Dropbox)
-* Dnevno <b>automatsko sigurnosno kopiranje</b> s opcionalnim prijenosom u oblak
-* Napredan, prilagodljiv <b>CSV uvoz</b> (za tablične aplikacije)
+• <i>Kalendar</i>: Planovi za buduće i ponavljajuće transakcije spremaju se u poseban lokalni kalendar ili u bilo koji drugi kalendar koji odabereš.
+• <i>Internet</i>: Anonimno praćenje korištenja, izvještaja o prekidu rada aplikacije, sinkronizacija u oblaku.
+• <i>Račun</i>: Sinkronizacija između uređaja putem usluga u oblaku.
 
-<b>Profesionalni ključ</b>
-
-* Sve funkcije kao Prošireni ključ
-* <b>Budžetiranje</b>: Usporedba potrošnje s ograničenjima po kategoriji na dnevnoj, tjednoj, mjesečnoj ili godišnjoj razini
-* <b>Dijagram povijesti</b> (novčani tok)
-* <b>Skeniranje računa</b>: Automatsko izdvajanje iznosa, datuma i primatelja
-* <b>Korisničko web sučelje</b>
-* Neograničen broj <b>predložaka i planova za podijeljene transakcije</b>
-* <b>E-mail podrška</b> s jamstvom odgovora unutar 2 radna dana
-* Pravo glasa u <b>planu razvoja</b>
-
-<i>Aplikacija „Moji troškovi”</i> zahtijeva sljedeće <u>dozvole</u>:
-
-* <i>Kalendar</i>: Planovi za buduće i ponavljajuće transakcije spremaju se u poseban lokalni kalendar ili bilo koji drugi kalendar koji odrediš.
-* <i>Spremište</i>: Spremište QIF i CSV izvoznih datoteka te sigurnosnih kopija.
-* <i>Internet</i>: Validacija licence, sinkronizacija u oblaku.
-* <i>Računi</i>: Sinkronizacija između uređaja putem cloud usluga.
+Preuzmi kontrolu nad svojim financijama kao nikada prije uz <i>Moji troškovi</i>!
