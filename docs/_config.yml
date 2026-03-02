@@ -134,6 +134,43 @@ amazon:
   en: "www.amazon.com"
   pt: "www.amazon.com.br"
 versions:
+  -   - 4.0.6
+      - '2026-02-05'
+      - ar: إعادة التصميم  (إصدار تجريبي)
+        bg: Редизайн  (Експериментални)
+        ca: Redissenya  (Experimental)
+        cs: Předělat  (Experimentální)
+        da: Redesign  (Eksperimenterende)
+        de: Neugestaltung  (Experimentell)
+        el: Επανασχεδιασμός  (Σε πειραματικό στάδιο)
+        es: Rediseño  (Experimental)
+        eu: Redesign  (Esperimentala)
+        fr: Refonte  (Expérimental)
+        hr: Novi dizajn  (Eksperimentalno)
+        hu: Újratervezés  (Kísérleti)
+        it: Redesign  (Sperimentali)
+        iw: עיצוב מחדש  (ניסיוני)
+        ja: デザイン  (試験運用版)
+        km: Redesign  (ពិសោធន៍)
+        kn: ಮರುವಿನ್ಯಾಸ  (ಪ್ರಾಯೋಗಿಕ)
+        ko: Redesign  (베타)
+        ms: Reka semula  (Percubaan)
+        nl: Herontwerp  (Experimenteel)
+        pl: Przeprojektuj  (Eksperymentalny)
+        pt: Redesenhar  (Experimentais)
+        ro: Reproiectează  (Experimentale)
+        ru: Редизайн  (Экспериментальная версия)
+        si: Redesign  (පරීක්ෂණාත්මක)
+        ta: மறுவடிவமைப்பு  (சோதனை முயற்சி)
+        te: Redesign  (ప్రయోగాత్మకం)
+        tr: Yeniden tasarla  (Deneysel)
+        uk: Редизайн  (Експериментальна функція)
+        vi: Thiết kế lại  (Thử nghiệm)
+        zh-CN: 重新设计  (实验性功能)
+        zh-TW: 重新設計  (實驗性)
+        en: Redesign  (Experimental)
+      - github2: '172'
+        mastodon: '116012878168587523'
   -   - 4.0.5
       - '2025-12-11'
       - en: 'FinTS: HKCAZ (camt)'
