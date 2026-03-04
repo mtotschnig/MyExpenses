@@ -165,12 +165,7 @@ class SyncHandler(
                                 uri,
                                 transactionId
                             )
-                        )
-                            .withSelection(
-                                "$KEY_UUID = ? AND $KEY_ACCOUNTID = ?",
-                                arrayOf(change.uuid, accountId.toString())
-                            )
-                            .build()
+                        ).build()
                     )
                 }
             }

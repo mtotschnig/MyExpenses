@@ -37,6 +37,7 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.di.DataModule
 import org.totschnig.myexpenses.model.AccountGrouping
+import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.generateUuid
@@ -55,6 +56,9 @@ import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_BY_AGGRE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_DIRECTION_AGGREGATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
 import org.totschnig.myexpenses.provider.DatabaseConstants.DAY_START_JULIAN
+import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_DEPENDENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_PEER
+import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_RELATED
 import org.totschnig.myexpenses.provider.DatabaseConstants.YEAR
 import org.totschnig.myexpenses.provider.DatabaseConstants.month
 import org.totschnig.myexpenses.provider.DatabaseConstants.week
@@ -109,7 +113,7 @@ object SyncContract {
     const val METHOD_APPLY_CHANGES = "applyChangesFromFile"
     private const val FILE_NAME = "pending_sync.json"
     fun getSyncFile(context: Context) = File(context.cacheDir, FILE_NAME)
-    const val KEY_RESULT = "result";
+    const val KEY_RESULT = "result"
     const val KEY_EXCEPTION = "exception"
 }
 
@@ -215,6 +219,57 @@ abstract class BaseTransactionProvider : ContentProvider() {
             TransactionProvider.QUERY_PARAMETER_CALLER_IS_SYNCADAPTER,
             false
         )
+    }
+
+    fun deleteTransaction(db: SupportSQLiteDatabase, uri: Uri): Int {
+        val segment = uri.pathSegments[1]
+        //when we are deleting a transfer whose peer is part of a split, we cannot delete the peer,
+        //because the split would be left in an invalid state, hence we transform the peer to a normal split part
+        //first we find out the account label
+        //when we are called from sync adapter, we also transform the peer to a normal transaction
+        db.beginTransaction()
+        return try {
+            val args = ContentValues()
+            args.putNull(KEY_TRANSFER_ACCOUNT)
+            args.putNull(KEY_TRANSFER_PEER)
+            db.update(
+                TABLE_TRANSACTIONS,
+                args,
+                buildList {
+                    add("$KEY_TRANSFER_PEER = ?")
+                    if (callerIsNotSyncAdapter(uri)) {
+                        add("$KEY_PARENTID IS NOT null")
+                    }
+                }.joinToString(" AND "),
+                arrayOf(segment)
+            )
+            //we delete the transaction, its children and its transfer peer, and transfer peers of its children
+            val count = if (uri.getQueryParameter(TransactionProvider.QUERY_PARAMETER_MARK_VOID) == null) {
+                //we delete the parent separately, so that the changes trigger can correctly record the parent uuid
+                db.delete(
+                    TABLE_TRANSACTIONS,
+                    WHERE_DEPENDENT,
+                    arrayOf<String?>(segment, segment)
+                ) + db.delete(
+                    TABLE_TRANSACTIONS,
+                    WHERE_SELF_OR_PEER,
+                    arrayOf<String?>(segment, segment)
+                )
+            } else {
+                val v = ContentValues()
+                v.put(KEY_CR_STATUS, CrStatus.VOID.name)
+                db.update(
+                    TABLE_TRANSACTIONS,
+                    v,
+                    WHERE_SELF_OR_RELATED,
+                    arrayOf(segment, segment, segment)
+                )
+            }
+            db.setTransactionSuccessful()
+            count
+        } finally {
+            db.endTransaction()
+        }
     }
 
     fun callerIsNotInBulkOperation(uri: Uri): Boolean {
@@ -2375,7 +2430,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
         val currency = currencyContext[extras.getString(KEY_CURRENCY)!!]
         val accountTypeId = extras.getLong(KEY_TYPE)
         val changes = SyncContract.getSyncFile(context!!).reader().use {
-            Json.decodeFromString<List<TransactionChange>>(it.readText())
+            Json.decodeFromString<List<TransactionChange>>(it.readText().also {
+                log("Sync file: $it")
+            })
         }
 
         val handler = SyncHandler(

@@ -105,7 +105,6 @@ import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_TEMPLATEID;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_TITLE;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_TRANSACTIONID;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_TRANSFER_ACCOUNT;
-import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_TRANSFER_PEER;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_TYPE;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_TYPE_SORT_KEY;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_URI;
@@ -150,9 +149,7 @@ import static org.totschnig.myexpenses.provider.ConstantsKt.VIEW_PRIORITIZED_PRI
 import static org.totschnig.myexpenses.provider.ConstantsKt.VIEW_TEMPLATES_ALL;
 import static org.totschnig.myexpenses.provider.ConstantsKt.VIEW_TEMPLATES_EXTENDED;
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_DEPENDENT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_PEER;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_RELATED;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.CTE_SEARCH;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.accountWithTypeAndFlag;
@@ -1253,36 +1250,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     maybeSetDirty(uriMatch);
     switch (uriMatch) {
       case TRANSACTIONS -> count = db.delete(TABLE_TRANSACTIONS, where, whereArgs);
-      case TRANSACTION_ID -> {
-        //maybe TODO ?: where and whereArgs are ignored
-        segment = uri.getPathSegments().get(1);
-        //when we are deleting a transfer whose peer is part of a split, we cannot delete the peer,
-        //because the split would be left in an invalid state, hence we transform the peer to a normal split part
-        //first we find out the account label
-        db.beginTransaction();
-        try {
-          ContentValues args = new ContentValues();
-          args.putNull(KEY_TRANSFER_ACCOUNT);
-          args.putNull(KEY_TRANSFER_PEER);
-          MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS,
-                  args,
-                  KEY_TRANSFER_PEER + " = ? AND " + KEY_PARENTID + " IS NOT null",
-                  new String[]{segment});
-          //we delete the transaction, its children and its transfer peer, and transfer peers of its children
-          if (uri.getQueryParameter(QUERY_PARAMETER_MARK_VOID) == null) {
-            //we delete the parent separately, so that the changes trigger can correctly record the parent uuid
-            count = db.delete(TABLE_TRANSACTIONS, WHERE_DEPENDENT, new String[]{segment, segment});
-            count += db.delete(TABLE_TRANSACTIONS, WHERE_SELF_OR_PEER, new String[]{segment, segment});
-          } else {
-            ContentValues v = new ContentValues();
-            v.put(KEY_CR_STATUS, CrStatus.VOID.name());
-            count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, v, WHERE_SELF_OR_RELATED, new String[]{segment, segment, segment});
-          }
-          db.setTransactionSuccessful();
-        } finally {
-          db.endTransaction();
-        }
-      }
+      case TRANSACTION_ID -> count = deleteTransaction(db, uri);
       case TEMPLATES -> count = db.delete(TABLE_TEMPLATES, where, whereArgs);
       case TEMPLATE_ID -> count = db.delete(TABLE_TEMPLATES,
               KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
@@ -1290,9 +1258,6 @@ public class TransactionProvider extends BaseTransactionProvider {
       case ACCOUNTS -> count = db.delete(TABLE_ACCOUNTS, where, whereArgs);
       case ACCOUNT_ID -> count = db.delete(TABLE_ACCOUNTS,
               KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
-
-      //update aggregate cursor
-      //getContext().getContentResolver().notifyChange(AGGREGATES_URI, null);
       case CATEGORIES ->
               count = db.delete(TABLE_CATEGORIES, KEY_ROWID + " != " + SPLIT_CATID + prefixAnd(where),
                       whereArgs);
