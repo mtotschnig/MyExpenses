@@ -454,6 +454,8 @@ public class TransactionProvider extends BaseTransactionProvider {
         if (sortOrder == null) {
           sortOrder = KEY_DATE + " DESC";
         }
+        sortOrder += ", " + KEY_ROWID + (sortOrder.contains(" DESC") ? " DESC" : " ASC");
+
         boolean forHome = uri.getQueryParameter(KEY_ACCOUNTID) == null && uri.getQueryParameter(KEY_CURRENCY) == null && uri.getQueryParameter(KEY_PARENTID) == null;
         if (forCatId != null) {
           String selector = transactionQuerySelector(uri, CTE_SEARCH);
