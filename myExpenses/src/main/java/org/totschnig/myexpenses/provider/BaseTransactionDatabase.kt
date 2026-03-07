@@ -1371,7 +1371,7 @@ abstract class BaseTransactionDatabase(
         })
     }
 
-    fun SupportSQLiteDatabase.insertDefaultAccountTypes() =
+    fun SupportSQLiteDatabase.insertDefaultAccountTypes(): Map<String, Long> =
         AccountType.initialAccountTypes.associate {
             it.name to
                     insert(
@@ -1425,7 +1425,7 @@ abstract class BaseTransactionDatabase(
         }
 
 
-    fun SupportSQLiteDatabase.insertDefaultAccountTypesAndMethods() {
+    fun SupportSQLiteDatabase.insertDefaultAccountTypesAndMethods(): Map<String, Long> {
         val accountTypes = insertDefaultAccountTypes()
         val bank = accountTypes[AccountType.BANK.name]!!
         for (pm in PreDefinedPaymentMethod.entries) {
@@ -1447,6 +1447,7 @@ abstract class BaseTransactionDatabase(
                 }
             )
         }
+        return accountTypes
     }
 
     fun SupportSQLiteDatabase.checkDefaultTransferCategory() {

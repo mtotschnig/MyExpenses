@@ -10,10 +10,8 @@ import android.accounts.OperationCanceledException
 import android.app.Application
 import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
-import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import kotlinx.parcelize.Parcelize

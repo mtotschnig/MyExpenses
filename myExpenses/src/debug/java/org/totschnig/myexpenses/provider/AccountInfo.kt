@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.provider
 
 import android.content.ContentValues
+import org.totschnig.myexpenses.model.generateUuid
 
 /**
  * A utility for converting account data to a ContentValues map.
@@ -25,5 +26,6 @@ data class AccountInfo @JvmOverloads constructor(
         put(KEY_DYNAMIC, dynamic)
         put(KEY_USAGES, usages)
         put(KEY_LAST_USED, lastUsed)
+        put(KEY_UUID, generateUuid())
     }
 }

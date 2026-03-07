@@ -93,6 +93,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 
 import java.io.File;
 import java.util.Locale;
+import java.util.Map;
 
 import timber.log.Timber;
 
@@ -219,7 +220,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + "primary key (" + KEY_TYPE + "," + KEY_METHODID + "));";
 
   /**
-   * {@link DatabaseConstants#KEY_PLANID} references an event in com.android.providers.calendar
+   * {@link KEY_PLANID} references an event in com.android.providers.calendar
    */
   private static final String TEMPLATE_CREATE =
       "CREATE TABLE " + TABLE_TEMPLATES + " ( "
@@ -431,7 +432,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(ACCOUNT_TYPE_CREATE);
     db.execSQL(ACCOUNT_FLAG_CREATE);
     db.execSQL(ACCOUNTTYE_METHOD_CREATE);
-    insertDefaultAccountTypesAndMethods(db);
+    Map<String, Long> accountTypes = insertDefaultAccountTypesAndMethods(db);
     insertDefaultAccountFlags(db);
     db.execSQL(DEFAULT_FLAG_TRIGGER);
     db.execSQL(CURRENCY_CREATE);
@@ -519,15 +520,15 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     int categories = MoreDbUtilsKt.setupDefaultCategories(db, MyApplication.Companion.getInstance().getResources()).getFirst();
     for (int i = 1; i <= countGroup; i++) {
       LocalDateTime date = LocalDateTime.now().plusDays(25);
-      AccountInfo testAccount = new AccountInfo("Test account " + i, AccountType.BANK, 0);
-      long testAccountId = db.insert(DatabaseConstants.TABLE_ACCOUNTS, CONFLICT_NONE, testAccount.getContentValues());
+      AccountInfo testAccount = new AccountInfo("Test account " + i, accountTypes.get(AccountType.Companion.getBANK().getName()), 0);
+      long testAccountId = db.insert(TABLE_ACCOUNTS, CONFLICT_NONE, testAccount.getContentValues());
       for (int j = 1; j <= countChild; j++) {
         long catId = j % categories;
-        long payeeId = db.insert(DatabaseConstants.TABLE_PAYEES, CONFLICT_NONE, new PayeeInfo("Payee " + i + "_" + j).getContentValues());
+        long payeeId = db.insert(TABLE_PAYEES, CONFLICT_NONE, new PayeeInfo("Payee " + i + "_" + j).getContentValues());
         date = date.minusDays(1);
         TransactionInfo transactionInfo = new TransactionInfo(testAccountId, 0, date, "Transaction " + j, payeeId, null, catId, null, null, CrStatus.UNRECONCILED);
         db.insert(
-            DatabaseConstants.TABLE_TRANSACTIONS,
+            TABLE_TRANSACTIONS,
             CONFLICT_NONE,
             transactionInfo.getContentValues()
         );
