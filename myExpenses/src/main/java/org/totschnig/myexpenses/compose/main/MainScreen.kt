@@ -155,13 +155,9 @@ fun MainScreen(
 
         fun onNavigation(screen: Screen) {
             when (screen) {
-                Screen.Accounts, Screen.Transactions -> {
-                    navigateSingleTopTo(navController, screen)
-                }
-
-                Screen.Reports, Screen.Tools -> {
-                    showBottomSheetFor.value = screen
-                }
+                Screen.Accounts -> navigateSingleTopTo(navController, screen, false)
+                Screen.Transactions -> navigateSingleTopTo(navController, screen)
+                Screen.Reports, Screen.Tools -> showBottomSheetFor.value = screen
             }
         }
 
@@ -261,13 +257,14 @@ fun navigateTo(
 fun navigateSingleTopTo(
     controller: NavController,
     screen: Screen,
+    saveAndRestoreState: Boolean = true
 ) {
     controller.navigate(screen.route) {
         popUpTo(controller.graph.findStartDestination().id) {
-            saveState = true
+            saveState = saveAndRestoreState
         }
         launchSingleTop = true
-        restoreState = true
+        restoreState = saveAndRestoreState
     }
 }
 
