@@ -1359,7 +1359,6 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
         ) {
 
             val filter = viewModel.filterPersistence.getValue(account.id)

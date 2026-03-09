@@ -39,6 +39,7 @@ import androidx.compose.material3.SecondaryScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -53,6 +54,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -102,12 +104,13 @@ import org.totschnig.myexpenses.viewmodel.data.PageAccount
 @Composable
 fun TransactionScreen(
     navigationIcon: @Composable (() -> Unit) = {},
+    containerColor: Color = MaterialTheme.colorScheme.background,
     accounts: List<FullAccount>,
     accountGrouping: AccountGrouping<*>,
     availableFilters: List<AccountGroupingKey>,
     selectedAccountId: Long,
     viewModel: MyExpensesV2ViewModel,
-    bottomBar: @Composable () -> Unit,
+    bottomBar: @Composable () -> Unit = {},
     onEvent: AppEventHandler,
     onPrepareContextMenuItem: (Int) -> Boolean,
     onPrepareMenuItem: (Int) -> Boolean,
@@ -147,10 +150,14 @@ fun TransactionScreen(
     var selectedBalanceType by rememberSaveable { mutableStateOf(BalanceType.CURRENT) }
 
     Scaffold(
+        containerColor = containerColor,
         topBar = {
             val isInSelectionMode = viewModel.selectionState.value.isNotEmpty()
             Box(modifier = Modifier.fillMaxWidth()) {
                 TopAppBar(
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color.Transparent
+                    ),
                     navigationIcon = navigationIcon,
                     title = {
                         BalanceHeader(
@@ -190,6 +197,9 @@ fun TransactionScreen(
                     }
                     val context = LocalContext.current
                     TopAppBar(
+                        colors = TopAppBarDefaults.topAppBarColors(
+                            containerColor = Color.Transparent
+                        ),
                         navigationIcon = {
                             TooltipIconButton(
                                 tooltip = stringResource(R.string.menu_close),
@@ -297,7 +307,6 @@ fun TransactionScreen(
                     HorizontalPager(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(MaterialTheme.colorScheme.onSurface)
                             .testTag(TEST_TAG_PAGER)
                             .semantics {
                                 collectionInfo = CollectionInfo(1, accounts.size)

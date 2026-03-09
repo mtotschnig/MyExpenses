@@ -15,11 +15,13 @@ import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -65,12 +67,13 @@ enum class AccountsScreenTab(@param:StringRes val resourceId: Int) {
 @Composable
 fun AccountsScreen(
     startTab: AccountsScreenTab,
+    containerColor: Color = MaterialTheme.colorScheme.background,
     navigationIcon: @Composable (() -> Unit) = {},
     accounts: List<FullAccount>,
     accountGrouping: AccountGrouping<*>,
     selectedAccountId: Long,
     viewModel: MyExpensesV2ViewModel,
-    bottomBar: @Composable (() -> Unit),
+    bottomBar: @Composable (() -> Unit) = {},
     onEvent: AppEventHandler,
     flags: List<AccountFlag> = emptyList(),
     onAccountEvent: AccountEventHandler,
@@ -101,8 +104,12 @@ fun AccountsScreen(
     }
 
     Scaffold(
+        containerColor = containerColor,
         topBar = {
             TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Transparent
+                 ),
                 navigationIcon = navigationIcon,
                 title = {
                     Title(selectedTab.value) {

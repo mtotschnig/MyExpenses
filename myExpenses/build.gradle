@@ -153,6 +153,8 @@ dependencies {
     //https://github.com/fastlane/fastlane/issues/19521#issuecomment-1170017435
     //debugImplementation libs.leakcanary.android
     api(libs.androidx.datastore.preferences)
+    implementation libs.androidx.compose.adaptive.navigation
+    implementation libs.androidx.compose.material3.adaptive.navigation.suite
     coreLibraryDesugaring libs.android.desugar
     implementation project(':transactionscontract')
     api libs.phrase
@@ -170,6 +172,7 @@ dependencies {
     implementation libs.accompanist.drawablepainter
     implementation libs.donut.compose
     implementation libs.donut
+    implementation libs.androidx.compose.material3.window.size
 
     ksp libs.dagger.compiler
     implementation libs.dagger

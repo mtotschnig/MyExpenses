@@ -3,7 +3,7 @@ accompanist = "0.37.3"
 acraVersion = "5.13.1"
 activityCompose = "1.12.4"
 androidDesugar = "2.1.5"
-androidGradlePlugin = "9.0.1"
+androidGradlePlugin = "9.1.0"
 androidImageCropper = "96a06733f3"
 androidSupportTestVersion = "1.7.0"
 androidxArchVersion = "2.2.0"
@@ -61,11 +61,11 @@ junitVersion = "4.13.2"
 kotlin = "2.3.10"
 kotlinxHtml = "0.12.0"
 kotlinxSerializationJson = "1.10.0"
-ksp = "2.3.5"
+ksp = "2.3.6"
 leakcanaryAndroid = "2.14"
 navigationCompose = "2.9.7"
 sealed-enum = "0.7.0"
-ktor = "3.4.0"
+ktor = "3.4.1"
 legacySupportV4 = "1.0.0"
 lifecycleExtensions = "2.2.0"
 lifecycleRuntimeKtx = "2.10.0"
@@ -104,6 +104,8 @@ viewpager2 = "1.1.0"
 workManager = "2.11.1"
 xercesimpl = "2.12.2"
 reorderable = "3.0.0"
+adaptiveNavigation = "1.2.0"
+material3AdaptiveNavigationSuite = "1.4.0"
 
 [libraries]
 accompanist-drawablepainter = { module = "com.google.accompanist:accompanist-drawablepainter", version.ref = "accompanist" }
@@ -121,6 +123,7 @@ androidx-browser = { module = "androidx.browser:browser", version.ref = "browser
 androidx-cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
 androidx-collection = { module = "androidx.collection:collection", version.ref = "androidxCollection" }
 androidx-compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
+androidx-compose-material3-window-size = { module = "androidx.compose.material3:material3-window-size-class" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
 androidx-documentfile = { module = "androidx.documentfile:documentfile", version.ref = "documentfile" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
@@ -253,6 +256,8 @@ truth = { module = "com.google.truth:truth", version.ref = "truthVersion" }
 ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4" }
 xercesimpl = { module = "xerces:xercesImpl", version.ref = "xercesimpl" }
 reorderable = { module = "sh.calvin.reorderable:reorderable", version.ref = "reorderable" }
+androidx-compose-adaptive-navigation = { group = "androidx.compose.material3.adaptive", name = "adaptive-navigation", version.ref = "adaptiveNavigation" }
+androidx-compose-material3-adaptive-navigation-suite = { group = "androidx.compose.material3", name = "material3-adaptive-navigation-suite", version.ref = "material3AdaptiveNavigationSuite" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
