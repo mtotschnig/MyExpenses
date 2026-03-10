@@ -8,7 +8,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
@@ -115,7 +115,7 @@ fun TransactionScreen(
     onPrepareContextMenuItem: (Int) -> Boolean,
     onPrepareMenuItem: (Int) -> Boolean,
     bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
-    pageContent: @Composable (PageAccount, Boolean) -> Unit
+    pageContent: @Composable (PageAccount, Boolean) -> Unit,
 ) {
     LaunchedEffect(Unit) {
         viewModel.setLastVisited(StartScreen.Transactions)
@@ -314,7 +314,8 @@ fun TransactionScreen(
                         state = pagerState,
                         pageSpacing = 10.dp,
                         key = { pageIndex ->
-                            accountList.getOrNull(pageIndex)?.id ?: pageIndex                        },
+                            accountList.getOrNull(pageIndex)?.id ?: pageIndex
+                        },
                         verticalAlignment = Alignment.Top,
                     ) { page ->
                         val isCurrentPage = pagerState.currentPage == page
@@ -353,7 +354,7 @@ fun TransactionScreen(
 private fun TransactionListPage(
     account: BaseAccount,
     isCurrent: Boolean,
-    pageContent: @Composable (PageAccount, Boolean) -> Unit
+    pageContent: @Composable (PageAccount, Boolean) -> Unit,
 ) {
     val context = LocalContext.current
     val pageAccount = remember(account) { account.toPageAccount(context = context) }
@@ -436,12 +437,12 @@ private fun BalanceHeader(
                         )
                     }
                 }
+                Icon(
+                    modifier = Modifier.rotate(rotationAngle),
+                    imageVector = Icons.Default.ExpandLess,
+                    contentDescription = "stringResource(R.string.show_balance_summary)"
+                )
             }
-            Icon(
-                modifier = Modifier.rotate(rotationAngle),
-                imageVector = Icons.Default.ExpandLess,
-                contentDescription = "stringResource(R.string.show_balance_summary)"
-            )
         }
 
         // The Popup that shows the full summary
@@ -463,7 +464,9 @@ private fun BalanceHeader(
             ) {
                 //overwrite TitleTypography
                 ProvideTextStyle(MaterialTheme.typography.bodyMedium) {
-                    Box(modifier = Modifier.padding(horizontal = 16.dp)) {
+                    Box(modifier = Modifier
+                        .widthIn(max = 560.dp)
+                        .padding(horizontal = 16.dp)) {
                         Card(
                             elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
                         ) {
