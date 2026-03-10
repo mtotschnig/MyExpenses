@@ -44,7 +44,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.Insets
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.os.BundleCompat
 import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -58,8 +57,6 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
-import eltos.simpledialogfragment.form.AmountInput
-import eltos.simpledialogfragment.form.AmountInputHostDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -89,7 +86,6 @@ import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.retrofit.Vote
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
@@ -117,14 +113,12 @@ import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.repository.RoadmapRepository
 import timber.log.Timber
 import java.io.Serializable
-import java.math.BigDecimal
 import java.time.LocalDate
 import java.util.Optional
 import javax.inject.Inject
 import kotlin.math.sign
 
 const val DIALOG_TAG_OCR_DISAMBIGUATE = "DISAMBIGUATE"
-const val DIALOG_TAG_NEW_BALANCE = "NEW_BALANCE"
 
 open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultListener, ContribIFace {
 
@@ -799,38 +793,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
         super.startEdit(intent)
     }
 
-    override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean =
-        if (super.onResult(dialogTag, which, extras)) true
-        else if (which == BUTTON_POSITIVE) {
-            when (dialogTag) {
-
-                DIALOG_TAG_NEW_BALANCE -> {
-                    lifecycleScope.launch {
-                        createRowIntent(Transactions.TYPE_TRANSACTION, false)?.apply {
-                            putExtra(
-                                KEY_AMOUNT,
-                                (BundleCompat.getSerializable(
-                                    extras,
-                                    KEY_AMOUNT,
-                                    BigDecimal::class.java
-                                ))!! -
-                                        Money(
-                                            currentAccount!!.currencyUnit,
-                                            currentAccount!!.currentBalance
-                                        ).amountMajor
-                            )
-                        }?.let {
-                            startEdit(it)
-                        }
-                    }
-                    true
-                }
-
-                else -> false
-            }
-        } else false
-
-
     override fun createAccountDo() {
         closeDrawer()
         super.createAccountDo()
@@ -1153,15 +1115,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                     popup.setOnMenuItemClickListener { item ->
                         when (item.itemId) {
                             R.id.COPY_TO_CLIPBOARD_COMMAND -> copyToClipBoard()
-                            R.id.NEW_BALANCE_COMMAND -> if (selectedAccountId > 0) {
-                                AmountInputHostDialog.build().title(R.string.new_balance)
-                                    .fields(
-                                        AmountInput.plain(KEY_AMOUNT)
-                                            .label(R.string.new_balance)
-                                            .fractionDigits(currentAccount!!.currencyUnit.fractionDigits)
-                                            .withTypeSwitch(currentAccount!!.currentBalance > 0)
-                                    ).show(this, DIALOG_TAG_NEW_BALANCE)
-                            }
+                            R.id.NEW_BALANCE_COMMAND -> dispatchCommand(R.id.NEW_BALANCE_COMMAND, null)
                         }
                         true
                     }

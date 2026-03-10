@@ -277,16 +277,18 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         get() = (supportFragmentManager.findFragmentByTag(PROGRESS_TAG) as? ProgressDialogFragment)
 
     fun copyToClipboard(text: String) {
-        showSnackBar(
-            try {
-                ContextCompat.getSystemService(this, ClipboardManager::class.java)
-                    ?.setPrimaryClip(ClipData.newPlainText(null, text))
+        try {
+            ContextCompat.getSystemService(this, ClipboardManager::class.java)!!
+                .setPrimaryClip(ClipData.newPlainText(null, text))
+        } catch (e: RuntimeException) {
+            report(e)
+            showSnackBar(e.safeMessage)
+        }
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
+            showSnackBar(
                 "${getString(R.string.toast_text_copied)}: $text"
-            } catch (e: RuntimeException) {
-                report(e)
-                e.safeMessage
-            }
-        )
+            )
+        }
     }
 
     fun sendEmail(
@@ -736,7 +738,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 try {
                     startActivity(intent)
                 } catch (_: ActivityNotFoundException) {
-                    Toast.makeText(this, "Could not open Security Settings", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Could not open Security Settings", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         )

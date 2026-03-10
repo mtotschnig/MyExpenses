@@ -34,6 +34,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -275,7 +276,7 @@ fun AccountListV2(
                         it.equivalentCurrentBalance
                     },
                     onToggleExpand = null,
-                    onNavigate =  { onGroupSelected(null) },
+                    onNavigate = { onGroupSelected(null) },
                     dividerThickness = 4.dp
                 )
             }
@@ -334,7 +335,7 @@ private fun HeaderV2(
     onNavigate: (() -> Unit)?,
     total: Long,
     currency: CurrencyUnit,
-    dividerThickness: Dp = 2.dp
+    dividerThickness: Dp = 2.dp,
 ) {
 
     val format = LocalCurrencyFormatter.current
@@ -745,20 +746,19 @@ fun AccountSummaryV2(
     displayBalanceType: BalanceType,
     onDisplayBalanceTypeChange: (BalanceType) -> Unit,
 ) {
-    Column(modifier = Modifier.padding(16.dp)) {
-        when (account) {
-            is FullAccount -> AccountSummaryV2(
-                account,
-                displayBalanceType,
-                onDisplayBalanceTypeChange
-            )
 
-            is AggregateAccount -> AccountSummaryV2(
-                account,
-                displayBalanceType,
-                onDisplayBalanceTypeChange
-            )
-        }
+    when (account) {
+        is FullAccount -> AccountSummaryV2(
+            account,
+            displayBalanceType,
+            onDisplayBalanceTypeChange
+        )
+
+        is AggregateAccount -> AccountSummaryV2(
+            account,
+            displayBalanceType,
+            onDisplayBalanceTypeChange
+        )
     }
 }
 
@@ -1093,7 +1093,7 @@ private fun AccountPreview2() {
         onEvent = object : AccountEventHandler {
             override fun invoke(
                 event: AccountEvent,
-                account: FullAccount
+                account: FullAccount,
             ) {
             }
         }

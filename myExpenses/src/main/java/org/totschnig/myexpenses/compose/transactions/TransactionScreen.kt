@@ -9,28 +9,34 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.DoneAll
 import androidx.compose.material.icons.filled.DragHandle
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.Functions
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
@@ -38,6 +44,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SecondaryScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -83,6 +90,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.StartScreen
 import org.totschnig.myexpenses.compose.AmountText
 import org.totschnig.myexpenses.compose.ColoredAmountText
+import org.totschnig.myexpenses.compose.LocalCurrencyFormatter
 import org.totschnig.myexpenses.compose.OverFlowMenu
 import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
 import org.totschnig.myexpenses.compose.TooltipIconButton
@@ -94,6 +102,7 @@ import org.totschnig.myexpenses.compose.main.parseMenu
 import org.totschnig.myexpenses.compose.main.rememberCollapsingTabRowState
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
+import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
@@ -165,6 +174,12 @@ fun TransactionScreen(
                             displayBalanceType = selectedBalanceType,
                             onDisplayBalanceTypeChange = { newType ->
                                 selectedBalanceType = newType
+                            },
+                            onCopyBalance = {
+                                onEvent(AppEvent.CopyToClipBoard(it))
+                            },
+                            onSetNewBalance = {
+                                onEvent(AppEvent.MenuItemClicked(R.id.NEW_BALANCE_COMMAND))
                             },
                             bankIcon = bankIcon
                         )
@@ -378,6 +393,8 @@ private fun BalanceHeader(
     modifier: Modifier = Modifier,
     bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
     onDisplayBalanceTypeChange: (BalanceType) -> Unit,
+    onCopyBalance: (String) -> Unit = {},
+    onSetNewBalance: () -> Unit = {}
 ) {
     var isSummaryPopupVisible by rememberSaveable { mutableStateOf(false) }
 
@@ -392,6 +409,12 @@ private fun BalanceHeader(
             BalanceType.CLEARED, BalanceType.RECONCILED -> currentAccount is FullAccount && currentAccount.type.supportsReconciliation
         }
     } ?: BalanceType.CURRENT
+
+
+    val displayBalance = getBalanceForType(
+        currentAccount,
+        validatedBalanceType
+    )
 
     Box {
         Row(
@@ -426,12 +449,8 @@ private fun BalanceHeader(
                                 .size(18.dp),
                             tint = iconTint
                         )
-
                         AmountText(
-                            getBalanceForType(
-                                currentAccount,
-                                validatedBalanceType
-                            ), currentAccount.currencyUnit,
+                            displayBalance, currentAccount.currencyUnit,
                             fontWeight = FontWeight.SemiBold,
                             fontSize = 14.sp
                         )
@@ -447,6 +466,8 @@ private fun BalanceHeader(
 
         // The Popup that shows the full summary
         if (isSummaryPopupVisible) {
+
+            val currencyFormatter = LocalCurrencyFormatter.current
 
             Popup(
                 onDismissRequest = { isSummaryPopupVisible = false },
@@ -464,17 +485,59 @@ private fun BalanceHeader(
             ) {
                 //overwrite TitleTypography
                 ProvideTextStyle(MaterialTheme.typography.bodyMedium) {
-                    Box(modifier = Modifier
-                        .widthIn(max = 560.dp)
-                        .padding(horizontal = 16.dp)) {
+                    Box(
+                        modifier = Modifier
+                            .widthIn(max = 560.dp)
+                            .padding(horizontal = 16.dp)
+                    ) {
                         Card(
                             elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
                         ) {
-                            AccountSummaryV2(
-                                currentAccount,
-                                displayBalanceType,
-                                onDisplayBalanceTypeChange
-                            )
+                            Column(modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
+                                AccountSummaryV2(
+                                    currentAccount,
+                                    displayBalanceType,
+                                    onDisplayBalanceTypeChange
+                                )
+                                HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
+
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.End
+                                ) {
+                                    TextButton(onClick = {
+                                        onCopyBalance(
+                                            currencyFormatter.convAmount(
+                                                displayBalance,
+                                                currentAccount.currencyUnit
+                                            )
+                                        )
+                                        isSummaryPopupVisible = false
+                                    }) {
+                                        Icon(
+                                            Icons.Default.ContentCopy,
+                                            contentDescription = null
+                                        )
+                                        Spacer(Modifier.width(8.dp))
+                                        Text(stringResource(R.string.copy_text))
+                                    }
+
+                                    if (currentAccount is FullAccount) {
+                                        TextButton(onClick = {
+                                            onSetNewBalance()
+                                            isSummaryPopupVisible = false
+                                        }) {
+                                            Icon(
+                                                Icons.Default.Edit,
+                                                contentDescription = null
+                                            )
+                                            Spacer(Modifier.width(8.dp))
+                                            Text(stringResource(R.string.new_balance))
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }

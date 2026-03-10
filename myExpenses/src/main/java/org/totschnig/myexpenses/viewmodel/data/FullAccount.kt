@@ -77,6 +77,7 @@ sealed class BaseAccount : DataBaseAccount() {
     abstract fun toPageAccount(context: Context): PageAccount
     abstract fun color(resources: Resources): Int
     abstract val total: Long?
+    abstract val currentBalance: Long?
     abstract val equivalentTotal: Long?
     abstract fun labelV2(context: Context): String
     fun aggregateColor(resources: Resources) = ResourcesCompat.getColor(resources, R.color.colorAggregate, null)
@@ -92,7 +93,7 @@ data class AggregateAccount(
     override val type: AccountType?,
     override val flag: AccountFlag?,
     val openingBalance: Long? = null,
-    val currentBalance: Long? = null,
+    override val currentBalance: Long? = null,
     val sumIncome: Long? = null,
     val sumExpense: Long? = null,
     val sumTransfer: Long? = null,
@@ -157,7 +158,7 @@ data class FullAccount(
     override val flag: AccountFlag = AccountFlag.DEFAULT,
     val sealed: Boolean = false,
     val openingBalance: Long = 0,
-    val currentBalance: Long = 0,
+    override val currentBalance: Long = 0,
     val sumIncome: Long = 0,
     val sumExpense: Long = 0,
     val sumTransfer: Long = 0L,

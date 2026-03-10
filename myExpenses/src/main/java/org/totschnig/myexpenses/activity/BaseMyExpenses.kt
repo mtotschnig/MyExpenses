@@ -8,11 +8,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.IdRes
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -23,12 +21,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.core.net.toUri
+import androidx.core.os.BundleCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.android.material.snackbar.Snackbar
+import eltos.simpledialogfragment.form.AmountInput
+import eltos.simpledialogfragment.form.AmountInputHostDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
@@ -80,6 +81,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.CheckSealedHandler
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isAggregate
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_CLEARED_TOTAL
 import org.totschnig.myexpenses.provider.KEY_COLOR
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
@@ -135,10 +137,13 @@ import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import timber.log.Timber
 import java.io.Serializable
+import java.math.BigDecimal
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.Optional
 import kotlin.jvm.optionals.getOrNull
+
+const val DIALOG_TAG_NEW_BALANCE = "NEW_BALANCE"
 
 typealias RenderFactory = (
     renderType: RenderType,
@@ -404,6 +409,19 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
         if (super.dispatchCommand(command, tag)) {
             return true
         } else when (command) {
+            R.id.NEW_BALANCE_COMMAND -> {
+                if (selectedAccountId > 0) {
+                    (currentAccount as? FullAccount)?.let {
+                        AmountInputHostDialog.build().title(R.string.new_balance)
+                            .fields(
+                                AmountInput.plain(KEY_AMOUNT)
+                                    .label(R.string.new_balance)
+                                    .fractionDigits(it.currencyUnit.fractionDigits)
+                                    .withTypeSwitch(it.currentBalance > 0)
+                            ).show(this, DIALOG_TAG_NEW_BALANCE)
+                    }
+                }
+            }
             R.id.MANAGE_ACCOUNT_TYPES_COMMAND -> {
                 startActivity(Intent(this, ManageAccountTypes::class.java))
             }
@@ -1620,4 +1638,37 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
             else -> {}
         }
     }
+
+    override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean =
+        if (super.onResult(dialogTag, which, extras)) true
+        else if (which == BUTTON_POSITIVE) {
+            when (dialogTag) {
+
+                DIALOG_TAG_NEW_BALANCE -> {
+                    (currentAccount as? FullAccount)?.let {
+                        lifecycleScope.launch {
+                            createRowIntent(Transactions.TYPE_TRANSACTION, false)?.apply {
+                                putExtra(
+                                    KEY_AMOUNT,
+                                    (BundleCompat.getSerializable(
+                                        extras,
+                                        KEY_AMOUNT,
+                                        BigDecimal::class.java
+                                    ))!! -
+                                            Money(
+                                                it.currencyUnit,
+                                                it.currentBalance
+                                            ).amountMajor
+                                )
+                            }?.let {
+                                startEdit(it)
+                            }
+                        }
+                    }
+                    true
+                }
+
+                else -> false
+            }
+        } else false
 }

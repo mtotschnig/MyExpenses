@@ -16,7 +16,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
-import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -62,8 +61,8 @@ enum class StartScreen {
 
 /**
  * TBD: ReviewManager, AdManager, Tests, WebUI, Status Handle configuration, Upgrade Handling,
- * New balance, Help, Tell a friend,
- * Copy balance to clipboard, Budget progress, Bank icon
+ * Help, Tell a friend,
+ * Budget progress, Bank icon
  */
 class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(), SortUtilityDialogFragment.OnConfirmListener {
 
@@ -97,7 +96,6 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(), SortUtilityDialogF
         }
 
         setContent {
-            val windowSizeClass = calculateWindowSizeClass(this)
             AppTheme {
                 val result = viewModel.accountDataV2.collectAsStateWithLifecycle().value
                 val availableFilters =
@@ -218,6 +216,8 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(), SortUtilityDialogF
                                         )
 
                                         AppEvent.Sort -> showSortDialog.value = true
+
+                                        is AppEvent.CopyToClipBoard -> copyToClipboard(event.text)
                                     }
                                 }
                             },

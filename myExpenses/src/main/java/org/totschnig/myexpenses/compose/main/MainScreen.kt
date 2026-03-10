@@ -127,6 +127,7 @@ sealed class AppEvent {
     object Search : AppEvent()
     data class MenuItemClicked(@param:IdRes val itemId: Int) : AppEvent()
     object Sort : AppEvent()
+    data class CopyToClipBoard(val text: String) : AppEvent()
 }
 
 interface AppEventHandler {
