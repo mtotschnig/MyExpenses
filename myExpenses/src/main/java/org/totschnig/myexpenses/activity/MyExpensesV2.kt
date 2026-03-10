@@ -62,7 +62,7 @@ enum class StartScreen {
 
 /**
  * TBD: ReviewManager, AdManager, Tests, WebUI, Status Handle configuration, Upgrade Handling,
- * New balance, Manage types and flags, Help, Tell a friend,
+ * New balance, Help, Tell a friend,
  * Copy balance to clipboard, Budget progress, Bank icon
  */
 class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(), SortUtilityDialogFragment.OnConfirmListener {

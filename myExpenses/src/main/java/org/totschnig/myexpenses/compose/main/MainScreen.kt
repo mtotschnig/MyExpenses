@@ -176,7 +176,9 @@ fun MainScreenAdaptive(
     if (isExpanded) {
 
         ListDetailPaneScaffold(
-            directive = navigator.scaffoldDirective,
+            directive = navigator.scaffoldDirective.copy(
+                horizontalPartitionSpacerSize = 12.dp
+            ),
             value = ThreePaneScaffoldValue(
                 primary = PaneAdaptedValue.Expanded,
                 secondary = PaneAdaptedValue.Expanded,
@@ -187,8 +189,7 @@ fun MainScreenAdaptive(
                     Surface(
                         modifier = Modifier
                             .padding(
-                                start = 8.dp,
-                                end = 4.dp
+                                start = 8.dp
                             ) // Add small end padding to create a center gutter
                             .windowInsetsPadding(
                                 WindowInsets.safeContent.only(
@@ -241,7 +242,6 @@ fun MainScreenAdaptive(
                     Surface(
                         modifier = Modifier
                             .padding(
-                                start = 4.dp,
                                 end = 8.dp
                             ) // Add small start padding for the gutter
                             .windowInsetsPadding(
