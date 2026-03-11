@@ -89,11 +89,6 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(), SortUtilityDialogF
         with(injector) {
             inject(viewModel)
         }
-        val startScreen = viewModel.startScreen.let {
-            if (it == StartScreen.LastVisited)
-                prefHandler.enumValueOrDefault(PrefKey.UI_SCREEN_LAST_VISITED, StartScreen.Accounts)
-            else it
-        }
 
         setContent {
             AppTheme {
@@ -166,7 +161,6 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(), SortUtilityDialogF
                         val showSortDialog = rememberSaveable { mutableStateOf(false) }
                         MainScreenAdaptive(
                             viewModel,
-                            startScreen,
                             accounts,
                             availableFilters,
                             selectedAccountId = selectedAccountIdFromState,

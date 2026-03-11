@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import androidx.annotation.StringRes
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -18,8 +19,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.StartScreen
-import org.totschnig.myexpenses.compose.accounts.AccountsScreenTab
 import org.totschnig.myexpenses.compose.transactions.Action
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
@@ -42,6 +43,11 @@ import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount.Companion.fromCursor
 import timber.log.Timber
 
+enum class AccountsScreenTab(@param:StringRes val resourceId: Int) {
+    LIST(R.string.accounts),
+    BALANCE_SHEET(R.string.balance_sheet)
+}
+
 class MyExpensesV2ViewModel(
     application: Application,
     savedStateHandle: SavedStateHandle,
@@ -49,6 +55,12 @@ class MyExpensesV2ViewModel(
 
     private val _activeFilter = MutableStateFlow<AccountGroupingKey?>(null)
     val activeFilter: StateFlow<AccountGroupingKey?> = _activeFilter.asStateFlow()
+
+    private val _currentAccountsTab by lazy {
+        MutableStateFlow(if (startScreen == StartScreen.BalanceSheet) AccountsScreenTab.BALANCE_SHEET else AccountsScreenTab.LIST)
+    }
+
+    val currentAccountsTab by lazy { _currentAccountsTab.asStateFlow() }
 
     val lastAction by lazy {
         EnumPreferenceAccessor(dataStore,
@@ -271,8 +283,15 @@ class MyExpensesV2ViewModel(
         }
     }
 
-    val startScreen: StartScreen by lazy {
+    private val _startScreen: StartScreen by lazy {
         prefHandler.enumValueOrDefault(PrefKey.UI_START_SCREEN, StartScreen.LastVisited)
+    }
+
+    val startScreen: StartScreen by lazy {
+        val preference = _startScreen
+        if (preference == StartScreen.LastVisited)
+            prefHandler.enumValueOrDefault(PrefKey.UI_SCREEN_LAST_VISITED, StartScreen.Accounts)
+        else preference
     }
 
     val startFilter by lazy {
@@ -281,6 +300,12 @@ class MyExpensesV2ViewModel(
 
     fun setLastVisited(screen: StartScreen) {
         prefHandler.putString(PrefKey.UI_SCREEN_LAST_VISITED, screen.name)
+    }
+
+    fun setAccountsTab(tab: AccountsScreenTab) {
+        _currentAccountsTab.value = tab
+        // You already have setLastVisited, you can call it here too
+        setLastVisited(tab)
     }
 
     fun setLastVisited(accountsScreenTab: AccountsScreenTab) {

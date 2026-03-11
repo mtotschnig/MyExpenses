@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.compose.accounts
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -21,14 +20,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -53,20 +49,15 @@ import org.totschnig.myexpenses.compose.main.MyFloatingActionButton
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
+import org.totschnig.myexpenses.viewmodel.AccountsScreenTab
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import timber.log.Timber
 import java.time.LocalDate
 
-enum class AccountsScreenTab(@param:StringRes val resourceId: Int) {
-    LIST(R.string.accounts),
-    BALANCE_SHEET(R.string.balance_sheet)
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AccountsScreen(
-    startTab: AccountsScreenTab,
     containerColor: Color = MaterialTheme.colorScheme.background,
     navigationIcon: @Composable (() -> Unit) = {},
     accounts: List<FullAccount>,
@@ -81,11 +72,7 @@ fun AccountsScreen(
     onNavigateToTransactions: () -> Unit
 ) {
 
-    val selectedTab = rememberSaveable { mutableStateOf(startTab) }
-
-    LaunchedEffect(selectedTab.value) {
-        viewModel.setLastVisited(selectedTab.value)
-    }
+    val selectedTab = viewModel.currentAccountsTab.collectAsState()
 
     val showHiddenState = viewModel.balanceSheetShowHidden.asState()
     val showZeroState = viewModel.balanceSheetShowZero.asState()
@@ -107,13 +94,10 @@ fun AccountsScreen(
         containerColor = containerColor,
         topBar = {
             TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent
-                 ),
                 navigationIcon = navigationIcon,
                 title = {
                     Title(selectedTab.value) {
-                        selectedTab.value = it
+                        viewModel.setAccountsTab(it)
                     }
                 },
                 actions = {

@@ -39,6 +39,7 @@ import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.layout.PaneAdaptedValue
+import androidx.compose.material3.adaptive.layout.ThreePaneScaffoldDestinationItem
 import androidx.compose.material3.adaptive.layout.ThreePaneScaffoldRole
 import androidx.compose.material3.adaptive.layout.ThreePaneScaffoldValue
 import androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator
@@ -66,7 +67,6 @@ import org.totschnig.myexpenses.activity.StartScreen
 import org.totschnig.myexpenses.compose.TooltipIconButton
 import org.totschnig.myexpenses.compose.accounts.AccountEventHandler
 import org.totschnig.myexpenses.compose.accounts.AccountsScreen
-import org.totschnig.myexpenses.compose.accounts.AccountsScreenTab
 import org.totschnig.myexpenses.compose.transactions.Action
 import org.totschnig.myexpenses.compose.transactions.TransactionScreen
 import org.totschnig.myexpenses.dialog.MenuItem
@@ -137,7 +137,6 @@ suspend fun ThreePaneScaffoldNavigator<*>.navigateToRoot(pane: ThreePaneScaffold
 @Composable
 fun MainScreenAdaptive(
     viewModel: MyExpensesV2ViewModel,
-    startScreen: StartScreen,
     accounts: List<FullAccount>,
     availableFilters: List<AccountGroupingKey>,
     selectedAccountId: Long,
@@ -152,6 +151,14 @@ fun MainScreenAdaptive(
 
     val scope = rememberCoroutineScope()
     val navigator = rememberListDetailPaneScaffoldNavigator<FullAccount>(
+        initialDestinationHistory = listOf(
+            ThreePaneScaffoldDestinationItem(
+                pane = when (viewModel.startScreen) {
+                    StartScreen.Accounts, StartScreen.BalanceSheet -> ListDetailPaneScaffoldRole.List
+                    else -> ListDetailPaneScaffoldRole.Detail
+                }
+            )
+        ),
         isDestinationHistoryAware = false
     )
     val showBottomSheetFor = remember { mutableStateOf<Screen?>(null) }
@@ -207,7 +214,6 @@ fun MainScreenAdaptive(
                         //TabletUtilityHeader(onAppEvent)
 
                         AccountsScreen(
-                            if (startScreen == StartScreen.BalanceSheet) AccountsScreenTab.BALANCE_SHEET else AccountsScreenTab.LIST,
                             containerColor = Color.Transparent,
                             navigationIcon = {
                                 TooltipIconButton(
@@ -298,8 +304,7 @@ fun MainScreenAdaptive(
                                 contentDescription = null
                             )
                         },
-                        label = { Text("Collapse") },
-                        // Optional: You can hide the label in certain modes
+                        label = { Text(stringResource(R.string.expand)) },
                         alwaysShowLabel = false
                     )
                 }
@@ -352,7 +357,6 @@ fun MainScreenAdaptive(
                 when (pane) {
                     ListDetailPaneScaffoldRole.List -> {
                         AccountsScreen(
-                            if (startScreen == StartScreen.BalanceSheet) AccountsScreenTab.BALANCE_SHEET else AccountsScreenTab.LIST,
                             navigationIcon = navigationIcon,
                             accounts = accounts,
                             accountGrouping = accountGrouping.value,

@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.calculateEndPadding
+import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -49,6 +51,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
@@ -198,7 +201,6 @@ fun AccountList(
 
 @Composable
 fun AccountListV2(
-    modifier: Modifier = Modifier,
     scaffoldPadding: PaddingValues = PaddingValues(0.dp),
     accountData: List<FullAccount>,
     grouping: AccountGrouping<*>,
@@ -223,8 +225,12 @@ fun AccountListV2(
         grouped.keys.sortedWith(grouping.comparator as Comparator<in AccountGroupingKey>)
     }
 
+    val layoutDirection = LocalLayoutDirection.current
     LazyColumnWithScrollbar(
-        modifier = modifier,
+        modifier = Modifier.padding(
+            start = scaffoldPadding.calculateStartPadding(layoutDirection),
+            end = scaffoldPadding.calculateEndPadding(layoutDirection)
+        ),
         state = listState,
         itemsAvailable = accountData.size + grouped.size,
         testTag = TEST_TAG_ACCOUNTS,

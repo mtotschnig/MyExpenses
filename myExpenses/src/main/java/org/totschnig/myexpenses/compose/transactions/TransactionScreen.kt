@@ -175,9 +175,6 @@ fun TransactionScreen(
             ) { selectionMode ->
                 if (!selectionMode) {
                     TopAppBar(
-                        colors = TopAppBarDefaults.topAppBarColors(
-                            containerColor = Color.Transparent
-                        ),
                         navigationIcon = navigationIcon,
                         title = {
                             BalanceHeader(
@@ -219,9 +216,6 @@ fun TransactionScreen(
                     }
                     val context = LocalContext.current
                     TopAppBar(
-                        colors = TopAppBarDefaults.topAppBarColors(
-                            containerColor = Color.Transparent
-                        ),
                         navigationIcon = {
                             TooltipIconButton(
                                 tooltip = stringResource(R.string.menu_close),
