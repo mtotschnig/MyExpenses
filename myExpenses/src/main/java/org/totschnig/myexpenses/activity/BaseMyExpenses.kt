@@ -8,9 +8,11 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.IdRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -36,6 +38,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyExpenses.Companion.MANAGE_HIDDEN_FRAGMENT_TAG
+import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.compose.filter.FilterCard
 import org.totschnig.myexpenses.compose.filter.FilterDialog
 import org.totschnig.myexpenses.compose.filter.FilterHandler
@@ -1377,6 +1380,9 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .conditional(!v2) {
+                    background(MaterialTheme.colorScheme.background)
+                }
         ) {
 
             val filter = viewModel.filterPersistence.getValue(account.id)
