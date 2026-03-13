@@ -5,9 +5,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.input.TextFieldState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.SortByAlpha
-import androidx.compose.material.icons.outlined.Category
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
@@ -21,6 +18,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,12 +35,6 @@ import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BalanceSheetOptions
 import org.totschnig.myexpenses.activity.BalanceSheetViewInner
-import org.totschnig.myexpenses.compose.CheckableMenuEntry
-import org.totschnig.myexpenses.compose.MenuEntry
-import org.totschnig.myexpenses.compose.OverFlowMenu
-import org.totschnig.myexpenses.compose.TooltipIconButton
-import org.totschnig.myexpenses.compose.TooltipIconMenu
-import org.totschnig.myexpenses.compose.UiText
 import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.main.AppEventHandler
 import org.totschnig.myexpenses.compose.main.MyFloatingActionButton
@@ -90,6 +82,10 @@ fun AccountsScreen(
         onNavigateToTransactions()
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.setLastVisited(selectedTab.value)
+    }
+
     Scaffold(
         containerColor = containerColor,
         topBar = {
@@ -104,15 +100,11 @@ fun AccountsScreen(
                     when (selectedTab.value) {
                         AccountsScreenTab.LIST -> {
 
-                            AccountGroupingMenu(
+                            ViewOptionsMenu(
                                 activeGrouping = accountGrouping,
                                 onGroupingChange = { onEvent(AppEvent.SetAccountGrouping(it)) },
+                                onSort = { onEvent(AppEvent.Sort)}
                             )
-
-                            TooltipIconButton(
-                                tooltip = stringResource(R.string.display_options_sort_list_by),
-                                imageVector = Icons.Default.SortByAlpha
-                            ) { onEvent(AppEvent.Sort) }
 
                             ManageEntitiesMenu(onEvent)
                         }
@@ -264,42 +256,6 @@ private fun Title(
         }
     }
 }
-
-@Composable
-fun AccountGroupingMenu(
-    activeGrouping: AccountGrouping<*>,
-    onGroupingChange: (AccountGrouping<*>) -> Unit,
-) {
-    val groupingOptions = remember { AccountGrouping.ALL_VALUES }
-
-    TooltipIconMenu(
-        tooltip = stringResource(R.string.menu_grouping),
-        imageVector = Icons.Outlined.Category,
-        menu = groupingOptions.map { option ->
-            CheckableMenuEntry(
-                label = UiText.StringValue(option.toString()),
-                isChecked = activeGrouping == option,
-                command = "CHANGE_GROUPING",
-                isRadio = true
-            ) { onGroupingChange(option) }
-        }
-    )
-}
-
-@Composable
-fun ManageEntitiesMenu(onEvent: AppEventHandler) {
-    OverFlowMenu(
-        menu = listOf(
-            MenuEntry(
-                label = UiText.StringResource(R.string.menu_account_types)
-            ) { onEvent(AppEvent.MenuItemClicked(R.id.MANAGE_ACCOUNT_TYPES_COMMAND)) },
-            MenuEntry(
-                label = UiText.StringResource(R.string.menu_account_flags)
-            ) { onEvent(AppEvent.MenuItemClicked(R.id.ACCOUNT_FLAGS_COMMAND)) }
-        )
-    )
-}
-
 
 @Preview
 @Composable

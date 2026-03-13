@@ -17,11 +17,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuOpen
 import androidx.compose.material.icons.automirrored.filled.ReceiptLong
-import androidx.compose.material.icons.automirrored.filled.ShowChart
 import androidx.compose.material.icons.filled.AccountBalance
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -49,6 +48,8 @@ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffo
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -78,27 +79,23 @@ import org.totschnig.myexpenses.model.sort.TransactionSort
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
-import timber.log.Timber
 
 sealed class Screen(
-    val route: String,
     val icon: ImageVector,
     @param:StringRes val resourceId: Int,
+    val paneRole: ThreePaneScaffoldRole,
 ) {
-    object Accounts : Screen("accounts", Icons.Default.AccountBalance, R.string.accounts)
-    object Transactions :
-        Screen(
-            "transactions",
-            Icons.AutoMirrored.Default.ReceiptLong,
-            R.string.import_select_transactions
-        )
+    object Accounts : Screen(
+        icon = Icons.Default.AccountBalance,
+        resourceId = R.string.accounts,
+        paneRole = ListDetailPaneScaffoldRole.List
+    )
 
-    object Reports :
-        Screen("reports", Icons.AutoMirrored.Default.ShowChart, R.string.reports)
-
-    object Tools :
-        Screen("tools", Icons.Default.Build, R.string.tools)
-
+    object Transactions : Screen(
+        icon = Icons.AutoMirrored.Default.ReceiptLong,
+        resourceId = R.string.import_select_transactions,
+        paneRole = ListDetailPaneScaffoldRole.Detail
+    )
 }
 
 sealed class AppEvent {
@@ -125,6 +122,7 @@ interface AppEventHandler {
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 suspend fun ThreePaneScaffoldNavigator<*>.navigateToRoot(pane: ThreePaneScaffoldRole) {
+    if (currentDestination?.pane == pane) return
     if (canNavigateBack()) {
         navigateBack()
     } else {
@@ -149,7 +147,12 @@ fun MainScreenAdaptive(
     pageContent: @Composable (pageAccount: PageAccount, isCurrent: Boolean) -> Unit,
 ) {
 
+    LaunchedEffect(Unit) {
+        viewModel.setStartFilter()
+    }
+
     val scope = rememberCoroutineScope()
+
     val navigator = rememberListDetailPaneScaffoldNavigator<FullAccount>(
         initialDestinationHistory = listOf(
             ThreePaneScaffoldDestinationItem(
@@ -161,8 +164,8 @@ fun MainScreenAdaptive(
         ),
         isDestinationHistoryAware = false
     )
-    val showBottomSheetFor = remember { mutableStateOf<Screen?>(null) }
-    val sheetState = rememberModalBottomSheetState()
+
+    val menuConfig = viewModel.mainMenu.collectAsState()
 
     val onNavigateToSettings =
         { onAppEvent(event = AppEvent.MenuItemClicked(R.id.SETTINGS_COMMAND)) }
@@ -281,14 +284,23 @@ fun MainScreenAdaptive(
             }
         )
     } else {
+
+        var showBottomSheetFor by remember { mutableStateOf(false) }
+        val sheetState = rememberModalBottomSheetState()
         val adaptiveInfo = currentWindowAdaptiveInfo()
         val layoutType =
-            NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(adaptiveInfo)
+            NavigationSuiteScaffoldDefaults.navigationSuiteType(adaptiveInfo)
+        val context = LocalContext.current
+
+        val maxQuickItems = if (layoutType == NavigationSuiteType.ShortNavigationBarMedium) 2 else 1
+
+        val quickItems = menuConfig.value.take(maxQuickItems)
+        val overflowItems = menuConfig.value.drop(maxQuickItems)
 
         NavigationSuiteScaffold(
             layoutType = layoutType,
             navigationSuiteItems = {
-                if (layoutType == NavigationSuiteType.NavigationRail) {
+                if (layoutType.isRail()) {
                     item(
                         selected = false,
                         onClick = {
@@ -308,37 +320,47 @@ fun MainScreenAdaptive(
                         alwaysShowLabel = false
                     )
                 }
-                listOf(Screen.Accounts, Screen.Transactions, Screen.Reports, Screen.Tools).forEach {
-                    // Define your items (Accounts, Transactions, etc.)
+
+                listOf(Screen.Accounts, Screen.Transactions).forEach { screen ->
                     item(
-                        selected = when (it) {
-                            Screen.Accounts -> navigator.currentDestination?.pane == ListDetailPaneScaffoldRole.List
-                            Screen.Transactions -> navigator.currentDestination?.pane == ListDetailPaneScaffoldRole.Detail
-                            else -> showBottomSheetFor.value == it
-                        },
+                        selected = navigator.currentDestination?.pane == screen.paneRole,
                         onClick = {
-                            Timber.d("Clicked on ${it.route}")
-                            when (it) {
-                                Screen.Accounts -> {
-                                    scope.launch {
-                                        navigator.navigateToRoot(ListDetailPaneScaffoldRole.List)
-                                    }
-                                }
-
-                                Screen.Transactions -> {
-                                    scope.launch {
-                                        navigator.navigateToRoot(ListDetailPaneScaffoldRole.Detail)
-                                    }
-                                }
-
-                                Screen.Reports, Screen.Tools -> {
-                                    // Trigger the bottom sheet for non-pane destinations
-                                    showBottomSheetFor.value = it
-                                }
+                            scope.launch {
+                                // Use your navigateToRoot extension to prevent backstack bloat
+                                navigator.navigateToRoot(screen.paneRole)
                             }
                         },
-                        icon = { Icon(it.icon, null) },
-                        label = { Text(stringResource(it.resourceId)) }
+                        icon = { Icon(screen.icon, contentDescription = null) },
+                        label = { Text(stringResource(screen.resourceId)) }
+                    )
+                }
+
+                if (layoutType.isRail()) {
+                    menuConfig.value.forEach { menuItem ->
+                        item(
+                            selected = false,
+                            onClick = { onAppEvent(AppEvent.MenuItemClicked(menuItem.id)) },
+                            icon = { Icon(painterResource(menuItem.icon), null) },
+                            label = { Text(menuItem.getLabel(context)) }
+                        )
+                    }
+                } else {
+
+                    quickItems.forEach { menuItem ->
+                        item(
+                            selected = false,
+                            onClick = { onAppEvent(AppEvent.MenuItemClicked(menuItem.id)) },
+                            icon = { Icon(painterResource(menuItem.icon), null) },
+                            label = { Text(menuItem.getLabel(context)) }
+                        )
+                    }
+
+                    // Always add the "More" overflow item
+                    item(
+                        selected = showBottomSheetFor,
+                        onClick = { showBottomSheetFor = true },
+                        icon = { Icon(Icons.Default.MoreHoriz, null) },
+                        label = { Text(stringResource(androidx.appcompat.R.string.abc_action_menu_overflow_description)) }
                     )
                 }
             }
@@ -395,44 +417,38 @@ fun MainScreenAdaptive(
                 }
             }
         }
-    }
-    if (showBottomSheetFor.value != null) {
-        ModalBottomSheet(
-            onDismissRequest = { showBottomSheetFor.value = null },
-            sheetState = sheetState,
-            contentWindowInsets = { WindowInsets.navigationBars }
-        ) {
-            val items = when (showBottomSheetFor.value) {
-                Screen.Tools -> listOf(
-                    MenuItem.Templates, MenuItem.Parties
-                )
+        if (showBottomSheetFor) {
+            ModalBottomSheet(
+                onDismissRequest = { showBottomSheetFor = false },
+                sheetState = sheetState,
+                contentWindowInsets = { WindowInsets.navigationBars }
+            ) {
 
-                Screen.Reports -> listOf(
-                    MenuItem.Budget, MenuItem.Distribution, MenuItem.History
-                )
-
-                else -> return@ModalBottomSheet
+                    overflowItems
+                    .filter { onPrepareMenuItem(it.id) }
+                    .forEach {
+                        ListItem(
+                            modifier = Modifier.clickable {
+                                showBottomSheetFor = false
+                                onAppEvent(AppEvent.MenuItemClicked(it.id))
+                            },
+                            headlineContent = { Text(it.getLabel(LocalContext.current)) },
+                            leadingContent = {
+                                Icon(
+                                    painterResource(it.icon),
+                                    contentDescription = null
+                                )
+                            },
+                        )
+                    }
             }
-
-            items
-                .filter { onPrepareMenuItem(it.id) }
-                .forEach {
-                    ListItem(
-                        modifier = Modifier.clickable {
-                            showBottomSheetFor.value = null
-                            onAppEvent(AppEvent.MenuItemClicked(it.id))
-                        },
-                        headlineContent = { Text(it.getLabel(LocalContext.current)) },
-                        leadingContent = {
-                            Icon(
-                                painterResource(it.icon),
-                                contentDescription = null
-                            )
-                        },
-                    )
-                }
         }
     }
+}
+
+private fun NavigationSuiteType.isRail(): Boolean {
+    return this == NavigationSuiteType.WideNavigationRailCollapsed ||
+            this == NavigationSuiteType.WideNavigationRailExpanded
 }
 
 

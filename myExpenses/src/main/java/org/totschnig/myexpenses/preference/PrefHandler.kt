@@ -165,8 +165,8 @@ interface PrefHandler {
             }
         }
 
-    val mainMenu: List<MenuItem>
-        get() = getOrderedStringSet(PrefKey.CUSTOMIZE_MAIN_MENU)
+    fun getCustomMenu(menuContext: MenuItem.MenuContext = MenuItem.MenuContext.V1) =
+        getOrderedStringSet(menuContext.prefKey)
             ?.let { stored ->
                 stored.mapNotNull {
                     try {
@@ -176,7 +176,7 @@ interface PrefHandler {
                     }
                 }
             }
-            ?: MenuItem.defaultConfiguration
+            ?: MenuItem.getDefaultConfiguration(menuContext)
 
     val shouldDebug: Boolean
         get() = getBoolean(PrefKey.DEBUG_LOGGING, BuildConfig.DEBUG)
@@ -201,7 +201,7 @@ interface PrefHandler {
     fun createShowDetailsIntent(
         context: Context,
         requestCode: Int,
-        transaction: Transaction
+        transaction: Transaction,
     ): PendingIntent = PendingIntent.getActivity(
         context,
         requestCode,

@@ -282,6 +282,7 @@
     <string name="pref_export_manage_files_key">export_manage_files</string>
     <string name="pref_help_key">help</string>
     <string name="pref_customize_main_menu_key">customize_main_menu</string>
+    <string name="pref_customize_main_menu_v2_key">customize_main_menu_v2</string>
     <string name="pref_remove_local_calendar_key">remove_local_calendar</string>
     <string name="pref_print_header_left_key">print_header_left</string>
     <string name="pref_print_header_center_key">print_header_center</string>

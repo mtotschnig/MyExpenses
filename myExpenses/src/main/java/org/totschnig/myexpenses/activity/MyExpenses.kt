@@ -823,9 +823,9 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
             return true
         } else when (command) {
 
-            R.id.CREATE_ACCOUNT_COMMAND -> {
-                createAccount()
-            }
+            R.id.COPY_TO_CLIPBOARD_COMMAND -> copyToClipBoard()
+
+            R.id.CREATE_ACCOUNT_COMMAND -> createAccount()
 
             R.id.TOGGLE_SEALED_COMMAND -> currentAccount?.let { toggleAccountSealed(it) }
 
@@ -994,7 +994,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        prefHandler.mainMenu.forEach { menuItem ->
+        prefHandler.getCustomMenu().forEach { menuItem ->
             if (menuItem.subMenu != null) {
                 val subMenu =
                     menu.addSubMenu(Menu.NONE, menuItem.id, Menu.NONE, menuItem.getLabel(this))
@@ -1113,11 +1113,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                         )
                     }
                     popup.setOnMenuItemClickListener { item ->
-                        when (item.itemId) {
-                            R.id.COPY_TO_CLIPBOARD_COMMAND -> copyToClipBoard()
-                            R.id.NEW_BALANCE_COMMAND -> dispatchCommand(R.id.NEW_BALANCE_COMMAND, null)
-                        }
-                        true
+                        dispatchCommand(item.itemId, null)
                     }
                     popup.show()
                 }

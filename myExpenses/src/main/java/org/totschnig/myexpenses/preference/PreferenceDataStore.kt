@@ -16,6 +16,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.dialog.MenuItem
+import org.totschnig.myexpenses.dialog.name
+import org.totschnig.myexpenses.dialog.valueOf
 import org.totschnig.myexpenses.provider.KEY_DYNAMIC
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.IOException
@@ -126,3 +129,32 @@ val DataStore<Preferences>.dynamicExchangeRates: Flow<String>
 
 val DataStore<Preferences>.dynamicExchangeRatesPerAccount: Flow<Boolean>
     get() = dynamicExchangeRates.map { it == KEY_DYNAMIC }
+
+fun DataStore<Preferences>.menu(
+    key: Preferences.Key<String>
+): Flow<List<MenuItem>?> = data
+        .map { preferences ->
+            val rawValue = preferences[key] ?: ""
+            if (rawValue.isEmpty()) {
+                null
+            } else {
+                rawValue.split(',')
+            }
+        }.map {
+            it?.mapNotNull {
+                try {
+                    MenuItem.valueOf(it)
+                } catch (_: IllegalArgumentException) {
+                    null
+                }
+            }
+        }
+
+suspend fun DataStore<Preferences>.persistMenu(
+    key: Preferences.Key<String>,
+    data: List<MenuItem>
+) {
+    edit {
+        it[key] = data.joinToString(",") { it.name }
+    }
+}

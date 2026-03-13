@@ -14,6 +14,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,12 +34,20 @@ import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.os.BundleCompat
+import androidx.core.os.bundleOf
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.ButtonRow
 import org.totschnig.myexpenses.compose.optional
 import org.totschnig.myexpenses.compose.rememberMutableStateListOf
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
-import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.dialog.MenuItem.MenuContext.V1
+import org.totschnig.myexpenses.dialog.MenuItem.MenuContext.V2Navigation
+import org.totschnig.myexpenses.dialog.MenuItem.MenuContext.V2Transactions
+import org.totschnig.myexpenses.preference.menu
+import org.totschnig.myexpenses.preference.persistMenu
 import org.totschnig.myexpenses.util.TextUtils
 import sh.calvin.reorderable.ReorderableCollectionItemScope
 import sh.calvin.reorderable.ReorderableItem
@@ -53,34 +67,82 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment3() {
             R.string.customize
         )
 
+    suspend fun loadConfiguration(menuContext: MenuItem.MenuContext): List<MenuItem> {
+        return when (menuContext) {
+            V1 -> prefHandler.getCustomMenu(menuContext)
+            V2Navigation -> dataStore.menu(prefHandler.getStringPreferencesKey(menuContext.prefKey))
+                .first() ?: MenuItem.getDefaultConfiguration(menuContext)
+            V2Transactions -> TODO()
+        }
+    }
+
+    suspend fun saveConfiguration(menuContext: MenuItem.MenuContext, data: List<MenuItem>) {
+        when (menuContext) {
+            V1 -> prefHandler.putOrderedStringSet(
+                menuContext.prefKey,
+                LinkedHashSet(data.map { it.name })
+            )
+            V2Navigation -> dataStore.persistMenu(
+                prefHandler.getStringPreferencesKey(menuContext.prefKey),
+                data
+            )
+            V2Transactions -> TODO()
+        }
+    }
+
     @Composable
     override fun ColumnScope.MainContent() {
-        val activeItems = rememberMutableStateListOf(prefHandler.mainMenu)
-        val inactiveItems = rememberMutableStateListOf(MenuItem.values - activeItems)
+        val menuContext = arguments?.let {
+            BundleCompat.getSerializable(it, KEY_CONTEXT, MenuItem.MenuContext::class.java)
+        } ?: V1
 
-        MenuConfigurator(activeItems, inactiveItems, Modifier.weight(1f))
-        ButtonRow {
-            TextButton(onClick = { dismiss() }) {
-                Text(stringResource(id = android.R.string.cancel))
-            }
-            TextButton(onClick = {
-                inactiveItems.clear()
-                activeItems.clear()
-                activeItems.addAll(MenuItem.defaultConfiguration)
-                inactiveItems.addAll(MenuItem.values - activeItems)
-            }) {
-                Text(stringResource(id = R.string.menu_reset_plan_instance))
-            }
-            TextButton(onClick = {
-                prefHandler.putOrderedStringSet(
-                    PrefKey.CUSTOMIZE_MAIN_MENU,
-                    LinkedHashSet(activeItems.map { it.name })
-                )
-                dismiss()
-            }) {
-                Text(stringResource(id = R.string.confirm))
+        var loaded by remember { mutableStateOf(false) }
+
+        val all = MenuItem.all(menuContext)
+        val activeItems: SnapshotStateList<MenuItem> = rememberMutableStateListOf(emptyList())
+        val inactiveItems: SnapshotStateList<MenuItem> = rememberMutableStateListOf(emptyList())
+
+        LaunchedEffect(Unit) {
+            activeItems.addAll(loadConfiguration(menuContext))
+            inactiveItems.addAll(all - activeItems)
+            loaded = true
+        }
+
+        if (loaded) {
+
+            MenuConfigurator(activeItems, inactiveItems, Modifier.weight(1f))
+            ButtonRow {
+                TextButton(onClick = { dismiss() }) {
+                    Text(stringResource(id = android.R.string.cancel))
+                }
+                TextButton(onClick = {
+                    inactiveItems.clear()
+                    activeItems.clear()
+                    activeItems.addAll(MenuItem.getDefaultConfiguration(menuContext))
+                    inactiveItems.addAll(all - activeItems)
+                }) {
+                    Text(stringResource(id = R.string.menu_reset_plan_instance))
+                }
+                val scope = rememberCoroutineScope()
+                TextButton(onClick = {
+                    scope.launch {
+                        saveConfiguration(menuContext, activeItems)
+                        dismiss()
+                    }
+                }) {
+                    Text(stringResource(id = R.string.confirm))
+                }
             }
         }
+    }
+
+    companion object {
+        const val KEY_CONTEXT = "context"
+
+        fun newInstance(menuContext: MenuItem.MenuContext = V1) =
+            CustomizeMenuDialogFragment().apply {
+                arguments = bundleOf(KEY_CONTEXT to menuContext)
+            }
     }
 }
 
@@ -200,14 +262,15 @@ private fun ItemRow(
     customActions: List<CustomAccessibilityAction>?,
 ) {
     Row(
-        modifier = Modifier.semantics {
-            collectionItemInfo = CollectionItemInfo(
-                rowIndex = index,
-                rowSpan = 1,
-                columnIndex =  0,
-                columnSpan = 1
-            )
-        }
+        modifier = Modifier
+            .semantics {
+                collectionItemInfo = CollectionItemInfo(
+                    rowIndex = index,
+                    rowSpan = 1,
+                    columnIndex = 0,
+                    columnSpan = 1
+                )
+            }
             .padding(12.dp)
             .toggleable(
                 value = checked,
@@ -221,13 +284,11 @@ private fun ItemRow(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Checkbox(checked = checked, enabled = onCheckedChange != null, onCheckedChange = null)
-        item.icon.let {
-            Icon(
-                modifier = Modifier.padding(horizontal = 8.dp),
-                painter = painterResource(id = it),
-                contentDescription = null
-            )
-        }
+        Icon(
+            modifier = Modifier.padding(horizontal = 8.dp),
+            painter = painterResource(id = item.icon),
+            contentDescription = null
+        )
         Text(
             text = item.getLabel(LocalContext.current),
             modifier = Modifier

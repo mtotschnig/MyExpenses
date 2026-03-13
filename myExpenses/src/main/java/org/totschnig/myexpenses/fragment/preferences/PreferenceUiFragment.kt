@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.activity.Version
 import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.dialog.AccountListDisplayConfigurationDialogFragment
 import org.totschnig.myexpenses.dialog.CustomizeMenuDialogFragment
+import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefKey
@@ -212,7 +213,13 @@ class PreferenceUiFragment : BasePreferenceFragment() {
         }
 
         matches(preference, PrefKey.CUSTOMIZE_MAIN_MENU) -> {
-            CustomizeMenuDialogFragment()
+            CustomizeMenuDialogFragment.newInstance()
+                .show(childFragmentManager, "CUSTOMIZE_MENU")
+            true
+        }
+
+        matches(preference, PrefKey.CUSTOMIZE_MAIN_MENU_V2) -> {
+            CustomizeMenuDialogFragment.newInstance(MenuItem.MenuContext.V2Navigation)
                 .show(childFragmentManager, "CUSTOMIZE_MENU")
             true
         }
@@ -294,6 +301,7 @@ class PreferenceUiFragment : BasePreferenceFragment() {
         val legacy = prefHandler.mainScreenLegacy
         requirePreference<Preference>(PrefKey.CUSTOMIZE_MAIN_MENU).isVisible = legacy
         requirePreference<Preference>(PrefKey.UI_START_SCREEN).isVisible = !legacy
+        requirePreference<Preference>(PrefKey.CUSTOMIZE_MAIN_MENU_V2).isVisible = !legacy
     }
 
     companion object {

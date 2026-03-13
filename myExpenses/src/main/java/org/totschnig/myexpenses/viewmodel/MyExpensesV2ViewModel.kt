@@ -22,6 +22,7 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.StartScreen
 import org.totschnig.myexpenses.compose.transactions.Action
+import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
@@ -34,6 +35,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.PreferenceAccessor
 import org.totschnig.myexpenses.preference.PreferenceState
 import org.totschnig.myexpenses.preference.enumValueOrDefault
+import org.totschnig.myexpenses.preference.menu
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.GROUPING_AGGREGATE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
@@ -63,7 +65,8 @@ class MyExpensesV2ViewModel(
     val currentAccountsTab by lazy { _currentAccountsTab.asStateFlow() }
 
     val lastAction by lazy {
-        EnumPreferenceAccessor(dataStore,
+        EnumPreferenceAccessor(
+            dataStore,
             stringPreferencesKey("lastAction"),
             Action.Expense
         )
@@ -132,53 +135,53 @@ class MyExpensesV2ViewModel(
             currentAggregateGrouping,
             currentAggregateSort,
         ) { accounts, activeFilter, accountGrouping, aggregateGrouping, aggregateSort ->
-                val filteredByGroupFilter =
-                    if (activeFilter == null || accountGrouping == AccountGrouping.NONE)
-                        accounts
-                    else
-                        accounts.filter { account -> accountGrouping.getGroupKey(account) == activeFilter }
-                val aggregateAccountGrouping =
-                    if (activeFilter != null) accountGrouping else AccountGrouping.NONE
-                //if we group by flag, and filter by a given flag,
-                // we want to show all accounts with that flag ignoring visibility
-                val filteredByVisibility =
-                    if (accountGrouping == AccountGrouping.FLAG && activeFilter != null)
-                        filteredByGroupFilter
-                    else
-                        filteredByGroupFilter.filter { it.visible }
-                if (filteredByGroupFilter.size < 2) filteredByVisibility
-                else {
-                    val filteredForTotals = filteredByGroupFilter.filter { !it.excludeFromTotals }
-                    filteredByVisibility + AggregateAccount(
-                        currencyUnit = activeFilter as? CurrencyUnit
-                            ?: currencyContext.homeCurrencyUnit,
-                        type = if (accountGrouping == AccountGrouping.TYPE) activeFilter as? AccountType else null,
-                        flag = if (accountGrouping == AccountGrouping.FLAG) activeFilter as? AccountFlag else null,
-                        grouping = aggregateGrouping,
-                        accountGrouping = aggregateAccountGrouping,
-                        sortBy = aggregateSort.column,
-                        sortDirection = aggregateSort.sortDirection,
-                        equivalentOpeningBalance = filteredForTotals.sumOf { it.equivalentOpeningBalance },
-                        equivalentCurrentBalance = filteredForTotals.sumOf { it.equivalentCurrentBalance },
-                        equivalentSumIncome = filteredForTotals.sumOf { it.equivalentSumIncome },
-                        equivalentSumExpense = filteredForTotals.sumOf { it.equivalentSumExpense },
-                        equivalentSumTransfer = filteredForTotals.sumOf { it.equivalentSumTransfer },
-                        equivalentTotal = filteredForTotals.sumOf {
-                            it.equivalentTotal ?: it.equivalentCurrentBalance
-                        },
-                    ).let { aggregateAccount ->
-                        if (aggregateAccountGrouping == AccountGrouping.CURRENCY) aggregateAccount.copy(
-                            openingBalance = filteredForTotals.sumOf { it.openingBalance },
-                            currentBalance = filteredForTotals.sumOf { it.currentBalance },
-                            sumIncome = filteredForTotals.sumOf { it.sumIncome },
-                            sumExpense = filteredForTotals.sumOf { it.sumExpense },
-                            sumTransfer = filteredForTotals.sumOf { it.sumTransfer },
-                            total = filteredForTotals.sumOf { it.total ?: it.currentBalance },
-                        ) else aggregateAccount
-                    }
+            val filteredByGroupFilter =
+                if (activeFilter == null || accountGrouping == AccountGrouping.NONE)
+                    accounts
+                else
+                    accounts.filter { account -> accountGrouping.getGroupKey(account) == activeFilter }
+            val aggregateAccountGrouping =
+                if (activeFilter != null) accountGrouping else AccountGrouping.NONE
+            //if we group by flag, and filter by a given flag,
+            // we want to show all accounts with that flag ignoring visibility
+            val filteredByVisibility =
+                if (accountGrouping == AccountGrouping.FLAG && activeFilter != null)
+                    filteredByGroupFilter
+                else
+                    filteredByGroupFilter.filter { it.visible }
+            if (filteredByGroupFilter.size < 2) filteredByVisibility
+            else {
+                val filteredForTotals = filteredByGroupFilter.filter { !it.excludeFromTotals }
+                filteredByVisibility + AggregateAccount(
+                    currencyUnit = activeFilter as? CurrencyUnit
+                        ?: currencyContext.homeCurrencyUnit,
+                    type = if (accountGrouping == AccountGrouping.TYPE) activeFilter as? AccountType else null,
+                    flag = if (accountGrouping == AccountGrouping.FLAG) activeFilter as? AccountFlag else null,
+                    grouping = aggregateGrouping,
+                    accountGrouping = aggregateAccountGrouping,
+                    sortBy = aggregateSort.column,
+                    sortDirection = aggregateSort.sortDirection,
+                    equivalentOpeningBalance = filteredForTotals.sumOf { it.equivalentOpeningBalance },
+                    equivalentCurrentBalance = filteredForTotals.sumOf { it.equivalentCurrentBalance },
+                    equivalentSumIncome = filteredForTotals.sumOf { it.equivalentSumIncome },
+                    equivalentSumExpense = filteredForTotals.sumOf { it.equivalentSumExpense },
+                    equivalentSumTransfer = filteredForTotals.sumOf { it.equivalentSumTransfer },
+                    equivalentTotal = filteredForTotals.sumOf {
+                        it.equivalentTotal ?: it.equivalentCurrentBalance
+                    },
+                ).let { aggregateAccount ->
+                    if (aggregateAccountGrouping == AccountGrouping.CURRENCY) aggregateAccount.copy(
+                        openingBalance = filteredForTotals.sumOf { it.openingBalance },
+                        currentBalance = filteredForTotals.sumOf { it.currentBalance },
+                        sumIncome = filteredForTotals.sumOf { it.sumIncome },
+                        sumExpense = filteredForTotals.sumOf { it.sumExpense },
+                        sumTransfer = filteredForTotals.sumOf { it.sumTransfer },
+                        total = filteredForTotals.sumOf { it.total ?: it.currentBalance },
+                    ) else aggregateAccount
                 }
-            }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
-        }
+            }
+        }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+    }
 
     // Derived state: What are the available filter options for the current grouping?
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -318,7 +321,24 @@ class MyExpensesV2ViewModel(
     }
 
     val sortByFlagFirst by lazy {
-        PreferenceAccessor(dataStore,
-            prefHandler.getBooleanPreferencesKey(PrefKey.SORT_ACCOUNT_LIST_BY_FLAG_FIRST), defaultValue = true)
+        PreferenceAccessor(
+            dataStore,
+            prefHandler.getBooleanPreferencesKey(PrefKey.SORT_ACCOUNT_LIST_BY_FLAG_FIRST),
+            defaultValue = true
+        )
+    }
+
+    val mainMenu: StateFlow<List<MenuItem>> by lazy {
+        val defaultConfiguration =
+            MenuItem.getDefaultConfiguration(MenuItem.MenuContext.V2Navigation)
+        dataStore.menu(
+            key = prefHandler.getStringPreferencesKey(PrefKey.CUSTOMIZE_MAIN_MENU_V2),
+        )
+            .map { it ?: defaultConfiguration }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = defaultConfiguration
+            )
     }
 }

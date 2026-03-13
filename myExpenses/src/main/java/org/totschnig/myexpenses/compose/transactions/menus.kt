@@ -54,7 +54,7 @@ fun AccountFilterMenu(
 }
 
 @Composable
-fun TransactionsViewOptionsMenu(
+fun ViewOptionsMenu(
     currentAccount: BaseAccount,
     onEvent: AppEventHandler,
 ) {

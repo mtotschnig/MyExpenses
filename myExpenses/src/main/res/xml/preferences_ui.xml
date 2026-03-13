@@ -52,6 +52,11 @@
         android:summary="@string/customize"
         android:title="@string/menu" />
 
+    <Preference
+        android:key="@string/pref_customize_main_menu_v2_key"
+        android:summary="@string/customize"
+        android:title="@string/menu" />
+
     <ListPreference
         android:defaultValue="LastVisited"
         android:entries="@array/pref_start_screen_entries"

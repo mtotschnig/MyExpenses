@@ -11,6 +11,7 @@ import com.livefront.sealedenum.GenSealedEnum
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.TextUtils
 
 @Parcelize
@@ -132,7 +133,6 @@ sealed class MenuItem(
         R.id.ARCHIVE_COMMAND,
         R.string.action_archive,
         R.drawable.ic_archive,
-        isEnabledByDefault = true
     )
 
     data object Share : MenuItem(
@@ -175,9 +175,36 @@ sealed class MenuItem(
         isEnabledByDefault = false
     )
 
+    enum class MenuContext {
+        V1, V2Navigation, V2Transactions;
+
+        val prefKey: PrefKey
+            get() = when(this) {
+                V1 -> PrefKey.CUSTOMIZE_MAIN_MENU
+                V2Navigation -> PrefKey.CUSTOMIZE_MAIN_MENU_V2
+                V2Transactions -> TODO()
+            }
+    }
+
     @GenSealedEnum
     companion object {
-        val defaultConfiguration: List<MenuItem>
-            get() = values.filter { it.isEnabledByDefault }
+        fun all(menuContext: MenuContext) = when(menuContext) {
+            MenuContext.V1 -> values
+            MenuContext.V2Navigation -> v2NavigationItems
+            MenuContext.V2Transactions -> TODO()
+        }
+
+        fun getDefaultConfiguration(menuContext: MenuContext): List<MenuItem> =
+            all(menuContext).filter { it.isEnabledByDefault }
+
+        val v2NavigationItems: List<MenuItem>
+            get() = listOf(
+                Templates,
+                Budget,
+                Parties,
+                Backup,
+                WebUI,
+                Restore
+            )
     }
 }
