@@ -37,6 +37,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.LocalColors
 import org.totschnig.myexpenses.compose.MenuEntry
+import org.totschnig.myexpenses.compose.calculateOnColor
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 
 enum class Action(
@@ -81,14 +82,19 @@ enum class Action(
 fun FloatingActionToolbar(
     modifier: Modifier = Modifier,
     lastAction: Action = Action.Expense,
-    onAction: (action: Action) -> Unit,
+    containerColor: Color,
+    onAction: (action: Action) -> Unit
 ) {
     val showMenu = remember { mutableStateOf(false) }
 
     Card(
         modifier = modifier,
         shape = CircleShape,
-        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = containerColor,
+            contentColor = containerColor.calculateOnColor()
+        )
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 6.dp, vertical = 4.dp),
@@ -96,14 +102,11 @@ fun FloatingActionToolbar(
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             IconButton(
-                onClick = {
-                    onAction(lastAction)
-                },
+                onClick = { onAction(lastAction) },
             ) {
                 Icon(
                     lastAction.imageVector,
-                    tint = lastAction.tint ?: LocalContentColor.current,
-                    contentDescription = lastAction.contentDescription
+                    contentDescription = lastAction.contentDescription,
                 )
             }
 
@@ -111,6 +114,7 @@ fun FloatingActionToolbar(
                 modifier = Modifier
                     .height(24.dp)
                     .width(1.dp),
+                color = LocalContentColor.current
             )
 
             Box {

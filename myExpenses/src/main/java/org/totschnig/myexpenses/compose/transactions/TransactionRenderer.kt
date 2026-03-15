@@ -70,6 +70,7 @@ import org.totschnig.myexpenses.compose.CharIcon
 import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.Icon
 import org.totschnig.myexpenses.compose.Menu
+import org.totschnig.myexpenses.compose.calculateOnColor
 import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.compose.emToDp
 import org.totschnig.myexpenses.compose.optional
@@ -170,7 +171,7 @@ abstract class ItemRenderer(
                         withStyle(
                             style = SpanStyle(
                                 background = userColor,
-                                color = if (userColor.luminance() > 0.5) Color.Black else Color.White,
+                                color = userColor.calculateOnColor(),
                             )
                         ) {
                             append(pair.second)

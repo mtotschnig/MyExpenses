@@ -64,6 +64,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
@@ -376,7 +377,8 @@ fun TransactionScreen(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(bottom = 16.dp),
-                lastAction = viewModel.lastAction.flow.collectAsState(Action.Expense).value
+                lastAction = viewModel.lastAction.flow.collectAsState(Action.Expense).value,
+                containerColor = Color(currentAccount.color(LocalResources.current)),
             ) { action ->
 
                 scope.launch {
