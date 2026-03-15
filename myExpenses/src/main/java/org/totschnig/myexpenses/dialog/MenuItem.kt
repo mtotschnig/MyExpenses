@@ -242,6 +242,7 @@ sealed class MenuItem(
                 Templates,
                 Budget,
                 Parties,
+                Settings,
                 Backup,
                 WebUI,
                 Restore

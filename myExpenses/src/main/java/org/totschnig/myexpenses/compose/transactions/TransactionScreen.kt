@@ -111,7 +111,6 @@ import kotlin.math.absoluteValue
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TransactionScreen(
-    navigationIcon: @Composable (() -> Unit) = {},
     containerColor: Color = MaterialTheme.colorScheme.background,
     accounts: List<FullAccount>,
     accountGrouping: AccountGrouping<*>,
@@ -214,7 +213,6 @@ fun TransactionScreen(
                     }
 
                     TopAppBar(
-                        navigationIcon = navigationIcon,
                         title = {
                             BalanceHeader(
                                 currentAccount = currentAccount,

@@ -171,17 +171,6 @@ fun MainScreenAdaptive(
 
     val menuConfig = viewModel.mainMenu.collectAsState()
 
-    val onNavigateToSettings =
-        { onAppEvent(event = AppEvent.MenuItemClicked(R.id.SETTINGS_COMMAND)) }
-
-    val navigationIcon: @Composable () -> Unit = {
-        TooltipIconButton(
-            tooltip = stringResource(R.string.settings_label),
-            imageVector = Icons.Default.Settings,
-            onClick = onNavigateToSettings
-        )
-    }
-
     val accountGrouping = viewModel.accountGrouping.asState()
 
     val defaultExpanded = navigator.scaffoldDirective.maxHorizontalPartitions > 1
@@ -273,7 +262,6 @@ fun MainScreenAdaptive(
                     ) {
                         TransactionScreen(
                             containerColor = Color.Transparent,
-                            navigationIcon = navigationIcon,
                             accounts = accounts,
                             accountGrouping = accountGrouping.value,
                             availableFilters = availableFilters,
@@ -387,7 +375,6 @@ fun MainScreenAdaptive(
                 when (pane) {
                     ListDetailPaneScaffoldRole.List -> {
                         AccountsScreen(
-                            navigationIcon = navigationIcon,
                             accounts = accounts,
                             accountGrouping = accountGrouping.value,
                             selectedAccountId = selectedAccountId,
@@ -408,7 +395,6 @@ fun MainScreenAdaptive(
 
                     ListDetailPaneScaffoldRole.Detail -> {
                         TransactionScreen(
-                            navigationIcon = navigationIcon,
                             accounts = accounts,
                             accountGrouping = accountGrouping.value,
                             availableFilters = availableFilters,
