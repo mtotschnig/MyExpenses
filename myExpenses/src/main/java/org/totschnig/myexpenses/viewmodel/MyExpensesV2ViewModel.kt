@@ -328,6 +328,18 @@ class MyExpensesV2ViewModel(
         )
     }
 
+    enum class AccountPanelState {
+        EXPANDED, COLLAPSED, DEFAULT
+    }
+
+    val accountPanelState by lazy {
+        EnumPreferenceAccessor(
+            dataStore,
+            stringPreferencesKey("accountPanelState"),
+            AccountPanelState.DEFAULT
+        )
+    }
+
     val mainMenu: StateFlow<List<MenuItem>> by lazy {
        menuFlow(MenuItem.MenuContext.V2Navigation)
     }

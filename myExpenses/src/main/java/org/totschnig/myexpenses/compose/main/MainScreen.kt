@@ -24,7 +24,6 @@ import androidx.compose.material.icons.filled.CheckBox
 import androidx.compose.material.icons.filled.CheckBoxOutlineBlank
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreHoriz
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -174,9 +173,11 @@ fun MainScreenAdaptive(
     val accountGrouping = viewModel.accountGrouping.asState()
 
     val defaultExpanded = navigator.scaffoldDirective.maxHorizontalPartitions > 1
-    var forceExpanded by remember { mutableStateOf(false) }
-    var forceCollapsed by remember { mutableStateOf(false) }
-    val isExpanded = (defaultExpanded && !forceCollapsed) || forceExpanded
+    val forcedAccountPanelState = viewModel.accountPanelState.asState()
+    val isExpanded = if (defaultExpanded)
+        forcedAccountPanelState.value != MyExpensesV2ViewModel.AccountPanelState.COLLAPSED
+    else forcedAccountPanelState.value == MyExpensesV2ViewModel.AccountPanelState.EXPANDED
+
 
     val adaptiveInfo = currentWindowAdaptiveInfo()
 
@@ -209,8 +210,6 @@ fun MainScreenAdaptive(
                             color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
                         )
                     ) {
-                        // Add a special "Tablet Header" here with Reports/Tools
-                        //TabletUtilityHeader(onAppEvent)
 
                         AccountsScreen(
                             containerColor = Color.Transparent,
@@ -220,9 +219,9 @@ fun MainScreenAdaptive(
                                     imageVector = Icons.AutoMirrored.Filled.MenuOpen
                                 ) {
                                     if (defaultExpanded) {
-                                        forceCollapsed = true
+                                        forcedAccountPanelState.value = MyExpensesV2ViewModel.AccountPanelState.COLLAPSED
                                     } else {
-                                        forceExpanded = false
+                                        forcedAccountPanelState.value = MyExpensesV2ViewModel.AccountPanelState.DEFAULT
                                     }
                                 }
                             },
@@ -304,9 +303,9 @@ fun MainScreenAdaptive(
                         selected = false,
                         onClick = {
                             if (defaultExpanded) {
-                                forceCollapsed = false
+                                forcedAccountPanelState.value = MyExpensesV2ViewModel.AccountPanelState.DEFAULT
                             } else {
-                                forceExpanded = true
+                                forcedAccountPanelState.value = MyExpensesV2ViewModel.AccountPanelState.EXPANDED
                             }
                         },
                         icon = {
