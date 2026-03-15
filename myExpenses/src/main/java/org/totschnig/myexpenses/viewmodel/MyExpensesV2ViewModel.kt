@@ -329,16 +329,33 @@ class MyExpensesV2ViewModel(
     }
 
     val mainMenu: StateFlow<List<MenuItem>> by lazy {
+       menuFlow(MenuItem.MenuContext.V2Navigation)
+    }
+
+    val transactionScreenMenu by lazy {
+        menuFlow(MenuItem.MenuContext.V2Transactions)
+    }
+
+    private fun menuFlow(menuContext: MenuItem.MenuContext): StateFlow<List<MenuItem>> {
         val defaultConfiguration =
-            MenuItem.getDefaultConfiguration(MenuItem.MenuContext.V2Navigation)
-        dataStore.menu(
-            key = prefHandler.getStringPreferencesKey(PrefKey.CUSTOMIZE_MAIN_MENU_V2),
+            MenuItem.getDefaultConfiguration(menuContext)
+        return dataStore.menu(
+            key = prefHandler.getStringPreferencesKey(menuContext.prefKey),
         )
             .map { it ?: defaultConfiguration }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000),
                 initialValue = defaultConfiguration
+            )
+    }
+
+    val isWebUiActive: Flow<Boolean> by lazy {
+        dataStore.data.map { preferences -> preferences[prefHandler.getBooleanPreferencesKey(PrefKey.UI_WEB)] ?: false }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = false
             )
     }
 }

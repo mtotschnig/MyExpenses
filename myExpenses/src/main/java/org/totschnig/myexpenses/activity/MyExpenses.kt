@@ -275,26 +275,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                 true
             }
 
-            R.id.SHOW_STATUS_HANDLE_COMMAND -> {
-                currentAccount?.let {
-                    lifecycleScope.launch {
-                        viewModel.showStatusHandle.set(!item.isChecked)
-                        invalidateOptionsMenu()
-                    }
-                }
-                true
-            }
-
-            R.id.WEB_UI_COMMAND -> {
-                toggleWebUI()
-                true
-            }
-
-            R.id.SEARCH_COMMAND -> {
-                showFilterDialog = true
-                true
-            }
-
             else -> handleGrouping(item) ||
                     handleSortDirection(item) ||
                     super.onOptionsItemSelected(item)
@@ -324,21 +304,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
             invalidateOptionsMenu()
         } else {
             contribFeatureRequested(ContribFeature.OCR, false)
-        }
-    }
-
-    private fun toggleWebUI() {
-        if (prefHandler.getBoolean(PrefKey.UI_WEB, false)) {
-            prefHandler.putBoolean(PrefKey.UI_WEB, false)
-        } else {
-            contribFeatureRequested(ContribFeature.WEB_UI, false)
-        }
-    }
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
-        super.onSharedPreferenceChanged(sharedPreferences, key)
-        if (key != null && prefHandler.matches(key, PrefKey.UI_WEB)) {
-            invalidateOptionsMenu()
         }
     }
 
@@ -849,23 +814,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
 
             R.id.ROADMAP_COMMAND -> startActivity(Intent(this, RoadmapVoteActivity::class.java))
 
-            R.id.BACKUP_COMMAND -> startActivity(
-                Intent(
-                    this,
-                    BackupRestoreActivity::class.java
-                ).apply {
-                    action = BackupRestoreActivity.ACTION_BACKUP
-                })
-
-
-            R.id.RESTORE_COMMAND -> startActivity(
-                Intent(
-                    this,
-                    BackupRestoreActivity::class.java
-                ).apply {
-                    action = BackupRestoreActivity.ACTION_RESTORE
-                })
-
             R.id.BALANCE_SHEET_COMMAND -> {
                 openBalanceSheet()
             }
@@ -1013,10 +961,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
-        menu.findItem(R.id.WEB_UI_COMMAND)?.let {
-            it.isChecked = isWebUiActive()
-            checkMenuIcon(it, R.drawable.ic_computer)
-        }
         if (accountData.isNotEmpty() && currentAccount != null) {
             menu.findItem(R.id.SCAN_MODE_COMMAND)?.let {
                 it.isChecked = isScanMode()
@@ -1030,12 +974,12 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                     R.id.PRINT_COMMAND,
                     R.id.SYNC_COMMAND,
                     R.id.FINTS_SYNC_COMMAND,
-                    R.id.ARCHIVE_COMMAND
+                    R.id.ARCHIVE_COMMAND,
+                    R.id.SEARCH_COMMAND
                 ).forEach {
                     menu.findItem(it)?.setEnabledAndVisible(isMenuItemVisible(it))
                 }
 
-                val reconciliationAvailable = type.supportsReconciliation && !sealed
                 val groupingMenu = menu.findItem(R.id.GROUPING_COMMAND)
                 val groupingEnabled = sortBy == KEY_DATE
                 groupingMenu?.setEnabledAndVisible(groupingEnabled)
@@ -1051,7 +995,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                 }
 
                 menu.findItem(R.id.SHOW_STATUS_HANDLE_COMMAND)?.apply {
-                    setEnabledAndVisible(reconciliationAvailable)
                     if (reconciliationAvailable) {
                         lifecycleScope.launch {
                             isChecked = viewModel.showStatusHandle.get()
@@ -1065,7 +1008,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                 }
             }
             menu.findItem(R.id.SEARCH_COMMAND)?.let {
-                it.setEnabledAndVisible(hasItems)
                 it.isChecked = currentFilter.whereFilter.value != null
                 checkMenuIcon(it, R.drawable.ic_menu_search)
             }
@@ -1305,7 +1247,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
     }
 
     fun isScanMode() = prefHandler.getBoolean(PrefKey.OCR, false)
-    private fun isWebUiActive() = prefHandler.getBoolean(PrefKey.UI_WEB, false)
 
     private fun activateOcrMode() {
         prefHandler.putBoolean(PrefKey.OCR, true)

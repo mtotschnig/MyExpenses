@@ -6,7 +6,13 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.MenuRes
 import androidx.annotation.StringRes
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Tune
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.res.painterResource
 import com.livefront.sealedenum.GenSealedEnum
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
@@ -175,30 +181,64 @@ sealed class MenuItem(
         isEnabledByDefault = false
     )
 
+    //V2
+    data object Tune : MenuItem(
+        R.id.TUNE_COMMAND,
+        R.string.options,
+        0
+    )
+
+    open val painter: Painter
+        @Composable get() = if (icon != 0)
+            painterResource(id = icon)
+        else
+            rememberVectorPainter(
+                when (this) {
+                    Tune -> Icons.Filled.Tune
+                    else -> throw IllegalArgumentException()
+                }
+            )
+
     enum class MenuContext {
         V1, V2Navigation, V2Transactions;
 
         val prefKey: PrefKey
-            get() = when(this) {
+            get() = when (this) {
                 V1 -> PrefKey.CUSTOMIZE_MAIN_MENU
-                V2Navigation -> PrefKey.CUSTOMIZE_MAIN_MENU_V2
-                V2Transactions -> TODO()
+                V2Navigation -> PrefKey.CUSTOMIZE_MENU_V2_MAIN
+                V2Transactions -> PrefKey.CUSTOMIZE_MENU_V2_TRANSACTIONS
             }
     }
 
     @GenSealedEnum
     companion object {
-        fun all(menuContext: MenuContext) = when(menuContext) {
-            MenuContext.V1 -> values
-            MenuContext.V2Navigation -> v2NavigationItems
-            MenuContext.V2Transactions -> TODO()
-        }
+        fun all(menuContext: MenuContext) = when (menuContext) {
+            MenuContext.V1 -> listOf(
+                Search,
+                Templates,
+                Budget,
+                Distribution,
+                History,
+                Parties,
+                ScanMode,
+                Reset,
+                Sync,
+                FinTsSync,
+                ShowStatusHandle,
+                Balance,
+                Sort,
+                Grouping,
+                Print,
+                Archive,
+                Share,
+                Settings,
+                Help,
+                Backup,
+                WebUI,
+                Restore
+            )
 
-        fun getDefaultConfiguration(menuContext: MenuContext): List<MenuItem> =
-            all(menuContext).filter { it.isEnabledByDefault }
-
-        val v2NavigationItems: List<MenuItem>
-            get() = listOf(
+            MenuContext.V2Navigation -> listOf(
                 Templates,
                 Budget,
                 Parties,
@@ -206,5 +246,24 @@ sealed class MenuItem(
                 WebUI,
                 Restore
             )
+
+            MenuContext.V2Transactions -> listOf(
+                Search,
+                Distribution,
+                History,
+                Sync,
+                FinTsSync,
+                Balance,
+                Reset,
+                Print,
+                Tune,
+                Archive,
+                ShowStatusHandle,
+            )
+        }
+
+        fun getDefaultConfiguration(menuContext: MenuContext): List<MenuItem> =
+            all(menuContext).filter { it.isEnabledByDefault }
+
     }
 }

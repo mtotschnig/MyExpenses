@@ -235,4 +235,5 @@
     <item name="MANAGE_ACCOUNT_TYPES_COMMAND" type="id" />
     <item name="CLEANUP_COMMAND" type="id" />
     <item name="CLEANUP_COMMAND_DO" type="id" />
+    <item name="TUNE_COMMAND" type="id" />
 </resources>

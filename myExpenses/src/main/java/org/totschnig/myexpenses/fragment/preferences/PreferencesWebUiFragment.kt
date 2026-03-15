@@ -70,7 +70,7 @@ class PreferencesWebUiFragment : BasePreferenceFragment() {
         super.onPreferenceTreeClick(preference) -> true
         matches(preference, PrefKey.UI_WEB) -> {
             if (serverIsRunning) {
-                prefHandler.putBoolean(PrefKey.UI_WEB, false)
+                preferenceActivity.baseViewModel.toggleWebUi(false)
                 preferenceActivity.resultCode = BaseActivity.RESULT_INVALIDATE_OPTIONS_MENU
             } else {
                 val prefKey = "wifi_not_connected_warning_shown"

@@ -3,7 +3,11 @@ package org.totschnig.myexpenses.feature
 import android.app.Activity
 import android.content.Context
 import androidx.annotation.StringRes
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import com.livefront.sealedenum.GenSealedEnum
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
@@ -42,7 +46,7 @@ enum class Module(@StringRes val labelResId: Int) {
 
         fun print(context: Context, moduleName: String) = try {
             context.getString(from(moduleName).labelResId)
-        } catch (e: IllegalArgumentException) {
+        } catch (_: IllegalArgumentException) {
             CrashHandler.report(Throwable("Unknown module: $moduleName"))
             moduleName
         }
@@ -56,7 +60,11 @@ sealed class Feature(vararg val requiredModules: Module) {
     val mainModule
         get() = requiredModules.first()
 
-    open fun canUninstall(context: Context, prefHandler: PrefHandler) = false
+    open suspend fun canUninstall(
+        context: Context,
+        prefHandler: PrefHandler,
+        datastore: DataStore<Preferences>
+    ) = false
 
     @GenSealedEnum
     companion object {
@@ -69,7 +77,11 @@ sealed class Feature(vararg val requiredModules: Module) {
 
     sealed class SyncBackend(vararg requiredModules: Module) :
         Feature(*requiredModules) {
-        override fun canUninstall(context: Context, prefHandler: PrefHandler) =
+        override suspend fun canUninstall(
+            context: Context,
+            prefHandler: PrefHandler,
+            datastore: DataStore<Preferences>
+        ) =
             GenericAccountService.getAccountNames(context).none { account ->
                 account.startsWith(
                     BackendService.entries.first { it.feature == this }.label
@@ -78,28 +90,43 @@ sealed class Feature(vararg val requiredModules: Module) {
     }
 
     data object OCR : Feature(Module.OCR) {
-        override fun canUninstall(context: Context, prefHandler: PrefHandler) =
+        override suspend fun canUninstall(
+            context: Context,
+            prefHandler: PrefHandler,
+            datastore: DataStore<Preferences>
+        ) =
             !prefHandler.getBoolean(PrefKey.OCR, false)
     }
 
     sealed class OcrEngine(val engineClassName: String, vararg requiredModules: Module) :
         Feature(*requiredModules) {
-        override fun canUninstall(context: Context, prefHandler: PrefHandler) =
-            OCR.canUninstall(context, prefHandler) ||
+        override suspend fun canUninstall(
+            context: Context,
+            prefHandler: PrefHandler,
+            datastore: DataStore<Preferences>
+        ) =
+            OCR.canUninstall(context, prefHandler, datastore) ||
                     getUserConfiguredOcrEngine(context, prefHandler) != this
     }
 
     sealed class MlkitProcessor(vararg requiredModules: Module) :
         Feature(*requiredModules) {
-        override fun canUninstall(context: Context, prefHandler: PrefHandler) =
-            OCR.canUninstall(context, prefHandler) ||
-                    MLKIT.canUninstall(context, prefHandler) ||
+        override suspend fun canUninstall(
+            context: Context,
+            prefHandler: PrefHandler,
+            datastore: DataStore<Preferences>
+        ) =
+            OCR.canUninstall(context, prefHandler, datastore) ||
+                    MLKIT.canUninstall(context, prefHandler, datastore) ||
                     getUserConfiguredMlkitScriptModule(context, prefHandler) != this
     }
 
     data object WEBUI : Feature(Module.WEBUI) {
-        override fun canUninstall(context: Context, prefHandler: PrefHandler) =
-            !prefHandler.getBoolean(PrefKey.UI_WEB, false)
+        override suspend fun canUninstall(
+            context: Context,
+            prefHandler: PrefHandler,
+            datastore: DataStore<Preferences>
+        ) = datastore.data.map { it[prefHandler.getBooleanPreferencesKey(PrefKey.UI_WEB)] }.first() == false
     }
 
     data object TESSERACT : OcrEngine(
@@ -120,7 +147,11 @@ sealed class Feature(vararg val requiredModules: Module) {
     data object WEBDAV : SyncBackend(Module.WEBDAV)
     data object ONEDRIVE : SyncBackend(Module.ONEDRIVE, Module.JACKSON)
     data object SQLCRYPT: Feature(Module.SQLCRYPT) {
-        override fun canUninstall(context: Context, prefHandler: PrefHandler): Boolean {
+        override suspend fun canUninstall(
+            context: Context,
+            prefHandler: PrefHandler,
+            datastore: DataStore<Preferences>
+        ): Boolean {
             return !prefHandler.encryptDatabase
         }
     }

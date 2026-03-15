@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContent
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -19,6 +20,8 @@ import androidx.compose.material.icons.automirrored.filled.MenuOpen
 import androidx.compose.material.icons.automirrored.filled.ReceiptLong
 import androidx.compose.material.icons.filled.AccountBalance
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.CheckBox
+import androidx.compose.material.icons.filled.CheckBoxOutlineBlank
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreHoriz
 import androidx.compose.material.icons.filled.Settings
@@ -30,6 +33,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
@@ -58,10 +62,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.window.core.layout.WindowSizeClass
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.StartScreen
@@ -110,8 +115,7 @@ sealed class AppEvent {
     data class SetTransactionSort(val transactionSort: TransactionSort) : AppEvent()
     object PrintBalanceSheet : AppEvent()
     data class ContextMenuItemClicked(@param:IdRes val itemId: Int) : AppEvent()
-    object Search : AppEvent()
-    data class MenuItemClicked(@param:IdRes val itemId: Int) : AppEvent()
+    data class MenuItemClicked(@param:IdRes val itemId: Int, val tag: Any? = null) : AppEvent()
     object Sort : AppEvent()
     data class CopyToClipBoard(val text: String) : AppEvent()
 }
@@ -173,7 +177,8 @@ fun MainScreenAdaptive(
     val navigationIcon: @Composable () -> Unit = {
         TooltipIconButton(
             tooltip = stringResource(R.string.settings_label),
-            imageVector = Icons.Default.Settings, onNavigateToSettings,
+            imageVector = Icons.Default.Settings,
+            onClick = onNavigateToSettings
         )
     }
 
@@ -183,6 +188,8 @@ fun MainScreenAdaptive(
     var forceExpanded by remember { mutableStateOf(false) }
     var forceCollapsed by remember { mutableStateOf(false) }
     val isExpanded = (defaultExpanded && !forceCollapsed) || forceExpanded
+
+    val adaptiveInfo = currentWindowAdaptiveInfo()
 
     if (isExpanded) {
 
@@ -221,15 +228,14 @@ fun MainScreenAdaptive(
                             navigationIcon = {
                                 TooltipIconButton(
                                     tooltip = stringResource(R.string.collapse),
-                                    imageVector = Icons.AutoMirrored.Filled.MenuOpen,
-                                    {
-                                        if (defaultExpanded) {
-                                            forceCollapsed = true
-                                        } else {
-                                            forceExpanded = false
-                                        }
-                                    },
-                                )
+                                    imageVector = Icons.AutoMirrored.Filled.MenuOpen
+                                ) {
+                                    if (defaultExpanded) {
+                                        forceCollapsed = true
+                                    } else {
+                                        forceExpanded = false
+                                    }
+                                }
                             },
                             accounts = accounts,
                             accountGrouping = accountGrouping.value,
@@ -277,7 +283,11 @@ fun MainScreenAdaptive(
                             onPrepareContextMenuItem = onPrepareContextMenuItem,
                             onPrepareMenuItem = onPrepareMenuItem,
                             pageContent = pageContent,
-                            bankIcon = bankIcon
+                            bankIcon = bankIcon,
+                            visibleActionItems = if (adaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
+                                    WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND
+                                )
+                            ) 4 else 2
                         )
                     }
                 }
@@ -285,9 +295,8 @@ fun MainScreenAdaptive(
         )
     } else {
 
-        var showBottomSheetFor by remember { mutableStateOf(false) }
+        var showBottomSheet by remember { mutableStateOf(false) }
         val sheetState = rememberModalBottomSheetState()
-        val adaptiveInfo = currentWindowAdaptiveInfo()
         val layoutType =
             NavigationSuiteScaffoldDefaults.navigationSuiteType(adaptiveInfo)
         val context = LocalContext.current
@@ -296,6 +305,8 @@ fun MainScreenAdaptive(
 
         val quickItems = menuConfig.value.take(maxQuickItems)
         val overflowItems = menuConfig.value.drop(maxQuickItems)
+
+        val isWebUiActive by viewModel.isWebUiActive.collectAsState(false)
 
         NavigationSuiteScaffold(
             layoutType = layoutType,
@@ -335,33 +346,24 @@ fun MainScreenAdaptive(
                     )
                 }
 
-                if (layoutType.isRail()) {
-                    menuConfig.value.forEach { menuItem ->
-                        item(
-                            selected = false,
-                            onClick = { onAppEvent(AppEvent.MenuItemClicked(menuItem.id)) },
-                            icon = { Icon(painterResource(menuItem.icon), null) },
-                            label = { Text(menuItem.getLabel(context)) }
-                        )
-                    }
-                } else {
-
-                    quickItems.forEach { menuItem ->
-                        item(
-                            selected = false,
-                            onClick = { onAppEvent(AppEvent.MenuItemClicked(menuItem.id)) },
-                            icon = { Icon(painterResource(menuItem.icon), null) },
-                            label = { Text(menuItem.getLabel(context)) }
-                        )
-                    }
-
-                    // Always add the "More" overflow item
+                (if (layoutType.isRail()) menuConfig.value else quickItems).forEach {
                     item(
-                        selected = showBottomSheetFor,
-                        onClick = { showBottomSheetFor = true },
-                        icon = { Icon(Icons.Default.MoreHoriz, null) },
-                        label = { Text(stringResource(androidx.appcompat.R.string.abc_action_menu_overflow_description)) }
+                        selected = if (it == MenuItem.WebUI) isWebUiActive else false,
+                        onClick = { onAppEvent(AppEvent.MenuItemClicked(it.id, if (it == MenuItem.WebUI) !isWebUiActive else null)) },
+                        icon = { Icon(it.painter, null) },
+                        label = { Text(it.getLabel(context)) }
                     )
+                }
+                if (layoutType.isBar()) {
+
+                    if (overflowItems.isNotEmpty()) {
+                        item(
+                            selected = showBottomSheet,
+                            onClick = { showBottomSheet = true },
+                            icon = { Icon(Icons.Default.MoreHoriz, null) },
+                            label = { Text(stringResource(androidx.appcompat.R.string.abc_action_menu_overflow_description)) }
+                        )
+                    }
                 }
             }
         ) {
@@ -376,6 +378,12 @@ fun MainScreenAdaptive(
                 targetState = navigator.currentDestination?.pane,
                 label = "ScreenTransition"
             ) { pane ->
+                val customInsets = when {
+                    layoutType.isBar() -> WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top)
+                    layoutType.isRail() -> WindowInsets.safeDrawing.only(WindowInsetsSides.End + WindowInsetsSides.Vertical)
+                    else -> ScaffoldDefaults.contentWindowInsets
+                }
+
                 when (pane) {
                     ListDetailPaneScaffoldRole.List -> {
                         AccountsScreen(
@@ -387,7 +395,8 @@ fun MainScreenAdaptive(
                             onEvent = onAppEvent,
                             onAccountEvent = onAccountEvent,
                             flags = flags,
-                            bankIcon = bankIcon
+                            bankIcon = bankIcon,
+                            windowInsets = customInsets
                         ) {
                             scope.launch {
                                 navigator.navigateTo(
@@ -409,7 +418,19 @@ fun MainScreenAdaptive(
                             onPrepareContextMenuItem = onPrepareContextMenuItem,
                             onPrepareMenuItem = onPrepareMenuItem,
                             pageContent = pageContent,
-                            bankIcon = bankIcon
+                            bankIcon = bankIcon,
+                            visibleActionItems = when {
+                                adaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
+                                    WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND
+                                ) -> 6
+
+                                adaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
+                                    WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND
+                                ) -> 4
+
+                                else -> 2
+                            },
+                            windowInsets = customInsets
                         )
                     }
 
@@ -417,27 +438,32 @@ fun MainScreenAdaptive(
                 }
             }
         }
-        if (showBottomSheetFor) {
+        if (showBottomSheet) {
             ModalBottomSheet(
-                onDismissRequest = { showBottomSheetFor = false },
+                onDismissRequest = { showBottomSheet = false },
                 sheetState = sheetState,
                 contentWindowInsets = { WindowInsets.navigationBars }
             ) {
 
-                    overflowItems
+                overflowItems
                     .filter { onPrepareMenuItem(it.id) }
                     .forEach {
                         ListItem(
                             modifier = Modifier.clickable {
-                                showBottomSheetFor = false
-                                onAppEvent(AppEvent.MenuItemClicked(it.id))
+                                showBottomSheet = false
+                                onAppEvent(AppEvent.MenuItemClicked(it.id, if (it == MenuItem.WebUI) !isWebUiActive else null))
                             },
                             headlineContent = { Text(it.getLabel(LocalContext.current)) },
                             leadingContent = {
-                                Icon(
-                                    painterResource(it.icon),
-                                    contentDescription = null
-                                )
+                                    Icon(
+                                        if (it == MenuItem.WebUI) {
+                                            rememberVectorPainter(
+                                                if (isWebUiActive) Icons.Filled.CheckBox
+                                                else Icons.Filled.CheckBoxOutlineBlank
+                                            )
+                                        } else it.painter,
+                                        contentDescription = null
+                                    )
                             },
                         )
                     }
@@ -446,8 +472,15 @@ fun MainScreenAdaptive(
     }
 }
 
+private fun NavigationSuiteType.isBar(): Boolean {
+    return this == NavigationSuiteType.NavigationBar ||
+            this == NavigationSuiteType.ShortNavigationBarMedium ||
+            this == NavigationSuiteType.ShortNavigationBarCompact
+}
+
 private fun NavigationSuiteType.isRail(): Boolean {
-    return this == NavigationSuiteType.WideNavigationRailCollapsed ||
+    return this == NavigationSuiteType.NavigationRail ||
+            this == NavigationSuiteType.WideNavigationRailCollapsed ||
             this == NavigationSuiteType.WideNavigationRailExpanded
 }
 

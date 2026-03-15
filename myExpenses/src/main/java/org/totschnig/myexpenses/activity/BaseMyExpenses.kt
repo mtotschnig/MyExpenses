@@ -408,10 +408,51 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
             .show(supportFragmentManager, "DELETE_ACCOUNT")
     }
 
+    private fun toggleWebUI(enabled: Boolean) {
+        if (enabled) {
+            contribFeatureRequested(ContribFeature.WEB_UI, false)
+        } else {
+            baseViewModel.toggleWebUi(false)
+        }
+    }
+
     override fun dispatchCommand(command: Int, tag: Any?): Boolean {
         if (super.dispatchCommand(command, tag)) {
             return true
         } else when (command) {
+
+            R.id.WEB_UI_COMMAND -> {
+                toggleWebUI(tag as Boolean)
+            }
+
+            R.id.BACKUP_COMMAND -> startActivity(
+                Intent(
+                    this,
+                    BackupRestoreActivity::class.java
+                ).apply {
+                    action = BackupRestoreActivity.ACTION_BACKUP
+                })
+
+
+            R.id.RESTORE_COMMAND -> startActivity(
+                Intent(
+                    this,
+                    BackupRestoreActivity::class.java
+                ).apply {
+                    action = BackupRestoreActivity.ACTION_RESTORE
+                })
+
+            R.id.SHOW_STATUS_HANDLE_COMMAND -> {
+                currentAccount?.let {
+                    lifecycleScope.launch {
+                        viewModel.showStatusHandle.set(tag as Boolean)
+                        invalidateOptionsMenu()
+                    }
+                }
+            }
+
+            R.id.SEARCH_COMMAND -> showFilterDialog = true
+
             R.id.NEW_BALANCE_COMMAND -> {
                 if (selectedAccountId > 0) {
                     (currentAccount as? FullAccount)?.let {
@@ -425,6 +466,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                     }
                 }
             }
+
             R.id.MANAGE_ACCOUNT_TYPES_COMMAND -> {
                 startActivity(Intent(this, ManageAccountTypes::class.java))
             }
@@ -432,6 +474,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
             R.id.ACCOUNT_FLAGS_COMMAND -> {
                 startActivity(Intent(this, ManageAccountFlags::class.java))
             }
+
             R.id.BALANCE_COMMAND -> {
                 (currentAccount as? FullAccount)?.let {
                     if (it.hasCleared) {
@@ -1086,6 +1129,8 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
             R.id.BALANCE_COMMAND -> isReal && type.supportsReconciliation && !sealed
             R.id.FINTS_SYNC_COMMAND -> (this as? FullAccount)?.bankId != null
             R.id.ARCHIVE_COMMAND -> isReal && !sealed && hasItems
+            R.id.SEARCH_COMMAND -> hasItems
+            R.id.SHOW_STATUS_HANDLE_COMMAND -> (this as? FullAccount)?.reconciliationAvailable == true
             else -> true
         }
     }

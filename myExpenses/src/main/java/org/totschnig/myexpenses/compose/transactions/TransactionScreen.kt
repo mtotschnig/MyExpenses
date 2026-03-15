@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -29,7 +30,6 @@ import androidx.compose.material.icons.filled.DragHandle
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.Functions
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -38,6 +38,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.SecondaryScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
@@ -96,6 +97,7 @@ import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.main.AppEventHandler
 import org.totschnig.myexpenses.compose.main.parseMenu
 import org.totschnig.myexpenses.compose.main.rememberCollapsingTabRowState
+import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
 import org.totschnig.myexpenses.util.convAmount
@@ -105,7 +107,6 @@ import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import kotlin.math.absoluteValue
-import kotlin.ranges.coerceIn
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -118,11 +119,13 @@ fun TransactionScreen(
     selectedAccountId: Long,
     viewModel: MyExpensesV2ViewModel,
     bottomBar: @Composable () -> Unit = {},
+    visibleActionItems: Int,
     onEvent: AppEventHandler,
     onPrepareContextMenuItem: (Int) -> Boolean,
     onPrepareMenuItem: (Int) -> Boolean,
     bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
     pageContent: @Composable (PageAccount, Boolean) -> Unit,
+    windowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets
 ) {
     LaunchedEffect(Unit) {
         viewModel.setLastVisited(StartScreen.Transactions)
@@ -157,6 +160,7 @@ fun TransactionScreen(
     var selectedBalanceType by rememberSaveable { mutableStateOf(BalanceType.CURRENT) }
 
     Scaffold(
+        contentWindowInsets = windowInsets,
         containerColor = containerColor,
         topBar = {
             val isInSelectionMode = viewModel.selectionState.value.isNotEmpty()
@@ -164,44 +168,7 @@ fun TransactionScreen(
                 targetState = isInSelectionMode,
                 label = "TopBarTransition"
             ) { selectionMode ->
-                if (!selectionMode) {
-                    TopAppBar(
-                        navigationIcon = navigationIcon,
-                        title = {
-                            BalanceHeader(
-                                currentAccount = currentAccount,
-                                displayBalanceType = selectedBalanceType,
-                                onDisplayBalanceTypeChange = { newType ->
-                                    selectedBalanceType = newType
-                                },
-                                onCopyBalance = {
-                                    onEvent(AppEvent.CopyToClipBoard(it))
-                                },
-                                onSetNewBalance = {
-                                    onEvent(AppEvent.MenuItemClicked(R.id.NEW_BALANCE_COMMAND))
-                                },
-                                bankIcon = bankIcon
-                            )
-                        },
-                        actions = {
-
-                            TooltipIconButton(
-                                tooltip = stringResource(R.string.menu_search),
-                                imageVector = Icons.Default.Search
-                            ) { onEvent(AppEvent.Search) }
-
-                            ViewOptionsMenu(
-                                currentAccount = currentAccount,
-                                onEvent = onEvent
-                            )
-
-                            ActionMenu(
-                                onEvent = onEvent,
-                                onPrepareMenuItem = onPrepareMenuItem
-                            )
-                        },
-                    )
-                } else {
+                if (selectionMode) {
                     BackHandler {
                         viewModel.clearSelection()
                     }
@@ -235,6 +202,67 @@ fun TransactionScreen(
                                 }
                             )
                         }
+                    )
+                } else {
+                    @Composable
+                    fun isChecked(menuItem: MenuItem): Boolean = when(menuItem) {
+                        MenuItem.Search -> viewModel.filterPersistence.getValue(selectedAccountId)
+                            .whereFilter
+                            .collectAsState(null).value != null
+                        MenuItem.ShowStatusHandle -> viewModel.showStatusHandle.flow.collectAsState(initial = false).value
+                        else -> false
+                    }
+
+                    TopAppBar(
+                        navigationIcon = navigationIcon,
+                        title = {
+                            BalanceHeader(
+                                currentAccount = currentAccount,
+                                displayBalanceType = selectedBalanceType,
+                                onDisplayBalanceTypeChange = { newType ->
+                                    selectedBalanceType = newType
+                                },
+                                onCopyBalance = {
+                                    onEvent(AppEvent.CopyToClipBoard(it))
+                                },
+                                onSetNewBalance = {
+                                    onEvent(AppEvent.MenuItemClicked(R.id.NEW_BALANCE_COMMAND))
+                                },
+                                bankIcon = bankIcon
+                            )
+                        },
+                        actions = {
+                            val menuConfig = viewModel.transactionScreenMenu.collectAsState()
+
+                            val filteredItems = menuConfig.value.filter {
+                                onPrepareMenuItem(it.id)
+                            }
+
+                            val quickItems = filteredItems.take(visibleActionItems)
+                            val overflowItems = filteredItems.drop(visibleActionItems)
+
+                            quickItems.forEach {
+                                if (it == MenuItem.Tune) {
+                                    ViewOptionsMenu(
+                                        currentAccount = currentAccount,
+                                        onEvent = onEvent
+                                    )
+                                } else {
+                                    TooltipIconButton(
+                                        tooltip = it.getLabel(LocalContext.current),
+                                        painter = it.painter,
+                                        isChecked = isChecked(it)
+                                    ) { onEvent(AppEvent.MenuItemClicked(it.id)) }
+                                }
+                            }
+
+                            ActionMenu(
+                                currentAccount = currentAccount,
+                                items = overflowItems,
+                                onEvent = onEvent,
+                                isChecked = ::isChecked
+                            )
+                        },
                     )
                 }
             }

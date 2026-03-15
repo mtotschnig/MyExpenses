@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.dialog.CustomizeMenuDialogFragment
 import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.ColorSource
+import org.totschnig.myexpenses.preference.PopupMenuPreference
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.util.ShortcutHelper
@@ -77,7 +78,8 @@ class PreferenceUiFragment : BasePreferenceFragment() {
             }
         }
 
-        val colorSourcePreference = requirePreference<ListPreference>(PrefKey.TRANSACTION_AMOUNT_COLOR_SOURCE)
+        val colorSourcePreference =
+            requirePreference<ListPreference>(PrefKey.TRANSACTION_AMOUNT_COLOR_SOURCE)
         val expenseColor = getColor(resources, R.color.colorExpense, null)
         val incomeColor = getColor(resources, R.color.colorIncome, null)
         val transferColor = getColor(resources, R.color.colorTransfer, null)
@@ -183,7 +185,8 @@ class PreferenceUiFragment : BasePreferenceFragment() {
         }
 
         with(requirePreference<Preference>(PrefKey.ACCOUNT_LIST_DISPLAY_CONFIGURATION)) {
-            title = getString(R.string.menu_grouping) + " / " + getString(R.string.display_options_sort_list_by)
+            title =
+                getString(R.string.menu_grouping) + " / " + getString(R.string.display_options_sort_list_by)
         }
 
         configureUiVersionDependencies()
@@ -218,14 +221,24 @@ class PreferenceUiFragment : BasePreferenceFragment() {
             true
         }
 
-        matches(preference, PrefKey.CUSTOMIZE_MAIN_MENU_V2) -> {
-            CustomizeMenuDialogFragment.newInstance(MenuItem.MenuContext.V2Navigation)
-                .show(childFragmentManager, "CUSTOMIZE_MENU")
+        matches(preference, PrefKey.CUSTOMIZE_MENU_V2) -> {
+            (preference as PopupMenuPreference).showPopupMenu(
+                "Main Navigation", getString(R.string.import_select_transactions)
+            ) { item ->
+                CustomizeMenuDialogFragment.newInstance(
+                    if (item.itemId == 0) MenuItem.MenuContext.V2Navigation
+                    else MenuItem.MenuContext.V2Transactions
+                ).show(childFragmentManager, "CUSTOMIZE_MENU")
+                true
+            }
             true
         }
 
         matches(preference, PrefKey.ACCOUNT_LIST_DISPLAY_CONFIGURATION) -> {
-            AccountListDisplayConfigurationDialogFragment().show(childFragmentManager, "ACCOUNT_LIST_DISPLAY_CONFIGURATION")
+            AccountListDisplayConfigurationDialogFragment().show(
+                childFragmentManager,
+                "ACCOUNT_LIST_DISPLAY_CONFIGURATION"
+            )
             true
         }
 
@@ -233,7 +246,7 @@ class PreferenceUiFragment : BasePreferenceFragment() {
     }
 
     private fun addShortcut(
-        @TransactionsContract.Transactions.TransactionType operationType: Int
+        @TransactionsContract.Transactions.TransactionType operationType: Int,
     ) {
         try {
             requireContext().getSystemService(ShortcutManager::class.java)
@@ -292,7 +305,7 @@ class PreferenceUiFragment : BasePreferenceFragment() {
         }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
-        when(key) {
+        when (key) {
             getKey(PrefKey.UI_MAIN_SCREEN_VERSION) -> configureUiVersionDependencies()
         }
     }
@@ -301,7 +314,7 @@ class PreferenceUiFragment : BasePreferenceFragment() {
         val legacy = prefHandler.mainScreenLegacy
         requirePreference<Preference>(PrefKey.CUSTOMIZE_MAIN_MENU).isVisible = legacy
         requirePreference<Preference>(PrefKey.UI_START_SCREEN).isVisible = !legacy
-        requirePreference<Preference>(PrefKey.CUSTOMIZE_MAIN_MENU_V2).isVisible = !legacy
+        requirePreference<Preference>(PrefKey.CUSTOMIZE_MENU_V2).isVisible = !legacy
     }
 
     companion object {

@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.compose.accounts
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.input.TextFieldState
@@ -13,6 +14,7 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -61,7 +63,8 @@ fun AccountsScreen(
     flags: List<AccountFlag> = emptyList(),
     onAccountEvent: AccountEventHandler,
     bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
-    onNavigateToTransactions: () -> Unit
+    windowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
+    onNavigateToTransactions: () -> Unit,
 ) {
 
     val selectedTab = viewModel.currentAccountsTab.collectAsState()
@@ -88,6 +91,7 @@ fun AccountsScreen(
 
     Scaffold(
         containerColor = containerColor,
+        contentWindowInsets = windowInsets,
         topBar = {
             TopAppBar(
                 navigationIcon = navigationIcon,

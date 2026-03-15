@@ -25,11 +25,16 @@ import android.os.Build
 import android.os.Process
 import android.os.StrictMode
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -103,6 +108,9 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
     @Inject
     lateinit var plannerUtils: PlannerUtils
 
+    @Inject
+    lateinit var dataStore: DataStore<Preferences>
+
     private var lastPause: Long = 0
 
     var isLocked = false
@@ -174,12 +182,23 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
     }
 
     override fun onStart(owner: LifecycleOwner) {
-        if (prefHandler.getBoolean(PrefKey.UI_WEB, false)) {
-            if (initialLaunchWasForSystemPreferences) {
-                Timber.i("Suppressing WebUI start")
-            } else {
-                controlWebUi(START_ACTION)
-            }
+        // Instead of a one-time check, observe the Flow to handle changes reactively
+        MainScope().launch {
+            dataStore.data
+                .map { preferences -> preferences[prefHandler.getBooleanPreferencesKey(PrefKey.UI_WEB)] ?: false }
+                .distinctUntilChanged()
+                .collect { isWebUiEnabled ->
+                    if (isWebUiEnabled) {
+                        if (initialLaunchWasForSystemPreferences) {
+                            Timber.i("Suppressing WebUI start")
+                        } else {
+                            controlWebUi(START_ACTION)
+                        }
+                    } else {
+                        // Optionally handle STOP_ACTION if it was previously running
+                        controlWebUi(STOP_ACTION)
+                    }
+                }
         }
     }
 
@@ -315,16 +334,24 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
                 }
             if (componentName == null) {
                 report(Exception("Start of Web User Interface failed"))
-                //Since trying to start the WebUI failed, it is likeyl that the STOP_ACTION triggered by
+                //Since trying to start the WebUI failed, it is likely that the STOP_ACTION triggered by
                 //onSharedPreferenceChanged listener might also fail
                 try {
-                    prefHandler.putBoolean(PrefKey.UI_WEB, false)
+                    toggleWebUi(false)
                 } catch (e: Exception) {
                     report(e)
                 }
             }
         }.onFailure {
-            prefHandler.putBoolean(PrefKey.UI_WEB, false)
+            toggleWebUi(false)
+        }
+    }
+
+    fun toggleWebUi(enabled: Boolean) {
+        MainScope().launch {
+            dataStore.edit { preferences ->
+                preferences[prefHandler.getBooleanPreferencesKey(PrefKey.UI_WEB)] = enabled
+            }
         }
     }
 
@@ -340,13 +367,9 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
             prefHandler.matches(key, PrefKey.DEBUG_LOGGING) -> {
                 setupLogging()
             }
-            prefHandler.matches(key, PrefKey.UI_WEB, PrefKey.WEBUI_PASSWORD, PrefKey.WEBUI_HTTPS) -> {
-                val webUiRunning =
-                    sharedPreferences.getBoolean(prefHandler.getKey(PrefKey.UI_WEB), false)
-                //If user configures https or password, while the web ui is not running, there is nothing to do
-                if (key == prefHandler.getKey(PrefKey.UI_WEB) || webUiRunning) {
-                    controlWebUi(if (webUiRunning) RESTART_ACTION else STOP_ACTION)
-                }
+            prefHandler.matches(key, PrefKey.WEBUI_PASSWORD, PrefKey.WEBUI_HTTPS) -> {
+                //WebInputService only "restarts" if it is actually started
+                controlWebUi(RESTART_ACTION)
             }
             prefHandler.matches(key, PrefKey.PLANNER_CALENDAR_ID) -> {
                 plannerUtils.onPlannerCalendarIdChanged(

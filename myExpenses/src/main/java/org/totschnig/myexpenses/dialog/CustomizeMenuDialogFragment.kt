@@ -44,8 +44,6 @@ import org.totschnig.myexpenses.compose.optional
 import org.totschnig.myexpenses.compose.rememberMutableStateListOf
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.dialog.MenuItem.MenuContext.V1
-import org.totschnig.myexpenses.dialog.MenuItem.MenuContext.V2Navigation
-import org.totschnig.myexpenses.dialog.MenuItem.MenuContext.V2Transactions
 import org.totschnig.myexpenses.preference.menu
 import org.totschnig.myexpenses.preference.persistMenu
 import org.totschnig.myexpenses.util.TextUtils
@@ -70,9 +68,8 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment3() {
     suspend fun loadConfiguration(menuContext: MenuItem.MenuContext): List<MenuItem> {
         return when (menuContext) {
             V1 -> prefHandler.getCustomMenu(menuContext)
-            V2Navigation -> dataStore.menu(prefHandler.getStringPreferencesKey(menuContext.prefKey))
+            else -> dataStore.menu(prefHandler.getStringPreferencesKey(menuContext.prefKey))
                 .first() ?: MenuItem.getDefaultConfiguration(menuContext)
-            V2Transactions -> TODO()
         }
     }
 
@@ -82,11 +79,10 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment3() {
                 menuContext.prefKey,
                 LinkedHashSet(data.map { it.name })
             )
-            V2Navigation -> dataStore.persistMenu(
+            else -> dataStore.persistMenu(
                 prefHandler.getStringPreferencesKey(menuContext.prefKey),
                 data
             )
-            V2Transactions -> TODO()
         }
     }
 
@@ -286,7 +282,7 @@ private fun ItemRow(
         Checkbox(checked = checked, enabled = onCheckedChange != null, onCheckedChange = null)
         Icon(
             modifier = Modifier.padding(horizontal = 8.dp),
-            painter = painterResource(id = item.icon),
+            painter = item.painter,
             contentDescription = null
         )
         Text(

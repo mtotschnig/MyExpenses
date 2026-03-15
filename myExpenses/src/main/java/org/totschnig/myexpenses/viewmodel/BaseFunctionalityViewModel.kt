@@ -19,7 +19,6 @@ import okio.BufferedSink
 import okio.source
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.getDisplayName
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Utils
@@ -34,8 +33,13 @@ import java.net.URISyntaxException
 import javax.inject.Inject
 import kotlin.Result.Companion.failure
 import kotlin.Result.Companion.success
+import androidx.core.net.toUri
+import androidx.datastore.preferences.core.edit
+import androidx.preference.PreferenceDataStore
+import org.totschnig.myexpenses.preference.PrefKey
 
-class BaseFunctionalityViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
+class BaseFunctionalityViewModel(application: Application) :
+    ContentResolvingAndroidViewModel(application) {
     enum class Scheme { FTP, MAILTO, HTTP, HTTPS; }
 
     @Inject
@@ -72,6 +76,7 @@ class BaseFunctionalityViewModel(application: Application) : ContentResolvingAnd
                                     }
                                 }
                             }.map { scheme }
+
                             null -> complain(
                                 ctx.getString(
                                     R.string.share_scheme_not_supported,
@@ -108,7 +113,7 @@ class BaseFunctionalityViewModel(application: Application) : ContentResolvingAnd
                 }
 
                 val builder: Request.Builder = Request.Builder()
-                Uri.parse(target).userInfo?.let {
+                target.toUri().userInfo?.let {
                     val (username, password) = it.split(":")
                     builder.header("Authorization", Credentials.basic(username, password))
                 }
@@ -122,7 +127,7 @@ class BaseFunctionalityViewModel(application: Application) : ContentResolvingAnd
                 val response: Response = okHttpBuilder.build().newCall(builder.build()).execute()
 
                 if (response.isSuccessful) {
-                    response.body?.let {
+                    response.body.let {
                         Timber.i(it.string())
                     }
                 } else {
@@ -134,7 +139,7 @@ class BaseFunctionalityViewModel(application: Application) : ContentResolvingAnd
     private fun handleGeneric(
         ctx: Context,
         fileUris: List<Uri>,
-        mimeType: String
+        mimeType: String,
     ): Result<Scheme?> {
         val intent = buildIntent(ctx, fileUris, mimeType, null)
         if (Utils.isIntentAvailable(ctx, intent)) {
@@ -150,7 +155,7 @@ class BaseFunctionalityViewModel(application: Application) : ContentResolvingAnd
         ctx: Context,
         fileUris: List<Uri>,
         mimeType: String,
-        uri: URI
+        uri: URI,
     ): Result<Scheme> {
         val intent = buildIntent(ctx, fileUris, mimeType, uri.schemeSpecificPart)
         if (Utils.isIntentAvailable(ctx, intent)) {
@@ -165,7 +170,7 @@ class BaseFunctionalityViewModel(application: Application) : ContentResolvingAnd
         ctx: Context,
         fileUris: List<Uri>,
         target: String,
-        mimeType: String
+        mimeType: String,
     ): Result<Scheme> {
         val intent: Intent
         if (fileUris.size > 1) {
@@ -174,7 +179,7 @@ class BaseFunctionalityViewModel(application: Application) : ContentResolvingAnd
             intent = Intent(Intent.ACTION_SENDTO)
             val contentUri = AppDirHelper.ensureContentUri(fileUris[0], ctx)
             intent.putExtra(Intent.EXTRA_STREAM, contentUri)
-            intent.setDataAndType(Uri.parse(target), mimeType)
+            intent.setDataAndType(target.toUri(), mimeType)
             ctx.grantUriPermission(
                 "org.totschnig.sendwithftp",
                 contentUri,
@@ -204,7 +209,7 @@ class BaseFunctionalityViewModel(application: Application) : ContentResolvingAnd
                     if (scheme != null && ("mailto" == scheme || uri.host != null)) {
                         return uri
                     }
-                } catch (ignored: URISyntaxException) {
+                } catch (_: URISyntaxException) {
                 }
             }
             return null
@@ -215,7 +220,7 @@ class BaseFunctionalityViewModel(application: Application) : ContentResolvingAnd
             ctx: Context,
             fileUris: List<Uri>,
             mimeType: String?,
-            emailAddress: String?
+            emailAddress: String?,
         ) = Intent(Intent.ACTION_SEND_MULTIPLE).apply {
             putParcelableArrayListExtra(
                 Intent.EXTRA_STREAM,
@@ -237,4 +242,11 @@ class BaseFunctionalityViewModel(application: Application) : ContentResolvingAnd
         }
     }
 
+    fun toggleWebUi(enabled: Boolean) {
+        viewModelScope.launch {
+            dataStore.edit { preferences ->
+                preferences[prefHandler.getBooleanPreferencesKey(PrefKey.UI_WEB)] = enabled
+            }
+        }
+    }
 }

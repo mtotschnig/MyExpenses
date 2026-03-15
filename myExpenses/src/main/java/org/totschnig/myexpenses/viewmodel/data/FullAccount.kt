@@ -225,6 +225,8 @@ data class FullAccount(
     val visible: Boolean
         get() = flag.isVisible
 
+    val reconciliationAvailable = type.supportsReconciliation && !sealed
+
     override fun toPageAccount(context: Context) = toPageAccount
 
     companion object {

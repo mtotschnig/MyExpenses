@@ -348,7 +348,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         ) {
             requestNotificationPermission(PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_WEBUI)
         } else {
-            prefHandler.putBoolean(PrefKey.UI_WEB, true)
+            baseViewModel.toggleWebUi(true)
             onWebUiActivated()
         }
     }

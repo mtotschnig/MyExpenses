@@ -10,6 +10,9 @@ import androidx.annotation.PluralsRes
 import androidx.annotation.StringRes
 import androidx.core.app.ServiceCompat
 import androidx.core.database.getLongOrNull
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
@@ -118,6 +121,9 @@ class WebInputService : LifecycleService(), IWebInputService {
     lateinit var prefHandler: PrefHandler
 
     @Inject
+    lateinit var dataStore: DataStore<Preferences>
+
+    @Inject
     lateinit var licenceHandler: LicenceHandler
 
     @Inject
@@ -205,7 +211,7 @@ class WebInputService : LifecycleService(), IWebInputService {
         super.onStartCommand(intent, flags, startId)
         when (intent?.action) {
             STOP_CLICK_ACTION -> {
-                prefHandler.putBoolean(PrefKey.UI_WEB, false)
+               switchOff()
             }
 
             STOP_ACTION -> {
@@ -219,6 +225,9 @@ class WebInputService : LifecycleService(), IWebInputService {
                 if (server != null) {
                     if (intent.action == START_ACTION) return START_STICKY
                     stopServer()
+                } else if (intent.action == RESTART_ACTION) {
+                    //We only honor RESTART_ACTION if the server is actually started
+                    return START_NOT_STICKY
                 }
                 if (try {
                         (9000..9050).first { isAvailable(it) }
@@ -396,8 +405,16 @@ class WebInputService : LifecycleService(), IWebInputService {
     private fun handleException(e: Throwable) {
         CrashHandler.report(e)
         serverStateObserver?.postException(e)
-        prefHandler.putBoolean(PrefKey.UI_WEB, false)
+        switchOff()
         stopSelf()
+    }
+
+    private fun switchOff() {
+        lifecycleScope.launch {
+            dataStore.edit { preferences ->
+                preferences[prefHandler.getBooleanPreferencesKey(PrefKey.UI_WEB)] = false
+            }
+        }
     }
 
     private fun Route.serve() {

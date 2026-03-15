@@ -15,7 +15,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
-import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -82,7 +81,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(), SortUtilityDialogF
         viewModel.selectionState.value = emptyList()
     }
 
-    @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3WindowSizeClassApi::class)
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(this)[MyExpensesV2ViewModel::class.java]
@@ -159,6 +158,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(), SortUtilityDialogF
                         val accounts = result.getOrThrow()
                         val banks = viewModel.banks.collectAsState()
                         val showSortDialog = rememberSaveable { mutableStateOf(false) }
+
                         MainScreenAdaptive(
                             viewModel,
                             accounts,
@@ -202,11 +202,9 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(), SortUtilityDialogF
                                             event.itemId
                                         )
 
-                                        AppEvent.Search -> showFilterDialog = true
-
                                         is AppEvent.MenuItemClicked -> dispatchCommand(
                                             event.itemId,
-                                            null
+                                            event.tag
                                         )
 
                                         AppEvent.Sort -> showSortDialog.value = true

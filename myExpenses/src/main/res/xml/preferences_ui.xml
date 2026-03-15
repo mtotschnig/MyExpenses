@@ -52,8 +52,8 @@
         android:summary="@string/customize"
         android:title="@string/menu" />
 
-    <Preference
-        android:key="@string/pref_customize_main_menu_v2_key"
+    <org.totschnig.myexpenses.preference.PopupMenuPreference
+        android:key="@string/pref_customize_menu_v2_key"
         android:summary="@string/customize"
         android:title="@string/menu" />
 
