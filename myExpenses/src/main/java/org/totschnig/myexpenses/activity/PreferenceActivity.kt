@@ -268,6 +268,10 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace, SortUtility
                 showSnackBar(R.string.app_restart_required)
             }
 
+            getKey(PrefKey.UI_MAIN_SCREEN_VERSION) -> {
+                showSnackBar(R.string.app_restart_required)
+            }
+
             getKey(PrefKey.OCR_ENGINE) -> checkOcrFeature()
 
             getKey(PrefKey.TESSERACT_LANGUAGE) -> checkTessDataDownload()

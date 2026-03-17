@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.activity
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
@@ -55,7 +54,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.navigation.NavigationView
-import com.google.android.material.snackbar.Snackbar
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -108,7 +106,6 @@ import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import org.totschnig.myexpenses.viewmodel.RoadmapViewModel
 import org.totschnig.myexpenses.viewmodel.SumInfo
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel
-import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.repository.RoadmapRepository
 import timber.log.Timber
@@ -323,53 +320,10 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
         toolbar.isVisible = false
 
         binding.viewPagerMain.viewPager.setContent {
-            val upgradeInfo = upgradeHandlerViewModel.upgradeInfo.collectAsState().value
-            if (upgradeInfo == null || upgradeInfo is UpgradeHandlerViewModel.UpgradeSuccess) {
-                MainContent()
-            }
+            MainContent()
         }
 
         setupToolbarClickHandlers()
-
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                upgradeHandlerViewModel.upgradeInfo.collect { info ->
-                    when (info) {
-                        is UpgradeHandlerViewModel.UpgradeError -> {
-                            showMessage(
-                                info.info,
-                                null,
-                                null,
-                                MessageDialogFragment.Button(
-                                    R.string.button_label_close,
-                                    R.id.QUIT_COMMAND,
-                                    null
-                                ),
-                                false
-                            )
-                        }
-
-                        is UpgradeHandlerViewModel.UpgradeSuccess -> {
-                            showDismissibleSnackBar(
-                                message = info.info,
-                                actionLabel = getString(R.string.dialog_dismiss) +
-                                        if (info.count > 1) " (${info.index} / ${info.count})" else "",
-                                callback = object : Snackbar.Callback() {
-                                    override fun onDismissed(
-                                        transientBottomBar: Snackbar,
-                                        event: Int,
-                                    ) {
-                                        if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION)
-                                            upgradeHandlerViewModel.messageShown()
-                                    }
-                                })
-                        }
-
-                        else -> {}
-                    }
-                }
-            }
-        }
 
         if (resources.getDimensionPixelSize(R.dimen.drawerWidth) > resources.displayMetrics.widthPixels) {
             binding.accountPanel.root.layoutParams.width = resources.displayMetrics.widthPixels

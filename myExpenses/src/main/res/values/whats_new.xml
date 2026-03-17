@@ -28,4 +28,17 @@
     <string name="whats_new_401">Transaction list now shows more details for split transactions.</string>
     <string name="whats_new_402">Account types can be customized</string>
     <string name="whats_new_403">Account flags extend customization of account visibility and priority.</string>
+
+    <!-- Migration V2 Strings -->
+    <string name="migration_v2_title">Welcome to V2!</string>
+    <string name="migration_v2_intro">We\'ve redesigned My Expenses to be easier to use and to offer more features:</string>
+    <string name="migration_v2_feature_1">Modern Material Design Navigation</string>
+    <string name="migration_v2_feature_2">Grouping and totals for flags</string>
+    <string name="migration_v2_feature_3">Better integration of balance sheet</string>
+    <string name="migration_v2_feature_4">Streamlined account list</string>
+    <string name="migration_v2_footer">Want to switch back? You can return to the old design in Settings, but please note that V1 will be retired soon.</string>
+    <string name="migration_v2_opt_out_title">Switching back to V1?</string>
+    <string name="migration_v2_opt_out_warning">V1 will be abandoned in the next version. Please let us know why you are switching back so we can improve V2 for you.</string>
+    <string name="migration_v2_feedback_label">Pain points with V2…</string>
+    <string name="migration_v2_confirm_opt_out">Confirm Opt-out</string>
 </resources>

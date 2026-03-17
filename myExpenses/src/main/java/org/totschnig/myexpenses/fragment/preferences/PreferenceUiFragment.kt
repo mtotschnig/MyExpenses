@@ -1,16 +1,31 @@
 package org.totschnig.myexpenses.fragment.preferences
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.Keep
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.core.content.res.ResourcesCompat.getColor
+import androidx.core.os.bundleOf
 import androidx.core.text.buildSpannedString
 import androidx.core.text.color
+import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -22,9 +37,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.Version
+import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.dialog.AccountListDisplayConfigurationDialogFragment
+import org.totschnig.myexpenses.dialog.ComposeBaseDialogFragment
 import org.totschnig.myexpenses.dialog.CustomizeMenuDialogFragment
 import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.model.ContribFeature
@@ -189,6 +205,25 @@ class PreferenceUiFragment : BasePreferenceFragment() {
                 getString(R.string.menu_grouping) + " / " + getString(R.string.display_options_sort_list_by)
         }
 
+        childFragmentManager.setFragmentResultListener(
+            LegacyUIDialogFragment.REQUEST_KEY,
+            this
+        ) { _, bundle ->
+            if (bundle.getBoolean(LegacyUIDialogFragment.RESULT_CONFIRMED)) {
+                requirePreference<ListPreference>(PrefKey.UI_MAIN_SCREEN_VERSION).value = "V1"
+                configureUiVersionDependencies()
+            }
+        }
+
+        with(requirePreference<Preference>(PrefKey.UI_MAIN_SCREEN_VERSION)) {
+            onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
+                if (newValue == "V2") true else {
+                    LegacyUIDialogFragment().show(childFragmentManager, "LEGACY_UI")
+                    false
+                }
+            }
+        }
+
         configureUiVersionDependencies()
     }
 
@@ -320,5 +355,66 @@ class PreferenceUiFragment : BasePreferenceFragment() {
     companion object {
         fun Context.compactItemRendererTitle() =
             "${getString(R.string.style)} : ${getString(R.string.compact)}"
+    }
+}
+
+class LegacyUIDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnClickListener {
+    @Composable
+    override fun BuildContent() {
+        MigrationFeedbackCard()
+    }
+
+    @Composable
+    private fun MigrationFeedbackCard() {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
+            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)
+        ) {
+            Column(Modifier.padding(16.dp)) {
+                Text(
+                    text = stringResource(R.string.migration_v2_opt_out_title),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onErrorContainer
+                )
+                Text(
+                    text = stringResource(R.string.migration_v2_opt_out_warning),
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier.padding(vertical = 4.dp)
+                )
+            }
+        }
+    }
+
+    override fun initBuilder(): AlertDialog.Builder =
+        super.initBuilder().apply {
+            setNegativeButton(android.R.string.cancel, null)
+            setPositiveButton(R.string.migration_v2_confirm_opt_out, this@LegacyUIDialogFragment)
+            setNeutralButton(R.string.feedback, this@LegacyUIDialogFragment)
+        }
+
+    override fun onClick(dialog: DialogInterface?, which: Int) {
+        when (which) {
+            AlertDialog.BUTTON_POSITIVE -> {
+                prefHandler.mainScreenLegacy = true
+                setFragmentResult(REQUEST_KEY, bundleOf(RESULT_CONFIRMED to true))
+                dismiss()
+            }
+
+            AlertDialog.BUTTON_NEUTRAL -> {
+
+                (requireActivity() as BaseActivity).sendEmail(
+                    recipient = getString(R.string.support_email),
+                    subject = "[" + getString(R.string.app_name) + "] " + getString(R.string.feedback) + " V1 -> V2",
+                    body = ""
+                )
+            }
+        }
+    }
+
+    companion object {
+        const val REQUEST_KEY = "LEGACY_UI_REQUEST"
+        const val RESULT_CONFIRMED = "confirmed"
     }
 }

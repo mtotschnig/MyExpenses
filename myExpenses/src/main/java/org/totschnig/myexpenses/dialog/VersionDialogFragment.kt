@@ -18,6 +18,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -28,19 +29,29 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.activityViewModels
 import org.totschnig.myexpenses.MyApplication
@@ -77,8 +88,8 @@ class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCli
     @Composable
     override fun BuildContent() {
         val context = LocalContext.current
-        val upgradeInfo = upgradeHandlerViewModel.upgradeInfo.collectAsState()
-        val upgradeIsPending = upgradeInfo.value is UpgradeHandlerViewModel.UpgradePending
+        val upgradeInfo = upgradeHandlerViewModel.upgradeInfo.collectAsState().value
+        val upgradeIsPending = upgradeInfo is UpgradeHandlerViewModel.UpgradePending
         if (versions.isEmpty() || upgradeIsPending) {
             Column(Modifier.padding(start = 24.dp, end = 8.dp)) {
                 if (upgradeIsPending) {
@@ -92,15 +103,42 @@ class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCli
 
         } else {
             LazyColumn(Modifier.padding(start = 24.dp, end = 8.dp)) {
+                if (upgradeInfo is UpgradeHandlerViewModel.UpgradeError) {
+                    item {
+                        Text(
+                            text = upgradeInfo.info,
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.bodyLarge,
+                            modifier = Modifier
+                                .padding(vertical = 16.dp, horizontal = 4.dp)
+                                .fillMaxWidth()
+                        )
+                    }
+                } else {
+                    (upgradeInfo as UpgradeHandlerViewModel.UpgradeSuccess).migrationInfos.forEach {
+                        item {
+                            if (it.id == 1) {
+                                MigrationAnnouncementCard()
+                            }
+                        }
+                    }
+                }
                 items(versions.size) { position ->
                     val version = versions[position]
                     Card(
-                        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp),
                         shape = RoundedCornerShape(8.dp),
                         colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.cardBackground))
                     ) {
                         Row(Modifier.height(IntrinsicSize.Min)) {
-                            Column(Modifier.weight(1f).fillMaxHeight().padding(start=8.dp, top = 4.dp, bottom = 4.dp)) {
+                            Column(
+                                Modifier
+                                    .weight(1f)
+                                    .fillMaxHeight()
+                                    .padding(start = 8.dp, top = 4.dp, bottom = 4.dp)
+                            ) {
                                 Text(
                                     version.name,
                                     modifier = Modifier.padding(bottom = 0.dp),
@@ -116,7 +154,7 @@ class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCli
 
                                 }
                             }
-                            Column (modifier = Modifier.align(Alignment.CenterVertically)){
+                            Column(modifier = Modifier.align(Alignment.CenterVertically)) {
                                 VersionInfoButton(
                                     uri = version.githubUrl(context),
                                     drawableRes = R.drawable.ic_github,
@@ -139,7 +177,7 @@ class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCli
     private fun VersionInfoButton(
         uri: String?,
         drawableRes: Int,
-        contentDescription: String
+        contentDescription: String,
     ) {
         uri?.let {
             IconButton(
@@ -160,12 +198,7 @@ class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCli
             setTitle(
                 if (versions.isEmpty()) R.string.new_version else R.string.help_heading_whats_new
             )
-            setIcon(R.mipmap.ic_myexpenses)
             setNegativeButton(android.R.string.ok, null)
-            if (!licenceHandler.isContribEnabled) setPositiveButton(
-                R.string.menu_contrib,
-                this@VersionDialogFragment
-            )
         }
 
     private fun showMoreInfo(uri: String) {
@@ -188,5 +221,57 @@ class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCli
                 }
                 isCancelable = false
             }
+    }
+}
+
+@Composable
+private fun MigrationAnnouncementCard() {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer
+        )
+    ) {
+        Column(Modifier.padding(16.dp)) {
+            Text(
+                text = stringResource(R.string.migration_v2_title),
+                style = MaterialTheme.typography.headlineSmall,
+                color = MaterialTheme.colorScheme.onPrimaryContainer
+            )
+            Text(
+                text = stringResource(R.string.migration_v2_intro),
+                modifier = Modifier.padding(vertical = 8.dp),
+                style = MaterialTheme.typography.bodyMedium
+            )
+            val features = listOf(
+                R.string.migration_v2_feature_1,
+                R.string.migration_v2_feature_2,
+                R.string.migration_v2_feature_3,
+                R.string.migration_v2_feature_4
+            )
+            features.forEach { feature ->
+                Row(
+                    modifier = Modifier.padding(vertical = 2.dp),
+                    verticalAlignment = Alignment.Top
+                ) {
+                    Text(
+                        text = "• ",
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = stringResource(feature),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
+            Text(
+                text = stringResource(R.string.migration_v2_footer),
+                modifier = Modifier.padding(vertical = 8.dp),
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
     }
 }

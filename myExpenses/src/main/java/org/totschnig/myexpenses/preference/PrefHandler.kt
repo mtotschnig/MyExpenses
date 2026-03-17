@@ -192,8 +192,11 @@ interface PrefHandler {
             }
         }
 
-    val mainScreenLegacy: Boolean
-        get() = enumValueOrDefault(PrefKey.UI_MAIN_SCREEN_VERSION, Version.V1) == Version.V1
+    var mainScreenLegacy: Boolean
+        get() = enumValueOrDefault(PrefKey.UI_MAIN_SCREEN_VERSION, Version.V2) == Version.V1
+        set(value) {
+            putString(PrefKey.UI_MAIN_SCREEN_VERSION, if (value) Version.V1.name else Version.V2.name)
+        }
 
     val mainScreenClass: Class<*>
         get() = if (mainScreenLegacy) MyExpenses::class.java else MyExpensesV2::class.java
