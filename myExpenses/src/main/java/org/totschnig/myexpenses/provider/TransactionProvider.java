@@ -151,6 +151,7 @@ import static org.totschnig.myexpenses.provider.ConstantsKt.VIEW_TEMPLATES_EXTEN
 import static org.totschnig.myexpenses.provider.DataBaseAccount.HOME_AGGREGATE_ID;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT;
 import static org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_RELATED;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.CATEGORY_DEPTH_QUERY;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.CTE_SEARCH;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.accountWithTypeAndFlag;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.amountCteForDebts;
@@ -342,6 +343,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String QUERY_PARAMETER_WITH_COUNT = "count";
   public static final String QUERY_PARAMETER_WITH_INSTANCE = "withInstance";
   public static final String QUERY_PARAMETER_HIERARCHICAL = "hierarchical";
+  public static final String QUERY_PARAMETER_DEPTH = "depth";
   public static final String QUERY_PARAMETER_CATEGORY_SEPARATOR = "categorySeparator";
   public static final String QUERY_PARAMETER_SHORTEN_COMMENT = "shortenComment";
   public static final String QUERY_PARAMETER_SEARCH = "search";
@@ -514,6 +516,9 @@ public class TransactionProvider extends BaseTransactionProvider {
         if (mappedObjects != null) {
           String sql = categoryTreeWithMappedObjects(selection, projection, mappedObjects.equals("2"));
           return measureAndLogQuery(db, uri, sql, selection, selectionArgs);
+        }
+        if (uri.getBooleanQueryParameter(QUERY_PARAMETER_DEPTH, false)) {
+          return measureAndLogQuery(db, uri, CATEGORY_DEPTH_QUERY, null, null);
         }
         if (uri.getBooleanQueryParameter(QUERY_PARAMETER_HIERARCHICAL, false)) {
           final boolean withSum = projection != null && Arrays.asList(projection).contains(KEY_SUM);

@@ -262,6 +262,21 @@ fun budgetAllocation(uri: Uri): String {
             subSelectForPeriod(KEY_ONE_TIME)
 }
 
+const val CATEGORY_DEPTH_QUERY = """
+    WITH Tree AS (
+        SELECT $KEY_ROWID, $KEY_PARENTID,1 AS $KEY_LEVEL
+        FROM $TABLE_CATEGORIES
+        WHERE $KEY_PARENTID IS NULL
+
+        UNION ALL
+
+        SELECT c.$KEY_ROWID, c.$KEY_PARENTID, t.$KEY_LEVEL + 1
+        FROM $TABLE_CATEGORIES c
+        JOIN Tree t ON t.$KEY_ROWID = c.$KEY_PARENTID
+    )
+    SELECT max($KEY_LEVEL) FROM Tree
+"""
+
 fun categoryTreeWithMappedObjects(
     selection: String,
     projection: Array<String>,

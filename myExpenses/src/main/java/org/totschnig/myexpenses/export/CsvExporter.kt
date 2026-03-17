@@ -59,9 +59,8 @@ class CsvExporter(
         append: Boolean,
     ): Result<DocumentFile> {
         numberOfCategoryColumns = context.contentResolver.query(
-            BaseTransactionProvider.CATEGORY_TREE_URI,
-            arrayOf("max($KEY_LEVEL)"),
-            null, null, null
+            BaseTransactionProvider.CATEGORY_DEPTH_URI,
+            null, null, null, null
         )?.use {
             it.moveToFirst()
             it.getInt(0)

@@ -386,6 +386,14 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_HIERARCHICAL)
                 .build()
 
+        /**
+         * Calculate depth of category tree
+         */
+        val CATEGORY_DEPTH_URI: Uri
+            get() = TransactionProvider.CATEGORIES_URI.buildUpon()
+                .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_DEPTH)
+                .build()
+
         val ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES: Uri
             get() = TransactionProvider.ACCOUNTS_MINIMAL_URI
                 .buildUpon()
