@@ -10,7 +10,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="My Expenses, Open Source Android App for personal finance management">
     <meta name="author" content="Michael Totschnig">
-    <a rel="me" href="https://mastodon.social/@myexpenses">Mastodon</a>
     <title>{{site.title[pagelang]}}</title>
 
     <!-- Bootstrap core CSS -->
@@ -32,7 +31,7 @@
     <div class="container">
       <div class="header">
         <ul class="nav nav-pills pull-right">
-          <li><a href="https://mastodon.social/@myexpenses">News</a></li>
+          <li><a rel="me" href="https://mastodon.social/@myexpenses">News</a></li>
           <li><a href="https://github.com/mtotschnig/MyExpenses/wiki/FAQ">FAQ</a></li>
           <li id="menu-moreinfo" class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="{% if msg.menu_title.more_information %}{{msg.menu_title.more_information}}{% else %}{{site.data.en.en.menu_title.more_information}}{% endif %}"><span class="glyphicon glyphicon-info-sign"></span><span class="caret"></span>
