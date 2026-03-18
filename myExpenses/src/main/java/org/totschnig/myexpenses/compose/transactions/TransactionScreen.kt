@@ -69,7 +69,9 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.CollectionInfo
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.collectionInfo
+import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -453,9 +455,13 @@ private fun BalanceHeader(
 
     Box {
         Row(
-            modifier = modifier.clickable {
-                isSummaryPopupVisible = !isSummaryPopupVisible
-            },
+            modifier = modifier
+                .semantics {
+                    role = Role.Button
+                }
+                .clickable(onClickLabel = stringResource(R.string.content_description_show_balance_details)) {
+                    isSummaryPopupVisible = !isSummaryPopupVisible
+                },
             verticalAlignment = Alignment.CenterVertically
         ) {
             (currentAccount as? FullAccount)?.let {
@@ -497,7 +503,7 @@ private fun BalanceHeader(
             Icon(
                 modifier = Modifier.rotate(rotationAngle),
                 imageVector = Icons.Default.ExpandLess,
-                contentDescription = "stringResource(R.string.show_balance_summary)"
+                contentDescription = null
             )
         }
 

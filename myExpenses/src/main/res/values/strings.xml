@@ -1122,4 +1122,6 @@
     <string name="content_description_clear_party">Clear selected party</string>
     <string name="content_description_browse_device_files">Browse files on this device</string>
     <string name="content_description_select_recent_file">Select from recent files</string>
+    <!-- Content description used by Talkback for the account title on the transaction screen, which when activated (tapped upon) opens a popup with detailed information about the account -->
+    <string name="content_description_show_balance_details">Show detailed information</string>
 </resources>
