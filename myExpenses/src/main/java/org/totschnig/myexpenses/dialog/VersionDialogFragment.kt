@@ -52,6 +52,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.activityViewModels
 import org.totschnig.myexpenses.MyApplication
@@ -224,6 +225,7 @@ class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCli
     }
 }
 
+@Preview
 @Composable
 private fun MigrationAnnouncementCard() {
     Card(
@@ -249,7 +251,8 @@ private fun MigrationAnnouncementCard() {
                 R.string.migration_v2_feature_1,
                 R.string.migration_v2_feature_2,
                 R.string.migration_v2_feature_3,
-                R.string.migration_v2_feature_4
+                R.string.migration_v2_feature_4,
+                R.string.migration_v2_feature_5
             )
             features.forEach { feature ->
                 Row(

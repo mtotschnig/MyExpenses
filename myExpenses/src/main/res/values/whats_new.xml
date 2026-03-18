@@ -36,6 +36,7 @@
     <string name="migration_v2_feature_2">Grouping and totals for flags</string>
     <string name="migration_v2_feature_3">Improved balance sheet integration</string>
     <string name="migration_v2_feature_4">Streamlined account list</string>
+    <string name="migration_v2_feature_5">…and more features on the way!</string>
     <string name="migration_v2_footer">You can return to the old design in Settings. Note that V1 will be phased out in a future update.</string>
     <string name="migration_v2_opt_out_title">Switching back to V1?</string>
     <string name="migration_v2_opt_out_warning">V1 will be phased out in a future update. We\'d love to know what\'s not working so we can improve V2.</string>
