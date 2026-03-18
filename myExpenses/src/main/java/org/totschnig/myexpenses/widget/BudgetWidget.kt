@@ -294,12 +294,7 @@ class BudgetWidget : BaseWidget(PrefKey.PROTECTION_ENABLE_BUDGET_WIDGET) {
         }
     }
 
-    val layout: Int
-        get() = when (AppCompatDelegate.getDefaultNightMode()) {
-            AppCompatDelegate.MODE_NIGHT_NO -> R.layout.budget_widget_light
-            AppCompatDelegate.MODE_NIGHT_YES -> R.layout.budget_widget_dark
-            else -> R.layout.budget_widget
-        }
+    val layout = R.layout.budget_widget
 
     companion object {
         val OBSERVED_URIS = arrayOf(
