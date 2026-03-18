@@ -456,7 +456,7 @@ private fun BalanceHeader(
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 (currentAccount as? FullAccount)?.let {
-                    AccountIndicator(12.dp, currentAccount, bankIcon)
+                    AccountIndicator(currentAccount, bankIcon)
                 }
                 Column(modifier = Modifier.weight(1f)) {
                     Text(

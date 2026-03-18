@@ -51,6 +51,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.colorResource
@@ -458,10 +459,12 @@ fun AccountCardV2(
 
 @Composable
 fun AccountIndicator(
-    size: Dp = (dimensionResource(id = R.dimen.account_list_aggregate_letter_font_size).value * 2).dp,
     account: FullAccount,
     bankIcon: @Composable ((Modifier, Long) -> Unit)?,
 ) {
+    val fontSize = 13.sp
+    val size = with(LocalDensity.current) { (fontSize * 2).toDp() }
+
     val color = Color(account.color(resources = LocalResources.current))
 
     val modifier = Modifier
@@ -484,8 +487,9 @@ fun AccountIndicator(
                 modifier,
                 color
             ) {
+                //This is only used in V1
                 if (account.isAggregate) {
-                    Text(fontSize = 13.sp, text = SIGMA, color = Color.White)
+                    Text(fontSize = fontSize, text = SIGMA, color = Color.White)
                 }
             }
         } else bankIcon.invoke(modifier, account.bankId)
