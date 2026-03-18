@@ -125,7 +125,7 @@ fun TransactionScreen(
     onPrepareMenuItem: (Int) -> Boolean,
     bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
     pageContent: @Composable (PageAccount, Boolean) -> Unit,
-    windowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets
+    windowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
 ) {
     LaunchedEffect(Unit) {
         viewModel.setLastVisited(StartScreen.Transactions)
@@ -205,11 +205,15 @@ fun TransactionScreen(
                     )
                 } else {
                     @Composable
-                    fun isChecked(menuItem: MenuItem): Boolean = when(menuItem) {
+                    fun isChecked(menuItem: MenuItem): Boolean = when (menuItem) {
                         MenuItem.Search -> viewModel.filterPersistence.getValue(selectedAccountId)
                             .whereFilter
                             .collectAsState(null).value != null
-                        MenuItem.ShowStatusHandle -> viewModel.showStatusHandle.flow.collectAsState(initial = false).value
+
+                        MenuItem.ShowStatusHandle -> viewModel.showStatusHandle.flow.collectAsState(
+                            initial = false
+                        ).value
+
                         else -> false
                     }
 
@@ -454,45 +458,47 @@ private fun BalanceHeader(
             },
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                (currentAccount as? FullAccount)?.let {
-                    AccountIndicator(currentAccount, bankIcon)
-                }
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = currentAccount.labelV2(LocalContext.current),
-                        style = MaterialTheme.typography.titleMedium,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        val iconTint = when (validatedBalanceType) {
-                            BalanceType.CLEARED -> colorResource(id = R.color.CLEARED)
-                            BalanceType.RECONCILED -> colorResource(id = R.color.RECONCILED)
-                            else -> colorResource(id = R.color.UNRECONCILED)
-                        }
-
-                        Icon(
-                            imageVector = validatedBalanceType.icon,
-                            contentDescription = stringResource(validatedBalanceType.resourceId),
-                            modifier = Modifier
-                                .padding(end = 8.dp)
-                                .size(18.dp),
-                            tint = iconTint
-                        )
-                        AmountText(
-                            displayBalance, currentAccount.currencyUnit,
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 14.sp
-                        )
-                    }
-                }
-                Icon(
-                    modifier = Modifier.rotate(rotationAngle),
-                    imageVector = Icons.Default.ExpandLess,
-                    contentDescription = "stringResource(R.string.show_balance_summary)"
-                )
+            (currentAccount as? FullAccount)?.let {
+                AccountIndicator(currentAccount, bankIcon)
             }
+            Column(
+                modifier = Modifier
+                    .weight(1f, fill = false)
+                    .padding(end = 8.dp)
+            ) {
+                Text(
+                    text = currentAccount.labelV2(LocalContext.current),
+                    style = MaterialTheme.typography.titleMedium,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    val iconTint = when (validatedBalanceType) {
+                        BalanceType.CLEARED -> colorResource(id = R.color.CLEARED)
+                        BalanceType.RECONCILED -> colorResource(id = R.color.RECONCILED)
+                        else -> colorResource(id = R.color.UNRECONCILED)
+                    }
+
+                    Icon(
+                        imageVector = validatedBalanceType.icon,
+                        contentDescription = stringResource(validatedBalanceType.resourceId),
+                        modifier = Modifier
+                            .padding(end = 8.dp)
+                            .size(18.dp),
+                        tint = iconTint
+                    )
+                    AmountText(
+                        displayBalance, currentAccount.currencyUnit,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 14.sp
+                    )
+                }
+            }
+            Icon(
+                modifier = Modifier.rotate(rotationAngle),
+                imageVector = Icons.Default.ExpandLess,
+                contentDescription = "stringResource(R.string.show_balance_summary)"
+            )
         }
 
         // The Popup that shows the full summary

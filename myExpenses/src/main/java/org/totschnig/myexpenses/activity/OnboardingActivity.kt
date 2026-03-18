@@ -117,7 +117,7 @@ class OnboardingActivity : SyncBackendSetupActivity() {
     fun start() {
         prefHandler.putInt(PrefKey.CURRENT_VERSION, versionNumber)
         prefHandler.putInt(PrefKey.FIRST_INSTALL_VERSION, versionNumber)
-        val intent = Intent(this, MyExpenses::class.java)
+        val intent = Intent(this, MyExpensesV2::class.java)
         startActivity(intent)
         finish()
     }

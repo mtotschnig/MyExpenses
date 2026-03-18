@@ -63,6 +63,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowSizeClass
@@ -219,9 +220,11 @@ fun MainScreenAdaptive(
                                     imageVector = Icons.AutoMirrored.Filled.MenuOpen
                                 ) {
                                     if (defaultExpanded) {
-                                        forcedAccountPanelState.value = MyExpensesV2ViewModel.AccountPanelState.COLLAPSED
+                                        forcedAccountPanelState.value =
+                                            MyExpensesV2ViewModel.AccountPanelState.COLLAPSED
                                     } else {
-                                        forcedAccountPanelState.value = MyExpensesV2ViewModel.AccountPanelState.DEFAULT
+                                        forcedAccountPanelState.value =
+                                            MyExpensesV2ViewModel.AccountPanelState.DEFAULT
                                     }
                                 }
                             },
@@ -303,9 +306,11 @@ fun MainScreenAdaptive(
                         selected = false,
                         onClick = {
                             if (defaultExpanded) {
-                                forcedAccountPanelState.value = MyExpensesV2ViewModel.AccountPanelState.DEFAULT
+                                forcedAccountPanelState.value =
+                                    MyExpensesV2ViewModel.AccountPanelState.DEFAULT
                             } else {
-                                forcedAccountPanelState.value = MyExpensesV2ViewModel.AccountPanelState.EXPANDED
+                                forcedAccountPanelState.value =
+                                    MyExpensesV2ViewModel.AccountPanelState.EXPANDED
                             }
                         },
                         icon = {
@@ -336,7 +341,14 @@ fun MainScreenAdaptive(
                 (if (layoutType.isRail()) menuConfig.value else quickItems).forEach {
                     item(
                         selected = if (it == MenuItem.WebUI) isWebUiActive else false,
-                        onClick = { onAppEvent(AppEvent.MenuItemClicked(it.id, if (it == MenuItem.WebUI) !isWebUiActive else null)) },
+                        onClick = {
+                            onAppEvent(
+                                AppEvent.MenuItemClicked(
+                                    it.id,
+                                    if (it == MenuItem.WebUI) !isWebUiActive else null
+                                )
+                            )
+                        },
                         icon = { Icon(it.painter, null) },
                         label = { Text(it.getLabel(context)) }
                     )
@@ -372,27 +384,26 @@ fun MainScreenAdaptive(
                 }
 
                 when (pane) {
-                    ListDetailPaneScaffoldRole.List -> {
-                        AccountsScreen(
-                            accounts = accounts,
-                            accountGrouping = accountGrouping.value,
-                            selectedAccountId = selectedAccountId,
-                            viewModel = viewModel,
-                            onEvent = onAppEvent,
-                            onAccountEvent = onAccountEvent,
-                            flags = flags,
-                            bankIcon = bankIcon,
-                            windowInsets = customInsets
-                        ) {
-                            scope.launch {
-                                navigator.navigateTo(
-                                    pane = ListDetailPaneScaffoldRole.Detail
-                                )
-                            }
+                    ListDetailPaneScaffoldRole.List -> AccountsScreen(
+                        accounts = accounts,
+                        accountGrouping = accountGrouping.value,
+                        selectedAccountId = selectedAccountId,
+                        viewModel = viewModel,
+                        onEvent = onAppEvent,
+                        onAccountEvent = onAccountEvent,
+                        flags = flags,
+                        bankIcon = bankIcon,
+                        windowInsets = customInsets
+                    ) {
+                        scope.launch {
+                            navigator.navigateTo(
+                                pane = ListDetailPaneScaffoldRole.Detail
+                            )
                         }
                     }
 
                     ListDetailPaneScaffoldRole.Detail -> {
+                        val fontScale = LocalDensity.current.fontScale
                         TransactionScreen(
                             accounts = accounts,
                             accountGrouping = accountGrouping.value,
@@ -413,7 +424,11 @@ fun MainScreenAdaptive(
                                     WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND
                                 ) -> 4
 
-                                else -> 2
+                                else -> when {
+                                    fontScale > 1.5f -> 0
+                                    fontScale > 1.1f -> 1
+                                    else -> 2
+                                }
                             },
                             windowInsets = customInsets
                         )
@@ -436,19 +451,24 @@ fun MainScreenAdaptive(
                         ListItem(
                             modifier = Modifier.clickable {
                                 showBottomSheet = false
-                                onAppEvent(AppEvent.MenuItemClicked(it.id, if (it == MenuItem.WebUI) !isWebUiActive else null))
+                                onAppEvent(
+                                    AppEvent.MenuItemClicked(
+                                        it.id,
+                                        if (it == MenuItem.WebUI) !isWebUiActive else null
+                                    )
+                                )
                             },
                             headlineContent = { Text(it.getLabel(LocalContext.current)) },
                             leadingContent = {
-                                    Icon(
-                                        if (it == MenuItem.WebUI) {
-                                            rememberVectorPainter(
-                                                if (isWebUiActive) Icons.Filled.CheckBox
-                                                else Icons.Filled.CheckBoxOutlineBlank
-                                            )
-                                        } else it.painter,
-                                        contentDescription = null
-                                    )
+                                Icon(
+                                    if (it == MenuItem.WebUI) {
+                                        rememberVectorPainter(
+                                            if (isWebUiActive) Icons.Filled.CheckBox
+                                            else Icons.Filled.CheckBoxOutlineBlank
+                                        )
+                                    } else it.painter,
+                                    contentDescription = null
+                                )
                             },
                         )
                     }

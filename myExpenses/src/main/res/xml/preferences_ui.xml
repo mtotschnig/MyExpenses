@@ -40,7 +40,7 @@
         my:useSimpleSummaryProvider="true" />
 
     <ListPreference
-        android:defaultValue="V1"
+        android:defaultValue="V2"
         android:entries="@array/pref_ui_main_screen_version_values"
         android:entryValues="@array/pref_ui_main_screen_version_values"
         android:key="@string/pref_ui_main_screen_version_key"
