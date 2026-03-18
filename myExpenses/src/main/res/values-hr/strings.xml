@@ -824,7 +824,7 @@
     <string name="debt_lend_additional">Posuđujem %s.</string>
     <string name="debt_borrow_additional">Uzajmljujem %s.</string>
     <string name="debt_paid_off_other">Dug od %s je otplaćen.</string>
-    <string name="github_sponsors"><![CDATA[Licencni ključevi se također daju <a href=%s>Github sponzorima</a>.]]></string>
+    <string name="github_sponsors"><![CDATA[Licencni ključevi se također dodaju <a href="%s">Github sponzorima</a>.]]></string>
     <string name="notifications_permission_required_webui">Davanjem dozvole za slanje obavijesti možeš kontrolirati stanje web poslužitelja.</string>
     <string name="notifications_permission_required_sync">Davanjem dozvole za slanje obavijesti možeš pratiti napredak sinkronizacije.</string>
     <string name="notifications_channel_required">Aktiviraj kanal %s.</string>
