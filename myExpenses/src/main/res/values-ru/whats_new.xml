@@ -27,4 +27,16 @@
     <string name="whats_new_401">В списке транзакций теперь отображается более подробная информация о разделенных транзакциях.</string>
     <string name="whats_new_402">Типы счетов можно настраивать</string>
     <string name="whats_new_403">Флаги счётов расширяют возможности настройки их видимости и приоритета.</string>
+    <string name="migration_v2_title">Добро пожаловать в V2!</string>
+    <string name="migration_v2_intro">Мы обновили раздел Мои расходы, сделав его более удобным в использовании и расширив функционал:</string>
+    <string name="migration_v2_feature_1">Современная навигация в стиле Material Design</string>
+    <string name="migration_v2_feature_2">Группировка и итоговые данные по флагам</string>
+    <string name="migration_v2_feature_3">Улучшенная интеграция баланса</string>
+    <string name="migration_v2_feature_4">Упрощенный список счетов</string>
+    <string name="migration_v2_feature_5">...и в будущем появятся новые функции!</string>
+    <string name="migration_v2_footer">Вы можете вернуться к старому дизайну в настройках. Обратите внимание, что версия V1 будет выведена из эксплуатации в будущем обновлении.</string>
+    <string name="migration_v2_opt_out_title">Вернуться к версии V1?</string>
+    <string name="migration_v2_opt_out_warning">Версия V1 будет выведена из эксплуатации в одном из будущих обновлений. Мы хотели бы узнать, что не работает, чтобы улучшить версию V2.</string>
+    <string name="migration_v2_feedback_title">Что не работает в версии V2?</string>
+    <string name="migration_v2_confirm_opt_out">Вернуться к версии V1</string>
 </resources>
