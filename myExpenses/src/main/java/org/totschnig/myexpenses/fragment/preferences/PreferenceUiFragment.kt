@@ -38,6 +38,7 @@ import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
+import org.totschnig.myexpenses.activity.Version
 import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.dialog.AccountListDisplayConfigurationDialogFragment
 import org.totschnig.myexpenses.dialog.ComposeBaseDialogFragment
@@ -210,14 +211,14 @@ class PreferenceUiFragment : BasePreferenceFragment() {
             this
         ) { _, bundle ->
             if (bundle.getBoolean(LegacyUIDialogFragment.RESULT_CONFIRMED)) {
-                requirePreference<ListPreference>(PrefKey.UI_MAIN_SCREEN_VERSION).value = "V1"
+                requirePreference<ListPreference>(PrefKey.UI_MAIN_SCREEN_VERSION).value = Version.V1.name
                 configureUiVersionDependencies()
             }
         }
 
         with(requirePreference<Preference>(PrefKey.UI_MAIN_SCREEN_VERSION)) {
             onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
-                if (newValue == "V2") true else {
+                if (newValue == Version.V2.name) true else {
                     LegacyUIDialogFragment().show(childFragmentManager, "LEGACY_UI")
                     false
                 }
@@ -406,7 +407,7 @@ class LegacyUIDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCl
 
                 (requireActivity() as BaseActivity).sendEmail(
                     recipient = getString(R.string.support_email),
-                    subject = "[" + getString(R.string.app_name) + "] " + getString(R.string.feedback) + " V1 -> V2",
+                    subject = "[" + getString(R.string.app_name) + "] " + getString(R.string.feedback) + " : " + getString(R.string.migration_v2_feedback_title),
                     body = ""
                 )
             }

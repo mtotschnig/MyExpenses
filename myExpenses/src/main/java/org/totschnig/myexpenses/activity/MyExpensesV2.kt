@@ -59,7 +59,7 @@ enum class StartScreen {
 }
 
 /**
- * TBD: ReviewManager, AdManager, Tests, Upgrade Handling,
+ * TBD: ReviewManager, AdManager, Tests,
  * Help, Tell a friend,
  * Budget progress, Bank icon
  */

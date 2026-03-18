@@ -34,11 +34,11 @@
     <string name="migration_v2_intro">We\'ve redesigned My Expenses to be easier to use and to offer more features:</string>
     <string name="migration_v2_feature_1">Modern Material Design Navigation</string>
     <string name="migration_v2_feature_2">Grouping and totals for flags</string>
-    <string name="migration_v2_feature_3">Better integration of balance sheet</string>
+    <string name="migration_v2_feature_3">Improved balance sheet integration</string>
     <string name="migration_v2_feature_4">Streamlined account list</string>
-    <string name="migration_v2_footer">Want to switch back? You can return to the old design in Settings, but please note that V1 will be retired soon.</string>
+    <string name="migration_v2_footer">You can return to the old design in Settings. Note that V1 will be phased out in a future update.</string>
     <string name="migration_v2_opt_out_title">Switching back to V1?</string>
-    <string name="migration_v2_opt_out_warning">V1 will be abandoned in the next version. Please let us know why you are switching back so we can improve V2 for you.</string>
-    <string name="migration_v2_feedback_label">Pain points with V2…</string>
-    <string name="migration_v2_confirm_opt_out">Confirm Opt-out</string>
+    <string name="migration_v2_opt_out_warning">V1 will be phased out in a future update. We\'d love to know what\'s not working so we can improve V2.</string>
+    <string name="migration_v2_feedback_title">What\'s not working in V2?</string>
+    <string name="migration_v2_confirm_opt_out">Go back to V1</string>
 </resources>
