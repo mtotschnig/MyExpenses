@@ -297,7 +297,7 @@
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Не удается объединить в существующий счёт.</string>
     <string name="reference_number">Номер ссылки</string>
     <string name="restore_db_failure">Восстановление БД не удалось.</string>
-    <string name="restore_db_success">БД была восстановлена из рез.копии.</string>
+    <string name="restore_db_success">БД восстановлена из резервной копии.</string>
     <string name="restore_preferences_failure">Восстановление настроек не удалось</string>
     <string name="restore_backup_file_not_found">Нет файла %1$s, найденного в каталоге \"%2$s\"</string>
     <string name="restore_preferences_success">Настройки были восстановлены из рез.копии.</string>

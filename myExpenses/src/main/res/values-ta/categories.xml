@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources, InconsistentArrays">
     <!-- Main category -->
     <string name="Main_1">மற்ற வருமானம்</string>
@@ -63,7 +63,7 @@
     <!-- Subcategory under "Food" -->
     <string name="Sub_6_5">மளிகை</string>
     <!-- Subcategory under "Food" -->
-    <string name="Sub_6_6">உணவு விடுதி</string>
+    <string name="Sub_6_6">உணவகம்</string>
     <!-- Subcategory under "Food" -->
     <string name="Sub_6_7">சுயசேவை</string>
     <!-- Subcategory under "Food" -->

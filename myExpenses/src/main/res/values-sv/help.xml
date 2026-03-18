@@ -45,4 +45,24 @@
     <string name="form_comment_help_text">Ange eventuella anteckningar om objektet.</string>
     <string name="form_synchronization_help_text_select">Välj en bakände för moln-synkronisering.</string>
     <string name="menu_HistoryActivity_history_show_balance_help_text">Växla synligheten för saldot.</string>
+    <string name="help_ManageTemplates_planner_title">Kommande återkommande händelser</string>
+    <string name="help_ExpenseEdit_templateCategory_title">Formulär för transaktionsmallar</string>
+    <string name="help_ExpenseEdit_templateTransfer_title">Formulär för översättningsmallar</string>
+    <string name="help_ExpenseEdit_splitPartCategory_title">Formulär för kategorisering av delar</string>
+    <string name="help_ExpenseEdit_splitPartTransfer_title">Formulär för överföring av uppdelade delar</string>
+    <string name="menu_chart_help_text">Växla mellan att visa och dölja diagrammet.</string>
+    <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Välj en kategori för den här uppdelade delen.</string>
+    <string name="form_description_help_text">Beskrivningen har endast ett informativt syfte.</string>
+    <string name="cab_sync_now_help_text">Starta omedelbar synkronisering med den valda bakänden.</string>
+    <string name="menu_BudgetActivity_delete_help_text">Den budget som visas för närvarande kommer att raderas.</string>
+    <string name="help_ManageTemplates_plans_info_open">Instansen har ännu inte tillämpats.</string>
+    <string name="cab_ManageTemplates_templates_create_instance_save_help_text">Instansiera de valda mallarna och spara dem omedelbart.</string>
+    <string name="cab_ManageTemplates_delete_help_text">Radera de valda mallarna och alla associerade planer.</string>
+    <string name="menu_categories_setup_default_help_text">En uppsättning av standard-kategorier kommer att importeras.</string>
+    <string name="menu_categories_export_help_text">Kategorier kommer att exporteras till QIF-fil.</string>
+    <string name="form_account_help_text">Välj kontot som transaktionen tillhör.</string>
+    <string name="form_title_help_text">Ange en titel som unikt identifierar mallen.</string>
+    <string name="form_synchronization_help_text_add">Bakänden kan läggas till från Inställnings-rutan.</string>
+    <string name="form_DebtEdit_date_help_text">Ange datumet då skulden uppstod.</string>
+    <string name="cab_ManageCategories_merge_help_text">Kategorier av samma typ kan smältas samman.</string>
 </resources>
