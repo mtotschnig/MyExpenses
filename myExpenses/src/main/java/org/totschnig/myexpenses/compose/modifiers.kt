@@ -20,13 +20,8 @@ import org.totschnig.myexpenses.compose.transactions.tagBorder
 
 inline fun Modifier.conditional(
     condition: Boolean,
+    ifFalse: (Modifier.() -> Modifier) = { this },
     ifTrue: Modifier.() -> Modifier,
-) =  if (condition) ifTrue() else this
-
-inline fun Modifier.conditional(
-    condition: Boolean,
-    ifTrue: Modifier.() -> Modifier,
-    ifFalse: (Modifier.() -> Modifier) = { this }
 ) =  if (condition) ifTrue() else ifFalse()
 
 inline fun <T> Modifier.optional(
