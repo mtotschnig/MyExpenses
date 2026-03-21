@@ -479,7 +479,7 @@ private fun BalanceHeader(
                 .padding(end = 8.dp)
         ) {
 
-            val isWideLayout = maxWidth > 400.dp
+            val isWideLayout = maxWidth > 300.dp
 
             // Adaptive Content: Switch between Column and Row
             if (isWideLayout) {
@@ -487,7 +487,7 @@ private fun BalanceHeader(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    AccountLabel(currentAccount, Modifier.weight(1f))
+                    AccountLabel(currentAccount, Modifier.weight(1f, fill = false))
                     BalanceSection(validatedBalanceType, displayBalance, currentAccount)
                 }
             } else {
