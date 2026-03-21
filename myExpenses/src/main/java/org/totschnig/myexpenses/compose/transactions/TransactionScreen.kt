@@ -7,6 +7,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
@@ -96,6 +97,7 @@ import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
 import org.totschnig.myexpenses.compose.TooltipIconButton
 import org.totschnig.myexpenses.compose.accounts.AccountIndicator
 import org.totschnig.myexpenses.compose.accounts.AccountSummaryV2
+import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.main.AppEventHandler
 import org.totschnig.myexpenses.compose.main.parseMenu
@@ -128,6 +130,7 @@ fun TransactionScreen(
     bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
     pageContent: @Composable (PageAccount, Boolean) -> Unit,
     windowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
+    isFramed: Boolean,
 ) {
     LaunchedEffect(Unit) {
         viewModel.setLastVisited(StartScreen.Transactions)
@@ -222,6 +225,9 @@ fun TransactionScreen(
                     TopAppBar(
                         title = {
                             BalanceHeader(
+                                modifier = Modifier.conditional(isFramed) {
+                                    padding(start = 4.dp, top = 4.dp)
+                                },
                                 currentAccount = currentAccount,
                                 displayBalanceType = selectedBalanceType,
                                 onDisplayBalanceTypeChange = { newType ->
@@ -453,59 +459,50 @@ private fun BalanceHeader(
         validatedBalanceType
     )
 
-    Box {
-        Row(
-            modifier = modifier
-                .semantics {
-                    role = Role.Button
-                }
-                .clickable(onClickLabel = stringResource(R.string.content_description_show_balance_details)) {
-                    isSummaryPopupVisible = !isSummaryPopupVisible
-                },
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            (currentAccount as? FullAccount)?.let {
-                AccountIndicator(currentAccount, bankIcon)
-            }
-            Column(
-                modifier = Modifier
-                    .weight(1f, fill = false)
-                    .padding(end = 8.dp)
-            ) {
-                Text(
-                    text = currentAccount.labelV2(LocalContext.current),
-                    style = MaterialTheme.typography.titleMedium,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    val iconTint = when (validatedBalanceType) {
-                        BalanceType.CLEARED -> colorResource(id = R.color.CLEARED)
-                        BalanceType.RECONCILED -> colorResource(id = R.color.RECONCILED)
-                        else -> colorResource(id = R.color.UNRECONCILED)
-                    }
 
-                    Icon(
-                        imageVector = validatedBalanceType.icon,
-                        contentDescription = stringResource(validatedBalanceType.resourceId),
-                        modifier = Modifier
-                            .padding(end = 8.dp)
-                            .size(18.dp),
-                        tint = iconTint
-                    )
-                    AmountText(
-                        displayBalance, currentAccount.currencyUnit,
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 14.sp
-                    )
+    Row(
+        modifier = modifier
+            .semantics {
+                role = Role.Button
+            }
+            .clickable(onClickLabel = stringResource(R.string.content_description_show_balance_details)) {
+                isSummaryPopupVisible = !isSummaryPopupVisible
+            },
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        (currentAccount as? FullAccount)?.let {
+            AccountIndicator(currentAccount, bankIcon)
+        }
+        BoxWithConstraints(
+            Modifier
+                .weight(1f, fill = false)
+                .padding(end = 8.dp)
+        ) {
+
+            val isWideLayout = maxWidth > 400.dp
+
+            // Adaptive Content: Switch between Column and Row
+            if (isWideLayout) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    AccountLabel(currentAccount, Modifier.weight(1f))
+                    BalanceSection(validatedBalanceType, displayBalance, currentAccount)
+                }
+            } else {
+                Column {
+                    AccountLabel(currentAccount)
+                    BalanceSection(validatedBalanceType, displayBalance, currentAccount)
                 }
             }
-            Icon(
-                modifier = Modifier.rotate(rotationAngle),
-                imageVector = Icons.Default.ExpandLess,
-                contentDescription = null
-            )
         }
+
+        Icon(
+            modifier = Modifier.rotate(rotationAngle),
+            imageVector = Icons.Default.ExpandLess,
+            contentDescription = null
+        )
 
         // The Popup that shows the full summary
         if (isSummaryPopupVisible) {
@@ -592,6 +589,48 @@ private fun BalanceHeader(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun AccountLabel(
+    account: BaseAccount,
+    modifier: Modifier = Modifier
+) {
+    Text(
+        modifier = modifier,
+        text = account.labelV2(LocalContext.current),
+        style = MaterialTheme.typography.titleMedium,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis
+    )
+}
+
+@Composable
+private fun BalanceSection(
+    type: BalanceType,
+    balance: Long,
+    account: BaseAccount,
+) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        val iconTint = when (type) {
+            BalanceType.CLEARED -> colorResource(id = R.color.CLEARED)
+            BalanceType.RECONCILED -> colorResource(id = R.color.RECONCILED)
+            else -> colorResource(id = R.color.UNRECONCILED)
+        }
+        Icon(
+            imageVector = type.icon,
+            contentDescription = stringResource(type.resourceId),
+            modifier = Modifier
+                .padding(end = 8.dp)
+                .size(18.dp),
+            tint = iconTint
+        )
+        AmountText(
+            balance, account.currencyUnit,
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 14.sp
+        )
     }
 }
 

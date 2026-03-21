@@ -167,8 +167,11 @@ fun MainScreenAdaptive(
 
     val adaptiveInfo = currentWindowAdaptiveInfo()
 
+    val defaultDirective = calculatePaneScaffoldDirective(adaptiveInfo)
+    val defaultExpanded = defaultDirective.maxHorizontalPartitions > 1
+
     val navigator = rememberListDetailPaneScaffoldNavigator<FullAccount>(
-        scaffoldDirective = calculatePaneScaffoldDirective(adaptiveInfo).run {
+        scaffoldDirective = defaultDirective.run {
             copy(
                 horizontalPartitionSpacerSize = 12.dp,
                 maxHorizontalPartitions = when (forcedAccountPanelState) {
@@ -218,8 +221,11 @@ fun MainScreenAdaptive(
                     onClick = {
                         scope.launch {
                             viewModel.accountPanelState.set(
-                                if (isExpanded) AccountPanelState.COLLAPSED
-                                else AccountPanelState.EXPANDED
+                                when {
+                                    isExpanded && defaultExpanded -> AccountPanelState.COLLAPSED
+                                    !isExpanded && !defaultExpanded -> AccountPanelState.EXPANDED
+                                    else -> AccountPanelState.DEFAULT
+                                }
                             )
                         }
                     },
@@ -232,8 +238,7 @@ fun MainScreenAdaptive(
                     },
                     label = {
                         Text(stringResource(if (isExpanded) R.string.main_screen_focus else R.string.main_screen_split))
-                    },
-                    alwaysShowLabel = false
+                    }
                 )
             }
             if (!isExpanded) {
@@ -247,7 +252,12 @@ fun MainScreenAdaptive(
                             }
                         },
                         icon = { Icon(screen.icon, contentDescription = null) },
-                        label = { Text(stringResource(screen.resourceId)) }
+                        label = {
+                            Text(
+                                text = stringResource(screen.resourceId),
+                                maxLines = 1
+                            )
+                        },
                     )
                 }
             }
@@ -264,7 +274,12 @@ fun MainScreenAdaptive(
                         )
                     },
                     icon = { Icon(it.painter, null) },
-                    label = { Text(it.getLabel(context)) }
+                    label = {
+                        Text(
+                            text = it.getLabel(context),
+                            maxLines = 1
+                        )
+                    },
                 )
             }
             if (layoutType.isBar()) {
@@ -274,7 +289,12 @@ fun MainScreenAdaptive(
                         selected = showBottomSheet,
                         onClick = { showBottomSheet = true },
                         icon = { Icon(Icons.Default.MoreHoriz, null) },
-                        label = { Text(stringResource(androidx.appcompat.R.string.abc_action_menu_overflow_description)) }
+                        label = {
+                            Text(
+                                stringResource(com.android.setupwizardlib.R.string.suw_more_button_label),
+                                maxLines = 1
+                            )
+                        },
                     )
                 }
             }
@@ -300,12 +320,12 @@ fun MainScreenAdaptive(
             value = navigator.scaffoldValue,
 
             listPane = {
-                AnimatedPane {
-                    PaneSurface(
-                        isRail = isRail,
-                        extraPadding = !isExpanded
-                    ) {
 
+                PaneSurface(
+                    isRail = isRail,
+                    extraPadding = !isExpanded
+                ) {
+                    AnimatedPane {
                         AccountsScreen(
                             containerColor = Color.Transparent,
                             accounts = accounts,
@@ -326,11 +346,12 @@ fun MainScreenAdaptive(
                 }
             },
             detailPane = {
-                AnimatedPane {
-                    PaneSurface(
-                        isRail = isRail,
-                        extraPadding = true
-                    ) {
+
+                PaneSurface(
+                    isRail = isRail,
+                    extraPadding = true
+                ) {
+                    AnimatedPane {
                         val fontScale = LocalDensity.current.fontScale
                         TransactionScreen(
                             containerColor = Color.Transparent,
@@ -359,84 +380,13 @@ fun MainScreenAdaptive(
                                     else -> 2
                                 }
                             },
-                            windowInsets = customInsets
+                            windowInsets = customInsets,
+                            isFramed = isRail
                         )
                     }
                 }
             }
         )
-
-
-        /*            BackHandler(enabled = navigator.canNavigateBack()) {
-                        scope.launch {
-                            navigator.navigateBack()
-                        }
-                    }
-
-                    Crossfade(
-                        targetState = navigator.currentDestination?.pane,
-                        label = "ScreenTransition"
-                    ) { pane ->
-                        val customInsets = when {
-                            layoutType.isBar() -> WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top)
-                            layoutType.isRail() -> WindowInsets.safeDrawing.only(WindowInsetsSides.End + WindowInsetsSides.Vertical)
-                            else -> ScaffoldDefaults.contentWindowInsets
-                        }
-
-                        when (pane) {
-                            ListDetailPaneScaffoldRole.List -> AccountsScreen(
-                                accounts = accounts,
-                                accountGrouping = accountGrouping.value,
-                                selectedAccountId = selectedAccountId,
-                                viewModel = viewModel,
-                                onEvent = onAppEvent,
-                                onAccountEvent = onAccountEvent,
-                                flags = flags,
-                                bankIcon = bankIcon,
-                                windowInsets = customInsets
-                            ) {
-                                scope.launch {
-                                    navigator.navigateTo(
-                                        pane = ListDetailPaneScaffoldRole.Detail
-                                    )
-                                }
-                            }
-
-                            ListDetailPaneScaffoldRole.Detail -> {
-                                val fontScale = LocalDensity.current.fontScale
-                                TransactionScreen(
-                                    accounts = accounts,
-                                    accountGrouping = accountGrouping.value,
-                                    availableFilters = availableFilters,
-                                    selectedAccountId = selectedAccountId,
-                                    viewModel = viewModel,
-                                    onEvent = onAppEvent,
-                                    onPrepareContextMenuItem = onPrepareContextMenuItem,
-                                    onPrepareMenuItem = onPrepareMenuItem,
-                                    pageContent = pageContent,
-                                    bankIcon = bankIcon,
-                                    visibleActionItems = when {
-                                        adaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
-                                            WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND
-                                        ) -> 6
-
-                                        adaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
-                                            WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND
-                                        ) -> 4
-
-                                        else -> when {
-                                            fontScale > 1.5f -> 0
-                                            fontScale > 1.1f -> 1
-                                            else -> 2
-                                        }
-                                    },
-                                    windowInsets = customInsets
-                                )
-                            }
-
-                            else -> {}
-                        }
-                    }*/
     }
     if (showBottomSheet) {
         ModalBottomSheet(

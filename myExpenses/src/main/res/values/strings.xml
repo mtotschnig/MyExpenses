@@ -1126,4 +1126,5 @@
     <string name="content_description_show_balance_details">Show detailed information</string>
     <string name="main_screen_focus">Focus</string>
     <string name="main_screen_split">Split</string>
+    <string name="menu_templates">Templates</string>
 </resources>
