@@ -220,7 +220,8 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     UI_MAIN_SCREEN_VERSION(R.string.pref_ui_main_screen_version_key),
     UI_START_SCREEN(R.string.pref_ui_start_screen_key),
     UI_SCREEN_LAST_VISITED("ui_screen_last_visited"),
-    UI_SCREEN_LAST_ACCOUNT_GROUP_FILTER("ui_screen_last_account_group_filter")
+    UI_SCREEN_LAST_ACCOUNT_GROUP_FILTER("ui_screen_last_account_group_filter"),
+    TELL_A_FRIEND(R.string.pref_tell_a_friend_key)
     ;
 
     @Deprecated("")

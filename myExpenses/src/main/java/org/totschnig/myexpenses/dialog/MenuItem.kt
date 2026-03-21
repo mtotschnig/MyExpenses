@@ -141,12 +141,6 @@ sealed class MenuItem(
         R.drawable.ic_archive,
     )
 
-    data object Share : MenuItem(
-        R.id.SHARE_COMMAND,
-        R.string.menu_share,
-        R.drawable.ic_share
-    )
-
     data object Settings : MenuItem(
         R.id.SETTINGS_COMMAND,
         R.string.settings_label,
@@ -230,7 +224,6 @@ sealed class MenuItem(
                 Grouping,
                 Print,
                 Archive,
-                Share,
                 Settings,
                 Help,
                 Backup,

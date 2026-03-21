@@ -756,14 +756,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                 putExtra(HelpDialogFragment.KEY_CONTEXT, "NavigationDrawer")
             })
 
-            R.id.SHARE_COMMAND -> startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply {
-                putExtra(
-                    Intent.EXTRA_TEXT,
-                    Utils.getTellAFriendMessage(this@MyExpenses).toString()
-                )
-                type = "text/plain"
-            }, getResources().getText(R.string.menu_share)))
-
             R.id.CANCEL_CALLBACK_COMMAND -> finishActionMode()
 
             R.id.ROADMAP_COMMAND -> startActivity(Intent(this, RoadmapVoteActivity::class.java))
