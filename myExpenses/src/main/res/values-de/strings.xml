@@ -76,7 +76,7 @@
     <string name="dialog_remind_rate_yes">Jetzt bewerten</string>
     <string name="dialog_security_answer">Antwort</string>
     <string name="dialog_security_question">Frage</string>
-    <!-- %1$s is replace with account label -->
+    <!-- %1$s is replaced with account label -->
     <string name="dialog_title_balance_account">%1$s abstimmen</string>
     <string name="dialog_title_contrib_feature">Premium-Funktion</string>
     <plurals name="dialog_title_warning_delete_account">
