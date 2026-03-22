@@ -9,6 +9,7 @@ import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.config.Configurator
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler
+import org.totschnig.myexpenses.util.tracking.Tracker
 import java.time.Clock
 
 //Used by Robolectric
@@ -26,6 +27,7 @@ class TestMyApplication : MyApplication() {
                     prefHandler: PrefHandler,
                     userCountry: String,
                     licenceHandler: LicenceHandler,
+                    tracker: Tracker,
                     configurator: Configurator
                 ) = object : AdHandlerFactory {}
             })

@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.util.ads
 
-import android.os.Bundle
 import android.text.format.DateUtils
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.tracking.Tracker
 
 @Suppress("SameParameterValue")
-abstract class BaseAdHandler protected constructor(
+abstract class BaseAdHandlerImpl protected constructor(
     private val factory: AdHandlerFactory,
     protected val adContainer: ViewGroup,
     protected var activity: BaseActivity
@@ -20,7 +19,7 @@ abstract class BaseAdHandler protected constructor(
         get() = activity.tracker
     val prefHandler: PrefHandler
         get() = activity.prefHandler
-    var parent: BaseAdHandler? = null
+    var parent: BaseAdHandlerImpl? = null
 
     override fun startBanner() {
         try {
@@ -97,53 +96,5 @@ abstract class BaseAdHandler protected constructor(
         } else {
             adContainer.visibility = View.GONE
         }
-    }
-
-    protected fun trackBannerRequest(provider: String) {
-        track(Tracker.EVENT_AD_REQUEST, AD_TYPE_BANNER, provider)
-    }
-
-    protected fun trackInterstitialRequest(provider: String) {
-        track(Tracker.EVENT_AD_REQUEST, AD_TYPE_INTERSTITIAL, provider)
-    }
-
-    protected fun trackBannerLoaded(provider: String) {
-        track(Tracker.EVENT_AD_LOADED, AD_TYPE_BANNER, provider)
-    }
-
-    protected fun trackInterstitialLoaded(provider: String) {
-        track(Tracker.EVENT_AD_LOADED, AD_TYPE_INTERSTITIAL, provider)
-    }
-
-    protected fun trackBannerFailed(provider: String, errorCode: String?) {
-        track(Tracker.EVENT_AD_FAILED, AD_TYPE_BANNER, provider, errorCode)
-    }
-
-    protected fun trackInterstitialFailed(provider: String, errorCode: String?) {
-        track(Tracker.EVENT_AD_FAILED, AD_TYPE_INTERSTITIAL, provider, errorCode)
-    }
-
-    protected fun trackInterstitialShown(provider: String) {
-        track(Tracker.EVENT_AD_SHOWN, AD_TYPE_INTERSTITIAL, provider)
-    }
-
-    private fun track(event: String, type: String, provider: String, errorCode: String? = null) {
-        tracker.logEvent(event, buildBundle(type, provider, errorCode))
-    }
-
-    private fun buildBundle(type: String, provider: String, errorCode: String?): Bundle {
-        val bundle = Bundle(if (errorCode == null) 2 else 3)
-        bundle.putString(Tracker.EVENT_PARAM_AD_TYPE, type)
-        bundle.putString(Tracker.EVENT_PARAM_AD_PROVIDER, provider)
-        if (errorCode != null) {
-            bundle.putString(Tracker.EVENT_PARAM_AD_ERROR_CODE, errorCode)
-        }
-        return bundle
-    }
-
-    companion object {
-        private const val INTERSTITIAL_MIN_INTERVAL = 4
-        private const val AD_TYPE_BANNER = "banner"
-        private const val AD_TYPE_INTERSTITIAL = "interstitial"
     }
 }

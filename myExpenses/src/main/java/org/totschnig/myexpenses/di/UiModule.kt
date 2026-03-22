@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.config.Configurator
 import org.totschnig.myexpenses.util.distrib.ReviewManager
 import org.totschnig.myexpenses.util.licence.LicenceHandler
+import org.totschnig.myexpenses.util.tracking.Tracker
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -32,6 +33,7 @@ open class UiModule {
         prefHandler: PrefHandler,
         @Named(AppComponent.USER_COUNTRY) userCountry: String,
         licenceHandler: LicenceHandler,
+        tracker: Tracker,
         configurator: Configurator
     ): AdHandlerFactory =
         try {
@@ -41,6 +43,7 @@ open class UiModule {
                     PrefHandler::class.java,
                     String::class.java,
                     LicenceHandler::class.java,
+                    Tracker::class.java,
                     Configurator::class.java
                 )
                 .newInstance(
@@ -48,6 +51,7 @@ open class UiModule {
                     prefHandler,
                     userCountry,
                     licenceHandler,
+                    tracker,
                     configurator
                 ) as AdHandlerFactory
         } catch (_: Exception) {

@@ -4,11 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.Keep
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.list.CustomListDialog
 import eltos.simpledialogfragment.list.SimpleListDialog
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
@@ -142,17 +144,18 @@ class PreferencesAdvancedFragment : BasePreferenceFragment(),
     }
 
     private fun configureUninstallPrefs() {
-        configureMultiSelectListPref(
-            PrefKey.FEATURE_UNINSTALL_FEATURES,
-            featureManager.installedModules(requireContext(), prefHandler),
-            featureManager::uninstallModules
-        ) { Module.print(requireContext(), it) }
-
-        configureMultiSelectListPref(
-            PrefKey.FEATURE_UNINSTALL_LANGUAGES,
-            featureManager.installedLanguages() - "en",
-            featureManager::uninstallLanguages
-        ) { language -> Locale(language).let { it.getDisplayName(it) } }
+        lifecycleScope.launch {
+            configureMultiSelectListPref(
+                PrefKey.FEATURE_UNINSTALL_FEATURES,
+                featureManager.installedModules(requireContext(), prefHandler, dataStore),
+                featureManager::uninstallModules
+            ) { Module.print(requireContext(), it) }
+            configureMultiSelectListPref(
+                PrefKey.FEATURE_UNINSTALL_LANGUAGES,
+                featureManager.installedLanguages() - "en",
+                featureManager::uninstallLanguages
+            ) { language -> Locale(language).let { it.getDisplayName(it) } }
+        }
     }
 
     private fun configureMultiSelectListPref(
@@ -197,7 +200,7 @@ class PreferencesAdvancedFragment : BasePreferenceFragment(),
                                     File(logDir, it)
                                 )
                             })
-                        Timber.d("ATTACHMENTS" + arrayList.joinToString())
+                        Timber.d("ATTACHMENTS: %s", arrayList.joinToString())
                         putParcelableArrayListExtra(
                             Intent.EXTRA_STREAM,
                             arrayList

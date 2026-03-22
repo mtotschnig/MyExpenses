@@ -11,6 +11,8 @@ interface AdHandlerFactory {
 
     fun create(adContainer: ViewGroup, baseActivity: BaseActivity): AdHandler = NoOpAdHandler
 
+    fun createV2(): AdHandlerV2 = NoOpAdHandler
+
     /**
      * @param context   context in which callback action will be taken
      * @param forceShow if false, consent form is only shown if consent is unknown

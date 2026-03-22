@@ -63,6 +63,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalResources
@@ -102,6 +103,7 @@ import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.main.AppEventHandler
 import org.totschnig.myexpenses.compose.main.parseMenu
 import org.totschnig.myexpenses.compose.main.rememberCollapsingTabRowState
+import org.totschnig.myexpenses.compose.optional
 import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
@@ -131,6 +133,7 @@ fun TransactionScreen(
     pageContent: @Composable (PageAccount, Boolean) -> Unit,
     windowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
     isFramed: Boolean,
+    adView: @Composable () -> Unit,
 ) {
     LaunchedEffect(Unit) {
         viewModel.setLastVisited(StartScreen.Transactions)
@@ -306,47 +309,56 @@ fun TransactionScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            if (accountList.size > 1) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .nestedScroll(tabRowState.nestedScrollConnection)
-                ) {
-                    Column(
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .nestedScroll(tabRowState.nestedScrollConnection)
+            ) {
+                adView()
+                if (accountList.size > 1) {
+                    Row(
                         modifier = Modifier
-                            .height(with(LocalDensity.current) { tabRowState.heightPx.toDp() })
-                            .clipToBounds()
-                    ) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            if (accountGrouping != AccountGrouping.NONE && availableFilters.size > 1) {
-                                AccountFilterMenu(
-                                    activeFilter = activeFilter,
-                                    availableFilters = availableFilters,
-                                    onFilterChange = viewModel::setFilter,
-                                )
+                            .optional(tabRowState.heightPx) {
+                                height(with(LocalDensity.current) { it.toDp() })
                             }
-                            val selectedTabIndex =
-                                pagerState.currentPage.coerceAtMost(accountList.lastIndex)
-                            SecondaryScrollableTabRow(
-                                selectedTabIndex = selectedTabIndex,
-                                edgePadding = 0.dp
-                            ) {
-                                accountList.forEachIndexed { index, account ->
-                                    Tab(
-                                        selected = selectedTabIndex == index,
-                                        onClick = {
-                                            coroutineScope.launch {
-                                                pagerState.animateScrollToPage(index)
-                                            }
-                                        },
-                                        text = {
-                                            Text(
-                                                account.labelV2(LocalContext.current),
-                                                maxLines = 1
-                                            )
+                        //.clipToBounds() // check needed if needed
+                        ,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        if (accountGrouping != AccountGrouping.NONE && availableFilters.size > 1) {
+                            AccountFilterMenu(
+                                activeFilter = activeFilter,
+                                availableFilters = availableFilters,
+                                onFilterChange = viewModel::setFilter,
+                            )
+                        }
+                        val selectedTabIndex =
+                            pagerState.currentPage.coerceAtMost(accountList.lastIndex)
+                        SecondaryScrollableTabRow(
+                            selectedTabIndex = selectedTabIndex,
+                            modifier = Modifier
+                                .onSizeChanged { size ->
+                                    if (size.height > (tabRowState.maxHeightPx ?: 0f)) {
+                                        tabRowState.maxHeightPx = size.height.toFloat()
+                                    }
+                                },
+                            edgePadding = 0.dp
+                        ) {
+                            accountList.forEachIndexed { index, account ->
+                                Tab(
+                                    selected = selectedTabIndex == index,
+                                    onClick = {
+                                        coroutineScope.launch {
+                                            pagerState.animateScrollToPage(index)
                                         }
-                                    )
-                                }
+                                    },
+                                    text = {
+                                        Text(
+                                            account.labelV2(LocalContext.current),
+                                            maxLines = 1
+                                        )
+                                    }
+                                )
                             }
                         }
                     }
@@ -378,9 +390,9 @@ fun TransactionScreen(
                             TransactionListPage(accountList[page], isCurrentPage, pageContent)
                         }
                     }
+                } else {
+                    TransactionListPage(accountList.first(), true, pageContent)
                 }
-            } else {
-                TransactionListPage(accountList.first(), true, pageContent)
             }
 
             val scope = rememberCoroutineScope()
@@ -595,7 +607,7 @@ private fun BalanceHeader(
 @Composable
 private fun AccountLabel(
     account: BaseAccount,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Text(
         modifier = modifier,

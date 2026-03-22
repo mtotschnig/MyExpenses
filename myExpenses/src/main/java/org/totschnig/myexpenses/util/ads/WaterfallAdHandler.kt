@@ -4,7 +4,12 @@ import android.view.ViewGroup
 import org.totschnig.myexpenses.activity.BaseActivity
 
 @Suppress("unused")
-class WaterfallAdHandler internal constructor(factory: AdHandlerFactory, adContainer: ViewGroup, activity: BaseActivity, private vararg val cascade: BaseAdHandler) : BaseAdHandler(factory, adContainer, activity) {
+class WaterfallAdHandler internal constructor(
+    factory: AdHandlerFactory,
+    adContainer: ViewGroup,
+    activity: BaseActivity,
+    private vararg val cascade: BaseAdHandlerImpl,
+) : BaseAdHandlerImpl(factory, adContainer, activity) {
     private var cascadingIndex = 0
     private var cascadingIndexInterstitial = 0
     public override fun startBannerInternal() {
@@ -22,9 +27,9 @@ class WaterfallAdHandler internal constructor(factory: AdHandlerFactory, adConta
         requestNewInterstitialCurrent()
     }
 
-    private val current: BaseAdHandler?
+    private val current: BaseAdHandlerImpl?
         get() = if (cascadingIndex < cascade.size) cascade[cascadingIndex] else null
-    private val currentForInterstitial: BaseAdHandler?
+    private val currentForInterstitial: BaseAdHandlerImpl?
         get() = if (cascadingIndexInterstitial < cascade.size) cascade[cascadingIndexInterstitial] else null
 
     override fun hide() {
@@ -51,7 +56,7 @@ class WaterfallAdHandler internal constructor(factory: AdHandlerFactory, adConta
     }
 
     override fun onEditTransactionResult() =
-            currentForInterstitial?.onEditTransactionResult() ?: false
+        currentForInterstitial?.onEditTransactionResult() ?: false
 
     override fun onResume() {
         val current = current

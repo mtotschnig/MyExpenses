@@ -992,7 +992,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                     if (transaction.transferPeerIsArchived == true) R.string.warning_archived_transfer_cannot_be_edited else R.string.warning_splitpartcategory_context
                 )
             } else {
-                startActivityForResult(
+                startEdit(
                     Intent(this, ExpenseEdit::class.java).apply {
                         putExtra(KEY_ROWID, transaction.id)
                         putExtra(KEY_COLOR, transaction.color ?: currentAccount?.color(resources))
@@ -1000,7 +1000,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                             putExtra(ExpenseEdit.KEY_CLONE, true)
                         }
 
-                    }, EDIT_REQUEST
+                    }
                 )
             }
         }

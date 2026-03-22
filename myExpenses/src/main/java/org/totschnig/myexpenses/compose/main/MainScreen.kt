@@ -149,6 +149,7 @@ fun MainScreenAdaptive(
     onPrepareMenuItem: (itemId: Int) -> Boolean,
     flags: List<AccountFlag> = emptyList(),
     bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
+    adView: @Composable () -> Unit,
     pageContent: @Composable (pageAccount: PageAccount, isCurrent: Boolean) -> Unit,
 ) {
 
@@ -381,7 +382,8 @@ fun MainScreenAdaptive(
                                 }
                             },
                             windowInsets = customInsets,
-                            isFramed = isRail
+                            isFramed = isRail,
+                            adView = adView
                         )
                     }
                 }

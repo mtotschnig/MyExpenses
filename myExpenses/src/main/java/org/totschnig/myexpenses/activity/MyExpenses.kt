@@ -1267,18 +1267,9 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
         }
     }
 
-    override fun onActivityResult(
-        requestCode: Int, resultCode: Int,
-        intent: Intent?,
-    ) {
-        super.onActivityResult(requestCode, resultCode, intent)
-        if (requestCode == EDIT_REQUEST) {
-            floatingActionButton.show()
-            if (resultCode == RESULT_OK) {
-                if (!adHandler.onEditTransactionResult()) {
-                    reviewManager.onEditTransactionResult(this)
-                }
-            }
+    override fun onEditTransactionResult() {
+        if (!adHandler.onEditTransactionResult()) {
+            reviewManager.onEditTransactionResult(this)
         }
     }
 

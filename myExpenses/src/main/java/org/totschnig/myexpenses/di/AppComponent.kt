@@ -63,7 +63,7 @@ import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.task.GrisbiImportTask
 import org.totschnig.myexpenses.util.ExchangeRateHandler
 import org.totschnig.myexpenses.util.ICurrencyFormatter
-import org.totschnig.myexpenses.util.ads.BaseAdHandler
+import org.totschnig.myexpenses.util.ads.BaseAdHandlerImpl
 import org.totschnig.myexpenses.util.config.Configurator
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler
@@ -195,7 +195,7 @@ interface AppComponent {
 
     fun inject(transactionListComposeDialogFragment: TransactionListComposeDialogFragment)
 
-    fun inject(adHandler: BaseAdHandler)
+    fun inject(adHandler: BaseAdHandlerImpl)
 
     fun inject(contribDialogFragment: ContribDialogFragment)
 

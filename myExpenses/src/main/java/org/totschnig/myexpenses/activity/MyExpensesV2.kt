@@ -48,6 +48,8 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.KEY_SORT_KEY
 import org.totschnig.myexpenses.provider.triggerAccountListRefresh
+import org.totschnig.myexpenses.util.ads.AdHandlerV2
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.SumInfo
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
@@ -63,7 +65,10 @@ enum class StartScreen {
  * Help,
  * initial state after first install
  */
-class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(), SortUtilityDialogFragment.OnConfirmListener {
+class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
+    SortUtilityDialogFragment.OnConfirmListener {
+
+    private lateinit var adHandler: AdHandlerV2
 
     override fun handleRootWindowInsets() {}
 
@@ -81,13 +86,39 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(), SortUtilityDialogF
         viewModel.selectionState.value = emptyList()
     }
 
+    val shouldShowAds
+        get() = !adHandlerFactory.isAdDisabled && adHandlerFactory.isInitialized
+
+    private fun maybeRequestNewInterstitial() {
+        if (shouldShowAds) {
+            try {
+                adHandler.maybeRequestNewInterstitial(this)
+            } catch (e: Exception) {
+                report(e)
+            }
+        }
+    }
+
+    override fun onEditTransactionResult() {
+        if (shouldShowAds) {
+            if (!adHandler.onEditTransactionResult(this)) {
+                //TODO
+                //reviewManager.onEditTransactionResult(this)
+            }
+        }
+    }
+
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         viewModel = ViewModelProvider(this)[MyExpensesV2ViewModel::class.java]
         with(injector) {
             inject(viewModel)
         }
+
+        adHandler = adHandlerFactory.createV2()
+        maybeRequestNewInterstitial()
 
         setContent {
             AppTheme {
@@ -241,6 +272,9 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(), SortUtilityDialogF
                             onPrepareContextMenuItem = ::isContextMenuItemVisible,
                             onPrepareMenuItem = { itemId -> currentAccount.isMenuItemVisible(itemId) },
                             flags = viewModel.accountFlags.collectAsState(emptyList()).value,
+                            adView = {
+                                adHandler.Banner()
+                            },
                             bankIcon = { modifier, id ->
                                 banks.value.find { it.id == id }
                                     ?.let { bank ->
@@ -250,7 +284,14 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(), SortUtilityDialogF
                                         )
                                     }
                             }
-                        ) { pageAccount, isCurrent -> Page(pageAccount, accounts.size, isCurrent, v2 = true) }
+                        ) { pageAccount, isCurrent ->
+                            Page(
+                                pageAccount,
+                                accounts.size,
+                                isCurrent,
+                                v2 = true
+                            )
+                        }
 
                         if (showSortDialog.value) {
                             val sortByFlagFirst = rememberSaveable {
@@ -271,10 +312,13 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(), SortUtilityDialogF
                             val scope = rememberCoroutineScope()
                             AlertDialog(
                                 onDismissRequest = { showSortDialog.value = false },
-                                confirmButton =  {
+                                confirmButton = {
                                     Button(onClick = {
                                         scope.launch {
-                                            prefHandler.putString(PrefKey.SORT_ORDER_ACCOUNTS, selectedSort.value.name)
+                                            prefHandler.putString(
+                                                PrefKey.SORT_ORDER_ACCOUNTS,
+                                                selectedSort.value.name
+                                            )
                                             viewModel.sortByFlagFirst.set(sortByFlagFirst.value)
                                             contentResolver.triggerAccountListRefresh()
                                             showSortDialog.value = false
@@ -309,8 +353,8 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(), SortUtilityDialogF
     }
 
     override suspend fun accountForNewTransaction() = Optional.ofNullable(
-        currentAccount as? FullAccount ?:
-        viewModel.accountDataV2.value?.getOrNull()?.maxByOrNull { it.lastUsed }
+        currentAccount as? FullAccount ?: viewModel.accountDataV2.value?.getOrNull()
+            ?.maxByOrNull { it.lastUsed }
     )
 
     override fun onSortOrderConfirmed(sortedIds: LongArray) {

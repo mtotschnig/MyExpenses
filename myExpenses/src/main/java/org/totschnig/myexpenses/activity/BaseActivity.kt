@@ -1449,6 +1449,14 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             }
         }
 
+    open fun onEditTransactionResult() {}
+
+    private val editLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == RESULT_OK) {
+            onEditTransactionResult()
+        }
+    }
+
     protected val calledFromOnboarding: Boolean
         get() = callingActivity?.let {
             Utils.getSimpleClassNameFromComponentName(it)
@@ -1591,7 +1599,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     open suspend fun getEditIntent(): Intent? = Intent(this, ExpenseEdit::class.java)
 
     open fun startEdit(intent: Intent) {
-        startActivityForResult(intent, EDIT_REQUEST)
+        editLauncher.launch(intent)
     }
 
     protected fun setupWithFragment(

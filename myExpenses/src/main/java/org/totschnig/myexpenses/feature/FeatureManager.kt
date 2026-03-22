@@ -256,9 +256,10 @@ abstract class FeatureManager {
     }
 
     open fun allowsUninstall() = false
-    open fun installedModules(
+    open suspend fun installedModules(
         context: Context,
         prefHandler: PrefHandler,
+        datastore: DataStore<Preferences>,
         onlyUninstallable: Boolean = true
     ): Set<String> = emptySet()
 
