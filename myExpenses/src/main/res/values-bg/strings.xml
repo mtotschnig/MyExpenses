@@ -36,7 +36,7 @@
     <string name="contrib_feature_csv_import_label">Импорт от CSV</string>
     <string name="contrib_feature_split_template_label">Неограничен брой шаблони за  разпределяне</string>
     <string name="contrib_feature_pro_support_label"><b>Поддръжка по имейл</b> с гарантиран отговор до 2 работни дни</string>
-    <string name="contrib_feature_roadmap_voting_label">Право да гласувате на <b> карта за развитие </b></string>
+    <string name="contrib_feature_roadmap_voting_label">Право да гласувате на <b>картата за развитие</b></string>
     <string name="contrib_feature_history_label">Графика на историята</string>
     <string name="licence_status_free">Безплатен</string>
     <string name="contrib_key">ключ за Основен вариант</string>
