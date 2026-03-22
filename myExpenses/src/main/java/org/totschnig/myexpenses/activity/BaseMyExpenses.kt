@@ -863,86 +863,88 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
     }
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
-        currentAccount?.also { currentAccount ->
-            when (feature) {
-                ContribFeature.DISTRIBUTION -> {
+        when (feature) {
+            ContribFeature.DISTRIBUTION -> {
+                currentAccount?.let {
                     recordUsage(feature)
                     startActivity(Intent(this, DistributionActivity::class.java).apply {
-                        forwardCurrentConfiguration(currentAccount)
+                        forwardCurrentConfiguration(it)
                     })
                 }
+            }
 
-                ContribFeature.HISTORY -> {
+            ContribFeature.HISTORY -> {
+                currentAccount?.let {
                     recordUsage(feature)
                     startActivity(Intent(this, HistoryActivity::class.java).apply {
-                        forwardCurrentConfiguration(currentAccount)
+                        forwardCurrentConfiguration(it)
                     })
                 }
+            }
 
-                ContribFeature.SPLIT_TRANSACTION -> {
-                    if (tag != null) {
-                        showConfirmationDialog(
-                            tag = "SPLIT_TRANSACTION",
-                            message = getString(R.string.warning_split_transactions),
-                            commandPositive = R.id.SPLIT_TRANSACTION_COMMAND,
-                            commandPositiveLabel = R.string.menu_split_transaction
-                        ) {
-                            putLongArray(KEY_ROW_IDS, tag as LongArray?)
-                        }
-                    } else {
-                        createRowDo(TYPE_SPLIT, false)
+            ContribFeature.SPLIT_TRANSACTION -> {
+                if (tag != null) {
+                    showConfirmationDialog(
+                        tag = "SPLIT_TRANSACTION",
+                        message = getString(R.string.warning_split_transactions),
+                        commandPositive = R.id.SPLIT_TRANSACTION_COMMAND,
+                        commandPositiveLabel = R.string.menu_split_transaction
+                    ) {
+                        putLongArray(KEY_ROW_IDS, tag as LongArray?)
                     }
+                } else {
+                    createRowDo(TYPE_SPLIT, false)
                 }
+            }
 
-                ContribFeature.PRINT -> {
+            ContribFeature.PRINT -> {
+                currentAccount?.let {
                     showProgressSnackBar(
                         getString(R.string.progress_dialog_printing, "PDF")
                     )
                     if (tag == ExportViewModel.PRINT_TRANSACTION_LIST) {
                         viewModel.print(
-                            currentAccount.toPageAccount(this),
+                            it.toPageAccount(this),
                             currentFilter.whereFilter.value
                         )
                     } else if (tag == ExportViewModel.PRINT_BALANCE_SHEET) {
                         viewModel.printBalanceSheet()
                     }
                 }
-
-                ContribFeature.BUDGET -> {
-                    if (tag != null) {
-                        val (budgetId, headerId) = tag as Pair<Long, Int>
-                        startActivity(Intent(this, BudgetActivity::class.java).apply {
-                            putExtra(KEY_ROWID, budgetId)
-                            fillIntentForGroupingFromTag(headerId)
-                        })
-                    } else {
-                        recordUsage(feature)
-                        val i = Intent(this, ManageBudgets::class.java)
-                        startActivity(i)
-                    }
-                }
-
-                ContribFeature.BANKING -> {
-                    val (bankId, accountId, accountTypeId) = tag as Triple<Long, Long, Long>
-                    bankingFeature.startSyncFragment(
-                        bankId,
-                        accountId,
-                        accountTypeId,
-                        supportFragmentManager
-                    )
-                }
-
-                ContribFeature.OCR -> if (featureViewModel.isFeatureAvailable(this, Feature.OCR)) {
-                    //ocrViewModel.startOcrFeature(Uri.parse("file:///android_asset/OCR.jpg"), supportFragmentManager);
-                    startMediaChooserDo("SCAN")
-                } else {
-                    featureViewModel.requestFeature(this, Feature.OCR)
-                }
-
-                else -> super.contribFeatureCalled(feature, tag)
             }
-        } ?: run {
-            showSnackBar(R.string.no_accounts)
+
+            ContribFeature.BUDGET -> {
+                if (tag != null) {
+                    val (budgetId, headerId) = tag as Pair<Long, Int>
+                    startActivity(Intent(this, BudgetActivity::class.java).apply {
+                        putExtra(KEY_ROWID, budgetId)
+                        fillIntentForGroupingFromTag(headerId)
+                    })
+                } else {
+                    recordUsage(feature)
+                    val i = Intent(this, ManageBudgets::class.java)
+                    startActivity(i)
+                }
+            }
+
+            ContribFeature.BANKING -> {
+                val (bankId, accountId, accountTypeId) = tag as Triple<Long, Long, Long>
+                bankingFeature.startSyncFragment(
+                    bankId,
+                    accountId,
+                    accountTypeId,
+                    supportFragmentManager
+                )
+            }
+
+            ContribFeature.OCR -> if (featureViewModel.isFeatureAvailable(this, Feature.OCR)) {
+                //ocrViewModel.startOcrFeature(Uri.parse("file:///android_asset/OCR.jpg"), supportFragmentManager);
+                startMediaChooserDo("SCAN")
+            } else {
+                featureViewModel.requestFeature(this, Feature.OCR)
+            }
+
+            else -> super.contribFeatureCalled(feature, tag)
         }
     }
 
