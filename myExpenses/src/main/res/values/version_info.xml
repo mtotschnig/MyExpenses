@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="versions">
+        <item>836;4.0.6.4</item>
         <item>835;4.0.6.3</item>
         <item>834;4.0.6.2</item>
         <item>833;4.0.6.1</item>
@@ -103,6 +104,7 @@
     <string name="version_more_info_406">116012878168587523</string>
     <string name="version_more_info_4061">116052521938195514</string>
     <string name="version_more_info_4062">116094165112887179</string>
+    <string name="version_more_info_4064">116273927132263054</string>
 
     <!-- Github -->
     <!-- Legacy -->
@@ -157,7 +159,7 @@
     <string name="project_board_4061">179</string>
     <string name="project_board_4062">180</string>
     <string name="project_board_4063">181</string>
-
+    <string name="project_board_4064">182</string>
 
     <string-array name="whats_new_361">
         <item>@string/whats_new_361_1</item>
