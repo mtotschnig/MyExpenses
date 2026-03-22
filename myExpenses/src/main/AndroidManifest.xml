@@ -389,13 +389,13 @@
             android:theme="@style/EditDialog" />
 
         <activity
-            android:name="org.totschnig.myexpenses.activity.TemplateSaver"
+            android:name=".activity.TemplateSaver"
             android:exported="true"
             android:taskAffinity=""
             android:theme="@style/Translucent" />
 
-        <activity android:name="org.totschnig.myexpenses.activity.PriceHistory" />
-        <activity android:name="org.totschnig.myexpenses.activity.PrintLayoutConfiguration" android:label="Layout" />
+        <activity android:name=".activity.PriceHistory" />
+        <activity android:name=".activity.PrintLayoutConfiguration" android:label="Layout" />
 
         <activity
             android:name=".activity.ManageAccountTypes"
@@ -408,7 +408,7 @@
             android:theme="@style/EditDialog"/>
 
         <activity
-            android:name="org.totschnig.myexpenses.activity.MyExpensesV2"
+            android:name=".activity.MyExpensesV2"
             android:launchMode="singleTop" />
 
         <service
