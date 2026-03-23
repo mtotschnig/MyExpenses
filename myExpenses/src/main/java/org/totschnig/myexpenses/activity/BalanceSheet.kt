@@ -100,6 +100,8 @@ fun BalanceSheetOptions(
     showChartState: MutableState<Boolean>,
     highlight: MutableState<Triple<Boolean, Int, Long?>?>,
     onPrint: () -> Unit,
+    isFullScreen: Boolean = true,
+    onToggleFullScreen: (() -> Unit)? = null,
 ) {
     TooltipIconButton(
         tooltip = stringResource(R.string.menu_print),
@@ -135,6 +137,14 @@ fun BalanceSheetOptions(
             ) {
                 showChartState.value = !showChartState.value
                 highlight.value = null
+            },
+            onToggleFullScreen?.let {
+                CheckableMenuEntry(
+                    label = R.string.full_screen,
+                    isChecked = isFullScreen,
+                    command = "FULL_SCREEN",
+                    action = onToggleFullScreen
+                )
             }
         )
     )
@@ -180,7 +190,7 @@ fun BalanceSheetView(
                     showZeroState.takeIf { accounts.any { it.currentBalance == 0L } },
                     showChartState,
                     highlight,
-                    onPrint
+                    onPrint,
                 )
             },
             colors = TopAppBarDefaults.topAppBarColors()

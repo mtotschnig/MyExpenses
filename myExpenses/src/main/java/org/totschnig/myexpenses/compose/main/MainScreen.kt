@@ -169,7 +169,7 @@ fun MainScreenAdaptive(
     val adaptiveInfo = currentWindowAdaptiveInfo()
 
     val defaultDirective = calculatePaneScaffoldDirective(adaptiveInfo)
-    val defaultExpanded = defaultDirective.maxHorizontalPartitions > 1
+    val defaultIs2Pane = defaultDirective.maxHorizontalPartitions > 1
 
     val navigator = rememberListDetailPaneScaffoldNavigator<FullAccount>(
         scaffoldDirective = defaultDirective.run {
@@ -179,7 +179,7 @@ fun MainScreenAdaptive(
                     AccountPanelState.EXPANDED -> 2
                     AccountPanelState.COLLAPSED -> 1
                     AccountPanelState.DEFAULT -> maxHorizontalPartitions
-                }
+                },
             )
         },
         initialDestinationHistory = listOf(
@@ -197,7 +197,7 @@ fun MainScreenAdaptive(
 
     val accountGrouping = viewModel.accountGrouping.asState()
 
-    val isExpanded = navigator.scaffoldDirective.maxHorizontalPartitions > 1
+    val is2Pane = navigator.scaffoldDirective.maxHorizontalPartitions > 1
 
     var showBottomSheet by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
@@ -216,33 +216,7 @@ fun MainScreenAdaptive(
     NavigationSuiteScaffold(
         layoutType = layoutType,
         navigationSuiteItems = {
-            if (layoutType.isRail()) {
-                item(
-                    selected = false,
-                    onClick = {
-                        scope.launch {
-                            viewModel.accountPanelState.set(
-                                when {
-                                    isExpanded && defaultExpanded -> AccountPanelState.COLLAPSED
-                                    !isExpanded && !defaultExpanded -> AccountPanelState.EXPANDED
-                                    else -> AccountPanelState.DEFAULT
-                                }
-                            )
-                        }
-                    },
-                    icon = {
-                        Icon(
-                            imageVector = if (isExpanded) Icons.Outlined.Rectangle
-                            else Icons.Outlined.ViewColumn,
-                            contentDescription = null
-                        )
-                    },
-                    label = {
-                        Text(stringResource(if (isExpanded) R.string.main_screen_focus else R.string.main_screen_split))
-                    }
-                )
-            }
-            if (!isExpanded) {
+            if (!is2Pane) {
                 listOfNotNull(
                     Screen.Accounts,
                     Screen.Transactions.takeIf { accounts.isNotEmpty() }
@@ -305,7 +279,7 @@ fun MainScreenAdaptive(
         }
     ) {
 
-        val isSinglePaneMode = !isExpanded
+        val isSinglePaneMode = !is2Pane
 
         BackHandler(enabled = isSinglePaneMode && navigator.canNavigateBack()) {
             scope.launch {
@@ -322,12 +296,10 @@ fun MainScreenAdaptive(
         ListDetailPaneScaffold(
             directive = navigator.scaffoldDirective,
             value = navigator.scaffoldValue,
-
             listPane = {
-
                 PaneSurface(
                     isRail = isRail,
-                    extraPadding = !isExpanded
+                    extraPadding = !is2Pane
                 ) {
                     AnimatedPane {
                         AccountsScreen(
@@ -340,7 +312,21 @@ fun MainScreenAdaptive(
                             onAccountEvent = onAccountEvent,
                             flags = flags,
                             bankIcon = bankIcon,
-                            windowInsets = customInsets
+                            windowInsets = customInsets,
+                            isFullScreen = !isRail || !is2Pane,
+                            onToggleFullScreen = if (isRail) {
+                                {
+                                    scope.launch {
+                                        viewModel.accountPanelState.set(
+                                            when {
+                                                is2Pane && defaultIs2Pane -> AccountPanelState.COLLAPSED
+                                                !is2Pane && !defaultIs2Pane -> AccountPanelState.EXPANDED
+                                                else -> AccountPanelState.DEFAULT
+                                            }
+                                        )
+                                    }
+                                }
+                            } else null
                         ) {
                             scope.launch {
                                 navigator.navigateTo(ListDetailPaneScaffoldRole.Detail)
@@ -372,11 +358,11 @@ fun MainScreenAdaptive(
                             visibleActionItems = when {
                                 adaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
                                     WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND
-                                ) -> if (isExpanded) 4 else 6
+                                ) -> if (is2Pane) 4 else 6
 
                                 adaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
                                     WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND
-                                ) && !isExpanded -> 4
+                                ) && !is2Pane -> 4
 
                                 else -> when {
                                     fontScale > 1.5f -> 0

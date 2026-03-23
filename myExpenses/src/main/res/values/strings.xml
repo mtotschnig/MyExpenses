@@ -1124,7 +1124,5 @@
     <string name="content_description_select_recent_file">Select from recent files</string>
     <!-- Content description used by Talkback for the account title on the transaction screen, which when activated (tapped upon) opens a popup with detailed information about the account -->
     <string name="content_description_show_balance_details">Show detailed information</string>
-    <string name="main_screen_focus">Focus</string>
-    <string name="main_screen_split">Split</string>
     <string name="menu_templates">Templates</string>
 </resources>

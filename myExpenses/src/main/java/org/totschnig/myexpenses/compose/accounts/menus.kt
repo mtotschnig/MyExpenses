@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.compose.accounts
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DataObject
 import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Schema
 import androidx.compose.material.icons.filled.SortByAlpha
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.runtime.Composable
@@ -24,7 +23,9 @@ import org.totschnig.myexpenses.model.AccountGrouping
 fun ViewOptionsMenu(
     activeGrouping: AccountGrouping<*>,
     onGroupingChange: (AccountGrouping<*>) -> Unit,
-    onSort: () -> Unit
+    onSort: () -> Unit,
+    isFullScreen: Boolean,
+    onToggleFullScreen: (() -> Unit)?,
 ) {
 
     val groupingOptions = remember { AccountGrouping.ALL_VALUES }
@@ -32,7 +33,7 @@ fun ViewOptionsMenu(
     TooltipIconMenu(
         imageVector = Icons.Default.Tune,
         tooltip = stringResource(R.string.options),
-        menu = listOf(
+        menu = listOfNotNull(
             SubMenuEntry(
                 label = R.string.menu_grouping,
                 subMenu = groupingOptions.map { option ->
@@ -46,11 +47,19 @@ fun ViewOptionsMenu(
                 icon = Icons.Default.DateRange
             ),
             MenuEntry(
-              label =   R.string.display_options_sort_list_by,
+                label = R.string.display_options_sort_list_by,
                 icon = Icons.Default.SortByAlpha,
                 command = "SORT",
                 action = onSort
             ),
+            onToggleFullScreen?.let {
+                CheckableMenuEntry(
+                    label = R.string.full_screen,
+                    isChecked = isFullScreen,
+                    command = "FULL_SCREEN",
+                    action = onToggleFullScreen
+                )
+            }
         )
     )
 }
