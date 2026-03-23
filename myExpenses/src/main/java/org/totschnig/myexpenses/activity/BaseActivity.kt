@@ -302,7 +302,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 .body(body)
                 .start()
         ) {
-            showMessage(body)
+            showMessage(message = body, title = subject)
         }
     }
 
@@ -1133,13 +1133,14 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     @JvmOverloads
     open fun showMessage(
         message: CharSequence,
+        title: CharSequence? = null,
         positive: MessageDialogFragment.Button? = MessageDialogFragment.okButton(),
         neutral: MessageDialogFragment.Button? = null,
         negative: MessageDialogFragment.Button? = null,
         cancellable: Boolean = true,
     ) {
         lifecycleScope.launchWhenResumed {
-            MessageDialogFragment.newInstance(null, message, positive, neutral, negative).apply {
+            MessageDialogFragment.newInstance(title, message, positive, neutral, negative).apply {
                 isCancelable = cancellable
             }.show(supportFragmentManager, "MESSAGE")
         }
@@ -1734,21 +1735,21 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 result.onSuccess { (uri, name) ->
                     recordUsage(ContribFeature.PRINT)
                     showMessage(
-                        getString(R.string.export_sdcard_success, name),
-                        MessageDialogFragment.Button(
+                        message = getString(R.string.export_sdcard_success, name),
+                        positive = MessageDialogFragment.Button(
                             R.string.menu_open,
                             R.id.OPEN_PDF_COMMAND,
                             uri.toString(),
                             true
                         ),
-                        MessageDialogFragment.nullButton(R.string.button_label_close),
-                        MessageDialogFragment.Button(
+                        neutral = MessageDialogFragment.nullButton(R.string.button_label_close),
+                        negative = MessageDialogFragment.Button(
                             R.string.share,
                             R.id.SHARE_PDF_COMMAND,
                             uri.toString(),
                             true
                         ),
-                        false
+                        cancellable = false
                     )
                 }.onFailure {
                     report(it)

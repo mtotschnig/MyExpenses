@@ -7,7 +7,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
 import org.totschnig.myexpenses.feature.Feature
@@ -63,15 +62,14 @@ abstract class RestoreActivity: ProtectedFragmentActivity() {
     fun doWithEncryptionCheck(block: () -> Unit) {
         if (prefHandler.encryptDatabase && !isSqlCryptLoaded) {
             showMessage(
-                "The module required for database encryption has not yet been downloaded from Play Store. Please try again!",
-                null,
-                null,
-                MessageDialogFragment.Button(
+                message = "The module required for database encryption has not yet been downloaded from Play Store. Please try again!",
+                positive = null,
+                negative = MessageDialogFragment.Button(
                     R.string.button_label_close,
                     R.id.QUIT_COMMAND,
                     null
                 ),
-                false
+                cancellable = false
             )
         } else {
            block()

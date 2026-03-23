@@ -410,21 +410,20 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                     }?.onFailure {
                         val (message, forceQuit) = it.processDataLoadingFailure()
                         showMessage(
-                            message,
-                            if (!forceQuit) {
+                            message = message,
+                            positive = if (!forceQuit) {
                                 MessageDialogFragment.Button(
                                     R.string.safe_mode,
                                     R.id.SAFE_MODE_COMMAND,
                                     null
                                 )
                             } else null,
-                            null,
-                            MessageDialogFragment.Button(
+                            negative = MessageDialogFragment.Button(
                                 R.string.button_label_close,
                                 R.id.QUIT_COMMAND,
                                 null
                             ),
-                            false
+                            cancellable = false
                         )
                     }
                 }
