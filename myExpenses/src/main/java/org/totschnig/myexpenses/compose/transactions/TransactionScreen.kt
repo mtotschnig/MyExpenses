@@ -31,9 +31,12 @@ import androidx.compose.material.icons.filled.DragHandle
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.Functions
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -57,7 +60,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
@@ -398,24 +400,40 @@ fun TransactionScreen(
 
             val scope = rememberCoroutineScope()
 
-            FloatingActionToolbar(
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 16.dp),
-                lastAction = viewModel.lastAction.flow.collectAsState(Action.Expense).value,
-                containerColor = Color(currentAccount.color(LocalResources.current)),
-            ) { action ->
-
-                scope.launch {
-                    viewModel.lastAction.set(action)
-                }
-
-                onEvent(
-                    AppEvent.CreateTransaction(
-                        action = action,
-                        transferEnabled = accounts.size > 1
+            val fabModifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 16.dp)
+            if (currentAccount is FullAccount && (currentAccount as FullAccount).sealed) {
+                FloatingActionButton(
+                    modifier = fabModifier,
+                    onClick = { },
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f),
+                    elevation = FloatingActionButtonDefaults.elevation(
+                        defaultElevation = 0.dp,
+                        pressedElevation = 0.dp
                     )
-                )
+                ) {
+                    Icon(Icons.Default.Lock, stringResource(R.string.account_closed))
+                }
+            } else {
+                FloatingActionToolbar(
+                    modifier = fabModifier,
+                    lastAction = viewModel.lastAction.flow.collectAsState(Action.Expense).value,
+                    containerColor = Color(currentAccount.color(LocalResources.current)),
+                ) { action ->
+
+                    scope.launch {
+                        viewModel.lastAction.set(action)
+                    }
+
+                    onEvent(
+                        AppEvent.CreateTransaction(
+                            action = action,
+                            transferEnabled = accounts.size > 1
+                        )
+                    )
+                }
             }
         }
     }
