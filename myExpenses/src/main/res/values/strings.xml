@@ -1125,4 +1125,10 @@
     <!-- Content description used by Talkback for the account title on the transaction screen, which when activated (tapped upon) opens a popup with detailed information about the account -->
     <string name="content_description_show_balance_details">Show detailed information</string>
     <string name="menu_templates">Templates</string>
+    <!-- Title of a preference where user configures if app starts with Account list, Balance Sheet, Transactions, or Last visited -->
+    <string name="pref_ui_start_screen_title">Start screen</string>
+    <!-- Preference option for having app start on last visited Screen -->
+    <string name="pref_ui_start_screen_last_visited">Last visited</string>
+    <!-- Entry in a list of preferences for customizing different menus, one of them being the "Main navigation" menu, where user switches between Accounts and Transactions screens, or selects other top level destinations, e.g. Templates -->
+    <string name="main_navigation">Main navigation</string>
 </resources>

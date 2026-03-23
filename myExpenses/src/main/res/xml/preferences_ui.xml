@@ -62,7 +62,7 @@
         android:entries="@array/pref_start_screen_entries"
         android:entryValues="@array/pref_start_screen_values"
         android:key="@string/pref_ui_start_screen_key"
-        android:title="Start screen"
+        android:title="@string/pref_ui_start_screen_title"
         my:useSimpleSummaryProvider="true" />
 
 

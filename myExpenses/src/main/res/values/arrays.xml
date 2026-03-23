@@ -405,7 +405,7 @@
         <item>@string/pref_dynamic_exchange_rates_per_account</item>
     </string-array>
     <string-array name="pref_start_screen_entries">
-        <item>Last visited</item>
+        <item>@string/pref_ui_start_screen_last_visited</item>
         <item>@string/accounts</item>
         <item>@string/import_select_transactions</item>
         <item>@string/balance_sheet</item>

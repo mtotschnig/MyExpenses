@@ -259,7 +259,7 @@ class PreferenceUiFragment : BasePreferenceFragment() {
 
         matches(preference, PrefKey.CUSTOMIZE_MENU_V2) -> {
             (preference as PopupMenuPreference).showPopupMenu(
-                "Main Navigation", getString(R.string.import_select_transactions)
+                getString(R.string.main_navigation), getString(R.string.import_select_transactions)
             ) { item ->
                 CustomizeMenuDialogFragment.newInstance(
                     if (item.itemId == 0) MenuItem.MenuContext.V2Navigation
