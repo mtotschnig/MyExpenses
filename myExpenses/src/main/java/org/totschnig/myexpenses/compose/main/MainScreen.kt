@@ -243,7 +243,10 @@ fun MainScreenAdaptive(
                 )
             }
             if (!isExpanded) {
-                listOf(Screen.Accounts, Screen.Transactions).forEach { screen ->
+                listOfNotNull(
+                    Screen.Accounts,
+                    Screen.Transactions.takeIf { accounts.isNotEmpty() }
+                ).forEach { screen ->
                     item(
                         selected = navigator.currentDestination?.pane == screen.paneRole,
                         onClick = {
