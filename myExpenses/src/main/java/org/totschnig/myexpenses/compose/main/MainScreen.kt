@@ -313,8 +313,11 @@ fun MainScreenAdaptive(
                             flags = flags,
                             bankIcon = bankIcon,
                             windowInsets = customInsets,
-                            isFullScreen = !isRail || !is2Pane,
-                            onToggleFullScreen = if (isRail) {
+                            isFullScreen = !is2Pane,
+                            onToggleFullScreen = if (adaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
+                                    WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND
+                                )
+                            ) {
                                 {
                                     scope.launch {
                                         viewModel.accountPanelState.set(
