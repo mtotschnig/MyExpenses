@@ -262,11 +262,12 @@ fun TransactionScreen(
                                         onEvent = onEvent
                                     )
                                 } else {
+                                    val isChecked = if (it.isCheckable) isChecked(it) else null
                                     TooltipIconButton(
                                         tooltip = it.getLabel(LocalContext.current),
                                         painter = it.painter,
-                                        isChecked = isChecked(it)
-                                    ) { onEvent(AppEvent.MenuItemClicked(it.id)) }
+                                        isChecked = isChecked == true
+                                    ) { onEvent(AppEvent.MenuItemClicked(it.id, isChecked?.not())) }
                                 }
                             }
 
