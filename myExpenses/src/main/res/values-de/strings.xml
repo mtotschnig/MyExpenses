@@ -1045,4 +1045,6 @@
     <string name="content_description_clear_party">Ausgewählte Partei entfernen</string>
     <string name="content_description_select_recent_file">Wählen Sie aus aktuellen Dateien aus</string>
     <string name="content_description_browse_device_files">Durchsuchen Sie Dateien auf diesem Gerät</string>
+    <string name="content_description_show_balance_details">Detaillierte Informationen anzeigen</string>
+    <string name="menu_templates">Vorlagen</string>
 </resources>
