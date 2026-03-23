@@ -30,7 +30,7 @@ fun TooltipIconButton(
     tooltip: String,
     imageVector: ImageVector,
     isChecked: Boolean = false,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     TooltipIconButton(
         tooltip, rememberVectorPainter(imageVector), isChecked, onClick
@@ -43,10 +43,13 @@ fun TooltipIconButton(
     tooltip: String,
     painter: Painter,
     isChecked: Boolean = false,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     TooltipBox(
-        positionProvider = TooltipDefaults.rememberTooltipPositionProvider(TooltipAnchorPosition.Below, 4.dp),
+        positionProvider = TooltipDefaults.rememberTooltipPositionProvider(
+            TooltipAnchorPosition.Below,
+            4.dp
+        ),
         tooltip = {
             PlainTooltip {
                 Text(tooltip)
@@ -55,14 +58,8 @@ fun TooltipIconButton(
         state = rememberTooltipState()
     ) {
         if (isChecked) {
-            FilledTonalIconButton(
-                onClick = onClick,
-                modifier = Modifier.size(40.dp) // Standard M3 touch target is 48, but toolbar is often 40
-            ) {
-                Icon(
-                    painter, tooltip,
-                    modifier = Modifier.size(24.dp)
-                )
+            FilledTonalIconButton(onClick = onClick) {
+                Icon(painter, tooltip)
             }
         } else {
             IconButton(onClick = onClick) {
@@ -77,7 +74,7 @@ fun TooltipIconMenu(
     modifier: Modifier = Modifier,
     tooltip: String,
     imageVector: ImageVector,
-    menu: Menu
+    menu: Menu,
 ) {
     Box(modifier) {
         val showMenu = remember { mutableStateOf(false) }
