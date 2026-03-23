@@ -27,4 +27,13 @@
     <string name="whats_new_401">L\'elenco delle transazioni ora mostra ulteriori dettagli per le transazioni suddivise.</string>
     <string name="whats_new_402">I tipi di conto possono essere personalizzati</string>
     <string name="whats_new_403">I indicatori degli conti estendono la personalizzazione della visibilità e della priorità degli conti.</string>
+    <string name="migration_v2_title">Benvenuto alla V2!</string>
+    <string name="migration_v2_intro">Abbiamo ridisegnato My Expenses per facilitarne l\'uso ed offrire più caratteristiche</string>
+    <string name="migration_v2_feature_2">Raggruppamenti per totali e selezioni</string>
+    <string name="migration_v2_feature_3">Migliorata l\'integrazione con il foglio bilanci</string>
+    <string name="migration_v2_feature_5">... ed altre funzioni in arrivo!</string>
+    <string name="migration_v2_footer">Puoi ritornare alla vecchia UI dai settaggi. Nota la V1 è in eliminazione con i futuri aggiornamenti</string>
+    <string name="migration_v2_opt_out_title">Vuoi tornare indietro alla V1?</string>
+    <string name="migration_v2_feedback_title">Cosa non funziona nella V2?</string>
+    <string name="migration_v2_confirm_opt_out">Ritorna alla V1</string>
 </resources>
