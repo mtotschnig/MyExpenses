@@ -875,4 +875,5 @@
     <string name="price_history">价格历史</string>
     <string name="attachments">附件</string>
     <string name="pref_account_list_display_configuration_title">账户列表</string>
+    <string name="menu_templates">模板</string>
 </resources>
