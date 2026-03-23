@@ -1061,4 +1061,6 @@
     <string name="content_description_clear_party">Supprimer le tiers sélectionné</string>
     <string name="content_description_browse_device_files">Parcourez les fichiers sur cet appareil</string>
     <string name="content_description_select_recent_file">Sélectionnez parmi des fichiers récents</string>
+    <string name="content_description_show_balance_details">Afficher des informations détaillées</string>
+    <string name="menu_templates">Modèles</string>
 </resources>
