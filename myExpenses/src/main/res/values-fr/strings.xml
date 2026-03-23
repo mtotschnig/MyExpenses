@@ -1063,4 +1063,7 @@
     <string name="content_description_select_recent_file">Sélectionnez parmi des fichiers récents</string>
     <string name="content_description_show_balance_details">Afficher des informations détaillées</string>
     <string name="menu_templates">Modèles</string>
+    <string name="pref_ui_start_screen_title">Page d\'accueil</string>
+    <string name="pref_ui_start_screen_last_visited">Visité en dernier</string>
+    <string name="main_navigation">Navigation principale</string>
 </resources>
