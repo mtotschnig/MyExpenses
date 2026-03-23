@@ -1045,4 +1045,7 @@
     <string name="content_description_clear_party">Премахни избрания контрагент</string>
     <string name="content_description_browse_device_files">Разгледайте файловете на това устройство</string>
     <string name="content_description_select_recent_file">Изберете от последните файлове</string>
+    <string name="content_description_show_balance_details">Покажи подробна информация</string>
+    <string name="main_screen_split">Раздели екрана</string>
+    <string name="menu_templates">Шаблони</string>
 </resources>
