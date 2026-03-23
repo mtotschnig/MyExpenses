@@ -27,4 +27,16 @@
     <string name="whats_new_401">La liste des transactions affiche désormais plus de détails pour les opérations ventilées.</string>
     <string name="whats_new_402">Les types de comptes peuvent être personnalisés</string>
     <string name="whats_new_403">Les indicateurs de compte étendent la personnalisation de la visibilité et de la priorité des comptes.</string>
+    <string name="migration_v2_title">Bienvenue dans V2 !</string>
+    <string name="migration_v2_intro">Nous avons repensé Mes Dépenses pour qu\'il soit plus facile à utiliser et offre plus de fonctionnalités :</string>
+    <string name="migration_v2_feature_1">Navigation au design moderne Material Design</string>
+    <string name="migration_v2_feature_2">Regroupement et totaux pour les indicateurs</string>
+    <string name="migration_v2_feature_3">Meilleure intégration du bilan</string>
+    <string name="migration_v2_feature_4">Liste de comptes simplifiée</string>
+    <string name="migration_v2_feature_5">…et d’autres fonctionnalités à venir !</string>
+    <string name="migration_v2_footer">Vous pouvez revenir à l\'ancien design dans les Paramètres. Veuillez noter que la version 1 sera supprimée lors d\'une prochaine mise à jour.</string>
+    <string name="migration_v2_opt_out_title">Retour à la version 1 ?</string>
+    <string name="migration_v2_opt_out_warning">La version V1 sera abandonnée lors d\'une prochaine mise à jour. Nous aimerions savoir ce qui ne fonctionne pas afin d\'améliorer la version V2.</string>
+    <string name="migration_v2_feedback_title">Qu\'est-ce qui ne fonctionne pas dans la V2 ?</string>
+    <string name="migration_v2_confirm_opt_out">Retourner à V1</string>
 </resources>
