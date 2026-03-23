@@ -5,6 +5,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.AccountInfoWithGrouping
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 
 data class HistoryAccountInfo(
     override val accountId: Long,
@@ -18,4 +19,7 @@ data class HistoryAccountInfo(
     override val accountGrouping: AccountGrouping<*>?,
 ): AccountInfoWithGrouping {
     override val currency: String = currencyUnit.code
-}
+    val isHomeAggregate: Boolean
+        get() =  accountId == HOME_AGGREGATE_ID // V1
+                || accountGrouping == AccountGrouping.NONE // V2
+ }

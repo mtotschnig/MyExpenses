@@ -172,6 +172,10 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                     )
                     (requireActivity() as ProtectedFragmentActivity).supportActionBar?.title =
                         accountInfo.label
+                    showBalance = !accountInfo.isHomeAggregate && prefHandler.getBoolean(
+                        PrefKey.HISTORY_SHOW_BALANCE,
+                        showBalance
+                    )
                     requireActivity().invalidateOptionsMenu()
                     reset()
                 }
@@ -181,10 +185,7 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
             ?.let {
                 filter = it
             }
-        showBalance = accountId != HOME_AGGREGATE_ID && prefHandler.getBoolean(
-            PrefKey.HISTORY_SHOW_BALANCE,
-            showBalance
-        )
+
         includeTransfers =
             prefHandler.getBoolean(PrefKey.HISTORY_INCLUDE_TRANSFERS, includeTransfers)
         showTotals = prefHandler.getBoolean(PrefKey.HISTORY_SHOW_TOTALS, showTotals)
@@ -365,7 +366,7 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     }
 
     override fun onLoadFinished(loader: Loader<Cursor?>, cursor: Cursor?) {
-        val context = activity as ProtectedFragmentActivity? ?: return
+        val context = activity as? ProtectedFragmentActivity ?: return
         if (cursor != null && cursor.moveToFirst()) {
             val columnIndexGroupSumIncome = cursor.getColumnIndex(KEY_SUM_INCOME)
             val columnIndexGroupSumExpense =

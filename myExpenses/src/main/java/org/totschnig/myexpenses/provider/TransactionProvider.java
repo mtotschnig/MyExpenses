@@ -80,6 +80,7 @@ import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_CURRENCY_SELF;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_DATE;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_EQUIVALENT_AMOUNT;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_EXCHANGE_RATE;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_EXCLUDE_FROM_TOTALS;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_FLAG;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_FLAG_SORT_KEY;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_GROUPING;
@@ -649,6 +650,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           additionalWhere.append(KEY_ROWID).append("=").append(group);
         } else {
           qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS);
+          additionalWhere.append(KEY_EXCLUDE_FROM_TOTALS).append("=0");
           projection = aggregateHomeProjection(projection);
         }
           break;
