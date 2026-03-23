@@ -1057,5 +1057,4 @@
     <string name="content_description_clear_party">Cancella la parte selezionata</string>
     <string name="content_description_browse_device_files">Esplora i file su questo dispositivo</string>
     <string name="content_description_select_recent_file">Seleziona tra i file recenti</string>
-    <string name="main_screen_split">Taglia</string>
 </resources>
