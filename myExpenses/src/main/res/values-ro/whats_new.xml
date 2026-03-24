@@ -12,4 +12,5 @@
     <string name="whats_new_401">Lista de tranzacții afișează acum mai multe detalii pentru tranzacțiile împărțite.</string>
     <string name="whats_new_402">Tipurile de conturi pot fi personalizate</string>
     <string name="whats_new_403">Indicatoarele de cont extind personalizarea vizibilității și priorității contului.</string>
+    <string name="migration_v2_feature_1">Navigare modernă Material Design</string>
 </resources>
