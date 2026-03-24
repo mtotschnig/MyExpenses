@@ -958,4 +958,5 @@
     <string name="pref_dynamic_exchange_rates_per_account">Configurar cada conta individualmente</string>
     <string name="category_type_main">Categoria Principal</string>
     <string name="category_type_sub">Subcategoria</string>
+    <string name="menu_templates">Modelos</string>
 </resources>
