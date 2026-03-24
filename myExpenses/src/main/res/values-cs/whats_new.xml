@@ -13,4 +13,5 @@
     <string name="whats_new_401">Seznam transakcí nyní zobrazuje více podrobností o rozdělených transakcích.</string>
     <string name="whats_new_402">Typy účtů lze přizpůsobit</string>
     <string name="whats_new_403">Příznaky účtu rozšiřují přizpůsobení viditelnosti a priority účtu.</string>
+    <string name="migration_v2_feature_1">Moderní navigace Material Design</string>
 </resources>
