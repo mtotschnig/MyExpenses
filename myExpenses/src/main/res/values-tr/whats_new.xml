@@ -29,7 +29,7 @@
     <string name="whats_new_403">Hesap bayrakları, hesap görünürlüğünün ve önceliğinin özelleştirilmesini sağlar.</string>
     <string name="migration_v2_title">Sürüm 2\'ye hoş geldiniz!</string>
     <string name="migration_v2_intro">Harcamalarım, kullanımı daha kolay hale getirmek ve daha fazla özellik sunmak amacıyla yeniden tasarlandı:</string>
-    <string name="migration_v2_feature_1">Modern Material Tasarım Gezinme</string>
+    <string name="migration_v2_feature_1">Modern Material Design Navigasyonu</string>
     <string name="migration_v2_feature_2">Bayraklar için gruplama ve toplamlar</string>
     <string name="migration_v2_feature_3">Bilanço bütünleşmesi iyileştirildi</string>
     <string name="migration_v2_feature_4">Hesap listesi iyileştirildi</string>
