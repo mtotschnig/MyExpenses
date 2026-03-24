@@ -13,4 +13,5 @@
     <string name="whats_new_401">A tranzakciólista mostantól további részleteket jelenít meg a felosztási tranzakciókról.</string>
     <string name="whats_new_402">A számlatípusok testreszabhatók</string>
     <string name="whats_new_403">A fiókjelzők kiterjesztik a fiók láthatóságának és prioritásának testreszabását.</string>
+    <string name="migration_v2_feature_1">Modern Material Design navigáció</string>
 </resources>
