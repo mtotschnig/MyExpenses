@@ -23,4 +23,16 @@
     <string name="whats_new_401">Η λίστα συναλλαγών εμφανίζει πλέον περισσότερες λεπτομέρειες για τις διαιρεμένες συναλλαγές.</string>
     <string name="whats_new_402">Οι τύποι λογαριασμών μπορούν να προσαρμοστούν</string>
     <string name="whats_new_403">λογαριασμός σημαίες επεκτείνουν την προσαρμογή της ορατότητας και της προτεραιότητας λογαριασμός.</string>
+    <string name="migration_v2_feature_1">Σύγχρονη πλοήγηση Material Design</string>
+    <string name="migration_v2_title">Καλώς ήρθατε στο V2!</string>
+    <string name="migration_v2_intro">Έχουμε επανασχεδιάσει την ενότητα \"Έξοδα μου\" για να είναι πιο εύχρηστη και να προσφέρει περισσότερες λειτουργίες:</string>
+    <string name="migration_v2_feature_2">Ομαδοποίηση και σύνολα για σημαίες</string>
+    <string name="migration_v2_feature_3">Βελτιωμένη ενοποίηση ισολογισμού</string>
+    <string name="migration_v2_feature_4">Βελτιωμένη λίστα λογαριασμών</string>
+    <string name="migration_v2_feature_5">… και περισσότερες δυνατότητες στο δρόμο!</string>
+    <string name="migration_v2_footer">Μπορείτε να επιστρέψετε στο παλιό σχέδιο στις Ρυθμίσεις. Σημειώστε ότι το V1 θα καταργηθεί σταδιακά σε μελλοντική ενημέρωση.</string>
+    <string name="migration_v2_opt_out_title">Επιστρέφετε στο V1;</string>
+    <string name="migration_v2_opt_out_warning">Το V1 θα καταργηθεί σταδιακά σε μελλοντική ενημέρωση. Θα θέλαμε να μάθουμε τι δεν λειτουργεί, ώστε να μπορέσουμε να βελτιώσουμε το V2.</string>
+    <string name="migration_v2_feedback_title">Τι δεν λειτουργεί στο V2;</string>
+    <string name="migration_v2_confirm_opt_out">Επιστροφή στο V1</string>
 </resources>
