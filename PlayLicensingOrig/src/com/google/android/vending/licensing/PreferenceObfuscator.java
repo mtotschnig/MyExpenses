@@ -63,9 +63,9 @@ public class PreferenceObfuscator {
         if (value != null) {
             try {
                 result = mObfuscator.unobfuscate(value, key);
-            } catch (ValidationException e) {
+            } catch (Exception e) {
                 // Unable to unobfuscate, data corrupt or tampered
-                Log.w(TAG, "Validation error while reading preference: " + key);
+                Log.e(TAG, "Validation error while reading preference: " + key);
                 result = defValue;
             }
         } else {
