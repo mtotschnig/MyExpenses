@@ -28,4 +28,14 @@
     <string name="whats_new_402">ניתן להתאים אישית סוגי חשבון</string>
     <string name="whats_new_403">דגלי חשבון מרחיבים את ההתאמה האישית של הנראות והעדיפות של חשבון.</string>
     <string name="migration_v2_feature_1">ניווט מודרני של Material Design</string>
+    <string name="migration_v2_intro">עיצבנו מחדש את ההוצאות שלי כדי להיות קלה יותר לשימוש ולהציע יותר תכונות:</string>
+    <string name="migration_v2_title">ברוכים הבאים ל-V2!</string>
+    <string name="migration_v2_feature_2">קיבוץ וסכומים עבור דגלים</string>
+    <string name="migration_v2_feature_3">שיפור באינטגרציה במאזן</string>
+    <string name="migration_v2_feature_4">רשימת חשבון מסודרת</string>
+    <string name="migration_v2_feature_5">… ועוד פיצ\'רים בדרך!</string>
+    <string name="migration_v2_footer">אתה יכול לחזור לעיצוב הישן בהגדרות. שימו לב ש-V1 יופסק בהדרגה בעדכון עתידי.</string>
+    <string name="migration_v2_opt_out_title">חוזרים ל-V1?</string>
+    <string name="migration_v2_opt_out_warning">V1 יופסק בהדרגה בעדכון עתידי. נשמח לדעת מה לא עובד כדי שנוכל לשפר את V2.</string>
+    <string name="migration_v2_feedback_title">מה לא עובד ב-V2?</string>
 </resources>
