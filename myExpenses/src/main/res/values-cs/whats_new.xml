@@ -14,4 +14,15 @@
     <string name="whats_new_402">Typy účtů lze přizpůsobit</string>
     <string name="whats_new_403">Příznaky účtu rozšiřují přizpůsobení viditelnosti a priority účtu.</string>
     <string name="migration_v2_feature_1">Moderní navigace Material Design</string>
+    <string name="migration_v2_title">Vítejte ve V2!</string>
+    <string name="migration_v2_intro">Moje výdaje jsme přepracovali, aby byl snadněji použitelný a nabízel více funkcí:</string>
+    <string name="migration_v2_feature_2">Seskupování a součty pro vlajky</string>
+    <string name="migration_v2_feature_3">Zlepšená integrace rozvahy</string>
+    <string name="migration_v2_feature_4">Zjednodušený seznam účtů</string>
+    <string name="migration_v2_feature_5">… A další články jsou na cestě!</string>
+    <string name="migration_v2_footer">Ke starému designu se můžete vrátit v Nastavení. Upozorňujeme, že V1 bude v budoucí aktualizaci postupně ukončena.</string>
+    <string name="migration_v2_opt_out_title">Přechod zpět na V1?</string>
+    <string name="migration_v2_opt_out_warning">Verze 1 bude v budoucí aktualizaci vyřazena. Rádi bychom věděli, co nefunguje, abychom mohli vylepšit V2.</string>
+    <string name="migration_v2_feedback_title">Co nefunguje ve V2?</string>
+    <string name="migration_v2_confirm_opt_out">Vrať se do V1</string>
 </resources>
