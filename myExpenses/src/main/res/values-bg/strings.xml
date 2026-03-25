@@ -1047,4 +1047,7 @@
     <string name="content_description_select_recent_file">Изберете от последните файлове</string>
     <string name="content_description_show_balance_details">Покажи подробна информация</string>
     <string name="menu_templates">Шаблони</string>
+    <string name="pref_ui_start_screen_title">Начален екран</string>
+    <string name="pref_ui_start_screen_last_visited">Последно посетени</string>
+    <string name="main_navigation">Основна навигация</string>
 </resources>
