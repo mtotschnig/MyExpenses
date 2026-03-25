@@ -981,4 +981,5 @@
     <string name="select_accounts_for_flag">בחירת חשבונות לדגלון %s</string>
     <string name="content_description_select_recent_file">בחירה מהקבצים האחרונים</string>
     <string name="menu_templates">תבניות</string>
+    <string name="main_navigation">ניווט ראשי</string>
 </resources>
