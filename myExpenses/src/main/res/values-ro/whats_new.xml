@@ -13,4 +13,15 @@
     <string name="whats_new_402">Tipurile de conturi pot fi personalizate</string>
     <string name="whats_new_403">Indicatoarele de cont extind personalizarea vizibilității și priorității contului.</string>
     <string name="migration_v2_feature_1">Navigare modernă Material Design</string>
+    <string name="migration_v2_title">Bine ați venit la V2!</string>
+    <string name="migration_v2_intro">Am reproiectat Cheltuielile Mele pentru a fi mai ușor de utilizat și pentru a oferi mai multe funcții:</string>
+    <string name="migration_v2_feature_2">Grupare și totaluri pentru steaguri</string>
+    <string name="migration_v2_feature_3">Integrare îmbunătățită a bilanțului</string>
+    <string name="migration_v2_feature_4">Listă simplificată a conturilor</string>
+    <string name="migration_v2_feature_5">… Și mai multe articole pe drum!</string>
+    <string name="migration_v2_footer">Poți reveni la designul vechi din Setări. Reține că V1 va fi eliminat treptat într-un update viitor.</string>
+    <string name="migration_v2_opt_out_title">Revii la V1?</string>
+    <string name="migration_v2_opt_out_warning">V1 va fi eliminat treptat într-o actualizare viitoare. Ne-ar plăcea să știm ce nu funcționează ca să putem îmbunătăți V2.</string>
+    <string name="migration_v2_feedback_title">Ce nu funcționează în V2?</string>
+    <string name="migration_v2_confirm_opt_out">Întoarce-te la V1</string>
 </resources>
