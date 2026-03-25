@@ -14,4 +14,15 @@
     <string name="whats_new_402">A számlatípusok testreszabhatók</string>
     <string name="whats_new_403">A fiókjelzők kiterjesztik a fiók láthatóságának és prioritásának testreszabását.</string>
     <string name="migration_v2_feature_1">Modern Material Design navigáció</string>
+    <string name="migration_v2_title">Üdvözlünk a V2-ben!</string>
+    <string name="migration_v2_intro">Átalakítottuk a My Expenses-t, hogy könnyebben használható legyen, és több funkciót kínáljon:</string>
+    <string name="migration_v2_feature_2">Zászlók csoportosítása és összesített száma</string>
+    <string name="migration_v2_feature_3">Javított mérleg-integráció</string>
+    <string name="migration_v2_feature_4">Egyszerűsített fióklista</string>
+    <string name="migration_v2_feature_5">… És további funkciók is úton vannak!</string>
+    <string name="migration_v2_footer">A régi dizájnhoz a Beállításokban térhet vissza. Fontos megjegyezni, hogy az 1-es verzió egy későbbi frissítésben megszűnik.</string>
+    <string name="migration_v2_opt_out_title">Visszaváltani V1-re?</string>
+    <string name="migration_v2_opt_out_warning">A V1-et egy jövőbeli frissítésben fokozatosan megszüntetik. Nagyon szeretnénk tudni, mi nem működik, hogy javíthassuk a V2-t.</string>
+    <string name="migration_v2_feedback_title">Mi nem működik a V2-ben?</string>
+    <string name="migration_v2_confirm_opt_out">Térj vissza a V1-hez</string>
 </resources>
