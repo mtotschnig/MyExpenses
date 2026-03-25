@@ -177,6 +177,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
                     accountTypes.find { it.isCashAccount }?.let {
                         binding.AccountType.setSelection(typeAdapter.getPosition(it.id))
                     }
+                    nextButton.isEnabled = true
                 }
             }
         }
@@ -225,6 +226,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
         get() = currencyContext[(binding.Currency.selectedItem as Currency).code]
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
+
     private fun buildAccount(): Account? {
         val currency = selectedCurrency
         return binding.Amount.getAmount(currency, showToUser = true).getOrNull()?.let { money ->
