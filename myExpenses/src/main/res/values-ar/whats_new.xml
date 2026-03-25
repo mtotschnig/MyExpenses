@@ -36,4 +36,7 @@
     <string name="migration_v2_opt_out_warning">سيتم إلغاء V1 في تحديث مستقبلي. نود أن نعرف ما الذي لا يعمل حتى نتمكن من تحسين V2.</string>
     <string name="migration_v2_feedback_title">ما الذي لا يعمل في V2؟</string>
     <string name="migration_v2_confirm_opt_out">ارجع إلى V1</string>
+    <string name="migration_v2_intro">لقد أعدنا تصميم مصروفاتي لتكون أسهل في الاستخدام وتوفر المزيد من الميزات:</string>
+    <string name="migration_v2_feature_2">تجميع وإجمالي الأعلام</string>
+    <string name="migration_v2_feature_3">تكامل محسن في الميزانية العمومية</string>
 </resources>
