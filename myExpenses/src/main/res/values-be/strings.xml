@@ -988,4 +988,5 @@
         <item quantity="many">%d невыкарыстоўваемых контрагентаў будзе выдалена.</item>
         <item quantity="other">%d невыкарыстоўваемых контрагентаў будзе выдалена.</item>
     </plurals>
+    <string name="menu_templates">Шаблоны</string>
 </resources>

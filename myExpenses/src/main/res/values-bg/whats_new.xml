@@ -28,7 +28,7 @@
     <string name="whats_new_402">Персонализация на типа на сметките</string>
     <string name="whats_new_403">Флагове на сметката разширяват персонализирането на нейната видимост и приоритет.</string>
     <string name="migration_v2_title">Добре дошли във V2!</string>
-    <string name="migration_v2_intro">Обновихме My Expenses, за да се ползва по-лесно и да предложим повече функции:</string>
+    <string name="migration_v2_intro">Обновихме Моите разходи, за да се ползва по-лесно и да предложим повече функции:</string>
     <string name="migration_v2_feature_1">Съвременна навигация в стил Material Design</string>
     <string name="migration_v2_feature_2">Групиране и сумиране по флагове</string>
     <string name="migration_v2_feature_3">Подобрена интеграция на баланса</string>

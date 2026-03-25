@@ -450,4 +450,5 @@
     <string name="balance_sheet_net_worth">순자산</string>
     <string name="price_history">가격 내역</string>
     <string name="pref_account_list_display_configuration_title">계정 목록</string>
+    <string name="menu_templates">템플렛들</string>
 </resources>

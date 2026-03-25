@@ -27,4 +27,5 @@
     <string name="whats_new_401">De transactielijst toont nu meer details voor gesplitste transacties.</string>
     <string name="whats_new_402">Accounttypes kunnen worden aangepast</string>
     <string name="whats_new_403">Met accountvlaggen kun je de zichtbaarheid en prioriteit van je account aanpassen.</string>
+    <string name="migration_v2_feature_1">Moderne Material Design-navigatie</string>
 </resources>

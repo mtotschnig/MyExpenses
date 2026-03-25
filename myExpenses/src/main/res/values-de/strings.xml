@@ -1047,4 +1047,7 @@
     <string name="content_description_browse_device_files">Durchsuchen Sie Dateien auf diesem Gerät</string>
     <string name="content_description_show_balance_details">Detaillierte Informationen anzeigen</string>
     <string name="menu_templates">Vorlagen</string>
+    <string name="pref_ui_start_screen_title">Startbildschirm</string>
+    <string name="pref_ui_start_screen_last_visited">Zuletzt besucht</string>
+    <string name="main_navigation">Hauptnavigation</string>
 </resources>

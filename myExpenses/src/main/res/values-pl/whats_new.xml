@@ -23,4 +23,16 @@
     <string name="whats_new_401">Lista transakcji zawiera teraz więcej szczegółów dotyczących podzielonych transakcji.</string>
     <string name="whats_new_402">Typy kont można dostosować</string>
     <string name="whats_new_403">Flagi konta rozszerzają dostosowywanie widoczności i priorytetu konta.</string>
+    <string name="migration_v2_feature_1">Nowoczesna nawigacja Material Design</string>
+    <string name="migration_v2_title">Witamy w V2!</string>
+    <string name="migration_v2_intro">Przeprojektowaliśmy Moje Wydatki, aby był łatwiejszy w obsłudze i oferował więcej funkcji:</string>
+    <string name="migration_v2_feature_2">Grupowanie i sumy flag</string>
+    <string name="migration_v2_feature_3">Ulepszona integracja bilansu</string>
+    <string name="migration_v2_feature_4">Uproszczenia lista kont</string>
+    <string name="migration_v2_feature_5">… A kolejne funkcje już w drodze!</string>
+    <string name="migration_v2_footer">Możesz wrócić do starego projektu w ustawieniach. Pamiętaj, że wersja 1 zostanie wycofana w przyszłej aktualizacji.</string>
+    <string name="migration_v2_opt_out_title">Wracasz do V1?</string>
+    <string name="migration_v2_opt_out_warning">Wersja 1 zostanie wycofana w przyszłej aktualizacji. Chcielibyśmy wiedzieć, co nie działa, abyśmy mogli ulepszyć wersję 2.</string>
+    <string name="migration_v2_feedback_title">Co nie działa w V2?</string>
+    <string name="migration_v2_confirm_opt_out">Wróć do V1</string>
 </resources>

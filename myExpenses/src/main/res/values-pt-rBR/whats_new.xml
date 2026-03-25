@@ -27,4 +27,16 @@
     <string name="whats_new_401">A lista de transações agora mostra mais detalhes para transações divididas.</string>
     <string name="whats_new_402">Os tipos de conta podem ser personalizados</string>
     <string name="whats_new_403">Os sinalizadores de conta estendem a personalização da visibilidade e prioridade da conta.</string>
+    <string name="migration_v2_feature_1">Navegação moderna com Material Design</string>
+    <string name="migration_v2_title">Bem-vindo ao V2!</string>
+    <string name="migration_v2_intro">Redesenhamos a seção \"Minhas Despesas\" para torná-la mais fácil de usar e oferecer mais recursos:</string>
+    <string name="migration_v2_feature_2">Agrupamento e totais para bandeiras</string>
+    <string name="migration_v2_feature_3">Integração aprimorada do balanço patrimonial</string>
+    <string name="migration_v2_feature_4">Lista de contas simplificada</string>
+    <string name="migration_v2_feature_5">… E mais recursos a caminho!</string>
+    <string name="migration_v2_footer">Você pode voltar ao design antigo nas Configurações. Note que a V1 será gradualmente retirada em uma atualização futura.</string>
+    <string name="migration_v2_opt_out_title">Voltando para a V1?</string>
+    <string name="migration_v2_opt_out_warning">A versão 1 será descontinuada em uma atualização futura. Gostaríamos muito de saber o que não está funcionando para que possamos aprimorar a versão 2.</string>
+    <string name="migration_v2_feedback_title">O que não está funcionando na V2?</string>
+    <string name="migration_v2_confirm_opt_out">Volte para a V1</string>
 </resources>

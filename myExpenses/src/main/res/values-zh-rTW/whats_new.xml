@@ -27,4 +27,16 @@
     <string name="whats_new_401">交易清單現在顯示拆分交易的更多詳細資訊。</string>
     <string name="whats_new_402">帳戶類型可自訂</string>
     <string name="whats_new_403">帳戶標誌擴展了帳戶可見性和優先級的自定義。</string>
+    <string name="migration_v2_feature_1">現代 Material Design 導航</string>
+    <string name="migration_v2_intro">我們重新設計了開支助手，使其更易於使用並提供更多功能：</string>
+    <string name="migration_v2_title">歡迎來到 V2！</string>
+    <string name="migration_v2_feature_2">旗幟分組和總計</string>
+    <string name="migration_v2_feature_3">資產負債表整合度提升</string>
+    <string name="migration_v2_feature_4">簡化帳戶列表</string>
+    <string name="migration_v2_feature_5">…更多專題即將推出！</string>
+    <string name="migration_v2_footer">你可以在設定中回到舊設計。請注意，V1 將在未來更新中逐步淘汰。</string>
+    <string name="migration_v2_opt_out_title">要切回 V1 嗎？</string>
+    <string name="migration_v2_opt_out_warning">V1 版本將在未來的更新中逐步淘汰。我們非常希望了解哪些功能有問題，以便改進 V2 版本。</string>
+    <string name="migration_v2_feedback_title">V2 有什麼問題？</string>
+    <string name="migration_v2_confirm_opt_out">回到V1</string>
 </resources>

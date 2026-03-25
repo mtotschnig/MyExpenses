@@ -11,4 +11,14 @@
     <string name="whats_new_401">Danh sách giao dịch hiện hiển thị nhiều chi tiết hơn cho các giao dịch chia nhỏ.</string>
     <string name="whats_new_402">Các loại tài khoản có thể được tùy chỉnh</string>
     <string name="whats_new_403">Cờ tài khoản mở rộng tùy chỉnh khả năng hiển thị và mức độ ưu tiên của tài khoản.</string>
+    <string name="migration_v2_feature_1">Điều hướng Material Design hiện đại</string>
+    <string name="migration_v2_intro">Chúng tôi đã thiết kế lại Quản lý chi tiêu để dễ sử dụng hơn và cung cấp nhiều tính năng hơn:</string>
+    <string name="migration_v2_title">Chào mừng bạn đến với V2!</string>
+    <string name="migration_v2_feature_2">Nhóm và tổng số cho cờ</string>
+    <string name="migration_v2_feature_5">… và nhiều tính năng khác trên đường đi!</string>
+    <string name="migration_v2_footer">Bạn có thể quay lại giao diện cũ trong phần Cài đặt. Lưu ý rằng phiên bản V1 sẽ bị loại bỏ trong bản cập nhật tiếp theo.</string>
+    <string name="migration_v2_opt_out_title">Chuyển trở lại V1?</string>
+    <string name="migration_v2_opt_out_warning">Phiên bản V1 sẽ bị loại bỏ trong bản cập nhật tiếp theo. Chúng tôi rất muốn biết những vấn đề bạn gặp phải để có thể cải thiện phiên bản V2.</string>
+    <string name="migration_v2_feedback_title">Điều gì không hoạt động trong V2?</string>
+    <string name="migration_v2_confirm_opt_out">Quay lại V1</string>
 </resources>

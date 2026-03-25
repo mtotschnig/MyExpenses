@@ -27,4 +27,16 @@
     <string name="whats_new_401">İşlem listesi artık bölünmüş işlemler için daha fazla ayrıntı gösteriyor.</string>
     <string name="whats_new_402">Hesap türleri özelleştirilebilir</string>
     <string name="whats_new_403">Hesap bayrakları, hesap görünürlüğünün ve önceliğinin özelleştirilmesini sağlar.</string>
+    <string name="migration_v2_title">Sürüm 2\'ye hoş geldiniz!</string>
+    <string name="migration_v2_intro">Harcamalarım, kullanımı daha kolay hale getirmek ve daha fazla özellik sunmak amacıyla yeniden tasarlandı:</string>
+    <string name="migration_v2_feature_1">Modern Material Design Navigasyonu</string>
+    <string name="migration_v2_feature_2">Bayraklar için gruplama ve toplamlar</string>
+    <string name="migration_v2_feature_3">Bilanço bütünleşmesi iyileştirildi</string>
+    <string name="migration_v2_feature_4">Hesap listesi iyileştirildi</string>
+    <string name="migration_v2_feature_5">…ve daha pek çok özellik yolda!</string>
+    <string name="migration_v2_footer">Ayarlar bölümünden eski tasarıma geri dönebilirsiniz. Sürüm 1\'in gelecek bir güncellemede kullanımdan kaldırılacağını lütfen unutmayın.</string>
+    <string name="migration_v2_opt_out_title">Sürüm 1\'e geri mi dönüyorsunuz?</string>
+    <string name="migration_v2_opt_out_warning">Sürüm 1, gelecek bir güncellemede kullanımdan kaldırılacaktır. Sürüm 2\'yi iyileştirebilmemiz için hangi özelliklerin çalışmadığını bize bildirirseniz çok seviniriz.</string>
+    <string name="migration_v2_feedback_title">Sürüm 2\'de ne sorun var?</string>
+    <string name="migration_v2_confirm_opt_out">Sürüm 1\'e geri dön</string>
 </resources>

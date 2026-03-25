@@ -1080,4 +1080,5 @@
         <item quantity="many">تم العثور على بيانات</item>
         <item quantity="other">تم العثور على بيانات</item>
     </plurals>
+    <string name="menu_templates">القوالب</string>
 </resources>

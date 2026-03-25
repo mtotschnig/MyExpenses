@@ -27,4 +27,16 @@
     <string name="whats_new_401">La lista de transacciones ahora muestra más detalles para las transacciones divididas.</string>
     <string name="whats_new_402">Los tipos de cuentas se pueden personalizar</string>
     <string name="whats_new_403">Los indicadores de cuenta amplían la personalización de la visibilidad y la prioridad de la cuenta.</string>
+    <string name="migration_v2_feature_1">Navegación moderna con Material Design</string>
+    <string name="migration_v2_title">¡Bienvenido a V2!</string>
+    <string name="migration_v2_intro">Hemos rediseñado Mis Gastos para que sea más fácil de usar y para ofrecer más funciones:</string>
+    <string name="migration_v2_feature_2">Agrupación y totales para indicadores</string>
+    <string name="migration_v2_feature_3">Mejor integración del balance</string>
+    <string name="migration_v2_feature_4">Lista de cuentas simplificada</string>
+    <string name="migration_v2_feature_5">…¡y próximamente habrá más funciones!</string>
+    <string name="migration_v2_footer">Puedes volver al diseño antiguo en Configuración. Ten en cuenta que la V1 será eliminada en una actualización futura.</string>
+    <string name="migration_v2_opt_out_title">¿Volver a la versión 1?</string>
+    <string name="migration_v2_opt_out_warning">La V1 será eliminada en una actualización futura. Nos encantaría saber qué no funciona para poder mejorar la V2.</string>
+    <string name="migration_v2_feedback_title">¿Qué no funciona en la V2?</string>
+    <string name="migration_v2_confirm_opt_out">Volver a la V1</string>
 </resources>

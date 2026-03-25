@@ -1045,4 +1045,9 @@
     <string name="menu_cleanup">Temizle</string>
     <string name="content_description_browse_device_files">Bu aygıttaki dosyalara göz at</string>
     <string name="content_description_select_recent_file">Son dosyalardan seç</string>
+    <string name="menu_templates">Şablonlar</string>
+    <string name="content_description_show_balance_details">Ayrıntılı bilgileri göster</string>
+    <string name="pref_ui_start_screen_title">Başlangıç ekranı</string>
+    <string name="pref_ui_start_screen_last_visited">Son ziyaret edilen</string>
+    <string name="main_navigation">Ana gezinme</string>
 </resources>

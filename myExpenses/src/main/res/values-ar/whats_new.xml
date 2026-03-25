@@ -27,4 +27,16 @@
     <string name="whats_new_401">تظهر قائمة المعاملات الآن المزيد من التفاصيل حول المعاملات المقسمة.</string>
     <string name="whats_new_402">يمكن تخصيص أنواع الحسابات</string>
     <string name="whats_new_403">تعمل علامات حساب على توسيع تخصيص رؤية حساب وأولويته.</string>
+    <string name="migration_v2_feature_1">تنقل حديث بتصميم Material Design</string>
+    <string name="migration_v2_title">مرحبا بك في V2!</string>
+    <string name="migration_v2_feature_4">قائمة حسابات مبسطة</string>
+    <string name="migration_v2_feature_5">… والمزيد من الميزات في الطريق!</string>
+    <string name="migration_v2_footer">يمكنك العودة إلى التصميم القديم في الإعدادات. لاحظ أن V1 سيتم التخلص منه في تحديث مستقبلي.</string>
+    <string name="migration_v2_opt_out_title">هل أعود إلى V1؟</string>
+    <string name="migration_v2_opt_out_warning">سيتم إلغاء V1 في تحديث مستقبلي. نود أن نعرف ما الذي لا يعمل حتى نتمكن من تحسين V2.</string>
+    <string name="migration_v2_feedback_title">ما الذي لا يعمل في V2؟</string>
+    <string name="migration_v2_confirm_opt_out">ارجع إلى V1</string>
+    <string name="migration_v2_intro">لقد أعدنا تصميم مصروفاتي لتكون أسهل في الاستخدام وتوفر المزيد من الميزات:</string>
+    <string name="migration_v2_feature_2">تجميع وإجمالي الأعلام</string>
+    <string name="migration_v2_feature_3">تكامل محسن في الميزانية العمومية</string>
 </resources>
