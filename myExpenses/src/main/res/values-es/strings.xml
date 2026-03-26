@@ -1062,4 +1062,6 @@
     <string name="content_description_browse_device_files">Explorar archivos en este dispositivo</string>
     <string name="content_description_select_recent_file">Selecciona entre archivos recientes</string>
     <string name="menu_templates">Plantillas</string>
+    <string name="pref_ui_start_screen_title">Pantalla de inicio</string>
+    <string name="pref_ui_start_screen_last_visited">Última visitada</string>
 </resources>

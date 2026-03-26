@@ -923,4 +923,6 @@
     <string name="price_history">Historia cen</string>
     <string name="pref_account_list_display_configuration_title">Lista kont</string>
     <string name="menu_templates">Szablony</string>
+    <string name="pref_ui_start_screen_title">Ekran startowy</string>
+    <string name="pref_ui_start_screen_last_visited">Ostatnio odwiedzony</string>
 </resources>

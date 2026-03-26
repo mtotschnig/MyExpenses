@@ -957,4 +957,6 @@
     <string name="content_description_browse_device_files">Blader door bestanden op dit apparaat</string>
     <string name="content_description_select_recent_file">Selecteer uit recente bestanden</string>
     <string name="menu_templates">Sjablonen</string>
+    <string name="pref_ui_start_screen_title">Beginscherm</string>
+    <string name="pref_ui_start_screen_last_visited">Laatst bezocht</string>
 </resources>

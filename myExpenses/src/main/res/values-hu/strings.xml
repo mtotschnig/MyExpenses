@@ -947,4 +947,6 @@
     <string name="price_history">Ártörténet</string>
     <string name="pref_account_list_display_configuration_title">Fiókok listája</string>
     <string name="menu_templates">Sablonok</string>
+    <string name="pref_ui_start_screen_title">Kezdőképernyő</string>
+    <string name="pref_ui_start_screen_last_visited">Utoljára látogatott</string>
 </resources>

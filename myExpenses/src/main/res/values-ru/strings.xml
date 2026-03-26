@@ -1049,4 +1049,6 @@
     <string name="content_description_browse_device_files">Просмотреть файлы на этом устройстве</string>
     <string name="content_description_select_recent_file">Выбрать из недавних файлов</string>
     <string name="menu_templates">Шаблоны</string>
+    <string name="pref_ui_start_screen_title">Начальный экран</string>
+    <string name="pref_ui_start_screen_last_visited">Последний посещённый</string>
 </resources>
