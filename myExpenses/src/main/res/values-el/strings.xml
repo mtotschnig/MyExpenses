@@ -903,4 +903,6 @@
     <string name="price_history">Ιστορικό τιμών</string>
     <string name="pref_account_list_display_configuration_title">λογαριασμός λίστα</string>
     <string name="menu_templates">Πρότυπα</string>
+    <string name="pref_ui_start_screen_title">Αρχική οθόνη</string>
+    <string name="pref_ui_start_screen_last_visited">Τελευταία επισκεφθείσα</string>
 </resources>
