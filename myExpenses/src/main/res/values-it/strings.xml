@@ -1058,4 +1058,7 @@
     <string name="content_description_browse_device_files">Esplora i file su questo dispositivo</string>
     <string name="content_description_select_recent_file">Seleziona tra i file recenti</string>
     <string name="menu_templates">Modelli</string>
+    <string name="content_description_show_balance_details">Mostra informazioni dettagliate</string>
+    <string name="pref_ui_start_screen_title">Schermata iniziale</string>
+    <string name="pref_ui_start_screen_last_visited">Ultima visitata</string>
 </resources>
