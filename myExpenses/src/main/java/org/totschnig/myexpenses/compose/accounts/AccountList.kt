@@ -460,7 +460,7 @@ fun AccountCardV2(
 @Composable
 fun AccountIndicator(
     account: FullAccount,
-    bankIcon: @Composable ((Modifier, Long) -> Unit)?,
+    bankIcon: @Composable ((Modifier, Long) -> Unit)? = null,
 ) {
     val fontSize = 13.sp
     val size = with(LocalDensity.current) { (fontSize * 2).toDp() }
@@ -1115,4 +1115,26 @@ private fun AccountPreview2() {
 fun MixedText() {
     val symbol = '﷼'
     Text("1 $symbol = 345 $")
+}
+
+@Preview(fontScale = 2f)
+@Composable
+fun AccountIndicator() {
+    AccountIndicator(
+        account = FullAccount(
+            id = 1,
+            label = "Account",
+            description = "Description",
+            currencyUnit = CurrencyUnit.DebugInstance,
+            color = android.graphics.Color.RED,
+            openingBalance = 0,
+            currentBalance = 1000,
+            sumIncome = 2000,
+            sumExpense = 1000,
+            sealed = true,
+            type = AccountType.CASH,
+            criterion = 5000,
+            excludeFromTotals = true
+        )
+    )
 }

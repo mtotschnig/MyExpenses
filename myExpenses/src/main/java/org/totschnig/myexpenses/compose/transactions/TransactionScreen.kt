@@ -79,6 +79,7 @@ import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.IntSize
@@ -109,6 +110,8 @@ import org.totschnig.myexpenses.compose.optional
 import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
+import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
@@ -463,10 +466,10 @@ enum class BalanceType(
 @Composable
 private fun BalanceHeader(
     currentAccount: BaseAccount,
-    displayBalanceType: BalanceType,
     modifier: Modifier = Modifier,
+    displayBalanceType: BalanceType = BalanceType.CURRENT,
     bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
-    onDisplayBalanceTypeChange: (BalanceType) -> Unit,
+    onDisplayBalanceTypeChange: (BalanceType) -> Unit = {},
     onCopyBalance: (String) -> Unit = {},
     onSetNewBalance: () -> Unit = {},
 ) {
@@ -680,4 +683,26 @@ private fun getBalanceForType(account: BaseAccount, type: BalanceType): Long {
             else -> account.equivalentCurrentBalance
         }
     }
+}
+
+@Preview(fontScale = 2f)
+@Composable
+fun HeaderPreview() {
+    BalanceHeader(
+        currentAccount = FullAccount(
+            id = 1,
+            label = "Account",
+            description = "Description",
+            currencyUnit = CurrencyUnit.DebugInstance,
+            color = android.graphics.Color.RED,
+            openingBalance = 0,
+            currentBalance = 1000,
+            sumIncome = 2000,
+            sumExpense = 1000,
+            sealed = true,
+            type = AccountType.CASH,
+            criterion = 5000,
+            excludeFromTotals = true
+        )
+    )
 }

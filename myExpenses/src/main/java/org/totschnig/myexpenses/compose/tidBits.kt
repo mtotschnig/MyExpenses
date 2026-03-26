@@ -22,7 +22,9 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MultiChoiceSegmentedButtonRow
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.Surface
@@ -142,16 +144,18 @@ fun DonutInABox(
                 ).forCompose(color, excessColor)
             )
         )
-
-        Text(
-            modifier = Modifier
-                .align(Alignment.Center)
-                .semantics {
-                    this.contentDescription = DisplayProgress.contentDescription(context, progress)
-                },
-            text = progress.displayProgress,
-            fontSize = fontSize,
-        )
+        ProvideTextStyle(MaterialTheme.typography.bodyMedium) {
+            Text(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .semantics {
+                        this.contentDescription =
+                            DisplayProgress.contentDescription(context, progress)
+                    },
+                text = progress.displayProgress,
+                fontSize = fontSize,
+            )
+        }
     }
 }
 
