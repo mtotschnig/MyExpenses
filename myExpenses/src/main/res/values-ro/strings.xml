@@ -909,4 +909,6 @@
     <string name="price_history">Istoricul prețurilor</string>
     <string name="pref_account_list_display_configuration_title">Listă de conturi</string>
     <string name="menu_templates">Șabloane</string>
+    <string name="pref_ui_start_screen_title">Ecran de pornire</string>
+    <string name="pref_ui_start_screen_last_visited">Ultimul vizitat</string>
 </resources>
