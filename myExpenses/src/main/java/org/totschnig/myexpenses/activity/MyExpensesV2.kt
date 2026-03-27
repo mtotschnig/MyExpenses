@@ -61,7 +61,7 @@ enum class StartScreen {
 }
 
 /**
- * TBD: ReviewManager, AdManager, Tests,
+ * TBD: ReviewManager, Tests,
  * Help,
  * initial state after first install
  */
@@ -80,7 +80,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
         get() = WindowInsets()
 
     override val accountCount: Int
-        get() = viewModel.accountList.value.size
+        get() = viewModel.accountDataV2.value?.getOrNull()?.size ?: 0
 
     override fun finishActionMode() {
         viewModel.selectionState.value = emptyList()
