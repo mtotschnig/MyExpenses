@@ -30,6 +30,7 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Unarchive
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -447,7 +448,7 @@ fun TransactionList(
                                     )
                                 }
                             }
-                            if (isLast) GroupDivider() else HorizontalDivider()
+                            HorizontalDivider()
                         }
                     }
 
@@ -553,71 +554,68 @@ fun HeaderRenderer(
     updateShowSumDetails: (Boolean) -> Unit = {},
 ) {
 
-    Box(
-        modifier = Modifier
-            .headerSemantics(headerId)
-            .optional(onHeaderSize) { onHeaderSize ->
-                onGloballyPositioned { layoutCoordinates ->
-                    onHeaderSize(layoutCoordinates.size.height)
-                }
-            }
-            .background(MaterialTheme.colorScheme.background)
+    Surface(
+        color = MaterialTheme.colorScheme.surfaceContainer
     ) {
-        GroupDivider()
-        val context = LocalContext.current
-        val displayTitle = account.grouping.getDisplayTitle(
-            context,
-            headerRow.year,
-            headerRow.second,
-            dateInfo,
-            headerRow.weekStart
-        )
-        toggle?.let {
-            ExpansionHandle(
-                modifier = Modifier.align(Alignment.TopEnd),
-                contentDescription = displayTitle,
-                isExpanded = isExpanded,
-                toggle = toggle
+        Box(
+            modifier = Modifier
+                .headerSemantics(headerId)
+                .optional(onHeaderSize) { onHeaderSize ->
+                    onGloballyPositioned { layoutCoordinates ->
+                        onHeaderSize(layoutCoordinates.size.height)
+                    }
+                }
+        ) {
+            val context = LocalContext.current
+            val displayTitle = account.grouping.getDisplayTitle(
+                context,
+                headerRow.year,
+                headerRow.second,
+                dateInfo,
+                headerRow.weekStart
             )
-        }
-        if (budget?.second != null && budget.second != 0L) {
-            val progress = (-headerRow.expenseSum.amountMinor * 100F / budget.second)
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                DonutInABox(
-                    modifier = Modifier
-                        .padding(horizontal = mainScreenPadding)
-                        .clickable { onBudgetClick(budget.first, headerId) }
-                        .size(42.dp),
-                    progress = progress,
-                    fontSize = 12.sp,
-                    color = Color(account.color),
-                    excessColor = LocalColors.current.expense
+            toggle?.let {
+                ExpansionHandle(
+                    modifier = Modifier.align(Alignment.TopEnd),
+                    contentDescription = displayTitle,
+                    isExpanded = isExpanded,
+                    toggle = toggle
                 )
+            }
+            if (budget?.second != null && budget.second != 0L) {
+                val progress = (-headerRow.expenseSum.amountMinor * 100F / budget.second)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    DonutInABox(
+                        modifier = Modifier
+                            .padding(horizontal = mainScreenPadding)
+                            .clickable { onBudgetClick(budget.first, headerId) }
+                            .size(42.dp),
+                        progress = progress,
+                        fontSize = 12.sp,
+                        color = Color(account.color),
+                        excessColor = LocalColors.current.expense
+                    )
 
+                    HeaderData(
+                        displayTitle,
+                        headerRow,
+                        showSumDetails,
+                        showOnlyDelta,
+                        updateShowSumDetails,
+                        alignStart = true
+                    )
+                }
+            } else {
                 HeaderData(
                     displayTitle,
                     headerRow,
                     showSumDetails,
                     showOnlyDelta,
-                    updateShowSumDetails,
-                    alignStart = true
+                    updateShowSumDetails
                 )
             }
-        } else {
-            HeaderData(
-                displayTitle,
-                headerRow,
-                showSumDetails,
-                showOnlyDelta,
-                updateShowSumDetails
-            )
         }
     }
-}
-
-@Composable
-fun GroupDivider(modifier: Modifier = Modifier) {
-    HorizontalDivider(modifier = modifier, color = colorResource(id = R.color.emphasis))
 }
 
 val mainScreenPadding

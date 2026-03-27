@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -23,13 +24,11 @@ import androidx.fragment.app.viewModels
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
-import org.totschnig.myexpenses.adapter.FontSizeAdapter
 import org.totschnig.myexpenses.adapter.FontSizeAdapter.Companion.updateTextSize
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.CheckBoxWithLabel
 import org.totschnig.myexpenses.compose.transactions.CompactTransactionRenderer
 import org.totschnig.myexpenses.compose.transactions.DateTimeFormatInfo
-import org.totschnig.myexpenses.compose.transactions.GroupDivider
 import org.totschnig.myexpenses.compose.transactions.NewTransactionRenderer
 import org.totschnig.myexpenses.compose.transactions.RenderType
 import org.totschnig.myexpenses.databinding.OnboardingThemeSelectionBinding
@@ -178,7 +177,7 @@ class OnboardingUiFragment : OnboardingFragment() {
 
                         )
                     }
-                    GroupDivider()
+                    HorizontalDivider()
                     (when (renderer) {
                         RenderType.Legacy -> {
                             CompactTransactionRenderer(
@@ -197,7 +196,7 @@ class OnboardingUiFragment : OnboardingFragment() {
                             )
                         }
                     }).Render(demo)
-                    GroupDivider()
+                    HorizontalDivider()
                 }
             }
         }
