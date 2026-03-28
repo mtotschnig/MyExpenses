@@ -443,7 +443,14 @@ fun AccountCardV2(
             account = account,
             bankIcon = bankIcon
         )
-        Text(text = account.label, modifier = Modifier.weight(1f))
+        if (account.description.isNullOrBlank()) {
+            Text(text = account.label, modifier = Modifier.weight(1f))
+        } else {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(text = account.label)
+                Text(text = account.description)
+            }
+        }
         Text(format.convAmount(account.currentBalance, account.currencyUnit))
         OverFlowMenu(
             menu = accountMenu(
