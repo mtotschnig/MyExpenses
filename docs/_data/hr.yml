@@ -72,7 +72,7 @@ hr:
   extended-key: Prošireni ključ
   professional-key: Profesionalni ključ
   screenshot_titles:
-    group: Grupirajte se po godini, mjesecu ili tjednu
+    group: Grupiraj po godini, mjesecu ili tjednu
     summarize: Zbroji sve tvoje račune
     budget: Godišnji, mjesečni i tjedni budžeti
     split: Podijeli u kategorije
@@ -87,7 +87,7 @@ hr:
     highlight_3: Sažmi svoju financijsku situaciju po danu, tjednu, mjesecu ili 
       godini
     highlight_2: Dijeli svoje podatke s mobitelima i tabletima putem WebDAV-a i 
-      Google diska
+      Google Drive
     highlight_1: Prati svoje troškove i prihode s računima, predlošcima i 
       kategorijama
     full_description_intro: '{app_name} prati tvoje troškove i prihode izravno na
