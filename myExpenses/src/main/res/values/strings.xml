@@ -788,8 +788,6 @@
     <string name="pref_feature_uninstall_summary">Play Store tries to eventually remove those modules in the background.</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Please select a licence package.</string>
-    <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
-    <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Tap and hold the floating action button in order to directly open the form for transfers, split transactions or income.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">Advance execution (in days)</string>
     <string name="warning_balance_account_delete">If you proceed, all reconciled transactions of this account will be deleted from the database and you will not be able to restore them.</string>
@@ -1131,4 +1129,7 @@
     <string name="pref_ui_start_screen_last_visited">Last visited</string>
     <!-- Entry in a list of preferences for customizing different menus, one of them being the "Main navigation" menu, where user switches between Accounts and Transactions screens, or selects other top level destinations, e.g. Templates -->
     <string name="main_navigation">Main navigation</string>
+    <string name="pref_fab_style_title">Floating Action Button Style</string>
+    <string name="pref_fab_style_standard_description">Standard (Tap arrow for menu)</string>
+    <string name="pref_fab_style_compact_description">Compact (Tap and hold for menu)</string>
 </resources>

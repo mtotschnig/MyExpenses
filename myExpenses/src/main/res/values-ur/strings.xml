@@ -733,7 +733,6 @@
     <string name="pref_criterion_future_end_of_day">دن کا اختتام</string>
     <string name="pref_criterion_future_current">موجودہ وقت</string>
     <string name="performance_enhancement" tools:ignore="UnusedResources">کارکردگی میں اضافہ</string>
-    <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">منتقلی، تقسیم لین دین یا آمدنی کے لیے فارم کو براہ راست کھولنے کے لیے تیرتے ہوئے ایکشن بٹن کو تھپتھپائیں اور دبائے رکھیں.</string>
     <string name="confirmation_load_template_discard_data">موجودہ فارم ڈیٹا کو ضائع کر دیا جائے گا.</string>
     <string name="account_widget_configuration_sum_total">مستقبل کے لین دین کو شامل کریں</string>
     <string name="warning_link_transfer">دو منتخب ٹرانزیکشنز کو ٹرانسفر کے طور پر منسلک کیا جائے گا. وصول کنندہ/ ادا کنندہ اور زمرہ کی معلومات چھوڑ دی جائیں گی.</string>

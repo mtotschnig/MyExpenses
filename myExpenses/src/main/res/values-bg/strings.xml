@@ -760,8 +760,6 @@
     <string name="pref_feature_uninstall_summary">Play Store се опитва евентуално да премахне тези модули във фонов режим.</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Моля, изберете лицензен пакет.</string>
-    <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
-    <string name="discover_feature_fab_long_press">Задръжте натиснат плаващия бутон за да отворите направо формата за превод, разпределена транзакция или приход.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">Предварително действие (в дни)</string>
     <string name="warning_balance_account_delete">Ако продължите, всички съгласувани транзакции от тази сметка ще бъдат изтрити от базата данни и няма да можете да ги възстановите.</string>

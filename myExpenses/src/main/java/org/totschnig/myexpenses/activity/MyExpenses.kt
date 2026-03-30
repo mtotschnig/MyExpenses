@@ -244,16 +244,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        if (savedInstanceState == null) {
-            floatingActionButton.let {
-                discoveryHelper.discover(
-                    this,
-                    it,
-                    3,
-                    IDiscoveryHelper.Feature.FabLongPress
-                )
-            }
-        }
         // Sync the toggle state after onRestoreInstanceState has occurred.
         drawerToggle?.syncState()
     }
@@ -846,7 +836,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
 
     fun setupFabSubMenu() {
         floatingActionButton.setOnLongClickListener { fab ->
-            discoveryHelper.markDiscovered(IDiscoveryHelper.Feature.FabLongPress)
             val popup = PopupMenu(this, fab)
             val popupMenu = popup.menu
             popup.setOnMenuItemClickListener { item ->

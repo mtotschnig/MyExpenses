@@ -820,7 +820,6 @@
     <string name="account_widget_configuration_sum">Tipus de suma mostrada</string>
     <string name="scan_result_no_date">No s\'ha trobat cap data</string>
     <string name="pref_feature_uninstall_summary">Play Store intenta eliminar eventualment els mòduls en segon pla.</string>
-    <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Manteniu premut el botó d\'acció flotant per obrir directament el formulari de transferències, fraccionaments o ingressos.</string>
     <string name="advance_exexcution_in_days">Execució anticipada (en dies)</string>
     <string name="tesseract_download_confirmation">Voleu baixar les dades de reconeixement de text per a %s?</string>
     <string name="ocr_download_info">La capacitat de reconeixement de text ve proporcionada per una aplicació externa.</string>

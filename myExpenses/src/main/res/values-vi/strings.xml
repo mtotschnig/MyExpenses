@@ -796,7 +796,6 @@
     <string name="select_package">Vui lòng chọn gói giấy phép.</string>
     <string name="pref_planner_manual_time_noon">12 giờ trưa (trưa)</string>
     <string name="pref_planner_manual_time_current">Thời gian áp dụng</string>
-    <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Nhấn và giữ nút hành động nổi để mở trực tiếp biểu mẫu cho chuyển khoản, giao dịch chia nhỏ hoặc thu nhập.</string>
     <string name="advance_exexcution_in_days">Thực hiện trước (theo ngày)</string>
     <string name="warning_balance_account_delete">Nếu bạn tiếp tục, tất cả các giao dịch đã đối chiếu của tài khoản này sẽ bị xóa khỏi cơ sở dữ liệu và bạn sẽ không thể khôi phục chúng.</string>
     <string name="warning_link_transfer">Hai giao dịch được chọn sẽ được liên kết dưới dạng chuyển khoản. Thông tin về Người nhận thanh toán/Người thanh toán và danh mục sẽ bị loại bỏ.</string>

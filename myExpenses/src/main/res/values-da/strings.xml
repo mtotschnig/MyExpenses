@@ -651,7 +651,6 @@
     <string name="scan_result_no_payee">Ingen modtager fundet</string>
     <string name="menu_edit_tag">Rediger etiket</string>
     <string name="pref_planner_manual_time_title">Tidspunkt for manuelt anvendt planlagt transaktion</string>
-    <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Tryk og hold på den flydende handlingsknap for direkte at åbne formularen for overførsler, opdelte transaktioner eller indtægt.</string>
     <string name="pref_clone_with_current_date_title">Dato for klonede transaktioner</string>
     <string name="template_default_action_without_amount_hint">Skabeloner uden beløb bør gemmes med standardhandlingen \'Rediger\'</string>
     <string name="ocr_recognition_info">Kører tekstgenkendelse med %s</string>

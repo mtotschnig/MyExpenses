@@ -770,7 +770,6 @@
     <string name="confirmation_load_template_discard_data">Существующие данные формы будут удалены.</string>
     <string name="warning_balance_account_delete">Если вы продолжите, все согласованные операции этого счета будут удалены из базы данных, и вы не сможете их восстановить.</string>
     <string name="advance_exexcution_in_days">Досрочное исполнение (в днях)</string>
-    <string name="discover_feature_fab_long_press">Нажмите и удерживайте плавающую кнопку действия, чтобы напрямую открыть форму для переводов, разделения транзакций или дохода.</string>
     <string name="select_package">Пожалуйста, выберите пакет лицензий.</string>
     <string name="scan_result_no_payee">Получатель платежа не найден</string>
     <string name="scan_result_no_date">Дата не найдена</string>

@@ -778,8 +778,6 @@
     <string name="pref_feature_uninstall_summary">Obchod Play se nakonec pokusí tyto moduly odebrat na pozadí.</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Vyberte prosím licenční balíček.</string>
-    <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
-    <string name="discover_feature_fab_long_press">Klepnutím a podržením plovoucího tlačítka pro akci můžete přímo otevřít formulář pro převody, rozdělené transakce nebo příjem.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">Provedení předem (dny)</string>
     <string name="warning_balance_account_delete">Pokud budete pokračovat, všechny vyrovnané transakce tohoto účtu budou odstraněny z databáze a nebudete je moci obnovit.</string>

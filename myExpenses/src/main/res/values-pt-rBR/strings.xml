@@ -769,8 +769,6 @@
     <string name="pref_feature_uninstall_summary">A Play Store, eventualmente, tenta remover esses módulos em segundo plano.</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Por favor, selecione uma licença.</string>
-    <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
-    <string name="discover_feature_fab_long_press">Toque e segure o botão de ação flutuante para abrir, diretamente, as telas de transferência, divisão de transação ou inclusão de receita.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">Adiantar execução (em dias)</string>
     <string name="warning_balance_account_delete">Se continuar, todas as transações reconciliadas desta conta serão apagadas do banco de dados e não poderá restaurá-las.</string>

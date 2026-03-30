@@ -838,7 +838,6 @@
     <string name="add_shortcut">Дадаць ярлык</string>
     <string name="scan_result_multiple_candidates_dialog_title">Знойдзена некалькі кандыдатаў. Калі ласка, выберыце:</string>
     <string name="select_package">Калі ласка, абярыце пакет ліцэнзій.</string>
-    <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Націсніце і ўтрымлівайце плавае кнопку дзеянні, каб напрамую адкрыць форму для перакладаў, падзелу транзакцый або даходу.</string>
     <string name="pref_ocr_total_indicators_title">Паказчыкі агульнай сумы</string>
     <string name="pref_ocr_total_indicators_summary">Спіс радкоў, якія вызначаюць агульную суму ў чэку. Кожную значэнне ўводзьце ў новым радку. Пакіньце поле пустым, каб аднавіць значэнне па змаўчанні.</string>
     <string name="new_balance">Новы баланс</string>

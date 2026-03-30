@@ -54,6 +54,7 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     CATEGORY_PROTECTION(R.string.pref_category_protection_key),
     CATEGORY_CURRENCIES(R.string.pref_category_currencies_key),
     CATEGORY_PRICES(R.string.pref_category_prices_key),
+    CATEGORY_ACCOUNT_LIST(R.string.pref_category_account_list_key),
     ACCOUNT_GROUPING(R.string.pref_account_grouping_key),
     PLANNER_CALENDAR_PATH("planner_calendar_path"),
     CURRENT_VERSION("currentversion"),
@@ -221,7 +222,8 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     UI_START_SCREEN(R.string.pref_ui_start_screen_key),
     UI_SCREEN_LAST_VISITED("ui_screen_last_visited"),
     UI_SCREEN_LAST_ACCOUNT_GROUP_FILTER("ui_screen_last_account_group_filter"),
-    TELL_A_FRIEND(R.string.pref_tell_a_friend_key)
+    TELL_A_FRIEND(R.string.pref_tell_a_friend_key),
+    FAB_STYLE(R.string.pref_fab_style_key)
     ;
 
     @Deprecated("")

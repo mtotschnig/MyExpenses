@@ -786,8 +786,6 @@
     <string name="pref_feature_uninstall_summary">প্লে স্টোর ব্যাকগ্রাউন্ডে ওই মডিউলগুলি সরাতে চেষ্টা করবে।</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">অনুগ্রহ করে একটি লাইসেন্স প্যাকেজ নির্বাচন করুন।</string>
-    <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
-    <string name="discover_feature_fab_long_press">ট্রান্সফার, স্প্লিট লেনদেন বা আয়ের ফর্ম সরাসরি খোলার জন্য ফ্লোটিং অ্যাকশন বাটন ট্যাপ করে ধরে রাখুন।</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">অগ্রিম নির্বাহ (দিনে)</string>
     <string name="warning_balance_account_delete">আপনি যদি চালিয়ে যান, এই অ্যাকাউন্টের সমস্ত মিলিত লেনদেন ডাটাবেস থেকে মুছে ফেলা হবে এবং আপনি সেগুলি পুনরুদ্ধার করতে পারবেন না।</string>

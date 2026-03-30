@@ -121,6 +121,10 @@ import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import kotlin.math.absoluteValue
 
+enum class FabStyle {
+    Standard, Compact
+}
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TransactionScreen(
@@ -288,7 +292,42 @@ fun TransactionScreen(
                 }
             }
         },
-        bottomBar = bottomBar
+        bottomBar = bottomBar,
+        floatingActionButton = {
+            val scope = rememberCoroutineScope()
+
+            if (currentAccount is FullAccount && (currentAccount as FullAccount).sealed) {
+                FloatingActionButton(
+                    onClick = { },
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f),
+                    elevation = FloatingActionButtonDefaults.elevation(
+                        defaultElevation = 0.dp,
+                        pressedElevation = 0.dp
+                    )
+                ) {
+                    Icon(Icons.Default.Lock, stringResource(R.string.account_closed))
+                }
+            } else {
+                FloatingActionButtonMenu(
+                    lastAction = viewModel.lastAction.flow.collectAsState(Action.Expense).value,
+                    style = viewModel.fabStyle.collectAsState(FabStyle.Standard).value,
+                    containerColor = accountColor,
+                ) { action ->
+
+                    scope.launch {
+                        viewModel.lastAction.set(action)
+                    }
+
+                    onEvent(
+                        AppEvent.CreateTransaction(
+                            action = action,
+                            transferEnabled = accounts.size > 1
+                        )
+                    )
+                }
+            }
+        }
     ) { paddingValues ->
 
         if (accountList.size > 1) {
@@ -311,138 +350,98 @@ fun TransactionScreen(
             }
         }
 
-        Box(
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
+                .nestedScroll(tabRowState.nestedScrollConnection)
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .nestedScroll(tabRowState.nestedScrollConnection)
-            ) {
-                if (accountList.size > 1) {
-                    Row(
+            if (accountList.size > 1) {
+                Row(
+                    modifier = Modifier
+                        .optional(tabRowState.heightPx) {
+                            height(with(LocalDensity.current) { it.toDp() })
+                        }
+                    //.clipToBounds() // check needed if needed
+                    ,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    if (accountGrouping != AccountGrouping.NONE && availableFilters.size > 1) {
+                        AccountFilterMenu(
+                            activeFilter = activeFilter,
+                            availableFilters = availableFilters,
+                            onFilterChange = viewModel::setFilter,
+                        )
+                    }
+                    val selectedTabIndex =
+                        pagerState.currentPage.coerceAtMost(accountList.lastIndex)
+                    SecondaryScrollableTabRow(
+                        selectedTabIndex = selectedTabIndex,
                         modifier = Modifier
-                            .optional(tabRowState.heightPx) {
-                                height(with(LocalDensity.current) { it.toDp() })
-                            }
-                        //.clipToBounds() // check needed if needed
-                        ,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        if (accountGrouping != AccountGrouping.NONE && availableFilters.size > 1) {
-                            AccountFilterMenu(
-                                activeFilter = activeFilter,
-                                availableFilters = availableFilters,
-                                onFilterChange = viewModel::setFilter,
+                            .onSizeChanged { size ->
+                                if (size.height > (tabRowState.maxHeightPx ?: 0f)) {
+                                    tabRowState.maxHeightPx = size.height.toFloat()
+                                }
+                            },
+                        edgePadding = 0.dp,
+                        indicator = {
+                            TabRowDefaults.SecondaryIndicator(
+                                modifier = Modifier.tabIndicatorOffset(
+                                    selectedTabIndex,
+                                    matchContentSize = false
+                                ),
+                                color = accountColor
                             )
                         }
-                        val selectedTabIndex =
-                            pagerState.currentPage.coerceAtMost(accountList.lastIndex)
-                        SecondaryScrollableTabRow(
-                            selectedTabIndex = selectedTabIndex,
-                            modifier = Modifier
-                                .onSizeChanged { size ->
-                                    if (size.height > (tabRowState.maxHeightPx ?: 0f)) {
-                                        tabRowState.maxHeightPx = size.height.toFloat()
+                    ) {
+                        accountList.forEachIndexed { index, account ->
+                            Tab(
+                                selected = selectedTabIndex == index,
+                                onClick = {
+                                    coroutineScope.launch {
+                                        pagerState.animateScrollToPage(index)
                                     }
                                 },
-                            edgePadding = 0.dp,
-                            indicator = {
-                                TabRowDefaults.SecondaryIndicator(
-                                    modifier = Modifier.tabIndicatorOffset(selectedTabIndex, matchContentSize = false),
-                                    color = accountColor
-                                )
-                            }
-                        ) {
-                            accountList.forEachIndexed { index, account ->
-                                Tab(
-                                    selected = selectedTabIndex == index,
-                                    onClick = {
-                                        coroutineScope.launch {
-                                            pagerState.animateScrollToPage(index)
-                                        }
-                                    },
-                                    text = {
-                                        Text(
-                                            account.labelV2(LocalContext.current),
-                                            maxLines = 1
-                                        )
-                                    }
-                                )
-                            }
+                                text = {
+                                    Text(
+                                        account.labelV2(LocalContext.current),
+                                        maxLines = 1
+                                    )
+                                }
+                            )
                         }
                     }
-                    HorizontalPager(
+                }
+                HorizontalPager(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .testTag(TEST_TAG_PAGER)
+                        .semantics {
+                            collectionInfo = CollectionInfo(1, accounts.size)
+                        },
+                    state = pagerState,
+                    pageSpacing = 10.dp,
+                    key = { pageIndex ->
+                        accountList.getOrNull(pageIndex)?.id ?: pageIndex
+                    },
+                    verticalAlignment = Alignment.Top,
+                ) { page ->
+                    val isCurrentPage = pagerState.currentPage == page
+                    Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .testTag(TEST_TAG_PAGER)
-                            .semantics {
-                                collectionInfo = CollectionInfo(1, accounts.size)
-                            },
-                        state = pagerState,
-                        pageSpacing = 10.dp,
-                        key = { pageIndex ->
-                            accountList.getOrNull(pageIndex)?.id ?: pageIndex
-                        },
-                        verticalAlignment = Alignment.Top,
-                    ) { page ->
-                        val isCurrentPage = pagerState.currentPage == page
-                        Box(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .graphicsLayer {
-                                    val pageOffset =
-                                        (pagerState.currentPage - page) + pagerState.currentPageOffsetFraction
-                                    // Apply a slight shadow or dimming to non-focused pages
-                                    alpha = (1f - pageOffset.absoluteValue).coerceIn(0f, 1f)
-                                }
-                        ) {
-                            TransactionListPage(accountList[page], isCurrentPage, pageContent)
-                        }
+                            .graphicsLayer {
+                                val pageOffset =
+                                    (pagerState.currentPage - page) + pagerState.currentPageOffsetFraction
+                                // Apply a slight shadow or dimming to non-focused pages
+                                alpha = (1f - pageOffset.absoluteValue).coerceIn(0f, 1f)
+                            }
+                    ) {
+                        TransactionListPage(accountList[page], isCurrentPage, pageContent)
                     }
-                } else {
-                    TransactionListPage(accountList.first(), true, pageContent)
-                }
-            }
-
-            val scope = rememberCoroutineScope()
-
-            val fabModifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(bottom = 16.dp)
-            if (currentAccount is FullAccount && (currentAccount as FullAccount).sealed) {
-                FloatingActionButton(
-                    modifier = fabModifier,
-                    onClick = { },
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f),
-                    elevation = FloatingActionButtonDefaults.elevation(
-                        defaultElevation = 0.dp,
-                        pressedElevation = 0.dp
-                    )
-                ) {
-                    Icon(Icons.Default.Lock, stringResource(R.string.account_closed))
                 }
             } else {
-                FloatingActionToolbar(
-                    modifier = fabModifier,
-                    lastAction = viewModel.lastAction.flow.collectAsState(Action.Expense).value,
-                    containerColor = accountColor,
-                ) { action ->
-
-                    scope.launch {
-                        viewModel.lastAction.set(action)
-                    }
-
-                    onEvent(
-                        AppEvent.CreateTransaction(
-                            action = action,
-                            transferEnabled = accounts.size > 1
-                        )
-                    )
-                }
+                TransactionListPage(accountList.first(), true, pageContent)
             }
         }
     }

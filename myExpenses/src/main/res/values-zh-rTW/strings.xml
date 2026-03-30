@@ -751,8 +751,6 @@
     <string name="pref_feature_uninstall_summary">Google Play 商店嘗試在背景刪除這些組件。</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">請選擇一套許可證。</string>
-    <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
-    <string name="discover_feature_fab_long_press">點選並按住浮動操作按鈕可以直接開啟轉帳、分割交易或收入表單。</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">提前執行交易（以天為單位）</string>
     <string name="warning_balance_account_delete">如果繼續，此帳戶中所有已對帳的交易將從資料庫中刪除，並且您將無法還原它們</string>

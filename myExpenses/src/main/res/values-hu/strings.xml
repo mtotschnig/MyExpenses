@@ -762,8 +762,6 @@
     <string name="pref_feature_uninstall_summary">A Play Store végül megpróbálja eltávolítani ezeket a modulokat a háttérből.</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Válasszon egy licenccsomagot.</string>
-    <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
-    <string name="discover_feature_fab_long_press">Érintse meg és tartsa lenyomva a lebegő művelet gombot az űrlap közvetlen megnyitásához az átutalásokhoz, osztott tranzakciókhoz vagy jövedelemhez.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">Előzetes végrehajtás (napokban)</string>
     <string name="warning_balance_account_delete">Ha folytatja, a fiók minden érvényesített tranzakcióját töröljük az adatbázisból, és nem lehet majd visszaállítani őket.</string>

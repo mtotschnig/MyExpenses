@@ -137,6 +137,7 @@
     <string name="pref_automatic_exchange_rate_download_key">automatic_exchange_rate_download</string>
     <string name="pref_category_currencies_key">category_currencies</string>
     <string name="pref_category_prices_key">category_prices</string>
+    <string name="pref_category_account_list_key">category_account_list</string>
 
     <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
     <string-array name="additional_credits">
@@ -306,4 +307,6 @@
     <string name="pref_ui_main_screen_version_key">ui_main_screen_legacy</string>
     <string name="pref_ui_start_screen_key">ui_start_screen</string>
     <string name="pref_tell_a_friend_key">tell_a_friend</string>
+    <string name="pref_fab_style_key">fab_style</string>
+
 </resources>

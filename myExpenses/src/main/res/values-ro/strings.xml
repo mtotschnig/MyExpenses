@@ -775,7 +775,6 @@
     <string name="budget_filter_all_parties">Toate părțile</string>
     <string name="warning_delete_budget">Bugetul „%1$s” va fi șters.</string>
     <string name="select_package">Vă rugăm să selectați un pachet de licențe.</string>
-    <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Atingeți și mențineți apăsat butonul de acțiune flotantă pentru a deschide direct formularul pentru transferuri, tranzacții împărțite sau venituri.</string>
     <string name="advance_exexcution_in_days">Execuție în avans (în zile)</string>
     <string name="account_widget_configuration_sum">Tipul sumei afișate</string>
     <string name="account_widget_configuration_sum_total">Includeți tranzacțiile viitoare</string>

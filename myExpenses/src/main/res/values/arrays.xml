@@ -404,6 +404,7 @@
         <item>@string/pref_dynamic_exchange_rates_static</item>
         <item>@string/pref_dynamic_exchange_rates_per_account</item>
     </string-array>
+
     <string-array name="pref_start_screen_entries">
         <item>@string/pref_ui_start_screen_last_visited</item>
         <item>@string/accounts</item>
@@ -416,4 +417,14 @@
         <item>Transactions</item>
         <item>BalanceSheet</item>
     </string-array>
+
+    <string-array name="pref_fab_style_values">
+        <item>Standard</item>
+        <item>Compact</item>
+    </string-array>
+    <string-array name="pref_fab_style_entries">
+        <item>@string/pref_fab_style_standard_description</item>
+        <item>@string/pref_fab_style_compact_description</item>
+    </string-array>
+
 </resources>

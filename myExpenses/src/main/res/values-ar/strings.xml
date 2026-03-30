@@ -795,8 +795,6 @@
     <string name="pref_feature_uninstall_summary">يحاول متجر جوجل بلاي في النهاية إزالة هذه الوحدات في الخلفية.</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">يُرجى تحديد حزمة الترخيص.</string>
-    <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
-    <string name="discover_feature_fab_long_press">اضغط مع الاستمرار على زر الإجراء العائم من أجل فتح النموذج مباشرةً لعمليات التحويل أو تقسيم المعاملات أو الدخل.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">التنفيذ المسبق (بالأيام)</string>
     <string name="warning_balance_account_delete">إذا قمت بالمتابعة ، فسيتم حذف جميع المعاملات التي تمت تسويتها لهذا الحساب من قاعدة البيانات ولن تتمكن من استعادتها.</string>

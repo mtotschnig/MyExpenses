@@ -95,6 +95,12 @@ class PreferenceUiFragment : BasePreferenceFragment() {
             }
         }
 
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                preferenceDataStore.handleList(requirePreference(PrefKey.FAB_STYLE))
+            }
+        }
+
         val colorSourcePreference =
             requirePreference<ListPreference>(PrefKey.TRANSACTION_AMOUNT_COLOR_SOURCE)
         val expenseColor = getColor(resources, R.color.colorExpense, null)
@@ -351,6 +357,7 @@ class PreferenceUiFragment : BasePreferenceFragment() {
         requirePreference<Preference>(PrefKey.CUSTOMIZE_MAIN_MENU).isVisible = legacy
         requirePreference<Preference>(PrefKey.UI_START_SCREEN).isVisible = !legacy
         requirePreference<Preference>(PrefKey.CUSTOMIZE_MENU_V2).isVisible = !legacy
+        requirePreference<Preference>(PrefKey.CATEGORY_ACCOUNT_LIST).isVisible = legacy
     }
 
     companion object {

@@ -863,7 +863,6 @@
         <item quantity="other">Tag %1$s dipetakan pada transaksi %2$d . Patutkah ia dipadamkan?</item>
     </plurals>
     <string name="sub_budget_exceeded_error_1_2">Semua jumlah yang diperuntukkan kepada kategori utama telah diperuntukkan kepada subkategori lain.</string>
-    <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Ketik dan tahan butang tindakan terapung untuk membuka terus borang untuk pemindahan, transaksi berpecah atau pendapatan.</string>
     <string name="warning_unencrypted_backup">Walaupun data anda dilindungi daripada akses tanpa kebenaran pada peranti ini, sandaran dibuat tanpa penyulitan, melainkan anda mengkonfigurasi %s.</string>
     <string name="pref_purge_backup_keep_title">Bilangan maksimum fail sandaran terbaharu untuk disimpan</string>
     <string name="pref_csv_export_split_categories_summary">Gunakan lajur berasingan untuk setiap peringkat hierarki kategori</string>

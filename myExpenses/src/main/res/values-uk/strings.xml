@@ -909,7 +909,6 @@
     </plurals>
     <string name="remove_from_group">Видалити з групи</string>
     <string name="pref_csv_export_split_date_time_summary">Використовувати окремі стовпці для дати та часу</string>
-    <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Натисніть і утримуйте плаваючу кнопку дії, щоб безпосередньо відкрити форму для переказів, розділених транзакцій або доходу.</string>
     <string name="subcategories_merged_recursively">Якщо будь-яка з об’єднаних категорій має підкатегорії з однаковою міткою, їх буде об’єднано першими, рекурсивно.</string>
     <string name="budget_only_current_period">Використовувати тільки для %s</string>
     <string name="github_sponsors"><![CDATA[Ліцензійні ключі також надаються <a href="%s">Спонсорам Github</a>.]]></string>

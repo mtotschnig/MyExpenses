@@ -431,17 +431,6 @@ private fun NavigationSuiteType.isRail(): Boolean {
 
 
 @Composable
-fun MyFloatingActionButton(onClick: () -> Unit, contentDescription: String) {
-    FloatingActionButton(
-        onClick = onClick,
-        containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
-        elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-    ) {
-        Icon(Icons.Default.Add, contentDescription)
-    }
-}
-
-@Composable
 private fun PaneSurface(
     isRail: Boolean,
     extraPadding: Boolean = false,

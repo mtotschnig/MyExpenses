@@ -809,7 +809,6 @@
     <string name="pref_unmapped_transaction_as_transfer_summary_on">ถูกนับเป็นการโอนเงิน</string>
     <string name="debts">หนี้สินทั้งหมด</string>
     <string name="pref_acra_user_email_summary">กรุณากรอกที่อยู่อีเมลของคุณหากคุณยินดีช่วยในการแก้ไขข้อบกพร่องและอนุญาตให้เราติดต่อคุณได้</string>
-    <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">กดและถือปุ่ม Floating Action Button ค้างไว้เพื่อเปิดฟอร์มสำหรับการโอนเงิน รายการแยกส่วน หรือรายได้โดยตรง</string>
     <string name="ocr_download_info">ความสามารถในการจดจำข้อความจัดทำโดยแอปพลิเคชันภายนอก</string>
     <string name="warning_unencrypted_backup">ในขณะที่ข้อมูลของคุณได้รับการป้องกันจากการเข้าถึงโดยไม่ได้รับอนุญาตบนอุปกรณ์นี้ การสำรองข้อมูลจะถูกสร้างขึ้นโดยไม่มีการเข้ารหัส ยกเว้นว่าคุณจะกำหนดค่า %s</string>
     <string name="menu_reconfigure">กำหนดค่าใหม่</string>

@@ -751,8 +751,6 @@
     <string name="pref_feature_uninstall_summary">Google Play 商店 尝试在后台删除这些模块。</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">请选择一个许可证包。</string>
-    <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
-    <string name="discover_feature_fab_long_press">长按浮动操作钮可以直接打开表单，选择创建收支、转帐或拆分交易等选项。</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">提前执行（以天为单位）</string>
     <string name="warning_balance_account_delete">如果继续，此账户的所有已对账交易将从数据库中删除，并且您将无法还原它们。</string>

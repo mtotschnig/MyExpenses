@@ -178,6 +178,15 @@
             android:title="@string/pref_criterion_futur_title"
             my:useSimpleSummaryProvider="true" />
 
+        <ListPreference
+            android:defaultValue="Standard"
+            android:key="@string/pref_fab_style_key"
+            android:entries="@array/pref_fab_style_entries"
+            android:entryValues="@array/pref_fab_style_values"
+            android:persistent="false"
+            android:title="@string/pref_fab_style_title"
+            my:useSimpleSummaryProvider="true" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

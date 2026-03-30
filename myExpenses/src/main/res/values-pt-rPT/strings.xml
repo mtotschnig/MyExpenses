@@ -542,7 +542,6 @@
     <string name="confirmation_load_template_discard_data">Os dados presentes no formulário serão descartados.</string>
     <string name="warning_balance_account_delete">Se você continuar, todas as transações reconciliadas desta conta serão excluídas do banco de dados e você não poderá restaurá-las.</string>
     <string name="advance_exexcution_in_days">Adiantar execução (em dias)</string>
-    <string name="discover_feature_fab_long_press">Toque e segure o botão de ação flutuante para abrir, diretamente, as telas de transferência, divisão de transação ou inclusão de receita.</string>
     <string name="select_package">Por favor, selecione uma licença.</string>
     <string name="pref_feature_uninstall_summary">A Play Store, eventualmente, tenta remover esses módulos em segundo plano.</string>
     <string name="pref_feature_uninstall_title">Solicitar desinstalação de recursos e idiomas</string>
