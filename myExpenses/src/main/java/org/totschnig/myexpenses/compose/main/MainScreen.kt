@@ -5,6 +5,7 @@ import androidx.annotation.IdRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.navigationBars
@@ -21,8 +22,6 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CheckBox
 import androidx.compose.material.icons.filled.CheckBoxOutlineBlank
 import androidx.compose.material.icons.filled.MoreHoriz
-import androidx.compose.material.icons.outlined.Rectangle
-import androidx.compose.material.icons.outlined.ViewColumn
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -212,175 +211,176 @@ fun MainScreenAdaptive(
     val overflowItems = menuConfig.value.drop(maxQuickItems)
 
     val isWebUiActive by viewModel.isWebUiActive.collectAsState(false)
-
-    NavigationSuiteScaffold(
-        layoutType = layoutType,
-        navigationSuiteItems = {
-            if (!is2Pane) {
-                listOfNotNull(
-                    Screen.Accounts,
-                    Screen.Transactions.takeIf { accounts.isNotEmpty() }
-                ).forEach { screen ->
-                    item(
-                        selected = navigator.currentDestination?.pane == screen.paneRole,
-                        onClick = {
-                            scope.launch {
-                                // Use your navigateToRoot extension to prevent backstack bloat
-                                navigator.navigateToRoot(screen.paneRole)
-                            }
-                        },
-                        icon = { Icon(screen.icon, contentDescription = null) },
-                        label = {
-                            Text(
-                                text = stringResource(screen.resourceId),
-                                maxLines = 1
-                            )
-                        },
-                    )
-                }
-            }
-
-            (if (isRail) menuConfig.value else quickItems).forEach {
-                item(
-                    selected = if (it == MenuItem.WebUI) isWebUiActive else false,
-                    onClick = {
-                        onAppEvent(
-                            AppEvent.MenuItemClicked(
-                                it.id,
-                                if (it == MenuItem.WebUI) !isWebUiActive else null
-                            )
-                        )
-                    },
-                    icon = { Icon(it.painter, null) },
-                    label = {
-                        Text(
-                            text = it.getLabel(context),
-                            maxLines = 1
-                        )
-                    },
-                )
-            }
-            if (layoutType.isBar()) {
-
-                if (overflowItems.isNotEmpty()) {
-                    item(
-                        selected = showBottomSheet,
-                        onClick = { showBottomSheet = true },
-                        icon = { Icon(Icons.Default.MoreHoriz, null) },
-                        label = {
-                            Text(
-                                stringResource(com.android.setupwizardlib.R.string.suw_more_button_label),
-                                maxLines = 1
-                            )
-                        },
-                    )
-                }
-            }
-        }
-    ) {
-
-        val isSinglePaneMode = !is2Pane
-
-        BackHandler(enabled = isSinglePaneMode && navigator.canNavigateBack()) {
-            scope.launch {
-                navigator.navigateBack()
-            }
-        }
-
-        val customInsets = when {
-            layoutType.isBar() -> WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top)
-            //layoutType.isRail() -> WindowInsets.safeDrawing.only(WindowInsetsSides.End + WindowInsetsSides.Vertical)
-            else -> ScaffoldDefaults.contentWindowInsets
-        }
-
-        ListDetailPaneScaffold(
-            directive = navigator.scaffoldDirective,
-            value = navigator.scaffoldValue,
-            listPane = {
-                PaneSurface(
-                    isRail = isRail,
-                    extraPadding = !is2Pane
-                ) {
-                    AnimatedPane {
-                        AccountsScreen(
-                            containerColor = Color.Transparent,
-                            accounts = accounts,
-                            accountGrouping = accountGrouping.value,
-                            selectedAccountId = selectedAccountId,
-                            viewModel = viewModel,
-                            onEvent = onAppEvent,
-                            onAccountEvent = onAccountEvent,
-                            flags = flags,
-                            bankIcon = bankIcon,
-                            windowInsets = customInsets,
-                            isFullScreen = !is2Pane,
-                            onToggleFullScreen = if (adaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
-                                    WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND
-                                )
-                            ) {
-                                {
-                                    scope.launch {
-                                        viewModel.accountPanelState.set(
-                                            when {
-                                                is2Pane && defaultIs2Pane -> AccountPanelState.COLLAPSED
-                                                !is2Pane && !defaultIs2Pane -> AccountPanelState.EXPANDED
-                                                else -> AccountPanelState.DEFAULT
-                                            }
-                                        )
-                                    }
+    Column {
+        adView()
+        NavigationSuiteScaffold(
+            layoutType = layoutType,
+            navigationSuiteItems = {
+                if (!is2Pane) {
+                    listOfNotNull(
+                        Screen.Accounts,
+                        Screen.Transactions.takeIf { accounts.isNotEmpty() }
+                    ).forEach { screen ->
+                        item(
+                            selected = navigator.currentDestination?.pane == screen.paneRole,
+                            onClick = {
+                                scope.launch {
+                                    // Use your navigateToRoot extension to prevent backstack bloat
+                                    navigator.navigateToRoot(screen.paneRole)
                                 }
-                            } else null
-                        ) {
-                            scope.launch {
-                                navigator.navigateTo(ListDetailPaneScaffoldRole.Detail)
+                            },
+                            icon = { Icon(screen.icon, contentDescription = null) },
+                            label = {
+                                Text(
+                                    text = stringResource(screen.resourceId),
+                                    maxLines = 1
+                                )
+                            },
+                        )
+                    }
+                }
+
+                (if (isRail) menuConfig.value else quickItems).forEach {
+                    item(
+                        selected = if (it == MenuItem.WebUI) isWebUiActive else false,
+                        onClick = {
+                            onAppEvent(
+                                AppEvent.MenuItemClicked(
+                                    it.id,
+                                    if (it == MenuItem.WebUI) !isWebUiActive else null
+                                )
+                            )
+                        },
+                        icon = { Icon(it.painter, null) },
+                        label = {
+                            Text(
+                                text = it.getLabel(context),
+                                maxLines = 1
+                            )
+                        },
+                    )
+                }
+                if (layoutType.isBar()) {
+
+                    if (overflowItems.isNotEmpty()) {
+                        item(
+                            selected = showBottomSheet,
+                            onClick = { showBottomSheet = true },
+                            icon = { Icon(Icons.Default.MoreHoriz, null) },
+                            label = {
+                                Text(
+                                    stringResource(com.android.setupwizardlib.R.string.suw_more_button_label),
+                                    maxLines = 1
+                                )
+                            },
+                        )
+                    }
+                }
+            }
+        ) {
+
+            val isSinglePaneMode = !is2Pane
+
+            BackHandler(enabled = isSinglePaneMode && navigator.canNavigateBack()) {
+                scope.launch {
+                    navigator.navigateBack()
+                }
+            }
+
+            val customInsets = when {
+                layoutType.isBar() -> WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top)
+                //layoutType.isRail() -> WindowInsets.safeDrawing.only(WindowInsetsSides.End + WindowInsetsSides.Vertical)
+                else -> ScaffoldDefaults.contentWindowInsets
+            }
+
+            ListDetailPaneScaffold(
+                directive = navigator.scaffoldDirective,
+                value = navigator.scaffoldValue,
+                listPane = {
+                    PaneSurface(
+                        isRail = isRail,
+                        extraPadding = !is2Pane
+                    ) {
+                        AnimatedPane {
+                            AccountsScreen(
+                                containerColor = Color.Transparent,
+                                accounts = accounts,
+                                accountGrouping = accountGrouping.value,
+                                selectedAccountId = selectedAccountId,
+                                viewModel = viewModel,
+                                onEvent = onAppEvent,
+                                onAccountEvent = onAccountEvent,
+                                flags = flags,
+                                bankIcon = bankIcon,
+                                windowInsets = customInsets,
+                                isFullScreen = !is2Pane,
+                                onToggleFullScreen = if (adaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
+                                        WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND
+                                    )
+                                ) {
+                                    {
+                                        scope.launch {
+                                            viewModel.accountPanelState.set(
+                                                when {
+                                                    is2Pane && defaultIs2Pane -> AccountPanelState.COLLAPSED
+                                                    !is2Pane && !defaultIs2Pane -> AccountPanelState.EXPANDED
+                                                    else -> AccountPanelState.DEFAULT
+                                                }
+                                            )
+                                        }
+                                    }
+                                } else null
+                            ) {
+                                scope.launch {
+                                    navigator.navigateTo(ListDetailPaneScaffoldRole.Detail)
+                                }
                             }
                         }
                     }
-                }
-            },
-            detailPane = {
+                },
+                detailPane = {
 
-                PaneSurface(
-                    isRail = isRail,
-                    extraPadding = true
-                ) {
-                    AnimatedPane {
-                        val fontScale = LocalDensity.current.fontScale
-                        TransactionScreen(
-                            containerColor = Color.Transparent,
-                            accounts = accounts,
-                            accountGrouping = accountGrouping.value,
-                            availableFilters = availableFilters,
-                            selectedAccountId = selectedAccountId,
-                            viewModel = viewModel,
-                            onEvent = onAppEvent,
-                            onPrepareContextMenuItem = onPrepareContextMenuItem,
-                            onPrepareMenuItem = onPrepareMenuItem,
-                            pageContent = pageContent,
-                            bankIcon = bankIcon,
-                            visibleActionItems = when {
-                                adaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
-                                    WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND
-                                ) -> if (is2Pane) 4 else 6
+                    PaneSurface(
+                        isRail = isRail,
+                        extraPadding = true
+                    ) {
+                        AnimatedPane {
+                            val fontScale = LocalDensity.current.fontScale
+                            TransactionScreen(
+                                containerColor = Color.Transparent,
+                                accounts = accounts,
+                                accountGrouping = accountGrouping.value,
+                                availableFilters = availableFilters,
+                                selectedAccountId = selectedAccountId,
+                                viewModel = viewModel,
+                                onEvent = onAppEvent,
+                                onPrepareContextMenuItem = onPrepareContextMenuItem,
+                                onPrepareMenuItem = onPrepareMenuItem,
+                                pageContent = pageContent,
+                                bankIcon = bankIcon,
+                                visibleActionItems = when {
+                                    adaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
+                                        WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND
+                                    ) -> if (is2Pane) 4 else 6
 
-                                adaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
-                                    WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND
-                                ) && !is2Pane -> 4
+                                    adaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
+                                        WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND
+                                    ) && !is2Pane -> 4
 
-                                else -> when {
-                                    fontScale > 1.5f -> 0
-                                    fontScale > 1.1f -> 1
-                                    else -> 2
-                                }
-                            },
-                            windowInsets = customInsets,
-                            isFramed = isRail,
-                            adView = adView
-                        )
+                                    else -> when {
+                                        fontScale > 1.5f -> 0
+                                        fontScale > 1.1f -> 1
+                                        else -> 2
+                                    }
+                                },
+                                windowInsets = customInsets,
+                                isFramed = isRail
+                            )
+                        }
                     }
                 }
-            }
-        )
+            )
+        }
     }
     if (showBottomSheet) {
         ModalBottomSheet(

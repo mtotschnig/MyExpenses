@@ -139,7 +139,6 @@ fun TransactionScreen(
     pageContent: @Composable (PageAccount, Boolean) -> Unit,
     windowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
     isFramed: Boolean,
-    adView: @Composable () -> Unit,
 ) {
     LaunchedEffect(Unit) {
         viewModel.setLastVisited(StartScreen.Transactions)
@@ -322,7 +321,6 @@ fun TransactionScreen(
                     .fillMaxSize()
                     .nestedScroll(tabRowState.nestedScrollConnection)
             ) {
-                adView()
                 if (accountList.size > 1) {
                     Row(
                         modifier = Modifier
