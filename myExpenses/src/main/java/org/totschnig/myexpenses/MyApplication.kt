@@ -181,11 +181,14 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
         }
     }
 
-    override fun onStart(owner: LifecycleOwner) {
+    override fun onCreate(owner: LifecycleOwner) {
         // Instead of a one-time check, observe the Flow to handle changes reactively
         MainScope().launch {
+            var isFirstEmission = true
             dataStore.data
-                .map { preferences -> preferences[prefHandler.getBooleanPreferencesKey(PrefKey.UI_WEB)] ?: false }
+                .map { preferences ->
+                    preferences[prefHandler.getBooleanPreferencesKey(PrefKey.UI_WEB)] ?: false
+                }
                 .distinctUntilChanged()
                 .collect { isWebUiEnabled ->
                     if (isWebUiEnabled) {
@@ -195,9 +198,11 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
                             controlWebUi(START_ACTION)
                         }
                     } else {
-                        // Optionally handle STOP_ACTION if it was previously running
-                        controlWebUi(STOP_ACTION)
+                        if (!isFirstEmission) {
+                            controlWebUi(STOP_ACTION)
+                        }
                     }
+                    isFirstEmission = false
                 }
         }
     }
@@ -236,7 +241,8 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
 
     private fun setupLogging() {
         MainScope().launch(Dispatchers.IO) {
-            val debugLoggingEnabled = prefHandler.getBoolean(PrefKey.DEBUG_LOGGING, BuildConfig.DEBUG)
+            val debugLoggingEnabled =
+                prefHandler.getBoolean(PrefKey.DEBUG_LOGGING, BuildConfig.DEBUG)
             val crashReportEnabled = prefHandler.getBoolean(PrefKey.CRASHREPORT_ENABLED, true)
 
             loggingSetupMutex.withLock { // Critical section protected by the Mutex
@@ -310,7 +316,7 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
                 || ctx.intent.getBooleanExtra(
             EXTRA_START_FROM_WIDGET_DATA_ENTRY, false
         ))
-        Timber.i("reading last pause : %d", lastPause /1000000)
+        Timber.i("reading last pause : %d", lastPause / 1000000)
         val isPostDelay = System.nanoTime() - lastPause > prefHandler.getInt(
             PrefKey.PROTECTION_DELAY_SECONDS,
             15
@@ -357,7 +363,7 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
 
     override fun onSharedPreferenceChanged(
         sharedPreferences: SharedPreferences,
-        key: String?
+        key: String?,
     ) {
         if (key == null) return
         if (key != prefHandler.getKey(PrefKey.AUTO_BACKUP_DIRTY)) {
@@ -367,18 +373,22 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
             prefHandler.matches(key, PrefKey.DEBUG_LOGGING) -> {
                 setupLogging()
             }
+
             prefHandler.matches(key, PrefKey.WEBUI_PASSWORD, PrefKey.WEBUI_HTTPS) -> {
                 //WebInputService only "restarts" if it is actually started
                 controlWebUi(RESTART_ACTION)
             }
+
             prefHandler.matches(key, PrefKey.PLANNER_CALENDAR_ID) -> {
                 plannerUtils.onPlannerCalendarIdChanged(
                     sharedPreferences.getString(key, INVALID_CALENDAR_ID)!!
                 )
             }
+
             prefHandler.matches(key, PrefKey.GROUP_WEEK_STARTS) -> {
                 onGroupingStartChanged(Grouping.WEEK)
             }
+
             prefHandler.matches(key, PrefKey.GROUP_MONTH_STARTS) -> {
                 onGroupingStartChanged(Grouping.MONTH)
             }
