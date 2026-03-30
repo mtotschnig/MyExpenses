@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContent
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -279,18 +278,14 @@ fun MainScreenAdaptive(
             }
         ) {
 
-            val isSinglePaneMode = !is2Pane
-
-            BackHandler(enabled = isSinglePaneMode && navigator.canNavigateBack()) {
+            BackHandler(enabled = !is2Pane && navigator.canNavigateBack()) {
                 scope.launch {
                     navigator.navigateBack()
                 }
             }
 
-            val customInsets = when {
-                layoutType.isBar() -> WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top)
-                //layoutType.isRail() -> WindowInsets.safeDrawing.only(WindowInsetsSides.End + WindowInsetsSides.Vertical)
-                else -> ScaffoldDefaults.contentWindowInsets
+            val customInsets = with(ScaffoldDefaults.contentWindowInsets) {
+                if (layoutType.isBar()) only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top) else this
             }
 
             ListDetailPaneScaffold(
@@ -373,7 +368,9 @@ fun MainScreenAdaptive(
                                         else -> 2
                                     }
                                 },
-                                windowInsets = customInsets,
+                                windowInsets = with(customInsets) {
+                                    if (is2Pane) only(WindowInsetsSides.Vertical + WindowInsetsSides.End) else this
+                                },
                                 isFramed = isRail
                             )
                         }
