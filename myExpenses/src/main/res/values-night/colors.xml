@@ -21,4 +21,8 @@
     <color name="overspent">#d32f2f</color>
     <color name="overspentDaily">#dddd00</color>
     <color name="inBudget">#02e600</color>
+    <color name="UNRECONCILED">#BDBDBD</color>
+    <color name="CLEARED">#82B1FF</color>
+    <color name="VOID">#FF5252</color>
+    <color name="RECONCILED">#69F0AE</color>
 </resources>
