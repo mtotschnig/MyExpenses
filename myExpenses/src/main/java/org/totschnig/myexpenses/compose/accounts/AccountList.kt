@@ -35,8 +35,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -787,7 +787,6 @@ fun AccountSummaryV2(
 ) {
     val homeCurrency = LocalHomeCurrency.current
     val isFx = account.currency != homeCurrency.code
-    val fXFormat = remember { DecimalFormat("#.############") }
 
     SumRowV2(
         label = R.string.opening_balance,
@@ -823,6 +822,8 @@ fun AccountSummaryV2(
         )
     }
 
+    val hasMultipleBalanceTypeOptions = account.total != null || account.type.supportsReconciliation
+
     account.total?.let {
         SumRowV2(
             label = R.string.menu_aggregates,
@@ -842,8 +843,11 @@ fun AccountSummaryV2(
             drawSumLine()
         },
         formattedEquivalentAmount = account.equivalentCurrentBalance.takeIf { isFx },
-        highlight = displayBalanceType == BalanceType.CURRENT
-    ) { onDisplayBalanceTypeChange(BalanceType.CURRENT) }
+        highlight = displayBalanceType == BalanceType.CURRENT,
+        onClick = if (hasMultipleBalanceTypeOptions) {
+            { onDisplayBalanceTypeChange(BalanceType.CURRENT) }
+        } else null
+    )
 
     account.criterion?.let {
         SumRowV2(
@@ -913,6 +917,9 @@ fun AccountSummaryV2(
     }
 
     val displayTotal = account.total ?: account.equivalentTotal.takeIf { it != 0L }
+
+    val hasMultipleBalanceTypeOptions = displayTotal != null
+
     displayTotal?.let {
         SumRowV2(
             label = R.string.menu_aggregates,
@@ -932,8 +939,11 @@ fun AccountSummaryV2(
             drawSumLine()
         },
         formattedEquivalentAmount = account.equivalentCurrentBalance.takeIf { isFx },
-        highlight = displayBalanceType == BalanceType.CURRENT
-    ) { onDisplayBalanceTypeChange(BalanceType.CURRENT) }
+        highlight = displayBalanceType == BalanceType.CURRENT,
+        onClick = if (hasMultipleBalanceTypeOptions) {
+            { onDisplayBalanceTypeChange(BalanceType.CURRENT) }
+        } else null
+    )
 }
 
 
@@ -1033,6 +1043,13 @@ fun SumRowV2(
             .optional(onClick) { clickable(onClick = it) },
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
+        if (onClick != null) {
+            RadioButton(
+                modifier = Modifier.padding(end = 2.dp),
+                selected = highlight,
+                onClick = null // handled by Surface
+            )
+        }
         Text(
             text = stringResource(label),
             modifier = Modifier.weight(1f),
