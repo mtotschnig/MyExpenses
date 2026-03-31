@@ -311,7 +311,7 @@ fun TransactionScreen(
             } else {
                 FloatingActionButtonMenu(
                     lastAction = viewModel.lastAction.flow.collectAsState(Action.Expense).value,
-                    style = viewModel.fabStyle.collectAsState(FabStyle.Standard).value,
+                    isStandard = viewModel.fabStyle.collectAsState(FabStyle.Standard).value == FabStyle.Standard,
                     containerColor = accountColor,
                 ) { action ->
 

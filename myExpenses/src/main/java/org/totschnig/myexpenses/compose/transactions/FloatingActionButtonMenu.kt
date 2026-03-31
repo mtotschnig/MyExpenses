@@ -98,10 +98,10 @@ enum class Action(
 
 @Composable
 fun FloatingActionButtonMenu(
-    style: FabStyle = FabStyle.Standard,
+    isStandard: Boolean = true,
     lastAction: Action = Action.Expense,
     containerColor: Color,
-    onAction: (action: Action) -> Unit,
+    onAction: (Action) -> Unit,
 ) {
     var expanded by rememberSaveable { mutableStateOf(false) }
     val haptic = LocalHapticFeedback.current
@@ -136,7 +136,7 @@ fun FloatingActionButtonMenu(
                 )
             }
 
-            if (style == FabStyle.Standard && !expanded) {
+            if (isStandard && !expanded) {
 
                 VerticalDivider(
                     modifier = Modifier

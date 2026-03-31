@@ -36,6 +36,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
@@ -62,7 +63,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.totschnig.myexpenses.R
@@ -243,23 +243,29 @@ fun AccountListV2(
             bottom = scaffoldPadding.calculateBottomPadding() + dimensionResource(R.dimen.fab_related_bottom_padding)
         )
     ) {
-        sortedGroupKeys.forEach { groupKey ->
+        sortedGroupKeys.forEachIndexed { index, groupKey ->
             val group = grouped.getValue(groupKey)
             val headerId = groupKey.id.toString()
             val isGroupHidden = collapsedGroupIds.contains(headerId)
-            item {
-                HeaderV2(
-                    header = groupKey.title(context),
-                    currency = groupKey as? CurrencyUnit
-                        ?: LocalHomeCurrency.current,
-                    total = group.filter { !it.excludeFromTotals }.sumOf {
-                        if (grouping == AccountGrouping.CURRENCY) it.currentBalance else it.equivalentCurrentBalance
-                    },
-                    onToggleExpand = { expansionHandlerGroups.toggle(headerId) },
-                    onNavigate = if (group.size < 2) null else {
-                        { onGroupSelected(groupKey) }
-                    }
-                )
+            stickyHeader(key = "header_$headerId") {
+                Surface(
+                    color = MaterialTheme.colorScheme.surfaceContainer,
+                    tonalElevation = 1.dp
+                ) {
+                    HeaderV2(
+                        header = groupKey.title(context),
+                        currency = groupKey as? CurrencyUnit
+                            ?: LocalHomeCurrency.current,
+                        total = group.filter { !it.excludeFromTotals }.sumOf {
+                            if (grouping == AccountGrouping.CURRENCY) it.currentBalance else it.equivalentCurrentBalance
+                        },
+                        onToggleExpand = { expansionHandlerGroups.toggle(headerId) },
+                        onNavigate = if (group.size < 2) null else {
+                            { onGroupSelected(groupKey) }
+                        },
+                        isGrandTotal = grouping == AccountGrouping.NONE
+                    )
+                }
             }
             if (!isGroupHidden) {
                 //if we group by flag we also show the members of a group that is configured as invisible
@@ -276,19 +282,38 @@ fun AccountListV2(
                     }
                 }
             }
+            if (index != sortedGroupKeys.lastIndex) {
+                item {
+                    HorizontalDivider(
+                        modifier = Modifier.padding(vertical = 8.dp),
+                        color = MaterialTheme.colorScheme.outlineVariant,
+                        thickness = 1.dp
+                    )
+                }
+            }
         }
         if (grouped.size > 1) {
             item {
-                HeaderV2(
-                    header = AccountGroupingKey.Ungrouped.title(context),
-                    currency = LocalHomeCurrency.current,
-                    total = accountData.filter { !it.excludeFromTotals }.sumOf {
-                        it.equivalentCurrentBalance
-                    },
-                    onToggleExpand = null,
-                    onNavigate = { onGroupSelected(null) },
-                    dividerThickness = 4.dp
+                HorizontalDivider(
+                    modifier = Modifier.padding(vertical = 8.dp),
+                    color = MaterialTheme.colorScheme.onSurface,
+                    thickness = 2.dp
                 )
+                Surface(
+                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                    tonalElevation = 2.dp
+                ) {
+                    HeaderV2(
+                        header = AccountGroupingKey.Ungrouped.title(context),
+                        currency = LocalHomeCurrency.current,
+                        total = accountData.filter { !it.excludeFromTotals }.sumOf {
+                            it.equivalentCurrentBalance
+                        },
+                        onToggleExpand = null,
+                        onNavigate = { onGroupSelected(null) },
+                        isGrandTotal = true
+                    )
+                }
             }
         }
     }
@@ -345,14 +370,11 @@ private fun HeaderV2(
     onNavigate: (() -> Unit)?,
     total: Long,
     currency: CurrencyUnit,
-    dividerThickness: Dp = 2.dp,
+    isGrandTotal: Boolean
 ) {
 
     val format = LocalCurrencyFormatter.current
-    HorizontalDivider(
-        color = colorResource(id = androidx.appcompat.R.color.material_grey_300),
-        thickness = dividerThickness
-    )
+
     Row(
         modifier = Modifier
             .optional(onToggleExpand) {
@@ -367,9 +389,13 @@ private fun HeaderV2(
             modifier = Modifier.weight(1f),
             text = header,
             style = MaterialTheme.typography.titleMedium,
-            color = colorResource(id = R.color.material_grey)
+            color = MaterialTheme.colorScheme.onSurface
         )
-        Text(format.convAmount(total, currency))
+        Text(
+            fontWeight = if (isGrandTotal) FontWeight.Bold else null,
+            text = format.convAmount(total, currency),
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
         if (onNavigate == null) {
             Spacer(Modifier.width(48.dp))
         } else {
@@ -429,7 +455,7 @@ fun AccountCardV2(
 ) {
 
     val format = LocalCurrencyFormatter.current
-    val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
+    val activatedBackgroundColor = MaterialTheme.colorScheme.secondaryContainer
 
     Row(
         modifier = Modifier
@@ -526,7 +552,7 @@ fun AccountCard(
 ) {
     val format = LocalCurrencyFormatter.current
     val showMenu = rememberSaveable { mutableStateOf(false) }
-    val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
+    val activatedBackgroundColor = MaterialTheme.colorScheme.secondaryContainer
     val homeCurrency = LocalHomeCurrency.current
     val showEquivalent = (showEquivalentWorth) || account.isHomeAggregate
     val currency = if (showEquivalent) homeCurrency else account.currencyUnit
@@ -854,7 +880,7 @@ fun AccountSummaryV2(
 
     account.criterion?.let { criterion ->
         val isSavingGoal = criterion.sign > 0
-        val hasReached =  criterion.sign == account.currentBalance.sign &&
+        val hasReached = criterion.sign == account.currentBalance.sign &&
                 account.currentBalance.absoluteValue >= criterion.absoluteValue
         val delta = account.currentBalance - criterion
         val deltaPercent = delta.toFloat() / criterion
