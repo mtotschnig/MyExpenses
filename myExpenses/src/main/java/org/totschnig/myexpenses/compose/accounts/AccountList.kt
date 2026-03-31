@@ -88,6 +88,7 @@ import org.totschnig.myexpenses.compose.optional
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbarAndBottomPadding
 import org.totschnig.myexpenses.compose.transactions.BalanceType
+import org.totschnig.myexpenses.dialog.Percent
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
@@ -104,6 +105,8 @@ import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import java.text.DecimalFormat
+import kotlin.math.absoluteValue
+import kotlin.math.sign
 
 const val SIGMA = "Σ"
 
@@ -849,10 +852,26 @@ fun AccountSummaryV2(
         } else null
     )
 
-    account.criterion?.let {
+    account.criterion?.let { criterion ->
+        val isSavingGoal = criterion.sign > 0
+        val hasReached =  criterion.sign == account.currentBalance.sign &&
+                account.currentBalance.absoluteValue >= criterion.absoluteValue
+        val delta = account.currentBalance - criterion
+        val deltaPercent = delta.toFloat() / criterion
+
         SumRowV2(
-            label = if (it > 0) R.string.saving_goal else R.string.credit_limit,
-            amount = it,
+            label = when {
+                hasReached -> R.string.overage
+                isSavingGoal -> R.string.saving_goal_short_fall
+                else -> R.string.credit_limit_available_credit
+            },
+            amount = account.criterion - account.currentBalance,
+            currency = account.currencyUnit,
+            percent = deltaPercent.absoluteValue
+        )
+        SumRowV2(
+            label = if (account.criterion > 0) R.string.saving_goal else R.string.credit_limit,
+            amount = account.criterion,
             currency = account.currencyUnit,
         )
     }
@@ -1033,10 +1052,12 @@ fun SumRowV2(
     currency: CurrencyUnit,
     modifier: Modifier = Modifier,
     formattedEquivalentAmount: Long? = null,
+    percent: Float? = null,
     highlight: Boolean = false,
     onClick: (() -> Unit)? = null,
 ) {
     val fontWeight = if (highlight) FontWeight.Bold else null
+    val auxiliaryTextStyle = MaterialTheme.typography.labelSmall
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -1062,9 +1083,10 @@ fun SumRowV2(
                 AmountText(
                     it,
                     LocalHomeCurrency.current,
-                    fontSize = 10.sp
+                    fontSize = auxiliaryTextStyle.fontSize
                 )
             }
+            percent?.let { Percent(it, style = auxiliaryTextStyle) }
         }
     }
 }
