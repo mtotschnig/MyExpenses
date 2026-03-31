@@ -38,7 +38,7 @@ fun ViewOptionsMenu(
                 label = R.string.menu_grouping,
                 subMenu = groupingOptions.map { option ->
                     CheckableMenuEntry(
-                        label = UiText.StringValue(option.toString()),
+                        label = UiText.StringResource(option.title),
                         isChecked = activeGrouping == option,
                         command = "CHANGE_GROUPING",
                         isRadio = true
