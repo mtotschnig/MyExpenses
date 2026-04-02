@@ -242,6 +242,7 @@ fun SumDetails(
         val configureExpenseSum: (DecimalFormat) -> Unit = remember {
             {
                 it.negativePrefix = ""
+                it.negativeSuffix = ""
                 it.positivePrefix = "+"
             }
         }
