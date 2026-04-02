@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.compose.main
 
+import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.annotation.IdRes
 import androidx.annotation.StringRes
@@ -17,15 +18,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ReceiptLong
 import androidx.compose.material.icons.filled.AccountBalance
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CheckBox
 import androidx.compose.material.icons.filled.CheckBoxOutlineBlank
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreHoriz
-import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -59,6 +59,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
@@ -70,6 +71,8 @@ import org.totschnig.myexpenses.activity.StartScreen
 import org.totschnig.myexpenses.compose.accounts.AccountEventHandler
 import org.totschnig.myexpenses.compose.accounts.AccountsScreen
 import org.totschnig.myexpenses.compose.conditional
+import org.totschnig.myexpenses.compose.isPhone
+import org.totschnig.myexpenses.compose.isTablet
 import org.totschnig.myexpenses.compose.transactions.Action
 import org.totschnig.myexpenses.compose.transactions.TransactionScreen
 import org.totschnig.myexpenses.dialog.MenuItem
@@ -117,6 +120,7 @@ sealed class AppEvent {
     data class MenuItemClicked(@param:IdRes val itemId: Int, val tag: Any? = null) : AppEvent()
     object Sort : AppEvent()
     data class CopyToClipBoard(val text: String) : AppEvent()
+    object ToggleNavigation : AppEvent()
 }
 
 interface AppEventHandler {
@@ -148,6 +152,7 @@ fun MainScreenAdaptive(
     flags: List<AccountFlag> = emptyList(),
     bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
     adView: @Composable () -> Unit,
+    isNavigationVisible: Boolean = true,
     pageContent: @Composable (pageAccount: PageAccount, isCurrent: Boolean) -> Unit,
 ) {
 
@@ -160,9 +165,13 @@ fun MainScreenAdaptive(
     val forcedAccountPanelLoadingState = viewModel.accountPanelState.statefulFlow
         .collectAsState(PreferenceState.Loading).value
 
-    if (forcedAccountPanelLoadingState !is PreferenceState.Loaded) return
+    val preferredNavModeLoadingState = viewModel.navigationMode.statefulFlow
+        .collectAsState(PreferenceState.Loading).value
+
+    if (forcedAccountPanelLoadingState !is PreferenceState.Loaded || preferredNavModeLoadingState !is PreferenceState.Loaded) return
 
     val forcedAccountPanelState = forcedAccountPanelLoadingState.value
+    val preferredNavMode = preferredNavModeLoadingState.value.validate(isTablet)
 
     val adaptiveInfo = currentWindowAdaptiveInfo()
 
@@ -196,13 +205,28 @@ fun MainScreenAdaptive(
     val accountGrouping = viewModel.accountGrouping.asState()
 
     val is2Pane = navigator.scaffoldDirective.maxHorizontalPartitions > 1
+    val isLandscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
 
     var showBottomSheet by remember { mutableStateOf(false) }
     val sheetState = rememberModalBottomSheetState()
-    val layoutType =
-        NavigationSuiteScaffoldDefaults.navigationSuiteType(adaptiveInfo)
+
+    val calculatedLayoutType = NavigationSuiteScaffoldDefaults.navigationSuiteType(adaptiveInfo)
+    val layoutType = when (preferredNavMode) {
+        MenuItem.NavigationMode.DEFAULT -> calculatedLayoutType // should not happen
+        MenuItem.NavigationMode.FIXED_BOTTOM -> calculatedLayoutType // which is either ShortNavigationBarCompact or ShortNavigationBarMedium for phone
+        MenuItem.NavigationMode.TOGGLEABLE_RAIL -> if (isNavigationVisible) NavigationSuiteType.NavigationRail else NavigationSuiteType.None
+        MenuItem.NavigationMode.ALWAYS_RAIL -> NavigationSuiteType.WideNavigationRailCollapsed
+        MenuItem.NavigationMode.ADAPTIVE -> if (isLandscape) {
+            NavigationSuiteType.WideNavigationRailCollapsed
+        } else {
+            NavigationSuiteType.ShortNavigationBarMedium
+        }
+    }
+
     val isRail = layoutType.isRail()
     val context = LocalContext.current
+
+    val splitMenu = isPhone && (layoutType.isBar() || isLandscape)
 
     val maxQuickItems = if (layoutType == NavigationSuiteType.ShortNavigationBarMedium) 2 else 1
 
@@ -210,11 +234,25 @@ fun MainScreenAdaptive(
     val overflowItems = menuConfig.value.drop(maxQuickItems)
 
     val isWebUiActive by viewModel.isWebUiActive.collectAsState(false)
+
     Column {
         adView()
         NavigationSuiteScaffold(
             layoutType = layoutType,
             navigationSuiteItems = {
+                if (preferredNavMode == MenuItem.NavigationMode.TOGGLEABLE_RAIL && isNavigationVisible) {
+                    item(
+                        icon = {
+                            IconButton(onClick = { onAppEvent(AppEvent.ToggleNavigation) }) {
+                                Icon(Icons.Default.Close, contentDescription = "Hide Navigation")
+                            }
+                        },
+                        selected = false,
+                        onClick = {}, // The IconButton handles the click
+                        label = null, // Optional, can be null
+                        alwaysShowLabel = false
+                    )
+                }
                 if (!is2Pane) {
                     listOfNotNull(
                         Screen.Accounts,
@@ -239,7 +277,7 @@ fun MainScreenAdaptive(
                     }
                 }
 
-                (if (isRail) menuConfig.value else quickItems).forEach {
+                (if (splitMenu) quickItems else menuConfig.value).forEach {
                     item(
                         selected = if (it == MenuItem.WebUI) isWebUiActive else false,
                         onClick = {
@@ -259,7 +297,7 @@ fun MainScreenAdaptive(
                         },
                     )
                 }
-                if (layoutType.isBar()) {
+                if (splitMenu) {
 
                     if (overflowItems.isNotEmpty()) {
                         item(
@@ -288,6 +326,22 @@ fun MainScreenAdaptive(
                 if (layoutType.isBar()) only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top) else this
             }
 
+            val navigationIcon =
+                if (preferredNavMode == MenuItem.NavigationMode.TOGGLEABLE_RAIL && !isNavigationVisible) {
+                    @Composable
+                    {
+                        // This is the "Hamburger" or "Menu" button
+                        IconButton(onClick = { onAppEvent(AppEvent.ToggleNavigation) }) {
+                            Icon(
+                                imageVector = Icons.Default.Menu,
+                                contentDescription = "Toggle Navigation"
+                            )
+                        }
+                    }
+                } else {
+                    {}
+                }
+
             ListDetailPaneScaffold(
                 directive = navigator.scaffoldDirective,
                 value = navigator.scaffoldValue,
@@ -299,6 +353,7 @@ fun MainScreenAdaptive(
                         AnimatedPane {
                             AccountsScreen(
                                 containerColor = Color.Transparent,
+                                navigationIcon = navigationIcon,
                                 accounts = accounts,
                                 accountGrouping = accountGrouping.value,
                                 selectedAccountId = selectedAccountId,
@@ -341,6 +396,7 @@ fun MainScreenAdaptive(
                     ) {
                         AnimatedPane {
                             val fontScale = LocalDensity.current.fontScale
+
                             TransactionScreen(
                                 containerColor = Color.Transparent,
                                 accounts = accounts,
@@ -371,7 +427,8 @@ fun MainScreenAdaptive(
                                 windowInsets = with(customInsets) {
                                     if (is2Pane) only(WindowInsetsSides.Vertical + WindowInsetsSides.End) else this
                                 },
-                                isFramed = isRail
+                                isFramed = isRail,
+                                navigationIcon = navigationIcon
                             )
                         }
                     }

@@ -351,6 +351,14 @@ class MyExpensesV2ViewModel(
         )
     }
 
+    val navigationMode by lazy {
+        EnumPreferenceAccessor(
+            dataStore,
+            MenuItem.NavigationMode.PREFERENCE_KEY,
+            MenuItem.NavigationMode.DEFAULT
+        )
+    }
+
     val mainMenu: StateFlow<List<MenuItem>> by lazy {
        menuFlow(MenuItem.MenuContext.V2Navigation)
     }

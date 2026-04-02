@@ -39,6 +39,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalResources
@@ -309,3 +310,10 @@ fun Color.calculateOnColor(): Color {
     // luminance() returns a value between 0.0 (Black) and 1.0 (White)
     return if (this.luminance() > 0.5f) Color.Black else Color.White
 }
+
+
+val isTablet: Boolean
+    @Composable get() = LocalConfiguration.current.smallestScreenWidthDp >= 600
+
+val isPhone: Boolean
+    @Composable get() = !isTablet

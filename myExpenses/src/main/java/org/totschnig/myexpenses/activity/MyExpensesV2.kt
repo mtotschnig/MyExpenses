@@ -18,9 +18,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -189,6 +191,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                         val accounts = result.getOrThrow()
                         val banks = viewModel.banks.collectAsState()
                         val showSortDialog = rememberSaveable { mutableStateOf(false) }
+                        var isNavigationVisible by rememberSaveable { mutableStateOf(false) }
 
                         MainScreenAdaptive(
                             viewModel,
@@ -241,6 +244,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                                         AppEvent.Sort -> showSortDialog.value = true
 
                                         is AppEvent.CopyToClipBoard -> copyToClipboard(event.text)
+                                        AppEvent.ToggleNavigation -> isNavigationVisible = !isNavigationVisible
                                     }
                                 }
                             },
@@ -283,7 +287,8 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                                             bank
                                         )
                                     }
-                            }
+                            },
+                            isNavigationVisible = isNavigationVisible
                         ) { pageAccount, isCurrent ->
                             Page(
                                 pageAccount,

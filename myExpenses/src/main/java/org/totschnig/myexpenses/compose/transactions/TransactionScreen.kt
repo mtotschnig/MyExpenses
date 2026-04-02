@@ -143,6 +143,7 @@ fun TransactionScreen(
     pageContent: @Composable (PageAccount, Boolean) -> Unit,
     windowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
     isFramed: Boolean,
+    navigationIcon: @Composable () -> Unit = {},
 ) {
     LaunchedEffect(Unit) {
         viewModel.setLastVisited(StartScreen.Transactions)
@@ -236,6 +237,7 @@ fun TransactionScreen(
                     }
 
                     TopAppBar(
+                        navigationIcon = navigationIcon,
                         title = {
                             BalanceHeader(
                                 modifier = Modifier.conditional(isFramed) {
