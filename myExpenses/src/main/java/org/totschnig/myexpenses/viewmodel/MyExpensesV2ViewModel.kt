@@ -304,7 +304,7 @@ class MyExpensesV2ViewModel(
     val startScreen: StartScreen by lazy {
         val preference = _startScreen
         if (preference == StartScreen.LastVisited)
-            prefHandler.enumValueOrDefault(PrefKey.UI_SCREEN_LAST_VISITED, StartScreen.Accounts)
+            prefHandler.enumValueOrDefault(PrefKey.UI_SCREEN_LAST_VISITED, StartScreen.Transactions)
         else preference
     }
 
