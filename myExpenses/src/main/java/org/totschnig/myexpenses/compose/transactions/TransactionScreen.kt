@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -108,6 +109,7 @@ import org.totschnig.myexpenses.compose.main.AppEventHandler
 import org.totschnig.myexpenses.compose.main.parseMenu
 import org.totschnig.myexpenses.compose.main.rememberCollapsingTabRowState
 import org.totschnig.myexpenses.compose.optional
+import org.totschnig.myexpenses.compose.width
 import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
@@ -119,6 +121,7 @@ import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
+import timber.log.Timber
 import kotlin.math.absoluteValue
 
 enum class FabStyle {
@@ -396,6 +399,9 @@ fun TransactionScreen(
                             )
                         }
                     ) {
+                        val density = LocalDensity.current
+                        val maxTabWidth = with(density) { MaterialTheme.typography.labelLarge.fontSize.toDp() } * 10
+                        Timber.d("maxTabWidth: $maxTabWidth")
                         accountList.forEachIndexed { index, account ->
                             Tab(
                                 selected = selectedTabIndex == index,
@@ -406,8 +412,10 @@ fun TransactionScreen(
                                 },
                                 text = {
                                     Text(
-                                        account.labelV2(LocalContext.current),
-                                        maxLines = 1
+                                        modifier = Modifier.widthIn(max = maxTabWidth),
+                                        text = account.labelV2(LocalContext.current),
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis
                                     )
                                 }
                             )

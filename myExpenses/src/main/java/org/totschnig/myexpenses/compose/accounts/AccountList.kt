@@ -460,7 +460,7 @@ fun AccountCardV2(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(48.dp)
+            .heightIn(min = 48.dp)
             .conditional(isSelected) {
                 background(activatedBackgroundColor)
             }
