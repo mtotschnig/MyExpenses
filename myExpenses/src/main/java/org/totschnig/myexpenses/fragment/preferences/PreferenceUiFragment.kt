@@ -217,7 +217,8 @@ class PreferenceUiFragment : BasePreferenceFragment() {
             this
         ) { _, bundle ->
             if (bundle.getBoolean(LegacyUIDialogFragment.RESULT_CONFIRMED)) {
-                requirePreference<ListPreference>(PrefKey.UI_MAIN_SCREEN_VERSION).value = Version.V1.name
+                requirePreference<ListPreference>(PrefKey.UI_MAIN_SCREEN_VERSION).value =
+                    Version.V1.name
                 configureUiVersionDependencies()
             }
         }
@@ -264,13 +265,13 @@ class PreferenceUiFragment : BasePreferenceFragment() {
         }
 
         matches(preference, PrefKey.CUSTOMIZE_MENU_V2) -> {
+            val options =
+                listOf(MenuItem.MenuContext.V2Navigation, MenuItem.MenuContext.V2Transactions)
             (preference as PopupMenuPreference).showPopupMenu(
-                getString(R.string.main_navigation), getString(R.string.import_select_transactions)
+                options.map { it.title(requireContext()) }
             ) { item ->
-                CustomizeMenuDialogFragment.newInstance(
-                    if (item.itemId == 0) MenuItem.MenuContext.V2Navigation
-                    else MenuItem.MenuContext.V2Transactions
-                ).show(childFragmentManager, "CUSTOMIZE_MENU")
+                CustomizeMenuDialogFragment.newInstance(options[item.itemId])
+                    .show(childFragmentManager, "CUSTOMIZE_MENU")
                 true
             }
             true
@@ -414,7 +415,8 @@ class LegacyUIDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCl
 
                 (requireActivity() as BaseActivity).sendEmail(
                     recipient = getString(R.string.support_email),
-                    subject = "[" + getString(R.string.app_name) + "] " + getString(R.string.feedback) + " : " + getString(R.string.migration_v2_feedback_title),
+                    subject = "[" + getString(R.string.app_name) + "] " +
+                            getString(R.string.feedback) + " : " + getString(R.string.migration_v2_feedback_title),
                     body = ""
                 )
             }

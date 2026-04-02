@@ -29,7 +29,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.CollectionItemInfo
@@ -54,7 +53,6 @@ import org.totschnig.myexpenses.dialog.MenuItem.MenuContext.V1
 import org.totschnig.myexpenses.preference.EnumPreferenceAccessor
 import org.totschnig.myexpenses.preference.menu
 import org.totschnig.myexpenses.preference.persistMenu
-import org.totschnig.myexpenses.util.TextUtils
 import sh.calvin.reorderable.ReorderableCollectionItemScope
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
@@ -66,12 +64,7 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment3() {
     override val fullScreenIfNotLarge = true
 
     override val title: CharSequence
-        get() = TextUtils.concatResStrings(
-            requireContext(),
-            " : ",
-            R.string.menu,
-            R.string.customize
-        )
+        get() = getString(R.string.menu) + " : " + menuContext.title(requireContext())
 
     suspend fun loadConfiguration(menuContext: MenuItem.MenuContext): List<MenuItem> {
         return when (menuContext) {
@@ -103,11 +96,13 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment3() {
         )
     }
 
-    @Composable
-    override fun ColumnScope.MainContent() {
-        val menuContext = arguments?.let {
+    val menuContext: MenuItem.MenuContext
+        get() = arguments?.let {
             BundleCompat.getSerializable(it, KEY_CONTEXT, MenuItem.MenuContext::class.java)
         } ?: V1
+
+    @Composable
+    override fun ColumnScope.MainContent() {
 
         var loaded by remember { mutableStateOf(false) }
 
@@ -128,15 +123,10 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment3() {
 
             val isTablet = isTablet
 
-            val navigationMode = navigationModeAccessor.flow.collectAsState(initial = MenuItem.NavigationMode.DEFAULT)
-                .value
-                .validate(isTablet)
-
-            Text(
-                text = stringResource(id = R.string.navigation_style),
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
+            val navigationMode =
+                navigationModeAccessor.flow.collectAsState(initial = MenuItem.NavigationMode.DEFAULT)
+                    .value
+                    .validate(isTablet)
 
             SingleChoiceSegmentedButtonRow(
                 modifier = Modifier

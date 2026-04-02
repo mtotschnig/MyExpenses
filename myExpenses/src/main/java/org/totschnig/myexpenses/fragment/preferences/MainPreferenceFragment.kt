@@ -197,7 +197,10 @@ class MainPreferenceFragment : BasePreferenceFragment(),
             val appDirInfo = viewModel.appDirInfo.value?.getOrNull()
             if (appDirInfo?.isDefault == false) {
                 (preference as PopupMenuPreference).showPopupMenu(
-                    getString(R.string.checkbox_is_default), getString(R.string.select)
+                    listOf(
+                        getString(R.string.checkbox_is_default),
+                        getString(R.string.select)
+                    )
                 ) {
                     when (it.itemId) {
                         0 -> {

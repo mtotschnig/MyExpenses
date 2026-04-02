@@ -206,6 +206,12 @@ sealed class MenuItem(
                 V2Navigation -> PrefKey.CUSTOMIZE_MENU_V2_MAIN
                 V2Transactions -> PrefKey.CUSTOMIZE_MENU_V2_TRANSACTIONS
             }
+
+        fun title(context: Context) = when (this) {
+            V1 -> "V1"
+            V2Navigation -> context.getString(R.string.main_navigation)
+            V2Transactions -> context.getString(R.string.import_select_transactions)
+        }
     }
 
     enum class NavigationMode {
@@ -219,15 +225,19 @@ sealed class MenuItem(
             @Composable get() = when (this) {
                 DEFAULT -> ""
                 FIXED_BOTTOM -> stringResource(R.string.bottom)
-                TOGGLEABLE_RAIL -> stringResource(railPosition()) + " (" + stringResource(R.string.toggleable) + ")"
-                ALWAYS_RAIL -> stringResource(railPosition())
-                ADAPTIVE -> stringResource(R.string.adaptive)
+                TOGGLEABLE_RAIL, ALWAYS_RAIL -> railPosition()
+                ADAPTIVE -> railPosition() +
+                        " (" + stringResource(R.string.landscape) + "), " +
+                        stringResource(R.string.bottom) +
+                        " (" + stringResource(R.string.portrait) + ")"
             }
 
         @Composable
         private fun railPosition() =
-            if (LocalConfiguration.current.layoutDirection == LAYOUT_DIRECTION_RTL)
-                R.string.right else R.string.left
+            stringResource(
+                if (LocalConfiguration.current.layoutDirection == LAYOUT_DIRECTION_RTL)
+                    R.string.right else R.string.left
+            )
 
         fun validate(isTablet: Boolean) = if (isTablet) {
             if (forTablet.contains(this)) this else ALWAYS_RAIL

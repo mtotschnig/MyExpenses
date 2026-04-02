@@ -1132,7 +1132,4 @@
     <string name="pref_fab_style_title">Floating Action Button Style</string>
     <string name="pref_fab_style_standard_description">Standard (Tap arrow for menu)</string>
     <string name="pref_fab_style_compact_description">Compact (Tap and hold for menu)</string>
-    <string name="navigation_style">Navigation Style</string>
-    <string name="toggleable">toggleable</string>
-    <string name="adaptive">Adaptive</string>
 </resources>
