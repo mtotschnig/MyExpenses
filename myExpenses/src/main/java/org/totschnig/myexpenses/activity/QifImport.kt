@@ -17,7 +17,11 @@ package org.totschnig.myexpenses.activity
 import android.app.ProgressDialog
 import android.net.Uri
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import androidx.activity.viewModels
+import androidx.compose.ui.graphics.Color
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -62,7 +66,7 @@ class QifImport : ProtectedFragmentActivity() {
         withCategories: Boolean,
         withParties: Boolean,
         encoding: String?,
-        autoFillCategories: Boolean
+        autoFillCategories: Boolean,
     ) {
         supportFragmentManager.beginTransaction()
             .add(
@@ -74,15 +78,28 @@ class QifImport : ProtectedFragmentActivity() {
                 ), PROGRESS_TAG
             )
             .commitNow()
-        importViewModel.importData(mUri, qifDateFormat, accountId, currencyContext[currency], withTransactions,
-            withCategories, withParties, encoding, autoFillCategories).observe(this) { result ->
+        importViewModel.importData(
+            mUri, qifDateFormat, accountId, currencyContext[currency], withTransactions,
+            withCategories, withParties, encoding, autoFillCategories
+        ).observe(this) { result ->
             result.onFailure {
-                    if (it !is ContribFeatureNotAvailableException) {
-                        CrashHandler.report(it)
-                    }
-                    progressDialogFragment?.appendToMessage(it.safeMessage)
+                if (it !is ContribFeatureNotAvailableException) {
+                    CrashHandler.report(it)
                 }
-                progressDialogFragment?.onTaskCompleted()
+                val errorMessage = it.safeMessage
+                val spannableError = SpannableString(errorMessage).apply {
+                    setSpan(
+                        ForegroundColorSpan(
+                            ContextCompat.getColor(
+                                this@QifImport,
+                                R.color.colorErrorDialog
+                            )
+                        ), 0, errorMessage.length, 0
+                    )
+                }
+                progressDialogFragment?.appendToMessage(spannableError)
+            }
+            progressDialogFragment?.onTaskCompleted()
         }
 
     }
