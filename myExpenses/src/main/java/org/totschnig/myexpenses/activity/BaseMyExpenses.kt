@@ -1215,12 +1215,12 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                                 if (it) {
                                     recordUsage(ContribFeature.SPLIT_TRANSACTION)
                                     if (ids.size > 1)
-                                        getString(R.string.split_transaction_one_success)
-                                    else
                                         getString(
                                             R.string.split_transaction_group_success,
                                             ids.size
                                         )
+                                    else
+                                        getString(R.string.split_transaction_one_success)
                                 } else getString(R.string.split_transaction_not_possible)
                             },
                             onFailure = {
