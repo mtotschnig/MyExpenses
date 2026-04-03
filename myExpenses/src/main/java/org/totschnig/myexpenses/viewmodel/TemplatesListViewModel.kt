@@ -82,8 +82,16 @@ class TemplatesListViewModel(application: Application) :
                     plan,
                     currencyContext
                 )
-            }.sumOf { if (it == null) 0 else 1 })
+            }.sumOf { if (it.isFailure) 0 else 1 })
         }
+
+    fun instantiateTemplateForResult(templateId: Long) = liveData(context = coroutineContext()) {
+        emit(
+            repository.instantiateTemplate(
+                exchangeRateHandler, PlanInstanceInfo(templateId), currencyContext
+            )
+        )
+    }
 
     fun reset(instance: PlanInstanceInfo) {
         viewModelScope.launch(coroutineContext()) {

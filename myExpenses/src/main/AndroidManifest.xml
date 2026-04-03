@@ -391,6 +391,7 @@
         <activity
             android:name=".activity.TemplateSaver"
             android:exported="true"
+            android:excludeFromRecents="true"
             android:taskAffinity=""
             android:theme="@style/Translucent" />
 

@@ -46,14 +46,13 @@ class TemplateWidget : AbstractListWidget(
                     ).show()
                 } else {
                     doAsync {
-                        val successCount = if (repository.instantiateTemplate(
-                                exchangeRateHandler,
-                                PlanInstanceInfo(templateId),
-                                currencyContext
-                            ) == null
-                        ) 0 else 1
+                        val result = repository.instantiateTemplate(
+                            exchangeRateHandler,
+                            PlanInstanceInfo(templateId),
+                            currencyContext
+                        )
                         withContext(Dispatchers.Main) {
-                            context.showTemplateInstantiationResult(successCount)
+                            context.showTemplateInstantiationResult(result)
                         }
                     }
                 }

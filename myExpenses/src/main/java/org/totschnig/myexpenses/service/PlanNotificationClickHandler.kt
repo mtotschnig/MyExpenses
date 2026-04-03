@@ -46,7 +46,6 @@ class PlanNotificationClickHandler : IntentService("PlanNotificationClickHandler
 
     @Deprecated("Deprecated in Java")
     override fun onHandleIntent(intent: Intent?) {
-        var message: String?
         if (intent == null) return
         val extras = intent.extras
         val action = intent.action
@@ -61,28 +60,34 @@ class PlanNotificationClickHandler : IntentService("PlanNotificationClickHandler
         val notificationId = extras.getInt(MyApplication.KEY_NOTIFICATION_ID)
         val templateId = extras.getLong(KEY_TEMPLATEID)
         val instanceId = extras.getLong(KEY_INSTANCEID)
-        when (action) {
+        val message = when (action) {
             PlanExecutor.ACTION_APPLY -> {
                 val date =
                     extras.getLong(KEY_DATE, Instant.now().toEpochMilli())
-                val t = runBlocking {
+                runBlocking {
                     repository.instantiateTemplate(
                         exchangeRateHandler,
                         PlanInstanceInfo(templateId, instanceId, date),
                         currencyContext
                     )
-                }
-                if (t != null) {
-                    message = resources.getQuantityString(
-                        R.plurals.save_transaction_from_template_success, 1, 1
-                    )
-                    val resultIntent = prefHandler.createShowDetailsIntent(applicationContext, notificationId, t.data)
-
-                    builder.setContentIntent(resultIntent)
-                    builder.setAutoCancel(true)
-                } else {
-                    message = getString(R.string.save_transaction_error)
-                }
+                }.fold(
+                    onSuccess = {
+                        builder.setContentIntent(
+                            prefHandler.createShowDetailsIntent(
+                                this.applicationContext,
+                                notificationId,
+                                it.data
+                            )
+                        )
+                        builder.setAutoCancel(true)
+                        resources.getQuantityString(
+                            R.plurals.save_transaction_from_template_success, 1, 1
+                        )
+                    },
+                    onFailure = {
+                        getString(R.string.save_transaction_error)
+                    }
+                )
             }
 
             PlanExecutor.ACTION_CANCEL -> {
@@ -95,15 +100,13 @@ class PlanNotificationClickHandler : IntentService("PlanNotificationClickHandler
                         TransactionProvider.PLAN_INSTANCE_STATUS_URI,
                         values
                     )
-                    message = getString(R.string.plan_execution_canceled)
+                    getString(R.string.plan_execution_canceled)
                 } catch (_: SQLiteConstraintException) {
-                    message = getString(R.string.save_transaction_template_deleted)
+                    getString(R.string.save_transaction_template_deleted)
                 }
             }
 
-            else -> {
-                return
-            }
+            else -> return
         }
         builder.setContentText(message)
         (getSystemService(NOTIFICATION_SERVICE) as? NotificationManager)?.notify(

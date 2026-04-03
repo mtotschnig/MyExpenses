@@ -54,6 +54,7 @@ import org.totschnig.myexpenses.util.ExchangeRateHandler
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.util.licence.LicenceHandler
+import org.totschnig.myexpenses.viewmodel.AccountSealedException
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import org.totschnig.myexpenses.viewmodel.data.PlanInstance
 import org.totschnig.myexpenses.viewmodel.data.Tag
@@ -146,7 +147,13 @@ data class RepositoryTemplate(
                     uuid = uuid
                 )
             } else null,
-            splitParts = splitParts?.map { it.instantiate(currencyContext, exchangeRateHandler, planInstanceInfo) },
+            splitParts = splitParts?.map {
+                it.instantiate(
+                    currencyContext,
+                    exchangeRateHandler,
+                    planInstanceInfo
+                )
+            },
             tags = tags
         )
     }
@@ -445,18 +452,24 @@ suspend fun Repository.instantiateTemplate(
     planInstanceInfo: PlanInstanceInfo,
     currencyContext: CurrencyContext,
     ifOpen: Boolean = false,
-): RepositoryTransaction? {
+): Result<RepositoryTransaction> {
     val template = (if (ifOpen) loadTemplateIfInstanceIsOpen(
         planInstanceInfo.templateId,
         planInstanceInfo.instanceId!!
-    ) else loadTemplate(planInstanceInfo.templateId, withTags = true, require = false)) ?: return null
+    ) else loadTemplate(planInstanceInfo.templateId, withTags = true, require = false))
+        ?: return Result.failure(Exception("Template not found"))
+
+    val account = loadAccount(template.data.accountId)!!
+
+    if (account.isSealed) return Result.failure(AccountSealedException())
+
 
     val t = createTransaction(
         template.instantiate(currencyContext, exchangeRateHandler, planInstanceInfo)
             .let { transaction ->
                 if (template.data.dynamic) {
                     val homeCurrency = currencyContext.homeCurrencyUnit
-                    val account = loadAccount(template.data.accountId)!!
+
                     val currency = currencyContext[account.currency]
                     val amount = Money(currency, template.data.amount)
                     transaction.copy(
@@ -482,7 +495,7 @@ suspend fun Repository.instantiateTemplate(
     if (planInstanceInfo.instanceId != null) {
         linkTemplateWithTransaction(planInstanceInfo.templateId, t.id, planInstanceInfo.instanceId)
     }
-    return t
+    return Result.success(t)
 }
 
 fun Repository.updateNewPlanEnabled(licenceHandler: LicenceHandler) {

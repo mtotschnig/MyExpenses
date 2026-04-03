@@ -70,7 +70,7 @@ class TemplateTest : BaseTestWithRepository() {
             exchangeRateHandler,
             PlanInstanceInfo(templateId = data.id, date = date),
             currencyContext
-        )!!
+        ).getOrThrow()
     }
 
 
