@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TableLayout
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
@@ -138,12 +139,18 @@ abstract class BaseDialogFragment : DialogFragment() {
         duration: Int = Snackbar.LENGTH_LONG,
         snackBarAction: SnackbarAction? = null,
     ) {
-        snackBar = Snackbar.make(snackBarContainer, message, duration).also {
-            UiUtils.increaseSnackbarMaxLines(it)
-            if (snackBarAction != null) {
-                it.setAction(snackBarAction.label, snackBarAction.listener)
+        snackBarContainer?.also { snackBarContainer ->
+            snackBar = Snackbar.make(snackBarContainer, message, duration).also {
+                UiUtils.increaseSnackbarMaxLines(it)
+                if (snackBarAction != null) {
+                    it.setAction(snackBarAction.label, snackBarAction.listener)
+                }
+                it.show()
             }
-            it.show()
+        } ?: run {
+            context?.let {
+                Toast.makeText(it, message, Toast.LENGTH_LONG).show()
+            }
         }
     }
 
@@ -159,7 +166,7 @@ abstract class BaseDialogFragment : DialogFragment() {
     protected val snackBarContainer
         get() = if (::dialogView.isInitialized) dialogView else {
             CrashHandler.report(Exception("lateinit property dialogView has not been initialized"))
-            dialog!!.window!!.decorView
+            dialog?.window?.decorView
         }
 
     protected fun dismissSnackBar() {

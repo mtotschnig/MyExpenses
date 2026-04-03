@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.util.ImportFileResultHandler
 import org.totschnig.myexpenses.util.ImportFileResultHandler.FileNameHostFragment
 import org.totschnig.myexpenses.util.ImportFileResultHandler.handleFilenameRequestResult
 import org.totschnig.myexpenses.util.PermissionHelper.canReadUri
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.ImportSourceViewModel
 
@@ -120,6 +121,7 @@ abstract class ImportSourceDialogFragment : BaseDialogFragment(),
                     handleFilenameRequestResult(this, uri)
                 } catch (throwable: Throwable) {
                     uri = null
+                    CrashHandler.report(throwable)
                     showSnackBar(throwable.safeMessage, Snackbar.LENGTH_LONG, null)
                 }
             }
