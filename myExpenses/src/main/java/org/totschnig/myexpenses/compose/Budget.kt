@@ -39,10 +39,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -467,9 +465,9 @@ private fun RowScope.BudgetNumbers(
                 ?: category.budget.rollOverNext
         val rollOverTotal = rollOver + rollOverFromChildren
         val isError = rollOverTotal > remainder && rollOver > 0L
-        var isOverFlow by remember { mutableStateOf(false) }
+        val isOverFlow = remember { mutableStateOf(false) }
         val errorMessage = when {
-            isOverFlow -> R.string.number_too_large
+            isOverFlow.value -> R.string.number_too_large
             isError -> R.string.rollover_edit_invalid
             else -> null
         }
@@ -497,10 +495,10 @@ private fun RowScope.BudgetNumbers(
                             try {
                                 val newRollOver = Money(currency, it).amountMinor
                                 editRollOver[category.id] = newRollOver
-                                isOverFlow = true
+                                isOverFlow.value = false
                             } catch (e: ArithmeticException) {
                                 e.printStackTrace()
-                                isOverFlow = false
+                                isOverFlow.value = true
                             }
                         },
                         fractionDigits = currency.fractionDigits,
