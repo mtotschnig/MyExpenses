@@ -1132,4 +1132,6 @@
     <string name="pref_fab_style_title">Floating Action Button Style</string>
     <string name="pref_fab_style_standard_description">Standard (Tap arrow for menu)</string>
     <string name="pref_fab_style_compact_description">Compact (Tap and hold for menu)</string>
+    <!-- Error shown too user if he enters a number that is larger than allowed -->
+    <string name="number_too_large">Number too large</string>
 </resources>

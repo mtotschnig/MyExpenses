@@ -364,7 +364,7 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
             (value ?: BigDecimal.ZERO.takeIf { !showToUser })?.let { Money(currencyUnit, it) }
         } catch (e: ArithmeticException) {
             if (showToUser) {
-                setError("Number too large.")
+                setError(context.getString(R.string.number_too_large))
             }
             throw e
         }

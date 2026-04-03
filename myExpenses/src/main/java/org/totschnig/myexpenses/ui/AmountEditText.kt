@@ -99,7 +99,7 @@ class AmountEditText(
                 try {
                     Money(currencyUnit, it)
                 } catch (e: ArithmeticException) {
-                    error = "Number too large."
+                    error = context.getString(R.string.number_too_large)
                     throw e
                 }
             }

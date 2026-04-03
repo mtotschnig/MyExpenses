@@ -3,7 +3,6 @@ package eltos.simpledialogfragment.form
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import com.google.android.material.textfield.TextInputLayout
 import eltos.simpledialogfragment.form.SimpleFormDialog.DialogActions
@@ -68,16 +67,16 @@ internal class AmountInputViewHolder(field: AmountInput) : FormElementViewHolder
         val result = amountInput.getUntypedValue(true).getOrNull() ?: return false
         try {
             convertBigDecimal(result, field.fractionDigits)
-        } catch (e: ArithmeticException) {
-            inputLayout.setError("Number too large")
+        } catch (_: ArithmeticException) {
+            inputLayout.error = context.getString(R.string.number_too_large)
             return false
         }
         if (field.max != null && result > field.max) {
-            inputLayout.setError(field.maxExceededError)
+            inputLayout.error = field.maxExceededError
             return false
         }
         if (field.min != null && result < field.min) {
-            inputLayout.setError(field.underMinError)
+            inputLayout.error = field.underMinError
             return false
         }
         return true

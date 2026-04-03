@@ -39,6 +39,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -463,13 +467,19 @@ private fun RowScope.BudgetNumbers(
                 ?: category.budget.rollOverNext
         val rollOverTotal = rollOver + rollOverFromChildren
         val isError = rollOverTotal > remainder && rollOver > 0L
+        var isOverFlow by remember { mutableStateOf(false) }
+        val errorMessage = when {
+            isOverFlow -> R.string.number_too_large
+            isError -> R.string.rollover_edit_invalid
+            else -> null
+        }
         Row(
             modifier = Modifier.numberColumn(this, narrowScreen, isLast = true),
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            if (isError) {
+            errorMessage?.let {
                 val context = LocalActivity.current as BaseActivity
-                val message = stringResource(R.string.rollover_edit_invalid)
+                val message = stringResource(it)
                 Icon(
                     modifier = Modifier.clickable { context.showSnackBar(message) },
                     imageVector = Icons.Default.ErrorOutline,
@@ -484,8 +494,14 @@ private fun RowScope.BudgetNumbers(
                     AmountEdit(
                         value = Money(currency, rollOver).amountMajor,
                         onValueChange = {
-                            val newRollOver = Money(currency, it).amountMinor
-                            editRollOver[category.id] = newRollOver
+                            try {
+                                val newRollOver = Money(currency, it).amountMinor
+                                editRollOver[category.id] = newRollOver
+                                isOverFlow = true
+                            } catch (e: ArithmeticException) {
+                                e.printStackTrace()
+                                isOverFlow = false
+                            }
                         },
                         fractionDigits = currency.fractionDigits,
                         isError = isError
