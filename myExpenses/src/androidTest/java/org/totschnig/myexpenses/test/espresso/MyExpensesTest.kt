@@ -279,7 +279,6 @@ class MyExpensesTest : BaseMyExpensesTest() {
     }
 
     private fun checkTitle(label: String) {
-        val currencyFormatter = app.appComponent.currencyFormatter()
         val balance = currencyFormatter.formatMoney(Money(homeCurrency, 0))
         toolbarMainTitle().check(matches(withText(label)))
         toolbarMainSubtitle().check(matches(withText(balance)))

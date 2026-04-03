@@ -1496,8 +1496,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 } else doFinish()
             } else {
                 if (delegate.recurrenceSpinner.selectedItem === Recurrence.CUSTOM) {
-                    if (transaction.planId != null) {
-                        launchPlanView(true, transaction.planId)
+                    if (transaction.initialPlanId != null) {
+                        launchPlanView(true, transaction.initialPlanId)
                     } else {
                         CrashHandler.report(IllegalStateException("PlanId is null"))
                         hideKeyboard()

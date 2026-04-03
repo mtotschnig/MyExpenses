@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.viewmodel.data
 
 import android.content.Context
 import android.os.Parcelable
+import androidx.annotation.VisibleForTesting
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
@@ -117,60 +118,87 @@ data class TransactionEditData(
     fun compileDescription(
         ctx: Context,
         currencyFormatter: ICurrencyFormatter,
-    ) = buildString {
-        append(ctx.getString(R.string.amount))
-        append(" : ")
-        append(currencyFormatter.formatMoney(amount))
-        append("\n")
-        if (categoryId != null && categoryId > 0) {
-            append(ctx.getString(R.string.category))
-            append(" : ")
-            append(categoryPath)
-            append("\n")
-        }
-        if (isTransfer) {
-            append(ctx.getString(R.string.account))
-            append(" : ")
-            append(categoryPath)
-            append("\n")
-        }
-
-        //comment
-        if (comment != "") {
-            append(ctx.getString(R.string.notes))
-            append(" : ")
-            append(comment)
-            append("\n")
-        }
-
-        //payee
-        if (party != null) {
-            append(
-                ctx.getString(
-                    if (amount.amountMajor.signum() == 1) R.string.payer else R.string.payee
-                )
-            )
-            append(" : ")
-            append(party.name)
-            append("\n")
-        }
-
-        //Method
-        if (methodId != null) {
-            append(ctx.getString(R.string.method))
-            append(" : ")
-            append(methodLabel)
-            append("\n")
-        }
-        append("UUID : ")
-        append(uuid)
-    }
+    ) = compileDescription(
+        ctx,
+        currencyFormatter,
+        amount,
+        categoryId,
+        categoryPath,
+        isTransfer,
+        comment,
+        party?.name,
+        methodId,
+        methodLabel,
+        uuid
+    )
 }
 
 data class TransactionEditResult(
     val id: Long,
     val amount: Long,
-    val planId: Long?,
+    val initialPlanId: Long?,
     val transferPeer: Long? = null,
     val transferAmount: Long? = null,
 )
+
+@VisibleForTesting
+fun compileDescription(
+    ctx: Context,
+    currencyFormatter: ICurrencyFormatter,
+    amount: Money,
+    categoryId: Long?,
+    categoryPath: String?,
+    isTransfer: Boolean,
+    comment: String?,
+    payeeName: String?,
+    methodId: Long?,
+    methodLabel: String?,
+    uuid: String,
+) = buildString {
+    append(ctx.getString(R.string.amount))
+    append(" : ")
+    append(currencyFormatter.formatMoney(amount))
+    append("\n")
+    if (categoryId != null && categoryId > 0) {
+        append(ctx.getString(R.string.category))
+        append(" : ")
+        append(categoryPath)
+        append("\n")
+    }
+    if (isTransfer) {
+        append(ctx.getString(R.string.account))
+        append(" : ")
+        append(categoryPath)
+        append("\n")
+    }
+
+    //comment
+    if (comment?.isNotEmpty() == true) {
+        append(ctx.getString(R.string.notes))
+        append(" : ")
+        append(comment)
+        append("\n")
+    }
+
+    //payee
+    if (payeeName != null) {
+        append(
+            ctx.getString(
+                if (amount.amountMajor.signum() == 1) R.string.payer else R.string.payee
+            )
+        )
+        append(" : ")
+        append(payeeName)
+        append("\n")
+    }
+
+    //Method
+    if (methodId != null) {
+        append(ctx.getString(R.string.method))
+        append(" : ")
+        append(methodLabel)
+        append("\n")
+    }
+    append("UUID : ")
+    append(uuid)
+}

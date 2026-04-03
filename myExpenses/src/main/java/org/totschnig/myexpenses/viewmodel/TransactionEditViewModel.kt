@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.db2.requireParty
 import org.totschnig.myexpenses.db2.savePrice
 import org.totschnig.myexpenses.db2.updateNewPlanEnabled
+import org.totschnig.myexpenses.db2.updatePlan
 import org.totschnig.myexpenses.db2.updateTemplate
 import org.totschnig.myexpenses.db2.updateTransaction
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
@@ -229,25 +230,32 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 }
             )
             val result = if (transaction.isTemplate) {
-                val planId = transaction.maybeCreateInitialPlan()?.second?.id
+                val initialPlanId = transaction.maybeCreateInitialPlan()?.second?.id
                 val template = TransactionMapper.mapTemplate(transaction).let {
-                    if (planId != null) it.copy(data = it.data.copy(planId = planId)) else it
+                    if (initialPlanId != null) it.copy(data = it.data.copy(planId = initialPlanId)) else it
                 }
                 val id = if (transaction.id == 0L) {
                     val id = repository.createTemplate(template).id
                     repository.updateNewPlanEnabled(licenceHandler)
-                    if (planId != null) {
+                    if (initialPlanId != null) {
                         PlanExecutor.enqueueSelf(application, prefHandler, forceImmediate = true)
                     }
                     id
                 } else {
                     repository.updateTemplate(template)
+                    if (transaction.planId != null) {
+                        repository.updatePlan(
+                            transaction.planId,
+                            template.title,
+                            transaction.compileDescription(application, currencyFormatter)
+                        )
+                    }
                     transaction.id
                 }
                 TransactionEditResult(
                     id = id,
                     amount = template.data.amount,
-                    planId = planId
+                    initialPlanId = initialPlanId
                 )
             } else {
                 val repositoryTransaction = TransactionMapper.mapTransaction(transaction)
@@ -257,7 +265,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     repository.updateTransaction(repositoryTransaction)
                     repositoryTransaction
                 }
-                val planId = transaction.maybeCreateInitialPlan()?.also { (title, plan) ->
+                val initialPlanId = transaction.maybeCreateInitialPlan()?.also { (title, plan) ->
                     val template = repository.createTemplate(
                         RepositoryTemplate.fromTransaction(
                             repositoryTransaction,
@@ -287,7 +295,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     amount = repositoryTransaction.data.amount,
                     transferPeer = saved.transferPeer?.id,
                     transferAmount = repositoryTransaction.transferPeer?.amount,
-                    planId = planId
+                    initialPlanId = initialPlanId
                 )
             }
             //Attachments

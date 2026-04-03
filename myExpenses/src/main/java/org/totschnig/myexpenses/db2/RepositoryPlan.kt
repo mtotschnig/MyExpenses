@@ -88,7 +88,8 @@ fun Repository.loadPlan(planId: Long): Plan? {
             Events._ID,
             Events.DTSTART,
             Events.RRULE,
-            Events.TITLE
+            Events.TITLE,
+            Events.DESCRIPTION
         ),
         null,
         null,
@@ -99,7 +100,7 @@ fun Repository.loadPlan(planId: Long): Plan? {
             it.getLong(Events.DTSTART),
             it.getString(Events.RRULE),
             it.getString(Events.TITLE),
-            "" // we do not need the description stored in the event
+            it.getString(Events.DESCRIPTION)
         )
     }
 }

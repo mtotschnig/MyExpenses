@@ -16,7 +16,6 @@ import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.NoMatchingViewException
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.action.ViewActions.scrollTo
@@ -67,6 +66,7 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.model2.Account.Companion.DEFAULT_COLOR
@@ -82,8 +82,10 @@ import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
+import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.toEpoch
+import org.totschnig.myexpenses.viewmodel.data.compileDescription
 import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 import org.totschnig.shared_test.TransactionData
 import org.totschnig.shared_test.assertTransaction
@@ -91,8 +93,8 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.concurrent.TimeoutException
-import org.totschnig.myexpenses.test.R as RT
 import com.google.android.material.R as RM
+import org.totschnig.myexpenses.test.R as RT
 
 abstract class BaseUiTest<A : ProtectedFragmentActivity> {
     private var isLarge = false
@@ -117,6 +119,9 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
 
     val currencyContext: CurrencyContext
         get() = app.appComponent.currencyContext()
+
+    val currencyFormatter: ICurrencyFormatter
+        get() = app.appComponent.currencyFormatter()
 
     protected val repository: Repository
         get() = app.appComponent.repository()
@@ -541,6 +546,22 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
             } else {
                 assertThat(template.data.planId).isGreaterThan(0)
             }
+            assertThat(template.plan!!.title).isEqualTo(templateTitle)
+            assertThat(template.plan.description).isEqualTo(
+                compileDescription(
+                    targetContext,
+                    currencyFormatter,
+                    Money(currencyContext.homeCurrencyUnit, expectedAmount),
+                    expectedCategory,
+                    template.data.categoryPath,
+                    false,
+                    null,
+                    template.data.payeeName,
+                    expectedMethod,
+                    template.data.methodLabel,
+                    template.data.uuid
+                )
+            )
 
         } else {
             assertThat(template.data.planId).isNull()
