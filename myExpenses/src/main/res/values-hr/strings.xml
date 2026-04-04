@@ -996,6 +996,7 @@
     <string name="content_description_select_recent_file">Odaberi iz nedavnih datoteka</string>
     <string name="content_description_show_balance_details">Prikaži detaljne informacije</string>
     <string name="menu_templates">Predlošci</string>
-    <string name="pref_ui_start_screen_title">Početni zaslon</string>
-    <string name="pref_ui_start_screen_last_visited">Zadnji posjećeni</string>
+    <string name="pref_ui_start_screen_title">Početni ekran</string>
+    <string name="pref_ui_start_screen_last_visited">Zadnje posjećeno</string>
+    <string name="main_navigation">Glavna navigacija</string>
 </resources>
