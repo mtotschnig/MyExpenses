@@ -115,6 +115,7 @@ import org.totschnig.myexpenses.util.ContribUtils
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
+import org.totschnig.myexpenses.util.distrib.ReviewManager
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.ui.asDateTimeFormatter
@@ -144,6 +145,7 @@ import java.math.BigDecimal
 import java.text.SimpleDateFormat
 import java.util.Locale
 import java.util.Optional
+import javax.inject.Inject
 import kotlin.jvm.optionals.getOrNull
 
 const val DIALOG_TAG_NEW_BALANCE = "NEW_BALANCE"
@@ -158,6 +160,9 @@ typealias RenderFactory = (
 
 abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
     NewProgressDialogFragment.Host {
+
+    @Inject
+    lateinit var reviewManager: ReviewManager
 
     lateinit var viewModel: T
     lateinit var remapHandler: RemapHandler

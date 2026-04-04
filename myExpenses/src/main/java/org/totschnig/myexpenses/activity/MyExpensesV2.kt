@@ -104,8 +104,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
     override fun onEditTransactionResult() {
         if (shouldShowAds) {
             if (!adHandler.onEditTransactionResult(this)) {
-                //TODO
-                //reviewManager.onEditTransactionResult(this)
+                reviewManager.onEditTransactionResult(this)
             }
         }
     }

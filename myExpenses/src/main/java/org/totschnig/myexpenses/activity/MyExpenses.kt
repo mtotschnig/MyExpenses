@@ -147,9 +147,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
     lateinit var discoveryHelper: IDiscoveryHelper
 
     @Inject
-    lateinit var reviewManager: ReviewManager
-
-    @Inject
     lateinit var modelClass: Class<out MyExpensesViewModel>
 
     private var drawerToggle: ActionBarDrawerToggle? = null
