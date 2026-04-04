@@ -101,7 +101,7 @@ data class Template(
     )
 
     companion object {
-        fun deriveFrom(transaction: Transaction, title: String) = with(transaction) {
+        fun deriveFrom(transaction: Transaction, title: String, uuid: String) = with(transaction) {
             Template(
                 title = title,
                 amount = amount,
@@ -118,7 +118,7 @@ data class Template(
                 currency = currency,
                 tagList = transaction.tagList,
                 debtId = debtId,
-                uuid = generateUuid()
+                uuid = uuid
             )
         }
         fun fromCursor(cursor: Cursor) = with(cursor) {

@@ -1,10 +1,12 @@
 package org.totschnig.myexpenses.testutils
 
+import android.Manifest
 import android.app.Activity
 import android.content.ContentResolver
 import android.content.Context
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.view.View
 import androidx.annotation.IdRes
 import androidx.appcompat.widget.MenuPopupWindow.MenuDropDownListView
@@ -33,7 +35,9 @@ import androidx.test.espresso.matcher.ViewMatchers.isNotChecked
 import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
+import androidx.test.rule.GrantPermissionRule
 import androidx.test.uiautomator.UiDevice
 import com.adevinta.android.barista.interaction.BaristaEditTextInteractions
 import com.adevinta.android.barista.interaction.BaristaScrollInteractions
@@ -130,6 +134,17 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         get() = prefHandler.defaultTransferCategory
 
     val homeCurrency: CurrencyUnit by lazy { currencyContext.homeCurrencyUnit }
+
+    fun buildGrantPermissionRule(): GrantPermissionRule = GrantPermissionRule.grant(
+        *buildList {
+            add(Manifest.permission.WRITE_CALENDAR)
+            add(Manifest.permission.READ_CALENDAR)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                add(Manifest.permission.POST_NOTIFICATIONS)
+            }
+            add(Manifest.permission.CHANGE_CONFIGURATION)
+        }.toTypedArray()
+    )
 
     @JvmOverloads
     fun buildAccount(
@@ -255,14 +270,14 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
             if (DistributionHelper.isPlay) {
                 try {
                     //without play service a billing setup error dialog is displayed
-                    onView(ViewMatchers.withText(android.R.string.ok)).perform(click())
+                    onView(withText(android.R.string.ok)).perform(click())
                 } catch (_: Exception) {
                 }
             }
             onView(ViewMatchers.withSubstring(getString(R.string.dialog_title_contrib_feature))).check(
                 matches(isDisplayed())
             )
-            onView(ViewMatchers.withText(R.string.button_try)).perform(scrollTo(), click())
+            onView(withText(R.string.button_try)).perform(scrollTo(), click())
         }
     }
 

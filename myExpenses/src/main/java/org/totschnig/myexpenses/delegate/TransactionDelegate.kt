@@ -862,7 +862,7 @@ abstract class TransactionDelegate(
                     } else {
                         transaction.copy(
                             initialPlan = if (recurrenceSpinner.selectedItemPosition > 0 && this@TransactionDelegate.planId == null) {
-                                InitialPlanData(title, selectedRecurrence, planButton.date)
+                                InitialPlanData(title, selectedRecurrence, planButton.date, uuid)
                             } else null,
                             templateEditData = TemplateEditData(
                                 title = title,
@@ -914,7 +914,8 @@ abstract class TransactionDelegate(
                             InitialPlanData(
                                 title.takeIf { it.isNotEmpty() },
                                 selectedRecurrence,
-                                dateEditBinding.DateButton.date
+                                dateEditBinding.DateButton.date,
+                                generateUuid() // Template UUID must be different from transaction UUID
                             ) else null
                     )
                 }

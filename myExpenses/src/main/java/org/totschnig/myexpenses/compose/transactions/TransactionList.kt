@@ -555,17 +555,16 @@ fun HeaderRenderer(
 ) {
 
     Surface(
+        modifier = Modifier
+            .headerSemantics(headerId)
+            .optional(onHeaderSize) { onHeaderSize ->
+                onGloballyPositioned { layoutCoordinates ->
+                    onHeaderSize(layoutCoordinates.size.height)
+                }
+            },
         color = MaterialTheme.colorScheme.surfaceContainer
     ) {
-        Box(
-            modifier = Modifier
-                .headerSemantics(headerId)
-                .optional(onHeaderSize) { onHeaderSize ->
-                    onGloballyPositioned { layoutCoordinates ->
-                        onHeaderSize(layoutCoordinates.size.height)
-                    }
-                }
-        ) {
+        Box {
             val context = LocalContext.current
             val displayTitle = account.grouping.getDisplayTitle(
                 context,

@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.testutils
 
-import android.Manifest
 import android.content.Context
 import android.os.Build
 import androidx.compose.ui.test.filter
@@ -20,7 +19,6 @@ import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.contrib.DrawerActions
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import androidx.test.rule.GrantPermissionRule
 import org.hamcrest.Matchers.containsString
 import org.junit.After
 import org.junit.AfterClass
@@ -46,18 +44,7 @@ abstract class TestMain(locale: String?) : BaseMyExpensesTest() {
     @Rule
     @JvmField
     val chain: TestRule = RuleChain
-        .outerRule(
-            GrantPermissionRule.grant(
-                *buildList {
-                    add(Manifest.permission.WRITE_CALENDAR)
-                    add(Manifest.permission.READ_CALENDAR)
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                        add(Manifest.permission.POST_NOTIFICATIONS)
-                    }
-                    add(Manifest.permission.CHANGE_CONFIGURATION)
-                }.toTypedArray()
-            )
-        )
+        .outerRule(buildGrantPermissionRule())
         .around(
             locale?.let { LocaleTestRule(it) } ?: LocaleTestRule()
         )

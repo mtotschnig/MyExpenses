@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.test.espresso
 
-import android.Manifest
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onData
@@ -38,13 +37,13 @@ import org.totschnig.myexpenses.db2.insertTemplate
 import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
-import org.totschnig.myexpenses.provider.KEY_INSTANCEID
-import org.totschnig.myexpenses.provider.KEY_TEMPLATEID
-import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_INSTANCEID
 import org.totschnig.myexpenses.provider.KEY_PARENTID
+import org.totschnig.myexpenses.provider.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.KEY_TITLE
+import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseUiTest
@@ -59,9 +58,8 @@ import java.time.ZonedDateTime
 @TestShard3
 class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
     @get:Rule
-    var grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR
-    )
+    var grantPermissionRule: GrantPermissionRule = buildGrantPermissionRule()
+
     private lateinit var account1: Account
     private lateinit var account2: Account
 

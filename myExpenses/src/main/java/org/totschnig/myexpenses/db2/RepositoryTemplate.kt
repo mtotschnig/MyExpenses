@@ -163,10 +163,11 @@ data class RepositoryTemplate(
         fun fromTransaction(
             t: RepositoryTransaction,
             title: String = "",
+            uuid: String = generateUuid(),
         ) = RepositoryTemplate(
-            data = Template.deriveFrom(t.data, title),
+            data = Template.deriveFrom(t.data, title, uuid),
             splitParts = t.splitParts?.map {
-                RepositoryTemplate(Template.deriveFrom(it.data, ""))
+                RepositoryTemplate(Template.deriveFrom(it.data, "", generateUuid()))
             },
             tags = t.tags
         )

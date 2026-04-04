@@ -34,6 +34,7 @@ data class InitialPlanData(
     val title: String?,
     val recurrence: Recurrence,
     val date: LocalDate,
+    val uuid: String,
 ) : Parcelable
 
 @Parcelize
@@ -118,6 +119,7 @@ data class TransactionEditData(
     fun compileDescription(
         ctx: Context,
         currencyFormatter: ICurrencyFormatter,
+        uuid: String = this.uuid
     ) = compileDescription(
         ctx,
         currencyFormatter,

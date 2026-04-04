@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.test.espresso
 
-import android.Manifest
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Intent
@@ -72,9 +71,7 @@ import java.util.Currency
 class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     @get:Rule
-    var grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR
-    )
+    var grantPermissionRule: GrantPermissionRule = buildGrantPermissionRule()
     private lateinit var foreignCurrency: CurrencyUnit
     private lateinit var account2: Account
     private lateinit var transaction: RepositoryTransaction

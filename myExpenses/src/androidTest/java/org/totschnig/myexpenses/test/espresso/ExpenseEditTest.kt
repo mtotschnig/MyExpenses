@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.test.espresso
 
-import android.Manifest
 import android.widget.Button
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -62,9 +61,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
     private lateinit var currency2: CurrencyUnit
 
     @get:Rule
-    var grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR, Manifest.permission.POST_NOTIFICATIONS
-    )
+    var grantPermissionRule: GrantPermissionRule = buildGrantPermissionRule()
 
     @Before
     fun fixture() {
