@@ -102,11 +102,15 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
     }
 
     override fun onEditTransactionResult() {
-        if (shouldShowAds) {
-            if (!adHandler.onEditTransactionResult(this)) {
-                reviewManager.onEditTransactionResult(this)
-            }
+        val adHandled = shouldShowAds && adHandler.onEditTransactionResult(this)
+
+        if (!adHandled) {
+            reviewManager.onEditTransactionResult(this)
         }
+    }
+
+    override fun injectDependencies() {
+        injector.inject(this)
     }
 
     @OptIn(ExperimentalMaterial3Api::class)
