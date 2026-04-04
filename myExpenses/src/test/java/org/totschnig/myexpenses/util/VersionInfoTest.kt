@@ -18,8 +18,8 @@ import org.totschnig.myexpenses.viewmodel.data.VersionInfo
 @RunWith(RobolectricTestRunner::class)
 class VersionInfoTest {
 
-    val context
-        get() = ApplicationProvider.getApplicationContext<Application>()
+    val context: Application
+        get() = ApplicationProvider.getApplicationContext()
 
     val currentVersion
      get()= VersionInfo(context.resources.getStringArray(R.array.versions).first())
