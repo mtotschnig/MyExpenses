@@ -8,6 +8,7 @@ import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.ui.DisplayParty
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.util.epoch2LocalDateTime
 import org.totschnig.myexpenses.util.toEpoch
@@ -30,7 +31,10 @@ object TransactionMapper {
             amount = money,
             date = epoch2LocalDateTime(transaction.date),
             valueDate = epoch2LocalDate(transaction.valueDate),
-            party = transaction.payeeId?.let { DisplayParty(it, transaction.payeeName!!) },
+            party = transaction.payeeId?.let { DisplayParty(it, transaction.payeeName ?: run {
+                CrashHandler.report(NullPointerException())
+                "_null_"
+            }) },
             categoryId = transaction.categoryId,
             categoryPath = transaction.categoryPath,
             categoryIcon = transaction.categoryIcon,
