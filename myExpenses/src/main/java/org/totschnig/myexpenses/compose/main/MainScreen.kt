@@ -168,10 +168,17 @@ fun MainScreenAdaptive(
     val preferredNavModeLoadingState = viewModel.navigationMode.statefulFlow
         .collectAsState(PreferenceState.Loading).value
 
-    if (forcedAccountPanelLoadingState !is PreferenceState.Loaded || preferredNavModeLoadingState !is PreferenceState.Loaded) return
+    val accountGroupingLoadingState = viewModel.accountGrouping.statefulFlow
+        .collectAsState(PreferenceState.Loading).value
+
+    if (forcedAccountPanelLoadingState !is PreferenceState.Loaded ||
+        preferredNavModeLoadingState !is PreferenceState.Loaded ||
+        accountGroupingLoadingState !is PreferenceState.Loaded
+        ) return
 
     val forcedAccountPanelState = forcedAccountPanelLoadingState.value
     val preferredNavMode = preferredNavModeLoadingState.value.validate(isTablet)
+    val accountGrouping = accountGroupingLoadingState.value
 
     val adaptiveInfo = currentWindowAdaptiveInfo()
 
@@ -201,8 +208,6 @@ fun MainScreenAdaptive(
     )
 
     val menuConfig = viewModel.mainMenu.collectAsState()
-
-    val accountGrouping = viewModel.accountGrouping.asState()
 
     val is2Pane = navigator.scaffoldDirective.maxHorizontalPartitions > 1
     val isLandscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
@@ -355,7 +360,7 @@ fun MainScreenAdaptive(
                                 containerColor = Color.Transparent,
                                 navigationIcon = navigationIcon,
                                 accounts = accounts,
-                                accountGrouping = accountGrouping.value,
+                                accountGrouping = accountGrouping,
                                 selectedAccountId = selectedAccountId,
                                 viewModel = viewModel,
                                 onEvent = onAppEvent,
@@ -400,7 +405,7 @@ fun MainScreenAdaptive(
                             TransactionScreen(
                                 containerColor = Color.Transparent,
                                 accounts = accounts,
-                                accountGrouping = accountGrouping.value,
+                                accountGrouping = accountGrouping,
                                 availableFilters = availableFilters,
                                 selectedAccountId = selectedAccountId,
                                 viewModel = viewModel,

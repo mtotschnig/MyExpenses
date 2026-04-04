@@ -7,6 +7,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model2.AccountWithGroupingKey
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
+import timber.log.Timber
 
 interface AccountGroupingKey {
     val id: Any
@@ -83,16 +84,14 @@ sealed class AccountGrouping<T : AccountGroupingKey>(
         val V1_VALUES by lazy { arrayOf(TYPE, CURRENCY, NONE) }
         val ALL_VALUES by lazy { arrayOf(TYPE, CURRENCY, FLAG, NONE) }
 
-        fun valueOf(value: String): AccountGrouping<*> {
-            return when (value) {
-                "TYPE" -> TYPE
-                "CURRENCY" -> CURRENCY
-                "FLAG" -> FLAG
-                "NONE" -> NONE
-                else -> {
-                    CrashHandler.report(IllegalArgumentException("No AccountGrouping $value"))
-                    DEFAULT
-                }
+        fun valueOf(value: String) = when (value) {
+            "TYPE" -> TYPE
+            "CURRENCY" -> CURRENCY
+            "FLAG" -> FLAG
+            "NONE" -> NONE
+            else -> {
+                CrashHandler.report(IllegalArgumentException("No AccountGrouping $value"))
+                DEFAULT
             }
         }
 

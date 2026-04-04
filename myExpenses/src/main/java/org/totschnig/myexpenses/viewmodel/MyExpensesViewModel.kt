@@ -330,22 +330,14 @@ open class MyExpensesViewModel(
         PreferenceAccessor(
             dataStore = dataStore,
             key = prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING),
-            defaultValue = AccountGrouping.NONE,
+            defaultValue = AccountGrouping.DEFAULT,
             mapper = object : Mapper<AccountGrouping<*>, String> {
                 override fun toPreference(userValue: AccountGrouping<*>): String {
                     return userValue.name
                 }
 
-                override fun fromPreference(persistedValue: String): AccountGrouping<*> {
-                    // Deserialize from the string name
-                    return when (persistedValue) {
-                        "TYPE" -> AccountGrouping.TYPE
-                        "CURRENCY" -> AccountGrouping.CURRENCY
-                        "FLAG" -> AccountGrouping.FLAG
-                        "NONE" -> AccountGrouping.NONE
-                        else -> AccountGrouping.DEFAULT // Default fallback
-                    }
-                }
+                override fun fromPreference(persistedValue: String) =
+                    AccountGrouping.valueOf(persistedValue)
             }
         )
     }

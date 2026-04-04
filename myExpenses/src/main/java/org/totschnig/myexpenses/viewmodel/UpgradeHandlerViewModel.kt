@@ -594,6 +594,7 @@ class UpgradeHandlerViewModel(application: Application) :
                         prefHandler.putString(PrefKey.PRINT_FOOTER_RIGHT, "{page}")
                     }
                 }
+
                 if (fromVersion < 749) {
                     try {
                         prefHandler.putString(PrefKey.SCROLL_TO_CURRENT_DATE,
@@ -606,16 +607,19 @@ class UpgradeHandlerViewModel(application: Application) :
                         CrashHandler.report(e)
                     }
                 }
+
                 if (fromVersion < 754) {
                     prefHandler.getOrderedStringSet(PrefKey.CUSTOMIZE_MAIN_MENU)?.let {
                         prefHandler.putOrderedStringSet(PrefKey.CUSTOMIZE_MAIN_MENU,it + MenuItem.Archive.name)
                     }
                 }
+
                 if (fromVersion < 774) {
                     prefHandler.getString("exchange_rate_provider")?.let {
                         prefHandler.putStringSet(PrefKey.EXCHANGE_RATE_PROVIDER, setOf(it))
                     }
                 }
+
                 if (fromVersion < 775) {
                     contentResolver.query(ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES, null, null, null, null)
                         ?.use { cursor ->
@@ -631,6 +635,7 @@ class UpgradeHandlerViewModel(application: Application) :
                         migrateFilterHelper(cursor, BudgetViewModel::prefNameForCriteriaLegacy, BudgetViewModel::prefNameForCriteria)
                     }
                 }
+
                 if (fromVersion < 797) {
                     prefHandler.putString(PrefKey.SCROLL_TO_CURRENT_DATE,
                         try {
@@ -642,6 +647,7 @@ class UpgradeHandlerViewModel(application: Application) :
                     )
                     prefHandler.remove("scroll_to_current_date")
                 }
+
                 if (fromVersion < 803) {
                     if (prefHandler.isSet(PrefKey.ACCOUNT_GROUPING)) {
                         dataStore.edit {
@@ -650,10 +656,20 @@ class UpgradeHandlerViewModel(application: Application) :
                         }
                     }
                 }
+
                 if (fromVersion < 838) {
                     migrationInfos.add(
                         MigrationInfo(1)
                     )
+                }
+
+                if (fromVersion < 840) {
+                    val key = prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING)
+                    val grouping = dataStore.data.first()[key]
+                    if (grouping !in AccountGrouping.ALL_VALUES.map { it.name }) {
+                        CrashHandler.report(Exception("Repairing AccountGrouping $grouping"))
+                        dataStore.edit { it[key] = AccountGrouping.DEFAULT.name }
+                    }
                 }
 
                 prefHandler.putInt(PrefKey.CURRENT_VERSION, toVersion)
