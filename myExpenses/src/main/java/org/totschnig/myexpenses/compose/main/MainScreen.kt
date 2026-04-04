@@ -152,7 +152,7 @@ fun MainScreenAdaptive(
     flags: List<AccountFlag> = emptyList(),
     bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
     adView: @Composable () -> Unit,
-    isNavigationVisible: Boolean = true,
+    isNavigationVisible: Boolean,
     pageContent: @Composable (pageAccount: PageAccount, isCurrent: Boolean) -> Unit,
 ) {
 
@@ -425,8 +425,8 @@ fun MainScreenAdaptive(
 
                                     else -> when {
                                         fontScale > 1.5f -> 0
-                                        fontScale > 1.1f -> 1
-                                        else -> 2
+                                        fontScale > 1.1f -> if (isNavigationVisible) 0 else 1
+                                        else -> if (isNavigationVisible) 1 else 2
                                     }
                                 },
                                 windowInsets = with(customInsets) {

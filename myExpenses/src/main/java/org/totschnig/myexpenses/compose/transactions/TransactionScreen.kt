@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -109,7 +108,6 @@ import org.totschnig.myexpenses.compose.main.AppEventHandler
 import org.totschnig.myexpenses.compose.main.parseMenu
 import org.totschnig.myexpenses.compose.main.rememberCollapsingTabRowState
 import org.totschnig.myexpenses.compose.optional
-import org.totschnig.myexpenses.compose.width
 import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
@@ -267,8 +265,9 @@ fun TransactionScreen(
                                 onPrepareMenuItem(it.id)
                             }
 
-                            val quickItems = filteredItems.take(visibleActionItems)
-                            val overflowItems = filteredItems.drop(visibleActionItems)
+                            //no need to show overflow menu if there is only one item
+                            val quickItems = if (filteredItems.size > 1) filteredItems.take(visibleActionItems) else filteredItems
+                            val overflowItems = filteredItems - quickItems.toSet()
 
                             quickItems.forEach {
                                 if (it == MenuItem.Tune) {
