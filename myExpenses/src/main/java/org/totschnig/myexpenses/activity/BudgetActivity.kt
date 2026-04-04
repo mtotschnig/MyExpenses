@@ -184,8 +184,9 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                     )
                 }
 
-                Box(modifier = Modifier
-                    .fillMaxSize()
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
                 ) {
                     if (category.value === Category.LOADING || budget == null) {
                         CircularProgressIndicator(
@@ -328,7 +329,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                         animateXY(1400, 1400, Easing.EaseInOutQuad)
 
                         with(xAxis) {
-                            setTextSize(9f)
+                            textSize = 9f
                             yOffset = 0f
                             xOffset = 0f
                             textColor = textColorSecondary.defaultColor
@@ -337,9 +338,9 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
 
                         with(yAxis) {
                             setLabelCount(5, false)
-                            setTextSize(9f)
+                            textSize = 9f
                             textColor = textColorSecondary.defaultColor
-                            setAxisMinimum(0f)
+                            axisMinimum = 0f
                         }
                         legend.isEnabled = false
                     }
@@ -422,12 +423,18 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
             when (dialogTag) {
                 EDIT_BUDGET_DIALOG -> {
                     BundleCompat.getSerializable(extras, KEY_AMOUNT, BigDecimal::class.java)?.let {
-                        viewModel.updateBudget(
-                            budget.id,
-                            extras.getLong(KEY_CATID),
-                            Money(this.currencyContext[budget.currency], it),
-                            extras.getBoolean(KEY_ONE_TIME)
-                        )
+                        Money.buildWithMajor(this.currencyContext[budget.currency], it)
+                            .onSuccess {
+                                viewModel.updateBudget(
+                                    budget.id,
+                                    extras.getLong(KEY_CATID),
+                                    it,
+                                    extras.getBoolean(KEY_ONE_TIME)
+                                )
+                            }
+                            .onFailure {
+                                showSnackBar(R.string.number_too_large)
+                            }
                     }
                     return true
                 }
@@ -578,22 +585,19 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem) = when {
-        item.itemId == Menu.NONE && item.groupId == R.id.SYNC_COMMAND -> {
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        Menu.NONE if item.groupId == R.id.SYNC_COMMAND -> {
             viewModel.exportBudget(item.title.toString())
             true
         }
-
-        item.itemId == R.id.SYNC_COMMAND_EXPORT -> {
+        R.id.SYNC_COMMAND_EXPORT -> {
             viewModel.exportBudget()
             true
         }
-
-        item.itemId == R.id.SYNC_COMMAND_IMPORT -> {
+        R.id.SYNC_COMMAND_IMPORT -> {
             showImportConfirmation.value = true
             true
         }
-
         else -> super.onOptionsItemSelected(item)
     }
 
@@ -680,20 +684,20 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 xAxis.valueFormatter = IAxisValueFormatter { value, _ ->
                     labels[value.toInt() % labels.size]
                 }
-                setData(RadarData(buildList<RadarDataSet> {
+                data = RadarData(buildList<RadarDataSet> {
                     add(
                         RadarDataSet(
                             allocated,
                             getString(R.string.budget_table_header_allocated)
                         ).apply {
-                            setColor(ResourcesCompat.getColor(resources, R.color.colorIncome, null))
-                            setLineWidth(2f)
+                            color = ResourcesCompat.getColor(resources, R.color.colorIncome, null)
+                            lineWidth = 2f
                             isDrawHighlightCircleEnabled = true
                             setDrawHighlightIndicators(false)
                         })
                     add(RadarDataSet(spent, getString(R.string.budget_table_header_spent)).apply {
-                        setColor(ResourcesCompat.getColor(resources, R.color.colorExpense, null))
-                        setLineWidth(2f)
+                        color = ResourcesCompat.getColor(resources, R.color.colorExpense, null)
+                        lineWidth = 2f
                         isDrawHighlightCircleEnabled = true
                         setDrawHighlightIndicators(false)
                     })
@@ -701,7 +705,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                     setValueTextSize(8f)
                     setDrawValues(false)
                     setValueTextColor(Color.WHITE)
-                })
+                }
                 invalidate()
             }
         }

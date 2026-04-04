@@ -811,7 +811,7 @@ abstract class TransactionDelegate(
 
     protected fun buildTemplate(account: Account, transferAccount: Account?) = TransactionEditData(
         templateEditData = TemplateEditData(),
-        amount = Money(homeCurrency, BigDecimal.ZERO),
+        amount = Money(homeCurrency, 0),
         party = null,
         categoryId = null,
         accountId = account.id,

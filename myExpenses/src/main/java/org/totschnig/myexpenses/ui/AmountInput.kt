@@ -17,6 +17,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.viewbinding.ViewBinding
+import arrow.core.flatMap
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.CurrencyAdapter
 import org.totschnig.myexpenses.databinding.AmountInputAlternateBinding
@@ -349,7 +350,7 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
     val typedValue: BigDecimal
         get() = getTypedValue(showToUser = false).getOrNull() ?: BigDecimal.ZERO
 
-    private fun getTypedValue(showToUser: Boolean) =
+    fun getTypedValue(showToUser: Boolean) =
         getUntypedValue(showToUser).map {
             if (it != null && !type) it.negate() else it
         }
@@ -359,14 +360,13 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
     fun getAmount(
         currencyUnit: CurrencyUnit,
         showToUser: Boolean = true,
-    ): Result<Money?> = getTypedValue(showToUser).mapCatching { value ->
-        try {
-            (value ?: BigDecimal.ZERO.takeIf { !showToUser })?.let { Money(currencyUnit, it) }
-        } catch (e: ArithmeticException) {
-            if (showToUser) {
-                setError(context.getString(R.string.number_too_large))
-            }
-            throw e
+    ): Result<Money?> = getTypedValue(showToUser).flatMap { value ->
+        (value ?: BigDecimal.ZERO.takeIf { !showToUser })?.let {
+            Money.buildWithMajor(currencyUnit, it)
+        } ?: Result.success(null)
+    }.onFailure {
+        if (showToUser) {
+            setError(context.getString(R.string.number_too_large))
         }
     }
 

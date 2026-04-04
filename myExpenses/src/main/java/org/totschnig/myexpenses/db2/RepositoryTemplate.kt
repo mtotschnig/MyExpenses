@@ -131,7 +131,8 @@ data class RepositoryTemplate(
                                 transferCurrency,
                                 LocalDate.now()
                             )
-                            Money(transferCurrency, -amount.amountMajor.multiply(rate)).amountMinor
+                            Money.buildWithMajor(transferCurrency, -amount.amountMajor.multiply(rate))
+                                .getOrThrow().amountMinor
                         } catch (e: Exception) {
                             if (e !is UnsupportedOperationException) {
                                 CrashHandler.report(e)
@@ -483,7 +484,8 @@ suspend fun Repository.instantiateTemplate(
                                     homeCurrency,
                                     date
                                 )
-                                Money(homeCurrency, amount.amountMajor.multiply(rate)).amountMinor
+                                Money.buildWithMajor(homeCurrency, amount.amountMajor.multiply(rate))
+                                    .getOrThrow().amountMinor
                             } catch (_: Exception) {
                                 (amount.amountMinor * account.exchangeRate).roundToLong()
                             }

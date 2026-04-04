@@ -159,7 +159,7 @@ abstract class ImportDataViewModel(application: Application) :
                 comment = memo,
                 crStatus = fromQifName(status),
                 referenceNumber = number,
-                amount = Money(currencyUnit, amount).amountMinor,
+                amount = Money.buildWithMajor(currencyUnit, amount).getOrThrow().amountMinor,
                 accountId = a.id,
                 categoryId = if (isSplit) SPLIT_CATID else
                     findCategory(payeeId, autofill),
@@ -171,10 +171,10 @@ abstract class ImportDataViewModel(application: Application) :
             ),
             transferPeer = if (transferAccount != null && toAmount != null) Transaction(
                 date = date,
-                amount = Money(
+                amount = Money.buildWithMajor(
                     currencyContext[transferAccount.currency],
                     toAmount
-                ).amountMinor,
+                ).getOrThrow().amountMinor,
                 accountId = transferAccount.id,
                 transferAccountId = a.id,
                 uuid = uuid

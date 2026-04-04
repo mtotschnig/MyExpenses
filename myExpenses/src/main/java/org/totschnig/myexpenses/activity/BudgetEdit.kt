@@ -332,7 +332,10 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
                 val account: AccountMinimal = selectedAccount()
                 val currencyUnit = currencyContext[account.currency]
                 val initialAmount = if (budgetId == 0L) {
-                    Money(currencyUnit, allocation!!).amountMinor
+                    Money.buildWithMajor(currencyUnit, allocation!!).onFailure {
+                        showDismissibleSnackBar(R.string.number_too_large)
+                        return
+                    }.getOrNull()?.amountMinor
                 } else null
 
                 val budget = Budget(

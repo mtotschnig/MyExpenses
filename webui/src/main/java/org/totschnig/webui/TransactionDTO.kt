@@ -45,7 +45,7 @@ data class TransactionDTO(
             LocalDateTime.of(date, time).toEpoch()
         } ?: date.toEpoch(),
         valueDate = valueDate.toEpoch(),
-        amount = Money(currencyUnit, BigDecimal(amount.toString())).amountMinor,
+        amount = Money.buildWithMajor(currencyUnit, BigDecimal(amount.toString())).getOrThrow().amountMinor,
         categoryId = category,
         accountId = account,
         payeeId = party,

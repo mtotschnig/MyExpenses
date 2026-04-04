@@ -158,7 +158,11 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             buildColorDialog(this, color).show(this, EDIT_COLOR_DIALOG)
         }
         binding.SyncUnlink.setOnClickListener {
-            DialogUtils.showSyncUnlinkConfirmationDialog(this, viewModel.syncAccountName, viewModel.uuid)
+            DialogUtils.showSyncUnlinkConfirmationDialog(
+                this,
+                viewModel.syncAccountName,
+                viewModel.uuid
+            )
         }
         with(binding.SyncHelp) {
             val helpText =
@@ -307,17 +311,33 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         val currency = (currencySpinner.selectedItem as Currency).code
         val currencyUnit = currencyContext[currency]
         val isForeignExchange = currencyContext.homeCurrencyString != currency
+        val money = Money.buildWithMajor(currencyUnit, openingBalance).getOrNull()
+        if (money == null) {
+            amountInput.setError(getString(R.string.number_too_large))
+            return
+        }
+        val criterion = binding.Criterion.getTypedValue(false)
+            .getOrNull()
+            ?.let {
+                Money.buildWithMajor(currencyUnit, it).onFailure {
+                    binding.Criterion.setError(getString(R.string.number_too_large))
+                    return
+                }
+            }
+            ?.getOrNull()
+            ?.amountMinor
+
         @Suppress("UNCHECKED_CAST") val account = Account(
             id = rowId,
             label = label,
             currency = currency,
-            openingBalance = Money(currencyUnit, openingBalance).amountMinor,
+            openingBalance = money.amountMinor,
             description = binding.Description.text.toString(),
             type = (accountTypeSpinner.selectedItem as SpinnerItem.Item<AccountType>).data,
             color = color,
             uuid = viewModel.uuid,
             syncAccountName = if (syncSpinner.selectedItemPosition > 0) syncSpinner.selectedItem as String else null,
-            criterion = Money(currencyUnit, binding.Criterion.typedValue).amountMinor,
+            criterion = criterion,
             excludeFromTotals = viewModel.excludeFromTotals,
             dynamicExchangeRates = viewModel.dynamicExchangeRates && isForeignExchange,
             exchangeRate = (if (isForeignExchange) {

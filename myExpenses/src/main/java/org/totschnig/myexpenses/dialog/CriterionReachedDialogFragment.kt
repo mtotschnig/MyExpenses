@@ -60,7 +60,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.core.os.BundleCompat
 import androidx.fragment.app.viewModels
@@ -261,17 +260,19 @@ class CriterionReachedDialogFragment() : ComposeBaseDialogFragment3(), OnDialogR
                         Toast.LENGTH_LONG
                     ).show()
                 } else {
-                    val newCriterion = Money(currency, it).amountMinor * criterion.sign
-                    if (criterion.absoluteValue != newCriterion) {
-                        lifecycleScope.launch {
-                            withContext(Dispatchers.IO) {
-                                viewModel.updateCriterion(accountId, newCriterion)
+                    Money.buildWithMajor(currency, it).onSuccess {
+                        val newCriterion = it.amountMinor * criterion.sign
+                        if (criterion.absoluteValue != newCriterion) {
+                            lifecycleScope.launch {
+                                withContext(Dispatchers.IO) {
+                                    viewModel.updateCriterion(accountId, newCriterion)
+                                }
+                                viewModel.info = copy(
+                                    startBalance = newBalance,
+                                    transaction = 0,
+                                    criterion = newCriterion
+                                )
                             }
-                            viewModel.info = copy(
-                                startBalance = newBalance,
-                                transaction = 0,
-                                criterion = newCriterion
-                            )
                         }
                     }
                 }

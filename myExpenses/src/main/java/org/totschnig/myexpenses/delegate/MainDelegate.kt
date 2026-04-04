@@ -35,7 +35,6 @@ import org.totschnig.myexpenses.util.config.Configurator.Configuration.AUTO_COMP
 import org.totschnig.myexpenses.util.config.get
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.formatMoney
-import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.ui.configurePopupAnchor
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Currency
@@ -173,7 +172,7 @@ abstract class MainDelegate(
         return buildMainTransaction(account).let {
             it.copy(
                 amount = amount,
-                party = if (!isSplitPart)  viewBinding.Payee.partyForSave else null,
+                party = if (!isSplitPart) viewBinding.Payee.partyForSave else null,
                 debtId = this@MainDelegate.debtId,
                 methodId = this@MainDelegate.methodId,
                 originalAmount = viewBinding.OriginalAmount.selectedCurrency?.let {
@@ -183,9 +182,10 @@ abstract class MainDelegate(
                     ).getOrNull()
                     //prefHandler.putString(PrefKey.LAST_ORIGINAL_CURRENCY, currency)
                 },
-                equivalentAmount = viewBinding.EquivalentAmount.getAmount(homeCurrency).getOrNull()?.let {
-                    if (isIncome) it else it.negate()
-                }
+                equivalentAmount = viewBinding.EquivalentAmount.getAmount(homeCurrency).getOrNull()
+                    ?.let {
+                        if (isIncome) it else it.negate()
+                    }
             )
         }
     }
@@ -322,8 +322,16 @@ abstract class MainDelegate(
             }
         else validateAmountInput()
 
-    private fun formatDebtHelp(debt: DisplayDebt, installment: BigDecimal) =
-        TextUtils.concat(*buildList {
+    private fun formatDebtHelp(debt: DisplayDebt, installment: BigDecimal): CharSequence? {
+        val installmentMoney = Money.buildWithMajor(debt.currency, installment.abs()).getOrElse {
+            return context.getString(R.string.number_too_large)
+        }
+        val currentBalance = Money(debt.currency, debt.currentBalance)
+        val futureBalance = Money.buildWithMajor(debt.currency, currentBalance.amountMajor - installment).getOrElse {
+            return context.getString(R.string.number_too_large)
+        }
+
+        return TextUtils.concat(*buildList {
             val installmentSign = installment.signum()
             val debtSign = debt.currentBalance.sign
 
@@ -346,12 +354,9 @@ abstract class MainDelegate(
 
                         else -> throw IllegalStateException()
                     },
-                    currencyFormatter.formatMoney(Money(debt.currency, installment.abs()))
+                    currencyFormatter.formatMoney(installmentMoney)
                 )
             )
-
-            val currentBalance = Money(debt.currency, debt.currentBalance)
-            val futureBalance = Money(debt.currency, currentBalance.amountMajor - installment)
 
             val futureSign = futureBalance.amountMajor.signum()
 
@@ -364,7 +369,7 @@ abstract class MainDelegate(
             }
 
             val futureBalanceAbs =
-                currencyFormatter.formatMoney(Money(debt.currency, futureBalance.amountMajor.abs()))
+                currencyFormatter.formatMoney(futureBalance.absolute())
             when (futureSign) {
                 1 -> context.getString(
                     R.string.debt_balance_they_owe,
@@ -377,6 +382,7 @@ abstract class MainDelegate(
             }?.let { add(it) }
 
         }.toTypedArray())
+    }
 
     private fun formatDebt(debt: DisplayDebt, withInstallment: BigDecimal? = null): CharSequence {
         val amount = debt.currentBalance
@@ -392,11 +398,14 @@ abstract class MainDelegate(
                 add(" $RIGHT_ARROW ")
                 val futureBalance = money.amountMajor - it
                 add(
-                    try {
-                        currencyFormatter.formatMoney(Money(debt.currency, futureBalance))
-                    } catch (e: ArithmeticException) {
-                        e.safeMessage
-                    }
+                    Money.buildWithMajor(debt.currency, futureBalance).fold(
+                        onSuccess = {
+                            currencyFormatter.formatMoney(it)
+                        },
+                        onFailure = {
+                            context.getString(R.string.number_too_large)
+                        }
+                    )
                         .withAmountColor(
                             viewBinding.root.context.resources,
                             futureBalance.signum()

@@ -26,7 +26,7 @@ import kotlin.math.pow
 data class Money(val currencyUnit: CurrencyUnit, val amountMinor: Long) : Parcelable {
 
     @Throws(ArithmeticException::class)
-    constructor(currencyUnit: CurrencyUnit, amountMajor: BigDecimal) :
+    private constructor(currencyUnit: CurrencyUnit, amountMajor: BigDecimal) :
             this(currencyUnit, convertBigDecimal(amountMajor, currencyUnit.fractionDigits))
 
     fun negate() = Money(currencyUnit, -amountMinor)
@@ -47,12 +47,15 @@ data class Money(val currencyUnit: CurrencyUnit, val amountMinor: Long) : Parcel
          *
          * @return a new Money object
          */
-        @JvmStatic
         fun buildWithMicros(currency: CurrencyUnit, amountMicros: Long): Money {
             val amountMinor: Long
             val fractionDigits = currency.fractionDigits
             amountMinor = (amountMicros * (10.0).pow(fractionDigits - 6)).toLong()
             return Money(currency, amountMinor)
+        }
+
+        fun buildWithMajor(currency: CurrencyUnit, amountMajor: BigDecimal) = runCatching {
+            Money(currency, amountMajor)
         }
     }
 }

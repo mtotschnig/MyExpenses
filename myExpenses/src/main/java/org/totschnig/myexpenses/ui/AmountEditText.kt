@@ -5,8 +5,8 @@ import android.os.Parcelable
 import android.text.InputFilter.LengthFilter
 import android.text.InputType
 import android.util.AttributeSet
-import android.view.inputmethod.EditorInfo
 import androidx.appcompat.widget.AppCompatEditText
+import arrow.core.flatMap
 import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
 import org.totschnig.myexpenses.R
@@ -93,16 +93,14 @@ class AmountEditText(
         }
     }
 
-    fun getAmount(currencyUnit: CurrencyUnit) =
-        getAmount(true).mapCatching { amount ->
+    fun getAmount(currencyUnit: CurrencyUnit): Result<Money?> =
+        getAmount(true).flatMap { amount ->
             amount?.let {
-                try {
-                    Money(currencyUnit, it)
-                } catch (e: ArithmeticException) {
-                    error = context.getString(R.string.number_too_large)
-                    throw e
-                }
-            }
+                Money.buildWithMajor(currencyUnit, it)
+                    .onFailure {
+                        error = context.getString(R.string.number_too_large)
+                    }
+            } ?: Result.success(null)
         }
 
 

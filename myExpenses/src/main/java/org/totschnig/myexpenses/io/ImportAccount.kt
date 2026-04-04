@@ -19,7 +19,7 @@ data class ImportAccount(
         return Account(
             label = memo,
             currency = currency.code,
-            openingBalance = Money(currency, openingBalance).amountMinor,
+            openingBalance = Money.buildWithMajor(currency, openingBalance).getOrThrow().amountMinor,
             description = desc,
             type = type
         )

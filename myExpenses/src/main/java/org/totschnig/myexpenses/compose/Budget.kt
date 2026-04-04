@@ -491,15 +491,14 @@ private fun RowScope.BudgetNumbers(
                 if (editRollOver != null) {
                     AmountEdit(
                         value = Money(currency, rollOver).amountMajor,
-                        onValueChange = {
-                            try {
-                                val newRollOver = Money(currency, it).amountMinor
-                                editRollOver[category.id] = newRollOver
-                                isOverFlow.value = false
-                            } catch (e: ArithmeticException) {
-                                e.printStackTrace()
-                                isOverFlow.value = true
-                            }
+                        onValueChange = { amountValue ->
+                            Money.buildWithMajor(currency, amountValue)
+                                .onSuccess {
+                                    editRollOver[category.id] = it.amountMinor
+                                    isOverFlow.value = false
+                                }.onFailure {
+                                    isOverFlow.value = true
+                                }
                         },
                         fractionDigits = currency.fractionDigits,
                         isError = isError
