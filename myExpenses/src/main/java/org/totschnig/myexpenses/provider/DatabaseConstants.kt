@@ -61,40 +61,34 @@ object DatabaseConstants {
         weekStartsOn = prefHandler.weekStartWithFallback(locale)
         monthStartsOn = prefHandler.monthStart
         val monthDelta = monthStartsOn - 1
-        val nextWeekEndSqlite: Int
         val nextWeekStartsSqlite = weekStartsOn - 1 //Sqlite starts with Sunday = 0
-        if (weekStartsOn == Calendar.SUNDAY) {
-            //weekStartsOn Sunday
-            nextWeekEndSqlite = 6
-        } else {
-            //weekStartsOn Monday or Saturday
-            nextWeekEndSqlite = weekStartsOn - 2
-        }
+        val nextWeekEndSqlite = if (weekStartsOn == Calendar.SUNDAY)
+        /*weekStartsOn Sunday*/ 6 else/* weekStartsOn Monday or Saturday*/ weekStartsOn - 2
         YEAR_OF_WEEK_START =
-            "CAST(strftime('%Y',date,'unixepoch','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') AS integer)"
+            "CAST(strftime('%Y',date,'unixepoch','localtime','weekday $nextWeekEndSqlite', '-6 day') AS integer)"
         YEAR_OF_MONTH_START =
-            "CAST(strftime('%Y',date,'unixepoch','localtime','-" + monthDelta + " day') AS integer)"
+            "CAST(strftime('%Y',date,'unixepoch','localtime','-$monthDelta day') AS integer)"
         WEEK_START =
-            "date(date,'unixepoch','localtime','weekday " + nextWeekEndSqlite + "', '-6 day')"
+            "date(date,'unixepoch','localtime','weekday $nextWeekEndSqlite', '-6 day')"
         THIS_YEAR_OF_WEEK_START =
-            "CAST(strftime('%Y','now','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') AS integer)"
+            "CAST(strftime('%Y','now','localtime','weekday $nextWeekEndSqlite', '-6 day') AS integer)"
         WEEK =
-            "CAST((strftime('%j',date,'unixepoch','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') - 1) / 7 + 1 AS integer)" //calculated for the beginning of the week
+            "CAST((strftime('%j',date,'unixepoch','localtime','weekday $nextWeekEndSqlite', '-6 day') - 1) / 7 + 1 AS integer)" //calculated for the beginning of the week
         MONTH =
-            "CAST(strftime('%m',date,'unixepoch','localtime','-" + monthDelta + " day') AS integer) - 1" //convert to 0 based
+            "CAST(strftime('%m',date,'unixepoch','localtime','-$monthDelta day') AS integer) - 1" //convert to 0 based
         THIS_WEEK =
-            "CAST((strftime('%j','now','localtime','weekday " + nextWeekEndSqlite + "', '-6 day') - 1) / 7 + 1 AS integer)"
+            "CAST((strftime('%j','now','localtime','weekday $nextWeekEndSqlite', '-6 day') - 1) / 7 + 1 AS integer)"
         THIS_MONTH =
-            "CAST(strftime('%m','now','localtime','-" + monthDelta + " day') AS integer) - 1"
+            "CAST(strftime('%m','now','localtime','-$monthDelta day') AS integer) - 1"
         THIS_YEAR_OF_MONTH_START =
-            "CAST(strftime('%Y','now','localtime','-" + monthDelta + " day') AS integer)"
+            "CAST(strftime('%Y','now','localtime','-$monthDelta day') AS integer)"
         COUNT_FROM_WEEK_START_ZERO = "date('%d-01-01','weekday " + nextWeekStartsSqlite + "', '" +
                 "-7 day" +
                 "' ,'+%d day')"
         WEEK_START_JULIAN =
-            "julianday(date,'unixepoch','localtime'," + JULIAN_DAY_OFFSET + ",'weekday " + nextWeekEndSqlite + "', '-6 day')"
+            "julianday(date,'unixepoch','localtime',$JULIAN_DAY_OFFSET,'weekday $nextWeekEndSqlite', '-6 day')"
         WEEK_MAX =
-            "CAST((strftime('%%j','%d-12-31','weekday " + nextWeekEndSqlite + "', '-6 day') - 1) / 7 + 1 AS integer)"
+            "CAST((strftime('%%j','%d-12-31','weekday $nextWeekEndSqlite', '-6 day') - 1) / 7 + 1 AS integer)"
         buildProjection(context)
         isLocalized = true
     }
@@ -105,7 +99,7 @@ object DatabaseConstants {
             KEY_ACCOUNTID,
             KEY_DATE,
             KEY_VALUE_DATE,
-            KEY_AMOUNT + " AS " + KEY_DISPLAY_AMOUNT,
+            "$KEY_AMOUNT AS $KEY_DISPLAY_AMOUNT",
             KEY_COMMENT,
             KEY_CATID,
             KEY_PATH,
@@ -158,52 +152,36 @@ object DatabaseConstants {
     const val THIS_DAY: String = "CAST(strftime('%j','now','localtime') AS integer)"
     const val DAY: String = "CAST(strftime('%j',date,'unixepoch','localtime') AS integer)"
     const val THIS_YEAR: String = "CAST(strftime('%Y','now','localtime') AS integer)"
-    val DAY_START_JULIAN: String =
-        "julianday(date,'unixepoch','localtime'," + JULIAN_DAY_OFFSET + ")"
+    const val DAY_START_JULIAN: String = "julianday(date,'unixepoch','localtime',$JULIAN_DAY_OFFSET)"
 
     const val TREE_CATEGORIES: String = "Tree"
 
     val CAT_AS_LABEL: String = fullCatCase(null) + " AS " + KEY_LABEL
 
-    val TRANSFER_ACCOUNT_UUID: String =
-        "(SELECT " + KEY_UUID + " FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " + KEY_TRANSFER_ACCOUNT + ") AS " + KEY_TRANSFER_ACCOUNT
+    const val TRANSFER_ACCOUNT_UUID: String =
+        "(SELECT $KEY_UUID FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = $KEY_TRANSFER_ACCOUNT) AS $KEY_TRANSFER_ACCOUNT"
 
-    val TRANSFER_CURRENCY: String = String.format(
-        "(select %1\$s from %2\$s where %3\$s=%4\$s) AS %5\$s",
-        KEY_CURRENCY,
-        TABLE_ACCOUNTS,
-        KEY_ROWID,
-        KEY_TRANSFER_ACCOUNT,
-        KEY_TRANSFER_CURRENCY
-    )
+    const val TRANSFER_CURRENCY: String =
+        "(SELECT $KEY_CURRENCY FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = $KEY_TRANSFER_ACCOUNT) AS $KEY_TRANSFER_CURRENCY"
 
-    val CATEGORY_ICON: String = "CASE WHEN " +
-            "  " + KEY_CATID + " " +
-            " THEN " +
-            "  (SELECT " + KEY_ICON + " FROM " + TABLE_CATEGORIES + " WHERE " + KEY_ROWID + " = " + KEY_CATID + ") " +
-            " ELSE null" +
-            " END AS " + KEY_ICON
+    const val CATEGORY_ICON: String =
+        "CASE WHEN $KEY_CATID THEN (SELECT $KEY_ICON FROM $TABLE_CATEGORIES WHERE $KEY_ROWID = $KEY_CATID) ELSE null END AS $KEY_ICON"
 
 
-    @JvmField
-    val WHERE_NOT_SPLIT: String = KEY_CATID + " IS NOT " + SPLIT_CATID
-    val WHERE_NOT_SPLIT_PART: String = KEY_PARENTID + " IS null"
-    val WHERE_NOT_VOID: String = KEY_CR_STATUS + " != '" + CrStatus.VOID.name + "'"
-    val WHERE_NOT_ARCHIVED: String = KEY_STATUS + " != " + STATUS_ARCHIVED
-    val WHERE_NOT_ARCHIVE: String = KEY_STATUS + " != " + STATUS_ARCHIVE
+    const val WHERE_NOT_SPLIT: String = "$KEY_CATID IS NOT $SPLIT_CATID"
+    const val WHERE_NOT_SPLIT_PART: String = "$KEY_PARENTID IS null"
+    val WHERE_NOT_VOID: String = "$KEY_CR_STATUS != '${CrStatus.VOID.name}'"
+    const val WHERE_NOT_ARCHIVED: String = "$KEY_STATUS != $STATUS_ARCHIVED"
+    const val WHERE_NOT_ARCHIVE: String = "$KEY_STATUS != $STATUS_ARCHIVE"
 
-    @JvmField
-    val WHERE_DEPENDENT: String = (KEY_PARENTID + " = ? OR " + KEY_ROWID + " IN "
-            + "(SELECT " + KEY_TRANSFER_PEER + " FROM " + TABLE_TRANSACTIONS + " WHERE " + KEY_PARENTID + "= ?)")
+    const val WHERE_DEPENDENT: String = ("$KEY_PARENTID = ? OR $KEY_ROWID IN (SELECT $KEY_TRANSFER_PEER FROM $TABLE_TRANSACTIONS WHERE $KEY_PARENTID= ?)")
 
-    @JvmField
-    val WHERE_SELF_OR_PEER: String = KEY_TRANSFER_PEER + " = ? OR " + KEY_ROWID + " = ?"
+    const val WHERE_SELF_OR_PEER: String = "$KEY_TRANSFER_PEER = ? OR $KEY_ROWID = ?"
 
-    @JvmField
-    val WHERE_SELF_OR_RELATED: String = WHERE_SELF_OR_PEER + " OR " + WHERE_DEPENDENT
+    const val WHERE_SELF_OR_RELATED: String = "$WHERE_SELF_OR_PEER OR $WHERE_DEPENDENT"
 
-    val IS_SAME_CURRENCY: String = KEY_CURRENCY + " = (SELECT " + KEY_CURRENCY + " from " +
-            TABLE_ACCOUNTS + " WHERE " + KEY_ROWID + " = " + KEY_TRANSFER_ACCOUNT + ")"
+    const val IS_SAME_CURRENCY: String =
+        "$KEY_CURRENCY = (SELECT $KEY_CURRENCY from $TABLE_ACCOUNTS WHERE $KEY_ROWID = $KEY_TRANSFER_ACCOUNT)"
 
     @JvmStatic
     val yearOfWeekStart: String
