@@ -872,7 +872,9 @@ fun Repository.groupToSplitTransaction(ids: LongArray): Result<Boolean> {
                 Result.success(true)
             }
 
-            0 -> Result.failure(IllegalStateException().also {
+            0 -> Result.failure(IllegalStateException(
+                "Transactions (${ids.joinToString()}) not found"
+            ).also {
                 CrashHandler.report(it)
             })
 
