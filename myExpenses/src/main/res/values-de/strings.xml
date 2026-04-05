@@ -1048,4 +1048,8 @@
     <string name="pref_ui_start_screen_title">Startbildschirm</string>
     <string name="pref_ui_start_screen_last_visited">Zuletzt besucht</string>
     <string name="main_navigation">Hauptnavigation</string>
+    <string name="pref_fab_style_title">Stil der schwebenden Aktionsschaltfläche</string>
+    <string name="pref_fab_style_standard_description">Standard (Klick auf Pfeil öffnet Menü)</string>
+    <string name="pref_fab_style_compact_description">Kompakt (Tippen und halten für Menü)</string>
+    <string name="number_too_large">Zahl zu groß</string>
 </resources>

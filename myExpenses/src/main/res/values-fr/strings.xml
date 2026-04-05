@@ -1064,4 +1064,8 @@
     <string name="pref_ui_start_screen_title">Écran de démarrage</string>
     <string name="pref_ui_start_screen_last_visited">Dernier consulté</string>
     <string name="main_navigation">Navigation principale</string>
+    <string name="pref_fab_style_title">Style de bouton d’action flottant</string>
+    <string name="pref_fab_style_standard_description">Standard (Appuyez sur la flèche pour le menu)</string>
+    <string name="pref_fab_style_compact_description">Compact (Appuyez et maintenez pour le menu)</string>
+    <string name="number_too_large">Nombre trop grand</string>
 </resources>
