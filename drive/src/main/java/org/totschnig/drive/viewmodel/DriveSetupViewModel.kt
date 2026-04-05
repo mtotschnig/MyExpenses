@@ -12,6 +12,8 @@ import org.totschnig.myexpenses.viewmodel.AbstractSetupViewModel
 class DriveSetupViewModel(application: Application, savedStateHandle: SavedStateHandle) :
     AbstractSetupViewModel(BackendService.DRIVE, application, savedStateHandle) {
 
+    //TODO service helper is not maintained after process death:
+    //store accountName in state and lazily recreate helper if necessary
     private var helper: DriveServiceHelper? = null
 
     fun initWithAccount(accountName: String) {

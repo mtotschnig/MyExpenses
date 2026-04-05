@@ -1,7 +1,6 @@
 package org.totschnig.drive.activity
 
 import android.accounts.AccountManager
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
@@ -42,7 +41,7 @@ class DriveSetup2 : AbstractSyncSetup<DriveSetupViewModel>() {
 
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == RESULT_OK) {
             when (requestCode) {
                 REQUEST_ACCOUNT_PICKER -> if (data != null) {
                     handleSignInResult(data)
