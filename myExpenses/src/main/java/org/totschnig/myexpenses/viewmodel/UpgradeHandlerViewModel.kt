@@ -666,7 +666,7 @@ class UpgradeHandlerViewModel(application: Application) :
                 if (fromVersion < 840) {
                     val key = prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING)
                     val grouping = dataStore.data.first()[key]
-                    if (grouping !in AccountGrouping.ALL_VALUES.map { it.name }) {
+                    if (grouping != null && grouping !in AccountGrouping.ALL_VALUES.map { it.name }) {
                         CrashHandler.report(Exception("Repairing AccountGrouping $grouping"))
                         dataStore.edit { it[key] = AccountGrouping.DEFAULT.name }
                     }
