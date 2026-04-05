@@ -680,7 +680,7 @@ open class MyExpensesViewModel(
         get() = cloneAndRemapProgressInternal
 
     private fun RepositoryTransaction.clone(): RepositoryTransaction {
-        fun Transaction.clone(uuid: String) = copy(id = 0, uuid = uuid)
+        fun Transaction.clone(uuid: String) = copy(id = 0, uuid = uuid, crStatus = CrStatus.UNRECONCILED)
         val uuid = generateUuid()
         return copy(
             data = data.clone(uuid),
