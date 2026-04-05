@@ -497,7 +497,11 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                                 onFeatureAvailable(it)
                             }
                         }
-                        ?: run { report(Throwable("No feature found for ${featureState.modules.joinToString()}")) }
+                        ?: run {
+                            //This should be an exceptional case, for example user has installed Dropbox # Jackson, then uninstalls Jackson.
+                            //when later we need to install Jackson again, we no longer know for which feature to call onFeatureAvailable
+                            report(Throwable("No feature found for ${featureState.modules.joinToString()}"))
+                        }
 
                 }
 
