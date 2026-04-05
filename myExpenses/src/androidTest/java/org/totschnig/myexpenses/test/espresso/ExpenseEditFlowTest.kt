@@ -133,6 +133,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
             putExtra(KEY_ACCOUNTID, account2.id)
         })
         checkAccount(ACCOUNT_LABEL_2)
+        closeSoftKeyboard()
         onView(withId(R.id.Category)).perform(click())
         pressBack()
         checkAccount(ACCOUNT_LABEL_2)

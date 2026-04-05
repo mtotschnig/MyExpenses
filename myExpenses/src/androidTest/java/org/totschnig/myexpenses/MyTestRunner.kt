@@ -21,6 +21,15 @@ class MyTestRunner : AndroidJUnitRunner() {
 
     @SuppressLint("NewApi")
     override fun onStart() {
+        val config = targetContext.resources.configuration
+        val smallestScreenWidth = config.smallestScreenWidthDp
+
+        val minRequiredDp = 360
+        check(smallestScreenWidth >= minRequiredDp) {
+            "Display is too small ($smallestScreenWidth dp). " +
+                    "Minimum of $minRequiredDp dp required for reliable Espresso tests."
+        }
+
         if (!ANIMATION_SETTINGS_MANUALLY_CHECKED) {
             val animationSettings = arrayOf(
                 Settings.Global.TRANSITION_ANIMATION_SCALE,
