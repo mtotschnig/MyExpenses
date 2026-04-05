@@ -1426,8 +1426,9 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
             }
         }
 
-
         val headerData = remember(account) { viewModel.headerData(account, v2) }
+
+        val isProcessingFilter = remember { mutableStateOf(false) }
 
         Column(
             modifier = Modifier
@@ -1453,9 +1454,18 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                         editFilter = { handleEdit(it) },
                         clearAllFilter = { confirmClearFilter() },
                         clearFilter = {
-                            lifecycleScope.launch {
-                                currentFilter.removeCriterion(it)
-                                invalidateOptionsMenu()
+                            if (isProcessingFilter.value) {
+                                Timber.d("double click: ignoring filter clear request")
+                            } else {
+                                isProcessingFilter.value = true
+                                lifecycleScope.launch {
+                                    try {
+                                        currentFilter.removeCriterion(it)
+                                        invalidateOptionsMenu()
+                                    } finally {
+                                        isProcessingFilter.value = false
+                                    }
+                                }
                             }
                         }
                     )

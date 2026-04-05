@@ -368,4 +368,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
     override fun onSortOrderConfirmed(sortedIds: LongArray) {
         viewModel.sortAccounts(sortedIds)
     }
+
+    //Shortcuts calls we receive from BaseMyExpenses, can we removed, once V1 is abandoned
+    override fun invalidateOptionsMenu() {}
 }
