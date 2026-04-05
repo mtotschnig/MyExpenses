@@ -377,8 +377,8 @@ private fun HeaderV2(
 
     Row(
         modifier = Modifier
-            .optional(onToggleExpand) {
-                clickable(onClick = it)
+            .clickable {
+                if (onToggleExpand != null) onToggleExpand() else onNavigate?.invoke()
             }
             .heightIn(min = 48.dp)
             .semantics(mergeDescendants = true) {}
