@@ -751,7 +751,7 @@ private fun transactionMenu(
                             })
                     } else {
                         report(
-                            IllegalStateException("Category path is null")
+                            IllegalStateException("Category path is null for ${transaction.id} / ${transaction.catId}")
                         )
                     }
                 }
