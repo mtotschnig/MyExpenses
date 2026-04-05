@@ -420,14 +420,21 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
 
     //select Time when MaterialTimePicker is open
     fun setTime(time: LocalTime, is24HourFormat: Boolean) {
-        try {
-            onView(
-                withId(RM.id.material_timepicker_mode_button)
-            ).inRoot(isDialog())
+        // Check if the clock face is visible
+        val isClockVisible = try {
+            onView(withId(RM.id.material_clock_face))
+                .inRoot(isDialog())
+                .check(matches(isDisplayed()))
+            true
+        } catch (_: Throwable) {
+            false
+        }
+
+        // If the clock is visible, we click the toggle button to switch to text input mode
+        if (isClockVisible) {
+            onView(withId(RM.id.material_timepicker_mode_button))
+                .inRoot(isDialog())
                 .perform(click())
-        } catch (_: NoMatchingViewException) {
-            // This exception is expected and okay. It means we are already in text input mode.
-            // We can ignore it and proceed.
         }
 
         onView(
