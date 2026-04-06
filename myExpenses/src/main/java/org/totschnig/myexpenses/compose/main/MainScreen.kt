@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContent
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -63,6 +64,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowSizeClass
 import kotlinx.coroutines.launch
@@ -240,6 +242,18 @@ fun MainScreenAdaptive(
 
     val isWebUiActive by viewModel.isWebUiActive.collectAsState(false)
 
+    @Composable
+    fun NavigationItem(label : String) {
+        val railOnPhonePortrait = isPhone && !isLandscape && isRail
+        Text(label,
+            modifier = Modifier.conditional(railOnPhonePortrait) {
+                widthIn(max = 72.dp)
+            },
+            textAlign = TextAlign.Center,
+            maxLines = if (railOnPhonePortrait) 2 else 1
+        )
+    }
+
     Column {
         adView()
         NavigationSuiteScaffold(
@@ -273,10 +287,7 @@ fun MainScreenAdaptive(
                             },
                             icon = { Icon(screen.icon, contentDescription = null) },
                             label = {
-                                Text(
-                                    text = stringResource(screen.resourceId),
-                                    maxLines = 1
-                                )
+                                NavigationItem(stringResource(screen.resourceId))
                             },
                         )
                     }
@@ -295,10 +306,7 @@ fun MainScreenAdaptive(
                         },
                         icon = { Icon(it.painter, null) },
                         label = {
-                            Text(
-                                text = it.getLabel(context),
-                                maxLines = 1
-                            )
+                            NavigationItem(it.getLabel(context))
                         },
                     )
                 }
@@ -310,10 +318,7 @@ fun MainScreenAdaptive(
                             onClick = { showBottomSheet = true },
                             icon = { Icon(Icons.Default.MoreHoriz, null) },
                             label = {
-                                Text(
-                                    stringResource(com.android.setupwizardlib.R.string.suw_more_button_label),
-                                    maxLines = 1
-                                )
+                                NavigationItem(stringResource(com.android.setupwizardlib.R.string.suw_more_button_label))
                             },
                         )
                     }
