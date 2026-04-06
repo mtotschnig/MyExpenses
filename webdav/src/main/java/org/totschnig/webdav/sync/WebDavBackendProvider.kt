@@ -27,8 +27,10 @@ import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.util.io.calculateSize
 import org.totschnig.myexpenses.util.io.getMimeType
 import org.totschnig.webdav.sync.client.CertificateHelper.fromString
+import org.totschnig.webdav.sync.client.ClientCertMissingException
 import org.totschnig.webdav.sync.client.InvalidCertificateException
 import org.totschnig.webdav.sync.client.WebDavClient
+import timber.log.Timber
 import java.io.IOException
 import java.security.cert.CertificateException
 import java.security.cert.X509Certificate
@@ -40,7 +42,9 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
 ) : AbstractSyncBackendProvider<DavResource>(context) {
 
     private var webDavClient: WebDavClient
-    private val fallbackToClass1: Boolean
+    private var fallbackToClass1: Boolean
+    private val accountManagerRef: AccountManager = accountManager
+    private val accountRef: Account = account
 
     override val accountRes: DavResource
         get() = webDavClient.getCollection(accountUuid)
@@ -126,7 +130,9 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
             super.lock()
         } else {
             if (!webDavClient.lock(accountUuid)) {
-                throw IOException("Backend cannot be locked")
+                fallbackToClass1 = true
+                accountManagerRef.setUserData(accountRef, KEY_WEB_DAV_FALLBACK_TO_CLASS1, "1")
+                super.lock()
             }
         }
     }
@@ -136,13 +142,31 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
             lockFile.delete(null)
         } catch (e: HttpException) {
             throw IOException(e)
+        } catch (e: IOException) {
+            if (e.message?.contains("timeout", ignoreCase = true) == true ||
+                e.cause?.message?.contains("timeout", ignoreCase = true) == true) {
+                if (!lockFile.exists()) {
+                    Timber.d("Lock file deletion timed out but file does not exist, continuing")
+                    return
+                }
+            }
+            throw e
         }
     }
 
     @Throws(IOException::class)
     override fun unlock() {
         if (fallbackToClass1) {
-            super.unlock()
+            try {
+                super.unlock()
+            } catch (e: IOException) {
+                if (e.message?.contains("timeout", ignoreCase = true) == true ||
+                    e.cause?.message?.contains("timeout", ignoreCase = true) == true) {
+                    Timber.d("Unlock timed out in Class 1 mode, proceeding anyway")
+                    return
+                }
+                throw e
+            }
         } else {
             if (!webDavClient.unlock(accountUuid)) {
                 throw IOException("Error while unlocking backend")
@@ -182,6 +206,14 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
     override fun isCollection(resource: DavResource) = LockableDavResource.isCollection(resource)
 
     override val sharedPreferencesName = "webdav"
+
+    fun clearLockState() {
+        sharedPreferences.edit()
+            .remove("lockToken")
+            .remove("lockOwnedByUs")
+            .remove("lockTimestamp")
+            .apply()
+    }
 
     @get:Throws(IOException::class)
     override val isEmpty: Boolean
@@ -291,6 +323,7 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         const val KEY_WEB_DAV_CERTIFICATE = "webDavCertificate"
         const val KEY_WEB_DAV_FALLBACK_TO_CLASS1 = "fallbackToClass1"
         const val KEY_ALLOW_UNVERIFIED = "allow_unverified"
+        const val KEY_CLIENT_CERT_ALIAS = "clientCertAlias"
     }
 
     init {
@@ -309,9 +342,12 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
                 throw SyncParseException(e)
             }
         }
+        val clientCertAlias = accountManager.getUserData(account, KEY_CLIENT_CERT_ALIAS)
         webDavClient = try {
-            WebDavClient(context.injector, url, userName, password, certificate, allowUnverified)
+            WebDavClient(context, context.injector, url, userName, password, certificate, allowUnverified, clientCertAlias)
         } catch (e: InvalidCertificateException) {
+            throw SyncParseException(e)
+        } catch (e: ClientCertMissingException) {
             throw SyncParseException(e)
         }
     }
