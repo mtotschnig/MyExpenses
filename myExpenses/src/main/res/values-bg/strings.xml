@@ -1048,4 +1048,8 @@
     <string name="pref_ui_start_screen_title">Начален екран</string>
     <string name="pref_ui_start_screen_last_visited">Последно посетени</string>
     <string name="main_navigation">Основна навигация</string>
+    <string name="pref_fab_style_title">Стил с плаващ бутон за действия</string>
+    <string name="number_too_large">Твърде голямо число</string>
+    <string name="pref_fab_style_standard_description">Стандартно (Докоснете стрелката за меню)</string>
+    <string name="pref_fab_style_compact_description">Компактно (Докоснете и задръжте за меню)</string>
 </resources>
