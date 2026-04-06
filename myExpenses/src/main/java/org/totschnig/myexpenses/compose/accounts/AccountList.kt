@@ -23,6 +23,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.text.InlineTextContent
+import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ShowChart
 import androidx.compose.material.icons.filled.ChevronRight
@@ -40,6 +42,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -60,6 +63,9 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.Placeholder
+import androidx.compose.ui.text.PlaceholderVerticalAlign
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -107,6 +113,7 @@ import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import java.text.DecimalFormat
 import kotlin.math.absoluteValue
 import kotlin.math.sign
+import kotlin.text.append
 
 const val SIGMA = "Σ"
 
@@ -370,7 +377,7 @@ private fun HeaderV2(
     onNavigate: (() -> Unit)?,
     total: Long,
     currency: CurrencyUnit,
-    isGrandTotal: Boolean
+    isGrandTotal: Boolean,
 ) {
 
     val format = LocalCurrencyFormatter.current
@@ -453,37 +460,131 @@ fun AccountCardV2(
     flags: List<AccountFlag> = emptyList(),
     bankIcon: @Composable ((Modifier, Long) -> Unit)? = null,
 ) {
-
     val format = LocalCurrencyFormatter.current
     val activatedBackgroundColor = MaterialTheme.colorScheme.secondaryContainer
+    val context = LocalContext.current
+
+    // 1. Define IDs for our inline icons
+    val lockedId = "locked"
+    val excludedId = "excluded"
+    val dynamicId = "dynamic"
+    val flagId = "flag"
+
+    // 2. Build the AnnotatedString with placeholders
+    val annotatedLabel = buildAnnotatedString {
+        append(account.label)
+        // Add a small space before icons
+        if (account.sealed || account.excludeFromTotals || account.dynamic || account.flag.icon != null) {
+            append(" ")
+        }
+        if (account.sealed) appendInlineContent(lockedId, "[locked]")
+        if (account.excludeFromTotals) appendInlineContent(excludedId, "[excluded]")
+        if (account.dynamic) appendInlineContent(dynamicId, "[dynamic]")
+        if (account.flag.icon != null) appendInlineContent(flagId, "[flag]")
+    }
+
+    // 3. Map IDs to actual Composable icons
+    val inlineContent = mapOf(
+        lockedId to InlineTextContent(
+            Placeholder(
+                16.sp, 16.sp,
+                PlaceholderVerticalAlign.Center
+            )
+        ) {
+            Icon(Icons.Filled.Lock, null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+        },
+        excludedId to InlineTextContent(
+            Placeholder(
+                16.sp, 16.sp,
+                PlaceholderVerticalAlign.Center
+            )
+        ) {
+            val color = MaterialTheme.colorScheme.onSurfaceVariant
+            Icon(
+                imageVector = Icons.Filled.Functions,
+                contentDescription = null,
+                tint = color,
+                modifier = Modifier.drawBehind {
+                    drawLine(
+                        color,
+                        Offset(size.width * 0.2f, size.height / 2),
+                        Offset(size.width * 0.8f, size.height / 2),
+                        3f
+                    )
+                }
+            )
+        },
+        dynamicId to InlineTextContent(
+            Placeholder(
+                16.sp, 16.sp,
+                PlaceholderVerticalAlign.Center
+            )
+        ) {
+            Icon(
+                Icons.AutoMirrored.Filled.ShowChart,
+                null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        },
+        flagId to InlineTextContent(
+            Placeholder(
+                16.sp, 16.sp,
+                PlaceholderVerticalAlign.Center
+            )
+        ) {
+            account.flag.icon?.let { icon ->
+                org.totschnig.myexpenses.compose.Icon(
+                    icon = icon,
+                    size = 12.sp,
+                    modifier = Modifier.semantics {
+                        contentDescription = account.flag.title(context)
+                    }
+                )
+            }
+        }
+    )
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(min = 48.dp)
-            .conditional(isSelected) {
-                background(activatedBackgroundColor)
-            }
+            .conditional(isSelected) { background(activatedBackgroundColor) }
             .clickable(onClick = onSelected)
             .padding(end = 4.dp, start = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        AccountIndicator(
-            account = account,
-            bankIcon = bankIcon
-        )
-        if (account.description.isNullOrBlank()) {
-            Text(text = account.label, modifier = Modifier.weight(1f))
-        } else {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(text = account.label)
-                Text(text = account.description)
+        AccountIndicator(account = account, bankIcon = bankIcon)
+
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .padding(vertical = 2.dp)
+        ) {
+            // 4. Use the inlineContent property of the Text composable
+            Text(
+                text = annotatedLabel,
+                style = MaterialTheme.typography.bodyLarge,
+                inlineContent = inlineContent
+            )
+
+            if (!account.description.isNullOrBlank()) {
+                Text(
+                    text = account.description,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
         }
-        Text(format.convAmount(account.currentBalance, account.currencyUnit))
+
+        Text(
+            text = format.convAmount(account.currentBalance, account.currencyUnit),
+            style = MaterialTheme.typography.bodyMedium,
+            modifier = Modifier.padding(horizontal = 4.dp)
+        )
+
         OverFlowMenu(
             menu = accountMenu(
-                context = LocalContext.current,
+                context = context,
                 homeCurrency = LocalHomeCurrency.current,
                 account = account,
                 onEvent = onEvent,
@@ -1159,7 +1260,7 @@ private fun AccountPreview2() {
     AccountCardV2(
         account = FullAccount(
             id = 1,
-            label = "Account",
+            label = "Account witht long name and description",
             description = "Description",
             currencyUnit = CurrencyUnit.DebugInstance,
             color = android.graphics.Color.RED,
