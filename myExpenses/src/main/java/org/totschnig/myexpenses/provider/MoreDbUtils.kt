@@ -39,32 +39,42 @@ import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.ColorUtils
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.calculateRealExchangeRate
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Category
 import timber.log.Timber
 import java.io.File
-import kotlin.IllegalStateException
 
-fun <T> SupportSQLiteDatabase.safeUpdateWithSealed(runnable: () -> T): T {
+fun <T> SupportSQLiteDatabase.safeUpdateWithSealed(
+    protectAccounts: Boolean = true,
+    protectDebts: Boolean = true,
+    runnable: () -> T
+): T {
     beginTransaction()
     try {
-        ContentValues(1).apply {
-            put(KEY_SEALED, -1)
-            update(TABLE_ACCOUNTS, this, "$KEY_SEALED= ?", arrayOf("1"))
+        if (protectAccounts) {
+            ContentValues(1).apply {
+                put(KEY_SEALED, -1)
+                update(TABLE_ACCOUNTS, this, "$KEY_SEALED= ?", arrayOf("1"))
+            }
         }
-        ContentValues(1).apply {
-            put(KEY_SEALED, -1)
-            update(TABLE_DEBTS, this, "$KEY_SEALED= ?", arrayOf("1"))
+        if (protectDebts) {
+            ContentValues(1).apply {
+                put(KEY_SEALED, -1)
+                update(TABLE_DEBTS, this, "$KEY_SEALED= ?", arrayOf("1"))
+            }
         }
         val result = runnable()
-        ContentValues(1).apply {
-            put(KEY_SEALED, 1)
-            update(TABLE_ACCOUNTS, this, "$KEY_SEALED= ?", arrayOf("-1"))
+        if (protectAccounts) {
+            ContentValues(1).apply {
+                put(KEY_SEALED, 1)
+                update(TABLE_ACCOUNTS, this, "$KEY_SEALED= ?", arrayOf("-1"))
+            }
         }
-        ContentValues(1).apply {
-            put(KEY_SEALED, 1)
-            update(TABLE_DEBTS, this, "$KEY_SEALED= ?", arrayOf("-1"))
+        if (protectDebts) {
+            ContentValues(1).apply {
+                put(KEY_SEALED, 1)
+                update(TABLE_DEBTS, this, "$KEY_SEALED= ?", arrayOf("-1"))
+            }
         }
         setTransactionSuccessful()
         return result

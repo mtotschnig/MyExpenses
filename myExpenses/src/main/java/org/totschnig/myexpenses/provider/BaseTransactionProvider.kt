@@ -2471,4 +2471,12 @@ abstract class BaseTransactionProvider : ContentProvider() {
             db.endTransaction()
         }
     }
+
+    protected fun prefixAnd(where: String?) = if (where.isNullOrEmpty()) "" else " AND ($where)"
+
+    fun SupportSQLiteDatabase.deleteDebt(debId: String, where: String?, whereArgs: Array<String>?) =
+        safeUpdateWithSealed(protectDebts = false) {
+            delete(TABLE_DEBTS,
+                "$KEY_ROWID = $debId${prefixAnd(where)}", whereArgs)
+        }
 }

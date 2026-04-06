@@ -1250,7 +1250,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   }
 
   @Override
-  public int delete(@NonNull Uri uri, String where, String[] whereArgs) {
+  public int delete(@NonNull Uri uri, @Nullable String where, @Nullable String[] whereArgs) {
     log("Delete for URL: %s", uri);
     SupportSQLiteDatabase db = getHelper().getWritableDatabase();
     int count;
@@ -1328,20 +1328,11 @@ public class TransactionProvider extends BaseTransactionProvider {
         if (callerIsNotSyncAdapter(uri)) throw new IllegalArgumentException("Can only be called from sync adapter");
         count = db.delete(TABLE_TRANSACTIONS_TAGS, where, whereArgs);
       }
-      case TEMPLATES_TAGS -> {
-        count = db.delete(TABLE_TEMPLATES_TAGS, where, whereArgs);
-      }
-      case ACCOUNTS_TAGS -> {
-        count = db.delete(TABLE_ACCOUNTS_TAGS, where, whereArgs);
-      }
-      case DEBT_ID -> {
-        count = db.delete(TABLE_DEBTS,
-                KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
-      }
-      case BANK_ID -> {
-        count = db.delete(TABLE_BANKS,
-                KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
-      }
+      case TEMPLATES_TAGS -> count = db.delete(TABLE_TEMPLATES_TAGS, where, whereArgs);
+      case ACCOUNTS_TAGS -> count = db.delete(TABLE_ACCOUNTS_TAGS, where, whereArgs);
+      case DEBT_ID -> count = deleteDebt(db, uri.getLastPathSegment(), where, whereArgs);
+      case BANK_ID -> count = db.delete(TABLE_BANKS,
+              KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
       case TRANSACTION_ID_ATTACHMENT_ID -> {
         String transactionId = uri.getPathSegments().get(2);
         String attachmentId = uri.getPathSegments().get(3);
@@ -1378,14 +1369,6 @@ public class TransactionProvider extends BaseTransactionProvider {
       notifyChange(uri, uriMatch == TRANSACTION_ID);
     }
     return count;
-  }
-
-  private String prefixAnd(String where) {
-    if (!TextUtils.isEmpty(where)) {
-      return " AND (" + where + ')';
-    } else {
-      return "";
-    }
   }
 
   @Override
@@ -1645,9 +1628,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public Bundle call(@NonNull String method, @Nullable String arg, @Nullable Bundle extras) {
     log("Call method: %s, arg: %s, extras: %s", method, arg, extras);
     switch (method) {
-      case METHOD_BULK_START -> {
-        setBulkInProgress(true);
-      }
+      case METHOD_BULK_START -> setBulkInProgress(true);
       case METHOD_BULK_END -> {
         setBulkInProgress(false);
         notifyBulk();
