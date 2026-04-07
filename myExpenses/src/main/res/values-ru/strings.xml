@@ -1052,4 +1052,8 @@
     <string name="pref_ui_start_screen_last_visited">Последний просмотренный экран</string>
     <string name="content_description_show_balance_details">Показать подробную информацию</string>
     <string name="main_navigation">Основная навигация</string>
+    <string name="pref_fab_style_title">Стиль плавающей кнопки действия</string>
+    <string name="pref_fab_style_standard_description">Стандартный (Нажмите на стрелку для вызова меню)</string>
+    <string name="pref_fab_style_compact_description">Компактный (Нажмите и удерживайте для вызова меню)</string>
+    <string name="number_too_large">Число слишком велико</string>
 </resources>
