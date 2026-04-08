@@ -9,10 +9,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeContent
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -49,6 +51,7 @@ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -153,7 +156,7 @@ fun MainScreenAdaptive(
     onPrepareMenuItem: (itemId: Int) -> Boolean,
     flags: List<AccountFlag> = emptyList(),
     bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
-    adView: @Composable () -> Unit,
+    adView: @Composable (MutableState<Boolean>) -> Unit,
     isNavigationVisible: Boolean,
     pageContent: @Composable (pageAccount: PageAccount, isCurrent: Boolean) -> Unit,
 ) {
@@ -176,7 +179,7 @@ fun MainScreenAdaptive(
     if (forcedAccountPanelLoadingState !is PreferenceState.Loaded ||
         preferredNavModeLoadingState !is PreferenceState.Loaded ||
         accountGroupingLoadingState !is PreferenceState.Loaded
-        ) return
+    ) return
 
     val forcedAccountPanelState = forcedAccountPanelLoadingState.value
     val preferredNavMode = preferredNavModeLoadingState.value.validate(isTablet)
@@ -232,10 +235,19 @@ fun MainScreenAdaptive(
 
     val isRail = layoutType.isRail()
     val context = LocalContext.current
+    val isAdLoaded = remember { mutableStateOf(false) }
+    val fontScale = LocalDensity.current.fontScale
 
-    val splitMenu = isPhone && (layoutType.isBar() || isLandscape)
+    val splitMenu = isPhone && (
+            layoutType.isBar() ||
+                    isLandscape ||
+                    (isRail && fontScale >= 1.3f && isAdLoaded.value)
+            )
 
-    val maxQuickItems = if (layoutType == NavigationSuiteType.ShortNavigationBarMedium) 2 else 1
+    val maxQuickItems = if (
+        (layoutType == NavigationSuiteType.ShortNavigationBarMedium) ||
+        (isRail && !isLandscape)
+    ) 2 else 1
 
     val quickItems = menuConfig.value.take(maxQuickItems)
     val overflowItems = menuConfig.value.drop(maxQuickItems)
@@ -243,9 +255,10 @@ fun MainScreenAdaptive(
     val isWebUiActive by viewModel.isWebUiActive.collectAsState(false)
 
     @Composable
-    fun NavigationItem(label : String) {
+    fun NavigationItem(label: String) {
         val railOnPhonePortrait = isPhone && !isLandscape && isRail
-        Text(label,
+        Text(
+            label,
             modifier = Modifier.conditional(railOnPhonePortrait) {
                 widthIn(max = 72.dp)
             },
@@ -254,8 +267,12 @@ fun MainScreenAdaptive(
         )
     }
 
-    Column {
-        adView()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .windowInsetsPadding(WindowInsets.statusBars)
+    ) {
+        adView(isAdLoaded)
         NavigationSuiteScaffold(
             layoutType = layoutType,
             navigationSuiteItems = {
@@ -336,6 +353,7 @@ fun MainScreenAdaptive(
                 if (layoutType.isBar()) only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top) else this
             }
 
+
             val navigationIcon =
                 if (preferredNavMode == MenuItem.NavigationMode.TOGGLEABLE_RAIL && !isNavigationVisible) {
                     @Composable
@@ -405,7 +423,6 @@ fun MainScreenAdaptive(
                         extraPadding = true
                     ) {
                         AnimatedPane {
-                            val fontScale = LocalDensity.current.fontScale
 
                             TransactionScreen(
                                 containerColor = Color.Transparent,

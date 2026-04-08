@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import org.totschnig.myexpenses.util.tracking.Tracker
 
 private const val AD_TYPE_BANNER = "banner"
@@ -74,5 +75,5 @@ interface AdHandlerV2: AdHandlerBase {
     fun maybeRequestNewInterstitial(context: Context) {}
     fun onEditTransactionResult(context: Activity): Boolean = false
     @Composable
-    fun Banner() {}
+    fun Banner(isLoadedState: MutableState<Boolean>) {}
 }

@@ -247,7 +247,8 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                                         AppEvent.Sort -> showSortDialog.value = true
 
                                         is AppEvent.CopyToClipBoard -> copyToClipboard(event.text)
-                                        AppEvent.ToggleNavigation -> isNavigationVisible = !isNavigationVisible
+                                        AppEvent.ToggleNavigation -> isNavigationVisible =
+                                            !isNavigationVisible
                                     }
                                 }
                             },
@@ -279,8 +280,8 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                             onPrepareContextMenuItem = ::isContextMenuItemVisible,
                             onPrepareMenuItem = { itemId -> currentAccount.isMenuItemVisible(itemId) },
                             flags = viewModel.accountFlags.collectAsState(emptyList()).value,
-                            adView = {
-                                adHandler.Banner()
+                            adView = { isLoadedState ->
+                                adHandler.Banner(isLoadedState)
                             },
                             bankIcon = { modifier, id ->
                                 banks.value.find { it.id == id }
