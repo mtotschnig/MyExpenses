@@ -999,4 +999,8 @@
     <string name="pref_ui_start_screen_title">Početni ekran</string>
     <string name="pref_ui_start_screen_last_visited">Zadnje posjećeno</string>
     <string name="main_navigation">Glavna navigacija</string>
+    <string name="pref_fab_style_title">Stil plutajućeg gumba za radnju</string>
+    <string name="pref_fab_style_standard_description">Standardno (Dodirni strelicu za otvaranje izbornika)</string>
+    <string name="pref_fab_style_compact_description">Kompaktno (Dodirni i zadrži dodirnuto za otvaranje izbornika)</string>
+    <string name="number_too_large">Broj je prevelik</string>
 </resources>
