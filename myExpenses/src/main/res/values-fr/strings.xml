@@ -317,7 +317,7 @@
     <string name="split_transaction">Opération ventilée</string>
     <string name="status">État</string>
     <string name="status_cleared">pointée</string>
-    <string name="status_reconciled">rapproché</string>
+    <string name="status_reconciled">rapprochée</string>
     <string name="status_unreconciled">non-rapprochée</string>
     <string name="status_void">invalide</string>
     <string name="subcategory">Sous-catégorie</string>
