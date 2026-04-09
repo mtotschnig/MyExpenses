@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.model
 
 import android.content.Context
+import android.text.format.DateFormat.getBestDateTimePattern
 import androidx.annotation.StringRes
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.injector
@@ -166,7 +167,9 @@ enum class Grouping(@param:StringRes val label: Int) {
             monthStarts: Int
         ): String {
             return if (monthStarts == 1) {
-                DateTimeFormatter.ofPattern("MMMM y")
+                val pattern = getBestDateTimePattern(userPreferredLocale, "yMMMM")
+                DateTimeFormatter.ofPattern(pattern)
+                    .withLocale(userPreferredLocale)
                     .format(YearMonth.of(groupYear, groupSecond + 1))
             } else {
                 val dateFormat =
