@@ -27,16 +27,16 @@
     <string name="whats_new_401">Popis transakcija sada prikazuje više detalja za podijeljene transakcije.</string>
     <string name="whats_new_402">Vrste računa se mogu prilagoditi</string>
     <string name="whats_new_403">Značke računa proširuju prilagodbu vidljivosti i prioriteta računa.</string>
-    <string name="migration_v2_feature_1">Moderna Material Design navigacija</string>
-    <string name="migration_v2_intro">Redizajnirali smo Moji troškovi kako bi bio lakši za korištenje i nudili više značajki:</string>
-    <string name="migration_v2_title">Dobrodošli u V2!</string>
-    <string name="migration_v2_feature_2">Grupiranje i ukupni rezultati za Značke</string>
+    <string name="migration_v2_feature_1">Moderna navigacija u Material designu</string>
+    <string name="migration_v2_intro">Redizajnirali smo aplikaciju „Moji troškovi” kako bi se još lakše koristila i ponudila još više funkcija:</string>
+    <string name="migration_v2_title">Pozdrav u V2!</string>
+    <string name="migration_v2_feature_2">Grupiranje i ukupni zbroj za značke</string>
     <string name="migration_v2_feature_3">Poboljšana integracija bilance</string>
-    <string name="migration_v2_feature_4">Pojednostavljeni popis račun</string>
-    <string name="migration_v2_feature_5">… A još priloga stiže!</string>
-    <string name="migration_v2_footer">Možeš se vratiti starom dizajnu u Postavkama. Imajte na umu da će V1 biti ukinut u budućem ažuriranju.</string>
-    <string name="migration_v2_opt_out_title">Vraćate se na V1?</string>
-    <string name="migration_v2_opt_out_warning">V1 će biti ukinut u budućem ažuriranju. Voljeli bismo znati što ne radi kako bismo mogli poboljšati V2.</string>
+    <string name="migration_v2_feature_4">Optimiran popis računa</string>
+    <string name="migration_v2_feature_5">… i još funkcija stižu uskoro!</string>
+    <string name="migration_v2_footer">Možeš se vratiti starom dizajnu u Postavkama. Imaj na umu da će se V1 ukinuti u budućem aktualiziranju.</string>
+    <string name="migration_v2_opt_out_title">Želiš se vratiti na V1?</string>
+    <string name="migration_v2_opt_out_warning">V1 će se ukinuti u budućem aktualiziranju. Voljeli bismo znati što ne radi kako bismo mogli poboljšati V2.</string>
     <string name="migration_v2_feedback_title">Što ne radi u V2?</string>
     <string name="migration_v2_confirm_opt_out">Vrati se na V1</string>
 </resources>
