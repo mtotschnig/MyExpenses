@@ -204,13 +204,13 @@ class SyncBackendList : Fragment(), OnGroupExpandListener,
                         MessageDialogFragment.Button(
                             R.string.dialog_command_sync_link_remote,
                             R.id.SYNC_LINK_COMMAND_REMOTE,
-                            account
+                            account.uuid to account.syncAccountName
                         ),
                         MessageDialogFragment.nullButton(android.R.string.cancel),
                         MessageDialogFragment.Button(
                             R.string.dialog_command_sync_link_local,
                             R.id.SYNC_LINK_COMMAND_LOCAL,
-                            account
+                            account.uuid to account.syncAccountName
                         )
                     )
                         .show(parentFragmentManager, "SYNC_LINK")

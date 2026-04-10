@@ -18,6 +18,7 @@ import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.db2.createAccount
 import org.totschnig.myexpenses.db2.findAccountByUuid
+import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.db2.requireAccountTypeForSync
 import org.totschnig.myexpenses.db2.storeExchangeRate
 import org.totschnig.myexpenses.model2.Account
@@ -44,28 +45,31 @@ import java.io.IOException
 
 open class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
 
-    fun syncLinkRemote(account: Account): LiveData<Result<Unit>> =
+    fun syncLinkRemote(uuid: String, syncAccountName: String): LiveData<Result<Unit>> =
         liveData(context = coroutineContext()) {
-            val accountId = repository.findAccountByUuid(account.uuid!!)
+            val accountId = repository.findAccountByUuid(uuid)
             if (accountId == null) {
-                emit(Result.failure(IllegalStateException("Account with uuid ${account.uuid} not found")))
+                emit(Result.failure(IllegalStateException("Account with uuid $uuid not found")))
             } else {
+                val account = repository.loadAccount(accountId)!!
                 emit(deleteAccountsInternal(longArrayOf(accountId)).also {
                     it.onSuccess {
-                        doSave(account)
+                        doSave(account.copy(
+                            syncAccountName = syncAccountName
+                        ))
                     }
                 })
             }
         }
 
-    fun syncLinkLocal(accountName: String, uuid: String): LiveData<Result<Unit>> =
+    fun syncLinkLocal(uuid: String, syncAccountName: String): LiveData<Result<Unit>> =
         liveData(context = coroutineContext()) {
             try {
-                configureLocalAccountForSync(accountName, uuid)
+                configureLocalAccountForSync(syncAccountName, uuid)
             } catch (_: SQLiteConstraintException) {
                 emit(Result.failure(AccountSealedException()))
             }
-            resetRemote(accountName, uuid)
+            resetRemote(syncAccountName, uuid)
             emit(ResultUnit)
         }
 
