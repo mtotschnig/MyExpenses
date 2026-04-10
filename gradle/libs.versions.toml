@@ -42,7 +42,7 @@ composeBom = "2026.03.01"
 
 dagger = "2.59.2"
 datastorePreferences = "1.2.1"
-donut = "c11f2d1aeb"
+donut = "2.3.1"
 flexbox = "3.0.0"
 fontdrawable = "39e8f63ce2"
 fragmentVersion = "1.8.9"
@@ -186,8 +186,8 @@ copper-flow = { module = "app.cash.copper:copper-flow", version.ref = "copperFlo
 dagger = { module = "com.google.dagger:dagger", version.ref = "dagger" }
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version.ref = "dagger" }
 dav4android = { module = "com.gitlab.mtotschn:dav4android", version.ref = "dav4android" }
-donut-compose = { module = "com.github.mtotschnig.donut:donut-compose", version.ref = "donut" }
-donut = { module = "com.github.mtotschnig.donut:donut", version.ref = "donut" }
+donut-compose = { module = "app.futured.donut:donut-compose", version.ref = "donut" }
+donut = { module = "app.futured.donut:donut", version.ref = "donut" }
 dropbox-android-sdk = { module = "com.dropbox.core:dropbox-android-sdk", version.ref = "dropbox" }
 dropbox-core-sdk = { module = "com.dropbox.core:dropbox-core-sdk", version.ref = "dropbox" }
 easypermissions-ktx = { module = "com.github.mtotschnig:easypermissions-ktx", version.ref = "easypermissionsKtx" }
