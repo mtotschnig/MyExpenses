@@ -2,8 +2,7 @@
 <!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
--->
-<resources>
+--><resources>
     <string name="drawer_open">"Открыть панель навигации"</string>
     <string name="drawer_close">"Закрыть панель навигации"</string>
     <string name="sort_direction_ascending">"По возрастанию"</string>
@@ -23,7 +22,7 @@
     <string name="details">"Информация"</string>
     <string name="response_yes">"Да"</string>
     <string name="response_no">"Нет"</string>
-     <string name="experimental">"Экспериментальная версия"</string>
+    <string name="experimental">"Экспериментальная версия"</string>
     <string name="add_widget">"Добавить виджет"</string>
     <string name="calendar">"Календарь"</string>
     <string name="permissions_label">"Разрешения"</string>
@@ -45,10 +44,10 @@
     <string name="menu_search">"Поиск"</string>
     <string name="files_label">"Файлы"</string>
     <plurals name="delete_files_confirmation_message">
-      <item quantity="one">Удалить %1$d файл?</item>
-      <item quantity="few">Удалить %1$d файла?</item>
-      <item quantity="many">Удалить %1$d файлов?</item>
-      <item quantity="other">Удалить %1$d файла?</item>
+        <item quantity="one">Удалить %1$d файл?</item>
+        <item quantity="few">Удалить %1$d файла?</item>
+        <item quantity="many">Удалить %1$d файлов?</item>
+        <item quantity="other">Удалить %1$d файла?</item>
     </plurals>
     <string name="display_options_sort_list_by">"Сортировка"</string>
     <string name="data">"Данные"</string>
@@ -178,4 +177,5 @@
     <string name="reports">"Отчёты"</string>
     <string name="tools">Инструменты</string>
     <string name="actions">"Действия"</string>
+    <string name="buttons">Кнопки</string>
 </resources>
