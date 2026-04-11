@@ -371,17 +371,15 @@ fun TransactionScreen(
                 .padding(paddingValues)
                 .nestedScroll(tabRowState.nestedScrollConnection)
         ) {
-            if (accountList.size > 1) {
+            if (availableFilters.size > 1 || accountList.size > 1) {
                 Row(
                     modifier = Modifier
                         .optional(tabRowState.heightPx) {
                             height(with(LocalDensity.current) { it.toDp() })
-                        }
-                    //.clipToBounds() // check needed if needed
-                    ,
+                        },
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    if (accountGrouping != AccountGrouping.NONE && availableFilters.size > 1) {
+                    if (availableFilters.size > 1) {
                         AccountFilterMenu(
                             activeFilter = activeFilter,
                             availableFilters = availableFilters,
@@ -434,6 +432,8 @@ fun TransactionScreen(
                         }
                     }
                 }
+            }
+            if (accountList.size > 1) {
                 HorizontalPager(
                     modifier = Modifier
                         .fillMaxSize()
