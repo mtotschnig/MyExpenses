@@ -344,10 +344,12 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
         }
 
         if (savedInstanceState == null) {
-            (intent.extras?.getLong(KEY_ROWID, 0).takeUnless { it == 0L }
-                ?: prefHandler.getLong(PrefKey.CURRENT_ACCOUNT, 0L).takeUnless { it == 0L })?.let {
-                selectedAccountId = it
-            }
+            (intent.extras?.let {
+                if (it.containsKey(KEY_ROWID)) it.getLong(KEY_ROWID, 0) else null
+            } ?: if (prefHandler.isSet(PrefKey.CURRENT_ACCOUNT))
+                prefHandler.getLong(PrefKey.CURRENT_ACCOUNT, 0L)
+            else null)
+                ?.let { selectedAccountId = it }
         }
 
         lifecycleScope.launch {
