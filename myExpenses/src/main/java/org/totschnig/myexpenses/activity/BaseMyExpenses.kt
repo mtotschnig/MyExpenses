@@ -342,12 +342,14 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
 
             showTransactionFromIntent(intent)
         }
-        intent.extras?.let {
-            val fromExtra = it.getLong(KEY_ROWID, 0)
-            if (fromExtra != 0L) {
-                selectedAccountId = fromExtra
+
+        if (savedInstanceState == null) {
+            (intent.extras?.getLong(KEY_ROWID, 0).takeUnless { it == 0L }
+                ?: prefHandler.getLong(PrefKey.CURRENT_ACCOUNT, 0L).takeUnless { it == 0L })?.let {
+                selectedAccountId = it
             }
         }
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.pdfResult.collectPrintResult()
@@ -379,9 +381,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                 }
             }
         }
-        if (savedInstanceState == null) {
-            selectedAccountId = prefHandler.getLong(PrefKey.CURRENT_ACCOUNT, 0L)
-        }
+
     }
 
     protected fun editAccount(account: FullAccount) {

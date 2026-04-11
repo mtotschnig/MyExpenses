@@ -268,7 +268,7 @@ open class MyExpensesViewModel(
             get() = transferAccount != null
     }
 
-    private val _selectedAccountId = savedStateHandle.getStateFlow(SELECTED_ACCOUNT_KEY, 0L)
+    private val _selectedAccountId = savedStateHandle.getStateFlow(SELECTED_ACCOUNT_KEY, 1L)
     val selectedAccountId: StateFlow<Long> = _selectedAccountId
 
     fun selectAccount(accountId: Long) {
