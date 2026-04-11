@@ -158,7 +158,14 @@ fun TransactionScreen(
         it.isNotEmpty()
     } ?: return
 
-    val pagerState = rememberPagerState(pageCount = { accountList.size })
+    val initialIndex = remember(accountList, selectedAccountId) {
+        accountList.indexOfFirst { it.id == selectedAccountId }
+            .takeIf { it != -1 } ?: 0
+    }
+    val pagerState = rememberPagerState(
+        initialPage = initialIndex,
+        pageCount = { accountList.size }
+    )
 
     LaunchedEffect(accountList.size) {
         if (pagerState.currentPage >= accountList.size) {
@@ -347,12 +354,14 @@ fun TransactionScreen(
 
             LaunchedEffect(pagerState.settledPage) {
                 val selected = accountList[pagerState.settledPage].id
-                viewModel.selectAccount(selected)
-                viewModel.scrollToAccountIfNeeded(
-                    pagerState.currentPage,
-                    selected,
-                    true
-                )
+                if (selected != selectedAccountId) {
+                    viewModel.selectAccount(selected)
+                    viewModel.scrollToAccountIfNeeded(
+                        pagerState.currentPage,
+                        selected,
+                        true
+                    )
+                }
             }
         }
 
@@ -381,6 +390,7 @@ fun TransactionScreen(
                     }
                     val selectedTabIndex =
                         pagerState.currentPage.coerceAtMost(accountList.lastIndex)
+                    Timber.d("selectedTabIndex: $selectedTabIndex")
                     SecondaryScrollableTabRow(
                         selectedTabIndex = selectedTabIndex,
                         modifier = Modifier

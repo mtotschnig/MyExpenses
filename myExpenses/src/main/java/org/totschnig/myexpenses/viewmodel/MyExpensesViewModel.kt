@@ -160,6 +160,7 @@ import org.totschnig.myexpenses.viewmodel.data.HeaderDataResult
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
+import timber.log.Timber
 import java.time.LocalDate
 import kotlin.math.sign
 
@@ -272,6 +273,7 @@ open class MyExpensesViewModel(
     val selectedAccountId: StateFlow<Long> = _selectedAccountId
 
     fun selectAccount(accountId: Long) {
+        Timber.d("selectAccount($accountId)")
         savedStateHandle[SELECTED_ACCOUNT_KEY] = accountId // This updates the StateFlow
         if (scrollToCurrentDatePreference == ScrollToCurrentDate.AccountOpen) {
             scrollToCurrentDate.getValue(accountId).value = true
