@@ -238,6 +238,7 @@ fun TransactionScreen(
                     }
 
                     TopAppBar(
+                        modifier = Modifier.height(52.dp),
                         navigationIcon = navigationIcon,
                         title = {
                             BalanceHeader(
@@ -409,6 +410,7 @@ fun TransactionScreen(
                                         pagerState.animateScrollToPage(index)
                                     }
                                 },
+                                modifier = Modifier.height(48.dp),//keep it at minimum touch target size, even with larger font scale
                                 text = {
                                     Text(
                                         modifier = Modifier.widthIn(max = maxTabWidth),
