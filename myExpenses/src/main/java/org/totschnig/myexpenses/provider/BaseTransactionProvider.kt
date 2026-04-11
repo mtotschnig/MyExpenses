@@ -7,6 +7,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.database.Cursor
+import android.database.MatrixCursor
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteDatabase.CONFLICT_IGNORE
 import android.net.Uri
@@ -1225,7 +1226,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         db: SupportSQLiteDatabase,
         projection: Array<String>?,
         selection: String?,
-        selectionArgs: Array<String>?,
+        selectionArgs: Array<Any>?,
         groupBy: String?,
         having: String?,
         sortOrder: String?,
@@ -1332,7 +1333,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         uri: Uri,
         sql: String,
         selection: String?,
-        selectionArgs: Array<String>?,
+        selectionArgs: Array<Any>?,
     ): Cursor = measure(block = { query(sql, selectionArgs ?: emptyArray()) }) {
         "$uri - $selection - $sql - (${selectionArgs?.joinToString()})"
     }
@@ -1395,6 +1396,42 @@ abstract class BaseTransactionProvider : ContentProvider() {
         )
     }
 
+    fun budgetAllocationGroupsQuery(
+        db: SupportSQLiteDatabase,
+        uri: Uri,
+    ): Cursor {
+        val projection = arrayOf(
+            KEY_YEAR,
+            KEY_SECOND_GROUP,
+            KEY_BUDGET,
+            KEY_BUDGET_ROLLOVER_PREVIOUS,
+            KEY_ONE_TIME
+        )
+        val budgetId = budgetDefaultSelect(db, uri) ?: return MatrixCursor(projection).apply {
+            setNotificationUri(context!!.contentResolver, uri)
+        }
+
+        val sql = """
+        WITH AggregatedBudget AS (
+            SELECT
+                $KEY_YEAR,
+                $KEY_SECOND_GROUP,
+                SUM(CASE WHEN $KEY_CATID = 0 THEN $KEY_BUDGET ELSE NULL END) AS $KEY_BUDGET,
+                SUM($KEY_BUDGET_ROLLOVER_PREVIOUS) AS $KEY_BUDGET_ROLLOVER_PREVIOUS,
+                SUM(CASE WHEN $KEY_CATID = 0 THEN $KEY_ONE_TIME ELSE NULL END) AS $KEY_ONE_TIME
+            FROM $TABLE_BUDGET_ALLOCATIONS
+            WHERE $KEY_BUDGETID = ?
+            GROUP BY $KEY_YEAR, $KEY_SECOND_GROUP
+        ) SELECT * FROM AggregatedBudget
+        WHERE $KEY_BUDGET IS NOT NULL OR $KEY_BUDGET_ROLLOVER_PREVIOUS IS NOT NULL
+        ORDER BY $KEY_YEAR, $KEY_SECOND_GROUP
+    """.trimIndent()
+        val c = db.measureAndLogQuery(uri, sql, null, arrayOf(budgetId))
+        c.setNotificationUri(context!!.contentResolver, uri)
+        return wrapWithResultCompat(c, Bundle().apply { putLong(KEY_BUDGETID, budgetId) })
+    }
+
+
     fun archiveSumQuery(
         db: SupportSQLiteDatabase,
         uri: Uri,
@@ -1427,7 +1464,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         db: SupportSQLiteDatabase,
         uri: Uri,
         selection: String?,
-        selectionArgs: Array<String>?,
+        selectionArgs: Array<Any>?,
     ): Cursor {
         val accountQuery = uri.accountSelector
 

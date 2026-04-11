@@ -14,7 +14,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.core.database.getLongOrNull
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.lifecycle.LiveData
@@ -135,6 +134,8 @@ import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
+import org.totschnig.myexpenses.provider.getInt
+import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.mapToListCatching
 import org.totschnig.myexpenses.provider.mapToListWithExtra
 import org.totschnig.myexpenses.provider.triggerAccountListRefresh
@@ -503,22 +504,14 @@ open class MyExpensesViewModel(
                 uri = BaseTransactionProvider.defaultBudgetAllocationUri(
                     account.id,
                     account.grouping
-                ),
-                projection = arrayOf(
-                    KEY_YEAR,
-                    KEY_SECOND_GROUP,
-                    KEY_BUDGET,
-                    KEY_BUDGET_ROLLOVER_PREVIOUS,
-                    KEY_ONE_TIME
-                ),
-                sortOrder = "$KEY_YEAR, $KEY_SECOND_GROUP"
+                )
             ).map { it }
                 .mapToListWithExtra {
                     BudgetRow(
-                        headerId = Grouping.groupId(it.getInt(0), it.getInt(1)),
-                        amount = it.getLongOrNull(2),
-                        rollOverPrevious = it.getLongOrNull(3),
-                        oneTime = it.getInt(4) == 1
+                        headerId = Grouping.groupId(it.getInt(KEY_YEAR), it.getInt(KEY_SECOND_GROUP)),
+                        amount = it.getLongOrNull(KEY_BUDGET),
+                        rollOverPrevious = it.getLongOrNull(KEY_BUDGET_ROLLOVER_PREVIOUS),
+                        oneTime = it.getInt(KEY_ONE_TIME) == 1
                     )
                 }.map {
                     BudgetData(it.first.getLong(KEY_BUDGETID), it.second)

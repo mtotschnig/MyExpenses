@@ -23,7 +23,6 @@ import android.content.ContentValues;
 import android.content.OperationApplicationException;
 import android.content.UriMatcher;
 import android.database.Cursor;
-import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.Bundle;
@@ -862,15 +861,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         additionalWhere.append(TABLE_BUDGETS + "." + KEY_ROWID + "=").append(uri.getPathSegments().get(1));
         break;
       case ACCOUNT_DEFAULT_BUDGET_ALLOCATIONS: {
-        qb = SupportSQLiteQueryBuilder.builder(TABLE_BUDGET_ALLOCATIONS);
-        Long budgetId = budgetDefaultSelect(db, uri);
-        if (budgetId == null) {
-          return new MatrixCursor(projection, 0);
-        }
-        selection = KEY_CATID + " = 0 AND " + KEY_BUDGETID + " = ?";
-        selectionArgs = new String[] { budgetId.toString() };
-        extras.putLong(KEY_BUDGETID, budgetId);
-        break;
+        return budgetAllocationGroupsQuery(db, uri);
       }
       case BUDGET_FOR_PERIOD: {
         String sql = (projection != null && projection.length == 1 && projection[0].equals(KEY_BUDGET)) ? totalBudgetAllocation(uri) : budgetAllocation(uri);
@@ -1577,6 +1568,11 @@ public class TransactionProvider extends BaseTransactionProvider {
     }
     if (uriMatch == ACCOUNT_FLAG_ID) {
       notifyChange(ACCOUNTS_URI, false);
+    }
+    if (uriMatch == BUDGET_ID) {
+        notifyChange(BUDGETS_URI.buildUpon()
+                .appendPath("defaultBudgetAllocations")
+                .build(), false);
     }
     return count;
   }
