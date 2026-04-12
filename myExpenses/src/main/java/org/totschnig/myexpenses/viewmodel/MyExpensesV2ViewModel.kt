@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.content.Intent
 import androidx.annotation.StringRes
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.SavedStateHandle
@@ -8,9 +9,11 @@ import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emptyFlow
@@ -38,6 +41,9 @@ import org.totschnig.myexpenses.preference.PreferenceState
 import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.preference.menu
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.GROUPING_AGGREGATE
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.mapToListCatching
@@ -56,6 +62,34 @@ class MyExpensesV2ViewModel(
     application: Application,
     savedStateHandle: SavedStateHandle,
 ) : MyExpensesViewModel(application, savedStateHandle) {
+
+    private val _intentEvents = MutableSharedFlow<Intent>(replay = 1)
+    val intentEvents = _intentEvents.asSharedFlow()
+
+    fun handleIntent(intent: Intent) {
+        viewModelScope.launch {
+            intent.extras?.let { extras ->
+                if (extras.containsKey(KEY_ROWID)) {
+                    val accountId = extras.getLong(KEY_ROWID)
+                    if (accountId >= 0) {
+                        selectAccount(extras.getLong(KEY_ROWID))
+                    } else {
+                        //legacy handling from account widget
+                        if (accountId == HOME_AGGREGATE_ID) {
+                            setGrouping(AccountGrouping.NONE)
+                        } else {
+                            setGrouping(AccountGrouping.CURRENCY)
+                            extras.getString(KEY_CURRENCY)?.let {
+                                setFilter(currencyContext[it])
+                            }
+                        }
+                        selectAccount(0)
+                    }
+                    _intentEvents.emit(intent)
+                }
+            }
+        }
+    }
 
     private val _activeFilter = MutableStateFlow<AccountGroupingKey?>(null)
     val activeFilter: StateFlow<AccountGroupingKey?> = _activeFilter.asStateFlow()
@@ -302,10 +336,15 @@ class MyExpensesV2ViewModel(
     }
 
     val startScreen: StartScreen by lazy {
-        val preference = _startScreen
-        if (preference == StartScreen.LastVisited)
-            prefHandler.enumValueOrDefault(PrefKey.UI_SCREEN_LAST_VISITED, StartScreen.Transactions)
-        else preference
+        if (savedStateHandle.contains(KEY_ROWID)) StartScreen.Transactions else {
+            val preference = _startScreen
+            if (preference == StartScreen.LastVisited)
+                prefHandler.enumValueOrDefault(
+                    PrefKey.UI_SCREEN_LAST_VISITED,
+                    StartScreen.Transactions
+                )
+            else preference
+        }
     }
 
     val startFilter by lazy {

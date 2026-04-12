@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
@@ -370,6 +371,11 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
         viewModel.sortAccounts(sortedIds)
     }
 
-    //Short circuit calls we receive from BaseMyExpenses, can we removed, once V1 is abandoned
+    //Short circuit calls we receive from BaseMyExpenses, can be removed, once V1 is abandoned
     override fun invalidateOptionsMenu() {}
+
+    override fun handleIntent(intent: Intent) {
+        viewModel.handleIntent(intent)
+        showTransactionFromIntent(intent)
+    }
 }

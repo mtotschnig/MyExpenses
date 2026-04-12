@@ -159,6 +159,7 @@ class AccountRemoteViewsFactory(
                 )
                 setAmountColor(context, R.id.note, sum)
                 val block: Intent.() -> Unit = {
+                    putExtra(KEY_CURRENCY, account.currency)
                     putExtra(KEY_ROWID, account.id)
                 }
                 if (clickInfo == null) {

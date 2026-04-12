@@ -69,6 +69,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.core.layout.WindowSizeClass
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
@@ -87,6 +88,7 @@ import org.totschnig.myexpenses.model.AccountGroupingKey
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.sort.TransactionSort
 import org.totschnig.myexpenses.preference.PreferenceState
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel.AccountPanelState
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
@@ -212,6 +214,14 @@ fun MainScreenAdaptive(
         isDestinationHistoryAware = false
     )
 
+    val intentEvents by viewModel.intentEvents.collectAsStateWithLifecycle(null)
+
+    LaunchedEffect(intentEvents) {
+        if (intentEvents != null) {
+            navigator.navigateToRoot(ListDetailPaneScaffoldRole.Detail)
+        }
+    }
+
     val menuConfig = viewModel.mainMenu.collectAsState()
 
     val is2Pane = navigator.scaffoldDirective.maxHorizontalPartitions > 1
@@ -298,7 +308,6 @@ fun MainScreenAdaptive(
                             selected = navigator.currentDestination?.pane == screen.paneRole,
                             onClick = {
                                 scope.launch {
-                                    // Use your navigateToRoot extension to prevent backstack bloat
                                     navigator.navigateToRoot(screen.paneRole)
                                 }
                             },

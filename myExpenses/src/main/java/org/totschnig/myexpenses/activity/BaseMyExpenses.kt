@@ -334,6 +334,13 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
         )
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleIntent(intent)
+    }
+
+    abstract fun handleIntent(intent: Intent)
+
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         if (savedInstanceState == null) {
@@ -344,12 +351,11 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
         }
 
         if (savedInstanceState == null) {
-            (intent.extras?.let {
-                if (it.containsKey(KEY_ROWID)) it.getLong(KEY_ROWID, 0) else null
-            } ?: if (prefHandler.isSet(PrefKey.CURRENT_ACCOUNT))
-                prefHandler.getLong(PrefKey.CURRENT_ACCOUNT, 0L)
-            else null)
-                ?.let { selectedAccountId = it }
+            if (this.intent.extras?.containsKey(KEY_ROWID) == true) {
+                handleIntent(intent)
+            } else if (prefHandler.isSet(PrefKey.CURRENT_ACCOUNT)) {
+                selectedAccountId = prefHandler.getLong(PrefKey.CURRENT_ACCOUNT, 0L)
+            }
         }
 
         lifecycleScope.launch {
@@ -1642,14 +1648,6 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
         set(value) {
             viewModel.showFilterDialog = value
         }
-
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        intent.extras?.let {
-            selectedAccountId = it.getLong(KEY_ROWID)
-        }
-        showTransactionFromIntent(intent)
-    }
 
     fun showTransactionFromIntent(intent: Intent) {
         val transactionId = intent.getLongExtra(KEY_TRANSACTIONID, -1L)

@@ -85,6 +85,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.KEY_DATE
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.retrofit.Vote
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.TextUtils
@@ -1271,6 +1272,12 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
     override fun onPause() {
         adHandler.onPause()
         super.onPause()
+    }
+
+    override fun handleIntent(intent: Intent) {
+        intent.extras?.getLong(KEY_ROWID, 0)?.let {
+            selectedAccountId = it
+        }
     }
 
     companion object {
