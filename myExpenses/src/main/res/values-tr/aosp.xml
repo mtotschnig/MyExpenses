@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
--->
-<resources>
+--><resources>
     <string name="drawer_open">"Gezinme menüsünü aç"</string>
     <string name="drawer_close">"Gezinme menüsünü kapat"</string>
     <string name="sort_direction_ascending">"Artan"</string>
@@ -175,4 +175,5 @@
     <string name="reports">"Raporlar"</string>
     <string name="tools">Araçlar</string>
     <string name="actions">"Eylemler"</string>
+    <string name="buttons">Düğmeler</string>
 </resources>
