@@ -160,7 +160,7 @@ fun Budget(
                     HorizontalDivider(modifier = if (narrowScreen) Modifier.width(tableWidth) else Modifier)
                 }
                 category.children.forEach { model ->
-                    item {
+                    item(key = model.id) {
                         Budget(
                             modifier = Modifier.testTag(TEST_TAG_ROW),
                             category = model,
