@@ -100,7 +100,6 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
     }
 
     override val viewModel: BudgetViewModel2 by viewModels()
-    private lateinit var sortDelegate: SortDelegate
     private var hasRollovers: Boolean? = null
     private lateinit var chart: RadarChart
 
@@ -124,14 +123,6 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         }
         val binding = setupView()
         injector.inject(viewModel)
-        sortDelegate = SortDelegate(
-            defaultSortOrder = Sort.ALLOCATED,
-            prefKey = PrefKey.SORT_ORDER_BUDGET_CATEGORIES,
-            options = arrayOf(Sort.LABEL, Sort.ALLOCATED, Sort.SPENT, Sort.AVAILABLE),
-            prefHandler = prefHandler,
-            collate = collate
-        )
-        viewModel.setSortOrder(sortDelegate.currentSortOrder)
         val groupingYear = intent.getIntExtra(KEY_YEAR, 0)
         val groupingSecond = intent.getIntExtra(KEY_SECOND_GROUP, 0)
         viewModel.initWithBudget(budgetId, groupingYear, groupingSecond)
@@ -301,10 +292,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 narrowScreen = narrowScreen,
                 showChart = showChart.value,
                 currentSort = sort,
-                onChangeSort = {
-                    prefHandler.putString(sortDelegate.prefKey, it.name)
-                    viewModel.setSortOrder(it)
-                },
+                onChangeSort = viewModel::setSortOrder,
                 contentPadding = if (withContentPadding)
                     WindowInsets.navigationBars.asPaddingValues() else PaddingValues(0.dp)
             )

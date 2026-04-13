@@ -48,10 +48,18 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.compose.*
+import org.totschnig.myexpenses.compose.AppTheme
+import org.totschnig.myexpenses.compose.Category
+import org.totschnig.myexpenses.compose.CategoryEdit
+import org.totschnig.myexpenses.compose.CategoryMerge
+import org.totschnig.myexpenses.compose.ChoiceMode
+import org.totschnig.myexpenses.compose.ExpansionMode
+import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.select
+import org.totschnig.myexpenses.compose.TypeConfiguration
+import org.totschnig.myexpenses.compose.rememberMutableStateListOf
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
@@ -75,10 +83,10 @@ import org.totschnig.myexpenses.util.prepareSearch
 import org.totschnig.myexpenses.util.prepareSync
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.setEnabledAndVisible
-import org.totschnig.myexpenses.viewmodel.CategoryViewModel
-import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationComplete
-import org.totschnig.myexpenses.viewmodel.CategoryViewModel.DeleteResult.OperationPending
 import org.totschnig.myexpenses.viewmodel.LoadingState
+import org.totschnig.myexpenses.viewmodel.ManageCategoriesViewModel
+import org.totschnig.myexpenses.viewmodel.ManageCategoriesViewModel.DeleteResult.OperationComplete
+import org.totschnig.myexpenses.viewmodel.ManageCategoriesViewModel.DeleteResult.OperationPending
 import org.totschnig.myexpenses.viewmodel.data.Category
 import java.io.Serializable
 
@@ -86,7 +94,7 @@ class ManageCategories : ProtectedFragmentActivity(),
     ContribIFace {
 
     private var actionMode: ActionMode? = null
-    private val viewModel: CategoryViewModel by viewModels()
+    private val viewModel: ManageCategoriesViewModel by viewModels()
     private lateinit var binding: ActivityComposeBinding
     private lateinit var sortDelegate: SortDelegate
     private lateinit var choiceMode: ChoiceMode
@@ -176,8 +184,7 @@ class ManageCategories : ProtectedFragmentActivity(),
             defaultSortOrder = viewModel.defaultSort,
             prefKey = PrefKey.SORT_ORDER_CATEGORIES,
             options = arrayOf(Sort.LABEL, Sort.USAGES, Sort.LAST_USED),
-            prefHandler = prefHandler,
-            collate = collate
+            prefHandler = prefHandler
         )
         parentSelectionOnTap.value = prefHandler.getBoolean(
             PrefKey.PARENT_CATEGORY_SELECTION_ON_TAP,
@@ -229,15 +236,15 @@ class ManageCategories : ProtectedFragmentActivity(),
                     }
                 }
                 when (viewModel.dialogState) {
-                    is CategoryViewModel.Edit -> CategoryEdit(
-                        dialogState = viewModel.dialogState as CategoryViewModel.Edit,
-                        onDismissRequest = { viewModel.dialogState = CategoryViewModel.NoShow },
+                    is ManageCategoriesViewModel.Edit -> CategoryEdit(
+                        dialogState = viewModel.dialogState as ManageCategoriesViewModel.Edit,
+                        onDismissRequest = { viewModel.dialogState = ManageCategoriesViewModel.NoShow },
                         onSave = viewModel::saveCategory
                     )
 
-                    is CategoryViewModel.Merge -> CategoryMerge(
-                        dialogState = viewModel.dialogState as CategoryViewModel.Merge,
-                        onDismissRequest = { viewModel.dialogState = CategoryViewModel.NoShow },
+                    is ManageCategoriesViewModel.Merge -> CategoryMerge(
+                        dialogState = viewModel.dialogState as ManageCategoriesViewModel.Merge,
+                        onDismissRequest = { viewModel.dialogState = ManageCategoriesViewModel.NoShow },
                         onMerge = viewModel::mergeCategories
                     )
 
@@ -526,7 +533,7 @@ class ManageCategories : ProtectedFragmentActivity(),
 
                     R.id.MERGE_COMMAND -> {
                         selectedCategories(selectionState)?.let { list ->
-                            viewModel.dialogState = CategoryViewModel.Merge(list)
+                            viewModel.dialogState = ManageCategoriesViewModel.Merge(list)
                         }
                         true
                     }
@@ -800,7 +807,7 @@ class ManageCategories : ProtectedFragmentActivity(),
      * if label is already used, shows an error
      */
     private fun createCat(parent: Category?) {
-        viewModel.dialogState = CategoryViewModel.Edit(
+        viewModel.dialogState = ManageCategoriesViewModel.Edit(
             parent = parent,
             category = if (parent == null) Category(
                 typeFlags = viewModel.typeFilter ?: FLAG_NEUTRAL
@@ -813,7 +820,7 @@ class ManageCategories : ProtectedFragmentActivity(),
      */
     private fun editCat(category: Category) {
         viewModel.dialogState =
-            CategoryViewModel.Edit(category = category)
+            ManageCategoriesViewModel.Edit(category = category)
     }
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {

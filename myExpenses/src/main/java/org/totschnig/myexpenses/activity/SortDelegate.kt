@@ -12,9 +12,10 @@ class SortDelegate(
     val defaultSortOrder: Sort,
     val prefKey: PrefKey,
     val options: Array<Sort>,
-    val prefHandler: PrefHandler,
-    val collate: String
+    val prefHandler: PrefHandler
 ) {
+    val collate = prefHandler.collate
+
     fun onPrepareOptionsMenu(menu: Menu) {
         menu.findItem(R.id.SORT_COMMAND)?.subMenu?.findItem(currentSortOrder.commandId)?.isChecked =
             true

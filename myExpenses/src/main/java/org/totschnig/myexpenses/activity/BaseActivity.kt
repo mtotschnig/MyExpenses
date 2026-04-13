@@ -371,9 +371,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     @Inject
     lateinit var prefHandler: PrefHandler
 
-    val collate: String
-        get() = prefHandler.collate
-
     @Inject
     lateinit var tracker: Tracker
 

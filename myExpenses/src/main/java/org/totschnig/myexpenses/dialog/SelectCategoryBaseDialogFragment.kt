@@ -11,7 +11,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.activityViewModels
 import org.totschnig.myexpenses.compose.ButtonRow
@@ -19,12 +18,12 @@ import org.totschnig.myexpenses.compose.Category
 import org.totschnig.myexpenses.compose.ChoiceMode
 import org.totschnig.myexpenses.compose.ExpansionMode
 import org.totschnig.myexpenses.compose.rememberMutableStateListOf
-import org.totschnig.myexpenses.viewmodel.CategoryViewModel
 import org.totschnig.myexpenses.viewmodel.LoadingState
+import org.totschnig.myexpenses.viewmodel.ManageCategoriesViewModel
 import org.totschnig.myexpenses.viewmodel.data.Category
 
 abstract class SelectCategoryBaseDialogFragment : ComposeBaseDialogFragment3() {
-    val viewModel: CategoryViewModel by activityViewModels()
+    val viewModel: ManageCategoriesViewModel by activityViewModels()
 
     open val withRoot: Int? = null
     open val excludedSubTree: Long? = null

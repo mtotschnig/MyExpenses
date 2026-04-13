@@ -26,6 +26,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.SortDelegate
 import org.totschnig.myexpenses.db2.budgetAllocationQueryUri
 import org.totschnig.myexpenses.db2.deleteBudget
 import org.totschnig.myexpenses.db2.getCategoryInfoList
@@ -36,9 +37,11 @@ import org.totschnig.myexpenses.db2.getUuidForAccount
 import org.totschnig.myexpenses.db2.importBudget
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.sort.Sort
 import org.totschnig.myexpenses.model2.BudgetAllocationExport
 import org.totschnig.myexpenses.model2.BudgetExport
 import org.totschnig.myexpenses.model2.CategoryPath
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.KEY_ACCOUNT_UUID
 import org.totschnig.myexpenses.provider.KEY_BUDGET
@@ -119,6 +122,24 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
 
     val sum: StateFlow<Long> by lazy {
         sums.map { it.second }.stateIn(viewModelScope, SharingStarted.Lazily, 0)
+    }
+
+    val sortOrder by lazy {
+        MutableStateFlow(sortDelegate.currentSortOrder)
+    }
+
+    val sortDelegate by lazy {
+        SortDelegate(
+            defaultSortOrder = Sort.ALLOCATED,
+            prefKey = PrefKey.SORT_ORDER_BUDGET_CATEGORIES,
+            options = arrayOf(Sort.LABEL, Sort.ALLOCATED, Sort.SPENT, Sort.AVAILABLE),
+            prefHandler = prefHandler
+        )
+    }
+
+    fun setSortOrder(sort: Sort) {
+        prefHandler.putString(sortDelegate.prefKey, sort.name)
+        sortOrder.value = sort
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
