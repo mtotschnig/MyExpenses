@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
@@ -172,60 +173,73 @@ class MyExpensesV2ViewModel(
             .stateIn(viewModelScope, SharingStarted.Lazily, null)
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     val accountList by lazy {
         combine(
             accountDataV2.mapNotNull { it?.getOrNull() },
             _activeFilter,
-            accountGrouping.flow,
-            currentAggregateGrouping,
-            currentAggregateSort,
-        ) { accounts, activeFilter, accountGrouping, aggregateGrouping, aggregateSort ->
-            val filteredByGroupFilter =
-                if (activeFilter == null || accountGrouping == AccountGrouping.NONE)
-                    accounts
-                else
-                    accounts.filter { account -> accountGrouping.getGroupKey(account) == activeFilter }
-            val aggregateAccountGrouping =
-                if (activeFilter != null) accountGrouping else AccountGrouping.NONE
-            //if we group by flag, and filter by a given flag,
-            // we want to show all accounts with that flag ignoring visibility
-            val filteredByVisibility =
-                if (accountGrouping == AccountGrouping.FLAG && activeFilter != null)
-                    filteredByGroupFilter
-                else
-                    filteredByGroupFilter.filter { it.visible }
-            if (filteredByGroupFilter.size < 2) filteredByVisibility
-            else {
-                val filteredForTotals = filteredByGroupFilter.filter { !it.excludeFromTotals }
-                filteredByVisibility + AggregateAccount(
-                    currencyUnit = activeFilter as? CurrencyUnit
-                        ?: currencyContext.homeCurrencyUnit,
-                    type = if (accountGrouping == AccountGrouping.TYPE) activeFilter as? AccountType else null,
-                    flag = if (accountGrouping == AccountGrouping.FLAG) activeFilter as? AccountFlag else null,
-                    grouping = aggregateGrouping,
-                    accountGrouping = aggregateAccountGrouping,
-                    sortBy = aggregateSort.column,
-                    sortDirection = aggregateSort.sortDirection,
-                    equivalentOpeningBalance = filteredForTotals.sumOf { it.equivalentOpeningBalance },
-                    equivalentCurrentBalance = filteredForTotals.sumOf { it.equivalentCurrentBalance },
-                    equivalentSumIncome = filteredForTotals.sumOf { it.equivalentSumIncome },
-                    equivalentSumExpense = filteredForTotals.sumOf { it.equivalentSumExpense },
-                    equivalentSumTransfer = filteredForTotals.sumOf { it.equivalentSumTransfer },
-                    equivalentTotal = filteredForTotals.sumOf {
-                        it.equivalentTotal ?: it.equivalentCurrentBalance
-                    },
-                ).let { aggregateAccount ->
-                    if (aggregateAccountGrouping == AccountGrouping.CURRENCY) aggregateAccount.copy(
-                        openingBalance = filteredForTotals.sumOf { it.openingBalance },
-                        currentBalance = filteredForTotals.sumOf { it.currentBalance },
-                        sumIncome = filteredForTotals.sumOf { it.sumIncome },
-                        sumExpense = filteredForTotals.sumOf { it.sumExpense },
-                        sumTransfer = filteredForTotals.sumOf { it.sumTransfer },
-                        total = filteredForTotals.sumOf { it.total ?: it.currentBalance },
-                    ) else aggregateAccount
+            accountGrouping.flow.filterNotNull()
+        ) { accounts, activeFilter, accountGrouping ->
+            // Triple is used to pass these down to the flatMapLatest
+            Triple(accounts, activeFilter, accountGrouping)
+        }.flatMapLatest { (accounts, activeFilter, accountGrouping) ->
+            val key = aggregateKey(accountGrouping, activeFilter)
+
+            // Combine the remaining settings flows based on the calculated key
+            combine(
+                groupingMap.getValue(key).flow,
+                sortMap.getValue(key).flow
+            ) { aggregateGrouping, aggregateSort ->
+
+                val filteredByGroupFilter =
+                    if (activeFilter == null || accountGrouping == AccountGrouping.NONE)
+                        accounts
+                    else
+                        accounts.filter { account -> accountGrouping.getGroupKey(account) == activeFilter }
+
+                val aggregateAccountGrouping =
+                    if (activeFilter != null) accountGrouping else AccountGrouping.NONE
+
+                val filteredByVisibility =
+                    if (accountGrouping == AccountGrouping.FLAG && activeFilter != null)
+                        filteredByGroupFilter
+                    else
+                        filteredByGroupFilter.filter { it.visible }
+
+                if (filteredByGroupFilter.size < 2) {
+                    filteredByVisibility
+                } else {
+                    val filteredForTotals = filteredByGroupFilter.filter { !it.excludeFromTotals }
+                    filteredByVisibility + AggregateAccount(
+                        currencyUnit = activeFilter as? CurrencyUnit
+                            ?: currencyContext.homeCurrencyUnit,
+                        type = if (accountGrouping == AccountGrouping.TYPE) activeFilter as? AccountType else null,
+                        flag = if (accountGrouping == AccountGrouping.FLAG) activeFilter as? AccountFlag else null,
+                        grouping = aggregateGrouping,
+                        accountGrouping = aggregateAccountGrouping,
+                        sortBy = aggregateSort.column,
+                        sortDirection = aggregateSort.sortDirection,
+                        equivalentOpeningBalance = filteredForTotals.sumOf { it.equivalentOpeningBalance },
+                        equivalentCurrentBalance = filteredForTotals.sumOf { it.equivalentCurrentBalance },
+                        equivalentSumIncome = filteredForTotals.sumOf { it.equivalentSumIncome },
+                        equivalentSumExpense = filteredForTotals.sumOf { it.equivalentSumExpense },
+                        equivalentSumTransfer = filteredForTotals.sumOf { it.equivalentSumTransfer },
+                        equivalentTotal = filteredForTotals.sumOf {
+                            it.equivalentTotal ?: it.equivalentCurrentBalance
+                        },
+                    ).let { aggregateAccount ->
+                        if (aggregateAccountGrouping == AccountGrouping.CURRENCY) aggregateAccount.copy(
+                            openingBalance = filteredForTotals.sumOf { it.openingBalance },
+                            currentBalance = filteredForTotals.sumOf { it.currentBalance },
+                            sumIncome = filteredForTotals.sumOf { it.sumIncome },
+                            sumExpense = filteredForTotals.sumOf { it.sumExpense },
+                            sumTransfer = filteredForTotals.sumOf { it.sumTransfer },
+                            total = filteredForTotals.sumOf { it.total ?: it.currentBalance },
+                        ) else aggregateAccount
+                    }
                 }
             }
-        }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+        }.stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
     }
 
     // Derived state: What are the available filter options for the current grouping?
@@ -272,34 +286,6 @@ class MyExpensesV2ViewModel(
         } else {
             "${grouping.name}_${filter.id}"
         }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val currentAggregateGrouping: Flow<Grouping> by lazy {
-        combine(accountGrouping.flow, _activeFilter) { grouping, filter ->
-            grouping to filter
-        }.flatMapLatest { (grouping, filter) ->
-            groupingMap.getValue(
-                aggregateKey(
-                    grouping,
-                    filter
-                )
-            ).flow
-        }
-    }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val currentAggregateSort: Flow<TransactionSort> by lazy {
-        combine(accountGrouping.flow, _activeFilter) { grouping, filter ->
-            grouping to filter
-        }.flatMapLatest { (grouping, filter) ->
-            sortMap.getValue(
-                aggregateKey(
-                    grouping,
-                    filter
-                )
-            ).flow
-        }
-    }
 
     fun persistGroupingV2(grouping: Grouping) {
         viewModelScope.launch(context = coroutineContext()) {
