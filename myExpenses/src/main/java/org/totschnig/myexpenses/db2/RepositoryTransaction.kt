@@ -83,7 +83,10 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.Locale
 
-fun Transaction.asContentValues(forInsert: Boolean) = ContentValues().apply {
+fun Transaction.asContentValues(
+    withUuid: Boolean = true,
+    withCrStatus: Boolean = true
+) = ContentValues().apply {
     put(KEY_COMMENT, comment)
     put(KEY_DATE, date)
     put(KEY_VALUE_DATE, valueDate)
@@ -94,15 +97,17 @@ fun Transaction.asContentValues(forInsert: Boolean) = ContentValues().apply {
     put(KEY_TRANSFER_ACCOUNT, transferAccountId?.takeIf { it > 0L })
     put(KEY_METHODID, methodId?.takeIf { it > 0L })
     put(KEY_PARENTID, parentId?.takeIf { it > 0L })
-    put(KEY_CR_STATUS, crStatus.name)
     put(KEY_REFERENCE_NUMBER, referenceNumber)
     put(KEY_ORIGINAL_AMOUNT, originalAmount)
     put(KEY_ORIGINAL_CURRENCY, originalCurrency)
     put(KEY_EQUIVALENT_AMOUNT, equivalentAmount)
     put(KEY_DEBT_ID, debtId?.takeIf { it > 0L })
-    if (forInsert) {
+    if (withUuid) {
         require(uuid.isNotBlank())
         put(KEY_UUID, uuid)
+    }
+    if (withCrStatus) {
+        put(KEY_CR_STATUS, crStatus.name)
     }
     put(KEY_TAGLIST, tagList.joinToString("$RECORD_SEPARATOR"))
 }
@@ -157,7 +162,7 @@ fun Repository.createTransaction(transaction: Transaction): RepositoryTransactio
     val id = ContentUris.parseId(
         contentResolver.insert(
             TRANSACTIONS_URI,
-            transaction.asContentValues(true)
+            transaction.asContentValues()
         )!!
     )
     return RepositoryTransaction(
@@ -247,7 +252,10 @@ fun Repository.updateTransfer(
 
     operations.add(
         ContentProviderOperation.newUpdate(destinationUri)
-            .withValues(destinationTransaction.asContentValues(false))
+            .withValues(destinationTransaction.asContentValues(
+                withUuid = false,
+                withCrStatus = false
+            ))
             .withValue(KEY_STATUS, destinationOriginalStatus)
             .build()
     )
@@ -285,7 +293,7 @@ fun Repository.createSplitTransaction(
     // --- Operation 0: Insert the Parent Transaction ---
     operations.add(
         ContentProviderOperation.newInsert(TRANSACTIONS_URI)
-            .withValues(parentTransaction.asContentValues(true))
+            .withValues(parentTransaction.asContentValues())
             .build()
     )
     val parentBackRefIndex = 0
@@ -300,7 +308,7 @@ fun Repository.createSplitTransaction(
             require(splitPart.transferAccountId == null)
             operations.add(
                 ContentProviderOperation.newInsert(TRANSACTIONS_URI)
-                    .withValues(splitPart.asContentValues(true))
+                    .withValues(splitPart.asContentValues())
                     .withValueBackReference(KEY_PARENTID, parentBackRefIndex)
                     .build()
             )
@@ -419,7 +427,7 @@ fun Repository.updateSplitTransaction(repositoryTransaction: RepositoryTransacti
                 operations.add(
                     ContentProviderOperation.newInsert(TRANSACTIONS_URI)
                         .withValues(
-                            transaction.data.asContentValues(true)
+                            transaction.data.asContentValues()
                                 .apply {
                                     put(KEY_PARENTID, parentTransaction.id)
                                 })
@@ -760,7 +768,7 @@ private fun getTransferOperations(
     return listOf(
         // Operation at index (offset + 0): Insert the source transaction.
         ContentProviderOperation.newInsert(TRANSACTIONS_URI)
-            .withValues(source.asContentValues(true))
+            .withValues(source.asContentValues())
             .apply {
                 if (parentBackRefIndex != null) {
                     withValueBackReference(KEY_PARENTID, parentBackRefIndex)
@@ -772,7 +780,7 @@ private fun getTransferOperations(
 
         // Operation at index (offset + 1): Insert the destination, linking to the source.
         ContentProviderOperation.newInsert(TRANSACTIONS_URI)
-            .withValues(destination.asContentValues(true))
+            .withValues(destination.asContentValues())
             .withValueBackReference(KEY_TRANSFER_PEER, offset)
             .build(),
 
@@ -850,7 +858,7 @@ fun Repository.groupToSplitTransaction(ids: LongArray): Result<Boolean> {
                 val operations = ArrayList<ContentProviderOperation>()
                 operations.add(
                     ContentProviderOperation.newInsert(TRANSACTIONS_URI)
-                        .withValues(parent.asContentValues(true))
+                        .withValues(parent.asContentValues())
                         .build()
                 )
                 val where = KEY_ROWID + " " + Operation.IN.getOp(count)

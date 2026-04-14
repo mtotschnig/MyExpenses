@@ -368,7 +368,7 @@ open class ContentResolvingAndroidViewModel(application: Application) :
                 uuid = generateUuid()
             )
             handleDeleteOperation = ContentProviderOperation.newInsert(TRANSACTIONS_URI)
-                .withValues(helper.asContentValues(true).apply {
+                .withValues(helper.asContentValues().apply {
                     put(KEY_STATUS, STATUS_HELPER)
                 }).build()
         }
