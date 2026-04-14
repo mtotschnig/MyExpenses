@@ -1516,7 +1516,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                 val withCategoryIcon =
                     viewModel.withCategoryIcon.collectAsState(initial = true)
                 val renderType = viewModel.renderer.collectAsState(initial = RenderType.New)
-                val renderer = remember {
+                val renderer = remember(account.grouping) {
                     derivedStateOf {
                         Timber.d("init renderer ${renderType.value}")
                         rendererFactory(
