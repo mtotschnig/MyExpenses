@@ -39,6 +39,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Scaffold
@@ -50,6 +51,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
@@ -79,6 +81,7 @@ import androidx.compose.ui.semantics.collectionInfo
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
@@ -676,7 +679,7 @@ private fun BalanceSection(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.graphicsLayer(clip = false)
-        ) {
+    ) {
         val iconTint = when (type) {
             BalanceType.CLEARED -> colorResource(id = R.color.CLEARED)
             BalanceType.RECONCILED -> colorResource(id = R.color.RECONCILED)
@@ -690,13 +693,22 @@ private fun BalanceSection(
                 .size(12.dp),
             tint = iconTint
         )
-        AmountText(
-            balance, account.currencyUnit,
-            fontWeight = FontWeight.SemiBold,
-            fontSize = 14.sp,
-            overflow = TextOverflow.Visible,
-            softWrap = false
-        )
+        CompositionLocalProvider(
+            LocalTextStyle provides LocalTextStyle.current.copy(
+                lineHeightStyle = LineHeightStyle(
+                    alignment = LineHeightStyle.Alignment.Center,
+                    trim = LineHeightStyle.Trim.Both
+                )
+            )
+        ) {
+            AmountText(
+                balance, account.currencyUnit,
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 14.sp,
+                overflow = TextOverflow.Visible,
+                softWrap = false
+            )
+        }
     }
 }
 
