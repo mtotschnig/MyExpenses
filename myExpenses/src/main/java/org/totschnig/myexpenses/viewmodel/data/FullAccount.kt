@@ -12,6 +12,7 @@ import org.totschnig.myexpenses.compose.accounts.SIGMA
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.BalanceType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
@@ -20,6 +21,7 @@ import org.totschnig.myexpenses.model2.AccountWithGroupingKey
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_BALANCE_TYPE
 import org.totschnig.myexpenses.provider.KEY_BANK_ID
 import org.totschnig.myexpenses.provider.KEY_CLEARED_TOTAL
 import org.totschnig.myexpenses.provider.KEY_COLOR
@@ -81,6 +83,7 @@ sealed class BaseAccount : DataBaseAccount() {
     abstract val equivalentTotal: Long?
     abstract fun labelV2(context: Context): String
     fun aggregateColor(resources: Resources) = ResourcesCompat.getColor(resources, R.color.colorAggregate, null)
+    abstract val balanceType: BalanceType
     override val flagId: Long?
         get() = flag?.id
     override val typeId: Long?
@@ -110,7 +113,8 @@ data class AggregateAccount(
     val hasCleared: Boolean = false,
     override val total: Long? = null,
     override val equivalentTotal: Long = total ?: 0,
-    override val accountGrouping: AccountGrouping<*>
+    override val accountGrouping: AccountGrouping<*>,
+    override val balanceType: BalanceType = BalanceType.CURRENT
 ): BaseAccount() {
     override val id: Long = 0
     override val currency: String = currencyUnit.code
@@ -170,6 +174,7 @@ data class FullAccount(
     override val grouping: Grouping = Grouping.NONE,
     override val sortBy: String = KEY_DATE,
     override val sortDirection: SortDirection = SortDirection.DESC,
+    override val balanceType: BalanceType = BalanceType.CURRENT,
     val syncAccountName: String? = null,
     val reconciledTotal: Long = 0L,
     val clearedTotal: Long = 0L,
@@ -278,6 +283,7 @@ data class FullAccount(
                     getLocalDate(KEY_LATEST_EXCHANGE_RATE_DATE) to it
                 },
                 dynamic = getBoolean(KEY_DYNAMIC),
+                balanceType = getEnum(KEY_BALANCE_TYPE, BalanceType.CURRENT)
             )
         }
     }

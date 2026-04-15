@@ -15,8 +15,10 @@ import org.totschnig.myexpenses.db2.FinTsAttribute
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.BalanceType
 import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.model.DEFAULT_FLAG_ID
+import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_INACTIVE
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.model.generateUuid
@@ -142,6 +144,32 @@ CREATE TRIGGER category_type_move
         UPDATE $TABLE_CATEGORIES SET $KEY_TYPE = (SELECT $KEY_TYPE FROM $TABLE_CATEGORIES WHERE $KEY_ROWID = new.$KEY_PARENTID) WHERE $KEY_ROWID = new.$KEY_ROWID;
     END
 """
+
+val ACCOUNTS_CREATE =
+    """CREATE TABLE $TABLE_ACCOUNTS (
+        $KEY_ROWID integer primary key autoincrement,
+        $KEY_LABEL text not null,
+        $KEY_OPENING_BALANCE integer,
+        $KEY_DESCRIPTION text,
+        $KEY_CURRENCY text not null references $TABLE_CURRENCIES($KEY_CODE),
+        $KEY_TYPE integer references $TABLE_ACCOUNT_TYPES($KEY_ROWID) NOT NULL,
+        $KEY_COLOR integer default -3355444,
+        $KEY_GROUPING text not null check ($KEY_GROUPING in (${Grouping.JOIN})) default '${Grouping.NONE.name}',
+        $KEY_USAGES integer default 0,
+        $KEY_LAST_USED datetime,
+        $KEY_SORT_KEY integer,
+        $KEY_SYNC_ACCOUNT_NAME text,
+        $KEY_SYNC_SEQUENCE_LOCAL integer default 0,
+        $KEY_EXCLUDE_FROM_TOTALS boolean default 0,
+        $KEY_UUID text,
+        $KEY_SORT_BY text default 'date',
+        $KEY_SORT_DIRECTION text not null check ($KEY_SORT_DIRECTION in ('ASC','DESC')) default 'DESC',
+        $KEY_CRITERION integer,
+        $KEY_FLAG integer references $TABLE_ACCOUNT_FLAGS($KEY_ROWID) NOT NULL default 0,
+        $KEY_SEALED boolean default 0,
+        $KEY_DYNAMIC boolean default 0,
+        $KEY_BANK_ID integer references $TABLE_BANKS($KEY_ROWID) ON DELETE SET NULL,
+        $KEY_BALANCE_TYPE not null check ($KEY_BALANCE_TYPE in (${BalanceType.JOIN})) default '${BalanceType.CURRENT.name}');"""
 
 const val BANK_CREATE = """
 CREATE TABLE $TABLE_BANKS ($KEY_ROWID integer primary key autoincrement, $KEY_BLZ text not null, $KEY_BIC text not null, $KEY_BANK_NAME text not null, $KEY_USER_ID text not null, $KEY_VERSION interger not null, unique($KEY_BLZ, $KEY_USER_ID))

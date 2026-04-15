@@ -68,7 +68,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.totschnig.myexpenses.R
@@ -93,7 +92,7 @@ import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.compose.optional
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbarAndBottomPadding
-import org.totschnig.myexpenses.compose.transactions.BalanceType
+import org.totschnig.myexpenses.model.BalanceType
 import org.totschnig.myexpenses.dialog.Percent
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
@@ -891,20 +890,17 @@ fun AccountCard(
 @Composable
 fun AccountSummaryV2(
     account: BaseAccount,
-    displayBalanceType: BalanceType,
     onDisplayBalanceTypeChange: (BalanceType) -> Unit,
 ) {
 
     when (account) {
         is FullAccount -> AccountSummaryV2(
             account,
-            displayBalanceType,
             onDisplayBalanceTypeChange
         )
 
         is AggregateAccount -> AccountSummaryV2(
             account,
-            displayBalanceType,
             onDisplayBalanceTypeChange
         )
     }
@@ -913,7 +909,6 @@ fun AccountSummaryV2(
 @Composable
 fun AccountSummaryV2(
     account: FullAccount,
-    displayBalanceType: BalanceType,
     onDisplayBalanceTypeChange: (BalanceType) -> Unit,
 ) {
     val homeCurrency = LocalHomeCurrency.current
@@ -962,7 +957,7 @@ fun AccountSummaryV2(
             currency = account.currencyUnit,
             modifier = Modifier.drawSumLine(),
             formattedEquivalentAmount = account.equivalentTotal.takeIf { isFx },
-            highlight = displayBalanceType == BalanceType.TOTAL
+            highlight = account.balanceType == BalanceType.TOTAL
         ) { onDisplayBalanceTypeChange(BalanceType.TOTAL) }
     }
 
@@ -974,7 +969,7 @@ fun AccountSummaryV2(
             drawSumLine()
         },
         formattedEquivalentAmount = account.equivalentCurrentBalance.takeIf { isFx },
-        highlight = displayBalanceType == BalanceType.CURRENT,
+        highlight = account.balanceType == BalanceType.CURRENT,
         onClick = if (hasMultipleBalanceTypeOptions) {
             { onDisplayBalanceTypeChange(BalanceType.CURRENT) }
         } else null
@@ -1009,13 +1004,13 @@ fun AccountSummaryV2(
             label = R.string.total_cleared,
             amount = account.clearedTotal,
             currency = account.currencyUnit,
-            highlight = displayBalanceType == BalanceType.CLEARED,
+            highlight = account.balanceType == BalanceType.CLEARED,
         ) { onDisplayBalanceTypeChange(BalanceType.CLEARED) }
         SumRowV2(
             label = R.string.total_reconciled,
             amount = account.reconciledTotal,
             currency = account.currencyUnit,
-            highlight = displayBalanceType == BalanceType.RECONCILED,
+            highlight = account.balanceType == BalanceType.RECONCILED,
         ) { onDisplayBalanceTypeChange(BalanceType.RECONCILED) }
     }
 }
@@ -1023,7 +1018,6 @@ fun AccountSummaryV2(
 @Composable
 fun AccountSummaryV2(
     account: AggregateAccount,
-    displayBalanceType: BalanceType,
     onDisplayBalanceTypeChange: (BalanceType) -> Unit,
 ) {
     val homeCurrency = LocalHomeCurrency.current
@@ -1074,7 +1068,7 @@ fun AccountSummaryV2(
             currency = account.currencyUnit,
             modifier = Modifier.drawSumLine(),
             formattedEquivalentAmount = account.equivalentTotal.takeIf { isFx },
-            highlight = displayBalanceType == BalanceType.TOTAL
+            highlight = account.balanceType == BalanceType.TOTAL
         ) { onDisplayBalanceTypeChange(BalanceType.TOTAL) }
     }
 
@@ -1086,7 +1080,7 @@ fun AccountSummaryV2(
             drawSumLine()
         },
         formattedEquivalentAmount = account.equivalentCurrentBalance.takeIf { isFx },
-        highlight = displayBalanceType == BalanceType.CURRENT,
+        highlight = account.balanceType == BalanceType.CURRENT,
         onClick = if (hasMultipleBalanceTypeOptions) {
             { onDisplayBalanceTypeChange(BalanceType.CURRENT) }
         } else null

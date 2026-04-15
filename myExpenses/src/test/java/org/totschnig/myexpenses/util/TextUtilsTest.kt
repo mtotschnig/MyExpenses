@@ -36,7 +36,7 @@ internal class TextUtilsTest {
 
     @Test
     fun joinEnum() {
-        assertThat(joinEnum(TestEnum::class.java)).isEqualTo("'One','Two','Three'")
+        assertThat(joinEnum<TestEnum>()).isEqualTo("'One','Two','Three'")
     }
 
     @Test

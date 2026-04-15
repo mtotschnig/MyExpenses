@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.model.sort.SortDirection
 import org.totschnig.myexpenses.model.sort.SortDirection.ASC
 import org.totschnig.myexpenses.model.sort.SortDirection.DESC
+import org.totschnig.myexpenses.model.sort.TransactionSort
 import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.sync.GenericAccountService
@@ -181,22 +182,4 @@ fun configureSortDirectionMenu(
     }
 }
 
-fun getSortDirectionFromMenuItemId(id: Int) = when (id) {
-    R.id.SORT_BY_DATE_ASCENDING_COMMAND -> {
-        KEY_DATE to ASC
-    }
-
-    R.id.SORT_BY_DATE_DESCENDING_COMMAND -> {
-        KEY_DATE to DESC
-    }
-
-    R.id.SORT_BY_AMOUNT_ASCENDING_COMMAND -> {
-        KEY_AMOUNT to ASC
-    }
-
-    R.id.SORT_BY_AMOUNT_DESCENDING_COMMAND -> {
-        KEY_AMOUNT to DESC
-    }
-
-    else -> null
-}
+fun getSortDirectionFromMenuItemId(id: Int) = TransactionSort.fromCommandId(id)

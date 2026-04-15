@@ -69,6 +69,7 @@ import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.db2.setAccountProperty
 import org.totschnig.myexpenses.db2.setGrouping
+import org.totschnig.myexpenses.db2.setSort
 import org.totschnig.myexpenses.db2.tagMapFlow
 import org.totschnig.myexpenses.db2.unarchive
 import org.totschnig.myexpenses.db2.undeleteTransaction
@@ -81,7 +82,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.generateUuid
-import org.totschnig.myexpenses.model.sort.SortDirection
+import org.totschnig.myexpenses.model.sort.TransactionSort
 import org.totschnig.myexpenses.model2.Bank
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.Mapper
@@ -121,7 +122,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider.KEY_REPLACE
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_SAVE_TRANSACTION_TAGS
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_MAPPED_OBJECTS
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES
-import org.totschnig.myexpenses.provider.TransactionProvider.SORT_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.UNSPLIT_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_LINK_TRANSFER
@@ -539,32 +539,25 @@ open class MyExpensesViewModel(
         }
     }
 
-    fun persistSort(sort: String, direction: SortDirection) {
+    fun persistSort(transactionSort: TransactionSort) {
         viewModelScope.launch(context = coroutineContext()) {
-            performPersistSort(sort, direction)
+            performPersistSort(transactionSort)
         }
     }
 
-    suspend fun performPersistSort(sort: String, direction: SortDirection) {
+    suspend fun performPersistSort(transactionSort: TransactionSort) {
         withContext(coroutineContext()) {
             if (selectedAccountId.value == DataBaseAccount.HOME_AGGREGATE_ID) {
-                persistSortDirectionHomeAggregate(sort, direction)
+                persistSortDirectionHomeAggregate(transactionSort)
             } else {
-                contentResolver.update(
-                    ContentUris.withAppendedId(SORT_URI, selectedAccountId.value)
-                        .buildUpon()
-                        .appendPath(sort)
-                        .appendPath(direction.name)
-                        .build(),
-                    null, null, null
-                )
+                repository.setSort(selectedAccountId.value, transactionSort)
             }
         }
     }
 
-    private fun persistSortDirectionHomeAggregate(sort: String, direction: SortDirection) {
-        prefHandler.putString(SORT_BY_AGGREGATE, sort)
-        prefHandler.putString(SORT_DIRECTION_AGGREGATE, direction.name)
+    private fun persistSortDirectionHomeAggregate(transactionSort: TransactionSort) {
+        prefHandler.putString(SORT_BY_AGGREGATE, transactionSort.column)
+        prefHandler.putString(SORT_DIRECTION_AGGREGATE, transactionSort.sortDirection.name)
         triggerAccountListRefresh()
     }
 
