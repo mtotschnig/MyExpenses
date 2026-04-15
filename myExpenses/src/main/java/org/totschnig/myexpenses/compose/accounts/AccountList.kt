@@ -42,7 +42,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -69,6 +68,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.totschnig.myexpenses.R
@@ -113,7 +113,6 @@ import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import java.text.DecimalFormat
 import kotlin.math.absoluteValue
 import kotlin.math.sign
-import kotlin.text.append
 
 const val SIGMA = "Σ"
 
@@ -598,8 +597,10 @@ fun AccountCardV2(
 fun AccountIndicator(
     account: FullAccount,
     bankIcon: @Composable ((Modifier, Long) -> Unit)? = null,
+    reducedSizeIfPossible: Boolean = false
 ) {
-    val fontSize = 13.sp
+    val fontSize = if (reducedSizeIfPossible && account.progress == null && bankIcon == null) 9.sp else 13.sp
+
     val size = with(LocalDensity.current) { (fontSize * 2).toDp() }
 
     val color = Color(account.color(resources = LocalResources.current))
@@ -1292,7 +1293,7 @@ fun MixedText() {
 
 @Preview(fontScale = 2f)
 @Composable
-fun AccountIndicator() {
+fun AccountIndicatorPreview() {
     AccountIndicator(
         account = FullAccount(
             id = 1,

@@ -277,6 +277,7 @@ fun MainScreenAdaptive(
         )
     }
 
+    val toggleableRail = preferredNavMode == MenuItem.NavigationMode.TOGGLEABLE_RAIL
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -286,11 +287,11 @@ fun MainScreenAdaptive(
         NavigationSuiteScaffold(
             layoutType = layoutType,
             navigationSuiteItems = {
-                if (preferredNavMode == MenuItem.NavigationMode.TOGGLEABLE_RAIL && isNavigationVisible) {
+                if (toggleableRail && isNavigationVisible) {
                     item(
                         icon = {
                             IconButton(onClick = { onAppEvent(AppEvent.ToggleNavigation) }) {
-                                Icon(Icons.Default.Close, contentDescription = "Hide Navigation")
+                                Icon(Icons.Default.Close, contentDescription = stringResource(R.string.drawer_open))
                             }
                         },
                         selected = false,
@@ -364,14 +365,13 @@ fun MainScreenAdaptive(
 
 
             val navigationIcon =
-                if (preferredNavMode == MenuItem.NavigationMode.TOGGLEABLE_RAIL && !isNavigationVisible) {
+                if (toggleableRail && !isNavigationVisible) {
                     @Composable
                     {
-                        // This is the "Hamburger" or "Menu" button
                         IconButton(onClick = { onAppEvent(AppEvent.ToggleNavigation) }) {
                             Icon(
                                 imageVector = Icons.Default.Menu,
-                                contentDescription = "Toggle Navigation"
+                                contentDescription = stringResource(R.string.drawer_open)
                             )
                         }
                     }
@@ -456,8 +456,8 @@ fun MainScreenAdaptive(
 
                                     else -> when {
                                         fontScale > 1.5f -> 0
-                                        fontScale > 1.1f -> if (isNavigationVisible) 0 else 1
-                                        else -> if (isNavigationVisible) 1 else 2
+                                        fontScale > 1.1f -> if (toggleableRail) 0 else 1
+                                        else -> if (toggleableRail) 1 else 2
                                     }
                                 },
                                 windowInsets = with(customInsets) {

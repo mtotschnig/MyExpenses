@@ -16,6 +16,8 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.style.TextOverflow.Companion
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
@@ -46,6 +48,9 @@ fun AmountText(
     color: Color = Color.Unspecified,
     prefix: String = "",
     postfix: String = "",
+    overflow: TextOverflow = TextOverflow.Clip,
+    softWrap: Boolean = true,
+    maxLines: Int = Int.MAX_VALUE,
 ) {
     val money = Money(currency, amount)
     Text(
@@ -58,7 +63,10 @@ fun AmountText(
         text = prefix + LocalCurrencyFormatter.current.formatCurrency(
             money.amountMajor,
             money.currencyUnit
-        ) + postfix
+        ) + postfix,
+        overflow = overflow,
+        softWrap = softWrap,
+        maxLines = maxLines
     )
 }
 

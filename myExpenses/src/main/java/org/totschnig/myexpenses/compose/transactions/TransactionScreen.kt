@@ -532,7 +532,7 @@ private fun BalanceHeader(
         verticalAlignment = Alignment.CenterVertically
     ) {
         (currentAccount as? FullAccount)?.let {
-            AccountIndicator(currentAccount, bankIcon)
+            AccountIndicator(currentAccount, bankIcon, true)
         }
         BoxWithConstraints(
             Modifier
@@ -673,7 +673,10 @@ private fun BalanceSection(
     balance: Long,
     account: BaseAccount,
 ) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.graphicsLayer(clip = false)
+        ) {
         val iconTint = when (type) {
             BalanceType.CLEARED -> colorResource(id = R.color.CLEARED)
             BalanceType.RECONCILED -> colorResource(id = R.color.RECONCILED)
@@ -683,14 +686,16 @@ private fun BalanceSection(
             imageVector = type.icon,
             contentDescription = stringResource(type.resourceId),
             modifier = Modifier
-                .padding(end = 8.dp)
-                .size(18.dp),
+                .padding(end = 4.dp)
+                .size(12.dp),
             tint = iconTint
         )
         AmountText(
             balance, account.currencyUnit,
             fontWeight = FontWeight.SemiBold,
-            fontSize = 14.sp
+            fontSize = 14.sp,
+            overflow = TextOverflow.Visible,
+            softWrap = false
         )
     }
 }
