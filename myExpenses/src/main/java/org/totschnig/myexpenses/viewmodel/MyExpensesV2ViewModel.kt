@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.preference.menu
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.GROUPING_AGGREGATE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_BY_AGGREGATE
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -183,12 +184,11 @@ class MyExpensesV2ViewModel(
             // Triple is used to pass these down to the flatMapLatest
             Triple(accounts, activeFilter, accountGrouping)
         }.flatMapLatest { (accounts, activeFilter, accountGrouping) ->
-            val key = aggregateKey(accountGrouping, activeFilter)
 
             // Combine the remaining settings flows based on the calculated key
             combine(
-                groupingMap.getValue(key).flow,
-                sortMap.getValue(key).flow
+                groupingMap.getValue(groupingAggregateKey(accountGrouping, activeFilter)).flow,
+                sortMap.getValue(sortAggregateKey(accountGrouping, activeFilter)).flow
             ) { aggregateGrouping, aggregateSort ->
 
                 val filteredByGroupFilter =
@@ -280,24 +280,36 @@ class MyExpensesV2ViewModel(
         )
     }
 
-    fun aggregateKey(grouping: AccountGrouping<*>, filter: AccountGroupingKey?) =
+    fun groupingAggregateKey(grouping: AccountGrouping<*>, filter: AccountGroupingKey?) =
+        aggregateKey(grouping, filter, "", GROUPING_AGGREGATE)
+    fun sortAggregateKey(grouping: AccountGrouping<*>, filter: AccountGroupingKey?) =
+        aggregateKey(grouping, filter, "sort_", SORT_BY_AGGREGATE)
+
+
+
+    fun aggregateKey(
+        grouping: AccountGrouping<*>,
+        filter: AccountGroupingKey?,
+        prefix: String,
+        homeKey: String,
+    ) =
         if (grouping == AccountGrouping.NONE || filter == null) {
-            GROUPING_AGGREGATE
+            homeKey
         } else {
-            "${grouping.name}_${filter.id}"
+            "$prefix{grouping.name}_${filter.id}"
         }
 
     fun persistGroupingV2(grouping: Grouping) {
         viewModelScope.launch(context = coroutineContext()) {
             if (selectedAccountId.value == 0L) {
                 groupingMap.getValue(
-                    aggregateKey(
+                    groupingAggregateKey(
                         accountGrouping.get(),
                         _activeFilter.value
                     )
                 ).set(grouping)
             } else {
-                persistGrouping(grouping)
+                performPersistGrouping(grouping)
             }
         }
     }
@@ -306,13 +318,16 @@ class MyExpensesV2ViewModel(
         viewModelScope.launch(context = coroutineContext()) {
             if (selectedAccountId.value == 0L) {
                 sortMap.getValue(
-                    aggregateKey(
+                    sortAggregateKey(
                         accountGrouping.get(),
                         _activeFilter.value
                     )
                 ).set(transactionSort)
             } else {
-                persistSort(transactionSort.column, transactionSort.sortDirection)
+                performPersistSort(transactionSort.column, transactionSort.sortDirection)
+            }
+        }
+    }
             }
         }
     }

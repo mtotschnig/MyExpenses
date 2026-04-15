@@ -523,7 +523,13 @@ open class MyExpensesViewModel(
     fun sumInfo(account: PageAccount) = sums.getValue(account)
 
     fun persistGrouping(grouping: Grouping) {
-        viewModelScope.launch(context = coroutineContext()) {
+        viewModelScope.launch {
+            performPersistGrouping(grouping)
+        }
+    }
+
+    suspend fun performPersistGrouping(grouping: Grouping) {
+        withContext(coroutineContext()) {
             if (selectedAccountId.value == DataBaseAccount.HOME_AGGREGATE_ID) {
                 prefHandler.putString(GROUPING_AGGREGATE, grouping.name)
                 triggerAccountListRefresh()
@@ -535,6 +541,12 @@ open class MyExpensesViewModel(
 
     fun persistSort(sort: String, direction: SortDirection) {
         viewModelScope.launch(context = coroutineContext()) {
+            performPersistSort(sort, direction)
+        }
+    }
+
+    suspend fun performPersistSort(sort: String, direction: SortDirection) {
+        withContext(coroutineContext()) {
             if (selectedAccountId.value == DataBaseAccount.HOME_AGGREGATE_ID) {
                 persistSortDirectionHomeAggregate(sort, direction)
             } else {
