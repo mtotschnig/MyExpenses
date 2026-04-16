@@ -104,6 +104,7 @@ import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.main.AppEventHandler
 import org.totschnig.myexpenses.compose.main.getBalanceContentDescription
 import org.totschnig.myexpenses.compose.main.balanceForType
+import org.totschnig.myexpenses.compose.main.icon
 import org.totschnig.myexpenses.compose.main.parseMenu
 import org.totschnig.myexpenses.compose.main.rememberCollapsingTabRowState
 import org.totschnig.myexpenses.compose.main.validatedBalanceType
