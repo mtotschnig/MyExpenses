@@ -13,7 +13,6 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.licence.LicenceStatus
-import java.util.EnumSet
 import java.util.Locale
 
 object TextUtils {

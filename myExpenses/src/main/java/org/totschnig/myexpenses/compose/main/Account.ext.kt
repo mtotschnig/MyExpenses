@@ -1,5 +1,11 @@
 package org.totschnig.myexpenses.compose.main
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ChangeHistory
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.DoneAll
+import androidx.compose.material.icons.filled.DragHandle
+import androidx.compose.material.icons.filled.Functions
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.BalanceType
 import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
@@ -38,7 +44,7 @@ val BaseAccount.balanceForType: Long
         }
     }
 
-fun BaseAccount.geBalanceContentDescription(type: BalanceType): Int = when(type) {
+fun BaseAccount.getBalanceContentDescription(type: BalanceType): Int = when(type) {
     BalanceType.CURRENT -> R.string.current_balance
     BalanceType.TOTAL -> R.string.menu_aggregates
     BalanceType.CLEARED -> R.string.total_cleared
@@ -60,4 +66,13 @@ val FullAccount.deltaLabel: Int
             isSavingGoal -> R.string.saving_goal_short_fall
             else -> R.string.credit_limit_available_credit
         }
+    }
+
+val BalanceType.icon
+    get() = when(this) {
+        BalanceType.CURRENT -> Icons.Default.DragHandle
+        BalanceType.TOTAL -> Icons.Default.Functions
+        BalanceType.CLEARED -> Icons.Default.Check
+        BalanceType.RECONCILED -> Icons.Default.DoneAll
+        BalanceType.DELTA -> Icons.Default.ChangeHistory
     }

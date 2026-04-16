@@ -63,7 +63,6 @@ import org.totschnig.myexpenses.provider.getDouble
 import org.totschnig.myexpenses.provider.getDoubleOrNull
 import org.totschnig.myexpenses.provider.getEnum
 import org.totschnig.myexpenses.provider.getEnumIfExists
-import org.totschnig.myexpenses.provider.getEnumOrNull
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLocalDate
 import org.totschnig.myexpenses.provider.getLong

@@ -102,7 +102,7 @@ import org.totschnig.myexpenses.compose.accounts.AccountSummaryV2
 import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.main.AppEventHandler
-import org.totschnig.myexpenses.compose.main.geBalanceContentDescription
+import org.totschnig.myexpenses.compose.main.getBalanceContentDescription
 import org.totschnig.myexpenses.compose.main.balanceForType
 import org.totschnig.myexpenses.compose.main.parseMenu
 import org.totschnig.myexpenses.compose.main.rememberCollapsingTabRowState
@@ -654,7 +654,7 @@ private fun BalanceSection(
         }
         Icon(
             imageVector = type.icon,
-            contentDescription = stringResource(account.geBalanceContentDescription(type)),
+            contentDescription = stringResource(account.getBalanceContentDescription(type)),
             modifier = Modifier
                 .padding(end = 4.dp)
                 .size(12.dp),
