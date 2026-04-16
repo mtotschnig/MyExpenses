@@ -142,6 +142,18 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
                 KEY_SYNC_PROVIDER_USERNAME,
                 userData.getString(KEY_SYNC_PROVIDER_USERNAME)
             )
+            userData.keySet().forEach { key ->
+                if (key != KEY_SYNC_PROVIDER_URL && key != KEY_SYNC_PROVIDER_USERNAME) {
+                    accountManager.setUserData(account, key, userData.getString(key))
+                }
+            }
+            getApplication<MyApplication>().let { app ->
+                app.getSharedPreferences("webdav_sync", 0).edit()
+                    .remove("lockToken")
+                    .remove("lockOwnedByUs")
+                    .remove("lockTimestamp")
+                    .apply()
+            }
             emit(true)
         }
 

@@ -492,6 +492,14 @@
     <string name="description_webdav_url">Please enter the URL to a special folder on your WebDAV server. {app_name} will store its data inside this folder, it won\'t touch anything outside of it.</string>
     <string name="description_webdav_trust_certificate">The website uses a certificate, which is not trusted by Android.</string>
     <string name="label_trust_certificate">Trust this certificate</string>
+    <string name="label_client_certificate">Client certificate (mTLS)</string>
+    <string name="description_client_certificate">Select a client certificate from the system credential store to authenticate with the server using mutual TLS.</string>
+    <string name="label_client_certificate_selected">Certificate: %s</string>
+    <string name="label_client_certificate_not_selected">No client certificate selected</string>
+    <string name="label_select_certificate">Select certificate</string>
+    <string name="label_clear">Clear</string>
+    <string name="error_client_cert_missing">The configured client certificate is no longer available on this device. Please reconfigure WebDAV and select a new certificate.</string>
+    <string name="error_client_cert_access">Could not access the client certificate. Please check if the certificate is still installed.</string>
     <string name="no_sync_backends">No synchronization backends</string>
     <string name="menu_create_sync_backend">New synchronization backend</string>
     <string name="validate_error_not_empty">Must not be empty</string>
