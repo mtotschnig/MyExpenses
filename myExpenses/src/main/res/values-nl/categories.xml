@@ -251,7 +251,7 @@
     <!-- Subcategory under "Holidays" -->
     <string name="Sub_22_3">Reizen</string>
     <string name="Sub_16_4">Meubels</string>
-    <string name="Sub_15_3">BTW</string>
+    <string name="Sub_15_3">Omzetbelasting</string>
     <string name="Sub_15_2">Gemeentelijke belasting</string>
     <string name="Sub_15_1">Inkomstenbelasting</string>
 </resources>
