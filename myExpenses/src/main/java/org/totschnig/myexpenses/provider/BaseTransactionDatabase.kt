@@ -1185,7 +1185,7 @@ abstract class BaseTransactionDatabase(
     }
 
     fun SupportSQLiteDatabase.upgradeTo185() {
-        execSQL("ALTER TABLE accounts ADD COLUMN balance_type text not null check (balance_type in ('CURRENT','TOTAL','CLEARED',RECONCILED','DELTA')) default 'CURRENT'")
+        execSQL("ALTER TABLE accounts ADD COLUMN balance_type text not null check (balance_type in ('CURRENT','TOTAL','CLEARED','RECONCILED','DELTA')) default 'CURRENT'")
     }
 
     protected fun SupportSQLiteDatabase.createOrRefreshAccountTriggers() {
