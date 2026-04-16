@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.observeQuery
+import arrow.core.Tuple4
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -27,11 +28,13 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.StartScreen
 import org.totschnig.myexpenses.compose.transactions.Action
 import org.totschnig.myexpenses.compose.transactions.FabStyle
+import org.totschnig.myexpenses.db2.setBalanceType
 import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.BalanceType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.sort.TransactionSort
@@ -119,6 +122,14 @@ class MyExpensesV2ViewModel(
         }
     }
 
+    val aggregateAccountBalanceType by lazy {
+        EnumPreferenceAccessor(
+            dataStore,
+            stringPreferencesKey("aggregateAccountBalanceType"),
+            BalanceType.CURRENT
+        )
+    }
+
     fun setGrouping(grouping: AccountGrouping<*>) {
         setFilter(null)
         viewModelScope.launch {
@@ -179,13 +190,12 @@ class MyExpensesV2ViewModel(
         combine(
             accountDataV2.mapNotNull { it?.getOrNull() },
             _activeFilter,
-            accountGrouping.flow.filterNotNull()
-        ) { accounts, activeFilter, accountGrouping ->
-            // Triple is used to pass these down to the flatMapLatest
-            Triple(accounts, activeFilter, accountGrouping)
-        }.flatMapLatest { (accounts, activeFilter, accountGrouping) ->
+            accountGrouping.flow.filterNotNull(),
+            aggregateAccountBalanceType.flow.filterNotNull()
+        ) { accounts, activeFilter, accountGrouping, aggregateAccountBalanceType ->
+            Tuple4(accounts, activeFilter, accountGrouping, aggregateAccountBalanceType)
+        }.flatMapLatest { (accounts, activeFilter, accountGrouping, aggregateAccountBalanceType) ->
 
-            // Combine the remaining settings flows based on the calculated key
             combine(
                 groupingMap.getValue(groupingAggregateKey(accountGrouping, activeFilter)).flow,
                 sortMap.getValue(sortAggregateKey(accountGrouping, activeFilter)).flow
@@ -219,6 +229,7 @@ class MyExpensesV2ViewModel(
                         accountGrouping = aggregateAccountGrouping,
                         sortBy = aggregateSort.column,
                         sortDirection = aggregateSort.sortDirection,
+                        balanceType = aggregateAccountBalanceType,
                         equivalentOpeningBalance = filteredForTotals.sumOf { it.equivalentOpeningBalance },
                         equivalentCurrentBalance = filteredForTotals.sumOf { it.equivalentCurrentBalance },
                         equivalentSumIncome = filteredForTotals.sumOf { it.equivalentSumIncome },
@@ -324,7 +335,17 @@ class MyExpensesV2ViewModel(
                     )
                 ).set(transactionSort)
             } else {
-                performPersistSort(transactionSort.column, transactionSort.sortDirection)
+                performPersistSort(transactionSort)
+            }
+        }
+    }
+
+    fun persistBalanceType(balanceType: BalanceType) {
+        viewModelScope.launch(context = coroutineContext()) {
+            if (selectedAccountId.value == 0L) {
+                aggregateAccountBalanceType.set(balanceType)
+            } else {
+                repository.setBalanceType(selectedAccountId.value, balanceType)
             }
         }
     }

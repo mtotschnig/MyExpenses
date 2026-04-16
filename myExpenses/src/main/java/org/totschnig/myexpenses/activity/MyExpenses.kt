@@ -267,9 +267,9 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
     }
 
     protected open fun handleSortDirection(item: MenuItem) =
-        getSortDirectionFromMenuItemId(item.itemId)?.let { (sort, direction) ->
+        getSortDirectionFromMenuItemId(item.itemId)?.let {
             if (!item.isChecked) {
-                viewModel.persistSort(sort, direction)
+                viewModel.persistSort(it)
             }
             true
         } == true

@@ -6,11 +6,11 @@ import androidx.annotation.StringRes
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.util.TextUtils
+import org.totschnig.myexpenses.util.TextUtils.joinEnum
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.ui.asDateTimeFormatter
 import org.totschnig.myexpenses.util.safeMessage
+import org.totschnig.myexpenses.util.ui.asDateTimeFormatter
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import java.text.SimpleDateFormat
@@ -52,7 +52,7 @@ enum class Grouping(@param:StringRes val label: Int) {
      * @param groupYear           the year of the group to display
      * @param groupSecond         the number of the group in the second dimension (day, week or month)
      * @param dateInfo            information about the current date
-     * @return a human readable String representing the group as header or activity title
+     * @return a human-readable String representing the group as header or activity title
      */
     fun getDisplayTitle(
         ctx: Context,
@@ -180,6 +180,6 @@ enum class Grouping(@param:StringRes val label: Int) {
         }
 
         @JvmField
-        val JOIN: String = TextUtils.joinEnum(Grouping::class.java)
+        val JOIN: String = joinEnum<Grouping>()
     }
 }

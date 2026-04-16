@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.compose.transactions
 
 import androidx.activity.compose.BackHandler
-import androidx.annotation.StringRes
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
@@ -24,13 +23,9 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.ContentCopy
-import androidx.compose.material.icons.filled.DoneAll
-import androidx.compose.material.icons.filled.DragHandle
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.ExpandLess
-import androidx.compose.material.icons.filled.Functions
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -66,7 +61,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
@@ -108,17 +102,19 @@ import org.totschnig.myexpenses.compose.accounts.AccountSummaryV2
 import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.main.AppEventHandler
+import org.totschnig.myexpenses.compose.main.getBalanceContentDescription
+import org.totschnig.myexpenses.compose.main.balanceForType
 import org.totschnig.myexpenses.compose.main.parseMenu
 import org.totschnig.myexpenses.compose.main.rememberCollapsingTabRowState
+import org.totschnig.myexpenses.compose.main.validatedBalanceType
 import org.totschnig.myexpenses.compose.optional
 import org.totschnig.myexpenses.dialog.MenuItem
-import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.BalanceType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
-import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
@@ -134,7 +130,6 @@ enum class FabStyle {
 fun TransactionScreen(
     containerColor: Color = MaterialTheme.colorScheme.background,
     accounts: List<FullAccount>,
-    accountGrouping: AccountGrouping<*>,
     availableFilters: List<AccountGroupingKey>,
     selectedAccountId: Long,
     viewModel: MyExpensesV2ViewModel,
@@ -186,8 +181,6 @@ fun TransactionScreen(
         }
     }
     val accountColor = Color(currentAccount.color(LocalResources.current))
-
-    var selectedBalanceType by rememberSaveable { mutableStateOf(BalanceType.CURRENT) }
 
     Scaffold(
         contentWindowInsets = windowInsets,
@@ -257,9 +250,8 @@ fun TransactionScreen(
                                     padding(start = 4.dp, top = 4.dp)
                                 },
                                 currentAccount = currentAccount,
-                                displayBalanceType = selectedBalanceType,
                                 onDisplayBalanceTypeChange = { newType ->
-                                    selectedBalanceType = newType
+                                    viewModel.persistBalanceType(newType)
                                 },
                                 onCopyBalance = {
                                     onEvent(AppEvent.CopyToClipBoard(it))
@@ -483,21 +475,10 @@ private fun TransactionListPage(
     pageContent(pageAccount, isCurrent)
 }
 
-enum class BalanceType(
-    @param:StringRes val resourceId: Int,
-    val icon: ImageVector,
-) {
-    CURRENT(R.string.current_balance, Icons.Default.DragHandle),
-    TOTAL(R.string.menu_aggregates, Icons.Default.Functions),
-    CLEARED(R.string.total_cleared, Icons.Default.Check),
-    RECONCILED(R.string.total_reconciled, Icons.Default.DoneAll)
-}
-
 @Composable
 private fun BalanceHeader(
     currentAccount: BaseAccount,
     modifier: Modifier = Modifier,
-    displayBalanceType: BalanceType = BalanceType.CURRENT,
     bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
     onDisplayBalanceTypeChange: (BalanceType) -> Unit = {},
     onCopyBalance: (String) -> Unit = {},
@@ -509,20 +490,7 @@ private fun BalanceHeader(
         targetValue = if (isSummaryPopupVisible) 0F else 180F
     )
 
-    val validatedBalanceType = displayBalanceType.takeIf {
-        when (displayBalanceType) {
-            BalanceType.CURRENT -> true
-            BalanceType.TOTAL -> (currentAccount.total ?: currentAccount.equivalentTotal) != null
-            BalanceType.CLEARED, BalanceType.RECONCILED -> currentAccount is FullAccount && currentAccount.type.supportsReconciliation
-        }
-    } ?: BalanceType.CURRENT
-
-
-    val displayBalance = getBalanceForType(
-        currentAccount,
-        validatedBalanceType
-    )
-
+    val displayBalance = currentAccount.balanceForType
 
     Row(
         modifier = modifier
@@ -552,12 +520,12 @@ private fun BalanceHeader(
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     AccountLabel(currentAccount, Modifier.weight(1f, fill = false))
-                    BalanceSection(validatedBalanceType, displayBalance, currentAccount)
+                    BalanceSection(displayBalance, currentAccount)
                 }
             } else {
                 Column {
                     AccountLabel(currentAccount)
-                    BalanceSection(validatedBalanceType, displayBalance, currentAccount)
+                    BalanceSection(displayBalance, currentAccount)
                 }
             }
         }
@@ -606,7 +574,6 @@ private fun BalanceHeader(
                             ) {
                                 AccountSummaryV2(
                                     currentAccount,
-                                    displayBalanceType,
                                     onDisplayBalanceTypeChange
                                 )
                                 HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
@@ -672,10 +639,10 @@ private fun AccountLabel(
 
 @Composable
 private fun BalanceSection(
-    type: BalanceType,
     balance: Long,
     account: BaseAccount,
 ) {
+    val type = account.validatedBalanceType
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.graphicsLayer(clip = false)
@@ -687,7 +654,7 @@ private fun BalanceSection(
         }
         Icon(
             imageVector = type.icon,
-            contentDescription = stringResource(type.resourceId),
+            contentDescription = stringResource(account.getBalanceContentDescription(type)),
             modifier = Modifier
                 .padding(end = 4.dp)
                 .size(12.dp),
@@ -708,23 +675,6 @@ private fun BalanceSection(
                 overflow = TextOverflow.Visible,
                 softWrap = false
             )
-        }
-    }
-}
-
-private fun getBalanceForType(account: BaseAccount, type: BalanceType): Long {
-    return when (account) {
-        is FullAccount -> when (type) {
-            BalanceType.CURRENT -> account.currentBalance
-            BalanceType.TOTAL -> account.total!!
-            BalanceType.CLEARED -> account.clearedTotal
-            BalanceType.RECONCILED -> account.reconciledTotal
-        }
-
-        is AggregateAccount -> when (type) {
-            BalanceType.CURRENT -> account.currentBalance ?: account.equivalentCurrentBalance
-            BalanceType.TOTAL -> account.total ?: account.equivalentTotal
-            else -> account.equivalentCurrentBalance
         }
     }
 }

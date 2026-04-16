@@ -85,6 +85,9 @@ fun Cursor.isNull(column: String) = isNull(getColumnIndexOrThrow(column))
 inline fun <reified T : Enum<T>> Cursor.getEnum(column: String, default: T) =
     enumValueOrDefault(getString(column), default)
 
+inline fun <reified T : Enum<T>> Cursor.getEnumIfExists(column: String, default: T) =
+    enumValueOrDefault(getStringIfExists(column), default)
+
 inline fun <reified T : Enum<T>> Cursor.getEnum(columnIndex: Int, default: T) =
     enumValueOrDefault(getString(columnIndex), default)
 

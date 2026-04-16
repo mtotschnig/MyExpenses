@@ -516,7 +516,8 @@ fun accountQueryCTE(
         KEY_HAS_CLEARED,
         KEY_LAST_USED,
         KEY_BANK_ID,
-        "$KEY_CURRENCY != '$homeCurrency' AND $dynamicExpression AS $KEY_DYNAMIC"
+        "$KEY_CURRENCY != '$homeCurrency' AND $dynamicExpression AS $KEY_DYNAMIC",
+        KEY_BALANCE_TYPE
     )
     return """
 WITH now as (

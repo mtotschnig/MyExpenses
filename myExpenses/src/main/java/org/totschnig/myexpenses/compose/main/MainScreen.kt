@@ -436,7 +436,6 @@ fun MainScreenAdaptive(
                             TransactionScreen(
                                 containerColor = Color.Transparent,
                                 accounts = accounts,
-                                accountGrouping = accountGrouping,
                                 availableFilters = availableFilters,
                                 selectedAccountId = selectedAccountId,
                                 viewModel = viewModel,

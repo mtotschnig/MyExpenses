@@ -13,13 +13,12 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.licence.LicenceStatus
-import java.util.EnumSet
 import java.util.Locale
 
 object TextUtils {
-    @JvmStatic
-    fun <E : Enum<E>> joinEnum(enumClass: Class<E>): String =
-        EnumSet.allOf(enumClass).joinToString(",") { "'${it.name}'" }
+
+    inline fun <reified E : Enum<E>> joinEnum(): String =
+        enumValues<E>().joinToString(",") { "'${it.name}'" }
 
     @JvmStatic
     fun concatResStrings(ctx: Context, vararg resIds: Int): String =

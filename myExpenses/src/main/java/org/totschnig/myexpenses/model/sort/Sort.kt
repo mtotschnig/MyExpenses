@@ -59,12 +59,7 @@ enum class Sort(val commandId: Int, val isDescending: Boolean = true) {
         val accountSortLabels = listOf(R.string.label, R.string.pref_sort_order_usages, R.string.pref_sort_order_last_used, R.string.pref_sort_order_custom)
 
         @JvmStatic
-        fun fromCommandId(id: Int): Sort? {
-            for (sort in entries) {
-                if (sort.commandId == id) return sort
-            }
-            return null
-        }
+        fun fromCommandId(id: Int): Sort? = entries.find { it.commandId == id }
 
         fun preferredOrderByForTemplates(
             prefHandler: PrefHandler,

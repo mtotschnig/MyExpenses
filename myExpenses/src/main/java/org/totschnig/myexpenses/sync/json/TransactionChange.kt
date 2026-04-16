@@ -90,7 +90,7 @@ data class TransactionChange(
 
         companion object {
             @JvmField
-            val JOIN: String = joinEnum(Type::class.java)
+            val JOIN: String = joinEnum<Type>()
         }
 
     }
