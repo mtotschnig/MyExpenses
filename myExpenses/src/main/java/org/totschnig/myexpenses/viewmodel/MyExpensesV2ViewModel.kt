@@ -328,9 +328,6 @@ class MyExpensesV2ViewModel(
             }
         }
     }
-            }
-        }
-    }
 
     private val _startScreen: StartScreen by lazy {
         prefHandler.enumValueOrDefault(PrefKey.UI_START_SCREEN, StartScreen.LastVisited)
