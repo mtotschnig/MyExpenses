@@ -62,6 +62,8 @@ import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getDouble
 import org.totschnig.myexpenses.provider.getDoubleOrNull
 import org.totschnig.myexpenses.provider.getEnum
+import org.totschnig.myexpenses.provider.getEnumIfExists
+import org.totschnig.myexpenses.provider.getEnumOrNull
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLocalDate
 import org.totschnig.myexpenses.provider.getLong
@@ -283,7 +285,7 @@ data class FullAccount(
                     getLocalDate(KEY_LATEST_EXCHANGE_RATE_DATE) to it
                 },
                 dynamic = getBoolean(KEY_DYNAMIC),
-                balanceType = getEnum(KEY_BALANCE_TYPE, BalanceType.CURRENT)
+                balanceType = getEnumIfExists(KEY_BALANCE_TYPE, BalanceType.CURRENT)
             )
         }
     }

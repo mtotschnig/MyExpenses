@@ -102,8 +102,11 @@ import org.totschnig.myexpenses.compose.accounts.AccountSummaryV2
 import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.main.AppEventHandler
+import org.totschnig.myexpenses.compose.main.geBalanceContentDescription
+import org.totschnig.myexpenses.compose.main.balanceForType
 import org.totschnig.myexpenses.compose.main.parseMenu
 import org.totschnig.myexpenses.compose.main.rememberCollapsingTabRowState
+import org.totschnig.myexpenses.compose.main.validatedBalanceType
 import org.totschnig.myexpenses.compose.optional
 import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.model.AccountGroupingKey
@@ -112,7 +115,6 @@ import org.totschnig.myexpenses.model.BalanceType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
-import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
@@ -488,20 +490,7 @@ private fun BalanceHeader(
         targetValue = if (isSummaryPopupVisible) 0F else 180F
     )
 
-    val validatedBalanceType = currentAccount.balanceType.takeIf {
-        when (it) {
-            BalanceType.CURRENT -> true
-            BalanceType.TOTAL -> (currentAccount.total ?: currentAccount.equivalentTotal) != null
-            BalanceType.CLEARED, BalanceType.RECONCILED -> currentAccount is FullAccount && currentAccount.type.supportsReconciliation
-        }
-    } ?: BalanceType.CURRENT
-
-
-    val displayBalance = getBalanceForType(
-        currentAccount,
-        validatedBalanceType
-    )
-
+    val displayBalance = currentAccount.balanceForType
 
     Row(
         modifier = modifier
@@ -531,12 +520,12 @@ private fun BalanceHeader(
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     AccountLabel(currentAccount, Modifier.weight(1f, fill = false))
-                    BalanceSection(validatedBalanceType, displayBalance, currentAccount)
+                    BalanceSection(displayBalance, currentAccount)
                 }
             } else {
                 Column {
                     AccountLabel(currentAccount)
-                    BalanceSection(validatedBalanceType, displayBalance, currentAccount)
+                    BalanceSection(displayBalance, currentAccount)
                 }
             }
         }
@@ -650,10 +639,10 @@ private fun AccountLabel(
 
 @Composable
 private fun BalanceSection(
-    type: BalanceType,
     balance: Long,
     account: BaseAccount,
 ) {
+    val type = account.validatedBalanceType
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.graphicsLayer(clip = false)
@@ -665,7 +654,7 @@ private fun BalanceSection(
         }
         Icon(
             imageVector = type.icon,
-            contentDescription = stringResource(type.resourceId),
+            contentDescription = stringResource(account.geBalanceContentDescription(type)),
             modifier = Modifier
                 .padding(end = 4.dp)
                 .size(12.dp),
@@ -686,23 +675,6 @@ private fun BalanceSection(
                 overflow = TextOverflow.Visible,
                 softWrap = false
             )
-        }
-    }
-}
-
-private fun getBalanceForType(account: BaseAccount, type: BalanceType): Long {
-    return when (account) {
-        is FullAccount -> when (type) {
-            BalanceType.CURRENT -> account.currentBalance
-            BalanceType.TOTAL -> account.total!!
-            BalanceType.CLEARED -> account.clearedTotal
-            BalanceType.RECONCILED -> account.reconciledTotal
-        }
-
-        is AggregateAccount -> when (type) {
-            BalanceType.CURRENT -> account.currentBalance ?: account.equivalentCurrentBalance
-            BalanceType.TOTAL -> account.total ?: account.equivalentTotal
-            else -> account.equivalentCurrentBalance
         }
     }
 }
