@@ -97,7 +97,7 @@ class WebDavClient(
                 try {
                     val certificate = session.peerCertificates[0] as X509Certificate
                     return@hostnameVerifier certificate == trustedCertificate
-                } catch (e: SSLException) {
+                } catch (_: SSLException) {
                     return@hostnameVerifier false
                 }
             }
@@ -180,13 +180,12 @@ class WebDavClient(
 
     fun lock(folderName: String): Boolean {
         currentLockToken = null
-        val lockXml: RequestBody = """<d:lockinfo xmlns:d="DAV:">
-<d:lockscope><d:exclusive/></d:lockscope>
-<d:locktype><d:write/></d:locktype>
-<d:owner>
-<d:href>http://www.myexpenses.mobi</d:href>
-</d:owner>
-</d:lockinfo>"""
+        val lockXml: RequestBody =  """<?xml version="1.0" encoding="utf-8" ?>
+<D:lockinfo xmlns:D="DAV:">
+  <D:lockscope><D:exclusive/></D:lockscope>
+  <D:locktype><D:write/></D:locktype>
+  <D:owner>MyExpenses</D:owner>
+</D:lockinfo>"""
             .toRequestBody(MIME_XML)
         val request: Request = Request.Builder()
             .url(buildCollectionUri(folderName))
@@ -197,20 +196,29 @@ class WebDavClient(
         try {
             response = httpClient.newCall(request).execute()
             if (response.isSuccessful) {
-                var foundTokenNode = false
+                val bodyString = response.body.string()
+                Timber.d("Lock response: %s", bodyString)
                 val xpp = XmlUtils.newPullParser()
-                xpp.setInput(response.body!!.charStream())
-                while (xpp.eventType != XmlPullParser.END_DOCUMENT) {
-                    if (xpp.eventType == XmlPullParser.START_TAG) {
-                        if (xpp.namespace == NS_WEBDAV && xpp.name == "locktoken") {
-                            foundTokenNode = true
-                        } else if (foundTokenNode && xpp.namespace == NS_WEBDAV && xpp.name == "href") {
-                            //TODO persist lock token
+                xpp.setInput(bodyString.reader())
+
+                var eventType = xpp.eventType
+                var insideLockToken = false
+
+                while (eventType != XmlPullParser.END_DOCUMENT) {
+                    val name = xpp.name
+                    if (eventType == XmlPullParser.START_TAG) {
+                        if (NS_WEBDAV == xpp.namespace && "locktoken" == name) {
+                            insideLockToken = true
+                        } else if (insideLockToken && NS_WEBDAV == xpp.namespace && "href" == name) {
                             currentLockToken = xpp.nextText()
                             return true
                         }
+                    } else if (eventType == XmlPullParser.END_TAG) {
+                        if (NS_WEBDAV == xpp.namespace && "locktoken" == name) {
+                            insideLockToken = false
+                        }
                     }
-                    xpp.next()
+                    eventType = xpp.next()
                 }
             }
         } catch (e: IOException) {
@@ -235,7 +243,7 @@ class WebDavClient(
             response = httpClient.newCall(request).execute()
             currentLockToken = null
             response.isSuccessful
-        } catch (e: IOException) {
+        } catch (_: IOException) {
             false
         } finally {
             cleanUp(response)
@@ -336,7 +344,7 @@ class WebDavClient(
         } finally {
             try {
                 folder.delete(null)
-            } catch (ignore: Exception) {
+            } catch (_: Exception) {
                 //this can fail, if the unlocking mechanism does not work. We live with not being able to delete the test folder
             }
         }
