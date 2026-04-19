@@ -4,8 +4,7 @@ import android.icu.text.Collator
 import android.icu.text.RuleBasedCollator
 import java.util.Locale
 
-fun getNaturalComparator(): Comparator<String> {
-    val locale = Locale.getDefault()
+fun getNaturalComparator(locale: Locale = Locale.getDefault()): Comparator<String> {
 
     val collator = Collator.getInstance(locale)
 

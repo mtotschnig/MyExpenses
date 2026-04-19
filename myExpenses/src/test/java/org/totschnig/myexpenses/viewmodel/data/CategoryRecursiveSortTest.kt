@@ -64,7 +64,7 @@ class CategoryRecursiveSortTest {
 
     @Test
     fun sortChildrenByBudgetRecursive_ordersByAllocatedDescending() {
-        // Alpha (500) > Beta (200)
+        // Beta (500) > Alpha (200)
         val sorted = root.sortChildrenByBudgetRecursive()
 
         assertThat(sorted.children[0].id).isEqualTo(1L)
@@ -73,8 +73,8 @@ class CategoryRecursiveSortTest {
 
     @Test
     fun sortChildrenBySumRecursive_ordersByAbsoluteAggregateSum() {
-        // Alpha's aggregateSum = abs(-100) = 100
-        // Beta's aggregateSum = abs(-500 + 450) = 50
+        // Beta's aggregateSum = abs(-100) = 100
+        // Alpha's aggregateSum = abs(-500 + 450) = 50
         val sorted = root.sortChildrenBySumRecursive()
 
         // Based on logic Beta (50) vs Alpha (100), sorted descending:
@@ -84,12 +84,12 @@ class CategoryRecursiveSortTest {
 
     @Test
     fun sortChildrenByAvailableRecursive_ordersBySumPlusAllocated() {
-        // Alpha: 500 (budget) + -100 (sum) = 400
-        // Beta: 200 (budget) + (-500 + 450) (aggregate sum) = 150
+        // Beta: 500 (budget) + -100 (sum) = 400
+        // Alpha: 200 (budget) + (-500 + 450) (aggregate sum) = 150
         val sorted = root.sortChildrenByAvailableRecursive()
 
-        assertThat(sorted.children[0].id).isEqualTo(1L) // Alpha (400)
-        assertThat(sorted.children[1].id).isEqualTo(2L) // Beta (150)
+        assertThat(sorted.children[0].id).isEqualTo(1L) // Beta (400)
+        assertThat(sorted.children[1].id).isEqualTo(2L) // Alpha (150)
     }
 
     @Test

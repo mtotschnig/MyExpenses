@@ -20,15 +20,13 @@ class NaturalSortTest {
     @Test
     fun testLocaleSensitiveSort() {
         // Test with German locale where 'ä' comes after 'a' but before 'b'
-        Locale.setDefault(Locale.GERMANY)
-        val comparator = getNaturalComparator()
+        val comparator = getNaturalComparator(Locale.GERMANY)
         val list = listOf("b", "a", "ä")
         val sorted = list.sortedWith(comparator)
         assertThat(sorted).containsExactly("a", "ä", "b").inOrder()
 
         // Test with Swedish locale where 'ä' comes after 'z'
-        Locale.setDefault(Locale.forLanguageTag("sv-SE"))
-        val comparator2 = getNaturalComparator()
+        val comparator2 = getNaturalComparator(Locale.forLanguageTag("sv-SE"))
         val list2 = listOf("z", "a", "ä")
         val sorted2 = list2.sortedWith(comparator2)
         assertThat(sorted2).containsExactly("a", "z", "ä").inOrder()

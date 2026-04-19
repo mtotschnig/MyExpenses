@@ -93,16 +93,17 @@ open class CategoryViewModel(
         withColors: Boolean = true,
         idMapper: (Long) -> Long = { it },
     ): Flow<LoadingState.Result> {
+        val effectiveOrder = sortOrder ?: KEY_LABEL
         return contentResolver.observeQuery(
             categoryUri(queryParameter),
             projection,
             selection,
             selectionArgs + (additionalSelectionArgs ?: emptyArray()),
-            sortOrder ?: KEY_LABEL,
+            effectiveOrder,
             true
         ).mapToResult(keepCriterion, withColors, idMapper)
             .map {
-        if (it is LoadingState.Data && sortOrder?.startsWith(KEY_LABEL) == true) {
+                if (it is LoadingState.Data && effectiveOrder?.startsWith(KEY_LABEL) == true) {
                     LoadingState.Data(it.data.sortChildrenByLabelNaturalRecursive())
                 } else it
             }
