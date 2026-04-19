@@ -1,8 +1,7 @@
-package org.totschnig.myexpenses.compose
+package org.totschnig.myexpenses.viewmodel.data
 
-import com.google.common.truth.Truth.assertThat
+import com.google.common.truth.Truth
 import org.junit.Test
-import org.totschnig.myexpenses.viewmodel.data.Category
 
 class CategoryTreeTest {
 
@@ -21,7 +20,7 @@ class CategoryTreeTest {
                 )
             )
         )
-        assertThat(category.pruneNonMatching()).isEqualTo(category)
+        Truth.assertThat(category.pruneNonMatching()).isEqualTo(category)
     }
 
     @Test
@@ -48,7 +47,7 @@ class CategoryTreeTest {
                 )
             )
         )
-        assertThat(category.flatten().map { it.label }).containsExactly(
+        Truth.assertThat(category.flatten().map { it.label }).containsExactly(
             "ROOT", "1", "1.1", "1.1.1", "2", "2.1", "2.1.1"
         )
     }
@@ -81,7 +80,7 @@ class CategoryTreeTest {
                 )
             )
         )
-        assertThat(category.getExpandedForSelected(listOf(1,6))).containsExactly(4L,5L)
+        Truth.assertThat(category.getExpandedForSelected(listOf(1, 6))).containsExactly(4L,5L)
     }
 
     @Test
@@ -99,6 +98,6 @@ class CategoryTreeTest {
                 )
             )
         )
-        assertThat(category.pruneNonMatching()).isNull()
+        Truth.assertThat(category.pruneNonMatching()).isNull()
     }
 }

@@ -6,6 +6,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
+import org.totschnig.myexpenses.viewmodel.getNaturalComparator
 import java.io.Serializable
 import kotlin.math.absoluteValue
 
@@ -30,7 +31,7 @@ data class Category(
      * [org.totschnig.myexpenses.db2.FLAG_NEUTRAL]
      * [org.totschnig.myexpenses.db2.FLAG_TRANSFER]
      */
-    val typeFlags: Byte = FLAG_NEUTRAL
+    val typeFlags: Byte = FLAG_NEUTRAL,
 ) : Parcelable, Serializable {
 
     fun flatten(): List<Category> = buildList {
@@ -61,10 +62,11 @@ data class Category(
 
     fun withSubColors(subColorProvider: (Int) -> List<Int>): Category =
         if (children.isEmpty()) this else
-            copy(children = (if (color == null) children else {
-                val subColors = subColorProvider(color)
-                children.mapIndexed { index, category -> category.copy(color = subColors[index % subColors.size]) }
-            }).map { it.withSubColors(subColorProvider) })
+            copy(
+                children = (if (color == null) children else {
+                    val subColors = subColorProvider(color)
+                    children.mapIndexed { index, category -> category.copy(color = subColors[index % subColors.size]) }
+                }).map { it.withSubColors(subColorProvider) })
 
 
     fun sortChildrenByBudgetRecursive() = sortChildrenRecursive { it.budget.totalAllocated }
@@ -75,10 +77,22 @@ data class Category(
         it.budget.totalAllocated + it.aggregateSum
     }
 
-    private fun sortChildrenRecursive(selector: (Category) -> Long): Category =
+    fun sortChildrenByLabelNaturalRecursive() =
+        sortChildrenWithComparatorRecursive(
+            compareBy(getNaturalComparator()) { it.label }
+        )
+
+    private fun <T : Comparable<T>> sortChildrenRecursive(
+        desc: Boolean = true,
+        selector: (Category) -> T,
+    ): Category = sortChildrenWithComparatorRecursive(
+        if (desc) compareByDescending(selector) else compareBy(selector)
+    )
+
+    private fun sortChildrenWithComparatorRecursive(comparator: Comparator<Category>): Category =
         if (children.isEmpty()) this else
-            copy(children = children.sortedByDescending(selector).map {
-                it.sortChildrenRecursive(selector)
+            copy(children = children.sortedWith(comparator).map {
+                it.sortChildrenWithComparatorRecursive(comparator)
             })
 
     fun recursiveUnselectChildren(selectionState: SnapshotStateList<Long>) {

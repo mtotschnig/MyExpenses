@@ -16,7 +16,6 @@ import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -24,15 +23,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.cleanupUnusedParties
 import org.totschnig.myexpenses.db2.unsetParentId
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES
-import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_PARENTID
 import org.totschnig.myexpenses.provider.KEY_PAYEEID
 import org.totschnig.myexpenses.provider.KEY_PAYEE_NAME
@@ -60,7 +57,6 @@ import org.totschnig.myexpenses.provider.filter.NotCriterion
 import org.totschnig.myexpenses.provider.filter.OrCriterion
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.getLong
-import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.replace
 import org.totschnig.myexpenses.viewmodel.data.DisplayDebt
@@ -123,62 +119,50 @@ class PartyListViewModel(
                 )
                 contentResolver.observeQuery(
                     PAYEES_URI.buildUpon().also {
-                        if (hierarchical) it.appendBooleanQueryParameter(
-                            QUERY_PARAMETER_HIERARCHICAL
-                        )
+                        if (hierarchical) it.appendBooleanQueryParameter(QUERY_PARAMETER_HIERARCHICAL)
                     }.build(),
-                    null,
-                    selection,
-                    selectionArgs, null, true
-                ).transform { query ->
-                    val list = withContext(Dispatchers.IO) {
-                        query.run()?.use { cursor ->
-                            val items = mutableListOf<Party>()
-                            val duplicates = mutableListOf<Party>()
-                            var currentItem: Party? = null
-                            while (cursor.moveToNext()) {
-                                val element = Party.fromCursor(cursor)
-                                if (hierarchical) {
-                                    if (cursor.getLongOrNull(KEY_PARENTID) == null) {
-                                        if (currentItem != null) {
-                                            items.add(
-                                                currentItem.copy(
-                                                    duplicates = buildList { addAll(duplicates) }
-                                                ))
-                                            duplicates.clear()
-                                        }
-                                        currentItem = element
-                                    } else {
-                                        duplicates.add(element)
-                                    }
-                                } else {
-                                    items.add(element)
-                                }
-                            }
-                            if (currentItem != null) {
-                                items.add(currentItem.copy(duplicates = buildList {
-                                    addAll(
-                                        duplicates
-                                    )
-                                }))
-                            }
-                            items
-                        }
+                    null, selection, selectionArgs, null, true
+                ).mapToList { cursor -> Party.fromCursor(cursor) } // Let Copper handle Dispatchers.IO and cursor closing
+            }
+            .map { allParties ->
+                if (!hierarchical) return@map allParties
+
+                // Grouping logic: Collect children into their respective parents
+                val result = mutableListOf<Party>()
+                var currentParent: Party? = null
+                val children = mutableListOf<Party>()
+
+                fun flush() {
+                    currentParent?.let {
+                        result.add(it.copy(duplicates = ArrayList(children)))
                     }
-                    if (list != null) {
-                        emit(list)
+                    children.clear()
+                }
+
+                for (party in allParties) {
+                    if (party.isDuplicate) {
+                        children.add(party)
+                    } else {
+                        flush()
+                        currentParent = party
                     }
                 }
-            }.combine(
+                flush()
+                result
+            }
+            .combine(
                 savedStateHandle.getLiveData<Long?>(KEY_EXPANDED_ITEM, null).asFlow()
-            ) { parties, expandedItem ->
-                if (expandedItem == null) parties else parties.flatMap {
-                    buildList {
-                        add(it)
-                        if (it.id == expandedItem) addAll(it.duplicates)
+            ) { parties, expandedId ->
+                val sorted = parties.sortedWith(compareBy(getNaturalComparator()) { it.name })
+                if (expandedId == null) sorted else sorted.flatMap { parent ->
+                    if (parent.id == expandedId) {
+                        listOf(parent) + parent.duplicates
+                    } else {
+                        listOf(parent)
                     }
                 }
             }
+            .distinctUntilChanged()
 
     fun loadDebts(): LiveData<Unit> = liveData(context = coroutineContext()) {
         contentResolver.observeQuery(DEBTS_URI, notifyForDescendants = true)

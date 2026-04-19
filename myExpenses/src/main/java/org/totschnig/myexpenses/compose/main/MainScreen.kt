@@ -88,7 +88,6 @@ import org.totschnig.myexpenses.model.AccountGroupingKey
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.sort.TransactionSort
 import org.totschnig.myexpenses.preference.PreferenceState
-import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel.AccountPanelState
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
