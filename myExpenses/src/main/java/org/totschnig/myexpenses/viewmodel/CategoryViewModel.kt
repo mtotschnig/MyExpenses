@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
@@ -92,14 +93,20 @@ open class CategoryViewModel(
         withColors: Boolean = true,
         idMapper: (Long) -> Long = { it },
     ): Flow<LoadingState.Result> {
+        val effectiveOrder = sortOrder ?: KEY_LABEL
         return contentResolver.observeQuery(
             categoryUri(queryParameter),
             projection,
             selection,
             selectionArgs + (additionalSelectionArgs ?: emptyArray()),
-            sortOrder ?: KEY_LABEL,
+            effectiveOrder,
             true
         ).mapToResult(keepCriterion, withColors, idMapper)
+            .map {
+                if (it is LoadingState.Data && effectiveOrder?.startsWith(KEY_LABEL) == true) {
+                    LoadingState.Data(it.data.sortChildrenByLabelNaturalRecursive())
+                } else it
+            }
     }
 
     private fun categoryUri(queryParameter: Map<String, String>): Uri =

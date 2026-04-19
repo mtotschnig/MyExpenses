@@ -46,11 +46,7 @@ import org.totschnig.myexpenses.dialog.SortSelect
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.model.sort.Sort
-import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.KEY_SORT_KEY
-import org.totschnig.myexpenses.provider.triggerAccountListRefresh
 import org.totschnig.myexpenses.util.ads.AdHandlerV2
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
@@ -192,7 +188,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                                 }
                             }
                         }
-                        val accounts = result.getOrThrow()
+                        val accounts = result.getOrThrow().withNaturalSort
                         val banks = viewModel.banks.collectAsState()
                         val showSortDialog = rememberSaveable { mutableStateOf(false) }
                         var isNavigationVisible by rememberSaveable { mutableStateOf(false) }
@@ -312,27 +308,18 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                             }
 
                             val selectedSort = rememberSaveable {
-                                mutableStateOf(
-                                    prefHandler.enumValueOrDefault(
-                                        PrefKey.SORT_ORDER_ACCOUNTS,
-                                        Sort.USAGES
-                                    )
-                                )
+                                mutableStateOf(viewModel.sortOrderAccounts)
                             }
                             val scope = rememberCoroutineScope()
                             AlertDialog(
                                 onDismissRequest = { showSortDialog.value = false },
                                 confirmButton = {
                                     Button(onClick = {
-                                        scope.launch {
-                                            prefHandler.putString(
-                                                PrefKey.SORT_ORDER_ACCOUNTS,
-                                                selectedSort.value.name
-                                            )
-                                            viewModel.sortByFlagFirst.set(sortByFlagFirst.value)
-                                            contentResolver.triggerAccountListRefresh()
-                                            showSortDialog.value = false
-                                        }
+                                        viewModel.setSortOrderAccounts(
+                                            selectedSort.value,
+                                            sortByFlagFirst.value
+                                        )
+                                        showSortDialog.value = false
                                     }) {
                                         Text(stringResource(id = android.R.string.ok))
                                     }

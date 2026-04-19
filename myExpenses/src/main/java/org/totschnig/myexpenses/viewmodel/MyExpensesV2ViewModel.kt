@@ -37,6 +37,7 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.BalanceType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.model.sort.Sort
 import org.totschnig.myexpenses.model.sort.TransactionSort
 import org.totschnig.myexpenses.preference.EnumPreferenceAccessor
 import org.totschnig.myexpenses.preference.PrefKey
@@ -52,6 +53,7 @@ import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.mapToListCatching
+import org.totschnig.myexpenses.provider.triggerAccountListRefresh
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
@@ -166,6 +168,17 @@ class MyExpensesV2ViewModel(
     fun navigateToGroup(filter: AccountGroupingKey?) {
         setFilter(filter)
         selectAccount(0)
+    }
+
+    fun setSortOrderAccounts(sort: Sort, isFlagFirst: Boolean) {
+        viewModelScope.launch {
+            prefHandler.putString(
+                PrefKey.SORT_ORDER_ACCOUNTS,
+                sort.name
+            )
+            sortByFlagFirst.set(isFlagFirst)
+            contentResolver.triggerAccountListRefresh()
+        }
     }
 
     val accountDataV2: StateFlow<Result<List<FullAccount>>?> by lazy {

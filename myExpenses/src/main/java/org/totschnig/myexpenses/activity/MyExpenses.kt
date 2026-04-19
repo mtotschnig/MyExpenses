@@ -96,7 +96,6 @@ import org.totschnig.myexpenses.util.checkMenuIcon
 import org.totschnig.myexpenses.util.configureSortDirectionMenu
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.isGithub
-import org.totschnig.myexpenses.util.distrib.ReviewManager
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.getSortDirectionFromMenuItemId
 import org.totschnig.myexpenses.util.setEnabledAndVisible
@@ -125,7 +124,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
     override val fabActionName = "CREATE_TRANSACTION"
 
     private val accountData: List<FullAccount>
-        get() = viewModel.accountData.value?.getOrNull() ?: emptyList()
+        get() = viewModel.accountData.value?.getOrNull()?.withNaturalSort ?: emptyList()
 
     override suspend fun accountForNewTransaction() = currentAccount?.let { current ->
             current.takeIf { !it.isAggregate } ?: viewModel.accountData.value?.getOrNull()

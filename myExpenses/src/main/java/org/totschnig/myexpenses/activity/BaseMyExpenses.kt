@@ -79,6 +79,7 @@ import org.totschnig.myexpenses.model.KEY_ACCOUNT_GROUPING
 import org.totschnig.myexpenses.model.KEY_ACCOUNT_GROUPING_GROUP
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
+import org.totschnig.myexpenses.model.sort.Sort
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.CheckSealedHandler
@@ -139,6 +140,7 @@ import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
+import org.totschnig.myexpenses.viewmodel.getNaturalComparator
 import timber.log.Timber
 import java.io.Serializable
 import java.math.BigDecimal
@@ -1739,4 +1741,9 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                 else -> false
             }
         } else false
+
+    val List<FullAccount>.withNaturalSort: List<FullAccount>
+        get() = if (viewModel.sortOrderAccounts == Sort.LABEL)
+            sortedWith(compareBy(getNaturalComparator()) { it.label })
+        else this
 }
