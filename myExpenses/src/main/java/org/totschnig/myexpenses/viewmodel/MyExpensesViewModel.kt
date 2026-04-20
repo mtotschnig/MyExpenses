@@ -58,6 +58,8 @@ import org.totschnig.myexpenses.compose.unselect
 import org.totschnig.myexpenses.db2.RepositoryTransaction
 import org.totschnig.myexpenses.db2.addAttachments
 import org.totschnig.myexpenses.db2.calculateSplitSummary
+import org.totschnig.myexpenses.db2.checkSealedStatus
+import org.totschnig.myexpenses.db2.checkTransferAccountOfSplitParts
 import org.totschnig.myexpenses.db2.createTransaction
 import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.db2.groupToSplitTransaction
@@ -859,6 +861,18 @@ open class MyExpensesViewModel(
             SharingStarted.Lazily,
             emptyList()
         )
+    }
+
+    suspend fun checkSealedStatus(itemIds: List<Long>, withTransfer: Boolean): Result<Pair<Boolean, Boolean>> {
+        return repository.checkSealedStatus(itemIds, withTransfer)
+    }
+
+    suspend fun checkSealedStatus(accountId: Long): Result<Pair<Boolean, Boolean>> {
+        return repository.checkSealedStatus(accountId)
+    }
+
+    suspend fun checkTransferAccountOfSplitParts(itemIds: List<Long>): Result<List<Long>> {
+        return repository.checkTransferAccountOfSplitParts(itemIds)
     }
 
     companion object {

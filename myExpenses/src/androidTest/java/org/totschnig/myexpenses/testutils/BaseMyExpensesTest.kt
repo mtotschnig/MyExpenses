@@ -39,8 +39,6 @@ abstract class BaseMyExpensesTest : BaseComposeTest<TestMyExpenses>() {
             })
         testScenario.onActivity { activity ->
             activity?.let {
-                it.decoratedCheckSealedHandler =
-                    DecoratedCheckSealedHandler(activity.contentResolver, countingResource)
                 transactionPagingIdlingResource =
                     (it.viewModel as DecoratingMyExpensesViewModel).countingResource
                 IdlingRegistry.getInstance().register(transactionPagingIdlingResource)

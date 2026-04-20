@@ -8,6 +8,8 @@ import android.content.ContentValues
 import android.os.Bundle
 import androidx.annotation.VisibleForTesting
 import androidx.core.os.BundleCompat
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.db2.Repository.Companion.RECORD_SEPARATOR
 import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.dialog.ArchiveInfo
@@ -50,6 +52,7 @@ import org.totschnig.myexpenses.provider.VIEW_EXTENDED
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
 import org.totschnig.myexpenses.provider.DbUtils
+import org.totschnig.myexpenses.provider.KEY_HAS_SEALED_ACCOUNT
 import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -60,6 +63,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_ARCHIVE
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_CAN_BE_ARCHIVED
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_DISTINCT
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_GROUP_BY
+import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_INCLUDE_ALL
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_TRANSACTION_ID_LIST
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_UNARCHIVE
@@ -85,7 +89,7 @@ import java.util.Locale
 
 fun Transaction.asContentValues(
     withUuid: Boolean = true,
-    withCrStatus: Boolean = true
+    withCrStatus: Boolean = true,
 ) = ContentValues().apply {
     put(KEY_COMMENT, comment)
     put(KEY_DATE, date)
@@ -618,22 +622,6 @@ fun ContentResolver.findByAccountAndUuid(accountId: Long, uuid: String) = findBy
     KEY_ROWID
 )
 
-fun Repository.hasSealed(accountId: Long) = contentResolver.query(
-    TRANSACTIONS_URI.buildUpon().appendQueryParameter(
-        TransactionProvider.QUERY_PARAMETER_INCLUDE_ALL, "1"
-    ).build(),
-    arrayOf(
-        KEY_HAS_SEALED_ACCOUNT_WITH_TRANSFER,
-        KEY_HAS_SEALED_DEBT
-    ),
-    "$KEY_ACCOUNTID = ?",
-    arrayOf(accountId.toString()),
-    null
-)!!.use {
-    it.moveToFirst()
-    it.getBoolean(0) to it.getBoolean(1)
-}
-
 fun Repository.getPayeeForTransaction(id: Long) = contentResolver.findBySelection(
     "$KEY_ROWID = ?",
     arrayOf(id.toString()),
@@ -648,7 +636,7 @@ private fun ContentResolver.findBySelection(
     query(
         TRANSACTIONS_URI
             .buildUpon()
-            .appendQueryParameter(TransactionProvider.QUERY_PARAMETER_INCLUDE_ALL, "1")
+            .appendQueryParameter(QUERY_PARAMETER_INCLUDE_ALL, "1")
             .build(),
         arrayOf(column),
         selection,
@@ -888,5 +876,88 @@ fun Repository.groupToSplitTransaction(ids: LongArray): Result<Boolean> {
 
             else -> Result.success(false)
         }
+    }
+}
+
+// 1. Specific check for a list of items (e.g. bulk delete)
+suspend fun Repository.checkSealedStatus(
+    itemIds: List<Long>,
+    withTransfer: Boolean
+): Result<Pair<Boolean, Boolean>> =
+    performSealedCheck(selection = "$KEY_ROWID IN (${itemIds.joinToString(",") { "?" }})",
+        args = itemIds.map { it.toString() }.toTypedArray(),
+        withTransfer = withTransfer)
+
+// 2. General check for an entire account (e.g. before archiving or clearing)
+suspend fun Repository.checkSealedStatus(
+    accountId: Long,
+): Result<Pair<Boolean, Boolean>> =
+    performSealedCheck(selection = "$KEY_ACCOUNTID = ?",
+        args = arrayOf(accountId.toString()),
+        withTransfer = true)
+
+// 3. The private engine that does the heavy lifting
+private suspend fun Repository.performSealedCheck(
+    selection: String,
+    args: Array<String>,
+    withTransfer: Boolean
+): Result<Pair<Boolean, Boolean>> = withContext(Dispatchers.IO) {
+    val projection = arrayOf(
+        if (withTransfer) KEY_HAS_SEALED_ACCOUNT_WITH_TRANSFER else KEY_HAS_SEALED_ACCOUNT,
+        KEY_HAS_SEALED_DEBT
+    )
+    try {
+        contentResolver.query(
+            TRANSACTIONS_URI.buildUpon().appendQueryParameter(QUERY_PARAMETER_INCLUDE_ALL, "1").build(),
+            projection, selection, args, null
+        )?.use { cursor ->
+            if (cursor.moveToFirst()) {
+                // Fix: getBoolean returns Boolean, getInt(i) > 0 is for standard SQLite 0/1
+                // Depending on your Cursor extension, use one:
+                val hasSealedAccount = cursor.getBoolean(0)
+                val hasSealedDebt = cursor.getBoolean(1)
+                Result.success(!hasSealedAccount to !hasSealedDebt)
+            } else {
+                Result.failure(Exception("Cursor returned 0 rows"))
+            }
+        } ?: Result.failure(Exception("Cursor was null"))
+    } catch (e: Exception) {
+        CrashHandler.report(e)
+        Result.failure(e)
+    }
+}
+
+/**
+ * @param itemIds list of split transaction IDs
+ * @return Result containing a list of all transfer account IDs linked to the parts of those splits
+ */
+suspend fun Repository.checkTransferAccountOfSplitParts(
+    itemIds: List<Long>
+): Result<List<Long>> = withContext(Dispatchers.IO) {
+    if (itemIds.isEmpty()) {
+        return@withContext Result.success(emptyList())
+    }
+
+    val projection = arrayOf("DISTINCT $KEY_TRANSFER_ACCOUNT")
+    val selection = "$KEY_TRANSFER_ACCOUNT IS NOT NULL AND $KEY_PARENTID IN (${itemIds.joinToString(",") { "?" }})"
+    val args = itemIds.map { it.toString() }.toTypedArray()
+
+    try {
+        contentResolver.query(
+            TRANSACTIONS_URI,
+            projection,
+            selection,
+            args,
+            null
+        )?.use { cursor ->
+            val ids = mutableListOf<Long>()
+            while (cursor.moveToNext()) {
+                ids.add(cursor.getLong(0))
+            }
+            Result.success(ids)
+        } ?: Result.failure(Exception("Error while checking transfer account of split parts: Cursor null"))
+    } catch (e: Exception) {
+        CrashHandler.report(e)
+        Result.failure(e)
     }
 }
