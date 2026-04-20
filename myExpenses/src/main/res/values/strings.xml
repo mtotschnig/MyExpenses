@@ -1136,4 +1136,6 @@
     <string name="number_too_large">Number too large</string>
     <!-- Label of checkbox: If checked, specific user defined order of flags is the primary sorting factor for accounts.  -->
     <string name="prioritize_flag_order">Prioritize flag order</string>
+    <string name="pref_content_based_colors_title">Account-based dynamic color</string>
+    <string name="pref_content_based_colors_summary">Derive theme colors from the current account\'s color. Turn off if text is difficult to read.</string>
 </resources>

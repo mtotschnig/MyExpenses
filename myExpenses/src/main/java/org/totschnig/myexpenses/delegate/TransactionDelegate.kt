@@ -681,7 +681,7 @@ abstract class TransactionDelegate(
                     val oldAccount = mAccounts.first { it.id == accountId }
                     updateAccount(newAccount, oldAccount.currency.code != newAccount.currency.code)
                     host.color = newAccount.color
-                    host.maybeApplyDynamicColor()
+                    host.maybeApplyContentColor()
                 }
             }
 

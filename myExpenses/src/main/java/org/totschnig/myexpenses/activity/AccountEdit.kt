@@ -551,7 +551,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
         if (EDIT_COLOR_DIALOG == dialogTag && which == BUTTON_POSITIVE) {
             color = extras.getInt(SimpleColorDialog.COLOR)
-            if (!maybeApplyDynamicColor()) {
+            if (!maybeApplyContentColor()) {
                 binding.colorInput.setColor(color)
             }
             return true
