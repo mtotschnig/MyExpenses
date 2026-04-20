@@ -18,6 +18,7 @@ import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -34,6 +35,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.CharIcon
 import org.totschnig.myexpenses.compose.TEST_TAG_FILTER_CARD
@@ -52,17 +54,17 @@ fun FilterCard(
     clearAllFilter: (() -> Unit)? = null,
     clearFilter: ((Criterion) -> Unit)? = null,
 ) {
+    val scope = rememberCoroutineScope()
     if (clearAllFilter != null) {
-        val dismissState = rememberSwipeToDismissBoxState(
-            confirmValueChange = { newValue ->
-                if (newValue != SwipeToDismissBoxValue.Settled) {
-                    clearAllFilter()
-                }
-                false
-            }
-        )
+        val dismissState = rememberSwipeToDismissBoxState()
         SwipeToDismissBox(
             state = dismissState,
+            onDismiss = {
+                scope.launch {
+                    dismissState.reset()
+                }
+                clearAllFilter()
+            },
             backgroundContent = {
                 Row(
                     modifier = Modifier
