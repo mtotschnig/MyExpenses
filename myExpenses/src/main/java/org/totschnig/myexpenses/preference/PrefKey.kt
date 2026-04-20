@@ -223,7 +223,8 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     UI_SCREEN_LAST_VISITED("ui_screen_last_visited"),
     UI_SCREEN_LAST_ACCOUNT_GROUP_FILTER("ui_screen_last_account_group_filter"),
     TELL_A_FRIEND(R.string.pref_tell_a_friend_key),
-    FAB_STYLE(R.string.pref_fab_style_key)
+    FAB_STYLE(R.string.pref_fab_style_key),
+    CONTENT_BASED_COLORS(R.string.pref_content_based_colors_key),
     ;
 
     @Deprecated("")
