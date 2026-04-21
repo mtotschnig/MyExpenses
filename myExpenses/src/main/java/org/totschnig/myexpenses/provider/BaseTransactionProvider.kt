@@ -10,6 +10,8 @@ import android.database.Cursor
 import android.database.MatrixCursor
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteDatabase.CONFLICT_IGNORE
+import android.database.sqlite.SQLiteDatabase.CONFLICT_NONE
+import android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE
 import android.net.Uri
 import android.os.Bundle
 import androidx.core.database.getIntOrNull
@@ -2042,20 +2044,21 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 mergeCategory(it.getLong(0), it.getLong(1))
             }
         }
-        fun update(table: String, column: String = KEY_CATID) {
+        fun update(table: String, column: String = KEY_CATID, conflictAlgorithm: Int = CONFLICT_NONE) {
             update(
                 table,
                 ContentValues(1).apply {
                     put(column, target)
                 },
                 "$column = ?",
-                whereArgs
+                whereArgs,
+                conflictAlgorithm
             )
         }
         update(TABLE_TRANSACTIONS)
         update(TABLE_TEMPLATES)
         update(TABLE_CHANGES)
-        update(TABLE_BUDGET_ALLOCATIONS)
+        update(TABLE_BUDGET_ALLOCATIONS, conflictAlgorithm = CONFLICT_REPLACE)
         update(TABLE_CATEGORIES, KEY_PARENTID)
         delete(
             TABLE_CATEGORIES,

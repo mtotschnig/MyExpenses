@@ -581,13 +581,14 @@ fun cacheEventData(context: Context, prefHandler: PrefHandler) {
     }
 }
 
+@JvmOverloads
 fun SupportSQLiteDatabase.update(
     table: String,
     values: ContentValues,
     whereClause: String?,
     whereArgs: Array<Any>?,
-) = //https://github.com/sqlcipher/sqlcipher-android/issues/50
-    update(table, SQLiteDatabase.CONFLICT_NONE, values, whereClause, whereArgs ?: emptyArray())
+    conflictAlgorithm: Int = SQLiteDatabase.CONFLICT_NONE
+) = update(table, conflictAlgorithm, values, whereClause, whereArgs)
 
 fun SupportSQLiteDatabase.insert(table: String, values: ContentValues): Long =
     insert(table, SQLiteDatabase.CONFLICT_NONE, values)
