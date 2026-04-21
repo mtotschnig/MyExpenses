@@ -912,8 +912,6 @@ private suspend fun Repository.performSealedCheck(
             projection, selection, args, null
         )?.use { cursor ->
             if (cursor.moveToFirst()) {
-                // Fix: getBoolean returns Boolean, getInt(i) > 0 is for standard SQLite 0/1
-                // Depending on your Cursor extension, use one:
                 val hasSealedAccount = cursor.getBoolean(0)
                 val hasSealedDebt = cursor.getBoolean(1)
                 Result.success(!hasSealedAccount to !hasSealedDebt)
