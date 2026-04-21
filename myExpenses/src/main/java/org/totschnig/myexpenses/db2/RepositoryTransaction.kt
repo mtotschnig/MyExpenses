@@ -883,10 +883,16 @@ fun Repository.groupToSplitTransaction(ids: LongArray): Result<Boolean> {
 suspend fun Repository.checkSealedStatus(
     itemIds: List<Long>,
     withTransfer: Boolean
-): Result<Pair<Boolean, Boolean>> =
-    performSealedCheck(selection = "$KEY_ROWID IN (${itemIds.joinToString(",") { "?" }})",
+): Result<Pair<Boolean, Boolean>> {
+    if (itemIds.isEmpty()) {
+        return Result.success(true to true)
+    }
+    return performSealedCheck(
+        selection = "$KEY_ROWID IN (${itemIds.joinToString(",") { "?" }})",
         args = itemIds.map { it.toString() }.toTypedArray(),
-        withTransfer = withTransfer)
+        withTransfer = withTransfer
+    )
+}
 
 // 2. General check for an entire account (e.g. before archiving or clearing)
 suspend fun Repository.checkSealedStatus(
