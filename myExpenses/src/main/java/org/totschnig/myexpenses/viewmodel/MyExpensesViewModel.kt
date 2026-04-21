@@ -58,6 +58,8 @@ import org.totschnig.myexpenses.compose.unselect
 import org.totschnig.myexpenses.db2.RepositoryTransaction
 import org.totschnig.myexpenses.db2.addAttachments
 import org.totschnig.myexpenses.db2.calculateSplitSummary
+import org.totschnig.myexpenses.db2.checkSealedStatus
+import org.totschnig.myexpenses.db2.checkTransferAccountOfSplitParts
 import org.totschnig.myexpenses.db2.createTransaction
 import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.db2.groupToSplitTransaction
@@ -860,6 +862,14 @@ open class MyExpensesViewModel(
             emptyList()
         )
     }
+
+    suspend fun checkSealedStatus(itemIds: List<Long>, withTransfer: Boolean) =
+        repository.checkSealedStatus(itemIds, withTransfer)
+
+    suspend fun checkSealedStatus(accountId: Long) = repository.checkSealedStatus(accountId)
+
+    suspend fun checkTransferAccountOfSplitParts(itemIds: List<Long>) =
+        repository.checkTransferAccountOfSplitParts(itemIds)
 
     companion object {
         fun prefNameForCriteriaLegacy(accountId: Long) = "filter_%s_${accountId}"

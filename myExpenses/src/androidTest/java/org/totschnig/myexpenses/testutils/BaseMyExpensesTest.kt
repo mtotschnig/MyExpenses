@@ -19,7 +19,6 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.espresso.IdlingResource
 import androidx.test.espresso.action.ViewActions
-import androidx.test.espresso.idling.CountingIdlingResource
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import org.junit.After
 import org.totschnig.myexpenses.R
@@ -29,7 +28,6 @@ import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
 import org.totschnig.myexpenses.provider.KEY_ROWID
 
 abstract class BaseMyExpensesTest : BaseComposeTest<TestMyExpenses>() {
-    private val countingResource = CountingIdlingResource("CheckSealed")
     private var transactionPagingIdlingResource: IdlingResource? = null
 
     fun launch(id: Long? = null) {
@@ -39,15 +37,11 @@ abstract class BaseMyExpensesTest : BaseComposeTest<TestMyExpenses>() {
             })
         testScenario.onActivity { activity ->
             activity?.let {
-                it.decoratedCheckSealedHandler =
-                    DecoratedCheckSealedHandler(activity.contentResolver, countingResource)
                 transactionPagingIdlingResource =
                     (it.viewModel as DecoratingMyExpensesViewModel).countingResource
                 IdlingRegistry.getInstance().register(transactionPagingIdlingResource)
             }
-
         }
-        IdlingRegistry.getInstance().register(countingResource)
     }
 
     fun hasChildCount(expectedChildCount: Int): SemanticsMatcher {
@@ -99,7 +93,6 @@ abstract class BaseMyExpensesTest : BaseComposeTest<TestMyExpenses>() {
         transactionPagingIdlingResource?.let {
             IdlingRegistry.getInstance().unregister(it)
         }
-        IdlingRegistry.getInstance().unregister(countingResource)
     }
 
     protected fun assertDataSize(size: Int) {
