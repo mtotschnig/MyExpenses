@@ -348,15 +348,17 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             }
             val date = transaction.date.toLocalDate()
             if (date <= LocalDate.now()) {
-                userSetExchangeRate?.let {
-                    repository.savePrice(
-                        currencyContext.homeCurrencyUnit,
-                        transaction.amount.currencyUnit,
-                        date,
-                        ExchangeRateSource.User,
-                        it
-                    )
-                }
+                userSetExchangeRate
+                    ?.takeIf { it > BigDecimal.ZERO }
+                    ?.let {
+                        repository.savePrice(
+                            currencyContext.homeCurrencyUnit,
+                            transaction.amount.currencyUnit,
+                            date,
+                            ExchangeRateSource.User,
+                            it
+                        )
+                    }
             }
             result
         }
