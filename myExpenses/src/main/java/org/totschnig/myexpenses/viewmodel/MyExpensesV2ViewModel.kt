@@ -44,6 +44,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.PreferenceAccessor
 import org.totschnig.myexpenses.preference.PreferenceState
 import org.totschnig.myexpenses.preference.enumValueOrDefault
+import org.totschnig.myexpenses.preference.isWebUiActive
 import org.totschnig.myexpenses.preference.menu
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.GROUPING_AGGREGATE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
@@ -453,7 +454,7 @@ class MyExpensesV2ViewModel(
     }
 
     val isWebUiActive: Flow<Boolean> by lazy {
-        dataStore.data.map { preferences -> preferences[prefHandler.getBooleanPreferencesKey(PrefKey.UI_WEB)] ?: false }
+        dataStore.isWebUiActive
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000),

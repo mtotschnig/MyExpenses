@@ -27,14 +27,14 @@ import android.os.StrictMode
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -52,6 +52,8 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.isWebUiActive
+import org.totschnig.myexpenses.preference.setWebUiActive
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
@@ -182,20 +184,20 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
     }
 
     override fun onCreate(owner: LifecycleOwner) {
-        // Instead of a one-time check, observe the Flow to handle changes reactively
         MainScope().launch {
             var isFirstEmission = true
-            dataStore.data
-                .map { preferences ->
-                    preferences[prefHandler.getBooleanPreferencesKey(PrefKey.UI_WEB)] ?: false
-                }
+            dataStore.isWebUiActive
                 .distinctUntilChanged()
                 .collect { isWebUiEnabled ->
                     if (isWebUiEnabled) {
                         if (initialLaunchWasForSystemPreferences) {
                             Timber.i("Suppressing WebUI start")
                         } else {
-                            controlWebUi(START_ACTION)
+                            if (owner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                                controlWebUi(START_ACTION)
+                            } else {
+                                Timber.d("Postponing WebUI start: App not in foreground")
+                            }
                         }
                     } else {
                         if (!isFirstEmission) {
@@ -204,6 +206,14 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
                     }
                     isFirstEmission = false
                 }
+        }
+    }
+
+    override fun onStart(owner: LifecycleOwner) {
+        MainScope().launch {
+            if (dataStore.isWebUiActive.first() && !initialLaunchWasForSystemPreferences) {
+                controlWebUi(START_ACTION)
+            }
         }
     }
 
@@ -355,9 +365,7 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
 
     fun toggleWebUi(enabled: Boolean) {
         MainScope().launch {
-            dataStore.edit { preferences ->
-                preferences[prefHandler.getBooleanPreferencesKey(PrefKey.UI_WEB)] = enabled
-            }
+            dataStore.setWebUiActive(enabled)
         }
     }
 

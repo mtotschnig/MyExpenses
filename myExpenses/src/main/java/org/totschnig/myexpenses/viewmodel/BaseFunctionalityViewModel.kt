@@ -5,21 +5,27 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.annotation.VisibleForTesting
+import androidx.core.net.toUri
 import androidx.lifecycle.viewModelScope
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import okhttp3.*
+import okhttp3.Credentials
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
+import okhttp3.Response
 import okhttp3.internal.closeQuietly
 import okio.BufferedSink
 import okio.source
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.getDisplayName
+import org.totschnig.myexpenses.preference.setWebUiActive
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -33,10 +39,6 @@ import java.net.URISyntaxException
 import javax.inject.Inject
 import kotlin.Result.Companion.failure
 import kotlin.Result.Companion.success
-import androidx.core.net.toUri
-import androidx.datastore.preferences.core.edit
-import androidx.preference.PreferenceDataStore
-import org.totschnig.myexpenses.preference.PrefKey
 
 class BaseFunctionalityViewModel(application: Application) :
     ContentResolvingAndroidViewModel(application) {
@@ -244,9 +246,7 @@ class BaseFunctionalityViewModel(application: Application) :
 
     fun toggleWebUi(enabled: Boolean) {
         viewModelScope.launch {
-            dataStore.edit { preferences ->
-                preferences[prefHandler.getBooleanPreferencesKey(PrefKey.UI_WEB)] = enabled
-            }
+            dataStore.setWebUiActive(enabled)
         }
     }
 }

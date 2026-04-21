@@ -78,6 +78,7 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.setWebUiActive
 import org.totschnig.myexpenses.provider.KEY_ACCOUNT_TYPE_LIST
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_IS_NUMBERED
@@ -218,6 +219,7 @@ class WebInputService : LifecycleService(), IWebInputService {
                 if (stopServer()) {
                     serverStateObserver?.onStopped()
                 }
+                stopSelf()
             }
 
             START_ACTION, RESTART_ACTION -> {
@@ -411,9 +413,7 @@ class WebInputService : LifecycleService(), IWebInputService {
 
     private fun switchOff() {
         lifecycleScope.launch {
-            dataStore.edit { preferences ->
-                preferences[prefHandler.getBooleanPreferencesKey(PrefKey.UI_WEB)] = false
-            }
+            dataStore.setWebUiActive(false)
         }
     }
 
