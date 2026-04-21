@@ -879,35 +879,36 @@ fun Repository.groupToSplitTransaction(ids: LongArray): Result<Boolean> {
     }
 }
 
-// 1. Specific check for a list of items (e.g. bulk delete)
 suspend fun Repository.checkSealedStatus(
     itemIds: List<Long>,
     withTransfer: Boolean
-): Result<Pair<Boolean, Boolean>> {
-    if (itemIds.isEmpty()) {
-        return Result.success(true to true)
-    }
-    return performSealedCheck(
-        selection = "$KEY_ROWID IN (${itemIds.joinToString(",") { "?" }})",
-        args = itemIds.map { it.toString() }.toTypedArray(),
-        withTransfer = withTransfer
+) = if (itemIds.isEmpty()) {
+    CrashHandler.throwOrReport("Called with empty list")
+    Result.success(
+        SealedCheckResult(hasSealedAccount = false, hasSealedDebt = false)
     )
-}
+} else performSealedCheck(
+    selection = "$KEY_ROWID IN (${itemIds.joinToString(",") { "?" }})",
+    args = itemIds.map { it.toString() }.toTypedArray(),
+    withTransfer = withTransfer
+)
 
-// 2. General check for an entire account (e.g. before archiving or clearing)
 suspend fun Repository.checkSealedStatus(
     accountId: Long,
-): Result<Pair<Boolean, Boolean>> =
-    performSealedCheck(selection = "$KEY_ACCOUNTID = ?",
+) = performSealedCheck(selection = "$KEY_ACCOUNTID = ?",
         args = arrayOf(accountId.toString()),
         withTransfer = true)
 
-// 3. The private engine that does the heavy lifting
+data class SealedCheckResult(
+    val hasSealedAccount: Boolean,
+    val hasSealedDebt: Boolean
+)
+
 private suspend fun Repository.performSealedCheck(
     selection: String,
     args: Array<String>,
     withTransfer: Boolean
-): Result<Pair<Boolean, Boolean>> = withContext(Dispatchers.IO) {
+): Result<SealedCheckResult> = withContext(Dispatchers.IO) {
     val projection = arrayOf(
         if (withTransfer) KEY_HAS_SEALED_ACCOUNT_WITH_TRANSFER else KEY_HAS_SEALED_ACCOUNT,
         KEY_HAS_SEALED_DEBT
@@ -920,7 +921,12 @@ private suspend fun Repository.performSealedCheck(
             if (cursor.moveToFirst()) {
                 val hasSealedAccount = cursor.getBoolean(0)
                 val hasSealedDebt = cursor.getBoolean(1)
-                Result.success(!hasSealedAccount to !hasSealedDebt)
+                Result.success(
+                    SealedCheckResult(
+                        hasSealedAccount = hasSealedAccount,
+                        hasSealedDebt = hasSealedDebt
+                    )
+                )
             } else {
                 Result.failure(Exception("Cursor returned 0 rows"))
             }

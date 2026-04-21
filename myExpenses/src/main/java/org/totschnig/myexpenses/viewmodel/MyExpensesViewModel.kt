@@ -863,17 +863,13 @@ open class MyExpensesViewModel(
         )
     }
 
-    suspend fun checkSealedStatus(itemIds: List<Long>, withTransfer: Boolean): Result<Pair<Boolean, Boolean>> {
-        return repository.checkSealedStatus(itemIds, withTransfer)
-    }
+    suspend fun checkSealedStatus(itemIds: List<Long>, withTransfer: Boolean) =
+        repository.checkSealedStatus(itemIds, withTransfer)
 
-    suspend fun checkSealedStatus(accountId: Long): Result<Pair<Boolean, Boolean>> {
-        return repository.checkSealedStatus(accountId)
-    }
+    suspend fun checkSealedStatus(accountId: Long) = repository.checkSealedStatus(accountId)
 
-    suspend fun checkTransferAccountOfSplitParts(itemIds: List<Long>): Result<List<Long>> {
-        return repository.checkTransferAccountOfSplitParts(itemIds)
-    }
+    suspend fun checkTransferAccountOfSplitParts(itemIds: List<Long>) =
+        repository.checkTransferAccountOfSplitParts(itemIds)
 
     companion object {
         fun prefNameForCriteriaLegacy(accountId: Long) = "filter_%s_${accountId}"

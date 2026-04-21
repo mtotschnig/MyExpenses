@@ -55,6 +55,7 @@ import org.totschnig.myexpenses.compose.transactions.TransactionList
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
+import org.totschnig.myexpenses.db2.SealedCheckResult
 import org.totschnig.myexpenses.db2.countAccounts
 import org.totschnig.myexpenses.dialog.ArchiveDialogFragment
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment
@@ -658,8 +659,8 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                             viewModel.checkSealedStatus(account.id).onSuccess {
                                 showExportDialog(
                                     listOfNotNull(
-                                        if (!it.first) R.string.object_sealed else null,
-                                        if (!it.second) R.string.object_sealed_debt else null
+                                        if (it.hasSealedAccount) R.string.object_sealed else null,
+                                        if (it.hasSealedDebt) R.string.object_sealed_debt else null
                                     )
                                 )
                             }
@@ -809,11 +810,11 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
     suspend fun checkSealed(itemIds: List<Long>, withTransfer: Boolean = true) =
         viewModel.checkSealedStatus(itemIds, withTransfer).fold(
             onSuccess = {
-                if (it.first && it.second) {
-                    true
-                } else {
-                    warnSealedAccount(!it.first, !it.second, itemIds.size > 1)
+                if (it.hasSealedAccount || it.hasSealedDebt) {
+                    warnSealedAccount(it, itemIds.size > 1)
                     false
+                } else {
+                    true
                 }
             },
             onFailure = {
@@ -822,15 +823,15 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
             }
         )
 
-    private fun warnSealedAccount(sealedAccount: Boolean, sealedDebt: Boolean, multiple: Boolean) {
+    private fun warnSealedAccount(result: SealedCheckResult, multiple: Boolean) {
         val resIds = mutableListOf<Int>()
         if (multiple) {
             resIds.add(R.string.warning_account_for_transaction_is_closed)
         }
-        if (sealedAccount) {
+        if (result.hasSealedAccount) {
             resIds.add(R.string.object_sealed)
         }
-        if (sealedDebt) {
+        if (result.hasSealedDebt) {
             resIds.add(R.string.object_sealed_debt)
         }
         showSnackBar(TextUtils.concatResStrings(this, *resIds.toIntArray()))
