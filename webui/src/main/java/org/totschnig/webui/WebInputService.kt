@@ -219,6 +219,7 @@ class WebInputService : LifecycleService(), IWebInputService {
                 if (stopServer()) {
                     serverStateObserver?.onStopped()
                 }
+                stopSelf()
             }
 
             START_ACTION, RESTART_ACTION -> {
@@ -671,7 +672,6 @@ class WebInputService : LifecycleService(), IWebInputService {
         server = null
         serverAddress = null
         ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE)
-        stopSelf()
         true
     } else false
 
