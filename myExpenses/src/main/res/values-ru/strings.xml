@@ -1056,4 +1056,7 @@
     <string name="pref_fab_style_standard_description">Стандартный (Нажмите на стрелку для вызова меню)</string>
     <string name="pref_fab_style_compact_description">Компактный (Нажмите и удерживайте для вызова меню)</string>
     <string name="number_too_large">Число слишком велико</string>
+    <string name="prioritize_flag_order">Приоритет порядка флагов</string>
+    <string name="pref_content_based_colors_title">Динамический цвет на основе цвета счета</string>
+    <string name="pref_content_based_colors_summary">Определение цветов темы на основе цвета текущего счета. Отключите, если текст становится трудночитаемым.</string>
 </resources>
