@@ -39,4 +39,5 @@
     <string name="migration_v2_opt_out_warning">La version V1 sera abandonnée lors d\'une prochaine mise à jour. Nous aimerions savoir ce qui ne fonctionne pas afin d\'améliorer la version V2.</string>
     <string name="migration_v2_feedback_title">Qu\'est-ce qui ne fonctionne pas dans la V2 ?</string>
     <string name="migration_v2_confirm_opt_out">Retourner à V1</string>
+    <string name="whats_new_407">Tri naturel pour étiquettes, catégories, comptes, tiers.</string>
 </resources>

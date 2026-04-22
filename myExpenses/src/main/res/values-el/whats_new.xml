@@ -35,4 +35,5 @@
     <string name="migration_v2_opt_out_warning">Το V1 θα καταργηθεί σταδιακά σε μελλοντική ενημέρωση. Θα θέλαμε να μάθουμε τι δεν λειτουργεί, ώστε να μπορέσουμε να βελτιώσουμε το V2.</string>
     <string name="migration_v2_feedback_title">Τι δεν λειτουργεί στο V2;</string>
     <string name="migration_v2_confirm_opt_out">Επιστροφή στο V1</string>
+    <string name="whats_new_407">Φυσική ταξινόμηση για ετικέτες, κατηγορίες, λογαριασμούς, μέρη.</string>
 </resources>

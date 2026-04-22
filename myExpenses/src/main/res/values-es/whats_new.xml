@@ -39,4 +39,5 @@
     <string name="migration_v2_opt_out_warning">La V1 será eliminada en una actualización futura. Nos encantaría saber qué no funciona para poder mejorar la V2.</string>
     <string name="migration_v2_feedback_title">¿Qué no funciona en la V2?</string>
     <string name="migration_v2_confirm_opt_out">Volver a la V1</string>
+    <string name="whats_new_407">Ordenación natural para etiquetas, categorías, cuentas, grupos.</string>
 </resources>

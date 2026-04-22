@@ -39,4 +39,5 @@
     <string name="migration_v2_opt_out_warning">גרסה 1 תופסק בעדכון עתידי. נשמח לדעת מה לא עובד כדי שנוכל לשפר את גרסה 2.</string>
     <string name="migration_v2_feedback_title">מה לא עובד בגרסה 2?</string>
     <string name="migration_v2_confirm_opt_out">חזרה לגרסה 1</string>
+    <string name="whats_new_407">מיון טבעי לתגים, קטגוריות, חשבונות וצדדים.</string>
 </resources>
