@@ -1068,4 +1068,7 @@
     <string name="pref_fab_style_standard_description">Standard (Appuyez sur la flèche pour le menu)</string>
     <string name="pref_fab_style_compact_description">Compact (Appuyez et maintenez pour le menu)</string>
     <string name="number_too_large">Nombre trop grand</string>
+    <string name="prioritize_flag_order">Prioriser l’ordre des marqueurs</string>
+    <string name="pref_content_based_colors_title">Couleur dynamique basée sur les comptes</string>
+    <string name="pref_content_based_colors_summary">Dérivez les couleurs du thème à partir de la couleur du compte courant. Désactivez si le texte est difficile à lire.</string>
 </resources>
