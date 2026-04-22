@@ -719,7 +719,7 @@
     <string name="pref_feature_uninstall_title">Solicitați dezinstalarea caracteristicilor și limbilor</string>
     <string name="template_default_action_without_amount_hint">Șablonul fără sumă ar trebui salvat cu acțiunea implicită „Editare”</string>
     <string name="plan_automatic_without_amount_hint">Planul fără sumă nu trebuie salvat cu execuția automată a planului</string>
-    <string name="github_sponsors">Cheile de licență sunt, de asemenea, furnizate &lt;unui href=%s&gt;Sponsorilor Github&lt;/a&gt;.</string>
+    <string name="github_sponsors"><![CDATA[Cheile de licență sunt, de asemenea, furnizate <unui href=%s>Sponsorilor Github</a>.]]></string>
     <string name="menu_tag">Etichetă</string>
     <string name="pref_ocr_time_formats_title">Formate de timp</string>
     <string name="content_description_download_exchange_rate">Descărcați cursul de schimb</string>
