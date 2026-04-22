@@ -349,7 +349,7 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
                     startService(intent)
                 }
             if (componentName == null) {
-                report(Exception("Start of Web User Interface failed"))
+                report(Exception("$action for Web User Interface failed"))
                 //Since trying to start the WebUI failed, it is likely that the STOP_ACTION triggered by
                 //onSharedPreferenceChanged listener might also fail
                 try {
