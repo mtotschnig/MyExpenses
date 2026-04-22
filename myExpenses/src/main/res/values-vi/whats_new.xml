@@ -21,4 +21,5 @@
     <string name="migration_v2_opt_out_warning">Phiên bản V1 sẽ bị loại bỏ trong bản cập nhật tiếp theo. Chúng tôi rất muốn biết những vấn đề bạn gặp phải để có thể cải thiện phiên bản V2.</string>
     <string name="migration_v2_feedback_title">Điều gì không hoạt động trong V2?</string>
     <string name="migration_v2_confirm_opt_out">Quay lại V1</string>
+    <string name="whats_new_407">Sắp xếp tự nhiên cho các thẻ, phân loại, tài khoản và các bên.</string>
 </resources>
