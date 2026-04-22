@@ -811,7 +811,7 @@
     <string name="account_widget_configuration_sum_total">Συμπεριλάβετε μελλοντικές συναλλαγές</string>
     <string name="new_balance">Νέα ισορροπία</string>
     <string name="pref_unmapped_transaction_as_transfer_title">Μη κατανεμημένες συναλλαγές</string>
-    <string name="github_sponsors">Κλειδιά άδειας χρήσης παρέχονται επίσης στο &lt;a href=%s&gt;Github Sponsors&lt;/a&gt;.</string>
+    <string name="github_sponsors"><![CDATA[Κλειδιά άδειας χρήσης παρέχονται επίσης στο <a href=%s>Github Sponsors</a>.]]></string>
     <string name="select_template">Επιλέξτε πρότυπο</string>
     <string name="budget_only_current_period">Ορισμός μόνο για %s</string>
     <string name="button_relink_keep_date">Επανασύνδεση, αλλά διατήρηση ημερομηνίας</string>
