@@ -1052,4 +1052,11 @@
     <string name="pref_ui_start_screen_last_visited">Последний просмотренный экран</string>
     <string name="content_description_show_balance_details">Показать подробную информацию</string>
     <string name="main_navigation">Основная навигация</string>
+    <string name="pref_fab_style_title">Стиль плавающей кнопки действия</string>
+    <string name="pref_fab_style_standard_description">Стандартный (Нажмите на стрелку для вызова меню)</string>
+    <string name="pref_fab_style_compact_description">Компактный (Нажмите и удерживайте для вызова меню)</string>
+    <string name="number_too_large">Число слишком велико</string>
+    <string name="prioritize_flag_order">Приоритет порядка флагов</string>
+    <string name="pref_content_based_colors_title">Динамический цвет на основе цвета счета</string>
+    <string name="pref_content_based_colors_summary">Определение цветов темы на основе цвета текущего счета. Отключите, если текст становится трудночитаемым.</string>
 </resources>

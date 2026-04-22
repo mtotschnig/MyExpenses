@@ -890,7 +890,7 @@
     <string name="encrypt_database_info">Il database sarà crittografato con una passphrase che non potrà essere esportata da questo dispositivo. Di conseguenza, non verrà salvata dal servizio di backup del dispositivo.</string>
     <string name="dialog_confirm_rollover_delete">Tutti gli importi di resto per questo periodo saranno cancellati.</string>
     <string name="encrypt_database">Crittografa il database</string>
-    <string name="github_sponsors">Chiavi di licenza vengono fornite anche agli &lt;a href=%s&gt;Sponsor su Github&lt;/a&gt;.</string>
+    <string name="github_sponsors"><![CDATA[Chiavi di licenza vengono fornite anche agli <a href=%s>Sponsor su Github</a>.]]></string>
     <string name="notifications_permission_required_webui">Concedendo i permessi per inviare notifiche, è possibile controllare lo stato del server.</string>
     <string name="notifications_permission_required_planner"><i>{app_name}</i> ha bisogno dell\'autorizzazione per inviare notifiche quando verranno registrate transazioni future.</string>
     <string name="notifications_permission_required_sync">Concedendo l\'autorizzazione all\'invio di notifiche, è possibile monitorare l\'avanzamento delle operazioni di sincronizzazione.</string>

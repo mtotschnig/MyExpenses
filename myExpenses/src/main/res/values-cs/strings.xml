@@ -943,7 +943,7 @@
     <string name="pref_debug_logging_share_summary">Sdílení souborů protokolu</string>
     <string name="dialog_confirm_rollover_delete">Všechny částky za toto období budou smazány.</string>
     <string name="select_all_list_too_large">Příkaz %s není k dispozici, protože seznam je načten pouze částečně. Chcete-li zmenšit velikost seznamu, použijte funkci Hledat.</string>
-    <string name="github_sponsors">Licenční klíče jsou také poskytovány &lt;a href=%s&gt;Github Sponsors&lt;/a&gt;.</string>
+    <string name="github_sponsors"><![CDATA[Licenční klíče jsou také poskytovány <a href=%s>Github Sponsors</a>.]]></string>
     <string name="notifications_permission_required_webui">Udělením oprávnění k odesílání oznámení můžete řídit stav webového serveru.</string>
     <string name="notifications_permission_required_auto_backup">Udělením oprávnění k zasílání oznámení budete informováni o automatických zálohách.</string>
     <string name="pref_sync_now_all_summary">%s synchronizuje všechny účty pro stejný back-end.</string>

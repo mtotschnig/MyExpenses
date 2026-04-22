@@ -663,7 +663,7 @@
     <string name="budget_table_header_rollover">Chuyển khoản</string>
     <string name="menu_reconfigure">Cấu hình lại</string>
     <string name="database_is_encrypted">Cơ sở dữ liệu được mã hóa.</string>
-    <string name="github_sponsors">Khóa cấp phép cũng được cung cấp cho &lt;a href=%s&gt;Nhà tài trợ Github&lt;/a&gt;.</string>
+    <string name="github_sponsors"><![CDATA[Khóa cấp phép cũng được cung cấp cho <a href=%s>Nhà tài trợ Github</a>.]]></string>
     <string name="notifications_permission_required_auto_backup">Bằng cách cấp quyền gửi thông báo, bạn sẽ được thông báo về tự động sao lưu.</string>
     <string name="notifications_channel_required">Vui lòng bật kênh %s.</string>
     <string name="debt_lend_additional">Tôi cho mượn %s.</string>
