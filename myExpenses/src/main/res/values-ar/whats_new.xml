@@ -39,4 +39,5 @@
     <string name="migration_v2_intro">لقد أعدنا تصميم مصروفاتي لتكون أسهل في الاستخدام وتوفر المزيد من الميزات:</string>
     <string name="migration_v2_feature_2">تجميع وإجمالي الأعلام</string>
     <string name="migration_v2_feature_3">تكامل محسن في الميزانية العمومية</string>
+    <string name="whats_new_407">فرز طبيعي للعلامات، التصنيفات، الحسابات والأطراف.</string>
 </resources>
