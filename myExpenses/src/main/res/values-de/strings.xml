@@ -1052,4 +1052,7 @@
     <string name="pref_fab_style_standard_description">Standard (Klick auf Pfeil öffnet Menü)</string>
     <string name="pref_fab_style_compact_description">Kompakt (Tippen und halten für Menü)</string>
     <string name="number_too_large">Zahl zu groß</string>
+    <string name="prioritize_flag_order">Reihenfolge der Markierungen priorisieren</string>
+    <string name="pref_content_based_colors_title">Konto-basierte dynamische Farbe</string>
+    <string name="pref_content_based_colors_summary">Die Designfarben werden von der Farbe des aktuellen Kontos abgeleitet. Deaktivieren Sie diese Option, falls der Text schwer lesbar ist.</string>
 </resources>
