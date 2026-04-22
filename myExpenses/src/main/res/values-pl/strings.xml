@@ -678,7 +678,7 @@
     <string name="warning_party_delete_debt">W przypadku usunięcia tej strony usunięte zostaną również zdefiniowane dla niej długi.</string>
     <string name="sub_budget_exceeded_error_1_1">Całość kwoty przydzielonej do kategorii głównej z wyjątkiem %s została przydzielona do innych podkategorii.</string>
     <string name="pref_security_export_passphrase_summary">Kopie zapasowe będą szyfrowane za pomocą tego hasła</string>
-    <string name="github_sponsors">Klucze licencyjne są również dostarczane do &lt;a href=%s&gt;Github Sponsors&lt;/a&gt;.</string>
+    <string name="github_sponsors"><![CDATA[Klucze licencyjne są również dostarczane do <a href=%s>Github Sponsors</a>.]]></string>
     <string name="pref_ocr_total_indicators_title">Wskaźniki dla kwoty całkowitej</string>
     <string name="budget_date_end_after_start">Data końcowa budżetu musi przypadać po dacie jego rozpoczęcia.</string>
     <string name="dialog_multi_tag_clear">Wszystkie tagi zostaną usunięte z wybranych transakcji.</string>
