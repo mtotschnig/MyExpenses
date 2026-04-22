@@ -39,4 +39,5 @@
     <string name="migration_v2_opt_out_warning">V1 wird in einem zukünftigen Update ausgemustert. Wir würden gerne wissen, was nicht funktioniert, damit wir V2 verbessern können.</string>
     <string name="migration_v2_feedback_title">Was funktioniert in V2 nicht?</string>
     <string name="migration_v2_confirm_opt_out">Zurück zu Version 1</string>
+    <string name="whats_new_407">Natürliche Sortierung für Schlagwörter, Kategorien, Konten, Parteien.</string>
 </resources>
