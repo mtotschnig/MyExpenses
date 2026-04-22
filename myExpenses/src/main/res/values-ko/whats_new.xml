@@ -12,4 +12,5 @@
     <string name="whats_new_402">계정 유형을 사용자 지정할 수 있습니다.</string>
     <string name="whats_new_403">계정 플래그는 계정 가시성 및 우선 순위의 사용자 지정을 확장합니다.</string>
     <string name="migration_v2_feature_1">현대적인 Material Design 내비게이션</string>
+    <string name="whats_new_407">태그, 카테고리, 계좌, 구성원에 대한 자연스러운 정렬.</string>
 </resources>
