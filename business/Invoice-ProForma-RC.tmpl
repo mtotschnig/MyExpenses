@@ -190,6 +190,9 @@
 
 % KUNDENDATEN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\kunde}{${KUNDE}}                                %
+\newcommand{\kundeAddr1}{${KUNDE_ADDR_1}}                    %
+\newcommand{\kundeAddr2}{${KUNDE_ADDR_2}}                    %
+\newcommand{\kundeVAT}VAT-Number: {${KUNDE_VAT}}             %
 \renewcommand{\country}{${COUNTRY}}                          %
 \setkomavar{invoice}{${NUMBER}}                              %
 % Rechnungs daten                                            %
@@ -268,7 +271,7 @@ Solarisbank AG}
 %---------------------------------------------------------------------------
 % Hier beginnt der Brief, mit der Anschrift des Empfängers
 
-\begin{letter}{\kunde\\\countryName}
+\begin{letter}{\kunde\\\kundeAddr1\\\kundeAddr2\\\kundeVAT\\\countryName}
 %---------------------------------------------------------------------------
 % Der Betreff des Briefes
 \setkomavar{subject}{Pro Forma Invoice}
@@ -279,12 +282,14 @@ Solarisbank AG}
 \begin{tabularx}{\textwidth}{Xr}
 %\rowcolor[gray]{.95}
 \key  &  \formatNumber{\price} \EUR \\
-\small{VAT \vatRate\% } & \formatNumber{\vatCalc} \EUR \\ \hline \hline
-\textbf{Total} & \textbf{\formatNumber{\total} \EUR} \\ 
+\textbf{Total} & \textbf{\formatNumber{\price} \EUR} \\
 \hline
 \end{tabularx}
 
 Please transfer \formatNumber{\total} \EUR\ to the account mentioned below.
+
+%Reverse charge
+Tax free intracommunity delivery
 
 This is not a tax invoice, you will receive proper invoice upon payment.
 %---------------------------------------------------------------------------
