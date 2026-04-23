@@ -1052,4 +1052,7 @@
     <string name="pref_fab_style_standard_description">Standart (Menü için oka dokun)</string>
     <string name="pref_fab_style_compact_description">Küçük (Menü için dokunup basılı tut)</string>
     <string name="number_too_large">Sayı çok büyük</string>
+    <string name="prioritize_flag_order">Bayrak sıralamasını önceliklendir</string>
+    <string name="pref_content_based_colors_title">Hesaba dayalı değişken renk</string>
+    <string name="pref_content_based_colors_summary">Tema renklerini geçerli hesabın renginden al. Metin okunması zor ise bu özelliği kapatın.</string>
 </resources>
