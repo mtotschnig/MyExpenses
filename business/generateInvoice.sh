@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 function show_help() {
 cat >&2 << EOF
-   Usage: ${0##*/} [-p PACKAGE] [-c COUNTRY] [-u USER] [-d DURATION]
+   Usage: ${0##*/} [-p PACKAGE] [-c COUNTRY] [-u USER] [-d DURATION] [-a ADR1] [-b ADR2] [-v VAT]
    PACKAGE is Contrib or Extended or Professional or History or Budget or Ocr
    Generate invoice 
 EOF
@@ -10,7 +10,7 @@ exit 1
 
 isPro=false
 
-while getopts "p:c:u:d:" opt; do
+while getopts "p:c:u:d:a:b:v:" opt; do
     case "$opt" in
         p) case "$OPTARG" in
                Contrib)
@@ -53,7 +53,12 @@ while getopts "p:c:u:d:" opt; do
           else
             show_help
           fi
-          ;;
+        a) export KUNDE_ADDR_A=$OPTARG
+           ;;
+        b) export KUNDE_ADDR_B=$OPTARG
+           ;;
+        v) export KUNDE_VAT=$OPTARG
+           ;;
         '?')
             show_help
             ;;

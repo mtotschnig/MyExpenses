@@ -58,9 +58,9 @@ while getopts "p:c:u:d:a:b:v:" opt; do
             show_help
           fi
           ;;
-        a) export KUNDE_ADDR_1=$OPTARG
+        a) export KUNDE_ADDR_A=$OPTARG
            ;;
-        b) export KUNDE_ADDR_2=$OPTARG
+        b) export KUNDE_ADDR_B=$OPTARG
            ;;
         v) export KUNDE_VAT=$OPTARG
            ;;
