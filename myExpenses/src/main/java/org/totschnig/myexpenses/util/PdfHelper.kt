@@ -224,7 +224,7 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
 
     fun getPageEventHelper(
         context: Context,
-        prefHandler: PrefHandler
+        prefHandler: PrefHandler,
     ) = object : PdfPageEventHelper() {
 
         override fun onEndPage(writer: PdfWriter, document: Document) {
@@ -264,7 +264,14 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
                             RIGHT -> Element.ALIGN_RIGHT
                         }
                         ColumnText.showTextAligned(
-                            cb, alignment, print(text, FontType.NORMAL), x, y, 0F
+                            cb,
+                            alignment,
+                            print(text, FontType.NORMAL),
+                            x,
+                            y,
+                            0F,
+                            if (hasAnyRtl(text) || layoutDirectionFromLocaleIsRTL) PdfWriter.RUN_DIRECTION_RTL else PdfWriter.RUN_DIRECTION_LTR,
+                            0
                         )
                     }
             }
