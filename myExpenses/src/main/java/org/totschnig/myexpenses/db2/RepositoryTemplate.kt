@@ -145,7 +145,8 @@ data class RepositoryTemplate(
                     categoryPath = data.categoryPath,
                     currency = data.currency,
                     date = instanceData.date,
-                    uuid = uuid
+                    uuid = uuid,
+                    tagList = data.tagList
                 )
             } else null,
             splitParts = splitParts?.map {
@@ -609,6 +610,7 @@ fun Repository.insertTemplate(
     methodId: Long? = null,
     comment: String? = null,
     debtId: Long? = null,
+    tagList: List<Long> = emptyList()
 ) = createTemplate(
     Template(
         title = title,
@@ -621,6 +623,7 @@ fun Repository.insertTemplate(
         payeeId = payeeId,
         methodId = methodId,
         comment = comment,
-        debtId = debtId
+        debtId = debtId,
+        tagList = tagList
     )
 )

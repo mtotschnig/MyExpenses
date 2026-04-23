@@ -144,6 +144,8 @@ class TemplateTest : BaseTestWithRepository() {
             assertThat(data.accountId).isEqualTo(template.data.accountId)
             assertThat(data.comment).isEqualTo(template.data.comment)
             assertThat(data.transferAccountId).isEqualTo(template.data.transferAccountId)
+            assertThat(data.tagList).containsExactly(tagId)
+            assertThat(transferPeer!!.tagList).containsExactly(tagId)
         }
     }
 
@@ -335,7 +337,8 @@ class TemplateTest : BaseTestWithRepository() {
         accountId = account1,
         transferAccountId = account2,
         comment = "Some comment",
-        title = "Template"
+        title = "Template",
+        tagList = listOf(tagId)
     )
 
     private fun buildSplitTemplate(
