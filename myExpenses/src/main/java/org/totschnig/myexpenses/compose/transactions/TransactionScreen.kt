@@ -188,6 +188,7 @@ fun TransactionScreen(
         containerColor = containerColor,
         topBar = {
             val isInSelectionMode = viewModel.selectionState.value.isNotEmpty()
+            val height = 52.dp  + 30.dp * (LocalDensity.current.fontScale -1)
             Crossfade(
                 targetState = isInSelectionMode,
                 label = "TopBarTransition"
@@ -198,6 +199,7 @@ fun TransactionScreen(
                     }
                     val context = LocalContext.current
                     TopAppBar(
+                        modifier = Modifier.height(height),
                         navigationIcon = {
                             TooltipIconButton(
                                 tooltip = stringResource(R.string.menu_close),
@@ -242,8 +244,7 @@ fun TransactionScreen(
                     }
 
                     TopAppBar(
-                        modifier = Modifier
-                            .height(52.dp  + 30.dp * (LocalDensity.current.fontScale -1)),
+                        modifier = Modifier.height(height),
                         navigationIcon = navigationIcon,
                         title = {
                             BalanceHeader(
