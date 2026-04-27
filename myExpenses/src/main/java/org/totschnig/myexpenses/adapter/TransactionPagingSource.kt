@@ -10,6 +10,7 @@ import android.os.Looper
 import androidx.paging.PagingState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
@@ -17,22 +18,23 @@ import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.KEY_PARENTID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.withLimit
-import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import org.totschnig.myexpenses.viewmodel.data.mergeTransfers
 import org.totschnig.myexpenses.viewmodel.data.pickForMerge
+import org.totschnig.myexpenses.viewmodel.pageSize
 import timber.log.Timber
 import java.time.Duration
 import java.time.Instant
 
 open class TransactionPagingSource(
     val context: Context,
-    val account: PageAccount,
+    val account: DataBaseAccount,
     val whereFilter: StateFlow<Criterion?>,
     val tags: StateFlow<Map<String, Pair<String, Int?>>>,
     val currencyContext: CurrencyContext,
@@ -47,6 +49,9 @@ open class TransactionPagingSource(
     private val observer: ContentObserver
     private var criterion: Criterion? = null
     private var hasNewCriterion: Boolean = false
+
+    private var filterJob: Job? = null
+    private var tagsJob: Job? = null
 
     init {
         account.loadingInfo(prefHandler).also {
@@ -66,20 +71,25 @@ open class TransactionPagingSource(
             observer
         )
         criterion = whereFilter.value
-        coroutineScope.launch {
+        filterJob = coroutineScope.launch {
             whereFilter.drop(1).collect {
                 invalidate()
             }
         }
-        coroutineScope.launch {
+        tagsJob = coroutineScope.launch {
             tags.drop(1).collect {
                 invalidate()
             }
         }
     }
 
+    override val jumpingSupported: Boolean
+        get() = true
+
     override fun clear() {
         contentResolver.unregisterContentObserver(observer)
+        filterJob?.cancel()
+        tagsJob?.cancel()
     }
 
     override fun compareWithLast(lastPagingSource: TransactionPagingSource?) {
@@ -102,7 +112,7 @@ open class TransactionPagingSource(
             //we must take care to load only the missing items before the offset
             val loadSize = if (position < 0) params.loadSize + position else params.loadSize
             val fetchSize = if (account.isAggregate) loadSize + 1 else loadSize // We'll fetch one more item as a lookahead.
-            Timber.i("Requesting data for account %d at position %d", account.id, position)
+            Timber.i("Requesting data for account %d at position %d with loadSize %d", account.id, position, loadSize)
             var selection = "$KEY_PARENTID IS NULL"
             var selectionArgs: Array<String>? = null
             whereFilter.value?.let { filter ->
@@ -113,15 +123,26 @@ open class TransactionPagingSource(
                 }
             }
             val startTime = if (BuildConfig.DEBUG) Instant.now() else null
-            val fullList = withContext(Dispatchers.IO) {
+
+            val offset = position.coerceAtLeast(0)
+            val (totalCount, fullList) = withContext(Dispatchers.IO) {
                 contentResolver.query(
-                    uri.withLimit(fetchSize, position.coerceAtLeast(0)),
+                    uri,
+                    arrayOf("count(*)"),
+                    selection,
+                    selectionArgs,
+                    null
+                )!!.use {
+                    it.moveToFirst()
+                    it.getInt(0)
+                } to contentResolver.query(
+                    uri.withLimit(fetchSize, offset),
                     projection,
                     selection,
                     selectionArgs,
                     account.sortOrder,
                     null
-                )?.use { cursor ->
+                )!!.use { cursor ->
                     if (BuildConfig.DEBUG) {
                         val endTime = Instant.now()
                         val duration = Duration.between(startTime, endTime)
@@ -132,11 +153,12 @@ open class TransactionPagingSource(
                             currencyContext,
                             it,
                             tags.value,
-                            accountCurrency = account.currencyUnit
+                            accountCurrency = currencyContext[account.currency],
+                            account.grouping
                         )
                     }.toList()
                 }
-            } ?: emptyList()
+            }
 
             val itemsForThisPage = fullList.take(loadSize) // The items that actually belong to this page.
             val lookaheadItem = if (account.isAggregate) fullList.getOrNull(loadSize) else null // The (N+1)th item.
@@ -156,15 +178,17 @@ open class TransactionPagingSource(
                 }
             } else itemsForThisPage
 
-            val prevKey = if (position > 0) (position - params.loadSize) else null
+            val prevKey = if (position > 0) (position - pageSize) else null
             val nextKey = if (fullList.size < fetchSize) null else
-                position + params.loadSize + if (includeNextHalfTransfer) 1 else 0
-            Timber.i("Setting prevKey %d, nextKey %d", prevKey, nextKey)
+                position + loadSize + if (includeNextHalfTransfer) 1 else 0
+            val itemsAfter = (totalCount - offset - fetchSize).coerceAtLeast(0)
+            Timber.i("Setting prevKey %d, nextKey %d, itemsBefore %d, itemsAfter %d", prevKey, nextKey, offset, itemsAfter)
             return LoadResult.Page(
                 data = mergedList,
                 prevKey = prevKey,
                 nextKey = nextKey,
-                itemsBefore = position.coerceAtLeast(0)
+                itemsBefore = offset,
+                itemsAfter = itemsAfter
             )
         } finally {
             onLoadFinished()

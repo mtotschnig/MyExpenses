@@ -693,8 +693,8 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                                     Pair(
                                         it.accountGrouping.name, when (it.accountGrouping) {
                                             AccountGrouping.CURRENCY -> it.currency to null
-                                            AccountGrouping.FLAG -> it.flag!!.let { it.title(this@BaseMyExpenses) to it.id }
-                                            AccountGrouping.TYPE -> it.type!!.let { it.title(this@BaseMyExpenses) to it.id }
+                                            AccountGrouping.FLAG -> it.flag.let { it.title(this@BaseMyExpenses) to it.id }
+                                            AccountGrouping.TYPE -> it.type.let { it.title(this@BaseMyExpenses) to it.id }
                                             AccountGrouping.NONE -> null
                                         }
                                     )
@@ -863,8 +863,8 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                 KEY_ACCOUNT_GROUPING_GROUP,
                 when (currentAccount.accountGrouping) {
                     AccountGrouping.CURRENCY -> currentAccount.currency
-                    AccountGrouping.FLAG -> currentAccount.flag!!.id.toString()
-                    AccountGrouping.TYPE -> currentAccount.type!!.id.toString()
+                    AccountGrouping.FLAG -> currentAccount.flag.id.toString()
+                    AccountGrouping.TYPE -> currentAccount.type.id.toString()
                     else -> "Unit"
                 }
             )
@@ -1438,7 +1438,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
 
         val onToggleCrStatus = remember {
             derivedStateOf {
-                if (if (account.isAggregate || account.type?.supportsReconciliation == false) {
+                if (if (account.isAggregate || !account.type.supportsReconciliation) {
                         false
                     } else {
                         showStatusHandleState.value
@@ -1447,7 +1447,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
             }
         }
 
-        val headerData = remember(account) { viewModel.headerData(account, v2) }
+        val headerData = remember(account.grouping, account.sortDirection) { viewModel.headerData(account, v2) }
 
         val isProcessingFilter = remember { mutableStateOf(false) }
 
@@ -1494,9 +1494,11 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
             }
 
             headerData.collectAsState().value.let { headerData ->
-                val lazyPagingItems =
-                    viewModel.items.getValue(account).collectAsLazyPagingItems()
+
+                val lazyPagingItems = viewModel.getTransactions(account).collectAsLazyPagingItems()
+
                 if (!account.sealed) {
+
                     LaunchedEffect(viewModel.selectAllState.value) {
                         if (viewModel.selectAllState.value) {
                             if (lazyPagingItems.loadState.prepend.endOfPaginationReached &&

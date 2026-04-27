@@ -3,10 +3,10 @@ package org.totschnig.myexpenses.viewmodel.data
 import android.content.Context
 import android.content.res.Resources
 import android.database.Cursor
-import android.net.Uri
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.core.content.res.ResourcesCompat
+import arrow.core.Tuple4
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.accounts.SIGMA
 import org.totschnig.myexpenses.model.AccountFlag
@@ -18,7 +18,6 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.sort.SortDirection
 import org.totschnig.myexpenses.model2.AccountWithGroupingKey
-import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_BALANCE_TYPE
@@ -75,8 +74,8 @@ import kotlin.math.sign
 
 sealed class BaseAccount : DataBaseAccount() {
     abstract val currencyUnit: CurrencyUnit
-    abstract val type: AccountType?
-    abstract val flag: AccountFlag?
+    abstract val type: AccountType
+    abstract val flag: AccountFlag
     abstract fun toPageAccount(context: Context): PageAccount
     abstract fun color(resources: Resources): Int
     abstract val total: Long?
@@ -86,16 +85,16 @@ sealed class BaseAccount : DataBaseAccount() {
     fun aggregateColor(resources: Resources) = ResourcesCompat.getColor(resources, R.color.colorAggregate, null)
     abstract val balanceType: BalanceType
     override val flagId: Long?
-        get() = flag?.id
+        get() = flag.id
     override val typeId: Long?
-        get() = type?.id
+        get() = type.id
 }
 
 @Stable
 data class AggregateAccount(
     override val currencyUnit: CurrencyUnit,
-    override val type: AccountType?,
-    override val flag: AccountFlag?,
+    override val type: AccountType,
+    override val flag: AccountFlag,
     val openingBalance: Long? = null,
     override val currentBalance: Long? = null,
     val sumIncome: Long? = null,
@@ -121,16 +120,12 @@ data class AggregateAccount(
     override val currency: String = currencyUnit.code
 
     override fun labelV2(context: Context): String = when(accountGrouping) {
-        AccountGrouping.TYPE -> type!!.title(context) + " ($SIGMA)"
+        AccountGrouping.TYPE -> type.title(context) + " ($SIGMA)"
         AccountGrouping.CURRENCY -> currencyUnit.code + " ($SIGMA)"
-        AccountGrouping.FLAG -> flag!!.title(context) + " ($SIGMA)"
+        AccountGrouping.FLAG -> flag.title(context) + " ($SIGMA)"
         AccountGrouping.NONE -> context.getString(R.string.grand_total)
     }
 
-    @Deprecated("Used only on legacy Main Screen")
-    override val isHomeAggregate = accountGrouping == AccountGrouping.NONE
-
-    @Deprecated("Used only on legacy Main Screen")
     override val isAggregate = true
 
     override fun color(resources: Resources) = aggregateColor(resources)
@@ -293,12 +288,12 @@ data class FullAccount(
 @Immutable
 data class PageAccount(
     override val id: Long = 0,
-    val type: AccountType? = AccountType.CASH,
-    val flag: AccountFlag? = AccountFlag.DEFAULT,
+    override val type: AccountType = AccountType.CASH,
+    override val flag: AccountFlag = AccountFlag.DEFAULT,
     override val sortBy: String = KEY_DATE,
     override val sortDirection: SortDirection = SortDirection.DESC,
     override val grouping: Grouping = Grouping.NONE,
-    val currencyUnit: CurrencyUnit,
+    override val currencyUnit: CurrencyUnit,
     val sealed: Boolean = false,
     val openingBalance: Long = 0,
     val currentBalance: Long = 0,
@@ -306,30 +301,16 @@ data class PageAccount(
     //not null for aggregate accounts
     override val accountGrouping: AccountGrouping<*>? = null,
     val color: Int = -1
-) : DataBaseAccount() {
+) : DataBaseAccount(), AccountWithGroupingKey {
     override val currency: String = currencyUnit.code
 
-    override val flagId = flag?.id
-    override val typeId = type?.id
+    override val flagId = flag.id
+    override val typeId = type.id
 
+    val stableId: Any
+        get() = if (id != 0L) id
+        else accountGrouping to accountGrouping?.getGroupKey(this)
 
-    //Pair of Uri / projection
-    fun loadingInfo(prefHandler: PrefHandler): Pair<Uri, Array<String>> =
-        uriBuilderForTransactionList(extended = true).build() to Transaction2.projection(
-            isAggregate,
-            grouping,
-            prefHandler
-        )
-
-    fun uriBuilderForTransactionList(
-        extended: Boolean,
-    ) = uriBuilderForTransactionList(
-        accountId = id,
-        currency = currency,
-        type = type?.id,
-        flag = flag?.id,
-        accountGrouping = accountGrouping,
-        shortenComment = true,
-        extended = extended
-    )
+    val queryKey: Any
+        get() = Tuple4(stableId, sortBy, sortDirection, grouping)
 }

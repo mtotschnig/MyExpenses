@@ -237,8 +237,8 @@ class MyExpensesV2ViewModel(
                     filteredByVisibility + AggregateAccount(
                         currencyUnit = activeFilter as? CurrencyUnit
                             ?: currencyContext.homeCurrencyUnit,
-                        type = if (accountGrouping == AccountGrouping.TYPE) activeFilter as? AccountType else null,
-                        flag = if (accountGrouping == AccountGrouping.FLAG) activeFilter as? AccountFlag else null,
+                        type = activeFilter as? AccountType ?: AccountType.CASH,
+                        flag = activeFilter as? AccountFlag ?: AccountFlag.DEFAULT,
                         grouping = aggregateGrouping,
                         accountGrouping = aggregateAccountGrouping,
                         sortBy = aggregateSort.column,

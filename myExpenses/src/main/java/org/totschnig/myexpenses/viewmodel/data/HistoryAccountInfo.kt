@@ -19,7 +19,4 @@ data class HistoryAccountInfo(
     override val accountGrouping: AccountGrouping<*>?,
 ): AccountInfoWithGrouping {
     override val currency: String = currencyUnit.code
-    val isHomeAggregate: Boolean
-        get() =  accountId == HOME_AGGREGATE_ID // V1
-                || accountGrouping == AccountGrouping.NONE // V2
  }

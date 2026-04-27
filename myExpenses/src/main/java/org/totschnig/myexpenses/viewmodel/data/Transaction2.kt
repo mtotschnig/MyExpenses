@@ -124,6 +124,7 @@ data class Transaction2(
     val attachmentCount: Int = 0,
     val type: Byte = FLAG_NEUTRAL,
     val isSameCurrency: Boolean = true,
+    val headerId: Int = 0
 ) : Parcelable {
 
     val isSplit: Boolean
@@ -234,6 +235,7 @@ data class Transaction2(
             cursor: Cursor,
             tags: Map<String, Pair<String, Int?>>,
             accountCurrency: CurrencyUnit? = null,
+            grouping: Grouping,
         ): Transaction2 {
             val currency = cursor.getString(KEY_CURRENCY)
             val amountRaw = cursor.getLong(KEY_DISPLAY_AMOUNT)
@@ -297,7 +299,9 @@ data class Transaction2(
                     }
                     Money(currencyContext[currency], originalAmountRaw)
                 }
-            )
+            ).let {
+                it.copy(headerId = grouping.calculateGroupId(it))
+            }
         }
     }
 }

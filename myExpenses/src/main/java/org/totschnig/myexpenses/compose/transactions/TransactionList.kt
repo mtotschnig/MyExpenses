@@ -142,7 +142,8 @@ private fun LazyPagingItems<Transaction2>.getCurrentPosition(
     }
     Timber.d("limit: %d", limit)
     while (index < itemCount) {
-        val transaction2 = get(index) ?: return start.copy(found = true)
+        val transaction2 = get(index) ?: return start.copy(found = false)
+        Timber.d("Comparing: %d", index)
         val comparisonResult = transaction2._date.compareTo(limit)
         if ((sortDirection == SortDirection.ASC && comparisonResult > 0) || sortDirection == SortDirection.DESC && comparisonResult < 0) {
             Timber.d("index/visibleIndex: %d/%d", index, visibleIndex)
@@ -267,9 +268,9 @@ fun TransactionList(
             mutableIntStateOf(0)
         }
 
-        if (lazyPagingItems.itemCount > 0 && collapsedIds != null) {
+        if (collapsedIds != null) {
             scrollToCurrentDateStartIndex.value?.let {
-                LaunchedEffect(lazyPagingItems.itemCount) {
+                LaunchedEffect(lazyPagingItems.itemCount, lazyPagingItems.loadState) {
                     val scrollCalculationResult = lazyPagingItems.getCurrentPosition(
                         start = it,
                         sortDirection = headerData.account.sortDirection,
@@ -320,34 +321,51 @@ fun TransactionList(
                 itemsAvailable = lazyPagingItems.itemCount,
                 groupCount = (headerData as? HeaderData)?.groups?.size ?: 0
             ) {
-
                 var lastHeader: Int? = null
 
                 for (index in 0 until lazyPagingItems.itemCount) {
 
-                    val item = lazyPagingItems.peek(index)
-                    val headerId = item?.let { headerData.calculateGroupId(it) }
+                    val item = lazyPagingItems.peek(index) ?: run {
+                        item(key = "placeholder_$index") {}
+                        continue
+                    }
+
+                    val headerId = item.headerId
+                    //paging library requires a stable number of items in order to keep up with refreshes in the middle of the list
+                    //so we add here placeholders for all headers that fall in the unloaded prepend region
+                    if (lastHeader == null) {
+                        (headerData as? HeaderData)?.groups?.count {
+                            if (headerData.account.sortDirection == SortDirection.DESC)
+                                it.key > headerId else it.key < headerId
+                        }?.let { placeholderCount ->
+                            repeat(placeholderCount) {
+                                stickyHeader(key = "placeholder_header_$it") {}
+                            }
+                        }
+                    }
                     val isGroupHidden = collapsedIds?.contains(headerId.toString()) == true
-                    if (headerId !== null && headerId != lastHeader) {
-                        when (headerData) {
-                            is HeaderData -> {
-                                headerData.groups[headerId]?.let { headerRow ->
-                                    val budget = budgetData.value?.let { data ->
-                                        val amount =
-                                            (data.data.find { it.headerId == headerId && it.amount != null }
-                                                ?: data.data.lastOrNull {
-                                                    !it.oneTime && it.headerId < headerId && it.amount != null
-                                                })?.amount ?: 0L
-                                        val rollOverPrevious =
-                                            data.data.find { it.headerId == headerId }
-                                                ?.rollOverPrevious
-                                                ?: 0L
-                                        data.budgetId to amount + rollOverPrevious
-                                    }
-                                    stickyHeader(
-                                        key = headerId,
-                                        contentType = STICKY_HEADER_CONTENT_TYPE
-                                    ) {
+                    if (headerId != lastHeader) {
+                        stickyHeader(
+                            key = "header_$headerId",
+                            contentType = STICKY_HEADER_CONTENT_TYPE
+                        ) {
+
+                            when (headerData) {
+                                is HeaderData -> {
+                                    val headerRow = headerData.groups[headerId]
+                                    if (headerRow != null) {
+                                        val budget = budgetData.value?.let { data ->
+                                            val amount =
+                                                (data.data.find { it.headerId == headerId && it.amount != null }
+                                                    ?: data.data.lastOrNull {
+                                                        !it.oneTime && it.headerId < headerId && it.amount != null
+                                                    })?.amount ?: 0L
+                                            val rollOverPrevious =
+                                                data.data.find { it.headerId == headerId }
+                                                    ?.rollOverPrevious
+                                                    ?: 0L
+                                            data.budgetId to amount + rollOverPrevious
+                                        }
                                         HeaderRenderer(
                                             account = headerData.account,
                                             headerId = headerId,
@@ -371,17 +389,12 @@ fun TransactionList(
                                         ) {
                                             headersWithSumDetails[headerId] = it
                                         }
-                                        HorizontalDivider()
                                     }
                                 }
-                            }
 
-                            is HeaderDataEmpty -> {}
-                            is HeaderDataError -> {
-                                stickyHeader(
-                                    key = headerId,
-                                    contentType = STICKY_HEADER_CONTENT_TYPE
-                                ) {
+                                is HeaderDataEmpty -> {}
+
+                                is HeaderDataError -> {
                                     val context = LocalActivity.current as? BaseActivity
                                     Text(
                                         "Error loading group header data. Click to start safe mode.",
@@ -397,58 +410,66 @@ fun TransactionList(
                             }
                         }
                     }
-                    val isLast = index == lazyPagingItems.itemCount - 1
                     val futureCriterionDate = when (futureCriterion) {
                         FutureCriterion.Current -> ZonedDateTime.now(ZoneId.systemDefault())
                         FutureCriterion.EndOfDay -> LocalDate.now().plusDays(1).atStartOfDay()
                             .atZone(ZoneId.systemDefault())
                     }
-                    if (!isGroupHidden || isLast) {
-                        item(key = item?.id) {
-                            lazyPagingItems[index]?.let {
-                                if (!isGroupHidden) {
-                                    val resolvedSplitInfo = remember {
-                                        mutableStateOf(splitInfoCache[it.id])
-                                    }
+                    if (!isGroupHidden) {
+                        item(key = "trans_${item.id}") {
+                            lazyPagingItems[index]?.let { transaction ->
+                                val resolvedSplitInfo = remember {
+                                    mutableStateOf(splitInfoCache[transaction.id])
+                                }
 
-                                    if (it.isSplit && !splitInfoCache.contains(it.id)) {
-                                        scope.launch {
-                                            resolvedSplitInfo.value =
-                                                splitInfoResolver(it.id).also { info ->
-                                                    splitInfoCache[it.id] = info
-                                                }
-                                        }
-                                    }
-                                    renderer.Render(
-                                        transaction = it,
-                                        modifier = Modifier
-                                            .conditional(it.date >= futureCriterionDate) {
-                                                background(futureBackgroundColor)
+                                if (transaction.isSplit && !splitInfoCache.contains(transaction.id)) {
+                                    scope.launch {
+                                        resolvedSplitInfo.value =
+                                            splitInfoResolver(transaction.id).also { info ->
+                                                splitInfoCache[transaction.id] = info
                                             }
-                                            .semantics {
-                                                collectionItemInfo = CollectionItemInfo(
-                                                    rowIndex = index,
-                                                    columnIndex = 1,
-                                                    rowSpan = 1,
-                                                    columnSpan = 1
-                                                )
-                                            },
-                                        selectionHandler = selectionHandler,
-                                        menuGenerator = {
-                                            transactionMenu(
-                                                modificationsAllowed,
-                                                accountCount,
-                                                context,
-                                                amountFormatter,
-                                                it,
-                                                onEvent
+                                    }
+                                }
+                                renderer.Render(
+                                    transaction = transaction,
+                                    modifier = Modifier
+                                        .conditional(transaction.date >= futureCriterionDate) {
+                                            background(futureBackgroundColor)
+                                        }
+                                        .semantics {
+                                            collectionItemInfo = CollectionItemInfo(
+                                                rowIndex = index,
+                                                columnIndex = 1,
+                                                rowSpan = 1,
+                                                columnSpan = 1
                                             )
                                         },
-                                        resolvedSplitInfo = resolvedSplitInfo.value
+                                    selectionHandler = selectionHandler,
+                                    menuGenerator = {
+                                        transactionMenu(
+                                            modificationsAllowed,
+                                            accountCount,
+                                            context,
+                                            amountFormatter,
+                                            it,
+                                            onEvent
+                                        )
+                                    },
+                                    resolvedSplitInfo = resolvedSplitInfo.value
+                                )
+                                val nextItem = if (index + 1 < lazyPagingItems.itemCount)
+                                    lazyPagingItems.peek(index + 1) else null
+                                val isLastInGroup = nextItem == null || nextItem.headerId != headerId
+
+                                if (isLastInGroup) {
+                                    HorizontalDivider(
+                                        thickness = 2.dp,
+                                        color = MaterialTheme.colorScheme.primary
                                     )
+                                } else {
+                                    HorizontalDivider()
                                 }
                             }
-                            HorizontalDivider()
                         }
                     }
 
@@ -562,57 +583,67 @@ fun HeaderRenderer(
                     onHeaderSize(layoutCoordinates.size.height)
                 }
             },
-        color = MaterialTheme.colorScheme.surfaceContainer
+        color = MaterialTheme.colorScheme.surfaceContainer,
+        tonalElevation = 2.dp, // Adds a subtle primary-themed tint
+        shadowElevation = if (isExpanded) 0.dp else 1.dp
     ) {
-        Box {
-            val context = LocalContext.current
-            val displayTitle = account.grouping.getDisplayTitle(
-                context,
-                headerRow.year,
-                headerRow.second,
-                dateInfo,
-                headerRow.weekStart
-            )
-            toggle?.let {
-                ExpansionHandle(
-                    modifier = Modifier.align(Alignment.TopEnd),
-                    contentDescription = displayTitle,
-                    isExpanded = isExpanded,
-                    toggle = toggle
+        Column {
+            Box {
+                val context = LocalContext.current
+                val displayTitle = account.grouping.getDisplayTitle(
+                    context,
+                    headerRow.year,
+                    headerRow.second,
+                    dateInfo,
+                    headerRow.weekStart
                 )
-            }
-            if (budget?.second != null && budget.second != 0L) {
-                val progress = (-headerRow.expenseSum.amountMinor * 100F / budget.second)
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    DonutInABox(
-                        modifier = Modifier
-                            .padding(horizontal = mainScreenPadding)
-                            .clickable { onBudgetClick(budget.first, headerId) }
-                            .size(42.dp),
-                        progress = progress,
-                        fontSize = 12.sp,
-                        color = Color(account.color),
-                        excessColor = LocalColors.current.expense
+                toggle?.let {
+                    ExpansionHandle(
+                        modifier = Modifier.align(Alignment.TopEnd),
+                        contentDescription = displayTitle,
+                        isExpanded = isExpanded,
+                        toggle = toggle
                     )
+                }
+                if (budget?.second != null && budget.second != 0L) {
+                    val progress = (-headerRow.expenseSum.amountMinor * 100F / budget.second)
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        DonutInABox(
+                            modifier = Modifier
+                                .padding(horizontal = mainScreenPadding)
+                                .clickable { onBudgetClick(budget.first, headerId) }
+                                .size(42.dp),
+                            progress = progress,
+                            fontSize = 12.sp,
+                            color = Color(account.color),
+                            excessColor = LocalColors.current.expense
+                        )
 
+                        HeaderData(
+                            displayTitle,
+                            headerRow,
+                            showSumDetails,
+                            showOnlyDelta,
+                            updateShowSumDetails,
+                            alignStart = true
+                        )
+                    }
+                } else {
                     HeaderData(
                         displayTitle,
                         headerRow,
                         showSumDetails,
                         showOnlyDelta,
-                        updateShowSumDetails,
-                        alignStart = true
+                        updateShowSumDetails
                     )
                 }
-            } else {
-                HeaderData(
-                    displayTitle,
-                    headerRow,
-                    showSumDetails,
-                    showOnlyDelta,
-                    updateShowSumDetails
-                )
             }
+            HorizontalDivider(
+                thickness = if (isExpanded) 1.dp else 2.dp,
+                color = if (isExpanded)
+                    MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
+                else MaterialTheme.colorScheme.primary
+            )
         }
     }
 }

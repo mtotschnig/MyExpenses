@@ -338,7 +338,8 @@ object PdfPrinter {
                 currencyContext,
                 it,
                 tagMap,
-                accountCurrency = account.currencyUnit
+                accountCurrency = account.currencyUnit,
+                account.grouping
             )
         }.asIterable().let {
             if (account.isAggregate) it.mergeTransfers(
@@ -726,7 +727,8 @@ object PdfPrinter {
                             currencyContext,
                             it,
                             tagMap,
-                            accountCurrency = account.currencyUnit
+                            accountCurrency = account.currencyUnit,
+                            account.grouping
                         )
                     }.toList()
                     list.forEachIndexed { index, split ->

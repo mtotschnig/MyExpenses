@@ -473,7 +473,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(PARTY_HIERARCHY_TRIGGER);
 
     createOrRefreshViews(db);
-    //insertTestData(db, 50, 50);
+    //insertTestData(db, accountTypes,1, 500);
 
     insertNullRows(db);
 
@@ -489,14 +489,14 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(DELETE_TRANSFER_TAGS_TRIGGER);
   }
 
-/*  private void insertTestData(SupportSQLiteDatabase db, int countGroup, int countChild) {
+/*  private void insertTestData(SupportSQLiteDatabase db, Map<String, Long> accountTypes, int countGroup, int countChild) {
     int categories = MoreDbUtilsKt.setupDefaultCategories(db, MyApplication.Companion.getInstance().getResources()).getFirst();
     for (int i = 1; i <= countGroup; i++) {
       LocalDateTime date = LocalDateTime.now().plusDays(25);
       AccountInfo testAccount = new AccountInfo("Test account " + i, accountTypes.get(AccountType.Companion.getBANK().getName()), 0);
       long testAccountId = db.insert(TABLE_ACCOUNTS, CONFLICT_NONE, testAccount.getContentValues());
       for (int j = 1; j <= countChild; j++) {
-        long catId = j % categories;
+        long catId = j % (categories -1) + 1 ; //prevent assignment of split cat_id
         long payeeId = db.insert(TABLE_PAYEES, CONFLICT_NONE, new PayeeInfo("Payee " + i + "_" + j).getContentValues());
         date = date.minusDays(1);
         TransactionInfo transactionInfo = new TransactionInfo(testAccountId, 0, date, "Transaction " + j, payeeId, null, catId, null, null, CrStatus.UNRECONCILED);

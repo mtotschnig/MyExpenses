@@ -43,7 +43,7 @@ class TransactionListViewModel(
         val currency: CurrencyUnit,
         val label: String,
         val catId: Long = 0,
-        val grouping: Grouping? = null,
+        val grouping: Grouping = Grouping.NONE,
         val groupingClause: String? = null,
         val groupingArgs: Array<String> = emptyArray(),
         val type: Boolean? = null,
@@ -103,7 +103,8 @@ class TransactionListViewModel(
                                         currencyContext,
                                         cursor,
                                         tags,
-                                        currency
+                                        currency,
+                                        grouping
                                     )
                                 )
                             }

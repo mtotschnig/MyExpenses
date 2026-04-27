@@ -40,6 +40,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -159,7 +160,6 @@ import org.totschnig.myexpenses.viewmodel.data.FullAccount.Companion.fromCursor
 import org.totschnig.myexpenses.viewmodel.data.HeaderData
 import org.totschnig.myexpenses.viewmodel.data.HeaderDataEmpty
 import org.totschnig.myexpenses.viewmodel.data.HeaderDataError
-import org.totschnig.myexpenses.viewmodel.data.HeaderDataResult
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
@@ -171,6 +171,8 @@ enum class ScrollToCurrentDate { Never, AppLaunch, AccountOpen }
 
 private const val BALANCE_DATE_KEY = "balanceDate"
 private const val SELECTED_ACCOUNT_KEY = "selectedAccountId"
+
+const val pageSize = 150
 
 open class MyExpensesViewModel(
     application: Application,
@@ -187,32 +189,46 @@ open class MyExpensesViewModel(
         }
 
     val showStatusHandle by lazy {
-        PreferenceAccessor(dataStore, booleanPreferencesKey("showStatusHandle"), defaultValue = true)
+        PreferenceAccessor(
+            dataStore,
+            booleanPreferencesKey("showStatusHandle"),
+            defaultValue = true
+        )
     }
 
     val showEquivalentWorth by lazy {
-        PreferenceAccessor(dataStore,
-            booleanPreferencesKey("showEquivalentWorth"), defaultValue = false)
+        PreferenceAccessor(
+            dataStore,
+            booleanPreferencesKey("showEquivalentWorth"), defaultValue = false
+        )
     }
 
     val preferredSearchType by lazy {
-        PreferenceAccessor(dataStore,
-            intPreferencesKey("preferredSearchType"), defaultValue = TYPE_COMPLEX)
+        PreferenceAccessor(
+            dataStore,
+            intPreferencesKey("preferredSearchType"), defaultValue = TYPE_COMPLEX
+        )
     }
 
     val balanceSheetShowChart by lazy {
-        PreferenceAccessor(dataStore,
-            booleanPreferencesKey("balanceSheetShowChart"), defaultValue = false)
+        PreferenceAccessor(
+            dataStore,
+            booleanPreferencesKey("balanceSheetShowChart"), defaultValue = false
+        )
     }
 
     val balanceSheetShowHidden by lazy {
-        PreferenceAccessor(dataStore,
-            booleanPreferencesKey("balanceSheetShowHidden"), defaultValue = true)
+        PreferenceAccessor(
+            dataStore,
+            booleanPreferencesKey("balanceSheetShowHidden"), defaultValue = true
+        )
     }
 
     val balanceSheetShowZero by lazy {
-        PreferenceAccessor(dataStore,
-            booleanPreferencesKey("balanceSheetShowZero"), defaultValue = true)
+        PreferenceAccessor(
+            dataStore,
+            booleanPreferencesKey("balanceSheetShowZero"), defaultValue = true
+        )
     }
 
     val listState = LazyListState(0, 0)
@@ -237,7 +253,11 @@ open class MyExpensesViewModel(
     val selectedTransactionSum: Long
         get() = selectionState.value.sumOf { it.amount.amountMinor }
 
-    fun actionModeTitle(currencyFormatter: ICurrencyFormatter, currencyUnit: CurrencyUnit, resources: Resources): CharSequence =
+    fun actionModeTitle(
+        currencyFormatter: ICurrencyFormatter,
+        currencyUnit: CurrencyUnit,
+        resources: Resources,
+    ): CharSequence =
         concat(
             selectionState.value.size.toString(),
             " (Σ: ",
@@ -348,19 +368,40 @@ open class MyExpensesViewModel(
         )
     }
 
-    private val pageSize = 150
+    private val pagerCache = mutableMapOf<Any, PagerInfo>()
+    private val currentQueryKeys = mutableMapOf<Any, Any>()
 
-    val items: Map<PageAccount, Flow<PagingData<Transaction2>>> = lazyMap {
-        Pager(
-            PagingConfig(
-                initialLoadSize = pageSize,
-                pageSize = pageSize,
-                prefetchDistance = 40,
-                enablePlaceholders = true
-            ),
-            pagingSourceFactory = pagingSourceFactories.getValue(it)
-        )
-            .flow.cachedIn(viewModelScope)
+    private data class PagerInfo(
+        val factory: ClearingLastPagingSourceFactory<Int, Transaction2, *>,
+        val flow: Flow<PagingData<Transaction2>>,
+    )
+
+
+    fun getTransactions(account: PageAccount): Flow<PagingData<Transaction2>> {
+        val stableId = account.stableId
+        val queryKey = account.queryKey
+
+        val existingQueryKey = currentQueryKeys[stableId]
+        if (existingQueryKey != queryKey) {
+            // Sort order or grouping changed: Recreate Pager and clear old factory
+            pagerCache[stableId]?.factory?.clear()
+
+            val factory = ClearingLastPagingSourceFactory {
+                buildTransactionPagingSource(account)
+            }
+            val flow = Pager(
+                config = PagingConfig(
+                    pageSize = pageSize,
+                    prefetchDistance = 40
+                ),
+                pagingSourceFactory = factory
+            ).flow.cachedIn(viewModelScope)
+
+            pagerCache[stableId] = PagerInfo(factory, flow)
+            currentQueryKeys[stableId] = queryKey
+        }
+
+        return pagerCache.getValue(stableId).flow
     }
 
     private val sums: Map<PageAccount, Flow<SumInfo>> = lazyMap { account ->
@@ -373,49 +414,36 @@ open class MyExpensesViewModel(
         }.stateIn(viewModelScope, SharingStarted.Lazily, SumInfo.EMPTY)
     }
 
-    private val headerDataV2: Map<PageAccount, StateFlow<HeaderDataResult>> = lazyMap { account ->
-        buildHeaderData(account, true)
-    }
-    @OptIn(ExperimentalCoroutinesApi::class)
-    private val headerData: Map<PageAccount, StateFlow<HeaderDataResult>> = lazyMap { account ->
-        buildHeaderData(account)
-    }
     @OptIn(ExperimentalCoroutinesApi::class)
     private fun buildHeaderData(account: PageAccount, v2: Boolean = false) =
         filterPersistence.getValue(account.id).whereFilter.flatMapLatest { filter ->
-            val groupingQuery = if (v2) account.groupingQueryV2(filter) else account.groupingQuery(filter)
+            val groupingQuery =
+                if (v2) account.groupingQueryV2(filter) else account.groupingQuery(filter)
             contentResolver.observeQuery(
                 uri = groupingQuery.first.build(),
                 selection = groupingQuery.second,
                 selectionArgs = groupingQuery.third
             ).map { query ->
-                withContext(Dispatchers.IO) {
-                    try {
-                        query.run()
-                    } catch (e: SQLiteException) {
-                        CrashHandler.report(e)
-                        null
-                    }?.use { cursor ->
-                        HeaderData.fromSequence(
-                            account.openingBalance,
-                            account.grouping,
-                            account.currencyUnit,
-                            cursor.asSequence
-                        )
-                    }
+                try {
+                    query.run()
+                } catch (e: SQLiteException) {
+                    CrashHandler.report(e)
+                    null
+                }?.use { cursor ->
+                    HeaderData.fromSequence(
+                        account.openingBalance,
+                        account.grouping,
+                        account.currencyUnit,
+                        cursor.asSequence
+                    )
                 }
-            }.combine(dateInfo) { headerData, dateInfo ->
-                headerData?.let { HeaderData(account, it, dateInfo, filter != null) }
-                    ?: HeaderDataError(account)
             }
-        }.stateIn(viewModelScope, SharingStarted.Lazily, HeaderDataEmpty(account))
-
-    private val pagingSourceFactories: Map<PageAccount, ClearingLastPagingSourceFactory<Int, Transaction2, *>> =
-        lazyMap {
-            ClearingLastPagingSourceFactory {
-                buildTransactionPagingSource(it)
-            }
-        }
+                .flowOn(Dispatchers.IO)
+                .combine(dateInfo) { headerData, dateInfo ->
+                    headerData?.let { HeaderData(account, it, dateInfo, filter != null) }
+                        ?: HeaderDataError(account)
+                }
+        }.stateIn(viewModelScope, SharingStarted.Eagerly, HeaderDataEmpty(account))
 
     protected val tags: StateFlow<Map<String, Pair<String, Int?>>> by lazy {
         contentResolver.tagMapFlow
@@ -504,10 +532,7 @@ open class MyExpensesViewModel(
             .stateIn(viewModelScope, SharingStarted.Lazily, null)
     }
 
-    fun headerData(account: PageAccount, v2: Boolean) = if (v2)
-        headerDataV2.getValue(account)
-    else
-        headerData.getValue(account)
+    fun headerData(account: PageAccount, v2: Boolean) = buildHeaderData(account, v2)
 
     fun budgetData(account: PageAccount): Flow<BudgetData?> =
         if (licenceHandler.hasTrialAccessTo(ContribFeature.BUDGET)) {
@@ -519,7 +544,10 @@ open class MyExpensesViewModel(
             ).map { it }
                 .mapToListWithExtra {
                     BudgetRow(
-                        headerId = Grouping.groupId(it.getInt(KEY_YEAR), it.getInt(KEY_SECOND_GROUP)),
+                        headerId = Grouping.groupId(
+                            it.getInt(KEY_YEAR),
+                            it.getInt(KEY_SECOND_GROUP)
+                        ),
                         amount = it.getLongOrNull(KEY_BUDGET),
                         rollOverPrevious = it.getLongOrNull(KEY_BUDGET_ROLLOVER_PREVIOUS),
                         oneTime = it.getInt(KEY_ONE_TIME) == 1
@@ -689,7 +717,9 @@ open class MyExpensesViewModel(
         get() = cloneAndRemapProgressInternal
 
     private fun RepositoryTransaction.clone(): RepositoryTransaction {
-        fun Transaction.clone(uuid: String) = copy(id = 0, uuid = uuid, crStatus = CrStatus.UNRECONCILED)
+        fun Transaction.clone(uuid: String) =
+            copy(id = 0, uuid = uuid, crStatus = CrStatus.UNRECONCILED)
+
         val uuid = generateUuid()
         return copy(
             data = data.clone(uuid),
@@ -808,9 +838,7 @@ open class MyExpensesViewModel(
 
     override fun onCleared() {
         super.onCleared()
-        pagingSourceFactories.forEach {
-            it.value.clear()
-        }
+        pagerCache.values.forEach { it.factory.clear() }
     }
 
     fun unarchive(id: Long) {
