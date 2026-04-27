@@ -1052,4 +1052,7 @@
     <string name="number_too_large">Твърде голямо число</string>
     <string name="pref_fab_style_standard_description">Стандартно (Докоснете стрелката за меню)</string>
     <string name="pref_fab_style_compact_description">Компактно (Докоснете и задръжте за меню)</string>
+    <string name="prioritize_flag_order">Приоритет според флаговете</string>
+    <string name="pref_content_based_colors_title">Динамичен цвят на сметки</string>
+    <string name="pref_content_based_colors_summary">Цветове на темата според цвета на текущата сметка. Изключете, ако текстовете се четат трудно.</string>
 </resources>
