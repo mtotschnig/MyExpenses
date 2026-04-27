@@ -424,11 +424,13 @@ fun TransactionList(
                                 }
 
                                 if (transaction.isSplit && !splitInfoCache.contains(transaction.id)) {
-                                    scope.launch {
-                                        resolvedSplitInfo.value =
-                                            splitInfoResolver(transaction.id).also { info ->
-                                                splitInfoCache[transaction.id] = info
-                                            }
+                                    LaunchedEffect(Unit) {
+                                        scope.launch {
+                                            resolvedSplitInfo.value =
+                                                splitInfoResolver(transaction.id).also { info ->
+                                                    splitInfoCache[transaction.id] = info
+                                                }
+                                        }
                                     }
                                 }
                                 renderer.Render(
