@@ -1447,7 +1447,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
             }
         }
 
-        val headerData = remember(account.grouping, account.sortDirection) { viewModel.headerData(account, v2) }
+        val headerData = remember(account.queryKey) { viewModel.headerData(account, v2) }
 
         val isProcessingFilter = remember { mutableStateOf(false) }
 

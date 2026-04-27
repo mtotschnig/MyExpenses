@@ -415,8 +415,9 @@ fun TransactionList(
                         FutureCriterion.EndOfDay -> LocalDate.now().plusDays(1).atStartOfDay()
                             .atZone(ZoneId.systemDefault())
                     }
-                    if (!isGroupHidden) {
-                        item(key = "trans_${item.id}") {
+
+                    item(key = "trans_${item.id}") {
+                        if (!isGroupHidden) {
                             lazyPagingItems[index]?.let { transaction ->
                                 val resolvedSplitInfo = remember {
                                     mutableStateOf(splitInfoCache[transaction.id])
@@ -459,7 +460,8 @@ fun TransactionList(
                                 )
                                 val nextItem = if (index + 1 < lazyPagingItems.itemCount)
                                     lazyPagingItems.peek(index + 1) else null
-                                val isLastInGroup = nextItem == null || nextItem.headerId != headerId
+                                val isLastInGroup =
+                                    nextItem == null || nextItem.headerId != headerId
 
                                 if (isLastInGroup) {
                                     HorizontalDivider(

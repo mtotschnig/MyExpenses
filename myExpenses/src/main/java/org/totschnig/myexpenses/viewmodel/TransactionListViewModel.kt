@@ -86,7 +86,7 @@ class TransactionListViewModel(
                     transactionUri,
                     Transaction2.projection(
                         DataBaseAccount.isAggregate(accountId),
-                        Grouping.NONE,
+                        grouping,
                         prefHandler,
                         extended = false
                     ),

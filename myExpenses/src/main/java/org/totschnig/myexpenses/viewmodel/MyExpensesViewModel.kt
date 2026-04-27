@@ -36,6 +36,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
@@ -443,7 +444,7 @@ open class MyExpensesViewModel(
                     headerData?.let { HeaderData(account, it, dateInfo, filter != null) }
                         ?: HeaderDataError(account)
                 }
-        }.stateIn(viewModelScope, SharingStarted.Eagerly, HeaderDataEmpty(account))
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), HeaderDataEmpty(account))
 
     protected val tags: StateFlow<Map<String, Pair<String, Int?>>> by lazy {
         contentResolver.tagMapFlow
