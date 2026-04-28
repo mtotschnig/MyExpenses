@@ -48,3 +48,5 @@
 -dontwarn jdk.jfr.Label
 -dontwarn jdk.jfr.MemoryAddress
 -dontwarn jdk.jfr.Name
+-dontwarn javax.naming.ldap.LdapName
+-dontwarn javax.naming.ldap.Rdn
