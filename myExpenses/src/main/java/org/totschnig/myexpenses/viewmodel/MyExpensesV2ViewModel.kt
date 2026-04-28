@@ -208,24 +208,24 @@ class MyExpensesV2ViewModel(
             aggregateAccountBalanceType.flow.filterNotNull()
         ) { accounts, activeFilter, accountGrouping, aggregateAccountBalanceType ->
             Tuple4(accounts, activeFilter, accountGrouping, aggregateAccountBalanceType)
-        }.flatMapLatest { (accounts, activeFilter, accountGrouping, aggregateAccountBalanceType) ->
+        }.flatMapLatest { (accounts, activeFilter, grouping, aggregateAccountBalanceType) ->
 
             combine(
-                groupingMap.getValue(groupingAggregateKey(accountGrouping, activeFilter)).flow,
-                sortMap.getValue(sortAggregateKey(accountGrouping, activeFilter)).flow
+                groupingMap.getValue(groupingAggregateKey(grouping, activeFilter)).flow,
+                sortMap.getValue(sortAggregateKey(grouping, activeFilter)).flow
             ) { aggregateGrouping, aggregateSort ->
 
                 val filteredByGroupFilter =
-                    if (activeFilter == null || accountGrouping == AccountGrouping.NONE)
+                    if (activeFilter == null || grouping == AccountGrouping.NONE)
                         accounts
                     else
-                        accounts.filter { account -> accountGrouping.getGroupKey(account) == activeFilter }
+                        accounts.filter { account -> grouping.getGroupKey(account) == activeFilter }
 
                 val aggregateAccountGrouping =
-                    if (activeFilter != null) accountGrouping else AccountGrouping.NONE
+                    if (activeFilter != null) grouping else AccountGrouping.NONE
 
                 val filteredByVisibility =
-                    if (accountGrouping == AccountGrouping.FLAG && activeFilter != null)
+                    if (grouping == AccountGrouping.FLAG && activeFilter != null)
                         filteredByGroupFilter
                     else
                         filteredByGroupFilter.filter { it.visible }
@@ -267,27 +267,22 @@ class MyExpensesV2ViewModel(
         }.stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
     }
 
-    // Derived state: What are the available filter options for the current grouping?
     @OptIn(ExperimentalCoroutinesApi::class)
     val availableGroupFilters: StateFlow<List<AccountGroupingKey>?> by lazy {
         accountGrouping.statefulFlow.flatMapLatest { preferenceState ->
-            if (preferenceState is PreferenceState.Loading) {
-                emptyFlow()
-            } else {
-                accountDataV2.map { result ->
-                    result
-                        ?.getOrNull()
-                        ?.let { accounts ->
-                            (preferenceState as PreferenceState.Loaded).value.sortedGroupKeys(
-                                accounts
-                            )
+            when (preferenceState) {
+                is PreferenceState.Loading -> emptyFlow()
+                is PreferenceState.Loaded -> {
+                    accountDataV2.map { result ->
+                        result?.getOrNull()?.let { accounts ->
+                            // Defensive safe call in case value is null at runtime
+                            preferenceState.value.sortedGroupKeys(accounts)
                         }
+                    }
                 }
             }
-
         }.stateIn(viewModelScope, SharingStarted.Lazily, null)
     }
-
 
     val groupingMap: Map<String, PreferenceAccessor<Grouping, String>> = lazyMap {
         EnumPreferenceAccessor(
@@ -321,7 +316,7 @@ class MyExpensesV2ViewModel(
         if (grouping == AccountGrouping.NONE || filter == null) {
             homeKey
         } else {
-            "$prefix{grouping.name}_${filter.id}"
+            "$prefix${grouping.name}_${filter.id}"
         }
 
     fun persistGroupingV2(grouping: Grouping) {
