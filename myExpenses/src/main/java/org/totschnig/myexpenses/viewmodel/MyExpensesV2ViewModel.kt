@@ -275,7 +275,6 @@ class MyExpensesV2ViewModel(
                 is PreferenceState.Loaded -> {
                     accountDataV2.map { result ->
                         result?.getOrNull()?.let { accounts ->
-                            // Defensive safe call in case value is null at runtime
                             preferenceState.value.sortedGroupKeys(accounts)
                         }
                     }
