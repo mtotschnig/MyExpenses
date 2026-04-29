@@ -45,7 +45,7 @@ class WebUiViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun bind(context: Context) = serviceIntent.mapCatching {
+    fun bind(context: Context) = getServiceIntent().mapCatching {
         if (!context.bindService(it, serviceConnection, Context.BIND_AUTO_CREATE)) {
             throw Exception("Unable to bind to service $it")
         }
@@ -61,13 +61,17 @@ class WebUiViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     companion object {
-        val serviceIntent: Result<Intent>
-            get() = runCatching {
-                Intent().apply {
-                    setClassName(BuildConfig.APPLICATION_ID, Class.forName("org.totschnig.webui.WebInputService").name)
-                }
-            }.onFailure {
+        fun getServiceIntent(require: Boolean = true): Result<Intent> = runCatching {
+            Intent().apply {
+                setClassName(
+                    BuildConfig.APPLICATION_ID,
+                    Class.forName("org.totschnig.webui.WebInputService").name
+                )
+            }
+        }.onFailure {
+            if(require) {
                 CrashHandler.report(it)
             }
+        }
     }
 }

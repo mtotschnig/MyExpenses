@@ -71,7 +71,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.repor
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.log.TagFilterFileLoggingTree
 import org.totschnig.myexpenses.util.ui.setNightMode
-import org.totschnig.myexpenses.viewmodel.WebUiViewModel.Companion.serviceIntent
+import org.totschnig.myexpenses.viewmodel.WebUiViewModel.Companion.getServiceIntent
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET_DATA_ENTRY
 import org.totschnig.myexpenses.widget.WidgetObserver.Companion.register
 import org.totschnig.myexpenses.widget.onConfigurationChanged
@@ -340,7 +340,7 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
         get() = prefHandler.isProtected
 
     private fun controlWebUi(action: String) {
-        serviceIntent.onSuccess { intent ->
+        getServiceIntent(action != RESTART_ACTION).onSuccess { intent ->
             intent.setAction(action)
             val componentName =
                 if (action == START_ACTION) {
