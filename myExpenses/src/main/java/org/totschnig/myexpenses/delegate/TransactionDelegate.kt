@@ -863,6 +863,8 @@ abstract class TransactionDelegate(
                             viewBinding.Title.error = context.getString(R.string.required)
                             null
                         } else {
+                            val defaultAction =
+                                Template.Action.entries[viewBinding.DefaultAction.selectedItemPosition]
                             transaction.copy(
                                 initialPlan = if (recurrenceSpinner.selectedItemPosition > 0 && this@TransactionDelegate.planId == null) {
                                     InitialPlanData(
@@ -874,7 +876,7 @@ abstract class TransactionDelegate(
                                 } else null,
                                 templateEditData = TemplateEditData(
                                     title = title,
-                                    defaultAction = Template.Action.entries[viewBinding.DefaultAction.selectedItemPosition],
+                                    defaultAction = defaultAction,
                                     planEditData = if (recurrenceSpinner.selectedItemPosition > 0 || this@TransactionDelegate.planId != null) {
                                         PlanEditData(
                                             isPlanExecutionAutomatic = planExecutionButton.isChecked,
@@ -888,7 +890,7 @@ abstract class TransactionDelegate(
                                         ?: 0L) == 0L &&
                                     forSave
                                 ) {
-                                    if (it.templateEditData?.planEditData == null && it.templateEditData?.defaultAction == Template.Action.SAVE) {
+                                    if (it.templateEditData?.planEditData == null && defaultAction == Template.Action.SAVE) {
                                         host.showSnackBar(context.getString(R.string.template_default_action_without_amount_hint))
                                         null
                                     } else if (it.templateEditData?.planEditData != null && it.templateEditData.planEditData.isPlanExecutionAutomatic) {
@@ -896,9 +898,10 @@ abstract class TransactionDelegate(
                                         null
                                     } else it
                                 } else it
+                            }?.also {
+                                prefHandler.putString(PrefKey.TEMPLATE_CLICK_DEFAULT, defaultAction.name)
                             }
                         }
-                        /*  prefHandler.putString(PrefKey.TEMPLATE_CLICK_DEFAULT, defaultAction.name)*/
                     } else {
                         transaction.copy(
                             referenceNumber = methodRowBinding.Number.text.toString(),
