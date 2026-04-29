@@ -192,6 +192,9 @@ abstract class ImportDataViewModel(application: Application) :
         autofill: Boolean,
     ) {
         for (transaction in transactions) {
+            if (transaction.splits != null && transaction.splits.sumOf { it.amount }.compareTo(transaction.amount) != 0) {
+                throw InvalidDataException("Sum of splits must equal parent amount.")
+            }
             val t = repository.createTransaction(transaction.toTransaction(account, currencyUnit, autofill))
 
             transaction.tags?.let { list ->
@@ -223,3 +226,5 @@ abstract class ImportDataViewModel(application: Application) :
         repository.findPaymentMethod(it)
     }
 }
+
+class InvalidDataException(message: String): Exception(message)

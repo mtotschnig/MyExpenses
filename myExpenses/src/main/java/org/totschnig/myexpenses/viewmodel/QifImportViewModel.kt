@@ -54,14 +54,16 @@ class QifImportViewModel(application: Application) : ImportDataViewModel(applica
                     null,
                     null
                 )
-                doImport(parser, withParties, withCategories, withTransactions, accountId, currencyUnit, uri, autoFillCategories)
-                contentResolver.call(
-                    TransactionProvider.DUAL_URI,
-                    TransactionProvider.METHOD_BULK_END,
-                    null,
-                    null
-                )
-                Unit
+                try {
+                    doImport(parser, withParties, withCategories, withTransactions, accountId, currencyUnit, uri, autoFillCategories)
+                } finally {
+                    contentResolver.call(
+                        TransactionProvider.DUAL_URI,
+                        TransactionProvider.METHOD_BULK_END,
+                        null,
+                        null
+                    )
+                }
             }
         })
     }
