@@ -549,7 +549,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             }
 
             InstantiationTask.TRANSACTION_FROM_TEMPLATE -> {
-                val template = repository.loadTemplate(rowId, withTags = true)
+                val template = repository.loadTemplate(rowId, withTags = true, require = false)
                 template?.instantiate(currencyContext, exchangeRateHandler)?.let {
                     TransactionMapper.map(it, currencyContext).copy(
                         originTemplate = TransactionMapper.mapTemplateEditData(template)
