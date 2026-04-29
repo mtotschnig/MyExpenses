@@ -10,7 +10,6 @@ import com.itextpdf.text.Chunk
 import com.itextpdf.text.Document
 import com.itextpdf.text.DocumentException
 import com.itextpdf.text.Element
-import com.itextpdf.text.Font
 import com.itextpdf.text.PageSize
 import com.itextpdf.text.Paragraph
 import com.itextpdf.text.Phrase
@@ -526,8 +525,6 @@ object PdfPrinter {
 
                 table = helper.newTable(columns.size)
 
-                // Header row
-                val headerFont = Font(Font.FontFamily.HELVETICA, 10f, Font.BOLD)
 
                 columns.forEachIndexed { index, fields ->
                     val border =
@@ -539,8 +536,8 @@ object PdfPrinter {
                     if (fields.size == 1) {
                         table.addCell(
                             headerCell(
+                                helper,
                                 fields[0].toString(context, extra),
-                                headerFont,
                                 alignment,
                                 border
                             )
@@ -548,7 +545,7 @@ object PdfPrinter {
                     } else {
                         table.addCell(
                             complexHeaderCell(
-                                headerFont,
+                                helper,
                                 alignment,
                                 border,
                                 *fields.map { it.toString(context, extra) }.toTypedArray()
@@ -758,12 +755,12 @@ object PdfPrinter {
     }
 
     private fun headerCell(
+        helper: PdfHelper,
         text: String,
-        font: Font,
         alignment: Int = Element.ALIGN_LEFT,
         border: Int = Rectangle.RIGHT,
         withPadding: Boolean = true,
-    ) = PdfPCell(Phrase(text, font)).apply {
+    ) = PdfPCell(helper.print(text, FontType.BOLD)).apply {
         setPadding(if (withPadding) 5f else 0f)
         horizontalAlignment = alignment
         verticalAlignment = Element.ALIGN_MIDDLE
@@ -771,7 +768,7 @@ object PdfPrinter {
     }
 
     private fun complexHeaderCell(
-        font: Font,
+        helper: PdfHelper,
         alignment: Int = Element.ALIGN_LEFT,
         border: Int = Rectangle.RIGHT,
         vararg texts: String,
@@ -780,8 +777,8 @@ object PdfPrinter {
         texts.forEachIndexed { index, text ->
             addCell(
                 headerCell(
+                    helper,
                     text,
-                    font,
                     alignment,
                     NO_BORDER,
                     withPadding = false
