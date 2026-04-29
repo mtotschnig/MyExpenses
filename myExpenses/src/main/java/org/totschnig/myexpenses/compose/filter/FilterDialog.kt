@@ -288,7 +288,7 @@ fun FilterDialog(
                         if (sumInfo.mappedCategories) CategoryCriterion else null,
                         AmountCriterion,
                         CommentCriterion,
-                        if (account.isAggregate || account.type?.supportsReconciliation == true)
+                        if (account.isAggregate || account.type.supportsReconciliation)
                             CrStatusCriterion else null,
                         if (sumInfo.mappedPayees) PayeeCriterion else null,
                         if (sumInfo.mappedMethods) MethodCriterion else null,

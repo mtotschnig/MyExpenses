@@ -36,7 +36,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.WhileSubscribed
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.first
@@ -181,13 +180,15 @@ open class MyExpensesViewModel(
 ) : PrintViewModel(application) {
 
     var showBalanceSheet: Boolean
-        get() {
-            val get = savedStateHandle.get<Boolean>("showBalanceSheet")
-            return get == true
-        }
+        get() = savedStateHandle.get<Boolean>("showBalanceSheet") == true
         set(value) {
             savedStateHandle["showBalanceSheet"] = value
         }
+
+    @OptIn(SavedStateHandleSaveableApi::class)
+    var showFilterDialog: Boolean by savedStateHandle.saveable {
+        mutableStateOf(false)
+    }
 
     val showStatusHandle by lazy {
         PreferenceAccessor(
@@ -340,8 +341,6 @@ open class MyExpensesViewModel(
             it[prefHandler.getBooleanPreferencesKey(PrefKey.GROUP_HEADER)] != false
         }
     }
-
-    var showFilterDialog by mutableStateOf(false)
 
     val futureCriterion: Flow<FutureCriterion> by lazy {
         dataStore.data.map {

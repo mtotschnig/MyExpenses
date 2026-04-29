@@ -1459,14 +1459,13 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                 }
         ) {
 
-            val filter = viewModel.filterPersistence.getValue(account.id)
-                .whereFilter
-                .collectAsState(null)
+            val persistence = remember(account.id) { viewModel.filterPersistence.getValue(account.id) }
+            val filter = persistence.whereFilter.collectAsState(null)
             filter.value?.let { filter ->
                 FilterHandler(account, "confirmFilterDirect_${account.id}", { oldValue, newValue ->
                     if (newValue != null && oldValue != null) {
                         lifecycleScope.launch {
-                            currentFilter.replaceCriterion(oldValue, newValue)
+                            persistence.replaceCriterion(oldValue, newValue)
                         }
                     }
                 }) {
@@ -1481,7 +1480,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                                 isProcessingFilter.value = true
                                 lifecycleScope.launch {
                                     try {
-                                        currentFilter.removeCriterion(it)
+                                        persistence.removeCriterion(it)
                                         invalidateOptionsMenu()
                                     } finally {
                                         isProcessingFilter.value = false

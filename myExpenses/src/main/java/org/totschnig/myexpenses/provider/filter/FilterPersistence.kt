@@ -97,20 +97,27 @@ class FilterPersistence(
         update { oldValue ->
             when (oldValue) {
                 null -> {
-                    CrashHandler.report(IllegalStateException("Cannot remove $criterion from null"))
+                    CrashHandler.report(IllegalStateException("Criterion $criterion not found in null"))
                     null
                 }
                 is ComplexCriterion -> {
-                    oldValue.criteria.mapNotNull {
-                        if (it == criterion) null else it
-                    }.takeIf { it.isNotEmpty() }?.toSet()?.let {
-                        if (oldValue is AndCriterion) AndCriterion(it) else OrCriterion(it)
+                    val filtered = oldValue.criteria.filter { it != criterion }
+                    if (filtered.size == oldValue.criteria.size) {
+                        CrashHandler.report(IllegalStateException("Criterion $criterion not found in $oldValue"))
+                        oldValue
+                    } else {
+                        when (filtered.size) {
+                            0 -> null
+                            1 -> filtered.first() // Unwrap single criterion
+                            else -> if (oldValue is AndCriterion) AndCriterion(filtered.toSet()) else OrCriterion(filtered.toSet())
+                        }
                     }
                 }
-                else -> if (oldValue == criterion) null else oldValue
+                else -> if (oldValue == criterion) null else {
+                    CrashHandler.report(IllegalStateException("Criterion $criterion !=  $oldValue"))
+                    oldValue
+                }
             }
-        }.let {
-            mapper(it)
         }
     }
 }
