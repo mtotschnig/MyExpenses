@@ -37,5 +37,5 @@ class TemplateShortcutSelectViewModel(application: Application) :
                     it.getEnum(2, Template.Action.SAVE)
                 )
             }
-            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, null)
 }

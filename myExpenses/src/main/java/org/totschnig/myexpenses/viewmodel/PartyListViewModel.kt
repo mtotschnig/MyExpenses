@@ -102,7 +102,7 @@ class PartyListViewModel(
             notifyForDescendants = true
         ).mapToOne {
             it.getInt(0)
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, 0)
     }
 
 

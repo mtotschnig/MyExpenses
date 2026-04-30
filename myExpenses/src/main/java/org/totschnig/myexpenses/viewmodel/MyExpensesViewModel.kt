@@ -409,7 +409,7 @@ open class MyExpensesViewModel(
                 .build()
         ).mapToOne {
             SumInfo.fromCursor(it)
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SumInfo.EMPTY)
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, SumInfo.EMPTY)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -441,11 +441,11 @@ open class MyExpensesViewModel(
                     headerData?.let { HeaderData(account, it, dateInfo, filter != null) }
                         ?: HeaderDataError
                 }
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), HeaderDataEmpty)
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, HeaderDataEmpty)
 
     protected val tags: StateFlow<Map<String, Pair<String, Int?>>> by lazy {
         contentResolver.tagMapFlow
-            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyMap())
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, emptyMap())
     }
 
     open fun buildTransactionPagingSource(account: PageAccount) =
@@ -497,7 +497,7 @@ open class MyExpensesViewModel(
                 .map {
                     date to it
                 }
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), LocalDate.now() to emptyList())
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, LocalDate.now() to emptyList())
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val debtSum: StateFlow<Long> = balanceDate.flatMapLatest { date ->
@@ -508,7 +508,7 @@ open class MyExpensesViewModel(
         ).map {
             it.fold(0L) { sum, debt -> sum + debt.currentEquivalentBalance }
         }
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0L)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, 0L)
 
     val sortOrderAccounts: Sort
         get() = prefHandler.enumValueOrDefault(
@@ -527,7 +527,7 @@ open class MyExpensesViewModel(
             .mapToListCatching {
                 it.fromCursor(currencyContext)
             }
-            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, null)
     }
 
     fun headerData(account: PageAccount, v2: Boolean) = buildHeaderData(account, v2)

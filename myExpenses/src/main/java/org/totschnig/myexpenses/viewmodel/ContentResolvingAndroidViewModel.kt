@@ -194,7 +194,7 @@ open class ContentResolvingAndroidViewModel(application: Application) :
     }
 
     val accountTypes by lazy {
-        accountTypesRaw.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+        accountTypesRaw.stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, emptyList())
     }
 
     val accountFlagsRaw by lazy {
@@ -202,7 +202,7 @@ open class ContentResolvingAndroidViewModel(application: Application) :
     }
 
     val accountFlags by lazy {
-        repository.getAccountFlags().stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+        repository.getAccountFlags().stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, emptyList())
     }
 
     sealed class DeleteState {

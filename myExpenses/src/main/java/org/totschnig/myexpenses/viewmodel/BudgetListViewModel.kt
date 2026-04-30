@@ -96,7 +96,7 @@ class BudgetListViewModel(application: Application) : BudgetViewModel(applicatio
                             localizedContext.getString(it.first().grouping.getLabelForBudgetType()) to it
                         }
             }
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Grouping.Account to emptyList())
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, Grouping.Account to emptyList())
     }
 
 

@@ -933,7 +933,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
     val banks: StateFlow<List<Bank>> by lazy {
         repository.loadBanks().stateIn(
             viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
+            SharingStarted.WhileSubscribedWithTimeout,
             emptyList()
         )
     }
@@ -944,7 +944,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
             withAggregates = false
         ).stateIn(
             viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
+            SharingStarted.WhileSubscribedWithTimeout,
             emptyList()
         )
     }
