@@ -126,11 +126,11 @@ data class ScrollCalculationResult(
 
 private fun LazyPagingItems<Transaction2>.getCurrentPosition(
     start: ScrollCalculationResult,
-    sortDirection: SortDirection,
-    headerData: HeaderDataResult,
+    headerData: HeaderData,
     collapsedIds: Set<String>,
 ): ScrollCalculationResult {
     var (index, visibleIndex, lastHeader) = start
+    val sortDirection = headerData.account.sortDirection
     val limit = when (sortDirection) {
         SortDirection.ASC -> LocalDateTime.now()
             .truncatedTo(ChronoUnit.DAYS)
@@ -268,12 +268,11 @@ fun TransactionList(
             mutableIntStateOf(0)
         }
 
-        if (collapsedIds != null) {
+        if (collapsedIds != null && headerData is HeaderData) {
             scrollToCurrentDateStartIndex.value?.let {
                 LaunchedEffect(lazyPagingItems.itemCount, lazyPagingItems.loadState) {
                     val scrollCalculationResult = lazyPagingItems.getCurrentPosition(
                         start = it,
-                        sortDirection = headerData.account.sortDirection,
                         headerData = headerData,
                         collapsedIds = collapsedIds
                     )

@@ -54,7 +54,7 @@ class AccountFlagsViewModel(application: Application) : ContentResolvingAndroidV
                 editingAccountFlag = edit,
                 selectingAccountsForFlag = selection
             )
-        }.stateIn(viewModelScope, SharingStarted.Lazily, AccountFlagsUiState(isLoading = true))
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, AccountFlagsUiState(isLoading = true))
     }
 
     private val aggregateInvisibleKey: Preferences.Key<Boolean>

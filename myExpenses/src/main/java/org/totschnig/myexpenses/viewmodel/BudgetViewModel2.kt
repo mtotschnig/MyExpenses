@@ -121,7 +121,7 @@ class BudgetViewModel2(application: Application, savedStateHandle: SavedStateHan
     lateinit var categoryTreeForBudget: Flow<Category>
 
     val sum: StateFlow<Long> by lazy {
-        sums.map { it.second }.stateIn(viewModelScope, SharingStarted.Lazily, 0)
+        sums.map { it.second }.stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, 0)
     }
 
     val sortOrder by lazy {

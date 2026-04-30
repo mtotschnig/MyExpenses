@@ -7,6 +7,7 @@ import androidx.annotation.StringRes
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.SharingStarted
 import org.totschnig.myexpenses.MyApplication
 import java.util.*
 import javax.inject.Inject
@@ -29,4 +30,6 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
         localizedContext.resources.getQuantityString(resId, quantity, *formatArgs)
 
     protected fun coroutineContext() = viewModelScope.coroutineContext + coroutineDispatcher
+
+    val SharingStarted.Companion.WhileSubscribedWithTimeout: SharingStarted get() = WhileSubscribed(stopTimeoutMillis = 5000)
 }

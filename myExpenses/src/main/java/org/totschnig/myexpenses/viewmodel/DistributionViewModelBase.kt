@@ -132,7 +132,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
                 Grouping.MONTH -> DateInfoExtra(11, null)
                 else -> DateInfoExtra(0, null)
             }
-        }.stateIn(viewModelScope, SharingStarted.Lazily, null)
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, null)
 
     val displaySubTitle: Flow<String> = combine(
         groupingInfoFlow.filterNotNull(),

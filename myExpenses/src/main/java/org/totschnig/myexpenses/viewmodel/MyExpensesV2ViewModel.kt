@@ -196,7 +196,7 @@ class MyExpensesV2ViewModel(
             .mapToListCatching {
                 it.fromCursor(currencyContext)
             }
-            .stateIn(viewModelScope, SharingStarted.Lazily, null)
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, null)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -264,7 +264,7 @@ class MyExpensesV2ViewModel(
                     }
                 }
             }
-        }.stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, emptyList())
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -280,7 +280,7 @@ class MyExpensesV2ViewModel(
                     }
                 }
             }
-        }.stateIn(viewModelScope, SharingStarted.Lazily, null)
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, null)
     }
 
     val groupingMap: Map<String, PreferenceAccessor<Grouping, String>> = lazyMap {
@@ -442,7 +442,7 @@ class MyExpensesV2ViewModel(
             .map { it ?: defaultConfiguration }
             .stateIn(
                 scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5000),
+                started = SharingStarted.WhileSubscribedWithTimeout,
                 initialValue = defaultConfiguration
             )
     }
@@ -451,7 +451,7 @@ class MyExpensesV2ViewModel(
         dataStore.isWebUiActive
             .stateIn(
                 scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5000),
+                started = SharingStarted.WhileSubscribedWithTimeout,
                 initialValue = false
             )
     }

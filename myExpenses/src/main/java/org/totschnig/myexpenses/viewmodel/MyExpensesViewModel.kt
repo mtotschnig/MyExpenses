@@ -11,9 +11,7 @@ import android.os.Parcelable
 import android.text.TextUtils.concat
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.lifecycle.LiveData
@@ -411,7 +409,7 @@ open class MyExpensesViewModel(
                 .build()
         ).mapToOne {
             SumInfo.fromCursor(it)
-        }.stateIn(viewModelScope, SharingStarted.Lazily, SumInfo.EMPTY)
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, SumInfo.EMPTY)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -441,13 +439,13 @@ open class MyExpensesViewModel(
                 .flowOn(Dispatchers.IO)
                 .combine(dateInfo) { headerData, dateInfo ->
                     headerData?.let { HeaderData(account, it, dateInfo, filter != null) }
-                        ?: HeaderDataError(account)
+                        ?: HeaderDataError
                 }
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), HeaderDataEmpty(account))
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, HeaderDataEmpty)
 
     protected val tags: StateFlow<Map<String, Pair<String, Int?>>> by lazy {
         contentResolver.tagMapFlow
-            .stateIn(viewModelScope, SharingStarted.Eagerly, emptyMap())
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, emptyMap())
     }
 
     open fun buildTransactionPagingSource(account: PageAccount) =
@@ -499,7 +497,7 @@ open class MyExpensesViewModel(
                 .map {
                     date to it
                 }
-        }.stateIn(viewModelScope, SharingStarted.Lazily, LocalDate.now() to emptyList())
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, LocalDate.now() to emptyList())
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val debtSum: StateFlow<Long> = balanceDate.flatMapLatest { date ->
@@ -510,7 +508,7 @@ open class MyExpensesViewModel(
         ).map {
             it.fold(0L) { sum, debt -> sum + debt.currentEquivalentBalance }
         }
-    }.stateIn(viewModelScope, SharingStarted.Lazily, 0L)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, 0L)
 
     val sortOrderAccounts: Sort
         get() = prefHandler.enumValueOrDefault(
@@ -529,7 +527,7 @@ open class MyExpensesViewModel(
             .mapToListCatching {
                 it.fromCursor(currencyContext)
             }
-            .stateIn(viewModelScope, SharingStarted.Lazily, null)
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, null)
     }
 
     fun headerData(account: PageAccount, v2: Boolean) = buildHeaderData(account, v2)
