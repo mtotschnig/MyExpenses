@@ -134,7 +134,7 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
                     )
                 )
             }
-            .stateIn(viewModelScope, SharingStarted.Lazily, emptyMap())
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyMap())
     }
 
 

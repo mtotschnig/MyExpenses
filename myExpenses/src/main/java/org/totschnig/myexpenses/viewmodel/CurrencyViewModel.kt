@@ -37,7 +37,7 @@ open class CurrencyViewModel(application: Application) :
         contentResolver.observeQuery(
             TransactionProvider.DYNAMIC_CURRENCIES_URI,
         ).mapToList(dispatcher = coroutineDispatcher) { currencyContext[it.getString(0)] }
-            .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
     }
 
     val currenciesFromEnum: List<Currency>

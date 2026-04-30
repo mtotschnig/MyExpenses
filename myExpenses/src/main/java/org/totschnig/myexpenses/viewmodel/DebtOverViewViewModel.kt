@@ -91,6 +91,6 @@ class DebtOverViewViewModel(application: Application) : DebtViewModel(applicatio
                     }
                 } else debts
             }
-        }.stateIn(viewModelScope, SharingStarted.Lazily, Sort.LABEL to emptyList())
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Sort.LABEL to emptyList())
     }
 }

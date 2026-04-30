@@ -138,6 +138,7 @@ import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel
 import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
+import org.totschnig.myexpenses.viewmodel.data.HeaderDataEmpty
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import org.totschnig.myexpenses.viewmodel.getNaturalComparator
@@ -1492,7 +1493,10 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                 }
             }
 
-            headerData.collectAsState().value.let { headerData ->
+            headerData.collectAsState()
+                .value
+                .takeIf { it !is HeaderDataEmpty }
+                ?.let { headerData ->
 
                 val lazyPagingItems = viewModel.getTransactions(account).collectAsLazyPagingItems()
 

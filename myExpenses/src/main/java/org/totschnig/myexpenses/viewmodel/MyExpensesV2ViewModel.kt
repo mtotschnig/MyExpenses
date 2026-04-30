@@ -196,7 +196,7 @@ class MyExpensesV2ViewModel(
             .mapToListCatching {
                 it.fromCursor(currencyContext)
             }
-            .stateIn(viewModelScope, SharingStarted.Lazily, null)
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -264,7 +264,7 @@ class MyExpensesV2ViewModel(
                     }
                 }
             }
-        }.stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -280,7 +280,7 @@ class MyExpensesV2ViewModel(
                     }
                 }
             }
-        }.stateIn(viewModelScope, SharingStarted.Lazily, null)
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
     }
 
     val groupingMap: Map<String, PreferenceAccessor<Grouping, String>> = lazyMap {

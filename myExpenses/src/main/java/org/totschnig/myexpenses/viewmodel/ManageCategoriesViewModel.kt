@@ -166,7 +166,7 @@ class ManageCategoriesViewModel(application: Application, savedStateHandle: Save
             withColors = false
         )
     }
-        .stateIn(viewModelScope, SharingStarted.Lazily, LoadingState.Loading)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), LoadingState.Loading)
 
     val categoryTreeForSelect: Flow<LoadingState> by lazy {
         categoryTree(sortOrder = sortOrder.value.toOrderByWithDefault(defaultSort, collate))
