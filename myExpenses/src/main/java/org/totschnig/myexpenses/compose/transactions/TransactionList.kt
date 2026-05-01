@@ -320,14 +320,21 @@ fun TransactionList(
                 itemsAvailable = lazyPagingItems.itemCount,
                 groupCount = (headerData as? HeaderData)?.groups?.size ?: 0
             ) {
+
+                val snapshot = lazyPagingItems.itemSnapshotList
+                val firstLoadedIndex = snapshot.indexOfFirst { it != null }.coerceAtLeast(0)
+                val lastLoadedIndex = snapshot.indexOfLast { it != null }
+
+                if (firstLoadedIndex > 0) {
+                    items(count = firstLoadedIndex, key = { "p_$it" }) {}
+                }
+
+
                 var lastHeader: Int? = null
 
-                for (index in 0 until lazyPagingItems.itemCount) {
+                for (index in firstLoadedIndex..lastLoadedIndex) {
 
-                    val item = lazyPagingItems.peek(index) ?: run {
-                        item(key = "placeholder_$index") {}
-                        continue
-                    }
+                    val item = snapshot[index] ?: continue
 
                     val headerId = item.headerId
                     //paging library requires a stable number of items in order to keep up with refreshes in the middle of the list
@@ -342,7 +349,8 @@ fun TransactionList(
                             }
                         }
                     }
-                    val isGroupHidden = collapsedIds?.contains(headerId.toString()) == true
+                    val isExpanded = collapsedIds?.contains(headerId.toString()) != true
+
                     if (headerId != lastHeader) {
                         stickyHeader(
                             key = "header_$headerId",
@@ -365,13 +373,14 @@ fun TransactionList(
                                                     ?: 0L
                                             data.budgetId to amount + rollOverPrevious
                                         }
+
                                         HeaderRenderer(
                                             account = headerData.account,
                                             headerId = headerId,
                                             headerRow = headerRow,
                                             dateInfo = headerData.dateInfo,
                                             budget = budget,
-                                            isExpanded = !isGroupHidden,
+                                            isExpanded = isExpanded,
                                             toggle = expansionHandler?.let {
                                                 { expansionHandler.toggle(headerId.toString()) }
                                             },
@@ -409,6 +418,7 @@ fun TransactionList(
                             }
                         }
                     }
+
                     val futureCriterionDate = when (futureCriterion) {
                         FutureCriterion.Current -> ZonedDateTime.now(ZoneId.systemDefault())
                         FutureCriterion.EndOfDay -> LocalDate.now().plusDays(1).atStartOfDay()
@@ -416,7 +426,11 @@ fun TransactionList(
                     }
 
                     item(key = "trans_${item.id}") {
-                        if (!isGroupHidden) {
+                        val nextItem = if (index + 1 < lazyPagingItems.itemCount)
+                            lazyPagingItems.peek(index + 1) else null
+                        val isLastInGroup =
+                            nextItem == null || nextItem.headerId != headerId
+                        if (isExpanded) {
                             lazyPagingItems[index]?.let { transaction ->
                                 val resolvedSplitInfo = remember {
                                     mutableStateOf(splitInfoCache[transaction.id])
@@ -459,10 +473,6 @@ fun TransactionList(
                                     },
                                     resolvedSplitInfo = resolvedSplitInfo.value
                                 )
-                                val nextItem = if (index + 1 < lazyPagingItems.itemCount)
-                                    lazyPagingItems.peek(index + 1) else null
-                                val isLastInGroup =
-                                    nextItem == null || nextItem.headerId != headerId
 
                                 if (isLastInGroup) {
                                     HorizontalDivider(
@@ -473,6 +483,10 @@ fun TransactionList(
                                     HorizontalDivider()
                                 }
                             }
+                        } else if (isLastInGroup) {
+                            //touch the last item in group to trigger next page load
+                            Timber.d("touching last in Group $index")
+                            lazyPagingItems[index]
                         }
                     }
 
