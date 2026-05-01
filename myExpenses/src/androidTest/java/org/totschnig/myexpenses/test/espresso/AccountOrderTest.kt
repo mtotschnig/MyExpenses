@@ -103,7 +103,7 @@ class AccountOrderTest : BaseMyExpensesTest() {
             onView(withText(account.label)).check(matches(isDisplayed()))
         }
         composeTestRule.onNodeWithTag(TEST_TAG_PAGER)
-            .performScrollToIndex(3)
+            .performScrollToIndex(accounts.size)
         onView(withText(homeCurrency.code)).check(matches(isDisplayed()))
     }
 }

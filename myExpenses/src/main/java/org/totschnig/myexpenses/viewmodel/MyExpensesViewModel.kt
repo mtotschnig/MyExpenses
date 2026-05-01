@@ -516,6 +516,12 @@ open class MyExpensesViewModel(
             Sort.USAGES
         )
 
+    val List<FullAccount>.withNaturalSort: List<FullAccount>
+        get() = if (sortOrderAccounts == Sort.LABEL) {
+            val (aggregates, nonAggregates) = partition { it.isAggregate }
+            nonAggregates.sortedWith(compareBy(getNaturalComparator()) { it.label }) + aggregates
+        } else this
+
     val accountData: StateFlow<Result<List<FullAccount>>?> by lazy {
         contentResolver.observeQuery(
             uri = ACCOUNTS_URI.buildUpon()
@@ -526,6 +532,11 @@ open class MyExpensesViewModel(
         )
             .mapToListCatching {
                 it.fromCursor(currencyContext)
+            }
+            .map {
+                it.map {
+                    it.withNaturalSort
+                }
             }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, null)
     }

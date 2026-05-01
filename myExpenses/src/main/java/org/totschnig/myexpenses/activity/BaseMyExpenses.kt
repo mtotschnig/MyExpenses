@@ -1757,9 +1757,4 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                 else -> false
             }
         } else false
-
-    val List<FullAccount>.withNaturalSort: List<FullAccount>
-        get() = if (viewModel.sortOrderAccounts == Sort.LABEL)
-            sortedWith(compareBy(getNaturalComparator()) { it.label })
-        else this
 }

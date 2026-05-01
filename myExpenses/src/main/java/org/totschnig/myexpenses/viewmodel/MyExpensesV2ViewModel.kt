@@ -196,6 +196,9 @@ class MyExpensesV2ViewModel(
             .mapToListCatching {
                 it.fromCursor(currencyContext)
             }
+            .map {
+                it.map { it.withNaturalSort }
+            }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, null)
     }
 

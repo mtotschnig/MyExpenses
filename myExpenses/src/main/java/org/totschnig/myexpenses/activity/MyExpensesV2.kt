@@ -188,7 +188,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                                 }
                             }
                         }
-                        val accounts = result.getOrThrow().withNaturalSort
+                        val accounts = result.getOrThrow()
                         val banks = viewModel.banks.collectAsState()
                         val showSortDialog = rememberSaveable { mutableStateOf(false) }
                         var isNavigationVisible by rememberSaveable { mutableStateOf(false) }

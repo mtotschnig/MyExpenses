@@ -124,7 +124,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
     override val fabActionName = "CREATE_TRANSACTION"
 
     private val accountData: List<FullAccount>
-        get() = viewModel.accountData.value?.getOrNull()?.withNaturalSort ?: emptyList()
+        get() = viewModel.accountData.value?.getOrNull() ?: emptyList()
 
     override suspend fun accountForNewTransaction() = currentAccount?.let { current ->
             current.takeIf { !it.isAggregate } ?: viewModel.accountData.value?.getOrNull()
