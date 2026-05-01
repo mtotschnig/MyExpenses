@@ -160,7 +160,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         linkWithTag()
         setAmount(5)
         clickFab()
-        val template = assertTemplate(account1.id, -500, expectedTags = listOf("Tag"))
+        val template = assertTemplate(account1, -500, expectedTags = listOf("Tag"))
         cleanup {
             repository.deleteAllTags()
             repository.deleteTemplate(template.id)
@@ -176,7 +176,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         setAmount(5)
         clickFab()
         val template = assertTemplate(
-            expectedAccount = account1.id,
+            expectedAccount = account1,
             expectedAmount = -500,
             expectedPlanRecurrence = Recurrence.DAILY,
             checkPlanInstance = true
@@ -197,7 +197,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         setAmount(5)
         clickFab()
         val template = assertTemplate(
-            expectedAccount = account1.id,
+            expectedAccount = account1,
             expectedAmount = -500,
             expectedPlanRecurrence = Recurrence.CUSTOM,
             checkPlanInstance = true
@@ -224,7 +224,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         setAmount(5)
         clickFab()
         val template = assertTemplate(
-            expectedAccount = account1.id,
+            expectedAccount = account1,
             expectedAmount = -500,
             expectedPlanRecurrence = Recurrence.CUSTOM
         )
@@ -258,7 +258,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         linkWithTag()
         clickFab()
         //asserts that template is still without tags
-        val template = assertTemplate(account1.id, 500, templateTitle = "Template")
+        val template = assertTemplate(account1, 500, templateTitle = "Template")
         cleanup {
             repository.deleteAllTags()
             repository.deleteTemplate(template.id)

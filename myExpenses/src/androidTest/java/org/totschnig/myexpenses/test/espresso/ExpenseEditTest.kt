@@ -255,7 +255,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
         BaristaSeekBarInteractions.setProgressTo(R.id.advanceExecutionSeek, 15)
         clickFab()
         assertTemplate(
-            expectedAccount = account1.id,
+            expectedAccount = account1,
             expectedAmount = -11100,
             expectedPlanRecurrence = Recurrence.DAILY,
             expectedPlanExecutionAutomatic = true,
@@ -308,7 +308,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
             clickFab()
         }
         assertTemplate(
-            expectedAccount = account1.id,
+            expectedAccount = account1,
             expectedAmount = -200,
             expectedPlan = planId,
             expectedPlanRecurrence = Recurrence.WEEKLY

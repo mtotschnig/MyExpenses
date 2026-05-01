@@ -96,7 +96,7 @@ class ExpenseEditMethodTest : BaseExpenseEditTest() {
         runMethodCheck()
 
         assertTemplate(
-            expectedAccount = account1.id,
+            expectedAccount = account1,
             expectedAmount = 100,
             expectedMethod = pm
         )
@@ -142,7 +142,7 @@ class ExpenseEditMethodTest : BaseExpenseEditTest() {
         runMethodCheck()
 
         assertTemplate(
-            expectedAccount = account1.id,
+            expectedAccount = account1,
             expectedAmount = 100,
             expectedMethod = pm
         )

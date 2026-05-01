@@ -119,7 +119,7 @@ class ExpenseEditPayeeTest : BaseExpenseEditTest() {
             clickFab()
             onIdle()
             assertTemplate(
-                expectedAccount = account1.id,
+                expectedAccount = account1,
                 expectedAmount = -10100,
                 expectedParty = partyId,
                 expectedDebt = debtId

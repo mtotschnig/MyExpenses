@@ -245,7 +245,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         clickFab()
         assertFinishing()
         assertTemplate(
-            account1.id,
+            account1,
             -5000L * partCount,
             expectedSplitParts = buildList {
                 repeat(partCount) {
@@ -513,7 +513,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         clickFab()//save parent succeeds
         assertFinishing()
         assertTemplate(
-            expectedAccount = account1.id,
+            expectedAccount = account1,
             expectedAmount = 20000,
             expectedCategory = SPLIT_CATID,
             expectedSplitParts = listOf(
@@ -537,7 +537,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         clickFab()//save parent succeeds
         assertFinishing()
         assertTemplate(
-            expectedAccount = account1.id,
+            expectedAccount = account1,
             expectedAmount = 20000,
             expectedSplitParts = listOf(
                 TransactionData(accountId = account1.id, amount = 15000),
@@ -685,7 +685,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         checkPartCount(1)
         clickFab() //save parent
         assertTemplate(
-            expectedAccount = account1.id,
+            expectedAccount = account1,
             expectedAmount = -7000,
             expectedCategory = SPLIT_CATID,
             expectedSplitParts = listOf(

@@ -242,7 +242,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
         )
         closeKeyboardAndSave()
         assertTemplate(
-            expectedAccount = account.id,
+            expectedAccount = account,
             expectedAmount = -100L,
             expectedCategory = categoryId,
             expectedParty = partyId,

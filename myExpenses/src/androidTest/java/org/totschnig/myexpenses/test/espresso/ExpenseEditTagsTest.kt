@@ -124,7 +124,7 @@ class ExpenseEditTagsTest : BaseExpenseEditTest() {
         clickFab() // confirm tag selection
         clickFab() // save transaction
         assertTemplate(
-            expectedAccount = account1.id,
+            expectedAccount = account1,
             expectedAmount = -10100,
             expectedTags = listOf(TAG_LABEL)
         )
@@ -182,7 +182,7 @@ class ExpenseEditTagsTest : BaseExpenseEditTest() {
         clickFab() // confirm tag selection
         clickFab() // save transaction
         assertTemplate(
-            expectedAccount = account1.id,
+            expectedAccount = account1,
             expectedAmount = 100,
             expectedTags = listOf(TAG_LABEL_2)
         )
