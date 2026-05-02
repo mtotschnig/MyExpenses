@@ -134,6 +134,43 @@ amazon:
   en: "www.amazon.com"
   pt: "www.amazon.com.br"
 versions:
+  -   - 4.0.7
+      - '2026-05-03'
+      - ar: فرز طبيعي للعلامات، التصنيفات، الحسابات والأطراف.
+        bg: Естествено сортиране за маркери, категории, сметки, страни.
+        ca: Ordenació natural per a etiquetes, categories, comptes i tercers.
+        cs: Přirozené řazení pro štítky, kategorie, účty a oddíly.
+        da: Naturlig sortering af etiketter, kategorier, konti og parter.
+        de: Natürliche Sortierung für Schlagwörter, Kategorien, Konten, Parteien.
+        el: Φυσική ταξινόμηση για ετικέτες, κατηγορίες, λογαριασμούς, μέρη.
+        es: Ordenación natural para etiquetas, categorías, cuentas, grupos.
+        eu: Natural sort for tags, categories, accounts, parties.
+        fr: Tri naturel pour étiquettes, catégories, comptes, tiers.
+        hr: Prirodno sortiranje za oznake, kategorije, račune, stranke.
+        hu: Természetes sorrend a címkék, kategóriák, számlák és résztvevők számára.
+        it: Ordinamento naturale per tag, categorie, conti, beneficiari.
+        iw: מיון טבעי לתגים, קטגוריות, חשבונות וצדדים.
+        ja: タグ、分類、勘定、取引先の自然順ソート。
+        km: Natural sort for tags, categories, accounts, parties.
+        kn: Natural sort for tags, categories, accounts, parties.
+        ko: 태그, 카테고리, 계좌, 구성원에 대한 자연스러운 정렬.
+        ms: Natural sort for tags, categories, accounts, parties.
+        nl: Natuurlijk sorteren voor tags, categorieën, rekeningen en partijen.
+        pl: Naturalne sortowanie dla tagów, kategorii, kont i partii.
+        pt: Ordenação natural para etiquetas, categorias, contas, parceiros.
+        ro: Sortare naturală pentru etichete, categorii, conturi și părți.
+        ru: Естественная сортировка для тегов, категорий, счетов и контрагентов.
+        si: Natural sort for tags, categories, accounts, parties.
+        ta: Natural sort for tags, categories, accounts, parties.
+        te: Natural sort for tags, categories, accounts, parties.
+        tr: Etiketler, kategoriler, hesaplar ve bölümler için doğal sıralama.
+        uk: Природне сортування для тегів, категорій, рахунків та учасників.
+        vi: Sắp xếp tự nhiên cho các thẻ, phân loại, tài khoản và các bên.
+        zh-CN: 对标签、类别、账户、交易对象进行自然排序。
+        zh-TW: Natural sort for tags, categories, accounts, parties.
+        en: Natural sort for tags, categories, accounts, parties.
+      - github2: '177'
+        mastodon: '116450570746835831'
   -   - 4.0.6
       - '2026-02-05'
       - ar: إعادة التصميم  (إصدار تجريبي)
