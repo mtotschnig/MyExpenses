@@ -141,13 +141,14 @@ private fun LazyPagingItems<Transaction2>.getCurrentPosition(
             .toEpoch() //endOfToday
     }
     Timber.d("limit: %d", limit)
+    var found = false
     while (index < itemCount) {
-        val transaction2 = get(index) ?: return start.copy(found = false)
+        val transaction2 = get(index) ?: break
         Timber.d("Comparing: %d", index)
         val comparisonResult = transaction2._date.compareTo(limit)
         if ((sortDirection == SortDirection.ASC && comparisonResult > 0) || sortDirection == SortDirection.DESC && comparisonResult < 0) {
-            Timber.d("index/visibleIndex: %d/%d", index, visibleIndex)
-            return ScrollCalculationResult(index, visibleIndex, lastHeader, true)
+            found = true
+            break
         }
         val headerId = headerData.calculateGroupId(transaction2)
         if (headerId != lastHeader) {
@@ -159,8 +160,8 @@ private fun LazyPagingItems<Transaction2>.getCurrentPosition(
         index++
         if (isVisible) visibleIndex++
     }
-    Timber.d("index/visibleIndex: %d/%d", index, visibleIndex)
-    return ScrollCalculationResult(index, visibleIndex, lastHeader, false)
+    Timber.d("index/visibleIndex/found: %d/%d/%b", index, visibleIndex, found)
+    return ScrollCalculationResult(index, visibleIndex, lastHeader, found)
 }
 
 const val COMMENT_SEPARATOR = " / "
@@ -269,8 +270,9 @@ fun TransactionList(
         }
 
         if (collapsedIds != null && headerData is HeaderData) {
-            scrollToCurrentDateStartIndex.value?.let {
-                LaunchedEffect(lazyPagingItems.itemCount, lazyPagingItems.loadState) {
+            LaunchedEffect(scrollToCurrentDateStartIndex.value, lazyPagingItems.loadState.append) {
+
+                scrollToCurrentDateStartIndex.value?.let {
                     val scrollCalculationResult = lazyPagingItems.getCurrentPosition(
                         start = it,
                         headerData = headerData,
