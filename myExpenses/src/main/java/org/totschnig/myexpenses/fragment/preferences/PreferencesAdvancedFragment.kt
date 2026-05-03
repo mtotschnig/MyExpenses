@@ -22,7 +22,7 @@ import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.KEY_PATH
 import org.totschnig.myexpenses.util.AppDirHelper
-import org.totschnig.myexpenses.viewmodel.CategoryViewModel
+import org.totschnig.myexpenses.viewmodel.ManageCategoriesViewModel
 import timber.log.Timber
 import java.io.File
 import java.util.Locale
@@ -32,7 +32,7 @@ class PreferencesAdvancedFragment : BasePreferenceFragment(),
     LocalizedFormatEditTextPreference.OnValidationErrorListener,
     SimpleDialog.OnDialogResultListener {
 
-    private val categoryViewModel: CategoryViewModel by activityViewModels()
+    private val categoryViewModel: ManageCategoriesViewModel by activityViewModels()
 
     override val preferencesResId = R.xml.preferences_advanced
 
