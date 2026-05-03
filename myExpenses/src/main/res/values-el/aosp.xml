@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
--->
-<resources>
+--><resources>
     <string name="drawer_open">"Άνοιγμα συρταριού πλοήγησης"</string>
     <string name="drawer_close">"Κλείσιμο συρταριού πλοήγησης"</string>
     <string name="sort_direction_ascending">"Αύξουσα"</string>
@@ -147,7 +147,7 @@
     <string name="delimiter_tab">"Στηλοθέτης"</string>
     <string name="enabled">"Ενεργή"</string>
     <string name="disabled">"Ανενεργή"</string>
-    <string name="preview">"Προεπισκ."</string>
+    <string name="preview">Προεπισκόπηση</string>
     <string name="show_password">"Εμφάνιση κωδικού πρόσβασης"</string>
     <string name="hide_password">"Απόκρυψη κωδικού πρόσβασης"</string>
     <string name="user">"Χρήστης"</string>
