@@ -113,6 +113,12 @@ import java.time.temporal.ChronoUnit
 import java.util.Collections
 import kotlin.math.absoluteValue
 
+const val TL_TAG = "TransactionList"
+
+private fun log(message: String, vararg args: Any?) {
+    Timber.tag(TL_TAG).i(message, *args)
+}
+
 data class ScrollCalculationResult(
     val index: Int,
     val visibleIndex: Int,
@@ -140,11 +146,11 @@ private fun LazyPagingItems<Transaction2>.getCurrentPosition(
             .plusDays(1)
             .toEpoch() //endOfToday
     }
-    Timber.d("limit: %d", limit)
+    log("limit: %d", limit)
     var found = false
     while (index < itemCount) {
         val transaction2 = get(index) ?: break
-        Timber.d("Comparing: %d", index)
+        log("Comparing: %d", index)
         val comparisonResult = transaction2._date.compareTo(limit)
         if ((sortDirection == SortDirection.ASC && comparisonResult > 0) || sortDirection == SortDirection.DESC && comparisonResult < 0) {
             found = true
@@ -153,14 +159,14 @@ private fun LazyPagingItems<Transaction2>.getCurrentPosition(
         val headerId = headerData.calculateGroupId(transaction2)
         if (headerId != lastHeader) {
             visibleIndex++
-            Timber.d("increasing visibleIndex %d for header: %d", visibleIndex, headerId)
+            log("increasing visibleIndex %d for header: %d", visibleIndex, headerId)
             lastHeader = headerId
         }
         val isVisible = !collapsedIds.contains(headerId.toString())
         index++
         if (isVisible) visibleIndex++
     }
-    Timber.d("index/visibleIndex/found: %d/%d/%b", index, visibleIndex, found)
+    log("index/visibleIndex: %d/%d", index, visibleIndex)
     return ScrollCalculationResult(index, visibleIndex, lastHeader, found)
 }
 
@@ -487,7 +493,7 @@ fun TransactionList(
                             }
                         } else if (isLastInGroup) {
                             //touch the last item in group to trigger next page load
-                            Timber.d("touching last in Group $index")
+                            log("touching last in Group $index")
                             lazyPagingItems[index]
                         }
                     }

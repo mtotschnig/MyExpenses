@@ -40,6 +40,9 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.acra.util.StreamReader
 import org.totschnig.myexpenses.activity.OnboardingActivity
+import org.totschnig.myexpenses.compose.transactions.TAG
+import org.totschnig.myexpenses.compose.transactions.TL_TAG
+import org.totschnig.myexpenses.compose.transactions.TransactionList
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.di.DaggerAppComponent
 import org.totschnig.myexpenses.feature.BankingFeature
@@ -266,6 +269,7 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
                         plantTree(BaseTransactionProvider.TAG)
                         plantTree(OcrFeature.TAG)
                         plantTree(BankingFeature.TAG)
+                        plantTree(TL_TAG)
                     } catch (e: Exception) {
                         report(e)
                     }
