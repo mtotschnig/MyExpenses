@@ -106,7 +106,7 @@
     <string name="menu_create_main_cat">نیا مرکزی زمر</string>
     <string name="menu_edit_party">پارٹی میں ترمیم کریں</string>
     <string name="menu_edit_plan_instance">سنگل پلان کی موجودگی میں ترمیم کریں</string>
-    <string name="menu_edit_split">تقسیم میں ترمیم کریں</string>
+    <string name="menu_edit_split">تقسیم کے لین دین میں ترمیم کریں۔</string>
     <string name="menu_edit_transfer">منتقلی میں ترمیم کریں</string>
     <string name="menu_edit_template">ٹیمپلیٹ میں ترمیم کریں</string>
     <string name="menu_exclude_from_totals">ٹوٹل سے خارج کریں</string>
