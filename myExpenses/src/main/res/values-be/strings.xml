@@ -96,7 +96,7 @@
     <string name="export_sdcard_failure">Экспарт у файл \"%1$s\" не атрымаўся: %2$s</string>
     <string name="export_sdcard_success">Дадзеныя паспяхова экспартаваныя ў файл \"%1$s\"</string>
     <string name="menu_apply_template">Ужыць</string>
-    <string name="menu_edit_split">Рэдагаваць падзел</string>
+    <string name="menu_edit_split">Рэдагаваць падзел-транзакцыю</string>
     <string name="menu_edit_split_part_transfer">Рэдагаваць пераклад падзеленай часткі</string>
     <string name="menu_edit_transaction">Рэдагаваць транзакцыю</string>
     <string name="menu_edit_transfer">Рэдагаваць перадачу</string>
