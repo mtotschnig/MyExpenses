@@ -135,7 +135,7 @@
     <string name="menu_edit_method">Editar forma de pagamento</string>
     <string name="menu_edit_party">Editar parceiro</string>
     <string name="menu_edit_plan_instance">Editar ocorrência única do plano</string>
-    <string name="menu_edit_split">Editar divisão</string>
+    <string name="menu_edit_split">Editar transação dividida</string>
     <string name="menu_edit_split_part_category">Editar divisão de categoria</string>
     <string name="menu_edit_split_part_transfer">Editar divisão de transferência</string>
     <string name="menu_edit_template">Editar modelo</string>
