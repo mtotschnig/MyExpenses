@@ -129,8 +129,8 @@
     <string name="menu_create_method">Yeni ödeme yöntemi oluştur</string>
     <string name="menu_create_party">Yeni borçlu/alacaklı</string>
     <string name="menu_create_split">Yeni bölünmüş muamele</string>
-    <string name="menu_create_split_part_category">Yeni bölünmüş alt muamele (kategori)</string>
-    <string name="menu_create_split_part_transfer">Yeni bölünmüş alt muamele (transfer)</string>
+    <string name="menu_create_split_part_category">Yeni bölünmüş kategori</string>
+    <string name="menu_create_split_part_transfer">Yeni bölünmüş transfer</string>
     <string name="menu_create_sub_cat">Yeni alt kategori oluştur</string>
     <string name="menu_create_template">Şablon oluştur</string>
     <string name="menu_create_template_from_transaction">Şablon olarak kaydet</string>
@@ -147,8 +147,8 @@
     <string name="menu_edit_party">Borçlu/alacaklıyı düzenle</string>
     <string name="menu_edit_plan_instance">Planlamanın tek oluşumunu düzenle</string>
     <string name="menu_edit_split">Bölünmeyi düzenle</string>
-    <string name="menu_edit_split_part_category">Bölünmüş alt muameleyi düzenle (kategori)</string>
-    <string name="menu_edit_split_part_transfer">Bölünmüş alt muameleyi düzenle (transfer)</string>
+    <string name="menu_edit_split_part_category">Bölünmüş kategoriyi düzenle</string>
+    <string name="menu_edit_split_part_transfer">Bölünmüş transferi düzenle</string>
     <string name="menu_edit_template">Şablonu düzenle</string>
     <string name="menu_edit_transaction">Muameleyi düzenle</string>
     <string name="menu_edit_transfer">Virmanı düzenle</string>
@@ -181,7 +181,7 @@
     <string name="no_mapped_transactions">Bu zaman aralığında hiçbir muamele kategoriler ile ilişkilendirilmemiştir.</string>
     <string name="no_methods">Ödeme yöntemi yok.</string>
     <string name="no_parties">Bölüm yok.</string>
-    <string name="no_split_parts">Hiçbir alt muamele yok.</string>
+    <string name="no_split_parts">Bölünmüş yok.</string>
     <string name="no_templates">Şablon yok.</string>
     <string name="no_accounts">Hesap yok.</string>
     <plurals name="not_deletable_mapped_transactions">
@@ -309,7 +309,7 @@
     <string name="select_payee">Ödeyen/alacaklı seçin</string>
     <string name="share_scheme_not_supported">%1$s şeması desteklenmemektedir</string>
     <string name="share_sending">Dışa aktarım dosyasını gönder</string>
-    <string name="split_parts_heading">Bölünmüş alt muameleler</string>
+    <string name="split_parts_heading">Bölünmüşler</string>
     <string name="split_transaction">Bölünmüş muamele</string>
     <string name="status">Durum</string>
     <string name="status_cleared">temizlendi</string>
@@ -459,7 +459,7 @@
     <string name="plan_instance_state_cancelled">iptal edildi</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">uygulandı</string>
-    <string name="progress_dialog_updating_split_parts">Bölünmüş parçalar güncelleniyor</string>
+    <string name="progress_dialog_updating_split_parts">Bölünmüşler güncelleniyor</string>
     <string name="warning_cannot_move_split_transaction">Bu bölünmüş muamele %1$s hesabına taşınamaz çünkü bu hesapla ilişkili transfer parçaları bulunmaktadır.</string>
     <string name="content_description_calculator_delete_button">Son rakamı sil</string>
     <string name="paypal_callback_info">Muameleniz tamamlanmış ve alışverişiniz hakkında bir makbuz e-posta ile size gönderilmiştir. Bu muamelenin ayrıntılarını görüntülemek için hesabınıza www.paypal.com adresinde bağlanabilirsiniz.</string>
@@ -579,7 +579,7 @@
     <string name="menu_original_amount">Orijinal meblağ</string>
     <string name="menu_equivalent_amount">Eşdeğer meblağ</string>
     <string name="warning_split_transactions">Seçilen muameleler bir bölünmüş muamelede gruplanacaklardır. Tarih bilgileri kaybolacak ve yerlerini ortalama değer alacaktır.</string>
-    <string name="warning_ungroup_split_transactions">Seçilen bölünmüş muamelelerin gruplandırmaları kaldırılacak yani bölünmüş parçalar normal muamelelere dönüşecektir.</string>
+    <string name="warning_ungroup_split_transactions">Seçilen bölünmüş muamelelerin gruplandırmaları kaldırılacak yani bölünmüşler normal muamelelere dönüşecektir.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
     <string name="menu_ungroup_split_transaction">Bölümün gruplandırmasını kaldır</string>
     <string name="ungroup_split_transaction_success">Bölünmüş muamelenin gruplandırılması başarıyla kaldırıldı.</string>
