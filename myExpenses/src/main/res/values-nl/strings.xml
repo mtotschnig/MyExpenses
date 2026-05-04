@@ -170,7 +170,7 @@
     <string name="menu_edit_method">Bewerk betaalwijze</string>
     <string name="menu_edit_party">Bewerk partij</string>
     <string name="menu_edit_plan_instance">Bewerk enkel plan exemplaar</string>
-    <string name="menu_edit_split">Bewerk splitsing</string>
+    <string name="menu_edit_split">Gesplitste transactie bewerken</string>
     <string name="menu_grouping">Groepering</string>
     <string name="menu_help">Help</string>
     <string name="menu_save">Opslaan</string>
