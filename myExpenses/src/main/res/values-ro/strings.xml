@@ -135,7 +135,7 @@
     <string name="menu_edit_method">Editează metodă plată</string>
     <string name="menu_edit_party">Editează terţ</string>
     <string name="menu_edit_plan_instance">Editează scadenţa</string>
-    <string name="menu_edit_split">Editează repartizare</string>
+    <string name="menu_edit_split">Editați tranzacția repartizată</string>
     <string name="menu_edit_split_part_category">Editează categoria repartizare</string>
     <string name="menu_edit_split_part_transfer">Editează transfer repartizare</string>
     <string name="menu_edit_template">Editează şablon</string>
