@@ -148,7 +148,7 @@
     <string name="menu_edit_method">Редактировать способы оплаты</string>
     <string name="menu_edit_party">Редактировать контрагентов</string>
     <string name="menu_edit_plan_instance">Редактировать единый возникший план</string>
-    <string name="menu_edit_split">Редактировать разделение</string>
+    <string name="menu_edit_split">Редактировать разделенную транзакцию</string>
     <string name="menu_edit_split_part_category">Редактировать категорию разделённой части</string>
     <string name="menu_edit_split_part_transfer">Редактировать перевод разделённой части</string>
     <string name="menu_edit_template">Редактировать шаблон</string>
