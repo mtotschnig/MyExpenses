@@ -174,7 +174,6 @@
     <string name="menu_split_transaction">التحويل إلى معاملة مجزأة</string>
     <string name="method">طريقة الدفع او السداد</string>
     <string name="no_app_handling_email_available">لا يوجد تطبيق للبريد الالكتروني.</string>
-    <string name="no_app_handling_ftp_available">لا يوجد تطبيق لـ ftp. تثبيت <i>Send With FTP</i>؟</string>
     <string name="no_app_handling_mime_type_available">لا يوجد تطبيق لمعاينة ملفات ال%s.</string>
     <string name="no_categories">لا يوجد تصنيفات.</string>
     <string name="no_expenses">لا يوجد مصروفات حتى الأن!</string>

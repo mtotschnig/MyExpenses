@@ -150,7 +150,6 @@
     <string name="method">วิธีการชำระเงิน</string>
     <string name="menu_share">บอกเพื่อน</string>
     <string name="button_label_close">ปิด</string>
-    <string name="no_app_handling_ftp_available">ไม่มีแอปที่สามารถจัดการ FTP ได้ ต้องการติดตั้ง <i>Send With FTP</i> หรือไม่?</string>
     <string name="no_app_handling_email_available">ไม่มีแอปที่สามารถจัดการอีเมลได้</string>
     <string name="no_categories">ไม่มีหมวดหมู่</string>
     <string name="no_expenses">ยังไม่มีค่าใช้จ่าย!</string>

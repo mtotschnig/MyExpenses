@@ -141,7 +141,6 @@
     <string name="button_label_close">Tanca</string>
     <string name="method">Forme de pagament</string>
     <string name="no_app_handling_email_available">No s\'ha trobat l\'aplicació del correu electrónic.</string>
-    <string name="no_app_handling_ftp_available">No s\'ha trobat cap aplicació de ftp. Voleu instal·lar <i>Envia amb FTP</i>?</string>
     <string name="no_categories">Encara no hi ha categories.</string>
     <string name="no_expenses">Encara no hi ha cap despesa!</string>
     <string name="no_exportable_expenses">No hi ha operacions que encara no hagin estat exportades.</string>

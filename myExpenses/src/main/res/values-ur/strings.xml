@@ -147,7 +147,6 @@
     <string name="button_label_close">بند کریں</string>
     <string name="menu_split_transaction">تقسیم میں تبدیل کریں</string>
     <string name="method">ادائیگی کا طریقہ</string>
-    <string name="no_app_handling_ftp_available">کوئی ایپ ہینڈلنگ ایف ٹی پی دستیاب نہیں ہے۔ انسٹال کریں <i>FTP کے ساتھ بھیجیں</i>؟</string>
     <string name="no_categories">کوئی زمرہ جات نہیں.</string>
     <string name="no_app_handling_email_available">کوئی ایپ ہینڈلنگ ای میل دستیاب نہیں ہے.</string>
     <string name="no_app_handling_mime_type_available">%s فائلوں کو ہینڈل کرنے والی کوئی ایپ دستیاب نہیں ہے.</string>

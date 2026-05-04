@@ -178,7 +178,6 @@
     <string name="menu_split_transaction">Transform to split</string>
     <string name="method">Payment method</string>
     <string name="no_app_handling_email_available">No app handling email available.</string>
-    <string name="no_app_handling_ftp_available">No app handling ftp available. Install <i>Send With FTP</i>?</string>
     <!-- %s is replaced by extension, e.g. PDF or CSV -->
     <string name="no_app_handling_mime_type_available">No app handling %s files available.</string>
     <string name="no_categories">No categories.</string>

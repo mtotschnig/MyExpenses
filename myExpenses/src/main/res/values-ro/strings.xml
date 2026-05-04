@@ -159,7 +159,6 @@
     <string name="menu_split_transaction">Transformă in repartizare</string>
     <string name="method">Modalitate de plată</string>
     <string name="no_app_handling_email_available">Nici o aplicaţie disponibilă pentru trimitere email.</string>
-    <string name="no_app_handling_ftp_available">Nici o aplicaţie disponibilă pentru ftp.Instalez <i>Trimit prinFTP</i>?</string>
     <string name="no_app_handling_mime_type_available">Nici o aplicaţie disponibilă pentru fişiere %s</string>
     <string name="no_categories">Nici o categorie.</string>
     <string name="no_expenses">Nici o cheltuială încă!</string>

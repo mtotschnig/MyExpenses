@@ -239,7 +239,6 @@
     <string name="menu_create_split_part_category">नई श्रेणी विभाजित भाग</string>
     <string name="menu_create_split_part_transfer">नया ट्रांसफर विभाजित भाग</string>
     <string name="method">भुगतान विधि</string>
-    <string name="no_app_handling_ftp_available">कोई ऐप हैंडलिंग ftp उपलब्ध नहीं है। स्थापित करना <i>Send With FTP</i>\?</string>
     <string name="contrib_feature_pro_support_label"><b>ईमेल समर्थन</b> 2 कार्य दिवसों के भीतर गारंटीशुदा प्रतिक्रिया के साथ</string>
     <string name="contrib_feature_roadmap_voting_label"><b>विकास रोडमैप</b> पर सही मतदान</string>
     <string name="contrib_feature_history_label">इतिहास चार्ट</string>

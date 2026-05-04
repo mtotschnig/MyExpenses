@@ -177,7 +177,6 @@
     <string name="menu_split_transaction">স্প্লিট লেনদেনে রূপান্তর করুন</string>
     <string name="method">পেমেন্ট মেথড</string>
     <string name="no_app_handling_email_available">ইমেল পরিচালনা করার জন্য কোনও অ্যাপ নেই।</string>
-    <string name="no_app_handling_ftp_available">এফটিপি পরিচালনা করার জন্য কোনও অ্যাপ নেই। <i>Send With FTP</i> ইনস্টল করবেন?</string>
     <!-- %s is replaced by extension, e.g. PDF or CSV -->
     <string name="no_app_handling_mime_type_available">%s ফাইল পরিচালনা করার জন্য কোনও অ্যাপ নেই।</string>
     <string name="no_categories">কোন ক্যাটাগরি নেই।</string>

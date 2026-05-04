@@ -42,7 +42,7 @@ import kotlin.Result.Companion.success
 
 class BaseFunctionalityViewModel(application: Application) :
     ContentResolvingAndroidViewModel(application) {
-    enum class Scheme { FTP, MAILTO, HTTP, HTTPS; }
+    enum class Scheme { MAILTO, HTTP, HTTPS; }
 
     @Inject
     lateinit var okHttpBuilder: OkHttpClient.Builder
@@ -66,7 +66,6 @@ class BaseFunctionalityViewModel(application: Application) :
                         complain(ctx.getString(R.string.ftp_uri_malformed, target))
                     } else {
                         when (val scheme = enumValueOrNull<Scheme>(uri.scheme.uppercase())) {
-                            Scheme.FTP -> handleFtp(ctx, uriList, target, mimeType)
                             Scheme.MAILTO -> handleMailto(ctx, uriList, mimeType, uri)
                             Scheme.HTTP, Scheme.HTTPS -> handleHttp(
                                 uriList,
@@ -166,34 +165,6 @@ class BaseFunctionalityViewModel(application: Application) :
             return complain(ctx.getString(R.string.no_app_handling_email_available))
         }
         return success(Scheme.MAILTO)
-    }
-
-    private fun handleFtp(
-        ctx: Context,
-        fileUris: List<Uri>,
-        target: String,
-        mimeType: String,
-    ): Result<Scheme> {
-        val intent: Intent
-        if (fileUris.size > 1) {
-            return complain("sending multiple file through ftp is not supported")
-        } else {
-            intent = Intent(Intent.ACTION_SENDTO)
-            val contentUri = AppDirHelper.ensureContentUri(fileUris[0], ctx)
-            intent.putExtra(Intent.EXTRA_STREAM, contentUri)
-            intent.setDataAndType(target.toUri(), mimeType)
-            ctx.grantUriPermission(
-                "org.totschnig.sendwithftp",
-                contentUri,
-                Intent.FLAG_GRANT_READ_URI_PERMISSION
-            )
-            if (Utils.isIntentAvailable(ctx, intent)) {
-                ctx.startActivity(intent)
-            } else {
-                return complain(ctx.getString(R.string.no_app_handling_ftp_available))
-            }
-        }
-        return success(Scheme.FTP)
     }
 
     private fun complain(string: String): Result<Scheme> {

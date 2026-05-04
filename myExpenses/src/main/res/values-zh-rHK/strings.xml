@@ -121,7 +121,6 @@
     <string name="button_label_close">關閉</string>
     <string name="method">付款方法</string>
     <string name="no_app_handling_email_available">沒有可用的應用程序電子郵件。</string>
-    <string name="no_app_handling_ftp_available">沒有被應用程序處理的ftp可用。安裝 <i>使用FTP發送</i> ？</string>
     <string name="no_categories">沒有分類。</string>
     <string name="no_expenses">未有開支!</string>
     <string name="no_exportable_expenses">沒有交易未被匯出</string>

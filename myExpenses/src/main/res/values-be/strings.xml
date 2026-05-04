@@ -68,7 +68,6 @@
     <string name="grouping_year">Год</string>
     <string name="dialog_balance_delete">Выдаліць узгодненыя транзакцыі</string>
     <string name="search_transfer">Пошук перакладу</string>
-    <string name="no_app_handling_ftp_available">Няма праграм для апрацоўкі FTP. Усталяваць <i>Адправіць з дапамогай FTP</i>\?</string>
     <string name="import_transactions_none">Няма імпартаваных транзакцый у рахунак %1$s</string>
     <string name="app_dir_not_accessible">Выбраная папка для рэзервовых копій і экспарту (%1$s) недаступная. Калі ласка, выберыце іншую.</string>
     <string name="pref_planning_calendar_summary">Выберыце каляндар, у якім захоўваюцца планы будучых і перыядычных транзакцый</string>

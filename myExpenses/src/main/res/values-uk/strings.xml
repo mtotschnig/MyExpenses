@@ -165,7 +165,6 @@
     <string name="menu_split_transaction">Поділити</string>
     <string name="method">Спосіб оплати</string>
     <string name="no_app_handling_email_available">Відсутня програма для роботи з поштою.</string>
-    <string name="no_app_handling_ftp_available">Відсутня програма для роботи з FTP. Встановити <i>Send With FTP</i>?</string>
     <string name="no_app_handling_mime_type_available">Відсутня програма для роботи з %s-файлами.</string>
     <string name="no_categories">Немає категорій.</string>
     <string name="no_expenses">Ще немає витрат!</string>

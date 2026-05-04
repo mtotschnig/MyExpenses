@@ -183,7 +183,7 @@
     <string name="pref_restore_title">Återställ</string>
     <string name="pref_news_title">Nyheter</string>
     <string name="qif_parse_failure_found_multiple_accounts">Flera konton hittades i %s-filen.</string>
-    <string name="split_transaction">Dela upp transaktionen</string>
+    <string name="split_transaction">Delad transaktion</string>
     <string name="menu_edit_template">Redigera mall</string>
     <string name="pref_shortcut_added">Genvägen har lagts till på Hemskärmen</string>
     <string name="continue_confirmation">Vill du fortsätta?</string>
