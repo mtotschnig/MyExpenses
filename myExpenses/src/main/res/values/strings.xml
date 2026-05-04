@@ -154,7 +154,7 @@
     <string name="menu_edit_method">Edit payment method</string>
     <string name="menu_edit_party">Edit party</string>
     <string name="menu_edit_plan_instance">Edit single plan occurrence</string>
-    <string name="menu_edit_split">Edit split</string>
+    <string name="menu_edit_split">Edit split transaction</string>
     <string name="menu_edit_split_part_category">Edit category split</string>
     <string name="menu_edit_split_part_transfer">Edit transfer split</string>
     <string name="menu_edit_template">Edit Template</string>
