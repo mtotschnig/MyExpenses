@@ -224,7 +224,6 @@
     <string name="plan_event_deleted">The plan associated with this template has been deleted from the calendar.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">Plan execution canceled</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
     <string name="planner_create_calendar_failure">Unable to create local planner calendar</string>
     <string name="planner_create_calendar_success">Local planner calendar successfully created</string>
     <!-- payment methods -->

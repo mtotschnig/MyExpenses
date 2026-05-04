@@ -223,7 +223,6 @@
     <string name="plan_event_deleted">এই টেমপ্লেটের সাথে সম্পর্কিত প্লান ক্যালেন্ডার থেকে মুছে ফেলা হয়েছে।</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">প্লান কার্যকর করা বাতিল করা হয়েছে</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
     <string name="planner_create_calendar_failure">লোকাল প্লানার ক্যালেন্ডার তৈরি করা যায়নি</string>
     <string name="planner_create_calendar_success">লোকাল প্লানার ক্যালেন্ডার সফলভাবে তৈরি করা হয়েছে</string>
     <!-- payment methods -->
