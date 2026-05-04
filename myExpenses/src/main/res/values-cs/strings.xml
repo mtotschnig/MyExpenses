@@ -148,7 +148,7 @@
     <string name="menu_edit_method">Upravit způsob platby</string>
     <string name="menu_edit_party">Upravit stranu</string>
     <string name="menu_edit_plan_instance">Upravit výskyt jednoho plánu</string>
-    <string name="menu_edit_split">Editovat rozdělení</string>
+    <string name="menu_edit_split">Upravit rozdělenou transakci</string>
     <string name="menu_edit_split_part_category">Upravit kategorie rozdělení</string>
     <string name="menu_edit_split_part_transfer">Úprava převodu rozdělit část</string>
     <string name="menu_edit_template">Upravit šablonu</string>
