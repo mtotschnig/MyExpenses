@@ -146,7 +146,7 @@
     <string name="menu_edit_method">கட்டண முறையைத் திருத்து</string>
     <string name="menu_edit_party">தரப்பைத் திருத்து</string>
     <string name="menu_edit_plan_instance">ஒற்றைத் திட்டத்தின் நிகழ்வை திருத்து</string>
-    <string name="menu_edit_split">பிரிவைத் திருத்து</string>
+    <string name="menu_edit_split">பிளவு பரிவர்த்தனையைத் திருத்து</string>
     <string name="menu_edit_split_part_category">வகை பிரிவு பகுதியைத் திருத்து</string>
     <string name="menu_edit_split_part_transfer">பரிமாற்ற பிரிவு பகுதியைத் திருத்து</string>
     <string name="menu_edit_template">வார்ப்புருவைத் திருத்து</string>
