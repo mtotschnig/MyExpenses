@@ -147,7 +147,7 @@
     <string name="menu_edit_method">Modificar método de pago</string>
     <string name="menu_edit_party">Modificar grupo</string>
     <string name="menu_edit_plan_instance">Modificar incidencia de un único proyecto</string>
-    <string name="menu_edit_split">Modificar división</string>
+    <string name="menu_edit_split">Editar transacción dividida</string>
     <string name="menu_edit_split_part_category">Modificar parte de una categoría dividida</string>
     <string name="menu_edit_split_part_transfer">Modificar parte de una transferencia dividida</string>
     <string name="menu_edit_template">Modificar plantilla</string>
