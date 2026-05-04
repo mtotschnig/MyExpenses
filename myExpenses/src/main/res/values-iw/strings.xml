@@ -147,7 +147,7 @@
     <string name="menu_edit_method">ערוך שיטת תשלום</string>
     <string name="menu_edit_party">ערוך חלק</string>
     <string name="menu_edit_plan_instance">ערוך אירוע חד פעמי</string>
-    <string name="menu_edit_split">ערוך פיצול</string>
+    <string name="menu_edit_split">עריכת עסקה מפוצלת</string>
     <string name="menu_edit_split_part_category">ערוך חלק מפוצל בקטגוריה</string>
     <string name="menu_edit_split_part_transfer">ערוך חלק מפוצל בהעברה</string>
     <string name="menu_edit_template">ערוך תבנית</string>
