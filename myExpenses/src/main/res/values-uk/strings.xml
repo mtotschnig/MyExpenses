@@ -141,7 +141,7 @@
     <string name="menu_edit_method">Редагувати спосіб оплати</string>
     <string name="menu_edit_party">Редагування учасника</string>
     <string name="menu_edit_plan_instance">Редагування єдиного плану виникнення</string>
-    <string name="menu_edit_split">Редагувати поділ</string>
+    <string name="menu_edit_split">Редагувати розділену транзакцію</string>
     <string name="menu_edit_split_part_category">Редагувати частину поділу категорії</string>
     <string name="menu_edit_split_part_transfer">Редагувати частину поділу переказу</string>
     <string name="menu_edit_template">Редагувати шаблон</string>
