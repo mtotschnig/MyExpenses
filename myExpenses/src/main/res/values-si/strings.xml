@@ -91,8 +91,8 @@
     <string name="menu_create_method">නව මිලදී ගැනීමේ ක්‍රමය </string>
     <string name="menu_create_party">අලුත් පක්ෂය </string>
     <string name="menu_create_split">නව බෙදීම </string>
-    <string name="menu_create_split_part_category">නව ප්‍රබේධ කොටස් බෙදීම </string>
-    <string name="menu_create_split_part_transfer">නව හුවමාරු කොටස් බෙදීම </string>
+    <string name="menu_create_split_part_category">නව ප්‍රබේධ කොටස් බෙදීම</string>
+    <string name="menu_create_split_part_transfer">නව හුවමාරු කොටස් බෙදීම</string>
     <string name="menu_create_sub_cat">නව උප ප්‍රබේධය  </string>
     <string name="menu_create_template">නව අච්චුව </string>
     <string name="menu_create_template_from_transaction">අච්චුවක් ලෙස සුරැකීම </string>
@@ -109,8 +109,8 @@
     <string name="menu_edit_party">පක්ෂය සංස්කරණය කිරීම </string>
     <string name="menu_edit_plan_instance">එක් සැලසුමක් සිදුවීම සංස්කරණය කරන්න </string>
     <string name="menu_edit_split">බෙදීම සංස්කරණය කරන්න </string>
-    <string name="menu_edit_split_part_category">ප්‍රබේධ කොටස් බෙදීම සංස්කරණය කරන්න </string>
-    <string name="menu_edit_split_part_transfer">හුවමාරු කොටස් බෙදීම සංස්කරණය කරන්න </string>
+    <string name="menu_edit_split_part_category">ප්‍රබේධ කොටස් බෙදීම සංස්කරණය කරන්න</string>
+    <string name="menu_edit_split_part_transfer">හුවමාරු කොටස් බෙදීම සංස්කරණය කරන්න</string>
     <string name="menu_edit_template">අච්චුව සංස්කරණය කරන්න </string>
     <string name="menu_edit_transaction">ගනුදෙනුව සංස්කරණය කරන්න </string>
     <string name="menu_edit_transfer">හුවමාරුව  සංස්කරනය කරන්න </string>
@@ -137,7 +137,7 @@
     <string name="no_mapped_transactions">මෙම කාලපරාසය තුල කිසම ගනුදෙනුවක් ප්‍රබේධ තුලට වෙන්  කොට නැත </string>
     <string name="no_methods">මිලදී ගැනීමේ ක්‍රමයක් නැත </string>
     <string name="no_parties">කණ්ඩායම් නැත </string>
-    <string name="no_split_parts">කොටස් බෙදීම් නොමැත </string>
+    <string name="no_split_parts">කොටස් බෙදීම් නොමැත</string>
     <string name="no_templates">අච්චු නැත </string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">තෝරාගත් අවයවය  ගනුදෙනු තුලට වෙන් කොට ඇති අතර මකා දැමිය නොහැක </item>
@@ -252,7 +252,7 @@
     <string name="select_category">වර්ගය තෝරාගන්න </string>
     <string name="share_scheme_not_supported">%1$s ක්‍රමය තහවුරු නොකරයි </string>
     <string name="share_sending">අපනයනය කල ලිපි ගොනුව යවන්න </string>
-    <string name="split_parts_heading">කොටස් බෙදන්න </string>
+    <string name="split_parts_heading">කොටස් බෙදන්න</string>
     <string name="split_transaction">විභේදනය වූ ගනුදෙනු</string>
     <string name="status">තත්වය </string>
     <string name="status_cleared">හිස් කරා </string>
