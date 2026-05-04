@@ -143,7 +143,7 @@
     <string name="menu_edit_method">Chỉnh sửa phương thức thanh toán</string>
     <string name="menu_edit_party">Chỉnh sửa bên</string>
     <string name="menu_edit_plan_instance">Chỉnh sửa sự xuất hiện của kế hoạch một lần</string>
-    <string name="menu_edit_split">Chỉnh sửa phần phân tách</string>
+    <string name="menu_edit_split">Chỉnh sửa giao dịch chia nhỏ</string>
     <string name="menu_edit_split_part_category">Chỉnh sửa phần phân loại phân tách</string>
     <string name="menu_edit_split_part_transfer">Chỉnh sửa phần tách của giao dịch chuyển khoản</string>
     <string name="menu_edit_template">Chỉnh sửa mẫu</string>
