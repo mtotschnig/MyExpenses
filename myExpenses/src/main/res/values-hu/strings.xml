@@ -146,7 +146,7 @@
     <string name="menu_edit_method">Fizetési mód szerkesztése</string>
     <string name="menu_edit_party">Résztvevő szerkesztése</string>
     <string name="menu_edit_plan_instance">Egyetlen előfordulási terv szerkesztése</string>
-    <string name="menu_edit_split">Részlet szerkesztése</string>
+    <string name="menu_edit_split">Felosztott tranzakció szerkesztése</string>
     <string name="menu_edit_split_part_category">A részletösszeg kategóriájának szerkesztése</string>
     <string name="menu_edit_split_part_transfer">Az átutalás részletösszegének szerkesztése</string>
     <string name="menu_edit_template">Sablon szerkesztése</string>
