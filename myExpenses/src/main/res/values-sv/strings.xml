@@ -103,7 +103,7 @@
     <string name="menu_share">Berätta för en vän</string>
     <string name="menu_reset_plan_instance">Återställ</string>
     <string name="dialog_password_activate_protection">Aktivera lösenordsskydd</string>
-    <string name="account_type_cash">Kontantkonto</string>
+    <string name="account_type_cash">Kontant</string>
     <string name="account_type_asset">Övriga tillgångar</string>
     <string name="pref_shortcut_not_added">Ingen Hemskärm tillgänglig som accepterar genvägar.</string>
     <string name="help_heading_credits">Medverkande</string>
@@ -217,7 +217,7 @@
     <string name="pref_share_target_title">URL för uppladdning</string>
     <string name="menu_create_template_for_transfer">Ny mall för överföring</string>
     <string name="pref_manage_categories_title">Kategorier</string>
-    <string name="account_type_liability">Likviditetskonto</string>
+    <string name="account_type_liability">Övriga skulder</string>
     <string name="menu_edit_party">Redigera part</string>
     <string name="sum_income">Inkomst</string>
     <string name="share_scheme_not_supported">Schemat %1$s stöds inte</string>
@@ -457,10 +457,14 @@
     <string name="synchronization_end_success_none">Inga ändringar att synkronisera.</string>
     <string name="onboarding_restore_from_cloud">Återställ från molnsynkronisering</string>
     <string name="onboarding_restore_from_local">Återställ från lokal säkerhetskopia</string>
-    <string name="account_type_investment">Investeringsportfölj</string>
+    <string name="account_type_investment">Investeringar</string>
     <string name="contrib_feature_roadmap_voting_label">Rösta rätt på <b>färdplan för utveckling</b></string>
     <string name="dialog_command_disabled_balance">Inga clearade transaktioner att stämma av.</string>
     <string name="dialog_contrib_text_2">Vänligen bidra genom att uppgradera <i>{app_name}</i> och få obegränsad åtkomst till följande funktioner:</string>
     <string name="dialog_contrib_usage_limit_split_templates">Din nuvarande licensstatus (%1$s) låter dig skapa en delad mall.</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Med din nuvarande licensstatus (%1$s), visas denna dialog vid varje användning.</string>
+    <string name="menu_create_split_part_category">Ny kategoriuppdelning</string>
+    <string name="menu_create_split_part_transfer">Ny överföringsuppdelning</string>
+    <string name="menu_edit_plan_instance">Redigera enskild planförekomst</string>
+    <string name="menu_edit_split">Redigera uppdelning</string>
 </resources>
