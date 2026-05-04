@@ -137,8 +137,8 @@
     <string name="menu_create_method">New payment method</string>
     <string name="menu_create_party">New party</string>
     <string name="menu_create_split">New split</string>
-    <string name="menu_create_split_part_category">New category split part</string>
-    <string name="menu_create_split_part_transfer">New transfer split part</string>
+    <string name="menu_create_split_part_category">New category split</string>
+    <string name="menu_create_split_part_transfer">New transfer split</string>
     <string name="menu_create_sub_cat">New sub category</string>
     <string name="menu_create_template">New template</string>
     <string name="menu_create_template_from_transaction">Save as template</string>
@@ -155,8 +155,8 @@
     <string name="menu_edit_party">Edit party</string>
     <string name="menu_edit_plan_instance">Edit single plan occurrence</string>
     <string name="menu_edit_split">Edit split</string>
-    <string name="menu_edit_split_part_category">Edit category split part</string>
-    <string name="menu_edit_split_part_transfer">Edit transfer split part</string>
+    <string name="menu_edit_split_part_category">Edit category split</string>
+    <string name="menu_edit_split_part_transfer">Edit transfer split</string>
     <string name="menu_edit_template">Edit Template</string>
     <string name="menu_edit_transaction">Edit Transaction</string>
     <string name="menu_edit_transfer">Edit Transfer</string>
@@ -190,7 +190,7 @@
     <string name="no_mapped_transactions">No transactions have been mapped to categories during this period.</string>
     <string name="no_methods">No payment methods.</string>
     <string name="no_parties">No parties.</string>
-    <string name="no_split_parts">No split parts.</string>
+    <string name="no_split_parts">No splits.</string>
     <string name="no_templates">No templates.</string>
     <string name="no_accounts">No accounts.</string>
     <plurals name="not_deletable_mapped_transactions">
@@ -323,7 +323,7 @@
     <string name="select_payee">Select payer/payee</string>
     <string name="share_scheme_not_supported">Scheme %1$s not supported</string>
     <string name="share_sending">Send export file</string>
-    <string name="split_parts_heading">Split parts</string>
+    <string name="split_parts_heading">Splits</string>
     <string name="split_transaction">Split transaction</string>
     <string name="status">Status</string>
     <string name="status_cleared">cleared</string>
@@ -475,7 +475,7 @@
     <string name="plan_instance_state_cancelled">cancelled</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">applied</string>
-    <string name="progress_dialog_updating_split_parts">Updating split parts</string>
+    <string name="progress_dialog_updating_split_parts">Updating splits</string>
     <string name="warning_cannot_move_split_transaction">This split transaction cannot be moved to account %1$s because there are transfer parts that refer to this account.</string>
     <string name="content_description_calculator_delete_button">Delete last digit</string>
     <string name="paypal_callback_info">Your transaction has been completed, and a receipt for your purchase has been emailed to you. You may log into your account at www.paypal.com to view details of this transaction.</string>
@@ -599,7 +599,7 @@
     <string name="menu_original_amount">Original amount</string>
     <string name="menu_equivalent_amount">Equivalent amount</string>
     <string name="warning_split_transactions">The selected transactions will be grouped into one split transaction. Their date information will be lost, i.e. replaced by their average.</string>
-    <string name="warning_ungroup_split_transactions">The selected split transactions will be ungrouped, i.e. their split parts will become normal transactions.</string>
+    <string name="warning_ungroup_split_transactions">The selected split transactions will be ungrouped, i.e. their splits will become normal transactions.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
     <string name="menu_ungroup_split_transaction">Ungroup split</string>
     <string name="ungroup_split_transaction_success">Split Transaction was successfully ungrouped.</string>
