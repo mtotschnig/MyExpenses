@@ -125,7 +125,7 @@
     <string name="menu_edit_method">Rediger betalingsmetode</string>
     <string name="menu_edit_party">Rediger part</string>
     <string name="menu_edit_plan_instance">Rediger enkelt planforekomst</string>
-    <string name="menu_edit_split">Rediger opdeling</string>
+    <string name="menu_edit_split">Rediger opdelt transaktion</string>
     <string name="menu_edit_split_part_category">Rediger kategoriopdelt del</string>
     <string name="menu_edit_split_part_transfer">Rediger overførselsopdelt del</string>
     <string name="menu_edit_template">Rediger skabelon</string>
