@@ -307,7 +307,7 @@
     <string name="select_payee">Επιλογή πληρωτή/δικαιούχου</string>
     <string name="share_scheme_not_supported">Δεν υποστηρίζεται το πρόγραμμα/σύστημα %1$s</string>
     <string name="share_sending">Αποστολή αρχείου εξαγωγής</string>
-    <string name="split_parts_heading">Διαχωρισμός, διάσπαση των μερών </string>
+    <string name="split_parts_heading">Διαχωρισμός, διάσπαση των μερών</string>
     <string name="split_transaction">Διαιρεμένη συναλλαγή</string>
     <string name="status">Κατάσταση</string>
     <string name="status_cleared">εκκαθαρισμένη</string>
