@@ -102,7 +102,7 @@
     <string name="menu_edit_cat">編輯分類</string>
     <string name="menu_edit_method">修改付款方法</string>
     <string name="menu_edit_party">編輯貿易夥伴</string>
-    <string name="menu_edit_split">編輯分割</string>
+    <string name="menu_edit_split">編輯拆分交易</string>
     <string name="menu_edit_split_part_category">編輯已分割分類的部分</string>
     <string name="menu_edit_split_part_transfer">編輯已分割的轉移部分</string>
     <string name="menu_edit_template">編輯範本</string>
