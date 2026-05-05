@@ -162,9 +162,8 @@ private fun LazyPagingItems<Transaction2>.getCurrentPosition(
             log("increasing visibleIndex %d for header: %d", visibleIndex, headerId)
             lastHeader = headerId
         }
-        val isVisible = !collapsedIds.contains(headerId.toString())
         index++
-        if (isVisible) visibleIndex++
+        visibleIndex++
     }
     log("index/visibleIndex: %d/%d", index, visibleIndex)
     return ScrollCalculationResult(index, visibleIndex, lastHeader, found)
@@ -297,7 +296,7 @@ fun TransactionList(
         if (scrollToCurrentDateStartIndex.value == null) {
             if (scrollToCurrentDate.value) {
                 LaunchedEffect(Unit) {
-                    Timber.i(
+                    log(
                         "Scroll to current date result: %d",
                         scrollToCurrentDateResultIndex.intValue
                     )

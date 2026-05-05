@@ -492,13 +492,13 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 /*  private void insertTestData(SupportSQLiteDatabase db, Map<String, Long> accountTypes, int countGroup, int countChild) {
     int categories = MoreDbUtilsKt.setupDefaultCategories(db, MyApplication.Companion.getInstance().getResources()).getFirst();
     for (int i = 1; i <= countGroup; i++) {
-      LocalDateTime date = LocalDateTime.now().plusDays(25);
+      LocalDateTime date = LocalDateTime.now().plusMonths(25);
       AccountInfo testAccount = new AccountInfo("Test account " + i, accountTypes.get(AccountType.Companion.getBANK().getName()), 0);
       long testAccountId = db.insert(TABLE_ACCOUNTS, CONFLICT_NONE, testAccount.getContentValues());
       for (int j = 1; j <= countChild; j++) {
         long catId = j % (categories -1) + 1 ; //prevent assignment of split cat_id
         long payeeId = db.insert(TABLE_PAYEES, CONFLICT_NONE, new PayeeInfo("Payee " + i + "_" + j).getContentValues());
-        date = date.minusDays(1);
+        date = date.minusDays(3);
         TransactionInfo transactionInfo = new TransactionInfo(testAccountId, 0, date, "Transaction " + j, payeeId, null, catId, null, null, CrStatus.UNRECONCILED);
         db.insert(
             TABLE_TRANSACTIONS,
