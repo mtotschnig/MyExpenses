@@ -53,6 +53,7 @@ while getopts "p:c:u:d:a:b:v:" opt; do
           else
             show_help
           fi
+          ;;
         a) export KUNDE_ADDR_A=$OPTARG
            ;;
         b) export KUNDE_ADDR_B=$OPTARG
