@@ -153,7 +153,7 @@
     <string name="menu_edit_method">পেমেন্ট মেথড এডিট</string>
     <string name="menu_edit_party">পার্টি এডিট</string>
     <string name="menu_edit_plan_instance">একক প্লান এডিট</string>
-    <string name="menu_edit_split">স্প্লিট এডিট</string>
+    <string name="menu_edit_split">বিভাজন লেনদেন সম্পাদনা করুন</string>
     <string name="menu_edit_split_part_category">ক্যাটাগরি স্প্লিট পার্ট এডিট</string>
     <string name="menu_edit_split_part_transfer">ট্রান্সফার স্প্লিট পার্ট এডিট</string>
     <string name="menu_edit_template">টেমপ্লেট এডিট</string>

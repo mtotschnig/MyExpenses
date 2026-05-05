@@ -142,7 +142,7 @@
     <string name="menu_edit_method">Edytuj metodę płatności</string>
     <string name="menu_edit_party">Edytuj partie</string>
     <string name="menu_edit_plan_instance">Edytuj występowanie pojedynczego planu</string>
-    <string name="menu_edit_split">Edytuj podział</string>
+    <string name="menu_edit_split">Edytuj podzieloną transakcję</string>
     <string name="menu_edit_split_part_category">Edytuj część kategorii podziału</string>
     <string name="menu_edit_split_part_transfer">Edytuj część przelewu podziału</string>
     <string name="menu_edit_template">Edytuj Szablon</string>

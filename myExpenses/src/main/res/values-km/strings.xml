@@ -116,7 +116,7 @@
     <string name="menu_edit_method">កែ​វិធីសាស្ត្រ​ទូទាត់ប្រាក់</string>
     <string name="menu_edit_party">កែ​ភាគី</string>
     <string name="menu_edit_plan_instance">កែសម្រួលផែនការកើតឡើងតែមួយ</string>
-    <string name="menu_edit_split">កែការញែក</string>
+    <string name="menu_edit_split">កែសម្រួលប្រតិបត្តិការបំបែក</string>
     <string name="menu_edit_split_part_category">កែចំណាត់ថ្នាក់​​បែង​ចែក​ជាផ្នែក</string>
     <string name="menu_edit_split_part_transfer">កែ​ផ្នែក​ញែក​​ការផ្ទេរ​</string>
     <string name="menu_edit_template">កែសម្រួលទិន្នន័យគំរូ</string>

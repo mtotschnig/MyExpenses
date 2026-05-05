@@ -132,7 +132,7 @@
     <string name="menu_edit_method">지불 방식 편집</string>
     <string name="menu_edit_party">구성원 편집</string>
     <string name="menu_edit_plan_instance">단일 재무 계획의 발생 사실 편집</string>
-    <string name="menu_edit_split">분할 거래 내역 편집</string>
+    <string name="menu_edit_split">분할 거래 편집</string>
     <string name="menu_edit_split_part_category">카테고리 분할 거래의 일부분 편집</string>
     <string name="menu_edit_split_part_transfer">이체 분할 거래의 일부분 편집</string>
     <string name="menu_edit_template">템플릿 편집</string>

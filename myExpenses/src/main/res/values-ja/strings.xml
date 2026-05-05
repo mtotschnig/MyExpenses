@@ -144,7 +144,7 @@
     <string name="menu_edit_method">支払方法を編集</string>
     <string name="menu_edit_party">取引先を編集</string>
     <string name="menu_edit_plan_instance">単一計画発生を編集</string>
-    <string name="menu_edit_split">分割を編集</string>
+    <string name="menu_edit_split">分割取引を編集</string>
     <string name="menu_edit_split_part_category">分類分割パートを編集</string>
     <string name="menu_edit_split_part_transfer">振替分割パートを編集</string>
     <string name="menu_edit_template">テンプレートを編集</string>

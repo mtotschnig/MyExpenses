@@ -569,7 +569,7 @@
     <string name="menu_edit_template">మూసను సవరించండి</string>
     <string name="menu_edit_split_part_transfer">బదిలీ స్ప్లిట్ భాగాన్ని సవరించండి</string>
     <string name="menu_edit_split_part_category">వర్గం స్ప్లిట్ భాగాన్ని సవరించండి</string>
-    <string name="menu_edit_split">స్ప్లిట్ సవరించండి</string>
+    <string name="menu_edit_split">విభజన లావాదేవీని సవరించండి</string>
     <string name="menu_edit_plan_instance">ఒకే ప్రణాళిక సంభవించడాన్ని సవరించండి</string>
     <string name="menu_edit_party">పార్టీని సవరించండి</string>
     <string name="menu_edit_method">చెల్లింపు పద్ధతిని సవరించండి</string>

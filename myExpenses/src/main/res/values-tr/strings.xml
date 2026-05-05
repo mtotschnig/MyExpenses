@@ -146,7 +146,7 @@
     <string name="menu_edit_method">Ödeme yöntemini düzenle</string>
     <string name="menu_edit_party">Borçlu/alacaklıyı düzenle</string>
     <string name="menu_edit_plan_instance">Planlamanın tek oluşumunu düzenle</string>
-    <string name="menu_edit_split">Bölünmeyi düzenle</string>
+    <string name="menu_edit_split">Bölünmüş işlemi düzenle</string>
     <string name="menu_edit_split_part_category">Bölünmüş kategoriyi düzenle</string>
     <string name="menu_edit_split_part_transfer">Bölünmüş transferi düzenle</string>
     <string name="menu_edit_template">Şablonu düzenle</string>

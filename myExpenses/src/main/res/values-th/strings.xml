@@ -135,7 +135,7 @@
     <string name="menu_delete">ลบ</string>
     <string name="menu_distribution">การกระจาย</string>
     <string name="menu_edit_split_part_category">แก้ไขส่วนการแบ่งหมวดหมู่</string>
-    <string name="menu_edit_split">แก้ไขการแบ่ง</string>
+    <string name="menu_edit_split">แก้ไขรายการธุรกรรมแบบแยกส่วน</string>
     <string name="menu_edit_split_part_transfer">แก้ไขส่วนการแบ่งการโอน</string>
     <string name="menu_grouping">การจัดกลุ่ม</string>
     <string name="menu_help">ช่วยเหลือ</string>

@@ -108,7 +108,7 @@
     <string name="menu_edit_method">මිලදී ගන්නා ක්‍රමය සන්ස්කරණය කරන්න </string>
     <string name="menu_edit_party">පක්ෂය සංස්කරණය කිරීම </string>
     <string name="menu_edit_plan_instance">එක් සැලසුමක් සිදුවීම සංස්කරණය කරන්න </string>
-    <string name="menu_edit_split">බෙදීම සංස්කරණය කරන්න </string>
+    <string name="menu_edit_split">බෙදීම් ගනුදෙනුව සංස්කරණය කරන්න</string>
     <string name="menu_edit_split_part_category">ප්‍රබේධ කොටස් බෙදීම සංස්කරණය කරන්න</string>
     <string name="menu_edit_split_part_transfer">හුවමාරු කොටස් බෙදීම සංස්කරණය කරන්න</string>
     <string name="menu_edit_template">අච්චුව සංස්කරණය කරන්න </string>

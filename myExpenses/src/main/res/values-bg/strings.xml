@@ -146,7 +146,7 @@
     <string name="menu_edit_method">Редактирай начина на плащане</string>
     <string name="menu_edit_party">Редактирай страна</string>
     <string name="menu_edit_plan_instance">Редактирай плана</string>
-    <string name="menu_edit_split">Редактирай разпределяне</string>
+    <string name="menu_edit_split">Редактиране на разделена транзакция</string>
     <string name="menu_edit_split_part_category">Редактирай разпределяне по категория</string>
     <string name="menu_edit_split_part_transfer">Редактирай разпределяне с превод</string>
     <string name="menu_edit_template">Редактирай шаблон</string>

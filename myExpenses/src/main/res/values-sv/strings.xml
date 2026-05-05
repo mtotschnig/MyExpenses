@@ -466,5 +466,37 @@
     <string name="menu_create_split_part_category">Ny kategoriuppdelning</string>
     <string name="menu_create_split_part_transfer">Ny överföringsuppdelning</string>
     <string name="menu_edit_plan_instance">Redigera enskild planförekomst</string>
-    <string name="menu_edit_split">Redigera uppdelning</string>
+    <string name="menu_edit_split">Redigera delad transaktion</string>
+    <string name="menu_edit_split_part_category">Redigera kategoriuppdelning</string>
+    <string name="menu_edit_split_part_transfer">Redigera överföringsuppdelning</string>
+    <string name="no_app_handling_email_available">Ingen app som hanterar e-post tillgänglig.</string>
+    <string name="no_app_handling_mime_type_available">Ingen app som hanterar %s filer tillgänglig.</string>
+    <plurals name="not_deletable_mapped_transactions">
+        <item quantity="one">Det valda objektet mappas till en transaktion och kan inte raderas.</item>
+        <item quantity="other">%1$d objekten mappas till transaktioner och kan inte raderas.</item>
+    </plurals>
+    <plurals name="not_deletable_mapped_templates">
+        <item quantity="one">Det valda objektet mappas till en mall och kan inte raderas.</item>
+        <item quantity="other">%1$d objekt mappas till mallar och kan inte raderas.</item>
+    </plurals>
+    <string name="numbered">numrerad</string>
+    <string name="opening_balance">Ingående saldo</string>
+    <string name="parse_error_grisbi_version_not_supported">Grisbi-filversion som inte stöds: %1$s</string>
+    <string name="plan_execution_canceled">Planutförandet avbrutet</string>
+    <string name="planner_create_calendar_failure">Kan inte skapa lokal planerarkalender</string>
+    <string name="planner_create_calendar_success">Lokal planerarkalender framgångsrikt skapad</string>
+    <string name="pref_backup_summary">Skapa en säkerhetskopia av databasen och inställningarna.</string>
+    <string name="pref_sort_order_usages">Antal användningar</string>
+    <string name="pref_manage_sync_backends_title">Synkroniseringsbackends</string>
+    <string name="pref_manage_sync_backends_summary">Lägg till backends för att synkronisera konton (%s).</string>
+    <string name="pref_planning_calendar_summary">Välj kalendern där planer för framtida och återkommande transaktioner sparas</string>
+    <string name="pref_protection_delay_seconds_summary">Lediga sekunder innan appen låses med lösenord.</string>
+    <string name="pref_protection_delay_seconds_title">Vänta tills skydd</string>
+    <string name="pref_protection_enable_data_entry_from_widget_title">Datainmatning från widgets och genvägar</string>
+    <string name="pref_qif_export_file_encoding_title">Teckenkodning</string>
+    <string name="pref_restore_summary">Välj en backup för att återställa databas och inställningar.</string>
+    <string name="pref_share_target_summary">Lämna det tomt om du vill välja mellan lämpliga appar (e-post, Dropbox, Google Docs, ...), eller ange URL i någon av de stödda systemen</string>
+    <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Kan inte slå ihop dem med ett befintligt konto.</string>
+    <string name="restore_backup_file_not_found">Ingen fil %1$s hittad i arkivet \"%2$s\"</string>
+    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d planer har återställts från backup</string>
 </resources>

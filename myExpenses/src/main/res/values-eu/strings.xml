@@ -146,7 +146,7 @@
     <string name="menu_edit_method">Editatu ordainketa metodoa</string>
     <string name="menu_edit_party">Editatu onuradun/ordaintzailea</string>
     <string name="menu_edit_plan_instance">Editatu planaren gertakari bakarra</string>
-    <string name="menu_edit_split">Editatu banaketa</string>
+    <string name="menu_edit_split">Editatu zatiketa transakzioa</string>
     <string name="menu_edit_split_part_category">Editatu kategoriaren banaketaren zatia</string>
     <string name="menu_edit_split_part_transfer">Editatu transferentziaren banaketaren zatia</string>
     <string name="menu_edit_template">Editatu txantiloia</string>

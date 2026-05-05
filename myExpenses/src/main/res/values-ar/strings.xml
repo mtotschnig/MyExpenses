@@ -150,7 +150,7 @@
     <string name="menu_edit_method">تعديل طريقة الدفع</string>
     <string name="menu_edit_party">تعديل طرف</string>
     <string name="menu_edit_plan_instance">تحرير مدى ورود خطة واحدة</string>
-    <string name="menu_edit_split">تعديل تقسيم</string>
+    <string name="menu_edit_split">تعديل تقسيم المعاملة</string>
     <string name="menu_edit_split_part_category">تعديل تقسيم تصنيف</string>
     <string name="menu_edit_split_part_transfer">تعديل تقسيم تحويل</string>
     <string name="menu_edit_template">تعديل نموذج</string>

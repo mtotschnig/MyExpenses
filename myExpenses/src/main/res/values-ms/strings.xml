@@ -145,7 +145,7 @@
     <string name="menu_edit_method">Sunting kaedah pembayaran</string>
     <string name="menu_edit_party">Sunting pihak</string>
     <string name="menu_edit_plan_instance">Sunting kemunculan plan tunggal</string>
-    <string name="menu_edit_split">Sunting pengasingan</string>
+    <string name="menu_edit_split">Edit transaksi berpecah</string>
     <string name="menu_edit_split_part_category">Sunting bahagian pengasingan kategori</string>
     <string name="menu_edit_split_part_transfer">Sunting bahagian pengasingan pemindahan</string>
     <string name="menu_edit_template">Sunting Templat</string>
