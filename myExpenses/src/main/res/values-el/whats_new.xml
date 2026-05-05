@@ -36,4 +36,8 @@
     <string name="migration_v2_feedback_title">Τι δεν λειτουργεί στο V2;</string>
     <string name="migration_v2_confirm_opt_out">Επιστροφή στο V1</string>
     <string name="whats_new_407">Φυσική ταξινόμηση για ετικέτες, κατηγορίες, λογαριασμούς, μέρη.</string>
+    <string name="whats_new_376_1">Αντιγράψτε πολλές συναλλαγές με νέα ημερομηνία.</string>
+    <string name="whats_new_376_2">Η διεπαφή χρήστη ιστού μπορεί να ελεγχθεί από την κύρια οθόνη.</string>
+    <string name="whats_new_378">Τα γραφήματα αντιστοιχούν στο φίλτρο αναζήτησης.</string>
+    <string name="whats_new_382">Η λειτουργία %1$s μπορεί να κληθεί από το γραφικό στοιχείο %2$s.</string>
 </resources>
