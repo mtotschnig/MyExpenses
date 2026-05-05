@@ -395,7 +395,6 @@
     <string name="widget_title_accounts">আমার অ্যাকাউন্টসমূহ</string>
     <string name="widget_title_templates">আমার টেমপ্লেটসমূহ</string>
     <string name="app_dir_not_accessible">বর্তমানে নির্বাচিত ব্যাকআপ এবং এক্সপোর্টর ফোল্ডার (%1$s) অ্যাক্সেস করা যাচ্ছে না। অনুগ্রহ করে একটি ভিন্ন ফোল্ডার নির্বাচন করুন।</string>
-    <string name="app_dir_not_compatible_with_nougat">বর্তমানে কনফিগার করা ব্যাকআপ এবং এক্সপোর্টর URI (%1$s) Android Nougat-এ সমর্থিত নয়। অনুগ্রহ করে আবার একটি ফোল্ডার নির্বাচন করুন।</string>
     <string name="search_amount">পরিমাণ সার্চ করুন</string>
     <string name="search_category">ক্যাটাগরি সার্চ করুন</string>
     <string name="search_comment">নোট সার্চ করুন</string>

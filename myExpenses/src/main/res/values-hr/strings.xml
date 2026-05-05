@@ -728,7 +728,6 @@
     <string name="before">prije %s</string>
     <string name="search_tag">Traži oznaku</string>
     <string name="search_date">Traži datum</string>
-    <string name="app_dir_not_compatible_with_nougat">Trenutačno konfigurirani URI za sigurnosne kopije i izvoze (%1$s) nije podržan pod Android Nougatom. Ponovo odaberi jednu mapu.</string>
     <string name="app_dir_not_accessible">Trenutačno odabrana mapa za sigurnosne kopije i izvoz (%1$s) nije dostupna. Odaberi jednu drugu.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Aktualiziraj iznose u bazi podataka</string>
     <string name="warning_change_fraction_digits_3">Ako se iznosi aktualiziraju, izgubit ćeš podatke o njihovim decimalnim mjestima.</string>

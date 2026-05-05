@@ -376,7 +376,6 @@
     <string name="widget_title_accounts">我的账户</string>
     <string name="widget_title_templates">我的模板</string>
     <string name="app_dir_not_accessible">无法使用您所选的文件夹(%1$s)，请选择其他文件夹。</string>
-    <string name="app_dir_not_compatible_with_nougat">Android Nougat不支持当前配置用于备份和导出的URI（%1$s）。请再次选择一个文件夹。</string>
     <string name="search_amount">搜索账户</string>
     <string name="search_category">搜索类别</string>
     <string name="search_comment">搜索备注</string>

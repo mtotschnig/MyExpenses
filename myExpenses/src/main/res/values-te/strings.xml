@@ -226,7 +226,6 @@
     <string name="search_comment">గమనికల కోసం శోధించండి</string>
     <string name="search_category">వర్గం కోసం శోధించండి</string>
     <string name="search_amount">మొత్తం కోసం శోధించండి</string>
-    <string name="app_dir_not_compatible_with_nougat">Android నౌగాట్ క్రింద బ్యాకప్‌లు మరియు ఎగుమతుల (%1$s) కోసం ప్రస్తుతం కాన్ఫిగర్ చేయబడిన URI కి మద్దతు లేదు. దయచేసి మళ్ళీ ఫోల్డర్‌ను ఎంచుకోండి.</string>
     <string name="app_dir_not_accessible">బ్యాకప్‌లు మరియు ఎగుమతుల (%1$s) కోసం ప్రస్తుతం ఎంచుకున్న ఫోల్డర్ ప్రాప్యత చేయబడదు. దయచేసి వేరేదాన్ని ఎంచుకోండి.</string>
     <string name="widget_title_templates">నా టెంప్లేట్లు</string>
     <string name="widget_title_accounts">నా ఖాతాలు</string>

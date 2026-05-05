@@ -373,7 +373,6 @@
     <string name="widget_title_accounts">Akaun saya</string>
     <string name="widget_title_templates">Templat saya</string>
     <string name="app_dir_not_accessible">Folder terpilih semasa untuk sandar dan eksport (%1$s) tidak boleh dicapai. Sila pilih yang lain.</string>
-    <string name="app_dir_not_compatible_with_nougat">URI terkonfigur semasa untuk sandar dan eksport (%1$s) tidak disokong di bawah Android Nougat. Sila pilih folder yang lain.</string>
     <string name="search_amount">Gelintar amaun</string>
     <string name="search_category">Gelintar kategori</string>
     <string name="search_comment">Gelintar nota</string>

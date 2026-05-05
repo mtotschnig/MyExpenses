@@ -383,7 +383,6 @@
     <string name="widget_title_accounts">Hesaplarım</string>
     <string name="widget_title_templates">Şablonlarım</string>
     <string name="app_dir_not_accessible">Yedeklemeler ve dışa aktarmalar için seçili olan klasöre (%1$s) erişilemiyor. Lütfen başka bir klasör seçin.</string>
-    <string name="app_dir_not_compatible_with_nougat">Yedeklemeler ve dışa aktarmalar için yapılandırılmış olan URI (%1$s) Android Nougat tarafından desteklenmiyor. Lütfen tekrar bir klasör seçin.</string>
     <string name="search_amount">Meblağ ara</string>
     <string name="search_category">Kategori ara</string>
     <string name="search_comment">Not ara</string>

@@ -477,7 +477,6 @@
     <string name="warning_reset_account_all">اگر ادامه دهید، برای همه حساب‌های %1$s، تراکنش‌ها از پایگاه داده حذف می‌شوند و قابل بازیابی نیستند.</string>
     <string name="warning_splitpartcategory_context">نقل و انتقالاتی که بخشی از یک تسهیم هستند فقط در زمینه تسهیم قابل ویرایش هستند.</string>
     <string name="menu_categories_setup_default">دسته بندی های پیش فرض را تنظیم کنید</string>
-    <string name="app_dir_not_compatible_with_nougat">URI پیکربندی شده فعلی برای پشتیبان‌گیری و برون بری (%1$s) در اندروید نوقا پشتیبانی نمی‌شود. لطفاً دوباره یک پوشه را انتخاب کنید.</string>
     <string name="pref_manage_stale_images_title">تصاویر قدیمی</string>
     <string name="export_handle_deleted_update_balance">به روز رسانی موجودی افتتاحیه</string>
     <string name="csv_import_field_mapped_more_than_once">%s بیش از یک بار نگاشته شده است.</string>

@@ -388,7 +388,6 @@
     <string name="widget_title_accounts">Moje konta</string>
     <string name="widget_title_templates">Moje szablony</string>
     <string name="app_dir_not_accessible">Aktualnie wybrany folder na kopie zapasowe i eksport (%1$s) jest niedostępny. Proszę wybrać inny.</string>
-    <string name="app_dir_not_compatible_with_nougat">Aktualnie skonfigurowany identyfikator URI dla kopii zapasowych i eksportowych (%1$s) nie jest obsługiwany w systemie Android Nougat. Proszę wybrać folder ponownie.</string>
     <string name="search_amount">Szukaj kwoty</string>
     <string name="search_category">Szukaj kategorii</string>
     <string name="search_comment">Szukaj notatek</string>

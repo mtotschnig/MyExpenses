@@ -396,7 +396,6 @@
     <string name="widget_title_accounts">Мои счета</string>
     <string name="widget_title_templates">Мои шаблоны</string>
     <string name="app_dir_not_accessible">Текущая выбранная папка для резервного копирования и экспорта (%1$s) недоступна. Пожалуйста, выберите другую.</string>
-    <string name="app_dir_not_compatible_with_nougat">Текущий настроенный URI для резервного копирования и экспорта (%1$s) не поддерживается в Android Nougat. Пожалуйста, выберите папку снова .</string>
     <string name="search_amount">Поиск по размеру</string>
     <string name="search_category">Поиск по категории</string>
     <string name="search_comment">Поиск по заметкам</string>

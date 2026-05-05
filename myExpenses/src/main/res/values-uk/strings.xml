@@ -386,7 +386,6 @@
     <string name="widget_title_accounts">Мої рахунки</string>
     <string name="widget_title_templates">Мої шаблони</string>
     <string name="app_dir_not_accessible">Поточна тека для резервних копій та експорту (%1$s) недоступна. Будь ласка, виберіть іншу.</string>
-    <string name="app_dir_not_compatible_with_nougat">Поточний URI для резервних копій та експорту (%1$s) не підтримується в Android Nougat. Будь-ласка, виберіть знову теку.</string>
     <string name="search_amount">Шукати суму</string>
     <string name="search_category">Шукати категорію</string>
     <string name="search_comment">Шукати нотатки</string>

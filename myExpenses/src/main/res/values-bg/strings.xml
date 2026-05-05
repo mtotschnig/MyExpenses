@@ -383,7 +383,6 @@
     <string name="widget_title_accounts">Моите сметки</string>
     <string name="widget_title_templates">Моите шаблони</string>
     <string name="app_dir_not_accessible">Посочената за архив и експорт папка (%1$s) не е достъпна. Моля, изберете друга.</string>
-    <string name="app_dir_not_compatible_with_nougat">Зададения за архив и експорт URL (%1$s)  е недостъпен за Android Nougat. Моля, изберете папка отново.</string>
     <string name="search_amount">Търсене на сума</string>
     <string name="search_category">Търсене на категория</string>
     <string name="search_comment">Търсене на бележка</string>

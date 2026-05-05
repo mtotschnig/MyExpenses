@@ -383,7 +383,6 @@
     <string name="widget_title_accounts">Meine Konten</string>
     <string name="widget_title_templates">Meine Vorlagen</string>
     <string name="app_dir_not_accessible">Der aktuell ausgewählte Ordner für Sicherungen und Exporte (%1$s) ist nicht zugänglich. Bitte wählen Sie einen anderen.</string>
-    <string name="app_dir_not_compatible_with_nougat">Die aktuell konfigurierte URI für Datensicherungen und Exporte (%1$s) wird unter Android Nougat nicht unterstützt. Bitte wählen Sie erneut einen Ordner aus.</string>
     <string name="search_amount">Suche nach Betrag</string>
     <string name="search_category">Suche nach Kategorie</string>
     <string name="search_comment">Suche nach Notizen</string>

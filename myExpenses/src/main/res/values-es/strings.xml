@@ -390,7 +390,6 @@
     <string name="widget_title_accounts">Mis cuentas</string>
     <string name="widget_title_templates">Mis plantillas</string>
     <string name="app_dir_not_accessible">La carpeta seleccionada actualmente para copias de seguridad y exportaciones (%1$s) no es accesible. Por favor, seleccione otra.</string>
-    <string name="app_dir_not_compatible_with_nougat">La actual dirección URL para copias de seguridad y exportaciones (%1$s) no tiene soporte en Android Nougat. Por favor, seleccione una carpeta de nuevo.</string>
     <string name="search_amount">Búsqueda por importe</string>
     <string name="search_category">Búsqueda por categoría</string>
     <string name="search_comment">Buscar por notas</string>

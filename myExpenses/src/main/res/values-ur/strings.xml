@@ -371,7 +371,6 @@
     <string name="comparison_operator_date_after">کے بعد</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">خریداری ناکام یا منسوخ ہو گئی.</string>
     <string name="import_categories_none">کوئی زمرہ درآمد نہیں کیا گیا</string>
-    <string name="app_dir_not_compatible_with_nougat">بیک اپ اور برآمدات (%1$s) کے لیے فی الحال کنفیگر کردہ URI Android Nougat کے تحت تعاون یافتہ نہیں ہے۔ براہ کرم ایک فولڈر دوبارہ منتخب کریں.</string>
     <string name="pref_manage_stale_images_summary">حذف شدہ لین دین سے بچ جانے والی تصاویر کا نظم کریں</string>
     <string name="transaction_deleted">لین دین کو حذف کر دیا گیا ہے</string>
     <string name="account_deleted">اکاؤنٹ حذف کر دیا گیا ہے</string>

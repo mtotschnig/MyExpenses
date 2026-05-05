@@ -461,7 +461,6 @@
     <string name="exchange_rate">Valutakurs</string>
     <string name="menu_sync_link">Start synkronisering</string>
     <string name="warning_change_fraction_digits_1">Beløb i databasen skal opdateres for at matche det nye antal decimaler.</string>
-    <string name="app_dir_not_compatible_with_nougat">Den aktuelt konfigurerede URI til sikkerhedskopier og eksport (%1$s) understøttes ikke i Android Nougat. Vælg venligst en mappe igen.</string>
     <string name="pref_custom_decimal_format_title">Talformat</string>
     <string name="pref_auto_backup_title">Auto-sikkerhedskopiér</string>
     <string name="pref_auto_backup_summary">Sikkerhedskopiér databasen dagligt på det angivne tidspunkt (kun hvis data ændres).</string>

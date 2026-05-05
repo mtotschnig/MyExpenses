@@ -201,15 +201,8 @@ object AppDirHelper {
     fun checkAppDir(context: Context): Result<DocumentFile> = getAppDir(context).mapCatching {
         val uri = it.uri
         if ("file" == uri.scheme) {
-            try {
-                getContentUriForFile(context, File(File(uri.path!!), "test"))
-            } catch (_: IllegalArgumentException) {
-                throw localizedThrowable(
-                    context,
-                    R.string.app_dir_not_compatible_with_nougat,
-                    uri.toString()
-                )
-            }
+            //test if dir is covered by FileProvider
+            getContentUriForFile(context, File(File(uri.path!!), "test"))
         }
         it.takeIf { isWritableDirectory(it) } ?:
         throw localizedThrowable(context, R.string.app_dir_not_accessible, it.displayName)

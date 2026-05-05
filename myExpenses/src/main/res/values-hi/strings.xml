@@ -343,7 +343,6 @@
     <string name="import_categories_success">%1$d श्रेणियाँ सफलतापूर्वक आयात की गईं।</string>
     <string name="search_category">श्रेणी खोजें</string>
     <string name="comparison_operator_equal">के बराबर</string>
-    <string name="app_dir_not_compatible_with_nougat">बैकअप और निर्यात के लिए वर्तमान में कॉन्फ़िगर किया गया यूआरआई (%1$s) एंड्रॉइड नौगट के तहत समर्थित नहीं है। कृपया फिर से एक फ़ोल्डर चुनें।</string>
     <string name="search_comment">नोट्स खोजें</string>
     <string name="import_accounts_success">%1$d खाते सफलतापूर्वक आयात किए गए</string>
     <string name="warning_password_contrib">यदि आप अपना पासवर्ड भूल जाते हैं तो सुरक्षा प्रश्न सेट करने से आप ऐप को अनलॉक कर सकते हैं।</string>

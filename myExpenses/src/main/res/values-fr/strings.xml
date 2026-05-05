@@ -390,7 +390,6 @@
     <string name="widget_title_accounts">Mes comptes</string>
     <string name="widget_title_templates">Mes modèles</string>
     <string name="app_dir_not_accessible">Le dossier actuellement sélectionné pour les sauvegardes et les exportations (%1$s) n\'est pas accessible. Veuillez en choisir un autre.</string>
-    <string name="app_dir_not_compatible_with_nougat">La présente URI configurée pour les sauvegardes et les exportations (%1$s) n\'est pas prise en charge par Android Nougat. Veuillez encore sélectionner un répertoire.</string>
     <string name="search_amount">Recherche de montant</string>
     <string name="search_category">Recherche de catégorie</string>
     <string name="search_comment">Recherche par commentaires</string>

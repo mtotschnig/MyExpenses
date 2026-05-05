@@ -388,7 +388,6 @@
     <string name="widget_title_accounts">I miei conti</string>
     <string name="widget_title_templates">I miei modelli</string>
     <string name="app_dir_not_accessible">La cartella selezionata per i backup e le esportazioni (%1$s) non è accessibile. Si prega di selezionarne un\'altra.</string>
-    <string name="app_dir_not_compatible_with_nougat">L\'URI correntemente configurato per i backup e le esportazioni (%1$s) non è supportato in Android Nougat. Seleziona nuovamente una cartella.</string>
     <string name="search_amount">Cerca per importo</string>
     <string name="search_category">Cerca per categoria</string>
     <string name="search_comment">Cerca per note</string>

@@ -379,7 +379,6 @@
     <string name="warning_widget_disabled">Cal activar aquest widget a la configuració de l\'aplicació.</string>
     <string name="import_parties_none">Cap tercer importat</string>
     <string name="import_transactions_none">Cap transacció importada al compte %1$s</string>
-    <string name="app_dir_not_compatible_with_nougat">L\'URL assignada per a còpies de seguretat i exportacions (%1$s) no té suport a Android Nougat. Seleccioneu un fitxer de nou.</string>
     <string name="search_status">Cerca estat</string>
     <string name="comparison_operator_between">entre</string>
     <string name="account_deleted">Compte eliminat</string>

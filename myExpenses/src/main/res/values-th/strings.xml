@@ -521,7 +521,6 @@
     <plurals name="warning_delete_main_category">
         <item quantity="other">หมวดหมู่ที่เลือก %1$d หมวดหมู่มีหมวดหมู่ย่อยที่จะถูกลบด้วย</item>
     </plurals>
-    <string name="app_dir_not_compatible_with_nougat">URI ที่กำหนดไว้ปัจจุบันสำหรับการสำรองข้อมูลและการส่งออก (%1$s) ไม่ได้รับการสนับสนุนใน Android Nougat กรุณาเลือกโฟลเดอร์อีกครั้ง</string>
     <string name="cvs_import_set_first_line_as_header">ควรถือว่าแถวแรกเป็นแถวส่วนหัวหรือไม่?</string>
     <string name="account_deleted">ลบบัญชีเรียบร้อยแล้ว</string>
     <string name="dialog_export_applied_to_filter">จะพิจารณาเฉพาะรายการที่ตรงกับตัวกรองปัจจุบันเท่านั้น</string>

@@ -295,7 +295,6 @@
     <string name="pm_type_neutral">Нейтральны</string>
     <string name="restore_preferences_failure">Памылка аднаўлення налад</string>
     <string name="transfer_from_account">Ад</string>
-    <string name="app_dir_not_compatible_with_nougat">Бягучы URI для рэзервовых копій і экспарту (%1$s) не падтрымліваецца ў Android Nougat. Калі ласка, выберыце тэчку яшчэ раз.</string>
     <string name="menu_parse">Разбор</string>
     <string name="csv_import_field_mapped_more_than_once">%s адлюстравана больш за адзін раз.</string>
     <string name="preferences_week_start_day_title">Тыдзень пачынаецца з</string>

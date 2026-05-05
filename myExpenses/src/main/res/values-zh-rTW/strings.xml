@@ -376,7 +376,6 @@
     <string name="widget_title_accounts">我的帳戶</string>
     <string name="widget_title_templates">我的範本</string>
     <string name="app_dir_not_accessible">無法使用您所選的檔案夾 (%1$s)，請選擇其他檔案夾。</string>
-    <string name="app_dir_not_compatible_with_nougat">目前用來備份和匯出所設定的統一資源識別碼 URI (%1$s) 不被 Android Nougat 所支援。請再次選擇一個檔案夾。</string>
     <string name="search_amount">以金額來搜尋</string>
     <string name="search_category">以類別來搜尋</string>
     <string name="search_comment">以備註來搜尋</string>

@@ -382,7 +382,6 @@
     <string name="widget_title_accounts">ನನ್ನ ಖಾತೆಗಳು</string>
     <string name="widget_title_templates">ನನ್ನ ಟೆಂಪ್ಲೇಟ್‌ಗಳು</string>
     <string name="app_dir_not_accessible">ಬ್ಯಾಕಪ್‌ಗಳು ಮತ್ತು ರಫ್ತುಗಳಿಗಾಗಿ ಪ್ರಸ್ತುತ ಆಯ್ಕೆ ಮಾಡಲಾದ ಫೋಲ್ಡರ್ (%1$s) ಪ್ರವೇಶಿಸಲಾಗುವುದಿಲ್ಲ. ದಯವಿಟ್ಟು ಬೇರೆ ಒಂದನ್ನು ಆರಿಸಿ.</string>
-    <string name="app_dir_not_compatible_with_nougat">ಆಂಡ್ರಾಯ್ಡ್ ನೌಗಾಟ್ ಅಡಿಯಲ್ಲಿ ಬ್ಯಾಕಪ್ ಮತ್ತು ರಫ್ತುಗಳಿಗಾಗಿ ಪ್ರಸ್ತುತ ಕಾನ್ಫಿಗರ್ ಮಾಡಲಾದ ಯುಆರ್ಐ (%1$s) ಬೆಂಬಲಿಸುವುದಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಫೋಲ್ಡರ್ ಆಯ್ಕೆಮಾಡಿ.</string>
     <string name="search_amount">ಮೊತ್ತಕ್ಕಾಗಿ ಹುಡುಕಿ</string>
     <string name="search_category">ವರ್ಗಕ್ಕಾಗಿ ಹುಡುಕಿ</string>
     <string name="search_comment">ಟಿಪ್ಪಣಿಗಳಿಗಾಗಿ ಹುಡುಕಿ</string>
