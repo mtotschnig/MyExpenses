@@ -242,6 +242,7 @@ class MyExpensesV2ViewModel(
                             ?: currencyContext.homeCurrencyUnit,
                         type = activeFilter as? AccountType ?: AccountType.CASH,
                         flag = activeFilter as? AccountFlag ?: AccountFlag.DEFAULT,
+                        isSingleCurrency = filteredByVisibility.distinctBy { it.currency }.size == 1,
                         grouping = aggregateGrouping,
                         accountGrouping = aggregateAccountGrouping,
                         sortBy = aggregateSort.column,

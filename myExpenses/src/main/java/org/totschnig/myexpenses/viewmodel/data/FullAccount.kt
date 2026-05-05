@@ -82,12 +82,15 @@ sealed class BaseAccount : DataBaseAccount() {
     abstract val currentBalance: Long?
     abstract val equivalentTotal: Long?
     abstract fun labelV2(context: Context): String
-    fun aggregateColor(resources: Resources) = ResourcesCompat.getColor(resources, R.color.colorAggregate, null)
+    fun aggregateColor(resources: Resources) =
+        ResourcesCompat.getColor(resources, R.color.colorAggregate, null)
+
     abstract val balanceType: BalanceType
     override val flagId: Long?
         get() = flag.id
     override val typeId: Long?
         get() = type.id
+    abstract val isSingleCurrency: Boolean
 }
 
 @Stable
@@ -95,6 +98,7 @@ data class AggregateAccount(
     override val currencyUnit: CurrencyUnit,
     override val type: AccountType,
     override val flag: AccountFlag,
+    override val isSingleCurrency: Boolean,
     val openingBalance: Long? = null,
     override val currentBalance: Long? = null,
     val sumIncome: Long? = null,
@@ -114,12 +118,12 @@ data class AggregateAccount(
     override val total: Long? = null,
     override val equivalentTotal: Long = total ?: 0,
     override val accountGrouping: AccountGrouping<*>,
-    override val balanceType: BalanceType = BalanceType.CURRENT
-): BaseAccount() {
+    override val balanceType: BalanceType = BalanceType.CURRENT,
+) : BaseAccount() {
     override val id: Long = 0
     override val currency: String = currencyUnit.code
 
-    override fun labelV2(context: Context): String = when(accountGrouping) {
+    override fun labelV2(context: Context): String = when (accountGrouping) {
         AccountGrouping.TYPE -> type.title(context) + " ($SIGMA)"
         AccountGrouping.CURRENCY -> currencyUnit.code + " ($SIGMA)"
         AccountGrouping.FLAG -> flag.title(context) + " ($SIGMA)"
@@ -131,20 +135,21 @@ data class AggregateAccount(
     override fun color(resources: Resources) = aggregateColor(resources)
 
     override fun toPageAccount(context: Context) = PageAccount(
-            id = id,
-            type = type,
-            flag = flag,
-            sortBy = sortBy,
-            sortDirection = sortDirection,
-            grouping = grouping,
-            currencyUnit = currencyUnit,
-            sealed = false,
-            openingBalance = openingBalance ?: equivalentOpeningBalance,
-            currentBalance = currentBalance ?: equivalentCurrentBalance,
-            color = color(context.resources),
-            label = labelV2(context),
-            accountGrouping = accountGrouping
-        )
+        id = id,
+        type = type,
+        flag = flag,
+        sortBy = sortBy,
+        sortDirection = sortDirection,
+        grouping = grouping,
+        currencyUnit = currencyUnit,
+        sealed = false,
+        openingBalance = openingBalance ?: equivalentOpeningBalance,
+        currentBalance = currentBalance ?: equivalentCurrentBalance,
+        color = color(context.resources),
+        label = labelV2(context),
+        accountGrouping = accountGrouping,
+        isSingCurrency = isSingleCurrency
+    )
 }
 
 @Stable
@@ -185,6 +190,7 @@ data class FullAccount(
     val initialExchangeRate: Double? = null,
     val latestExchangeRate: Pair<LocalDate, Double>? = null,
     val dynamic: Boolean = false,
+    override val isSingleCurrency: Boolean = true,
 ) : BaseAccount(), AccountWithGroupingKey {
 
     override val accountGrouping: AccountGrouping<*>? = null
@@ -209,7 +215,8 @@ data class FullAccount(
             currentBalance = currentBalance,
             color = color,
             label = label,
-            accountGrouping = null
+            accountGrouping = null,
+            isSingCurrency = isSingleCurrency
         )
 
     /**
@@ -238,8 +245,9 @@ data class FullAccount(
             val sortBy = getString(KEY_SORT_BY)
                 .takeIf { it == KEY_DATE || it == KEY_AMOUNT }
                 ?: KEY_DATE
+            val id = getLong(KEY_ROWID)
             return FullAccount(
-                id = getLong(KEY_ROWID),
+                id = id,
                 label = getString(KEY_LABEL),
                 description = getStringOrNull(KEY_DESCRIPTION),
                 currencyUnit = currencyContext[getString(KEY_CURRENCY)],
@@ -279,7 +287,9 @@ data class FullAccount(
                     getLocalDate(KEY_LATEST_EXCHANGE_RATE_DATE) to it
                 },
                 dynamic = getBoolean(KEY_DYNAMIC),
-                balanceType = getEnumIfExists(KEY_BALANCE_TYPE, BalanceType.CURRENT)
+                balanceType = getEnumIfExists(KEY_BALANCE_TYPE, BalanceType.CURRENT),
+                //in V2 this is only called for real accounts, in V1 we need to set isSingleCurrency to false for home aggregate
+                isSingleCurrency = !isHomeAggregate(id)
             )
         }
     }
@@ -300,7 +310,8 @@ data class PageAccount(
     val label: String,
     //not null for aggregate accounts
     override val accountGrouping: AccountGrouping<*>? = null,
-    val color: Int = -1
+    val color: Int = -1,
+    val isSingCurrency: Boolean = true,
 ) : DataBaseAccount(), AccountWithGroupingKey {
     override val currency: String = currencyUnit.code
 

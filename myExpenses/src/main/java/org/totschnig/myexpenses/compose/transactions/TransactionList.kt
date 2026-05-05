@@ -396,7 +396,7 @@ fun TransactionList(
                                             showSumDetails = headersWithSumDetails.getValue(
                                                 headerId
                                             ),
-                                            showOnlyDelta = headerData.account.isHomeAggregate || headerData.isFiltered,
+                                            showOnlyDelta = !headerData.account.isSingCurrency || headerData.isFiltered,
                                             onHeaderSize = if (headerCorrection.value == null) {
                                                 {
                                                     headerCorrection.value = -it
