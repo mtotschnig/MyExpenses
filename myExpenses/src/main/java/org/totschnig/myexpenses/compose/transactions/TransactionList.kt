@@ -336,7 +336,6 @@ fun TransactionList(
                     items(count = firstLoadedIndex, key = { "p_$it" }) {}
                 }
 
-
                 var lastHeader: Int? = null
 
                 for (index in firstLoadedIndex..lastLoadedIndex) {
@@ -358,7 +357,9 @@ fun TransactionList(
                     }
                     val isExpanded = collapsedIds?.contains(headerId.toString()) != true
 
-                    if (headerId != lastHeader) {
+                    val isFirstInGroup = headerId != lastHeader
+
+                    if (isFirstInGroup) {
                         stickyHeader(
                             key = "header_$headerId",
                             contentType = STICKY_HEADER_CONTENT_TYPE
@@ -490,9 +491,9 @@ fun TransactionList(
                                     HorizontalDivider()
                                 }
                             }
-                        } else if (isLastInGroup) {
-                            //touch the last item in group to trigger next page load
-                            log("touching last in Group $index")
+                        } else if (isFirstInGroup || isLastInGroup) {
+                            //touch the first and last item in group to trigger next page load
+                            log("item: $index (first:$isFirstInGroup/last:$isLastInGroup in group)")
                             lazyPagingItems[index]
                         }
                     }
