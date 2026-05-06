@@ -131,8 +131,8 @@
     <string name="menu_create_method">Новый способ оплаты</string>
     <string name="menu_create_party">Новый контрагент</string>
     <string name="menu_create_split">Новое разделение</string>
-    <string name="menu_create_split_part_category">Новая категория разделённой части</string>
-    <string name="menu_create_split_part_transfer">Новый перевод разделённой части</string>
+    <string name="menu_create_split_part_category">Новая категория разделения</string>
+    <string name="menu_create_split_part_transfer">Новый перевод разделения</string>
     <string name="menu_create_sub_cat">Новая подкатегория</string>
     <string name="menu_create_template">Новый шаблон</string>
     <string name="menu_create_template_from_transaction">Сохранить как шаблон</string>
@@ -149,8 +149,8 @@
     <string name="menu_edit_party">Редактировать контрагентов</string>
     <string name="menu_edit_plan_instance">Редактировать единый возникший план</string>
     <string name="menu_edit_split">Редактировать разделенную транзакцию</string>
-    <string name="menu_edit_split_part_category">Редактировать категорию разделённой части</string>
-    <string name="menu_edit_split_part_transfer">Редактировать перевод разделённой части</string>
+    <string name="menu_edit_split_part_category">Редактировать категорию разделения</string>
+    <string name="menu_edit_split_part_transfer">Редактировать перевод разделения</string>
     <string name="menu_edit_template">Редактировать шаблон</string>
     <string name="menu_edit_transaction">Редактировать операцию</string>
     <string name="menu_edit_transfer">Редактировать перевод</string>
@@ -181,7 +181,7 @@
     <string name="no_mapped_transactions">Нет операций с сопоставленными категориями в этот период.</string>
     <string name="no_methods">Нет методов оплаты.</string>
     <string name="no_parties">Нет контрагентов.</string>
-    <string name="no_split_parts">Нет разделённых частей.</string>
+    <string name="no_split_parts">Нет разделений.</string>
     <string name="no_templates">Нет шаблонов.</string>
     <string name="no_accounts">Нет счетов.</string>
     <plurals name="not_deletable_mapped_transactions">
@@ -315,7 +315,7 @@
     <string name="select_payee">Выберите плательщика / получателя</string>
     <string name="share_scheme_not_supported">Схема %1$s не поддерживается</string>
     <string name="share_sending">Отправить экспортированный файл</string>
-    <string name="split_parts_heading">Разделённые части</string>
+    <string name="split_parts_heading">Разделения</string>
     <string name="split_transaction">Разделённая операция</string>
     <string name="status">Статус</string>
     <string name="status_cleared">очистить</string>
@@ -469,7 +469,7 @@
     <string name="plan_instance_state_cancelled">отмененный</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">принятый</string>
-    <string name="progress_dialog_updating_split_parts">Обновление частей</string>
+    <string name="progress_dialog_updating_split_parts">Обновление разделений</string>
     <string name="warning_cannot_move_split_transaction">Эта разделенная транзакция не может быть перемещена на счет %1$s, поскольку есть части перевода, которые ссылаются на этот счет.</string>
     <string name="content_description_calculator_delete_button">Удалить последнее число</string>
     <string name="paypal_callback_info">Ваша операция была завершена; квитанция об оплате была направлена на Ваш e-mail. Вы можете увидеть детали этой транзакции в своей учетной записи на www.paypal.com</string>
@@ -591,7 +591,7 @@
     <string name="menu_original_amount">Начальный баланс</string>
     <string name="menu_equivalent_amount">Эквивалентное количество</string>
     <string name="warning_split_transactions">Выбранные операции будут собраны в одну расщепленную операцию. Их содержание будет утеряно, напр. заменено их средним.</string>
-    <string name="warning_ungroup_split_transactions">Выбранные дробные операции будут разгруппированы, т.е. их составные части станут обычными операциями.</string>
+    <string name="warning_ungroup_split_transactions">Выбранные разделенные транзакции будут разгруппированы; иными словами, их части станут обычными транзакциями.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
     <string name="menu_ungroup_split_transaction">Разгруппировать расщепленную операцию</string>
     <string name="ungroup_split_transaction_success">Дробная операция была успешно разгруппирована.</string>
