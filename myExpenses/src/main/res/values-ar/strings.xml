@@ -17,11 +17,11 @@
     <string name="account">الحساب</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">أنواع الحسابات</string>
-    <string name="account_type_asset">حساب الاصول</string>
-    <string name="account_type_bank">حساب البنك</string>
-    <string name="account_type_cash">حساب النقد</string>
+    <string name="account_type_asset">أصول أخرى</string>
+    <string name="account_type_bank">البنك</string>
+    <string name="account_type_cash">النقد</string>
     <string name="account_type_ccard">بطاقة ائتمانية</string>
-    <string name="account_type_liability">حساب الالتزامات</string>
+    <string name="account_type_liability">التزامات أخرى</string>
     <string name="already_defined">%1$s معرّف مسبقاً</string>
     <string name="amount">القيمة</string>
     <string name="app_name">مصروفاتي</string>
@@ -133,8 +133,8 @@
     <string name="menu_create_method">طريقة دفع جديدة</string>
     <string name="menu_create_party">طرف جديد</string>
     <string name="menu_create_split">تقسيم جديد</string>
-    <string name="menu_create_split_part_category">تقسيم تصنيف جديد</string>
-    <string name="menu_create_split_part_transfer">تقسيم تحويل جديد</string>
+    <string name="menu_create_split_part_category">تقسيم فئوي جديد</string>
+    <string name="menu_create_split_part_transfer">تقسيم تحويلات جديد</string>
     <string name="menu_create_sub_cat">تصنيف فرعي جديد</string>
     <string name="menu_create_template">نموذج جديد</string>
     <string name="menu_create_template_from_transaction">حفظ كنموذج</string>
@@ -150,9 +150,9 @@
     <string name="menu_edit_method">تعديل طريقة الدفع</string>
     <string name="menu_edit_party">تعديل طرف</string>
     <string name="menu_edit_plan_instance">تحرير مدى ورود خطة واحدة</string>
-    <string name="menu_edit_split">تعديل تقسيم المعاملة</string>
-    <string name="menu_edit_split_part_category">تعديل تقسيم تصنيف</string>
-    <string name="menu_edit_split_part_transfer">تعديل تقسيم تحويل</string>
+    <string name="menu_edit_split">تعديل المعاملة المجزأة</string>
+    <string name="menu_edit_split_part_category">تعديل التقسيم الفئوي</string>
+    <string name="menu_edit_split_part_transfer">تعديل تقسيم التحويلات</string>
     <string name="menu_edit_template">تعديل نموذج</string>
     <string name="menu_edit_transaction">تعديل عملية</string>
     <string name="menu_edit_transfer">تعديل تحويل</string>
@@ -184,7 +184,7 @@
     <string name="no_mapped_transactions">لا يوجد عمليات لهذا التصنيف خلال هذه الفترة.</string>
     <string name="no_methods">لا يوجد طرق دفع.</string>
     <string name="no_parties">لا يوجد أطراف.</string>
-    <string name="no_split_parts">لا يوجد أجزاء مقسمة.</string>
+    <string name="no_split_parts">لا تقسيمات.</string>
     <string name="no_templates">لا يوجد نماذج.</string>
     <string name="no_accounts">لا توجد حسابات.</string>
     <plurals name="not_deletable_mapped_transactions">
