@@ -129,8 +129,8 @@
     <string name="menu_create_method">Нов начин на плащане</string>
     <string name="menu_create_party">Нова страна</string>
     <string name="menu_create_split">Ново разпределяне</string>
-    <string name="menu_create_split_part_category">Разпредели в категория</string>
-    <string name="menu_create_split_part_transfer">Разпредели с превод</string>
+    <string name="menu_create_split_part_category">Разпредели в друга категория</string>
+    <string name="menu_create_split_part_transfer">Разпредели с нов превод</string>
     <string name="menu_create_sub_cat">Нова подкатегория</string>
     <string name="menu_create_template">Нов шаблон</string>
     <string name="menu_create_template_from_transaction">Запамети като шаблон</string>
