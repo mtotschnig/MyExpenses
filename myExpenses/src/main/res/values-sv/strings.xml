@@ -605,7 +605,7 @@
     <string name="link_account_failure_3">Konflikten kan lösas manuellt från postens kontextmeny.</string>
     <string name="progress_dialog_checking_sync_backend">Verifiering av backend</string>
     <string name="all_contrib_key_features">Alla funktioner i Contrib Key</string>
-    <string name="warning_splitpartcategory_context"></string>
+    <string name="warning_splitpartcategory_context">Överföringar som ingår i en delad transaktion kan endast redigeras i samband med den delade transaktionen.</string>
     <string name="pref_webdav_timeout_title">WebDAV-timeout (i sekunder)</string>
     <string name="sync_state_restored" tools:ignore="PluralsCandidate">Synkroniseringstillståndet återställdes för %d konton.</string>
     <string name="sync_state_could_not_be_restored" tools:ignore="PluralsCandidate">Synkroniseringstillståndet kunde inte återställas för %d konton.</string>
@@ -672,4 +672,51 @@
     <string name="licence_has_expired_n_days" tools:ignore="PluralsCandidate">Din yrkesnyckel har gått ut för %d dagar sedan.</string>
     <string name="gdpr_consent_button_no">Betala för den annonsfria versionen</string>
     <string name="pref_sync_wifi_only_summary">Synkronisera endast när du är på Wi-Fi</string>
+    <string name="pref_sync_changes_immediately_summary">Skriv lokala ändringar omedelbart till backend</string>
+    <string name="saving_goal">Sparmål</string>
+    <string name="pref_scroll_to_current_date_title">Skrolla transaktionslistan till dagens datum</string>
+    <string name="pref_scroll_to_current_date_app_launch">endast när appen startas</string>
+    <string name="pref_scroll_to_current_date_account_open">varje gång du navigerar till ett konto</string>
+    <string name="budget_table_header_allocated">Tilldelad</string>
+    <string name="budget_table_header_spent">Utgifter</string>
+    <string name="budget_table_header_overspent">Överspenderat</string>
+    <string name="budget_allocated_amount">Tilldelat belopp</string>
+    <string name="budget_exceeded_error_1_1">Alla utom %s av dina budget har tilldelats andra kategorier.</string>
+    <string name="budget_exceeded_error_1_2">Hela din budget har tilldelats andra kategorier.</string>
+    <string name="budget_exceeded_error_2">Öka det budgeterade beloppet eller ta bort pengar från andra kategorier.</string>
+    <string name="budget_under_allocated_error">%s har redan tilldelats kategorier. Om du inte tar bort pengar från dem måste du åtminstone budgetera det beloppet.</string>
+    <string name="sub_budget_exceeded_error_1_1">Allt utom %s av det belopp som tilldelats huvudkategorin har tilldelats andra underkategorier.</string>
+    <string name="sub_budget_exceeded_error_1_2">Allt belopp som tilldelats huvudkategorin har tilldelats andra underkategorier.</string>
+    <string name="sub_budget_exceeded_error_2">Öka beloppet som tilldelas huvudkategorin, eller ta bort pengar från andra underkategorier.</string>
+    <string name="sub_budget_under_allocated_error">%s har redan fördelats till underkategorier. Om du inte tar bort pengar från dem måste du åtminstone fördela det beloppet till huvudkategorin.</string>
+    <string name="content_description_clear_method">Rensa metod</string>
+    <string name="currency_code">Kod</string>
+    <string name="currency_code_already_definded">Valutakoden är redan definierad.</string>
+    <string name="currency_still_used">Valutan är i bruk, kan inte raderas.</string>
+    <string name="unmapped">Omappade</string>
+    <string name="unmapped_filter_only_single">Filtret \"Omappade\" kan inte inkluderas i ett flerval</string>
+    <string name="pref_security_export_passphrase_summary">Säkerhetskopior kommer att krypteras med denna lösenfras</string>
+    <string name="backup_is_encrypted">Backupfilen är krypterad. För att dekryptera den måste du ange dess lösenfras.</string>
+    <string name="backup_wrong_password">Backupfilen verkar krypterad med en annan lösenfras.</string>
+    <string name="passphrase_for_synchronization">Ange en lösenfras om du vill att synkroniseringsdata på denna backend ska krypteras.</string>
+    <string name="sync_backend_is_encrypted">Fjärrbackend är krypterad. Du behöver ange en lösenfras.</string>
+    <string name="sync_backend_wrong_passphrase">Fjärrbackend verkar krypterad med en annan lösenfras.</string>
+    <string name="sync_backend_is_not_encrypted">Fjärrbackend är inte krypterad.</string>
+    <string name="warning_backup_protected">Arkivet kommer att skyddas av din lösenfras.</string>
+    <string name="menu_close">Avsluta</string>
+    <string name="menu_reopen">Återöppna</string>
+    <string name="content_description_closed">Avslutat</string>
+    <string name="warning_synced_account_cannot_be_closed">Ett konto som är kopplat till synkronisering kan inte avslutas</string>
+    <string name="content_description_dates_are_linked">Bokningsdatum och värdedatum uppdateras tillsammans</string>
+    <string name="content_description_dates_are_not_linked">Bokningsdatum och värdedatum uppdateras inte tillsammans</string>
+    <string name="roadmap_vote">Omröstning om färdplan</string>
+    <string name="warning_account_for_transaction_is_closed">Minst en av de valda transaktionerna kan inte redigeras:</string>
+    <string name="object_sealed">Objektet refererar till ett avslutat konto.</string>
+    <string name="content_description_download_exchange_rate">Ladda ner växelkurs</string>
+    <string name="clear_all_filters">Rensa alla filter</string>
+    <string name="exchange_rate_not_supported">Den konfigurerade växelkurs-leverantören tillhandahåller inte priset %1$s : %2$s. Du kan försöka välja en annan i inställningarna.</string>
+    <string name="pref_category_exchange_rates">Växelkurser</string>
+    <string name="pref_exchange_rate_provider_summary">Välj leverantör för att ladda ner växelkurser</string>
+    <string name="pref_exchange_rate_provider_title">Växelkurs Leverantör</string>
+    <string name="pref_exchange_rates_api_key_summary">Vänligen registrera en gratis konto på %s och ange ditt app-ID</string>
 </resources>
