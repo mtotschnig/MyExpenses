@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.icu.text.Collator
 import android.icu.text.RuleBasedCollator
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.util.Locale
 
 fun getNaturalComparator(locale: Locale = Locale.getDefault()): Comparator<String> {
@@ -15,4 +16,13 @@ fun getNaturalComparator(locale: Locale = Locale.getDefault()): Comparator<Strin
     collator.strength = Collator.TERTIARY
 
     return Comparator { s1, s2 -> collator.compare(s1, s2) }
+}
+
+fun <T> List<T>.safeSortedWith(comparator: Comparator<in T>): List<T> {
+    return try {
+        this.sortedWith(comparator)
+    } catch (e: Exception) {
+        CrashHandler.report(e, "data", joinToString())
+        this
+    }
 }

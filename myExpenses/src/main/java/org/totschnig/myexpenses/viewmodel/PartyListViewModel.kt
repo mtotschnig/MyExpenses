@@ -153,7 +153,7 @@ class PartyListViewModel(
             .combine(
                 savedStateHandle.getLiveData<Long?>(KEY_EXPANDED_ITEM, null).asFlow()
             ) { parties, expandedId ->
-                val sorted = parties.sortedWith(compareBy(getNaturalComparator()) { it.name })
+                val sorted = parties.safeSortedWith(compareBy(getNaturalComparator()) { it.name })
                 if (expandedId == null) sorted else sorted.flatMap { parent ->
                     if (parent.id == expandedId) {
                         listOf(parent) + parent.duplicates

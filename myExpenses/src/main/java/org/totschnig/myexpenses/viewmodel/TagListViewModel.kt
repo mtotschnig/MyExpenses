@@ -80,7 +80,7 @@ class TagListViewModel(application: Application, savedStateHandle: SavedStateHan
                 notifyForDescendants = true
             ).mapToList(mapper = Tag.Companion::fromCursor)
                 .collect {
-                    tagsInternal.postValue(it.sortedWith(compareBy(getNaturalComparator()) { it.label }))
+                    tagsInternal.postValue(it.safeSortedWith(compareBy(getNaturalComparator()) { it.label }))
                 }
         }
     }

@@ -519,7 +519,7 @@ open class MyExpensesViewModel(
     val List<FullAccount>.withNaturalSort: List<FullAccount>
         get() = if (sortOrderAccounts == Sort.LABEL) {
             val (aggregates, nonAggregates) = partition { it.isAggregate }
-            nonAggregates.sortedWith(compareBy(getNaturalComparator()) { it.label }) + aggregates
+            nonAggregates.safeSortedWith(compareBy(getNaturalComparator()) { it.label }) + aggregates
         } else this
 
     val accountData: StateFlow<Result<List<FullAccount>>?> by lazy {
