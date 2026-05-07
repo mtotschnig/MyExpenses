@@ -862,7 +862,7 @@
     <string name="menu_remap">Ponowne mapowanie</string>
     <string name="template_shortcut">Skrót do szablonu</string>
     <string name="cb_label_merge_accounts">Scalanie kont</string>
-    <string name="pref_plan_executor_time_title">Czas powiadamiania terminarza</string>
+    <string name="pref_plan_executor_time_title">Godzina powiadomienia</string>
     <string name="pref_criterion_futur_title">Kryterium dla przyszłych transakcji</string>
     <string name="merge_parties_strategy_group">Duplikaty są grupowane jako zależne.</string>
     <string name="pref_tesseract_language_title">Język dla Tesseract</string>

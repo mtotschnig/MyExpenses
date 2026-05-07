@@ -777,7 +777,7 @@
     <string name="account_widget_configuration_sum">Tipul sumei afișate</string>
     <string name="account_widget_configuration_sum_total">Includeți tranzacțiile viitoare</string>
     <string name="pref_exchange_rate_provider_summary">Selectați furnizorul pentru a descărca ratele de schimb</string>
-    <string name="pref_plan_executor_time_title">Ora de notificare a planificatorului</string>
+    <string name="pref_plan_executor_time_title">Ora de notificare</string>
     <string name="button_label_clone_and_remap">Clonați și remapați</string>
     <string name="pref_feature_uninstall_summary">Magazinul Play încearcă în cele din urmă să elimine acele module din fundal.</string>
     <string name="tesseract_download_confirmation">Doriți să descărcați date de recunoaștere a textului pentru %s?</string>

@@ -749,7 +749,7 @@
     <string name="scan_result_multiple_candidates_dialog_title">Знайдено кілька кандидатів. Будь ласка, виберіть:</string>
     <string name="scan_result_no_date">Дата не знайдена</string>
     <string name="scan_result_no_payee">Одержувача не знайдено</string>
-    <string name="pref_plan_executor_time_title">Час сповіщення планувальника</string>
+    <string name="pref_plan_executor_time_title">Час сповіщення</string>
     <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">Використовуйте цю кнопку перемикача для запису доходів.</string>
     <string name="pref_feature_uninstall_summary">Play Маркет намагається зрештою видалити ці модулі у фоновому режимі.</string>
     <string name="remap_account">Усі вибрані транзакції буде зіставлено з рахунком %s.</string>

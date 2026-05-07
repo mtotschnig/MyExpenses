@@ -625,7 +625,7 @@
     <string name="pref_exchange_rate_provider_summary">เลือกผู้ให้บริการเพื่อดาวน์โหลดอัตราแลกเปลี่ยน</string>
     <string name="pref_category_exchange_rates">อัตราแลกเปลี่ยน</string>
     <string name="pref_exchange_rate_provider_title">ผู้ให้บริการอัตราแลกเปลี่ยน</string>
-    <string name="pref_plan_executor_time_title">เวลาแจ้งเตือนแผน</string>
+    <string name="pref_plan_executor_time_title">เวลาแจ้งเตือน</string>
     <string name="synchronization_select_folder_dialog_title">เลือกโฟลเดอร์ที่มีอยู่หรือสร้างใหม่</string>
     <string name="menu_create_budget">งบประมาณใหม่</string>
     <string name="budget_onetime">­ครั้งเดียว</string>

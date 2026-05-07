@@ -340,4 +340,5 @@
     <string name="price_history">මිල ඉතිහාසය</string>
     <string name="pref_account_list_display_configuration_title">ගිණුම් ලැයිස්තුව</string>
     <string name="menu_templates">සැකිලි</string>
+    <string name="pref_plan_executor_time_title">දැනුම්දීමේ වේලාව</string>
 </resources>

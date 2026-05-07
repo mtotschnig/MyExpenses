@@ -865,7 +865,7 @@
     <string name="exchange_rate_not_supported">Nhà cung cấp tỷ giá hối đoái được cấu hình không cung cấp tỷ giá %1$s : %2$s. Bạn có thể thử chọn một cái khác trong cài đặt.</string>
     <string name="pref_exchange_rate_provider_summary">Chọn nhà cung cấp để tải xuống tỷ giá hối đoái</string>
     <string name="pref_exchange_rate_provider_title">Nhà cung cấp tỷ giá hối đoái</string>
-    <string name="pref_plan_executor_time_title">Thời gian thông báo của người lập kế hoạch</string>
+    <string name="pref_plan_executor_time_title">Thời gian thông báo</string>
     <string name="no_budgets">Xác định ngân sách đầu tiên của bạn bằng cách nhấn vào nút +.</string>
     <string name="budget_filter_all_tags">Tất cả các thẻ</string>
     <string name="budget_filter_all_accounts">Tất cả tài khoản</string>

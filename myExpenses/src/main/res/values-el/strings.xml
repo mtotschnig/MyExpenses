@@ -787,7 +787,7 @@
     <string name="sync_io_error_cannot_connect">Δεν είναι δυνατή η σύνδεση στο backend συγχρονισμού.</string>
     <string name="clone_and_remap_result">Οι επιλεγμένες συναλλαγές κλωνοποιήθηκαν και αναδιατυπώθηκαν.</string>
     <string name="menu_remap">Αναδιατύπωση</string>
-    <string name="pref_plan_executor_time_title">Ώρα ειδοποίησης προγραμματιστή</string>
+    <string name="pref_plan_executor_time_title">Ώρα ειδοποίησης</string>
     <string name="pref_criterion_futur_title">Κριτήριο για μελλοντικές συναλλαγές</string>
     <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">Χρησιμοποιήστε αυτό το κουμπί εναλλαγής για να καταγράψετε έσοδα.</string>
     <string name="dialog_synced_to_other">Ένας λογαριασμός με το uuid %s υπάρχει ήδη στην τοπική βάση δεδομένων και συνδέεται με διαφορετικό απομακρυσμένο backend.</string>

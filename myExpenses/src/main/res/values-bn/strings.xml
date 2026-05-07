@@ -692,7 +692,7 @@
     <string name="pref_exchange_rate_provider_title">এক্সচেঞ্জ রেট প্রদানকারী</string>
     <!-- %s is replaced with exchange rate provider URL (openexchangerates.org or coinapi.io) -->
     <string name="pref_exchange_rates_api_key_summary">অনুগ্রহ করে %s এ একটি বিনামূল্যে অ্যাকাউন্ট নিবন্ধন করুন এবং আপনার অ্যাপ আইডি প্রদান করুন</string>
-    <string name="pref_plan_executor_time_title">প্লানার বিজ্ঞপ্তির সময়</string>
+    <string name="pref_plan_executor_time_title">বিজ্ঞপ্তির সময়</string>
     <string name="synchronization_select_folder_dialog_title">একটি ফোল্ডার নির্বাচন করুন বা একটি নতুন তৈরি করুন</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">আয় রেকর্ড করতে এই বাটন ব্যবহার করুন।</string>

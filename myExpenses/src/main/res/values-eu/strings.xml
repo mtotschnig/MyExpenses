@@ -593,4 +593,5 @@
     <string name="price_history">Prezioen historia</string>
     <string name="pref_account_list_display_configuration_title">Kontuen zerrenda</string>
     <string name="menu_templates">Txantiloiak</string>
+    <string name="pref_plan_executor_time_title">Jakinarazpen-ordua</string>
 </resources>

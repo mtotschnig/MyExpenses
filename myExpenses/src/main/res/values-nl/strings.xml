@@ -715,7 +715,7 @@
     <string name="budget_allocated_amount">Toegewezen bedrag</string>
     <string name="currency_code">Code</string>
     <string name="content_description_closed">Gesloten</string>
-    <string name="pref_plan_executor_time_title">Meldingstijd planner</string>
+    <string name="pref_plan_executor_time_title">Meldingstijd</string>
     <string name="synchronization_select_folder_dialog_title">Selecteer een bestaande map of maak een nieuwe aan</string>
     <string name="budget_filter_all_accounts">Alle rekeningen</string>
     <string name="remap_payee">Alle geselecteerde transacties worden toegewezen aan betaler/begunstigde %s.</string>

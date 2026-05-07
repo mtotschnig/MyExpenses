@@ -597,7 +597,7 @@
     <string name="menu_reopen">Пераадкрыць</string>
     <string name="content_description_closed">Зачынен</string>
     <string name="pref_category_exchange_rates">Абменныя курсы</string>
-    <string name="pref_plan_executor_time_title">Час апавяшчэння планавальніка</string>
+    <string name="pref_plan_executor_time_title">Час апавяшчэння</string>
     <string name="menu_budget_allocated_only">Паказаць толькі катэгорыі з размеркаваннем</string>
     <string name="budget_filter_all_categories">Усе катэгорыі</string>
     <string name="budget_filter_all_parties">Усе ўдзельнікі</string>

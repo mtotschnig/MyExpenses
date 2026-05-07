@@ -657,7 +657,7 @@
     <string name="warning_synced_account_cannot_be_closed">Un compte vinculat a la sincronització al sistema de servei no es pot tancar</string>
     <string name="content_description_dates_are_linked">La data de reserva i la data valor s\'actualitzen conjuntament</string>
     <string name="content_description_dates_are_not_linked">La data de reserva i la data valor no s\'actualitzen conjuntament</string>
-    <string name="pref_plan_executor_time_title">Hora de notificació al planificador</string>
+    <string name="pref_plan_executor_time_title">Hora de notificació</string>
     <string name="menu_create_budget">Nou pressupost</string>
     <string name="remap_category">S\'assignaran a la categoria %s totes les transaccions seleccionades.</string>
     <string name="dialog_title_confirm_remap">Canviar assignació (%s) \?</string>

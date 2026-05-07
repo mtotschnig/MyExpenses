@@ -667,7 +667,7 @@
     <string name="pref_exchange_rate_provider_summary">Изберете доставчик, за да изтеглите валутни курсове</string>
     <string name="pref_exchange_rate_provider_title">Доставчик на валутни курсове</string>
     <string name="pref_exchange_rates_api_key_summary">Моля, регистрирайте безплатен акаунт в %s и предоставете идентификационния номер на своето приложение</string>
-    <string name="pref_plan_executor_time_title">Планиране на време за уведомяване</string>
+    <string name="pref_plan_executor_time_title">Час за известие</string>
     <string name="synchronization_select_folder_dialog_title">Изберете съществуваща папка или създайте нова</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch">Използвайте този превключвател, за да запишете приход.</string>

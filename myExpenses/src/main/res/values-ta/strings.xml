@@ -667,7 +667,7 @@
     <string name="pref_exchange_rate_provider_summary">மாற்று விகிதங்களைப் பதிவிறக்க வழங்குநரைத் தேர்ந்தெடுக்கவும்</string>
     <string name="pref_exchange_rate_provider_title">மாற்று விகித வழங்குநர்</string>
     <string name="pref_exchange_rates_api_key_summary">%s இல் இலவச கணக்கைப் பதிவுசெய்து உங்களுடைய பயன்பாட்டு ஐடியை வழங்கவும்</string>
-    <string name="pref_plan_executor_time_title">இழைப்புளி அறிவிக்கை நேரம்</string>
+    <string name="pref_plan_executor_time_title">அறிவிப்பு நேரம்</string>
     <string name="synchronization_select_folder_dialog_title">ஏற்கனவே உள்ள கோப்புறையைத் தேர்ந்தெடுக்கவும் அல்லது புதியதை உருவாக்கவும்</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch">வருமானத்தை பதிவு செய்ய இந்த நிலைமாற்றியை பயன்படுத்தவும்.</string>
