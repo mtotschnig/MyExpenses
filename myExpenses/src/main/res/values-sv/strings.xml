@@ -113,7 +113,7 @@
     <string name="warning_delete_account">Kontot \"%1$s\" med alla dess transaktioner kommer att tas bort.</string>
     <string name="title">Titel</string>
     <string name="sum_expenses">Utgifter</string>
-    <string name="status_cleared">rensad</string>
+    <string name="status_cleared">avstämd</string>
     <string name="pref_ui_theme_light">Ljust</string>
     <string name="menu_edit_transfer">Redigera överföring</string>
     <string name="image_capture_not_installed">Ingen app hittades för att ta bilder.</string>
@@ -495,7 +495,7 @@
     <string name="pref_protection_enable_data_entry_from_widget_title">Datainmatning från widgets och genvägar</string>
     <string name="pref_qif_export_file_encoding_title">Teckenkodning</string>
     <string name="pref_restore_summary">Välj en backup för att återställa databas och inställningar.</string>
-    <string name="pref_share_target_summary">Lämna det tomt om du vill välja mellan lämpliga appar (e-post, Dropbox, Google Docs, ...), eller ange URL i någon av de stödda systemen</string>
+    <string name="pref_share_target_summary">Lämna det tomt om du vill välja mellan lämpliga appar (e-post, Dropbox, Google Docs, …), eller ange URL i någon av de stödda systemen</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Kan inte slå ihop dem med ett befintligt konto.</string>
     <string name="restore_backup_file_not_found">Ingen fil %1$s hittad i arkivet \"%2$s\"</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d planer har återställts från backup</string>
@@ -504,12 +504,12 @@
         <item quantity="other">%1$d nya transaktioner sparades framgångsrikt från mallar.</item>
     </plurals>
     <string name="split_parts_heading">Delposter</string>
-    <string name="status_reconciled">avstämd</string>
-    <string name="status_unreconciled">ej avstämd</string>
-    <string name="status_void">makulerad</string>
+    <string name="status_reconciled">kontrollerad</string>
+    <string name="status_unreconciled">ej kontrollerad</string>
+    <string name="status_void">annullerad</string>
     <string name="tell_a_friend_message">Kolla in {app_name}, Personal Finance Manager för {platform}, från {website}</string>
-    <string name="total_cleared">Klarerad summa</string>
-    <string name="total_reconciled">Avstämd summa</string>
+    <string name="total_cleared">Avstämt saldo</string>
+    <string name="total_reconciled">Kontrollerat saldo</string>
     <string name="unsplit_amount">Ouppdelat belopp</string>
     <string name="unsplit_amount_greater_than_zero">Det finns fortfarande ett ouppdelat belopp.</string>
     <plurals name="warning_delete_main_category">
@@ -522,8 +522,8 @@
         <item quantity="other">%1$d valda transaktioner kommer att raderas.</item>
     </plurals>
     <string name="move_category_failure">En kategori flyttades inte, eftersom samma etikett redan finns vid målet.</string>
-    <string name="warning_delete_reconciled">Att radera avstämda transaktioner kommer att göra att dina uppgifter skiljer sig från kontoutdraget.</string>
-    <string name="warning_balance_account">Vänligen jämför den avklarade summan med slutsaldot i ditt kontoutdrag. Om du fortsätter kommer clearade transaktioner att markeras som avstämda.</string>
+    <string name="warning_delete_reconciled">Om du raderar kontrollerade transaktioner kommer dina poster inte längre att stämma överens med bankkontoutdraget.</string>
+    <string name="warning_balance_account">Vänligen jämför det avstämda saldot med slutsaldot på ditt kontoutdrag. Om du fortsätter kommer avstämda transaktioner att markeras som kontrollerade.</string>
     <string name="warning_instantiate_template_from_widget_password_protected">Snabb instansiering av mallar från denna widget fungerar bara om du tillåter datainmatning från widgets utan lösenord i appens inställningar.</string>
     <string name="warning_password_contrib">Att ställa in en säkerhetsfråga låter dig låsa upp appen, ifall du glömmer ditt lösenord.</string>
     <string name="warning_reset_account">Om du fortsätter tas alla transaktioner på detta konto bort från databasen och kan inte återställas.</string>
