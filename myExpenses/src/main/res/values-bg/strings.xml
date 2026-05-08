@@ -129,8 +129,8 @@
     <string name="menu_create_method">Нов начин на плащане</string>
     <string name="menu_create_party">Нова страна</string>
     <string name="menu_create_split">Ново разпределяне</string>
-    <string name="menu_create_split_part_category">Разпредели в категория</string>
-    <string name="menu_create_split_part_transfer">Разпредели с превод</string>
+    <string name="menu_create_split_part_category">Разпредели в друга категория</string>
+    <string name="menu_create_split_part_transfer">Разпредели с нов превод</string>
     <string name="menu_create_sub_cat">Нова подкатегория</string>
     <string name="menu_create_template">Нов шаблон</string>
     <string name="menu_create_template_from_transaction">Запамети като шаблон</string>
@@ -226,7 +226,7 @@
     <string name="pm_type_debit">Дебит</string>
     <string name="pm_type_neutral">Неутрално</string>
     <string name="pref_app_dir_title">Папка за архивиране и експорт</string>
-    <string name="pref_auto_fill_summary">Попълни данните от последната транзакция за същия получател / платец</string>
+    <string name="pref_auto_fill_summary">Попълни данните от последната транзакция за същия контрагент</string>
     <string name="pref_backup_summary">Запиши сега резервно копие на базата данни и предпочитания.</string>
     <string name="pref_sort_order_usages">По брой използвания</string>
     <string name="pref_category_title_export">Експортиране</string>
@@ -249,7 +249,7 @@
     <string name="pref_manage_categories_title">Категории</string>
     <string name="pref_manage_methods_summary">Създаване и редактиране на начините на плащане и свързване с видове сметки.</string>
     <string name="pref_manage_methods_title">Начини на плащане</string>
-    <string name="pref_manage_parties_summary">Добавяне, редактиране, изтриване на страни (платци и получатели).</string>
+    <string name="pref_manage_parties_summary">Добавяне, редактиране, изтриване на контрагенти.</string>
     <string name="pref_manage_parties_title">Страни</string>
     <string name="pref_manage_sync_backends_title">Отдалечени хранилища за архивиране и синхронизация</string>
     <!-- %s will be replaced with list of backends -->
@@ -305,7 +305,7 @@
     <string name="save_transaction_template_deleted">Шаблонът е изтрит</string>
     <string name="select">Избери</string>
     <string name="select_category">Избери категория</string>
-    <string name="select_payee">Изберете платец / получател</string>
+    <string name="select_payee">Изберете контрагент</string>
     <string name="share_scheme_not_supported">Схема %1$s не се поддържа</string>
     <string name="share_sending">Избери файл за експорт</string>
     <string name="split_parts_heading">Разпределени суми</string>
@@ -388,7 +388,7 @@
     <string name="search_comment">Търсене на бележка</string>
     <string name="search_date">Търсене на дата</string>
     <string name="search_status">Търсене на статус</string>
-    <string name="search_payee">Търсене на получател / платец</string>
+    <string name="search_payee">Търсене на контрагент</string>
     <string name="search_method">Търсене на начин на плащане</string>
     <string name="search_tag">Търсене на маркер</string>
     <string name="and">и</string>
@@ -405,7 +405,7 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">след</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Закупуването е неуспешно или отменено.</string>
-    <string name="hint_auto_fill">Да се попълват ли автоматично данните от последната транзакция за същия получател / платец? Винаги можете да промените това поведение от настройките.</string>
+    <string name="hint_auto_fill">Да се попълват ли автоматично данните от последната транзакция за същия контрагент? Винаги можете да промените това поведение от настройките.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">Актуализирани са %1$d сметки с валута %2$s .</string>
     <string name="import_source_file">Файл</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
@@ -583,7 +583,7 @@
     <string name="ungroup_split_transaction_success">Сплит транзакцията бе успешно дегенерирана.</string>
     <string name="split_transaction_one_success">Успешно преобразувана в разпределена транзакция.</string>
     <string name="split_transaction_group_success"> %1$d транзакции са успешно групирани в една разпределена транзакция.</string>
-    <string name="split_transaction_not_possible">Само транзакции, които имат еднакви сметка, получател и статус, могат да бъдат групирани в една разпределена транзакция.</string>
+    <string name="split_transaction_not_possible">Само транзакции, които имат еднакви сметка, контрагент и статус, могат да бъдат групирани в една разпределена транзакция.</string>
     <string name="pref_transaction_time_summary">Позволява да зададете часовото време на транзакцията.</string>
     <string name="pref_value_date_summary">Позволява да зададете време на вальора освен датата на резервацията. Времето на транзакцията ще бъде скрито. Тази настройка не се прилага за касови сметки.</string>
     <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
@@ -692,7 +692,7 @@
     <string name="menu_remap">Групово редаактиране</string>
     <string name="dialog_title_confirm_remap">Да запиша ли \'%s\'?</string>
     <string name="remap_category">Избраните транзакции ще бъдат записани в категория %s.</string>
-    <string name="remap_payee">Избраните транзакции ще бъдат записани с платец / получател %s.</string>
+    <string name="remap_payee">Избраните транзакции ще бъдат записани с контрагент %s.</string>
     <string name="remap_method">Избраните транзакции ще бъдат записани с метод %s.</string>
     <string name="remap_account">Избраните транзакции ще бъдат записани в сметка %s.</string>
     <string name="remapping_result">Избраните транзакции бяха презаписани.</string>
@@ -789,7 +789,7 @@
     <string name="single_feature_info">Като алтернатива може да закупите неограничен достъп само за тази функция.</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">Последния ден</string>
-    <string name="warning_link_transfer">Двете избрани транзакции ще бъдат свързани като прехвърляне. Информацията за получател/платец и категория ще бъде премахната.</string>
+    <string name="warning_link_transfer">Двете избрани транзакции ще бъдат свързани като превод. Информацията за контрагент и категория ще бъде премахната.</string>
     <!-- This is the title of an entry on the configuration screen for the account widget. It allows to decide which number should be displayed for each account: the current balance or the total (which included future transactions) -->
     <string name="account_widget_configuration_sum">Показвана сума</string>
     <string name="account_widget_configuration_sum_total">Включи бъдещи транзакции</string>
@@ -1030,7 +1030,7 @@
     <string name="supports_reconciliation">Поддържа сверяване</string>
     <string name="aggregate_invisible">Включи невидимите сметки в обобщените сметки и баланса</string>
     <string name="select_accounts_for_flag">Изберете сметки за флага %s</string>
-    <string name="remap_payee_null">Платец/Получател ще бъде премахнат от всички избрани транзакции.</string>
+    <string name="remap_payee_null">Контрагентът ще бъде премахнат от всички избрани транзакции.</string>
     <string name="menu_cleanup">Почисти</string>
     <plurals name="warning_cleanup_parties">
         <item quantity="one">%d неизползван контрагент ще бъде премахнат.</item>

@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
--->
-<resources>
+--><resources>
     <string name="drawer_open">"فتح ساحب التنقل"</string>
     <string name="drawer_close">"إغلاق ساحب التنقل"</string>
     <string name="sort_direction_ascending">"تصاعدي"</string>
@@ -174,4 +174,10 @@
     <string name="options">"الخيارات"</string>
     <string name="reports">"التّقارير"</string>
     <string name="actions">"الإجراءات"</string>
+    <string name="buttons">الأزرار</string>
+    <string name="contains">يتضمّن</string>
+    <string name="delimiter_comma">فاصلة</string>
+    <string name="delimiter_semicolon">فاصلة منقوطة</string>
+    <string name="negation">نفي</string>
+    <string name="tools">الأدوات</string>
 </resources>

@@ -807,7 +807,7 @@
     <string name="single_feature_info">Případně si můžete zakoupit neomezený přístup pouze k této funkci.</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">Poslední den</string>
-    <string name="warning_link_transfer">Dvě vybrané transakce budou propojeny jako převod. Informace o příjemci/plátci a kategorii budou vynechány.</string>
+    <string name="warning_link_transfer">Dvě vybrané transakce budou propojeny jako převod. Informace o příjemci/plátci a kategorii budou vynechány.</string>
     <!-- This is the title of an entry on the configuration screen for the account widget. It allows to decide which number should be displayed for each account: the current balance or the total (which included future transactions) -->
     <string name="account_widget_configuration_sum">Typ zobrazovaného součtu</string>
     <string name="account_widget_configuration_sum_total">Zahrnout budoucí transakce</string>

@@ -249,7 +249,7 @@
     <string name="pref_manage_categories_title">வகைகள்</string>
     <string name="pref_manage_methods_summary">கட்டண முறைகளை உருவாக்கி மற்றும் திருத்தி அவற்றை கணக்கு வகைகளுடன் இணைக்கவும்.</string>
     <string name="pref_manage_methods_title">கட்டணம் செலுத்தும் முறைகள்</string>
-    <string name="pref_manage_parties_summary">தரப்புகளை (பணம்  செலுத்துபவர் மற்றும் பெறுபவர்) சேர், திருத்து, நீக்கு.</string>
+    <string name="pref_manage_parties_summary">தரப்புகளை (பணம் செலுத்துபவர் மற்றும் பெறுபவர்) சேர், திருத்து, நீக்கு.</string>
     <string name="pref_manage_parties_title">தரப்புகள்</string>
     <string name="pref_manage_sync_backends_title">ஒத்திசைவு பின்தளங்கள்</string>
     <!-- %s will be replaced with list of backends -->
@@ -388,7 +388,7 @@
     <string name="search_comment">குறிப்புக்களைத் தேடவும்</string>
     <string name="search_date">தேதியைத் தேடவும்</string>
     <string name="search_status">நிலையைத் தேடவும்</string>
-    <string name="search_payee">பணம் பெறுபவர்/செலுத்துபவரைத் தேடவும் </string>
+    <string name="search_payee">பணம் பெறுபவர்/செலுத்துபவரைத் தேடவும்</string>
     <string name="search_method">முறைகளைத் தேடவும்</string>
     <string name="search_tag">குறிச்சொல்லைத் தேடுங்கள்</string>
     <string name="and">மற்றும்</string>
@@ -405,7 +405,7 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">பின்</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">வாங்குதல் தோல்வியுற்றது அல்லது ரத்துசெய்யப்பட்டது.</string>
-    <string name="hint_auto_fill">அதே பணம் பெறுபவர்/செலுத்துபவர் கொண்ட முந்தய பரிவர்த்தனையிலிருந்து தரவு தானாகவே நிரப்பப்பட வேண்டுமா? இதை  அமைப்புகளிலிருந்து எப்போதும் மாற்றிக்கொள்ளலாம்.</string>
+    <string name="hint_auto_fill">அதே பணம் பெறுபவர்/செலுத்துபவர் கொண்ட முந்தய பரிவர்த்தனையிலிருந்து தரவு தானாகவே நிரப்பப்பட வேண்டுமா? இதை அமைப்புகளிலிருந்து எப்போதும் மாற்றிக்கொள்ளலாம்.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s-ஐ நாணயமாக கொண்ட %1$d கணக்குகள் புதுப்பிக்கப்பட்டன.</string>
     <string name="import_source_file">கோப்பு</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
@@ -789,7 +789,7 @@
     <string name="single_feature_info">மாற்றாக இந்த அம்சத்திற்கு மட்டுமே நீங்கள் வரம்பற்ற அணுகலை வாங்க முடியும்.</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">கடைசி நாள்</string>
-    <string name="warning_link_transfer">தேர்ந்தெடுக்கப்பட்ட இரண்டு பரிவர்த்தனைகளும் பரிமாற்றமாக இணைக்கப்படும். பணம்  பெறுபவர் / செலுத்துபவர் மற்றும் வகை விவரங்கள் கைவிடப்படும்.</string>
+    <string name="warning_link_transfer">தேர்ந்தெடுக்கப்பட்ட இரண்டு பரிவர்த்தனைகளும் பரிமாற்றமாக இணைக்கப்படும். பணம் பெறுபவர் / செலுத்துபவர் மற்றும் வகை விவரங்கள் கைவிடப்படும்.</string>
     <!-- This is the title of an entry on the configuration screen for the account widget. It allows to decide which number should be displayed for each account: the current balance or the total (which included future transactions) -->
     <string name="account_widget_configuration_sum">காட்டப்படும் கூட்டு தொகையின் வகை</string>
     <string name="account_widget_configuration_sum_total">எதிர்கால பரிவர்த்தனைகளை உள்ளடக்கு</string>
