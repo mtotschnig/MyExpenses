@@ -886,7 +886,7 @@
     <string name="menu_transform_to_transfer">Converter em transferência</string>
     <string name="warning_transform_to_transfer">A transação selecionada será substituída por uma transferência de %1$s para %2$s.</string>
     <string name="remap_date">Em todas as transações selecionadas, a data será definida como %s.</string>
-    <string name="roadmap_intro">A votação do guião para 2024 já está aberta! Vote nos recursos e melhorias que são mais importantes para si.</string>
+    <string name="roadmap_intro">A votação do guião para %d já está aberta! Vote nos recursos e melhorias que são mais importantes para si.</string>
     <string name="merge_categories_dialog_title">Mesclar Categorias</string>
     <string name="subcategories_merged_recursively">Se alguma das categorias mescladas tiver subcategorias com o mesmo rótulo, elas serão mescladas primeiro, de forma recursiva.</string>
     <string name="merge_categories_prompt">Selecione a categoria que deseja manter</string>

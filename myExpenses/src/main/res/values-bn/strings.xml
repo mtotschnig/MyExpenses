@@ -981,7 +981,7 @@
     <string name="menu_transform_to_transfer">ট্রান্সফারে রূপান্তর করুন</string>
     <string name="warning_transform_to_transfer">নির্বাচিত লেনদেন %1$s থেকে %2$s তে ট্রান্সফার দ্বারা প্রতিস্থাপিত হবে।</string>
     <string name="remap_date">সমস্ত নির্বাচিত লেনদেনে, তারিখ %s তে সেট করা হবে।</string>
-    <string name="roadmap_intro">২০২৪ রোডম্যাপ ভোট এখন খোলা! আপনার কাছে সবচেয়ে গুরুত্বপূর্ণ ফিচার এবং ডেভেলপমেন্টের জন্য ভোট দিন।</string>
+    <string name="roadmap_intro">%d রোডম্যাপ ভোট এখন খোলা! আপনার কাছে সবচেয়ে গুরুত্বপূর্ণ ফিচার এবং ডেভেলপমেন্টের জন্য ভোট দিন।</string>
     <string name="merge_categories_dialog_title">ক্যাটাগরি একত্রিত করুন</string>
     <string name="subcategories_merged_recursively">যদি একত্রিত ক্যাটাগরিগুলির মধ্যে একই লেবেলযুক্ত সাব-ক্যাটাগরি থাকে, তবে সেগুলি প্রথমে রিকারসিভভাবে একত্রিত করা হবে।</string>
     <string name="merge_categories_prompt">আপনি যে ক্যাটাগরিটি রাখতে চান তা নির্বাচন করুন</string>

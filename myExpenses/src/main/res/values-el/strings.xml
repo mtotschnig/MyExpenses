@@ -915,7 +915,7 @@
     <string name="menu_transform_to_transfer">Μετατροπή σε μεταφορά</string>
     <string name="warning_transform_to_transfer">Η επιλεγμένη συναλλαγή θα αντικατασταθεί από μια μεταφορά από το %1$s στο %2$s.</string>
     <string name="remap_date">Σε όλες τις επιλεγμένες συναλλαγές, η ημερομηνία θα οριστεί σε %s.</string>
-    <string name="roadmap_intro">Η ψηφοφορία για τον οδικό χάρτη του 2024 είναι πλέον ανοιχτή! Ψηφίστε για τις δυνατότητες και τις βελτιώσεις που έχουν μεγαλύτερη σημασία για εσάς.</string>
+    <string name="roadmap_intro">Η ψηφοφορία για τον οδικό χάρτη του %d είναι πλέον ανοιχτή! Ψηφίστε για τις δυνατότητες και τις βελτιώσεις που έχουν μεγαλύτερη σημασία για εσάς.</string>
     <string name="merge_categories_dialog_title">Συγχώνευση κατηγοριών</string>
     <string name="subcategories_merged_recursively">Εάν κάποια από τις συγχωνευμένες κατηγορίες έχει υποκατηγορίες με την ίδια ετικέτα, αυτές θα συγχωνευθούν πρώτα, αναδρομικά.</string>
     <string name="merge_categories_prompt">Επιλέξτε την κατηγορία που θέλετε να διατηρήσετε</string>

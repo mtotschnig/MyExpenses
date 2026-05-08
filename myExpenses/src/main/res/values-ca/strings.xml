@@ -851,7 +851,7 @@
     <string name="pref_unmapped_transaction_as_transfer_title">Operacions no assignades</string>
     <string name="warning_delete_default_transfer_category">La categoria %s està configurada com a categoria de transferència predeterminada i no s\'hauria d\'eliminar.</string>
     <string name="remap_date">En totes les operacions seleccionades, la data s\'establirà a %s.</string>
-    <string name="roadmap_intro">El vot sobre el full de ruta 2024 ja està obert! Vota les característiques i millores que més t\'estimes.</string>
+    <string name="roadmap_intro">El vot sobre el full de ruta %d ja està obert! Vota les característiques i millores que més t\'estimes.</string>
     <string name="subcategories_merged_recursively">Si alguna de les categories fusionades té subcategories amb la mateixa etiqueta, aquestes es fusionaran primer, recursivament.</string>
     <string name="pref_csv_export_category_separator_summary">Separador entre nivells de jerarquia de categories</string>
     <string name="pref_clone_with_current_date_summary_on">Les operacions clonades tindran la data actual</string>

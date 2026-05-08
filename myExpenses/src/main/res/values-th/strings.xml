@@ -772,7 +772,7 @@
     <string name="menu_unlink_transfer">ยกเลิกการเชื่อมโยงการโอนเงิน</string>
     <string name="warning_unlink_transfer">การโอนเงินที่เลือกจะถูกยกเลิกการเชื่อมโยง: จะถูกแทนที่ด้วยรายการปกติในทั้งสองบัญชี</string>
     <string name="remap_date">ในรายการที่เลือกทั้งหมด วันที่จะถูกตั้งเป็น %s</string>
-    <string name="roadmap_intro">การโหวตแผนงานปี 2024 เปิดให้โหวตแล้ว! โปรดโหวตสำหรับคุณสมบัติและการปรับปรุงที่สำคัญที่สุดสำหรับคุณ</string>
+    <string name="roadmap_intro">การโหวตแผนงานปี %d เปิดให้โหวตแล้ว! โปรดโหวตสำหรับคุณสมบัติและการปรับปรุงที่สำคัญที่สุดสำหรับคุณ</string>
     <string name="merge_categories_dialog_title">รวมหมวดหมู่</string>
     <string name="warning_unarchive">ไฟล์เก็บถาวรจะถูกแกะออกมา รายการทั้งหมดที่อยู่ในนั้นจะถูกแทรกกลับเข้าไปในรายการอีกครั้ง</string>
     <string name="dialog_title_warning_delete_archive">ลบไฟล์เก็บถาวร?</string>

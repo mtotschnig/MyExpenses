@@ -813,7 +813,7 @@
     <string name="button_relink_update_date">Tilknyt igen, og opdater dato</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_on">tælles som overførsel</string>
     <string name="pref_sync_now_all_summary">%s synkroniserer alle konti for den samme backend</string>
-    <string name="roadmap_intro">Afstemningen i 2024 Udviklingsplan er nu åben! Stem på de funktioner og forbedringer, der betyder mest for dig.</string>
+    <string name="roadmap_intro">Afstemningen i %d Udviklingsplan er nu åben! Stem på de funktioner og forbedringer, der betyder mest for dig.</string>
     <string name="budget_only_current_period">Indstil kun til %s</string>
     <string name="budget_table_header_rollover">Fremførsel</string>
     <string name="rollover_edit_invalid">Summen af fremførelsen tildelt en kategori og fremførelser tildelt underkategorier må ikke overskride restbeløbet.</string>

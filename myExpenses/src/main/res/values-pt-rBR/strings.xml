@@ -935,7 +935,7 @@
     <string name="warning_delete_default_transfer_category">A categoria %s está configurada como categoria de transferência padrão e não deve ser apagada.</string>
     <string name="default_transfer_category">Categoria de transferência padrão</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">são considerados como despesa / receita</string>
-    <string name="roadmap_intro">A votação do roteiro para 2024 já está aberta! Vote nos recursos e melhorias que são mais importantes para você.</string>
+    <string name="roadmap_intro">A votação do roteiro para %d já está aberta! Vote nos recursos e melhorias que são mais importantes para você.</string>
     <string name="pref_sync_now_all_summary">%s sincroniza todas as contas para o mesmo back-end</string>
     <string name="warning_unlink_transfer">A transferência selecionada será desvinculada: Ela será substituída por transações normais em ambas as contas.</string>
     <string name="menu_transform_to_transfer">Converter em transferência</string>

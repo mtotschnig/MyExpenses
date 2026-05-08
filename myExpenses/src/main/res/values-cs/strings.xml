@@ -878,7 +878,7 @@
     </plurals>
     <string name="encrypt_database">Šifrování databáze</string>
     <string name="menu_unlink_transfer">Odpojit přenos</string>
-    <string name="roadmap_intro">Hlasování o plánu 2024 je nyní otevřeno! Hlasujte pro funkce a vylepšení, které jsou pro vás nejdůležitější.</string>
+    <string name="roadmap_intro">Hlasování o plánu %d je nyní otevřeno! Hlasujte pro funkce a vylepšení, které jsou pro vás nejdůležitější.</string>
     <string name="backup_save_to_sync_backend">Uložit do %s</string>
     <string name="contact_us">Napište nám</string>
     <string name="icons_for_categories">Ikony pro kategorie</string>

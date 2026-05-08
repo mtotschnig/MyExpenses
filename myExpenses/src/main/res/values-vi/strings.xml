@@ -687,7 +687,7 @@
     <string name="warning_unlink_transfer">Chuyển khoản đã chọn sẽ bị hủy liên kết: Nó sẽ được thay thế bằng các giao dịch thông thường trong cả hai tài khoản.</string>
     <string name="menu_transform_to_transfer">Chuyển thành chuyển khoản</string>
     <string name="warning_transform_to_transfer">Giao dịch đã chọn sẽ được thay thế bằng chuyển khoản từ %1$s sang %2$s.</string>
-    <string name="roadmap_intro">Cuộc bỏ phiếu Lộ trình năm 2024 hiện đã mở! Bình chọn cho các tính năng và cải tiến quan trọng nhất đối với bạn.</string>
+    <string name="roadmap_intro">Cuộc bỏ phiếu Lộ trình năm %d hiện đã mở! Bình chọn cho các tính năng và cải tiến quan trọng nhất đối với bạn.</string>
     <string name="auto_fill_focus">Đặt trọng tâm vào người nhận thanh toán</string>
     <string name="tags_create_or_select">Tạo hoặc chọn thẻ</string>
     <string name="cb_label_merge_accounts">Hợp nhất tài khoản</string>

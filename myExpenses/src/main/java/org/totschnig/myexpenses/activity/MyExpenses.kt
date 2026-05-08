@@ -1218,7 +1218,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                 val hasNotVoted = vote == null
                 if (hasNotVoted) {
                     ConfirmationDialogFragment.newInstance(Bundle().apply {
-                        putCharSequence(KEY_MESSAGE, getString(R.string.roadmap_intro))
+                        putCharSequence(KEY_MESSAGE, getString(R.string.roadmap_intro, 2026))
                         putInt(KEY_COMMAND_POSITIVE, R.id.ROADMAP_COMMAND)
                         putString(ConfirmationDialogFragment.KEY_PREFKEY, prefKey)
                         putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.roadmap_vote)

@@ -962,7 +962,7 @@
     <string name="one_time_payment">دفعة مالية لمرة واحدة</string>
     <string name="dialog_contrib_trial_info_play">لن يتم تحويل هذه النسخة التجريبية المجانية  أبدًا إلى أي نوع من الاشتراكات.</string>
     <string name="dialog_contrib_subscription_info_play">يبدأ هذا الاشتراك فورًا، مع إصدار فاتورة شهرية أو سنوية، ويمكن إلغاؤه في أي وقت.</string>
-    <string name="roadmap_intro">تصويت خارطة الطريق لعام 2024 مفتوح الآن! شارك في التصويت على الميزات والتحسينات الأهم بالنسبة لك.</string>
+    <string name="roadmap_intro">تصويت خارطة الطريق لعام %d مفتوح الآن! شارك في التصويت على الميزات والتحسينات الأهم بالنسبة لك.</string>
     <string name="contact_us">اتصل بنا</string>
     <string name="default_transfer_category">فئة النقل الافتراضية</string>
     <string name="menu_aggregate_neutral_categories">تجميع الفئات المحايدة</string>

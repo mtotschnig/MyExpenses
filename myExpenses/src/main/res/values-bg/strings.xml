@@ -928,7 +928,7 @@
     <string name="pref_transaction_amount_color_source_title">Оцветяване на суми</string>
     <string name="menu_transform_to_transfer">Превърни в превод</string>
     <string name="warning_transform_to_transfer">Избраната транзакция ще бъде заменена с превод от %1$s към %2$s.</string>
-    <string name="roadmap_intro">Отворено е гласуването в Пътната карта 2024! Избери функциите и подобренията, които са най-важни за теб.</string>
+    <string name="roadmap_intro">Отворено е гласуването в Пътната карта %d! Избери функциите и подобренията, които са най-важни за теб.</string>
     <string name="merge_categories_dialog_title">Обединяване на категории</string>
     <string name="warning_archived_transfer_cannot_be_edited">Преводът не може да бъде редактиран, защото отсрещната страна е архивирана.</string>
     <string name="warning_unlink_transfer">Избраният превод ще бъде заменен от нормални транзакции в двете сметки.</string>

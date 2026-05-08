@@ -874,7 +874,7 @@
     <string name="merge_parties_strategy_group">Дублікати групуються як залежні.</string>
     <string name="widget_title_budget">Мій бюджет</string>
     <string name="merge_parties_strategy_delete">Дублікати видаляються.</string>
-    <string name="roadmap_intro">Голосування за дорожню карту 2024 року відкрито! Голосуйте за функції та покращення, які для вас найважливіші.</string>
+    <string name="roadmap_intro">Голосування за дорожню карту %d року відкрито! Голосуйте за функції та покращення, які для вас найважливіші.</string>
     <string name="menu_unlink_transfer">Від\'єднати переказ</string>
     <string name="warning_unlink_transfer">Вибраний переказ буде від’єднано: його замінять звичайні транзакції в обох рахунках.</string>
     <string name="menu_transform_to_transfer">Перетворити в переказ</string>

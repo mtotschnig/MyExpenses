@@ -885,7 +885,7 @@
     <string name="default_transfer_category">Катэгорыя перадачы па змаўчанні</string>
     <string name="pref_sync_now_all_summary">%s сінхранізуе ўсе акаўнты для аднаго і таго ж бэкенда</string>
     <string name="warning_unlink_transfer">Выбраны перавод будзе адвязаны: ён будзе заменены звычайнымі транзакцыямі на абодвух рахунках.</string>
-    <string name="roadmap_intro">Галасаванне па дарожнай карце на 2024 год адкрыта! Галасуйце за функцыі і паляпшэнні, якія найбольш важныя для вас.</string>
+    <string name="roadmap_intro">Галасаванне па дарожнай карце на %d год адкрыта! Галасуйце за функцыі і паляпшэнні, якія найбольш важныя для вас.</string>
     <string name="not_enough_data">Недастаткова дадзеных</string>
     <string name="archive">Архіў</string>
     <string name="warning_archive_inconsistent_state">Транзакцыі ў выбраным дыяпазоне дат маюць супярэчлівыя статусы (%s).</string>

@@ -888,7 +888,7 @@
     <string name="default_transfer_category">Categoria de transfer implicită</string>
     <string name="menu_unlink_transfer">Deconectați transferul</string>
     <string name="menu_transform_to_transfer">Transformați în transfer</string>
-    <string name="roadmap_intro">Votul pentru foaia de parcurs 2024 este acum deschis! Votați pentru funcțiile și îmbunătățirile care contează cel mai mult pentru dvs.</string>
+    <string name="roadmap_intro">Votul pentru foaia de parcurs %d este acum deschis! Votați pentru funcțiile și îmbunătățirile care contează cel mai mult pentru dvs.</string>
     <string name="merge_categories_prompt">Selectați categoria pe care doriți să o păstrați</string>
     <string name="pref_csv_export_category_separator_summary">Separator între nivelurile ierarhiei categoriilor</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_on">sunt considerate drept transfer</string>

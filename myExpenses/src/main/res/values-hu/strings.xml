@@ -922,7 +922,7 @@
     <string name="default_transfer_category">Alapértelmezett átviteli kategória</string>
     <string name="pref_sync_now_all_summary">%s szinkronizálja az ugyanahhoz a háttérhez tartozó összes fiókot</string>
     <string name="warning_transform_to_transfer">A kiválasztott tranzakciót a %1$s -ről a %2$s-re történő átutalás váltja fel.</string>
-    <string name="roadmap_intro">Megkezdődött a szavazás a 2024-es ütemtervről! Szavazzon az Ön számára legfontosabb funkciókra és fejlesztésekre.</string>
+    <string name="roadmap_intro">Megkezdődött a szavazás a %d-es ütemtervről! Szavazzon az Ön számára legfontosabb funkciókra és fejlesztésekre.</string>
     <string name="menu_unlink_transfer">Az átvitel leválasztása</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">ráfordításként/bevételként számolják el</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_on">átutalásnak számítanak</string>

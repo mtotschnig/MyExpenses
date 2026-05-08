@@ -937,7 +937,7 @@
     <string name="warning_delete_archive">Все транзакции, содержащиеся в этом архиве (%d), будут удалены.</string>
     <string name="menu_transform_to_transfer">Преобразовать в перевод</string>
     <string name="subcategories_merged_recursively">Если в объединяемых категориях есть подкатегории с одинаковым названием, они будут сначала объединены рекурсивно.</string>
-    <string name="roadmap_intro">Открыто голосование по дорожной карте 2024 года! Выберите те функции и улучшения, которые для вас наиболее важны.</string>
+    <string name="roadmap_intro">Открыто голосование по дорожной карте %d года! Выберите те функции и улучшения, которые для вас наиболее важны.</string>
     <string name="warning_nested_archives">Вложенные архивы не поддерживаются.</string>
     <string name="button_activate_again">Включить снова</string>
     <string name="credit_limit_reached">Вы достигли своего кредитного лимита.</string>
