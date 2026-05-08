@@ -7,6 +7,7 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.viewmodel.getNaturalComparator
+import org.totschnig.myexpenses.viewmodel.safeSortedWith
 import java.io.Serializable
 import kotlin.math.absoluteValue
 
@@ -91,7 +92,7 @@ data class Category(
 
     private fun sortChildrenWithComparatorRecursive(comparator: Comparator<Category>): Category =
         if (children.isEmpty()) this else
-            copy(children = children.sortedWith(comparator).map {
+            copy(children = children.safeSortedWith(comparator).map {
                 it.sortChildrenWithComparatorRecursive(comparator)
             })
 
