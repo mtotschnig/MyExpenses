@@ -164,9 +164,8 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
                 "${t(R.string.redesign)}  (${t(R.string.experimental)})"
             )
 
-            "4061", "4062", "4063", "4064", "4065" -> arrayOf(
-                t(R.string.bug_fixes),
-                "${t(R.string.ui_refinement)} (v2)"
+            "408" -> arrayOf(
+                "${t(R.string.pref_translation_title)} : ${Locale("sv").displayLanguage}"
             )
 
             else -> {

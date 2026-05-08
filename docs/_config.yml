@@ -72,6 +72,7 @@ title:
   pt-pt: Minhas despesas
   ro: Cheltuielile Mele
   ru: Мои расходы
+  #sv: Mina utgifter
   ta: எனது செலவுகள்
   te: నా ఖర్చులు
   tr: Harcamalarım
@@ -105,6 +106,7 @@ langs:
   pt-br: Português (Brasil)
   ro: Română
   ru: русский
+  #sv: Svenska
   ta: தமிழ்
   te: తెలుగు
   tr: Türkçe
@@ -134,6 +136,43 @@ amazon:
   en: "www.amazon.com"
   pt: "www.amazon.com.br"
 versions:
+  -   - 4.0.8
+      - '2026-05-08'
+      - ar: 'الترجمة : السويدية'
+        bg: 'Превод : шведски'
+        ca: 'Traducció : suec'
+        cs: 'Překlad : švédština'
+        da: 'Oversættelse : svensk'
+        de: 'Übersetzung : Schwedisch'
+        el: 'Μετάφραση : Σουηδικά'
+        es: 'Traducción : sueco'
+        eu: 'Itzulpena : suediera'
+        fr: 'Traduction : suédois'
+        hr: 'Prijevod : švedski'
+        hu: 'Fordítás : svéd'
+        it: 'Traduzione : svedese'
+        iw: 'תרגום : שוודית'
+        ja: '翻訳 : スウェーデン語'
+        km: 'ការបកប្រែ : ស៊ុយអែត'
+        kn: 'ಅನುವಾದ : ಸ್ವೀಡಿಷ್'
+        ko: '번역 : 스웨덴어'
+        ms: 'Terjemahan : Sweden'
+        nl: 'Vertaling : Zweeds'
+        pl: 'Tłumaczenie : szwedzki'
+        pt: 'Tradução : sueco'
+        ro: 'Traducere : suedeză'
+        ru: 'Перевод : шведский'
+        si: 'පරිවර්තනය : ස්වීඩන්'
+        ta: 'மொழிபெயர்ப்பு : ஸ்வீடிஷ்'
+        te: 'అనువాదం : స్వీడిష్'
+        tr: 'Çeviri : İsveççe'
+        uk: 'Переклад : шведська'
+        vi: 'Dịch thuật : Tiếng Thụy Điển'
+        zh-CN: '翻译 : 瑞典语'
+        zh-TW: '翻譯 : 瑞典文'
+        en: 'Translation : Swedish'
+      - github2: '185'
+        mastodon: '116539859736344536'
   -   - 4.0.7
       - '2026-05-03'
       - ar: فرز طبيعي للعلامات، التصنيفات، الحسابات والأطراف.

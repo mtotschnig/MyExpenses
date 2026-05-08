@@ -56,7 +56,7 @@
     <string name="menu_create_instance_save">Verkställ och spara</string>
     <string name="label">Etikett</string>
     <string name="grouping_last_week">Förra veckan</string>
-    <string name="extended_key">Förlängd nyckel</string>
+    <string name="extended_key">Utökad nyckel</string>
     <string name="dialog_remind_rate_yes">Betygssätt nu</string>
     <string name="date_format">Datumformat</string>
     <string name="dialog_security_answer">Svara</string>

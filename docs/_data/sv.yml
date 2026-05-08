@@ -108,7 +108,7 @@ screenshots:
   split: Dela upp en överföring till flera kategorier
   history: Förstå hur din finansiella situation utvecklar sig med tiden
   export: Skriv ut till PDF och växla via QIF och CSV.
-all_extended_key_features: Alla funktioner för den förlängda nyckeln
+all_extended_key_features: Alla funktioner för den utökada nyckeln
 privacy_policy_heading: Integritetspolicy
 menu_title:
   more_information: Mer information
@@ -117,12 +117,12 @@ hero_sub:
   source: Öppen källkod
   use: Enkel att använda
   functionality: Rik på funktioner
-extended-key: Förlängd nyckel
+extended-key: Utökad nyckel
 imprint_text: Ansvarig för innehållet på den här webbsidan och för utveckling, 
   underhåll och distribuering av <i>{app_name}</i>
 professional-key: Professionell nyckel
 contrib-key: Bidragsnyckel
-all_contrib_key_features: Alla funktioner i Contrib Key
+all_contrib_key_features: Alla funktioner i Contrib nyckel
 privacy_policy_text: <i>{app_name}</i> har inte åtkomst till någon data på din 
   enhet utöver sin egen databas, sin egen mapp på SD-kortet. Om du använder 
   funktionen för planer för framtida och återkommande transaktioner tilldelar du
