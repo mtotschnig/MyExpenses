@@ -235,7 +235,7 @@
     <string name="pm_type_debit">Debit</string>
     <string name="pm_type_neutral">Neutral</string>
     <string name="pref_app_dir_title">Folder for backups and exports</string>
-    <string name="pref_auto_fill_summary">Fill in data from last transaction for same payee/payer</string>
+    <string name="pref_auto_fill_summary">Fill in data from last transaction for same counterparty</string>
     <string name="pref_backup_summary">Create a backup of database and preferences.</string>
     <string name="pref_sort_order_usages">Count of usages</string>
     <string name="pref_category_title_export">Export</string>
@@ -260,7 +260,7 @@
     <string name="pref_manage_categories_title">Categories</string>
     <string name="pref_manage_methods_summary">Create and edit payment methods and associate them with account types.</string>
     <string name="pref_manage_methods_title">Payment methods</string>
-    <string name="pref_manage_parties_summary" tools:ignore="UnusedResources">Add, edit, delete parties (payers and payees).</string>
+    <string name="pref_manage_parties_summary" tools:ignore="UnusedResources">Add, edit, delete counterparties.</string>
     <string name="pref_manage_parties_title">Parties</string>
     <string name="pref_manage_sync_backends_title">Synchronization backends</string>
     <!-- %s will be replaced with list of backends -->
@@ -318,7 +318,7 @@
     <string name="save_transaction_template_deleted">Template has been deleted</string>
     <string name="select">Select</string>
     <string name="select_category">Select category</string>
-    <string name="select_payee">Select payer/payee</string>
+    <string name="select_payee">Select counterparty</string>
     <string name="share_scheme_not_supported">Scheme %1$s not supported</string>
     <string name="share_sending">Send export file</string>
     <string name="split_parts_heading">Splits</string>
@@ -401,7 +401,7 @@
     <string name="search_comment">Search for notes</string>
     <string name="search_date">Search for date</string>
     <string name="search_status">Search for status</string>
-    <string name="search_payee">Search for payee/payer</string>
+    <string name="search_payee">Search for counterparty</string>
     <string name="search_method">Search for method</string>
     <string name="search_tag">Search for tag</string>
     <string name="and">and</string>
@@ -418,7 +418,7 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">after</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Purchasing failed or cancelled.</string>
-    <string name="hint_auto_fill">Should data be filled in automatically from last transaction for same payee/payer? You can always change this behaviour from the settings.</string>
+    <string name="hint_auto_fill">Should data be filled in automatically from last transaction for same counterparty? You can always change this behaviour from the settings.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d accounts with currency %2$s have been updated.</string>
     <string name="import_source_file">File</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
@@ -602,7 +602,7 @@
     <string name="ungroup_split_transaction_success">Split Transaction was successfully ungrouped.</string>
     <string name="split_transaction_one_success">Transaction successfully transformed to split.</string>
     <string name="split_transaction_group_success" tools:ignore="PluralsCandidate">%1$d transactions were successfully grouped into one split transaction.</string>
-    <string name="split_transaction_not_possible">Only transactions that have same account, payee, and status can be grouped into one split transaction.</string>
+    <string name="split_transaction_not_possible">Only transactions that have same account, counterparty, and status can be grouped into one split transaction.</string>
     <string name="pref_transaction_time_summary">Allow to set exact transaction time.</string>
     <string name="pref_value_date_summary">Allow to set value date in addition to booking date. Transaction time will be hidden. This setting is not applied to cash accounts.</string>
     <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
@@ -718,8 +718,8 @@
     <string name="menu_remap">Remap</string>
     <string name="dialog_title_confirm_remap">Change mapping (%s) ?</string>
     <string name="remap_category">All selected transactions will be mapped to category %s.</string>
-    <string name="remap_payee">All selected transactions will be mapped to payer/payee %s.</string>
-    <string name="remap_payee_null">Payer/payee will be removed from all selected transactions.</string>
+    <string name="remap_payee">All selected transactions will be mapped to counterparty %s.</string>
+    <string name="remap_payee_null">Counterparty will be removed from all selected transactions.</string>
     <string name="remap_method">All selected transactions will be mapped to method %s.</string>
     <string name="remap_account">All selected transactions will be mapped to account %s.</string>
     <string name="remapping_result">The selected transactions were remapped.</string>
@@ -816,7 +816,7 @@
     <string name="single_feature_info">Alternatively you can buy unlimited access to only this feature.</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">Last day</string>
-    <string name="warning_link_transfer">The two selected transactions will be linked as transfer. Payee/Payer and category information will be dropped.</string>
+    <string name="warning_link_transfer">The two selected transactions will be linked as transfer. Counterparty and category information will be dropped.</string>
     <!-- This is the title of an entry on the configuration screen for the account widget. It allows to decide which number should be displayed for each account: the current balance or the total (which included future transactions) -->
     <string name="account_widget_configuration_sum">Type of displayed sum</string>
     <string name="account_widget_configuration_sum_total">Include future transactions</string>
