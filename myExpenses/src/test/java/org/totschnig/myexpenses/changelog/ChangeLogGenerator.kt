@@ -59,6 +59,7 @@ class ChangeLogGenerator {
             "ro",
             "ru-RU",
             "si-LK",
+            "sv",
             "ta-IN",
             "te-IN",
             "tr-TR",
