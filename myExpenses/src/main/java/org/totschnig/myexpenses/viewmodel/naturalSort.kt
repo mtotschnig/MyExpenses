@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.icu.text.Collator
 import android.icu.text.RuleBasedCollator
+import kotlinx.coroutines.CancellationException
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.util.Locale
 
@@ -21,8 +22,10 @@ fun getNaturalComparator(locale: Locale = Locale.getDefault()): Comparator<Strin
 fun <T> List<T>.safeSortedWith(comparator: Comparator<in T>): List<T> {
     return try {
         this.sortedWith(comparator)
+    } catch (e: CancellationException) {
+        throw e
     } catch (e: Exception) {
-        CrashHandler.report(e, "data", joinToString())
+        CrashHandler.report(e, "size", size.toString())
         this
     }
 }
