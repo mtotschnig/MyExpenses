@@ -899,6 +899,55 @@
     <string name="balance_sheet_section_assets">Tillgångar</string>
     <string name="balance_sheet_section_liabilities">Skulder</string>
     <string name="balance_sheet_net_worth">Nettovärde</string>
-    <string name="mark_as_cleared"></string>
-    <string name="mark_as_unreconciled"></string>
+    <string name="mark_as_cleared">Markera som avstämd</string>
+    <string name="mark_as_unreconciled">Markera som ej avstämd</string>
+    <string name="roadmap_intro">Omröstningen om %d Roadmap är nu öppen! Rösta på de funktioner och förbättringar som betyder mest för dig.</string>
+    <string name="pref_equivalent_amounts_automatic_update_title">Uppdatera automatiskt motsvarande belopp när priserna ändras</string>
+    <string name="batch_download">Flerfils nedladdning</string>
+    <string name="warning_batch_download_quota">Batchnedladdning från %s innebär risken att din användningsgräns töms.</string>
+    <string name="batch_download_result">%d priser laddades ner och lagrades i databasen.</string>
+    <string name="pref_ui_home_screen_shortcuts_show_new_balance_title">Visa nytt saldo efter att transaktionen sparats</string>
+    <string name="print_configuration_empty">Vänligen lägg till minst ett fält som ska skrivas ut.</string>
+    <plurals name="import_prices_success_message">
+        <item quantity="one">Valida data hittades på %d linjen.</item>
+        <item quantity="other">Giltiga data hittade på %d linjer.</item>
+    </plurals>
+    <plurals name="import_prices_failure_message">
+        <item quantity="one">%d linje kunde inte bearbetas.</item>
+        <item quantity="other">%d linjer kunde inte bearbetas.</item>
+    </plurals>
+    <string name="confirm_process_file_message">Är du säker på att du vill importera priser för \'%1$s\' från \'%2$s\'? Nya priser kan påverka befintliga ekvivalenta belopp.</string>
+    <string name="warning_expense_category_credit">Du tilldelar en utgiftskategori till en inkomsttransaktion. Som en följd minskar transaktionen summan av dina utgifter, och som standard visas den i rött.</string>
+    <string name="warning_income_category_debit">Du tilldelar en inkomstkategori till en utgiftstransaktion. Som en följd minskar transaktionen summan av din inkomst, och som standard visas den grönt.</string>
+    <string name="pref_dynamic_exchange_rates_dynamic">Dynamiska priser för alla konton</string>
+    <string name="pref_dynamic_exchange_rates_static">Statiska räntor för alla konton</string>
+    <string name="pref_dynamic_exchange_rates_per_account">Konfigurera varje konto individuellt</string>
+    <plurals name="category_description_children_suffix">
+        <item quantity="one">, innehåller en underkategori av nivå %2$d.</item>
+        <item quantity="other">, innehåller %1$d underkategorier av nivå %2$d.</item>
+    </plurals>
+    <string name="pref_print_layout_summary">Konfigurera bredd och sammansättning av kolumner</string>
+    <string name="supports_reconciliation">Stöder försoning</string>
+    <string name="aggregate_invisible">Inkludera osynliga konton i aggregerade konton och balansräkning</string>
+    <string name="select_accounts_for_flag">Välj konton för flagg %s</string>
+    <plurals name="warning_cleanup_parties">
+        <item quantity="one">%d oanvända partiet kommer att raderas.</item>
+        <item quantity="other">%d oanvända partier kommer att raderas.</item>
+    </plurals>
+    <string name="show_zero">Nollbalanskonton</string>
+    <string name="content_description_clear_party">Klart valt parti</string>
+    <string name="content_description_browse_device_files">Bläddra bland filer på denna enhet</string>
+    <string name="content_description_select_recent_file">Välj bland senaste filer</string>
+    <string name="content_description_show_balance_details">Visa detaljerad information</string>
+    <string name="menu_templates">Mallar</string>
+    <string name="pref_ui_start_screen_title">Startskärm</string>
+    <string name="pref_ui_start_screen_last_visited">Senast besökt</string>
+    <string name="main_navigation">Huvudnavigering</string>
+    <string name="pref_fab_style_title">Stil för flytande åtgärdsknapp</string>
+    <string name="pref_fab_style_standard_description">Standard (Tryck på pilen för meny)</string>
+    <string name="pref_fab_style_compact_description">Kompakt (Tryck och håll in för meny)</string>
+    <string name="number_too_large">Antalet är för stort</string>
+    <string name="prioritize_flag_order">Prioritera flaggordningen</string>
+    <string name="pref_content_based_colors_title">Konto-baserad dynamisk färg</string>
+    <string name="pref_content_based_colors_summary">Härled temafärger från det aktuella kontot färg. Stäng av om texten är svår att läsa.</string>
 </resources>
