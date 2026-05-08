@@ -71,6 +71,12 @@ contrib:
     csv_import: Sofistikerad, anpassningsbar <b>CSV-importering</b> 
       (applikationer för kalkylblad)
     history_chart: <b>Historiskt diagram</b> (Kassaflöde)
+    distribution: '<b>Pajdiagram</b>: Visualisera den statistiska fördelningen av
+      transaktioner per kategori över olika perioder (år, månader, veckor, dagar)'
+    budgeting: '<b>Budgetering</b>: Jämför dina utgifter med gränser du sätter per
+      kategori dagligen, veckovis, månadsvis eller årligen.'
+    category_tree: Obegränsat djup i <b>kategoriträd</b>
+    banking: Ladda ner transaktioner från banker i Tyskland (<b>FinTS</b>)
   subscription: Prenumeration
   one-time-payment: Engångsbetalning
   thank_you: "Ditt bidrag hjälper till att vidareutveckla Mina utgifter. Tack!\n"
@@ -116,3 +122,8 @@ imprint_text: Ansvarig för innehållet på den här webbsidan och för utveckli
   underhåll och distribuering av <i>{app_name}</i>
 professional-key: Professionell nyckel
 contrib-key: Bidragsnyckel
+all_contrib_key_features: Alla funktioner i Contrib Key
+privacy_policy_text: <i>{app_name}</i> har inte åtkomst till någon data på din 
+  enhet utöver sin egen databas, sin egen mapp på SD-kortet. Om du använder 
+  funktionen för planer för framtida och återkommande transaktioner tilldelar du
+  kalendern där dessa planer lagras.
