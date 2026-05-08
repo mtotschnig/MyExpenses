@@ -172,4 +172,5 @@
     <string name="menu_merge">Sammanfoga</string>
     <string name="buttons">Knappar</string>
     <string name="tools">Verktyg</string>
+    <string name="not_exist_file_desc">Filen existerar inte</string>
 </resources>
