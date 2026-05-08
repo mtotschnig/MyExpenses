@@ -213,7 +213,7 @@
     <string name="password_security_answer_not_valid">Wrong answer. Try again!</string>
     <string name="payee">Payee</string>
     <string name="payer">Payer</string>
-    <string name="payer_or_payee">Payee/Payer</string>
+    <string name="payer_or_payee">Counterparty</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Plan</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->

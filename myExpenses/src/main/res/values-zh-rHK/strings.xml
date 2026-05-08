@@ -395,7 +395,7 @@
     <string name="comparison_operator_date_after">後</string>
     <string name="hint_auto_fill">是否應該從同一收款人/付款人的最後一筆交易中自動填寫資料？您始終可以從設定中變更此行為。</string>
     <string name="menu_exclude_from_totals">從總計中排除</string>
-    <string name="payer_or_payee">收款人/付款人</string>
+    <string name="payer_or_payee">交易對手</string>
     <string name="dialog_export_applied_to_filter">僅考慮與當前過濾器匹配的交易。</string>
     <string name="mark_void_instead_of_delete">不要刪除交易，而是標記為無效。</string>
     <string name="menu_undelete_transaction">恢復刪除</string>

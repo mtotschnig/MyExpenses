@@ -199,7 +199,7 @@
     <string name="password_security_answer_not_valid">回答が間違っています。もう一度試してください!</string>
     <string name="payee">受取人</string>
     <string name="payer">支払人</string>
-    <string name="payer_or_payee">受取人/支払人</string>
+    <string name="payer_or_payee">取引先</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">計画</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->

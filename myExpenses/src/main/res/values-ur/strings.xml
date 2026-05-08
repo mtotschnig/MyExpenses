@@ -182,7 +182,7 @@
     <string name="password_security_answer_not_valid">غلط جواب. دوبارہ کوشش کریں!</string>
     <string name="payee">ادا کرنے والا</string>
     <string name="payer">ادا کرنے والا</string>
-    <string name="payer_or_payee">وصول کنندہ/ ادا کرنے والا</string>
+    <string name="payer_or_payee">دوسرا فریق</string>
     <string name="plan">منصوبہ</string>
     <string name="plan_automatic">خودکار</string>
     <string name="plan_calendar_name">{app_name} منصوبہ ساز</string>

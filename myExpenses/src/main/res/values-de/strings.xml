@@ -204,7 +204,7 @@
     <string name="password_security_answer_not_valid">Falsche Antwort. Versuchen Sie es erneut!</string>
     <string name="payee">Empfänger</string>
     <string name="payer">Zahler</string>
-    <string name="payer_or_payee">Empfänger/Zahler</string>
+    <string name="payer_or_payee">Gegenpartei</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Plan</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->

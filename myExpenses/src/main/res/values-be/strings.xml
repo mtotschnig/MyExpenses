@@ -445,7 +445,7 @@
     <string name="planner_create_calendar_failure">Немагчыма стварыць лакальны каляндар планавання</string>
     <string name="password_not_valid">Пароль няправільны. Паўтарыце!</string>
     <string name="payer">Плацельшчык</string>
-    <string name="payer_or_payee">Атрымальнік/Плацельшчык</string>
+    <string name="payer_or_payee">Кантрагент</string>
     <string name="plan">План</string>
     <string name="plan_event_deleted">План, звязаны з гэтым шаблонам, быў выдалены з календара.</string>
     <string name="dialog_confirm_sync_link_remote">Лакальныя даныя гэтага акаўнта будуць выдалены.</string>

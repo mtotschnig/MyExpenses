@@ -322,7 +322,7 @@
     <string name="licence_status_free">Gratuït</string>
     <string name="number_format_illegal">Format de nombre il·legal</string>
     <string name="no_accounts">Sense comptes.</string>
-    <string name="payer_or_payee">Beneficiari/Pagador</string>
+    <string name="payer_or_payee">Contrapart</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Cal contrasenya.</string>
     <string name="pref_shortcut_not_added">No es diposa de pantalla d\'inici que accepti dreceres.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d projectes han estat restaurats de la còpia de seguretat</string>

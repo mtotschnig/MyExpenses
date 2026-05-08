@@ -216,7 +216,7 @@
     <string name="password_security_answer_not_valid">إجابة خاطئة. حاول مرة أخرى!</string>
     <string name="payee">المستفيد</string>
     <string name="payer">المشتري</string>
-    <string name="payer_or_payee">المستفيد / الدافع</string>
+    <string name="payer_or_payee">الطرف الآخر</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">خطة</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->

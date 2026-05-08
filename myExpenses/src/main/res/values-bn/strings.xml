@@ -212,7 +212,7 @@
     <string name="password_security_answer_not_valid">ভুল উত্তর। আবার চেষ্টা করুন!</string>
     <string name="payee">প্রাপক</string>
     <string name="payer">প্রদানকারী</string>
-    <string name="payer_or_payee">প্রাপক/প্রদানকারী</string>
+    <string name="payer_or_payee">পাল্টা পক্ষ</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">প্লান</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->

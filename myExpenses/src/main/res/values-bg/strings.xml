@@ -204,7 +204,7 @@
     <string name="password_security_answer_not_valid">Грешно! Опитайте отново!</string>
     <string name="payee">Получател</string>
     <string name="payer">Платец</string>
-    <string name="payer_or_payee">Получател / платец</string>
+    <string name="payer_or_payee">Контрагент</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">План</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->

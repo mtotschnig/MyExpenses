@@ -207,7 +207,7 @@
     <string name="password_security_answer_not_valid">Risposta sbagliata. Riprova!</string>
     <string name="payee">Beneficiario</string>
     <string name="payer">Pagante</string>
-    <string name="payer_or_payee">Beneficiario / Pagante</string>
+    <string name="payer_or_payee">Controparte</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Pianifica</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->

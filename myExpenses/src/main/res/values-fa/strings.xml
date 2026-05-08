@@ -176,7 +176,6 @@
     <string name="password_security_answer_not_valid">جواب اشتباه است. لطفاً مجدداً تلاش کنید!</string>
     <string name="payee">گیرنده وجه</string>
     <string name="payer">پرداخت کننده</string>
-    <string name="payer_or_payee">گیرنده / پرداخت کننده</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">برنامه</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->

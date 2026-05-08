@@ -157,7 +157,6 @@
     <string name="password_security_answer_not_valid">गलत उत्तर. पुनः प्रयास करें!</string>
     <string name="payee">आदाता</string>
     <string name="payer">दाता</string>
-    <string name="payer_or_payee">आदाता/दाता</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">नियोजन</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->

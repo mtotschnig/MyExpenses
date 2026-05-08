@@ -197,7 +197,7 @@
     <string name="password_security_answer_not_valid">Câu trả lời sai. Thử lại lần nữa!</string>
     <string name="payee">Người được trả</string>
     <string name="payer">Người trả</string>
-    <string name="payer_or_payee">Người nhận trả/Người trả</string>
+    <string name="payer_or_payee">Đối tác</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Kế hoạch</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->

@@ -165,7 +165,7 @@
     <string name="password_security_answer_not_valid">ចម្លើយខុស។ សូមព្យាយាមម្តងទៀត!</string>
     <string name="payee">អ្នកទទួលប្រាក់</string>
     <string name="payer">អ្នកចេញការចំណាយ</string>
-    <string name="payer_or_payee">អ្នក​ទទួល/អ្នក​បង់ប្រាក់</string>
+    <string name="payer_or_payee">ភាគីផ្ទុយ</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">ផែនការ</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->

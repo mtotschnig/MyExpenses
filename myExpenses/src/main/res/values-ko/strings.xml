@@ -185,7 +185,7 @@
     <string name="password_security_answer_not_valid">정답이 아닙니다. 다시 시도하세요!</string>
     <string name="payee">수취인</string>
     <string name="payer">납부인</string>
-    <string name="payer_or_payee">수취인/납부인</string>
+    <string name="payer_or_payee">거래처</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">재무 계획</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->

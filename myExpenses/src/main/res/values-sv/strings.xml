@@ -199,7 +199,7 @@
     <string name="select">Välj</string>
     <string name="reference_number">Referensnummer</string>
     <string name="menu_grouping">Gruppering</string>
-    <string name="payer_or_payee">Betalningsmottagare/Betalare</string>
+    <string name="payer_or_payee">Motpart</string>
     <string name="warning_widget_disabled">Du behöver aktivera den här widgeten i appens inställningar.</string>
     <string name="save_transaction_error">Kunde inte spara nya transaktionen från mallen.</string>
     <string name="progress_dialog_deleting">Tar bort objekt</string>

@@ -403,7 +403,7 @@
     <string name="plan_calendar_name">{app_name} ప్లానర్</string>
     <string name="plan_automatic">ఆటోమేటిక్</string>
     <string name="plan">ప్రణాళిక</string>
-    <string name="payer_or_payee">చెల్లింపుదారుడు / చెల్లించేవాడు</string>
+    <string name="payer_or_payee">ప్రత్యర్థి పార్టీ</string>
     <string name="payer">చెల్లింపుదారులు</string>
     <string name="payee">చెల్లింపుదారుడు</string>
     <string name="password_security_answer_not_valid">తప్పు జవాబు. మళ్ళీ ప్రయత్నించండి!</string>

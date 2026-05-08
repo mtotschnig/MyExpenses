@@ -10,7 +10,7 @@
     <string name="numbered">ลำดับเลข</string>
     <string name="opening_balance">ยอดยกมา</string>
     <string name="payer">ผู้จ่ายเงิน</string>
-    <string name="payer_or_payee">ผู้รับ/ผู้จ่ายเงิน</string>
+    <string name="payer_or_payee">คู่สัญญา</string>
     <string name="plan_calendar_name">ตัววางแผนของ {app_name}</string>
     <string name="pm_deposit">เงินฝาก</string>
     <string name="pm_directdebit">หักบัญชีอัตโนมัติ</string>

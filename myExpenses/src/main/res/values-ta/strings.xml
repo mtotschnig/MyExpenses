@@ -204,7 +204,7 @@
     <string name="password_security_answer_not_valid">தவறான பதில். மீண்டும் முயற்சி செய்க!</string>
     <string name="payee">பணம் பெறுபவர்</string>
     <string name="payer">பணம் செலுத்துபவர்</string>
-    <string name="payer_or_payee">பணம் பெறுபவர்/செலுத்துபவர்</string>
+    <string name="payer_or_payee">எதிர்தரப்பினர்</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">திட்டம்</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->

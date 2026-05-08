@@ -222,7 +222,7 @@
     <string name="password_prompt">Vul je wachtwoord in</string>
     <string name="payee">Begunstigde</string>
     <string name="payer">Betaler</string>
-    <string name="payer_or_payee">Begunstigde/Betaler</string>
+    <string name="payer_or_payee">Tegenpartij</string>
     <string name="plan">Plannen</string>
     <string name="pm_type_credit">Krediet</string>
     <string name="pm_type_debit">Debet</string>

@@ -203,7 +203,7 @@
     <string name="password_security_answer_not_valid">ತಪ್ಪು ಉತ್ತರ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ!</string>
     <string name="payee">ಪಾವತಿಸುವವರು</string>
     <string name="payer">ಪಾವತಿಸುವವರು</string>
-    <string name="payer_or_payee">ಪಾವತಿಸುವವರು / ಪಾವತಿಸಿದವರು</string>
+    <string name="payer_or_payee">ಪ್ರತಿಪಕ್ಷ</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">ಯೋಜನೆ</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
