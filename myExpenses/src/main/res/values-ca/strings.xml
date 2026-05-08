@@ -534,7 +534,7 @@
     </plurals>
     <string name="warning_instantiate_template_from_widget_password_protected">Crear ràpidament plantilles a partir del widget requereix que autoritzeu l\'entrada de dades des de widgets sense contrasenya des de la configuració de l\'aplicació.</string>
     <string name="search_payee">Cerca pagador/beneficiari</string>
-    <string name="hint_auto_fill">Voleu omplir automàticament les dades amb l\'última transacció del mateix beneficiari/pagador\? Sempre podeu modificar aquesta opció a la configuració.</string>
+    <string name="hint_auto_fill">Voleu omplir automàticament les dades amb l\'última transacció del mateix beneficiari/pagador? Sempre podeu modificar aquesta opció a la configuració.</string>
     <string name="transaction_deleted">Transacció eliminada</string>
     <string name="comparison_operator_lesser_than">menor que</string>
     <string name="comparison_operator_date_before">abans</string>
