@@ -21,8 +21,8 @@ fun getNaturalComparator(locale: Locale = Locale.getDefault()): Comparator<Strin
 fun <T> List<T>.safeSortedWith(comparator: Comparator<in T>): List<T> {
     return try {
         this.sortedWith(comparator)
-    } catch (e: Exception) {
-        CrashHandler.report(e, "data", joinToString())
+    } catch (e: IllegalArgumentException) {
+        CrashHandler.throwOrReport(e)
         this
     }
 }
