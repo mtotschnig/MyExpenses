@@ -128,8 +128,8 @@
     <string name="menu_create_method">新建付款方法</string>
     <string name="menu_create_party">新建交易对象</string>
     <string name="menu_create_split">新建拆分款项</string>
-    <string name="menu_create_split_part_category">新建类别式的拆分款项</string>
-    <string name="menu_create_split_part_transfer">新建转帐式的拆分款项</string>
+    <string name="menu_create_split_part_category">新建拆分款项类别</string>
+    <string name="menu_create_split_part_transfer">新建拆分款项转账</string>
     <string name="menu_create_sub_cat">新建子类别</string>
     <string name="menu_create_template">新建模板</string>
     <string name="menu_create_template_from_transaction">保存为模板</string>
@@ -145,9 +145,9 @@
     <string name="menu_edit_method">编辑付款方法</string>
     <string name="menu_edit_party">编辑交易对象</string>
     <string name="menu_edit_plan_instance">仅编辑单个计划实例</string>
-    <string name="menu_edit_split">编辑拆分交易</string>
-    <string name="menu_edit_split_part_category">编辑拆分款项的类别</string>
-    <string name="menu_edit_split_part_transfer">编辑拆分款项的转帐</string>
+    <string name="menu_edit_split">编辑款项拆分交易</string>
+    <string name="menu_edit_split_part_category">编辑拆分款项类别</string>
+    <string name="menu_edit_split_part_transfer">编辑拆分款项转账</string>
     <string name="menu_edit_template">编辑模板</string>
     <string name="menu_edit_transaction">编辑交易</string>
     <string name="menu_edit_transfer">编辑转帐</string>
@@ -223,7 +223,7 @@
     <string name="pm_type_debit">借/支出(Debit)</string>
     <string name="pm_type_neutral">借或贷(Neutral)</string>
     <string name="pref_app_dir_title">备份和导出的文件夹</string>
-    <string name="pref_auto_fill_summary">为同一收款人/付款人填写上一次交易的资料</string>
+    <string name="pref_auto_fill_summary">为同一交易对手方填写上一次交易的数据</string>
     <string name="pref_backup_summary">创建数据库与首选项的备份</string>
     <string name="pref_sort_order_usages">使用次数</string>
     <string name="pref_category_title_export">导出</string>
@@ -246,8 +246,8 @@
     <string name="pref_manage_categories_title">类别</string>
     <string name="pref_manage_methods_summary">创建和编辑付款方法，并将其联系到相关的账户类型。</string>
     <string name="pref_manage_methods_title">付款方法</string>
-    <string name="pref_manage_parties_summary">添加、编辑或删除交易对象（付款人和收款人）。</string>
-    <string name="pref_manage_parties_title">交易对象</string>
+    <string name="pref_manage_parties_summary">添加、编辑或删除交易对手方。</string>
+    <string name="pref_manage_parties_title">交易对手</string>
     <string name="pref_manage_sync_backends_title">同步后端</string>
     <!-- %s will be replaced with list of backends -->
     <string name="pref_manage_sync_backends_summary">添加用于同步账户的后端（%s）。</string>
@@ -301,11 +301,11 @@
     <string name="save_transaction_template_deleted">模板已被移除</string>
     <string name="select">选择</string>
     <string name="select_category">选择类别</string>
-    <string name="select_payee">选择付款人/收款人</string>
+    <string name="select_payee">选择交易对手方</string>
     <string name="share_scheme_not_supported">不支持方案%1$s</string>
     <string name="share_sending">发送导出文件</string>
-    <string name="split_parts_heading">拆分款项部分</string>
-    <string name="split_transaction">拆分交易款项</string>
+    <string name="split_parts_heading">拆分款项</string>
+    <string name="split_transaction">款项拆分交易</string>
     <string name="status">状态</string>
     <string name="status_cleared">已入帐/已结算</string>
     <string name="status_reconciled">已对帐</string>
@@ -328,8 +328,8 @@
     <string name="transfer_to_account">至</string>
     <!-- Type refers to the type of an account, eg. Cash account, bank account -->
     <string name="type">类型</string>
-    <string name="unsplit_amount">未计算到的拆分金额</string>
-    <string name="unsplit_amount_greater_than_zero">还有一些金额没有分。</string>
+    <string name="unsplit_amount">金额合并</string>
+    <string name="unsplit_amount_greater_than_zero">还有一些金额没有拆分。</string>
     <string name="warning_backup">数据库和首选项将保存到“%1$s”</string>
     <string name="continue_confirmation">你要继续吗?</string>
     <string name="warning_delete_account">\"%1$s\"此账户与它的所有交易将被删除。</string>
@@ -356,7 +356,7 @@
     <string name="warning_reset_account_all">如果继续，%1$s所有账户和当中的所有交易将从数据库中删除，并且无法还原。</string>
     <string name="warning_reset_account_matched">如果继续，与当前筛选器匹配的交易项目将从数据库中删除，并且无法还原。</string>
     <string name="warning_restore">数据库与首选项将通过文件“%1$s”恢复，当前数据将被删除</string>
-    <string name="warning_splitpartcategory_context">当转账项目是拆分款项的一部分时，它只能在拆分内容里被编辑或删除。</string>
+    <string name="warning_splitpartcategory_context">属于款项拆分交易一部分的转账只能在款项拆分交易情景下被编辑。</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">请在%1$d和%2$d之间设置一个数字</string>
     <string name="warning_change_fraction_digits_1">需要更新数据库中的金额以匹配新的小数位数。</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">如果未更新金额，则更改后它们将显示为乘以%d。</string>
@@ -381,7 +381,7 @@
     <string name="search_comment">搜索备注</string>
     <string name="search_date">搜索日期</string>
     <string name="search_status">搜索状态</string>
-    <string name="search_payee">搜索收款人/付款人</string>
+    <string name="search_payee">搜索交易对手方</string>
     <string name="search_method">搜索付款方法</string>
     <string name="search_tag">搜索标签</string>
     <string name="and">和</string>
@@ -398,7 +398,7 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">之后</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">购买失败或被取消。</string>
-    <string name="hint_auto_fill">当交易对象（收款人/付款人）相同时，是否自动填入上次交易的内容？您可以随时在设置中更改此行为。</string>
+    <string name="hint_auto_fill">对于同一交易对手方是否自动填入上次交易的数据？您可以随时在设置中更改此行为。</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">货币为 %2$s 的账户 %1$d 已更新。</string>
     <string name="import_source_file">文件</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
@@ -450,7 +450,7 @@
     <string name="plan_instance_state_cancelled">已取消</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">已应用</string>
-    <string name="progress_dialog_updating_split_parts">更新拆分款项中</string>
+    <string name="progress_dialog_updating_split_parts">正在更新款项拆分</string>
     <string name="warning_cannot_move_split_transaction">此拆分交易无法移动到账户%1$s中，因为有部分转账已经引用到此账户。</string>
     <string name="content_description_calculator_delete_button">删除上一个数字</string>
     <string name="paypal_callback_info">您的交易已经完成，购买收据已经通过电子邮件发送给您。您可以从www.paypal.com登录您的账户以查看该交易的详细信息。</string>
@@ -524,7 +524,7 @@
     <string name="pref_sync_notification_summary">通知同步进度</string>
     <string name="pref_debug_logging_summary">将调试信息写入系统日志</string>
     <string name="plan_custom_recurrence_info">请先保存模板。然后，该计划将可以在日历应用程序中打开，您便能在其中设置自定义重复周期。</string>
-    <string name="menu_create_template_for_split">新建拆分款项用的模板</string>
+    <string name="menu_create_template_for_split">新建拆分款项模板</string>
     <string name="progress_validating_licence">验证许可证</string>
     <string name="licence_validation_error_expired">许可证已过期</string>
     <string name="licence_validation_error_device_limit_exceeded">超出设备限制。请从其他设备上删除许可证。</string>
@@ -569,13 +569,13 @@
     <string name="menu_original_amount">原始金额</string>
     <string name="menu_equivalent_amount">等价金额</string>
     <string name="warning_split_transactions">所选的交易将被组成一个拆分交易。它们原有的日期数据将会遗失，改由它们的平均值来替换。</string>
-    <string name="warning_ungroup_split_transactions">您所选的拆分交易将被取消分组，也就是说，它们的拆分款项将各自成为一般交易。</string>
+    <string name="warning_ungroup_split_transactions">所选的款项拆分交易将被取消分组，也就是说，它们的拆分款项将成为一般交易。</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
-    <string name="menu_ungroup_split_transaction">解散拆分交易的组合</string>
+    <string name="menu_ungroup_split_transaction">取消交易拆分的分组</string>
     <string name="ungroup_split_transaction_success">已成功将 1 笔分拆交易变为未分组状态。</string>
-    <string name="split_transaction_one_success">已成功将交易转换为拆分款项。</string>
-    <string name="split_transaction_group_success">%1$d数笔交易已成功地组成一个拆分交易。</string>
-    <string name="split_transaction_not_possible">只有具有相同账户、收款人和状态的交易，才能被组成一个拆分交易。</string>
+    <string name="split_transaction_one_success">成功将交易转换为拆分款项。</string>
+    <string name="split_transaction_group_success">%1$d 笔交易已成功地组成一个拆分交易。</string>
+    <string name="split_transaction_not_possible">只有账户、交易对手方和状态相同的交易才能被组合成一个拆分交易。</string>
     <string name="pref_transaction_time_summary">允许设置确切的交易时间。</string>
     <string name="pref_value_date_summary">除了\"账面交易日期(booking date)\"外，还可以设置\"生效日期(value date)\"。交易时间将被隐藏。此设置不适用于现金账户。</string>
     <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
@@ -684,7 +684,7 @@
     <string name="menu_remap">重新分配映射</string>
     <string name="dialog_title_confirm_remap">确定更改映射(%s)?</string>
     <string name="remap_category">所有选定的交易都将被分类到类别 %s。</string>
-    <string name="remap_payee">所有选定的交易都将被映射到付款人/收款人 %s。</string>
+    <string name="remap_payee">所有选定的交易都将被映射到交易对手方 %s。</string>
     <string name="remap_method">所有选定的交易都将被映射到付款方法 %s。</string>
     <string name="remap_account">所有选定的交易都将被映射到账户 %s。</string>
     <string name="remapping_result">所选交易已被重新分配映射。</string>
@@ -780,7 +780,7 @@
     <string name="single_feature_info">或者，您可以购买仅此功能的无限制访问权限。</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">每月的最后一天</string>
-    <string name="warning_link_transfer">选定的两个交易将链接为转账。收款人/付款人和类别信息将被删除。</string>
+    <string name="warning_link_transfer">选定的两笔交易将连接为转账。交易对手方和类别信息将被删除。</string>
     <!-- This is the title of an entry on the configuration screen for the account widget. It allows to decide which number should be displayed for each account: the current balance or the total (which included future transactions) -->
     <string name="account_widget_configuration_sum">显示总金额的类型</string>
     <string name="account_widget_configuration_sum_total">包括未来交易</string>
