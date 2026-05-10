@@ -231,7 +231,7 @@
     <string name="pm_type_debit">Дебет</string>
     <string name="pm_type_neutral">Нейтральный</string>
     <string name="pref_app_dir_title">Каталог для резервного копирования и экспорта</string>
-    <string name="pref_auto_fill_summary">Автозаполнение данных из предыдущей операции с тем же получателем/плательщиком</string>
+    <string name="pref_auto_fill_summary">Заполнение данных из последней операции для того же контрагента</string>
     <string name="pref_backup_summary">Создать резервную копию базы данных и настроек.</string>
     <string name="pref_sort_order_usages">Количество использований</string>
     <string name="pref_category_title_export">Экспорт</string>
@@ -254,7 +254,7 @@
     <string name="pref_manage_categories_title">Категории</string>
     <string name="pref_manage_methods_summary">Создание и редактирование методов оплаты и связывание с типами счетов.</string>
     <string name="pref_manage_methods_title">Способы оплаты</string>
-    <string name="pref_manage_parties_summary">Добавление, редактирование, удаление контрагентов (плательщиков и получателей).</string>
+    <string name="pref_manage_parties_summary">Добавление, редактирование и удаление контрагентов.</string>
     <string name="pref_manage_parties_title">Контрагенты</string>
     <string name="pref_manage_sync_backends_title">Серверы синхронизации</string>
     <!-- %s will be replaced with list of backends -->
@@ -312,7 +312,7 @@
     <string name="save_transaction_template_deleted">Шаблон удалён</string>
     <string name="select">Выбрать</string>
     <string name="select_category">Выбрать категорию</string>
-    <string name="select_payee">Выберите плательщика / получателя</string>
+    <string name="select_payee">Выберите контрагента</string>
     <string name="share_scheme_not_supported">Схема %1$s не поддерживается</string>
     <string name="share_sending">Отправить экспортированный файл</string>
     <string name="split_parts_heading">Разделения</string>
@@ -376,7 +376,7 @@
     <string name="warning_reset_account_all">Если вы продолжите, для всех счетов %1$s операции будут удалены из базы данных и не могут быть восстановлены.</string>
     <string name="warning_reset_account_matched">Если вы продолжите, операции, соответствующие текущему фильтру, будут удалены из базы данных и не могут быть восстановлены.</string>
     <string name="warning_restore">Базы данных и настройки будут восстановлены из файла \"%1$s\". Текущие данные будут удалены.</string>
-    <string name="warning_splitpartcategory_context">Переводы, которые являются разделённой частью можно редактировать только в контексте разделения.</string>
+    <string name="warning_splitpartcategory_context">Переводы, являющиеся частью разделенной транзакции, могут быть отредактированы только в контексте этой разделенной транзакции.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Пожалуйста, укажите число между %1$d и %2$d</string>
     <string name="warning_change_fraction_digits_1">Суммы в базе данных должны быть обновлены, чтобы соответствовать новому числу цифр дроби.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Если суммы не обновляются, они будут отображаться как умноженные на %d после изменения.</string>
@@ -401,7 +401,7 @@
     <string name="search_comment">Поиск по заметкам</string>
     <string name="search_date">Поиск по дате</string>
     <string name="search_status">Ишите статус </string>
-    <string name="search_payee">Поиск по получателю/плательщику</string>
+    <string name="search_payee">Поиск контрагента</string>
     <string name="search_method">Ишите метод</string>
     <string name="search_tag">Ишите тег</string>
     <string name="and">и</string>
@@ -418,7 +418,7 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">после</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Покупка была прервана или отменена.</string>
-    <string name="hint_auto_fill">Позволить автозаполнение на основе последней операции для того же получателя/плательщика? Вы всегда можете изменить это поведение в настройках.</string>
+    <string name="hint_auto_fill">Автоматически заполнять данные из последней транзакции для того же контрагента? Вы всегда можете изменить этот параметр в настройках.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d счетов с валютой %2$s было обновлено.</string>
     <string name="import_source_file">Файл</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
@@ -597,7 +597,7 @@
     <string name="ungroup_split_transaction_success">Дробная операция была успешно разгруппирована.</string>
     <string name="split_transaction_one_success">Операция успешно превращена в расщепленную.</string>
     <string name="split_transaction_group_success">%1$d операций было успешно сгруппировано в одну дробную операцию.</string>
-    <string name="split_transaction_not_possible">Только операции с совпадающим счетом, получателем и статусом могут быть сгруппированы в расщепленную операцию.</string>
+    <string name="split_transaction_not_possible">В одну разделенную транзакцию могут быть сгруппированы только те транзакции, которые имеют одинаковый счет, контрагента и статус.</string>
     <string name="pref_transaction_time_summary">Позволять указывать точное время операции.</string>
     <string name="pref_value_date_summary">Позволить установить дату бронирования в дополнение к дате создания заказа. Время операции будет скрыто. Этот параметр не применяется к денежным счетам.</string>
     <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
@@ -705,7 +705,7 @@
     <string name="menu_remap">Переоформления</string>
     <string name="dialog_title_confirm_remap">Изменить сопоставление (%s)?</string>
     <string name="remap_category">Все выбранные операции будут сопоставлены с категорией %s.</string>
-    <string name="remap_payee">Все выбранные операции будут сопоставлены плательщику/получателю платежа %s.</string>
+    <string name="remap_payee">Все выбранные транзакции будут привязаны к контрагенту %s.</string>
     <string name="remap_method">Все выбранные операции будут сопоставлены с методом %s.</string>
     <string name="remap_account">Все выбранные операции будут сопоставлены с счетом %s.</string>
     <string name="remapping_result">Выбранные операции были повторно сопоставлены.</string>
@@ -800,7 +800,7 @@
         <item quantity="other">Долг %1$s имеет %2$d сопоставленных операций.</item>
     </plurals>
     <string name="account_widget_configuration_sum_total">Включить будущие операции</string>
-    <string name="warning_link_transfer">Две выбранные транзакции будут объединены. Информация об отправителей/получателей средств и категории будут удалены.</string>
+    <string name="warning_link_transfer">Две выбранные транзакции будут связаны как перевод. Информация о контрагенте и категории будет удалена.</string>
     <string name="warning_party_delete_debt">При удалении этого контрагента также будут удалены все связанные с ним долги.</string>
     <string name="merge_parties_select">Выберите имя контрагента после объединения</string>
     <string name="account_widget_configuration">Настройка виджета счета</string>
@@ -1040,7 +1040,7 @@
         <item quantity="other">%d неиспользуемых контрагентов будет удалено.</item>
     </plurals>
     <string name="content_description_clear_party">Очистить контрагента</string>
-    <string name="remap_payee_null">Плательщик/Получатель будет удалён из всех выделенных операций.</string>
+    <string name="remap_payee_null">Контрагент будет удалён из всех выбранных транзакций.</string>
     <string name="show_invisible">Скрытые счета</string>
     <string name="show_zero">Счета с нулевым балансом</string>
     <string name="content_description_browse_device_files">Просмотреть файлы на этом устройстве</string>

@@ -6,10 +6,10 @@
     <string name="sort_direction_ascending">"Па ўзрастанні"</string>
     <string name="sort_direction_descending">"Па ўбыванні"</string>
     <plurals name="delete_files_confirmation_message" formatted="false">
-        <item quantity="one">Выдаліць <xliff:g id="COUNT_1">%1$d</xliff:g> файл?</item>
-        <item quantity="few">Выдаліць <xliff:g id="COUNT_1">%1$d</xliff:g> файлы?</item>
-        <item quantity="many">Выдаліць <xliff:g id="COUNT_1">%1$d</xliff:g> файлаў?</item>
-        <item quantity="other">Выдаліць <xliff:g id="COUNT_1">%1$d</xliff:g> файла?</item>
+        <item quantity="one">Выдаліць %1$d файл?</item>
+        <item quantity="few">Выдаліць %1$d файлы?</item>
+        <item quantity="many">Выдаліць %1$d файлаў?</item>
+        <item quantity="other">Выдаліць %1$d файлаў?</item>
     </plurals>
     <string name="files_label">"Файлы"</string>
     <string name="saving">Ідзе захаванне…</string>
@@ -50,7 +50,7 @@
     <string name="compact">кампактная</string>
     <string name="storage_description">Лакальнае сховішча</string>
     <string name="write_fail_reason_cannot_write">Памылка запісу змесціва</string>
-    <string name="not_exist_file_desc">Файл не існуе.</string>
+    <string name="not_exist_file_desc">Файл не існуе</string>
     <!--Gemini  -->
     <string name="today">Сёння</string>
     <string name="tomorrow">Заўтра</string>
@@ -87,7 +87,7 @@
     <string name="quality">"Якасць"</string>
     <string name="no_data">"Няма даных"</string>
     <string name="color_component_title">"Выберыце колер"</string>
-    <string name="backups">"Backups"</string>
+    <string name="backups">Рэзервовыя копіі</string>
     <string name="filter">"Фільтр"</string>
     <string name="languages">"Мовы"</string>
     <string name="chart">"Дыяграма"</string>
@@ -154,4 +154,29 @@
     <string name="reports">"Справаздачы"</string>
     <string name="tools">Інструменты</string>
     <string name="actions">"Дзеянні"</string>
+    <string name="action_download">Загрузіць</string>
+    <string name="calendar_delete">Выдаліць каляндар</string>
+    <string name="preferences_calendar_delete_message">Вы сапраўды хочаце выдаліць гэты каляндар?</string>
+    <string name="cannot_be_undone">Гэта дзеянне нельга адмяніць.</string>
+    <string name="header_footer">Загаловак</string>
+    <string name="top_left">Уверх і налева</string>
+    <string name="top_center">Зверху па цэнтру</string>
+    <string name="top_right">Уверсе справа</string>
+    <string name="bottom_left">Знізу злева</string>
+    <string name="bottom_center">Знізу па цэнтру</string>
+    <string name="bottom_right">Унізе справа</string>
+    <string name="menu_print">Друк</string>
+    <string name="share">Падзяліцца</string>
+    <string name="file_format">Фармат файла</string>
+    <string name="buttons">Кнопкі</string>
+    <string name="tags">Пазнакі</string>
+    <string name="debug">Адладка</string>
+    <string name="action_archive">Архіваваць</string>
+    <string name="contains">утрымоўвае</string>
+    <string name="does_not_contain">не ўтрымоўвае</string>
+    <string name="delimiter_comma">Коска</string>
+    <string name="delimiter_semicolon">Кропка з коскай</string>
+    <string name="delimiter_tab">Табліцаванне</string>
+    <string name="preview">Перадпрагляд</string>
+    <string name="negation">Аднамесны мінус</string>
 </resources>

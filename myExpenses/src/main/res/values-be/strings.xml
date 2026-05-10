@@ -14,7 +14,7 @@
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
  --><resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="account">Акаўнт</string>
+    <string name="account">Рахунак</string>
     <string name="account_type_asset">Іншыя актывы</string>
     <string name="account_type_bank">Банк</string>
     <string name="account_type_cash">Наяўныя</string>
@@ -79,13 +79,13 @@
     <string name="warning_password_contrib">Усталяванне сакрэтнага пытання дазваляе разблакіраваць праграму, калі вы забудзеце пароль.</string>
     <plurals name="save_transaction_from_template_success">
         <item quantity="one">Новая транзакцыя паспяхова захавана з шаблону.</item>
-        <item quantity="few">Новыя транзакцыі з шаблонаў былі паспяхова захаваны (%1$d).</item>
-        <item quantity="many">Новыя транзакцыі з шаблонаў былі паспяхова захаваны (%1$d).</item>
-        <item quantity="other">Новыя транзакцыі з шаблонаў былі паспяхова захаваны (%1$d).</item>
+        <item quantity="few">%1$d новыя аперацыі паспяхова захаваны з шаблонаў.</item>
+        <item quantity="many">%1$d новыя аперацыі паспяхова захаваны з шаблонаў.</item>
+        <item quantity="other">%1$d новыя аперацыі паспяхова захаваны з шаблонаў.</item>
     </plurals>
     <string name="menu_manage_plans">Шаблоны і планы</string>
     <string name="menu_split_transaction">Пераўтварэнне ў \"падзяліць\"</string>
-    <string name="split_parts_heading">Раздзеленыя часткі</string>
+    <string name="split_parts_heading">Падзелы</string>
     <string name="warning_password_protected">Прыкладанне абаронена паролем.</string>
     <string name="pref_sync_frequency_summary">Як часта трэба сінхранізаваць дадзеныя (у гадзінах).</string>
     <string name="synchronization_start">Пачатак сінхранізацыі для акаўнта %s.</string>
@@ -95,8 +95,8 @@
     <string name="export_sdcard_failure">Экспарт у файл \"%1$s\" не атрымаўся: %2$s</string>
     <string name="export_sdcard_success">Дадзеныя паспяхова экспартаваныя ў файл \"%1$s\"</string>
     <string name="menu_apply_template">Ужыць</string>
-    <string name="menu_edit_split">Рэдагаваць падзел-транзакцыю</string>
-    <string name="menu_edit_split_part_transfer">Рэдагаваць пераклад падзеленай часткі</string>
+    <string name="menu_edit_split">Рэдагаваць падзеленую транзакцыю</string>
+    <string name="menu_edit_split_part_transfer">Рэдагаваць пераклад раздзела</string>
     <string name="menu_edit_transaction">Рэдагаваць транзакцыю</string>
     <string name="menu_edit_transfer">Рэдагаваць перадачу</string>
     <string name="menu_exclude_from_totals">Выключыць з агульнай сумы</string>
@@ -149,7 +149,7 @@
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Немагчыма аб\'яднаць іх з існуючым рахункам.</string>
     <string name="split_transaction">Раздзеленая транзакцыя</string>
     <string name="select">Выбраць</string>
-    <string name="search_payee">Пошук па атрымальнік/плацельшчык</string>
+    <string name="search_payee">Пошук контрагента</string>
     <string name="between_and">паміж %1$s і %2$s</string>
     <string name="progress_dialog_printing">Стварэнне %s</string>
     <string name="total_reconciled">Узгоднены вынік</string>
@@ -159,7 +159,7 @@
     <string name="pref_import_title">%s імпарт</string>
     <string name="pref_manage_categories_summary">Дадаваць, рэдагаваць, выдаляць катэгорыі.</string>
     <string name="pref_manage_methods_summary">Ствараць і рэдагаваць спосабы аплаты і прывязваць іх да тыпаў рахункаў.</string>
-    <string name="pref_manage_parties_summary" tools:ignore="UnusedResources">Дадаваць, рэдагаваць, выдаляць бакоў (плацельшчыкаў і атрымальнікаў).</string>
+    <string name="pref_manage_parties_summary" tools:ignore="UnusedResources">Дадаваць, рэдагаваць, выдаляць контрагентаў.</string>
     <string name="pref_share_target_title">URL-адрас загрузкі</string>
     <string name="pref_ui_theme_light">Светлая</string>
     <string name="pref_visit_website_summary">Спіс змяненняў і часта задаваныя пытанні</string>
@@ -218,12 +218,12 @@
     <string name="pref_sort_order_last_used">Апошні раз выкарыстоўваўся</string>
     <plurals name="warning_delete_main_category">
         <item quantity="one">Адна з выбраных катэгорый мае падкатэгорыі, якія таксама будуць выдалены.</item>
-        <item quantity="few">%1$d выбраных катэгорый маюць падкатэгорыі, якія таксама будуць выдалены.</item>
-        <item quantity="many">%1$d выбраных катэгорый маюць падкатэгорыі, якія таксама будуць выдалены.</item>
-        <item quantity="other">%1$d выбраных катэгорый маюць падкатэгорыі, якія таксама будуць выдалены.</item>
+        <item quantity="few">Абраныя катэгорыі %1$d змяшчаюць падкатэгорыі, якія таксама будуць выдалены.</item>
+        <item quantity="many">Абраныя катэгорыі %1$d змяшчаюць падкатэгорыі, якія таксама будуць выдалены.</item>
+        <item quantity="other">Абраныя катэгорыі %1$d змяшчаюць падкатэгорыі, якія таксама будуць выдалены.</item>
     </plurals>
     <string name="pref_auto_backup_summary">Рэзервовае капіраванне базы дадзеных штодня ў пазначаны час (толькі калі дадзеныя змяніліся).</string>
-    <string name="progress_dialog_updating_split_parts">Абнаўленне падзеленых частак</string>
+    <string name="progress_dialog_updating_split_parts">Абнаўленне падзелаў</string>
     <string name="crash_dialog_comment_prompt">Вы можаце дадаць свае каментарыі аб праблеме ніжэй:</string>
     <string name="paypal_callback_info">Ваша транзакцыя была завершана, і квітанцыя аб вашай пакупцы была адпраўлена вам па электроннай пошце. Вы можаце ўвайсці ў свой уліковы запіс на сайце www.paypal.com, каб праглядзець дэталі гэтай аперацыі.</string>
     <string name="dialog_sync_link">Акаўнт з uuid %s існуе як у лакальнай базе дадзеных, так і на аддаленым серверы. Калі вы звязваеце абодва, вам трэба вырашыць, ці хочаце вы першапачаткова загружаць лакальныя даныя ў аддалены бэкэнд або спампоўваць аддаленыя даныя ў лакальную базу дадзеных.</string>
@@ -251,7 +251,7 @@
     <string name="menu_create_template_for_transfer">Новы шаблон пераводу</string>
     <string name="no_app_handling_email_available">Няма даступнай праграмы для апрацоўкі электроннай пошты.</string>
     <string name="menu_reset_plan_instance">Скід</string>
-    <string name="no_split_parts">Няма падзеленых частак.</string>
+    <string name="no_split_parts">Няма падзелаў.</string>
     <string name="no_accounts">Няма акаўнтаў.</string>
     <string name="password_lost">Забыўся пароль</string>
     <string name="no_methods">Няма спосабаў аплаты.</string>
@@ -268,7 +268,7 @@
     <string name="save_transaction_and_new_success">Паспяхова захавана</string>
     <string name="save_transaction_error">Не атрымалася захаваць новую транзакцыю з шаблону.</string>
     <string name="move_category_failure">Адна катэгорыя не была перамешчаная, паколькі той жа ярлык ужо існуе ў мэтавым аб\'екце.</string>
-    <string name="warning_splitpartcategory_context">Пераводы, якія з\'яўляюцца часткай падзелу, можна рэдагаваць толькі ў кантэксце падзелу.</string>
+    <string name="warning_splitpartcategory_context">Пераводы, якія з\'яўляюцца часткай падзеленай транзакцыі, можна рэдагаваць толькі ў кантэксце падзеленай транзакцыі.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Абнаўленне сум у базе дадзеных</string>
     <string name="import_accounts_none">Імпартаваных рахункаў няма</string>
     <string name="import_parties_none">Групы не імпартаваны</string>
@@ -375,7 +375,7 @@
         <item quantity="many">%1$d выбраных шаблонаў будуць выдалены.</item>
         <item quantity="other">%1$d выбраных шаблонаў будуць выдалены.</item>
     </plurals>
-    <string name="menu_edit_split_part_category">Праўка катэгорыі падзеленай часткі</string>
+    <string name="menu_edit_split_part_category">Рэдагаваць падзел катэгорыі</string>
     <string name="menu_edit_template">Рэдагаваць шаблон</string>
     <string name="menu_edit_plan_instance">Рэдагаваць асобны выпадак плана</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> прапануецца з адкрытым зыходным кодам.</string>
@@ -419,7 +419,7 @@
     <string name="plan_calendar_name">{app_name} планіроўшчык</string>
     <string name="pm_cheque">Чэк</string>
     <string name="planner_notification_channel_name">Планіроўшчык</string>
-    <string name="pref_auto_fill_summary">Запоўніце дадзеныя з апошняй транзакцыі для таго ж атрымальніка/плацельшчыка</string>
+    <string name="pref_auto_fill_summary">Запоўніце дадзеныя з апошняй транзакцыі для таго ж контрагента</string>
     <string name="pref_app_dir_title">Папка для рэзервовых копій і экспарту</string>
     <string name="pref_backup_summary">Стварыце рэзервовую копію базы дадзеных і налад.</string>
     <string name="pref_sort_order_usages">Колькасць выкарыстанняў</string>
@@ -433,7 +433,7 @@
     <string name="pref_ui_home_screen_shortcuts">Цэтлікі на галоўным экране</string>
     <string name="restore_preferences_success">Налады былі адноўлены з рэзервовай копіі.</string>
     <string name="select_category">Выбраць катэгорыю</string>
-    <string name="select_payee">Выбраць плацельшчыка/атрымальніка</string>
+    <string name="select_payee">Выберыце контрагента</string>
     <string name="restore_backup_file_not_found">У архіве \"%2$s\" не знойдзены файл \"%1$s\"</string>
     <string name="export_handle_deleted_update_balance">Абнавіць пачатковы баланс</string>
     <string name="mark_void_instead_of_delete">Не выдаляйце транзакцыю, а пазначайце яе як несапраўдную.</string>
@@ -475,15 +475,15 @@
     <string name="dialog_security_question">Пытанне</string>
     <string name="dialog_security_answer">Адказ</string>
     <string name="dialog_title_balance_account">Баланс %1$s</string>
-    <string name="menu_create_split_part_category">Новая катэгорыя падзеленай часткі</string>
-    <string name="menu_create_split_part_transfer">Новы пераклад падзеленай часткі</string>
+    <string name="menu_create_split_part_category">Новы падзел на катэгорыі</string>
+    <string name="menu_create_split_part_transfer">Новы пераклад раздзела</string>
     <string name="menu_move">Перамясціць</string>
     <string name="pref_tracking_title">Збор дадзеных аб выкарыстанні</string>
     <string name="title">Назва</string>
     <string name="comparison_operator_between">паміж</string>
     <string name="comparison_operator_date_after">пасля</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Купля не атрымалася або адменена.</string>
-    <string name="hint_auto_fill">Ці павінны дадзеныя аўтаматычна запаўняцца з апошняй транзакцыі для таго ж атрымальніка/плацельшчыка? Вы заўсёды можаце змяніць гэта ў наладах.</string>
+    <string name="hint_auto_fill">Ці павінны дадзеныя аўтаматычна запаўняцца з апошняй транзакцыі для таго ж контрагента? Вы заўсёды можаце змяніць гэта ў наладах.</string>
     <string name="pref_manage_stale_images_title">Састарэлыя выявы</string>
     <string name="pref_manage_stale_images_summary">Кіруйце фотаздымкамі, якія засталіся пасля выдаленых транзакцый</string>
     <string name="menu_show_transactions">Паказаць транзакцыі</string>
@@ -557,7 +557,7 @@
     <string name="pref_exchange_rates_api_key_summary">Калі ласка, зарэгіструйце бясплатны акаўнт на %s і падайце свой ідэнтыфікатар праграмы</string>
     <string name="budget_filter_all_methods">Усе метады</string>
     <string name="remapping_result">Выбраныя аперацыі былі пераназначаны.</string>
-    <string name="split_transaction_not_possible">Толькі транзакцыі з аднолькавым рахункам, атрымальнікам плацяжу і статусам можна аб\'яднаць у адну падзеленую транзакцыю.</string>
+    <string name="split_transaction_not_possible">Толькі транзакцыі з аднолькавым рахункам, контрагентам і статусам могуць быць згрупаваны ў адну падзеленую транзакцыю.</string>
     <string name="menu_budget">Бюджэтаванне</string>
     <string name="progress_validating_licence">Праверка ліцэнзіі</string>
     <string name="licence_removal_success">Ліцэнзійны ключ быў паспяхова вызвалены з гэтай прылады.</string>
@@ -606,7 +606,7 @@
     <string name="button_label_clone_and_remap">Кланаваць і перааформіць</string>
     <string name="budget_table_header_spent">Выдаткаваны</string>
     <string name="remap_category">Усе выбраныя аперацыі будуць супастаўлены з катэгорыяй %s.</string>
-    <string name="remap_payee">Усе выбраныя аперацыі будуць супастаўлены плацельшчыку/атрымальніку плацяжу %s.</string>
+    <string name="remap_payee">Усе выбраныя транзакцыі будуць супастаўлены з контрагентам %s.</string>
     <string name="sync_login_again">Калі ласка, увайдзіце зноў.</string>
     <string name="pref_home_currency_title">Унутраная валюта</string>
     <string name="navigation_drawer_accounts_title">Кіраванне акаўнтамі</string>
@@ -687,9 +687,9 @@
     <string name="debt_balance_they_owe">%1$s зараз мае доўг у памеры %2$s.</string>
     <plurals name="import_categories_icons_updated">
         <item quantity="one">У адной катэгорыі была абноўлена абразок.</item>
-        <item quantity="few">У %1$d катэгорыях быў абноўлены абразок.</item>
-        <item quantity="many">У %1$d катэгорыях быў абноўлены абразок.</item>
-        <item quantity="other">У %1$d катэгорыях быў абноўлены абразок.</item>
+        <item quantity="few">Ікона была абноўлена ў %1$d катэгорыях.</item>
+        <item quantity="many">Ікона была абноўлена ў %1$d катэгорыях.</item>
+        <item quantity="other">Ікона была абноўлена ў %1$d катэгорыях.</item>
     </plurals>
     <string name="dialog_multi_tag_replace">Замяніць існуючыя тэгі новымі тэгамі</string>
     <string name="dialog_title_warning_delete_tag">Выдаліць тэг?</string>
@@ -841,7 +841,7 @@
     <string name="new_balance">Новы баланс</string>
     <string name="single_feature_info">Акрамя таго, вы можаце набыць неабмежаваны доступ толькі да гэтай функцыі.</string>
     <string name="recurrence_last_day_of_month">Апошні дзень</string>
-    <string name="warning_link_transfer">Дзве выбраныя транзакцыі будуць звязаныя як перавод. Інфармацыя пра атрымальніка/плацельшчыка і катэгорыю будзе выдалена.</string>
+    <string name="warning_link_transfer">Дзве выбраныя транзакцыі будуць звязаныя як перавод. Інфармацыя пра контрагента і катэгорыю будзе выдалена.</string>
     <string name="pref_acra_user_email_summary">Калі ласка, увядзіце свой адрас электроннай пошты, калі вы жадаеце дапамагчы з адладкай і дазволіць нам звязацца з вамі.</string>
     <string name="pref_copy_attachments_summary_on">Файлы скапіяваны ў тэчку праграмы.</string>
     <string name="pref_copy_attachments_summary_off">Файлы не скапіяваны, захоўваецца толькі спасылка.</string>
@@ -964,7 +964,7 @@
     <string name="edit_account_type">Рэдагаваць тып акаўнта</string>
     <string name="new_account_type">Новы тып акаўнта</string>
     <string name="pref_account_list_display_configuration_title">Спіс уліковых запісаў</string>
-    <string name="remap_payee_null">Плацельшчык/атрымальнік будзе выдалены з усіх выбраных транзакцый.</string>
+    <string name="remap_payee_null">Контрагент будзе выдалены з усіх выбраных транзакцый.</string>
     <string name="pref_print_layout_summary">Наладзіць шырыню і склад слупкоў</string>
     <string name="menu_account_flags">Флагі</string>
     <string name="menu_flag">Сцяг</string>
@@ -986,4 +986,17 @@
         <item quantity="other">%d невыкарыстоўваемых контрагентаў будзе выдалена.</item>
     </plurals>
     <string name="menu_templates">Шаблоны</string>
+    <string name="content_description_browse_device_files">Праглядаць файлы на гэтым прыстасаванні</string>
+    <string name="content_description_select_recent_file">Выбраць з нядаўніх файлаў</string>
+    <string name="content_description_show_balance_details">Паказаць падрабязную інфармацыю</string>
+    <string name="pref_ui_start_screen_title">Пачатковы экран</string>
+    <string name="pref_ui_start_screen_last_visited">Апошні прагледжаны экран</string>
+    <string name="main_navigation">Асноўная навігацыя</string>
+    <string name="pref_fab_style_title">Стыль плаваючай кнопкі дзеяння</string>
+    <string name="pref_fab_style_standard_description">Стандартны (націсніце стрэлку, каб адкрыць меню)</string>
+    <string name="pref_fab_style_compact_description">Кампактны (націсніце і ўтрымлівайце, каб адкрыць меню)</string>
+    <string name="number_too_large">Лік занадта вялікі</string>
+    <string name="prioritize_flag_order">Прыярытэзацыя парадку сцягоў</string>
+    <string name="pref_content_based_colors_title">Дынамічны колер на аснове ўліковага запісу</string>
+    <string name="pref_content_based_colors_summary">Выбіраць колеры тэмы на аснове колеру бягучага ўліковага запісу. Выключыце, калі тэкст цяжка чытаць.</string>
 </resources>
