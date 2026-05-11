@@ -4,8 +4,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChangeHistory
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.DoneAll
-import androidx.compose.material.icons.filled.DragHandle
 import androidx.compose.material.icons.filled.Functions
+import myiconpack.Equal
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.BalanceType
 import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
@@ -70,7 +70,7 @@ val FullAccount.deltaLabel: Int
 
 val BalanceType.icon
     get() = when(this) {
-        BalanceType.CURRENT -> Icons.Default.DragHandle
+        BalanceType.CURRENT -> Equal
         BalanceType.TOTAL -> Icons.Default.Functions
         BalanceType.CLEARED -> Icons.Default.Check
         BalanceType.RECONCILED -> Icons.Default.DoneAll
