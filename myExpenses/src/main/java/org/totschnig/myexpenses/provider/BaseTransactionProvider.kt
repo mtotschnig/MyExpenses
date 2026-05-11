@@ -448,10 +448,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
         val STALE_ATTACHMENT_SELECTION = "NOT ${LIVE_ATTACHMENT_SELECTION()}"
 
-        fun defaultBudgetAllocationUri(accountId: Long, grouping: Grouping): Uri =
+        fun defaultBudgetAllocationUri(accountSegment: String, grouping: Grouping): Uri =
             BUDGETS_URI.buildUpon()
                 .appendPath(TransactionProvider.URI_SEGMENT_DEFAULT_BUDGET_ALLOCATIONS)
-                .appendPath(accountId.toString())
+                .appendPath(accountSegment)
                 .appendPath(grouping.name)
                 .build()
 
@@ -1076,13 +1076,16 @@ abstract class BaseTransactionProvider : ContentProvider() {
         db: SupportSQLiteDatabase,
         uri: Uri,
     ): Long? {
-        val accountId = uri.pathSegments[2].toLong()
-        val group = uri.pathSegments[3]
+        val segment2 = uri.pathSegments[2]
+        val accountId = segment2.toLongOrNull()
         val (accountSelection, accountSelectionArg) = when {
+            accountId == null -> "$KEY_CURRENCY = ?" to segment2
             accountId > 0 -> "$KEY_ACCOUNTID = ?" to accountId
             accountId == HOME_AGGREGATE_ID -> "$KEY_CURRENCY = ?" to AGGREGATE_HOME_CURRENCY_CODE
             else -> "$KEY_CURRENCY = (select $KEY_CURRENCY from $TABLE_CURRENCIES where $KEY_ROWID = ?)" to -accountId
         }
+        val group = uri.pathSegments[3]
+
         return db.query(
             TABLE_BUDGETS,
             arrayOf(KEY_ROWID),
@@ -1411,6 +1414,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         )
         val budgetId = budgetDefaultSelect(db, uri) ?: return MatrixCursor(projection).apply {
             setNotificationUri(context!!.contentResolver, uri)
+            log("$uri: no default budget found")
         }
 
         val sql = """

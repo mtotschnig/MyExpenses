@@ -138,6 +138,7 @@ fun DonutInABox(
                 gapAngleDegrees = 0f,
                 strokeWidth = LocalResources.current.getDimension(R.dimen.progress_donut_stroke_width),
                 strokeCap = StrokeCap.Butt,
+                backgroundLineColor = MaterialTheme.colorScheme.surfaceVariant,
                 sections = DisplayProgress.calcProgressVisualRepresentation(
                     progress.coerceAtLeast(
                         0f

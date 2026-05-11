@@ -545,25 +545,31 @@ open class MyExpensesViewModel(
 
     fun budgetData(account: PageAccount): Flow<BudgetData?> =
         if (licenceHandler.hasTrialAccessTo(ContribFeature.BUDGET)) {
-            contentResolver.observeQuery(
-                uri = BaseTransactionProvider.defaultBudgetAllocationUri(
-                    account.id,
-                    account.grouping
-                )
-            ).map { it }
-                .mapToListWithExtra {
-                    BudgetRow(
-                        headerId = Grouping.groupId(
-                            it.getInt(KEY_YEAR),
-                            it.getInt(KEY_SECOND_GROUP)
-                        ),
-                        amount = it.getLongOrNull(KEY_BUDGET),
-                        rollOverPrevious = it.getLongOrNull(KEY_BUDGET_ROLLOVER_PREVIOUS),
-                        oneTime = it.getInt(KEY_ONE_TIME) == 1
+            when {
+                account.id != 0L -> account.id.toString() //real account or legacy aggregate
+                account.accountGrouping == AccountGrouping.CURRENCY -> account.currency
+                else -> null
+            } ?.let { accountSegment ->
+                contentResolver.observeQuery(
+                    uri = BaseTransactionProvider.defaultBudgetAllocationUri(
+                        accountSegment,
+                        account.grouping
                     )
-                }.map {
-                    BudgetData(it.first.getLong(KEY_BUDGETID), it.second)
-                }
+                ).map { it }
+                    .mapToListWithExtra {
+                        BudgetRow(
+                            headerId = Grouping.groupId(
+                                it.getInt(KEY_YEAR),
+                                it.getInt(KEY_SECOND_GROUP)
+                            ),
+                            amount = it.getLongOrNull(KEY_BUDGET),
+                            rollOverPrevious = it.getLongOrNull(KEY_BUDGET_ROLLOVER_PREVIOUS),
+                            oneTime = it.getInt(KEY_ONE_TIME) == 1
+                        )
+                    }.map {
+                        BudgetData(it.first.getLong(KEY_BUDGETID), it.second)
+                    }
+            } ?: emptyFlow()
         } else emptyFlow()
 
     fun sumInfo(account: PageAccount) = sums.getValue(account)
