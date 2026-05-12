@@ -179,10 +179,12 @@ class SplitDelegate(
     private fun requireAdapter() {
         if (!::adapter.isInitialized) {
             adapter = SplitPartRVAdapter(
-                context,
-                currentAccount()!!.currency,
-                currencyFormatter
-            ) { view, _ -> host.openContextMenu(view) }
+                context = context,
+                currencyUnit = currentAccount()!!.currency,
+                currencyFormatter = currencyFormatter,
+                onItemClicked = { host.editSplitPart(it) },
+                onItemLongClicked = { host.openContextMenu(it) }
+            )
             viewBinding.list.adapter = adapter
         }
         showSplits(splitParts)

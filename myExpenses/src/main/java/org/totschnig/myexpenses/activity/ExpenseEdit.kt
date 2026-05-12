@@ -677,12 +677,24 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
     }
 
+    fun editSplitPart(position: Int) {
+        (delegate as? SplitDelegate)?.let { splitDelegate ->
+            splitPartLauncher.launch(
+                splitDelegate.splitParts[position].let {
+                    if (it.amount.amountMinor == 0L) {
+                        val unsplitAmount = splitDelegate.unsplitAmount
+                        if (unsplitAmount == null) it else it.copy(amount = unsplitAmount)
+                    } else it
+                }
+            )
+        }
+    }
+
     override fun onCreateContextMenu(
         menu: ContextMenu, v: View,
         menuInfo: ContextMenu.ContextMenuInfo?,
     ) {
         super.onCreateContextMenu(menu, v, menuInfo)
-        menu.add(0, R.id.EDIT_COMMAND, 0, R.string.menu_edit)
         menu.add(0, R.id.DELETE_COMMAND, 0, R.string.menu_delete)
     }
 
@@ -708,20 +720,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         val info = item.menuInfo as? ContextAwareRecyclerView.RecyclerContextMenuInfo
             ?: return super.onContextItemSelected(item)
         return when (item.itemId) {
-            R.id.EDIT_COMMAND -> {
-                splitPartLauncher.launch(
-                    (delegate as SplitDelegate).splitParts[info.position].let {
-                        if (it.amount.amountMinor == 0L) {
-                            val unsplitAmount = (delegate as SplitDelegate).unsplitAmount
-                            if (unsplitAmount == null) it else {
-                                it.copy(amount = unsplitAmount)
-                            }
-                        } else it
-                    }
-                )
-                true
-            }
-
             R.id.DELETE_COMMAND -> {
                 (delegate as SplitDelegate).removeSplitPart(info.position)
                 true

@@ -27,7 +27,8 @@ class SplitPartRVAdapter(
     context: Context,
     var currencyUnit: CurrencyUnit,
     val currencyFormatter: ICurrencyFormatter,
-    private val onItemClicked: ((View, SplitPart) -> Unit)? = null
+    private val onItemClicked: ((Int) -> Unit)? = null,
+    private val onItemLongClicked: ((View) -> Unit)? = null
 ) :
     ListAdapter<SplitPartRVAdapter.SplitPart, SplitPartRVAdapter.ViewHolder>(DIFF_CALLBACK) {
     val colorExpense: Int = ContextCompat.getColor(context, R.color.colorExpense)
@@ -42,10 +43,18 @@ class SplitPartRVAdapter(
             )
         ).apply {
             onItemClicked?.let { onClick ->
-                itemView.setOnClickListener { view ->
+                itemView.setOnClickListener { _ ->
                     bindingAdapterPosition.takeIf { it != RecyclerView.NO_POSITION }?.let { pos ->
-                        onClick.invoke(view, getItem(pos))
+                        onClick.invoke(pos)
                     }
+                }
+            }
+            onItemLongClicked?.let { onLongClick ->
+                itemView.setOnLongClickListener { view ->
+                    bindingAdapterPosition.takeIf { it != RecyclerView.NO_POSITION }?.let { pos ->
+                        onLongClick.invoke(view)
+                        true
+                    } ?: false
                 }
             }
         }
