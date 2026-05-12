@@ -100,7 +100,7 @@
     <string name="left">"Vänster"</string>
     <string name="right">"Höger"</string>
     <string name="margins">"Sidmarginaler"</string>
-    <string name="menu_restore">"Återställ standardinst."</string>
+    <string name="menu_restore">Återställ standardinställningar</string>
     <string name="at_start">Start</string>
     <string name="at_end">Slut</string>
     <string name="widgets">"Widgetar"</string>
