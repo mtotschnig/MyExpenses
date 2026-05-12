@@ -91,7 +91,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.StartScreen
-import org.totschnig.myexpenses.compose.AmountText
 import org.totschnig.myexpenses.compose.ColoredAmountText
 import org.totschnig.myexpenses.compose.LocalCurrencyFormatter
 import org.totschnig.myexpenses.compose.OverFlowMenu
@@ -102,8 +101,8 @@ import org.totschnig.myexpenses.compose.accounts.AccountSummaryV2
 import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.main.AppEventHandler
-import org.totschnig.myexpenses.compose.main.getBalanceContentDescription
 import org.totschnig.myexpenses.compose.main.balanceForType
+import org.totschnig.myexpenses.compose.main.getBalanceContentDescription
 import org.totschnig.myexpenses.compose.main.icon
 import org.totschnig.myexpenses.compose.main.parseMenu
 import org.totschnig.myexpenses.compose.main.rememberCollapsingTabRowState
@@ -514,7 +513,6 @@ private fun BalanceHeader(
         ) {
 
             val isWideLayout = maxWidth > 300.dp
-
             // Adaptive Content: Switch between Column and Row
             if (isWideLayout) {
                 Row(
@@ -670,8 +668,9 @@ private fun BalanceSection(
                 )
             )
         ) {
-            AmountText(
-                balance, account.currencyUnit,
+            ColoredAmountText(
+                amount = balance,
+                currency = account.currencyUnit,
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 14.sp,
                 overflow = TextOverflow.Visible,
@@ -681,7 +680,7 @@ private fun BalanceSection(
     }
 }
 
-@Preview(fontScale = 2f)
+@Preview(fontScale = 1f, widthDp = 400)
 @Composable
 fun HeaderPreview() {
     BalanceHeader(

@@ -710,7 +710,14 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         return when (item.itemId) {
             R.id.EDIT_COMMAND -> {
                 splitPartLauncher.launch(
-                    (delegate as SplitDelegate).splitParts[info.position]
+                    (delegate as SplitDelegate).splitParts[info.position].let {
+                        if (it.amount.amountMinor == 0L) {
+                            val unsplitAmount = (delegate as SplitDelegate).unsplitAmount
+                            if (unsplitAmount == null) it else {
+                                it.copy(amount = unsplitAmount)
+                            }
+                        } else it
+                    }
                 )
                 true
             }
@@ -1223,28 +1230,22 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         return false
     }
 
-    fun createRow(prefillAmount: BigDecimal?) {
+    fun createRow(prefillAmount: Money?) {
         val account = currentAccount
         if (account == null) {
             showSnackBar(R.string.account_list_not_yet_loaded)
             return
         }
-        Money.buildWithMajor(account.currency, prefillAmount ?: BigDecimal.ZERO)
-            .onSuccess {
-                splitPartLauncher.launch(
-                    TransactionEditData(
-                        id = 0,
-                        uuid = generateUuid(),
-                        accountId = account.id,
-                        amount = it,
-                        templateEditData = if (isMainTemplate) TemplateEditData() else null,
-                        isSplitPart = true
-                    )
-                )
-            }
-            .onFailure {
-                showSnackBar(R.string.number_too_large)
-            }
+        splitPartLauncher.launch(
+            TransactionEditData(
+                id = 0,
+                uuid = generateUuid(),
+                accountId = account.id,
+                amount = prefillAmount ?: Money(account.currency, 0),
+                templateEditData = if (isMainTemplate) TemplateEditData() else null,
+                isSplitPart = true
+            )
+        )
     }
 
     /**
