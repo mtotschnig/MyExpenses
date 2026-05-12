@@ -8,7 +8,7 @@
     <string name="currency">Valuta</string>
     <string name="licence_status_free">Gratis</string>
     <string name="income">Inkomst</string>
-    <string name="dialog_export_delete">Ta bort exporterade överföringar</string>
+    <string name="dialog_export_delete">Ta bort exporterade transaktioner</string>
     <string name="grisbi_import_categories_loading">Laddar kategorier från %1$s</string>
     <string name="account_type_ccard">Kreditkort</string>
     <string name="grouping_day">Dag</string>
@@ -17,12 +17,12 @@
     <string name="help_button_rate">Betygssätt eller granska</string>
     <string name="dialog_title_balance_account">Saldo %1$s</string>
     <string name="date">Datum</string>
-    <string name="menu_create_transaction">Ny överföring</string>
+    <string name="menu_create_transaction">Ny Transaktion</string>
     <string name="number_format_illegal">Ogiltigt nummer-format</string>
     <string name="amount">Summa</string>
     <string name="default_account_name">Budgetbok</string>
     <string name="account_types">Konto-typer</string>
-    <string name="menu_create_transfer">Ny överföring</string>
+    <string name="menu_create_transfer">Ny Överföring</string>
     <string name="contrib_feature_ad_free_label">Inga annonser</string>
     <string name="menu_cancel_plan_instance">Avbryt</string>
     <string name="description">Beskrivning</string>
@@ -31,13 +31,13 @@
     <string name="account_type_bank">Bank</string>
     <string name="feedback">Återgivning</string>
     <string name="contrib_feature_accounts_unlimited_label">Obegränsat antal konton</string>
-    <string name="dialog_title_warning_delete_transaction">Ta bort överföring?</string>
+    <string name="dialog_title_warning_delete_transaction">Ta bort transaktion?</string>
     <string name="menu_create_template_from_transaction">Spara som mall</string>
     <string name="menu_create_account">Nytt konto</string>
     <string name="dialog_remind_rate_how_many_stars">Hur många stjärnor vill du ge till {app_name}?</string>
-    <string name="menu_edit_transaction">Redigera överföring</string>
+    <string name="menu_edit_transaction">Redigera Transaktion</string>
     <string name="menu_create_sub_cat">Ny underkategori</string>
-    <string name="import_select_transactions">Överföringar</string>
+    <string name="import_select_transactions">Transaktioner</string>
     <string name="account">Konto</string>
     <string name="contrib_feature_synchronization_label">Molnsynkronisering</string>
     <string name="menu_create_instance_edit">Verkställ och redigera</string>
@@ -47,7 +47,7 @@
     <string name="expense">Utgift</string>
     <string name="dialog_title_warning_delete_template">Ta bort mall?</string>
     <string name="dialog_password_new_password_confirmation">Nytt lösenord (bekräftelse)</string>
-    <string name="contrib_feature_print_label">Exportera överföringslistan till PDF</string>
+    <string name="contrib_feature_print_label">Exportera transaktionslistan till PDF</string>
     <string name="date_format_illegal">Ogiltigt datumformat</string>
     <string name="menu_edit">Redigera</string>
     <string name="menu_create_method">Ny betalningsmetod</string>
@@ -74,9 +74,9 @@
     <string name="dialog_password_new_password">Nytt lösenord</string>
     <string name="licence_validation_failure">Kunde inte bekräfta licensnyckeln.</string>
     <string name="menu_back">Bakåt</string>
-    <string name="dialog_balance_delete">Ta bort avstämda överföringar</string>
+    <string name="dialog_balance_delete">Ta bort avstämda transaktioner</string>
     <string name="contrib_feature_distribution_label">Cirkeldiagram (Distribution per kategori)</string>
-    <string name="contrib_feature_attach_picture_label">Bifoga bild till överföring</string>
+    <string name="contrib_feature_attach_picture_label">Bifoga bild till transaktionen</string>
     <string name="contrib_key_requires">Kräver %1$s.</string>
     <string name="decimal_separator">Decimaltecken</string>
     <string name="dialog_confirm_discard_changes">Kasta bort ändringarna?</string>
@@ -88,7 +88,7 @@
     <string name="menu_aggregates">Totalt</string>
     <string name="licence_validation_success">Valideringen av licensnyckeln lyckades:</string>
     <string name="menu_reset">Exportera och återställ</string>
-    <string name="all_extended_key_features">Alla funktioner för den förlängda nyckeln</string>
+    <string name="all_extended_key_features">Alla funktioner av Extended Key</string>
     <string name="menu_help">Hjälp</string>
     <string name="menu_clone_transaction">Klona</string>
     <string name="help_heading_whats_new">Vad är nytt</string>
@@ -115,7 +115,7 @@
     <string name="sum_expenses">Utgifter</string>
     <string name="status_cleared">avstämd</string>
     <string name="pref_ui_theme_light">Ljust</string>
-    <string name="menu_edit_transfer">Redigera överföring</string>
+    <string name="menu_edit_transfer">Redigera Överföring</string>
     <string name="image_capture_not_installed">Ingen app hittades för att ta bilder.</string>
     <string name="pref_password_not_equal">Lösenorden matchar inte</string>
     <string name="pref_category_title_more_information">Mer information</string>
@@ -135,7 +135,7 @@
     <string name="payer">Betalare</string>
     <string name="plan">Abonnemang</string>
     <string name="menu_balance">Saldo för kontot</string>
-    <string name="dialog_export_not_yet_exported">Exportera endast överföringar som inte redan har exporterats.</string>
+    <string name="dialog_export_not_yet_exported">Exportera endast transaktioner som inte ännu har exporterats</string>
     <string name="contrib_key">Contrib-nyckel</string>
     <string name="select_category">Välj kategori</string>
     <string name="pref_import_summary">Importera transaktioner, kategorier och parter från %s-fil</string>
@@ -189,7 +189,7 @@
     <string name="continue_confirmation">Vill du fortsätta?</string>
     <string name="warning_password_protected">Appen är lösenordsskyddad.</string>
     <string name="password_not_valid">Ogiltigt lösenord. Försök igen!</string>
-    <string name="menu_create_template_for_transaction">Ny mall för överföring</string>
+    <string name="menu_create_template_for_transaction">Ny mall för transaktion</string>
     <string name="no_calendar_app_installed">Ingen app hittades för redigering av kalender-händelser.</string>
     <string name="dialog_contrib_reminder_remove_limitation">Ta bort den här begränsningen och kom åt fler funktioner genom att uppgradera <i>{app_name}</i>.</string>
     <string name="pref_custom_currency_title">Anpassa valutor</string>
@@ -228,7 +228,7 @@
     <string name="pref_ui_language_title">Språk</string>
     <string name="no_methods">Inga betalningsmetoder.</string>
     <string name="pref_category_title_export">Exportera</string>
-    <string name="contrib_feature_category_tree_label">Kategoriträd</string>
+    <string name="contrib_feature_category_tree_label">Godtyckligt djup kategorihierarki</string>
     <string name="pref_manage_parties_summary" tools:ignore="UnusedResources">Lägg till, redigera, ta bort parter (betalare och betalningsmottagare).</string>
     <string name="pm_creditcard">Kreditkort</string>
     <string name="time">Tid</string>
@@ -249,7 +249,7 @@
     <string name="pm_type_debit">Skuld</string>
     <string name="pref_import_from_grisbi_summary">Importera kategorier och parter från Grisbi XML-fil</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Tillåts utan lösenord.</string>
-    <string name="dialog_command_disabled_insert_transfer">Överföring av transaktioner kräver ett till konto.</string>
+    <string name="dialog_command_disabled_insert_transfer">Överföringstransaktioner kräver ett ytterligare konto.</string>
     <string name="dialog_remind_rate_1">Vänligen ta en stund för att betygsätta och granska {app_name}.</string>
     <string name="dialog_remind_rate_1_suggest_improvement">Vänligen ta en stund för att skicka dina förbättringsförslag till oss.</string>
     <string name="menu_create_split">Ny uppdelning</string>
@@ -438,7 +438,7 @@
     <string name="remove_from_group">Ta bort från grupp</string>
     <string name="default_transfer_category">Standarkategori för överföringar</string>
     <string name="pref_transaction_amount_color_source_title">Färger för belopp</string>
-    <string name="menu_transform_to_transfer">Konvertera till överföring</string>
+    <string name="menu_transform_to_transfer">Omvandla till överföring</string>
     <string name="not_enough_data">Otillräcklig data</string>
     <string name="synchronization_postponed">Synkronisering uppskjuten.</string>
     <string name="budget_import_none_found">Inga budgetar hittades.</string>
@@ -458,17 +458,17 @@
     <string name="onboarding_restore_from_cloud">Återställ från molnsynkronisering</string>
     <string name="onboarding_restore_from_local">Återställ från lokal säkerhetskopia</string>
     <string name="account_type_investment">Investeringar</string>
-    <string name="contrib_feature_roadmap_voting_label">Rösta rätt på <b>färdplan för utveckling</b></string>
+    <string name="contrib_feature_roadmap_voting_label">Rösträtt på <b>färdplan för utveckling</b></string>
     <string name="dialog_command_disabled_balance">Inga clearade transaktioner att stämma av.</string>
     <string name="dialog_contrib_text_2">Vänligen bidra genom att uppgradera <i>{app_name}</i> och få obegränsad åtkomst till följande funktioner:</string>
-    <string name="dialog_contrib_usage_limit_split_templates">Din nuvarande licensstatus (%1$s) låter dig skapa en delad mall.</string>
+    <string name="dialog_contrib_usage_limit_split_templates">Din nuvarande licensstatus (%1$s) låter dig skapa 1 delad mall.</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Med din nuvarande licensstatus (%1$s), visas denna dialog vid varje användning.</string>
     <string name="menu_create_split_part_category">Ny kategoriuppdelning</string>
     <string name="menu_create_split_part_transfer">Ny överföringsuppdelning</string>
     <string name="menu_edit_plan_instance">Redigera enskild planförekomst</string>
     <string name="menu_edit_split">Redigera delad transaktion</string>
     <string name="menu_edit_split_part_category">Redigera kategoriuppdelning</string>
-    <string name="menu_edit_split_part_transfer">Redigera överföringsuppdelning</string>
+    <string name="menu_edit_split_part_transfer">Redigera uppdelad överföring</string>
     <string name="no_app_handling_email_available">Ingen app som hanterar e-post tillgänglig.</string>
     <string name="no_app_handling_mime_type_available">Ingen app som hanterar %s filer tillgänglig.</string>
     <plurals name="not_deletable_mapped_transactions">
@@ -572,7 +572,7 @@
     <string name="plan_instance_state_cancelled">avbruten</string>
     <string name="plan_instance_state_applied">tillämpad</string>
     <string name="progress_dialog_updating_split_parts">Uppdatering av splits</string>
-    <string name="warning_cannot_move_split_transaction">Denna splittrade transaktion kan inte flyttas till konto %1$s eftersom det finns överföringsdelar som hänvisar till denna konto.</string>
+    <string name="warning_cannot_move_split_transaction">Denna uppdelade transaktion kan inte flyttas till konto %1$s eftersom det finns överföringsdelar som hänvisar till denna konto.</string>
     <string name="content_description_calculator_delete_button">Ta bort sista siffran</string>
     <string name="paypal_callback_info">Din transaktion har slutförts och ett kvitto på ditt köp har skickats till dig via e-post. Du kan logga in på din konto på www.paypal.com för att se detaljer om denna transaktion.</string>
     <string name="search_transfer">Sök efter överföring</string>
@@ -605,7 +605,7 @@
     <string name="link_account_failure_3">Konflikten kan lösas manuellt från postens kontextmeny.</string>
     <string name="progress_dialog_checking_sync_backend">Verifiering av backend</string>
     <string name="all_contrib_key_features">Alla funktioner i Contrib Key</string>
-    <string name="warning_splitpartcategory_context">Överföringar som ingår i en delad transaktion kan endast redigeras i samband med den delade transaktionen.</string>
+    <string name="warning_splitpartcategory_context">Överföringar som ingår i en uppdelad transaktion kan endast redigeras i samband med den uppdelade transaktionen.</string>
     <string name="pref_webdav_timeout_title">WebDAV-timeout (i sekunder)</string>
     <string name="sync_state_restored" tools:ignore="PluralsCandidate">Synkroniseringstillståndet återställdes för %d konton.</string>
     <string name="sync_state_could_not_be_restored" tools:ignore="PluralsCandidate">Synkroniseringstillståndet kunde inte återställas för %d konton.</string>
@@ -642,7 +642,7 @@
     <string name="switch_to_monthly" tools:ignore="UnusedResources">Byt till månadsprenumeration</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Hämtar data från fjärrbackend. Detta kan ta lite tid.</string>
     <string name="auto_fill_account_from_aggregate_only">Endast när du startar från ett aggregerat konto.</string>
-    <string name="sync_auth_exception">Åtkomst nekades</string>
+    <string name="sync_auth_exception">Åtkomst nekades.</string>
     <string name="sync_login_again">Logga in igen, tack.</string>
     <plurals name="delete_success">
         <item quantity="one">Ett objekt raderades framgångsrikt.</item>
@@ -785,7 +785,7 @@
     <string name="pref_group_header_show_details_summary">Visa detaljsummor i grupphuvudet</string>
     <string name="title_webui">Webbanvändargränssnitt</string>
     <string name="single_feature_info">Alternativt kan du köpa obegränsad tillgång till endast denna funktion.</string>
-    <string name="warning_link_transfer">De två utvalda transaktionerna kommer att kopplas ihop som överföring. Motparts- och kategoriinformation kommer att tas bort.</string>
+    <string name="warning_link_transfer">De två valda transaktionerna kommer att kopplas ihop som överföring. Motparts- och kategoriinformation kommer att tas bort.</string>
     <string name="account_widget_configuration_sum">Typ av visad summa</string>
     <string name="merge_parties_select">Välj namn på sammanslagen part</string>
     <string name="request_for_invoice">Begäran om faktura</string>
@@ -806,7 +806,7 @@
     <string name="object_sealed_debt">Objekt syftar på en avslutad skuld.</string>
     <string name="cb_label_merge_accounts">Sammanslagna konton</string>
     <string name="pref_mlkit_script_title">Skript för MlKit</string>
-    <string name="setup_completed">Installationen har slutförts.</string>
+    <string name="setup_completed">Installationen har slutförts</string>
     <string name="menu_parent_category_selection">Välj föräldrakategori på kort tryck</string>
     <string name="purge_backups">Följande gamla säkerhetskopior kommer att raderas:</string>
     <plurals name="purge_backup_success">
@@ -830,7 +830,7 @@
     <string name="select_all_list_too_large">Kommandot %s är inte tillgängligt eftersom listan bara är delvis laddad. Använd sökfunktionen för att minska liststorleken.</string>
     <string name="encrypt_database_info">Databasen kommer att krypteras med en lösenfras som inte kan extraheras från denna enhet. Därför säkerhetskopieras det inte av enhetens backuptjänst.</string>
     <string name="github_sponsors"><![CDATA[Licensnycklar tillhandahålls även till <a href="%s">Github-sponsorer</a>.]]></string>
-    <string name="notifications_permission_required_planner"><i>{app_name} behöver</i> tillstånd för att skicka dig notiser när framtida transaktioner bokas.</string>
+    <string name="notifications_permission_required_planner"><i>{app_name}</i> behöver tillstånd för att skicka notiser till dig när framtida transaktioner bokas.</string>
     <string name="notifications_permission_required_webui">Genom att ge tillstånd att skicka notiser kan du kontrollera statusen på webbservern.</string>
     <string name="notifications_permission_required_sync">Genom att ge tillstånd att skicka notiser kan du övervaka framstegen i synkroniseringsoperationerna.</string>
     <string name="notifications_permission_required_auto_backup">Genom att ge tillstånd att skicka aviseringar kommer du att informeras om automatiska säkerhetskopior.</string>
@@ -861,7 +861,7 @@
     <string name="warning_delete_default_transfer_category">Kategori %s är konfigurerad som standardöverföringskategori och bör inte tas bort.</string>
     <string name="pref_sync_now_all_summary">%s synkar alla konton för samma back-end</string>
     <string name="menu_unlink_transfer">Avlänka överföring</string>
-    <string name="warning_unlink_transfer">Den valda överföringen kommer att kopplas bort: Den kommer att ersättas av vanliga transaktioner på båda kontona.</string>
+    <string name="warning_unlink_transfer">Den valda överföringen kommer att avlänkas: Den kommer att ersättas av vanliga transaktioner på båda kontona.</string>
     <string name="warning_transform_to_transfer">Den valda transaktionen ersätts av en överföring från %1$s till %2$s.</string>
     <string name="remap_date">På alla valda transaktioner sätts datumet till %s.</string>
     <string name="merge_categories_dialog_title">Sammanfoga kategorier</string>
