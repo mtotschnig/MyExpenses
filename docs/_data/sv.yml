@@ -30,7 +30,7 @@ permissions:
   heading: <i>{app_name}</i> kräver följande <u>behörigheter</u>
   calendar:
     label: Kalender
-    explanation: Planer för framtida och återkommande överföringar lagras 
+    explanation: Planer för framtida och återkommande transaktioner lagras 
       antingen i en speciell lokal kalender eller i någon annan kalender som du 
       anger.
   internet:
@@ -53,18 +53,18 @@ contrib:
   feature:
     roadmap_voting: Rösta rätt på <b>färdplan för utveckling</b>
     plans_unlimited: Lås upp förmågan att skapa mer än tre abonnemang för 
-      återkommande överföringar
+      återkommande transaktioner
     accounts_unlimited: Lås upp förmågan att skapa mer än fem konton
     scan_receipt: '<b>Skanna kvitton</b>: Extrahera summa, datum och betalare automatiskt'
     ad_free: <b>Inga annonser</b>
-    print: <b>Skriv ut</b>listan för överföringar till en PDF-fil
+    print: <b>Skriv ut</b> transaktionslistan till en PDF-fil
     email_support: <b>Hjälp via e-post</b> med garanterat svar inom 2 
       arbetsdagar
     cloud_sync: '<b>Molnsynkronisering</b>: Datan kan synkas mellan flera enheter'
     split_template: Obegränsat antal <b>mallar och abonnemang för uppdelade 
-      överföringar</b>
-    split_transaction: '<b>Dela upp överföring</b>: En enkel överföring kan delas
-      upp till flera delar (kategorier och överföringar)'
+      transaktioner</b>
+    split_transaction: '<b>uppdelad transaktion</b>: En transaktion kan delas upp
+      i flera delar (kategorier och överföringar)'
     auto_backup: <b>Automatiserad säkerhetskopiering</b> varje dag med valfri 
       uppladdning till molnlagring
     webui: <b>Webb-baserat användargränssnitt</b>
@@ -83,15 +83,14 @@ contrib:
   feature-list-title: 'Vänligen bidra genom att uppgradera <i>{app_name}</i> och få
     obegränsad åtkomst till följande funktioner:'
 features:
-  reconciliation: '<b>Rekonsolidering</b>: Jämför enkelt överföringsstatus med dina
-    kontoutdrag'
+  reconciliation: '<b>Bekräftande</b>: Jämför enkelt transaktionsstatus med dina kontoutdrag'
   export: <b>Exportera</b> till QIF och CSV. <b>Importera</b> från QIF
   homescreen: Hemskärm <b>widget</b> och <b>genvägar</b> för snabb inmatning av 
     data
   password: Datan kan skyddas med <b>lösenord</b> eller din enhets 
     <b>låsskärm</b>
   plans: Obegränsat antal <b>mallar</b> och upp till tre abonnemang för 
-    <b>återkommande</b> överföringar
+    <b>återkommande</b> transaktioner
   light_theme: <b>Tema</b> (mörkt och ljust) och <b>storlek på typsnitt</b> kan 
     anpassas
   manage_accounts: Upp till fem konton med <b>överföringar</b> (även mellan 
@@ -102,13 +101,13 @@ screenshots:
   distribution: Visualisera distribueringen per kategori
   sync: Synka krypterad kontodata på flera enheter via privata eller publika 
     molntjänster.
-  group: Gruppera dina överföringar per dag, vecka, månad och år
+  group: Gruppera dina transaktioner per dag, vecka, månad och år
   summarize: Summera alla dina konton (Sofistikerad hantering av växlingskurser 
-    per konto och per överföring)
-  split: Dela upp en överföring till flera kategorier
+    per konto och per transaktion)
+  split: Dela upp en transaktion till flera kategorier
   history: Förstå hur din finansiella situation utvecklar sig med tiden
   export: Skriv ut till PDF och växla via QIF och CSV.
-all_extended_key_features: Alla funktioner för den utökada nyckeln
+all_extended_key_features: Alla funktioner av Extended Key
 privacy_policy_heading: Integritetspolicy
 menu_title:
   more_information: Mer information
@@ -122,7 +121,7 @@ imprint_text: Ansvarig för innehållet på den här webbsidan och för utveckli
   underhåll och distribuering av <i>{app_name}</i>
 professional-key: Professionell nyckel
 contrib-key: Bidragsnyckel
-all_contrib_key_features: Alla funktioner i Contrib nyckel
+all_contrib_key_features: Alla funktioner i Contrib Key
 privacy_policy_text: <i>{app_name}</i> har inte åtkomst till någon data på din 
   enhet utöver sin egen databas, sin egen mapp på SD-kortet. Om du använder 
   funktionen för planer för framtida och återkommande transaktioner tilldelar du
