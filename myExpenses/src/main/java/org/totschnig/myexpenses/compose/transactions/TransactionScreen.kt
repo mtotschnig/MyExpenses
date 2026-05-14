@@ -94,6 +94,7 @@ import org.totschnig.myexpenses.activity.StartScreen
 import org.totschnig.myexpenses.compose.ColoredAmountText
 import org.totschnig.myexpenses.compose.LocalCurrencyFormatter
 import org.totschnig.myexpenses.compose.OverFlowMenu
+import org.totschnig.myexpenses.compose.TEST_TAG_ACCOUNT_LABEL
 import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
 import org.totschnig.myexpenses.compose.TooltipIconButton
 import org.totschnig.myexpenses.compose.accounts.AccountIndicator
@@ -113,6 +114,7 @@ import org.totschnig.myexpenses.model.AccountGroupingKey
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.BalanceType
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.preference.PreferenceState
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
@@ -264,38 +266,48 @@ fun TransactionScreen(
                             )
                         },
                         actions = {
-                            val menuConfig = viewModel.transactionScreenMenu.collectAsState()
+                            val menuConfig = viewModel.transactionMenuAccessor.statefulFlow
+                                .collectAsState(PreferenceState.Loading).value
 
-                            val filteredItems = menuConfig.value.filter {
-                                onPrepareMenuItem(it.id)
-                            }
+                            if (menuConfig is PreferenceState.Loaded) {
 
-                            //no need to show overflow menu if there is only one item
-                            val quickItems = if (filteredItems.size > 1) filteredItems.take(visibleActionItems) else filteredItems
-                            val overflowItems = filteredItems - quickItems.toSet()
-
-                            quickItems.forEach {
-                                if (it == MenuItem.Tune) {
-                                    ViewOptionsMenu(
-                                        currentAccount = currentAccount,
-                                        onEvent = onEvent
-                                    )
-                                } else {
-                                    val isChecked = if (it.isCheckable) isChecked(it) else null
-                                    TooltipIconButton(
-                                        tooltip = it.getLabel(LocalContext.current),
-                                        painter = it.painter,
-                                        isChecked = isChecked == true
-                                    ) { onEvent(AppEvent.MenuItemClicked(it.id, isChecked?.not())) }
+                                val filteredItems = menuConfig.value.filter {
+                                    onPrepareMenuItem(it.id)
                                 }
-                            }
 
-                            ActionMenu(
-                                currentAccount = currentAccount,
-                                items = overflowItems,
-                                onEvent = onEvent,
-                                isChecked = ::isChecked
-                            )
+                                //no need to show overflow menu if there is only one item
+                                val quickItems = if (filteredItems.size > 1) filteredItems.take(
+                                    visibleActionItems
+                                ) else filteredItems
+                                val overflowItems = filteredItems - quickItems.toSet()
+
+                                quickItems.forEach { menuItem ->
+                                    if (menuItem == MenuItem.Tune) {
+                                        ViewOptionsMenu(
+                                            currentAccount = currentAccount,
+                                            onEvent = onEvent
+                                        )
+                                    } else {
+                                        val isChecked =
+                                            if (menuItem.isCheckable) isChecked(menuItem) else null
+                                        TooltipIconButton(menuItem, isChecked == true) {
+                                            onEvent(
+                                                AppEvent.MenuItemClicked(
+                                                    menuItem.id,
+                                                    isChecked?.not()
+                                                )
+                                            )
+                                        }
+                                    }
+                                }
+
+                                ActionMenu(
+                                    currentAccount = currentAccount,
+                                    items = overflowItems,
+                                    onEvent = onEvent,
+                                    isChecked = ::isChecked
+                                )
+                            }
                         },
                     )
                 }
@@ -629,7 +641,7 @@ private fun AccountLabel(
     modifier: Modifier = Modifier,
 ) {
     Text(
-        modifier = modifier,
+        modifier = modifier.testTag(TEST_TAG_ACCOUNT_LABEL),
         text = account.labelV2(LocalContext.current),
         style = MaterialTheme.typography.titleMedium,
         maxLines = 1,

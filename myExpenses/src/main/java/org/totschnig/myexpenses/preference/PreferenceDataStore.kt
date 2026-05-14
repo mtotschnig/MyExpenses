@@ -61,7 +61,7 @@ class PreferenceDataStore @Inject constructor(private val dataStore: DataStore<P
     @OptIn(ExperimentalCoroutinesApi::class)
     suspend fun handleList(
         preference: ListPreference,
-        onChanged: ((String) -> Unit)? = null
+        onChanged: ((String) -> Unit)? = null,
     ) {
         val prefKey = stringPreferencesKey(preference.key)
         val value = dataStore.data.first()[prefKey]
@@ -122,7 +122,7 @@ val webUiKey = booleanPreferencesKey("web_ui")
  */
 val DataStore<Preferences>.dynamicExchangeRates: Flow<String>
     get() = data.map { preferences ->
-        when(preferences[dynamicExchangeRatesDefaultKey]) {
+        when (preferences[dynamicExchangeRatesDefaultKey]) {
             "DYNAMIC" -> "1"
             "STATIC" -> "0"
             else -> KEY_DYNAMIC
@@ -133,31 +133,26 @@ val DataStore<Preferences>.dynamicExchangeRatesPerAccount: Flow<Boolean>
     get() = dynamicExchangeRates.map { it == KEY_DYNAMIC }
 
 fun DataStore<Preferences>.menu(
-    key: Preferences.Key<String>
+    menuContext: MenuItem.MenuContext.V2,
 ): Flow<List<MenuItem>?> = data
-        .map { preferences ->
-            val rawValue = preferences[key] ?: ""
-            if (rawValue.isEmpty()) {
+    .map { preferences ->
+        preferences[menuContext.prefKey]?.split(',')
+    }.map { strings ->
+        strings?.mapNotNull {
+            try {
+                MenuItem.valueOf(it)
+            } catch (_: IllegalArgumentException) {
                 null
-            } else {
-                rawValue.split(',')
-            }
-        }.map {
-            it?.mapNotNull {
-                try {
-                    MenuItem.valueOf(it)
-                } catch (_: IllegalArgumentException) {
-                    null
-                }
             }
         }
+    }
 
 suspend fun DataStore<Preferences>.persistMenu(
-    key: Preferences.Key<String>,
-    data: List<MenuItem>
+    menuContext: MenuItem.MenuContext.V2,
+    data: List<MenuItem>,
 ) {
-    edit {
-        it[key] = data.joinToString(",") { it.name }
+    edit { preferences ->
+        preferences[menuContext.prefKey] = data.joinToString(",") { it.name }
     }
 }
 

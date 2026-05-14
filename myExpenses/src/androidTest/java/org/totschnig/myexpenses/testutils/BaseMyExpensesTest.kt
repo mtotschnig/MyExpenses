@@ -22,17 +22,17 @@ import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import org.junit.After
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.TestMyExpenses
+import org.totschnig.myexpenses.activity.MyExpensesV2
 import org.totschnig.myexpenses.compose.TEST_TAG_DIALOG
 import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
 import org.totschnig.myexpenses.provider.KEY_ROWID
 
-abstract class BaseMyExpensesTest : BaseComposeTest<TestMyExpenses>() {
+abstract class BaseMyExpensesTest : BaseComposeTest<MyExpensesV2>() {
     private var transactionPagingIdlingResource: IdlingResource? = null
 
     fun launch(id: Long? = null) {
         testScenario = ActivityScenario.launch(
-            Intent(targetContext, TestMyExpenses::class.java).apply {
+            Intent(targetContext, MyExpensesV2::class.java).apply {
                 putExtra(KEY_ROWID, id)
             })
         testScenario.onActivity { activity ->
@@ -66,7 +66,7 @@ abstract class BaseMyExpensesTest : BaseComposeTest<TestMyExpenses>() {
     }
 
     fun selectFilter(column: Int, dialogActions: () -> Unit) {
-        onView(withId(R.id.SEARCH_COMMAND)).perform(ViewActions.click())
+        composeTestRule.onNodeWithTag("Search").performClick()
         composeTestRule.onNodeWithText(getString(column), useUnmergedTree = true)
             .performClick()
         dialogActions()

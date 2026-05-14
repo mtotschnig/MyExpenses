@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.compose
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalIconButton
 import androidx.compose.material3.Icon
@@ -19,10 +18,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
-import org.apache.commons.lang3.exception.ExceptionUtils.isChecked
+import org.totschnig.myexpenses.dialog.MenuItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,7 +33,25 @@ fun TooltipIconButton(
     onClick: () -> Unit,
 ) {
     TooltipIconButton(
-        tooltip, rememberVectorPainter(imageVector), isChecked, onClick
+        tooltip = tooltip,
+        painter = rememberVectorPainter(imageVector),
+        isChecked = isChecked,
+        onClick = onClick
+    )
+}
+
+@Composable
+fun TooltipIconButton(
+    menuItem: MenuItem,
+    isChecked: Boolean = false,
+    onClick: () -> Unit,
+) {
+    TooltipIconButton(
+        tooltip = menuItem.getLabel(LocalContext.current),
+        painter = menuItem.painter,
+        modifier = Modifier.testTag(menuItem.testTag),
+        isChecked = isChecked,
+        onClick = onClick
     )
 }
 
@@ -42,10 +60,12 @@ fun TooltipIconButton(
 fun TooltipIconButton(
     tooltip: String,
     painter: Painter,
+    modifier: Modifier = Modifier,
     isChecked: Boolean = false,
     onClick: () -> Unit,
 ) {
     TooltipBox(
+        modifier = modifier,
         positionProvider = TooltipDefaults.rememberTooltipPositionProvider(
             TooltipAnchorPosition.Below,
             4.dp

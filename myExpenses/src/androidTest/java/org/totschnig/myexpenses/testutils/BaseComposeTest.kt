@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.testutils
 
 import androidx.annotation.StringRes
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
@@ -66,6 +67,8 @@ abstract class BaseComposeTest<A : ProtectedFragmentActivity> : BaseUiTest<A>() 
     fun hasAmount(amount: Long) = SemanticsMatcher.expectValue(amountProperty, amount)
 
     fun hasHeaderId(headerId: Int) = SemanticsMatcher.expectValue(headerProperty, headerId)
+
+    fun hasRole(role: Role) = SemanticsMatcher.expectValue(SemanticsProperties.Role, role)
 
     fun clickContextItem(
         @StringRes resId: Int,

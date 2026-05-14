@@ -177,9 +177,13 @@ fun MainScreenAdaptive(
     val accountGroupingLoadingState = viewModel.accountGrouping.statefulFlow
         .collectAsState(PreferenceState.Loading).value
 
+    val mainMenuLoadingState = viewModel.mainMenuAccessor.statefulFlow
+        .collectAsState(PreferenceState.Loading).value
+
     if (forcedAccountPanelLoadingState !is PreferenceState.Loaded ||
         preferredNavModeLoadingState !is PreferenceState.Loaded ||
-        accountGroupingLoadingState !is PreferenceState.Loaded
+        accountGroupingLoadingState !is PreferenceState.Loaded ||
+        mainMenuLoadingState !is PreferenceState.Loaded
     ) return
 
     val forcedAccountPanelState = forcedAccountPanelLoadingState.value
@@ -221,7 +225,7 @@ fun MainScreenAdaptive(
         }
     }
 
-    val menuConfig = viewModel.mainMenu.collectAsState()
+    val menuConfig = mainMenuLoadingState.value
 
     val is2Pane = navigator.scaffoldDirective.maxHorizontalPartitions > 1
     val isLandscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
@@ -258,8 +262,8 @@ fun MainScreenAdaptive(
         (isRail && !isLandscape)
     ) 2 else 1
 
-    val quickItems = menuConfig.value.take(maxQuickItems)
-    val overflowItems = menuConfig.value.drop(maxQuickItems)
+    val quickItems = menuConfig.take(maxQuickItems)
+    val overflowItems = menuConfig.drop(maxQuickItems)
 
     val isWebUiActive by viewModel.isWebUiActive.collectAsState(false)
 
@@ -319,7 +323,7 @@ fun MainScreenAdaptive(
                     }
                 }
 
-                (if (splitMenu) quickItems else menuConfig.value).forEach {
+                (if (splitMenu) quickItems else menuConfig).forEach {
                     item(
                         selected = if (it == MenuItem.WebUI) isWebUiActive else false,
                         onClick = {
