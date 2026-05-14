@@ -23,6 +23,7 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
+import org.totschnig.myexpenses.preference.Mapper
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.TextUtils
 
@@ -266,6 +267,21 @@ sealed class MenuItem(
 
     @GenSealedEnum
     companion object {
+
+        val mapper = object : Mapper<List<MenuItem>, String> {
+            override fun toPreference(userValue: List<MenuItem>): String =
+                userValue.joinToString(",") { it.name }
+
+            override fun fromPreference(persistedValue: String): List<MenuItem> =
+                persistedValue.split(',').mapNotNull {
+                    try {
+                        valueOf(it)
+                    } catch (_: IllegalArgumentException) {
+                        null
+                    }
+                }
+        }
+
         fun all(menuContext: MenuContext) = when (menuContext) {
             MenuContext.V1 -> listOf(
                 Search,

@@ -445,19 +445,7 @@ open class MyExpensesV2ViewModel(
             dataStore,
             menuContext.prefKey,
             MenuItem.getDefaultConfiguration(menuContext),
-            object : org.totschnig.myexpenses.preference.Mapper<List<MenuItem>, String> {
-                override fun toPreference(userValue: List<MenuItem>): String =
-                    userValue.joinToString(",") { it.name }
-
-                override fun fromPreference(persistedValue: String): List<MenuItem> =
-                    persistedValue.split(',').mapNotNull {
-                        try {
-                            MenuItem.valueOf(it)
-                        } catch (_: IllegalArgumentException) {
-                            null
-                        }
-                    }
-            }
+            MenuItem.mapper
         )
 
     val isWebUiActive: Flow<Boolean> by lazy {

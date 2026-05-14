@@ -136,15 +136,7 @@ fun DataStore<Preferences>.menu(
     menuContext: MenuItem.MenuContext.V2,
 ): Flow<List<MenuItem>?> = data
     .map { preferences ->
-        preferences[menuContext.prefKey]?.split(',')
-    }.map { strings ->
-        strings?.mapNotNull {
-            try {
-                MenuItem.valueOf(it)
-            } catch (_: IllegalArgumentException) {
-                null
-            }
-        }
+        preferences[menuContext.prefKey]?.let { MenuItem.mapper.fromPreference(it) }
     }
 
 suspend fun DataStore<Preferences>.persistMenu(
@@ -152,7 +144,7 @@ suspend fun DataStore<Preferences>.persistMenu(
     data: List<MenuItem>,
 ) {
     edit { preferences ->
-        preferences[menuContext.prefKey] = data.joinToString(",") { it.name }
+        preferences[menuContext.prefKey] = MenuItem.mapper.toPreference(data)
     }
 }
 
