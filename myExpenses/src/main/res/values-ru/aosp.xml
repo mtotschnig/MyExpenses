@@ -98,7 +98,7 @@
     <string name="required">"Необходимо"</string>
     <string name="file_format">"Формат файла"</string>
     <string name="quality">"Качество"</string>
-    <string name="no_data">"Нет данных."</string>
+    <string name="no_data">Нет данных</string>
     <string name="color_component_title">"Выберите цвет"</string>
     <string name="backups">"Резервные копии"</string>
     <string name="filter">"Фильтр"</string>
