@@ -165,8 +165,8 @@ interface PrefHandler {
             }
         }
 
-    fun getCustomMenu(menuContext: MenuItem.MenuContext = MenuItem.MenuContext.V1) =
-        getOrderedStringSet(menuContext.prefKey)
+    fun getCustomMenuV1() =
+        getOrderedStringSet(MenuItem.MenuContext.V1.prefKey)
             ?.let { stored ->
                 stored.mapNotNull {
                     try {
@@ -176,7 +176,7 @@ interface PrefHandler {
                     }
                 }
             }
-            ?: MenuItem.getDefaultConfiguration(menuContext)
+            ?: MenuItem.getDefaultConfiguration(MenuItem.MenuContext.V1)
 
     val shouldDebug: Boolean
         get() = getBoolean(PrefKey.DEBUG_LOGGING, BuildConfig.DEBUG)

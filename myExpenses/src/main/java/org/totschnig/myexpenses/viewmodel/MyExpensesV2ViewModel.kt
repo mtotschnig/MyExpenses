@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
 import android.content.Intent
+import androidx.annotation.OpenForTesting
 import androidx.annotation.StringRes
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.SavedStateHandle
@@ -30,6 +31,8 @@ import org.totschnig.myexpenses.compose.transactions.Action
 import org.totschnig.myexpenses.compose.transactions.FabStyle
 import org.totschnig.myexpenses.db2.setBalanceType
 import org.totschnig.myexpenses.dialog.MenuItem
+import org.totschnig.myexpenses.dialog.name
+import org.totschnig.myexpenses.dialog.valueOf
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
@@ -45,7 +48,6 @@ import org.totschnig.myexpenses.preference.PreferenceAccessor
 import org.totschnig.myexpenses.preference.PreferenceState
 import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.preference.isWebUiActive
-import org.totschnig.myexpenses.preference.menu
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.GROUPING_AGGREGATE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_BY_AGGREGATE
@@ -66,7 +68,8 @@ enum class AccountsScreenTab(@param:StringRes val resourceId: Int) {
     BALANCE_SHEET(R.string.balance_sheet)
 }
 
-class MyExpensesV2ViewModel(
+@OpenForTesting
+open class MyExpensesV2ViewModel(
     application: Application,
     savedStateHandle: SavedStateHandle,
 ) : MyExpensesViewModel(application, savedStateHandle) {
@@ -429,27 +432,21 @@ class MyExpensesV2ViewModel(
         )
     }
 
-    val mainMenu: StateFlow<List<MenuItem>> by lazy {
-       menuFlow(MenuItem.MenuContext.V2Navigation)
+    val mainMenuAccessor by lazy {
+        menuAccessor(MenuItem.MenuContext.V2Navigation)
     }
 
-    val transactionScreenMenu by lazy {
-        menuFlow(MenuItem.MenuContext.V2Transactions)
+    val transactionMenuAccessor by lazy {
+        menuAccessor(MenuItem.MenuContext.V2Transactions)
     }
 
-    private fun menuFlow(menuContext: MenuItem.MenuContext): StateFlow<List<MenuItem>> {
-        val defaultConfiguration =
-            MenuItem.getDefaultConfiguration(menuContext)
-        return dataStore.menu(
-            key = prefHandler.getStringPreferencesKey(menuContext.prefKey),
+    private fun menuAccessor(menuContext: MenuItem.MenuContext.V2) =
+        PreferenceAccessor(
+            dataStore,
+            menuContext.prefKey,
+            MenuItem.getDefaultConfiguration(menuContext),
+            MenuItem.mapper
         )
-            .map { it ?: defaultConfiguration }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribedWithTimeout,
-                initialValue = defaultConfiguration
-            )
-    }
 
     val isWebUiActive: Flow<Boolean> by lazy {
         dataStore.isWebUiActive

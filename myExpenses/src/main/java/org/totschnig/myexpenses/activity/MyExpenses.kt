@@ -146,9 +146,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
     @Inject
     lateinit var discoveryHelper: IDiscoveryHelper
 
-    @Inject
-    lateinit var modelClass: Class<out MyExpensesViewModel>
-
     private var drawerToggle: ActionBarDrawerToggle? = null
 
     private var currentBalance: String = ""
@@ -296,7 +293,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initLocaleContext()
-        viewModel = ViewModelProvider(this)[modelClass]
+        viewModel = ViewModelProvider(this)[MyExpensesViewModel::class.java]
         with(injector) {
             inject(viewModel)
             inject(roadmapViewModel)
@@ -873,7 +870,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        prefHandler.getCustomMenu().forEach { menuItem ->
+        prefHandler.getCustomMenuV1().forEach { menuItem ->
             if (menuItem.subMenu != null) {
                 val subMenu =
                     menu.addSubMenu(Menu.NONE, menuItem.id, Menu.NONE, menuItem.getLabel(this))

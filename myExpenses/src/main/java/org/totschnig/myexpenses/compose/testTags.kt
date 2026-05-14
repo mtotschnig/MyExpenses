@@ -25,6 +25,7 @@ const val TEST_TAG_FILTER_CARD = "FILTER_CARD"
 const val TEST_TAG_DIALOG_ROOT = "DIALOG_ROOT"
 const val TEST_TAG_PART_LIST = "PART_LIST"
 const val TEST_TAG_DIALOG = "DIALOG"
+const val TEST_TAG_ACCOUNT_LABEL = "ACCOUNT_LABEL"
 
 val amountProperty = SemanticsPropertyKey<Long>("amount")
 

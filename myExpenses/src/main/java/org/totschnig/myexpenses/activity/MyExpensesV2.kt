@@ -54,6 +54,7 @@ import org.totschnig.myexpenses.viewmodel.SumInfo
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import java.util.Optional
+import javax.inject.Inject
 
 enum class StartScreen {
     LastVisited, Accounts, Transactions, BalanceSheet
@@ -66,6 +67,9 @@ enum class StartScreen {
  */
 class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
     SortUtilityDialogFragment.OnConfirmListener {
+
+    @Inject
+    lateinit var modelClass: Class<out MyExpensesV2ViewModel>
 
     private lateinit var adHandler: AdHandlerV2
 
@@ -114,7 +118,8 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProvider(this)[MyExpensesV2ViewModel::class.java]
+        viewModel = ViewModelProvider(this)[modelClass]
+
         with(injector) {
             inject(viewModel)
         }
