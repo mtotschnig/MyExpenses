@@ -12,7 +12,6 @@ import androidx.core.app.ServiceCompat
 import androidx.core.database.getLongOrNull
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.LifecycleService
 import androidx.lifecycle.lifecycleScope
 import com.google.gson.Gson
@@ -100,6 +99,7 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.getActiveIpAddress
 import org.totschnig.myexpenses.util.licence.LicenceHandler
+import timber.log.Timber
 import java.io.IOException
 import java.lang.ref.WeakReference
 import java.net.ServerSocket
@@ -210,6 +210,7 @@ class WebInputService : LifecycleService(), IWebInputService {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
+        log("onStartCommand")
         when (intent?.action) {
             STOP_CLICK_ACTION -> {
                switchOff()
@@ -225,7 +226,10 @@ class WebInputService : LifecycleService(), IWebInputService {
             START_ACTION, RESTART_ACTION -> {
                 licenceHandler.recordUsage(ContribFeature.WEB_UI)
                 if (server != null) {
-                    if (intent.action == START_ACTION) return START_STICKY
+                    if (intent.action == START_ACTION) {
+                        log("Web UI already running")
+                        return START_STICKY
+                    }
                     stopServer()
                 } else if (intent.action == RESTART_ACTION) {
                     //We only honor RESTART_ACTION if the server is actually started
@@ -234,6 +238,7 @@ class WebInputService : LifecycleService(), IWebInputService {
                 if (try {
                         (9000..9050).first { isAvailable(it) }
                     } catch (_: NoSuchElementException) {
+                        log("No available port found in range 9000..9050")
                         serverStateObserver?.postException(IOException("No available port found in range 9000..9050"))
                         0
                     }.let { port = it; it != 0 }
@@ -244,6 +249,7 @@ class WebInputService : LifecycleService(), IWebInputService {
                             if (useHttps) Netty else CIO,
                             configure = {
                                 if (useHttps) {
+                                    log("use https generate certificate")
                                     val keystore = generateCertificate(keyAlias = "myKey")
                                     sslConnector(
                                         keyStore = keystore,
@@ -361,6 +367,7 @@ class WebInputService : LifecycleService(), IWebInputService {
                             }
                         ).also {
                             lifecycleScope.launch(Dispatchers.Default + ktorServerExceptionHandler) {
+                                log("starting server")
                                 it.start(wait = false)
                             }
                         }
@@ -369,6 +376,7 @@ class WebInputService : LifecycleService(), IWebInputService {
                             action = STOP_CLICK_ACTION
                         }
                         serverAddress = getAddress(useHttps).also {
+                            log("building notification")
                             val notification: Notification =
                                 NotificationBuilderWrapper.defaultBigTextStyleBuilder(
                                     this,
@@ -387,7 +395,7 @@ class WebInputService : LifecycleService(), IWebInputService {
                                         )
                                     )
                                     .build()
-
+                            log("start foreground service")
                             startForeground(NOTIFICATION_WEB_UI, notification)
                             serverStateObserver?.postAddress(it)
                         }
@@ -676,7 +684,14 @@ class WebInputService : LifecycleService(), IWebInputService {
     } else false
 
     companion object {
+        const val TAG = "WebInputService"
+
+        fun log(message: String) {
+            Timber.tag(TAG).w(message)
+        }
+
         init {
+            log("init")
             Security.removeProvider("BC")
             Security.addProvider(BouncyCastleProvider())
         }

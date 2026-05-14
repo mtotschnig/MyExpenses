@@ -346,6 +346,7 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
             intent.setAction(action)
             val componentName =
                 if (action == START_ACTION) {
+                    Timber.w("start Web UI")
                     startForegroundService(intent)
                 } else {
                     startService(intent)
