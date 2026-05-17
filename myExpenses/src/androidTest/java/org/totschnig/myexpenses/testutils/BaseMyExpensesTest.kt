@@ -2,8 +2,10 @@ package org.totschnig.myexpenses.testutils
 
 import android.content.Intent
 import androidx.annotation.IdRes
+import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.isNotDisplayed
 import androidx.compose.ui.test.longClick
 import androidx.compose.ui.test.onAllNodesWithTag
@@ -24,8 +26,10 @@ import org.junit.After
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyExpensesV2
 import org.totschnig.myexpenses.compose.TEST_TAG_DIALOG
+import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
 import org.totschnig.myexpenses.provider.KEY_ROWID
+import timber.log.Timber
 
 abstract class BaseMyExpensesTest : BaseComposeTest<MyExpensesV2>() {
     private var transactionPagingIdlingResource: IdlingResource? = null
@@ -50,13 +54,12 @@ abstract class BaseMyExpensesTest : BaseComposeTest<MyExpensesV2>() {
         }
     }
 
+    @OptIn(ExperimentalTestApi::class)
     fun assertListSize(expectedSize: Int) {
-        composeTestRule.waitUntil {
-            composeTestRule
-                .onAllNodesWithTag(TEST_TAG_PAGER)
-                .fetchSemanticsNodes().size == 1
-        }
-        listNode.assert(hasRowCount(expectedSize))
+        composeTestRule.waitUntilNodeCount(
+            hasTestTag(TEST_TAG_LIST) and hasRowCount(expectedSize),
+            count = 1
+        )
     }
 
     fun openCab(@IdRes command: Int?) {
@@ -75,7 +78,7 @@ abstract class BaseMyExpensesTest : BaseComposeTest<MyExpensesV2>() {
     }
 
     fun clearFilters() {
-        onView(withId(R.id.SEARCH_COMMAND)).perform(ViewActions.click())
+        composeTestRule.onNodeWithTag("Search").performClick()
         composeTestRule.onNodeWithContentDescription(getString(R.string.clear_all_filters)).performClick()
         composeTestRule.onNodeWithText(getString(android.R.string.ok)).performClick()
         composeTestRule.onNodeWithContentDescription(getString(R.string.apply)).performClick()

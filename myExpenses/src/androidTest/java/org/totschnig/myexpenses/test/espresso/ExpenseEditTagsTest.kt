@@ -30,11 +30,13 @@ import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_2
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.TAG_LABEL
 import org.totschnig.myexpenses.testutils.TEMPLATE_TITLE
+import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.shared_test.TransactionData
 
 private const val TAG_LABEL_2 = "Unwichtig"
 
+@TestShard2
 class ExpenseEditTagsTest : BaseExpenseEditTest() {
 
     var tagId1: Long = 0

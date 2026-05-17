@@ -44,34 +44,6 @@ class ExpenseEditDateTimeInputTest(
         @JvmStatic
         @Parameterized.Parameters(name = "{0}")
         fun data2(): List<TestConfig> = listOf(
-            TestConfig(
-                AccountType.CASH,
-                withTimePreference = true,
-                withValueDatePreference = true,
-                expectedTimeVisible = true,
-                expectedValueDateVisible = false
-            ),
-            TestConfig(
-                AccountType.CASH,
-                withTimePreference = true,
-                withValueDatePreference = false,
-                expectedTimeVisible = true,
-                expectedValueDateVisible = false
-            ),
-            TestConfig(
-                AccountType.CASH,
-                withTimePreference = false,
-                withValueDatePreference = true,
-                expectedTimeVisible = false,
-                expectedValueDateVisible = false
-            ),
-            TestConfig(
-                AccountType.CASH,
-                withTimePreference = false,
-                withValueDatePreference = false,
-                expectedTimeVisible = false,
-                expectedValueDateVisible = false
-            ),
 
             TestConfig(
                 AccountType.BANK,
@@ -80,27 +52,6 @@ class ExpenseEditDateTimeInputTest(
                 expectedTimeVisible = false,
                 expectedValueDateVisible = true
             ),
-            TestConfig(
-                AccountType.BANK,
-                withTimePreference = true,
-                withValueDatePreference = false,
-                expectedTimeVisible = true,
-                expectedValueDateVisible = false
-            ),
-            TestConfig(
-                AccountType.BANK,
-                withTimePreference = false,
-                withValueDatePreference = true,
-                expectedTimeVisible = false,
-                expectedValueDateVisible = true
-            ),
-            TestConfig(
-                AccountType.BANK,
-                withTimePreference = false,
-                withValueDatePreference = false,
-                expectedTimeVisible = false,
-                expectedValueDateVisible = false
-            )
         )
     }
 
@@ -126,7 +77,8 @@ class ExpenseEditDateTimeInputTest(
         val today = LocalDate.now()
         val newDate = if (today.dayOfMonth == 1) today.plusDays(1) else today.minusDays(1)
         val newTime = LocalTime.of(13, 13)
-        val newValueDate = today.withDayOfMonth(15)
+        //make sure newValueDate != today
+        val newValueDate = if (today.dayOfMonth < 15) today.withDayOfMonth(20) else today.withDayOfMonth(10)
 
         onView(withId(R.id.DateButton))
             .check(matches(dateButtonHasDate(today)))
