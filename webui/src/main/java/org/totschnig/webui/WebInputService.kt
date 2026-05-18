@@ -225,6 +225,13 @@ class WebInputService : LifecycleService(), IWebInputService {
 
             START_ACTION, RESTART_ACTION -> {
                 licenceHandler.recordUsage(ContribFeature.WEB_UI)
+                val initialNotification: Notification =
+                    NotificationBuilderWrapper.defaultBigTextStyleBuilder(
+                        this,
+                        getString(R.string.title_webui),
+                        serverAddress ?: "Starting ..."
+                    ).build()
+                startForeground(NOTIFICATION_WEB_UI, initialNotification)
                 if (server != null) {
                     if (intent.action == START_ACTION) {
                         log("Web UI already running")
@@ -235,6 +242,8 @@ class WebInputService : LifecycleService(), IWebInputService {
                     //We only honor RESTART_ACTION if the server is actually started
                     return START_NOT_STICKY
                 }
+                val useHttps = prefHandler.getBoolean(PrefKey.WEBUI_HTTPS, false)
+
                 if (try {
                         (9000..9050).first { isAvailable(it) }
                     } catch (_: NoSuchElementException) {
@@ -244,85 +253,88 @@ class WebInputService : LifecycleService(), IWebInputService {
                     }.let { port = it; it != 0 }
                 ) {
                     try {
-                        val useHttps = prefHandler.getBoolean(PrefKey.WEBUI_HTTPS, false)
-                        server = embeddedServer(
-                            if (useHttps) Netty else CIO,
-                            configure = {
+                            lifecycleScope.launch(Dispatchers.Default + ktorServerExceptionHandler) {
                                 if (useHttps) {
-                                    log("use https generate certificate")
-                                    val keystore = generateCertificate(keyAlias = "myKey")
-                                    sslConnector(
-                                        keyStore = keystore,
-                                        keyAlias = "myKey",
-                                        keyStorePassword = { charArrayOf() },
-                                        privateKeyPassword = { charArrayOf() }) {
-                                        port = this@WebInputService.port
-                                    }
-                                } else {
-                                    connector {
-                                        port = this@WebInputService.port
-                                    }
+                                    setupBouncyCastle()
                                 }
-                            },
-                            module = {
-                                install(ContentNegotiation) {
-                                    gson {
-                                        registerTypeAdapter(
-                                            LocalDate::class.java,
-                                            LocalDateAdapter
-                                        )
-                                        registerTypeAdapter(
-                                            LocalTime::class.java,
-                                            LocalTimeAdapter
-                                        )
-                                    }
-                                }
-                                val passWord = prefHandler.getString(PrefKey.WEBUI_PASSWORD, "")
-                                    .takeIf { !it.isNullOrBlank() }
-                                passWord?.let {
-                                    install(Authentication) {
-                                        basic("auth-basic") {
-                                            realm = getString(R.string.app_name)
-                                            validate { credentials ->
-                                                if (credentials.password == it) {
-                                                    UserIdPrincipal(credentials.name)
-                                                } else {
-                                                    null
+                                server = embeddedServer(
+                                    if (useHttps) Netty else CIO,
+                                    configure = {
+                                        if (useHttps) {
+                                            log("use https generate certificate")
+                                            val keystore = generateCertificate(keyAlias = "myKey")
+                                            sslConnector(
+                                                keyStore = keystore,
+                                                keyAlias = "myKey",
+                                                keyStorePassword = { charArrayOf() },
+                                                privateKeyPassword = { charArrayOf() }) {
+                                                port = this@WebInputService.port
+                                            }
+                                        } else {
+                                            connector {
+                                                port = this@WebInputService.port
+                                            }
+                                        }
+                                    },
+                                    module = {
+                                        install(ContentNegotiation) {
+                                            gson {
+                                                registerTypeAdapter(
+                                                    LocalDate::class.java,
+                                                    LocalDateAdapter
+                                                )
+                                                registerTypeAdapter(
+                                                    LocalTime::class.java,
+                                                    LocalTimeAdapter
+                                                )
+                                            }
+                                        }
+                                        val passWord = prefHandler.getString(PrefKey.WEBUI_PASSWORD, "")
+                                            .takeIf { !it.isNullOrBlank() }
+                                        passWord?.let {
+                                            install(Authentication) {
+                                                basic("auth-basic") {
+                                                    realm = getString(R.string.app_name)
+                                                    validate { credentials ->
+                                                        if (credentials.password == it) {
+                                                            UserIdPrincipal(credentials.name)
+                                                        } else {
+                                                            null
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }
-                                    }
-                                }
 
-                                install(StatusPages) {
-                                    exception<Throwable> { call, cause ->
-                                        call.respond(
-                                            HttpStatusCode.InternalServerError,
-                                            "Internal Server Error"
-                                        )
-                                        CrashHandler.report(cause)
-                                        throw cause
-                                    }
-                                }
+                                        install(StatusPages) {
+                                            exception<Throwable> { call, cause ->
+                                                call.respond(
+                                                    HttpStatusCode.InternalServerError,
+                                                    "Internal Server Error"
+                                                )
+                                                CrashHandler.report(cause)
+                                                throw cause
+                                            }
+                                        }
 
-                                routing {
+                                        routing {
 
-                                    get("/styles.css") {
-                                        call.respondText(
-                                            readTextFromAssets("styles.css"),
-                                            ContentType.Text.CSS
-                                        )
-                                    }
-                                    get("/favicon.ico") {
-                                        call.respondBytes(
-                                            readBytesFromAssets("favicon.ico"),
-                                            ContentType.Image.XIcon
-                                        )
-                                    }
-                                    get("messages.js") {
-                                        //@formatter:off
-                                        call.respondText(
-                                            """
+                                            get("/styles.css") {
+                                                call.respondText(
+                                                    readTextFromAssets("styles.css"),
+                                                    ContentType.Text.CSS
+                                                )
+                                            }
+                                            get("/favicon.ico") {
+                                                call.respondBytes(
+                                                    readBytesFromAssets("favicon.ico"),
+                                                    ContentType.Image.XIcon
+                                                )
+                                            }
+                                            get("messages.js") {
+                                                //@formatter:off
+                                                call.respondText(
+                                                    """
                                         let messages = {
                                         ${i18nJson("app_name", R.string.app_name)},
                                         ${i18nJson("title_webui", R.string.title_webui)},
@@ -353,23 +365,22 @@ class WebInputService : LifecycleService(), IWebInputService {
                                         ${i18nJson("split_transaction", R.string.split_transaction)},
                                         };
                                     """.trimIndent(), ContentType.Text.JavaScript
-                                        )
-                                        //@formatter:on
-                                    }
-                                    if (passWord == null) {
-                                        serve()
-                                    } else {
-                                        authenticate("auth-basic") {
-                                            serve()
+                                                )
+                                                //@formatter:on
+                                            }
+                                            if (passWord == null) {
+                                                serve()
+                                            } else {
+                                                authenticate("auth-basic") {
+                                                    serve()
+                                                }
+                                            }
                                         }
                                     }
+                                ).also {
+                                    log("starting server")
+                                    it.start(wait = false)
                                 }
-                            }
-                        ).also {
-                            lifecycleScope.launch(Dispatchers.Default + ktorServerExceptionHandler) {
-                                log("starting server")
-                                it.start(wait = false)
-                            }
                         }
 
                         val stopIntent = Intent(this, WebInputService::class.java).apply {
@@ -395,7 +406,7 @@ class WebInputService : LifecycleService(), IWebInputService {
                                         )
                                     )
                                     .build()
-                            log("start foreground service")
+                            log("updating notification")
                             startForeground(NOTIFICATION_WEB_UI, notification)
                             serverStateObserver?.postAddress(it)
                         }
@@ -690,10 +701,15 @@ class WebInputService : LifecycleService(), IWebInputService {
             Timber.tag(TAG).w(message)
         }
 
-        init {
-            log("init")
-            Security.removeProvider("BC")
-            Security.addProvider(BouncyCastleProvider())
+        private var bcInitialized = false
+
+        fun setupBouncyCastle() {
+            if (!bcInitialized) {
+                log("init BouncyCastle")
+                Security.removeProvider("BC")
+                Security.addProvider(BouncyCastleProvider())
+                bcInitialized = true
+            }
         }
     }
 }
