@@ -225,13 +225,6 @@ class WebInputService : LifecycleService(), IWebInputService {
 
             START_ACTION, RESTART_ACTION -> {
                 licenceHandler.recordUsage(ContribFeature.WEB_UI)
-                val initialNotification: Notification =
-                    NotificationBuilderWrapper.defaultBigTextStyleBuilder(
-                        this,
-                        getString(R.string.title_webui),
-                        serverAddress ?: "Starting ..."
-                    ).build()
-                startForeground(NOTIFICATION_WEB_UI, initialNotification)
                 if (server != null) {
                     if (intent.action == START_ACTION) {
                         log("Web UI already running")
@@ -705,9 +698,10 @@ class WebInputService : LifecycleService(), IWebInputService {
 
         fun setupBouncyCastle() {
             if (!bcInitialized) {
-                log("init BouncyCastle")
+                log("init BouncyCastle start")
                 Security.removeProvider("BC")
                 Security.addProvider(BouncyCastleProvider())
+                log("init BouncyCastle end")
                 bcInitialized = true
             }
         }
