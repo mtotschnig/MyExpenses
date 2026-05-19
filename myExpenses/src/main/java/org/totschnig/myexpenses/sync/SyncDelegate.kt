@@ -244,6 +244,7 @@ class SyncDelegate(
         if (change.tagsV2 != null) result = result.copy(tagsV2 = change.tagsV2)
         if (change.attachments != null) result = result.copy(attachments = change.attachments)
         if (change.categoryInfo != null) result = result.copy(categoryInfo = change.categoryInfo)
+        if (change.equivalentAmount != null) result = result.copy(equivalentAmount = change.equivalentAmount)
 
         return result.withCurrentTimeStamp()
     }
