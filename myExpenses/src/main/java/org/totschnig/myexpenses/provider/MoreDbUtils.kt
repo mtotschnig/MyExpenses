@@ -586,7 +586,7 @@ fun SupportSQLiteDatabase.update(
     table: String,
     values: ContentValues,
     whereClause: String?,
-    whereArgs: Array<Any>?,
+    whereArgs: Array<out Any>?,
     conflictAlgorithm: Int = SQLiteDatabase.CONFLICT_NONE
 ) = update(table, conflictAlgorithm, values, whereClause, whereArgs)
 

@@ -2215,7 +2215,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     fun SupportSQLiteDatabase.insertEquivalentAmount(
         transactionId: Long,
-        equivalentAmount: Long?,
+        equivalentAmount: Long,
     ) {
         insert(TABLE_EQUIVALENT_AMOUNTS, ContentValues(3).apply {
             put(KEY_EQUIVALENT_AMOUNT, equivalentAmount)
@@ -2270,18 +2270,31 @@ abstract class BaseTransactionProvider : ContentProvider() {
     fun SupportSQLiteDatabase.insertOrReplaceEquivalentAmount(
         transactionId: Long,
         equivalentAmount: Long?,
-    ) =
-        // we do not use "Insert or replace" because we would receive insert trigger instead of
-        // update trigger, and we would not be able to check if value has changed
-        update(
-            TABLE_EQUIVALENT_AMOUNTS,
-            ContentValues(1).apply {
-                put(KEY_EQUIVALENT_AMOUNT, equivalentAmount)
-            }, "$KEY_TRANSACTIONID = ? AND $KEY_CURRENCY = ?", arrayOf(transactionId, homeCurrency)
-        ).takeIf { it != 0 } ?: run {
-            insertEquivalentAmount(transactionId, equivalentAmount)
-            1
+    ): Int {
+        val whereClause = "$KEY_TRANSACTIONID = ? AND $KEY_CURRENCY = ?"
+        val whereArgs = arrayOf<Any>(transactionId, homeCurrency)
+        return if (equivalentAmount == null) {
+            delete(
+                TABLE_EQUIVALENT_AMOUNTS,
+                whereClause,
+                whereArgs
+            )
+        } else {
+            // we do not use "Insert or replace" because we would receive insert trigger instead of
+            // update trigger, and we would not be able to check if value has changed
+            update(
+                TABLE_EQUIVALENT_AMOUNTS,
+                ContentValues(1).apply {
+                    put(KEY_EQUIVALENT_AMOUNT, equivalentAmount)
+                },
+                whereClause,
+                whereArgs
+            ).takeIf { it != 0 } ?: run {
+                insertEquivalentAmount(transactionId, equivalentAmount)
+                1
+            }
         }
+    }
 
     fun SupportSQLiteDatabase.insertOrReplaceEquivalentAmount(
         equivalentAmount: Long?,
