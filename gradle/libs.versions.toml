@@ -38,7 +38,7 @@ easypermissionsKtx = "7ab6997271"
 emailIntentBuilder = "2.0.0"
 espressoVersion = "3.7.0"
 evernote = "1.4.1"
-composeBom = "2026.05.00"
+composeBom = "2026.05.01"
 
 dagger = "2.59.2"
 datastorePreferences = "1.2.1"
