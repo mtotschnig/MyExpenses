@@ -1373,8 +1373,25 @@ public class TransactionProvider extends BaseTransactionProvider {
     log("UPDATE Uri: %s, values: %s", uri, values);
     final String lastPathSegment = uri.getLastPathSegment();
     switch (uriMatch) {
-      case TRANSACTIONS ->
-              count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, values, where, whereArgs);
+      case TRANSACTIONS -> {
+        Long equivalentAmount = values.getAsLong(KEY_EQUIVALENT_AMOUNT);
+        values.remove(KEY_EQUIVALENT_AMOUNT);
+        db.beginTransaction();
+        try {
+          //noinspection SizeReplaceableByIsEmpty
+          if (values.size() > 0) {
+            count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, values, where, whereArgs);
+          } else {
+            count = 0;
+          }
+          if (equivalentAmount != null) {
+            count = insertOrReplaceEquivalentAmount(db, equivalentAmount, where, whereArgs);
+          }
+          db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+          }
+      }
       case TRANSACTION_ID -> {
         Long equivalentAmount = values.getAsLong(KEY_EQUIVALENT_AMOUNT);
         values.remove(KEY_EQUIVALENT_AMOUNT);
@@ -1383,11 +1400,16 @@ public class TransactionProvider extends BaseTransactionProvider {
         db.beginTransaction();
         try {
           long id = Long.parseLong(lastPathSegment);
-          count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, values,
-                  KEY_ROWID + " = " + lastPathSegment + prefixAnd(where),
-                  whereArgs);
+          //noinspection SizeReplaceableByIsEmpty
+          if (values.size() > 0) {
+              count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, values,
+                      KEY_ROWID + " = " + lastPathSegment + prefixAnd(where),
+                      whereArgs);
+          } else {
+            count = 0;
+          }
           if (equivalentAmount != null) {
-            insertOrReplaceEquivalentAmount(db, id, equivalentAmount);
+            count = insertOrReplaceEquivalentAmount(db, id, equivalentAmount);
           }
           saveTransactionTags(db, id, tagList, true);
           db.setTransactionSuccessful();

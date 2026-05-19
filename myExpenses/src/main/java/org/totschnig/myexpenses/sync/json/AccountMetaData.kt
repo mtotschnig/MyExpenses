@@ -23,7 +23,8 @@ data class AccountMetaData(
     val exchangeRate: Double? = null,
     val exchangeRateOtherCurrency: String? = null,
     val excludeFromTotals: Boolean = false,
-    val criterion: Long = 0L
+    val criterion: Long = 0L,
+    val dynamicExchangeRates: Boolean = false
 ) : Parcelable {
 
     override fun toString(): String {
@@ -49,7 +50,7 @@ data class AccountMetaData(
         if (homeCurrency != exchangeRateOtherCurrency) 1.0 else exchangeRate ?: 1.0,
         Grouping.NONE,
         null,
-        false
+        dynamicExchangeRates
     )
 
     companion object {
@@ -66,7 +67,8 @@ data class AccountMetaData(
                 excludeFromTotals = account.excludeFromTotals,
                 criterion = account.criterion ?: 0L,
                 exchangeRate = if (homeCurrency != null && homeCurrency != accountCurrency) account.exchangeRate else null,
-                exchangeRateOtherCurrency = if (homeCurrency != null && homeCurrency != accountCurrency) homeCurrency else null
+                exchangeRateOtherCurrency = if (homeCurrency != null && homeCurrency != accountCurrency) homeCurrency else null,
+                dynamicExchangeRates = account.dynamicExchangeRates
             )
         }
     }
