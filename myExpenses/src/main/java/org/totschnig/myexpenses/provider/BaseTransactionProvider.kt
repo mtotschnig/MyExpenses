@@ -2215,7 +2215,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     fun SupportSQLiteDatabase.insertEquivalentAmount(
         transactionId: Long,
-        equivalentAmount: Long,
+        equivalentAmount: Long?,
     ) {
         insert(TABLE_EQUIVALENT_AMOUNTS, ContentValues(3).apply {
             put(KEY_EQUIVALENT_AMOUNT, equivalentAmount)
@@ -2269,7 +2269,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     fun SupportSQLiteDatabase.insertOrReplaceEquivalentAmount(
         transactionId: Long,
-        equivalentAmount: Long,
+        equivalentAmount: Long?,
     ) =
         // we do not use "Insert or replace" because we would receive insert trigger instead of
         // update trigger, and we would not be able to check if value has changed
@@ -2284,9 +2284,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
         }
 
     fun SupportSQLiteDatabase.insertOrReplaceEquivalentAmount(
-        equivalentAmount: Long,
-        where: String,
-        whereArgs: Array<Any>,
+        equivalentAmount: Long?,
+        where: String?,
+        whereArgs: Array<Any>?,
     ) = query(
         table = TABLE_TRANSACTIONS,
         columns = arrayOf(KEY_ROWID),
@@ -2300,7 +2300,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             } while (it.moveToNext())
             count
         } else {
-            report(IllegalArgumentException("selection = $where, args  = ${whereArgs.joinToString()} "))
+            report(IllegalArgumentException("selection = $where, args  = ${whereArgs?.joinToString()} "))
             0
         }
     }

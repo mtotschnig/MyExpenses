@@ -1363,8 +1363,8 @@ public class TransactionProvider extends BaseTransactionProvider {
   }
 
   @Override
-  public int update(@NonNull Uri uri, ContentValues values, String where,
-                    String[] whereArgs) {
+  public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String where,
+                    @Nullable String[] whereArgs) {
     SupportSQLiteDatabase db = getHelper().getWritableDatabase();
     String segment; // contains rowId
     int count;
@@ -1374,7 +1374,8 @@ public class TransactionProvider extends BaseTransactionProvider {
     final String lastPathSegment = uri.getLastPathSegment();
     switch (uriMatch) {
       case TRANSACTIONS -> {
-        Long equivalentAmount = values.getAsLong(KEY_EQUIVALENT_AMOUNT);
+        boolean hasEquivalentAmount = values.containsKey(KEY_EQUIVALENT_AMOUNT);
+        @Nullable Long equivalentAmount = values.getAsLong(KEY_EQUIVALENT_AMOUNT);
         values.remove(KEY_EQUIVALENT_AMOUNT);
         db.beginTransaction();
         try {
@@ -1384,7 +1385,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           } else {
             count = 0;
           }
-          if (equivalentAmount != null) {
+          if (hasEquivalentAmount) {
             count = insertOrReplaceEquivalentAmount(db, equivalentAmount, where, whereArgs);
           }
           db.setTransactionSuccessful();
@@ -1393,7 +1394,8 @@ public class TransactionProvider extends BaseTransactionProvider {
           }
       }
       case TRANSACTION_ID -> {
-        Long equivalentAmount = values.getAsLong(KEY_EQUIVALENT_AMOUNT);
+        boolean hasEquivalentAmount = values.containsKey(KEY_EQUIVALENT_AMOUNT);
+        @Nullable Long equivalentAmount = values.getAsLong(KEY_EQUIVALENT_AMOUNT);
         values.remove(KEY_EQUIVALENT_AMOUNT);
         String tagList = values.getAsString(KEY_TAGLIST);
         values.remove(KEY_TAGLIST);
@@ -1408,7 +1410,7 @@ public class TransactionProvider extends BaseTransactionProvider {
           } else {
             count = 0;
           }
-          if (equivalentAmount != null) {
+          if (hasEquivalentAmount) {
             count = insertOrReplaceEquivalentAmount(db, id, equivalentAmount);
           }
           saveTransactionTags(db, id, tagList, true);
