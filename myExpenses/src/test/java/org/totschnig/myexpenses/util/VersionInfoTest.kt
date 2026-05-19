@@ -37,8 +37,11 @@ class VersionInfoTest {
         Assume.assumeFalse(BuildConfig.BETA)
         val context = ApplicationProvider.getApplicationContext<Application>()
         urlReachable(currentVersion.githubUrl(context)!!)
-        if (!isBugFixVersion) {
-            urlReachable(currentVersion.mastodonUrl(context)!!)
+        val mastodonUrl = currentVersion.mastodonUrl(context)
+        if (mastodonUrl != null) {
+            urlReachable(mastodonUrl)
+        } else  {
+            assertThat(isBugFixVersion).isTrue()
         }
     }
 
@@ -60,7 +63,7 @@ class VersionInfoTest {
 
         val response = client.newCall(request).execute()
 
-        Truth.assertWithMessage("Error retrieving $url").that(response.code).isEqualTo(200)
+        assertWithMessage("Error retrieving $url").that(response.code).isEqualTo(200)
     }
 
 }
