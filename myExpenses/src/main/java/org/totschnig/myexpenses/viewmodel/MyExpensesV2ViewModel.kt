@@ -52,6 +52,7 @@ import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.GROUPING_AGGR
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_BY_AGGREGATE
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
@@ -246,7 +247,7 @@ open class MyExpensesV2ViewModel(
                         type = activeFilter as? AccountType ?: AccountType.CASH,
                         flag = activeFilter as? AccountFlag ?: AccountFlag.DEFAULT,
                         isSingleCurrency = filteredByVisibility.distinctBy { it.currency }.size == 1,
-                        grouping = aggregateGrouping,
+                        grouping = if (aggregateSort.column == KEY_DATE) aggregateGrouping else Grouping.NONE,
                         accountGrouping = aggregateAccountGrouping,
                         sortBy = aggregateSort.column,
                         sortDirection = aggregateSort.sortDirection,
@@ -308,10 +309,9 @@ open class MyExpensesV2ViewModel(
 
     fun groupingAggregateKey(grouping: AccountGrouping<*>, filter: AccountGroupingKey?) =
         aggregateKey(grouping, filter, "", GROUPING_AGGREGATE)
+
     fun sortAggregateKey(grouping: AccountGrouping<*>, filter: AccountGroupingKey?) =
         aggregateKey(grouping, filter, "sort_", SORT_BY_AGGREGATE)
-
-
 
     fun aggregateKey(
         grouping: AccountGrouping<*>,
