@@ -210,7 +210,14 @@ class WebInputService : LifecycleService(), IWebInputService {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
-        log("onStartCommand")
+        log("onStartCommand ${intent?.action}")
+        val initialNotification: Notification =
+            NotificationBuilderWrapper.defaultBigTextStyleBuilder(
+                this,
+                getString(R.string.title_webui),
+                serverAddress ?: "Starting ..."
+            ).build()
+        startForeground(NOTIFICATION_WEB_UI, initialNotification)
         when (intent?.action) {
             STOP_CLICK_ACTION -> {
                switchOff()
@@ -373,35 +380,35 @@ class WebInputService : LifecycleService(), IWebInputService {
                                 ).also {
                                     log("starting server")
                                     it.start(wait = false)
+                                    val stopIntent = Intent(this@WebInputService, WebInputService::class.java).apply {
+                                        action = STOP_CLICK_ACTION
+                                    }
+                                    serverAddress = getAddress(useHttps).also {
+                                        log("building notification")
+                                        val notification: Notification =
+                                            NotificationBuilderWrapper.defaultBigTextStyleBuilder(
+                                                this@WebInputService,
+                                                getString(R.string.title_webui),
+                                                it
+                                            )
+                                                .addAction(
+                                                    0,
+                                                    getString(R.string.stop),
+                                                    //noinspection InlinedApi
+                                                    PendingIntent.getService(
+                                                        this@WebInputService,
+                                                        0,
+                                                        stopIntent,
+                                                        FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
+                                                    )
+                                                )
+                                                .build()
+                                        log("now calling startForeground")
+                                        startForeground(NOTIFICATION_WEB_UI, notification)
+                                        log("startForeground called")
+                                        serverStateObserver?.postAddress(it)
+                                    }
                                 }
-                        }
-
-                        val stopIntent = Intent(this, WebInputService::class.java).apply {
-                            action = STOP_CLICK_ACTION
-                        }
-                        serverAddress = getAddress(useHttps).also {
-                            log("building notification")
-                            val notification: Notification =
-                                NotificationBuilderWrapper.defaultBigTextStyleBuilder(
-                                    this,
-                                    getString(R.string.title_webui),
-                                    it
-                                )
-                                    .addAction(
-                                        0,
-                                        getString(R.string.stop),
-                                        //noinspection InlinedApi
-                                        PendingIntent.getService(
-                                            this,
-                                            0,
-                                            stopIntent,
-                                            FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
-                                        )
-                                    )
-                                    .build()
-                            log("updating notification")
-                            startForeground(NOTIFICATION_WEB_UI, notification)
-                            serverStateObserver?.postAddress(it)
                         }
                     } catch (e: Throwable) {
                         handleException(e)
@@ -417,7 +424,7 @@ class WebInputService : LifecycleService(), IWebInputService {
     }
 
     private fun handleException(e: Throwable) {
-        CrashHandler.report(e)
+        CrashHandler.report(e, TAG)
         serverStateObserver?.postException(e)
         switchOff()
         stopSelf()
