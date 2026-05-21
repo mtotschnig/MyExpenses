@@ -1,7 +1,5 @@
 package org.totschnig.myexpenses.test.espresso
 
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -17,7 +15,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.TestShard5
 import org.totschnig.myexpenses.testutils.cleanup
-import org.totschnig.myexpenses.testutils.toolbarMainTitle
 import kotlin.properties.Delegates
 
 //tests if account is selected in MyExpenses view pager
@@ -75,28 +72,47 @@ class SelectAccountTest : BaseMyExpensesTest() {
 
     @Test
     fun shouldSelectAccountForCurrency() {
-        doTheTest(usdAggregate, accountUSD2, lazy { "USD" })
+        doTheTest(
+            id = usdAggregate,
+            currencyForLaunch = "USD",
+            currencyForTitle = "USD",
+            accountForForm = accountUSD2,
+            accountLabelForList = lazy { "USD (Σ)" },
+            expectedAccountCount = 3
+        )
     }
 
     @Test
     fun shouldSelectAccountForGrandTotal() {
-        doTheTest(HOME_AGGREGATE_ID, accountEUR, lazy { getString(R.string.grand_total) })
+        doTheTest(
+            id = HOME_AGGREGATE_ID,
+            currencyForTitle = homeCurrency.code,
+            accountForForm = if (homeCurrency.code == "USD") accountUSD2 else accountEUR,
+            accountLabelForList = lazy { getString(R.string.grand_total) })
     }
 
 
     private fun doTheTest(account: Account) {
-        doTheTest(account.id, account)
+        doTheTest(
+            id = account.id,
+            currencyForTitle = account.currency,
+            accountForForm = account
+        )
     }
 
     private fun doTheTest(
         id: Long,
+        currencyForTitle: String,
         accountForForm: Account,
-        accountLabelForList: Lazy<String> = lazy { accountForForm.label }
+        currencyForLaunch: String? = null,
+        accountLabelForList: Lazy<String> = lazy { accountForForm.label },
+        expectedAccountCount: Int = 4, //3 accounts, and Grand Total
     ) {
-        launch(id)
-        assertDataSize(5) //3 accounts, USD and Grand Total
-        toolbarMainTitle().check(matches(withText(accountLabelForList.value)))
-        clickFab()
+        launch(id, currencyForLaunch)
+        composeTestRule.waitForIdle()
+        assertDataSize(expectedAccountCount)
+        checkTitle(accountLabelForList.value, currencyContext[currencyForTitle])
+        clickFabCompose()
         checkAccount(accountForForm.label)
     }
 }

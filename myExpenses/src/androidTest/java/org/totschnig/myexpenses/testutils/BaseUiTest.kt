@@ -392,7 +392,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         )
     ).id
 
-    fun clickFab() {
+    open fun clickFab() {
         onView(withId(R.id.fab)).perform(click())
     }
 

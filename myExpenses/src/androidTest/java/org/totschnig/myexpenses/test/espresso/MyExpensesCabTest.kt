@@ -15,10 +15,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.action.ViewActions.typeText
-import androidx.test.espresso.assertion.ViewAssertions.doesNotExist
-import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.RootMatchers.isDialog
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.google.common.truth.Truth.assertThat
@@ -28,6 +25,7 @@ import org.junit.Assume
 import org.junit.BeforeClass
 import org.junit.Test
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.TEST_TAG_CAB
 import org.totschnig.myexpenses.compose.TEST_TAG_CONTEXT_MENU
 import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.compose.TEST_TAG_SELECT_DIALOG
@@ -326,7 +324,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
         val partCount = 5
         doLaunch(excludeFromTotals, initialOpCount = partCount)
         openCab(R.id.SELECT_ALL_COMMAND)
-        clickMenuItem(R.id.SPLIT_TRANSACTION_COMMAND, true)
+        clickMenuItemOverflowCompose(R.id.SPLIT_TRANSACTION_COMMAND)
         handleContribDialog(ContribFeature.SPLIT_TRANSACTION)
         onView(withText(R.string.menu_split_transaction))
             .perform(click())
@@ -358,7 +356,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
         doLaunch()
         openCab(null)
         doWithRotation {
-            onView(withId(androidx.appcompat.R.id.action_mode_bar)).check(matches(isDisplayed()))
+            composeTestRule.onNodeWithTag(TEST_TAG_CAB).assertExists()
         }
     }
 
@@ -369,7 +367,7 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
             it.viewModel.setSealed(account.id, true)
         }
         openCab(null)
-        onView(withId(androidx.appcompat.R.id.action_mode_bar)).check(doesNotExist())
+        composeTestRule.onNodeWithTag(TEST_TAG_CAB).assertDoesNotExist()
         composeTestRule.onNodeWithTag(TEST_TAG_CONTEXT_MENU).onChildAt(0)
             .assert(hasText(getString(R.string.details)))
         composeTestRule.onNodeWithTag(TEST_TAG_CONTEXT_MENU).onChildAt(1)
@@ -439,7 +437,8 @@ class MyExpensesCabTest : BaseMyExpensesTest() {
         assertListSize(2)
         openCab(null)
         listNode.onChildren()[1].performClick()
-        clickMenuItem(R.id.LINK_TRANSFER_COMMAND, true)
+        clickMenuItemOverflowCompose(R.id.LINK_TRANSFER_COMMAND)
+        composeTestRule.waitForIdle()
         onView(withId(android.R.id.button1)).perform(click())
         val op = repository.loadTransaction(op0Id)
         assertThat(op.isTransfer).isTrue()

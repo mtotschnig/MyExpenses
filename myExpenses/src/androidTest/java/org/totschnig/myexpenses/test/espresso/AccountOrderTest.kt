@@ -40,7 +40,6 @@ class AccountOrderTest : BaseMyExpensesTest() {
 
     @Before
     fun fixture() {
-        prefHandler.putBoolean(PrefKey.ACCOUNT_PANEL_VISIBLE, true)
         accounts = listOf(
             TestAccount("Test account 1", 1L, 2, 3).buildAccount(),
             TestAccount("Test account 5", 3L, 1, 1).buildAccount(),

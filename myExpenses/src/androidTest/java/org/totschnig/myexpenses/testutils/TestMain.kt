@@ -12,12 +12,8 @@ import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onIdle
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
-import androidx.test.espresso.NoMatchingViewException
-import androidx.test.espresso.ViewAction
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
-import androidx.test.espresso.contrib.DrawerActions
-import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.hamcrest.Matchers.containsString
 import org.junit.After
@@ -29,6 +25,7 @@ import org.junit.rules.RuleChain
 import org.junit.rules.TestRule
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.test.espresso.SettingsTest
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.versionNumber
@@ -70,23 +67,18 @@ abstract class TestMain(locale: String?) : BaseMyExpensesTest() {
         scenario(scenario)
     }
 
-    private fun drawerAction(action: ViewAction) {
-        //no drawer on w700dp
-        try {
-            onView(withId(R.id.drawer)).perform(action)
-        } catch (_: NoMatchingViewException) {
-        }
-    }
-
     private fun scenario(scenario: String) {
         when (scenario) {
             "1" -> {
-                drawerAction(DrawerActions.open())
+                navigateToAccounts()
                 takeScreenshot("summarize")
-                drawerAction(DrawerActions.close())
+                navigateToTransactions()
                 takeScreenshot("group")
-                clickMenuItem(R.id.RESET_COMMAND)
-                closeSoftKeyboard()
+                clickMenuItemOverflowCompose(MenuItem.Reset.testTag)
+                composeTestRule.waitForIdle()
+                try {
+                    closeSoftKeyboard()
+                } catch (_: Exception) { }
                 takeScreenshot("export")
                 pressBack()
                 clickContextItem(R.string.details)
@@ -98,16 +90,16 @@ abstract class TestMain(locale: String?) : BaseMyExpensesTest() {
                 closeSoftKeyboard()
                 takeScreenshot("split")
                 pressBack()
-                clickMenuItem(R.id.DISTRIBUTION_COMMAND)
+                clickMenuItemOverflowCompose(MenuItem.Distribution.testTag)
                 takeScreenshot("distribution")
                 pressBack()
-                clickMenuItem(R.id.HISTORY_COMMAND)
+                clickMenuItemOverflowCompose(MenuItem.History.testTag)
                 clickMenuItem(R.id.GROUPING_COMMAND)
                 onView(withText(R.string.grouping_month)).perform(click())
                 clickMenuItem(R.id.TOGGLE_INCLUDE_TRANSFERS_COMMAND)
                 takeScreenshot("history")
                 pressBack()
-                clickMenuItem(R.id.BUDGET_COMMAND)
+                selectNavigationItem(MenuItem.Budget.testTag)
                 listNode.onChildren()[0].performClick()
                 doWithRotation {
                     onIdle()
@@ -120,7 +112,7 @@ abstract class TestMain(locale: String?) : BaseMyExpensesTest() {
                 Thread.sleep(500)
                 pressBack()
                 pressBack()
-                clickMenuItem(R.id.SETTINGS_COMMAND)
+                selectNavigationItem(MenuItem.Settings.testTag)
                 SettingsTest.navigateTo(
                     R.string.synchronization,
                     R.string.pref_manage_sync_backends_title

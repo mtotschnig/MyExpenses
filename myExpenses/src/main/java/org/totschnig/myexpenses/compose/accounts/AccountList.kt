@@ -87,6 +87,9 @@ import org.totschnig.myexpenses.compose.MenuEntry.Companion.toggle
 import org.totschnig.myexpenses.compose.OverFlowMenu
 import org.totschnig.myexpenses.compose.SubMenuEntry
 import org.totschnig.myexpenses.compose.TEST_TAG_ACCOUNTS
+import org.totschnig.myexpenses.compose.TEST_TAG_DELETE_ACCOUNT
+import org.totschnig.myexpenses.compose.TEST_TAG_EDIT_ACCOUNT
+import org.totschnig.myexpenses.compose.TEST_TAG_EDIT_TEXT
 import org.totschnig.myexpenses.compose.UiText
 import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.compose.main.deltaLabel
@@ -1097,9 +1100,9 @@ private fun accountMenu(
 ) = buildList {
     if (account.id > 0) {
         if (!account.sealed) {
-            add(edit("EDIT_ACCOUNT") { onEvent(AccountEvent.Edit, account) })
+            add(edit(TEST_TAG_EDIT_ACCOUNT) { onEvent(AccountEvent.Edit, account) })
         }
-        add(delete("DELETE_ACCOUNT") { onEvent(AccountEvent.Delete, account) })
+        add(delete(TEST_TAG_DELETE_ACCOUNT) { onEvent(AccountEvent.Delete, account) })
         add(
             SubMenuEntry(
                 label = R.string.menu_flag,

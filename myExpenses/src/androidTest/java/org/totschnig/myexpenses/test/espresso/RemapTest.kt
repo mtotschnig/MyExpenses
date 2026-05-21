@@ -70,8 +70,7 @@ class RemapTest : BaseMyExpensesTest() {
         )
         launch(account1.id)
         openCab(R.id.REMAP_PARENT)
-        onView(withText(R.string.date)).perform(click())
-
+        clickMenuItemCompose(R.id.REMAP_DATE_COMMAND)
         setDate(remapDate)
 
         confirmRemap(clone)
@@ -167,7 +166,7 @@ class RemapTest : BaseMyExpensesTest() {
         val catId = writeCategory(catLabel)
         launch(account1.id)
         openCab(R.id.REMAP_PARENT)
-        onView(withText(R.string.category)).perform(click())
+        clickMenuItemCompose(R.id.REMAP_CATEGORY_COMMAND)
         composeTestRule.onNodeWithText(catLabel).performClick()
         confirmRemap(doClone)
         verifyCatIdsForTransfers()
@@ -197,7 +196,7 @@ class RemapTest : BaseMyExpensesTest() {
     private fun doRemapAccount(accountId: Long, target: String, doClone: Boolean = false) {
         launch(accountId)
         openCab(R.id.REMAP_PARENT)
-        onView(withText(R.string.account)).perform(click())
+        clickMenuItemCompose(R.id.REMAP_ACCOUNT_COMMAND)
         composeTestRule.onAllNodesWithText(target)
             .filterToOne(hasAnyAncestor(hasTestTag(TEST_TAG_SELECT_DIALOG)))
             .performClick()

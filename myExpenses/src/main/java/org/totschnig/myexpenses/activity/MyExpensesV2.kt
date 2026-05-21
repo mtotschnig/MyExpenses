@@ -51,6 +51,7 @@ import org.totschnig.myexpenses.util.ads.AdHandlerV2
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.SumInfo
+import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import java.util.Optional
@@ -355,8 +356,13 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
     }
 
     override suspend fun accountForNewTransaction() = Optional.ofNullable(
-        currentAccount as? FullAccount ?: viewModel.accountDataV2.value?.getOrNull()
-            ?.maxByOrNull { it.lastUsed }
+        when(currentAccount) {
+            is FullAccount -> currentAccount as? FullAccount
+            is AggregateAccount -> viewModel.accountDataV2.value?.getOrNull()
+                ?.filter { it.currency == currentAccount?.currency }
+                ?.maxByOrNull { it.lastUsed }
+            null -> null
+        }
     )
 
     override fun onSortOrderConfirmed(sortedIds: LongArray) {

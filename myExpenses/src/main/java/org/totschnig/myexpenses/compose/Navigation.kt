@@ -54,23 +54,25 @@ sealed interface IMenuEntry {
     val icon: @Composable (() -> Painter)?
     val tint: Color?
     val contentDescription: String?
+    val command: String?
 }
 
 sealed interface IActionMenuEntry : IMenuEntry {
     val action: () -> Unit
-    val command: String?
 }
 
 data class SubMenuEntry(
     override val label: UiText,
     val subMenu: Menu,
+    override val command: String? = null,
     override val icon: @Composable (() -> Painter)? = null,
     override val tint: Color? = null,
-    override val contentDescription: String? = null
+    override val contentDescription: String? = null,
 ) : IMenuEntry {
-    constructor(label: Int, subMenu: Menu, icon: ImageVector? = null) : this(
+    constructor(label: Int, subMenu: Menu, command: String? = null, icon: ImageVector? = null) : this(
         label = UiText.StringResource(label),
         subMenu = subMenu,
+        command = command,
         icon = if (icon != null) {
             @Composable { rememberVectorPainter(image = icon) }
         } else null
@@ -176,7 +178,7 @@ fun OverFlowMenu(
     menu: Menu,
 ) {
     TooltipIconMenu(
-        modifier = modifier,
+        modifier = modifier.testTag(TEST_TAG_OVERFLOW_MENU),
         tooltip = stringResource(id = androidx.appcompat.R.string.abc_action_menu_overflow_description),
         imageVector = Icons.Filled.MoreVert,
         menu = menu,
@@ -260,6 +262,9 @@ private fun EntryListRenderer(
             is SubMenuEntry -> {
                 var subMenuVisible by remember { mutableStateOf(false) }
                 DropdownMenuItem(
+                    modifier = Modifier.optional(entry.command) {
+                        testTag(it)
+                    },
                     text = {
                         Row {
                             EntryContent(entry, offset)

@@ -95,6 +95,10 @@ import org.totschnig.myexpenses.compose.ColoredAmountText
 import org.totschnig.myexpenses.compose.LocalCurrencyFormatter
 import org.totschnig.myexpenses.compose.OverFlowMenu
 import org.totschnig.myexpenses.compose.TEST_TAG_ACCOUNT_LABEL
+import org.totschnig.myexpenses.compose.TEST_TAG_BALANCE_AMOUNT
+import org.totschnig.myexpenses.compose.TEST_TAG_BALANCE_HEADER
+import org.totschnig.myexpenses.compose.TEST_TAG_CAB
+import org.totschnig.myexpenses.compose.TEST_TAG_FAB
 import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
 import org.totschnig.myexpenses.compose.TooltipIconButton
 import org.totschnig.myexpenses.compose.accounts.AccountIndicator
@@ -131,7 +135,6 @@ enum class FabStyle {
 @Composable
 fun TransactionScreen(
     containerColor: Color = MaterialTheme.colorScheme.background,
-    accounts: List<FullAccount>,
     availableFilters: List<AccountGroupingKey>,
     selectedAccountId: Long,
     viewModel: MyExpensesV2ViewModel,
@@ -209,6 +212,7 @@ fun TransactionScreen(
                         },
                         title = {
                             ColoredAmountText(
+                                modifier = Modifier.testTag(TEST_TAG_CAB),
                                 prefix = "${viewModel.selectionState.value.size}  (Σ: ",
                                 amount = viewModel.selectedTransactionSum,
                                 currency = currentAccount.currencyUnit,
@@ -320,6 +324,7 @@ fun TransactionScreen(
             if (currentAccount is FullAccount && (currentAccount as FullAccount).sealed) {
                 FloatingActionButton(
                     onClick = { },
+                    modifier = Modifier.testTag(TEST_TAG_FAB),
                     containerColor = MaterialTheme.colorScheme.surfaceVariant,
                     contentColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f),
                     elevation = FloatingActionButtonDefaults.elevation(
@@ -343,7 +348,7 @@ fun TransactionScreen(
                     onEvent(
                         AppEvent.CreateTransaction(
                             action = action,
-                            transferEnabled = accounts.size > 1
+                            transferEnabled = accountList.size > 1
                         )
                     )
                 }
@@ -447,7 +452,7 @@ fun TransactionScreen(
                         .fillMaxSize()
                         .testTag(TEST_TAG_PAGER)
                         .semantics {
-                            collectionInfo = CollectionInfo(1, accounts.size)
+                            collectionInfo = CollectionInfo(1, accountList.size)
                         },
                     state = pagerState,
                     pageSpacing = 10.dp,
@@ -507,6 +512,7 @@ private fun BalanceHeader(
 
     Row(
         modifier = modifier
+            .testTag(TEST_TAG_BALANCE_HEADER)
             .semantics {
                 role = Role.Button
             }
@@ -681,6 +687,7 @@ private fun BalanceSection(
             )
         ) {
             ColoredAmountText(
+                modifier = Modifier.testTag(TEST_TAG_BALANCE_AMOUNT),
                 amount = balance,
                 currency = account.currencyUnit,
                 fontWeight = FontWeight.SemiBold,
