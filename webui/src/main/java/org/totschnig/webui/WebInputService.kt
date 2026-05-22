@@ -47,6 +47,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
@@ -80,6 +81,7 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.isWebUiActive
 import org.totschnig.myexpenses.preference.setWebUiActive
 import org.totschnig.myexpenses.provider.KEY_ACCOUNT_TYPE_LIST
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
@@ -215,178 +217,186 @@ class WebInputService : LifecycleService(), IWebInputService {
         super.onStartCommand(intent, flags, startId)
         log("onStartCommand ${intent?.action}")
 
-        when (intent?.action) {
-            STOP_CLICK_ACTION -> {
-                switchOff()
+        val action = intent?.action ?: START_ACTION
+
+        if (action == RESTART_ACTION && server == null) {
+            return START_NOT_STICKY
+        }
+
+        if (action == START_ACTION || action == RESTART_ACTION) {
+
+            licenceHandler.recordUsage(ContribFeature.WEB_UI)
+            if (action == START_ACTION) {
+                updateNotification()
             }
 
-            STOP_ACTION -> {
-                if (stopServer()) {
-                    serverStateObserver?.onStopped()
+            lifecycleScope.launch(Dispatchers.Default + ktorServerExceptionHandler) {
+                if (intent == null) {
+                    if (!dataStore.isWebUiActive.first()) {
+                        // Setting is actually false! Stop everything safely.
+                        handleException(IllegalStateException("Web UI not active in settings"))
+                        return@launch
+                    }
                 }
-                stopSelf()
-            }
-
-            START_ACTION, RESTART_ACTION -> {
-
-                licenceHandler.recordUsage(ContribFeature.WEB_UI)
-                if (intent.action == START_ACTION) {
-                    updateNotification()
-                }
-
-                lifecycleScope.launch(Dispatchers.Default + ktorServerExceptionHandler) {
-                    startupMutex.withLock {
-                        val useHttps = prefHandler.getBoolean(PrefKey.WEBUI_HTTPS, false)
-                        if (server != null) {
-                            if (intent.action == START_ACTION) {
-                                log("Web UI already running")
-                                updateNotification()
-                                return@withLock
-                            }
-                            stopServer()
-                        } else if (intent.action == RESTART_ACTION) {
-                            //We only honor RESTART_ACTION if the server is actually started
+                startupMutex.withLock {
+                    val useHttps = prefHandler.getBoolean(PrefKey.WEBUI_HTTPS, false)
+                    if (server != null) {
+                        if (action == START_ACTION) {
+                            log("Web UI already running")
+                            updateNotification()
                             return@withLock
                         }
-                        port = (9000..9050).firstOrNull { isAvailable(it) }
-                            ?: throw IOException("No available port found in range 9000..9050")
-                        if (useHttps) {
-                            setupBouncyCastle()
-                        }
-                        server = embeddedServer(
-                            if (useHttps) Netty else CIO,
-                            configure = {
-                                if (useHttps) {
-                                    log("use https generate certificate")
-                                    val keystore = generateCertificate(keyAlias = "myKey")
-                                    sslConnector(
-                                        keyStore = keystore,
-                                        keyAlias = "myKey",
-                                        keyStorePassword = { charArrayOf() },
-                                        privateKeyPassword = { charArrayOf() }) {
-                                        port = this@WebInputService.port
-                                    }
-                                } else {
-                                    connector {
-                                        port = this@WebInputService.port
-                                    }
+                        stopServer()
+                    }
+                    port = (9000..9050).firstOrNull { isAvailable(it) }
+                        ?: throw IOException("No available port found in range 9000..9050")
+                    if (useHttps) {
+                        setupBouncyCastle()
+                    }
+                    server = embeddedServer(
+                        if (useHttps) Netty else CIO,
+                        configure = {
+                            if (useHttps) {
+                                log("use https generate certificate")
+                                val keystore = generateCertificate(keyAlias = "myKey")
+                                sslConnector(
+                                    keyStore = keystore,
+                                    keyAlias = "myKey",
+                                    keyStorePassword = { charArrayOf() },
+                                    privateKeyPassword = { charArrayOf() }) {
+                                    port = this@WebInputService.port
                                 }
-                            },
-                            module = {
-                                install(ContentNegotiation) {
-                                    gson {
-                                        registerTypeAdapter(
-                                            LocalDate::class.java,
-                                            LocalDateAdapter
-                                        )
-                                        registerTypeAdapter(
-                                            LocalTime::class.java,
-                                            LocalTimeAdapter
-                                        )
-                                    }
+                            } else {
+                                connector {
+                                    port = this@WebInputService.port
                                 }
-                                val passWord = prefHandler.getString(PrefKey.WEBUI_PASSWORD, "")
-                                    .takeIf { !it.isNullOrBlank() }
-                                passWord?.let {
-                                    install(Authentication) {
-                                        basic("auth-basic") {
-                                            realm = getString(R.string.app_name)
-                                            validate { credentials ->
-                                                if (credentials.password == it) {
-                                                    UserIdPrincipal(credentials.name)
-                                                } else {
-                                                    null
-                                                }
+                            }
+                        },
+                        module = {
+                            install(ContentNegotiation) {
+                                gson {
+                                    registerTypeAdapter(
+                                        LocalDate::class.java,
+                                        LocalDateAdapter
+                                    )
+                                    registerTypeAdapter(
+                                        LocalTime::class.java,
+                                        LocalTimeAdapter
+                                    )
+                                }
+                            }
+                            val passWord = prefHandler.getString(PrefKey.WEBUI_PASSWORD, "")
+                                .takeIf { !it.isNullOrBlank() }
+                            passWord?.let {
+                                install(Authentication) {
+                                    basic("auth-basic") {
+                                        realm = getString(R.string.app_name)
+                                        validate { credentials ->
+                                            if (credentials.password == it) {
+                                                UserIdPrincipal(credentials.name)
+                                            } else {
+                                                null
                                             }
                                         }
                                     }
                                 }
+                            }
 
-                                install(StatusPages) {
-                                    exception<Throwable> { call, cause ->
-                                        call.respond(
-                                            HttpStatusCode.InternalServerError,
-                                            "Internal Server Error"
-                                        )
-                                        IWebInputService.report(cause)
-                                        throw cause
-                                    }
+                            install(StatusPages) {
+                                exception<Throwable> { call, cause ->
+                                    call.respond(
+                                        HttpStatusCode.InternalServerError,
+                                        "Internal Server Error"
+                                    )
+                                    IWebInputService.report(cause)
+                                    throw cause
                                 }
+                            }
 
-                                routing {
+                            routing {
 
-                                    get("/styles.css") {
-                                        call.respondText(
-                                            readTextFromAssets("styles.css"),
-                                            ContentType.Text.CSS
-                                        )
-                                    }
-                                    get("/favicon.ico") {
-                                        call.respondBytes(
-                                            readBytesFromAssets("favicon.ico"),
-                                            ContentType.Image.XIcon
-                                        )
-                                    }
-                                    get("messages.js") {
-                                        //@formatter:off
-                                            call.respondText(
-                                                """
-                                    let messages = {
-                                    ${i18nJson("app_name", R.string.app_name)},
-                                    ${i18nJson("title_webui", R.string.title_webui)},
-                                    ${i18nJson("account", R.string.account)},
-                                    ${i18nJson("amount", R.string.amount)},
-                                    ${i18nJson("date", R.string.date)},
-                                    ${i18nJson("time", R.string.time)},
-                                    ${i18nJson("booking_date", R.string.booking_date)},
-                                    ${i18nJson("value_date", R.string.value_date)},
-                                    ${i18nJson("payer_or_payee", R.string.payer_or_payee)},
-                                    ${i18nJson("category", R.string.category)},
-                                    ${i18nJson("tags", R.string.tags)},
-                                    ${i18nJson("comment", R.string.notes)},
-                                    ${i18nJson("method", R.string.method)},
-                                    ${i18nJson("menu_save", R.string.menu_save)},
-                                    ${i18nJson("menu_create_transaction", R.string.menu_create_transaction)},
-                                    ${i18nJson("menu_edit_transaction", R.string.menu_edit_transaction)},
-                                    ${i18nJson("reference_number", R.string.reference_number)},
-                                    ${i18nJson("menu_edit", R.string.menu_edit)},
-                                    ${i18nJson("dialog_confirm_discard_changes", R.string.dialog_confirm_discard_changes)},
-                                    ${i18nJson("menu_clone_transaction", R.string.menu_clone_transaction)},
-                                    ${i18nJson("menu_delete", R.string.menu_delete)},
-                                    ${i18nJson("no_expenses", R.string.no_expenses)},
-                                    ${i18nJson("webui_warning_move_transaction", R.string.webui_warning_move_transaction)},
-                                    ${i18nJson("validate_error_not_empty", R.string.validate_error_not_empty)},
-                                    ${i18nJsonPlurals("warning_delete_transaction", R.plurals.warning_delete_transaction)},
-                                    ${i18nJson("action_download", R.string.action_download)},
-                                    ${i18nJson("split_transaction", R.string.split_transaction)},
-                                    };
-                                """.trimIndent(), ContentType.Text.JavaScript
-                                            )
-                                            //@formatter:on
-                                    }
-                                    if (passWord == null) {
+                                get("/styles.css") {
+                                    call.respondText(
+                                        readTextFromAssets("styles.css"),
+                                        ContentType.Text.CSS
+                                    )
+                                }
+                                get("/favicon.ico") {
+                                    call.respondBytes(
+                                        readBytesFromAssets("favicon.ico"),
+                                        ContentType.Image.XIcon
+                                    )
+                                }
+                                get("messages.js") {
+                                    //@formatter:off
+                                    call.respondText(
+                                        """
+                                        let messages = {
+                                        ${i18nJson("app_name", R.string.app_name)},
+                                        ${i18nJson("title_webui", R.string.title_webui)},
+                                        ${i18nJson("account", R.string.account)},
+                                        ${i18nJson("amount", R.string.amount)},
+                                        ${i18nJson("date", R.string.date)},
+                                        ${i18nJson("time", R.string.time)},
+                                        ${i18nJson("booking_date", R.string.booking_date)},
+                                        ${i18nJson("value_date", R.string.value_date)},
+                                        ${i18nJson("payer_or_payee", R.string.payer_or_payee)},
+                                        ${i18nJson("category", R.string.category)},
+                                        ${i18nJson("tags", R.string.tags)},
+                                        ${i18nJson("comment", R.string.notes)},
+                                        ${i18nJson("method", R.string.method)},
+                                        ${i18nJson("menu_save", R.string.menu_save)},
+                                        ${i18nJson("menu_create_transaction", R.string.menu_create_transaction)},
+                                        ${i18nJson("menu_edit_transaction", R.string.menu_edit_transaction)},
+                                        ${i18nJson("reference_number", R.string.reference_number)},
+                                        ${i18nJson("menu_edit", R.string.menu_edit)},
+                                        ${i18nJson("dialog_confirm_discard_changes", R.string.dialog_confirm_discard_changes)},
+                                        ${i18nJson("menu_clone_transaction", R.string.menu_clone_transaction)},
+                                        ${i18nJson("menu_delete", R.string.menu_delete)},
+                                        ${i18nJson("no_expenses", R.string.no_expenses)},
+                                        ${i18nJson("webui_warning_move_transaction", R.string.webui_warning_move_transaction)},
+                                        ${i18nJson("validate_error_not_empty", R.string.validate_error_not_empty)},
+                                        ${i18nJsonPlurals("warning_delete_transaction", R.plurals.warning_delete_transaction)},
+                                        ${i18nJson("action_download", R.string.action_download)},
+                                        ${i18nJson("split_transaction", R.string.split_transaction)},
+                                        };
+                                    """.trimIndent(), ContentType.Text.JavaScript
+                                    )
+                                    //@formatter:on
+                                }
+                                if (passWord == null) {
+                                    serve()
+                                } else {
+                                    authenticate("auth-basic") {
                                         serve()
-                                    } else {
-                                        authenticate("auth-basic") {
-                                            serve()
-                                        }
                                     }
                                 }
                             }
-                        ).also { server ->
-                            log("starting server")
-                            server.start(wait = false)
-
-                            serverAddress = getAddress(useHttps).also {
-                                serverStateObserver?.postAddress(it)
-                            }
-                            updateNotification()
                         }
+                    ).also { server ->
+                        log("starting server")
+                        server.start(wait = false)
+
+                        serverAddress = getAddress(useHttps)
+                        updateNotification()
                     }
                 }
             }
+            return START_STICKY
         }
-        return START_STICKY
+        if (action == STOP_CLICK_ACTION) {
+            switchOff()
+        } else if (action == STOP_ACTION) {
+            lifecycleScope.launch {
+                startupMutex.withLock {
+                    if (stopServer()) {
+                        serverStateObserver?.onStopped()
+                    }
+                    stopSelf()
+                }
+            }
+        }
+        return START_NOT_STICKY
     }
 
     private val ktorServerExceptionHandler = CoroutineExceptionHandler { _, exception ->
@@ -665,31 +675,35 @@ class WebInputService : LifecycleService(), IWebInputService {
     } else false
 
     private fun updateNotification() {
-        val stopIntent = Intent(
-            this@WebInputService,
-            WebInputService::class.java
-        ).apply {
-            action = STOP_CLICK_ACTION
-        }
+        val content = serverAddress ?: getString(R.string.service_starting)
         val notification: Notification =
             NotificationBuilderWrapper.defaultBigTextStyleBuilder(
                 this@WebInputService,
                 getString(R.string.title_webui),
-                serverAddress ?: "Starting…"
-            )
-                .addAction(
-                    0,
-                    getString(R.string.stop),
-                    //noinspection InlinedApi
-                    PendingIntent.getService(
-                        this@WebInputService,
+                content
+            ).apply {
+                if (serverAddress != null) {
+                    addAction(
                         0,
-                        stopIntent,
-                        FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
+                        getString(R.string.stop),
+                        //noinspection InlinedApi
+                        PendingIntent.getService(
+                            this@WebInputService,
+                            0,
+                            Intent(
+                                this@WebInputService,
+                                WebInputService::class.java
+                            ).apply {
+                                action = STOP_CLICK_ACTION
+                            },
+                            FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
+                        )
                     )
-                )
+                }
+            }
                 .build()
         startForeground(NOTIFICATION_WEB_UI, notification)
+        serverStateObserver?.postAddress(content)
         log("startForeground called")
     }
 

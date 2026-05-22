@@ -1136,4 +1136,6 @@
     <string name="prioritize_flag_order">Prioritize flag order</string>
     <string name="pref_content_based_colors_title">Account-based dynamic color</string>
     <string name="pref_content_based_colors_summary">Derive theme colors from the current account\'s color. Turn off if text is difficult to read.</string>
+    <!-- Shown to user while Web User Interface is starting -->
+    <string name="service_starting">Starting…</string>
 </resources>
