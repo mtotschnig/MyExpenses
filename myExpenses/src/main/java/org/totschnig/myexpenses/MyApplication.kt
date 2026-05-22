@@ -33,8 +33,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -45,10 +46,13 @@ import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.di.DaggerAppComponent
 import org.totschnig.myexpenses.feature.BankingFeature
 import org.totschnig.myexpenses.feature.FeatureManager
+import org.totschnig.myexpenses.feature.IWebInputService
+import org.totschnig.myexpenses.feature.IWebInputService.Companion.log
 import org.totschnig.myexpenses.feature.OcrFeature
 import org.totschnig.myexpenses.feature.RESTART_ACTION
 import org.totschnig.myexpenses.feature.START_ACTION
 import org.totschnig.myexpenses.feature.STOP_ACTION
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -65,6 +69,7 @@ import org.totschnig.myexpenses.service.BudgetWidgetUpdateWorker
 import org.totschnig.myexpenses.service.PlanExecutor
 import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.ui.ContextHelper
+import org.totschnig.myexpenses.util.ContribUtils
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -185,35 +190,36 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
     }
 
     override fun onCreate(owner: LifecycleOwner) {
+        val isWebUiDesired = dataStore.isWebUiActive
+        val isForeground = owner.lifecycle.currentStateFlow
+            .map { it.isAtLeast(Lifecycle.State.STARTED) }
+            .distinctUntilChanged()
+
         MainScope().launch {
             var isFirstEmission = true
-            dataStore.isWebUiActive
-                .distinctUntilChanged()
-                .collect { isWebUiEnabled ->
-                    if (isWebUiEnabled) {
+            combine(isWebUiDesired, isForeground) { desired, foreground ->
+                desired to foreground
+            }.collect { (desired, foreground) ->
+                if (desired) {
+                    if (foreground) {
                         if (initialLaunchWasForSystemPreferences) {
-                            Timber.i("Suppressing WebUI start")
+                            log("Suppressing WebUI start")
                         } else {
-                            if (owner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED)) {
+                            if (licenceHandler.hasTrialAccessTo(ContribFeature.WEB_UI)) {
                                 controlWebUi(START_ACTION)
                             } else {
-                                Timber.d("Postponing WebUI start: App not in foreground")
+                                disableWebUi()
+                                ContribUtils.showContribNotification(
+                                    this@MyApplication,
+                                    ContribFeature.WEB_UI
+                                )
                             }
                         }
-                    } else {
-                        if (!isFirstEmission) {
-                            controlWebUi(STOP_ACTION)
-                        }
                     }
-                    isFirstEmission = false
+                } else if (!isFirstEmission) {
+                    controlWebUi(STOP_ACTION)
                 }
-        }
-    }
-
-    override fun onStart(owner: LifecycleOwner) {
-        MainScope().launch {
-            if (dataStore.isWebUiActive.first() && !initialLaunchWasForSystemPreferences) {
-                controlWebUi(START_ACTION)
+                isFirstEmission = false
             }
         }
     }
@@ -343,32 +349,32 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
 
     private fun controlWebUi(action: String) {
         getServiceIntent(action != RESTART_ACTION).onSuccess { intent ->
+            log("controlWebUi $action")
             intent.setAction(action)
             val componentName =
                 if (action == START_ACTION) {
-                    Timber.w("start Web UI")
                     startForegroundService(intent)
                 } else {
                     startService(intent)
                 }
             if (componentName == null) {
-                report(Exception("$action for Web User Interface failed"))
+                IWebInputService.report(Exception("$action for Web User Interface failed"))
                 //Since trying to start the WebUI failed, it is likely that the STOP_ACTION triggered by
                 //onSharedPreferenceChanged listener might also fail
                 try {
-                    toggleWebUi(false)
+                    disableWebUi()
                 } catch (e: Exception) {
-                    report(e)
+                    IWebInputService.report(e)
                 }
             }
         }.onFailure {
-            toggleWebUi(false)
+            disableWebUi()
         }
     }
 
-    fun toggleWebUi(enabled: Boolean) {
+    fun disableWebUi() {
         MainScope().launch {
-            dataStore.setWebUiActive(enabled)
+            dataStore.setWebUiActive(false)
         }
     }
 

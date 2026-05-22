@@ -13,7 +13,6 @@ import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.feature.IWebInputService
 import org.totschnig.myexpenses.feature.ServerStateObserver
 import org.totschnig.myexpenses.feature.WebUiBinder
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 class WebUiViewModel(application: Application) : AndroidViewModel(application) {
     private var webInputService: IWebInputService? = null
@@ -70,7 +69,7 @@ class WebUiViewModel(application: Application) : AndroidViewModel(application) {
             }
         }.onFailure {
             if(require) {
-                CrashHandler.report(it)
+                IWebInputService.report(it)
             }
         }
     }
