@@ -248,7 +248,8 @@ class WebInputService : LifecycleService(), IWebInputService {
                             //We only honor RESTART_ACTION if the server is actually started
                             return@withLock
                         }
-                        port = (9000..9050).first { isAvailable(it) }
+                        port = (9000..9050).firstOrNull { isAvailable(it) }
+                            ?: throw IOException("No available port found in range 9000..9050")
                         if (useHttps) {
                             setupBouncyCastle()
                         }
