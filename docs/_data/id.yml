@@ -1,1 +1,131 @@
-{}
+imprint: Impresum
+imprint_text: Bertanggung jawab atas konten situs web ini serta atas 
+  pengembangan, pemeliharaan, dan distribusi <i>{app_name}</i>
+privacy_policy_heading: Kebijakan privasi
+privacy_policy_text: <i>{app_name}</i> tidak mengakses data apa pun di perangkat
+  Anda selain database miliknya sendiri dan folder miliknya sendiri di kartu SD.
+  Jika Anda menggunakan fitur rencana untuk transaksi masa depan dan berulang, 
+  Anda menetapkan kalender tempat rencana tersebut disimpan.
+hero_main: Manajer keuangan pribadi untuk Android
+hero_sub:
+  use: Mudah digunakan
+  functionality: Fungsionalitas kaya
+  source: Sumber Terbuka
+menu_title:
+  more_information: Informasi lebih lanjut
+sections:
+  features: Fitur
+  premium: Jadi Premium
+  participate: Berpartisipasi
+  faq: FAQ
+  versionlist: Log perubahan
+  credits: Kredit
+  licence: Lisensi
+  sourcecode: Kode sumber
+  links: Tautan
+screenshots:
+  group: Kelompokkan transaksi Anda per hari, minggu, bulan, dan tahun
+  summarize: Jumlahkan semua akun Anda (penanganan nilai tukar yang canggih per 
+    akun dan per transaksi)
+  budget: Tentukan berapa banyak yang ingin Anda belanjakan dalam anggaran 
+    tahunan, bulanan, atau mingguan
+  split: Bagi satu transaksi ke beberapa kategori
+  distribution: Visualisasikan distribusi per kategori
+  history: Pahami bagaimana situasi keuangan Anda berkembang dari waktu ke waktu
+  export: Cetak ke PDF dan bertukar data melalui QIF dan CSV.
+  sync: Sinkronkan data akun terenkripsi di beberapa perangkat melalui layanan 
+    cloud privat atau publik.
+features:
+  manage_accounts: Hingga lima akun dengan <b>transfer</b> (termasuk antar mata 
+    uang berbeda)
+  plans: Jumlah <b>templat</b> tanpa batas dan hingga tiga rencana untuk 
+    transaksi <b>berulang</b>
+  export: <b>Ekspor</b> ke QIF dan CSV. <b>Impor</b> dari QIF
+  password: Data dapat dilindungi dengan <b>kata sandi</b> atau <b>kunci 
+    layar</b> perangkat
+  light_theme: <b>Tema</b> (gelap dan terang) serta <b>ukuran font</b> dapat 
+    disesuaikan
+  reconciliation: '<b>Rekonsiliasi</b>: Bandingkan status transaksi dengan mudah dengan
+    rekening koran bank Anda'
+  homescreen: <b>Widget</b> layar utama dan <b>pintasan</b> untuk entri data 
+    cepat
+contrib:
+  thank_you: |
+    Kontribusi Anda mendukung pengembangan lebih lanjut My Expenses. Terima kasih!
+  feature-list-title: 'Silakan berkontribusi dengan meningkatkan <i>{app_name}</i>
+    dan dapatkan akses tanpa batas ke fitur-fitur berikut:'
+  feature:
+    accounts_unlimited: Buka kemampuan untuk membuat lebih dari lima akun
+    plans_unlimited: Buka kemampuan untuk membuat lebih dari tiga rencana untuk 
+      transaksi berulang
+    distribution: '<b>Diagram lingkaran</b>: Visualisasikan distribusi statistik transaksi
+      per kategori selama berbagai periode (tahun, bulan, minggu, hari)'
+    split_transaction: '<b>Transaksi pembagian</b>: Satu transaksi dapat dibagi menjadi
+      beberapa bagian (kategori dan transfer)'
+    print: <b>Cetak</b> daftar transaksi ke file PDF
+    ad_free: <b>Tanpa iklan</b>
+    csv_import: <b>Impor CSV</b> yang canggih dan dapat disesuaikan (aplikasi 
+      spreadsheet)
+    auto_backup: <b>Cadangan otomatis</b> harian dengan unggah opsional ke 
+      penyimpanan cloud
+    cloud_sync: '<b>Sinkronisasi cloud</b>: Data dapat disinkronkan antar beberapa
+      perangkat'
+    split_template: Jumlah <b>templat dan rencana untuk transaksi pembagian</b> 
+      tanpa batas
+    email_support: <b>Dukungan email</b> dengan jaminan tanggapan dalam 2 hari 
+      kerja
+    roadmap_voting: Hak suara pada <b>peta jalan pengembangan</b>
+    history_chart: <b>Diagram riwayat</b> (Arus kas)
+    budgeting: '<b>Penganggaran</b>: Bandingkan pengeluaran Anda dengan batas yang
+      Anda tetapkan per kategori secara harian, mingguan, bulanan, atau tahunan.'
+    scan_receipt: '<b>Pindai struk</b>: Ekstrak jumlah, tanggal, dan penerima pembayaran
+      secara otomatis'
+    webui: <b>Antarmuka Pengguna Web</b>
+    category_tree: Kedalaman <b>pohon kategori</b> tanpa batas
+    banking: Unduh transaksi dari bank di Jerman (<b>FinTS</b>)
+  one-time-payment: Pembayaran satu kali
+  subscription: Langganan
+store:
+  short_description: 'Manajer keuangan pribadi yang mudah digunakan: fungsionalitas
+    kaya dan Sumber Terbuka'
+  full_description_intro: '{app_name} melacak pengeluaran dan pemasukan Anda, langsung
+    di ponsel pintar dan tablet Anda.'
+  full_description_contrib: 'Fitur premium dibuka dengan membeli salah satu kunci
+    lisensi berikut:'
+  full_description_contrib_amazon: 'Banyak fitur tambahan dibuka dengan pembelian
+    salah satu kunci lisensi, misalnya:'
+  highlight_1: Lacak pengeluaran dan pemasukan Anda dengan beberapa akun, 
+    templat, dan kategori
+  highlight_2: Bagikan data Anda antara beberapa ponsel dan tablet melalui 
+    WebDAV dan Google Drive
+  highlight_3: Ringkas situasi keuangan Anda per hari, minggu, bulan, atau tahun
+permissions:
+  heading: <i>{app_name}</i> memerlukan <u>izin</u> berikut
+  calendar:
+    label: Kalender
+    explanation: Rencana untuk transaksi masa depan dan berulang disimpan baik 
+      di kalender lokal khusus maupun di kalender lain yang Anda tetapkan.
+  internet:
+    label: Internet
+    explanation_usage_tracking: Pelacakan penggunaan anonim
+    explanation_crash_reporting: Laporan crash
+    explanation_key_validation: Validasi kunci lisensi
+    explanation_cloud_sync: Sinkronisasi cloud
+  accounts:
+    label: Akun
+    explanation: Sinkronisasi antarperangkat melalui layanan cloud.
+contrib-key: Kunci Kontribusi
+extended-key: Kunci Ekstensi
+professional-key: Kunci Profesional
+all_contrib_key_features: Semua fitur Kunci Kontribusi
+all_extended_key_features: Semua fitur Kunci Ekstensi
+customer_support: Dukungan pelanggan
+screenshot_titles:
+  group: Kelompokkan berdasarkan tahun, bulan, atau minggu
+  summarize: Jumlahkan semua akun Anda
+  budget: Anggaran tahunan, bulanan, dan mingguan
+  split: Bagi ke beberapa kategori
+  distribution: Diagram lingkaran
+  history: Riwayat situasi keuangan Anda
+  export: Ekspor ke PDF, QIF, dan CSV
+  sync: Sinkronisasi cloud
