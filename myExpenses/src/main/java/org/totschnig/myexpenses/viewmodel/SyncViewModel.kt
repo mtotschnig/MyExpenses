@@ -115,11 +115,14 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
             val oldName = data.getString(KEY_ORIGINAL_ACCOUNT_NAME)!!
             var account = getAccount(oldName)
             val newName = data.getString(KEY_ACCOUNT_NAME)
-            if (data.getString(KEY_ORIGINAL_ACCOUNT_NAME) != newName) {
+            if (oldName != newName) {
                 val accountManagerFuture =
                     accountManager.renameAccount(account, newName, null, null)
                 account = accountManagerFuture.result
-                if (account.name != newName) emit(false)
+                if (account.name != newName) {
+                    emit(false)
+                    return@liveData
+                }
                 val contentValues = ContentValues(1).apply {
                     put(KEY_SYNC_ACCOUNT_NAME, newName)
                 }
@@ -131,17 +134,12 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
                 )
             }
             accountManager.setPassword(account, data.getString(KEY_PASSWORD))
-            val userData = data.getBundle(KEY_USERDATA)!!
-            accountManager.setUserData(
-                account,
-                KEY_SYNC_PROVIDER_URL,
-                userData.getString(KEY_SYNC_PROVIDER_URL)
-            )
-            accountManager.setUserData(
-                account,
-                KEY_SYNC_PROVIDER_USERNAME,
-                userData.getString(KEY_SYNC_PROVIDER_USERNAME)
-            )
+            data.getBundle(KEY_USERDATA)?.let { userData ->
+                userData.keySet().forEach { key ->
+                    accountManager.setUserData(account, key, userData.getString(key))
+                }
+            }
+
             emit(true)
         }
 

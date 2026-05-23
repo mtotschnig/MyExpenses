@@ -301,10 +301,9 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         fallbackToClass1 =
             accountManager.getUserData(account, KEY_WEB_DAV_FALLBACK_TO_CLASS1) != null
         val allowUnverified = "true" == accountManager.getUserData(account, KEY_ALLOW_UNVERIFIED)
-        var certificate: X509Certificate? = null
-        if (accountManager.getUserData(account, KEY_WEB_DAV_CERTIFICATE) != null) {
-            certificate = try {
-                fromString(accountManager.getUserData(account, KEY_WEB_DAV_CERTIFICATE))
+        val certificate = accountManager.getUserData(account, KEY_WEB_DAV_CERTIFICATE)?.let {
+            try {
+                fromString(it)
             } catch (e: CertificateException) {
                 throw SyncParseException(e)
             }
