@@ -243,7 +243,6 @@ class WebInputService : LifecycleService(), IWebInputService {
                     if (server != null) {
                         if (action == START_ACTION) {
                             log("Web UI already running")
-                            updateNotification()
                             return@withLock
                         }
                         stopServer()
