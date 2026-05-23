@@ -1,3 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="splittemplate_title">Templat pembagian</string>
+    <string name="splittemplate_description">Jumlah templat dan rencana tanpa batas untuk transaksi pembagian</string>
+    <string name="history_title">Diagram riwayat</string>
+    <string name="history_description">Pahami bagaimana situasi keuangan Anda berkembang dari waktu ke waktu</string>
+    <string name="budget_title">Penganggaran</string>
+    <string name="budget_description">Tentukan berapa banyak yang ingin Anda belanjakan dalam anggaran tahunan, bulanan, atau mingguan</string>
+    <string name="ocr_title">Pindai struk</string>
+    <string name="ocr_description">Ekstrak jumlah, tanggal, dan penerima pembayaran secara otomatis</string>
+    <string name="webui_title">Antarmuka Pengguna Web</string>
+    <string name="webui_description">Gunakan browser desktop Anda untuk entri data</string>
+    <string name="categorytree_title">Pohon Kategori</string>
+    <string name="categorytree_description">Hierarki kategori dengan kedalaman tak terbatas</string>
+    <string name="accountsunlimited_title">Jumlah akun tanpa batas</string>
+    <string name="accountsunlimited_description">Buka kemampuan untuk membuat lebih dari lima akun.</string>
+    <string name="adfree_title">Tanpa iklan</string>
+    <string name="adfree_description">Tanpa iklan.</string>
+    <string name="csvimport_title">Impor CSV</string>
+    <string name="csvimport_description">Impor CSV yang canggih dan dapat disesuaikan (aplikasi spreadsheet)</string>
+    <string name="distribution_title">Diagram lingkaran</string>
+    <string name="distribution_description">Visualisasikan distribusi statistik transaksi per kategori selama berbagai periode (tahun, bulan, minggu, hari)</string>
+    <string name="plansunlimited_title">Jumlah rencana tanpa batas</string>
+    <string name="plansunlimited_description">Buka kemampuan untuk membuat lebih dari tiga rencana untuk transaksi berulang.</string>
+    <string name="print_title">Cetak</string>
+    <string name="print_description">Cetak daftar transaksi ke file PDF</string>
+    <string name="splittransaction_title">Transaksi pembagian</string>
+    <string name="splittransaction_description">Satu transaksi dapat dibagi menjadi beberapa bagian (kategori dan transfer).</string>
+    <string name="synchronization_title">Sinkronisasi cloud</string>
+    <string name="synchronization_description">Data dapat disinkronkan antar beberapa perangkat.</string>
+    <string name="professional_benefit_1">Buka semua fitur premium</string>
+    <string name="professional_benefit_2">Dukungan email</string>
+    <string name="professional_benefit_3">Hak suara pada peta jalan pengembangan</string>
 </resources>
