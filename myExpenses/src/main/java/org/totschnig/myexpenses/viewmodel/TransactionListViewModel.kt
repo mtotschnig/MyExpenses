@@ -82,7 +82,7 @@ class TransactionListViewModel(
             accountId = loadingInfo.accountId,
             currency = loadingInfo.currency.code,
             flag = loadingInfo.accountFlag,
-            type = loadingInfo.accountFlag,
+            type = loadingInfo.accountType,
             accountGrouping = loadingInfo.accountGrouping,
             shortenComment = true,
             extended = false

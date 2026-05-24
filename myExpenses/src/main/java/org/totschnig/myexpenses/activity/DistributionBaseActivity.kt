@@ -34,7 +34,6 @@ import org.totschnig.myexpenses.viewmodel.DistributionViewModelBase
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel
 import org.totschnig.myexpenses.viewmodel.data.Category
 import kotlin.math.absoluteValue
-import kotlin.math.acos
 
 abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
     ProtectedFragmentActivity() {
