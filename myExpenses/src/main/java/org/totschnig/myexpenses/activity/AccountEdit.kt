@@ -254,7 +254,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         viewModel.syncAccountName = account.syncAccountName
         val currencyUnit = currencyContext[account.currency]
         viewModel.currencyUnit = currencyUnit
-        viewModel.accountType = account.type.id
+        viewModel.accountType = account.type!!.id
         color = account.color
         viewModel.excludeFromTotals = account.excludeFromTotals
         viewModel.dynamicExchangeRates = account.dynamicExchangeRates

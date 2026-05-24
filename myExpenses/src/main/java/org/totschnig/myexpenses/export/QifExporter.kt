@@ -21,7 +21,7 @@ class QifExporter(
     override fun header(context: Context) = StringBuilder().append("!Account\nN")
         .append(account.label)
         .append("\nT")
-        .append(account.type.qifName)
+        .append(account.type!!.qifName)
         .append("\n^\n!Type:")
         .append(account.type.qifName)
         .append("\n").toString()

@@ -63,7 +63,7 @@ data class AccountMetaData(
                 uuid = account.uuid!!,
                 description = account.description,
                 openingBalance = account.openingBalance,
-                type = account.type.name,
+                type = account.type!!.name,
                 excludeFromTotals = account.excludeFromTotals,
                 criterion = account.criterion ?: 0L,
                 exchangeRate = if (homeCurrency != null && homeCurrency != accountCurrency) account.exchangeRate else null,

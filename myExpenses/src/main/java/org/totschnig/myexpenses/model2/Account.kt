@@ -59,8 +59,8 @@ data class Account(
     val description: String = "",
     val openingBalance: Long = 0L,
     override val currency: String,
-    val type: AccountType,
-    val flag: AccountFlag = AccountFlag.DEFAULT,
+    val type: AccountType? = null,
+    val flag: AccountFlag? = null,
     override val color: Int = DEFAULT_COLOR,
     val criterion: Long? = null,
     val syncAccountName: String? = null,
@@ -79,9 +79,9 @@ data class Account(
     override val accountGrouping: AccountGrouping<*>? =  null
 ) : DataBaseAccount(), Serializable, DistributionAccountInfo {
 
-    override val flagId = flag.id
+    override val flagId = flag?.id
 
-    override val typeId = type.id
+    override val typeId = type?.id
 
     fun createIn(repository: Repository) = repository.createAccount(this)
 
@@ -90,9 +90,9 @@ data class Account(
             isHomeAggregate -> context.getString(R.string.grand_total)
             else -> when(accountGrouping) {
                 AccountGrouping.CURRENCY -> currencyContext[currency].title(context)
-                AccountGrouping.FLAG -> flag.title(context)
+                AccountGrouping.FLAG -> flag!!.title(context)
                 AccountGrouping.NONE -> context.getString(R.string.grand_total)
-                AccountGrouping.TYPE -> type.title(context)
+                AccountGrouping.TYPE -> type!!.title(context)
                 null -> label
             }
         }

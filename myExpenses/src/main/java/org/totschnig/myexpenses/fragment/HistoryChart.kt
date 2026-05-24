@@ -44,6 +44,7 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.compose.filter.FilterCard
 import org.totschnig.myexpenses.databinding.HistoryChartBinding
 import org.totschnig.myexpenses.dialog.TransactionListComposeDialogFragment
+import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
@@ -209,14 +210,16 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                     if (h.stackIndex > -1) {
                         TransactionListComposeDialogFragment.newInstance(
                             TransactionListViewModel.LoadingInfo(
-                                accountId = accountInfo.accountId,
+                                accountId = if (accountInfo.accountId == 0L && accountInfo.accountGrouping == AccountGrouping.NONE) HOME_AGGREGATE_ID else accountInfo.accountId,
                                 currency = accountInfo.currencyUnit,
+                                accountType = accountInfo.typeId,
+                                accountFlag = accountInfo.flagId,
                                 grouping = grouping,
                                 groupingClause = listOfNotNull(
                                     buildGroupingClause(e.x.toInt()),
                                     filter?.getSelectionForParts()
                                 ).joinToString(" AND "),
-                                groupingArgs = filter?.getSelectionArgs(true) ?: emptyArray(),
+                                groupingArgs = filter?.getSelectionArgs(true)?.toList() ?: emptyList(),
                                 label = formatXValue(e.x),
                                 type = h.stackIndex == 1,//expense is first entry, income second
                                 withTransfers = includeTransfers

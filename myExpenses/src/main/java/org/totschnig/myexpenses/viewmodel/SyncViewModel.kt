@@ -81,7 +81,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
     }
 
     protected fun doSave(accountIn: Account) {
-        val accountType = repository.requireAccountTypeForSync(accountIn.type.name)
+        val accountType = repository.requireAccountTypeForSync(accountIn.type!!.name)
 
         val account = repository.createAccount(
             accountIn.copy(type = accountType)
