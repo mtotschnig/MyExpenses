@@ -235,13 +235,7 @@ open class MyExpensesV2ViewModel(
                     else
                         filteredByGroupFilter.filter { it.visible }
 
-                if (filteredByVisibility.none { it.accountId == selectedAccountId.value }) {
-                    filteredByVisibility.firstOrNull()?.let {
-                        selectAccount(it.id)
-                    }
-                }
-
-                if (filteredByGroupFilter.size < 2) {
+                val result = if (filteredByGroupFilter.size < 2) {
                     filteredByVisibility
                 } else {
                     val filteredForTotals = filteredByGroupFilter.filter { !it.excludeFromTotals }
@@ -275,6 +269,12 @@ open class MyExpensesV2ViewModel(
                         ) else aggregateAccount
                     }
                 }
+                if (result.none { it.accountId == selectedAccountId.value }) {
+                    result.firstOrNull()?.let {
+                        selectAccount(it.id)
+                    }
+                }
+                result
             }
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, emptyList())
     }
