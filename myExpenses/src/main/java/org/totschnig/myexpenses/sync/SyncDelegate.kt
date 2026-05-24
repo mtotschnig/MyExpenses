@@ -53,7 +53,7 @@ class SyncDelegate(
                 null, Bundle(3).apply {
                     putLong(KEY_ACCOUNTID, account.id)
                     putString(KEY_CURRENCY, account.currency)
-                    putLong(KEY_TYPE, account.type.id)
+                    putLong(KEY_TYPE, account.type!!.id)
                 }
             )
             if (result?.getBoolean(KEY_RESULT) != true) {

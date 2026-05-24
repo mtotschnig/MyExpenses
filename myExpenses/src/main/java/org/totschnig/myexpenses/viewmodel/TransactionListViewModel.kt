@@ -10,10 +10,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.withContext
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.asCategoryType
 import org.totschnig.myexpenses.db2.tagMapFlow
+import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DataBaseAccount
@@ -41,18 +43,29 @@ class TransactionListViewModel(
     data class LoadingInfo(
         val accountId: Long,
         val currency: CurrencyUnit,
+        val accountFlag: Long? = null,
+        val accountType: Long? = null,
         val label: String,
         val catId: Long = 0,
         val grouping: Grouping = Grouping.NONE,
         val groupingClause: String? = null,
-        val groupingArgs: Array<String> = emptyArray(),
+        val groupingArgs: List<String> = emptyList(),
         val type: Boolean? = null,
         val aggregateNeutral: Boolean = false,
         val withTransfers: Boolean = false,
         val icon: String? = null,
         val withNewButton: Boolean = false,
         val color: Int? = null
-    ) : Parcelable
+    ) : Parcelable {
+        @IgnoredOnParcel
+        val accountGrouping = if (accountId == 0L) {
+            when {
+                accountFlag != null -> AccountGrouping.FLAG
+                accountType != null -> AccountGrouping.TYPE
+                else -> AccountGrouping.CURRENCY
+            }
+        } else null
+    }
 
     val sum: Flow<Long>
         get() = with(loadingInfo) {
@@ -66,8 +79,11 @@ class TransactionListViewModel(
 
     private val transactionUri
         get() = uriBuilderForTransactionList(
-            loadingInfo.accountId,
-            loadingInfo.currency.code,
+            accountId = loadingInfo.accountId,
+            currency = loadingInfo.currency.code,
+            flag = loadingInfo.accountFlag,
+            type = loadingInfo.accountFlag,
+            accountGrouping = loadingInfo.accountGrouping,
             shortenComment = true,
             extended = false
         ).apply {

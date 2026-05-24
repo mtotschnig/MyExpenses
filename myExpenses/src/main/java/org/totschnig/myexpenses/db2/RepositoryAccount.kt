@@ -142,8 +142,6 @@ fun Repository.loadAggregateAccountFlow(accountId: Long): Flow<Account> {
             label = it.getString(KEY_LABEL),
             currency = it.getString(KEY_CURRENCY),
             openingBalance = it.getLong(KEY_OPENING_BALANCE),
-            type = AccountType(name = "Aggregate"),
-            flag = AccountFlag.DEFAULT,
         )
     }
 }
@@ -165,9 +163,9 @@ fun Repository.loadAggregateAccountFlowV2(extras: Bundle): Flow<Account> {
             label = label,
             currency = if (accountGrouping == AccountGrouping.CURRENCY) group else  it.getString(KEY_CURRENCY),
             openingBalance = it.getLong(KEY_OPENING_BALANCE),
-            type = if (accountGrouping == AccountGrouping.TYPE) AccountType(id = group.toLong(), name = label) else AccountType(name="Aggregate"),
+            type = if (accountGrouping == AccountGrouping.TYPE) AccountType(id = group.toLong(), name = label) else null,
             accountGrouping = accountGrouping,
-            flag = if (accountGrouping == AccountGrouping.FLAG) AccountFlag(id = group.toLong(), label = label) else AccountFlag.DEFAULT,
+            flag = if (accountGrouping == AccountGrouping.FLAG) AccountFlag(id = group.toLong(), label = label) else null,
         )
     }
 }
@@ -177,7 +175,9 @@ fun Account.toContentValues() = ContentValues().apply {
     put(KEY_OPENING_BALANCE, openingBalance)
     put(KEY_DESCRIPTION, description)
     put(KEY_CURRENCY, currency)
-    put(KEY_TYPE, type.id)
+    typeId?.let {
+        put(KEY_TYPE, it)
+    }
     put(KEY_COLOR, color)
     put(KEY_SYNC_ACCOUNT_NAME, syncAccountName)
     if (criterion != null) {

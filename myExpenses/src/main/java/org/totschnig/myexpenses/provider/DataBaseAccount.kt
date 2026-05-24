@@ -61,7 +61,7 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
             accountGrouping: AccountGrouping<*>? = null,
         ) : Pair<String, String>? = when (accountGrouping ?: when {
             isHomeAggregate(accountId) -> AccountGrouping.NONE
-            isAggregate(accountId) -> AccountGrouping.CURRENCY
+            accountId < 0 -> AccountGrouping.CURRENCY
             else -> null
         }) {
             null -> KEY_ACCOUNTID to accountId.toString()

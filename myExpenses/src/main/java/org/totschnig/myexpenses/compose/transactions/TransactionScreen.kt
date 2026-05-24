@@ -185,6 +185,7 @@ fun TransactionScreen(
             }
         }
     }
+
     val accountColor = Color(currentAccount.color(LocalResources.current))
 
     Scaffold(

@@ -24,14 +24,17 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
 import org.totschnig.myexpenses.dialog.TransactionListComposeDialogFragment
+import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.util.checkMenuIcon
 import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.viewmodel.DistributionViewModelBase
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel
 import org.totschnig.myexpenses.viewmodel.data.Category
 import kotlin.math.absoluteValue
+import kotlin.math.acos
 
 abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
     ProtectedFragmentActivity() {
@@ -159,12 +162,14 @@ abstract class DistributionBaseActivity<T : DistributionViewModelBase<*>> :
         viewModel.accountInfo.value?.let { accountInfo ->
             TransactionListComposeDialogFragment.newInstance(
                 TransactionListViewModel.LoadingInfo(
-                    accountId = accountInfo.accountId,
+                    accountId = if (accountInfo.accountId == 0L && accountInfo.accountGrouping == AccountGrouping.NONE) HOME_AGGREGATE_ID else accountInfo.accountId,
                     currency = currencyContext[accountInfo.currency],
+                    accountFlag = accountInfo.flagId,
+                    accountType = accountInfo.typeId,
                     catId = category.id.absoluteValue,
                     grouping = viewModel.grouping,
                     groupingClause = viewModel.filterClause,
-                    groupingArgs = viewModel.whereFilter.value?.getSelectionArgs(true) ?: emptyArray(),
+                    groupingArgs = viewModel.whereFilter.value?.getSelectionArgs(true)?.toList() ?: emptyList(),
                     label = if (category.level == 0) accountInfo.label(this, currencyContext) else category.label,
                     type = incomeType,
                     aggregateNeutral = viewModel.aggregateNeutral.first(),
