@@ -168,6 +168,10 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
                 "${t(R.string.pref_translation_title)} : ${Locale("sv").displayLanguage}"
             )
 
+            "409" -> arrayOf(
+                "${t(R.string.pref_translation_title)} : ${Locale("id").displayLanguage}"
+            )
+
             else -> {
                 //noinspection DiscouragedApi
                 val resId = res.getIdentifier(
