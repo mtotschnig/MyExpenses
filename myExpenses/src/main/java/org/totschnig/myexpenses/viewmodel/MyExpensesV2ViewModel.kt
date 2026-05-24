@@ -31,8 +31,6 @@ import org.totschnig.myexpenses.compose.transactions.Action
 import org.totschnig.myexpenses.compose.transactions.FabStyle
 import org.totschnig.myexpenses.db2.setBalanceType
 import org.totschnig.myexpenses.dialog.MenuItem
-import org.totschnig.myexpenses.dialog.name
-import org.totschnig.myexpenses.dialog.valueOf
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
@@ -236,6 +234,12 @@ open class MyExpensesV2ViewModel(
                         filteredByGroupFilter
                     else
                         filteredByGroupFilter.filter { it.visible }
+
+                if (filteredByVisibility.none { it.accountId == selectedAccountId.value }) {
+                    filteredByVisibility.firstOrNull()?.let {
+                        selectAccount(it.id)
+                    }
+                }
 
                 if (filteredByGroupFilter.size < 2) {
                     filteredByVisibility
