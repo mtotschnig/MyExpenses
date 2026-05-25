@@ -66,7 +66,7 @@ class PlanInfoTest : BaseTemplateTest() {
             val planInfo = cursor.getString(cursor.getColumnIndexOrThrow(KEY_PLAN_INFO))
             with(getInstrumentation().targetContext) {
                 assertThat(planInfo).contains(when (planId) {
-                    dailyPlan.id -> getString(R.string.daily_plain)
+                    dailyPlan.id -> resources.getQuantityString(R.plurals.daily, 1, 1)
                     weeklyPlan.id -> getString(R.string.weekly_plain)
                     monthlyPlan.id -> getString(R.string.monthly_on_day, LocalDateTime.now().dayOfMonth)
                     else -> throw IllegalArgumentException()

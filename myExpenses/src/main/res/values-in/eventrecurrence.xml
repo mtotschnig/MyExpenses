@@ -23,7 +23,7 @@
     </plurals>
     <string name="every_weekday">"Setiap hari kerja (Sen–Jum)"</string>
     <plurals name="weekly">
-        <item quantity="other">Tiap %1$d minggu pada %2$s</item>
+        <item quantity="other">Mingguan pada %2$s</item>
     </plurals>
     <plurals name="monthly">
         <item quantity="other">Tiap %d bulan</item>

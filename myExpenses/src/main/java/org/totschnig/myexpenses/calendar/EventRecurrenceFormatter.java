@@ -164,11 +164,10 @@ public class EventRecurrenceFormatter
      */
     private static String dayToString(int day, int dayOfWeekLength) {
         String format;
-        switch(dayOfWeekLength) {
-        case DateUtils.LENGTH_MEDIUM:
-          format = "EEE";
-        default:
-          format = "EEEE";
+        if (dayOfWeekLength == DateUtils.LENGTH_MEDIUM) {
+            format = "EEE";
+        } else {
+            format = "EEEE";
         }
         Calendar c = Calendar.getInstance();
         c.set(Calendar.DAY_OF_WEEK, dayToUtilDay(day));
