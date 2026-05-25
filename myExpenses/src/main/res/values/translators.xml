@@ -213,6 +213,11 @@
         <item>HelaBasa</item>
     </string-array>
 
+    <string-array name="translators_sv">
+        <item>Kristoffer Grundström</item>
+        <item>Joel A</item>
+    </string-array>
+
     <string-array name="translators_ta">
         <item>Kaartic Sivaraam</item>
         <item>guruleninnbc01b4b6f821486e</item>

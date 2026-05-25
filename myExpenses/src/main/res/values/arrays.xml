@@ -117,6 +117,14 @@
         <item>keefeer</item>
     </string-array>
 
+    <string-array name="contributors_408" tools:ignore="UnusedResources">
+        <item>Kristoffer Grundström, Joel A</item>
+    </string-array>
+
+    <string-array name="contributors_409" tools:ignore="UnusedResources">
+        <item>Arif Budiman, Reza Almanda</item>
+    </string-array>
+
     <string-array name="comparison_operator_entries">
         <item>@string/comparison_operator_equal</item>
         <item>@string/comparison_operator_greater_than</item>
