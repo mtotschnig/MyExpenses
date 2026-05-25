@@ -36,7 +36,7 @@
         <item quantity="one">Årligen</item>
         <item quantity="other">Var %d:e år</item>
     </plurals>
-    <string name="monthly_on_day">"Varje månad (den <xliff:g id="DAY_OF_MONTH">%s</xliff:g>)"</string>
+    <string name="monthly_on_day">" (den <xliff:g id="DAY_OF_MONTH">%s</xliff:g>)"</string>
     <string name="yearly_on_day">" (den <xliff:g id="DATES">%s</xliff:g>)"</string>
     <string name="yearly_plain">Årligen</string>
     <string name="daily_plain">Dagligen</string>
