@@ -84,7 +84,7 @@
     <string name="dialog_remind_rate_yes">Rate now</string>
     <string name="dialog_security_answer">Answer</string>
     <string name="dialog_security_question">Question</string>
-    <!-- %1$s is replace with account label -->
+    <!-- %1$s is replaced with account label -->
     <string name="dialog_title_balance_account">Balance %1$s</string>
     <string name="dialog_title_contrib_feature">Premium feature</string>
     <plurals name="dialog_title_warning_delete_account">
