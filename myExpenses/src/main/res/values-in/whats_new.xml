@@ -1,3 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="whats_new_361_1">Daftar transaksi dapat diurutkan berdasarkan jumlah.</string>
+    <string name="whats_new_361_2">Berkas di folder aplikasi (cadangan dan ekspor) dapat dibagikan atau dihapus.</string>
+    <string name="whats_new_364_1">Impor ke beberapa akun dari satu berkas CSV</string>
+    <string name="whats_new_364_2">Strategi baru untuk mengelola informasi pembayar/penerima pembayaran yang duplikat</string>
+    <string name="whats_new_365">Lampirkan sejumlah gambar dan dokumen (PDF) tanpa batas.</string>
+    <string name="whats_new_366">Widget Layar Utama yang menampilkan kondisi anggaran saat ini.</string>
+    <string name="whats_new_367">Kategori kini dapat dikonfigurasi sebagai kategori pengeluaran atau pemasukan, yang akan memengaruhi cara jumlah pengeluaran dan pemasukan dihitung.</string>
+    <string name="whats_new_369_1">Transfer dapat dipetakan ke kategori.</string>
+    <string name="whats_new_369_2">Saat kunci layar diaktifkan, izinkan opsi untuk tidak menonaktifkan tangkapan layar.</string>
+    <string name="whats_new_370">Menu di layar utama dapat sepenuhnya disesuaikan.</string>
+    <string name="whats_new_374">Warna kustom untuk tag</string>
+    <string name="whats_new_376_1">Kloning beberapa transaksi dengan tanggal baru.</string>
+    <string name="whats_new_376_2">Antarmuka pengguna web dapat dikendalikan dari layar utama.</string>
+    <string name="whats_new_378">Bagan mengikuti filter pencarian.</string>
+    <string name="whats_new_382">Fitur %1$s dapat dipanggil dari widget %2$s.</string>
+    <string name="whats_new_384">Penyederhanaan pengaturan cadangan cloud</string>
+    <string name="whats_new_386">Distribusi per pengeluaran dan distribusi per pemasukan dapat ditampilkan bersama dalam bagan donat cincin ganda.</string>
+    <string name="whats_new_388">Transaksi dapat diarsipkan.</string>
+    <string name="whats_new_395">Berkas yang diekspor (PDF, cadangan, QIF, CSV, JSON) dapat diunduh melalui Antarmuka Pengguna Web.</string>
+    <string name="whats_new_396">Pengelolaan akun mata uang asing yang ditingkatkan dengan pembaruan kurs otomatis dan pelacakan nilai secara real-time.</string>
+    <string name="whats_new_398">Lihat aset, kewajiban, dan kekayaan bersih Anda — semuanya di satu tempat.</string>
+    <string name="whats_new_399">Tata letak ekspor PDF yang ditingkatkan, sepenuhnya dapat disesuaikan dengan drag-and-drop.</string>
+    <string name="whats_new_400_1">Bagan pai yang menampilkan distribusi uang antar akun</string>
+    <string name="whats_new_400_2">Riwayat Harga: Unduhan massal entri yang hilang</string>
+    <string name="whats_new_401">Daftar transaksi kini menampilkan lebih banyak detail untuk transaksi terpisah.</string>
+    <string name="whats_new_402">Jenis akun dapat disesuaikan</string>
+    <string name="whats_new_403">Penanda akun memperluas penyesuaian visibilitas dan prioritas akun.</string>
+    <string name="whats_new_407">Pengurutan alami untuk tag, kategori, akun, dan pihak.</string>
+    <string name="migration_v2_title">Selamat datang di V2!</string>
+    <string name="migration_v2_intro">Kami telah mendesain ulang My Expenses agar lebih mudah digunakan dan menawarkan lebih banyak fitur:</string>
+    <string name="migration_v2_feature_1">Navigasi Material Design modern</string>
+    <string name="migration_v2_feature_2">Pengelompokan dan total untuk penanda</string>
+    <string name="migration_v2_feature_3">Integrasi neraca yang ditingkatkan</string>
+    <string name="migration_v2_feature_4">Daftar akun yang lebih ringkas</string>
+    <string name="migration_v2_feature_5">…dan lebih banyak fitur akan segera hadir!</string>
+    <string name="migration_v2_footer">Anda dapat kembali ke desain lama di Pengaturan. Perlu diketahui bahwa V1 akan dihentikan secara bertahap pada pembaruan mendatang.</string>
+    <string name="migration_v2_opt_out_title">Beralih kembali ke V1?</string>
+    <string name="migration_v2_opt_out_warning">V1 akan dihentikan secara bertahap pada pembaruan mendatang. Kami ingin mengetahui apa yang tidak berfungsi agar kami dapat meningkatkan V2.</string>
+    <string name="migration_v2_feedback_title">Apa yang tidak berfungsi di V2?</string>
+    <string name="migration_v2_confirm_opt_out">Kembali ke V1</string>
 </resources>
