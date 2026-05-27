@@ -59,7 +59,7 @@ class ChangeLogGenerator {
             "ro",
             "ru-RU",
             "si-LK",
-            "sv",
+            "sv-SE",
             "ta-IN",
             "te-IN",
             "tr-TR",
@@ -71,7 +71,7 @@ class ChangeLogGenerator {
             buildString {
                 allLanguages.forEach { language ->
                     appendLine("<$language>")
-                    versionInfo.getChanges(wrap(context, Locale.forLanguageTag(language)))!!
+                    versionInfo.getChanges(wrap(context, Locale.forLanguageTag(language)), withContributors = false)!!
                         .forEach {
                             appendLine("• $it")
                         }

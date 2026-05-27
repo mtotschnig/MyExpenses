@@ -17,7 +17,7 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
 
     @IgnoredOnParcel
     val nameCondensed = name.replace(".", "")
-    fun getChanges(ctx: Context): Array<String>? {
+    fun getChanges(ctx: Context, withContributors: Boolean = true): Array<String>? {
         val res = ctx.resources
         fun t(resId: Int) = ctx.getString(resId)
         val changesArray = when (nameCondensed) {
@@ -187,7 +187,7 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
                 }
             }
         }
-        if (changesArray != null) {
+        if (changesArray != null && withContributors) {
             //noinspection DiscouragedApi
             val resId = res.getIdentifier("contributors_$nameCondensed", "array", ctx.packageName)
             if (resId != 0) {
