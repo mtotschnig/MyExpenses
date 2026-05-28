@@ -472,7 +472,7 @@ suspend fun Repository.loadTransactions(
     }
     //noinspection Recycle
     return contentResolver.query(
-        uriBuilderForTransactionList(accountId = accountId, currency = null)
+        uriBuilderForTransactionList(accountId = accountId)
             .build()
             .let { if (limit != null) it.withLimit(limit) else it },
         Transaction.projection.let { if (withTags) it + KEY_TAGLIST else it },

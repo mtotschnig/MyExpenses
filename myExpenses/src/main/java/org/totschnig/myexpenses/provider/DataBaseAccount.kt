@@ -26,7 +26,7 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
     fun uriForTransactionList(
         shortenComment: Boolean = false,
         extended: Boolean = true,
-    ): Uri = uriBuilderForTransactionList(id, currency, null, null,  null, shortenComment, extended).build()
+    ): Uri = uriBuilderForTransactionList(id, currency, typeId, flagId, accountGrouping, shortenComment, extended).build()
 
     companion object {
 
@@ -44,7 +44,7 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
 
         fun uriBuilderForTransactionList(
             accountId: Long,
-            currency: String?,
+            currency: String? = null,
             type: Long? = null,
             flag: Long? = null,
             accountGrouping: AccountGrouping<*>? = null,
