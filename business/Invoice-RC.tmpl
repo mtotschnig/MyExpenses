@@ -206,6 +206,7 @@
 \FPmul{\vatCalc}{\price}{\vatFraction}
 \FPadd{\total}{\price}{\vatCalc}
 
+\newcommand{\ifnotempty}[2]{\ifthenelse{\equal{#1}{}}{}{#2}}
 
 %---------------------------------------------------------------------------
 % Absender Daten
@@ -270,7 +271,13 @@ Solarisbank AG}
 %---------------------------------------------------------------------------
 % Hier beginnt der Brief, mit der Anschrift des Empfängers
 
-\begin{letter}{\kunde\\\kundeAddrA\\\kundeAddrB\\VAT-Number: \kundeVAT\\\countryName}
+\begin{letter}{%
+  \kunde
+  \ifnotempty{\kundeAddrA}{\\\kundeAddrA}%
+  \ifnotempty{\kundeAddrB}{\\\kundeAddrB}%
+  \ifnotempty{\kundeVAT}{\\VAT-Number: \kundeVAT}%
+  \ifnotempty{\country}{\\\countryName}%
+}
 %---------------------------------------------------------------------------
 % Der Betreff des Briefes
 \setkomavar{subject}{Invoice}

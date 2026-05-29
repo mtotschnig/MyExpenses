@@ -190,6 +190,9 @@
 
 % KUNDENDATEN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\kunde}{${KUNDE}}                                %
+\newcommand{\kundeAddrA}{${KUNDE_ADDR_A}}                    %
+\newcommand{\kundeAddrB}{${KUNDE_ADDR_B}}                    %
+\newcommand{\kundeVAT}{${KUNDE_VAT}}                         %
 \renewcommand{\country}{${COUNTRY}}                          %
 \setkomavar{invoice}{${NUMBER}}                              %
 % Rechnungs daten                                            %
@@ -203,6 +206,7 @@
 \FPmul{\vatCalc}{\price}{\vatFraction}
 \FPadd{\total}{\price}{\vatCalc}
 
+\newcommand{\ifnotempty}[2]{\ifthenelse{\equal{#1}{}}{}{#2}}
 
 %---------------------------------------------------------------------------
 % Absender Daten
@@ -267,7 +271,13 @@ Solarisbank AG}
 %---------------------------------------------------------------------------
 % Hier beginnt der Brief, mit der Anschrift des Empfängers
 
-\begin{letter}{\kunde\\\countryName}
+\begin{letter}{%
+  \kunde
+  \ifnotempty{\kundeAddrA}{\\\kundeAddrA}%
+  \ifnotempty{\kundeAddrB}{\\\kundeAddrB}%
+  \ifnotempty{\kundeVAT}{\\VAT-Number: \kundeVAT}%
+  \\\countryName
+}
 %---------------------------------------------------------------------------
 % Der Betreff des Briefes
 \setkomavar{subject}{Invoice}
