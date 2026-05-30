@@ -33,8 +33,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
@@ -51,7 +52,6 @@ import org.totschnig.myexpenses.feature.IWebInputService.Companion.log
 import org.totschnig.myexpenses.feature.OcrFeature
 import org.totschnig.myexpenses.feature.RESTART_ACTION
 import org.totschnig.myexpenses.feature.START_ACTION
-import org.totschnig.myexpenses.feature.STOP_ACTION
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Grouping
@@ -190,36 +190,31 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
     }
 
     override fun onCreate(owner: LifecycleOwner) {
-        val isWebUiDesired = dataStore.isWebUiActive
-        val isForeground = owner.lifecycle.currentStateFlow
-            .map { it.isAtLeast(Lifecycle.State.STARTED) }
-            .distinctUntilChanged()
 
         MainScope().launch {
-            var isFirstEmission = true
-            combine(isWebUiDesired, isForeground) { desired, foreground ->
-                desired to foreground
-            }.collect { (desired, foreground) ->
-                if (desired) {
-                    if (foreground) {
-                        if (initialLaunchWasForSystemPreferences) {
-                            log("Suppressing WebUI start")
+            dataStore.isWebUiActive.distinctUntilChanged().collectLatest { isDesired ->
+                if (isDesired) {
+                    // WAIT until the app is in the foreground before starting.
+                    // This satisfies the Android 12+ background start restriction.
+                    owner.lifecycle.currentStateFlow
+                        .map { it.isAtLeast(Lifecycle.State.STARTED) }
+                        .distinctUntilChanged()
+                        .first { it }
+
+                    if (initialLaunchWasForSystemPreferences) {
+                        log("Suppressing WebUI start")
+                    } else {
+                        if (licenceHandler.hasTrialAccessTo(ContribFeature.WEB_UI)) {
+                            controlWebUi(START_ACTION)
                         } else {
-                            if (licenceHandler.hasTrialAccessTo(ContribFeature.WEB_UI)) {
-                                controlWebUi(START_ACTION)
-                            } else {
-                                disableWebUi()
-                                ContribUtils.showContribNotification(
-                                    this@MyApplication,
-                                    ContribFeature.WEB_UI
-                                )
-                            }
+                            disableWebUi()
+                            ContribUtils.showContribNotification(
+                                this@MyApplication,
+                                ContribFeature.WEB_UI
+                            )
                         }
                     }
-                } else if (!isFirstEmission) {
-                    controlWebUi(STOP_ACTION)
                 }
-                isFirstEmission = false
             }
         }
     }

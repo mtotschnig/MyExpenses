@@ -73,7 +73,6 @@ import org.totschnig.myexpenses.feature.IWebInputService
 import org.totschnig.myexpenses.feature.IWebInputService.Companion.log
 import org.totschnig.myexpenses.feature.RESTART_ACTION
 import org.totschnig.myexpenses.feature.START_ACTION
-import org.totschnig.myexpenses.feature.STOP_ACTION
 import org.totschnig.myexpenses.feature.ServerStateObserver
 import org.totschnig.myexpenses.feature.WebUiBinder
 import org.totschnig.myexpenses.model.ContribFeature
@@ -177,6 +176,16 @@ class WebInputService : LifecycleService(), IWebInputService {
             started = SharingStarted.Eagerly,
             initialValue = emptyMap()
         )
+
+        lifecycleScope.launch {
+            dataStore.isWebUiActive.collect {
+                active -> if (!active) {
+                    log("DataStore signaled stop. Shutting down.")
+                stopServer()
+                stopSelf()
+                }
+            }
+        }
     }
 
     override fun onBind(intent: Intent): IBinder {
@@ -385,15 +394,6 @@ class WebInputService : LifecycleService(), IWebInputService {
         }
         if (action == STOP_CLICK_ACTION) {
             switchOff()
-        } else if (action == STOP_ACTION) {
-            lifecycleScope.launch {
-                startupMutex.withLock {
-                    if (stopServer()) {
-                        serverStateObserver?.onStopped()
-                    }
-                    stopSelf()
-                }
-            }
         }
         return START_NOT_STICKY
     }
@@ -411,7 +411,6 @@ class WebInputService : LifecycleService(), IWebInputService {
     private fun switchOff() {
         lifecycleScope.launch {
             dataStore.setWebUiActive(false)
-            stopSelf()
         }
     }
 
@@ -670,6 +669,7 @@ class WebInputService : LifecycleService(), IWebInputService {
         server = null
         serverAddress = null
         ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE)
+        serverStateObserver?.onStopped()
         true
     } else false
 

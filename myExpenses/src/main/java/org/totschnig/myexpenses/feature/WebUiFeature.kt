@@ -4,7 +4,6 @@ import android.os.Binder
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 
-const val STOP_ACTION = "STOP_ACTION"
 const val START_ACTION = "START_ACTION"
 const val RESTART_ACTION = "RESTART_ACTION"
 
