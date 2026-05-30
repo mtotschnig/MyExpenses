@@ -178,11 +178,13 @@ class WebInputService : LifecycleService(), IWebInputService {
         )
 
         lifecycleScope.launch {
-            dataStore.isWebUiActive.collect {
-                active -> if (!active) {
+            dataStore.isWebUiActive.collect { active ->
+                if (!active) {
                     log("DataStore signaled stop. Shutting down.")
-                stopServer()
-                stopSelf()
+                    startupMutex.withLock {
+                        stopServer()
+                        stopSelf()
+                    }
                 }
             }
         }
