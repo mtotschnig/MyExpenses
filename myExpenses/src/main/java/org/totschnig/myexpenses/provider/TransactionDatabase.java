@@ -130,6 +130,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_UUID + " text, "
           + KEY_ORIGINAL_AMOUNT + " integer, "
           + KEY_ORIGINAL_CURRENCY + " text, "
+          + KEY_COMMODITY + " text, "
           + KEY_DEBT_ID + " integer references " + TABLE_DEBTS + "(" + KEY_ROWID + ") ON DELETE SET NULL);";
 
   public TransactionDatabase(@NonNull Context context, @NonNull PrefHandler prefHandler) {
@@ -217,6 +218,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_DEFAULT_ACTION + " text not null check (" + KEY_DEFAULT_ACTION + " in (" + Template.Action.JOIN + ")) default '" + Template.Action.SAVE.name() + "', "
           + KEY_ORIGINAL_AMOUNT + " integer, "
           + KEY_ORIGINAL_CURRENCY + " text, "
+          + KEY_COMMODITY + " text, "
           + KEY_DEBT_ID + " integer references " + TABLE_DEBTS + "(" + KEY_ROWID + ") ON DELETE SET NULL);";
 
   private static final String EVENT_CACHE_CREATE =
@@ -251,7 +253,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           KEY_GROUPING + " text not null check (" + KEY_GROUPING + " in (" + Grouping.JOIN + ")) default '" + Grouping.NONE.name() + "'," +
           KEY_SORT_BY + " text default 'date', " +
           KEY_SORT_DIRECTION + " text not null check (" + KEY_SORT_DIRECTION + " in ('ASC','DESC')) default 'DESC'," +
-          KEY_LABEL + " text);";
+          KEY_LABEL + " text," +
+          KEY_FRACTION_DIGITS + " integer," +
+          KEY_SYMBOL + " text," +
+          KEY_COMMODITY_TYPE + " text);";
 
   /**
    * in this table we store links between plan instances and transactions,
@@ -284,6 +289,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           + KEY_PAYEEID + " integer references " + TABLE_PAYEES + "(" + KEY_ROWID + ") ON DELETE SET NULL, "
           + KEY_TRANSFER_ACCOUNT + " integer references " + TABLE_ACCOUNTS + "(" + KEY_ROWID + ") ON DELETE SET NULL,"
           + KEY_METHODID + " integer references " + TABLE_METHODS + "(" + KEY_ROWID + ") ON DELETE SET NULL,"
+          + KEY_COMMODITY + " text,"
           + KEY_CR_STATUS + " text check (" + KEY_CR_STATUS + " in (" + CrStatus.JOIN + ")),"
           + KEY_STATUS + " integer default 0, "
           + KEY_REFERENCE_NUMBER + " text);";
@@ -2093,6 +2099,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
       if (oldVersion < 185) {
         upgradeTo185(db);
+      }
+
+      if (oldVersion < 186) {
+        upgradeTo186(db);
       }
 
       TransactionProvider.resumeChangeTrigger(db);

@@ -31,6 +31,7 @@ const val PREDEFINED_NAME_CCARD = "_CCARD_"
 const val PREDEFINED_NAME_ASSET = "_ASSET_"
 const val PREDEFINED_NAME_LIABILITY = "_LIABILITY_"
 const val PREDEFINED_NAME_INVESTMENT = "_INVST_"
+const val PREDEFINED_NAME_PORTFOLIO = "_PORTFOLIO_"
 
 @Parcelize
 data class AccountType(
@@ -63,6 +64,9 @@ data class AccountType(
     val isCashAccount: Boolean
         get() = name == PREDEFINED_NAME_CASH
 
+    val isPortfolio: Boolean
+        get() = name == PREDEFINED_NAME_PORTFOLIO
+
     override fun title(context: Context) = when (name) {
         PREDEFINED_NAME_CASH -> R.string.account_type_cash
         PREDEFINED_NAME_BANK -> R.string.account_type_bank
@@ -70,6 +74,7 @@ data class AccountType(
         PREDEFINED_NAME_ASSET -> R.string.account_type_asset
         PREDEFINED_NAME_LIABILITY -> R.string.account_type_liability
         PREDEFINED_NAME_INVESTMENT -> R.string.account_type_investment
+        PREDEFINED_NAME_PORTFOLIO -> R.string.account_type_portfolio
         else -> 0
     }.takeIf { it != 0 }?.let { context.getString(it) } ?: name
 
@@ -97,8 +102,10 @@ data class AccountType(
         val CCARD = AccountType(name = PREDEFINED_NAME_CCARD, isAsset = false, supportsReconciliation = true, sortKey = 0)
         val LIABILITY =
             AccountType(name = PREDEFINED_NAME_LIABILITY, isAsset = false, supportsReconciliation = true, sortKey = -1)
+        val PORTFOLIO =
+            AccountType(name = PREDEFINED_NAME_PORTFOLIO, isAsset = true, supportsReconciliation = false, sortKey = -2)
 
-        val initialAccountTypes = listOf(CASH, BANK, CCARD, ASSET, LIABILITY, INVESTMENT)
+        val initialAccountTypes = listOf(CASH, BANK, CCARD, ASSET, LIABILITY, INVESTMENT, PORTFOLIO)
 
         fun fromCursor(cursor: Cursor) = AccountType(
             id = cursor.getLong(KEY_ROWID),

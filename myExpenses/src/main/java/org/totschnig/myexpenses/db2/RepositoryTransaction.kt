@@ -23,6 +23,7 @@ import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_CATID
 import org.totschnig.myexpenses.provider.KEY_COMMENT
 import org.totschnig.myexpenses.provider.KEY_CR_STATUS
+import org.totschnig.myexpenses.provider.KEY_COMMODITY
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.provider.KEY_DEBT_ID
@@ -104,6 +105,7 @@ fun Transaction.asContentValues(
     put(KEY_REFERENCE_NUMBER, referenceNumber)
     put(KEY_ORIGINAL_AMOUNT, originalAmount)
     put(KEY_ORIGINAL_CURRENCY, originalCurrency)
+    put(KEY_COMMODITY, commodity)
     put(KEY_EQUIVALENT_AMOUNT, equivalentAmount)
     put(KEY_DEBT_ID, debtId?.takeIf { it > 0L })
     if (withUuid) {

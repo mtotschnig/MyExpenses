@@ -175,6 +175,7 @@ object TransactionMapper {
             transferPeerId = transactionEditData.transferEditData?.transferPeer,
             debtId = transactionEditData.debtId,
             currency = transactionEditData.amount.currencyUnit.code,
+            commodity = transactionEditData.amount.currencyUnit.code,
             tagList = transactionEditData.tags.map { it.id }
         )
         val transferPeer = transactionEditData.transferEditData?.let { transferEditData ->
@@ -225,7 +226,8 @@ object TransactionMapper {
                 ?: false,
             planExecutionAdvance = templateEditData.planEditData?.planExecutionAdvance ?: 0,
             debtId = transactionEditData.debtId,
-            currency = transactionEditData.amount.currencyUnit.code
+            currency = transactionEditData.amount.currencyUnit.code,
+            commodity = transactionEditData.amount.currencyUnit.code
         )
         return RepositoryTemplate(
             data = template,

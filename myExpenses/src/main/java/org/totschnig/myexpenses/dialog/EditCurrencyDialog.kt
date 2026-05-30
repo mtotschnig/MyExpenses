@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.viewmodel.data.Currency
 import java.util.*
 import javax.inject.Inject
 import kotlin.math.abs
+
 class EditCurrencyDialog : DialogViewBinding<EditCurrencyBinding>() {
     @Inject
     lateinit var currencyContext: CurrencyContext

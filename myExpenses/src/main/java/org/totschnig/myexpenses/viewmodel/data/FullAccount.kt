@@ -246,13 +246,14 @@ data class FullAccount(
                 .takeIf { it == KEY_DATE || it == KEY_AMOUNT }
                 ?: KEY_DATE
             val id = getLong(KEY_ROWID)
+            val accountType = AccountType.fromAccountCursor(this)
             return FullAccount(
                 id = id,
                 label = getString(KEY_LABEL),
                 description = getStringOrNull(KEY_DESCRIPTION),
                 currencyUnit = currencyContext[getString(KEY_CURRENCY)],
                 color = getInt(KEY_COLOR),
-                type = AccountType.fromAccountCursor(this),
+                type = accountType,
                 flag = AccountFlag.fromAccountCursor(this),
                 sealed = getInt(KEY_SEALED) == 1,
                 openingBalance = getLong(KEY_OPENING_BALANCE),
@@ -289,7 +290,7 @@ data class FullAccount(
                 dynamic = getBoolean(KEY_DYNAMIC),
                 balanceType = getEnumIfExists(KEY_BALANCE_TYPE, BalanceType.CURRENT),
                 //in V2 this is only called for real accounts, in V1 we need to set isSingleCurrency to false for home aggregate
-                isSingleCurrency = !isHomeAggregate(id)
+                isSingleCurrency = !isHomeAggregate(id) && !accountType.isPortfolio
             )
         }
     }

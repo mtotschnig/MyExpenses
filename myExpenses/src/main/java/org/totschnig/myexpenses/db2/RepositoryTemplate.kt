@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_CATID
+import org.totschnig.myexpenses.provider.KEY_COMMODITY
 import org.totschnig.myexpenses.provider.KEY_COLOR
 import org.totschnig.myexpenses.provider.KEY_COMMENT
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
@@ -81,6 +82,7 @@ fun Template.asContentValues(forInsert: Boolean): ContentValues {
         put(KEY_DEFAULT_ACTION, defaultAction.name)
         put(KEY_ORIGINAL_AMOUNT, originalAmount)
         put(KEY_ORIGINAL_CURRENCY, originalCurrency)
+        put(KEY_COMMODITY, currency)
         put(KEY_DEBT_ID, debtId)
         if (forInsert) {
             require(uuid.isNotBlank())

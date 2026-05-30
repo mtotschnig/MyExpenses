@@ -30,7 +30,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 import kotlin.math.pow
 
-const val DATABASE_VERSION = 185
+const val DATABASE_VERSION = 186
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -1186,6 +1186,27 @@ abstract class BaseTransactionDatabase(
 
     fun SupportSQLiteDatabase.upgradeTo185() {
         execSQL("ALTER TABLE accounts ADD COLUMN balance_type text not null check (balance_type in ('CURRENT','TOTAL','CLEARED','RECONCILED','DELTA')) default 'CURRENT'")
+    }
+
+    fun SupportSQLiteDatabase.upgradeTo186() {
+        // 1. Enhance currency table for custom asset metadata
+        execSQL("ALTER TABLE $TABLE_CURRENCIES ADD COLUMN $KEY_FRACTION_DIGITS integer")
+        execSQL("ALTER TABLE $TABLE_CURRENCIES ADD COLUMN $KEY_SYMBOL text")
+        execSQL("ALTER TABLE $TABLE_CURRENCIES ADD COLUMN $KEY_COMMODITY_TYPE text")
+
+        // 2. Add commodity column to transactions, templates, and changes
+        val tablesToUpdate = listOf(TABLE_TRANSACTIONS, TABLE_TEMPLATES, TABLE_CHANGES)
+        tablesToUpdate.forEach { table ->
+            execSQL("ALTER TABLE $table ADD COLUMN $KEY_COMMODITY text")
+            // Initialize existing records with the account's fixed currency
+            execSQL("""
+            UPDATE $table
+            SET $KEY_COMMODITY = (SELECT $KEY_CURRENCY FROM $TABLE_ACCOUNTS WHERE $TABLE_ACCOUNTS.$KEY_ROWID = $table.$KEY_ACCOUNTID)
+        """.trimIndent())
+        }
+
+        // 3. Insert Portfolio account type
+        insert(TABLE_ACCOUNT_TYPES, SQLiteDatabase.CONFLICT_NONE, AccountType.PORTFOLIO.asContentValues)
     }
 
     protected fun SupportSQLiteDatabase.createOrRefreshAccountTriggers() {

@@ -5,6 +5,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_CATID
+import org.totschnig.myexpenses.provider.KEY_COMMODITY
 import org.totschnig.myexpenses.provider.KEY_COMMENT
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_DEBT_ID
@@ -66,6 +67,7 @@ data class Template(
     val categoryIcon: String? = null,
     val sealed: Boolean = false,
     val currency: String? = null,
+    val commodity: String? = null,
     val payeeName: String? = null,
     val methodLabel: String? = null,
     val transferAccountCurrency: String? = null,
@@ -93,6 +95,7 @@ data class Template(
         payeeId = payeeId,
         categoryPath = categoryPath,
         currency = currency,
+        commodity = commodity,
         payeeName = payeeName,
         methodLabel = methodLabel,
         uuid = uuid,
@@ -115,6 +118,7 @@ data class Template(
                 methodLabel = methodLabel,
                 transferAccountId = transferAccountId,
                 currency = currency,
+                commodity = commodity,
                 tagList = transaction.tagList,
                 debtId = debtId,
                 uuid = uuid
@@ -146,6 +150,7 @@ data class Template(
                 categoryIcon = getStringOrNull(KEY_ICON),
                 sealed = getBoolean(KEY_SEALED),
                 currency = getStringOrNull(KEY_CURRENCY),
+                commodity = getStringOrNull(KEY_COMMODITY),
                 payeeName = getStringOrNull(KEY_PAYEE_NAME),
                 transferAccountCurrency = getStringOrNull(KEY_TRANSFER_ACCOUNT_CURRENCY)
             )

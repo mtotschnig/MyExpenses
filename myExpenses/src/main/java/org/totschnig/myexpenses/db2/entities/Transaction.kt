@@ -5,6 +5,7 @@ import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_CATID
+import org.totschnig.myexpenses.provider.KEY_COMMODITY
 import org.totschnig.myexpenses.provider.KEY_COMMENT
 import org.totschnig.myexpenses.provider.KEY_CR_STATUS
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
@@ -118,6 +119,11 @@ data class Transaction(
     val currency: String? = null,
 
     /**
+     * Commodity of the transaction (Portfolios)
+     */
+    val commodity: String? = null,
+
+    /**
      * Read-only property holding sealed state of account
      */
     val sealed: Boolean = false,
@@ -169,6 +175,7 @@ data class Transaction(
             KEY_UUID,
             KEY_EQUIVALENT_AMOUNT,
             KEY_CURRENCY,
+            KEY_COMMODITY,
             KEY_SEALED,
             KEY_PAYEE_NAME,
             KEY_STATUS,
@@ -204,6 +211,7 @@ data class Transaction(
                 uuid = getString(KEY_UUID),
                 equivalentAmount = getLongOrNull(KEY_EQUIVALENT_AMOUNT),
                 currency = getStringOrNull(KEY_CURRENCY),
+                commodity = getStringOrNull(KEY_COMMODITY),
                 sealed = getBoolean(KEY_SEALED),
                 payeeName = getStringOrNull(KEY_PAYEE_NAME),
                 status = getInt(KEY_STATUS),
