@@ -98,7 +98,7 @@ import org.totschnig.myexpenses.compose.TEST_TAG_ACCOUNT_LABEL
 import org.totschnig.myexpenses.compose.TEST_TAG_BALANCE_AMOUNT
 import org.totschnig.myexpenses.compose.TEST_TAG_BALANCE_HEADER
 import org.totschnig.myexpenses.compose.TEST_TAG_CAB
-import org.totschnig.myexpenses.compose.TEST_TAG_FAB
+import org.totschnig.myexpenses.compose.TEST_TAG_FAB_TRANSACTIONS
 import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
 import org.totschnig.myexpenses.compose.TooltipIconButton
 import org.totschnig.myexpenses.compose.accounts.AccountIndicator
@@ -325,7 +325,7 @@ fun TransactionScreen(
             if (currentAccount is FullAccount && (currentAccount as FullAccount).sealed) {
                 FloatingActionButton(
                     onClick = { },
-                    modifier = Modifier.testTag(TEST_TAG_FAB),
+                    modifier = Modifier.testTag(TEST_TAG_FAB_TRANSACTIONS),
                     containerColor = MaterialTheme.colorScheme.surfaceVariant,
                     contentColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f),
                     elevation = FloatingActionButtonDefaults.elevation(

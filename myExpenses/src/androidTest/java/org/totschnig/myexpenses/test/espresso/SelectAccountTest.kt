@@ -1,9 +1,12 @@
 package org.totschnig.myexpenses.test.espresso
 
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.TEST_TAG_FAB_TRANSACTIONS
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.updateAccount
 import org.totschnig.myexpenses.model2.Account
@@ -112,7 +115,7 @@ class SelectAccountTest : BaseMyExpensesTest() {
         composeTestRule.waitForIdle()
         assertDataSize(expectedAccountCount)
         checkTitle(accountLabelForList.value, currencyContext[currencyForTitle])
-        clickFabCompose()
+        composeTestRule.onNodeWithTag(TEST_TAG_FAB_TRANSACTIONS).performClick()
         checkAccount(accountForForm.label)
     }
 }

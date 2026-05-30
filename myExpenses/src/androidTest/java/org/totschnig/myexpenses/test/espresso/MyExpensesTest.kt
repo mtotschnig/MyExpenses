@@ -49,6 +49,8 @@ import org.totschnig.myexpenses.compose.TEST_TAG_ACCOUNTS
 import org.totschnig.myexpenses.compose.TEST_TAG_BALANCE_HEADER
 import org.totschnig.myexpenses.compose.TEST_TAG_DELETE_ACCOUNT
 import org.totschnig.myexpenses.compose.TEST_TAG_EDIT_ACCOUNT
+import org.totschnig.myexpenses.compose.TEST_TAG_FAB_ACCOUNTS
+import org.totschnig.myexpenses.compose.TEST_TAG_FAB_TRANSACTIONS
 import org.totschnig.myexpenses.compose.TEST_TAG_OVERFLOW_MENU
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.loadAccount
@@ -95,7 +97,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
 
     @Test
     fun floatingActionButtonOpensForm() {
-        clickFabCompose()
+        composeTestRule.onNodeWithTag(TEST_TAG_FAB_TRANSACTIONS).performClick()
         intended(hasComponent(ExpenseEdit::class.java.name))
         pressBack()
     }
@@ -161,7 +163,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
     @Test
     fun newAccountShowNew() {
         navigateToAccounts()
-        clickFabCompose()
+        composeTestRule.onNodeWithTag(TEST_TAG_FAB_ACCOUNTS).performClick()
         onView(withText(R.string.menu_create_account))
             .perform(click())
         intended(

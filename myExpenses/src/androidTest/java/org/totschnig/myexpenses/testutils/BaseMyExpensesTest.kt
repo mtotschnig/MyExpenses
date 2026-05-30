@@ -23,10 +23,11 @@ import androidx.test.espresso.IdlingResource
 import org.junit.After
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyExpensesV2
+import org.totschnig.myexpenses.compose.TEST_TAG_ACCOUNTS
 import org.totschnig.myexpenses.compose.TEST_TAG_ACCOUNT_LABEL
 import org.totschnig.myexpenses.compose.TEST_TAG_BALANCE_AMOUNT
+import org.totschnig.myexpenses.compose.TEST_TAG_BALANCE_HEADER
 import org.totschnig.myexpenses.compose.TEST_TAG_DIALOG
-import org.totschnig.myexpenses.compose.TEST_TAG_FAB
 import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.compose.TEST_TAG_NAV_ACCOUNTS
 import org.totschnig.myexpenses.compose.TEST_TAG_NAV_OVERFLOW
@@ -164,15 +165,15 @@ abstract class BaseMyExpensesTest : BaseComposeTest<MyExpensesV2>() {
         composeTestRule.onNodeWithTag(TEST_TAG_BALANCE_AMOUNT, useUnmergedTree = true).assertTextEquals(balance)
     }
 
-    fun clickFabCompose() {
-        composeTestRule.onNodeWithTag(TEST_TAG_FAB).performClick()
-    }
-
     fun navigateToAccounts() {
-        composeTestRule.onNodeWithTag(TEST_TAG_NAV_ACCOUNTS).performClick()
+        if (composeTestRule.onAllNodesWithTag(TEST_TAG_ACCOUNTS).fetchSemanticsNodes().isEmpty()) {
+            composeTestRule.onNodeWithTag(TEST_TAG_NAV_ACCOUNTS).performClick()
+        }
     }
 
     fun navigateToTransactions() {
-        composeTestRule.onNodeWithTag(TEST_TAG_NAV_TRANSACTIONS).performClick()
+        if (composeTestRule.onAllNodesWithTag(TEST_TAG_BALANCE_HEADER).fetchSemanticsNodes().isEmpty()) {
+            composeTestRule.onNodeWithTag(TEST_TAG_NAV_TRANSACTIONS).performClick()
+        }
     }
 }

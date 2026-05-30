@@ -44,7 +44,7 @@ import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BalanceSheetOptions
 import org.totschnig.myexpenses.activity.BalanceSheetViewInner
-import org.totschnig.myexpenses.compose.TEST_TAG_FAB
+import org.totschnig.myexpenses.compose.TEST_TAG_FAB_ACCOUNTS
 import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.main.AppEventHandler
 import org.totschnig.myexpenses.model.AccountFlag
@@ -145,7 +145,7 @@ fun AccountsScreen(
         bottomBar = bottomBar,
         floatingActionButton = {
             FloatingActionButton(
-                modifier = Modifier.testTag(TEST_TAG_FAB),
+                modifier = Modifier.testTag(TEST_TAG_FAB_ACCOUNTS),
                 onClick = { onEvent(AppEvent.CreateAccount) },
                 containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
                 elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
