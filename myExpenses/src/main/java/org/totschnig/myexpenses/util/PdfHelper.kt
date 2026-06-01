@@ -76,6 +76,9 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
                             && !filename.startsWith("NEX-")
                             //seen on Pixel with Android 15 Beta
                             && filename != "NotoSansCJK-Regular.ttc"
+                            //variable fonts are not supported by iText
+                            && !filename.contains("VF.ttf")
+                            && !filename.contains("VF.ttc")
                             //cannot be embedded due to licensing restrictions: report 55cdc91d2279b63b23419bc9cec1a21d
                             && filename != "Kindle_Symbol.ttf"
 
@@ -194,6 +197,10 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
             FontType.BALANCE_SECTION -> Phrase(text, fBalanceSection)
             FontType.BALANCE_CHAPTER -> Phrase(text, fBalanceChapter)
         }
+
+    fun reportMissingCharacters() {
+        lfs?.reportMissingCharacters()
+    }
 
     fun emptyCell(border: Int = Rectangle.NO_BORDER) = PdfPCell().apply {
         this.border = border

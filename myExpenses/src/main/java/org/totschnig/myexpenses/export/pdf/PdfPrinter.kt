@@ -262,6 +262,7 @@ object PdfPrinter {
                         null
                     )!!
                 }
+                helper.reportMissingCharacters()
             } finally {
                 document.close()
             }
