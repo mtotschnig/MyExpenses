@@ -76,6 +76,9 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
                             && !filename.startsWith("NEX-")
                             //seen on Pixel with Android 15 Beta
                             && filename != "NotoSansCJK-Regular.ttc"
+                            //variable fonts are not supported by iText
+                            && !filename.contains("VF.ttf")
+                            && !filename.contains("VF.ttc")
                             //cannot be embedded due to licensing restrictions: report 55cdc91d2279b63b23419bc9cec1a21d
                             && filename != "Kindle_Symbol.ttf"
 

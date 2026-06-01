@@ -8,7 +8,7 @@ import com.itextpdf.text.Font
 import com.itextpdf.text.Utilities
 import com.itextpdf.text.error_messages.MessageLocalization
 import com.itextpdf.text.pdf.BaseFont
-import org.totschnig.myexpenses.BuildConfig
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
@@ -60,7 +60,7 @@ class LazyFontSelector(val files: Array<File>, private val baseSize: Float) {
         }
     }
 
-    private var baseFonts: ArrayList<BaseFont> = ArrayList()
+    private var baseFonts: ArrayList<BaseFont?> = ArrayList()
     private var currentFont: Font? = null
 
     /**
@@ -85,9 +85,13 @@ class LazyFontSelector(val files: Array<File>, private val baseSize: Float) {
                 }
             }
             if (sb.isNotEmpty()) {
+                val fontWithFallback = currentFont ?: (files.indices).firstNotNullOfOrNull { getFont(it, type) }
+                if (fontWithFallback == null) {
+                    throw IOException("No working fonts found")
+                }
                 val ck = Chunk(
                     sb.toString(),
-                    currentFont ?: getFont(0, type)
+                    fontWithFallback
                 )
                 add(ck)
             }
@@ -106,7 +110,7 @@ class LazyFontSelector(val files: Array<File>, private val baseSize: Float) {
             if (Utilities.isSurrogatePair(cc, start)) {
                 val u = Utilities.convertToUtf32(cc, start)
                 for (f in files.indices) {
-                    font = getFont(f, type)
+                    font = getFont(f, type) ?: continue
                     if (font.baseFont.charExists(u)
                         || Character.getType(u) == Character.FORMAT.toInt()
                     ) {
@@ -125,7 +129,7 @@ class LazyFontSelector(val files: Array<File>, private val baseSize: Float) {
             } else {
                 var found = false
                 for (f in files.indices) {
-                    font = getFont(f, type)
+                    font = getFont(f, type) ?: continue
                     if (font.baseFont.charExists(c.code)
                         || Character.getType(c) == Character.FORMAT.toInt()
                     ) {
@@ -142,26 +146,30 @@ class LazyFontSelector(val files: Array<File>, private val baseSize: Float) {
                         break
                     }
                 }
-                if (!found && BuildConfig.DEBUG) {
-                    Timber.d("Character %c was not found in any fonts", c)
+                if (!found) {
+                    CrashHandler.report(Exception("Character $c was not found in any fonts"))
                 }
             }
         }
         return newChunk
     }
 
-    @Throws(DocumentException::class, IOException::class)
-    private fun getBaseFont(index: Int): BaseFont {
+    private fun getBaseFont(index: Int): BaseFont? {
         if (baseFonts.size < index + 1) {
             var file = files[index].absolutePath
             if (file.endsWith("ttc")) {
                 file += ",0"
             }
             Timber.i("now loading font file %s", file)
-            val bf = BaseFont.createFont(
-                file, BaseFont.IDENTITY_H,
-                BaseFont.EMBEDDED
-            )
+            val bf = try {
+                BaseFont.createFont(
+                    file, BaseFont.IDENTITY_H,
+                    BaseFont.EMBEDDED
+                )
+            } catch (e: Exception) {
+                CrashHandler.report(e)
+                null
+            }
             baseFonts.add(bf)
             return bf
         } else {
@@ -169,7 +177,8 @@ class LazyFontSelector(val files: Array<File>, private val baseSize: Float) {
         }
     }
 
-    @Throws(DocumentException::class, IOException::class)
-    private fun getFont(index: Int, type: FontType) =
-        type.getFont(index) ?: type.addFont(index, getBaseFont(index), baseSize)
+    private fun getFont(index: Int, type: FontType): Font? {
+        type.getFont(index)?.let { return it }
+        return getBaseFont(index)?.let { type.addFont(index, it, baseSize) }
+    }
 }
