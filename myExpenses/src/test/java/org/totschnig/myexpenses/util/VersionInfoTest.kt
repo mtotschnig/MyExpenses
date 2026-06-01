@@ -35,6 +35,7 @@ class VersionInfoTest {
     @Test
     fun testVersionLinksForCurrentVersion() {
         Assume.assumeFalse(BuildConfig.BETA)
+        if (currentVersion.tickets != null) return
         val context = ApplicationProvider.getApplicationContext<Application>()
         urlReachable(currentVersion.githubUrl(context)!!)
         val mastodonUrl = currentVersion.mastodonUrl(context)

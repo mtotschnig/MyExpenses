@@ -11,13 +11,21 @@ import org.totschnig.myexpenses.util.localizedQuote
 import java.util.Locale
 
 @Parcelize
-class VersionInfo(val code: Int, val name: String) : Parcelable {
+class VersionInfo(val code: Int, val name: String, val tickets: String? = null) : Parcelable {
     constructor(packedInfo: String) : this(packedInfo.split(';'))
-    private constructor(parts: List<String>) : this(parts[0].toInt(), parts[1])
+    private constructor(parts: List<String>) : this(
+        parts[0].toInt(),
+        parts[1],
+        parts.getOrNull(2)
+    )
 
     @IgnoredOnParcel
     val nameCondensed = name.replace(".", "")
     fun getChanges(ctx: Context, withContributors: Boolean = true): Array<String>? {
+        if (tickets != null) {
+            return tickets.split(",").map { it.trim() }.filter { it.isNotEmpty() }
+                .map { if (it.all { c -> c.isDigit() }) "#$it" else it }.toTypedArray()
+        }
         val res = ctx.resources
         fun t(resId: Int) = ctx.getString(resId)
         val changesArray = when (nameCondensed) {
@@ -217,7 +225,7 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
     fun mastodonLink(context: Context) =
         resolveMoreInfo(context, "version_more_info_")?.let { context.getString(it) }
 
-    fun githubUrl(context: Context) = githubLink(context)?.let {
+    fun githubUrl(context: Context) = if (tickets != null) null else githubLink(context)?.let {
         (if (code < 740) "https://github.com/mtotschnig/MyExpenses/projects/" else "https://github.com/users/mtotschnig/projects/") + it
         }
 
