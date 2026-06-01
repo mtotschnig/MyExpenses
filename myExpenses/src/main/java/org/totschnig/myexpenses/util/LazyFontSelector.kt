@@ -147,7 +147,7 @@ class LazyFontSelector(val files: Array<File>, private val baseSize: Float) {
                     }
                 }
                 if (!found) {
-                    CrashHandler.report(Exception("Character $c was not found in any fonts"))
+                    Timber.w("Character U+%04X (%c) was not found in any fonts", c.code, c)
                 }
             }
         }
