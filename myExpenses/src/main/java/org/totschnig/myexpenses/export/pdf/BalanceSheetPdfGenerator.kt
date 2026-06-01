@@ -115,6 +115,7 @@ class BalanceSheetPdfGenerator(private val context: Context) {
                 paddingBottom = 0f
             )
             document.add(table)
+            helper.reportMissingCharacters()
         } finally {
             document.close()
         }

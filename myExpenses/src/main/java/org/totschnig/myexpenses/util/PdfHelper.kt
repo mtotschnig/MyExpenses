@@ -198,6 +198,10 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
             FontType.BALANCE_CHAPTER -> Phrase(text, fBalanceChapter)
         }
 
+    fun reportMissingCharacters() {
+        lfs?.reportMissingCharacters()
+    }
+
     fun emptyCell(border: Int = Rectangle.NO_BORDER) = PdfPCell().apply {
         this.border = border
     }

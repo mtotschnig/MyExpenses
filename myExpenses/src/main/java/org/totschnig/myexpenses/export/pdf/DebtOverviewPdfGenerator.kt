@@ -98,6 +98,7 @@ class DebtOverviewPdfGenerator(private val context: Context) {
                 incomeFontType = FontType.INCOME_BOLD
             )
             document.add(table)
+            helper.reportMissingCharacters()
         } finally {
             document.close()
         }
