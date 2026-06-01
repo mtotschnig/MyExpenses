@@ -86,7 +86,7 @@ class LazyFontSelector(val files: Array<File>, private val baseSize: Float) {
                 }
             }
             if (sb.isNotEmpty()) {
-                val fontWithFallback = currentFont ?: (files.indices).firstNotNullOfOrNull { getFont(it, type) }
+                val fontWithFallback = currentFont ?: files.indices.firstNotNullOfOrNull { getFont(it, type) }
                 if (fontWithFallback == null) {
                     throw IOException("No working fonts found")
                 }
@@ -102,15 +102,14 @@ class LazyFontSelector(val files: Array<File>, private val baseSize: Float) {
     @Throws(DocumentException::class, IOException::class)
     fun processChar(cc: CharArray, k: Int, sb: StringBuffer, type: FontType): Chunk? {
         if (k > 0 && Utilities.isSurrogatePair(cc, k - 1)) return null
-        val start = k
         var newChunk: Chunk? = null
-        val c = cc[start]
+        val c = cc[k]
         if (c == '\n' || c == '\r') {
             sb.append(c)
         } else {
             var font: Font?
-            if (Utilities.isSurrogatePair(cc, start)) {
-                val u = Utilities.convertToUtf32(cc, start)
+            if (Utilities.isSurrogatePair(cc, k)) {
+                val u = Utilities.convertToUtf32(cc, k)
                 var found = false
                 for (f in files.indices) {
                     font = getFont(f, type) ?: continue
@@ -125,7 +124,7 @@ class LazyFontSelector(val files: Array<File>, private val baseSize: Float) {
                             currentFont = font
                         }
                         sb.append(c)
-                        sb.append(cc[start + 1])
+                        sb.append(cc[k + 1])
                         found = true
                         break
                     }
