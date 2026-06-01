@@ -331,3 +331,7 @@ const val NULL_CHANGE_INDICATOR: String = "__NULL__"
 
 //METHOD names
 const val METHOD_TYPE_SORT: String = "typeSort"
+
+// currency/commodity table
+const val KEY_FRACTION_DIGITS: String = "fraction_digits"
+const val KEY_SYMBOL: String = "symbol"

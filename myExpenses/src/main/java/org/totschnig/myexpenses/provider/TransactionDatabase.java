@@ -251,7 +251,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
           KEY_GROUPING + " text not null check (" + KEY_GROUPING + " in (" + Grouping.JOIN + ")) default '" + Grouping.NONE.name() + "'," +
           KEY_SORT_BY + " text default 'date', " +
           KEY_SORT_DIRECTION + " text not null check (" + KEY_SORT_DIRECTION + " in ('ASC','DESC')) default 'DESC'," +
-          KEY_LABEL + " text);";
+          KEY_LABEL + " text," +
+          KEY_FRACTION_DIGITS + " integer," +
+          KEY_SYMBOL + " text," +
+          KEY_COMMODITY_TYPE + " text);";
 
   /**
    * in this table we store links between plan instances and transactions,
@@ -2093,6 +2096,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
       if (oldVersion < 185) {
         upgradeTo185(db);
+      }
+
+      if (oldVersion < 186) {
+        upgradeTo186(db);
       }
 
       TransactionProvider.resumeChangeTrigger(db);

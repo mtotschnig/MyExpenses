@@ -82,6 +82,7 @@ import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_EXCHANGE_RATE;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_EXCLUDE_FROM_TOTALS;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_FLAG;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_FLAG_SORT_KEY;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_FRACTION_DIGITS;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_GROUPING;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_IS_NUMBERED;
@@ -98,6 +99,7 @@ import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_SORT_DIRECTION;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_SORT_KEY;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_SUM;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_SYMBOL;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_SYNC_SEQUENCE_LOCAL;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_TAGID;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_TAGLIST;
@@ -792,7 +794,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       case CURRENCIES:
         if (projection == null) {
           projection = new String[] {
-              KEY_ROWID, KEY_CODE, KEY_GROUPING, KEY_LABEL, KEY_USAGES
+              KEY_ROWID, KEY_CODE, KEY_GROUPING, KEY_LABEL, KEY_USAGES, KEY_SYMBOL, KEY_FRACTION_DIGITS
           };
           qb = SupportSQLiteQueryBuilder.builder(CURRENCIES_USAGES_TABLE_EXPRESSION);
         } else {
@@ -1430,6 +1432,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       case ACCOUNT_ID -> count = MoreDbUtilsKt.update(db, TABLE_ACCOUNTS, values,
               KEY_ROWID + " = " + lastPathSegment + prefixAnd(where), whereArgs);
       case TEMPLATES -> count = MoreDbUtilsKt.update(db, TABLE_TEMPLATES, values, where, whereArgs);
+      case CURRENCIES -> count = MoreDbUtilsKt.update(db, TABLE_CURRENCIES, values, where, whereArgs);
       case TEMPLATE_ID -> {
         String tagList = values.getAsString(KEY_TAGLIST);
         values.remove(KEY_TAGLIST);
