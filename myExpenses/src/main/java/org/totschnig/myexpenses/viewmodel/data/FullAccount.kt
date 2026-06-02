@@ -277,7 +277,7 @@ data class FullAccount(
                 excludeFromTotals = getBoolean(KEY_EXCLUDE_FROM_TOTALS),
                 lastUsed = getLong(KEY_LAST_USED),
                 bankId = getLongOrNull(KEY_BANK_ID),
-                equivalentOpeningBalance = getLong(KEY_EQUIVALENT_OPENING_BALANCE),
+                equivalentOpeningBalance = getDouble(KEY_EQUIVALENT_OPENING_BALANCE).roundToLong(),
                 equivalentCurrentBalance = getDouble(KEY_EQUIVALENT_CURRENT_BALANCE).roundToLong(),
                 equivalentSumIncome = getLong(KEY_EQUIVALENT_INCOME),
                 equivalentSumExpense = getLong(KEY_EQUIVALENT_EXPENSES),

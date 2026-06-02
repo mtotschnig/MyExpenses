@@ -546,6 +546,7 @@ fun AccountCardV2(
         }
     )
 
+    val homeCurrency = LocalHomeCurrency.current
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -578,16 +579,34 @@ fun AccountCardV2(
             }
         }
 
-        Text(
-            text = format.convAmount(account.currentBalance, account.currencyUnit),
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(horizontal = 4.dp)
-        )
+        val isFx = account.currency != homeCurrency.code
+
+        if (isFx) {
+            Column(
+                modifier = Modifier.padding(horizontal = 4.dp),
+                horizontalAlignment = Alignment.End
+            ) {
+                Text(
+                    text = format.convAmount(account.equivalentCurrentBalance, homeCurrency),
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+                Text(
+                    text = format.convAmount(account.currentBalance, account.currencyUnit),
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            }
+        } else {
+            Text(
+                text = format.convAmount(account.currentBalance, account.currencyUnit),
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.padding(horizontal = 4.dp)
+            )
+        }
 
         OverFlowMenu(
             menu = accountMenu(
                 context = context,
-                homeCurrency = LocalHomeCurrency.current,
+                homeCurrency = homeCurrency,
                 account = account,
                 onEvent = onEvent,
                 flags = flags
@@ -600,9 +619,10 @@ fun AccountCardV2(
 fun AccountIndicator(
     account: FullAccount,
     bankIcon: @Composable ((Modifier, Long) -> Unit)? = null,
-    reducedSizeIfPossible: Boolean = false
+    reducedSizeIfPossible: Boolean = false,
 ) {
-    val fontSize = if (reducedSizeIfPossible && account.progress == null && bankIcon == null) 9.sp else 13.sp
+    val fontSize =
+        if (reducedSizeIfPossible && account.progress == null && bankIcon == null) 9.sp else 13.sp
 
     val size = with(LocalDensity.current) { (fontSize * 2).toDp() }
 
@@ -953,7 +973,8 @@ fun AccountSummaryV2(
         )
     }
 
-    val hasMultipleBalanceTypeOptions = account.total != null || account.type.supportsReconciliation || account.criterion != null
+    val hasMultipleBalanceTypeOptions =
+        account.total != null || account.type.supportsReconciliation || account.criterion != null
 
     account.total?.let {
         SumRowV2(
