@@ -73,7 +73,9 @@ enum class Action(
         R.string.split_transaction,
         Transactions.TYPE_SPLIT
     ),
-    Scan(Icons.Default.Scanner, R.string.button_scan);
+    Scan(Icons.Default.Scanner, R.string.button_scan),
+    Buy(Icons.Default.Add, R.string.trade_buy),
+    Sell(Icons.Default.Remove, R.string.trade_sell);
 
 
     val tint: Color?
@@ -93,8 +95,13 @@ enum class Action(
 
             Transfer -> stringResource(R.string.menu_create_transfer)
             Split -> stringResource(R.string.menu_create_split)
-            Scan -> stringResource(label)
+            else -> stringResource(label)
         }
+
+    companion object {
+        val PORTFOLIO_ACTIONS = listOf(Buy, Sell)
+        val STANDARD_ACTIONS = listOf(Expense, Income, Transfer, Split, Scan)
+    }
 }
 
 
@@ -103,6 +110,7 @@ fun FloatingActionButtonMenu(
     isStandard: Boolean = true,
     lastAction: Action = Action.Expense,
     containerColor: Color,
+    actions: List<Action>,
     onAction: (Action) -> Unit,
 ) {
     var expanded by rememberSaveable { mutableStateOf(false) }
@@ -188,7 +196,7 @@ fun FloatingActionButtonMenu(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 modifier = Modifier.padding(bottom = 16.dp)
             ) {
-                Action.entries.reversed().forEach { action ->
+                actions.reversed().forEach { action ->
                     Surface(
                         onClick = {
                             onAction(action)

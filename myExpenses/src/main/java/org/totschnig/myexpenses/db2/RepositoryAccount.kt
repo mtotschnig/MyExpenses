@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.provider.KEY_DESCRIPTION
 import org.totschnig.myexpenses.provider.KEY_DYNAMIC
 import org.totschnig.myexpenses.provider.KEY_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.KEY_EXCLUDE_FROM_TOTALS
+import org.totschnig.myexpenses.provider.KEY_IS_PORTFOLIO
 import org.totschnig.myexpenses.provider.KEY_LABEL
 import org.totschnig.myexpenses.provider.KEY_LAST_USED
 import org.totschnig.myexpenses.provider.KEY_OPENING_BALANCE
@@ -190,6 +191,8 @@ fun Account.toContentValues() = ContentValues().apply {
         put(KEY_BANK_ID, it)
     }
     put(KEY_DYNAMIC, dynamicExchangeRates)
+    put(KEY_PARENTID, parentId)
+    put(KEY_IS_PORTFOLIO, isPortfolio)
 }
 
 fun Repository.createAccount(account: Account): Account {

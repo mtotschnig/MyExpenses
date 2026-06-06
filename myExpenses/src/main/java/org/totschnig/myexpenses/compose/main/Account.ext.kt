@@ -38,7 +38,7 @@ val BaseAccount.balanceForType: Long
 
             is AggregateAccount -> when (type) {
                 BalanceType.CURRENT -> currentBalance ?: equivalentCurrentBalance
-                BalanceType.TOTAL -> total ?: equivalentTotal
+                BalanceType.TOTAL -> total ?: equivalentTotal!!
                 else -> throw IllegalStateException("Unsupported balance type for aggregate account: $type")
             }
         }

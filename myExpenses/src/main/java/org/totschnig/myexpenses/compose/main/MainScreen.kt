@@ -94,6 +94,8 @@ import org.totschnig.myexpenses.model.sort.TransactionSort
 import org.totschnig.myexpenses.preference.PreferenceState
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel.AccountPanelState
+import org.totschnig.myexpenses.compose.transactions.TradeScreen
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 
@@ -274,6 +276,12 @@ fun MainScreenAdaptive(
 
     val isWebUiActive by viewModel.isWebUiActive.collectAsState(false)
 
+    var showTradeScreen by remember { mutableStateOf(false) }
+
+    val currentAccount = remember(accounts, selectedAccountId) {
+        accounts.find { it.id == selectedAccountId } ?: accounts.firstOrNull()
+    }
+
     @Composable
     fun NavigationItem(label: String) {
         val railOnPhonePortrait = isPhone && !isLandscape && isRail
@@ -288,6 +296,19 @@ fun MainScreenAdaptive(
     }
 
     val toggleableRail = preferredNavMode == MenuItem.NavigationMode.TOGGLEABLE_RAIL
+
+    val wrappedAppEventHandler = remember(onAppEvent, currentAccount) {
+        object : AppEventHandler {
+            override fun invoke(event: AppEvent) {
+                if (event is AppEvent.CreateTransaction && currentAccount?.isPortfolio == true) {
+                    showTradeScreen = true
+                } else {
+                    onAppEvent(event)
+                }
+            }
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -411,7 +432,7 @@ fun MainScreenAdaptive(
                                 accountGrouping = accountGrouping,
                                 selectedAccountId = selectedAccountId,
                                 viewModel = viewModel,
-                                onEvent = onAppEvent,
+                                onEvent = wrappedAppEventHandler,
                                 onAccountEvent = onAccountEvent,
                                 flags = flags,
                                 bankIcon = bankIcon,
@@ -454,7 +475,7 @@ fun MainScreenAdaptive(
                                 availableFilters = availableFilters,
                                 selectedAccountId = selectedAccountId,
                                 viewModel = viewModel,
-                                onEvent = onAppEvent,
+                                onEvent = wrappedAppEventHandler,
                                 onPrepareContextMenuItem = onPrepareContextMenuItem,
                                 onPrepareMenuItem = onPrepareMenuItem,
                                 pageContent = pageContent,
@@ -486,6 +507,25 @@ fun MainScreenAdaptive(
             )
         }
     }
+
+    if (showTradeScreen && currentAccount != null) {
+        val toastContext = LocalContext.current
+        TradeScreen(
+            onDismiss = { showTradeScreen = false },
+            onSave = { intent ->
+                android.widget.Toast.makeText(toastContext, "Trade Saved: ${intent.type} ${intent.quantity} ${intent.targetAsset?.code}", android.widget.Toast.LENGTH_SHORT).show()
+                showTradeScreen = false
+            },
+            reportingCurrency = currentAccount.currencyUnit,
+            availableAssets = listOf(
+                CurrencyUnit(code = "AAPL", symbol = "AAPL", fractionDigits = 4),
+                CurrencyUnit(code = "BTC", symbol = "₿", fractionDigits = 8),
+                CurrencyUnit(code = "ETH", symbol = "Ξ", fractionDigits = 8)
+            ),
+            availableAccounts = accounts.map { it.id to it.label }
+        )
+    }
+
     if (showBottomSheet) {
         ModalBottomSheet(
             onDismissRequest = { showBottomSheet = false },

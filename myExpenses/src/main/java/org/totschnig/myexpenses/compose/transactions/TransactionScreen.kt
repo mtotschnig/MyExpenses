@@ -322,7 +322,7 @@ fun TransactionScreen(
         floatingActionButton = {
             val scope = rememberCoroutineScope()
 
-            if (currentAccount is FullAccount && (currentAccount as FullAccount).sealed) {
+            if ((currentAccount as? FullAccount)?.sealed == true) {
                 FloatingActionButton(
                     onClick = { },
                     modifier = Modifier.testTag(TEST_TAG_FAB_TRANSACTIONS),
@@ -340,6 +340,7 @@ fun TransactionScreen(
                     lastAction = viewModel.lastAction.flow.collectAsState(Action.Expense).value,
                     isStandard = viewModel.fabStyle.collectAsState(FabStyle.Standard).value == FabStyle.Standard,
                     containerColor = accountColor,
+                    actions = if ((currentAccount as? FullAccount)?.isPortfolio == true) Action.PORTFOLIO_ACTIONS else Action.STANDARD_ACTIONS
                 ) { action ->
 
                     scope.launch {

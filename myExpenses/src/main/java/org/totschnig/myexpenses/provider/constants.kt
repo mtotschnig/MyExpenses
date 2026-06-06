@@ -291,6 +291,7 @@ const val KEY_LATEST_EXCHANGE_RATE_DATE: String = "latest_exchange_rate_date"
 const val KEY_ACCOUNT_TYPE_LABEL: String = "account_type_label"
 
 const val KEY_BALANCE_TYPE: String = "balance_type"
+const val KEY_IS_PORTFOLIO: String = "is_portfolio"
 
 //Status constants
 /**
@@ -335,3 +336,4 @@ const val METHOD_TYPE_SORT: String = "typeSort"
 // currency/commodity table
 const val KEY_FRACTION_DIGITS: String = "fraction_digits"
 const val KEY_SYMBOL: String = "symbol"
+const val KEY_COMMODITY_TYPE: String = "commodity_type" // e.g., 'FIAT', 'CRYPTO', 'STOCK'

@@ -208,6 +208,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
                 }
             }
         }
+        binding.IsPortfolio.isChecked = viewModel.isPortfolio
         binding.colorInput.setColor(color)
         setupListeners()
     }
@@ -255,6 +256,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         val currencyUnit = currencyContext[account.currency]
         viewModel.currencyUnit = currencyUnit
         viewModel.accountType = account.type!!.id
+        viewModel.isPortfolio = account.isPortfolio
         color = account.color
         viewModel.excludeFromTotals = account.excludeFromTotals
         viewModel.dynamicExchangeRates = account.dynamicExchangeRates
@@ -270,6 +272,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         configureForCurrency(currencyUnit)
         binding.Amount.setAmount(Money(currencyUnit, account.openingBalance).amountMajor)
         accountTypeSpinner.setSelection(accountTypeAdapter.getPosition(account.type))
+        binding.IsPortfolio.isChecked = account.isPortfolio
         val criterion = account.criterion
         if (criterion != null) {
             binding.Criterion.setAmount(Money(currencyUnit, account.criterion).amountMajor)
@@ -338,6 +341,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
             uuid = viewModel.uuid,
             syncAccountName = if (syncSpinner.selectedItemPosition > 0) syncSpinner.selectedItem as String else null,
             criterion = criterion,
+            isPortfolio = binding.IsPortfolio.isChecked,
             excludeFromTotals = viewModel.excludeFromTotals,
             dynamicExchangeRates = viewModel.dynamicExchangeRates && isForeignExchange,
             exchangeRate = (if (isForeignExchange) {
@@ -498,6 +502,10 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         accountTypeSpinner.setOnItemSelectedListener(this)
         currencySpinner.setOnItemSelectedListener(this)
         syncSpinner.setOnItemSelectedListener(this)
+        binding.IsPortfolio.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.isPortfolio = isChecked
+            setDirty()
+        }
         binding.Criterion.setTypeChangedListener {
             setDirty()
             updateCriterionLabel()

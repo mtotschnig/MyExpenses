@@ -16,6 +16,7 @@ private const val CURRENCY_UNIT_KEY = "currencyUnit"
 private const val ACCOUNT_TYPE_KEY = "accountType"
 private const val EXCLUDE_FROM_TOTALS_KEY = "excludeFromTotals"
 private const val DYNAMIC_EXCHANGE_RATES_KEY = "dynamicExchangeRates"
+private const val IS_PORTFOLIO_KEY = "isPortfolio"
 private const val UUID_KEY = "uuid"
 
 class AccountEditViewModel(application: Application, savedStateHandle: SavedStateHandle)
@@ -53,6 +54,9 @@ class AccountEditViewModel(application: Application, savedStateHandle: SavedStat
         dynamicExchangeRates = !dynamicExchangeRates
     }
 
+    var isPortfolio: Boolean
+        get() = savedStateHandle.get<Boolean>(IS_PORTFOLIO_KEY) ?: false
+        set(value) = savedStateHandle.set(IS_PORTFOLIO_KEY, value)
 
     var uuid: String?
         get() = savedStateHandle.get<String>(UUID_KEY)

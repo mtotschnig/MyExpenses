@@ -41,11 +41,13 @@ import org.totschnig.myexpenses.provider.KEY_EXCLUDE_FROM_TOTALS
 import org.totschnig.myexpenses.provider.KEY_GROUPING
 import org.totschnig.myexpenses.provider.KEY_HAS_CLEARED
 import org.totschnig.myexpenses.provider.KEY_HAS_FUTURE
+import org.totschnig.myexpenses.provider.KEY_IS_PORTFOLIO
 import org.totschnig.myexpenses.provider.KEY_LABEL
 import org.totschnig.myexpenses.provider.KEY_LAST_USED
 import org.totschnig.myexpenses.provider.KEY_LATEST_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.KEY_LATEST_EXCHANGE_RATE_DATE
 import org.totschnig.myexpenses.provider.KEY_OPENING_BALANCE
+import org.totschnig.myexpenses.provider.KEY_PARENTID
 import org.totschnig.myexpenses.provider.KEY_RECONCILED_TOTAL
 import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.KEY_SEALED
@@ -58,6 +60,7 @@ import org.totschnig.myexpenses.provider.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.KEY_TOTAL
 import org.totschnig.myexpenses.provider.KEY_UUID
 import org.totschnig.myexpenses.provider.getBoolean
+import org.totschnig.myexpenses.provider.getBooleanIfExists
 import org.totschnig.myexpenses.provider.getDouble
 import org.totschnig.myexpenses.provider.getDoubleOrNull
 import org.totschnig.myexpenses.provider.getEnum
@@ -65,6 +68,7 @@ import org.totschnig.myexpenses.provider.getEnumIfExists
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLocalDate
 import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getLongIfExists
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
@@ -116,7 +120,9 @@ data class AggregateAccount(
     val clearedTotal: Long = 0L,
     val hasCleared: Boolean = false,
     override val total: Long? = null,
-    override val equivalentTotal: Long = total ?: 0,
+    override val equivalentTotal: Long? = total,
+    val parentId: Long? = null,
+    val isPortfolio: Boolean = false,
     override val accountGrouping: AccountGrouping<*>,
     override val balanceType: BalanceType = BalanceType.CURRENT,
 ) : BaseAccount() {
@@ -147,6 +153,8 @@ data class AggregateAccount(
         currentBalance = currentBalance ?: equivalentCurrentBalance,
         color = color(context.resources),
         label = labelV2(context),
+        parentId = null,
+        isPortfolio = false,
         accountGrouping = accountGrouping,
         isSingCurrency = isSingleCurrency
     )
@@ -190,6 +198,9 @@ data class FullAccount(
     val initialExchangeRate: Double? = null,
     val latestExchangeRate: Pair<LocalDate, Double>? = null,
     val dynamic: Boolean = false,
+    val parentId: Long? = null,
+    val isPortfolio: Boolean = false,
+    val children: List<FullAccount> = emptyList(),
     override val isSingleCurrency: Boolean = true,
 ) : BaseAccount(), AccountWithGroupingKey {
 
@@ -215,6 +226,8 @@ data class FullAccount(
             currentBalance = currentBalance,
             color = color,
             label = label,
+            parentId = parentId,
+            isPortfolio = isPortfolio,
             accountGrouping = null,
             isSingCurrency = isSingleCurrency
         )
@@ -288,6 +301,8 @@ data class FullAccount(
                 },
                 dynamic = getBoolean(KEY_DYNAMIC),
                 balanceType = getEnumIfExists(KEY_BALANCE_TYPE, BalanceType.CURRENT),
+                parentId = getLongIfExists(KEY_PARENTID),
+                isPortfolio = getBooleanIfExists(KEY_IS_PORTFOLIO) ?: false,
                 //in V2 this is only called for real accounts, in V1 we need to set isSingleCurrency to false for home aggregate
                 isSingleCurrency = !isHomeAggregate(id)
             )
@@ -308,6 +323,8 @@ data class PageAccount(
     val openingBalance: Long = 0,
     val currentBalance: Long = 0,
     val label: String,
+    val parentId: Long? = null,
+    val isPortfolio: Boolean = false,
     //not null for aggregate accounts
     override val accountGrouping: AccountGrouping<*>? = null,
     val color: Int = -1,

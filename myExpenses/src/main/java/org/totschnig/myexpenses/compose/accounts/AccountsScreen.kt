@@ -196,6 +196,7 @@ fun AccountsScreen(
                 selectedAccount = selectedAccountId,
                 listState = viewModel.listState,
                 expansionHandlerGroups = viewModel.expansionHandler("collapsedHeadersDrawer_${accountGrouping}"),
+                expansionHandlerAccounts = viewModel.expansionHandler("expandedAccounts_${accountGrouping}"),
                 onSelected = {
                     if (accountGrouping != AccountGrouping.NONE) {
                         viewModel.maybeResetFilter(accountGrouping.getGroupKey(it))

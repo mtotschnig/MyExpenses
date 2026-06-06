@@ -23,6 +23,7 @@
     <string name="account_type_ccard">Credit card</string>
     <string name="account_type_liability">Other Liabilities</string>
     <string name="account_type_investment">Investments</string>
+    <string name="account_type_portfolio">Portfolio</string>
     <string name="already_defined">%1$s already defined</string>
     <string name="amount">Amount</string>
     <string name="app_name">My Expenses</string>
@@ -1138,4 +1139,14 @@
     <string name="pref_content_based_colors_summary">Derive theme colors from the current account\'s color. Turn off if text is difficult to read.</string>
     <!-- Shown to user while Web User Interface is starting -->
     <string name="service_starting">Starting…</string>
+    <string name="trade_buy">Buy</string>
+    <string name="trade_sell">Sell</string>
+    <string name="trade_swap">Swap</string>
+    <string name="trade_quantity">Quantity</string>
+    <string name="trade_price">Price</string>
+    <string name="trade_fee">Fee</string>
+    <string name="trade_principal">Principal</string>
+    <string name="trade_total_outlay">Total</string>
+    <string name="trade_funding_account">Funding Account</string>
+    <string name="trade_target_asset">Asset</string>
 </resources>

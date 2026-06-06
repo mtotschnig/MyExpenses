@@ -30,7 +30,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 import kotlin.math.pow
 
-const val DATABASE_VERSION = 186
+const val DATABASE_VERSION = 187
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -168,7 +168,9 @@ val ACCOUNTS_CREATE =
         $KEY_FLAG integer references $TABLE_ACCOUNT_FLAGS($KEY_ROWID) NOT NULL default 0,
         $KEY_SEALED boolean default 0,
         $KEY_DYNAMIC boolean default 0,
+        $KEY_IS_PORTFOLIO boolean default 0,
         $KEY_BANK_ID integer references $TABLE_BANKS($KEY_ROWID) ON DELETE SET NULL,
+        $KEY_PARENTID integer references $TABLE_ACCOUNTS($KEY_ROWID) ON DELETE CASCADE,
         $KEY_BALANCE_TYPE not null check ($KEY_BALANCE_TYPE in (${BalanceType.JOIN})) default '${BalanceType.CURRENT.name}');"""
 
 const val BANK_CREATE = """
@@ -1193,6 +1195,14 @@ abstract class BaseTransactionDatabase(
         execSQL("ALTER TABLE $TABLE_CURRENCIES ADD COLUMN $KEY_FRACTION_DIGITS integer")
         execSQL("ALTER TABLE $TABLE_CURRENCIES ADD COLUMN $KEY_SYMBOL text")
         execSQL("ALTER TABLE $TABLE_CURRENCIES ADD COLUMN $KEY_COMMODITY_TYPE text")
+    }
+
+    fun SupportSQLiteDatabase.upgradeTo187() {
+        // 1. Add is_portfolio flag to accounts
+        execSQL("ALTER TABLE $TABLE_ACCOUNTS ADD COLUMN $KEY_IS_PORTFOLIO boolean default 0")
+        // 2. Add parent_id to accounts for hierarchy (Portfolio -> Asset)
+        execSQL("ALTER TABLE $TABLE_ACCOUNTS ADD COLUMN $KEY_PARENTID integer references $TABLE_ACCOUNTS($KEY_ROWID) ON DELETE CASCADE")
+    }
 
     protected fun SupportSQLiteDatabase.createOrRefreshAccountTriggers() {
         execSQL("DROP TRIGGER IF EXISTS update_account_sync_null")
