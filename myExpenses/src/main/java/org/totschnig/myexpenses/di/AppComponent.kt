@@ -230,7 +230,7 @@ interface AppComponent {
 
     fun inject(transactionEditViewModel: TransactionEditViewModel)
 
-    fun inject(contentResolvingAndroidViewModel: CurrencyViewModel)
+    fun inject(currencyViewModel: CurrencyViewModel)
 
     fun inject(settingsViewModel: SettingsViewModel)
 

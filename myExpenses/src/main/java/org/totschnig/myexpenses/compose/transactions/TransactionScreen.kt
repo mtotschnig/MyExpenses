@@ -106,6 +106,7 @@ import org.totschnig.myexpenses.compose.accounts.AccountSummaryV2
 import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.main.AppEventHandler
+import org.totschnig.myexpenses.compose.main.FloatingActionButtonMenu
 import org.totschnig.myexpenses.compose.main.balanceForType
 import org.totschnig.myexpenses.compose.main.getBalanceContentDescription
 import org.totschnig.myexpenses.compose.main.icon
@@ -187,6 +188,7 @@ fun TransactionScreen(
     }
 
     val accountColor = Color(currentAccount.color(LocalResources.current))
+    var showTradeScreen by rememberSaveable { mutableStateOf<Action?>(null) }
 
     Scaffold(
         contentWindowInsets = windowInsets,
@@ -336,23 +338,29 @@ fun TransactionScreen(
                     Icon(Icons.Default.Lock, stringResource(R.string.account_closed))
                 }
             } else {
+                val isPortfolio = (currentAccount as? FullAccount)?.isPortfolio == true
+                val lastAction = if (isPortfolio) viewModel.lastActionPortfolio else viewModel.lastAction
                 FloatingActionButtonMenu(
-                    lastAction = viewModel.lastAction.flow.collectAsState(Action.Expense).value,
+                    primaryAction = lastAction.flow.collectAsState(Action.Expense).value,
                     isStandard = viewModel.fabStyle.collectAsState(FabStyle.Standard).value == FabStyle.Standard,
                     containerColor = accountColor,
-                    actions = if ((currentAccount as? FullAccount)?.isPortfolio == true) Action.PORTFOLIO_ACTIONS else Action.STANDARD_ACTIONS
+                    actions = if (isPortfolio) Action.PORTFOLIO_ACTIONS else Action.STANDARD_ACTIONS
                 ) { action ->
 
                     scope.launch {
-                        viewModel.lastAction.set(action)
+                        lastAction.set(action)
                     }
 
-                    onEvent(
-                        AppEvent.CreateTransaction(
-                            action = action,
-                            transferEnabled = accountList.size > 1
+                    if (action in Action.PORTFOLIO_ACTIONS) {
+                        showTradeScreen = action
+                    } else {
+                        onEvent(
+                            AppEvent.CreateTransaction(
+                                action = action,
+                                transferEnabled = accountList.size > 1
+                            )
                         )
-                    )
+                    }
                 }
             }
         }
@@ -481,6 +489,24 @@ fun TransactionScreen(
                 TransactionListPage(accountList.first(), true, pageContent)
             }
         }
+    }
+    showTradeScreen?.let { tradeAction ->
+        val toastContext = LocalContext.current
+        TradeScreen(
+            onDismiss = { showTradeScreen = null },
+            onSave = { intent ->
+                android.widget.Toast.makeText(toastContext, "Trade Saved: ${intent.type} ${intent.quantity} ${intent.targetAsset?.code}", android.widget.Toast.LENGTH_SHORT).show()
+                showTradeScreen = null
+            },
+            reportingCurrency = currentAccount.currencyUnit,
+            availableAssets = listOf(
+                CurrencyUnit(code = "AAPL", symbol = "AAPL", fractionDigits = 4),
+                CurrencyUnit(code = "BTC", symbol = "₿", fractionDigits = 8),
+                CurrencyUnit(code = "ETH", symbol = "Ξ", fractionDigits = 8)
+            ),
+            availableAccounts = accountList.map { it.id to it.labelV2(LocalContext.current) },
+            initialAction = tradeAction
+        )
     }
 }
 

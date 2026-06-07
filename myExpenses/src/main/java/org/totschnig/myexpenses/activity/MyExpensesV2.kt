@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,6 +39,7 @@ import org.totschnig.myexpenses.adapter.SortableItem
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.accounts.AccountEvent
 import org.totschnig.myexpenses.compose.accounts.AccountEventHandler
+import org.totschnig.myexpenses.compose.accounts.PortfolioSetupDialog
 import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.main.AppEventHandler
 import org.totschnig.myexpenses.compose.main.MainScreenAdaptive
@@ -49,6 +51,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.provider.KEY_SORT_KEY
 import org.totschnig.myexpenses.util.ads.AdHandlerV2
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
+import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.SumInfo
 import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
@@ -71,6 +74,8 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
 
     @Inject
     lateinit var modelClass: Class<out MyExpensesV2ViewModel>
+
+    private val currencyViewModel: CurrencyViewModel by viewModels()
 
     private lateinit var adHandler: AdHandlerV2
 
@@ -123,6 +128,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
 
         with(injector) {
             inject(viewModel)
+            inject(currencyViewModel)
         }
 
         adHandler = adHandlerFactory.createV2()
@@ -198,6 +204,20 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                         val banks = viewModel.banks.collectAsState()
                         val showSortDialog = rememberSaveable { mutableStateOf(false) }
                         var isNavigationVisible by rememberSaveable { mutableStateOf(false) }
+                        var showPortfolioSetup by rememberSaveable { mutableStateOf(false) }
+
+                        val currencies by currencyViewModel.currencies.collectAsState(emptyList())
+
+                        if (showPortfolioSetup) {
+                            PortfolioSetupDialog(
+                                onDismiss = { showPortfolioSetup = false },
+                                onConfirm = { label, currency, color ->
+                                    viewModel.createPortfolio(label, currency, color)
+                                    showPortfolioSetup = false
+                                },
+                                availableCurrencies = currencies
+                            )
+                        }
 
                         MainScreenAdaptive(
                             viewModel,
@@ -209,6 +229,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                                     when (event) {
 
                                         AppEvent.CreateAccount -> createAccount()
+                                        AppEvent.CreatePortfolio -> showPortfolioSetup = true
                                         is AppEvent.CreateTransaction ->
                                             if (preCreateRowCheckForSealed()) {
                                                 when (event.action) {

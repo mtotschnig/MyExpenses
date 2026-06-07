@@ -79,6 +79,7 @@ import org.totschnig.myexpenses.compose.CheckableMenuEntry
 import org.totschnig.myexpenses.compose.ColorCircle
 import org.totschnig.myexpenses.compose.DonutInABox
 import org.totschnig.myexpenses.compose.ExpansionHandle
+import org.totschnig.myexpenses.compose.ExpansionHandler
 import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.LocalColors
 import org.totschnig.myexpenses.compose.LocalCurrencyFormatter
@@ -150,8 +151,8 @@ fun AccountList(
     onToggleExcludeFromTotals: (FullAccount) -> Unit = {},
     onToggleDynamicExchangeRate: ((FullAccount) -> Unit)? = null,
     flags: List<AccountFlag> = emptyList(),
-    expansionHandlerGroups: org.totschnig.myexpenses.compose.ExpansionHandler,
-    expansionHandlerAccounts: org.totschnig.myexpenses.compose.ExpansionHandler,
+    expansionHandlerGroups: ExpansionHandler,
+    expansionHandlerAccounts: ExpansionHandler,
     bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
 ) {
     val context = LocalContext.current
@@ -221,8 +222,8 @@ fun AccountListV2(
     grouping: AccountGrouping<*>,
     selectedAccount: Long,
     listState: LazyListState,
-    expansionHandlerGroups: org.totschnig.myexpenses.compose.ExpansionHandler,
-    expansionHandlerAccounts: org.totschnig.myexpenses.compose.ExpansionHandler,
+    expansionHandlerGroups: ExpansionHandler,
+    expansionHandlerAccounts: ExpansionHandler,
     onSelected: (FullAccount) -> Unit = {},
     onGroupSelected: (AccountGroupingKey?) -> Unit = {},
     onEvent: AccountEventHandler,
@@ -615,7 +616,7 @@ fun AccountCardV2(
                     Text(
                         text = format.convAmount(account.currentBalance, account.currencyUnit),
                         style = MaterialTheme.typography.bodyMedium,
-                        modifier = Modifier.padding(horizontal = 4.dp)
+                        modifier = Modifier.padding(start = 4.dp)
                     )
                 }
 
@@ -627,7 +628,7 @@ fun AccountCardV2(
                 }
             }
             AnimatedVisibility(visible = isExpanded) {
-                Box(
+                Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .drawBehind {
@@ -641,16 +642,15 @@ fun AccountCardV2(
                         }
                         .padding(start = 48.dp, end = 4.dp, bottom = 8.dp)
                 ) {
-                    Column(modifier = Modifier.padding(end = 44.dp)) {
+                    Column(modifier = Modifier.weight(1f)) {
                         if (account.isPortfolio) {
-                            Text("TODO")
+                            PortfolioInventory(account) { }
                         } else {
                             AccountSummaryV2(account = account, onDisplayBalanceTypeChange = null)
                         }
                     }
 
                     OverFlowMenu(
-                        modifier = Modifier.align(Alignment.TopEnd),
                         menu = accountMenu(
                             context = context,
                             homeCurrency = homeCurrency,
@@ -1393,6 +1393,7 @@ private fun AccountPreview() {
 @Composable
 private fun AccountPreview2() {
     AccountCardV2(
+        isExpanded = true,
         account = FullAccount(
             id = 1,
             label = "Account witht long name and description",
@@ -1407,6 +1408,46 @@ private fun AccountPreview2() {
             type = AccountType.CASH,
             criterion = 5000,
             excludeFromTotals = true
+        ),
+        onEvent = object : AccountEventHandler {
+            override fun invoke(
+                event: AccountEvent,
+                account: FullAccount,
+            ) {
+            }
+        }
+    )
+}
+
+@Preview
+@Composable
+private fun PortfolioPreview() {
+    AccountCardV2(
+        isExpanded = true,
+        account = FullAccount(
+            isPortfolio = true,
+            id = 1,
+            label = "My Portfolio",
+            currencyUnit = CurrencyUnit.DebugInstance,
+            color = android.graphics.Color.RED,
+            openingBalance = 0,
+            currentBalance = 1000,
+            sumIncome = 2000,
+            sumExpense = 1000,
+            type = AccountType.CASH,
+            criterion = 5000,
+            children = listOf(
+                FullAccount(
+                    id = 2,
+                    label = "AAPL",
+                    currentBalance = 100000000,
+                    equivalentCurrentBalance = 4490,
+                    currencyUnit = CurrencyUnit(
+                        code = "AAPL", symbol = "AAPL", 8, "Apple"
+                    ),
+                    type = AccountType.INVESTMENT
+                )
+            )
         ),
         onEvent = object : AccountEventHandler {
             override fun invoke(

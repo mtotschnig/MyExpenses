@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.compose.accounts
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
@@ -9,6 +10,7 @@ import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.BottomAppBarDefaults
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
@@ -32,6 +34,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
@@ -47,6 +50,7 @@ import org.totschnig.myexpenses.activity.BalanceSheetViewInner
 import org.totschnig.myexpenses.compose.TEST_TAG_FAB_ACCOUNTS
 import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.main.AppEventHandler
+import org.totschnig.myexpenses.compose.main.FloatingActionButtonMenu
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
@@ -144,17 +148,16 @@ fun AccountsScreen(
         },
         bottomBar = bottomBar,
         floatingActionButton = {
-            FloatingActionButton(
-                modifier = Modifier.testTag(TEST_TAG_FAB_ACCOUNTS),
-                onClick = { onEvent(AppEvent.CreateAccount) },
-                containerColor = BottomAppBarDefaults.bottomAppBarFabColor,
-                elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation()
-            ) {
-                Icon(
-                    Icons.Default.Add,
-                    contentDescription = stringResource(R.string.menu_create_account)
-                )
-            }
+            FloatingActionButtonMenu(
+                primaryAction = Action.AddAccount,
+                actions = listOf(Action.AddAccount, Action.AddPortfolio),
+                onAction = { action ->
+                    when (action) {
+                        Action.AddAccount -> onEvent(AppEvent.CreateAccount)
+                        Action.AddPortfolio -> onEvent(AppEvent.CreatePortfolio)
+                    }
+                }
+            )
         }
     ) { paddingValues ->
         if (selectedTab.value == AccountsScreenTab.BALANCE_SHEET) {

@@ -35,6 +35,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AmountEdit
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -48,9 +50,13 @@ fun TradeScreen(
     onSave: (TradeIntent) -> Unit,
     reportingCurrency: CurrencyUnit,
     availableAssets: List<CurrencyUnit>,
-    availableAccounts: List<Pair<Long, String>> // ID to Label
+    availableAccounts: List<Pair<Long, String>>, // ID to Label
+    initialAction: Action,
 ) {
-    var intent by remember { mutableStateOf(TradeIntent(feeAsset = reportingCurrency)) }
+    var intent by remember { mutableStateOf(TradeIntent(
+        type = if (initialAction == Action.Sell) TradeType.SELL else TradeType.BUY,
+        feeAsset = reportingCurrency
+    )) }
 
     val principal = remember(intent.quantity, intent.price) {
         intent.quantity.multiply(intent.price)
@@ -60,105 +66,100 @@ fun TradeScreen(
         if (intent.type == TradeType.BUY) principal.add(intent.fee) else principal.subtract(intent.fee)
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(stringResource(if (intent.type == TradeType.BUY) R.string.trade_buy else if (intent.type == TradeType.SELL) R.string.trade_sell else R.string.trade_swap)) },
-                navigationIcon = {
-                    IconButton(onClick = onDismiss) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(usePlatformDefaultWidth = false)
+    ) {
+        Scaffold(
+            topBar = {
+                TopAppBar(
+                    title = { Text(stringResource(intent.type.label)) },
+                    navigationIcon = {
+                        IconButton(onClick = onDismiss) {
+                            Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                        }
+                    },
+                    actions = {
+                        IconButton(onClick = { onSave(intent) }) {
+                            Icon(Icons.Default.Done, contentDescription = stringResource(R.string.menu_save))
+                        }
                     }
-                },
-                actions = {
-                    IconButton(onClick = { onSave(intent) }) {
-                        Icon(Icons.Default.Done, contentDescription = stringResource(R.string.menu_save))
-                    }
-                }
-            )
-        }
-    ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .padding(paddingValues)
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState())
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            // Trade Type Toggle
-            SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
-                TradeType.entries.forEachIndexed { index, type ->
-                    SegmentedButton(
-                        selected = intent.type == type,
-                        onClick = { intent = intent.copy(type = type) },
-                        shape = SegmentedButtonDefaults.itemShape(index = index, count = TradeType.entries.size)
-                    ) {
-                        Text(stringResource(when(type) {
-                            TradeType.BUY -> R.string.trade_buy
-                            TradeType.SELL -> R.string.trade_sell
-                            TradeType.SWAP -> R.string.trade_swap
-                        }))
-                    }
-                }
+                )
             }
-
-            // Asset Selection
-            AssetSelector(
-                label = stringResource(R.string.trade_target_asset),
-                selectedAsset = intent.targetAsset,
-                assets = availableAssets,
-                onAssetSelected = { intent = intent.copy(targetAsset = it) }
-            )
-
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(stringResource(R.string.trade_quantity), style = MaterialTheme.typography.labelMedium)
-                    AmountEdit(
-                        value = intent.quantity,
-                        onValueChange = { intent = intent.copy(quantity = it) },
-                        fractionDigits = intent.targetAsset?.fractionDigits ?: 2
-                    )
+        ) { paddingValues ->
+            Column(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .padding(16.dp)
+                    .verticalScroll(rememberScrollState())
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                // Trade Type Toggle
+                SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
+                    TradeType.entries.forEachIndexed { index, type ->
+                        SegmentedButton(
+                            selected = intent.type == type,
+                            onClick = { intent = intent.copy(type = type) },
+                            shape = SegmentedButtonDefaults.itemShape(index = index, count = TradeType.entries.size)
+                        ) {
+                            Text(stringResource(when(type) {
+                                TradeType.BUY -> R.string.trade_buy
+                                TradeType.SELL -> R.string.trade_sell
+                            }))
+                        }
+                    }
                 }
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(stringResource(R.string.trade_price), style = MaterialTheme.typography.labelMedium)
+
+                // Asset Selection
+                AssetSelector(
+                    label = stringResource(R.string.trade_target_asset),
+                    selectedAsset = intent.targetAsset,
+                    assets = availableAssets,
+                    onAssetSelected = { intent = intent.copy(targetAsset = it) }
+                )
+
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(stringResource(R.string.trade_quantity), style = MaterialTheme.typography.labelMedium)
+                        AmountEdit(
+                            value = intent.quantity,
+                            onValueChange = { intent = intent.copy(quantity = it) },
+                            fractionDigits = intent.targetAsset?.fractionDigits ?: 2
+                        )
+                    }
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(stringResource(R.string.trade_price), style = MaterialTheme.typography.labelMedium)
+                        AmountEdit(
+                            value = intent.price,
+                            onValueChange = { intent = intent.copy(price = it) },
+                            fractionDigits = reportingCurrency.fractionDigits
+                        )
+                    }
+                }
+
+                // Principal Display
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Text(stringResource(R.string.trade_principal), style = MaterialTheme.typography.bodyMedium)
+                    Text(principal.toString() + " " + reportingCurrency.symbol, style = MaterialTheme.typography.bodyLarge)
+                }
+
+                // Fee
+                Column {
+                    Text(stringResource(R.string.trade_fee), style = MaterialTheme.typography.labelMedium)
                     AmountEdit(
-                        value = intent.price,
-                        onValueChange = { intent = intent.copy(price = it) },
+                        value = intent.fee,
+                        onValueChange = { intent = intent.copy(fee = it) },
                         fractionDigits = reportingCurrency.fractionDigits
                     )
                 }
-            }
 
-            // Principal Display
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(stringResource(R.string.trade_principal), style = MaterialTheme.typography.bodyMedium)
-                Text(principal.toString() + " " + reportingCurrency.symbol, style = MaterialTheme.typography.bodyLarge)
-            }
+                // Total Display
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Text(stringResource(R.string.trade_total_outlay), style = MaterialTheme.typography.bodyMedium)
+                    Text(total.toString() + " " + reportingCurrency.symbol, style = MaterialTheme.typography.bodyLarge)
+                }
 
-            // Fee
-            Column {
-                Text(stringResource(R.string.trade_fee), style = MaterialTheme.typography.labelMedium)
-                AmountEdit(
-                    value = intent.fee,
-                    onValueChange = { intent = intent.copy(fee = it) },
-                    fractionDigits = reportingCurrency.fractionDigits
-                )
-            }
-
-            // Total Display
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text(stringResource(R.string.trade_total_outlay), style = MaterialTheme.typography.bodyMedium)
-                Text(total.toString() + " " + reportingCurrency.symbol, style = MaterialTheme.typography.bodyLarge)
-            }
-
-            if (intent.type == TradeType.SWAP) {
-                AssetSelector(
-                    label = stringResource(R.string.trade_swap), // Use a proper label if needed
-                    selectedAsset = intent.sourceAsset,
-                    assets = availableAssets,
-                    onAssetSelected = { intent = intent.copy(sourceAsset = it) }
-                )
-            } else {
                 // Funding Account Selection
                 AccountSelector(
                     label = stringResource(R.string.trade_funding_account),
@@ -166,15 +167,15 @@ fun TradeScreen(
                     accounts = availableAccounts,
                     onAccountSelected = { intent = intent.copy(fundingAccountId = it) }
                 )
-            }
 
-            // Comment
-            OutlinedTextField(
-                value = intent.comment,
-                onValueChange = { intent = intent.copy(comment = it) },
-                label = { Text(stringResource(R.string.notes)) },
-                modifier = Modifier.fillMaxWidth()
-            )
+                // Comment
+                OutlinedTextField(
+                    value = intent.comment,
+                    onValueChange = { intent = intent.copy(comment = it) },
+                    label = { Text(stringResource(R.string.notes)) },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
         }
     }
 }
@@ -270,6 +271,7 @@ fun TradeScreenPreview() {
         availableAccounts = listOf(
             1L to "Cash",
             2L to "Bank Account"
-        )
+        ),
+        initialAction = Action.Buy
     )
 }

@@ -78,7 +78,7 @@ class TradeViewModel(
         }
 
         // Part B: The Funding (Transfer from/to Bank account)
-        if (intent.type != TradeType.SWAP && intent.fundingAccountId != null) {
+        if (intent.fundingAccountId != null) {
             parts.add(TransactionEditData(
                 accountId = portfolioAccountId,
                 amount = Money.buildWithMajor(reportingCurrency, principal.value.let {

@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
@@ -29,6 +28,8 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.StartScreen
 import org.totschnig.myexpenses.compose.transactions.Action
 import org.totschnig.myexpenses.compose.transactions.FabStyle
+import org.totschnig.myexpenses.db2.createAccount
+import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.setBalanceType
 import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.model.AccountFlag
@@ -115,6 +116,14 @@ open class MyExpensesV2ViewModel(
             dataStore,
             stringPreferencesKey("lastAction"),
             Action.Expense
+        )
+    }
+
+    val lastActionPortfolio by lazy {
+        EnumPreferenceAccessor(
+            dataStore,
+            stringPreferencesKey("lastActionPortfolio"),
+            Action.Buy
         )
     }
 
@@ -209,8 +218,8 @@ open class MyExpensesV2ViewModel(
         combine(
             accountDataV2.mapNotNull { it?.getOrNull() },
             _activeFilter,
-            accountGrouping.flow.filterNotNull(),
-            aggregateAccountBalanceType.flow.filterNotNull()
+            accountGrouping.flow,
+            aggregateAccountBalanceType.flow
         ) { accounts, activeFilter, accountGrouping, aggregateAccountBalanceType ->
             Tuple4(accounts, activeFilter, accountGrouping, aggregateAccountBalanceType)
         }.flatMapLatest { (accounts, activeFilter, grouping, aggregateAccountBalanceType) ->
@@ -366,6 +375,19 @@ open class MyExpensesV2ViewModel(
             } else {
                 repository.setBalanceType(selectedAccountId.value, balanceType)
             }
+        }
+    }
+
+    fun createPortfolio(label: String, currency: String, color: Int) {
+        viewModelScope.launch(coroutineDispatcher) {
+            val portfolio = org.totschnig.myexpenses.model2.Account(
+                label = label,
+                currency = currency,
+                color = color,
+                type = repository.findAccountType(AccountType.INVESTMENT.name),
+                isPortfolio = true
+            )
+            repository.createAccount(portfolio)
         }
     }
 

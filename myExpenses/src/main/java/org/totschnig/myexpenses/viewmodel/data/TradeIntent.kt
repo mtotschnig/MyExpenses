@@ -1,10 +1,15 @@
 package org.totschnig.myexpenses.viewmodel.data
 
+import androidx.annotation.StringRes
+import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
-enum class TradeType { BUY, SELL, SWAP }
+enum class TradeType(@param:StringRes val label: Int) {
+    BUY(R.string.trade_buy),
+    SELL(R.string.trade_sell)
+}
 
 data class TradeIntent(
     val type: TradeType = TradeType.BUY,
@@ -25,5 +30,5 @@ data class TradeIntent(
     val feeAsset: CurrencyUnit? = null, // Usually the Portfolio's reporting currency
 
     val comment: String = "",
-    val payeeId: Long? = null
+    val payeeId: Long? = null,
 )
