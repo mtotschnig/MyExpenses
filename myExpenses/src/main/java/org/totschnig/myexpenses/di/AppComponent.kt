@@ -39,7 +39,6 @@ import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.feature.OcrFeature
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment
 import org.totschnig.myexpenses.fragment.CsvImportParseFragment
-import org.totschnig.myexpenses.fragment.CurrencyList
 import org.totschnig.myexpenses.fragment.HistoryChart
 import org.totschnig.myexpenses.fragment.OnBoardingPrivacyFragment
 import org.totschnig.myexpenses.fragment.OnboardingDataFragment
@@ -209,8 +208,6 @@ interface AppComponent {
     fun inject(donateDialogFragment: DonateDialogFragment)
 
     fun inject(syncBackendList: SyncBackendList)
-
-    fun inject(currencyList: CurrencyList)
 
     fun inject(editCurrencyDialog: EditCurrencyDialog)
 

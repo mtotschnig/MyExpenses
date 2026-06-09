@@ -58,13 +58,15 @@ open class CurrencyFormatter(
     private val prefHandler: PrefHandler,
     private val application: MyApplication,
 ) : ICurrencyFormatter {
-    private val numberFormats: MutableMap<String, NumberFormat> = HashMap()
+    private val numberFormats: MutableMap<Pair<String, Int>, NumberFormat> = HashMap()
 
     override fun invalidate(contentResolver: ContentResolver, currency: String?) {
         if (currency == null) {
             numberFormats.clear()
         } else {
-            numberFormats.remove(currency)
+            numberFormats.keys.filter { it.first == currency }.forEach {
+                numberFormats.remove(it)
+            }
         }
         notifyUris(contentResolver)
     }
@@ -93,7 +95,7 @@ open class CurrencyFormatter(
     }
 
     private fun getNumberFormat(currencyUnit: CurrencyUnit): NumberFormat {
-        return numberFormats.getOrPut(currencyUnit.code) {
+        return numberFormats.getOrPut(currencyUnit.code to currencyUnit.fractionDigits) {
             val (newFormat, isDefault) = initNumberFormat()
             val fractionDigits = currencyUnit.fractionDigits
             (newFormat as DecimalFormat).apply {

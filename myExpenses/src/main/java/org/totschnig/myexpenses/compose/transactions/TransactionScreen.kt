@@ -84,6 +84,8 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
 import androidx.compose.ui.window.PopupProperties
@@ -123,6 +125,7 @@ import org.totschnig.myexpenses.preference.PreferenceState
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
+import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import timber.log.Timber
@@ -149,6 +152,7 @@ fun TransactionScreen(
     windowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
     isFramed: Boolean,
     navigationIcon: @Composable () -> Unit = {},
+    allCurrencies: List<Currency>,
 ) {
     LaunchedEffect(Unit) {
         viewModel.setLastVisited(StartScreen.Transactions)
@@ -195,7 +199,7 @@ fun TransactionScreen(
         containerColor = containerColor,
         topBar = {
             val isInSelectionMode = viewModel.selectionState.value.isNotEmpty()
-            val height = 52.dp  + 30.dp * (LocalDensity.current.fontScale -1)
+            val height = 52.dp + 30.dp * (LocalDensity.current.fontScale - 1)
             Crossfade(
                 targetState = isInSelectionMode,
                 label = "TopBarTransition"
@@ -339,7 +343,8 @@ fun TransactionScreen(
                 }
             } else {
                 val isPortfolio = (currentAccount as? FullAccount)?.isPortfolio == true
-                val lastAction = if (isPortfolio) viewModel.lastActionPortfolio else viewModel.lastAction
+                val lastAction =
+                    if (isPortfolio) viewModel.lastActionPortfolio else viewModel.lastAction
                 FloatingActionButtonMenu(
                     primaryAction = lastAction.flow.collectAsState(Action.Expense).value,
                     isStandard = viewModel.fabStyle.collectAsState(FabStyle.Standard).value == FabStyle.Standard,
@@ -432,7 +437,8 @@ fun TransactionScreen(
                         }
                     ) {
                         val density = LocalDensity.current
-                        val maxTabWidth = with(density) { MaterialTheme.typography.labelLarge.fontSize.toDp() } * 10
+                        val maxTabWidth =
+                            with(density) { MaterialTheme.typography.labelLarge.fontSize.toDp() } * 10
                         Timber.d("maxTabWidth: $maxTabWidth")
                         accountList.forEachIndexed { index, account ->
                             Tab(
@@ -492,21 +498,29 @@ fun TransactionScreen(
     }
     showTradeScreen?.let { tradeAction ->
         val toastContext = LocalContext.current
-        TradeScreen(
-            onDismiss = { showTradeScreen = null },
-            onSave = { intent ->
-                android.widget.Toast.makeText(toastContext, "Trade Saved: ${intent.type} ${intent.quantity} ${intent.targetAsset?.code}", android.widget.Toast.LENGTH_SHORT).show()
-                showTradeScreen = null
-            },
-            reportingCurrency = currentAccount.currencyUnit,
-            availableAssets = listOf(
-                CurrencyUnit(code = "AAPL", symbol = "AAPL", fractionDigits = 4),
-                CurrencyUnit(code = "BTC", symbol = "₿", fractionDigits = 8),
-                CurrencyUnit(code = "ETH", symbol = "Ξ", fractionDigits = 8)
-            ),
-            availableAccounts = accountList.map { it.id to it.labelV2(LocalContext.current) },
-            initialAction = tradeAction
-        )
+        Dialog(
+            onDismissRequest = { showTradeScreen = null },
+            properties = DialogProperties(usePlatformDefaultWidth = false)
+        ) {
+            TradeScreen(
+                onDismiss =  {showTradeScreen = null},
+                onSave = { intent ->
+                    android.widget.Toast.makeText(
+                        toastContext,
+                        "Trade Saved: ${intent.type} ${intent.quantity} ${intent.targetAsset?.code}",
+                        android.widget.Toast.LENGTH_SHORT
+                    ).show()
+                    showTradeScreen = null
+                },
+                reportingCurrency = currentAccount.currencyUnit,
+                assets = allCurrencies,
+                availableAccounts = accountList.map { it.id to it.labelV2(LocalContext.current) },
+                initialAction = tradeAction,
+                onCreateAsset = {
+                    onEvent(AppEvent.CreateAsset(it))
+                }
+            )
+        }
     }
 }
 

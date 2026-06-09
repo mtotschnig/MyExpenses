@@ -89,11 +89,13 @@ import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
+import org.totschnig.myexpenses.model.CommodityType
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.sort.TransactionSort
 import org.totschnig.myexpenses.preference.PreferenceState
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel.AccountPanelState
+import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 
@@ -125,7 +127,6 @@ sealed class AppEvent {
         val action: Action,
         val transferEnabled: Boolean = true,
     ) : AppEvent()
-
     data class SetAccountGrouping(val newGrouping: AccountGrouping<*>) : AppEvent()
     data class SetTransactionGrouping(val grouping: Grouping) : AppEvent()
     data class SetTransactionSort(val transactionSort: TransactionSort) : AppEvent()
@@ -135,6 +136,7 @@ sealed class AppEvent {
     object Sort : AppEvent()
     data class CopyToClipBoard(val text: String) : AppEvent()
     object ToggleNavigation : AppEvent()
+    data class CreateAsset(val asset: Currency) : AppEvent()
 }
 
 interface AppEventHandler {
@@ -157,6 +159,7 @@ suspend fun ThreePaneScaffoldNavigator<*>.navigateToRoot(pane: ThreePaneScaffold
 fun MainScreenAdaptive(
     viewModel: MyExpensesV2ViewModel,
     accounts: List<FullAccount>,
+    allCurrencies: List<Currency>,
     availableFilters: List<AccountGroupingKey>,
     selectedAccountId: Long,
     onAppEvent: AppEventHandler,
@@ -461,7 +464,7 @@ fun MainScreenAdaptive(
                                 onPrepareMenuItem = onPrepareMenuItem,
                                 pageContent = pageContent,
                                 bankIcon = bankIcon,
-                                visibleActionItems = 1 /*when {
+                                visibleActionItems = when {
                                     adaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
                                         WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND
                                     ) -> if (is2Pane) 4 else 6
@@ -475,12 +478,13 @@ fun MainScreenAdaptive(
                                         fontScale > 1.1f -> if (toggleableRail) 0 else 1
                                         else -> if (toggleableRail) 1 else 2
                                     }
-                                }*/,
+                                },
                                 windowInsets = with(customInsets) {
                                     if (is2Pane) only(WindowInsetsSides.Vertical + WindowInsetsSides.End) else this
                                 },
                                 isFramed = isRail,
-                                navigationIcon = navigationIcon
+                                navigationIcon = navigationIcon,
+                                allCurrencies = allCurrencies
                             )
                         }
                     }

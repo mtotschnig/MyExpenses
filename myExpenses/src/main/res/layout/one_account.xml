@@ -109,22 +109,9 @@
                     android:labelFor="@+id/AccountType"
                     android:text="@string/type" />
 
-                <com.google.android.flexbox.FlexboxLayout
-                    style="@style/FormField"
-                    app:alignItems="center"
-                    app:flexWrap="wrap">
-
-                    <Spinner
-                        android:id="@+id/AccountType"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-
-                    <CheckBox
-                        android:id="@+id/IsPortfolio"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/account_type_portfolio" />
-                </com.google.android.flexbox.FlexboxLayout>
+                <Spinner
+                    android:id="@+id/AccountType"
+                    style="@style/FormField" />
             </TableRow>
 
             <TableRow>

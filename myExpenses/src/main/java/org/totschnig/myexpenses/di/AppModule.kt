@@ -62,5 +62,5 @@ open class AppModule {
     open fun provideCurrencyContext(
         application: MyApplication,
         prefHandler: PrefHandler
-    ): CurrencyContext = DatabaseCurrencyContext(application.contentResolver, prefHandler, application)
+    ): CurrencyContext = DatabaseCurrencyContext(prefHandler, application)
 }

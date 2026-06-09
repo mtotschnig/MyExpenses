@@ -36,6 +36,7 @@ fun AmountEdit(
     modifier: Modifier = Modifier,
     fractionDigits: Int = 2,
     isError: Boolean = false,
+    enabled: Boolean = true,
     allowNegative: Boolean = true,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     trailingIcon: @Composable (() -> Unit)? = null,
@@ -96,7 +97,8 @@ fun DenseTextField(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     trailingIcon: @Composable (() -> Unit)? = null,
     isError: Boolean = false,
-    readOnly: Boolean = false
+    readOnly: Boolean = false,
+    enabled: Boolean = true,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val colors: TextFieldColors = OutlinedTextFieldDefaults.colors().copy(
@@ -109,7 +111,7 @@ fun DenseTextField(
         onValueChange = onValueChange,
         modifier = modifier,
         interactionSource = interactionSource,
-        enabled = true,
+        enabled = enabled,
         readOnly = readOnly,
         singleLine = true,
         keyboardOptions = keyboardOptions,

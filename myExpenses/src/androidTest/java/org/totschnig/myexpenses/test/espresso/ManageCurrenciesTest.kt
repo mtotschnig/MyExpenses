@@ -27,7 +27,6 @@ import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
-import org.totschnig.myexpenses.model.PreferencesCurrencyContext
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.TestShard3
@@ -52,7 +51,7 @@ class ManageCurrenciesTest : BaseUiTest<ManageCurrencies>() {
     fun clearDb() {
         cleanup {
             repository.deleteAccount(account.id)
-            PreferencesCurrencyContext.resetFractionDigits(prefHandler, CURRENCY_CODE)
+            currencyContext.storeCustomFractionDigits(CURRENCY_CODE, null)
         }
     }
 

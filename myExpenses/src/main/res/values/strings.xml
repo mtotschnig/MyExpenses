@@ -1149,4 +1149,6 @@
     <string name="trade_funding_account">Funding Account</string>
     <string name="trade_target_asset">Asset</string>
     <string name="menu_create_portfolio">New portfolio</string>
+    <string name="asset_type_security">Security</string>
+    <string name="asset_type_crypto">Crypto currency</string>
 </resources>

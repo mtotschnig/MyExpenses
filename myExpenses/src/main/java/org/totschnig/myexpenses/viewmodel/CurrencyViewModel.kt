@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.db2.createCurrency
 import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.provider.KEY_CODE
@@ -19,6 +21,12 @@ import java.text.Collator
 
 open class CurrencyViewModel(application: Application) :
     ContentResolvingAndroidViewModel(application) {
+
+    /**
+     * sorted by usages, code
+     */
+    val currencyUnits: Flow<List<CurrencyUnit>>
+        get() = currencyContext.getAll()
 
     val currencies: Flow<List<Currency>>
         get() = contentResolver.observeQuery(
@@ -63,4 +71,14 @@ open class CurrencyViewModel(application: Application) :
             currencyContext.homeCurrencyString,
             userPreferredLocale
         )
+
+    fun createAsset(
+        asset: Currency
+    ) {
+        viewModelScope.launch(coroutineDispatcher) {
+            with(asset) {
+                repository.createCurrency(code, symbol, displayName, fractionDigits, commodityType)
+            }
+        }
+    }
 }

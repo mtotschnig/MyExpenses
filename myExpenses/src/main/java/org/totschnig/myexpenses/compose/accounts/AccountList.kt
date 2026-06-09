@@ -10,7 +10,6 @@ import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -82,9 +81,9 @@ import org.totschnig.myexpenses.compose.ExpansionHandle
 import org.totschnig.myexpenses.compose.ExpansionHandler
 import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.LocalColors
+import org.totschnig.myexpenses.compose.LocalCurrencyContext
 import org.totschnig.myexpenses.compose.LocalCurrencyFormatter
 import org.totschnig.myexpenses.compose.LocalDateFormatter
-import org.totschnig.myexpenses.compose.LocalHomeCurrency
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.toggle
@@ -270,7 +269,7 @@ fun AccountListV2(
                     HeaderV2(
                         header = groupKey.title(context),
                         currency = groupKey as? CurrencyUnit
-                            ?: LocalHomeCurrency.current,
+                            ?: LocalCurrencyContext.current.homeCurrencyUnit,
                         total = group.filter { !it.excludeFromTotals }.sumOf {
                             if (grouping == AccountGrouping.CURRENCY) it.currentBalance else it.equivalentCurrentBalance
                         },
@@ -322,7 +321,7 @@ fun AccountListV2(
                 ) {
                     HeaderV2(
                         header = AccountGroupingKey.Ungrouped.title(context),
-                        currency = LocalHomeCurrency.current,
+                        currency = LocalCurrencyContext.current.homeCurrencyUnit,
                         total = accountData.filter { !it.excludeFromTotals }.sumOf {
                             it.equivalentCurrentBalance
                         },
@@ -556,7 +555,7 @@ fun AccountCardV2(
         }
     )
 
-    val homeCurrency = LocalHomeCurrency.current
+    val homeCurrency = LocalCurrencyContext.current.homeCurrencyUnit
     val outlineColor = MaterialTheme.colorScheme.outlineVariant
     Surface(
         modifier = Modifier.fillMaxWidth(),
@@ -792,7 +791,7 @@ fun AccountCard(
     val format = LocalCurrencyFormatter.current
     val showMenu = rememberSaveable { mutableStateOf(false) }
     val activatedBackgroundColor = MaterialTheme.colorScheme.secondaryContainer
-    val homeCurrency = LocalHomeCurrency.current
+    val homeCurrency = LocalCurrencyContext.current.homeCurrencyUnit
     val showEquivalent = (showEquivalentWorth) || account.isHomeAggregate
     val currency = if (showEquivalent) homeCurrency else account.currencyUnit
     val currentBalance = format.convAmount(
@@ -1049,7 +1048,7 @@ fun AccountSummaryV2(
     account: FullAccount,
     onDisplayBalanceTypeChange: ((BalanceType) -> Unit)? = null,
 ) {
-    val homeCurrency = LocalHomeCurrency.current
+    val homeCurrency = LocalCurrencyContext.current.homeCurrencyUnit
     val isFx = account.currency != homeCurrency.code
     val balanceType = account.validatedBalanceType
 
@@ -1158,7 +1157,7 @@ fun AccountSummaryV2(
     account: AggregateAccount,
     onDisplayBalanceTypeChange: ((BalanceType) -> Unit)? = null,
 ) {
-    val homeCurrency = LocalHomeCurrency.current
+    val homeCurrency = LocalCurrencyContext.current.homeCurrencyUnit
     val isFx = account.currency != homeCurrency.code
     val balanceType = account.validatedBalanceType
 
@@ -1344,7 +1343,7 @@ fun SumRowV2(
             formattedEquivalentAmount?.let {
                 AmountText(
                     it,
-                    LocalHomeCurrency.current,
+                    LocalCurrencyContext.current.homeCurrencyUnit,
                     fontSize = auxiliaryTextStyle.fontSize
                 )
             }

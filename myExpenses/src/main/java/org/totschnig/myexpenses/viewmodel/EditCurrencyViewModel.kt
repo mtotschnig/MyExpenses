@@ -49,13 +49,13 @@ class EditCurrencyViewModel(application: Application) : CurrencyViewModel(applic
                 updatedAccountsCount = resultCount
             }
             if (updateOperationsCount == 0) {
+                currencyFormatter.invalidate(
+                    getApplication<Application>().contentResolver,
+                    currency
+                )
                 _updateComplete.postValue(updatedAccountsCount)
             }
         }
-        currencyFormatter.invalidate(
-            getApplication<Application>().contentResolver,
-            currency
-        )
         currencyContext.storeCustomSymbol(currency, symbol)
         if (withUpdate) {
             updateOperationsCount++

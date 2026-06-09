@@ -222,6 +222,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                         MainScreenAdaptive(
                             viewModel,
                             accounts,
+                            allCurrencies = currencies,
                             availableFilters,
                             selectedAccountId = selectedAccountIdFromState,
                             onAppEvent = object : AppEventHandler {
@@ -273,6 +274,9 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                                         is AppEvent.CopyToClipBoard -> copyToClipboard(event.text)
                                         AppEvent.ToggleNavigation -> isNavigationVisible =
                                             !isNavigationVisible
+
+                                        is AppEvent.CreateAsset ->
+                                            currencyViewModel.createAsset(event.asset)
                                     }
                                 }
                             },
@@ -377,11 +381,12 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
     }
 
     override suspend fun accountForNewTransaction() = Optional.ofNullable(
-        when(currentAccount) {
+        when (currentAccount) {
             is FullAccount -> currentAccount as? FullAccount
             is AggregateAccount -> viewModel.accountDataV2.value?.getOrNull()
                 ?.filter { it.currency == currentAccount?.currency }
                 ?.maxByOrNull { it.lastUsed }
+
             null -> null
         }
     )

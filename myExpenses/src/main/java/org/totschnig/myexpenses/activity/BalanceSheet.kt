@@ -71,8 +71,8 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AmountText
 import org.totschnig.myexpenses.compose.CheckableMenuEntry
 import org.totschnig.myexpenses.compose.ColoredAmountText
+import org.totschnig.myexpenses.compose.LocalCurrencyContext
 import org.totschnig.myexpenses.compose.LocalDateFormatter
-import org.totschnig.myexpenses.compose.LocalHomeCurrency
 import org.totschnig.myexpenses.compose.PieChartCompose
 import org.totschnig.myexpenses.compose.TooltipIconButton
 import org.totschnig.myexpenses.compose.TooltipIconMenu
@@ -462,7 +462,7 @@ fun BalanceSheetSectionHeaderView(
     highlight: Boolean = false,
     absolute: Boolean = true,
 ) {
-    val homeCurrency = LocalHomeCurrency.current
+    val homeCurrency = LocalCurrencyContext.current.homeCurrencyUnit
     Row(
         modifier = modifier
             .conditional(highlight) {
@@ -495,7 +495,7 @@ fun LazyListScope.accountTypeSection(
     onNavigate: (BalanceAccount) -> Unit,
 ) {
     item {
-        val homeCurrency = LocalHomeCurrency.current
+        val homeCurrency = LocalCurrencyContext.current.homeCurrencyUnit
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -530,7 +530,7 @@ fun BalanceAccountItemView(
     highlight: Boolean,
     onNavigate: (BalanceAccount) -> Unit,
 ) {
-    val homeCurrency = LocalHomeCurrency.current
+    val homeCurrency = LocalCurrencyContext.current.homeCurrencyUnit
     Row(
         modifier = Modifier
             .conditional(highlight) {

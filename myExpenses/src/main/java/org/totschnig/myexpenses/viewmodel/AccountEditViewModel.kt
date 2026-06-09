@@ -54,10 +54,6 @@ class AccountEditViewModel(application: Application, savedStateHandle: SavedStat
         dynamicExchangeRates = !dynamicExchangeRates
     }
 
-    var isPortfolio: Boolean
-        get() = savedStateHandle.get<Boolean>(IS_PORTFOLIO_KEY) ?: false
-        set(value) = savedStateHandle.set(IS_PORTFOLIO_KEY, value)
-
     var uuid: String?
         get() = savedStateHandle.get<String>(UUID_KEY)
         set(value) = savedStateHandle.set(UUID_KEY, value)

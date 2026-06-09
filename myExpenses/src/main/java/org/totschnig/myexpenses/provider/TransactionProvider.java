@@ -71,6 +71,7 @@ import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_CATID;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_CODE;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_COMMODITY;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_COMMODITY_TYPE;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_COUNT;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_CURRENCY;
@@ -794,7 +795,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       case CURRENCIES:
         if (projection == null) {
           projection = new String[] {
-              KEY_ROWID, KEY_CODE, KEY_GROUPING, KEY_LABEL, KEY_USAGES, KEY_SYMBOL, KEY_FRACTION_DIGITS
+              KEY_ROWID, KEY_CODE, KEY_GROUPING, KEY_LABEL, KEY_USAGES, KEY_SYMBOL, KEY_FRACTION_DIGITS, KEY_COMMODITY_TYPE
           };
           qb = SupportSQLiteQueryBuilder.builder(CURRENCIES_USAGES_TABLE_EXPRESSION);
         } else {

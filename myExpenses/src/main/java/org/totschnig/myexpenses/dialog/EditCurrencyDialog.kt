@@ -10,12 +10,14 @@ import android.text.InputFilter.AllCaps
 import android.text.TextWatcher
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.core.os.BundleCompat
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import com.google.common.math.IntMath
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.EditCurrencyBinding
-import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.form.FormFieldNotEmptyValidator
@@ -24,14 +26,10 @@ import org.totschnig.myexpenses.util.form.NumberRangeValidator
 import org.totschnig.myexpenses.util.ui.postScrollToBottom
 import org.totschnig.myexpenses.util.ui.withOkClick
 import org.totschnig.myexpenses.viewmodel.EditCurrencyViewModel
-import org.totschnig.myexpenses.viewmodel.data.Currency
-import java.util.*
-import javax.inject.Inject
+import java.util.Locale
 import kotlin.math.abs
 
 class EditCurrencyDialog : DialogViewBinding<EditCurrencyBinding>() {
-    @Inject
-    lateinit var currencyContext: CurrencyContext
 
     private val editCurrencyViewModel: EditCurrencyViewModel by viewModels()
 
@@ -57,19 +55,17 @@ class EditCurrencyDialog : DialogViewBinding<EditCurrencyBinding>() {
         }
         val frameworkCurrency: Boolean
         var title: String? = null
-        currency?.code?.let {
-            val (_, symbol) = currencyContext[it]
-            binding.edtCurrencySymbol.setText(symbol)
-            binding.edtCurrencyCode.setText(it)
-            val displayName = currency.toString()
-            frameworkCurrency = Utils.isKnownCurrency(it)
+        currency?.let {
+            binding.edtCurrencySymbol.setText(it.symbol)
+            binding.edtCurrencyCode.setText(it.code)
+            frameworkCurrency = Utils.isKnownCurrency(it.code)
             if (frameworkCurrency) {
                 binding.edtCurrencySymbol.requestFocus()
-                title = String.format(Locale.ROOT, "%s (%s)", displayName, it)
+                title = String.format(Locale.ROOT, "%s (%s)", it.description, it.code)
                 binding.containerCurrencyLabel.visibility = View.GONE
                 binding.containerCurrencyCode.visibility = View.GONE
             } else {
-                binding.edtCurrencyLabel.setText(displayName)
+                binding.edtCurrencyLabel.setText(it.description)
             }
             binding.edtCurrencyFractionDigits.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(
@@ -121,34 +117,22 @@ class EditCurrencyDialog : DialogViewBinding<EditCurrencyBinding>() {
             .withOkClick { onOkClick() }
     }
 
-    private fun readSymbolFromUI(): String {
-        return binding.edtCurrencySymbol.text.toString()
+    private fun readSymbolFromUI() = binding.edtCurrencySymbol.text.toString()
+
+    private fun readLabelFromUI() = binding.edtCurrencyLabel.text.toString()
+
+    private fun readCodeFromUI() = binding.edtCurrencyCode.text.toString()
+
+    private fun currentFractionDigits() = currency?.fractionDigits ?: 2
+
+    private fun readFractionDigitsFromUI() = try {
+        binding.edtCurrencyFractionDigits.text.toString().toInt()
+    } catch (_: NumberFormatException) {
+        -1
     }
 
-    private fun readLabelFromUI(): String {
-        return binding.edtCurrencyLabel.text.toString()
-    }
-
-    private fun readCodeFromUI(): String {
-        return binding.edtCurrencyCode.text.toString()
-    }
-
-    private fun currentFractionDigits(): Int {
-        return currency?.let {
-            currencyContext[it.code].fractionDigits
-        } ?: 2
-    }
-
-    private fun readFractionDigitsFromUI(): Int {
-        return try {
-            binding.edtCurrencyFractionDigits.text.toString().toInt()
-        } catch (_: NumberFormatException) {
-            -1
-        }
-    }
-
-    private val currency: Currency?
-        get() = requireArguments().getSerializable(KEY_CURRENCY) as Currency?
+    private val currency: CurrencyUnit?
+        get() = BundleCompat.getParcelable(requireArguments(), KEY_CURRENCY, CurrencyUnit::class.java)
 
     private fun onOkClick() {
         val validator = FormValidator()
@@ -189,24 +173,22 @@ class EditCurrencyDialog : DialogViewBinding<EditCurrencyBinding>() {
     }
 
     fun dismiss(result: Int?) {
-        targetFragment?.let {
-            it.onActivityResult(targetRequestCode, Activity.RESULT_OK, result?.let {
-                Intent().apply {
-                    putExtra(KEY_RESULT, it)
-                    putExtra(KEY_CURRENCY, currency!!.code)
-                }
-            })
+        val bundle = Bundle().apply {
+            result?.let { putInt(KEY_RESULT, it) }
+            currency?.code?.let { putString(KEY_CURRENCY, it) }
         }
+        setFragmentResult(REQUEST_KEY, bundle)
         super.dismiss()
     }
 
     companion object {
+        const val REQUEST_KEY = "EditCurrencyDialogRequest"
         const val KEY_RESULT = "result"
 
         @JvmStatic
-        fun newInstance(currency: Currency?) = EditCurrencyDialog().apply {
+        fun newInstance(currency: CurrencyUnit?) = EditCurrencyDialog().apply {
             arguments = Bundle(1).apply {
-                putSerializable(KEY_CURRENCY, currency)
+                putParcelable(KEY_CURRENCY, currency)
             }
         }
     }

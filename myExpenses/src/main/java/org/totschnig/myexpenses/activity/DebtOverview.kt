@@ -33,7 +33,6 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.ColoredAmountText
 import org.totschnig.myexpenses.compose.DebtCard
-import org.totschnig.myexpenses.compose.LocalHomeCurrency
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbarAndBottomPadding
 import org.totschnig.myexpenses.compose.simpleStickyHeader
 import org.totschnig.myexpenses.databinding.ActivityComposeBinding
@@ -66,7 +65,7 @@ class DebtOverview : DebtActivity() {
             val debtsInfo = debtViewModel.debts.collectAsState()
 
             AppTheme {
-                val homeCurrency = LocalHomeCurrency.current
+                val homeCurrency = currencyContext.homeCurrencyUnit
                 val (sort, debts) = debtsInfo.value
 
                 LaunchedEffect(debts) {
@@ -87,6 +86,7 @@ class DebtOverview : DebtActivity() {
                         modifier = Modifier
                             .nestedScroll(nestedScrollInterop),
                         debts = grouped,
+                        homeCurrency = homeCurrency,
                         loadTransactionsForDebt = { debt ->
                             debtViewModel.loadTransactions(debt)
                                 .observeAsState(emptyList())
@@ -199,6 +199,7 @@ class DebtOverview : DebtActivity() {
 fun GroupedDebtList(
     modifier: Modifier = Modifier,
     debts: Collection<List<DisplayDebt>>,
+    homeCurrency: CurrencyUnit,
     loadTransactionsForDebt: @Composable (DisplayDebt) -> State<List<Transaction>>,
     onEdit: (DisplayDebt) -> Unit = {},
     onDelete: (DisplayDebt, Int) -> Unit = { _, _ -> },
@@ -229,7 +230,7 @@ fun GroupedDebtList(
                     } else {
                         ColoredAmountText(
                             amount = list.sumOf { it.currentEquivalentBalance },
-                            currency = LocalHomeCurrency.current
+                            currency = homeCurrency
                         )
                     }
                 }
@@ -314,6 +315,7 @@ private fun GroupedDebtListPreview() {
     Surface(modifier = Modifier.padding(8.dp)) {
         GroupedDebtList(
             debts = previewList.groupBy { it.payeeId }.values,
+            homeCurrency = CurrencyUnit.DebugInstance,
             loadTransactionsForDebt = {
                 remember { mutableStateOf(emptyList()) }
             }

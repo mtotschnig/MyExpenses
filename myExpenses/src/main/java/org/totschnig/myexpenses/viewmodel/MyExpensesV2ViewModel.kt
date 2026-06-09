@@ -265,7 +265,9 @@ open class MyExpensesV2ViewModel(
                         equivalentSumExpense = filteredForTotals.sumOf { it.equivalentSumExpense },
                         equivalentSumTransfer = filteredForTotals.sumOf { it.equivalentSumTransfer },
                         equivalentTotal = if (filteredForTotals.any { it.total != null })
-                            filteredForTotals.sumOf { it.equivalentTotal ?: it.equivalentCurrentBalance }
+                            filteredForTotals.sumOf {
+                                it.equivalentTotal ?: it.equivalentCurrentBalance
+                            }
                         else null,
                     ).let { aggregateAccount ->
                         if (aggregateAccountGrouping == AccountGrouping.CURRENCY) aggregateAccount.copy(
@@ -274,7 +276,9 @@ open class MyExpensesV2ViewModel(
                             sumIncome = filteredForTotals.sumOf { it.sumIncome },
                             sumExpense = filteredForTotals.sumOf { it.sumExpense },
                             sumTransfer = filteredForTotals.sumOf { it.sumTransfer },
-                            total = if (filteredForTotals.any { it.total != null }) filteredForTotals.sumOf { it.total ?: it.currentBalance } else null,
+                            total = if (filteredForTotals.any { it.total != null }) filteredForTotals.sumOf {
+                                it.total ?: it.currentBalance
+                            } else null,
                         ) else aggregateAccount
                     }
                 }
