@@ -283,7 +283,7 @@ object PdfPrinter {
         subTitle: Phrase,
         subTitle2: String?,
     ) {
-        val preface = PdfPTable(1)
+        val preface = helper.newTable(1)
         preface.addCell(helper.printToCell(title, FontType.TITLE))
         preface.addCell(helper.printToCell(subTitle))
         subTitle2?.let {
@@ -394,7 +394,9 @@ object PdfPrinter {
                                     )
                                 )
                             }
-                        )
+                        ).apply {
+                            horizontalAlignment = if (helper.layoutDirectionFromLocaleIsRTL) Element.ALIGN_RIGHT else Element.ALIGN_LEFT
+                        }
                     )
                     groupSummary.addCell(helper.printToCell("Δ: $formattedDelta").apply {
                         horizontalAlignment = Element.ALIGN_CENTER
@@ -411,7 +413,7 @@ object PdfPrinter {
                                 )
                             }
                         ).apply {
-                            horizontalAlignment = Element.ALIGN_RIGHT
+                            horizontalAlignment = if (helper.layoutDirectionFromLocaleIsRTL) Element.ALIGN_LEFT else Element.ALIGN_RIGHT
                         })
                 } else {
                     groupSummary.addCell(helper.printToCell("Δ: $formattedDelta").apply {
@@ -472,6 +474,9 @@ object PdfPrinter {
                                 )
                             )
                         }).apply {
+                        if (helper.layoutDirectionFromLocaleIsRTL) {
+                            runDirection = PdfWriter.RUN_DIRECTION_RTL
+                        }
                         colspan = 3
                         horizontalAlignment = Element.ALIGN_CENTER
                         border = NO_BORDER
@@ -528,8 +533,9 @@ object PdfPrinter {
 
 
                 columns.forEachIndexed { index, fields ->
-                    val border =
-                        if (index == columns.lastIndex) NO_BORDER else Rectangle.RIGHT
+                    val border = if (index == columns.lastIndex) NO_BORDER else {
+                        if (helper.layoutDirectionFromLocaleIsRTL) Rectangle.LEFT else Rectangle.RIGHT
+                    }
                     val alignment = columnAlignment(fields)
                     val extra = Bundle(1).apply {
                         putBoolean(Date.KEY_IS_TIME_FIELD, account.grouping == Grouping.DAY)
@@ -670,8 +676,10 @@ object PdfPrinter {
             fun Transaction2.print(paddingTop: Float = 5f, paddingBottom: Float = 5f, isSplitPart: Boolean = false) {
                 columns.forEachIndexed { index, fields ->
                     val finalFields = if (isSplitPart) fields.filter { it != Payee } else fields
-                    val border = (if (index == columns.lastIndex) 0 else Rectangle.RIGHT) +
-                            if (isSplitPart) 0 else Rectangle.TOP
+                    val sideBorder = if (index == columns.lastIndex) 0 else {
+                        if (helper.layoutDirectionFromLocaleIsRTL) Rectangle.LEFT else Rectangle.RIGHT
+                    }
+                    val border = sideBorder + if (isSplitPart) 0 else Rectangle.TOP
                     val rows: List<Pair<FontType, String>> = finalFields.flatMap { field ->
                         val fontType = when (field) {
                             is Amount, OriginalAmount -> {
@@ -762,6 +770,9 @@ object PdfPrinter {
         border: Int = Rectangle.RIGHT,
         withPadding: Boolean = true,
     ) = PdfPCell(helper.print(text, FontType.BOLD)).apply {
+        if (helper.layoutDirectionFromLocaleIsRTL || PdfHelper.hasAnyRtl(text)) {
+            runDirection = PdfWriter.RUN_DIRECTION_RTL
+        }
         setPadding(if (withPadding) 5f else 0f)
         horizontalAlignment = alignment
         verticalAlignment = Element.ALIGN_MIDDLE
@@ -774,6 +785,9 @@ object PdfPrinter {
         border: Int = Rectangle.RIGHT,
         vararg texts: String,
     ) = PdfPCell(PdfPTable(1).apply {
+        if (helper.layoutDirectionFromLocaleIsRTL) {
+            runDirection = PdfWriter.RUN_DIRECTION_RTL
+        }
         widthPercentage = 100f
         texts.forEachIndexed { index, text ->
             addCell(
@@ -791,6 +805,9 @@ object PdfPrinter {
             )
         }
     }).apply {
+        if (helper.layoutDirectionFromLocaleIsRTL) {
+            runDirection = PdfWriter.RUN_DIRECTION_RTL
+        }
         this.border = border
         setPadding(5f)
     }

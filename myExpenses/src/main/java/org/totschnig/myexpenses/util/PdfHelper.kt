@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.LazyFontSelector.FontType
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
+import timber.log.Timber
 import java.io.File
 import java.io.IOException
 import java.time.LocalDate
@@ -57,10 +58,12 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
     private val fBalanceChapter: Font by lazy { convertFallback(FontType.BALANCE_CHAPTER) }
     private val fBalanceSection: Font by lazy { convertFallback(FontType.BALANCE_SECTION) }
 
-    private val layoutDirectionFromLocaleIsRTL: Boolean
+    val layoutDirectionFromLocaleIsRTL: Boolean
 
     init {
-        val l = Locale.getDefault()
+        val l = Locale.getDefault().also {
+            Timber.d("locale %s", it)
+        }
         layoutDirectionFromLocaleIsRTL = (l.layoutDirection == View.LAYOUT_DIRECTION_RTL)
         lfs = if (memoryClass >= 32) {
             //we want the Default Font to be used first
@@ -125,7 +128,7 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
         withPadding: Boolean = true,
     ) = if (text == null) emptyCell(border) else
         PdfPCell(print(text, font)).apply {
-            if (hasAnyRtl(text)) {
+            if (layoutDirectionFromLocaleIsRTL || hasAnyRtl(text)) {
                 runDirection = PdfWriter.RUN_DIRECTION_RTL
             }
             setPadding(if (withPadding) 5f else 0f)
@@ -139,7 +142,7 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
         border: Int = Rectangle.NO_BORDER,
         withPadding: Boolean = true,
     ) = PdfPCell(phrase).apply {
-        if (hasAnyRtl(phrase.content)) {
+        if (layoutDirectionFromLocaleIsRTL || hasAnyRtl(phrase.content)) {
             this.runDirection = PdfWriter.RUN_DIRECTION_RTL
         }
         setPadding(if (withPadding) 5f else 0f)
