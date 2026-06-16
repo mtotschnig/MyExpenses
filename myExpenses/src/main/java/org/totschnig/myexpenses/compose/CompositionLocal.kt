@@ -46,7 +46,7 @@ val LocalCurrencyContext = staticCompositionLocalOf<CurrencyContext> {
 
         override fun getAll(): Flow<List<CurrencyUnit>> = emptyFlow()
 
-        override fun storeCustomFractionDigits(currencyCode: String, fractionDigits: Int) {}
+        override fun storeCustomFractionDigits(currencyCode: String, fractionDigits: Int?) {}
 
         override fun storeCustomSymbol(currencyCode: String, symbol: String) {}
 

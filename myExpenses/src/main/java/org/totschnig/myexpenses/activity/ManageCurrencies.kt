@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -31,10 +31,12 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
@@ -46,11 +48,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
-import org.totschnig.myexpenses.dialog.EditCurrencyDialog
+import org.totschnig.myexpenses.compose.currencies.EditCurrencyDialog
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CommodityType
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.viewmodel.EditCurrencyViewModel
 
@@ -63,23 +64,43 @@ class ManageCurrencies : ProtectedFragmentActivity() {
         super.onCreate(savedInstanceState)
         injector.inject(viewModel)
 
-        supportFragmentManager.setFragmentResultListener(
-            EditCurrencyDialog.REQUEST_KEY,
-            this
-        ) { _, bundle ->
-            val updatedAccounts = bundle.getInt(EditCurrencyDialog.KEY_RESULT, 0)
-            if (updatedAccounts > 0) {
-                val currencyCode = bundle.getString(KEY_CURRENCY)
-                showSnackBar(getString(R.string.change_fraction_digits_result, updatedAccounts, currencyCode))
-            }
-        }
-
         setContent {
             AppTheme {
+
+                var editingCurrency by rememberSaveable { mutableStateOf<CurrencyUnit?>(null) }
+                var showEditDialog by rememberSaveable { mutableStateOf(false) }
+
+                val openEditDialog = { unit: CurrencyUnit? ->
+                    viewModel.resetResults()
+                    editingCurrency = unit
+                    showEditDialog = true
+                }
+
                 val tabs = listOf(CommodityType.FIAT, CommodityType.SECURITY, CommodityType.CRYPTO)
                 val pagerState = rememberPagerState { tabs.size }
                 val scope = rememberCoroutineScope()
                 val units by viewModel.currencyUnits.collectAsStateWithLifecycle(emptyList())
+
+                val deleteComplete by viewModel.deleteComplete.collectAsStateWithLifecycle()
+                LaunchedEffect(deleteComplete) {
+                    if (deleteComplete == false) {
+                        showSnackBar(getString(R.string.currency_still_used))
+                        viewModel.resetResults()
+                    }
+                }
+
+                if (showEditDialog) {
+                    EditCurrencyDialog(
+                        currency = editingCurrency,
+                        viewModel = viewModel,
+                        onDismiss = { showEditDialog = false },
+                        onResult = { result, code ->
+                            if (result > 0) {
+                                showSnackBar(getString(R.string.change_fraction_digits_result, result, code))
+                            }
+                        }
+                    )
+                }
 
                 Scaffold(
                     topBar = {
@@ -142,10 +163,6 @@ class ManageCurrencies : ProtectedFragmentActivity() {
             }
         }
     }
-
-    private fun openEditDialog(unit: CurrencyUnit?) {
-        EditCurrencyDialog.newInstance(unit).show(supportFragmentManager, "EDIT_CURRENCY")
-    }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -168,12 +185,9 @@ fun CurrencyListView(
                 var showMenu by remember { mutableStateOf(false) }
 
                 ListItem(
-                    modifier = Modifier.combinedClickable(
-                        onClick = { onEdit(unit) },
-                        onLongClick = {
-                            if (!Utils.isKnownCurrency(unit.code)) showMenu = true
-                        }
-                    ),
+                    modifier = Modifier
+                        .animateItem()
+                        .clickable{ showMenu = true },
                     leadingContent = {
                         Text(
                             text = unit.code,
@@ -200,12 +214,21 @@ fun CurrencyListView(
                             expanded = showMenu,
                             onDismissRequest = { showMenu = false }) {
                             DropdownMenuItem(
-                                text = { Text(stringResource(R.string.menu_delete)) },
+                                text = { Text(stringResource(R.string.menu_edit)) },
                                 onClick = {
-                                    onDelete(unit)
+                                    onEdit(unit)
                                     showMenu = false
                                 }
                             )
+                            if (!Utils.isKnownCurrency(unit.code)) {
+                                DropdownMenuItem(
+                                    text = { Text(stringResource(R.string.menu_delete)) },
+                                    onClick = {
+                                        onDelete(unit)
+                                        showMenu = false
+                                    }
+                                )
+                            }
                         }
                     }
                 )

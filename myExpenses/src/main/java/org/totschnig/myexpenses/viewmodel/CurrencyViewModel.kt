@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import org.totschnig.myexpenses.db2.createCurrency
+import org.totschnig.myexpenses.db2.insertCurrency
 import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.provider.KEY_CODE
@@ -77,7 +77,7 @@ open class CurrencyViewModel(application: Application) :
     ) {
         viewModelScope.launch(coroutineDispatcher) {
             with(asset) {
-                repository.createCurrency(code, symbol, displayName, fractionDigits, commodityType)
+                repository.insertCurrency(code, symbol, displayName, fractionDigits, commodityType)
             }
         }
     }

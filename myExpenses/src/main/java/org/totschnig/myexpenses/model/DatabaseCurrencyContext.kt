@@ -23,7 +23,6 @@ import org.totschnig.myexpenses.provider.KEY_SYMBOL
 import org.totschnig.myexpenses.provider.KEY_USAGES
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getEnum
-import org.totschnig.myexpenses.provider.getIntIfExists
 import org.totschnig.myexpenses.provider.getIntOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
@@ -127,7 +126,8 @@ open class DatabaseCurrencyContext(
         null,
         null,
         null,
-        "$KEY_USAGES DESC, $KEY_CODE"
+        "$KEY_USAGES DESC, $KEY_CODE",
+        true
     ).mapToList(mapper = { cursor ->
         cursor.toCurrencyUnit()
     })
