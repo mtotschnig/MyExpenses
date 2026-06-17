@@ -92,6 +92,7 @@ class ManageCurrencies : ProtectedFragmentActivity() {
                 if (showEditDialog) {
                     EditCurrencyDialog(
                         currency = editingCurrency,
+                        defaultType = tabs[pagerState.currentPage],
                         viewModel = viewModel,
                         onDismiss = { showEditDialog = false },
                         onResult = { result, code ->
@@ -156,7 +157,7 @@ class ManageCurrencies : ProtectedFragmentActivity() {
                         CurrencyListView(
                             units = filteredUnits,
                             onEdit = { openEditDialog(it) },
-                            onDelete = { viewModel.deleteCurrency(it.code) }
+                            onDelete = { viewModel.deleteCurrency(it.databaseId) }
                         )
                     }
                 }

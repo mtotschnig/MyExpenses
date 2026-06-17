@@ -1306,18 +1306,6 @@ public class TransactionProvider extends BaseTransactionProvider {
           throw unknownUri(uri);
         }
       }
-      case CURRENCIES_CODE -> {
-        String currency = uri.getLastPathSegment();
-        if (Utils.isKnownCurrency(currency)) {
-          throw new IllegalArgumentException("Can only delete custom currencies");
-        }
-        try {
-          count = db.delete(TABLE_CURRENCIES, String.format("%s = '%s'%s", KEY_CODE,
-                  currency, prefixAnd(where)), whereArgs);
-        } catch (SQLiteConstraintException e) {
-          return 0;
-        }
-      }
       case TRANSACTIONS_TAGS -> {
         if (callerIsNotSyncAdapter(uri)) throw new IllegalArgumentException("Can only be called from sync adapter");
         count = db.delete(TABLE_TRANSACTIONS_TAGS, where, whereArgs);
@@ -1538,11 +1526,6 @@ public class TransactionProvider extends BaseTransactionProvider {
               KEY_ROWID + " = " + lastPathSegment + prefixAnd(where), whereArgs);
       case BUDGET_CATEGORY -> count = budgetCategoryUpsert(db, uri, values);
       case BUDGET_ALLOCATIONS -> count = MoreDbUtilsKt.update(db, TABLE_BUDGET_ALLOCATIONS, values, where, whereArgs);
-      case CURRENCIES_CODE -> {
-        final String currency = lastPathSegment;
-        count = MoreDbUtilsKt.update(db, TABLE_CURRENCIES, values, String.format("%s = '%s'%s", KEY_CODE,
-                currency, prefixAnd(where)), whereArgs);
-      }
       case TAG_ID -> count = MoreDbUtilsKt.update(db, TABLE_TAGS, values,
               KEY_ROWID + " = " + lastPathSegment + prefixAnd(where), whereArgs);
       case TRANSACTION_LINK_TRANSFER -> count = MoreDbUtilsKt.linkTransfers(db, uri.getPathSegments().get(2), values.getAsString(KEY_UUID), callerIsNotSyncAdapter(uri));

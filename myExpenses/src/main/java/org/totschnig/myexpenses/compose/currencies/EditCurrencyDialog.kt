@@ -49,6 +49,7 @@ fun EditCurrencyDialog(
     viewModel: EditCurrencyViewModel,
     onDismiss: () -> Unit,
     onResult: (Int, String?) -> Unit,
+    defaultType: CommodityType = CommodityType.FIAT,
 ) {
     val isEdit = currency != null
     val isKnownCurrency = isEdit && Utils.isKnownCurrency(currency.code)
@@ -56,7 +57,9 @@ fun EditCurrencyDialog(
     var symbol by rememberSaveable { mutableStateOf(currency?.symbol ?: "") }
     var code by rememberSaveable { mutableStateOf(currency?.code ?: "") }
     var label by rememberSaveable { mutableStateOf(currency?.description ?: "") }
-    var commodityType by rememberSaveable { mutableStateOf(currency?.commodityType ?: CommodityType.FIAT) }
+    var commodityType by rememberSaveable {
+        mutableStateOf(currency?.commodityType ?: defaultType)
+    }
     var fractionDigitsStr by rememberSaveable {
         mutableStateOf(
             currency?.fractionDigits?.toString() ?: "2"
@@ -128,54 +131,54 @@ fun EditCurrencyDialog(
                     .verticalScroll(rememberScrollState())
                     .fillMaxWidth()
             ) {
-                if (!isKnownCurrency) {
-                    if (!isEdit) {
-                        val options = CommodityType.entries
-                        SingleChoiceSegmentedButtonRow(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(bottom = 8.dp)
-                        ) {
-                            options.forEachIndexed { index, type ->
-                                SegmentedButton(
-                                    shape = SegmentedButtonDefaults.itemShape(
-                                        index = index,
-                                        count = options.size
-                                    ),
-                                    onClick = { commodityType = type },
-                                    selected = commodityType == type,
-                                    label = {
-                                        Text(
-                                            type.name.lowercase().replaceFirstChar {
-                                                if (it.isLowerCase()) it.titlecase(
-                                                    LocalConfiguration.current.locales[0]
-                                                ) else it.toString()
-                                            }
-                                        )
-                                    }
-                                )
-                            }
+                if (!isEdit) {
+                    val options = CommodityType.entries
+                    SingleChoiceSegmentedButtonRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 8.dp)
+                    ) {
+                        options.forEachIndexed { index, type ->
+                            SegmentedButton(
+                                shape = SegmentedButtonDefaults.itemShape(
+                                    index = index,
+                                    count = options.size
+                                ),
+                                onClick = { commodityType = type },
+                                selected = commodityType == type,
+                                label = {
+                                    Text(
+                                        type.name.lowercase().replaceFirstChar {
+                                            if (it.isLowerCase()) it.titlecase(
+                                                LocalConfiguration.current.locales[0]
+                                            ) else it.toString()
+                                        }
+                                    )
+                                }
+                            )
                         }
                     }
-                    OutlinedTextField(
-                        value = label,
-                        onValueChange = { label = it; errorMessage = null },
-                        label = { Text(stringResource(R.string.label)) },
-                        singleLine = true,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    Spacer(Modifier.height(8.dp))
-                    OutlinedTextField(
-                        value = code,
-                        onValueChange = { code = it.uppercase(); errorMessage = null },
-                        label = { Text(stringResource(R.string.currency_code)) },
-                        enabled = !isEdit,
-                        singleLine = true,
-                        keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Characters),
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    Spacer(Modifier.height(8.dp))
                 }
+                OutlinedTextField(
+                    value = label,
+                    onValueChange = { label = it; errorMessage = null },
+                    label = { Text(stringResource(R.string.label)) },
+                    singleLine = true,
+                    enabled =  !isKnownCurrency,
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(Modifier.height(8.dp))
+
+                OutlinedTextField(
+                    value = code,
+                    onValueChange = { code = it.uppercase(); errorMessage = null },
+                    label = { Text(stringResource(R.string.currency_code)) },
+                    enabled = !isKnownCurrency,
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Characters),
+                    modifier = Modifier.fillMaxWidth()
+                )
+                Spacer(Modifier.height(8.dp))
                 OutlinedTextField(
                     value = symbol,
                     onValueChange = { symbol = it },
@@ -216,11 +219,13 @@ fun EditCurrencyDialog(
             TextButton(enabled = isValid && !isSaving, onClick = {
                 isSaving = true
                 if (isEdit) viewModel.save(
-                    currency.code,
+                    currency.databaseId,
+                    code,
                     symbol,
                     currentFractionDigits,
                     if (isKnownCurrency) null else label,
-                    withUpdate
+                    withUpdate,
+                    currency.code
                 )
                 else viewModel.newCurrency(code, symbol, currentFractionDigits, label, commodityType)
             }) { Text(stringResource(android.R.string.ok)) }

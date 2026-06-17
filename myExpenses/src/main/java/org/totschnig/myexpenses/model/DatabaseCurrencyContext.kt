@@ -19,11 +19,13 @@ import org.totschnig.myexpenses.provider.KEY_COMMODITY_TYPE
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_FRACTION_DIGITS
 import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.KEY_SYMBOL
 import org.totschnig.myexpenses.provider.KEY_USAGES
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getEnum
 import org.totschnig.myexpenses.provider.getIntOrNull
+import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.Utils
@@ -48,6 +50,7 @@ open class DatabaseCurrencyContext(
     }
 
     private fun Cursor.toCurrencyUnit(): CurrencyUnit {
+        val databaseId = getLong(KEY_ROWID)
         val code = getString(KEY_CODE)
         val dbSymbol = getStringOrNull(KEY_SYMBOL)
         val dbFractionDigits = getIntOrNull(KEY_FRACTION_DIGITS)
@@ -68,7 +71,8 @@ open class DatabaseCurrencyContext(
             symbol = symbol,
             fractionDigits = fractionDigits,
             description = label,
-            commodityType = commodityType
+            commodityType = commodityType,
+            databaseId = databaseId
         )
     }
 
