@@ -76,7 +76,7 @@ class ManageCurrencies : ProtectedFragmentActivity() {
                     showEditDialog = true
                 }
 
-                val tabs = listOf(CommodityType.FIAT, CommodityType.SECURITY, CommodityType.CRYPTO)
+                val tabs = CommodityType.entries
                 val pagerState = rememberPagerState { tabs.size }
                 val scope = rememberCoroutineScope()
                 val units by viewModel.currencyUnits.collectAsStateWithLifecycle(emptyList())

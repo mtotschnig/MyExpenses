@@ -9,9 +9,9 @@ import kotlinx.parcelize.Parcelize
 import java.util.Currency
 
 enum class CommodityType {
+    FIAT,
     SECURITY,
-    CRYPTO,
-    FIAT;
+    CRYPTO
 }
 
 @Immutable
