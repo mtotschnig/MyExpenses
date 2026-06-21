@@ -15,6 +15,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.HelpOutline
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -39,7 +40,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -48,6 +49,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AppTheme
+import org.totschnig.myexpenses.compose.TEST_TAG_LIST
 import org.totschnig.myexpenses.compose.currencies.EditCurrencyDialog
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CommodityType
@@ -121,20 +123,20 @@ class ManageCurrencies : ProtectedFragmentActivity() {
                                             selected = pagerState.currentPage == index,
                                             onClick = {
                                                 scope.launch {
-                                                    pagerState.animateScrollToPage(
-                                                        index
-                                                    )
+                                                    pagerState.animateScrollToPage(index)
                                                 }
                                             },
-                                            text = {
-                                                Text(type.name.lowercase().replaceFirstChar {
-                                                    if (it.isLowerCase()) it.titlecase(
-                                                        LocalConfiguration.current.locales[0]
-                                                    ) else it.toString()
-                                                })
-                                            }
+                                            text = { Text(stringResource(type.labelPlural)) }
                                         )
                                     }
+                                }
+                            },
+                            actions = {
+                                IconButton(onClick = { doHelp(null) }) {
+                                    Icon(
+                                        imageVector = Icons.AutoMirrored.Filled.HelpOutline,
+                                        contentDescription = stringResource(R.string.menu_help)
+                                    )
                                 }
                             }
                         )
@@ -157,7 +159,7 @@ class ManageCurrencies : ProtectedFragmentActivity() {
                         CurrencyListView(
                             units = filteredUnits,
                             onEdit = { openEditDialog(it) },
-                            onDelete = { viewModel.deleteCurrency(it.databaseId) }
+                            onDelete = { viewModel.deleteCurrency(it) }
                         )
                     }
                 }
@@ -181,7 +183,11 @@ fun CurrencyListView(
             Text(text = stringResource(R.string.no_data))
         }
     } else {
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .testTag(TEST_TAG_LIST)
+        ) {
             items(units, key = { it.code }) { unit ->
                 var showMenu by remember { mutableStateOf(false) }
 

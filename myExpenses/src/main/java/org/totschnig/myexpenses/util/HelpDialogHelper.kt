@@ -15,6 +15,7 @@ import androidx.core.text.bold
 import androidx.core.text.parseAsHtml
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.PrintLayoutConfiguration.Companion.screenTitle
+import org.totschnig.myexpenses.model.CommodityType
 import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
@@ -194,6 +195,8 @@ class HelpDialogHelper(val context: Context, val extra: CharSequence? = null) : 
                 getString(R.string.help_WebUI_info_1) + (extra?.let { "($it)" } ?: "") else ""
 
             "help_PrintLayoutConfiguration_title" -> context.screenTitle
+
+            "help_ManageCurrencies_title" -> CommodityType.title(resources)
 
             else ->
                 getStringOrNull(resIdString) ?: throw Resources.NotFoundException(resIdString)

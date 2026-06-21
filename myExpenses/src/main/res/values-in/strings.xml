@@ -308,7 +308,6 @@
     <string name="pref_category_title_more_information">Informasi lebih lanjut</string>
     <string name="pref_category_title_ui">Antarmuka pengguna</string>
     <string name="pref_contrib_purchase_title_upgrade">Kunci peningkatan</string>
-    <string name="pref_custom_currency_title">Sesuaikan mata uang</string>
     <string name="pref_enter_licence_title">Masukkan kunci</string>
     <string name="pref_export_format_title">Format data</string>
     <string name="pref_import_from_grisbi_summary">Impor kategori dan pihak dari file XML Grisbi</string>

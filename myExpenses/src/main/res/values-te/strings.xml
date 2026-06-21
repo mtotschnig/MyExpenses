@@ -377,7 +377,6 @@
     <string name="pref_import_from_grisbi_summary">గ్రిస్బీ XML ఫైల్ నుండి వర్గాలు మరియు పార్టీలను దిగుమతి చేయండి</string>
     <string name="pref_export_format_title">డేటా ఫార్మాట్</string>
     <string name="pref_enter_licence_title">కీని నమోదు చేయండి</string>
-    <string name="pref_custom_currency_title">కరెన్సీలను అనుకూలీకరించండి</string>
     <string name="pref_contrib_purchase_title_upgrade">కీని అప్‌గ్రేడ్ చేయండి</string>
     <string name="pref_category_title_ui">వినియోగ మార్గము</string>
     <string name="pref_category_title_more_information">మరింత సమాచారం</string>

@@ -247,7 +247,6 @@
     <string name="pref_category_title_more_information">المزيد من المعلومات</string>
     <string name="pref_category_title_ui">واجهة المستخدم</string>
     <string name="pref_contrib_purchase_title_upgrade">مفتاح الترقية </string>
-    <string name="pref_custom_currency_title">تخصيص العملات</string>
     <string name="pref_enter_licence_title">أدخل المفتاح</string>
     <string name="pref_export_format_title">تنسيق البيانات</string>
     <string name="pref_import_from_grisbi_summary">استيراد التصنيفات والأطراف  Grisbi XML </string>

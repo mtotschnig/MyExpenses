@@ -232,7 +232,6 @@
     <string name="pref_category_title_more_information">更多資訊</string>
     <string name="pref_category_title_ui">使用者介面</string>
     <string name="pref_contrib_purchase_title_upgrade">升級金鑰</string>
-    <string name="pref_custom_currency_title">自定義貨幣</string>
     <string name="pref_enter_licence_title">請輸入金鑰號碼</string>
     <string name="pref_export_format_title">數據資料格式</string>
     <string name="pref_import_from_grisbi_summary">從 Grisbi XML 檔案匯入類別項目和交易對象 (收款人/付款人)</string>

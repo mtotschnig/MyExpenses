@@ -8,9 +8,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.db2.deleteCurrency
 import org.totschnig.myexpenses.db2.insertCurrency
+import org.totschnig.myexpenses.db2.isCurrencyUsed
 import org.totschnig.myexpenses.db2.updateCurrency
-import org.totschnig.myexpenses.db2.updateFractionDigits
 import org.totschnig.myexpenses.model.CommodityType
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import javax.inject.Inject
 
@@ -33,22 +34,21 @@ class EditCurrencyViewModel(application: Application) : CurrencyViewModel(applic
         symbol: String,
         fractionDigits: Int,
         label: String?,
-        withUpdate: Boolean,
-        oldCode: String?
+        oldCode: String?,
+        oldFractionDigits: Int?,
+        commodityType: CommodityType?
     ) {
         viewModelScope.launch {
-            var updatedAccountsCount = 0
-            repository.updateCurrency(id, currency, symbol, label, fractionDigits, oldCode)
-            if (withUpdate) {
-                updatedAccountsCount = repository.updateFractionDigits(currency, fractionDigits)
-            }
-            currencyFormatter.invalidate(
-                getApplication<Application>().contentResolver,
-                currency
+            val (_, accountsUpdated) = repository.updateCurrency(
+                id, currency, symbol, label, fractionDigits, oldCode, commodityType, oldFractionDigits
             )
-            _updateComplete.value = updatedAccountsCount
+            currencyContext.invalidate(currency)
+            currencyFormatter.invalidate(getApplication<Application>().contentResolver, currency)
+
+            _updateComplete.value = if (oldFractionDigits != null) accountsUpdated else 0
         }
     }
+
 
 
     fun newCurrency(
@@ -66,9 +66,10 @@ class EditCurrencyViewModel(application: Application) : CurrencyViewModel(applic
     }
 
 
-    fun deleteCurrency(currencyID: Long) {
+    fun deleteCurrency(currency: CurrencyUnit) {
         viewModelScope.launch {
-            val result = repository.deleteCurrency(currencyID)
+            val result = repository.deleteCurrency(currency.databaseId)
+            currencyContext.invalidate(currency.code)
             _deleteComplete.value = result == 1
         }
     }
@@ -78,4 +79,7 @@ class EditCurrencyViewModel(application: Application) : CurrencyViewModel(applic
         _insertComplete.value = null
         _deleteComplete.value = null
     }
+
+    suspend fun isCurrencyUsed(currencyCode: String): Boolean =
+        repository.isCurrencyUsed(currencyCode)
 }

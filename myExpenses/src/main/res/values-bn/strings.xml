@@ -243,7 +243,6 @@
     <string name="pref_category_title_more_information">আরও তথ্য</string>
     <string name="pref_category_title_ui">ইউজার ইন্টারফেস</string>
     <string name="pref_contrib_purchase_title_upgrade">কী আপগ্রেড করুন</string>
-    <string name="pref_custom_currency_title">কারেন্সি কাস্টমাইজ করুন</string>
     <string name="pref_enter_licence_title">কী পেস্ট করুন</string>
     <string name="pref_export_format_title">ডাটা ফরম্যাট</string>
     <string name="pref_import_from_grisbi_summary">Grisbi XML ফাইল থেকে ক্যাটাগরি এবং পার্টি ইমপোর্ট করুন</string>

@@ -363,7 +363,6 @@
     <string name="number_format_illegal">號碼格式非法</string>
     <string name="status_void">空白</string>
     <string name="csv_import_subcategory_requires_category">如果您對應子類別，則也必須對應類別。</string>
-    <string name="pref_custom_currency_title">自訂貨幣</string>
     <string name="no_methods">沒有付款方式。</string>
     <string name="widget_title_accounts">我的帳戶</string>
     <string name="before">之前 %s</string>

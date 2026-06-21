@@ -162,14 +162,6 @@ open class DatabaseCurrencyContext(
         update(currencyCode, values)
     }
 
-    override fun storeCustomSymbol(currencyCode: String, symbol: String) {
-        instances.remove(currencyCode)
-        val values = ContentValues().apply {
-            put(KEY_SYMBOL, symbol)
-        }
-        update(currencyCode, values)
-    }
-
     private fun update(currencyCode: String, values: ContentValues) {
         val updated = contentResolver.update(
             TransactionProvider.CURRENCIES_URI,
@@ -181,12 +173,16 @@ open class DatabaseCurrencyContext(
     }
 
     override fun ensureFractionDigitsAreCached(currency: CurrencyUnit) {
-        // Persist to DB to ensure consistency across the app
         storeCustomFractionDigits(currency.code, currency.fractionDigits)
+    }
+
+    override fun invalidate(currencyCode: String) {
+        instances.remove(currencyCode)
     }
 
     override fun invalidateHomeCurrency() {
         instances.remove(homeCurrencyString)
+        //TODO remove when V1 is sunset
         instances.remove(DataBaseAccount.AGGREGATE_HOME_CURRENCY_CODE)
     }
 

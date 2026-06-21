@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.PriceHistory
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.model.CommodityType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.preference.DYNAMIC_EXCHANGE_RATES_DEFAULT_KEY
@@ -69,6 +70,9 @@ class PreferenceDataFragment : BasePreferenceFragment() {
                 }
                 false
             }
+
+        requirePreference<Preference>(PrefKey.MANAGE_CURRENCIES).title =
+            CommodityType.title(resources)
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {

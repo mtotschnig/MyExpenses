@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
@@ -27,8 +28,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -72,7 +73,15 @@ fun EditCurrencyDialog(
     val fractionDigitsUpdate = isEdit &&
         (currentFractionDigits != -1) && (currentFractionDigits != initialFractionDigits)
 
-    val warningMessage = if (fractionDigitsUpdate) {
+    var isCurrencyUsed by rememberSaveable { mutableStateOf(false) }
+
+    LaunchedEffect(currency) {
+        currency?.code?.let { code ->
+            isCurrencyUsed = viewModel.isCurrencyUsed(code)
+        }
+    }
+
+    val warningMessage = if (fractionDigitsUpdate && isCurrencyUsed) {
         val delta = initialFractionDigits - currentFractionDigits
         val part1 = stringResource(R.string.warning_change_fraction_digits_1)
         val part2 = stringResource(
@@ -131,7 +140,7 @@ fun EditCurrencyDialog(
                     .verticalScroll(rememberScrollState())
                     .fillMaxWidth()
             ) {
-                if (!isEdit) {
+                if (!isKnownCurrency) {
                     val options = CommodityType.entries
                     SingleChoiceSegmentedButtonRow(
                         modifier = Modifier
@@ -146,15 +155,7 @@ fun EditCurrencyDialog(
                                 ),
                                 onClick = { commodityType = type },
                                 selected = commodityType == type,
-                                label = {
-                                    Text(
-                                        type.name.lowercase().replaceFirstChar {
-                                            if (it.isLowerCase()) it.titlecase(
-                                                LocalConfiguration.current.locales[0]
-                                            ) else it.toString()
-                                        }
-                                    )
-                                }
+                                label = { Text(stringResource(type.labelSingular)) }
                             )
                         }
                     }
@@ -195,13 +196,24 @@ fun EditCurrencyDialog(
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
-                warningMessage?.let {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Checkbox(checked = withUpdate, onCheckedChange = { withUpdate = it })
+                warningMessage?.let { text ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .toggleable(
+                                value = withUpdate,
+                                onValueChange = { withUpdate = it },
+                                role = Role.Checkbox
+                            )
+                            .padding(vertical = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        // Set onCheckedChange to null so the Row handles the toggle
+                        Checkbox(checked = withUpdate, onCheckedChange = null)
                         Text(stringResource(R.string.warning_change_fraction_digits_checkbox_label))
                     }
                     Text(
-                        it,
+                        text,
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.error
                     )
@@ -224,8 +236,9 @@ fun EditCurrencyDialog(
                     symbol,
                     currentFractionDigits,
                     if (isKnownCurrency) null else label,
-                    withUpdate,
-                    currency.code
+                    currency.code.takeIf { it != code },
+                    currency.fractionDigits.takeIf { withUpdate },
+                    commodityType.takeIf { !isKnownCurrency }
                 )
                 else viewModel.newCurrency(code, symbol, currentFractionDigits, label, commodityType)
             }) { Text(stringResource(android.R.string.ok)) }

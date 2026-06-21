@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.model
 
+import androidx.annotation.VisibleForTesting
 import kotlinx.coroutines.flow.Flow
 import java.util.Currency
 
@@ -9,10 +10,11 @@ interface CurrencyContext {
     /**
      * if fractionDigits is null, custom value is reset
      */
+    @VisibleForTesting
     fun storeCustomFractionDigits(currencyCode: String, fractionDigits: Int?)
-    fun storeCustomSymbol(currencyCode: String, symbol: String)
     fun ensureFractionDigitsAreCached(currency: CurrencyUnit)
     fun invalidateHomeCurrency()
+    fun invalidate(currencyCode: String)
 
     val homeCurrencyString: String
     val homeCurrencyUnit: CurrencyUnit

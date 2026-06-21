@@ -230,7 +230,6 @@
     <string name="pref_category_title_more_information">詳細な情報</string>
     <string name="pref_category_title_ui">ユーザーインターフェイス</string>
     <string name="pref_contrib_purchase_title_upgrade">キーをアップグレード</string>
-    <string name="pref_custom_currency_title">通貨をカスタマイズ</string>
     <string name="pref_enter_licence_title">キーを入力</string>
     <string name="pref_export_format_title">データ形式</string>
     <string name="pref_import_from_grisbi_summary">Grisbi XML ファイルから分類と取引先をインポートします</string>

@@ -291,7 +291,6 @@
     <string name="pref_backup_summary">डेटाबेस और प्राथमिकता का बैकअप बनाएं।</string>
     <string name="pref_import_from_grisbi_summary">ग्रिस्बी एक्सएमएल फ़ाइल से श्रेणियां और पार्टियां आयात करें</string>
     <string name="pref_news_title">समाचार</string>
-    <string name="pref_custom_currency_title">करेंसी को अनुकूलित करें</string>
     <string name="pref_import_title">%s आयात</string>
     <string name="pref_more_info_dialog_title">लाइसेंस और क्रेडिट</string>
     <string name="pref_import_from_grisbi_title">ग्रिस्बी से आयात करें</string>

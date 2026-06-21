@@ -293,6 +293,8 @@ const val KEY_ACCOUNT_TYPE_LABEL: String = "account_type_label"
 const val KEY_BALANCE_TYPE: String = "balance_type"
 const val KEY_IS_PORTFOLIO: String = "is_portfolio"
 
+const val KEY_VALUES: String = "values"
+
 //Status constants
 /**
  * No special status

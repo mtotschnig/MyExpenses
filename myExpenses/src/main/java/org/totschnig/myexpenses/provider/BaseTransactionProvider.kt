@@ -79,7 +79,10 @@ import org.totschnig.myexpenses.provider.TransactionProvider.KEY_MERGE_SOURCE
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_MERGE_TARGET
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_REPLACE
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
+import org.totschnig.myexpenses.provider.TransactionProvider.KEY_UPDATED_ACCOUNTS_COUNT
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_CALLER_IS_IN_BULK
+import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_OLD_CODE
+import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_OLD_FRACTION_DIGITS
 import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_BUDGET_ALLOCATIONS
@@ -508,7 +511,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
         protected const val TRANSACTION_TOGGLE_CRSTATUS = 29
         protected const val MAPPED_METHODS = 31
         protected const val DUAL = 32
-        protected const val CURRENCIES_CHANGE_FRACTION_DIGITS = 33
         protected const val EVENT_CACHE = 34
         protected const val DEBUG_SCHEMA = 35
         protected const val STALE_IMAGES = 36
@@ -1257,11 +1259,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
         db: SupportSQLiteDatabase,
         currency: String,
         newValue: Int,
+        oldValue: Int
     ): Int {
-        val oldValue = currencyContext[currency].fractionDigits
-        if (oldValue == newValue) {
-            return 0
-        }
         val bindArgs = arrayOf(currency)
         val count = db.query(
             SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS)
@@ -1330,7 +1329,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 "UPDATE $TABLE_EQUIVALENT_AMOUNTS SET $KEY_EQUIVALENT_AMOUNT=$KEY_EQUIVALENT_AMOUNT$operation$factor WHERE $KEY_CURRENCY=?",
                 bindArgs
             )
-            currencyContext.storeCustomFractionDigits(currency, newValue)
         }
         return count
     }
@@ -2564,4 +2562,76 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 "$KEY_ROWID = $debId${prefixAnd(where)}", whereArgs
             )
         }
+
+    fun SupportSQLiteDatabase.updateCurrency(extras: Bundle): Bundle {
+        val result = Bundle()
+        beginTransaction()
+        try {
+            val id = extras.getLong(KEY_ROWID)
+            val values = BundleCompat.getParcelable(extras, KEY_VALUES, ContentValues::class.java)!!
+            val oldCode = extras.getString(QUERY_PARAMETER_OLD_CODE)
+            val oldFractionDigits = if (extras.containsKey(QUERY_PARAMETER_OLD_FRACTION_DIGITS)) {
+                extras.getInt(QUERY_PARAMETER_OLD_FRACTION_DIGITS)
+            } else {
+                null
+            }
+
+            val currenciesUpdated = update(
+                TABLE_CURRENCIES,
+                values,
+                "$KEY_ROWID = ?",
+                arrayOf(id.toString())
+            )
+            var accountsUpdated = 0
+
+            if (currenciesUpdated > 0) {
+                val code = values.getAsString(KEY_CODE)
+                if (oldCode != null && code != null && code != oldCode) {
+                    val accountValues = ContentValues(1).apply {
+                        put(KEY_CURRENCY, code)
+                    }
+                    update(
+                        TABLE_ACCOUNTS,
+                        accountValues,
+                        "$KEY_CURRENCY = ?",
+                        arrayOf(oldCode)
+                    )
+                }
+                if (oldFractionDigits != null && values.containsKey(KEY_FRACTION_DIGITS)) {
+                    accountsUpdated = updateFractionDigits(
+                        this,
+                        code,
+                        values.getAsInteger(KEY_FRACTION_DIGITS),
+                        oldFractionDigits
+                    )
+                }
+            }
+            setTransactionSuccessful()
+            result.putInt(KEY_RESULT, currenciesUpdated)
+            result.putInt(KEY_UPDATED_ACCOUNTS_COUNT, accountsUpdated)
+        } finally {
+            endTransaction()
+        }
+        return result
+    }
+
+    fun SupportSQLiteDatabase.checkCurrencyInUse(code: String): Bundle {
+        val result = Bundle()
+        val sql = """
+            SELECT (
+                EXISTS (SELECT 1 FROM $TABLE_ACCOUNTS WHERE $KEY_CURRENCY = ?) OR
+                EXISTS (SELECT 1 FROM $TABLE_DEBTS WHERE $KEY_CURRENCY = ?) OR
+                EXISTS (SELECT 1 FROM $TABLE_PRICES WHERE $KEY_COMMODITY = ? OR $KEY_CURRENCY = ?) OR
+                EXISTS (SELECT 1 FROM $TABLE_EQUIVALENT_AMOUNTS WHERE $KEY_CURRENCY = ?) OR
+                EXISTS (SELECT 1 FROM $TABLE_BUDGETS WHERE $KEY_CURRENCY = ?) OR
+                EXISTS (SELECT 1 FROM $TABLE_ACCOUNT_EXCHANGE_RATES WHERE $KEY_CURRENCY_OTHER = ? OR $KEY_CURRENCY_SELF = ?)
+            ) AS is_used
+        """.trimIndent()
+
+        query(sql, arrayOf(code, code, code, code, code, code, code, code)).use { cursor ->
+            val isUsed = if (cursor.moveToFirst()) cursor.getInt(0) == 1 else false
+            result.putBoolean(KEY_RESULT, isUsed)
+        }
+        return result
+    }
 }

@@ -228,7 +228,6 @@
     <string name="pm_type_debit">Debet</string>
     <string name="pref_app_dir_title">Map voor back-ups en exports</string>
     <string name="pref_auto_fill_summary">Vul de gegevens in van de laatste transactie voor dezelfde begunstigde/betaler</string>
-    <string name="pref_custom_currency_title">Valuta\'s aanpassen</string>
     <string name="pref_import_summary">Importeer transacties, categorieën en partijen uit %s bestand</string>
     <string name="pref_import_title">%s importeren</string>
     <string name="pref_manage_accounts_title">Rekeningen</string>

@@ -234,7 +234,6 @@
     <string name="pref_category_title_more_information">ಹೆಚ್ಚಿನ ಮಾಹಿತಿ</string>
     <string name="pref_category_title_ui">ಬಳಕೆದಾರ ಇಂಟರ್ಫೇಸ್</string>
     <string name="pref_contrib_purchase_title_upgrade">ಕೀಲಿಯನ್ನು ನವೀಕರಿಸಿ</string>
-    <string name="pref_custom_currency_title">ಕರೆನ್ಸಿಗಳನ್ನು ಕಸ್ಟಮೈಸ್ ಮಾಡಿ</string>
     <string name="pref_enter_licence_title">ಕೀಲಿಯನ್ನು ನಮೂದಿಸಿ</string>
     <string name="pref_export_format_title">ಡೇಟಾ ಸ್ವರೂಪ</string>
     <string name="pref_import_from_grisbi_summary">ಗ್ರಿಸ್ಬಿ ಎಕ್ಸ್‌ಎಂಎಲ್ ಫೈಲ್‌ನಿಂದ ವಿಭಾಗಗಳು ಮತ್ತು ಪಕ್ಷಗಳನ್ನು ಆಮದು ಮಾಡಿ</string>

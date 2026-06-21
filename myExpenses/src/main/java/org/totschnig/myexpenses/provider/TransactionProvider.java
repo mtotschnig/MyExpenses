@@ -37,14 +37,12 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.filter.Operation;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.Preconditions;
-import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.cursor.PlanInfoCursorWrapper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
@@ -312,7 +310,6 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
   public static final String URI_SEGMENT_UNDELETE = "undelete";
   public static final String URI_SEGMENT_INCREASE_USAGE = "increaseUsage";
-  public static final String URI_SEGMENT_CHANGE_FRACTION_DIGITS = "changeFractionDigits";
   public static final String URI_SEGMENT_TYPE_FILTER = "typeFilter";
   public static final String URI_SEGMENT_BUDGET_ALLOCATIONS = "allocations";
   public static final String URI_SEGMENT_DEFAULT_BUDGET_ALLOCATIONS = "defaultBudgetAllocations";
@@ -351,6 +348,9 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String QUERY_PARAMETER_SHORTEN_COMMENT = "shortenComment";
   public static final String QUERY_PARAMETER_SEARCH = "search";
   public static final String QUERY_PARAMETER_COUNT_UNUSED = "countUnused";
+  public static final String QUERY_PARAMETER_OLD_FRACTION_DIGITS = "oldFractionDigits";
+  public static final String QUERY_PARAMETER_OLD_CODE = "oldCode";
+
   /**
    * do not honour EXCLUDE_FROM_TOTAL flag
    */
@@ -410,6 +410,11 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String METHOD_RECALCULATE_EQUIVALENT_AMOUNTS_FOR_DATE = "recalculateEquivalentAmountsForDate";
 
   public static final String METHOD_CLEANUP_UNUSED_PAYEES = "cleanupUnusedPayees";
+
+  public static final String METHOD_UPDATE_CURRENCY = "updateCurrency";
+  public static final String KEY_UPDATED_ACCOUNTS_COUNT = "updatedAccountsCount";
+
+  public static final String METHOD_CHECK_CURRENCY_IN_USE = "checkCurrencyInUse";
 
   private static final UriMatcher URI_MATCHER;
 
@@ -1421,7 +1426,6 @@ public class TransactionProvider extends BaseTransactionProvider {
       case ACCOUNT_ID -> count = MoreDbUtilsKt.update(db, TABLE_ACCOUNTS, values,
               KEY_ROWID + " = " + lastPathSegment + prefixAnd(where), whereArgs);
       case TEMPLATES -> count = MoreDbUtilsKt.update(db, TABLE_TEMPLATES, values, where, whereArgs);
-      case CURRENCIES -> count = MoreDbUtilsKt.update(db, TABLE_CURRENCIES, values, where, whereArgs);
       case TEMPLATE_ID -> {
         String tagList = values.getAsString(KEY_TAGLIST);
         values.remove(KEY_TAGLIST);
@@ -1504,10 +1508,6 @@ public class TransactionProvider extends BaseTransactionProvider {
                 new String[]{uri.getPathSegments().get(1)});
         count = 1;
       }
-      case CURRENCIES_CHANGE_FRACTION_DIGITS -> {
-        List<String> segments = uri.getPathSegments();
-        count = updateFractionDigits(db, segments.get(2), Integer.parseInt(segments.get(3)));
-      }
       case CHANGES -> {
         if (uri.getBooleanQueryParameter(QUERY_PARAMETER_INIT, false)) {
           initChangeLog(db, uri.getQueryParameter(KEY_ACCOUNTID));
@@ -1542,7 +1542,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       default -> throw unknownUri(uri);
     }
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID || uriMatch == ACCOUNTS || uriMatch == ACCOUNT_ID ||
-        uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS || uriMatch == TRANSACTION_UNDELETE ||
+        uriMatch == CURRENCIES || uriMatch == TRANSACTION_UNDELETE ||
         uriMatch == TRANSACTION_MOVE || uriMatch == TRANSACTION_TOGGLE_CRSTATUS ||
         uriMatch == TRANSACTION_LINK_TRANSFER  || uriMatch == TRANSACTION_UNLINK_TRANSFER || uriMatch == UNARCHIVE) {
       notifyChange(TRANSACTIONS_URI, callerIsNotSyncAdapter(uri));
@@ -1557,7 +1557,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     if (uriMatch == ACCOUNT_ID_GROUPING || uriMatch == ACCOUNT_ID_SORT) {
       notifyChange(ACCOUNTS_URI, false);
     }
-    if (uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS || uriMatch == TEMPLATES_INCREASE_USAGE) {
+    if (uriMatch == CURRENCIES || uriMatch == TEMPLATES_INCREASE_USAGE) {
       notifyChange(TEMPLATES_URI, false);
     }
     if (uriMatch == BUDGET_CATEGORY) {
@@ -1745,6 +1745,19 @@ public class TransactionProvider extends BaseTransactionProvider {
       case METHOD_APPLY_CHANGES ->  {
         return applyChangesFromSync(Objects.requireNonNull(extras));
       }
+      case METHOD_UPDATE_CURRENCY -> {
+        SupportSQLiteDatabase db = getHelper().getWritableDatabase();
+        Bundle result = updateCurrency(db, extras);
+        notifyChange(TRANSACTIONS_URI, false);
+        notifyChange(ACCOUNTS_URI, false);
+        notifyChange(CURRENCIES_URI, false);
+        notifyChange(TEMPLATES_URI, false);
+        return result;
+      }
+      case METHOD_CHECK_CURRENCY_IN_USE -> {
+        SupportSQLiteDatabase db = getHelper().getWritableDatabase();
+        return checkCurrencyInUse(db, arg);
+      }
     }
     return null;
   }
@@ -1783,7 +1796,6 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "planinstance_transaction", PLANINSTANCE_TRANSACTION_STATUS);
     URI_MATCHER.addURI(AUTHORITY, "planinstance_transaction/#/#", PLANINSTANCE_STATUS_SINGLE);
     URI_MATCHER.addURI(AUTHORITY, "currencies", CURRENCIES);
-    URI_MATCHER.addURI(AUTHORITY, "currencies/" + URI_SEGMENT_CHANGE_FRACTION_DIGITS + "/*/#", CURRENCIES_CHANGE_FRACTION_DIGITS);
     URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates/*", AGGREGATE_ID);
     URI_MATCHER.addURI(AUTHORITY, "aggregates/*/*", AGGREGATE_V2);
     URI_MATCHER.addURI(AUTHORITY, "methods_transactions", MAPPED_METHODS);

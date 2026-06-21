@@ -235,7 +235,6 @@
     <string name="pref_category_title_more_information">Mehr Information</string>
     <string name="pref_category_title_ui">Benutzerschnittstelle</string>
     <string name="pref_contrib_purchase_title_upgrade">Schlüssel erweitern</string>
-    <string name="pref_custom_currency_title">Anpassen von Währungen</string>
     <string name="pref_enter_licence_title">Schlüssel eingeben</string>
     <string name="pref_export_format_title">Datenformat</string>
     <string name="pref_import_from_grisbi_summary">Kategorien und Parteien aus Grisbi XML importieren</string>

@@ -222,7 +222,6 @@
     <string name="pref_category_title_more_information">Mai multe informaţii</string>
     <string name="pref_category_title_ui">Interfaţa utilizator</string>
     <string name="pref_contrib_purchase_title_upgrade">Actualizează cheia</string>
-    <string name="pref_custom_currency_title">Personalizează valutele</string>
     <string name="pref_enter_licence_title">Introduceţi cheia</string>
     <string name="pref_export_format_title">Format date</string>
     <string name="pref_import_from_grisbi_summary">Import categorii şi terţi din fişier Grisbi XML</string>

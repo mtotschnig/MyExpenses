@@ -245,7 +245,6 @@
     <string name="pref_category_title_more_information">More information</string>
     <string name="pref_category_title_ui">User interface</string>
     <string name="pref_contrib_purchase_title_upgrade">Upgrade key</string>
-    <string name="pref_custom_currency_title">Customize currencies</string>
     <string name="pref_enter_licence_title">Enter key</string>
     <string name="pref_export_format_title">Data format</string>
     <string name="pref_import_from_grisbi_summary">Import categories and parties from Grisbi XML file</string>
@@ -1149,6 +1148,12 @@
     <string name="trade_funding_account">Funding Account</string>
     <string name="trade_target_asset">Asset</string>
     <string name="menu_create_portfolio">New portfolio</string>
+    <!-- Label for the category of fiat currencies (e.g., USD, EUR). Plural. -->
+    <string name="asset_type_fiat_plural">Currencies</string>
+    <!-- Label for a financial security (e.g., a stock, bond, or option) in the singular. -->
     <string name="asset_type_security">Security</string>
-    <string name="asset_type_crypto">Crypto currency</string>
+    <!-- Label for a financial security (e.g., a stock, bond, or option) in the singular. -->
+    <string name="asset_type_security_plural">Securities</string>
+    <!-- Collective noun for cryptocurrencies (e.g., Bitcoin, Ethereum). Translators should use the common local term for this asset class. -->
+    <string name="asset_type_crypto">Crypto</string>
 </resources>

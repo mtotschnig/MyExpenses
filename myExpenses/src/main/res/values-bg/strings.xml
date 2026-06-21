@@ -235,7 +235,6 @@
     <string name="pref_category_title_more_information">Повече информация</string>
     <string name="pref_category_title_ui">Потребителски интерфейс</string>
     <string name="pref_contrib_purchase_title_upgrade">Надстройте ключ</string>
-    <string name="pref_custom_currency_title">Персонализирайте валути</string>
     <string name="pref_enter_licence_title">Въведете ключ</string>
     <string name="pref_export_format_title">Формат на данните</string>
     <string name="pref_import_from_grisbi_summary">Внасяне на категории и страни от Grisbi XML файл</string>

@@ -192,7 +192,6 @@
     <string name="menu_create_template_for_transaction">Ny mall för transaktion</string>
     <string name="no_calendar_app_installed">Ingen app hittades för redigering av kalender-händelser.</string>
     <string name="dialog_contrib_reminder_remove_limitation">Ta bort den här begränsningen och kom åt fler funktioner genom att uppgradera <i>{app_name}</i>.</string>
-    <string name="pref_custom_currency_title">Anpassa valutor</string>
     <string name="status">Status</string>
     <string name="menu_save_and_new">Spara och ny</string>
     <string name="restore_db_failure">Återställning av databasen misslyckades.</string>

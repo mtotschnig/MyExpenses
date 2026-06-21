@@ -205,7 +205,6 @@
     <string name="pref_category_title_manage">Upravljaj</string>
     <string name="pref_category_title_more_information">Više informacija</string>
     <string name="pref_category_title_ui">Korisničko sučelje</string>
-    <string name="pref_custom_currency_title">Prilagodi valute</string>
     <string name="pref_enter_licence_title">Upiši ključ</string>
     <string name="pref_export_format_title">Format podataka</string>
     <string name="pref_import_from_grisbi_summary">Uvezi kategorije i stranke iz Grisbi XML datoteke</string>
