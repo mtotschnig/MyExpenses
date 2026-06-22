@@ -240,7 +240,8 @@ fun Repository.updateTransfer(
     operations.add(
         ContentProviderOperation
             .newUpdate(destinationUri)
-            .withValues(tempStatusValues).build()
+            .withValues(tempStatusValues)
+            .build()
     )
 
     operations.add(
@@ -260,6 +261,11 @@ fun Repository.updateTransfer(
                 withUuid = false,
                 withCrStatus = false
             ))
+            .build()
+    )
+    operations.add(
+        ContentProviderOperation
+            .newUpdate(destinationUri)
             .withValue(KEY_STATUS, destinationOriginalStatus)
             .build()
     )
