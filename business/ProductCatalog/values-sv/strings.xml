@@ -23,5 +23,10 @@
     <string name="webui_title">Webbgränssnitt</string>
     <string name="webui_description">Använd dinn dators webbläsare för att mata in data</string>
     <string name="categorytree_description">Godtyckligt djup kategorihierarki</string>
-    <string name="csvimport_description">Sofistikerat, anpassningsbar CSV-import (kalkylark-program)</string>
+    <string name="csvimport_description">Sofistikerad anpassningsbar CSV-import (kalkylprogram)</string>
+    <string name="distribution_description">Visualisera transaktionernas statistiska fördelning per kategori över olika tidsperioder (år, månader, veckor, dagar)</string>
+    <string name="plansunlimited_title">Obegränsat antal planer</string>
+    <string name="synchronization_description">Data kan synkroniseras mellan flera enheter.</string>
+    <string name="professional_benefit_1">Lås upp alla premiumfunktioner</string>
+    <string name="plansunlimited_description">Lås upp möjligheten att skapa fler än tre planer för återkommande transaktioner.</string>
 </resources>
