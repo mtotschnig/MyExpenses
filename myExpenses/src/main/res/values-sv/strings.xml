@@ -229,7 +229,7 @@
     <string name="no_methods">Inga betalningsmetoder.</string>
     <string name="pref_category_title_export">Exportera</string>
     <string name="contrib_feature_category_tree_label">Godtyckligt djup kategorihierarki</string>
-    <string name="pref_manage_parties_summary" tools:ignore="UnusedResources">Lägg till, redigera, ta bort parter (betalare och betalningsmottagare).</string>
+    <string name="pref_manage_parties_summary" tools:ignore="UnusedResources">Lägg till, redigera, ta bort motparter.</string>
     <string name="pm_creditcard">Kreditkort</string>
     <string name="time">Tid</string>
     <string name="pref_ui_theme_dark">Mörkt</string>
@@ -470,10 +470,10 @@
     <string name="menu_edit_split_part_category">Redigera kategoriuppdelning</string>
     <string name="menu_edit_split_part_transfer">Redigera uppdelad överföring</string>
     <string name="no_app_handling_email_available">Ingen app som hanterar e-post tillgänglig.</string>
-    <string name="no_app_handling_mime_type_available">Ingen app som hanterar %s filer tillgänglig.</string>
+    <string name="no_app_handling_mime_type_available">Ingen app som hanterar %s-filer tillgänglig.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">Det valda objektet mappas till en transaktion och kan inte raderas.</item>
-        <item quantity="other">%1$d objekten mappas till transaktioner och kan inte raderas.</item>
+        <item quantity="other">%1$d objekt mappas till transaktioner och kan inte raderas.</item>
     </plurals>
     <plurals name="not_deletable_mapped_templates">
         <item quantity="one">Det valda objektet mappas till en mall och kan inte raderas.</item>
@@ -491,8 +491,8 @@
     <string name="pref_manage_sync_backends_summary">Lägg till backends för att synkronisera konton (%s).</string>
     <string name="pref_planning_calendar_summary">Välj kalendern där planer för framtida och återkommande transaktioner sparas</string>
     <string name="pref_protection_delay_seconds_summary">Lediga sekunder innan appen låses med lösenord.</string>
-    <string name="pref_protection_delay_seconds_title">Vänta tills skydd</string>
-    <string name="pref_protection_enable_data_entry_from_widget_title">Datainmatning från widgets och genvägar</string>
+    <string name="pref_protection_delay_seconds_title">Fördröjning innan skydd</string>
+    <string name="pref_protection_enable_data_entry_from_widget_title">Datainmatning från widgetar och genvägar</string>
     <string name="pref_qif_export_file_encoding_title">Teckenkodning</string>
     <string name="pref_restore_summary">Välj en backup för att återställa databas och inställningar.</string>
     <string name="pref_share_target_summary">Lämna det tomt om du vill välja mellan lämpliga appar (e-post, Dropbox, Google Docs, …), eller ange URL i någon av de stödda systemen</string>
@@ -950,4 +950,5 @@
     <string name="prioritize_flag_order">Prioritera flaggordningen</string>
     <string name="pref_content_based_colors_title">Konto-baserad dynamisk färg</string>
     <string name="pref_content_based_colors_summary">Härled temafärger från det aktuella kontot färg. Stäng av om texten är svår att läsa.</string>
+    <string name="service_starting">Startar…</string>
 </resources>
