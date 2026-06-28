@@ -18,4 +18,6 @@
     <string name="validate_error_webdav_not_compliant">The URL does not point to a WebDAV resource.</string>
     <string name="validate_error_webdav_404">The URL does not exist on the server.</string>
     <string name="url_not_valid">URL not valid</string>
+    <string name="no_client_cert_available">No client certificate available. Please install one in your system credentials.</string>
+    <string name="label_more_options">More options</string>
 </resources>

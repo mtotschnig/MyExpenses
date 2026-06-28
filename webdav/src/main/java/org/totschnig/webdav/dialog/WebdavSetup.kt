@@ -11,6 +11,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.totschnig.myexpenses.R
@@ -37,6 +38,7 @@ import org.totschnig.webdav.sync.client.InvalidCertificateException
 import org.totschnig.webdav.sync.client.NotCompliantWebDavException
 import org.totschnig.webdav.sync.client.UntrustedCertificateException
 import org.totschnig.webdav.viewmodel.WebdavSetupViewModel
+import timber.log.Timber
 import java.io.FileNotFoundException
 import java.security.cert.CertificateEncodingException
 import java.security.cert.X509Certificate
@@ -79,6 +81,9 @@ class WebdavSetup : EditActivity() {
                     }
                 }
             }
+            if (mClientCertAlias != null) {
+                binding.clientCertContainer.isVisible = true
+            }
             updateClientCertUi()
         }
         binding.edtUrl.addTextChangedListener(this)
@@ -88,9 +93,16 @@ class WebdavSetup : EditActivity() {
             Utils.getTextWithAppName(
                 this, R.string.description_webdav_url
             )
+        binding.btnMoreOptions.setOnClickListener {
+            binding.clientCertContainer.isVisible = !binding.clientCertContainer.isVisible
+        }
         binding.btnSelectClientCert.setOnClickListener {
             KeyChain.choosePrivateKeyAlias(this, { alias ->
-                mClientCertAlias = alias
+                if (alias == null) {
+                    Snackbar.make(binding.root, R.string.no_client_cert_available, Snackbar.LENGTH_LONG).show()
+                } else {
+                    mClientCertAlias = alias
+                }
                 runOnUiThread { updateClientCertUi() }
             }, null, null, null, null)
         }
@@ -134,7 +146,7 @@ class WebdavSetup : EditActivity() {
                     else -> {
                         val cause = Utils.getCause(throwable)
                         val errorMessage = cause.message ?: cause.javaClass.simpleName ?: "Unknown error"
-                        android.util.Log.e("WebdavSetup", "WebDAV validation failed: $errorMessage", throwable)
+                        Timber.e(throwable, "WebDAV validation failed: %s", errorMessage)
                         binding.edtUrl.error = errorMessage
                     }
                 }
