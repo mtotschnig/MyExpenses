@@ -150,6 +150,14 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
                     accountManager.setUserData(account, key, userData.getString(key))
                 }
             }
+            setOf(
+                GenericAccountService.KEY_WEB_DAV_CERTIFICATE,
+                GenericAccountService.KEY_WEB_DAV_FALLBACK_TO_CLASS1,
+                GenericAccountService.KEY_ALLOW_UNVERIFIED,
+                GenericAccountService.KEY_CLIENT_CERT_ALIAS
+            ).filter { it !in userData.keySet() }.forEach {
+                accountManager.setUserData(account, it, null)
+            }
             getApplication<MyApplication>().let { app ->
                 app.getSharedPreferences("webdav_sync", 0).edit()
                     .remove("lockToken")

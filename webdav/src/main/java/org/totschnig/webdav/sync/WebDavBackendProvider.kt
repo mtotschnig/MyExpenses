@@ -320,10 +320,10 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         getAccountMetaDataFromInputStream(lockableDavResource[mimeTypeForData].byteStream())
 
     companion object {
-        const val KEY_WEB_DAV_CERTIFICATE = "webDavCertificate"
-        const val KEY_WEB_DAV_FALLBACK_TO_CLASS1 = "fallbackToClass1"
-        const val KEY_ALLOW_UNVERIFIED = "allow_unverified"
-        const val KEY_CLIENT_CERT_ALIAS = "clientCertAlias"
+        const val KEY_WEB_DAV_CERTIFICATE = GenericAccountService.KEY_WEB_DAV_CERTIFICATE
+        const val KEY_WEB_DAV_FALLBACK_TO_CLASS1 = GenericAccountService.KEY_WEB_DAV_FALLBACK_TO_CLASS1
+        const val KEY_ALLOW_UNVERIFIED = GenericAccountService.KEY_ALLOW_UNVERIFIED
+        const val KEY_CLIENT_CERT_ALIAS = GenericAccountService.KEY_CLIENT_CERT_ALIAS
     }
 
     init {
