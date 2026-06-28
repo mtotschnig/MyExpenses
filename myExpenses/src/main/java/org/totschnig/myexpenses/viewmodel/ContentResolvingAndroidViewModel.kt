@@ -52,8 +52,8 @@ import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.KEY_ACCOUNT_GROUPING
 import org.totschnig.myexpenses.model.KEY_ACCOUNT_GROUPING_GROUP
-import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -194,7 +194,7 @@ open class ContentResolvingAndroidViewModel(application: Application) :
     }
 
     val accountTypes by lazy {
-        accountTypesRaw.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+        accountTypesRaw.stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, emptyList())
     }
 
     val accountFlagsRaw by lazy {
@@ -202,7 +202,7 @@ open class ContentResolvingAndroidViewModel(application: Application) :
     }
 
     val accountFlags by lazy {
-        repository.getAccountFlags().stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+        repository.getAccountFlags().stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, emptyList())
     }
 
     sealed class DeleteState {
@@ -368,7 +368,7 @@ open class ContentResolvingAndroidViewModel(application: Application) :
                 uuid = generateUuid()
             )
             handleDeleteOperation = ContentProviderOperation.newInsert(TRANSACTIONS_URI)
-                .withValues(helper.asContentValues(true).apply {
+                .withValues(helper.asContentValues().apply {
                     put(KEY_STATUS, STATUS_HELPER)
                 }).build()
         }

@@ -254,7 +254,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         viewModel.syncAccountName = account.syncAccountName
         val currencyUnit = currencyContext[account.currency]
         viewModel.currencyUnit = currencyUnit
-        viewModel.accountType = account.type.id
+        viewModel.accountType = account.type!!.id
         color = account.color
         viewModel.excludeFromTotals = account.excludeFromTotals
         viewModel.dynamicExchangeRates = account.dynamicExchangeRates
@@ -551,7 +551,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
     override fun onResult(dialogTag: String, which: Int, extras: Bundle): Boolean {
         if (EDIT_COLOR_DIALOG == dialogTag && which == BUTTON_POSITIVE) {
             color = extras.getInt(SimpleColorDialog.COLOR)
-            if (!maybeApplyDynamicColor()) {
+            if (!maybeApplyContentColor()) {
                 binding.colorInput.setColor(color)
             }
             return true

@@ -27,31 +27,38 @@ import android.os.StrictMode
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ProcessLifecycleOwner
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.acra.util.StreamReader
 import org.totschnig.myexpenses.activity.OnboardingActivity
+import org.totschnig.myexpenses.compose.transactions.TL_TAG
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.di.DaggerAppComponent
 import org.totschnig.myexpenses.feature.BankingFeature
 import org.totschnig.myexpenses.feature.FeatureManager
+import org.totschnig.myexpenses.feature.IWebInputService
+import org.totschnig.myexpenses.feature.IWebInputService.Companion.log
 import org.totschnig.myexpenses.feature.OcrFeature
 import org.totschnig.myexpenses.feature.RESTART_ACTION
 import org.totschnig.myexpenses.feature.START_ACTION
-import org.totschnig.myexpenses.feature.STOP_ACTION
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.isWebUiActive
+import org.totschnig.myexpenses.preference.setWebUiActive
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
@@ -62,6 +69,7 @@ import org.totschnig.myexpenses.service.BudgetWidgetUpdateWorker
 import org.totschnig.myexpenses.service.PlanExecutor
 import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.ui.ContextHelper
+import org.totschnig.myexpenses.util.ContribUtils
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -69,7 +77,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.repor
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.log.TagFilterFileLoggingTree
 import org.totschnig.myexpenses.util.ui.setNightMode
-import org.totschnig.myexpenses.viewmodel.WebUiViewModel.Companion.serviceIntent
+import org.totschnig.myexpenses.viewmodel.WebUiViewModel.Companion.getServiceIntent
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET_DATA_ENTRY
 import org.totschnig.myexpenses.widget.WidgetObserver.Companion.register
 import org.totschnig.myexpenses.widget.onConfigurationChanged
@@ -182,28 +190,32 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
     }
 
     override fun onCreate(owner: LifecycleOwner) {
-        // Instead of a one-time check, observe the Flow to handle changes reactively
+
         MainScope().launch {
-            var isFirstEmission = true
-            dataStore.data
-                .map { preferences ->
-                    preferences[prefHandler.getBooleanPreferencesKey(PrefKey.UI_WEB)] ?: false
-                }
-                .distinctUntilChanged()
-                .collect { isWebUiEnabled ->
-                    if (isWebUiEnabled) {
-                        if (initialLaunchWasForSystemPreferences) {
-                            Timber.i("Suppressing WebUI start")
-                        } else {
-                            controlWebUi(START_ACTION)
-                        }
+            dataStore.isWebUiActive.distinctUntilChanged().collectLatest { isDesired ->
+                if (isDesired) {
+                    // WAIT until the app is in the foreground before starting.
+                    // This satisfies the Android 12+ background start restriction.
+                    owner.lifecycle.currentStateFlow
+                        .map { it.isAtLeast(Lifecycle.State.STARTED) }
+                        .distinctUntilChanged()
+                        .first { it }
+
+                    if (initialLaunchWasForSystemPreferences) {
+                        log("Suppressing WebUI start")
                     } else {
-                        if (!isFirstEmission) {
-                            controlWebUi(STOP_ACTION)
+                        if (licenceHandler.hasTrialAccessTo(ContribFeature.WEB_UI)) {
+                            controlWebUi(START_ACTION)
+                        } else {
+                            disableWebUi()
+                            ContribUtils.showContribNotification(
+                                this@MyApplication,
+                                ContribFeature.WEB_UI
+                            )
                         }
                     }
-                    isFirstEmission = false
                 }
+            }
         }
     }
 
@@ -256,6 +268,7 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
                         plantTree(BaseTransactionProvider.TAG)
                         plantTree(OcrFeature.TAG)
                         plantTree(BankingFeature.TAG)
+                        plantTree(TL_TAG)
                     } catch (e: Exception) {
                         report(e)
                     }
@@ -330,7 +343,8 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
         get() = prefHandler.isProtected
 
     private fun controlWebUi(action: String) {
-        serviceIntent.onSuccess { intent ->
+        getServiceIntent(action != RESTART_ACTION).onSuccess { intent ->
+            log("controlWebUi $action")
             intent.setAction(action)
             val componentName =
                 if (action == START_ACTION) {
@@ -339,25 +353,23 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
                     startService(intent)
                 }
             if (componentName == null) {
-                report(Exception("Start of Web User Interface failed"))
+                IWebInputService.report(Exception("$action for Web User Interface failed"))
                 //Since trying to start the WebUI failed, it is likely that the STOP_ACTION triggered by
                 //onSharedPreferenceChanged listener might also fail
                 try {
-                    toggleWebUi(false)
+                    disableWebUi()
                 } catch (e: Exception) {
-                    report(e)
+                    IWebInputService.report(e)
                 }
             }
         }.onFailure {
-            toggleWebUi(false)
+            disableWebUi()
         }
     }
 
-    fun toggleWebUi(enabled: Boolean) {
+    fun disableWebUi() {
         MainScope().launch {
-            dataStore.edit { preferences ->
-                preferences[prefHandler.getBooleanPreferencesKey(PrefKey.UI_WEB)] = enabled
-            }
+            dataStore.setWebUiActive(false)
         }
     }
 

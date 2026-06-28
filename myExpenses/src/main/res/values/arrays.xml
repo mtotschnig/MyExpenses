@@ -49,6 +49,7 @@
         <item>he</item>
         <item>hr</item>
         <item>hu</item>
+        <item>id</item>
         <item>it</item>
         <item>ja</item>
         <item>km</item>
@@ -62,6 +63,7 @@
         <item>ro</item>
         <item>ru</item>
         <item>si</item>
+        <item>sv</item>
         <item>ta</item>
         <item>te</item>
         <item>th</item>
@@ -113,6 +115,14 @@
         <item />
         <item>abotabl.</item>
         <item>keefeer</item>
+    </string-array>
+
+    <string-array name="contributors_408" tools:ignore="UnusedResources">
+        <item>Kristoffer Grundström, Joel A</item>
+    </string-array>
+
+    <string-array name="contributors_409" tools:ignore="UnusedResources">
+        <item>Arif Budiman, Reza Almanda</item>
     </string-array>
 
     <string-array name="comparison_operator_entries">

@@ -147,7 +147,7 @@
     <string name="menu_edit_method">ערוך שיטת תשלום</string>
     <string name="menu_edit_party">ערוך חלק</string>
     <string name="menu_edit_plan_instance">ערוך אירוע חד פעמי</string>
-    <string name="menu_edit_split">ערוך פיצול</string>
+    <string name="menu_edit_split">עריכת עסקה מפוצלת</string>
     <string name="menu_edit_split_part_category">ערוך חלק מפוצל בקטגוריה</string>
     <string name="menu_edit_split_part_transfer">ערוך חלק מפוצל בהעברה</string>
     <string name="menu_edit_template">ערוך תבנית</string>
@@ -171,7 +171,6 @@
     <string name="menu_split_transaction">הפוך למפוצל</string>
     <string name="method">אמצעי תשלום</string>
     <string name="no_app_handling_email_available">אין ישום המטפל בדוא\"ל.</string>
-    <string name="no_app_handling_ftp_available">אין ישום זמין המטפל ב- FTP . האם להתקין <i>שלח עם FTP</i>?</string>
     <string name="no_app_handling_mime_type_available">אין אפליקציה זמינה המטפלת בקבצי %s.</string>
     <string name="no_categories">אין קטגוריות.</string>
     <string name="no_expenses">אין עדין הוצאות!</string>
@@ -208,7 +207,7 @@
     <string name="password_security_answer_not_valid">תשובה שגויה! נסה שוב!</string>
     <string name="payee">מקבל התשלום</string>
     <string name="payer">המשלם</string>
-    <string name="payer_or_payee">מקבל התשלום/המשלם</string>
+    <string name="payer_or_payee">צד שכנגד</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">מחזוריות</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -391,7 +390,6 @@
     <string name="widget_title_accounts">החשבונות שלי</string>
     <string name="widget_title_templates">התבניות שלי</string>
     <string name="app_dir_not_accessible">התיקיה הנוכחית שנבחרה לגיבויים ולייצוא (%1$s) אינה נגישה. בחר אחת אחרת.</string>
-    <string name="app_dir_not_compatible_with_nougat">URI המוגדר כעת לגיבויים ולייצוא (%1$s) אינו נתמך תחת Android Nougat. בחר שוב תיקייה.</string>
     <string name="search_amount">חפש סכום</string>
     <string name="search_category">חפש קטגוריה</string>
     <string name="search_comment">חפש הערה</string>

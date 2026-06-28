@@ -290,6 +290,8 @@ const val KEY_LATEST_EXCHANGE_RATE: String = "latest_exchange_rate"
 const val KEY_LATEST_EXCHANGE_RATE_DATE: String = "latest_exchange_rate_date"
 const val KEY_ACCOUNT_TYPE_LABEL: String = "account_type_label"
 
+const val KEY_BALANCE_TYPE: String = "balance_type"
+
 //Status constants
 /**
  * No special status

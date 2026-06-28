@@ -157,7 +157,6 @@
     <string name="password_security_answer_not_valid">गलत उत्तर. पुनः प्रयास करें!</string>
     <string name="payee">आदाता</string>
     <string name="payer">दाता</string>
-    <string name="payer_or_payee">आदाता/दाता</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">नियोजन</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -239,7 +238,6 @@
     <string name="menu_create_split_part_category">नई श्रेणी विभाजित भाग</string>
     <string name="menu_create_split_part_transfer">नया ट्रांसफर विभाजित भाग</string>
     <string name="method">भुगतान विधि</string>
-    <string name="no_app_handling_ftp_available">कोई ऐप हैंडलिंग ftp उपलब्ध नहीं है। स्थापित करना <i>Send With FTP</i>\?</string>
     <string name="contrib_feature_pro_support_label"><b>ईमेल समर्थन</b> 2 कार्य दिवसों के भीतर गारंटीशुदा प्रतिक्रिया के साथ</string>
     <string name="contrib_feature_roadmap_voting_label"><b>विकास रोडमैप</b> पर सही मतदान</string>
     <string name="contrib_feature_history_label">इतिहास चार्ट</string>
@@ -344,7 +342,6 @@
     <string name="import_categories_success">%1$d श्रेणियाँ सफलतापूर्वक आयात की गईं।</string>
     <string name="search_category">श्रेणी खोजें</string>
     <string name="comparison_operator_equal">के बराबर</string>
-    <string name="app_dir_not_compatible_with_nougat">बैकअप और निर्यात के लिए वर्तमान में कॉन्फ़िगर किया गया यूआरआई (%1$s) एंड्रॉइड नौगट के तहत समर्थित नहीं है। कृपया फिर से एक फ़ोल्डर चुनें।</string>
     <string name="search_comment">नोट्स खोजें</string>
     <string name="import_accounts_success">%1$d खाते सफलतापूर्वक आयात किए गए</string>
     <string name="warning_password_contrib">यदि आप अपना पासवर्ड भूल जाते हैं तो सुरक्षा प्रश्न सेट करने से आप ऐप को अनलॉक कर सकते हैं।</string>

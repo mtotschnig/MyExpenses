@@ -30,7 +30,6 @@
     <item name="EDIT_PLAN_INSTANCE_COMMAND" type="id" />
     <item name="EDIT_COMMAND" type="id" />
     <item name="FEEDBACK_COMMAND" type="id" />
-    <item name="FTP_DIALOG" type="id" />
     <item name="GROUPING_COMMAND" type="id" />
     <item name="HANDLE_RESTORE_ON_INSTALL_COMMAND" type="id" />
     <item name="HELP_COMMAND" type="id" />

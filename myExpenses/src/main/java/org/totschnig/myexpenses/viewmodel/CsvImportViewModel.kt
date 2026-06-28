@@ -168,32 +168,33 @@ class CsvImportViewModel(application: Application, val savedStateHandle: SavedSt
                 null
             )
 
-            if (columnToFieldMap.indexOf(R.string.account) > -1) {
-                insertAccounts(accounts, currencyUnit, uri)
-            } else {
-                accountTitleToAccount[accounts[0].memo] = if (accountConfiguration.id == 0L)
-                    Account(
-                        label = getString(R.string.pref_import_title, "CSV"),
-                        currency = accountConfiguration.currency,
-                        openingBalance = 0,
-                        type = accountConfiguration.type
-                    ).createIn(repository)
-                else repository.loadAccount(accountConfiguration.id)!!
-            }
+            try {
+                if (columnToFieldMap.indexOf(R.string.account) > -1) {
+                    insertAccounts(accounts, currencyUnit, uri)
+                } else {
+                    accountTitleToAccount[accounts[0].memo] = if (accountConfiguration.id == 0L)
+                        Account(
+                            label = getString(R.string.pref_import_title, "CSV"),
+                            currency = accountConfiguration.currency,
+                            openingBalance = 0,
+                            type = accountConfiguration.type
+                        ).createIn(repository)
+                    else repository.loadAccount(accountConfiguration.id)!!
+                }
 
-            insertPayees(parser.payees)
-            repository.extractTagIds(parser.tags, tagToId)
-            insertCategories(parser.categories, false)
+                insertPayees(parser.payees)
+                repository.extractTagIds(parser.tags, tagToId)
+                insertCategories(parser.categories, false)
 
-            val count = insertTransactions(accounts, currencyUnit, autoFill)
-
-            contentResolver.call(
-                TransactionProvider.DUAL_URI,
-                TransactionProvider.METHOD_BULK_END,
-                null,
-                null
-            )
-            count.filterNotNull()
+                insertTransactions(accounts, currencyUnit, autoFill)
+            } finally {
+                contentResolver.call(
+                    TransactionProvider.DUAL_URI,
+                    TransactionProvider.METHOD_BULK_END,
+                    null,
+                    null
+                )
+            }.filterNotNull()
         })
     }
 }

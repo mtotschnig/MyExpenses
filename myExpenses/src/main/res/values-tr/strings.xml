@@ -129,8 +129,8 @@
     <string name="menu_create_method">Yeni ödeme yöntemi oluştur</string>
     <string name="menu_create_party">Yeni borçlu/alacaklı</string>
     <string name="menu_create_split">Yeni bölünmüş muamele</string>
-    <string name="menu_create_split_part_category">Yeni bölünmüş alt muamele (kategori)</string>
-    <string name="menu_create_split_part_transfer">Yeni bölünmüş alt muamele (transfer)</string>
+    <string name="menu_create_split_part_category">Yeni bölünmüş kategori</string>
+    <string name="menu_create_split_part_transfer">Yeni bölünmüş transfer</string>
     <string name="menu_create_sub_cat">Yeni alt kategori oluştur</string>
     <string name="menu_create_template">Şablon oluştur</string>
     <string name="menu_create_template_from_transaction">Şablon olarak kaydet</string>
@@ -146,9 +146,9 @@
     <string name="menu_edit_method">Ödeme yöntemini düzenle</string>
     <string name="menu_edit_party">Borçlu/alacaklıyı düzenle</string>
     <string name="menu_edit_plan_instance">Planlamanın tek oluşumunu düzenle</string>
-    <string name="menu_edit_split">Bölünmeyi düzenle</string>
-    <string name="menu_edit_split_part_category">Bölünmüş alt muameleyi düzenle (kategori)</string>
-    <string name="menu_edit_split_part_transfer">Bölünmüş alt muameleyi düzenle (transfer)</string>
+    <string name="menu_edit_split">Bölünmüş işlemi düzenle</string>
+    <string name="menu_edit_split_part_category">Bölünmüş kategoriyi düzenle</string>
+    <string name="menu_edit_split_part_transfer">Bölünmüş transferi düzenle</string>
     <string name="menu_edit_template">Şablonu düzenle</string>
     <string name="menu_edit_transaction">Muameleyi düzenle</string>
     <string name="menu_edit_transfer">Virmanı düzenle</string>
@@ -170,7 +170,6 @@
     <string name="menu_split_transaction">Bölünmüşe dönüştür</string>
     <string name="method">Ödeme yöntemi</string>
     <string name="no_app_handling_email_available">E-postayı yöneten bir uygulama yok.</string>
-    <string name="no_app_handling_ftp_available">FTP yöneten bir uygulama yok. <i>Send With FTP</i> indirilsin mi?</string>
     <string name="no_app_handling_mime_type_available">%s dosyalarını yönetecek hiçbir uygulama yok.</string>
     <string name="no_categories">Kategori yok.</string>
     <string name="no_expenses">Henüz hiçbir harcama yok!</string>
@@ -181,7 +180,7 @@
     <string name="no_mapped_transactions">Bu zaman aralığında hiçbir muamele kategoriler ile ilişkilendirilmemiştir.</string>
     <string name="no_methods">Ödeme yöntemi yok.</string>
     <string name="no_parties">Bölüm yok.</string>
-    <string name="no_split_parts">Hiçbir alt muamele yok.</string>
+    <string name="no_split_parts">Bölünmüş yok.</string>
     <string name="no_templates">Şablon yok.</string>
     <string name="no_accounts">Hesap yok.</string>
     <plurals name="not_deletable_mapped_transactions">
@@ -205,7 +204,7 @@
     <string name="password_security_answer_not_valid">Yanlış cevap. Yeniden deneyin!</string>
     <string name="payee">Alacaklı</string>
     <string name="payer">Ödeyen</string>
-    <string name="payer_or_payee">Alacaklı/Mükellef</string>
+    <string name="payer_or_payee">Karşı Taraf</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Planla</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -227,7 +226,7 @@
     <string name="pm_type_debit">Gider</string>
     <string name="pm_type_neutral">Nötr</string>
     <string name="pref_app_dir_title">Yedekleme ve dışa aktarmalar için klasör</string>
-    <string name="pref_auto_fill_summary">Aynı alacaklı/ödeyici için verileri son muameleden doldur</string>
+    <string name="pref_auto_fill_summary">Aynı karşı taraf için verileri son muameleden doldur</string>
     <string name="pref_backup_summary">Veri tabanı ve tercihlerin bir yedeğini oluşturun.</string>
     <string name="pref_sort_order_usages">Kullanım sayacı</string>
     <string name="pref_category_title_export">Dışa aktar</string>
@@ -250,7 +249,7 @@
     <string name="pref_manage_categories_title">Kategoriler</string>
     <string name="pref_manage_methods_summary">Ödeme yöntemleri oluştur, düzenle ve hesap türleri ile ilişkilendir.</string>
     <string name="pref_manage_methods_title">Ödeme yöntemleri</string>
-    <string name="pref_manage_parties_summary">Borçlu/alacaklı ekle, düzenle veya sil.</string>
+    <string name="pref_manage_parties_summary">Karşı tarafları ekle, düzenle, sil.</string>
     <string name="pref_manage_parties_title">Bölümler</string>
     <string name="pref_manage_sync_backends_title">Eşzamanlama arka uçları</string>
     <!-- %s will be replaced with list of backends -->
@@ -306,10 +305,10 @@
     <string name="save_transaction_template_deleted">Şablon silinmiştir</string>
     <string name="select">Seç</string>
     <string name="select_category">Kategori seç</string>
-    <string name="select_payee">Ödeyen/alacaklı seçin</string>
+    <string name="select_payee">Karşı taraf seçin</string>
     <string name="share_scheme_not_supported">%1$s şeması desteklenmemektedir</string>
     <string name="share_sending">Dışa aktarım dosyasını gönder</string>
-    <string name="split_parts_heading">Bölünmüş alt muameleler</string>
+    <string name="split_parts_heading">Bölünmüşler</string>
     <string name="split_transaction">Bölünmüş muamele</string>
     <string name="status">Durum</string>
     <string name="status_cleared">temizlendi</string>
@@ -384,13 +383,12 @@
     <string name="widget_title_accounts">Hesaplarım</string>
     <string name="widget_title_templates">Şablonlarım</string>
     <string name="app_dir_not_accessible">Yedeklemeler ve dışa aktarmalar için seçili olan klasöre (%1$s) erişilemiyor. Lütfen başka bir klasör seçin.</string>
-    <string name="app_dir_not_compatible_with_nougat">Yedeklemeler ve dışa aktarmalar için yapılandırılmış olan URI (%1$s) Android Nougat tarafından desteklenmiyor. Lütfen tekrar bir klasör seçin.</string>
     <string name="search_amount">Meblağ ara</string>
     <string name="search_category">Kategori ara</string>
     <string name="search_comment">Not ara</string>
     <string name="search_date">Tarih ara</string>
     <string name="search_status">Durum ara</string>
-    <string name="search_payee">Alacaklı/mükellef ara</string>
+    <string name="search_payee">Karşı taraf ara</string>
     <string name="search_method">Yöntem ara</string>
     <string name="search_tag">Etiket ara</string>
     <string name="and">ve</string>
@@ -407,7 +405,7 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">sonra</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Satın alma başarısız oldu veya iptal edildi.</string>
-    <string name="hint_auto_fill">Aynı alacaklı/ödeyici için veriler son muameleden doldurulsun mu? Bu davranışı ayarlardan değiştirmeniz mümkündür.</string>
+    <string name="hint_auto_fill">Aynı karşı taraf için veriler son muameleden doldurulsun mu? Bu davranışı ayarlardan değiştirmeniz mümkündür.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s para birimini kullanan %1$d hesap güncellendi.</string>
     <string name="import_source_file">Dosya</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
@@ -459,7 +457,7 @@
     <string name="plan_instance_state_cancelled">iptal edildi</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">uygulandı</string>
-    <string name="progress_dialog_updating_split_parts">Bölünmüş parçalar güncelleniyor</string>
+    <string name="progress_dialog_updating_split_parts">Bölünmüşler güncelleniyor</string>
     <string name="warning_cannot_move_split_transaction">Bu bölünmüş muamele %1$s hesabına taşınamaz çünkü bu hesapla ilişkili transfer parçaları bulunmaktadır.</string>
     <string name="content_description_calculator_delete_button">Son rakamı sil</string>
     <string name="paypal_callback_info">Muameleniz tamamlanmış ve alışverişiniz hakkında bir makbuz e-posta ile size gönderilmiştir. Bu muamelenin ayrıntılarını görüntülemek için hesabınıza www.paypal.com adresinde bağlanabilirsiniz.</string>
@@ -579,13 +577,13 @@
     <string name="menu_original_amount">Orijinal meblağ</string>
     <string name="menu_equivalent_amount">Eşdeğer meblağ</string>
     <string name="warning_split_transactions">Seçilen muameleler bir bölünmüş muamelede gruplanacaklardır. Tarih bilgileri kaybolacak ve yerlerini ortalama değer alacaktır.</string>
-    <string name="warning_ungroup_split_transactions">Seçilen bölünmüş muamelelerin gruplandırmaları kaldırılacak yani bölünmüş parçalar normal muamelelere dönüşecektir.</string>
+    <string name="warning_ungroup_split_transactions">Seçilen bölünmüş muamelelerin gruplandırmaları kaldırılacak yani bölünmüşler normal muamelelere dönüşecektir.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
     <string name="menu_ungroup_split_transaction">Bölümün gruplandırmasını kaldır</string>
     <string name="ungroup_split_transaction_success">Bölünmüş muamelenin gruplandırılması başarıyla kaldırıldı.</string>
     <string name="split_transaction_one_success">Muameleler başarıyla bölünmüş muamelelere dönüştürüldü.</string>
     <string name="split_transaction_group_success">%1$d muamele başarıyla tek bir bölünmüş muamelede gruplandırıldı.</string>
-    <string name="split_transaction_not_possible">Sadece aynı hesap, durum ve alacaklısı olan muameleler tek bir bölünmüş muamelede gruplandırılabilir.</string>
+    <string name="split_transaction_not_possible">Sadece aynı hesap, karşı taraf ve durumu olan muameleler tek bir bölünmüş muamelede gruplandırılabilir.</string>
     <string name="pref_transaction_time_summary">Kesin muamele zamanının ayarlanmasına izin ver.</string>
     <string name="pref_value_date_summary">Muamele tarihine ek olarak değer tarihi ayarlamaya izin ver. Muamele tarihi saklanacaktır. Bu seçenek nakit hesaplara uygulanmaz.</string>
     <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
@@ -669,7 +667,7 @@
     <string name="pref_exchange_rate_provider_summary">Döviz kurlarını indirmek için bir sağlayıcı seçin</string>
     <string name="pref_exchange_rate_provider_title">Döviz Kuru Sağlayıcısı</string>
     <string name="pref_exchange_rates_api_key_summary">Lütfen %s üzerinde ücretsiz bir hesap oluşturun ve Uygulama Kimliğinizi (App ID) girin</string>
-    <string name="pref_plan_executor_time_title">Planlayıcı bildirim zamanı</string>
+    <string name="pref_plan_executor_time_title">Bildirim saati</string>
     <string name="synchronization_select_folder_dialog_title">Mevcut bir klasör seçin veya yeni bir klasör oluşturun</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch">Gelirleri kaydetmek için bu geçiş düğmesini kullanın.</string>
@@ -694,7 +692,7 @@
     <string name="menu_remap">Yeniden eşleme</string>
     <string name="dialog_title_confirm_remap">Eşleme değiştirilsin mi (%s)?</string>
     <string name="remap_category">Tüm seçili muameleler %s kategorisine eşlenecektir.</string>
-    <string name="remap_payee">Tüm seçili muameleler %s borçlu/alacaklı unsuruna eşlenecektir.</string>
+    <string name="remap_payee">Tüm seçili muameleler %s karşı taraf unsuruna eşlenecektir.</string>
     <string name="remap_method">Tüm seçili muameleler %s yöntemine eşlenecektir.</string>
     <string name="remap_account">Tüm seçili muameleler %s hesabına eşlenecektir.</string>
     <string name="remapping_result">Seçili muameleler tekrar eşlenmiştir.</string>
@@ -791,7 +789,7 @@
     <string name="single_feature_info">Alternatif olarak, yalnızca bu özelliğe sınırsız erişim satın alabilirsiniz.</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">Son gün</string>
-    <string name="warning_link_transfer">Seçili iki muamele bir transfer olarak ilişkilendirilecektir. Alacaklı/Ödeyen ve kategori bilgileri bırakılacaktır.</string>
+    <string name="warning_link_transfer">Seçili iki muamele bir transfer olarak ilişkilendirilecektir. Karşı taraf ve kategori bilgileri bırakılacaktır.</string>
     <!-- This is the title of an entry on the configuration screen for the account widget. It allows to decide which number should be displayed for each account: the current balance or the total (which included future transactions) -->
     <string name="account_widget_configuration_sum">Görüntülenen toplam türü</string>
     <string name="account_widget_configuration_sum_total">Gelecek muameleleri dahil et</string>
@@ -932,7 +930,7 @@
     <string name="remap_date">Seçilen tüm muamelelerde tarih %s olarak ayarlanacak.</string>
     <string name="menu_transform_to_transfer">Havaleye dönüştür</string>
     <string name="warning_transform_to_transfer">Seçilen muamele %1$s\'den %2$s\'ye bir havale ile değiştirilecek.</string>
-    <string name="roadmap_intro">2024 Yol Haritası oylaması başladı! Sizin için en önemli olan özellikler ve iyileştirmeler için oy verin.</string>
+    <string name="roadmap_intro">%d Yol Haritası oylaması başladı! Sizin için en önemli olan özellikler ve iyileştirmeler için oy verin.</string>
     <string name="merge_categories_prompt">Tutmak istediğiniz kategoriyi seçin</string>
     <string name="merge_categories_dialog_title">Kategorileri Birleştir</string>
     <string name="subcategories_merged_recursively">Birleştirilen kategorilerden herhangi birinin aynı etikete sahip alt kategorileri varsa, bunlar önce özyinelemeli olarak birleştirilecektir.</string>
@@ -970,7 +968,7 @@
     <string name="pref_account_list_display_configuration_title">Hesap listesi</string>
     <string name="account_type_investment">Yatırımlar</string>
     <string name="pref_sync_frequency_summary_0">Otomatik eşzamanlamayı devre dışı bırakmak için 0 olarak ayarlayın.</string>
-    <string name="remap_payee_null">Borçlu/alacaklı, seçilen tüm işlemlerden kaldırılacaktır.</string>
+    <string name="remap_payee_null">Karşı taraf, seçilen tüm işlemlerden kaldırılacaktır.</string>
     <plurals name="import_prices_success_message">
         <item quantity="one">%d satırda geçerli veri bulundu.</item>
         <item quantity="other">%d satırda geçerli veri bulundu.</item>
@@ -1052,4 +1050,8 @@
     <string name="pref_fab_style_standard_description">Standart (Menü için oka dokun)</string>
     <string name="pref_fab_style_compact_description">Küçük (Menü için dokunup basılı tut)</string>
     <string name="number_too_large">Sayı çok büyük</string>
+    <string name="prioritize_flag_order">Bayrak sıralamasını önceliklendir</string>
+    <string name="pref_content_based_colors_title">Hesaba dayalı değişken renk</string>
+    <string name="pref_content_based_colors_summary">Tema renklerini geçerli hesabın renginden al. Metin okunması zor ise bu özelliği kapatın.</string>
+    <string name="service_starting">Başlatılıyor…</string>
 </resources>

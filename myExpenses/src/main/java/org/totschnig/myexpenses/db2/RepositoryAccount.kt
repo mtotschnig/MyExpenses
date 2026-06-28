@@ -12,12 +12,15 @@ import kotlinx.coroutines.flow.Flow
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.BalanceType
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.KEY_ACCOUNT_GROUPING
 import org.totschnig.myexpenses.model.KEY_ACCOUNT_GROUPING_GROUP
 import org.totschnig.myexpenses.model.generateUuid
+import org.totschnig.myexpenses.model.sort.TransactionSort
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_BALANCE_TYPE
 import org.totschnig.myexpenses.provider.KEY_BANK_ID
 import org.totschnig.myexpenses.provider.KEY_COLOR
 import org.totschnig.myexpenses.provider.KEY_CRITERION
@@ -46,6 +49,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_AGGREGATE_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.AGGREGATE_V2_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.SORT_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.getLong
@@ -138,8 +142,6 @@ fun Repository.loadAggregateAccountFlow(accountId: Long): Flow<Account> {
             label = it.getString(KEY_LABEL),
             currency = it.getString(KEY_CURRENCY),
             openingBalance = it.getLong(KEY_OPENING_BALANCE),
-            type = AccountType(name = "Aggregate"),
-            flag = AccountFlag.DEFAULT,
         )
     }
 }
@@ -161,9 +163,9 @@ fun Repository.loadAggregateAccountFlowV2(extras: Bundle): Flow<Account> {
             label = label,
             currency = if (accountGrouping == AccountGrouping.CURRENCY) group else  it.getString(KEY_CURRENCY),
             openingBalance = it.getLong(KEY_OPENING_BALANCE),
-            type = if (accountGrouping == AccountGrouping.TYPE) AccountType(id = group.toLong(), name = label) else AccountType(name="Aggregate"),
+            type = if (accountGrouping == AccountGrouping.TYPE) AccountType(id = group.toLong(), name = label) else null,
             accountGrouping = accountGrouping,
-            flag = if (accountGrouping == AccountGrouping.FLAG) AccountFlag(id = group.toLong(), label = label) else AccountFlag.DEFAULT,
+            flag = if (accountGrouping == AccountGrouping.FLAG) AccountFlag(id = group.toLong(), label = label) else null,
         )
     }
 }
@@ -173,7 +175,9 @@ fun Account.toContentValues() = ContentValues().apply {
     put(KEY_OPENING_BALANCE, openingBalance)
     put(KEY_DESCRIPTION, description)
     put(KEY_CURRENCY, currency)
-    put(KEY_TYPE, type.id)
+    typeId?.let {
+        put(KEY_TYPE, it)
+    }
     put(KEY_COLOR, color)
     put(KEY_SYNC_ACCOUNT_NAME, syncAccountName)
     if (criterion != null) {
@@ -220,6 +224,23 @@ fun Repository.setGrouping(accountId: Long, grouping: Grouping) {
             .appendPath(grouping.name).build(),
         null, null, null
     )
+}
+
+fun Repository.setSort(accountId: Long, transactionSort: TransactionSort) {
+    contentResolver.update(
+        ContentUris.withAppendedId(SORT_URI, accountId)
+            .buildUpon()
+            .appendPath(transactionSort.column)
+            .appendPath(transactionSort.sortDirection.name)
+            .build(),
+        null, null, null
+    )
+}
+
+fun Repository.setBalanceType(accountId: Long, balanceType: BalanceType) {
+    updateAccount(accountId) {
+        put(KEY_BALANCE_TYPE, balanceType.name)
+    }
 }
 
 fun Repository.storeExchangeRate(

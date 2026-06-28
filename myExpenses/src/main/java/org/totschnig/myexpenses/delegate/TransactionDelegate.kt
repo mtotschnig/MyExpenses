@@ -387,7 +387,7 @@ abstract class TransactionDelegate(
         label: String?,
         categoryIcon: String?,
         catId: Long?,
-        catType: Byte = FLAG_NEUTRAL
+        catType: Byte = FLAG_NEUTRAL,
     ) {
         this.label = label
         this.categoryIcon = categoryIcon
@@ -681,7 +681,7 @@ abstract class TransactionDelegate(
                     val oldAccount = mAccounts.first { it.id == accountId }
                     updateAccount(newAccount, oldAccount.currency.code != newAccount.currency.code)
                     host.color = newAccount.color
-                    host.maybeApplyDynamicColor()
+                    host.maybeApplyContentColor()
                 }
             }
 
@@ -696,6 +696,7 @@ abstract class TransactionDelegate(
                             host.showTransferAccountMissingMessage()
                             resetOperationType()
                         }
+
                         TYPE_SPLIT -> if (isTemplate) {
                             if (prefHandler.getBoolean(PrefKey.NEW_SPLIT_TEMPLATE_ENABLED, true)) {
                                 restartWithTypeInternal(TYPE_SPLIT)
@@ -705,6 +706,7 @@ abstract class TransactionDelegate(
                         } else {
                             host.contribFeatureRequested(ContribFeature.SPLIT_TRANSACTION)
                         }
+
                         TYPE_TRANSACTION -> restartWithTypeInternal(TYPE_TRANSACTION)
                     }
                 }
@@ -831,97 +833,93 @@ abstract class TransactionDelegate(
 
     abstract val operationType: Int
 
-    open fun syncStateAndValidate(forSave: Boolean): TransactionEditData? {
-        return currentAccount()?.let {
-            buildTransaction(
-                forSave && !isMainTemplate,
-                it
-            )
-        }?.let { transaction ->
-            val date =
-                if (isMainTransaction) readLocalDateTime(dateEditBinding.DateButton) else transaction.date
-            transaction.copy(
-                isSplitPart = isSplitPart,
-                categoryId = this@TransactionDelegate.catId,
-                categoryPath = this@TransactionDelegate.label,
-                categoryIcon = this@TransactionDelegate.categoryIcon,
-                uuid = this@TransactionDelegate.uuid,
-                id = rowId,
-                comment = viewBinding.Comment.text.toString(),
-                date = date,
-                valueDate = if (dateEditBinding.Date2Button.isVisible) dateEditBinding.Date2Button.date else date.toLocalDate(),
-                crStatus = this@TransactionDelegate.crStatus,
-                parentId = parentId,
-                planId = this@TransactionDelegate.planId
-            ).let { transaction ->
-                val title = viewBinding.Title.text.toString()
-                if (isMainTemplate) {
-                    if (forSave && title.isEmpty()) {
-                        viewBinding.Title.error = context.getString(R.string.required)
-                        null
-                    } else {
-                        transaction.copy(
-                            initialPlan = if (recurrenceSpinner.selectedItemPosition > 0 && this@TransactionDelegate.planId == null) {
-                                InitialPlanData(title, selectedRecurrence, planButton.date, uuid)
-                            } else null,
-                            templateEditData = TemplateEditData(
-                                title = title,
-                                defaultAction = Template.Action.entries[viewBinding.DefaultAction.selectedItemPosition],
-                                planEditData = if (recurrenceSpinner.selectedItemPosition > 0 || this@TransactionDelegate.planId != null) {
-                                    PlanEditData(
-                                        isPlanExecutionAutomatic = planExecutionButton.isChecked,
-                                        planExecutionAdvance = viewBinding.advanceExecutionSeek.progress,
+    open fun syncStateAndValidate(forSave: Boolean): TransactionEditData? =
+        if (::uuid.isInitialized) {
+            currentAccount()?.let {
+                buildTransaction(
+                    forSave && !isMainTemplate,
+                    it
+                )
+            }?.let { transaction ->
+                val date =
+                    if (isMainTransaction) readLocalDateTime(dateEditBinding.DateButton) else transaction.date
+                transaction.copy(
+                    isSplitPart = isSplitPart,
+                    categoryId = this@TransactionDelegate.catId,
+                    categoryPath = this@TransactionDelegate.label,
+                    categoryIcon = this@TransactionDelegate.categoryIcon,
+                    uuid = this@TransactionDelegate.uuid,
+                    id = rowId,
+                    comment = viewBinding.Comment.text.toString(),
+                    date = date,
+                    valueDate = if (dateEditBinding.Date2Button.isVisible) dateEditBinding.Date2Button.date else date.toLocalDate(),
+                    crStatus = this@TransactionDelegate.crStatus,
+                    parentId = parentId,
+                    planId = this@TransactionDelegate.planId
+                ).let { transaction ->
+                    val title = viewBinding.Title.text.toString()
+                    if (isMainTemplate) {
+                        if (forSave && title.isEmpty()) {
+                            viewBinding.Title.error = context.getString(R.string.required)
+                            null
+                        } else {
+                            val defaultAction =
+                                Template.Action.entries[viewBinding.DefaultAction.selectedItemPosition]
+                            transaction.copy(
+                                initialPlan = if (recurrenceSpinner.selectedItemPosition > 0 && this@TransactionDelegate.planId == null) {
+                                    InitialPlanData(
+                                        title,
+                                        selectedRecurrence,
+                                        planButton.date,
+                                        uuid
                                     )
                                 } else null,
-                            ),
-                        ).let {
-                            if (it.amount.amountMinor == 0L &&
-                                (it.transferEditData?.transferAmount?.amountMinor ?: 0L) == 0L &&
-                                forSave
-                            ) {
-                                if (it.templateEditData?.planEditData == null && it.templateEditData?.defaultAction == Template.Action.SAVE) {
-                                    host.showSnackBar(context.getString(R.string.template_default_action_without_amount_hint))
-                                    return null
-                                }
-                                if (it.templateEditData?.planEditData != null && it.templateEditData.planEditData.isPlanExecutionAutomatic) {
-                                    host.showSnackBar(context.getString(R.string.plan_automatic_without_amount_hint))
-                                    return null
-                                }
+                                templateEditData = TemplateEditData(
+                                    title = title,
+                                    defaultAction = defaultAction,
+                                    planEditData = if (recurrenceSpinner.selectedItemPosition > 0 || this@TransactionDelegate.planId != null) {
+                                        PlanEditData(
+                                            isPlanExecutionAutomatic = planExecutionButton.isChecked,
+                                            planExecutionAdvance = viewBinding.advanceExecutionSeek.progress,
+                                        )
+                                    } else null,
+                                ),
+                            ).let {
+                                if (it.amount.amountMinor == 0L &&
+                                    (it.transferEditData?.transferAmount?.amountMinor
+                                        ?: 0L) == 0L &&
+                                    forSave
+                                ) {
+                                    if (it.templateEditData?.planEditData == null && defaultAction == Template.Action.SAVE) {
+                                        host.showSnackBar(context.getString(R.string.template_default_action_without_amount_hint))
+                                        null
+                                    } else if (it.templateEditData?.planEditData != null && it.templateEditData.planEditData.isPlanExecutionAutomatic) {
+                                        host.showSnackBar(context.getString(R.string.plan_automatic_without_amount_hint))
+                                        null
+                                    } else it
+                                } else it
+                            }?.also {
+                                prefHandler.putString(PrefKey.TEMPLATE_CLICK_DEFAULT, defaultAction.name)
                             }
-                            it
                         }
+                    } else {
+                        transaction.copy(
+                            referenceNumber = methodRowBinding.Number.text.toString(),
+                            initialPlan = if (forSave && !isSplitPart && host.createTemplate)
+                                InitialPlanData(
+                                    title.takeIf { it.isNotEmpty() },
+                                    selectedRecurrence,
+                                    dateEditBinding.DateButton.date,
+                                    generateUuid() // Template UUID must be different from transaction UUID
+                                ) else null
+                        )
                     }
-
-
-                    /*                        if (this.amount.amountMinor == 0L &&
-                                                (this.transferAmount?.amountMinor ?: 0L) == 0L &&
-                                                forSave
-                                            ) {
-                                                if (plan == null && this.defaultAction == Template.Action.SAVE) {
-                                                    host.showSnackBar(context.getString(R.string.template_default_action_without_amount_hint))
-                                                    return null
-                                                }
-                                                if (plan != null && this.isPlanExecutionAutomatic) {
-                                                    host.showSnackBar(context.getString(R.string.plan_automatic_without_amount_hint))
-                                                    return null
-                                                }
-                                            }
-                                            prefHandler.putString(PrefKey.TEMPLATE_CLICK_DEFAULT, defaultAction.name)*/
-                } else {
-                    transaction.copy(
-                        referenceNumber = methodRowBinding.Number.text.toString(),
-                        initialPlan = if (forSave && !isSplitPart && host.createTemplate)
-                            InitialPlanData(
-                                title.takeIf { it.isNotEmpty() },
-                                selectedRecurrence,
-                                dateEditBinding.DateButton.date,
-                                generateUuid() // Template UUID must be different from transaction UUID
-                            ) else null
-                    )
                 }
             }
+        } else {
+            CrashHandler.report(IllegalStateException("lateinit property uuid has not been initialized"))
+            null
         }
-    }
 
     private val selectedRecurrence
         get() = (recurrenceSpinner.selectedItem as? Recurrence)?.let {

@@ -7,18 +7,18 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.livefront.sealedenum.GenSealedEnum
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
+import org.totschnig.myexpenses.preference.isWebUiActive
 import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import java.util.*
+import java.util.Locale
 
 enum class Module(@StringRes val labelResId: Int) {
     OCR(R.string.title_scan_receipt_feature),
@@ -126,7 +126,7 @@ sealed class Feature(vararg val requiredModules: Module) {
             context: Context,
             prefHandler: PrefHandler,
             datastore: DataStore<Preferences>
-        ) = datastore.data.map { it[prefHandler.getBooleanPreferencesKey(PrefKey.UI_WEB)] }.first() == false
+        ) = !datastore.isWebUiActive.first()
     }
 
     data object TESSERACT : OcrEngine(

@@ -28,3 +28,9 @@ fun cleanup(work: () -> Unit) {
         work()
     }
 }
+
+suspend fun cleanupSuspend(work: suspend () -> Unit) {
+    if (!isOrchestrated) {
+        work()
+    }
+}

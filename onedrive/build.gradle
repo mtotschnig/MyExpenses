@@ -44,7 +44,10 @@ dependencies {
     implementation libs.microsoft.graph
 }
 
+
 configurations.configureEach {
-    exclude group:"com.google.guava", module:"guava"
-    //exclude group:"androidx.credentials", module:"credentials-play-services-auth"
+    if (name.contains("RuntimeClasspath")) {
+        exclude group:"com.google.guava", module:"guava"
+        //exclude group:"androidx.credentials", module:"credentials-play-services-auth"
+    }
 }

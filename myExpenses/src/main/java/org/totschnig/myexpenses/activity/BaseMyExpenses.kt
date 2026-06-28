@@ -55,6 +55,7 @@ import org.totschnig.myexpenses.compose.transactions.TransactionList
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
+import org.totschnig.myexpenses.db2.SealedCheckResult
 import org.totschnig.myexpenses.db2.countAccounts
 import org.totschnig.myexpenses.dialog.ArchiveDialogFragment
 import org.totschnig.myexpenses.dialog.BalanceDialogFragment
@@ -79,9 +80,9 @@ import org.totschnig.myexpenses.model.KEY_ACCOUNT_GROUPING
 import org.totschnig.myexpenses.model.KEY_ACCOUNT_GROUPING_GROUP
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
+import org.totschnig.myexpenses.model.sort.Sort
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.CheckSealedHandler
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isAggregate
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_AMOUNT
@@ -137,8 +138,10 @@ import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel
 import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
+import org.totschnig.myexpenses.viewmodel.data.HeaderDataEmpty
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
+import org.totschnig.myexpenses.viewmodel.getNaturalComparator
 import timber.log.Timber
 import java.io.Serializable
 import java.math.BigDecimal
@@ -334,6 +337,13 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
         )
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleIntent(intent)
+    }
+
+    abstract fun handleIntent(intent: Intent)
+
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         if (savedInstanceState == null) {
@@ -342,12 +352,15 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
 
             showTransactionFromIntent(intent)
         }
-        intent.extras?.let {
-            val fromExtra = it.getLong(KEY_ROWID, 0)
-            if (fromExtra != 0L) {
-                selectedAccountId = fromExtra
+
+        if (savedInstanceState == null) {
+            if (this.intent.extras?.containsKey(KEY_ROWID) == true) {
+                handleIntent(intent)
+            } else if (prefHandler.isSet(PrefKey.CURRENT_ACCOUNT)) {
+                selectedAccountId = prefHandler.getLong(PrefKey.CURRENT_ACCOUNT, 0L)
             }
         }
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.pdfResult.collectPrintResult()
@@ -379,9 +392,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                 }
             }
         }
-        if (savedInstanceState == null) {
-            selectedAccountId = prefHandler.getLong(PrefKey.CURRENT_ACCOUNT, 0L)
-        }
+
     }
 
     protected fun editAccount(account: FullAccount) {
@@ -645,12 +656,12 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                     } else if ((account as FullAccount).sealed) {
                         showExportDialog(listOf(R.string.account_closed))
                     } else {
-                        checkSealedHandler.checkAccount(account.id) { result ->
-                            result.onSuccess {
+                        lifecycleScope.launch {
+                            viewModel.checkSealedStatus(account.id).onSuccess {
                                 showExportDialog(
                                     listOfNotNull(
-                                        if (!it.first) R.string.object_sealed else null,
-                                        if (!it.second) R.string.object_sealed_debt else null
+                                        if (it.hasSealedAccount) R.string.object_sealed else null,
+                                        if (it.hasSealedDebt) R.string.object_sealed_debt else null
                                     )
                                 )
                             }
@@ -683,8 +694,8 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                                     Pair(
                                         it.accountGrouping.name, when (it.accountGrouping) {
                                             AccountGrouping.CURRENCY -> it.currency to null
-                                            AccountGrouping.FLAG -> it.flag!!.let { it.title(this@BaseMyExpenses) to it.id }
-                                            AccountGrouping.TYPE -> it.type!!.let { it.title(this@BaseMyExpenses) to it.id }
+                                            AccountGrouping.FLAG -> it.flag.let { it.title(this@BaseMyExpenses) to it.id }
+                                            AccountGrouping.TYPE -> it.type.let { it.title(this@BaseMyExpenses) to it.id }
                                             AccountGrouping.NONE -> null
                                         }
                                     )
@@ -790,38 +801,38 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
     }
 
     protected fun toggleCrStatus(transactionId: Long) {
-        checkSealed(listOf(transactionId), withTransfer = false) {
-            viewModel.toggleCrStatus(transactionId)
-        }
-    }
-
-    open val checkSealedHandler by lazy { CheckSealedHandler(contentResolver) }
-
-    fun checkSealed(itemIds: List<Long>, withTransfer: Boolean = true, onChecked: Runnable) {
-        checkSealedHandler.check(itemIds, withTransfer) { result ->
-            lifecycleScope.launchWhenResumed {
-                result.onSuccess {
-                    if (it.first && it.second) {
-                        onChecked.run()
-                    } else {
-                        warnSealedAccount(!it.first, !it.second, itemIds.size > 1)
-                    }
-                }.onFailure {
-                    showSnackBar(it.safeMessage)
-                }
+        lifecycleScope.launch {
+            if(checkSealed(listOf(transactionId), withTransfer = false)) {
+                viewModel.toggleCrStatus(transactionId)
             }
         }
     }
 
-    private fun warnSealedAccount(sealedAccount: Boolean, sealedDebt: Boolean, multiple: Boolean) {
+    suspend fun checkSealed(itemIds: List<Long>, withTransfer: Boolean = true) =
+        viewModel.checkSealedStatus(itemIds, withTransfer).fold(
+            onSuccess = {
+                if (it.hasSealedAccount || it.hasSealedDebt) {
+                    warnSealedAccount(it, itemIds.size > 1)
+                    false
+                } else {
+                    true
+                }
+            },
+            onFailure = {
+                showSnackBar(it.safeMessage)
+                false
+            }
+        )
+
+    private fun warnSealedAccount(result: SealedCheckResult, multiple: Boolean) {
         val resIds = mutableListOf<Int>()
         if (multiple) {
             resIds.add(R.string.warning_account_for_transaction_is_closed)
         }
-        if (sealedAccount) {
+        if (result.hasSealedAccount) {
             resIds.add(R.string.object_sealed)
         }
-        if (sealedDebt) {
+        if (result.hasSealedDebt) {
             resIds.add(R.string.object_sealed_debt)
         }
         showSnackBar(TextUtils.concatResStrings(this, *resIds.toIntArray()))
@@ -853,8 +864,8 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                 KEY_ACCOUNT_GROUPING_GROUP,
                 when (currentAccount.accountGrouping) {
                     AccountGrouping.CURRENCY -> currentAccount.currency
-                    AccountGrouping.FLAG -> currentAccount.flag!!.id.toString()
-                    AccountGrouping.TYPE -> currentAccount.type!!.id.toString()
+                    AccountGrouping.FLAG -> currentAccount.flag.id.toString()
+                    AccountGrouping.TYPE -> currentAccount.type.id.toString()
                     else -> "Unit"
                 }
             )
@@ -968,7 +979,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
         val count = withContext(Dispatchers.IO) {
             viewModel.childCount(transaction.id)
         }
-        checkSealed(listOf(transaction.id)) {
+        if (checkSealed(listOf(transaction.id))) {
             val message = buildString {
                 append(getString(R.string.warning_delete_archive, count))
                 if (transaction.crStatus == CrStatus.RECONCILED) {
@@ -993,39 +1004,43 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
     }
 
     protected fun edit(transaction: Transaction2, clone: Boolean = false) {
-        checkSealed(listOf(transaction.id)) {
-            if (transaction.transferPeerIsPart == true) {
-                showSnackBar(
-                    if (transaction.transferPeerIsArchived == true) R.string.warning_archived_transfer_cannot_be_edited else R.string.warning_splitpartcategory_context
-                )
-            } else {
-                startEdit(
-                    Intent(this, ExpenseEdit::class.java).apply {
-                        putExtra(KEY_ROWID, transaction.id)
-                        putExtra(KEY_COLOR, transaction.color ?: currentAccount?.color(resources))
-                        if (clone) {
-                            putExtra(ExpenseEdit.KEY_CLONE, true)
-                        }
+        lifecycleScope.launch {
+            if (checkSealed(listOf(transaction.id))) {
+                if (transaction.transferPeerIsPart == true) {
+                    showSnackBar(
+                        if (transaction.transferPeerIsArchived == true) R.string.warning_archived_transfer_cannot_be_edited else R.string.warning_splitpartcategory_context
+                    )
+                } else {
+                    startEdit(
+                        Intent(this@BaseMyExpenses, ExpenseEdit::class.java).apply {
+                            putExtra(KEY_ROWID, transaction.id)
+                            putExtra(KEY_COLOR, transaction.color ?: currentAccount?.color(resources))
+                            if (clone) {
+                                putExtra(ExpenseEdit.KEY_CLONE, true)
+                            }
 
-                    }
-                )
+                        }
+                    )
+                }
             }
         }
     }
 
     protected fun createTemplate(transaction: Transaction2) {
-        checkSealed(listOf(transaction.id)) {
-            if (transaction.isSplit && !prefHandler.getBoolean(
-                    PrefKey.NEW_SPLIT_TEMPLATE_ENABLED,
-                    true
-                )
-            ) {
-                showContribDialog(ContribFeature.SPLIT_TEMPLATE, null)
-            } else {
-                startActivity(Intent(this, ExpenseEdit::class.java).apply {
-                    action = ExpenseEdit.ACTION_CREATE_TEMPLATE_FROM_TRANSACTION
-                    putExtra(KEY_ROWID, transaction.id)
-                })
+        lifecycleScope.launch {
+            if (checkSealed(listOf(transaction.id))) {
+                if (transaction.isSplit && !prefHandler.getBoolean(
+                        PrefKey.NEW_SPLIT_TEMPLATE_ENABLED,
+                        true
+                    )
+                ) {
+                    showContribDialog(ContribFeature.SPLIT_TEMPLATE, null)
+                } else {
+                    startActivity(Intent(this@BaseMyExpenses, ExpenseEdit::class.java).apply {
+                        action = ExpenseEdit.ACTION_CREATE_TEMPLATE_FROM_TRANSACTION
+                        putExtra(KEY_ROWID, transaction.id)
+                    })
+                }
             }
         }
     }
@@ -1034,41 +1049,45 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
         val hasReconciled = transactions.any { it.second == CrStatus.RECONCILED }
         val hasNotVoid = transactions.any { it.second != CrStatus.VOID }
         val itemIds = transactions.map { it.first }
-        checkSealed(itemIds) {
-            var message = resources.getQuantityString(
-                R.plurals.warning_delete_transaction,
-                transactions.size,
-                transactions.size
-            )
-            if (hasReconciled) {
-                message += " " + getString(R.string.warning_delete_reconciled)
-            }
-            showConfirmationDialog(
-                tag = "DELETE_TRANSACTION",
-                message = message,
-                commandPositive = R.id.DELETE_COMMAND_DO,
-                commandPositiveLabel = R.string.menu_delete
-            ) {
-                putInt(
-                    ConfirmationDialogFragment.KEY_TITLE,
-                    R.string.dialog_title_warning_delete_transaction
+        lifecycleScope.launch {
+            if (checkSealed(itemIds)) {
+                var message = resources.getQuantityString(
+                    R.plurals.warning_delete_transaction,
+                    transactions.size,
+                    transactions.size
                 )
-                if (hasNotVoid) {
-                    putString(
-                        KEY_CHECKBOX_LABEL,
-                        getString(R.string.mark_void_instead_of_delete)
-                    )
+                if (hasReconciled) {
+                    message += " " + getString(R.string.warning_delete_reconciled)
                 }
-                putLongArray(KEY_ROW_IDS, itemIds.toLongArray())
+                showConfirmationDialog(
+                    tag = "DELETE_TRANSACTION",
+                    message = message,
+                    commandPositive = R.id.DELETE_COMMAND_DO,
+                    commandPositiveLabel = R.string.menu_delete
+                ) {
+                    putInt(
+                        ConfirmationDialogFragment.KEY_TITLE,
+                        R.string.dialog_title_warning_delete_transaction
+                    )
+                    if (hasNotVoid) {
+                        putString(
+                            KEY_CHECKBOX_LABEL,
+                            getString(R.string.mark_void_instead_of_delete)
+                        )
+                    }
+                    putLongArray(KEY_ROW_IDS, itemIds.toLongArray())
+                }
             }
         }
     }
 
     protected fun undelete(itemIds: List<Long>) {
-        checkSealed(itemIds) {
-            viewModel.undeleteTransactions(itemIds).observe(this) { result: Int ->
-                finishActionMode()
-                showSnackBar("${getString(R.string.menu_undelete_transaction)}: $result")
+        lifecycleScope.launch {
+            if (checkSealed(itemIds)) {
+                viewModel.undeleteTransactions(itemIds).observe(this@BaseMyExpenses) { result: Int ->
+                    finishActionMode()
+                    showSnackBar("${getString(R.string.menu_undelete_transaction)}: $result")
+                }
             }
         }
     }
@@ -1157,13 +1176,14 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
     }
 
     private fun split(itemIds: List<Long>) {
-        checkSealed(itemIds) {
-            contribFeatureRequested(
-                ContribFeature.SPLIT_TRANSACTION,
-                itemIds.toLongArray()
-            )
+        lifecycleScope.launch {
+            if (checkSealed(itemIds)) {
+                contribFeatureRequested(
+                    ContribFeature.SPLIT_TRANSACTION,
+                    itemIds.toLongArray()
+                )
+            }
         }
-
     }
 
     private fun selectAll() {
@@ -1181,14 +1201,16 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
 
     private fun linkTransfer() {
         val itemIds = selectionState.map { it.id }
-        checkSealed(itemIds) {
-            showConfirmationDialog(
-                tag = "LINK_TRANSFER",
-                message = getString(R.string.warning_link_transfer) + " " + getString(R.string.continue_confirmation),
-                commandPositive = R.id.LINK_TRANSFER_COMMAND,
-                commandPositiveLabel = R.string.menu_create_transfer
-            ) {
-                putLongArray(KEY_ROW_IDS, itemIds.toLongArray())
+        lifecycleScope.launch {
+            if (checkSealed(itemIds)) {
+                showConfirmationDialog(
+                    tag = "LINK_TRANSFER",
+                    message = getString(R.string.warning_link_transfer) + " " + getString(R.string.continue_confirmation),
+                    commandPositive = R.id.LINK_TRANSFER_COMMAND,
+                    commandPositiveLabel = R.string.menu_create_transfer
+                ) {
+                    putLongArray(KEY_ROW_IDS, itemIds.toLongArray())
+                }
             }
         }
     }
@@ -1417,7 +1439,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
 
         val onToggleCrStatus = remember {
             derivedStateOf {
-                if (if (account.isAggregate || account.type?.supportsReconciliation == false) {
+                if (if (account.isAggregate || !account.type.supportsReconciliation) {
                         false
                     } else {
                         showStatusHandleState.value
@@ -1426,7 +1448,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
             }
         }
 
-        val headerData = remember(account) { viewModel.headerData(account, v2) }
+        val headerData = remember(account.queryKey) { viewModel.headerData(account, v2) }
 
         val isProcessingFilter = remember { mutableStateOf(false) }
 
@@ -1438,14 +1460,13 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                 }
         ) {
 
-            val filter = viewModel.filterPersistence.getValue(account.id)
-                .whereFilter
-                .collectAsState(null)
+            val persistence = remember(account.id) { viewModel.filterPersistence.getValue(account.id) }
+            val filter = persistence.whereFilter.collectAsState(null)
             filter.value?.let { filter ->
                 FilterHandler(account, "confirmFilterDirect_${account.id}", { oldValue, newValue ->
                     if (newValue != null && oldValue != null) {
                         lifecycleScope.launch {
-                            currentFilter.replaceCriterion(oldValue, newValue)
+                            persistence.replaceCriterion(oldValue, newValue)
                         }
                     }
                 }) {
@@ -1460,7 +1481,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                                 isProcessingFilter.value = true
                                 lifecycleScope.launch {
                                     try {
-                                        currentFilter.removeCriterion(it)
+                                        persistence.removeCriterion(it)
                                         invalidateOptionsMenu()
                                     } finally {
                                         isProcessingFilter.value = false
@@ -1472,10 +1493,15 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                 }
             }
 
-            headerData.collectAsState().value.let { headerData ->
-                val lazyPagingItems =
-                    viewModel.items.getValue(account).collectAsLazyPagingItems()
+            headerData.collectAsState()
+                .value
+                .takeIf { it !is HeaderDataEmpty }
+                ?.let { headerData ->
+
+                val lazyPagingItems = viewModel.getTransactions(account).collectAsLazyPagingItems()
+
                 if (!account.sealed) {
+
                     LaunchedEffect(viewModel.selectAllState.value) {
                         if (viewModel.selectAllState.value) {
                             if (lazyPagingItems.loadState.prepend.endOfPaginationReached &&
@@ -1508,7 +1534,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                 val withCategoryIcon =
                     viewModel.withCategoryIcon.collectAsState(initial = true)
                 val renderType = viewModel.renderer.collectAsState(initial = RenderType.New)
-                val renderer = remember {
+                val renderer = remember(account.grouping) {
                     derivedStateOf {
                         Timber.d("init renderer ${renderType.value}")
                         rendererFactory(
@@ -1640,14 +1666,6 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
         set(value) {
             viewModel.showFilterDialog = value
         }
-
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        intent.extras?.let {
-            selectedAccountId = it.getLong(KEY_ROWID)
-        }
-        showTransactionFromIntent(intent)
-    }
 
     fun showTransactionFromIntent(intent: Intent) {
         val transactionId = intent.getLongExtra(KEY_TRANSACTIONID, -1L)

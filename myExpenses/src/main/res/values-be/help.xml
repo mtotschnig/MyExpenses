@@ -6,7 +6,7 @@
     <string name="help_ExpenseEdit_transfer_title">Форма для пераводаў</string>
     <string name="help_ExpenseEdit_split_title">Форма для падзелу на часткі</string>
     <string name="menu_save_help_text">Захаваць звесткі і зачыніць форму.</string>
-    <string name="menu_categories_export_help_text">Катэгорыі будуць экспартаваныя ў QIF-файл.</string>
+    <string name="menu_categories_export_help_text">Катэгорыі будуць экспартаваны ў файл QIF.</string>
     <string name="menu_categories_setup_default_help_text">Будзе імпартаваны набор катэгорый па змаўчанні.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">Выбраныя катэгорыі будуць выкарыстоўвацца для фільтрацыі спісу транзакцый.</string>
     <string name="form_synchronization_help_text_add">Бэкэнды можна дадаць з экрана налад.</string>
@@ -24,7 +24,7 @@
     <string name="menu_sort_direction_help_text">Транзакцыі можна адсартаваць па ўзрастанні (найстарэйшыя зверху) або па змяншэнні (найноўшыя зверху).</string>
     <string name="menu_distribution_help_text">Пакажыце размеркаванне вашых выдаткаў па катэгорыях. Вы таксама можаце доўга націскаць на загаловак групы, каб праглядзець размеркаванне за пэўны перыяд часу.</string>
     <string name="menu_budget_help_text">Кіраванне штодзённым, штотыднёвым, штомесячным або штогадовым бюджэтам для адлюстроўваецца ў цяперашні час акаўнт.</string>
-    <string name="menu_history_help_text">Адбачыць дыяграму руху грашовых сродкаў: як мяняліся вашы выдаткі і даходы на працягу некалькіх дзён, тыдняў, месяцаў ці гадоў?</string>
+    <string name="menu_history_help_text">Схема грашовых патокаў: Як змяніліся вашы выдаткі і даходы за апошнія некалькі дзён, тыдняў, месяцаў ці гадоў?</string>
     <string name="menu_print_help_text">Генеруе выгляд для друку транзакцый, якія адлюстроўваюцца ў цяперашні час.</string>
     <string name="cab_create_template_from_transaction_help_text">Вызначыць новы шаблон на аснове выбранай транзакцыі. Вам будзе прапанавана ўвесці назву шаблону.</string>
     <string name="cab_clone_transaction_help_text">Выбраныя транзакцыі будуць скапіяваныя з бягучай датай і часам. Вы можаце ўнесці змены перад захаваннем копіі.</string>

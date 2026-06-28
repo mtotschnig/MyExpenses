@@ -141,7 +141,7 @@
     <string name="menu_edit_method">Редагувати спосіб оплати</string>
     <string name="menu_edit_party">Редагування учасника</string>
     <string name="menu_edit_plan_instance">Редагування єдиного плану виникнення</string>
-    <string name="menu_edit_split">Редагувати поділ</string>
+    <string name="menu_edit_split">Редагувати розділену транзакцію</string>
     <string name="menu_edit_split_part_category">Редагувати частину поділу категорії</string>
     <string name="menu_edit_split_part_transfer">Редагувати частину поділу переказу</string>
     <string name="menu_edit_template">Редагувати шаблон</string>
@@ -165,7 +165,6 @@
     <string name="menu_split_transaction">Поділити</string>
     <string name="method">Спосіб оплати</string>
     <string name="no_app_handling_email_available">Відсутня програма для роботи з поштою.</string>
-    <string name="no_app_handling_ftp_available">Відсутня програма для роботи з FTP. Встановити <i>Send With FTP</i>?</string>
     <string name="no_app_handling_mime_type_available">Відсутня програма для роботи з %s-файлами.</string>
     <string name="no_categories">Немає категорій.</string>
     <string name="no_expenses">Ще немає витрат!</string>
@@ -202,7 +201,7 @@
     <string name="password_security_answer_not_valid">Відповідь невірна. Спробуйте ще раз!</string>
     <string name="payee">Одержувач</string>
     <string name="payer">Платник</string>
-    <string name="payer_or_payee">Одержувач / Платник</string>
+    <string name="payer_or_payee">Контрагент</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">План</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -387,7 +386,6 @@
     <string name="widget_title_accounts">Мої рахунки</string>
     <string name="widget_title_templates">Мої шаблони</string>
     <string name="app_dir_not_accessible">Поточна тека для резервних копій та експорту (%1$s) недоступна. Будь ласка, виберіть іншу.</string>
-    <string name="app_dir_not_compatible_with_nougat">Поточний URI для резервних копій та експорту (%1$s) не підтримується в Android Nougat. Будь-ласка, виберіть знову теку.</string>
     <string name="search_amount">Шукати суму</string>
     <string name="search_category">Шукати категорію</string>
     <string name="search_comment">Шукати нотатки</string>
@@ -751,7 +749,7 @@
     <string name="scan_result_multiple_candidates_dialog_title">Знайдено кілька кандидатів. Будь ласка, виберіть:</string>
     <string name="scan_result_no_date">Дата не знайдена</string>
     <string name="scan_result_no_payee">Одержувача не знайдено</string>
-    <string name="pref_plan_executor_time_title">Час сповіщення планувальника</string>
+    <string name="pref_plan_executor_time_title">Час сповіщення</string>
     <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">Використовуйте цю кнопку перемикача для запису доходів.</string>
     <string name="pref_feature_uninstall_summary">Play Маркет намагається зрештою видалити ці модулі у фоновому режимі.</string>
     <string name="remap_account">Усі вибрані транзакції буде зіставлено з рахунком %s.</string>
@@ -876,7 +874,7 @@
     <string name="merge_parties_strategy_group">Дублікати групуються як залежні.</string>
     <string name="widget_title_budget">Мій бюджет</string>
     <string name="merge_parties_strategy_delete">Дублікати видаляються.</string>
-    <string name="roadmap_intro">Голосування за дорожню карту 2024 року відкрито! Голосуйте за функції та покращення, які для вас найважливіші.</string>
+    <string name="roadmap_intro">Голосування за дорожню карту %d року відкрито! Голосуйте за функції та покращення, які для вас найважливіші.</string>
     <string name="menu_unlink_transfer">Від\'єднати переказ</string>
     <string name="warning_unlink_transfer">Вибраний переказ буде від’єднано: його замінять звичайні транзакції в обох рахунках.</string>
     <string name="menu_transform_to_transfer">Перетворити в переказ</string>

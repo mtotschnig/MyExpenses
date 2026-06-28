@@ -16,6 +16,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
@@ -46,6 +47,9 @@ fun AmountText(
     color: Color = Color.Unspecified,
     prefix: String = "",
     postfix: String = "",
+    overflow: TextOverflow = TextOverflow.Clip,
+    softWrap: Boolean = true,
+    maxLines: Int = Int.MAX_VALUE,
 ) {
     val money = Money(currency, amount)
     Text(
@@ -58,7 +62,10 @@ fun AmountText(
         text = prefix + LocalCurrencyFormatter.current.formatCurrency(
             money.amountMajor,
             money.currencyUnit
-        ) + postfix
+        ) + postfix,
+        overflow = overflow,
+        softWrap = softWrap,
+        maxLines = maxLines
     )
 }
 
@@ -69,6 +76,7 @@ fun ColoredAmountText(
     modifier: Modifier = Modifier,
     style: TextStyle = LocalTextStyle.current,
     fontWeight: FontWeight? = null,
+    fontSize: TextUnit = TextUnit.Unspecified,
     textAlign: TextAlign? = null,
     withBorder: Boolean = false,
     prefix: String = "",
@@ -76,19 +84,26 @@ fun ColoredAmountText(
     type: Byte? = null,
     absolute: Boolean = false,
     colorFix: Boolean = true,
+    overflow: TextOverflow = TextOverflow.Clip,
+    softWrap: Boolean = true,
+    maxLines: Int = Int.MAX_VALUE,
 ) {
     ColoredAmountText(
         money = Money(currency, amount),
         modifier = modifier,
         style = style,
         fontWeight = fontWeight,
+        fontSize = fontSize,
         textAlign = textAlign,
         withBorder = withBorder,
         prefix = prefix,
         postfix = postfix,
         type = type,
         absolute = absolute,
-        colorFix = colorFix
+        colorFix = colorFix,
+        overflow = overflow,
+        softWrap = softWrap,
+        maxLines = maxLines
     )
 }
 
@@ -98,6 +113,7 @@ fun ColoredAmountText(
     modifier: Modifier = Modifier,
     style: TextStyle = LocalTextStyle.current,
     fontWeight: FontWeight? = null,
+    fontSize: TextUnit = TextUnit.Unspecified,
     textAlign: TextAlign? = null,
     withBorder: Boolean = false,
     prefix: String = "",
@@ -105,6 +121,9 @@ fun ColoredAmountText(
     type: Byte? = null,
     absolute: Boolean = false,
     colorFix: Boolean = true,
+    overflow: TextOverflow = TextOverflow.Clip,
+    softWrap: Boolean = true,
+    maxLines: Int = Int.MAX_VALUE,
 ) {
     val type = type ?: when (money.amountMinor.sign) {
         1 -> FLAG_INCOME
@@ -125,10 +144,15 @@ fun ColoredAmountText(
                 }
                 .amountSemantics(money),
             fontWeight = fontWeight,
+            fontSize = fontSize,
             textAlign = textAlign,
             style = style,
             text = prefix + formatCurrency + postfix,
-            color = type.typeTextColor
+            color = type.typeTextColor,
+            overflow = overflow,
+            softWrap = softWrap,
+            maxLines = maxLines
+
         )
     } else {
         Text(
@@ -138,9 +162,13 @@ fun ColoredAmountText(
                 }
                 .amountSemantics(money),
             fontWeight = fontWeight,
+            fontSize = fontSize,
             textAlign = textAlign,
             style = style,
-            text = coloredAmountText(formatCurrency, prefix, postfix, type.typeTextColor)
+            text = coloredAmountText(formatCurrency, prefix, postfix, type.typeTextColor),
+            overflow = overflow,
+            softWrap = softWrap,
+            maxLines = maxLines
         )
     }
 }

@@ -20,13 +20,23 @@ import org.totschnig.myexpenses.compose.transactions.tagBorder
 
 inline fun Modifier.conditional(
     condition: Boolean,
-    ifFalse: (Modifier.() -> Modifier) = { this },
+    ifTrue: Modifier.() -> Modifier,
+) =  if (condition) ifTrue() else this
+
+inline fun Modifier.conditional(
+    condition: Boolean,
+    ifFalse: (Modifier.() -> Modifier),
     ifTrue: Modifier.() -> Modifier,
 ) =  if (condition) ifTrue() else ifFalse()
 
 inline fun <T> Modifier.optional(
     optional: T?,
-    ifAbsent: (Modifier.() -> Modifier) = { this },
+    ifPresent: Modifier.(T) -> Modifier
+) = if (optional != null) ifPresent(optional) else this
+
+inline fun <T> Modifier.optional(
+    optional: T?,
+    ifAbsent: (Modifier.() -> Modifier),
     ifPresent: Modifier.(T) -> Modifier
 ) = if (optional != null) ifPresent(optional) else ifAbsent()
 

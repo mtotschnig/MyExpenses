@@ -91,8 +91,8 @@
     <string name="menu_create_method">නව මිලදී ගැනීමේ ක්‍රමය </string>
     <string name="menu_create_party">අලුත් පක්ෂය </string>
     <string name="menu_create_split">නව බෙදීම </string>
-    <string name="menu_create_split_part_category">නව ප්‍රබේධ කොටස් බෙදීම </string>
-    <string name="menu_create_split_part_transfer">නව හුවමාරු කොටස් බෙදීම </string>
+    <string name="menu_create_split_part_category">නව ප්‍රබේධ කොටස් බෙදීම</string>
+    <string name="menu_create_split_part_transfer">නව හුවමාරු කොටස් බෙදීම</string>
     <string name="menu_create_sub_cat">නව උප ප්‍රබේධය  </string>
     <string name="menu_create_template">නව අච්චුව </string>
     <string name="menu_create_template_from_transaction">අච්චුවක් ලෙස සුරැකීම </string>
@@ -108,9 +108,9 @@
     <string name="menu_edit_method">මිලදී ගන්නා ක්‍රමය සන්ස්කරණය කරන්න </string>
     <string name="menu_edit_party">පක්ෂය සංස්කරණය කිරීම </string>
     <string name="menu_edit_plan_instance">එක් සැලසුමක් සිදුවීම සංස්කරණය කරන්න </string>
-    <string name="menu_edit_split">බෙදීම සංස්කරණය කරන්න </string>
-    <string name="menu_edit_split_part_category">ප්‍රබේධ කොටස් බෙදීම සංස්කරණය කරන්න </string>
-    <string name="menu_edit_split_part_transfer">හුවමාරු කොටස් බෙදීම සංස්කරණය කරන්න </string>
+    <string name="menu_edit_split">බෙදීම් ගනුදෙනුව සංස්කරණය කරන්න</string>
+    <string name="menu_edit_split_part_category">ප්‍රබේධ කොටස් බෙදීම සංස්කරණය කරන්න</string>
+    <string name="menu_edit_split_part_transfer">හුවමාරු කොටස් බෙදීම සංස්කරණය කරන්න</string>
     <string name="menu_edit_template">අච්චුව සංස්කරණය කරන්න </string>
     <string name="menu_edit_transaction">ගනුදෙනුව සංස්කරණය කරන්න </string>
     <string name="menu_edit_transfer">හුවමාරුව  සංස්කරනය කරන්න </string>
@@ -129,7 +129,6 @@
     <string name="menu_share">යහළුවකුට පවසන්න </string>
     <string name="method">ගෙවීමේ ක්රමය</string>
     <string name="no_app_handling_email_available"> නියැලුම් පරිහරණය කිරීමේ විද්‍යුත් ලිපිනයක් නොමැත.</string>
-    <string name="no_app_handling_ftp_available"> ඇප් පාලනය කල නොහැකි ftp තිබේ.පිහිටුවන්න <i>ftp සමග යවන්න</i>?</string>
     <string name="no_categories">වර්ග නැත </string>
     <string name="no_expenses">තවම වියදම් නැත </string>
     <string name="no_exportable_expenses">අපනයන නොකළ ගනුදෙනු නොමැත </string>
@@ -137,7 +136,7 @@
     <string name="no_mapped_transactions">මෙම කාලපරාසය තුල කිසම ගනුදෙනුවක් ප්‍රබේධ තුලට වෙන්  කොට නැත </string>
     <string name="no_methods">මිලදී ගැනීමේ ක්‍රමයක් නැත </string>
     <string name="no_parties">කණ්ඩායම් නැත </string>
-    <string name="no_split_parts">කොටස් බෙදීම් නොමැත </string>
+    <string name="no_split_parts">කොටස් බෙදීම් නොමැත</string>
     <string name="no_templates">අච්චු නැත </string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">තෝරාගත් අවයවය  ගනුදෙනු තුලට වෙන් කොට ඇති අතර මකා දැමිය නොහැක </item>
@@ -198,7 +197,7 @@
     <string name="pref_manage_categories_title">වර්ග </string>
     <string name="pref_manage_methods_summary">මිලදී ගැනීමේ ක්‍රම නිර්මාණය කිරීම හා සංස්කරණය කිරීම සහ ගිණුම් වර්ග සමග එකතු කිරීම  </string>
     <string name="pref_manage_methods_title">මුදල් ගෙවීමේ ක්‍රම </string>
-    <string name="pref_manage_parties_summary">පක්ෂ එකතු කිරීම, සංස්කරණය කිරම, මකා දැමීම (ගෙවන්නා  සහ ආදායකයා)</string>
+    <string name="pref_manage_parties_summary">පක්ෂ එකතු කිරීම, සංස්කරණය කිරම, මකා දැමීම (ගෙවන්නා සහ ආදායකයා)</string>
     <string name="pref_manage_parties_title">පක්ෂ </string>
     <string name="pref_manage_sync_backends_title">සමමුහුර්ත පසුබිම්</string>
     <string name="pref_more_info_dialog_title">බලපත්‍ර සහ amp ; ස්තූති කිරීම් </string>
@@ -252,7 +251,7 @@
     <string name="select_category">වර්ගය තෝරාගන්න </string>
     <string name="share_scheme_not_supported">%1$s ක්‍රමය තහවුරු නොකරයි </string>
     <string name="share_sending">අපනයනය කල ලිපි ගොනුව යවන්න </string>
-    <string name="split_parts_heading">කොටස් බෙදන්න </string>
+    <string name="split_parts_heading">කොටස් බෙදන්න</string>
     <string name="split_transaction">විභේදනය වූ ගනුදෙනු</string>
     <string name="status">තත්වය </string>
     <string name="status_cleared">හිස් කරා </string>
@@ -296,7 +295,7 @@
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">ඔබ ඉදිරියට ගියහොත් සියලුම ගිණුම්%1$s ,ඇති  දත්ත ගබඩාවේ සියලුම ගනුදෙනු මකා  දැමෙන අතර නැවත පිහිටුවීමට නොහැකිය.</string>
     <string name="warning_restore">\"%1$s\" ලිපිගොනුවෙන් මනාප සහ දත්ත ගබඩාව නැවත පිහිටුවන අතර. දැනට පවතින දත්ත සියල්ල මකා දැමේ.</string>
-    <string name="warning_splitpartcategory_context">බෙදිමක කොටස් වන ගනුදෙනු සංස්කරණය කල හැක්කේ බෙදීමෙහි සම්බන්දයක් ඇත්නම් පමණි </string>
+    <string name="warning_splitpartcategory_context">බෙදිමක කොටස් වන ගනුදෙනු සංස්කරණය කල හැක්කේ බෙදීමෙහි සම්බන්දයක් ඇත්නම් පමණි</string>
     <string name="import_categories_success">ප්‍රබේධ %1$d සාර්ථකල ලෙස ආනයනය කරන ලදී.</string>
     <string name="import_parties_success">පක්ෂ %1$d සාර්ථකල ලෙස ආනයනය කරන ලදී.</string>
     <string name="import_accounts_success">ගිණුම් %1$d  සාර්ථකල ලෙස ආනයනය කරන ලදී.</string>
@@ -341,4 +340,6 @@
     <string name="price_history">මිල ඉතිහාසය</string>
     <string name="pref_account_list_display_configuration_title">ගිණුම් ලැයිස්තුව</string>
     <string name="menu_templates">සැකිලි</string>
+    <string name="pref_plan_executor_time_title">දැනුම්දීමේ වේලාව</string>
+    <string name="payer_or_payee">අනෙක් පාර්ශවය</string>
 </resources>

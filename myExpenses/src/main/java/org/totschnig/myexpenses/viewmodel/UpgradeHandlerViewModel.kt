@@ -677,7 +677,10 @@ class UpgradeHandlerViewModel(application: Application) :
                     UpgradeSuccess(migrationInfos)
                 }
             } catch (e: Exception) {
-                CrashHandler.report(e)
+                CrashHandler.report(Exception(
+                    "upgrade from $fromVersion to $toVersion failed",
+                    e
+                ))
                 _upgradeInfo.update {
                     UpgradeError("upgrade from $fromVersion to $toVersion failed (${e.safeMessage}). Please contact ${getString(R.string.support_email)} .")
                 }

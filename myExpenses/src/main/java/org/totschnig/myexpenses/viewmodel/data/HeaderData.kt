@@ -19,27 +19,27 @@ import java.time.LocalDate
 
 @Immutable
 @Stable
-sealed interface HeaderDataResult {
-    val account: PageAccount
-    fun calculateGroupId(transaction: Transaction2) = account.grouping.calculateGroupId(transaction)
-}
+sealed interface HeaderDataResult
 
-data class HeaderDataEmpty(override val account: PageAccount) : HeaderDataResult
-data class HeaderDataError(override val account: PageAccount) : HeaderDataResult
+object HeaderDataEmpty : HeaderDataResult
+object HeaderDataError : HeaderDataResult
 
 data class HeaderData(
-    override val account: PageAccount,
+    val account: PageAccount,
     val groups: Map<Int, HeaderRow>,
     val dateInfo: DateInfo,
-    val isFiltered: Boolean
+    val isFiltered: Boolean,
 ) : HeaderDataResult {
+
+    fun calculateGroupId(transaction: Transaction2) = account.grouping.calculateGroupId(transaction)
+
 
     companion object {
         fun fromSequence(
             openingBalance: Long,
             grouping: Grouping,
             currency: CurrencyUnit,
-            sequence: Sequence<Cursor>
+            sequence: Sequence<Cursor>,
         ): Map<Int, HeaderRow> =
             buildMap {
                 var previousBalance = openingBalance
@@ -63,7 +63,7 @@ data class HeaderRow(
     val previousBalance: Money,
     val delta: Money,
     val interimBalance: Money,
-    val weekStart: LocalDate?
+    val weekStart: LocalDate?,
 ) {
 
     companion object {
@@ -76,7 +76,7 @@ data class HeaderRow(
             expenseSum: Long,
             transferSum: Long,
             previousBalance: Long,
-            weekStart: LocalDate?
+            weekStart: LocalDate?,
         ): HeaderRow {
             val delta = incomeSum + expenseSum + transferSum
             return HeaderRow(
@@ -111,5 +111,5 @@ data class BudgetRow(
     val headerId: Int,
     val amount: Long?,
     val rollOverPrevious: Long?,
-    val oneTime: Boolean
+    val oneTime: Boolean,
 )

@@ -33,10 +33,12 @@ import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_GROUPING
 import org.totschnig.myexpenses.testutils.BaseUiTest
+import org.totschnig.myexpenses.testutils.TestShard1
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
 import java.time.LocalDateTime
 
+@TestShard1
 class DistributionTest : BaseUiTest<DistributionActivity>() {
     @get:Rule
     val composeTestRule = createEmptyComposeRule()

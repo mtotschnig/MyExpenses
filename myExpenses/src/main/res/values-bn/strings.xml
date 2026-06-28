@@ -153,7 +153,7 @@
     <string name="menu_edit_method">পেমেন্ট মেথড এডিট</string>
     <string name="menu_edit_party">পার্টি এডিট</string>
     <string name="menu_edit_plan_instance">একক প্লান এডিট</string>
-    <string name="menu_edit_split">স্প্লিট এডিট</string>
+    <string name="menu_edit_split">বিভাজন লেনদেন সম্পাদনা করুন</string>
     <string name="menu_edit_split_part_category">ক্যাটাগরি স্প্লিট পার্ট এডিট</string>
     <string name="menu_edit_split_part_transfer">ট্রান্সফার স্প্লিট পার্ট এডিট</string>
     <string name="menu_edit_template">টেমপ্লেট এডিট</string>
@@ -177,7 +177,6 @@
     <string name="menu_split_transaction">স্প্লিট লেনদেনে রূপান্তর করুন</string>
     <string name="method">পেমেন্ট মেথড</string>
     <string name="no_app_handling_email_available">ইমেল পরিচালনা করার জন্য কোনও অ্যাপ নেই।</string>
-    <string name="no_app_handling_ftp_available">এফটিপি পরিচালনা করার জন্য কোনও অ্যাপ নেই। <i>Send With FTP</i> ইনস্টল করবেন?</string>
     <!-- %s is replaced by extension, e.g. PDF or CSV -->
     <string name="no_app_handling_mime_type_available">%s ফাইল পরিচালনা করার জন্য কোনও অ্যাপ নেই।</string>
     <string name="no_categories">কোন ক্যাটাগরি নেই।</string>
@@ -213,7 +212,7 @@
     <string name="password_security_answer_not_valid">ভুল উত্তর। আবার চেষ্টা করুন!</string>
     <string name="payee">প্রাপক</string>
     <string name="payer">প্রদানকারী</string>
-    <string name="payer_or_payee">প্রাপক/প্রদানকারী</string>
+    <string name="payer_or_payee">পাল্টা পক্ষ</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">প্লান</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -224,7 +223,6 @@
     <string name="plan_event_deleted">এই টেমপ্লেটের সাথে সম্পর্কিত প্লান ক্যালেন্ডার থেকে মুছে ফেলা হয়েছে।</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">প্লান কার্যকর করা বাতিল করা হয়েছে</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
     <string name="planner_create_calendar_failure">লোকাল প্লানার ক্যালেন্ডার তৈরি করা যায়নি</string>
     <string name="planner_create_calendar_success">লোকাল প্লানার ক্যালেন্ডার সফলভাবে তৈরি করা হয়েছে</string>
     <!-- payment methods -->
@@ -397,7 +395,6 @@
     <string name="widget_title_accounts">আমার অ্যাকাউন্টসমূহ</string>
     <string name="widget_title_templates">আমার টেমপ্লেটসমূহ</string>
     <string name="app_dir_not_accessible">বর্তমানে নির্বাচিত ব্যাকআপ এবং এক্সপোর্টর ফোল্ডার (%1$s) অ্যাক্সেস করা যাচ্ছে না। অনুগ্রহ করে একটি ভিন্ন ফোল্ডার নির্বাচন করুন।</string>
-    <string name="app_dir_not_compatible_with_nougat">বর্তমানে কনফিগার করা ব্যাকআপ এবং এক্সপোর্টর URI (%1$s) Android Nougat-এ সমর্থিত নয়। অনুগ্রহ করে আবার একটি ফোল্ডার নির্বাচন করুন।</string>
     <string name="search_amount">পরিমাণ সার্চ করুন</string>
     <string name="search_category">ক্যাটাগরি সার্চ করুন</string>
     <string name="search_comment">নোট সার্চ করুন</string>
@@ -695,7 +692,7 @@
     <string name="pref_exchange_rate_provider_title">এক্সচেঞ্জ রেট প্রদানকারী</string>
     <!-- %s is replaced with exchange rate provider URL (openexchangerates.org or coinapi.io) -->
     <string name="pref_exchange_rates_api_key_summary">অনুগ্রহ করে %s এ একটি বিনামূল্যে অ্যাকাউন্ট নিবন্ধন করুন এবং আপনার অ্যাপ আইডি প্রদান করুন</string>
-    <string name="pref_plan_executor_time_title">প্লানার বিজ্ঞপ্তির সময়</string>
+    <string name="pref_plan_executor_time_title">বিজ্ঞপ্তির সময়</string>
     <string name="synchronization_select_folder_dialog_title">একটি ফোল্ডার নির্বাচন করুন বা একটি নতুন তৈরি করুন</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">আয় রেকর্ড করতে এই বাটন ব্যবহার করুন।</string>
@@ -984,7 +981,7 @@
     <string name="menu_transform_to_transfer">ট্রান্সফারে রূপান্তর করুন</string>
     <string name="warning_transform_to_transfer">নির্বাচিত লেনদেন %1$s থেকে %2$s তে ট্রান্সফার দ্বারা প্রতিস্থাপিত হবে।</string>
     <string name="remap_date">সমস্ত নির্বাচিত লেনদেনে, তারিখ %s তে সেট করা হবে।</string>
-    <string name="roadmap_intro">২০২৪ রোডম্যাপ ভোট এখন খোলা! আপনার কাছে সবচেয়ে গুরুত্বপূর্ণ ফিচার এবং ডেভেলপমেন্টের জন্য ভোট দিন।</string>
+    <string name="roadmap_intro">%d রোডম্যাপ ভোট এখন খোলা! আপনার কাছে সবচেয়ে গুরুত্বপূর্ণ ফিচার এবং ডেভেলপমেন্টের জন্য ভোট দিন।</string>
     <string name="merge_categories_dialog_title">ক্যাটাগরি একত্রিত করুন</string>
     <string name="subcategories_merged_recursively">যদি একত্রিত ক্যাটাগরিগুলির মধ্যে একই লেবেলযুক্ত সাব-ক্যাটাগরি থাকে, তবে সেগুলি প্রথমে রিকারসিভভাবে একত্রিত করা হবে।</string>
     <string name="merge_categories_prompt">আপনি যে ক্যাটাগরিটি রাখতে চান তা নির্বাচন করুন</string>

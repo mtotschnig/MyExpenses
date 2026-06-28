@@ -17,11 +17,11 @@
     <string name="account">الحساب</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">أنواع الحسابات</string>
-    <string name="account_type_asset">حساب الاصول</string>
-    <string name="account_type_bank">حساب البنك</string>
-    <string name="account_type_cash">حساب النقد</string>
+    <string name="account_type_asset">أصول أخرى</string>
+    <string name="account_type_bank">البنك</string>
+    <string name="account_type_cash">النقد</string>
     <string name="account_type_ccard">بطاقة ائتمانية</string>
-    <string name="account_type_liability">حساب الالتزامات</string>
+    <string name="account_type_liability">التزامات أخرى</string>
     <string name="already_defined">%1$s معرّف مسبقاً</string>
     <string name="amount">القيمة</string>
     <string name="app_name">مصروفاتي</string>
@@ -133,8 +133,8 @@
     <string name="menu_create_method">طريقة دفع جديدة</string>
     <string name="menu_create_party">طرف جديد</string>
     <string name="menu_create_split">تقسيم جديد</string>
-    <string name="menu_create_split_part_category">تقسيم تصنيف جديد</string>
-    <string name="menu_create_split_part_transfer">تقسيم تحويل جديد</string>
+    <string name="menu_create_split_part_category">تقسيم فئوي جديد</string>
+    <string name="menu_create_split_part_transfer">تقسيم تحويلات جديد</string>
     <string name="menu_create_sub_cat">تصنيف فرعي جديد</string>
     <string name="menu_create_template">نموذج جديد</string>
     <string name="menu_create_template_from_transaction">حفظ كنموذج</string>
@@ -150,9 +150,9 @@
     <string name="menu_edit_method">تعديل طريقة الدفع</string>
     <string name="menu_edit_party">تعديل طرف</string>
     <string name="menu_edit_plan_instance">تحرير مدى ورود خطة واحدة</string>
-    <string name="menu_edit_split">تعديل تقسيم</string>
-    <string name="menu_edit_split_part_category">تعديل تقسيم تصنيف</string>
-    <string name="menu_edit_split_part_transfer">تعديل تقسيم تحويل</string>
+    <string name="menu_edit_split">تعديل المعاملة المجزأة</string>
+    <string name="menu_edit_split_part_category">تعديل التقسيم الفئوي</string>
+    <string name="menu_edit_split_part_transfer">تعديل تقسيم التحويلات</string>
     <string name="menu_edit_template">تعديل نموذج</string>
     <string name="menu_edit_transaction">تعديل عملية</string>
     <string name="menu_edit_transfer">تعديل تحويل</string>
@@ -174,7 +174,6 @@
     <string name="menu_split_transaction">التحويل إلى معاملة مجزأة</string>
     <string name="method">طريقة الدفع او السداد</string>
     <string name="no_app_handling_email_available">لا يوجد تطبيق للبريد الالكتروني.</string>
-    <string name="no_app_handling_ftp_available">لا يوجد تطبيق لـ ftp. تثبيت <i>Send With FTP</i>؟</string>
     <string name="no_app_handling_mime_type_available">لا يوجد تطبيق لمعاينة ملفات ال%s.</string>
     <string name="no_categories">لا يوجد تصنيفات.</string>
     <string name="no_expenses">لا يوجد مصروفات حتى الأن!</string>
@@ -185,7 +184,7 @@
     <string name="no_mapped_transactions">لا يوجد عمليات لهذا التصنيف خلال هذه الفترة.</string>
     <string name="no_methods">لا يوجد طرق دفع.</string>
     <string name="no_parties">لا يوجد أطراف.</string>
-    <string name="no_split_parts">لا يوجد أجزاء مقسمة.</string>
+    <string name="no_split_parts">لا تقسيمات.</string>
     <string name="no_templates">لا يوجد نماذج.</string>
     <string name="no_accounts">لا توجد حسابات.</string>
     <plurals name="not_deletable_mapped_transactions">
@@ -217,7 +216,7 @@
     <string name="password_security_answer_not_valid">إجابة خاطئة. حاول مرة أخرى!</string>
     <string name="payee">المستفيد</string>
     <string name="payer">المشتري</string>
-    <string name="payer_or_payee">المستفيد / الدافع</string>
+    <string name="payer_or_payee">الطرف الآخر</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">خطة</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -412,7 +411,6 @@
     <string name="widget_title_accounts">حساباتي</string>
     <string name="widget_title_templates">نماذجي</string>
     <string name="app_dir_not_accessible">لا يمكن الوصول إلى المجلد المحدد حالياً للنسخ الاحتياطية والتصدير (%1$s). يُرجى اختيار مجلد مختلف.</string>
-    <string name="app_dir_not_compatible_with_nougat">عنوان URI الذي تم تهيئته حالياً للنسخ الاحتياطي والتصدير (%1$s) غير مدعوم بواسطة أندرويد نوجا. يُرجى تحديد مجلد ما مرة أخرى.</string>
     <string name="search_amount">ابحث عن المبلغ</string>
     <string name="search_category">ابحث عن تصنيف</string>
     <string name="search_comment">ابحث عن ملاحظة</string>
@@ -700,7 +698,7 @@
     <string name="pref_exchange_rate_provider_summary">حدد مزوداً لتنزيل أسعار الصرف</string>
     <string name="pref_exchange_rate_provider_title">مزود سعر الصرف</string>
     <string name="pref_exchange_rates_api_key_summary">يُرجى تسجيل حساب مجاني على %s وتقديم معرف التطبيق الخاص بك</string>
-    <string name="pref_plan_executor_time_title">وقت إعلام المخطط</string>
+    <string name="pref_plan_executor_time_title">وقت الإشعار</string>
     <string name="synchronization_select_folder_dialog_title">حدد مجلداً موجوداً أو أنشئ مجلداً جديداً</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch">استخدم زر التبديل هذا لتسجيل الدخل.</string>
@@ -964,7 +962,7 @@
     <string name="one_time_payment">دفعة مالية لمرة واحدة</string>
     <string name="dialog_contrib_trial_info_play">لن يتم تحويل هذه النسخة التجريبية المجانية  أبدًا إلى أي نوع من الاشتراكات.</string>
     <string name="dialog_contrib_subscription_info_play">يبدأ هذا الاشتراك فورًا، مع إصدار فاتورة شهرية أو سنوية، ويمكن إلغاؤه في أي وقت.</string>
-    <string name="roadmap_intro">تصويت خارطة الطريق لعام 2024 مفتوح الآن! شارك في التصويت على الميزات والتحسينات الأهم بالنسبة لك.</string>
+    <string name="roadmap_intro">تصويت خارطة الطريق لعام %d مفتوح الآن! شارك في التصويت على الميزات والتحسينات الأهم بالنسبة لك.</string>
     <string name="contact_us">اتصل بنا</string>
     <string name="default_transfer_category">فئة النقل الافتراضية</string>
     <string name="menu_aggregate_neutral_categories">تجميع الفئات المحايدة</string>

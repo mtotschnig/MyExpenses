@@ -30,7 +30,6 @@ class MyExpensesAmountSearchFilterTest : BaseMyExpensesTest() {
 
     @Before
     fun fixture() {
-        val currency = DebugInstance
         account = buildAccount("Test account 1")
         repository.insertTransaction(
             accountId = account.id,

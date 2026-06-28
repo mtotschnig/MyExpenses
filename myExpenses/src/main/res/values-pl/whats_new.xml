@@ -35,4 +35,5 @@
     <string name="migration_v2_opt_out_warning">Wersja 1 zostanie wycofana w przyszłej aktualizacji. Chcielibyśmy wiedzieć, co nie działa, abyśmy mogli ulepszyć wersję 2.</string>
     <string name="migration_v2_feedback_title">Co nie działa w V2?</string>
     <string name="migration_v2_confirm_opt_out">Wróć do V1</string>
+    <string name="whats_new_407">Naturalne sortowanie dla tagów, kategorii, kont i partii.</string>
 </resources>

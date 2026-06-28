@@ -392,7 +392,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         )
     ).id
 
-    fun clickFab() {
+    open fun clickFab() {
         onView(withId(R.id.fab)).perform(click())
     }
 
@@ -500,7 +500,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
     }
 
     protected fun assertTemplate(
-        expectedAccount: Long,
+        expectedAccount: Account,
         expectedAmount: Long,
         templateTitle: String = TEMPLATE_TITLE,
         expectedTags: List<String> = emptyList(),
@@ -530,7 +530,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         with(template.data) {
             assertThat(amount).isEqualTo(expectedAmount)
             assertThat(title).isEqualTo(templateTitle)
-            assertThat(accountId).isEqualTo(expectedAccount)
+            assertThat(accountId).isEqualTo(expectedAccount.id)
             assertThat(categoryId).isEqualTo(expectedCategory)
             assertThat(payeeId).isEqualTo(expectedParty)
             assertThat(methodId).isEqualTo(expectedMethod)
@@ -573,7 +573,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
                 compileDescription(
                     targetContext,
                     currencyFormatter,
-                    Money(currencyContext.homeCurrencyUnit, expectedAmount),
+                    Money(currencyContext[expectedAccount.currency], expectedAmount),
                     expectedCategory,
                     template.data.categoryPath,
                     false,

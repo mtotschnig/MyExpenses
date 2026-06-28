@@ -10,6 +10,10 @@
         <item>Jessy Kihn III</item>
         <item>Resolved2418</item>
         <item>Softmap</item>
+        <item>E. Ta.</item>
+        <item>Ahm Ed</item>
+        <item>M Im</item>
+        <item>abdelbasset jabrane</item>
     </string-array>
 
     <string-array name="translators_be">
@@ -19,6 +23,7 @@
     <string-array name="translators_bg">
         <item>Диана Карa</item>
         <item>Иван Димитров</item>
+        <item>J. Lavoie</item>
     </string-array>
 
     <string-array name="translators_bn">
@@ -40,12 +45,15 @@
     <string-array name="translators_da">
         <item>catsnote</item>
         <item>vokabularium</item>
+        <item>Luna</item>
     </string-array>
 
     <string-array name="translators_de">
         <item>Michael Totschnig</item>
         <item>J. Lavoie</item>
         <item>eltos</item>
+        <item>Kachelkaiser</item>
+        <item>tct123</item>
     </string-array>
 
     <string-array name="translators_el">
@@ -63,6 +71,7 @@
         <item>Christof Totschnig</item>
         <item>Laurent Collombet</item>
         <item>Guille</item>
+        <item>J. Lavoie</item>
     </string-array>
 
     <string-array name="translators_eu">
@@ -75,6 +84,7 @@
         <item>Michael Totschnig</item>
         <item>Alexandre Beelen</item>
         <item>J. Lavoie</item>
+        <item>Antonin Del Fabbro</item>
     </string-array>
 
     <string-array name="translators_hr">
@@ -85,6 +95,12 @@
     <string-array name="translators_hu">
         <item>Csipai Roland</item>
         <item>https://gengo.com/</item>
+        <item>Balázs Meskó</item>
+    </string-array>
+
+    <string-array name="translators_in">
+        <item>Arif Budiman</item>
+        <item>Reza Almanda</item>
     </string-array>
 
     <string-array name="translators_it">
@@ -99,6 +115,8 @@
         <item>Gudrun Totschnig</item>
         <item>Pierluigi Rufo</item>
         <item>Alessandro Mandelli</item>
+        <item>J. Lavoie</item>
+        <item>Gio Pa</item>
     </string-array>
 
     <string-array name="translators_iw">
@@ -106,6 +124,7 @@
         <item>Yaron Shahrabani</item>
         <item>Gilad the Grain</item>
         <item>Avi Markovitz</item>
+        <item>elid</item>
     </string-array>
 
     <string-array name="translators_ja">
@@ -128,6 +147,7 @@
 
     <string-array name="translators_ms">
         <item>Abuyop</item>
+        <item>Azizah</item>
     </string-array>
 
     <string-array name="translators_nl">
@@ -135,6 +155,7 @@
         <item>Birdibird</item>
         <item>Rudi Timmermans</item>
         <item>Cees</item>
+        <item>Mikachu</item>
     </string-array>
 
     <string-array name="translators_pl">
@@ -144,6 +165,7 @@
         <item>tangodev</item>
         <item>Damian S.</item>
         <item>Maciej Klupp</item>
+        <item>Rcvrvugyvgvb</item>
     </string-array>
 
     <string-array name="translators_pt">
@@ -155,11 +177,13 @@
         <item>ssantos</item>
         <item>Rysete</item>
         <item>gbonaspetti</item>
+        <item>Murilogs</item>
     </string-array>
 
     <string-array name="translators_pt_pt">
         <item>Sérgio Marques</item>
         <item>ssantos</item>
+        <item>JPereira</item>
     </string-array>
 
     <string-array name="translators_ro">
@@ -176,6 +200,10 @@
         <item>Oleg</item>
         <item>Zangar Zhanabek</item>
         <item>dbozorov</item>
+        <item>Yurt Page</item>
+        <item>keefeer</item>
+        <item>Vin</item>
+        <item>XblateX</item>
     </string-array>
 
     <string-array name="translators_si">
@@ -185,9 +213,15 @@
         <item>HelaBasa</item>
     </string-array>
 
+    <string-array name="translators_sv">
+        <item>Kristoffer Grundström</item>
+        <item>Joel A</item>
+    </string-array>
+
     <string-array name="translators_ta">
         <item>Kaartic Sivaraam</item>
         <item>guruleninnbc01b4b6f821486e</item>
+        <item>தமிழ்நேரம்</item>
     </string-array>
 
     <string-array name="translators_te">
@@ -222,12 +256,14 @@
 
     <string-array name="translators_zh_hk">
         <item>Casper Li</item>
+        <item>Ricky</item>
     </string-array>
 
     <string-array name="translators_zh_tw">
         <item>chyannie</item>
         <item>Peter Dave Hello</item>
         <item>hugoalh</item>
+        <item>Ricky</item>
     </string-array>
 
     <string-array name="translators_zh">
@@ -238,5 +274,7 @@
         <item>JY3</item>
         <item>Mark MA</item>
         <item>hong</item>
+        <item>大王叫我来巡山</item>
+        <item>mwq-gjf</item>
     </string-array>
 </resources>

@@ -6,12 +6,16 @@ import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.appendQueryParameter
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isAggregate
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isHomeAggregate
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.viewmodel.data.Transaction2
 
 interface IAccount {
     val accountId: Long
@@ -33,6 +37,10 @@ interface AccountInfoWithGrouping : IAccount {
     val typeId: Long?
     val flagId: Long?
     val accountGrouping: AccountGrouping<*>?
+
+    val isHomeAggregate get() = isAggregate &&  (isHomeAggregate(accountId) || accountGrouping == AccountGrouping.NONE)
+
+    val isAggregate get() = isAggregate(accountId)
 
     fun groupingQuery(filter: Criterion?): Triple<Uri.Builder, String?, Array<String>?> {
         if (accountId == 0L) return groupingQueryV2(filter)
@@ -64,6 +72,26 @@ interface AccountInfoWithGrouping : IAccount {
             args
         )
     }
+
+    //Pair of Uri / projection
+    fun loadingInfo(prefHandler: PrefHandler): Pair<Uri, Array<String>> =
+        uriBuilderForTransactionList(extended = true).build() to Transaction2.projection(
+            isAggregate,
+            grouping,
+            prefHandler
+        )
+
+    fun uriBuilderForTransactionList(
+        extended: Boolean,
+    ) = DataBaseAccount.uriBuilderForTransactionList(
+        accountId = accountId,
+        currency = currency,
+        type = typeId,
+        flag = flagId,
+        accountGrouping = accountGrouping,
+        shortenComment = true,
+        extended = extended
+    )
 }
 
 interface AccountWithGroupingKey {

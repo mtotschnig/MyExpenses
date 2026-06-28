@@ -18,13 +18,16 @@ class QifExporter(
 ) :
     AbstractExporter(account, currencyContext, filter, notYetExportedP, dateFormat, decimalSeparator, encoding) {
     override val format = ExportFormat.QIF
-    override fun header(context: Context) = StringBuilder().append("!Account\nN")
-        .append(account.label)
-        .append("\nT")
-        .append(account.type.qifName)
-        .append("\n^\n!Type:")
-        .append(account.type.qifName)
-        .append("\n").toString()
+    override fun header(context: Context): String {
+        val type = requireNotNull(account.type)
+        return StringBuilder().append("!Account\nN")
+            .append(account.label)
+            .append("\nT")
+            .append(type.qifName)
+            .append("\n^\n!Type:")
+            .append(type.qifName)
+            .append("\n").toString()
+    }
 
     override fun TransactionDTO.marshall(categoryPaths: Map<Long, List<String>>) = StringBuilder().apply {
         append("D")

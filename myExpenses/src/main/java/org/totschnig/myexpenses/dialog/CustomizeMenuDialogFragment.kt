@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.dialog
 
+import android.os.Bundle
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,7 +13,6 @@ import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SingleChoiceSegmentedButtonRow
@@ -40,7 +40,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.os.BundleCompat
-import androidx.core.os.bundleOf
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
@@ -50,6 +49,7 @@ import org.totschnig.myexpenses.compose.optional
 import org.totschnig.myexpenses.compose.rememberMutableStateListOf
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.dialog.MenuItem.MenuContext.V1
+import org.totschnig.myexpenses.dialog.MenuItem.MenuContext.V2
 import org.totschnig.myexpenses.preference.EnumPreferenceAccessor
 import org.totschnig.myexpenses.preference.menu
 import org.totschnig.myexpenses.preference.persistMenu
@@ -68,23 +68,20 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment3() {
 
     suspend fun loadConfiguration(menuContext: MenuItem.MenuContext): List<MenuItem> {
         return when (menuContext) {
-            V1 -> prefHandler.getCustomMenu(menuContext)
-            else -> dataStore.menu(prefHandler.getStringPreferencesKey(menuContext.prefKey))
-                .first() ?: MenuItem.getDefaultConfiguration(menuContext)
+            V1 -> prefHandler.getCustomMenuV1()
+            is V2 -> dataStore.menu(menuContext).first()
+                ?: MenuItem.getDefaultConfiguration(menuContext)
         }
     }
 
     suspend fun saveConfiguration(menuContext: MenuItem.MenuContext, data: List<MenuItem>) {
         when (menuContext) {
-            V1 -> prefHandler.putOrderedStringSet(
+            is V1 -> prefHandler.putOrderedStringSet(
                 menuContext.prefKey,
                 LinkedHashSet(data.map { it.name })
             )
 
-            else -> dataStore.persistMenu(
-                prefHandler.getStringPreferencesKey(menuContext.prefKey),
-                data
-            )
+            is V2 -> dataStore.persistMenu(menuContext, data)
         }
     }
 
@@ -98,7 +95,7 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment3() {
 
     val menuContext: MenuItem.MenuContext
         get() = arguments?.let {
-            BundleCompat.getSerializable(it, KEY_CONTEXT, MenuItem.MenuContext::class.java)
+            BundleCompat.getParcelable(it, KEY_CONTEXT, MenuItem.MenuContext::class.java)
         } ?: V1
 
     @Composable
@@ -179,7 +176,9 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment3() {
 
         fun newInstance(menuContext: MenuItem.MenuContext = V1) =
             CustomizeMenuDialogFragment().apply {
-                arguments = bundleOf(KEY_CONTEXT to menuContext)
+                arguments = Bundle().apply {
+                    putParcelable(KEY_CONTEXT, menuContext)
+                }
             }
     }
 }

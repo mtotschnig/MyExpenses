@@ -20,19 +20,13 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
     override val accountId: Long
         get() = id
 
-    @Deprecated("Used only on legacy Main Screen")
-    open val isHomeAggregate get() = isHomeAggregate(id)
-
-    @Deprecated("Used only on legacy Main Screen")
-    open val isAggregate get() = isAggregate(id)
-
     val sortOrder: String
         get() = "${sortBy.let { if (it == KEY_AMOUNT) "abs($it)" else it }} $sortDirection"
 
     fun uriForTransactionList(
         shortenComment: Boolean = false,
         extended: Boolean = true,
-    ): Uri = uriBuilderForTransactionList(id, currency, null, null,  null, shortenComment, extended).build()
+    ): Uri = uriBuilderForTransactionList(id, currency, typeId, flagId, accountGrouping, shortenComment, extended).build()
 
     companion object {
 
@@ -50,7 +44,7 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
 
         fun uriBuilderForTransactionList(
             accountId: Long,
-            currency: String?,
+            currency: String? = null,
             type: Long? = null,
             flag: Long? = null,
             accountGrouping: AccountGrouping<*>? = null,
@@ -67,7 +61,7 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
             accountGrouping: AccountGrouping<*>? = null,
         ) : Pair<String, String>? = when (accountGrouping ?: when {
             isHomeAggregate(accountId) -> AccountGrouping.NONE
-            isAggregate(accountId) -> AccountGrouping.CURRENCY
+            accountId < 0 -> AccountGrouping.CURRENCY
             else -> null
         }) {
             null -> KEY_ACCOUNTID to accountId.toString()

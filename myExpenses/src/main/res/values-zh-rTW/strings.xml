@@ -145,7 +145,7 @@
     <string name="menu_edit_method">編輯付款方式</string>
     <string name="menu_edit_party">編輯交易對象</string>
     <string name="menu_edit_plan_instance">僅編輯單一計畫實例</string>
-    <string name="menu_edit_split">編輯分割款項</string>
+    <string name="menu_edit_split">編輯拆分交易</string>
     <string name="menu_edit_split_part_category">編輯分割款項的類別</string>
     <string name="menu_edit_split_part_transfer">編輯分割款項的轉帳</string>
     <string name="menu_edit_template">編輯範本</string>
@@ -169,7 +169,6 @@
     <string name="menu_split_transaction">轉變成分割款項</string>
     <string name="method">付款方式</string>
     <string name="no_app_handling_email_available">沒有可應用電子郵件的程式。</string>
-    <string name="no_app_handling_ftp_available">沒有可處理 ftp 的應用程式。安裝<i>Send With FTP</i>？</string>
     <string name="no_app_handling_mime_type_available">沒有可以處理 %s 檔案的應用程式。</string>
     <string name="no_categories">沒有類別項目。</string>
     <string name="no_expenses">還沒有支出！</string>
@@ -202,7 +201,7 @@
     <string name="password_security_answer_not_valid">該密碼錯誤。請再試試！</string>
     <string name="payee">收款人</string>
     <string name="payer">付款人</string>
-    <string name="payer_or_payee">收款人/付款人</string>
+    <string name="payer_or_payee">交易對手</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">收支計畫</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -377,7 +376,6 @@
     <string name="widget_title_accounts">我的帳戶</string>
     <string name="widget_title_templates">我的範本</string>
     <string name="app_dir_not_accessible">無法使用您所選的檔案夾 (%1$s)，請選擇其他檔案夾。</string>
-    <string name="app_dir_not_compatible_with_nougat">目前用來備份和匯出所設定的統一資源識別碼 URI (%1$s) 不被 Android Nougat 所支援。請再次選擇一個檔案夾。</string>
     <string name="search_amount">以金額來搜尋</string>
     <string name="search_category">以類別來搜尋</string>
     <string name="search_comment">以備註來搜尋</string>
@@ -661,7 +659,7 @@
     <string name="pref_exchange_rate_provider_summary">選擇用來下載匯率資料的提供者</string>
     <string name="pref_exchange_rate_provider_title">匯率提供者</string>
     <string name="pref_exchange_rates_api_key_summary">請在 %s 註冊免費帳號後，把 App ID 填到這邊</string>
-    <string name="pref_plan_executor_time_title">規劃日曆通知時間</string>
+    <string name="pref_plan_executor_time_title">通知時間</string>
     <string name="synchronization_select_folder_dialog_title">請選擇一個現有檔案夾或新建一個檔案夾</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch">可以使用此轉換鈕記錄收入。</string>

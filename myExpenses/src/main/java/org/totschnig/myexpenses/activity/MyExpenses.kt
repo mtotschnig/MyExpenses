@@ -85,6 +85,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.KEY_DATE
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.retrofit.Vote
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.TextUtils
@@ -95,7 +96,6 @@ import org.totschnig.myexpenses.util.checkMenuIcon
 import org.totschnig.myexpenses.util.configureSortDirectionMenu
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.isGithub
-import org.totschnig.myexpenses.util.distrib.ReviewManager
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.getSortDirectionFromMenuItemId
 import org.totschnig.myexpenses.util.setEnabledAndVisible
@@ -145,9 +145,6 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
 
     @Inject
     lateinit var discoveryHelper: IDiscoveryHelper
-
-    @Inject
-    lateinit var modelClass: Class<out MyExpensesViewModel>
 
     private var drawerToggle: ActionBarDrawerToggle? = null
 
@@ -266,9 +263,9 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
     }
 
     protected open fun handleSortDirection(item: MenuItem) =
-        getSortDirectionFromMenuItemId(item.itemId)?.let { (sort, direction) ->
+        getSortDirectionFromMenuItemId(item.itemId)?.let {
             if (!item.isChecked) {
-                viewModel.persistSort(sort, direction)
+                viewModel.persistSort(it)
             }
             true
         } == true
@@ -296,7 +293,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initLocaleContext()
-        viewModel = ViewModelProvider(this)[modelClass]
+        viewModel = ViewModelProvider(this)[MyExpensesViewModel::class.java]
         with(injector) {
             inject(viewModel)
             inject(roadmapViewModel)
@@ -873,7 +870,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        prefHandler.getCustomMenu().forEach { menuItem ->
+        prefHandler.getCustomMenuV1().forEach { menuItem ->
             if (menuItem.subMenu != null) {
                 val subMenu =
                     menu.addSubMenu(Menu.NONE, menuItem.id, Menu.NONE, menuItem.getLabel(this))
@@ -1218,7 +1215,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
                 val hasNotVoted = vote == null
                 if (hasNotVoted) {
                     ConfirmationDialogFragment.newInstance(Bundle().apply {
-                        putCharSequence(KEY_MESSAGE, getString(R.string.roadmap_intro))
+                        putCharSequence(KEY_MESSAGE, getString(R.string.roadmap_intro, 2026))
                         putInt(KEY_COMMAND_POSITIVE, R.id.ROADMAP_COMMAND)
                         putString(ConfirmationDialogFragment.KEY_PREFKEY, prefKey)
                         putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.roadmap_vote)
@@ -1271,6 +1268,12 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
     override fun onPause() {
         adHandler.onPause()
         super.onPause()
+    }
+
+    override fun handleIntent(intent: Intent) {
+        intent.extras?.getLong(KEY_ROWID, 0)?.let {
+            selectedAccountId = it
+        }
     }
 
     companion object {

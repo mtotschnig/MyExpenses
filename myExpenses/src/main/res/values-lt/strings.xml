@@ -81,7 +81,6 @@
     <string name="password_prompt">Įveskite slaptažodį</string>
     <string name="payee">Gavėjas</string>
     <string name="payer">Mokėtojas</string>
-    <string name="payer_or_payee">Gavėjas/mokėtojas</string>
     <string name="pm_creditcard">Kreditinė kortelė</string>
     <string name="pref_category_title_more_information">Daugiau informacijos</string>
     <string name="pref_category_title_ui">Naudotojo sąsaja</string>

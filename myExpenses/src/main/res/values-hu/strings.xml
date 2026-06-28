@@ -146,7 +146,7 @@
     <string name="menu_edit_method">Fizetési mód szerkesztése</string>
     <string name="menu_edit_party">Résztvevő szerkesztése</string>
     <string name="menu_edit_plan_instance">Egyetlen előfordulási terv szerkesztése</string>
-    <string name="menu_edit_split">Részlet szerkesztése</string>
+    <string name="menu_edit_split">Felosztott tranzakció szerkesztése</string>
     <string name="menu_edit_split_part_category">A részletösszeg kategóriájának szerkesztése</string>
     <string name="menu_edit_split_part_transfer">Az átutalás részletösszegének szerkesztése</string>
     <string name="menu_edit_template">Sablon szerkesztése</string>
@@ -170,7 +170,6 @@
     <string name="menu_split_transaction">Átalakítás osztásra</string>
     <string name="method">Fizetési mód</string>
     <string name="no_app_handling_email_available">Nincs elérhető email kezelő alkalmazás.</string>
-    <string name="no_app_handling_ftp_available">Nincs elérhető FTP kliens alkalmazás. Telepíti a <i>Send With FTP</i> programot áruházból?</string>
     <string name="no_app_handling_mime_type_available">Nincs elérhető %s-fájlokat kezelő alkalmazás.</string>
     <string name="no_categories">Nincsenek kategóriák.</string>
     <string name="no_expenses">Még nincsenek kiadások!</string>
@@ -205,7 +204,7 @@
     <string name="password_security_answer_not_valid">Rossz válasz. Próbálja újra!</string>
     <string name="payee">Kedvezményezett</string>
     <string name="payer">Kifizető</string>
-    <string name="payer_or_payee">Kedvezményezett/Fizető</string>
+    <string name="payer_or_payee">Partner</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Terv</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -384,7 +383,6 @@
     <string name="widget_title_accounts">Saját fiókok</string>
     <string name="widget_title_templates">Saját sablonok</string>
     <string name="app_dir_not_accessible">A biztonsági mentésekre és exportálásokra kijelölt jelenlegi mappa (%1$s) nem érhető el. Válasszon egy másikat.</string>
-    <string name="app_dir_not_compatible_with_nougat">A biztonsági mentésekhez és az exportáláshoz jelenleg konfigurált URI (%1$s) nem támogatott az Android Nougat alatt. Válasszon újra egy mappát.</string>
     <string name="search_amount">Összeg keresése</string>
     <string name="search_category">Kategória keresése</string>
     <string name="search_comment">Jegyzetek keresése</string>
@@ -671,7 +669,7 @@
     <string name="pref_exchange_rate_provider_summary">Válasszon szolgáltatót az árfolyamok letöltéséhez</string>
     <string name="pref_exchange_rate_provider_title">Árfolyamszolgáltató</string>
     <string name="pref_exchange_rates_api_key_summary">Kérjük, regisztráljon egy ingyenes fiókot az %s webhelyen, és adja meg az alkalmazásazonosítóját</string>
-    <string name="pref_plan_executor_time_title">Tervező értesítési ideje</string>
+    <string name="pref_plan_executor_time_title">Értesítés időpontja</string>
     <string name="synchronization_select_folder_dialog_title">Válasszon egy meglévő mappát vagy készítsen újat</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch">Ezzel a váltógombbal rögzítheti a jövedelmet.</string>
@@ -887,7 +885,7 @@
     <string name="content_description_remove_icon">Ikon eltávolítása</string>
     <string name="budget_widget_configuration">Költségkeret kiválasztása</string>
     <string name="request_for_invoice">Számla kérése</string>
-    <string name="github_sponsors">A licenckulcsokat a &lt;a href=%s&gt;Github-szponzorok&lt;/a&gt; is megkapják.</string>
+    <string name="github_sponsors"><![CDATA[A licenckulcsokat a <a href=%s>Github-szponzorok</a> is megkapják.]]></string>
     <string name="pref_csv_export_split_amount_summary">Használjon külön oszlopokat a bevételekhez és a kiadásokhoz</string>
     <string name="icons_for_categories">Kategóriák ikonjai</string>
     <string name="debt_lend_additional">Kölcsönadok %s.</string>
@@ -924,7 +922,7 @@
     <string name="default_transfer_category">Alapértelmezett átviteli kategória</string>
     <string name="pref_sync_now_all_summary">%s szinkronizálja az ugyanahhoz a háttérhez tartozó összes fiókot</string>
     <string name="warning_transform_to_transfer">A kiválasztott tranzakciót a %1$s -ről a %2$s-re történő átutalás váltja fel.</string>
-    <string name="roadmap_intro">Megkezdődött a szavazás a 2024-es ütemtervről! Szavazzon az Ön számára legfontosabb funkciókra és fejlesztésekre.</string>
+    <string name="roadmap_intro">Megkezdődött a szavazás a %d-es ütemtervről! Szavazzon az Ön számára legfontosabb funkciókra és fejlesztésekre.</string>
     <string name="menu_unlink_transfer">Az átvitel leválasztása</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">ráfordításként/bevételként számolják el</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_on">átutalásnak számítanak</string>

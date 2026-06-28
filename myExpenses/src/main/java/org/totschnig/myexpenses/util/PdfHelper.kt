@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.LazyFontSelector.FontType
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
+import timber.log.Timber
 import java.io.File
 import java.io.IOException
 import java.time.LocalDate
@@ -57,10 +58,12 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
     private val fBalanceChapter: Font by lazy { convertFallback(FontType.BALANCE_CHAPTER) }
     private val fBalanceSection: Font by lazy { convertFallback(FontType.BALANCE_SECTION) }
 
-    private val layoutDirectionFromLocaleIsRTL: Boolean
+    val layoutDirectionFromLocaleIsRTL: Boolean
 
     init {
-        val l = Locale.getDefault()
+        val l = Locale.getDefault().also {
+            Timber.d("locale %s", it)
+        }
         layoutDirectionFromLocaleIsRTL = (l.layoutDirection == View.LAYOUT_DIRECTION_RTL)
         lfs = if (memoryClass >= 32) {
             //we want the Default Font to be used first
@@ -76,6 +79,9 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
                             && !filename.startsWith("NEX-")
                             //seen on Pixel with Android 15 Beta
                             && filename != "NotoSansCJK-Regular.ttc"
+                            //variable fonts are not supported by iText
+                            && !filename.contains("VF.ttf")
+                            && !filename.contains("VF.ttc")
                             //cannot be embedded due to licensing restrictions: report 55cdc91d2279b63b23419bc9cec1a21d
                             && filename != "Kindle_Symbol.ttf"
 
@@ -122,7 +128,7 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
         withPadding: Boolean = true,
     ) = if (text == null) emptyCell(border) else
         PdfPCell(print(text, font)).apply {
-            if (hasAnyRtl(text)) {
+            if (layoutDirectionFromLocaleIsRTL || hasAnyRtl(text)) {
                 runDirection = PdfWriter.RUN_DIRECTION_RTL
             }
             setPadding(if (withPadding) 5f else 0f)
@@ -136,7 +142,7 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
         border: Int = Rectangle.NO_BORDER,
         withPadding: Boolean = true,
     ) = PdfPCell(phrase).apply {
-        if (hasAnyRtl(phrase.content)) {
+        if (layoutDirectionFromLocaleIsRTL || hasAnyRtl(phrase.content)) {
             this.runDirection = PdfWriter.RUN_DIRECTION_RTL
         }
         setPadding(if (withPadding) 5f else 0f)
@@ -195,6 +201,10 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
             FontType.BALANCE_CHAPTER -> Phrase(text, fBalanceChapter)
         }
 
+    fun reportMissingCharacters() {
+        lfs?.reportMissingCharacters()
+    }
+
     fun emptyCell(border: Int = Rectangle.NO_BORDER) = PdfPCell().apply {
         this.border = border
     }
@@ -224,7 +234,7 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
 
     fun getPageEventHelper(
         context: Context,
-        prefHandler: PrefHandler
+        prefHandler: PrefHandler,
     ) = object : PdfPageEventHelper() {
 
         override fun onEndPage(writer: PdfWriter, document: Document) {
@@ -264,7 +274,14 @@ class PdfHelper(private val baseFontSize: Float, memoryClass: Int) {
                             RIGHT -> Element.ALIGN_RIGHT
                         }
                         ColumnText.showTextAligned(
-                            cb, alignment, print(text, FontType.NORMAL), x, y, 0F
+                            cb,
+                            alignment,
+                            print(text, FontType.NORMAL),
+                            x,
+                            y,
+                            0F,
+                            if (hasAnyRtl(text) || layoutDirectionFromLocaleIsRTL) PdfWriter.RUN_DIRECTION_RTL else PdfWriter.RUN_DIRECTION_LTR,
+                            0
                         )
                     }
             }

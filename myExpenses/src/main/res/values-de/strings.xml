@@ -170,7 +170,6 @@
     <string name="menu_split_transaction">Zu mehrteiliger Buchung zusammenfassen</string>
     <string name="method">Zahlungsweise</string>
     <string name="no_app_handling_email_available">Keine Anwendung für das Versenden von E-Mails gefunden.</string>
-    <string name="no_app_handling_ftp_available">Keine App für FTP gefunden. <i>Mit FTP Senden</i> installieren?</string>
     <string name="no_app_handling_mime_type_available">Keine App für das Öffnen von %s Dateien gefunden.</string>
     <string name="no_categories">Noch keine Kategorien vorhanden.</string>
     <string name="no_expenses">Noch keine Ausgaben!</string>
@@ -205,7 +204,7 @@
     <string name="password_security_answer_not_valid">Falsche Antwort. Versuchen Sie es erneut!</string>
     <string name="payee">Empfänger</string>
     <string name="payer">Zahler</string>
-    <string name="payer_or_payee">Empfänger/Zahler</string>
+    <string name="payer_or_payee">Gegenpartei</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Plan</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -384,7 +383,6 @@
     <string name="widget_title_accounts">Meine Konten</string>
     <string name="widget_title_templates">Meine Vorlagen</string>
     <string name="app_dir_not_accessible">Der aktuell ausgewählte Ordner für Sicherungen und Exporte (%1$s) ist nicht zugänglich. Bitte wählen Sie einen anderen.</string>
-    <string name="app_dir_not_compatible_with_nougat">Die aktuell konfigurierte URI für Datensicherungen und Exporte (%1$s) wird unter Android Nougat nicht unterstützt. Bitte wählen Sie erneut einen Ordner aus.</string>
     <string name="search_amount">Suche nach Betrag</string>
     <string name="search_category">Suche nach Kategorie</string>
     <string name="search_comment">Suche nach Notizen</string>
@@ -669,7 +667,7 @@
     <string name="pref_exchange_rate_provider_summary">Wählen Sie den Anbieter für Wechselkurse aus</string>
     <string name="pref_exchange_rate_provider_title">Anbieter für Wechselkurse</string>
     <string name="pref_exchange_rates_api_key_summary">Bitte registrieren Sie ein kostenloses Konto bei %s und geben Sie Ihre App-ID an</string>
-    <string name="pref_plan_executor_time_title">Planer Benachrichtigungszeit</string>
+    <string name="pref_plan_executor_time_title">Benachrichtigungszeit</string>
     <string name="synchronization_select_folder_dialog_title">Wählen Sie einen vorhandenen Ordner aus oder erstellen Sie einen neuen</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch">Verwenden Sie diesen Schalter, um Einnahmen zu erfassen.</string>
@@ -757,7 +755,7 @@
     <string name="scan_result_no_date">Kein Datum gefunden</string>
     <string name="scan_result_no_payee">Keinen Empfänger gefunden</string>
     <string name="pref_feature_uninstall_title">Fordern Sie die Deinstallation von Funktionen und Sprachen an</string>
-    <string name="pref_feature_uninstall_summary">Play Store versucht schließlich, diese Module im Hintergrund zu entfernen.</string>
+    <string name="pref_feature_uninstall_summary">Der Play Store versucht, diese Module schließlich im Hintergrund zu entfernen.</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Bitte wählen Sie ein Lizenzpaket aus.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
@@ -932,7 +930,7 @@
     <string name="menu_transform_to_transfer">In Umbuchung umwandeln</string>
     <string name="remap_date">Bei allen ausgewählten Buchungen wird das Datum auf %s gesetzt.</string>
     <string name="warning_transform_to_transfer">Die ausgewählte Buchung wird durch eine Umbuchung von %1$s nach %2$s ersetzt.</string>
-    <string name="roadmap_intro">Die Abstimmung über die Roadmap 2024 ist eröffnet! Stimmen Sie für die Funktionen und Verbesserungen ab, die Ihnen am wichtigsten sind.</string>
+    <string name="roadmap_intro">Die Abstimmung über die Roadmap %d ist eröffnet! Stimmen Sie für die Funktionen und Verbesserungen ab, die Ihnen am wichtigsten sind.</string>
     <string name="merge_categories_dialog_title">Kategorien zusammenführen</string>
     <string name="subcategories_merged_recursively">Wenn eine der zusammengeführten Kategorien Unterkategorien mit derselben Bezeichnung hat, werden diese zuerst rekursiv zusammengeführt.</string>
     <string name="merge_categories_prompt">Wählen Sie die Kategorie aus, die Sie beibehalten möchten</string>
@@ -1052,4 +1050,7 @@
     <string name="pref_fab_style_standard_description">Standard (Klick auf Pfeil öffnet Menü)</string>
     <string name="pref_fab_style_compact_description">Kompakt (Tippen und halten für Menü)</string>
     <string name="number_too_large">Zahl zu groß</string>
+    <string name="prioritize_flag_order">Reihenfolge der Markierungen priorisieren</string>
+    <string name="pref_content_based_colors_title">Konto-basierte dynamische Farbe</string>
+    <string name="pref_content_based_colors_summary">Die Designfarben werden von der Farbe des aktuellen Kontos abgeleitet. Deaktivieren Sie diese Option, falls der Text schwer lesbar ist.</string>
 </resources>

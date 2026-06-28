@@ -171,7 +171,6 @@
     <string name="menu_split_transaction">Frazionare</string>
     <string name="method">Metodo di pagamento</string>
     <string name="no_app_handling_email_available">Nessuna applicazione disponibile per e-mail.</string>
-    <string name="no_app_handling_ftp_available">Nessuna applicazione per ftp disponibile. Installare <i>Invia via FTP</i>?</string>
     <string name="no_app_handling_mime_type_available">Nessuna applicazione che gestisce i file %s è disponibile.</string>
     <string name="no_categories">Non ci sono categorie.</string>
     <string name="no_expenses">Non ci sono ancora spese!</string>
@@ -208,7 +207,7 @@
     <string name="password_security_answer_not_valid">Risposta sbagliata. Riprova!</string>
     <string name="payee">Beneficiario</string>
     <string name="payer">Pagante</string>
-    <string name="payer_or_payee">Beneficiario / Pagante</string>
+    <string name="payer_or_payee">Controparte</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Pianifica</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -389,7 +388,6 @@
     <string name="widget_title_accounts">I miei conti</string>
     <string name="widget_title_templates">I miei modelli</string>
     <string name="app_dir_not_accessible">La cartella selezionata per i backup e le esportazioni (%1$s) non è accessibile. Si prega di selezionarne un\'altra.</string>
-    <string name="app_dir_not_compatible_with_nougat">L\'URI correntemente configurato per i backup e le esportazioni (%1$s) non è supportato in Android Nougat. Seleziona nuovamente una cartella.</string>
     <string name="search_amount">Cerca per importo</string>
     <string name="search_category">Cerca per categoria</string>
     <string name="search_comment">Cerca per note</string>
@@ -674,7 +672,7 @@
     <string name="pref_exchange_rate_provider_summary">Seleziona il fornitore da cui scaricare i tassi di cambio</string>
     <string name="pref_exchange_rate_provider_title">Fornitore dei Tassi di Cambio</string>
     <string name="pref_exchange_rates_api_key_summary">Registra un account gratuito su %s e riporta qui il tuo App ID</string>
-    <string name="pref_plan_executor_time_title">Ora di notifica del pianificatore</string>
+    <string name="pref_plan_executor_time_title">Ora di notifica</string>
     <string name="synchronization_select_folder_dialog_title">Seleziona una cartella esistente o creane una nuova</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch">Usa questo pulsante per registrare le entrate.</string>
@@ -890,7 +888,7 @@
     <string name="encrypt_database_info">Il database sarà crittografato con una passphrase che non potrà essere esportata da questo dispositivo. Di conseguenza, non verrà salvata dal servizio di backup del dispositivo.</string>
     <string name="dialog_confirm_rollover_delete">Tutti gli importi di resto per questo periodo saranno cancellati.</string>
     <string name="encrypt_database">Crittografa il database</string>
-    <string name="github_sponsors">Chiavi di licenza vengono fornite anche agli &lt;a href=%s&gt;Sponsor su Github&lt;/a&gt;.</string>
+    <string name="github_sponsors"><![CDATA[Chiavi di licenza vengono fornite anche agli <a href=%s>Sponsor su Github</a>.]]></string>
     <string name="notifications_permission_required_webui">Concedendo i permessi per inviare notifiche, è possibile controllare lo stato del server.</string>
     <string name="notifications_permission_required_planner"><i>{app_name}</i> ha bisogno dell\'autorizzazione per inviare notifiche quando verranno registrate transazioni future.</string>
     <string name="notifications_permission_required_sync">Concedendo l\'autorizzazione all\'invio di notifiche, è possibile monitorare l\'avanzamento delle operazioni di sincronizzazione.</string>
@@ -933,7 +931,7 @@
     <string name="warning_delete_default_transfer_category">La categoria %s è configurata come categoria di bonifico predefinita e non deve essere eliminata.</string>
     <string name="default_transfer_category">Categoria di trasferimento predefinita</string>
     <string name="menu_transform_to_transfer">Converti in trasferimento</string>
-    <string name="roadmap_intro">La votazione sulla Roadmap 2024 è ora aperta! Vota per le funzionalità e i miglioramenti che più ti interessano.</string>
+    <string name="roadmap_intro">La votazione sulla Roadmap %d è ora aperta! Vota per le funzionalità e i miglioramenti che più ti interessano.</string>
     <string name="pref_sync_now_all_summary">%s sincronizza tutti i conti dello stesso back-end</string>
     <string name="menu_unlink_transfer">Scorpora il trasferimento</string>
     <string name="warning_unlink_transfer">Il trasferimento selezionato sarà scorporato: verrà sostituito da transazioni normali in entrambi i conti.</string>

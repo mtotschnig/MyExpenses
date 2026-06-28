@@ -8,7 +8,7 @@ import com.itextpdf.text.Font
 import com.itextpdf.text.Utilities
 import com.itextpdf.text.error_messages.MessageLocalization
 import com.itextpdf.text.pdf.BaseFont
-import org.totschnig.myexpenses.BuildConfig
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 import java.io.File
 import java.io.IOException
@@ -60,8 +60,9 @@ class LazyFontSelector(val files: Array<File>, private val baseSize: Float) {
         }
     }
 
-    private var baseFonts: ArrayList<BaseFont> = ArrayList()
+    private var baseFonts: ArrayList<BaseFont?> = ArrayList()
     private var currentFont: Font? = null
+    private val reportedMissingCharacters = HashSet<Int>()
 
     /**
      * Process the text so that it will render with a combination of fonts if
@@ -85,9 +86,13 @@ class LazyFontSelector(val files: Array<File>, private val baseSize: Float) {
                 }
             }
             if (sb.isNotEmpty()) {
+                val fontWithFallback = currentFont ?: files.indices.firstNotNullOfOrNull { getFont(it, type) }
+                if (fontWithFallback == null) {
+                    throw IOException("No working fonts found")
+                }
                 val ck = Chunk(
                     sb.toString(),
-                    currentFont ?: getFont(0, type)
+                    fontWithFallback
                 )
                 add(ck)
             }
@@ -96,17 +101,18 @@ class LazyFontSelector(val files: Array<File>, private val baseSize: Float) {
 
     @Throws(DocumentException::class, IOException::class)
     fun processChar(cc: CharArray, k: Int, sb: StringBuffer, type: FontType): Chunk? {
-        var start = k
+        if (k > 0 && Utilities.isSurrogatePair(cc, k - 1)) return null
         var newChunk: Chunk? = null
-        val c = cc[start]
+        val c = cc[k]
         if (c == '\n' || c == '\r') {
             sb.append(c)
         } else {
             var font: Font?
-            if (Utilities.isSurrogatePair(cc, start)) {
-                val u = Utilities.convertToUtf32(cc, start)
+            if (Utilities.isSurrogatePair(cc, k)) {
+                val u = Utilities.convertToUtf32(cc, k)
+                var found = false
                 for (f in files.indices) {
-                    font = getFont(f, type)
+                    font = getFont(f, type) ?: continue
                     if (font.baseFont.charExists(u)
                         || Character.getType(u) == Character.FORMAT.toInt()
                     ) {
@@ -118,14 +124,18 @@ class LazyFontSelector(val files: Array<File>, private val baseSize: Float) {
                             currentFont = font
                         }
                         sb.append(c)
-                        sb.append(cc[++start])
+                        sb.append(cc[k + 1])
+                        found = true
                         break
                     }
+                }
+                if (!found) {
+                    reportedMissingCharacters.add(u)
                 }
             } else {
                 var found = false
                 for (f in files.indices) {
-                    font = getFont(f, type)
+                    font = getFont(f, type) ?: continue
                     if (font.baseFont.charExists(c.code)
                         || Character.getType(c) == Character.FORMAT.toInt()
                     ) {
@@ -142,26 +152,45 @@ class LazyFontSelector(val files: Array<File>, private val baseSize: Float) {
                         break
                     }
                 }
-                if (!found && BuildConfig.DEBUG) {
-                    Timber.d("Character %c was not found in any fonts", c)
+                if (!found) {
+                    reportedMissingCharacters.add(c.code)
                 }
             }
         }
         return newChunk
     }
 
-    @Throws(DocumentException::class, IOException::class)
-    private fun getBaseFont(index: Int): BaseFont {
+    fun reportMissingCharacters() {
+        if (reportedMissingCharacters.isNotEmpty()) {
+            val missing = reportedMissingCharacters.take(10).joinToString(", ") {
+                if (it > 65535) "U+${Integer.toHexString(it)}" else it.toChar().toString()
+            }
+            val suffix = if (reportedMissingCharacters.size > 10) "..." else ""
+            CrashHandler.report(
+                Exception("Fonts missing for some characters"),
+                "missing_characters",
+                "$missing$suffix"
+            )
+            reportedMissingCharacters.clear()
+        }
+    }
+
+    private fun getBaseFont(index: Int): BaseFont? {
         if (baseFonts.size < index + 1) {
             var file = files[index].absolutePath
             if (file.endsWith("ttc")) {
                 file += ",0"
             }
             Timber.i("now loading font file %s", file)
-            val bf = BaseFont.createFont(
-                file, BaseFont.IDENTITY_H,
-                BaseFont.EMBEDDED
-            )
+            val bf = try {
+                BaseFont.createFont(
+                    file, BaseFont.IDENTITY_H,
+                    BaseFont.EMBEDDED
+                )
+            } catch (e: Exception) {
+                CrashHandler.report(e)
+                null
+            }
             baseFonts.add(bf)
             return bf
         } else {
@@ -169,7 +198,8 @@ class LazyFontSelector(val files: Array<File>, private val baseSize: Float) {
         }
     }
 
-    @Throws(DocumentException::class, IOException::class)
-    private fun getFont(index: Int, type: FontType) =
-        type.getFont(index) ?: type.addFont(index, getBaseFont(index), baseSize)
+    private fun getFont(index: Int, type: FontType): Font? {
+        type.getFont(index)?.let { return it }
+        return getBaseFont(index)?.let { type.addFont(index, it, baseSize) }
+    }
 }

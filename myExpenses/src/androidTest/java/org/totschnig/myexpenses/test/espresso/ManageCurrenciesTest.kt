@@ -34,7 +34,6 @@ import org.totschnig.myexpenses.testutils.TestShard3
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
 
-
 @TestShard3
 class ManageCurrenciesTest : BaseUiTest<ManageCurrencies>() {
 

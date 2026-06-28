@@ -22,11 +22,7 @@ class LocaleSetupTest {
         val supportedLocales = LocaleConfig(context).supportedLocales
         val stringArray = context.resources.getStringArray(R.array.pref_ui_language_values)
         for (i in 0..<supportedLocales!!.size()) {
-            assertThat(stringArray).asList().contains(
-                supportedLocales.get(i).toString().replace('_','-').let {
-                    if (it == "iw") "he" else it
-                }
-            )
+            assertThat(stringArray).asList().contains(supportedLocales.get(i).toLanguageTag())
         }
     }
 }

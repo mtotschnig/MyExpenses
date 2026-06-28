@@ -119,7 +119,7 @@
     <string name="menu_edit_method">Edita la forma de pagament</string>
     <string name="menu_edit_party">Modifica el tercer</string>
     <string name="menu_edit_plan_instance">Edita aquest element de la planificació</string>
-    <string name="menu_edit_split">Edita el repartiment</string>
+    <string name="menu_edit_split">Edita la transacció dividida</string>
     <string name="menu_edit_split_part_category">Edita la partició de la categoria</string>
     <string name="menu_edit_split_part_transfer">Modifica la partició de la transferència</string>
     <string name="menu_edit_template">Modifica la plantilla</string>
@@ -141,7 +141,6 @@
     <string name="button_label_close">Tanca</string>
     <string name="method">Forme de pagament</string>
     <string name="no_app_handling_email_available">No s\'ha trobat l\'aplicació del correu electrónic.</string>
-    <string name="no_app_handling_ftp_available">No s\'ha trobat cap aplicació de ftp. Voleu instal·lar <i>Envia amb FTP</i>?</string>
     <string name="no_categories">Encara no hi ha categories.</string>
     <string name="no_expenses">Encara no hi ha cap despesa!</string>
     <string name="no_exportable_expenses">No hi ha operacions que encara no hagin estat exportades.</string>
@@ -323,7 +322,7 @@
     <string name="licence_status_free">Gratuït</string>
     <string name="number_format_illegal">Format de nombre il·legal</string>
     <string name="no_accounts">Sense comptes.</string>
-    <string name="payer_or_payee">Beneficiari/Pagador</string>
+    <string name="payer_or_payee">Contrapart</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Cal contrasenya.</string>
     <string name="pref_shortcut_not_added">No es diposa de pantalla d\'inici que accepti dreceres.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d projectes han estat restaurats de la còpia de seguretat</string>
@@ -380,7 +379,6 @@
     <string name="warning_widget_disabled">Cal activar aquest widget a la configuració de l\'aplicació.</string>
     <string name="import_parties_none">Cap tercer importat</string>
     <string name="import_transactions_none">Cap transacció importada al compte %1$s</string>
-    <string name="app_dir_not_compatible_with_nougat">L\'URL assignada per a còpies de seguretat i exportacions (%1$s) no té suport a Android Nougat. Seleccioneu un fitxer de nou.</string>
     <string name="search_status">Cerca estat</string>
     <string name="comparison_operator_between">entre</string>
     <string name="account_deleted">Compte eliminat</string>
@@ -536,7 +534,7 @@
     </plurals>
     <string name="warning_instantiate_template_from_widget_password_protected">Crear ràpidament plantilles a partir del widget requereix que autoritzeu l\'entrada de dades des de widgets sense contrasenya des de la configuració de l\'aplicació.</string>
     <string name="search_payee">Cerca pagador/beneficiari</string>
-    <string name="hint_auto_fill">Voleu omplir automàticament les dades amb l\'última transacció del mateix beneficiari/pagador\? Sempre podeu modificar aquesta opció a la configuració.</string>
+    <string name="hint_auto_fill">Voleu omplir automàticament les dades amb l\'última transacció del mateix beneficiari/pagador? Sempre podeu modificar aquesta opció a la configuració.</string>
     <string name="transaction_deleted">Transacció eliminada</string>
     <string name="comparison_operator_lesser_than">menor que</string>
     <string name="comparison_operator_date_before">abans</string>
@@ -659,7 +657,7 @@
     <string name="warning_synced_account_cannot_be_closed">Un compte vinculat a la sincronització al sistema de servei no es pot tancar</string>
     <string name="content_description_dates_are_linked">La data de reserva i la data valor s\'actualitzen conjuntament</string>
     <string name="content_description_dates_are_not_linked">La data de reserva i la data valor no s\'actualitzen conjuntament</string>
-    <string name="pref_plan_executor_time_title">Hora de notificació al planificador</string>
+    <string name="pref_plan_executor_time_title">Hora de notificació</string>
     <string name="menu_create_budget">Nou pressupost</string>
     <string name="remap_category">S\'assignaran a la categoria %s totes les transaccions seleccionades.</string>
     <string name="dialog_title_confirm_remap">Canviar assignació (%s) \?</string>
@@ -833,7 +831,7 @@
     <string name="active_tags">Etiquetes actives</string>
     <string name="debt">Deute</string>
     <string name="select_all_list_too_large">L\'ordre %s no està disponible perquè la llista només està parcialment carregada. Utilitzeu la funcionalitat Cerca per a reduir la mida de la llista.</string>
-    <string name="github_sponsors">Les claus de llicència també es proporcionen a &lt;a href=%s&gt;Github Sponsors&lt;/a&gt;.</string>
+    <string name="github_sponsors"><![CDATA[Les claus de llicència també es proporcionen a <a href=%s>Github Sponsors</a>.]]></string>
     <string name="notifications_permission_required_planner"><i>{app_name}</i> necessita permís per enviar-vos notificacions, quan es publiquin transaccions futures.</string>
     <string name="notifications_permission_required_webui">En concedir el permís per enviar notificacions, podeu controlar l\'estat del servidor web.</string>
     <string name="notifications_permission_required_sync">En concedir el permís per a enviar notificacions, podeu controlar el progrés de les operacions de sincronització.</string>
@@ -853,7 +851,7 @@
     <string name="pref_unmapped_transaction_as_transfer_title">Operacions no assignades</string>
     <string name="warning_delete_default_transfer_category">La categoria %s està configurada com a categoria de transferència predeterminada i no s\'hauria d\'eliminar.</string>
     <string name="remap_date">En totes les operacions seleccionades, la data s\'establirà a %s.</string>
-    <string name="roadmap_intro">El vot sobre el full de ruta 2024 ja està obert! Vota les característiques i millores que més t\'estimes.</string>
+    <string name="roadmap_intro">El vot sobre el full de ruta %d ja està obert! Vota les característiques i millores que més t\'estimes.</string>
     <string name="subcategories_merged_recursively">Si alguna de les categories fusionades té subcategories amb la mateixa etiqueta, aquestes es fusionaran primer, recursivament.</string>
     <string name="pref_csv_export_category_separator_summary">Separador entre nivells de jerarquia de categories</string>
     <string name="pref_clone_with_current_date_summary_on">Les operacions clonades tindran la data actual</string>

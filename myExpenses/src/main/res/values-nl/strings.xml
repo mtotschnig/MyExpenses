@@ -134,7 +134,6 @@
     <string name="menu_edit">Bewerken</string>
     <string name="menu_create_template_for_transaction">Nieuw transactiesjabloon</string>
     <string name="menu_edit_split_part_category">Categorie gesplitst deel bewerken</string>
-    <string name="no_app_handling_ftp_available">Geen app-afhandeling ftp beschikbaar. <i>Verzenden met FTP</i> installeren\?</string>
     <string name="no_app_handling_mime_type_available">Geen app die %s-bestanden verwerkt beschikbaar.</string>
     <string name="image_capture_not_installed">Geen app gevonden voor het maken van foto\'s.</string>
     <string name="no_exportable_expenses">Er zijn geen transacties die nog niet geëxporteerd zijn.</string>
@@ -170,7 +169,7 @@
     <string name="menu_edit_method">Bewerk betaalwijze</string>
     <string name="menu_edit_party">Bewerk partij</string>
     <string name="menu_edit_plan_instance">Bewerk enkel plan exemplaar</string>
-    <string name="menu_edit_split">Bewerk splitsing</string>
+    <string name="menu_edit_split">Gesplitste transactie bewerken</string>
     <string name="menu_grouping">Groepering</string>
     <string name="menu_help">Help</string>
     <string name="menu_save">Opslaan</string>
@@ -223,7 +222,7 @@
     <string name="password_prompt">Vul je wachtwoord in</string>
     <string name="payee">Begunstigde</string>
     <string name="payer">Betaler</string>
-    <string name="payer_or_payee">Begunstigde/Betaler</string>
+    <string name="payer_or_payee">Tegenpartij</string>
     <string name="plan">Plannen</string>
     <string name="pm_type_credit">Krediet</string>
     <string name="pm_type_debit">Debet</string>
@@ -701,7 +700,6 @@
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Als bedragen niet worden bijgewerkt, worden ze weergegeven als vermenigvuldigd met %d na de wijziging.</string>
     <string name="import_categories_success">%1$d categorieën succesvol geïmporteerd.</string>
     <string name="comparison_operator_greater_than">groter dan</string>
-    <string name="app_dir_not_compatible_with_nougat">De huidige geconfigureerde URI voor back-ups en exports (%1$s) wordt niet ondersteund onder Android Nougat. Selecteer opnieuw een map.</string>
     <string name="search_category">Zoek op categorie</string>
     <string name="hint_url">URL</string>
     <string name="plan_instance_state_applied">toegepast</string>
@@ -717,7 +715,7 @@
     <string name="budget_allocated_amount">Toegewezen bedrag</string>
     <string name="currency_code">Code</string>
     <string name="content_description_closed">Gesloten</string>
-    <string name="pref_plan_executor_time_title">Meldingstijd planner</string>
+    <string name="pref_plan_executor_time_title">Meldingstijd</string>
     <string name="synchronization_select_folder_dialog_title">Selecteer een bestaande map of maak een nieuwe aan</string>
     <string name="budget_filter_all_accounts">Alle rekeningen</string>
     <string name="remap_payee">Alle geselecteerde transacties worden toegewezen aan betaler/begunstigde %s.</string>
@@ -844,7 +842,7 @@
     <string name="menu_transform_to_transfer">Converteren naar overdracht</string>
     <string name="warning_transform_to_transfer">De geselecteerde transactie wordt vervangen door een overdracht van %1$s naar %2$s.</string>
     <string name="remap_date">Bij alle geselecteerde transacties wordt de datum ingesteld op %s.</string>
-    <string name="roadmap_intro">De stemming over de routekaart 2024 is nu geopend! Stem op de functies en verbeteringen die jij het belangrijkst vindt.</string>
+    <string name="roadmap_intro">De stemming over de routekaart %d is nu geopend! Stem op de functies en verbeteringen die jij het belangrijkst vindt.</string>
     <string name="merge_categories_dialog_title">Categorieën Samenvoegen</string>
     <string name="archive">Archief</string>
     <string name="subcategories_merged_recursively">Als een van de samengevoegde categorieën subcategorieën met hetzelfde label heeft, worden deze eerst recursief samengevoegd.</string>
@@ -958,4 +956,10 @@
     <string name="menu_templates">Sjablonen</string>
     <string name="pref_ui_start_screen_title">Beginscherm</string>
     <string name="pref_ui_start_screen_last_visited">Laatst bezocht</string>
+    <string name="content_description_show_balance_details">Toon gedetailleerde informatie</string>
+    <string name="main_navigation">Hoofdnavigatie</string>
+    <string name="pref_fab_style_title">Zwevende actieknopstijl</string>
+    <string name="pref_fab_style_standard_description">Standaard (Tik op de pijl voor het menu)</string>
+    <string name="pref_fab_style_compact_description">Compact (Tik en houd ingedrukt voor het menu)</string>
+    <string name="number_too_large">Het getal is te groot</string>
 </resources>

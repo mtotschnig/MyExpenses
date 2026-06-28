@@ -3,12 +3,12 @@ package org.totschnig.drive.activity
 import android.accounts.AccountManager
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.evernote.android.state.State
 import com.google.android.gms.auth.UserRecoverableAuthException
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
-import com.google.android.material.snackbar.Snackbar
 import com.google.api.client.googleapis.extensions.android.gms.auth.UserRecoverableAuthIOException
 import org.totschnig.drive.sync.GoogleDriveBackendProvider
 import org.totschnig.drive.viewmodel.DriveSetupViewModel
@@ -27,17 +27,39 @@ class DriveSetup2 : AbstractSyncSetup<DriveSetupViewModel>() {
             val result = googleApiAvailability.isGooglePlayServicesAvailable(this)
             when {
                 result == ConnectionResult.SUCCESS ->
-                    startActivityForResult(AccountManager.newChooseAccountIntent(null, null, arrayOf("com.google"), true, null, null, null, null),
+                    startActivityForResult(
+                        AccountManager.newChooseAccountIntent(
+                            null,
+                            null,
+                            arrayOf("com.google"),
+                            true,
+                            null,
+                            null,
+                            null,
+                            null
+                        ),
                         REQUEST_ACCOUNT_PICKER
                     )
+
                 googleApiAvailability.isUserResolvableError(result) ->
-                    googleApiAvailability.getErrorDialog(this, result, 0)?.show()
-                else -> showSnackBar("Google Play Services error $result", Snackbar.LENGTH_LONG)
+                    googleApiAvailability.getErrorDialog(this, result, REQUEST_RESOLUTION)?.let {
+                        it.setOnDismissListener {
+                            finish()
+                        }
+                        it.show()
+                    }
+
+                else -> {
+                    Toast.makeText(this, "Google Play Services error $result", Toast.LENGTH_LONG)
+                        .show()
+                    finish()
+                }
             }
         }
     }
 
-    override fun instantiateViewModel(): DriveSetupViewModel = ViewModelProvider(this)[DriveSetupViewModel::class.java]
+    override fun instantiateViewModel(): DriveSetupViewModel =
+        ViewModelProvider(this)[DriveSetupViewModel::class.java]
 
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -46,6 +68,7 @@ class DriveSetup2 : AbstractSyncSetup<DriveSetupViewModel>() {
                 REQUEST_ACCOUNT_PICKER -> if (data != null) {
                     handleSignInResult(data)
                 }
+
                 REQUEST_RESOLUTION -> viewModel.query()
                 else -> super.onActivityResult(requestCode, resultCode, data)
             }
@@ -62,13 +85,13 @@ class DriveSetup2 : AbstractSyncSetup<DriveSetupViewModel>() {
         }
     }
 
-    override fun handleException(exception: java.lang.Exception) : Boolean =
+    override fun handleException(exception: java.lang.Exception): Boolean =
         ((if (exception is UserRecoverableAuthIOException) exception.cause else exception) as? UserRecoverableAuthException)?.intent?.let {
             startActivityForResult(it, REQUEST_RESOLUTION)
             true
         } ?: false
 
-    override fun Intent.buildSuccessIntent(folder: Pair<String, String>)  {
+    override fun Intent.buildSuccessIntent(folder: Pair<String, String>) {
         putExtra(AccountManager.KEY_USERDATA, Bundle(2).apply {
             putString(GenericAccountService.KEY_SYNC_PROVIDER_URL, folder.first)
             putString(GoogleDriveBackendProvider.KEY_GOOGLE_ACCOUNT_EMAIL, accountName)

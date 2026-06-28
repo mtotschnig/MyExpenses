@@ -146,7 +146,7 @@
     <string name="menu_edit_method">Editatu ordainketa metodoa</string>
     <string name="menu_edit_party">Editatu onuradun/ordaintzailea</string>
     <string name="menu_edit_plan_instance">Editatu planaren gertakari bakarra</string>
-    <string name="menu_edit_split">Editatu banaketa</string>
+    <string name="menu_edit_split">Editatu zatiketa transakzioa</string>
     <string name="menu_edit_split_part_category">Editatu kategoriaren banaketaren zatia</string>
     <string name="menu_edit_split_part_transfer">Editatu transferentziaren banaketaren zatia</string>
     <string name="menu_edit_template">Editatu txantiloia</string>
@@ -170,7 +170,6 @@
     <string name="menu_split_transaction">Bihurtu banaketara</string>
     <string name="method">Ordainketa metodoa</string>
     <string name="no_app_handling_email_available">Ez dago posta elektronikoa kudeatu dezaken aplikaziorik.</string>
-    <string name="no_app_handling_ftp_available">Ez dago FTP kudeatzeko gai den aplikaziorik erabilgarri. Instalatu <i>Send With FTP</i>?</string>
     <string name="no_app_handling_mime_type_available">Ez dago %s fitxategiak kudeatzeko aplikaziorik</string>
     <string name="no_categories">Kategoriarik ez</string>
     <string name="no_expenses">Ez dago gasturik oraindik!</string>
@@ -204,7 +203,7 @@
     <string name="password_security_answer_not_valid">Erantzun okerra. Saiatu berriro!</string>
     <string name="payee">Onuraduna</string>
     <string name="payer">Ordaintzailea</string>
-    <string name="payer_or_payee">Onuraduna/Ordaintzailea</string>
+    <string name="payer_or_payee">Kontrapartidea</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Plana</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -381,7 +380,6 @@
     <string name="widget_title_accounts">Nire kontuak</string>
     <string name="widget_title_templates">Nire txantiloiak</string>
     <string name="app_dir_not_accessible">Babeskopia eta esportazioetarako aukeratutako karpeta (%1$s) ezin da atzitu. mesedez aukeratu beste bat.</string>
-    <string name="app_dir_not_compatible_with_nougat">Une honetan babeskopietarako eta esportazioetarako konfiguratutako URIa (%1$s) ez du onartzen Android Nougat-ek. Mesedez hautatu kapeta bat berriro.</string>
     <string name="search_amount">Bilatu kopurua</string>
     <string name="search_category">Bilatu kategoria</string>
     <string name="search_comment">Bilatu oharrak</string>
@@ -595,4 +593,5 @@
     <string name="price_history">Prezioen historia</string>
     <string name="pref_account_list_display_configuration_title">Kontuen zerrenda</string>
     <string name="menu_templates">Txantiloiak</string>
+    <string name="pref_plan_executor_time_title">Jakinarazpen-ordua</string>
 </resources>

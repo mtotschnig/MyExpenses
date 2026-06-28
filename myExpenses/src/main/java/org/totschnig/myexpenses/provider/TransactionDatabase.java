@@ -51,6 +51,7 @@ import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSF
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.TRANSFER_SEALED_UPDATE_TRIGGER_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.VIEW_WITH_ACCOUNT_DEFINITION;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.createOrRefreshTransactionLinkedTableTriggers;
+import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.getACCOUNTS_CREATE;
 import static org.totschnig.myexpenses.provider.BaseTransactionDatabaseKt.getPRIORITIZED_PRICES_CREATE;
 import static org.totschnig.myexpenses.provider.ChangeLogTriggersKt.createOrRefreshChangeLogTriggers;
 import static org.totschnig.myexpenses.provider.ChangeLogTriggersKt.createOrRefreshEquivalentAmountTriggers;
@@ -134,34 +135,6 @@ public class TransactionDatabase extends BaseTransactionDatabase {
   public TransactionDatabase(@NonNull Context context, @NonNull PrefHandler prefHandler) {
     super(context, prefHandler);
   }
-
-  /**
-   * SQL statement for accounts TABLE
-   */
-  private static final String ACCOUNTS_CREATE =
-      "CREATE TABLE " + TABLE_ACCOUNTS + " ("
-          + KEY_ROWID + " integer primary key autoincrement, "
-          + KEY_LABEL + " text not null, "
-          + KEY_OPENING_BALANCE + " integer, "
-          + KEY_DESCRIPTION + " text, "
-          + KEY_CURRENCY + " text not null  references " + TABLE_CURRENCIES + "(" + KEY_CODE + "), "
-          + KEY_TYPE + " integer references " + TABLE_ACCOUNT_TYPES + "(" + KEY_ROWID + ") NOT NULL, "
-          + KEY_COLOR + " integer default -3355444, "
-          + KEY_GROUPING + " text not null check (" + KEY_GROUPING + " in (" + Grouping.JOIN + ")) default '" + Grouping.NONE.name() + "', "
-          + KEY_USAGES + " integer default 0,"
-          + KEY_LAST_USED + " datetime, "
-          + KEY_SORT_KEY + " integer, "
-          + KEY_SYNC_ACCOUNT_NAME + " text, "
-          + KEY_SYNC_SEQUENCE_LOCAL + " integer default 0,"
-          + KEY_EXCLUDE_FROM_TOTALS + " boolean default 0, "
-          + KEY_UUID + " text, "
-          + KEY_SORT_BY + " text default 'date', "
-          + KEY_SORT_DIRECTION + " text not null check (" + KEY_SORT_DIRECTION + " in ('ASC','DESC')) default 'DESC',"
-          + KEY_CRITERION + " integer,"
-          + KEY_FLAG + " integer references " + TABLE_ACCOUNT_FLAGS + "(" + KEY_ROWID + ") NOT NULL default 0, "
-          + KEY_SEALED + " boolean default 0,"
-          + KEY_DYNAMIC + " boolean default 0,"
-          + KEY_BANK_ID + " integer references " + TABLE_BANKS + "(" + KEY_ROWID + ") ON DELETE SET NULL);";
 
   private static final String SYNC_STATE_CREATE =
       "CREATE TABLE " + TABLE_SYNC_STATE + " ("
@@ -426,7 +399,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(CATEGORIES_CREATE);
     db.execSQL(CATEGORY_UUID_INDEX_CREATE);
     createOrRefreshCategoryMainCategoryUniqueLabel(db);
-    db.execSQL(ACCOUNTS_CREATE);
+    db.execSQL(getACCOUNTS_CREATE());
     db.execSQL(ACCOUNTS_UUID_INDEX_CREATE);
     db.execSQL(SYNC_STATE_CREATE);
     db.execSQL(ACCOUNT_TYPE_CREATE);
@@ -500,7 +473,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(PARTY_HIERARCHY_TRIGGER);
 
     createOrRefreshViews(db);
-    //insertTestData(db, 50, 50);
+    //insertTestData(db, accountTypes,1, 500);
 
     insertNullRows(db);
 
@@ -516,16 +489,16 @@ public class TransactionDatabase extends BaseTransactionDatabase {
     db.execSQL(DELETE_TRANSFER_TAGS_TRIGGER);
   }
 
-/*  private void insertTestData(SupportSQLiteDatabase db, int countGroup, int countChild) {
+/*  private void insertTestData(SupportSQLiteDatabase db, Map<String, Long> accountTypes, int countGroup, int countChild) {
     int categories = MoreDbUtilsKt.setupDefaultCategories(db, MyApplication.Companion.getInstance().getResources()).getFirst();
     for (int i = 1; i <= countGroup; i++) {
-      LocalDateTime date = LocalDateTime.now().plusDays(25);
+      LocalDateTime date = LocalDateTime.now().plusMonths(25);
       AccountInfo testAccount = new AccountInfo("Test account " + i, accountTypes.get(AccountType.Companion.getBANK().getName()), 0);
       long testAccountId = db.insert(TABLE_ACCOUNTS, CONFLICT_NONE, testAccount.getContentValues());
       for (int j = 1; j <= countChild; j++) {
-        long catId = j % categories;
+        long catId = j % (categories -1) + 1 ; //prevent assignment of split cat_id
         long payeeId = db.insert(TABLE_PAYEES, CONFLICT_NONE, new PayeeInfo("Payee " + i + "_" + j).getContentValues());
-        date = date.minusDays(1);
+        date = date.minusDays(3);
         TransactionInfo transactionInfo = new TransactionInfo(testAccountId, 0, date, "Transaction " + j, payeeId, null, catId, null, null, CrStatus.UNRECONCILED);
         db.insert(
             TABLE_TRANSACTIONS,
@@ -2116,6 +2089,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
       if (oldVersion < 184) {
           createOrRefreshViews(db);
+      }
+
+      if (oldVersion < 185) {
+        upgradeTo185(db);
       }
 
       TransactionProvider.resumeChangeTrigger(db);

@@ -42,7 +42,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -88,17 +87,22 @@ import org.totschnig.myexpenses.compose.MenuEntry.Companion.toggle
 import org.totschnig.myexpenses.compose.OverFlowMenu
 import org.totschnig.myexpenses.compose.SubMenuEntry
 import org.totschnig.myexpenses.compose.TEST_TAG_ACCOUNTS
+import org.totschnig.myexpenses.compose.TEST_TAG_DELETE_ACCOUNT
+import org.totschnig.myexpenses.compose.TEST_TAG_EDIT_ACCOUNT
+import org.totschnig.myexpenses.compose.TEST_TAG_EDIT_TEXT
 import org.totschnig.myexpenses.compose.UiText
 import org.totschnig.myexpenses.compose.conditional
+import org.totschnig.myexpenses.compose.main.deltaLabel
+import org.totschnig.myexpenses.compose.main.validatedBalanceType
 import org.totschnig.myexpenses.compose.optional
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbarAndBottomPadding
-import org.totschnig.myexpenses.compose.transactions.BalanceType
 import org.totschnig.myexpenses.dialog.Percent
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.BalanceType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.DEFAULT_FLAG_ID
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
@@ -112,8 +116,6 @@ import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import java.text.DecimalFormat
 import kotlin.math.absoluteValue
-import kotlin.math.sign
-import kotlin.text.append
 
 const val SIGMA = "Σ"
 
@@ -598,8 +600,10 @@ fun AccountCardV2(
 fun AccountIndicator(
     account: FullAccount,
     bankIcon: @Composable ((Modifier, Long) -> Unit)? = null,
+    reducedSizeIfPossible: Boolean = false
 ) {
-    val fontSize = 13.sp
+    val fontSize = if (reducedSizeIfPossible && account.progress == null && bankIcon == null) 9.sp else 13.sp
+
     val size = with(LocalDensity.current) { (fontSize * 2).toDp() }
 
     val color = Color(account.color(resources = LocalResources.current))
@@ -890,20 +894,17 @@ fun AccountCard(
 @Composable
 fun AccountSummaryV2(
     account: BaseAccount,
-    displayBalanceType: BalanceType,
     onDisplayBalanceTypeChange: (BalanceType) -> Unit,
 ) {
 
     when (account) {
         is FullAccount -> AccountSummaryV2(
             account,
-            displayBalanceType,
             onDisplayBalanceTypeChange
         )
 
         is AggregateAccount -> AccountSummaryV2(
             account,
-            displayBalanceType,
             onDisplayBalanceTypeChange
         )
     }
@@ -912,11 +913,11 @@ fun AccountSummaryV2(
 @Composable
 fun AccountSummaryV2(
     account: FullAccount,
-    displayBalanceType: BalanceType,
     onDisplayBalanceTypeChange: (BalanceType) -> Unit,
 ) {
     val homeCurrency = LocalHomeCurrency.current
     val isFx = account.currency != homeCurrency.code
+    val balanceType = account.validatedBalanceType
 
     SumRowV2(
         label = R.string.opening_balance,
@@ -952,7 +953,7 @@ fun AccountSummaryV2(
         )
     }
 
-    val hasMultipleBalanceTypeOptions = account.total != null || account.type.supportsReconciliation
+    val hasMultipleBalanceTypeOptions = account.total != null || account.type.supportsReconciliation || account.criterion != null
 
     account.total?.let {
         SumRowV2(
@@ -961,7 +962,7 @@ fun AccountSummaryV2(
             currency = account.currencyUnit,
             modifier = Modifier.drawSumLine(),
             formattedEquivalentAmount = account.equivalentTotal.takeIf { isFx },
-            highlight = displayBalanceType == BalanceType.TOTAL
+            highlight = balanceType == BalanceType.TOTAL
         ) { onDisplayBalanceTypeChange(BalanceType.TOTAL) }
     }
 
@@ -973,28 +974,25 @@ fun AccountSummaryV2(
             drawSumLine()
         },
         formattedEquivalentAmount = account.equivalentCurrentBalance.takeIf { isFx },
-        highlight = displayBalanceType == BalanceType.CURRENT,
+        highlight = balanceType == BalanceType.CURRENT,
         onClick = if (hasMultipleBalanceTypeOptions) {
             { onDisplayBalanceTypeChange(BalanceType.CURRENT) }
         } else null
     )
 
     account.criterion?.let { criterion ->
-        val isSavingGoal = criterion.sign > 0
-        val hasReached = criterion.sign == account.currentBalance.sign &&
-                account.currentBalance.absoluteValue >= criterion.absoluteValue
         val delta = account.currentBalance - criterion
         val deltaPercent = delta.toFloat() / criterion
 
         SumRowV2(
-            label = when {
-                hasReached -> R.string.overage
-                isSavingGoal -> R.string.saving_goal_short_fall
-                else -> R.string.credit_limit_available_credit
-            },
-            amount = account.criterion - account.currentBalance,
+            label = account.deltaLabel,
+            amount = delta,
             currency = account.currencyUnit,
-            percent = deltaPercent.absoluteValue
+            percent = deltaPercent.absoluteValue,
+            highlight = balanceType == BalanceType.DELTA,
+            onClick = {
+                onDisplayBalanceTypeChange(BalanceType.DELTA)
+            }
         )
         SumRowV2(
             label = if (account.criterion > 0) R.string.saving_goal else R.string.credit_limit,
@@ -1008,13 +1006,13 @@ fun AccountSummaryV2(
             label = R.string.total_cleared,
             amount = account.clearedTotal,
             currency = account.currencyUnit,
-            highlight = displayBalanceType == BalanceType.CLEARED,
+            highlight = balanceType == BalanceType.CLEARED,
         ) { onDisplayBalanceTypeChange(BalanceType.CLEARED) }
         SumRowV2(
             label = R.string.total_reconciled,
             amount = account.reconciledTotal,
             currency = account.currencyUnit,
-            highlight = displayBalanceType == BalanceType.RECONCILED,
+            highlight = balanceType == BalanceType.RECONCILED,
         ) { onDisplayBalanceTypeChange(BalanceType.RECONCILED) }
     }
 }
@@ -1022,11 +1020,11 @@ fun AccountSummaryV2(
 @Composable
 fun AccountSummaryV2(
     account: AggregateAccount,
-    displayBalanceType: BalanceType,
     onDisplayBalanceTypeChange: (BalanceType) -> Unit,
 ) {
     val homeCurrency = LocalHomeCurrency.current
     val isFx = account.currency != homeCurrency.code
+    val balanceType = account.validatedBalanceType
 
     SumRowV2(
         label = R.string.opening_balance,
@@ -1073,7 +1071,7 @@ fun AccountSummaryV2(
             currency = account.currencyUnit,
             modifier = Modifier.drawSumLine(),
             formattedEquivalentAmount = account.equivalentTotal.takeIf { isFx },
-            highlight = displayBalanceType == BalanceType.TOTAL
+            highlight = balanceType == BalanceType.TOTAL
         ) { onDisplayBalanceTypeChange(BalanceType.TOTAL) }
     }
 
@@ -1085,7 +1083,7 @@ fun AccountSummaryV2(
             drawSumLine()
         },
         formattedEquivalentAmount = account.equivalentCurrentBalance.takeIf { isFx },
-        highlight = displayBalanceType == BalanceType.CURRENT,
+        highlight = balanceType == BalanceType.CURRENT,
         onClick = if (hasMultipleBalanceTypeOptions) {
             { onDisplayBalanceTypeChange(BalanceType.CURRENT) }
         } else null
@@ -1102,9 +1100,9 @@ private fun accountMenu(
 ) = buildList {
     if (account.id > 0) {
         if (!account.sealed) {
-            add(edit("EDIT_ACCOUNT") { onEvent(AccountEvent.Edit, account) })
+            add(edit(TEST_TAG_EDIT_ACCOUNT) { onEvent(AccountEvent.Edit, account) })
         }
-        add(delete("DELETE_ACCOUNT") { onEvent(AccountEvent.Delete, account) })
+        add(delete(TEST_TAG_DELETE_ACCOUNT) { onEvent(AccountEvent.Delete, account) })
         add(
             SubMenuEntry(
                 label = R.string.menu_flag,
@@ -1292,7 +1290,7 @@ fun MixedText() {
 
 @Preview(fontScale = 2f)
 @Composable
-fun AccountIndicator() {
+fun AccountIndicatorPreview() {
     AccountIndicator(
         account = FullAccount(
             id = 1,

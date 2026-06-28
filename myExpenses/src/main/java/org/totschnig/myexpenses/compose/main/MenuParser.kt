@@ -45,14 +45,15 @@ private fun AMenu.map(
                         subMenu = it.map(context, onPrepareMenuItem, onMenuItemClicked),
                         icon = {
                             rememberDrawablePainter(menuItem.icon)
-                        }
+                        },
+                        command = context.resources.getResourceName(menuItem.itemId)
                     )
                 } ?: MenuEntry(
                     label = UiText.StringValue(menuItem.title.toString()),
                     command = context.resources.getResourceName(menuItem.itemId),
                     icon = {
                         rememberDrawablePainter(menuItem.icon)
-                    }
+                    },
                 ) { onMenuItemClicked(menuItem.itemId) }
             )
         }

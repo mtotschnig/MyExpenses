@@ -5,21 +5,27 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.annotation.VisibleForTesting
+import androidx.core.net.toUri
 import androidx.lifecycle.viewModelScope
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import okhttp3.*
+import okhttp3.Credentials
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
+import okhttp3.Response
 import okhttp3.internal.closeQuietly
 import okio.BufferedSink
 import okio.source
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.getDisplayName
+import org.totschnig.myexpenses.preference.setWebUiActive
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -33,14 +39,10 @@ import java.net.URISyntaxException
 import javax.inject.Inject
 import kotlin.Result.Companion.failure
 import kotlin.Result.Companion.success
-import androidx.core.net.toUri
-import androidx.datastore.preferences.core.edit
-import androidx.preference.PreferenceDataStore
-import org.totschnig.myexpenses.preference.PrefKey
 
 class BaseFunctionalityViewModel(application: Application) :
     ContentResolvingAndroidViewModel(application) {
-    enum class Scheme { FTP, MAILTO, HTTP, HTTPS; }
+    enum class Scheme { MAILTO, HTTP, HTTPS; }
 
     @Inject
     lateinit var okHttpBuilder: OkHttpClient.Builder
@@ -64,7 +66,6 @@ class BaseFunctionalityViewModel(application: Application) :
                         complain(ctx.getString(R.string.ftp_uri_malformed, target))
                     } else {
                         when (val scheme = enumValueOrNull<Scheme>(uri.scheme.uppercase())) {
-                            Scheme.FTP -> handleFtp(ctx, uriList, target, mimeType)
                             Scheme.MAILTO -> handleMailto(ctx, uriList, mimeType, uri)
                             Scheme.HTTP, Scheme.HTTPS -> handleHttp(
                                 uriList,
@@ -166,34 +167,6 @@ class BaseFunctionalityViewModel(application: Application) :
         return success(Scheme.MAILTO)
     }
 
-    private fun handleFtp(
-        ctx: Context,
-        fileUris: List<Uri>,
-        target: String,
-        mimeType: String,
-    ): Result<Scheme> {
-        val intent: Intent
-        if (fileUris.size > 1) {
-            return complain("sending multiple file through ftp is not supported")
-        } else {
-            intent = Intent(Intent.ACTION_SENDTO)
-            val contentUri = AppDirHelper.ensureContentUri(fileUris[0], ctx)
-            intent.putExtra(Intent.EXTRA_STREAM, contentUri)
-            intent.setDataAndType(target.toUri(), mimeType)
-            ctx.grantUriPermission(
-                "org.totschnig.sendwithftp",
-                contentUri,
-                Intent.FLAG_GRANT_READ_URI_PERMISSION
-            )
-            if (Utils.isIntentAvailable(ctx, intent)) {
-                ctx.startActivity(intent)
-            } else {
-                return complain(ctx.getString(R.string.no_app_handling_ftp_available))
-            }
-        }
-        return success(Scheme.FTP)
-    }
-
     private fun complain(string: String): Result<Scheme> {
         return failure(Throwable(string))
     }
@@ -244,9 +217,7 @@ class BaseFunctionalityViewModel(application: Application) :
 
     fun toggleWebUi(enabled: Boolean) {
         viewModelScope.launch {
-            dataStore.edit { preferences ->
-                preferences[prefHandler.getBooleanPreferencesKey(PrefKey.UI_WEB)] = enabled
-            }
+            dataStore.setWebUiActive(enabled)
         }
     }
 }

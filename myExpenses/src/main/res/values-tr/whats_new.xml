@@ -39,4 +39,5 @@
     <string name="migration_v2_opt_out_warning">Sürüm 1, gelecek bir güncellemede kullanımdan kaldırılacaktır. Sürüm 2\'yi iyileştirebilmemiz için hangi özelliklerin çalışmadığını bize bildirirseniz çok seviniriz.</string>
     <string name="migration_v2_feedback_title">Sürüm 2\'de ne sorun var?</string>
     <string name="migration_v2_confirm_opt_out">Sürüm 1\'e geri dön</string>
+    <string name="whats_new_407">Etiketler, kategoriler, hesaplar ve bölümler için doğal sıralama.</string>
 </resources>

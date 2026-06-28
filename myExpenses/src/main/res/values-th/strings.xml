@@ -10,7 +10,7 @@
     <string name="numbered">ลำดับเลข</string>
     <string name="opening_balance">ยอดยกมา</string>
     <string name="payer">ผู้จ่ายเงิน</string>
-    <string name="payer_or_payee">ผู้รับ/ผู้จ่ายเงิน</string>
+    <string name="payer_or_payee">คู่สัญญา</string>
     <string name="plan_calendar_name">ตัววางแผนของ {app_name}</string>
     <string name="pm_deposit">เงินฝาก</string>
     <string name="pm_directdebit">หักบัญชีอัตโนมัติ</string>
@@ -135,7 +135,7 @@
     <string name="menu_delete">ลบ</string>
     <string name="menu_distribution">การกระจาย</string>
     <string name="menu_edit_split_part_category">แก้ไขส่วนการแบ่งหมวดหมู่</string>
-    <string name="menu_edit_split">แก้ไขการแบ่ง</string>
+    <string name="menu_edit_split">แก้ไขรายการธุรกรรมแบบแยกส่วน</string>
     <string name="menu_edit_split_part_transfer">แก้ไขส่วนการแบ่งการโอน</string>
     <string name="menu_grouping">การจัดกลุ่ม</string>
     <string name="menu_help">ช่วยเหลือ</string>
@@ -150,7 +150,6 @@
     <string name="method">วิธีการชำระเงิน</string>
     <string name="menu_share">บอกเพื่อน</string>
     <string name="button_label_close">ปิด</string>
-    <string name="no_app_handling_ftp_available">ไม่มีแอปที่สามารถจัดการ FTP ได้ ต้องการติดตั้ง <i>Send With FTP</i> หรือไม่?</string>
     <string name="no_app_handling_email_available">ไม่มีแอปที่สามารถจัดการอีเมลได้</string>
     <string name="no_categories">ไม่มีหมวดหมู่</string>
     <string name="no_expenses">ยังไม่มีค่าใช้จ่าย!</string>
@@ -522,7 +521,6 @@
     <plurals name="warning_delete_main_category">
         <item quantity="other">หมวดหมู่ที่เลือก %1$d หมวดหมู่มีหมวดหมู่ย่อยที่จะถูกลบด้วย</item>
     </plurals>
-    <string name="app_dir_not_compatible_with_nougat">URI ที่กำหนดไว้ปัจจุบันสำหรับการสำรองข้อมูลและการส่งออก (%1$s) ไม่ได้รับการสนับสนุนใน Android Nougat กรุณาเลือกโฟลเดอร์อีกครั้ง</string>
     <string name="cvs_import_set_first_line_as_header">ควรถือว่าแถวแรกเป็นแถวส่วนหัวหรือไม่?</string>
     <string name="account_deleted">ลบบัญชีเรียบร้อยแล้ว</string>
     <string name="dialog_export_applied_to_filter">จะพิจารณาเฉพาะรายการที่ตรงกับตัวกรองปัจจุบันเท่านั้น</string>
@@ -627,7 +625,7 @@
     <string name="pref_exchange_rate_provider_summary">เลือกผู้ให้บริการเพื่อดาวน์โหลดอัตราแลกเปลี่ยน</string>
     <string name="pref_category_exchange_rates">อัตราแลกเปลี่ยน</string>
     <string name="pref_exchange_rate_provider_title">ผู้ให้บริการอัตราแลกเปลี่ยน</string>
-    <string name="pref_plan_executor_time_title">เวลาแจ้งเตือนแผน</string>
+    <string name="pref_plan_executor_time_title">เวลาแจ้งเตือน</string>
     <string name="synchronization_select_folder_dialog_title">เลือกโฟลเดอร์ที่มีอยู่หรือสร้างใหม่</string>
     <string name="menu_create_budget">งบประมาณใหม่</string>
     <string name="budget_onetime">­ครั้งเดียว</string>
@@ -774,7 +772,7 @@
     <string name="menu_unlink_transfer">ยกเลิกการเชื่อมโยงการโอนเงิน</string>
     <string name="warning_unlink_transfer">การโอนเงินที่เลือกจะถูกยกเลิกการเชื่อมโยง: จะถูกแทนที่ด้วยรายการปกติในทั้งสองบัญชี</string>
     <string name="remap_date">ในรายการที่เลือกทั้งหมด วันที่จะถูกตั้งเป็น %s</string>
-    <string name="roadmap_intro">การโหวตแผนงานปี 2024 เปิดให้โหวตแล้ว! โปรดโหวตสำหรับคุณสมบัติและการปรับปรุงที่สำคัญที่สุดสำหรับคุณ</string>
+    <string name="roadmap_intro">การโหวตแผนงานปี %d เปิดให้โหวตแล้ว! โปรดโหวตสำหรับคุณสมบัติและการปรับปรุงที่สำคัญที่สุดสำหรับคุณ</string>
     <string name="merge_categories_dialog_title">รวมหมวดหมู่</string>
     <string name="warning_unarchive">ไฟล์เก็บถาวรจะถูกแกะออกมา รายการทั้งหมดที่อยู่ในนั้นจะถูกแทรกกลับเข้าไปในรายการอีกครั้ง</string>
     <string name="dialog_title_warning_delete_archive">ลบไฟล์เก็บถาวร?</string>

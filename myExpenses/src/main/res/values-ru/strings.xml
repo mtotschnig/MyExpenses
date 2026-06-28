@@ -131,8 +131,8 @@
     <string name="menu_create_method">Новый способ оплаты</string>
     <string name="menu_create_party">Новый контрагент</string>
     <string name="menu_create_split">Новое разделение</string>
-    <string name="menu_create_split_part_category">Новая категория разделённой части</string>
-    <string name="menu_create_split_part_transfer">Новый перевод разделённой части</string>
+    <string name="menu_create_split_part_category">Новая категория разделения</string>
+    <string name="menu_create_split_part_transfer">Новый перевод разделения</string>
     <string name="menu_create_sub_cat">Новая подкатегория</string>
     <string name="menu_create_template">Новый шаблон</string>
     <string name="menu_create_template_from_transaction">Сохранить как шаблон</string>
@@ -148,9 +148,9 @@
     <string name="menu_edit_method">Редактировать способы оплаты</string>
     <string name="menu_edit_party">Редактировать контрагентов</string>
     <string name="menu_edit_plan_instance">Редактировать единый возникший план</string>
-    <string name="menu_edit_split">Редактировать разделение</string>
-    <string name="menu_edit_split_part_category">Редактировать категорию разделённой части</string>
-    <string name="menu_edit_split_part_transfer">Редактировать перевод разделённой части</string>
+    <string name="menu_edit_split">Редактировать разделенную транзакцию</string>
+    <string name="menu_edit_split_part_category">Редактировать категорию разделения</string>
+    <string name="menu_edit_split_part_transfer">Редактировать перевод разделения</string>
     <string name="menu_edit_template">Редактировать шаблон</string>
     <string name="menu_edit_transaction">Редактировать операцию</string>
     <string name="menu_edit_transfer">Редактировать перевод</string>
@@ -172,7 +172,6 @@
     <string name="menu_split_transaction">Разделить</string>
     <string name="method">Способ оплаты</string>
     <string name="no_app_handling_email_available">Нет доступных приложений для обработки электронной почты.</string>
-    <string name="no_app_handling_ftp_available">Нет приложения, связанного с ftp. Установить, <i>Send With FTP</i>?</string>
     <string name="no_app_handling_mime_type_available">Не доступно приложение для чтения %s.</string>
     <string name="no_categories">Нет категорий.</string>
     <string name="no_expenses">Ещё нет расходов!</string>
@@ -182,7 +181,7 @@
     <string name="no_mapped_transactions">Нет операций с сопоставленными категориями в этот период.</string>
     <string name="no_methods">Нет методов оплаты.</string>
     <string name="no_parties">Нет контрагентов.</string>
-    <string name="no_split_parts">Нет разделённых частей.</string>
+    <string name="no_split_parts">Нет разделений.</string>
     <string name="no_templates">Нет шаблонов.</string>
     <string name="no_accounts">Нет счетов.</string>
     <plurals name="not_deletable_mapped_transactions">
@@ -210,7 +209,7 @@
     <string name="password_security_answer_not_valid">Не верный ответ. Повторите!</string>
     <string name="payee">Получатель</string>
     <string name="payer">Плательщик</string>
-    <string name="payer_or_payee">Получатель/Платильщик</string>
+    <string name="payer_or_payee">Контрагент</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">План</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -232,7 +231,7 @@
     <string name="pm_type_debit">Дебет</string>
     <string name="pm_type_neutral">Нейтральный</string>
     <string name="pref_app_dir_title">Каталог для резервного копирования и экспорта</string>
-    <string name="pref_auto_fill_summary">Автозаполнение данных из предыдущей операции с тем же получателем/плательщиком</string>
+    <string name="pref_auto_fill_summary">Заполнение данных из последней операции для того же контрагента</string>
     <string name="pref_backup_summary">Создать резервную копию базы данных и настроек.</string>
     <string name="pref_sort_order_usages">Количество использований</string>
     <string name="pref_category_title_export">Экспорт</string>
@@ -255,7 +254,7 @@
     <string name="pref_manage_categories_title">Категории</string>
     <string name="pref_manage_methods_summary">Создание и редактирование методов оплаты и связывание с типами счетов.</string>
     <string name="pref_manage_methods_title">Способы оплаты</string>
-    <string name="pref_manage_parties_summary">Добавление, редактирование, удаление контрагентов (плательщиков и получателей).</string>
+    <string name="pref_manage_parties_summary">Добавление, редактирование и удаление контрагентов.</string>
     <string name="pref_manage_parties_title">Контрагенты</string>
     <string name="pref_manage_sync_backends_title">Серверы синхронизации</string>
     <!-- %s will be replaced with list of backends -->
@@ -313,10 +312,10 @@
     <string name="save_transaction_template_deleted">Шаблон удалён</string>
     <string name="select">Выбрать</string>
     <string name="select_category">Выбрать категорию</string>
-    <string name="select_payee">Выберите плательщика / получателя</string>
+    <string name="select_payee">Выберите контрагента</string>
     <string name="share_scheme_not_supported">Схема %1$s не поддерживается</string>
     <string name="share_sending">Отправить экспортированный файл</string>
-    <string name="split_parts_heading">Разделённые части</string>
+    <string name="split_parts_heading">Разделения</string>
     <string name="split_transaction">Разделённая операция</string>
     <string name="status">Статус</string>
     <string name="status_cleared">очистить</string>
@@ -377,7 +376,7 @@
     <string name="warning_reset_account_all">Если вы продолжите, для всех счетов %1$s операции будут удалены из базы данных и не могут быть восстановлены.</string>
     <string name="warning_reset_account_matched">Если вы продолжите, операции, соответствующие текущему фильтру, будут удалены из базы данных и не могут быть восстановлены.</string>
     <string name="warning_restore">Базы данных и настройки будут восстановлены из файла \"%1$s\". Текущие данные будут удалены.</string>
-    <string name="warning_splitpartcategory_context">Переводы, которые являются разделённой частью можно редактировать только в контексте разделения.</string>
+    <string name="warning_splitpartcategory_context">Переводы, являющиеся частью разделенной транзакции, могут быть отредактированы только в контексте этой разделенной транзакции.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Пожалуйста, укажите число между %1$d и %2$d</string>
     <string name="warning_change_fraction_digits_1">Суммы в базе данных должны быть обновлены, чтобы соответствовать новому числу цифр дроби.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Если суммы не обновляются, они будут отображаться как умноженные на %d после изменения.</string>
@@ -397,13 +396,12 @@
     <string name="widget_title_accounts">Мои счета</string>
     <string name="widget_title_templates">Мои шаблоны</string>
     <string name="app_dir_not_accessible">Текущая выбранная папка для резервного копирования и экспорта (%1$s) недоступна. Пожалуйста, выберите другую.</string>
-    <string name="app_dir_not_compatible_with_nougat">Текущий настроенный URI для резервного копирования и экспорта (%1$s) не поддерживается в Android Nougat. Пожалуйста, выберите папку снова .</string>
     <string name="search_amount">Поиск по размеру</string>
     <string name="search_category">Поиск по категории</string>
     <string name="search_comment">Поиск по заметкам</string>
     <string name="search_date">Поиск по дате</string>
     <string name="search_status">Ишите статус </string>
-    <string name="search_payee">Поиск по получателю/плательщику</string>
+    <string name="search_payee">Поиск контрагента</string>
     <string name="search_method">Ишите метод</string>
     <string name="search_tag">Ишите тег</string>
     <string name="and">и</string>
@@ -420,7 +418,7 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">после</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Покупка была прервана или отменена.</string>
-    <string name="hint_auto_fill">Позволить автозаполнение на основе последней операции для того же получателя/плательщика\? Вы всегда можете изменить это поведение в настройках.</string>
+    <string name="hint_auto_fill">Автоматически заполнять данные из последней транзакции для того же контрагента? Вы всегда можете изменить этот параметр в настройках.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d счетов с валютой %2$s было обновлено.</string>
     <string name="import_source_file">Файл</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
@@ -471,7 +469,7 @@
     <string name="plan_instance_state_cancelled">отмененный</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">принятый</string>
-    <string name="progress_dialog_updating_split_parts">Обновление частей</string>
+    <string name="progress_dialog_updating_split_parts">Обновление разделений</string>
     <string name="warning_cannot_move_split_transaction">Эта разделенная транзакция не может быть перемещена на счет %1$s, поскольку есть части перевода, которые ссылаются на этот счет.</string>
     <string name="content_description_calculator_delete_button">Удалить последнее число</string>
     <string name="paypal_callback_info">Ваша операция была завершена; квитанция об оплате была направлена на Ваш e-mail. Вы можете увидеть детали этой транзакции в своей учетной записи на www.paypal.com</string>
@@ -593,13 +591,13 @@
     <string name="menu_original_amount">Начальный баланс</string>
     <string name="menu_equivalent_amount">Эквивалентное количество</string>
     <string name="warning_split_transactions">Выбранные операции будут собраны в одну расщепленную операцию. Их содержание будет утеряно, напр. заменено их средним.</string>
-    <string name="warning_ungroup_split_transactions">Выбранные дробные операции будут разгруппированы, т.е. их составные части станут обычными операциями.</string>
+    <string name="warning_ungroup_split_transactions">Выбранные разделенные транзакции будут разгруппированы; иными словами, их части станут обычными транзакциями.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
     <string name="menu_ungroup_split_transaction">Разгруппировать расщепленную операцию</string>
     <string name="ungroup_split_transaction_success">Дробная операция была успешно разгруппирована.</string>
     <string name="split_transaction_one_success">Операция успешно превращена в расщепленную.</string>
     <string name="split_transaction_group_success">%1$d операций было успешно сгруппировано в одну дробную операцию.</string>
-    <string name="split_transaction_not_possible">Только операции с совпадающим счетом, получателем и статусом могут быть сгруппированы в расщепленную операцию.</string>
+    <string name="split_transaction_not_possible">В одну разделенную транзакцию могут быть сгруппированы только те транзакции, которые имеют одинаковый счет, контрагента и статус.</string>
     <string name="pref_transaction_time_summary">Позволять указывать точное время операции.</string>
     <string name="pref_value_date_summary">Позволить установить дату бронирования в дополнение к дате создания заказа. Время операции будет скрыто. Этот параметр не применяется к денежным счетам.</string>
     <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
@@ -683,7 +681,7 @@
     <string name="pref_exchange_rate_provider_summary">Выбрать поставщика курсов валют для загрузки</string>
     <string name="pref_exchange_rate_provider_title">Поставщик курсов валют</string>
     <string name="pref_exchange_rates_api_key_summary">Пожалуйста зарегистрируйте бесплатный аккаунт в сервисе %s и введите ваш App ID</string>
-    <string name="pref_plan_executor_time_title">Время оповещения планировщика</string>
+    <string name="pref_plan_executor_time_title">Время уведомления</string>
     <string name="synchronization_select_folder_dialog_title">Выберите существующую папку или создайте новую</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch">Используйте этот переключатель для записи поступлений.</string>
@@ -707,7 +705,7 @@
     <string name="menu_remap">Переоформления</string>
     <string name="dialog_title_confirm_remap">Изменить сопоставление (%s)?</string>
     <string name="remap_category">Все выбранные операции будут сопоставлены с категорией %s.</string>
-    <string name="remap_payee">Все выбранные операции будут сопоставлены плательщику/получателю платежа %s.</string>
+    <string name="remap_payee">Все выбранные транзакции будут привязаны к контрагенту %s.</string>
     <string name="remap_method">Все выбранные операции будут сопоставлены с методом %s.</string>
     <string name="remap_account">Все выбранные операции будут сопоставлены с счетом %s.</string>
     <string name="remapping_result">Выбранные операции были повторно сопоставлены.</string>
@@ -802,7 +800,7 @@
         <item quantity="other">Долг %1$s имеет %2$d сопоставленных операций.</item>
     </plurals>
     <string name="account_widget_configuration_sum_total">Включить будущие операции</string>
-    <string name="warning_link_transfer">Две выбранные транзакции будут объединены. Информация об отправителей/получателей средств и категории будут удалены.</string>
+    <string name="warning_link_transfer">Две выбранные транзакции будут связаны как перевод. Информация о контрагенте и категории будет удалена.</string>
     <string name="warning_party_delete_debt">При удалении этого контрагента также будут удалены все связанные с ним долги.</string>
     <string name="merge_parties_select">Выберите имя контрагента после объединения</string>
     <string name="account_widget_configuration">Настройка виджета счета</string>
@@ -939,7 +937,7 @@
     <string name="warning_delete_archive">Все транзакции, содержащиеся в этом архиве (%d), будут удалены.</string>
     <string name="menu_transform_to_transfer">Преобразовать в перевод</string>
     <string name="subcategories_merged_recursively">Если в объединяемых категориях есть подкатегории с одинаковым названием, они будут сначала объединены рекурсивно.</string>
-    <string name="roadmap_intro">Открыто голосование по дорожной карте 2024 года! Выберите те функции и улучшения, которые для вас наиболее важны.</string>
+    <string name="roadmap_intro">Открыто голосование по дорожной карте %d года! Выберите те функции и улучшения, которые для вас наиболее важны.</string>
     <string name="warning_nested_archives">Вложенные архивы не поддерживаются.</string>
     <string name="button_activate_again">Включить снова</string>
     <string name="credit_limit_reached">Вы достигли своего кредитного лимита.</string>
@@ -1042,7 +1040,7 @@
         <item quantity="other">%d неиспользуемых контрагентов будет удалено.</item>
     </plurals>
     <string name="content_description_clear_party">Очистить контрагента</string>
-    <string name="remap_payee_null">Плательщик/Получатель будет удалён из всех выделенных операций.</string>
+    <string name="remap_payee_null">Контрагент будет удалён из всех выбранных транзакций.</string>
     <string name="show_invisible">Скрытые счета</string>
     <string name="show_zero">Счета с нулевым балансом</string>
     <string name="content_description_browse_device_files">Просмотреть файлы на этом устройстве</string>
@@ -1052,4 +1050,12 @@
     <string name="pref_ui_start_screen_last_visited">Последний просмотренный экран</string>
     <string name="content_description_show_balance_details">Показать подробную информацию</string>
     <string name="main_navigation">Основная навигация</string>
+    <string name="pref_fab_style_title">Стиль плавающей кнопки действия</string>
+    <string name="pref_fab_style_standard_description">Стандартный (Нажмите на стрелку для вызова меню)</string>
+    <string name="pref_fab_style_compact_description">Компактный (Нажмите и удерживайте для вызова меню)</string>
+    <string name="number_too_large">Число слишком велико</string>
+    <string name="prioritize_flag_order">Приоритет порядка флагов</string>
+    <string name="pref_content_based_colors_title">Динамический цвет на основе цвета счета</string>
+    <string name="pref_content_based_colors_summary">Определение цветов темы на основе цвета текущего счета. Отключите, если текст становится трудночитаемым.</string>
+    <string name="service_starting">Запуск…</string>
 </resources>

@@ -23,4 +23,5 @@
     <string name="migration_v2_opt_out_warning">V1将在未来的更新中逐步淘汰。我们很想知道哪里不行，这样我们才能改进V2。</string>
     <string name="migration_v2_feedback_title">V2 中哪些地方不行？</string>
     <string name="migration_v2_confirm_opt_out">回到V1</string>
+    <string name="whats_new_407">对标签、类别、账户、交易对象进行自然排序。</string>
 </resources>

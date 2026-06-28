@@ -53,7 +53,7 @@ class SyncDelegate(
                 null, Bundle(3).apply {
                     putLong(KEY_ACCOUNTID, account.id)
                     putString(KEY_CURRENCY, account.currency)
-                    putLong(KEY_TYPE, account.type.id)
+                    putLong(KEY_TYPE, account.type!!.id)
                 }
             )
             if (result?.getBoolean(KEY_RESULT) != true) {
@@ -244,6 +244,7 @@ class SyncDelegate(
         if (change.tagsV2 != null) result = result.copy(tagsV2 = change.tagsV2)
         if (change.attachments != null) result = result.copy(attachments = change.attachments)
         if (change.categoryInfo != null) result = result.copy(categoryInfo = change.categoryInfo)
+        if (change.equivalentAmount != null) result = result.copy(equivalentAmount = change.equivalentAmount)
 
         return result.withCurrentTimeStamp()
     }

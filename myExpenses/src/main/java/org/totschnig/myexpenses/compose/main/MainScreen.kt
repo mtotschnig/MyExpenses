@@ -66,13 +66,18 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.core.layout.WindowSizeClass
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.StartScreen
+import org.totschnig.myexpenses.compose.TEST_TAG_NAV_ACCOUNTS
+import org.totschnig.myexpenses.compose.TEST_TAG_NAV_OVERFLOW
+import org.totschnig.myexpenses.compose.TEST_TAG_NAV_TRANSACTIONS
 import org.totschnig.myexpenses.compose.accounts.AccountEventHandler
 import org.totschnig.myexpenses.compose.accounts.AccountsScreen
 import org.totschnig.myexpenses.compose.conditional
@@ -96,17 +101,20 @@ sealed class Screen(
     val icon: ImageVector,
     @param:StringRes val resourceId: Int,
     val paneRole: ThreePaneScaffoldRole,
+    val testTag: String,
 ) {
     object Accounts : Screen(
         icon = Icons.Default.AccountBalance,
         resourceId = R.string.accounts,
-        paneRole = ListDetailPaneScaffoldRole.List
+        paneRole = ListDetailPaneScaffoldRole.List,
+        testTag = TEST_TAG_NAV_ACCOUNTS
     )
 
     object Transactions : Screen(
         icon = Icons.AutoMirrored.Default.ReceiptLong,
         resourceId = R.string.import_select_transactions,
-        paneRole = ListDetailPaneScaffoldRole.Detail
+        paneRole = ListDetailPaneScaffoldRole.Detail,
+        testTag = TEST_TAG_NAV_TRANSACTIONS
     )
 }
 
@@ -176,9 +184,13 @@ fun MainScreenAdaptive(
     val accountGroupingLoadingState = viewModel.accountGrouping.statefulFlow
         .collectAsState(PreferenceState.Loading).value
 
+    val mainMenuLoadingState = viewModel.mainMenuAccessor.statefulFlow
+        .collectAsState(PreferenceState.Loading).value
+
     if (forcedAccountPanelLoadingState !is PreferenceState.Loaded ||
         preferredNavModeLoadingState !is PreferenceState.Loaded ||
-        accountGroupingLoadingState !is PreferenceState.Loaded
+        accountGroupingLoadingState !is PreferenceState.Loaded ||
+        mainMenuLoadingState !is PreferenceState.Loaded
     ) return
 
     val forcedAccountPanelState = forcedAccountPanelLoadingState.value
@@ -212,7 +224,15 @@ fun MainScreenAdaptive(
         isDestinationHistoryAware = false
     )
 
-    val menuConfig = viewModel.mainMenu.collectAsState()
+    val intentEvents by viewModel.intentEvents.collectAsStateWithLifecycle(null)
+
+    LaunchedEffect(intentEvents) {
+        if (intentEvents != null) {
+            navigator.navigateToRoot(ListDetailPaneScaffoldRole.Detail)
+        }
+    }
+
+    val menuConfig = mainMenuLoadingState.value
 
     val is2Pane = navigator.scaffoldDirective.maxHorizontalPartitions > 1
     val isLandscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
@@ -249,8 +269,8 @@ fun MainScreenAdaptive(
         (isRail && !isLandscape)
     ) 2 else 1
 
-    val quickItems = menuConfig.value.take(maxQuickItems)
-    val overflowItems = menuConfig.value.drop(maxQuickItems)
+    val quickItems = menuConfig.take(maxQuickItems)
+    val overflowItems = menuConfig.drop(maxQuickItems)
 
     val isWebUiActive by viewModel.isWebUiActive.collectAsState(false)
 
@@ -267,6 +287,7 @@ fun MainScreenAdaptive(
         )
     }
 
+    val toggleableRail = preferredNavMode == MenuItem.NavigationMode.TOGGLEABLE_RAIL
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -276,17 +297,20 @@ fun MainScreenAdaptive(
         NavigationSuiteScaffold(
             layoutType = layoutType,
             navigationSuiteItems = {
-                if (preferredNavMode == MenuItem.NavigationMode.TOGGLEABLE_RAIL && isNavigationVisible) {
+                if (toggleableRail && isNavigationVisible) {
                     item(
                         icon = {
                             IconButton(onClick = { onAppEvent(AppEvent.ToggleNavigation) }) {
-                                Icon(Icons.Default.Close, contentDescription = "Hide Navigation")
+                                Icon(
+                                    Icons.Default.Close,
+                                    contentDescription = stringResource(R.string.drawer_open)
+                                )
                             }
                         },
                         selected = false,
                         onClick = {}, // The IconButton handles the click
                         label = null, // Optional, can be null
-                        alwaysShowLabel = false
+                        alwaysShowLabel = false,
                     )
                 }
                 if (!is2Pane) {
@@ -298,7 +322,6 @@ fun MainScreenAdaptive(
                             selected = navigator.currentDestination?.pane == screen.paneRole,
                             onClick = {
                                 scope.launch {
-                                    // Use your navigateToRoot extension to prevent backstack bloat
                                     navigator.navigateToRoot(screen.paneRole)
                                 }
                             },
@@ -306,11 +329,12 @@ fun MainScreenAdaptive(
                             label = {
                                 NavigationItem(stringResource(screen.resourceId))
                             },
+                            modifier = Modifier.testTag(screen.testTag)
                         )
                     }
                 }
 
-                (if (splitMenu) quickItems else menuConfig.value).forEach {
+                (if (splitMenu) quickItems else menuConfig).forEach {
                     item(
                         selected = if (it == MenuItem.WebUI) isWebUiActive else false,
                         onClick = {
@@ -325,6 +349,7 @@ fun MainScreenAdaptive(
                         label = {
                             NavigationItem(it.getLabel(context))
                         },
+                        modifier = Modifier.testTag(it.testTag)
                     )
                 }
                 if (splitMenu) {
@@ -337,6 +362,7 @@ fun MainScreenAdaptive(
                             label = {
                                 NavigationItem(stringResource(com.android.setupwizardlib.R.string.suw_more_button_label))
                             },
+                            modifier = Modifier.testTag(TEST_TAG_NAV_OVERFLOW)
                         )
                     }
                 }
@@ -355,14 +381,13 @@ fun MainScreenAdaptive(
 
 
             val navigationIcon =
-                if (preferredNavMode == MenuItem.NavigationMode.TOGGLEABLE_RAIL && !isNavigationVisible) {
+                if (toggleableRail && !isNavigationVisible) {
                     @Composable
                     {
-                        // This is the "Hamburger" or "Menu" button
                         IconButton(onClick = { onAppEvent(AppEvent.ToggleNavigation) }) {
                             Icon(
                                 imageVector = Icons.Default.Menu,
-                                contentDescription = "Toggle Navigation"
+                                contentDescription = stringResource(R.string.drawer_open)
                             )
                         }
                     }
@@ -426,8 +451,6 @@ fun MainScreenAdaptive(
 
                             TransactionScreen(
                                 containerColor = Color.Transparent,
-                                accounts = accounts,
-                                accountGrouping = accountGrouping,
                                 availableFilters = availableFilters,
                                 selectedAccountId = selectedAccountId,
                                 viewModel = viewModel,
@@ -436,7 +459,7 @@ fun MainScreenAdaptive(
                                 onPrepareMenuItem = onPrepareMenuItem,
                                 pageContent = pageContent,
                                 bankIcon = bankIcon,
-                                visibleActionItems = when {
+                                visibleActionItems = 1 /*when {
                                     adaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
                                         WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND
                                     ) -> if (is2Pane) 4 else 6
@@ -447,10 +470,10 @@ fun MainScreenAdaptive(
 
                                     else -> when {
                                         fontScale > 1.5f -> 0
-                                        fontScale > 1.1f -> if (isNavigationVisible) 0 else 1
-                                        else -> if (isNavigationVisible) 1 else 2
+                                        fontScale > 1.1f -> if (toggleableRail) 0 else 1
+                                        else -> if (toggleableRail) 1 else 2
                                     }
-                                },
+                                }*/,
                                 windowInsets = with(customInsets) {
                                     if (is2Pane) only(WindowInsetsSides.Vertical + WindowInsetsSides.End) else this
                                 },
@@ -474,15 +497,17 @@ fun MainScreenAdaptive(
                 .filter { onPrepareMenuItem(it.id) }
                 .forEach {
                     ListItem(
-                        modifier = Modifier.clickable {
-                            showBottomSheet = false
-                            onAppEvent(
-                                AppEvent.MenuItemClicked(
-                                    it.id,
-                                    if (it == MenuItem.WebUI) !isWebUiActive else null
+                        modifier = Modifier
+                            .testTag(it.testTag)
+                            .clickable {
+                                showBottomSheet = false
+                                onAppEvent(
+                                    AppEvent.MenuItemClicked(
+                                        it.id,
+                                        if (it == MenuItem.WebUI) !isWebUiActive else null
+                                    )
                                 )
-                            )
-                        },
+                            },
                         headlineContent = { Text(it.getLabel(LocalContext.current)) },
                         leadingContent = {
                             Icon(

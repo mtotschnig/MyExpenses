@@ -20,4 +20,8 @@
     <string name="synchronization_title">Molnsynkronisering</string>
     <string name="splittransaction_title">Dela upp transaktion</string>
     <string name="professional_benefit_2">E-postsupport</string>
+    <string name="webui_title">Webbgränssnitt</string>
+    <string name="webui_description">Använd dinn dators webbläsare för att mata in data</string>
+    <string name="categorytree_description">Godtyckligt djup kategorihierarki</string>
+    <string name="csvimport_description">Sofistikerat, anpassningsbar CSV-import (kalkylark-program)</string>
 </resources>

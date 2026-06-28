@@ -18,7 +18,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.viewmodel.AbstractSyncBackendViewModel
-import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
+import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 
@@ -26,7 +26,7 @@ object TestViewModelModule : ViewModelModule() {
     override fun provideSyncBackendViewModelClass(): Class<out AbstractSyncBackendViewModel> =
         FakeSyncBackendViewModel::class.java
 
-    override fun provideMyExpensesViewModelClass(): Class<out MyExpensesViewModel> {
+    override fun provideMyExpensesViewModelClass(): Class<out MyExpensesV2ViewModel> {
         return DecoratingMyExpensesViewModel::class.java
     }
 }
@@ -34,7 +34,7 @@ object TestViewModelModule : ViewModelModule() {
 class DecoratingMyExpensesViewModel(
     application: Application,
     savedStateHandle: SavedStateHandle,
-) : MyExpensesViewModel(application, savedStateHandle) {
+) : MyExpensesV2ViewModel(application, savedStateHandle) {
     val countingResource = CountingIdlingResource("TransactionPaging", true)
 
     override fun buildTransactionPagingSource(account: PageAccount) =

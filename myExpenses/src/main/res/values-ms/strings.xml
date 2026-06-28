@@ -145,7 +145,7 @@
     <string name="menu_edit_method">Sunting kaedah pembayaran</string>
     <string name="menu_edit_party">Sunting pihak</string>
     <string name="menu_edit_plan_instance">Sunting kemunculan plan tunggal</string>
-    <string name="menu_edit_split">Sunting pengasingan</string>
+    <string name="menu_edit_split">Edit transaksi berpecah</string>
     <string name="menu_edit_split_part_category">Sunting bahagian pengasingan kategori</string>
     <string name="menu_edit_split_part_transfer">Sunting bahagian pengasingan pemindahan</string>
     <string name="menu_edit_template">Sunting Templat</string>
@@ -169,7 +169,6 @@
     <string name="menu_split_transaction">Ubah untuk diasingkan</string>
     <string name="method">Kaedah pembayaran</string>
     <string name="no_app_handling_email_available">Tiada emel pengendalian apl tersedia.</string>
-    <string name="no_app_handling_ftp_available">Tiada apl pengendalian ftp tersedia. Pasang <i>Hantar Dengan FTP</i>?</string>
     <string name="no_app_handling_mime_type_available">Tiada apl pengendalian fail %s tersedia.</string>
     <string name="no_categories">Tiada kategori.</string>
     <string name="no_expenses">Tiada Perbelanjaan Lagi!</string>
@@ -200,7 +199,7 @@
     <string name="password_security_answer_not_valid">Jawapan salah. Cuba lagi!</string>
     <string name="payee">Penerima bayaran</string>
     <string name="payer">Pembayar</string>
-    <string name="payer_or_payee">Penerima/Pembayar</string>
+    <string name="payer_or_payee">Pihak kaunter</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Plan</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -374,7 +373,6 @@
     <string name="widget_title_accounts">Akaun saya</string>
     <string name="widget_title_templates">Templat saya</string>
     <string name="app_dir_not_accessible">Folder terpilih semasa untuk sandar dan eksport (%1$s) tidak boleh dicapai. Sila pilih yang lain.</string>
-    <string name="app_dir_not_compatible_with_nougat">URI terkonfigur semasa untuk sandar dan eksport (%1$s) tidak disokong di bawah Android Nougat. Sila pilih folder yang lain.</string>
     <string name="search_amount">Gelintar amaun</string>
     <string name="search_category">Gelintar kategori</string>
     <string name="search_comment">Gelintar nota</string>
@@ -643,7 +641,7 @@
     <string name="pref_exchange_rate_provider_summary">Pilih penyedia untuk memuat turun kadar pertukaran</string>
     <string name="pref_exchange_rate_provider_title">Penyedia Kadar Pertukaran</string>
     <string name="pref_exchange_rates_api_key_summary">Sila daftar satu akaun percuma pada %s dan sediakan ID Apl anda</string>
-    <string name="pref_plan_executor_time_title">Masa pemberitahuan perancang</string>
+    <string name="pref_plan_executor_time_title">Masa pemberitahuan</string>
     <string name="menu_create_budget">Belanjawan baharu</string>
     <string name="menu_edit_budget">Edit belanjawan</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
@@ -854,8 +852,8 @@
     <string name="select_all_list_too_large">Perintah %s tidak tersedia kerana hanya sebahagian senarai dimuatkan. Sila gunakan fungsi Carian untuk mengurangkan saiz senarai.</string>
     <string name="pref_copy_attachments_summary_off">Fail tidak disalin, hanya rujukan disimpan.</string>
     <string name="pref_feature_uninstall_summary">Gedung Play cuba untuk akhirnya mengalih keluar modul tersebut di latar belakang.</string>
-    <string name="github_sponsors">Kunci lesen juga diberikan kepada &lt;a href=%s&gt;Penaja Github&lt;/a&gt;.</string>
-    <string name="roadmap_intro">Undian Pelan Hala Tuju 2024 kini dibuka! Undi untuk ciri dan penambahbaikan yang paling penting kepada anda.</string>
+    <string name="github_sponsors"><![CDATA[Kunci lesen juga diberikan kepada <a href=%s>Penaja Github</a>.]]></string>
+    <string name="roadmap_intro">Undian Pelan Hala Tuju %d kini dibuka! Undi untuk ciri dan penambahbaikan yang paling penting kepada anda.</string>
     <string name="subcategories_merged_recursively">Jika mana-mana kategori yang digabungkan mempunyai subkategori dengan label yang sama, kategori tersebut akan digabungkan terlebih dahulu, secara rekursif.</string>
     <string name="notifications_permission_required_auto_backup">Dengan memberikan kebenaran untuk menghantar pemberitahuan, anda akan dimaklumkan tentang auto-sandar.</string>
     <string name="exchange_rate_not_supported">Pembekal kadar pertukaran yang dikonfigurasikan tidak memberikan kadar %1$s : %2$s. Anda boleh cuba memilih yang lain dalam tetapan.</string>

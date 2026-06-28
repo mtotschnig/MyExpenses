@@ -206,7 +206,7 @@
     <string name="pref_csv_import_delimiter">డీలిమిటర్</string>
     <string name="import_source_file">ఫైల్</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s కరెన్సీ ఉన్న%1$d ఖాతాలు నవీకరించబడ్డాయి.</string>
-    <string name="hint_auto_fill">అదే చెల్లింపుదారు / చెల్లించువారు కోసం చివరి లావాదేవీ నుండి డేటా స్వయంచాలకంగా నింపాలా\? మీరు ఈ ప్రవర్తనను ఎల్లప్పుడూ సెట్టింగ్‌ల నుండి మార్చవచ్చు.</string>
+    <string name="hint_auto_fill">అదే చెల్లింపుదారు / చెల్లించువారు కోసం చివరి లావాదేవీ నుండి డేటా స్వయంచాలకంగా నింపాలా? మీరు ఈ ప్రవర్తనను ఎల్లప్పుడూ సెట్టింగ్‌ల నుండి మార్చవచ్చు.</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">కొనుగోలు విఫలమైంది లేదా రద్దు చేయబడింది.</string>
     <string name="comparison_operator_date_after">తరువాత</string>
     <string name="comparison_operator_date_before">ముందు</string>
@@ -226,7 +226,6 @@
     <string name="search_comment">గమనికల కోసం శోధించండి</string>
     <string name="search_category">వర్గం కోసం శోధించండి</string>
     <string name="search_amount">మొత్తం కోసం శోధించండి</string>
-    <string name="app_dir_not_compatible_with_nougat">Android నౌగాట్ క్రింద బ్యాకప్‌లు మరియు ఎగుమతుల (%1$s) కోసం ప్రస్తుతం కాన్ఫిగర్ చేయబడిన URI కి మద్దతు లేదు. దయచేసి మళ్ళీ ఫోల్డర్‌ను ఎంచుకోండి.</string>
     <string name="app_dir_not_accessible">బ్యాకప్‌లు మరియు ఎగుమతుల (%1$s) కోసం ప్రస్తుతం ఎంచుకున్న ఫోల్డర్ ప్రాప్యత చేయబడదు. దయచేసి వేరేదాన్ని ఎంచుకోండి.</string>
     <string name="widget_title_templates">నా టెంప్లేట్లు</string>
     <string name="widget_title_accounts">నా ఖాతాలు</string>
@@ -404,7 +403,7 @@
     <string name="plan_calendar_name">{app_name} ప్లానర్</string>
     <string name="plan_automatic">ఆటోమేటిక్</string>
     <string name="plan">ప్రణాళిక</string>
-    <string name="payer_or_payee">చెల్లింపుదారుడు / చెల్లించేవాడు</string>
+    <string name="payer_or_payee">ప్రత్యర్థి పార్టీ</string>
     <string name="payer">చెల్లింపుదారులు</string>
     <string name="payee">చెల్లింపుదారుడు</string>
     <string name="password_security_answer_not_valid">తప్పు జవాబు. మళ్ళీ ప్రయత్నించండి!</string>
@@ -548,7 +547,6 @@
     <string name="no_expenses">ఇంకా ఖర్చులు లేవు!</string>
     <string name="no_categories">వర్గాలు లేవు.</string>
     <string name="no_app_handling_mime_type_available">%s ఫైల్‌లను నిర్వహించే అనువర్తనం అందుబాటులో లేదు.</string>
-    <string name="no_app_handling_ftp_available">అనువర్తన నిర్వహణ ftp అందుబాటులో లేదు. ఇన్‌స్టాల్ చేయండి <i> FTP తో పంపండి </i>\?</string>
     <string name="no_app_handling_email_available">అనువర్తన నిర్వహణ ఇమెయిల్ అందుబాటులో లేదు.</string>
     <string name="method">చెల్లింపు విధానము</string>
     <string name="menu_split_transaction">విడిపోవడానికి రూపాంతరం</string>
@@ -570,7 +568,7 @@
     <string name="menu_edit_template">మూసను సవరించండి</string>
     <string name="menu_edit_split_part_transfer">బదిలీ స్ప్లిట్ భాగాన్ని సవరించండి</string>
     <string name="menu_edit_split_part_category">వర్గం స్ప్లిట్ భాగాన్ని సవరించండి</string>
-    <string name="menu_edit_split">స్ప్లిట్ సవరించండి</string>
+    <string name="menu_edit_split">విభజన లావాదేవీని సవరించండి</string>
     <string name="menu_edit_plan_instance">ఒకే ప్రణాళిక సంభవించడాన్ని సవరించండి</string>
     <string name="menu_edit_party">పార్టీని సవరించండి</string>
     <string name="menu_edit_method">చెల్లింపు పద్ధతిని సవరించండి</string>
@@ -692,7 +690,7 @@
     <string name="menu_create_budget">కొత్త బడ్జెట్</string>
     <string name="discover_feature_expense_income_switch">ఆదాయాన్ని రికార్డ్ చేయడానికి ఈ స్విచ్ బటన్‌ను ఉపయోగించండి.</string>
     <string name="synchronization_select_folder_dialog_title">ఇప్పటికే ఉన్న ఫోల్డర్‌ను ఎంచుకోండి లేదా క్రొత్తదాన్ని సృష్టించండి</string>
-    <string name="pref_plan_executor_time_title">ప్లానర్ నోటిఫికేషన్ సమయం</string>
+    <string name="pref_plan_executor_time_title">నోటిఫికేషన్ సమయం</string>
     <string name="pref_exchange_rates_api_key_summary">దయచేసి %s లో ఉచిత ఖాతాను నమోదు చేసి, మీ App ID ని అందించండి</string>
     <string name="pref_exchange_rate_provider_title">మార్పిడి రేటు ప్రొవైడర్</string>
     <string name="pref_exchange_rate_provider_summary">మార్పిడి రేట్లను డౌన్‌లోడ్ చేయడానికి ప్రొవైడర్‌ను ఎంచుకోండి</string>

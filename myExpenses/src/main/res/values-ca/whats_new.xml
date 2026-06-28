@@ -7,4 +7,5 @@
     <string name="whats_new_401">La llista de transaccions ara mostra més detalls per a les transaccions dividides.</string>
     <string name="whats_new_402">Els tipus de compte es poden personalitzar</string>
     <string name="whats_new_403">Els indicadors de compte amplien la personalització de la visibilitat i la prioritat del compte.</string>
+    <string name="whats_new_407">Ordenació natural per a etiquetes, categories, comptes i tercers.</string>
 </resources>

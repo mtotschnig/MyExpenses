@@ -16,6 +16,7 @@ class ClearingLastPagingSourceFactory<Key : Any, Value : Any, Source: ClearingPa
     override fun invoke(): Source {
         return pagingSourceFactory().also {
             it.compareWithLast(lastPagingSource)
+            lastPagingSource?.clear()
             lastPagingSource = it
         }
     }

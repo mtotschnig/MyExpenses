@@ -190,6 +190,9 @@
 
 % KUNDENDATEN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\kunde}{${KUNDE}}                                %
+\newcommand{\kundeAddrA}{${KUNDE_ADDR_A}}                    %
+\newcommand{\kundeAddrB}{${KUNDE_ADDR_B}}                    %
+\newcommand{\kundeVAT}{${KUNDE_VAT}}                         %
 \renewcommand{\country}{${COUNTRY}}                          %
 \setkomavar{invoice}{${NUMBER}}                              %
 % Rechnungs daten                                            %
@@ -203,6 +206,7 @@
 \FPmul{\vatCalc}{\price}{\vatFraction}
 \FPadd{\total}{\price}{\vatCalc}
 
+\newcommand{\ifnotempty}[2]{\ifthenelse{\equal{#1}{}}{}{#2}}
 
 %---------------------------------------------------------------------------
 % Absender Daten
@@ -215,7 +219,7 @@
 \setkomavar{ustid}{DE290355685}
 \setkomavar{backaddressseparator}{ - }
 %\setkomavar{backaddress}{Max Mustermann, alternative Straße, alternative Stadt} % wenn erwünscht kann hier eine andere Backaddress eingetragen werden
-\setkomavar{signature}{Michael TOTSCHNIG} 
+\setkomavar{signature}{Michael TOTSCHNIG}
 % signature same indention level as rest
 \renewcommand*{\raggedsignature}{\raggedright}
 \setkomavar{location}{\raggedleft
@@ -233,7 +237,7 @@
 %---------------------------------------------------------------------------
 \setkomavar{firstfoot}{\footnotesize%
 \rule[3pt]{\textwidth}{.4pt} \\
-\begin{tabular}[t]{l@{}}% 
+\begin{tabular}[t]{l@{}}%
 \usekomavar{fromname}\\
 \usekomavar{fromaddress}\\
 \usekomavar[\Letter~]{fromemail}\\
@@ -245,7 +249,7 @@ Bank details \\
 \usekomavar{frombank}
 \end{tabular}%
 }%
-}% 
+}%
 %---------------------------------------------------------------------------
 % Bankverbindung
 \setkomavar{frombank}{Michael Totschnig \\
@@ -268,7 +272,13 @@ Solarisbank AG}
 %---------------------------------------------------------------------------
 % Hier beginnt der Brief, mit der Anschrift des Empfängers
 
-\begin{letter}{\kunde\\\countryName}
+\begin{letter}{%
+  \kunde
+  \ifnotempty{\kundeAddrA}{\\\kundeAddrA}%
+  \ifnotempty{\kundeAddrB}{\\\kundeAddrB}%
+  \ifnotempty{\kundeVAT}{\\VAT-Number: \kundeVAT}%
+  \ifnotempty{\country}{\\\countryName}%
+}
 %---------------------------------------------------------------------------
 % Der Betreff des Briefes
 \setkomavar{subject}{Pro Forma Invoice}

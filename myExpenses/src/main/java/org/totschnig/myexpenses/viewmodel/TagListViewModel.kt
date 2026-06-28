@@ -79,7 +79,9 @@ class TagListViewModel(application: Application, savedStateHandle: SavedStateHan
                 selectionArgs = accountSelectionArgs,
                 notifyForDescendants = true
             ).mapToList(mapper = Tag.Companion::fromCursor)
-                .collect(tagsInternal::postValue)
+                .collect {
+                    tagsInternal.postValue(it.safeSortedWith(compareBy(getNaturalComparator()) { it.label }))
+                }
         }
     }
 

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.TooltipCompat
 import androidx.core.view.isVisible
-import com.evernote.android.state.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.HELP_VARIANT_SPLIT
 import org.totschnig.myexpenses.activity.HELP_VARIANT_TEMPLATE_SPLIT
@@ -79,7 +78,7 @@ class SplitDelegate(
             TooltipCompat.setTooltipText(this, helpText)
             contentDescription = helpText
             setOnClickListener {
-                host.createRow(unsplitAmount?.amountMajor)
+                host.createRow(unsplitAmount)
             }
         }
         viewBinding.unsplitLine.setOnClickListener {
@@ -169,7 +168,7 @@ class SplitDelegate(
     val unsplitAmountFormatted: String?
         get() = unsplitAmount?.let { currencyFormatter.formatMoney(it) }
 
-    private val unsplitAmount: Money?
+    val unsplitAmount: Money?
         get() = host.amount?.let {
             Money(it.currencyUnit, it.amountMinor - transactionSum)
         }
@@ -180,10 +179,12 @@ class SplitDelegate(
     private fun requireAdapter() {
         if (!::adapter.isInitialized) {
             adapter = SplitPartRVAdapter(
-                context,
-                currentAccount()!!.currency,
-                currencyFormatter
-            ) { view, _ -> host.openContextMenu(view) }
+                context = context,
+                currencyUnit = currentAccount()!!.currency,
+                currencyFormatter = currencyFormatter,
+                onItemClicked = { host.editSplitPart(it) },
+                onItemLongClicked = { host.openContextMenu(it) }
+            )
             viewBinding.list.adapter = adapter
         }
         showSplits(splitParts)

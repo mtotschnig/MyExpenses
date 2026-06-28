@@ -80,7 +80,7 @@ sealed class AccountGrouping<T : AccountGroupingKey>(
     }
 
     companion object {
-        val DEFAULT = TYPE
+        val DEFAULT: AccountGrouping<*> get() = TYPE
         val V1_VALUES by lazy { arrayOf(TYPE, CURRENCY, NONE) }
         val ALL_VALUES by lazy { arrayOf(TYPE, CURRENCY, FLAG, NONE) }
 

@@ -34,6 +34,7 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeatureNotAvailableException
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage
+import org.totschnig.myexpenses.viewmodel.InvalidDataException
 import org.totschnig.myexpenses.viewmodel.QifImportViewModel
 
 class QifImport : ProtectedFragmentActivity() {
@@ -83,7 +84,7 @@ class QifImport : ProtectedFragmentActivity() {
             withCategories, withParties, encoding, autoFillCategories
         ).observe(this) { result ->
             result.onFailure {
-                if (it !is ContribFeatureNotAvailableException) {
+                if (it !is ContribFeatureNotAvailableException && it !is InvalidDataException) {
                     CrashHandler.report(it)
                 }
                 val errorMessage = it.safeMessage

@@ -7,12 +7,15 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.SortByAlpha
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.CheckableMenuEntry
 import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.SubMenuEntry
+import org.totschnig.myexpenses.compose.TEST_TAG_OVERFLOW_MENU
 import org.totschnig.myexpenses.compose.TooltipIconMenu
 import org.totschnig.myexpenses.compose.UiText
 import org.totschnig.myexpenses.compose.main.AppEvent
@@ -108,6 +111,7 @@ fun ActionMenu(
 ) {
     if (items.isNotEmpty()) {
         TooltipIconMenu(
+            modifier = Modifier.testTag(TEST_TAG_OVERFLOW_MENU),
             imageVector = Icons.Default.MoreVert,
             tooltip = stringResource(R.string.actions),
             menu = items
@@ -116,20 +120,23 @@ fun ActionMenu(
                         it == MenuItem.Tune -> SubMenuEntry(
                             label = UiText.StringValue(it.getLabel(LocalContext.current)),
                             icon = { it.painter },
-                            subMenu = viewOptions(currentAccount, onEvent)
+                            subMenu = viewOptions(currentAccount, onEvent),
+                            command = it.testTag
                         )
                         it.isCheckable -> {
                             val isChecked = isChecked(it)
                             CheckableMenuEntry(
                                 label = UiText.StringValue(it.getLabel(LocalContext.current)),
-                                isChecked = isChecked
+                                isChecked = isChecked,
+                                command = it.testTag
                             ) {
                                 onEvent(AppEvent.MenuItemClicked(it.id, !isChecked))
                             }
                         }
                         else -> MenuEntry(
                             label = UiText.StringValue(it.getLabel(LocalContext.current)),
-                            icon = { it.painter }
+                            icon = { it.painter },
+                            command = it.testTag
                         ) { onEvent(AppEvent.MenuItemClicked(it.id)) }
                     }
                 }

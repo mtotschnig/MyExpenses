@@ -39,4 +39,5 @@
     <string name="migration_v2_opt_out_warning">V1 ще бъде премахната при следващи обновления. Бихме желали да научим, ако нещо не е както трябва, за да подобрим V2.</string>
     <string name="migration_v2_feedback_title">Какво не работи във V2?</string>
     <string name="migration_v2_confirm_opt_out">Връщане към V1</string>
+    <string name="whats_new_407">Естествено сортиране за маркери, категории, сметки, страни.</string>
 </resources>

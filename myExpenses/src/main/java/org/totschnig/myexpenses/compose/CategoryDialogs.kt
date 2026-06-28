@@ -32,11 +32,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
-import org.totschnig.myexpenses.viewmodel.CategoryViewModel
+import org.totschnig.myexpenses.viewmodel.ManageCategoriesViewModel
 
 @Composable
 fun CategoryEdit(
-    dialogState: CategoryViewModel.Edit,
+    dialogState: ManageCategoriesViewModel.Edit,
     onDismissRequest: () -> Unit = {},
     onSave: (String, String?, Byte) -> Unit = { _, _, _ -> }
 ) {
@@ -113,7 +113,7 @@ fun CategoryEdit(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryMerge(
-    dialogState: CategoryViewModel.Merge,
+    dialogState: ManageCategoriesViewModel.Merge,
     onDismissRequest: () -> Unit = {},
     onMerge: (Int) -> Unit
 ) {
@@ -185,5 +185,5 @@ fun CategoryMerge(
 @Preview(widthDp = 200)
 @Composable
 private fun PreviewDialog() {
-    CategoryEdit(dialogState = CategoryViewModel.Edit())
+    CategoryEdit(dialogState = ManageCategoriesViewModel.Edit())
 }

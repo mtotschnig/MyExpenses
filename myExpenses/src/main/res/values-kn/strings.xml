@@ -146,7 +146,7 @@
     <string name="menu_edit_method">ಪಾವತಿ ವಿಧಾನವನ್ನು ಸಂಪಾದಿಸಿ</string>
     <string name="menu_edit_party">ಪಕ್ಷವನ್ನು ಸಂಪಾದಿಸಿ</string>
     <string name="menu_edit_plan_instance">ಒಂದೇ ಯೋಜನೆ ಸಂಭವಿಸುವಿಕೆಯನ್ನು ಸಂಪಾದಿಸಿ</string>
-    <string name="menu_edit_split">ವಿಭಜನೆಯನ್ನು ಸಂಪಾದಿಸಿ</string>
+    <string name="menu_edit_split">ವಿಭಜನೆ ವಹಿವಾಟನ್ನು ಸಂಪಾದಿಸಿ</string>
     <string name="menu_edit_split_part_category">ವರ್ಗ ವಿಭಜಿತ ಭಾಗವನ್ನು ಸಂಪಾದಿಸಿ</string>
     <string name="menu_edit_split_part_transfer">ವರ್ಗಾವಣೆ ವಿಭಜಿತ ಭಾಗವನ್ನು ಸಂಪಾದಿಸಿ</string>
     <string name="menu_edit_template">ಟೆಂಪ್ಲೇಟು ಸಂಪಾದಿಸಿ</string>
@@ -170,7 +170,6 @@
     <string name="menu_split_transaction">ವಿಭಜನೆಗೆ ರೂಪಾಂತರ</string>
     <string name="method">ಪಾವತಿ ವಿಧಾನ</string>
     <string name="no_app_handling_email_available">ಯಾವುದೇ ಅಪ್ಲಿಕೇಶನ್ ನಿರ್ವಹಣಾ ಇಮೇಲ್ ಲಭ್ಯವಿಲ್ಲ.</string>
-    <string name="no_app_handling_ftp_available">ಯಾವುದೇ ಅಪ್ಲಿಕೇಶನ್ ಹ್ಯಾಂಡ್ಲಿಂಗ್ ftp ಲಭ್ಯವಿಲ್ಲ. ಸ್ಥಾಪಿಸಿ <i> ಎಫ್‌ಟಿಪಿ ಯೊಂದಿಗೆ ಕಳುಹಿಸಿ </i>\?</string>
     <string name="no_app_handling_mime_type_available">%s ಫೈಲ್‌ಗಳನ್ನು ನಿರ್ವಹಿಸುವ ಯಾವುದೇ ಅಪ್ಲಿಕೇಶನ್ ಲಭ್ಯವಿಲ್ಲ.</string>
     <string name="no_categories">ಯಾವುದೇ ವರ್ಗಗಳಿಲ್ಲ.</string>
     <string name="no_expenses">ಇನ್ನೂ ವೆಚ್ಚಗಳಿಲ್ಲ!</string>
@@ -204,7 +203,7 @@
     <string name="password_security_answer_not_valid">ತಪ್ಪು ಉತ್ತರ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ!</string>
     <string name="payee">ಪಾವತಿಸುವವರು</string>
     <string name="payer">ಪಾವತಿಸುವವರು</string>
-    <string name="payer_or_payee">ಪಾವತಿಸುವವರು / ಪಾವತಿಸಿದವರು</string>
+    <string name="payer_or_payee">ಪ್ರತಿಪಕ್ಷ</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">ಯೋಜನೆ</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -383,7 +382,6 @@
     <string name="widget_title_accounts">ನನ್ನ ಖಾತೆಗಳು</string>
     <string name="widget_title_templates">ನನ್ನ ಟೆಂಪ್ಲೇಟ್‌ಗಳು</string>
     <string name="app_dir_not_accessible">ಬ್ಯಾಕಪ್‌ಗಳು ಮತ್ತು ರಫ್ತುಗಳಿಗಾಗಿ ಪ್ರಸ್ತುತ ಆಯ್ಕೆ ಮಾಡಲಾದ ಫೋಲ್ಡರ್ (%1$s) ಪ್ರವೇಶಿಸಲಾಗುವುದಿಲ್ಲ. ದಯವಿಟ್ಟು ಬೇರೆ ಒಂದನ್ನು ಆರಿಸಿ.</string>
-    <string name="app_dir_not_compatible_with_nougat">ಆಂಡ್ರಾಯ್ಡ್ ನೌಗಾಟ್ ಅಡಿಯಲ್ಲಿ ಬ್ಯಾಕಪ್ ಮತ್ತು ರಫ್ತುಗಳಿಗಾಗಿ ಪ್ರಸ್ತುತ ಕಾನ್ಫಿಗರ್ ಮಾಡಲಾದ ಯುಆರ್ಐ (%1$s) ಬೆಂಬಲಿಸುವುದಿಲ್ಲ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಫೋಲ್ಡರ್ ಆಯ್ಕೆಮಾಡಿ.</string>
     <string name="search_amount">ಮೊತ್ತಕ್ಕಾಗಿ ಹುಡುಕಿ</string>
     <string name="search_category">ವರ್ಗಕ್ಕಾಗಿ ಹುಡುಕಿ</string>
     <string name="search_comment">ಟಿಪ್ಪಣಿಗಳಿಗಾಗಿ ಹುಡುಕಿ</string>
@@ -666,7 +664,7 @@
     <string name="pref_category_exchange_rates">ವಿನಿಮಯ ದರಗಳು</string>
     <string name="pref_exchange_rate_provider_summary">ವಿನಿಮಯ ದರಗಳನ್ನು ಡೌನ್‌ಲೋಡ್ ಮಾಡಲು ಒದಗಿಸುವವರನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
     <string name="pref_exchange_rate_provider_title">ವಿನಿಮಯ ದರ ಒದಗಿಸುವವರು</string>
-    <string name="pref_plan_executor_time_title">ಯೋಜಕರ ಅಧಿಸೂಚನೆ ಸಮಯ</string>
+    <string name="pref_plan_executor_time_title">ಅಧಿಸೂಚನೆಯ ಸಮಯ</string>
     <string name="synchronization_select_folder_dialog_title">ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಫೋಲ್ಡರ್ ಆಯ್ಕೆಮಾಡಿ ಅಥವಾ ಹೊಸದನ್ನು ರಚಿಸಿ</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch">ಆದಾಯವನ್ನು ದಾಖಲಿಸಲು ಈ ಸ್ವಿಚ್ ಬಟನ್ ಬಳಸಿ.</string>

@@ -1,13 +1,12 @@
 package org.totschnig.myexpenses.test.espresso
 
+import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performScrollToIndex
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.junit.After
 import org.junit.Before
+import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.TEST_TAG_ACCOUNT_LABEL
 import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.findAccountFlag
@@ -36,16 +35,15 @@ class AccountOrderTest : BaseMyExpensesTest() {
         val usages: Int,
         val customSort: Int,
         val id: Long = 0,
-        val visible: Boolean = true
+        val visible: Boolean = true,
     )
 
     @Before
     fun fixture() {
-        prefHandler.putBoolean(PrefKey.ACCOUNT_PANEL_VISIBLE, true)
         accounts = listOf(
             TestAccount("Test account 1", 1L, 2, 3).buildAccount(),
-            TestAccount("Test account 2", 3L, 1, 1).buildAccount(),
-            TestAccount("Test account 3", 2L, 3, 2).buildAccount()
+            TestAccount("Test account 5", 3L, 1, 1).buildAccount(),
+            TestAccount("Test account 10", 2L, 3, 2).buildAccount()
         )
         hiddenAccount = TestAccount("Test account 4", 0L, 0, 0, visible = false).buildAccount()
     }
@@ -100,10 +98,12 @@ class AccountOrderTest : BaseMyExpensesTest() {
         expectedOrder.forEachIndexed { index, account->
             composeTestRule.onNodeWithTag(TEST_TAG_PAGER)
                 .performScrollToIndex(index)
-            onView(withText(account.label)).check(matches(isDisplayed()))
+            composeTestRule.onNodeWithTag(TEST_TAG_ACCOUNT_LABEL, true)
+                .assertTextEquals(account.label)
         }
         composeTestRule.onNodeWithTag(TEST_TAG_PAGER)
-            .performScrollToIndex(3)
-        onView(withText(homeCurrency.code)).check(matches(isDisplayed()))
+            .performScrollToIndex(accounts.size)
+        composeTestRule.onNodeWithTag(TEST_TAG_ACCOUNT_LABEL, true)
+            .assertTextEquals(getString(R.string.grand_total))
     }
 }

@@ -63,7 +63,8 @@ import timber.log.Timber
 import java.io.Serializable
 import javax.inject.Inject
 
-class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace, SortUtilityDialogFragment.OnConfirmListener {
+class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace,
+    SortUtilityDialogFragment.OnConfirmListener {
 
     @Inject
     lateinit var configurator: Configurator
@@ -84,7 +85,7 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace, SortUtility
     private val dismissCallback = object : Snackbar.Callback() {
         override fun onDismissed(
             transientBottomBar: Snackbar,
-            event: Int
+            event: Int,
         ) {
             if (event == DISMISS_EVENT_SWIPE || event == DISMISS_EVENT_ACTION)
                 licenceValidationViewModel.messageShown()
@@ -168,13 +169,30 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace, SortUtility
                     )
                     .commitNow()
                 lifecycleScope.launch {
-                    progressViewModel.appendToMessage(TextUtils.concatResStrings(this@PreferenceActivity, ": ", R.string.progress_recalculating, R.string.price_history))
+                    progressViewModel.appendToMessage(
+                        TextUtils.concatResStrings(
+                            this@PreferenceActivity,
+                            ": ",
+                            R.string.progress_recalculating,
+                            R.string.price_history
+                        )
+                    )
                     val updatedPrices = priceCalculationViewModel.reCalculatePrices(currencyCode)
                     progressViewModel.appendToMessage(updatedPrices.toString())
-                    progressViewModel.appendToMessage(TextUtils.concatResStrings(this@PreferenceActivity, ": ", R.string.progress_recalculating, R.string.equivalent_amount_plural))
-                    val updatedTransactions = priceCalculationViewModel.reCalculateEquivalentAmounts(currencyCode)
-                    progressViewModel.appendToMessage(updatedTransactions.let { (it.first + it.second) }.toString() )
-                    val dataFragment: PreferenceDataFragment? = twoPanePreference.getDetailFragment()
+                    progressViewModel.appendToMessage(
+                        TextUtils.concatResStrings(
+                            this@PreferenceActivity,
+                            ": ",
+                            R.string.progress_recalculating,
+                            R.string.equivalent_amount_plural
+                        )
+                    )
+                    val updatedTransactions =
+                        priceCalculationViewModel.reCalculateEquivalentAmounts(currencyCode)
+                    progressViewModel.appendToMessage(updatedTransactions.let { (it.first + it.second) }
+                        .toString())
+                    val dataFragment: PreferenceDataFragment? =
+                        twoPanePreference.getDetailFragment()
                     if (dataFragment != null) {
                         dataFragment.updateHomeCurrency(currencyCode)
                     } else {
@@ -312,7 +330,10 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace, SortUtility
 
             getKey(PrefKey.PRINT_FONT_SIZE) -> LazyFontSelector.FontType.clearCache()
 
-            getKey(PrefKey.AUTOMATIC_EXCHANGE_RATE_DOWNLOAD) -> DailyExchangeRateDownloadService.enqueueOrCancel(this, prefHandler)
+            getKey(PrefKey.AUTOMATIC_EXCHANGE_RATE_DOWNLOAD) -> DailyExchangeRateDownloadService.enqueueOrCancel(
+                this,
+                prefHandler
+            )
         }
     }
 
@@ -364,6 +385,7 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace, SortUtility
                 .observe(this) {
                     showSnackBar(resources.getQuantityString(R.plurals.delete_success, it, it))
                 }
+
             R.id.WEB_UI_COMMAND -> onStartWebUi()
         }
     }
@@ -393,8 +415,10 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace, SortUtility
             ContribFeature.CSV_IMPORT -> {
                 startActivity(Intent(this, CsvImportActivity::class.java))
             }
+
             ContribFeature.AUTOMATIC_FX_DOWNLOAD -> {
-                twoPanePreference.getDetailFragment<PreferenceDataFragment>()?.activateAutomaticDownload()
+                twoPanePreference.getDetailFragment<PreferenceDataFragment>()
+                    ?.activateAutomaticDownload()
             }
 
             else -> super.contribFeatureCalled(feature, tag)
@@ -448,12 +472,9 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace, SortUtility
     }
 
     @Deprecated("Deprecated in Java")
-    override fun onCreateDialog(id: Int): Dialog? = when (id) {
-        R.id.FTP_DIALOG -> DialogUtils.sendWithFTPDialog(this)
-        else -> {
-            CrashHandler.report(IllegalStateException("onCreateDialog called with $id"))
-            super.onCreateDialog(id)
-        }
+    override fun onCreateDialog(id: Int): Dialog? = run {
+        CrashHandler.report(IllegalStateException("onCreateDialog called with $id"))
+        super.onCreateDialog(id)
     }
 
     override fun onWebUiActivated() {

@@ -143,7 +143,7 @@
     <string name="menu_edit_method">Chỉnh sửa phương thức thanh toán</string>
     <string name="menu_edit_party">Chỉnh sửa bên</string>
     <string name="menu_edit_plan_instance">Chỉnh sửa sự xuất hiện của kế hoạch một lần</string>
-    <string name="menu_edit_split">Chỉnh sửa phần phân tách</string>
+    <string name="menu_edit_split">Chỉnh sửa giao dịch chia nhỏ</string>
     <string name="menu_edit_split_part_category">Chỉnh sửa phần phân loại phân tách</string>
     <string name="menu_edit_split_part_transfer">Chỉnh sửa phần tách của giao dịch chuyển khoản</string>
     <string name="menu_edit_template">Chỉnh sửa mẫu</string>
@@ -167,7 +167,6 @@
     <string name="menu_split_transaction">Chuyển thành dạng phân tách</string>
     <string name="method">Phương thức thanh toán</string>
     <string name="no_app_handling_email_available">Không có ứng dụng nào hiện có để xử lý email</string>
-    <string name="no_app_handling_ftp_available">Hiện không có ứng dụng xử lý ftp. Cài đặt <i>Send With FTP</i>?</string>
     <string name="no_app_handling_mime_type_available">Không có ứng dụng để xử lý %s.</string>
     <string name="no_categories">Không có phân loại nào.</string>
     <string name="no_expenses">Chưa có giao dịch nào!</string>
@@ -198,7 +197,7 @@
     <string name="password_security_answer_not_valid">Câu trả lời sai. Thử lại lần nữa!</string>
     <string name="payee">Người được trả</string>
     <string name="payer">Người trả</string>
-    <string name="payer_or_payee">Người nhận trả/Người trả</string>
+    <string name="payer_or_payee">Đối tác</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Kế hoạch</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -371,7 +370,6 @@
     <string name="widget_title_accounts">Tài khoản của tôi</string>
     <string name="widget_title_templates">Bản mẫu của tôi</string>
     <string name="app_dir_not_accessible">Thư mục được chọn hiện tại cho sao lưu và xuất ra (%1$s) không thể truy nhập được. Vui lòng chọn một cái khác.</string>
-    <string name="app_dir_not_compatible_with_nougat">URI đang được thiết lập cho sao lưu và xuất (%1$s) không được hỗ trợ trong Android Nougat. Vui lòng chọn lại thư mục khác.</string>
     <string name="search_amount">Tìm dựa vào số tiền</string>
     <string name="search_category">Tìm dựa vào danh mục</string>
     <string name="search_comment">Tìm dựa vào ghi chú</string>
@@ -663,7 +661,7 @@
     <string name="budget_table_header_rollover">Chuyển khoản</string>
     <string name="menu_reconfigure">Cấu hình lại</string>
     <string name="database_is_encrypted">Cơ sở dữ liệu được mã hóa.</string>
-    <string name="github_sponsors">Khóa cấp phép cũng được cung cấp cho &lt;a href=%s&gt;Nhà tài trợ Github&lt;/a&gt;.</string>
+    <string name="github_sponsors"><![CDATA[Khóa cấp phép cũng được cung cấp cho <a href=%s>Nhà tài trợ Github</a>.]]></string>
     <string name="notifications_permission_required_auto_backup">Bằng cách cấp quyền gửi thông báo, bạn sẽ được thông báo về tự động sao lưu.</string>
     <string name="notifications_channel_required">Vui lòng bật kênh %s.</string>
     <string name="debt_lend_additional">Tôi cho mượn %s.</string>
@@ -689,7 +687,7 @@
     <string name="warning_unlink_transfer">Chuyển khoản đã chọn sẽ bị hủy liên kết: Nó sẽ được thay thế bằng các giao dịch thông thường trong cả hai tài khoản.</string>
     <string name="menu_transform_to_transfer">Chuyển thành chuyển khoản</string>
     <string name="warning_transform_to_transfer">Giao dịch đã chọn sẽ được thay thế bằng chuyển khoản từ %1$s sang %2$s.</string>
-    <string name="roadmap_intro">Cuộc bỏ phiếu Lộ trình năm 2024 hiện đã mở! Bình chọn cho các tính năng và cải tiến quan trọng nhất đối với bạn.</string>
+    <string name="roadmap_intro">Cuộc bỏ phiếu Lộ trình năm %d hiện đã mở! Bình chọn cho các tính năng và cải tiến quan trọng nhất đối với bạn.</string>
     <string name="auto_fill_focus">Đặt trọng tâm vào người nhận thanh toán</string>
     <string name="tags_create_or_select">Tạo hoặc chọn thẻ</string>
     <string name="cb_label_merge_accounts">Hợp nhất tài khoản</string>
@@ -867,7 +865,7 @@
     <string name="exchange_rate_not_supported">Nhà cung cấp tỷ giá hối đoái được cấu hình không cung cấp tỷ giá %1$s : %2$s. Bạn có thể thử chọn một cái khác trong cài đặt.</string>
     <string name="pref_exchange_rate_provider_summary">Chọn nhà cung cấp để tải xuống tỷ giá hối đoái</string>
     <string name="pref_exchange_rate_provider_title">Nhà cung cấp tỷ giá hối đoái</string>
-    <string name="pref_plan_executor_time_title">Thời gian thông báo của người lập kế hoạch</string>
+    <string name="pref_plan_executor_time_title">Thời gian thông báo</string>
     <string name="no_budgets">Xác định ngân sách đầu tiên của bạn bằng cách nhấn vào nút +.</string>
     <string name="budget_filter_all_tags">Tất cả các thẻ</string>
     <string name="budget_filter_all_accounts">Tất cả tài khoản</string>

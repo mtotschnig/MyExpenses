@@ -17,11 +17,11 @@
     <string name="account">Λογαριασμός</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Τύποι λογαριασμού</string>
-    <string name="account_type_asset">Λογαριασμός Παγίων, αξία περιουσίας</string>
-    <string name="account_type_bank">Τραπεζικός λογαριασμός</string>
-    <string name="account_type_cash">Τρεχούμενος λογαριασμός</string>
+    <string name="account_type_asset">Άλλα περιουσιακά στοιχεία</string>
+    <string name="account_type_bank">Τράπεζα</string>
+    <string name="account_type_cash">Μετρητά</string>
     <string name="account_type_ccard">Πιστωτική κάρτα</string>
-    <string name="account_type_liability">Λογαριασμός παθητικού</string>
+    <string name="account_type_liability">Λοιπές υποχρεώσεις</string>
     <string name="already_defined">%1$s ήδη οριστεί</string>
     <string name="amount">Ποσό</string>
     <string name="app_name">Έξοδα μου</string>
@@ -34,7 +34,7 @@
     <string name="contrib_feature_plans_unlimited_label">Απεριόριστος αριθμός σχεδίων</string>
     <string name="contrib_feature_print_label">Εξαγάγετε τη λίστα συναλλαγών σε PDF</string>
     <string name="contrib_feature_csv_import_label">Εισαγωγή CSV</string>
-    <string name="contrib_feature_split_template_label">Απεριόριστος αριθμός προτύπων διαίρεσης</string>
+    <string name="contrib_feature_split_template_label">Απεριόριστος αριθμός προτύπων διαχωρισμού</string>
     <string name="contrib_feature_pro_support_label"><b>Υποστήριξη ηλεκτρονικού ταχυδρομείου</b> με εγγυημένη απόκριση εντός 2 εργάσιμων ημερών</string>
     <string name="contrib_feature_roadmap_voting_label">Δικαίωμα ψήφου για τον <b>χάρτη πορείας</b></string>
     <string name="contrib_feature_history_label">Γράφημα ιστορικού</string>
@@ -61,7 +61,7 @@
     <string name="dialog_contrib_text_2">Παρακαλώ συνεισφέρετε αναβαθμίζοντας το <i>{app_name}</i> και αποκτήσετε απεριόριστη πρόσβαση στις παρακάτω δυνατότητες:</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Η άδεια που κατέχετε (%2$s) σας επιτρέπει να δημιουργήσετε %1$d λογαριασμούς.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Η άδεια που κατέχετε (%2$s) σας επιτρέπει να δημιουργήσετε %1$d πλάνα.</string>
-    <string name="dialog_contrib_usage_limit_split_templates">Η τρέχουσα άδεια χρήσης σας (%1$s), σας επιτρέπει να δημιουργήσετε 1 πρότυπο διαίρεσης.</string>
+    <string name="dialog_contrib_usage_limit_split_templates">Η τρέχουσα άδεια χρήσης σας (%1$s), σας επιτρέπει να δημιουργήσετε 1 πρότυπο διαχωρισμού.</string>
     <string name="dialog_export_delete">Διαγράψετε εξαγόμενες συναλλαγές</string>
     <string name="dialog_export_not_yet_exported">Εξαγάγετε μόνο τις συναλλαγές που δεν έχει ακόμη εξαχθεί</string>
     <string name="dialog_password_activate_protection">Ενεργοποιήσετε την προστασία με κωδικό πρόσβασης</string>
@@ -128,9 +128,9 @@
     <string name="menu_create_main_cat">Νέα κύρια κατηγορία</string>
     <string name="menu_create_method">Νέα μέθοδος πληρωμής</string>
     <string name="menu_create_party">Νέο μέρος-πρόσωπο</string>
-    <string name="menu_create_split">Νέα διαίρεση</string>
-    <string name="menu_create_split_part_category">Νέα κατηγορία \"διαχωρισμός μερών\"</string>
-    <string name="menu_create_split_part_transfer">Νέα μεταφορά διαχωρισμός μερών</string>
+    <string name="menu_create_split">Νέος διαχωρισμός</string>
+    <string name="menu_create_split_part_category">Νέα κατηγορία διαχωρισμού</string>
+    <string name="menu_create_split_part_transfer">Νέος διαχωρισμός μεταφοράς</string>
     <string name="menu_create_sub_cat">Νέα υποκατηγορία</string>
     <string name="menu_create_template">Νέο πρότυπο</string>
     <string name="menu_create_template_from_transaction">Αποθηκεύστε ως πρότυπο</string>
@@ -146,9 +146,9 @@
     <string name="menu_edit_method">Επεξεργαστείτε τη μέθοδο πληρωμής</string>
     <string name="menu_edit_party">Επεξεργαστείτε το μέρος</string>
     <string name="menu_edit_plan_instance">Επεξεργαστείτε το ενιαίο σχέδιο εμφάνισης</string>
-    <string name="menu_edit_split">Επεξεργαστείτε το διαχωρισμό</string>
-    <string name="menu_edit_split_part_category">Επεξεργασία κατηγορίας \"διαχωρισμός μερών\"</string>
-    <string name="menu_edit_split_part_transfer">Επεξεργαστείτε τη μεταφορά \"διαχωρισμός μερών\"</string>
+    <string name="menu_edit_split">Επεξεργασία διαχωρισμού συναλλαγής</string>
+    <string name="menu_edit_split_part_category">Επεξεργασία κατηγορίας διαχωρισμού</string>
+    <string name="menu_edit_split_part_transfer">Επεξεργασία διαχωρισμού μεταφοράς</string>
     <string name="menu_edit_template">Επεξεργαστείτε το πρότυπο</string>
     <string name="menu_edit_transaction">Επεξεργασία συναλλαγών</string>
     <string name="menu_edit_transfer">Επεξεργαστείτε τη μεταφορά</string>
@@ -167,10 +167,9 @@
     <string name="menu_save_and_new">Αποθήκευση και δημιουργία</string>
     <string name="menu_share">Πες το σε ένα φίλο</string>
     <string name="button_label_close">Κλείσιμο</string>
-    <string name="menu_split_transaction">Μετασχηματισμός για να διαιρεθεί</string>
+    <string name="menu_split_transaction">Μετασχηματισμός για να διαχωριστεί</string>
     <string name="method">Μέθοδος πληρωμής</string>
     <string name="no_app_handling_email_available">Δεν υπάρχει app διαθέσιμο για χειρισμό email.</string>
-    <string name="no_app_handling_ftp_available">Δεν είναι διαθέσιμο app για χειρισμό ftp. Εγκαταστήσετε <i>Αποστολή με FTP</i>;</string>
     <string name="no_app_handling_mime_type_available">Δεν υπάρχει διαθέσιμη εφαρμογή για το χειρισμό αρχείων %s.</string>
     <string name="no_categories">Καμία κατηγορία.</string>
     <string name="no_expenses">Δεν υπαρχουν έξοδα ακόμη!</string>
@@ -181,7 +180,7 @@
     <string name="no_mapped_transactions">Συναλλαγές δεν έχουν καταχωρηθεί σε κατηγορίες κατά τη διάρκεια αυτής της περιόδου.</string>
     <string name="no_methods">Δεν υπάρχουν τρόποι πληρωμής.</string>
     <string name="no_parties">Δεν υπάρχουν μέρη/πρόσωπα.</string>
-    <string name="no_split_parts">Κανένας διαχωρισμός των μερών.</string>
+    <string name="no_split_parts">Χωρίς διαχωρισμούς.</string>
     <string name="no_templates">Δεν υπαρχουν πρότυπα.</string>
     <string name="no_accounts">Δεν υπάρχουν λογαριασμοί.</string>
     <plurals name="not_deletable_mapped_transactions">
@@ -195,7 +194,7 @@
     <string name="numbered">αριθμημένος, -η</string>
     <string name="opening_balance">Απογραφή Υπολοίπου </string>
     <string name="parse_error_file_not_found">Δεν μπορούσε να βρει το αρχείο %1$s</string>
-    <string name="parse_error_grisbi_version_not_supported">Μη ΥΠΟΣΤΗΡΙΖΟΜΕΝΟΣ Grisbi File έκδοση: %1$s</string>
+    <string name="parse_error_grisbi_version_not_supported">Μη υποστηριζόμενη έκδοση αρχείου Grisbi: %1$s</string>
     <string name="parse_error_other_exception">Παρουσιάστηκε σφάλμα: %1$s</string>
     <string name="parse_error_parse_exception">Δεν ήταν δυνατό να αναλυθεί αρχείο</string>
     <string name="password_disabled_reenable">Έχει απενεργοποιηθεί η προστασία κωδικού πρόσβασης. Μπορείτε να την ενεργοποιήσετε ξανά στις ρυθμίσεις.</string>
@@ -205,7 +204,7 @@
     <string name="password_security_answer_not_valid">Λάθος απάντηση. Δοκίμασε ξανά!</string>
     <string name="payee">Δικαιούχος</string>
     <string name="payer">Πληρωτής</string>
-    <string name="payer_or_payee">Δικαιούχος/Πληρωτής</string>
+    <string name="payer_or_payee">Αντισυμβαλλόμενος</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Σχέδιο</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -227,7 +226,7 @@
     <string name="pm_type_debit">Χρεωστική εγγραφή, χρέωση</string>
     <string name="pm_type_neutral">Ουδέτερο</string>
     <string name="pref_app_dir_title">Φάκελος για την δημιουργία αντιγράφων ασφαλείας και εξαγωγές</string>
-    <string name="pref_auto_fill_summary">Συμπληρώστε τα δεδομένα από την τελευταία συναλλαγή για τον ίδιο δικαιούχο/πληρωτή</string>
+    <string name="pref_auto_fill_summary">Συμπληρώστε τα δεδομένα από την τελευταία συναλλαγή για τον ίδιο αντισυμβαλλόμενο</string>
     <string name="pref_backup_summary">Δημιουργήστε ένα αντίγραφο ασφαλείας της βάσης δεδομένων και προτιμήσεις για την sdcard.</string>
     <string name="pref_sort_order_usages">Άθροισμα χρήσεων</string>
     <string name="pref_category_title_export">Εξαγωγή</string>
@@ -250,7 +249,7 @@
     <string name="pref_manage_categories_title">Κατηγορίες</string>
     <string name="pref_manage_methods_summary">Δημιουργήστε και επεξεργαστείτε τις μεθόδους πληρωμής και συσχετίστε τις με τύπους λογαριασμών.</string>
     <string name="pref_manage_methods_title">Τρόποι Πληρωμης</string>
-    <string name="pref_manage_parties_summary">Προσθήκη, επεξεργασία, διαγραφή μρών (πληρωτές και δικαιούχοι πληρωμής).</string>
+    <string name="pref_manage_parties_summary">Προσθήκη, επεξεργασία, διαγραφή αντισυμβαλλομένων.</string>
     <string name="pref_manage_parties_title">Μέρη</string>
     <string name="pref_manage_sync_backends_title">Backend συγχρονισμού</string>
     <string name="pref_more_info_dialog_title">Άδεια &amp; πιστώσεις</string>
@@ -304,11 +303,11 @@
     <string name="save_transaction_template_deleted">Το πρότυπο έχει διαγραφεί</string>
     <string name="select">Επιλέξτε</string>
     <string name="select_category">Επιλέξτε κατηγορία</string>
-    <string name="select_payee">Επιλογή πληρωτή/δικαιούχου</string>
+    <string name="select_payee">Επιλογή αντισυμβαλλόμενου</string>
     <string name="share_scheme_not_supported">Δεν υποστηρίζεται το πρόγραμμα/σύστημα %1$s</string>
     <string name="share_sending">Αποστολή αρχείου εξαγωγής</string>
-    <string name="split_parts_heading">Διαχωρισμός, διάσπαση των μερών </string>
-    <string name="split_transaction">Διαιρεμένη συναλλαγή</string>
+    <string name="split_parts_heading">Διαχωρισμοί</string>
+    <string name="split_transaction">Διαχωρισμός συναλλαγής</string>
     <string name="status">Κατάσταση</string>
     <string name="status_cleared">εκκαθαρισμένη</string>
     <string name="status_reconciled">διακανονισμένο</string>
@@ -332,7 +331,7 @@
     <!-- Type refers to the type of an account, eg. Cash account, bank account -->
     <string name="type">Τύπος</string>
     <string name="unsplit_amount">Μη διαχωρισμένο ποσό</string>
-    <string name="unsplit_amount_greater_than_zero">Εξακολουθεί να υπάρχει κάποιο ποσό που δεν είναι διαχωρισμένο.</string>
+    <string name="unsplit_amount_greater_than_zero">Υπάρχει ακόμη κάποιο ποσό που δεν έχει διαχωριστεί.</string>
     <string name="warning_backup">Βάση δεδομένων και προτιμήσεις σας θα αποθηκευτούν στο sdcard %1$s.</string>
     <string name="continue_confirmation">Θέλετε να συνεχίσετε;</string>
     <string name="warning_delete_account">Ο Λογαριασμός \"%1$s\" θα διαγραφεί με όλες τις συναλλαγές του.</string>
@@ -361,7 +360,7 @@
     <string name="warning_reset_account_all">Εάν συνεχίσετε, για όλους τους λογαριασμούς %1$s οι συναλλαγές θα διαγραφούν από τη βάση δεδομένων και δεν θα μπορούν να ανακτηθούν.</string>
     <string name="warning_reset_account_matched">Αν συνεχίσετε, οι συναλλαγές που αντιστοιχούν στο τρέχον φίλτρο θα διαγραφούν από τη βάση δεδομένων και δεν θα μπορούν να αποκατασταθούν.</string>
     <string name="warning_restore">Βάση δεδομένων και προτιμήσεις θα ανακτηθούν από τη δημιουργία αντιγράφων %1$s. Τα τρέχοντα δεδομένα θα διαγραφούν.</string>
-    <string name="warning_splitpartcategory_context">Μεταφορές που αποτελούν μέρος διαχωρισμού μπορούν να τύχουν επεξεργασίας μόνο στο πλαίσιο της διαίρεσης.</string>
+    <string name="warning_splitpartcategory_context">Μεταφορές που αποτελούν μέρος διαχωρισμένης συναλλαγής μπορούν να τύχουν επεξεργασίας μόνο στο πλαίσιο της διαχωρισμένης συναλλαγής.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Παρακαλώ να ορίσετε έναν αριθμό μεταξύ %1$d και %2$d</string>
     <string name="warning_change_fraction_digits_1">Τα ποσά στην βάση δεδομένων πρέπει να ενημερωθούν ώστε να ταιριάζουν με το νέο αριθμό δεκαδικών ψηφίων.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Εάν δεν γίνει ενημέρωση ποσών, θα εμφανίζονται πολλαπλασιασμένα με %d μετά την αλλαγή.</string>
@@ -381,13 +380,12 @@
     <string name="widget_title_accounts">Οι λογαριασμοί μου</string>
     <string name="widget_title_templates">Τα πρότυπά μου</string>
     <string name="app_dir_not_accessible">Ο τρέχων επιλεγμένος φάκελος για αντίγραφα ασφαλείας και εξαγωγές (%1$s) δεν είναι προσβάσιμος. παρακαλώ επιλέξτε έναν άλλο.</string>
-    <string name="app_dir_not_compatible_with_nougat">Το τρέχον ρυθμισμένο URI για αντίγραφα ασφαλείας και εξαγωγές (%1$s) δεν υποστηρίζεται στο Android Nougat. Επιλέξτε ξανά ένα φάκελο.</string>
     <string name="search_amount">Αναζήτηση για ποσό</string>
     <string name="search_category">Αναζήτηση για κατηγορία</string>
     <string name="search_comment">Αναζήτηση για σημειώσεις</string>
     <string name="search_date">Αναζήτηση για ημερομηνία</string>
     <string name="search_status">Αναζήτηση για κατάσταση</string>
-    <string name="search_payee">Αναζήτηση για δικαιούχο/πληρωτή</string>
+    <string name="search_payee">Αναζήτηση αντισυμβαλλομένου</string>
     <string name="search_method">Αναζήτηση για μέθοδο</string>
     <string name="search_tag">Αναζήτηση ετικέτας</string>
     <string name="and">και</string>
@@ -404,7 +402,7 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">μετά από</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Η αγορά απέτυχε ή ακυρώθηκε.</string>
-    <string name="hint_auto_fill">Θα πρέπει τα δεδομένα να συμπληρώνονται αυτόματα από την τελευταία συναλλαγή για τον ίδιο δικαιούχο/πληρωτή; Μπορείτε πάντα να αλλάξετε αυτήν τη συμπεριφορά από τις ρυθμίσεις.</string>
+    <string name="hint_auto_fill">Θα πρέπει τα δεδομένα να συμπληρώνονται αυτόματα από την τελευταία συναλλαγή για τον ίδιο αντισυμβαλλόμενο; Μπορείτε πάντα να αλλάξετε αυτήν τη συμπεριφορά από τις ρυθμίσεις.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d λογαριασμοί με νόμισμα %2$s έχουν ενημερωθεί.</string>
     <string name="import_source_file">Αρχείο</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
@@ -455,8 +453,8 @@
     <string name="plan_instance_state_cancelled">ακυρωμένο</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">εφαρμοσμένο</string>
-    <string name="progress_dialog_updating_split_parts">Ενημέρωση διεσπασμένων μερών</string>
-    <string name="warning_cannot_move_split_transaction">Αυτή η διασπασμένη συναλλαγή δεν μπορεί να μετακινηθεί στον λογαριασμό %1$s επειδή υπάρχουν τμήματα μεταφοράς που αναφέρονται σε αυτόν το λογαριασμό.</string>
+    <string name="progress_dialog_updating_split_parts">Ενημέρωση των διαχωρισμών</string>
+    <string name="warning_cannot_move_split_transaction">Αυτή η συναλλαγή με διαχωρισμό δεν μπορεί να μεταφερθεί στον λογαριασμό %1$s, καθώς υπάρχουν τμήματα μεταφοράς που αναφέρονται σε αυτόν τον λογαριασμό.</string>
     <string name="content_description_calculator_delete_button">Διαγραφή τελευταίου ψηφίου</string>
     <string name="paypal_callback_info">Η συναλλαγή σας έχει ολοκληρωθεί, και μια απόδειξη για την αγορά σας έχει αποσταλεί με email. Μπορείτε να συνδεθείτε στο λογαριασμό σας στο www.paypal.com για να δείτε τις λεπτομέρειες της συναλλαγής.</string>
     <string name="search_transfer">Αναζήτηση για μεταφορά</string>
@@ -558,11 +556,11 @@
     <string name="grand_total">Γενικό σύνολο</string>
     <string name="menu_original_amount">Αρχικό ποσό</string>
     <string name="menu_equivalent_amount">Ισοδύναμο ποσό</string>
-    <string name="warning_split_transactions">Οι επιλεγμένες συναλλαγές θα ομαδοποιηθούν σε μία διαιρεμένη συναλλαγή. Οι πληροφορίες ημερομηνίας τους θα χαθούν, δηλαδή θα αντικατασταθούν από τον μέσο όρο τους.</string>
-    <string name="warning_ungroup_split_transactions">Οι επιλεγμένες διαιρεμένες συναλλαγές θα απομαδοποιηθούν, δηλαδή τα διαχωρισμένα τμήματα θα γίνουν κανονικές συναλλαγές.</string>
+    <string name="warning_split_transactions">Οι επιλεγμένες συναλλαγές θα ομαδοποιηθούν σε μία διαχωρισμένη συναλλαγή. Οι πληροφορίες ημερομηνίας τους θα χαθούν, δηλαδή θα αντικατασταθούν από τον μέσο όρο τους.</string>
+    <string name="warning_ungroup_split_transactions">Οι επιλεγμένες διαχωρισμένες συναλλαγές θα απομαδοποιηθούν, δηλαδή τα διαχωρισμένα τμήματα θα γίνουν κανονικές συναλλαγές.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
-    <string name="menu_ungroup_split_transaction">Κατάργηση διαίρεσης</string>
-    <string name="ungroup_split_transaction_success">Η διαιρεμένη συναλλαγή καταργήθηκε με επιτυχία.</string>
+    <string name="menu_ungroup_split_transaction">Κατάργηση ομαδοποίησης</string>
+    <string name="ungroup_split_transaction_success">Καταργήθηκε η ομαδοποίηση της διαχωρισμένης συναλλαγής με επιτυχία.</string>
     <string name="pref_transaction_time_summary">Να επιτρέπεται ο ορισμός του ακριβούς χρόνου συναλλαγής.</string>
     <string name="pref_value_date_summary">Να επιτρέπεται ο ορισμός ημερομηνίας αξίας εκτός από την ημερομηνία δέσμευσης. Ο χρόνος συναλλαγής θα είναι κρυφός. Αυτή η ρύθμιση δεν εφαρμόζεται σε λογαριασμούς μετρητών.</string>
     <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
@@ -675,7 +673,7 @@
     <string name="debts">Χρέη</string>
     <string name="warning_delete_category_with_budget">Για τουλάχιστον μία επιλεγμένη κατηγορία, υπάρχουν πιστώσεις προϋπολογισμού, οι οποίες θα διαγραφούν επίσης.</string>
     <string name="onboarding_ui_title">Το {app_name} προσαρμόζεται στις προτιμήσεις σας</string>
-    <string name="split_transaction_not_possible">Μόνο οι συναλλαγές που έχουν τον ίδιο λογαριασμό, δικαιούχο πληρωμής και κατάσταση μπορούν να ομαδοποιηθούν σε μία συναλλαγή διαίρεσης.</string>
+    <string name="split_transaction_not_possible">Μόνο οι συναλλαγές που έχουν τον ίδιο λογαριασμό, αντισυμβαλλόμενο και κατάσταση μπορούν να ομαδοποιηθούν σε μία διαχωρισμένη συναλλαγή.</string>
     <string name="licence_expires_tomorrow">Το επαγγελματικό κλειδί σας θα λήξει αύριο.</string>
     <string name="licence_expires_today">Το επαγγελματικό σας κλειδί λήγει σήμερα.</string>
     <string name="budget_exceeded_error_1_1">Όλα εκτός από %s του προϋπολογισμού σας έχουν διατεθεί σε άλλες κατηγορίες.</string>
@@ -688,7 +686,7 @@
     <string name="performance_enhancement" tools:ignore="UnusedResources">Βελτίωση απόδοσης</string>
     <string name="stability_improvements" tools:ignore="UnusedResources">Βελτιώσεις σταθερότητας</string>
     <string name="backup_save_to_sync_backend">Αποθήκευση στο %s</string>
-    <string name="split_transaction_group_success">%1$d οι συναλλαγές ομαδοποιήθηκαν με επιτυχία σε μία συναλλαγή διαίρεσης.</string>
+    <string name="split_transaction_group_success">%1$d συναλλαγές ομαδοποιήθηκαν με επιτυχία σε μία διαχωρισμένη συναλλαγή.</string>
     <string name="licence_expires_n_days">Το επαγγελματικό σας κλειδί θα λήξει σε %d ημέρες.</string>
     <string name="licence_expired_yesterday">Το επαγγελματικό σας κλειδί έληξε χθες.</string>
     <string name="select_package">Επιλέξτε πακέτο άδειας.</string>
@@ -728,7 +726,7 @@
     <string name="dialog_multi_tag_append">Προσθέστε νέες ετικέτες σε υπάρχουσες ετικέτες</string>
     <string name="remapping_result">Οι επιλεγμένες συναλλαγές αναδιατυπώθηκαν.</string>
     <string name="pref_group_header_show_details_summary">Εμφάνιση αθροισμάτων λεπτομερειών στην κεφαλίδα της ομάδας</string>
-    <string name="warning_link_transfer">Οι δύο επιλεγμένες συναλλαγές θα συνδεθούν ως μεταφορά. Οι πληροφορίες δικαιούχου/πληρωτή και κατηγορίας θα διαγραφούν.</string>
+    <string name="warning_link_transfer">Οι δύο επιλεγμένες συναλλαγές θα συνδεθούν ως μεταφορά. Οι πληροφορίες αντισυμβαλλομένου και κατηγορίας θα απορριφθούν.</string>
     <string name="pref_exchange_rate_provider_summary">Επιλέξτε πάροχο για λήψη των συναλλαγματικών ισοτιμιών</string>
     <string name="dialog_multi_tag">Όλες οι επιλεγμένες συναλλαγές θα επισημαίνονται με %s.</string>
     <string name="remap_category">Όλες οι επιλεγμένες συναλλαγές θα αντιστοιχιστούν στην κατηγορία %s.</string>
@@ -784,12 +782,12 @@
     <string name="unmapped">Χωρίς χαρτογράφηση</string>
     <string name="budget_filter_all_states">Όλη η κατάσταση</string>
     <string name="menu_save_and_new_content_description">Αποθηκεύστε τα δεδομένα, αφήστε τη φόρμα ανοιχτή για τη δημιουργία μιας νέας συναλλαγής με τα ίδια δεδομένα.</string>
-    <string name="warning_balance_account_delete">Εάν προχωρήσετε, όλες οι συμφωνημένες συναλλαγές αυτού του λογαριασμού θα διαγραφούν από τη βάση δεδομένων και δεν θα μπορείτε να τις επαναφέρετε.</string>
+    <string name="warning_balance_account_delete">Εάν προχωρήσετε, όλες οι διακανονισμένες συναλλαγές αυτού του λογαριασμού θα διαγραφούν από τη βάση δεδομένων και δεν θα μπορείτε να τις επαναφέρετε.</string>
     <string name="synchronization_select_folder_dialog_title">Επιλέξτε έναν υπάρχοντα φάκελο ή δημιουργήστε έναν νέο</string>
     <string name="sync_io_error_cannot_connect">Δεν είναι δυνατή η σύνδεση στο backend συγχρονισμού.</string>
     <string name="clone_and_remap_result">Οι επιλεγμένες συναλλαγές κλωνοποιήθηκαν και αναδιατυπώθηκαν.</string>
     <string name="menu_remap">Αναδιατύπωση</string>
-    <string name="pref_plan_executor_time_title">Ώρα ειδοποίησης προγραμματιστή</string>
+    <string name="pref_plan_executor_time_title">Ώρα ειδοποίησης</string>
     <string name="pref_criterion_futur_title">Κριτήριο για μελλοντικές συναλλαγές</string>
     <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">Χρησιμοποιήστε αυτό το κουμπί εναλλαγής για να καταγράψετε έσοδα.</string>
     <string name="dialog_synced_to_other">Ένας λογαριασμός με το uuid %s υπάρχει ήδη στην τοπική βάση δεδομένων και συνδέεται με διαφορετικό απομακρυσμένο backend.</string>
@@ -799,19 +797,19 @@
     <string name="scan_result_multiple_candidates_dialog_title">Βρέθηκαν πολλοί υποψήφιοι. Παρακαλώ επιλέξτε:</string>
     <string name="backup_is_encrypted">Το αντίγραφο ασφαλείας είναι κρυπτογραφημένο. Για να το αποκρυπτογραφήσετε, πρέπει να καθορίσετε τη φράση πρόσβασης.</string>
     <string name="onboarding_privacy_intro">Τα οικονομικά σας δεδομένα δεν αποστέλλονται σε κανέναν διακομιστή, ούτε χειρίζονται ούτε εμάς ούτε τρίτοι.</string>
-    <string name="remap_payee">Όλες οι επιλεγμένες συναλλαγές θα αντιστοιχιστούν στον πληρωτή / δικαιούχο πληρωμής %s.</string>
+    <string name="remap_payee">Όλες οι επιλεγμένες συναλλαγές θα αντιστοιχιστούν στον αντισυμβαλλόμενο %s.</string>
     <string name="dialog_sync_link">Ένας λογαριασμός με το uuid %s υπάρχει τόσο στην τοπική βάση δεδομένων όσο και στο απομακρυσμένο backend. Όταν συνδέετε και τα δύο, πρέπει να αποφασίσετε, εάν, αρχικά, θέλετε να ανεβάσετε τοπικά δεδομένα στο απομακρυσμένο backend ή να κατεβάσετε απομακρυσμένα δεδομένα στην τοπική βάση δεδομένων.</string>
     <string name="feature_download_requested">Ζητείται η δυνατότητα %s από το Play Store.</string>
     <string name="dialog_title_confirm_remap">Αλλαγή χαρτογράφησης (%s);</string>
     <string name="remap_empty_list">Δεν βρέθηκε κανένα στοιχείο, το οποίο μπορεί να αντιστοιχιστεί σε όλες τις επιλεγμένες συναλλαγές.</string>
     <string name="feature_downloaded">Το χαρακτηριστικό %s έχει εγκατασταθεί.</string>
-    <string name="split_transaction_one_success">Η συναλλαγή μετατράπηκε επιτυχώς σε διαχωρισμό.</string>
+    <string name="split_transaction_one_success">Η συναλλαγή μετατράπηκε επιτυχώς σε διαχωρισμένη συναλλαγή.</string>
     <string name="pref_exchange_rate_provider_title">Πάροχος συναλλαγματικής ισοτιμίας</string>
     <string name="sub_budget_exceeded_error_2">Αυξήστε το ποσό που διατίθεται στην κύρια κατηγορία ή αφαιρέστε χρήματα από άλλες υποκατηγορίες.</string>
     <string name="account_widget_configuration_sum_total">Συμπεριλάβετε μελλοντικές συναλλαγές</string>
     <string name="new_balance">Νέα ισορροπία</string>
     <string name="pref_unmapped_transaction_as_transfer_title">Μη κατανεμημένες συναλλαγές</string>
-    <string name="github_sponsors">Κλειδιά άδειας χρήσης παρέχονται επίσης στο &lt;a href=%s&gt;Github Sponsors&lt;/a&gt;.</string>
+    <string name="github_sponsors"><![CDATA[Κλειδιά άδειας χρήσης παρέχονται επίσης στους <a href="%s">Χορηγούς του GitHub</a>.]]></string>
     <string name="select_template">Επιλέξτε πρότυπο</string>
     <string name="budget_only_current_period">Ορισμός μόνο για %s</string>
     <string name="button_relink_keep_date">Επανασύνδεση, αλλά διατήρηση ημερομηνίας</string>
@@ -855,7 +853,7 @@
         <item quantity="other">Δεν ήταν δυνατή η διαγραφή %d παλιών αρχείων αντιγράφων ασφαλείας.</item>
     </plurals>
     <string name="pref_csv_export_split_date_time_summary">Χρήση ξεχωριστών στηλών για ημερομηνία και ώρα</string>
-    <string name="budget_table_header_overspent">Υπέρβαση</string>
+    <string name="budget_table_header_overspent">Υπέρβαση δαπανών</string>
     <string name="pref_copy_attachments_title">Αντιγραφή συνημμένων στο φάκελο της εφαρμογής</string>
     <string name="read_from_data">Ανάγνωση από δεδομένα</string>
     <string name="pref_csv_export_split_categories_summary">Χρήση ξεχωριστών στηλών για κάθε επίπεδο ιεραρχίας κατηγοριών</string>
@@ -892,7 +890,7 @@
     <string name="content_description_remove_icon">Αφαίρεση εικονιδίου</string>
     <string name="icons_for_categories">Εικονίδια για κατηγορίες</string>
     <string name="debt_installment_receive">Λαμβάνω μια δόση ύψους %s.</string>
-    <string name="archive">Αρχείο</string>
+    <string name="archive">Περιεχόμενα αρχείου</string>
     <string name="complex_search">Σύνθετη αναζήτηση</string>
     <string name="quick_search">Γρήγορη αναζήτηση</string>
     <string name="balance_sheet">Ισολογισμός</string>
@@ -900,8 +898,127 @@
     <string name="balance_sheet_section_liabilities">Υποχρεώσεις</string>
     <string name="balance_sheet_net_worth">Καθαρή αξία</string>
     <string name="price_history">Ιστορικό τιμών</string>
-    <string name="pref_account_list_display_configuration_title">λογαριασμός λίστα</string>
+    <string name="pref_account_list_display_configuration_title">Λίστα λογαριασμών</string>
     <string name="menu_templates">Πρότυπα</string>
     <string name="pref_ui_start_screen_title">Αρχική οθόνη</string>
     <string name="pref_ui_start_screen_last_visited">Τελευταία επισκεφθείσα</string>
+    <string name="account_type_investment">Επενδύσεις</string>
+    <string name="pref_sync_frequency_summary_0">Ορίστε την τιμή σε 0 για να απενεργοποιήσετε τον αυτόματο συγχρονισμό.</string>
+    <string name="buy">Αγορά</string>
+    <string name="pref_scroll_to_current_date_title">Κύλιση λίστας συναλλαγών στην τρέχουσα ημερομηνία</string>
+    <string name="pref_scroll_to_current_date_app_launch">μόνο κατά την εκκίνηση της εφαρμογής</string>
+    <string name="pref_scroll_to_current_date_account_open">κάθε φορά που μεταβαίνετε στον λογαριασμό</string>
+    <string name="remap_payee_null">Ο αντισυμβαλλόμενος θα αφαιρεθεί από όλες τις επιλεγμένες συναλλαγές.</string>
+    <string name="contact_us">Επικοινωνήστε μαζί μας</string>
+    <string name="pref_transaction_amount_color_source_title">Χρώματα για ποσά</string>
+    <string name="pref_sync_now_all_summary">Το %s συγχρονίζει όλους τους λογαριασμούς για το ίδιο back-end</string>
+    <string name="menu_transform_to_transfer">Μετατροπή σε μεταφορά</string>
+    <string name="warning_transform_to_transfer">Η επιλεγμένη συναλλαγή θα αντικατασταθεί από μια μεταφορά από το %1$s στο %2$s.</string>
+    <string name="remap_date">Σε όλες τις επιλεγμένες συναλλαγές, η ημερομηνία θα οριστεί σε %s.</string>
+    <string name="roadmap_intro">Η ψηφοφορία για τον οδικό χάρτη του %d είναι πλέον ανοιχτή! Ψηφίστε για τις δυνατότητες και τις βελτιώσεις που έχουν μεγαλύτερη σημασία για εσάς.</string>
+    <string name="merge_categories_dialog_title">Συγχώνευση κατηγοριών</string>
+    <string name="subcategories_merged_recursively">Εάν κάποια από τις συγχωνευμένες κατηγορίες έχει υποκατηγορίες με την ίδια ετικέτα, αυτές θα συγχωνευθούν πρώτα, αναδρομικά.</string>
+    <string name="merge_categories_prompt">Επιλέξτε την κατηγορία που θέλετε να διατηρήσετε</string>
+    <string name="pref_csv_export_category_separator_summary">Διαχωριστικό μεταξύ επιπέδων ιεραρχίας κατηγοριών</string>
+    <string name="not_enough_data">Δεν υπάρχουν αρκετά δεδομένα</string>
+    <string name="warning_unarchive">Το αρχείο θα ξεπακεταριστεί. Όλες οι περιεχόμενες συναλλαγές θα επανεισαχθούν στη λίστα.</string>
+    <string name="menu_unpack">Ξεπακετάρισμα</string>
+    <string name="warning_delete_archive">Όλες οι συναλλαγές που περιέχονται σε αυτό το αρχείο (%d) θα διαγραφούν.</string>
+    <string name="dialog_title_warning_delete_archive">Διαγραφή αρχείου;</string>
+    <string name="archive_warning">Όλες οι συναλλαγές (%d) στο επιλεγμένο εύρος ημερομηνιών θα αρχειοθετηθούν.</string>
+    <string name="warning_nested_archives">Οι ένθετες αρχειοθήκες δεν υποστηρίζονται.</string>
+    <string name="warning_empty_archive">Δεν υπάρχουν συναλλαγές στο επιλεγμένο εύρος ημερομηνιών.</string>
+    <string name="warning_archive_inconsistent_state">Οι συναλλαγές στο επιλεγμένο εύρος ημερομηνιών έχουν ασυνεπείς καταστάσεις (%s).</string>
+    <string name="warning_backend_deactivated">Το Backend δεν είναι έτοιμο για συγχρονισμό.</string>
+    <string name="button_activate_again">Ενεργοποιήστε ξανά</string>
+    <string name="credit_limit_reached">Έχετε φτάσει το πιστωτικό σας όριο.</string>
+    <string name="saving_goal_reached">Έχετε πετύχει τον στόχο αποταμίευσης.</string>
+    <string name="credit_limit_exceeded">Έχετε υπερβεί το πιστωτικό σας όριο.</string>
+    <string name="saving_goal_exceeded">Έχετε υπερβεί τον στόχο αποταμίευσης.</string>
+    <string name="overage">Υπέρβαση</string>
+    <string name="credit_limit_available_credit">Διαθέσιμη πίστωση</string>
+    <string name="saving_goal_short_fall">Έλλειμμα</string>
+    <string name="content_description_original_amount">Ορίστε το αρχικό ποσό αυτής της συναλλαγής επιλέγοντας ένα νόμισμα και εισάγοντας το ποσό. Μπορείτε επίσης να ορίσετε μια συναλλαγματική ισοτιμία που θα χρησιμοποιηθεί για τον υπολογισμό του πραγματικού ποσού.</string>
+    <string name="content_description_exchange_rate">Συναλλαγματική ισοτιμία για 1 %1$s σε %2$s</string>
+    <string name="content_description_equivalent_amount">Ορίστε την αξία αυτής της συναλλαγής στο εθνικό σας νόμισμα. Αντί να εισαγάγετε το ποσό, μπορείτε επίσης να εισαγάγετε τη συναλλαγματική ισοτιμία για τον υπολογισμό της.</string>
+    <string name="warning_archived_transfer_cannot_be_edited">Η μεταφορά δεν μπορεί να επεξεργαστεί επειδή η άλλη πλευρά της είναι αρχειοθετημένη.</string>
+    <string name="warning_budget_sync_import">Η διαμόρφωση αυτού του προϋπολογισμού θα εισαχθεί από το backend συγχρονισμού. Όλες οι τοπικές αλλαγές θα χαθούν.</string>
+    <string name="budget_import_can_be_imported">Μπορούν να εισαχθούν οι ακόλουθοι προϋπολογισμοί:</string>
+    <string name="budget_import_cannot_be_imported">Οι ακόλουθοι προϋπολογισμοί αναφέρονται σε λογαριασμούς που δεν είναι συγχρονισμένοι:</string>
+    <string name="budget_import_none_found">Δεν βρέθηκαν προϋπολογισμοί.</string>
+    <string name="webui_download_no_data">Μετά την εκτύπωση, την εξαγωγή ή τη δημιουργία αντιγράφων ασφαλείας στην εφαρμογή, τα αρχεία θα είναι διαθέσιμα από εδώ για λήψη.</string>
+    <string name="filter_dialog_empty">Δεν έχουν προστεθεί ακόμη κριτήρια. Πατήστε τα παραπάνω κουμπιά για να ορίσετε το ερώτημά σας και να βελτιώσετε τα αποτελέσματά σας.</string>
+    <string name="menu_show_equivalent_value">Ισοδύναμη αξία</string>
+    <string name="initial_value">Αρχική αξία</string>
+    <string name="current_value">Τρέχουσα αξία</string>
+    <string name="total_value">Συνολική αξία</string>
+    <string name="enable_automatic_daily_exchange_rate_download">Αυτόματη λήψη της ημερήσιας συναλλαγματικής ισοτιμίας</string>
+    <string name="dynamic_exchange_rate">Δυναμική συναλλαγματική ισοτιμία</string>
+    <string name="progress_recalculating">Επανυπολογισμός</string>
+    <string name="equivalent_amount_plural">Ισοδύναμα ποσά</string>
+    <string name="recalculate_equivalent_amounts_warning">Τα ισοδύναμα ποσά θα (επαν)υπολογιστούν εάν υπάρχουν διαθέσιμες ισχύουσες συναλλαγματικές ισοτιμίες.</string>
+    <string name="account_closed">Ο λογαριασμός είναι κλειστός</string>
+    <string name="mark_as_cleared">Σήμανση ως εκκαθαρισμένη</string>
+    <string name="mark_as_unreconciled">Σήμανση ως μη διακανονισμένη</string>
+    <string name="pref_equivalent_amounts_automatic_update_title">Αυτόματη ενημέρωση ισοδύναμων ποσών όταν αλλάζουν οι τιμές</string>
+    <string name="sort_direction">Κατεύθυνση ταξινόμησης</string>
+    <string name="batch_download">Μαζική λήψη</string>
+    <string name="warning_batch_download_quota">Η μαζική λήψη από το %s ενέχει τον κίνδυνο εξάντλησης του ορίου χρήσης σας.</string>
+    <string name="batch_download_result">%d τιμές λήφθηκαν και αποθηκεύτηκαν στη βάση δεδομένων.</string>
+    <string name="pref_ui_home_screen_shortcuts_show_new_balance_title">Εμφάνιση νέου υπολοίπου μετά την αποθήκευση της συναλλαγής</string>
+    <string name="print_configuration_empty">Παρακαλώ προσθέστε τουλάχιστον ένα πεδίο προς εκτύπωση.</string>
+    <plurals name="import_prices_success_message">
+        <item quantity="one">Βρέθηκαν έγκυρα δεδομένα στη γραμμή %d.</item>
+        <item quantity="other">Βρέθηκαν έγκυρα δεδομένα στις γραμμές %d.</item>
+    </plurals>
+    <plurals name="import_prices_failure_message">
+        <item quantity="one">Δεν ήταν δυνατή η επεξεργασία της γραμμής %d.</item>
+        <item quantity="other">Δεν ήταν δυνατή η επεξεργασία των γραμμών %d.</item>
+    </plurals>
+    <string name="confirm_process_file_message">Είστε βέβαιοι ότι θέλετε να εισαγάγετε τιμές για το \'%1$s\' από το \'%2$s\'; Οι νέες τιμές ενδέχεται να επηρεάσουν τα υπάρχοντα ισοδύναμα ποσά.</string>
+    <string name="warning_expense_category_credit">Εκχωρείτε μια κατηγορία εξόδων σε μια συναλλαγή εισοδήματος. Κατά συνέπεια, η συναλλαγή θα μειώσει το άθροισμα των εξόδων σας και από προεπιλογή θα εμφανίζεται με κόκκινο χρώμα.</string>
+    <string name="warning_income_category_debit">Εκχωρείτε μια κατηγορία εσόδων σε μια συναλλαγή εξόδων. Κατά συνέπεια, η συναλλαγή θα μειώσει το άθροισμα του εισοδήματός σας και από προεπιλογή θα εμφανίζεται με πράσινο χρώμα.</string>
+    <string name="pref_dynamic_exchange_rates_dynamic">Δυναμικές τιμές για όλους τους λογαριασμούς</string>
+    <string name="pref_dynamic_exchange_rates_static">Στατικές τιμές για όλους τους λογαριασμούς</string>
+    <string name="pref_dynamic_exchange_rates_per_account">Διαμορφώστε κάθε λογαριασμό ξεχωριστά</string>
+    <string name="category_type_main">Κύρια κατηγορία</string>
+    <string name="category_type_sub">Υποκατηγορία</string>
+    <string name="category_description_base">%1$s, επίπεδο %2$d</string>
+    <plurals name="category_description_children_suffix">
+        <item quantity="one">, περιέχει μία υποκατηγορία επιπέδου %2$d.</item>
+        <item quantity="other">, περιέχει %1$d υποκατηγορίες επιπέδου %2$d.</item>
+    </plurals>
+    <string name="edit_account_type">Επεξεργασία τύπου λογαριασμού</string>
+    <string name="new_account_type">Νέος τύπος λογαριασμού</string>
+    <string name="pref_print_layout_summary">Διαμόρφωση πλάτους και σύνθεσης στηλών</string>
+    <string name="menu_account_flags">Σημάνσεις</string>
+    <string name="menu_flag">Σήμανση</string>
+    <string name="edit_account_flag">Επεξεργασία σήμανσης</string>
+    <string name="new_account_flag">Νέα σήμανση</string>
+    <string name="flag_unflagged">Χωρίς σήμανση</string>
+    <string name="flag_favorite">Αγαπημένο</string>
+    <string name="aggregate_invisible">Συμπερίληψη αόρατων λογαριασμών στους συγκεντρωτικούς λογαριασμούς και στον ισολογισμό</string>
+    <string name="select_accounts_for_flag">Επιλογή λογαριασμών για σήμανση %s</string>
+    <string name="menu_cleanup">Εκκαθάριση</string>
+    <plurals name="warning_cleanup_parties">
+        <item quantity="one">%d αχρησιμοποίητο μέρος θα διαγραφεί.</item>
+        <item quantity="other">%d αχρησιμοποίητα μέρη θα διαγραφούν.</item>
+    </plurals>
+    <string name="show_invisible">Κρυφοί λογαριασμοί</string>
+    <string name="show_zero">Λογαριασμοί μηδενικού υπολοίπου</string>
+    <string name="content_description_clear_party">Διαγραφή επιλεγμένου μέρους</string>
+    <string name="content_description_browse_device_files">Αναζήτηση αρχείων σε αυτήν τη συσκευή</string>
+    <string name="content_description_select_recent_file">Επιλέξτε από τα πρόσφατα αρχεία</string>
+    <string name="content_description_show_balance_details">Εμφάνιση λεπτομερών πληροφοριών</string>
+    <string name="main_navigation">Κύρια πλοήγηση</string>
+    <string name="pref_fab_style_title">Στυλ αιωρούμενου κουμπιού δράσης</string>
+    <string name="pref_fab_style_standard_description">Τυπικό (Πατήστε το βέλος για το μενού)</string>
+    <string name="pref_fab_style_compact_description">Συμπαγής (Πατήστε παρατεταμένα για το μενού)</string>
+    <string name="number_too_large">Ο αριθμός είναι πολύ μεγάλος</string>
+    <string name="prioritize_flag_order">Προτεραιότητα στη σειρά σήμανσης</string>
+    <string name="pref_content_based_colors_title">Δυναμικό χρώμα βάσει λογαριασμού</string>
+    <string name="pref_content_based_colors_summary">Αντλήστε χρώματα θέματος από το χρώμα του τρεχούμενου λογαριασμού. Απενεργοποιήστε εάν το κείμενο είναι δυσανάγνωστο.</string>
+    <string name="warning_unlink_transfer">Η επιλεγμένη μεταφορά θα αποσυνδεθεί: Θα αντικατασταθεί από απλές συναλλαγές και στους δύο λογαριασμούς.</string>
+    <string name="menu_unlink_transfer">Αποσύνδεση μεταφοράς</string>
+    <string name="supports_reconciliation">Υποστήριξη συμφωνίας λογαριασμών</string>
 </resources>

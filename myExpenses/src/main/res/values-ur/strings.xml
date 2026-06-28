@@ -106,7 +106,7 @@
     <string name="menu_create_main_cat">نیا مرکزی زمر</string>
     <string name="menu_edit_party">پارٹی میں ترمیم کریں</string>
     <string name="menu_edit_plan_instance">سنگل پلان کی موجودگی میں ترمیم کریں</string>
-    <string name="menu_edit_split">تقسیم میں ترمیم کریں</string>
+    <string name="menu_edit_split">تقسیم کے لین دین میں ترمیم کریں۔</string>
     <string name="menu_edit_transfer">منتقلی میں ترمیم کریں</string>
     <string name="menu_edit_template">ٹیمپلیٹ میں ترمیم کریں</string>
     <string name="menu_exclude_from_totals">ٹوٹل سے خارج کریں</string>
@@ -147,7 +147,6 @@
     <string name="button_label_close">بند کریں</string>
     <string name="menu_split_transaction">تقسیم میں تبدیل کریں</string>
     <string name="method">ادائیگی کا طریقہ</string>
-    <string name="no_app_handling_ftp_available">کوئی ایپ ہینڈلنگ ایف ٹی پی دستیاب نہیں ہے۔ انسٹال کریں <i>FTP کے ساتھ بھیجیں</i>؟</string>
     <string name="no_categories">کوئی زمرہ جات نہیں.</string>
     <string name="no_app_handling_email_available">کوئی ایپ ہینڈلنگ ای میل دستیاب نہیں ہے.</string>
     <string name="no_app_handling_mime_type_available">%s فائلوں کو ہینڈل کرنے والی کوئی ایپ دستیاب نہیں ہے.</string>
@@ -183,7 +182,7 @@
     <string name="password_security_answer_not_valid">غلط جواب. دوبارہ کوشش کریں!</string>
     <string name="payee">ادا کرنے والا</string>
     <string name="payer">ادا کرنے والا</string>
-    <string name="payer_or_payee">وصول کنندہ/ ادا کرنے والا</string>
+    <string name="payer_or_payee">دوسرا فریق</string>
     <string name="plan">منصوبہ</string>
     <string name="plan_automatic">خودکار</string>
     <string name="plan_calendar_name">{app_name} منصوبہ ساز</string>
@@ -372,7 +371,6 @@
     <string name="comparison_operator_date_after">کے بعد</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">خریداری ناکام یا منسوخ ہو گئی.</string>
     <string name="import_categories_none">کوئی زمرہ درآمد نہیں کیا گیا</string>
-    <string name="app_dir_not_compatible_with_nougat">بیک اپ اور برآمدات (%1$s) کے لیے فی الحال کنفیگر کردہ URI Android Nougat کے تحت تعاون یافتہ نہیں ہے۔ براہ کرم ایک فولڈر دوبارہ منتخب کریں.</string>
     <string name="pref_manage_stale_images_summary">حذف شدہ لین دین سے بچ جانے والی تصاویر کا نظم کریں</string>
     <string name="transaction_deleted">لین دین کو حذف کر دیا گیا ہے</string>
     <string name="account_deleted">اکاؤنٹ حذف کر دیا گیا ہے</string>
@@ -486,7 +484,7 @@
     <string name="pref_exchange_rate_provider_summary">ایکسچینج ریٹ ڈاؤن لوڈ کرنے کے لیے فراہم کنندہ کو منتخب کریں</string>
     <string name="pref_exchange_rate_provider_title">ایکسچینج ریٹ فراہم کرنے والا</string>
     <string name="pref_exchange_rates_api_key_summary">براہ کرم %s پر ایک مفت اکاؤنٹ رجسٹر کریں اور اپنی App ID فراہم کریں</string>
-    <string name="pref_plan_executor_time_title">منصوبہ ساز کی اطلاع کا وقت</string>
+    <string name="pref_plan_executor_time_title">اطلاع کا وقت</string>
     <string name="synchronization_select_folder_dialog_title">ایک موجودہ فولڈر منتخب کریں یا نیا بنائیں</string>
     <string name="budget_onetime">ایک بار</string>
     <string name="dialog_multi_tag_append">موجودہ ٹیگز میں نئے ٹیگز شامل کریں</string>

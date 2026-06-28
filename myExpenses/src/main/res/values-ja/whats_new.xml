@@ -28,4 +28,5 @@
     <string name="whats_new_376_2">Webユーザーインターフェースはメイン画面から制御できます。</string>
     <string name="whats_new_382">%1$s 機能は、ウィジェット %2$sから呼び出すことができます。</string>
     <string name="migration_v2_feature_1">モダンなマテリアルデザインナビゲーション</string>
+    <string name="whats_new_407">タグ、分類、勘定、取引先の自然順ソート。</string>
 </resources>

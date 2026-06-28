@@ -102,7 +102,7 @@
     <string name="menu_edit_cat">編輯分類</string>
     <string name="menu_edit_method">修改付款方法</string>
     <string name="menu_edit_party">編輯貿易夥伴</string>
-    <string name="menu_edit_split">編輯分割</string>
+    <string name="menu_edit_split">編輯拆分交易</string>
     <string name="menu_edit_split_part_category">編輯已分割分類的部分</string>
     <string name="menu_edit_split_part_transfer">編輯已分割的轉移部分</string>
     <string name="menu_edit_template">編輯範本</string>
@@ -121,7 +121,6 @@
     <string name="button_label_close">關閉</string>
     <string name="method">付款方法</string>
     <string name="no_app_handling_email_available">沒有可用的應用程序電子郵件。</string>
-    <string name="no_app_handling_ftp_available">沒有被應用程序處理的ftp可用。安裝 <i>使用FTP發送</i> ？</string>
     <string name="no_categories">沒有分類。</string>
     <string name="no_expenses">未有開支!</string>
     <string name="no_exportable_expenses">沒有交易未被匯出</string>
@@ -392,12 +391,11 @@
     <string name="pref_manage_stale_images_title">陳舊的圖像</string>
     <string name="account_deleted">帳戶已被刪除</string>
     <string name="export_handle_deleted_update_balance">更新期初餘額</string>
-    <string name="app_dir_not_compatible_with_nougat">Android Nougat 不支援目前配置的備份和匯出 URI (%1$s)。請再次選擇資料夾。</string>
     <string name="comparison_operator_between">之間</string>
     <string name="comparison_operator_date_after">後</string>
     <string name="hint_auto_fill">是否應該從同一收款人/付款人的最後一筆交易中自動填寫資料？您始終可以從設定中變更此行為。</string>
     <string name="menu_exclude_from_totals">從總計中排除</string>
-    <string name="payer_or_payee">收款人/付款人</string>
+    <string name="payer_or_payee">交易對手</string>
     <string name="dialog_export_applied_to_filter">僅考慮與當前過濾器匹配的交易。</string>
     <string name="mark_void_instead_of_delete">不要刪除交易，而是標記為無效。</string>
     <string name="menu_undelete_transaction">恢復刪除</string>

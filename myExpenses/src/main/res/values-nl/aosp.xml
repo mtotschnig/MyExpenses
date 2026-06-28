@@ -20,7 +20,7 @@
     <string name="response_yes">Ja</string>
     <string name="response_no">Nee</string>
     <string name="experimental">"Experimenteel"</string>
-    <string name="add_widget">Widget toevoegen.</string>
+    <string name="add_widget">Widget toevoegen</string>
     <string name="calendar">Agenda</string>
     <string name="permissions_label">Rechten</string>
     <string name="time_format">Tijdnotatie</string>
@@ -41,8 +41,8 @@
     <string name="menu_search">"Zoeken"</string>
     <string name="files_label">"Bestanden"</string>
     <plurals name="delete_files_confirmation_message">
-      <item quantity="other">%1$d bestanden verwijderen?</item>
-      <item quantity="one">%1$d bestand verwijderen?</item>
+        <item quantity="other">%1$d bestanden verwijderen?</item>
+        <item quantity="one">%1$d bestand verwijderen?</item>
     </plurals>
     <string name="display_options_sort_list_by">"Sorteren op"</string>
     <string name="data">"Gegevens"</string>
@@ -116,7 +116,7 @@
     <string name="button_try">"Nu proberen"</string>
     <string name="icon">"Icoon"</string>
     <string name="reset_all">"Alles resetten"</string>
-    <string name="remove">"Verwijderen"</string>
+    <string name="remove">Verplaatsen</string>
     <string name="currency_symbol">"Valutasymbool"</string>
     <string name="onboarding_get_started">"Aan de slag"</string>
     <string name="collapse">"Samenvouwen"</string>

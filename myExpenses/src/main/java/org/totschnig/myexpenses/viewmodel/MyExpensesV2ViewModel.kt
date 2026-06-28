@@ -1,19 +1,25 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.content.Intent
+import androidx.annotation.OpenForTesting
 import androidx.annotation.StringRes
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.observeQuery
+import arrow.core.Tuple4
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
@@ -23,24 +29,33 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.StartScreen
 import org.totschnig.myexpenses.compose.transactions.Action
 import org.totschnig.myexpenses.compose.transactions.FabStyle
+import org.totschnig.myexpenses.db2.setBalanceType
 import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.BalanceType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.model.sort.Sort
 import org.totschnig.myexpenses.model.sort.TransactionSort
 import org.totschnig.myexpenses.preference.EnumPreferenceAccessor
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.PreferenceAccessor
 import org.totschnig.myexpenses.preference.PreferenceState
 import org.totschnig.myexpenses.preference.enumValueOrDefault
-import org.totschnig.myexpenses.preference.menu
+import org.totschnig.myexpenses.preference.isWebUiActive
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.GROUPING_AGGREGATE
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
+import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_BY_AGGREGATE
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_DATE
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.mapToListCatching
+import org.totschnig.myexpenses.provider.triggerAccountListRefresh
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
@@ -52,10 +67,39 @@ enum class AccountsScreenTab(@param:StringRes val resourceId: Int) {
     BALANCE_SHEET(R.string.balance_sheet)
 }
 
-class MyExpensesV2ViewModel(
+@OpenForTesting
+open class MyExpensesV2ViewModel(
     application: Application,
     savedStateHandle: SavedStateHandle,
 ) : MyExpensesViewModel(application, savedStateHandle) {
+
+    private val _intentEvents = MutableSharedFlow<Intent>(replay = 1)
+    val intentEvents = _intentEvents.asSharedFlow()
+
+    fun handleIntent(intent: Intent) {
+        viewModelScope.launch {
+            intent.extras?.let { extras ->
+                if (extras.containsKey(KEY_ROWID)) {
+                    val accountId = extras.getLong(KEY_ROWID)
+                    if (accountId >= 0) {
+                        selectAccount(extras.getLong(KEY_ROWID))
+                    } else {
+                        //legacy handling from account widget
+                        if (accountId == HOME_AGGREGATE_ID) {
+                            setGrouping(AccountGrouping.NONE)
+                        } else {
+                            setGrouping(AccountGrouping.CURRENCY)
+                            extras.getString(KEY_CURRENCY)?.let {
+                                setFilter(currencyContext[it])
+                            }
+                        }
+                        selectAccount(0)
+                    }
+                    _intentEvents.emit(intent)
+                }
+            }
+        }
+    }
 
     private val _activeFilter = MutableStateFlow<AccountGroupingKey?>(null)
     val activeFilter: StateFlow<AccountGroupingKey?> = _activeFilter.asStateFlow()
@@ -81,6 +125,14 @@ class MyExpensesV2ViewModel(
                 FabStyle.Standard
             )
         }
+    }
+
+    val aggregateAccountBalanceType by lazy {
+        EnumPreferenceAccessor(
+            dataStore,
+            stringPreferencesKey("aggregateAccountBalanceType"),
+            BalanceType.CURRENT
+        )
     }
 
     fun setGrouping(grouping: AccountGrouping<*>) {
@@ -121,6 +173,17 @@ class MyExpensesV2ViewModel(
         selectAccount(0)
     }
 
+    fun setSortOrderAccounts(sort: Sort, isFlagFirst: Boolean) {
+        viewModelScope.launch {
+            prefHandler.putString(
+                PrefKey.SORT_ORDER_ACCOUNTS,
+                sort.name
+            )
+            sortByFlagFirst.set(isFlagFirst)
+            contentResolver.triggerAccountListRefresh()
+        }
+    }
+
     val accountDataV2: StateFlow<Result<List<FullAccount>>?> by lazy {
         contentResolver.observeQuery(
             uri = ACCOUNTS_URI
@@ -135,86 +198,102 @@ class MyExpensesV2ViewModel(
             .mapToListCatching {
                 it.fromCursor(currencyContext)
             }
-            .stateIn(viewModelScope, SharingStarted.Lazily, null)
+            .map {
+                it.map { it.withNaturalSort }
+            }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, null)
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     val accountList by lazy {
         combine(
             accountDataV2.mapNotNull { it?.getOrNull() },
             _activeFilter,
-            accountGrouping.flow,
-            currentAggregateGrouping,
-            currentAggregateSort,
-        ) { accounts, activeFilter, accountGrouping, aggregateGrouping, aggregateSort ->
-            val filteredByGroupFilter =
-                if (activeFilter == null || accountGrouping == AccountGrouping.NONE)
-                    accounts
-                else
-                    accounts.filter { account -> accountGrouping.getGroupKey(account) == activeFilter }
-            val aggregateAccountGrouping =
-                if (activeFilter != null) accountGrouping else AccountGrouping.NONE
-            //if we group by flag, and filter by a given flag,
-            // we want to show all accounts with that flag ignoring visibility
-            val filteredByVisibility =
-                if (accountGrouping == AccountGrouping.FLAG && activeFilter != null)
-                    filteredByGroupFilter
-                else
-                    filteredByGroupFilter.filter { it.visible }
-            if (filteredByGroupFilter.size < 2) filteredByVisibility
-            else {
-                val filteredForTotals = filteredByGroupFilter.filter { !it.excludeFromTotals }
-                filteredByVisibility + AggregateAccount(
-                    currencyUnit = activeFilter as? CurrencyUnit
-                        ?: currencyContext.homeCurrencyUnit,
-                    type = if (accountGrouping == AccountGrouping.TYPE) activeFilter as? AccountType else null,
-                    flag = if (accountGrouping == AccountGrouping.FLAG) activeFilter as? AccountFlag else null,
-                    grouping = aggregateGrouping,
-                    accountGrouping = aggregateAccountGrouping,
-                    sortBy = aggregateSort.column,
-                    sortDirection = aggregateSort.sortDirection,
-                    equivalentOpeningBalance = filteredForTotals.sumOf { it.equivalentOpeningBalance },
-                    equivalentCurrentBalance = filteredForTotals.sumOf { it.equivalentCurrentBalance },
-                    equivalentSumIncome = filteredForTotals.sumOf { it.equivalentSumIncome },
-                    equivalentSumExpense = filteredForTotals.sumOf { it.equivalentSumExpense },
-                    equivalentSumTransfer = filteredForTotals.sumOf { it.equivalentSumTransfer },
-                    equivalentTotal = filteredForTotals.sumOf {
-                        it.equivalentTotal ?: it.equivalentCurrentBalance
-                    },
-                ).let { aggregateAccount ->
-                    if (aggregateAccountGrouping == AccountGrouping.CURRENCY) aggregateAccount.copy(
-                        openingBalance = filteredForTotals.sumOf { it.openingBalance },
-                        currentBalance = filteredForTotals.sumOf { it.currentBalance },
-                        sumIncome = filteredForTotals.sumOf { it.sumIncome },
-                        sumExpense = filteredForTotals.sumOf { it.sumExpense },
-                        sumTransfer = filteredForTotals.sumOf { it.sumTransfer },
-                        total = filteredForTotals.sumOf { it.total ?: it.currentBalance },
-                    ) else aggregateAccount
+            accountGrouping.flow.filterNotNull(),
+            aggregateAccountBalanceType.flow.filterNotNull()
+        ) { accounts, activeFilter, accountGrouping, aggregateAccountBalanceType ->
+            Tuple4(accounts, activeFilter, accountGrouping, aggregateAccountBalanceType)
+        }.flatMapLatest { (accounts, activeFilter, grouping, aggregateAccountBalanceType) ->
+
+            combine(
+                groupingMap.getValue(groupingAggregateKey(grouping, activeFilter)).flow,
+                sortMap.getValue(sortAggregateKey(grouping, activeFilter)).flow
+            ) { aggregateGrouping, aggregateSort ->
+
+                val filteredByGroupFilter =
+                    if (activeFilter == null || grouping == AccountGrouping.NONE)
+                        accounts
+                    else
+                        accounts.filter { account -> grouping.getGroupKey(account) == activeFilter }
+
+                val aggregateAccountGrouping =
+                    if (activeFilter != null) grouping else AccountGrouping.NONE
+
+                val filteredByVisibility =
+                    if (grouping == AccountGrouping.FLAG && activeFilter != null)
+                        filteredByGroupFilter
+                    else
+                        filteredByGroupFilter.filter { it.visible }
+
+                val result = if (filteredByGroupFilter.size < 2) {
+                    filteredByVisibility
+                } else {
+                    val filteredForTotals = filteredByGroupFilter.filter { !it.excludeFromTotals }
+                    filteredByVisibility + AggregateAccount(
+                        currencyUnit = activeFilter as? CurrencyUnit
+                            ?: currencyContext.homeCurrencyUnit,
+                        type = activeFilter as? AccountType ?: AccountType.CASH,
+                        flag = activeFilter as? AccountFlag ?: AccountFlag.DEFAULT,
+                        isSingleCurrency = filteredByVisibility.distinctBy { it.currency }.size == 1,
+                        grouping = if (aggregateSort.column == KEY_DATE) aggregateGrouping else Grouping.NONE,
+                        accountGrouping = aggregateAccountGrouping,
+                        sortBy = aggregateSort.column,
+                        sortDirection = aggregateSort.sortDirection,
+                        balanceType = aggregateAccountBalanceType,
+                        equivalentOpeningBalance = filteredForTotals.sumOf { it.equivalentOpeningBalance },
+                        equivalentCurrentBalance = filteredForTotals.sumOf { it.equivalentCurrentBalance },
+                        equivalentSumIncome = filteredForTotals.sumOf { it.equivalentSumIncome },
+                        equivalentSumExpense = filteredForTotals.sumOf { it.equivalentSumExpense },
+                        equivalentSumTransfer = filteredForTotals.sumOf { it.equivalentSumTransfer },
+                        equivalentTotal = filteredForTotals.sumOf {
+                            it.equivalentTotal ?: it.equivalentCurrentBalance
+                        },
+                    ).let { aggregateAccount ->
+                        if (aggregateAccountGrouping == AccountGrouping.CURRENCY) aggregateAccount.copy(
+                            openingBalance = filteredForTotals.sumOf { it.openingBalance },
+                            currentBalance = filteredForTotals.sumOf { it.currentBalance },
+                            sumIncome = filteredForTotals.sumOf { it.sumIncome },
+                            sumExpense = filteredForTotals.sumOf { it.sumExpense },
+                            sumTransfer = filteredForTotals.sumOf { it.sumTransfer },
+                            total = filteredForTotals.sumOf { it.total ?: it.currentBalance },
+                        ) else aggregateAccount
+                    }
                 }
+                if (result.none { it.accountId == selectedAccountId.value }) {
+                    result.firstOrNull()?.let {
+                        selectAccount(it.id)
+                    }
+                }
+                result
             }
-        }.stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, emptyList())
     }
 
-    // Derived state: What are the available filter options for the current grouping?
     @OptIn(ExperimentalCoroutinesApi::class)
     val availableGroupFilters: StateFlow<List<AccountGroupingKey>?> by lazy {
         accountGrouping.statefulFlow.flatMapLatest { preferenceState ->
-            if (preferenceState is PreferenceState.Loading) {
-                emptyFlow()
-            } else {
-                accountDataV2.map { result ->
-                    result
-                        ?.getOrNull()
-                        ?.let { accounts ->
-                            (preferenceState as PreferenceState.Loaded).value.sortedGroupKeys(
-                                accounts
-                            )
+            when (preferenceState) {
+                is PreferenceState.Loading -> emptyFlow()
+                is PreferenceState.Loaded -> {
+                    accountDataV2.map { result ->
+                        result?.getOrNull()?.let { accounts ->
+                            preferenceState.value.sortedGroupKeys(accounts)
                         }
+                    }
                 }
             }
-
-        }.stateIn(viewModelScope, SharingStarted.Lazily, null)
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, null)
     }
-
 
     val groupingMap: Map<String, PreferenceAccessor<Grouping, String>> = lazyMap {
         EnumPreferenceAccessor(
@@ -232,52 +311,35 @@ class MyExpensesV2ViewModel(
         )
     }
 
-    fun aggregateKey(grouping: AccountGrouping<*>, filter: AccountGroupingKey?) =
+    fun groupingAggregateKey(grouping: AccountGrouping<*>, filter: AccountGroupingKey?) =
+        aggregateKey(grouping, filter, "", GROUPING_AGGREGATE)
+
+    fun sortAggregateKey(grouping: AccountGrouping<*>, filter: AccountGroupingKey?) =
+        aggregateKey(grouping, filter, "sort_", SORT_BY_AGGREGATE)
+
+    fun aggregateKey(
+        grouping: AccountGrouping<*>,
+        filter: AccountGroupingKey?,
+        prefix: String,
+        homeKey: String,
+    ) =
         if (grouping == AccountGrouping.NONE || filter == null) {
-            GROUPING_AGGREGATE
+            homeKey
         } else {
-            "${grouping.name}_${filter.id}"
+            "$prefix${grouping.name}_${filter.id}"
         }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val currentAggregateGrouping: Flow<Grouping> by lazy {
-        combine(accountGrouping.flow, _activeFilter) { grouping, filter ->
-            grouping to filter
-        }.flatMapLatest { (grouping, filter) ->
-            groupingMap.getValue(
-                aggregateKey(
-                    grouping,
-                    filter
-                )
-            ).flow
-        }
-    }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val currentAggregateSort: Flow<TransactionSort> by lazy {
-        combine(accountGrouping.flow, _activeFilter) { grouping, filter ->
-            grouping to filter
-        }.flatMapLatest { (grouping, filter) ->
-            sortMap.getValue(
-                aggregateKey(
-                    grouping,
-                    filter
-                )
-            ).flow
-        }
-    }
 
     fun persistGroupingV2(grouping: Grouping) {
         viewModelScope.launch(context = coroutineContext()) {
             if (selectedAccountId.value == 0L) {
                 groupingMap.getValue(
-                    aggregateKey(
+                    groupingAggregateKey(
                         accountGrouping.get(),
                         _activeFilter.value
                     )
                 ).set(grouping)
             } else {
-                persistGrouping(grouping)
+                performPersistGrouping(grouping)
             }
         }
     }
@@ -286,13 +348,23 @@ class MyExpensesV2ViewModel(
         viewModelScope.launch(context = coroutineContext()) {
             if (selectedAccountId.value == 0L) {
                 sortMap.getValue(
-                    aggregateKey(
+                    sortAggregateKey(
                         accountGrouping.get(),
                         _activeFilter.value
                     )
                 ).set(transactionSort)
             } else {
-                persistSort(transactionSort.column, transactionSort.sortDirection)
+                performPersistSort(transactionSort)
+            }
+        }
+    }
+
+    fun persistBalanceType(balanceType: BalanceType) {
+        viewModelScope.launch(context = coroutineContext()) {
+            if (selectedAccountId.value == 0L) {
+                aggregateAccountBalanceType.set(balanceType)
+            } else {
+                repository.setBalanceType(selectedAccountId.value, balanceType)
             }
         }
     }
@@ -302,10 +374,15 @@ class MyExpensesV2ViewModel(
     }
 
     val startScreen: StartScreen by lazy {
-        val preference = _startScreen
-        if (preference == StartScreen.LastVisited)
-            prefHandler.enumValueOrDefault(PrefKey.UI_SCREEN_LAST_VISITED, StartScreen.Transactions)
-        else preference
+        if (savedStateHandle.contains(KEY_ROWID)) StartScreen.Transactions else {
+            val preference = _startScreen
+            if (preference == StartScreen.LastVisited)
+                prefHandler.enumValueOrDefault(
+                    PrefKey.UI_SCREEN_LAST_VISITED,
+                    StartScreen.Transactions
+                )
+            else preference
+        }
     }
 
     val startFilter by lazy {
@@ -359,33 +436,27 @@ class MyExpensesV2ViewModel(
         )
     }
 
-    val mainMenu: StateFlow<List<MenuItem>> by lazy {
-       menuFlow(MenuItem.MenuContext.V2Navigation)
+    val mainMenuAccessor by lazy {
+        menuAccessor(MenuItem.MenuContext.V2Navigation)
     }
 
-    val transactionScreenMenu by lazy {
-        menuFlow(MenuItem.MenuContext.V2Transactions)
+    val transactionMenuAccessor by lazy {
+        menuAccessor(MenuItem.MenuContext.V2Transactions)
     }
 
-    private fun menuFlow(menuContext: MenuItem.MenuContext): StateFlow<List<MenuItem>> {
-        val defaultConfiguration =
-            MenuItem.getDefaultConfiguration(menuContext)
-        return dataStore.menu(
-            key = prefHandler.getStringPreferencesKey(menuContext.prefKey),
+    private fun menuAccessor(menuContext: MenuItem.MenuContext.V2) =
+        PreferenceAccessor(
+            dataStore,
+            menuContext.prefKey,
+            MenuItem.getDefaultConfiguration(menuContext),
+            MenuItem.mapper
         )
-            .map { it ?: defaultConfiguration }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5000),
-                initialValue = defaultConfiguration
-            )
-    }
 
     val isWebUiActive: Flow<Boolean> by lazy {
-        dataStore.data.map { preferences -> preferences[prefHandler.getBooleanPreferencesKey(PrefKey.UI_WEB)] ?: false }
+        dataStore.isWebUiActive
             .stateIn(
                 scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5000),
+                started = SharingStarted.WhileSubscribedWithTimeout,
                 initialValue = false
             )
     }

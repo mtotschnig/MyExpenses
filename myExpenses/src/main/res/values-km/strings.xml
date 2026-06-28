@@ -116,7 +116,7 @@
     <string name="menu_edit_method">កែ​វិធីសាស្ត្រ​ទូទាត់ប្រាក់</string>
     <string name="menu_edit_party">កែ​ភាគី</string>
     <string name="menu_edit_plan_instance">កែសម្រួលផែនការកើតឡើងតែមួយ</string>
-    <string name="menu_edit_split">កែការញែក</string>
+    <string name="menu_edit_split">កែសម្រួលប្រតិបត្តិការបំបែក</string>
     <string name="menu_edit_split_part_category">កែចំណាត់ថ្នាក់​​បែង​ចែក​ជាផ្នែក</string>
     <string name="menu_edit_split_part_transfer">កែ​ផ្នែក​ញែក​​ការផ្ទេរ​</string>
     <string name="menu_edit_template">កែសម្រួលទិន្នន័យគំរូ</string>
@@ -137,7 +137,6 @@
     <string name="menu_share">ប្រាប់​មិត្តម្នាក់</string>
     <string name="method">វិធី​សា​ស្រ្ត​ទូទាត់</string>
     <string name="no_app_handling_email_available">គ្មាន​កម្មវិធី​ដំណើការ​អ៊ីម៉ែល​ទេ</string>
-    <string name="no_app_handling_ftp_available">គ្មាន​កម្មវិធី​សម្រាប់ ftp ទេ។ សូម​បញ្ចូល​កម្មវិធី <i>Send With FTP</i>?</string>
     <string name="no_categories">គ្មាន​ចំណាត់ថ្នាក់​កំណត់។</string>
     <string name="no_expenses">គ្មាន​ទិន្នន័យចំណាយ​នៅឡើយទេ។</string>
     <string name="no_exportable_expenses">មិនមានប្រតិបត្តិការដែលមិនទាន់ត្រូវបាននាំចេញទេ។</string>
@@ -166,7 +165,7 @@
     <string name="password_security_answer_not_valid">ចម្លើយខុស។ សូមព្យាយាមម្តងទៀត!</string>
     <string name="payee">អ្នកទទួលប្រាក់</string>
     <string name="payer">អ្នកចេញការចំណាយ</string>
-    <string name="payer_or_payee">អ្នក​ទទួល/អ្នក​បង់ប្រាក់</string>
+    <string name="payer_or_payee">ភាគីផ្ទុយ</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">ផែនការ</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -341,4 +340,5 @@
     <string name="price_history">ប្រវត្តិតម្លៃ</string>
     <string name="pref_account_list_display_configuration_title">បញ្ជីគណនី</string>
     <string name="menu_templates">ពុម្ព</string>
+    <string name="pref_plan_executor_time_title">ម៉ោងជូនដំណឹង</string>
 </resources>

@@ -99,6 +99,8 @@ class CategoryDelegate(
             if (oldAccount != null && newAccount != null) {
                 accountSpinner.setSelection(accountAdapter.getPosition(newAccount.id))
                 updateAccount(newAccount, newAccount.currency.code != oldAccount.currency.code)
+                host.color = newAccount.color
+                host.maybeApplyContentColor()
             }
         }
         if (data.debtId != null) {

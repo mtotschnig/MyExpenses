@@ -1,32 +1,50 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--suppress AndroidElementNotAllowed -->
+<?xml version="1.0" encoding="utf-8"?><!--suppress AndroidElementNotAllowed -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:my="http://schemas.android.com/apk/res-auto"
     android:title="@string/expand_button_title">
     <org.totschnig.myexpenses.preference.HeaderPreference />
 
-    <org.totschnig.myexpenses.preference.NumberFormatPreference
-        android:key="@string/pref_custom_decimal_format_key"
-        android:summary="@string/pref_custom_decimal_format_summary"
-        android:title="@string/pref_custom_decimal_format_title" />
+    <PreferenceCategory
+        android:key="category_data"
+        android:title="@string/data">
 
-    <org.totschnig.myexpenses.preference.DateFormatPreference
-        android:key="@string/pref_custom_date_format_key"
-        android:summary="@string/pref_custom_decimal_format_summary"
-        android:title="@string/date_format" />
+        <org.totschnig.myexpenses.preference.NumberFormatPreference
+            android:key="@string/pref_custom_decimal_format_key"
+            android:summary="@string/pref_custom_decimal_format_summary"
+            android:title="@string/pref_custom_decimal_format_title" />
 
-    <EditTextPreference
-        android:defaultValue="@string/default_attachment_mime_types"
-        android:key="@string/pref_attachment_mime_types_key"
-        android:title="@string/pref_attachment_mime_types_title"
-        my:useSimpleSummaryProvider="true" />
+        <org.totschnig.myexpenses.preference.DateFormatPreference
+            android:key="@string/pref_custom_date_format_key"
+            android:summary="@string/pref_custom_decimal_format_summary"
+            android:title="@string/date_format" />
 
-    <Preference
-        android:key="@string/pref_default_transfer_category_key"
-        android:title="@string/default_transfer_category"/>
+        <EditTextPreference
+            android:defaultValue="@string/default_attachment_mime_types"
+            android:key="@string/pref_attachment_mime_types_key"
+            android:title="@string/pref_attachment_mime_types_title"
+            my:useSimpleSummaryProvider="true" />
+
+        <Preference
+            android:key="@string/pref_default_transfer_category_key"
+            android:title="@string/default_transfer_category" />
+
+    </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="@string/pref_planner_advanced_key"
+        android:key="category_ui"
+        android:title="@string/pref_category_title_ui"
+        my:isPreferenceVisible="@bool/contentBasedColors">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="@string/pref_content_based_colors_key"
+            android:summary="@string/pref_content_based_colors_summary"
+            android:title="@string/pref_content_based_colors_title" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="category_planner"
         android:title="@string/planner_notification_channel_name">
 
         <ListPreference
@@ -48,13 +66,13 @@
 
         <Preference
             android:key="@string/pref_remove_local_calendar_key"
-            android:title="@string/calendar_delete"
             android:summary="Local Calendar/LOCAL/MyExpensesPlanner"
+            android:title="@string/calendar_delete"
             my:isPreferenceVisible="false" />
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="@string/pref_webdav_key"
+        android:key="category_webdav"
         android:title="WebDAV">
 
         <SeekBarPreference
@@ -84,14 +102,12 @@
         <SwitchPreferenceCompat
             android:defaultValue="false"
             android:key="@string/pref_camera_chooser_key"
-            android:title="@string/pick_image_intent_chooser_title"
-            />
+            android:title="@string/pick_image_intent_chooser_title" />
 
         <Preference
             android:key="@string/pref_help_key"
-            android:title="@string/menu_help"
             android:summary="https://faq.myexpenses.mobi/data-picture-source"
-            />
+            android:title="@string/menu_help" />
 
     </PreferenceCategory>
 

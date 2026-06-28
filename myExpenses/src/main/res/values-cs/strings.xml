@@ -148,7 +148,7 @@
     <string name="menu_edit_method">Upravit způsob platby</string>
     <string name="menu_edit_party">Upravit stranu</string>
     <string name="menu_edit_plan_instance">Upravit výskyt jednoho plánu</string>
-    <string name="menu_edit_split">Editovat rozdělení</string>
+    <string name="menu_edit_split">Upravit rozdělenou transakci</string>
     <string name="menu_edit_split_part_category">Upravit kategorie rozdělení</string>
     <string name="menu_edit_split_part_transfer">Úprava převodu rozdělit část</string>
     <string name="menu_edit_template">Upravit šablonu</string>
@@ -172,7 +172,6 @@
     <string name="menu_split_transaction">Převést na rozdělení</string>
     <string name="method">Způsob platby</string>
     <string name="no_app_handling_email_available">Žádná aplikace pro zpracování e-mailu k dispozici.</string>
-    <string name="no_app_handling_ftp_available">Žádná aplikace umožňující zpracovat ftp není dostupná. Instalace <i>Odeslat přes FTP</i>?</string>
     <string name="no_app_handling_mime_type_available">Nejsou k dispozici žádné aplikace pro zpracování souborů %s.</string>
     <string name="no_categories">Žádné kategorie.</string>
     <string name="no_expenses">Doposud žádné výdaje!</string>
@@ -211,7 +210,7 @@
     <string name="password_security_answer_not_valid">Špatná odpověď. Zkuste to znovu!</string>
     <string name="payee">Příjemce</string>
     <string name="payer">Plátce</string>
-    <string name="payer_or_payee">Příjemce/plátce</string>
+    <string name="payer_or_payee">Protistrana</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Plán</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -398,7 +397,6 @@
     <string name="widget_title_accounts">Moje účty</string>
     <string name="widget_title_templates">Moje šablony</string>
     <string name="app_dir_not_accessible">Momentálně zvolená složka pro zálohy a exporty (%1$s) není přístupná. Zvolte prosím jinou.</string>
-    <string name="app_dir_not_compatible_with_nougat">Aktuálně nakonfigurovaný identifikátor URI pro zálohování a export (%1$s) není v systému Android Nougat podporován. Vyberte složku znovu.</string>
     <string name="search_amount">Hledat částku</string>
     <string name="search_category">Hledat kategorii</string>
     <string name="search_comment">Hledat poznámky</string>
@@ -685,7 +683,7 @@
     <string name="pref_exchange_rate_provider_summary">Vyberte poskytovatele pro stažení směnných kurzů</string>
     <string name="pref_exchange_rate_provider_title">Poskytovatel směnného kurzu</string>
     <string name="pref_exchange_rates_api_key_summary">Zaregistrujte si bezplatný účet služby %s a zadejte své ID aplikace</string>
-    <string name="pref_plan_executor_time_title">Čas oznámení plánovače</string>
+    <string name="pref_plan_executor_time_title">Čas oznámení</string>
     <string name="synchronization_select_folder_dialog_title">Zvolte existující složku nebo vytvořte novou</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch">Pro zaznamenání příjmu použijte tento přepínač.</string>
@@ -809,7 +807,7 @@
     <string name="single_feature_info">Případně si můžete zakoupit neomezený přístup pouze k této funkci.</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">Poslední den</string>
-    <string name="warning_link_transfer">Dvě vybrané transakce budou propojeny jako převod. Informace o příjemci/plátci a kategorii budou vynechány.</string>
+    <string name="warning_link_transfer">Dvě vybrané transakce budou propojeny jako převod. Informace o příjemci/plátci a kategorii budou vynechány.</string>
     <!-- This is the title of an entry on the configuration screen for the account widget. It allows to decide which number should be displayed for each account: the current balance or the total (which included future transactions) -->
     <string name="account_widget_configuration_sum">Typ zobrazovaného součtu</string>
     <string name="account_widget_configuration_sum_total">Zahrnout budoucí transakce</string>
@@ -880,7 +878,7 @@
     </plurals>
     <string name="encrypt_database">Šifrování databáze</string>
     <string name="menu_unlink_transfer">Odpojit přenos</string>
-    <string name="roadmap_intro">Hlasování o plánu 2024 je nyní otevřeno! Hlasujte pro funkce a vylepšení, které jsou pro vás nejdůležitější.</string>
+    <string name="roadmap_intro">Hlasování o plánu %d je nyní otevřeno! Hlasujte pro funkce a vylepšení, které jsou pro vás nejdůležitější.</string>
     <string name="backup_save_to_sync_backend">Uložit do %s</string>
     <string name="contact_us">Napište nám</string>
     <string name="icons_for_categories">Ikony pro kategorie</string>
@@ -943,7 +941,7 @@
     <string name="pref_debug_logging_share_summary">Sdílení souborů protokolu</string>
     <string name="dialog_confirm_rollover_delete">Všechny částky za toto období budou smazány.</string>
     <string name="select_all_list_too_large">Příkaz %s není k dispozici, protože seznam je načten pouze částečně. Chcete-li zmenšit velikost seznamu, použijte funkci Hledat.</string>
-    <string name="github_sponsors">Licenční klíče jsou také poskytovány &lt;a href=%s&gt;Github Sponsors&lt;/a&gt;.</string>
+    <string name="github_sponsors"><![CDATA[Licenční klíče jsou také poskytovány <a href=%s>Github Sponsors</a>.]]></string>
     <string name="notifications_permission_required_webui">Udělením oprávnění k odesílání oznámení můžete řídit stav webového serveru.</string>
     <string name="notifications_permission_required_auto_backup">Udělením oprávnění k zasílání oznámení budete informováni o automatických zálohách.</string>
     <string name="pref_sync_now_all_summary">%s synchronizuje všechny účty pro stejný back-end.</string>

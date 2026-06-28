@@ -132,7 +132,7 @@
     <string name="menu_edit_method">지불 방식 편집</string>
     <string name="menu_edit_party">구성원 편집</string>
     <string name="menu_edit_plan_instance">단일 재무 계획의 발생 사실 편집</string>
-    <string name="menu_edit_split">분할 거래 내역 편집</string>
+    <string name="menu_edit_split">분할 거래 편집</string>
     <string name="menu_edit_split_part_category">카테고리 분할 거래의 일부분 편집</string>
     <string name="menu_edit_split_part_transfer">이체 분할 거래의 일부분 편집</string>
     <string name="menu_edit_template">템플릿 편집</string>
@@ -155,7 +155,6 @@
     <string name="menu_split_transaction">분할 거래로 바꾸기</string>
     <string name="method">지불 방법</string>
     <string name="no_app_handling_email_available">이메일을 다룰 수 있는 앱이 없습니다.</string>
-    <string name="no_app_handling_ftp_available">FTP를 다룰 수 있는 앱이 없습니다. <i>Send With FTP</i>를 설치할까요?</string>
     <string name="no_app_handling_mime_type_available">%s 파일을 다룰 수 있는 앱이 없습니다.</string>
     <string name="no_categories">카테고리가 없습니다.</string>
     <string name="no_expenses">지출이 아직 없습니다!</string>
@@ -186,7 +185,7 @@
     <string name="password_security_answer_not_valid">정답이 아닙니다. 다시 시도하세요!</string>
     <string name="payee">수취인</string>
     <string name="payer">납부인</string>
-    <string name="payer_or_payee">수취인/납부인</string>
+    <string name="payer_or_payee">거래처</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">재무 계획</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -451,4 +450,5 @@
     <string name="price_history">가격 내역</string>
     <string name="pref_account_list_display_configuration_title">계정 목록</string>
     <string name="menu_templates">템플렛들</string>
+    <string name="pref_plan_executor_time_title">알림 시간</string>
 </resources>

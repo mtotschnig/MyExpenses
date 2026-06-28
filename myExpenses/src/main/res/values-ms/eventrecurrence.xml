@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2006 The Android Open Source Project
+<?xml version="1.0" encoding="utf-8"?><!-- Copyright (C) 2006 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -15,83 +14,83 @@
      android-source/packages/apps/Calendar/res/values
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-  <string name="does_not_repeat">"Acara satu kali"</string>
+    <string name="does_not_repeat">"Acara satu kali"</string>
     <string name="endByDate">"; sehingga <xliff:g id="DATE">%s</xliff:g>"</string>
-  <plurals name="endByCount">
-    <item quantity="one">"; utk satu kali"</item>
-    <item quantity="other">"; utk <xliff:g id="NUMBER">%d</xliff:g> kali"</item>
-  </plurals>
-  <plurals name="daily">
-    <item quantity="one">"Harian"</item>
-    <item quantity="other">"Setiap <xliff:g id="NUMBER">%d</xliff:g> hari"</item>
-  </plurals>
+    <plurals name="endByCount">
+        <item quantity="one">"; utk satu kali"</item>
+        <item quantity="other">"; utk <xliff:g id="NUMBER">%d</xliff:g> kali"</item>
+    </plurals>
+    <plurals name="daily">
+        <item quantity="one">"Harian"</item>
+        <item quantity="other">"Setiap <xliff:g id="NUMBER">%d</xliff:g> hari"</item>
+    </plurals>
     <string name="every_weekday">"Setiap hari kerja (Isn-Jum)"</string>
-  <plurals name="weekly">
-    <item quantity="one">"Mingguan pada <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
-    <item quantity="other">"Setiap <xliff:g id="NUMBER">%1$d</xliff:g> minggu pada <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
-  </plurals>
-  <plurals name="monthly">
-    <item quantity="one">Bulanan</item>
-    <item quantity="other">Setiap <xliff:g id="COUNT">%d</xliff:g> bulan</item>
-  </plurals>
-  <plurals name="yearly">
-    <item quantity="one">Tahunan</item>
-    <item quantity="other">Setiap <xliff:g id="COUNT">%d</xliff:g> tahun</item>
-  </plurals>
+    <plurals name="weekly">
+        <item quantity="one">"Mingguan pada <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
+        <item quantity="other">"Setiap <xliff:g id="NUMBER">%1$d</xliff:g> minggu pada <xliff:g id="DAYS_OF_WEEK">%2$s</xliff:g>"</item>
+    </plurals>
+    <plurals name="monthly">
+        <item quantity="one">Bulanan</item>
+        <item quantity="other">Setiap <xliff:g id="COUNT">%d</xliff:g> bulan</item>
+    </plurals>
+    <plurals name="yearly">
+        <item quantity="one">Tahunan</item>
+        <item quantity="other">Setiap <xliff:g id="COUNT">%d</xliff:g> tahun</item>
+    </plurals>
     <string name="monthly_plain">"Bulanan"</string>
     <string name="monthly_on_day">" (pada hari ke-<xliff:g id="DAY_OF_MONTH">%s</xliff:g> )"</string>
     <string name="yearly_on_day">" (pada <xliff:g id="DATES">%s</xliff:g>)"</string>
-  <string name="yearly_plain">Tahunan</string>
-  <string name="daily_plain">Harian</string>
-  <string name="weekly_plain">Mingguan</string>
+    <string name="yearly_plain">Tahunan</string>
+    <string name="daily_plain">Harian</string>
+    <string name="weekly_plain">Mingguan</string>
 
-      <string-array name="repeat_by_nth_sun">
-    <item>"pada setiap Ahad pertama"</item>
-    <item>"pada setiap Ahad kedua"</item>
-    <item>"pada setiap Ahad ketiga"</item>
-    <item>"pada setiap Ahad keempat"</item>
-    <item>"pada setiap Ahad terakhir"</item>
-  </string-array>
-  <string-array name="repeat_by_nth_mon">
-    <item>"pada setiap Isnin pertama"</item>
-    <item>"pada setiap Isnin kedua"</item>
-    <item>"pada setiap Isnin ketiga"</item>
-    <item>"pada setiap Isnin keempat"</item>
-    <item>"pada setiap Isnin terakhir"</item>
-  </string-array>
-  <string-array name="repeat_by_nth_tues">
-    <item>"pada setiap Selasa pertama"</item>
-    <item>"pada setiap Selasa kedua"</item>
-    <item>"pada setiap Selasa ketiga"</item>
-    <item>"pada setiap Selasa keempat"</item>
-    <item>"pada setiap Selasa terakhir"</item>
-  </string-array>
-  <string-array name="repeat_by_nth_wed">
-    <item>"pada setiap Rabu pertama"</item>
-    <item>"pada setiap Rabu kedua"</item>
-    <item>"pada setiap Rabu ketiga"</item>
-    <item>"pada setiap Rabu keempat"</item>
-    <item>"pada setiap Rabu terakhir"</item>
-  </string-array>
-  <string-array name="repeat_by_nth_thurs">
-    <item>"pada setiap Khamis pertama"</item>
-    <item>"pada setiap Khamis kedua"</item>
-    <item>"pada setiap Khamis ketiga"</item>
-    <item>"pada setiap Khamis keempat"</item>
-    <item>"pada setiap Khamis terakhir"</item>
-  </string-array>
-  <string-array name="repeat_by_nth_fri">
-    <item>"pada setiap Jumaat pertama"</item>
-    <item>"pada setiap Jumaat kedua"</item>
-    <item>"pada setiap Jumaat ketiga"</item>
-    <item>"pada setiap Jumaat keempat"</item>
-    <item>"pada setiap Jumaat terakhir"</item>
-  </string-array>
-  <string-array name="repeat_by_nth_sat">
-    <item>"pada setiap Sabtu pertama"</item>
-    <item>"pada setiap Sabtu kedua"</item>
-    <item>"pada setiap Sabtu ketiga"</item>
-    <item>"pada setiap Sabtu keempat"</item>
-    <item>"pada setiap Sabtu terakhir"</item>   
-  </string-array>
- </resources>
+    <string-array name="repeat_by_nth_sun">
+        <item>"pada setiap Ahad pertama"</item>
+        <item>"pada setiap Ahad kedua"</item>
+        <item>"pada setiap Ahad ketiga"</item>
+        <item>"pada setiap Ahad keempat"</item>
+        <item>"pada setiap Ahad terakhir"</item>
+    </string-array>
+    <string-array name="repeat_by_nth_mon">
+        <item>"pada setiap Isnin pertama"</item>
+        <item>"pada setiap Isnin kedua"</item>
+        <item>"pada setiap Isnin ketiga"</item>
+        <item>"pada setiap Isnin keempat"</item>
+        <item>"pada setiap Isnin terakhir"</item>
+    </string-array>
+    <string-array name="repeat_by_nth_tues">
+        <item>"pada setiap Selasa pertama"</item>
+        <item>"pada setiap Selasa kedua"</item>
+        <item>"pada setiap Selasa ketiga"</item>
+        <item>"pada setiap Selasa keempat"</item>
+        <item>"pada setiap Selasa terakhir"</item>
+    </string-array>
+    <string-array name="repeat_by_nth_wed">
+        <item>"pada setiap Rabu pertama"</item>
+        <item>"pada setiap Rabu kedua"</item>
+        <item>"pada setiap Rabu ketiga"</item>
+        <item>"pada setiap Rabu keempat"</item>
+        <item>"pada setiap Rabu terakhir"</item>
+    </string-array>
+    <string-array name="repeat_by_nth_thurs">
+        <item>"pada setiap Khamis pertama"</item>
+        <item>"pada setiap Khamis kedua"</item>
+        <item>"pada setiap Khamis ketiga"</item>
+        <item>"pada setiap Khamis keempat"</item>
+        <item>"pada setiap Khamis terakhir"</item>
+    </string-array>
+    <string-array name="repeat_by_nth_fri">
+        <item>"pada setiap Jumaat pertama"</item>
+        <item>"pada setiap Jumaat kedua"</item>
+        <item>"pada setiap Jumaat ketiga"</item>
+        <item>"pada setiap Jumaat keempat"</item>
+        <item>"pada setiap Jumaat terakhir"</item>
+    </string-array>
+    <string-array name="repeat_by_nth_sat">
+        <item>"pada setiap Sabtu pertama"</item>
+        <item>"pada setiap Sabtu kedua"</item>
+        <item>"pada setiap Sabtu ketiga"</item>
+        <item>"pada setiap Sabtu keempat"</item>
+        <item>"pada setiap Sabtu terakhir"</item>
+    </string-array>
+</resources>

@@ -81,7 +81,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
     }
 
     protected fun doSave(accountIn: Account) {
-        val accountType = repository.requireAccountTypeForSync(accountIn.type.name)
+        val accountType = repository.requireAccountTypeForSync(accountIn.type!!.name)
 
         val account = repository.createAccount(
             accountIn.copy(type = accountType)
@@ -115,11 +115,14 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
             val oldName = data.getString(KEY_ORIGINAL_ACCOUNT_NAME)!!
             var account = getAccount(oldName)
             val newName = data.getString(KEY_ACCOUNT_NAME)
-            if (data.getString(KEY_ORIGINAL_ACCOUNT_NAME) != newName) {
+            if (oldName != newName) {
                 val accountManagerFuture =
                     accountManager.renameAccount(account, newName, null, null)
                 account = accountManagerFuture.result
-                if (account.name != newName) emit(false)
+                if (account.name != newName) {
+                    emit(false)
+                    return@liveData
+                }
                 val contentValues = ContentValues(1).apply {
                     put(KEY_SYNC_ACCOUNT_NAME, newName)
                 }

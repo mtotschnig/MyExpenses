@@ -144,7 +144,7 @@
     <string name="menu_edit_method">支払方法を編集</string>
     <string name="menu_edit_party">取引先を編集</string>
     <string name="menu_edit_plan_instance">単一計画発生を編集</string>
-    <string name="menu_edit_split">分割を編集</string>
+    <string name="menu_edit_split">分割取引を編集</string>
     <string name="menu_edit_split_part_category">分類分割パートを編集</string>
     <string name="menu_edit_split_part_transfer">振替分割パートを編集</string>
     <string name="menu_edit_template">テンプレートを編集</string>
@@ -168,7 +168,6 @@
     <string name="menu_split_transaction">変換して分割</string>
     <string name="method">支払方法</string>
     <string name="no_app_handling_email_available">利用可能なメール アプリがありません。</string>
-    <string name="no_app_handling_ftp_available">利用可能な ftp アプリがありません。<i>Send With FTP</i> をインストールしますか?</string>
     <string name="no_app_handling_mime_type_available">%s を利用可能なアプリがありません。</string>
     <string name="no_categories">分類がありません。</string>
     <string name="no_expenses">まだ支出がありません!</string>
@@ -200,7 +199,7 @@
     <string name="password_security_answer_not_valid">回答が間違っています。もう一度試してください!</string>
     <string name="payee">受取人</string>
     <string name="payer">支払人</string>
-    <string name="payer_or_payee">受取人/支払人</string>
+    <string name="payer_or_payee">取引先</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">計画</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -375,7 +374,6 @@
     <string name="widget_title_accounts">マイ勘定</string>
     <string name="widget_title_templates">マイ テンプレート</string>
     <string name="app_dir_not_accessible">現在、バックアップとエクスポート用に選択されているフォルダ (%1$s) にアクセスできません。別のフォルダを選択してください。</string>
-    <string name="app_dir_not_compatible_with_nougat">現在設定されているバックアップとエクスポートの URI (%1$s) は、Android Nougat ではサポートされていません。 もう一度フォルダーを選択してください。</string>
     <string name="search_amount">金額の検索</string>
     <string name="search_category">分類の</string>
     <string name="search_comment">メモの検索</string>
@@ -658,7 +656,7 @@
     <string name="pref_exchange_rate_provider_summary">為替レートをダウンロードするプロバイダーを選択</string>
     <string name="pref_exchange_rate_provider_title">為替レートプロバイダー</string>
     <string name="pref_exchange_rates_api_key_summary">%sで無料アカウントを登録して、アプリIDを入力してください</string>
-    <string name="pref_plan_executor_time_title">プランナー通知時間</string>
+    <string name="pref_plan_executor_time_title">通知時刻</string>
     <string name="synchronization_select_folder_dialog_title">既存のフォルダーを選択するか新しく作成</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch">この切り替えボタンを使用して収入を記録します。</string>

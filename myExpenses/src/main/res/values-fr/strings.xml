@@ -171,7 +171,6 @@
     <string name="menu_split_transaction">Ventiler</string>
     <string name="method">Mode de paiement</string>
     <string name="no_app_handling_email_available">Aucune application disponible pour envoyer un courriel.</string>
-    <string name="no_app_handling_ftp_available">Aucune application disponible pour ftp. Installer &lt;i&gt;Envoi par FTP&lt;/i&gt; \?</string>
     <string name="no_app_handling_mime_type_available">Aucune application pour les fichiers %s disponible.</string>
     <string name="no_categories">Aucune catégorie.</string>
     <string name="no_expenses">Aucune dépense !</string>
@@ -391,7 +390,6 @@
     <string name="widget_title_accounts">Mes comptes</string>
     <string name="widget_title_templates">Mes modèles</string>
     <string name="app_dir_not_accessible">Le dossier actuellement sélectionné pour les sauvegardes et les exportations (%1$s) n\'est pas accessible. Veuillez en choisir un autre.</string>
-    <string name="app_dir_not_compatible_with_nougat">La présente URI configurée pour les sauvegardes et les exportations (%1$s) n\'est pas prise en charge par Android Nougat. Veuillez encore sélectionner un répertoire.</string>
     <string name="search_amount">Recherche de montant</string>
     <string name="search_category">Recherche de catégorie</string>
     <string name="search_comment">Recherche par commentaires</string>
@@ -677,7 +675,7 @@
     <string name="pref_exchange_rate_provider_summary">Sélectionner un fournisseur pour télécharger les taux de change</string>
     <string name="pref_exchange_rate_provider_title">Fournisseur de taux de change</string>
     <string name="pref_exchange_rates_api_key_summary">Veuillez créer un compte gratuit sur %s et fournir votre App ID</string>
-    <string name="pref_plan_executor_time_title">Heure de notification du planificateur</string>
+    <string name="pref_plan_executor_time_title">Heure de notification</string>
     <string name="synchronization_select_folder_dialog_title">Sélectionner un dossier existant ou en créer un nouveau</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch">Utilisez ce bouton pour enregistrer le revenu.</string>
@@ -945,7 +943,7 @@
     <string name="warning_transform_to_transfer">L\'opération sélectionnée sera remplacée par un transfert de %1$s vers %2$s.</string>
     <string name="remap_date">Sur toutes les opérations sélectionnées, la date sera fixée à %s.</string>
     <string name="menu_transform_to_transfer">Transformer en transfert</string>
-    <string name="roadmap_intro">Le vote pour la feuille de route 2024 est maintenant ouvert ! Votez pour les fonctionnalités et les améliorations qui comptent le plus pour vous.</string>
+    <string name="roadmap_intro">Le vote pour la feuille de route %d est maintenant ouvert ! Votez pour les fonctionnalités et les améliorations qui comptent le plus pour vous.</string>
     <string name="merge_categories_prompt">Sélectionnez la catégorie que vous souhaitez conserver</string>
     <string name="merge_categories_dialog_title">Fusionner les catégories</string>
     <string name="subcategories_merged_recursively">Si l’une des catégories fusionnées a des sous-catégories avec le même label, celles-ci seront fusionnées en premier, récursivement.</string>
@@ -1068,4 +1066,7 @@
     <string name="pref_fab_style_standard_description">Standard (Appuyez sur la flèche pour le menu)</string>
     <string name="pref_fab_style_compact_description">Compact (Appuyez et maintenez pour le menu)</string>
     <string name="number_too_large">Nombre trop grand</string>
+    <string name="prioritize_flag_order">Prioriser l’ordre des marqueurs</string>
+    <string name="pref_content_based_colors_title">Couleur dynamique basée sur les comptes</string>
+    <string name="pref_content_based_colors_summary">Dérivez les couleurs du thème à partir de la couleur du compte courant. Désactivez si le texte est difficile à lire.</string>
 </resources>

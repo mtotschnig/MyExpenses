@@ -84,7 +84,7 @@
     <string name="dialog_remind_rate_yes">Rate now</string>
     <string name="dialog_security_answer">Answer</string>
     <string name="dialog_security_question">Question</string>
-    <!-- %1$s is replace with account label -->
+    <!-- %1$s is replaced with account label -->
     <string name="dialog_title_balance_account">Balance %1$s</string>
     <string name="dialog_title_contrib_feature">Premium feature</string>
     <plurals name="dialog_title_warning_delete_account">
@@ -137,8 +137,8 @@
     <string name="menu_create_method">New payment method</string>
     <string name="menu_create_party">New party</string>
     <string name="menu_create_split">New split</string>
-    <string name="menu_create_split_part_category">New category split part</string>
-    <string name="menu_create_split_part_transfer">New transfer split part</string>
+    <string name="menu_create_split_part_category">New category split</string>
+    <string name="menu_create_split_part_transfer">New transfer split</string>
     <string name="menu_create_sub_cat">New sub category</string>
     <string name="menu_create_template">New template</string>
     <string name="menu_create_template_from_transaction">Save as template</string>
@@ -154,9 +154,9 @@
     <string name="menu_edit_method">Edit payment method</string>
     <string name="menu_edit_party">Edit party</string>
     <string name="menu_edit_plan_instance">Edit single plan occurrence</string>
-    <string name="menu_edit_split">Edit split</string>
-    <string name="menu_edit_split_part_category">Edit category split part</string>
-    <string name="menu_edit_split_part_transfer">Edit transfer split part</string>
+    <string name="menu_edit_split">Edit split transaction</string>
+    <string name="menu_edit_split_part_category">Edit category split</string>
+    <string name="menu_edit_split_part_transfer">Edit transfer split</string>
     <string name="menu_edit_template">Edit Template</string>
     <string name="menu_edit_transaction">Edit Transaction</string>
     <string name="menu_edit_transfer">Edit Transfer</string>
@@ -178,7 +178,6 @@
     <string name="menu_split_transaction">Transform to split</string>
     <string name="method">Payment method</string>
     <string name="no_app_handling_email_available">No app handling email available.</string>
-    <string name="no_app_handling_ftp_available">No app handling ftp available. Install <i>Send With FTP</i>?</string>
     <!-- %s is replaced by extension, e.g. PDF or CSV -->
     <string name="no_app_handling_mime_type_available">No app handling %s files available.</string>
     <string name="no_categories">No categories.</string>
@@ -190,7 +189,7 @@
     <string name="no_mapped_transactions">No transactions have been mapped to categories during this period.</string>
     <string name="no_methods">No payment methods.</string>
     <string name="no_parties">No parties.</string>
-    <string name="no_split_parts">No split parts.</string>
+    <string name="no_split_parts">No splits.</string>
     <string name="no_templates">No templates.</string>
     <string name="no_accounts">No accounts.</string>
     <plurals name="not_deletable_mapped_transactions">
@@ -214,7 +213,7 @@
     <string name="password_security_answer_not_valid">Wrong answer. Try again!</string>
     <string name="payee">Payee</string>
     <string name="payer">Payer</string>
-    <string name="payer_or_payee">Payee/Payer</string>
+    <string name="payer_or_payee">Counterparty</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Plan</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -225,7 +224,6 @@
     <string name="plan_event_deleted">The plan associated with this template has been deleted from the calendar.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">Plan execution canceled</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
     <string name="planner_create_calendar_failure">Unable to create local planner calendar</string>
     <string name="planner_create_calendar_success">Local planner calendar successfully created</string>
     <!-- payment methods -->
@@ -237,7 +235,7 @@
     <string name="pm_type_debit">Debit</string>
     <string name="pm_type_neutral">Neutral</string>
     <string name="pref_app_dir_title">Folder for backups and exports</string>
-    <string name="pref_auto_fill_summary">Fill in data from last transaction for same payee/payer</string>
+    <string name="pref_auto_fill_summary">Fill in data from last transaction for same counterparty</string>
     <string name="pref_backup_summary">Create a backup of database and preferences.</string>
     <string name="pref_sort_order_usages">Count of usages</string>
     <string name="pref_category_title_export">Export</string>
@@ -262,7 +260,7 @@
     <string name="pref_manage_categories_title">Categories</string>
     <string name="pref_manage_methods_summary">Create and edit payment methods and associate them with account types.</string>
     <string name="pref_manage_methods_title">Payment methods</string>
-    <string name="pref_manage_parties_summary" tools:ignore="UnusedResources">Add, edit, delete parties (payers and payees).</string>
+    <string name="pref_manage_parties_summary" tools:ignore="UnusedResources">Add, edit, delete counterparties.</string>
     <string name="pref_manage_parties_title">Parties</string>
     <string name="pref_manage_sync_backends_title">Synchronization backends</string>
     <!-- %s will be replaced with list of backends -->
@@ -320,10 +318,10 @@
     <string name="save_transaction_template_deleted">Template has been deleted</string>
     <string name="select">Select</string>
     <string name="select_category">Select category</string>
-    <string name="select_payee">Select payer/payee</string>
+    <string name="select_payee">Select counterparty</string>
     <string name="share_scheme_not_supported">Scheme %1$s not supported</string>
     <string name="share_sending">Send export file</string>
-    <string name="split_parts_heading">Split parts</string>
+    <string name="split_parts_heading">Splits</string>
     <string name="split_transaction">Split transaction</string>
     <string name="status">Status</string>
     <string name="status_cleared">cleared</string>
@@ -378,7 +376,7 @@
     <string name="warning_reset_account_all">If you proceed, for all accounts%1$s, transactions will be deleted from the database and cannot be restored.</string>
     <string name="warning_reset_account_matched">If you proceed, transactions matched by the current filter will be deleted from the database and cannot be restored.</string>
     <string name="warning_restore">Database and preferences will be restored from file \"%1$s\". The current data will be deleted.</string>
-    <string name="warning_splitpartcategory_context">Transfers that are part of a split can only be edited in the context of the split.</string>
+    <string name="warning_splitpartcategory_context">Transfers that are part of a split transaction can only be edited in the context of the split transaction.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Please set a number between %1$d and %2$d</string>
     <string name="warning_change_fraction_digits_1">Amounts in the database need to be updated in order to match the new number of fraction digits.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">If amounts are not updated, they will be displayed as multiplied by %d after the change.</string>
@@ -398,13 +396,12 @@
     <string name="widget_title_accounts">My accounts</string>
     <string name="widget_title_templates">My templates</string>
     <string name="app_dir_not_accessible">The currently selected folder for backups and exports (%1$s) is not accessible. Please select a different one.</string>
-    <string name="app_dir_not_compatible_with_nougat">The currently configured URI for backups and exports (%1$s) is not supported under Android Nougat. Please select a folder again.</string>
     <string name="search_amount">Search for amount</string>
     <string name="search_category">Search for category</string>
     <string name="search_comment">Search for notes</string>
     <string name="search_date">Search for date</string>
     <string name="search_status">Search for status</string>
-    <string name="search_payee">Search for payee/payer</string>
+    <string name="search_payee">Search for counterparty</string>
     <string name="search_method">Search for method</string>
     <string name="search_tag">Search for tag</string>
     <string name="and">and</string>
@@ -421,7 +418,7 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">after</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Purchasing failed or cancelled.</string>
-    <string name="hint_auto_fill">Should data be filled in automatically from last transaction for same payee/payer? You can always change this behaviour from the settings.</string>
+    <string name="hint_auto_fill">Should data be filled in automatically from last transaction for same counterparty? You can always change this behaviour from the settings.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d accounts with currency %2$s have been updated.</string>
     <string name="import_source_file">File</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
@@ -475,7 +472,7 @@
     <string name="plan_instance_state_cancelled">cancelled</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">applied</string>
-    <string name="progress_dialog_updating_split_parts">Updating split parts</string>
+    <string name="progress_dialog_updating_split_parts">Updating splits</string>
     <string name="warning_cannot_move_split_transaction">This split transaction cannot be moved to account %1$s because there are transfer parts that refer to this account.</string>
     <string name="content_description_calculator_delete_button">Delete last digit</string>
     <string name="paypal_callback_info">Your transaction has been completed, and a receipt for your purchase has been emailed to you. You may log into your account at www.paypal.com to view details of this transaction.</string>
@@ -607,13 +604,13 @@
     <string name="menu_original_amount">Original amount</string>
     <string name="menu_equivalent_amount">Equivalent amount</string>
     <string name="warning_split_transactions">The selected transactions will be grouped into one split transaction. Their date information will be lost, i.e. replaced by their average.</string>
-    <string name="warning_ungroup_split_transactions">The selected split transactions will be ungrouped, i.e. their split parts will become normal transactions.</string>
+    <string name="warning_ungroup_split_transactions">The selected split transactions will be ungrouped, i.e. their splits will become normal transactions.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
     <string name="menu_ungroup_split_transaction">Ungroup split</string>
     <string name="ungroup_split_transaction_success">Split Transaction was successfully ungrouped.</string>
     <string name="split_transaction_one_success">Transaction successfully transformed to split.</string>
     <string name="split_transaction_group_success" tools:ignore="PluralsCandidate">%1$d transactions were successfully grouped into one split transaction.</string>
-    <string name="split_transaction_not_possible">Only transactions that have same account, payee, and status can be grouped into one split transaction.</string>
+    <string name="split_transaction_not_possible">Only transactions that have same account, counterparty, and status can be grouped into one split transaction.</string>
     <string name="pref_transaction_time_summary">Allow to set exact transaction time.</string>
     <string name="pref_value_date_summary">Allow to set value date in addition to booking date. Transaction time will be hidden. This setting is not applied to cash accounts.</string>
     <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
@@ -704,7 +701,7 @@
     <string name="pref_exchange_rate_provider_title">Exchange Rate Provider</string>
     <!-- %s is replaced with exchange rate provider URL (openexchangerates.org or coinapi.io) -->
     <string name="pref_exchange_rates_api_key_summary">Please register a free account on %s and provide your App ID</string>
-    <string name="pref_plan_executor_time_title">Planner notification time</string>
+    <string name="pref_plan_executor_time_title">Notification time</string>
     <string name="synchronization_select_folder_dialog_title">Select an existing folder or create a new one</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">Use this switch button to record income.</string>
@@ -729,8 +726,8 @@
     <string name="menu_remap">Remap</string>
     <string name="dialog_title_confirm_remap">Change mapping (%s) ?</string>
     <string name="remap_category">All selected transactions will be mapped to category %s.</string>
-    <string name="remap_payee">All selected transactions will be mapped to payer/payee %s.</string>
-    <string name="remap_payee_null">Payer/payee will be removed from all selected transactions.</string>
+    <string name="remap_payee">All selected transactions will be mapped to counterparty %s.</string>
+    <string name="remap_payee_null">Counterparty will be removed from all selected transactions.</string>
     <string name="remap_method">All selected transactions will be mapped to method %s.</string>
     <string name="remap_account">All selected transactions will be mapped to account %s.</string>
     <string name="remapping_result">The selected transactions were remapped.</string>
@@ -827,7 +824,7 @@
     <string name="single_feature_info">Alternatively you can buy unlimited access to only this feature.</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">Last day</string>
-    <string name="warning_link_transfer">The two selected transactions will be linked as transfer. Payee/Payer and category information will be dropped.</string>
+    <string name="warning_link_transfer">The two selected transactions will be linked as transfer. Counterparty and category information will be dropped.</string>
     <!-- This is the title of an entry on the configuration screen for the account widget. It allows to decide which number should be displayed for each account: the current balance or the total (which included future transactions) -->
     <string name="account_widget_configuration_sum">Type of displayed sum</string>
     <string name="account_widget_configuration_sum_total">Include future transactions</string>
@@ -995,7 +992,8 @@
     <string name="menu_transform_to_transfer">Convert into transfer</string>
     <string name="warning_transform_to_transfer">The selected transaction will be replaced by a transfer from %1$s to %2$s.</string>
     <string name="remap_date">On all selected transactions, date will be set to %s.</string>
-    <string name="roadmap_intro">The 2024 Roadmap Vote is now open! Vote for the features and improvements that matter most to you.</string>
+    <!-- %d will be replaced with year -->
+    <string name="roadmap_intro">The %d Roadmap Vote is now open! Vote for the features and improvements that matter most to you.</string>
     <string name="merge_categories_dialog_title">Merge Categories</string>
     <string name="subcategories_merged_recursively">If any of the merged categories have subcategories with the same label, those will be merged first, recursively.</string>
     <string name="merge_categories_prompt">Select the category that you want to keep</string>
@@ -1142,4 +1140,10 @@
     <string name="pref_fab_style_compact_description">Compact (Tap and hold for menu)</string>
     <!-- Error shown too user if he enters a number that is larger than allowed -->
     <string name="number_too_large">Number too large</string>
+    <!-- Label of checkbox: If checked, specific user defined order of flags is the primary sorting factor for accounts.  -->
+    <string name="prioritize_flag_order">Prioritize flag order</string>
+    <string name="pref_content_based_colors_title">Account-based dynamic color</string>
+    <string name="pref_content_based_colors_summary">Derive theme colors from the current account\'s color. Turn off if text is difficult to read.</string>
+    <!-- Shown to user while Web User Interface is starting -->
+    <string name="service_starting">Starting…</string>
 </resources>

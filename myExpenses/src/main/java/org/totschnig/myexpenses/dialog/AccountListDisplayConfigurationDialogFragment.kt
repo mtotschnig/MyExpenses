@@ -165,7 +165,7 @@ fun ColumnScope.SortSelect(
     Spacer(Modifier.height(4.dp))
 
     CheckBoxWithLabel(
-        label = "Sort by flag first",
+        label = stringResource(R.string.prioritize_flag_order),
         checked = sortByFlagFirst.value
     ) {
         sortByFlagFirst.value = it

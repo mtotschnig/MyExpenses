@@ -6,6 +6,11 @@
 -keep class io.netty.buffer.AbstractByteBufAllocator { *; }
 -keep class io.netty.util.ReferenceCountUtil { *; }
 
+-keep class io.netty.util.concurrent.ConcurrentSkipListIntObjMultimap { *; }
+-keep class io.netty.util.concurrent.ConcurrentSkipListIntObjMultimap$** { *; }
+
+-keep,allowobfuscation,allowshrinking class io.ktor.** { *; }
+
 -dontwarn io.netty.internal.tcnative.AsyncSSLPrivateKeyMethod
 -dontwarn io.netty.internal.tcnative.AsyncTask
 -dontwarn io.netty.internal.tcnative.Buffer
@@ -48,3 +53,5 @@
 -dontwarn jdk.jfr.Label
 -dontwarn jdk.jfr.MemoryAddress
 -dontwarn jdk.jfr.Name
+-dontwarn javax.naming.ldap.LdapName
+-dontwarn javax.naming.ldap.Rdn

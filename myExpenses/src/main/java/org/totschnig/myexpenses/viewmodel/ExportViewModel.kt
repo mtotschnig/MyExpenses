@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.db2.hasSealed
+import org.totschnig.myexpenses.db2.checkSealedStatus
 import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.db2.markAsExported
 import org.totschnig.myexpenses.export.CsvExporter
@@ -260,9 +260,9 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                                         val cannotResetConditions: List<Int> = if (a.isSealed) {
                                             listOf(R.string.account_closed)
                                         } else {
-                                            val (sealedTransfer, sealedDebt) = repository.hasSealed(
+                                            val (sealedTransfer, sealedDebt) = repository.checkSealedStatus(
                                                 a.id
-                                            )
+                                            ).getOrThrow()
                                             listOfNotNull(
                                                 if (sealedTransfer) R.string.object_sealed else null,
                                                 if (sealedDebt) R.string.object_sealed_debt else null

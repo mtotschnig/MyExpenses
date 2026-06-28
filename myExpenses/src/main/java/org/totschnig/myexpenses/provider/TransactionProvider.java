@@ -23,7 +23,6 @@ import android.content.ContentValues;
 import android.content.OperationApplicationException;
 import android.content.UriMatcher;
 import android.database.Cursor;
-import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteConstraintException;
 import android.net.Uri;
 import android.os.Bundle;
@@ -862,15 +861,7 @@ public class TransactionProvider extends BaseTransactionProvider {
         additionalWhere.append(TABLE_BUDGETS + "." + KEY_ROWID + "=").append(uri.getPathSegments().get(1));
         break;
       case ACCOUNT_DEFAULT_BUDGET_ALLOCATIONS: {
-        qb = SupportSQLiteQueryBuilder.builder(TABLE_BUDGET_ALLOCATIONS);
-        Long budgetId = budgetDefaultSelect(db, uri);
-        if (budgetId == null) {
-          return new MatrixCursor(projection, 0);
-        }
-        selection = KEY_CATID + " = 0 AND " + KEY_BUDGETID + " = ?";
-        selectionArgs = new String[] { budgetId.toString() };
-        extras.putLong(KEY_BUDGETID, budgetId);
-        break;
+        return budgetAllocationGroupsQuery(db, uri);
       }
       case BUDGET_FOR_PERIOD: {
         String sql = (projection != null && projection.length == 1 && projection[0].equals(KEY_BUDGET)) ? totalBudgetAllocation(uri) : budgetAllocation(uri);
@@ -1372,8 +1363,8 @@ public class TransactionProvider extends BaseTransactionProvider {
   }
 
   @Override
-  public int update(@NonNull Uri uri, ContentValues values, String where,
-                    String[] whereArgs) {
+  public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String where,
+                    @Nullable String[] whereArgs) {
     SupportSQLiteDatabase db = getHelper().getWritableDatabase();
     String segment; // contains rowId
     int count;
@@ -1382,21 +1373,45 @@ public class TransactionProvider extends BaseTransactionProvider {
     log("UPDATE Uri: %s, values: %s", uri, values);
     final String lastPathSegment = uri.getLastPathSegment();
     switch (uriMatch) {
-      case TRANSACTIONS ->
-              count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, values, where, whereArgs);
+      case TRANSACTIONS -> {
+        boolean hasEquivalentAmount = values.containsKey(KEY_EQUIVALENT_AMOUNT);
+        @Nullable Long equivalentAmount = values.getAsLong(KEY_EQUIVALENT_AMOUNT);
+        values.remove(KEY_EQUIVALENT_AMOUNT);
+        db.beginTransaction();
+        try {
+          //noinspection SizeReplaceableByIsEmpty
+          if (values.size() > 0) {
+            count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, values, where, whereArgs);
+          } else {
+            count = 0;
+          }
+          if (hasEquivalentAmount) {
+            count = insertOrReplaceEquivalentAmount(db, equivalentAmount, where, whereArgs);
+          }
+          db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+          }
+      }
       case TRANSACTION_ID -> {
-        Long equivalentAmount = values.getAsLong(KEY_EQUIVALENT_AMOUNT);
+        boolean hasEquivalentAmount = values.containsKey(KEY_EQUIVALENT_AMOUNT);
+        @Nullable Long equivalentAmount = values.getAsLong(KEY_EQUIVALENT_AMOUNT);
         values.remove(KEY_EQUIVALENT_AMOUNT);
         String tagList = values.getAsString(KEY_TAGLIST);
         values.remove(KEY_TAGLIST);
         db.beginTransaction();
         try {
           long id = Long.parseLong(lastPathSegment);
-          count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, values,
-                  KEY_ROWID + " = " + lastPathSegment + prefixAnd(where),
-                  whereArgs);
-          if (equivalentAmount != null) {
-            insertOrReplaceEquivalentAmount(db, id, equivalentAmount);
+          //noinspection SizeReplaceableByIsEmpty
+          if (values.size() > 0) {
+              count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, values,
+                      KEY_ROWID + " = " + lastPathSegment + prefixAnd(where),
+                      whereArgs);
+          } else {
+            count = 0;
+          }
+          if (hasEquivalentAmount) {
+            count = insertOrReplaceEquivalentAmount(db, id, equivalentAmount);
           }
           saveTransactionTags(db, id, tagList, true);
           db.setTransactionSuccessful();
@@ -1577,6 +1592,11 @@ public class TransactionProvider extends BaseTransactionProvider {
     }
     if (uriMatch == ACCOUNT_FLAG_ID) {
       notifyChange(ACCOUNTS_URI, false);
+    }
+    if (uriMatch == BUDGET_ID) {
+        notifyChange(BUDGETS_URI.buildUpon()
+                .appendPath("defaultBudgetAllocations")
+                .build(), false);
     }
     return count;
   }

@@ -24,4 +24,5 @@
     <string name="migration_v2_opt_out_warning">V1 va fi eliminat treptat într-o actualizare viitoare. Ne-ar plăcea să știm ce nu funcționează ca să putem îmbunătăți V2.</string>
     <string name="migration_v2_feedback_title">Ce nu funcționează în V2?</string>
     <string name="migration_v2_confirm_opt_out">Întoarce-te la V1</string>
+    <string name="whats_new_407">Sortare naturală pentru etichete, categorii, conturi și părți.</string>
 </resources>

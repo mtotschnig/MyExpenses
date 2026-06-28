@@ -135,7 +135,7 @@
     <string name="menu_edit_method">Editează metodă plată</string>
     <string name="menu_edit_party">Editează terţ</string>
     <string name="menu_edit_plan_instance">Editează scadenţa</string>
-    <string name="menu_edit_split">Editează repartizare</string>
+    <string name="menu_edit_split">Editați tranzacția repartizată</string>
     <string name="menu_edit_split_part_category">Editează categoria repartizare</string>
     <string name="menu_edit_split_part_transfer">Editează transfer repartizare</string>
     <string name="menu_edit_template">Editează şablon</string>
@@ -159,7 +159,6 @@
     <string name="menu_split_transaction">Transformă in repartizare</string>
     <string name="method">Modalitate de plată</string>
     <string name="no_app_handling_email_available">Nici o aplicaţie disponibilă pentru trimitere email.</string>
-    <string name="no_app_handling_ftp_available">Nici o aplicaţie disponibilă pentru ftp.Instalez <i>Trimit prinFTP</i>?</string>
     <string name="no_app_handling_mime_type_available">Nici o aplicaţie disponibilă pentru fişiere %s</string>
     <string name="no_categories">Nici o categorie.</string>
     <string name="no_expenses">Nici o cheltuială încă!</string>
@@ -193,7 +192,7 @@
     <string name="password_security_answer_not_valid">Răspuns greşit. Încearcă din nou!</string>
     <string name="payee">Beneficiar</string>
     <string name="payer">Plătitor</string>
-    <string name="payer_or_payee">Beneficiar/Plătitor</string>
+    <string name="payer_or_payee">Contraparte</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Scadenţă</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -475,7 +474,6 @@
     <string name="pref_auto_fill_summary">Completați datele din ultima tranzacție pentru același beneficiar/plătitor</string>
     <string name="warning_change_fraction_digits_1">Sumele din baza de date trebuie actualizate pentru a corespunde noului număr de fracții.</string>
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Dacă sumele nu sunt actualizate, acestea vor fi afișate împărțite la %d după modificare.</string>
-    <string name="app_dir_not_compatible_with_nougat">URI-ul configurat în prezent pentru backup și exporturi (%1$s) nu este acceptat cu Android Nougat. Vă rugăm să selectați din nou un dosar.</string>
     <string name="select_payee">Selectați plătitorul/beneficiarul</string>
     <string name="hint_auto_fill">Ar trebui să fie completate automat datele din ultima tranzacție pentru același beneficiar/plătitor? Puteți schimba oricând acest comportament din setări.</string>
     <string name="dialog_contrib_text_2">Contribuiți prin actualizarea <i>{app_name}</i> și obțineți acces nerestricționat la următoarele funcții:</string>
@@ -719,7 +717,7 @@
     <string name="pref_feature_uninstall_title">Solicitați dezinstalarea caracteristicilor și limbilor</string>
     <string name="template_default_action_without_amount_hint">Șablonul fără sumă ar trebui salvat cu acțiunea implicită „Editare”</string>
     <string name="plan_automatic_without_amount_hint">Planul fără sumă nu trebuie salvat cu execuția automată a planului</string>
-    <string name="github_sponsors">Cheile de licență sunt, de asemenea, furnizate &lt;unui href=%s&gt;Sponsorilor Github&lt;/a&gt;.</string>
+    <string name="github_sponsors"><![CDATA[Cheile de licență sunt, de asemenea, furnizate <unui href=%s>Sponsorilor Github</a>.]]></string>
     <string name="menu_tag">Etichetă</string>
     <string name="pref_ocr_time_formats_title">Formate de timp</string>
     <string name="content_description_download_exchange_rate">Descărcați cursul de schimb</string>
@@ -779,7 +777,7 @@
     <string name="account_widget_configuration_sum">Tipul sumei afișate</string>
     <string name="account_widget_configuration_sum_total">Includeți tranzacțiile viitoare</string>
     <string name="pref_exchange_rate_provider_summary">Selectați furnizorul pentru a descărca ratele de schimb</string>
-    <string name="pref_plan_executor_time_title">Ora de notificare a planificatorului</string>
+    <string name="pref_plan_executor_time_title">Ora de notificare</string>
     <string name="button_label_clone_and_remap">Clonați și remapați</string>
     <string name="pref_feature_uninstall_summary">Magazinul Play încearcă în cele din urmă să elimine acele module din fundal.</string>
     <string name="tesseract_download_confirmation">Doriți să descărcați date de recunoaștere a textului pentru %s?</string>
@@ -890,7 +888,7 @@
     <string name="default_transfer_category">Categoria de transfer implicită</string>
     <string name="menu_unlink_transfer">Deconectați transferul</string>
     <string name="menu_transform_to_transfer">Transformați în transfer</string>
-    <string name="roadmap_intro">Votul pentru foaia de parcurs 2024 este acum deschis! Votați pentru funcțiile și îmbunătățirile care contează cel mai mult pentru dvs.</string>
+    <string name="roadmap_intro">Votul pentru foaia de parcurs %d este acum deschis! Votați pentru funcțiile și îmbunătățirile care contează cel mai mult pentru dvs.</string>
     <string name="merge_categories_prompt">Selectați categoria pe care doriți să o păstrați</string>
     <string name="pref_csv_export_category_separator_summary">Separator între nivelurile ierarhiei categoriilor</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_on">sunt considerate drept transfer</string>

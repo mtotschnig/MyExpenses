@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -61,6 +62,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -82,7 +84,7 @@ import org.totschnig.myexpenses.viewmodel.AccountFlagsUiState
 import org.totschnig.myexpenses.viewmodel.AccountFlagsViewModel
 import org.totschnig.myexpenses.viewmodel.AccountForSelection
 
-private const val SIZE_ICON = 24f
+private const val SIZE_ICON = 26f
 private const val PADDING_ICON = 4f
 private const val WEIGHT_LABEL = 7f
 private const val WEIGHT_VISIBLE = 2f
@@ -280,8 +282,11 @@ fun AccountFlagList(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 4.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Spacer(modifier = Modifier.size((SIZE_ICON + PADDING_ICON).sp))
+            Spacer(modifier = Modifier.size(SIZE_ICON.sp))
+            Spacer(modifier = Modifier.size(PADDING_ICON.sp))
             Text(
                 modifier = Modifier.weight(WEIGHT_LABEL),
                 text = "${stringResource(R.string.label)} (${stringResource(R.string.count)})",
@@ -289,11 +294,16 @@ fun AccountFlagList(
                 maxLines = 1
             )
             Text(
-                modifier = Modifier.weight(WEIGHT_VISIBLE),
+                modifier = Modifier
+                    .weight(WEIGHT_VISIBLE)
+                    .minimumInteractiveComponentSize()
+                    .wrapContentSize(unbounded = true),
                 text = stringResource(R.string.show),
                 fontWeight = FontWeight.SemiBold,
                 textAlign = TextAlign.Center,
-                maxLines = 1
+                maxLines = 1,
+                softWrap = false,
+                overflow = TextOverflow.Visible
             )
             Spacer(modifier = Modifier.width(LocalMinimumInteractiveComponentSize.current))
         }

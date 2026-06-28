@@ -89,7 +89,7 @@
     <string name="help_ManageTemplates_plans_info_cancelled">Instanca je prekinuta, tj. ima značku je da se preskoči. Za ovu instancu se neće stvoriti nijedna transakcija.</string>
     <string name="help_ManageCategories_manage_info">Ovaj ekran omogućuje stvaranje, uređivanje i brisanje kategorija. Prema zadanim postavkama, primarni kriterij razvrstavanja u popisu kategorija je broj korištenja kategorije (sekundarni kriterij je abecedni redoslijed). To omogućuje brz pristup kategorijama koje najčešće koristiš.</string>
     <string name="help_SetupSync_info">Ovaj ekran omogućuje biranje podataka koje želiš sinkronizirati između uređaja i pozadinskog sustava. Popisuje sve račune na tvom uređaju koji još nisu sinkronizirani s drugim pozadinskim sustavima i sve račune spremljene na pozadinskom sustavu. Pritiskom na &lt;img src=ic_hchain_broken&gt; / &lt;img src=ic_hchain&gt; označit ili odznačit će račun za sinkronizaciju. Ako odabereš račun koji već postoji lokalno i udaljeno, moraš odlučiti hoće li podaci na tvom uređaju prepisati postojeće podatke na pozadinskom sustavu ili obratno.</string>
-    <string name="help_ExpenseEdit_splitPartCategory_title">Obrazac za kategorije podjela</string>
+    <string name="help_ExpenseEdit_splitPartCategory_title">Obrazac za kategorije dijelova podjela</string>
     <string name="help_ExpenseEdit_splitPartTransfer_title">Obrazac za prijenos podjela</string>
     <string name="form_amount_switch_help_text">Koristi sklopku za prikazivanje troškova ili prihoda.</string>
     <string name="form_calculator_help_text"><![CDATA[The <img src="?calcIcon"> gumb otvara kalukulator.]]></string>

@@ -147,7 +147,7 @@
     <string name="menu_edit_method">Modificar método de pago</string>
     <string name="menu_edit_party">Modificar grupo</string>
     <string name="menu_edit_plan_instance">Modificar incidencia de un único proyecto</string>
-    <string name="menu_edit_split">Modificar división</string>
+    <string name="menu_edit_split">Editar transacción dividida</string>
     <string name="menu_edit_split_part_category">Modificar parte de una categoría dividida</string>
     <string name="menu_edit_split_part_transfer">Modificar parte de una transferencia dividida</string>
     <string name="menu_edit_template">Modificar plantilla</string>
@@ -171,7 +171,6 @@
     <string name="menu_split_transaction">Transformarlo en una división</string>
     <string name="method">Método de pago</string>
     <string name="no_app_handling_email_available">No se ha encontrado una aplicación para enviar un correo electrónico.</string>
-    <string name="no_app_handling_ftp_available">No se ha encontrado una aplicación para FTP. ¿Desea instalar <i>Enviar con FTP</i>?</string>
     <string name="no_app_handling_mime_type_available">No se ha encontrado una aplicación para abrir archivos %s.</string>
     <string name="no_categories">No hay categorías.</string>
     <string name="no_expenses">¡Todavía no hay gastos!</string>
@@ -208,7 +207,7 @@
     <string name="password_security_answer_not_valid">Respuesta no válida. ¡Inténtelo de nuevo!</string>
     <string name="payee">Acreedor</string>
     <string name="payer">Ordenante</string>
-    <string name="payer_or_payee">Acreedor/Ordenante</string>
+    <string name="payer_or_payee">Contraparte</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Proyección</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -391,7 +390,6 @@
     <string name="widget_title_accounts">Mis cuentas</string>
     <string name="widget_title_templates">Mis plantillas</string>
     <string name="app_dir_not_accessible">La carpeta seleccionada actualmente para copias de seguridad y exportaciones (%1$s) no es accesible. Por favor, seleccione otra.</string>
-    <string name="app_dir_not_compatible_with_nougat">La actual dirección URL para copias de seguridad y exportaciones (%1$s) no tiene soporte en Android Nougat. Por favor, seleccione una carpeta de nuevo.</string>
     <string name="search_amount">Búsqueda por importe</string>
     <string name="search_category">Búsqueda por categoría</string>
     <string name="search_comment">Buscar por notas</string>
@@ -677,7 +675,7 @@
     <string name="pref_exchange_rate_provider_summary">Seleccionar proveedor para descargar tipo de cambio</string>
     <string name="pref_exchange_rate_provider_title">Proveedor de tipo de cambio</string>
     <string name="pref_exchange_rates_api_key_summary">Por favor, ingrese en una cuenta gratuita en %s e introduzca su App ID</string>
-    <string name="pref_plan_executor_time_title">Tiempo de notificación de agenda</string>
+    <string name="pref_plan_executor_time_title">Hora de notificación</string>
     <string name="synchronization_select_folder_dialog_title">Seleccionar una carpeta existente o crear una nueva</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch">Utilizar este botón de intercambio para guardar ingresos.</string>
@@ -945,7 +943,7 @@
     <string name="menu_transform_to_transfer">Convertir en transferencia</string>
     <string name="warning_transform_to_transfer">La transacción seleccionada será sustituida por una transferencia de %1$s a %2$s.</string>
     <string name="remap_date">En todas las transacciones seleccionadas, la fecha se establecerá en %s.</string>
-    <string name="roadmap_intro">¡La votación de la Hoja de Ruta 2024 ya está abierta! Vota por las características y mejoras que más te importan.</string>
+    <string name="roadmap_intro">¡La votación de la Hoja de Ruta %d ya está abierta! Vota por las características y mejoras que más te importan.</string>
     <string name="merge_categories_dialog_title">Fusionar categorías</string>
     <string name="merge_categories_prompt">Seleccione la categoría que desea conservar</string>
     <string name="subcategories_merged_recursively">Si alguna de las categorías fusionadas tiene subcategorías con la misma etiqueta, éstas se fusionarán primero, de forma recursiva.</string>

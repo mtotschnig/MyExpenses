@@ -146,8 +146,8 @@
     <string name="menu_edit_method">கட்டண முறையைத் திருத்து</string>
     <string name="menu_edit_party">தரப்பைத் திருத்து</string>
     <string name="menu_edit_plan_instance">ஒற்றைத் திட்டத்தின் நிகழ்வை திருத்து</string>
-    <string name="menu_edit_split">பிரிவைத் திருத்து</string>
-    <string name="menu_edit_split_part_category"> வகை பிரிவு பகுதியைத் திருத்து</string>
+    <string name="menu_edit_split">பிளவு பரிவர்த்தனையைத் திருத்து</string>
+    <string name="menu_edit_split_part_category">வகை பிரிவு பகுதியைத் திருத்து</string>
     <string name="menu_edit_split_part_transfer">பரிமாற்ற பிரிவு பகுதியைத் திருத்து</string>
     <string name="menu_edit_template">வார்ப்புருவைத் திருத்து</string>
     <string name="menu_edit_transaction">பரிவர்த்தனையைத் திருத்து</string>
@@ -170,7 +170,6 @@
     <string name="menu_split_transaction">பிரிவாக மாற்று</string>
     <string name="method">கட்டணம் செலுத்தும் முறை</string>
     <string name="no_app_handling_email_available">மின்னஞ்சல் கையாளும் செயலி ஏதும் இல்லை.</string>
-    <string name="no_app_handling_ftp_available">FTP கையாளும் செயலி ஏதும் இல்லை. <i>Send with FTP</i> நிறுவலாமா?</string>
     <string name="no_app_handling_mime_type_available">%s கோப்புகள் கையாளும் செயலி ஏதும் இல்லை.</string>
     <string name="no_categories">வகைகள் ஏதுமில்லை.</string>
     <string name="no_expenses">இன்னும் செலவுகள் ஏதுமில்லை!</string>
@@ -205,7 +204,7 @@
     <string name="password_security_answer_not_valid">தவறான பதில். மீண்டும் முயற்சி செய்க!</string>
     <string name="payee">பணம் பெறுபவர்</string>
     <string name="payer">பணம் செலுத்துபவர்</string>
-    <string name="payer_or_payee">பணம் பெறுபவர்/செலுத்துபவர்</string>
+    <string name="payer_or_payee">எதிர்தரப்பினர்</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">திட்டம்</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -250,7 +249,7 @@
     <string name="pref_manage_categories_title">வகைகள்</string>
     <string name="pref_manage_methods_summary">கட்டண முறைகளை உருவாக்கி மற்றும் திருத்தி அவற்றை கணக்கு வகைகளுடன் இணைக்கவும்.</string>
     <string name="pref_manage_methods_title">கட்டணம் செலுத்தும் முறைகள்</string>
-    <string name="pref_manage_parties_summary">தரப்புகளை (பணம்  செலுத்துபவர் மற்றும் பெறுபவர்) சேர், திருத்து, நீக்கு.</string>
+    <string name="pref_manage_parties_summary">தரப்புகளை (பணம் செலுத்துபவர் மற்றும் பெறுபவர்) சேர், திருத்து, நீக்கு.</string>
     <string name="pref_manage_parties_title">தரப்புகள்</string>
     <string name="pref_manage_sync_backends_title">ஒத்திசைவு பின்தளங்கள்</string>
     <!-- %s will be replaced with list of backends -->
@@ -384,13 +383,12 @@
     <string name="widget_title_accounts">எனது கணக்குகள்</string>
     <string name="widget_title_templates">எனது வார்ப்புருக்கள்</string>
     <string name="app_dir_not_accessible">காப்புப்பிரதிக்கள் மற்றும் ஏற்றுமதிகளுக்காக தற்போது தேர்ந்தெடுக்கப்பட்டுள்ள கோப்புறையை (%1$s) அணுக முடியவில்லை. தயவு செய்து வேறொன்றைத் தேர்ந்தெடுக்கவும்.</string>
-    <string name="app_dir_not_compatible_with_nougat">காப்புப்பிரதிக்கள் மற்றும் ஏற்றுமதிகளுக்காக தற்போது விருப்பமைக்கப்பட்டURI (%1$s) ஆண்ட்ராய்டு நோகட்டில் ஆதரிக்கப்படவில்லை. தயவு செய்து மீண்டும் ஒரு கோப்புறையைத் தேர்ந்தெடுக்கவும்.</string>
     <string name="search_amount">தொகையைத் தேடவும்</string>
     <string name="search_category">வகையைத் தேடவும்</string>
     <string name="search_comment">குறிப்புக்களைத் தேடவும்</string>
     <string name="search_date">தேதியைத் தேடவும்</string>
     <string name="search_status">நிலையைத் தேடவும்</string>
-    <string name="search_payee">பணம் பெறுபவர்/செலுத்துபவரைத் தேடவும் </string>
+    <string name="search_payee">பணம் பெறுபவர்/செலுத்துபவரைத் தேடவும்</string>
     <string name="search_method">முறைகளைத் தேடவும்</string>
     <string name="search_tag">குறிச்சொல்லைத் தேடுங்கள்</string>
     <string name="and">மற்றும்</string>
@@ -407,7 +405,7 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">பின்</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">வாங்குதல் தோல்வியுற்றது அல்லது ரத்துசெய்யப்பட்டது.</string>
-    <string name="hint_auto_fill">அதே பணம் பெறுபவர்/செலுத்துபவர் கொண்ட முந்தய பரிவர்த்தனையிலிருந்து தரவு தானாகவே நிரப்பப்பட வேண்டுமா? இதை  அமைப்புகளிலிருந்து எப்போதும் மாற்றிக்கொள்ளலாம்.</string>
+    <string name="hint_auto_fill">அதே பணம் பெறுபவர்/செலுத்துபவர் கொண்ட முந்தய பரிவர்த்தனையிலிருந்து தரவு தானாகவே நிரப்பப்பட வேண்டுமா? இதை அமைப்புகளிலிருந்து எப்போதும் மாற்றிக்கொள்ளலாம்.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s-ஐ நாணயமாக கொண்ட %1$d கணக்குகள் புதுப்பிக்கப்பட்டன.</string>
     <string name="import_source_file">கோப்பு</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
@@ -669,7 +667,7 @@
     <string name="pref_exchange_rate_provider_summary">மாற்று விகிதங்களைப் பதிவிறக்க வழங்குநரைத் தேர்ந்தெடுக்கவும்</string>
     <string name="pref_exchange_rate_provider_title">மாற்று விகித வழங்குநர்</string>
     <string name="pref_exchange_rates_api_key_summary">%s இல் இலவச கணக்கைப் பதிவுசெய்து உங்களுடைய பயன்பாட்டு ஐடியை வழங்கவும்</string>
-    <string name="pref_plan_executor_time_title">இழைப்புளி அறிவிக்கை நேரம்</string>
+    <string name="pref_plan_executor_time_title">அறிவிப்பு நேரம்</string>
     <string name="synchronization_select_folder_dialog_title">ஏற்கனவே உள்ள கோப்புறையைத் தேர்ந்தெடுக்கவும் அல்லது புதியதை உருவாக்கவும்</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch">வருமானத்தை பதிவு செய்ய இந்த நிலைமாற்றியை பயன்படுத்தவும்.</string>
@@ -791,7 +789,7 @@
     <string name="single_feature_info">மாற்றாக இந்த அம்சத்திற்கு மட்டுமே நீங்கள் வரம்பற்ற அணுகலை வாங்க முடியும்.</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">கடைசி நாள்</string>
-    <string name="warning_link_transfer">தேர்ந்தெடுக்கப்பட்ட இரண்டு பரிவர்த்தனைகளும் பரிமாற்றமாக இணைக்கப்படும். பணம்  பெறுபவர் / செலுத்துபவர் மற்றும் வகை விவரங்கள் கைவிடப்படும்.</string>
+    <string name="warning_link_transfer">தேர்ந்தெடுக்கப்பட்ட இரண்டு பரிவர்த்தனைகளும் பரிமாற்றமாக இணைக்கப்படும். பணம் பெறுபவர் / செலுத்துபவர் மற்றும் வகை விவரங்கள் கைவிடப்படும்.</string>
     <!-- This is the title of an entry on the configuration screen for the account widget. It allows to decide which number should be displayed for each account: the current balance or the total (which included future transactions) -->
     <string name="account_widget_configuration_sum">காட்டப்படும் கூட்டு தொகையின் வகை</string>
     <string name="account_widget_configuration_sum_total">எதிர்கால பரிவர்த்தனைகளை உள்ளடக்கு</string>
@@ -949,7 +947,7 @@
     <string name="pref_transaction_amount_color_source_title">தொகைகளுக்கான வண்ணங்கள்</string>
     <string name="warning_transform_to_transfer">தேர்ந்தெடுக்கப்பட்ட பரிவர்த்தனை %1$s இலிருந்து %2$s க்கு மாற்றுவதன் மூலம் மாற்றப்படும்.</string>
     <string name="menu_transform_to_transfer">பரிமாற்றமாக மாற்றவும்</string>
-    <string name="roadmap_intro">2024 சாலை வரைபட வாக்கெடுப்பு இப்போது திறந்திருக்கும்! உங்களுக்கு மிகவும் முக்கியத்துவம் வாய்ந்த நற்பொருத்தங்கள் மற்றும் மேம்பாடுகளுக்கு வாக்களியுங்கள்.</string>
+    <string name="roadmap_intro">%d சாலை வரைபட வாக்கெடுப்பு இப்போது திறந்திருக்கும்! உங்களுக்கு மிகவும் முக்கியத்துவம் வாய்ந்த நற்பொருத்தங்கள் மற்றும் மேம்பாடுகளுக்கு வாக்களியுங்கள்.</string>
     <string name="subcategories_merged_recursively">இணைக்கப்பட்ட வகைகளில் ஏதேனும் ஒரே லேபிளைக் கொண்ட துணைப்பிரிவுகளைக் கொண்டிருந்தால், அவை முதலில் மீண்டும் ஒன்றிணைக்கப்படும்.</string>
     <string name="merge_categories_prompt">நீங்கள் வைத்திருக்க விரும்பும் வகையைத் தேர்ந்தெடுக்கவும்</string>
     <string name="not_enough_data">போதுமான தரவு இல்லை</string>

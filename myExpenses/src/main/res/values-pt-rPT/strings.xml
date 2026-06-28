@@ -135,7 +135,7 @@
     <string name="menu_edit_method">Editar forma de pagamento</string>
     <string name="menu_edit_party">Editar parceiro</string>
     <string name="menu_edit_plan_instance">Editar ocorrência única do plano</string>
-    <string name="menu_edit_split">Editar divisão</string>
+    <string name="menu_edit_split">Editar transação dividida</string>
     <string name="menu_edit_split_part_category">Editar divisão de categoria</string>
     <string name="menu_edit_split_part_transfer">Editar divisão de transferência</string>
     <string name="menu_edit_template">Editar modelo</string>
@@ -158,7 +158,6 @@
     <string name="menu_split_transaction">Transformar em transação dividida</string>
     <string name="method">Forma de pagamento</string>
     <string name="no_app_handling_email_available">Nenhum app de e-mail disponível.</string>
-    <string name="no_app_handling_ftp_available">Nenhum app de FTP disponível. Instalar o <i>Enviar com FTP</i>\?</string>
     <string name="no_app_handling_mime_type_available">Nenhum app de %s disponível.</string>
     <string name="no_categories">Nenhuma categoria.</string>
     <string name="no_expenses">Nenhuma despesa ainda!</string>
@@ -191,7 +190,7 @@
     <string name="password_security_answer_not_valid">Resposta incorreta. Tente novamente!</string>
     <string name="payee">Beneficiário</string>
     <string name="payer">Pagador</string>
-    <string name="payer_or_payee">Beneficiário/pagador</string>
+    <string name="payer_or_payee">Contraparte</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Plano</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -481,7 +480,7 @@
     <string name="progress_dialog_checking_sync_backend">Verificando o destino</string>
     <string name="template">Modelo</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronização na nuvem</string>
-    <string name="all_contrib_key_features">Todas os recursos da Chave Contrib</string>
+    <string name="all_contrib_key_features">Todos os recursos da chave de contribuição</string>
     <string name="pref_backup_cloud_summary">Além do armazenamento local no dispositivo, o ficheiro de backup também pode ser copiado para um destino remoto.</string>
     <string name="number_of_fraction_digits">Número de casas decimais</string>
     <string name="warning_auto_backup_deactivated">O backup automático foi desativada. Você pode reativá-lo nas configurações após resolver o problema (ex.: selecionar uma pasta diferente para o backup).</string>
@@ -509,9 +508,8 @@
     <string name="menu_save_and_new_content_description">Salve os dados, deixando o formulário aberto para a criação de uma nova transação com os mesmos dados.</string>
     <string name="all_extended_key_features">Todos os recursos da Chave Estendida</string>
     <string name="description_webdav_trust_certificate">O site usa um certificado que não é confiável para o Android.</string>
-    <string name="hint_auto_fill">Os dados devem ser automaticamente preenchidos baseados na última transação para o mesmo beneficiário/pagador\? Esse comportamento pode ser alterado nas configurações.</string>
+    <string name="hint_auto_fill">Os dados devem ser automaticamente preenchidos baseados na última transação para o mesmo beneficiário/pagador? Esse comportamento pode ser alterado nas configurações.</string>
     <string name="search_tag">Pesquisar pela etiqueta</string>
-    <string name="app_dir_not_compatible_with_nougat">A URI atualmente configurada para backups e exportações (%1$s) não é suportada pelo Android Nougat. Por favor, selecione a pasta novamente.</string>
     <string name="warning_delete_category_with_budget">Para pelo menos uma categoria selecionada, há alocações de orçamento, que também serão excluídas.</string>
     <string name="select_payee">Selecionar pagador/beneficiário</string>
     <string name="pref_auto_fill_summary">Preencha com dados da última transação para o mesmo beneficiário/pagador</string>
@@ -610,7 +608,7 @@
     <string name="menu_create_budget">Novo orçamento</string>
     <string name="discover_feature_expense_income_switch">Use este botão para registrar a receita.</string>
     <string name="synchronization_select_folder_dialog_title">Selecione uma pasta existente ou crie uma nova</string>
-    <string name="pref_plan_executor_time_title">Horário de notificação do planejador</string>
+    <string name="pref_plan_executor_time_title">Horário de notificação</string>
     <string name="pref_exchange_rates_api_key_summary">Por favor, registre uma conta gratuita em %s e forneça o ID do seu aplicativo</string>
     <string name="pref_exchange_rate_provider_title">Provedor de taxa de câmbio</string>
     <string name="pref_exchange_rate_provider_summary">Selecione o provedor para obter as taxas de câmbio</string>
@@ -888,7 +886,7 @@
     <string name="menu_transform_to_transfer">Converter em transferência</string>
     <string name="warning_transform_to_transfer">A transação selecionada será substituída por uma transferência de %1$s para %2$s.</string>
     <string name="remap_date">Em todas as transações selecionadas, a data será definida como %s.</string>
-    <string name="roadmap_intro">A votação do guião para 2024 já está aberta! Vote nos recursos e melhorias que são mais importantes para si.</string>
+    <string name="roadmap_intro">A votação do guião para %d já está aberta! Vote nos recursos e melhorias que são mais importantes para si.</string>
     <string name="merge_categories_dialog_title">Mesclar Categorias</string>
     <string name="subcategories_merged_recursively">Se alguma das categorias mescladas tiver subcategorias com o mesmo rótulo, elas serão mescladas primeiro, de forma recursiva.</string>
     <string name="merge_categories_prompt">Selecione a categoria que deseja manter</string>

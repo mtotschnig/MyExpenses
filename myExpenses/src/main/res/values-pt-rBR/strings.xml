@@ -147,7 +147,7 @@
     <string name="menu_edit_method">Editar forma de pagamento</string>
     <string name="menu_edit_party">Editar parceiro</string>
     <string name="menu_edit_plan_instance">Editar ocorrência única do plano</string>
-    <string name="menu_edit_split">Editar divisão</string>
+    <string name="menu_edit_split">Editar transação dividida</string>
     <string name="menu_edit_split_part_category">Editar divisão de categoria</string>
     <string name="menu_edit_split_part_transfer">Editar divisão de transferência</string>
     <string name="menu_edit_template">Editar modelo</string>
@@ -171,7 +171,6 @@
     <string name="menu_split_transaction">Transformar em transação dividida</string>
     <string name="method">Forma de pagamento</string>
     <string name="no_app_handling_email_available">Nenhum app de e-mail disponível.</string>
-    <string name="no_app_handling_ftp_available">Nenhum app de FTP disponível. Instalar o <i>Enviar com FTP</i>?</string>
     <string name="no_app_handling_mime_type_available">Nenhum app de %s disponível.</string>
     <string name="no_categories">Nenhuma categoria.</string>
     <string name="no_expenses">Nenhuma despesa ainda!</string>
@@ -208,7 +207,7 @@
     <string name="password_security_answer_not_valid">Resposta incorreta. Tente novamente!</string>
     <string name="payee">Beneficiário</string>
     <string name="payer">Pagador</string>
-    <string name="payer_or_payee">Beneficiário/pagador</string>
+    <string name="payer_or_payee">Contraparte</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Plano</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -391,7 +390,6 @@
     <string name="widget_title_accounts">Minhas contas</string>
     <string name="widget_title_templates">Meus modelos</string>
     <string name="app_dir_not_accessible">A pasta atualmente selecionada para backups e exportações (%1$s) não está acessível. Por favor, selecione outra.</string>
-    <string name="app_dir_not_compatible_with_nougat">A URI atualmente configurada para backups e exportações (%1$s) não é suportada pelo Android Nougat. Por favor, selecione a pasta novamente.</string>
     <string name="search_amount">Pesquisar quantia</string>
     <string name="search_category">Pesquisar categoria</string>
     <string name="search_comment">Pesquisar notas</string>
@@ -677,7 +675,7 @@
     <string name="pref_exchange_rate_provider_summary">Selecione o provedor para obter as taxas de câmbio</string>
     <string name="pref_exchange_rate_provider_title">Provedor de taxa de câmbio</string>
     <string name="pref_exchange_rates_api_key_summary">Por favor, registre uma conta gratuita em %s e forneça o ID do seu aplicativo</string>
-    <string name="pref_plan_executor_time_title">Horário de notificação do planejador</string>
+    <string name="pref_plan_executor_time_title">Horário de notificação</string>
     <string name="synchronization_select_folder_dialog_title">Selecione uma pasta existente ou crie uma nova</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch">Use este botão para registrar a receita.</string>
@@ -937,7 +935,7 @@
     <string name="warning_delete_default_transfer_category">A categoria %s está configurada como categoria de transferência padrão e não deve ser apagada.</string>
     <string name="default_transfer_category">Categoria de transferência padrão</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">são considerados como despesa / receita</string>
-    <string name="roadmap_intro">A votação do roteiro para 2024 já está aberta! Vote nos recursos e melhorias que são mais importantes para você.</string>
+    <string name="roadmap_intro">A votação do roteiro para %d já está aberta! Vote nos recursos e melhorias que são mais importantes para você.</string>
     <string name="pref_sync_now_all_summary">%s sincroniza todas as contas para o mesmo back-end</string>
     <string name="warning_unlink_transfer">A transferência selecionada será desvinculada: Ela será substituída por transações normais em ambas as contas.</string>
     <string name="menu_transform_to_transfer">Converter em transferência</string>

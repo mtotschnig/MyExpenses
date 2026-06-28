@@ -3,8 +3,7 @@
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
      android-source/packages/apps/UnifiedEmail/res/values/strings.xmlls
--->
-<resources>
+--><resources>
     <string name="drawer_open">"Отваряне на слоя за навигация"</string>
     <string name="drawer_close">"Затваряне на чекмеджето за навигация"</string>
     <string name="sort_direction_ascending">"Възходящ ред"</string>
@@ -24,11 +23,11 @@
     <string name="details">"Подробности"</string>
     <string name="response_yes">"Да"</string>
     <string name="response_no">"Не"</string>
-     <string name="experimental">"Експериментални"</string>
+    <string name="experimental">"Експериментални"</string>
     <string name="add_widget">"Добавяне на приспособление"</string>
     <string name="calendar">"Календар"</string>
     <string name="permissions_label">"Разрешения"</string>
-     <string name="time_format">"Формат за часа"</string>
+    <string name="time_format">"Формат за часа"</string>
     <string name="setup">"Настройване"</string>
     <string name="customize">"Персонализиране"</string>
     <string name="compact">компактна</string>
@@ -37,7 +36,7 @@
     <string name="learn_more">"Научете повече"</string>
     <string name="show_all">"Показване на всички"</string>
     <string name="write_fail_reason_cannot_write">"Грешка при записване на съдържанието"</string>
-     <string name="not_exist_file_desc">"Файлът не съществува"</string>
+    <string name="not_exist_file_desc">"Файлът не съществува"</string>
     <string name="menu_export">"Експортиране"</string>
     <string name="today">"Днес"</string>
     <string name="tomorrow">"Утре"</string>
@@ -123,7 +122,7 @@
     <string name="reset_all">"Нулиране на всички"</string>
     <string name="remove">"Премахване"</string>
     <string name="currency_symbol">"Валутен символ"</string>
-    <string name="onboarding_get_started">"Начало"</string>
+    <string name="onboarding_get_started">Да започваме</string>
     <string name="collapse">"Свиване"</string>
     <string name="expand">"Разгъване"</string>
     <string name="encrypted">"Шифровано"</string>
@@ -149,7 +148,7 @@
     <string name="delimiter_tab">"Табулация"</string>
     <string name="enabled">"Активирано"</string>
     <string name="disabled">"Деактивирано"</string>
-    <string name="preview">"Визуал."</string>
+    <string name="preview">Преглед</string>
     <string name="show_password">"Показване на паролата"</string>
     <string name="hide_password">"Скриване на паролата"</string>
     <string name="user">"Потребител"</string>

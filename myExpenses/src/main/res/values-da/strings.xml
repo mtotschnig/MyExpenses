@@ -125,7 +125,7 @@
     <string name="menu_edit_method">Rediger betalingsmetode</string>
     <string name="menu_edit_party">Rediger part</string>
     <string name="menu_edit_plan_instance">Rediger enkelt planforekomst</string>
-    <string name="menu_edit_split">Rediger opdeling</string>
+    <string name="menu_edit_split">Rediger opdelt transaktion</string>
     <string name="menu_edit_split_part_category">Rediger kategoriopdelt del</string>
     <string name="menu_edit_split_part_transfer">Rediger overførselsopdelt del</string>
     <string name="menu_edit_template">Rediger skabelon</string>
@@ -148,7 +148,6 @@
     <string name="menu_split_transaction">Omdan til opdeling</string>
     <string name="method">Betalingsmetode</string>
     <string name="no_app_handling_email_available">Ingen app til håndtering af e-mail.</string>
-    <string name="no_app_handling_ftp_available">Ingen app til håndtering af FTP. Installer <i>Send via FTP</i>\?</string>
     <string name="no_app_handling_mime_type_available">Ingen app til håndtering af %s-filer.</string>
     <string name="no_categories">Ingen kategorier.</string>
     <string name="no_expenses">Ingen udgifter endnu!</string>
@@ -180,7 +179,7 @@
     <string name="password_security_answer_not_valid">Forkert svar. Prøv igen!</string>
     <string name="payee">Modtager</string>
     <string name="payer">Betaler</string>
-    <string name="payer_or_payee">Modtager/betaler</string>
+    <string name="payer_or_payee">Modpart</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Plan</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -462,7 +461,6 @@
     <string name="exchange_rate">Valutakurs</string>
     <string name="menu_sync_link">Start synkronisering</string>
     <string name="warning_change_fraction_digits_1">Beløb i databasen skal opdateres for at matche det nye antal decimaler.</string>
-    <string name="app_dir_not_compatible_with_nougat">Den aktuelt konfigurerede URI til sikkerhedskopier og eksport (%1$s) understøttes ikke i Android Nougat. Vælg venligst en mappe igen.</string>
     <string name="pref_custom_decimal_format_title">Talformat</string>
     <string name="pref_auto_backup_title">Auto-sikkerhedskopiér</string>
     <string name="pref_auto_backup_summary">Sikkerhedskopiér databasen dagligt på det angivne tidspunkt (kun hvis data ændres).</string>
@@ -800,7 +798,7 @@
     <string name="backup_wrong_password">Sikkerhedskopifilen ser ud til at være krypteret med en anden adgangssætning.</string>
     <string name="pref_security_export_passphrase_title">Adgangssætning til sikkerhedskopier</string>
     <string name="backup_is_encrypted">Sikkerhedskopifilen er krypteret. For at dekryptere den skal du angive adgangssætningen.</string>
-    <string name="pref_plan_executor_time_title">Planlæggerens notifikationstid</string>
+    <string name="pref_plan_executor_time_title">Notifikationstid</string>
     <string name="auto_fill_focus">Sæt fokus på modtager</string>
     <string name="menu_parent_category_selection">Vælg overordnet kategori ved kort tryk</string>
     <string name="purge_backups">Følgende gamle sikkerhedskopier slettes:</string>
@@ -815,7 +813,7 @@
     <string name="button_relink_update_date">Tilknyt igen, og opdater dato</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_on">tælles som overførsel</string>
     <string name="pref_sync_now_all_summary">%s synkroniserer alle konti for den samme backend</string>
-    <string name="roadmap_intro">Afstemningen i 2024 Udviklingsplan er nu åben! Stem på de funktioner og forbedringer, der betyder mest for dig.</string>
+    <string name="roadmap_intro">Afstemningen i %d Udviklingsplan er nu åben! Stem på de funktioner og forbedringer, der betyder mest for dig.</string>
     <string name="budget_only_current_period">Indstil kun til %s</string>
     <string name="budget_table_header_rollover">Fremførsel</string>
     <string name="rollover_edit_invalid">Summen af fremførelsen tildelt en kategori og fremførelser tildelt underkategorier må ikke overskride restbeløbet.</string>
