@@ -32,6 +32,8 @@ import org.totschnig.webdav.sync.client.InvalidCertificateException
 import org.totschnig.webdav.sync.client.WebDavClient
 import timber.log.Timber
 import java.io.IOException
+import java.io.InterruptedIOException
+import java.net.SocketTimeoutException
 import java.security.cert.CertificateException
 import java.security.cert.X509Certificate
 
@@ -130,8 +132,8 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
             super.lock()
         } else {
             if (!webDavClient.lock(accountUuid)) {
+                Timber.d("Class 2 lock failed, falling back to Class 1 for this session")
                 fallbackToClass1 = true
-                accountManagerRef.setUserData(accountRef, KEY_WEB_DAV_FALLBACK_TO_CLASS1, "1")
                 super.lock()
             }
         }
@@ -143,8 +145,7 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         } catch (e: HttpException) {
             throw IOException(e)
         } catch (e: IOException) {
-            if (e.message?.contains("timeout", ignoreCase = true) == true ||
-                e.cause?.message?.contains("timeout", ignoreCase = true) == true) {
+            if (e.isTimeout()) {
                 if (!lockFile.exists()) {
                     Timber.d("Lock file deletion timed out but file does not exist, continuing")
                     return
@@ -160,8 +161,7 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
             try {
                 super.unlock()
             } catch (e: IOException) {
-                if (e.message?.contains("timeout", ignoreCase = true) == true ||
-                    e.cause?.message?.contains("timeout", ignoreCase = true) == true) {
+                if (e.isTimeout()) {
                     Timber.d("Unlock timed out in Class 1 mode, proceeding anyway")
                     return
                 }
@@ -351,3 +351,7 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         }
     }
 }
+
+private fun IOException.isTimeout(): Boolean =
+    this is SocketTimeoutException || this is InterruptedIOException ||
+        cause is SocketTimeoutException || cause is InterruptedIOException

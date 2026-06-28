@@ -46,6 +46,8 @@ import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 import timber.log.Timber
 import java.io.IOException
+import java.io.InterruptedIOException
+import java.net.SocketTimeoutException
 import java.security.cert.CertPathValidatorException
 import java.security.cert.X509Certificate
 import java.util.Locale
@@ -130,8 +132,7 @@ class WebDavClient(
         try {
             resource.put(requestBody!!, if (withLock) buildIfHeader(parent.location) else null)
         } catch (e: IOException) {
-            if (e.message?.contains("timeout", ignoreCase = true) == true ||
-                e.cause?.message?.contains("timeout", ignoreCase = true) == true) {
+            if (e.isTimeout()) {
                 if (resource.exists()) {
                     Timber.d("Upload timed out but file exists on server: %s", fileName)
                     return resource
@@ -376,4 +377,9 @@ class WebDavClient(
         private val LOCK_TIMEOUT = String.format(Locale.ROOT, "Second-%d", 30 * 60)
         private const val NS_WEBDAV = "DAV:"
     }
+}
+
+private fun IOException.isTimeout(): Boolean =
+    this is SocketTimeoutException || this is InterruptedIOException ||
+        cause is SocketTimeoutException || cause is InterruptedIOException
 }

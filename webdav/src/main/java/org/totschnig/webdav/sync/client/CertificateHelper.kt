@@ -17,6 +17,7 @@ package org.totschnig.webdav.sync.client
 
 import android.content.Context
 import android.security.KeyChain
+import android.security.KeyChainException
 import android.text.TextUtils
 import android.text.format.DateFormat
 import android.util.Base64
@@ -39,13 +40,16 @@ import javax.net.ssl.X509TrustManager
 
 object CertificateHelper {
 
-    private val socketFactoryCache: MutableMap<String?, SoftReference<SslSocketFactoryPair>> =
-        Collections.synchronizedMap(LinkedHashMap<String?, SoftReference<SslSocketFactoryPair>>(2))
+    private val socketFactoryCache: MutableMap<String, SoftReference<SslSocketFactoryPair>> =
+        Collections.synchronizedMap(LinkedHashMap<String, SoftReference<SslSocketFactoryPair>>(2))
 
     data class SslSocketFactoryPair(
         val sslSocketFactory: SSLSocketFactory,
         val trustManager: X509TrustManager
     )
+
+    private fun cacheKey(clientCertAlias: String?, trustedCertificate: X509Certificate?): String =
+        "${clientCertAlias}_${trustedCertificate?.let { Integer.toHexString(it.hashCode()) } ?: "null"}"
     @JvmStatic
     fun getShortDescription(certificate: X509Certificate, context: Context?): String {
         val dateFormat = DateFormat.getMediumDateFormat(context)
@@ -119,11 +123,21 @@ object CertificateHelper {
     @JvmStatic
     @Throws(ClientCertMissingException::class)
     fun createKeyManager(context: Context, alias: String): KeyManager {
-        val privateKey = KeyChain.getPrivateKey(context, alias)
-            ?: throw ClientCertMissingException()
+        val privateKey = try {
+            KeyChain.getPrivateKey(context, alias)
+        } catch (e: KeyChainException) {
+            throw ClientCertMissingException(e)
+        } catch (e: InterruptedException) {
+            throw ClientCertMissingException(e)
+        } ?: throw ClientCertMissingException()
 
-        val certificateChain = KeyChain.getCertificateChain(context, alias)
-            ?: throw ClientCertMissingException()
+        val certificateChain = try {
+            KeyChain.getCertificateChain(context, alias)
+        } catch (e: KeyChainException) {
+            throw ClientCertMissingException(e)
+        } catch (e: InterruptedException) {
+            throw ClientCertMissingException(e)
+        } ?: throw ClientCertMissingException()
 
         if (certificateChain.isEmpty()) {
             throw ClientCertMissingException()
@@ -146,13 +160,14 @@ object CertificateHelper {
         clientCertAlias: String?,
         trustedCertificate: X509Certificate?
     ): Pair<SSLSocketFactory, X509TrustManager> {
-        val cached = getCachedSocketFactory(clientCertAlias)
+        val key = cacheKey(clientCertAlias, trustedCertificate)
+        val cached = getCachedSocketFactory(key)
         if (cached != null) {
-            Timber.d("Using cached SSLSocketFactory for clientCertAlias=%s", clientCertAlias)
+            Timber.d("Using cached SSLSocketFactory for key=%s", key)
             return cached.sslSocketFactory to cached.trustManager
         }
 
-        Timber.d("Creating new SSLSocketFactory for clientCertAlias=%s", clientCertAlias)
+        Timber.d("Creating new SSLSocketFactory for key=%s", key)
 
         val keyManagers: Array<KeyManager>? = clientCertAlias?.let { alias ->
             arrayOf(createKeyManager(context, alias))
@@ -170,16 +185,16 @@ object CertificateHelper {
         sslContext.init(keyManagers, arrayOf(trustManager), null)
 
         val pair = SslSocketFactoryPair(sslContext.socketFactory, trustManager)
-        socketFactoryCache[clientCertAlias] = SoftReference(pair)
+        socketFactoryCache[key] = SoftReference(pair)
 
         return pair.sslSocketFactory to pair.trustManager
     }
 
-    private fun getCachedSocketFactory(clientCertAlias: String?): SslSocketFactoryPair? {
-        val ref = socketFactoryCache[clientCertAlias]
+    private fun getCachedSocketFactory(key: String): SslSocketFactoryPair? {
+        val ref = socketFactoryCache[key]
         val pair = ref?.get()
         if (pair == null) {
-            socketFactoryCache.remove(clientCertAlias)
+            socketFactoryCache.remove(key)
         }
         return pair
     }
