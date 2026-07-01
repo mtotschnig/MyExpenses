@@ -120,12 +120,12 @@ import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.model.AccountGroupingKey
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.BalanceType
+import org.totschnig.myexpenses.model.CommodityType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.preference.PreferenceState
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
-import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import timber.log.Timber
@@ -152,7 +152,9 @@ fun TransactionScreen(
     windowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
     isFramed: Boolean,
     navigationIcon: @Composable () -> Unit = {},
-    allCurrencies: List<Currency>,
+    allCurrencies: List<CurrencyUnit>,
+    isCurrencyUsed: suspend (String) -> Boolean = { false },
+    onCreateAsset: suspend (code: String, symbol: String, fractionDigits: Int, label: String?, commodityType: CommodityType) -> CurrencyUnit? = { _, _, _, _, _ -> null },
 ) {
     LaunchedEffect(Unit) {
         viewModel.setLastVisited(StartScreen.Transactions)
@@ -259,22 +261,29 @@ fun TransactionScreen(
                         modifier = Modifier.height(height),
                         navigationIcon = navigationIcon,
                         title = {
-                            BalanceHeader(
-                                modifier = Modifier.conditional(isFramed) {
-                                    padding(start = 4.dp, top = 4.dp)
-                                },
-                                currentAccount = currentAccount,
-                                onDisplayBalanceTypeChange = { newType ->
-                                    viewModel.persistBalanceType(newType)
-                                },
-                                onCopyBalance = {
-                                    onEvent(AppEvent.CopyToClipBoard(it))
-                                },
-                                onSetNewBalance = {
-                                    onEvent(AppEvent.MenuItemClicked(R.id.NEW_BALANCE_COMMAND))
-                                },
-                                bankIcon = bankIcon
-                            )
+                            if ((currentAccount as? FullAccount)?.isPortfolio == true) {
+                                PortfolioBalanceHeader(
+                                    currentAccount = currentAccount,
+                                    bankIcon = bankIcon
+                                )
+                            } else {
+                                BalanceHeader(
+                                    modifier = Modifier.conditional(isFramed) {
+                                        padding(start = 4.dp, top = 4.dp)
+                                    },
+                                    currentAccount = currentAccount,
+                                    onDisplayBalanceTypeChange = { newType ->
+                                        viewModel.persistBalanceType(newType)
+                                    },
+                                    onCopyBalance = {
+                                        onEvent(AppEvent.CopyToClipBoard(it))
+                                    },
+                                    onSetNewBalance = {
+                                        onEvent(AppEvent.MenuItemClicked(R.id.NEW_BALANCE_COMMAND))
+                                    },
+                                    bankIcon = bankIcon
+                                )
+                            }
                         },
                         actions = {
                             val menuConfig = viewModel.transactionMenuAccessor.statefulFlow
@@ -356,7 +365,7 @@ fun TransactionScreen(
                         lastAction.set(action)
                     }
 
-                    if (action in Action.PORTFOLIO_ACTIONS) {
+                    if (action == Action.Buy || action == Action.Sell) {
                         showTradeScreen = action
                     } else {
                         onEvent(
@@ -497,28 +506,30 @@ fun TransactionScreen(
         }
     }
     showTradeScreen?.let { tradeAction ->
-        val toastContext = LocalContext.current
         Dialog(
             onDismissRequest = { showTradeScreen = null },
             properties = DialogProperties(usePlatformDefaultWidth = false)
         ) {
             TradeScreen(
-                onDismiss =  {showTradeScreen = null},
+                onDismiss = { showTradeScreen = null },
                 onSave = { intent ->
-                    android.widget.Toast.makeText(
-                        toastContext,
-                        "Trade Saved: ${intent.type} ${intent.quantity} ${intent.targetAsset?.code}",
-                        android.widget.Toast.LENGTH_SHORT
-                    ).show()
+                    onEvent(AppEvent.SaveTrade(intent))
                     showTradeScreen = null
                 },
                 reportingCurrency = currentAccount.currencyUnit,
                 assets = allCurrencies,
-                availableAccounts = accountList.map { it.id to it.labelV2(LocalContext.current) },
+                fundingAccounts = accountList
+                    .filter {
+                        !it.isAggregate && it.currencyUnit.code == currentAccount.currencyUnit.code &&
+                                it.id != currentAccount.id
+                    }
+                    .map {
+                        it.id to it.labelV2(LocalContext.current)
+                    },
                 initialAction = tradeAction,
-                onCreateAsset = {
-                    onEvent(AppEvent.CreateAsset(it))
-                }
+                onCreateAsset = onCreateAsset,
+                isCurrencyUsed = isCurrencyUsed,
+                portfolio = currentAccount as FullAccount
             )
         }
     }
@@ -533,6 +544,30 @@ private fun TransactionListPage(
     val context = LocalContext.current
     val pageAccount = remember(account) { account.toPageAccount(context = context) }
     pageContent(pageAccount, isCurrent)
+}
+
+@Composable
+private fun PortfolioBalanceHeader(
+    currentAccount: BaseAccount,
+    modifier: Modifier = Modifier,
+    bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
+) {
+    Row(
+        modifier = modifier
+            .testTag(TEST_TAG_BALANCE_HEADER),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        (currentAccount as? FullAccount)?.let {
+            AccountIndicator(currentAccount, bankIcon, true)
+        }
+        Column {
+            AccountLabel(currentAccount)
+            Text(
+                text = stringResource(R.string.valuation),
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+    }
 }
 
 @Composable

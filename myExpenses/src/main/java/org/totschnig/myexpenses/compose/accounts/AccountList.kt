@@ -716,15 +716,6 @@ fun PortfolioInventory(
                 )
             }
         }
-        // Button to add new asset
-        TextButton(
-            onClick = { /* TODO: onAddAsset(portfolio) */ },
-            modifier = Modifier.align(Alignment.Start)
-        ) {
-            Icon(Icons.Default.Add, contentDescription = null)
-            Spacer(Modifier.width(8.dp))
-            Text(stringResource(R.string.menu_add))
-        }
     }
 }
 

@@ -1256,7 +1256,8 @@ public class TransactionDatabase extends BaseTransactionDatabase {
         if (c.moveToFirst()) {
           while (!c.isAfterLast()) {
             CurrencyContext currencyContext = MyApplication.Companion.getInstance().getAppComponent().currencyContext();
-            currencyContext.ensureFractionDigitsAreCached(currencyContext.get(c.getString(0)));
+            String code = c.getString(0);
+            BaseTransactionProvider.Companion.storeFractionDigits(db, code, currencyContext.get(code).getFractionDigits());
             c.moveToNext();
           }
         }

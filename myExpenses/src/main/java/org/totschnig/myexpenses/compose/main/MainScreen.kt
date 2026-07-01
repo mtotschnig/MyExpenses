@@ -90,14 +90,15 @@ import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
 import org.totschnig.myexpenses.model.CommodityType
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.sort.TransactionSort
 import org.totschnig.myexpenses.preference.PreferenceState
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel.AccountPanelState
-import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
+import org.totschnig.myexpenses.viewmodel.data.TradeIntent
 
 sealed class Screen(
     val icon: ImageVector,
@@ -136,7 +137,7 @@ sealed class AppEvent {
     object Sort : AppEvent()
     data class CopyToClipBoard(val text: String) : AppEvent()
     object ToggleNavigation : AppEvent()
-    data class CreateAsset(val asset: Currency) : AppEvent()
+    data class SaveTrade(val intent: TradeIntent) : AppEvent()
 }
 
 interface AppEventHandler {
@@ -159,7 +160,7 @@ suspend fun ThreePaneScaffoldNavigator<*>.navigateToRoot(pane: ThreePaneScaffold
 fun MainScreenAdaptive(
     viewModel: MyExpensesV2ViewModel,
     accounts: List<FullAccount>,
-    allCurrencies: List<Currency>,
+    allCurrencies: List<CurrencyUnit>,
     availableFilters: List<AccountGroupingKey>,
     selectedAccountId: Long,
     onAppEvent: AppEventHandler,
@@ -170,6 +171,8 @@ fun MainScreenAdaptive(
     bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
     adView: @Composable (MutableState<Boolean>) -> Unit,
     isNavigationVisible: Boolean,
+    isCurrencyUsed: suspend (String) -> Boolean = { false },
+    onCreateAsset: suspend (code: String, symbol: String, fractionDigits: Int, label: String?, commodityType: CommodityType) -> CurrencyUnit? = { _, _, _, _, _ -> null },
     pageContent: @Composable (pageAccount: PageAccount, isCurrent: Boolean) -> Unit,
 ) {
 
@@ -464,6 +467,9 @@ fun MainScreenAdaptive(
                                 onPrepareMenuItem = onPrepareMenuItem,
                                 pageContent = pageContent,
                                 bankIcon = bankIcon,
+                                allCurrencies = allCurrencies,
+                                isCurrencyUsed = isCurrencyUsed,
+                                onCreateAsset = onCreateAsset,
                                 visibleActionItems = when {
                                     adaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
                                         WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND
@@ -484,7 +490,6 @@ fun MainScreenAdaptive(
                                 },
                                 isFramed = isRail,
                                 navigationIcon = navigationIcon,
-                                allCurrencies = allCurrencies
                             )
                         }
                     }

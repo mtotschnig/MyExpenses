@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DataBaseAccount
+import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART
 import org.totschnig.myexpenses.provider.KEY_PARENTID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
@@ -115,7 +116,7 @@ open class TransactionPagingSource(
         val loadSize = if (position < 0) params.loadSize + position else params.loadSize
         val fetchSize = if (account.isAggregate) loadSize + 1 else loadSize // We'll fetch one more item as a lookahead.
         Timber.i("Requesting data for account %d at position %d with loadSize %d", account.id, position, loadSize)
-        var selection = "$KEY_PARENTID IS NULL"
+        var selection = WHERE_NOT_SPLIT_PART
         var selectionArgs: Array<String>? = null
         whereFilter.value?.let { filter ->
             val selectionForParents = filter.getSelectionForParents()

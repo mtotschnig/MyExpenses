@@ -42,6 +42,9 @@ import org.totschnig.myexpenses.provider.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.KEY_TYPE
 import org.totschnig.myexpenses.provider.KEY_UUID
+import org.totschnig.myexpenses.provider.PORTFOLIO_ASSET
+import org.totschnig.myexpenses.provider.PORTFOLIO_CONTAINER
+import org.totschnig.myexpenses.provider.PORTFOLIO_NONE
 import org.totschnig.myexpenses.provider.STATUS_EXPORTED
 import org.totschnig.myexpenses.provider.STATUS_NONE
 import org.totschnig.myexpenses.provider.TABLE_ACCOUNTS
@@ -162,11 +165,19 @@ fun Repository.loadAggregateAccountFlowV2(extras: Bundle): Flow<Account> {
         Account(
             id = 0,
             label = label,
-            currency = if (accountGrouping == AccountGrouping.CURRENCY) group else  it.getString(KEY_CURRENCY),
+            currency = if (accountGrouping == AccountGrouping.CURRENCY) group else it.getString(
+                KEY_CURRENCY
+            ),
             openingBalance = it.getLong(KEY_OPENING_BALANCE),
-            type = if (accountGrouping == AccountGrouping.TYPE) AccountType(id = group.toLong(), name = label) else null,
+            type = if (accountGrouping == AccountGrouping.TYPE) AccountType(
+                id = group.toLong(),
+                name = label
+            ) else null,
             accountGrouping = accountGrouping,
-            flag = if (accountGrouping == AccountGrouping.FLAG) AccountFlag(id = group.toLong(), label = label) else null,
+            flag = if (accountGrouping == AccountGrouping.FLAG) AccountFlag(
+                id = group.toLong(),
+                label = label
+            ) else null,
         )
     }
 }
@@ -192,7 +203,13 @@ fun Account.toContentValues() = ContentValues().apply {
     }
     put(KEY_DYNAMIC, dynamicExchangeRates)
     put(KEY_PARENTID, parentId)
-    put(KEY_IS_PORTFOLIO, isPortfolio)
+    put(
+        KEY_IS_PORTFOLIO, when {
+            isPortfolio -> PORTFOLIO_CONTAINER
+            isPortfolioAsset -> PORTFOLIO_ASSET
+            else -> PORTFOLIO_NONE
+        }
+    )
 }
 
 fun Repository.createAccount(account: Account): Account {

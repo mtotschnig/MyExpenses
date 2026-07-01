@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.model
 
 import android.content.ContentResolver
-import android.content.ContentValues
 import android.database.Cursor
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
@@ -151,29 +150,6 @@ open class DatabaseCurrencyContext(
             }
         }
         throw IllegalArgumentException("$currencyCode not defined")
-    }
-
-
-    override fun storeCustomFractionDigits(currencyCode: String, fractionDigits: Int?) {
-        instances.remove(currencyCode)
-        val values = ContentValues().apply {
-            put(KEY_FRACTION_DIGITS, fractionDigits)
-        }
-        update(currencyCode, values)
-    }
-
-    private fun update(currencyCode: String, values: ContentValues) {
-        val updated = contentResolver.update(
-            TransactionProvider.CURRENCIES_URI,
-            values,
-            "$KEY_CODE = ?",
-            arrayOf(currencyCode)
-        )
-        require(updated == 1)
-    }
-
-    override fun ensureFractionDigitsAreCached(currency: CurrencyUnit) {
-        storeCustomFractionDigits(currency.code, currency.fractionDigits)
     }
 
     override fun invalidate(currencyCode: String) {

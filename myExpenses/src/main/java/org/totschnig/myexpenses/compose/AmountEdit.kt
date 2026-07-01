@@ -84,7 +84,8 @@ fun AmountEdit(
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
         keyboardActions = keyboardActions,
         trailingIcon = trailingIcon,
-        isError = isError
+        isError = isError,
+        enabled = enabled
     )
 }
 @OptIn(ExperimentalMaterial3Api::class)
@@ -151,7 +152,7 @@ fun DenseTextField(
 @Composable
 private fun AmountEditPreview() {
     var value by remember {
-        mutableStateOf(BigDecimal.TEN)
+        mutableStateOf<BigDecimal?>(null)
     }
     AmountEdit(
         value = value,

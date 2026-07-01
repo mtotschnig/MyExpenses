@@ -374,7 +374,6 @@ open class MyExpensesViewModel(
         val flow: Flow<PagingData<Transaction2>>,
     )
 
-
     fun getTransactions(account: PageAccount): Flow<PagingData<Transaction2>> {
         val stableId = account.stableId
         val queryKey = account.queryKey

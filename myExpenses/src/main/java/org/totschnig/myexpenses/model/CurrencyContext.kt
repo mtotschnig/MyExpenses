@@ -7,12 +7,6 @@ import java.util.Currency
 interface CurrencyContext {
     operator fun get(currencyCode: String): CurrencyUnit
     fun getAll(): Flow<List<CurrencyUnit>>
-    /**
-     * if fractionDigits is null, custom value is reset
-     */
-    @VisibleForTesting
-    fun storeCustomFractionDigits(currencyCode: String, fractionDigits: Int?)
-    fun ensureFractionDigitsAreCached(currency: CurrencyUnit)
     fun invalidateHomeCurrency()
     fun invalidate(currencyCode: String)
 

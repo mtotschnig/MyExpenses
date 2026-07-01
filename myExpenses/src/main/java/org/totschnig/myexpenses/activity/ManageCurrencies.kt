@@ -55,11 +55,11 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CommodityType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.viewmodel.EditCurrencyViewModel
+import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 
 class ManageCurrencies : ProtectedFragmentActivity() {
 
-    private val viewModel: EditCurrencyViewModel by viewModels()
+    private val viewModel: CurrencyViewModel by viewModels()
 
     @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,11 +71,13 @@ class ManageCurrencies : ProtectedFragmentActivity() {
 
                 var editingCurrency by rememberSaveable { mutableStateOf<CurrencyUnit?>(null) }
                 var showEditDialog by rememberSaveable { mutableStateOf(false) }
+                var isSaving by rememberSaveable { mutableStateOf(false) }
 
                 val openEditDialog = { unit: CurrencyUnit? ->
                     viewModel.resetResults()
                     editingCurrency = unit
                     showEditDialog = true
+                    isSaving = false
                 }
 
                 val tabs = CommodityType.entries
@@ -91,17 +93,59 @@ class ManageCurrencies : ProtectedFragmentActivity() {
                     }
                 }
 
+                val updateComplete by viewModel.updateComplete.collectAsStateWithLifecycle()
+                LaunchedEffect(updateComplete) {
+                    updateComplete?.let {
+                        if (it > 0) {
+                            showSnackBar(getString(R.string.change_fraction_digits_result, it, editingCurrency?.code))
+                        }
+                        showEditDialog = false
+                        isSaving = false
+                        viewModel.resetResults()
+                    }
+                }
+
+                val insertComplete by viewModel.insertComplete.collectAsStateWithLifecycle()
+                var errorMessage by rememberSaveable { mutableStateOf<Int?>(null) }
+                LaunchedEffect(insertComplete) {
+                    insertComplete?.let { success ->
+                        if (success) {
+                            showEditDialog = false
+                            isSaving = false
+                            viewModel.resetResults()
+                        } else {
+                            errorMessage = R.string.currency_code_already_definded
+                            isSaving = false
+                        }
+                    }
+                }
+
                 if (showEditDialog) {
                     EditCurrencyDialog(
                         currency = editingCurrency,
                         defaultType = tabs[pagerState.currentPage],
-                        viewModel = viewModel,
                         onDismiss = { showEditDialog = false },
-                        onResult = { result, code ->
-                            if (result > 0) {
-                                showSnackBar(getString(R.string.change_fraction_digits_result, result, code))
+                        onConfirm = { code, symbol, fractionDigits, label, commodityType, shouldUpdate ->
+                            errorMessage = null
+                            isSaving = true
+                            if (editingCurrency != null) {
+                                viewModel.save(
+                                    editingCurrency!!.databaseId,
+                                    code,
+                                    symbol,
+                                    fractionDigits,
+                                    label,
+                                    editingCurrency!!.code.takeIf { it != code },
+                                    editingCurrency!!.fractionDigits.takeIf { shouldUpdate },
+                                    commodityType.takeIf { !Utils.isKnownCurrency(editingCurrency!!.code) }
+                                )
+                            } else {
+                                viewModel.newCurrency(code, symbol, fractionDigits, label, commodityType)
                             }
-                        }
+                        },
+                        isCurrencyUsed = { viewModel.isCurrencyUsed(it) },
+                        errorMessage = errorMessage,
+                        isSaving = isSaving
                     )
                 }
 

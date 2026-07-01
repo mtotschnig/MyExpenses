@@ -594,6 +594,19 @@ abstract class BaseTransactionProvider : ContentProvider() {
         LEFT JOIN AllActivePayees aap ON p_all.$KEY_ROWID = aap.id
     WHERE aap.id IS NULL AND $KEY_ROWID != $NULL_ROW_ID;
     """
+
+        fun SupportSQLiteDatabase.storeFractionDigits(code: String, extras: Bundle) {
+            storeFractionDigits(
+                code,
+                if (extras.containsKey(KEY_FRACTION_DIGITS)) extras.getInt(KEY_FRACTION_DIGITS) else null
+            )
+        }
+
+        fun SupportSQLiteDatabase.storeFractionDigits(code: String, fractionDigits: Int?) {
+            update(TABLE_CURRENCIES, ContentValues(1).apply {
+                put(KEY_FRACTION_DIGITS, fractionDigits)
+            }, "$KEY_CODE = ?", arrayOf(code))
+        }
     }
 
     val homeCurrency: String
@@ -1259,7 +1272,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         db: SupportSQLiteDatabase,
         currency: String,
         newValue: Int,
-        oldValue: Int
+        oldValue: Int,
     ): Int {
         val bindArgs = arrayOf(currency)
         val count = db.query(
@@ -2574,6 +2587,10 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 extras.getInt(QUERY_PARAMETER_OLD_FRACTION_DIGITS)
             } else {
                 null
+            }
+
+            if (oldCode != null) {
+                execSQL("PRAGMA defer_foreign_keys = ON;")
             }
 
             val currenciesUpdated = update(

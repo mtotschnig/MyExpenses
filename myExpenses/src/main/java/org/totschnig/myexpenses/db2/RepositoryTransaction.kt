@@ -14,10 +14,13 @@ import org.totschnig.myexpenses.db2.Repository.Companion.RECORD_SEPARATOR
 import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.dialog.ArchiveInfo
 import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.uriBuilderForTransactionList
+import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART
+import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
+import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_CATID
@@ -28,6 +31,7 @@ import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.provider.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.KEY_END
 import org.totschnig.myexpenses.provider.KEY_EQUIVALENT_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_HAS_SEALED_ACCOUNT
 import org.totschnig.myexpenses.provider.KEY_HAS_SEALED_ACCOUNT_WITH_TRANSFER
 import org.totschnig.myexpenses.provider.KEY_HAS_SEALED_DEBT
 import org.totschnig.myexpenses.provider.KEY_ICON
@@ -47,13 +51,8 @@ import org.totschnig.myexpenses.provider.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.KEY_UUID
 import org.totschnig.myexpenses.provider.KEY_VALUE_DATE
-import org.totschnig.myexpenses.provider.STATUS_ARCHIVE
-import org.totschnig.myexpenses.provider.VIEW_EXTENDED
-import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART
-import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
-import org.totschnig.myexpenses.provider.DbUtils
-import org.totschnig.myexpenses.provider.KEY_HAS_SEALED_ACCOUNT
 import org.totschnig.myexpenses.provider.SPLIT_CATID
+import org.totschnig.myexpenses.provider.STATUS_ARCHIVE
 import org.totschnig.myexpenses.provider.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.AUTHORITY
@@ -67,6 +66,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_INC
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_TRANSACTION_ID_LIST
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_UNARCHIVE
+import org.totschnig.myexpenses.provider.VIEW_EXTENDED
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.Operation
@@ -79,10 +79,14 @@ import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.provider.withLimit
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.enumValueOrDefault
+import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import org.totschnig.myexpenses.util.joinArrays
 import org.totschnig.myexpenses.util.toEpoch
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import org.totschnig.myexpenses.viewmodel.data.Tag
+import org.totschnig.myexpenses.viewmodel.data.Trade
+import org.totschnig.myexpenses.viewmodel.data.TradeType
+import java.math.RoundingMode
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.Locale
@@ -661,6 +665,110 @@ fun Repository.calculateSplitSummary(id: Long): List<Pair<String, String?>>? {
         ?.useAndMapToList {
             it.getString(KEY_LABEL) to it.getStringOrNull(KEY_ICON)
         }?.takeIf { it.isNotEmpty() }
+}
+
+fun Repository.loadTrades(transactionIds: List<Long>): List<Trade> {
+    if (transactionIds.isEmpty()) return emptyList()
+
+    val parents = contentResolver.query(
+        TRANSACTIONS_URI,
+        Transaction.projection,
+        "$KEY_ROWID IN (${transactionIds.joinToString()})",
+        null,
+        null
+    )!!.useAndMapToList { Transaction.fromCursor(it) }
+
+    val splits = contentResolver.query(
+        TRANSACTIONS_URI,
+        Transaction.projection,
+        "$KEY_PARENTID IN (${transactionIds.joinToString()})",
+        null,
+        null
+    )!!.useAndMapToList { Transaction.fromCursor(it) }
+
+    val splitMap = splits.groupBy { it.parentId }
+
+    return parents.map { parent ->
+        val parts = splitMap[parent.id]
+
+        // Case 1: Simple Transaction or Transfer (No Split)
+        if (parts == null) {
+            val tradeType = if (parent.amount > 0) TradeType.CashMovement.DEPOSIT else TradeType.CashMovement.WITHDRAW
+            return@map Trade(
+                id = parent.id,
+                type = tradeType,
+                date = epoch2ZonedDateTime(parent.date),
+                quantity = Money(currencyContext[parent.currency!!], 0L),
+                principal = Money(currencyContext[parent.currency], parent.amount).absolute(),
+                fee = null,
+                assetSymbol = parent.currency,
+                comment = parent.comment,
+                price = java.math.BigDecimal.ONE,
+                fundingAccountLabel = parent.transferAccountId?.let { loadAccount(it)?.label },
+                currency = parent.currency
+            )
+        }
+
+        // Case 2: Split Transaction
+        var assetPart: Transaction? = null
+        var fundingPart: Transaction? = null
+        var feePart: Transaction? = null
+
+        parts.forEach { part ->
+            if (part.transferPeerId != null) {
+                val peerAccount = loadAccount(part.transferAccountId!!)
+                if (peerAccount?.type?.name == org.totschnig.myexpenses.model.PREDEFINED_NAME_INVESTMENT) {
+                    assetPart = part
+                } else {
+                    fundingPart = part
+                }
+            } else if (part.amount < 0 && parent.amount > 0) {
+                feePart = part
+            }
+        }
+
+        if (assetPart != null) {
+            // It's a Buy/Sell Trade (Existing logic)
+            val assetPeer = loadTransaction(assetPart.transferPeerId!!, false).data
+            val quantity = Money(currencyContext[assetPeer.currency!!], assetPeer.amount).absolute()
+            val tradeType = if (assetPeer.amount > 0) TradeType.AssetTrade.BUY else TradeType.AssetTrade.SELL
+            val principal = Money(currencyContext[parent.currency!!], assetPart.amount).absolute()
+            val fee = feePart?.let { Money(currencyContext[parent.currency], it.amount).absolute() }
+            val price = if (quantity.amountMajor > java.math.BigDecimal.ZERO) {
+                principal.amountMajor.divide(quantity.amountMajor, 8, RoundingMode.HALF_UP)
+            } else java.math.BigDecimal.ZERO
+
+            Trade(
+                id = parent.id,
+                type = tradeType,
+                date = epoch2ZonedDateTime(parent.date),
+                quantity = quantity,
+                principal = principal,
+                fee = fee,
+                assetSymbol = assetPeer.currency,
+                comment = parent.comment,
+                price = price,
+                fundingAccountLabel = fundingPart?.let { loadAccount(it.transferAccountId!!)?.label },
+                currency = parent.currency
+            )
+        } else {
+            // It's a split deposit/withdrawal
+            val tradeType = if (parent.amount > 0) TradeType.CashMovement.DEPOSIT else TradeType.CashMovement.WITHDRAW
+            Trade(
+                id = parent.id,
+                type = tradeType,
+                date = epoch2ZonedDateTime(parent.date),
+                quantity = Money(currencyContext[parent.currency!!], 0L),
+                principal = Money(currencyContext[parent.currency], parent.amount).absolute(),
+                fee = null,
+                assetSymbol = parent.currency,
+                comment = parent.comment,
+                price = java.math.BigDecimal.ONE,
+                fundingAccountLabel = fundingPart?.let { loadAccount(it.transferAccountId!!)?.label },
+                currency = parent.currency
+            )
+        }
+    }
 }
 
 fun Repository.insertTransaction(

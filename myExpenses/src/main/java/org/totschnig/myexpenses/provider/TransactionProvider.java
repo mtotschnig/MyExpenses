@@ -415,6 +415,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String KEY_UPDATED_ACCOUNTS_COUNT = "updatedAccountsCount";
 
   public static final String METHOD_CHECK_CURRENCY_IN_USE = "checkCurrencyInUse";
+  public static final String METHOD_STORE_FRACTION_DIGITS = "storeFractionDigits";
 
   private static final UriMatcher URI_MATCHER;
 
@@ -1757,6 +1758,11 @@ public class TransactionProvider extends BaseTransactionProvider {
       case METHOD_CHECK_CURRENCY_IN_USE -> {
         SupportSQLiteDatabase db = getHelper().getWritableDatabase();
         return checkCurrencyInUse(db, arg);
+      }
+      case METHOD_STORE_FRACTION_DIGITS -> {
+        SupportSQLiteDatabase db = getHelper().getWritableDatabase();
+        BaseTransactionProvider.Companion.storeFractionDigits(db, arg, extras);
+        return null;
       }
     }
     return null;

@@ -59,19 +59,19 @@ val Uri.templateQuerySelector: String?
  * excluded from totals) = Grand total account. With include_all passed in exclude from totals is ignored
  */
 
-val Uri.accountSelector: String
-    get() = if (getBooleanQueryParameter(QUERY_PARAMETER_INCLUDE_ALL, false)) ""
-    else KEY_ACCOUNTID + (
-            getQueryParameter(KEY_ACCOUNTID)?.let {
-                requireIdParameter(it)
-                "= $it"
-            } ?: (" IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_EXCLUDE_FROM_TOTALS=0 " +
-                    (getQueryParameter(KEY_CURRENCY)?.let { "AND $KEY_CURRENCY = '$it'" } ?: "") +
-                    (getQueryParameter(KEY_ACCOUNT_TYPE)?.let { "AND $KEY_TYPE = $it" } ?: "") +
-                    (getQueryParameter(KEY_FLAG)?.let { "AND $KEY_FLAG = $it" } ?: "") +
-                    ")")
-            )
 
+val Uri.accountSelector: String
+    get() = if (getBooleanQueryParameter(QUERY_PARAMETER_INCLUDE_ALL, false)) {
+        "$KEY_ACCOUNTID NOT IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_IS_PORTFOLIO = $PORTFOLIO_ASSET)"
+    } else getQueryParameter(KEY_ACCOUNTID)?.let {
+        requireIdParameter(it)
+        "$KEY_ACCOUNTID = $it"
+    } ?: ("$KEY_ACCOUNTID IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_EXCLUDE_FROM_TOTALS=0 " +
+            "AND $KEY_IS_PORTFOLIO != $PORTFOLIO_ASSET " +
+            (getQueryParameter(KEY_CURRENCY)?.let { "AND $KEY_CURRENCY = '$it'" } ?: "") +
+            (getQueryParameter(KEY_ACCOUNT_TYPE)?.let { "AND $KEY_TYPE = $it" } ?: "") +
+            (getQueryParameter(KEY_FLAG)?.let { "AND $KEY_FLAG = $it" } ?: "") +
+            ")")
 fun checkSealedWithAlias(baseTable: String) =
     "max(" + checkForSealedAccount(
         baseTable,

@@ -6,6 +6,7 @@ import android.os.Bundle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.model.CommodityType
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.provider.KEY_CODE
 import org.totschnig.myexpenses.provider.KEY_COMMODITY_TYPE
 import org.totschnig.myexpenses.provider.KEY_FRACTION_DIGITS
@@ -19,6 +20,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_UPDATED_ACCOUNTS_COUNT
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_CHECK_CURRENCY_IN_USE
+import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_STORE_FRACTION_DIGITS
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_UPDATE_CURRENCY
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_OLD_CODE
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_OLD_FRACTION_DIGITS
@@ -93,4 +95,21 @@ suspend fun Repository.isCurrencyUsed(code: String): Boolean = withContext(Dispa
         null
     )
     result?.getBoolean(KEY_RESULT, false) ?: false
+}
+
+suspend fun Repository.storeCustomFractionDigits(currencyUnit: CurrencyUnit) {
+    storeCustomFractionDigits(currencyUnit.code, currencyUnit.fractionDigits)
+}
+
+suspend fun Repository.storeCustomFractionDigits(currencyCode: String, fractionDigits: Int?) {
+    withContext(Dispatchers.IO) {
+        contentResolver.call(
+            DUAL_URI,
+            METHOD_STORE_FRACTION_DIGITS,
+            currencyCode,
+            Bundle().apply {
+                fractionDigits?.let { putInt(KEY_FRACTION_DIGITS, it) }
+            }
+        )
+    }
 }

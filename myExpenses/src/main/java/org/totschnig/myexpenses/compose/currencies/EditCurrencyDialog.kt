@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.compose.currencies
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -7,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
@@ -33,13 +33,11 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.common.math.IntMath
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CommodityType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.viewmodel.EditCurrencyViewModel
 import java.util.Locale
 import kotlin.math.abs
 
@@ -47,23 +45,41 @@ import kotlin.math.abs
 @Composable
 fun EditCurrencyDialog(
     currency: CurrencyUnit?,
-    viewModel: EditCurrencyViewModel,
     onDismiss: () -> Unit,
-    onResult: (Int, String?) -> Unit,
+    onConfirm: (
+        code: String,
+        symbol: String,
+        fractionDigits: Int,
+        label: String?,
+        commodityType: CommodityType,
+        withUpdate: Boolean
+    ) -> Unit,
+    isCurrencyUsed: suspend (String) -> Boolean,
+    initialCode: String = "",
+    isSaving: Boolean = false,
+    errorMessage: Int? = null,
     defaultType: CommodityType = CommodityType.FIAT,
+    allowedTypes: List<CommodityType> = CommodityType.entries,
 ) {
     val isEdit = currency != null
     val isKnownCurrency = isEdit && Utils.isKnownCurrency(currency.code)
 
     var symbol by rememberSaveable { mutableStateOf(currency?.symbol ?: "") }
-    var code by rememberSaveable { mutableStateOf(currency?.code ?: "") }
+    var code by rememberSaveable { mutableStateOf(currency?.code ?: initialCode) }
     var label by rememberSaveable { mutableStateOf(currency?.description ?: "") }
     var commodityType by rememberSaveable {
-        mutableStateOf(currency?.commodityType ?: defaultType)
+        mutableStateOf(
+            if (currency?.commodityType in allowedTypes) currency!!.commodityType
+            else if (defaultType in allowedTypes) defaultType
+            else allowedTypes.firstOrNull() ?: CommodityType.FIAT
+        )
     }
     var fractionDigitsStr by rememberSaveable {
         mutableStateOf(
-            currency?.fractionDigits?.toString() ?: "2"
+            currency?.fractionDigits?.toString() ?: when (commodityType) {
+                CommodityType.CRYPTO -> "8"
+                else -> "2"
+            }
         )
     }
     var withUpdate by rememberSaveable { mutableStateOf(false) }
@@ -71,17 +87,17 @@ fun EditCurrencyDialog(
     val initialFractionDigits = currency?.fractionDigits ?: 2
     val currentFractionDigits = fractionDigitsStr.toIntOrNull() ?: -1
     val fractionDigitsUpdate = isEdit &&
-        (currentFractionDigits != -1) && (currentFractionDigits != initialFractionDigits)
+            (currentFractionDigits != -1) && (currentFractionDigits != initialFractionDigits)
 
-    var isCurrencyUsed by rememberSaveable { mutableStateOf(false) }
+    var isCurrencyUsedResult by rememberSaveable { mutableStateOf(isEdit) }
 
-    LaunchedEffect(currency) {
-        currency?.code?.let { code ->
-            isCurrencyUsed = viewModel.isCurrencyUsed(code)
+    LaunchedEffect(currency?.code) {
+        currency?.code?.let {
+            isCurrencyUsedResult = isCurrencyUsed(it)
         }
     }
 
-    val warningMessage = if (fractionDigitsUpdate && isCurrencyUsed) {
+    val warningMessage = if (fractionDigitsUpdate && isCurrencyUsedResult) {
         val delta = initialFractionDigits - currentFractionDigits
         val part1 = stringResource(R.string.warning_change_fraction_digits_1)
         val part2 = stringResource(
@@ -92,30 +108,12 @@ fun EditCurrencyDialog(
         "$part1 $part2$part3"
     } else null
 
-    val updateComplete by viewModel.updateComplete.collectAsStateWithLifecycle()
-    val insertComplete by viewModel.insertComplete.collectAsStateWithLifecycle()
-
-    var isSaving by rememberSaveable { mutableStateOf(false) }
-    var errorMessage by rememberSaveable { mutableStateOf<Int?>(null) }
-
-    LaunchedEffect(updateComplete) {
-        updateComplete?.let {
-            onResult(it, currency?.code)
-            onDismiss()
-        }
+    var localErrorMessage by rememberSaveable { mutableStateOf<Int?>(null) }
+    LaunchedEffect(errorMessage) {
+        localErrorMessage = errorMessage
     }
 
-    LaunchedEffect(insertComplete) {
-        insertComplete?.let { success ->
-            if (success) onDismiss() else {
-                isSaving = false
-                errorMessage = R.string.currency_code_already_definded
-            }
-        }
-    }
-
-    val isValid =
-        symbol.isNotEmpty() && (isEdit || (code.isNotEmpty() && label.isNotEmpty())) && currentFractionDigits in 0..8
+    val isValid = (isEdit || (code.isNotEmpty() && label.isNotEmpty())) && currentFractionDigits in 0..8
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -140,18 +138,17 @@ fun EditCurrencyDialog(
                     .verticalScroll(rememberScrollState())
                     .fillMaxWidth()
             ) {
-                if (!isKnownCurrency) {
-                    val options = CommodityType.entries
+                if (!isKnownCurrency && allowedTypes.size > 1) {
                     SingleChoiceSegmentedButtonRow(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 8.dp)
                     ) {
-                        options.forEachIndexed { index, type ->
+                        allowedTypes.forEachIndexed { index, type ->
                             SegmentedButton(
                                 shape = SegmentedButtonDefaults.itemShape(
                                     index = index,
-                                    count = options.size
+                                    count = allowedTypes.size
                                 ),
                                 onClick = { commodityType = type },
                                 selected = commodityType == type,
@@ -162,17 +159,17 @@ fun EditCurrencyDialog(
                 }
                 OutlinedTextField(
                     value = label,
-                    onValueChange = { label = it; errorMessage = null },
+                    onValueChange = { label = it; localErrorMessage = null },
                     label = { Text(stringResource(R.string.label)) },
                     singleLine = true,
-                    enabled =  !isKnownCurrency,
+                    enabled = !isKnownCurrency,
                     modifier = Modifier.fillMaxWidth()
                 )
                 Spacer(Modifier.height(8.dp))
 
                 OutlinedTextField(
                     value = code,
-                    onValueChange = { code = it.uppercase(); errorMessage = null },
+                    onValueChange = { code = it.uppercase(); localErrorMessage = null },
                     label = { Text(stringResource(R.string.currency_code)) },
                     enabled = !isKnownCurrency,
                     singleLine = true,
@@ -184,6 +181,7 @@ fun EditCurrencyDialog(
                     value = symbol,
                     onValueChange = { symbol = it },
                     label = { Text(stringResource(R.string.currency_symbol)) },
+                    placeholder = { Text(code) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -200,17 +198,17 @@ fun EditCurrencyDialog(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .toggleable(
-                                value = withUpdate,
-                                onValueChange = { withUpdate = it },
-                                role = Role.Checkbox
-                            )
                             .padding(vertical = 8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        // Set onCheckedChange to null so the Row handles the toggle
-                        Checkbox(checked = withUpdate, onCheckedChange = null)
-                        Text(stringResource(R.string.warning_change_fraction_digits_checkbox_label))
+                        Checkbox(
+                            checked = withUpdate,
+                            onCheckedChange = { withUpdate = it }
+                        )
+                        Text(
+                            stringResource(R.string.warning_change_fraction_digits_checkbox_label),
+                            modifier = Modifier.clickable { withUpdate = !withUpdate }
+                        )
                     }
                     Text(
                         text,
@@ -218,7 +216,7 @@ fun EditCurrencyDialog(
                         color = MaterialTheme.colorScheme.error
                     )
                 }
-                errorMessage?.let {
+                localErrorMessage?.let {
                     Text(
                         stringResource(it),
                         color = MaterialTheme.colorScheme.error,
@@ -229,18 +227,14 @@ fun EditCurrencyDialog(
         },
         confirmButton = {
             TextButton(enabled = isValid && !isSaving, onClick = {
-                isSaving = true
-                if (isEdit) viewModel.save(
-                    currency.databaseId,
+                onConfirm(
                     code,
-                    symbol,
+                    symbol.takeIf { it.isNotEmpty() } ?: code,
                     currentFractionDigits,
-                    if (isKnownCurrency) null else label,
-                    currency.code.takeIf { it != code },
-                    currency.fractionDigits.takeIf { withUpdate },
-                    commodityType.takeIf { !isKnownCurrency }
+                    label.takeUnless { isKnownCurrency },
+                    commodityType,
+                    withUpdate
                 )
-                else viewModel.newCurrency(code, symbol, currentFractionDigits, label, commodityType)
             }) { Text(stringResource(android.R.string.ok)) }
         },
         dismissButton = {

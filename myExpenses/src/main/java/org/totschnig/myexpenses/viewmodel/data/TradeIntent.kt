@@ -6,28 +6,43 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
-enum class TradeType(@param:StringRes val label: Int) {
-    BUY(R.string.trade_buy),
-    SELL(R.string.trade_sell)
+sealed class TradeType(@param:StringRes val label: Int) {
+    sealed class AssetTrade(@param:StringRes label: Int) : TradeType(label) {
+        data object BUY : AssetTrade(R.string.trade_buy)
+        data object SELL : AssetTrade(R.string.trade_sell)
+    }
+
+    sealed class CashMovement(@param:StringRes label: Int) : TradeType(label) {
+        data object DEPOSIT : CashMovement(R.string.trade_deposit)
+        data object WITHDRAW : CashMovement(R.string.trade_withdraw)
+    }
+
+    companion object {
+        val entries = listOf(AssetTrade.BUY, AssetTrade.SELL, CashMovement.DEPOSIT, CashMovement.WITHDRAW)
+    }
+}
+
+enum class FundingSource {
+    PORTFOLIO, // Uses the portfolio's cash balance
+    EXTERNAL,  // Not tracked in the app (no balance impact)
+    ACCOUNT    // Transfer from a specific bank/cash account
 }
 
 data class TradeIntent(
-    val type: TradeType = TradeType.BUY,
+    val type: TradeType = TradeType.AssetTrade.BUY,
     val date: LocalDateTime = LocalDateTime.now(),
 
+    // The subaccount where the asset quantity is recorded
+    val targetAccountId: Long? = null,
     // The Asset being acquired or disposed of (e.g., AAPL, BTC)
-    val targetAsset: Currency? = null,
+    val targetAsset: CurrencyUnit,
     val quantity: BigDecimal = BigDecimal.ZERO,
 
-    // The Price per unit in the Funding Currency (or Source Asset if Swap)
     val price: BigDecimal = BigDecimal.ZERO,
 
-    // Where the value comes from or goes to
-    val fundingAccountId: Long? = null, // Used for BUY/SELL
-    val sourceAsset: Currency? = null, // Used for SWAP
-
+    val fundingSource: FundingSource = FundingSource.PORTFOLIO,
+    val fundingAccountId: Long? = null,
     val fee: BigDecimal = BigDecimal.ZERO,
-    val feeAsset: CurrencyUnit? = null, // Usually the Portfolio's reporting currency
 
     val comment: String = "",
     val payeeId: Long? = null,

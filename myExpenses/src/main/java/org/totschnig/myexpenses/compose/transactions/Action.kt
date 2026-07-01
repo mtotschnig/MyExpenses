@@ -37,13 +37,15 @@ enum class Action(
     ),
     Scan(Icons.Default.Scanner, R.string.button_scan),
     Buy(Icons.Default.ArrowUpward, R.string.trade_buy),
-    Sell(Icons.Default.ArrowDownward, R.string.trade_sell);
+    Sell(Icons.Default.ArrowDownward, R.string.trade_sell),
+    Deposit(Icons.Default.Add, R.string.trade_deposit, TransactionsContract.Transactions.TYPE_TRANSFER),
+    Withdraw(Icons.Default.Remove, R.string.trade_withdraw, TransactionsContract.Transactions.TYPE_TRANSFER);
 
 
     val tint: Color?
         @Composable get() = when (this) {
-            Expense -> LocalColors.current.expense
-            Income -> LocalColors.current.income
+            Expense, Withdraw -> LocalColors.current.expense
+            Income, Deposit -> LocalColors.current.income
             Transfer -> LocalColors.current.transfer
             else -> null
         }
@@ -61,7 +63,7 @@ enum class Action(
         }
 
     companion object {
-        val PORTFOLIO_ACTIONS = listOf(Buy, Sell)
+        val PORTFOLIO_ACTIONS = listOf(Buy, Sell, Deposit, Withdraw)
         val STANDARD_ACTIONS = listOf(Expense, Income, Transfer, Split, Scan)
     }
 }

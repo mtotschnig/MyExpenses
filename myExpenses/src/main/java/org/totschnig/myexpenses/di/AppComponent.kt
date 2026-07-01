@@ -76,7 +76,6 @@ import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
-import org.totschnig.myexpenses.viewmodel.EditCurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.ExportViewModel
 import org.totschnig.myexpenses.viewmodel.FeatureViewModel
 import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel
@@ -211,8 +210,6 @@ interface AppComponent {
     fun inject(transactionProvider: BaseTransactionProvider)
 
     fun inject(onboardingDataFragment: OnboardingDataFragment)
-
-    fun inject(editCurrencyViewModel: EditCurrencyViewModel)
 
     fun inject(budgetViewModel: BudgetViewModel)
 

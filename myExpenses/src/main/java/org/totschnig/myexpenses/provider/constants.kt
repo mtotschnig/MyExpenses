@@ -38,8 +38,6 @@ const val TABLE_PRICES: String = "prices"
 const val TABLE_ACCOUNT_TYPES: String = "account_types"
 const val TABLE_ACCOUNT_FLAGS: String = "account_flags"
 
-
-
 // VIEWS
 const val VIEW_COMMITTED: String = "transactions_committed"
 const val VIEW_WITH_ACCOUNT: String = "transactions_with_account"
@@ -339,3 +337,7 @@ const val METHOD_TYPE_SORT: String = "typeSort"
 const val KEY_FRACTION_DIGITS: String = "fraction_digits"
 const val KEY_SYMBOL: String = "symbol"
 const val KEY_COMMODITY_TYPE: String = "commodity_type" // e.g., 'FIAT', 'CRYPTO', 'STOCK'
+
+const val PORTFOLIO_NONE = 0
+const val PORTFOLIO_CONTAINER = 1
+const val PORTFOLIO_ASSET = 2

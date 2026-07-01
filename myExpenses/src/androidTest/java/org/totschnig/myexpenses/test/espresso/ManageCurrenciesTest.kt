@@ -8,6 +8,7 @@ import androidx.compose.ui.test.performScrollToNode
 import androidx.compose.ui.test.performTextReplacement
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -20,6 +21,7 @@ import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.loadAccount
+import org.totschnig.myexpenses.db2.storeCustomFractionDigits
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseComposeTest
@@ -45,7 +47,9 @@ class ManageCurrenciesTest : BaseComposeTest<ManageCurrencies>() {
             if (::account.isInitialized) {
                 repository.deleteAccount(account.id)
             }
-            currencyContext.storeCustomFractionDigits(CURRENCY_CODE, null)
+            runBlocking {
+                repository.storeCustomFractionDigits(CURRENCY_CODE, null)
+            }
         }
     }
 

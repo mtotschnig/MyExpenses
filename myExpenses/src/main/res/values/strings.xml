@@ -173,6 +173,9 @@
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
     <string name="menu_reset_plan_instance">Reset</string>
     <string name="menu_save">Save</string>
+    <string name="trade_bought">Bought</string>
+    <string name="trade_sold">Sold</string>
+    <string name="valuation">Valuation</string>
     <string name="menu_save_and_new">Save and new</string>
     <string name="menu_share">Tell a friend</string>
     <string name="button_label_close">Close</string>
@@ -1156,4 +1159,11 @@
     <string name="asset_type_security_plural">Securities</string>
     <!-- Collective noun for cryptocurrencies (e.g., Bitcoin, Ethereum). Translators should use the common local term for this asset class. -->
     <string name="asset_type_crypto">Crypto</string>
+    <string name="trade_funding_source">Funding Source</string>
+    <string name="trade_funding_portfolio">Portfolio Cash</string>
+    <string name="trade_funding_external">External (Untracked)</string>
+    <string name="trade_funding_external_description">Funds from sources not tracked in this app</string>
+    <string name="trade_deposit">Deposit</string>
+    <string name="trade_withdraw">Withdrawal</string>
+
 </resources>

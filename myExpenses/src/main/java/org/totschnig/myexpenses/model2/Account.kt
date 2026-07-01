@@ -44,6 +44,7 @@ import org.totschnig.myexpenses.provider.KEY_TYPE
 import org.totschnig.myexpenses.provider.KEY_TYPE_SORT_KEY
 import org.totschnig.myexpenses.provider.KEY_UUID
 import org.totschnig.myexpenses.provider.KEY_VISIBLE
+import org.totschnig.myexpenses.provider.PORTFOLIO_CONTAINER
 import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getDoubleIfExists
 import org.totschnig.myexpenses.provider.getEnum
@@ -81,6 +82,7 @@ data class Account(
     val dynamicExchangeRates: Boolean = false,
     val parentId: Long? = null,
     val isPortfolio: Boolean = false,
+    val isPortfolioAsset: Boolean = false,
     override val accountGrouping: AccountGrouping<*>? =  null
 ) : DataBaseAccount(), Serializable, DistributionAccountInfo {
 
@@ -189,7 +191,7 @@ data class Account(
                 bankId = cursor.getLongIfExists(KEY_BANK_ID),
                 dynamicExchangeRates = cursor.getBoolean(KEY_DYNAMIC),
                 parentId = cursor.getLongOrNull(KEY_PARENTID),
-                isPortfolio = cursor.getBoolean(KEY_IS_PORTFOLIO)
+                isPortfolio = cursor.getInt(KEY_IS_PORTFOLIO) == PORTFOLIO_CONTAINER
             )
         }
     }

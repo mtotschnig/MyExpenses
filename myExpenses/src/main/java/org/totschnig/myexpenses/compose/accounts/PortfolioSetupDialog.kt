@@ -35,19 +35,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.ColorCircle
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.util.ColorUtils
-import org.totschnig.myexpenses.viewmodel.data.Currency
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PortfolioSetupDialog(
     onDismiss: () -> Unit,
     onConfirm: (label: String, currency: String, color: Int) -> Unit,
-    availableCurrencies: List<Currency>
+    availableCurrencies: List<CurrencyUnit>,
+    selectedCurrency: CurrencyUnit,
 ) {
     var label by remember { mutableStateOf("") }
-    var selectedCurrency by remember { mutableStateOf(availableCurrencies.firstOrNull()) }
+    var selectedCurrency by remember { mutableStateOf(selectedCurrency) }
     var selectedColor by remember { mutableIntStateOf(Account.DEFAULT_COLOR) }
     var showColorPicker by remember { mutableStateOf(false) }
 
@@ -63,7 +64,7 @@ fun PortfolioSetupDialog(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
-                    text = stringResource(R.string.menu_create_account) + " (Portfolio)",
+                    text = "${stringResource(R.string.menu_create_account)} (${stringResource(R.string.account_type_portfolio)})",
                     style = MaterialTheme.typography.headlineSmall
                 )
 
@@ -82,7 +83,7 @@ fun PortfolioSetupDialog(
                     onExpandedChange = { expanded = !expanded }
                 ) {
                     OutlinedTextField(
-                        value = selectedCurrency?.toString() ?: "",
+                        value = selectedCurrency?.description ?: "",
                         onValueChange = {},
                         readOnly = true,
                         label = { Text(stringResource(R.string.currency)) },
@@ -97,7 +98,7 @@ fun PortfolioSetupDialog(
                     ) {
                         availableCurrencies.forEach { currency ->
                             DropdownMenuItem(
-                                text = { Text(currency.toString()) },
+                                text = { Text(currency.description) },
                                 onClick = {
                                     selectedCurrency = currency
                                     expanded = false
@@ -150,7 +151,7 @@ fun PortfolioSetupDialog(
 @Composable
 fun ColorPickerDialog(
     onDismiss: () -> Unit,
-    onColorSelected: (Int) -> Unit
+    onColorSelected: (Int) -> Unit,
 ) {
     Dialog(onDismissRequest = onDismiss) {
         Surface(
