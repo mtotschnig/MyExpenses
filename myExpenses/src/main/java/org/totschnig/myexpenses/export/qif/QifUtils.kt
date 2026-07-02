@@ -19,7 +19,7 @@ import java.util.*
 import java.util.regex.Pattern
 
 object QifUtils {
-    private val DATE_DELIMITER_PATTERN = Pattern.compile("[/'.\\-]")
+    private val DATE_DELIMITER_PATTERN = Pattern.compile("[/'.\\-]|(?<=\\d)(?=[a-zA-Z])|(?<=[a-zA-Z])(?=\\d)")
     private val WHITESPACE_PATTERN = Pattern.compile("(\\s|,)+")
     private val HOUR_DELIMITER_PATTERN = Pattern.compile(":")
     private val MONEY_PREFIX_PATTERN = Pattern.compile("\\D")
