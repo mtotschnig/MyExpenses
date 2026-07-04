@@ -326,7 +326,7 @@ data class FullAccount(
             .map { entry ->
                 BalanceSection(
                     type = entry.key,
-                    total = entry.value.sumOf { it.equivalentCurrentBalance },
+                    total = entry.value.sumOf { it.equivalentEffectiveBalance },
                     accounts = entry.value
                 )
             }
