@@ -132,7 +132,7 @@ fun TradeScreen(
     val coroutineScope = rememberCoroutineScope()
 
     val principal = remember(quantity, price) {
-        (quantity.orZero).multiply(price.orZero)
+        quantity.orZero.multiply(price.orZero)
     }
 
     val total = remember(type, principal, fee) {

@@ -86,8 +86,8 @@ fun EditCurrencyDialog(
 
     val initialFractionDigits = currency?.fractionDigits ?: 2
     val currentFractionDigits = fractionDigitsStr.toIntOrNull() ?: -1
-    val fractionDigitsUpdate = isEdit &&
-            (currentFractionDigits != -1) && (currentFractionDigits != initialFractionDigits)
+    val fractionDigitsUpdate =
+        isEdit && currentFractionDigits != -1 && currentFractionDigits != initialFractionDigits
 
     var isCurrencyUsedResult by rememberSaveable { mutableStateOf(isEdit) }
 
