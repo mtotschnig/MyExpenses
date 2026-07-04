@@ -118,6 +118,7 @@ import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import java.text.DecimalFormat
 import kotlin.math.absoluteValue
+import kotlin.math.roundToLong
 
 const val SIGMA = "Σ"
 
@@ -271,7 +272,7 @@ fun AccountListV2(
                         currency = groupKey as? CurrencyUnit
                             ?: LocalCurrencyContext.current.homeCurrencyUnit,
                         total = group.filter { !it.excludeFromTotals }.sumOf {
-                            if (grouping == AccountGrouping.CURRENCY) it.currentBalance else it.equivalentCurrentBalance
+                            if (grouping == AccountGrouping.CURRENCY) it.effectiveBalance else it.equivalentEffectiveBalance
                         },
                         onToggleExpand = { expansionHandlerGroups.toggle(headerId) },
                         onNavigate = if (group.size < 2) null else {
@@ -323,7 +324,7 @@ fun AccountListV2(
                         header = AccountGroupingKey.Ungrouped.title(context),
                         currency = LocalCurrencyContext.current.homeCurrencyUnit,
                         total = accountData.filter { !it.excludeFromTotals }.sumOf {
-                            it.equivalentCurrentBalance
+                            it.equivalentEffectiveBalance
                         },
                         onToggleExpand = null,
                         onNavigate = { onGroupSelected(null) },
@@ -603,17 +604,17 @@ fun AccountCardV2(
                         horizontalAlignment = Alignment.End
                     ) {
                         Text(
-                            text = format.convAmount(account.equivalentCurrentBalance, homeCurrency),
+                            text = format.convAmount(account.equivalentEffectiveBalance, homeCurrency),
                             style = MaterialTheme.typography.bodyMedium,
                         )
                         Text(
-                            text = format.convAmount(account.currentBalance, account.currencyUnit),
+                            text = format.convAmount(account.effectiveBalance, account.currencyUnit),
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     }
                 } else {
                     Text(
-                        text = format.convAmount(account.currentBalance, account.currencyUnit),
+                        text = format.convAmount(account.effectiveBalance, account.currencyUnit),
                         style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier.padding(start = 4.dp)
                     )
@@ -669,11 +670,30 @@ fun PortfolioInventory(
     portfolio: FullAccount,
     onAssetSelected: (FullAccount) -> Unit,
 ) {
+
     Column(
         modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        portfolio.children.forEach { asset ->
+        // 1. Cash Balance Row
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = stringResource(R.string.account_type_cash),
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.weight(1f)
+            )
+            AmountText(
+                amount = portfolio.currentBalance,
+                currency = portfolio.currencyUnit
+            )
+            Spacer(modifier = Modifier.width(20.dp)) // Alignment spacer
+        }
+
+        // 2. Asset Rows
+        portfolio.children.forEachIndexed { index, asset ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -681,21 +701,19 @@ fun PortfolioInventory(
                     .padding(vertical = 4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Asset Label (e.g., AAPL)
                 Text(
                     text = asset.label,
                     style = MaterialTheme.typography.bodyMedium,
                     modifier = Modifier.weight(1f)
                 )
 
-                // Quantity and Valuation
                 Column(horizontalAlignment = Alignment.End) {
-                    // Valuation (Reporting Currency)
+                    // Corrected Valuation in Portfolio Currency
                     AmountText(
                         amount = asset.equivalentCurrentBalance,
                         currency = portfolio.currencyUnit,
                     )
-                    // Quantity (Asset Units)
+                    // Quantity in Asset Units
                     if (asset.currencyUnit != portfolio.currencyUnit) {
                         AmountText(
                             amount = asset.currentBalance,
@@ -705,13 +723,10 @@ fun PortfolioInventory(
                     }
                 }
 
-                // Small chevron to show it's clickable
                 Icon(
                     Icons.Default.ChevronRight,
                     contentDescription = null,
-                    modifier = Modifier
-                        .size(16.dp)
-                        .padding(start = 4.dp),
+                    modifier = Modifier.size(16.dp).padding(start = 4.dp),
                     tint = MaterialTheme.colorScheme.outline
                 )
             }

@@ -62,10 +62,12 @@ open class CurrencyViewModel(application: Application) :
             }
             .map { it.sorted() }
 
-    val usedCurrencies: StateFlow<List<CurrencyUnit>> by lazy {
+    val usedCurrencies: StateFlow<List<Pair<CurrencyUnit, CurrencyUnit>>> by lazy {
         contentResolver.observeQuery(
             TransactionProvider.DYNAMIC_CURRENCIES_URI,
-        ).mapToList(dispatcher = coroutineDispatcher) { currencyContext[it.getString(0)] }
+        ).mapToList(dispatcher = coroutineDispatcher) {
+            currencyContext[it.getString(0)] to currencyContext[it.getString(1)]
+        }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, emptyList())
     }
 

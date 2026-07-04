@@ -230,6 +230,13 @@ class PreferenceUiFragment : BasePreferenceFragment() {
                     false
                 }
             }
+            lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.hasPortfolioAccounts.collect { result ->
+                       isVisible = !result
+                    }
+                }
+            }
         }
 
         configureUiVersionDependencies()

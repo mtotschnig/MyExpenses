@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Intent
 import androidx.annotation.OpenForTesting
 import androidx.annotation.StringRes
-import androidx.annotation.VisibleForTesting
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -12,6 +11,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import arrow.core.Tuple4
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
@@ -37,10 +38,10 @@ import org.totschnig.myexpenses.compose.transactions.Action
 import org.totschnig.myexpenses.compose.transactions.FabStyle
 import org.totschnig.myexpenses.db2.createAccount
 import org.totschnig.myexpenses.db2.createTransaction
-import org.totschnig.myexpenses.db2.updateTransaction
 import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.savePrice
 import org.totschnig.myexpenses.db2.setBalanceType
+import org.totschnig.myexpenses.db2.updateTransaction
 import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
@@ -60,15 +61,21 @@ import org.totschnig.myexpenses.preference.PreferenceAccessor
 import org.totschnig.myexpenses.preference.PreferenceState
 import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.preference.isWebUiActive
+import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.balanceUri
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.GROUPING_AGGREGATE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_BY_AGGREGATE
+import org.totschnig.myexpenses.provider.KEY_COMMODITY
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_DATE
+import org.totschnig.myexpenses.provider.KEY_EXCLUDE_FROM_TOTALS
 import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_VALUE
 import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
+import org.totschnig.myexpenses.provider.getDouble
+import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.mapToListCatching
 import org.totschnig.myexpenses.provider.triggerAccountListRefresh
 import org.totschnig.myexpenses.util.enumValueOrDefault
@@ -76,6 +83,7 @@ import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount.Companion.fromCursor
+import org.totschnig.myexpenses.viewmodel.data.FullAccount.Companion.nest
 import org.totschnig.myexpenses.viewmodel.data.FundingSource
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Trade
@@ -86,6 +94,7 @@ import org.totschnig.myexpenses.viewmodel.data.TransferEditData
 import org.totschnig.myexpenses.viewmodel.data.mapper.TransactionMapper.mapTransaction
 import timber.log.Timber
 import java.math.BigDecimal
+import java.time.LocalDate
 
 enum class AccountsScreenTab(@param:StringRes val resourceId: Int) {
     LIST(R.string.accounts),
@@ -218,22 +227,33 @@ open class MyExpensesV2ViewModel(
     }
 
     val accountDataV2: StateFlow<Result<List<FullAccount>>?> by lazy {
-        contentResolver.observeQuery(
-            uri = ACCOUNTS_URI
-                .buildUpon()
-                .appendQueryParameter(
-                    TransactionProvider.QUERY_PARAMETER_FULL_PROJECTION_WITH_SUMS,
-                    "now"
-                )
-                .build(),
-            notifyForDescendants = true
-        )
-            .mapToListCatching {
-                it.fromCursor(currencyContext)
+        combine(
+            contentResolver.observeQuery(
+                uri = ACCOUNTS_URI
+                    .buildUpon()
+                    .appendQueryParameter(
+                        TransactionProvider.QUERY_PARAMETER_FULL_PROJECTION_WITH_SUMS,
+                        "now"
+                    )
+                    .build(),
+                notifyForDescendants = true
+            )
+                .mapToListCatching {
+                    it.fromCursor(currencyContext)
+                }
+                .map { result ->
+                    result.map { it.nest().withNaturalSort }
+                }, getLatestPrices()
+        ) { accounts, prices ->
+            accounts.map { result ->
+                result.map {
+                    it.enrich(
+                        prices,
+                        currencyContext.homeCurrencyUnit
+                    )
+                }
             }
-            .map {
-                it.map { it.nest().withNaturalSort }
-            }
+        }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, null)
     }
 
@@ -533,41 +553,57 @@ open class MyExpensesV2ViewModel(
             val parts = mutableListOf<TransactionEditData>()
 
             // Part A: Asset Transfer (Portfolio <-> Asset sub-account)
-            val assetPartPortfolioAmount = if (intent.type == TradeType.AssetTrade.BUY) principalAmount.negate() else principalAmount
-            val assetPartTargetAmount = if (intent.type == TradeType.AssetTrade.BUY) intent.quantity else intent.quantity.negate()
+            val assetPartPortfolioAmount =
+                if (intent.type == TradeType.AssetTrade.BUY) principalAmount.negate() else principalAmount
+            val assetPartTargetAmount =
+                if (intent.type == TradeType.AssetTrade.BUY) intent.quantity else intent.quantity.negate()
 
-            parts.add(TransactionEditData(
-                accountId = currentAccount.id,
-                amount = Money.buildWithMajor(portfolioCurrency, assetPartPortfolioAmount).getOrThrow(),
-                transferEditData = TransferEditData(
-                    transferAccountId = targetAccountId,
-                    transferAmount = Money.buildWithMajor(intent.targetAsset, assetPartTargetAmount).getOrThrow()
-                ),
-                isSplitPart = true,
-                uuid = generateUuid()
-            ))
+            parts.add(
+                TransactionEditData(
+                    accountId = currentAccount.id,
+                    amount = Money.buildWithMajor(portfolioCurrency, assetPartPortfolioAmount)
+                        .getOrThrow(),
+                    transferEditData = TransferEditData(
+                        transferAccountId = targetAccountId,
+                        transferAmount = Money.buildWithMajor(
+                            intent.targetAsset,
+                            assetPartTargetAmount
+                        ).getOrThrow()
+                    ),
+                    isSplitPart = true,
+                    uuid = generateUuid()
+                )
+            )
 
             when (intent.fundingSource) {
                 FundingSource.ACCOUNT -> {
                     // Transfer logic (Existing Part B)
-                    parts.add(TransactionEditData(
-                        accountId = currentAccount.id,
-                        amount = Money.buildWithMajor(portfolioCurrency, totalImpact).getOrThrow(),
-                        transferEditData = TransferEditData(transferAccountId = intent.fundingAccountId!!),
-                        isSplitPart = true,
-                        uuid = generateUuid()
-                    ))
+                    parts.add(
+                        TransactionEditData(
+                            accountId = currentAccount.id,
+                            amount = Money.buildWithMajor(portfolioCurrency, totalImpact)
+                                .getOrThrow(),
+                            transferEditData = TransferEditData(transferAccountId = intent.fundingAccountId!!),
+                            isSplitPart = true,
+                            uuid = generateUuid()
+                        )
+                    )
                 }
+
                 FundingSource.EXTERNAL -> {
                     // Offset logic: Add an income part to balance out the purchase outlay
-                    parts.add(TransactionEditData(
-                        accountId = currentAccount.id,
-                        amount = Money.buildWithMajor(portfolioCurrency, totalImpact).getOrThrow(),
-                        comment = "External Funding",
-                        isSplitPart = true,
-                        uuid = generateUuid()
-                    ))
+                    parts.add(
+                        TransactionEditData(
+                            accountId = currentAccount.id,
+                            amount = Money.buildWithMajor(portfolioCurrency, totalImpact)
+                                .getOrThrow(),
+                            comment = "External Funding",
+                            isSplitPart = true,
+                            uuid = generateUuid()
+                        )
+                    )
                 }
+
                 FundingSource.PORTFOLIO -> {
                     // Do nothing extra; Part A (Asset Transfer) already reduced the portfolio balance
                     // Handle fee as a separate expense if not buying with local cash
@@ -576,12 +612,15 @@ open class MyExpensesV2ViewModel(
 
             // Part C: Fee (Expense)
             if (intent.fee != BigDecimal.ZERO) {
-                parts.add(TransactionEditData(
-                    accountId = currentAccount.id,
-                    amount = Money.buildWithMajor(portfolioCurrency, intent.fee.negate()).getOrThrow(),
-                    isSplitPart = true,
-                    uuid = generateUuid()
-                ))
+                parts.add(
+                    TransactionEditData(
+                        accountId = currentAccount.id,
+                        amount = Money.buildWithMajor(portfolioCurrency, intent.fee.negate())
+                            .getOrThrow(),
+                        isSplitPart = true,
+                        uuid = generateUuid()
+                    )
+                )
             }
 
             // Parent transaction amount is the sum of all parts in Portfolio currency
@@ -618,39 +657,6 @@ open class MyExpensesV2ViewModel(
         }
     }
 
-    fun createAssetAccount(asset: CurrencyUnit) {
-        viewModelScope.launch(coroutineDispatcher) {
-            val account = org.totschnig.myexpenses.model2.Account(
-                label = asset.code,
-                currency = asset.code,
-                parentId = selectedAccountId.value,
-                type = repository.findAccountType(AccountType.INVESTMENT.name),
-                isPortfolioAsset = true
-            )
-            repository.createAccount(account)
-        }
-    }
-
-    @VisibleForTesting
-    internal fun List<FullAccount>.nest(): List<FullAccount> {
-        val accountMap = associateBy { it.id }
-        val roots = mutableListOf<FullAccount>()
-        val childrenMap = mutableMapOf<Long, MutableList<FullAccount>>()
-
-        forEach { account ->
-            val parentId = account.parentId
-            if (parentId != null && accountMap.containsKey(parentId)) {
-                childrenMap.getOrPut(parentId) { mutableListOf() }.add(account)
-            } else {
-                roots.add(account)
-            }
-        }
-
-        return roots.map { root ->
-            root.copy(children = childrenMap[root.id] ?: emptyList())
-        }
-    }
-
     private data class TradePagerInfo(
         val factory: ClearingLastPagingSourceFactory<Int, Trade, *>,
         val flow: Flow<PagingData<Trade>>,
@@ -660,9 +666,10 @@ open class MyExpensesV2ViewModel(
 
     fun getTrades(account: PageAccount): Flow<PagingData<Trade>> {
         return tradePagerCache.getOrPut(account.id) {
-            val factory: ClearingLastPagingSourceFactory<Int, Trade, TradePagingSource> = ClearingLastPagingSourceFactory {
-                TradePagingSource(getApplication(), repository, account, pageSize)
-            }
+            val factory: ClearingLastPagingSourceFactory<Int, Trade, TradePagingSource> =
+                ClearingLastPagingSourceFactory {
+                    TradePagingSource(getApplication(), repository, account, pageSize)
+                }
             TradePagerInfo(
                 factory,
                 Pager(

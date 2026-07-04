@@ -44,6 +44,7 @@
         android:entries="@array/pref_ui_main_screen_version_values"
         android:entryValues="@array/pref_ui_main_screen_version_values"
         android:key="@string/pref_ui_main_screen_version_key"
+        my:isPreferenceVisible="false"
         my:useSimpleSummaryProvider="true"
         android:title="Version" />
 

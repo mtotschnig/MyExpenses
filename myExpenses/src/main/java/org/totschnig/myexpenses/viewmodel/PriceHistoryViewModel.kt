@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.db2.savePrice
 import org.totschnig.myexpenses.export.createFileFailure
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.provider.KEY_COMMODITY
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.provider.KEY_MAX_VALUE
 import org.totschnig.myexpenses.provider.KEY_SOURCE
@@ -69,6 +70,9 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
     @Inject
     lateinit var exchangeRateHandler: ExchangeRateHandler
 
+    val baseCurrency: String
+        get() = savedStateHandle.get<String>(KEY_CURRENCY) ?: homeCurrency
+
     val commodity: String
         get() = savedStateHandle.get<String>(KEY_COMMODITY)!!
 
@@ -111,6 +115,7 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
             uri = TransactionProvider.PRICES_URI
                 .buildUpon()
                 .appendQueryParameter(KEY_COMMODITY, commodity)
+                .appendQueryParameter(KEY_CURRENCY, baseCurrency)
                 .build(),
             projection = arrayOf(KEY_DATE, KEY_SOURCE, KEY_VALUE),
             notifyForDescendants = true
@@ -121,7 +126,7 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
                 value = calculateRealExchangeRate(
                     it.getDouble(2),
                     currencyContext[commodity],
-                    currencyContext.homeCurrencyUnit
+                    currencyContext[baseCurrency]
                 )
             )
         }
@@ -157,7 +162,7 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
     fun deletePrice(price: Price): LiveData<Boolean> =
         liveData(context = coroutineContext()) {
             emit(
-                repository.deletePrice(price.date, price.source, homeCurrency, commodity) == 1
+                repository.deletePrice(price.date, price.source, baseCurrency, commodity) == 1
             )
         }
 
@@ -166,7 +171,7 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
         liveData(context = coroutineContext()) {
             emit(
                 repository.savePrice(
-                    currencyContext.homeCurrencyUnit,
+                    currencyContext[baseCurrency],
                     currencyContext[commodity],
                     date,
                     ExchangeRateSource.User,
@@ -182,7 +187,7 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
         source,
         date,
         commodity,
-        currencyContext.homeCurrencyString
+        baseCurrency
     )
 
     suspend fun loadTimeSeries(
@@ -199,7 +204,7 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
             end,
             except,
             commodity,
-            currencyContext.homeCurrencyString
+            baseCurrency
         )
         _batchDownloadResult.update {
             getString(R.string.batch_download_result, count) + (exception?.let {
@@ -211,7 +216,7 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
     fun export() {
         viewModelScope.launch(context = coroutineContext()) {
             val context = getApplication<MyApplication>()
-            val fileName = "$commodity-${currencyContext.homeCurrencyString}"
+            val fileName = "$commodity-$baseCurrency"
             val currentPricesMap = pricesWithMissingDates.value
             _exportResult.update {
                 AppDirHelper.getAppDir(context).mapCatching { destDir ->
@@ -272,7 +277,7 @@ class PriceHistoryViewModel(application: Application, val savedStateHandle: Save
                                     val value = BigDecimal(valueString)
 
                                     repository.savePrice(
-                                        currencyContext.homeCurrencyUnit,
+                                        currencyContext[baseCurrency],
                                         currencyContext[commodity],
                                         date,
                                         ExchangeRateSource.Import,

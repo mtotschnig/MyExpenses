@@ -89,6 +89,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_BUDGET_
 import org.totschnig.myexpenses.provider.TransactionProvider.pauseChangeTrigger
 import org.totschnig.myexpenses.provider.TransactionProvider.resumeChangeTrigger
 import org.totschnig.myexpenses.provider.filter.Operation
+import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ResultUnit
@@ -559,6 +560,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         protected const val ACCOUNT_TYPE_ID = 83
         protected const val ACCOUNT_FLAGS = 84
         protected const val ACCOUNT_FLAG_ID = 85
+        protected const val LATEST_PRICES = 86
 
         const val CTE_TABLE_NAME_FULL_ACCOUNTS = "full_accounts"
 
@@ -650,14 +652,23 @@ abstract class BaseTransactionProvider : ContentProvider() {
             val aggregateInvisible = runBlocking {
                 dataStore.data.first()[prefHandler.getBooleanPreferencesKey(PrefKey.INVISIBLE_ACCOUNTS_ARE_AGGREGATED)] != false
             }
-            accountQueryCTE(
-                homeCurrency,
-                endOfDay,
-                aggregateFunction,
-                typeWithFallBack,
-                date,
-                dynamicExchangeRatesDefault,
-                aggregateInvisible
+            if (mergeAggregate == null)
+                accountQueryCTE(
+                    homeCurrency = homeCurrency,
+                    endOfDay = endOfDay,
+                    aggregateFunction = aggregateFunction,
+                    typeWithFallBack = typeWithFallBack,
+                    date = date,
+                    dynamicExpression = dynamicExchangeRatesDefault,
+                    aggregateInvisible = aggregateInvisible
+                ) else accountQueryCTEV1(
+                homeCurrency = homeCurrency,
+                endOfDay = endOfDay,
+                aggregateFunction = aggregateFunction,
+                typeWithFallBack = typeWithFallBack,
+                date = date,
+                dynamicExpression = dynamicExchangeRatesDefault,
+                aggregateInvisible = aggregateInvisible
             )
         }
 
@@ -671,6 +682,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 .orderBy(sortOrder)
                 .create().sql
         } else {
+            //V1
             val subQueries: MutableList<String> = ArrayList()
             if (mergeAggregate == "1") {
                 subQueries.add(
@@ -2557,6 +2569,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 putBoolean(SyncContract.KEY_RESULT, true)
             }
         } catch (e: Throwable) {
+            SyncAdapter.log().e(e)
             Bundle().apply {
                 putBoolean(SyncContract.KEY_RESULT, false)
                 putString(SyncContract.KEY_EXCEPTION, e.message)
@@ -2611,6 +2624,15 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         TABLE_ACCOUNTS,
                         accountValues,
                         "$KEY_CURRENCY = ?",
+                        arrayOf(oldCode)
+                    )
+                    val priceValues = ContentValues(1).apply {
+                        put(KEY_COMMODITY, code)
+                    }
+                    update(
+                        TABLE_ACCOUNTS,
+                        priceValues,
+                        "$KEY_COMMODITY = ?",
                         arrayOf(oldCode)
                     )
                 }

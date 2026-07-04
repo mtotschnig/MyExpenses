@@ -30,11 +30,9 @@ import org.totschnig.myexpenses.provider.KEY_CURRENT_BALANCE
 import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.provider.KEY_DESCRIPTION
 import org.totschnig.myexpenses.provider.KEY_DYNAMIC
-import org.totschnig.myexpenses.provider.KEY_EQUIVALENT_CURRENT_BALANCE
 import org.totschnig.myexpenses.provider.KEY_EQUIVALENT_EXPENSES
 import org.totschnig.myexpenses.provider.KEY_EQUIVALENT_INCOME
 import org.totschnig.myexpenses.provider.KEY_EQUIVALENT_OPENING_BALANCE
-import org.totschnig.myexpenses.provider.KEY_EQUIVALENT_TOTAL
 import org.totschnig.myexpenses.provider.KEY_EQUIVALENT_TRANSFERS
 import org.totschnig.myexpenses.provider.KEY_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.KEY_EXCLUDE_FROM_TOTALS
@@ -44,8 +42,6 @@ import org.totschnig.myexpenses.provider.KEY_HAS_FUTURE
 import org.totschnig.myexpenses.provider.KEY_IS_PORTFOLIO
 import org.totschnig.myexpenses.provider.KEY_LABEL
 import org.totschnig.myexpenses.provider.KEY_LAST_USED
-import org.totschnig.myexpenses.provider.KEY_LATEST_EXCHANGE_RATE
-import org.totschnig.myexpenses.provider.KEY_LATEST_EXCHANGE_RATE_DATE
 import org.totschnig.myexpenses.provider.KEY_OPENING_BALANCE
 import org.totschnig.myexpenses.provider.KEY_PARENTID
 import org.totschnig.myexpenses.provider.KEY_RECONCILED_TOTAL
@@ -59,6 +55,7 @@ import org.totschnig.myexpenses.provider.KEY_SUM_TRANSFERS
 import org.totschnig.myexpenses.provider.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.KEY_TOTAL
 import org.totschnig.myexpenses.provider.KEY_UUID
+import org.totschnig.myexpenses.provider.KEY_VISIBLE
 import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getBooleanIfExists
 import org.totschnig.myexpenses.provider.getDouble
@@ -66,12 +63,12 @@ import org.totschnig.myexpenses.provider.getDoubleOrNull
 import org.totschnig.myexpenses.provider.getEnum
 import org.totschnig.myexpenses.provider.getEnumIfExists
 import org.totschnig.myexpenses.provider.getInt
-import org.totschnig.myexpenses.provider.getLocalDate
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongIfExists
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
+import timber.log.Timber
 import java.time.LocalDate
 import kotlin.math.roundToLong
 import kotlin.math.sign
@@ -160,6 +157,19 @@ data class AggregateAccount(
     )
 }
 
+data class BalanceData(
+    val assets: List<BalanceSection>,
+    val totalAssets: Long,
+    val liabilities: List<BalanceSection>,
+    val totalLiabilities: Long,
+)
+
+data class BalanceSection(
+    val type: AccountType,
+    val total: Long,
+    val accounts: List<FullAccount>,
+)
+
 @Stable
 data class FullAccount(
     override val id: Long,
@@ -200,8 +210,11 @@ data class FullAccount(
     val dynamic: Boolean = false,
     val parentId: Long? = null,
     val isPortfolio: Boolean = false,
+    val isVisible: Boolean = true,
     val children: List<FullAccount> = emptyList(),
     override val isSingleCurrency: Boolean = true,
+    val childrenValuation: Long = 0,
+    val equivalentChildrenValuation: Long = childrenValuation,
 ) : BaseAccount(), AccountWithGroupingKey {
 
     override val accountGrouping: AccountGrouping<*>? = null
@@ -211,6 +224,11 @@ data class FullAccount(
     override fun color(resources: Resources) = if (isAggregate) aggregateColor(resources) else color
 
     override fun labelV2(context: Context) = label
+
+    val effectiveBalance
+        get() = currentBalance + childrenValuation
+    val equivalentEffectiveBalance
+        get() = equivalentCurrentBalance + equivalentChildrenValuation
 
     val toPageAccount: PageAccount
         get() = PageAccount(
@@ -286,27 +304,97 @@ data class FullAccount(
                 uuid = getStringOrNull(KEY_UUID),
                 criterion = getLong(KEY_CRITERION).takeIf { it != 0L },
                 total = if (getBoolean(KEY_HAS_FUTURE)) getLong(KEY_TOTAL) else null,
-                equivalentTotal = if (getBoolean(KEY_HAS_FUTURE)) getDouble(KEY_EQUIVALENT_TOTAL).roundToLong() else null,
                 excludeFromTotals = getBoolean(KEY_EXCLUDE_FROM_TOTALS),
                 lastUsed = getLong(KEY_LAST_USED),
                 bankId = getLongOrNull(KEY_BANK_ID),
                 equivalentOpeningBalance = getDouble(KEY_EQUIVALENT_OPENING_BALANCE).roundToLong(),
-                equivalentCurrentBalance = getDouble(KEY_EQUIVALENT_CURRENT_BALANCE).roundToLong(),
                 equivalentSumIncome = getLong(KEY_EQUIVALENT_INCOME),
                 equivalentSumExpense = getLong(KEY_EQUIVALENT_EXPENSES),
                 equivalentSumTransfer = getLong(KEY_EQUIVALENT_TRANSFERS),
                 initialExchangeRate = getDoubleOrNull(KEY_EXCHANGE_RATE),
-                latestExchangeRate = getDoubleOrNull(KEY_LATEST_EXCHANGE_RATE)?.let {
-                    getLocalDate(KEY_LATEST_EXCHANGE_RATE_DATE) to it
-                },
                 dynamic = getBoolean(KEY_DYNAMIC),
                 balanceType = getEnumIfExists(KEY_BALANCE_TYPE, BalanceType.CURRENT),
                 parentId = getLongIfExists(KEY_PARENTID),
+                isVisible = getBooleanIfExists(KEY_VISIBLE) ?: true,
                 isPortfolio = getBooleanIfExists(KEY_IS_PORTFOLIO) ?: false,
                 //in V2 this is only called for real accounts, in V1 we need to set isSingleCurrency to false for home aggregate
                 isSingleCurrency = !isHomeAggregate(id)
             )
         }
+
+        fun List<FullAccount>.partitionByAccountType(): BalanceData = groupBy { it.type }
+            .map { entry ->
+                BalanceSection(
+                    type = entry.key,
+                    total = entry.value.sumOf { it.equivalentCurrentBalance },
+                    accounts = entry.value
+                )
+            }
+            .partition { it.type.isAsset }.let { pair ->
+                BalanceData(
+                    totalAssets = pair.first.sumOf { it.total },
+                    assets = pair.first,
+                    totalLiabilities = pair.second.sumOf { it.total },
+                    liabilities = pair.second
+                )
+            }
+
+
+        fun List<FullAccount>.nest(): List<FullAccount> {
+            val accountMap = associateBy { it.id }
+            val roots = mutableListOf<FullAccount>()
+            val childrenMap = mutableMapOf<Long, MutableList<FullAccount>>()
+
+            forEach { account ->
+                val parentId = account.parentId
+                if (parentId != null && accountMap.containsKey(parentId)) {
+                    childrenMap.getOrPut(parentId) { mutableListOf() }.add(account)
+                } else {
+                    roots.add(account)
+                }
+            }
+
+            return roots.map { root ->
+                root.copy(children = childrenMap[root.id] ?: emptyList())
+            }
+        }
+
+    }
+
+    fun enrich(
+        priceMap: Map<Pair<String, String>, Double>,
+        homeCurrency: CurrencyUnit,
+    ): FullAccount {
+        val enrichedChildren = children.map { it.enrich(priceMap, currencyUnit) }
+
+        val rateToHome = when {
+            currencyUnit == homeCurrency -> 1.0
+
+            dynamic -> priceMap[currencyUnit.code to homeCurrency.code]
+            else -> null
+        } ?: (latestExchangeRate?.second ?: initialExchangeRate ?: 1.0)
+
+        val childrenValuation = if (isPortfolio) {
+            enrichedChildren.sumOf { child ->
+                val directPrice = priceMap[child.currencyUnit.code to this.currencyUnit.code]
+                if (directPrice != null) {
+                    (child.currentBalance.toDouble() * directPrice).roundToLong()
+                } else {
+                    // Cross-rate fallback: childValInHome / thisRateToHome //TODO check
+                    (child.equivalentCurrentBalance.toDouble() / rateToHome).roundToLong()
+                }
+            }
+        } else 0L
+
+        val equivalentChildrenValuation = (childrenValuation * rateToHome).roundToLong()
+
+        // 4. Update the account instance with calculated valuations and equivalents
+        return this.copy(
+            children = enrichedChildren,
+            equivalentCurrentBalance = (currentBalance * rateToHome).roundToLong(),
+            childrenValuation = childrenValuation,
+            equivalentChildrenValuation = equivalentChildrenValuation
+        )
     }
 }
 

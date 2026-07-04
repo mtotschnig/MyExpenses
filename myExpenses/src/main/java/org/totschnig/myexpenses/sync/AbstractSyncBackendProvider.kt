@@ -282,8 +282,13 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         )?.useAndMapToList { it.getString(0) } ?: emptyList()
         log().w("ensureAttachmentsOnRead: found %s", existing.joinToString())
         (attachments - existing.toSet()).forEach { uuid ->
-            val (fileName, inputStream) = getAttachment(uuid)
-            storeAttachmentToDatabase(fileName, uuid, inputStream)
+            try {
+                getAttachment(uuid)
+            } catch (e: FileNotFoundException) {
+                null
+            }?.let {
+                (fileName, inputStream) -> storeAttachmentToDatabase(fileName, uuid, inputStream)
+            }
         }
 
     }

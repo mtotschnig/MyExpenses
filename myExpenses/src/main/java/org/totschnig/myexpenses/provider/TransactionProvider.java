@@ -76,6 +76,7 @@ import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_CURRENCY_OTHER;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_CURRENCY_SELF;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_DATE;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_DYNAMIC;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_EQUIVALENT_AMOUNT;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_EXCHANGE_RATE;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_EXCLUDE_FROM_TOTALS;
@@ -167,6 +168,7 @@ import static org.totschnig.myexpenses.provider.DbConstantsKt.exchangeRateJoin;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getAccountSelector;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getPayeeWithDuplicatesCTE;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getTemplateQuerySelector;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.latestPricesQuery;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.totalBudgetAllocation;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionListAsCTE;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionMappedObjectQuery;
@@ -302,6 +304,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final Uri TRANSACTIONS_ATTACHMENTS_URI = Uri.parse("content://" + AUTHORITY + "/transactions/attachments");
 
   public static final Uri PRICES_URI = Uri.parse("content://" + AUTHORITY + "/prices");
+  public static final Uri LATEST_PRICES_URI = Uri.parse("content://" + AUTHORITY + "/latest_prices");
   public static final Uri DYNAMIC_CURRENCIES_URI = Uri.parse("content://" + AUTHORITY + "/dynamicCurrencies");
   public static final Uri ACCOUNT_TYPES_URI = Uri.parse("content://" + AUTHORITY + "/accountTypes");
   public static final Uri ACCOUNT_FLAGS_URI = Uri.parse("content://" + AUTHORITY + "/accountFlags");
@@ -960,27 +963,41 @@ public class TransactionProvider extends BaseTransactionProvider {
         qb = SupportSQLiteQueryBuilder.builder(TABLE_TRANSACTION_ATTACHMENTS + " LEFT JOIN " + TABLE_ATTACHMENTS + " ON (" + KEY_ATTACHMENT_ID + " = " + KEY_ROWID + ")");
         break;
       }
-      case BUDGET_ALLOCATIONS : {
+      case BUDGET_ALLOCATIONS: {
         qb = SupportSQLiteQueryBuilder.builder(TABLE_BUDGET_ALLOCATIONS);
         break;
       }
       case PRICES: {
         qb = SupportSQLiteQueryBuilder.builder(VIEW_PRIORITIZED_PRICES);
         String commodity = uri.getQueryParameter(KEY_COMMODITY);
+        String currency = uri.getQueryParameter(KEY_CURRENCY);
         if (commodity != null) {
           selection = KEY_CURRENCY + " = ? AND " + KEY_COMMODITY + "= ?";
-          selectionArgs = new String[]{getHomeCurrency(), commodity};
+          selectionArgs = new String[]{currency, commodity};
           extras = oldestTransactionForCurrency(db, commodity);
         }
         break;
       }
+      case LATEST_PRICES: {
+        return measureAndLogQuery(db, uri, latestPricesQuery(uri), selection, selectionArgs);
+      }
+
       // This uses a separate Uri so that notify can be called on it and triggers reload with new home currency
       case DYNAMIC_CURRENCIES: {
-        qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS);
-        projection = new String[] { "distinct " + KEY_CURRENCY };
-        selection = getDynamicCurrenciesSelection();
-        selectionArgs = new String[] { getHomeCurrency() };
-        break;
+        String homeCurrency = getHomeCurrency();
+        String dynamicFilter = getDynamicExchangeRatesDefault();
+        // If dynamicFilter is "dynamic", we need to qualify it with the table alias
+        if (dynamicFilter.equals(KEY_DYNAMIC)) {
+          dynamicFilter = "a." + dynamicFilter;
+        }
+        String sql = "WITH pairs AS (" +
+                "SELECT a." + KEY_CURRENCY + " AS commodity, " +
+                "COALESCE(p." + KEY_CURRENCY + ", ?) AS base " +
+                "FROM " + TABLE_ACCOUNTS + " a " +
+                "LEFT JOIN " + TABLE_ACCOUNTS + " p ON a." + KEY_PARENTID + " = p." + KEY_ROWID + " " +
+                "WHERE " + dynamicFilter + ") " +
+                "SELECT DISTINCT commodity, base FROM pairs WHERE commodity != base";
+        return measureAndLogQuery(db, uri, sql, null, new Object[]{homeCurrency});
       }
       case ACCOUNT_TYPES: {
         projection = new String[]{"*", "(SELECT count(*) FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_TYPE + " = " + TABLE_ACCOUNT_TYPES + "." + KEY_ROWID + ") AS " + KEY_COUNT};
@@ -1193,15 +1210,20 @@ public class TransactionProvider extends BaseTransactionProvider {
         String uuid = values.getAsString(KEY_UUID);
         if (uuid != null) {
           Long attachmentByUuid = findAttachmentByUuid(db, uuid);
-          if (attachmentByUuid == null) return null;
-          values.remove(KEY_UUID);
-          id = attachmentByUuid;
+          if (attachmentByUuid == null) {
+            id = -1;
+          } else {
+            values.remove(KEY_UUID);
+            id = attachmentByUuid;
+          }
         } else {
           id = requireAttachment(db, values.getAsString(KEY_URI), null);
           values.remove(KEY_URI);
         }
-        values.put(KEY_ATTACHMENT_ID, id);
-        db.insert(TABLE_TRANSACTION_ATTACHMENTS, CONFLICT_IGNORE, values);
+        if (id != -1) {
+          values.put(KEY_ATTACHMENT_ID, id);
+          db.insert(TABLE_TRANSACTION_ATTACHMENTS, CONFLICT_IGNORE, values);
+        }
         newUri = ContentUris.withAppendedId(ATTACHMENTS_URI, id);
       }
       case TRANSACTION_TRANSFORM_TO_TRANSFER -> {
@@ -1244,9 +1266,10 @@ public class TransactionProvider extends BaseTransactionProvider {
       notifyChange(ACCOUNTS_URI, false);
       notifyChange(DEBTS_URI, false);
     } else if (uriMatch == PRICES) {
-      notifyChange(ACCOUNTS_URI, false);
+      notifyChange(LATEST_PRICES_URI, false);
+      notifyAccountChange();
     }
-    return id > 0 ? newUri : null;
+    return newUri;
   }
 
   @Override
@@ -1352,7 +1375,8 @@ public class TransactionProvider extends BaseTransactionProvider {
       } else if (uriMatch == BANK_ID) {
         notifyChange(ACCOUNTS_URI, false);
       } else if (uriMatch == PRICES) {
-        notifyChange(ACCOUNTS_URI, false);
+        notifyChange(LATEST_PRICES_URI, false);
+        notifyAccountChange();
       }
       notifyChange(uri, uriMatch == TRANSACTION_ID);
     }
@@ -1844,6 +1868,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_UNARCHIVE, UNARCHIVE);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_SUMS_FOR_ARCHIVE, ARCHIVE_SUMS);
     URI_MATCHER.addURI(AUTHORITY, "prices", PRICES);
+    URI_MATCHER.addURI(AUTHORITY, "latest_prices", LATEST_PRICES);
     URI_MATCHER.addURI(AUTHORITY, "dynamicCurrencies", DYNAMIC_CURRENCIES);
     URI_MATCHER.addURI(AUTHORITY, "accountTypes", ACCOUNT_TYPES);
     URI_MATCHER.addURI(AUTHORITY, "accountTypes/#", ACCOUNT_TYPE_ID);

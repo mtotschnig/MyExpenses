@@ -83,9 +83,9 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.epochMillis2LocalDate
 import org.totschnig.myexpenses.util.toEpoch
-import org.totschnig.myexpenses.viewmodel.data.BalanceAccount
-import org.totschnig.myexpenses.viewmodel.data.BalanceAccount.Companion.partitionByAccountType
 import org.totschnig.myexpenses.viewmodel.data.BalanceSection
+import org.totschnig.myexpenses.viewmodel.data.FullAccount
+import org.totschnig.myexpenses.viewmodel.data.FullAccount.Companion.partitionByAccountType
 import timber.log.Timber
 import java.time.LocalDate
 import java.util.Currency
@@ -154,11 +154,11 @@ fun BalanceSheetOptions(
 @Composable
 fun BalanceSheetView(
     modifier: Modifier = Modifier,
-    accounts: List<BalanceAccount>,
+    accounts: List<FullAccount>,
     debtSum: Long = 0L,
     date: LocalDate = LocalDate.now(),
     onClose: () -> Unit = {},
-    onNavigate: (BalanceAccount) -> Unit = {},
+    onNavigate: (FullAccount) -> Unit = {},
     onSetDate: (LocalDate) -> Unit = {},
     onPrint: () -> Unit = {},
     showHiddenState: MutableState<Boolean>,
@@ -187,7 +187,7 @@ fun BalanceSheetView(
             actions = {
                 BalanceSheetOptions(
                     showHiddenState.takeIf { accounts.any { !it.isVisible } },
-                    showZeroState.takeIf { accounts.any { it.currentBalance == 0L } },
+                    showZeroState.takeIf { accounts.any { it.effectiveBalance == 0L } },
                     showChartState,
                     highlight,
                     onPrint,
@@ -215,7 +215,7 @@ fun BalanceSheetView(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ColumnScope.BalanceSheetViewInner(
-    accounts: List<BalanceAccount>,
+    accounts: List<FullAccount>,
     debtSum: Long,
     date: LocalDate,
     onSetDate: (LocalDate) -> Unit,
@@ -224,7 +224,7 @@ fun ColumnScope.BalanceSheetViewInner(
     nestedScrollConnection: NestedScrollConnection? = null,
     showHidden: Boolean,
     showZero: Boolean,
-    onNavigate: (BalanceAccount) -> Unit,
+    onNavigate: (FullAccount) -> Unit,
     bottomPadding: Dp,
 ) {
 
@@ -431,7 +431,7 @@ fun LazyListScope.accountTypeChapter(
     showHidden: Boolean,
     showZero: Boolean,
     highlight: Long?,
-    onNavigate: (BalanceAccount) -> Unit,
+    onNavigate: (FullAccount) -> Unit,
 ) {
     item {
         BalanceSheetSectionHeaderView(
@@ -492,7 +492,7 @@ fun LazyListScope.accountTypeSection(
     showHidden: Boolean,
     showZero: Boolean,
     highlight: Long?,
-    onNavigate: (BalanceAccount) -> Unit,
+    onNavigate: (FullAccount) -> Unit,
 ) {
     item {
         val homeCurrency = LocalCurrencyContext.current.homeCurrencyUnit
@@ -516,7 +516,7 @@ fun LazyListScope.accountTypeSection(
         }
     }
     section.accounts
-        .filter { (showHidden || it.isVisible) && (showZero || it.currentBalance != 0L) }
+        .filter { (showHidden || it.isVisible) && (showZero || it.effectiveBalance != 0L) }
         .forEach { account ->
             item {
                 BalanceAccountItemView(account = account, highlight == account.id, onNavigate)
@@ -526,9 +526,9 @@ fun LazyListScope.accountTypeSection(
 
 @Composable
 fun BalanceAccountItemView(
-    account: BalanceAccount,
+    account: FullAccount,
     highlight: Boolean,
-    onNavigate: (BalanceAccount) -> Unit,
+    onNavigate: (FullAccount) -> Unit,
 ) {
     val homeCurrency = LocalCurrencyContext.current.homeCurrencyUnit
     Row(
@@ -547,10 +547,10 @@ fun BalanceAccountItemView(
             modifier = Modifier.weight(1f)
         )
         Column(horizontalAlignment = Alignment.End) {
-            ColoredAmountText(account.equivalentCurrentBalance, homeCurrency, absolute = true)
-            if (account.currencyUnit.code != homeCurrency.code && account.currentBalance != 0L) {
+            ColoredAmountText(account.equivalentEffectiveBalance, homeCurrency, absolute = true)
+            if (account.currencyUnit.code != homeCurrency.code && account.effectiveBalance != 0L) {
                 AmountText(
-                    account.currentBalance.absoluteValue,
+                    account.effectiveBalance.absoluteValue,
                     account.currencyUnit,
                     fontSize = 10.sp
                 )
@@ -564,16 +564,16 @@ fun BalanceAccountItemView(
 fun RenderChart(
     modifier: Modifier,
     inner: Boolean,
-    accounts: List<BalanceAccount>,
+    accounts: List<FullAccount>,
     debts: Long?,
     highlight: MutableState<Triple<Boolean, Int, Long?>?>,
     angle: Float = 360f,
 ) {
     val context = LocalContext.current
-    val accounts = accounts.filter { it.equivalentCurrentBalance != 0L }
+    val accounts = accounts.filter { it.equivalentEffectiveBalance != 0L }
     val pieEntries = accounts.map { account ->
         PieEntry(
-            abs(account.equivalentCurrentBalance.toFloat()),
+            abs(account.equivalentEffectiveBalance.toFloat()),
             account.label
         )
     }
@@ -638,56 +638,77 @@ fun LayoutHelper(
 fun BalanceSheet() {
     BalanceSheetView(
         accounts = listOf(
-            BalanceAccount(
+            FullAccount(
                 label = "Checking Account",
-                currentBalance = 500000, // $5,000.00 (assuming cents)
+                currentBalance = 500000,
+                id = 1,
+                currencyUnit = CurrencyUnit.DebugInstance,
+                type = AccountType.BANK, // $5,000.00 (assuming cents)
             ),
-            BalanceAccount(
+            FullAccount(
                 label = "Savings Account",
                 type = AccountType.BANK,
+                id = 2,
+                currencyUnit = CurrencyUnit.DebugInstance,
                 currentBalance = 1250000, // $12,500.00
             ),
-            BalanceAccount(
+            FullAccount(
                 label = "Credit Card 1",
                 type = AccountType.CCARD,
+                id = 3,
+                currencyUnit = CurrencyUnit.DebugInstance,
                 currentBalance = -25000, // -$250.00 (negative balance for debt)
             ),
-            BalanceAccount(
+            FullAccount(
                 label = "Credit Card 2",
                 type = AccountType.CCARD,
+                id = 4,
+                currencyUnit = CurrencyUnit.DebugInstance,
                 currentBalance = -100000, // -$1,000.00
             ),
-            BalanceAccount(
+            FullAccount(
                 label = "USD Cash",
                 currentBalance = 200000, // €2,000.00
+                id = 5,
+                type = AccountType.CASH,
                 currencyUnit = CurrencyUnit(Currency.getInstance("USD")),
                 equivalentCurrentBalance = (200000 * 0.92).roundToLong()
             ),
-            BalanceAccount(
+            FullAccount(
                 label = "JPY Account",
                 type = AccountType.BANK,
+                id = 6,
                 currentBalance = 5000000, // ¥50,000.00
                 currencyUnit = CurrencyUnit(Currency.getInstance("JPY")),
                 equivalentCurrentBalance = (5000000 * 0.0075).roundToLong(),
             ),
-            BalanceAccount(
+            FullAccount(
                 label = "USD Invest Account",
                 type = AccountType.ASSET,
+                id = 7,
+                currencyUnit = CurrencyUnit.DebugInstance,
                 currentBalance = 2000000, // $20,000
             ),
-            BalanceAccount(
+            FullAccount(
                 label = "GBP Cash",
+                id = 8,
+                type = AccountType.CASH,
                 currentBalance = 100000, // £1,000.00
                 currencyUnit = CurrencyUnit(Currency.getInstance("GBP")),
                 equivalentCurrentBalance = (100000 * 1.28).roundToLong(),
             ),
-            BalanceAccount(
+            FullAccount(
                 label = "Loan Account",
+                id = 9,
                 type = AccountType.LIABILITY,
+                currencyUnit = CurrencyUnit.DebugInstance,
                 currentBalance = -1000000, // -$10,000.00 (loan debt)
             ),
-            BalanceAccount(
+            FullAccount(
                 label = "Petty Cash",
+                id = 10,
+                type = AccountType.CASH,
+                currencyUnit = CurrencyUnit.DebugInstance,
                 currentBalance = 10000, // $100.00 (loan debt)
             )
         ),
