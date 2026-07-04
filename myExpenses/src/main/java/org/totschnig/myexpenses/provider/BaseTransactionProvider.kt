@@ -2630,7 +2630,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         put(KEY_COMMODITY, code)
                     }
                     update(
-                        TABLE_ACCOUNTS,
+                        TABLE_PRICES,
                         priceValues,
                         "$KEY_COMMODITY = ?",
                         arrayOf(oldCode)
