@@ -156,7 +156,7 @@ class ManageCurrencies : ProtectedFragmentActivity() {
                                 IconButton(onClick = { finish() }) {
                                     Icon(
                                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                        contentDescription = "Back"
+                                        contentDescription = stringResource(R.string.menu_back)
                                     )
                                 }
                             },
