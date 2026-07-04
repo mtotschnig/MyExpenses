@@ -95,16 +95,6 @@ open class CurrencyViewModel(application: Application) :
             userPreferredLocale
         )
 
-    fun createAsset(
-        asset: Currency
-    ) {
-        viewModelScope.launch(coroutineDispatcher) {
-            with(asset) {
-                repository.insertCurrency(code, symbol, displayName, fractionDigits, commodityType)
-            }
-        }
-    }
-
     fun save(
         id: Long,
         currency: String,

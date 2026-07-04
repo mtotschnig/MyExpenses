@@ -7,6 +7,7 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.mockito.Mockito.mock
+import org.totschnig.myexpenses.viewmodel.data.FullAccount.Companion.nest
 
 class AccountNestingTest {
 

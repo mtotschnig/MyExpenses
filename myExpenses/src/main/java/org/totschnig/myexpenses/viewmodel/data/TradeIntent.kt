@@ -7,12 +7,12 @@ import java.math.BigDecimal
 import java.time.LocalDateTime
 
 sealed class TradeType(@param:StringRes val label: Int) {
-    sealed class AssetTrade(@param:StringRes label: Int) : TradeType(label) {
+    sealed class AssetTrade(label: Int) : TradeType(label) {
         data object BUY : AssetTrade(R.string.trade_buy)
         data object SELL : AssetTrade(R.string.trade_sell)
     }
 
-    sealed class CashMovement(@param:StringRes label: Int) : TradeType(label) {
+    sealed class CashMovement(label: Int) : TradeType(label) {
         data object DEPOSIT : CashMovement(R.string.trade_deposit)
         data object WITHDRAW : CashMovement(R.string.trade_withdraw)
     }
@@ -29,21 +29,16 @@ enum class FundingSource {
 }
 
 data class TradeIntent(
-    val type: TradeType = TradeType.AssetTrade.BUY,
-    val date: LocalDateTime = LocalDateTime.now(),
-
-    // The subaccount where the asset quantity is recorded
-    val targetAccountId: Long? = null,
     // The Asset being acquired or disposed of (e.g., AAPL, BTC)
     val targetAsset: CurrencyUnit,
-    val quantity: BigDecimal = BigDecimal.ZERO,
-
-    val price: BigDecimal = BigDecimal.ZERO,
-
+    val type: TradeType,
+    val date: LocalDateTime,
+    // The subaccount where the asset quantity is recorded
+    val targetAccountId: Long?,
+    val quantity: BigDecimal,
+    val price: BigDecimal,
     val fundingSource: FundingSource = FundingSource.PORTFOLIO,
-    val fundingAccountId: Long? = null,
-    val fee: BigDecimal = BigDecimal.ZERO,
-
-    val comment: String = "",
-    val payeeId: Long? = null,
+    val fundingAccountId: Long?,
+    val fee: BigDecimal,
+    val comment: String = ""
 )

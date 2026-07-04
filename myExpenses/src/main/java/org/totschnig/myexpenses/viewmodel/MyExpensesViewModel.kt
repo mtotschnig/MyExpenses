@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteException
 import android.os.Bundle
 import android.os.Parcelable
 import android.text.TextUtils.concat
-import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -123,7 +122,6 @@ import org.totschnig.myexpenses.provider.KEY_UUID
 import org.totschnig.myexpenses.provider.KEY_VALUE
 import org.totschnig.myexpenses.provider.KEY_VISIBLE
 import org.totschnig.myexpenses.provider.KEY_YEAR
-import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_REPLACE
@@ -508,18 +506,19 @@ open class MyExpensesViewModel(
             }
             .map { it.toMap() }
             .onEach {
-                Timber.d("Latest prices updated: %s", it)
+                Timber.d("Latest prices for $date: %s", it)
             }
+
     @OptIn(ExperimentalCoroutinesApi::class)
     val accountsForBalanceSheet: StateFlow<Pair<LocalDate, List<FullAccount>>> =
         balanceDate.flatMapLatest { date ->
             combine(
                 contentResolver.observeQuery(
-                balanceUri(if (date == LocalDate.now()) "now" else date.toString(), true),
-                selection = "$KEY_EXCLUDE_FROM_TOTALS = 0"
-            )
-                .mapToList { it.fromCursor(currencyContext) }
-                .map { it.nest() }, getLatestPrices(date)
+                    balanceUri(if (date == LocalDate.now()) "now" else date.toString(), true),
+                    selection = "$KEY_EXCLUDE_FROM_TOTALS = 0"
+                )
+                    .mapToList { it.fromCursor(currencyContext) }
+                    .map { it.nest() }, getLatestPrices(date)
             ) { accounts, prices ->
                 date to accounts.map {
                     it.enrich(
@@ -565,14 +564,8 @@ open class MyExpensesViewModel(
             selection = "$KEY_VISIBLE = 1",
             notifyForDescendants = true
         )
-            .mapToListCatching {
-                it.fromCursor(currencyContext)
-            }
-            .map {
-                it.map {
-                    it.withNaturalSort
-                }
-            }
+            .mapToListCatching { it.fromCursor(currencyContext) }
+            .map { result -> result.map { it.withNaturalSort } }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, null)
     }
 

@@ -16,7 +16,6 @@ private const val CURRENCY_UNIT_KEY = "currencyUnit"
 private const val ACCOUNT_TYPE_KEY = "accountType"
 private const val EXCLUDE_FROM_TOTALS_KEY = "excludeFromTotals"
 private const val DYNAMIC_EXCHANGE_RATES_KEY = "dynamicExchangeRates"
-private const val IS_PORTFOLIO_KEY = "isPortfolio"
 private const val UUID_KEY = "uuid"
 
 class AccountEditViewModel(application: Application, savedStateHandle: SavedStateHandle)
