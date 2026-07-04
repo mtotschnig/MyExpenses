@@ -10,7 +10,7 @@ abstract class BaseHelpTest {
         get() = ApplicationProvider.getApplicationContext()
     protected val resources: Resources
         get() = context.resources
-    private val helper: HelpDialogHelper by lazy {
+    val helper: HelpDialogHelper by lazy {
         HelpDialogHelper(context)
     }
     val packageName: String

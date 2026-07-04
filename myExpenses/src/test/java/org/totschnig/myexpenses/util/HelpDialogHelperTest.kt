@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.util
 
+import android.content.res.Resources
 import com.google.common.truth.Truth.assertThat
 import com.google.common.truth.Truth.assertWithMessage
 import org.junit.Test
@@ -78,7 +79,11 @@ class HelpDialogHelperTest(private val activity: Class<out ProtectedFragmentActi
         var menuItemsIdentifier: Int
         val className = activity.simpleName
         assertThat(activity).isAssignableTo(ProtectedFragmentActivity::class.java)
-        val titleIdentifier = getStringIdentifier("help_" + className + "_title")
+        val title = try {
+            helper.getStringOrThrowIf0("help_" + className + "_title")
+        } catch (_: Resources.NotFoundException) {
+            null
+        }
         menuItemsIdentifier = getArrayIdentifier(className + "_menuitems")
         if (menuItemsIdentifier != 0) {
             testMenuItems(
@@ -103,19 +108,19 @@ class HelpDialogHelperTest(private val activity: Class<out ProtectedFragmentActi
         }
         val helpVariants = getHelpVariants(activity)
         if (helpVariants.isEmpty()) {
-            assertWithMessage("title not defined for $className").that(titleIdentifier)
-                .isNotEqualTo(0)
+            assertWithMessage("title not defined for $className").that(title)
+                .isNotNull()
             // info can be null, so we do not assert on it, but we test if it resolves without raising
             // exception
             resolveStringOrArray("help_" + className + "_" + "_info")
         } else {
             for (variantName in helpVariants) {
                 //if there is no generic title, variant specific ones are required
-                if (titleIdentifier == 0) assertWithMessage(
+                if (title == null) assertWithMessage(
                     "title not defined for $className, variant $variantName and no generic title exists"
                 ).that(
-                    getStringIdentifier("help_" + className + "_" + variantName + "_title")
-                ).isNotEqualTo(0)
+                    helper.getStringOrThrowIf0("help_" + className + "_" + variantName + "_title")
+                ).isNotNull()
                 // info can be null, so we do not assert on it, but we test if it resolves without raising
                 // exception
                 resolveStringOrArray("help_" + className + "_" + variantName + "_info")
