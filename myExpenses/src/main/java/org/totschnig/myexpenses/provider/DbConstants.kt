@@ -450,7 +450,11 @@ const val TRANSFER_ACCOUNT_CURRENCY =
 
 fun latestPricesQuery(uri: Uri): String {
     val date: String? = uri.getQueryParameter(KEY_DATE)
-    val dateCriterionForPricesTable = if (date == "now") "date('now', 'localtime')" else "'$date'"
+    val dateCriterionForPricesTable = if (date == null || date == "now") {
+        "date('now', 'localtime')"
+    } else {
+        "'$date'"
+    }
     return """
 SELECT p.* FROM $VIEW_PRIORITIZED_PRICES p JOIN
     (SELECT $KEY_COMMODITY, $KEY_CURRENCY, MAX($KEY_DATE) as max_date FROM $TABLE_PRICES  WHERE $KEY_DATE <= $dateCriterionForPricesTable GROUP BY $KEY_COMMODITY, $KEY_CURRENCY) latest 
