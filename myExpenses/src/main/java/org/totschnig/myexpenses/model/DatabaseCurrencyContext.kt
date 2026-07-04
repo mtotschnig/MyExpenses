@@ -61,7 +61,8 @@ open class DatabaseCurrencyContext(
             Triple(
                 dbSymbol ?: javaCurrency?.getSymbol(application.userPreferredLocale) ?: "¤",
                 dbFractionDigits ?: javaCurrency?.defaultFractionDigits?.takeIf { it != -1 } ?: DEFAULT_FRACTION_DIGITS,
-                dbLabel ?: javaCurrency?.getDisplayName(application.userPreferredLocale) ?:  CurrencyEnum.valueOf(code).description
+                dbLabel ?: javaCurrency?.getDisplayName(application.userPreferredLocale)
+                    ?: runCatching { CurrencyEnum.valueOf(code).description }.getOrDefault(code)
             )
         } else Triple(dbSymbol, dbFractionDigits, dbLabel)
 
