@@ -53,7 +53,6 @@ class AccountEditViewModel(application: Application, savedStateHandle: SavedStat
         dynamicExchangeRates = !dynamicExchangeRates
     }
 
-
     var uuid: String?
         get() = savedStateHandle.get<String>(UUID_KEY)
         set(value) = savedStateHandle.set(UUID_KEY, value)
@@ -88,6 +87,7 @@ class AccountEditViewModel(application: Application, savedStateHandle: SavedStat
                     homeCurrency.code
                 )
             }
+            currencyUnit?.let { repository.storeCustomFractionDigits(it) }
             account.id to account.uuid!!
         })
     }

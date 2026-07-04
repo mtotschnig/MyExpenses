@@ -54,6 +54,7 @@ import java.io.InputStreamReader
 import java.io.OutputStream
 import java.security.GeneralSecurityException
 import java.util.Locale
+import androidx.core.content.edit
 
 abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) :
     SyncBackendProvider, ResourceStorage<Res> {
@@ -96,7 +97,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         accountManager: AccountManager,
         account: android.accounts.Account,
         encryptionPassword: String?,
-        create: Boolean
+        create: Boolean,
     ) {
         this.encryptionPassword = encryptionPassword
         encryptionToken?.also {
@@ -176,7 +177,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     @Throws(IOException::class)
     protected fun maybeEncrypt(
         inputStream: InputStream,
-        maybeEncrypt: Boolean = true
+        maybeEncrypt: Boolean = true,
     ): InputStream =
         if (maybeEncrypt && isEncrypted) try {
             EncryptionHelper.encrypt(
@@ -190,7 +191,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     @Throws(IOException::class)
     protected fun maybeDecrypt(
         inputStream: InputStream,
-        maybeDecrypt: Boolean = true
+        maybeDecrypt: Boolean = true,
     ): InputStream = try {
         if (maybeDecrypt && isEncrypted) EncryptionHelper.decrypt(
             inputStream,
@@ -207,7 +208,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     @Throws(IOException::class)
     protected fun getChangeSetFromInputStream(
         sequenceNumber: SequenceNumber,
-        inputStream: InputStream
+        inputStream: InputStream,
     ): ChangeSet {
         log().i("getChangeSetFromInputStream for $sequenceNumber")
         val changes  = getChanges(maybeDecrypt(inputStream)).toMutableList()
@@ -281,8 +282,13 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         )?.useAndMapToList { it.getString(0) } ?: emptyList()
         log().w("ensureAttachmentsOnRead: found %s", existing.joinToString())
         (attachments - existing.toSet()).forEach { uuid ->
-            val (fileName, inputStream) = getAttachment(uuid)
-            storeAttachmentToDatabase(fileName, uuid, inputStream)
+            try {
+                getAttachment(uuid)
+            } catch (e: FileNotFoundException) {
+                null
+            }?.let {
+                (fileName, inputStream) -> storeAttachmentToDatabase(fileName, uuid, inputStream)
+            }
         }
 
     }
@@ -357,7 +363,7 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     override fun writeChangeSet(
         lastSequenceNumber: SequenceNumber,
         changeSet: List<TransactionChange>,
-        context: Context
+        context: Context,
     ): SequenceNumber {
         val nextSequence = getLastSequence(lastSequenceNumber).next()
         val finalChangeSet = if (appInstance != null) {
@@ -410,13 +416,13 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
         fileName: String,
         fileContents: String,
         mimeType: String,
-        maybeEncrypt: Boolean
+        maybeEncrypt: Boolean,
     )
 
     protected abstract fun readFileContents(
         fromAccountDir: Boolean,
         fileName: String,
-        maybeDecrypt: Boolean = false
+        maybeDecrypt: Boolean = false,
     ): String?
 
     protected fun createWarningFile() {
@@ -556,11 +562,13 @@ abstract class AbstractSyncBackendProvider<Res>(protected val context: Context) 
     private fun saveLockTokenToPreferences(
         lockToken: String?,
         timestamp: Long,
-        ownedByUs: Boolean
+        ownedByUs: Boolean,
     ) {
-        sharedPreferences.edit().putString(accountPrefKey(KEY_LOCK_TOKEN), lockToken)
-            .putLong(accountPrefKey(KEY_TIMESTAMP), timestamp)
-            .putBoolean(accountPrefKey(KEY_OWNED_BY_US), ownedByUs).commit()
+        sharedPreferences.edit(commit = true) {
+            putString(accountPrefKey(KEY_LOCK_TOKEN), lockToken)
+                .putLong(accountPrefKey(KEY_TIMESTAMP), timestamp)
+                .putBoolean(accountPrefKey(KEY_OWNED_BY_US), ownedByUs)
+        }
     }
 
     private fun accountPrefKey(key: String): String {

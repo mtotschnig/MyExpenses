@@ -115,7 +115,7 @@ class PriceHistory : ProtectedFragmentActivity() {
                 val nestedScrollInterop = rememberNestedScrollInteropConnection()
                 PriceListScreen(
                     viewModel.pricesWithMissingDates.collectAsState(initial = mapOf(LocalDate.now() to null)).value,
-                    currencyContext.homeCurrencyUnit,
+                    currencyContext[viewModel.baseCurrency],
                     Modifier
                         .nestedScroll(nestedScrollInterop)
                         .padding(horizontal = 8.dp),

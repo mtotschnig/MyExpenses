@@ -137,7 +137,6 @@
     <string name="pref_category_title_import">Importar</string>
     <string name="pref_category_title_more_information">Máis información</string>
     <string name="pref_category_title_ui">Interface de usuario</string>
-    <string name="pref_custom_currency_title">Personalizar moedas</string>
     <string name="pref_import_from_grisbi_title">Importar desde Grisbi</string>
     <string name="pref_manage_accounts_title">Contas</string>
     <string name="pref_manage_categories_summary">Engadir, editar, eliminar categorías.</string>

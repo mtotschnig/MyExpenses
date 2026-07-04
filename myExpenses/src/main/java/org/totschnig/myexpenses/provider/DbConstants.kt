@@ -59,19 +59,19 @@ val Uri.templateQuerySelector: String?
  * excluded from totals) = Grand total account. With include_all passed in exclude from totals is ignored
  */
 
-val Uri.accountSelector: String
-    get() = if (getBooleanQueryParameter(QUERY_PARAMETER_INCLUDE_ALL, false)) ""
-    else KEY_ACCOUNTID + (
-            getQueryParameter(KEY_ACCOUNTID)?.let {
-                requireIdParameter(it)
-                "= $it"
-            } ?: (" IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_EXCLUDE_FROM_TOTALS=0 " +
-                    (getQueryParameter(KEY_CURRENCY)?.let { "AND $KEY_CURRENCY = '$it'" } ?: "") +
-                    (getQueryParameter(KEY_ACCOUNT_TYPE)?.let { "AND $KEY_TYPE = $it" } ?: "") +
-                    (getQueryParameter(KEY_FLAG)?.let { "AND $KEY_FLAG = $it" } ?: "") +
-                    ")")
-            )
 
+val Uri.accountSelector: String
+    get() = if (getBooleanQueryParameter(QUERY_PARAMETER_INCLUDE_ALL, false)) {
+        "$KEY_ACCOUNTID NOT IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_IS_PORTFOLIO = $PORTFOLIO_ASSET)"
+    } else getQueryParameter(KEY_ACCOUNTID)?.let {
+        requireIdParameter(it)
+        "$KEY_ACCOUNTID = $it"
+    } ?: ("$KEY_ACCOUNTID IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_EXCLUDE_FROM_TOTALS=0 " +
+            "AND $KEY_IS_PORTFOLIO != $PORTFOLIO_ASSET " +
+            (getQueryParameter(KEY_CURRENCY)?.let { "AND $KEY_CURRENCY = '$it'" } ?: "") +
+            (getQueryParameter(KEY_ACCOUNT_TYPE)?.let { "AND $KEY_TYPE = $it" } ?: "") +
+            (getQueryParameter(KEY_FLAG)?.let { "AND $KEY_FLAG = $it" } ?: "") +
+            ")")
 fun checkSealedWithAlias(baseTable: String) =
     "max(" + checkForSealedAccount(
         baseTable,
@@ -448,8 +448,21 @@ const val TRANSFER_ACCOUNT_LABEL =
 const val TRANSFER_ACCOUNT_CURRENCY =
     "CASE WHEN $KEY_TRANSFER_ACCOUNT THEN (SELECT $KEY_CURRENCY FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = $KEY_TRANSFER_ACCOUNT) END AS $KEY_TRANSFER_ACCOUNT_CURRENCY"
 
+fun latestPricesQuery(uri: Uri): String {
+    val date: String? = uri.getQueryParameter(KEY_DATE)
+    val dateCriterionForPricesTable = if (date == null || date == "now") {
+        "date('now', 'localtime')"
+    } else {
+        "'$date'"
+    }
+    return """
+SELECT p.* FROM $VIEW_PRIORITIZED_PRICES p JOIN
+    (SELECT $KEY_COMMODITY, $KEY_CURRENCY, MAX($KEY_DATE) as max_date FROM $TABLE_PRICES  WHERE $KEY_DATE <= $dateCriterionForPricesTable GROUP BY $KEY_COMMODITY, $KEY_CURRENCY) latest 
+    ON p.$KEY_COMMODITY = latest.$KEY_COMMODITY AND p.$KEY_CURRENCY = latest.$KEY_CURRENCY AND p.$KEY_DATE = latest.max_date"""
+}
 
-fun accountQueryCTE(
+
+fun accountQueryCTEV1(
     homeCurrency: String,
     endOfDay: Boolean,
     aggregateFunction: String,
@@ -460,7 +473,7 @@ fun accountQueryCTE(
 ): String {
     val dateCriterion =
         if (endOfDay) "'$date', 'localtime', 'start of day', '+1 day', '-1 second', 'utc'" else "'$date'"
-    val dateCriterionForPricesTable = if (date == "now") "date()" else "'$date'"
+    val dateCriterionForPricesTable = if (date == "now") "date('now', 'localtime')" else "'$date'"
     val isExpense =
         "$KEY_TYPE = $FLAG_EXPENSE OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_AMOUNT < 0)"
     val isIncome =
@@ -517,7 +530,9 @@ fun accountQueryCTE(
         KEY_LAST_USED,
         KEY_BANK_ID,
         "$KEY_CURRENCY != '$homeCurrency' AND $dynamicExpression AS $KEY_DYNAMIC",
-        KEY_BALANCE_TYPE
+        KEY_BALANCE_TYPE,
+        KEY_PARENTID,
+        KEY_IS_PORTFOLIO
     )
     return """
 WITH now as (
@@ -533,6 +548,125 @@ WITH now as (
       FROM $TABLE_PRICES p2
       WHERE p2.$KEY_COMMODITY = p.$KEY_COMMODITY AND p2.$KEY_CURRENCY = '$homeCurrency' AND $KEY_DATE <= $dateCriterionForPricesTable
   )
+), base AS (SELECT $VIEW_WITH_ACCOUNT.*, $KEY_EQUIVALENT_AMOUNT, $KEY_EXCHANGE_RATE FROM
+    ${exchangeRateJoin(VIEW_WITH_ACCOUNT, KEY_ACCOUNTID, homeCurrency)}
+    ${equivalentAmountJoin(homeCurrency)}
+), amounts AS (
+    SELECT
+        $KEY_AMOUNT,
+        $typeWithFallBack AS $KEY_TYPE,
+        $KEY_TRANSFER_PEER,
+        $KEY_CR_STATUS,
+        $KEY_DATE,
+        CASE WHEN $KEY_CURRENCY != '$homeCurrency'
+          THEN
+            coalesce(
+              CASE WHEN $dynamicExpression
+                THEN ${calcEquivalentAmountForSplitParts("base")}
+              END,
+              coalesce($KEY_EXCHANGE_RATE, 1) * $KEY_AMOUNT
+            )
+          ELSE $KEY_AMOUNT
+          END AS $KEY_EQUIVALENT_AMOUNT,
+        $KEY_ACCOUNTID
+    FROM base
+    WHERE $WHERE_NOT_SPLIT AND $WHERE_NOT_ARCHIVED AND $KEY_CR_STATUS != '${CrStatus.VOID.name}'
+), aggregates AS (
+    SELECT
+        $KEY_ACCOUNTID,
+        $aggregateFunction($KEY_AMOUNT) as $KEY_TOTAL,
+        $aggregateFunction(CASE WHEN $isIncome THEN $KEY_AMOUNT ELSE 0 END) as $KEY_SUM_INCOME,
+        $aggregateFunction(CASE WHEN ($isIncome) AND $KEY_TRANSFER_PEER IS NULL THEN $KEY_EQUIVALENT_AMOUNT ELSE 0 END) as $KEY_EQUIVALENT_INCOME,
+        $aggregateFunction(CASE WHEN $isExpense THEN $KEY_AMOUNT ELSE 0 END) as $KEY_SUM_EXPENSES,
+        $aggregateFunction(CASE WHEN ($isExpense) AND $KEY_TRANSFER_PEER IS NULL THEN $KEY_EQUIVALENT_AMOUNT ELSE 0 END) as $KEY_EQUIVALENT_EXPENSES,
+        $aggregateFunction(CASE WHEN $isTransfer THEN $KEY_AMOUNT ELSE 0  END) as $KEY_SUM_TRANSFERS,
+        $aggregateFunction(CASE WHEN ($isTransfer) AND $KEY_TRANSFER_PEER IS NULL THEN $KEY_EQUIVALENT_AMOUNT ELSE 0  END) as $KEY_EQUIVALENT_TRANSFERS,
+        $aggregateFunction(CASE WHEN $KEY_DATE <= (select now from now) THEN $KEY_AMOUNT ELSE 0 END) as $KEY_CURRENT,
+        $aggregateFunction(CASE WHEN $KEY_CR_STATUS IN ( 'RECONCILED', 'CLEARED' ) THEN $KEY_AMOUNT ELSE 0 END) as $KEY_CLEARED_TOTAL,
+        $aggregateFunction(CASE WHEN $KEY_CR_STATUS = 'RECONCILED' THEN $KEY_AMOUNT ELSE 0 END) as $KEY_RECONCILED_TOTAL,
+        max(CASE WHEN $KEY_CR_STATUS = 'CLEARED' THEN 1 ELSE 0 END) as $KEY_HAS_CLEARED,
+        max($KEY_DATE) > (select now from now) as $KEY_HAS_FUTURE
+   from amounts group by $KEY_ACCOUNTID
+), $CTE_TABLE_NAME_FULL_ACCOUNTS AS (
+    SELECT ${fullAccountProjection.joinToString()}
+    FROM $accountWithTypeAndFlag LEFT JOIN aggregates ON $TABLE_ACCOUNTS.$KEY_ROWID = aggregates.$KEY_ACCOUNTID LEFT JOIN $CTE_LATEST_RATES ON $TABLE_ACCOUNTS.$KEY_CURRENCY = $CTE_LATEST_RATES.$KEY_COMMODITY  
+    ${exchangeRateJoin("", KEY_ROWID, homeCurrency, TABLE_ACCOUNTS)} $invisibleFilter
+)
+"""
+}
+
+
+fun accountQueryCTE(
+    homeCurrency: String,
+    endOfDay: Boolean,
+    aggregateFunction: String,
+    typeWithFallBack: String,
+    date: String,
+    dynamicExpression: String,
+    aggregateInvisible: Boolean,
+): String {
+    val dateCriterion =
+        if (endOfDay) "'$date', 'localtime', 'start of day', '+1 day', '-1 second', 'utc'" else "'$date'"
+    val isExpense =
+        "$KEY_TYPE = $FLAG_EXPENSE OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_AMOUNT < 0)"
+    val isIncome =
+        "$KEY_TYPE = $FLAG_INCOME OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_AMOUNT > 0)"
+    val isTransfer = "$KEY_TYPE = $FLAG_TRANSFER"
+
+    val invisibleFilter = if (aggregateInvisible) "" else " WHERE $KEY_VISIBLE = 1"
+
+    val fullAccountProjection = arrayOf(
+        KEY_EXCHANGE_RATE,
+        "$TABLE_ACCOUNTS.$KEY_ROWID AS $KEY_ROWID",
+        "$TABLE_ACCOUNTS.$KEY_LABEL",
+        "$TABLE_ACCOUNTS.$KEY_DESCRIPTION AS $KEY_DESCRIPTION",
+        KEY_OPENING_BALANCE,
+        "CASE WHEN $KEY_CURRENCY = '$homeCurrency' THEN $KEY_OPENING_BALANCE ELSE $KEY_OPENING_BALANCE * $KEY_EXCHANGE_RATE END AS $KEY_EQUIVALENT_OPENING_BALANCE",
+        "$TABLE_ACCOUNTS.$KEY_CURRENCY AS $KEY_CURRENCY",
+        KEY_COLOR,
+        "$TABLE_ACCOUNTS.$KEY_GROUPING AS $KEY_GROUPING",
+        "$TABLE_ACCOUNT_TYPES.$KEY_LABEL AS $KEY_ACCOUNT_TYPE_LABEL",
+        KEY_IS_ASSET,
+        KEY_SUPPORTS_RECONCILIATION,
+        KEY_TYPE,
+        KEY_TYPE_SORT_KEY,
+        KEY_FLAG,
+        KEY_FLAG_LABEL,
+        KEY_VISIBLE,
+        KEY_FLAG_SORT_KEY,
+        KEY_FLAG_ICON,
+        KEY_SORT_KEY,
+        KEY_EXCLUDE_FROM_TOTALS,
+        KEY_SYNC_ACCOUNT_NAME,
+        KEY_UUID,
+        KEY_SORT_BY,
+        KEY_SORT_DIRECTION,
+        KEY_CRITERION,
+        KEY_SEALED,
+        "$KEY_OPENING_BALANCE + coalesce($KEY_CURRENT,0) AS $KEY_CURRENT_BALANCE",
+        KEY_SUM_INCOME,
+        KEY_SUM_EXPENSES,
+        KEY_SUM_TRANSFERS,
+        KEY_EQUIVALENT_INCOME,
+        KEY_EQUIVALENT_EXPENSES,
+        KEY_EQUIVALENT_TRANSFERS,
+        "$KEY_OPENING_BALANCE + coalesce($KEY_TOTAL,0) AS $KEY_TOTAL",
+        "$KEY_OPENING_BALANCE + coalesce($KEY_CLEARED_TOTAL,0) AS $KEY_CLEARED_TOTAL",
+        "$KEY_OPENING_BALANCE + coalesce($KEY_RECONCILED_TOTAL,0) AS $KEY_RECONCILED_TOTAL",
+        KEY_USAGES,
+        KEY_HAS_FUTURE,
+        KEY_HAS_CLEARED,
+        KEY_LAST_USED,
+        KEY_BANK_ID,
+        "$KEY_CURRENCY != '$homeCurrency' AND $dynamicExpression AS $KEY_DYNAMIC",
+        KEY_BALANCE_TYPE,
+        KEY_PARENTID,
+        KEY_IS_PORTFOLIO
+    )
+    return """
+WITH now as (
+    SELECT
+        cast(strftime('%s', $dateCriterion) as integer) AS now
 ), base AS (SELECT $VIEW_WITH_ACCOUNT.*, $KEY_EQUIVALENT_AMOUNT, $KEY_EXCHANGE_RATE FROM
     ${exchangeRateJoin(VIEW_WITH_ACCOUNT, KEY_ACCOUNTID, homeCurrency)}
     ${equivalentAmountJoin(homeCurrency)}
@@ -574,7 +708,7 @@ WITH now as (
    from amounts group by $KEY_ACCOUNTID
 ), $CTE_TABLE_NAME_FULL_ACCOUNTS AS (
     SELECT ${fullAccountProjection.joinToString()}
-    FROM $accountWithTypeAndFlag LEFT JOIN aggregates ON $TABLE_ACCOUNTS.$KEY_ROWID = aggregates.$KEY_ACCOUNTID LEFT JOIN $CTE_LATEST_RATES ON $TABLE_ACCOUNTS.$KEY_CURRENCY = $CTE_LATEST_RATES.$KEY_COMMODITY  
+    FROM $accountWithTypeAndFlag LEFT JOIN aggregates ON $TABLE_ACCOUNTS.$KEY_ROWID = aggregates.$KEY_ACCOUNTID
     ${exchangeRateJoin("", KEY_ROWID, homeCurrency, TABLE_ACCOUNTS)} $invisibleFilter
 )
 """
@@ -837,7 +971,7 @@ fun getExchangeRate(forTable: String, accountIdColumn: String, homeCurrency: Str
 fun getAmountCalculation(
     homeCurrency: String?,
     forTable: String,
-    currencyTable: String = forTable
+    currencyTable: String = forTable,
 ) =
     if (homeCurrency != null)
         getAmountHomeEquivalent(forTable, homeCurrency, currencyTable)

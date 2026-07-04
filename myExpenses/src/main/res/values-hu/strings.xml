@@ -235,7 +235,6 @@
     <string name="pref_category_title_more_information">További információ</string>
     <string name="pref_category_title_ui">Felhasználói felület</string>
     <string name="pref_contrib_purchase_title_upgrade">Kulcs frissítése</string>
-    <string name="pref_custom_currency_title">Pénznemek testreszabása</string>
     <string name="pref_enter_licence_title">Kulcs megadása</string>
     <string name="pref_export_format_title">Adat formátum</string>
     <string name="pref_import_from_grisbi_summary">Kategóriák és résztvevők beolvasása Grisbi XML.</string>

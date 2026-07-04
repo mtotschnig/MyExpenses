@@ -215,7 +215,6 @@
     <string name="pref_category_title_more_information">더 많은 정보</string>
     <string name="pref_category_title_ui">사용자 인터페이스</string>
     <string name="pref_contrib_purchase_title_upgrade">키 업그레이드</string>
-    <string name="pref_custom_currency_title">화폐 단위 설정</string>
     <string name="pref_enter_licence_title">기부 확인 키 입력</string>
     <string name="pref_export_format_title">데이터 형식</string>
     <string name="pref_import_from_grisbi_summary">Grisbi XML 파일에서 카테고리와 구성원 가져오기</string>

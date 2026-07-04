@@ -232,7 +232,6 @@
     <string name="pref_category_title_more_information">更多资讯</string>
     <string name="pref_category_title_ui">用户界面</string>
     <string name="pref_contrib_purchase_title_upgrade">升级密钥</string>
-    <string name="pref_custom_currency_title">自定义货币</string>
     <string name="pref_enter_licence_title">输入密钥</string>
     <string name="pref_export_format_title">数据格式</string>
     <string name="pref_import_from_grisbi_summary">从 Grisbi XML 文件导入类别和交易对象</string>

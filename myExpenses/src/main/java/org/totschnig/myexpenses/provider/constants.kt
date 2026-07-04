@@ -38,8 +38,6 @@ const val TABLE_PRICES: String = "prices"
 const val TABLE_ACCOUNT_TYPES: String = "account_types"
 const val TABLE_ACCOUNT_FLAGS: String = "account_flags"
 
-
-
 // VIEWS
 const val VIEW_COMMITTED: String = "transactions_committed"
 const val VIEW_WITH_ACCOUNT: String = "transactions_with_account"
@@ -291,6 +289,9 @@ const val KEY_LATEST_EXCHANGE_RATE_DATE: String = "latest_exchange_rate_date"
 const val KEY_ACCOUNT_TYPE_LABEL: String = "account_type_label"
 
 const val KEY_BALANCE_TYPE: String = "balance_type"
+const val KEY_IS_PORTFOLIO: String = "is_portfolio"
+
+const val KEY_VALUES: String = "values"
 
 //Status constants
 /**
@@ -331,3 +332,12 @@ const val NULL_CHANGE_INDICATOR: String = "__NULL__"
 
 //METHOD names
 const val METHOD_TYPE_SORT: String = "typeSort"
+
+// currency/commodity table
+const val KEY_FRACTION_DIGITS: String = "fraction_digits"
+const val KEY_SYMBOL: String = "symbol"
+const val KEY_COMMODITY_TYPE: String = "commodity_type" // e.g., 'FIAT', 'CRYPTO', 'STOCK'
+
+const val PORTFOLIO_NONE = 0
+const val PORTFOLIO_CONTAINER = 1
+const val PORTFOLIO_ASSET = 2

@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -29,8 +31,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
@@ -38,22 +44,31 @@ import org.totschnig.myexpenses.adapter.SortableItem
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.accounts.AccountEvent
 import org.totschnig.myexpenses.compose.accounts.AccountEventHandler
+import org.totschnig.myexpenses.compose.accounts.PortfolioSetupDialog
 import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.main.AppEventHandler
 import org.totschnig.myexpenses.compose.main.MainScreenAdaptive
 import org.totschnig.myexpenses.compose.transactions.Action
+import org.totschnig.myexpenses.compose.transactions.TradeEvent
+import org.totschnig.myexpenses.compose.transactions.TradeList
+import org.totschnig.myexpenses.compose.transactions.TradeScreen
 import org.totschnig.myexpenses.dialog.SortSelect
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.provider.KEY_SORT_KEY
 import org.totschnig.myexpenses.util.ads.AdHandlerV2
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
+import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.SumInfo
 import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
+import org.totschnig.myexpenses.viewmodel.data.PageAccount
+import org.totschnig.myexpenses.viewmodel.data.Trade
 import java.util.Optional
 import javax.inject.Inject
 
@@ -71,6 +86,8 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
 
     @Inject
     lateinit var modelClass: Class<out MyExpensesV2ViewModel>
+
+    private val currencyViewModel: CurrencyViewModel by viewModels()
 
     private lateinit var adHandler: AdHandlerV2
 
@@ -123,6 +140,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
 
         with(injector) {
             inject(viewModel)
+            inject(currencyViewModel)
         }
 
         adHandler = adHandlerFactory.createV2()
@@ -198,17 +216,38 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                         val banks = viewModel.banks.collectAsState()
                         val showSortDialog = rememberSaveable { mutableStateOf(false) }
                         var isNavigationVisible by rememberSaveable { mutableStateOf(false) }
+                        var showPortfolioSetup by rememberSaveable { mutableStateOf(false) }
+
+                        val currencies by currencyViewModel.currencyUnits.collectAsState(emptyList())
+
+                        if (showPortfolioSetup) {
+                            PortfolioSetupDialog(
+                                onDismiss = { showPortfolioSetup = false },
+                                onConfirm = { label, currency, color ->
+                                    viewModel.createPortfolio(label, currency, color)
+                                    showPortfolioSetup = false
+                                },
+                                availableCurrencies = currencies,
+                                selectedCurrency = currencyContext.homeCurrencyUnit
+                            )
+                        }
 
                         MainScreenAdaptive(
                             viewModel,
                             accounts,
+                            allCurrencies = currencies,
                             availableFilters,
                             selectedAccountId = selectedAccountIdFromState,
+                            isCurrencyUsed = { currencyViewModel.isCurrencyUsed(it) },
+                            onCreateAsset = { code, symbol, fractionDigits, label, type ->
+                                currencyViewModel.createAsset(code, symbol, fractionDigits, label, type)
+                            },
                             onAppEvent = object : AppEventHandler {
                                 override fun invoke(event: AppEvent) {
                                     when (event) {
 
                                         AppEvent.CreateAccount -> createAccount()
+                                        AppEvent.CreatePortfolio -> showPortfolioSetup = true
                                         is AppEvent.CreateTransaction ->
                                             if (preCreateRowCheckForSealed()) {
                                                 when (event.action) {
@@ -220,7 +259,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                                                     else -> createRow(
                                                         event.action.type,
                                                         event.transferEnabled,
-                                                        event.action == Action.Income
+                                                        event.action == Action.Income || event.action == Action.Deposit
                                                     )
                                                 }
                                             }
@@ -252,6 +291,10 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                                         is AppEvent.CopyToClipBoard -> copyToClipboard(event.text)
                                         AppEvent.ToggleNavigation -> isNavigationVisible =
                                             !isNavigationVisible
+
+                                        is AppEvent.SaveTrade -> {
+                                            currentAccount?.let { viewModel.saveTrade(it, event.intent) }
+                                        }
                                     }
                                 }
                             },
@@ -297,12 +340,16 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                             },
                             isNavigationVisible = isNavigationVisible
                         ) { pageAccount, isCurrent ->
-                            Page(
-                                pageAccount,
-                                accounts.size,
-                                isCurrent,
-                                v2 = true
-                            )
+                            if (pageAccount.isPortfolio) {
+                                PortfolioPage(pageAccount, isCurrent, currencies, viewModel.accountList.collectAsState().value)
+                            } else {
+                                Page(
+                                    pageAccount,
+                                    accounts.size,
+                                    isCurrent,
+                                    v2 = true
+                                )
+                            }
                         }
 
                         if (showSortDialog.value) {
@@ -356,11 +403,12 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
     }
 
     override suspend fun accountForNewTransaction() = Optional.ofNullable(
-        when(currentAccount) {
+        when (currentAccount) {
             is FullAccount -> currentAccount as? FullAccount
             is AggregateAccount -> viewModel.accountDataV2.value?.getOrNull()
                 ?.filter { it.currency == currentAccount?.currency }
                 ?.maxByOrNull { it.lastUsed }
+
             null -> null
         }
     )
@@ -375,5 +423,65 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
     override fun handleIntent(intent: Intent) {
         viewModel.handleIntent(intent)
         showTransactionFromIntent(intent)
+    }
+
+    @Composable
+    fun PortfolioPage(
+        account: PageAccount,
+        isCurrentPage: Boolean,
+        allCurrencies: List<CurrencyUnit>,
+        accountList: List<BaseAccount>,
+    ) {
+        val lazyPagingItems = viewModel.getTrades(account).collectAsLazyPagingItems()
+        var tradeToEdit by remember { mutableStateOf<Trade?>(null) }
+
+        Column(modifier = Modifier.fillMaxSize()) {
+            TradeList(
+                trades = lazyPagingItems,
+                modifier = Modifier.weight(1f),
+                onEvent = { event, trade ->
+                    when (event) {
+                        TradeEvent.Edit -> {
+                            tradeToEdit = trade
+                        }
+                        TradeEvent.Delete -> {
+                            lifecycleScope.launch {
+                                // Trades are usually unreconciled upon creation
+                                delete(listOf(trade.id to CrStatus.UNRECONCILED))
+                            }
+                        }
+                    }
+                }
+            )
+        }
+        tradeToEdit?.let { trade ->
+            val fullAccount = accountList.find { it.id == account.id } as? FullAccount
+            if (fullAccount != null) {
+                Dialog(
+                    onDismissRequest = { tradeToEdit = null },
+                    properties = DialogProperties(usePlatformDefaultWidth = false)
+                ) {
+                    TradeScreen(
+                        onDismiss = { tradeToEdit = null },
+                        onSave = { intent ->
+                            viewModel.saveTrade(fullAccount, intent, trade.id)
+                            tradeToEdit = null
+                        },
+                        portfolio = fullAccount,
+                        reportingCurrency = fullAccount.currencyUnit,
+                        assets = allCurrencies,
+                        fundingAccounts = accountList
+                            .filter {
+                                !it.isAggregate && it.currencyUnit.code == fullAccount.currencyUnit.code &&
+                                        it.id != fullAccount.id
+                            }
+                            .map {
+                                it.id to it.labelV2(this)
+                            },
+                        initialTrade = trade
+                    )
+                }
+            }
+        }
     }
 }

@@ -238,7 +238,6 @@
     <string name="pref_category_title_more_information">Maggiori informazioni</string>
     <string name="pref_category_title_ui">Interfaccia utente</string>
     <string name="pref_contrib_purchase_title_upgrade">Aggiorna la licenza</string>
-    <string name="pref_custom_currency_title">Personalizzare le valute</string>
     <string name="pref_enter_licence_title">Inserisci la licenza</string>
     <string name="pref_export_format_title">Formato dati</string>
     <string name="pref_import_from_grisbi_summary">Importa categorie e beneficiari da file Grisbi XML</string>

@@ -75,6 +75,7 @@ import org.totschnig.myexpenses.provider.KEY_CURRENT_BALANCE
 import org.totschnig.myexpenses.provider.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.KEY_DYNAMIC
 import org.totschnig.myexpenses.provider.KEY_ICON
+import org.totschnig.myexpenses.provider.KEY_IS_PORTFOLIO
 import org.totschnig.myexpenses.provider.KEY_LABEL
 import org.totschnig.myexpenses.provider.KEY_METHODID
 import org.totschnig.myexpenses.provider.KEY_PARENTID
@@ -82,6 +83,7 @@ import org.totschnig.myexpenses.provider.KEY_PLANID
 import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.KEY_SEALED
 import org.totschnig.myexpenses.provider.KEY_TITLE
+import org.totschnig.myexpenses.provider.PORTFOLIO_ASSET
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.ProviderUtils
 import org.totschnig.myexpenses.provider.SPLIT_CATID
@@ -149,7 +151,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
     val accounts: Flow<List<Account>>
         get() = contentResolver.observeQuery(
             uri = ACCOUNTS_FULL_URI,
-            selection = "$KEY_SEALED = 0"
+            selection = "$KEY_SEALED = 0 AND $KEY_IS_PORTFOLIO != $PORTFOLIO_ASSET"
         ).mapToList {
             buildAccount(it, currencyContext)
         }

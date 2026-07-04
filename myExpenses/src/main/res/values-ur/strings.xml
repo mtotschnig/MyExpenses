@@ -208,7 +208,6 @@
     <string name="pref_category_title_more_information">مزید معلومات</string>
     <string name="pref_category_title_ui">یوزر انٹرفیس</string>
     <string name="pref_contrib_purchase_title_upgrade">اپ گریڈ کلید</string>
-    <string name="pref_custom_currency_title">کرنسیوں کو اپنی مرضی کے مطابق بنائیں</string>
     <string name="pref_enter_licence_title">کلید درج کریں</string>
     <string name="pref_export_format_title">ڈیٹا فارمیٹ</string>
     <string name="pref_import_from_grisbi_summary">Grisbi XML فائل سے زمرے اور پارٹیاں درآمد کریں</string>

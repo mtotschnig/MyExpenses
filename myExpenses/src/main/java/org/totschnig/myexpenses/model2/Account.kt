@@ -30,8 +30,10 @@ import org.totschnig.myexpenses.provider.KEY_FLAG_SORT_KEY
 import org.totschnig.myexpenses.provider.KEY_GROUPING
 import org.totschnig.myexpenses.provider.KEY_IS_AGGREGATE
 import org.totschnig.myexpenses.provider.KEY_IS_ASSET
+import org.totschnig.myexpenses.provider.KEY_IS_PORTFOLIO
 import org.totschnig.myexpenses.provider.KEY_LABEL
 import org.totschnig.myexpenses.provider.KEY_OPENING_BALANCE
+import org.totschnig.myexpenses.provider.KEY_PARENTID
 import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.KEY_SEALED
 import org.totschnig.myexpenses.provider.KEY_SORT_BY
@@ -42,12 +44,14 @@ import org.totschnig.myexpenses.provider.KEY_TYPE
 import org.totschnig.myexpenses.provider.KEY_TYPE_SORT_KEY
 import org.totschnig.myexpenses.provider.KEY_UUID
 import org.totschnig.myexpenses.provider.KEY_VISIBLE
+import org.totschnig.myexpenses.provider.PORTFOLIO_CONTAINER
 import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getDoubleIfExists
 import org.totschnig.myexpenses.provider.getEnum
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongIfExists
+import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
@@ -76,6 +80,9 @@ data class Account(
     override val grouping: Grouping = Grouping.NONE,
     val bankId: Long? = null,
     val dynamicExchangeRates: Boolean = false,
+    val parentId: Long? = null,
+    val isPortfolio: Boolean = false,
+    val isPortfolioAsset: Boolean = false,
     override val accountGrouping: AccountGrouping<*>? =  null
 ) : DataBaseAccount(), Serializable, DistributionAccountInfo {
 
@@ -134,7 +141,9 @@ data class Account(
             KEY_CRITERION,
             KEY_SEALED,
             KEY_BANK_ID,
-            KEY_DYNAMIC
+            KEY_DYNAMIC,
+            KEY_PARENTID,
+            KEY_IS_PORTFOLIO
         )
 
         val PROJECTION_MINIMAL = arrayOf(
@@ -180,7 +189,9 @@ data class Account(
                 sortBy = sortBy,
                 sortDirection = cursor.getEnum(KEY_SORT_DIRECTION, SortDirection.DESC),
                 bankId = cursor.getLongIfExists(KEY_BANK_ID),
-                dynamicExchangeRates = cursor.getBoolean(KEY_DYNAMIC)
+                dynamicExchangeRates = cursor.getBoolean(KEY_DYNAMIC),
+                parentId = cursor.getLongOrNull(KEY_PARENTID),
+                isPortfolio = cursor.getInt(KEY_IS_PORTFOLIO) == PORTFOLIO_CONTAINER
             )
         }
     }

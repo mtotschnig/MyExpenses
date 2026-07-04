@@ -135,6 +135,7 @@
     <string name="pref_sync_now_all_key">sync_now_all</string>
     <string name="pref_automatic_exchange_rate_download_key">automatic_exchange_rate_download</string>
     <string name="pref_category_currencies_key">category_currencies</string>
+    <string name="pref_manage_currencies_key">manage_currencies</string>
     <string name="pref_category_prices_key">category_prices</string>
     <string name="pref_category_account_list_key">category_account_list</string>
 

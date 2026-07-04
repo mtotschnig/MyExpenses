@@ -23,6 +23,7 @@
     <string name="account_type_ccard">Credit card</string>
     <string name="account_type_liability">Other Liabilities</string>
     <string name="account_type_investment">Investments</string>
+    <string name="account_type_portfolio">Portfolio</string>
     <string name="already_defined">%1$s already defined</string>
     <string name="amount">Amount</string>
     <string name="app_name">My Expenses</string>
@@ -172,6 +173,9 @@
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
     <string name="menu_reset_plan_instance">Reset</string>
     <string name="menu_save">Save</string>
+    <string name="trade_bought">Bought</string>
+    <string name="trade_sold">Sold</string>
+    <string name="valuation">Valuation</string>
     <string name="menu_save_and_new">Save and new</string>
     <string name="menu_share">Tell a friend</string>
     <string name="button_label_close">Close</string>
@@ -244,7 +248,6 @@
     <string name="pref_category_title_more_information">More information</string>
     <string name="pref_category_title_ui">User interface</string>
     <string name="pref_contrib_purchase_title_upgrade">Upgrade key</string>
-    <string name="pref_custom_currency_title">Customize currencies</string>
     <string name="pref_enter_licence_title">Enter key</string>
     <string name="pref_export_format_title">Data format</string>
     <string name="pref_import_from_grisbi_summary">Import categories and parties from Grisbi XML file</string>
@@ -1138,4 +1141,29 @@
     <string name="pref_content_based_colors_summary">Derive theme colors from the current account\'s color. Turn off if text is difficult to read.</string>
     <!-- Shown to user while Web User Interface is starting -->
     <string name="service_starting">Starting…</string>
+    <string name="trade_buy">Buy</string>
+    <string name="trade_sell">Sell</string>
+    <string name="trade_quantity">Quantity</string>
+    <string name="trade_price">Price</string>
+    <string name="trade_fee">Fee</string>
+    <string name="trade_principal">Principal</string>
+    <string name="trade_total_outlay">Total</string>
+    <string name="trade_funding_account">Funding Account</string>
+    <string name="trade_target_asset">Asset</string>
+    <string name="menu_create_portfolio">New portfolio</string>
+    <!-- Label for the category of fiat currencies (e.g., USD, EUR). Plural. -->
+    <string name="asset_type_fiat_plural">Currencies</string>
+    <!-- Label for a financial security (e.g., a stock, bond, or option) in the singular. -->
+    <string name="asset_type_security">Security</string>
+    <!-- Label for a financial security (e.g., a stock, bond, or option) in the singular. -->
+    <string name="asset_type_security_plural">Securities</string>
+    <!-- Collective noun for cryptocurrencies (e.g., Bitcoin, Ethereum). Translators should use the common local term for this asset class. -->
+    <string name="asset_type_crypto">Crypto</string>
+    <string name="trade_funding_source">Funding Source</string>
+    <string name="trade_funding_portfolio">Portfolio Cash</string>
+    <string name="trade_funding_external">External (Untracked)</string>
+    <string name="trade_funding_external_description">Funds from sources not tracked in this app</string>
+    <string name="trade_deposit">Deposit</string>
+    <string name="trade_withdraw">Withdrawal</string>
+
 </resources>

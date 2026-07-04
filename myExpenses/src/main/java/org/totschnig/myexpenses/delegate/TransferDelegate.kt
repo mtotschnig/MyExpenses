@@ -77,6 +77,9 @@ class TransferDelegate(
     override val editResId = R.string.menu_edit_transfer
     override val editPartResId = R.string.menu_edit_split_part_transfer
 
+    override fun configureType() {
+        configureTransferDirection()
+    }
 
     override fun bind(
         transaction: TransactionEditData?,
@@ -174,9 +177,7 @@ class TransferDelegate(
     }
 
     fun configureTransferDirection() {
-        if (isIncome) {
-            switchAccountViews()
-        }
+        switchAccountViews()
     }
 
     private fun switchAccountViews() {

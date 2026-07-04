@@ -40,6 +40,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -102,7 +103,9 @@ import org.totschnig.myexpenses.provider.KEY_BUDGET
 import org.totschnig.myexpenses.provider.KEY_BUDGETID
 import org.totschnig.myexpenses.provider.KEY_BUDGET_ROLLOVER_PREVIOUS
 import org.totschnig.myexpenses.provider.KEY_CATID
+import org.totschnig.myexpenses.provider.KEY_COMMODITY
 import org.totschnig.myexpenses.provider.KEY_CR_STATUS
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.provider.KEY_DYNAMIC
 import org.totschnig.myexpenses.provider.KEY_EXCLUDE_FROM_TOTALS
@@ -116,11 +119,13 @@ import org.totschnig.myexpenses.provider.KEY_TAGLIST
 import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.KEY_UUID
+import org.totschnig.myexpenses.provider.KEY_VALUE
 import org.totschnig.myexpenses.provider.KEY_VISIBLE
 import org.totschnig.myexpenses.provider.KEY_YEAR
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_REPLACE
+import org.totschnig.myexpenses.provider.TransactionProvider.LATEST_PRICES_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_SAVE_TRANSACTION_TAGS
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_MAPPED_OBJECTS
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES
@@ -136,8 +141,10 @@ import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
+import org.totschnig.myexpenses.provider.getDouble
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLongOrNull
+import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.mapToListCatching
 import org.totschnig.myexpenses.provider.mapToListWithExtra
 import org.totschnig.myexpenses.provider.triggerAccountListRefresh
@@ -149,12 +156,12 @@ import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_UPDATE_BALANCE
-import org.totschnig.myexpenses.viewmodel.data.BalanceAccount
-import org.totschnig.myexpenses.viewmodel.data.BalanceAccount.Companion.partitionByAccountType
 import org.totschnig.myexpenses.viewmodel.data.BudgetData
 import org.totschnig.myexpenses.viewmodel.data.BudgetRow
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount.Companion.fromCursor
+import org.totschnig.myexpenses.viewmodel.data.FullAccount.Companion.nest
+import org.totschnig.myexpenses.viewmodel.data.FullAccount.Companion.partitionByAccountType
 import org.totschnig.myexpenses.viewmodel.data.HeaderData
 import org.totschnig.myexpenses.viewmodel.data.HeaderDataEmpty
 import org.totschnig.myexpenses.viewmodel.data.HeaderDataError
@@ -374,7 +381,6 @@ open class MyExpensesViewModel(
         val flow: Flow<PagingData<Transaction2>>,
     )
 
-
     fun getTransactions(account: PageAccount): Flow<PagingData<Transaction2>> {
         val stableId = account.stableId
         val queryKey = account.queryKey
@@ -486,18 +492,46 @@ open class MyExpensesViewModel(
         savedStateHandle[BALANCE_DATE_KEY] = date
     }
 
+    fun getLatestPrices(date: LocalDate? = null): Flow<Map<Pair<String, String>, Double>> =
+        contentResolver
+            .observeQuery(LATEST_PRICES_URI.let {
+                if (date == null) it else it.buildUpon()
+                    .appendQueryParameter(KEY_DATE, date.toString()).build()
+            })
+            .mapToList { cursor ->
+                val asset = cursor.getString(KEY_COMMODITY)
+                val target = cursor.getString(KEY_CURRENCY)
+                val price = cursor.getDouble(KEY_VALUE)
+                (asset to target) to price
+            }
+            .map { it.toMap() }
+            .onEach {
+                Timber.d("Latest prices for $date: %s", it)
+            }
+
     @OptIn(ExperimentalCoroutinesApi::class)
-    val accountsForBalanceSheet: StateFlow<Pair<LocalDate, List<BalanceAccount>>> =
+    val accountsForBalanceSheet: StateFlow<Pair<LocalDate, List<FullAccount>>> =
         balanceDate.flatMapLatest { date ->
-            contentResolver.observeQuery(
-                balanceUri(if (date == LocalDate.now()) "now" else date.toString(), true),
-                selection = "$KEY_EXCLUDE_FROM_TOTALS = 0"
-            )
-                .mapToList { BalanceAccount.fromCursor(it, currencyContext) }
-                .map {
-                    date to it
+            combine(
+                contentResolver.observeQuery(
+                    balanceUri(if (date == LocalDate.now()) "now" else date.toString(), true),
+                    selection = "$KEY_EXCLUDE_FROM_TOTALS = 0"
+                )
+                    .mapToList { it.fromCursor(currencyContext) }
+                    .map { it.nest() }, getLatestPrices(date)
+            ) { accounts, prices ->
+                date to accounts.map {
+                    it.enrich(
+                        prices,
+                        currencyContext.homeCurrencyUnit
+                    )
                 }
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, LocalDate.now() to emptyList())
+            }
+        }.stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribedWithTimeout,
+            LocalDate.now() to emptyList()
+        )
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val debtSum: StateFlow<Long> = balanceDate.flatMapLatest { date ->
@@ -530,14 +564,8 @@ open class MyExpensesViewModel(
             selection = "$KEY_VISIBLE = 1",
             notifyForDescendants = true
         )
-            .mapToListCatching {
-                it.fromCursor(currencyContext)
-            }
-            .map {
-                it.map {
-                    it.withNaturalSort
-                }
-            }
+            .mapToListCatching { it.fromCursor(currencyContext) }
+            .map { result -> result.map { it.withNaturalSort } }
             .stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, null)
     }
 
@@ -549,7 +577,7 @@ open class MyExpensesViewModel(
                 account.id != 0L -> account.id.toString() //real account or legacy aggregate
                 account.accountGrouping == AccountGrouping.CURRENCY -> account.currency
                 else -> null
-            } ?.let { accountSegment ->
+            }?.let { accountSegment ->
                 contentResolver.observeQuery(
                     uri = BaseTransactionProvider.defaultBudgetAllocationUri(
                         accountSegment,

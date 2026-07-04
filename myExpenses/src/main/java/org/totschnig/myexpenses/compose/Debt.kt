@@ -100,7 +100,7 @@ fun DebtRenderer(
     onTransactionClick: (Long) -> Unit = {},
 ) {
 
-    val homeCurrency = LocalHomeCurrency.current
+    val homeCurrency = LocalCurrencyContext.current.homeCurrencyUnit
     val showEquivalentAmount =
         rememberSaveable { mutableStateOf((debt.currency.code == homeCurrency.code)) }
 

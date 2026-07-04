@@ -232,7 +232,6 @@
     <string name="pref_category_title_more_information">Додаткові відомості</string>
     <string name="pref_category_title_ui">Користувацький інтерфейс</string>
     <string name="pref_contrib_purchase_title_upgrade">Підвищити рівень ключа</string>
-    <string name="pref_custom_currency_title">Налаштування валют</string>
     <string name="pref_enter_licence_title">Введіть ключ</string>
     <string name="pref_export_format_title">Формат даних</string>
     <string name="pref_import_from_grisbi_summary">Імпортуйте категорії та учасників з XML-файлу Grisbi</string>

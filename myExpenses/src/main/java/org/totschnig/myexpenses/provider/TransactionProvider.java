@@ -37,14 +37,12 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.filter.Operation;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.Preconditions;
-import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.cursor.PlanInfoCursorWrapper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
@@ -71,17 +69,20 @@ import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_CATID;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_CODE;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_COLOR;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_COMMODITY;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_COMMODITY_TYPE;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_COUNT;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_CR_STATUS;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_CURRENCY;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_CURRENCY_OTHER;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_CURRENCY_SELF;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_DATE;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_DYNAMIC;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_EQUIVALENT_AMOUNT;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_EXCHANGE_RATE;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_EXCLUDE_FROM_TOTALS;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_FLAG;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_FLAG_SORT_KEY;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_FRACTION_DIGITS;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_GROUPING;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_INSTANCEID;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_IS_NUMBERED;
@@ -98,6 +99,7 @@ import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_SORT_DIRECTION;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_SORT_KEY;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_STATUS;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_SUM;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_SYMBOL;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_SYNC_SEQUENCE_LOCAL;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_TAGID;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_TAGLIST;
@@ -166,6 +168,7 @@ import static org.totschnig.myexpenses.provider.DbConstantsKt.exchangeRateJoin;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getAccountSelector;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getPayeeWithDuplicatesCTE;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.getTemplateQuerySelector;
+import static org.totschnig.myexpenses.provider.DbConstantsKt.latestPricesQuery;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.totalBudgetAllocation;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionListAsCTE;
 import static org.totschnig.myexpenses.provider.DbConstantsKt.transactionMappedObjectQuery;
@@ -301,6 +304,7 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final Uri TRANSACTIONS_ATTACHMENTS_URI = Uri.parse("content://" + AUTHORITY + "/transactions/attachments");
 
   public static final Uri PRICES_URI = Uri.parse("content://" + AUTHORITY + "/prices");
+  public static final Uri LATEST_PRICES_URI = Uri.parse("content://" + AUTHORITY + "/latest_prices");
   public static final Uri DYNAMIC_CURRENCIES_URI = Uri.parse("content://" + AUTHORITY + "/dynamicCurrencies");
   public static final Uri ACCOUNT_TYPES_URI = Uri.parse("content://" + AUTHORITY + "/accountTypes");
   public static final Uri ACCOUNT_FLAGS_URI = Uri.parse("content://" + AUTHORITY + "/accountFlags");
@@ -309,7 +313,6 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String URI_SEGMENT_TOGGLE_CRSTATUS = "toggleCrStatus";
   public static final String URI_SEGMENT_UNDELETE = "undelete";
   public static final String URI_SEGMENT_INCREASE_USAGE = "increaseUsage";
-  public static final String URI_SEGMENT_CHANGE_FRACTION_DIGITS = "changeFractionDigits";
   public static final String URI_SEGMENT_TYPE_FILTER = "typeFilter";
   public static final String URI_SEGMENT_BUDGET_ALLOCATIONS = "allocations";
   public static final String URI_SEGMENT_DEFAULT_BUDGET_ALLOCATIONS = "defaultBudgetAllocations";
@@ -348,6 +351,9 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String QUERY_PARAMETER_SHORTEN_COMMENT = "shortenComment";
   public static final String QUERY_PARAMETER_SEARCH = "search";
   public static final String QUERY_PARAMETER_COUNT_UNUSED = "countUnused";
+  public static final String QUERY_PARAMETER_OLD_FRACTION_DIGITS = "oldFractionDigits";
+  public static final String QUERY_PARAMETER_OLD_CODE = "oldCode";
+
   /**
    * do not honour EXCLUDE_FROM_TOTAL flag
    */
@@ -407,6 +413,12 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String METHOD_RECALCULATE_EQUIVALENT_AMOUNTS_FOR_DATE = "recalculateEquivalentAmountsForDate";
 
   public static final String METHOD_CLEANUP_UNUSED_PAYEES = "cleanupUnusedPayees";
+
+  public static final String METHOD_UPDATE_CURRENCY = "updateCurrency";
+  public static final String KEY_UPDATED_ACCOUNTS_COUNT = "updatedAccountsCount";
+
+  public static final String METHOD_CHECK_CURRENCY_IN_USE = "checkCurrencyInUse";
+  public static final String METHOD_STORE_FRACTION_DIGITS = "storeFractionDigits";
 
   private static final UriMatcher URI_MATCHER;
 
@@ -792,7 +804,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       case CURRENCIES:
         if (projection == null) {
           projection = new String[] {
-              KEY_ROWID, KEY_CODE, KEY_GROUPING, KEY_LABEL, KEY_USAGES
+              KEY_ROWID, KEY_CODE, KEY_GROUPING, KEY_LABEL, KEY_USAGES, KEY_SYMBOL, KEY_FRACTION_DIGITS, KEY_COMMODITY_TYPE
           };
           qb = SupportSQLiteQueryBuilder.builder(CURRENCIES_USAGES_TABLE_EXPRESSION);
         } else {
@@ -951,27 +963,41 @@ public class TransactionProvider extends BaseTransactionProvider {
         qb = SupportSQLiteQueryBuilder.builder(TABLE_TRANSACTION_ATTACHMENTS + " LEFT JOIN " + TABLE_ATTACHMENTS + " ON (" + KEY_ATTACHMENT_ID + " = " + KEY_ROWID + ")");
         break;
       }
-      case BUDGET_ALLOCATIONS : {
+      case BUDGET_ALLOCATIONS: {
         qb = SupportSQLiteQueryBuilder.builder(TABLE_BUDGET_ALLOCATIONS);
         break;
       }
       case PRICES: {
         qb = SupportSQLiteQueryBuilder.builder(VIEW_PRIORITIZED_PRICES);
         String commodity = uri.getQueryParameter(KEY_COMMODITY);
+        String currency = uri.getQueryParameter(KEY_CURRENCY);
         if (commodity != null) {
           selection = KEY_CURRENCY + " = ? AND " + KEY_COMMODITY + "= ?";
-          selectionArgs = new String[]{getHomeCurrency(), commodity};
+          selectionArgs = new String[]{currency, commodity};
           extras = oldestTransactionForCurrency(db, commodity);
         }
         break;
       }
+      case LATEST_PRICES: {
+        return measureAndLogQuery(db, uri, latestPricesQuery(uri), selection, selectionArgs);
+      }
+
       // This uses a separate Uri so that notify can be called on it and triggers reload with new home currency
       case DYNAMIC_CURRENCIES: {
-        qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS);
-        projection = new String[] { "distinct " + KEY_CURRENCY };
-        selection = getDynamicCurrenciesSelection();
-        selectionArgs = new String[] { getHomeCurrency() };
-        break;
+        String homeCurrency = getHomeCurrency();
+        String dynamicFilter = getDynamicExchangeRatesDefault();
+        // If dynamicFilter is "dynamic", we need to qualify it with the table alias
+        if (dynamicFilter.equals(KEY_DYNAMIC)) {
+          dynamicFilter = "a." + dynamicFilter;
+        }
+        String sql = "WITH pairs AS (" +
+                "SELECT a." + KEY_CURRENCY + " AS commodity, " +
+                "COALESCE(p." + KEY_CURRENCY + ", ?) AS base " +
+                "FROM " + TABLE_ACCOUNTS + " a " +
+                "LEFT JOIN " + TABLE_ACCOUNTS + " p ON a." + KEY_PARENTID + " = p." + KEY_ROWID + " " +
+                "WHERE " + dynamicFilter + ") " +
+                "SELECT DISTINCT commodity, base FROM pairs WHERE commodity != base";
+        return measureAndLogQuery(db, uri, sql, null, new Object[]{homeCurrency});
       }
       case ACCOUNT_TYPES: {
         projection = new String[]{"*", "(SELECT count(*) FROM " + TABLE_ACCOUNTS + " WHERE " + KEY_TYPE + " = " + TABLE_ACCOUNT_TYPES + "." + KEY_ROWID + ") AS " + KEY_COUNT};
@@ -1184,15 +1210,20 @@ public class TransactionProvider extends BaseTransactionProvider {
         String uuid = values.getAsString(KEY_UUID);
         if (uuid != null) {
           Long attachmentByUuid = findAttachmentByUuid(db, uuid);
-          if (attachmentByUuid == null) return null;
-          values.remove(KEY_UUID);
-          id = attachmentByUuid;
+          if (attachmentByUuid == null) {
+            id = -1;
+          } else {
+            values.remove(KEY_UUID);
+            id = attachmentByUuid;
+          }
         } else {
           id = requireAttachment(db, values.getAsString(KEY_URI), null);
           values.remove(KEY_URI);
         }
-        values.put(KEY_ATTACHMENT_ID, id);
-        db.insert(TABLE_TRANSACTION_ATTACHMENTS, CONFLICT_IGNORE, values);
+        if (id != -1) {
+          values.put(KEY_ATTACHMENT_ID, id);
+          db.insert(TABLE_TRANSACTION_ATTACHMENTS, CONFLICT_IGNORE, values);
+        }
         newUri = ContentUris.withAppendedId(ATTACHMENTS_URI, id);
       }
       case TRANSACTION_TRANSFORM_TO_TRANSFER -> {
@@ -1235,9 +1266,10 @@ public class TransactionProvider extends BaseTransactionProvider {
       notifyChange(ACCOUNTS_URI, false);
       notifyChange(DEBTS_URI, false);
     } else if (uriMatch == PRICES) {
-      notifyChange(ACCOUNTS_URI, false);
+      notifyChange(LATEST_PRICES_URI, false);
+      notifyAccountChange();
     }
-    return id > 0 ? newUri : null;
+    return newUri;
   }
 
   @Override
@@ -1303,18 +1335,6 @@ public class TransactionProvider extends BaseTransactionProvider {
           throw unknownUri(uri);
         }
       }
-      case CURRENCIES_CODE -> {
-        String currency = uri.getLastPathSegment();
-        if (Utils.isKnownCurrency(currency)) {
-          throw new IllegalArgumentException("Can only delete custom currencies");
-        }
-        try {
-          count = db.delete(TABLE_CURRENCIES, String.format("%s = '%s'%s", KEY_CODE,
-                  currency, prefixAnd(where)), whereArgs);
-        } catch (SQLiteConstraintException e) {
-          return 0;
-        }
-      }
       case TRANSACTIONS_TAGS -> {
         if (callerIsNotSyncAdapter(uri)) throw new IllegalArgumentException("Can only be called from sync adapter");
         count = db.delete(TABLE_TRANSACTIONS_TAGS, where, whereArgs);
@@ -1355,7 +1375,8 @@ public class TransactionProvider extends BaseTransactionProvider {
       } else if (uriMatch == BANK_ID) {
         notifyChange(ACCOUNTS_URI, false);
       } else if (uriMatch == PRICES) {
-        notifyChange(ACCOUNTS_URI, false);
+        notifyChange(LATEST_PRICES_URI, false);
+        notifyAccountChange();
       }
       notifyChange(uri, uriMatch == TRANSACTION_ID);
     }
@@ -1512,10 +1533,6 @@ public class TransactionProvider extends BaseTransactionProvider {
                 new String[]{uri.getPathSegments().get(1)});
         count = 1;
       }
-      case CURRENCIES_CHANGE_FRACTION_DIGITS -> {
-        List<String> segments = uri.getPathSegments();
-        count = updateFractionDigits(db, segments.get(2), Integer.parseInt(segments.get(3)));
-      }
       case CHANGES -> {
         if (uri.getBooleanQueryParameter(QUERY_PARAMETER_INIT, false)) {
           initChangeLog(db, uri.getQueryParameter(KEY_ACCOUNTID));
@@ -1534,11 +1551,6 @@ public class TransactionProvider extends BaseTransactionProvider {
               KEY_ROWID + " = " + lastPathSegment + prefixAnd(where), whereArgs);
       case BUDGET_CATEGORY -> count = budgetCategoryUpsert(db, uri, values);
       case BUDGET_ALLOCATIONS -> count = MoreDbUtilsKt.update(db, TABLE_BUDGET_ALLOCATIONS, values, where, whereArgs);
-      case CURRENCIES_CODE -> {
-        final String currency = lastPathSegment;
-        count = MoreDbUtilsKt.update(db, TABLE_CURRENCIES, values, String.format("%s = '%s'%s", KEY_CODE,
-                currency, prefixAnd(where)), whereArgs);
-      }
       case TAG_ID -> count = MoreDbUtilsKt.update(db, TABLE_TAGS, values,
               KEY_ROWID + " = " + lastPathSegment + prefixAnd(where), whereArgs);
       case TRANSACTION_LINK_TRANSFER -> count = MoreDbUtilsKt.linkTransfers(db, uri.getPathSegments().get(2), values.getAsString(KEY_UUID), callerIsNotSyncAdapter(uri));
@@ -1555,7 +1567,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       default -> throw unknownUri(uri);
     }
     if (uriMatch == TRANSACTIONS || uriMatch == TRANSACTION_ID || uriMatch == ACCOUNTS || uriMatch == ACCOUNT_ID ||
-        uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS || uriMatch == TRANSACTION_UNDELETE ||
+        uriMatch == CURRENCIES || uriMatch == TRANSACTION_UNDELETE ||
         uriMatch == TRANSACTION_MOVE || uriMatch == TRANSACTION_TOGGLE_CRSTATUS ||
         uriMatch == TRANSACTION_LINK_TRANSFER  || uriMatch == TRANSACTION_UNLINK_TRANSFER || uriMatch == UNARCHIVE) {
       notifyChange(TRANSACTIONS_URI, callerIsNotSyncAdapter(uri));
@@ -1570,7 +1582,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     if (uriMatch == ACCOUNT_ID_GROUPING || uriMatch == ACCOUNT_ID_SORT) {
       notifyChange(ACCOUNTS_URI, false);
     }
-    if (uriMatch == CURRENCIES_CHANGE_FRACTION_DIGITS || uriMatch == TEMPLATES_INCREASE_USAGE) {
+    if (uriMatch == CURRENCIES || uriMatch == TEMPLATES_INCREASE_USAGE) {
       notifyChange(TEMPLATES_URI, false);
     }
     if (uriMatch == BUDGET_CATEGORY) {
@@ -1758,6 +1770,24 @@ public class TransactionProvider extends BaseTransactionProvider {
       case METHOD_APPLY_CHANGES ->  {
         return applyChangesFromSync(Objects.requireNonNull(extras));
       }
+      case METHOD_UPDATE_CURRENCY -> {
+        SupportSQLiteDatabase db = getHelper().getWritableDatabase();
+        Bundle result = updateCurrency(db, extras);
+        notifyChange(TRANSACTIONS_URI, false);
+        notifyChange(ACCOUNTS_URI, false);
+        notifyChange(CURRENCIES_URI, false);
+        notifyChange(TEMPLATES_URI, false);
+        return result;
+      }
+      case METHOD_CHECK_CURRENCY_IN_USE -> {
+        SupportSQLiteDatabase db = getHelper().getWritableDatabase();
+        return checkCurrencyInUse(db, arg);
+      }
+      case METHOD_STORE_FRACTION_DIGITS -> {
+        SupportSQLiteDatabase db = getHelper().getWritableDatabase();
+        BaseTransactionProvider.Companion.storeFractionDigits(db, arg, extras);
+        return null;
+      }
     }
     return null;
   }
@@ -1796,7 +1826,6 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "planinstance_transaction", PLANINSTANCE_TRANSACTION_STATUS);
     URI_MATCHER.addURI(AUTHORITY, "planinstance_transaction/#/#", PLANINSTANCE_STATUS_SINGLE);
     URI_MATCHER.addURI(AUTHORITY, "currencies", CURRENCIES);
-    URI_MATCHER.addURI(AUTHORITY, "currencies/" + URI_SEGMENT_CHANGE_FRACTION_DIGITS + "/*/#", CURRENCIES_CHANGE_FRACTION_DIGITS);
     URI_MATCHER.addURI(AUTHORITY, "accounts/aggregates/*", AGGREGATE_ID);
     URI_MATCHER.addURI(AUTHORITY, "aggregates/*/*", AGGREGATE_V2);
     URI_MATCHER.addURI(AUTHORITY, "methods_transactions", MAPPED_METHODS);
@@ -1839,6 +1868,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     URI_MATCHER.addURI(AUTHORITY, "transactions/" + URI_SEGMENT_UNARCHIVE, UNARCHIVE);
     URI_MATCHER.addURI(AUTHORITY, "transactions/#/" + URI_SEGMENT_SUMS_FOR_ARCHIVE, ARCHIVE_SUMS);
     URI_MATCHER.addURI(AUTHORITY, "prices", PRICES);
+    URI_MATCHER.addURI(AUTHORITY, "latest_prices", LATEST_PRICES);
     URI_MATCHER.addURI(AUTHORITY, "dynamicCurrencies", DYNAMIC_CURRENCIES);
     URI_MATCHER.addURI(AUTHORITY, "accountTypes", ACCOUNT_TYPES);
     URI_MATCHER.addURI(AUTHORITY, "accountTypes/#", ACCOUNT_TYPE_ID);

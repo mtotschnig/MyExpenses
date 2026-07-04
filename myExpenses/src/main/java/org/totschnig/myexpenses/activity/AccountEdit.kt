@@ -361,7 +361,6 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
                 setResult(RESULT_OK, Intent().apply {
                     putExtra(KEY_ROWID, id)
                 })
-                currencyContext.ensureFractionDigitsAreCached(currencyUnit)
                 finish()
             }
             isSaving = false

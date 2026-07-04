@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.activity.ManageSyncBackends
 import org.totschnig.myexpenses.activity.PreferenceActivity
 import org.totschnig.myexpenses.activity.QifImport
 import org.totschnig.myexpenses.activity.RoadmapVoteActivity
+import org.totschnig.myexpenses.model.CommodityType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.TestShard5
@@ -136,7 +137,7 @@ class SettingsTest : BaseUiTest<PreferenceActivity>() {
 
     @Test
     fun manageCurrencies() {
-        navigateTo(R.string.data, R.string.pref_custom_currency_title)
+        navigateTo(withText(R.string.data), withText(CommodityType.title(targetContext.resources)))
         intended(ManageCurrencies::class)
     }
 
@@ -155,6 +156,7 @@ class SettingsTest : BaseUiTest<PreferenceActivity>() {
         fun navigateTo(headerTextId: Int, detailTextId: Int) {
             navigateTo(withText(headerTextId), withText(detailTextId))
         }
+
         fun navigateTo(headerMatcher: Matcher<View>, detailMatcher: Matcher<View>) {
             onView(header)
                 .perform(
@@ -171,6 +173,7 @@ class SettingsTest : BaseUiTest<PreferenceActivity>() {
                     )
                 )
         }
+
         private val header: Matcher<View>
             get() = recyclerViewMatcher(androidx.preference.R.id.preferences_header)
 

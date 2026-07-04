@@ -238,7 +238,6 @@
     <string name="pref_category_title_more_information">Más información</string>
     <string name="pref_category_title_ui">Interfaz de usuario</string>
     <string name="pref_contrib_purchase_title_upgrade">Actualizar llave</string>
-    <string name="pref_custom_currency_title">Personalizar moneda</string>
     <string name="pref_enter_licence_title">Introduzcir clave</string>
     <string name="pref_export_format_title">Formato de datos</string>
     <string name="pref_import_from_grisbi_summary">Importar categorías y grupos desde un archivo Grisbi XML</string>

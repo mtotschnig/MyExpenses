@@ -182,7 +182,6 @@
     <string name="pref_category_title_manage">จัดการ</string>
     <string name="pref_category_title_export">ส่งออก</string>
     <string name="pref_category_title_more_information">ข้อมูลเพิ่มเติม</string>
-    <string name="pref_custom_currency_title">ปรับแต่งสกุลเงิน</string>
     <string name="pref_enter_licence_title">ป้อนรหัส</string>
     <string name="pref_contrib_purchase_title_upgrade">รหัสอัปเกรด</string>
     <string name="pref_export_format_title">รูปแบบข้อมูล</string>

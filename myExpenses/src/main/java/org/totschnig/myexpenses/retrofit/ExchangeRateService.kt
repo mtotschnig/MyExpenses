@@ -66,7 +66,7 @@ sealed class ExchangeRateApi(val id: Int, name: String, val host: String) :
     }
 
     data object Frankfurter :
-        ExchangeRateApi(R.id.FRANKFURTER_ID, "FRANKFURTER", "api.frankfurter.app") {
+        ExchangeRateApi(R.id.FRANKFURTER_ID, "FRANKFURTER", "api.frankfurter.dev") {
 
         override val limitToOneRequestPerDay = true
 

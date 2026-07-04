@@ -381,7 +381,6 @@
     <string name="dialog_contrib_text_1"><i>{app_name}</i> прапануецца з адкрытым зыходным кодам.</string>
     <string name="dialog_contrib_text_2">Калі ласка, далучайцеся да праграмы, абнавіўшы яе <i>{app_name}</i>, і атрымайце неабмежаваны доступ да наступных функцый:</string>
     <string name="dialog_remind_rate_yes">Ацаніць зараз</string>
-    <string name="pref_custom_currency_title">Наладзіць валюты</string>
     <string name="pref_import_from_grisbi_title">Імпарт з Grisbi</string>
     <string name="method">Спосаб аплаты</string>
     <string name="no_calendar_app_installed">Не знойдзена праграма для рэдагавання падзей календара.</string>

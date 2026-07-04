@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.PriceHistory
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.model.CommodityType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.preference.DYNAMIC_EXCHANGE_RATES_DEFAULT_KEY
@@ -27,6 +28,7 @@ import org.totschnig.myexpenses.preference.PrefHandler.Companion.AUTOMATIC_EXCHA
 import org.totschnig.myexpenses.preference.PrefHandler.Companion.SERVICE_DEACTIVATED
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.KEY_COMMODITY
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.DYNAMIC_CURRENCIES_URI
 import org.totschnig.myexpenses.retrofit.ExchangeRateApi
@@ -70,6 +72,9 @@ class PreferenceDataFragment : BasePreferenceFragment() {
                 false
             }
 
+        requirePreference<Preference>(PrefKey.MANAGE_CURRENCIES).title =
+            CommodityType.title(resources)
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 currencyViewModel.currencies.collect { currencies ->
@@ -93,18 +98,17 @@ class PreferenceDataFragment : BasePreferenceFragment() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                currencyViewModel.usedCurrencies.collect { currencies ->
-                    configureCurrenciesForAutomaticFXDownload(
-                        ExchangeRateApi.configuredSources(prefHandler), currencies
-                    )
+                currencyViewModel.usedCurrencies.collect { pairs ->
                     with(requirePreference<PreferenceCategory>(PrefKey.CATEGORY_PRICES)) {
-                        isVisible = currencies.isNotEmpty()
+                        isVisible = pairs.isNotEmpty()
                         removeAll()
-                        currencies.forEach {
+                        pairs.forEach { (commodity, base) ->
                             Preference(requireContext()).apply {
-                                title = viewModel.currencyContext[it.code].description
+                                // Show "BTC (USD)" or similar if not home currency
+                                title = if (base.code == homeCurrency) commodity.description else "${commodity.description} (${base.code})"
                                 intent = Intent(requireContext(), PriceHistory::class.java).apply {
-                                    putExtra(KEY_COMMODITY, it.code)
+                                    putExtra(KEY_COMMODITY, commodity.code)
+                                    putExtra(KEY_CURRENCY, base.code) // Explicitly pass the base currency
                                 }
                                 addPreference(this)
                             }
@@ -227,7 +231,9 @@ class PreferenceDataFragment : BasePreferenceFragment() {
                 configureExchangeRatesPreference(providers)
                 configureCurrenciesForAutomaticFXDownload(
                     providers,
-                    currencyViewModel.usedCurrencies.value
+                    currencyViewModel.usedCurrencies.value.filter {
+                        it.second.code == homeCurrency
+                    }.map { it.first }
                 )
             }
         }

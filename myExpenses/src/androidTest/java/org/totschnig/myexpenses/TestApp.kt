@@ -7,7 +7,7 @@ import org.totschnig.myexpenses.di.AppModule
 import org.totschnig.myexpenses.di.CrashHandlerModule
 import org.totschnig.myexpenses.di.DaggerAppComponent
 import org.totschnig.myexpenses.di.UiModule
-import org.totschnig.myexpenses.model.PreferencesCurrencyContext
+import org.totschnig.myexpenses.model.DatabaseCurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.testutils.Fixture
 import org.totschnig.myexpenses.testutils.MockLicenceModule
@@ -67,9 +67,9 @@ class TestApp : MyApplication() {
         .applicationContext(this)
         .appmodule(object : AppModule() {
             override fun provideCurrencyContext(
-                prefHandler: PrefHandler,
-                application: MyApplication
-            ) = object : PreferencesCurrencyContext(prefHandler, application) {
+                application: MyApplication,
+                prefHandler: PrefHandler
+            ) = object : DatabaseCurrencyContext(prefHandler, application) {
                 override val localCurrency: Currency
                     get() {
                         val locale =

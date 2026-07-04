@@ -235,7 +235,6 @@
     <string name="pref_category_title_more_information">Περισσότερες πληροφορίες</string>
     <string name="pref_category_title_ui">Σύνδεση, διεπαφή με τον χρήστη</string>
     <string name="pref_contrib_purchase_title_upgrade">Κλειδί αναβάθμισης</string>
-    <string name="pref_custom_currency_title">Προσαρμογή νομισμάτων</string>
     <string name="pref_enter_licence_title">Εισάγετε το κλειδί</string>
     <string name="pref_export_format_title"> Μορφή δεδομένων</string>
     <string name="pref_import_from_grisbi_summary">Κάνετε εισαγωγή κατηγοριών και μερών Grisbi XML</string>

@@ -24,8 +24,10 @@ import org.totschnig.myexpenses.provider.KEY_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_DATE
+import org.totschnig.myexpenses.provider.KEY_IS_PORTFOLIO
 import org.totschnig.myexpenses.provider.KEY_PLANID
 import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.PORTFOLIO_NONE
 import org.totschnig.myexpenses.provider.PlannerUtils.Companion.checkLocalCalendar
 import org.totschnig.myexpenses.provider.PlannerUtils.Companion.deleteLocalCalendar
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -63,6 +65,12 @@ class SettingsViewModel(
         get() = contentResolver.observeQuery(
             TransactionProvider.STALE_IMAGES_URI,
             arrayOf("count(*)"), null, null, null, true
+        ).mapToOne { cursor -> cursor.getInt(0) > 0 }
+
+    val hasPortfolioAccounts: Flow<Boolean>
+        get() = contentResolver.observeQuery(
+            TransactionProvider.ACCOUNTS_MINIMAL_URI,
+            arrayOf("count(*)"), "$KEY_IS_PORTFOLIO != $PORTFOLIO_NONE", null, null, true
         ).mapToOne { cursor -> cursor.getInt(0) > 0 }
 
     fun logData() = liveData(context = coroutineContext()) {

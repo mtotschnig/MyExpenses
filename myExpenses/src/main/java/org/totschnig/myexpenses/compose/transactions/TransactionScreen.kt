@@ -84,6 +84,8 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
 import androidx.compose.ui.window.PopupProperties
@@ -106,6 +108,7 @@ import org.totschnig.myexpenses.compose.accounts.AccountSummaryV2
 import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.main.AppEventHandler
+import org.totschnig.myexpenses.compose.main.FloatingActionButtonMenu
 import org.totschnig.myexpenses.compose.main.balanceForType
 import org.totschnig.myexpenses.compose.main.getBalanceContentDescription
 import org.totschnig.myexpenses.compose.main.icon
@@ -117,6 +120,7 @@ import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.model.AccountGroupingKey
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.BalanceType
+import org.totschnig.myexpenses.model.CommodityType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.preference.PreferenceState
 import org.totschnig.myexpenses.util.convAmount
@@ -148,6 +152,9 @@ fun TransactionScreen(
     windowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
     isFramed: Boolean,
     navigationIcon: @Composable () -> Unit = {},
+    allCurrencies: List<CurrencyUnit>,
+    isCurrencyUsed: suspend (String) -> Boolean = { false },
+    onCreateAsset: suspend (code: String, symbol: String, fractionDigits: Int, label: String?, commodityType: CommodityType) -> CurrencyUnit? = { _, _, _, _, _ -> null },
 ) {
     LaunchedEffect(Unit) {
         viewModel.setLastVisited(StartScreen.Transactions)
@@ -187,13 +194,14 @@ fun TransactionScreen(
     }
 
     val accountColor = Color(currentAccount.color(LocalResources.current))
+    var showTradeScreen by rememberSaveable { mutableStateOf<Action?>(null) }
 
     Scaffold(
         contentWindowInsets = windowInsets,
         containerColor = containerColor,
         topBar = {
             val isInSelectionMode = viewModel.selectionState.value.isNotEmpty()
-            val height = 52.dp  + 30.dp * (LocalDensity.current.fontScale -1)
+            val height = 52.dp + 30.dp * (LocalDensity.current.fontScale - 1)
             Crossfade(
                 targetState = isInSelectionMode,
                 label = "TopBarTransition"
@@ -253,22 +261,29 @@ fun TransactionScreen(
                         modifier = Modifier.height(height),
                         navigationIcon = navigationIcon,
                         title = {
-                            BalanceHeader(
-                                modifier = Modifier.conditional(isFramed) {
-                                    padding(start = 4.dp, top = 4.dp)
-                                },
-                                currentAccount = currentAccount,
-                                onDisplayBalanceTypeChange = { newType ->
-                                    viewModel.persistBalanceType(newType)
-                                },
-                                onCopyBalance = {
-                                    onEvent(AppEvent.CopyToClipBoard(it))
-                                },
-                                onSetNewBalance = {
-                                    onEvent(AppEvent.MenuItemClicked(R.id.NEW_BALANCE_COMMAND))
-                                },
-                                bankIcon = bankIcon
-                            )
+                            if ((currentAccount as? FullAccount)?.isPortfolio == true) {
+                                PortfolioBalanceHeader(
+                                    currentAccount = currentAccount,
+                                    bankIcon = bankIcon
+                                )
+                            } else {
+                                BalanceHeader(
+                                    modifier = Modifier.conditional(isFramed) {
+                                        padding(start = 4.dp, top = 4.dp)
+                                    },
+                                    currentAccount = currentAccount,
+                                    onDisplayBalanceTypeChange = { newType ->
+                                        viewModel.persistBalanceType(newType)
+                                    },
+                                    onCopyBalance = {
+                                        onEvent(AppEvent.CopyToClipBoard(it))
+                                    },
+                                    onSetNewBalance = {
+                                        onEvent(AppEvent.MenuItemClicked(R.id.NEW_BALANCE_COMMAND))
+                                    },
+                                    bankIcon = bankIcon
+                                )
+                            }
                         },
                         actions = {
                             val menuConfig = viewModel.transactionMenuAccessor.statefulFlow
@@ -322,7 +337,7 @@ fun TransactionScreen(
         floatingActionButton = {
             val scope = rememberCoroutineScope()
 
-            if (currentAccount is FullAccount && (currentAccount as FullAccount).sealed) {
+            if ((currentAccount as? FullAccount)?.sealed == true) {
                 FloatingActionButton(
                     onClick = { },
                     modifier = Modifier.testTag(TEST_TAG_FAB_TRANSACTIONS),
@@ -336,22 +351,30 @@ fun TransactionScreen(
                     Icon(Icons.Default.Lock, stringResource(R.string.account_closed))
                 }
             } else {
+                val isPortfolio = (currentAccount as? FullAccount)?.isPortfolio == true
+                val lastAction =
+                    if (isPortfolio) viewModel.lastActionPortfolio else viewModel.lastAction
                 FloatingActionButtonMenu(
-                    lastAction = viewModel.lastAction.flow.collectAsState(Action.Expense).value,
+                    primaryAction = lastAction.flow.collectAsState(Action.Expense).value,
                     isStandard = viewModel.fabStyle.collectAsState(FabStyle.Standard).value == FabStyle.Standard,
                     containerColor = accountColor,
+                    actions = if (isPortfolio) Action.PORTFOLIO_ACTIONS else Action.STANDARD_ACTIONS
                 ) { action ->
 
                     scope.launch {
-                        viewModel.lastAction.set(action)
+                        lastAction.set(action)
                     }
 
-                    onEvent(
-                        AppEvent.CreateTransaction(
-                            action = action,
-                            transferEnabled = accountList.size > 1
+                    if (action == Action.Buy || action == Action.Sell) {
+                        showTradeScreen = action
+                    } else {
+                        onEvent(
+                            AppEvent.CreateTransaction(
+                                action = action,
+                                transferEnabled = accountList.size > 1
+                            )
                         )
-                    )
+                    }
                 }
             }
         }
@@ -423,7 +446,8 @@ fun TransactionScreen(
                         }
                     ) {
                         val density = LocalDensity.current
-                        val maxTabWidth = with(density) { MaterialTheme.typography.labelLarge.fontSize.toDp() } * 10
+                        val maxTabWidth =
+                            with(density) { MaterialTheme.typography.labelLarge.fontSize.toDp() } * 10
                         Timber.d("maxTabWidth: $maxTabWidth")
                         accountList.forEachIndexed { index, account ->
                             Tab(
@@ -481,6 +505,34 @@ fun TransactionScreen(
             }
         }
     }
+    showTradeScreen?.let { tradeAction ->
+        Dialog(
+            onDismissRequest = { showTradeScreen = null },
+            properties = DialogProperties(usePlatformDefaultWidth = false)
+        ) {
+            TradeScreen(
+                onDismiss = { showTradeScreen = null },
+                onSave = { intent ->
+                    onEvent(AppEvent.SaveTrade(intent))
+                    showTradeScreen = null
+                },
+                reportingCurrency = currentAccount.currencyUnit,
+                assets = allCurrencies,
+                fundingAccounts = accountList
+                    .filter {
+                        !it.isAggregate && it.currencyUnit.code == currentAccount.currencyUnit.code &&
+                                it.id != currentAccount.id
+                    }
+                    .map {
+                        it.id to it.labelV2(LocalContext.current)
+                    },
+                initialAction = tradeAction,
+                onCreateAsset = onCreateAsset,
+                isCurrencyUsed = isCurrencyUsed,
+                portfolio = currentAccount as FullAccount
+            )
+        }
+    }
 }
 
 @Composable
@@ -492,6 +544,30 @@ private fun TransactionListPage(
     val context = LocalContext.current
     val pageAccount = remember(account) { account.toPageAccount(context = context) }
     pageContent(pageAccount, isCurrent)
+}
+
+@Composable
+private fun PortfolioBalanceHeader(
+    currentAccount: BaseAccount,
+    modifier: Modifier = Modifier,
+    bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
+) {
+    Row(
+        modifier = modifier
+            .testTag(TEST_TAG_BALANCE_HEADER),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        (currentAccount as? FullAccount)?.let {
+            AccountIndicator(currentAccount, bankIcon, true)
+        }
+        Column {
+            AccountLabel(currentAccount)
+            Text(
+                text = stringResource(R.string.valuation),
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+    }
 }
 
 @Composable

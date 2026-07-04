@@ -240,7 +240,6 @@
     <string name="pref_category_title_more_information">Дополнительная информация</string>
     <string name="pref_category_title_ui">Пользовательский интерфейс</string>
     <string name="pref_contrib_purchase_title_upgrade">Повысить уровень ключа</string>
-    <string name="pref_custom_currency_title">Настроить курс обмена</string>
     <string name="pref_enter_licence_title">Ввести ключ</string>
     <string name="pref_export_format_title">Формат даты</string>
     <string name="pref_import_from_grisbi_summary">Импорт категорий и контрагентов из файла Grisbi XML</string>

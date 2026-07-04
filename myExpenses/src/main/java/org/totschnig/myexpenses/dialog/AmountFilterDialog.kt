@@ -24,7 +24,7 @@ import org.totschnig.myexpenses.util.ui.withOkClick
 class AmountFilterDialog : DialogViewBinding<FilterAmountBinding>() {
 
     val currency: CurrencyUnit by lazy {
-        BundleCompat.getSerializable(requireArguments(), KEY_CURRENCY,
+        BundleCompat.getParcelable(requireArguments(), KEY_CURRENCY,
             CurrencyUnit::class.java)!!
     }
 
@@ -105,7 +105,7 @@ class AmountFilterDialog : DialogViewBinding<FilterAmountBinding>() {
         fun newInstance(requestKey: String, currency: CurrencyUnit?, amountCriterion: AmountCriterion?) =
             AmountFilterDialog().apply {
                 arguments = configureArguments(requestKey).apply {
-                    putSerializable(KEY_CURRENCY, currency)
+                    putParcelable(KEY_CURRENCY, currency)
                     putParcelable(KEY_CRITERION, amountCriterion)
                 }
             }

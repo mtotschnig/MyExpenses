@@ -235,7 +235,6 @@
     <string name="pref_category_title_more_information">İlâve bilgi</string>
     <string name="pref_category_title_ui">Kullanıcı arayüzü</string>
     <string name="pref_contrib_purchase_title_upgrade">Yükseltme anahtarı</string>
-    <string name="pref_custom_currency_title">Para birimlerini kişiselleştir</string>
     <string name="pref_enter_licence_title">Anahtarını gir</string>
     <string name="pref_export_format_title">Veri biçimi</string>
     <string name="pref_import_from_grisbi_summary">Kategorileri ve tarafları Grisbi XML dosyasından içe aktarın</string>

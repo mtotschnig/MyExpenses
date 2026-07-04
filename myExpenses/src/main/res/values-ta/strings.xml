@@ -235,7 +235,6 @@
     <string name="pref_category_title_more_information">மேலும் தகவல்</string>
     <string name="pref_category_title_ui">பயனர் இடைமுகம்</string>
     <string name="pref_contrib_purchase_title_upgrade">திறவுகோலை மேம்படுத்துதல்</string>
-    <string name="pref_custom_currency_title">நாணயங்களைத் தனி விருப்பமாக்குதல்</string>
     <string name="pref_enter_licence_title">திறவுகோலை உள்ளிடவும்</string>
     <string name="pref_export_format_title">தரவு வடிவம்</string>
     <string name="pref_import_from_grisbi_summary">Grisbi XML கோப்பிலிருந்து வகைகள் மற்றும் தரப்புகளை இறக்குமதி செய்</string>
