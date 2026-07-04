@@ -187,7 +187,10 @@ class ManageCurrencies : ProtectedFragmentActivity() {
                     },
                     floatingActionButton = {
                         FloatingActionButton(onClick = { openEditDialog(null) }) {
-                            Icon(Icons.Default.Add, contentDescription = "Add")
+                            Icon(
+                                Icons.Default.Add,
+                                contentDescription = stringResource(R.string.dialog_title_new_currency)
+                            )
                         }
                     }
                 ) { padding ->
