@@ -510,8 +510,6 @@ open class MyExpensesViewModel(
             .onEach {
                 Timber.d("Latest prices updated: %s", it)
             }
-            .stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, emptyMap())
-
     @OptIn(ExperimentalCoroutinesApi::class)
     val accountsForBalanceSheet: StateFlow<Pair<LocalDate, List<FullAccount>>> =
         balanceDate.flatMapLatest { date ->
