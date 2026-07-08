@@ -29,4 +29,6 @@
     <string name="synchronization_description">Data kan synkroniseras mellan flera enheter.</string>
     <string name="professional_benefit_1">Lås upp alla premiumfunktioner</string>
     <string name="plansunlimited_description">Lås upp möjligheten att skapa fler än tre planer för återkommande transaktioner.</string>
+    <string name="splittransaction_description">En enskild transaktion kan delas upp i flera delar (kategorier och överföringar).</string>
+    <string name="professional_benefit_3">Rösträtt angående utvecklingsplanen</string>
 </resources>
