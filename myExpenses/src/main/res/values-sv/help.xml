@@ -16,7 +16,7 @@
     <string name="menu_budget_help_text">Hantera dagliga, veckovisa, månatliga eller årliga budgetar för det konto som visas för tillfället.</string>
     <string name="help_MyExpenses_title">Lista över transaktioner</string>
     <string name="popup_MyExpenses_toolbar_intro">Vid tryck på (kontoetikett eller aktuellt saldo) så dyker en meny upp med följande inmatningar:</string>
-    <string name="menu_print_help_text">Genererar en utskriftsbar vy för transaktionerna som visas för tillfället.</string>
+    <string name="menu_print_help_text">Genererar en utskriftsvänlig vy över de transaktioner som visas för tillfället.</string>
     <string name="help_ManageParties_manage_info">Den här skärmen listar alla parter som används för automatisk komplettering för Betalare/Betalningsmottagare-fältet.</string>
     <string name="menu_scan_mode_help_text">Aktivera skanningsläge för att snabbt kunna skanna kvitton.</string>
     <string name="help_ManageParties_floating_action_button">Använd den flytande åtgärdsknappen för att lägga till en ny post.</string>
@@ -66,4 +66,15 @@
     <string name="form_DebtEdit_date_help_text">Ange datumet då skulden uppstod.</string>
     <string name="cab_ManageCategories_merge_help_text">Kategorier av samma typ kan smältas samman.</string>
     <string name="menu_history_help_text">Visa ett kassaflödesdiagram: Hur har dina utgifter och inkomster utvecklats under de senaste dagarna, veckorna, månaderna eller åren?</string>
+    <string name="menu_manage_plans_help_text">Öppnar listan med mallar och planer, där du kan tillämpa, redigera eller radera dem, och också formulera planer för framtida och återkommande transaktioner.</string>
+    <string name="menu_balance_help_text">Detta kommando öppnar en dialogruta som visar det senast avstämda och det senast avräknade saldot. Du kan jämföra det sistnämnda med ditt kontoutdrag och markera alla avräknade transaktioner som avstämda. Alternativt kan du välja att radera avstämda transaktioner.</string>
+    <string name="cab_clone_transaction_help_text">De valda transaktionerna kommer att klonas med aktuellt datum och tid. Du kan göra ändringar innan du sparar kopian.</string>
+    <string name="cab_link_help_text">En utgift på ett konto kan kopplas till en inkomst på ett annat konto. Om kontona har samma valuta måste de båda transaktionerna ha identiska belopp.</string>
+    <string name="help_ManageParties_select_filter_info">Välj alla motparter du vill använda för att filtrera transaktionslistan.</string>
+    <string name="help_ManageParties_mergeMode_info_1">Välj de dubbletter bland motparterna som du vill slå ihop.</string>
+    <string name="help_ManageParties_mergeMode_info_2">Du kommer att uppmanas att välja vilken variant du vill behålla.</string>
+    <string name="menu_merge_help_text">Om samma motpart förekommer flera gånger i listan med olika stavningsvarianter kan du slå samman dem.</string>
+    <string name="cab_ManageTemplates_edit_help_text">Redigera den valda mallen och skapa eller redigera en tillhörande plan.</string>
+    <string name="cab_ManageCategories_color_help_text">Du kan tilldela varje huvudkategori en färg. Denna färg kommer att representera kategorin i diagram. Underkategorier kommer att använda nyanser av sin huvudkategoris färg.</string>
+    <string name="form_category_help_text">Den här knappen öppnar listan med kategorier, där du kan välja vilken kategori du vill koppla till transaktionen.</string>
 </resources>
