@@ -540,16 +540,16 @@
     <string name="import_accounts_success" tools:ignore="PluralsCandidate">%1$d konton har importerats.</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transaktioner har importerats till kontot %2$s</string>
     <string name="import_transactions_none">Inga transaktioner importerade till kontot %1$s</string>
-    <string name="import_source_select_error">Vänligen bifoga en fil av typ %1$s</string>
+    <string name="import_source_select_error">Vänligen bifoga en fil av typen %1$s</string>
     <string name="app_dir_not_accessible">Den för närvarande valda mappen för säkerhetskopiering och export (%1$s) är inte tillgänglig. Vänligen välj en annan.</string>
     <string name="search_comment">Sök efter noter</string>
     <string name="search_payee">Sök efter motpart</string>
     <string name="between_and">mellan %1$s och %2$s</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Köpet misslyckades eller avbröts.</string>
-    <string name="hint_auto_fill">Bör data fyllas i automatiskt från senaste transaktion för samma Betalningsmottagare/betalare? Du kan alltid ändra detta beteende från inställningarna.</string>
+    <string name="hint_auto_fill">Ska data fyllas i automatiskt från senaste transaktion med samma motpart? Du kan alltid ändra detta beteende från inställningarna.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d konton med valutan %2$s har uppdaterats.</string>
     <string name="pref_manage_stale_images_title">Gamla bilder</string>
-    <string name="pref_manage_stale_images_summary">Hantera bilder som blir kvar från raderade transaktioner</string>
+    <string name="pref_manage_stale_images_summary">Hantera bilder som blivit kvar från raderade transaktioner</string>
     <string name="account_deleted">Kontot har raderats</string>
     <string name="budget_deleted">Budgeten har raderats</string>
     <string name="dialog_export_applied_to_filter">Endast transaktioner som matchas av det aktuella filtret kommer att beaktas.</string>
@@ -559,22 +559,22 @@
     <string name="slash_forbidden_in_filename">tecknet / är inte tillåtet i filnamn</string>
     <string name="io_error_unable_to_create_file">Kan inte skapa filen %1$s i mappen %2$s</string>
     <string name="menu_parse">Parse</string>
-    <string name="csv_import_field_mapped_more_than_once">%s kartläggs mer än en gång.</string>
+    <string name="csv_import_field_mapped_more_than_once">%s är kopplad mer än en gång.</string>
     <string name="csv_import_subcategory_requires_category">Om du kartlägger underkategori måste du också kartlägga kategorin.</string>
     <string name="cvs_import_set_first_line_as_header">Ska första raden behandlas som en rubrik?</string>
     <string name="csv_import_no_mapping_found_for_amount">Vänligen koppla en kolumn antingen till belopp, inkomst eller kostnad.</string>
     <string name="pref_custom_decimal_format_summary">Om du inte är nöjd med standardformatet för din plats, anpassa det efter dina behov. Lämna tomt för att återställa till standardformatet.</string>
     <string name="pref_auto_backup_title">Automatisk säkerhetskopiering</string>
     <string name="pref_auto_backup_summary">Säkerhetskopiera databasen dagligen vid angiven tidpunkt (endast om data har ändrats).</string>
-    <string name="calendar_permission_required"><i>{app_name}</i> behöver behörighet för att komma åt din kalender för att skapa planer för framtida och återkommande transaktioner.</string>
+    <string name="calendar_permission_required"><i>{app_name}</i> behöver behörighet att komma åt din kalender för att kunna skapa planer för framtida och återkommande transaktioner.</string>
     <string name="pref_sort_order_custom">Anpassad</string>
     <string name="plan_instance_state_open">Öppet</string>
-    <string name="plan_instance_state_cancelled">avbruten</string>
+    <string name="plan_instance_state_cancelled">inställd</string>
     <string name="plan_instance_state_applied">tillämpad</string>
     <string name="progress_dialog_updating_split_parts">Uppdatering av splits</string>
     <string name="warning_cannot_move_split_transaction">Denna uppdelade transaktion kan inte flyttas till konto %1$s eftersom det finns överföringsdelar som hänvisar till denna konto.</string>
     <string name="content_description_calculator_delete_button">Ta bort senaste siffran</string>
-    <string name="paypal_callback_info">Din transaktion har slutförts och ett kvitto på ditt köp har skickats till dig via e-post. Du kan logga in på din konto på www.paypal.com för att se detaljer om denna transaktion.</string>
+    <string name="paypal_callback_info">Din transaktion har slutförts och ett kvitto på ditt köp har skickats till dig via e-post. Du kan logga in på ditt konto på www.paypal.com för att se detaljer om denna transaktion.</string>
     <string name="search_transfer">Sök efter överföring</string>
     <string name="pref_sort_order_next_instance">Nästa instans</string>
     <string name="crash_dialog_title">{app_name} har kraschat</string>
@@ -609,21 +609,21 @@
     <string name="pref_webdav_timeout_title">WebDAV-timeout (i sekunder)</string>
     <string name="sync_state_restored" tools:ignore="PluralsCandidate">Synkroniseringstillståndet återställdes för %d konton.</string>
     <string name="sync_state_could_not_be_restored" tools:ignore="PluralsCandidate">Synkroniseringstillståndet kunde inte återställas för %d konton.</string>
-    <string name="onboarding_ui_title">{app_name} anpassar sig efter din preferens</string>
+    <string name="onboarding_ui_title">{app_name} anpassar sig efter dina önskemål</string>
     <string name="onboarding_data_title">Låt oss skapa ditt första konto</string>
     <string name="contributed_by">Bidragit av %s</string>
     <string name="pref_sync_notification_summary">Meddela om synkroniseringsframsteg</string>
     <string name="pref_debug_logging_summary">Skriv felsökningsinformation i systemloggen</string>
     <string name="plan_custom_recurrence_info">Vänligen spara mallen först. Planen öppnas sedan i kalenderappen, där du kan ställa in en anpassad återkomst.</string>
     <string name="menu_create_template_for_split">Ny delningsmall</string>
-    <string name="licence_validation_error_device_limit_exceeded">Enhetsgränsen överskriden. Vänligen ta bort licensen från en annan enhet.</string>
+    <string name="licence_validation_error_device_limit_exceeded">Gränsen för antal enheter överskriden. Vänligen ta bort licensen från en annan enhet.</string>
     <string name="button_validate">Validera</string>
     <string name="licence_removal_information" tools:ignore="PluralsCandidate">Om du inte längre behöver premiumfunktionalitet på denna enhet kan du ta bort licensnyckeln. Detta frigör nyckeln för aktivering på ytterligare en annan enhet. Nyckeln kan aktiveras på upp till %d enheter.</string>
     <string name="licence_removal_success">Licensnyckeln frigjordes framgångsrikt från denna enhet.</string>
     <string name="professional_key">Professionell nyckel</string>
     <string name="pref_backup_cloud_summary">Utöver lokal lagring på enheten kan backupfilen kopieras till en fjärrbackend.</string>
     <string name="auto_backup_cloud_success">Säkerhetskopieringsfilen %1$s har lagrats framgångsrikt på backend %2$s.</string>
-    <string name="warning_auto_backup_deactivated">Auto-backup har inaktiverats. Du kan slå på den igen från inställningarna efter att du löst problemet (t.ex. genom att välja en annan mapp för backuper).</string>
+    <string name="warning_auto_backup_deactivated">Automatisk säkerhetskopiering har inaktiverats. Du kan slå på den igen från inställningarna efter att du har löst problemet (t.ex. genom att välja en annan mapp för säkerhetskopior).</string>
     <string name="pref_tracking_summary">Låt oss samla in anonym data om användningsmönster som hjälper oss att planera förbättringar.</string>
     <string name="sync_database_error">Ett databasfel uppstod under synkroniseringen.</string>
     <string name="sync_io_error_cannot_connect">Kan inte ansluta till synkroniseringsbackend.</string>
@@ -636,7 +636,7 @@
     <string name="synchronization_start">Börjar synkronisering av kontot %s.</string>
     <string name="synchronization_end_success" tools:ignore="PluralsCandidate">%1$d fjärrändringar skrevs till den lokala databasen. %2$d lokala ändringar skrevs till fjärrbackend.</string>
     <string name="eu_vat_info">För invånare i Europeiska unionen inkluderar de priser som visas inte moms.</string>
-    <string name="extend_until">Förläng tills %1$s för %2$s</string>
+    <string name="extend_until">Förläng till %1$s för %2$s</string>
     <string name="extended_upgrade_goodie_github" tools:ignore="PluralsCandidate">Ytterligare %d månader ges en gång till användare som redan äger den utökade licensen</string>
     <string name="switch_to_yearly" tools:ignore="UnusedResources">Byt till årsprenumeration</string>
     <string name="switch_to_monthly" tools:ignore="UnusedResources">Byt till månadsprenumeration</string>
