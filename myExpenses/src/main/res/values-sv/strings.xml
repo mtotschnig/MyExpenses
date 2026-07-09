@@ -661,7 +661,7 @@
     <string name="ungroup_split_transaction_success">Split Transaction lyckades avgrupperas.</string>
     <string name="split_transaction_one_success">Transaktionen konverterades framgångsrikt till delning.</string>
     <string name="split_transaction_group_success" tools:ignore="PluralsCandidate">%1$d transaktioner grupperades framgångsrikt till en delad transaktion.</string>
-    <string name="split_transaction_not_possible">Endast transaktioner som har samma konto, Betalningsmottagare och status kan grupperas i en gemensam transaktion.</string>
+    <string name="split_transaction_not_possible">Endast transaktioner som har samma konto, motpart och status kan grupperas i en delad transaktion.</string>
     <string name="pref_transaction_time_summary">Tillåt inställning av exakt transaktionstid.</string>
     <string name="pref_value_date_summary">Sätt att sätta värdedatum utöver bokningsdatum. Transaktionstiden kommer att vara dold. Denna inställning gäller inte för kontantkonton.</string>
     <string name="value_date">Värdedatum</string>
@@ -681,7 +681,7 @@
     <string name="budget_table_header_spent">Utgifter</string>
     <string name="budget_table_header_overspent">Överspenderat</string>
     <string name="budget_allocated_amount">Tilldelat belopp</string>
-    <string name="budget_exceeded_error_1_1">Alla utom %s av dina budget har tilldelats andra kategorier.</string>
+    <string name="budget_exceeded_error_1_1">Allt utom %s av din budget har tilldelats andra kategorier.</string>
     <string name="budget_exceeded_error_1_2">Hela din budget har tilldelats andra kategorier.</string>
     <string name="budget_exceeded_error_2">Öka det budgeterade beloppet eller ta bort pengar från andra kategorier.</string>
     <string name="budget_under_allocated_error">%s har redan tilldelats kategorier. Om du inte tar bort pengar från dem måste du åtminstone budgetera det beloppet.</string>
