@@ -77,4 +77,16 @@
     <string name="cab_ManageTemplates_edit_help_text">Redigera den valda mallen och skapa eller redigera en tillhörande plan.</string>
     <string name="cab_ManageCategories_color_help_text">Du kan tilldela varje huvudkategori en färg. Denna färg kommer att representera kategorin i diagram. Underkategorier kommer att använda nyanser av sin huvudkategoris färg.</string>
     <string name="form_category_help_text">Den här knappen öppnar listan med kategorier, där du kan välja vilken kategori du vill koppla till transaktionen.</string>
+    <string name="cab_ManageCategories_create_sub_cat_help_text">Öppnar dialogrutan som låter dig skapa en ny underkategori under den valda kategorin. Underkategorier kan ordnas i hierarkier med valfritt antal nivåer.</string>
+    <string name="cab_ManageCategories_move_help_text">Vilken kategori som helst (tillsammans med dess underkategorier) kan flyttas till en ny överordnad kategori. Underkategorier kan omvandlas till huvudkategorier.</string>
+    <string name="cab_ManageCategories_select_filter_select_help_text">De valda kategorierna kommer att användas för att filtrera transaktionslistan.</string>
+    <string name="menu_ManageCategories_search_help_text">Endast huvud- och underkategorier som stämmer överens med dina sökkriterier kommer att visas.</string>
+    <string name="menu_ManageCategories_sort_help_text">Kategorilistan kan sorteras efter titel (alfabetiskt), hur ofta kategorierna används, eller efter senast en transaktion kopplades till dem.</string>
+    <string name="form_date_time_help_text">Ange det datum och tid då transaktionen genomfördes.</string>
+    <string name="menu_ManageBudgets_grouping_help_text">Budgetlistan kan grupperas antingen efter konto eller efter budgettyp.</string>
+    <string name="cab_flag_help_text">Tilldela det valda kontot en flagga, t.ex. Favorit eller Inaktivt.</string>
+    <string name="cab_ManageCategories_select_help_text">Koppla den valda kategorin till transaktionen och återvänd till tranaktionsformuläret.</string>
+    <string name="form_BudgetEdit_filter_help_text">Budgetar kan filtreras med avseende på kategorier, motparter, metoder eller statusar. Endast transaktioner som uppfyller dessa filterkriterier kommer beaktas.</string>
+    <string name="menu_search_help_text">Det här alternativet öppnar en undermeny som låter dig formulera sökkriterier baserade på kategori, belopp, kommentar, status, betalare/mottagare och betalningsmetod. När ett sökfilter är aktivt kan du helt enkelt klicka på dess post i undermenyn för att inaktivera det.</string>
+    <string name="help_ManageCategories_select_mapping_info">Utöver de åtgärder du kan vidta när du hanterar kategorier från inställningsskärmen (skapa, redigera, radera) kan du på denna skärm koppla en transaktion till en vald kategori genom att helt enkelt klicka på den.</string>
 </resources>
