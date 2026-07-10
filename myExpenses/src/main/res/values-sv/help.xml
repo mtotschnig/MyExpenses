@@ -5,7 +5,7 @@
     <string name="help_contextual_actions">Sammanhängande åtgärder</string>
     <string name="popup_MyExpenses_toolbar_copy_text">Kopiera det aktuella saldot till klippbordet.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">Beräkna skillnaden mellan det aktuella saldot och ett nytt värde.</string>
-    <string name="help_menu_commands">Meny-kommandon</string>
+    <string name="help_menu_commands">Menykommandon</string>
     <string name="help_MyExpenses_info">Den här skärmen listar alla transaktioner för det aktuella kontot. Använd den flytande åtgärdsknappen för att öppna formuläret för att skapa en ny transaktion.</string>
     <string name="help_form_fields">Formulärfält</string>
     <string name="help_MyExpenses_fab_long_press">Att trycka länge på den flytande åtgärdsknappen öppnar en meny som tillåter förberedelsen av formuläret för överföring, uppdelad transaktion eller inkomst.</string>
