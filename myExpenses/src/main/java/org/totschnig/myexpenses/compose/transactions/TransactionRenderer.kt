@@ -42,7 +42,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
@@ -75,6 +74,8 @@ import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.compose.emToDp
 import org.totschnig.myexpenses.compose.optional
 import org.totschnig.myexpenses.compose.size
+import org.totschnig.myexpenses.db2.FLAG_EXPENSE
+import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -83,6 +84,8 @@ import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.STATUS_ARCHIVE
 import org.totschnig.myexpenses.ui.DisplayParty
+import org.totschnig.myexpenses.viewmodel.ResolvedExtraInfo
+import org.totschnig.myexpenses.viewmodel.data.TradeType
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import org.totschnig.myexpenses.viewmodel.data.getIndicatorCharForLabel
 import org.totschnig.myexpenses.viewmodel.data.getIndicatorPrefixForLabel
@@ -100,13 +103,19 @@ abstract class ItemRenderer(
 
     fun Transaction2.buildPrimaryInfo(
         context: Context,
-        resolvedSplitInfoLabels: String?,
+        resolvedExtraInfo: ResolvedExtraInfo?,
         forLegacy: Boolean,
     ) = buildAnnotatedString {
-        if (isSplit && resolvedSplitInfoLabels == null) {
+        val trade = (resolvedExtraInfo as? ResolvedExtraInfo.Trade)?.trade
+        val labels = when (resolvedExtraInfo) {
+            is ResolvedExtraInfo.Split -> resolvedExtraInfo.items.joinToString { it.first }
+            is ResolvedExtraInfo.Trade -> context.getString(resolvedExtraInfo.trade.type.label) + " " + resolvedExtraInfo.trade.assetSymbol
+            null -> null
+        }
+        if (isSplit && labels == null) {
             append(context.getString(R.string.split_transaction))
         } else {
-            (resolvedSplitInfoLabels ?: categoryPath)?.let {
+            (labels ?: categoryPath)?.let {
                 if (forLegacy) {
                     append(it)
                 } else {
@@ -115,7 +124,7 @@ abstract class ItemRenderer(
                     }
                 }
             }
-            if (isTransfer) {
+            if (isTransfer && trade == null) {
                 if (categoryPath != null) append(" (")
                 accountLabel?.let { append("$it ") }
                 if (forLegacy || accountLabel != null) {
@@ -130,8 +139,10 @@ abstract class ItemRenderer(
     fun Transaction2.buildSecondaryInfo(
         context: Context,
         withTags: Boolean,
+        resolvedExtraInfo: ResolvedExtraInfo? = null
     ): Pair<AnnotatedString, List<String>> {
         val attachmentIcon = if (attachmentCount > 0) "paperclip" else null
+        val trade = (resolvedExtraInfo as? ResolvedExtraInfo.Trade)?.trade
         val methodInfo = getMethodInfo(context)
         val methodIcon = methodInfo?.second
         return buildAnnotatedString {
@@ -151,7 +162,7 @@ abstract class ItemRenderer(
                     )
                 }
             }
-            party?.displayName?.let {
+            (trade?.fundingAccountLabel ?: party?.displayName)?.let {
                 if (length > 0) {
                     append(COMMENT_SEPARATOR)
                 }
@@ -198,8 +209,7 @@ abstract class ItemRenderer(
     @Composable
     abstract fun RowScope.RenderInner(
         transaction: Transaction2,
-        resolvedSplitInfoLabels: String? = null,
-        resolvedSplitInfoIcons: List<String>? = null
+        resolvedExtraInfo: ResolvedExtraInfo? = null
     )
 
     abstract fun Modifier.height(): Modifier
@@ -211,7 +221,7 @@ abstract class ItemRenderer(
         modifier: Modifier = Modifier,
         selectionHandler: SelectionHandler? = null,
         menuGenerator: (Transaction2) -> Menu? = { null },
-        resolvedSplitInfo: List<Pair<String , String?>>? = null,
+        resolvedExtraInfo: ResolvedExtraInfo? = null,
     ) {
         val showMenu = rememberSaveable { mutableStateOf(false) }
         val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
@@ -245,12 +255,10 @@ abstract class ItemRenderer(
         ) {
             RenderInner(
                 transaction = transaction,
-                resolvedSplitInfoLabels = resolvedSplitInfo?.joinToString { it.first },
-                resolvedSplitInfoIcons = resolvedSplitInfo?.mapNotNull { it.second }
+                resolvedExtraInfo = resolvedExtraInfo
             )
-            menuGenerator(transaction)?.let {
-                HierarchicalMenu(showMenu, it)
-            }
+
+            HierarchicalMenu(showMenu, menuGenerator(transaction) ?: emptyList())
         }
     }
 
@@ -282,42 +290,59 @@ abstract class ItemRenderer(
     }
 
     @Composable
-    protected fun Transaction2.CategoryIcon(resolvedSplitIcons: List<String>?) {
+    protected fun Transaction2.CategoryIcon(resolvedExtraInfo: ResolvedExtraInfo?) {
         if (withCategoryIcon) {
+            val resolvedIcons = (resolvedExtraInfo as? ResolvedExtraInfo.Split)?.items?.mapNotNull { it.second }
+            val trade = (resolvedExtraInfo as? ResolvedExtraInfo.Trade)?.trade
             Box(modifier = Modifier.size(30.sp), contentAlignment = Alignment.Center) {
                 when {
-                    isSplit -> if (resolvedSplitIcons?.isNotEmpty() == true) {
-                        Icon(
-                            resolvedSplitIcons[0],
-                            modifier = Modifier.align(Alignment.TopStart).fillMaxSize(0.5f),
-                            size = null
-                        )
-                        resolvedSplitIcons.getOrNull(1)?.let {
-                            Icon(
-                                it,
-                                modifier = Modifier.align(Alignment.TopEnd).fillMaxSize(0.5f),
-                                size = null
-                            )
+                    trade != null -> {
+                        val icon = when (trade.type) {
+                            TradeType.AssetTrade.BUY -> "arrow-up"
+                            TradeType.AssetTrade.SELL -> "arrow-down"
+                            TradeType.CashMovement.DEPOSIT -> "plus"
+                            TradeType.CashMovement.WITHDRAW -> "minus"
                         }
-                        resolvedSplitIcons.getOrNull(2)?.let {
-                            Icon(
-                                it,
-                                modifier = Modifier.align(Alignment.BottomStart).fillMaxSize(0.5f),
-                                size = null
-                            )
-                        }
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.CallSplit,
-                            contentDescription = stringResource(id = R.string.split_transaction),
-                            modifier = Modifier.align(Alignment.BottomEnd).fillMaxSize(0.5f)
-                        )
-                    } else {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.CallSplit,
-                            contentDescription = stringResource(id = R.string.split_transaction),
-                            modifier = Modifier.fillMaxSize()
-                        )
+                        Icon(icon)
                     }
+                    isSplit -> resolvedIcons?.let { icons ->
+                        if (icons.isNotEmpty()) {
+                            Icon(
+                                icons[0],
+                                modifier = Modifier.align(Alignment.TopStart).fillMaxSize(0.5f),
+                                size = null
+                            )
+                            icons.getOrNull(1)?.let {
+                                Icon(
+                                    it,
+                                    modifier = Modifier.align(Alignment.TopEnd).fillMaxSize(0.5f),
+                                    size = null
+                                )
+                            }
+                            icons.getOrNull(2)?.let {
+                                Icon(
+                                    it,
+                                    modifier = Modifier.align(Alignment.BottomStart).fillMaxSize(0.5f),
+                                    size = null
+                                )
+                            }
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.CallSplit,
+                                contentDescription = stringResource(id = R.string.split_transaction),
+                                modifier = Modifier.align(Alignment.BottomEnd).fillMaxSize(0.5f)
+                            )
+                        } else {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.CallSplit,
+                                contentDescription = stringResource(id = R.string.split_transaction),
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        }
+                    } ?: Icon(
+                        imageVector = Icons.AutoMirrored.Filled.CallSplit,
+                        contentDescription = stringResource(id = R.string.split_transaction),
+                        modifier = Modifier.fillMaxSize()
+                    )
 
                     icon != null -> Icon(icon)
 
@@ -381,11 +406,27 @@ abstract class ItemRenderer(
     fun Transaction2.ColoredAmountText(
         style: TextStyle = LocalTextStyle.current,
         displayAmount: Money = this.displayAmount,
+        resolvedExtraInfo: ResolvedExtraInfo? = null
     ) {
+        val trade = (resolvedExtraInfo as? ResolvedExtraInfo.Trade)?.trade
+        val finalAmount = if (trade != null) {
+            trade.principal
+        } else {
+            if (type == FLAG_NEUTRAL) displayAmount.absolute() else displayAmount
+        }
+        val finalType = if (trade != null) {
+            when (trade.type) {
+                TradeType.AssetTrade.BUY -> FLAG_EXPENSE
+                TradeType.AssetTrade.SELL -> FLAG_INCOME
+                TradeType.CashMovement.DEPOSIT -> FLAG_INCOME
+                TradeType.CashMovement.WITHDRAW -> FLAG_EXPENSE
+            }
+        } else type
+
         org.totschnig.myexpenses.compose.ColoredAmountText(
-            money = if (type == FLAG_NEUTRAL) displayAmount.absolute() else displayAmount,
+            money = finalAmount,
             style = style,
-            type = colorSource.transformType(type)
+            type = colorSource.transformType(finalType)
         )
     }
 }
@@ -406,13 +447,12 @@ class CompactTransactionRenderer(
     @Composable
     override fun RowScope.RenderInner(
         transaction: Transaction2,
-        resolvedSplitInfoLabels: String?,
-        resolvedSplitInfoIcons: List<String>?
+        resolvedExtraInfo: ResolvedExtraInfo?
     ) {
         val context = LocalContext.current
-        val secondaryInfo = transaction.buildSecondaryInfo(context, true)
+        val secondaryInfo = transaction.buildSecondaryInfo(context, true, resolvedExtraInfo)
         val description = buildAnnotatedString {
-            val primaryInfo = transaction.buildPrimaryInfo(context, resolvedSplitInfoLabels, true)
+            val primaryInfo = transaction.buildPrimaryInfo(context, resolvedExtraInfo, true)
             if (primaryInfo.isNotEmpty()) {
                 append(primaryInfo)
                 if (secondaryInfo.first.isNotEmpty()) {
@@ -433,7 +473,7 @@ class CompactTransactionRenderer(
             )
         }
         transaction.StatusToggle()
-        transaction.CategoryIcon(resolvedSplitInfoIcons)
+        transaction.CategoryIcon(resolvedExtraInfo)
         TextWithInlineContent(
             modifier = Modifier
                 .padding(horizontal = 5.dp)
@@ -446,7 +486,7 @@ class CompactTransactionRenderer(
                 transaction.originalAmount?.let { transaction.ColoredAmountText(displayAmount = it) }
             }
             transaction.amount?.let { transaction.ColoredAmountText(displayAmount = it) }
-            transaction.ColoredAmountText()
+            transaction.ColoredAmountText(resolvedExtraInfo = resolvedExtraInfo)
         }
     }
 
@@ -463,13 +503,12 @@ class NewTransactionRenderer(
     @Composable
     override fun RowScope.RenderInner(
         transaction: Transaction2,
-        resolvedSplitInfoLabels: String?,
-        resolvedSplitInfoIcons: List<String>?
+        resolvedExtraInfo: ResolvedExtraInfo?
     ) {
         val context = LocalContext.current
-        val primaryInfo = transaction.buildPrimaryInfo(context, resolvedSplitInfoLabels, false)
-        val secondaryInfo = transaction.buildSecondaryInfo(context, false)
-        transaction.CategoryIcon(resolvedSplitInfoIcons)
+        val primaryInfo = transaction.buildPrimaryInfo(context, resolvedExtraInfo, false)
+        val secondaryInfo = transaction.buildSecondaryInfo(context, false, resolvedExtraInfo)
+        transaction.CategoryIcon(resolvedExtraInfo)
         transaction.StatusToggle()
         Column(
             modifier = Modifier
@@ -503,6 +542,7 @@ class NewTransactionRenderer(
         Column(horizontalAlignment = Alignment.End) {
             transaction.ColoredAmountText(
                 style = MaterialTheme.typography.bodyLarge,
+                resolvedExtraInfo = resolvedExtraInfo
             )
             dateTimeFormatter?.let {
                 Text(text = it.format(transaction.date), style = MaterialTheme.typography.bodySmall)

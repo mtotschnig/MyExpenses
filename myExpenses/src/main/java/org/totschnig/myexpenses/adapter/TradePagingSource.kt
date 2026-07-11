@@ -9,17 +9,17 @@ import androidx.paging.PagingState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.loadTrades
 import org.totschnig.myexpenses.provider.DataBaseAccount
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_PARENTID
 import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
-import org.totschnig.myexpenses.viewmodel.data.Trade
-import org.totschnig.myexpenses.db2.loadTrades
 import org.totschnig.myexpenses.provider.withLimit
-import timber.log.Timber
+import org.totschnig.myexpenses.viewmodel.data.Trade
 
 class TradePagingSource(
-    private val context: Context,
+    context: Context,
     private val repository: Repository,
     private val account: DataBaseAccount,
     private val pageSize: Int
@@ -58,13 +58,16 @@ class TradePagingSource(
         val offset = position.coerceAtLeast(0)
         val loadSize = params.loadSize
 
+
         val (totalCount, trades) = withContext(Dispatchers.IO) {
             // 1. Get total count of parent transactions
+            val selection = "$KEY_PARENTID IS NULL AND $KEY_ACCOUNTID = ?"
+            val selectionArgs = arrayOf(account.id.toString())
             val count = contentResolver.query(
                 uri,
                 arrayOf("count(*)"),
-                "$KEY_PARENTID IS NULL AND account_id = ?",
-                arrayOf(account.id.toString()),
+                selection,
+                selectionArgs,
                 null
             )!!.use {
                 it.moveToFirst()
@@ -75,8 +78,8 @@ class TradePagingSource(
             val ids = contentResolver.query(
                 uri.withLimit(loadSize, offset),
                 arrayOf(KEY_ROWID),
-                "$KEY_PARENTID IS NULL AND account_id = ?",
-                arrayOf(account.id.toString()),
+                selection,
+                selectionArgs,
                 account.sortOrder,
                 null
             )!!.use { cursor ->

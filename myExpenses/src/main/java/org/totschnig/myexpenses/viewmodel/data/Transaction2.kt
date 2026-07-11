@@ -66,6 +66,7 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.week
 import org.totschnig.myexpenses.provider.DatabaseConstants.yearOfMonthStart
 import org.totschnig.myexpenses.provider.DatabaseConstants.yearOfWeekStart
 import org.totschnig.myexpenses.provider.DbUtils.typeWithFallBack
+import org.totschnig.myexpenses.provider.KEY_IS_PORTFOLIO
 import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.effectiveTypeExpression
 import org.totschnig.myexpenses.provider.getBooleanIfExists
@@ -124,11 +125,15 @@ data class Transaction2(
     val attachmentCount: Int = 0,
     val type: Byte = FLAG_NEUTRAL,
     val isSameCurrency: Boolean = true,
+    val isPortfolio: Boolean = false,
     val headerId: Int = 0
 ) : Parcelable {
 
     val isSplit: Boolean
         get() = catId == SPLIT_CATID
+
+    val isTrade: Boolean
+        get() = isSplit && isPortfolio
 
     val isTransfer: Boolean
         get() = transferPeer != null
@@ -227,6 +232,7 @@ data class Transaction2(
             KEY_COLOR,
             KEY_ACCOUNT_LABEL,
             KEY_ACCOUNT_TYPE,
+            KEY_IS_PORTFOLIO,
             "$IS_SAME_CURRENCY AS $KEY_IS_SAME_CURRENCY"
         )
 
@@ -298,7 +304,8 @@ data class Transaction2(
                         if (typeRaw) it else -it
                     }
                     Money(currencyContext[currency], originalAmountRaw)
-                }
+                },
+                isPortfolio = cursor.getBooleanIfExists(KEY_IS_PORTFOLIO) ?: false,
             ).let {
                 it.copy(headerId = grouping.calculateGroupId(it))
             }

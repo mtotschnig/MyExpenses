@@ -131,7 +131,8 @@ object DatabaseConstants {
             *PROJECTION_BASE,
             KEY_COLOR,
             KEY_TRANSFER_PEER_IS_PART,
-            KEY_STATUS,KEY_ACCOUNT_LABEL,
+            KEY_STATUS,
+            KEY_ACCOUNT_LABEL,
             KEY_ACCOUNT_TYPE,
             KEY_TAGLIST,
             KEY_PARENTID

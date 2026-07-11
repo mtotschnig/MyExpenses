@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -40,6 +41,7 @@ import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.SecondaryScrollableTabRow
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
@@ -67,6 +69,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.booleanResource
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.CollectionInfo
@@ -100,6 +103,7 @@ import org.totschnig.myexpenses.compose.TEST_TAG_ACCOUNT_LABEL
 import org.totschnig.myexpenses.compose.TEST_TAG_BALANCE_AMOUNT
 import org.totschnig.myexpenses.compose.TEST_TAG_BALANCE_HEADER
 import org.totschnig.myexpenses.compose.TEST_TAG_CAB
+import org.totschnig.myexpenses.compose.TEST_TAG_DIALOG
 import org.totschnig.myexpenses.compose.TEST_TAG_FAB_TRANSACTIONS
 import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
 import org.totschnig.myexpenses.compose.TooltipIconButton
@@ -261,29 +265,23 @@ fun TransactionScreen(
                         modifier = Modifier.height(height),
                         navigationIcon = navigationIcon,
                         title = {
-                            if ((currentAccount as? FullAccount)?.isPortfolio == true) {
-                                PortfolioBalanceHeader(
-                                    currentAccount = currentAccount,
-                                    bankIcon = bankIcon
-                                )
-                            } else {
-                                BalanceHeader(
-                                    modifier = Modifier.conditional(isFramed) {
-                                        padding(start = 4.dp, top = 4.dp)
-                                    },
-                                    currentAccount = currentAccount,
-                                    onDisplayBalanceTypeChange = { newType ->
-                                        viewModel.persistBalanceType(newType)
-                                    },
-                                    onCopyBalance = {
-                                        onEvent(AppEvent.CopyToClipBoard(it))
-                                    },
-                                    onSetNewBalance = {
-                                        onEvent(AppEvent.MenuItemClicked(R.id.NEW_BALANCE_COMMAND))
-                                    },
-                                    bankIcon = bankIcon
-                                )
-                            }
+                            val isPortfolio = (currentAccount as? FullAccount)?.isPortfolio == true
+                            BalanceHeader(
+                                modifier = Modifier.conditional(isFramed) {
+                                    padding(start = 4.dp, top = 4.dp)
+                                },
+                                currentAccount = currentAccount,
+                                onDisplayBalanceTypeChange = if (isPortfolio) null else { newType ->
+                                    viewModel.persistBalanceType(newType)
+                                },
+                                onCopyBalance = {
+                                    onEvent(AppEvent.CopyToClipBoard(it))
+                                },
+                                onSetNewBalance = if (isPortfolio) null else {
+                                    { onEvent(AppEvent.MenuItemClicked(R.id.NEW_BALANCE_COMMAND)) }
+                                },
+                                bankIcon = bankIcon
+                            )
                         },
                         actions = {
                             val menuConfig = viewModel.transactionMenuAccessor.statefulFlow
@@ -365,7 +363,7 @@ fun TransactionScreen(
                         lastAction.set(action)
                     }
 
-                    if (action == Action.Buy || action == Action.Sell) {
+                    if (action in Action.PORTFOLIO_ACTIONS) {
                         showTradeScreen = action
                     } else {
                         onEvent(
@@ -506,31 +504,45 @@ fun TransactionScreen(
         }
     }
     showTradeScreen?.let { tradeAction ->
+        val isLarge = booleanResource(R.bool.isLarge)
+
         Dialog(
             onDismissRequest = { showTradeScreen = null },
-            properties = DialogProperties(usePlatformDefaultWidth = false)
-        ) {
-            TradeScreen(
-                onDismiss = { showTradeScreen = null },
-                onSave = { intent ->
-                    onEvent(AppEvent.SaveTrade(intent))
-                    showTradeScreen = null
-                },
-                reportingCurrency = currentAccount.currencyUnit,
-                assets = allCurrencies,
-                fundingAccounts = accountList
-                    .filter {
-                        !it.isAggregate && it.currencyUnit.code == currentAccount.currencyUnit.code &&
-                                it.id != currentAccount.id
-                    }
-                    .map {
-                        it.id to it.labelV2(LocalContext.current)
-                    },
-                initialAction = tradeAction,
-                onCreateAsset = onCreateAsset,
-                isCurrencyUsed = isCurrencyUsed,
-                portfolio = currentAccount as FullAccount
+            properties = DialogProperties(
+                usePlatformDefaultWidth = isLarge
             )
+        ) {
+            Surface(
+                modifier = Modifier
+                    .testTag(TEST_TAG_DIALOG)
+                    .conditional(
+                        isLarge,
+                        ifTrue = { defaultMinSize(minHeight = 400.dp) },
+                        ifFalse = { fillMaxSize() }
+                    )
+            ) {
+                TradeScreen(
+                    onDismiss = { showTradeScreen = null },
+                    onSave = { intent ->
+                        onEvent(AppEvent.SaveTrade(intent))
+                        showTradeScreen = null
+                    },
+                    reportingCurrency = currentAccount.currencyUnit,
+                    assets = allCurrencies,
+                    fundingAccounts = accountList
+                        .filter {
+                            !it.isAggregate && it.currencyUnit.code == currentAccount.currencyUnit.code &&
+                                    it.id != currentAccount.id
+                        }
+                        .map {
+                            it.id to it.labelV2(LocalContext.current)
+                        },
+                    initialAction = tradeAction,
+                    onCreateAsset = onCreateAsset,
+                    isCurrencyUsed = isCurrencyUsed,
+                    portfolio = currentAccount as FullAccount
+                )
+            }
         }
     }
 }
@@ -547,37 +559,13 @@ private fun TransactionListPage(
 }
 
 @Composable
-private fun PortfolioBalanceHeader(
-    currentAccount: BaseAccount,
-    modifier: Modifier = Modifier,
-    bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
-) {
-    Row(
-        modifier = modifier
-            .testTag(TEST_TAG_BALANCE_HEADER),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        (currentAccount as? FullAccount)?.let {
-            AccountIndicator(currentAccount, bankIcon, true)
-        }
-        Column {
-            AccountLabel(currentAccount)
-            Text(
-                text = stringResource(R.string.valuation),
-                style = MaterialTheme.typography.bodySmall
-            )
-        }
-    }
-}
-
-@Composable
 private fun BalanceHeader(
     currentAccount: BaseAccount,
     modifier: Modifier = Modifier,
     bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
-    onDisplayBalanceTypeChange: (BalanceType) -> Unit = {},
+    onDisplayBalanceTypeChange: ((BalanceType) -> Unit)? = null,
     onCopyBalance: (String) -> Unit = {},
-    onSetNewBalance: () -> Unit = {},
+    onSetNewBalance: (() -> Unit)? = null,
 ) {
     var isSummaryPopupVisible by rememberSaveable { mutableStateOf(false) }
 
@@ -585,7 +573,12 @@ private fun BalanceHeader(
         targetValue = if (isSummaryPopupVisible) 0F else 180F
     )
 
-    val displayBalance = currentAccount.balanceForType
+    val isPortfolio = (currentAccount as? FullAccount)?.isPortfolio == true
+    val displayBalance = if (isPortfolio) {
+        currentAccount.effectiveBalance
+    } else {
+        currentAccount.balanceForType
+    }
 
     Row(
         modifier = modifier
@@ -695,7 +688,7 @@ private fun BalanceHeader(
                                         Text(stringResource(R.string.copy_text))
                                     }
 
-                                    if (currentAccount is FullAccount) {
+                                    if (currentAccount is FullAccount && onSetNewBalance != null) {
                                         TextButton(onClick = {
                                             onSetNewBalance()
                                             isSummaryPopupVisible = false
@@ -737,6 +730,7 @@ private fun BalanceSection(
     balance: Long,
     account: BaseAccount,
 ) {
+    val isPortfolio = (account as? FullAccount)?.isPortfolio == true
     val type = account.validatedBalanceType
     Row(
         verticalAlignment = Alignment.CenterVertically,
