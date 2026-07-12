@@ -43,6 +43,7 @@ data class TradeIntent(
     val fundingAccountId: Long?,
     val fee: BigDecimal,
     val comment: String = "",
+    val linkedTransactionId: Long? = null,
 ) {
     init {
         if (type is TradeType.CashMovement) {

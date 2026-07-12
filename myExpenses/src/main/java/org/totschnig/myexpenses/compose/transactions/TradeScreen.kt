@@ -41,6 +41,7 @@ import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,6 +53,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AmountEdit
@@ -68,6 +72,7 @@ import org.totschnig.myexpenses.viewmodel.data.FundingSource
 import org.totschnig.myexpenses.viewmodel.data.Trade
 import org.totschnig.myexpenses.viewmodel.data.TradeIntent
 import org.totschnig.myexpenses.viewmodel.data.TradeType
+import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import java.math.BigDecimal
 import java.time.Instant
 import java.time.LocalDateTime
@@ -89,6 +94,7 @@ fun TradeScreen(
     initialTrade: Trade? = null,
     onCreateAsset: suspend (code: String, symbol: String, fractionDigits: Int, label: String?, commodityType: CommodityType) -> CurrencyUnit? = { _, _, _, _, _ -> null },
     isCurrencyUsed: suspend (String) -> Boolean = { false },
+    onLookupMatchingTransactions: (accountId: Long, total: BigDecimal, date: LocalDateTime, isBuy: Boolean) -> Flow<List<Transaction2>> = { _, _, _, _ -> emptyFlow() }
 ) {
 
     val currencyFormatter = LocalCurrencyFormatter.current
@@ -134,6 +140,7 @@ fun TradeScreen(
     }
 
     var comment by remember { mutableStateOf(initialTrade?.comment ?: "") }
+    var linkedTransactionId by remember { mutableStateOf<Long?>(null) }
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -150,6 +157,21 @@ fun TradeScreen(
             principal.add(fee.orZero)
         } else {
             principal.subtract(fee.orZero)
+        }
+    }
+
+    val matchingTransactions by remember(fundingAccountId, total, date, isAssetTrade, type) {
+        val accountId = fundingAccountId
+        if (accountId != null) {
+            onLookupMatchingTransactions(accountId, total, date, type == TradeType.AssetTrade.BUY)
+        } else {
+            flowOf(emptyList())
+        }
+    }.collectAsState(emptyList())
+
+    LaunchedEffect(matchingTransactions) {
+        if (matchingTransactions.none { it.id == linkedTransactionId }) {
+            linkedTransactionId = if (matchingTransactions.size == 1) matchingTransactions.first().id else null
         }
     }
 
@@ -295,7 +317,8 @@ fun TradeScreen(
                                     fundingAccountId = fundingAccountId,
                                     fee = fee.orZero,
                                     comment = comment,
-                                    fundingSource = fundingSource
+                                    fundingSource = fundingSource,
+                                    linkedTransactionId = linkedTransactionId
                                 )
                             )
                     }) {
@@ -493,9 +516,39 @@ fun TradeScreen(
                 onSourceSelected = { source, account ->
                     fundingSource = source
                     fundingAccountId = account
+                    linkedTransactionId = null
                 },
                 showPortfolio = isAssetTrade
             )
+
+            if (fundingSource == FundingSource.ACCOUNT && matchingTransactions.isNotEmpty()) {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text(
+                        stringResource(R.string.trade_matching_transaction_found),
+                        style = MaterialTheme.typography.labelMedium
+                    )
+                    matchingTransactions.forEach { transaction ->
+                        FilterChip(
+                            selected = linkedTransactionId == transaction.id,
+                            onClick = {
+                                linkedTransactionId = if (linkedTransactionId == transaction.id) null else transaction.id
+                            },
+                            label = {
+                                Column {
+                                    (transaction.party?.name ?: transaction.comment)?.let { Text(it) }
+                                    Text(
+                                        currencyFormatter.formatCurrency(transaction.displayAmount.amountMajor, reportingCurrency),
+                                        style = MaterialTheme.typography.labelSmall
+                                    )
+                                }
+                            },
+                            leadingIcon = if (linkedTransactionId == transaction.id) {
+                                { Icon(Icons.Default.Check, null, modifier = Modifier.size(16.dp)) }
+                            } else null
+                        )
+                    }
+                }
+            }
 
             // Comment
             OutlinedTextField(

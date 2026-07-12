@@ -343,7 +343,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                             isNavigationVisible = isNavigationVisible
                         ) { pageAccount, isCurrent ->
                             if (pageAccount.isPortfolio) {
-                                PortfolioPage(pageAccount, isCurrent, currencies, viewModel.accountList.collectAsState().value)
+                                PortfolioPage(pageAccount, currencies, viewModel.accountList.collectAsState().value)
                             } else {
                                 Page(
                                     pageAccount,
@@ -430,7 +430,6 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
     @Composable
     fun PortfolioPage(
         account: PageAccount,
-        isCurrentPage: Boolean,
         allCurrencies: List<CurrencyUnit>,
         accountList: List<BaseAccount>,
     ) {
@@ -480,7 +479,10 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                             .map {
                                 it.id to it.labelV2(this)
                             },
-                        initialTrade = trade
+                        initialTrade = trade,
+                        onLookupMatchingTransactions = { accountId, total, date, isBuy ->
+                            viewModel.findMatchingTransactions(accountId, total, date, fullAccount.currencyUnit, isBuy)
+                        }
                     )
                 }
             }

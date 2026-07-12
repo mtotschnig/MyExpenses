@@ -1,9 +1,11 @@
 package org.totschnig.myexpenses.viewmodel
 
 import android.app.Application
+import android.content.ContentValues
 import android.content.Intent
 import androidx.annotation.OpenForTesting
 import androidx.annotation.StringRes
+import androidx.compose.ui.tooling.data.Group
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -11,6 +13,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import arrow.core.Tuple4
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -63,14 +66,22 @@ import org.totschnig.myexpenses.preference.isWebUiActive
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.GROUPING_AGGREGATE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_BY_AGGREGATE
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_DATE
+import org.totschnig.myexpenses.provider.KEY_DISPLAY_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_PARENTID
 import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER
+import org.totschnig.myexpenses.provider.KEY_UUID
 import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_SEARCH
 import org.totschnig.myexpenses.provider.mapToListCatching
 import org.totschnig.myexpenses.provider.triggerAccountListRefresh
+import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
@@ -81,11 +92,14 @@ import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Trade
 import org.totschnig.myexpenses.viewmodel.data.TradeIntent
 import org.totschnig.myexpenses.viewmodel.data.TradeType
+import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
 import org.totschnig.myexpenses.viewmodel.data.TransferEditData
 import org.totschnig.myexpenses.viewmodel.data.mapper.TransactionMapper.mapTransaction
 import timber.log.Timber
 import java.math.BigDecimal
+import java.time.LocalDateTime
+import java.time.ZoneId
 
 enum class AccountsScreenTab(@param:StringRes val resourceId: Int) {
     LIST(R.string.accounts),
@@ -523,6 +537,34 @@ open class MyExpensesV2ViewModel(
             )
     }
 
+    fun findMatchingTransactions(
+        accountId: Long,
+        totalOutlay: BigDecimal,
+        date: LocalDateTime,
+        currencyUnit: CurrencyUnit,
+        isBuy: Boolean
+    ): Flow<List<Transaction2>> {
+        val targetAmount = if (isBuy) totalOutlay.negate() else totalOutlay
+        val amountMinor = Money.buildWithMajor(currencyUnit, targetAmount).getOrNull()?.amountMinor ?: 0L
+
+        val startOfDay = date.toLocalDate().atStartOfDay(ZoneId.systemDefault()).toEpochSecond()
+        val endOfDay = date.toLocalDate().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toEpochSecond() - 1
+
+        return contentResolver.observeQuery(
+            projection = Transaction2.projection(
+                isAggregate = false,
+                grouping = Grouping.NONE,
+                prefHandler = prefHandler,
+            ),
+            uri = TransactionProvider.EXTENDED_URI.buildUpon().appendQueryParameter(QUERY_PARAMETER_SEARCH, "1").build(),
+            selection = "$KEY_ACCOUNTID = ? AND $KEY_DISPLAY_AMOUNT = ? AND $KEY_DATE BETWEEN ? AND ? " +
+                    "AND $KEY_TRANSFER_PEER IS NULL AND $KEY_PARENTID IS NULL",
+            selectionArgs = arrayOf(accountId.toString(), amountMinor.toString(), startOfDay.toString(), endOfDay.toString())
+        ).mapToList { cursor ->
+            Transaction2.fromCursor(currencyContext, cursor, tags.value, grouping = Grouping.NONE)
+        }
+    }
+
     fun saveTrade(currentAccount: FullAccount, intent: TradeIntent, tradeId: Long? = null) {
         viewModelScope.launch(coroutineDispatcher) {
 
@@ -604,7 +646,7 @@ open class MyExpensesV2ViewModel(
                 totalImpact.negate()
             }
 
-            val fundingTransferAccountId = when (intent.fundingSource) {
+            val fundingTransferAccountId = if (intent.linkedTransactionId != null) null else when (intent.fundingSource) {
                 FundingSource.ACCOUNT -> intent.fundingAccountId
                 FundingSource.PORTFOLIO -> currentAccount.children
                     .find { it.type.isCashAccount }?.id
@@ -621,6 +663,7 @@ open class MyExpensesV2ViewModel(
                 FundingSource.EXTERNAL -> null
             }
 
+            val fundingLegUuid = generateUuid()
             parts.add(
                 TransactionEditData(
                     accountId = currentAccount.id,
@@ -629,8 +672,8 @@ open class MyExpensesV2ViewModel(
                     transferEditData = fundingTransferAccountId?.let { TransferEditData(transferAccountId = it) },
                     comment = if (intent.fundingSource == FundingSource.EXTERNAL) "External" else null,
                     isSplitPart = true,
-                    uuid = generateUuid(),
-                    categoryId = transferCategory
+                    uuid = fundingLegUuid,
+                    categoryId = if (intent.linkedTransactionId != null) null else transferCategory
                 )
             )
 
@@ -668,13 +711,28 @@ open class MyExpensesV2ViewModel(
                 repository.createTransaction(mapTransaction(parent))
             }
 
+            if (intent.linkedTransactionId != null) {
+                val existingUuid = repository.getUuidForTransaction(intent.linkedTransactionId)
+                if (existingUuid != null) {
+                    contentResolver.update(
+                        TransactionProvider.TRANSACTIONS_URI.buildUpon()
+                            .appendPath(TransactionProvider.URI_SEGMENT_LINK_TRANSFER)
+                            .appendPath(fundingLegUuid)
+                            .build(),
+                        ContentValues(1).apply {
+                            put(KEY_UUID, existingUuid)
+                        }, null, null
+                    )
+                }
+            }
+
             // Also update the Price History table for valuation
             if (intent.price > BigDecimal.ZERO) {
                 repository.savePrice(
                     portfolioCurrency,
                     intent.targetAsset,
                     intent.date.toLocalDate(),
-                    org.totschnig.myexpenses.retrofit.ExchangeRateSource.User,
+                    ExchangeRateSource.User,
                     intent.price
                 )
             }

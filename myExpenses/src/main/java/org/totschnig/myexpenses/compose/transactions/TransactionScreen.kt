@@ -540,7 +540,10 @@ fun TransactionScreen(
                     initialAction = tradeAction,
                     onCreateAsset = onCreateAsset,
                     isCurrencyUsed = isCurrencyUsed,
-                    portfolio = currentAccount as FullAccount
+                    portfolio = currentAccount as FullAccount,
+                    onLookupMatchingTransactions = { accountId, total, date, isBuy ->
+                        viewModel.findMatchingTransactions(accountId, total, date, currentAccount.currencyUnit, isBuy)
+                    }
                 )
             }
         }

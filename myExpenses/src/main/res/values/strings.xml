@@ -1165,5 +1165,5 @@
     <string name="trade_funding_external_description">Funds from sources not tracked in this app</string>
     <string name="trade_deposit">Deposit</string>
     <string name="trade_withdraw">Withdrawal</string>
-
+    <string name="trade_matching_transaction_found">Matching transaction found in funding account. Select to link:</string>
 </resources>
