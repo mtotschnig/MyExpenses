@@ -178,6 +178,7 @@ open class MyApplication : Application(), SharedPreferences.OnSharedPreferenceCh
             register(this)
         }
         licenceHandler.init()
+        currencyContext.preload()
         NotificationBuilderWrapper.createChannels(this)
         if (BuildConfig.DEBUG) {
             contentResolver.persistedUriPermissions.forEach(Consumer { uriPermission: UriPermission? ->

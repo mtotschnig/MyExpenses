@@ -2,6 +2,7 @@ package org.totschnig.myexpenses
 
 import androidx.core.os.ConfigurationCompat
 import androidx.test.platform.app.InstrumentationRegistry
+import kotlinx.coroutines.CoroutineDispatcher
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.di.AppModule
 import org.totschnig.myexpenses.di.CrashHandlerModule
@@ -68,8 +69,9 @@ class TestApp : MyApplication() {
         .appmodule(object : AppModule() {
             override fun provideCurrencyContext(
                 application: MyApplication,
-                prefHandler: PrefHandler
-            ) = object : DatabaseCurrencyContext(prefHandler, application) {
+                prefHandler: PrefHandler,
+                dispatcher: CoroutineDispatcher
+            ) = object : DatabaseCurrencyContext(prefHandler, application, dispatcher) {
                 override val localCurrency: Currency
                     get() {
                         val locale =

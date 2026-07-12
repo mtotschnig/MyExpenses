@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.CoroutineDispatcher
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -61,6 +62,7 @@ open class AppModule {
     @Singleton
     open fun provideCurrencyContext(
         application: MyApplication,
-        prefHandler: PrefHandler
-    ): CurrencyContext = DatabaseCurrencyContext(prefHandler, application)
+        prefHandler: PrefHandler,
+        dispatcher: CoroutineDispatcher
+    ): CurrencyContext = DatabaseCurrencyContext(prefHandler, application, dispatcher)
 }

@@ -4,6 +4,7 @@ import android.content.ContentResolver
 import android.database.Cursor
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -37,16 +38,11 @@ const val DEFAULT_FRACTION_DIGITS = 8
 open class DatabaseCurrencyContext(
     private val prefHandler: PrefHandler,
     private val application: MyApplication,
+    dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : CurrencyContext {
     private val contentResolver: ContentResolver = application.contentResolver
     private val instances = ConcurrentHashMap<String, CurrencyUnit>()
-    private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
-
-    init {
-        scope.launch {
-            preloadCurrencies()
-        }
-    }
+    private val scope = CoroutineScope(dispatcher + SupervisorJob())
 
     private fun Cursor.toCurrencyUnit(): CurrencyUnit {
         val databaseId = getLong(KEY_ROWID)
@@ -175,5 +171,11 @@ open class DatabaseCurrencyContext(
                 null
             }
         } ?: Utils.getSaveDefault()
+    }
+
+    override fun preload() {
+        scope.launch {
+            preloadCurrencies()
+        }
     }
 }

@@ -9,6 +9,7 @@ interface CurrencyContext {
     fun getAll(): Flow<List<CurrencyUnit>>
     fun invalidateHomeCurrency()
     fun invalidate(currencyCode: String)
+    fun preload()
 
     val homeCurrencyString: String
     val homeCurrencyUnit: CurrencyUnit
