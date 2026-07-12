@@ -277,6 +277,7 @@ data class FullAccount(
                 .takeIf { it == KEY_DATE || it == KEY_AMOUNT }
                 ?: KEY_DATE
             val id = getLong(KEY_ROWID)
+            val isPortfolio = getBooleanIfExists(KEY_IS_PORTFOLIO) ?: false
             return FullAccount(
                 id = id,
                 label = getString(KEY_LABEL),
@@ -313,10 +314,10 @@ data class FullAccount(
                 equivalentSumTransfer = getLong(KEY_EQUIVALENT_TRANSFERS),
                 initialExchangeRate = getDoubleOrNull(KEY_EXCHANGE_RATE),
                 dynamic = getBoolean(KEY_DYNAMIC),
-                balanceType = getEnumIfExists(KEY_BALANCE_TYPE, BalanceType.CURRENT),
+                balanceType = if (isPortfolio) BalanceType.VALUATION else getEnumIfExists(KEY_BALANCE_TYPE, BalanceType.CURRENT),
                 parentId = getLongIfExists(KEY_PARENTID),
                 isVisible = getBooleanIfExists(KEY_VISIBLE) ?: true,
-                isPortfolio = getBooleanIfExists(KEY_IS_PORTFOLIO) ?: false,
+                isPortfolio = isPortfolio,
                 //in V2 this is only called for real accounts, in V1 we need to set isSingleCurrency to false for home aggregate
                 isSingleCurrency = !isHomeAggregate(id)
             )
@@ -376,12 +377,17 @@ data class FullAccount(
 
         val childrenValuation = if (isPortfolio) {
             enrichedChildren.sumOf { child ->
-                val directPrice = priceMap[child.currencyUnit.code to this.currencyUnit.code]
-                if (directPrice != null) {
-                    (child.currentBalance.toDouble() * directPrice).roundToLong()
+                if (child.currencyUnit == this.currencyUnit) {
+                    // Direct sum for Cash sub-account or same-currency assets
+                    child.currentBalance
                 } else {
-                    // Cross-rate fallback: childValInHome / thisRateToHome //TODO check
-                    (child.equivalentCurrentBalance.toDouble() / rateToHome).roundToLong()
+                    val directPrice = priceMap[child.currencyUnit.code to this.currencyUnit.code]
+                    if (directPrice != null) {
+                        (child.currentBalance.toDouble() * directPrice).roundToLong()
+                    } else {
+                        // Cross-rate fallback: childValInHome / thisRateToHome //TODO check
+                        (child.equivalentCurrentBalance.toDouble() / rateToHome).roundToLong()
+                    }
                 }
             }
         } else 0L

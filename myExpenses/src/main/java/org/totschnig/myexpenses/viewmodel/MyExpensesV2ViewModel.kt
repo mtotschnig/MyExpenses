@@ -11,7 +11,6 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import arrow.core.Tuple4
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -27,7 +26,6 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
@@ -54,6 +52,7 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model.sort.Sort
 import org.totschnig.myexpenses.model.sort.TransactionSort
+import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.model2.Account.Companion.DEFAULT_COLOR
 import org.totschnig.myexpenses.preference.EnumPreferenceAccessor
 import org.totschnig.myexpenses.preference.PrefKey
@@ -61,26 +60,19 @@ import org.totschnig.myexpenses.preference.PreferenceAccessor
 import org.totschnig.myexpenses.preference.PreferenceState
 import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.preference.isWebUiActive
-import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.balanceUri
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.GROUPING_AGGREGATE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_BY_AGGREGATE
-import org.totschnig.myexpenses.provider.KEY_COMMODITY
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_DATE
-import org.totschnig.myexpenses.provider.KEY_EXCLUDE_FROM_TOTALS
 import org.totschnig.myexpenses.provider.KEY_ROWID
-import org.totschnig.myexpenses.provider.KEY_VALUE
 import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
-import org.totschnig.myexpenses.provider.getDouble
-import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.mapToListCatching
 import org.totschnig.myexpenses.provider.triggerAccountListRefresh
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
-import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount.Companion.fromCursor
 import org.totschnig.myexpenses.viewmodel.data.FullAccount.Companion.nest
@@ -94,7 +86,6 @@ import org.totschnig.myexpenses.viewmodel.data.TransferEditData
 import org.totschnig.myexpenses.viewmodel.data.mapper.TransactionMapper.mapTransaction
 import timber.log.Timber
 import java.math.BigDecimal
-import java.time.LocalDate
 
 enum class AccountsScreenTab(@param:StringRes val resourceId: Int) {
     LIST(R.string.accounts),
@@ -304,7 +295,7 @@ open class MyExpensesV2ViewModel(
                         sortDirection = aggregateSort.sortDirection,
                         balanceType = aggregateAccountBalanceType,
                         equivalentOpeningBalance = filteredForTotals.sumOf { it.equivalentOpeningBalance },
-                        equivalentCurrentBalance = filteredForTotals.sumOf { it.equivalentCurrentBalance },
+                        equivalentCurrentBalance = filteredForTotals.sumOf { it.equivalentEffectiveBalance },
                         equivalentSumIncome = filteredForTotals.sumOf { it.equivalentSumIncome },
                         equivalentSumExpense = filteredForTotals.sumOf { it.equivalentSumExpense },
                         equivalentSumTransfer = filteredForTotals.sumOf { it.equivalentSumTransfer },
@@ -316,7 +307,7 @@ open class MyExpensesV2ViewModel(
                     ).let { aggregateAccount ->
                         if (aggregateAccountGrouping == AccountGrouping.CURRENCY) aggregateAccount.copy(
                             openingBalance = filteredForTotals.sumOf { it.openingBalance },
-                            currentBalance = filteredForTotals.sumOf { it.currentBalance },
+                            currentBalance = filteredForTotals.sumOf { it.effectiveBalance },
                             sumIncome = filteredForTotals.sumOf { it.sumIncome },
                             sumExpense = filteredForTotals.sumOf { it.sumExpense },
                             sumTransfer = filteredForTotals.sumOf { it.sumTransfer },
@@ -428,14 +419,15 @@ open class MyExpensesV2ViewModel(
 
     fun createPortfolio(label: String, currency: String, color: Int) {
         viewModelScope.launch(coroutineDispatcher) {
-            val portfolio = org.totschnig.myexpenses.model2.Account(
+            val portfolio = Account(
                 label = label,
                 currency = currency,
                 color = color,
                 type = repository.findAccountType(AccountType.INVESTMENT.name),
                 isPortfolio = true
             )
-            repository.createAccount(portfolio)
+            val accountId = repository.createAccount(portfolio).id
+            selectAccount(accountId)
         }
     }
 
@@ -531,84 +523,116 @@ open class MyExpensesV2ViewModel(
             )
     }
 
-    fun saveTrade(currentAccount: BaseAccount, intent: TradeIntent, tradeId: Long? = null) {
+    fun saveTrade(currentAccount: FullAccount, intent: TradeIntent, tradeId: Long? = null) {
         viewModelScope.launch(coroutineDispatcher) {
-            val targetAccountId = intent.targetAccountId ?: run {
-                val account = org.totschnig.myexpenses.model2.Account(
-                    label = intent.targetAsset.code,
-                    currency = intent.targetAsset.code,
-                    parentId = currentAccount.id,
-                    type = repository.findAccountType(AccountType.INVESTMENT.name)!!,
-                    color = DEFAULT_COLOR,
-                    isPortfolioAsset = true,
-                    dynamicExchangeRates = true
-                )
-                repository.createAccount(account).id
+
+            val isAssetTrade = intent.type is TradeType.AssetTrade
+            val portfolioCurrency = currentAccount.currencyUnit
+            val transferCategory = prefHandler.defaultTransferCategory
+
+            val targetAccountId = if (isAssetTrade) {
+                intent.targetAccountId ?: run {
+                    val account = Account(
+                        label = intent.targetAsset.code,
+                        currency = intent.targetAsset.code,
+                        parentId = currentAccount.id,
+                        type = repository.findAccountType(AccountType.INVESTMENT.name)!!,
+                        color = DEFAULT_COLOR,
+                        isPortfolioAsset = true,
+                        dynamicExchangeRates = true
+                    )
+                    repository.createAccount(account).id
+                }
+            } else {
+                currentAccount.children
+                    .find { it.type.isCashAccount }?.id
+                    ?: run {
+                        val cashAccount = Account(
+                            label = localizedContext.getString(R.string.account_type_cash),
+                            currency = currentAccount.currency,
+                            parentId = currentAccount.id,
+                            type = repository.findAccountType(AccountType.CASH.name)!!,
+                            color = currentAccount.color,
+                        )
+                        repository.createAccount(cashAccount).id
+                    }
             }
 
-            val portfolioCurrency = currentAccount.currencyUnit
-            val principalAmount = intent.quantity.multiply(intent.price)
-            val totalImpact = principalAmount.add(intent.fee)
+            val principalAmount = if (isAssetTrade) intent.quantity.multiply(intent.price) else intent.quantity
+            val totalImpact = if (intent.type == TradeType.AssetTrade.BUY || intent.type == TradeType.CashMovement.DEPOSIT) {
+                principalAmount.add(intent.fee)
+            } else {
+                principalAmount.subtract(intent.fee)
+            }
 
             val parts = mutableListOf<TransactionEditData>()
 
-            // Part A: Asset Transfer (Portfolio <-> Asset sub-account)
-            val assetPartPortfolioAmount =
-                if (intent.type == TradeType.AssetTrade.BUY) principalAmount.negate() else principalAmount
-            val assetPartTargetAmount =
-                if (intent.type == TradeType.AssetTrade.BUY) intent.quantity else intent.quantity.negate()
+            // Part A: Target Leg (Portfolio <-> Asset/Cash sub-account)
+            val targetLegHubAmount = if (intent.type == TradeType.AssetTrade.BUY || intent.type == TradeType.CashMovement.DEPOSIT) {
+                principalAmount.negate()
+            } else {
+                principalAmount
+            }
+            val targetLegSubAmount = if (intent.type == TradeType.AssetTrade.BUY || intent.type == TradeType.CashMovement.DEPOSIT) {
+                intent.quantity
+            } else {
+                intent.quantity.negate()
+            }
 
             parts.add(
                 TransactionEditData(
                     accountId = currentAccount.id,
-                    amount = Money.buildWithMajor(portfolioCurrency, assetPartPortfolioAmount)
+                    amount = Money.buildWithMajor(portfolioCurrency, targetLegHubAmount)
                         .getOrThrow(),
                     transferEditData = TransferEditData(
                         transferAccountId = targetAccountId,
                         transferAmount = Money.buildWithMajor(
                             intent.targetAsset,
-                            assetPartTargetAmount
+                            targetLegSubAmount
                         ).getOrThrow()
                     ),
                     isSplitPart = true,
-                    uuid = generateUuid()
+                    uuid = generateUuid(),
+                    categoryId = transferCategory
                 )
             )
 
-            when (intent.fundingSource) {
-                FundingSource.ACCOUNT -> {
-                    // Transfer logic (Existing Part B)
-                    parts.add(
-                        TransactionEditData(
-                            accountId = currentAccount.id,
-                            amount = Money.buildWithMajor(portfolioCurrency, totalImpact)
-                                .getOrThrow(),
-                            transferEditData = TransferEditData(transferAccountId = intent.fundingAccountId!!),
-                            isSplitPart = true,
-                            uuid = generateUuid()
-                        )
-                    )
-                }
-
-                FundingSource.EXTERNAL -> {
-                    // Offset logic: Add an income part to balance out the purchase outlay
-                    parts.add(
-                        TransactionEditData(
-                            accountId = currentAccount.id,
-                            amount = Money.buildWithMajor(portfolioCurrency, totalImpact)
-                                .getOrThrow(),
-                            comment = "External Funding",
-                            isSplitPart = true,
-                            uuid = generateUuid()
-                        )
-                    )
-                }
-
-                FundingSource.PORTFOLIO -> {
-                    // Do nothing extra; Part A (Asset Transfer) already reduced the portfolio balance
-                    // Handle fee as a separate expense if not buying with local cash
-                }
+            // Part B: Funding/Source Leg (Portfolio <-> Cash Sub-account or External Account)
+            val fundingLegHubAmount = if (intent.type == TradeType.AssetTrade.BUY || intent.type == TradeType.CashMovement.DEPOSIT) {
+                totalImpact
+            } else {
+                totalImpact.negate()
             }
+
+            val fundingTransferAccountId = when (intent.fundingSource) {
+                FundingSource.ACCOUNT -> intent.fundingAccountId
+                FundingSource.PORTFOLIO -> currentAccount.children
+                    .find { it.type.isCashAccount }?.id
+                    ?: run {
+                        val cashAccount = Account(
+                            label = localizedContext.getString(R.string.account_type_cash),
+                            currency = currentAccount.currency,
+                            parentId = currentAccount.id,
+                            type = repository.findAccountType(AccountType.CASH.name)!!,
+                            color = currentAccount.color,
+                        )
+                        repository.createAccount(cashAccount).id
+                    }
+                FundingSource.EXTERNAL -> null
+            }
+
+            parts.add(
+                TransactionEditData(
+                    accountId = currentAccount.id,
+                    amount = Money.buildWithMajor(portfolioCurrency, fundingLegHubAmount)
+                        .getOrThrow(),
+                    transferEditData = fundingTransferAccountId?.let { TransferEditData(transferAccountId = it) },
+                    comment = if (intent.fundingSource == FundingSource.EXTERNAL) "External" else null,
+                    isSplitPart = true,
+                    uuid = generateUuid(),
+                    categoryId = transferCategory
+                )
+            )
 
             // Part C: Fee (Expense)
             if (intent.fee != BigDecimal.ZERO) {

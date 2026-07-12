@@ -37,6 +37,7 @@ import org.totschnig.myexpenses.db2.deleteTemplate
 import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.db2.getAccountFlags
 import org.totschnig.myexpenses.db2.getAccountTypes
+import org.totschnig.myexpenses.db2.getCategoryPath
 import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.db2.loadAccountFlow
 import org.totschnig.myexpenses.db2.loadAggregateAccountFlow
@@ -98,6 +99,7 @@ import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDL
 import org.totschnig.myexpenses.viewmodel.data.AccountMinimal
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
 import org.totschnig.myexpenses.viewmodel.data.DisplayDebt
+import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -468,6 +470,19 @@ open class ContentResolvingAndroidViewModel(application: Application) :
                 }
             )
         }
+    }
+
+    fun TransactionEditData.applyDefaultTransferCategory(): TransactionEditData {
+        return if (isTransfer) {
+            prefHandler.defaultTransferCategory?.let { id ->
+                repository.getCategoryPath(id)?.let { path ->
+                    copy(
+                        categoryId = id,
+                        categoryPath = path
+                    )
+                }
+            } ?: this
+        } else this
     }
 
     /*    fun loadDebugDebts(count: Int = 10) {

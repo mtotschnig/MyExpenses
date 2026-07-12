@@ -11,6 +11,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -604,11 +605,17 @@ fun AccountCardV2(
                         horizontalAlignment = Alignment.End
                     ) {
                         Text(
-                            text = format.convAmount(account.equivalentEffectiveBalance, homeCurrency),
+                            text = format.convAmount(
+                                account.equivalentEffectiveBalance,
+                                homeCurrency
+                            ),
                             style = MaterialTheme.typography.bodyMedium,
                         )
                         Text(
-                            text = format.convAmount(account.effectiveBalance, account.currencyUnit),
+                            text = format.convAmount(
+                                account.effectiveBalance,
+                                account.currencyUnit
+                            ),
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     }
@@ -642,9 +649,9 @@ fun AccountCardV2(
                         }
                         .padding(start = 48.dp, end = 4.dp, bottom = 8.dp)
                 ) {
-                    Column(modifier = Modifier.weight(1f)) {
+                    Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                         if (account.isPortfolio) {
-                            PortfolioInventory(account) { }
+                            PortfolioInventory(account)
                         } else {
                             AccountSummaryV2(account = account, onDisplayBalanceTypeChange = null)
                         }
@@ -668,70 +675,44 @@ fun AccountCardV2(
 @Composable
 fun PortfolioInventory(
     portfolio: FullAccount,
-    onAssetSelected: (FullAccount) -> Unit,
 ) {
-
-    Column(
-        modifier = Modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
-        // 1. Cash Balance Row
+    // 2. Asset Rows
+    portfolio.children.forEachIndexed { index, asset ->
         Row(
-            modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+            modifier = Modifier
+                .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = stringResource(R.string.account_type_cash),
-                style = MaterialTheme.typography.bodyMedium,
+                text = asset.label,
                 modifier = Modifier.weight(1f)
             )
-            AmountText(
-                amount = portfolio.currentBalance,
-                currency = portfolio.currencyUnit
-            )
-            Spacer(modifier = Modifier.width(20.dp)) // Alignment spacer
-        }
 
-        // 2. Asset Rows
-        portfolio.children.forEachIndexed { index, asset ->
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { onAssetSelected(asset) }
-                    .padding(vertical = 4.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = asset.label,
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.weight(1f)
+            Column(horizontalAlignment = Alignment.End) {
+                // Corrected Valuation in Portfolio Currency
+                AmountText(
+                    amount = asset.equivalentCurrentBalance,
+                    currency = portfolio.currencyUnit,
                 )
-
-                Column(horizontalAlignment = Alignment.End) {
-                    // Corrected Valuation in Portfolio Currency
+                // Quantity in Asset Units
+                if (asset.currencyUnit != portfolio.currencyUnit) {
                     AmountText(
-                        amount = asset.equivalentCurrentBalance,
-                        currency = portfolio.currencyUnit,
+                        amount = asset.currentBalance,
+                        currency = asset.currencyUnit,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
-                    // Quantity in Asset Units
-                    if (asset.currencyUnit != portfolio.currencyUnit) {
-                        AmountText(
-                            amount = asset.currentBalance,
-                            currency = asset.currencyUnit,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
                 }
-
-                Icon(
-                    Icons.Default.ChevronRight,
-                    contentDescription = null,
-                    modifier = Modifier.size(16.dp).padding(start = 4.dp),
-                    tint = MaterialTheme.colorScheme.outline
-                )
             }
         }
     }
+
+    SumRowV2(
+        label = R.string.total_value,
+        amount = portfolio.effectiveBalance,
+        currency = portfolio.currencyUnit,
+        highlight = true,
+        modifier = Modifier.drawSumLine()
+    )
 }
 
 @Composable
@@ -1030,6 +1011,7 @@ fun AccountCard(
     }
 }
 
+
 @Composable
 fun AccountSummaryV2(
     account: BaseAccount,
@@ -1037,10 +1019,13 @@ fun AccountSummaryV2(
 ) {
 
     when (account) {
-        is FullAccount -> AccountSummaryV2(
-            account,
-            onDisplayBalanceTypeChange
-        )
+        is FullAccount -> if (account.isPortfolio)
+            PortfolioInventory(account)
+        else
+            AccountSummaryV2(
+                account,
+                onDisplayBalanceTypeChange
+            )
 
         is AggregateAccount -> AccountSummaryV2(
             account,
@@ -1048,6 +1033,7 @@ fun AccountSummaryV2(
         )
     }
 }
+
 
 @Composable
 fun AccountSummaryV2(
@@ -1103,7 +1089,7 @@ fun AccountSummaryV2(
             modifier = Modifier.drawSumLine(),
             formattedEquivalentAmount = account.equivalentTotal.takeIf { isFx },
             highlight = balanceType == BalanceType.TOTAL,
-            onClick = onDisplayBalanceTypeChange?.let{ { it(BalanceType.TOTAL) } }
+            onClick = onDisplayBalanceTypeChange?.let { { it(BalanceType.TOTAL) } }
         )
     }
 
@@ -1116,8 +1102,8 @@ fun AccountSummaryV2(
         },
         formattedEquivalentAmount = account.equivalentCurrentBalance.takeIf { isFx },
         highlight = balanceType == BalanceType.CURRENT,
-        onClick = if (hasMultipleBalanceTypeOptions ) {
-            onDisplayBalanceTypeChange?.let{ { it(BalanceType.CURRENT) } }
+        onClick = if (hasMultipleBalanceTypeOptions) {
+            onDisplayBalanceTypeChange?.let { { it(BalanceType.CURRENT) } }
         } else null
     )
 
@@ -1131,7 +1117,7 @@ fun AccountSummaryV2(
             currency = account.currencyUnit,
             percent = deltaPercent.absoluteValue,
             highlight = balanceType == BalanceType.DELTA,
-            onClick = onDisplayBalanceTypeChange?.let{ { it(BalanceType.DELTA) } }
+            onClick = onDisplayBalanceTypeChange?.let { { it(BalanceType.DELTA) } }
         )
         SumRowV2(
             label = if (account.criterion > 0) R.string.saving_goal else R.string.credit_limit,
@@ -1146,14 +1132,14 @@ fun AccountSummaryV2(
             amount = account.clearedTotal,
             currency = account.currencyUnit,
             highlight = balanceType == BalanceType.CLEARED,
-            onClick = onDisplayBalanceTypeChange?.let{ { it(BalanceType.CLEARED) } }
+            onClick = onDisplayBalanceTypeChange?.let { { it(BalanceType.CLEARED) } }
         )
         SumRowV2(
             label = R.string.total_reconciled,
             amount = account.reconciledTotal,
             currency = account.currencyUnit,
             highlight = balanceType == BalanceType.RECONCILED,
-            onClick = onDisplayBalanceTypeChange?.let{ { it(BalanceType.RECONCILED) } }
+            onClick = onDisplayBalanceTypeChange?.let { { it(BalanceType.RECONCILED) } }
         )
     }
 }
@@ -1213,7 +1199,7 @@ fun AccountSummaryV2(
             modifier = Modifier.drawSumLine(),
             formattedEquivalentAmount = account.equivalentTotal.takeIf { isFx },
             highlight = balanceType == BalanceType.TOTAL,
-            onClick =  onDisplayBalanceTypeChange?.let{ { it(BalanceType.TOTAL) } }
+            onClick = onDisplayBalanceTypeChange?.let { { it(BalanceType.TOTAL) } }
         )
     }
 
@@ -1227,7 +1213,7 @@ fun AccountSummaryV2(
         formattedEquivalentAmount = account.equivalentCurrentBalance.takeIf { isFx },
         highlight = balanceType == BalanceType.CURRENT,
         onClick = if (hasMultipleBalanceTypeOptions) {
-            onDisplayBalanceTypeChange?.let{ { it(BalanceType.CURRENT) } }
+            onDisplayBalanceTypeChange?.let { { it(BalanceType.CURRENT) } }
         } else null
     )
 }
@@ -1449,6 +1435,16 @@ private fun PortfolioPreview() {
                     equivalentCurrentBalance = 4490,
                     currencyUnit = CurrencyUnit(
                         code = "AAPL", symbol = "AAPL", 8, "Apple"
+                    ),
+                    type = AccountType.INVESTMENT
+                ),
+                FullAccount(
+                    id = 3,
+                    label = "XLJ",
+                    currentBalance = 100000000,
+                    equivalentCurrentBalance = 4490,
+                    currencyUnit = CurrencyUnit(
+                        code = "XLJ", symbol = "XLJ", 8, "Apple"
                     ),
                     type = AccountType.INVESTMENT
                 )

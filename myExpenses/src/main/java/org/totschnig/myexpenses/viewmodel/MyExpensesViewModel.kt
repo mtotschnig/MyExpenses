@@ -67,6 +67,7 @@ import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.db2.loadAttachments
 import org.totschnig.myexpenses.db2.loadBanks
 import org.totschnig.myexpenses.db2.loadTagsForTransaction
+import org.totschnig.myexpenses.db2.loadTrade
 import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.db2.saveTagsForTransaction
 import org.totschnig.myexpenses.db2.setAccountProperty
@@ -179,6 +180,11 @@ private const val SELECTED_ACCOUNT_KEY = "selectedAccountId"
 
 const val pageSize = 150
 
+sealed class ResolvedExtraInfo {
+    data class Split(val items: List<Pair<String, String?>>) : ResolvedExtraInfo()
+    data class Trade(val trade: org.totschnig.myexpenses.viewmodel.data.Trade) : ResolvedExtraInfo()
+}
+
 open class MyExpensesViewModel(
     application: Application,
     val savedStateHandle: SavedStateHandle,
@@ -284,6 +290,7 @@ open class MyExpensesViewModel(
         val isSplit: Boolean,
         val crStatus: CrStatus,
         val accountType: Long?,
+        val isPortfolio: Boolean
     ) : Parcelable {
         constructor(transaction: Transaction2) : this(
             transaction.id,
@@ -292,7 +299,8 @@ open class MyExpensesViewModel(
             transaction.transferAccount,
             transaction.isSplit,
             transaction.crStatus,
-            transaction.accountType
+            transaction.accountType,
+            transaction.isPortfolio
         )
 
         val isTransfer: Boolean
@@ -880,7 +888,6 @@ open class MyExpensesViewModel(
     }
 
     override fun onCleared() {
-        super.onCleared()
         pagerCache.values.forEach { it.factory.clear() }
     }
 
@@ -890,9 +897,13 @@ open class MyExpensesViewModel(
         }
     }
 
-    suspend fun splitInfo(id: Long): List<Pair<String, String?>>? {
+    suspend fun resolveExtraInfo(transaction: Transaction2): ResolvedExtraInfo? {
         return withContext(Dispatchers.IO) {
-            repository.calculateSplitSummary(id)
+            if (transaction.isTrade) {
+                repository.loadTrade(transaction.id)?.let { ResolvedExtraInfo.Trade(it) }
+            } else if (transaction.isSplit) {
+                repository.calculateSplitSummary(transaction.id)?.let { ResolvedExtraInfo.Split(it) }
+            } else null
         }
     }
 

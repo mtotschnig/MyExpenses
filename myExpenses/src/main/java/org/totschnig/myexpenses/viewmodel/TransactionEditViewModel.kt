@@ -84,6 +84,7 @@ import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.KEY_SEALED
 import org.totschnig.myexpenses.provider.KEY_TITLE
 import org.totschnig.myexpenses.provider.PORTFOLIO_ASSET
+import org.totschnig.myexpenses.provider.PORTFOLIO_NONE
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.ProviderUtils
 import org.totschnig.myexpenses.provider.SPLIT_CATID
@@ -151,7 +152,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
     val accounts: Flow<List<Account>>
         get() = contentResolver.observeQuery(
             uri = ACCOUNTS_FULL_URI,
-            selection = "$KEY_SEALED = 0 AND $KEY_IS_PORTFOLIO != $PORTFOLIO_ASSET"
+            selection = "$KEY_SEALED = 0 AND $KEY_IS_PORTFOLIO = $PORTFOLIO_NONE AND $KEY_PARENTID IS NULL"
         ).mapToList {
             buildAccount(it, currencyContext)
         }
@@ -435,19 +436,6 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         if (!userHasUpdatedTags) {
             updateTags(repository.loadActiveTagsForAccount(id), false)
         }
-    }
-
-    private fun TransactionEditData.applyDefaultTransferCategory(): TransactionEditData {
-        return if (isTransfer) {
-            prefHandler.defaultTransferCategory?.let { id ->
-                repository.getCategoryPath(id)?.let { path ->
-                    copy(
-                        categoryId = id,
-                        categoryPath = path
-                    )
-                }
-            } ?: this
-        } else this
     }
 
     suspend fun newTemplate(

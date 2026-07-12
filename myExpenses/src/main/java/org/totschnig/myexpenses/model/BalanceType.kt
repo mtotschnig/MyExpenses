@@ -7,7 +7,8 @@ enum class BalanceType {
     TOTAL,
     CLEARED,
     RECONCILED,
-    DELTA;
+    DELTA,
+    VALUATION;
 
     companion object {
         val JOIN: String = joinEnum<BalanceType>()

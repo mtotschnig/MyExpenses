@@ -18,7 +18,9 @@ sealed class TradeType(@param:StringRes val label: Int) {
     }
 
     companion object {
-        val entries = listOf(AssetTrade.BUY, AssetTrade.SELL, CashMovement.DEPOSIT, CashMovement.WITHDRAW)
+        val entries by lazy {
+            listOf(AssetTrade.BUY, AssetTrade.SELL, CashMovement.DEPOSIT, CashMovement.WITHDRAW)
+        }
     }
 }
 
@@ -40,5 +42,11 @@ data class TradeIntent(
     val fundingSource: FundingSource = FundingSource.PORTFOLIO,
     val fundingAccountId: Long?,
     val fee: BigDecimal,
-    val comment: String = ""
-)
+    val comment: String = "",
+) {
+    init {
+        if (type is TradeType.CashMovement) {
+            require(fundingSource != FundingSource.PORTFOLIO)
+        }
+    }
+}

@@ -1139,11 +1139,12 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
         val hasTransfer = selectionState.any { it.isTransfer }
         val hasSplit = selectionState.any { it.isSplit }
         val hasVoid = selectionState.any { it.crStatus == CrStatus.VOID }
+        val hasTrade = selectionState.any { it.isPortfolio }
         return when (itemId) {
-            R.id.REMAP_ACCOUNT_COMMAND -> accountCount > 1
-            R.id.REMAP_PAYEE_COMMAND -> !hasTransfer
+            R.id.REMAP_ACCOUNT_COMMAND -> accountCount > 1 && !hasTrade
+            R.id.REMAP_PAYEE_COMMAND -> !hasTransfer && !hasTrade
             R.id.REMAP_CATEGORY_COMMAND -> !hasSplit
-            R.id.REMAP_METHOD_COMMAND -> !hasTransfer
+            R.id.REMAP_METHOD_COMMAND -> !hasTransfer && !hasTrade
             R.id.SPLIT_TRANSACTION_COMMAND -> !hasSplit && !hasVoid
             R.id.LINK_TRANSFER_COMMAND ->
                 selectionState.count() == 2 &&
@@ -1157,7 +1158,8 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
 
     fun BaseAccount?.isMenuItemVisible(itemId: Int): Boolean {
         val isReal = this is FullAccount && !isAggregate
-        return when (itemId) {
+        return if ((this as? FullAccount)?.isPortfolio == true) false
+        else when (itemId) {
             R.id.SYNC_COMMAND -> (this as? FullAccount)?.syncAccountName != null
             R.id.HISTORY_COMMAND, R.id.RESET_COMMAND, R.id.PRINT_COMMAND -> hasItems
             R.id.DISTRIBUTION_COMMAND -> sumInfo.value.mappedCategories
@@ -1660,7 +1662,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                     renderer = renderer.value,
                     isFiltered = filter.value != null,
                     splitInfoResolver = {
-                        viewModel.splitInfo(it)
+                        viewModel.resolveExtraInfo(it)
                     },
                     windowInsets = transactionListWindowInsets,
                     modificationsAllowed = modificationAllowed,

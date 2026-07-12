@@ -120,7 +120,7 @@ fun FilterDialog(
     initialPreferredSearchType: Int = TYPE_COMPLEX,
     criterion: Criterion? = null,
     onDismissRequest: () -> Unit = {},
-    onConfirmRequest: (Int, Criterion?) -> Unit = {_, _ -> },
+    onConfirmRequest: (Int, Criterion?) -> Unit = { _, _ -> },
 ) {
 
     val initialSet = criterion.asSet
@@ -200,7 +200,8 @@ fun FilterDialog(
                     isLarge,
                     ifTrue = { defaultMinSize(minHeight = 400.dp) },
                     ifFalse = { fillMaxSize() }
-                )) {
+                )
+        ) {
             FilterHandler(account, "confirmFilterDialog", onResult) {
 
                 Column(
@@ -245,7 +246,9 @@ fun FilterDialog(
                                 options.forEachIndexed { index, s ->
                                     DropdownMenuItem(
                                         text = { Text(s) },
-                                        enabled = index == 1 || criteriaSet.value.isSimple(selectedComplex),
+                                        enabled = index == 1 || criteriaSet.value.isSimple(
+                                            selectedComplex
+                                        ),
                                         onClick = {
                                             preferredSearchType = index
                                             expanded = false
@@ -447,7 +450,8 @@ fun FilterDialog(
                         }
                     } else {
                         filters.forEach { info ->
-                            val definedCriterion = criteriaSet.value.find { it::class == info.clazz }
+                            val definedCriterion =
+                                criteriaSet.value.find { it::class == info.clazz }
                             val hasCriterion = definedCriterion != null
                             Row(
                                 Modifier
@@ -556,7 +560,7 @@ fun ActionButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     onClick: () -> Unit,
-    content:  @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     //workaround for https://issuetracker.google.com/issues/283821298
     Box(modifier = modifier) {

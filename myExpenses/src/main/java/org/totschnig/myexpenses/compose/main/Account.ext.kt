@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.compose.main
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.TrendingUp
 import androidx.compose.material.icons.filled.ChangeHistory
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.DoneAll
@@ -21,6 +22,7 @@ val BaseAccount.validatedBalanceType
             BalanceType.DELTA -> (this as? FullAccount)?.criterion != null
             BalanceType.TOTAL -> (total ?: equivalentTotal) != null
             BalanceType.CLEARED, BalanceType.RECONCILED ->  this is FullAccount && type.supportsReconciliation
+            BalanceType.VALUATION -> this is FullAccount && isPortfolio
         }
     } ?: BalanceType.CURRENT
 
@@ -34,6 +36,7 @@ val BaseAccount.balanceForType: Long
                 BalanceType.CLEARED -> clearedTotal
                 BalanceType.RECONCILED -> reconciledTotal
                 BalanceType.DELTA -> delta
+                BalanceType.VALUATION -> effectiveBalance
             }
 
             is AggregateAccount -> when (type) {
@@ -50,6 +53,7 @@ fun BaseAccount.getBalanceContentDescription(type: BalanceType): Int = when(type
     BalanceType.CLEARED -> R.string.total_cleared
     BalanceType.RECONCILED -> R.string.total_reconciled
     BalanceType.DELTA -> (this as FullAccount).deltaLabel
+    BalanceType.VALUATION -> R.string.valuation
 }
 
 val FullAccount.delta: Long
@@ -75,4 +79,5 @@ val BalanceType.icon
         BalanceType.CLEARED -> Icons.Default.Check
         BalanceType.RECONCILED -> Icons.Default.DoneAll
         BalanceType.DELTA -> Icons.Default.ChangeHistory
+        BalanceType.VALUATION -> Icons.AutoMirrored.Default.TrendingUp
     }

@@ -293,7 +293,9 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                                             !isNavigationVisible
 
                                         is AppEvent.SaveTrade -> {
-                                            currentAccount?.let { viewModel.saveTrade(it, event.intent) }
+                                            (currentAccount as? FullAccount)?.let {
+                                                viewModel.saveTrade(it, event.intent)
+                                            }
                                         }
                                     }
                                 }
