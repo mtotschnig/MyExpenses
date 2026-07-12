@@ -20,4 +20,24 @@
     <string name="whats_new_386">Fördelning per utgift och fördelning per inkomst kan visas tillsammans i dubbelringat ringdiagram.</string>
     <string name="whats_new_395">Exporterade filer (PDF, backup, QIF, CSV, JSON) kan laddas ner via webbgränssnittet.</string>
     <string name="whats_new_401">Teansaktionslistan visar nu mer detaljer för uppdelade transaktioner.</string>
+    <string name="migration_v2_opt_out_warning">V1 kommer att fasas ut i och med en framtida uppdatering. Vi skulle hemskt gärna vilja veta vad som inte fungerar, så att vi kan förbättra V2.</string>
+    <string name="migration_v2_feedback_title">Vad är det som inte fungerar med V2?</string>
+    <string name="migration_v2_confirm_opt_out">Gå tillbaka till V1</string>
+    <string name="migration_v2_feature_1">Modern navigation med Material Design</string>
+    <string name="migration_v2_feature_5">…och med fler funktioner på väg!</string>
+    <string name="migration_v2_footer">Du kan återvända till den gamla designen i Inställningar. Notera att V1 kommer att fasas ut i en framtida uppdatering.</string>
+    <string name="migration_v2_opt_out_title">Tillbaka till V1?</string>
+    <string name="whats_new_399">Förbättrad layout av exporterade PDF:er, fullt anpassningsbar med drag-och-släpp.</string>
+    <string name="whats_new_400_1">Cirkeldiagram som visar fördelningen av pengar mellan konton</string>
+    <string name="whats_new_402">Kontotyper kan anpassas</string>
+    <string name="migration_v2_title">Välkommen till V2!</string>
+    <string name="migration_v2_intro">Vi har designat om Mina utgifter så att det blir lättare att använda och så att det har fler funktioner:</string>
+    <string name="whats_new_396">Förbättrad hantering av valutakonton med automatiska valutakursuppdateringar och värdeuppföljning i realtid.</string>
+    <string name="whats_new_398">Se dina tillgångar, skulder och nettoförmögenhet – allt på ett och samma ställe.</string>
+    <string name="whats_new_403">Kontoflaggor utökar möjligheterna att anpassa kontons synlighet och prioritet.</string>
+    <string name="whats_new_407">Naturlig sortering av etiketter, kategorier, konton och parter.</string>
+    <string name="migration_v2_feature_3">Förbättrad integration av balansräkningen</string>
+    <string name="migration_v2_feature_4">Förenklad kontolista</string>
+    <string name="whats_new_400_2">Prishistorik: Massnedladdning av saknade poster</string>
+    <string name="migration_v2_feature_2">Gruppering och summeringar av flaggor</string>
 </resources>
