@@ -5,7 +5,6 @@ import android.content.ContentValues
 import android.content.Intent
 import androidx.annotation.OpenForTesting
 import androidx.annotation.StringRes
-import androidx.compose.ui.tooling.data.Group
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -67,7 +66,6 @@ import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.GROUPING_AGGR
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_BY_AGGREGATE
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.provider.KEY_DISPLAY_AMOUNT
