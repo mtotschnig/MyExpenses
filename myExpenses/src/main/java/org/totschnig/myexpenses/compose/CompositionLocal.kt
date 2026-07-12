@@ -49,6 +49,7 @@ val LocalCurrencyContext = staticCompositionLocalOf<CurrencyContext> {
         override fun invalidateHomeCurrency() {}
 
         override fun invalidate(currencyCode: String) {}
+        override fun preload() {}
 
         override val homeCurrencyString: String
             get() = "EUR"

@@ -14,7 +14,6 @@ import org.totschnig.myexpenses.provider.KEY_LABEL
 import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.KEY_SYMBOL
 import org.totschnig.myexpenses.provider.KEY_VALUES
-import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.CURRENCIES_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
@@ -79,11 +78,12 @@ suspend fun Repository.updateCurrency(
     }
 }
 
-suspend fun Repository.deleteCurrency(currencyId: Long): Int =
+suspend fun Repository.deleteCurrency(code: String): Int =
     withContext(Dispatchers.IO) {
         contentResolver.delete(
-            CURRENCIES_URI,
-            "$KEY_ROWID = ?", arrayOf(currencyId.toString())
+            CURRENCIES_URI.buildUpon().appendPath(code).build(),
+            null, null
+
         )
     }
 

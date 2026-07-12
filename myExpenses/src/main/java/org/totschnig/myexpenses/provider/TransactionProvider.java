@@ -37,6 +37,7 @@ import org.totschnig.myexpenses.preference.PrefKey;
 import org.totschnig.myexpenses.provider.filter.Operation;
 import org.totschnig.myexpenses.sync.json.TransactionChange;
 import org.totschnig.myexpenses.util.Preconditions;
+import org.totschnig.myexpenses.util.Utils;
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler;
 import org.totschnig.myexpenses.util.cursor.PlanInfoCursorWrapper;
 
@@ -1358,6 +1359,19 @@ public class TransactionProvider extends BaseTransactionProvider {
       case PRICES ->  count = db.delete(TABLE_PRICES, where, whereArgs);
       case ACCOUNT_TYPE_ID -> count = db.delete(TABLE_ACCOUNT_TYPES, KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
       case ACCOUNT_FLAG_ID -> count = db.delete(TABLE_ACCOUNT_FLAGS, KEY_ROWID + " = " + uri.getLastPathSegment() + prefixAnd(where), whereArgs);
+      case CURRENCIES_CODE -> {
+        String currency = uri.getLastPathSegment();
+        if (Utils.isKnownCurrency(currency)) {
+          throw new IllegalArgumentException("Can only delete custom currencies");
+        }
+        try {
+          count = db.delete(TABLE_CURRENCIES, String.format("%s = '%s'%s", KEY_CODE,
+                  currency, prefixAnd(where)), whereArgs);
+        } catch (SQLiteConstraintException e) {
+          return 0;
+        }
+      }
+
       default -> throw unknownUri(uri);
     }
     if (uriMatch == TRANSACTIONS || (uriMatch == TRANSACTION_ID && callerIsNotInBulkOperation(uri))) {

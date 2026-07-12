@@ -3,10 +3,14 @@ package org.totschnig.myexpenses.test.espresso
 import android.content.OperationApplicationException
 import android.os.RemoteException
 import android.widget.Button
+import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.filter
 import androidx.compose.ui.test.filterToOne
+import androidx.compose.ui.test.hasAnyAncestor
 import androidx.compose.ui.test.hasAnyDescendant
+import androidx.compose.ui.test.hasContentDescription
+import androidx.compose.ui.test.hasParent
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.onAllNodesWithTag
@@ -15,6 +19,7 @@ import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.printToLog
 import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
@@ -49,8 +54,7 @@ import org.totschnig.myexpenses.compose.TEST_TAG_ACCOUNTS
 import org.totschnig.myexpenses.compose.TEST_TAG_BALANCE_HEADER
 import org.totschnig.myexpenses.compose.TEST_TAG_DELETE_ACCOUNT
 import org.totschnig.myexpenses.compose.TEST_TAG_EDIT_ACCOUNT
-import org.totschnig.myexpenses.compose.TEST_TAG_FAB_ACCOUNTS
-import org.totschnig.myexpenses.compose.TEST_TAG_FAB_TRANSACTIONS
+import org.totschnig.myexpenses.compose.TEST_TAG_FAB_MENU
 import org.totschnig.myexpenses.compose.TEST_TAG_OVERFLOW_MENU
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.loadAccount
@@ -97,7 +101,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
 
     @Test
     fun floatingActionButtonOpensForm() {
-        composeTestRule.onNodeWithTag(TEST_TAG_FAB_TRANSACTIONS).performClick()
+        composeTestRule.onNodeWithTag(TEST_TAG_FAB_MENU).performClick()
         intended(hasComponent(ExpenseEdit::class.java.name))
         pressBack()
     }
@@ -163,7 +167,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
     @Test
     fun newAccountShowNew() {
         navigateToAccounts()
-        composeTestRule.onNodeWithTag(TEST_TAG_FAB_ACCOUNTS).performClick()
+        composeTestRule.onNodeWithTag(TEST_TAG_FAB_MENU).performClick()
         onView(withText(R.string.menu_create_account))
             .perform(click())
         intended(
@@ -187,7 +191,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
     @Test
     fun editAccountFormIsOpened() {
         navigateToAccounts()
-       clickContextItem(TEST_TAG_EDIT_ACCOUNT)
+        clickContextItem(TEST_TAG_EDIT_ACCOUNT)
         intended(
             allOf(
                 hasComponent(
@@ -239,8 +243,8 @@ class MyExpensesTest : BaseMyExpensesTest() {
         composeTestRule.onNodeWithTag(TEST_TAG_ACCOUNTS, useUnmergedTree = true)
             .onChildren()
             .filterToOne(hasAnyDescendant(hasText(accountLabel)))
-            .onChildren()
-            .filterToOne(hasTestTag(TEST_TAG_OVERFLOW_MENU))
+            .performClick()
+        composeTestRule.onNodeWithTag(TEST_TAG_OVERFLOW_MENU)
             .performClick()
         composeTestRule.onNodeWithTag(testTag).performClick()
     }
@@ -257,8 +261,18 @@ class MyExpensesTest : BaseMyExpensesTest() {
 
         //we try to delete account 1
         //we select  label2, but call context on label 1 and make sure the correct account is deleted
-        composeTestRule.onNodeWithTag(TEST_TAG_ACCOUNTS).onChildren().filter(hasText(label2))
-            .onFirst().performClick()
+        val caretDescription = getString(R.string.import_select_transactions)
+
+        composeTestRule.onNodeWithTag(TEST_TAG_ACCOUNTS)
+            .onChildren()
+            .filter(hasAnyDescendant(hasText(label2)))
+            .onFirst()
+            .onChildren()
+            .onFirst()
+            .onChildren()
+            .onFirst()
+            .performClick()
+
         navigateToAccounts()
         clickContextItem(TEST_TAG_DELETE_ACCOUNT, label1)
         onView(

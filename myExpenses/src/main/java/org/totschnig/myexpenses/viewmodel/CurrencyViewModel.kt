@@ -152,7 +152,7 @@ open class CurrencyViewModel(application: Application) :
 
     fun deleteCurrency(currency: CurrencyUnit) {
         viewModelScope.launch {
-            val result = repository.deleteCurrency(currency.databaseId)
+            val result = repository.deleteCurrency(currency.code)
             currencyContext.invalidate(currency.code)
             _deleteComplete.value = result == 1
         }

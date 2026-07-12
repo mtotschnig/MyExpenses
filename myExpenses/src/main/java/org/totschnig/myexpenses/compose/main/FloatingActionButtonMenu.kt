@@ -46,7 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupPositionProvider
 import androidx.compose.ui.window.PopupProperties
-import org.totschnig.myexpenses.compose.TEST_TAG_FAB_TRANSACTIONS
+import org.totschnig.myexpenses.compose.TEST_TAG_FAB_MENU
 import org.totschnig.myexpenses.compose.calculateOnColor
 
 interface FabMenuAction {
@@ -69,7 +69,7 @@ fun <T: FabMenuAction> FloatingActionButtonMenu(
     val haptic = LocalHapticFeedback.current
 
     Surface(
-        modifier = Modifier.testTag(TEST_TAG_FAB_TRANSACTIONS),
+        modifier = Modifier.testTag(TEST_TAG_FAB_MENU),
         shape = if (expanded) CircleShape else FloatingActionButtonDefaults.shape,
         color = containerColor,
         contentColor = containerColor.calculateOnColor(),

@@ -506,7 +506,6 @@ fun MainScreenAdaptive(
         ) {
 
             overflowItems
-                .filter { onPrepareMenuItem(it.id) }
                 .forEach {
                     ListItem(
                         modifier = Modifier

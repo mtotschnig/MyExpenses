@@ -6,7 +6,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.compose.TEST_TAG_FAB_TRANSACTIONS
+import org.totschnig.myexpenses.compose.TEST_TAG_FAB_MENU
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.updateAccount
 import org.totschnig.myexpenses.model2.Account
@@ -115,7 +115,7 @@ class SelectAccountTest : BaseMyExpensesTest() {
         composeTestRule.waitForIdle()
         assertDataSize(expectedAccountCount)
         checkTitle(accountLabelForList.value, currencyContext[currencyForTitle])
-        composeTestRule.onNodeWithTag(TEST_TAG_FAB_TRANSACTIONS).performClick()
+        composeTestRule.onNodeWithTag(TEST_TAG_FAB_MENU).performClick()
         checkAccount(accountForForm.label)
     }
 }

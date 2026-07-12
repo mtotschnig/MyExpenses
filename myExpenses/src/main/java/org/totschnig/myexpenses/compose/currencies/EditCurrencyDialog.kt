@@ -52,7 +52,7 @@ fun EditCurrencyDialog(
         fractionDigits: Int,
         label: String?,
         commodityType: CommodityType,
-        withUpdate: Boolean
+        withUpdate: Boolean,
     ) -> Unit,
     isCurrencyUsed: suspend (String) -> Boolean,
     initialCode: String = "",
@@ -104,7 +104,8 @@ fun EditCurrencyDialog(
             if (delta > 0) R.string.warning_change_fraction_digits_2_multiplied else R.string.warning_change_fraction_digits_2_divided,
             IntMath.pow(10, abs(delta))
         )
-        val part3 = if (delta > 0) " " + stringResource(R.string.warning_change_fraction_digits_3) else ""
+        val part3 =
+            if (delta > 0) " " + stringResource(R.string.warning_change_fraction_digits_3) else ""
         "$part1 $part2$part3"
     } else null
 
@@ -113,7 +114,8 @@ fun EditCurrencyDialog(
         localErrorMessage = errorMessage
     }
 
-    val isValid = (isEdit || (code.isNotEmpty() && label.isNotEmpty())) && currentFractionDigits in 0..8
+    val isValid =
+        (isEdit || (code.isNotEmpty() && label.isNotEmpty())) && currentFractionDigits in 0..8
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -152,7 +154,13 @@ fun EditCurrencyDialog(
                                 ),
                                 onClick = { commodityType = type },
                                 selected = commodityType == type,
-                                label = { Text(stringResource(type.labelSingular)) }
+                                label = {
+                                    Text(
+                                        stringResource(type.labelSingular),
+                                        maxLines = 1,
+                                        softWrap = false
+                                    )
+                                }
                             )
                         }
                     }
