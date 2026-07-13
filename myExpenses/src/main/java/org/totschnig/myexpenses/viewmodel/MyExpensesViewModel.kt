@@ -144,6 +144,7 @@ import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 import org.totschnig.myexpenses.provider.getDouble
 import org.totschnig.myexpenses.provider.getInt
+import org.totschnig.myexpenses.provider.getLocalDate
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.mapToListCatching
@@ -290,7 +291,7 @@ open class MyExpensesViewModel(
         val isSplit: Boolean,
         val crStatus: CrStatus,
         val accountType: Long?,
-        val isPortfolio: Boolean
+        val isPortfolio: Boolean,
     ) : Parcelable {
         constructor(transaction: Transaction2) : this(
             transaction.id,
@@ -500,17 +501,15 @@ open class MyExpensesViewModel(
         savedStateHandle[BALANCE_DATE_KEY] = date
     }
 
-    fun getLatestPrices(date: LocalDate? = null): Flow<Map<Pair<String, String>, Double>> =
+    fun getLatestPrices(date: LocalDate? = null): Flow<Map<Pair<String, String>, Pair<LocalDate, Double>>> =
         contentResolver
             .observeQuery(LATEST_PRICES_URI.let {
                 if (date == null) it else it.buildUpon()
                     .appendQueryParameter(KEY_DATE, date.toString()).build()
             })
             .mapToList { cursor ->
-                val asset = cursor.getString(KEY_COMMODITY)
-                val target = cursor.getString(KEY_CURRENCY)
-                val price = cursor.getDouble(KEY_VALUE)
-                (asset to target) to price
+                (cursor.getString(KEY_COMMODITY) to cursor.getString(KEY_CURRENCY)) to
+                        (cursor.getLocalDate(KEY_DATE) to cursor.getDouble(KEY_VALUE))
             }
             .map { it.toMap() }
             .onEach {
@@ -902,7 +901,8 @@ open class MyExpensesViewModel(
             if (transaction.isTrade) {
                 repository.loadTrade(transaction.id)?.let { ResolvedExtraInfo.Trade(it) }
             } else if (transaction.isSplit) {
-                repository.calculateSplitSummary(transaction.id)?.let { ResolvedExtraInfo.Split(it) }
+                repository.calculateSplitSummary(transaction.id)
+                    ?.let { ResolvedExtraInfo.Split(it) }
             } else null
         }
     }

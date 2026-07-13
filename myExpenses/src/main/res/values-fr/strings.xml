@@ -1068,4 +1068,5 @@
     <string name="prioritize_flag_order">Prioriser l’ordre des marqueurs</string>
     <string name="pref_content_based_colors_title">Couleur dynamique basée sur les comptes</string>
     <string name="pref_content_based_colors_summary">Dérivez les couleurs du thème à partir de la couleur du compte courant. Désactivez si le texte est difficile à lire.</string>
+    <string name="asset_quantity_at_price">%1$s à %2$s (%3$s)</string>
 </resources>

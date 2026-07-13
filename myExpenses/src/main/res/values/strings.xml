@@ -1166,4 +1166,6 @@
     <string name="trade_deposit">Deposit</string>
     <string name="trade_withdraw">Withdrawal</string>
     <string name="trade_matching_transaction_found">Matching transaction found in funding account. Select to link:</string>
+    <!-- Label for asset valuation: %1$s: Quantity, %2$s: Unit price in portfolio currency (e.g., "150.00 USD"), %3$s: Date (e.g., "2023-10-27") -->
+    <string name="asset_quantity_at_price">%1$s @ %2$s (%3$s)</string>
 </resources>

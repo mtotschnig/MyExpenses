@@ -404,7 +404,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
 
     }
 
-    protected fun editAccount(account: FullAccount) {
+    protected open fun editAccount(account: FullAccount) {
         startActivity(Intent(this, AccountEdit::class.java).apply {
             putExtra(KEY_ROWID, account.id)
             putExtra(KEY_COLOR, account.color)

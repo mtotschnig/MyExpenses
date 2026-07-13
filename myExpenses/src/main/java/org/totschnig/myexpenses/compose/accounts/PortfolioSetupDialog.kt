@@ -38,6 +38,7 @@ import org.totschnig.myexpenses.compose.ColorCircle
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.util.ColorUtils
+import org.totschnig.myexpenses.viewmodel.data.FullAccount
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,10 +47,11 @@ fun PortfolioSetupDialog(
     onConfirm: (label: String, currency: String, color: Int) -> Unit,
     availableCurrencies: List<CurrencyUnit>,
     selectedCurrency: CurrencyUnit,
+    initialPortfolio: FullAccount? = null,
 ) {
-    var label by remember { mutableStateOf("") }
-    var selectedCurrency by remember { mutableStateOf(selectedCurrency) }
-    var selectedColor by remember { mutableIntStateOf(Account.DEFAULT_COLOR) }
+    var label by remember { mutableStateOf(initialPortfolio?.label ?: "") }
+    var selectedCurrencyState by remember { mutableStateOf(initialPortfolio?.currencyUnit ?: selectedCurrency) }
+    var selectedColor by remember { mutableIntStateOf(initialPortfolio?.color ?: Account.DEFAULT_COLOR) }
     var showColorPicker by remember { mutableStateOf(false) }
 
     Dialog(onDismissRequest = onDismiss) {
@@ -63,8 +65,13 @@ fun PortfolioSetupDialog(
                     .fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
+                val title = if (initialPortfolio == null) {
+                    "${stringResource(R.string.menu_create_account)} (${stringResource(R.string.account_type_portfolio)})"
+                } else {
+                    "${stringResource(R.string.menu_edit)} (${stringResource(R.string.account_type_portfolio)})"
+                }
                 Text(
-                    text = "${stringResource(R.string.menu_create_account)} (${stringResource(R.string.account_type_portfolio)})",
+                    text = title,
                     style = MaterialTheme.typography.headlineSmall
                 )
 
@@ -83,7 +90,7 @@ fun PortfolioSetupDialog(
                     onExpandedChange = { expanded = !expanded }
                 ) {
                     OutlinedTextField(
-                        value = selectedCurrency?.description ?: "",
+                        value = selectedCurrencyState?.description ?: "",
                         onValueChange = {},
                         readOnly = true,
                         label = { Text(stringResource(R.string.currency)) },
@@ -100,7 +107,7 @@ fun PortfolioSetupDialog(
                             DropdownMenuItem(
                                 text = { Text(currency.description) },
                                 onClick = {
-                                    selectedCurrency = currency
+                                    selectedCurrencyState = currency
                                     expanded = false
                                 }
                             )
@@ -137,8 +144,8 @@ fun PortfolioSetupDialog(
                         Text(stringResource(android.R.string.cancel))
                     }
                     Button(
-                        onClick = { onConfirm(label, selectedCurrency?.code ?: "", selectedColor) },
-                        enabled = label.isNotBlank() && selectedCurrency != null
+                        onClick = { onConfirm(label, selectedCurrencyState?.code ?: "", selectedColor) },
+                        enabled = label.isNotBlank() && selectedCurrencyState != null
                     ) {
                         Text(stringResource(android.R.string.ok))
                     }

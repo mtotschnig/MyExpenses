@@ -107,6 +107,8 @@ import org.totschnig.myexpenses.compose.TEST_TAG_DIALOG
 import org.totschnig.myexpenses.compose.TEST_TAG_FAB_MENU
 import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
 import org.totschnig.myexpenses.compose.TooltipIconButton
+import org.totschnig.myexpenses.compose.accounts.AccountEvent
+import org.totschnig.myexpenses.compose.accounts.AccountEventHandler
 import org.totschnig.myexpenses.compose.accounts.AccountIndicator
 import org.totschnig.myexpenses.compose.accounts.AccountSummaryV2
 import org.totschnig.myexpenses.compose.conditional
@@ -159,6 +161,7 @@ fun TransactionScreen(
     allCurrencies: List<CurrencyUnit>,
     isCurrencyUsed: suspend (String) -> Boolean = { false },
     onCreateAsset: suspend (code: String, symbol: String, fractionDigits: Int, label: String?, commodityType: CommodityType) -> CurrencyUnit? = { _, _, _, _, _ -> null },
+    onAccountEvent: AccountEventHandler,
 ) {
     LaunchedEffect(Unit) {
         viewModel.setLastVisited(StartScreen.Transactions)
@@ -280,7 +283,8 @@ fun TransactionScreen(
                                 onSetNewBalance = if (isPortfolio) null else {
                                     { onEvent(AppEvent.MenuItemClicked(R.id.NEW_BALANCE_COMMAND)) }
                                 },
-                                bankIcon = bankIcon
+                                bankIcon = bankIcon,
+                                onAccountEvent = onAccountEvent
                             )
                         },
                         actions = {
@@ -569,6 +573,7 @@ private fun BalanceHeader(
     onDisplayBalanceTypeChange: ((BalanceType) -> Unit)? = null,
     onCopyBalance: (String) -> Unit = {},
     onSetNewBalance: (() -> Unit)? = null,
+    onAccountEvent: AccountEventHandler
 ) {
     var isSummaryPopupVisible by rememberSaveable { mutableStateOf(false) }
 
@@ -665,7 +670,8 @@ private fun BalanceHeader(
                             ) {
                                 AccountSummaryV2(
                                     currentAccount,
-                                    onDisplayBalanceTypeChange
+                                    onDisplayBalanceTypeChange,
+                                    onAccountEvent = onAccountEvent
                                 )
                                 HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
 
@@ -733,7 +739,6 @@ private fun BalanceSection(
     balance: Long,
     account: BaseAccount,
 ) {
-    val isPortfolio = (account as? FullAccount)?.isPortfolio == true
     val type = account.validatedBalanceType
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -792,5 +797,8 @@ fun HeaderPreview() {
             criterion = 5000,
             excludeFromTotals = true
         )
+        , onAccountEvent = object : AccountEventHandler {
+            override fun invoke(event: AccountEvent, account: FullAccount) {}
+        }
     )
 }

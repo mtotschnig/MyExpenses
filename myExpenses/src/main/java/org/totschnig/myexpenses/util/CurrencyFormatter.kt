@@ -50,8 +50,12 @@ fun ICurrencyFormatter.formatMoney(
  *
  * @return formatted string
  */
-fun ICurrencyFormatter.convAmount(amount: Long, currency: CurrencyUnit): String {
-    return formatMoney(Money(currency, amount))
+fun ICurrencyFormatter.convAmount(
+    amount: Long,
+    currency: CurrencyUnit,
+    configure: ((DecimalFormat) -> Unit)? = null,
+): String {
+    return formatMoney(Money(currency, amount), configure)
 }
 
 open class CurrencyFormatter(

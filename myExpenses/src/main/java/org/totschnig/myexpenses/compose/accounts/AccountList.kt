@@ -11,7 +11,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -28,7 +27,6 @@ import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ShowChart
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.ExpandLess
 import androidx.compose.material.icons.filled.Flag
@@ -42,7 +40,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -69,6 +66,7 @@ import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -119,7 +117,6 @@ import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import java.text.DecimalFormat
 import kotlin.math.absoluteValue
-import kotlin.math.roundToLong
 
 const val SIGMA = "Σ"
 
@@ -130,6 +127,7 @@ sealed class AccountEvent {
     data object ToggleSealed : AccountEvent()
     data object ToggleExcludeFromTotals : AccountEvent()
     data object ToggleDynamicExchangeRate : AccountEvent()
+    data class ViewPriceHistory(val commodity: String) : AccountEvent()
 }
 
 interface AccountEventHandler {
@@ -649,9 +647,12 @@ fun AccountCardV2(
                         }
                         .padding(start = 48.dp, end = 4.dp, bottom = 8.dp)
                 ) {
-                    Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                    Column(
+                        modifier = Modifier.weight(1f),
+                        verticalArrangement = Arrangement.spacedBy(2.dp)
+                    ) {
                         if (account.isPortfolio) {
-                            PortfolioInventory(account)
+                            PortfolioInventory(account, onAccountEvent = onEvent)
                         } else {
                             AccountSummaryV2(account = account, onDisplayBalanceTypeChange = null)
                         }
@@ -675,9 +676,11 @@ fun AccountCardV2(
 @Composable
 fun PortfolioInventory(
     portfolio: FullAccount,
+    onAccountEvent: AccountEventHandler,
 ) {
-    // 2. Asset Rows
-    portfolio.children.forEachIndexed { index, asset ->
+    val dateFormatter = LocalDateFormatter.current
+    val fXFormat = remember { DecimalFormat("#.############") }
+    portfolio.children.forEach { asset ->
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -696,11 +699,64 @@ fun PortfolioInventory(
                 )
                 // Quantity in Asset Units
                 if (asset.currencyUnit != portfolio.currencyUnit) {
-                    AmountText(
-                        amount = asset.currentBalance,
-                        currency = asset.currencyUnit,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+
+                    asset.latestExchangeRate?.let { (date, rate) ->
+                        val realRate = calculateRealExchangeRate(
+                            rate,
+                            asset.currencyUnit,
+                            portfolio.currencyUnit
+                        )
+                        val priceFormatted = fXFormat.format(realRate)
+                        val dateFormatted = dateFormatter.format(date)
+                        val quantityFormatted = LocalCurrencyFormatter.current.convAmount(
+                            asset.currentBalance,
+                            asset.currencyUnit
+                        ) {
+                            it.decimalFormatSymbols = it.decimalFormatSymbols.apply {
+                                currencySymbol = ""
+                            }
+                        }
+
+                        val priceMarker = "[[PRICE]]"
+                        val localizedLayout = stringResource(
+                            R.string.asset_quantity_at_price,
+                            quantityFormatted,
+                            priceMarker,
+                            dateFormatted
+                        )
+
+                        val parts = localizedLayout.split(priceMarker)
+
+                        Row(verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .minimumInteractiveComponentSize()
+                                .clickable {
+                                    onAccountEvent(
+                                        AccountEvent.ViewPriceHistory(
+                                            asset.currencyUnit.code
+                                        ),
+                                        portfolio
+                                    )
+                                }) {
+                            if (parts.isNotEmpty()) {
+                                Text(text = parts[0], style = MaterialTheme.typography.labelSmall)
+                            }
+
+                            // 3. This is the narrowed-down price anchor
+                            Text(
+                                text = priceFormatted,
+                                style = MaterialTheme.typography.labelSmall.copy(
+                                    textDecoration = TextDecoration.Underline,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                            )
+
+                            if (parts.size > 1) {
+                                Text(text = parts[1], style = MaterialTheme.typography.labelSmall)
+                            }
+                        }
+
+                    }
                 }
             }
         }
@@ -895,6 +951,7 @@ fun AccountCard(
 
                                 is AccountEvent.ToggleSealed -> onToggleSealed(account)
 
+                                is AccountEvent.ViewPriceHistory -> {}
                             }
                         }
                     },
@@ -1016,11 +1073,12 @@ fun AccountCard(
 fun AccountSummaryV2(
     account: BaseAccount,
     onDisplayBalanceTypeChange: ((BalanceType) -> Unit)? = null,
+    onAccountEvent: AccountEventHandler,
 ) {
 
     when (account) {
         is FullAccount -> if (account.isPortfolio)
-            PortfolioInventory(account)
+            PortfolioInventory(account, onAccountEvent)
         else
             AccountSummaryV2(
                 account,

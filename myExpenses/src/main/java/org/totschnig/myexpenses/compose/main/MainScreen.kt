@@ -463,6 +463,7 @@ fun MainScreenAdaptive(
                                 selectedAccountId = selectedAccountId,
                                 viewModel = viewModel,
                                 onEvent = onAppEvent,
+                                onAccountEvent = onAccountEvent,
                                 onPrepareContextMenuItem = onPrepareContextMenuItem,
                                 onPrepareMenuItem = onPrepareMenuItem,
                                 pageContent = pageContent,

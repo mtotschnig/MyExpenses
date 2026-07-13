@@ -1057,4 +1057,5 @@
     <string name="pref_content_based_colors_title">Динамический цвет на основе цвета счета</string>
     <string name="pref_content_based_colors_summary">Определение цветов темы на основе цвета текущего счета. Отключите, если текст становится трудночитаемым.</string>
     <string name="service_starting">Запуск…</string>
+    <string name="asset_quantity_at_price">%1$s по %2$s (%3$s)</string>
 </resources>

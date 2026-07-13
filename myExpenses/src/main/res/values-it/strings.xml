@@ -1056,4 +1056,5 @@
     <string name="content_description_show_balance_details">Mostra informazioni dettagliate</string>
     <string name="pref_ui_start_screen_title">Schermata iniziale</string>
     <string name="pref_ui_start_screen_last_visited">Ultima visitata</string>
+    <string name="asset_quantity_at_price">%1$s a %2$s (%3$s)</string>
 </resources>

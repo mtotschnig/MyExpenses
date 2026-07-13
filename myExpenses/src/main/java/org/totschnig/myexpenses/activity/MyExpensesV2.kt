@@ -58,6 +58,8 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.provider.KEY_COMMODITY
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_SORT_KEY
 import org.totschnig.myexpenses.util.ads.AdHandlerV2
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
@@ -90,6 +92,9 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
     private val currencyViewModel: CurrencyViewModel by viewModels()
 
     private lateinit var adHandler: AdHandlerV2
+
+    private var showPortfolioSetup by mutableStateOf(false)
+    private var portfolioToEditId by mutableStateOf<Long?>(null)
 
     override fun handleRootWindowInsets() {}
 
@@ -125,6 +130,14 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
 
         if (!adHandled) {
             reviewManager.onEditTransactionResult(this)
+        }
+    }
+
+    override fun editAccount(account: FullAccount) {
+        if (account.isPortfolio) {
+            portfolioToEditId = account.id
+        } else {
+            super.editAccount(account)
         }
     }
 
@@ -216,19 +229,28 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                         val banks = viewModel.banks.collectAsState()
                         val showSortDialog = rememberSaveable { mutableStateOf(false) }
                         var isNavigationVisible by rememberSaveable { mutableStateOf(false) }
-                        var showPortfolioSetup by rememberSaveable { mutableStateOf(false) }
+                        val portfolioToEdit = portfolioToEditId?.let { id -> accounts.find { it.id == id } }
 
                         val currencies by currencyViewModel.currencyUnits.collectAsState(emptyList())
 
-                        if (showPortfolioSetup) {
+                        if (showPortfolioSetup || portfolioToEditId != null) {
                             PortfolioSetupDialog(
-                                onDismiss = { showPortfolioSetup = false },
-                                onConfirm = { label, currency, color ->
-                                    viewModel.createPortfolio(label, currency, color)
+                                onDismiss = {
                                     showPortfolioSetup = false
+                                    portfolioToEditId = null
+                                },
+                                onConfirm = { label, currency, color ->
+                                    if (portfolioToEditId != null) {
+                                        viewModel.updatePortfolio(portfolioToEditId!!, label, currency, color)
+                                    } else {
+                                        viewModel.createPortfolio(label, currency, color)
+                                    }
+                                    showPortfolioSetup = false
+                                    portfolioToEditId = null
                                 },
                                 availableCurrencies = currencies,
-                                selectedCurrency = currencyContext.homeCurrencyUnit
+                                selectedCurrency = currencyContext.homeCurrencyUnit,
+                                initialPortfolio = portfolioToEdit
                             )
                         }
 
@@ -321,6 +343,13 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                                         )
 
                                         is AccountEvent.ToggleSealed -> toggleAccountSealed(account)
+                                        is AccountEvent.ViewPriceHistory -> {
+                                            val intent = Intent(this@MyExpensesV2, PriceHistory::class.java).apply {
+                                                putExtra(KEY_COMMODITY, event.commodity)
+                                                putExtra(KEY_CURRENCY, account.currencyUnit.code)
+                                            }
+                                            startActivity(intent)
+                                        }
                                     }
                                 }
 

@@ -42,6 +42,8 @@ import org.totschnig.myexpenses.provider.KEY_HAS_FUTURE
 import org.totschnig.myexpenses.provider.KEY_IS_PORTFOLIO
 import org.totschnig.myexpenses.provider.KEY_LABEL
 import org.totschnig.myexpenses.provider.KEY_LAST_USED
+import org.totschnig.myexpenses.provider.KEY_LATEST_EXCHANGE_RATE
+import org.totschnig.myexpenses.provider.KEY_LATEST_EXCHANGE_RATE_DATE
 import org.totschnig.myexpenses.provider.KEY_OPENING_BALANCE
 import org.totschnig.myexpenses.provider.KEY_PARENTID
 import org.totschnig.myexpenses.provider.KEY_RECONCILED_TOTAL
@@ -59,16 +61,17 @@ import org.totschnig.myexpenses.provider.KEY_VISIBLE
 import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getBooleanIfExists
 import org.totschnig.myexpenses.provider.getDouble
+import org.totschnig.myexpenses.provider.getDoubleIfExists
 import org.totschnig.myexpenses.provider.getDoubleOrNull
 import org.totschnig.myexpenses.provider.getEnum
 import org.totschnig.myexpenses.provider.getEnumIfExists
 import org.totschnig.myexpenses.provider.getInt
+import org.totschnig.myexpenses.provider.getLocalDate
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongIfExists
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
-import timber.log.Timber
 import java.time.LocalDate
 import kotlin.math.roundToLong
 import kotlin.math.sign
@@ -206,6 +209,9 @@ data class FullAccount(
     val lastUsed: Long = 0L,
     val bankId: Long? = null,
     val initialExchangeRate: Double? = null,
+    /**
+     * only used by V1
+     */
     val latestExchangeRate: Pair<LocalDate, Double>? = null,
     val dynamic: Boolean = false,
     val parentId: Long? = null,
@@ -313,6 +319,9 @@ data class FullAccount(
                 equivalentSumExpense = getLong(KEY_EQUIVALENT_EXPENSES),
                 equivalentSumTransfer = getLong(KEY_EQUIVALENT_TRANSFERS),
                 initialExchangeRate = getDoubleOrNull(KEY_EXCHANGE_RATE),
+                latestExchangeRate = getDoubleIfExists(KEY_LATEST_EXCHANGE_RATE)?.let {
+                    getLocalDate(KEY_LATEST_EXCHANGE_RATE_DATE) to it
+                },
                 dynamic = getBoolean(KEY_DYNAMIC),
                 balanceType = if (isPortfolio) BalanceType.VALUATION else getEnumIfExists(KEY_BALANCE_TYPE, BalanceType.CURRENT),
                 parentId = getLongIfExists(KEY_PARENTID),
@@ -363,41 +372,31 @@ data class FullAccount(
     }
 
     fun enrich(
-        priceMap: Map<Pair<String, String>, Double>,
+        priceMap: Map<Pair<String, String>, Pair<LocalDate, Double>>,
         homeCurrency: CurrencyUnit,
     ): FullAccount {
         val enrichedChildren = children.map { it.enrich(priceMap, currencyUnit) }
 
-        val rateToHome = when {
-            currencyUnit == homeCurrency -> 1.0
+        val latestExchangeRate = when {
+            currencyUnit == homeCurrency -> LocalDate.now() to 1.0
 
             dynamic -> priceMap[currencyUnit.code to homeCurrency.code]
             else -> null
-        } ?: (latestExchangeRate?.second ?: initialExchangeRate ?: 1.0)
+        } ?: (LocalDate.now() to (initialExchangeRate ?: 1.0))
 
         val childrenValuation = if (isPortfolio) {
             enrichedChildren.sumOf { child ->
-                if (child.currencyUnit == this.currencyUnit) {
-                    // Direct sum for Cash sub-account or same-currency assets
-                    child.currentBalance
-                } else {
-                    val directPrice = priceMap[child.currencyUnit.code to this.currencyUnit.code]
-                    if (directPrice != null) {
-                        (child.currentBalance.toDouble() * directPrice).roundToLong()
-                    } else {
-                        // Cross-rate fallback: childValInHome / thisRateToHome //TODO check
-                        (child.equivalentCurrentBalance.toDouble() / rateToHome).roundToLong()
-                    }
-                }
+               child.equivalentCurrentBalance
             }
         } else 0L
 
-        val equivalentChildrenValuation = (childrenValuation * rateToHome).roundToLong()
+        val equivalentChildrenValuation = (childrenValuation * latestExchangeRate.second).roundToLong()
 
         // 4. Update the account instance with calculated valuations and equivalents
         return this.copy(
             children = enrichedChildren,
-            equivalentCurrentBalance = (currentBalance * rateToHome).roundToLong(),
+            latestExchangeRate = latestExchangeRate,
+            equivalentCurrentBalance = (currentBalance * latestExchangeRate.second).roundToLong(),
             childrenValuation = childrenValuation,
             equivalentChildrenValuation = equivalentChildrenValuation
         )
