@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="whats_new_361_1">A lista de transações pode ser ordenada por valor.</string>
+    <string name="whats_new_361_2">Os ficheiros na pasta da aplicação (backups e exportações) podem ser partilhados ou apagados.</string>
+    <string name="whats_new_364_1">Importar em várias contas a partir de um ficheiro CSV</string>
+    <string name="whats_new_364_2">Nova estratégia para a gestão de informações duplicadas de pagador/beneficiário</string>
+    <string name="whats_new_365">Anexar um número arbitrário de imagens e documentos (PDF)</string>
+    <string name="whats_new_366">Widget do ecrã inicial exibindo o estado atual do orçamento.</string>
+    <string name="whats_new_367">As categorias agora podem ser configuradas como categorias de despesa ou receita, o que afetará a forma como as somas de despesas e receitas são calculadas.</string>
+    <string name="whats_new_369_1">As transferências podem ser mapeadas para categorias.</string>
+    <string name="whats_new_369_2">Quando o bloqueio do ecrã estiver ativado, permita cancelar a desativação de capturas de ecrã.</string>
+    <string name="whats_new_370">O menu no ecrã principal pode ser totalmente personalizado.</string>
+    <string name="whats_new_374">Cores personalizadas para etiquetas</string>
+    <string name="whats_new_376_1">Clone várias transações com nova data.</string>
+    <string name="whats_new_376_2">A interface web do utilizador pode ser controlada nop ecrã principal.</string>
+    <string name="whats_new_378">Os gráficos respeitam o filtro de pesquisa.</string>
+    <string name="whats_new_382">O recurso %1$s pode ser chamado a partir do widget %2$s.</string>
+    <string name="whats_new_384">Configuração simplificada do backup em nuvem</string>
+    <string name="whats_new_386">A distribuição por despesas e a distribuição por receita podem ser mostradas juntas num gráfico de rosca dupla.</string>
+    <string name="whats_new_388">As transações podem ser arquivadas.</string>
+    <string name="whats_new_395">Os ficheiros exportados (PDF, backup, QIF, CSV, JSON) podem ser descarregados pela interface web do utilizador.</string>
+    <string name="whats_new_396">Gestão aprimorado de contas em moeda estrangeira com atualizações automáticas da taxa de câmbio e rastreamento de valor em tempo real.</string>
+    <string name="whats_new_398">Veja os seus ativos, passivos e patrimônio líquido — tudo num só lugar.</string>
+    <string name="whats_new_399">Layout de exportação de PDF aprimorado, totalmente personalizável com arrastar e soltar.</string>
+    <string name="whats_new_400_1">Gráfico de pizza a mostrar a distribuição de dinheiro entre contas</string>
+    <string name="whats_new_400_2">Histórico de preços: descarga em massa de entradas ausentes</string>
+    <string name="whats_new_401">A lista de transações agora mostra mais pormenores para transações divididas.</string>
+    <string name="whats_new_402">Os tipos de conta podem ser personalizados</string>
+    <string name="whats_new_407">Ordenação natural para etiquetas, categorias, contas, parceiros.</string>
+    <string name="migration_v2_feature_1">Navegação moderna com Material Design</string>
+    <string name="migration_v2_title">Bem-vindo ao V2!</string>
+</resources>
