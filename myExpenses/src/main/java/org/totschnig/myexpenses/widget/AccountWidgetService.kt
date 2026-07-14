@@ -20,9 +20,12 @@ import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.KEY_COLOR
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_CURRENT_BALANCE
+import org.totschnig.myexpenses.provider.KEY_IS_PORTFOLIO
+import org.totschnig.myexpenses.provider.KEY_PARENTID
 import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.KEY_TOTAL
 import org.totschnig.myexpenses.provider.KEY_VISIBLE
+import org.totschnig.myexpenses.provider.PORTFOLIO_NONE
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_FULL_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES
 import org.totschnig.myexpenses.util.ICurrencyFormatter
@@ -203,7 +206,7 @@ class AccountRemoteViewsFactory(
                     QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES,
                     accountId.takeIf { it != Long.MAX_VALUE.toString() } ?: "1"
                 ).build()
-                selection = "$KEY_VISIBLE = 1"
+                selection = "$KEY_VISIBLE = 1 AND $KEY_PARENTID IS NULL AND $KEY_IS_PORTFOLIO = $PORTFOLIO_NONE"
                 selectionArgs = null
             }
             return context.contentResolver.query(uri, null, selection, selectionArgs, null)

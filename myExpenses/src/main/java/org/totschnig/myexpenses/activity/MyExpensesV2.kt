@@ -229,7 +229,8 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                         val banks = viewModel.banks.collectAsState()
                         val showSortDialog = rememberSaveable { mutableStateOf(false) }
                         var isNavigationVisible by rememberSaveable { mutableStateOf(false) }
-                        val portfolioToEdit = portfolioToEditId?.let { id -> accounts.find { it.id == id } }
+                        val portfolioToEdit =
+                            portfolioToEditId?.let { id -> accounts.find { it.id == id } }
 
                         val currencies by currencyViewModel.currencyUnits.collectAsState(emptyList())
 
@@ -241,7 +242,12 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                                 },
                                 onConfirm = { label, currency, color ->
                                     if (portfolioToEditId != null) {
-                                        viewModel.updatePortfolio(portfolioToEditId!!, label, currency, color)
+                                        viewModel.updatePortfolio(
+                                            portfolioToEditId!!,
+                                            label,
+                                            currency,
+                                            color
+                                        )
                                     } else {
                                         viewModel.createPortfolio(label, currency, color)
                                     }
@@ -262,7 +268,13 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                             selectedAccountId = selectedAccountIdFromState,
                             isCurrencyUsed = { currencyViewModel.isCurrencyUsed(it) },
                             onCreateAsset = { code, symbol, fractionDigits, label, type ->
-                                currencyViewModel.createAsset(code, symbol, fractionDigits, label, type)
+                                currencyViewModel.createAsset(
+                                    code,
+                                    symbol,
+                                    fractionDigits,
+                                    label,
+                                    type
+                                )
                             },
                             onAppEvent = object : AppEventHandler {
                                 override fun invoke(event: AppEvent) {
@@ -344,7 +356,10 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
 
                                         is AccountEvent.ToggleSealed -> toggleAccountSealed(account)
                                         is AccountEvent.ViewPriceHistory -> {
-                                            val intent = Intent(this@MyExpensesV2, PriceHistory::class.java).apply {
+                                            val intent = Intent(
+                                                this@MyExpensesV2,
+                                                PriceHistory::class.java
+                                            ).apply {
                                                 putExtra(KEY_COMMODITY, event.commodity)
                                                 putExtra(KEY_CURRENCY, account.currencyUnit.code)
                                             }
@@ -372,7 +387,11 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                             isNavigationVisible = isNavigationVisible
                         ) { pageAccount, isCurrent ->
                             if (pageAccount.isPortfolio) {
-                                PortfolioPage(pageAccount, currencies, viewModel.accountList.collectAsState().value)
+                                PortfolioPage(
+                                    pageAccount,
+                                    currencies,
+                                    viewModel.accountList.collectAsState().value
+                                )
                             } else {
                                 Page(
                                     pageAccount,
@@ -474,6 +493,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                         TradeEvent.Edit -> {
                             tradeToEdit = trade
                         }
+
                         TradeEvent.Delete -> {
                             lifecycleScope.launch {
                                 // Trades are usually unreconciled upon creation
@@ -485,8 +505,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
             )
         }
         tradeToEdit?.let { trade ->
-            val fullAccount = accountList.find { it.id == account.id } as? FullAccount
-            if (fullAccount != null) {
+            (accountList.find { it.id == account.id } as? FullAccount)?.let { fullAccount ->
                 Dialog(
                     onDismissRequest = { tradeToEdit = null },
                     properties = DialogProperties(usePlatformDefaultWidth = false)
@@ -510,7 +529,13 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                             },
                         initialTrade = trade,
                         onLookupMatchingTransactions = { accountId, total, date, isBuy ->
-                            viewModel.findMatchingTransactions(accountId, total, date, fullAccount.currencyUnit, isBuy)
+                            viewModel.findMatchingTransactions(
+                                accountId,
+                                total,
+                                date,
+                                fullAccount.currencyUnit,
+                                isBuy
+                            )
                         }
                     )
                 }

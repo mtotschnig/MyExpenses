@@ -801,7 +801,6 @@ public class TransactionProvider extends BaseTransactionProvider {
             uri.getPathSegments().get(1), KEY_INSTANCEID, uri.getPathSegments().get(2)));
         projection = new String[]{KEY_TRANSACTIONID, KEY_AMOUNT};
         break;
-      //only called from unit test
       case CURRENCIES:
         if (projection == null) {
           projection = new String[] {

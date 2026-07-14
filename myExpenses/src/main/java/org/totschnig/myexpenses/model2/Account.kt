@@ -49,9 +49,9 @@ import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getDoubleIfExists
 import org.totschnig.myexpenses.provider.getEnum
 import org.totschnig.myexpenses.provider.getInt
+import org.totschnig.myexpenses.provider.getIntIfExistsOr0
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongIfExists
-import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
@@ -189,8 +189,8 @@ data class Account(
                 sortDirection = cursor.getEnum(KEY_SORT_DIRECTION, SortDirection.DESC),
                 bankId = cursor.getLongIfExists(KEY_BANK_ID),
                 dynamicExchangeRates = cursor.getBoolean(KEY_DYNAMIC),
-                parentId = cursor.getLongOrNull(KEY_PARENTID),
-                portfolioRole = cursor.getInt(KEY_IS_PORTFOLIO)
+                parentId = cursor.getLongIfExists(KEY_PARENTID),
+                portfolioRole = cursor.getIntIfExistsOr0(KEY_IS_PORTFOLIO)
             )
         }
     }

@@ -56,13 +56,13 @@ fun Cursor.getStringOrNull(column: String, allowEmpty: Boolean = false) =
 fun Cursor.getIntOrNull(column: String) = getIntOrNull(getColumnIndexOrThrow(column))
 fun Cursor.getLongOrNull(column: String) = getLongOrNull(getColumnIndexOrThrow(column))
 fun Cursor.requireLong(column: String) = getLongOrNull(getColumnIndexOrThrow(column)) ?: 0L
+
 fun Cursor.getIntIfExists(column: String) =
     getColumnIndex(column).takeIf { it != -1 }?.let { getInt(it) }
-
 fun Cursor.getIntIfExistsOr0(column: String) = getIntIfExists(column) ?: 0
+
 fun Cursor.getLongIfExists(column: String) =
     getColumnIndex(column).takeIf { it != -1 }?.let { getLongOrNull(it) }
-
 fun Cursor.getLongIfExistsOr0(column: String) =
     getColumnIndex(column).takeIf { it != -1 }?.let { getLong(it) } ?: 0L
 
@@ -70,8 +70,7 @@ fun Cursor.getStringIfExists(column: String) =
     getColumnIndex(column).takeIf { it != -1 }?.let { getStringOrNull(it) }
 
 fun Cursor.getDoubleIfExists(column: String) =
-    getColumnIndex(column).takeIf { it != -1 }?.let { getDouble(it) }
-
+    getColumnIndex(column).takeIf { it != -1 }?.let { getDoubleOrNull(it) }
 fun Cursor.getDoubleOrNull(column: String) = getDoubleOrNull(getColumnIndexOrThrow(column))
 
 
