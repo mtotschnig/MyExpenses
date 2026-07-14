@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.db2.entities
 import android.database.Cursor
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_CATID
 import org.totschnig.myexpenses.provider.KEY_COMMENT
@@ -12,6 +13,7 @@ import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.provider.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.KEY_EQUIVALENT_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_ICON
+import org.totschnig.myexpenses.provider.KEY_IS_PORTFOLIO
 import org.totschnig.myexpenses.provider.KEY_METHODID
 import org.totschnig.myexpenses.provider.KEY_METHOD_LABEL
 import org.totschnig.myexpenses.provider.KEY_ORIGINAL_AMOUNT
@@ -29,13 +31,17 @@ import org.totschnig.myexpenses.provider.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.KEY_UUID
 import org.totschnig.myexpenses.provider.KEY_VALUE_DATE
+import org.totschnig.myexpenses.provider.PORTFOLIO_NONE
 import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.STATUS_NONE
 import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getInt
+import org.totschnig.myexpenses.provider.getIntIfExists
+import org.totschnig.myexpenses.provider.getIntIfExistsOr0
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.getStringIfExists
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.provider.splitStringList
 
@@ -135,7 +141,17 @@ data class Transaction(
     /**
      * Read-only property holding the payment method label
      */
-    val methodLabel: String? = null
+    val methodLabel: String? = null,
+
+    /**
+     * Read-only property holding the account label
+     */
+    val accountLabel: String? = null,
+
+    /**
+     * Read-only property holding information if account is part of portfolio feature
+     */
+    val portfolioRole: Int = PORTFOLIO_NONE
 ) {
 
     val isTransfer: Boolean = transferAccountId != null
@@ -176,6 +192,8 @@ data class Transaction(
             KEY_METHOD_LABEL
         )
 
+        val projectionExtended = projection + arrayOf(KEY_ACCOUNT_LABEL, KEY_IS_PORTFOLIO)
+
         /**
          * Creates a Transaction object from the current row of a Cursor.
          * Assumes the cursor is already positioned at the correct row.
@@ -208,7 +226,9 @@ data class Transaction(
                 payeeName = getStringOrNull(KEY_PAYEE_NAME),
                 status = getInt(KEY_STATUS),
                 categoryIcon = getStringOrNull(KEY_ICON),
-                methodLabel = getStringOrNull(KEY_METHOD_LABEL)
+                methodLabel = getStringOrNull(KEY_METHOD_LABEL),
+                accountLabel = getStringIfExists(KEY_ACCOUNT_LABEL),
+                portfolioRole = getIntIfExistsOr0(KEY_IS_PORTFOLIO)
             )
         }
     }

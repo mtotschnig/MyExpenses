@@ -29,15 +29,17 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.compose.LazyPagingItems
-import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.AmountText
 import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.LocalColors
+import org.totschnig.myexpenses.compose.LocalCurrencyFormatter
 import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.size
+import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.data.Trade
 import org.totschnig.myexpenses.viewmodel.data.TradeType
+import org.totschnig.myexpenses.viewmodel.data.getIndicatorCharForLabel
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
@@ -97,16 +99,29 @@ fun TradeRow(
                 .padding(horizontal = 10.dp)
                 .weight(1f)
         ) {
-            val headline = when (trade.type) {
-                TradeType.AssetTrade.BUY -> stringResource(R.string.trade_bought) + " ${trade.quantity.amountMajor.toPlainString()} ${trade.assetSymbol}"
-                TradeType.AssetTrade.SELL -> stringResource(R.string.trade_sold) + " ${trade.quantity.amountMajor.toPlainString()} ${trade.assetSymbol}"
-                TradeType.CashMovement.DEPOSIT -> stringResource(R.string.pm_deposit) + (trade.fundingAccountLabel?.let { " from $it" } ?: "")
-                TradeType.CashMovement.WITHDRAW -> stringResource(R.string.trade_withdraw) + (trade.fundingAccountLabel?.let { " to $it" } ?: "")
+            if (trade.type is TradeType.AssetTrade) {
+                Text(trade.quantity.currencyUnit.description)
             }
+            val headline = stringResource(trade.type.label) +
+                    if (trade.type is TradeType.AssetTrade) {
+                        val currencyFormatter = LocalCurrencyFormatter.current
+                        val quantityFormatted = currencyFormatter.formatMoney(
+                            trade.quantity
+                        ) {
+                            it.decimalFormatSymbols = it.decimalFormatSymbols.apply {
+                                currencySymbol = ""
+                            }
+                        }
+                        " $quantityFormatted x " + currencyFormatter.formatCurrency(
+                            trade.price, trade.principal.currencyUnit
+                        )
+                    } else trade.fundingAccount?.second?.let {
+                        " " + getIndicatorCharForLabel(trade.type == TradeType.CashMovement.WITHDRAW) + " " + it
+                    } ?: ""
+
             Text(
                 text = headline,
                 style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Bold,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
@@ -123,8 +138,9 @@ fun TradeRow(
 
         // Column 3: Amount and Date
         Column(horizontalAlignment = Alignment.End) {
-            val amountColor = if (trade.type is TradeType.AssetTrade.BUY || trade.type is TradeType.CashMovement.WITHDRAW)
-                LocalColors.current.expense else LocalColors.current.income
+            val amountColor =
+                if (trade.type is TradeType.AssetTrade.BUY || trade.type is TradeType.CashMovement.WITHDRAW)
+                    LocalColors.current.expense else LocalColors.current.income
 
             AmountText(
                 amount = trade.principal.amountMinor,
@@ -142,6 +158,7 @@ fun TradeRow(
         HierarchicalMenu(showMenu, tradeMenu(trade, onEvent))
     }
 }
+
 private fun tradeMenu(trade: Trade, onEvent: (TradeEvent) -> Unit): Menu = buildList {
     add(MenuEntry.edit("EDIT_TRADE") { onEvent(TradeEvent.Edit) })
     add(MenuEntry.delete("DELETE_TRADE") { onEvent(TradeEvent.Delete) })

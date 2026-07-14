@@ -98,7 +98,7 @@ val inlineIconSize = 13.sp
 abstract class ItemRenderer(
     private val withCategoryIcon: Boolean,
     private val colorSource: ColorSource,
-    private val onToggleCrStatus: ((Long) -> Unit)?
+    private val onToggleCrStatus: ((Long) -> Unit)?,
 ) {
 
     fun Transaction2.buildPrimaryInfo(
@@ -139,7 +139,7 @@ abstract class ItemRenderer(
     fun Transaction2.buildSecondaryInfo(
         context: Context,
         withTags: Boolean,
-        resolvedExtraInfo: ResolvedExtraInfo? = null
+        resolvedExtraInfo: ResolvedExtraInfo? = null,
     ): Pair<AnnotatedString, List<String>> {
         val attachmentIcon = if (attachmentCount > 0) "paperclip" else null
         val trade = (resolvedExtraInfo as? ResolvedExtraInfo.Trade)?.trade
@@ -162,7 +162,7 @@ abstract class ItemRenderer(
                     )
                 }
             }
-            (trade?.fundingAccountLabel ?: party?.displayName)?.let {
+            (trade?.fundingAccount?.second ?: party?.displayName)?.let {
                 if (length > 0) {
                     append(COMMENT_SEPARATOR)
                 }
@@ -209,7 +209,7 @@ abstract class ItemRenderer(
     @Composable
     abstract fun RowScope.RenderInner(
         transaction: Transaction2,
-        resolvedExtraInfo: ResolvedExtraInfo? = null
+        resolvedExtraInfo: ResolvedExtraInfo? = null,
     )
 
     abstract fun Modifier.height(): Modifier
@@ -292,7 +292,8 @@ abstract class ItemRenderer(
     @Composable
     protected fun Transaction2.CategoryIcon(resolvedExtraInfo: ResolvedExtraInfo?) {
         if (withCategoryIcon) {
-            val resolvedIcons = (resolvedExtraInfo as? ResolvedExtraInfo.Split)?.items?.mapNotNull { it.second }
+            val resolvedIcons =
+                (resolvedExtraInfo as? ResolvedExtraInfo.Split)?.items?.mapNotNull { it.second }
             val trade = (resolvedExtraInfo as? ResolvedExtraInfo.Trade)?.trade
             Box(modifier = Modifier.size(30.sp), contentAlignment = Alignment.Center) {
                 when {
@@ -305,40 +306,43 @@ abstract class ItemRenderer(
                         }
                         Icon(icon)
                     }
-                    isSplit -> resolvedIcons?.let { icons ->
-                        if (icons.isNotEmpty()) {
+
+                    isSplit -> resolvedIcons
+                        ?.takeIf { it.isNotEmpty() }
+                        ?.let { icons ->
                             Icon(
                                 icons[0],
-                                modifier = Modifier.align(Alignment.TopStart).fillMaxSize(0.5f),
+                                modifier = Modifier
+                                    .align(Alignment.TopStart)
+                                    .fillMaxSize(0.5f),
                                 size = null
                             )
                             icons.getOrNull(1)?.let {
                                 Icon(
                                     it,
-                                    modifier = Modifier.align(Alignment.TopEnd).fillMaxSize(0.5f),
+                                    modifier = Modifier
+                                        .align(Alignment.TopEnd)
+                                        .fillMaxSize(0.5f),
                                     size = null
                                 )
                             }
                             icons.getOrNull(2)?.let {
                                 Icon(
                                     it,
-                                    modifier = Modifier.align(Alignment.BottomStart).fillMaxSize(0.5f),
+                                    modifier = Modifier
+                                        .align(Alignment.BottomStart)
+                                        .fillMaxSize(0.5f),
                                     size = null
                                 )
                             }
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.CallSplit,
                                 contentDescription = stringResource(id = R.string.split_transaction),
-                                modifier = Modifier.align(Alignment.BottomEnd).fillMaxSize(0.5f)
+                                modifier = Modifier
+                                    .align(Alignment.BottomEnd)
+                                    .fillMaxSize(0.5f)
                             )
-                        } else {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.CallSplit,
-                                contentDescription = stringResource(id = R.string.split_transaction),
-                                modifier = Modifier.fillMaxSize()
-                            )
-                        }
-                    } ?: Icon(
+                        } ?: Icon(
                         imageVector = Icons.AutoMirrored.Filled.CallSplit,
                         contentDescription = stringResource(id = R.string.split_transaction),
                         modifier = Modifier.fillMaxSize()
@@ -406,14 +410,11 @@ abstract class ItemRenderer(
     fun Transaction2.ColoredAmountText(
         style: TextStyle = LocalTextStyle.current,
         displayAmount: Money = this.displayAmount,
-        resolvedExtraInfo: ResolvedExtraInfo? = null
+        resolvedExtraInfo: ResolvedExtraInfo? = null,
     ) {
         val trade = (resolvedExtraInfo as? ResolvedExtraInfo.Trade)?.trade
-        val finalAmount = if (trade != null) {
-            trade.principal
-        } else {
-            if (type == FLAG_NEUTRAL) displayAmount.absolute() else displayAmount
-        }
+        val finalAmount = trade?.principal
+            ?: if (type == FLAG_NEUTRAL) displayAmount.absolute() else displayAmount
         val finalType = if (trade != null) {
             when (trade.type) {
                 TradeType.AssetTrade.BUY -> FLAG_EXPENSE
@@ -447,7 +448,7 @@ class CompactTransactionRenderer(
     @Composable
     override fun RowScope.RenderInner(
         transaction: Transaction2,
-        resolvedExtraInfo: ResolvedExtraInfo?
+        resolvedExtraInfo: ResolvedExtraInfo?,
     ) {
         val context = LocalContext.current
         val secondaryInfo = transaction.buildSecondaryInfo(context, true, resolvedExtraInfo)
@@ -503,7 +504,7 @@ class NewTransactionRenderer(
     @Composable
     override fun RowScope.RenderInner(
         transaction: Transaction2,
-        resolvedExtraInfo: ResolvedExtraInfo?
+        resolvedExtraInfo: ResolvedExtraInfo?,
     ) {
         val context = LocalContext.current
         val primaryInfo = transaction.buildPrimaryInfo(context, resolvedExtraInfo, false)

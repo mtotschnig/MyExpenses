@@ -37,7 +37,6 @@ import org.totschnig.myexpenses.db2.deleteAttachments
 import org.totschnig.myexpenses.db2.entities.Plan
 import org.totschnig.myexpenses.db2.entities.Recurrence
 import org.totschnig.myexpenses.db2.entities.Template
-import org.totschnig.myexpenses.db2.getCategoryPath
 import org.totschnig.myexpenses.db2.getCurrencyUnitForAccount
 import org.totschnig.myexpenses.db2.getLastUsedOpenAccount
 import org.totschnig.myexpenses.db2.linkTemplateWithTransaction
@@ -53,13 +52,12 @@ import org.totschnig.myexpenses.db2.updatePlan
 import org.totschnig.myexpenses.db2.updateTemplate
 import org.totschnig.myexpenses.db2.updateTransaction
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
-import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.sort.Sort
 import org.totschnig.myexpenses.model.generateUuid
+import org.totschnig.myexpenses.model.sort.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
@@ -68,12 +66,9 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.CAT_AS_LABEL
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_CATID
-import org.totschnig.myexpenses.provider.KEY_COLOR
 import org.totschnig.myexpenses.provider.KEY_COMMENT
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.KEY_CURRENT_BALANCE
 import org.totschnig.myexpenses.provider.KEY_DEBT_ID
-import org.totschnig.myexpenses.provider.KEY_DYNAMIC
 import org.totschnig.myexpenses.provider.KEY_ICON
 import org.totschnig.myexpenses.provider.KEY_IS_PORTFOLIO
 import org.totschnig.myexpenses.provider.KEY_LABEL
@@ -83,7 +78,6 @@ import org.totschnig.myexpenses.provider.KEY_PLANID
 import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.KEY_SEALED
 import org.totschnig.myexpenses.provider.KEY_TITLE
-import org.totschnig.myexpenses.provider.PORTFOLIO_ASSET
 import org.totschnig.myexpenses.provider.PORTFOLIO_NONE
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.ProviderUtils
@@ -92,12 +86,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_FULL_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNT_TYPE_LIST
 import org.totschnig.myexpenses.provider.fileName
-import org.totschnig.myexpenses.provider.filter.KEY_CRITERION
-import org.totschnig.myexpenses.provider.getBoolean
-import org.totschnig.myexpenses.provider.getInt
-import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongIfExists
-import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringIfExists
 import org.totschnig.myexpenses.provider.isDebugAsset
@@ -154,7 +143,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             uri = ACCOUNTS_FULL_URI,
             selection = "$KEY_SEALED = 0 AND $KEY_IS_PORTFOLIO = $PORTFOLIO_NONE AND $KEY_PARENTID IS NULL"
         ).mapToList {
-            buildAccount(it, currencyContext)
+            Account.fromCursor(it, currencyContext)
         }
 
     val templates: Flow<List<DataTemplate>>
@@ -189,22 +178,6 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     methods.postValue(it)
                 }
         }
-    }
-
-    private fun buildAccount(cursor: Cursor, currencyContext: CurrencyContext): Account {
-        val currency =
-            currencyContext[cursor.getString(KEY_CURRENCY)]
-        return Account(
-            id = cursor.getLong(KEY_ROWID),
-            label = cursor.getString(KEY_LABEL),
-            currency,
-            color = cursor.getInt(KEY_COLOR),
-            type = AccountType.fromAccountCursor(cursor),
-            criterion = cursor.getLongOrNull(KEY_CRITERION),
-            isDynamic = cursor.getBoolean(KEY_DYNAMIC),
-            flag = AccountFlag.fromAccountCursor(cursor),
-            currentBalance = cursor.getLong(KEY_CURRENT_BALANCE)
-        )
     }
 
     private fun maybeCreateInitialPlan(

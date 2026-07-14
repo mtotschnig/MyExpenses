@@ -94,7 +94,7 @@ fun TradeScreen(
     initialTrade: Trade? = null,
     onCreateAsset: suspend (code: String, symbol: String, fractionDigits: Int, label: String?, commodityType: CommodityType) -> CurrencyUnit? = { _, _, _, _, _ -> null },
     isCurrencyUsed: suspend (String) -> Boolean = { false },
-    onLookupMatchingTransactions: (accountId: Long, total: BigDecimal, date: LocalDateTime, isBuy: Boolean) -> Flow<List<Transaction2>> = { _, _, _, _ -> emptyFlow() }
+    onLookupMatchingTransactions: (accountId: Long, total: BigDecimal, date: LocalDateTime, isBuy: Boolean) -> Flow<List<Transaction2>> = { _, _, _, _ -> emptyFlow() },
 ) {
 
     val currencyFormatter = LocalCurrencyFormatter.current
@@ -112,31 +112,33 @@ fun TradeScreen(
     }
 
     var type by remember {
-        mutableStateOf(initialTrade?.type ?: when (initialAction) {
-            Action.Sell -> TradeType.AssetTrade.SELL
-            Action.Deposit -> TradeType.CashMovement.DEPOSIT
-            Action.Withdraw -> TradeType.CashMovement.WITHDRAW
-            else -> TradeType.AssetTrade.BUY
-        })
+        mutableStateOf(
+            initialTrade?.type ?: when (initialAction) {
+                Action.Sell -> TradeType.AssetTrade.SELL
+                Action.Deposit -> TradeType.CashMovement.DEPOSIT
+                Action.Withdraw -> TradeType.CashMovement.WITHDRAW
+                else -> TradeType.AssetTrade.BUY
+            }
+        )
     }
     val isAssetTrade = type is TradeType.AssetTrade
-    var date by remember { mutableStateOf(initialTrade?.date?.toLocalDateTime() ?: LocalDateTime.now()) }
+    var date by remember {
+        mutableStateOf(
+            initialTrade?.date?.toLocalDateTime() ?: LocalDateTime.now()
+        )
+    }
     var quantity by remember { mutableStateOf(initialTrade?.quantity?.amountMajor) }
     var price by remember { mutableStateOf(initialTrade?.price) }
     var fee by remember { mutableStateOf(initialTrade?.fee?.amountMajor) }
     var fundingSource by remember {
         mutableStateOf(initialTrade?.let { trade ->
-            when {
-                trade.fundingAccountLabel == null && trade.type is TradeType.AssetTrade -> FundingSource.PORTFOLIO
-                fundingAccounts.any { it.second == trade.fundingAccountLabel } -> FundingSource.ACCOUNT
-                else -> FundingSource.EXTERNAL
-            }
+            if (trade.fundingAccount != null) {
+                if (fundingAccounts.any { it.first == trade.fundingAccount.first }) FundingSource.ACCOUNT else FundingSource.PORTFOLIO
+            } else FundingSource.EXTERNAL
         } ?: FundingSource.EXTERNAL)
     }
     var fundingAccountId by remember {
-        mutableStateOf(initialTrade?.let { trade ->
-            fundingAccounts.find { it.second == trade.fundingAccountLabel }?.first
-        })
+        mutableStateOf(initialTrade?.fundingAccount?.first)
     }
 
     var comment by remember { mutableStateOf(initialTrade?.comment ?: "") }
@@ -171,7 +173,8 @@ fun TradeScreen(
 
     LaunchedEffect(matchingTransactions) {
         if (matchingTransactions.none { it.id == linkedTransactionId }) {
-            linkedTransactionId = if (matchingTransactions.size == 1) matchingTransactions.first().id else null
+            linkedTransactionId =
+                if (matchingTransactions.size == 1) matchingTransactions.first().id else null
         }
     }
 
@@ -321,7 +324,7 @@ fun TradeScreen(
                                     linkedTransactionId = linkedTransactionId
                                 )
                             )
-                    }) {
+                        }) {
                         Icon(
                             Icons.Default.Done,
                             contentDescription = stringResource(R.string.menu_save)
@@ -409,7 +412,8 @@ fun TradeScreen(
                     AmountEdit(
                         value = quantity,
                         onValueChange = { quantity = it },
-                        fractionDigits = (if (isAssetTrade) selectedAsset else reportingCurrency)?.fractionDigits ?: 2,
+                        fractionDigits = (if (isAssetTrade) selectedAsset else reportingCurrency)?.fractionDigits
+                            ?: 2,
                         enabled = !isAssetTrade || selectedAsset != null
                     )
                     if (type == TradeType.AssetTrade.SELL || type == TradeType.CashMovement.WITHDRAW) {
@@ -473,7 +477,10 @@ fun TradeScreen(
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Text(
-                    currencyFormatter.formatCurrency(principal ?: BigDecimal.ZERO, reportingCurrency),
+                    currencyFormatter.formatCurrency(
+                        principal ?: BigDecimal.ZERO,
+                        reportingCurrency
+                    ),
                     style = MaterialTheme.typography.bodyLarge
                 )
             }
@@ -531,13 +538,18 @@ fun TradeScreen(
                         FilterChip(
                             selected = linkedTransactionId == transaction.id,
                             onClick = {
-                                linkedTransactionId = if (linkedTransactionId == transaction.id) null else transaction.id
+                                linkedTransactionId =
+                                    if (linkedTransactionId == transaction.id) null else transaction.id
                             },
                             label = {
                                 Column {
-                                    (transaction.party?.name ?: transaction.comment)?.let { Text(it) }
+                                    (transaction.party?.name
+                                        ?: transaction.comment)?.let { Text(it) }
                                     Text(
-                                        currencyFormatter.formatCurrency(transaction.displayAmount.amountMajor, reportingCurrency),
+                                        currencyFormatter.formatCurrency(
+                                            transaction.displayAmount.amountMajor,
+                                            reportingCurrency
+                                        ),
                                         style = MaterialTheme.typography.labelSmall
                                     )
                                 }
@@ -649,7 +661,8 @@ fun AssetSelector(
                                     selectedTypes - type
                                 } else {
                                     // If toggling off the only selected type, switch to the other types
-                                    CommodityType.entries.filter { it != CommodityType.FIAT && it != type }.toSet()
+                                    CommodityType.entries.filter { it != CommodityType.FIAT && it != type }
+                                        .toSet()
                                 }
                             } else {
                                 selectedTypes + type
@@ -668,9 +681,15 @@ fun AssetSelector(
                     val isSelected = account.currencyUnit.code == selectedAsset?.code
                     DropdownMenuItem(
                         text = {
-                            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
                                 Text("${account.label} (${account.currencyUnit.code})")
-                                AmountText(amount = account.currentBalance, currency = account.currencyUnit)
+                                AmountText(
+                                    amount = account.currentBalance,
+                                    currency = account.currencyUnit
+                                )
                             }
                         },
                         leadingIcon = if (isSelected) {
@@ -730,7 +749,7 @@ fun FundingSourceSelector(
     selectedAccountId: Long?,
     accounts: List<Pair<Long, String>>,
     onSourceSelected: (FundingSource, Long?) -> Unit,
-    showPortfolio: Boolean = true
+    showPortfolio: Boolean = true,
 ) {
     var expanded by remember { mutableStateOf(false) }
     val selectedText = when (selectedSource) {
@@ -752,12 +771,19 @@ fun FundingSourceSelector(
             if (showPortfolio) {
                 DropdownMenuItem(
                     text = {
-                        Row(Modifier.fillMaxWidth(), Arrangement.SpaceBetween, Alignment.CenterVertically) {
+                        Row(
+                            Modifier.fillMaxWidth(),
+                            Arrangement.SpaceBetween,
+                            Alignment.CenterVertically
+                        ) {
                             Column {
                                 Text(stringResource(R.string.trade_funding_portfolio))
                                 Text(portfolio.label, style = MaterialTheme.typography.labelSmall)
                             }
-                            AmountText(amount = portfolio.children.find { it.type.isCashAccount }?.currentBalance ?: 0L, currency = portfolio.currencyUnit)
+                            AmountText(
+                                amount = portfolio.children.find { it.type.isCashAccount }?.currentBalance
+                                    ?: 0L, currency = portfolio.currencyUnit
+                            )
                         }
                     },
                     leadingIcon = if (selectedSource == FundingSource.PORTFOLIO) {
@@ -771,7 +797,10 @@ fun FundingSourceSelector(
                 text = {
                     Column {
                         Text(stringResource(R.string.trade_funding_external))
-                        Text(stringResource(R.string.trade_funding_external_description), style = MaterialTheme.typography.labelSmall)
+                        Text(
+                            stringResource(R.string.trade_funding_external_description),
+                            style = MaterialTheme.typography.labelSmall
+                        )
                     }
                 },
                 leadingIcon = if (selectedSource == FundingSource.EXTERNAL) {
@@ -782,13 +811,16 @@ fun FundingSourceSelector(
             HorizontalDivider()
             // Group 3: Other Accounts
             accounts.forEach { account ->
-                val isSelected = selectedSource == FundingSource.ACCOUNT && selectedAccountId == account.first
+                val isSelected =
+                    selectedSource == FundingSource.ACCOUNT && selectedAccountId == account.first
                 DropdownMenuItem(
                     text = { Text(account.second) },
                     leadingIcon = if (isSelected) {
                         { Icon(Icons.Default.Check, contentDescription = null) }
                     } else null,
-                    onClick = { onSourceSelected(FundingSource.ACCOUNT, account.first); expanded = false }
+                    onClick = {
+                        onSourceSelected(FundingSource.ACCOUNT, account.first); expanded = false
+                    }
                 )
             }
         }

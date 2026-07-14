@@ -51,6 +51,9 @@ import org.totschnig.myexpenses.provider.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.KEY_UUID
 import org.totschnig.myexpenses.provider.KEY_VALUE_DATE
+import org.totschnig.myexpenses.provider.PORTFOLIO_ASSET
+import org.totschnig.myexpenses.provider.PORTFOLIO_CASH
+import org.totschnig.myexpenses.provider.PORTFOLIO_NONE
 import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.STATUS_ARCHIVE
 import org.totschnig.myexpenses.provider.TABLE_TRANSACTIONS
@@ -86,6 +89,7 @@ import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.viewmodel.data.Trade
 import org.totschnig.myexpenses.viewmodel.data.TradeType
+import java.math.BigDecimal
 import java.math.RoundingMode
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -239,7 +243,7 @@ fun Repository.updateTransfer(
 
     val destinationOriginalStatus = destinationTransaction.status
     val tempStatusValues = ContentValues(1).apply {
-       put(KEY_STATUS, -1)
+        put(KEY_STATUS, -1)
     }
     operations.add(
         ContentProviderOperation
@@ -261,10 +265,12 @@ fun Repository.updateTransfer(
 
     operations.add(
         ContentProviderOperation.newUpdate(destinationUri)
-            .withValues(destinationTransaction.asContentValues(
-                withUuid = false,
-                withCrStatus = false
-            ))
+            .withValues(
+                destinationTransaction.asContentValues(
+                    withUuid = false,
+                    withCrStatus = false
+                )
+            )
             .build()
     )
     operations.add(
@@ -496,9 +502,10 @@ fun Repository.loadTransaction(
     transactionId: Long,
     withTransfer: Boolean = true,
     withTags: Boolean = false,
+    extended: Boolean = false
 ): RepositoryTransaction = contentResolver.query(
-    ContentUris.withAppendedId(TRANSACTIONS_URI, transactionId),
-    Transaction.projection,
+    ContentUris.withAppendedId(if (extended) EXTENDED_URI else TRANSACTIONS_URI, transactionId),
+    if (extended) Transaction.projectionExtended else Transaction.projection,
     null,
     null,
     null
@@ -667,7 +674,8 @@ fun Repository.calculateSplitSummary(id: Long): List<Pair<String, String?>>? {
         }?.takeIf { it.isNotEmpty() }
 }
 
-fun Repository.loadTrade(transactionId: Long): Trade? = loadTrades(listOf(transactionId)).firstOrNull()
+fun Repository.loadTrade(transactionId: Long): Trade? =
+    loadTrades(listOf(transactionId)).firstOrNull()
 
 fun Repository.loadTrades(transactionIds: List<Long>): List<Trade> {
     if (transactionIds.isEmpty()) return emptyList()
@@ -681,8 +689,8 @@ fun Repository.loadTrades(transactionIds: List<Long>): List<Trade> {
     )!!.useAndMapToList { Transaction.fromCursor(it) }
 
     val splits = contentResolver.query(
-        TRANSACTIONS_URI,
-        Transaction.projection,
+        EXTENDED_URI,
+        Transaction.projectionExtended,
         "$KEY_PARENTID IN (${transactionIds.joinToString()})",
         null,
         null
@@ -690,60 +698,46 @@ fun Repository.loadTrades(transactionIds: List<Long>): List<Trade> {
 
     val splitMap = splits.groupBy { it.parentId }
 
-    return parents.map { parent ->
-        val parts = splitMap[parent.id]
+    return parents.mapNotNull { parent ->
+        val parts = splitMap[parent.id] ?: return@mapNotNull null
+        val parentCurrency = parent.currency ?: return@mapNotNull null
 
-        // Case 1: Simple Transaction or Transfer (No Split)
-        if (parts == null) {
-            val tradeType = if (parent.amount > 0) TradeType.CashMovement.DEPOSIT else TradeType.CashMovement.WITHDRAW
-            return@map Trade(
-                id = parent.id,
-                type = tradeType,
-                date = epoch2ZonedDateTime(parent.date),
-                quantity = Money(currencyContext[parent.currency!!], 0L),
-                principal = Money(currencyContext[parent.currency], parent.amount).absolute(),
-                fee = null,
-                assetSymbol = parent.currency,
-                comment = parent.comment,
-                price = java.math.BigDecimal.ONE,
-                fundingAccountLabel = parent.transferAccountId?.let { loadAccount(it)?.label },
-                currency = parent.currency
-            )
-        }
+        var assetPart: Pair<Transaction, Transaction>?
+        var cashPart: Pair<Transaction, Transaction>? = null
+        var fundingPart: Pair<Transaction, Transaction?>
 
-        // Case 2: Split Transaction
-        var securityPart: Transaction? = null
-        var portfolioCashPart: Transaction? = null
-        var externalPart: Transaction? = null
-        var feePart: Transaction? = null
+        // Identify the fee part (negative amount, no transfer account)
+        val feePart = parts.find { it.transferAccountId == null && it.amount < 0 }
 
-        parts.forEach { part ->
-            if (part.transferAccountId != null) {
-                val account = loadAccount(part.transferAccountId)
-                if (account?.parentId == parent.accountId) {
-                    if (account.type?.name == org.totschnig.myexpenses.model.PREDEFINED_NAME_INVESTMENT) {
-                        securityPart = part
-                    } else if (account.type?.isCashAccount == true) {
-                        portfolioCashPart = part
-                    }
-                } else {
-                    externalPart = part
-                }
-            } else if (part.amount < 0) {
-                feePart = part
-            }
-        }
+        // Load all transfer peers once to identify roles
+        val transferPeers = parts.filter { it.transferPeerId != null }
+            .associateWith { loadTransaction(it.transferPeerId!!, false , extended = true).data }.toList()
 
-        if (securityPart != null) {
-            // It's a Buy/Sell Trade
-            val peerTransaction = loadTransaction(securityPart!!.transferPeerId!!, false).data
-            val quantity = Money(currencyContext[peerTransaction.currency!!], peerTransaction.amount).absolute()
-            val tradeType = if (peerTransaction.amount > 0) TradeType.AssetTrade.BUY else TradeType.AssetTrade.SELL
-            val principal = Money(currencyContext[parent.currency!!], securityPart!!.amount).absolute()
-            val fee = feePart?.let { Money(currencyContext[parent.currency!!], it.amount).absolute() }
-            val price = if (quantity.amountMajor > java.math.BigDecimal.ZERO) {
-                principal.amountMajor.divide(quantity.amountMajor, 8, java.math.RoundingMode.HALF_UP)
-            } else java.math.BigDecimal.ZERO
+        assetPart = transferPeers.find { it.second.portfolioRole == PORTFOLIO_ASSET }
+
+        fundingPart = if (assetPart == null) {
+            cashPart = transferPeers.find { it.second.portfolioRole == PORTFOLIO_CASH }
+            transferPeers.find { it.second.portfolioRole == PORTFOLIO_NONE }
+        } else {
+            transferPeers.find { it.second.portfolioRole != PORTFOLIO_ASSET }
+        } ?: (parts.first { it.transferPeerId == null } to null)
+
+
+        if (assetPart != null) {
+            // --- Buy/Sell Trade ---
+            val peerTransaction = assetPart.second
+            val quantity = Money(
+                currencyContext[peerTransaction.currency!!],
+                peerTransaction.amount
+            ).absolute()
+            val tradeType =
+                if (peerTransaction.amount > 0) TradeType.AssetTrade.BUY else TradeType.AssetTrade.SELL
+            val principal =
+                Money(currencyContext[parentCurrency], assetPart.first.amount).absolute()
+            val fee = feePart?.let { Money(currencyContext[parentCurrency], it.amount).absolute() }
+            val price = if (quantity.amountMajor > BigDecimal.ZERO) {
+                principal.amountMajor.divide(quantity.amountMajor, 8, RoundingMode.HALF_UP)
+            } else BigDecimal.ZERO
 
             Trade(
                 id = parent.id,
@@ -752,17 +746,21 @@ fun Repository.loadTrades(transactionIds: List<Long>): List<Trade> {
                 quantity = quantity,
                 principal = principal,
                 fee = fee,
-                assetSymbol = peerTransaction.currency!!,
+                assetSymbol = peerTransaction.currency,
                 comment = parent.comment,
                 price = price,
-                fundingAccountLabel = (portfolioCashPart ?: externalPart)?.let { loadAccount(it.transferAccountId!!)?.label },
-                currency = parent.currency!!
+                fundingAccount = fundingPart.second?.let { it.accountId to it.accountLabel!! },
+                currency = parentCurrency
             )
-        } else if (portfolioCashPart != null) {
-            // It's a split deposit/withdrawal
-            val tradeType = if (portfolioCashPart!!.amount < 0) TradeType.CashMovement.DEPOSIT else TradeType.CashMovement.WITHDRAW
-            val principal = Money(currencyContext[parent.currency!!], portfolioCashPart!!.amount).absolute()
-            val fee = feePart?.let { Money(currencyContext[parent.currency!!], it.amount).absolute() }
+        } else if (cashPart != null) {
+            // --- Cash Movement (Deposit/Withdrawal) ---
+            // If fundingPart.amount < 0, money moved Portfolio -> Sub-account (Deposit)
+            val tradeType =
+                if (cashPart.first.amount < 0) TradeType.CashMovement.DEPOSIT else TradeType.CashMovement.WITHDRAW
+            val principal =
+                Money(currencyContext[parentCurrency], fundingPart.first.amount).absolute()
+            val fee = feePart?.let { Money(currencyContext[parentCurrency], it.amount).absolute() }
+
             Trade(
                 id = parent.id,
                 type = tradeType,
@@ -770,29 +768,13 @@ fun Repository.loadTrades(transactionIds: List<Long>): List<Trade> {
                 quantity = principal,
                 principal = principal,
                 fee = fee,
-                assetSymbol = parent.currency!!,
+                assetSymbol = parentCurrency,
                 comment = parent.comment,
-                price = java.math.BigDecimal.ONE,
-                fundingAccountLabel = externalPart?.let { loadAccount(it.transferAccountId!!)?.label },
-                currency = parent.currency!!
+                price = BigDecimal.ONE,
+                fundingAccount = fundingPart.second?.let { it.accountId to it.accountLabel!! },
+                currency = parentCurrency
             )
-        } else {
-            // It's a split deposit/withdrawal (legacy or generic)
-            val tradeType = if (parent.amount > 0) TradeType.CashMovement.DEPOSIT else TradeType.CashMovement.WITHDRAW
-            Trade(
-                id = parent.id,
-                type = tradeType,
-                date = epoch2ZonedDateTime(parent.date),
-                quantity = Money(currencyContext[parent.currency!!], 0L),
-                principal = Money(currencyContext[parent.currency], parent.amount).absolute(),
-                fee = null,
-                assetSymbol = parent.currency,
-                comment = parent.comment,
-                price = java.math.BigDecimal.ONE,
-                fundingAccountLabel = externalPart?.let { loadAccount(it.transferAccountId!!)?.label },
-                currency = parent.currency
-            )
-        }
+        } else null
     }
 }
 
@@ -1007,11 +989,12 @@ fun Repository.groupToSplitTransaction(ids: LongArray): Result<Boolean> {
                 Result.success(true)
             }
 
-            0 -> Result.failure(IllegalStateException(
-                "Transactions (${ids.joinToString()}) not found"
-            ).also {
-                CrashHandler.report(it)
-            })
+            0 -> Result.failure(
+                IllegalStateException(
+                    "Transactions (${ids.joinToString()}) not found"
+                ).also {
+                    CrashHandler.report(it)
+                })
 
             else -> Result.success(false)
         }
@@ -1020,7 +1003,7 @@ fun Repository.groupToSplitTransaction(ids: LongArray): Result<Boolean> {
 
 suspend fun Repository.checkSealedStatus(
     itemIds: List<Long>,
-    withTransfer: Boolean
+    withTransfer: Boolean,
 ) = if (itemIds.isEmpty()) {
     CrashHandler.throwOrReport("Called with empty list")
     Result.success(
@@ -1034,19 +1017,21 @@ suspend fun Repository.checkSealedStatus(
 
 suspend fun Repository.checkSealedStatus(
     accountId: Long,
-) = performSealedCheck(selection = "$KEY_ACCOUNTID = ?",
-        args = arrayOf(accountId.toString()),
-        withTransfer = true)
+) = performSealedCheck(
+    selection = "$KEY_ACCOUNTID = ?",
+    args = arrayOf(accountId.toString()),
+    withTransfer = true
+)
 
 data class SealedCheckResult(
     val hasSealedAccount: Boolean,
-    val hasSealedDebt: Boolean
+    val hasSealedDebt: Boolean,
 )
 
 private suspend fun Repository.performSealedCheck(
     selection: String,
     args: Array<String>,
-    withTransfer: Boolean
+    withTransfer: Boolean,
 ): Result<SealedCheckResult> = withContext(Dispatchers.IO) {
     val projection = arrayOf(
         if (withTransfer) KEY_HAS_SEALED_ACCOUNT_WITH_TRANSFER else KEY_HAS_SEALED_ACCOUNT,
@@ -1054,7 +1039,8 @@ private suspend fun Repository.performSealedCheck(
     )
     try {
         contentResolver.query(
-            TRANSACTIONS_URI.buildUpon().appendQueryParameter(QUERY_PARAMETER_INCLUDE_ALL, "1").build(),
+            TRANSACTIONS_URI.buildUpon().appendQueryParameter(QUERY_PARAMETER_INCLUDE_ALL, "1")
+                .build(),
             projection, selection, args, null
         )?.use { cursor ->
             if (cursor.moveToFirst()) {
@@ -1081,14 +1067,15 @@ private suspend fun Repository.performSealedCheck(
  * @return Result containing a list of all transfer account IDs linked to the parts of those splits
  */
 suspend fun Repository.checkTransferAccountOfSplitParts(
-    itemIds: List<Long>
+    itemIds: List<Long>,
 ): Result<List<Long>> = withContext(Dispatchers.IO) {
     if (itemIds.isEmpty()) {
         return@withContext Result.success(emptyList())
     }
 
     val projection = arrayOf("DISTINCT $KEY_TRANSFER_ACCOUNT")
-    val selection = "$KEY_TRANSFER_ACCOUNT IS NOT NULL AND $KEY_PARENTID IN (${itemIds.joinToString(",") { "?" }})"
+    val selection =
+        "$KEY_TRANSFER_ACCOUNT IS NOT NULL AND $KEY_PARENTID IN (${itemIds.joinToString(",") { "?" }})"
     val args = itemIds.map { it.toString() }.toTypedArray()
 
     try {
@@ -1104,7 +1091,8 @@ suspend fun Repository.checkTransferAccountOfSplitParts(
                 ids.add(cursor.getLong(0))
             }
             Result.success(ids)
-        } ?: Result.failure(Exception("Error while checking transfer account of split parts: Cursor null"))
+        }
+            ?: Result.failure(Exception("Error while checking transfer account of split parts: Cursor null"))
     } catch (e: Exception) {
         CrashHandler.report(e)
         Result.failure(e)

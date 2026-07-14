@@ -341,3 +341,4 @@ const val KEY_COMMODITY_TYPE: String = "commodity_type" // e.g., 'FIAT', 'CRYPTO
 const val PORTFOLIO_NONE = 0
 const val PORTFOLIO_CONTAINER = 1
 const val PORTFOLIO_ASSET = 2
+const val PORTFOLIO_CASH = 3

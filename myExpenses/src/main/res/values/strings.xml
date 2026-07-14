@@ -173,8 +173,6 @@
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
     <string name="menu_reset_plan_instance">Reset</string>
     <string name="menu_save">Save</string>
-    <string name="trade_bought">Bought</string>
-    <string name="trade_sold">Sold</string>
     <string name="valuation">Valuation</string>
     <string name="menu_save_and_new">Save and new</string>
     <string name="menu_share">Tell a friend</string>

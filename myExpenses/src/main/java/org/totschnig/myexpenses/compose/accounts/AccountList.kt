@@ -691,14 +691,28 @@ fun PortfolioInventory(
                 modifier = Modifier.weight(1f)
             )
 
-            Column(horizontalAlignment = Alignment.End) {
+            val isAsset = asset.currencyUnit != portfolio.currencyUnit
+            Column(
+                horizontalAlignment = Alignment.End,
+                modifier = Modifier
+                    .conditional(isAsset) {
+                        clickable {
+                            onAccountEvent(
+                                AccountEvent.ViewPriceHistory(
+                                    asset.currencyUnit.code
+                                ),
+                                portfolio
+                            )
+                        }
+                    }
+            ) {
                 // Corrected Valuation in Portfolio Currency
                 AmountText(
                     amount = asset.equivalentCurrentBalance,
                     currency = portfolio.currencyUnit,
                 )
                 // Quantity in Asset Units
-                if (asset.currencyUnit != portfolio.currencyUnit) {
+                if (isAsset) {
 
                     asset.latestExchangeRate?.let { (date, rate) ->
                         val realRate = calculateRealExchangeRate(
@@ -727,17 +741,7 @@ fun PortfolioInventory(
 
                         val parts = localizedLayout.split(priceMarker)
 
-                        Row(verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier
-                                .minimumInteractiveComponentSize()
-                                .clickable {
-                                    onAccountEvent(
-                                        AccountEvent.ViewPriceHistory(
-                                            asset.currencyUnit.code
-                                        ),
-                                        portfolio
-                                    )
-                                }) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
                             if (parts.isNotEmpty()) {
                                 Text(text = parts[0], style = MaterialTheme.typography.labelSmall)
                             }

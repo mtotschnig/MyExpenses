@@ -76,6 +76,9 @@ import org.totschnig.myexpenses.provider.KEY_PARENTID
 import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.KEY_UUID
+import org.totschnig.myexpenses.provider.PORTFOLIO_ASSET
+import org.totschnig.myexpenses.provider.PORTFOLIO_CASH
+import org.totschnig.myexpenses.provider.PORTFOLIO_CONTAINER
 import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
@@ -439,7 +442,7 @@ open class MyExpensesV2ViewModel(
                 currency = currency,
                 color = color,
                 type = repository.findAccountType(AccountType.INVESTMENT.name),
-                isPortfolio = true
+                portfolioRole = PORTFOLIO_CONTAINER
             )
             val accountId = repository.createAccount(portfolio).id
             selectAccount(accountId)
@@ -586,12 +589,12 @@ open class MyExpensesV2ViewModel(
             val targetAccountId = if (isAssetTrade) {
                 intent.targetAccountId ?: run {
                     val account = Account(
-                        label = intent.targetAsset.code,
+                        label = intent.targetAsset.description,
                         currency = intent.targetAsset.code,
                         parentId = currentAccount.id,
                         type = repository.findAccountType(AccountType.INVESTMENT.name)!!,
                         color = DEFAULT_COLOR,
-                        isPortfolioAsset = true,
+                        portfolioRole = PORTFOLIO_ASSET,
                         dynamicExchangeRates = true
                     )
                     repository.createAccount(account).id
@@ -606,6 +609,7 @@ open class MyExpensesV2ViewModel(
                             parentId = currentAccount.id,
                             type = repository.findAccountType(AccountType.CASH.name)!!,
                             color = currentAccount.color,
+                            portfolioRole = PORTFOLIO_CASH,
                         )
                         repository.createAccount(cashAccount).id
                     }
@@ -681,7 +685,6 @@ open class MyExpensesV2ViewModel(
                     amount = Money.buildWithMajor(portfolioCurrency, fundingLegHubAmount)
                         .getOrThrow(),
                     transferEditData = fundingTransferAccountId?.let { TransferEditData(transferAccountId = it) },
-                    comment = if (intent.fundingSource == FundingSource.EXTERNAL) "External" else null,
                     isSplitPart = true,
                     uuid = fundingLegUuid,
                     categoryId = if (intent.linkedTransactionId != null) null else transferCategory
