@@ -1145,6 +1145,7 @@
     <string name="trade_price">Price</string>
     <string name="trade_fee">Fee</string>
     <string name="trade_target_asset">Asset</string>
+    <!-- Label for the action to create a new portfolio, which is a container for investment assets and cash -->
     <string name="menu_create_portfolio">New portfolio</string>
     <!-- Label for the category of fiat currencies (e.g., USD, EUR). Plural. -->
     <string name="asset_type_fiat_plural">Currencies</string>
@@ -1156,6 +1157,7 @@
     <string name="asset_type_crypto">Crypto</string>
     <!-- On the Screen, where Trades are recording, this refers to the dropdown for selecting how the cost is funded, or where the proceeds should land -->
     <string name="trade_funding_source">Funding Source</string>
+    <!-- Option in the "Funding Source" selector for a trade, referring to the cash balance held within the portfolio itself. -->
     <string name="trade_funding_portfolio">Portfolio Cash</string>
     <string name="trade_funding_external_description">Funds from sources not tracked in this app</string>
     <string name="trade_deposit">Deposit</string>
