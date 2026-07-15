@@ -1,19 +1,25 @@
 package org.totschnig.myexpenses.viewmodel.data
 
+import android.os.Parcelable
 import androidx.annotation.StringRes
+import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
-sealed class TradeType(@param:StringRes val label: Int) {
+sealed class TradeType(@param:StringRes val label: Int) : Parcelable {
     sealed class AssetTrade(label: Int) : TradeType(label) {
+        @Parcelize
         data object BUY : AssetTrade(R.string.trade_buy)
+        @Parcelize
         data object SELL : AssetTrade(R.string.trade_sell)
     }
 
     sealed class CashMovement(label: Int) : TradeType(label) {
+        @Parcelize
         data object DEPOSIT : CashMovement(R.string.trade_deposit)
+        @Parcelize
         data object WITHDRAW : CashMovement(R.string.trade_withdraw)
     }
 

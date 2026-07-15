@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.util.formatMoney
 import kotlin.math.sign
 
 fun Modifier.amountBorder(color: Color) = this
@@ -50,6 +51,7 @@ fun AmountText(
     overflow: TextOverflow = TextOverflow.Clip,
     softWrap: Boolean = true,
     maxLines: Int = Int.MAX_VALUE,
+    currencySymbol: String? = null
 ) {
     val money = Money(currency, amount)
     Text(
@@ -59,9 +61,15 @@ fun AmountText(
         textAlign = textAlign,
         textDecoration = textDecoration,
         color = color,
-        text = prefix + LocalCurrencyFormatter.current.formatCurrency(
-            money.amountMajor,
-            money.currencyUnit
+        text = prefix + LocalCurrencyFormatter.current.formatMoney(
+            money,
+            configure = currencySymbol?.let { symbol ->
+                {
+                    it.decimalFormatSymbols = it.decimalFormatSymbols.apply {
+                        this.currencySymbol = symbol
+                    }
+                }
+            }
         ) + postfix,
         overflow = overflow,
         softWrap = softWrap,

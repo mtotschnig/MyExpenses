@@ -1052,5 +1052,5 @@
     <string name="prioritize_flag_order">Reihenfolge der Markierungen priorisieren</string>
     <string name="pref_content_based_colors_title">Konto-basierte dynamische Farbe</string>
     <string name="pref_content_based_colors_summary">Die Designfarben werden von der Farbe des aktuellen Kontos abgeleitet. Deaktivieren Sie diese Option, falls der Text schwer lesbar ist.</string>
-    <string name="asset_quantity_at_price">%1$s zu %2$s (%3$s)</string>
+    <string name="asset_quantity_at_price">%1$s zu %2$s</string>
 </resources>

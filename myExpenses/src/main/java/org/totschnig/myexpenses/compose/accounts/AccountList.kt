@@ -64,10 +64,12 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
+import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -722,7 +724,6 @@ fun PortfolioInventory(
                             portfolio.currencyUnit
                         )
                         val priceFormatted = fXFormat.format(realRate)
-                        val dateFormatted = dateFormatter.format(date)
                         val quantityFormatted = LocalCurrencyFormatter.current.convAmount(
                             asset.currentBalance,
                             asset.currencyUnit
@@ -736,30 +737,31 @@ fun PortfolioInventory(
                         val localizedLayout = stringResource(
                             R.string.asset_quantity_at_price,
                             quantityFormatted,
-                            priceMarker,
-                            dateFormatted
+                            priceMarker
                         )
 
-                        val parts = localizedLayout.split(priceMarker)
-
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            if (parts.isNotEmpty()) {
-                                Text(text = parts[0], style = MaterialTheme.typography.labelSmall)
-                            }
-
-                            // 3. This is the narrowed-down price anchor
-                            Text(
-                                text = priceFormatted,
-                                style = MaterialTheme.typography.labelSmall.copy(
-                                    textDecoration = TextDecoration.Underline,
-                                    color = MaterialTheme.colorScheme.primary
-                                )
-                            )
-
-                            if (parts.size > 1) {
-                                Text(text = parts[1], style = MaterialTheme.typography.labelSmall)
+                        val annotatedString = buildAnnotatedString {
+                            val priceIndex = localizedLayout.indexOf(priceMarker)
+                            if (priceIndex != -1) {
+                                append(localizedLayout.substring(0, priceIndex))
+                                withStyle(
+                                    style = SpanStyle(
+                                        textDecoration = TextDecoration.Underline,
+                                        color = MaterialTheme.colorScheme.primary
+                                    )
+                                ) {
+                                    append(priceFormatted)
+                                }
+                                append(localizedLayout.substring(priceIndex + priceMarker.length))
+                            } else {
+                                append(localizedLayout)
                             }
                         }
+
+                        Text(
+                            text = annotatedString,
+                            style = MaterialTheme.typography.labelSmall
+                        )
 
                     }
                 }

@@ -512,9 +512,9 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                 ) {
                     TradeScreen(
                         onDismiss = { tradeToEdit = null },
-                        onSave = { intent ->
+                        onSave = { intent, stayOpen ->
                             viewModel.saveTrade(fullAccount, intent, trade.id)
-                            tradeToEdit = null
+                            if (!stayOpen) tradeToEdit = null
                         },
                         portfolio = fullAccount,
                         reportingCurrency = fullAccount.currencyUnit,

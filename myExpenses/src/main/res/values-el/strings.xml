@@ -1020,5 +1020,5 @@
     <string name="warning_unlink_transfer">Η επιλεγμένη μεταφορά θα αποσυνδεθεί: Θα αντικατασταθεί από απλές συναλλαγές και στους δύο λογαριασμούς.</string>
     <string name="menu_unlink_transfer">Αποσύνδεση μεταφοράς</string>
     <string name="supports_reconciliation">Υποστήριξη συμφωνίας λογαριασμών</string>
-    <string name="asset_quantity_at_price">%1$s στα %2$s (%3$s)</string>
+    <string name="asset_quantity_at_price">%1$s στα %2$s</string>
 </resources>

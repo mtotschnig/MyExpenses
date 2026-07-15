@@ -527,9 +527,9 @@ fun TransactionScreen(
             ) {
                 TradeScreen(
                     onDismiss = { showTradeScreen = null },
-                    onSave = { intent ->
+                    onSave = { intent, stayOpen ->
                         onEvent(AppEvent.SaveTrade(intent))
-                        showTradeScreen = null
+                        if (!stayOpen) showTradeScreen = null
                     },
                     reportingCurrency = currentAccount.currencyUnit,
                     assets = allCurrencies,

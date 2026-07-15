@@ -1144,9 +1144,6 @@
     <string name="trade_quantity">Quantity</string>
     <string name="trade_price">Price</string>
     <string name="trade_fee">Fee</string>
-    <string name="trade_principal">Principal</string>
-    <string name="trade_total_outlay">Total</string>
-    <string name="trade_funding_account">Funding Account</string>
     <string name="trade_target_asset">Asset</string>
     <string name="menu_create_portfolio">New portfolio</string>
     <!-- Label for the category of fiat currencies (e.g., USD, EUR). Plural. -->
@@ -1157,13 +1154,13 @@
     <string name="asset_type_security_plural">Securities</string>
     <!-- Collective noun for cryptocurrencies (e.g., Bitcoin, Ethereum). Translators should use the common local term for this asset class. -->
     <string name="asset_type_crypto">Crypto</string>
+    <!-- On the Screen, where Trades are recording, this refers to the dropdown for selecting how the cost is funded, or where the proceeds should land -->
     <string name="trade_funding_source">Funding Source</string>
     <string name="trade_funding_portfolio">Portfolio Cash</string>
-    <string name="trade_funding_external">External (Untracked)</string>
     <string name="trade_funding_external_description">Funds from sources not tracked in this app</string>
     <string name="trade_deposit">Deposit</string>
     <string name="trade_withdraw">Withdrawal</string>
     <string name="trade_matching_transaction_found">Matching transaction found in funding account. Select to link:</string>
-    <!-- Label for asset valuation: %1$s: Quantity, %2$s: Unit price in portfolio currency (e.g., "150.00 USD"), %3$s: Date (e.g., "2023-10-27") -->
-    <string name="asset_quantity_at_price">%1$s @ %2$s (%3$s)</string>
+    <!-- Label for asset valuation: %1$s: Quantity, %2$s: Unit price in portfolio currency (e.g., "150.00 USD") -->
+    <string name="asset_quantity_at_price">%1$s @ %2$s</string>
 </resources>

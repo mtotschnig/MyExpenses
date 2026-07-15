@@ -961,5 +961,5 @@
     <string name="pref_fab_style_standard_description">Standaard (Tik op de pijl voor het menu)</string>
     <string name="pref_fab_style_compact_description">Compact (Tik en houd ingedrukt voor het menu)</string>
     <string name="number_too_large">Het getal is te groot</string>
-    <string name="asset_quantity_at_price">%1$s à %2$s (%3$s)</string>
+    <string name="asset_quantity_at_price">%1$s à %2$s</string>
 </resources>
