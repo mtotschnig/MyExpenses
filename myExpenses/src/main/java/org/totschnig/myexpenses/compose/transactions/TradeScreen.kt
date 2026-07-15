@@ -102,7 +102,7 @@ fun TradeScreen(
     var selectedSubaccountId by remember {
         mutableStateOf(initialTrade?.let { trade ->
             portfolio.children.find { it.currencyUnit.code == trade.assetSymbol }?.id
-        } ?: portfolio.children.firstOrNull()?.id)
+        } ?: portfolio.children.find { it.isPortfolioAsset }?.id)
     }
     var selectedAsset by remember {
         mutableStateOf(initialTrade?.let { trade ->

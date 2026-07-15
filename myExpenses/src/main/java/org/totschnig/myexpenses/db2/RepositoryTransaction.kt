@@ -720,7 +720,7 @@ fun Repository.loadTrades(transactionIds: List<Long>): List<Trade> {
             transferPeers.find { it.second.portfolioRole == PORTFOLIO_NONE }
         } else {
             transferPeers.find { it.second.portfolioRole != PORTFOLIO_ASSET }
-        } ?: (parts.first { it.transferPeerId == null } to null)
+        } ?: ((parts.find { it.transferPeerId == null } ?: return@mapNotNull null)  to null)
 
 
         if (assetPart != null) {

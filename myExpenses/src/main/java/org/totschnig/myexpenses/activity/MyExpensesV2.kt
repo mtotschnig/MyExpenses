@@ -520,9 +520,10 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                         reportingCurrency = fullAccount.currencyUnit,
                         assets = allCurrencies,
                         fundingAccounts = accountList
+                            .filterIsInstance<FullAccount>()
                             .filter {
-                                !it.isAggregate && it.currencyUnit.code == fullAccount.currencyUnit.code &&
-                                        it.id != fullAccount.id
+                                !it.isPortfolio &&
+                                        it.currencyUnit.code == fullAccount.currencyUnit.code
                             }
                             .map {
                                 it.id to it.labelV2(this)

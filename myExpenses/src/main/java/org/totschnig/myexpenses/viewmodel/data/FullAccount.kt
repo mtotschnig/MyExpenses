@@ -58,6 +58,9 @@ import org.totschnig.myexpenses.provider.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.KEY_TOTAL
 import org.totschnig.myexpenses.provider.KEY_UUID
 import org.totschnig.myexpenses.provider.KEY_VISIBLE
+import org.totschnig.myexpenses.provider.PORTFOLIO_ASSET
+import org.totschnig.myexpenses.provider.PORTFOLIO_CONTAINER
+import org.totschnig.myexpenses.provider.PORTFOLIO_NONE
 import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getBooleanIfExists
 import org.totschnig.myexpenses.provider.getDouble
@@ -66,6 +69,7 @@ import org.totschnig.myexpenses.provider.getDoubleOrNull
 import org.totschnig.myexpenses.provider.getEnum
 import org.totschnig.myexpenses.provider.getEnumIfExists
 import org.totschnig.myexpenses.provider.getInt
+import org.totschnig.myexpenses.provider.getIntIfExists
 import org.totschnig.myexpenses.provider.getLocalDate
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongIfExists
@@ -215,7 +219,7 @@ data class FullAccount(
     val latestExchangeRate: Pair<LocalDate, Double>? = null,
     val dynamic: Boolean = false,
     val parentId: Long? = null,
-    val isPortfolio: Boolean = false,
+    val portfolioRole: Int = PORTFOLIO_NONE,
     val isVisible: Boolean = true,
     val children: List<FullAccount> = emptyList(),
     override val isSingleCurrency: Boolean = true,
@@ -235,6 +239,11 @@ data class FullAccount(
         get() = currentBalance + childrenValuation
     val equivalentEffectiveBalance
         get() = equivalentCurrentBalance + equivalentChildrenValuation
+
+    val isPortfolio: Boolean
+        get() = portfolioRole == PORTFOLIO_CONTAINER
+    val isPortfolioAsset: Boolean
+        get() = portfolioRole == PORTFOLIO_ASSET
 
     val toPageAccount: PageAccount
         get() = PageAccount(
@@ -283,7 +292,7 @@ data class FullAccount(
                 .takeIf { it == KEY_DATE || it == KEY_AMOUNT }
                 ?: KEY_DATE
             val id = getLong(KEY_ROWID)
-            val isPortfolio = getBooleanIfExists(KEY_IS_PORTFOLIO) ?: false
+            val portfolioRole = getIntIfExists(KEY_IS_PORTFOLIO) ?: PORTFOLIO_NONE
             return FullAccount(
                 id = id,
                 label = getString(KEY_LABEL),
@@ -323,10 +332,10 @@ data class FullAccount(
                     getLocalDate(KEY_LATEST_EXCHANGE_RATE_DATE) to it
                 },
                 dynamic = getBoolean(KEY_DYNAMIC),
-                balanceType = if (isPortfolio) BalanceType.VALUATION else getEnumIfExists(KEY_BALANCE_TYPE, BalanceType.CURRENT),
+                balanceType = if (portfolioRole == PORTFOLIO_CONTAINER) BalanceType.VALUATION else getEnumIfExists(KEY_BALANCE_TYPE, BalanceType.CURRENT),
                 parentId = getLongIfExists(KEY_PARENTID),
                 isVisible = getBooleanIfExists(KEY_VISIBLE) ?: true,
-                isPortfolio = isPortfolio,
+                portfolioRole = portfolioRole,
                 //in V2 this is only called for real accounts, in V1 we need to set isSingleCurrency to false for home aggregate
                 isSingleCurrency = !isHomeAggregate(id)
             )

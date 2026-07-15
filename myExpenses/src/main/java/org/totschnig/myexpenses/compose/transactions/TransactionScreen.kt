@@ -534,8 +534,9 @@ fun TransactionScreen(
                     reportingCurrency = currentAccount.currencyUnit,
                     assets = allCurrencies,
                     fundingAccounts = accountList
+                        .filterIsInstance<FullAccount>()
                         .filter {
-                            !it.isAggregate && it.currencyUnit.code == currentAccount.currencyUnit.code &&
+                            !it.isPortfolio && it.currencyUnit.code == currentAccount.currencyUnit.code &&
                                     it.id != currentAccount.id
                         }
                         .map {

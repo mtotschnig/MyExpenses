@@ -108,6 +108,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.DEFAULT_FLAG_ID
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
+import org.totschnig.myexpenses.provider.PORTFOLIO_CONTAINER
 import org.totschnig.myexpenses.util.calculateRealExchangeRate
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.isolateText
@@ -1478,7 +1479,7 @@ private fun PortfolioPreview() {
     AccountCardV2(
         isExpanded = true,
         account = FullAccount(
-            isPortfolio = true,
+            portfolioRole = PORTFOLIO_CONTAINER,
             id = 1,
             label = "My Portfolio",
             currencyUnit = CurrencyUnit.DebugInstance,
