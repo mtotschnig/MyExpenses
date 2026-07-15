@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.util
 
 import android.app.Application
 import androidx.test.core.app.ApplicationProvider
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import com.google.common.truth.Truth.assertWithMessage
 import okhttp3.OkHttpClient

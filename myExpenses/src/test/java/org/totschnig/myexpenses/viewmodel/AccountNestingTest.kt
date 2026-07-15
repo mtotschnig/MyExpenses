@@ -1,19 +1,18 @@
 package org.totschnig.myexpenses.viewmodel
 
-import androidx.lifecycle.SavedStateHandle
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.provider.PORTFOLIO_CONTAINER
+import org.totschnig.myexpenses.provider.PORTFOLIO_NONE
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
-import org.mockito.Mockito.mock
 import org.totschnig.myexpenses.viewmodel.data.FullAccount.Companion.nest
 
 class AccountNestingTest {
 
     @Test
     fun testNesting() {
-        val viewModel = MyExpensesV2ViewModel(mock(android.app.Application::class.java), SavedStateHandle())
         
         val accounts = listOf(
             createAccount(1, "Portfolio 1", null, isPortfolio = true),
@@ -22,7 +21,7 @@ class AccountNestingTest {
             createAccount(4, "Standalone Account", null)
         )
 
-        val nested = with(viewModel) { accounts.nest() }
+        val nested = accounts.nest()
 
         assertThat(nested).hasSize(2)
         
@@ -41,6 +40,6 @@ class AccountNestingTest {
         currencyUnit = CurrencyUnit("EUR", "€", 2),
         type = AccountType.CASH,
         parentId = parentId,
-        isPortfolio = isPortfolio
+        portfolioRole = if (isPortfolio) PORTFOLIO_CONTAINER else PORTFOLIO_NONE
     )
 }
