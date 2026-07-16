@@ -131,12 +131,6 @@ android {
         disable 'InvalidPackage', 'MissingQuantity', 'MissingTranslation', 'ImpliedQuantity', 'Instantiatable'
     }
     namespace 'org.totschnig.myexpenses'
-
-/*    bundle {
-        packagingOptions {
-            merge 'root/META-INF/services/reactor.blockhound.integration.BlockHoundIntegration'
-        }
-    }*/
 }
 
 kotlin.sourceSets.configureEach {
