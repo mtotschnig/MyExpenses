@@ -1060,5 +1060,25 @@
     <string name="menu_templates">Modelos</string>
     <string name="pref_ui_start_screen_title">Ecrã inicial</string>
     <string name="pref_ui_start_screen_last_visited">Último visitado</string>
+    <string name="trade_buy">Compra</string>
+    <string name="trade_sell">Venda</string>
+    <string name="trade_quantity">Quantidade</string>
+    <string name="trade_price">Preço</string>
+    <string name="trade_fee">Taxa</string>
+    <string name="trade_target_asset">Ativo</string>
+    <string name="menu_create_portfolio">Nova carteira</string>
+    <string name="asset_type_fiat_plural">Moedas</string>
+    <string name="asset_type_security">Título</string>
+    <string name="asset_type_security_plural">Títulos</string>
+    <string name="asset_type_crypto">Cripto</string>
+    <string name="trade_funding_source">Fonte de financiamento</string>
+    <string name="trade_funding_portfolio">Dinheiro da carteira</string>
+    <string name="trade_funding_external_description">Fundos de fontes não rastreadas neste aplicativo</string>
+    <string name="trade_deposit">Depósito</string>
+    <string name="trade_withdraw">Saque</string>
+    <string name="trade_matching_transaction_found">Operação correspondente encontrada na conta de financiamento. Selecione para vincular:</string>
     <string name="asset_quantity_at_price">%1$s a %2$s</string>
+    <string name="contrib_feature_portfolio_tracking">Acompanhamento de carteira</string>
+    <string name="premium_nudge_portfolio_title">Desbloqueie todo o potencial da carteira</string>
+    <string name="premium_nudge_portfolio_message">Você pode gerenciar uma carteira gratuitamente. Atualize para gerenciar várias carteiras e desbloquear recursos avançados de acompanhamento.</string>
 </resources>

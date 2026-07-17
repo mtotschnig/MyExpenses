@@ -1052,5 +1052,25 @@
     <string name="prioritize_flag_order">Reihenfolge der Markierungen priorisieren</string>
     <string name="pref_content_based_colors_title">Konto-basierte dynamische Farbe</string>
     <string name="pref_content_based_colors_summary">Die Designfarben werden von der Farbe des aktuellen Kontos abgeleitet. Deaktivieren Sie diese Option, falls der Text schwer lesbar ist.</string>
+    <string name="trade_buy">Kauf</string>
+    <string name="trade_sell">Verkauf</string>
+    <string name="trade_quantity">Menge</string>
+    <string name="trade_price">Preis</string>
+    <string name="trade_fee">Gebühr</string>
+    <string name="trade_target_asset">Asset</string>
+    <string name="menu_create_portfolio">Neues Portfolio</string>
+    <string name="asset_type_fiat_plural">Währungen</string>
+    <string name="asset_type_security">Wertpapier</string>
+    <string name="asset_type_security_plural">Wertpapiere</string>
+    <string name="asset_type_crypto">Krypto</string>
+    <string name="trade_funding_source">Finanzierungsquelle</string>
+    <string name="trade_funding_portfolio">Portfolio-Bargeld</string>
+    <string name="trade_funding_external_description">Mittel aus Quellen, die nicht in dieser App verfolgt werden</string>
+    <string name="trade_deposit">Einzahlung</string>
+    <string name="trade_withdraw">Auszahlung</string>
+    <string name="trade_matching_transaction_found">Passende Buchung im Finanzierungskonto gefunden. Zum Verknüpfen auswählen:</string>
     <string name="asset_quantity_at_price">%1$s zu %2$s</string>
+    <string name="contrib_feature_portfolio_tracking">Portfolio-Tracking</string>
+    <string name="premium_nudge_portfolio_title">Vollständiges Portfolio-Potenzial freischalten</string>
+    <string name="premium_nudge_portfolio_message">Sie können ein Portfolio kostenlos verwalten. Aktualisieren Sie, um mehrere Portfolios zu verwalten und erweiterte Tracking-Funktionen freizuschalten.</string>
 </resources>

@@ -1056,5 +1056,25 @@
     <string name="content_description_show_balance_details">Mostra informazioni dettagliate</string>
     <string name="pref_ui_start_screen_title">Schermata iniziale</string>
     <string name="pref_ui_start_screen_last_visited">Ultima visitata</string>
+    <string name="trade_buy">Acquista</string>
+    <string name="trade_sell">Vendi</string>
+    <string name="trade_quantity">Quantità</string>
+    <string name="trade_price">Prezzo</string>
+    <string name="trade_fee">Commissione</string>
+    <string name="trade_target_asset">Asset</string>
+    <string name="menu_create_portfolio">Nuovo portafoglio</string>
+    <string name="asset_type_fiat_plural">Valute</string>
+    <string name="asset_type_security">Titolo</string>
+    <string name="asset_type_security_plural">Titoli</string>
+    <string name="asset_type_crypto">Cripto</string>
+    <string name="trade_funding_source">Fonte di finanziamento</string>
+    <string name="trade_funding_portfolio">Contanti del portafoglio</string>
+    <string name="trade_funding_external_description">Fondi da fonti non tracciate in questa app</string>
+    <string name="trade_deposit">Deposito</string>
+    <string name="trade_withdraw">Prelievo</string>
+    <string name="trade_matching_transaction_found">Trovata transazione corrispondente nel conto di finanziamento. Seleziona per collegare:</string>
     <string name="asset_quantity_at_price">%1$s a %2$s</string>
+    <string name="contrib_feature_portfolio_tracking">Tracciamento del portafoglio</string>
+    <string name="premium_nudge_portfolio_title">Sblocca tutto il potenziale del portafoglio</string>
+    <string name="premium_nudge_portfolio_message">Puoi gestire un portafoglio gratuitamente. Aggiorna per gestire più portafogli e sbloccare funzioni di tracciamento avanzate.</string>
 </resources>

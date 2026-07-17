@@ -1059,5 +1059,25 @@
     <string name="menu_templates">Plantillas</string>
     <string name="pref_ui_start_screen_title">Pantalla de inicio</string>
     <string name="pref_ui_start_screen_last_visited">Última visitada</string>
+    <string name="trade_buy">Compra</string>
+    <string name="trade_sell">Venta</string>
+    <string name="trade_quantity">Cantidad</string>
+    <string name="trade_price">Precio</string>
+    <string name="trade_fee">Comisión</string>
+    <string name="trade_target_asset">Activo</string>
+    <string name="menu_create_portfolio">Nueva cartera</string>
+    <string name="asset_type_fiat_plural">Divisas</string>
+    <string name="asset_type_security">Valor</string>
+    <string name="asset_type_security_plural">Valores</string>
+    <string name="asset_type_crypto">Cripto</string>
+    <string name="trade_funding_source">Fuente de financiación</string>
+    <string name="trade_funding_portfolio">Efectivo de la cartera</string>
+    <string name="trade_funding_external_description">Fondos de fuentes no rastreadas en esta aplicación</string>
+    <string name="trade_deposit">Depósito</string>
+    <string name="trade_withdraw">Retiro</string>
+    <string name="trade_matching_transaction_found">Se encontró una operación coincidente en la cuenta de financiación. Seleccione para vincular:</string>
     <string name="asset_quantity_at_price">%1$s a %2$s</string>
+    <string name="contrib_feature_portfolio_tracking">Seguimiento de cartera</string>
+    <string name="premium_nudge_portfolio_title">Libera todo el potencial de tu cartera</string>
+    <string name="premium_nudge_portfolio_message">Puedes gestionar una cartera gratis. Actualiza para gestionar varias carteras y desbloquear funciones de seguimiento avanzadas.</string>
 </resources>

@@ -1068,5 +1068,25 @@
     <string name="prioritize_flag_order">Prioriser l’ordre des marqueurs</string>
     <string name="pref_content_based_colors_title">Couleur dynamique basée sur les comptes</string>
     <string name="pref_content_based_colors_summary">Dérivez les couleurs du thème à partir de la couleur du compte courant. Désactivez si le texte est difficile à lire.</string>
+    <string name="trade_buy">Achat</string>
+    <string name="trade_sell">Vente</string>
+    <string name="trade_quantity">Quantité</string>
+    <string name="trade_price">Prix</string>
+    <string name="trade_fee">Frais</string>
+    <string name="trade_target_asset">Actif</string>
+    <string name="menu_create_portfolio">Nouveau portefeuille</string>
+    <string name="asset_type_fiat_plural">Devises</string>
+    <string name="asset_type_security">Titre</string>
+    <string name="asset_type_security_plural">Titres</string>
+    <string name="asset_type_crypto">Crypto</string>
+    <string name="trade_funding_source">Source de financement</string>
+    <string name="trade_funding_portfolio">Liquidités du portefeuille</string>
+    <string name="trade_funding_external_description">Fonds provenant de sources non suivies dans cette application</string>
+    <string name="trade_deposit">Dépôt</string>
+    <string name="trade_withdraw">Retrait</string>
+    <string name="trade_matching_transaction_found">Opération correspondante trouvée dans le compte de financement. Sélectionner pour lier :</string>
     <string name="asset_quantity_at_price">%1$s à %2$s</string>
+    <string name="contrib_feature_portfolio_tracking">Suivi de portefeuille</string>
+    <string name="premium_nudge_portfolio_title">Débloquez tout le potentiel de votre portefeuille</string>
+    <string name="premium_nudge_portfolio_message">Vous pouvez gérer un portefeuille gratuitement. Passez à la version supérieure pour gérer plusieurs portefeuilles et débloquer des fonctionnalités de suivi avancées.</string>
 </resources>

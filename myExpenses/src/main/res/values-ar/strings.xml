@@ -1078,5 +1078,25 @@
     <string name="menu_templates">القوالب</string>
     <string name="pref_ui_start_screen_title">شاشة البداية</string>
     <string name="pref_ui_start_screen_last_visited">آخر شاشة تمت زيارتها</string>
+    <string name="trade_buy">شراء</string>
+    <string name="trade_sell">بيع</string>
+    <string name="trade_quantity">الكمية</string>
+    <string name="trade_price">السعر</string>
+    <string name="trade_fee">الرسوم</string>
+    <string name="trade_target_asset">الأصل</string>
+    <string name="menu_create_portfolio">محفظة جديدة</string>
+    <string name="asset_type_fiat_plural">العملات</string>
+    <string name="asset_type_security">ورقة مالية</string>
+    <string name="asset_type_security_plural">أوراق مالية</string>
+    <string name="asset_type_crypto">كريبتو</string>
+    <string name="trade_funding_source">مصدر التمويل</string>
+    <string name="trade_funding_portfolio">نقد المحفظة</string>
+    <string name="trade_funding_external_description">أموال من مصادر لا يتم تتبعها في هذا التطبيق</string>
+    <string name="trade_deposit">إيداع</string>
+    <string name="trade_withdraw">سحب</string>
+    <string name="trade_matching_transaction_found">تم العثور على معاملة مطابقة في حساب التمويل. اختر للربط:</string>
     <string name="asset_quantity_at_price">%1$s بسعر %2$s</string>
+    <string name="contrib_feature_portfolio_tracking">تتبع المحفظة</string>
+    <string name="premium_nudge_portfolio_title">أطلق العنان لإمكانات المحفظة الكاملة</string>
+    <string name="premium_nudge_portfolio_message">يمكنك إدارة محفظة واحدة مجانًا. قم بالترقية لإدارة محافظ متعددة وفتح ميزات تتبع متقدمة.</string>
 </resources>
