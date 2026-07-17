@@ -53,7 +53,7 @@ fun BaseAccount.getBalanceContentDescription(type: BalanceType): Int = when(type
     BalanceType.CLEARED -> R.string.total_cleared
     BalanceType.RECONCILED -> R.string.total_reconciled
     BalanceType.DELTA -> (this as FullAccount).deltaLabel
-    BalanceType.VALUATION -> R.string.valuation
+    BalanceType.VALUATION -> R.string.total_value
 }
 
 val FullAccount.delta: Long

@@ -23,7 +23,6 @@
     <string name="account_type_ccard">Credit card</string>
     <string name="account_type_liability">Other Liabilities</string>
     <string name="account_type_investment">Investments</string>
-    <string name="account_type_portfolio">Portfolio</string>
     <string name="already_defined">%1$s already defined</string>
     <string name="amount">Amount</string>
     <string name="app_name">My Expenses</string>
@@ -173,7 +172,6 @@
     <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
     <string name="menu_reset_plan_instance">Reset</string>
     <string name="menu_save">Save</string>
-    <string name="valuation">Valuation</string>
     <string name="menu_save_and_new">Save and new</string>
     <string name="menu_share">Tell a friend</string>
     <string name="button_label_close">Close</string>

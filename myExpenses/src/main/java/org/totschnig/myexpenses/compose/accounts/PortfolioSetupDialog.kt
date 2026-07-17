@@ -66,9 +66,9 @@ fun PortfolioSetupDialog(
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 val title = if (initialPortfolio == null) {
-                    "${stringResource(R.string.menu_create_account)} (${stringResource(R.string.account_type_portfolio)})"
+                    stringResource(R.string.menu_create_portfolio)
                 } else {
-                    "${stringResource(R.string.menu_edit)} (${stringResource(R.string.account_type_portfolio)})"
+                    stringResource(R.string.menu_edit_account)
                 }
                 Text(
                     text = title,
