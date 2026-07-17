@@ -24,31 +24,31 @@ import java.util.Locale
 
 fun epoch2LocalDate(
     epochSecond: Long,
-    zoneId: ZoneId? = ZoneId.systemDefault(),
+    zoneId: ZoneId = ZoneId.systemDefault(),
 ): LocalDate = ZonedDateTime.ofInstant(Instant.ofEpochSecond(epochSecond), zoneId)
     .toLocalDate()
 
 fun epoch2LocalDateTime(
     epochSecond: Long,
-    zoneId: ZoneId? = ZoneId.systemDefault(),
+    zoneId: ZoneId = ZoneId.systemDefault(),
 ): LocalDateTime = ZonedDateTime.ofInstant(Instant.ofEpochSecond(epochSecond), zoneId)
     .toLocalDateTime()
 
 fun epochMillis2LocalDate(
     epochMillis: Long,
-    zoneId: ZoneId? = ZoneId.systemDefault(),
+    zoneId: ZoneId = ZoneId.systemDefault(),
 ): LocalDate = ZonedDateTime.ofInstant(Instant.ofEpochMilli(epochMillis), zoneId)
         .toLocalDate()
 
 fun epochMillis2LocalDateTime(
     epochMillis: Long,
-    zoneId: ZoneId? = ZoneId.systemDefault(),
+    zoneId: ZoneId = ZoneId.systemDefault(),
 ): LocalDateTime = ZonedDateTime.ofInstant(Instant.ofEpochMilli(epochMillis), zoneId)
     .toLocalDateTime()
 
 fun epoch2ZonedDateTime(
     epoch: Long,
-    zoneId: ZoneId? = ZoneId.systemDefault(),
+    zoneId: ZoneId = ZoneId.systemDefault(),
 ): ZonedDateTime = ZonedDateTime.ofInstant(Instant.ofEpochSecond(epoch), zoneId)
 
 fun LocalDateTime.toEpoch() =
