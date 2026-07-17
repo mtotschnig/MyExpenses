@@ -89,6 +89,7 @@ import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CommodityType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
@@ -138,6 +139,7 @@ sealed class AppEvent {
     data class CopyToClipBoard(val text: String) : AppEvent()
     object ToggleNavigation : AppEvent()
     data class SaveTrade(val intent: TradeIntent) : AppEvent()
+    data class ShowUpgrade(val feature: ContribFeature) : AppEvent()
 }
 
 interface AppEventHandler {

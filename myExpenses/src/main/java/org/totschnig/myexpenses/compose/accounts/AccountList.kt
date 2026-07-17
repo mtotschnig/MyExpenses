@@ -231,6 +231,8 @@ fun AccountListV2(
     onEvent: AccountEventHandler,
     bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
     flags: List<AccountFlag> = emptyList(),
+    showPremiumNudge: Boolean = false,
+    onUpgrade: () -> Unit = {},
 ) {
 
     val context = LocalContext.current
@@ -260,6 +262,11 @@ fun AccountListV2(
             bottom = scaffoldPadding.calculateBottomPadding() + dimensionResource(R.dimen.fab_related_bottom_padding)
         )
     ) {
+        if (showPremiumNudge) {
+            item(key = "premium_nudge") {
+                PremiumNudgeCard(onUpgrade = onUpgrade)
+            }
+        }
         sortedGroupKeys.forEachIndexed { index, groupKey ->
             val group = grouped.getValue(groupKey)
             val headerId = groupKey.id.toString()

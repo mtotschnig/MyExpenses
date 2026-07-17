@@ -51,7 +51,8 @@ enum class ContribFeature(
     WEB_UI(licenceStatus = LicenceStatus.PROFESSIONAL),
     CATEGORY_TREE(TrialMode.UNLIMITED, LicenceStatus.PROFESSIONAL),
     BANKING(licenceStatus = LicenceStatus.PROFESSIONAL),
-    AUTOMATIC_FX_DOWNLOAD(licenceStatus = LicenceStatus.PROFESSIONAL)
+    AUTOMATIC_FX_DOWNLOAD(licenceStatus = LicenceStatus.PROFESSIONAL),
+    PORTFOLIO(TrialMode.NONE, LicenceStatus.PROFESSIONAL)
     ;
 
     enum class TrialMode {
@@ -88,6 +89,7 @@ enum class ContribFeature(
             CATEGORY_TREE -> R.string.contrib_feature_category_tree_label
             BANKING -> R.string.title_fints
             AUTOMATIC_FX_DOWNLOAD -> R.string.enable_automatic_daily_exchange_rate_download
+            PORTFOLIO -> R.string.contrib_feature_portfolio_tracking
         }
 
     fun getLimitReachedWarning(ctx: Context): String {
@@ -121,6 +123,8 @@ enum class ContribFeature(
                     R.string.dialog_contrib_usage_limit_split_templates,
                     currentLicence
                 )
+
+                PORTFOLIO -> context.getString(R.string.premium_nudge_portfolio_message)
 
                 else -> null
             }
@@ -173,5 +177,6 @@ enum class ContribFeature(
         const val FREE_PLANS = 3
         const val FREE_ACCOUNTS = 5
         const val FREE_SPLIT_TEMPLATES = 1
+        const val FREE_PORTFOLIO = 1
     }
 }

@@ -331,6 +331,11 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                                                 viewModel.saveTrade(it, event.intent)
                                             }
                                         }
+
+                                        is AppEvent.ShowUpgrade -> contribFeatureRequested(
+                                            event.feature,
+                                            true
+                                        )
                                     }
                                 }
                             },

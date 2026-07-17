@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.compose.main.FloatingActionButtonMenu
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.viewmodel.AccountsScreenTab
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
@@ -75,6 +76,8 @@ fun AccountsScreen(
     val showZeroState = viewModel.balanceSheetShowZero.asState()
     val showChartState = viewModel.balanceSheetShowChart.asState()
     val highlight = remember { mutableStateOf<Triple<Boolean, Int, Long?>?>(null) }
+
+    val canCreatePortfolio by viewModel.canCreatePortfolio.collectAsState()
 
     fun navigateToAccount(id: Long) {
 
@@ -143,7 +146,13 @@ fun AccountsScreen(
                 onAction = { action ->
                     when (action) {
                         Action.AddAccount -> onEvent(AppEvent.CreateAccount)
-                        Action.AddPortfolio -> onEvent(AppEvent.CreatePortfolio)
+                        Action.AddPortfolio -> {
+                            if (canCreatePortfolio) {
+                                onEvent(AppEvent.CreatePortfolio)
+                            } else {
+                                onEvent(AppEvent.ShowUpgrade(ContribFeature.PORTFOLIO))
+                            }
+                        }
                     }
                 }
             )
@@ -198,7 +207,9 @@ fun AccountsScreen(
                 onGroupSelected = ::navigateToGroup,
                 onEvent = onAccountEvent,
                 flags = flags,
-                bankIcon = bankIcon
+                bankIcon = bankIcon,
+                showPremiumNudge = !canCreatePortfolio,
+                onUpgrade = { onEvent(AppEvent.ShowUpgrade(ContribFeature.PORTFOLIO)) }
             )
         }
     }

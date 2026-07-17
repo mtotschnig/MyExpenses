@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.BalanceType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
@@ -359,6 +360,17 @@ open class MyExpensesV2ViewModel(
                 }
             }
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, null)
+    }
+
+    val hasPortfolioAccounts: StateFlow<Boolean> by lazy {
+        accountDataV2.map { it?.getOrNull()?.any { it.isPortfolio } == true }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, false)
+    }
+
+    val canCreatePortfolio: StateFlow<Boolean> by lazy {
+        hasPortfolioAccounts.map { hasAny ->
+            !hasAny || licenceHandler.hasAccessTo(ContribFeature.PORTFOLIO)
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, true)
     }
 
     val groupingMap: Map<String, PreferenceAccessor<Grouping, String>> = lazyMap {

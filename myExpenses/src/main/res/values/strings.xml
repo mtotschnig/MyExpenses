@@ -1165,4 +1165,7 @@
     <string name="trade_matching_transaction_found">Matching transaction found in funding account. Select to link:</string>
     <!-- Label for asset valuation: %1$s: Quantity, %2$s: Unit price in portfolio currency (e.g., "150.00 USD") -->
     <string name="asset_quantity_at_price">%1$s @ %2$s</string>
+    <string name="contrib_feature_portfolio_tracking">Portfolio tracking</string>
+    <string name="premium_nudge_portfolio_title">Unlock full portfolio potential</string>
+    <string name="premium_nudge_portfolio_message">You can manage one portfolio for free. Upgrade to manage multiple portfolios and unlock advanced tracking features.</string>
 </resources>
