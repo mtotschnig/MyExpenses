@@ -59,6 +59,7 @@ import org.totschnig.myexpenses.provider.KEY_TOTAL
 import org.totschnig.myexpenses.provider.KEY_UUID
 import org.totschnig.myexpenses.provider.KEY_VISIBLE
 import org.totschnig.myexpenses.provider.PORTFOLIO_ASSET
+import org.totschnig.myexpenses.provider.PORTFOLIO_CASH
 import org.totschnig.myexpenses.provider.PORTFOLIO_CONTAINER
 import org.totschnig.myexpenses.provider.PORTFOLIO_NONE
 import org.totschnig.myexpenses.provider.getBoolean
@@ -213,9 +214,6 @@ data class FullAccount(
     val lastUsed: Long = 0L,
     val bankId: Long? = null,
     val initialExchangeRate: Double? = null,
-    /**
-     * only used by V1
-     */
     val latestExchangeRate: Pair<LocalDate, Double>? = null,
     val dynamic: Boolean = false,
     val parentId: Long? = null,
@@ -244,6 +242,8 @@ data class FullAccount(
         get() = portfolioRole == PORTFOLIO_CONTAINER
     val isPortfolioAsset: Boolean
         get() = portfolioRole == PORTFOLIO_ASSET
+    val isPortfolioCash: Boolean
+        get() = portfolioRole == PORTFOLIO_CASH
 
     val toPageAccount: PageAccount
         get() = PageAccount(

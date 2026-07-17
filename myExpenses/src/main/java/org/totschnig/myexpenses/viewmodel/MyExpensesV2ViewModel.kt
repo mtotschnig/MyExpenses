@@ -30,6 +30,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.StartScreen
 import org.totschnig.myexpenses.adapter.ClearingLastPagingSourceFactory
@@ -593,176 +594,224 @@ open class MyExpensesV2ViewModel(
 
     fun saveTrade(currentAccount: FullAccount, intent: TradeIntent, tradeId: Long? = null) {
         viewModelScope.launch(coroutineDispatcher) {
+            saveTrades(currentAccount, listOf(intent), tradeId)
+        }
+    }
 
-            val isAssetTrade = intent.type is TradeType.AssetTrade
-            val portfolioCurrency = currentAccount.currencyUnit
-            val transferCategory = prefHandler.defaultTransferCategory
-
-            val targetAccountId = if (isAssetTrade) {
-                currentAccount.children.find { it.currency == intent.targetAsset.code }?.id
-                    ?: run {
-                        val account = Account(
-                            label = intent.targetAsset.description,
-                            currency = intent.targetAsset.code,
-                            parentId = currentAccount.id,
-                            type = repository.findAccountType(AccountType.INVESTMENT.name)!!,
-                            color = DEFAULT_COLOR,
-                            portfolioRole = PORTFOLIO_ASSET,
-                            dynamicExchangeRates = true
-                        )
-                        repository.createAccount(account).id
-                    }
-            } else {
-                currentAccount.children
-                    .find { it.type.isCashAccount }?.id
-                    ?: run {
-                        val cashAccount = Account(
-                            label = localizedContext.getString(R.string.account_type_cash),
-                            currency = currentAccount.currency,
-                            parentId = currentAccount.id,
-                            type = repository.findAccountType(AccountType.CASH.name)!!,
-                            color = currentAccount.color,
-                            portfolioRole = PORTFOLIO_CASH,
-                        )
-                        repository.createAccount(cashAccount).id
-                    }
+    suspend fun saveTrades(currentAccount: FullAccount, intents: List<TradeIntent>, tradeId: Long? = null) {
+        withContext(coroutineDispatcher) {
+            val knownSubaccounts = currentAccount.children.toMutableList()
+            intents.forEach { intent ->
+                saveTradeInternal(currentAccount, intent, knownSubaccounts, if (intents.size == 1) tradeId else null)
             }
+        }
+    }
 
-            val principalAmount = if (isAssetTrade) intent.quantity.multiply(intent.price) else intent.quantity
-            val totalImpact = if (intent.type == TradeType.AssetTrade.BUY || intent.type == TradeType.CashMovement.DEPOSIT) {
-                principalAmount.add(intent.fee)
-            } else {
-                principalAmount.subtract(intent.fee)
-            }
+    private fun saveTradeInternal(
+        currentAccount: FullAccount,
+        intent: TradeIntent,
+        knownSubaccounts: MutableList<FullAccount>,
+        tradeId: Long? = null
+    ) {
+        val isAssetTrade = intent.type is TradeType.AssetTrade
+        val portfolioCurrency = currentAccount.currencyUnit
+        val transferCategory = prefHandler.defaultTransferCategory
 
-            val parts = mutableListOf<TransactionEditData>()
-
-            // Part A: Target Leg (Portfolio <-> Asset/Cash sub-account)
-            val targetLegHubAmount = if (intent.type == TradeType.AssetTrade.BUY || intent.type == TradeType.CashMovement.DEPOSIT) {
-                principalAmount.negate()
-            } else {
-                principalAmount
-            }
-            val targetLegSubAmount = if (intent.type == TradeType.AssetTrade.BUY || intent.type == TradeType.CashMovement.DEPOSIT) {
-                intent.quantity
-            } else {
-                intent.quantity.negate()
-            }
-
-            parts.add(
-                TransactionEditData(
-                    accountId = currentAccount.id,
-                    amount = Money.buildWithMajor(portfolioCurrency, targetLegHubAmount)
-                        .getOrThrow(),
-                    transferEditData = TransferEditData(
-                        transferAccountId = targetAccountId,
-                        transferAmount = Money.buildWithMajor(
-                            intent.targetAsset,
-                            targetLegSubAmount
-                        ).getOrThrow()
-                    ),
-                    isSplitPart = true,
-                    uuid = generateUuid(),
-                    categoryId = transferCategory
-                )
-            )
-
-            // Part B: Funding/Source Leg (Portfolio <-> Cash Sub-account or External Account)
-            val fundingLegHubAmount = if (intent.type == TradeType.AssetTrade.BUY || intent.type == TradeType.CashMovement.DEPOSIT) {
-                totalImpact
-            } else {
-                totalImpact.negate()
-            }
-
-            val fundingTransferAccountId = if (intent.linkedTransactionId != null) null else when (intent.fundingSource) {
-                FundingSource.ACCOUNT -> intent.fundingAccountId
-                FundingSource.PORTFOLIO -> currentAccount.children
-                    .find { it.type.isCashAccount }?.id
-                    ?: run {
-                        val cashAccount = Account(
-                            label = localizedContext.getString(R.string.account_type_cash),
-                            currency = currentAccount.currency,
-                            parentId = currentAccount.id,
-                            type = repository.findAccountType(AccountType.CASH.name)!!,
-                            color = currentAccount.color,
-                        )
-                        repository.createAccount(cashAccount).id
-                    }
-                FundingSource.EXTERNAL -> null
-            }
-
-            val fundingLegUuid = generateUuid()
-            parts.add(
-                TransactionEditData(
-                    accountId = currentAccount.id,
-                    amount = Money.buildWithMajor(portfolioCurrency, fundingLegHubAmount)
-                        .getOrThrow(),
-                    transferEditData = fundingTransferAccountId?.let { TransferEditData(transferAccountId = it) },
-                    isSplitPart = true,
-                    uuid = fundingLegUuid,
-                    categoryId = if (intent.linkedTransactionId != null) null else transferCategory
-                )
-            )
-
-            // Part C: Fee (Expense)
-            if (intent.fee != BigDecimal.ZERO) {
-                parts.add(
-                    TransactionEditData(
-                        accountId = currentAccount.id,
-                        amount = Money.buildWithMajor(portfolioCurrency, intent.fee.negate())
-                            .getOrThrow(),
-                        isSplitPart = true,
-                        uuid = generateUuid()
+        val targetAccountId = if (isAssetTrade) {
+            knownSubaccounts.find { it.currency == intent.targetAsset.code }?.id
+                ?: run {
+                    val account = Account(
+                        label = intent.targetAsset.description,
+                        currency = intent.targetAsset.code,
+                        parentId = currentAccount.id,
+                        type = repository.findAccountType(AccountType.INVESTMENT.name)!!,
+                        color = DEFAULT_COLOR,
+                        portfolioRole = PORTFOLIO_ASSET,
+                        dynamicExchangeRates = true
                     )
-                )
-            }
-
-            // Parent transaction amount is the sum of all parts in Portfolio currency
-            val totalPortfolioAmount = parts
-                .fold(BigDecimal.ZERO) { acc, part -> acc.add(part.amount.amountMajor) }
-
-            val parent = TransactionEditData(
-                id = tradeId ?: 0L,
-                accountId = currentAccount.id,
-                amount = Money.buildWithMajor(portfolioCurrency, totalPortfolioAmount).getOrThrow(),
-                date = intent.date,
-                comment = intent.comment,
-                uuid = generateUuid(),
-                categoryId = SPLIT_CATID,
-                splitParts = parts
-            )
-
-            if (tradeId != null) {
-                repository.updateTransaction(mapTransaction(parent))
-            } else {
-                repository.createTransaction(mapTransaction(parent))
-            }
-
-            if (intent.linkedTransactionId != null) {
-                val existingUuid = repository.getUuidForTransaction(intent.linkedTransactionId)
-                if (existingUuid != null) {
-                    contentResolver.update(
-                        TransactionProvider.TRANSACTIONS_URI.buildUpon()
-                            .appendPath(TransactionProvider.URI_SEGMENT_LINK_TRANSFER)
-                            .appendPath(fundingLegUuid)
-                            .build(),
-                        ContentValues(1).apply {
-                            put(KEY_UUID, existingUuid)
-                        }, null, null
+                    val newAccount = repository.createAccount(account)
+                    knownSubaccounts.add(
+                        FullAccount(
+                            id = newAccount.id,
+                            label = newAccount.label,
+                            currencyUnit = currencyContext[newAccount.currency],
+                            type = AccountType.INVESTMENT,
+                            portfolioRole = PORTFOLIO_ASSET
+                        )
                     )
+                    newAccount.id
                 }
-            }
+        } else {
+            knownSubaccounts.find { it.type.isCashAccount }?.id
+                ?: run {
+                    val cashAccount = Account(
+                        label = localizedContext.getString(R.string.account_type_cash),
+                        currency = currentAccount.currency,
+                        parentId = currentAccount.id,
+                        type = repository.findAccountType(AccountType.CASH.name)!!,
+                        color = currentAccount.color,
+                        portfolioRole = PORTFOLIO_CASH,
+                    )
+                    val newAccount = repository.createAccount(cashAccount)
+                    knownSubaccounts.add(
+                        FullAccount(
+                            id = newAccount.id,
+                            label = newAccount.label,
+                            currencyUnit = currencyContext[newAccount.currency],
+                            type = AccountType.CASH,
+                            portfolioRole = PORTFOLIO_CASH
+                        )
+                    )
+                    newAccount.id
+                }
+        }
 
-            // Also update the Price History table for valuation
-            if (intent.price > BigDecimal.ZERO) {
-                repository.savePrice(
-                    portfolioCurrency,
-                    intent.targetAsset,
-                    intent.date.toLocalDate(),
-                    ExchangeRateSource.User,
-                    intent.price
+        val principalAmount = if (isAssetTrade) intent.quantity.multiply(intent.price) else intent.quantity
+        val totalImpact = if (intent.type == TradeType.AssetTrade.BUY || intent.type == TradeType.CashMovement.DEPOSIT) {
+            principalAmount.add(intent.fee)
+        } else {
+            principalAmount.subtract(intent.fee)
+        }
+
+        val parts = mutableListOf<TransactionEditData>()
+
+        // Part A: Target Leg (Portfolio <-> Asset/Cash sub-account)
+        val targetLegHubAmount = if (intent.type == TradeType.AssetTrade.BUY || intent.type == TradeType.CashMovement.DEPOSIT) {
+            principalAmount.negate()
+        } else {
+            principalAmount
+        }
+        val targetLegSubAmount = if (intent.type == TradeType.AssetTrade.BUY || intent.type == TradeType.CashMovement.DEPOSIT) {
+            intent.quantity
+        } else {
+            intent.quantity.negate()
+        }
+
+        parts.add(
+            TransactionEditData(
+                accountId = currentAccount.id,
+                amount = Money.buildWithMajor(portfolioCurrency, targetLegHubAmount)
+                    .getOrThrow(),
+                transferEditData = TransferEditData(
+                    transferAccountId = targetAccountId,
+                    transferAmount = Money.buildWithMajor(
+                        intent.targetAsset,
+                        targetLegSubAmount
+                    ).getOrThrow()
+                ),
+                isSplitPart = true,
+                uuid = generateUuid(),
+                categoryId = transferCategory
+            )
+        )
+
+        // Part B: Funding/Source Leg (Portfolio <-> Cash Sub-account or External Account)
+        val fundingLegHubAmount = if (intent.type == TradeType.AssetTrade.BUY || intent.type == TradeType.CashMovement.DEPOSIT) {
+            totalImpact
+        } else {
+            totalImpact.negate()
+        }
+
+        val fundingTransferAccountId = if (intent.linkedTransactionId != null) null else when (intent.fundingSource) {
+            FundingSource.ACCOUNT -> intent.fundingAccountId
+            FundingSource.PORTFOLIO -> knownSubaccounts
+                .find { it.type.isCashAccount }?.id
+                ?: run {
+                    val cashAccount = Account(
+                        label = localizedContext.getString(R.string.account_type_cash),
+                        currency = currentAccount.currency,
+                        parentId = currentAccount.id,
+                        type = repository.findAccountType(AccountType.CASH.name)!!,
+                        color = currentAccount.color,
+                        portfolioRole = PORTFOLIO_CASH,
+                    )
+                    val newAccount = repository.createAccount(cashAccount)
+                    knownSubaccounts.add(
+                        FullAccount(
+                            id = newAccount.id,
+                            label = newAccount.label,
+                            currencyUnit = currencyContext[newAccount.currency],
+                            type = AccountType.CASH,
+                            portfolioRole = PORTFOLIO_CASH
+                        )
+                    )
+                    newAccount.id
+                }
+
+            FundingSource.EXTERNAL -> null
+        }
+
+        val fundingLegUuid = generateUuid()
+        parts.add(
+            TransactionEditData(
+                accountId = currentAccount.id,
+                amount = Money.buildWithMajor(portfolioCurrency, fundingLegHubAmount)
+                    .getOrThrow(),
+                transferEditData = fundingTransferAccountId?.let { TransferEditData(transferAccountId = it) },
+                isSplitPart = true,
+                uuid = fundingLegUuid,
+                categoryId = if (intent.linkedTransactionId != null) null else transferCategory
+            )
+        )
+
+        // Part C: Fee (Expense)
+        if (intent.fee != BigDecimal.ZERO) {
+            parts.add(
+                TransactionEditData(
+                    accountId = currentAccount.id,
+                    amount = Money.buildWithMajor(portfolioCurrency, intent.fee.negate())
+                        .getOrThrow(),
+                    isSplitPart = true,
+                    uuid = generateUuid()
+                )
+            )
+        }
+
+        // Parent transaction amount is the sum of all parts in Portfolio currency
+        val totalPortfolioAmount = parts
+            .fold(BigDecimal.ZERO) { acc, part -> acc.add(part.amount.amountMajor) }
+
+        val parent = TransactionEditData(
+            id = tradeId ?: 0L,
+            accountId = currentAccount.id,
+            amount = Money.buildWithMajor(portfolioCurrency, totalPortfolioAmount).getOrThrow(),
+            date = intent.date,
+            comment = intent.comment,
+            uuid = generateUuid(),
+            categoryId = SPLIT_CATID,
+            splitParts = parts
+        )
+
+        if (tradeId != null && tradeId != 0L) {
+            repository.updateTransaction(mapTransaction(parent))
+        } else {
+            repository.createTransaction(mapTransaction(parent))
+        }
+
+        if (intent.linkedTransactionId != null) {
+            val existingUuid = repository.getUuidForTransaction(intent.linkedTransactionId)
+            if (existingUuid != null) {
+                contentResolver.update(
+                    TransactionProvider.TRANSACTIONS_URI.buildUpon()
+                        .appendPath(TransactionProvider.URI_SEGMENT_LINK_TRANSFER)
+                        .appendPath(fundingLegUuid)
+                        .build(),
+                    ContentValues(1).apply {
+                        put(KEY_UUID, existingUuid)
+                    }, null, null
                 )
             }
+        }
+
+        // Also update the Price History table for valuation
+        if (intent.price > BigDecimal.ZERO) {
+            repository.savePrice(
+                portfolioCurrency,
+                intent.targetAsset,
+                intent.date.toLocalDate(),
+                ExchangeRateSource.User,
+                intent.price
+            )
         }
     }
 

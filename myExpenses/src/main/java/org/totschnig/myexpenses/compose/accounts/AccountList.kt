@@ -688,9 +688,13 @@ fun PortfolioInventory(
     portfolio: FullAccount,
     onAccountEvent: AccountEventHandler,
 ) {
-    val dateFormatter = LocalDateFormatter.current
     val fXFormat = remember { DecimalFormat("#.############") }
-    portfolio.children.forEach { asset ->
+    val sortedChildren = remember(portfolio.children) {
+        portfolio.children.sortedWith(
+            compareBy<FullAccount> { it.isPortfolioCash }.thenBy { it.label }
+        )
+    }
+    sortedChildren.forEach { asset ->
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
@@ -724,7 +728,7 @@ fun PortfolioInventory(
                 // Quantity in Asset Units
                 if (isAsset) {
 
-                    asset.latestExchangeRate?.let { (date, rate) ->
+                    asset.latestExchangeRate?.let { (_, rate) ->
                         val realRate = calculateRealExchangeRate(
                             rate,
                             asset.currencyUnit,
