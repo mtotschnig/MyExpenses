@@ -25,12 +25,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -65,8 +67,19 @@ fun ImportTradesDialog(
     var fundingSource by remember { mutableStateOf(FundingSource.PORTFOLIO) }
     var fundingAccountId by remember { mutableStateOf<Long?>(null) }
     var dateFormat by remember { mutableStateOf(QifDateFormat.default) }
-    var statusMessage by remember { mutableStateOf<String?>(null) }
     var parsedIntents by remember { mutableStateOf<List<TradeIntent>?>(null) }
+    var failedCount by remember { mutableIntStateOf(0) }
+
+    val statusMessages = listOfNotNull(
+        parsedIntents?.takeIf { it.isNotEmpty() }?.size?.let {
+            pluralStringResource(R.plurals.import_prices_success_message, it, it)
+        },
+        failedCount.takeIf { it > 0 }?.let {
+            pluralStringResource(R.plurals.import_prices_failure_message, it, it)
+        }
+    )
+
+    val statusMessage = statusMessages.takeIf { it.isNotEmpty() }?.joinToString(" ")
 
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -151,7 +164,6 @@ fun ImportTradesDialog(
                         Text(
                             text = it,
                             style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.error
                         )
                     }
 
@@ -166,7 +178,7 @@ fun ImportTradesDialog(
                                 val uri = selectedUri
                                 if (uri != null) {
                                     scope.launch {
-                                        val intents = parseCsv(
+                                        val (intents, failed) = parseCsv(
                                             context,
                                             uri,
                                             assets,
@@ -175,10 +187,8 @@ fun ImportTradesDialog(
                                             dateFormat
                                         )
                                         if (intents.isNotEmpty()) {
+                                            failedCount = failed
                                             parsedIntents = intents
-                                            statusMessage = null
-                                        } else {
-                                            statusMessage = "No valid trades found in file."
                                         }
                                     }
                                 }
@@ -201,6 +211,13 @@ fun ImportTradesDialog(
                         text = stringResource(R.string.preview),
                         style = MaterialTheme.typography.headlineSmall
                     )
+
+                    statusMessage?.let {
+                        Text(
+                            text = it,
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
+                    }
 
                     LazyColumn(
                         modifier = Modifier
@@ -238,7 +255,10 @@ fun ImportTradesDialog(
                         }
 
                         OutlinedButton(
-                            onClick = { parsedIntents = null },
+                            onClick = {
+                                parsedIntents = null
+                                failedCount = 0
+                            },
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             Text(stringResource(R.string.menu_back))
@@ -257,9 +277,10 @@ private suspend fun parseCsv(
     fundingSource: FundingSource,
     fundingAccountId: Long?,
     dateFormat: QifDateFormat,
-): List<TradeIntent> = withContext(Dispatchers.IO) {
+): Pair<List<TradeIntent>, Int> = withContext(Dispatchers.IO) {
     val intents = mutableListOf<TradeIntent>()
     val assetMap = assets.associateBy { it.code }
+    var failedCount = 0
 
     try {
         context.contentResolver.openInputStream(uri)?.use { inputStream ->
@@ -303,14 +324,14 @@ private suspend fun parseCsv(
                         )
                     )
                 } catch (_: Exception) {
-                    // skip invalid row
+                    failedCount++
                 }
             }
         }
     } catch (e: Exception) {
         CrashHandler.report(e)
     }
-    intents
+    intents to failedCount
 }
 
 private fun String.toBigDecimalOrNull(): BigDecimal? = try {
