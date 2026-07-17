@@ -306,4 +306,5 @@
     <string name="pref_tell_a_friend_key">tell_a_friend</string>
     <string name="pref_fab_style_key">fab_style</string>
     <string name="pref_content_based_colors_key">dynamic_colors</string>
+    <string name="trade_import_format_hint">Format (Header required): Date,Type,Asset,Quantity,Price,Fee</string>
 </resources>

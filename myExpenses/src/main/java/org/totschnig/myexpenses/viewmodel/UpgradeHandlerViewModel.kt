@@ -41,6 +41,8 @@ import org.totschnig.myexpenses.model.sort.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enableAutoFill
 import org.totschnig.myexpenses.preference.enumValueOrDefault
+import org.totschnig.myexpenses.preference.menu
+import org.totschnig.myexpenses.preference.persistMenu
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
@@ -669,6 +671,14 @@ class UpgradeHandlerViewModel(application: Application) :
                     if (grouping != null && grouping !in AccountGrouping.ALL_VALUES.map { it.name }) {
                         CrashHandler.report(Exception("Repairing AccountGrouping $grouping"))
                         dataStore.edit { it[key] = AccountGrouping.DEFAULT.name }
+                    }
+                }
+
+                if (fromVersion < 868) {
+                    val menuContext = MenuItem.MenuContext.V2Transactions
+                    val currentMenu = dataStore.menu(menuContext).first()
+                    if (currentMenu != null && !currentMenu.contains(MenuItem.ImportTrades)) {
+                        dataStore.persistMenu(menuContext, currentMenu + MenuItem.ImportTrades)
                     }
                 }
 

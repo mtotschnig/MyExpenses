@@ -49,6 +49,7 @@ import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.main.AppEventHandler
 import org.totschnig.myexpenses.compose.main.MainScreenAdaptive
 import org.totschnig.myexpenses.compose.transactions.Action
+import org.totschnig.myexpenses.compose.transactions.ImportTradesDialog
 import org.totschnig.myexpenses.compose.transactions.TradeEvent
 import org.totschnig.myexpenses.compose.transactions.TradeList
 import org.totschnig.myexpenses.compose.transactions.TradeScreen
@@ -229,6 +230,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                         val banks = viewModel.banks.collectAsState()
                         val showSortDialog = rememberSaveable { mutableStateOf(false) }
                         var isNavigationVisible by rememberSaveable { mutableStateOf(false) }
+                        var showImportTrades by rememberSaveable { mutableStateOf(false) }
                         val portfolioToEdit =
                             portfolioToEditId?.let { id -> accounts.find { it.id == id } }
 
@@ -315,10 +317,10 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                                             event.itemId
                                         )
 
-                                        is AppEvent.MenuItemClicked -> dispatchCommand(
-                                            event.itemId,
-                                            event.tag
-                                        )
+                                        is AppEvent.MenuItemClicked -> when(event.itemId) {
+                                            R.id.IMPORT_TRADES_COMMAND -> showImportTrades = true
+                                            else -> dispatchCommand(event.itemId, event.tag)
+                                        }
 
                                         AppEvent.Sort -> showSortDialog.value = true
 
@@ -403,6 +405,28 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                                     accounts.size,
                                     isCurrent,
                                     v2 = true
+                                )
+                            }
+                        }
+
+                        if (showImportTrades) {
+                            (currentAccount as? FullAccount)?.let { fullAccount ->
+                                ImportTradesDialog(
+                                    onDismiss = { showImportTrades = false },
+                                    onImport = { intents ->
+                                        intents.forEach { viewModel.saveTrade(fullAccount, it) }
+                                    },
+                                    portfolio = fullAccount,
+                                    assets = currencies,
+                                    fundingAccounts = accounts
+                                        .filter {
+                                            !it.isPortfolio &&
+                                                    it.currencyUnit.code == fullAccount.currencyUnit.code &&
+                                                    it.id != fullAccount.id
+                                        }
+                                        .map {
+                                            it.id to it.labelV2(this@MyExpensesV2)
+                                        }
                                 )
                             }
                         }

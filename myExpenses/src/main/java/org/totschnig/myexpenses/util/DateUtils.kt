@@ -40,6 +40,12 @@ fun epochMillis2LocalDate(
 ): LocalDate = ZonedDateTime.ofInstant(Instant.ofEpochMilli(epochMillis), zoneId)
         .toLocalDate()
 
+fun epochMillis2LocalDateTime(
+    epochMillis: Long,
+    zoneId: ZoneId? = ZoneId.systemDefault(),
+): LocalDateTime = ZonedDateTime.ofInstant(Instant.ofEpochMilli(epochMillis), zoneId)
+    .toLocalDateTime()
+
 fun epoch2ZonedDateTime(
     epoch: Long,
     zoneId: ZoneId? = ZoneId.systemDefault(),

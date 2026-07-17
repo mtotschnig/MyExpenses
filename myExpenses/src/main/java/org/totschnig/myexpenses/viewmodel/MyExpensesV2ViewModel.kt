@@ -599,18 +599,19 @@ open class MyExpensesV2ViewModel(
             val transferCategory = prefHandler.defaultTransferCategory
 
             val targetAccountId = if (isAssetTrade) {
-                intent.targetAccountId ?: run {
-                    val account = Account(
-                        label = intent.targetAsset.description,
-                        currency = intent.targetAsset.code,
-                        parentId = currentAccount.id,
-                        type = repository.findAccountType(AccountType.INVESTMENT.name)!!,
-                        color = DEFAULT_COLOR,
-                        portfolioRole = PORTFOLIO_ASSET,
-                        dynamicExchangeRates = true
-                    )
-                    repository.createAccount(account).id
-                }
+                currentAccount.children.find { it.currency == intent.targetAsset.code }?.id
+                    ?: run {
+                        val account = Account(
+                            label = intent.targetAsset.description,
+                            currency = intent.targetAsset.code,
+                            parentId = currentAccount.id,
+                            type = repository.findAccountType(AccountType.INVESTMENT.name)!!,
+                            color = DEFAULT_COLOR,
+                            portfolioRole = PORTFOLIO_ASSET,
+                            dynamicExchangeRates = true
+                        )
+                        repository.createAccount(account).id
+                    }
             } else {
                 currentAccount.children
                     .find { it.type.isCashAccount }?.id

@@ -168,7 +168,6 @@ fun TradeScreen(
             TradeIntent(
                 type = type,
                 date = date,
-                targetAccountId = if (isAssetTrade) selectedSubaccountId else null,
                 targetAsset = asset,
                 quantity = quantity.orZero,
                 price = if (isAssetTrade) price.orZero else BigDecimal.ONE,

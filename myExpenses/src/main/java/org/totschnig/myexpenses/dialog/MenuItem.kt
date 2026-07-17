@@ -177,6 +177,12 @@ sealed class MenuItem(
         isCheckable = true
     )
 
+    data object ImportTrades : MenuItem(
+        R.id.IMPORT_TRADES_COMMAND,
+        R.string.menu_import,
+        R.drawable.ic_menu_download
+    )
+
     data object Restore : MenuItem(
         R.id.RESTORE_COMMAND,
         R.string.pref_restore_title,
@@ -319,6 +325,7 @@ sealed class MenuItem(
 
             MenuContext.V2Transactions -> listOf(
                 Search,
+                ImportTrades,
                 Distribution,
                 History,
                 Sync,

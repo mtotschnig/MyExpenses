@@ -41,8 +41,6 @@ data class TradeIntent(
     val targetAsset: CurrencyUnit,
     val type: TradeType,
     val date: LocalDateTime,
-    // The subaccount where the asset quantity is recorded
-    val targetAccountId: Long?,
     val quantity: BigDecimal,
     val price: BigDecimal,
     val fundingSource: FundingSource = FundingSource.PORTFOLIO,
