@@ -105,6 +105,7 @@
     <string name="version_more_info_407">116450570746835831</string>
     <string name="version_more_info_408">116539859736344536</string>
     <string name="version_more_info_409">116633341553126335</string>
+    <string name="version_more_info_410">116937723305133542</string>
 
     <!-- Github -->
     <!-- Legacy -->
@@ -228,6 +229,6 @@
         <item>@string/whats_new_407</item>
     </string-array>
     <string-array name="whats_new_410">
-        <item>@string/account_type_portfolio</item>
+        <item>@string/contrib_feature_portfolio_tracking</item>
     </string-array>
 </resources>
