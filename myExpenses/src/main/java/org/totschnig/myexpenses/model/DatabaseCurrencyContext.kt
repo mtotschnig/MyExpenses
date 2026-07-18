@@ -132,8 +132,7 @@ open class DatabaseCurrencyContext(
         cursor.toCurrencyUnit()
     })
 
-    private fun fetchCurrency(currencyCode: String): CurrencyUnit {
-        // 1. Attempt to load customized metadata from the database
+    private fun fetchCurrency(currencyCode: String): CurrencyUnit =
         contentResolver.query(
             TransactionProvider.CURRENCIES_URI,
             null,
@@ -141,13 +140,8 @@ open class DatabaseCurrencyContext(
             arrayOf(currencyCode),
             null
         )?.use { cursor ->
-            if (cursor.moveToFirst()) {
-                return cursor.toCurrencyUnit()
-
-            }
-        }
-        throw IllegalArgumentException("$currencyCode not defined")
-    }
+            if (cursor.moveToFirst()) cursor.toCurrencyUnit() else null
+        } ?: CurrencyUnit(currencyCode, currencyCode, 2)
 
     override fun invalidate(currencyCode: String) {
         instances.remove(currencyCode)

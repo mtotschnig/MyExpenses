@@ -67,6 +67,8 @@ import kotlinx.coroutines.launch
 import myiconpack.IcActionTemplateAdd
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
+import org.totschnig.myexpenses.compose.PagingErrorItem
+import org.totschnig.myexpenses.compose.PagingErrorPage
 import org.totschnig.myexpenses.compose.DonutInABox
 import org.totschnig.myexpenses.compose.ExpansionHandle
 import org.totschnig.myexpenses.compose.LocalColors
@@ -134,7 +136,6 @@ data class ScrollCalculationResult(
 private fun LazyPagingItems<Transaction2>.getCurrentPosition(
     start: ScrollCalculationResult,
     headerData: HeaderData,
-    collapsedIds: Set<String>,
 ): ScrollCalculationResult {
     var (index, visibleIndex, lastHeader) = start
     val sortDirection = headerData.account.sortDirection
@@ -256,7 +257,13 @@ fun TransactionList(
     val scope = rememberCoroutineScope()
 
     if (lazyPagingItems.itemCount == 0) {
-        if (lazyPagingItems.loadState.refresh != LoadState.Loading) {
+        val refreshState = lazyPagingItems.loadState.refresh
+        if (refreshState is LoadState.Error) {
+            PagingErrorPage(
+                modifier = modifier,
+                message = "Data loading failed"
+            )
+        } else if (refreshState != LoadState.Loading) {
             Text(
                 modifier = modifier
                     .fillMaxWidth()
@@ -281,8 +288,7 @@ fun TransactionList(
                 scrollToCurrentDateStartIndex.value?.let {
                     val scrollCalculationResult = lazyPagingItems.getCurrentPosition(
                         start = it,
-                        headerData = headerData,
-                        collapsedIds = collapsedIds
+                        headerData = headerData
                     )
                     scrollToCurrentDateStartIndex.value =
                         if (scrollCalculationResult.found || lazyPagingItems.loadState.append.endOfPaginationReached) {
@@ -332,6 +338,15 @@ fun TransactionList(
                 val snapshot = lazyPagingItems.itemSnapshotList
                 val firstLoadedIndex = snapshot.indexOfFirst { it != null }.coerceAtLeast(0)
                 val lastLoadedIndex = snapshot.indexOfLast { it != null }
+
+                val prependState = lazyPagingItems.loadState.prepend
+                if (prependState is LoadState.Error) {
+                    item(key = "prepend_error") {
+                        PagingErrorItem(
+                            message = "Data loading failed"
+                        )
+                    }
+                }
 
                 if (firstLoadedIndex > 0) {
                     items(count = firstLoadedIndex, key = { "p_$it" }) {}
@@ -500,6 +515,15 @@ fun TransactionList(
                     }
 
                     lastHeader = headerId
+                }
+
+                val appendState = lazyPagingItems.loadState.append
+                if (appendState is LoadState.Error) {
+                    item(key = "append_error") {
+                        PagingErrorItem(
+                            message = "Data loading failed"
+                        )
+                    }
                 }
             }
         } else {

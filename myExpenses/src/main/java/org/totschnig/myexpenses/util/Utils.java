@@ -213,20 +213,6 @@ public class Utils {
     }
   }
 
-  @Nullable
-  public static Currency getInstance(@Nullable String strCurrency) {
-    if (strCurrency != null) {
-      if (strCurrency.equals(AGGREGATE_HOME_CURRENCY_CODE)) {
-        throw new IllegalArgumentException("AGGREGATE_HOME_CURRENCY_CODE needs to be resolved upfront");
-      }
-      try {
-        return Currency.getInstance(strCurrency);
-      } catch (IllegalArgumentException ignored) {
-      }
-    }
-    return null;
-  }
-
   /**
    * @param context The application's environment.
    * @param intent  The Intent action to check for availability.
