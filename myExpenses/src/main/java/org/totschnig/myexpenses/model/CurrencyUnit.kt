@@ -34,7 +34,6 @@ data class CurrencyUnit(
     val commodityType: CommodityType = CommodityType.FIAT,
     val databaseId: Long = -1,
 ) : Parcelable, AccountGroupingKey {
-    @VisibleForTesting
     constructor(currency: Currency) : this(
         currency.currencyCode, currency.symbol, currency.defaultFractionDigits,
         currency.displayName
