@@ -428,6 +428,23 @@
         <item>BalanceSheet</item>
     </string-array>
 
+    <string-array name="pref_default_action_entries">
+        <item>@string/pref_ui_start_screen_last_visited</item>
+        <item>@string/expense</item>
+        <item>@string/income</item>
+        <item>@string/transfer</item>
+        <item>@string/split_transaction</item>
+        <item>@string/button_scan</item>
+    </string-array>
+    <string-array name="pref_default_action_values">
+        <item>LastVisited</item>
+        <item>Expense</item>
+        <item>Income</item>
+        <item>Transfer</item>
+        <item>Split</item>
+        <item>Scan</item>
+    </string-array>
+
     <string-array name="pref_fab_style_values">
         <item>Standard</item>
         <item>Compact</item>

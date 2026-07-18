@@ -130,6 +130,7 @@ import org.totschnig.myexpenses.model.CommodityType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.preference.PreferenceState
 import org.totschnig.myexpenses.util.convAmount
+import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
@@ -354,17 +355,25 @@ fun TransactionScreen(
                 }
             } else {
                 val isPortfolio = (currentAccount as? FullAccount)?.isPortfolio == true
+                val staticAction = if (isPortfolio) null  else
+                    viewModel.defaultAction.collectAsState("LastVisited").value
+                        .takeIf { it != "LastVisited" }
+                        ?.let {
+                            enumValueOrDefault(it, Action.Expense)
+                        }
                 val lastAction =
                     if (isPortfolio) viewModel.lastActionPortfolio else viewModel.lastAction
                 FloatingActionButtonMenu(
-                    primaryAction = lastAction.flow.collectAsState(Action.Expense).value,
+                    primaryAction = staticAction ?: lastAction.flow.collectAsState(Action.Expense).value,
                     isStandard = viewModel.fabStyle.collectAsState(FabStyle.Standard).value == FabStyle.Standard,
                     containerColor = accountColor,
                     actions = if (isPortfolio) Action.PORTFOLIO_ACTIONS else Action.STANDARD_ACTIONS
                 ) { action ->
 
-                    scope.launch {
-                        lastAction.set(action)
+                    if (staticAction == null) {
+                        scope.launch {
+                            lastAction.set(action)
+                        }
                     }
 
                     if (action in Action.PORTFOLIO_ACTIONS) {

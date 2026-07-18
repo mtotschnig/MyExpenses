@@ -155,6 +155,12 @@ open class MyExpensesV2ViewModel(
 
     val currentAccountsTab by lazy { _currentAccountsTab.asStateFlow() }
 
+    val defaultAction by lazy {
+        dataStore.data.map {
+            it[prefHandler.getStringPreferencesKey(PrefKey.DEFAULT_ACTION)]
+        }
+    }
+
     val lastAction by lazy {
         EnumPreferenceAccessor(
             dataStore,

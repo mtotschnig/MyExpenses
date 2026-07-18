@@ -224,6 +224,7 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     TELL_A_FRIEND(R.string.pref_tell_a_friend_key),
     FAB_STYLE(R.string.pref_fab_style_key),
     CONTENT_BASED_COLORS(R.string.pref_content_based_colors_key),
+    DEFAULT_ACTION(R.string.pref_default_action_key)
     ;
 
     @Deprecated("")
