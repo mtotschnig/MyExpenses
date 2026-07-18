@@ -141,7 +141,7 @@ open class DatabaseCurrencyContext(
             null
         )?.use { cursor ->
             if (cursor.moveToFirst()) cursor.toCurrencyUnit() else null
-        } ?: CurrencyUnit(currencyCode, currencyCode, 2)
+        } ?: runCatching { CurrencyUnit(Currency.getInstance(currencyCode)) }.getOrElse { CurrencyUnit(currencyCode, currencyCode, 2) }
 
     override fun invalidate(currencyCode: String) {
         instances.remove(currencyCode)
