@@ -134,12 +134,37 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
                 )
             }
             accountManager.setPassword(account, data.getString(KEY_PASSWORD))
-            data.getBundle(KEY_USERDATA)?.let { userData ->
-                userData.keySet().forEach { key ->
+            val userData = data.getBundle(KEY_USERDATA)!!
+            accountManager.setUserData(
+                account,
+                KEY_SYNC_PROVIDER_URL,
+                userData.getString(KEY_SYNC_PROVIDER_URL)
+            )
+            accountManager.setUserData(
+                account,
+                KEY_SYNC_PROVIDER_USERNAME,
+                userData.getString(KEY_SYNC_PROVIDER_USERNAME)
+            )
+            userData.keySet().forEach { key ->
+                if (key != KEY_SYNC_PROVIDER_URL && key != KEY_SYNC_PROVIDER_USERNAME) {
                     accountManager.setUserData(account, key, userData.getString(key))
                 }
             }
-
+            setOf(
+                GenericAccountService.KEY_WEB_DAV_CERTIFICATE,
+                GenericAccountService.KEY_WEB_DAV_FALLBACK_TO_CLASS1,
+                GenericAccountService.KEY_ALLOW_UNVERIFIED,
+                GenericAccountService.KEY_CLIENT_CERT_ALIAS
+            ).filter { it !in userData.keySet() }.forEach {
+                accountManager.setUserData(account, it, null)
+            }
+            getApplication<MyApplication>().let { app ->
+                app.getSharedPreferences("webdav_sync", 0).edit()
+                    .remove("lockToken")
+                    .remove("lockOwnedByUs")
+                    .remove("lockTimestamp")
+                    .apply()
+            }
             emit(true)
         }
 

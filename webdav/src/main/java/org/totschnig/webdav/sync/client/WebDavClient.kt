@@ -15,6 +15,7 @@
  */
 package org.totschnig.webdav.sync.client
 
+import android.content.Context
 import at.bitfire.dav4android.BasicDigestAuthHandler
 import at.bitfire.dav4android.DavResource
 import at.bitfire.dav4android.LockableDavResource
@@ -39,12 +40,14 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.webdav.sync.DaggerWebDavComponent
-import org.totschnig.webdav.sync.client.CertificateHelper.createSocketFactory
+import org.totschnig.webdav.sync.client.CertificateHelper.createSslSocketFactory
 import org.totschnig.webdav.sync.client.CertificateHelper.createTrustManager
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 import timber.log.Timber
 import java.io.IOException
+import java.io.InterruptedIOException
+import java.net.SocketTimeoutException
 import java.security.cert.CertPathValidatorException
 import java.security.cert.X509Certificate
 import java.util.Locale
@@ -55,12 +58,14 @@ import javax.net.ssl.SSLHandshakeException
 import javax.net.ssl.SSLSession
 
 class WebDavClient(
+    private val context: Context,
     appComponent: AppComponent?,
     baseUrl: String,
     userName: String?,
     password: String?,
     trustedCertificate: X509Certificate?,
-    allowUnverified: Boolean
+    allowUnverified: Boolean,
+    clientCertAlias: String? = null
 ) {
     private val MIME_XML: MediaType = "application/xml; charset=utf-8".toMediaTypeOrNull()!!
     private val httpClient: OkHttpClient
@@ -89,20 +94,28 @@ class WebDavClient(
             )
             builder.authenticator(authHandler).addNetworkInterceptor(authHandler)
         }
-        if (trustedCertificate != null) {
-            val trustManager = createTrustManager(trustedCertificate)
-            val sf = createSocketFactory(trustManager)
-            builder.sslSocketFactory(sf, trustManager)
-            builder.hostnameVerifier { _: String?, session: SSLSession ->
-                try {
-                    val certificate = session.peerCertificates[0] as X509Certificate
-                    return@hostnameVerifier certificate == trustedCertificate
-                } catch (_: SSLException) {
-                    return@hostnameVerifier false
+        if (clientCertAlias != null || trustedCertificate != null) {
+            val (sslSocketFactory, trustManager) = createSslSocketFactory(
+                context.applicationContext,
+                clientCertAlias,
+                trustedCertificate
+            )
+            builder.sslSocketFactory(sslSocketFactory, trustManager)
+            if (trustedCertificate != null) {
+                builder.hostnameVerifier { _: String?, session: SSLSession ->
+                    try {
+                        val certificate = session.peerCertificates[0] as X509Certificate
+                        return@hostnameVerifier certificate == trustedCertificate
+                    } catch (_: SSLException) {
+                        return@hostnameVerifier false
+                    }
                 }
             }
         } else if (allowUnverified) {
             builder.hostnameVerifier { hostname: String, _: SSLSession? -> mBaseUri.host == hostname }
+        }
+        if (clientCertAlias != null) {
+            builder.protocols(listOf(okhttp3.Protocol.HTTP_1_1))
         }
         builder.followRedirects(false)
         httpClient = builder.build()
@@ -116,7 +129,17 @@ class WebDavClient(
         withLock: Boolean = true
     ): LockableDavResource {
         val resource = LockableDavResource(httpClient, buildResourceUri(fileName, parent.location))
-        resource.put(requestBody!!, if (withLock) buildIfHeader(parent.location) else null)
+        try {
+            resource.put(requestBody!!, if (withLock) buildIfHeader(parent.location) else null)
+        } catch (e: IOException) {
+            if (e.isTimeout()) {
+                if (resource.exists()) {
+                    Timber.d("Upload timed out but file exists on server: %s", fileName)
+                    return resource
+                }
+            }
+            throw e
+        }
         return resource
     }
 
@@ -354,4 +377,9 @@ class WebDavClient(
         private val LOCK_TIMEOUT = String.format(Locale.ROOT, "Second-%d", 30 * 60)
         private const val NS_WEBDAV = "DAV:"
     }
+}
+
+private fun IOException.isTimeout(): Boolean =
+    this is SocketTimeoutException || this is InterruptedIOException ||
+        cause is SocketTimeoutException || cause is InterruptedIOException
 }
