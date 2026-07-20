@@ -25,7 +25,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -67,15 +66,22 @@ fun ImportTradesDialog(
     var fundingSource by remember { mutableStateOf(FundingSource.PORTFOLIO) }
     var fundingAccountId by remember { mutableStateOf<Long?>(null) }
     var dateFormat by remember { mutableStateOf(QifDateFormat.default) }
-    var parsedIntents by remember { mutableStateOf<List<TradeIntent>?>(null) }
-    var failedCount by remember { mutableIntStateOf(0) }
+    var parseResult by remember { mutableStateOf<ImportTradesParseResult?>(null) }
 
     val statusMessages = listOfNotNull(
-        parsedIntents?.takeIf { it.isNotEmpty() }?.size?.let {
+        parseResult?.intents?.takeIf { it.isNotEmpty() }?.size?.let {
             pluralStringResource(R.plurals.import_prices_success_message, it, it)
         },
-        failedCount.takeIf { it > 0 }?.let {
+        parseResult?.parseFailures?.takeIf { it > 0 }?.let {
             pluralStringResource(R.plurals.import_prices_failure_message, it, it)
+        },
+        parseResult?.missingAssets?.takeIf { it.isNotEmpty() }?.let { missing ->
+            val count = missing.values.sum()
+            val assets = missing.keys.joinToString(", ")
+            pluralStringResource(R.plurals.import_trades_missing_assets_message, count, count, assets)
+        },
+        parseResult?.takeIf { it.intents.isEmpty() && it.parseFailures == 0 && it.missingAssets.isEmpty() }?.let {
+            stringResource(R.string.no_data)
         }
     )
 
@@ -101,8 +107,8 @@ fun ImportTradesDialog(
                     .fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                val currentIntents = parsedIntents
-                if (currentIntents == null) {
+                val currentResult = parseResult
+                if (currentResult == null || currentResult.intents.isEmpty()) {
                     Text(
                         text = stringResource(R.string.menu_import),
                         style = MaterialTheme.typography.headlineSmall
@@ -178,7 +184,7 @@ fun ImportTradesDialog(
                                 val uri = selectedUri
                                 if (uri != null) {
                                     scope.launch {
-                                        val (intents, failed) = parseCsv(
+                                        parseResult = parseCsv(
                                             context,
                                             uri,
                                             assets,
@@ -186,10 +192,6 @@ fun ImportTradesDialog(
                                             fundingAccountId,
                                             dateFormat
                                         )
-                                        if (intents.isNotEmpty()) {
-                                            failedCount = failed
-                                            parsedIntents = intents
-                                        }
                                     }
                                 }
                             },
@@ -224,7 +226,7 @@ fun ImportTradesDialog(
                             .weight(1f, fill = false)
                             .height(300.dp)
                     ) {
-                        items(currentIntents) { intent ->
+                        items(currentResult.intents) { intent ->
                             ListItem(
                                 headlineContent = {
                                     Text("${intent.targetAsset.description} (${intent.targetAsset.code})")
@@ -246,7 +248,7 @@ fun ImportTradesDialog(
                     ) {
                         Button(
                             onClick = {
-                                onImport(currentIntents)
+                                onImport(currentResult.intents)
                                 onDismiss()
                             },
                             modifier = Modifier.fillMaxWidth()
@@ -256,8 +258,7 @@ fun ImportTradesDialog(
 
                         OutlinedButton(
                             onClick = {
-                                parsedIntents = null
-                                failedCount = 0
+                                parseResult = null
                             },
                             modifier = Modifier.fillMaxWidth()
                         ) {
@@ -270,6 +271,12 @@ fun ImportTradesDialog(
     }
 }
 
+data class ImportTradesParseResult(
+    val intents: List<TradeIntent>,
+    val parseFailures: Int,
+    val missingAssets: Map<String, Int>
+)
+
 private suspend fun parseCsv(
     context: android.content.Context,
     uri: Uri,
@@ -277,10 +284,11 @@ private suspend fun parseCsv(
     fundingSource: FundingSource,
     fundingAccountId: Long?,
     dateFormat: QifDateFormat,
-): Pair<List<TradeIntent>, Int> = withContext(Dispatchers.IO) {
+): ImportTradesParseResult = withContext(Dispatchers.IO) {
     val intents = mutableListOf<TradeIntent>()
     val assetMap = assets.associateBy { it.code }
-    var failedCount = 0
+    var parseFailures = 0
+    val missingAssets = mutableMapOf<String, Int>()
 
     try {
         context.contentResolver.openInputStream(uri)?.use { inputStream ->
@@ -298,14 +306,21 @@ private suspend fun parseCsv(
                     val typeStr = record.get("Type") ?: continue
                     val assetCode = record.get("Asset") ?: continue
 
+                    val asset = assetMap[assetCode]
+                    if (asset == null) {
+                        missingAssets[assetCode] = (missingAssets[assetCode] ?: 0) + 1
+                        continue
+                    }
+
                     val date = QifUtils.parseDate(dateStr, dateFormat)
                     val type = when (typeStr.uppercase()) {
                         "BUY", "B" -> TradeType.AssetTrade.BUY
                         "SELL", "S" -> TradeType.AssetTrade.SELL
-                        else -> continue
+                        else -> {
+                            parseFailures++
+                            continue
+                        }
                     }
-
-                    val asset = assetMap[assetCode] ?: continue
 
                     val quantity = record.get("Quantity")?.toBigDecimalOrNull() ?: BigDecimal.ZERO
                     val price = record.get("Price")?.toBigDecimalOrNull() ?: BigDecimal.ZERO
@@ -324,14 +339,14 @@ private suspend fun parseCsv(
                         )
                     )
                 } catch (_: Exception) {
-                    failedCount++
+                    parseFailures++
                 }
             }
         }
     } catch (e: Exception) {
         CrashHandler.report(e)
     }
-    intents to failedCount
+    ImportTradesParseResult(intents, parseFailures, missingAssets)
 }
 
 private fun String.toBigDecimalOrNull(): BigDecimal? = try {

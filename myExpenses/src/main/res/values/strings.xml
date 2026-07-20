@@ -1064,6 +1064,11 @@
         <item quantity="one">%d line could not be processed.</item>
         <item quantity="other">%d lines could not be processed.</item>
     </plurals>
+    <!--Message is shown when user tries to import trades into a portfolio, but assets traded have not been set up. -->
+    <plurals name="import_trades_missing_assets_message">
+        <item quantity="one">%1$d line refers to unknown assets: %2$s.</item>
+        <item quantity="other">%1$d lines refer to unknown assets: %2$s.</item>
+    </plurals>
     <!-- Placeholder: 1 will be replaced with the description of the price pair, e.g. EUR:USD, 2 will be replaced with file name -->
     <string name="confirm_process_file_message">Are you sure you want to import prices for \'%1$s\' from \'%2$s\'? New prices may affect existing equivalent amounts.</string>
     <string name="warning_expense_category_credit">You are assigning an expense category to an income transaction. As a consequence, the transaction will reduce the sum of your expenses, and by default will be shown in red.</string>
