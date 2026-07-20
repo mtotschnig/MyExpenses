@@ -12,8 +12,8 @@ import androidx.appcompat.view.ContextThemeWrapper
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.KEY_ROWID
-import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import org.totschnig.myexpenses.util.ui.UiUtils
 import javax.inject.Inject
 import kotlin.math.sign
 
@@ -62,12 +62,18 @@ abstract class AbstractRemoteViewsFactory(
 
     abstract fun buildCursor(): Cursor?
 
-    override fun getViewAt(position: Int) =
-        RemoteViews(context.packageName, rowLayout).apply {
-            cursor?.takeIf { !it.isClosed && it.moveToPosition(position) }?.let {
-                populate(it)
+    override fun getViewAt(position: Int): RemoteViews? {
+        val token = Binder.clearCallingIdentity()
+        return try {
+            RemoteViews(context.packageName, rowLayout).apply {
+                cursor?.takeIf { !it.isClosed && it.moveToPosition(position) }?.let {
+                    populate(it)
+                }
             }
+        } finally {
+            Binder.restoreCallingIdentity(token)
         }
+    }
 
     abstract fun RemoteViews.populate(cursor: Cursor)
 
