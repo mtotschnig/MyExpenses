@@ -30,7 +30,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 import kotlin.math.pow
 
-const val DATABASE_VERSION = 188
+const val DATABASE_VERSION = 189
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -1202,6 +1202,31 @@ abstract class BaseTransactionDatabase(
         execSQL("ALTER TABLE $TABLE_ACCOUNTS ADD COLUMN $KEY_IS_PORTFOLIO boolean default 0")
         // 2. Add parent_id to accounts for hierarchy (Portfolio -> Asset)
         execSQL("ALTER TABLE $TABLE_ACCOUNTS ADD COLUMN $KEY_PARENTID integer references $TABLE_ACCOUNTS($KEY_ROWID) ON DELETE CASCADE")
+    }
+
+    fun SupportSQLiteDatabase.upgradeTo189() {
+        query(table = TABLE_CURRENCIES, columns = arrayOf(KEY_CODE, KEY_SYMBOL, KEY_FRACTION_DIGITS)).use { cursor ->
+            cursor.asSequence.forEach {
+                val code = it.getString(KEY_CODE)
+                val dbSymbol = it.getStringOrNull(KEY_SYMBOL)
+                val dbFractionDigits = it.getIntOrNull(KEY_FRACTION_DIGITS)
+
+                val prefSymbol = prefHandler.getString(code + "CustomCurrencySymbol", null)
+                val prefFractionDigits = prefHandler.getInt(code + "CustomFractionDigits", -1)
+
+                val values = ContentValues()
+                if (dbSymbol == null && prefSymbol != null) {
+                    values.put(KEY_SYMBOL, prefSymbol)
+                }
+                if (dbFractionDigits == null && prefFractionDigits != -1) {
+                    values.put(KEY_FRACTION_DIGITS, prefFractionDigits)
+                }
+
+                if (values.size() > 0) {
+                    update(TABLE_CURRENCIES, values, "$KEY_CODE = ?", arrayOf(code))
+                }
+            }
+        }
     }
 
     protected fun SupportSQLiteDatabase.createOrRefreshAccountTriggers() {
