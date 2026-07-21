@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="versions">
+        <item>869;4.1.0.1</item>
         <item>868;4.1.0</item>
         <item>857;4.0.9</item>
         <item>851;4.0.8</item>
@@ -231,4 +232,9 @@
     <string-array name="whats_new_410">
         <item>@string/contrib_feature_portfolio_tracking</item>
     </string-array>
+    <string-array name="whats_new_4101">
+        <item>@string/bug_fixes</item>
+        <item>@string/whats_new_4101</item>
+    </string-array>
+    <string name="whats_new_4101">Refinement of Trade import for portfolios</string>
 </resources>
