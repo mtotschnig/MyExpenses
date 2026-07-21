@@ -49,8 +49,8 @@ import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
 import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.BalanceType
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
@@ -604,11 +604,22 @@ open class MyExpensesV2ViewModel(
         }
     }
 
-    suspend fun saveTrades(currentAccount: FullAccount, intents: List<TradeIntent>, tradeId: Long? = null) {
+    suspend fun saveTrades(
+        currentAccount: FullAccount,
+        intents: List<TradeIntent>,
+        tradeId: Long? = null,
+        onProgress: (Int) -> Unit = {}
+    ) {
         withContext(coroutineDispatcher) {
-            val knownSubaccounts = currentAccount.children.toMutableList()
-            intents.forEach { intent ->
-                saveTradeInternal(currentAccount, intent, knownSubaccounts, if (intents.size == 1) tradeId else null)
+            repository.bulkStart()
+            try {
+                val knownSubaccounts = currentAccount.children.toMutableList()
+                intents.forEachIndexed { index, intent ->
+                    saveTradeInternal(currentAccount, intent, knownSubaccounts, if (intents.size == 1) tradeId else null)
+                    onProgress(index + 1)
+                }
+            } finally {
+                repository.bulkEnd()
             }
         }
     }
@@ -672,7 +683,7 @@ open class MyExpensesV2ViewModel(
                 }
         }
 
-        val principalAmount = if (isAssetTrade) intent.quantity.multiply(intent.price) else intent.quantity
+        val principalAmount = intent.principal
         val totalImpact = if (intent.type == TradeType.AssetTrade.BUY || intent.type == TradeType.CashMovement.DEPOSIT) {
             principalAmount.add(intent.fee)
         } else {

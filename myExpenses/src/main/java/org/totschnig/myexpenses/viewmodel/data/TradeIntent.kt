@@ -43,6 +43,7 @@ data class TradeIntent(
     val date: LocalDateTime,
     val quantity: BigDecimal,
     val price: BigDecimal,
+    val principal: BigDecimal,
     val fundingSource: FundingSource = FundingSource.PORTFOLIO,
     val fundingAccountId: Long?,
     val fee: BigDecimal,

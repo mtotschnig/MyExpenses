@@ -413,10 +413,8 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                             (currentAccount as? FullAccount)?.let { fullAccount ->
                                 ImportTradesDialog(
                                     onDismiss = { showImportTrades = false },
-                                    onImport = { intents ->
-                                        lifecycleScope.launch {
-                                            viewModel.saveTrades(fullAccount, intents)
-                                        }
+                                    onImport = { intents, onProgress ->
+                                        viewModel.saveTrades(fullAccount, intents, onProgress = onProgress)
                                     },
                                     portfolio = fullAccount,
                                     assets = currencies,

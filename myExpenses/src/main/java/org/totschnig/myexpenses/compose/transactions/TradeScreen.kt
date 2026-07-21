@@ -164,13 +164,17 @@ fun TradeScreen(
 
     val onSaveClick = { stayOpen: Boolean ->
         val asset = if (isAssetTrade) selectedAsset!! else reportingCurrency
+        val finalQuantity = quantity.orZero
+        val finalPrice = if (isAssetTrade) price.orZero else BigDecimal.ONE
+        val finalPrincipal = if (isAssetTrade) finalQuantity.multiply(finalPrice) else finalQuantity
         onSave(
             TradeIntent(
                 type = type,
                 date = date,
                 targetAsset = asset,
-                quantity = quantity.orZero,
-                price = if (isAssetTrade) price.orZero else BigDecimal.ONE,
+                quantity = finalQuantity,
+                price = finalPrice,
+                principal = finalPrincipal,
                 fundingAccountId = fundingAccountId,
                 fee = fee.orZero,
                 comment = comment,
@@ -503,7 +507,7 @@ fun TradeScreen(
                         AmountEdit(
                             value = price,
                             onValueChange = { price = it },
-                            fractionDigits = reportingCurrency.fractionDigits
+                            fractionDigits = 10
                         )
                     }
                 }
