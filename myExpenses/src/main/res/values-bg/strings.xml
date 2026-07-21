@@ -1074,4 +1074,8 @@
     <string name="trade_price">Цена</string>
     <string name="trade_fee">Таксa</string>
     <string name="trade_target_asset">Актив</string>
+    <plurals name="import_trades_missing_assets_message">
+        <item quantity="one">%1$d линия се отнася за непознат актив: %2$s.</item>
+        <item quantity="other">%1$d линии се отнасят за непознати активи: %2$s.</item>
+    </plurals>
 </resources>
