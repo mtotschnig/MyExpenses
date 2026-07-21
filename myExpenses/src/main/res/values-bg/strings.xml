@@ -1054,4 +1054,24 @@
     <string name="pref_content_based_colors_summary">Цветове на темата според цвета на текущата сметка. Изключете, ако текстовете се четат трудно.</string>
     <string name="service_starting">Стартиране…</string>
     <string name="asset_quantity_at_price">%1$s по %2$s</string>
+    <string name="menu_create_portfolio">Нов портфейл</string>
+    <string name="asset_type_fiat_plural">Валути</string>
+    <string name="asset_type_security">Обезпечение</string>
+    <string name="asset_type_security_plural">Обезпечения</string>
+    <string name="asset_type_crypto">Крипто</string>
+    <string name="trade_funding_source">Източник на финансиране</string>
+    <string name="trade_funding_portfolio">В брой от портфейла</string>
+    <string name="trade_funding_external_description">Средства от източници, които не се проследяват в това приложение</string>
+    <string name="trade_deposit">Депозит</string>
+    <string name="trade_withdraw">Изтеглянe</string>
+    <string name="trade_matching_transaction_found">Намерена е съответстваща транзакция в сметката за финансиране. Изберете за свързване:</string>
+    <string name="contrib_feature_portfolio_tracking">Проследяване на портфейла</string>
+    <string name="premium_nudge_portfolio_title">Отключете пълния потенциал на портфейла</string>
+    <string name="premium_nudge_portfolio_message">Безплатно може да управлявате един портфейл. Надстройте, за да управлявате множество портфейли и да отключите разширени функции за проследяване.</string>
+    <string name="trade_buy">Покупка</string>
+    <string name="trade_sell">Продажба</string>
+    <string name="trade_quantity">Количество</string>
+    <string name="trade_price">Цена</string>
+    <string name="trade_fee">Таксa</string>
+    <string name="trade_target_asset">Актив</string>
 </resources>
