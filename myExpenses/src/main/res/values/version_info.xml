@@ -162,6 +162,7 @@
     <string name="project_board_408">185</string>
     <string name="project_board_409">187</string>
     <string name="project_board_410">189</string>
+    <string name="project_board_4101">190</string>
 
     <string-array name="whats_new_361">
         <item>@string/whats_new_361_1</item>
