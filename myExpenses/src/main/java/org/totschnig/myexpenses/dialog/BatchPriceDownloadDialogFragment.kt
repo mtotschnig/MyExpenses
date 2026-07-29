@@ -6,10 +6,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.fragment.app.activityViewModels
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.compose.DateRangePickerScaffold
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.provider.KEY_SOURCE
 import org.totschnig.myexpenses.retrofit.ExchangeRateApi
+import org.totschnig.myexpenses.util.safeMessage
+import org.totschnig.myexpenses.util.transformForUser
 import org.totschnig.myexpenses.viewmodel.PriceHistoryViewModel
 
 class BatchPriceDownloadDialogFragment : ComposeBaseDialogFragment2() {
@@ -34,7 +37,18 @@ class BatchPriceDownloadDialogFragment : ComposeBaseDialogFragment2() {
             warning = if (source == ExchangeRateApi.Frankfurter) null else
                 getString(R.string.warning_batch_download_quota, source.host),
         ) { (start, end) ->
-            viewmodel.loadTimeSeries(source, start, end)
+            try {
+                viewmodel.loadTimeSeries(source, start, end)
+            } catch (e: Exception) {
+                (requireActivity() as? BaseActivity)?.showSnackBar(
+                    e.transformForUser(
+                        requireContext(),
+                        viewmodel.commodity,
+                        viewmodel.homeCurrency
+                    ).safeMessage
+                )
+            }
+
         }
     }
 

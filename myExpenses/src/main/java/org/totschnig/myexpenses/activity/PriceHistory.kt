@@ -227,9 +227,11 @@ class PriceHistory : ProtectedFragmentActivity() {
                 }
 
                 R.id.BATCH_DOWNLOAD_COMMAND -> {
-                    viewModel.effectiveSource?.let { source ->
+                    viewModel.effectiveSource?.also { source ->
                         BatchPriceDownloadDialogFragment.newInstance(source.name)
                             .show(supportFragmentManager, "BATCH_DOWNLOAD")
+                    } ?: run {
+                        showSnackBar(getString(R.string.exchange_rate_not_supported, viewModel.commodity, viewModel.homeCurrency))
                     }
                     true
                 }
