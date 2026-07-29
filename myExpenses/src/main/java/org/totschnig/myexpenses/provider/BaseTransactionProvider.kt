@@ -1551,8 +1551,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
             add("$aggregateFunction(CASE WHEN $isIncome THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_INCOME")
 
             if (!includeTransfers) {
-                val ignoreTransfersInGrandTotal = if (forHome == null) "" else "$KEY_TRANSFER_PEER IS NULL AND"
-                add("$aggregateFunction(CASE WHEN $ignoreTransfersInGrandTotal $KEY_TYPE = $FLAG_TRANSFER THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_TRANSFERS")
+                //while many transfers sum up to 0 in the grand total account
+                //they still count if
+                // 1) transaction is mapped to a transfer category
+                // 2) one side of the transfer is in an account that is excluded from totals
+                add("$aggregateFunction(CASE WHEN $KEY_TYPE = $FLAG_TRANSFER THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_TRANSFERS")
             }
 
             //previously we started distribution from group header and needed to know if there were mapped categories
