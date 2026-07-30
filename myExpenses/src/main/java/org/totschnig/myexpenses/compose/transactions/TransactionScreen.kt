@@ -401,14 +401,15 @@ fun TransactionScreen(
             }
 
             LaunchedEffect(pagerState.settledPage) {
-                val selected = accountList[pagerState.settledPage].id
-                if (selected != selectedAccountId) {
-                    viewModel.selectAccount(selected)
-                    viewModel.scrollToAccountIfNeeded(
-                        pagerState.currentPage,
-                        selected,
-                        true
-                    )
+                accountList.getOrNull(pagerState.settledPage)?.id?.let { selected ->
+                    if (selected != selectedAccountId) {
+                        viewModel.selectAccount(selected)
+                        viewModel.scrollToAccountIfNeeded(
+                            pagerState.currentPage,
+                            selected,
+                            true
+                        )
+                    }
                 }
             }
         }
