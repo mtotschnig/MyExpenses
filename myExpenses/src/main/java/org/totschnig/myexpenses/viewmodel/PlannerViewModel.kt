@@ -22,6 +22,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.db2.instantiateTemplate
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
@@ -38,7 +39,6 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-import java.time.temporal.TemporalAdjusters
 import javax.inject.Inject
 
 class PlannerViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
@@ -51,7 +51,7 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
 
     data class Month(val year: Int, val month: Int, val startDay: Int = 1) {
         init {
-            if (month !in 0..12) throw IllegalArgumentException()
+            if (month !in 1..12) throw IllegalArgumentException()
         }
 
         fun next(): Month {
@@ -72,15 +72,16 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
             return Month(prevYear, prevMonth, startDay)
         }
 
-        fun startMillis() = startDate().atTime(LocalTime.MIN).toEpochMillis()
+        fun startMillis() = startDate.atTime(LocalTime.MIN).toEpochMillis()
 
-        fun endMillis() = endDate().atTime(LocalTime.MAX).toEpochMillis()
+        fun endMillis() = endDate.atTime(LocalTime.MAX).toEpochMillis()
 
-        fun endDate(): LocalDate = if (startDay == 1)
-            startDate().with(TemporalAdjusters.lastDayOfMonth()) else
-            startDate().minusDays(1).plusMonths(1)
+        private val range: Pair<LocalDate, LocalDate> =
+            Grouping.getMonthRange(year, month-1, startDay)
 
-        fun startDate(): LocalDate = LocalDate.of(year, month, startDay)
+        val endDate = range.second
+
+        val startDate = range.first
     }
 
     var first: Month
@@ -135,8 +136,8 @@ class PlannerViewModel(application: Application) : ContentResolvingAndroidViewMo
                 null, CalendarContract.Instances.BEGIN + " ASC", false)
                 .mapToList { PlanInstance.fromEventCursor(it, repository) }
                 .collect {
-                    val start = SpannableString(first.startDate().format(formatter))
-                    val end = SpannableString(last.endDate().format(formatter))
+                    val start = SpannableString(first.startDate.format(formatter))
+                    val end = SpannableString(last.endDate.format(formatter))
                     start.setSpan(
                         ClickableDateSpan(false),
                         0,
