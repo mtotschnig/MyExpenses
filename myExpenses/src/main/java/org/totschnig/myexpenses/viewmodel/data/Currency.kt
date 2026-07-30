@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.provider.getIntIfExistsOr0
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.util.Utils
+import java.io.Serializable
 import java.util.Locale
 
 @Parcelize
@@ -20,7 +21,7 @@ data class Currency(
     val code: String,
     val displayName: String,
     val usages: Int = 0,
-) : Parcelable {
+) : Parcelable, Serializable {
     @IgnoredOnParcel
     val sortClass = when (code) {
         "XXX" -> 3
