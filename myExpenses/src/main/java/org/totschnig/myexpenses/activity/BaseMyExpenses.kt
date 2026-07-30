@@ -146,6 +146,7 @@ import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
 import org.totschnig.myexpenses.viewmodel.data.Trade
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import org.totschnig.myexpenses.provider.KEY_SOURCE
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.HeaderDataEmpty
@@ -302,18 +303,17 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
             TRANSFORM_TO_TRANSFER_REQUEST,
             this
         ) { _, bundle ->
-            (currentAccount as? FullAccount)?.let { currentAccount ->
-                val isIncome = bundle.getBoolean(KEY_IS_INCOME)
-                val target = bundle.getString(KEY_LABEL)
-                val from = if (isIncome) target else currentAccount.label
-                val to = if (isIncome) currentAccount.label else target
-                showConfirmationDialog(
-                    "TRANSFORM_TRANSFER",
-                    getString(R.string.warning_transform_to_transfer, from, to),
-                    R.id.TRANSFORM_TO_TRANSFER_COMMAND
-                ) {
-                    putAll(bundle)
-                }
+            val isIncome = bundle.getBoolean(KEY_IS_INCOME)
+            val target = bundle.getString(KEY_LABEL)
+            val source = bundle.getString(KEY_SOURCE)
+            val from = if (isIncome) target else source
+            val to = if (isIncome) source else target
+            showConfirmationDialog(
+                "TRANSFORM_TRANSFER",
+                getString(R.string.warning_transform_to_transfer, from, to),
+                R.id.TRANSFORM_TO_TRANSFER_COMMAND
+            ) {
+                putAll(bundle)
             }
         }
     }
@@ -811,7 +811,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
 
     protected fun toggleCrStatus(transactionId: Long) {
         lifecycleScope.launch {
-            if(checkSealed(listOf(transactionId), withTransfer = false)) {
+            if (checkSealed(listOf(transactionId), withTransfer = false)) {
                 viewModel.toggleCrStatus(transactionId)
             }
         }
@@ -1023,7 +1023,10 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                     startEdit(
                         Intent(this@BaseMyExpenses, ExpenseEdit::class.java).apply {
                             putExtra(KEY_ROWID, transaction.id)
-                            putExtra(KEY_COLOR, transaction.color ?: currentAccount?.color(resources))
+                            putExtra(
+                                KEY_COLOR,
+                                transaction.color ?: currentAccount?.color(resources)
+                            )
                             if (clone) {
                                 putExtra(ExpenseEdit.KEY_CLONE, true)
                             }
@@ -1093,10 +1096,11 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
     protected fun undelete(itemIds: List<Long>) {
         lifecycleScope.launch {
             if (checkSealed(itemIds)) {
-                viewModel.undeleteTransactions(itemIds).observe(this@BaseMyExpenses) { result: Int ->
-                    finishActionMode()
-                    showSnackBar("${getString(R.string.menu_undelete_transaction)}: $result")
-                }
+                viewModel.undeleteTransactions(itemIds)
+                    .observe(this@BaseMyExpenses) { result: Int ->
+                        finishActionMode()
+                        showSnackBar("${getString(R.string.menu_undelete_transaction)}: $result")
+                    }
             }
         }
     }
@@ -1290,10 +1294,17 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
             }
 
             R.id.TRANSFORM_TO_TRANSFER_COMMAND -> {
-                viewModel.transformToTransfer(
-                    args.getLong(KEY_TRANSACTIONID),
-                    args.getLong(KEY_ROWID)
-                ).observeAndReportFailure()
+
+                val transactionId = args.getLong(KEY_TRANSACTIONID)
+
+                lifecycleScope.launch {
+                    if (checkSealed(listOf(transactionId))) {
+                        viewModel.transformToTransfer(
+                            args.getLong(KEY_TRANSACTIONID),
+                            args.getLong(KEY_ROWID)
+                        ).observeAndReportFailure()
+                    }
+                }
             }
 
             R.id.UNARCHIVE_COMMAND -> {
@@ -1552,7 +1563,8 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                 }
         ) {
 
-            val persistence = remember(account.id) { viewModel.filterPersistence.getValue(account.id) }
+            val persistence =
+                remember(account.id) { viewModel.filterPersistence.getValue(account.id) }
             val filter = persistence.whereFilter.collectAsState(null)
             filter.value?.let { filter ->
                 FilterHandler(account, "confirmFilterDirect_${account.id}", { oldValue, newValue ->
@@ -1590,85 +1602,89 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                 .takeIf { it !is HeaderDataEmpty }
                 ?.let { headerData ->
 
-                val lazyPagingItems = viewModel.getTransactions(account).collectAsLazyPagingItems()
+                    val lazyPagingItems =
+                        viewModel.getTransactions(account).collectAsLazyPagingItems()
 
-                if (!account.sealed) {
+                    if (!account.sealed) {
 
-                    LaunchedEffect(viewModel.selectAllState.value) {
-                        if (viewModel.selectAllState.value) {
-                            if (lazyPagingItems.loadState.prepend.endOfPaginationReached &&
-                                lazyPagingItems.loadState.append.endOfPaginationReached
-                            ) {
-                                var jndex = 0
-                                while (jndex < lazyPagingItems.itemCount) {
-                                    lazyPagingItems.peek(jndex)?.let {
-                                        viewModel.selectionHandler.selectConditional(it)
+                        LaunchedEffect(viewModel.selectAllState.value) {
+                            if (viewModel.selectAllState.value) {
+                                if (lazyPagingItems.loadState.prepend.endOfPaginationReached &&
+                                    lazyPagingItems.loadState.append.endOfPaginationReached
+                                ) {
+                                    var jndex = 0
+                                    while (jndex < lazyPagingItems.itemCount) {
+                                        lazyPagingItems.peek(jndex)?.let {
+                                            viewModel.selectionHandler.selectConditional(it)
+                                        }
+                                        jndex++
                                     }
-                                    jndex++
-                                }
-                            } else {
-                                showSnackBar(
-                                    getString(
-                                        R.string.select_all_list_too_large,
-                                        getString(android.R.string.selectAll)
+                                } else {
+                                    showSnackBar(
+                                        getString(
+                                            R.string.select_all_list_too_large,
+                                            getString(android.R.string.selectAll)
+                                        )
                                     )
-                                )
+                                }
+                                viewModel.selectAllState.value = false
                             }
-                            viewModel.selectAllState.value = false
                         }
                     }
-                }
-                val bulkDeleteState = viewModel.bulkDeleteState.collectAsState(initial = null)
-                val modificationAllowed =
-                    !account.sealed && bulkDeleteState.value !is DeleteProgress
-                val colorSource =
-                    viewModel.colorSource.collectAsState(initial = ColorSource.TYPE)
-                val withCategoryIcon =
-                    viewModel.withCategoryIcon.collectAsState(initial = true)
-                val renderType = viewModel.renderer.collectAsState(initial = RenderType.New)
-                val renderer = remember(account.grouping) {
-                    derivedStateOf {
-                        Timber.d("init renderer ${renderType.value}")
-                        rendererFactory(
-                            renderType.value,
-                            account,
-                            withCategoryIcon.value,
-                            colorSource.value,
-                            onToggleCrStatus.value
-                        )
-                    }
-                }
-                TransactionList(
-                    modifier = Modifier.weight(1f),
-                    lazyPagingItems = lazyPagingItems,
-                    headerData = headerData,
-                    budgetData = remember(account.grouping) { viewModel.budgetData(account) }
-                        .collectAsState(null),
-                    selectionHandler = if (modificationAllowed) viewModel.selectionHandler else null,
-                    selectAllState = viewModel.selectAllState,
-                    onSelectAllListTooLarge = { selectAllListTooLarge() },
-                    onEvent = object : TransactionEventHandler {
-                        override fun invoke(event: TransactionEvent, transaction: Transaction2) {
-                            handleTransactionEvent(event, transaction, isCurrentPage)
+                    val bulkDeleteState = viewModel.bulkDeleteState.collectAsState(initial = null)
+                    val modificationAllowed =
+                        !account.sealed && bulkDeleteState.value !is DeleteProgress
+                    val colorSource =
+                        viewModel.colorSource.collectAsState(initial = ColorSource.TYPE)
+                    val withCategoryIcon =
+                        viewModel.withCategoryIcon.collectAsState(initial = true)
+                    val renderType = viewModel.renderer.collectAsState(initial = RenderType.New)
+                    val renderer = remember(account.grouping) {
+                        derivedStateOf {
+                            Timber.d("init renderer ${renderType.value}")
+                            rendererFactory(
+                                renderType.value,
+                                account,
+                                withCategoryIcon.value,
+                                colorSource.value,
+                                onToggleCrStatus.value
+                            )
                         }
-                    },
-                    futureCriterion = viewModel.futureCriterion.collectAsState(initial = FutureCriterion.EndOfDay).value,
-                    expansionHandler = viewModel.expansionHandlerForTransactionGroups(account),
-                    onBudgetClick = { budgetId, headerId ->
-                        contribFeatureRequested(ContribFeature.BUDGET, budgetId to headerId)
-                    },
-                    showSumDetails = viewModel.showSumDetails.collectAsState(initial = true).value,
-                    scrollToCurrentDate = viewModel.scrollToCurrentDate.getValue(account.id),
-                    renderer = renderer.value,
-                    isFiltered = filter.value != null,
-                    splitInfoResolver = {
-                        viewModel.resolveExtraInfo(it)
-                    },
-                    windowInsets = transactionListWindowInsets,
-                    modificationsAllowed = modificationAllowed,
-                    accountCount = accountCount
-                )
-            }
+                    }
+                    TransactionList(
+                        modifier = Modifier.weight(1f),
+                        lazyPagingItems = lazyPagingItems,
+                        headerData = headerData,
+                        budgetData = remember(account.grouping) { viewModel.budgetData(account) }
+                            .collectAsState(null),
+                        selectionHandler = if (modificationAllowed) viewModel.selectionHandler else null,
+                        selectAllState = viewModel.selectAllState,
+                        onSelectAllListTooLarge = { selectAllListTooLarge() },
+                        onEvent = object : TransactionEventHandler {
+                            override fun invoke(
+                                event: TransactionEvent,
+                                transaction: Transaction2,
+                            ) {
+                                handleTransactionEvent(event, transaction, isCurrentPage)
+                            }
+                        },
+                        futureCriterion = viewModel.futureCriterion.collectAsState(initial = FutureCriterion.EndOfDay).value,
+                        expansionHandler = viewModel.expansionHandlerForTransactionGroups(account),
+                        onBudgetClick = { budgetId, headerId ->
+                            contribFeatureRequested(ContribFeature.BUDGET, budgetId to headerId)
+                        },
+                        showSumDetails = viewModel.showSumDetails.collectAsState(initial = true).value,
+                        scrollToCurrentDate = viewModel.scrollToCurrentDate.getValue(account.id),
+                        renderer = renderer.value,
+                        isFiltered = filter.value != null,
+                        splitInfoResolver = {
+                            viewModel.resolveExtraInfo(it)
+                        },
+                        windowInsets = transactionListWindowInsets,
+                        modificationsAllowed = modificationAllowed,
+                        accountCount = accountCount
+                    )
+                }
         }
     }
 
