@@ -40,6 +40,17 @@ sealed class ExchangeRateApi(val id: Int, name: String, val host: String) :
         extractError(body)?.let { IOException(it) }
     } ?: e
 
+    protected fun extractJsonError(body: ResponseBody, key: String): String? = try {
+        val content = body.string()
+        try {
+            JSONObject(content).getString(key)
+        } catch (e: Exception) {
+            content.takeIf { it.isNotEmpty() }
+        }
+    } catch (e: Exception) {
+        null
+    }
+
     abstract fun extractError(body: ResponseBody): String?
 
     open fun isSupported(vararg currency: String) = true
@@ -108,8 +119,7 @@ sealed class ExchangeRateApi(val id: Int, name: String, val host: String) :
             "ZAR"
         )
 
-        override fun extractError(body: ResponseBody): String =
-            JSONObject(body.string()).getString("message")
+        override fun extractError(body: ResponseBody): String? = extractJsonError(body, "message")
 
     }
 
@@ -132,8 +142,7 @@ sealed class ExchangeRateApi(val id: Int, name: String, val host: String) :
         name = "OPENEXCHANGERATES"
     ) {
         override val hasTimeSeriesRequest = false
-        override fun extractError(body: ResponseBody): String =
-            JSONObject(body.string()).getString("description")
+        override fun extractError(body: ResponseBody): String? = extractJsonError(body, "description")
     }
 
     data object CoinApi : SourceWithApiKey(
@@ -142,8 +151,7 @@ sealed class ExchangeRateApi(val id: Int, name: String, val host: String) :
         id = R.id.COIN_API_ID,
         name = "COIN_API"
     ) {
-        override fun extractError(body: ResponseBody): String =
-            JSONObject(body.string()).getString("error")
+        override fun extractError(body: ResponseBody): String? = extractJsonError(body, "error")
     }
 }
 
