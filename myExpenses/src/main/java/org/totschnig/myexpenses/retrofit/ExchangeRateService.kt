@@ -1,13 +1,15 @@
 package org.totschnig.myexpenses.retrofit
 
 import okhttp3.ResponseBody
-import org.json.JSONObject
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import retrofit2.HttpException
 import java.io.IOException
 import java.time.LocalDate
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 
 sealed class ExchangeRateSource(val name: String) {
     object User : ExchangeRateSource("user")
@@ -43,11 +45,11 @@ sealed class ExchangeRateApi(val id: Int, name: String, val host: String) :
     protected fun extractJsonError(body: ResponseBody, key: String): String? = try {
         val content = body.string()
         try {
-            JSONObject(content).getString(key)
-        } catch (e: Exception) {
+            Json.parseToJsonElement(content).jsonObject[key]?.jsonPrimitive?.content ?: content
+        } catch (_: Exception) {
             content.takeIf { it.isNotEmpty() }
         }
-    } catch (e: Exception) {
+    } catch (_: Exception) {
         null
     }
 
