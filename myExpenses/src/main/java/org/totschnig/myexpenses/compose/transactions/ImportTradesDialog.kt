@@ -90,7 +90,10 @@ fun ImportTradesDialog(
             val assets = missing.keys.joinToString(", ")
             pluralStringResource(R.plurals.import_trades_missing_assets_message, count, count, assets)
         },
-        parseResult?.takeIf { it.intents.isEmpty() && it.parseFailures == 0 && it.missingAssets.isEmpty() }?.let {
+        parseResult?.fatalError?.let {
+            stringResource(R.string.parse_error_at_line, parseResult?.fatalErrorLine ?: 0, it)
+        },
+        parseResult?.takeIf { it.intents.isEmpty() && it.parseFailures == 0 && it.missingAssets.isEmpty() && it.fatalError == null }?.let {
             stringResource(R.string.no_data)
         }
     )
@@ -315,7 +318,9 @@ fun ImportTradesDialog(
 data class ImportTradesParseResult(
     val intents: List<TradeIntent>,
     val parseFailures: Int,
-    val missingAssets: Map<String, Int>
+    val missingAssets: Map<String, Int>,
+    val fatalError: String? = null,
+    val fatalErrorLine: Long = 0
 )
 
 private suspend fun parseCsv(
@@ -330,6 +335,8 @@ private suspend fun parseCsv(
     val assetMap = assets.associateBy { it.code }
     var parseFailures = 0
     val missingAssets = mutableMapOf<String, Int>()
+    var fatalError: String? = null
+    var fatalErrorLine: Long = 0
 
     try {
         context.contentResolver.openInputStream(uri)?.use { inputStream ->
@@ -341,7 +348,16 @@ private suspend fun parseCsv(
                 .get()
             val parser = CSVParser.parse(reader, format)
 
-            for (record in parser) {
+            val iterator = parser.iterator()
+            while (true) {
+                val record = try {
+                    if (!iterator.hasNext()) break
+                    iterator.next()
+                } catch (e: Exception) {
+                    fatalError = e.message
+                    fatalErrorLine = parser.currentLineNumber
+                    break
+                }
                 try {
                     val dateStr = record.getSafe("Date") ?: continue
                     val typeStr = record.getSafe("Type") ?: continue
@@ -413,9 +429,12 @@ private suspend fun parseCsv(
             }
         }
     } catch (e: Exception) {
+        if (fatalError == null) {
+            fatalError = e.message
+        }
         CrashHandler.report(e)
     }
-    ImportTradesParseResult(intents, parseFailures, missingAssets)
+    ImportTradesParseResult(intents, parseFailures, missingAssets, fatalError, fatalErrorLine)
 }
 
 private fun CSVRecord.getSafe(vararg names: String): String? {

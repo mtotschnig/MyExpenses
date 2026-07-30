@@ -206,6 +206,7 @@
     <string name="parse_error_grisbi_version_not_supported">Unsupported Grisbi File Version: %1$s</string>
     <string name="parse_error_other_exception">An error occurred: %1$s</string>
     <string name="parse_error_parse_exception">Could not parse file</string>
+    <string name="parse_error_at_line">Error at line %1$d: %2$s</string>
     <string name="password_disabled_reenable">The password protection has been disabled. You can reenable it in the settings.</string>
     <string name="password_lost">Lost password</string>
     <string name="password_not_valid">Password invalid. Try again!</string>
