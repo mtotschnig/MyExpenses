@@ -42,6 +42,7 @@ import org.totschnig.myexpenses.db2.createTransaction
 import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.savePrice
 import org.totschnig.myexpenses.db2.setBalanceType
+import org.totschnig.myexpenses.db2.storeExchangeRate
 import org.totschnig.myexpenses.db2.updateAccount
 import org.totschnig.myexpenses.db2.updateTransaction
 import org.totschnig.myexpenses.dialog.MenuItem
@@ -73,6 +74,8 @@ import org.totschnig.myexpenses.provider.KEY_COLOR
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.provider.KEY_DISPLAY_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_DYNAMIC
+import org.totschnig.myexpenses.provider.KEY_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.KEY_LABEL
 import org.totschnig.myexpenses.provider.KEY_PARENTID
 import org.totschnig.myexpenses.provider.KEY_ROWID
@@ -454,26 +457,37 @@ open class MyExpensesV2ViewModel(
         }
     }
 
-    fun createPortfolio(label: String, currency: String, color: Int) {
+    fun createPortfolio(label: String, currency: String, color: Int, exchangeRate: Double, dynamicExchangeRates: Boolean) {
         viewModelScope.launch(coroutineDispatcher) {
             val portfolio = Account(
                 label = label,
                 currency = currency,
                 color = color,
                 type = repository.findAccountType(AccountType.INVESTMENT.name),
-                portfolioRole = PORTFOLIO_CONTAINER
+                portfolioRole = PORTFOLIO_CONTAINER,
+                dynamicExchangeRates = dynamicExchangeRates,
+                exchangeRate = exchangeRate
             )
             val accountId = repository.createAccount(portfolio).id
+            val homeCurrency = currencyContext.homeCurrencyUnit
+            if (currency != homeCurrency.code) {
+                repository.storeExchangeRate(accountId, exchangeRate, currency, homeCurrency.code)
+            }
             selectAccount(accountId)
         }
     }
 
-    fun updatePortfolio(id: Long, label: String, currency: String, color: Int) {
+    fun updatePortfolio(id: Long, label: String, currency: String, color: Int, exchangeRate: Double, dynamicExchangeRates: Boolean) {
         viewModelScope.launch(coroutineDispatcher) {
             repository.updateAccount(id) {
                 put(KEY_LABEL, label)
                 put(KEY_CURRENCY, currency)
                 put(KEY_COLOR, color)
+                put(KEY_DYNAMIC, dynamicExchangeRates)
+            }
+            val homeCurrency = currencyContext.homeCurrencyUnit
+            if (currency != homeCurrency.code && !dynamicExchangeRates) {
+                repository.storeExchangeRate(id, exchangeRate, currency, homeCurrency.code)
             }
         }
     }

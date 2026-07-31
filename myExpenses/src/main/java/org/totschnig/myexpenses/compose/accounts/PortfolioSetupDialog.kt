@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -20,6 +21,7 @@ import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -31,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import org.totschnig.myexpenses.R
@@ -38,21 +41,41 @@ import org.totschnig.myexpenses.compose.ColorCircle
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.util.ColorUtils
+import org.totschnig.myexpenses.util.calculateRawExchangeRate
+import org.totschnig.myexpenses.util.calculateRealExchangeRate
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
+import java.math.BigDecimal
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PortfolioSetupDialog(
     onDismiss: () -> Unit,
-    onConfirm: (label: String, currency: String, color: Int) -> Unit,
+    onConfirm: (label: String, currency: String, color: Int, exchangeRate: Double, dynamicExchangeRates: Boolean) -> Unit,
     availableCurrencies: List<CurrencyUnit>,
-    selectedCurrency: CurrencyUnit,
+    homeCurrency: CurrencyUnit,
     initialPortfolio: FullAccount? = null,
 ) {
     var label by remember { mutableStateOf(initialPortfolio?.label ?: "") }
-    var selectedCurrencyState by remember { mutableStateOf(initialPortfolio?.currencyUnit ?: selectedCurrency) }
+    var selectedCurrencyState by remember { mutableStateOf(initialPortfolio?.currencyUnit ?: homeCurrency) }
     var selectedColor by remember { mutableIntStateOf(initialPortfolio?.color ?: Account.DEFAULT_COLOR) }
     var showColorPicker by remember { mutableStateOf(false) }
+
+    var dynamicExchangeRates by remember { mutableStateOf(initialPortfolio?.dynamic ?: false) }
+    var exchangeRate by remember {
+        mutableStateOf(
+            initialPortfolio?.initialExchangeRate?.let {
+                calculateRealExchangeRate(it, initialPortfolio.currencyUnit, homeCurrency).toPlainString()
+            } ?: "1"
+        )
+    }
+
+    val isExchangeRateValid = remember(exchangeRate) {
+        try {
+            BigDecimal(exchangeRate) > BigDecimal.ZERO
+        } catch (_: Exception) {
+            false
+        }
+    }
 
     Dialog(onDismissRequest = onDismiss) {
         Surface(
@@ -90,7 +113,7 @@ fun PortfolioSetupDialog(
                     onExpandedChange = { expanded = !expanded }
                 ) {
                     OutlinedTextField(
-                        value = selectedCurrencyState?.description ?: "",
+                        value = selectedCurrencyState.description,
                         onValueChange = {},
                         readOnly = true,
                         label = { Text(stringResource(R.string.currency)) },
@@ -113,6 +136,38 @@ fun PortfolioSetupDialog(
                             )
                         }
                     }
+                }
+
+                val isFx = selectedCurrencyState.code != homeCurrency.code
+                if (isFx) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            text = stringResource(R.string.dynamic_exchange_rate),
+                            modifier = Modifier.weight(1f),
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                        Switch(
+                            checked = dynamicExchangeRates,
+                            onCheckedChange = { dynamicExchangeRates = it }
+                        )
+                    }
+
+                    OutlinedTextField(
+                        value = exchangeRate,
+                        onValueChange = { exchangeRate = it },
+                        label = { Text(stringResource(R.string.exchange_rate)) },
+                        modifier = Modifier.fillMaxWidth(),
+                        singleLine = true,
+                        enabled = !dynamicExchangeRates,
+                        isError = !isExchangeRateValid,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        prefix = { Text("1 ${selectedCurrencyState.code} = ") },
+                        suffix = { Text(" ${homeCurrency.code}") }
+                    )
                 }
 
                 // Color Selection
@@ -144,8 +199,21 @@ fun PortfolioSetupDialog(
                         Text(stringResource(android.R.string.cancel))
                     }
                     Button(
-                        onClick = { onConfirm(label, selectedCurrencyState?.code ?: "", selectedColor) },
-                        enabled = label.isNotBlank() && selectedCurrencyState != null
+                        onClick = {
+                            val rate = try {
+                                BigDecimal(exchangeRate)
+                            } catch (_: Exception) {
+                                BigDecimal.ONE
+                            }
+                            onConfirm(
+                                label,
+                                selectedCurrencyState.code,
+                                selectedColor,
+                                calculateRawExchangeRate(rate, selectedCurrencyState, homeCurrency),
+                                dynamicExchangeRates
+                            )
+                        },
+                        enabled = label.isNotBlank() && (!isFx || dynamicExchangeRates || isExchangeRateValid)
                     ) {
                         Text(stringResource(android.R.string.ok))
                     }

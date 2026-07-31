@@ -242,22 +242,30 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                                     showPortfolioSetup = false
                                     portfolioToEditId = null
                                 },
-                                onConfirm = { label, currency, color ->
+                                onConfirm = { label, currency, color, exchangeRate, dynamicExchangeRates ->
                                     if (portfolioToEditId != null) {
                                         viewModel.updatePortfolio(
                                             portfolioToEditId!!,
                                             label,
                                             currency,
-                                            color
+                                            color,
+                                            exchangeRate,
+                                            dynamicExchangeRates
                                         )
                                     } else {
-                                        viewModel.createPortfolio(label, currency, color)
+                                        viewModel.createPortfolio(
+                                            label,
+                                            currency,
+                                            color,
+                                            exchangeRate,
+                                            dynamicExchangeRates
+                                        )
                                     }
                                     showPortfolioSetup = false
                                     portfolioToEditId = null
                                 },
                                 availableCurrencies = currencies,
-                                selectedCurrency = currencyContext.homeCurrencyUnit,
+                                homeCurrency = currencyContext.homeCurrencyUnit,
                                 initialPortfolio = portfolioToEdit
                             )
                         }
