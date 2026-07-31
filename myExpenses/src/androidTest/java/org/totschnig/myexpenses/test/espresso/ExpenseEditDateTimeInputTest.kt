@@ -44,6 +44,34 @@ class ExpenseEditDateTimeInputTest(
         @JvmStatic
         @Parameterized.Parameters(name = "{0}")
         fun data2(): List<TestConfig> = listOf(
+            TestConfig(
+                AccountType.CASH,
+                withTimePreference = true,
+                withValueDatePreference = true,
+                expectedTimeVisible = true,
+                expectedValueDateVisible = false
+            ),
+            TestConfig(
+                AccountType.CASH,
+                withTimePreference = true,
+                withValueDatePreference = false,
+                expectedTimeVisible = true,
+                expectedValueDateVisible = false
+            ),
+            TestConfig(
+                AccountType.CASH,
+                withTimePreference = false,
+                withValueDatePreference = true,
+                expectedTimeVisible = false,
+                expectedValueDateVisible = false
+            ),
+            TestConfig(
+                AccountType.CASH,
+                withTimePreference = false,
+                withValueDatePreference = false,
+                expectedTimeVisible = false,
+                expectedValueDateVisible = false
+            ),
 
             TestConfig(
                 AccountType.BANK,
@@ -52,6 +80,27 @@ class ExpenseEditDateTimeInputTest(
                 expectedTimeVisible = false,
                 expectedValueDateVisible = true
             ),
+            TestConfig(
+                AccountType.BANK,
+                withTimePreference = true,
+                withValueDatePreference = false,
+                expectedTimeVisible = true,
+                expectedValueDateVisible = false
+            ),
+            TestConfig(
+                AccountType.BANK,
+                withTimePreference = false,
+                withValueDatePreference = true,
+                expectedTimeVisible = false,
+                expectedValueDateVisible = true
+            ),
+            TestConfig(
+                AccountType.BANK,
+                withTimePreference = false,
+                withValueDatePreference = false,
+                expectedTimeVisible = false,
+                expectedValueDateVisible = false
+            )
         )
     }
 
