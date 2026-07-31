@@ -60,6 +60,7 @@ import org.totschnig.myexpenses.provider.STATUS_ARCHIVE
 import org.totschnig.myexpenses.provider.STATUS_NONE
 import org.totschnig.myexpenses.provider.DatabaseConstants.TRANSFER_CURRENCY
 import org.totschnig.myexpenses.provider.DbUtils.typeWithFallBack
+import org.totschnig.myexpenses.provider.KEY_IS_PORTFOLIO
 import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.effectiveTypeExpression
 import org.totschnig.myexpenses.provider.getBoolean
@@ -120,6 +121,7 @@ data class Transaction(
     val iban: String? = null,
     val status: Int = STATUS_NONE,
     val type: Byte = FLAG_NEUTRAL,
+    val isPortfolio: Boolean = false
 ) {
     val isSameCurrency: Boolean
         get() = transferAmount?.let { amount.currencyUnit == it.currencyUnit } != false
@@ -175,7 +177,8 @@ data class Transaction(
             KEY_ACCOUNT_TYPE,
             DEBT_LABEL_EXPRESSION,
             KEY_IBAN,
-            "${effectiveTypeExpression(typeWithFallBack(prefHandler))} AS $KEY_TYPE"
+            "${effectiveTypeExpression(typeWithFallBack(prefHandler))} AS $KEY_TYPE",
+            KEY_IS_PORTFOLIO,
         )
 
         @SuppressLint("MissingPermission")
@@ -235,7 +238,8 @@ data class Transaction(
                 icon = getStringOrNull(KEY_ICON),
                 iban = getStringOrNull(KEY_IBAN),
                 status = getInt(KEY_STATUS),
-                type = getInt(KEY_TYPE).toByte()
+                type = getInt(KEY_TYPE).toByte(),
+                isPortfolio = getBoolean(KEY_IS_PORTFOLIO),
             )
         }
     }

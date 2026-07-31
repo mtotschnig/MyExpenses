@@ -310,23 +310,26 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                 Text(stringResource(id = android.R.string.ok))
             }
             loadResult.value?.transaction
-                ?.takeIf { !(it.crStatus == CrStatus.VOID || it.isSealed || it.isArchive) }
+                ?.takeIf { !(it.crStatus == CrStatus.VOID || it.isSealed || it.isArchive || it.isPortfolio) }
                 ?.let { transaction ->
                     TextButton(onClick = {
-                        if (transaction.isTransfer && transaction.transferPeerIsPart) {
-                            showSnackBar(
-                                if (transaction.transferPeerIsArchived) R.string.warning_archived_transfer_cannot_be_edited else R.string.warning_splitpartcategory_context
-                            )
-                        } else {
-                            dismiss()
-                            (requireActivity() as BaseActivity).startEdit(
-                                Intent(
-                                    requireActivity(),
-                                    ExpenseEdit::class.java
-                                ).apply {
-                                    putExtra(KEY_ROWID, transaction.id)
-                                }
-                            )
+                        when {
+                            transaction.isTransfer && transaction.transferPeerIsPart -> {
+                                showSnackBar(
+                                    if (transaction.transferPeerIsArchived) R.string.warning_archived_transfer_cannot_be_edited else R.string.warning_splitpartcategory_context
+                                )
+                            }
+                            else -> {
+                                dismiss()
+                                (requireActivity() as BaseActivity).startEdit(
+                                    Intent(
+                                        requireActivity(),
+                                        ExpenseEdit::class.java
+                                    ).apply {
+                                        putExtra(KEY_ROWID, transaction.id)
+                                    }
+                                )
+                            }
                         }
                     }) {
                         Text(stringResource(id = R.string.menu_edit))
