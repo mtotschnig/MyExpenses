@@ -11,8 +11,8 @@ import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.loadTrades
 import org.totschnig.myexpenses.provider.DataBaseAccount
+import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.KEY_PARENTID
 import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.withLimit
@@ -22,11 +22,13 @@ class TradePagingSource(
     context: Context,
     private val repository: Repository,
     private val account: DataBaseAccount,
-    private val pageSize: Int
+    private val pageSize: Int,
 ) : ClearingPagingSource<Int, Trade, TradePagingSource>() {
 
     private val contentResolver = context.contentResolver
-    private val uri: Uri = TRANSACTIONS_URI
+    private val uri: Uri =
+        TRANSACTIONS_URI.buildUpon().appendQueryParameter(KEY_ACCOUNTID, account.id.toString())
+            .build()
 
     private val observer = object : ContentObserver(Handler(Looper.getMainLooper())) {
         override fun onChange(selfChange: Boolean) {
@@ -60,15 +62,8 @@ class TradePagingSource(
 
 
         val (totalCount, trades) = withContext(Dispatchers.IO) {
-            // 1. Get total count of parent transactions
-            val selection = "$KEY_PARENTID IS NULL AND $KEY_ACCOUNTID = ?"
-            val selectionArgs = arrayOf(account.id.toString())
             val count = contentResolver.query(
-                uri,
-                arrayOf("count(*)"),
-                selection,
-                selectionArgs,
-                null
+                uri, arrayOf("count(*)"), WHERE_NOT_SPLIT_PART, null, null
             )!!.use {
                 it.moveToFirst()
                 it.getInt(0)
@@ -78,8 +73,7 @@ class TradePagingSource(
             val ids = contentResolver.query(
                 uri.withLimit(loadSize, offset),
                 arrayOf(KEY_ROWID),
-                selection,
-                selectionArgs,
+                WHERE_NOT_SPLIT_PART, null,
                 account.sortOrder,
                 null
             )!!.use { cursor ->

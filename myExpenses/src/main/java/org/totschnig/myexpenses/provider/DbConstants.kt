@@ -19,7 +19,6 @@ import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_AGGREGATE_NEUTRAL
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_INCLUDE_ALL
-import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_TRANSACTION_ID_LIST
 import org.totschnig.myexpenses.provider.filter.Criterion
 
 private fun requireIdParameter(parameter: String) {
@@ -35,15 +34,12 @@ private fun requireIdParameter(parameter: String) {
  * - otherwise accountSelector logic is applied
  */
 fun Uri.transactionQuerySelector(table: String) =
-    getQueryParameter(QUERY_PARAMETER_TRANSACTION_ID_LIST)?.let { idList ->
+    getQueryParameter(KEY_TRANSACTIONID)?.let { idList ->
         idList.split(',').forEach { requireIdParameter(it.trim()) }
         "$KEY_ROWID IN ($idList)"
-    } ?: getQueryParameter(KEY_TRANSACTIONID)?.let {
-        requireIdParameter(it)
-        "$KEY_ROWID = $it"
-    } ?: getQueryParameter(KEY_PARENTID)?.let {
-        requireIdParameter(it)
-        "$KEY_PARENTID = $it"
+    } ?: getQueryParameter(KEY_PARENTID)?.let { idList ->
+        idList.split(',').forEach { requireIdParameter(it.trim()) }
+        "$KEY_PARENTID IN ($idList)"
     } ?: accountSelector.let { if (it.isEmpty()) it else "$table.$it" }
 
 

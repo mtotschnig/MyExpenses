@@ -66,7 +66,6 @@ import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_CAN_BE_ARCHI
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_DISTINCT
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_GROUP_BY
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_INCLUDE_ALL
-import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_TRANSACTION_ID_LIST
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_UNARCHIVE
 import org.totschnig.myexpenses.provider.VIEW_EXTENDED
@@ -681,17 +680,17 @@ fun Repository.loadTrades(transactionIds: List<Long>): List<Trade> {
     if (transactionIds.isEmpty()) return emptyList()
 
     val parents = contentResolver.query(
-        TRANSACTIONS_URI,
+        TRANSACTIONS_URI.buildUpon().appendQueryParameter(KEY_TRANSACTIONID, transactionIds.joinToString()).build(),
         Transaction.projection,
-        "$KEY_ROWID IN (${transactionIds.joinToString()})",
+        null,
         null,
         null
     )!!.useAndMapToList { Transaction.fromCursor(it) }
 
     val splits = contentResolver.query(
-        EXTENDED_URI,
+        EXTENDED_URI.buildUpon().appendQueryParameter(KEY_PARENTID, transactionIds.joinToString()).build(),
         Transaction.projectionExtended,
-        "$KEY_PARENTID IN (${transactionIds.joinToString()})",
+        null,
         null,
         null
     )!!.useAndMapToList { Transaction.fromCursor(it) }
@@ -927,7 +926,7 @@ fun Repository.groupToSplitTransaction(ids: LongArray): Result<Boolean> {
     )
     return contentResolver.query(
         EXTENDED_URI.buildUpon()
-            .appendQueryParameter(QUERY_PARAMETER_TRANSACTION_ID_LIST, ids.joinToString())
+            .appendQueryParameter(KEY_TRANSACTIONID, ids.joinToString())
             .appendQueryParameter(QUERY_PARAMETER_GROUP_BY, groupBy)
             .appendQueryParameter(QUERY_PARAMETER_DISTINCT, "1")
             .build(),
