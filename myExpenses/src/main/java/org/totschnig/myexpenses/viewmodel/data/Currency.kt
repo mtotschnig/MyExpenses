@@ -23,9 +23,9 @@ data class Currency(
     val usages: Int = 0,
 ) : Parcelable, Serializable {
     @IgnoredOnParcel
-    val sortClass = when (code) {
-        "XXX" -> 3
-        "XAU", "XPD", "XPT", "XAG" -> 2
+    val sortClass = when {
+        code == "XXX" -> 3
+        CurrencyEnum.isPreciousMetal(code) -> 2
         else -> 1
     }
 

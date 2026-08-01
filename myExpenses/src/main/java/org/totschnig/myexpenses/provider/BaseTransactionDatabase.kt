@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.BalanceType
+import org.totschnig.myexpenses.model.CommodityType
 import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.model.DEFAULT_FLAG_ID
 import org.totschnig.myexpenses.model.Grouping
@@ -30,7 +31,7 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
 import kotlin.math.pow
 
-const val DATABASE_VERSION = 189
+const val DATABASE_VERSION = 190
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -1227,6 +1228,15 @@ abstract class BaseTransactionDatabase(
                 }
             }
         }
+    }
+
+    fun SupportSQLiteDatabase.upgradeTo190() {
+        val values = ContentValues().apply {
+            put(KEY_COMMODITY_TYPE, CommodityType.COMMODITY.name)
+        }
+        update(TABLE_CURRENCIES, values, "$KEY_CODE IN (?, ?, ?, ?)",
+            CurrencyEnum.PRECIOUS_METALS.toTypedArray()
+        )
     }
 
     protected fun SupportSQLiteDatabase.createOrRefreshAccountTriggers() {

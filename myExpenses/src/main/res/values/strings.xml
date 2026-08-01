@@ -1159,6 +1159,10 @@
     <string name="asset_type_security_plural">Securities</string>
     <!-- Collective noun for cryptocurrencies (e.g., Bitcoin, Ethereum). Translators should use the common local term for this asset class. -->
     <string name="asset_type_crypto">Crypto</string>
+    <!-- Label for a commodity (e.g. Gold, Silver) in the singular. -->
+    <string name="asset_type_commodity">Commodity</string>
+    <!-- Label for the category of commodities (e.g. Gold, Silver). Plural. -->
+    <string name="asset_type_commodity_plural">Commodities</string>
     <!-- On the Screen, where Trades are recording, this refers to the dropdown for selecting how the cost is funded, or where the proceeds should land -->
     <string name="trade_funding_source">Funding Source</string>
     <!-- Option in the "Funding Source" selector for a trade, referring to the cash balance held within the portfolio itself. -->

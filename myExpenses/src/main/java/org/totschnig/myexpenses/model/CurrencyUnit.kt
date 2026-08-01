@@ -17,7 +17,8 @@ enum class CommodityType(
 ) {
     FIAT(R.string.currency, R.string.asset_type_fiat_plural),
     SECURITY(R.string.asset_type_security, R.string.asset_type_security_plural),
-    CRYPTO(R.string.asset_type_crypto, R.string.asset_type_crypto);
+    CRYPTO(R.string.asset_type_crypto, R.string.asset_type_crypto),
+    COMMODITY(R.string.asset_type_commodity, R.string.asset_type_commodity_plural);
 
     companion object {
         fun title(resources: Resources) = entries.joinToString(" · ") { resources.getString(it.labelPlural) }

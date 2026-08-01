@@ -80,6 +80,7 @@ import androidx.sqlite.db.SupportSQLiteQueryBuilder;
 import org.totschnig.myexpenses.MyApplication;
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.db2.entities.Template;
+import org.totschnig.myexpenses.model.CommodityType;
 import org.totschnig.myexpenses.model.CrStatus;
 import org.totschnig.myexpenses.model.CurrencyContext;
 import org.totschnig.myexpenses.model.CurrencyEnum;
@@ -515,7 +516,12 @@ public class TransactionDatabase extends BaseTransactionDatabase {
   private void insertCurrencies(SupportSQLiteDatabase db) {
     ContentValues initialValues = new ContentValues();
     for (CurrencyEnum currency : CurrencyEnum.values()) {
+      initialValues.clear();
       initialValues.put(KEY_CODE, currency.name());
+      String code = currency.name();
+      if (CurrencyEnum.isPreciousMetal(code)) {
+        initialValues.put(KEY_COMMODITY_TYPE, CommodityType.COMMODITY.name());
+      }
       db.insert(TABLE_CURRENCIES, CONFLICT_NONE, initialValues);
     }
   }
@@ -2113,6 +2119,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
       if (oldVersion < 189) {
         upgradeTo189(db);
+      }
+
+      if (oldVersion < 190) {
+        upgradeTo190(db);
       }
 
       TransactionProvider.resumeChangeTrigger(db);
