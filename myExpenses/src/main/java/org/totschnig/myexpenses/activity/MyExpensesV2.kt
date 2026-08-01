@@ -56,6 +56,7 @@ import org.totschnig.myexpenses.compose.transactions.TradeScreen
 import org.totschnig.myexpenses.dialog.SortSelect
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.model.CommodityType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -264,7 +265,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                                     showPortfolioSetup = false
                                     portfolioToEditId = null
                                 },
-                                availableCurrencies = currencies,
+                                availableCurrencies = currencies.filter { it.commodityType == CommodityType.FIAT },
                                 homeCurrency = currencyContext.homeCurrencyUnit,
                                 initialPortfolio = portfolioToEdit
                             )
