@@ -142,7 +142,7 @@
     <string name="password_prompt">Fyll i ditt lösenord</string>
     <string name="pref_more_info_dialog_title">Licens &amp; Medverkande</string>
     <string name="menu_backup">Säkerhetskopiering</string>
-    <string name="pm_deposit">Sätt in</string>
+    <string name="pm_deposit">Insättning</string>
     <string name="pref_enter_licence_title">Fyll i nyckel</string>
     <string name="dialog_title_contrib_feature">Premium-funktion</string>
     <string name="save_transaction_and_new_success">Sparningen lyckades</string>
