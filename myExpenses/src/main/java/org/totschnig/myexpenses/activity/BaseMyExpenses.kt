@@ -1172,6 +1172,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
             R.id.ARCHIVE_COMMAND -> isReal && !sealed && hasItems
             R.id.SEARCH_COMMAND -> hasItems
             R.id.SHOW_STATUS_HANDLE_COMMAND -> (this as? FullAccount)?.reconciliationAvailable == true
+            R.id.IMPORT_TRADES_COMMAND ->  false
             else -> true
         }
     }
