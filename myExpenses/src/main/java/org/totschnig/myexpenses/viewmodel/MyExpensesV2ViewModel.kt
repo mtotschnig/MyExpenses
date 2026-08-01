@@ -75,7 +75,6 @@ import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.provider.KEY_DISPLAY_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_DYNAMIC
-import org.totschnig.myexpenses.provider.KEY_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.KEY_LABEL
 import org.totschnig.myexpenses.provider.KEY_PARENTID
 import org.totschnig.myexpenses.provider.KEY_ROWID

@@ -955,7 +955,7 @@ fun archiveSumCTE(
 
 //@formatter:off
 fun getAmountHomeEquivalent(forTable: String, homeCurrency: String, currencyTable: String = forTable) =
-    """cast(CASE WHEN $currencyTable.$KEY_CURRENCY = '$homeCurrency' THEN $KEY_AMOUNT ELSE round(coalesce(${calcEquivalentAmountForSplitParts(forTable)},coalesce($KEY_EXCHANGE_RATE,1) * $KEY_AMOUNT)) END AS integer)"""
+    """cast(CASE WHEN $currencyTable.$KEY_CURRENCY = '$homeCurrency' THEN $KEY_AMOUNT ELSE round(coalesce(CASE WHEN $KEY_DYNAMIC THEN ${calcEquivalentAmountForSplitParts(forTable)} END,coalesce($KEY_EXCHANGE_RATE,1) * $KEY_AMOUNT)) END AS integer)"""
 //@formatter:on
 
 fun calcEquivalentAmountForSplitParts(forTable: String) =
