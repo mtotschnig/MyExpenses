@@ -2,8 +2,7 @@
 <!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
--->
-<resources>
+--><resources>
     <string name="drawer_open">"Ouvrir le panneau de navigation"</string>
     <string name="drawer_close">"Fermer le panneau de navigation"</string>
     <string name="sort_direction_ascending">"Croissant"</string>
@@ -45,8 +44,9 @@
     <string name="menu_search">"Recherche"</string>
     <string name="files_label">"Fichiers"</string>
     <plurals name="delete_files_confirmation_message">
-      <item quantity="one">Supprimer %1$d fichier ?</item>
-      <item quantity="other">Supprimer %1$d fichiers ?</item>
+        <item quantity="one">Supprimer %1$d fichier ?</item>
+        <item quantity="many">Supprimer %1$d fichiers ?</item>
+        <item quantity="other">Supprimer %1$d fichiers ?</item>
     </plurals>
     <string name="display_options_sort_list_by">"Trier par"</string>
     <string name="data">"Données"</string>
