@@ -55,7 +55,7 @@
     <string name="dialog_balance_delete">Supprimer les transactions rapprochées</string>
     <string name="dialog_confirm_discard_changes">Annuler les changements ?</string>
     <string name="dialog_command_disabled_balance">Aucune transaction à rapprocher.</string>
-    <string name="dialog_command_disabled_insert_transfer">Les opérations de transfert requièrent un deuxième compte.</string>
+    <string name="dialog_command_disabled_insert_transfer">Les virements nécessitent un deuxième compte.</string>
     <string name="dialog_contrib_reminder_remove_limitation">Enlevez cette limitation et accédez à plus de fonctions en passant <i>{app_name}</i> au niveau supérieur.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> vous est offert open source.</string>
     <string name="dialog_contrib_text_2">S\'il vous plaît, contribuez par la mise à niveau de &lt;i&gt;{app_name}&lt;/i&gt; et vous aurez accès sans restriction aux caractéristiques suivantes :</string>
@@ -131,7 +131,7 @@
     <string name="menu_create_party">Nouveau tiers</string>
     <string name="menu_create_split">Nouvelle opération ventilée</string>
     <string name="menu_create_split_part_category">Nouvelle sous-opération (catégorie)</string>
-    <string name="menu_create_split_part_transfer">Nouvelle sous-opération (transfert)</string>
+    <string name="menu_create_split_part_transfer">Nouvelle sous-opération (virement)</string>
     <string name="menu_create_sub_cat">Nouvelle sous-catégorie</string>
     <string name="menu_create_template">Nouveau modèle</string>
     <string name="menu_create_template_from_transaction">Enregistrer comme modèle</string>
@@ -149,7 +149,7 @@
     <string name="menu_edit_plan_instance">Modifier l\'occurrence d\'une échéance</string>
     <string name="menu_edit_split">Modifier l\'opération ventilée</string>
     <string name="menu_edit_split_part_category">Modifier la sous-opération (catégorie)</string>
-    <string name="menu_edit_split_part_transfer">Modifier la sous-opération (transfert)</string>
+    <string name="menu_edit_split_part_transfer">Modifier la sous-opération (virement)</string>
     <string name="menu_edit_template">Modifier le modèle</string>
     <string name="menu_edit_transaction">Modifier une opération</string>
     <string name="menu_edit_transfer">Modifier un virement</string>
@@ -301,9 +301,9 @@
     <string name="save_transaction_and_new_success">Sauvegardée</string>
     <string name="save_transaction_error">La transaction à partir du modèle n\'a pas été enregistrée.</string>
     <plurals name="save_transaction_from_template_success">
-        <item quantity="one">Nouvelle transaction enregistrée à partir du modèle.</item>
-        <item quantity="many">%1$d opérations enregistrées avec succès à partir des modèles.</item>
-        <item quantity="other">%1$d opérations enregistrées avec succès à partir des modèles.</item>
+        <item quantity="one">Nouvelle transaction sauvegardée avec succès à partir d\'un modèle.</item>
+        <item quantity="many">%1$d nouvelles transactions ont été sauvegardées avec succès à partir des modèles.</item>
+        <item quantity="other">%1$d nouvelles transactions ont été sauvegardées avec succès à partir des modèles.</item>
     </plurals>
     <string name="save_transaction_template_deleted">Le modèle a été supprimé</string>
     <string name="select">Sélectionner</string>
@@ -321,7 +321,7 @@
     <string name="subcategory">Sous-catégorie</string>
     <string name="sum_expenses">Dépenses</string>
     <string name="sum_income">Revenus</string>
-    <string name="sum_transfer">Transferts</string>
+    <string name="sum_transfer">Virements</string>
     <!-- platform is replaced with Android or Blackberry -->
     <string name="tell_a_friend_message">Essayez {app_name}, Gestionnaire de finances personnelles pour {platform}, de {website}</string>
     <string name="thank_you">Merci de votre soutien !</string>
@@ -330,7 +330,7 @@
     <string name="total_cleared">Total pointé</string>
     <string name="total_reconciled">Total rapproché</string>
     <string name="transaction">Opération</string>
-    <string name="transfer">Transfert</string>
+    <string name="transfer">Virement</string>
     <string name="transfer_from_account">Depuis</string>
     <string name="transfer_to_account">Vers</string>
     <!-- Type refers to the type of an account, eg. Cash account, bank account -->
@@ -369,7 +369,7 @@
     <string name="warning_reset_account_all">Si vous continuez, toutes les opérations de tous les comptes%1$s seront supprimées de la base de données et ne pourront pas être restaurées.</string>
     <string name="warning_reset_account_matched">Si vous continuez, toutes les opérations qui correspondent au filtre actuel  seront supprimées de la base de données et ne pourront plus être restaurées.</string>
     <string name="warning_restore">La base de données et les paramètres seront restaurés à partir du fichier « %1$s ». Les données actuelles seront supprimées.</string>
-    <string name="warning_splitpartcategory_context">Les transferts qui font partie d\'une opération ventilée ne peuvent être modifiés que dans celle-ci.</string>
+    <string name="warning_splitpartcategory_context">Les virements qui font partie d\'une opération ventilée ne peuvent être modifiés que dans celle-ci.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Définissez une décimale entre %1$d et %2$d</string>
     <string name="warning_change_fraction_digits_1">Les montants dans la base de données doivent être mis à jour afin de correspondre au nouveau nombre de chiffres de fraction.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Si les montants ne sont pas mis à jour, ils seront affichés comme multipliés par %d après le changement.</string>
@@ -411,7 +411,7 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">après</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Échec ou annulation de l\'achat.</string>
-    <string name="hint_auto_fill">Voulez-vous remplir automatiquement les données à partir de la dernière opération de ce tiers ? Vous pouvez toujours modifier cette option dans les paramètres.</string>
+    <string name="hint_auto_fill">Voulez-vous remplir automatiquement les données à partir de la dernière opération de ce tiers ? Vous pouvez toujours modifier cette option dans les paramètres.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d comptes en devise %2$s ont été mis à jour.</string>
     <string name="import_source_file">Fichier</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
@@ -464,10 +464,10 @@
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">appliqué</string>
     <string name="progress_dialog_updating_split_parts">Mise à jour des ventilations</string>
-    <string name="warning_cannot_move_split_transaction">Cette opération ventilée ne peut pas être déplacée vers le compte %1$s car il existe des ventilations de transfert vers ce même compte.</string>
+    <string name="warning_cannot_move_split_transaction">Cette opération ventilée ne peut pas être déplacée vers le compte %1$s car certaines de ses lignes de virement concernent ce compte.</string>
     <string name="content_description_calculator_delete_button">Supprimer le dernier chiffre</string>
     <string name="paypal_callback_info">Votre transaction s\'est bien terminée,  et un reçu de votre achat vous a été envoyé par courriel. Vous pouvez vous connecter sur votre compte PayPal pour voir les détails de cette transaction.</string>
-    <string name="search_transfer">Recherche de transfert</string>
+    <string name="search_transfer">Recherche de virement</string>
     <!-- Sort plans (recurring transactions) by the next instance  -->
     <string name="pref_sort_order_next_instance">Echéance suivante</string>
     <string name="crash_dialog_title">{app_name} s\'est arrêté</string>
@@ -564,7 +564,7 @@
     <string name="warning_device_lock_screen_not_set_up_1">L\'écran de verrouillage sécurisé de l\'appareil n\'a pas été configuré.</string>
     <string name="warning_device_lock_screen_not_set_up_2">Allez dans %s pour configurer un écran de verrouillage.</string>
     <string name="menu_history_show_balance">Afficher le solde</string>
-    <string name="menu_history_transfers">Inclure les transferts</string>
+    <string name="menu_history_transfers">Inclure les virements</string>
     <string name="menu_history">Historique</string>
     <!-- A label indicating the color for the sum of expenses -->
     <string name="history_chart_out_label">Dépenses</string>
@@ -789,7 +789,7 @@
     <string name="single_feature_info">Vous pouvez également acheter un accès illimité à cette fonctionnalité uniquement.</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">Dernier jour</string>
-    <string name="warning_link_transfer">Les deux opérations sélectionnées seront liées en tant que transfert. Les informations sur le tiers et la catégorie seront supprimées.</string>
+    <string name="warning_link_transfer">Les deux opérations sélectionnées seront liées en tant que virement. Les informations sur le tiers et la catégorie seront supprimées.</string>
     <!-- This is the title of an entry on the configuration screen for the account widget. It allows to decide which number should be displayed for each account: the current balance or the total (which included future transactions) -->
     <string name="account_widget_configuration_sum">Type de somme affichée</string>
     <string name="account_widget_configuration_sum_total">Inclure les transactions futures</string>
@@ -917,23 +917,23 @@
     <string name="budget_widget_configuration">Sélectionner un budget</string>
     <string name="budget_table_header_overspent">Dépassement</string>
     <string name="pref_unmapped_transaction_as_transfer_title">Opérations non assignées</string>
-    <string name="pref_unmapped_transaction_as_transfer_summary_on">sont comptabilisés en tant que transferts</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_on">sont comptabilisés en tant que virement</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">sont comptabilisés en tant que dépenses / revenus</string>
     <string name="menu_aggregate_neutral_categories">Totaliser les catégories neutres</string>
     <string name="dialog_contrib_trial_info">L’état actuel de votre licence (%1$s) vous permet d’essayer %2$s pendant %3$d jours (jusqu’à %4$s).</string>
     <string name="one_time_payment">Paiement unique</string>
     <string name="dialog_contrib_trial_info_play">Cet essai gratuit ne sera jamais converti en aucun type d\'abonnement.</string>
     <string name="dialog_contrib_subscription_info_play">Cet abonnement prend effet immédiatement, est facturé mensuellement ou annuellement et peut être résilié à tout moment.</string>
-    <string name="warning_delete_default_transfer_category">La catégorie %s est configurée comme catégorie de transfert par défaut et ne doit pas être supprimée.</string>
-    <string name="default_transfer_category">Catégorie de transfert par défaut</string>
+    <string name="warning_delete_default_transfer_category">La catégorie %s est configurée comme catégorie de virement par défaut et ne doit pas être supprimée.</string>
+    <string name="default_transfer_category">Catégorie de virement par défaut</string>
     <string name="contact_us">Contactez-nous</string>
     <string name="pref_transaction_amount_color_source_title">Couleurs pour les montants</string>
     <string name="pref_sync_now_all_summary">%s synchronise tous les comptes du même back-end</string>
-    <string name="menu_unlink_transfer">Dissocier le transfert</string>
-    <string name="warning_unlink_transfer">Le transfert sélectionné sera dissocié : Il sera remplacé par des opérations normales dans les deux comptes.</string>
-    <string name="warning_transform_to_transfer">L\'opération sélectionnée sera remplacée par un transfert de %1$s vers %2$s.</string>
+    <string name="menu_unlink_transfer">Dissocier le virement</string>
+    <string name="warning_unlink_transfer">Le virement sélectionné sera dissocié : Il sera remplacé par des opérations normales dans les deux comptes.</string>
+    <string name="warning_transform_to_transfer">L\'opération sélectionnée sera remplacée par un virement de %1$s vers %2$s.</string>
     <string name="remap_date">Sur toutes les opérations sélectionnées, la date sera fixée à %s.</string>
-    <string name="menu_transform_to_transfer">Transformer en transfert</string>
+    <string name="menu_transform_to_transfer">Transformer en virement</string>
     <string name="roadmap_intro">Le vote pour la feuille de route %d est maintenant ouvert ! Votez pour les fonctionnalités et les améliorations qui comptent le plus pour vous.</string>
     <string name="merge_categories_prompt">Sélectionnez la catégorie que vous souhaitez conserver</string>
     <string name="merge_categories_dialog_title">Fusionner les catégories</string>
@@ -962,7 +962,7 @@
     <string name="warning_backend_deactivated">Le backend n’est pas prêt à être synchronisé.</string>
     <string name="button_activate_again">Réactiver</string>
     <string name="saving_goal_exceeded">Vous avez dépassé votre objectif d’épargne.</string>
-    <string name="warning_archived_transfer_cannot_be_edited">Le transfert ne peut pas être modifié car son autre côté est archivé.</string>
+    <string name="warning_archived_transfer_cannot_be_edited">Le virement ne peut pas être modifié car l\'opération associée est archivée.</string>
     <string name="content_description_exchange_rate">Taux de change pour 1 %1$s en %2$s</string>
     <string name="content_description_original_amount">Définissez le montant d’origine de cette opération en sélectionnant une devise et en saisissant le montant. Vous pouvez également définir un taux de change qui sera utilisé pour calculer le montant effectif.</string>
     <string name="content_description_equivalent_amount">Définissez la valeur de cette opération dans votre devise locale. Au lieu de saisir le montant, vous pouvez également saisir le taux de change pour le calculer.</string>
@@ -1014,8 +1014,9 @@
     <string name="category_type_sub">Sous-catégorie</string>
     <string name="category_description_base">%1$s, niveau %2$d</string>
     <plurals name="category_description_children_suffix">
-        <item quantity="one">, contient une sous-catégorie de niveau %2$d</item>
-        <item quantity="other">, contient %1$d sous-catégories de niveau %2$d</item>
+        <item quantity="one">, contient une sous-catégorie de niveau %2$d.</item>
+        <item quantity="many">, contient %1$d sous-catégories de niveau %2$d.</item>
+        <item quantity="other">, contient %1$d sous-catégories de niveau %2$d.</item>
     </plurals>
     <string name="account_type_investment">Investissements</string>
     <string name="warning_expense_category_credit">Vous affectez une catégorie de dépenses à une opération de revenus. Par conséquent, l\'opération réduira la somme de vos dépenses et sera affichée par défaut en rouge.</string>
@@ -1081,4 +1082,11 @@
     <string name="contrib_feature_portfolio_tracking">Suivi de portefeuille</string>
     <string name="premium_nudge_portfolio_title">Débloquez tout le potentiel de votre portefeuille</string>
     <string name="premium_nudge_portfolio_message">Vous pouvez gérer un portefeuille gratuitement. Passez à la version supérieure pour gérer plusieurs portefeuilles et débloquer des fonctionnalités de suivi avancées.</string>
+    <string name="parse_error_at_line">Erreur à la ligne %1$d : %2$s</string>
+    <plurals name="import_trades_missing_assets_message">
+        <item quantity="one">%1$d ligne fait référence à des actifs inconnus : %2$s.</item>
+        <item quantity="many">%1$d lignes font référence à des actifs inconnus : %2$s.</item>
+        <item quantity="other">%1$d lignes font référence à des actifs inconnus : %2$s.</item>
+    </plurals>
+    <string name="service_starting">Démarrage…</string>
 </resources>
