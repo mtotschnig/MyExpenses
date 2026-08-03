@@ -293,6 +293,9 @@ const val KEY_IS_PORTFOLIO: String = "is_portfolio"
 
 const val KEY_VALUES: String = "values"
 
+//used in group query for validating period End calculation
+const val KEY_PERIOD_END: String = "periodEnd"
+
 //Status constants
 /**
  * No special status

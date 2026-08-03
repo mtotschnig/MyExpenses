@@ -57,18 +57,12 @@ import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.GROUPING_AGGR
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_BY_AGGREGATE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_DIRECTION_AGGREGATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
 import org.totschnig.myexpenses.provider.DatabaseConstants.DAY_START_JULIAN
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_DEPENDENT
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_PEER
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_RELATED
-import org.totschnig.myexpenses.provider.DatabaseConstants.YEAR
-import org.totschnig.myexpenses.provider.DatabaseConstants.month
-import org.totschnig.myexpenses.provider.DatabaseConstants.week
 import org.totschnig.myexpenses.provider.DatabaseConstants.weekStart
 import org.totschnig.myexpenses.provider.DatabaseConstants.weekStartJulian
-import org.totschnig.myexpenses.provider.DatabaseConstants.yearOfMonthStart
-import org.totschnig.myexpenses.provider.DatabaseConstants.yearOfWeekStart
 import org.totschnig.myexpenses.provider.DbUtils.aggregateFunction
 import org.totschnig.myexpenses.provider.DbUtils.typeWithFallBack
 import org.totschnig.myexpenses.provider.TransactionProvider.BUDGETS_URI
@@ -1197,7 +1191,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 KEY_OPENING_BALANCE -> "$aggregateFunction($KEY_OPENING_BALANCE * " +
                         getExchangeRate(TABLE_ACCOUNTS, KEY_ROWID, homeCurrency) +
                         ")"
-
                 KEY_CURRENCY -> "'$AGGREGATE_HOME_CURRENCY_CODE'"
                 else -> throw IllegalArgumentException("unknown column $it")
             } + " AS $it"
@@ -1205,7 +1198,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     fun aggregateCurrencyProjection(columns: Array<String>?): Array<String> {
         val accountSelect =
-            "FROM $TABLE_ACCOUNTS WHERE $KEY_CURRENCY = $KEY_CODE AND $KEY_EXCLUDE_FROM_TOTALS = 0"
+            "FROM $TABLE_ACCOUNTS WHERE $KEY_CURRENCY = $KEY_CODE AND $KEY_EXCLUDE_FROM_TOTALS = 0 AND $KEY_PARENTID IS NULL"
         return (columns ?: arrayOf(
             KEY_LABEL,
             KEY_OPENING_BALANCE,
@@ -1222,7 +1215,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     fun aggregateTypeProjection(columns: Array<String>?): Array<String> {
         val accountSelect =
-            "FROM $TABLE_ACCOUNTS WHERE $KEY_TYPE = $TABLE_ACCOUNT_TYPES.$KEY_ROWID AND $KEY_EXCLUDE_FROM_TOTALS = 0"
+            "FROM $TABLE_ACCOUNTS WHERE $KEY_TYPE = $TABLE_ACCOUNT_TYPES.$KEY_ROWID AND $KEY_EXCLUDE_FROM_TOTALS = 0 AND $KEY_PARENTID IS NULL"
         return (columns ?: arrayOf(
             KEY_LABEL,
             KEY_OPENING_BALANCE,
@@ -1239,7 +1232,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
     fun aggregateFlagProjection(columns: Array<String>?): Array<String> {
         val accountSelect =
-            "FROM $TABLE_ACCOUNTS WHERE $KEY_FLAG = $TABLE_ACCOUNT_FLAGS.$KEY_ROWID AND $KEY_EXCLUDE_FROM_TOTALS = 0"
+            "FROM $TABLE_ACCOUNTS WHERE $KEY_FLAG = $TABLE_ACCOUNT_FLAGS.$KEY_ROWID AND $KEY_EXCLUDE_FROM_TOTALS = 0 AND $KEY_PARENTID IS NULL"
         return (columns ?: arrayOf(
             KEY_LABEL,
             KEY_OPENING_BALANCE,
@@ -1504,6 +1497,11 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
         val group = enumValueOrDefault(uri.pathSegments[2], Grouping.NONE)
 
+        val breakdownByAccount = uri.getBooleanQueryParameter(
+            TransactionProvider.QUERY_PARAMETER_BREAKDOWN_BY_ACCOUNT,
+            false
+        )
+
         // the start value is only needed for WEEK and DAY
         val withJulianStart = uri.getBooleanQueryParameter(
             TransactionProvider.QUERY_PARAMETER_WITH_JULIAN_START,
@@ -1514,48 +1512,13 @@ abstract class BaseTransactionProvider : ContentProvider() {
             false
         )
 
-        val yearExpression = when (group) {
-            Grouping.NONE -> "1"
-            Grouping.WEEK -> yearOfWeekStart
-            Grouping.MONTH -> yearOfMonthStart
-            else -> YEAR
-        }
-        val groupBy = when (group) {
-            Grouping.NONE -> null
-            Grouping.YEAR -> KEY_YEAR
-            else -> "$KEY_YEAR,$KEY_SECOND_GROUP"
-        }
-
-        val secondDef = when (group) {
-            Grouping.NONE -> "1"
-            Grouping.DAY -> DAY
-            Grouping.WEEK -> week
-            Grouping.MONTH -> month
-            Grouping.YEAR -> "0"
-        }
-
         val projection = buildList {
-            add("$yearExpression AS $KEY_YEAR")
-            add("$secondDef AS $KEY_SECOND_GROUP")
-
-            val isExpense = if (includeTransfers)
-                "$KEY_TYPE = $FLAG_EXPENSE OR ($KEY_TYPE != $FLAG_INCOME AND $KEY_DISPLAY_AMOUNT < 0)"
-            else
-                "$KEY_TYPE = $FLAG_EXPENSE OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_DISPLAY_AMOUNT < 0)"
-            add("$aggregateFunction(CASE WHEN $isExpense THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_EXPENSES")
-
-            val isIncome = if (includeTransfers)
-                "$KEY_TYPE = $FLAG_INCOME OR ($KEY_TYPE != $FLAG_EXPENSE AND $KEY_DISPLAY_AMOUNT > 0)"
-            else
-                "$KEY_TYPE = $FLAG_INCOME OR ($KEY_TYPE = $FLAG_NEUTRAL AND $KEY_DISPLAY_AMOUNT > 0)"
-            add("$aggregateFunction(CASE WHEN $isIncome THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_INCOME")
-
+            add(KEY_YEAR)
+            add(KEY_SECOND_GROUP)
+            add(KEY_SUM_EXPENSES)
+            add(KEY_SUM_INCOME)
             if (!includeTransfers) {
-                //while many transfers sum up to 0 in the grand total account
-                //they still count if
-                // 1) transaction is mapped to a transfer category
-                // 2) one side of the transfer is in an account that is excluded from totals
-                add("$aggregateFunction(CASE WHEN $KEY_TYPE = $FLAG_TRANSFER THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_TRANSFERS")
+                add(KEY_SUM_TRANSFERS)
             }
 
             //previously we started distribution from group header and needed to know if there were mapped categories
@@ -1570,18 +1533,30 @@ abstract class BaseTransactionProvider : ContentProvider() {
             if (group === Grouping.WEEK) {
                 add("$weekStart AS $KEY_WEEK_START")
             }
+
+            if (breakdownByAccount) {
+                add(KEY_ACCOUNTID)
+                add(KEY_CURRENCY)
+                add(KEY_DYNAMIC)
+                add(KEY_SUM)
+                add(KEY_PERIOD_END)
+                add("CASE WHEN $KEY_DYNAMIC THEN market_rate ELSE $KEY_EXCHANGE_RATE END AS $KEY_EXCHANGE_RATE")
+            }
         }.toTypedArray()
 
         val sql = buildTransactionGroupCte(
             accountQuery,
             selection,
             forHome,
-            typeWithFallBack
+            typeWithFallBack,
+            breakdownByAccount,
+            group,
+            includeTransfers,
+            aggregateFunction
         ) + " " +
-                SupportSQLiteQueryBuilder.builder(CTE_TRANSACTION_GROUPS)
+                SupportSQLiteQueryBuilder.builder(if (breakdownByAccount) "with_market_rate" else CTE_TRANSACTION_GROUPS)
                     .columns(projection)
                     .selection(null, selectionArgs)
-                    .groupBy(groupBy)
                     .create()
                     .sql
         return db.measureAndLogQuery(uri, sql, selection, selectionArgs)
@@ -2290,9 +2265,6 @@ abstract class BaseTransactionProvider : ContentProvider() {
             add("${checkForSealedAccount(baseTable, TABLE_TEMPLATES, true)} AS $KEY_SEALED")
         }
     }.toTypedArray()
-
-    val dynamicCurrenciesSelection
-        get() = "$dynamicExchangeRatesDefault AND $KEY_CURRENCY != ?"
 
     fun SupportSQLiteDatabase.insertOrReplaceEquivalentAmount(
         transactionId: Long,

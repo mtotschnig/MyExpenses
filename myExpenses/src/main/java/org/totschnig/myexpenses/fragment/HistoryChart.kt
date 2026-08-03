@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.compose.filter.FilterCard
 import org.totschnig.myexpenses.databinding.HistoryChartBinding
+import org.totschnig.myexpenses.db2.AccountOpeningInfo
 import org.totschnig.myexpenses.dialog.TransactionListComposeDialogFragment
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -53,8 +54,10 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_EXCHANGE_RATE
 import org.totschnig.myexpenses.provider.KEY_GROUP_START
 import org.totschnig.myexpenses.provider.KEY_SECOND_GROUP
+import org.totschnig.myexpenses.provider.KEY_SUM
 import org.totschnig.myexpenses.provider.KEY_SUM_EXPENSES
 import org.totschnig.myexpenses.provider.KEY_SUM_INCOME
 import org.totschnig.myexpenses.provider.KEY_SUM_TRANSFERS
@@ -68,11 +71,11 @@ import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.getLocale
-import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.viewmodel.HistoryViewModel
 import org.totschnig.myexpenses.viewmodel.TransactionListViewModel
 import org.totschnig.myexpenses.viewmodel.data.HistoryAccountInfo
+import timber.log.Timber
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
@@ -86,6 +89,7 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     private val binding
         get() = _binding!!
     private lateinit var accountInfo: HistoryAccountInfo
+    private var openingBalances: Map<Long, AccountOpeningInfo> = emptyMap()
 
     val grouping: Grouping
         get() = viewModel.grouping.value
@@ -158,7 +162,8 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
     ): View {
         lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.accountInfo(requireActivity().intent.extras!!).collect { (account, grouping) ->
+                viewModel.accountInfo(requireActivity().intent.extras!!).collect { (account, grouping, openingBalances) ->
+                    Timber.d("openingBalances: $openingBalances")
                     val currency = currencyContext[account.currency]
                     accountInfo = HistoryAccountInfo(
                         accountId = account.id,
@@ -171,9 +176,10 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                         flagId = account.flagId,
                         accountGrouping = account.accountGrouping
                     )
+                    this@HistoryChart.openingBalances = openingBalances
                     (requireActivity() as ProtectedFragmentActivity).supportActionBar?.title =
                         accountInfo.label
-                    showBalance = !accountInfo.isHomeAggregate && prefHandler.getBoolean(
+                    showBalance = prefHandler.getBoolean(
                         PrefKey.HISTORY_SHOW_BALANCE,
                         showBalance
                     )
@@ -286,7 +292,6 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
             Utils.configureGroupingMenu(it, grouping)
         }
         menu.findItem(R.id.TOGGLE_BALANCE_COMMAND)?.let {
-            it.setEnabledAndVisible(accountId != HOME_AGGREGATE_ID)
             it.isChecked = showBalance
         }
         menu.findItem(R.id.TOGGLE_INCLUDE_TRANSFERS_COMMAND)?.isChecked = includeTransfers
@@ -347,6 +352,12 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
             if (includeTransfers) {
                 builder.appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_INCLUDE_TRANSFERS)
             }
+            if (
+                accountInfo.isHomeAggregate || //v1
+                accountInfo.accountId == 0L && accountInfo.accountGrouping != AccountGrouping.CURRENCY //v2
+                ) {
+                builder.appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_BREAKDOWN_BY_ACCOUNT)
+            }
             return CursorLoader(
                 requireActivity(),
                 builder.build(),
@@ -379,32 +390,88 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
             val columnIndexGroupYear = cursor.getColumnIndex(KEY_YEAR)
             val columnIndexGroupSecond = cursor.getColumnIndex(KEY_SECOND_GROUP)
             val columnIndexGroupStart = cursor.getColumnIndex(KEY_GROUP_START)
+            val columnIndexAccountId = cursor.getColumnIndex(KEY_ACCOUNTID)
+            val columnIndexSum = cursor.getColumnIndex(KEY_SUM)
+            val columnIndexExchangeRate = cursor.getColumnIndex(KEY_EXCHANGE_RATE)
             val barEntries = ArrayList<BarEntry>()
             val lineEntries = ArrayList<Entry>()
             val xAxis = binding.historyChart.xAxis
-            var runningBalance = accountInfo.openingBalance.amountMinor
+
+            val accountBalances = openingBalances.mapValues { it.value.openingBalance }.toMutableMap()
+            val latestCurrencyMarketRates = mutableMapOf<String, Double>()
+
+            var currentX = -1f
+            var currentSumIncome = 0L
+            var currentSumExpense = 0L
+
+            fun plotBalance(x: Float) {
+                Timber.d("Plotting balance at $x")
+                var totalEquivalent = 0.0
+                openingBalances.forEach { (id, info) ->
+                    val balance = accountBalances[id] ?: 0L
+                    val rate = if (info.dynamic) (latestCurrencyMarketRates[info.currency] ?: info.openingRate) else info.openingRate
+                    Timber.d("Adding to totalEquivalent, $id, $balance ($rate)")
+                    totalEquivalent += balance * rate
+                }
+                lineEntries.add(Entry(x, totalEquivalent.toFloat()))
+            }
+
+            fun addEntries(x: Float) {
+                if (x == -1f) return
+
+                barEntries.add(BarEntry(x, floatArrayOf(currentSumExpense.toFloat(), currentSumIncome.toFloat())))
+
+                if (showBalance) {
+                    plotBalance(x)
+                }
+            }
+
             do {
-                val sumIncome = cursor.getLong(columnIndexGroupSumIncome)
-                val sumExpense = cursor.getLong(columnIndexGroupSumExpense)
-                val sumTransfer =
-                    if (columnIndexGroupSumTransfer > -1) cursor.getLong(columnIndexGroupSumTransfer) else 0
-                val delta = sumIncome + sumExpense + sumTransfer
                 val year = cursor.getInt(columnIndexGroupYear)
                 val second = cursor.getInt(columnIndexGroupSecond)
                 val groupStart =
                     if (columnIndexGroupStart > -1) cursor.getInt(columnIndexGroupStart) else 0
                 val x = calculateX(year, second, groupStart).toFloat()
-                if (cursor.isFirst) {
-                    val start = x - 1
-                    xAxis.axisMinimum = start
-                    if (showBalance) lineEntries.add(Entry(start, runningBalance.toFloat()))
+
+                if (x != currentX) {
+                    addEntries(currentX)
+                    if (currentX == -1f) {
+                        val start = x - 1
+                        xAxis.axisMinimum = start
+                        if (showBalance) {
+                            // Initial balance using fixed rates (as fallback for market rates)
+                            plotBalance(start)
+                        }
+                    }
+                    currentX = x
+                    currentSumIncome = 0
+                    currentSumExpense = 0
                 }
-                barEntries.add(BarEntry(x, floatArrayOf(sumExpense.toFloat(), sumIncome.toFloat())))
-                if (showBalance) {
-                    runningBalance += delta
-                    lineEntries.add(Entry(x, runningBalance.toFloat()))
+
+                val sumIncome = cursor.getLong(columnIndexGroupSumIncome)
+                val sumExpense = cursor.getLong(columnIndexGroupSumExpense)
+                val sumTransfer =
+                    if (columnIndexGroupSumTransfer > -1) cursor.getLong(columnIndexGroupSumTransfer) else 0
+
+                currentSumIncome += sumIncome
+                currentSumExpense += sumExpense
+
+                val accountId = if (columnIndexAccountId > -1) cursor.getLong(columnIndexAccountId) else accountInfo.accountId
+                val deltaEquivalent = sumIncome + sumExpense + sumTransfer
+                val deltaOriginal = if (columnIndexSum > -1) cursor.getLong(columnIndexSum) else deltaEquivalent
+
+                accountBalances[accountId] = (accountBalances[accountId] ?: 0L) + deltaOriginal
+
+                if (columnIndexExchangeRate > -1) {
+                    val rate = cursor.getDouble(columnIndexExchangeRate)
+                    val info = openingBalances[accountId]
+                    if (info?.dynamic == true) {
+                        latestCurrencyMarketRates[info.currency] = rate
+                    }
                 }
+
                 if (cursor.isLast) {
+                    addEntries(x)
                     xAxis.axisMaximum = (x + 1)
                 }
             } while (cursor.moveToNext())

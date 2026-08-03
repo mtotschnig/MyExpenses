@@ -11,12 +11,19 @@ import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.db2.Repository.Companion.RECORD_SEPARATOR
 import org.totschnig.myexpenses.db2.asCategoryType
 import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.CTE_TABLE_NAME_FULL_ACCOUNTS
+import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
 import org.totschnig.myexpenses.provider.DatabaseConstants.TREE_CATEGORIES
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_ARCHIVE
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_ARCHIVED
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
+import org.totschnig.myexpenses.provider.DatabaseConstants.YEAR
+import org.totschnig.myexpenses.provider.DatabaseConstants.month
+import org.totschnig.myexpenses.provider.DatabaseConstants.week
+import org.totschnig.myexpenses.provider.DatabaseConstants.yearOfMonthStart
+import org.totschnig.myexpenses.provider.DatabaseConstants.yearOfWeekStart
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_AGGREGATE_NEUTRAL
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_INCLUDE_ALL
 import org.totschnig.myexpenses.provider.filter.Criterion
@@ -713,6 +720,7 @@ WITH now as (
 const val accountWithTypeAndFlag =
     "$TABLE_ACCOUNTS LEFT JOIN $TABLE_ACCOUNT_TYPES ON $KEY_TYPE = $TABLE_ACCOUNT_TYPES.$KEY_ROWID LEFT JOIN $TABLE_ACCOUNT_FLAGS ON $KEY_FLAG = $TABLE_ACCOUNT_FLAGS.$KEY_ROWID"
 
+@JvmOverloads
 fun exchangeRateJoin(
     table: String,
     colum: String,
@@ -847,6 +855,10 @@ fun buildTransactionGroupCte(
     selection: String?,
     forHome: String?,
     typeWithFallBack: String,
+    breakdownByAccount: Boolean = false,
+    group: Grouping,
+    includeTransfers: Boolean,
+    aggregateFunction: String,
 ): String {
     // If a filter is applied to the transaction list, we need to calculate with the contents
     // of the archive otherwise we just take the archive itself into account
@@ -854,13 +866,18 @@ fun buildTransactionGroupCte(
     val selection = listOfNotNull(accountQuery, selection?.takeIf { it.isNotEmpty() })
         .joinToString(" AND ")
     return buildString {
-        append("WITH $CTE_SEARCH AS (SELECT $VIEW_WITH_ACCOUNT.* ")
+        //Base view of transactions with their historical equivalent amounts
+        append("WITH $CTE_SEARCH AS (SELECT $VIEW_WITH_ACCOUNT.*, ")
+        append("$typeWithFallBack AS effective_type,")
         if (forHome != null) {
-            append(",")
             append(KEY_EQUIVALENT_AMOUNT)
             append(",")
             append(KEY_EXCHANGE_RATE)
+            append(",")
         }
+        append(" cast(CASE WHEN $KEY_CR_STATUS = '${CrStatus.VOID.name}' THEN 0 ELSE ")
+        append(getAmountCalculation(forHome, VIEW_WITH_ACCOUNT))
+        append(" END AS integer) AS $KEY_DISPLAY_AMOUNT")
         append(" FROM ")
         append(forHome?.let {
             exchangeRateJoin(
@@ -869,19 +886,74 @@ fun buildTransactionGroupCte(
                 it
             ) + equivalentAmountJoin(it)
         } ?: VIEW_WITH_ACCOUNT)
+        //Aggregate transactions into groups (Period + Account)
         append("), $CTE_TRANSACTION_GROUPS AS (SELECT ")
-        append(KEY_DATE)
-        append(",")
-        append(KEY_TRANSFER_PEER)
-        append(",")
-        append("$typeWithFallBack AS $KEY_TYPE")
-        append(",")
-        append(" cast(CASE WHEN $KEY_CR_STATUS = '${CrStatus.VOID.name}' THEN 0 ELSE ")
-        append(getAmountCalculation(forHome, CTE_SEARCH))
-        append(" END AS integer) AS $KEY_DISPLAY_AMOUNT")
+        val yearExpression = when (group) {
+            Grouping.NONE -> "1"
+            Grouping.WEEK -> yearOfWeekStart
+            Grouping.MONTH -> yearOfMonthStart
+            else -> YEAR
+        }
+
+        val secondDef = when (group) {
+            Grouping.NONE -> "1"
+            Grouping.DAY -> DAY
+            Grouping.WEEK -> week
+            Grouping.MONTH -> month
+            Grouping.YEAR -> "0"
+        }
+        append("$yearExpression AS $KEY_YEAR,")
+        append("$secondDef AS $KEY_SECOND_GROUP,")
+
+        val isExpense = if (includeTransfers)
+            "effective_type = $FLAG_EXPENSE OR (effective_type != $FLAG_INCOME AND $KEY_DISPLAY_AMOUNT < 0)"
+        else
+            "effective_type = $FLAG_EXPENSE OR (effective_type = $FLAG_NEUTRAL AND $KEY_DISPLAY_AMOUNT < 0)"
+        append("$aggregateFunction(CASE WHEN $isExpense THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_EXPENSES,")
+
+        val isIncome = if (includeTransfers)
+            "effective_type = $FLAG_INCOME OR (effective_type != $FLAG_EXPENSE AND $KEY_DISPLAY_AMOUNT > 0)"
+        else
+            "effective_type = $FLAG_INCOME OR (effective_type = $FLAG_NEUTRAL AND $KEY_DISPLAY_AMOUNT > 0)"
+        append("$aggregateFunction(CASE WHEN $isIncome THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_INCOME,")
+
+        if (!includeTransfers) {
+            //while many transfers sum up to 0 in the grand total account
+            //they still count if
+            // 1) transaction is mapped to a transfer category
+            // 2) one side of the transfer is in an account that is excluded from totals
+            append("$aggregateFunction(CASE WHEN effective_type = $FLAG_TRANSFER THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_TRANSFERS")
+        }
+
+        append(",MAX($KEY_DATE) AS $KEY_DATE") //needed for julian day and week start calculation
+
+        if (breakdownByAccount) {
+            append(",$KEY_CURRENCY")
+            append(",SUM($KEY_AMOUNT) AS $KEY_SUM")
+            append(",$KEY_ACCOUNTID")
+            append(",$KEY_DYNAMIC")
+            append(",$KEY_EXCHANGE_RATE")
+            append(",${periodEndExpression(group)} as $KEY_PERIOD_END")
+        }
         append(" FROM $CTE_SEARCH ")
         append(" WHERE $WHERE_NOT_SPLIT AND ${if (withFilter) WHERE_NOT_ARCHIVE else WHERE_NOT_ARCHIVED} AND $selection")
+        val groupBy = when (group) {
+            Grouping.NONE -> if (breakdownByAccount) KEY_ACCOUNTID else null
+            Grouping.YEAR -> if (breakdownByAccount) "$KEY_YEAR, $KEY_ACCOUNTID" else KEY_YEAR
+            else -> if (breakdownByAccount) "$KEY_YEAR, $KEY_SECOND_GROUP, $KEY_ACCOUNTID" else "$KEY_YEAR, $KEY_SECOND_GROUP"
+        }
+        append(" GROUP by $groupBy")
         append(")")
+        if (breakdownByAccount) {
+            // Lookup market rates only once per (Period + Currency)
+            append(""", with_market_rate AS (
+    SELECT *,
+   (SELECT $KEY_VALUE from $VIEW_PRIORITIZED_PRICES WHERE 
+   $KEY_DATE = (SELECT MAX($KEY_DATE) FROM $TABLE_PRICES WHERE $KEY_COMMODITY = $CTE_TRANSACTION_GROUPS.$KEY_CURRENCY AND $KEY_CURRENCY = '$forHome' AND $KEY_DATE <= $KEY_PERIOD_END)) AS market_rate
+   FROM $CTE_TRANSACTION_GROUPS)
+        """
+            )
+        }
     }
 }
 
@@ -972,6 +1044,24 @@ fun getAmountCalculation(
     if (homeCurrency != null)
         getAmountHomeEquivalent(forTable, homeCurrency, currencyTable)
     else KEY_AMOUNT
+
+fun periodEndExpression(group: Grouping): String {
+    val dateCol = "MAX(date)"
+    return when (group) {
+        Grouping.NONE -> "date('now', 'localtime')"
+        Grouping.DAY -> "date($dateCol, 'unixepoch', 'localtime')"
+        Grouping.WEEK -> "date($dateCol, 'unixepoch', 'localtime', 'weekday ${DatabaseConstants.nextWeekEndSqlite}')"
+        Grouping.MONTH -> "date($dateCol, 'unixepoch', 'localtime', '-${DatabaseConstants.monthStartsOn - 1} day', 'start of month', '+1 month', '-1 day', '+${DatabaseConstants.monthStartsOn - 1} day')"
+        Grouping.YEAR -> "date($dateCol, 'unixepoch', 'localtime', 'start of year', '+1 year', '-1 day')"
+    }
+}
+
+fun latestPriceExpression(commodity: String, currency: String, date: String): String = """
+(SELECT lp.$KEY_VALUE FROM $VIEW_PRIORITIZED_PRICES lp JOIN
+    (SELECT $KEY_COMMODITY, $KEY_CURRENCY, MAX($KEY_DATE) as max_date FROM $TABLE_PRICES WHERE $KEY_DATE <= $date GROUP BY $KEY_COMMODITY, $KEY_CURRENCY) latest 
+    ON lp.$KEY_COMMODITY = latest.$KEY_COMMODITY AND lp.$KEY_CURRENCY = latest.$KEY_CURRENCY AND lp.$KEY_DATE = latest.max_date
+ WHERE lp.$KEY_COMMODITY = $commodity AND lp.$KEY_CURRENCY = $currency)
+""".trimIndent()
 
 fun amountCteForDebts(homeCurrency: String, dateExpression: String?) =
     """$CTE_TRANSACTION_AMOUNTS AS (
