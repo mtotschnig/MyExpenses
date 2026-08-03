@@ -929,7 +929,7 @@ fun buildTransactionGroupCte(
 
         if (breakdownByAccount) {
             append(",$KEY_CURRENCY")
-            append(",SUM($KEY_AMOUNT) AS $KEY_SUM")
+            append(",SUM(CASE WHEN $KEY_CR_STATUS = '${CrStatus.VOID.name}' THEN 0 ELSE $KEY_AMOUNT END) AS $KEY_SUM")
             append(",$KEY_ACCOUNTID")
             append(",$KEY_DYNAMIC")
             append(",$KEY_EXCHANGE_RATE")
