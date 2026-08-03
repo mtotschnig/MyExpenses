@@ -71,7 +71,7 @@ class GroupQueryBreakdownTest(private val grouping: Grouping) : BaseTestWithRepo
             hasCount(2)
 
             val expectedPeriodEnd = calculateExpectedPeriodEnd(grouping, today)
-            println("expectedPeriodEnd for $grouping: $expectedPeriodEnd")
+            // println("expectedPeriodEnd for $grouping: $expectedPeriodEnd")
 
             forEach {
                 val accountId = actual.getLong(actual.getColumnIndexOrThrow(KEY_ACCOUNTID))
