@@ -85,6 +85,8 @@ class GroupQueryBreakdownTest(private val grouping: Grouping) : BaseTestWithRepo
                     hasDouble(KEY_EXCHANGE_RATE, 1.2)
                     hasLong(KEY_SUM, 200)
                     hasLong(KEY_SUM_INCOME, 240)
+                } else {
+                    error("Unexpected accountId $accountId")
                 }
                 hasString(KEY_PERIOD_END, expectedPeriodEnd)
             }
