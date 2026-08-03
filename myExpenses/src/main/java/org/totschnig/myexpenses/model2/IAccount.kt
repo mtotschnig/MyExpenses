@@ -38,7 +38,7 @@ interface AccountInfoWithGrouping : IAccount {
     val flagId: Long?
     val accountGrouping: AccountGrouping<*>?
 
-    val isHomeAggregate get() = isAggregate &&  (isHomeAggregate(accountId) || accountGrouping == AccountGrouping.NONE)
+    val isHomeAggregate get() = isAggregate && (isHomeAggregate(accountId) || accountGrouping == AccountGrouping.NONE)
 
     val isAggregate get() = isAggregate(accountId)
 

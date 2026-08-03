@@ -30,6 +30,7 @@ import org.totschnig.myexpenses.provider.KEY_CURRENT_BALANCE
 import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.provider.KEY_DESCRIPTION
 import org.totschnig.myexpenses.provider.KEY_DYNAMIC
+import org.totschnig.myexpenses.provider.KEY_EQUIVALENT_CURRENT_BALANCE
 import org.totschnig.myexpenses.provider.KEY_EQUIVALENT_EXPENSES
 import org.totschnig.myexpenses.provider.KEY_EQUIVALENT_INCOME
 import org.totschnig.myexpenses.provider.KEY_EQUIVALENT_OPENING_BALANCE
@@ -323,6 +324,7 @@ data class FullAccount(
                 excludeFromTotals = getBoolean(KEY_EXCLUDE_FROM_TOTALS),
                 lastUsed = getLong(KEY_LAST_USED),
                 bankId = getLongOrNull(KEY_BANK_ID),
+                equivalentCurrentBalance = getDoubleIfExists(KEY_EQUIVALENT_CURRENT_BALANCE)?.roundToLong() ?: 0L, //v1
                 equivalentOpeningBalance = getDouble(KEY_EQUIVALENT_OPENING_BALANCE).roundToLong(),
                 equivalentSumIncome = getLong(KEY_EQUIVALENT_INCOME),
                 equivalentSumExpense = getLong(KEY_EQUIVALENT_EXPENSES),
