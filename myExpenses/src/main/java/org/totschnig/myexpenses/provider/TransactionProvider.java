@@ -90,6 +90,7 @@ import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_IS_NUMBERED;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_LABEL;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_LAST_USED;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_METHODID;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_OPENING_BALANCE;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_PARENTID;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_PAYEEID;
 import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_PAYEE_NAME;
@@ -380,6 +381,8 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   public static final String QUERY_PARAMETER_WITH_FILTER = "withFilter";
 
+  public static final String QUERY_PARAMETER_BREAKDOWN_BY_ACCOUNT = "breakdownByAccount";
+
   @Deprecated
   public static final String METHOD_BULK_START = "bulkStart";
   @Deprecated
@@ -633,8 +636,14 @@ public class TransactionProvider extends BaseTransactionProvider {
       case AGGREGATE_ID:
         String currencyId = uri.getPathSegments().get(2);
         if (Integer.parseInt(currencyId) == HOME_AGGREGATE_ID) {
-          qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS);
-          projection = aggregateHomeProjection(projection);
+          if (uri.getBooleanQueryParameter(QUERY_PARAMETER_BREAKDOWN_BY_ACCOUNT, false)) {
+            qb = SupportSQLiteQueryBuilder.builder(exchangeRateJoin(TABLE_ACCOUNTS, KEY_ROWID, getHomeCurrency()));
+            projection = new String[]{KEY_ROWID, KEY_CURRENCY, KEY_OPENING_BALANCE, KEY_DYNAMIC, KEY_EXCHANGE_RATE};
+            additionalWhere.append(KEY_EXCLUDE_FROM_TOTALS).append("=0 AND ").append(KEY_PARENTID).append(" IS NULL");
+          } else {
+            qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS);
+            projection = aggregateHomeProjection(projection);
+          }
         } else {
           qb = SupportSQLiteQueryBuilder.builder(TABLE_CURRENCIES);
           projection = aggregateCurrencyProjection(projection);
@@ -644,27 +653,40 @@ public class TransactionProvider extends BaseTransactionProvider {
       case AGGREGATE_V2:
         AccountGrouping<?> grouping = AccountGrouping.Companion.valueOf(uri.getPathSegments().get(1));
         String group = uri.getPathSegments().get(2);
-        if (grouping.equals(AccountGrouping.CURRENCY.INSTANCE)) {
-          qb = SupportSQLiteQueryBuilder.builder(TABLE_CURRENCIES);
-          projection = aggregateCurrencyProjection(projection);
-          //group is currency code
-          additionalWhere.append(KEY_CODE).append("='").append(group).append("'");
-        } else if (grouping.equals(AccountGrouping.FLAG.INSTANCE)) {
-          qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNT_FLAGS);
-          projection = aggregateFlagProjection(projection);
-          //group is flag id
-          additionalWhere.append(KEY_ROWID).append("=").append(group);
-        } else if (grouping.equals(AccountGrouping.TYPE.INSTANCE)) {
-          qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNT_TYPES);
-          projection = aggregateTypeProjection(projection);
-          //group is type id
-          additionalWhere.append(KEY_ROWID).append("=").append(group);
+        if (uri.getBooleanQueryParameter(QUERY_PARAMETER_BREAKDOWN_BY_ACCOUNT, false)) {
+          qb = SupportSQLiteQueryBuilder.builder(exchangeRateJoin(TABLE_ACCOUNTS, KEY_ROWID, getHomeCurrency()));
+          projection = new String[]{KEY_ROWID, KEY_CURRENCY, KEY_OPENING_BALANCE, KEY_DYNAMIC, KEY_EXCHANGE_RATE};
+          additionalWhere.append(KEY_EXCLUDE_FROM_TOTALS).append("=0 AND ").append(KEY_PARENTID).append(" IS NULL");
+          if (grouping.equals(AccountGrouping.FLAG.INSTANCE)) {
+            additionalWhere.append(" AND ").append(KEY_FLAG).append("=").append(group);
+          } else if (grouping.equals(AccountGrouping.TYPE.INSTANCE)) {
+            additionalWhere.append(" AND ").append(KEY_TYPE).append("=").append(group);
+          } else if (grouping.equals(AccountGrouping.CURRENCY.INSTANCE)) {
+            additionalWhere.append(" AND ").append(KEY_CURRENCY).append("='").append(group).append("'");
+          }
         } else {
-          qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS);
-          additionalWhere.append(KEY_EXCLUDE_FROM_TOTALS).append("=0");
-          projection = aggregateHomeProjection(projection);
+          if (grouping.equals(AccountGrouping.CURRENCY.INSTANCE)) {
+            qb = SupportSQLiteQueryBuilder.builder(TABLE_CURRENCIES);
+            projection = aggregateCurrencyProjection(projection);
+            //group is currency code
+            additionalWhere.append(KEY_CODE).append("='").append(group).append("'");
+          } else if (grouping.equals(AccountGrouping.FLAG.INSTANCE)) {
+            qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNT_FLAGS);
+            projection = aggregateFlagProjection(projection);
+            //group is flag id
+            additionalWhere.append(KEY_ROWID).append("=").append(group);
+          } else if (grouping.equals(AccountGrouping.TYPE.INSTANCE)) {
+            qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNT_TYPES);
+            projection = aggregateTypeProjection(projection);
+            //group is type id
+            additionalWhere.append(KEY_ROWID).append("=").append(group);
+          } else {
+            qb = SupportSQLiteQueryBuilder.builder(TABLE_ACCOUNTS);
+            additionalWhere.append(KEY_EXCLUDE_FROM_TOTALS).append("=0");
+            projection = aggregateHomeProjection(projection);
+          }
         }
-          break;
+        break;
       case ACCOUNT_ID:
         qb = SupportSQLiteQueryBuilder.builder(getAccountsWithExchangeRate());
         additionalWhere.append(TABLE_ACCOUNTS + "." + KEY_ROWID + "=").append(uri.getPathSegments().get(1));

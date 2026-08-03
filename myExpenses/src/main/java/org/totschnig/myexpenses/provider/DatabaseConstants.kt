@@ -27,7 +27,10 @@ object DatabaseConstants {
     private var isLocalized = false
     @JvmField
     var weekStartsOn: Int = 0
+    @JvmField
     var monthStartsOn: Int = 0
+    @JvmField
+    var nextWeekEndSqlite: Int = 0
    lateinit var YEAR_OF_WEEK_START: String
    lateinit var YEAR_OF_MONTH_START: String
    lateinit var WEEK: String
@@ -62,7 +65,7 @@ object DatabaseConstants {
         monthStartsOn = prefHandler.monthStart
         val monthDelta = monthStartsOn - 1
         val nextWeekStartsSqlite = weekStartsOn - 1 //Sqlite starts with Sunday = 0
-        val nextWeekEndSqlite = if (weekStartsOn == Calendar.SUNDAY)
+        nextWeekEndSqlite = if (weekStartsOn == Calendar.SUNDAY)
         /*weekStartsOn Sunday*/ 6 else/* weekStartsOn Monday or Saturday*/ weekStartsOn - 2
         YEAR_OF_WEEK_START =
             "CAST(strftime('%Y',date,'unixepoch','localtime','weekday $nextWeekEndSqlite', '-6 day') AS integer)"

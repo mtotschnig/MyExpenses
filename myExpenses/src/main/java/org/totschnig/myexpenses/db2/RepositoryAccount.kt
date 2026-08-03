@@ -50,11 +50,15 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_AGGREGATE_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.AGGREGATE_V2_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_BREAKDOWN_BY_ACCOUNT
 import org.totschnig.myexpenses.provider.TransactionProvider.SORT_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.getBoolean
+import org.totschnig.myexpenses.provider.getDouble
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.mapToMap
 import org.totschnig.myexpenses.provider.withLimit
 import org.totschnig.myexpenses.util.joinArrays
 
@@ -145,6 +149,44 @@ fun Repository.loadAggregateAccountFlow(accountId: Long): Flow<Account> {
             openingBalance = it.getLong(KEY_OPENING_BALANCE),
         )
     }
+}
+
+data class AccountOpeningInfo(val currency: String, val openingBalance: Long, val dynamic: Boolean, val openingRate: Double)
+
+fun Repository.loadOpeningBalancesPerAccountV1(accountId: Long): Flow<Map<Long, AccountOpeningInfo>> {
+    require(accountId < 0L)
+    val uri = ContentUris.withAppendedId(ACCOUNTS_AGGREGATE_URI, accountId).buildUpon()
+        .appendQueryParameter(QUERY_PARAMETER_BREAKDOWN_BY_ACCOUNT, "true")
+        .build()
+    return contentResolver.observeQuery(uri)
+        .mapToMap {
+            it.getLong(KEY_ROWID) to AccountOpeningInfo(
+                it.getString(KEY_CURRENCY),
+                it.getLong(KEY_OPENING_BALANCE),
+                it.getBoolean(KEY_DYNAMIC),
+                it.getDouble(KEY_EXCHANGE_RATE)
+            )
+        }
+}
+
+fun Repository.loadOpeningBalancesPerAccountV2(extras: Bundle): Flow<Map<Long, AccountOpeningInfo>> {
+    val accountGrouping = AccountGrouping.valueOf(extras.getString(KEY_ACCOUNT_GROUPING)!!)
+    val group = extras.getString(KEY_ACCOUNT_GROUPING_GROUP)!!
+    val uri = AGGREGATE_V2_URI
+        .buildUpon()
+        .appendPath(accountGrouping.name)
+        .appendPath(group)
+        .appendQueryParameter(QUERY_PARAMETER_BREAKDOWN_BY_ACCOUNT, "true")
+        .build()
+    return contentResolver.observeQuery(uri)
+        .mapToMap {
+            it.getLong(KEY_ROWID) to AccountOpeningInfo(
+                it.getString(KEY_CURRENCY),
+                it.getLong(KEY_OPENING_BALANCE),
+                it.getBoolean(KEY_DYNAMIC),
+                it.getDouble(KEY_EXCHANGE_RATE)
+            )
+        }
 }
 
 fun Repository.loadAggregateAccountFlowV2(extras: Bundle): Flow<Account> {
