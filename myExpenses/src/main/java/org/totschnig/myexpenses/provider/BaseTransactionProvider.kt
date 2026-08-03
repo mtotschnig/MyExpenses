@@ -1540,7 +1540,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 add(KEY_DYNAMIC)
                 add(KEY_SUM)
                 add(KEY_PERIOD_END)
-                add("CASE WHEN $KEY_DYNAMIC THEN market_rate ELSE $KEY_EXCHANGE_RATE END AS $KEY_EXCHANGE_RATE")
+                add("CASE WHEN $KEY_DYNAMIC THEN coalesce(market_rate, $KEY_EXCHANGE_RATE) ELSE $KEY_EXCHANGE_RATE END AS $KEY_EXCHANGE_RATE")
             }
         }.toTypedArray()
 
