@@ -1497,7 +1497,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
 
         val group = enumValueOrDefault(uri.pathSegments[2], Grouping.NONE)
 
-        val breakdownByAccount = uri.getBooleanQueryParameter(
+        val breakdownByAccount = forHome != null && uri.getBooleanQueryParameter(
             TransactionProvider.QUERY_PARAMETER_BREAKDOWN_BY_ACCOUNT,
             false
         )
