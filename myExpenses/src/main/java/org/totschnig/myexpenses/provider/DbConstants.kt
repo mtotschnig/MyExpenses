@@ -942,7 +942,7 @@ fun buildTransactionGroupCte(
             Grouping.YEAR -> if (breakdownByAccount) "$KEY_YEAR, $KEY_ACCOUNTID" else KEY_YEAR
             else -> if (breakdownByAccount) "$KEY_YEAR, $KEY_SECOND_GROUP, $KEY_ACCOUNTID" else "$KEY_YEAR, $KEY_SECOND_GROUP"
         }
-        append(" GROUP by $groupBy")
+        groupBy?.let { append(" GROUP by $it") }
         append(")")
         if (breakdownByAccount) {
             // Lookup market rates only once per (Period + Currency)

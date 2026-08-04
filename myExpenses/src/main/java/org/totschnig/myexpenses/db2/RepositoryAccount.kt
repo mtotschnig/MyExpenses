@@ -56,6 +56,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getDouble
+import org.totschnig.myexpenses.provider.getDoubleOrNull
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.mapToMap
@@ -164,7 +165,7 @@ fun Repository.loadOpeningBalancesPerAccountV1(accountId: Long): Flow<Map<Long, 
                 it.getString(KEY_CURRENCY),
                 it.getLong(KEY_OPENING_BALANCE),
                 it.getBoolean(KEY_DYNAMIC),
-                it.getDouble(KEY_EXCHANGE_RATE)
+                it.getDoubleOrNull(KEY_EXCHANGE_RATE) ?: 1.0
             )
         }
 }
@@ -184,7 +185,7 @@ fun Repository.loadOpeningBalancesPerAccountV2(extras: Bundle): Flow<Map<Long, A
                 it.getString(KEY_CURRENCY),
                 it.getLong(KEY_OPENING_BALANCE),
                 it.getBoolean(KEY_DYNAMIC),
-                it.getDouble(KEY_EXCHANGE_RATE)
+                it.getDoubleOrNull(KEY_EXCHANGE_RATE) ?: 1.0
             )
         }
 }

@@ -409,7 +409,10 @@ class HistoryChart : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
                 var totalEquivalent = 0.0
                 openingBalances.forEach { (id, info) ->
                     val balance = accountBalances[id] ?: 0L
-                    val rate = if (info.dynamic) (latestCurrencyMarketRates[info.currency] ?: info.openingRate) else info.openingRate
+                    val rate = if (info.dynamic)
+                        latestCurrencyMarketRates[info.currency] ?: info.openingRate
+                    else
+                        info.openingRate
                     Timber.d("Adding to totalEquivalent, $id, $balance ($rate)")
                     totalEquivalent += balance * rate
                 }
