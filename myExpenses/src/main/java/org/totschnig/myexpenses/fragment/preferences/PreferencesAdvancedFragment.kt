@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.annotation.Keep
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.preference.ListPreference
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
 import eltos.simpledialogfragment.SimpleDialog
@@ -78,6 +79,9 @@ class PreferencesAdvancedFragment : BasePreferenceFragment(),
         categoryViewModel.defaultTransferCategory().observe(this) {
             setDefaultTransferCategoryPath(it)
         }
+
+        requirePreference<ListPreference>(PrefKey.CUSTOM_DATE_FORMAT_NEW_TRANSACTION_LIST)
+            .title = "${getString(R.string.date_format)} (${getString(R.string.help_MyExpenses_title)})"
     }
 
     private fun setDefaultTransferCategoryPath(path: String) {

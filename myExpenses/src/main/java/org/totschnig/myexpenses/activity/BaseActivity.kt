@@ -761,7 +761,8 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 PrefKey.PROTECTION_LEGACY,
                 PrefKey.UI_FONT_SIZE,
                 PrefKey.CUSTOMIZE_MAIN_MENU,
-                PrefKey.UI_ITEM_RENDERER_ORIGINAL_AMOUNT
+                PrefKey.UI_ITEM_RENDERER_ORIGINAL_AMOUNT,
+                PrefKey.CUSTOM_DATE_FORMAT_NEW_TRANSACTION_LIST
             )
         ) {
             scheduledRestart = true

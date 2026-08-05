@@ -82,6 +82,7 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     CSV_IMPORT_HEADER_TO_FIELD_MAP(R.string.pref_import_csv_header_to_field_map_key),
     CUSTOM_DECIMAL_FORMAT(R.string.pref_custom_decimal_format_key),
     CUSTOM_DATE_FORMAT(R.string.pref_custom_date_format_key),
+    CUSTOM_DATE_FORMAT_NEW_TRANSACTION_LIST(R.string.pref_custom_date_format_new_transaction_list_key),
     AUTO_BACKUP(R.string.pref_auto_backup_key),
     AUTO_BACKUP_TIME(R.string.pref_auto_backup_time_key),
     AUTO_BACKUP_DIRTY("auto_backup_dirty"),

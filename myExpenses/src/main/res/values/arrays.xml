@@ -454,4 +454,11 @@
         <item>@string/pref_fab_style_compact_description</item>
     </string-array>
 
+    <string-array name="pref_custom_date_format_new_transaction_list_entries">
+        <item>FULL</item>
+        <item>LONG</item>
+        <item>MEDIUM</item>
+        <item>SHORT</item>
+    </string-array>
+
 </resources>

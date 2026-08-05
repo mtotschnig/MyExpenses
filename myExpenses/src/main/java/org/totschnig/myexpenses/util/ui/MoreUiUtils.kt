@@ -162,8 +162,15 @@ val SimpleDateFormat.asDateTimeFormatter: DateTimeFormatter
 fun dateTimeFormatter(account: PageAccount, prefHandler: PrefHandler, context: Context) =
     when (account.grouping) {
         Grouping.DAY -> timeFormatter(account.type, prefHandler, context)?.asDateTimeFormatter
-        else -> DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+        else -> DateTimeFormatter.ofLocalizedDate(getNewDateFormatStyle(prefHandler))
     }
+
+private fun getNewDateFormatStyle(prefHandler: PrefHandler) = when (prefHandler.getString(PrefKey.CUSTOM_DATE_FORMAT_NEW_TRANSACTION_LIST)) {
+    "FULL" -> FormatStyle.FULL
+    "LONG" -> FormatStyle.LONG
+    "SHORT" -> FormatStyle.SHORT
+    else -> FormatStyle.MEDIUM
+}
 
 fun dateTimeFormatterLegacy(account: PageAccount, prefHandler: PrefHandler, context: Context) =
     when (account.grouping) {

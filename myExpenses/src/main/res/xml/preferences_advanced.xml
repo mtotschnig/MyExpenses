@@ -18,6 +18,13 @@
             android:summary="@string/pref_custom_decimal_format_summary"
             android:title="@string/date_format" />
 
+        <ListPreference
+            android:defaultValue="MEDIUM"
+            android:key="@string/pref_custom_date_format_new_transaction_list_key"
+            android:entries="@array/pref_custom_date_format_new_transaction_list_entries"
+            android:entryValues="@array/pref_custom_date_format_new_transaction_list_entries"
+            />
+
         <EditTextPreference
             android:defaultValue="@string/default_attachment_mime_types"
             android:key="@string/pref_attachment_mime_types_key"
