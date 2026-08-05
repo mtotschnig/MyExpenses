@@ -27,7 +27,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.MarginLayoutParams
 import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
 import android.webkit.MimeTypeMap
 import android.widget.LinearLayout
 import android.widget.ProgressBar
@@ -55,6 +54,7 @@ import androidx.core.os.LocaleListCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.ViewGroupCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import androidx.core.view.updatePadding
@@ -1381,8 +1381,11 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
     override fun onDismissOrCancel() {}
 
     fun hideKeyboard() {
-        val im = applicationContext.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        im.hideSoftInputFromWindow(window.decorView.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
+        WindowInsetsControllerCompat(window, window.decorView).hide(WindowInsetsCompat.Type.ime())
+    }
+
+    fun showKeyboard(view: View) {
+        WindowInsetsControllerCompat(window, view).show(WindowInsetsCompat.Type.ime())
     }
 
     fun startMediaChooserDo(fileName: String) {

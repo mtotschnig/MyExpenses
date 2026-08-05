@@ -234,6 +234,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     var splitPartsResultList: ArrayList<TransactionEditData> = arrayListOf()
 
     private var mIsResumed = false
+    private var isManualRecreate = false
     private var accountsLoaded = false
     private var pObserver: ContentObserver? = null
     private lateinit var currencyViewModel: CurrencyViewModel
@@ -406,6 +407,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         //we enable it only after accountCursor has been loaded, preventing NPE when user clicks on it early
         amountInput.setTypeEnabled(false)
 
+        isManualRecreate = intent.getBooleanExtra(KEY_IS_MANUAL_RECREATE, false)
         if (savedInstanceState != null) {
             delegate = TransactionDelegate.create(
                 operationType,
@@ -415,12 +417,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 methodRowBinding,
                 injector
             )
-            setupObservers(
-                if (intent.getBooleanExtra(KEY_IS_MANUAL_RECREATE, false)) {
-                    intent.removeExtra(KEY_IS_MANUAL_RECREATE)
-                    true
-                } else false
-            )
+            setupObservers(isManualRecreate)
             delegate.bind(
                 null,
                 withTypeSpinner,
@@ -428,6 +425,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                 null,
                 withAutoFill
             )
+            if (isManualRecreate) {
+                intent.removeExtra(KEY_IS_MANUAL_RECREATE)
+            }
             setHelpVariant(delegate.helpVariant)
             setTitle()
             if (isTemplate) {
@@ -856,6 +856,14 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         super.onResume()
         mIsResumed = true
         if (accountsLoaded) setupListeners()
+        if (isManualRecreate) {
+            isManualRecreate = false
+            currentFocus?.let { focus ->
+                focus.postDelayed({
+                    showKeyboard(focus)
+                }, 100)
+            }
+        }
     }
 
     override fun onDestroy() {
