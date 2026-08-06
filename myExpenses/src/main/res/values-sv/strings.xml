@@ -896,7 +896,7 @@
     <string name="pref_equivalent_amounts_automatic_update_title">Uppdatera automatiskt motsvarande belopp när priserna ändras</string>
     <string name="batch_download">Flerfils nedladdning</string>
     <string name="warning_batch_download_quota">Batchnedladdning från %s innebär risken att din användningsgräns töms.</string>
-    <string name="batch_download_result">%d priser laddades ner och lagrades i databasen.</string>
+    <string name="batch_download_result">%d priser laddades ned och lagrades i databasen.</string>
     <string name="pref_ui_home_screen_shortcuts_show_new_balance_title">Visa nytt saldo efter att transaktionen sparats</string>
     <string name="print_configuration_empty">Vänligen lägg till minst ett fält som ska skrivas ut.</string>
     <plurals name="import_prices_success_message">
@@ -932,7 +932,7 @@
     <string name="content_description_show_balance_details">Visa detaljerad information</string>
     <string name="menu_templates">Mallar</string>
     <string name="pref_ui_start_screen_title">Startskärm</string>
-    <string name="pref_ui_start_screen_last_visited">Senast besökt</string>
+    <string name="pref_ui_start_screen_last_visited">Senast besökta</string>
     <string name="main_navigation">Huvudnavigering</string>
     <string name="pref_fab_style_title">Stil för flytande åtgärdsknapp</string>
     <string name="pref_fab_style_standard_description">Standard (Tryck på pilen för meny)</string>
@@ -942,4 +942,10 @@
     <string name="pref_content_based_colors_title">Kontobaserad dynamisk färg</string>
     <string name="pref_content_based_colors_summary">Härled temafärger från det aktuella kontots färg. Stäng av om texten är svår att läsa.</string>
     <string name="service_starting">Startar…</string>
+    <string name="trade_buy">Köp</string>
+    <string name="trade_sell">Sälj</string>
+    <string name="trade_price">Pris</string>
+    <string name="menu_create_portfolio">Ny portfölj</string>
+    <string name="asset_type_fiat_plural">Valutor</string>
+    <string name="premium_nudge_portfolio_title">Lås upp portföljens fulla potential</string>
 </resources>
