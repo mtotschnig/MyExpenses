@@ -245,6 +245,8 @@ data class FullAccount(
         get() = portfolioRole == PORTFOLIO_ASSET
     val isPortfolioCash: Boolean
         get() = portfolioRole == PORTFOLIO_CASH
+    val hasInitialExchangeRate
+        get() = initialExchangeRate != null && initialExchangeRate != 0.0
 
     val toPageAccount: PageAccount
         get() = PageAccount(

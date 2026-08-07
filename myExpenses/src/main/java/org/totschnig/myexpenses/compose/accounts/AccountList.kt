@@ -1118,21 +1118,27 @@ fun AccountSummaryV2(
 ) {
     val homeCurrency = LocalCurrencyContext.current.homeCurrencyUnit
     val isFx = account.currency != homeCurrency.code
+    val showEquivalentValues = isFx && (account.dynamic || account.hasInitialExchangeRate)
     val balanceType = account.validatedBalanceType
 
-    SumRowV2(
-        label = R.string.opening_balance,
-        amount = account.openingBalance,
-        currency = account.currencyUnit,
-        formattedEquivalentAmount = account.equivalentOpeningBalance.takeIf { isFx }
-    )
+    if (account.openingBalance != 0L) {
+        SumRowV2(
+            label = R.string.opening_balance,
+            amount = account.openingBalance,
+            currency = account.currencyUnit,
+            formattedEquivalentAmount = account.equivalentOpeningBalance.takeIf {
+                isFx && account.hasInitialExchangeRate
+            }
+        )
+    }
 
     if (account.sumIncome != 0L) {
         SumRowV2(
             label = R.string.sum_income,
             amount = account.sumIncome,
             currency = account.currencyUnit,
-            formattedEquivalentAmount = account.equivalentSumIncome.takeIf { isFx }
+            formattedEquivalentAmount = account.equivalentSumIncome
+                .takeIf { showEquivalentValues }
         )
     }
 
@@ -1141,7 +1147,8 @@ fun AccountSummaryV2(
             label = R.string.sum_expenses,
             amount = account.sumExpense,
             currency = account.currencyUnit,
-            formattedEquivalentAmount = account.equivalentSumExpense.takeIf { isFx }
+            formattedEquivalentAmount = account.equivalentSumExpense
+                .takeIf { showEquivalentValues }
         )
     }
 
@@ -1150,7 +1157,8 @@ fun AccountSummaryV2(
             label = R.string.sum_transfer,
             amount = account.sumTransfer,
             currency = account.currencyUnit,
-            formattedEquivalentAmount = account.equivalentSumTransfer.takeIf { isFx }
+            formattedEquivalentAmount = account.equivalentSumTransfer
+                .takeIf { showEquivalentValues }
         )
     }
 
@@ -1163,7 +1171,8 @@ fun AccountSummaryV2(
             amount = account.total,
             currency = account.currencyUnit,
             modifier = Modifier.drawSumLine(),
-            formattedEquivalentAmount = account.equivalentTotal.takeIf { isFx },
+            formattedEquivalentAmount = account.equivalentTotal
+                .takeIf { showEquivalentValues },
             highlight = balanceType == BalanceType.TOTAL,
             onClick = onDisplayBalanceTypeChange?.let { { it(BalanceType.TOTAL) } }
         )
@@ -1176,7 +1185,8 @@ fun AccountSummaryV2(
         modifier = Modifier.conditional(account.total == null) {
             drawSumLine()
         },
-        formattedEquivalentAmount = account.equivalentCurrentBalance.takeIf { isFx },
+        formattedEquivalentAmount = account.equivalentCurrentBalance
+            .takeIf { showEquivalentValues },
         highlight = balanceType == BalanceType.CURRENT,
         onClick = if (hasMultipleBalanceTypeOptions) {
             onDisplayBalanceTypeChange?.let { { it(BalanceType.CURRENT) } }
