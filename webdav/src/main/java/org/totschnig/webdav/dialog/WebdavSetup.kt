@@ -3,18 +3,22 @@ package org.totschnig.webdav.dialog
 import android.accounts.AccountManager
 import android.content.Intent
 import android.os.Bundle
+import android.security.KeyChain
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.widget.EditText
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.EditActivity
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.sync.BackendService
+import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.KEY_SYNC_PROVIDER_URL
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.KEY_SYNC_PROVIDER_USERNAME
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory.Companion.ACTION_RECONFIGURE
@@ -27,11 +31,14 @@ import org.totschnig.myexpenses.viewmodel.SyncViewModel.Companion.KEY_ORIGINAL_A
 import org.totschnig.webdav.databinding.SetupWebdavBinding
 import org.totschnig.webdav.sync.WebDavBackendProvider
 import org.totschnig.webdav.sync.client.CertificateHelper.encode
+import org.totschnig.webdav.sync.client.CertificateHelper.fromString
 import org.totschnig.webdav.sync.client.CertificateHelper.getShortDescription
+import org.totschnig.webdav.sync.client.ClientCertMissingException
 import org.totschnig.webdav.sync.client.InvalidCertificateException
 import org.totschnig.webdav.sync.client.NotCompliantWebDavException
 import org.totschnig.webdav.sync.client.UntrustedCertificateException
 import org.totschnig.webdav.viewmodel.WebdavSetupViewModel
+import timber.log.Timber
 import java.io.FileNotFoundException
 import java.security.cert.CertificateEncodingException
 import java.security.cert.X509Certificate
@@ -40,6 +47,7 @@ class WebdavSetup : EditActivity() {
     private val viewModel: WebdavSetupViewModel by viewModels()
 
     private var mTrustCertificate: X509Certificate? = null
+    private var mClientCertAlias: String? = null
 
     private lateinit var binding: SetupWebdavBinding
 
@@ -54,6 +62,29 @@ class WebdavSetup : EditActivity() {
             binding.edtUrl.setText(intent.getStringExtra(KEY_SYNC_PROVIDER_URL))
             binding.edtUserName.setText(intent.getStringExtra(KEY_SYNC_PROVIDER_USERNAME))
             binding.edtPassword.setText(intent.getStringExtra(AccountManager.KEY_PASSWORD))
+            val originalAccountName = intent.getStringExtra(KEY_ORIGINAL_ACCOUNT_NAME)
+            if (originalAccountName != null) {
+                val accountManager = AccountManager.get(this)
+                val account = GenericAccountService.getAccount(originalAccountName)
+                mClientCertAlias = accountManager.getUserData(account, WebDavBackendProvider.KEY_CLIENT_CERT_ALIAS)
+                val encodedCert = accountManager.getUserData(account, WebDavBackendProvider.KEY_WEB_DAV_CERTIFICATE)
+                if (encodedCert != null) {
+                    mTrustCertificate = try {
+                        fromString(encodedCert)
+                    } catch (e: Exception) {
+                        null
+                    }
+                    if (mTrustCertificate != null) {
+                        binding.certificateContainer.isVisible = true
+                        binding.txtTrustCertificate.text = getShortDescription(mTrustCertificate!!, this)
+                        binding.chkTrustCertificate.isChecked = true
+                    }
+                }
+            }
+            if (mClientCertAlias != null) {
+                binding.clientCertContainer.isVisible = true
+            }
+            updateClientCertUi()
         }
         binding.edtUrl.addTextChangedListener(this)
         binding.edtUserName.addTextChangedListener(this)
@@ -62,6 +93,23 @@ class WebdavSetup : EditActivity() {
             Utils.getTextWithAppName(
                 this, R.string.description_webdav_url
             )
+        binding.btnMoreOptions.setOnClickListener {
+            binding.clientCertContainer.isVisible = !binding.clientCertContainer.isVisible
+        }
+        binding.btnSelectClientCert.setOnClickListener {
+            KeyChain.choosePrivateKeyAlias(this, { alias ->
+                if (alias == null) {
+                    Snackbar.make(binding.root, R.string.no_client_cert_available, Snackbar.LENGTH_LONG).show()
+                } else {
+                    mClientCertAlias = alias
+                }
+                runOnUiThread { updateClientCertUi() }
+            }, null, null, null, null)
+        }
+        binding.btnClearClientCert.setOnClickListener {
+            mClientCertAlias = null
+            updateClientCertUi()
+        }
         binding.bOK.setOnClickListener { onOkClick() }
         viewModel.result.observe(this) { result ->
             result.onSuccess {
@@ -90,14 +138,33 @@ class WebdavSetup : EditActivity() {
                     is FileNotFoundException -> {
                         binding.edtUrl.error = getString(R.string.validate_error_webdav_404)
                     }
+                    is ClientCertMissingException -> {
+                        Toast.makeText(this, R.string.error_client_cert_missing, Toast.LENGTH_LONG).show()
+                        mClientCertAlias = null
+                        updateClientCertUi()
+                    }
                     else -> {
-                        binding.edtUrl.error = Utils.getCause(throwable).message
+                        val cause = Utils.getCause(throwable)
+                        val errorMessage = cause.message ?: cause.javaClass.simpleName ?: "Unknown error"
+                        Timber.e(throwable, "WebDAV validation failed: %s", errorMessage)
+                        binding.edtUrl.error = errorMessage
                     }
                 }
                 binding.progressBar.isVisible = false
                 binding.bOK.isEnabled = true
                 binding.bOK.isVisible = true
             }
+        }
+    }
+
+    private fun updateClientCertUi() {
+        val alias = mClientCertAlias
+        if (alias != null) {
+            binding.txtClientCertInfo.text = getString(R.string.label_client_certificate_selected, alias)
+            binding.btnClearClientCert.isVisible = true
+        } else {
+            binding.txtClientCertInfo.text = getString(R.string.label_client_certificate_not_selected)
+            binding.btnClearClientCert.isVisible = false
         }
     }
 
@@ -131,7 +198,8 @@ class WebdavSetup : EditActivity() {
                 allowUnverifiedHost = prefHandler.getBoolean(
                     PrefKey.WEBDAV_ALLOW_UNVERIFIED_HOST,
                     false
-                )
+                ),
+                clientCertAlias = mClientCertAlias
             )
             binding.progressBar.isVisible = true
             binding.bOK.isEnabled = false
@@ -171,6 +239,9 @@ class WebdavSetup : EditActivity() {
                 }
                 if (prefHandler.getBoolean(PrefKey.WEBDAV_ALLOW_UNVERIFIED_HOST, false)) {
                     putString(WebDavBackendProvider.KEY_ALLOW_UNVERIFIED, "true")
+                }
+                mClientCertAlias?.let {
+                    putString(WebDavBackendProvider.KEY_CLIENT_CERT_ALIAS, it)
                 }
             })
         })

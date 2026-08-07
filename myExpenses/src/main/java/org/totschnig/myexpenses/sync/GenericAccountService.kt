@@ -140,6 +140,10 @@ class GenericAccountService : Service() {
         private const val HOUR_IN_SECONDS = 3600L
         const val KEY_BROKEN = "broken"
         const val KEY_ENCRYPTED = "encrypted"
+        const val KEY_WEB_DAV_CERTIFICATE = "webDavCertificate"
+        const val KEY_WEB_DAV_FALLBACK_TO_CLASS1 = "fallbackToClass1"
+        const val KEY_ALLOW_UNVERIFIED = "allow_unverified"
+        const val KEY_CLIENT_CERT_ALIAS = "clientCertAlias"
 
         /**
          * @return true if sync was requested, false if account is not syncable (deactivated)
