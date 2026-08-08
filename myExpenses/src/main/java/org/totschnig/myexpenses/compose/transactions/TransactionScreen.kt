@@ -220,6 +220,7 @@ fun TransactionScreen(
                     }
                     val context = LocalContext.current
                     TopAppBar(
+                        windowInsets = windowInsets,
                         modifier = Modifier.height(height),
                         navigationIcon = {
                             TooltipIconButton(
@@ -266,6 +267,7 @@ fun TransactionScreen(
                     }
 
                     TopAppBar(
+                        windowInsets = windowInsets,
                         modifier = Modifier.height(height),
                         navigationIcon = navigationIcon,
                         title = {

@@ -425,7 +425,9 @@ fun MainScreenAdaptive(
                                 onAccountEvent = onAccountEvent,
                                 flags = flags,
                                 bankIcon = bankIcon,
-                                windowInsets = customInsets,
+                                windowInsets = with(customInsets) {
+                                    if (is2Pane) only(WindowInsetsSides.Vertical + WindowInsetsSides.Start) else this
+                                },
                                 isFullScreen = !is2Pane,
                                 onToggleFullScreen = if (adaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
                                         WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND

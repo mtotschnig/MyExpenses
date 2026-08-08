@@ -99,6 +99,7 @@ fun AccountsScreen(
         contentWindowInsets = windowInsets,
         topBar = {
             TopAppBar(
+                windowInsets = windowInsets,
                 navigationIcon = navigationIcon,
                 title = {
                     Title(selectedTab.value) {
