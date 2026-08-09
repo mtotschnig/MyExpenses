@@ -209,8 +209,6 @@ fun TransactionList(
     headerData: HeaderDataResult,
     budgetData: State<BudgetData?>,
     selectionHandler: SelectionHandler?,
-    selectAllState: MutableState<Boolean>,
-    onSelectAllListTooLarge: () -> Unit,
     onEvent: TransactionEventHandler,
     futureCriterion: FutureCriterion,
     expansionHandler: org.totschnig.myexpenses.compose.ExpansionHandler?,
@@ -224,27 +222,6 @@ fun TransactionList(
     splitInfoResolver: suspend (Transaction2) -> ResolvedExtraInfo? = { null },
     accountCount: Int,
 ) {
-
-    if (selectionHandler != null) {
-        LaunchedEffect(selectAllState.value) {
-            if (selectAllState.value) {
-                if (lazyPagingItems.loadState.prepend.endOfPaginationReached &&
-                    lazyPagingItems.loadState.append.endOfPaginationReached
-                ) {
-                    var jndex = 0
-                    while (jndex < lazyPagingItems.itemCount) {
-                        lazyPagingItems.peek(jndex)?.let {
-                            selectionHandler.selectConditional(it)
-                        }
-                        jndex++
-                    }
-                } else {
-                    onSelectAllListTooLarge()
-                }
-                selectAllState.value = false
-            }
-        }
-    }
 
     val listState = rememberLazyListState()
     val collapsedIds = if (expansionHandler != null)

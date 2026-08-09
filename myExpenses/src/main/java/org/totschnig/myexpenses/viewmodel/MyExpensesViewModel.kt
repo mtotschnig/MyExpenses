@@ -308,10 +308,13 @@ open class MyExpensesViewModel(
             get() = transferAccount != null
     }
 
-    private val _selectedAccountId = savedStateHandle.getStateFlow(SELECTED_ACCOUNT_KEY, 1L)
-    val selectedAccountId: StateFlow<Long> = _selectedAccountId
+    val selectedAccountId: StateFlow<Long> =
+        savedStateHandle.getStateFlow<Long>(SELECTED_ACCOUNT_KEY, 1L)
 
     fun selectAccount(accountId: Long) {
+        if (selectedAccountId.value != accountId) {
+            clearSelection() // Reset selection when moving to a different account
+        }
         Timber.d("selectAccount($accountId)")
         savedStateHandle[SELECTED_ACCOUNT_KEY] = accountId // This updates the StateFlow
         if (scrollToCurrentDatePreference == ScrollToCurrentDate.AccountOpen) {
@@ -319,7 +322,6 @@ open class MyExpensesViewModel(
         }
         prefHandler.putLong(PrefKey.CURRENT_ACCOUNT, accountId)
     }
-
 
     val selectAllState: MutableState<Boolean> = mutableStateOf(false)
 

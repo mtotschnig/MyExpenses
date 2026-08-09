@@ -49,8 +49,6 @@ import org.totschnig.myexpenses.compose.transactions.FutureCriterion
 import org.totschnig.myexpenses.compose.transactions.ItemRenderer
 import org.totschnig.myexpenses.compose.transactions.NewTransactionRenderer
 import org.totschnig.myexpenses.compose.transactions.RenderType
-import org.totschnig.myexpenses.compose.transactions.TradeEvent
-import org.totschnig.myexpenses.compose.transactions.TradeList
 import org.totschnig.myexpenses.compose.transactions.TransactionEvent
 import org.totschnig.myexpenses.compose.transactions.TransactionEventHandler
 import org.totschnig.myexpenses.compose.transactions.TransactionList
@@ -130,22 +128,13 @@ import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.Delet
 import org.totschnig.myexpenses.viewmodel.ExportViewModel
 import org.totschnig.myexpenses.viewmodel.KEY_ROW_IDS
 import org.totschnig.myexpenses.viewmodel.ModalProgressViewModel
-import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel.SelectionInfo
 import org.totschnig.myexpenses.viewmodel.OpenAction
 import org.totschnig.myexpenses.viewmodel.ShareAction
 import org.totschnig.myexpenses.viewmodel.SumInfo
 import org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
-import org.totschnig.myexpenses.compose.main.AppEvent
-import org.totschnig.myexpenses.compose.transactions.TradeScreen
-import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
-import org.totschnig.myexpenses.viewmodel.data.Trade
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import org.totschnig.myexpenses.provider.KEY_SOURCE
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
@@ -1606,19 +1595,19 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                     val lazyPagingItems =
                         viewModel.getTransactions(account).collectAsLazyPagingItems()
 
-                    if (!account.sealed) {
+                    if (!account.sealed  && isCurrentPage) {
 
                         LaunchedEffect(viewModel.selectAllState.value) {
                             if (viewModel.selectAllState.value) {
                                 if (lazyPagingItems.loadState.prepend.endOfPaginationReached &&
                                     lazyPagingItems.loadState.append.endOfPaginationReached
                                 ) {
-                                    var jndex = 0
-                                    while (jndex < lazyPagingItems.itemCount) {
-                                        lazyPagingItems.peek(jndex)?.let {
+                                    var index = 0
+                                    while (index < lazyPagingItems.itemCount) {
+                                        lazyPagingItems.peek(index)?.let {
                                             viewModel.selectionHandler.selectConditional(it)
                                         }
-                                        jndex++
+                                        index++
                                     }
                                 } else {
                                     showSnackBar(
@@ -1659,8 +1648,6 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                         budgetData = remember(account.grouping) { viewModel.budgetData(account) }
                             .collectAsState(null),
                         selectionHandler = if (modificationAllowed) viewModel.selectionHandler else null,
-                        selectAllState = viewModel.selectAllState,
-                        onSelectAllListTooLarge = { selectAllListTooLarge() },
                         onEvent = object : TransactionEventHandler {
                             override fun invoke(
                                 event: TransactionEvent,
