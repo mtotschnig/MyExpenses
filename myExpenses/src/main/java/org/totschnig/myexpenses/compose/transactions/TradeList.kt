@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.TrendingFlat
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.ArrowUpward
@@ -81,15 +82,9 @@ fun TradeRow(
         // Column 1: Icon (Matching standard transaction list)
         Box(modifier = Modifier.size(30.sp), contentAlignment = Alignment.Center) {
             Icon(
-                imageVector = when (trade.type) {
-                    TradeType.AssetTrade.BUY -> Icons.Default.ArrowUpward
-                    TradeType.AssetTrade.SELL -> Icons.Default.ArrowDownward
-                    TradeType.CashMovement.DEPOSIT -> Icons.Default.Add
-                    TradeType.CashMovement.WITHDRAW -> Icons.Default.Remove
-                },
+                imageVector = if (trade.type.isIncoming) Icons.Default.ArrowUpward else Icons.Default.ArrowDownward,
                 contentDescription = null,
-                tint = if (trade.type is TradeType.AssetTrade.BUY || trade.type is TradeType.CashMovement.DEPOSIT)
-                    LocalColors.current.income else LocalColors.current.expense
+                tint = if (trade.type.isIncoming) LocalColors.current.income else LocalColors.current.expense
             )
         }
 
@@ -99,11 +94,11 @@ fun TradeRow(
                 .padding(horizontal = 10.dp)
                 .weight(1f)
         ) {
-            if (trade.type is TradeType.AssetTrade) {
+            if (trade.type !is TradeType.CashMovement) {
                 Text(trade.quantity.currencyUnit.description)
             }
             val headline = stringResource(trade.type.label) +
-                    if (trade.type is TradeType.AssetTrade) {
+                    (if (trade.type !is TradeType.CashMovement) {
                         val currencyFormatter = LocalCurrencyFormatter.current
                         val quantityFormatted = currencyFormatter.formatMoney(
                             trade.quantity
@@ -115,9 +110,10 @@ fun TradeRow(
                         " $quantityFormatted x " + currencyFormatter.formatCurrency(
                             trade.price, trade.principal.currencyUnit
                         )
-                    } else trade.fundingAccount?.second?.let {
-                        " " + getIndicatorCharForLabel(trade.type == TradeType.CashMovement.WITHDRAW) + " " + it
-                    } ?: ""
+                    } else " ") +
+                    (trade.peerAccount?.second?.let {
+                        " " + getIndicatorCharForLabel(!trade.type.isIncoming) + " " + it
+                    } ?: "")
 
             Text(
                 text = headline,
@@ -138,9 +134,8 @@ fun TradeRow(
 
         // Column 3: Amount and Date
         Column(horizontalAlignment = Alignment.End) {
-            val amountColor =
-                if (trade.type is TradeType.AssetTrade.BUY || trade.type is TradeType.CashMovement.WITHDRAW)
-                    LocalColors.current.expense else LocalColors.current.income
+            val amountColor = if (trade.type.isIncoming) LocalColors.current.income
+            else LocalColors.current.expense
 
             AmountText(
                 amount = trade.principal.amountMinor,

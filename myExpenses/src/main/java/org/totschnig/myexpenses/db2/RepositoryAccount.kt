@@ -126,6 +126,20 @@ fun Repository.loadAccount(accountId: Long): Account? {
     }
 }
 
+fun Repository.loadSubAccounts(parentId: Long): List<Account> = contentResolver.query(
+    ACCOUNTS_URI,
+    Account.PROJECTION,
+    "$KEY_PARENTID = ?",
+    arrayOf(parentId.toString()),
+    null
+)?.use { cursor ->
+    val list = mutableListOf<Account>()
+    while (cursor.moveToNext()) {
+        list.add(Account.fromCursor(cursor))
+    }
+    list
+} ?: emptyList()
+
 fun Repository.loadAccountFlow(accountId: Long): Flow<Account> {
     require(accountId > 0L)
     return contentResolver.observeQuery(

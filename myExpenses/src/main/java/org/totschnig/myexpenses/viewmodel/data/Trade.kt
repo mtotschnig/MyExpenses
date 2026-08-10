@@ -14,6 +14,6 @@ data class Trade(
     val assetSymbol: String,
     val comment: String?,
     val price: BigDecimal,
-    val fundingAccount: Pair<Long, String>?,
+    val peerAccount: Pair<Long, String>?,
     val currency: String // Portfolio currency
 )

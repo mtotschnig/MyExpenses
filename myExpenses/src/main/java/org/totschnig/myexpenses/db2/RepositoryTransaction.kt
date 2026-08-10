@@ -53,6 +53,7 @@ import org.totschnig.myexpenses.provider.KEY_UUID
 import org.totschnig.myexpenses.provider.KEY_VALUE_DATE
 import org.totschnig.myexpenses.provider.PORTFOLIO_ASSET
 import org.totschnig.myexpenses.provider.PORTFOLIO_CASH
+import org.totschnig.myexpenses.provider.PORTFOLIO_CONTAINER
 import org.totschnig.myexpenses.provider.PORTFOLIO_NONE
 import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.STATUS_ARCHIVE
@@ -107,7 +108,9 @@ fun Transaction.asContentValues(
     put(KEY_PAYEEID, payeeId?.takeIf { it > 0L })
     put(KEY_TRANSFER_ACCOUNT, transferAccountId?.takeIf { it > 0L })
     put(KEY_METHODID, methodId?.takeIf { it > 0L })
-    put(KEY_PARENTID, parentId?.takeIf { it > 0L })
+    parentId?.takeIf { it > 0L }?.let {
+        put(KEY_PARENTID, it)
+    }
     put(KEY_REFERENCE_NUMBER, referenceNumber)
     put(KEY_ORIGINAL_AMOUNT, originalAmount)
     put(KEY_ORIGINAL_CURRENCY, originalCurrency)
@@ -387,6 +390,171 @@ fun Repository.createSplitTransaction(
     return RepositoryTransaction(finalParent, splitParts = enrichedSplitParts)
 }
 
+/**
+ * Atomically creates two split transactions that are linked by one or more transfer peers.
+ * Used for inter-depot transfers.
+ */
+fun Repository.createDualSplitTransaction(
+    parent1: Transaction,
+    parts1: List<Pair<Transaction, Transaction?>>,
+    parent2: Transaction,
+    parts2: List<Pair<Transaction, Transaction?>>
+): Pair<RepositoryTransaction, RepositoryTransaction> {
+    require(parent1.isSplit && parent2.isSplit)
+    val operations = ArrayList<ContentProviderOperation>()
+
+    // Op 0: Parent 1
+    operations.add(ContentProviderOperation.newInsert(TRANSACTIONS_URI).withValues(parent1.asContentValues()).build())
+    val p1Idx = 0
+
+    // Op 1: Parent 2
+    operations.add(ContentProviderOperation.newInsert(TRANSACTIONS_URI).withValues(parent2.asContentValues()).build())
+    val p2Idx = 1
+
+    val processedUuids = mutableSetOf<String>()
+    val partsInfo1 = mutableListOf<Triple<String, Int, Int?>>() // UUID, Op index, Peer Op index
+    val partsInfo2 = mutableListOf<Triple<String, Int, Int?>>()
+
+    parts1.forEach { (part, externalPeer) ->
+        val otherSide = parts2.find { it.first.uuid == part.uuid }
+        val offset = operations.size
+        if (otherSide != null) {
+            // Hub-to-Hub link
+            operations.addAll(getTransferOperations(
+                source = part,
+                destination = otherSide.first,
+                offset = offset,
+                parentBackRefIndex = p1Idx,
+                peerParentBackRefIndex = p2Idx
+            ))
+            partsInfo1.add(Triple(part.uuid, offset, offset + 1))
+            partsInfo2.add(Triple(part.uuid, offset + 1, offset))
+            processedUuids.add(part.uuid)
+        } else if (externalPeer != null) {
+            // Internal link (Spoke)
+            operations.addAll(getTransferOperations(
+                source = part,
+                destination = externalPeer,
+                offset = offset,
+                parentBackRefIndex = p1Idx
+            ))
+            partsInfo1.add(Triple(part.uuid, offset, offset + 1))
+        } else {
+            // Regular part
+            operations.add(ContentProviderOperation.newInsert(TRANSACTIONS_URI)
+                .withValues(part.asContentValues())
+                .withValueBackReference(KEY_PARENTID, p1Idx)
+                .build())
+            partsInfo1.add(Triple(part.uuid, offset, null))
+        }
+    }
+
+    parts2.forEach { (part, externalPeer) ->
+        if (processedUuids.contains(part.uuid)) return@forEach
+
+        val offset = operations.size
+        if (externalPeer != null) {
+            // Internal link (Spoke)
+            operations.addAll(getTransferOperations(
+                source = part,
+                destination = externalPeer,
+                offset = offset,
+                parentBackRefIndex = p2Idx
+            ))
+            partsInfo2.add(Triple(part.uuid, offset, offset + 1))
+        } else {
+            // Regular part
+            operations.add(ContentProviderOperation.newInsert(TRANSACTIONS_URI)
+                .withValues(part.asContentValues())
+                .withValueBackReference(KEY_PARENTID, p2Idx)
+                .build())
+            partsInfo2.add(Triple(part.uuid, offset, null))
+        }
+    }
+
+    val results = contentResolver.applyBatch(AUTHORITY, operations)
+
+    val p1Id = ContentUris.parseId(results[p1Idx].uri!!)
+    val p2Id = ContentUris.parseId(results[p2Idx].uri!!)
+
+    val enrichedParts1 = partsInfo1.map { (uuid, opIdx, peerOpIdx) ->
+        val id = ContentUris.parseId(results[opIdx].uri!!)
+        val peer = peerOpIdx?.let {
+            val peerId = ContentUris.parseId(results[it].uri!!)
+            val originalPair = parts1.find { it.first.uuid == uuid }
+            val peerBase = originalPair?.second ?: parts2.find { it.first.uuid == uuid }!!.first
+            peerBase.copy(id = peerId, transferPeerId = id)
+        }
+        RepositoryTransaction(parts1.find { it.first.uuid == uuid }!!.first.copy(id = id, parentId = p1Id, transferPeerId = peer?.id), peer)
+    }
+
+    val enrichedParts2 = partsInfo2.map { (uuid, opIdx, peerOpIdx) ->
+        val id = ContentUris.parseId(results[opIdx].uri!!)
+        val peer = peerOpIdx?.let {
+            val peerId = ContentUris.parseId(results[it].uri!!)
+            val originalPair = parts2.find { it.first.uuid == uuid }
+            val peerBase = originalPair?.second ?: parts1.find { it.first.uuid == uuid }!!.first
+            peerBase.copy(id = peerId, transferPeerId = id)
+        }
+        RepositoryTransaction(parts2.find { it.first.uuid == uuid }!!.first.copy(id = id, parentId = p2Id, transferPeerId = peer?.id), peer)
+    }
+
+    return RepositoryTransaction(parent1.copy(id = p1Id), splitParts = enrichedParts1) to
+            RepositoryTransaction(parent2.copy(id = p2Id), splitParts = enrichedParts2)
+}
+
+fun Repository.updateDualSplitTransaction(
+    repoTrans1: RepositoryTransaction,
+    repoTrans2: RepositoryTransaction
+): Array<ContentProviderResult> {
+    val operations = ArrayList<ContentProviderOperation>()
+    val processedPeerIds = mutableSetOf<Long>()
+
+    fun addUpdateOps(repoTrans: RepositoryTransaction) {
+        val parent = repoTrans.data
+        val splitParts = repoTrans.splitParts!!
+
+        // Handle Deletions (similar to updateSplitTransaction)
+        val keepIds = splitParts.mapNotNull { if (it.id != 0L) it.id else null }
+        val placeholders = List(keepIds.size) { "?" }.joinToString(",")
+        val deleteSubquery =
+            "SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_PARENTID = ? AND $KEY_ROWID NOT IN ($placeholders)"
+        val selection = "$KEY_ROWID IN ($deleteSubquery) OR $KEY_TRANSFER_PEER IN ($deleteSubquery)"
+        val baseArgs = arrayOf(parent.id.toString())
+        val keepArgs = keepIds.map { it.toString() }.toTypedArray()
+        operations.add(ContentProviderOperation.newDelete(TRANSACTIONS_URI)
+            .withSelection(selection, baseArgs + keepArgs + baseArgs + keepArgs).build())
+
+        // Update Parent
+        operations.add(ContentProviderOperation.newUpdate(ContentUris.withAppendedId(TRANSACTIONS_URI, parent.id))
+            .withValues(parent.asContentValues(false)).build())
+
+        for (transaction in splitParts) {
+            if (transaction.id == 0L) {
+                // For simplicity in dual update, we assume we only update existing parts
+                // or add new ones without peers for now. Transfers between hubs are assumed to exist.
+                operations.add(ContentProviderOperation.newInsert(TRANSACTIONS_URI)
+                    .withValues(transaction.data.asContentValues().apply { put(KEY_PARENTID, parent.id) }).build())
+            } else {
+                operations.add(ContentProviderOperation.newUpdate(ContentUris.withAppendedId(TRANSACTIONS_URI, transaction.id))
+                    .withValues(transaction.data.asContentValues(false)).build())
+
+                transaction.transferPeer?.let { peer ->
+                    if (peer.id != 0L && !processedPeerIds.contains(peer.id)) {
+                        operations.add(ContentProviderOperation.newUpdate(ContentUris.withAppendedId(TRANSACTIONS_URI, peer.id))
+                            .withValues(peer.asContentValues(false)).build())
+                        processedPeerIds.add(peer.id)
+                    }
+                }
+            }
+        }
+    }
+
+    addUpdateOps(repoTrans1)
+    addUpdateOps(repoTrans2)
+
+    return contentResolver.applyBatch(AUTHORITY, operations)
+}
 
 fun Repository.updateSplitTransaction(repositoryTransaction: RepositoryTransaction): Array<ContentProviderResult> {
     // --- Validation ---
@@ -532,14 +700,28 @@ fun Repository.loadTransaction(
         throw IllegalArgumentException("Transaction not found")
 }
 
-private fun Repository.loadSplitParts(transactionId: Long): List<Transaction> =
+fun Repository.loadSplitParts(transactionId: Long): List<Transaction> =
     contentResolver.query(
-        TRANSACTIONS_URI.buildUpon().appendQueryParameter(
-            KEY_PARENTID, transactionId.toString()
-        ).build(), Transaction.projection, null, null, null
-    )!!.useAndMapToList {
-        Transaction.fromCursor(it)
+        TRANSACTIONS_URI,
+        Transaction.projection,
+        "$KEY_PARENTID = ?",
+        arrayOf(transactionId.toString()),
+        null
+    )!!.useAndMapToList { Transaction.fromCursor(it) }
+
+fun Repository.findSiblingParentId(parentId: Long): Long? {
+    val parts = loadSplitParts(parentId)
+    // Find a part that is a transfer to another portfolio container
+    for (part in parts) {
+        if (part.transferPeerId != null) {
+            val peer = loadTransaction(part.transferPeerId, extended = true).data
+            if (peer.portfolioRole == PORTFOLIO_CONTAINER) {
+                return peer.parentId
+            }
+        }
     }
+    return null
+}
 
 @VisibleForTesting
 fun Repository.transactionExists(transactionId: Long) = contentResolver.query(
@@ -723,14 +905,22 @@ fun Repository.loadTrades(transactionIds: List<Long>): List<Trade> {
 
 
         if (assetPart != null) {
-            // --- Buy/Sell Trade ---
+            // --- Buy/Sell/Transfer Trade ---
             val peerTransaction = assetPart.second
             val quantity = Money(
                 currencyContext[peerTransaction.currency!!],
                 peerTransaction.amount
             ).absolute()
-            val tradeType =
-                if (peerTransaction.amount > 0) TradeType.AssetTrade.BUY else TradeType.AssetTrade.SELL
+
+            val isTransfer = fundingPart.second?.portfolioRole == PORTFOLIO_CONTAINER
+
+            val isIncoming = peerTransaction.amount > 0
+            val tradeType = if (isTransfer) {
+                TradeType.Transfer(isIncoming)
+            } else {
+                if (isIncoming) TradeType.AssetTrade.BUY else TradeType.AssetTrade.SELL
+            }
+
             val principal =
                 Money(currencyContext[parentCurrency], assetPart.first.amount).absolute()
             val fee = feePart?.let { Money(currencyContext[parentCurrency], it.amount).absolute() }
@@ -748,7 +938,7 @@ fun Repository.loadTrades(transactionIds: List<Long>): List<Trade> {
                 assetSymbol = peerTransaction.currency,
                 comment = parent.comment,
                 price = price,
-                fundingAccount = fundingPart.second?.let { it.accountId to it.accountLabel!! },
+                peerAccount = fundingPart.second?.let { it.accountId to it.accountLabel!! },
                 currency = parentCurrency
             )
         } else if (cashPart != null) {
@@ -770,7 +960,7 @@ fun Repository.loadTrades(transactionIds: List<Long>): List<Trade> {
                 assetSymbol = parentCurrency,
                 comment = parent.comment,
                 price = BigDecimal.ONE,
-                fundingAccount = fundingPart.second?.let { it.accountId to it.accountLabel!! },
+                peerAccount = fundingPart.second?.let { it.accountId to it.accountLabel!! },
                 currency = parentCurrency
             )
         } else null
@@ -857,6 +1047,9 @@ fun Repository.insertTransfer(
  * @param destination The incoming part of the transfer.
  * @param offset The starting index where these operations will be placed in the final batch list.
  * @param parentBackRefIndex If the transfer is part of a split, this is the back-reference index to the parent transaction.
+ * @param parentId The ID of the parent transaction, if already known.
+ * @param peerParentBackRefIndex If the peer transaction is part of a split, this is the back-reference index to its parent.
+ * @param peerParentId The ID of the peer's parent transaction, if already known.
  * @return A list of three operations for creating the transfer.
  */
 private fun getTransferOperations(
@@ -865,6 +1058,8 @@ private fun getTransferOperations(
     offset: Int,
     parentBackRefIndex: Int? = null,
     parentId: Long? = null,
+    peerParentBackRefIndex: Int? = null,
+    peerParentId: Long? = null,
 ): List<ContentProviderOperation> {
     // The builder for the source transaction, which may or may not be linked to a parent.
     require(
@@ -890,10 +1085,17 @@ private fun getTransferOperations(
         ContentProviderOperation.newInsert(TRANSACTIONS_URI)
             .withValues(destination.asContentValues())
             .withValueBackReference(KEY_TRANSFER_PEER, offset)
+            .apply {
+                if (peerParentBackRefIndex != null) {
+                    withValueBackReference(KEY_PARENTID, peerParentBackRefIndex)
+                }
+                if (peerParentId != null) {
+                    withValue(KEY_PARENTID, peerParentId)
+                }
+            }
             .build(),
 
         //the source is updated by trigger TRANSFER_PEER_TRIGGER
-
     )
 }
 

@@ -343,7 +343,7 @@
     <string name="transfer">Transfer</string>
     <string name="transfer_from_account">From</string>
     <string name="transfer_to_account">To</string>
-    <!-- Type refers to the type of an account, eg. Cash account, bank account -->
+    <!-- Type refers to the type of account, e.g. Cash account, bank account -->
     <string name="type">Type</string>
     <string name="unsplit_amount">Unsplit amount</string>
     <string name="unsplit_amount_greater_than_zero">There is still some amount left unsplit.</string>
@@ -1145,6 +1145,8 @@
     <string name="service_starting">Starting…</string>
     <string name="trade_buy">Buy</string>
     <string name="trade_sell">Sell</string>
+    <!-- Transfer of securities, might be translated differently than a transfer of money between accounts, e.g. in German (Depot-)Übertrag -->
+    <string name="trade_transfer">Transfer</string>
     <string name="trade_quantity">Quantity</string>
     <string name="trade_price">Price</string>
     <string name="trade_fee">Fee</string>
