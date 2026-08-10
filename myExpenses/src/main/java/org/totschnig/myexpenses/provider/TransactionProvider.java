@@ -1476,7 +1476,7 @@ public class TransactionProvider extends BaseTransactionProvider {
     }
       case TRANSACTION_UNDELETE -> {
         segment = uri.getPathSegments().get(1);
-        whereArgs = new String[]{segment, segment, segment};
+        whereArgs = new String[]{segment, segment, segment, segment};
         ContentValues v = new ContentValues();
         v.put(KEY_CR_STATUS, CrStatus.UNRECONCILED.name());
         count = MoreDbUtilsKt.update(db, TABLE_TRANSACTIONS, v, "(" + WHERE_SELF_OR_RELATED + ") AND " + KEY_CR_STATUS + "='" + CrStatus.VOID.name() + "'", whereArgs);
