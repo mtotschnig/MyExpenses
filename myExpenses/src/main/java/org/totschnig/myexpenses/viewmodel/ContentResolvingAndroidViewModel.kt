@@ -35,6 +35,7 @@ import org.totschnig.myexpenses.db2.createParty
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.deleteTemplate
 import org.totschnig.myexpenses.db2.entities.Transaction
+import org.totschnig.myexpenses.db2.findSiblingParentId
 import org.totschnig.myexpenses.db2.getAccountFlags
 import org.totschnig.myexpenses.db2.getAccountTypes
 import org.totschnig.myexpenses.db2.getCategoryPath
@@ -234,9 +235,14 @@ open class ContentResolvingAndroidViewModel(application: Application) :
 
     open fun deleteTransactions(ids: LongArray, markAsVoid: Boolean = false) {
         viewModelScope.launch(context = coroutineContext()) {
+            val allIds = ids.toMutableSet()
+            ids.forEach { id ->
+                repository.findSiblingParentId(id)?.let { allIds.add(it) }
+            }
             var success = 0
             var failure = 0
-            ids.forEach {
+            val sortedIds = allIds.toList()
+            sortedIds.forEach {
                 try {
                     if (repository.deleteTransaction(it, markAsVoid, true))
                         success++ else failure++
@@ -245,7 +251,7 @@ open class ContentResolvingAndroidViewModel(application: Application) :
                     failure++
                 }
                 bulkDeleteStateInternal.update {
-                    DeleteState.DeleteProgress(success + failure, ids.size)
+                    DeleteState.DeleteProgress(success + failure, sortedIds.size)
                 }
             }
             contentResolver.notifyChange(TRANSACTIONS_URI, null, true)

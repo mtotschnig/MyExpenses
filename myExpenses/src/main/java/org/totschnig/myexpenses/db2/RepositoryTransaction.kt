@@ -711,11 +711,11 @@ fun Repository.loadSplitParts(transactionId: Long): List<Transaction> =
 
 fun Repository.findSiblingParentId(parentId: Long): Long? {
     val parts = loadSplitParts(parentId)
-    // Find a part that is a transfer to another portfolio container
+    // Find a part that is a transfer to another split transaction
     for (part in parts) {
         if (part.transferPeerId != null) {
-            val peer = loadTransaction(part.transferPeerId, extended = true).data
-            if (peer.portfolioRole == PORTFOLIO_CONTAINER) {
+            val peer = loadTransaction(part.transferPeerId).data
+            if (peer.parentId != null) {
                 return peer.parentId
             }
         }

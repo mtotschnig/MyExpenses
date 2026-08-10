@@ -7,6 +7,7 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.totschnig.myexpenses.db2.createDualSplitTransaction
 import org.totschnig.myexpenses.db2.createSplitTransaction
 import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.db2.findAccountType
@@ -15,6 +16,7 @@ import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.insertTransfer
 import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.db2.loadTransaction
+import org.totschnig.myexpenses.db2.transactionExists
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.generateUuid
@@ -25,6 +27,7 @@ import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_CATID
 import org.totschnig.myexpenses.provider.KEY_CR_STATUS
 import org.totschnig.myexpenses.provider.KEY_STATUS
+import org.totschnig.myexpenses.provider.PORTFOLIO_CONTAINER
 import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.STATUS_HELPER
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -241,6 +244,63 @@ class MyExpensesViewModelTest : BaseViewModelTest() {
         assertThat(part1Restored.data.equivalentAmount).isEqualTo(3000)
         val part2Restored = repository.loadTransaction(split.splitParts[1].data.id)
         assertThat(part2Restored.data.equivalentAmount).isEqualTo(2000)
+    }
+
+    @Test
+    fun deleteDualSplit() {
+        val account1Id = insertAccount("Account 1")
+        val account2Id = insertAccount("Account 2")
+
+        val parentAUuid = generateUuid()
+        val parentBUuid = generateUuid()
+        val partUuid = generateUuid()
+
+        val parentA = Transaction(
+            accountId = account1Id,
+            amount = 0L,
+            categoryId = SPLIT_CATID,
+            uuid = parentAUuid,
+            date = 1000L
+        )
+        val parentB = Transaction(
+            accountId = account2Id,
+            amount = 0L,
+            categoryId = SPLIT_CATID,
+            uuid = parentBUuid,
+            date = 1000L
+        )
+
+        val partA = Transaction(
+            accountId = account1Id,
+            amount = 100L,
+            transferAccountId = account2Id,
+            uuid = partUuid,
+            date = 1000L,
+            portfolioRole = PORTFOLIO_CONTAINER
+        )
+        val partB = Transaction(
+            accountId = account2Id,
+            amount = -100L,
+            transferAccountId = account1Id,
+            uuid = partUuid,
+            date = 1000L,
+            portfolioRole = PORTFOLIO_CONTAINER
+        )
+
+        val result = repository.createDualSplitTransaction(
+            parentA, listOf(partA to partB),
+            parentB, listOf(partB to partA)
+        )
+        val idA = result.first.data.id
+        val idB = result.second.data.id
+
+        assertThat(repository.transactionExists(idA)).isTrue()
+        assertThat(repository.transactionExists(idB)).isTrue()
+
+        viewModel.deleteTransactions(longArrayOf(idA))
+
+        assertThat(repository.transactionExists(idA)).isFalse()
+        assertThat(repository.transactionExists(idB)).isFalse()
     }
 
     companion object {

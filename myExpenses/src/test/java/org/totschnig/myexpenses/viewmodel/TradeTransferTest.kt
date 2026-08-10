@@ -191,10 +191,11 @@ class TradeTransferTest : BaseViewModelTest() {
         val updatedIntent = intent.copy(
             quantity = BigDecimal("20"),
             price = BigDecimal("200"),
-            principal = BigDecimal("4000")
+            principal = BigDecimal("4000"),
+            tradeId = initialId
         )
 
-        viewModel.saveTrade(portfolioA, updatedIntent, initialId)
+        viewModel.saveTrade(portfolioA, updatedIntent)
 
         // Verify Portfolio A
         val transactionsA = repository.loadTransactions(portfolioA.id)
