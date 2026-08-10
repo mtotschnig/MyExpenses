@@ -144,7 +144,7 @@ sealed class AddOnPackage(
     override fun payPalButtonId(isSandBox: Boolean) =
         when {
             isSandBox -> if (isContribFeature) "UAWN7XUQNZ5PS" else "9VF4Z9KSLHXZN"
-            isContribFeature -> "48RQY4SKUHTAQ"
+            isContribFeature || this == Portfolio -> "48RQY4SKUHTAQ"
             else -> "FNEEWJWU5YJ44"
         }
 
