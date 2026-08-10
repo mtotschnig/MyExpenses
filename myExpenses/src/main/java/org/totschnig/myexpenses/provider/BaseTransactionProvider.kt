@@ -264,7 +264,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         TABLE_TRANSACTIONS,
                         v,
                         WHERE_SELF_OR_RELATED,
-                        arrayOf(segment, segment, segment)
+                        arrayOf(segment, segment, segment, segment)
                     )
                 }
             db.setTransactionSuccessful()
