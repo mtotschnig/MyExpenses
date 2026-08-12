@@ -44,21 +44,21 @@ class TradeTransferTest : BaseViewModelTest() {
         }
 
         val investmentType = repository.findAccountType(AccountType.INVESTMENT.name)!!
-        
+
         val pA = Account(
             label = "Portfolio A",
             currency = "USD",
             type = investmentType,
             portfolioRole = PORTFOLIO_CONTAINER
         ).createIn(repository)
-        
+
         val pB = Account(
             label = "Portfolio B",
             currency = "USD",
             type = investmentType,
             portfolioRole = PORTFOLIO_CONTAINER
         ).createIn(repository)
-        
+
         portfolioA = FullAccount(
             id = pA.id,
             label = pA.label,
@@ -66,7 +66,7 @@ class TradeTransferTest : BaseViewModelTest() {
             type = AccountType.INVESTMENT,
             portfolioRole = PORTFOLIO_CONTAINER
         )
-        
+
         portfolioB = FullAccount(
             id = pB.id,
             label = pB.label,
@@ -159,10 +159,10 @@ class TradeTransferTest : BaseViewModelTest() {
         val transactionsB = repository.loadTransactions(portfolioB.id)
         assertThat(transactionsB).hasSize(1)
         val parentB = transactionsB[0]
-        
+
         val partsB = repository.loadSplitParts(parentB.id)
         assertThat(partsB).hasSize(2)
-        
+
         val internalLegB = partsB.find { it.transferAccountId != portfolioA.id }!!
         assertThat(internalLegB.amount).isEqualTo(-150000L) // Moving from Hub to Asset
         assertThat(internalLegB.originalAmount).isEqualTo(1000L) // +Quantity

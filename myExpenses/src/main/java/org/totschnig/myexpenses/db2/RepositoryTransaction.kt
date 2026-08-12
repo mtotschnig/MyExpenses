@@ -135,25 +135,105 @@ data class RepositoryTransaction(
     val id = data.id
     val isTransfer = transferPeer != null
     val isSplit = splitParts != null
+
+    fun isDualSplitCandidate(): Long? {
+        if (!isSplit || splitParts.isNullOrEmpty()) return null
+        val firstTransferAccountId = splitParts[0].data.transferAccountId ?: return null
+        if (splitParts.all { it.data.transferAccountId == firstTransferAccountId }) {
+            return firstTransferAccountId
+        }
+        return null
+    }
+
+    fun toDualSplitSide2(targetAccountId: Long): RepositoryTransaction {
+        val parent2 = data.copy(
+            id = 0L,
+            accountId = targetAccountId,
+            amount = -data.amount,
+            uuid = data.uuid,
+            transferAccountId = null
+        )
+        val parts2 = splitParts?.map { part1 ->
+            val part2Data = part1.transferPeer?.copy(parentId = 0L)
+                ?: part1.data.copy(
+                    id = 0L,
+                    accountId = targetAccountId,
+                    amount = -part1.data.amount,
+                    transferAccountId = data.accountId,
+                    parentId = 0L,
+                    uuid = part1.data.uuid
+                )
+            RepositoryTransaction(
+                data = part2Data,
+                transferPeer = part1.data
+            )
+        }
+        return RepositoryTransaction(parent2, splitParts = parts2)
+    }
 }
 
-fun Repository.createTransaction(repositoryTransaction: RepositoryTransaction) = when {
+fun Repository.createTransaction(repositoryTransaction: RepositoryTransaction): RepositoryTransaction {
+    val dualSplitCandidate = repositoryTransaction.isDualSplitCandidate()
+    return when {
 
-    repositoryTransaction.isTransfer -> createTransfer(
-        repositoryTransaction.data,
-        repositoryTransaction.transferPeer!!
-    )
+        dualSplitCandidate != null -> {
+            val repoTrans2 = repositoryTransaction.toDualSplitSide2(dualSplitCandidate)
+            createDualSplitTransaction(
+                repositoryTransaction.data,
+                repositoryTransaction.splitParts!!.map { it.data to it.transferPeer },
+                repoTrans2.data,
+                repoTrans2.splitParts!!.map { it.data to it.transferPeer }
+            ).first
+        }
 
-    repositoryTransaction.isSplit -> createSplitTransaction(
-        repositoryTransaction.data,
-        repositoryTransaction.splitParts!!.map { it.data to it.transferPeer }
-    )
+        repositoryTransaction.isTransfer -> createTransfer(
+            repositoryTransaction.data,
+            repositoryTransaction.transferPeer!!
+        )
 
-    else -> createTransaction(repositoryTransaction.data)
+        repositoryTransaction.isSplit -> createSplitTransaction(
+            repositoryTransaction.data,
+            repositoryTransaction.splitParts!!.map { it.data to it.transferPeer }
+        )
+
+        else -> createTransaction(repositoryTransaction.data)
+    }
 }
 
-fun Repository.updateTransaction(repositoryTransaction: RepositoryTransaction): Array<ContentProviderResult> =
-    when {
+fun Repository.updateTransaction(repositoryTransaction: RepositoryTransaction): Array<ContentProviderResult> {
+    val targetAccountId = repositoryTransaction.isDualSplitCandidate()
+    val existingSiblingParentId = findSiblingParentId(repositoryTransaction.id)
+
+    return when {
+        targetAccountId != null -> {
+            val repoTrans2 = repositoryTransaction.toDualSplitSide2(targetAccountId).let {
+                if (existingSiblingParentId != null) {
+                    it.copy(data = it.data.copy(id = existingSiblingParentId))
+                } else it
+            }
+            updateDualSplitTransaction(repositoryTransaction, repoTrans2)
+        }
+
+        existingSiblingParentId != null -> {
+            // Demotion: was dual split, now isn't.
+            val operations = ArrayList<ContentProviderOperation>()
+            // 1. Clear parent_id for parts of mirror parent, so they stay as independent transactions
+            operations.add(
+                ContentProviderOperation.newUpdate(TRANSACTIONS_URI)
+                    .withValue(KEY_PARENTID, null)
+                    .withSelection("$KEY_PARENTID = ?", arrayOf(existingSiblingParentId.toString()))
+                    .build()
+            )
+            // 2. Delete sibling parent
+            operations.add(
+                ContentProviderOperation.newDelete(
+                    ContentUris.withAppendedId(TRANSACTIONS_URI, existingSiblingParentId)
+                ).build()
+            )
+            updateSplitTransaction(repositoryTransaction.copy(splitParts = repositoryTransaction.splitParts?.map {
+                it.copy(transferPeer = it.transferPeer?.copy(parentId = it.transferPeer.parentId.takeIf { it != existingSiblingParentId }))
+            }), operations)
+        }
 
         repositoryTransaction.isTransfer -> updateTransfer(
             repositoryTransaction.data,
@@ -164,6 +244,7 @@ fun Repository.updateTransaction(repositoryTransaction: RepositoryTransaction): 
 
         else -> updateTransaction(repositoryTransaction.data)
     }
+}
 
 fun Repository.createTransaction(transaction: Transaction): RepositoryTransaction {
     require(transaction.id == 0L) { "Use updateTransaction for existing transactions" }
@@ -509,40 +590,86 @@ fun Repository.updateDualSplitTransaction(
 ): Array<ContentProviderResult> {
     val operations = ArrayList<ContentProviderOperation>()
     val processedPeerIds = mutableSetOf<Long>()
+    val peerBackRefs = mutableMapOf<String, Int>()
 
-    fun addUpdateOps(repoTrans: RepositoryTransaction) {
+    fun addOps(repoTrans: RepositoryTransaction) {
         val parent = repoTrans.data
         val splitParts = repoTrans.splitParts!!
 
-        // Handle Deletions (similar to updateSplitTransaction)
-        val keepIds = splitParts.mapNotNull { if (it.id != 0L) it.id else null }
-        val placeholders = List(keepIds.size) { "?" }.joinToString(",")
-        val deleteSubquery =
-            "SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_PARENTID = ? AND $KEY_ROWID NOT IN ($placeholders)"
-        val selection = "$KEY_ROWID IN ($deleteSubquery) OR $KEY_TRANSFER_PEER IN ($deleteSubquery)"
-        val baseArgs = arrayOf(parent.id.toString())
-        val keepArgs = keepIds.map { it.toString() }.toTypedArray()
-        operations.add(ContentProviderOperation.newDelete(TRANSACTIONS_URI)
-            .withSelection(selection, baseArgs + keepArgs + baseArgs + keepArgs).build())
+        val parentBackRefIdx: Int?
+        if (parent.id != 0L) {
+            parentBackRefIdx = null
+            // Handle Deletions (similar to updateSplitTransaction)
+            val keepIds = splitParts.mapNotNull { if (it.id != 0L) it.id else null }
+            val placeholders = List(keepIds.size) { "?" }.joinToString(",")
+            val deleteSubquery =
+                "SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_PARENTID = ? AND $KEY_ROWID NOT IN ($placeholders)"
+            val selection = "$KEY_ROWID IN ($deleteSubquery) OR $KEY_TRANSFER_PEER IN ($deleteSubquery)"
+            val baseArgs = arrayOf(parent.id.toString())
+            val keepArgs = keepIds.map { it.toString() }.toTypedArray()
+            operations.add(
+                ContentProviderOperation.newDelete(TRANSACTIONS_URI)
+                    .withSelection(selection, baseArgs + keepArgs + baseArgs + keepArgs).build()
+            )
 
-        // Update Parent
-        operations.add(ContentProviderOperation.newUpdate(ContentUris.withAppendedId(TRANSACTIONS_URI, parent.id))
-            .withValues(parent.asContentValues(false)).build())
+            // Update Parent
+            operations.add(
+                ContentProviderOperation.newUpdate(ContentUris.withAppendedId(TRANSACTIONS_URI, parent.id))
+                    .withValues(parent.asContentValues(false)).build()
+            )
+        } else {
+            parentBackRefIdx = operations.size
+            operations.add(
+                ContentProviderOperation.newInsert(TRANSACTIONS_URI)
+                    .withValues(parent.asContentValues()).build()
+            )
+        }
 
         for (transaction in splitParts) {
             if (transaction.id == 0L) {
-                // For simplicity in dual update, we assume we only update existing parts
-                // or add new ones without peers for now. Transfers between hubs are assumed to exist.
-                operations.add(ContentProviderOperation.newInsert(TRANSACTIONS_URI)
-                    .withValues(transaction.data.asContentValues().apply { put(KEY_PARENTID, parent.id) }).build())
+                val values = transaction.data.asContentValues()
+                if (parentBackRefIdx == null) {
+                    values.put(KEY_PARENTID, parent.id)
+                }
+
+                val builder = ContentProviderOperation.newInsert(TRANSACTIONS_URI)
+                    .withValues(values)
+
+                if (parentBackRefIdx != null) {
+                    builder.withValueBackReference(KEY_PARENTID, parentBackRefIdx)
+                }
+
+                val uuid = transaction.data.uuid
+                if (peerBackRefs.containsKey(uuid)) {
+                    builder.withValueBackReference(KEY_TRANSFER_PEER, peerBackRefs[uuid]!!)
+                } else if (transaction.transferPeer?.id != null && transaction.transferPeer.id != 0L) {
+                    builder.withValue(KEY_TRANSFER_PEER, transaction.transferPeer.id)
+                }
+
+                peerBackRefs[uuid] = operations.size
+                operations.add(builder.build())
             } else {
-                operations.add(ContentProviderOperation.newUpdate(ContentUris.withAppendedId(TRANSACTIONS_URI, transaction.id))
-                    .withValues(transaction.data.asContentValues(false)).build())
+                val values = transaction.data.asContentValues(false)
+                if (parentBackRefIdx == null) {
+                    values.put(KEY_PARENTID, parent.id)
+                }
+                val builder = ContentProviderOperation.newUpdate(
+                    ContentUris.withAppendedId(TRANSACTIONS_URI, transaction.id)
+                )
+                    .withValues(values)
+                if (parentBackRefIdx != null) {
+                    builder.withValueBackReference(KEY_PARENTID, parentBackRefIdx)
+                }
+                operations.add(builder.build())
 
                 transaction.transferPeer?.let { peer ->
                     if (peer.id != 0L && !processedPeerIds.contains(peer.id)) {
-                        operations.add(ContentProviderOperation.newUpdate(ContentUris.withAppendedId(TRANSACTIONS_URI, peer.id))
-                            .withValues(peer.asContentValues(false)).build())
+                        operations.add(
+                            ContentProviderOperation.newUpdate(
+                                ContentUris.withAppendedId(TRANSACTIONS_URI, peer.id)
+                            )
+                                .withValues(peer.asContentValues(false)).build()
+                        )
                         processedPeerIds.add(peer.id)
                     }
                 }
@@ -550,13 +677,16 @@ fun Repository.updateDualSplitTransaction(
         }
     }
 
-    addUpdateOps(repoTrans1)
-    addUpdateOps(repoTrans2)
+    addOps(repoTrans1)
+    addOps(repoTrans2)
 
     return contentResolver.applyBatch(AUTHORITY, operations)
 }
 
-fun Repository.updateSplitTransaction(repositoryTransaction: RepositoryTransaction): Array<ContentProviderResult> {
+fun Repository.updateSplitTransaction(
+    repositoryTransaction: RepositoryTransaction,
+    operationsIn: ArrayList<ContentProviderOperation>? = null
+): Array<ContentProviderResult> {
     // --- Validation ---
     val parentTransaction = repositoryTransaction.data
     require(parentTransaction.isSplit) { "Parent transaction must be a split." }
@@ -567,7 +697,7 @@ fun Repository.updateSplitTransaction(repositoryTransaction: RepositoryTransacti
     }
     require(splitParts.all { it.data.accountId == parentTransaction.accountId }) { "All splits must be in the same account." }
 
-    val operations = ArrayList<ContentProviderOperation>()
+    val operations = operationsIn ?: ArrayList()
 
     // --- 1. Handle Deletions ---
     // Get IDs of parts that have a non-zero ID (i.e., they already exist in the DB).
@@ -622,11 +752,13 @@ fun Repository.updateSplitTransaction(repositoryTransaction: RepositoryTransacti
                 )
             }
         } else {
+            val values = transaction.data.asContentValues(false)
+            values.put(KEY_PARENTID, parentTransaction.id)
             operations.add(
                 ContentProviderOperation.newUpdate(
                     ContentUris.withAppendedId(TRANSACTIONS_URI, transaction.id)
                 )
-                    .withValues(transaction.data.asContentValues(false)).build()
+                    .withValues(values).build()
             )
             transaction.transferPeer?.let {
                 operations.add(
