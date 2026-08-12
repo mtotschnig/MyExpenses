@@ -41,9 +41,9 @@ enum class Action(
     Sell(Icons.Default.ArrowDownward, R.string.trade_sell),
     Deposit(Icons.Default.Add, R.string.trade_deposit, TransactionsContract.Transactions.TYPE_TRANSFER),
     Withdraw(Icons.Default.Remove, R.string.trade_withdraw, TransactionsContract.Transactions.TYPE_TRANSFER),
-    AssetTransfer(
+AssetTransfer(
         Icons.AutoMirrored.Filled.TrendingFlat,
-        R.string.transfer,
+        R.string.trade_transfer,
         TransactionsContract.Transactions.TYPE_TRANSFER
     );
 
