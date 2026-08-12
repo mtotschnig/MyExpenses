@@ -134,8 +134,11 @@ fun TradeRow(
 
         // Column 3: Amount and Date
         Column(horizontalAlignment = Alignment.End) {
-            val amountColor = if (trade.type.isIncoming) LocalColors.current.income
-            else LocalColors.current.expense
+            val amountColor = when (trade.type) {
+                TradeType.AssetTrade.BUY, TradeType.CashMovement.WITHDRAW -> LocalColors.current.expense
+                TradeType.AssetTrade.SELL, TradeType.CashMovement.DEPOSIT -> LocalColors.current.income
+                is TradeType.Transfer -> LocalColors.current.transfer
+            }
 
             AmountText(
                 amount = trade.principal.amountMinor,
