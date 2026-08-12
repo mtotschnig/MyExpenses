@@ -551,7 +551,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                     TradeScreen(
                         onDismiss = { tradeToEdit = null },
                         onSave = { intent, stayOpen ->
-                            viewModel.saveTrade(fullAccount, intent, trade.id)
+                            viewModel.saveTrade(fullAccount, intent)
                             if (!stayOpen) tradeToEdit = null
                         },
                         portfolio = fullAccount,
@@ -566,6 +566,10 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                             .map {
                                 it.id to it.labelV2(this)
                             },
+                        targetPortfolios = accountList
+                            .filterIsInstance<FullAccount>()
+                            .filter { it.isPortfolio && it.id != fullAccount.id }
+                            .map { it.id to it.labelV2(this) },
                         initialTrade = trade,
                         onLookupMatchingTransactions = { accountId, total, date, isBuy ->
                             viewModel.findMatchingTransactions(

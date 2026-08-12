@@ -254,7 +254,7 @@ fun Repository.loadTemplate(
                     planId = if (plan == null) null else template.planId
                 ),
                 splitParts = if (template.isSplit)
-                    loadSplitParts(template.id).map {
+                    loadSplitPartsForTemplate(template.id).map {
                         val tags = if (withTags) loadTagsForTemplate(it.id) else null
                         RepositoryTemplate(
                             data = it.copy(tagList = tags?.map { it.id } ?: emptyList()),
@@ -272,7 +272,7 @@ fun Repository.loadTemplate(
     }
 }
 
-private fun Repository.loadSplitParts(templateId: Long) = contentResolver.query(
+private fun Repository.loadSplitPartsForTemplate(templateId: Long) = contentResolver.query(
     TEMPLATES_URI, null, "$KEY_PARENTID = ?", arrayOf(templateId.toString()), null
 )!!.useAndMapToList {
     Template.fromCursor(it)

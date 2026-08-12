@@ -12,6 +12,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Button
@@ -93,6 +94,7 @@ fun TradeScreen(
     reportingCurrency: CurrencyUnit,
     assets: List<CurrencyUnit>,
     fundingAccounts: List<Pair<Long, String>>, // ID to Label
+    targetPortfolios: List<Pair<Long, String>> = emptyList(), // ID to Label
     initialAction: Action? = null,
     initialTrade: Trade? = null,
     onCreateAsset: suspend (code: String, symbol: String, fractionDigits: Int, label: String?, commodityType: CommodityType) -> CurrencyUnit? = { _, _, _, _, _ -> null },
@@ -118,13 +120,14 @@ fun TradeScreen(
         mutableStateOf(
             initialTrade?.type ?: when (initialAction) {
                 Action.Sell -> TradeType.AssetTrade.SELL
+                Action.AssetTransfer -> TradeType.Transfer(false)
                 Action.Deposit -> TradeType.CashMovement.DEPOSIT
                 Action.Withdraw -> TradeType.CashMovement.WITHDRAW
                 else -> TradeType.AssetTrade.BUY
             }
         )
     }
-    val isAssetTrade = type is TradeType.AssetTrade
+    val isAssetTrade = type is TradeType.AssetTrade || type is TradeType.Transfer
 
     var dateMillis by rememberSaveable {
         mutableLongStateOf((initialTrade?.date?.toEpochSecond()?.times(1000)) ?: Instant.now().toEpochMilli())
@@ -146,13 +149,14 @@ fun TradeScreen(
 
     var fundingSource by rememberSaveable {
         mutableStateOf(initialTrade?.let { trade ->
-            if (trade.fundingAccount != null) {
-                if (fundingAccounts.any { it.first == trade.fundingAccount.first }) FundingSource.ACCOUNT else FundingSource.PORTFOLIO
+            if (trade.peerAccount != null) {
+                if (fundingAccounts.any { it.first == trade.peerAccount.first }) FundingSource.ACCOUNT else FundingSource.PORTFOLIO
             } else FundingSource.EXTERNAL
         } ?: FundingSource.EXTERNAL)
     }
-    var fundingAccountId by rememberSaveable {
-        mutableStateOf(initialTrade?.fundingAccount?.first)
+
+    var peerAccountId by rememberSaveable {
+        mutableStateOf(initialTrade?.peerAccount?.first)
     }
 
     var comment by rememberSaveable { mutableStateOf(initialTrade?.comment ?: "") }
@@ -160,7 +164,13 @@ fun TradeScreen(
 
     val coroutineScope = rememberCoroutineScope()
 
-    val canSave = (isAssetTrade && selectedAsset != null && quantity != null) || (!isAssetTrade && quantity != null)
+    val canSave = if (type is TradeType.Transfer) {
+        selectedAsset != null && quantity != null && peerAccountId != null
+    } else if (isAssetTrade) {
+        selectedAsset != null && quantity != null
+    } else {
+        quantity != null
+    }
 
     val onSaveClick = { stayOpen: Boolean ->
         val asset = if (isAssetTrade) selectedAsset!! else reportingCurrency
@@ -175,11 +185,12 @@ fun TradeScreen(
                 quantity = finalQuantity,
                 price = finalPrice,
                 principal = finalPrincipal,
-                fundingAccountId = fundingAccountId,
-                fee = fee.orZero,
+                peerAccountId = peerAccountId,
+                fee = if (type is TradeType.Transfer) BigDecimal.ZERO else fee.orZero,
                 comment = comment,
                 fundingSource = fundingSource,
-                linkedTransactionId = linkedTransactionId
+                linkedTransactionId = linkedTransactionId,
+                tradeId = initialTrade?.id
             ),
             stayOpen
         )
@@ -193,28 +204,25 @@ fun TradeScreen(
     }
 
     val principal = remember(quantity, price, type) {
-        if (type is TradeType.AssetTrade) {
-            quantity.orZero.multiply(price.orZero)
-        } else {
+        if (type is TradeType.CashMovement) {
             quantity.orZero
+        } else {
+            quantity.orZero.multiply(price.orZero)
         }
     }
 
     val total = remember(type, principal, fee) {
-        if (type == TradeType.AssetTrade.BUY || type == TradeType.CashMovement.DEPOSIT) {
+        if (type.isIncoming) {
             principal.add(fee.orZero)
         } else {
             principal.subtract(fee.orZero)
         }
     }
 
-    val matchingTransactions by remember(fundingAccountId, total, date, isAssetTrade, type) {
-        val accountId = fundingAccountId
-        if (accountId != null) {
-            onLookupMatchingTransactions(accountId, total, date, type == TradeType.AssetTrade.BUY)
-        } else {
-            flowOf(emptyList())
-        }
+    val matchingTransactions by remember(peerAccountId, total, date, isAssetTrade, type) {
+        peerAccountId?.let {
+            onLookupMatchingTransactions(it, total, date, type.isIncoming)
+        } ?: flowOf(emptyList())
     }.collectAsState(emptyList())
 
     LaunchedEffect(matchingTransactions) {
@@ -318,19 +326,33 @@ fun TradeScreen(
         topBar = {
             TopAppBar(
                 title = {
+                    val applicableTypes = if (initialTrade == null) TradeType.entries else when(initialTrade.type) {
+                        is TradeType.AssetTrade -> listOf(TradeType.AssetTrade.BUY, TradeType.AssetTrade.SELL)
+                        is TradeType.CashMovement -> listOf(TradeType.CashMovement.DEPOSIT,
+                            TradeType.CashMovement.WITHDRAW)
+                        else -> listOf(TradeType.Transfer(true))
+                    }
                     SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
-                        TradeType.entries.forEachIndexed { index, tradeType ->
+                        applicableTypes.forEachIndexed { index, tradeType ->
                             SegmentedButton(
-                                selected = type == tradeType,
+                                enabled = applicableTypes.size > 1,
+                                selected = when (type) {
+                                    is TradeType.Transfer -> tradeType is TradeType.Transfer
+                                    else -> type == tradeType
+                                },
                                 onClick = {
-                                    type = tradeType
-                                    if (tradeType is TradeType.CashMovement && fundingSource == FundingSource.PORTFOLIO) {
+                                    type = if (tradeType is TradeType.Transfer) {
+                                        tradeType.copy(isIncoming = type.isIncoming)
+                                    } else {
+                                        tradeType
+                                    }
+                                    if (type is TradeType.CashMovement && fundingSource == FundingSource.PORTFOLIO) {
                                         fundingSource = FundingSource.EXTERNAL
                                     }
                                 },
                                 shape = SegmentedButtonDefaults.itemShape(
                                     index = index,
-                                    count = TradeType.entries.size
+                                    count = applicableTypes.size
                                 ),
                                 icon = {}
                             ) {
@@ -462,10 +484,15 @@ fun TradeScreen(
                             ?: 2,
                         enabled = !isAssetTrade || selectedAsset != null
                     )
-                    if (type == TradeType.AssetTrade.SELL || type == TradeType.CashMovement.WITHDRAW) {
+                    if (!type.isIncoming) {
                         val (available, currency) = if (isAssetTrade) {
                             remember(selectedSubaccountId, portfolio.children) {
-                                portfolio.children.find { it.id == selectedSubaccountId }?.currentBalance to selectedAsset
+                                (portfolio.children.find { it.id == selectedSubaccountId }?.currentBalance ?: 0L) + (
+                                        initialTrade?.let { initial ->
+                                            initial.quantity.amountMinor.let {
+                                              if (initial.type.isIncoming) it.unaryMinus() else it
+                                            }
+                                        } ?: 0L) to selectedAsset
                             }
                         } else {
                             remember(portfolio.children) {
@@ -532,16 +559,18 @@ fun TradeScreen(
             }
 
             // Fee
-            Column {
-                Text(
-                    stringResource(R.string.trade_fee),
-                    style = MaterialTheme.typography.labelMedium
-                )
-                AmountEdit(
-                    value = fee,
-                    onValueChange = { fee = it },
-                    fractionDigits = reportingCurrency.fractionDigits
-                )
+            if (type !is TradeType.Transfer) {
+                Column {
+                    Text(
+                        stringResource(R.string.trade_fee),
+                        style = MaterialTheme.typography.labelMedium
+                    )
+                    AmountEdit(
+                        value = fee,
+                        onValueChange = { fee = it },
+                        fractionDigits = reportingCurrency.fractionDigits
+                    )
+                }
             }
 
             // Total Display
@@ -559,20 +588,45 @@ fun TradeScreen(
                 )
             }
 
-            // Funding Account Selection
-            FundingSourceSelector(
-                label = stringResource(R.string.trade_funding_source),
-                portfolio = portfolio,
-                selectedSource = fundingSource,
-                selectedAccountId = fundingAccountId,
-                accounts = fundingAccounts,
-                onSourceSelected = { source, account ->
-                    fundingSource = source
-                    fundingAccountId = account
-                    linkedTransactionId = null
-                },
-                showPortfolio = isAssetTrade
-            )
+            if (type is TradeType.Transfer) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    IconButton(
+                        onClick = { type = (type as TradeType.Transfer).copy(isIncoming = !type.isIncoming) },
+                    ) {
+                        Icon(
+                            if (type.isIncoming) Icons.AutoMirrored.Filled.ArrowBack else Icons.AutoMirrored.Filled.ArrowForward,
+                            contentDescription = null
+                        )
+                    }
+                    TargetPortfolioSelector(
+                        label = stringResource(if (type.isIncoming) R.string.transfer_from_account else R.string.transfer_to_account),
+                        selectedPortfolioId = peerAccountId,
+                        portfolios = targetPortfolios,
+                        onSelectionChanged = { peerAccountId = it },
+                        modifier = Modifier.weight(1f),
+                        enabled = initialTrade == null
+                    )
+                }
+            } else {
+                // Funding Account Selection
+                FundingSourceSelector(
+                    label = stringResource(R.string.trade_funding_source),
+                    portfolio = portfolio,
+                    selectedSource = fundingSource,
+                    selectedAccountId = peerAccountId,
+                    accounts = fundingAccounts,
+                    onSourceSelected = { source, account ->
+                        fundingSource = source
+                        peerAccountId = account
+                        linkedTransactionId = null
+                    },
+                    showPortfolio = isAssetTrade
+                )
+            }
 
             if (fundingSource == FundingSource.ACCOUNT && matchingTransactions.isNotEmpty()) {
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -749,6 +803,49 @@ fun AssetSelector(
                     expanded = false
                 }
             )
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TargetPortfolioSelector(
+    label: String,
+    selectedPortfolioId: Long?,
+    portfolios: List<Pair<Long, String>>,
+    onSelectionChanged: (Long) -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val selectedText = portfolios.find { it.first == selectedPortfolioId }?.second ?: ""
+
+    ExposedDropdownMenuBox(
+        expanded = expanded && enabled,
+        onExpandedChange = { if (enabled) expanded = !expanded },
+        modifier = modifier
+    ) {
+        OutlinedTextField(
+            value = selectedText, onValueChange = {}, readOnly = true, label = { Text(label) },
+            trailingIcon = { if (enabled) ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+            modifier = Modifier
+                .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
+                .fillMaxWidth(),
+            enabled = enabled
+        )
+        ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
+            portfolios.forEach { portfolio ->
+                DropdownMenuItem(
+                    text = { Text(portfolio.second) },
+                    leadingIcon = if (selectedPortfolioId == portfolio.first) {
+                        { Icon(Icons.Default.Check, contentDescription = null) }
+                    } else null,
+                    onClick = {
+                        onSelectionChanged(portfolio.first)
+                        expanded = false
+                    }
+                )
+            }
         }
     }
 }

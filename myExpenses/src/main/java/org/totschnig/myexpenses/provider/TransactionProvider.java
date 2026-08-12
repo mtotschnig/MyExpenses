@@ -1669,7 +1669,9 @@ public class TransactionProvider extends BaseTransactionProvider {
         final ContentProviderOperation contentProviderOperation = operations.get(i);
         try {
           Timber.d("URI: %s", contentProviderOperation.getUri());
-          results[i] = contentProviderOperation.apply(this, results, i);
+          ContentProviderResult result = contentProviderOperation.apply(this, results, i);
+          Timber.d("Result: %s", result);
+          results[i] = result;
         } catch (Exception e) {
           Map<String, String> customData = new HashMap<>();
           customData.put("i", String.valueOf(i));

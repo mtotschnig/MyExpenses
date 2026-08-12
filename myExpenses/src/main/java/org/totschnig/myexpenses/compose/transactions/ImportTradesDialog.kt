@@ -419,7 +419,7 @@ private suspend fun parseCsv(
                             price = finalPrice,
                             principal = finalPrincipal,
                             fundingSource = fundingSource,
-                            fundingAccountId = fundingAccountId,
+                            peerAccountId = fundingAccountId,
                             fee = fee
                         )
                     )

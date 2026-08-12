@@ -554,6 +554,10 @@ fun TransactionScreen(
                         .map {
                             it.id to it.labelV2(LocalContext.current)
                         },
+                    targetPortfolios = accountList
+                        .filterIsInstance<FullAccount>()
+                        .filter { it.isPortfolio && it.id != currentAccount.id }
+                        .map { it.id to it.labelV2(LocalContext.current) },
                     initialAction = tradeAction,
                     onCreateAsset = onCreateAsset,
                     isCurrencyUsed = isCurrencyUsed,

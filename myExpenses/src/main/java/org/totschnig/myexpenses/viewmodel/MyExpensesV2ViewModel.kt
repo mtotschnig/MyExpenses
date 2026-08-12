@@ -38,13 +38,21 @@ import org.totschnig.myexpenses.adapter.TradePagingSource
 import org.totschnig.myexpenses.compose.transactions.Action
 import org.totschnig.myexpenses.compose.transactions.FabStyle
 import org.totschnig.myexpenses.db2.createAccount
+import org.totschnig.myexpenses.db2.createDualSplitTransaction
 import org.totschnig.myexpenses.db2.createTransaction
+import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.db2.findAccountType
+import org.totschnig.myexpenses.db2.findSiblingParentId
+import org.totschnig.myexpenses.db2.loadAccount
+import org.totschnig.myexpenses.db2.loadSubAccounts
+import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.db2.savePrice
 import org.totschnig.myexpenses.db2.setBalanceType
 import org.totschnig.myexpenses.db2.storeExchangeRate
 import org.totschnig.myexpenses.db2.updateAccount
+import org.totschnig.myexpenses.db2.updateDualSplitTransaction
 import org.totschnig.myexpenses.db2.updateTransaction
+import org.totschnig.myexpenses.db2.RepositoryTransaction
 import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
@@ -59,7 +67,6 @@ import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model.sort.Sort
 import org.totschnig.myexpenses.model.sort.TransactionSort
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.model2.Account.Companion.DEFAULT_COLOR
 import org.totschnig.myexpenses.preference.EnumPreferenceAccessor
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.PreferenceAccessor
@@ -91,6 +98,7 @@ import org.totschnig.myexpenses.provider.mapToListCatching
 import org.totschnig.myexpenses.provider.triggerAccountListRefresh
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.util.enumValueOrDefault
+import org.totschnig.myexpenses.util.toEpoch
 import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount.Companion.fromCursor
@@ -611,24 +619,32 @@ open class MyExpensesV2ViewModel(
         }
     }
 
-    fun saveTrade(currentAccount: FullAccount, intent: TradeIntent, tradeId: Long? = null) {
+    fun saveTrade(currentAccount: FullAccount, intent: TradeIntent) {
         viewModelScope.launch(coroutineDispatcher) {
-            saveTrades(currentAccount, listOf(intent), tradeId)
+            saveTrades(currentAccount, listOf(intent))
         }
     }
 
     suspend fun saveTrades(
         currentAccount: FullAccount,
         intents: List<TradeIntent>,
-        tradeId: Long? = null,
         onProgress: (Int) -> Unit = {}
     ) {
         withContext(coroutineDispatcher) {
             repository.bulkStart()
             try {
-                val knownSubaccounts = currentAccount.children.toMutableList()
+                val knownSubaccounts = repository.loadSubAccounts(currentAccount.id).map {
+                    FullAccount(
+                        id = it.id,
+                        label = it.label,
+                        currencyUnit = currencyContext[it.currency],
+                        type = it.type!!,
+                        portfolioRole = it.portfolioRole,
+                        parentId = it.parentId
+                    )
+                }.toMutableList()
                 intents.forEachIndexed { index, intent ->
-                    saveTradeInternal(currentAccount, intent, knownSubaccounts, if (intents.size == 1) tradeId else null)
+                    saveTradeInternal(currentAccount, intent, knownSubaccounts)
                     onProgress(index + 1)
                 }
             } finally {
@@ -641,63 +657,33 @@ open class MyExpensesV2ViewModel(
         currentAccount: FullAccount,
         intent: TradeIntent,
         knownSubaccounts: MutableList<FullAccount>,
-        tradeId: Long? = null
     ) {
+
+        if (intent.type is TradeType.Transfer) {
+            saveAssetTransfer(currentAccount, intent, knownSubaccounts)
+            return
+        }
         val isAssetTrade = intent.type is TradeType.AssetTrade
         val portfolioCurrency = currentAccount.currencyUnit
         val transferCategory = prefHandler.defaultTransferCategory
 
         val targetAccountId = if (isAssetTrade) {
-            knownSubaccounts.find { it.currency == intent.targetAsset.code }?.id
-                ?: run {
-                    val account = Account(
-                        label = intent.targetAsset.description,
-                        currency = intent.targetAsset.code,
-                        parentId = currentAccount.id,
-                        type = repository.findAccountType(AccountType.INVESTMENT.name)!!,
-                        color = DEFAULT_COLOR,
-                        portfolioRole = PORTFOLIO_ASSET,
-                        dynamicExchangeRates = true
-                    )
-                    val newAccount = repository.createAccount(account)
-                    knownSubaccounts.add(
-                        FullAccount(
-                            id = newAccount.id,
-                            label = newAccount.label,
-                            currencyUnit = currencyContext[newAccount.currency],
-                            type = AccountType.INVESTMENT,
-                            portfolioRole = PORTFOLIO_ASSET
-                        )
-                    )
-                    newAccount.id
-                }
+            findOrCreateAssetAccount(
+                currentAccount.id,
+                intent.targetAsset,
+                knownSubaccounts
+            )
         } else {
-            knownSubaccounts.find { it.type.isCashAccount }?.id
-                ?: run {
-                    val cashAccount = Account(
-                        label = localizedContext.getString(R.string.account_type_cash),
-                        currency = currentAccount.currency,
-                        parentId = currentAccount.id,
-                        type = repository.findAccountType(AccountType.CASH.name)!!,
-                        color = currentAccount.color,
-                        portfolioRole = PORTFOLIO_CASH,
-                    )
-                    val newAccount = repository.createAccount(cashAccount)
-                    knownSubaccounts.add(
-                        FullAccount(
-                            id = newAccount.id,
-                            label = newAccount.label,
-                            currencyUnit = currencyContext[newAccount.currency],
-                            type = AccountType.CASH,
-                            portfolioRole = PORTFOLIO_CASH
-                        )
-                    )
-                    newAccount.id
-                }
+            findOrCreateCashAccount(
+                currentAccount.id,
+                currentAccount.currency,
+                currentAccount.color,
+                knownSubaccounts
+            )
         }
 
         val principalAmount = intent.principal
-        val totalImpact = if (intent.type == TradeType.AssetTrade.BUY || intent.type == TradeType.CashMovement.DEPOSIT) {
+        val totalImpact = if (intent.type.isIncoming) {
             principalAmount.add(intent.fee)
         } else {
             principalAmount.subtract(intent.fee)
@@ -706,12 +692,12 @@ open class MyExpensesV2ViewModel(
         val parts = mutableListOf<TransactionEditData>()
 
         // Part A: Target Leg (Portfolio <-> Asset/Cash sub-account)
-        val targetLegHubAmount = if (intent.type == TradeType.AssetTrade.BUY || intent.type == TradeType.CashMovement.DEPOSIT) {
+        val targetLegHubAmount = if (intent.type.isIncoming) {
             principalAmount.negate()
         } else {
             principalAmount
         }
-        val targetLegSubAmount = if (intent.type == TradeType.AssetTrade.BUY || intent.type == TradeType.CashMovement.DEPOSIT) {
+        val targetLegSubAmount = if (intent.type.isIncoming) {
             intent.quantity
         } else {
             intent.quantity.negate()
@@ -736,38 +722,20 @@ open class MyExpensesV2ViewModel(
         )
 
         // Part B: Funding/Source Leg (Portfolio <-> Cash Sub-account or External Account)
-        val fundingLegHubAmount = if (intent.type == TradeType.AssetTrade.BUY || intent.type == TradeType.CashMovement.DEPOSIT) {
+        val fundingLegHubAmount = if (intent.type.isIncoming) {
             totalImpact
         } else {
             totalImpact.negate()
         }
 
         val fundingTransferAccountId = if (intent.linkedTransactionId != null) null else when (intent.fundingSource) {
-            FundingSource.ACCOUNT -> intent.fundingAccountId
-            FundingSource.PORTFOLIO -> knownSubaccounts
-                .find { it.type.isCashAccount }?.id
-                ?: run {
-                    val cashAccount = Account(
-                        label = localizedContext.getString(R.string.account_type_cash),
-                        currency = currentAccount.currency,
-                        parentId = currentAccount.id,
-                        type = repository.findAccountType(AccountType.CASH.name)!!,
-                        color = currentAccount.color,
-                        portfolioRole = PORTFOLIO_CASH,
-                    )
-                    val newAccount = repository.createAccount(cashAccount)
-                    knownSubaccounts.add(
-                        FullAccount(
-                            id = newAccount.id,
-                            label = newAccount.label,
-                            currencyUnit = currencyContext[newAccount.currency],
-                            type = AccountType.CASH,
-                            portfolioRole = PORTFOLIO_CASH
-                        )
-                    )
-                    newAccount.id
-                }
-
+            FundingSource.ACCOUNT -> intent.peerAccountId
+            FundingSource.PORTFOLIO -> findOrCreateCashAccount(
+                currentAccount.id,
+                currentAccount.currency,
+                currentAccount.color,
+                knownSubaccounts
+            )
             FundingSource.EXTERNAL -> null
         }
 
@@ -802,7 +770,7 @@ open class MyExpensesV2ViewModel(
             .fold(BigDecimal.ZERO) { acc, part -> acc.add(part.amount.amountMajor) }
 
         val parent = TransactionEditData(
-            id = tradeId ?: 0L,
+            id = intent.tradeId ?: 0L,
             accountId = currentAccount.id,
             amount = Money.buildWithMajor(portfolioCurrency, totalPortfolioAmount).getOrThrow(),
             date = intent.date,
@@ -812,7 +780,7 @@ open class MyExpensesV2ViewModel(
             splitParts = parts
         )
 
-        if (tradeId != null && tradeId != 0L) {
+        if (intent.tradeId != null) {
             repository.updateTransaction(mapTransaction(parent))
         } else {
             repository.createTransaction(mapTransaction(parent))
@@ -869,5 +837,257 @@ open class MyExpensesV2ViewModel(
                 ).flow.cachedIn(viewModelScope)
             )
         }.flow
+    }
+
+    private fun findOrCreateAssetAccount(
+        portfolioId: Long,
+        asset: CurrencyUnit,
+        knownSubaccounts: MutableList<FullAccount>
+    ): Long {
+        return knownSubaccounts.find { it.currency == asset.code && it.parentId == portfolioId }?.id
+            ?: run {
+                val account = Account(
+                    label = asset.description,
+                    currency = asset.code,
+                    parentId = portfolioId,
+                    type = repository.findAccountType(AccountType.INVESTMENT.name)!!,
+                    portfolioRole = PORTFOLIO_ASSET,
+                    dynamicExchangeRates = true
+                )
+                val newAccount = repository.createAccount(account)
+                val fullAccount = FullAccount(
+                    id = newAccount.id,
+                    label = newAccount.label,
+                    currencyUnit = currencyContext[newAccount.currency],
+                    type = AccountType.INVESTMENT,
+                    portfolioRole = PORTFOLIO_ASSET,
+                    parentId = portfolioId
+                )
+                knownSubaccounts.add(fullAccount)
+                newAccount.id
+            }
+    }
+
+    private fun findOrCreateCashAccount(
+        portfolioId: Long,
+        portfolioCurrency: String,
+        portfolioColor: Int,
+        knownSubaccounts: MutableList<FullAccount>
+    ): Long {
+        return knownSubaccounts.find { it.type.isCashAccount && it.parentId == portfolioId }?.id
+            ?: run {
+                val cashAccount = Account(
+                    label = localizedContext.getString(R.string.account_type_cash),
+                    currency = portfolioCurrency,
+                    parentId = portfolioId,
+                    type = repository.findAccountType(AccountType.CASH.name)!!,
+                    color = portfolioColor,
+                    portfolioRole = PORTFOLIO_CASH,
+                )
+                val newAccount = repository.createAccount(cashAccount)
+                val fullAccount = FullAccount(
+                    id = newAccount.id,
+                    label = newAccount.label,
+                    currencyUnit = currencyContext[newAccount.currency],
+                    type = AccountType.CASH,
+                    portfolioRole = PORTFOLIO_CASH,
+                    parentId = portfolioId
+                )
+                knownSubaccounts.add(fullAccount)
+                newAccount.id
+            }
+    }
+
+    private fun saveAssetTransfer(
+        currentPortfolio: FullAccount,
+        intent: TradeIntent,
+        knownSubaccounts: MutableList<FullAccount>
+    ) {
+        val otherPortfolioId = intent.peerAccountId ?: return
+        val otherPortfolio = repository.loadAccount(otherPortfolioId) ?: return
+
+        val isIncoming = intent.type.isIncoming
+        val (sourcePortfolio, targetPortfolio) = if (isIncoming) {
+            otherPortfolio to currentPortfolio
+        } else {
+            currentPortfolio to otherPortfolio
+        }
+
+        val sourceCurrency = currencyContext[sourcePortfolio.currency]
+        val targetCurrency = currencyContext[targetPortfolio.currency]
+        val valuation = intent.principal
+        val quantity = intent.quantity
+        val transferCategory = prefHandler.defaultTransferCategory
+        val dateEpoch = intent.date.toEpoch()
+
+        val peerKnownSubAccounts = repository.loadSubAccounts(otherPortfolioId).map {
+            FullAccount(
+                id = it.id,
+                label = it.label,
+                currencyUnit = currencyContext[it.currency],
+                type = it.type!!,
+                portfolioRole = it.portfolioRole,
+                parentId = it.parentId
+            )
+        }
+        val sourceKnownSubaccounts = if (isIncoming) peerKnownSubAccounts.toMutableList()
+        else knownSubaccounts
+
+        val targetKnownSubaccounts = if (isIncoming) knownSubaccounts
+        else peerKnownSubAccounts.toMutableList()
+
+        val sourceAssetAccountId = findOrCreateAssetAccount(
+            sourcePortfolio.id,
+            intent.targetAsset,
+            sourceKnownSubaccounts
+        )
+
+        val targetAssetAccountId = findOrCreateAssetAccount(
+            targetPortfolio.id,
+            intent.targetAsset,
+            targetKnownSubaccounts
+        )
+
+        val oldParent = intent.tradeId?.let { repository.loadTransaction(it)  }
+        val oldSiblingParent = intent.tradeId?.let { repository.findSiblingParentId(it) }?.let {
+            repository.loadTransaction(it)
+        }
+
+        val oldRepoTrans1 = intent.tradeId?.let { if (isIncoming) oldSiblingParent else oldParent }
+        val oldRepoTrans2 = intent.tradeId?.let { if (isIncoming) oldParent else oldSiblingParent }
+
+        val hubToHubUuid = oldRepoTrans1?.splitParts?.find { it.data.transferAccountId == targetPortfolio.id }?.data?.uuid ?: generateUuid()
+
+        // --- Source Portfolio Split ---
+        val sourceParts = mutableListOf<Pair<Transaction, Transaction?>>()
+        val oldParts1 = oldRepoTrans1?.splitParts ?: emptyList()
+
+        // Leg A1: Internal Spoke (Asset -> Hub)
+        val oldA1 = oldParts1.find { it.data.transferAccountId == sourceAssetAccountId }
+        val legA1Source = Transaction(
+            id = oldA1?.id ?: 0L,
+            accountId = sourcePortfolio.id,
+            amount = Money.convertBigDecimal(valuation, sourceCurrency.fractionDigits),
+            transferAccountId = sourceAssetAccountId,
+            uuid = oldA1?.data?.uuid ?: generateUuid(),
+            categoryId = transferCategory,
+            date = dateEpoch,
+            valueDate = dateEpoch,
+            transferPeerId = oldA1?.transferPeer?.id
+        )
+        val legA1Peer = Transaction(
+            id = oldA1?.transferPeer?.id ?: 0L,
+            accountId = sourceAssetAccountId,
+            amount = Money.convertBigDecimal(quantity.negate(), intent.targetAsset.fractionDigits),
+            transferAccountId = sourcePortfolio.id,
+            categoryId = transferCategory,
+            date = dateEpoch,
+            valueDate = dateEpoch,
+            uuid = legA1Source.uuid,
+            currency = intent.targetAsset.code,
+            transferPeerId = legA1Source.id
+        )
+        sourceParts.add(legA1Source to legA1Peer)
+
+        // Leg A2: External Link (Source Hub -> Target Hub)
+        val oldA2 = oldParts1.find { it.data.transferAccountId == targetPortfolio.id }
+        sourceParts.add(Transaction(
+            id = oldA2?.id ?: 0L,
+            accountId = sourcePortfolio.id,
+            amount = Money.convertBigDecimal(valuation.negate(), sourceCurrency.fractionDigits),
+            transferAccountId = targetPortfolio.id,
+            uuid = hubToHubUuid,
+            categoryId = transferCategory,
+            date = dateEpoch,
+            valueDate = dateEpoch,
+            transferPeerId = oldA2?.transferPeer?.id
+        ) to null)
+
+        val parentA = Transaction(
+            id = oldRepoTrans1?.id ?: 0L,
+            accountId = sourcePortfolio.id,
+            amount = 0L,
+            date = dateEpoch,
+            valueDate = dateEpoch,
+            comment = intent.comment,
+            uuid = oldRepoTrans1?.data?.uuid ?: generateUuid(),
+            categoryId = SPLIT_CATID,
+            currency = sourceCurrency.code
+        )
+
+        // --- Target Portfolio Split ---
+        val targetParts = mutableListOf<Pair<Transaction, Transaction?>>()
+        val oldParts2 = oldRepoTrans2?.splitParts ?: emptyList()
+
+        // Leg B1: External Link (Source Hub -> Target Hub)
+        val oldB1 = oldParts2.find { it.data.transferAccountId == sourcePortfolio.id }
+        targetParts.add(Transaction(
+            id = oldB1?.id ?: 0L,
+            accountId = targetPortfolio.id,
+            amount = Money.convertBigDecimal(valuation, targetCurrency.fractionDigits),
+            transferAccountId = sourcePortfolio.id,
+            uuid = hubToHubUuid,
+            categoryId = transferCategory,
+            date = dateEpoch,
+            valueDate = dateEpoch,
+            transferPeerId = oldB1?.transferPeer?.id
+        ) to null)
+
+        // Leg B2: Internal Spoke (Hub -> Asset)
+        val oldB2 = oldParts2.find { it.data.transferAccountId == targetAssetAccountId }
+        val legB2Source = Transaction(
+            id = oldB2?.id ?: 0L,
+            accountId = targetPortfolio.id,
+            amount = Money.convertBigDecimal(valuation.negate(), targetCurrency.fractionDigits),
+            transferAccountId = targetAssetAccountId,
+            uuid = oldB2?.data?.uuid ?: generateUuid(),
+            categoryId = transferCategory,
+            date = dateEpoch,
+            valueDate = dateEpoch,
+            transferPeerId = oldB2?.transferPeer?.id
+        )
+        val legB2Peer = Transaction(
+            id = oldB2?.transferPeer?.id ?: 0L,
+            accountId = targetAssetAccountId,
+            amount = Money.convertBigDecimal(quantity, intent.targetAsset.fractionDigits),
+            transferAccountId = targetPortfolio.id,
+            categoryId = transferCategory,
+            date = dateEpoch,
+            valueDate = dateEpoch,
+            uuid = legB2Source.uuid,
+            currency = intent.targetAsset.code,
+            transferPeerId = legB2Source.id
+        )
+        targetParts.add(legB2Source to legB2Peer)
+
+        val parentB = Transaction(
+            id = oldRepoTrans2?.id ?: 0L,
+            accountId = targetPortfolio.id,
+            amount = 0L,
+            date = dateEpoch,
+            valueDate = dateEpoch,
+            comment = intent.comment,
+            uuid = oldRepoTrans2?.data?.uuid ?: generateUuid(),
+            categoryId = SPLIT_CATID,
+            currency = targetCurrency.code
+        )
+
+        if (intent.tradeId != null) {
+            repository.updateDualSplitTransaction(
+                RepositoryTransaction(parentA, splitParts = sourceParts.map { RepositoryTransaction(it.first, it.second) }),
+                RepositoryTransaction(parentB, splitParts = targetParts.map { RepositoryTransaction(it.first, it.second) })
+            )
+        } else {
+            repository.createDualSplitTransaction(parentA, sourceParts, parentB, targetParts)
+        }
+        if (intent.price > BigDecimal.ZERO) {
+            repository.savePrice(
+                currentPortfolio.currencyUnit,
+                intent.targetAsset,
+                intent.date.toLocalDate(),
+                ExchangeRateSource.User,
+                intent.price
+            )
+        }
     }
 }

@@ -27,7 +27,11 @@ import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.CallSplit
+import androidx.compose.material.icons.automirrored.filled.TrendingFlat
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Archive
+import androidx.compose.material.icons.filled.ArrowDownward
+import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
@@ -68,6 +72,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.CharIcon
 import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.Icon
+import org.totschnig.myexpenses.compose.LocalColors
 import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.calculateOnColor
 import org.totschnig.myexpenses.compose.conditional
@@ -77,6 +82,7 @@ import org.totschnig.myexpenses.compose.size
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
+import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
@@ -162,7 +168,7 @@ abstract class ItemRenderer(
                     )
                 }
             }
-            (trade?.fundingAccount?.second ?: party?.displayName)?.let {
+            (trade?.peerAccount?.second ?: party?.displayName)?.let {
                 if (length > 0) {
                     append(COMMENT_SEPARATOR)
                 }
@@ -298,13 +304,15 @@ abstract class ItemRenderer(
             Box(modifier = Modifier.size(30.sp), contentAlignment = Alignment.Center) {
                 when {
                     trade != null -> {
-                        val icon = when (trade.type) {
-                            TradeType.AssetTrade.BUY -> "arrow-up"
-                            TradeType.AssetTrade.SELL -> "arrow-down"
-                            TradeType.CashMovement.DEPOSIT -> "plus"
-                            TradeType.CashMovement.WITHDRAW -> "minus"
-                        }
-                        Icon(icon)
+                        Icon(
+                            imageVector = trade.type.icon(),
+                            contentDescription = null,
+                            tint = when (trade.type) {
+                                TradeType.AssetTrade.BUY, TradeType.CashMovement.WITHDRAW -> LocalColors.current.expense
+                                TradeType.AssetTrade.SELL, TradeType.CashMovement.DEPOSIT -> LocalColors.current.income
+                                is TradeType.Transfer -> LocalColors.current.transfer
+                            }
+                        )
                     }
 
                     isSplit -> resolvedIcons
@@ -417,10 +425,9 @@ abstract class ItemRenderer(
             ?: if (type == FLAG_NEUTRAL) displayAmount.absolute() else displayAmount
         val finalType = if (trade != null) {
             when (trade.type) {
-                TradeType.AssetTrade.BUY -> FLAG_EXPENSE
-                TradeType.AssetTrade.SELL -> FLAG_INCOME
-                TradeType.CashMovement.DEPOSIT -> FLAG_INCOME
-                TradeType.CashMovement.WITHDRAW -> FLAG_EXPENSE
+                TradeType.AssetTrade.BUY, TradeType.CashMovement.WITHDRAW -> FLAG_EXPENSE
+                TradeType.AssetTrade.SELL, TradeType.CashMovement.DEPOSIT -> FLAG_INCOME
+                is TradeType.Transfer -> FLAG_TRANSFER
             }
         } else type
 

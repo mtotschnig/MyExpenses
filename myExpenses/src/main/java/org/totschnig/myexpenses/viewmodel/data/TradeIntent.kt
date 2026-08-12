@@ -2,30 +2,37 @@ package org.totschnig.myexpenses.viewmodel.data
 
 import android.os.Parcelable
 import androidx.annotation.StringRes
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
-sealed class TradeType(@param:StringRes val label: Int) : Parcelable {
-    sealed class AssetTrade(label: Int) : TradeType(label) {
-        @Parcelize
-        data object BUY : AssetTrade(R.string.trade_buy)
-        @Parcelize
-        data object SELL : AssetTrade(R.string.trade_sell)
+sealed interface TradeType : Parcelable {
+    @get:StringRes
+    val label: Int
+    val isIncoming: Boolean
+
+    sealed class AssetTrade(override val label: Int, override val isIncoming: Boolean) : TradeType {
+        @Parcelize data object BUY : AssetTrade(R.string.trade_buy, true)
+        @Parcelize data object SELL : AssetTrade(R.string.trade_sell, false)
     }
 
-    sealed class CashMovement(label: Int) : TradeType(label) {
-        @Parcelize
-        data object DEPOSIT : CashMovement(R.string.trade_deposit)
-        @Parcelize
-        data object WITHDRAW : CashMovement(R.string.trade_withdraw)
+    sealed class CashMovement(override val label: Int, override val isIncoming: Boolean) : TradeType {
+        @Parcelize data object DEPOSIT : CashMovement(R.string.trade_deposit, true)
+        @Parcelize data object WITHDRAW : CashMovement(R.string.trade_withdraw, false)
+    }
+
+@Parcelize
+    data class Transfer(override val isIncoming: Boolean) : TradeType {
+        @IgnoredOnParcel
+        override val label: Int = R.string.trade_transfer
     }
 
     companion object {
-        val entries by lazy {
-            listOf(AssetTrade.BUY, AssetTrade.SELL, CashMovement.DEPOSIT, CashMovement.WITHDRAW)
+        val entries: List<TradeType> by lazy {
+            listOf(AssetTrade.BUY, AssetTrade.SELL, CashMovement.DEPOSIT, CashMovement.WITHDRAW, Transfer(false))
         }
     }
 }
@@ -45,10 +52,12 @@ data class TradeIntent(
     val price: BigDecimal,
     val principal: BigDecimal,
     val fundingSource: FundingSource = FundingSource.PORTFOLIO,
-    val fundingAccountId: Long?,
+    val peerAccountId: Long?,
     val fee: BigDecimal,
     val comment: String = "",
     val linkedTransactionId: Long? = null,
+    //edit of existing trade
+    val tradeId: Long? = null,
 ) {
     init {
         if (type is TradeType.CashMovement) {
