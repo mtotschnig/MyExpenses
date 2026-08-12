@@ -633,7 +633,16 @@ open class MyExpensesV2ViewModel(
         withContext(coroutineDispatcher) {
             repository.bulkStart()
             try {
-                val knownSubaccounts = currentAccount.children.toMutableList()
+                val knownSubaccounts = repository.loadSubAccounts(currentAccount.id).map {
+                    FullAccount(
+                        id = it.id,
+                        label = it.label,
+                        currencyUnit = currencyContext[it.currency],
+                        type = it.type!!,
+                        portfolioRole = it.portfolioRole,
+                        parentId = it.parentId
+                    )
+                }.toMutableList()
                 intents.forEachIndexed { index, intent ->
                     saveTradeInternal(currentAccount, intent, knownSubaccounts)
                     onProgress(index + 1)
@@ -649,6 +658,7 @@ open class MyExpensesV2ViewModel(
         intent: TradeIntent,
         knownSubaccounts: MutableList<FullAccount>,
     ) {
+
         if (intent.type is TradeType.Transfer) {
             saveAssetTransfer(currentAccount, intent, knownSubaccounts)
             return
@@ -959,8 +969,6 @@ open class MyExpensesV2ViewModel(
             accountId = sourcePortfolio.id,
             amount = Money.convertBigDecimal(valuation, sourceCurrency.fractionDigits),
             transferAccountId = sourceAssetAccountId,
-            originalAmount = Money.convertBigDecimal(quantity.negate(), intent.targetAsset.fractionDigits),
-            originalCurrency = intent.targetAsset.code,
             uuid = oldA1?.data?.uuid ?: generateUuid(),
             categoryId = transferCategory,
             date = dateEpoch,
@@ -970,13 +978,13 @@ open class MyExpensesV2ViewModel(
         val legA1Peer = Transaction(
             id = oldA1?.transferPeer?.id ?: 0L,
             accountId = sourceAssetAccountId,
-            amount = legA1Source.originalAmount!!,
+            amount = Money.convertBigDecimal(quantity.negate(), intent.targetAsset.fractionDigits),
             transferAccountId = sourcePortfolio.id,
             categoryId = transferCategory,
             date = dateEpoch,
             valueDate = dateEpoch,
             uuid = legA1Source.uuid,
-            currency = legA1Source.originalCurrency,
+            currency = intent.targetAsset.code,
             transferPeerId = legA1Source.id
         )
         sourceParts.add(legA1Source to legA1Peer)
@@ -1032,8 +1040,6 @@ open class MyExpensesV2ViewModel(
             accountId = targetPortfolio.id,
             amount = Money.convertBigDecimal(valuation.negate(), targetCurrency.fractionDigits),
             transferAccountId = targetAssetAccountId,
-            originalAmount = Money.convertBigDecimal(quantity, intent.targetAsset.fractionDigits),
-            originalCurrency = intent.targetAsset.code,
             uuid = oldB2?.data?.uuid ?: generateUuid(),
             categoryId = transferCategory,
             date = dateEpoch,
@@ -1043,13 +1049,13 @@ open class MyExpensesV2ViewModel(
         val legB2Peer = Transaction(
             id = oldB2?.transferPeer?.id ?: 0L,
             accountId = targetAssetAccountId,
-            amount = legB2Source.originalAmount!!,
+            amount = Money.convertBigDecimal(quantity, intent.targetAsset.fractionDigits),
             transferAccountId = targetPortfolio.id,
             categoryId = transferCategory,
             date = dateEpoch,
             valueDate = dateEpoch,
             uuid = legB2Source.uuid,
-            currency = legB2Source.originalCurrency,
+            currency = intent.targetAsset.code,
             transferPeerId = legB2Source.id
         )
         targetParts.add(legB2Source to legB2Peer)

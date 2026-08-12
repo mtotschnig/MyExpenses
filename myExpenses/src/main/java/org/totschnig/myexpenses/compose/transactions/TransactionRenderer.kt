@@ -305,17 +305,14 @@ abstract class ItemRenderer(
                 when {
                     trade != null -> {
                         Icon(
-                            imageVector = when (trade.type) {
-                                TradeType.AssetTrade.BUY -> Icons.Default.ArrowUpward
-                                TradeType.AssetTrade.SELL -> Icons.Default.ArrowDownward
-                                TradeType.CashMovement.DEPOSIT -> Icons.Default.Add
-                                TradeType.CashMovement.WITHDRAW -> Icons.Default.Remove
-                                is TradeType.Transfer -> Icons.AutoMirrored.Filled.TrendingFlat
+                            imageVector = trade.type.icon(),
+                            contentDescription = null,
                             tint = when (trade.type) {
                                 TradeType.AssetTrade.BUY, TradeType.CashMovement.WITHDRAW -> LocalColors.current.expense
                                 TradeType.AssetTrade.SELL, TradeType.CashMovement.DEPOSIT -> LocalColors.current.income
                                 is TradeType.Transfer -> LocalColors.current.transfer
                             }
+                        )
                     }
 
                     isSplit -> resolvedIcons

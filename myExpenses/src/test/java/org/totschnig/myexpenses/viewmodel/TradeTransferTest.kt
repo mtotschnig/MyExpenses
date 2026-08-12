@@ -10,6 +10,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.totschnig.myexpenses.db2.findAccountType
+import org.totschnig.myexpenses.db2.findSiblingParentId
 import org.totschnig.myexpenses.db2.insertCurrency
 import org.totschnig.myexpenses.db2.loadSplitParts
 import org.totschnig.myexpenses.db2.loadTransaction
@@ -101,10 +102,11 @@ class TradeTransferTest : BaseViewModelTest() {
         assertThat(partsA).hasSize(2)
 
         val internalLegA = partsA.find { it.transferAccountId != portfolioB.id }!!
+        val internalLegAPeer = repository.loadTransaction(internalLegA.transferPeerId!!)
         val externalLegA = partsA.find { it.transferAccountId == portfolioB.id }!!
 
         assertThat(internalLegA.amount).isEqualTo(150000L) // +Valuation (returning to hub)
-        assertThat(internalLegA.originalAmount).isEqualTo(-1000L) // -Quantity
+        assertThat(internalLegAPeer.data.amount).isEqualTo(-1000L) // -Quantity
 
         assertThat(externalLegA.amount).isEqualTo(-150000L) // -Valuation (leaving hub)
 
@@ -118,10 +120,11 @@ class TradeTransferTest : BaseViewModelTest() {
 
         val externalLegB = partsB.find { it.transferAccountId == portfolioA.id }!!
         val internalLegB = partsB.find { it.transferAccountId != portfolioA.id }!!
+        val internalLegBPeer = repository.loadTransaction(internalLegB.transferPeerId!!)
 
         assertThat(externalLegB.amount).isEqualTo(150000L) // +Valuation (entering hub)
         assertThat(internalLegB.amount).isEqualTo(-150000L) // -Valuation (moving to asset)
-        assertThat(internalLegB.originalAmount).isEqualTo(1000L) // +Quantity
+        assertThat(internalLegBPeer.data.amount).isEqualTo(1000L) // +Quantity
 
         // Verify Links
         assertThat(externalLegA.transferPeerId).isEqualTo(externalLegB.id)
@@ -129,12 +132,12 @@ class TradeTransferTest : BaseViewModelTest() {
 
         // Verify Internal Peers (Spokes)
         assertThat(internalLegA.transferPeerId).isNotNull()
-        val peerA = repository.loadTransaction(internalLegA.transferPeerId!!).data
+        val peerA = repository.loadTransaction(internalLegA.transferPeerId).data
         assertThat(peerA.accountId).isEqualTo(internalLegA.transferAccountId)
         assertThat(peerA.amount).isEqualTo(-1000L)
 
         assertThat(internalLegB.transferPeerId).isNotNull()
-        val peerB = repository.loadTransaction(internalLegB.transferPeerId!!).data
+        val peerB = repository.loadTransaction(internalLegB.transferPeerId).data
         assertThat(peerB.accountId).isEqualTo(internalLegB.transferAccountId)
         assertThat(peerB.amount).isEqualTo(1000L)
     }
@@ -165,7 +168,8 @@ class TradeTransferTest : BaseViewModelTest() {
 
         val internalLegB = partsB.find { it.transferAccountId != portfolioA.id }!!
         assertThat(internalLegB.amount).isEqualTo(-150000L) // Moving from Hub to Asset
-        assertThat(internalLegB.originalAmount).isEqualTo(1000L) // +Quantity
+        val internalLegBPeer = repository.loadTransaction(internalLegB.transferPeerId!!)
+        assertThat(internalLegBPeer.data.amount).isEqualTo(1000L) // +Quantity
 
         // Verify Portfolio A (sender)
         val transactionsA = repository.loadTransactions(portfolioA.id)
@@ -187,6 +191,7 @@ class TradeTransferTest : BaseViewModelTest() {
 
         viewModel.saveTrades(portfolioA, listOf(intent))
         val initialId = repository.loadTransactions(portfolioA.id)[0].id
+        val initialPeer = repository.findSiblingParentId(initialId)
 
         val updatedIntent = intent.copy(
             quantity = BigDecimal("20"),
@@ -205,21 +210,19 @@ class TradeTransferTest : BaseViewModelTest() {
 
         val partsA = repository.loadSplitParts(parentA.id)
         val internalLegA = partsA.find { it.transferAccountId != portfolioB.id }!!
+        val internalLegAPeer = repository.loadTransaction(internalLegA.transferPeerId!!)
         assertThat(internalLegA.amount).isEqualTo(400000L)
-        assertThat(internalLegA.originalAmount).isEqualTo(-2000L)
+        assertThat(internalLegAPeer.data.amount).isEqualTo(-2000L)
 
         // Verify Portfolio B
         val transactionsB = repository.loadTransactions(portfolioB.id)
         assertThat(transactionsB).hasSize(1)
         val parentB = transactionsB[0]
+        assertThat(parentB.id).isEqualTo(initialPeer)
         val partsB = repository.loadSplitParts(parentB.id)
         val internalLegB = partsB.find { it.transferAccountId != portfolioA.id }!!
+        val internalLegBPeer = repository.loadTransaction(internalLegB.transferPeerId!!)
         assertThat(internalLegB.amount).isEqualTo(-400000L)
-        assertThat(internalLegB.originalAmount).isEqualTo(2000L)
-
-        // Verify no new rows created (2 parents + 2 parts per parent + 2 sub-account peers = 8 rows total in DB)
-        // Wait, the sub-account peers are separate.
-        // Actually, my verify logic should check the IDs are preserved.
-        assertThat(parentA.id).isEqualTo(initialId)
+        assertThat(internalLegBPeer.data.amount).isEqualTo(2000L)
     }
 }

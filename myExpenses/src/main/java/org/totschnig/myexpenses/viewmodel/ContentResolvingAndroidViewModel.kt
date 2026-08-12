@@ -241,8 +241,8 @@ open class ContentResolvingAndroidViewModel(application: Application) :
             }
             var success = 0
             var failure = 0
-            val sortedIds = allIds.toList()
-            sortedIds.forEach {
+            val idsToDelete = allIds.toList()
+            idsToDelete.forEach {
                 try {
                     if (repository.deleteTransaction(it, markAsVoid, true))
                         success++ else failure++
@@ -251,7 +251,7 @@ open class ContentResolvingAndroidViewModel(application: Application) :
                     failure++
                 }
                 bulkDeleteStateInternal.update {
-                    DeleteState.DeleteProgress(success + failure, sortedIds.size)
+                    DeleteState.DeleteProgress(success + failure, idsToDelete.size)
                 }
             }
             contentResolver.notifyChange(TRANSACTIONS_URI, null, true)

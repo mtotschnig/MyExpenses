@@ -23,6 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -47,6 +48,14 @@ import java.time.format.FormatStyle
 enum class TradeEvent {
     Edit,
     Delete
+}
+
+fun TradeType.icon(): ImageVector = when (this) {
+    TradeType.AssetTrade.BUY -> Icons.Default.ArrowUpward
+    TradeType.AssetTrade.SELL -> Icons.Default.ArrowDownward
+    TradeType.CashMovement.DEPOSIT -> Icons.Default.Add
+    TradeType.CashMovement.WITHDRAW -> Icons.Default.Remove
+    is TradeType.Transfer -> Icons.AutoMirrored.Filled.TrendingFlat
 }
 
 @Composable
@@ -82,7 +91,7 @@ fun TradeRow(
         // Column 1: Icon (Matching standard transaction list)
         Box(modifier = Modifier.size(30.sp), contentAlignment = Alignment.Center) {
             Icon(
-                imageVector = if (trade.type.isIncoming) Icons.Default.ArrowUpward else Icons.Default.ArrowDownward,
+                imageVector = trade.type.icon(),
                 contentDescription = null,
                 tint = if (trade.type.isIncoming) LocalColors.current.income else LocalColors.current.expense
             )
