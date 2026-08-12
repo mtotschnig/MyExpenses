@@ -24,10 +24,10 @@ sealed interface TradeType : Parcelable {
         @Parcelize data object WITHDRAW : CashMovement(R.string.trade_withdraw, false)
     }
 
-    @Parcelize
+@Parcelize
     data class Transfer(override val isIncoming: Boolean) : TradeType {
         @IgnoredOnParcel
-        override val label: Int = R.string.transfer
+        override val label: Int = R.string.trade_transfer
     }
 
     companion object {
