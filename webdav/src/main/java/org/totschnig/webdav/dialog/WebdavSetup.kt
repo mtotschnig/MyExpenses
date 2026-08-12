@@ -14,7 +14,7 @@ import androidx.core.view.isVisible
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
-import org.totschnig.myexpenses.R
+import org.totschnig.webdav.R
 import org.totschnig.myexpenses.activity.EditActivity
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.sync.BackendService

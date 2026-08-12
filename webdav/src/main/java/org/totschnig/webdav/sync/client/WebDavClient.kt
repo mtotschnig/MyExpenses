@@ -41,7 +41,6 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.webdav.sync.DaggerWebDavComponent
 import org.totschnig.webdav.sync.client.CertificateHelper.createSslSocketFactory
-import org.totschnig.webdav.sync.client.CertificateHelper.createTrustManager
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 import timber.log.Timber
@@ -382,4 +381,3 @@ class WebDavClient(
 private fun IOException.isTimeout(): Boolean =
     this is SocketTimeoutException || this is InterruptedIOException ||
         cause is SocketTimeoutException || cause is InterruptedIOException
-}
