@@ -1071,4 +1071,7 @@
     <string name="premium_nudge_portfolio_title">Tüm portföy özelliklerinin kilidini açın</string>
     <string name="premium_nudge_portfolio_message">Bir portföyü ücretsiz olarak yönetebilirsiniz. Birden fazla portföyü yönetmek ve gelişmiş takip özelliklerinin kilidini açmak için yükseltin.</string>
     <string name="parse_error_at_line">%1$d. satırda hata: %2$s</string>
+    <string name="trade_transfer">Transfer</string>
+    <string name="asset_type_commodity">Kıymet</string>
+    <string name="asset_type_commodity_plural">Kıymetler</string>
 </resources>
