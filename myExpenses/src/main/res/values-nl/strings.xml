@@ -346,7 +346,6 @@
         <item quantity="one">De geselecteerde transactie wordt verwijderd.</item>
         <item quantity="other">%1$d geselecteerde transacties worden verwijderd.</item>
     </plurals>
-    <string name="url_not_valid">URL niet geldig</string>
     <string name="pref_sync_frequency_summary">Hoe vaak moeten gegevens worden gesynchroniseerd (in uren).</string>
     <string name="dialog_command_sync_link_remote">Downloaden op afstand</string>
     <string name="button_label_no_encryption">Zonder versleuteling</string>
@@ -355,7 +354,6 @@
     <string name="import_source_file">Bestand</string>
     <string name="pref_auto_backup_title">Automatische back-up</string>
     <string name="pref_sort_order_last_used">Laatst gebruikt</string>
-    <string name="validate_error_webdav_not_compliant">De URL verwijst niet naar een WebDAV-bron.</string>
     <string name="link_account_failure_3">Het conflict kan handmatig worden opgelost vanuit het contextmenu van het item.</string>
     <string name="feature_deprecated">Verouderd</string>
     <string name="progress_dialog_updating_split_parts">Gesplitste delen bijwerken</string>
@@ -375,7 +373,6 @@
     <string name="warning_split_transactions">De geselecteerde transacties worden gegroepeerd in één gesplitste transactie. Hun datuminformatie gaat verloren, d.w.z. vervangen door hun gemiddelde.</string>
     <string name="split_transaction_not_possible">Alleen transacties met dezelfde rekening, begunstigde en status kunnen worden gegroepeerd in één gesplitste transactie.</string>
     <string name="date_format_hour">Uur</string>
-    <string name="validate_error_webdav_404">De URL bestaat niet op de server.</string>
     <string name="dialog_confirm_sync_unlink">Als je deze rekening ontkoppelt van %s, gaat de synchronisatiestatus verloren. Als je ze later opnieuw wilt koppelen, moet een volledige synchronisatie opnieuw worden uitgevoerd.</string>
     <string name="dialog_sync_link">Er bestaat een rekening met uuid %s zowel in de lokale database als op de externe backend. Wanneer je beide koppelt, moet je beslissen of je in eerste instantie lokale gegevens naar de externe backend wilt uploaden of externe gegevens naar de lokale database wilt downloaden.</string>
     <string name="warning_synchronization_folder_usage">Deze map wordt gebruikt voor het synchroniseren van gegevens tussen installaties van {app_name} op verschillende apparaten. Wijzig de inhoud niet handmatig.</string>
@@ -405,12 +402,9 @@
     <string name="search_transfer">Zoek naar overdracht</string>
     <string name="crash_dialog_comment_prompt">Je kunt hieronder je opmerkingen over het probleem toevoegen:</string>
     <string name="synchronization">Synchronisatie</string>
-    <string name="description_webdav_trust_certificate">De website gebruikt een certificaat, dat niet wordt vertrouwd door Android.</string>
-    <string name="label_trust_certificate">Vertrouw dit certificaat</string>
     <string name="no_sync_backends">Geen synchronisatie-backends</string>
     <string name="menu_create_sync_backend">Nieuwe synchronisatie-backend</string>
     <string name="validate_error_not_empty">Mag niet leeg zijn</string>
-    <string name="validate_error_webdav_invalid_certificate">Het certificaat kon niet worden vertrouwd. Het lijkt ongeldig.</string>
     <string name="menu_sync_unlink">Stop met synchroniseren</string>
     <string name="menu_sync_link">Begin met synchroniseren</string>
     <string name="dialog_command_sync_link_local">Uploaden van lokaal</string>
@@ -619,7 +613,6 @@
     <string name="crash_dialog_title">{app_name} is gecrasht</string>
     <string name="crash_dialog_text">Er is een onverwachte fout opgetreden waardoor de toepassing moest stoppen. Help ons dit op te lossen door ons foutgegevens te sturen. Je hoeft alleen maar op OK te klikken.</string>
     <string name="menu_sync_download">Downloaden en synchroniseren</string>
-    <string name="description_webdav_url">Voer de URL in naar een speciale map op je WebDAV-server. {app_name} slaat zijn gegevens op in deze map, daarbuiten raakt hij niets aan.</string>
     <string name="warning_trial_limit_reached">De proefperiode voor het testen van functie %s is afgelopen.</string>
     <string name="progress_dialog_checking_sync_backend">Backend verifiëren</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Cloudsynchronisatie</string>
@@ -700,7 +693,6 @@
     <string name="import_categories_success">%1$d categorieën succesvol geïmporteerd.</string>
     <string name="comparison_operator_greater_than">groter dan</string>
     <string name="search_category">Zoek op categorie</string>
-    <string name="hint_url">URL</string>
     <string name="plan_instance_state_applied">toegepast</string>
     <string name="contributed_by">Bijgedragen door %s</string>
     <string name="pref_sync_notification_summary">Informeren over synchronisatievoortgang</string>

@@ -480,17 +480,9 @@
     <string name="crash_dialog_comment_prompt">Вы можете оставить свой комментарий о проблеме внизу:</string>
     <string name="synchronization">Синхронизация</string>
     <string name="synchronization_none">Отсутствует синхронизация</string>
-    <string name="hint_url">URL</string>
-    <string name="description_webdav_url">Пожалуйста, введите URL к отдельной папке на Вашем WebDAV сервере. {app_name} будет хранить данные в ней, не затрагивая ничего иного.</string>
-    <string name="description_webdav_trust_certificate">Интернет-сайт использует сертификат, которому не доверяет Android.</string>
-    <string name="label_trust_certificate">Доверять этому сертификату</string>
     <string name="no_sync_backends">Нет серверов синхронизации</string>
     <string name="menu_create_sync_backend">Новый сервер синхронизации</string>
     <string name="validate_error_not_empty">Должен быть заполнен</string>
-    <string name="validate_error_webdav_invalid_certificate">Нельзя доверять этому сертификату. Он выглядит недействительным. </string>
-    <string name="validate_error_webdav_not_compliant">Этот URL не указывает на ресурс WebDAV.</string>
-    <string name="validate_error_webdav_404">URL не существует на сервере.</string>
-    <string name="url_not_valid">URL не действителен</string>
     <string name="menu_sync_unlink">Остановить синхронизацию</string>
     <string name="menu_sync_link">Начать синхронизацию</string>
     <string name="menu_sync_download">Загрузить и синхронизировать</string>

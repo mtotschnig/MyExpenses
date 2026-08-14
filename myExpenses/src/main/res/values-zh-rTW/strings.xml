@@ -461,17 +461,9 @@
     <string name="crash_dialog_comment_prompt">您可以在下面填入有關當機問題的註解：</string>
     <string name="synchronization">同步化</string>
     <string name="synchronization_none">沒有同步</string>
-    <string name="hint_url">網址</string>
-    <string name="description_webdav_url">請輸入 WebDAV 伺服器上指定檔案夾的網址。 {app_name}會將其資料儲存在此檔案夾中，它不會觸及其外的任何內容。</string>
-    <string name="description_webdav_trust_certificate">該網站使用的證書不受 Android 信任。</string>
-    <string name="label_trust_certificate">信任此證書</string>
     <string name="no_sync_backends">沒有用來同步的後端裝置</string>
     <string name="menu_create_sync_backend">新增同步後端裝置</string>
     <string name="validate_error_not_empty">不能空白</string>
-    <string name="validate_error_webdav_invalid_certificate">證書不可信。它似乎無效。</string>
-    <string name="validate_error_webdav_not_compliant">該網址不指向 WebDAV 資源。</string>
-    <string name="validate_error_webdav_404">該網址在伺服器上不存在。</string>
-    <string name="url_not_valid">無效網址</string>
     <string name="menu_sync_unlink">停止同步</string>
     <string name="menu_sync_link">開始同步</string>
     <string name="menu_sync_download">下載並同步</string>

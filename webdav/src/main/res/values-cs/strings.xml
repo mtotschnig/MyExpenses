@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="description_webdav_url">Zadejte adresu URL speciální složky na serveru WebDAV. Aplikace {app_name} uloží svá data do této složky, ale nebude zasahovat do ničeho mimo složku.</string>
+    <string name="hint_url">Adresa URL</string>
+    <string name="description_webdav_trust_certificate">Web používá certifikát, který Android nepovažuje za důvěryhodný.</string>
+    <string name="label_trust_certificate">Důvěřovat tomuto certifikátu</string>
+    <string name="validate_error_webdav_invalid_certificate">Certifikátu nelze důvěřovat. Zdá se, že je neplatný.</string>
+    <string name="validate_error_webdav_not_compliant">URL nevede na zdroj WebDAV.</string>
+    <string name="validate_error_webdav_404">URL na serveru neexistuje.</string>
+    <string name="url_not_valid">Adresa URL není platná</string>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="description_webdav_url">Harap masukkan URL ke folder khusus di server WebDAV Anda. {app_name} akan menyimpan datanya di dalam folder ini, dan tidak akan menyentuh apa pun di luar folder tersebut.</string>
+    <string name="hint_url">URL</string>
+    <string name="description_webdav_trust_certificate">Situs web menggunakan sertifikat yang tidak dipercaya oleh Android.</string>
+    <string name="label_trust_certificate">Percayai sertifikat ini</string>
+    <string name="url_not_valid">URL tidak valid</string>
+    <string name="validate_error_webdav_404">URL tidak ada di server.</string>
+    <string name="validate_error_webdav_not_compliant">URL tidak mengarah ke sumber daya WebDAV.</string>
+    <string name="validate_error_webdav_invalid_certificate">Sertifikat tidak dapat dipercaya. Tampaknya tidak valid.</string>
+</resources>

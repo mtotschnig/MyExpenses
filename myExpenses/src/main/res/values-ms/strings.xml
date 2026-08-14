@@ -456,17 +456,9 @@
     <string name="crash_dialog_comment_prompt">Anda boleh tambah ulasan berkenaan masalah yang berlaku di bawah:</string>
     <string name="synchronization">Penyegerakan</string>
     <string name="synchronization_none">Tiada penyegerakan</string>
-    <string name="hint_url">URL</string>
-    <string name="description_webdav_url">Sila masukkan URL ke folder khas dalam pelayan WebDAV anda. {app_name} akan menyimpan datanya di dalam folder ini, ia tidak akan menyentuh apa-apa diluarnya.</string>
-    <string name="description_webdav_trust_certificate">Laman sesawang menggunakan sijil, yang mana tidak dipercayai oleh Android.</string>
-    <string name="label_trust_certificate">Percayai sijil ini</string>
     <string name="no_sync_backends">Tiada bahagian belakang penyegerakan</string>
     <string name="menu_create_sync_backend">Bahagian belakang penyegerakan baharu</string>
     <string name="validate_error_not_empty">Tidak boleh kosong</string>
-    <string name="validate_error_webdav_invalid_certificate">Sijil tidak dipercayai. Ia kelihatan tidak sah.</string>
-    <string name="validate_error_webdav_not_compliant">URL tidak menuju ke sumber WebDAV.</string>
-    <string name="validate_error_webdav_404">URL tidak wujud dalam pelayan.</string>
-    <string name="url_not_valid">URL tidak sah</string>
     <string name="menu_sync_unlink">Henti menyegerak</string>
     <string name="menu_sync_link">Mula menyegerak</string>
     <string name="menu_sync_download">Muat turun dan segerak</string>

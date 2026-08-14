@@ -87,7 +87,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@string/label_more_options" />
+                android:text="@string/abc_action_menu_overflow_description" />
             <!-- Client Certificate (mTLS) -->
             <LinearLayout
                 android:id="@+id/client_cert_container"
@@ -128,7 +128,7 @@
                         style="@style/Widget.Material3.Button.TextButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/label_clear"
+                        android:text="@string/menu_clear"
                         android:visibility="gone" />
                 </LinearLayout>
             </LinearLayout>

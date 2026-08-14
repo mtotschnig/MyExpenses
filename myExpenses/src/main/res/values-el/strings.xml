@@ -464,15 +464,7 @@
     <string name="crash_dialog_comment_prompt">Μπορείτε να προσθέσετε τα σχόλιά σας για το πρόβλημα παρακάτω:</string>
     <string name="synchronization">Συγχρονισμός</string>
     <string name="synchronization_none">Χωρίς συγχρονισμό</string>
-    <string name="hint_url">URL</string>
-    <string name="description_webdav_url">Παρακαλώ εισάγετε τη διεύθυνση URL σε ένα ειδικό φάκελο στο WebDAV διακομιστή σας. Το {app_name} θα αποθηκεύσει τα δεδομένα του μέσα σε αυτό το φάκελο, δεν θα αγγίξει τίποτα έξω από αυτό.</string>
-    <string name="description_webdav_trust_certificate">Η ιστοσελίδα χρησιμοποιεί ένα πιστοποιητικό, το οποίο δεν είναι έμπιστο από το Android.</string>
-    <string name="label_trust_certificate">Εμπιστευθείτε αυτό το πιστοποιητικό</string>
     <string name="validate_error_not_empty">Δεν πρέπει να είναι κενό</string>
-    <string name="validate_error_webdav_invalid_certificate">Το πιστοποιητικό δεν μπορεί να επαληθευτεί. Φαίνεται άκυρο.</string>
-    <string name="validate_error_webdav_not_compliant">Η διεύθυνση URL δεν κατευθύνει σε έναν πόρο WebDAV.</string>
-    <string name="validate_error_webdav_404">Το URL δεν υπάρχει στον εξυπηρετητή.</string>
-    <string name="url_not_valid">Η διεύθυνση URL δεν είναι έγκυρη</string>
     <string name="menu_sync_unlink">Διακοπή συγχρονισμού</string>
     <string name="menu_sync_link">Έναρξη συγχρονισμού</string>
     <string name="menu_sync_download">Λήψη και συγχρονισμός</string>

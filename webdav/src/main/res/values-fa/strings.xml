@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="description_webdav_url">لطفاً URL را در یک پوشه خاص روی سرور WebDAV خود وارد کنید. {app_name} داده‌های خود را در این پوشه ذخیره می‌کند، به چیزی خارج از آن دسترسی ندارد.</string>
+    <string name="hint_url">URL</string>
+    <string name="description_webdav_trust_certificate">این وب سایت از گواهی‌ای استفاده می کند که مورد اعتماد اندروید نیست.</string>
+    <string name="label_trust_certificate">اعتماد کردن به این گواهی</string>
+    <string name="validate_error_webdav_invalid_certificate">به گواهی نمی‌شود اعتماد کرد. به‌نظر نامعتبر است.</string>
+    <string name="validate_error_webdav_not_compliant">URL به یک منبع WebDAV اشاره نمی کند.</string>
+    <string name="validate_error_webdav_404">URL در سرور وجود ندارد.</string>
+    <string name="url_not_valid">URL معتبر نیست</string>
+</resources>

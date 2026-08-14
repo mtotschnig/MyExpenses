@@ -446,7 +446,6 @@
     <string name="new_account_type">Ny kontotyp</string>
     <string name="warning_change_fraction_digits_checkbox_label">Uppdatera belopp i databasen</string>
     <string name="redesign">Omdesign</string>
-    <string name="label_trust_certificate">Lita på detta certifikat</string>
     <string name="transaction_deleted">Transaktionen har raderats</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d poster kasserades.</string>
     <string name="transform_subcategory_to_main">Omvandla till huvudkategori</string>
@@ -579,15 +578,8 @@
     <string name="crash_dialog_title">{app_name} har kraschat</string>
     <string name="crash_dialog_text">Ett oväntat fel uppstod vilket tvingade applikationen att stanna. Hjälp oss att åtgärda detta genom att skicka feldata, allt du behöver göra är att klicka OK.</string>
     <string name="crash_dialog_comment_prompt">Du kan lägga till dina kommentarer om problemet nedan:</string>
-    <string name="hint_url">Internetadress</string>
-    <string name="description_webdav_url">Vänligen ange URL:en till en speciell mapp på din WebDAV-server. {app_name} lagrar sin data i denna mapp, den rör inget utanför den.</string>
-    <string name="description_webdav_trust_certificate">Webbplatsen använder ett certifikat som Android inte litar på.</string>
     <string name="no_sync_backends">Ingen synkroniseringsbackends</string>
     <string name="menu_create_sync_backend">Ny synkroniseringsbackend</string>
-    <string name="validate_error_webdav_invalid_certificate">Certifikatet kunde inte litas på. Det verkar ogiltigt.</string>
-    <string name="validate_error_webdav_not_compliant">URL:en pekar inte till en WebDAV-resurs.</string>
-    <string name="validate_error_webdav_404">URL:en finns inte på servern.</string>
-    <string name="url_not_valid">URL:en är inte giltig</string>
     <string name="pref_sync_frequency_summary">Hur ofta ska data synkroniseras (i timmar)?</string>
     <string name="pref_sync_frequency_summary_0">Ställ in på 0 för att inaktivera automatisk synkning.</string>
     <string name="dialog_confirm_sync_unlink">Om du kopplar bort denna konto från %sförloras synkroniseringsstatusen. Att länka dem igen senare kräver en fullständig synkronisering för att utföras igen.</string>

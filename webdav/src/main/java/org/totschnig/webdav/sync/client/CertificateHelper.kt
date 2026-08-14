@@ -149,7 +149,7 @@ object CertificateHelper {
         }
 
         val keyManagerFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm())
-        keyManagerFactory.init(keyStore, null)
+        keyManagerFactory.init(keyStore,  "".toCharArray())
         return keyManagerFactory.keyManagers.firstOrNull()
             ?: throw ClientCertMissingException()
     }

@@ -78,6 +78,7 @@ Code has also been contributed by:
 - [eltos](https://github.com/eltos) (Improved Input Dialogs and Color Pickers)
 - [tillgraeger](https://github.com/tillgraeger) implemented several tickets ([#640](https://github.com/mtotschnig/MyExpenses/issues/640), [#704](https://github.com/mtotschnig/MyExpenses/issues/704), [#638](https://github.com/mtotschnig/MyExpenses/issues/638)) in the context of his internship.
 - [arnaldotecadm](https://github.com/arnaldotecadm) implemented JSON export
+- [cbueth](https://github.com/cbueth) implemented support for Mutual TLS for WebDAV
 
 Build
 =====

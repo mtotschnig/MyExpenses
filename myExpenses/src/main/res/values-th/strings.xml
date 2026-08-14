@@ -412,16 +412,9 @@
     <string name="crash_dialog_title">{app_name} เกิดข้อผิดพลาด</string>
     <string name="synchronization">การซิงโครไนซ์</string>
     <string name="synchronization_none">ไม่มีการซิงโครไนซ์</string>
-    <string name="hint_url">URL</string>
-    <string name="description_webdav_url">กรุณาใส่ URL ไปยังโฟลเดอร์พิเศษบนเซิร์ฟเวอร์ WebDAV ของคุณ {app_name} จะจัดเก็บข้อมูลภายในโฟลเดอร์นี้ และจะไม่เข้าไปยุ่งกับสิ่งอื่นนอกเหนือจากนี้</string>
-    <string name="description_webdav_trust_certificate">เว็บไซต์ใช้ใบรับรอง ซึ่งไม่ได้รับการรับรองความน่าเชื่อถือโดย Android</string>
     <string name="no_sync_backends">ไม่มีแบ็กเอนด์สำหรับซิงโครไนซ์</string>
-    <string name="label_trust_certificate">เชื่อถือใบรับรองนี้</string>
     <string name="menu_create_sync_backend">แบ็กเอนด์ซิงโครไนซ์ใหม่</string>
     <string name="validate_error_not_empty">ต้องไม่ว่างเปล่า</string>
-    <string name="validate_error_webdav_invalid_certificate">ไม่สามารถเชื่อถือใบรับรองได้ ดูเหมือนว่าใบรับรองไม่ถูกต้อง</string>
-    <string name="validate_error_webdav_404">URL ไม่มีอยู่บนเซิร์ฟเวอร์</string>
-    <string name="url_not_valid">URL ไม่ถูกต้อง</string>
     <string name="menu_sync_unlink">หยุดการซิงค์</string>
     <string name="dialog_confirm_sync_unlink">หากคุณยกเลิกการเชื่อมโยงบัญชีนี้จาก %s สถานะการซิงโครไนซ์จะหายไป การเชื่อมโยงอีกครั้งในภายหลัง จำเป็นต้องทำการซิงโครไนซ์เต็มรูปแบบอีกครั้ง</string>
     <string name="dialog_command_sync_link_local">อัปโหลดจากท้องถิ่น</string>
@@ -546,7 +539,6 @@
     <string name="licence_expired_yesterday">คีย์มืออาชีพของคุณหมดอายุเมื่อวานนี้</string>
     <string name="budget_exceeded_error_1_2">จัดสรรงบประมาณของคุณไปยังหมวดหมู่อื่นหมดแล้ว</string>
     <string name="currency_code_already_definded">รหัสสกุลเงินถูกกำหนดไว้แล้ว</string>
-    <string name="validate_error_webdav_not_compliant">URL ไม่ชี้ไปยังทรัพยากร WebDAV</string>
     <string name="menu_sync_download">ดาวน์โหลดและซิงค์</string>
     <string name="pref_sync_frequency_summary">ควรซิงโครไนซ์ข้อมูลบ่อยแค่ไหน (เป็นชั่วโมง)</string>
     <string name="dialog_command_sync_link_remote">ดาวน์โหลดจากระยะไกล</string>

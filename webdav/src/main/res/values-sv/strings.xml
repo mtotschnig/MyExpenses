@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="description_webdav_url">Vänligen ange URL:en till en speciell mapp på din WebDAV-server. {app_name} lagrar sin data i denna mapp, den rör inget utanför den.</string>
+    <string name="hint_url">Internetadress</string>
+    <string name="description_webdav_trust_certificate">Webbplatsen använder ett certifikat som Android inte litar på.</string>
+    <string name="label_trust_certificate">Lita på detta certifikat</string>
+    <string name="validate_error_webdav_invalid_certificate">Certifikatet kunde inte litas på. Det verkar ogiltigt.</string>
+    <string name="validate_error_webdav_not_compliant">URL:en pekar inte till en WebDAV-resurs.</string>
+    <string name="validate_error_webdav_404">URL:en finns inte på servern.</string>
+    <string name="url_not_valid">URL:en är inte giltig</string>
+</resources>

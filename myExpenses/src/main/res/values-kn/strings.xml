@@ -466,17 +466,9 @@
     <string name="crash_dialog_comment_prompt">ಕೆಳಗಿನ ಸಮಸ್ಯೆಯ ಕುರಿತು ನಿಮ್ಮ ಕಾಮೆಂಟ್‌ಗಳನ್ನು ನೀವು ಸೇರಿಸಬಹುದು:</string>
     <string name="synchronization">ಸಿಂಕ್ರೊನೈಸೇಶನ್</string>
     <string name="synchronization_none">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಇಲ್ಲ</string>
-    <string name="hint_url">URL</string>
-    <string name="description_webdav_url">ದಯವಿಟ್ಟು ನಿಮ್ಮ ವೆಬ್‌ಡ್ಯಾವ್ ಸರ್ವರ್‌ನಲ್ಲಿ ವಿಶೇಷ ಫೋಲ್ಡರ್‌ಗೆ URL ಅನ್ನು ನಮೂದಿಸಿ. {app_name} ತನ್ನ ಡೇಟಾವನ್ನು ಈ ಫೋಲ್ಡರ್ ಒಳಗೆ ಸಂಗ್ರಹಿಸುತ್ತದೆ, ಅದು ಅದರ ಹೊರಗೆ ಯಾವುದನ್ನೂ ಮುಟ್ಟುವುದಿಲ್ಲ.</string>
-    <string name="description_webdav_trust_certificate">ವೆಬ್‌ಸೈಟ್ ಪ್ರಮಾಣಪತ್ರವನ್ನು ಬಳಸುತ್ತದೆ, ಅದನ್ನು ಆಂಡ್ರಾಯ್ಡ್ ನಂಬುವುದಿಲ್ಲ.</string>
-    <string name="label_trust_certificate">ಈ ಪ್ರಮಾಣಪತ್ರವನ್ನು ನಂಬಿರಿ</string>
     <string name="no_sync_backends">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್‌ಗಳು ಇಲ್ಲ</string>
     <string name="menu_create_sync_backend">ಹೊಸ ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಬ್ಯಾಕೆಂಡ್</string>
     <string name="validate_error_not_empty">ಖಾಲಿಯಾಗಿರಬಾರದು</string>
-    <string name="validate_error_webdav_invalid_certificate">ಪ್ರಮಾಣಪತ್ರವನ್ನು ನಂಬಲಾಗಲಿಲ್ಲ. ಇದು ಅಮಾನ್ಯವಾಗಿದೆ ಎಂದು ತೋರುತ್ತದೆ.</string>
-    <string name="validate_error_webdav_not_compliant">ವೆಬ್‌ಡಿಎವಿ ಸಂಪನ್ಮೂಲವನ್ನು URL ಸೂಚಿಸುವುದಿಲ್ಲ.</string>
-    <string name="validate_error_webdav_404">ಸರ್ವರ್‌ನಲ್ಲಿ URL ಅಸ್ತಿತ್ವದಲ್ಲಿಲ್ಲ.</string>
-    <string name="url_not_valid">URL ಮಾನ್ಯವಾಗಿಲ್ಲ</string>
     <string name="menu_sync_unlink">ಸಿಂಕ್ ಮಾಡುವುದನ್ನು ನಿಲ್ಲಿಸಿ</string>
     <string name="menu_sync_link">ಸಿಂಕ್ ಮಾಡಲು ಪ್ರಾರಂಭಿಸಿ</string>
     <string name="menu_sync_download">ಡೌನ್‌ಲೋಡ್ ಮಾಡಿ ಮತ್ತು ಸಿಂಕ್ ಮಾಡಿ</string>

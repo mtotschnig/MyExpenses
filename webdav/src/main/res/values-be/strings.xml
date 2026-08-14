@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="description_webdav_url">Калі ласка, увядзіце URL у спецыяльную тэчку на вашым серверы WebDAV. {app_name} будзе захоўваць свае даныя ў гэтай тэчцы, не закранаючы нічога па-за ёй.</string>
+    <string name="hint_url">URL</string>
+    <string name="description_webdav_trust_certificate">Вэб-сайт выкарыстоўвае сертыфікат, якому Android не давярае.</string>
+    <string name="label_trust_certificate">Давяраць гэтаму сертыфікату</string>
+    <string name="validate_error_webdav_invalid_certificate">Сертыфікату нельга было давяраць. Здаецца несапраўдным.</string>
+    <string name="url_not_valid">URL не існуе на серверы</string>
+    <string name="validate_error_webdav_404">URL не існуе на серверы.</string>
+    <string name="validate_error_webdav_not_compliant">URL не паказвае на рэсурс WebDAV.</string>
+</resources>

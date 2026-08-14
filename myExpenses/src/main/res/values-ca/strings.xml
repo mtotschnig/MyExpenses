@@ -370,7 +370,6 @@
     <string name="status_void">nul</string>
     <string name="export_handle_deleted_create_helper">Crea transacció d\'ajuda</string>
     <string name="export_handle_deleted_update_balance">Actualitza saldo inicial</string>
-    <string name="validate_error_webdav_not_compliant">L\'URL no condueix a cap recurs WebDAV.</string>
     <string name="dialog_confirm_sync_link_remote">Les dades locals d\'aquest compte s\'eliminaran.</string>
     <string name="progress_removing_licence">Suprimint llicència</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Definiu un nombre entre %1$d i %2$d</string>
@@ -387,13 +386,7 @@
     <string name="plan_instance_state_open">obert</string>
     <string name="content_description_calculator_delete_button">Elimina últim digit</string>
     <string name="crash_dialog_comment_prompt">Pot afegir comentaris sobre el problema aquí:</string>
-    <string name="hint_url">URL</string>
-    <string name="description_webdav_url">Siusplau introdueixi URL per al fitxer especial al seu servidor WebDAV. {app_name} desarà dades a l\'interior de la carpeta, però no tocarà res fora de la mateixa.</string>
-    <string name="label_trust_certificate">Confia en aquest certificat</string>
     <string name="no_sync_backends">Sense serveis de sincronització</string>
-    <string name="validate_error_webdav_invalid_certificate">No es pot confiar en el certificat. Sembla invàlid.</string>
-    <string name="validate_error_webdav_404">L\'URL no existeix al servidor.</string>
-    <string name="url_not_valid">ULR invàlida</string>
     <string name="menu_sync_download">Descarrega i sincronitza</string>
     <string name="pref_sync_frequency_summary">Cada quant s\'han de sincronitzar les dades (en hores).</string>
     <string name="dialog_command_sync_link_remote">Descarrega del remot</string>
@@ -494,7 +487,6 @@
     <string name="plan_instance_state_cancelled">cancel·lat</string>
     <string name="warning_cannot_move_split_transaction">La transacció dividida no s\'ha pogut moure al compte %1$s atès que hi ha parts de la transferència referides a aquest compte.</string>
     <string name="pref_sort_order_next_instance">Següent instància</string>
-    <string name="description_webdav_trust_certificate">La pàgina web utilitza un certificat que no figura al llistat de confiança d\'Android.</string>
     <string name="menu_create_sync_backend">Nou servei de sincronització</string>
     <string name="menu_sync_link">Arrenca la sincronització</string>
     <string name="validate_error_not_empty">No pot quedar buit</string>

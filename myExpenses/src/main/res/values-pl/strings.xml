@@ -472,17 +472,9 @@
     <string name="crash_dialog_comment_prompt">Możesz dodać swoje komentarze na temat problemu poniżej:</string>
     <string name="synchronization">Synchronizacja</string>
     <string name="synchronization_none">Brak synchronizacji</string>
-    <string name="hint_url">URL</string>
-    <string name="description_webdav_url">Wprowadź adres URL do specjalnego folderu na serwerze WebDAV. {app_name} będzie przechowywać swoje dane w tym folderze, nie dotknie niczego poza nim.</string>
-    <string name="description_webdav_trust_certificate">Witryna korzysta z certyfikatu, który nie jest zaufany przez Androida.</string>
-    <string name="label_trust_certificate">Zaufaj temu certyfikatowi</string>
     <string name="no_sync_backends">Brak serwerów synchronizacji</string>
     <string name="menu_create_sync_backend">Nowy serwer synchronizacji</string>
     <string name="validate_error_not_empty">Nie może być pusty</string>
-    <string name="validate_error_webdav_invalid_certificate">Certyfikatowi nie można zaufać. Wydaje się nieważny.</string>
-    <string name="validate_error_webdav_not_compliant">Adres URL nie wskazuje na zasób WebDAV.</string>
-    <string name="validate_error_webdav_404">Adres URL nie istnieje na serwerze.</string>
-    <string name="url_not_valid">URL jest nieprawidłowy</string>
     <string name="menu_sync_unlink">Zatrzymaj synchronizację</string>
     <string name="menu_sync_link">Uruchom synchronizację</string>
     <string name="menu_sync_download">Pobierz i synchronizuj</string>

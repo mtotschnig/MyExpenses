@@ -468,17 +468,9 @@
     <string name="crash_dialog_comment_prompt">Megjegyzéseket fűzhet a problémához alább:</string>
     <string name="synchronization">Szinkronizálás</string>
     <string name="synchronization_none">Nincs szinkronizálás</string>
-    <string name="hint_url">URL-cím</string>
-    <string name="description_webdav_url">Írja be a különleges mappájának URL-címét a WebDAV szerveren. A(z) {app_name} ebben a mappában fogja tárolni az adatokat, a mappán kívül semmihez nem fog hozzáférni.</string>
-    <string name="description_webdav_trust_certificate">A honlap egy olyan tanúsítványt használ, amelyet az Android nem tart megbízhatónak.</string>
-    <string name="label_trust_certificate">Bízzon ebben a tanúsítványban</string>
     <string name="no_sync_backends">Nincs szinkronizálási háttérrendszer</string>
     <string name="menu_create_sync_backend">Új szinkronizálási háttérrendszer</string>
     <string name="validate_error_not_empty">Nem lehet üres</string>
-    <string name="validate_error_webdav_invalid_certificate">A tanúsítvány nem megbízható. Érvénytelennek tűnik.</string>
-    <string name="validate_error_webdav_not_compliant">Az URL nem mutat WebDAV forrásra.</string>
-    <string name="validate_error_webdav_404">Az URL nem létezik a szerveren.</string>
-    <string name="url_not_valid">Az URL érvénytelen</string>
     <string name="menu_sync_unlink">Szinkronizálás leállítása</string>
     <string name="menu_sync_link">Szinkronizálás indítása</string>
     <string name="menu_sync_download">Letöltés és szinkronizálás</string>

@@ -461,17 +461,9 @@
     <string name="crash_dialog_comment_prompt">您可以在下面添加有关故障问题的说明：</string>
     <string name="synchronization">同步</string>
     <string name="synchronization_none">没有同步</string>
-    <string name="hint_url">网址</string>
-    <string name="description_webdav_url">请输入WebDAV服务器上特殊文件夹的网址。 {app_name}会将其数据存储在此文件夹中，不会触及其外的任何内容。</string>
-    <string name="description_webdav_trust_certificate">该网站使用的证书不受Android信任。</string>
-    <string name="label_trust_certificate">信任此证书</string>
     <string name="no_sync_backends">没有同步后端</string>
     <string name="menu_create_sync_backend">新建同步后端</string>
     <string name="validate_error_not_empty">不能为空</string>
-    <string name="validate_error_webdav_invalid_certificate">证书不可信。它似乎无效。</string>
-    <string name="validate_error_webdav_not_compliant">该网址不指向WebDAV资源。</string>
-    <string name="validate_error_webdav_404">该网址在服务器上不存在。</string>
-    <string name="url_not_valid">网址无效</string>
     <string name="menu_sync_unlink">停止同步</string>
     <string name="menu_sync_link">开始同步</string>
     <string name="menu_sync_download">下载并同步</string>

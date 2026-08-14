@@ -483,17 +483,9 @@
     <string name="crash_dialog_comment_prompt">আপনি নিচে সমস্যা সম্পর্কে আপনার মন্তব্য যোগ করতে পারেন:</string>
     <string name="synchronization">সিঙ্ক্রোনাইজেশন</string>
     <string name="synchronization_none">কোন সিঙ্ক্রোনাইজেশন নেই</string>
-    <string name="hint_url">URL</string>
-    <string name="description_webdav_url">অনুগ্রহ করে আপনার WebDAV সার্ভারে একটি বিশেষ ফোল্ডারের URL লিখুন। {app_name} এই ফোল্ডারের মধ্যে তার ডাটা সেভ করবে, এটি এর বাইরে কিছু স্পর্শ করবে না।</string>
-    <string name="description_webdav_trust_certificate">ওয়েবসাইটটি এমন একটি সার্টিফিকেট ব্যবহার করে, যা অ্যান্ড্রয়েড দ্বারা ট্রাসটেড নয়।</string>
-    <string name="label_trust_certificate">এই সার্টিফিকেটকে ট্রাস্ট করুন</string>
     <string name="no_sync_backends">কোন সিঙ্ক্রোনাইজেশন ব্যাকএন্ড নেই</string>
     <string name="menu_create_sync_backend">নতুন সিঙ্ক্রোনাইজেশন ব্যাকএন্ড</string>
     <string name="validate_error_not_empty">খালি রাখা যাবে না</string>
-    <string name="validate_error_webdav_invalid_certificate">সার্টিফিকেট ট্রাস্ট করা যায়নি। এটি ইনভ্যালিড বলে মনে হচ্ছে।</string>
-    <string name="validate_error_webdav_not_compliant">URL টি একটি WebDAV সংস্থানকে নির্দেশ করে না।</string>
-    <string name="validate_error_webdav_404">URL টি সার্ভারে বিদ্যমান নেই।</string>
-    <string name="url_not_valid">URL ভ্যালিড নয়</string>
     <string name="menu_sync_unlink">সিঙ্ক বন্ধ করুন</string>
     <string name="menu_sync_link">সিঙ্ক শুরু করুন</string>
     <string name="menu_sync_download">ডাউনলোড এবং সিঙ্ক করুন</string>

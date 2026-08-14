@@ -152,17 +152,9 @@
     <string name="menu_sync_download">డౌన్‌లోడ్ చేసి సమకాలీకరించండి</string>
     <string name="menu_sync_link">సమకాలీకరించడం ప్రారంభించండి</string>
     <string name="menu_sync_unlink">సమకాలీకరించడం ఆపు</string>
-    <string name="url_not_valid">URL చెల్లదు</string>
-    <string name="validate_error_webdav_404">URL సర్వర్‌లో లేదు.</string>
-    <string name="validate_error_webdav_not_compliant">URL వెబ్‌డావ్ వనరును సూచించదు.</string>
-    <string name="validate_error_webdav_invalid_certificate">ప్రమాణపత్రాన్ని విశ్వసించలేదు. ఇది చెల్లదు.</string>
     <string name="validate_error_not_empty">ఖాళీగా ఉండకూడదు</string>
     <string name="menu_create_sync_backend">క్రొత్త సమకాలీకరణ బ్యాకెండ్</string>
     <string name="no_sync_backends">సమకాలీకరణ బ్యాకెండ్‌లు లేవు</string>
-    <string name="label_trust_certificate">ఈ ప్రమాణపత్రాన్ని విశ్వసించండి</string>
-    <string name="description_webdav_trust_certificate">వెబ్‌సైట్ సర్టిఫికెట్‌ను ఉపయోగిస్తుంది, ఇది Android ద్వారా విశ్వసించబడదు.</string>
-    <string name="description_webdav_url">దయచేసి మీ వెబ్‌డావ్ సర్వర్‌లోని ప్రత్యేక ఫోల్డర్‌కు URL ను నమోదు చేయండి. {app_name} దాని డేటాను ఈ ఫోల్డర్‌లో నిల్వ చేస్తుంది, దాని వెలుపల దేనినీ తాకదు.</string>
-    <string name="hint_url">URL</string>
     <string name="synchronization_none">సమకాలీకరణ లేదు</string>
     <string name="synchronization">సమకాలీకరణ</string>
     <string name="crash_dialog_comment_prompt">మీరు క్రింద సమస్య గురించి మీ వ్యాఖ్యలను జోడించవచ్చు:</string>

@@ -121,8 +121,6 @@
     <string name="synchronization_none">Няма сінхранізацыі</string>
     <string name="no_sync_backends">Няма сервераў сінхранізацыі</string>
     <string name="menu_create_sync_backend">Новы сервер сінхранізацыі</string>
-    <string name="validate_error_webdav_invalid_certificate">Сертыфікату нельга было давяраць. Здаецца несапраўдным.</string>
-    <string name="url_not_valid">URL не існуе на серверы</string>
     <string name="menu_sync_unlink">Спыніць сінхранізацыю</string>
     <string name="all_contrib_key_features">Усе функцыі Contrib Key</string>
     <string name="password_disabled_reenable">Абарона паролем адключана. Вы можаце зноў уключыць яе ў наладах.</string>
@@ -136,8 +134,6 @@
     <string name="pref_grouping_periods">Групоўка перыядаў</string>
     <string name="plan_instance_state_cancelled">адменены</string>
     <string name="plan_instance_state_open">адкрыць</string>
-    <string name="description_webdav_url">Калі ласка, увядзіце URL у спецыяльную тэчку на вашым серверы WebDAV. {app_name} будзе захоўваць свае даныя ў гэтай тэчцы, не закранаючы нічога па-за ёй.</string>
-    <string name="validate_error_webdav_404">URL не існуе на серверы.</string>
     <string name="pref_tracking_summary">Дазвольце нам збіраць ананімныя дадзеныя аб мадэлях выкарыстання, якія дапамагаюць нам планаваць паляпшэнні.</string>
     <string name="sync_error_will_try_again_later">Паспрабуйце пазней.</string>
     <string name="contributed_by">Уклад унесены %s</string>
@@ -191,7 +187,6 @@
     <string name="export_handle_deleted_create_helper">Стварыць дапаможную транзакцыю</string>
     <string name="crash_dialog_title">{app_name} выйшаў з ладу</string>
     <string name="synchronization">Сінхранізацыя</string>
-    <string name="validate_error_webdav_not_compliant">URL не паказвае на рэсурс WebDAV.</string>
     <string name="link_account_failure_2">Рахунак з такім жа uuid ужо існуе на выдаленым серверы.</string>
     <string name="all_extended_key_features">Усе функцыі Extended Key</string>
     <string name="sync_io_exception_reset_account_data">Памылка падчас скіду налад аддаленага акаўнта.</string>
@@ -457,7 +452,6 @@
     <string name="pref_import_summary">Імпартаваць транзакцыі, катэгорыі і ўдзельнікаў з файла %s</string>
     <string name="pref_sort_order_next_instance">Наступны асобнік</string>
     <string name="crash_dialog_text">Адбылася нечаканая памылка, якая прымусіла прыкладанне спыніцца. Калі ласка, дапамажыце нам выправіць гэта, даслаўшы нам дадзеныя пра памылку, усё, што вам трэба зрабіць, гэта націснуць OK.</string>
-    <string name="hint_url">URL</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">Выбраны аб\'ект звязаны з транзакцыяй і не можа быць выдалены.</item>
         <item quantity="few">%1$d аб\'ектаў адлюстраваны ў транзакцыях і не могуць быць выдалены.</item>
@@ -489,8 +483,6 @@
     <string name="csv_import_no_mapping_found_for_amount">Калі ласка, аднясіце адзін слупок да сумы, даходу або выдаткаў.</string>
     <string name="pref_custom_decimal_format_summary">Калі вас не задавальняе фармат па змаўчанні для вашай лакалізацыі, адаптуйце яго пад свае патрэбы. Пакіньце поле пустым, каб аднавіць фармат па змаўчанні.</string>
     <string name="warning_cannot_move_split_transaction">Гэтую падзеленую транзакцыю нельга перанесці на рахунак %1$s, таму што ёсць часткі пераводу, якія адносяцца да гэтага ўліковага запісу.</string>
-    <string name="description_webdav_trust_certificate">Вэб-сайт выкарыстоўвае сертыфікат, якому Android не давярае.</string>
-    <string name="label_trust_certificate">Давяраць гэтаму сертыфікату</string>
     <string name="menu_sync_link">Пачаць сінхранізацыю</string>
     <string name="menu_sync_download">Спампаваць і сінхранізаваць</string>
     <string name="dialog_command_sync_link_remote">Выдаленая загрузка</string>

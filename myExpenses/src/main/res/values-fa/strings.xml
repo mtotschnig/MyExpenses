@@ -344,11 +344,7 @@
     <string name="crash_dialog_title">{app_name} بسته شد</string>
     <string name="crash_dialog_comment_prompt">اگر مایلید نظرتان را راجع به مشکل در زیر بیان کنید:</string>
     <string name="synchronization">همگام‌سازی</string>
-    <string name="label_trust_certificate">اعتماد کردن به این گواهی</string>
     <string name="validate_error_not_empty">نباید خالی باشد</string>
-    <string name="validate_error_webdav_invalid_certificate">به گواهی نمی‌شود اعتماد کرد. به‌نظر نامعتبر است.</string>
-    <string name="validate_error_webdav_not_compliant">URL به یک منبع WebDAV اشاره نمی کند.</string>
-    <string name="validate_error_webdav_404">URL در سرور وجود ندارد.</string>
     <string name="menu_sync_unlink">همگام‌سازی را متوقف کن</string>
     <string name="menu_sync_link">همگام‌سازی را شروع کن</string>
     <string name="menu_sync_download">بارگیری و همگام‌سازی</string>
@@ -483,9 +479,6 @@
     <string name="pref_sort_order_next_instance">نمونه بعدی</string>
     <string name="paypal_callback_info">تراکنش شما تکمیل شده است و رسید خرید شما برای شما ایمیل شده است. برای مشاهده جزئیات این تراکنش می توانید وارد حساب کاربری خود در www.paypal.com شوید.</string>
     <string name="synchronization_none">بدون همگام سازی</string>
-    <string name="description_webdav_trust_certificate">این وب سایت از گواهی‌ای استفاده می کند که مورد اعتماد اندروید نیست.</string>
-    <string name="hint_url">URL</string>
-    <string name="description_webdav_url">لطفاً URL را در یک پوشه خاص روی سرور WebDAV خود وارد کنید. {app_name} داده‌های خود را در این پوشه ذخیره می‌کند، به چیزی خارج از آن دسترسی ندارد.</string>
     <string name="dialog_confirm_sync_link_local">داده های روی سرور برای این حساب حذف خواهد شد. مطمئن شوید که هیچ دستگاه دیگری به آن متصل نیست.</string>
     <string name="dialog_command_sync_link_remote">بارگیری از سرور</string>
     <string name="dialog_command_sync_link_local">بارگذاری از داده های محلی</string>
@@ -512,7 +505,6 @@
     <string name="csv_import_no_mapping_found_for_amount">لطفاً یک ستون را به مبلغ، درآمد یا هزینه اختصاص دهید.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">اجازه دسترسی</string>
     <string name="search_transfer">جستجوی انتقال</string>
-    <string name="url_not_valid">URL معتبر نیست</string>
     <string name="menu_create_sync_backend">همگام سازی جدید با سرور</string>
     <string name="total_reconciled">مجموع تطبیق یافته</string>
     <string name="warning_delete_reconciled">حذف تراکنش های تطبیق شده باعث می شود سوابق شما با صورت حساب بانکی متفاوت باشد.</string>

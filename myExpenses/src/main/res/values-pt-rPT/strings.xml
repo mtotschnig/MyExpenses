@@ -449,16 +449,9 @@
     <string name="crash_dialog_comment_prompt">Você também pode adicionar os seus comentários sobre o problema abaixo:</string>
     <string name="synchronization">Sincronização</string>
     <string name="synchronization_none">Sem sincronização</string>
-    <string name="hint_url">URL</string>
-    <string name="description_webdav_url">Por favor digite a URL de uma pasta especial no seu servidor WebDAV. {app_name} guardará os dados dentro desta pasta, não tocando em nada fora dela.</string>
-    <string name="label_trust_certificate">Confiar neste certificado</string>
     <string name="no_sync_backends">Sem destinos de sincronização</string>
     <string name="menu_create_sync_backend">Novo destino de sincronização</string>
     <string name="validate_error_not_empty">Não pode ficar em branco</string>
-    <string name="validate_error_webdav_invalid_certificate">Não é possível confiar neste certificado. Aparenta ser inválido.</string>
-    <string name="validate_error_webdav_not_compliant">A URL não aponta para um recurso WebDAV.</string>
-    <string name="validate_error_webdav_404">Esta URL não existe no servidor.</string>
-    <string name="url_not_valid">URL inválida</string>
     <string name="menu_sync_unlink">Parar a sincronização</string>
     <string name="menu_sync_link">Parar a sincronização</string>
     <string name="menu_sync_download">Baixar e sincronizar</string>
@@ -506,7 +499,6 @@
     <string name="pref_category_title_features">Características</string>
     <string name="menu_save_and_new_content_description">Salve os dados, deixando o formulário aberto para a criação de uma nova transação com os mesmos dados.</string>
     <string name="all_extended_key_features">Todos os recursos da Chave Estendida</string>
-    <string name="description_webdav_trust_certificate">O site usa um certificado que não é confiável para o Android.</string>
     <string name="hint_auto_fill">Os dados devem ser automaticamente preenchidos baseados na última transação para o mesmo beneficiário/pagador? Esse comportamento pode ser alterado nas configurações.</string>
     <string name="search_tag">Pesquisar pela etiqueta</string>
     <string name="warning_delete_category_with_budget">Para pelo menos uma categoria selecionada, há alocações de orçamento, que também serão excluídas.</string>

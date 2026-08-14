@@ -487,17 +487,9 @@
     <string name="menu_sync_download">Preuzmi i sinkroniziraj</string>
     <string name="menu_sync_link">Pokreni sinkronizaciju</string>
     <string name="menu_sync_unlink">Prekini sinkronizaciju</string>
-    <string name="url_not_valid">URL nije valjan</string>
-    <string name="validate_error_webdav_404">URL ne postoji na ovom poslužitelju.</string>
-    <string name="validate_error_webdav_not_compliant">URL ne upućuje na WebDAV resurs.</string>
-    <string name="validate_error_webdav_invalid_certificate">Vertifikatu se ne vjeruje. Čini se da je nevaljan.</string>
     <string name="validate_error_not_empty">Ne smije biti prazno</string>
     <string name="menu_create_sync_backend">Novi pozadinski sustav sinkronizacije</string>
     <string name="no_sync_backends">Bez pozadinskog sustava sinkronizacije</string>
-    <string name="label_trust_certificate">Vjeruj ovom crtifikatu</string>
-    <string name="description_webdav_trust_certificate">Web stranica koristi certifikat kojem Android ne vjeruje.</string>
-    <string name="description_webdav_url">Upiši URL posebne mape na tvom WebDAV poslužitelju. {app_name} će spremiti svoje podatke unutar ove mape i neće mijenjati ništa izvan nje.</string>
-    <string name="hint_url">URL</string>
     <string name="synchronization_none">Bez sinkronizacije</string>
     <string name="synchronization">Sinkronizacija</string>
     <string name="crash_dialog_comment_prompt">Niže dolje dodaj svoje komentare o problemu:</string>

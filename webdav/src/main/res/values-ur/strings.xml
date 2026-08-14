@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="description_webdav_url">براہ کرم اپنے WebDAV سرور پر ایک خاص فولڈر میں URL درج کریں۔ {app_name} اس فولڈر کے اندر اپنا ڈیٹا اسٹور کرے گا، یہ اس کے باہر کسی چیز کو نہیں چھوئے گا.</string>
+    <string name="hint_url">URL</string>
+    <string name="description_webdav_trust_certificate">ویب سائٹ ایک سرٹیفکیٹ استعمال کرتی ہے، جس پر اینڈرائیڈ کو بھروسہ نہیں ہے۔</string>
+    <string name="label_trust_certificate">اس سند پر بھروسہ کریں</string>
+    <string name="validate_error_webdav_invalid_certificate">سرٹیفکیٹ پر بھروسہ نہیں کیا جا سکتا۔ یہ ناجائز لگتا ہے.</string>
+    <string name="validate_error_webdav_not_compliant">URL کسی WebDAV وسائل کی طرف اشارہ نہیں کرتا.</string>
+    <string name="validate_error_webdav_404">URL سرور پر موجود نہیں ہے.</string>
+    <string name="url_not_valid">URL درست نہیں ہے</string>
+</resources>

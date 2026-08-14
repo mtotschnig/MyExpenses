@@ -453,17 +453,9 @@
     <string name="crash_dialog_comment_prompt">Bạn có thể thêm ý kiến ​​của bạn về vấn đề vừa rồi dưới đây:</string>
     <string name="synchronization">Đồng bộ hóa</string>
     <string name="synchronization_none">Không đồng bộ hóa</string>
-    <string name="hint_url">URL</string>
-    <string name="description_webdav_url">Vui lòng nhập URL dẫn tới một thư mục đặc biệt trên máy chủ WebDAV của bạn. {app_name} sẽ lưu trữ dữ liệu bên trong thư mục này, nó sẽ không gây ảnh hưởng tới bất cứ thứ gì bên ngoài thư mục đó.</string>
-    <string name="description_webdav_trust_certificate">Trang web này sử dụng một chứng chỉ mà Android không tin cậy.</string>
-    <string name="label_trust_certificate">Tin cậy chứng chỉ này</string>
     <string name="no_sync_backends">Không có phụ trợ đồng bộ hóa</string>
     <string name="menu_create_sync_backend">Phụ trợ đồng bộ hóa mới</string>
     <string name="validate_error_not_empty">Không được để trống</string>
-    <string name="validate_error_webdav_invalid_certificate">Chứng chỉ không đáng tin cậy. Nó có vẻ không hợp lệ.</string>
-    <string name="validate_error_webdav_not_compliant">URL không trỏ đến tài nguyên WebDAV.</string>
-    <string name="validate_error_webdav_404">URL không tồn tại trên máy chủ.</string>
-    <string name="url_not_valid">URL không hợp lệ</string>
     <string name="menu_sync_unlink">Dừng đồng bộ hóa</string>
     <string name="menu_sync_link">Bắt đầu đồng bộ hóa</string>
     <string name="menu_sync_download">Tải xuống và đồng bộ hóa</string>

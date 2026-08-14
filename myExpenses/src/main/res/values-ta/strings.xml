@@ -468,17 +468,9 @@
     <string name="crash_dialog_comment_prompt">சிக்கலைப் பற்றிய உங்கள் கருத்துகளை நீங்கள் சேர்க்கலாம்:</string>
     <string name="synchronization">ஒத்திசைவு</string>
     <string name="synchronization_none">ஒத்திசைக்காதே</string>
-    <string name="hint_url">உரலி</string>
-    <string name="description_webdav_url">உங்கள் WebDAV சேவையகத்தில் ஒரு பிரத்யேக கோப்புறைக்கான உரலியை உள்ளிடுக. {app_name} இந்த கோப்புறையினுள் அதன் தரவைச் சேமிக்கும், அதற்கு வெளியே அது எதையுமே தொடுவதில்லை.</string>
-    <string name="description_webdav_trust_certificate">வலைத்தளம் ஆண்ட்ராய்டின் நம்பகத்தன்மையற்ற சான்றிதழைப் பயன்படுத்துகிறது.</string>
-    <string name="label_trust_certificate">இந்த சான்றிதழை நம்புங்கள்</string>
     <string name="no_sync_backends">ஒத்திசைவு பின்தளங்கள் இல்லை</string>
     <string name="menu_create_sync_backend">புதிய ஒத்திசைவு பின்தளம்</string>
     <string name="validate_error_not_empty">காலியாக இருக்கக்கூடாது</string>
-    <string name="validate_error_webdav_invalid_certificate">சான்றிதழ் மேல் நம்பிக்கை வைக்க முடியவில்லை. இது தவறானதாகத் தெரிகிறது.</string>
-    <string name="validate_error_webdav_not_compliant">உரலி ஒரு WebDAV வளத்தை சுட்டவில்லை.</string>
-    <string name="validate_error_webdav_404">சேவையகத்தில் உரலி இல்லை.</string>
-    <string name="url_not_valid">செல்லுபடியாகாத உரலி</string>
     <string name="menu_sync_unlink">ஒத்திசைவை நிறுத்து</string>
     <string name="menu_sync_link">ஒத்திசைவை தொடங்கு</string>
     <string name="menu_sync_download">பதிவிறக்கு மற்றும் ஒத்திசை</string>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="description_webdav_url">S’il vous plaît entrez l’URL vers un dossier spécial sur votre serveur WebDAV. {app_name} va stocker ses données à l’intérieur de ce dossier, il ne touche à rien en dehors de celui-ci.</string>
+    <string name="hint_url">URL</string>
+    <string name="description_webdav_trust_certificate">Le site web utilise un certificat non validé par Android.</string>
+    <string name="label_trust_certificate">Valider ce certificat</string>
+    <string name="validate_error_webdav_invalid_certificate">Le certificat n\'est pas vérifié. Il semble invalide. </string>
+    <string name="validate_error_webdav_not_compliant">L’URL ne pointe pas vers une ressource WebDAV.</string>
+    <string name="validate_error_webdav_404">L\'URL n\'existe pas sur le serveur.</string>
+    <string name="url_not_valid">URL invalide</string>
+</resources>
