@@ -26,4 +26,6 @@ dependencies {
     implementation libs.okhttp
     ksp libs.dagger.compiler
     implementation libs.dagger
+    testImplementation libs.junit
+    testImplementation libs.truth
 }
