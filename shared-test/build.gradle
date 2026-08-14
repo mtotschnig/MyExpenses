@@ -18,6 +18,8 @@ android {
 }
 
 dependencies {
-    implementation(libs.truth)
+    api(libs.truth)
     implementation(project(":myExpenses"))
+    api(libs.androidx.test.core)
+    api(libs.junit)
 }

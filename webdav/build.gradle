@@ -8,11 +8,14 @@ android {
     defaultConfig {
         missingDimensionStrategy 'textRecognition', 'extern'
         minSdk project.minSdkVersion
+        resourceConfigurations = resConfig
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
+
     buildFeatures {
         viewBinding true
     }
@@ -33,4 +36,7 @@ dependencies {
     implementation libs.dagger
     testImplementation libs.junit
     testImplementation libs.truth
+    androidTestImplementation project(":shared-test")
+    androidTestImplementation libs.androidx.junit
+    androidTestImplementation libs.androidx.runner
 }

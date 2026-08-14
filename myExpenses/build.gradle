@@ -130,6 +130,14 @@ android {
         checkDependencies true
         disable 'InvalidPackage', 'MissingQuantity', 'MissingTranslation', 'ImpliedQuantity', 'Instantiatable'
     }
+
+    bundle {
+        language {
+            //TODO find out how we can set enableSplit to false only when running tests
+            //enableSplit = false
+        }
+    }
+
     namespace 'org.totschnig.myexpenses'
 }
 
