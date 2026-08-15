@@ -47,8 +47,8 @@ abstract class PickObjectContract : ActivityResultContract<Pair<PageAccount?, Id
                         KEY_ACCOUNT_GROUPING_GROUP,
                         when (account.accountGrouping) {
                             AccountGrouping.CURRENCY -> account.currency
-                            AccountGrouping.FLAG -> account.flag!!.id.toString()
-                            AccountGrouping.TYPE -> account.type!!.id.toString()
+                            AccountGrouping.FLAG -> account.flag.id.toString()
+                            AccountGrouping.TYPE -> account.type.id.toString()
                             else -> "Unit"
                         }
                     )

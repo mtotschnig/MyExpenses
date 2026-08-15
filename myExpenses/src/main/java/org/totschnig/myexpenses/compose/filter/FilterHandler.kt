@@ -181,7 +181,7 @@ fun FilterHandler(
         override fun handleMethodEdit(methodCriterion: MethodCriterion?) {
             SelectMethodDialogFragment.newInstance(
                 requestKey,
-                account.id, methodCriterion
+                account, methodCriterion
             ).show(activity.supportFragmentManager, "METHOD_FILTER")
         }
 
@@ -194,7 +194,7 @@ fun FilterHandler(
         }
 
         override fun handleTransferEdit(transferCriterion: TransferCriterion?) {
-            SelectTransferAccountDialogFragment.newInstance(requestKey,account.id, transferCriterion)
+            SelectTransferAccountDialogFragment.newInstance(requestKey,account, transferCriterion)
                 .show(activity.supportFragmentManager, "TRANSFER_FILTER")
         }
     }

@@ -18,6 +18,7 @@ import android.net.Uri
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.TransferCriterion
+import org.totschnig.myexpenses.viewmodel.data.PageAccount
 
 class SelectTransferAccountDialogFragment : SelectFromMappedTableDialogFragment<TransferCriterion>(
     false,
@@ -33,9 +34,9 @@ class SelectTransferAccountDialogFragment : SelectFromMappedTableDialogFragment<
     }
 
     companion object {
-        fun newInstance(requestKey: String, rowId: Long, criterion: TransferCriterion?) =
+        fun newInstance(requestKey: String, account: PageAccount, criterion: TransferCriterion?) =
             SelectTransferAccountDialogFragment().apply {
-                arguments = configureArguments(requestKey, rowId, criterion)
+                arguments = configureArguments(requestKey, account, criterion)
             }
     }
 }

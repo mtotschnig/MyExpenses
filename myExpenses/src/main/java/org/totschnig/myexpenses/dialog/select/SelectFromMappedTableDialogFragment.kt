@@ -15,6 +15,8 @@
 package org.totschnig.myexpenses.dialog.select
 
 import org.totschnig.myexpenses.model.AccountGrouping
+import org.totschnig.myexpenses.model.KEY_ACCOUNT_GROUPING
+import org.totschnig.myexpenses.model.KEY_ACCOUNT_GROUPING_GROUP
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_CODE
@@ -27,6 +29,7 @@ import org.totschnig.myexpenses.provider.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.TABLE_CURRENCIES
 import org.totschnig.myexpenses.provider.filter.IdCriterion
 import org.totschnig.myexpenses.provider.filter.KEY_CRITERION
+import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import kotlin.math.abs
 
 abstract class SelectFromMappedTableDialogFragment<T : IdCriterion>(
@@ -36,14 +39,41 @@ abstract class SelectFromMappedTableDialogFragment<T : IdCriterion>(
     override val column: String
         get() = KEY_LABEL
     override val selection: String?
-        get() = accountSelection(requireArguments().getLong(KEY_ROWID)).takeIf { it.isNotEmpty() }
+        get() {
+            val args = requireArguments()
+            val accountID = args.getLong(KEY_ROWID)
+            return if (accountID == 0L) {
+                accountSelectionV2(AccountGrouping.valueOf(args.getString(KEY_ACCOUNT_GROUPING)!!))
+            } else accountSelection(accountID).takeIf { it.isNotEmpty() }
+        }
     override val selectionArgs: Array<String>?
-        get() = accountSelectionArgs(requireArguments().getLong(KEY_ROWID))
+        get() {
+            val args = requireArguments()
+            val accountID = args.getLong(KEY_ROWID)
+            return if (accountID == 0L) {
+                accountSelectionArgsV2(
+                    AccountGrouping.valueOf(args.getString(KEY_ACCOUNT_GROUPING)!!),
+                    args.getString(KEY_ACCOUNT_GROUPING_GROUP)!!
+                    )
+            } else accountSelectionArgs(requireArguments().getLong(KEY_ROWID))
+        }
 
-    protected fun configureArguments(requestKey: String, rowId: Long, criterion: T?) =
+    protected fun configureArguments(requestKey: String, account: PageAccount, criterion: T?) =
         configureArguments(requestKey)
             .apply {
-                putLong(KEY_ROWID, rowId)
+                if (account.id == 0L) {
+                    putString(KEY_ACCOUNT_GROUPING, account.accountGrouping!!.name)
+                    putString(
+                        KEY_ACCOUNT_GROUPING_GROUP,
+                        when (account.accountGrouping) {
+                            AccountGrouping.CURRENCY -> account.currency
+                            AccountGrouping.FLAG -> account.flag.id.toString()
+                            AccountGrouping.TYPE -> account.type.id.toString()
+                            else -> "Unit"
+                        }
+                    )
+                }
+                putLong(KEY_ROWID, account.id)
                 putParcelable(KEY_CRITERION, criterion)
             }
 

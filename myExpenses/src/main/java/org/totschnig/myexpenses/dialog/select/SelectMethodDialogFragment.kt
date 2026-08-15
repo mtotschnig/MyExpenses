@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
+import org.totschnig.myexpenses.viewmodel.data.PageAccount
 
 class SelectMethodDialogFragment : SelectFromMappedTableDialogFragment<MethodCriterion>(
     true, MethodCriterion::class.java
@@ -36,9 +37,9 @@ class SelectMethodDialogFragment : SelectFromMappedTableDialogFragment<MethodCri
     }
 
     companion object {
-        fun newInstance(requestKey: String, rowId: Long, methodCriterion: MethodCriterion?) =
+        fun newInstance(requestKey: String, account: PageAccount, methodCriterion: MethodCriterion?) =
             SelectMethodDialogFragment().apply {
-                arguments = configureArguments(requestKey, rowId, methodCriterion)
+                arguments = configureArguments(requestKey, account, methodCriterion)
             }
     }
 }
