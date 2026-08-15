@@ -1089,4 +1089,7 @@
         <item quantity="other">%1$d lignes font référence à des actifs inconnus : %2$s.</item>
     </plurals>
     <string name="service_starting">Démarrage…</string>
+    <string name="trade_transfer">Transfert</string>
+    <string name="asset_type_commodity">Matière première</string>
+    <string name="asset_type_commodity_plural">Matières premières</string>
 </resources>
