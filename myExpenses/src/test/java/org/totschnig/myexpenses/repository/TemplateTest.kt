@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.db2.getTransactionSum
 import org.totschnig.myexpenses.db2.insertTemplate
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.instantiateTemplate
+import org.totschnig.myexpenses.db2.loadSplitParts
 import org.totschnig.myexpenses.db2.loadTemplate
 import org.totschnig.myexpenses.db2.loadTemplateForPlanIfInstanceIsOpen
 import org.totschnig.myexpenses.db2.loadTemplateIfInstanceIsOpen
@@ -113,7 +114,7 @@ class TemplateTest : BaseTestWithRepository() {
 
     @Test
     fun testSplitTemplate() {
-        val template = buildSplitTemplate()
+        val template = buildSplitTemplateCategory()
         with(repository.loadTemplate(template.id)!!) {
             assertThat(title).isEqualTo(template.title)
             assertThat(data.comment).isEqualTo("Some comment parent")
@@ -151,7 +152,7 @@ class TemplateTest : BaseTestWithRepository() {
 
     @Test
     fun testSplitFromTemplate() {
-        val template = buildSplitTemplate()
+        val template = buildSplitTemplateCategory()
         val transaction = template.instantiate().id
         repository.assertTransaction(
             transaction,
@@ -173,10 +174,50 @@ class TemplateTest : BaseTestWithRepository() {
     }
 
     @Test
-    fun testSplitFromTemplateWithTransferPart() = runTest {
-        val template = buildSplitTemplate(withTransferPart = true, splitPartCount = 2)
+    fun testSplitFromTemplateWithCategoryAndTransferPart() = runTest {
+        val template = buildSplitTemplateCategoryAndTransfer()
         val transaction = template.instantiate().id
         val peers = repository.loadTransactions(account2).sortedBy { it.id }
+        val transferPart = template.splitParts!![0]
+        val categoryPart = template.splitParts[1]
+        repository.assertTransaction(
+            transaction,
+            TransactionData(
+                accountId = template.data.accountId,
+                amount = template.data.amount,
+                comment = template.data.comment,
+                splitParts = listOf(
+                    TransactionData(
+                        comment = categoryPart.data.comment,
+                        category = categoryPart.data.categoryId,
+                        tags = listOf(tagId),
+                        accountId = template.data.accountId,
+                        amount = categoryPart.data.amount,
+                        transferAccount = null,
+                        transferPeer = null
+                    ),
+                    TransactionData(
+                        comment = transferPart.data.comment,
+                        category = transferPart.data.categoryId,
+                        tags = listOf(tagId),
+                        accountId = transferPart.data.accountId,
+                        amount = transferPart.data.amount,
+                        transferAccount = account2,
+                        transferPeer = peers[0].id
+                    )
+                )
+            )
+        )
+    }
+
+    @Test
+    fun testSplitFromTemplateWithTransferPartDualSplit() = runTest {
+        val template = buildSplitTemplateDualSplitTransfer()
+        val transaction = template.instantiate().id
+        val peers = repository.loadTransactions(account2).sortedBy { it.id }
+        assertThat(peers).hasSize(1)
+        val peerParts = repository.loadSplitParts(peers.first().id)
+        assertThat(peerParts).hasSize(2)
         repository.assertTransaction(
             transaction,
             TransactionData(
@@ -192,7 +233,7 @@ class TemplateTest : BaseTestWithRepository() {
                         accountId = template.data.accountId,
                         amount = templatePart.data.amount,
                         transferAccount = account2,
-                        transferPeer = peers[it].id
+                        transferPeer = peerParts.first() { it.comment == templatePart.data.comment }.id
                     )
                 }
             )
@@ -217,7 +258,7 @@ class TemplateTest : BaseTestWithRepository() {
 
     @Test
     fun instantiateSplitWithDate() {
-        val template = buildSplitTemplate()
+        val template = buildSplitTemplateCategory()
         val dateInThePast = LocalDateTime.now().minusDays(30)
         val transaction = template.instantiate(dateInThePast.toEpochMillis()).data
         assertThat(transaction.date).isEqualTo(dateInThePast.toEpoch())
@@ -341,9 +382,8 @@ class TemplateTest : BaseTestWithRepository() {
         tagList = listOf(tagId)
     )
 
-    private fun buildSplitTemplate(
-        withTransferPart: Boolean = false,
-        splitPartCount: Int = 1, // Add a parameter for how many parts to create
+    private fun buildSplitTemplateCategory(
+        splitPartCount: Int = 1,
     ) = repository.createTemplate(
         RepositoryTemplate(
             data = Template(
@@ -354,15 +394,15 @@ class TemplateTest : BaseTestWithRepository() {
                 categoryId = SPLIT_CATID,
                 uuid = generateUuid()
             ),
-            splitParts = List(splitPartCount) { index -> // <-- THE SO
+            splitParts = List(splitPartCount) { index ->
                 RepositoryTemplate(
                     data = Template(
                         amount = 50L,
                         accountId = account1,
                         comment = "Some comment part $index",
                         title = "",
-                        categoryId = if (withTransferPart) prefHandler.defaultTransferCategory else categoryId,
-                        transferAccountId = if (withTransferPart) account2 else null,
+                        categoryId = categoryId,
+                        transferAccountId = null,
                         uuid = generateUuid(),
                         tagList = listOf(tagId)
                     )
@@ -370,4 +410,62 @@ class TemplateTest : BaseTestWithRepository() {
             }
         )
     )
+
+    private fun buildSplitTemplateCategoryAndTransfer(): RepositoryTemplate {
+        return repository.createTemplate(
+            RepositoryTemplate(
+                data = Template(
+                    amount = 100,
+                    accountId = account1,
+                    comment = "Some comment parent",
+                    title = "Template",
+                    categoryId = SPLIT_CATID,
+                    uuid = generateUuid()
+                ),
+                splitParts = List(2) { index ->
+                    RepositoryTemplate(
+                        data = Template(
+                            amount = 50L,
+                            accountId = account1,
+                            comment = "Some comment part $index",
+                            title = "",
+                            categoryId = if (index == 0) prefHandler.defaultTransferCategory else categoryId,
+                            transferAccountId = if (index == 0) account2 else null,
+                            uuid = generateUuid(),
+                            tagList = listOf(tagId)
+                        )
+                    )
+                }
+            )
+        )
+    }
+
+    private fun buildSplitTemplateDualSplitTransfer(): RepositoryTemplate {
+        return repository.createTemplate(
+            RepositoryTemplate(
+                data = Template(
+                    amount = 100,
+                    accountId = account1,
+                    comment = "Some comment parent",
+                    title = "Template",
+                    categoryId = SPLIT_CATID,
+                    uuid = generateUuid()
+                ),
+                splitParts = List(2) { index ->
+                    RepositoryTemplate(
+                        data = Template(
+                            amount = 50L,
+                            accountId = account1,
+                            comment = "Some comment part $index",
+                            title = "",
+                            categoryId = prefHandler.defaultTransferCategory,
+                            transferAccountId = account2,
+                            uuid = generateUuid(),
+                            tagList = listOf(tagId)
+                        )
+                    )
+                }
+            )
+        )
+    }
 }
