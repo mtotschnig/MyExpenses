@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="versions">
-        <item>871;4.1.0.2</item>
-        <item>869;4.1.0.1</item>
+        <item>872;4.1.1</item>
         <item>868;4.1.0</item>
         <item>857;4.0.9</item>
         <item>851;4.0.8</item>
@@ -163,8 +162,7 @@
     <string name="project_board_408">185</string>
     <string name="project_board_409">187</string>
     <string name="project_board_410">189</string>
-    <string name="project_board_4101">190</string>
-    <string name="project_board_4102">191</string>
+    <string name="project_board_411">192</string>
 
     <string-array name="whats_new_361">
         <item>@string/whats_new_361_1</item>
@@ -235,12 +233,4 @@
     <string-array name="whats_new_410">
         <item>@string/contrib_feature_portfolio_tracking</item>
     </string-array>
-    <string-array name="whats_new_4101">
-        <item>@string/bug_fixes</item>
-        <item>@string/whats_new_4101</item>
-    </string-array>
-    <string-array name="whats_new_4102">
-        <item>@string/bug_fixes</item>
-    </string-array>
-    <string name="whats_new_4101">Refinement of Trade import for portfolios</string>
 </resources>
