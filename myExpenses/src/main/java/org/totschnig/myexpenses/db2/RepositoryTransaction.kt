@@ -834,12 +834,12 @@ fun Repository.loadTransaction(
 
 fun Repository.loadSplitParts(transactionId: Long): List<Transaction> =
     contentResolver.query(
-        TRANSACTIONS_URI,
-        Transaction.projection,
-        "$KEY_PARENTID = ?",
-        arrayOf(transactionId.toString()),
-        null
-    )!!.useAndMapToList { Transaction.fromCursor(it) }
+        TRANSACTIONS_URI.buildUpon().appendQueryParameter(
+            KEY_PARENTID, transactionId.toString()
+        ).build(), Transaction.projection, null, null, null
+    )!!.useAndMapToList {
+        Transaction.fromCursor(it)
+    }
 
 fun Repository.findSiblingParentId(parentId: Long): Long? {
     val parts = loadSplitParts(parentId)

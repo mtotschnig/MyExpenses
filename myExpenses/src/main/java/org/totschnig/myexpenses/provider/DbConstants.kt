@@ -75,6 +75,7 @@ val Uri.accountSelector: String
             (getQueryParameter(KEY_ACCOUNT_TYPE)?.let { "AND $KEY_TYPE = $it" } ?: "") +
             (getQueryParameter(KEY_FLAG)?.let { "AND $KEY_FLAG = $it" } ?: "") +
             ")")
+
 fun checkSealedWithAlias(baseTable: String) =
     "max(" + checkForSealedAccount(
         baseTable,
@@ -922,10 +923,10 @@ fun buildTransactionGroupCte(
             //they still count if
             // 1) transaction is mapped to a transfer category
             // 2) one side of the transfer is in an account that is excluded from totals
-            append("$aggregateFunction(CASE WHEN effective_type = $FLAG_TRANSFER THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_TRANSFERS")
+            append("$aggregateFunction(CASE WHEN effective_type = $FLAG_TRANSFER THEN $KEY_DISPLAY_AMOUNT ELSE 0 END) AS $KEY_SUM_TRANSFERS,")
         }
 
-        append(",MAX($KEY_DATE) AS $KEY_DATE") //needed for julian day and week start calculation
+        append("MAX($KEY_DATE) AS $KEY_DATE") //needed for julian day and week start calculation
 
         if (breakdownByAccount) {
             append(",$KEY_CURRENCY")
