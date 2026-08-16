@@ -77,6 +77,9 @@ import org.totschnig.myexpenses.model.sort.Sort.Companion.preferredOrderByForTem
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.KEY_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.KEY_AMOUNT
+import org.totschnig.myexpenses.db2.FLAG_EXPENSE
+import org.totschnig.myexpenses.db2.FLAG_INCOME
+import org.totschnig.myexpenses.db2.FLAG_TRANSFER
 import org.totschnig.myexpenses.provider.KEY_CATID
 import org.totschnig.myexpenses.provider.KEY_COLOR
 import org.totschnig.myexpenses.provider.KEY_COMMENT
@@ -96,6 +99,7 @@ import org.totschnig.myexpenses.provider.KEY_SEALED
 import org.totschnig.myexpenses.provider.KEY_TEMPLATEID
 import org.totschnig.myexpenses.provider.KEY_TITLE
 import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.KEY_TYPE
 import org.totschnig.myexpenses.provider.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.KEY_TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.KEY_UUID
@@ -103,6 +107,7 @@ import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.getInt
+import org.totschnig.myexpenses.provider.getIntIfExists
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
@@ -116,6 +121,7 @@ import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.enumValueOrDefault
+import org.totschnig.myexpenses.util.readPrimaryTextColor
 import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
@@ -678,6 +684,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
             ResourcesCompat.getColor(resources, R.color.colorIncome, null)
         private val colorTransfer: Int =
             ResourcesCompat.getColor(resources, R.color.colorTransfer, null)
+        private val colorDefault: Int = readPrimaryTextColor(context)
 
         @SuppressLint("SetTextI18n")
         override fun bindView(view: View, context: Context, cursor: Cursor) {
@@ -686,10 +693,12 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
             val isTransfer = !cursor.isNull(KEY_TRANSFER_ACCOUNT)
             val tv1 = view.findViewById<TextView>(R.id.Amount)
             val amount = cursor.getLong(KEY_AMOUNT)
-            val amountColor = when {
-                isTransfer -> colorTransfer
-                amount < 0 -> colorExpense
-                else -> colorIncome
+            val type = cursor.getIntIfExists(KEY_TYPE)?.toByte()
+            val amountColor = when (type) {
+                FLAG_EXPENSE -> colorExpense
+                FLAG_INCOME -> colorIncome
+                FLAG_TRANSFER -> colorTransfer
+                else -> colorDefault
             }
             tv1.setTextColor(amountColor)
             tv1.text = currencyFormatter.convAmount(

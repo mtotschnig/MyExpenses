@@ -959,10 +959,10 @@ fun buildTransactionGroupCte(
 }
 
 fun effectiveTypeExpression(typeWithFallback: String): String =
-    "CASE $typeWithFallback WHEN $FLAG_NEUTRAL THEN CASE WHEN $KEY_AMOUNT > 0 THEN $FLAG_INCOME ELSE $FLAG_EXPENSE END ELSE $typeWithFallback END"
+    "coalesce(nullif($typeWithFallback, $FLAG_NEUTRAL), CASE WHEN $KEY_AMOUNT > 0 THEN $FLAG_INCOME WHEN $KEY_AMOUNT < 0 THEN $FLAG_EXPENSE ELSE $FLAG_NEUTRAL END)"
 
 fun effectiveTypeExpressionIncludeTransfers(typeWithFallback: String): String =
-    "CASE $typeWithFallback WHEN $FLAG_EXPENSE THEN $FLAG_EXPENSE WHEN $FLAG_INCOME THEN $FLAG_INCOME ELSE CASE WHEN $KEY_AMOUNT > 0 THEN $FLAG_INCOME ELSE $FLAG_EXPENSE END END"
+    effectiveTypeExpression("nullif($typeWithFallback, $FLAG_TRANSFER)")
 
 fun transactionSumQuery(
     uri: Uri,

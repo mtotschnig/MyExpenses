@@ -2241,6 +2241,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
         add(KEY_PAYEEID)
         add(KEY_PAYEE_NAME)
         add(KEY_SHORT_NAME)
+        add("${effectiveTypeExpression(typeWithFallBack(prefHandler))} AS $KEY_TYPE")
         add(KEY_TRANSFER_ACCOUNT)
         add(TRANSFER_ACCOUNT_LABEL)
         add(TRANSFER_ACCOUNT_CURRENCY)
