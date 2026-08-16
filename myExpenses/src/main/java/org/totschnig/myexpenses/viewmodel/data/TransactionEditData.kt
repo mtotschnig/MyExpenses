@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TransactionType
+import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.entities.Recurrence
 import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.model.CrStatus
@@ -90,6 +91,7 @@ data class TransactionEditData(
     val isSplitPart: Boolean = false,
     val splitParts: List<TransactionEditData>? = null,
     val planInstanceId: Long? = null,
+    val type: Byte = FLAG_NEUTRAL
 ) : Parcelable {
     @IgnoredOnParcel
     val isSplit = categoryId == SPLIT_CATID

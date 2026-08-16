@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.db2.entities
 
 import android.database.Cursor
+import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_ACCOUNT_LABEL
@@ -29,6 +30,7 @@ import org.totschnig.myexpenses.provider.KEY_STATUS
 import org.totschnig.myexpenses.provider.KEY_TAGLIST
 import org.totschnig.myexpenses.provider.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER
+import org.totschnig.myexpenses.provider.KEY_TYPE
 import org.totschnig.myexpenses.provider.KEY_UUID
 import org.totschnig.myexpenses.provider.KEY_VALUE_DATE
 import org.totschnig.myexpenses.provider.PORTFOLIO_NONE
@@ -151,7 +153,12 @@ data class Transaction(
     /**
      * Read-only property holding information if account is part of portfolio feature
      */
-    val portfolioRole: Int = PORTFOLIO_NONE
+    val portfolioRole: Int = PORTFOLIO_NONE,
+
+    /**
+     * Read-only property holding type of category
+     */
+    val type: Byte = FLAG_NEUTRAL
 ) {
 
     val isTransfer: Boolean = transferAccountId != null
@@ -189,7 +196,8 @@ data class Transaction(
             KEY_PAYEE_NAME,
             KEY_STATUS,
             KEY_ICON,
-            KEY_METHOD_LABEL
+            KEY_METHOD_LABEL,
+            KEY_TYPE
         )
 
         val projectionExtended = projection + arrayOf(KEY_ACCOUNT_LABEL, KEY_IS_PORTFOLIO)
@@ -228,7 +236,8 @@ data class Transaction(
                 categoryIcon = getStringOrNull(KEY_ICON),
                 methodLabel = getStringOrNull(KEY_METHOD_LABEL),
                 accountLabel = getStringIfExists(KEY_ACCOUNT_LABEL),
-                portfolioRole = getIntIfExistsOr0(KEY_IS_PORTFOLIO)
+                portfolioRole = getIntIfExistsOr0(KEY_IS_PORTFOLIO),
+                type = getIntIfExists(KEY_TYPE)?.toByte() ?: FLAG_NEUTRAL
             )
         }
     }

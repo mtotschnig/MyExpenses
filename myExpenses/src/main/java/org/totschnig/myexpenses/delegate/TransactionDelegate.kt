@@ -440,6 +440,9 @@ abstract class TransactionDelegate(
         }
 
         fillAmount(transaction.amount.amountMajor)
+        if (transaction.amount.amountMinor == 0L && transaction.type == FLAG_INCOME) {
+            viewBinding.Amount.type = true
+        }
         if (withAutoFill && isMainTemplate) {
             viewBinding.Title.requestFocus()
         }

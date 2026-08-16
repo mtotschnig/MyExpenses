@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.db2.entities
 
 import android.database.Cursor
+import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_ICON
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_AMOUNT
@@ -26,11 +27,13 @@ import org.totschnig.myexpenses.provider.KEY_SEALED
 import org.totschnig.myexpenses.provider.KEY_TITLE
 import org.totschnig.myexpenses.provider.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.KEY_TRANSFER_ACCOUNT_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_TYPE
 import org.totschnig.myexpenses.provider.KEY_UUID
 import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getEnum
 import org.totschnig.myexpenses.provider.getInt
+import org.totschnig.myexpenses.provider.getIntIfExists
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
@@ -71,6 +74,10 @@ data class Template(
     val transferAccountCurrency: String? = null,
     /** the list of linked tag ids. not loaded from DB, but populated from TransactionEditData for storage*/
     val tagList: List<Long> = emptyList(),
+    /**
+     * Read-only property holding type of category
+     */
+    val type: Byte = FLAG_NEUTRAL
 )  {
 
     val isTransfer: Boolean = transferAccountId != null
@@ -96,7 +103,8 @@ data class Template(
         payeeName = payeeName,
         methodLabel = methodLabel,
         uuid = uuid,
-        tagList = tagList
+        tagList = tagList,
+        type = type
     )
 
     companion object {
@@ -147,7 +155,8 @@ data class Template(
                 sealed = getBoolean(KEY_SEALED),
                 currency = getStringOrNull(KEY_CURRENCY),
                 payeeName = getStringOrNull(KEY_PAYEE_NAME),
-                transferAccountCurrency = getStringOrNull(KEY_TRANSFER_ACCOUNT_CURRENCY)
+                transferAccountCurrency = getStringOrNull(KEY_TRANSFER_ACCOUNT_CURRENCY),
+                type = getIntIfExists(KEY_TYPE)?.toByte() ?: FLAG_NEUTRAL
             )
         }
     }

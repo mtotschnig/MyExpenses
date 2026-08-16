@@ -73,7 +73,8 @@ object TransactionMapper {
                 map(it, currencyContext).copy(
                     isSplitPart = true
                 )
-            }
+            },
+            type = transaction.type
         )
     }
 
@@ -109,6 +110,7 @@ object TransactionMapper {
                 )
             },
             isSealed = template.sealed,
+            type = template.type
         )
     }
 
