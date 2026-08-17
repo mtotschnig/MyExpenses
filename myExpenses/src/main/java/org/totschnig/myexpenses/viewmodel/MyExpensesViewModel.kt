@@ -309,7 +309,7 @@ open class MyExpensesViewModel(
     }
 
     val selectedAccountId: StateFlow<Long> =
-        savedStateHandle.getStateFlow<Long>(SELECTED_ACCOUNT_KEY, 1L)
+        savedStateHandle.getStateFlow(SELECTED_ACCOUNT_KEY, 1L)
 
     fun selectAccount(accountId: Long) {
         if (selectedAccountId.value != accountId) {
@@ -385,7 +385,7 @@ open class MyExpensesViewModel(
     }
 
     private val pagerCache = mutableMapOf<Any, PagerInfo>()
-    val currentQueryKeys = mutableMapOf<Any, Any>()
+    protected val currentQueryKeys = mutableMapOf<Any, Any>()
 
     private data class PagerInfo(
         val factory: ClearingLastPagingSourceFactory<Int, Transaction2, *>,
@@ -764,9 +764,8 @@ open class MyExpensesViewModel(
             })
         }
 
-    private val cloneAndRemapProgressInternal = MutableLiveData<Pair<Int, Int>>()
     val cloneAndRemapProgress: LiveData<Pair<Int, Int>>
-        get() = cloneAndRemapProgressInternal
+        field = MutableLiveData<Pair<Int, Int>>()
 
     private fun RepositoryTransaction.clone(): RepositoryTransaction {
         fun Transaction.clone(uuid: String) =
@@ -801,7 +800,7 @@ open class MyExpensesViewModel(
                 } else {
                     failureCount++
                 }
-                cloneAndRemapProgressInternal.postValue(Pair(successCount, failureCount))
+                cloneAndRemapProgress.postValue(Pair(successCount, failureCount))
             }
         }
     }
