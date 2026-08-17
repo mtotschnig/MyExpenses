@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.dialog.ArchiveInfo
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.generateUuid
+import org.totschnig.myexpenses.model.sort.SortDirection
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.uriBuilderForTransactionList
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART
@@ -94,6 +95,7 @@ import java.math.RoundingMode
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.Locale
+import kotlin.math.absoluteValue
 
 fun Transaction.asContentValues(
     withUuid: Boolean = true,
@@ -479,17 +481,23 @@ fun Repository.createDualSplitTransaction(
     parent1: Transaction,
     parts1: List<Pair<Transaction, Transaction?>>,
     parent2: Transaction,
-    parts2: List<Pair<Transaction, Transaction?>>
+    parts2: List<Pair<Transaction, Transaction?>>,
 ): Pair<RepositoryTransaction, RepositoryTransaction> {
     require(parent1.isSplit && parent2.isSplit)
     val operations = ArrayList<ContentProviderOperation>()
 
     // Op 0: Parent 1
-    operations.add(ContentProviderOperation.newInsert(TRANSACTIONS_URI).withValues(parent1.asContentValues()).build())
+    operations.add(
+        ContentProviderOperation.newInsert(TRANSACTIONS_URI).withValues(parent1.asContentValues())
+            .build()
+    )
     val p1Idx = 0
 
     // Op 1: Parent 2
-    operations.add(ContentProviderOperation.newInsert(TRANSACTIONS_URI).withValues(parent2.asContentValues()).build())
+    operations.add(
+        ContentProviderOperation.newInsert(TRANSACTIONS_URI).withValues(parent2.asContentValues())
+            .build()
+    )
     val p2Idx = 1
 
     val processedUuids = mutableSetOf<String>()
@@ -501,31 +509,37 @@ fun Repository.createDualSplitTransaction(
         val offset = operations.size
         if (otherSide != null) {
             // Hub-to-Hub link
-            operations.addAll(getTransferOperations(
-                source = part,
-                destination = otherSide.first,
-                offset = offset,
-                parentBackRefIndex = p1Idx,
-                peerParentBackRefIndex = p2Idx
-            ))
+            operations.addAll(
+                getTransferOperations(
+                    source = part,
+                    destination = otherSide.first,
+                    offset = offset,
+                    parentBackRefIndex = p1Idx,
+                    peerParentBackRefIndex = p2Idx
+                )
+            )
             partsInfo1.add(Triple(part.uuid, offset, offset + 1))
             partsInfo2.add(Triple(part.uuid, offset + 1, offset))
             processedUuids.add(part.uuid)
         } else if (externalPeer != null) {
             // Internal link (Spoke)
-            operations.addAll(getTransferOperations(
-                source = part,
-                destination = externalPeer,
-                offset = offset,
-                parentBackRefIndex = p1Idx
-            ))
+            operations.addAll(
+                getTransferOperations(
+                    source = part,
+                    destination = externalPeer,
+                    offset = offset,
+                    parentBackRefIndex = p1Idx
+                )
+            )
             partsInfo1.add(Triple(part.uuid, offset, offset + 1))
         } else {
             // Regular part
-            operations.add(ContentProviderOperation.newInsert(TRANSACTIONS_URI)
-                .withValues(part.asContentValues())
-                .withValueBackReference(KEY_PARENTID, p1Idx)
-                .build())
+            operations.add(
+                ContentProviderOperation.newInsert(TRANSACTIONS_URI)
+                    .withValues(part.asContentValues())
+                    .withValueBackReference(KEY_PARENTID, p1Idx)
+                    .build()
+            )
             partsInfo1.add(Triple(part.uuid, offset, null))
         }
     }
@@ -536,19 +550,23 @@ fun Repository.createDualSplitTransaction(
         val offset = operations.size
         if (externalPeer != null) {
             // Internal link (Spoke)
-            operations.addAll(getTransferOperations(
-                source = part,
-                destination = externalPeer,
-                offset = offset,
-                parentBackRefIndex = p2Idx
-            ))
+            operations.addAll(
+                getTransferOperations(
+                    source = part,
+                    destination = externalPeer,
+                    offset = offset,
+                    parentBackRefIndex = p2Idx
+                )
+            )
             partsInfo2.add(Triple(part.uuid, offset, offset + 1))
         } else {
             // Regular part
-            operations.add(ContentProviderOperation.newInsert(TRANSACTIONS_URI)
-                .withValues(part.asContentValues())
-                .withValueBackReference(KEY_PARENTID, p2Idx)
-                .build())
+            operations.add(
+                ContentProviderOperation.newInsert(TRANSACTIONS_URI)
+                    .withValues(part.asContentValues())
+                    .withValueBackReference(KEY_PARENTID, p2Idx)
+                    .build()
+            )
             partsInfo2.add(Triple(part.uuid, offset, null))
         }
     }
@@ -566,7 +584,13 @@ fun Repository.createDualSplitTransaction(
             val peerBase = originalPair?.second ?: parts2.find { it.first.uuid == uuid }!!.first
             peerBase.copy(id = peerId, transferPeerId = id)
         }
-        RepositoryTransaction(parts1.find { it.first.uuid == uuid }!!.first.copy(id = id, parentId = p1Id, transferPeerId = peer?.id), peer)
+        RepositoryTransaction(
+            parts1.find { it.first.uuid == uuid }!!.first.copy(
+                id = id,
+                parentId = p1Id,
+                transferPeerId = peer?.id
+            ), peer
+        )
     }
 
     val enrichedParts2 = partsInfo2.map { (uuid, opIdx, peerOpIdx) ->
@@ -577,7 +601,13 @@ fun Repository.createDualSplitTransaction(
             val peerBase = originalPair?.second ?: parts1.find { it.first.uuid == uuid }!!.first
             peerBase.copy(id = peerId, transferPeerId = id)
         }
-        RepositoryTransaction(parts2.find { it.first.uuid == uuid }!!.first.copy(id = id, parentId = p2Id, transferPeerId = peer?.id), peer)
+        RepositoryTransaction(
+            parts2.find { it.first.uuid == uuid }!!.first.copy(
+                id = id,
+                parentId = p2Id,
+                transferPeerId = peer?.id
+            ), peer
+        )
     }
 
     return RepositoryTransaction(parent1.copy(id = p1Id), splitParts = enrichedParts1) to
@@ -586,7 +616,7 @@ fun Repository.createDualSplitTransaction(
 
 fun Repository.updateDualSplitTransaction(
     repoTrans1: RepositoryTransaction,
-    repoTrans2: RepositoryTransaction
+    repoTrans2: RepositoryTransaction,
 ): Array<ContentProviderResult> {
     val operations = ArrayList<ContentProviderOperation>()
     val processedPeerIds = mutableSetOf<Long>()
@@ -604,7 +634,8 @@ fun Repository.updateDualSplitTransaction(
             val placeholders = List(keepIds.size) { "?" }.joinToString(",")
             val deleteSubquery =
                 "SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_PARENTID = ? AND $KEY_ROWID NOT IN ($placeholders)"
-            val selection = "$KEY_ROWID IN ($deleteSubquery) OR $KEY_TRANSFER_PEER IN ($deleteSubquery)"
+            val selection =
+                "$KEY_ROWID IN ($deleteSubquery) OR $KEY_TRANSFER_PEER IN ($deleteSubquery)"
             val baseArgs = arrayOf(parent.id.toString())
             val keepArgs = keepIds.map { it.toString() }.toTypedArray()
             operations.add(
@@ -614,7 +645,12 @@ fun Repository.updateDualSplitTransaction(
 
             // Update Parent
             operations.add(
-                ContentProviderOperation.newUpdate(ContentUris.withAppendedId(TRANSACTIONS_URI, parent.id))
+                ContentProviderOperation.newUpdate(
+                    ContentUris.withAppendedId(
+                        TRANSACTIONS_URI,
+                        parent.id
+                    )
+                )
                     .withValues(parent.asContentValues(false)).build()
             )
         } else {
@@ -685,7 +721,7 @@ fun Repository.updateDualSplitTransaction(
 
 fun Repository.updateSplitTransaction(
     repositoryTransaction: RepositoryTransaction,
-    operationsIn: ArrayList<ContentProviderOperation>? = null
+    operationsIn: ArrayList<ContentProviderOperation>? = null,
 ): Array<ContentProviderResult> {
     // --- Validation ---
     val parentTransaction = repositoryTransaction.data
@@ -801,7 +837,7 @@ fun Repository.loadTransaction(
     transactionId: Long,
     withTransfer: Boolean = true,
     withTags: Boolean = false,
-    extended: Boolean = false
+    extended: Boolean = false,
 ): RepositoryTransaction = contentResolver.query(
     ContentUris.withAppendedId(if (extended) EXTENDED_URI else TRANSACTIONS_URI, transactionId),
     if (extended) Transaction.projectionExtended else Transaction.projection,
@@ -990,19 +1026,26 @@ fun Repository.calculateSplitSummary(id: Long): List<Pair<String, String?>>? {
 fun Repository.loadTrade(transactionId: Long): Trade? =
     loadTrades(listOf(transactionId)).firstOrNull()
 
-fun Repository.loadTrades(transactionIds: List<Long>): List<Trade> {
+fun Repository.loadTrades(
+    transactionIds: List<Long>,
+    sortOrder: Pair<String, SortDirection>? = null,
+): List<Trade> {
     if (transactionIds.isEmpty()) return emptyList()
 
     val parents = contentResolver.query(
-        TRANSACTIONS_URI.buildUpon().appendQueryParameter(KEY_TRANSACTIONID, transactionIds.joinToString()).build(),
+        TRANSACTIONS_URI.buildUpon()
+            .appendQueryParameter(KEY_TRANSACTIONID, transactionIds.joinToString()).build(),
         Transaction.projection,
         null,
         null,
-        null
+        sortOrder?.takeIf { it.first == KEY_DATE }?.let {
+            DataBaseAccount.sortOrder(it.first, it.second)
+        }
     )!!.useAndMapToList { Transaction.fromCursor(it) }
 
     val splits = contentResolver.query(
-        EXTENDED_URI.buildUpon().appendQueryParameter(KEY_PARENTID, transactionIds.joinToString()).build(),
+        EXTENDED_URI.buildUpon().appendQueryParameter(KEY_PARENTID, transactionIds.joinToString())
+            .build(),
         Transaction.projectionExtended,
         null,
         null,
@@ -1024,7 +1067,8 @@ fun Repository.loadTrades(transactionIds: List<Long>): List<Trade> {
 
         // Load all transfer peers once to identify roles
         val transferPeers = parts.filter { it.transferPeerId != null }
-            .associateWith { loadTransaction(it.transferPeerId!!, false , extended = true).data }.toList()
+            .associateWith { loadTransaction(it.transferPeerId!!, false, extended = true).data }
+            .toList()
 
         assetPart = transferPeers.find { it.second.portfolioRole == PORTFOLIO_ASSET }
 
@@ -1033,7 +1077,7 @@ fun Repository.loadTrades(transactionIds: List<Long>): List<Trade> {
             transferPeers.find { it.second.portfolioRole == PORTFOLIO_NONE }
         } else {
             transferPeers.find { it.second.portfolioRole != PORTFOLIO_ASSET }
-        } ?: ((parts.find { it.transferPeerId == null } ?: return@mapNotNull null)  to null)
+        } ?: ((parts.find { it.transferPeerId == null } ?: return@mapNotNull null) to null)
 
 
         if (assetPart != null) {
@@ -1096,6 +1140,12 @@ fun Repository.loadTrades(transactionIds: List<Long>): List<Trade> {
                 currency = parentCurrency
             )
         } else null
+    }.let {
+        if (sortOrder?.first == KEY_AMOUNT) {
+            if (sortOrder.second == SortDirection.DESC)
+                it.sortedByDescending { it.principal.amountMinor.absoluteValue } else
+                it.sortedBy { it.principal.amountMinor.absoluteValue }
+        } else it
     }
 }
 

@@ -26,6 +26,7 @@ import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.sort.TransactionSort
 import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
+import org.totschnig.myexpenses.viewmodel.data.FullAccount
 
 @Composable
 fun AccountFilterMenu(
@@ -76,7 +77,7 @@ private fun viewOptions(currentAccount: BaseAccount, onEvent: AppEventHandler) =
             },
             icon = Icons.Default.SortByAlpha
         ),
-        if (currentAccount.sortBy == KEY_DATE)
+        if ((currentAccount as? FullAccount)?.isPortfolio != true && currentAccount.sortBy == KEY_DATE)
             SubMenuEntry(
                 label = R.string.menu_grouping,
                 subMenu = Grouping.entries.map { grouping ->

@@ -1151,8 +1151,10 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
 
     fun BaseAccount?.isMenuItemVisible(itemId: Int): Boolean {
         val isReal = this is FullAccount && !isAggregate
-        return if ((this as? FullAccount)?.isPortfolio == true) itemId == R.id.IMPORT_TRADES_COMMAND
-        else when (itemId) {
+        return if ((this as? FullAccount)?.isPortfolio == true) when(itemId) {
+            R.id.IMPORT_TRADES_COMMAND, R.id.TUNE_COMMAND -> true
+            else -> false
+        } else when (itemId) {
             R.id.SYNC_COMMAND -> (this as? FullAccount)?.syncAccountName != null
             R.id.HISTORY_COMMAND, R.id.RESET_COMMAND, R.id.PRINT_COMMAND -> hasItems
             R.id.DISTRIBUTION_COMMAND -> sumInfo.value.mappedCategories

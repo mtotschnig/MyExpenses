@@ -326,7 +326,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                                             event.itemId
                                         )
 
-                                        is AppEvent.MenuItemClicked -> when(event.itemId) {
+                                        is AppEvent.MenuItemClicked -> when (event.itemId) {
                                             R.id.IMPORT_TRADES_COMMAND -> showImportTrades = true
                                             else -> dispatchCommand(event.itemId, event.tag)
                                         }
@@ -403,6 +403,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                             isNavigationVisible = isNavigationVisible
                         ) { pageAccount, isCurrent ->
                             if (pageAccount.isPortfolio) {
+
                                 PortfolioPage(
                                     pageAccount,
                                     currencies,
@@ -423,7 +424,11 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                                 ImportTradesDialog(
                                     onDismiss = { showImportTrades = false },
                                     onImport = { intents, onProgress ->
-                                        viewModel.saveTrades(fullAccount, intents, onProgress = onProgress)
+                                        viewModel.saveTrades(
+                                            fullAccount,
+                                            intents,
+                                            onProgress = onProgress
+                                        )
                                     },
                                     portfolio = fullAccount,
                                     assets = currencies,

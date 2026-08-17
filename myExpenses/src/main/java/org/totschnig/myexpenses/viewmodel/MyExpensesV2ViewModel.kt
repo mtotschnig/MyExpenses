@@ -821,22 +821,28 @@ open class MyExpensesV2ViewModel(
     private val tradePagerCache = mutableMapOf<Long, TradePagerInfo>()
 
     fun getTrades(account: PageAccount): Flow<PagingData<Trade>> {
-        return tradePagerCache.getOrPut(account.id) {
-            val factory: ClearingLastPagingSourceFactory<Int, Trade, TradePagingSource> =
-                ClearingLastPagingSourceFactory {
-                    TradePagingSource(getApplication(), repository, account, pageSize)
-                }
-            TradePagerInfo(
-                factory,
-                Pager(
-                    config = PagingConfig(
-                        pageSize = pageSize,
-                        enablePlaceholders = true
-                    ),
-                    pagingSourceFactory = factory
-                ).flow.cachedIn(viewModelScope)
-            )
-        }.flow
+        val stableId = account.id
+        val queryKey = account.queryKey
+
+        val existingQueryKey = currentQueryKeys[stableId]
+        if (existingQueryKey != queryKey) {
+            // Sort order or grouping changed: Recreate Pager and clear old factory
+            tradePagerCache[stableId]?.factory?.clear()
+                val factory: ClearingLastPagingSourceFactory<Int, Trade, TradePagingSource> =
+                    ClearingLastPagingSourceFactory {
+                        TradePagingSource(getApplication(), repository, account, pageSize)
+                    }
+            val flow = Pager(
+                config = PagingConfig(
+                    pageSize = pageSize,
+                    enablePlaceholders = true
+                ),
+                pagingSourceFactory = factory
+            ).flow.cachedIn(viewModelScope)
+            tradePagerCache[stableId] = TradePagerInfo(factory, flow)
+            currentQueryKeys[stableId] = queryKey
+        }
+        return tradePagerCache.getValue(stableId).flow
     }
 
     private fun findOrCreateAssetAccount(

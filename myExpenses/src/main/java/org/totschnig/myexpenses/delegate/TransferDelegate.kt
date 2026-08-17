@@ -35,7 +35,7 @@ class TransferDelegate(
     viewBinding: OneExpenseBinding,
     dateEditBinding: DateEditBinding,
     methodRowBinding: MethodRowBinding,
-    isTemplate: Boolean
+    isTemplate: Boolean,
 ) :
     TransactionDelegate(
         viewBinding,
@@ -49,7 +49,7 @@ class TransferDelegate(
     override val operationType = TransactionsContract.Transactions.TYPE_TRANSFER
 
     private val lastExchangeRateRelevantInputs = intArrayOf(INPUT_EXCHANGE_RATE, INPUT_AMOUNT)
-    private lateinit var transferAccountsAdapter:  GroupedSpinnerAdapter<AccountFlag, Account>
+    private lateinit var transferAccountsAdapter: GroupedSpinnerAdapter<AccountFlag, Account>
 
     @State
     var transferAccountId: Long? = null
@@ -86,7 +86,7 @@ class TransferDelegate(
         withTypeSpinner: Boolean,
         savedInstanceState: Bundle?,
         recurrence: Recurrence?,
-        withAutoFill: Boolean
+        withAutoFill: Boolean,
     ) {
         transaction?.transferEditData?.let { data ->
             transferAccountId = data.transferAccountId.takeIf { it != 0L }
@@ -212,7 +212,7 @@ class TransferDelegate(
         /**
          * true if we are linked to from amount
          */
-        var isMain: Boolean
+        var isMain: Boolean,
     ) : MyTextWatcher() {
 
         override fun afterTextChanged(s: Editable) {
@@ -257,7 +257,7 @@ class TransferDelegate(
 
     override fun buildTransaction(
         forSave: Boolean,
-        account: Account
+        account: Account,
     ): TransactionEditData? {
         val transferAccount = transferAccount()!!
         val amount = validateAmountInput(forSave, account.currency).getOrNull()
