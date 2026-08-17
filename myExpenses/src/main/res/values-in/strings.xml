@@ -925,4 +925,5 @@
     <string name="pref_content_based_colors_title">Warna dinamis berbasis akun</string>
     <string name="pref_content_based_colors_summary">Turunkan warna tema dari warna akun saat ini. Matikan jika teks sulit dibaca.</string>
     <string name="service_starting">Memulai…</string>
+    <string name="rounding">Pembulatan</string>
 </resources>

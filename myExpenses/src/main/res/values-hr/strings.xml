@@ -996,4 +996,5 @@
     <string name="pref_content_based_colors_title">Dinamična boja na osnovi računa</string>
     <string name="pref_content_based_colors_summary">Izvedi boje teme iz boje trenutačnog računa. Isključi ako je tekst teško čitljiv.</string>
     <string name="service_starting">Pokretanje …</string>
+    <string name="rounding">Zaokruživanje</string>
 </resources>

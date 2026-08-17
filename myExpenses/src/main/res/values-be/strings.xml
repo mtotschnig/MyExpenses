@@ -990,4 +990,5 @@
     <string name="prioritize_flag_order">Прыярытэзацыя парадку сцягоў</string>
     <string name="pref_content_based_colors_title">Дынамічны колер на аснове ўліковага запісу</string>
     <string name="pref_content_based_colors_summary">Выбіраць колеры тэмы на аснове колеру бягучага ўліковага запісу. Выключыце, калі тэкст цяжка чытаць.</string>
+    <string name="rounding">Акругленне</string>
 </resources>

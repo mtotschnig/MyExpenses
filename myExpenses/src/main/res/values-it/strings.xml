@@ -1069,4 +1069,5 @@
     <string name="contrib_feature_portfolio_tracking">Tracciamento del portafoglio</string>
     <string name="premium_nudge_portfolio_title">Sblocca tutto il potenziale del portafoglio</string>
     <string name="premium_nudge_portfolio_message">Puoi gestire un portafoglio gratuitamente. Aggiorna per gestire più portafogli e sbloccare funzioni di tracciamento avanzate.</string>
+    <string name="rounding">Arrotondamento</string>
 </resources>

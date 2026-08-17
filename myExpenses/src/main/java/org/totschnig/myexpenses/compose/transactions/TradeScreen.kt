@@ -599,7 +599,7 @@ fun TradeScreen(
                             onDismissRequest = { showRoundingMenu = false }
                         ) {
                             Text(
-                                text = "Rounding",
+                                text = stringResource(R.string.rounding),
                                 style = MaterialTheme.typography.labelMedium,
                                 modifier = Modifier.padding(start = 12.dp)
                             )

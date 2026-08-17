@@ -1091,4 +1091,5 @@
     <string name="contrib_feature_portfolio_tracking">تتبع المحفظة</string>
     <string name="premium_nudge_portfolio_title">أطلق العنان لإمكانات المحفظة الكاملة</string>
     <string name="premium_nudge_portfolio_message">يمكنك إدارة محفظة واحدة مجانًا. قم بالترقية لإدارة محافظ متعددة وفتح ميزات تتبع متقدمة.</string>
+    <string name="rounding">تقريب</string>
 </resources>
