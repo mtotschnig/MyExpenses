@@ -263,13 +263,13 @@ class TransferDelegate(
         val amount = validateAmountInput(forSave, account.currency).getOrNull()
         val isSame = account.currency == transferAccount.currency
         val transferAmount = if (isSame && amount != null) {
-            amount.negate()
+            -amount
         } else {
             viewBinding.TransferAmount.getAmount(
                 transferAccount.currency,
                 showToUser = forSave
             ).getOrNull()?.let {
-                if (isIncome) it.negate() else it
+                if (isIncome) -it else it
             }
         }
         return if (isTemplate) {

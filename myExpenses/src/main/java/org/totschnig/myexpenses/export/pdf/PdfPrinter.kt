@@ -495,7 +495,7 @@ object PdfPrinter {
 
                 header2Table.addCell(
                     helper.printToCell(
-                        "- " + currencyFormatter.formatMoney(sumExpense.negate()),
+                        "- " + currencyFormatter.formatMoney(-sumExpense),
                         FontType.EXPENSE
                     ).apply {
                         horizontalAlignment = Element.ALIGN_CENTER

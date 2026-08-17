@@ -184,7 +184,7 @@ abstract class MainDelegate(
                 },
                 equivalentAmount = viewBinding.EquivalentAmount.getAmount(homeCurrency).getOrNull()
                     ?.let {
-                        if (isIncome) it else it.negate()
+                        if (isIncome) it else -it
                     }
             )
         }

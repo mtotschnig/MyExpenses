@@ -6,6 +6,7 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Money
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
@@ -48,12 +49,12 @@ data class TradeIntent(
     val targetAsset: CurrencyUnit,
     val type: TradeType,
     val date: LocalDateTime,
-    val quantity: BigDecimal,
+    val quantity: Money,
     val price: BigDecimal,
-    val principal: BigDecimal,
+    val principal: Money,
     val fundingSource: FundingSource = FundingSource.PORTFOLIO,
     val peerAccountId: Long?,
-    val fee: BigDecimal,
+    val fee: Money,
     val comment: String = "",
     val linkedTransactionId: Long? = null,
     //edit of existing trade

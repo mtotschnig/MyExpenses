@@ -26,21 +26,32 @@ import kotlin.math.pow
 data class Money(val currencyUnit: CurrencyUnit, val amountMinor: Long) : Parcelable {
 
     @Throws(ArithmeticException::class)
-    private constructor(currencyUnit: CurrencyUnit, amountMajor: BigDecimal) :
-            this(currencyUnit, convertBigDecimal(amountMajor, currencyUnit.fractionDigits))
+    private constructor(currencyUnit: CurrencyUnit, amountMajor: BigDecimal, roundingMode: RoundingMode = RoundingMode.HALF_EVEN) :
+            this(currencyUnit, convertBigDecimal(amountMajor, currencyUnit.fractionDigits, roundingMode))
 
-    fun negate() = Money(currencyUnit, -amountMinor)
+    operator fun unaryMinus() = Money(currencyUnit, -amountMinor)
 
-    fun absolute() = if (amountMinor < 0) negate() else this
+    fun absolute() = if (amountMinor < 0) -this else this
+
+    operator fun plus(other: Money): Money {
+        require(currencyUnit == other.currencyUnit) { "Currency units must match" }
+        return Money(currencyUnit, amountMinor + other.amountMinor)
+    }
+
+    operator fun minus(other: Money): Money {
+        require(currencyUnit == other.currencyUnit) { "Currency units must match" }
+        return Money(currencyUnit, amountMinor - other.amountMinor)
+    }
+
 
     val amountMajor: BigDecimal
         get() = BigDecimal(amountMinor).movePointLeft(currencyUnit.fractionDigits)
 
     companion object {
 
-        fun convertBigDecimal(input: BigDecimal, fractionDigits: Int) = input
+        fun convertBigDecimal(input: BigDecimal, fractionDigits: Int, roundingMode: RoundingMode = RoundingMode.HALF_EVEN) = input
             .movePointRight(fractionDigits)
-            .setScale(0, RoundingMode.HALF_EVEN)
+            .setScale(0, roundingMode)
             .longValueExact()
         /**
          * Builds a Money instance where amount is provided in micro units (=1/1000000 of the main unit)
@@ -54,8 +65,8 @@ data class Money(val currencyUnit: CurrencyUnit, val amountMinor: Long) : Parcel
             return Money(currency, amountMinor)
         }
 
-        fun buildWithMajor(currency: CurrencyUnit, amountMajor: BigDecimal) = runCatching {
-            Money(currency, amountMajor)
+        fun buildWithMajor(currency: CurrencyUnit, amountMajor: BigDecimal, roundingMode: RoundingMode = RoundingMode.HALF_EVEN) = runCatching {
+            Money(currency, amountMajor, roundingMode)
         }
     }
 }

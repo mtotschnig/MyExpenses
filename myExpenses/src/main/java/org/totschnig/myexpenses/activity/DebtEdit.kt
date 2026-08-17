@@ -143,7 +143,7 @@ class DebtEdit : EditActivity(), ButtonWithDialog.Host {
                 val equivalentAmount = if (currency.code == homeCurrency.code) null else
                     (binding.EquivalentAmount.getAmount(homeCurrency).getOrNull()
                         ?: return).let {
-                        if (amount.amountMinor.sign == -1) it.negate() else it
+                        if (amount.amountMinor.sign == -1) -it else it
                     }
                 isSaving = true
                 viewModel.saveDebt(

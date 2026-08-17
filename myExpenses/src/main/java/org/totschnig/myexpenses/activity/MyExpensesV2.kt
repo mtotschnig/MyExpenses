@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.activity
 
 import android.content.Intent
 import android.os.Bundle
+import java.math.RoundingMode
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Arrangement
@@ -431,6 +432,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                                         )
                                     },
                                     portfolio = fullAccount,
+                                    roundingMode = viewModel.getRoundingMode(fullAccount.id).collectAsState(RoundingMode.HALF_UP).value,
                                     assets = currencies,
                                     fundingAccounts = accounts
                                         .filter {
@@ -560,6 +562,8 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                             if (!stayOpen) tradeToEdit = null
                         },
                         portfolio = fullAccount,
+                        roundingMode = viewModel.getRoundingMode(fullAccount.id).collectAsState(RoundingMode.HALF_UP).value,
+                        onRoundingModeChange = { viewModel.setRoundingMode(fullAccount.id, it) },
                         reportingCurrency = fullAccount.currencyUnit,
                         assets = allCurrencies,
                         fundingAccounts = accountList

@@ -53,6 +53,7 @@ import org.totschnig.myexpenses.export.qif.QifUtils
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.epochMillis2LocalDateTime
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.FundingSource
 import org.totschnig.myexpenses.viewmodel.data.TradeIntent
@@ -69,6 +70,7 @@ fun ImportTradesDialog(
     portfolio: FullAccount,
     assets: List<CurrencyUnit>,
     fundingAccounts: List<Pair<Long, String>>,
+    roundingMode: RoundingMode = RoundingMode.HALF_UP,
 ) {
     var selectedUri by remember { mutableStateOf<Uri?>(null) }
     var fundingSource by remember { mutableStateOf(FundingSource.PORTFOLIO) }
@@ -206,10 +208,12 @@ fun ImportTradesDialog(
                                         parseResult = parseCsv(
                                             context,
                                             uri,
+                                            portfolio,
                                             assets,
                                             fundingSource,
                                             fundingAccountId,
-                                            dateFormat
+                                            dateFormat,
+                                            roundingMode
                                         )
                                     }
                                 }
@@ -326,10 +330,12 @@ data class ImportTradesParseResult(
 private suspend fun parseCsv(
     context: android.content.Context,
     uri: Uri,
+    portfolio: FullAccount,
     assets: List<CurrencyUnit>,
     fundingSource: FundingSource,
     fundingAccountId: Long?,
     dateFormat: QifDateFormat,
+    roundingMode: RoundingMode,
 ): ImportTradesParseResult = withContext(Dispatchers.IO) {
     val intents = mutableListOf<TradeIntent>()
     val assetMap = assets.associateBy { it.code }
@@ -384,25 +390,25 @@ private suspend fun parseCsv(
                     val total = record.getSafe("Total", "Principal", "Value")?.toBigDecimalOrNull()
                     val fee = record.getSafe("Fee", "Commission")?.toBigDecimalOrNull() ?: BigDecimal.ZERO
 
-                    val finalQuantity: BigDecimal
+                    val finalQuantity: Money
                     val finalPrice: BigDecimal
-                    val finalPrincipal: BigDecimal
+                    val finalPrincipal: Money
 
                     when {
                         quantity != null && price != null -> {
-                            finalQuantity = quantity
+                            finalQuantity = Money.buildWithMajor(asset, quantity, roundingMode).getOrThrow()
                             finalPrice = price
-                            finalPrincipal = quantity.multiply(price)
+                            finalPrincipal = Money.buildWithMajor(portfolio.currencyUnit, quantity.multiply(price), roundingMode).getOrThrow()
                         }
                         quantity != null && total != null && quantity.signum() != 0 -> {
-                            finalQuantity = quantity
-                            finalPrice = total.divide(quantity, 10, RoundingMode.HALF_UP)
-                            finalPrincipal = total
+                            finalQuantity = Money.buildWithMajor(asset, quantity, roundingMode).getOrThrow()
+                            finalPrice = total.divide(quantity, 10, roundingMode)
+                            finalPrincipal = Money.buildWithMajor(portfolio.currencyUnit, total, roundingMode).getOrThrow()
                         }
                         price != null && total != null && price.signum() != 0 -> {
-                            finalQuantity = total.divide(price, 10, RoundingMode.HALF_UP)
+                            finalQuantity = Money.buildWithMajor(asset, total.divide(price, 10, roundingMode), roundingMode).getOrThrow()
                             finalPrice = price
-                            finalPrincipal = total
+                            finalPrincipal = Money.buildWithMajor(portfolio.currencyUnit, total, roundingMode).getOrThrow()
                         }
                         else -> {
                             parseFailures++
@@ -420,7 +426,7 @@ private suspend fun parseCsv(
                             principal = finalPrincipal,
                             fundingSource = fundingSource,
                             peerAccountId = fundingAccountId,
-                            fee = fee
+                            fee = Money.buildWithMajor(portfolio.currencyUnit, fee, roundingMode).getOrThrow()
                         )
                     )
                 } catch (_: Exception) {
