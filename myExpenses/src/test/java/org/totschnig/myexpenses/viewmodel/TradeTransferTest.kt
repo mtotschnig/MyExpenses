@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.db2.loadTransactions
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CommodityType
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.PORTFOLIO_CONTAINER
 import org.totschnig.myexpenses.provider.SPLIT_CATID
@@ -79,15 +80,16 @@ class TradeTransferTest : BaseViewModelTest() {
 
     @Test
     fun testAssetTransfer() = runTest {
+        val usd = currencyContext["USD"]
         val intent = TradeIntent(
             targetAsset = aapl,
             type = TradeType.Transfer(false),
             date = LocalDateTime.now(),
-            quantity = BigDecimal("10"),
+            quantity = Money(aapl, 1000L),
             price = BigDecimal("150"),
-            principal = BigDecimal("1500"),
+            principal = Money(usd, 150000L),
             peerAccountId = portfolioB.id,
-            fee = BigDecimal.ZERO
+            fee = Money(usd, 0L)
         )
 
         viewModel.saveTrades(portfolioA, listOf(intent))
@@ -144,15 +146,16 @@ class TradeTransferTest : BaseViewModelTest() {
 
     @Test
     fun testIncomingAssetTransfer() = runTest {
+        val usd = currencyContext["USD"]
         val intent = TradeIntent(
             targetAsset = aapl,
             type = TradeType.Transfer(true),
             date = LocalDateTime.now(),
-            quantity = BigDecimal("10"),
+            quantity = Money(aapl, 1000L),
             price = BigDecimal("150"),
-            principal = BigDecimal("1500"),
+            principal = Money(usd, 150000L),
             peerAccountId = portfolioA.id,
-            fee = BigDecimal.ZERO
+            fee = Money(usd, 0L)
         )
 
         // Recording in Portfolio B, Incoming from Portfolio A
@@ -178,15 +181,16 @@ class TradeTransferTest : BaseViewModelTest() {
 
     @Test
     fun testAssetTransferEdit() = runTest {
+        val usd = currencyContext["USD"]
         val intent = TradeIntent(
             targetAsset = aapl,
             type = TradeType.Transfer(false),
             date = LocalDateTime.now(),
-            quantity = BigDecimal("10"),
+            quantity = Money(aapl, 1000L),
             price = BigDecimal("150"),
-            principal = BigDecimal("1500"),
+            principal = Money(usd, 150000L),
             peerAccountId = portfolioB.id,
-            fee = BigDecimal.ZERO
+            fee = Money(usd, 0L)
         )
 
         viewModel.saveTrades(portfolioA, listOf(intent))
@@ -194,9 +198,9 @@ class TradeTransferTest : BaseViewModelTest() {
         val initialPeer = repository.findSiblingParentId(initialId)
 
         val updatedIntent = intent.copy(
-            quantity = BigDecimal("20"),
+            quantity = Money(aapl, 2000L),
             price = BigDecimal("200"),
-            principal = BigDecimal("4000"),
+            principal = Money(usd, 400000L),
             tradeId = initialId
         )
 

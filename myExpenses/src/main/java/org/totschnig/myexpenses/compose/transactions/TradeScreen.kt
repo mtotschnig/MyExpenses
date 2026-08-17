@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.compose.transactions
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,11 +16,15 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import java.math.RoundingMode
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
@@ -70,6 +75,7 @@ import org.totschnig.myexpenses.compose.currencies.EditCurrencyDialog
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CommodityType
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.util.toEpochMillis
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.FundingSource
@@ -100,6 +106,8 @@ fun TradeScreen(
     onCreateAsset: suspend (code: String, symbol: String, fractionDigits: Int, label: String?, commodityType: CommodityType) -> CurrencyUnit? = { _, _, _, _, _ -> null },
     isCurrencyUsed: suspend (String) -> Boolean = { false },
     onLookupMatchingTransactions: (accountId: Long, total: BigDecimal, date: LocalDateTime, isBuy: Boolean) -> Flow<List<Transaction2>> = { _, _, _, _ -> emptyFlow() },
+    roundingMode: RoundingMode = RoundingMode.HALF_UP,
+    onRoundingModeChange: (RoundingMode) -> Unit = {},
 ) {
 
     val currencyFormatter = LocalCurrencyFormatter.current
@@ -161,6 +169,7 @@ fun TradeScreen(
 
     var comment by rememberSaveable { mutableStateOf(initialTrade?.comment ?: "") }
     var linkedTransactionId by rememberSaveable { mutableStateOf<Long?>(null) }
+    var errorMessage by rememberSaveable { mutableStateOf<Int?>(null) }
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -172,12 +181,38 @@ fun TradeScreen(
         quantity != null
     }
 
+    val isRoundingNecessary = remember(quantity, price, type, reportingCurrency) {
+        val principalRaw = if (type is TradeType.CashMovement) quantity.orZero else quantity.orZero.multiply(price.orZero)
+        principalRaw.movePointRight(reportingCurrency.fractionDigits).stripTrailingZeros().scale() > 0
+    }
+
+    val principalAmount = remember(quantity, price, type, roundingMode) {
+        val raw = if (type is TradeType.CashMovement) {
+            quantity.orZero
+        } else {
+            quantity.orZero.multiply(price.orZero)
+        }
+        Money.buildWithMajor(reportingCurrency, raw, roundingMode).getOrNull()?.amountMajor ?: raw
+    }
+
+    val totalAmount = remember(type, principalAmount, fee, roundingMode) {
+        val raw = if (type.isIncoming) {
+            principalAmount.add(fee.orZero)
+        } else {
+            principalAmount.subtract(fee.orZero)
+        }
+        Money.buildWithMajor(reportingCurrency, raw, roundingMode).getOrNull()?.amountMajor ?: raw
+    }
+
+    var showRoundingMenu by remember { mutableStateOf(false) }
+
     val onSaveClick = { stayOpen: Boolean ->
-        val asset = if (isAssetTrade) selectedAsset!! else reportingCurrency
-        val finalQuantity = quantity.orZero
-        val finalPrice = if (isAssetTrade) price.orZero else BigDecimal.ONE
-        val finalPrincipal = if (isAssetTrade) finalQuantity.multiply(finalPrice) else finalQuantity
-        onSave(
+        runCatching {
+            val asset = if (isAssetTrade) selectedAsset!! else reportingCurrency
+            val finalQuantity = Money.buildWithMajor(asset, quantity.orZero, roundingMode).getOrThrow()
+            val finalPrice = if (isAssetTrade) price.orZero else BigDecimal.ONE
+            val finalPrincipal = Money.buildWithMajor(reportingCurrency, principalAmount, roundingMode).getOrThrow()
+            val finalFee = if (type is TradeType.Transfer) Money(reportingCurrency, 0) else Money.buildWithMajor(reportingCurrency, fee.orZero, roundingMode).getOrThrow()
             TradeIntent(
                 type = type,
                 date = date,
@@ -186,42 +221,29 @@ fun TradeScreen(
                 price = finalPrice,
                 principal = finalPrincipal,
                 peerAccountId = peerAccountId,
-                fee = if (type is TradeType.Transfer) BigDecimal.ZERO else fee.orZero,
+                fee = finalFee,
                 comment = comment,
                 fundingSource = fundingSource,
                 linkedTransactionId = linkedTransactionId,
                 tradeId = initialTrade?.id
-            ),
-            stayOpen
-        )
-        if (stayOpen) {
-            quantity = null
-            price = null
-            fee = null
-            comment = ""
-            linkedTransactionId = null
+            )
+        }.onSuccess { intent ->
+            onSave(intent, stayOpen)
+            if (stayOpen) {
+                quantity = null
+                price = null
+                fee = null
+                comment = ""
+                linkedTransactionId = null
+            }
+        }.onFailure {
+            errorMessage = R.string.number_too_large
         }
     }
 
-    val principal = remember(quantity, price, type) {
-        if (type is TradeType.CashMovement) {
-            quantity.orZero
-        } else {
-            quantity.orZero.multiply(price.orZero)
-        }
-    }
-
-    val total = remember(type, principal, fee) {
-        if (type.isIncoming) {
-            principal.add(fee.orZero)
-        } else {
-            principal.subtract(fee.orZero)
-        }
-    }
-
-    val matchingTransactions by remember(peerAccountId, total, date, isAssetTrade, type) {
+    val matchingTransactions by remember(peerAccountId, totalAmount, date, isAssetTrade, type) {
         peerAccountId?.let {
-            onLookupMatchingTransactions(it, total, date, type.isIncoming)
+            onLookupMatchingTransactions(it, totalAmount, date, type.isIncoming)
         } ?: flowOf(emptyList())
     }.collectAsState(emptyList())
 
@@ -543,19 +565,81 @@ fun TradeScreen(
             // Principal Display
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     stringResource(R.string.value),
                     style = MaterialTheme.typography.bodyMedium
                 )
-                Text(
-                    currencyFormatter.formatCurrency(
-                        principal ?: BigDecimal.ZERO,
-                        reportingCurrency
-                    ),
-                    style = MaterialTheme.typography.bodyLarge
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        currencyFormatter.formatCurrency(
+                            principalAmount,
+                            reportingCurrency
+                        ),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                    Box {
+                        if (isRoundingNecessary) {
+                            IconButton(
+                                onClick = { showRoundingMenu = true },
+                                modifier = Modifier.size(24.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Settings,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(16.dp),
+                                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                        DropdownMenu(
+                            expanded = showRoundingMenu,
+                            onDismissRequest = { showRoundingMenu = false }
+                        ) {
+                            Text(
+                                text = stringResource(R.string.rounding),
+                                style = MaterialTheme.typography.labelMedium,
+                                modifier = Modifier.padding(start = 12.dp)
+                            )
+                            val applicableModes = remember {
+                                listOf(
+                                    RoundingMode.UP,
+                                    RoundingMode.DOWN,
+                                    RoundingMode.HALF_UP,
+                                    RoundingMode.HALF_DOWN,
+                                    RoundingMode.HALF_EVEN
+                                )
+                            }
+                            applicableModes.forEach { mode ->
+                                DropdownMenuItem(
+                                    text = {
+                                        Text(
+                                            when (mode) {
+                                                RoundingMode.UP -> "↑↑ (0.1 → 1)"
+                                                RoundingMode.DOWN -> "↓↓ (0.9 → 0)"
+                                                RoundingMode.HALF_UP -> "½↑ (0.5 → 1)"
+                                                RoundingMode.HALF_DOWN -> "½↓ (0.5 → 0)"
+                                                RoundingMode.HALF_EVEN -> "½⚖ (0.5 → 2n)"
+                                                else -> mode.name
+                                            }
+                                        )
+                                    },
+                                    onClick = {
+                                        onRoundingModeChange(mode)
+                                        showRoundingMenu = false
+                                    },
+                                    trailingIcon = {
+                                        if (mode == roundingMode) {
+                                            Icon(Icons.Default.Check, contentDescription = null)
+                                        }
+                                    }
+                                )
+                            }
+                        }
+                    }
+                }
             }
 
             // Fee
@@ -583,7 +667,7 @@ fun TradeScreen(
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Text(
-                    currencyFormatter.formatCurrency(total ?: BigDecimal.ZERO, reportingCurrency),
+                    currencyFormatter.formatCurrency(totalAmount, reportingCurrency),
                     style = MaterialTheme.typography.bodyLarge
                 )
             }
@@ -670,6 +754,18 @@ fun TradeScreen(
                 modifier = Modifier.fillMaxWidth()
             )
         }
+    }
+
+    errorMessage?.let {
+        AlertDialog(
+            onDismissRequest = { errorMessage = null },
+            confirmButton = {
+                TextButton(onClick = { errorMessage = null }) {
+                    Text(stringResource(android.R.string.ok))
+                }
+            },
+            text = { Text(stringResource(it)) }
+        )
     }
 }
 

@@ -3,8 +3,10 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.content.ContentValues
 import android.content.Intent
+import java.math.RoundingMode
 import androidx.annotation.OpenForTesting
 import androidx.annotation.StringRes
+import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -529,6 +531,18 @@ open class MyExpensesV2ViewModel(
         setLastVisited(tab)
     }
 
+    fun getRoundingMode(accountId: Long): Flow<RoundingMode> = dataStore.data.map {
+        enumValueOrDefault(it[stringPreferencesKey("rounding_mode_$accountId")], RoundingMode.HALF_UP)
+    }
+
+    fun setRoundingMode(accountId: Long, mode: RoundingMode) {
+        viewModelScope.launch {
+            dataStore.edit {
+                it[stringPreferencesKey("rounding_mode_$accountId")] = mode.name
+            }
+        }
+    }
+
     fun setLastVisited(accountsScreenTab: AccountsScreenTab) {
         setLastVisited(
             when (accountsScreenTab) {
@@ -684,36 +698,32 @@ open class MyExpensesV2ViewModel(
 
         val principalAmount = intent.principal
         val totalImpact = if (intent.type.isIncoming) {
-            principalAmount.add(intent.fee)
+            principalAmount + intent.fee
         } else {
-            principalAmount.subtract(intent.fee)
+            principalAmount - intent.fee
         }
 
         val parts = mutableListOf<TransactionEditData>()
 
         // Part A: Target Leg (Portfolio <-> Asset/Cash sub-account)
         val targetLegHubAmount = if (intent.type.isIncoming) {
-            principalAmount.negate()
+            -principalAmount
         } else {
             principalAmount
         }
         val targetLegSubAmount = if (intent.type.isIncoming) {
             intent.quantity
         } else {
-            intent.quantity.negate()
+            -intent.quantity
         }
 
         parts.add(
             TransactionEditData(
                 accountId = currentAccount.id,
-                amount = Money.buildWithMajor(portfolioCurrency, targetLegHubAmount)
-                    .getOrThrow(),
+                amount = targetLegHubAmount,
                 transferEditData = TransferEditData(
                     transferAccountId = targetAccountId,
-                    transferAmount = Money.buildWithMajor(
-                        intent.targetAsset,
-                        targetLegSubAmount
-                    ).getOrThrow()
+                    transferAmount = targetLegSubAmount
                 ),
                 isSplitPart = true,
                 uuid = generateUuid(),
@@ -725,7 +735,7 @@ open class MyExpensesV2ViewModel(
         val fundingLegHubAmount = if (intent.type.isIncoming) {
             totalImpact
         } else {
-            totalImpact.negate()
+            -totalImpact
         }
 
         val fundingTransferAccountId = if (intent.linkedTransactionId != null) null else when (intent.fundingSource) {
@@ -743,8 +753,7 @@ open class MyExpensesV2ViewModel(
         parts.add(
             TransactionEditData(
                 accountId = currentAccount.id,
-                amount = Money.buildWithMajor(portfolioCurrency, fundingLegHubAmount)
-                    .getOrThrow(),
+                amount = fundingLegHubAmount,
                 transferEditData = fundingTransferAccountId?.let { TransferEditData(transferAccountId = it) },
                 isSplitPart = true,
                 uuid = fundingLegUuid,
@@ -753,12 +762,11 @@ open class MyExpensesV2ViewModel(
         )
 
         // Part C: Fee (Expense)
-        if (intent.fee != BigDecimal.ZERO) {
+        if (intent.fee.amountMinor != 0L) {
             parts.add(
                 TransactionEditData(
                     accountId = currentAccount.id,
-                    amount = Money.buildWithMajor(portfolioCurrency, intent.fee.negate())
-                        .getOrThrow(),
+                    amount = -intent.fee,
                     isSplitPart = true,
                     uuid = generateUuid()
                 )
@@ -767,12 +775,12 @@ open class MyExpensesV2ViewModel(
 
         // Parent transaction amount is the sum of all parts in Portfolio currency
         val totalPortfolioAmount = parts
-            .fold(BigDecimal.ZERO) { acc, part -> acc.add(part.amount.amountMajor) }
+            .fold(Money(portfolioCurrency, 0L)) { acc, part -> acc + part.amount }
 
         val parent = TransactionEditData(
             id = intent.tradeId ?: 0L,
             accountId = currentAccount.id,
-            amount = Money.buildWithMajor(portfolioCurrency, totalPortfolioAmount).getOrThrow(),
+            amount = totalPortfolioAmount,
             date = intent.date,
             comment = intent.comment,
             uuid = generateUuid(),
@@ -973,7 +981,7 @@ open class MyExpensesV2ViewModel(
         val legA1Source = Transaction(
             id = oldA1?.id ?: 0L,
             accountId = sourcePortfolio.id,
-            amount = Money.convertBigDecimal(valuation, sourceCurrency.fractionDigits),
+            amount = Money.convertBigDecimal(valuation.amountMajor, sourceCurrency.fractionDigits),
             transferAccountId = sourceAssetAccountId,
             uuid = oldA1?.data?.uuid ?: generateUuid(),
             categoryId = transferCategory,
@@ -984,7 +992,7 @@ open class MyExpensesV2ViewModel(
         val legA1Peer = Transaction(
             id = oldA1?.transferPeer?.id ?: 0L,
             accountId = sourceAssetAccountId,
-            amount = Money.convertBigDecimal(quantity.negate(), intent.targetAsset.fractionDigits),
+            amount = Money.convertBigDecimal(quantity.amountMajor.negate(), intent.targetAsset.fractionDigits),
             transferAccountId = sourcePortfolio.id,
             categoryId = transferCategory,
             date = dateEpoch,
@@ -1000,7 +1008,7 @@ open class MyExpensesV2ViewModel(
         sourceParts.add(Transaction(
             id = oldA2?.id ?: 0L,
             accountId = sourcePortfolio.id,
-            amount = Money.convertBigDecimal(valuation.negate(), sourceCurrency.fractionDigits),
+            amount = Money.convertBigDecimal(valuation.amountMajor.negate(), sourceCurrency.fractionDigits),
             transferAccountId = targetPortfolio.id,
             uuid = hubToHubUuid,
             categoryId = transferCategory,
@@ -1030,7 +1038,7 @@ open class MyExpensesV2ViewModel(
         targetParts.add(Transaction(
             id = oldB1?.id ?: 0L,
             accountId = targetPortfolio.id,
-            amount = Money.convertBigDecimal(valuation, targetCurrency.fractionDigits),
+            amount = Money.convertBigDecimal(valuation.amountMajor, targetCurrency.fractionDigits),
             transferAccountId = sourcePortfolio.id,
             uuid = hubToHubUuid,
             categoryId = transferCategory,
@@ -1044,7 +1052,7 @@ open class MyExpensesV2ViewModel(
         val legB2Source = Transaction(
             id = oldB2?.id ?: 0L,
             accountId = targetPortfolio.id,
-            amount = Money.convertBigDecimal(valuation.negate(), targetCurrency.fractionDigits),
+            amount = Money.convertBigDecimal(valuation.amountMajor.negate(), targetCurrency.fractionDigits),
             transferAccountId = targetAssetAccountId,
             uuid = oldB2?.data?.uuid ?: generateUuid(),
             categoryId = transferCategory,
@@ -1055,7 +1063,7 @@ open class MyExpensesV2ViewModel(
         val legB2Peer = Transaction(
             id = oldB2?.transferPeer?.id ?: 0L,
             accountId = targetAssetAccountId,
-            amount = Money.convertBigDecimal(quantity, intent.targetAsset.fractionDigits),
+            amount = Money.convertBigDecimal(quantity.amountMajor, intent.targetAsset.fractionDigits),
             transferAccountId = targetPortfolio.id,
             categoryId = transferCategory,
             date = dateEpoch,

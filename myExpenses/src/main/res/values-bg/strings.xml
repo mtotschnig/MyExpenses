@@ -1070,4 +1070,5 @@
         <item quantity="one">%1$d линия се отнася за непознат актив: %2$s.</item>
         <item quantity="other">%1$d линии се отнасят за непознати активи: %2$s.</item>
     </plurals>
+    <string name="rounding">Закръгляне</string>
 </resources>

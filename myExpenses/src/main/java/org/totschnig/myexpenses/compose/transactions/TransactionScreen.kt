@@ -136,6 +136,7 @@ import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import timber.log.Timber
+import java.math.RoundingMode
 import kotlin.math.absoluteValue
 
 enum class FabStyle {
@@ -543,6 +544,9 @@ fun TransactionScreen(
                         onEvent(AppEvent.SaveTrade(intent))
                         if (!stayOpen) showTradeScreen = null
                     },
+                    portfolio = currentAccount as FullAccount,
+                    roundingMode = viewModel.getRoundingMode(currentAccount.id).collectAsState(RoundingMode.HALF_UP).value,
+                    onRoundingModeChange = { viewModel.setRoundingMode(currentAccount.id, it) },
                     reportingCurrency = currentAccount.currencyUnit,
                     assets = allCurrencies,
                     fundingAccounts = accountList
@@ -561,7 +565,6 @@ fun TransactionScreen(
                     initialAction = tradeAction,
                     onCreateAsset = onCreateAsset,
                     isCurrencyUsed = isCurrencyUsed,
-                    portfolio = currentAccount as FullAccount,
                     onLookupMatchingTransactions = { accountId, total, date, isBuy ->
                         viewModel.findMatchingTransactions(accountId, total, date, currentAccount.currencyUnit, isBuy)
                     }

@@ -740,4 +740,5 @@
     <string name="price_history">価格履歴</string>
     <string name="pref_account_list_display_configuration_title">アカウント一覧</string>
     <string name="menu_templates">テンプレート</string>
+    <string name="rounding">丸め</string>
 </resources>

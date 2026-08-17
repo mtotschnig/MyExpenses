@@ -1089,4 +1089,5 @@
         <item quantity="other">%1$d lignes font référence à des actifs inconnus : %2$s.</item>
     </plurals>
     <string name="service_starting">Démarrage…</string>
+    <string name="rounding">Arrondi</string>
 </resources>
