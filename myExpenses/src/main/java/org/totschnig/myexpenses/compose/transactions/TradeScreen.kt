@@ -232,7 +232,7 @@ fun TradeScreen(
         }
     }
 
-    var showAddAsset by remember { mutableStateOf<Pair<String, CommodityType>?>(null) }
+    var showAddAsset by rememberSaveable { mutableStateOf<Pair<String, CommodityType>?>(null) }
 
     showAddAsset?.let { (codeToEdit: String, typeToEdit: CommodityType) ->
         EditCurrencyDialog(
@@ -255,8 +255,8 @@ fun TradeScreen(
         )
     }
 
-    var showDatePicker by remember { mutableStateOf(false) }
-    var showTimePicker by remember { mutableStateOf(false) }
+    var showDatePicker by rememberSaveable { mutableStateOf(false) }
+    var showTimePicker by rememberSaveable { mutableStateOf(false) }
 
     val datePickerState = rememberDatePickerState(
         initialSelectedDateMillis = dateMillis
@@ -683,9 +683,9 @@ fun AssetSelector(
     onSelectionChanged: (CurrencyUnit, Long?) -> Unit,
     onCreateAsset: (Pair<String, CommodityType>) -> Unit,
 ) {
-    var expanded by remember { mutableStateOf(false) }
+    var expanded by rememberSaveable { mutableStateOf(false) }
 
-    var selectedTypes by remember {
+    var selectedTypes by rememberSaveable {
         mutableStateOf(setOf(CommodityType.SECURITY, CommodityType.CRYPTO))
     }
 
@@ -728,6 +728,7 @@ fun AssetSelector(
             ) {
                 CommodityType.entries.filter { it != CommodityType.FIAT }.forEach { type ->
                     FilterChip(
+                        modifier = Modifier.weight(1f, fill = false),
                         selected = type in selectedTypes,
                         onClick = {
                             selectedTypes = if (type in selectedTypes) {
