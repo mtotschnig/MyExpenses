@@ -29,18 +29,18 @@ data class Money(val currencyUnit: CurrencyUnit, val amountMinor: Long) : Parcel
     private constructor(currencyUnit: CurrencyUnit, amountMajor: BigDecimal, roundingMode: RoundingMode = RoundingMode.HALF_EVEN) :
             this(currencyUnit, convertBigDecimal(amountMajor, currencyUnit.fractionDigits, roundingMode))
 
-    operator fun unaryMinus() = Money(currencyUnit, -amountMinor)
+    operator fun unaryMinus() = Money(currencyUnit, Math.negateExact(amountMinor))
 
     fun absolute() = if (amountMinor < 0) -this else this
 
     operator fun plus(other: Money): Money {
         require(currencyUnit == other.currencyUnit) { "Currency units must match" }
-        return Money(currencyUnit, amountMinor + other.amountMinor)
+        return Money(currencyUnit, Math.addExact(amountMinor, other.amountMinor))
     }
 
     operator fun minus(other: Money): Money {
         require(currencyUnit == other.currencyUnit) { "Currency units must match" }
-        return Money(currencyUnit, amountMinor - other.amountMinor)
+        return Money(currencyUnit, Math.subtractExact(amountMinor, other.amountMinor))
     }
 
 
