@@ -21,7 +21,7 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
         get() = id
 
     val sortOrder: String
-        get() = "${sortBy.let { if (it == KEY_AMOUNT) "abs($it)" else it }} $sortDirection"
+        get() = sortOrder(sortBy, sortDirection)
 
     fun uriForTransactionList(
         shortenComment: Boolean = false,
@@ -29,6 +29,9 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
     ): Uri = uriBuilderForTransactionList(id, currency, typeId, flagId, accountGrouping, shortenComment, extended).build()
 
     companion object {
+
+        fun sortOrder(sortBy: String, sortDirection: SortDirection) =
+            "${sortBy.let { if (it == KEY_AMOUNT) "abs($it)" else it }} $sortDirection"
 
         const val AGGREGATE_HOME_CURRENCY_CODE = "___"
 

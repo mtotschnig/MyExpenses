@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.db2.loadTrades
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.withLimit
@@ -38,6 +39,9 @@ class TradePagingSource(
 
     init {
         contentResolver.registerContentObserver(uri, true, observer)
+        registerInvalidatedCallback {
+            clear()
+        }
     }
 
     override fun clear() {
@@ -74,7 +78,7 @@ class TradePagingSource(
                 uri.withLimit(loadSize, offset),
                 arrayOf(KEY_ROWID),
                 WHERE_NOT_SPLIT_PART, null,
-                account.sortOrder,
+                if (account.sortBy == KEY_DATE) account.sortOrder else null,
                 null
             )!!.use { cursor ->
                 val list = mutableListOf<Long>()
@@ -85,7 +89,7 @@ class TradePagingSource(
             }
 
             // 3. Bulk load trades
-            count to repository.loadTrades(ids)
+            count to repository.loadTrades(ids, account.sortBy to account.sortDirection)
         }
 
         val prevKey = if (position > 0) (position - pageSize).coerceAtLeast(0) else null

@@ -385,7 +385,7 @@ open class MyExpensesViewModel(
     }
 
     private val pagerCache = mutableMapOf<Any, PagerInfo>()
-    private val currentQueryKeys = mutableMapOf<Any, Any>()
+    val currentQueryKeys = mutableMapOf<Any, Any>()
 
     private data class PagerInfo(
         val factory: ClearingLastPagingSourceFactory<Int, Transaction2, *>,
