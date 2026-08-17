@@ -1049,7 +1049,7 @@
     <string name="trade_quantity">Menge</string>
     <string name="trade_price">Preis</string>
     <string name="trade_fee">Gebühr</string>
-    <string name="trade_target_asset">Asset</string>
+    <string name="trade_target_asset">Vermögenswert</string>
     <string name="menu_create_portfolio">Neues Portfolio</string>
     <string name="asset_type_fiat_plural">Währungen</string>
     <string name="asset_type_security">Wertpapier</string>

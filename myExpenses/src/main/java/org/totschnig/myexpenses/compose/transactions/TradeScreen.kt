@@ -58,7 +58,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -390,7 +393,7 @@ fun TradeScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = onDismiss) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.menu_back))
                     }
                 },
                 actions = {}
@@ -588,7 +591,7 @@ fun TradeScreen(
                             ) {
                                 Icon(
                                     imageVector = Icons.Default.Settings,
-                                    contentDescription = null,
+                                    contentDescription = stringResource(R.string.rounding),
                                     modifier = Modifier.size(16.dp),
                                     tint = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
@@ -613,7 +616,9 @@ fun TradeScreen(
                                 )
                             }
                             applicableModes.forEach { mode ->
+                                val isSelected = mode == roundingMode
                                 DropdownMenuItem(
+                                    modifier = Modifier.semantics { selected = isSelected },
                                     text = {
                                         Text(
                                             when (mode) {
@@ -631,7 +636,7 @@ fun TradeScreen(
                                         showRoundingMenu = false
                                     },
                                     trailingIcon = {
-                                        if (mode == roundingMode) {
+                                        if (isSelected) {
                                             Icon(Icons.Default.Check, contentDescription = null)
                                         }
                                     }
@@ -678,12 +683,19 @@ fun TradeScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
+                    val clickLabel = stringResource(R.string.menu_invert_transfer)
                     IconButton(
+                        modifier = Modifier.semantics {
+                            // Provide the interaction hint
+                            onClick(label = clickLabel, action = null)
+                        },
                         onClick = { type = (type as TradeType.Transfer).copy(isIncoming = !type.isIncoming) },
                     ) {
                         Icon(
                             if (type.isIncoming) Icons.AutoMirrored.Filled.ArrowBack else Icons.AutoMirrored.Filled.ArrowForward,
-                            contentDescription = null
+                            contentDescription = stringResource(
+                                if (type.isIncoming) R.string.transfer_from_account else R.string.transfer_to_account
+                            )
                         )
                     }
                     TargetPortfolioSelector(
@@ -851,6 +863,7 @@ fun AssetSelector(
                 filteredSubaccounts.forEach { account ->
                     val isSelected = account.currencyUnit.code == selectedAsset?.code
                     DropdownMenuItem(
+                        modifier = Modifier.semantics { selected = isSelected },
                         text = {
                             Column(
                                 modifier = Modifier.fillMaxWidth()
@@ -879,6 +892,7 @@ fun AssetSelector(
                 filteredAssets.forEach { asset ->
                     val isSelected = asset.code == selectedAsset?.code
                     DropdownMenuItem(
+                        modifier = Modifier.semantics { selected = isSelected },
                         text = { Text("${asset.description} (${asset.code})") },
                         leadingIcon = if (isSelected) {
                             { Icon(Icons.Default.Check, contentDescription = null) }
@@ -932,9 +946,11 @@ fun TargetPortfolioSelector(
         )
         ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
             portfolios.forEach { portfolio ->
+                val isSelected = selectedPortfolioId == portfolio.first
                 DropdownMenuItem(
+                    modifier = Modifier.semantics { selected = isSelected },
                     text = { Text(portfolio.second) },
-                    leadingIcon = if (selectedPortfolioId == portfolio.first) {
+                    leadingIcon = if (isSelected) {
                         { Icon(Icons.Default.Check, contentDescription = null) }
                     } else null,
                     onClick = {
@@ -976,7 +992,9 @@ fun FundingSourceSelector(
         ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
             // Group 1: This Portfolio
             if (showPortfolio) {
+                val isSelected = selectedSource == FundingSource.PORTFOLIO
                 DropdownMenuItem(
+                    modifier = Modifier.semantics { selected = isSelected },
                     text = {
                         Row(
                             Modifier.fillMaxWidth(),
@@ -993,21 +1011,23 @@ fun FundingSourceSelector(
                             )
                         }
                     },
-                    leadingIcon = if (selectedSource == FundingSource.PORTFOLIO) {
+                    leadingIcon = if (isSelected) {
                         { Icon(Icons.Default.Check, contentDescription = null) }
                     } else null,
                     onClick = { onSourceSelected(FundingSource.PORTFOLIO, null); expanded = false }
                 )
             }
             // Group 2: External
+            val isExternalSelected = selectedSource == FundingSource.EXTERNAL
             DropdownMenuItem(
+                modifier = Modifier.semantics { selected = isExternalSelected },
                 text = {
                     Text(
                         stringResource(R.string.trade_funding_external_description),
                         style = MaterialTheme.typography.labelSmall
                     )
                 },
-                leadingIcon = if (selectedSource == FundingSource.EXTERNAL) {
+                leadingIcon = if (isExternalSelected) {
                     { Icon(Icons.Default.Check, contentDescription = null) }
                 } else null,
                 onClick = { onSourceSelected(FundingSource.EXTERNAL, null); expanded = false }
@@ -1015,11 +1035,12 @@ fun FundingSourceSelector(
             HorizontalDivider()
             // Group 3: Other Accounts
             accounts.forEach { account ->
-                val isSelected =
+                val isAccountSelected =
                     selectedSource == FundingSource.ACCOUNT && selectedAccountId == account.first
                 DropdownMenuItem(
+                    modifier = Modifier.semantics { selected = isAccountSelected },
                     text = { Text(account.second) },
-                    leadingIcon = if (isSelected) {
+                    leadingIcon = if (isAccountSelected) {
                         { Icon(Icons.Default.Check, contentDescription = null) }
                     } else null,
                     onClick = {
