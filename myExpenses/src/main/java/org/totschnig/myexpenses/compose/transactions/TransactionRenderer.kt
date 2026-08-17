@@ -433,7 +433,7 @@ abstract class ItemRenderer(
 
         org.totschnig.myexpenses.compose.ColoredAmountText(
             money = finalAmount,
-            style = style,
+            style = if (trade != null || isTrade) style.copy(fontStyle = FontStyle.Italic) else style,
             type = colorSource.transformType(finalType)
         )
     }
