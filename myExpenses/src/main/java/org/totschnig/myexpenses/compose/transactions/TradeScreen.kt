@@ -17,6 +17,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -168,6 +169,7 @@ fun TradeScreen(
 
     var comment by rememberSaveable { mutableStateOf(initialTrade?.comment ?: "") }
     var linkedTransactionId by rememberSaveable { mutableStateOf<Long?>(null) }
+    var errorMessage by rememberSaveable { mutableStateOf<Int?>(null) }
 
     val coroutineScope = rememberCoroutineScope()
 
@@ -205,12 +207,12 @@ fun TradeScreen(
     var showRoundingMenu by remember { mutableStateOf(false) }
 
     val onSaveClick = { stayOpen: Boolean ->
-        val asset = if (isAssetTrade) selectedAsset!! else reportingCurrency
-        val finalQuantity = Money.buildWithMajor(asset, quantity.orZero, roundingMode).getOrThrow()
-        val finalPrice = if (isAssetTrade) price.orZero else BigDecimal.ONE
-        val finalPrincipal = Money.buildWithMajor(reportingCurrency, principalAmount, roundingMode).getOrThrow()
-        val finalFee = if (type is TradeType.Transfer) Money(reportingCurrency, 0) else Money.buildWithMajor(reportingCurrency, fee.orZero, roundingMode).getOrThrow()
-        onSave(
+        runCatching {
+            val asset = if (isAssetTrade) selectedAsset!! else reportingCurrency
+            val finalQuantity = Money.buildWithMajor(asset, quantity.orZero, roundingMode).getOrThrow()
+            val finalPrice = if (isAssetTrade) price.orZero else BigDecimal.ONE
+            val finalPrincipal = Money.buildWithMajor(reportingCurrency, principalAmount, roundingMode).getOrThrow()
+            val finalFee = if (type is TradeType.Transfer) Money(reportingCurrency, 0) else Money.buildWithMajor(reportingCurrency, fee.orZero, roundingMode).getOrThrow()
             TradeIntent(
                 type = type,
                 date = date,
@@ -224,15 +226,18 @@ fun TradeScreen(
                 fundingSource = fundingSource,
                 linkedTransactionId = linkedTransactionId,
                 tradeId = initialTrade?.id
-            ),
-            stayOpen
-        )
-        if (stayOpen) {
-            quantity = null
-            price = null
-            fee = null
-            comment = ""
-            linkedTransactionId = null
+            )
+        }.onSuccess { intent ->
+            onSave(intent, stayOpen)
+            if (stayOpen) {
+                quantity = null
+                price = null
+                fee = null
+                comment = ""
+                linkedTransactionId = null
+            }
+        }.onFailure {
+            errorMessage = R.string.number_too_large
         }
     }
 
@@ -749,6 +754,18 @@ fun TradeScreen(
                 modifier = Modifier.fillMaxWidth()
             )
         }
+    }
+
+    errorMessage?.let {
+        AlertDialog(
+            onDismissRequest = { errorMessage = null },
+            confirmButton = {
+                TextButton(onClick = { errorMessage = null }) {
+                    Text(stringResource(android.R.string.ok))
+                }
+            },
+            text = { Text(stringResource(it)) }
+        )
     }
 }
 
