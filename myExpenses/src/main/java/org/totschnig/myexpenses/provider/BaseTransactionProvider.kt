@@ -2613,6 +2613,21 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         arrayOf(oldCode)
                     )
                 }
+                if (values.containsKey(KEY_LABEL)) {
+                    val label = values.getAsString(KEY_LABEL)
+                    val effectiveCode = code ?: query(
+                        TABLE_CURRENCIES, arrayOf(KEY_CODE), "$KEY_ROWID = ?",
+                        arrayOf(id.toString()), null, null, null
+                    ).use { if (it.moveToFirst()) it.getString(0) else null }
+                    if (effectiveCode != null) {
+                        update(
+                            TABLE_ACCOUNTS,
+                            ContentValues(1).apply { put(KEY_LABEL, label) },
+                            "$KEY_CURRENCY = ? AND $KEY_IS_PORTFOLIO = ?",
+                            arrayOf(effectiveCode, PORTFOLIO_ASSET.toString())
+                        )
+                    }
+                }
                 if (oldFractionDigits != null && values.containsKey(KEY_FRACTION_DIGITS)) {
                     accountsUpdated = updateFractionDigits(
                         this,
