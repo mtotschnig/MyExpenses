@@ -1072,6 +1072,6 @@
     <string name="parse_error_at_line">%1$d. satırda hata: %2$s</string>
     <string name="rounding">Yuvarlama</string>
     <string name="trade_transfer">Transfer</string>
-    <string name="asset_type_commodity">Kıymet</string>
-    <string name="asset_type_commodity_plural">Kıymetler</string>
+    <string name="asset_type_commodity">Emtia</string>
+    <string name="asset_type_commodity_plural">Emtialar</string>
 </resources>

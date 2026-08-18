@@ -947,5 +947,7 @@
     <string name="trade_price">Pris</string>
     <string name="menu_create_portfolio">Ny portfölj</string>
     <string name="asset_type_fiat_plural">Valutor</string>
+    <string name="asset_type_commodity">Råvara</string>
+    <string name="asset_type_commodity_plural">Råvaror</string>
     <string name="rounding">Avrundning</string>
 </resources>

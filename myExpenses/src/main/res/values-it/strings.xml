@@ -1059,6 +1059,8 @@
     <string name="asset_type_security">Titolo</string>
     <string name="asset_type_security_plural">Titoli</string>
     <string name="asset_type_crypto">Cripto</string>
+    <string name="asset_type_commodity">Materia prima</string>
+    <string name="asset_type_commodity_plural">Materie prime</string>
     <string name="trade_funding_source">Fonte di finanziamento</string>
     <string name="trade_funding_portfolio">Contanti del portafoglio</string>
     <string name="trade_funding_external_description">Fondi da fonti non tracciate in questa app</string>

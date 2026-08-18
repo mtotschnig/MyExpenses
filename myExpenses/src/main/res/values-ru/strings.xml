@@ -1067,6 +1067,8 @@
     <string name="asset_type_security">Ценная бумага</string>
     <string name="asset_type_security_plural">Ценные бумаги</string>
     <string name="asset_type_crypto">Криптоактивы</string>
+    <string name="asset_type_commodity">Товар</string>
+    <string name="asset_type_commodity_plural">Товары</string>
     <string name="trade_funding_source">Источник финансирования</string>
     <string name="trade_funding_portfolio">Наличные в портфеле</string>
     <string name="trade_funding_external_description">Средства из источников, не отслеживаемых в этом приложении</string>

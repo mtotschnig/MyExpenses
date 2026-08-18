@@ -1055,6 +1055,8 @@
     <string name="asset_type_security">Wertpapier</string>
     <string name="asset_type_security_plural">Wertpapiere</string>
     <string name="asset_type_crypto">Krypto</string>
+    <string name="asset_type_commodity">Rohstoff</string>
+    <string name="asset_type_commodity_plural">Rohstoffe</string>
     <string name="trade_funding_source">Finanzierungsquelle</string>
     <string name="trade_funding_portfolio">Portfolio-Bargeld</string>
     <string name="trade_funding_external_description">Mittel aus Quellen, die nicht in dieser App verfolgt werden</string>

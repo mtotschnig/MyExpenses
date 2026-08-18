@@ -1062,6 +1062,8 @@
     <string name="asset_type_security">Valor</string>
     <string name="asset_type_security_plural">Valores</string>
     <string name="asset_type_crypto">Cripto</string>
+    <string name="asset_type_commodity">Materia prima</string>
+    <string name="asset_type_commodity_plural">Materias primas</string>
     <string name="trade_funding_source">Fuente de financiación</string>
     <string name="trade_funding_portfolio">Efectivo de la cartera</string>
     <string name="trade_funding_external_description">Fondos de fuentes no rastreadas en esta aplicación</string>
