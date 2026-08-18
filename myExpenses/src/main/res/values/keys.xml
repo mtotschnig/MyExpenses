@@ -309,4 +309,5 @@
     <string name="pref_content_based_colors_key">dynamic_colors</string>
     <string name="trade_import_format_hint">Format (Header required): Date,Type,Asset,Quantity,Price,Total,Fee. Provide at least 2 of Quantity, Price, Total.</string>
     <string name="pref_default_action_key">default_action</string>
+    <string name="whats_new_411_4">Mutual TLS / Client Certificate Support for WebDAV Sync </string>
 </resources>

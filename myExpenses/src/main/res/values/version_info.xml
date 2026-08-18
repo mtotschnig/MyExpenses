@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="versions">
-        <item>873;4.1.1</item>
+        <item>874;4.1.1</item>
         <item>868;4.1.0</item>
         <item>857;4.0.9</item>
         <item>851;4.0.8</item>
@@ -107,6 +107,7 @@
     <string name="version_more_info_408">116539859736344536</string>
     <string name="version_more_info_409">116633341553126335</string>
     <string name="version_more_info_410">116937723305133542</string>
+    <string name="version_more_info_411">117118348237320813</string>
 
     <!-- Github -->
     <!-- Legacy -->
@@ -232,5 +233,11 @@
     </string-array>
     <string-array name="whats_new_410">
         <item>@string/contrib_feature_portfolio_tracking</item>
+    </string-array>
+    <string-array name="whats_new_411">
+        <item>@string/whats_new_411_1</item>
+        <item>@string/whats_new_411_2</item>
+        <item>@string/whats_new_411_3</item>
+        <item>@string/whats_new_411_4</item>
     </string-array>
 </resources>

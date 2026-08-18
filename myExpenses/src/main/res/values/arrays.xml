@@ -125,6 +125,13 @@
         <item>Arif Budiman, Reza Almanda</item>
     </string-array>
 
+    <string-array name="contributors_411" tools:ignore="UnusedResources">
+        <item />
+        <item />
+        <item />
+        <item>Carlson Büth</item>
+    </string-array>
+
     <string-array name="comparison_operator_entries">
         <item>@string/comparison_operator_equal</item>
         <item>@string/comparison_operator_greater_than</item>
