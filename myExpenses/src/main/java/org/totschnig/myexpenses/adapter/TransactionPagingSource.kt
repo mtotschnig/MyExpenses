@@ -18,13 +18,12 @@ import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART
-import org.totschnig.myexpenses.provider.KEY_PARENTID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.withLimit
+import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import org.totschnig.myexpenses.viewmodel.data.mergeTransfers
 import org.totschnig.myexpenses.viewmodel.data.pickForMerge
@@ -35,7 +34,7 @@ import java.time.Instant
 
 open class TransactionPagingSource(
     val context: Context,
-    val account: DataBaseAccount,
+    val account: PageAccount,
     val whereFilter: StateFlow<Criterion?>,
     val tags: StateFlow<Map<String, Pair<String, Int?>>>,
     val currencyContext: CurrencyContext,
@@ -153,11 +152,12 @@ open class TransactionPagingSource(
                 }
                 cursor.asSequence.map {
                     Transaction2.fromCursor(
-                        currencyContext,
-                        it,
-                        tags.value,
+                        currencyContext = currencyContext,
+                        cursor = it,
+                        tags = tags.value,
                         accountCurrency = currencyContext[account.currency],
-                        account.grouping
+                        accountLabel = account.label,
+                        grouping = account.grouping
                     )
                 }.toList()
             }

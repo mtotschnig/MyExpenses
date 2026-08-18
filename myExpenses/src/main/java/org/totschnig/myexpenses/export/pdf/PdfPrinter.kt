@@ -335,11 +335,11 @@ object PdfPrinter {
 
         for (transaction in transactionCursor.asSequence.map {
             Transaction2.fromCursor(
-                currencyContext,
-                it,
-                tagMap,
+                currencyContext = currencyContext,
+                cursor = it,
+                tags = tagMap,
                 accountCurrency = account.currencyUnit,
-                account.grouping
+                grouping = account.grouping
             )
         }.asIterable().let {
             if (account.isAggregate) it.mergeTransfers(
@@ -730,11 +730,11 @@ object PdfPrinter {
                 splitCursor(transaction.id).use { it ->
                     val list = it.asSequence.map {
                         Transaction2.fromCursor(
-                            currencyContext,
-                            it,
-                            tagMap,
+                            currencyContext = currencyContext,
+                            cursor = it,
+                            tags = tagMap,
                             accountCurrency = account.currencyUnit,
-                            account.grouping
+                            grouping = account.grouping
                         )
                     }.toList()
                     list.forEachIndexed { index, split ->

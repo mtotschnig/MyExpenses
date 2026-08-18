@@ -239,9 +239,10 @@ data class Transaction2(
         fun fromCursor(
             currencyContext: CurrencyContext,
             cursor: Cursor,
-            tags: Map<String, Pair<String, Int?>>,
-            accountCurrency: CurrencyUnit? = null,
             grouping: Grouping,
+            tags: Map<String, Pair<String, Int?>>,
+            accountLabel: String? = null,
+            accountCurrency: CurrencyUnit? = null,
         ): Transaction2 {
             val currency = cursor.getString(KEY_CURRENCY)
             val amountRaw = cursor.getLong(KEY_DISPLAY_AMOUNT)
@@ -279,7 +280,7 @@ data class Transaction2(
                     CrStatus.UNRECONCILED
                 ),
                 referenceNumber = cursor.getStringOrNull(KEY_REFERENCE_NUMBER),
-                accountLabel = cursor.getStringIfExists(KEY_ACCOUNT_LABEL),
+                accountLabel = cursor.getStringIfExists(KEY_ACCOUNT_LABEL) ?: accountLabel,
                 accountType = cursor.getLongIfExists(KEY_ACCOUNT_TYPE),
                 transferPeerIsPart = cursor.getBooleanIfExists(KEY_TRANSFER_PEER_IS_PART),
                 transferPeerIsArchived = cursor.getBooleanIfExists(KEY_TRANSFER_PEER_IS_ARCHIVED),

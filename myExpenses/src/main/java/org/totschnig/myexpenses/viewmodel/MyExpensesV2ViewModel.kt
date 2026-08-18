@@ -643,7 +643,12 @@ open class MyExpensesV2ViewModel(
                     "AND $KEY_TRANSFER_PEER IS NULL AND $KEY_PARENTID IS NULL",
             selectionArgs = arrayOf(accountId.toString(), amountMinor.toString(), startOfDay.toString(), endOfDay.toString())
         ).mapToList { cursor ->
-            Transaction2.fromCursor(currencyContext, cursor, tags.value, grouping = Grouping.NONE)
+            Transaction2.fromCursor(
+                currencyContext = currencyContext,
+                cursor = cursor,
+                tags = tags.value,
+                grouping = Grouping.NONE
+            )
         }
     }
 
