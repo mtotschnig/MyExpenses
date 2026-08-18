@@ -47,6 +47,7 @@ import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -204,8 +205,9 @@ fun TransactionScreen(
 
     val accountColor = Color(currentAccount.color(LocalResources.current))
     var showTradeScreen by rememberSaveable { mutableStateOf<Action?>(null) }
-
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         contentWindowInsets = windowInsets,
         containerColor = containerColor,
         topBar = {
@@ -222,6 +224,7 @@ fun TransactionScreen(
                     val context = LocalContext.current
                     TopAppBar(
                         windowInsets = windowInsets,
+                        scrollBehavior = scrollBehavior,
                         modifier = Modifier.height(height),
                         navigationIcon = {
                             TooltipIconButton(
@@ -269,6 +272,7 @@ fun TransactionScreen(
 
                     TopAppBar(
                         windowInsets = windowInsets,
+                        scrollBehavior = scrollBehavior,
                         modifier = Modifier.height(height),
                         navigationIcon = navigationIcon,
                         title = {
