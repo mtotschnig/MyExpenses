@@ -1067,7 +1067,6 @@
     <string name="trade_matching_transaction_found">Trovata transazione corrispondente nel conto di finanziamento. Seleziona per collegare:</string>
     <string name="asset_quantity_at_price">%1$s a %2$s</string>
     <string name="contrib_feature_portfolio_tracking">Tracciamento del portafoglio</string>
-    <string name="premium_nudge_portfolio_title">Sblocca tutto il potenziale del portafoglio</string>
     <string name="premium_nudge_portfolio_message">Puoi gestire un portafoglio gratuitamente. Aggiorna per gestire più portafogli e sbloccare funzioni di tracciamento avanzate.</string>
     <string name="rounding">Arrotondamento</string>
 </resources>

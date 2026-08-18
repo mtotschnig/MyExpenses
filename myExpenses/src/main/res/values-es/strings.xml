@@ -1070,7 +1070,6 @@
     <string name="trade_matching_transaction_found">Se encontró una operación coincidente en la cuenta de financiación. Seleccione para vincular:</string>
     <string name="asset_quantity_at_price">%1$s a %2$s</string>
     <string name="contrib_feature_portfolio_tracking">Seguimiento de cartera</string>
-    <string name="premium_nudge_portfolio_title">Libera todo el potencial de tu cartera</string>
     <string name="premium_nudge_portfolio_message">Puedes gestionar una cartera gratis. Actualiza para gestionar varias carteras y desbloquear funciones de seguimiento avanzadas.</string>
     <string name="rounding">Redondeo</string>
 </resources>

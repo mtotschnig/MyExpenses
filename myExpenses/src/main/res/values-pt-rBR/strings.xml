@@ -1071,7 +1071,6 @@
     <string name="trade_matching_transaction_found">Operação correspondente encontrada na conta de financiamento. Selecione para vincular:</string>
     <string name="asset_quantity_at_price">%1$s a %2$s</string>
     <string name="contrib_feature_portfolio_tracking">Acompanhamento de carteira</string>
-    <string name="premium_nudge_portfolio_title">Desbloqueie todo o potencial da carteira</string>
     <string name="premium_nudge_portfolio_message">Você pode gerenciar uma carteira gratuitamente. Atualize para gerenciar várias carteiras e desbloquear recursos avançados de acompanhamento.</string>
     <string name="parse_error_at_line">Erro na linha %1$d: %2$s</string>
     <plurals name="import_trades_missing_assets_message">

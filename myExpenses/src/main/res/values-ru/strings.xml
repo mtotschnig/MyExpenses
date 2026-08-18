@@ -1074,7 +1074,6 @@
     <string name="trade_withdraw">Вывод средств</string>
     <string name="trade_matching_transaction_found">В счете финансирования найдена соответствующая транзакция. Выберите, чтобы связать:</string>
     <string name="contrib_feature_portfolio_tracking">Отслеживание портфеля</string>
-    <string name="premium_nudge_portfolio_title">Разблокируйте полный потенциал вашего портфеля</string>
     <string name="premium_nudge_portfolio_message">Вы можете бесплатно управлять одним портфелем. Перейдите на обновленную версию, чтобы управлять несколькими портфелями и разблокировать расширенные функции отслеживания.</string>
     <string name="parse_error_at_line">Ошибка в строке %1$d: %2$s</string>
     <string name="rounding">Округление</string>

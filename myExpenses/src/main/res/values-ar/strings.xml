@@ -1089,7 +1089,6 @@
     <string name="trade_matching_transaction_found">تم العثور على معاملة مطابقة في حساب التمويل. اختر للربط:</string>
     <string name="asset_quantity_at_price">%1$s بسعر %2$s</string>
     <string name="contrib_feature_portfolio_tracking">تتبع المحفظة</string>
-    <string name="premium_nudge_portfolio_title">أطلق العنان لإمكانات المحفظة الكاملة</string>
     <string name="premium_nudge_portfolio_message">يمكنك إدارة محفظة واحدة مجانًا. قم بالترقية لإدارة محافظ متعددة وفتح ميزات تتبع متقدمة.</string>
     <string name="rounding">تقريب</string>
 </resources>

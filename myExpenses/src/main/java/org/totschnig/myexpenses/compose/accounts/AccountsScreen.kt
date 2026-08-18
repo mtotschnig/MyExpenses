@@ -78,6 +78,7 @@ fun AccountsScreen(
     val highlight = remember { mutableStateOf<Triple<Boolean, Int, Long?>?>(null) }
 
     val canCreatePortfolio by viewModel.canCreatePortfolio.collectAsState()
+    val premiumNudgeDismissed by viewModel.premiumNudgeDismissed.asState()
 
     fun navigateToAccount(id: Long) {
 
@@ -209,8 +210,9 @@ fun AccountsScreen(
                 onEvent = onAccountEvent,
                 flags = flags,
                 bankIcon = bankIcon,
-                showPremiumNudge = !canCreatePortfolio,
-                onUpgrade = { onEvent(AppEvent.ShowUpgrade(ContribFeature.PORTFOLIO)) }
+                showPremiumNudge = !canCreatePortfolio && !premiumNudgeDismissed,
+                onUpgrade = { onEvent(AppEvent.ShowUpgrade(ContribFeature.PORTFOLIO)) },
+                onDismissPremiumNudge = viewModel::dismissPremiumNudge
             )
         }
     }

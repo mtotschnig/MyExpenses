@@ -233,6 +233,7 @@ fun AccountListV2(
     flags: List<AccountFlag> = emptyList(),
     showPremiumNudge: Boolean = false,
     onUpgrade: () -> Unit = {},
+    onDismissPremiumNudge: () -> Unit = {},
 ) {
 
     val context = LocalContext.current
@@ -264,7 +265,7 @@ fun AccountListV2(
     ) {
         if (showPremiumNudge) {
             item(key = "premium_nudge") {
-                PremiumNudgeCard(onUpgrade = onUpgrade)
+                PremiumNudgeCard(onUpgrade = onUpgrade, onDismiss = onDismissPremiumNudge)
             }
         }
         sortedGroupKeys.forEachIndexed { index, groupKey ->

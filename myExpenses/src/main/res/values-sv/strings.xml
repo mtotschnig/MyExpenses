@@ -947,6 +947,5 @@
     <string name="trade_price">Pris</string>
     <string name="menu_create_portfolio">Ny portfölj</string>
     <string name="asset_type_fiat_plural">Valutor</string>
-    <string name="premium_nudge_portfolio_title">Lås upp portföljens fulla potential</string>
     <string name="rounding">Avrundning</string>
 </resources>

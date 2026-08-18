@@ -1080,7 +1080,6 @@
     <string name="trade_matching_transaction_found">Opération correspondante trouvée dans le compte de financement. Sélectionner pour lier :</string>
     <string name="asset_quantity_at_price">%1$s à %2$s</string>
     <string name="contrib_feature_portfolio_tracking">Suivi de portefeuille</string>
-    <string name="premium_nudge_portfolio_title">Débloquez tout le potentiel de votre portefeuille</string>
     <string name="premium_nudge_portfolio_message">Vous pouvez gérer un portefeuille gratuitement. Passez à la version supérieure pour gérer plusieurs portefeuilles et débloquer des fonctionnalités de suivi avancées.</string>
     <string name="parse_error_at_line">Erreur à la ligne %1$d : %2$s</string>
     <plurals name="import_trades_missing_assets_message">

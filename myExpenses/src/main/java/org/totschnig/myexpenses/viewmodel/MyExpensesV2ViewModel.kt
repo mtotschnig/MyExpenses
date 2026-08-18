@@ -560,6 +560,20 @@ open class MyExpensesV2ViewModel(
         )
     }
 
+    val premiumNudgeDismissed by lazy {
+        PreferenceAccessor(
+            dataStore,
+            prefHandler.getBooleanPreferencesKey(PrefKey.PREMIUM_NUDGE_DISMISSED),
+            defaultValue = false
+        )
+    }
+
+    fun dismissPremiumNudge() {
+        viewModelScope.launch {
+            premiumNudgeDismissed.set(true)
+        }
+    }
+
     enum class AccountPanelState {
         EXPANDED, COLLAPSED, DEFAULT
     }
