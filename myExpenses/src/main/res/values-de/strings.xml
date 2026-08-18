@@ -226,7 +226,7 @@
     <string name="pm_type_debit">Lastschrift</string>
     <string name="pm_type_neutral">Neutral</string>
     <string name="pref_app_dir_title">Ordner für Datensicherungen und Exporte</string>
-    <string name="pref_auto_fill_summary">Daten von der letzten Buchung für denselben Empfänger/Zahler ausfüllen</string>
+    <string name="pref_auto_fill_summary">Daten von der letzten Buchung für die selbe Gegenpartei ausfüllen</string>
     <string name="pref_backup_summary">Erzeugt eine Datensicherung der Datenbank und der Einstellungen.</string>
     <string name="pref_sort_order_usages">Häufigkeit der Benutzung</string>
     <string name="pref_category_title_export">Export</string>
@@ -248,7 +248,7 @@
     <string name="pref_manage_categories_title">Kategorien</string>
     <string name="pref_manage_methods_summary">Zahlungsweisen hinzufügen und verändern, und diese mit Kontotypen verknüpfen.</string>
     <string name="pref_manage_methods_title">Zahlungsweisen</string>
-    <string name="pref_manage_parties_summary">Parteien (Zahler und Empfänger) hinzufügen, editieren und löschen.</string>
+    <string name="pref_manage_parties_summary">Gegenparteien hinzufügen, editieren und löschen.</string>
     <string name="pref_manage_parties_title">Parteien</string>
     <string name="pref_manage_sync_backends_title">Synchronisierung Backends</string>
     <!-- %s will be replaced with list of backends -->
@@ -304,7 +304,7 @@
     <string name="save_transaction_template_deleted">Vorlage wurde gelöscht</string>
     <string name="select">Auswählen</string>
     <string name="select_category">Kategorie auswählen</string>
-    <string name="select_payee">Empfänger/Zahler auswählen</string>
+    <string name="select_payee">Gegenpartei auswählen</string>
     <string name="share_scheme_not_supported">Schema %1$s nicht unterstützt </string>
     <string name="share_sending">Export Datei senden</string>
     <string name="split_parts_heading">Teilbeträge</string>
@@ -387,7 +387,7 @@
     <string name="search_comment">Suche nach Notizen</string>
     <string name="search_date">Suche nach Datum</string>
     <string name="search_status">Suche nach Status</string>
-    <string name="search_payee">Suche nach Empfänger/Zahler</string>
+    <string name="search_payee">Suche nach Gegenpartei</string>
     <string name="search_method">Suche nach Zahlungsweise</string>
     <string name="search_tag">Suche nach Schlagwort</string>
     <string name="and">und</string>
@@ -404,7 +404,7 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">nach</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Einkauf ist gescheitert oder abgebrochen.</string>
-    <string name="hint_auto_fill">Sollen Daten automatisch auf Basis der letzten Buchung für denselben Empfänger/Zahler ausgefüllt werden? Sie können dieses Verhalten jederzeit in den Einstellungen ändern.</string>
+    <string name="hint_auto_fill">Sollen Daten automatisch auf Basis der letzten Buchung für dieselbe Gegenpartei ausgefüllt werden? Sie können dieses Verhalten jederzeit in den Einstellungen ändern.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d Konten mit Währung %2$s wurden aktualisiert.</string>
     <string name="import_source_file">Datei</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
@@ -574,7 +574,7 @@
     <string name="ungroup_split_transaction_success">Die Gruppierung einer mehrteiligen Buchung wurde erfolgreich aufgelöst.</string>
     <string name="split_transaction_one_success">Die Buchung wurde erfolgreich in mehrteilige Buchung umgewandelt.</string>
     <string name="split_transaction_group_success">%1$d Buchungen wurden erfolgreich in einer mehrteiligen Buchung zusammengefasst.</string>
-    <string name="split_transaction_not_possible">Nur Buchungen, die dasselbe Konto, denselben Empfänger und denselben Status haben, können in einer mehrteiligen Buchung zusammengefasst werden.</string>
+    <string name="split_transaction_not_possible">Nur Buchungen, die dasselbe Konto, dieselbe Gegenpartei und denselben Status haben, können in einer mehrteiligen Buchung zusammengefasst werden.</string>
     <string name="pref_transaction_time_summary">Buchungen können mit genauer Zeitangabe erfasst werden.</string>
     <string name="pref_value_date_summary">Zusätzlich zum Buchungsdatum kann auch Wertstellung erfasst werden. Die Zeitangabe wird versteckt. Diese Einstellung wird nicht auf Barkonten angewendet.</string>
     <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
@@ -683,7 +683,7 @@
     <string name="menu_remap">Neu zuordnen</string>
     <string name="dialog_title_confirm_remap">Zuordnung ändern (%s)?</string>
     <string name="remap_category">Alle ausgewählten Buchungen werden der Kategorie %s zugeordnet.</string>
-    <string name="remap_payee">Alle ausgewählten Buchungen werden dem Zahler / Empfänger %s zugeordnet.</string>
+    <string name="remap_payee">Alle ausgewählten Buchungen werden der Gegenpartei %s zugeordnet.</string>
     <string name="remap_method">Alle ausgewählten Buchungen werden der Methode %s zugeordnet.</string>
     <string name="remap_account">Alle ausgewählten Buchungen werden dem Konto %s zugeordnet.</string>
     <string name="remapping_result">Die ausgewählten Buchungen wurden neu zugeordnet.</string>
@@ -780,7 +780,7 @@
     <string name="single_feature_info">Alternativ können Sie uneingeschränkten Zugriff nur auf diese Funktion erwerben.</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">Letzter Tag</string>
-    <string name="warning_link_transfer">Die beiden ausgewählten Buchungen werden als Umbuchung verknüpft. Informationen zu Empfängern / Zahlern und Kategorien werden gelöscht.</string>
+    <string name="warning_link_transfer">Die beiden ausgewählten Buchungen werden als Umbuchung verknüpft. Informationen zu Gegenparteien und Kategorien werden gelöscht.</string>
     <!-- This is the title of an entry on the configuration screen for the account widget. It allows to decide which number should be displayed for each account: the current balance or the total (which included future transactions) -->
     <string name="account_widget_configuration_sum">Art der angezeigten Summe</string>
     <string name="account_widget_configuration_sum_total">Zukünftige Buchungen einschließen</string>
@@ -1021,7 +1021,7 @@
     <string name="flag_favorite">Favorit</string>
     <string name="aggregate_invisible">Unsichtbare Konten in aggregierte Konten und Bilanz einbeziehen</string>
     <string name="select_accounts_for_flag">Wählen Sie Konten für die Markierung %s</string>
-    <string name="remap_payee_null">Zahler/Zahlungsempfänger werden aus allen ausgewählten Buchungen entfernt.</string>
+    <string name="remap_payee_null">Gegegenpartei wird aus allen ausgewählten Buchungen entfernt.</string>
     <string name="menu_cleanup">Aufräumen</string>
     <plurals name="warning_cleanup_parties">
         <item quantity="one">%d nicht verwendete Partei wird gelöscht.</item>
@@ -1067,4 +1067,11 @@
     <string name="contrib_feature_portfolio_tracking">Portfolio-Tracking</string>
     <string name="premium_nudge_portfolio_message">Sie können ein Portfolio kostenlos verwalten. Holen Sie sich das Upgrade, um mehrere Portfolios zu verwalten und erweiterte Tracking-Funktionen freizuschalten.</string>
     <string name="rounding">Rundung</string>
+    <string name="parse_error_at_line">Fehler bei Zeile %1$d: %2$s</string>
+    <plurals name="import_trades_missing_assets_message">
+        <item quantity="one">%1$d Zeile bezieht sich auf unbekannte Vermögenswerte: %2$s.</item>
+        <item quantity="other">%1$d Zeilen beziehen sich auf unbekannte Vermögenswerte: %2$s.</item>
+    </plurals>
+    <string name="service_starting">Wird gestartet…</string>
+    <string name="trade_transfer">Übertrag</string>
 </resources>
