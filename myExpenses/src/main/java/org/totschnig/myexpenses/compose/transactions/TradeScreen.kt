@@ -154,6 +154,14 @@ fun TradeScreen(
     var price by rememberSaveable {
         mutableStateOf(initialTrade?.price)
     }
+
+    LaunchedEffect(selectedAsset) {
+        if (initialTrade == null || selectedAsset?.code != initialTrade.assetSymbol) {
+            portfolio.children.find { it.currencyUnit.code == selectedAsset?.code }?.latestExchangeRate?.second?.let {
+                price = BigDecimal.valueOf(it)
+            }
+        }
+    }
     var fee by rememberSaveable {
         mutableStateOf(initialTrade?.fee?.amountMajor)
     }
