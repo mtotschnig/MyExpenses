@@ -76,6 +76,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.CollectionInfo
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.collectionInfo
+import androidx.compose.ui.semantics.disabled
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -105,7 +106,7 @@ import org.totschnig.myexpenses.compose.TEST_TAG_BALANCE_AMOUNT
 import org.totschnig.myexpenses.compose.TEST_TAG_BALANCE_HEADER
 import org.totschnig.myexpenses.compose.TEST_TAG_CAB
 import org.totschnig.myexpenses.compose.TEST_TAG_DIALOG
-import org.totschnig.myexpenses.compose.TEST_TAG_FAB_MENU
+import org.totschnig.myexpenses.compose.TEST_TAG_FAB_TRANSACTIONS
 import org.totschnig.myexpenses.compose.TEST_TAG_PAGER
 import org.totschnig.myexpenses.compose.TooltipIconButton
 import org.totschnig.myexpenses.compose.accounts.AccountEvent
@@ -350,7 +351,9 @@ fun TransactionScreen(
             if ((currentAccount as? FullAccount)?.sealed == true) {
                 FloatingActionButton(
                     onClick = { },
-                    modifier = Modifier.testTag(TEST_TAG_FAB_MENU),
+                    modifier = Modifier
+                        .testTag(TEST_TAG_FAB_TRANSACTIONS)
+                        .semantics { disabled() },
                     containerColor = MaterialTheme.colorScheme.surfaceVariant,
                     contentColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f),
                     elevation = FloatingActionButtonDefaults.elevation(
@@ -371,6 +374,7 @@ fun TransactionScreen(
                 val lastAction =
                     if (isPortfolio) viewModel.lastActionPortfolio else viewModel.lastAction
                 FloatingActionButtonMenu(
+                    modifier = Modifier.testTag(TEST_TAG_FAB_TRANSACTIONS),
                     primaryAction = staticAction ?: lastAction.flow.collectAsState(Action.Expense).value,
                     isStandard = viewModel.fabStyle.collectAsState(FabStyle.Standard).value == FabStyle.Standard,
                     containerColor = accountColor,

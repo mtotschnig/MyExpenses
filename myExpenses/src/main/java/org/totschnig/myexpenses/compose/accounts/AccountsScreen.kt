@@ -31,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.rememberTextMeasurer
@@ -39,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BalanceSheetOptions
 import org.totschnig.myexpenses.activity.BalanceSheetViewInner
+import org.totschnig.myexpenses.compose.TEST_TAG_FAB_ACCOUNTS
 import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.main.AppEventHandler
 import org.totschnig.myexpenses.compose.main.FloatingActionButtonMenu
@@ -149,6 +151,7 @@ fun AccountsScreen(
         bottomBar = bottomBar,
         floatingActionButton = {
             FloatingActionButtonMenu(
+                modifier = Modifier.testTag(TEST_TAG_FAB_ACCOUNTS),
                 primaryAction = Action.AddAccount,
                 actions = listOf(Action.AddAccount, Action.AddPortfolio),
                 onAction = { action ->

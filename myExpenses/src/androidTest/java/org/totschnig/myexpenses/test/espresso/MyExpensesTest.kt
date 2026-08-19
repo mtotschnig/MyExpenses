@@ -3,15 +3,10 @@ package org.totschnig.myexpenses.test.espresso
 import android.content.OperationApplicationException
 import android.os.RemoteException
 import android.widget.Button
-import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.filter
 import androidx.compose.ui.test.filterToOne
-import androidx.compose.ui.test.hasAnyAncestor
 import androidx.compose.ui.test.hasAnyDescendant
-import androidx.compose.ui.test.hasContentDescription
-import androidx.compose.ui.test.hasParent
-import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.onAllNodesWithTag
 import androidx.compose.ui.test.onChildren
@@ -19,8 +14,6 @@ import androidx.compose.ui.test.onFirst
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.printToLog
-import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.action.ViewActions.click
@@ -40,7 +33,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.google.common.truth.Truth.assertThat
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.allOf
-import org.hamcrest.Matchers.hasToString
 import org.hamcrest.Matchers.not
 import org.junit.After
 import org.junit.Before
@@ -54,7 +46,8 @@ import org.totschnig.myexpenses.compose.TEST_TAG_ACCOUNTS
 import org.totschnig.myexpenses.compose.TEST_TAG_BALANCE_HEADER
 import org.totschnig.myexpenses.compose.TEST_TAG_DELETE_ACCOUNT
 import org.totschnig.myexpenses.compose.TEST_TAG_EDIT_ACCOUNT
-import org.totschnig.myexpenses.compose.TEST_TAG_FAB_MENU
+import org.totschnig.myexpenses.compose.TEST_TAG_FAB_ACCOUNTS
+import org.totschnig.myexpenses.compose.TEST_TAG_FAB_TRANSACTIONS
 import org.totschnig.myexpenses.compose.TEST_TAG_OVERFLOW_MENU
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.loadAccount
@@ -63,7 +56,6 @@ import org.totschnig.myexpenses.dialog.MenuItem.Templates
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
-import org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowMenu
 import org.totschnig.myexpenses.testutils.TestShard4
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.withIdAndParent
@@ -101,7 +93,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
 
     @Test
     fun floatingActionButtonOpensForm() {
-        composeTestRule.onNodeWithTag(TEST_TAG_FAB_MENU).performClick()
+        composeTestRule.onNodeWithTag(TEST_TAG_FAB_TRANSACTIONS).performClick()
         intended(hasComponent(ExpenseEdit::class.java.name))
         pressBack()
     }
@@ -124,7 +116,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
     @Test
     fun helpDialogIsOpened() {
         TODO()
-        openActionBarOverflowMenu()
+ /*       openActionBarOverflowMenu()
         onData(hasToString(getString(R.string.menu_help))).perform(click())
         onView(withText(R.string.help_MyExpenses_title))
             .check(matches(isDisplayed()))
@@ -134,7 +126,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
                 withText(Matchers.`is`(app.getString(android.R.string.ok)))
             )
         )
-            .check(matches(isDisplayed()))
+            .check(matches(isDisplayed()))*/
     }
 
     @Test
@@ -167,7 +159,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
     @Test
     fun newAccountShowNew() {
         navigateToAccounts()
-        composeTestRule.onNodeWithTag(TEST_TAG_FAB_MENU).performClick()
+        composeTestRule.onNodeWithTag(TEST_TAG_FAB_ACCOUNTS).performClick()
         onView(withText(R.string.menu_create_account))
             .perform(click())
         intended(
@@ -258,10 +250,6 @@ class MyExpensesTest : BaseMyExpensesTest() {
         val account2 = buildAccount(label2)
 
         navigateToAccounts()
-
-        //we try to delete account 1
-        //we select  label2, but call context on label 1 and make sure the correct account is deleted
-        val caretDescription = getString(R.string.import_select_transactions)
 
         composeTestRule.onNodeWithTag(TEST_TAG_ACCOUNTS)
             .onChildren()

@@ -1,20 +1,16 @@
 package org.totschnig.myexpenses.repository
 
-import android.content.ContentUris
-import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
-import androidx.test.core.app.ApplicationProvider
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
-import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.insertTransfer
+import org.totschnig.myexpenses.db2.setAccountProperty
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.provider.KEY_SEALED
-import org.totschnig.myexpenses.provider.TransactionProvider
 
 @RunWith(RobolectricTestRunner::class)
 class AccountTest: BaseTestWithRepository() {
@@ -40,9 +36,6 @@ class AccountTest: BaseTestWithRepository() {
 
 
     private fun closeAccount(accountId: Long) {
-        val values = ContentValues().apply {
-            put(KEY_SEALED, true)
-        }
-        ApplicationProvider.getApplicationContext<MyApplication>().contentResolver.update(ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, accountId), values, null, null)
+        repository.setAccountProperty(accountId, KEY_SEALED, true)
     }
 }
