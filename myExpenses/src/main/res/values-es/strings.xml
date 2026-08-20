@@ -1074,4 +1074,21 @@
     <string name="contrib_feature_portfolio_tracking">Seguimiento de cartera</string>
     <string name="premium_nudge_portfolio_message">Puedes gestionar una cartera gratis. Actualiza para gestionar varias carteras y desbloquear funciones de seguimiento avanzadas.</string>
     <string name="rounding">Redondeo</string>
+    <string name="parse_error_at_line">Error en la línea %1$d: %2$s</string>
+    <plurals name="import_trades_missing_assets_message">
+        <item quantity="one">%1$d línea se refiere a activos desconocidos: %2$s.</item>
+        <item quantity="many">%1$d líneas se refieren a activos desconocidos: %2$s.</item>
+        <item quantity="other">%1$d líneas se refieren a activos desconocidos: %2$s.</item>
+    </plurals>
+    <string name="content_description_show_balance_details">Mostrar información detallada</string>
+    <string name="main_navigation">Navegación principal</string>
+    <string name="pref_fab_style_title">Estilo de botón de acción flotante</string>
+    <string name="pref_fab_style_standard_description">Estándar (Toca la flecha para el menú)</string>
+    <string name="pref_fab_style_compact_description">Compacto (Pulsa y mantén pulsado para el menú)</string>
+    <string name="number_too_large">Número demasiado grande</string>
+    <string name="prioritize_flag_order">Priorizar el orden de las banderas</string>
+    <string name="pref_content_based_colors_title">Color dinámico basado en la cuenta</string>
+    <string name="pref_content_based_colors_summary">Derivar los colores temáticos del color de la cuenta actual. Apágalo si el texto es difícil de leer.</string>
+    <string name="service_starting">Iniciando…</string>
+    <string name="trade_transfer">Transferencia</string>
 </resources>
