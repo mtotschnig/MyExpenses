@@ -1071,4 +1071,20 @@
     <string name="contrib_feature_portfolio_tracking">Tracciamento del portafoglio</string>
     <string name="premium_nudge_portfolio_message">Puoi gestire un portafoglio gratuitamente. Aggiorna per gestire più portafogli e sbloccare funzioni di tracciamento avanzate.</string>
     <string name="rounding">Arrotondamento</string>
+    <string name="parse_error_at_line">Errore alla %1$d: %2$s</string>
+    <plurals name="import_trades_missing_assets_message">
+        <item quantity="one">%1$d riga si riferisce a beni sconosciuti: %2$s.</item>
+        <item quantity="many">%1$d righe si riferiscono a beni sconosciuti: %2$s.</item>
+        <item quantity="other">%1$d righe si riferiscono a beni sconosciuti: %2$s.</item>
+    </plurals>
+    <string name="main_navigation">Navigazione principale</string>
+    <string name="pref_fab_style_title">Stile pulsante d\'azione fluttuante</string>
+    <string name="pref_fab_style_standard_description">Standard (Tocca la freccia per il menu)</string>
+    <string name="pref_fab_style_compact_description">Compatto (tieni premuto per visualizzare il menu)</string>
+    <string name="number_too_large">Numero troppo grande</string>
+    <string name="prioritize_flag_order">Prioritizza l\'ordine delle bandiere</string>
+    <string name="pref_content_based_colors_title">Colore dinamico basato sulla conto</string>
+    <string name="pref_content_based_colors_summary">Ricava i colori del tema dal colore del conto corrente. Disattiva se il testo è difficile da leggere.</string>
+    <string name="service_starting">Iniziando…</string>
+    <string name="trade_transfer">Trasferimento</string>
 </resources>
