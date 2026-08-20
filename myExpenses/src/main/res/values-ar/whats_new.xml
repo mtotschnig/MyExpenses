@@ -40,4 +40,7 @@
     <string name="migration_v2_feature_2">تجميع وإجمالي الأعلام</string>
     <string name="migration_v2_feature_3">تكامل ميزانية عمومية محسّن</string>
     <string name="whats_new_407">فرز طبيعي للعلامات، التصنيفات، الحسابات والأطراف.</string>
+    <string name="whats_new_411_1">الانتقالات المنقسمة</string>
+    <string name="whats_new_411_2">تحويلات الأصول بين المحافظ</string>
+    <string name="whats_new_411_3">شاشة التاريخ للحسابات الإجمالية تعكس الآن التغير في قيمة العملات الأجنبية</string>
 </resources>
