@@ -188,9 +188,12 @@ open class ContentResolvingAndroidViewModel(application: Application) :
         queryArgs: Array<String>? = null,
         withAggregates: Boolean = true,
         sortOrder: String? = null,
+        withPortfolios: Boolean = false,
     ): Flow<List<AccountMinimal>> = contentResolver.observeQuery(
         if (withAggregates) ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES else ACCOUNTS_MINIMAL_URI,
-        null, "$KEY_PARENTID IS NULL AND $KEY_IS_PORTFOLIO = $PORTFOLIO_NONE" + (query?.let { " AND $it" } ?: ""), queryArgs, sortOrder, false
+        null,
+        listOfNotNull(query, "$KEY_PARENTID IS NULL", if (withPortfolios) null else "$KEY_IS_PORTFOLIO = $PORTFOLIO_NONE").joinToString(" AND "),
+        queryArgs, sortOrder, false
     )
         .mapToList { AccountMinimal.fromCursor(localizedContext, it) }
 

@@ -484,7 +484,8 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                                                     ArrayList(
                                                         viewModel.accountsMinimal(
                                                             withAggregates = false,
-                                                            sortOrder = KEY_SORT_KEY
+                                                            sortOrder = KEY_SORT_KEY,
+                                                            withPortfolios = true
                                                         ).first()
                                                             .map { SortableItem(it.id, it.label) }
                                                     ))
