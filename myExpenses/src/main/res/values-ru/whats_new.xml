@@ -40,4 +40,7 @@
     <string name="migration_v2_feedback_title">Что не работает в версии V2?</string>
     <string name="migration_v2_confirm_opt_out">Вернуться к версии V1</string>
     <string name="whats_new_407">Естественная сортировка для тегов, категорий, счетов и контрагентов.</string>
+    <string name="whats_new_411_1">Раздельный перевод</string>
+    <string name="whats_new_411_2">Перевод активов между портфелями</string>
+    <string name="whats_new_411_3">Экран истории агрегированных счетов теперь отражает изменение стоимости иностранных валют</string>
 </resources>

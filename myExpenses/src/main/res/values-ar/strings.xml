@@ -1091,4 +1091,18 @@
     <string name="contrib_feature_portfolio_tracking">تتبع المحفظة</string>
     <string name="premium_nudge_portfolio_message">يمكنك إدارة محفظة واحدة مجانًا. قم بالترقية لإدارة محافظ متعددة وفتح ميزات تتبع متقدمة.</string>
     <string name="rounding">تقريب</string>
+    <string name="parse_error_at_line">خطأ في السطر %1$d: %2$s</string>
+    <string name="content_description_show_balance_details">عرض معلومات مفصلة</string>
+    <string name="main_navigation">الابحار الرئسى</string>
+    <string name="pref_fab_style_title">أسلوب زر الحركة العائمة</string>
+    <string name="pref_fab_style_standard_description">عادي (اضغط على سهم للقائمة)</string>
+    <string name="pref_fab_style_compact_description">Compact (اضغط واضغط على القائمة)</string>
+    <string name="number_too_large">عدد كبير جدا</string>
+    <string name="prioritize_flag_order">إعطاء الأولوية لترتيب الأعلام</string>
+    <string name="pref_content_based_colors_title">لون ديناميكي قائم على حساب</string>
+    <string name="pref_content_based_colors_summary">اشتق ألوان الموضوع من لون حساب الجاري. أوقف النص إذا كان من الصعب قراءته.</string>
+    <string name="service_starting">يبدء.…</string>
+    <string name="trade_transfer">تحويل</string>
+    <string name="asset_type_commodity">سلعة</string>
+    <string name="asset_type_commodity_plural">السلع</string>
 </resources>
