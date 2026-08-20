@@ -40,4 +40,7 @@
     <string name="migration_v2_feedback_title">Was funktioniert in V2 nicht?</string>
     <string name="migration_v2_confirm_opt_out">Zurück zu Version 1</string>
     <string name="whats_new_407">Natürliche Sortierung für Schlagwörter, Kategorien, Konten, Parteien.</string>
+    <string name="whats_new_411_1">Mehrteilige Umbuchungen</string>
+    <string name="whats_new_411_2">Vermögensübertragungen zwischen Portfolios</string>
+    <string name="whats_new_411_3">History Screen für aggregierte Konten spiegelt nun die Wertänderung von Fremdwährungen wider</string>
 </resources>
