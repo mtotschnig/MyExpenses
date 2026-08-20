@@ -40,4 +40,7 @@
     <string name="migration_v2_feedback_title">Qu\'est-ce qui ne fonctionne pas dans la V2 ?</string>
     <string name="migration_v2_confirm_opt_out">Retourner à V1</string>
     <string name="whats_new_407">Tri naturel pour étiquettes, catégories, comptes, tiers.</string>
+    <string name="whats_new_411_1">Transferts ventilés</string>
+    <string name="whats_new_411_2">Transferts d’actifs entre portefeuilles</string>
+    <string name="whats_new_411_3">Écran d’historique pour les comptes agrégés reflète désormais la variation de la valeur des devises étrangères</string>
 </resources>
