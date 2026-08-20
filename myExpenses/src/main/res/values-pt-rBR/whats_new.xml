@@ -40,4 +40,7 @@
     <string name="migration_v2_feedback_title">O que não está funcionando na V2?</string>
     <string name="migration_v2_confirm_opt_out">Volte para a V1</string>
     <string name="whats_new_407">Ordenação natural para etiquetas, categorias, contas, parceiros.</string>
+    <string name="whats_new_411_1">Transferências divididas</string>
+    <string name="whats_new_411_2">Transferências de ativos entre portfólios</string>
+    <string name="whats_new_411_3">A tela de histórico para contas agregadas agora reflete a mudança no valor das moedas estrangeiras</string>
 </resources>
