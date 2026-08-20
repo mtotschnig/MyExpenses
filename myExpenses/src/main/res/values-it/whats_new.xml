@@ -40,4 +40,7 @@
     <string name="migration_v2_feature_4">Elenco conti semplificato</string>
     <string name="migration_v2_opt_out_warning">La versione 1 sarà eliminata in un futuro aggiornamento. Ci piacerebbe sapere cosa non funziona così da poter migliorare la V2.</string>
     <string name="whats_new_407">Ordinamento naturale per tag, categorie, conti, beneficiari.</string>
+    <string name="whats_new_411_1">Trasferimenti frazionati</string>
+    <string name="whats_new_411_2">Trasferimenti di attività tra portafogli</string>
+    <string name="whats_new_411_3">Schermata Storia per i conti aggregati ora riflette la variazione del valore delle valute estere</string>
 </resources>
