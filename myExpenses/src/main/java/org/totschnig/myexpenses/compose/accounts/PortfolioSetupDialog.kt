@@ -33,11 +33,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.ColorCircle
+import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.util.ColorUtils
@@ -50,13 +52,21 @@ import java.math.BigDecimal
 @Composable
 fun PortfolioSetupDialog(
     onDismiss: () -> Unit,
-    onConfirm: (label: String, currency: String, color: Int, exchangeRate: Double, dynamicExchangeRates: Boolean) -> Unit,
+    onConfirm: (label: String, currency: String, color: Int, exchangeRate: Double, dynamicExchangeRates: Boolean, type: AccountType) -> Unit,
     availableCurrencies: List<CurrencyUnit>,
+    availableAccountTypes: List<AccountType>,
     homeCurrency: CurrencyUnit,
     initialPortfolio: FullAccount? = null,
 ) {
     var label by remember { mutableStateOf(initialPortfolio?.label ?: "") }
     var selectedCurrencyState by remember { mutableStateOf(initialPortfolio?.currencyUnit ?: homeCurrency) }
+    var selectedAccountType by remember {
+        mutableStateOf(
+            initialPortfolio?.type ?: availableAccountTypes.find { it.name == AccountType.INVESTMENT.name }
+            ?: availableAccountTypes.firstOrNull()
+            ?: AccountType.INVESTMENT
+        )
+    }
     var selectedColor by remember { mutableIntStateOf(initialPortfolio?.color ?: Account.DEFAULT_COLOR) }
     var showColorPicker by remember { mutableStateOf(false) }
 
@@ -77,6 +87,7 @@ fun PortfolioSetupDialog(
         }
     }
 
+    val context = LocalContext.current
     Dialog(onDismissRequest = onDismiss) {
         Surface(
             shape = MaterialTheme.shapes.extraLarge,
@@ -105,6 +116,38 @@ fun PortfolioSetupDialog(
                     modifier = Modifier.fillMaxWidth(),
                     singleLine = true
                 )
+
+                // Account Type Selector
+                var typeExpanded by remember { mutableStateOf(false) }
+                ExposedDropdownMenuBox(
+                    expanded = typeExpanded,
+                    onExpandedChange = { typeExpanded = !typeExpanded }
+                ) {
+                    OutlinedTextField(
+                        value = selectedAccountType.title(context),
+                        onValueChange = {},
+                        readOnly = true,
+                        label = { Text(stringResource(R.string.account_types)) },
+                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = typeExpanded) },
+                        modifier = Modifier
+                            .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
+                            .fillMaxWidth()
+                    )
+                    ExposedDropdownMenu(
+                        expanded = typeExpanded,
+                        onDismissRequest = { typeExpanded = false }
+                    ) {
+                        availableAccountTypes.forEach { type ->
+                            DropdownMenuItem(
+                                text = { Text(type.title(context)) },
+                                onClick = {
+                                    selectedAccountType = type
+                                    typeExpanded = false
+                                }
+                            )
+                        }
+                    }
+                }
 
                 // Currency Selector
                 var expanded by remember { mutableStateOf(false) }
@@ -210,7 +253,8 @@ fun PortfolioSetupDialog(
                                 selectedCurrencyState.code,
                                 selectedColor,
                                 calculateRawExchangeRate(rate, selectedCurrencyState, homeCurrency),
-                                dynamicExchangeRates
+                                dynamicExchangeRates,
+                                selectedAccountType
                             )
                         },
                         enabled = label.isNotBlank() && (!isFx || dynamicExchangeRates || isExchangeRateValid)

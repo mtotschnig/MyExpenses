@@ -466,13 +466,13 @@ open class MyExpensesV2ViewModel(
         }
     }
 
-    fun createPortfolio(label: String, currency: String, color: Int, exchangeRate: Double, dynamicExchangeRates: Boolean) {
+    fun createPortfolio(label: String, currency: String, color: Int, exchangeRate: Double, dynamicExchangeRates: Boolean, type: AccountType) {
         viewModelScope.launch(coroutineDispatcher) {
             val portfolio = Account(
                 label = label,
                 currency = currency,
                 color = color,
-                type = repository.findAccountType(AccountType.INVESTMENT.name),
+                type = type,
                 portfolioRole = PORTFOLIO_CONTAINER,
                 dynamicExchangeRates = dynamicExchangeRates,
                 exchangeRate = exchangeRate
@@ -486,13 +486,14 @@ open class MyExpensesV2ViewModel(
         }
     }
 
-    fun updatePortfolio(id: Long, label: String, currency: String, color: Int, exchangeRate: Double, dynamicExchangeRates: Boolean) {
+    fun updatePortfolio(id: Long, label: String, currency: String, color: Int, exchangeRate: Double, dynamicExchangeRates: Boolean, type: AccountType) {
         viewModelScope.launch(coroutineDispatcher) {
             repository.updateAccount(id) {
                 put(KEY_LABEL, label)
                 put(KEY_CURRENCY, currency)
                 put(KEY_COLOR, color)
                 put(KEY_DYNAMIC, dynamicExchangeRates)
+                put(org.totschnig.myexpenses.provider.KEY_TYPE, type.id)
             }
             val homeCurrency = currencyContext.homeCurrencyUnit
             if (currency != homeCurrency.code && !dynamicExchangeRates) {

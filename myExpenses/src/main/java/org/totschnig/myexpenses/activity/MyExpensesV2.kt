@@ -237,6 +237,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                             portfolioToEditId?.let { id -> accounts.find { it.id == id } }
 
                         val currencies by currencyViewModel.currencyUnits.collectAsState(emptyList())
+                        val accountTypes by viewModel.accountTypes.collectAsState(emptyList())
 
                         if (showPortfolioSetup || portfolioToEditId != null) {
                             PortfolioSetupDialog(
@@ -244,7 +245,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                                     showPortfolioSetup = false
                                     portfolioToEditId = null
                                 },
-                                onConfirm = { label, currency, color, exchangeRate, dynamicExchangeRates ->
+                                onConfirm = { label, currency, color, exchangeRate, dynamicExchangeRates, type ->
                                     if (portfolioToEditId != null) {
                                         viewModel.updatePortfolio(
                                             portfolioToEditId!!,
@@ -252,7 +253,8 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                                             currency,
                                             color,
                                             exchangeRate,
-                                            dynamicExchangeRates
+                                            dynamicExchangeRates,
+                                            type
                                         )
                                     } else {
                                         viewModel.createPortfolio(
@@ -260,13 +262,15 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                                             currency,
                                             color,
                                             exchangeRate,
-                                            dynamicExchangeRates
+                                            dynamicExchangeRates,
+                                            type
                                         )
                                     }
                                     showPortfolioSetup = false
                                     portfolioToEditId = null
                                 },
                                 availableCurrencies = currencies.filter { it.commodityType == CommodityType.FIAT },
+                                availableAccountTypes = accountTypes,
                                 homeCurrency = currencyContext.homeCurrencyUnit,
                                 initialPortfolio = portfolioToEdit
                             )
