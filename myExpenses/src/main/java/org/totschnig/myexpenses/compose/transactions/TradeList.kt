@@ -23,6 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -116,13 +117,15 @@ fun TradeRow(
             ),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        val context = LocalContext.current
         if (renderType == RenderType.Legacy) {
+            val context = LocalContext.current
+            val dateFormatter = remember(context) {
+                (Utils.ensureDateFormatWithShortYear(context) as SimpleDateFormat).asDateTimeFormatter
+            }
             Text(
                 modifier = Modifier.width(emToDp(4f)),
-                text = trade.date.format((Utils.ensureDateFormatWithShortYear(context) as SimpleDateFormat).asDateTimeFormatter),
+                text = trade.date.format(dateFormatter),
                 textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.bodySmall,
                 maxLines = 1
             )
         }
@@ -142,7 +145,7 @@ fun TradeRow(
         // Column 2: Details (Primary and Secondary info)
         Column(
             modifier = Modifier
-                .padding(horizontal = 10.dp)
+                .padding(horizontal = 4.dp)
                 .weight(1f)
         ) {
             if (renderType == RenderType.New && trade.type !is TradeType.CashMovement) {
