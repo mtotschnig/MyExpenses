@@ -51,6 +51,7 @@ import org.totschnig.myexpenses.compose.main.AppEventHandler
 import org.totschnig.myexpenses.compose.main.MainScreenAdaptive
 import org.totschnig.myexpenses.compose.transactions.Action
 import org.totschnig.myexpenses.compose.transactions.ImportTradesDialog
+import org.totschnig.myexpenses.compose.transactions.RenderType
 import org.totschnig.myexpenses.compose.transactions.TradeEvent
 import org.totschnig.myexpenses.compose.transactions.TradeList
 import org.totschnig.myexpenses.compose.transactions.TradeScreen
@@ -531,6 +532,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
         allCurrencies: List<CurrencyUnit>,
         accountList: List<BaseAccount>,
     ) {
+        val renderType by viewModel.renderer.collectAsState(initial = RenderType.New)
         val lazyPagingItems = viewModel.getTrades(account).collectAsLazyPagingItems()
         var tradeToEdit by remember { mutableStateOf<Trade?>(null) }
 
@@ -538,6 +540,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
             TradeList(
                 trades = lazyPagingItems,
                 modifier = Modifier.weight(1f),
+                renderType = renderType,
                 onEvent = { event, trade ->
                     when (event) {
                         TradeEvent.Edit -> {
