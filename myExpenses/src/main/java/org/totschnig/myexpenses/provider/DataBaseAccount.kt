@@ -26,7 +26,15 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
     fun uriForTransactionList(
         shortenComment: Boolean = false,
         extended: Boolean = true,
-    ): Uri = uriBuilderForTransactionList(id, currency, typeId, flagId, accountGrouping, shortenComment, extended).build()
+    ): Uri = uriBuilderForTransactionList(
+        id,
+        currency,
+        typeId,
+        flagId,
+        accountGrouping,
+        shortenComment,
+        extended
+    ).build()
 
     companion object {
 
@@ -62,7 +70,7 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
             type: Long? = null,
             flag: Long? = null,
             accountGrouping: AccountGrouping<*>? = null,
-        ) : Pair<String, String>? = when (accountGrouping ?: when {
+        ): Pair<String, String>? = when (accountGrouping ?: when {
             isHomeAggregate(accountId) -> AccountGrouping.NONE
             accountId < 0 -> AccountGrouping.CURRENCY
             else -> null
@@ -97,15 +105,9 @@ abstract class DataBaseAccount : AccountInfoWithGrouping {
             (if (extended) EXTENDED_URI else TRANSACTIONS_URI)
                 .buildUpon().apply {
                     if (shortenComment) {
-                        appendQueryParameter(
-                            QUERY_PARAMETER_SHORTEN_COMMENT,
-                            "1"
-                        )
+                        appendQueryParameter(QUERY_PARAMETER_SHORTEN_COMMENT, "1")
                     }
-                    appendQueryParameter(
-                        QUERY_PARAMETER_SEARCH,
-                        "1"
-                    )
+                    appendQueryParameter(QUERY_PARAMETER_SEARCH, "1")
                 }
     }
 }

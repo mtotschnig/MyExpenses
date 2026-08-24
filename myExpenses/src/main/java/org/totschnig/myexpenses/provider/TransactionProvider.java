@@ -463,7 +463,8 @@ public class TransactionProvider extends BaseTransactionProvider {
         boolean hasSearch = uri.getBooleanQueryParameter(QUERY_PARAMETER_SEARCH, false);
         String forCatId = uri.getQueryParameter(KEY_CATID);
         boolean extended = uri.getQueryParameter(QUERY_PARAMETER_EXTENDED) != null;
-        String table = extended ? VIEW_EXTENDED : VIEW_COMMITTED;
+        boolean forHome = uri.getQueryParameter(KEY_ACCOUNTID) == null && uri.getQueryParameter(KEY_CURRENCY) == null && uri.getQueryParameter(KEY_PARENTID) == null;
+        String table = forHome || extended ? VIEW_EXTENDED : VIEW_COMMITTED;
 
         if (projection == null) {
           projection = extended ? DatabaseConstants.getProjectionExtended() : DatabaseConstants.getProjectionBase();
@@ -473,7 +474,6 @@ public class TransactionProvider extends BaseTransactionProvider {
         }
         sortOrder += ", " + KEY_ROWID + (sortOrder.contains(" DESC") ? " DESC" : " ASC");
 
-        boolean forHome = uri.getQueryParameter(KEY_ACCOUNTID) == null && uri.getQueryParameter(KEY_CURRENCY) == null && uri.getQueryParameter(KEY_PARENTID) == null;
         if (forCatId != null) {
           String selector = transactionQuerySelector(uri, CTE_SEARCH);
           selection = TextUtils.isEmpty(selection) ? selector : (TextUtils.isEmpty(selector) ? selection : (selection + " AND " + selector));
