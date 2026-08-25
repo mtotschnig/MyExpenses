@@ -87,6 +87,7 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CommodityType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.util.calculateRealExchangeRate
 import org.totschnig.myexpenses.util.toEpochMillis
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.FundingSource
@@ -187,8 +188,10 @@ fun TradeScreen(
 
             LaunchedEffect(selectedAsset) {
                 if (initialTrade == null || selectedAsset?.code != initialTrade.assetSymbol) {
-                    portfolio.children.find { it.currencyUnit.code == selectedAsset?.code }?.latestExchangeRate?.second?.let {
-                        price = BigDecimal.valueOf(it)
+                    portfolio.children.find { it.currencyUnit.code == selectedAsset?.code }?.let { assetAccount ->
+                        assetAccount.latestExchangeRate?.second?.let {
+                            price = calculateRealExchangeRate(it, assetAccount.currencyUnit, reportingCurrency)
+                        }
                     }
                 }
             }
