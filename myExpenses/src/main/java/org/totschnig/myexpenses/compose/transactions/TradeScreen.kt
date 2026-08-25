@@ -135,7 +135,7 @@ fun TradeScreen(
                     ifTrue = {
                         widthIn(max = 560.dp)
                             .heightIn(max = 800.dp) // Limit maximum height
-                            .fillMaxHeight(0.95f) // Take up to 85% of screen height
+                            .fillMaxHeight(0.95f) // Take up to 95% of screen height
                     }, ifFalse = { fillMaxSize() }
                 ),
             shape = if (isLarge) MaterialTheme.shapes.extraLarge else androidx.compose.ui.graphics.RectangleShape
