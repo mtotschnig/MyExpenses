@@ -241,14 +241,18 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                         tradeToEdit?.let { trade ->
                             accounts.find { it.id == trade.portfolioId }?.let { fullAccount ->
                                 Dialog(
-                                    onDismissRequest = { viewModel.tradeToEdit.value = null },
+                                    onDismissRequest = { viewModel.clearTradeToEdit() },
                                     properties = DialogProperties(usePlatformDefaultWidth = false)
                                 ) {
                                     TradeScreen(
-                                        onDismiss = { viewModel.tradeToEdit.value = null },
+                                        onDismiss = { viewModel.clearTradeToEdit()},
                                         onSave = { intent, stayOpen ->
                                             viewModel.saveTrade(fullAccount, intent)
-                                            if (!stayOpen) viewModel.tradeToEdit.value = null
+                                            if (stayOpen) {
+                                                report(
+                                                    IllegalStateException("did not expect stayOpen to be true when editing trade")
+                                                )
+                                            }
                                         },
                                         portfolio = fullAccount,
                                         roundingMode = viewModel.getRoundingMode(fullAccount.id)
@@ -586,7 +590,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                 onEvent = { event, trade ->
                     when (event) {
                         TradeEvent.Edit -> {
-                            viewModel.tradeToEdit.value = trade
+                            viewModel.editTrade(trade)
                         }
 
                         TradeEvent.Delete -> {

@@ -181,7 +181,7 @@ const val KEY_EQUIVALENT_AMOUNT: String = "equivalent_amount"
 /*
 if the transfer peer is either part of a split transaction or part of an archive, holds the parent's id
 */
-const val KEY_TRANSFER_PEER_PARENT: String = "transfer_peer_is_part"
+const val KEY_TRANSFER_PEER_PARENT: String = "transfer_peer_parent"
 
 /*
 true if the transfer peer is archived, i.e. part of an archive

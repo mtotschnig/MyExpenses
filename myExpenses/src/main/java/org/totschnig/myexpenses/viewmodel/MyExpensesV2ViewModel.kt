@@ -17,7 +17,6 @@ import androidx.paging.cachedIn
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import arrow.core.Tuple4
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -135,7 +134,8 @@ open class MyExpensesV2ViewModel(
     private val _intentEvents = MutableSharedFlow<Intent>(replay = 1)
     val intentEvents = _intentEvents.asSharedFlow()
 
-    val tradeToEdit = MutableStateFlow<Trade?>(null)
+    private val _tradeToEdit = MutableStateFlow<Trade?>(null)
+    val tradeToEdit = _tradeToEdit.asStateFlow()
 
     fun handleIntent(intent: Intent) {
         viewModelScope.launch {
@@ -660,14 +660,22 @@ open class MyExpensesV2ViewModel(
     fun saveTrade(currentAccount: FullAccount, intent: TradeIntent) {
         viewModelScope.launch(coroutineDispatcher) {
             saveTrades(currentAccount, listOf(intent))
-            tradeToEdit.value = null
+            _tradeToEdit.value = null
         }
     }
 
     fun loadTrade(transactionId: Long) {
-        viewModelScope.launch(Dispatchers.IO) {
-            tradeToEdit.value = repository.loadTrade(transactionId)
+        viewModelScope.launch(coroutineDispatcher) {
+            _tradeToEdit.value = repository.loadTrade(transactionId)
         }
+    }
+
+    fun editTrade(trade: Trade) {
+        _tradeToEdit.value = trade
+    }
+
+    fun clearTradeToEdit() {
+        _tradeToEdit.value = null
     }
 
     suspend fun saveTrades(
