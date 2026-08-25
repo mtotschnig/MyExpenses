@@ -29,7 +29,7 @@
     <string name="contrib_feature_csv_import_label">CSV-importering</string>
     <string name="menu_delete">Ta bort</string>
     <string name="account_type_bank">Bank</string>
-    <string name="feedback">Återgivning</string>
+    <string name="feedback">Återkoppling</string>
     <string name="contrib_feature_accounts_unlimited_label">Obegränsat antal konton</string>
     <string name="dialog_title_warning_delete_transaction">Ta bort transaktion?</string>
     <string name="menu_create_template_from_transaction">Spara som mall</string>
@@ -178,7 +178,7 @@
     <string name="dialog_contrib_text_1"><i>{app_name}</i> erbjuds som öppen källkod.</string>
     <string name="pref_manage_accounts_title">Konton</string>
     <string name="plan_automatic">automatiskt</string>
-    <string name="pref_send_feedback_title">Skicka återgivning</string>
+    <string name="pref_send_feedback_title">Skicka återkoppling</string>
     <string name="method">Betalningsmetod</string>
     <string name="pref_restore_title">Återställ</string>
     <string name="pref_news_title">Nyheter</string>
