@@ -27,11 +27,7 @@ import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.CallSplit
-import androidx.compose.material.icons.automirrored.filled.TrendingFlat
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Archive
-import androidx.compose.material.icons.filled.ArrowDownward
-import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
@@ -105,6 +101,7 @@ abstract class ItemRenderer(
     private val withCategoryIcon: Boolean,
     private val colorSource: ColorSource,
     private val onToggleCrStatus: ((Long) -> Unit)?,
+    protected val withAccountLabel: Boolean
 ) {
 
     fun Transaction2.buildPrimaryInfo(
@@ -132,8 +129,9 @@ abstract class ItemRenderer(
             }
             if (isTransfer && trade == null) {
                 if (categoryPath != null) append(" (")
-                accountLabel?.let { append("$it ") }
-                if (forLegacy || accountLabel != null) {
+                val labelToShow = accountLabel.takeIf { withAccountLabel }
+                labelToShow?.let { append("$it ") }
+                if (forLegacy || labelToShow != null) {
                     append(getIndicatorPrefixForLabel(displayAmount.amountMinor))
                 }
                 transferAccountLabel?.let { append(it) }
@@ -449,8 +447,9 @@ class CompactTransactionRenderer(
     withCategoryIcon: Boolean = true,
     private val withOriginalAmount: Boolean = false,
     colorSource: ColorSource = ColorSource.TYPE,
+    withAccountLabel: Boolean = false,
     onToggleCrStatus: ((Long) -> Unit)? = null,
-) : ItemRenderer(withCategoryIcon, colorSource, onToggleCrStatus) {
+) : ItemRenderer(withCategoryIcon, colorSource, onToggleCrStatus, withAccountLabel) {
 
     @Composable
     override fun RowScope.RenderInner(
@@ -506,7 +505,8 @@ class NewTransactionRenderer(
     withCategoryIcon: Boolean = true,
     colorSource: ColorSource = ColorSource.TYPE,
     onToggleCrStatus: ((Long) -> Unit)? = null,
-) : ItemRenderer(withCategoryIcon, colorSource, onToggleCrStatus) {
+    withAccountLabel: Boolean = false
+) : ItemRenderer(withCategoryIcon, colorSource, onToggleCrStatus, withAccountLabel) {
     @OptIn(ExperimentalLayoutApi::class)
     @Composable
     override fun RowScope.RenderInner(
@@ -523,7 +523,7 @@ class NewTransactionRenderer(
                 .padding(horizontal = 5.dp)
                 .weight(1f)
         ) {
-            if (!transaction.isTransfer && transaction.accountLabel != null) {
+            if (!transaction.isTransfer && transaction.accountLabel != null && withAccountLabel) {
                 Row(modifier = Modifier.height(IntrinsicSize.Min)) {
                     transaction.AccountColor()
                     Text(text = transaction.accountLabel)

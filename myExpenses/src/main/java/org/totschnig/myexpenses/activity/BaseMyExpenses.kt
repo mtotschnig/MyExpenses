@@ -1335,16 +1335,17 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
 
                 RenderType.New -> {
                     NewTransactionRenderer(
-                        dateTimeFormatter(account, prefHandler, this),
-                        withCategoryIcon,
-                        colorSource,
-                        onToggleCrStatus
+                        dateTimeFormatter = dateTimeFormatter(account, prefHandler, this),
+                        withCategoryIcon = withCategoryIcon,
+                        colorSource = colorSource,
+                        onToggleCrStatus = onToggleCrStatus,
+                        withAccountLabel = account.isAggregate
                     )
                 }
 
                 RenderType.Legacy -> {
                     CompactTransactionRenderer(
-                        dateTimeFormatterLegacy(
+                        dateTimeFormatInfo = dateTimeFormatterLegacy(
                             account,
                             prefHandler,
                             this
@@ -1354,13 +1355,14 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                                 it.second
                             )
                         },
-                        withCategoryIcon,
-                        prefHandler.getBoolean(
+                        withCategoryIcon = withCategoryIcon,
+                        withOriginalAmount = prefHandler.getBoolean(
                             PrefKey.UI_ITEM_RENDERER_ORIGINAL_AMOUNT,
                             false
                         ),
-                        colorSource,
-                        onToggleCrStatus
+                        colorSource = colorSource,
+                        withAccountLabel = account.isAggregate,
+                        onToggleCrStatus = onToggleCrStatus
                     )
                 }
             }
