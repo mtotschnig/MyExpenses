@@ -2620,7 +2620,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                         TABLE_CURRENCIES, arrayOf(KEY_CODE), "$KEY_ROWID = ?",
                         arrayOf(id.toString()), null, null, null
                     ).use { if (it.moveToFirst()) it.getString(0) else null }
-                    if (effectiveCode != null) {
+                    if (effectiveCode != null && label != null) {
                         update(
                             TABLE_ACCOUNTS,
                             ContentValues(1).apply { put(KEY_LABEL, label) },
