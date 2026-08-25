@@ -157,7 +157,9 @@ fun TradeRow(
                     append(trade.quantity.currencyUnit.description)
                     append(" ")
                 }
-                append(stringResource(trade.type.label))
+                if (renderType == RenderType.New) {
+                    append(stringResource(trade.type.label))
+                }
                 if (trade.type !is TradeType.CashMovement) {
                     val currencyFormatter = LocalCurrencyFormatter.current
                     val quantityFormatted = currencyFormatter.formatMoney(
