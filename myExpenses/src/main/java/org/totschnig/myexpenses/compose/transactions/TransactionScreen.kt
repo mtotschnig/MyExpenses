@@ -13,9 +13,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -365,7 +367,7 @@ fun TransactionScreen(
                 }
             } else {
                 val isPortfolio = (currentAccount as? FullAccount)?.isPortfolio == true
-                val staticAction = if (isPortfolio) null  else
+                val staticAction = if (isPortfolio) null else
                     viewModel.defaultAction.collectAsState("LastVisited").value
                         .takeIf { it != "LastVisited" }
                         ?.let {
@@ -375,7 +377,8 @@ fun TransactionScreen(
                     if (isPortfolio) viewModel.lastActionPortfolio else viewModel.lastAction
                 FloatingActionButtonMenu(
                     modifier = Modifier.testTag(TEST_TAG_FAB_TRANSACTIONS),
-                    primaryAction = staticAction ?: lastAction.flow.collectAsState(Action.Expense).value,
+                    primaryAction = staticAction
+                        ?: lastAction.flow.collectAsState(Action.Expense).value,
                     isStandard = viewModel.fabStyle.collectAsState(FabStyle.Standard).value == FabStyle.Standard,
                     containerColor = accountColor,
                     actions = if (isPortfolio) Action.PORTFOLIO_ACTIONS else Action.STANDARD_ACTIONS
@@ -529,56 +532,44 @@ fun TransactionScreen(
         }
     }
     showTradeScreen?.let { tradeAction ->
-        val isLarge = booleanResource(R.bool.isLarge)
-
-        Dialog(
-            onDismissRequest = { showTradeScreen = null },
-            properties = DialogProperties(
-                usePlatformDefaultWidth = isLarge
-            )
-        ) {
-            Surface(
-                modifier = Modifier
-                    .testTag(TEST_TAG_DIALOG)
-                    .conditional(
-                        isLarge,
-                        ifTrue = { defaultMinSize(minHeight = 400.dp) },
-                        ifFalse = { fillMaxSize() }
-                    )
-            ) {
-                TradeScreen(
-                    onDismiss = { showTradeScreen = null },
-                    onSave = { intent, stayOpen ->
-                        onEvent(AppEvent.SaveTrade(intent))
-                        if (!stayOpen) showTradeScreen = null
-                    },
-                    portfolio = currentAccount as FullAccount,
-                    roundingMode = viewModel.getRoundingMode(currentAccount.id).collectAsState(RoundingMode.HALF_UP).value,
-                    onRoundingModeChange = { viewModel.setRoundingMode(currentAccount.id, it) },
-                    reportingCurrency = currentAccount.currencyUnit,
-                    assets = allCurrencies,
-                    fundingAccounts = accountList
-                        .filterIsInstance<FullAccount>()
-                        .filter {
-                            !it.isPortfolio && it.currencyUnit.code == currentAccount.currencyUnit.code &&
-                                    it.id != currentAccount.id
-                        }
-                        .map {
-                            it.id to it.labelV2(LocalContext.current)
-                        },
-                    targetPortfolios = accountList
-                        .filterIsInstance<FullAccount>()
-                        .filter { it.isPortfolio && it.id != currentAccount.id }
-                        .map { it.id to it.labelV2(LocalContext.current) },
-                    initialAction = tradeAction,
-                    onCreateAsset = onCreateAsset,
-                    isCurrencyUsed = isCurrencyUsed,
-                    onLookupMatchingTransactions = { accountId, total, date, isBuy ->
-                        viewModel.findMatchingTransactions(accountId, total, date, currentAccount.currencyUnit, isBuy)
-                    }
+        TradeScreen(
+            onDismiss = { showTradeScreen = null },
+            onSave = { intent, stayOpen ->
+                onEvent(AppEvent.SaveTrade(intent))
+                if (!stayOpen) showTradeScreen = null
+            },
+            portfolio = currentAccount as FullAccount,
+            roundingMode = viewModel.getRoundingMode(currentAccount.id)
+                .collectAsState(RoundingMode.HALF_UP).value,
+            onRoundingModeChange = { viewModel.setRoundingMode(currentAccount.id, it) },
+            reportingCurrency = currentAccount.currencyUnit,
+            assets = allCurrencies,
+            fundingAccounts = accountList
+                .filterIsInstance<FullAccount>()
+                .filter {
+                    !it.isPortfolio && it.currencyUnit.code == currentAccount.currencyUnit.code &&
+                            it.id != currentAccount.id
+                }
+                .map {
+                    it.id to it.labelV2(LocalContext.current)
+                },
+            targetPortfolios = accountList
+                .filterIsInstance<FullAccount>()
+                .filter { it.isPortfolio && it.id != currentAccount.id }
+                .map { it.id to it.labelV2(LocalContext.current) },
+            initialAction = tradeAction,
+            onCreateAsset = onCreateAsset,
+            isCurrencyUsed = isCurrencyUsed,
+            onLookupMatchingTransactions = { accountId, total, date, isBuy ->
+                viewModel.findMatchingTransactions(
+                    accountId,
+                    total,
+                    date,
+                    currentAccount.currencyUnit,
+                    isBuy
                 )
             }
-        }
+        )
     }
 }
 
@@ -601,7 +592,7 @@ private fun BalanceHeader(
     onDisplayBalanceTypeChange: ((BalanceType) -> Unit)? = null,
     onCopyBalance: (String) -> Unit = {},
     onSetNewBalance: (() -> Unit)? = null,
-    onAccountEvent: AccountEventHandler
+    onAccountEvent: AccountEventHandler,
 ) {
     var isSummaryPopupVisible by rememberSaveable { mutableStateOf(false) }
 
@@ -824,8 +815,7 @@ fun HeaderPreview() {
             type = AccountType.CASH,
             criterion = 5000,
             excludeFromTotals = true
-        )
-        , onAccountEvent = object : AccountEventHandler {
+        ), onAccountEvent = object : AccountEventHandler {
             override fun invoke(event: AccountEvent, account: FullAccount) {}
         }
     )
