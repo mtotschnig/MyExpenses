@@ -290,6 +290,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                                     showPortfolioSetup = false
                                     portfolioToEditId = null
                                 },
+                                onDeleteAsset = { confirmAccountDelete(it) },
                                 onConfirm = { label, currency, color, exchangeRate, dynamicExchangeRates, type ->
                                     if (portfolioToEditId != null) {
                                         viewModel.updatePortfolio(

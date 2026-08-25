@@ -1,6 +1,8 @@
 package org.totschnig.myexpenses.compose.accounts
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,12 +14,17 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
@@ -53,6 +60,7 @@ import java.math.BigDecimal
 fun PortfolioSetupDialog(
     onDismiss: () -> Unit,
     onConfirm: (label: String, currency: String, color: Int, exchangeRate: Double, dynamicExchangeRates: Boolean, type: AccountType) -> Unit,
+    onDeleteAsset: (FullAccount) -> Unit = {},
     availableCurrencies: List<CurrencyUnit>,
     availableAccountTypes: List<AccountType>,
     homeCurrency: CurrencyUnit,
@@ -88,6 +96,7 @@ fun PortfolioSetupDialog(
     }
 
     val context = LocalContext.current
+    val scrollState = rememberScrollState()
     Dialog(onDismissRequest = onDismiss) {
         Surface(
             shape = MaterialTheme.shapes.extraLarge,
@@ -96,7 +105,8 @@ fun PortfolioSetupDialog(
             Column(
                 modifier = Modifier
                     .padding(24.dp)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .verticalScroll(scrollState),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 val title = if (initialPortfolio == null) {
@@ -231,6 +241,28 @@ fun PortfolioSetupDialog(
                             showColorPicker = false
                         }
                     )
+                }
+
+                if (initialPortfolio != null && initialPortfolio.children.isNotEmpty()) {
+                    HorizontalDivider()
+                    Text(
+                        text = stringResource(R.string.balance_sheet_section_assets),
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    initialPortfolio.children.forEach { asset ->
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(text = asset.label, modifier = Modifier.weight(1f))
+                            IconButton(onClick = { onDeleteAsset(asset) }) {
+                                Icon(
+                                    imageVector = Icons.Default.Delete,
+                                    contentDescription = stringResource(R.string.menu_delete)
+                                )
+                            }
+                        }
+                    }
                 }
 
                 Row(
