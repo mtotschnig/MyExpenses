@@ -52,7 +52,8 @@ import org.totschnig.myexpenses.provider.KEY_TRANSFER_ACCOUNT
 import org.totschnig.myexpenses.provider.KEY_TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER_IS_ARCHIVED
-import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER_IS_PART
+import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER_IS_PORTFOLIO
+import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER_PARENT
 import org.totschnig.myexpenses.provider.KEY_TYPE
 import org.totschnig.myexpenses.provider.KEY_VALUE_DATE
 import org.totschnig.myexpenses.provider.KEY_WEEK
@@ -111,8 +112,9 @@ data class Transaction2(
     val crStatus: CrStatus = CrStatus.UNRECONCILED,
     val referenceNumber: String? = null,
     val color: Int? = null,
-    val transferPeerIsPart: Boolean? = null,
+    val transferPeerParent: Long? = null,
     val transferPeerIsArchived: Boolean? = null,
+    val transferPeerIsPortfolio: Boolean? = null,
     val status: Int = STATUS_NONE,
     val accountLabel: String? = null,
     val accountType: Long?,
@@ -222,8 +224,9 @@ data class Transaction2(
                 "${effectiveTypeExpression(typeWithFallBack(prefHandler))} AS $KEY_TYPE"
             ).let {
                 if (extended) it + listOf(
-                    KEY_TRANSFER_PEER_IS_PART,
+                    KEY_TRANSFER_PEER_PARENT,
                     KEY_TRANSFER_PEER_IS_ARCHIVED,
+                    KEY_TRANSFER_PEER_IS_PORTFOLIO,
                     KEY_ATTACHMENT_COUNT
                 ) else it
             }.toTypedArray()
@@ -282,8 +285,9 @@ data class Transaction2(
                 referenceNumber = cursor.getStringOrNull(KEY_REFERENCE_NUMBER),
                 accountLabel = cursor.getStringIfExists(KEY_ACCOUNT_LABEL) ?: accountLabel,
                 accountType = cursor.getLongIfExists(KEY_ACCOUNT_TYPE),
-                transferPeerIsPart = cursor.getBooleanIfExists(KEY_TRANSFER_PEER_IS_PART),
+                transferPeerParent = cursor.getLongIfExists(KEY_TRANSFER_PEER_PARENT),
                 transferPeerIsArchived = cursor.getBooleanIfExists(KEY_TRANSFER_PEER_IS_ARCHIVED),
+                transferPeerIsPortfolio = cursor.getBooleanIfExists(KEY_TRANSFER_PEER_IS_PORTFOLIO),
                 tagList = cursor.splitStringList(KEY_TAGLIST).mapNotNull { id ->
                     tags[id]?.let { Triple(id.toLong(), it.first, it.second) }
                 },

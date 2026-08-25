@@ -179,14 +179,19 @@ const val KEY_ORIGINAL_CURRENCY: String = "original_currency"
 const val KEY_EQUIVALENT_AMOUNT: String = "equivalent_amount"
 
 /*
-true if the transfer peer is either part of a split transaction or part of an archive
+if the transfer peer is either part of a split transaction or part of an archive, holds the parent's id
 */
-const val KEY_TRANSFER_PEER_IS_PART: String = "transfer_peer_is_part"
+const val KEY_TRANSFER_PEER_PARENT: String = "transfer_peer_parent"
 
 /*
 true if the transfer peer is archived, i.e. part of an archive
 */
 const val KEY_TRANSFER_PEER_IS_ARCHIVED: String = "transfer_peer_is_archived"
+
+/*
+true if transfer is the funding part of a trade
+*/
+const val KEY_TRANSFER_PEER_IS_PORTFOLIO = "transfer_peer_is_portfolio"
 const val KEY_BUDGETID: String = "budget_id"
 const val KEY_START: String = "start"
 const val KEY_END: String = "end"
