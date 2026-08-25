@@ -200,7 +200,8 @@ fun FilterDialog(
                     isLarge,
                     ifTrue = { defaultMinSize(minHeight = 400.dp) },
                     ifFalse = { fillMaxSize() }
-                )
+                ),
+            shape = if (isLarge) MaterialTheme.shapes.extraLarge else androidx.compose.ui.graphics.RectangleShape
         ) {
             FilterHandler(account, "confirmFilterDialog", onResult) {
 
