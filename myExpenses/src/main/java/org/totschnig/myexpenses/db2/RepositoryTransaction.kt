@@ -1115,7 +1115,8 @@ fun Repository.loadTrades(
                 comment = parent.comment,
                 price = price,
                 peerAccount = fundingPart.second?.let { it.accountId to it.accountLabel!! },
-                currency = parentCurrency
+                currency = parentCurrency,
+                portfolioId = parent.accountId
             )
         } else if (cashPart != null) {
             // --- Cash Movement (Deposit/Withdrawal) ---
@@ -1137,7 +1138,8 @@ fun Repository.loadTrades(
                 comment = parent.comment,
                 price = BigDecimal.ONE,
                 peerAccount = fundingPart.second?.let { it.accountId to it.accountLabel!! },
-                currency = parentCurrency
+                currency = parentCurrency,
+                portfolioId = parent.accountId
             )
         } else null
     }.let {

@@ -80,9 +80,9 @@ import kotlinx.coroutines.flow.emptyFlow
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.activity.ExpenseEdit
+import org.totschnig.myexpenses.activity.MyExpensesV2
 import org.totschnig.myexpenses.activity.ViewIntentProvider
 import org.totschnig.myexpenses.compose.ButtonRow
-import org.totschnig.myexpenses.compose.transactions.COMMENT_SEPARATOR
 import org.totschnig.myexpenses.compose.ColoredAmountText
 import org.totschnig.myexpenses.compose.Icon
 import org.totschnig.myexpenses.compose.LocalDateFormatter
@@ -93,6 +93,7 @@ import org.totschnig.myexpenses.compose.emToDp
 import org.totschnig.myexpenses.compose.filter.FilterCard
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.compose.size
+import org.totschnig.myexpenses.compose.transactions.COMMENT_SEPARATOR
 import org.totschnig.myexpenses.compose.transactions.voidMarker
 import org.totschnig.myexpenses.db2.FinTsAttribute
 import org.totschnig.myexpenses.feature.BankingFeature
@@ -310,14 +311,18 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                 Text(stringResource(id = android.R.string.ok))
             }
             loadResult.value?.transaction
-                ?.takeIf { !(it.crStatus == CrStatus.VOID || it.isSealed || it.isArchive || it.isPortfolio) }
+                ?.takeIf { !(it.crStatus == CrStatus.VOID || it.isSealed || it.isArchive) }
                 ?.let { transaction ->
                     TextButton(onClick = {
                         when {
-                            transaction.isTransfer && transaction.transferPeerIsPart -> {
+                            transaction.transferPeerIsArchived -> {
                                 showSnackBar(
-                                    if (transaction.transferPeerIsArchived) R.string.warning_archived_transfer_cannot_be_edited else R.string.warning_splitpartcategory_context
+                                    R.string.warning_archived_transfer_cannot_be_edited
                                 )
+                            }
+                            transaction.isPortfolio || transaction.transferPeerIsPortfolio -> {
+                                dismiss()
+                                (requireActivity() as? MyExpensesV2)?.editTrade(transaction.transferPeerParent ?: transaction.id)
                             }
                             else -> {
                                 dismiss()
@@ -326,7 +331,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                                         requireActivity(),
                                         ExpenseEdit::class.java
                                     ).apply {
-                                        putExtra(KEY_ROWID, transaction.id)
+                                        putExtra(KEY_ROWID, transaction.transferPeerParent ?: transaction.id)
                                     }
                                 )
                             }

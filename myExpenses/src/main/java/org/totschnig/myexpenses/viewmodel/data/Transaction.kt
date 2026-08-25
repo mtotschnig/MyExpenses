@@ -51,7 +51,8 @@ import org.totschnig.myexpenses.provider.KEY_TRANSFER_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_TRANSFER_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER_IS_ARCHIVED
-import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER_IS_PART
+import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER_IS_PORTFOLIO
+import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER_PARENT
 import org.totschnig.myexpenses.provider.KEY_TYPE
 import org.totschnig.myexpenses.provider.KEY_UUID
 import org.totschnig.myexpenses.provider.KEY_VALUE_DATE
@@ -105,8 +106,9 @@ data class Transaction(
     val transferAccount: String?,
     val transferPeer: Long?,
     val transferAmount: Money?,
-    val transferPeerIsPart: Boolean,
+    val transferPeerParent: Long?,
     val transferPeerIsArchived: Boolean,
+    val transferPeerIsPortfolio: Boolean,
     val originalAmount: Money?,
     val equivalentAmount: Money?,
     val crStatus: CrStatus,
@@ -163,8 +165,9 @@ data class Transaction(
             ) + " AS " + KEY_METHOD_LABEL,
             KEY_STATUS,
             KEY_TRANSFER_AMOUNT,
-            KEY_TRANSFER_PEER_IS_PART,
+            KEY_TRANSFER_PEER_PARENT,
             KEY_TRANSFER_PEER_IS_ARCHIVED,
+            KEY_TRANSFER_PEER_IS_PORTFOLIO,
             KEY_TEMPLATEID,
             KEY_UUID,
             KEY_ORIGINAL_AMOUNT,
@@ -231,8 +234,9 @@ data class Transaction(
                 isSealed = getInt(KEY_SEALED) > 0,
                 accountLabel = getString(KEY_ACCOUNT_LABEL),
                 accountType = accountType,
-                transferPeerIsPart = getBoolean(KEY_TRANSFER_PEER_IS_PART),
+                transferPeerParent = getLongOrNull(KEY_TRANSFER_PEER_PARENT),
                 transferPeerIsArchived = getBoolean(KEY_TRANSFER_PEER_IS_ARCHIVED),
+                transferPeerIsPortfolio = getBoolean(KEY_TRANSFER_PEER_IS_PORTFOLIO),
                 debtLabel = getStringOrNull(KEY_DEBT_LABEL),
                 tags = repository.loadTagsForTransaction(id),
                 icon = getStringOrNull(KEY_ICON),

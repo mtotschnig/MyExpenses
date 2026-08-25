@@ -324,8 +324,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
     ) = projectionIn?.map {
         when (it) {
             KEY_COMMENT -> if (shortenComment) "case when instr($KEY_COMMENT, X'0A') > 0 THEN substr($KEY_COMMENT, 1, instr($KEY_COMMENT, X'0A')-1) else $KEY_COMMENT end AS $it" else it
-            KEY_TRANSFER_PEER_IS_PART -> "(SELECT $KEY_PARENTID FROM $TABLE_TRANSACTIONS peer WHERE peer.$KEY_ROWID = $table.$KEY_TRANSFER_PEER ) IS NOT NULL AS $it"
+            KEY_TRANSFER_PEER_PARENT -> "(SELECT $KEY_PARENTID FROM $TABLE_TRANSACTIONS peer WHERE peer.$KEY_ROWID = $table.$KEY_TRANSFER_PEER ) AS $it"
             KEY_TRANSFER_PEER_IS_ARCHIVED -> "(SELECT $KEY_STATUS FROM $TABLE_TRANSACTIONS peer WHERE peer.$KEY_ROWID = $table.$KEY_TRANSFER_PEER ) = $STATUS_ARCHIVED AS $it"
+            KEY_TRANSFER_PEER_IS_PORTFOLIO -> "(SELECT $KEY_IS_PORTFOLIO FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = (SELECT $KEY_ACCOUNTID FROM $TABLE_TRANSACTIONS peer WHERE peer.$KEY_ROWID = $table.$KEY_TRANSFER_PEER)) != $PORTFOLIO_NONE AS $it"
             KEY_TRANSFER_AMOUNT -> "CASE WHEN $KEY_TRANSFER_PEER THEN (SELECT $KEY_AMOUNT FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = $table.$KEY_TRANSFER_PEER) ELSE null END AS $it"
             KEY_SEALED -> checkSealedWithAlias(table)
             KEY_DISPLAY_AMOUNT -> if (expandDisplayAmount)

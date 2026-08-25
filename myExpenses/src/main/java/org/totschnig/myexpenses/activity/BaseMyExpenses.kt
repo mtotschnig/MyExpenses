@@ -1004,24 +1004,29 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
     protected fun edit(transaction: Transaction2, clone: Boolean = false) {
         lifecycleScope.launch {
             if (checkSealed(listOf(transaction.id))) {
-                if (transaction.transferPeerIsPart == true) {
-                    showSnackBar(
-                        if (transaction.transferPeerIsArchived == true) R.string.warning_archived_transfer_cannot_be_edited else R.string.warning_splitpartcategory_context
-                    )
-                } else {
-                    startEdit(
-                        Intent(this@BaseMyExpenses, ExpenseEdit::class.java).apply {
-                            putExtra(KEY_ROWID, transaction.id)
-                            putExtra(
-                                KEY_COLOR,
-                                transaction.color ?: currentAccount?.color(resources)
-                            )
-                            if (clone) {
-                                putExtra(ExpenseEdit.KEY_CLONE, true)
+                when {
+                    transaction.transferPeerIsArchived == true -> {
+                        showSnackBar(R.string.warning_archived_transfer_cannot_be_edited)
+                    }
+                    transaction.isPortfolio || transaction.transferPeerIsPortfolio == true -> {
+                        (this@BaseMyExpenses as? MyExpensesV2)?.editTrade(
+                            transaction.transferPeerParent ?: transaction.id
+                        )
+                    }
+                    else -> {
+                        startEdit(
+                            Intent(this@BaseMyExpenses, ExpenseEdit::class.java).apply {
+                                putExtra(KEY_ROWID, transaction.transferPeerParent ?: transaction.id)
+                                putExtra(
+                                    KEY_COLOR,
+                                    transaction.color ?: currentAccount?.color(resources)
+                                )
+                                if (clone) {
+                                    putExtra(ExpenseEdit.KEY_CLONE, true)
+                                }
                             }
-
-                        }
-                    )
+                        )
+                    }
                 }
             }
         }

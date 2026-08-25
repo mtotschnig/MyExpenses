@@ -23,7 +23,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -61,7 +60,6 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CommodityType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.provider.KEY_COMMODITY
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_SORT_KEY
@@ -74,7 +72,6 @@ import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
-import org.totschnig.myexpenses.viewmodel.data.Trade
 import java.util.Optional
 import javax.inject.Inject
 
@@ -239,6 +236,56 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
 
                         val currencies by currencyViewModel.currencyUnits.collectAsState(emptyList())
                         val accountTypes by viewModel.accountTypes.collectAsState(emptyList())
+                        val tradeToEdit by viewModel.tradeToEdit.collectAsStateWithLifecycle()
+
+                        tradeToEdit?.let { trade ->
+                            accounts.find { it.id == trade.portfolioId }?.let { fullAccount ->
+                                Dialog(
+                                    onDismissRequest = { viewModel.tradeToEdit.value = null },
+                                    properties = DialogProperties(usePlatformDefaultWidth = false)
+                                ) {
+                                    TradeScreen(
+                                        onDismiss = { viewModel.tradeToEdit.value = null },
+                                        onSave = { intent, stayOpen ->
+                                            viewModel.saveTrade(fullAccount, intent)
+                                            if (!stayOpen) viewModel.tradeToEdit.value = null
+                                        },
+                                        portfolio = fullAccount,
+                                        roundingMode = viewModel.getRoundingMode(fullAccount.id)
+                                            .collectAsState(RoundingMode.HALF_UP).value,
+                                        onRoundingModeChange = {
+                                            viewModel.setRoundingMode(
+                                                fullAccount.id,
+                                                it
+                                            )
+                                        },
+                                        reportingCurrency = fullAccount.currencyUnit,
+                                        assets = currencies,
+                                        fundingAccounts = accounts
+                                            .filter {
+                                                !it.isPortfolio &&
+                                                        it.currencyUnit.code == fullAccount.currencyUnit.code
+                                            }
+                                            .map {
+                                                it.id to it.labelV2(this@MyExpensesV2)
+                                            },
+                                        targetPortfolios = accounts
+                                            .filter { it.isPortfolio && it.id != fullAccount.id }
+                                            .map { it.id to it.labelV2(this@MyExpensesV2) },
+                                        initialTrade = trade,
+                                        onLookupMatchingTransactions = { accountId, total, date, isBuy ->
+                                            viewModel.findMatchingTransactions(
+                                                accountId,
+                                                total,
+                                                date,
+                                                fullAccount.currencyUnit,
+                                                isBuy
+                                            )
+                                        }
+                                    )
+                                }
+                            }
+                        }
 
                         if (showPortfolioSetup || portfolioToEditId != null) {
                             PortfolioSetupDialog(
@@ -409,12 +456,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                             isNavigationVisible = isNavigationVisible
                         ) { pageAccount, isCurrent ->
                             if (pageAccount.isPortfolio) {
-
-                                PortfolioPage(
-                                    pageAccount,
-                                    currencies,
-                                    viewModel.accountList.collectAsState().value
-                                )
+                                PortfolioPage(pageAccount)
                             } else {
                                 Page(
                                     pageAccount,
@@ -437,7 +479,8 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                                         )
                                     },
                                     portfolio = fullAccount,
-                                    roundingMode = viewModel.getRoundingMode(fullAccount.id).collectAsState(RoundingMode.HALF_UP).value,
+                                    roundingMode = viewModel.getRoundingMode(fullAccount.id)
+                                        .collectAsState(RoundingMode.HALF_UP).value,
                                     assets = currencies,
                                     fundingAccounts = accounts
                                         .filter {
@@ -514,6 +557,10 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
         }
     )
 
+    fun editTrade(transactionId: Long) {
+        viewModel.loadTrade(transactionId)
+    }
+
     override fun onSortOrderConfirmed(sortedIds: LongArray) {
         viewModel.sortAccounts(sortedIds)
     }
@@ -527,14 +574,9 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
     }
 
     @Composable
-    fun PortfolioPage(
-        account: PageAccount,
-        allCurrencies: List<CurrencyUnit>,
-        accountList: List<BaseAccount>,
-    ) {
+    fun PortfolioPage(account: PageAccount) {
         val renderType by viewModel.renderer.collectAsState(initial = RenderType.New)
         val lazyPagingItems = viewModel.getTrades(account).collectAsLazyPagingItems()
-        var tradeToEdit by remember { mutableStateOf<Trade?>(null) }
 
         Column(modifier = Modifier.fillMaxSize()) {
             TradeList(
@@ -544,7 +586,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                 onEvent = { event, trade ->
                     when (event) {
                         TradeEvent.Edit -> {
-                            tradeToEdit = trade
+                            viewModel.tradeToEdit.value = trade
                         }
 
                         TradeEvent.Delete -> {
@@ -556,50 +598,6 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                     }
                 }
             )
-        }
-        tradeToEdit?.let { trade ->
-            (accountList.find { it.id == account.id } as? FullAccount)?.let { fullAccount ->
-                Dialog(
-                    onDismissRequest = { tradeToEdit = null },
-                    properties = DialogProperties(usePlatformDefaultWidth = false)
-                ) {
-                    TradeScreen(
-                        onDismiss = { tradeToEdit = null },
-                        onSave = { intent, stayOpen ->
-                            viewModel.saveTrade(fullAccount, intent)
-                            if (!stayOpen) tradeToEdit = null
-                        },
-                        portfolio = fullAccount,
-                        roundingMode = viewModel.getRoundingMode(fullAccount.id).collectAsState(RoundingMode.HALF_UP).value,
-                        onRoundingModeChange = { viewModel.setRoundingMode(fullAccount.id, it) },
-                        reportingCurrency = fullAccount.currencyUnit,
-                        assets = allCurrencies,
-                        fundingAccounts = accountList
-                            .filterIsInstance<FullAccount>()
-                            .filter {
-                                !it.isPortfolio &&
-                                        it.currencyUnit.code == fullAccount.currencyUnit.code
-                            }
-                            .map {
-                                it.id to it.labelV2(this)
-                            },
-                        targetPortfolios = accountList
-                            .filterIsInstance<FullAccount>()
-                            .filter { it.isPortfolio && it.id != fullAccount.id }
-                            .map { it.id to it.labelV2(this) },
-                        initialTrade = trade,
-                        onLookupMatchingTransactions = { accountId, total, date, isBuy ->
-                            viewModel.findMatchingTransactions(
-                                accountId,
-                                total,
-                                date,
-                                fullAccount.currencyUnit,
-                                isBuy
-                            )
-                        }
-                    )
-                }
-            }
         }
     }
 }

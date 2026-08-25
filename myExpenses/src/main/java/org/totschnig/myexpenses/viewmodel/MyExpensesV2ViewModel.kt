@@ -17,6 +17,7 @@ import androidx.paging.cachedIn
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import arrow.core.Tuple4
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -47,6 +48,7 @@ import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.findSiblingParentId
 import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.db2.loadSubAccounts
+import org.totschnig.myexpenses.db2.loadTrade
 import org.totschnig.myexpenses.db2.loadTransaction
 import org.totschnig.myexpenses.db2.savePrice
 import org.totschnig.myexpenses.db2.setBalanceType
@@ -132,6 +134,8 @@ open class MyExpensesV2ViewModel(
 
     private val _intentEvents = MutableSharedFlow<Intent>(replay = 1)
     val intentEvents = _intentEvents.asSharedFlow()
+
+    val tradeToEdit = MutableStateFlow<Trade?>(null)
 
     fun handleIntent(intent: Intent) {
         viewModelScope.launch {
@@ -656,6 +660,13 @@ open class MyExpensesV2ViewModel(
     fun saveTrade(currentAccount: FullAccount, intent: TradeIntent) {
         viewModelScope.launch(coroutineDispatcher) {
             saveTrades(currentAccount, listOf(intent))
+            tradeToEdit.value = null
+        }
+    }
+
+    fun loadTrade(transactionId: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            tradeToEdit.value = repository.loadTrade(transactionId)
         }
     }
 

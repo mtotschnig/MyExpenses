@@ -747,7 +747,7 @@ private fun transactionMenu(
                     ) {
                         onEvent(TransactionEvent.UnDelete, transaction)
                     })
-            } else if (!transaction.isTrade) {
+            } else {
                 add(edit("EDIT_TRANSACTION") {
                     onEvent(TransactionEvent.Edit, transaction)
                 })

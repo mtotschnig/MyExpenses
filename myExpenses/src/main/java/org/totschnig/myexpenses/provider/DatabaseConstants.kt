@@ -133,7 +133,7 @@ object DatabaseConstants {
         PROJECTION_EXTENDED = arrayOf(
             *PROJECTION_BASE,
             KEY_COLOR,
-            KEY_TRANSFER_PEER_IS_PART,
+            KEY_TRANSFER_PEER_PARENT,
             KEY_STATUS,
             KEY_ACCOUNT_LABEL,
             KEY_ACCOUNT_TYPE,
