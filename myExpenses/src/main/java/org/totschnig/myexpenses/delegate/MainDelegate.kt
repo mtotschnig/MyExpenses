@@ -177,9 +177,9 @@ abstract class MainDelegate(
                 methodId = this@MainDelegate.methodId,
                 originalAmount = viewBinding.OriginalAmount.selectedCurrency?.let {
                     val currency = it.code
-                    viewBinding.OriginalAmount.getAmount(
-                        currencyContext[currency]
-                    ).getOrNull()
+                    val currencyUnit = currencyContext[currency]
+                    viewBinding.OriginalAmount.getAmount(currencyUnit).getOrNull()
+                        ?: if (isTemplate && originalAmountVisible) Money(currencyUnit, 0L) else null
                     //prefHandler.putString(PrefKey.LAST_ORIGINAL_CURRENCY, currency)
                 },
                 equivalentAmount = viewBinding.EquivalentAmount.getAmount(homeCurrency).getOrNull()
