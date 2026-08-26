@@ -233,7 +233,7 @@
     <string name="menu_status_handle" tools:ignore="UnusedResources">@string/status</string>
     <string name="menu_rollover" tools:ignore="UnusedResources">@string/budget_table_header_rollover</string>
     <string name="menu_sort" tools:ignore="UnusedResources">@string/display_options_sort_list_by</string>
-    <string name="menu_archive">@string/action_archive</string>
+    <string name="menu_archive" tools:ignore="UnusedResources">@string/action_archive</string>
     <string name="roadmap_loading">Loading issues …</string>
     <string name="roadmap_submitting">Submitting vote …</string>
     <string name="db_error_cursor_null">Cursor is null</string>
@@ -309,5 +309,5 @@
     <string name="pref_content_based_colors_key">dynamic_colors</string>
     <string name="trade_import_format_hint">Format (Header required): Date,Type,Asset,Quantity,Price,Total,Fee. Provide at least 2 of Quantity, Price, Total.</string>
     <string name="pref_default_action_key">default_action</string>
-    <string name="whats_new_411_4">Mutual TLS / Client Certificate Support for WebDAV Sync </string>
+    <string name="whats_new_411_4" tools:ignore="UnusedResources">Mutual TLS / Client Certificate Support for WebDAV Sync </string>
 </resources>

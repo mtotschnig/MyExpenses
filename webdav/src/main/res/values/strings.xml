@@ -9,7 +9,6 @@
     <string name="label_client_certificate_not_selected">No client certificate selected</string>
     <string name="label_select_certificate">Select certificate</string>
     <string name="error_client_cert_missing">The configured client certificate is no longer available on this device. Please reconfigure WebDAV and select a new certificate.</string>
-    <string name="error_client_cert_access">Could not access the client certificate. Please check if the certificate is still installed.</string>
     <string name="validate_error_webdav_invalid_certificate">The certificate could not be trusted. It seems invalid.</string>
     <string name="validate_error_webdav_not_compliant">The URL does not point to a WebDAV resource.</string>
     <string name="validate_error_webdav_404">The URL does not exist on the server.</string>

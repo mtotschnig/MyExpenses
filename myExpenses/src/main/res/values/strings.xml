@@ -284,8 +284,6 @@
     <string name="pref_send_feedback_title">Send feedback</string>
     <string name="pref_share_target_summary">Leave empty if you want to choose between appropriate apps (Email, Dropbox, Google Docs, …), or provide URL in one of the supported schemes</string>
     <string name="pref_share_target_title">Upload URL</string>
-    <string name="pref_shortcut_added">Shortcut has been added to Home Screen</string>
-    <string name="pref_shortcut_not_added">No Home Screen available that accepts shortcuts.</string>
     <string name="pref_shortcut_summary">Add the shortcut to Home Screen.</string>
     <string name="pref_ui_home_screen_shortcuts">Home Screen Shortcuts</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -376,7 +374,6 @@
     <string name="warning_reset_account_all">If you proceed, for all accounts%1$s, transactions will be deleted from the database and cannot be restored.</string>
     <string name="warning_reset_account_matched">If you proceed, transactions matched by the current filter will be deleted from the database and cannot be restored.</string>
     <string name="warning_restore">Database and preferences will be restored from file \"%1$s\". The current data will be deleted.</string>
-    <string name="warning_splitpartcategory_context">Transfers that are part of a split transaction can only be edited in the context of the split transaction.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Please set a number between %1$d and %2$d</string>
     <string name="warning_change_fraction_digits_1">Amounts in the database need to be updated in order to match the new number of fraction digits.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">If amounts are not updated, they will be displayed as multiplied by %d after the change.</string>
@@ -472,7 +469,6 @@
     <string name="plan_instance_state_cancelled">cancelled</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">applied</string>
-    <string name="progress_dialog_updating_split_parts">Updating splits</string>
     <string name="warning_cannot_move_split_transaction">This split transaction cannot be moved to account %1$s because there are transfer parts that refer to this account.</string>
     <string name="content_description_calculator_delete_button">Delete last digit</string>
     <string name="paypal_callback_info">Your transaction has been completed, and a receipt for your purchase has been emailed to you. You may log into your account at www.paypal.com to view details of this transaction.</string>
@@ -573,8 +569,6 @@
     <string name="pref_protection_device_lock_screen_title">Device lock screen</string>
     <string name="pref_warning_only_one_protection">Before you can use protection by %1$s, you must switch off protection by %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Secure device lock screen hasn\'t been set up.</string>
-    <!-- %s is replaced with path to setup screen lock in device settings -->
-    <string name="warning_device_lock_screen_not_set_up_2">Go to %s to set up a lock screen.</string>
     <string name="menu_history_show_balance">Show balance</string>
     <string name="menu_history_transfers">Include transfers</string>
     <string name="menu_history">History</string>
@@ -792,7 +786,7 @@
     <!-- Title of a preference where user can select language for text recognition with Tesseract -->
     <string name="pref_tesseract_language_title">Language for Tesseract</string>
     <!-- %s is replaced with language -->
-    <string name="tesseract_download_confirmation">Do you want to download text recognition data for %s ?</string>
+    <string name="tesseract_download_confirmation" tools:ignore="UnusedResources">Do you want to download text recognition data for %s ?</string>
     <!-- %s is replaced with language -->
     <string name="download_completed">Download (%s) has completed.</string>
     <!-- %s is replaced with information on the engine or application used for running text recognition -->

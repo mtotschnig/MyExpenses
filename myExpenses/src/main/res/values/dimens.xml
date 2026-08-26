@@ -8,13 +8,8 @@
     <dimen name="padding_main_screen">16dp</dimen>
     <dimen name="padding_form">16dp</dimen>
     <dimen name="margin_list">44dp</dimen>
-    <dimen name="margin_list_expandable">22dp</dimen>
-    <!-- smaller than padding_dialog_side to correct for edittext padding-->
-    <dimen name="padding_input_dialog_side">20dp</dimen>
     <dimen name="padding_dialog_side">24dp</dimen>
     <dimen name="padding_dialog_content_top">12dp</dimen>
-    <dimen name="thumbnail_size">48dp</dimen>
-    <dimen name="thumbnail_size_grid">96dp</dimen>
     <dimen name="fab_margin_right">16dp</dimen>
     <dimen name="fab_margin_bottom">16dp</dimen>
     <integer name="account_type_grid_columns">1</integer>
@@ -22,22 +17,16 @@
 
     <dimen name="textSizeLabel">12sp</dimen>
     <dimen name="textSizeSmall">14sp</dimen>
-    <dimen name="account_color_diameter">42sp</dimen>
 
     <dimen name="accessibility_clickable_minimum">48dp</dimen>
     <dimen name="vertical_padding_paragraph">8dp</dimen>
     <dimen name="drawer_padding">16dp</dimen>
     <dimen tools:override="true" tools:ignore="UnusedResources" name="design_navigation_separator_vertical_padding">0dp</dimen>
-    <dimen name="budget_container_width_landscape">450dp</dimen>
-    <dimen name="budget_container_cell_width_landscape">150dp</dimen>
-    <dimen name="budget_table_padding">10dp</dimen>
 
     <dimen name="drawerWidth">260sp</dimen>
     <dimen name="fab_related_bottom_padding">75dp</dimen>
     <dimen name="dateLink_padding">3dp</dimen>
     <dimen name="dateLink_minWidth">30dp</dimen>
-    <dimen name="csv_import_cell_min_width">100sp</dimen>
-    <dimen name="csv_import_row_height">28sp</dimen>
     <dimen name="csv_import_checkbox_column_width">60sp</dimen>
     <dimen name="csv_import_header_text_size">12sp</dimen>
     <dimen name="csv_import_cell_margin">5dp</dimen>
@@ -50,9 +39,7 @@
     <dimen name="widget_default_height">40dp</dimen>
     <dimen name="widget_min_width">40dp</dimen>
 
-    <dimen name="preferences_header_width">300dp</dimen>
     <dimen name="preview_today_translation">0dp</dimen>
     <dimen name="progress_donut_stroke_width">3dp</dimen>
 
-    <integer name="filter_chip_max_lines">2</integer>
 </resources>

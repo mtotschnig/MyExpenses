@@ -3,7 +3,7 @@
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
 -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- packages/apps/DocumentsUI/res/values/strings.xml -->
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
@@ -80,8 +80,6 @@
     <string name="setup">"Setup"</string>
     <!-- inputmethods/LatinIME/java/res/values/string.xml name="subtype_generic_compact" -->
     <string name="compact">Compact</string>
-    <!-- providers/MediaProvider/res/values/strings.xml -->
-    <string name="storage_description">Local storage</string>
     <!-- AndroidSDK/platforms/android-33/data -->
     <string name="write_fail_reason_cannot_write">Error writing content</string>
     <!-- modules/Bluetooth/android/app/res/ -->
@@ -277,11 +275,9 @@
     <!-- /opt/extra/AOSP/packages/apps/UnifiedEmail$ grep -r preview_attachment res | sed 's/ msgid="[[:digit:]]*"//' | sed 's/_attachment//' | aosp_helper -->
     <string name="preview">Preview</string>
     <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -r "\"wifi_show_password\"" res |  sed 's/ msgid="[[:digit:]]*"//' | sed 's/wifi_//' |  aosp_helper -->
-    <string name="show_password">Show password</string>
+    <string name="show_password" tools:ignore="UnusedResources">Show password</string>
     <!-- /opt/extra/AOSP/packages/apps/TvSettings/Settings$ grep -r "\"text_obfuscation_toggle_caption\"" res |  sed 's/ msgid="[[:digit:]]*"//' | sed 's/text_obfuscation_toggle_caption/hide_password/' | aosp_helper -->
-    <string name="hide_password">Hide password</string>
-    <!-- /opt/extra/AOSP/packages/apps/MusicFX$  grep -r "\"8392147515328861077\"" res |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper -->
-    <string name="user">User</string>
+    <string name="hide_password" tools:ignore="UnusedResources">Hide password</string>
     <!-- LibreOffice sfx2/messages.po ex26g -->
     <string name="source">Source</string>
     <!-- LibreOffice sc/messages.po 6Gdng -->
@@ -319,10 +315,6 @@
     <string name="empty">Empty</string>
     <!-- /opt/extra/AOSP/packages/apps/Settings$ grep -r accessibility_screen_option res |  sed 's/ msgid="[[:digit:]]*"//' | sed 's/accessibility_screen_option/options/' | aosp_helper -->
     <string name="options">Options</string>
-    <!-- LibreOffice dbaccess/messages.po EhPGD -->
-    <string name="reports">"Reports"</string>
-    <!-- Thunderbird mail/messenger/appmenu.ftl appmenu-tools-panel-title -->
-    <string name="tools">Tools</string>
     <!-- LibreOffice sw/messages.po JtzA4 -->
     <string name="actions">Actions</string>
 </resources>
