@@ -272,8 +272,6 @@
     <string name="pref_send_feedback_title">Изпрати обратна връзка</string>
     <string name="pref_share_target_summary">Оставете празно, ако искате да изберете между съответните приложения (електронна поща, Dropbox, Google документи, …), или да предоставите URL адрес в една от поддържаните схеми</string>
     <string name="pref_share_target_title">Качване на URL адрес</string>
-    <string name="pref_shortcut_added">Добавен е шорткът на начален екран</string>
-    <string name="pref_shortcut_not_added">Няма свободно място на начален екран, където да поставя шорткът.</string>
     <string name="pref_shortcut_summary">Добавяне шорткът на начален екран.</string>
     <string name="pref_ui_home_screen_shortcuts">Шорткъти на начален екран</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -362,7 +360,6 @@
     <string name="warning_reset_account_all">Ако продължите, всички транзакции с валута %1$s, по всички сметки, ще бъдат изтрити от базата данни и не могат да бъдат възстановени.</string>
     <string name="warning_reset_account_matched">Ако продължите, транзакциите, избрани с текущия филтър, ще бъдат изтрити от базата данни и не могат да бъдат възстановени.</string>
     <string name="warning_restore">База данни и предпочитания ще бъдат възстановени от файл „%1$s“. Текущите данни ще бъдат изтрити.</string>
-    <string name="warning_splitpartcategory_context">Преводите, които са част от разпределяне, могат да се редактират само в контекста на разпределянето.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Моля задайте число между %1$d и %2$d</string>
     <string name="warning_change_fraction_digits_1">Сумите в базата данни трябва да бъдат обновени, за да отговарят на новия брой дробни цифри.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Ако сумите не бъдат обновени, след промяната ще бъдат показвани като умножени по %d.</string>
@@ -456,7 +453,6 @@
     <string name="plan_instance_state_cancelled">отменен</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">приложен</string>
-    <string name="progress_dialog_updating_split_parts">Обновяване на разпределяните части</string>
     <string name="warning_cannot_move_split_transaction">Тази разпределена транзакция не може да бъде преместена в сметка %1$s, защото има отнесени към сметката нейни части.</string>
     <string name="content_description_calculator_delete_button">Изтрии последната цифра</string>
     <string name="paypal_callback_info">Транзакцията е завършена и квитанцията за покупката Ви е изпратена на електронната поща. За подробности по транзакцията вижте профила си във www.paypal.com.</string>
@@ -554,7 +550,6 @@
     <string name="pref_protection_device_lock_screen_title">Екран за заключено устройство</string>
     <string name="pref_warning_only_one_protection">Преди да можете да използвате защита от %1$s, трябва да изключите защитата от %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Защитният екран за заключено устройството не е настроен.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Отидете на %s, за да настроите заключен екран.</string>
     <string name="menu_history_show_balance">Показване на салдото</string>
     <string name="menu_history_transfers">Включи преводите</string>
     <string name="menu_history">История</string>

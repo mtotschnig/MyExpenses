@@ -257,8 +257,6 @@
     <string name="pref_send_feedback_title">Trimiteţi feedback</string>
     <string name="pref_share_target_summary">Lăsaţi necompletat dacă doriţi să alegeţi dintre aplicaţiile adecvate (E-mail, Dropbox, Google Docs, …) sau furnizaţi URL într-una din schemele acceptate</string>
     <string name="pref_share_target_title">Upload URL</string>
-    <string name="pref_shortcut_added">Shortcut-ul a fost adăugată la Ecranul Home </string>
-    <string name="pref_shortcut_not_added">Niciun Ecran Home disponibil care acceptă shortcut-uri.</string>
     <string name="pref_shortcut_summary">Adăugă shortcut la Ecranul Home .</string>
     <string name="pref_ui_home_screen_shortcuts">Shortcut-uri ecran Home</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -346,7 +344,6 @@
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Dacă veţi continua, pentru toate conturile%1$s, tranzacţiile vor fi şterse din baza de date şi nu se vor putea restaura.</string>
     <string name="warning_restore">Baza de date si preferinţele  vor fi restaurate din fişierul \"%1$s\". Datele actuale vor fi şterse.</string>
-    <string name="warning_splitpartcategory_context">Transferurile care fac parte dintr-o repartizare pot fi editate numai în contextul repartizării.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Setează un număr între %1$d şi %2$d, te rog</string>
     <string name="warning_change_fraction_digits_checkbox_label">Actualizarea sumelor în baza de date</string>
     <string name="import_categories_success">%1$d categorii importate.</string>
@@ -483,7 +480,6 @@
     <string name="cvs_import_set_first_line_as_header">Prima linie trebuie tratată ca o linie de antet?</string>
     <string name="csv_import_no_mapping_found_for_amount">Vă rugăm să mapați o coloană fie la sumă, la venituri sau la cheltuieli.</string>
     <string name="calendar_permission_required"><i>{app_name}</i> are nevoie de permisiune pentru a vă accesa calendarul, pentru a crea planuri pentru tranzacții viitoare și recurente.</string>
-    <string name="progress_dialog_updating_split_parts">Actualizarea părților divizate</string>
     <string name="io_error_unable_to_create_file">Imposibil de creat fișierul %1$s în folderul %2$s</string>
     <string name="contrib_feature_category_tree_label">Ierarhie de categorii arbitrar de profundă</string>
     <string name="warning_delete_category_with_budget">Pentru cel puțin o categorie selectată, există alocări bugetare, care vor fi, de asemenea, șterse.</string>
@@ -615,7 +611,6 @@
     <string name="licence_expires_tomorrow">Cheia profesională va expira mâine.</string>
     <string name="menu_ungroup_split_transaction">Anularea divizării grupului</string>
     <string name="split_transaction_not_possible">Numai tranzacțiile care au același cont, beneficiar și statut pot fi grupate într-o singură tranzacție.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Accesați %s pentru a configura un ecran de blocare.</string>
     <string name="menu_history_show_balance">Afișați echilibrul</string>
     <string name="history_chart_in_label">Venit</string>
     <string name="menu_history_totals">Afișează totalurile</string>

@@ -278,8 +278,6 @@
     <string name="pref_send_feedback_title">Odeslat názor</string>
     <string name="pref_share_target_summary">Ponechte prázdné, pokud si chcete vybrat mezi vhodnými aplikacemi (E-mail, Dropbox, Google Docs, …), nebo poskytněte URL v jednom z podporovaných schémat</string>
     <string name="pref_share_target_title">Odeslat URL</string>
-    <string name="pref_shortcut_added">Zástupce byl přidán do výchozí obrazovky</string>
-    <string name="pref_shortcut_not_added">Není k dispozici žádná domovská obrazovka, která by přijímala zástupce.</string>
     <string name="pref_shortcut_summary">Přidání zástupce do výchozí obrazovky.</string>
     <string name="pref_ui_home_screen_shortcuts">Zástupci na domovské obrazovce</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -376,7 +374,6 @@
     <string name="warning_reset_account_all">Budete-li pokračovat, pro všechny účty %1$s, budou transakce odstraněny z databáze a nepůjde je obnovit.</string>
     <string name="warning_reset_account_matched">Pokud budete pokračovat, transakce odpovídající aktuálnímu filtru budou odstraněny z databáze a nebudete je moci obnovit.</string>
     <string name="warning_restore">Databáze a předvolby budou obnoveny ze zálohy (%1$s). Aktuální data budou odstraněna.</string>
-    <string name="warning_splitpartcategory_context">Převody, které jsou součástí rozdělení, lze pouze upravovat nebo odstranit v souvislosti s rozdělením.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Nastavte číslo mezi %1$d a %2$d</string>
     <string name="warning_change_fraction_digits_1">Částky v databázi musí být aktualizovány, aby se shodovaly s novým počtem číslic zlomku.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Pokud částky nejsou aktualizovány, zobrazí se po změně vynásobené hodnotou %d.</string>
@@ -470,7 +467,6 @@
     <string name="plan_instance_state_cancelled">zrušeno</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">použito</string>
-    <string name="progress_dialog_updating_split_parts">Aktualizace rozdělených součástí</string>
     <string name="warning_cannot_move_split_transaction">Tuto rozdělenou transakci nelze přesunout na účet %1$s, protože některé části přenosu odkazují na tento účet.</string>
     <string name="content_description_calculator_delete_button">Odstranit poslední číslici</string>
     <string name="paypal_callback_info">Vaše transakce byla dokončena. Potvrzení o nákupu vám bylo zasláno e-mailem. Můžete se přihlásit ke svému účtu na adrese www.paypal.com a zobrazit podrobnosti o této transakci.</string>
@@ -570,7 +566,6 @@
     <string name="pref_protection_device_lock_screen_title">Zamykací obrazovka zařízení</string>
     <string name="pref_warning_only_one_protection">Než použijete ochranu %1$s, musíte vypnout ochranu %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Není nastaven bezpečný zámek obrazovky.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Zamykací obrazovku vytvoříte, když přejdete do %s.</string>
     <string name="menu_history_show_balance">Ukázat zůstatek</string>
     <string name="menu_history_transfers">Zahrnout převody</string>
     <string name="menu_history">Historie</string>

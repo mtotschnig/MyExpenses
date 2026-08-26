@@ -164,7 +164,6 @@
     <string name="warning_reset_account">Als je doorgaat, worden alle transacties van dit account uit de database verwijderd en kunnen deze niet worden hersteld.</string>
     <string name="warning_password_contrib">Als je een beveiligingsvraag instelt, kun je de app ontgrendelen, voor het geval je jouw wachtwoord vergeet.</string>
     <string name="warning_restore">Database en voorkeuren worden hersteld vanuit het bestand \"%1$s\". De huidige gegevens worden verwijderd.</string>
-    <string name="warning_splitpartcategory_context">Overdrachten die deel uitmaken van een splitsing kunnen alleen worden bewerkt in de context van de splitsing.</string>
     <string name="menu_create_transaction">Nieuwe Transactie</string>
     <string name="menu_edit_method">Bewerk betaalwijze</string>
     <string name="menu_edit_party">Bewerk partij</string>
@@ -290,8 +289,6 @@
     <string name="pm_type_neutral">Neutraal</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">Gegevensinvoer via widgets en sneltoetsen</string>
     <string name="pref_protection_delay_seconds_title">Vertraging tot bescherming</string>
-    <string name="pref_shortcut_added">Snelkoppeling is toegevoegd aan het startscherm</string>
-    <string name="pref_shortcut_not_added">Geen startscherm beschikbaar dat snelkoppelingen accepteert.</string>
     <string name="pref_shortcut_summary">Voeg de snelkoppeling toe aan het startscherm.</string>
     <string name="time">Tijd</string>
     <string name="title">Titel</string>
@@ -356,7 +353,6 @@
     <string name="pref_sort_order_last_used">Laatst gebruikt</string>
     <string name="link_account_failure_3">Het conflict kan handmatig worden opgelost vanuit het contextmenu van het item.</string>
     <string name="feature_deprecated">Verouderd</string>
-    <string name="progress_dialog_updating_split_parts">Gesplitste delen bijwerken</string>
     <string name="warning_change_fraction_digits_3">Als bedragen worden bijgewerkt, verlies je de informatie over hun fractionele deel.</string>
     <string name="search_payee">Zoek naar begunstigde/betaler</string>
     <string name="and">en</string>
@@ -426,7 +422,6 @@
     <string name="professional_key">Professionele Sleutel</string>
     <string name="switch_to_yearly" tools:ignore="UnusedResources">Overstappen naar een jaarabonnement</string>
     <string name="pref_protection_device_lock_screen_title">Vergrendelscherm van apparaat</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Ga naar %s om een vergrendelscherm in te stellen.</string>
     <string name="menu_history_show_balance">Toon balans</string>
     <string name="menu_history">Geschiedenis</string>
     <string name="history_chart_out_label">Uitgaven</string>

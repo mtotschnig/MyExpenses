@@ -272,8 +272,6 @@
     <string name="pref_send_feedback_title">Wyślij opinie</string>
     <string name="pref_share_target_summary">Pozostaw puste pole jeżeli chcesz wybierać pomiędzy stosownymi aplikacjami (E-mail, Dropbox, Dokumenty Google, …), lub podaj URL w jednym z obsługiwanym schemacie</string>
     <string name="pref_share_target_title">Wyślij URL</string>
-    <string name="pref_shortcut_added">Skrót został dodany na Ekran Główny</string>
-    <string name="pref_shortcut_not_added">Brak dostępnego Ekranu Startowego który akceptuje skróty.</string>
     <string name="pref_shortcut_summary">Dodaj skrót na Ekran Główny.</string>
     <string name="pref_ui_home_screen_shortcuts">Skróty</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -367,7 +365,6 @@
     <string name="warning_reset_account_all">Jeżeli będziesz kontynuować, dla wszystkich kont %1$s, transakcje zostaną usunięte z bazy danych i nie będą mogły być przywrócone.</string>
     <string name="warning_reset_account_matched">Jeśli kontynuujesz, transakcje dopasowane do bieżącego filtru zostaną usunięte z bazy danych i nie będzie można ich przywrócić.</string>
     <string name="warning_restore">Baza danych oraz preferencje zostaną przywrócone z kopii zapasowej (%1$s). Bieżące dane zostaną usunięte.</string>
-    <string name="warning_splitpartcategory_context">Przelewy które są częścią podziału mogą być tylko edytowane w kontekście podziału.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Ustaw liczbę pomiędzy %1$d i %2$d</string>
     <string name="warning_change_fraction_digits_1">Kwoty w bazie danych należy zaktualizować, aby pasowały do ​​nowej liczby cyfr ułamkowych.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Jeśli kwoty nie zostaną zaktualizowane, będą wyświetlane jako pomnożone przez %d po zmianie.</string>
@@ -460,7 +457,6 @@
     <string name="plan_instance_state_cancelled">anulowany</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">stosowany</string>
-    <string name="progress_dialog_updating_split_parts">Aktualizacja części podzielonych</string>
     <string name="warning_cannot_move_split_transaction">Ta dzielona transakcja nie może zostać przeniesiona na konto %1$s, ponieważ istnieją części transferu, które odnoszą się do tego konta.</string>
     <string name="content_description_calculator_delete_button">Usuń ostatnią cyfrę</string>
     <string name="paypal_callback_info">Twoja transakcja została zakończona i otrzymałeś wiadomość e-mail z potwierdzeniem zakupu. Możesz zalogować się na swoje konto na stronie www.paypal.com, aby wyświetlić szczegóły tej transakcji.</string>
@@ -556,7 +552,6 @@
     <string name="feature_deprecated">Wycofano</string>
     <string name="pref_protection_device_lock_screen_title">Ekran blokady</string>
     <string name="warning_device_lock_screen_not_set_up_1">Ekran bezpiecznej blokady dla urządzenia nie został ustawiony.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Udaj się do %s w celu ustawienia blokady ekranu.</string>
     <string name="menu_history_show_balance">Pokaż bilans</string>
     <string name="menu_history_transfers">Uwzględnij transfery</string>
     <string name="menu_history">Historia</string>

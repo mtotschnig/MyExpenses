@@ -68,7 +68,6 @@
     <string name="menu_history">చరిత్ర</string>
     <string name="menu_history_transfers">బదిలీలను చేర్చండి</string>
     <string name="menu_history_show_balance">బ్యాలెన్స్ చూపించు</string>
-    <string name="warning_device_lock_screen_not_set_up_2">లాక్ స్క్రీన్‌ను సెటప్ చేయడానికి %s కు వెళ్లండి.</string>
     <string name="warning_device_lock_screen_not_set_up_1">సురక్షిత పరికర లాక్ స్క్రీన్ సెటప్ చేయబడలేదు.</string>
     <string name="pref_warning_only_one_protection">మీరు %1$s ద్వారా రక్షణను ఉపయోగించే ముందు, మీరు %2$s ద్వారా రక్షణను ఆపివేయాలి.</string>
     <string name="pref_protection_device_lock_screen_title">పరికర లాక్ స్క్రీన్</string>
@@ -165,7 +164,6 @@
     <string name="paypal_callback_info">మీ లావాదేవీ పూర్తయింది మరియు మీ కొనుగోలు కోసం రశీదు మీకు ఇమెయిల్ చేయబడింది. ఈ లావాదేవీ వివరాలను చూడటానికి మీరు www.paypal.com లోని మీ ఖాతాలోకి లాగిన్ అవ్వవచ్చు.</string>
     <string name="content_description_calculator_delete_button">చివరి అంకెను తొలగించండి</string>
     <string name="warning_cannot_move_split_transaction">ఈ విభజన లావాదేవీని %1$s ఖాతాకు తరలించలేము ఎందుకంటే ఈ ఖాతాను సూచించే బదిలీ భాగాలు ఉన్నాయి.</string>
-    <string name="progress_dialog_updating_split_parts">స్ప్లిట్ భాగాలను నవీకరిస్తోంది</string>
     <string name="plan_instance_state_applied">వర్తించబడింది</string>
     <string name="plan_instance_state_cancelled">రద్దు</string>
     <string name="plan_instance_state_open">తెరిచి ఉంది</string>
@@ -237,7 +235,6 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">మొత్తాలు నవీకరించబడకపోతే, మార్పు తర్వాత అవి %d ద్వారా విభజించబడినట్లు ప్రదర్శించబడతాయి.</string>
     <string name="warning_change_fraction_digits_1">క్రొత్త సంఖ్యలో భిన్న అంకెలతో సరిపోలడానికి డేటాబేస్లోని మొత్తాలను నవీకరించాలి.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">దయచేసి %1$d మరియు %2$d మధ్య సంఖ్యను సెట్ చేయండి</string>
-    <string name="warning_splitpartcategory_context">స్ప్లిట్‌లో భాగమైన బదిలీలు స్ప్లిట్ సందర్భంలో మాత్రమే సవరించబడతాయి.</string>
     <string name="warning_restore">డేటాబేస్ మరియు ప్రాధాన్యతలు \"%1$s\" ఫైల్ నుండి పునరుద్ధరించబడతాయి. ప్రస్తుత డేటా తొలగించబడుతుంది.</string>
     <string name="warning_reset_account_all">మీరు కొనసాగితే, అన్ని ఖాతాల %1$s కోసం, లావాదేవీలు డేటాబేస్ నుండి తొలగించబడతాయి మరియు పునరుద్ధరించబడవు.</string>
     <string name="warning_reset_account_matched">మీరు కొనసాగితే, ప్రస్తుత ఫిల్టర్‌తో సరిపోలిన లావాదేవీలు డేటాబేస్ నుండి తొలగించబడతాయి మరియు పునరుద్ధరించబడవు.</string>
@@ -334,8 +331,6 @@
     <string name="pref_ui_language_title">భాష</string>
     <string name="pref_ui_home_screen_shortcuts">హోమ్ స్క్రీన్ సత్వరమార్గాలు</string>
     <string name="pref_shortcut_summary">హోమ్ స్క్రీన్‌కు సత్వరమార్గాన్ని జోడించండి.</string>
-    <string name="pref_shortcut_not_added">సత్వరమార్గాలను అంగీకరించే హోమ్ స్క్రీన్ అందుబాటులో లేదు.</string>
-    <string name="pref_shortcut_added">సత్వరమార్గం హోమ్ స్క్రీన్‌కు జోడించబడింది</string>
     <string name="pref_share_target_title">URL ని అప్‌లోడ్ చేయండి</string>
     <string name="pref_share_target_summary">మీరు తగిన అనువర్తనాల (ఇమెయిల్, డ్రాప్‌బాక్స్, గూగుల్ డాక్స్,…) మధ్య ఎంచుకోవాలనుకుంటే ఖాళీగా ఉంచండి లేదా మద్దతు ఉన్న పథకాల్లో ఒకదానిలో URL ను అందించండి</string>
     <string name="pref_send_feedback_title">అభిప్రాయాన్ని పంపండి</string>

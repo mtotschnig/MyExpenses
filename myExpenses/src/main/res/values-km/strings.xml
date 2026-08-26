@@ -221,7 +221,6 @@
     <string name="pref_send_feedback_title">ផ្ញើមតិយោបល់អ្នកប្រើ</string>
     <string name="pref_share_target_summary">ទុកឱ្យទទេ ប្រសិនបើអ្នកចង់ជ្រើស រវាងកម្មវិធី ដែលសមស្រប (Email, Dropbox, Google Docs, …)​ ឬផ្តល់នូវ URL មួយ​ដែល​មាន​ក្នុងគម្រោងគាំទ្រ</string>
     <string name="pref_share_target_title">URL ផ្ទុកឡើង</string>
-    <string name="pref_shortcut_added">Shortcut បាន​ដាក់​នៅផ្ទាំងខាងមុខ​ហើយ</string>
     <string name="pref_shortcut_summary">ដាក់ shortcut ទៅ​ផ្ទាំងខាងមុខ</string>
     <string name="pref_ui_home_screen_shortcuts">ផ្លូវកាត់​លើទំព័រ​ដើម</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -287,7 +286,6 @@
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">បើ​អ្នក​បាន​ដំណើរការហើយ សម្រាប់​គណនី​ %1$s ប្រតិបត្តិការ​ទាំង​អស់ នឹង​ត្រូវបាន​លុប​ចេញពី​មូលដ្ឋាន​ទិន្នន័យ និង​មិន​អាច​យក​មកវិញ​បាន​ទេ។</string>
     <string name="warning_restore">មូលដ្ឋានទិន្នន័យ និងចំណង់ចំណូលចិត្ត នឹងត្រូវបានស្ដារឡើងវិញពីការបម្រុងទុក។ (%1$s) ទិន្នន័យបច្ចុប្បន្ន នឹងត្រូវបានលុប។</string>
-    <string name="warning_splitpartcategory_context">ការផ្លាស់ប្តូរដែលជាផ្នែកមួយ នៃការបំបែកអាចត្រូវបាន កែសម្រួល បានតែនៅក្នុងបរិបទនេះទេ។</string>
     <string name="import_categories_success">%1$d ចំណាត់ថ្នាក់ បាន​នាំចូល​ដោយជោគជ័យ</string>
     <string name="import_parties_success">%1$d ភាគី​បាន​នាំចូល​ដោយជោគជ័យ</string>
     <string name="import_accounts_none">គ្មាន​គណនី​នាំចូលទេ</string>

@@ -277,8 +277,6 @@
     <string name="pref_send_feedback_title">Написать отзыв</string>
     <string name="pref_share_target_summary">Оставьте пустым, если вы хотите выбрать соответствующие приложения (электронная почта, Dropbox и Google Docs, …), или предоставить URL-адрес в одной из поддерживаемых схем</string>
     <string name="pref_share_target_title">URL для загрузки</string>
-    <string name="pref_shortcut_added">Ярлык добавлен на домашний экран</string>
-    <string name="pref_shortcut_not_added">Нет домашнего экрана, который принимает ярлыки.</string>
     <string name="pref_shortcut_summary">Добавить ярлык на домашний экран.</string>
     <string name="pref_ui_home_screen_shortcuts">Ярлыки домашнего экрана</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -375,7 +373,6 @@
     <string name="warning_reset_account_all">Если вы продолжите, для всех счетов %1$s операции будут удалены из базы данных и не могут быть восстановлены.</string>
     <string name="warning_reset_account_matched">Если вы продолжите, операции, соответствующие текущему фильтру, будут удалены из базы данных и не могут быть восстановлены.</string>
     <string name="warning_restore">Базы данных и настройки будут восстановлены из файла \"%1$s\". Текущие данные будут удалены.</string>
-    <string name="warning_splitpartcategory_context">Переводы, являющиеся частью разделенной транзакции, могут быть отредактированы только в контексте этой разделенной транзакции.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Пожалуйста, укажите число между %1$d и %2$d</string>
     <string name="warning_change_fraction_digits_1">Суммы в базе данных должны быть обновлены, чтобы соответствовать новому числу цифр дроби.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Если суммы не обновляются, они будут отображаться как умноженные на %d после изменения.</string>
@@ -468,7 +465,6 @@
     <string name="plan_instance_state_cancelled">отмененный</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">принятый</string>
-    <string name="progress_dialog_updating_split_parts">Обновление разделений</string>
     <string name="warning_cannot_move_split_transaction">Эта разделенная транзакция не может быть перемещена на счет %1$s, поскольку есть части перевода, которые ссылаются на этот счет.</string>
     <string name="content_description_calculator_delete_button">Удалить последнее число</string>
     <string name="paypal_callback_info">Ваша операция была завершена; квитанция об оплате была направлена на Ваш e-mail. Вы можете увидеть детали этой транзакции в своей учетной записи на www.paypal.com</string>
@@ -568,7 +564,6 @@
     <string name="pref_protection_device_lock_screen_title">Экран блокировки устройства</string>
     <string name="pref_warning_only_one_protection">Прежде чем вы сможете использовать защиту с помощью %1$s, вы должны отключить защиту с помощью %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Безопасный экран блокировки устройства не настроен.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Перейдите в %s, чтобы настроить экран блокировки.</string>
     <string name="menu_history_show_balance">Отобразить баланс</string>
     <string name="menu_history_transfers">Включать переводы</string>
     <string name="menu_history">История</string>

@@ -275,8 +275,6 @@
     <string name="pref_send_feedback_title">Enviar comentario</string>
     <string name="pref_share_target_summary">Déjelo en blanco si quiere elegir entre las aplicaciones correspondientes (correo electrónico, Dropbox, Google Docs…) o indique la URL de uno de los programas soportados</string>
     <string name="pref_share_target_title">Subir URL</string>
-    <string name="pref_shortcut_added">Acceso directo añadido a la pantalla de inicio</string>
-    <string name="pref_shortcut_not_added">No hay pantalla de inicio disponible que acepte atajos.</string>
     <string name="pref_shortcut_summary">Añadir acceso directo a pantalla de inicio.</string>
     <string name="pref_ui_home_screen_shortcuts">Accesos directos en la pantalla de inicio</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -369,7 +367,6 @@
     <string name="warning_reset_account_all">Si continúa, en todas las cuentas%1$s las transacciones serán eliminadas de la base de datos y no podrán ser restauradas.</string>
     <string name="warning_reset_account_matched">Si continúa, las transacciones que coincidan con el filtro actual serán eliminadas de la base de datos y no podrán ser restauradas.</string>
     <string name="warning_restore">La base de datos y preferencias serán restauradas desde el archivo «%1$s». Los datos actuales serán eliminados.</string>
-    <string name="warning_splitpartcategory_context">Las transferencias que forman parte de una división sólo podrán ser editadas en el contexto de la división.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Por favor, introduzca un número entre %1$d y %2$d</string>
     <string name="warning_change_fraction_digits_1">Las cantidades en la base de datos necesitan ser actualizadas con el fin de coincidir con el nuevo número de dígitos fraccionados.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Si no se actualizan los importes, se mostrarán como multiplicados por %d después del cambio.</string>
@@ -463,7 +460,6 @@
     <string name="plan_instance_state_cancelled">cancelado</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">aplicado</string>
-    <string name="progress_dialog_updating_split_parts">Actualización de partes divididas</string>
     <string name="warning_cannot_move_split_transaction">Esta transacción dividida no se pudo mover a la cuenta %1$s porque hay partes de transferencias referidas a esta cuenta.</string>
     <string name="content_description_calculator_delete_button">Borrar el último dígito</string>
     <string name="paypal_callback_info">La transacción se ha completado y el recibo de compra ha sido enviado a su correo electrónico. Puede iniciar sesión en su cuenta en www.paypal.com para ver los detalles de la transacción.</string>
@@ -562,7 +558,6 @@
     <string name="pref_protection_device_lock_screen_title">Bloqueo de pantalla</string>
     <string name="pref_warning_only_one_protection">Antes de que pueda usar la protección por %1$s, tiene que desactivar la protección por %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">La seguridad en el bloqueo de pantalla no ha sido configurada.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Ir a %s para configurar una pantalla de bloqueo.</string>
     <string name="menu_history_show_balance">Mostrar balance</string>
     <string name="menu_history_transfers">Incluir transferencias</string>
     <string name="menu_history">Historial</string>

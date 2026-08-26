@@ -269,8 +269,6 @@
     <string name="pref_send_feedback_title">反馈意见</string>
     <string name="pref_share_target_summary">如果你想在合适的应用程序 (电子邮件、Dropbox、谷歌 Docs…) 中选择一个，就把它空着，或者以受支持的 scheme 之一的格式提供 URL</string>
     <string name="pref_share_target_title">上载网址</string>
-    <string name="pref_shortcut_added">快捷方式已添加到主屏幕</string>
-    <string name="pref_shortcut_not_added">没有接受快捷方式的主屏幕可用。</string>
     <string name="pref_shortcut_summary">将快捷方式添加到主屏幕</string>
     <string name="pref_ui_home_screen_shortcuts">主屏快捷方式</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -355,7 +353,6 @@
     <string name="warning_reset_account_all">如果继续，%1$s所有账户和当中的所有交易将从数据库中删除，并且无法还原。</string>
     <string name="warning_reset_account_matched">如果继续，与当前筛选器匹配的交易项目将从数据库中删除，并且无法还原。</string>
     <string name="warning_restore">数据库与首选项将通过文件“%1$s”恢复，当前数据将被删除</string>
-    <string name="warning_splitpartcategory_context">属于款项拆分交易一部分的转账只能在款项拆分交易情景下被编辑。</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">请在%1$d和%2$d之间设置一个数字</string>
     <string name="warning_change_fraction_digits_1">需要更新数据库中的金额以匹配新的小数位数。</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">如果未更新金额，则更改后它们将显示为乘以%d。</string>
@@ -449,7 +446,6 @@
     <string name="plan_instance_state_cancelled">已取消</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">已应用</string>
-    <string name="progress_dialog_updating_split_parts">正在更新款项拆分</string>
     <string name="warning_cannot_move_split_transaction">此拆分交易无法移动到账户%1$s中，因为有部分转账已经引用到此账户。</string>
     <string name="content_description_calculator_delete_button">删除上一个数字</string>
     <string name="paypal_callback_info">您的交易已经完成，购买收据已经通过电子邮件发送给您。您可以从www.paypal.com登录您的账户以查看该交易的详细信息。</string>
@@ -546,7 +542,6 @@
     <string name="pref_protection_device_lock_screen_title">使用设备的锁定屏幕功能</string>
     <string name="pref_warning_only_one_protection">您必须先通过%2$s关闭保护，然后才能使用%1$s进行保护。</string>
     <string name="warning_device_lock_screen_not_set_up_1">尚未设置设备的锁定屏幕功能。</string>
-    <string name="warning_device_lock_screen_not_set_up_2">转到设备的 %s 里去设置一个屏幕锁定。</string>
     <string name="menu_history_show_balance">显示收支结余</string>
     <string name="menu_history_transfers">包括转帐</string>
     <string name="menu_history">历史记录</string>

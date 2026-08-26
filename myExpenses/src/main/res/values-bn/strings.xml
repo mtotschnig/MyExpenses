@@ -282,8 +282,6 @@
     <string name="pref_send_feedback_title">ফিডব্যাক পাঠান</string>
     <string name="pref_share_target_summary">উপযুক্ত অ্যাপের মধ্যে (Email, Dropbox, Google Docs, …) বেছে নিতে খালি রাখুন, অথবা সমর্থিত স্কিমের একটিতে URL প্রদান করুন</string>
     <string name="pref_share_target_title">URL আপলোড করুন</string>
-    <string name="pref_shortcut_added">শর্টকাট হোম স্ক্রিনে যোগ করা হয়েছে</string>
-    <string name="pref_shortcut_not_added">শর্টকাট গ্রহণকারী কোন হোম স্ক্রিন উপলব্ধ নেই।</string>
     <string name="pref_shortcut_summary">হোম স্ক্রিনে শর্টকাট যোগ করুন।</string>
     <string name="pref_ui_home_screen_shortcuts">হোম স্ক্রিন শর্টকাট</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -374,7 +372,6 @@
     <string name="warning_reset_account_all">আপনি যদি এগিয়ে যান, সমস্ত অ্যাকাউন্টের জন্য %1$s, লেনদেন ডাটাবেস থেকে মুছে ফেলা হবে এবং পুনরুদ্ধার করা যাবে না।</string>
     <string name="warning_reset_account_matched">আপনি যদি এগিয়ে যান, বর্তমান ফিল্টার দ্বারা মিলিত লেনদেন ডাটাবেস থেকে মুছে ফেলা হবে এবং পুনরুদ্ধার করা যাবে না।</string>
     <string name="warning_restore">ডাটাবেস এবং পছন্দসমূহ \"%1$s\" ফাইল থেকে পুনরুদ্ধার করা হবে। বর্তমান ডাটা মুছে ফেলা হবে।</string>
-    <string name="warning_splitpartcategory_context">স্প্লিটের পার্ট যে ট্রান্সফারের অন্তর্ভুক্ত শুধুমাত্র স্প্লিটের প্রেক্ষাপটে এডিট করা যেতে পারে।</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">অনুগ্রহ করে %1$d এবং %2$d এর মধ্যে একটি সংখ্যা সেট করুন</string>
     <string name="warning_change_fraction_digits_1">ডাটাবেসে পরিমাণগুলি আপডেট করতে হবে যাতে এটি ভগ্নাংশের অঙ্কের নতুন সংখ্যার সাথে মেলে।</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">যদি পরিমাণ আপডেট না করা হয়, তাহলে পরিবর্তনের পরে সেগুলি %d দ্বারা গুণিত অ্যাকাউন্টে প্রদর্শিত হবে।</string>
@@ -470,7 +467,6 @@
     <string name="plan_instance_state_cancelled">বাতিল করা হয়েছে</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">অ্যাপ্লাই করা হয়েছে</string>
-    <string name="progress_dialog_updating_split_parts">স্প্লিট পার্ট আপডেট করা হচ্ছে</string>
     <string name="warning_cannot_move_split_transaction">এই স্প্লিট লেনদেনটি %1$s অ্যাকাউন্টে সরানো যাবে না কারণ এমন ট্রান্সফার পার্ট আছে যা এই অ্যাকাউন্টকে উল্লেখ করে।</string>
     <string name="content_description_calculator_delete_button">শেষ সংখ্যা মুছুন</string>
     <string name="paypal_callback_info">আপনার লেনদেন সম্পন্ন হয়েছে, এবং আপনাকে একটি রসিদ ইমেল করা হয়েছে। আপনি এই লেনদেনের বিবরণ দেখতে www.paypal.com এ আপনার অ্যাকাউন্টে লগইন করতে পারেন।</string>
@@ -571,8 +567,6 @@
     <string name="pref_protection_device_lock_screen_title">ডিভাইস লক স্ক্রিন</string>
     <string name="pref_warning_only_one_protection">%2$s দ্বারা প্রটেকশন বন্ধ করার আগে আপনি %1$s দ্বারা প্রটেকশন ব্যবহার করতে পারবেন না।</string>
     <string name="warning_device_lock_screen_not_set_up_1">ডিভাইস লক স্ক্রিন সেট আপ করা হয়নি।</string>
-    <!-- %s is replaced with path to setup screen lock in device settings -->
-    <string name="warning_device_lock_screen_not_set_up_2">লক স্ক্রিন সেট আপ করতে %s এ যান।</string>
     <string name="menu_history_show_balance">ব্যালেন্স দেখুন</string>
     <string name="menu_history_transfers">ট্রান্সফার অন্তর্ভুক্ত করুন</string>
     <string name="menu_history">ইতিহাস</string>

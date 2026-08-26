@@ -218,7 +218,6 @@
     <string name="pref_send_feedback_title">Envieu comentaris</string>
     <string name="pref_share_target_summary">Podeu deixar-ho en blanc, si voleu triar entre les aplicacions adequades (correu electrònic, Dropbox, Google Docs, …), o indicar una URL en un dels esquemes permesos</string>
     <string name="pref_share_target_title">Puja el fitxer (a una URL)</string>
-    <string name="pref_shortcut_added">S\'ha afegit la drecera a la pantalla Inicial</string>
     <string name="pref_shortcut_summary">Afegiu la drecera a la pantalla Inicial.</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Idioma</string>
@@ -270,7 +269,6 @@
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Si continueu, per tots els comptes%1$s, les operacions s\'eliminaran de la base de dades i no es podran restaurar.</string>
     <string name="warning_restore">La base de dades i les preferències es restauraran des de la còpia de seguretat (%1$s). S\'esborraran les dades actuals.</string>
-    <string name="warning_splitpartcategory_context">Transferències que formen part d\'una transacció dividida només es poden editar en el marc de la divisió.</string>
     <string name="import_categories_success">%1$d categories importades amb èxit.</string>
     <string name="import_parties_success">%1$d tercers s\'han importat correctament.</string>
     <string name="import_accounts_none">No s\'ha importat cap compte</string>
@@ -324,7 +322,6 @@
     <string name="no_accounts">Sense comptes.</string>
     <string name="payer_or_payee">Contrapart</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Cal contrasenya.</string>
-    <string name="pref_shortcut_not_added">No es diposa de pantalla d\'inici que accepti dreceres.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d projectes han estat restaurats de la còpia de seguretat</string>
     <plurals name="dialog_title_warning_delete_account">
         <item quantity="one">Elminar compte\?</item>
@@ -466,7 +463,6 @@
     <string name="search_date">Cerca data</string>
     <string name="csv_import_no_mapping_found_for_amount">Siusplau, assigneu una columna o bé a import, ingrés o despesa.</string>
     <string name="crash_dialog_title">{app_name} ha petat</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Vagi a %s per a establir el bloqueig de pantalla.</string>
     <string name="warning_change_fraction_digits_3">Si les quantitats s\'actualitzen, prendreu la informació sobre la seva part fraccionaria.</string>
     <string name="import_accounts_success">%1$d comptes importats amb èxit.</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d opreacions importades amb èxit al compte %2$s</string>
@@ -534,7 +530,6 @@
     <string name="pref_manage_stale_images_summary">Gestiona imatges sobrants de transaccions eleminades</string>
     <string name="dialog_export_applied_to_filter">Només les transaccions que coincideixen amb el filtre actual es tenen en compte.</string>
     <string name="folder_name">Nom de la carpeta</string>
-    <string name="progress_dialog_updating_split_parts">Actualitzant parts dividides</string>
     <string name="plan_instance_state_applied">aplicat</string>
     <string name="pref_custom_decimal_format_summary">Si no us satisfà el format per defecte de la llengua, el podeu adaptar. Deixi en blanc per restaurar el format per defecte.</string>
     <string name="calendar_permission_required"><i>{app_name}</i> necessita permís per accedir al vostre calendari per tal de crear-hi projectes en un futur o bé transaccions recurrents.</string>

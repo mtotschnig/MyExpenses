@@ -267,8 +267,6 @@
     <string name="pref_send_feedback_title">Hantar maklumbalas</string>
     <string name="pref_share_target_summary">Biarkan kosong jika anda mahu pilih diantara apl berkenaan (Emel, Dropbox, Google Docs, …) atau sediakan URL dalam salah satu skema yang disokong</string>
     <string name="pref_share_target_title">Muat Naik URL</string>
-    <string name="pref_shortcut_added">Pintasan telah ditambah ke Skrin Rumah</string>
-    <string name="pref_shortcut_not_added">Tiada Skrin Rumah tersedia yang menerima pintasan.</string>
     <string name="pref_shortcut_summary">Tambah pintasan ke Skrin Rumah.</string>
     <string name="pref_ui_home_screen_shortcuts">Pintasan Skrin Rumah</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -352,7 +350,6 @@
     <string name="warning_reset_account_all">Jika anda teruskan, untuk semua akaun %1$s, transaksi akan dipadam dari pangkalan data dan tidak dapat dipulihkan.</string>
     <string name="warning_reset_account_matched">Jika anda teruskan, transaksi yang sepada dengan penapis semasa akan dipadam dari pangkalan data dan tidak dapat dipulihkan.</string>
     <string name="warning_restore">Pangkalan data dan keutamaan akan dipulih dari fail \"%1$s\". Data semasa akan dipadam.</string>
-    <string name="warning_splitpartcategory_context">Pemindahan adalah sebahagian pengasingan hanya boleh disunting dalam konteks pengasingan.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Sila tetapkan nombor diantara %1$d hingga %2$d</string>
     <string name="warning_change_fraction_digits_1">Amaun dalam pangkalan data perlu dikemaskini untuk dipadanakn dengan bilangan baharu digit pecahan.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Jika amaun tidak dikemaskinikan, ia akan dipapar sebagai gandaan %d selepas perubahan.</string>
@@ -444,7 +441,6 @@
     <string name="plan_instance_state_cancelled">dibatalkan</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">dilaksanakan</string>
-    <string name="progress_dialog_updating_split_parts">Mengemaskini bahagian pengasingan</string>
     <string name="warning_cannot_move_split_transaction">Transaksi pengasingan ini tidak dapat dialih ke akaun %1$s kerana terdapat bahagian pemindahan yang merujuk pada akaun ini.</string>
     <string name="content_description_calculator_delete_button">Padam digit terakhir</string>
     <string name="paypal_callback_info">Transaksi anda telah selesai, dan satu resip pembelian anda telah diemelkan kepada anda. Anda boleh daftar masuk ke akaun anda di www.paypal.com untuk melihat perincian transaksi ini.</string>
@@ -541,7 +537,6 @@
     <string name="pref_protection_device_lock_screen_title">Skrin kunci peranti</string>
     <string name="pref_warning_only_one_protection">Sebelum anda guna perlindungan oleh %1$s, anda mesti matikan perlindungan oleh %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Selamatkan skrin kunci peranti belum dipasangkan.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Pergi ke %s untuk tetapkan skrin kunci.</string>
     <string name="menu_history_show_balance">Tunjuk baki</string>
     <string name="menu_history_transfers">Sertakan pemindahan</string>
     <string name="menu_history">Sejarah</string>

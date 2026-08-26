@@ -265,8 +265,6 @@
     <string name="pref_send_feedback_title">Gửi phản hồi</string>
     <string name="pref_share_target_summary">Để trống nếu bạn muốn chọn giữa các ứng dụng thích hợp (Email, Dropbox, Google Docs, …), hoặc cung cấp đường dẫn liên kết của một trong các loại phối hợp được hỗ trợ</string>
     <string name="pref_share_target_title">Đường dẫn tải lên</string>
-    <string name="pref_shortcut_added">Phím tắt đã được thêm vào màn hình chính</string>
-    <string name="pref_shortcut_not_added">Không có màn hình chính nào có sẵn mà chấp nhận phím tắt.</string>
     <string name="pref_shortcut_summary">Thêm phím tắt vào màn hình chính.</string>
     <string name="pref_ui_home_screen_shortcuts">Phím tắt màn hình chính</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -349,7 +347,6 @@
     <string name="warning_reset_account_all">Tất cả giao dịch của tài khoản%1$s này sẽ được xuất trong tập tin %1$s trên thẻ nhớ và bị xóa. Bạn có thực sự muốn tiếp tục?</string>
     <string name="warning_reset_account_matched">Nếu bạn tiếp tục, các giao dịch nằm trong bộ lọc hiện tại sẽ bị xoá khỏi cơ sở dữ liệu và không thể khôi phục.</string>
     <string name="warning_restore">Cơ sở dữ liệu và tùy biến sẽ được phục hồi từ thẻ nhớ (%1$s). Dữ liệu hiện tại sẽ bị xóa.</string>
-    <string name="warning_splitpartcategory_context">Các giao dịch chuyển khoản mà là một phần của giao dịch phân tách có thể được chỉnh sửa và trong phần chỉnh sửa của phần tách.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Vui lòng chọn một số trong khoảng %1$d và %2$d</string>
     <string name="warning_change_fraction_digits_1">Số tiền trong cơ sở dữ liệu cần được cập nhật để khớp với số lượng các chữ số thập phân.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Nếu số tiền không được cập nhật, nó sẽ hiển thị dưới dạng được nhân lên %d lần sau khi thay đổi.</string>
@@ -441,7 +438,6 @@
     <string name="plan_instance_state_cancelled">bị huỷ</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">được áp dụng</string>
-    <string name="progress_dialog_updating_split_parts">Đang cập nhật các phần bị tách</string>
     <string name="warning_cannot_move_split_transaction">Giao dịch chia tách này không thể được dời tới tài khoản %1$s bởi vì có một khoản chuyển đã chỉ tới tài khoản này.</string>
     <string name="content_description_calculator_delete_button">Xoá chữ số cuối cùng</string>
     <string name="paypal_callback_info">Giao dịch của bạn đã hoàn tất và biên lai mua hàng của bạn đã được gửi qua email cho bạn. Bạn có thể đăng nhập vào tài khoản của bạn tại www.paypal.com để xem chi tiết giao dịch này.</string>
@@ -536,7 +532,6 @@
     <string name="pref_protection_device_lock_screen_title">Khoá màn hình thiết bị</string>
     <string name="pref_warning_only_one_protection">Trước khi bạn có thể sử dụng phương thức bảo vệ bởi %1$s, bạn phải tắt cơ chế bảo vệ của %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Khoá màn hình an toàn vẫn chưa được thiết lập.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Vào mục %s để thiết lập khoá màn hình.</string>
     <string name="menu_history_show_balance">Hiển thị số dư</string>
     <string name="menu_history_transfers">Bao gồm các giao dịch chuyển khoản</string>
     <string name="menu_history">Lịch sử</string>

@@ -105,7 +105,6 @@
     <string name="dialog_password_activate_protection">Aktivera lösenordsskydd</string>
     <string name="account_type_cash">Kontant</string>
     <string name="account_type_asset">Övriga tillgångar</string>
-    <string name="pref_shortcut_not_added">Ingen Hemskärm tillgänglig som accepterar genvägar.</string>
     <string name="help_heading_credits">Medverkande</string>
     <string name="pref_visit_website_summary">Ändringslogg och FAQ</string>
     <string name="pref_ui_home_screen_shortcuts">Genvägar för Hemskärmen</string>
@@ -185,7 +184,6 @@
     <string name="qif_parse_failure_found_multiple_accounts">Flera konton hittades i %s-filen.</string>
     <string name="split_transaction">Delad transaktion</string>
     <string name="menu_edit_template">Redigera mall</string>
-    <string name="pref_shortcut_added">Genvägen har lagts till på Hemskärmen</string>
     <string name="continue_confirmation">Vill du fortsätta?</string>
     <string name="warning_password_protected">Appen är lösenordsskyddad.</string>
     <string name="password_not_valid">Ogiltigt lösenord. Försök igen!</string>
@@ -569,7 +567,6 @@
     <string name="plan_instance_state_open">Öppet</string>
     <string name="plan_instance_state_cancelled">inställd</string>
     <string name="plan_instance_state_applied">tillämpad</string>
-    <string name="progress_dialog_updating_split_parts">Uppdatering av splits</string>
     <string name="warning_cannot_move_split_transaction">Denna uppdelade transaktion kan inte flyttas till konto %1$s eftersom det finns överföringsdelar som hänvisar till denna konto.</string>
     <string name="content_description_calculator_delete_button">Ta bort senaste siffran</string>
     <string name="paypal_callback_info">Din transaktion har slutförts och ett kvitto på ditt köp har skickats till dig via e-post. Du kan logga in på ditt konto på www.paypal.com för att se detaljer om denna transaktion.</string>
@@ -596,7 +593,6 @@
     <string name="link_account_failure_3">Konflikten kan lösas manuellt från postens kontextmeny.</string>
     <string name="progress_dialog_checking_sync_backend">Verifiering av backend</string>
     <string name="all_contrib_key_features">Alla funktioner i Contrib Key</string>
-    <string name="warning_splitpartcategory_context">Överföringar som ingår i en uppdelad transaktion kan endast redigeras i samband med den uppdelade transaktionen.</string>
     <string name="pref_webdav_timeout_title">WebDAV-timeout (i sekunder)</string>
     <string name="sync_state_restored" tools:ignore="PluralsCandidate">Synkroniseringstillståndet återställdes för %d konton.</string>
     <string name="sync_state_could_not_be_restored" tools:ignore="PluralsCandidate">Synkroniseringstillståndet kunde inte återställas för %d konton.</string>
@@ -642,7 +638,6 @@
     <string name="feature_deprecated">Föråldrad</string>
     <string name="pref_warning_only_one_protection">Innan du kan använda skydd genom %1$småste du stänga av skyddet genom %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Låsskärmen för säkra enheter har inte satts upp.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Gå till %s för att sätta upp en låsskärm.</string>
     <string name="history_chart_in_label">Intäkter</string>
     <string name="menu_history_totals">Visa summor</string>
     <string name="grand_total">Totalsumma</string>

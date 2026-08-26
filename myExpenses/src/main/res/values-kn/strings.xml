@@ -271,8 +271,6 @@
     <string name="pref_send_feedback_title">ಪ್ರತಿಕ್ರಿಯೆ ಕಳುಹಿಸಿ</string>
     <string name="pref_share_target_summary">ನೀವು ಸೂಕ್ತವಾದ ಅಪ್ಲಿಕೇಶನ್‌ಗಳ ನಡುವೆ ಆಯ್ಕೆ ಮಾಡಲು ಬಯಸಿದರೆ ಖಾಲಿ ಬಿಡಿ (ಇಮೇಲ್, ಡ್ರಾಪ್‌ಬಾಕ್ಸ್, ಗೂಗಲ್ ಡಾಕ್ಸ್,…), ಅಥವಾ ಬೆಂಬಲಿತ ಸ್ಕೀಮ್‌ಗಳಲ್ಲಿ URL ಅನ್ನು ಒದಗಿಸಿ</string>
     <string name="pref_share_target_title">URL ಅನ್ನು ಅಪ್‌ಲೋಡ್ ಮಾಡಿ</string>
-    <string name="pref_shortcut_added">ಶಾರ್ಟ್ಕಟ್ ಅನ್ನು ಹೋಮ್ ಸ್ಕ್ರೀನ್ಗೆ ಸೇರಿಸಲಾಗಿದೆ</string>
-    <string name="pref_shortcut_not_added">ಶಾರ್ಟ್‌ಕಟ್‌ಗಳನ್ನು ಸ್ವೀಕರಿಸುವ ಯಾವುದೇ ಹೋಮ್ ಸ್ಕ್ರೀನ್ ಲಭ್ಯವಿಲ್ಲ.</string>
     <string name="pref_shortcut_summary">ಮುಖಪುಟಕ್ಕೆ ಶಾರ್ಟ್‌ಕಟ್ ಸೇರಿಸಿ.</string>
     <string name="pref_ui_home_screen_shortcuts">ಮುಖಪುಟ ಪರದೆಯ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳು</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -361,7 +359,6 @@
     <string name="warning_reset_account_all">ನೀವು ಮುಂದುವರಿದರೆ, ಎಲ್ಲಾ ಖಾತೆಗಳಿಗೆ%1$s, ವ್ಯವಹಾರಗಳನ್ನು ಡೇಟಾಬೇಸ್‌ನಿಂದ ಅಳಿಸಲಾಗುತ್ತದೆ ಮತ್ತು ಅದನ್ನು ಮರುಸ್ಥಾಪಿಸಲಾಗುವುದಿಲ್ಲ.</string>
     <string name="warning_reset_account_matched">ನೀವು ಮುಂದುವರಿದರೆ, ಪ್ರಸ್ತುತ ಫಿಲ್ಟರ್‌ಗೆ ಹೊಂದಿಕೆಯಾಗುವ ವಹಿವಾಟುಗಳನ್ನು ಡೇಟಾಬೇಸ್‌ನಿಂದ ಅಳಿಸಲಾಗುತ್ತದೆ ಮತ್ತು ಅದನ್ನು ಮರುಸ್ಥಾಪಿಸಲಾಗುವುದಿಲ್ಲ.</string>
     <string name="warning_restore">ಡೇಟಾಬೇಸ್ ಮತ್ತು ಆದ್ಯತೆಗಳನ್ನು \"%1$s\" ಫೈಲ್‌ನಿಂದ ಮರುಸ್ಥಾಪಿಸಲಾಗುತ್ತದೆ. ಪ್ರಸ್ತುತ ಡೇಟಾವನ್ನು ಅಳಿಸಲಾಗುತ್ತದೆ.</string>
-    <string name="warning_splitpartcategory_context">ವಿಭಜನೆಯ ಭಾಗವಾಗಿರುವ ವರ್ಗಾವಣೆಗಳನ್ನು ವಿಭಜನೆಯ ಸಂದರ್ಭದಲ್ಲಿ ಮಾತ್ರ ಸಂಪಾದಿಸಬಹುದು.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">ದಯವಿಟ್ಟು %1$d ಮತ್ತು %2$d ನಡುವೆ ಸಂಖ್ಯೆಯನ್ನು ಹೊಂದಿಸಿ</string>
     <string name="warning_change_fraction_digits_1">ಹೊಸ ಸಂಖ್ಯೆಯ ಭಿನ್ನರಾಶಿ ಅಂಕೆಗಳಿಗೆ ಹೊಂದಿಕೆಯಾಗಲು ಡೇಟಾಬೇಸ್‌ನಲ್ಲಿನ ಮೊತ್ತವನ್ನು ನವೀಕರಿಸಬೇಕಾಗಿದೆ.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">ಮೊತ್ತವನ್ನು ನವೀಕರಿಸದಿದ್ದರೆ, ಬದಲಾವಣೆಯ ನಂತರ ಅವುಗಳನ್ನು %d ನಿಂದ ಗುಣಿಸಿದಾಗ ಪ್ರದರ್ಶಿಸಲಾಗುತ್ತದೆ.</string>
@@ -454,7 +451,6 @@
     <string name="plan_instance_state_cancelled">ರದ್ದುಗೊಳಿಸಲಾಗಿದೆ</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">ಅನ್ವಯಿಸಲಾಗಿದೆ</string>
-    <string name="progress_dialog_updating_split_parts">ವಿಭಜಿತ ಭಾಗಗಳನ್ನು ನವೀಕರಿಸಲಾಗುತ್ತಿದೆ</string>
     <string name="warning_cannot_move_split_transaction">ಈ ವಿಭಜಿತ ವಹಿವಾಟನ್ನು %1$s ಖಾತೆಗೆ ಸರಿಸಲು ಸಾಧ್ಯವಿಲ್ಲ ಏಕೆಂದರೆ ಈ ಖಾತೆಯನ್ನು ಉಲ್ಲೇಖಿಸುವ ವರ್ಗಾವಣೆ ಭಾಗಗಳಿವೆ.</string>
     <string name="content_description_calculator_delete_button">ಕೊನೆಯ ಅಂಕಿಯನ್ನು ಅಳಿಸಿ</string>
     <string name="paypal_callback_info">ನಿಮ್ಮ ವಹಿವಾಟು ಪೂರ್ಣಗೊಂಡಿದೆ, ಮತ್ತು ನಿಮ್ಮ ಖರೀದಿಗೆ ರಶೀದಿಯನ್ನು ನಿಮಗೆ ಇಮೇಲ್ ಮಾಡಲಾಗಿದೆ. ಈ ವಹಿವಾಟಿನ ವಿವರಗಳನ್ನು ವೀಕ್ಷಿಸಲು ನೀವು www.paypal.com ನಲ್ಲಿ ನಿಮ್ಮ ಖಾತೆಗೆ ಲಾಗ್ ಇನ್ ಮಾಡಬಹುದು.</string>
@@ -552,7 +548,6 @@
     <string name="pref_protection_device_lock_screen_title">ಸಾಧನ ಲಾಕ್ ಪರದೆ</string>
     <string name="pref_warning_only_one_protection">ನೀವು %1$s ಮೂಲಕ ರಕ್ಷಣೆಯನ್ನು ಬಳಸುವ ಮೊದಲು, ನೀವು %2$s ಮೂಲಕ ರಕ್ಷಣೆಯನ್ನು ಆಫ್ ಮಾಡಬೇಕು.</string>
     <string name="warning_device_lock_screen_not_set_up_1">ಸುರಕ್ಷಿತ ಸಾಧನ ಲಾಕ್ ಪರದೆಯನ್ನು ಹೊಂದಿಸಲಾಗಿಲ್ಲ.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">ಲಾಕ್ ಪರದೆಯನ್ನು ಹೊಂದಿಸಲು %s ಗೆ ಹೋಗಿ.</string>
     <string name="menu_history_show_balance">ಬಾಕಿ ಮೊತ್ತ ತೋರಿಸಿ</string>
     <string name="menu_history_transfers">ವರ್ಗಾವಣೆಗಳನ್ನು ಸೇರಿಸಿ</string>
     <string name="menu_history">ಇತಿಹಾಸ</string>

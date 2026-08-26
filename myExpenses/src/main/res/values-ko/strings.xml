@@ -250,8 +250,6 @@
     <string name="pref_send_feedback_title">피드백 보내기</string>
     <string name="pref_share_target_summary">지원되는 구성 방안 중에서 하나의 URL을 입력하세요. 적절한 앱(이메일, Dropbox, Google Docs 등)을 선택하고자 하면 이 칸을 비워두세요.</string>
     <string name="pref_share_target_title">URL 업로드</string>
-    <string name="pref_shortcut_added">홈 스크린에 바로가기가 추가되었습니다.</string>
-    <string name="pref_shortcut_not_added">바로가기를 추가할 수 있는 홈 스크린이 없습니다.</string>
     <string name="pref_shortcut_summary">홈 스크린에 바로가기를 추가합니다.</string>
     <string name="pref_ui_home_screen_shortcuts">홈 스크린 바로가기</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -332,7 +330,6 @@
     <string name="warning_reset_account_all">계속 진행하면, 모든 계좌의%1$s 거래 내역은 데이터베이스에서 삭제되며 복원할 수 없습니다.</string>
     <string name="warning_reset_account_matched">계속 진행하면, 현재의 필터와 일치하는 거래 내역은 데이터베이스에서 삭제되며 복원할 수 없습니다.</string>
     <string name="warning_restore">데이터베이스 및 환경설정이 \"%1$s\" 파일에서 복원됩니다. 현재 데이터가 삭제됩니다.</string>
-    <string name="warning_splitpartcategory_context">분할 거래의 일부분인 이체 내역은 분할 거래의 맥락에서만 편집될 수 있습니다.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">%1$d과 %2$d 사이의 숫자를 설정하세요</string>
     <string name="import_categories_success">%1$d 카테고리를 성공적으로 가져왔습니다.</string>
     <string name="import_parties_success">%1$d 구성원을 성공적으로 가져왔습니다.</string>

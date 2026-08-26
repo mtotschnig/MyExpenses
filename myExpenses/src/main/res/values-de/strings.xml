@@ -272,8 +272,6 @@
     <string name="pref_send_feedback_title">Feedback senden</string>
     <string name="pref_share_target_summary">Sie können dies leer lassen, wenn Sie zwischen passenden Anwendungen wählen wollen (E-Mail, Dropbox, Google Docs …) oder eine URL in einer der unterstützten Schemen angeben</string>
     <string name="pref_share_target_title">Upload URL</string>
-    <string name="pref_shortcut_added">Verknüpfung dem Start-Bildschirm hinzugefügt</string>
-    <string name="pref_shortcut_not_added">Es steht kein Start-Bildschirm zur Verfügung, der Verknüpfungen akzeptiert.</string>
     <string name="pref_shortcut_summary">Fügt die Verknüpfung dem Start-Bildschirm hinzu.</string>
     <string name="pref_ui_home_screen_shortcuts">Verknüpfungen für den Start-Bildschirm</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -362,7 +360,6 @@
     <string name="warning_reset_account_all">Wenn Sie fortfahren, werden alle Buchungen aller Konten%1$s aus der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
     <string name="warning_reset_account_matched">Wenn Sie fortfahren, werden alle mit dem aktuellen Suchfilter übereinstimmenden Buchungen aus der Datenbank gelöscht. Dies kann nicht rückgängig gemacht werden.</string>
     <string name="warning_restore">Datenbank und Einstellungen werden aus der Datensicherung (%1$s) wiederhergestellt. Aktuelle Daten werden gelöscht.</string>
-    <string name="warning_splitpartcategory_context">Umbuchungen, die Teil einer mehrteiligen Buchung sind, können nur im Kontext der mehrteiligen Buchung geändert werden.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Bitte eine Zahl zwischen %1$d und %2$d angeben</string>
     <string name="warning_change_fraction_digits_1">Beträge in der Datenbank müssen aktualisiert werden, um mit der neuen Anzahl der Nachkommastellen übereinzustimmen.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Wenn Beträge nicht aktualisiert werden, erscheinen diese nach der Änderung als multipliziert mit %d.</string>
@@ -456,7 +453,6 @@
     <string name="plan_instance_state_cancelled">annulliert</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">angewendet</string>
-    <string name="progress_dialog_updating_split_parts">Teilbeträge werden aktualisiert</string>
     <string name="warning_cannot_move_split_transaction">Diese mehrteilige Buchung kann nicht nach %1$s verschoben werden, denn es gibt Teilbeträge, die auf dieses Konto verweisen.</string>
     <string name="content_description_calculator_delete_button">Letzte Ziffer löschen</string>
     <string name="paypal_callback_info">Danke für Ihre Zahlung. Ihre Transaktion wurde abgeschlossen und Sie erhalten per E-Mail eine Bestätigung für Ihren Kauf. Sie können sich unter www.paypal.de in Ihr Konto einloggen, um die Transaktionsdetails anzuzeigen.</string>
@@ -554,7 +550,6 @@
     <string name="pref_protection_device_lock_screen_title">Gerätesperrbildschirm</string>
     <string name="pref_warning_only_one_protection">Bevor Sie den Schutz durch %1$s verwenden können, müssen Sie den Schutz durch %2$s ausschalten.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Der sichere Gerätesperrbildschirm wurde nicht eingerichtet.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Gehen Sie zu %s, um einen Sperrbildschirm einzurichten.</string>
     <string name="menu_history_show_balance">Saldo anzeigen</string>
     <string name="menu_history_transfers">Umbuchungen einschließen</string>
     <string name="menu_history">Verlauf</string>

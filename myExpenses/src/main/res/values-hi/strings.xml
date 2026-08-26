@@ -321,8 +321,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">बिना पासवर्ड के अनुमति है।</string>
     <string name="pref_security_question_summary">यदि आप अपना पासवर्ड भूल गए हैं तो आपको ऐप को अनलॉक करने की अनुमति देता है।</string>
     <string name="pref_share_target_title">यूआरएल अपलोड करें</string>
-    <string name="pref_shortcut_added">होम स्क्रीन पर शॉर्टकट जोड़ा गया है</string>
-    <string name="pref_shortcut_not_added">कोई होम स्क्रीन उपलब्ध नहीं है जो शॉर्टकट स्वीकार करती हो।</string>
     <string name="pref_ui_theme_dark">अँधेरा</string>
     <string name="pref_ui_theme_light">रोशनी</string>
     <string name="restore_db_success">डेटाबेस को बैकअप से पुनर्स्थापित कर दिया गया है।</string>

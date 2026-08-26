@@ -270,8 +270,6 @@
     <string name="pref_send_feedback_title">Αποστολή σχολίων</string>
     <string name="pref_share_target_summary">Αφήστε κενό εάν θέλετε να επιλέξετε μεταξύ κατάλληλων apps (Email, Dropbox, Google Docs, …), ή της παροχής URL σε ένα από τα υποστηριζόμενα συστήματα</string>
     <string name="pref_share_target_title">Ανεβάσετε URL</string>
-    <string name="pref_shortcut_added">Έχει προστεθεί συντόμευση στην αρχική οθόνη</string>
-    <string name="pref_shortcut_not_added">Δεν υπάρχει διαθέσιμη αρχική οθόνη που να δέχεται συντομεύσεις.</string>
     <string name="pref_shortcut_summary">Προσθήκη της συντόμευσης στην αρχική οθόνη.</string>
     <string name="pref_ui_home_screen_shortcuts">Συντομεύσεις αρχικής οθόνης</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -359,7 +357,6 @@
     <string name="warning_reset_account_all">Εάν συνεχίσετε, για όλους τους λογαριασμούς %1$s οι συναλλαγές θα διαγραφούν από τη βάση δεδομένων και δεν θα μπορούν να ανακτηθούν.</string>
     <string name="warning_reset_account_matched">Αν συνεχίσετε, οι συναλλαγές που αντιστοιχούν στο τρέχον φίλτρο θα διαγραφούν από τη βάση δεδομένων και δεν θα μπορούν να αποκατασταθούν.</string>
     <string name="warning_restore">Βάση δεδομένων και προτιμήσεις θα ανακτηθούν από τη δημιουργία αντιγράφων %1$s. Τα τρέχοντα δεδομένα θα διαγραφούν.</string>
-    <string name="warning_splitpartcategory_context">Μεταφορές που αποτελούν μέρος διαχωρισμένης συναλλαγής μπορούν να τύχουν επεξεργασίας μόνο στο πλαίσιο της διαχωρισμένης συναλλαγής.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Παρακαλώ να ορίσετε έναν αριθμό μεταξύ %1$d και %2$d</string>
     <string name="warning_change_fraction_digits_1">Τα ποσά στην βάση δεδομένων πρέπει να ενημερωθούν ώστε να ταιριάζουν με το νέο αριθμό δεκαδικών ψηφίων.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Εάν δεν γίνει ενημέρωση ποσών, θα εμφανίζονται πολλαπλασιασμένα με %d μετά την αλλαγή.</string>
@@ -452,7 +449,6 @@
     <string name="plan_instance_state_cancelled">ακυρωμένο</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">εφαρμοσμένο</string>
-    <string name="progress_dialog_updating_split_parts">Ενημέρωση των διαχωρισμών</string>
     <string name="warning_cannot_move_split_transaction">Αυτή η συναλλαγή με διαχωρισμό δεν μπορεί να μεταφερθεί στον λογαριασμό %1$s, καθώς υπάρχουν τμήματα μεταφοράς που αναφέρονται σε αυτόν τον λογαριασμό.</string>
     <string name="content_description_calculator_delete_button">Διαγραφή τελευταίου ψηφίου</string>
     <string name="paypal_callback_info">Η συναλλαγή σας έχει ολοκληρωθεί, και μια απόδειξη για την αγορά σας έχει αποσταλεί με email. Μπορείτε να συνδεθείτε στο λογαριασμό σας στο www.paypal.com για να δείτε τις λεπτομέρειες της συναλλαγής.</string>
@@ -534,7 +530,6 @@
     <string name="pref_protection_device_lock_screen_title">Οθόνη κλειδώματος συσκευής</string>
     <string name="pref_warning_only_one_protection">Για να μπορέσετε να χρησιμοποιήσετε την προστασία από %1$s, πρέπει να απενεργοποιήσετε την προστασία από %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Η ασφαλής οθόνη κλειδώματος συσκευής δεν έχει ρυθμιστεί.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Μεταβείτε στην ενότητα %s για να ρυθμίσετε την οθόνη κλειδώματος.</string>
     <string name="menu_history_show_balance">Εμφάνιση υπολοίπου</string>
     <string name="menu_history_transfers">Συμπερίληψη μεταφορών</string>
     <string name="menu_history">Ιστορικό</string>

@@ -275,8 +275,6 @@
     <string name="pref_send_feedback_title">Enviar feedback</string>
     <string name="pref_share_target_summary">Deixe em branco para escolher entre apps apropriadas (e-mail, Dropbox, Google Docs, etc.), ou forneça um URL num dos esquemas que tenham suporte</string>
     <string name="pref_share_target_title">Enviar URL</string>
-    <string name="pref_shortcut_added">O atalho foi adicionado ao ecrã inicial</string>
-    <string name="pref_shortcut_not_added">Não existe nenhum ecrã disponível que aceite atalhos.</string>
     <string name="pref_shortcut_summary">Adicionar o atalho ao ecrã inicial.</string>
     <string name="pref_ui_home_screen_shortcuts">Atalhos do ecrã inicial</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -369,7 +367,6 @@
     <string name="warning_reset_account_all">Caso prossiga, as transações de todas as contas%1$s serão apagadas do banco de dados e não poderão ser restauradas.</string>
     <string name="warning_reset_account_matched">Caso prossiga, as transações correspondentes ao filtro atual serão apagadas do banco de dados e não poderão ser restauradas.</string>
     <string name="warning_restore">O banco de dados e as preferências serão restauradas do ficheiro \"%1$s\". Os dados atuais serão apagados.</string>
-    <string name="warning_splitpartcategory_context">Transferências que fazem parte de uma transação dividida só podem ser editadas no contexto da transação.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Por favor, defina um número entre %1$d e %2$d</string>
     <string name="warning_change_fraction_digits_1">As quantias no banco de dados precisam ser atualizadas para corresponder ao novo número de casas decimais.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Se as quantias não forem atualizadas, elas serão exibidos como multiplicadas por %d após o câmbio.</string>
@@ -463,7 +460,6 @@
     <string name="plan_instance_state_cancelled">cancelada</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">aplicada</string>
-    <string name="progress_dialog_updating_split_parts">Atualizando divisões</string>
     <string name="warning_cannot_move_split_transaction">Não foi possível mover esta transação dividida para a conta%1$s porque há transferências que se referem a esta conta.</string>
     <string name="content_description_calculator_delete_button">Apagar o último dígito</string>
     <string name="paypal_callback_info">A sua transação foi concluída e um recibo da sua compra foi enviado para o seu e-mail. Pode entrar na sua conta em www.paypal.com para ver os detalhes desta transação.</string>
@@ -562,7 +558,6 @@
     <string name="pref_protection_device_lock_screen_title">Ecrã de bloqueio do aparelho</string>
     <string name="pref_warning_only_one_protection">Antes de usar a proteção por %1$s, você deve desativar a proteção por %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">O ecrã de bloqueio de segurança do aparelho não foi configurado.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Vá para %s para definir um ecrã de bloqueio.</string>
     <string name="menu_history_show_balance">Exibir saldo</string>
     <string name="menu_history_transfers">Incluir transferências</string>
     <string name="menu_history">Histórico</string>

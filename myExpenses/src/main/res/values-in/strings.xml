@@ -336,8 +336,6 @@
     <string name="pref_send_feedback_title">Kirim masukan</string>
     <string name="pref_share_target_summary">Biarkan kosong jika Anda ingin memilih di antara aplikasi yang sesuai (Email, Dropbox, Google Docs, …), atau berikan URL dalam salah satu skema yang didukung</string>
     <string name="pref_share_target_title">URL unggah</string>
-    <string name="pref_shortcut_added">Pintasan telah ditambahkan ke Layar Utama</string>
-    <string name="pref_shortcut_not_added">Tidak ada Layar Utama yang tersedia yang menerima pintasan.</string>
     <string name="pref_shortcut_summary">Tambahkan pintasan ke Layar Utama.</string>
     <string name="pref_ui_home_screen_shortcuts">Pintasan Layar Utama</string>
     <string name="pref_ui_language_title">Bahasa</string>
@@ -418,7 +416,6 @@
     <string name="warning_reset_account_all">Jika Anda melanjutkan, untuk semua akun%1$s, transaksi akan dihapus dari database dan tidak dapat dipulihkan.</string>
     <string name="warning_reset_account_matched">Jika Anda melanjutkan, transaksi yang cocok dengan filter saat ini akan dihapus dari database dan tidak dapat dipulihkan.</string>
     <string name="warning_restore">Database dan preferensi akan dipulihkan dari file \"%1$s\". Data saat ini akan dihapus.</string>
-    <string name="warning_splitpartcategory_context">Transfer yang merupakan bagian dari transaksi pembagian hanya dapat diedit dalam konteks transaksi pembagian tersebut.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Harap tetapkan angka antara %1$d dan %2$d</string>
     <string name="warning_change_fraction_digits_1">Jumlah dalam database perlu diperbarui agar sesuai dengan jumlah digit pecahan yang baru.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Jika jumlah tidak diperbarui, setelah perubahan jumlah tersebut akan ditampilkan seolah-olah dikalikan dengan %d.</string>
@@ -493,7 +490,6 @@
     <string name="preferences_month_start_date_title">Bulan dimulai pada</string>
     <string name="pref_grouping_periods">Periode pengelompokan</string>
     <string name="exchange_rate">Nilai tukar</string>
-    <string name="progress_dialog_updating_split_parts">Memperbarui pembagian</string>
     <string name="warning_cannot_move_split_transaction">Transaksi pembagian ini tidak dapat dipindahkan ke akun %1$s karena ada bagian transfer yang merujuk ke akun ini.</string>
     <string name="paypal_callback_info">Transaksi Anda telah selesai, dan tanda terima untuk pembelian Anda telah dikirim melalui email. Anda dapat masuk ke akun Anda di [www.paypal.com](https://www.paypal.com) untuk melihat detail transaksi ini.</string>
     <string name="search_account">Cari akun</string>
@@ -569,7 +565,6 @@
     <string name="pref_protection_device_lock_screen_title">Layar kunci perangkat</string>
     <string name="pref_warning_only_one_protection">Sebelum Anda dapat menggunakan perlindungan dengan %1$s, Anda harus mematikan perlindungan dengan %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Layar kunci perangkat aman belum disiapkan.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Buka %s untuk menyiapkan layar kunci.</string>
     <string name="menu_history_transfers">Sertakan transfer</string>
     <string name="pref_home_currency_title">Mata uang utama</string>
     <string name="grand_total">Total keseluruhan</string>

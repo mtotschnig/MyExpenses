@@ -236,14 +236,12 @@
     <string name="pref_share_target_title">URL อัปโหลด</string>
     <string name="pref_send_feedback_title">ส่งความคิดเห็น</string>
     <string name="pref_shortcut_summary">เพิ่มทางลัดไปยังหน้าจอหลัก</string>
-    <string name="pref_shortcut_added">เพิ่มทางลัดไปยังหน้าจอหลักแล้ว</string>
     <string name="pref_ui_theme_dark">มืด</string>
     <string name="pref_ui_theme_light">สว่าง</string>
     <string name="pref_manage_methods_summary">สร้างและแก้ไขวิธีการชำระเงิน และเชื่อมโยงกับประเภทบัญชี</string>
     <string name="pref_planning_calendar_create_local">สร้างปฏิทินวางแผนใหม่ในเครื่อง</string>
     <string name="pref_perform_share_title">แบ่งปันการส่งออกและการสำรองข้อมูล</string>
     <string name="pref_restore_summary">เลือกข้อมูลสำรองเพื่อกู้คืนฐานข้อมูลและการตั้งค่า</string>
-    <string name="pref_shortcut_not_added">ไม่มีหน้าจอหลักที่รับทางลัด</string>
     <string name="pref_share_target_summary">ปล่อยว่างไว้หากต้องการเลือกระหว่างแอปที่เหมาะสม (อีเมล, Dropbox, Google Docs, ...) หรือระบุ URL ในรูปแบบที่รองรับ</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">การป้อนข้อมูลจากวิดเจ็ตและทางลัด</string>
     <string name="pref_manage_sync_backends_summary">เพิ่มแบ็กเอนด์สำหรับซิงค์บัญชี (%s)</string>
@@ -403,7 +401,6 @@
     <string name="pref_sort_order_last_used">ใช้งานล่าสุด</string>
     <string name="plan_instance_state_cancelled">ถูกยกเลิก</string>
     <string name="plan_instance_state_applied">นำไปใช้แล้ว</string>
-    <string name="progress_dialog_updating_split_parts">กำลังอัปเดตส่วนที่แยก</string>
     <string name="content_description_calculator_delete_button">ลบตัวเลขสุดท้าย</string>
     <string name="paypal_callback_info">รายการของคุณเสร็จสมบูรณ์ และได้ส่งใบเสร็จการซื้อของคุณทางอีเมลแล้ว คุณสามารถเข้าสู่ระบบบัญชีของคุณที่ www.paypal.com เพื่อดูรายละเอียดของรายการนี้</string>
     <string name="search_transfer">ค้นหาการโอนเงิน</string>
@@ -466,7 +463,6 @@
     <string name="progress_dialog_fetching_data_from_sync_backend">กำลังดึงข้อมูลจากแบ็กเอนด์ระยะไกล อาจใช้เวลาสักครู่</string>
     <string name="sync_auth_exception">การอนุญาตล้มเหลว</string>
     <string name="sync_login_again">กรุณาเข้าสู่ระบบอีกครั้ง</string>
-    <string name="warning_device_lock_screen_not_set_up_2">ไปที่ %s เพื่อตั้งค่าหน้าจอล็อก</string>
     <string name="menu_history_show_balance">แสดงยอดคงเหลือ</string>
     <string name="menu_history_transfers">รวมการโอนเงิน</string>
     <string name="history_chart_in_label">รายได้</string>
@@ -507,7 +503,6 @@
     <string name="currency_still_used">สกุลเงินกำลังใช้งานอยู่ ไม่สามารถลบได้</string>
     <string name="unmapped_filter_only_single">ตัวกรอง \'ยังไม่ได้แมป\' ไม่สามารถรวมอยู่ในการเลือกหลายรายการได้</string>
     <string name="backup_is_encrypted">ไฟล์สำรองข้อมูลถูกเข้ารหัส ในการถอดรหัส คุณต้องระบุวลีรหัสของไฟล์นั้น</string>
-    <string name="warning_splitpartcategory_context">การโอนเงินที่เป็นส่วนหนึ่งของการแยกส่วนสามารถแก้ไขได้เฉพาะในบริบทของการแยกส่วนเท่านั้น</string>
     <string name="warning_change_fraction_digits_1">จำนวนเงินในฐานข้อมูลจำเป็นต้องอัปเดตเพื่อให้ตรงกับจำนวนหลักเศษส่วนใหม่</string>
     <string name="warning_change_fraction_digits_3">หากอัปเดตจำนวนเงิน คุณจะสูญเสียข้อมูลเกี่ยวกับส่วนที่เป็นเศษส่วนของจำนวนนั้น</string>
     <plurals name="warning_delete_main_category">

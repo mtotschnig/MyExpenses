@@ -275,8 +275,6 @@
     <string name="pref_send_feedback_title">שלח משוב</string>
     <string name="pref_share_target_summary">יש להשאיר ריק כדי לבחור בין יישומים מתאימים (דוא״ל, Dropbox,‏ Google Docs, …), או לספק כתובת באחת הסכמות הנתמכות</string>
     <string name="pref_share_target_title">כתובת העלאה</string>
-    <string name="pref_shortcut_added">נוסף קיצור דרך למסך הבית</string>
-    <string name="pref_shortcut_not_added">אין במסך הבית מקום זמין לקבלת קיצורי דרך.</string>
     <string name="pref_shortcut_summary">הוסף את קיצור הדרך למסך הבית.</string>
     <string name="pref_ui_home_screen_shortcuts">קיצורי דרך מסך הבית</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -369,7 +367,6 @@
     <string name="warning_reset_account_all">אם תמשיך, עבור כל החשבונות%1$s, עסקאות יימחקו ממסד הנתונים ולא ניתן לשחזר אותן.</string>
     <string name="warning_reset_account_matched">אם תמשיך, עסקאות התואמות את המסנן הנוכחי יימחקו ממסד הנתונים ולא ניתן לשחזר אותן.</string>
     <string name="warning_restore">אם תמשיך, עסקאות התואמות את המסנן הנוכחי יישוחזרו ממסד הנתונים וההעדפות מקובץ \"%1$s\". הנתונים הנוכחיים יימחקו. </string>
-    <string name="warning_splitpartcategory_context">העברות, שהן חלק מפיצול, ניתנות לעריכה רק בהקשר של הפיצול.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">אנא הגדר מספר בין %1$dו- %2$d</string>
     <string name="warning_change_fraction_digits_1">סכומים בבסיס הנתונים צריכים להיות מעודכנים על מנת להתאים את המספר החדש של ספרות חלקיות.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">אם הסכומים אינם מעודכנים, הם יוצגו כמוכפלות ב- %d לאחר השינוי.</string>
@@ -463,7 +460,6 @@
     <string name="plan_instance_state_cancelled">מבוטל</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">הוחל</string>
-    <string name="progress_dialog_updating_split_parts">מעדכן חלקים מפוצלים</string>
     <string name="warning_cannot_move_split_transaction">לא ניתן להעביר את העסקה המפוצלת הזו לחשבון %1$s משום שישנם חלקי העברה המתייחסים לחשבון זה.</string>
     <string name="content_description_calculator_delete_button">מחק את הסיפרה האחרונה</string>
     <string name="paypal_callback_info">העסקה שלך הושלמה, וקבלה עבור הרכישה שלך נשלחה אליך בדוא\"ל. תוכל להיכנס לחשבון שלך בכתובת www.paypal.com כדי להציג פרטים על עסקה זו.</string>
@@ -938,7 +934,6 @@
     <string name="warning_empty_archive">אין עסקאות בטווח התאריכים הנבחר.</string>
     <string name="warning_archive_inconsistent_state">לעסקאות בטווח התאריכים הנבחר יש מצבים מגוונים (%s).</string>
     <string name="archive_warning">כל העסקאות (%d) בטווח התאריכים הנבחר תישלחנה לארכיון.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">יש לעבור אל %s כדי להגדיר נעילת מסך.</string>
     <string name="pref_sync_frequency_summary_0">הגדרה ל־0 תשבית את הסנכרון האוטומטי.</string>
     <string name="budget_import_cannot_be_imported">התקציבים הבאים מתייחסים לחשבונות שאינם מסונכרנים:</string>
     <string name="budget_import_can_be_imported">אפשר לייבא את התקציבים הבאים:</string>

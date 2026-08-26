@@ -218,7 +218,6 @@
         <item quantity="other">Абраныя катэгорыі %1$d змяшчаюць падкатэгорыі, якія таксама будуць выдалены.</item>
     </plurals>
     <string name="pref_auto_backup_summary">Рэзервовае капіраванне базы дадзеных штодня ў пазначаны час (толькі калі дадзеныя змяніліся).</string>
-    <string name="progress_dialog_updating_split_parts">Абнаўленне падзелаў</string>
     <string name="crash_dialog_comment_prompt">Вы можаце дадаць свае каментарыі аб праблеме ніжэй:</string>
     <string name="paypal_callback_info">Ваша транзакцыя была завершана, і квітанцыя аб вашай пакупцы была адпраўлена вам па электроннай пошце. Вы можаце ўвайсці ў свой уліковы запіс на сайце www.paypal.com, каб праглядзець дэталі гэтай аперацыі.</string>
     <string name="dialog_sync_link">Акаўнт з uuid %s існуе як у лакальнай базе дадзеных, так і на аддаленым серверы. Калі вы звязваеце абодва, вам трэба вырашыць, ці хочаце вы першапачаткова загружаць лакальныя даныя ў аддалены бэкэнд або спампоўваць аддаленыя даныя ў лакальную базу дадзеных.</string>
@@ -263,7 +262,6 @@
     <string name="save_transaction_and_new_success">Паспяхова захавана</string>
     <string name="save_transaction_error">Не атрымалася захаваць новую транзакцыю з шаблону.</string>
     <string name="move_category_failure">Адна катэгорыя не была перамешчаная, паколькі той жа ярлык ужо існуе ў мэтавым аб\'екце.</string>
-    <string name="warning_splitpartcategory_context">Пераводы, якія з\'яўляюцца часткай падзеленай транзакцыі, можна рэдагаваць толькі ў кантэксце падзеленай транзакцыі.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Абнаўленне сум у базе дадзеных</string>
     <string name="import_accounts_none">Імпартаваных рахункаў няма</string>
     <string name="import_parties_none">Групы не імпартаваны</string>
@@ -277,7 +275,6 @@
     <string name="content_description_calculator_delete_button">Выдаліць апошнюю лічбу</string>
     <string name="search_account">Пошук ўліковага запісу</string>
     <string name="menu_share">Рассказаць сябрам</string>
-    <string name="pref_shortcut_added">Ярлык дададзены на галоўны экран</string>
     <string name="sum_transfer">Пераклады</string>
     <string name="transfer">Пераклад</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">Абноўлена %1$d рахункаў з валютай %2$s.</string>
@@ -327,7 +324,6 @@
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Дазволена без пароля.</string>
     <string name="pref_security_question_summary">Дазваляе разблакіраваць праграму, калі вы забыліся пароль.</string>
     <string name="pref_security_question_title">Сакрэтнае пытанне</string>
-    <string name="pref_shortcut_not_added">Няма галоўнага экрана, які прымае цэтлікі.</string>
     <string name="pref_visit_website_title">Наведаць вэб-сайт</string>
     <string name="qif_parse_failure_found_multiple_accounts">У файле %s знойдзена некалькі ўліковых запісаў.</string>
     <string name="reference_number">Нумар спасылкі</string>
@@ -620,7 +616,6 @@
     </plurals>
     <string name="content_description_clear_method">Ачысціць метад</string>
     <string name="budget_filter_all_states">Усе статусы</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Каб наладзіць блакаванне экрана, перайдзіце да %s.</string>
     <string name="budget_exceeded_error_1_1">Уся сума вашага бюджэту, акрамя %s, была размеркавана на іншыя катэгорыі.</string>
     <string name="licence_expires_n_days" tools:ignore="PluralsCandidate">Тэрмін дзеяння вашага прафесійнага ключа скончыцца праз %d дзён.</string>
     <string name="pref_value_date_summary">Дазволіць усталёўваць дату валютавання ў дадатак да даты браніравання. Час транзакцыі будзе схаваны. Гэтая налада не распаўсюджваецца на грашовыя рахункі.</string>

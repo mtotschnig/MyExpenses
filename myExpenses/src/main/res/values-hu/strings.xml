@@ -272,8 +272,6 @@
     <string name="pref_send_feedback_title">Visszajelzés küldése</string>
     <string name="pref_share_target_summary">Hagyja üresen, ha választani akar az alkalmazások közül (Email, Dropbox, Google Docs, stb.), vagy adjon meg egy URL-t valamely támogatott formában</string>
     <string name="pref_share_target_title">URL feltöltés</string>
-    <string name="pref_shortcut_added">Parancsikon hozzáadva a Kezdőképernyőhöz</string>
-    <string name="pref_shortcut_not_added">Nem érhető el olyan kezdőképernyő, ami elfogad parancsikonokat.</string>
     <string name="pref_shortcut_summary">Parancsikon hozzáadása a Kezdőképernyőhöz.</string>
     <string name="pref_ui_home_screen_shortcuts">Kezdőképernyő parancsikonok</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -362,7 +360,6 @@
     <string name="warning_reset_account_all">Ha folytatja minden számla%1$s és tranzakció visszavonhatatlanul törlésre kerül az adatbázisból.</string>
     <string name="warning_reset_account_matched">Ha folytatja, az aktuális szűrőnek megfelelő tranzakciók törlődnek az adatbázisból, és nem állíthatók vissza.</string>
     <string name="warning_restore">Adatbázis és beállítások visszaállítása a korábbi mentésből (%1$s). A jelenlegi adatok törlésre kerülnek.</string>
-    <string name="warning_splitpartcategory_context">Azon tranzakciók, melyek felosztott tételek között szerepelnek, csak a felosztásoknál szerkeszthetők, vagy törölhetők.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Állítson be egy %1$d és %2$d közötti számot</string>
     <string name="warning_change_fraction_digits_1">Az adatbázisban lévő összegeket frissíteni kell, hogy megfeleljenek az új törtrészjegyek számának.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Ha az összegek nem frissülnek, akkor a módosulás után %d-el megszorozva jelennek meg.</string>
@@ -456,7 +453,6 @@
     <string name="plan_instance_state_cancelled">törölve</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">alkalmazva</string>
-    <string name="progress_dialog_updating_split_parts">Az osztott részek frissítése</string>
     <string name="warning_cannot_move_split_transaction">A felosztott tranzakció nem helyeztető át %1$s fiókra, mert az átutalás egyes részei erre a fiókra hivatkoznak.</string>
     <string name="content_description_calculator_delete_button">Törölje az utolsó számjegyet</string>
     <string name="paypal_callback_info">Az ön tranzakciója befejeződött, és a vásárlási nyugtát elküldtük önnek e-mailben. A tranzakció részleteinek megtekintéséhez bejelentkezhet fiókjába a www.paypal.com oldalon.</string>
@@ -555,7 +551,6 @@
     <string name="pref_protection_device_lock_screen_title">Eszköz zárolási képernyője</string>
     <string name="pref_warning_only_one_protection">Mielőtt használhatná a(z) %1$s általi védelmet, ki kell kapcsolnia a(z) %2$s általi védelmet.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Nincs beállítva biztonságos zárolási képernyő a készüléken.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">A zárolási képernyő beállításához lépjen a %s menüpontra.</string>
     <string name="menu_history_show_balance">Egyenleg mutatása</string>
     <string name="menu_history_transfers">Tartalmazza az átutalásokat</string>
     <string name="menu_history">Előzmények</string>

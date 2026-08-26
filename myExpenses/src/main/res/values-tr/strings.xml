@@ -272,8 +272,6 @@
     <string name="pref_send_feedback_title">Geri bildirim gönder</string>
     <string name="pref_share_target_summary">Uygun uygulamalar (E-posta, Dropbox, Google Dokümanlar, …) arasından seçim yapmak istiyorsanız boş bırakın, veya desteklenen bir URL şeması girin</string>
     <string name="pref_share_target_title">Yükleme adresi</string>
-    <string name="pref_shortcut_added">Ana ekrana kısayol eklenmiştir</string>
-    <string name="pref_shortcut_not_added">Kısayolları kabul edecek ana ekran mevcut değil.</string>
     <string name="pref_shortcut_summary">Ana ekrana kısayol ekle.</string>
     <string name="pref_ui_home_screen_shortcuts">Ana Ekran Kısayolları</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -362,7 +360,6 @@
     <string name="warning_reset_account_all">Devam ederseniz, tüm hesaplar%1$s için işlemler veri tabanından silinecek ve geri yüklenemeyecektir.</string>
     <string name="warning_reset_account_matched">Devam ederseniz, geçerli filtre ile eşleşen işlemler veri tabanından silinecek ve geri yüklenemeyecektir.</string>
     <string name="warning_restore">Veri tabanı ve tercihler \"%1$s\" dosyasından geri yüklenecek. Mevcut veriler silinecek.</string>
-    <string name="warning_splitpartcategory_context">Bölünmüş muamelelerin bir parçası olan transferler sadece bu bölünmüş muamele bağlamında düzenlenebilirler.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">%1$d ilâ %2$d arası bir sayı ayarlayınız</string>
     <string name="warning_change_fraction_digits_1">Yeni kesir basamak sayısıyla eşleşmesi için veri tabanındaki meblağların güncellenmesi gerekmektedir.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Eğer meblağlar güncellenmezse, değişiklikten sonra %d ile çarpılmış olarak gösterileceklerdir.</string>
@@ -456,7 +453,6 @@
     <string name="plan_instance_state_cancelled">iptal edildi</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">uygulandı</string>
-    <string name="progress_dialog_updating_split_parts">Bölünmüşler güncelleniyor</string>
     <string name="warning_cannot_move_split_transaction">Bu bölünmüş muamele %1$s hesabına taşınamaz çünkü bu hesapla ilişkili transfer parçaları bulunmaktadır.</string>
     <string name="content_description_calculator_delete_button">Son rakamı sil</string>
     <string name="paypal_callback_info">Muameleniz tamamlanmış ve alışverişiniz hakkında bir makbuz e-posta ile size gönderilmiştir. Bu muamelenin ayrıntılarını görüntülemek için hesabınıza www.paypal.com adresinde bağlanabilirsiniz.</string>
@@ -554,7 +550,6 @@
     <string name="pref_protection_device_lock_screen_title">Aygıt kilit ekranı</string>
     <string name="pref_warning_only_one_protection">%1$s ile korumayı kullanmadan önce %2$s ile korumayı devre dışı bırakmanız gerekir.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Güvenli aygıt kilit ekranı ayarlanmadı.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Ekran kilidini ayarlamak için %s gidiniz.</string>
     <string name="menu_history_show_balance">Bakiyeyi göster</string>
     <string name="menu_history_transfers">Transferleri dahil et</string>
     <string name="menu_history">Tarihçe</string>

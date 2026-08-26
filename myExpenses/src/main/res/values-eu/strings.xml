@@ -270,8 +270,6 @@
     <string name="pref_send_feedback_title">Bidali iruzkina egileari</string>
     <string name="pref_share_target_summary">Laga hutsik aplikazio egokien artean aukeratu nahi baduzu (Posta, DropBox, Google Docs, …), ala URL helbide bat eman onartutako eskema batean</string>
     <string name="pref_share_target_title">Igoera URLa</string>
-    <string name="pref_shortcut_added">Laster-bidea hasiera pantailara gehitu da</string>
-    <string name="pref_shortcut_not_added">Ez dago laster-bideak onartzen dituen hasiera pantailarik erabilgarri.</string>
     <string name="pref_shortcut_summary">Gehitu laster-bidea hasierako pantailan</string>
     <string name="pref_ui_home_screen_shortcuts">Hasiera pantailako laster-bideak</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -359,7 +357,6 @@
     <string name="warning_reset_account_all">Jarraitzen baduzu, kontu guztietako %1$s transakzio  datu-basetik ezabatuko dira eta ezin izango dira berreskuratu.</string>
     <string name="warning_reset_account_matched">Aurrera egitekotan, oraingo iragazkiarekin bat datozen transakzioak datu-basetik ezabatuko dira, eta ez dago hau desegiterik.</string>
     <string name="warning_restore">Datu-basea eta hobespenak berreskuratuko dira \"%1$s\" fitxategitik. Oraingo datuak ezabatuko dira.</string>
-    <string name="warning_splitpartcategory_context">Banaketa baten zati diren transferentziak banaketaren testuinguruan besterik ezin dira editatu.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Ezarri %1$d eta %2$d bitarteko zenbaki bat</string>
     <string name="warning_change_fraction_digits_1">Datu-baseko kopuruak eguneratu behar dira frakzio zenbaki kopuru berriarekin bat etor daitezen.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Kopuruak eguneratzen ez badira, %d aldiz biderkatuta bistaratuko dira aldaketa eta gero.</string>
@@ -451,7 +448,6 @@
     <string name="plan_instance_state_cancelled">ezeztatuta</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">aplikatuta</string>
-    <string name="progress_dialog_updating_split_parts">Banatutako parteak eguneratzen</string>
     <string name="warning_cannot_move_split_transaction">Banatutako transakzio hau ezin da %1$s kontura mugitu kontu honi erreferentzia egiten dioten transferentzia parteak daudelako.</string>
     <string name="content_description_calculator_delete_button">Ezabatu azken digitoa</string>
     <string name="paypal_callback_info">Zure transakzioa burutu da, eta zure erosketaren egiaztagiri bat bidali da zure e-postara. Zure kontura sartu zaitezke www.paypal.com helbidean eta transakzioaren xehetasunak ikusi.</string>

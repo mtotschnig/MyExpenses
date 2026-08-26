@@ -269,8 +269,6 @@
     <string name="pref_send_feedback_title">Надіслати відгук</string>
     <string name="pref_share_target_summary">Залиште порожнім, якщо потрібно вибрати між відповідними програми (Email, Dropbox, Google Docs, …) або вкажіть URL-адресу з однією із підтримуваних схем</string>
     <string name="pref_share_target_title">URL для завантаження</string>
-    <string name="pref_shortcut_added">Ярлик було додано до Головного Екрана</string>
-    <string name="pref_shortcut_not_added">Немає Головного Екрану, який би підтримув ярлики.</string>
     <string name="pref_shortcut_summary">Додайте ярлик до Головного Екрана.</string>
     <string name="pref_ui_home_screen_shortcuts">Ярлики на Головному Екрані</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -365,7 +363,6 @@
     <string name="warning_reset_account_all">Якщо продовжити, транзакції всіх рахунків %1$s будуть видалені з бази даних, і більше не зможуть бути відновлені.</string>
     <string name="warning_reset_account_matched">Якщо ви продовжите, транзакції, які відповідають поточному фільтру, будуть видалені з бази даних, і більше не зможуть бути відновлені.</string>
     <string name="warning_restore">Базу даних та налаштування буде відновлено з файлу \"%1$s\". Поточні дані будуть видалені.</string>
-    <string name="warning_splitpartcategory_context">Транзакції, що є частиною поділу, можна редагувати лише в контексті поділу.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Будь ласка, вкажіть число між %1$d та %2$d</string>
     <string name="warning_change_fraction_digits_1">Суми в базі даних потрібно оновити, щоб вони відповідали новому налаштуванню кількості знаків після коми.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Якщо суми не оновити, після зміни вони відображатимуться як помножені на %d.</string>
@@ -457,7 +454,6 @@
     <string name="plan_instance_state_cancelled">відхилений</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">застосований</string>
-    <string name="progress_dialog_updating_split_parts">Оновлення частин поділу</string>
     <string name="warning_cannot_move_split_transaction">Ця розділена транзакція не може бути переміщена до рахунку %1$s, оскільки є частини переказу, які стосуються поточного рахунку.</string>
     <string name="content_description_calculator_delete_button">Видалити останню цифру</string>
     <string name="paypal_callback_info">Ваша транзакція була успішно завершена, а квитанція про вашу покупку була надіслана вам електронною поштою. Ви можете увійти до свого облікового запису на сайті www.paypal.com, щоб переглянути деталі цієї покупки.</string>
@@ -557,7 +553,6 @@
     <string name="pref_protection_device_lock_screen_title">Екран блокування пристрою</string>
     <string name="pref_warning_only_one_protection">Перш ніж використовувати захист за допомогою %1$s, необхідно вимкнути захист за допомогою %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Не налаштовано безпечний екран блокування пристрою .</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Перейдіть в %s, щоб налаштувати екран блокування.</string>
     <string name="menu_history_show_balance">Відобразити баланс</string>
     <string name="menu_history_transfers">Включити перекази</string>
     <string name="menu_history">Історія</string>

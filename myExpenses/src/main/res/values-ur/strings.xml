@@ -235,8 +235,6 @@
     <string name="pref_security_question_title">سیکیورٹی سوال</string>
     <string name="pref_send_feedback_title">رائے بھیجیں</string>
     <string name="pref_share_target_title">URL اپ لوڈ کریں</string>
-    <string name="pref_shortcut_added">ہوم اسکرین میں شارٹ کٹ شامل کر دیا گیا ہے</string>
-    <string name="pref_shortcut_not_added">کوئی ہوم اسکرین دستیاب نہیں ہے جو شارٹ کٹس کو قبول کرتی ہو.</string>
     <string name="pref_shortcut_summary">ہوم اسکرین میں شارٹ کٹ شامل کریں.</string>
     <string name="pref_ui_language_title">زبان</string>
     <string name="pref_ui_theme_dark">اندھیرا</string>
@@ -333,7 +331,6 @@
     <string name="warning_change_fraction_digits_checkbox_label">ڈیٹا بیس میں رقم کو اپ ڈیٹ کریں</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d ٹرانزیکشنز کو کامیابی سے اکاؤنٹ %2$s میں درآمد کیا گیا</string>
     <string name="import_accounts_none">کوئی اکاؤنٹ درآمد نہیں کیا گیا</string>
-    <string name="warning_splitpartcategory_context">وہ منتقلی جو تقسیم کا حصہ ہیں صرف تقسیم کے تناظر میں ترمیم کی جا سکتی ہیں.</string>
     <string name="import_categories_success">%1$d زمرے کامیابی کے ساتھ درآمد ہو گئے.</string>
     <string name="import_parties_none">کوئی پارٹیاں درآمد نہیں کی گئیں</string>
     <string name="import_source_select_error">براہ کرم %1$s قسم کی فائل فراہم کریں</string>
@@ -575,7 +572,6 @@
     <string name="dialog_title_select_target">ہدف منتخب کریں</string>
     <string name="plan_instance_state_open">کھلا</string>
     <string name="plan_instance_state_applied">لاگو</string>
-    <string name="progress_dialog_updating_split_parts">تقسیم شدہ حصوں کو اپ ڈیٹ کرنا</string>
     <string name="warning_cannot_move_split_transaction">اس تقسیم شدہ ٹرانزیکشن کو اکاؤنٹ %1$s میں منتقل نہیں کیا جا سکتا ہے کیونکہ اس اکاؤنٹ کا حوالہ دینے والے ٹرانسفر پارٹس ہیں.</string>
     <string name="content_description_calculator_delete_button">آخری ہندسہ حذف کریں</string>
     <string name="plan_instance_state_cancelled">منسوخ</string>

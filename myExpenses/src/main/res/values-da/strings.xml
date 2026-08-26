@@ -243,8 +243,6 @@
     <string name="pref_send_feedback_title">Send feedback</string>
     <string name="pref_share_target_summary">Lad være tomt, hvis du vil vælge mellem passende apps (e-mail, Dropbox, Google Docs, …), eller angiv URL i et af de understøttede skemaer</string>
     <string name="pref_share_target_title">Upload URL</string>
-    <string name="pref_shortcut_added">Genvej er blevet føjet til startskærm</string>
-    <string name="pref_shortcut_not_added">Ingen tilgængelig startskærm, der accepterer genveje.</string>
     <string name="pref_shortcut_summary">Føj genvejen til startskærm.</string>
     <string name="pref_ui_home_screen_shortcuts">Genveje til startskærm</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -329,7 +327,6 @@
     <string name="warning_reset_account_all">Hvis du fortsætter, slettes alle transaktioner i alle konti %1$s fra databasen og kan ikke gendannes.</string>
     <string name="warning_reset_account_matched">Hvis du fortsætter, slettes alle transaktioner fra databasen, der svarer til det aktuelle filter, og kan ikke gendannes.</string>
     <string name="warning_restore">Databasen og indstillingerne gendannes fra filen \"%1$s\". De aktuelle data slettes.</string>
-    <string name="warning_splitpartcategory_context">Overførsler, der er en del af en opdeling, kan kun redigeres i forbindelse med opdelingen.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Angiv venligst et tal mellem %1$d og %2$d</string>
     <string name="import_categories_success">%1$d kategorier blev importeret.</string>
     <string name="import_parties_success">%1$d parter blev importeret.</string>
@@ -468,7 +465,6 @@
     <string name="pref_sort_order_custom">Tilpasset</string>
     <string name="plan_instance_state_open">åben</string>
     <string name="plan_instance_state_applied">anvendt</string>
-    <string name="progress_dialog_updating_split_parts">Opdaterer opdelte dele</string>
     <string name="content_description_calculator_delete_button">Slet sidste ciffer</string>
     <string name="paypal_callback_info">Din transaktion blev fuldført, og en kvittering for dit køb er blevet sendt til din e-mail. Du kan logge ind på din konto på www.paypal.com for at se detaljer om denne transaktion.</string>
     <string name="search_transfer">Søg efter overførsel</string>
@@ -513,7 +509,6 @@
     <string name="switch_to_monthly" tools:ignore="UnusedResources">Skift til månedligt abonnement</string>
     <string name="budget_table_header_budgeted">Budgetteret</string>
     <string name="menu_create_template_for_split">Ny opdelingsskabelon</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Gå til %s for at indstille en låseskærm.</string>
     <string name="credit_limit">Kreditgrænse</string>
     <string name="goal_or_limit">Mål/grænse</string>
     <string name="split_transaction_one_success">Transaktion blev omdannet til en opdeling.</string>

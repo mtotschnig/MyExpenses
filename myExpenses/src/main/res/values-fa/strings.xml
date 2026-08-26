@@ -224,8 +224,6 @@
     <string name="pref_security_question_title">سوال امنیتی</string>
     <string name="pref_send_feedback_title">ارسال بازخورد</string>
     <string name="pref_share_target_title">بارگیری URL</string>
-    <string name="pref_shortcut_added">میانبر به صفحهٔ اصلی اضافه شد</string>
-    <string name="pref_shortcut_not_added">صفحه اصلی شما از میانبر پشتیبانی نمی‌کند</string>
     <string name="pref_shortcut_summary">افزودن میانبر به صفحهٔ اصلی</string>
     <string name="pref_ui_home_screen_shortcuts">میانبرهای صفحهٔ اصلی</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -469,7 +467,6 @@
     <string name="csv_import_subcategory_requires_category">در صورت نگاشتن زیرشاخه، باید دسته بندی را نیز نگاشت کنید.</string>
     <string name="status_unreconciled">غیر قابل تطبیق</string>
     <string name="warning_reset_account_all">اگر ادامه دهید، برای همه حساب‌های %1$s، تراکنش‌ها از پایگاه داده حذف می‌شوند و قابل بازیابی نیستند.</string>
-    <string name="warning_splitpartcategory_context">نقل و انتقالاتی که بخشی از یک تسهیم هستند فقط در زمینه تسهیم قابل ویرایش هستند.</string>
     <string name="menu_categories_setup_default">دسته بندی های پیش فرض را تنظیم کنید</string>
     <string name="pref_manage_stale_images_title">تصاویر قدیمی</string>
     <string name="export_handle_deleted_update_balance">به روز رسانی موجودی افتتاحیه</string>
@@ -527,7 +524,6 @@
     <string name="account_deleted">حساب حذف شده است</string>
     <string name="pref_custom_decimal_format_summary">اگر از قالب پیش‌فرض برای منطقه خود راضی نیستید، آن رامتناسب با نیازهای خود تغییر دهید. برای بازیابی قالب پیش فرض آن را خالی بگذارید.</string>
     <string name="pref_grouping_periods">گروه بندی دوره ها</string>
-    <string name="progress_dialog_updating_split_parts">در حال به‌روز رسانی بخش‌های تسهیم‌ شده</string>
     <string name="content_description_calculator_delete_button">حذف رقم آخر</string>
     <string name="dialog_confirm_sync_remove_backend">ارتباط با سرور %s از بین خواهد رفت. این روی داده‌های ذخیره‌شده به صورت محلی یا سرور تأثیری نمی‌گذارد، اما وضعیت همگام‌سازی از بین می‌رود.</string>
     <string name="crash_dialog_text">یک خطای غیرمنتظره روی داد که برنامه را مجبور به توقف کرد. لطفاً با ارسال داده های خطا به ما در رفع این مشکل کمک کنید، تنها کاری که باید انجام دهید این است که تأیید را کلیک کنید.</string>
@@ -609,7 +605,6 @@
     <string name="progress_dialog_fetching_data_from_sync_backend">دریافت اطلاعات از سرور. ممکن است کمی طول بکشد.</string>
     <string name="licence_removal_success">لایسنس با موفقیت از این دستگاه حذف شد.</string>
     <string name="pref_home_currency_title">ارز اصلی</string>
-    <string name="warning_device_lock_screen_not_set_up_2">به %s بروید و یک قفل تنظیم کنید</string>
     <plurals name="delete_success">
         <item quantity="one">یک شئ با موفقیت حذف شد.</item>
         <item quantity="other">%d شئ با موفقیت حذف شد.</item>

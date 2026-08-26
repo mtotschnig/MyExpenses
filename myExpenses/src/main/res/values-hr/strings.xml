@@ -240,8 +240,6 @@
     <string name="pref_send_feedback_title">Pošalji povratnu informaciju</string>
     <string name="pref_share_target_summary">Ostavi prazno ako želiš odabrati jednu od odgovarajućih programa (E-mail, Dropbox, Google Docs, …) ili zadaj URL u jednom od podržanih oblika</string>
     <string name="pref_share_target_title">Prenesi URL</string>
-    <string name="pref_shortcut_added">Prečac je dodan na početni ekran</string>
-    <string name="pref_shortcut_not_added">Nema početnog ekrana koji prihvaća prečace.</string>
     <string name="pref_shortcut_summary">Dodaj prečac na početnom ekranu.</string>
     <string name="pref_ui_home_screen_shortcuts">Prečaci na početnom ekranu</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -328,7 +326,6 @@
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Ako nastaviš, transakcije će se nepovratno izbrisati iz baze podataka za sve račune%1$s.</string>
     <string name="warning_restore">Baza podataka i osobne postavke obnovit će se iz datoteke „%1$s”. Sadašnji podaci će se izbrisati.</string>
-    <string name="warning_splitpartcategory_context">Prijenosi koje su dio višedjelne transakcije mogu se urediti samo u kontekstu višedjelne transakcije.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Odaberi broj između %1$d i %2$d</string>
     <string name="import_categories_success">%1$d kategorije uspješno uvezene.</string>
     <string name="import_parties_success">%1$d stranke uspješno uvezene.</string>
@@ -406,7 +403,6 @@
     <string name="menu_history">Povijest</string>
     <string name="menu_history_transfers">Uključi prijenose</string>
     <string name="menu_history_show_balance">Prikaži saldo</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Za postavljanje zaključano ekrana, idi na %s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Zaključavanje ekrana uređaja nije postavljeno.</string>
     <string name="pref_warning_only_one_protection">Za korištenje zaštite od %1$s, moraš isključiti zaštitu od %2$s.</string>
     <string name="pref_protection_device_lock_screen_title">Zaključavanje ekrana uređaja</string>
@@ -498,7 +494,6 @@
     <string name="paypal_callback_info">Tvoja je transakcija gotova, a račun za kupnju poslan ti je putem emaila. Za prikaz detalja ove transakcije prijavi se na svoj račun na www.paypal.com.</string>
     <string name="content_description_calculator_delete_button">Izbriši zadnju znamenku</string>
     <string name="warning_cannot_move_split_transaction">Ova se višedjelna transakcija ne može premjestiti na račun %1$s, jer postoje dijelovi prijenosa koji se odnose na ovaj račun.</string>
-    <string name="progress_dialog_updating_split_parts">Aktualiziranje dijelova višedjelne transakcije</string>
     <string name="plan_instance_state_applied">primijenjeno</string>
     <string name="plan_instance_state_cancelled">prekinuto</string>
     <string name="plan_instance_state_open">otvoreno</string>

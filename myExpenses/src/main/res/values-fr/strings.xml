@@ -275,8 +275,6 @@
     <string name="pref_send_feedback_title">Envoyer vos réactions</string>
     <string name="pref_share_target_summary">Si ce champ reste vide, vous pourrez choisir entre les différentes applications pour le transfert du fichier (Courriel, Dropbox, Google Docs…), sinon spécifiez une URL dans l\'une des formes prises en charge</string>
     <string name="pref_share_target_title">URL où sera téléchargé le fichier d\'export</string>
-    <string name="pref_shortcut_added">Le raccourci a été ajouté à l\'écran d\'accueil</string>
-    <string name="pref_shortcut_not_added">Aucun écran d\'accueil disponible qui accepte les raccourcis.</string>
     <string name="pref_shortcut_summary">Ajouter le raccourci à l\'écran d\'accueil.</string>
     <string name="pref_ui_home_screen_shortcuts">Raccourcis de l\'écran d\'accueil</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -369,7 +367,6 @@
     <string name="warning_reset_account_all">Si vous continuez, toutes les opérations de tous les comptes%1$s seront supprimées de la base de données et ne pourront pas être restaurées.</string>
     <string name="warning_reset_account_matched">Si vous continuez, toutes les opérations qui correspondent au filtre actuel  seront supprimées de la base de données et ne pourront plus être restaurées.</string>
     <string name="warning_restore">La base de données et les paramètres seront restaurés à partir du fichier « %1$s ». Les données actuelles seront supprimées.</string>
-    <string name="warning_splitpartcategory_context">Les virements qui font partie d\'une opération ventilée ne peuvent être modifiés que dans celle-ci.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Définissez une décimale entre %1$d et %2$d</string>
     <string name="warning_change_fraction_digits_1">Les montants dans la base de données doivent être mis à jour afin de correspondre au nouveau nombre de chiffres de fraction.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Si les montants ne sont pas mis à jour, ils seront affichés comme multipliés par %d après le changement.</string>
@@ -463,7 +460,6 @@
     <string name="plan_instance_state_cancelled">annulé</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">appliqué</string>
-    <string name="progress_dialog_updating_split_parts">Mise à jour des ventilations</string>
     <string name="warning_cannot_move_split_transaction">Cette opération ventilée ne peut pas être déplacée vers le compte %1$s car certaines de ses lignes de virement concernent ce compte.</string>
     <string name="content_description_calculator_delete_button">Supprimer le dernier chiffre</string>
     <string name="paypal_callback_info">Votre transaction s\'est bien terminée,  et un reçu de votre achat vous a été envoyé par courriel. Vous pouvez vous connecter sur votre compte PayPal pour voir les détails de cette transaction.</string>
@@ -562,7 +558,6 @@
     <string name="pref_protection_device_lock_screen_title">Écran de verrouillage de l\'appareil</string>
     <string name="pref_warning_only_one_protection">Avant de pouvoir utiliser la protection par %1$s, vous devez désactiver la protection par %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">L\'écran de verrouillage sécurisé de l\'appareil n\'a pas été configuré.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Allez dans %s pour configurer un écran de verrouillage.</string>
     <string name="menu_history_show_balance">Afficher le solde</string>
     <string name="menu_history_transfers">Inclure les virements</string>
     <string name="menu_history">Historique</string>
