@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.test.espresso
 
 import android.widget.Button
+import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.scrollTo
@@ -9,11 +10,13 @@ import androidx.test.espresso.matcher.ViewMatchers.hasErrorText
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.GrantPermissionRule
 import com.adevinta.android.barista.interaction.BaristaSeekBarInteractions
 import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
+import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.containsString
 import org.hamcrest.Matchers.`is`
@@ -50,6 +53,8 @@ import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible
 import org.totschnig.myexpenses.testutils.TEMPLATE_TITLE
 import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
+import org.totschnig.myexpenses.testutils.withIdAndParent
+import org.totschnig.myexpenses.viewmodel.data.Currency as DisplayCurrency
 import java.time.LocalDate
 import java.util.Currency
 
@@ -262,6 +267,33 @@ class ExpenseEditTest : BaseExpenseEditTest() {
             expectedPlanExecutionAdvance = 15
         ).also {
             repository.deletePlan(it.data.planId!!)
+        }
+    }
+
+    @Test
+    fun templateRetainsEnabledOriginalAmountWithoutValue() {
+        launchNewTemplate(TYPE_TRANSACTION)
+        setTitle()
+        clickMenuItem(R.id.ORIGINAL_AMOUNT_COMMAND)
+        onView(withIdAndParent(R.id.AmountCurrency, R.id.OriginalAmount))
+            .perform(scrollTo(), click())
+        onData(
+            allOf(
+                instanceOf(DisplayCurrency::class.java),
+                `is`(DisplayCurrency.create(currency2.code, app))
+            )
+        ).perform(click())
+        clickFab()
+
+        val template = assertTemplate(account1, 0)
+        assertThat(template.data.originalAmount).isEqualTo(0)
+        assertThat(template.data.originalCurrency).isEqualTo(currency2.code)
+
+        launch(getIntentForTransactionFromTemplate(template.id)).use {
+            onView(withId(R.id.OriginalAmountRow)).check(matches(isDisplayed()))
+            onView(withIdAndParent(R.id.AmountCurrency, R.id.OriginalAmount)).check(
+                matches(withSpinnerText(DisplayCurrency.create(currency2.code, app).toString()))
+            )
         }
     }
 
