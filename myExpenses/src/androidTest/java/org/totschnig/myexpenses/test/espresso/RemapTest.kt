@@ -32,6 +32,7 @@ import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.VIEW_COMMITTED
+import org.totschnig.myexpenses.provider.VIEW_EXTENDED
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.TestShard4
@@ -128,7 +129,7 @@ class RemapTest : BaseMyExpensesTest() {
             TRANSACTIONS_URI,
             arrayOf(
                 KEY_ACCOUNTID,
-                "(SELECT $KEY_ACCOUNTID FROM $TABLE_TRANSACTIONS parent WHERE $KEY_ROWID = $VIEW_COMMITTED.$KEY_PARENTID)"
+                "(SELECT $KEY_ACCOUNTID FROM $TABLE_TRANSACTIONS parent WHERE $KEY_ROWID = $VIEW_EXTENDED.$KEY_PARENTID)"
             ),
             "$KEY_PARENTID IS NOT NULL",
             null, null
@@ -182,7 +183,7 @@ class RemapTest : BaseMyExpensesTest() {
             TRANSACTIONS_URI,
             arrayOf(
                 KEY_CATID,
-                "(SELECT $KEY_CATID FROM $TABLE_TRANSACTIONS peer WHERE $KEY_ROWID = $VIEW_COMMITTED.$KEY_TRANSFER_PEER)"
+                "(SELECT $KEY_CATID FROM $TABLE_TRANSACTIONS peer WHERE $KEY_ROWID = $VIEW_EXTENDED.$KEY_TRANSFER_PEER)"
             ),
             null, null, null
         )!!.use { cursor ->
