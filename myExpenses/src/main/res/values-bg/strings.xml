@@ -1070,4 +1070,8 @@
         <item quantity="other">%1$d линии се отнасят за непознати активи: %2$s.</item>
     </plurals>
     <string name="rounding">Закръгляне</string>
+    <string name="parse_error_at_line">Грешка в линия %1$d: %2$s</string>
+    <string name="asset_type_commodity">Стока</string>
+    <string name="asset_type_commodity_plural">Стоки</string>
+    <string name="trade_transfer">Прeвод</string>
 </resources>
