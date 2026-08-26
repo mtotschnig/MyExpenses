@@ -35,12 +35,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -52,6 +58,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.PlaceholderVerticalAlign
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontStyle
@@ -183,14 +190,17 @@ abstract class ItemRenderer(
                         append(pair.second)
                     } else {
                         val userColor = Color(pair.third!!)
+                        pushStringAnnotation(tag = "TAG_BG", annotation = pair.third.toString())
                         withStyle(
                             style = SpanStyle(
-                                background = userColor,
                                 color = userColor.calculateOnColor(),
                             )
                         ) {
+                            append("\u00A0")
                             append(pair.second)
+                            append("\u00A0")
                         }
+                        pop()
                     }
                     if (index < list.size - 1) {
                         append(" ")
@@ -395,11 +405,45 @@ abstract class ItemRenderer(
         text: AnnotatedString,
         icons: List<String>,
     ) {
-        Text(modifier = modifier, text = text, inlineContent = buildMap {
-            icons.forEach {
-                put(it, inlineIcon(it))
+        var layoutResult by remember { mutableStateOf<TextLayoutResult?>(null) }
+        Text(
+            modifier = modifier.drawBehind {
+                layoutResult?.let { result ->
+                    text.getStringAnnotations("TAG_BG", 0, text.length).forEach { annotation ->
+                        val color = Color(annotation.item.toInt())
+                        val firstLine = result.getLineForOffset(annotation.start)
+                        val lastLine = result.getLineForOffset(annotation.end - 1)
+                        val verticalPadding = 1.dp.toPx()
+                        val horizontalPadding = 1.dp.toPx()
+                        for (line in firstLine..lastLine) {
+                            val left = (if (line == firstLine) result.getHorizontalPosition(
+                                annotation.start,
+                                false
+                            ) else result.getLineLeft(line)) - horizontalPadding
+                            val right = (if (line == lastLine) result.getHorizontalPosition(
+                                annotation.end,
+                                true
+                            ) else result.getLineRight(line)) + horizontalPadding
+                            val top = result.getLineTop(line)
+                            val bottom = result.getLineBottom(line)
+                            drawRoundRect(
+                                color = color,
+                                topLeft = Offset(left, top + verticalPadding),
+                                size = Size(right - left, bottom - top - 2 * verticalPadding),
+                                cornerRadius = CornerRadius(4.dp.toPx())
+                            )
+                        }
+                    }
+                }
+            },
+            text = text,
+            onTextLayout = { layoutResult = it },
+            inlineContent = buildMap {
+                icons.forEach {
+                    put(it, inlineIcon(it))
+                }
             }
-        })
+        )
     }
 
     private fun inlineIcon(icon: String) = InlineTextContent(
