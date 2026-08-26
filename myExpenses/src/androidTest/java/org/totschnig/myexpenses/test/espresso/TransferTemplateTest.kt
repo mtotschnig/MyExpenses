@@ -1,13 +1,9 @@
 package org.totschnig.myexpenses.test.espresso
 
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import org.hamcrest.CoreMatchers
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -48,19 +44,6 @@ class TransferTemplateTest : BaseExpenseEditTest() {
             repository.deleteAccount(account1.id)
             repository.deleteAccount(account2.id)
         }
-    }
-
-    private fun setDefaultAction(defaultAction: Action) {
-        onView(withId(R.id.DefaultAction)).perform(scrollTo(), click())
-        Espresso.onData(
-            CoreMatchers.allOf(
-                CoreMatchers.instanceOf(String::class.java),
-                CoreMatchers.`is`(when(defaultAction) {
-                    Action.SAVE -> getString(R.string.menu_save)
-                    Action.EDIT -> getString(R.string.menu_edit)
-                })
-            )
-        ).perform(click())
     }
 
     private fun runTheTest(

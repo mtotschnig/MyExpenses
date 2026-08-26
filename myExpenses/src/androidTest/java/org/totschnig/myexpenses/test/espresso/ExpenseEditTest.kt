@@ -283,6 +283,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
                 `is`(DisplayCurrency.create(currency2.code, app))
             )
         ).perform(click())
+        setDefaultAction(Template.Action.EDIT)
         clickFab()
 
         val template = assertTemplate(account1, 0)

@@ -36,6 +36,7 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
 import org.totschnig.myexpenses.db2.entities.Recurrence
+import org.totschnig.myexpenses.db2.entities.Template.Action
 import org.totschnig.myexpenses.db2.loadTransactions
 import org.totschnig.myexpenses.delegate.TransactionDelegate
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
@@ -243,5 +244,18 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
                 )
             )
         )
+    }
+
+    fun setDefaultAction(defaultAction: Action) {
+        onView(withId(R.id.DefaultAction)).perform(scrollTo(), click())
+        onData(
+            allOf(
+                instanceOf(String::class.java),
+                `is`(when(defaultAction) {
+                    Action.SAVE -> getString(R.string.menu_save)
+                    Action.EDIT -> getString(R.string.menu_edit)
+                })
+            )
+        ).perform(click())
     }
 }
