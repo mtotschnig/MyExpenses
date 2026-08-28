@@ -31,7 +31,6 @@ import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
-import org.totschnig.myexpenses.provider.VIEW_COMMITTED
 import org.totschnig.myexpenses.provider.VIEW_EXTENDED
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
