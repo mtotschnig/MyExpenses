@@ -1,0 +1,10 @@
+• Раздельный перевод
+• Перевод активов между портфелями
+• Экран истории агрегированных счетов теперь отражает изменение стоимости иностранных валют
+• Mutual TLS / Client Certificate Support for WebDAV Sync (Вклад внесен Carlson Büth)
+
+4.1.1: https://github.com/users/mtotschnig/projects/192
+4.1.1.1: https://github.com/users/mtotschnig/projects/194
+4.1.1.2: https://github.com/users/mtotschnig/projects/195
+
+https://mastodon.social/@myexpenses/117118348237320813
