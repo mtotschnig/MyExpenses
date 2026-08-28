@@ -136,6 +136,85 @@ amazon:
   en: "www.amazon.com"
   pt: "www.amazon.com.br"
 versions:
+  -   - 4.1.1
+      - '2026-08-28'
+      - ar: الانتقالات المنقسمة. تحويلات الأصول بين المحافظ. شاشة التاريخ للحسابات
+          الإجمالية تعكس الآن التغير في قيمة العملات الأجنبية. Mutual TLS / Client
+          Certificate Support for WebDAV Sync (تمت المساهمة بواسطة Carlson Büth)
+        de: Mehrteilige Umbuchungen. Vermögensübertragungen zwischen Portfolios. History
+          Screen für aggregierte Konten spiegelt nun die Wertänderung von Fremdwährungen
+          wider. Mutual TLS / Client Certificate Support for WebDAV Sync (Beigetragen
+          von Carlson Büth)
+        es: Transferencias divididas. Transferencias de activos entre carteras. La
+          pantalla de historial para cuentas agregadas ahora refleja el cambio en
+          el valor de las monedas extranjeras. Mutual TLS / Client Certificate Support
+          for WebDAV Sync (Contribución de Carlson Büth)
+        fr: Transferts ventilés. Transferts d’actifs entre portefeuilles. Écran d’historique
+          pour les comptes agrégés reflète désormais la variation de la valeur des
+          devises étrangères. Mutual TLS / Client Certificate Support for WebDAV Sync
+          (Contribution de Carlson Büth)
+        it: Trasferimenti frazionati. Trasferimenti di attività tra portafogli. Schermata
+          Storia per i conti aggregati ora riflette la variazione del valore delle
+          valute estere. Mutual TLS / Client Certificate Support for WebDAV Sync (Contribuito
+          da Carlson Büth)
+        pl: Transfery podzielone. Transfery aktywów między portfelami. Ekran historii
+          dla rachunków agregowanych obecnie odzwierciedla zmiany wartości walut obcych.
+          Mutual TLS / Client Certificate Support for WebDAV Sync (Wniesione przez
+          Carlson Büth)
+        pt: Transferências divididas. Transferências de ativos entre portfólios. A
+          tela de histórico para contas agregadas agora reflete a mudança no valor
+          das moedas estrangeiras. Mutual TLS / Client Certificate Support for WebDAV
+          Sync (Contribuído por Carlson Büth)
+        ru: Раздельный перевод. Перевод активов между портфелями. Экран истории агрегированных
+          счетов теперь отражает изменение стоимости иностранных валют. Mutual TLS
+          / Client Certificate Support for WebDAV Sync (Вклад внесен Carlson Büth)
+        tr: 'Bölünmüş muameleler. Portföyler arası varlık aktarımları. Toplam hesaplar
+          için Tarih Ekranı artık yabancı para birimlerinin değerindeki değişiklikleri
+          yansıtıyor. Mutual TLS / Client Certificate Support for WebDAV Sync (Katkıda
+          bulunan: Carlson Büth)'
+        en: Split transfers. Asset transfers between portfolios. History Screen for
+          aggregate accounts now reflects change in value of foreign currencies. Mutual
+          TLS / Client Certificate Support for WebDAV Sync (Contributed by Carlson
+          Büth)
+      - github2: '192'
+        mastodon: '117118348237320813'
+  -   - 4.1.0
+      - '2026-08-28'
+      - ar: تتبع المحفظة
+        bg: Проследяване на портфейла
+        ca: Portfolio tracking
+        cs: Portfolio tracking
+        da: Portfolio tracking
+        de: Portfolio-Tracking
+        el: Portfolio tracking
+        es: Seguimiento de cartera
+        eu: Portfolio tracking
+        fr: Suivi de portefeuille
+        hr: Portfolio tracking
+        hu: Portfolio tracking
+        it: Tracciamento del portafoglio
+        iw: Portfolio tracking
+        ja: Portfolio tracking
+        km: Portfolio tracking
+        kn: Portfolio tracking
+        ko: Portfolio tracking
+        ms: Portfolio tracking
+        nl: Portfolio tracking
+        pl: Śledzenie portfela
+        pt: Acompanhamento de carteira
+        ro: Portfolio tracking
+        ru: Отслеживание портфеля
+        si: Portfolio tracking
+        ta: Portfolio tracking
+        te: Portfolio tracking
+        tr: Portföy takibi
+        uk: Portfolio tracking
+        vi: Portfolio tracking
+        zh-CN: Portfolio tracking
+        zh-TW: Portfolio tracking
+        en: Portfolio tracking
+      - github2: '189'
+        mastodon: '116937723305133542'
   -   - 4.0.9
       - '2026-05-27'
       - ar: 'الترجمة : الإندونيسية (تمت المساهمة بواسطة Arif Budiman, Reza Almanda)'
