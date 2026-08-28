@@ -30,7 +30,6 @@
     <string name="setup">"Persediaan"</string>
     <string name="customize">"Sesuaikan"</string>
     <string name="compact">Sarat</string>
-    <string name="storage_description">"Storan setempat"</string>
     <string name="encryption">"Penyulitan"</string>
     <string name="learn_more">"Ketahui lebih lanjut"</string>
     <string name="show_all">"Tunjukkan semua"</string>
@@ -122,7 +121,6 @@
     <string name="preview">"Pratonton"</string>
     <string name="show_password">"Tunjukkan kata laluan"</string>
     <string name="hide_password">"Sembunyikan kata laluan"</string>
-    <string name="user">"Pengguna"</string>
     <string name="done_label">"Selesai"</string>
     <string name="action_move_top">"Alih ke paling atas"</string>
     <string name="action_move_bottom">"Alih ke paling bawah"</string>

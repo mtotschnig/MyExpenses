@@ -27,7 +27,6 @@
     <string name="setup">"පිහිටුවීම"</string>
     <string name="customize">"අභිරුචිකරණය"</string>
     <string name="compact">සංයුක්ත</string>
-    <string name="storage_description">"පෙදෙසි ආචයනය"</string>
     <string name="encryption">"සංකේතනය"</string>
     <string name="learn_more">"තව දැන ගන්න"</string>
     <string name="show_all">"සියල්ල පෙන්වන්න"</string>
@@ -125,7 +124,6 @@
     <string name="preview">"පූර්ව දර්ශනය"</string>
     <string name="show_password">"මුරපදය පෙන්වන්න"</string>
     <string name="hide_password">"මුරපදය සඟවන්න"</string>
-    <string name="user">"පරිශීලක"</string>
     <string name="source">"මූලය"</string>
     <string name="value">Value"</string>
     <string name="done_label">"අවසන්"</string>
@@ -144,6 +142,5 @@
     <string name="flag_inactive">"අක්‍රිය"</string>
     <string name="count">"අංකය"</string>
     <string name="options">"විකල්ප"</string>
-    <string name="reports">"වාර්තා"</string>
     <string name="actions">"අංශ"</string>
 </resources>

@@ -30,7 +30,6 @@
     <string name="setup">"Einrichtung"</string>
     <string name="customize">"Anpassen"</string>
     <string name="compact">kompakt</string>
-    <string name="storage_description">"Lokaler Speicher"</string>
     <string name="encryption">"Verschlüsselung"</string>
     <string name="learn_more">"Weitere Informationen"</string>
     <string name="show_all">"Alle anzeigen"</string>
@@ -150,7 +149,6 @@
     <string name="preview">"Vorschau"</string>
     <string name="show_password">"Passwort anzeigen"</string>
     <string name="hide_password">"Passwort ausblenden"</string>
-    <string name="user">"Nutzer"</string>
     <string name="source">"Quelle"</string>
     <string name="value">"Wert"</string>
     <string name="done_label">"Fertig"</string>
@@ -173,7 +171,5 @@
     <string name="count">"Anzahl"</string>
     <string name="empty">"Leer"</string>
     <string name="options">"Optionen"</string>
-    <string name="reports">"Berichte"</string>
-    <string name="tools">Werkzeuge</string>
     <string name="actions">"Aktionen"</string>
 </resources>

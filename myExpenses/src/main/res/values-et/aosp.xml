@@ -87,7 +87,6 @@
     <string name="preview">"Eelvaade"</string>
     <string name="show_password">"Kuva parool"</string>
     <string name="hide_password">"Peida parool"</string>
-    <string name="user">"Kasutaja"</string>
     <string name="source">"Allikas"</string>
     <string name="value">"väärtus"</string>
     <string name="done_label">"Valmis"</string>
@@ -110,6 +109,5 @@
     <string name="count">"Arv"</string>
     <string name="empty">"Tühi"</string>
     <string name="options">"Valikud"</string>
-    <string name="reports">"Aruanded"</string>
     <string name="actions">"Toimingud"</string>
 </resources>

@@ -31,7 +31,6 @@
     <string name="setup">"ಸೆಟಪ್"</string>
     <string name="customize">"ಕಸ್ಟಮೈಸ್"</string>
     <string name="compact">ಕಾಂಪ್ಯಾಕ್ಟ್‌‌</string>
-    <string name="storage_description">"ಸ್ಥಳೀಯ ಸಂಗ್ರಹಣೆ"</string>
     <string name="encryption">"ಎನ್‌ಕ್ರಿಪ್ಷನ್"</string>
     <string name="learn_more">"ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ"</string>
     <string name="show_all">"ಎಲ್ಲ ತೋರಿಸು"</string>
@@ -130,7 +129,6 @@
     <string name="preview">"ಪೂರ್ವವೀಕ್ಷಣೆ"</string>
     <string name="show_password">"ಪಾಸ್‌ವರ್ಡ್‌ ತೋರಿಸು"</string>
     <string name="hide_password">"ಪಾಸ್‌ವರ್ಡ್ ಮರೆಮಾಡಿ"</string>
-    <string name="user">"ಬಳಕೆದಾರರು"</string>
     <string name="source">"ಮೂಲ"</string>
     <string name="value">"ಮೌಲ್ಯ"</string>
     <string name="done_label">"ಆಯಿತು"</string>
@@ -150,6 +148,5 @@
     <string name="count">"ಗಣನೆ"</string>
     <string name="empty">"ಖಾಲಿ"</string>
     <string name="options">"ಆಯ್ಕೆಗಳು"</string>
-    <string name="reports">"ವರದಿಗಳು"</string>
     <string name="actions">"ಕ್ರಿಯೆಗಳು"</string>
 </resources>

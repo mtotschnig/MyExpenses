@@ -66,7 +66,6 @@
     <string name="preview">"Buka kuqala"</string>
     <string name="show_password">"Bonisa iphasiwedi"</string>
     <string name="hide_password">"Fihla iphasiwedi"</string>
-    <string name="user">"Umsebenzisi"</string>
     <string name="source">Source"</string>
     <string name="value">"Inani"</string>
     <string name="done_label">"Kwenziwe"</string>
@@ -84,6 +83,5 @@
     <string name="already_exists">"Igama selikhona"</string>
     <string name="flag_inactive">"Akusebenzi"</string>
     <string name="options">"Izinketho"</string>
-    <string name="reports">"Imibiko"</string>
     <string name="actions">"Izenzo"</string>
 </resources>

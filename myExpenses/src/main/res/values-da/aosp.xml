@@ -31,7 +31,6 @@
     <string name="setup">"Konfiguration"</string>
     <string name="customize">"Tilpas"</string>
     <string name="compact">kompakt</string>
-    <string name="storage_description">"Lokalt lager"</string>
     <string name="encryption">"Kryptering"</string>
     <string name="learn_more">"Få flere oplysninger"</string>
     <string name="show_all">"Vis alle"</string>
@@ -174,7 +173,5 @@
     <string name="count">"Tæl"</string>
     <string name="empty">"Tom"</string>
     <string name="options">"Valgmuligheder"</string>
-    <string name="reports">"Rapporter"</string>
-    <string name="tools">Funktioner</string>
     <string name="actions">"Handlinger"</string>
 </resources>

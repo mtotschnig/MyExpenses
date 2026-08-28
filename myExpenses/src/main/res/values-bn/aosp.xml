@@ -43,7 +43,6 @@
     <string name="setup">"সেটআপ"</string>
     <string name="customize">"বকাস্টমাইজ করুন"</string>
     <string name="compact">"কম্প্যাক্ট"</string>
-    <string name="storage_description">"স্থানীয় স্টোরেজ"</string>
     <string name="write_fail_reason_cannot_write">"কন্টেন্ট লেখায় ত্রুটি হয়েছে"</string>
     <string name="not_exist_file_desc">"ফাইলটির অস্তিত্ব নেই। \n"</string>
     <string name="today">"আজ"</string>
@@ -124,7 +123,6 @@
     <string name="preview">"প্রিভিউ"</string>
     <string name="show_password">"পাসওয়ার্ড দেখুন"</string>
     <string name="hide_password">"পাসওয়ার্ড লুকান"</string>
-    <string name="user">"ব্যবহারকারী"</string>
     <string name="source">"সোর্স"</string>
     <string name="value">"মান"</string>
     <string name="done_label">"সম্পন্ন হয়েছে"</string>
@@ -143,6 +141,5 @@
     <string name="already_exists">"এই নাম ইতোমধ্যে আছে"</string>
     <string name="flag_inactive">"অ্যাক্টিভ নেই"</string>
     <string name="options">"বিকল্প"</string>
-    <string name="reports">"প্রতিবেদন"</string>
     <string name="actions">"কাজ"</string>
 </resources>

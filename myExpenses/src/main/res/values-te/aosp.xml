@@ -27,7 +27,6 @@
     <string name="setup">"సెటప్"</string>
     <string name="customize">"అనుకూలీకరించు"</string>
     <string name="compact">కాంపాక్ట్</string>
-    <string name="storage_description">"స్థానిక నిల్వ"</string>
     <string name="encryption">"ఎన్‌క్రిప్షన్"</string>
     <string name="learn_more">"మరింత తెలుసుకోండి"</string>
     <string name="show_all">"అన్నీ చూపు"</string>
@@ -125,7 +124,6 @@
     <string name="preview">"పరిదృశ్యం"</string>
     <string name="show_password">"పాస్‌వర్డ్‌ను చూపండి"</string>
     <string name="hide_password">"పాస్‌వర్డ్‌ను దాచు"</string>
-    <string name="user">"యూజర్"</string>
     <string name="source">Source"</string>
     <string name="value">"విలువ"</string>
     <string name="done_label">"పూర్తయింది"</string>
@@ -145,6 +143,5 @@
     <string name="count">"లెక్క"</string>
     <string name="empty">"ఖాళీ"</string>
     <string name="options">"ఆప్షన్‌లు"</string>
-    <string name="reports">"నివేదనలు"</string>
     <string name="actions">"చర్యలు"</string>
 </resources>

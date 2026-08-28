@@ -30,7 +30,6 @@
     <string name="setup">"Ρύθμιση"</string>
     <string name="customize">"Προσαρμογή"</string>
     <string name="compact">Συμπαγές</string>
-    <string name="storage_description">"Τοπικός χώρος αποθήκευσης"</string>
     <string name="encryption">"Κρυπτογράφηση"</string>
     <string name="learn_more">"Μάθετε περισσότερα"</string>
     <string name="show_all">"Εμφάνιση όλων"</string>
@@ -150,7 +149,6 @@
     <string name="preview">Προεπισκόπηση</string>
     <string name="show_password">"Εμφάνιση κωδικού πρόσβασης"</string>
     <string name="hide_password">"Απόκρυψη κωδικού πρόσβασης"</string>
-    <string name="user">"Χρήστης"</string>
     <string name="source">"Πηγή"</string>
     <string name="value">"Τιμή"</string>
     <string name="done_label">"Τέλος"</string>
@@ -173,7 +171,5 @@
     <string name="count">"Πλήθος"</string>
     <string name="empty">"Κενό"</string>
     <string name="options">"Επιλογές"</string>
-    <string name="reports">"Εκθέσεις"</string>
-    <string name="tools">Εργαλεία</string>
     <string name="actions">"Ενέργειες"</string>
 </resources>

@@ -30,7 +30,6 @@
     <string name="setup">"Thiết lập"</string>
     <string name="customize">"Tùy chỉnh"</string>
     <string name="compact">Viết tắt</string>
-    <string name="storage_description">"Bộ nhớ cục bộ"</string>
     <string name="encryption">"Mã hóa"</string>
     <string name="learn_more">"Tìm hiểu thêm"</string>
     <string name="show_all">"Hiển thị tất cả"</string>
@@ -145,7 +144,6 @@
     <string name="preview">"Xem trước"</string>
     <string name="show_password">"Hiện mật khẩu"</string>
     <string name="hide_password">"Ẩn mật khẩu"</string>
-    <string name="user">"Người dùng"</string>
     <string name="source">"Nguồn"</string>
     <string name="value">"Giá trị"</string>
     <string name="done_label">"Xong"</string>
@@ -167,7 +165,5 @@
     <string name="flag_inactive">"Không hoạt động"</string>
     <string name="count">"Đếm"</string>
     <string name="options">"Tùy chọn"</string>
-    <string name="reports">"Báo cáo"</string>
-    <string name="tools">Công cụ</string>
     <string name="actions">"Hành động"</string>
 </resources>

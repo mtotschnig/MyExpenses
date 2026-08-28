@@ -30,7 +30,6 @@
     <string name="setup">"الإعداد"</string>
     <string name="customize">"تخصيص"</string>
     <string name="compact">مكثفة</string>
-    <string name="storage_description">"التخزين المحلي"</string>
     <string name="encryption">"التشفير"</string>
     <string name="learn_more">"مزيد من المعلومات"</string>
     <string name="show_all">"عرض الكل"</string>
@@ -150,7 +149,6 @@
     <string name="preview">"معاينة"</string>
     <string name="show_password">"إظهار كلمة المرور"</string>
     <string name="hide_password">"إخفاء كلمة المرور"</string>
-    <string name="user">"مستخدم"</string>
     <string name="source">"المصدر"</string>
     <string name="value">"القيمة"</string>
     <string name="done_label">"تم"</string>
@@ -172,12 +170,10 @@
     <string name="count">"العدد"</string>
     <string name="empty">"فارغ"</string>
     <string name="options">"الخيارات"</string>
-    <string name="reports">"التّقارير"</string>
     <string name="actions">"الإجراءات"</string>
     <string name="buttons">الأزرار</string>
     <string name="contains">يتضمّن</string>
     <string name="delimiter_comma">فاصلة</string>
     <string name="delimiter_semicolon">فاصلة منقوطة</string>
     <string name="negation">نفي</string>
-    <string name="tools">الأدوات</string>
 </resources>

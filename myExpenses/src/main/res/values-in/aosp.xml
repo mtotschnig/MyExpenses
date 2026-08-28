@@ -87,7 +87,6 @@
     <string name="preview">"Pratinjau"</string>
     <string name="show_password">Tampilkan kata sandi</string>
     <string name="hide_password">Sembunyikan kata sandi</string>
-    <string name="user">"Pengguna"</string>
     <string name="source">"Sumber"</string>
     <string name="value">"Nilai"</string>
     <string name="done_label">"Selesai"</string>
@@ -109,8 +108,6 @@
     <string name="flag_inactive">"Tidak aktif"</string>
     <string name="empty">"Kosong"</string>
     <string name="options">"Opsi"</string>
-    <string name="reports">"Laporan"</string>
-    <string name="tools">Alat</string>
     <string name="actions">"Tindakan"</string>
     <string name="drawer_open">Buka laci navigasi</string>
     <string name="drawer_close">Tutup laci navigasi</string>
@@ -158,7 +155,6 @@
     <string name="calendar">Kalender</string>
     <string name="setup">Penyiapan</string>
     <string name="compact">Ringkas</string>
-    <string name="storage_description">Penyimpanan lokal</string>
     <string name="write_fail_reason_cannot_write">Kesalahan saat menulis konten</string>
     <string name="not_exist_file_desc">File tidak ada</string>
     <string name="today">Hari ini</string>

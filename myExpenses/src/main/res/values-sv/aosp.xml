@@ -87,7 +87,6 @@
     <string name="preview">"Förhandsgranska"</string>
     <string name="show_password">"Visa lösenord"</string>
     <string name="hide_password">"Dölj lösenord"</string>
-    <string name="user">"Användare"</string>
     <string name="source">"Källa"</string>
     <string name="value">"Värde"</string>
     <string name="done_label">"Klart"</string>
@@ -110,7 +109,6 @@
     <string name="count">"Antal"</string>
     <string name="empty">"Tom"</string>
     <string name="options">"Alternativ"</string>
-    <string name="reports">"Rapporter"</string>
     <string name="actions">"Åtgärder"</string>
     <string name="drawer_open">Öppna navigeringspanelen</string>
     <string name="drawer_close">Stäng navigeringspanelen</string>
@@ -159,7 +157,6 @@
     <string name="calendar">Kalender</string>
     <string name="setup">Inställningar</string>
     <string name="compact">Kompakt</string>
-    <string name="storage_description">Lokal lagring</string>
     <string name="write_fail_reason_cannot_write">Fel vid skrivande av innehåll</string>
     <string name="today">Idag</string>
     <string name="tomorrow">Imorgon</string>
@@ -171,6 +168,5 @@
     <string name="about_ads">Annonser</string>
     <string name="menu_merge">Sammanfoga</string>
     <string name="buttons">Knappar</string>
-    <string name="tools">Verktyg</string>
     <string name="not_exist_file_desc">Filen existerar inte</string>
 </resources>

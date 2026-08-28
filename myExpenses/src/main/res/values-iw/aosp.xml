@@ -31,7 +31,6 @@
     <string name="setup">"הגדרה"</string>
     <string name="customize">"התאמה אישית"</string>
     <string name="compact">קומפקטית</string>
-    <string name="storage_description">"אחסון מקומי"</string>
     <string name="encryption">"הצפנה"</string>
     <string name="learn_more">"מידע נוסף"</string>
     <string name="show_all">"הצג הכל"</string>
@@ -142,7 +141,6 @@
     <string name="preview">"תצוגה מקדימה"</string>
     <string name="show_password">"הצגת הסיסמה"</string>
     <string name="hide_password">"הסתר סיסמה"</string>
-    <string name="user">"משתמש"</string>
     <string name="source">"מקור"</string>
     <string name="value">"ערך"</string>
     <string name="done_label">"סיום"</string>
@@ -165,6 +163,5 @@
     <string name="count">"ספירה"</string>
     <string name="empty">"ריק"</string>
     <string name="options">"אפשרויות"</string>
-    <string name="reports">"דוחות"</string>
     <string name="actions">"פעולות"</string>
 </resources>

@@ -31,7 +31,6 @@
     <string name="setup">"Postavljanje"</string>
     <string name="customize">"Prilagodi"</string>
     <string name="compact">"kompaktno"</string>
-    <string name="storage_description">"Lokalno spremište"</string>
     <string name="encryption">"Šifriranje"</string>
     <string name="learn_more">"Saznaj više"</string>
     <string name="show_all">"Pokaži sve"</string>
@@ -152,7 +151,6 @@
     <string name="preview">"Pregled"</string>
     <string name="show_password">"Prikaži lozinku"</string>
     <string name="hide_password">"Sakrij lozinku"</string>
-    <string name="user">"Korisnik"</string>
     <string name="source">"Izvor"</string>
     <string name="value">"Vrijednost"</string>
     <string name="done_label">"Gotovo"</string>
@@ -175,7 +173,5 @@
     <string name="count">"Brojanje"</string>
     <string name="empty">"Prazno"</string>
     <string name="options">"Opcije"</string>
-    <string name="reports">"Izvještaji"</string>
-    <string name="tools">"Alati"</string>
     <string name="actions">"Radnje"</string>
 </resources>

@@ -30,7 +30,6 @@
     <string name="setup">"ការរៀបចំ"</string>
     <string name="customize">"ប្តូរតាមបំណង"</string>
     <string name="compact">បង្រួម</string>
-    <string name="storage_description">"ទំហំផ្ទុកមូលដ្ឋាន"</string>
     <string name="encryption">"ការអ៊ីនគ្រីប"</string>
     <string name="learn_more">"ស្វែងយល់បន្ថែម"</string>
     <string name="show_all">"បង្ហាញ​ទាំងអស់"</string>
@@ -134,7 +133,6 @@
     <string name="preview">"មើល​ជាមុន"</string>
     <string name="show_password">"បង្ហាញ​ពាក្យ​សម្ងាត់"</string>
     <string name="hide_password">"លាក់​ពាក្យសម្ងាត់"</string>
-    <string name="user">"អ្នក​ប្រើប្រាស់"</string>
     <string name="source">"Source"</string>
     <string name="value">"តម្លៃ"</string>
     <string name="done_label">"រួចរាល់"</string>
@@ -155,6 +153,5 @@
     <string name="count">"រាប់"</string>
     <string name="empty">"ទទេ"</string>
     <string name="options">"ជម្រើស"</string>
-    <string name="reports">"របាយ​​ការណ៍​"</string>
     <string name="actions">"សកម្មភាព"</string>
 </resources>
