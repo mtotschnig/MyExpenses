@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.input.TextFieldState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.HelpOutline
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
@@ -42,7 +40,6 @@ import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BalanceSheetOptions
 import org.totschnig.myexpenses.activity.BalanceSheetViewInner
-import org.totschnig.myexpenses.compose.TooltipIconButton
 import org.totschnig.myexpenses.compose.TEST_TAG_FAB_ACCOUNTS
 import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.main.AppEventHandler
@@ -131,13 +128,6 @@ fun AccountsScreen(
                             )
 
                             ManageEntitiesMenu(onEvent)
-
-                            TooltipIconButton(
-                                tooltip = stringResource(R.string.menu_help),
-                                imageVector = Icons.AutoMirrored.Filled.HelpOutline
-                            ) {
-                                onEvent(AppEvent.MenuItemClicked(R.id.HELP_COMMAND, "Accounts"))
-                            }
                         }
 
                         AccountsScreenTab.BALANCE_SHEET -> {
@@ -153,13 +143,6 @@ fun AccountsScreen(
                                 onToggleFullScreen = onToggleFullScreen
                             )
                         }
-                    }
-
-                    TooltipIconButton(
-                        tooltip = stringResource(R.string.menu_help),
-                        imageVector = Icons.AutoMirrored.Filled.HelpOutline
-                    ) {
-                        onEvent(AppEvent.MenuItemClicked(R.id.HELP_COMMAND, "Accounts"))
                     }
                 }
             )

@@ -21,14 +21,9 @@
     <string name="cab_delete_help_text">Delete the selected items.</string>
     <string name="cab_edit_help_text">Edit the selected item.</string>
     <string name="help_MyExpenses_title">Transaction list</string>
-    <string name="help_MyExpensesV2_title">My Expenses V2</string>
-    <string name="help_MyExpensesV2_info">Welcome to the new version! V2 introduces a modern, adaptive interface. Use the navigation bar (or rail on larger screens) to switch between your Accounts and the Transaction list.</string>
-    <string name="help_MyExpensesV2_Accounts_title">Accounts Screen</string>
-    <string name="help_MyExpensesV2_Accounts_info">Manage your accounts and track your net worth. Switch between the list of accounts and the balance sheet using the dropdown in the toolbar.</string>
-    <string name="help_MyExpensesV2_Transactions_title">Transactions Screen</string>
-    <string name="help_MyExpensesV2_Transactions_info">View and manage transactions for the selected account. Use the floating action button to add new transactions.</string>
-    <string name="help_MyExpensesV2_Portfolio_title">Portfolio Screen</string>
-    <string name="help_MyExpensesV2_Portfolio_info">Track your investments in this portfolio. You can import trades and view your asset distribution.</string>
+    <string name="help_MyExpensesV2_accounts_info">Manage your accounts and track your net worth. Switch between the list of accounts and the balance sheet using the dropdown in the toolbar.</string>
+    <string name="help_MyExpensesV2_transactions_info">View and manage transactions for the selected account. Use the floating action button to add new transactions.</string>
+    <string name="help_MyExpensesV2_portfolio_info">Track your investments in this portfolio. You can import trades and view your asset distribution.</string>
     <string name="menu_tune_help_text">Customize your view: toggle navigation modes, adjust grouping, and manage which actions appear in your quick-access menus.</string>
     <string name="menu_import_trades_help_text">Import investment trades from a CSV file into your portfolio.</string>
     <string name="menu_sync_now_help_text">Trigger immediate synchronization with the cloud service configured for the current account.</string>

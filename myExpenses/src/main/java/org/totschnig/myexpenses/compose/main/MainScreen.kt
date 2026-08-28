@@ -36,7 +36,7 @@ import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
@@ -74,6 +74,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.core.layout.WindowSizeClass
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.HELP_VARIANT_ACCOUNTS
+import org.totschnig.myexpenses.activity.HELP_VARIANT_PORTFOLIO
+import org.totschnig.myexpenses.activity.HELP_VARIANT_TRANSACTIONS
 import org.totschnig.myexpenses.activity.StartScreen
 import org.totschnig.myexpenses.compose.TEST_TAG_NAV_ACCOUNTS
 import org.totschnig.myexpenses.compose.TEST_TAG_NAV_OVERFLOW
@@ -89,8 +92,8 @@ import org.totschnig.myexpenses.dialog.MenuItem
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountGroupingKey
-import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CommodityType
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.sort.TransactionSort
@@ -206,7 +209,7 @@ fun MainScreenAdaptive(
     val preferredNavMode = preferredNavModeLoadingState.value.validate(isTablet)
     val accountGrouping = accountGroupingLoadingState.value
 
-    val adaptiveInfo = currentWindowAdaptiveInfo()
+    val adaptiveInfo = currentWindowAdaptiveInfoV2()
 
     val defaultDirective = calculatePaneScaffoldDirective(adaptiveInfo)
     val defaultIs2Pane = defaultDirective.maxHorizontalPartitions > 1
@@ -283,6 +286,22 @@ fun MainScreenAdaptive(
 
     val isWebUiActive by viewModel.isWebUiActive.collectAsState(false)
 
+    fun MenuItem.onMenuItemClicked() {
+        val tag = when (this) {
+            MenuItem.WebUI -> !isWebUiActive
+            MenuItem.Help -> when (navigator.currentDestination?.pane) {
+                ListDetailPaneScaffoldRole.List -> HELP_VARIANT_ACCOUNTS
+                ListDetailPaneScaffoldRole.Detail -> if ((viewModel.accountList.value.find { it.id == selectedAccountId } as? FullAccount)?.isPortfolio == true) HELP_VARIANT_PORTFOLIO else HELP_VARIANT_TRANSACTIONS
+                else -> null
+            }
+
+            else -> null
+        }
+        onAppEvent(
+            AppEvent.MenuItemClicked(id, tag)
+        )
+    }
+
     @Composable
     fun NavigationItem(label: String) {
         val railOnPhonePortrait = isPhone && !isLandscape && isRail
@@ -348,12 +367,7 @@ fun MainScreenAdaptive(
                     item(
                         selected = if (it == MenuItem.WebUI) isWebUiActive else false,
                         onClick = {
-                            onAppEvent(
-                                AppEvent.MenuItemClicked(
-                                    it.id,
-                                    if (it == MenuItem.WebUI) !isWebUiActive else null
-                                )
-                            )
+                            it.onMenuItemClicked()
                         },
                         icon = { Icon(it.painter, null) },
                         label = {
@@ -517,12 +531,7 @@ fun MainScreenAdaptive(
                             .testTag(it.testTag)
                             .clickable {
                                 showBottomSheet = false
-                                onAppEvent(
-                                    AppEvent.MenuItemClicked(
-                                        it.id,
-                                        if (it == MenuItem.WebUI) !isWebUiActive else null
-                                    )
-                                )
+                                it.onMenuItemClicked()
                             },
                         headlineContent = { Text(it.getLabel(LocalContext.current)) },
                         leadingContent = {

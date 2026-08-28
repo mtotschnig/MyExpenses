@@ -23,7 +23,6 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.automirrored.filled.HelpOutline
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.ExpandLess
@@ -333,19 +332,6 @@ fun TransactionScreen(
                                     onEvent = onEvent,
                                     isChecked = ::isChecked
                                 )
-
-                                val isPortfolio = (currentAccount as? FullAccount)?.isPortfolio == true
-                                TooltipIconButton(
-                                    tooltip = stringResource(R.string.menu_help),
-                                    imageVector = Icons.AutoMirrored.Filled.HelpOutline
-                                ) {
-                                    onEvent(
-                                        AppEvent.MenuItemClicked(
-                                            R.id.HELP_COMMAND,
-                                            if (isPortfolio) "Portfolio" else "Transactions"
-                                        )
-                                    )
-                                }
                             }
                         },
                     )

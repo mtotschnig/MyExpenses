@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.databinding.HelpDialogActionRowBinding
 import org.totschnig.myexpenses.databinding.HelpDialogBinding
 import org.totschnig.myexpenses.util.HelpDialogHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import timber.log.Timber
 
 /**
  * A Dialog Fragment that displays help information. The content is constructed from resources
@@ -134,6 +135,7 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
         context = args.getString(KEY_CONTEXT)
         variant = args.getString(KEY_VARIANT)
         if (context == null) return onError("context extra missing")
+        Timber.d("Help for $context / $variant")
         val builder = initBuilder {
             HelpDialogBinding.inflate(it)
         }
