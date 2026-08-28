@@ -46,7 +46,6 @@
     <string name="calendar">ปฏิทิน</string>
     <string name="setup">"ตั้งค่า"</string>
     <string name="compact">แบบกะทัดรัด</string>
-    <string name="storage_description">พื้นที่เก็บข้อมูลในเครื่อง</string>
     <string name="write_fail_reason_cannot_write">ข้อผิดพลาดในการเขียนเนื้อหา</string>
     <string name="not_exist_file_desc">ไม่มีไฟล์นี้</string>
     <string name="today">วันนี้</string>
@@ -141,7 +140,6 @@
     <string name="preview">"ดูตัวอย่าง"</string>
     <string name="show_password">"แสดงรหัสผ่าน"</string>
     <string name="hide_password">"ซ่อนรหัสผ่าน"</string>
-    <string name="user">"ผู้ใช้"</string>
     <string name="source">"ที่มา"</string>
     <string name="value">"ค่า"</string>
     <string name="done_label">"เสร็จสิ้น"</string>
@@ -163,7 +161,5 @@
     <string name="count">"นับจำนวน"</string>
     <string name="empty">"ว่าง"</string>
     <string name="options">"ตัวเลือก"</string>
-    <string name="reports">"รายงาน"</string>
-    <string name="tools">เครื่องมือ</string>
     <string name="actions">"การกระทำ"</string>
 </resources>

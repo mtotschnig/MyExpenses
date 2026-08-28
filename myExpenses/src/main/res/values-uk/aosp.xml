@@ -31,7 +31,6 @@
     <string name="setup">"Налаштування"</string>
     <string name="customize">"Налаштувати"</string>
     <string name="compact">компактна</string>
-    <string name="storage_description">"Локальна пам’ять"</string>
     <string name="encryption">"Шифрування"</string>
     <string name="learn_more">"Докладніше"</string>
     <string name="show_all">"Показати все"</string>
@@ -151,7 +150,6 @@
     <string name="preview">"Перегляд"</string>
     <string name="show_password">"Показати пароль"</string>
     <string name="hide_password">"Сховати пароль"</string>
-    <string name="user">"Параметри користувача"</string>
     <string name="source">"Джерело"</string>
     <string name="value">"Значення"</string>
     <string name="done_label">"Готово"</string>
@@ -173,7 +171,5 @@
     <string name="count">"Кількість"</string>
     <string name="empty">"Порожньо"</string>
     <string name="options">"Параметри"</string>
-    <string name="reports">"Звіти"</string>
-    <string name="tools">Інструменти</string>
     <string name="actions">"Дії"</string>
 </resources>

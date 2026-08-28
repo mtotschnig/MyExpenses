@@ -31,7 +31,6 @@
     <string name="setup">"설정"</string>
     <string name="customize">"맞춤설정"</string>
     <string name="compact">컴팩트</string>
-    <string name="storage_description">"로컬 저장소"</string>
     <string name="encryption">"암호화"</string>
     <string name="learn_more">"자세히 알아보기"</string>
     <string name="show_all">"모두 표시"</string>
@@ -140,7 +139,6 @@
     <string name="preview">"미리보기"</string>
     <string name="show_password">"비밀번호 표시"</string>
     <string name="hide_password">"비밀번호 숨김"</string>
-    <string name="user">"사용자 지정"</string>
     <string name="source">"출처"</string>
     <string name="value">"값"</string>
     <string name="done_label">"완료"</string>
@@ -163,7 +161,5 @@
     <string name="count">"개수"</string>
     <string name="empty">"비어있음"</string>
     <string name="options">"옵션"</string>
-    <string name="reports">"보고서"</string>
-    <string name="tools">도구</string>
     <string name="actions">"동작"</string>
 </resources>

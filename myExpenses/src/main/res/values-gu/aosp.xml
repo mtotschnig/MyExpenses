@@ -68,7 +68,6 @@
     <string name="preview">"પૂર્વાવલોકન કરો"</string>
     <string name="show_password">"પાસવર્ડ બતાવો"</string>
     <string name="hide_password">"પાસવર્ડ છુપાવો"</string>
-    <string name="user">"વપરાશકર્તા"</string>
     <string name="source">Source"</string>
     <string name="value">"કિંમત"</string>
     <string name="done_label">"થઈ ગયું"</string>
@@ -89,6 +88,5 @@
     <string name="count">"ગણતરી"</string>
     <string name="empty">"ખાલી"</string>
     <string name="options">"વિકલ્પો"</string>
-    <string name="reports">"અહેવાલો"</string>
     <string name="actions">"ક્રિયાઓ"</string>
 </resources>

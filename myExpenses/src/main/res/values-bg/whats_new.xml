@@ -40,4 +40,7 @@
     <string name="migration_v2_feedback_title">Какво не работи във V2?</string>
     <string name="migration_v2_confirm_opt_out">Връщане към V1</string>
     <string name="whats_new_407">Естествено сортиране за маркери, категории, сметки, страни.</string>
+    <string name="whats_new_411_1">Разделени трансфери</string>
+    <string name="whats_new_411_2">Прехвърляне на активи между портфейли</string>
+    <string name="whats_new_411_3">Историческият екран за агрегирани сметки сега отразява промяната в стойността на чуждестранните валути</string>
 </resources>

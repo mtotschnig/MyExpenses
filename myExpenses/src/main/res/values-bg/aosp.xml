@@ -31,7 +31,6 @@
     <string name="setup">"Настройване"</string>
     <string name="customize">"Персонализиране"</string>
     <string name="compact">компактна</string>
-    <string name="storage_description">"Локално хранилище"</string>
     <string name="encryption">"Шифроване"</string>
     <string name="learn_more">"Научете повече"</string>
     <string name="show_all">"Показване на всички"</string>
@@ -151,7 +150,6 @@
     <string name="preview">Преглед</string>
     <string name="show_password">"Показване на паролата"</string>
     <string name="hide_password">"Скриване на паролата"</string>
-    <string name="user">"Потребител"</string>
     <string name="source">"Източник"</string>
     <string name="value">"Стойност"</string>
     <string name="done_label">"Готово"</string>
@@ -174,7 +172,5 @@
     <string name="count">"Брой"</string>
     <string name="empty">"Празни"</string>
     <string name="options">"Опции"</string>
-    <string name="reports">"Справки"</string>
-    <string name="tools">Инструменти</string>
     <string name="actions">"Действия"</string>
 </resources>

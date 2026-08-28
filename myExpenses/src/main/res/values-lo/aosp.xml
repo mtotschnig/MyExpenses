@@ -65,7 +65,6 @@
     <string name="preview">"ຕົວຢ່າງ"</string>
     <string name="show_password">"ສະແດງລະຫັດຜ່ານ"</string>
     <string name="hide_password">"ເຊື່ອງ​ລະຫັດ​ຜ່ານ"</string>
-    <string name="user">"ຜູ້ໃຊ້"</string>
     <string name="source">"ແຫຼ່ງ"</string>
     <string name="value">"ຄ່າ"</string>
     <string name="done_label">"ແລ້ວໆ"</string>
@@ -83,6 +82,5 @@
     <string name="flag_inactive">"ບໍ່ໄດ້ນຳໃຊ້"</string>
     <string name="count">"ນັບ"</string>
     <string name="options">"ຕົວເລືອກ"</string>
-    <string name="reports">"ລາຍ​ງານ​"</string>
     <string name="actions">Actions"</string>
 </resources>

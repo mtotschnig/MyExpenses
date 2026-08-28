@@ -31,7 +31,6 @@
     <string name="setup">"Configurar"</string>
     <string name="customize">"Personalizar"</string>
     <string name="compact">compacto</string>
-    <string name="storage_description">"Armazenamento local"</string>
     <string name="encryption">"Criptografia"</string>
     <string name="learn_more">"Saiba mais"</string>
     <string name="show_all">"Mostrar tudo"</string>
@@ -161,7 +160,5 @@
     <string name="count">"Número"</string>
     <string name="empty">"Vazio"</string>
     <string name="options">"Opções"</string>
-    <string name="reports">"Relatórios"</string>
-    <string name="tools">Ferramentas</string>
     <string name="actions">"Ações"</string>
 </resources>

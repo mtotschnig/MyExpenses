@@ -30,7 +30,6 @@
     <string name="setup">"設定"</string>
     <string name="customize">"自訂"</string>
     <string name="compact">精簡</string>
-    <string name="storage_description">"本機儲存空間"</string>
     <string name="encryption">"加密"</string>
     <string name="learn_more">"瞭解詳情"</string>
     <string name="show_all">"全部顯示"</string>
@@ -147,7 +146,6 @@
     <string name="preview">"預覽"</string>
     <string name="show_password">"顯示密碼"</string>
     <string name="hide_password">"隱藏密碼"</string>
-    <string name="user">"使用者自訂"</string>
     <string name="source">"來源"</string>
     <string name="value">"值"</string>
     <string name="done_label">"完成"</string>
@@ -170,7 +168,5 @@
     <string name="count">"數量"</string>
     <string name="empty">"空白"</string>
     <string name="options">"選項"</string>
-    <string name="reports">"報表"</string>
-    <string name="tools">工具</string>
     <string name="actions">"動作"</string>
 </resources>

@@ -1,0 +1,10 @@
+• Transferts ventilés
+• Transferts d’actifs entre portefeuilles
+• Écran d’historique pour les comptes agrégés reflète désormais la variation de la valeur des devises étrangères
+• Mutual TLS / Client Certificate Support for WebDAV Sync (Contribution de Carlson Büth)
+
+4.1.1: https://github.com/users/mtotschnig/projects/192
+4.1.1.1: https://github.com/users/mtotschnig/projects/194
+4.1.1.2: https://github.com/users/mtotschnig/projects/195
+
+https://mastodon.social/@myexpenses/117118348237320813

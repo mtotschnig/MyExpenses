@@ -27,7 +27,6 @@
     <string name="setup">"Instellen"</string>
     <string name="customize">Aanpassen</string>
     <string name="compact">Compact</string>
-    <string name="storage_description">Lokale opslag</string>
     <string name="encryption">Versleuteling</string>
     <string name="learn_more">"Meer informatie"</string>
     <string name="show_all">"Alles weergeven"</string>
@@ -147,7 +146,6 @@
     <string name="preview">"Voorbeeld"</string>
     <string name="show_password">"Wachtwoord tonen"</string>
     <string name="hide_password">"Wachtwoord verbergen"</string>
-    <string name="user">"Gebruiker"</string>
     <string name="source">"Bron"</string>
     <string name="value">"Waarde"</string>
     <string name="done_label">"Klaar"</string>
@@ -170,7 +168,5 @@
     <string name="count">"Aantal"</string>
     <string name="empty">"Leeg"</string>
     <string name="options">"Opties"</string>
-    <string name="reports">"Rapporten"</string>
-    <string name="tools">Extra</string>
     <string name="actions">"Acties"</string>
 </resources>

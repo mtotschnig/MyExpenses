@@ -30,7 +30,6 @@
     <string name="setup">"Настройка"</string>
     <string name="customize">"Другой"</string>
     <string name="compact">компактная раскладка</string>
-    <string name="storage_description">"Локальное хранилище"</string>
     <string name="encryption">"Шифрование"</string>
     <string name="learn_more">"Подробнее"</string>
     <string name="show_all">"Показать все"</string>
@@ -151,7 +150,6 @@
     <string name="preview">"Просмотр"</string>
     <string name="show_password">"Показать пароль"</string>
     <string name="hide_password">"Скрыть пароль"</string>
-    <string name="user">"Пользовательские настройки"</string>
     <string name="source">"Источник"</string>
     <string name="value">"Значение"</string>
     <string name="done_label">"Готово"</string>
@@ -174,8 +172,6 @@
     <string name="count">"Количество"</string>
     <string name="empty">"Пусто"</string>
     <string name="options">"Параметры"</string>
-    <string name="reports">"Отчёты"</string>
-    <string name="tools">Инструменты</string>
     <string name="actions">"Действия"</string>
     <string name="buttons">Кнопки</string>
 </resources>

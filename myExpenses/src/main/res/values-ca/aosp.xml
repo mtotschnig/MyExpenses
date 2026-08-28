@@ -31,7 +31,6 @@
     <string name="setup">"Configuració"</string>
     <string name="customize">"Personalitza"</string>
     <string name="compact">compacte</string>
-    <string name="storage_description">"Emmagatzematge local"</string>
     <string name="encryption">"Encriptació"</string>
     <string name="learn_more">"Més informació"</string>
     <string name="show_all">"Mostra-ho tot"</string>
@@ -151,7 +150,6 @@
     <string name="preview">"Previsual."</string>
     <string name="show_password">"Mostra la contrasenya"</string>
     <string name="hide_password">"Amaga la contrasenya"</string>
-    <string name="user">"Usuari"</string>
     <string name="source">"Origen"</string>
     <string name="value">"Valor"</string>
     <string name="done_label">"Fet"</string>
@@ -174,7 +172,5 @@
     <string name="count">"Compta"</string>
     <string name="empty">"Buit"</string>
     <string name="options">"Opcions"</string>
-    <string name="reports">"Informes"</string>
-    <string name="tools">Eines</string>
     <string name="actions">"Accions"</string>
 </resources>

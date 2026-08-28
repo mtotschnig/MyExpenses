@@ -31,7 +31,6 @@
     <string name="setup">"Konfiguracja"</string>
     <string name="customize">"Dostosuj"</string>
     <string name="compact">kompaktowa</string>
-    <string name="storage_description">"Pamięć lokalna"</string>
     <string name="encryption">"Szyfrowanie"</string>
     <string name="learn_more">"Więcej informacji"</string>
     <string name="show_all">"Pokaż wszystkie"</string>
@@ -153,7 +152,6 @@
     <string name="preview">"Podgląd"</string>
     <string name="show_password">"Pokaż hasło"</string>
     <string name="hide_password">"Ukryj hasło"</string>
-    <string name="user">"Własna"</string>
     <string name="source">"Źródło"</string>
     <string name="value">"Wartość"</string>
     <string name="done_label">"Gotowe"</string>
@@ -176,7 +174,5 @@
     <string name="count">"Liczba"</string>
     <string name="empty">"Pusty"</string>
     <string name="options">"Opcje"</string>
-    <string name="reports">"Raporty"</string>
-    <string name="tools">Narzędzia</string>
     <string name="actions">"Akcje"</string>
 </resources>

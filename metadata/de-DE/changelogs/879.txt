@@ -1,0 +1,10 @@
+• Mehrteilige Umbuchungen
+• Vermögensübertragungen zwischen Portfolios
+• History Screen für aggregierte Konten spiegelt nun die Wertänderung von Fremdwährungen wider
+• Mutual TLS / Client Certificate Support for WebDAV Sync (Beigetragen von Carlson Büth)
+
+4.1.1: https://github.com/users/mtotschnig/projects/192
+4.1.1.1: https://github.com/users/mtotschnig/projects/194
+4.1.1.2: https://github.com/users/mtotschnig/projects/195
+
+https://mastodon.social/@myexpenses/117118348237320813

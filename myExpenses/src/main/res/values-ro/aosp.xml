@@ -31,7 +31,6 @@
     <string name="setup">"Configurați"</string>
     <string name="customize">"Personalizați"</string>
     <string name="compact">Compact</string>
-    <string name="storage_description">"Stocare locală"</string>
     <string name="encryption">"Criptare"</string>
     <string name="learn_more">"Aflați mai multe"</string>
     <string name="show_all">"Afișați-le pe toate"</string>
@@ -138,7 +137,6 @@
     <string name="preview">"Previzual."</string>
     <string name="show_password">"Afișează parola"</string>
     <string name="hide_password">"Ascunde parola"</string>
-    <string name="user">"Utilizator"</string>
     <string name="source">"Sursă"</string>
     <string name="value">"Valoare"</string>
     <string name="done_label">"Terminat"</string>
@@ -160,6 +158,5 @@
     <string name="count">"Număr"</string>
     <string name="empty">"Gol"</string>
     <string name="options">"Opțiuni"</string>
-    <string name="reports">"Rapoarte"</string>
     <string name="actions">"Acțiuni"</string>
 </resources>

@@ -69,7 +69,6 @@
     <string name="preview">"पूर्वावलोकन"</string>
     <string name="show_password">"पासवर्ड देखाइयोस्"</string>
     <string name="hide_password">"पासवर्ड लुकाउनुहोस्"</string>
-    <string name="user">"प्रयोगकर्ता"</string>
     <string name="source">"स्रोत"</string>
     <string name="value">Value"</string>
     <string name="done_label">"भयो"</string>
@@ -89,6 +88,5 @@
     <string name="flag_inactive">"निष्क्रिय छ"</string>
     <string name="count">"गणना"</string>
     <string name="options">"विकल्पहरू"</string>
-    <string name="reports">"प्रतिवेदनहरू"</string>
     <string name="actions">"विभागहरू"</string>
 </resources>

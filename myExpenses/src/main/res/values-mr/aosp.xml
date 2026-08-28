@@ -65,7 +65,6 @@
     <string name="preview">"पूर्वावलोकन"</string>
     <string name="show_password">"पासवर्ड दाखवा"</string>
     <string name="hide_password">"पासवर्ड लपवा"</string>
-    <string name="user">"वापरकर्ता"</string>
     <string name="source">Source"</string>
     <string name="value">"मूल्य"</string>
     <string name="done_label">"पूर्ण झाले"</string>
@@ -84,6 +83,5 @@
     <string name="flag_inactive">"बंद आहे"</string>
     <string name="empty">"रिकामे"</string>
     <string name="options">"पर्याय"</string>
-    <string name="reports">"अहवाल"</string>
     <string name="actions">"कृती"</string>
 </resources>

@@ -1,0 +1,10 @@
+• Trasferimenti frazionati
+• Trasferimenti di attività tra portafogli
+• Schermata Storia per i conti aggregati ora riflette la variazione del valore delle valute estere
+• Mutual TLS / Client Certificate Support for WebDAV Sync (Contribuito da Carlson Büth)
+
+4.1.1: https://github.com/users/mtotschnig/projects/192
+4.1.1.1: https://github.com/users/mtotschnig/projects/194
+4.1.1.2: https://github.com/users/mtotschnig/projects/195
+
+https://mastodon.social/@myexpenses/117118348237320813

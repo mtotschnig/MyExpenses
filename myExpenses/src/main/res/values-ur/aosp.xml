@@ -27,7 +27,6 @@
     <string name="setup">"سیٹ اپ"</string>
     <string name="customize">"حسب ضرورت بنائیں"</string>
     <string name="compact">"کمپیکٹ"</string>
-    <string name="storage_description">"مقامی اسٹوریج"</string>
     <string name="encryption">"مرموز کاری"</string>
     <string name="learn_more">"مزید جانیں"</string>
     <string name="show_all">"سبھی دکھائیں"</string>
@@ -115,7 +114,6 @@
     <string name="preview">"پیش منظر"</string>
     <string name="show_password">"پاس ورڈ دکھائیں"</string>
     <string name="hide_password">"پاس ورڈ چھپائیں"</string>
-    <string name="user">"صارف"</string>
     <string name="value">"قیمت"</string>
     <string name="done_label">"ہو گیا"</string>
     <string name="action_move_top">"اوپر منتقل کریں"</string>
