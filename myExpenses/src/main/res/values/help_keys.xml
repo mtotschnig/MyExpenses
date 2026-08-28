@@ -71,4 +71,6 @@
     <string name="menu_account_types">@string/account_types</string>
     <string name="menu_balance_sheet">@string/balance_sheet</string>
     <string name="cab_exclude_from_totals_help_text">@string/menu_exclude_from_totals_help_text</string>
+    <string name="menu_tune">@string/options</string>
+    <string name="menu_import_trades">TODO</string>
 </resources>

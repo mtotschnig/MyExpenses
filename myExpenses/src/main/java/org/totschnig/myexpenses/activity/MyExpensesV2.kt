@@ -88,6 +88,8 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
     @Inject
     lateinit var modelClass: Class<out MyExpensesV2ViewModel>
 
+    override val helpContext = "MyExpensesV2"
+
     private val currencyViewModel: CurrencyViewModel by viewModels()
 
     private lateinit var adHandler: AdHandlerV2

@@ -1,5 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources tools:ignore="UnusedResources" xmlns:tools="http://schemas.android.com/tools">
+    <string-array name="MyExpensesV2_Accounts_menuitems">
+        <item>create_account</item>
+        <item>account_types</item>
+        <item>account_flags</item>
+        <item>balance_sheet</item>
+        <item>sort</item>
+        <item>grouping</item>
+    </string-array>
+
+    <string-array name="MyExpensesV2_Transactions_menuitems">
+        <item>search</item>
+        <item>distribution</item>
+        <item>history</item>
+        <item>sync_now</item>
+        <item>balance</item>
+        <item>reset</item>
+        <item>print</item>
+        <item>archive</item>
+        <item>tune</item>
+        <item>status_handle</item>
+    </string-array>
+
+    <string-array name="MyExpensesV2_Transactions_cabitems">
+        <item>edit</item>
+        <item>delete</item>
+        <item>create_template_from_transaction</item>
+        <item>clone_transaction</item>
+        <item>split_transaction</item>
+        <item>ungroup_split_transaction</item>
+        <item>remap</item>
+        <item>link</item>
+    </string-array>
+
+    <string-array name="MyExpensesV2_Portfolio_menuitems">
+        <item>search</item>
+        <item>import_trades</item>
+        <item>tune</item>
+        <item>archive</item>
+    </string-array>
+
+    <string-array name="MyExpensesV2_Portfolio_cabitems">
+        <item>edit</item>
+        <item>delete</item>
+    </string-array>
+
     <string-array name="MyExpenses_menuitems">
         <item>search</item>
         <item>manage_plans</item>
