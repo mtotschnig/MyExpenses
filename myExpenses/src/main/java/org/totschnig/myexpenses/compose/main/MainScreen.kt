@@ -75,6 +75,7 @@ import androidx.window.core.layout.WindowSizeClass
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.HELP_VARIANT_ACCOUNTS
+import org.totschnig.myexpenses.activity.HELP_VARIANT_BALANCE_SHEET
 import org.totschnig.myexpenses.activity.HELP_VARIANT_PORTFOLIO
 import org.totschnig.myexpenses.activity.HELP_VARIANT_TRANSACTIONS
 import org.totschnig.myexpenses.activity.StartScreen
@@ -98,6 +99,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.sort.TransactionSort
 import org.totschnig.myexpenses.preference.PreferenceState
+import org.totschnig.myexpenses.viewmodel.AccountsScreenTab
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel.AccountPanelState
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
@@ -288,7 +290,7 @@ fun MainScreenAdaptive(
         val tag = when (this) {
             MenuItem.WebUI -> !isWebUiActive
             MenuItem.Help -> when (navigator.currentDestination?.pane) {
-                ListDetailPaneScaffoldRole.List -> HELP_VARIANT_ACCOUNTS
+                ListDetailPaneScaffoldRole.List -> if (viewModel.currentAccountsTab.value == AccountsScreenTab.BALANCE_SHEET ) HELP_VARIANT_BALANCE_SHEET else HELP_VARIANT_ACCOUNTS
                 ListDetailPaneScaffoldRole.Detail -> if ((viewModel.accountList.value.find { it.id == selectedAccountId } as? FullAccount)?.isPortfolio == true) HELP_VARIANT_PORTFOLIO else HELP_VARIANT_TRANSACTIONS
                 else -> null
             }

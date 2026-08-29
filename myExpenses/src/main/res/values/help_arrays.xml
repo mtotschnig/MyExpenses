@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources tools:ignore="UnusedResources" xmlns:tools="http://schemas.android.com/tools">
-    <string-array name="MyExpensesV2_Accounts_menuitems">
+
+    <string-array name="MyExpensesV2_accounts_fabactions">
         <item>create_account</item>
-        <item>account_types</item>
-        <item>account_flags</item>
-        <item>balance_sheet</item>
-        <item>sort</item>
-        <item>grouping</item>
+        <item>create_portfolio</item>
     </string-array>
 
-    <string-array name="MyExpensesV2_Transactions_menuitems">
+    <string-array name="MyExpensesV2_accounts_cabitems">
+        <item>edit</item>
+        <item>delete</item>
+        <item>close.reopen</item>
+        <item>flag</item>
+        <item>exclude_from_totals</item>
+        <item>dynamic_exchange_rate</item>
+    </string-array>
+
+    <string-array name="MyExpensesV2_transactions_menuitems">
         <item>search</item>
         <item>distribution</item>
         <item>history</item>
@@ -22,7 +28,20 @@
         <item>status_handle</item>
     </string-array>
 
-    <string-array name="MyExpensesV2_Transactions_cabitems">
+    <string-array name="MyExpensesV2_transactions_fabactions">
+        <item>expense</item>
+        <item>income</item>
+        <item>transfer</item>
+        <item>split</item>
+        <item>scan</item>
+    </string-array>
+
+    <string-array name="help_MyExpensesV2_balanceSheet_info">
+        <item>menu_balance_sheet_help_text</item>
+        <item>menu_balance_sheet_help_text_date</item>
+    </string-array>
+
+    <string-array name="MyExpensesV2_transactions_cabitems">
         <item>edit</item>
         <item>delete</item>
         <item>create_template_from_transaction</item>
@@ -33,14 +52,22 @@
         <item>link</item>
     </string-array>
 
-    <string-array name="MyExpensesV2_Portfolio_menuitems">
+    <string-array name="MyExpensesV2_portfolio_menuitems">
         <item>search</item>
         <item>import_trades</item>
         <item>tune</item>
         <item>archive</item>
     </string-array>
 
-    <string-array name="MyExpensesV2_Portfolio_cabitems">
+    <string-array name="MyExpensesV2_portfolio_fabactions">
+        <item>trade_buy</item>
+        <item>trade_sell</item>
+        <item>trade_deposit</item>
+        <item>trade_withdraw</item>
+        <item>trade_transfer</item>
+    </string-array>
+
+    <string-array name="MyExpensesV2_portfolio_cabitems">
         <item>edit</item>
         <item>delete</item>
     </string-array>
