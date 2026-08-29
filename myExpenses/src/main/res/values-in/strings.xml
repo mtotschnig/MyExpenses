@@ -921,4 +921,31 @@
     <string name="pref_content_based_colors_summary">Turunkan warna tema dari warna akun saat ini. Matikan jika teks sulit dibaca.</string>
     <string name="service_starting">Memulai…</string>
     <string name="rounding">Pembulatan</string>
+    <string name="parse_error_at_line">Kesalahan pada baris %1$d: %2$s</string>
+    <plurals name="import_trades_missing_assets_message">
+        <item quantity="other">%1$d baris merujuk ke aset yang tidak diketahui: %2$s.</item>
+    </plurals>
+    <string name="trade_buy">Beli</string>
+    <string name="trade_sell">Jual</string>
+    <string name="trade_transfer">Transfer</string>
+    <string name="trade_quantity">Kuantitas</string>
+    <string name="trade_price">Harga</string>
+    <string name="trade_fee">Biaya</string>
+    <string name="trade_target_asset">Aset</string>
+    <string name="menu_create_portfolio">Portofolio baru</string>
+    <string name="asset_type_fiat_plural">Mata uang</string>
+    <string name="asset_type_security">Sekuritas</string>
+    <string name="asset_type_security_plural">Sekuritas</string>
+    <string name="asset_type_crypto">Kripto</string>
+    <string name="asset_type_commodity">Komoditas</string>
+    <string name="asset_type_commodity_plural">Komoditas</string>
+    <string name="trade_funding_source">Sumber Dana</string>
+    <string name="trade_funding_portfolio">Kas Portofolio</string>
+    <string name="trade_funding_external_description">Dana dari sumber yang tidak dilacak di aplikasi ini</string>
+    <string name="trade_deposit">Setoran</string>
+    <string name="trade_withdraw">Penarikan</string>
+    <string name="trade_matching_transaction_found">Ditemukan transaksi yang cocok di akun pendanaan. Pilih untuk menautkan:</string>
+    <string name="asset_quantity_at_price">%1$s @ %2$s</string>
+    <string name="contrib_feature_portfolio_tracking">Pelacakan portofolio</string>
+    <string name="premium_nudge_portfolio_message">Anda dapat mengelola satu portofolio secara gratis. Tingkatkan untuk mengelola beberapa portofolio dan membuka fitur pelacakan lanjutan.</string>
 </resources>
