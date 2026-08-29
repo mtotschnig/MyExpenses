@@ -3,6 +3,9 @@ package org.totschnig.myexpenses.compose.accounts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.WindowInsetsSides.Companion
+import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.input.TextFieldState
@@ -107,7 +110,9 @@ fun AccountsScreen(
         contentWindowInsets = windowInsets,
         topBar = {
             TopAppBar(
-                windowInsets = windowInsets,
+                windowInsets = windowInsets.only(
+                    WindowInsetsSides.Horizontal + WindowInsetsSides.Top
+                ),
                 navigationIcon = navigationIcon,
                 scrollBehavior = scrollBehavior,
                 title = {
