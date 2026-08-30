@@ -585,6 +585,8 @@
     <string name="goal_or_limit">储蓄目标/信用额度</string>
     <string name="saving_goal">储蓄目标</string>
     <string name="credit_limit">信用额度</string>
+    <string name="saving_goal_short_fall">缺少</string>
+    <string name="credit_limit_available_credit">可用信用</string>
     <string name="clear_all_filters">清除所有的筛选条件</string>
     <string name="menu_budget">预算编制</string>
     <string name="dialog_title_edit_budget">编辑预算</string>
@@ -861,4 +863,14 @@
     <string name="pref_ui_start_screen_title">起始页面</string>
     <string name="pref_ui_start_screen_last_visited">上次访问的页面</string>
     <string name="rounding">舍入</string>
+    <!-- Flags allow to define subset of accounts, e.g. Favorite accounts, archive accounts -->
+    <string name="menu_account_flags">所有标记</string>
+    <string name="menu_flag">标记</string>
+    <string name="edit_account_flag">编辑标记</string>
+    <string name="new_account_flag">新建标记</string>
+    <string name="flag_unflagged">无标记</string>
+    <string name="flag_favorite">常用</string>
+    <string name="prioritize_flag_order">优先考虑标记顺序</string>
+    <string name="menu_create_portfolio">新建分类</string>
+    <string name="aggregate_invisible">将未使用/不可见账户纳入汇总账户和资产负债表</string>
 </resources>

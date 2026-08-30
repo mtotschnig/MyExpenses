@@ -329,12 +329,20 @@ dependencies {
 }
 
 static def getDate() {
-    def gitDate = "git show --no-patch --format=%cI".execute().text.trim()
-    if (!gitDate) {
-        throw new GradleException("Unable to determine the build date from Git")
+    try {
+        def gitDate = "git show --no-patch --format=%cI".execute().text.trim()
+        //if (!gitDate) {
+        //    throw new GradleException("Unable to determine the build date from Git")
+        //}
+        if (gitDate) {
+            def dateTime = java.time.OffsetDateTime.parse(gitDate).toLocalDateTime()
+            return "java.time.LocalDateTime.of(${dateTime.year},${dateTime.monthValue},${dateTime.dayOfMonth},${dateTime.hour},${dateTime.minute})"
+        }
+    } catch (Exception e) {
+
     }
-    def dateTime = java.time.OffsetDateTime.parse(gitDate).toLocalDateTime()
-    return "java.time.LocalDateTime.of(${dateTime.year},${dateTime.monthValue},${dateTime.dayOfMonth},${dateTime.hour},${dateTime.minute})"
+    def now = java.time.LocalDateTime.now()
+    return "java.time.LocalDateTime.of(${now.year},${now.monthValue},${now.dayOfMonth},${now.hour},${now.minute})"
 }
 
 //apply plugin: 'com.jakewharton.hugo'
