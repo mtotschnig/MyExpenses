@@ -22,6 +22,7 @@
     <string name="account_type_cash">现金账户</string>
     <string name="account_type_ccard">信用卡</string>
     <string name="account_type_liability">其他负债账户</string>
+    <string name="account_type_investment">投资账户</string>
     <string name="already_defined">%1$s 已被定义</string>
     <string name="amount">金额</string>
     <string name="app_name">开支助手</string>
