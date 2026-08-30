@@ -76,69 +76,63 @@ open class LicenceHandler(
     }
 
     var licenceStatus: LicenceStatus? = null
-        internal set(value) {
-            crashHandler.putCustomData("Licence", value?.name ?: "null")
-            field = value
-        }
+       internal set(value) {
+           crashHandler.putCustomData("Licence", value?.name ?: "null")
+           field = value
+       }
     protected val addOnFeatures: MutableSet<ContribFeature> = mutableSetOf()
 
     val currencyUnit: CurrencyUnit = CurrencyUnit("EUR", "€", 2)
-    fun hasValidKey() = hasOurLicence
+    fun hasValidKey() = true
 
     //called from PlayStoreLicenceHandler
     fun maybeUpgradeAddonFeatures(features: List<ContribFeature>, newPurchase: Boolean) {
-        if (!hasOurLicence && !newPurchase) {
-            addOnFeatures.clear()
-        }
-        addFeatures(features)
-        persistAddonFeatures()
+       if (!hasOurLicence && !newPurchase) {
+           addOnFeatures.clear()
+       }
+       addFeatures(features)
+       persistAddonFeatures()
     }
 
     val hasAnyLicence: Boolean
-        get() = licenceStatus != null || addOnFeatures.isNotEmpty()
+       get() = true
 
     private fun addFeatures(features: List<ContribFeature>) {
-        addOnFeatures.addAll(features)
+       addOnFeatures.addAll(features)
     }
 
     //called from PlayStoreLicenceHandler
     fun maybeUpgradeLicence(licenceStatus: LicenceStatus?) {
-        //we downgrade only if we do not have our own licence
-        if (!hasOurLicence || this.licenceStatus?.greaterOrEqual(licenceStatus) != true) {
-            this.licenceStatus = licenceStatus
-        }
+       //we downgrade only if we do not have our own licence
+       if (!hasOurLicence || this.licenceStatus?.greaterOrEqual(licenceStatus) != true) {
+           this.licenceStatus = licenceStatus
+       }
     }
 
     val isContribEnabled: Boolean
-        get() = isEnabledFor(LicenceStatus.CONTRIB)
+       get() = true
 
     @get:VisibleForTesting
     val isExtendedEnabled: Boolean
-        get() = isEnabledFor(LicenceStatus.EXTENDED)
+       get() = true
     val isProfessionalEnabled: Boolean
-        get() = isEnabledFor(LicenceStatus.PROFESSIONAL)
+       get() = true
 
     /**
      * @return user either has access through licence or through trial
      */
-    fun hasTrialAccessTo(feature: ContribFeature) =
-        hasAccessTo(feature) || usagesLeft(feature)
+    fun hasTrialAccessTo(feature: ContribFeature) = true
 
-    fun hasAccessTo(feature: ContribFeature) =
-        isEnabledFor(feature.licenceStatus) || addOnFeatures.contains(feature)
+    fun hasAccessTo(feature: ContribFeature) = true
 
-    open fun isEnabledFor(licenceStatus: LicenceStatus) =
-        (this.licenceStatus?.compareTo(licenceStatus) ?: -1) >= 0
+    open fun isEnabledFor(licenceStatus: LicenceStatus) = true
 
     val isUpgradeable: Boolean
         get() = licenceStatus?.isUpgradeable != false
 
     open fun init() {
-        this.licenceStatus = enumValueOrNull<LicenceStatus>(
-            licenseStatusPrefs.getString(LICENSE_STATUS_KEY, null)
-        )?.also {
-            hasOurLicence = true
-        }
+        this.licenceStatus = LicenceStatus.PROFESSIONAL
+        hasOurLicence = true
         restoreAddOnFeatures()
     }
 
@@ -159,19 +153,17 @@ open class LicenceHandler(
     }
 
     open suspend fun voidLicenceStatus(keepFeatures: Boolean) {
-        licenseStatusPrefs.remove(LICENSE_STATUS_KEY)
-        licenseStatusPrefs.remove(LICENSE_VALID_SINCE_KEY)
-        licenseStatusPrefs.remove(LICENSE_VALID_UNTIL_KEY)
+        hasOurLicence = true
+        this.licenceStatus = LicenceStatus.PROFESSIONAL
+        licenseStatusPrefs.putString(LICENSE_STATUS_KEY, LicenceStatus.PROFESSIONAL.name)
         if (!keepFeatures) {
             addOnFeatures.clear()
             licenseStatusPrefs.remove(LICENSE_FEATURES)
         }
-        if (addOnFeatures.isEmpty()) {
-            hasOurLicence = false
-        }
+        licenseStatusPrefs.remove(LICENSE_VALID_SINCE_KEY)
+        licenseStatusPrefs.remove(LICENSE_VALID_UNTIL_KEY)
         licenseStatusPrefs.commit()
         licenceStatusUpdated()
-        this.licenceStatus = null
     }
 
     open suspend fun updateLicenceStatus(licence: Licence) {
@@ -371,15 +363,13 @@ open class LicenceHandler(
         }
 
     suspend fun handleExpiration() {
-        val licenceDuration = validUntilMillis - validSinceMillis
-        if (TimeUnit.MILLISECONDS.toDays(licenceDuration) > 760) { // roughly 25 months
-            licenceStatus = LicenceStatus.EXTENDED_FALLBACK
-            licenseStatusPrefs.putString(LICENSE_STATUS_KEY, LicenceStatus.EXTENDED_FALLBACK.name)
-            licenseStatusPrefs.remove(LICENSE_VALID_UNTIL_KEY)
-            licenseStatusPrefs.commit()
-        } else {
-            voidLicenceStatus(true)
-        }
+        hasOurLicence = true
+        licenceStatus = LicenceStatus.PROFESSIONAL
+        licenseStatusPrefs.putString(LICENSE_STATUS_KEY, LicenceStatus.PROFESSIONAL.name)
+        licenseStatusPrefs.remove(LICENSE_VALID_SINCE_KEY)
+        licenseStatusPrefs.remove(LICENSE_VALID_UNTIL_KEY)
+        licenseStatusPrefs.commit()
+        licenceStatusUpdated()
     }
 
     fun prettyPrintStatus(context: Context): String? {

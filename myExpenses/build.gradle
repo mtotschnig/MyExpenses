@@ -329,8 +329,12 @@ dependencies {
 }
 
 static def getDate() {
-    def formattedDate = "java.time.LocalDateTime.of(" + "git show --no-patch --format=%cd --date=format-local:%Y,%-m,%-d,%-H,%-M".execute().text.trim() + ")"
-    return formattedDate
+    def gitDate = "git show --no-patch --format=%cI".execute().text.trim()
+    if (!gitDate) {
+        throw new GradleException("Unable to determine the build date from Git")
+    }
+    def dateTime = java.time.OffsetDateTime.parse(gitDate).toLocalDateTime()
+    return "java.time.LocalDateTime.of(${dateTime.year},${dateTime.monthValue},${dateTime.dayOfMonth},${dateTime.hour},${dateTime.minute})"
 }
 
 //apply plugin: 'com.jakewharton.hugo'

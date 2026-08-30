@@ -12,6 +12,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.CurrencyFormatter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -33,16 +34,28 @@ class LicenceHandlerTest {
     }
 
     @Test
+    fun initUnlocksAllFeatures() {
+        licenceHandler.init()
+        Truth.assertThat(licenceHandler.licenceStatus).isEqualTo(LicenceStatus.PROFESSIONAL)
+        Truth.assertThat(licenceHandler.hasValidKey()).isTrue()
+        Truth.assertThat(licenceHandler.hasAnyLicence).isTrue()
+        Truth.assertThat(licenceHandler.hasAccessTo(ContribFeature.PORTFOLIO)).isTrue()
+        Truth.assertThat(licenceHandler.isEnabledFor(LicenceStatus.CONTRIB)).isTrue()
+        Truth.assertThat(licenceHandler.isEnabledFor(LicenceStatus.EXTENDED)).isTrue()
+        Truth.assertThat(licenceHandler.isEnabledFor(LicenceStatus.PROFESSIONAL)).isTrue()
+    }
+
+    @Test
     @Parameters(
-        "null, CONTRIB, false",
-        "null, EXTENDED, false",
-        "null, PROFESSIONAL, false",
+        "null, CONTRIB, true",
+        "null, EXTENDED, true",
+        "null, PROFESSIONAL, true",
         "CONTRIB, CONTRIB, true",
-        "CONTRIB, EXTENDED, false",
-        "CONTRIB, PROFESSIONAL, false",
+        "CONTRIB, EXTENDED, true",
+        "CONTRIB, PROFESSIONAL, true",
         "EXTENDED, CONTRIB, true",
         "EXTENDED, EXTENDED, true",
-        "EXTENDED, PROFESSIONAL, false",
+        "EXTENDED, PROFESSIONAL, true",
         "PROFESSIONAL, CONTRIB, true",
         "PROFESSIONAL, EXTENDED, true",
         "PROFESSIONAL, PROFESSIONAL, true"
