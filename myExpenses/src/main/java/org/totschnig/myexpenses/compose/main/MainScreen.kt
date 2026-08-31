@@ -332,7 +332,7 @@ fun MainScreenAdaptive(
                             IconButton(onClick = { onAppEvent(AppEvent.ToggleNavigation) }) {
                                 Icon(
                                     Icons.Default.Close,
-                                    contentDescription = stringResource(R.string.drawer_open)
+                                    contentDescription = stringResource(R.string.drawer_close)
                                 )
                             }
                         },

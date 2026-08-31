@@ -59,6 +59,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <!-- translators -->
+        <TextView
+            style="@style/headingStyle.WithMargin.Caps"
+            android:text="@string/translated_by" />
+
+        <TextView
+            android:id="@+id/translators_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
         <TextView
             style="@style/headingStyle.WithMargin.Caps"
             android:text="Icons from the Noun Project (Creative Commons CC BY)" />

@@ -450,26 +450,6 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace,
             false
         } else true
 
-    @SuppressLint("DiscouragedApi")
-    fun getTranslatorsArrayResId(language: String, country: String?): Int {
-        var result = 0
-        val prefix = "translators_"
-        if (language.isEmpty()) {
-            if (!country.isNullOrEmpty()) {
-                result = resources.getIdentifier(
-                    prefix + language + "_" + country,
-                    "array", packageName
-                )
-            }
-            if (result == 0) {
-                result = resources.getIdentifier(
-                    prefix + language,
-                    "array", packageName
-                )
-            }
-        }
-        return result
-    }
 
     @Deprecated("Deprecated in Java")
     override fun onCreateDialog(id: Int): Dialog? = run {
