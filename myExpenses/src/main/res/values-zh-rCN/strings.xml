@@ -17,7 +17,7 @@
     <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">无广告</string>
     <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">无限数量的账户</string>
     <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">可附加交易图片</string>
-    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">圆饼统计图（会根据每个类别作出统计图表)</string>
+    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">圆饼统计图（会根据每个类别作出统计图表）</string>
     <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">无限数量的收支计划</string>
     <string name="contrib_feature_print_label" tools:ignore="UnusedResources">可将交易记录清单以PDF的文件型式导出</string>
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">导入 CSV</string>
@@ -26,7 +26,7 @@
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">对<b>程序开发路线图</b>的投票权</string>
     <string name="contrib_feature_history_label" tools:ignore="UnusedResources">收支历史图表</string>
     <string name="licence_status_free">免费版</string>
-    <string name="contrib_key">贡献版密钥（Contrib Key)</string>
+    <string name="contrib_key">贡献版密钥（Contrib Key）</string>
     <string name="extended_key">扩展版密钥</string>
     
     <string name="contrib_key_requires">需要 %1$s。</string>
@@ -54,7 +54,7 @@
     <string name="dialog_password_activate_protection">启用密码保护</string>
     <string name="dialog_password_change_password">更改密码</string>
     <string name="dialog_password_new_password">新密码</string>
-    <string name="dialog_password_new_password_confirmation">(再确认一次）新密码</string>
+    <string name="dialog_password_new_password_confirmation">（再确认一次）新密码</string>
     <string name="dialog_remind_later">以后再说</string>
     <string name="dialog_remind_rate_how_many_stars">你会给{app_name}打多少分？</string>
     <string name="dialog_remind_rate_1">请大家花点时间来评价{app_name}。</string>
@@ -76,7 +76,7 @@
     
     <string name="export_sdcard_failure">开支导出到文件 %1$s 失败: %2$s</string>
     
-    <string name="export_sdcard_success">成功把数据导出到了文件 \"%1$s\\</string>
+    <string name="export_sdcard_success">成功把数据导出到了文件“%1$s”</string>
     <string name="feedback">意见反馈</string>
     <string name="ftp_uri_malformed">异常URI %1$s</string>
     <string name="grisbi_import_categories_loading">正在从%1$s加载类别中</string>
@@ -100,7 +100,7 @@
     <string name="menu_aggregates">总计</string>
     
     <string name="menu_apply_template">应用</string>
-    <string name="menu_back">时间向前（过去)</string>
+    <string name="menu_back">时间向前（过去）</string>
     <string name="menu_backup">备份</string>
     
     <string name="menu_balance">结平账户</string>
@@ -139,7 +139,7 @@
     <string name="menu_edit_transaction">编辑交易</string>
     <string name="menu_edit_transfer">编辑转帐</string>
     <string name="menu_exclude_from_totals">不计入总数</string>
-    <string name="menu_forward">时间向后（未来)</string>
+    <string name="menu_forward">时间向后（未来）</string>
     <string name="menu_grouping">分组</string>
     <string name="menu_help">帮助</string>
     
@@ -206,9 +206,9 @@
     <string name="pm_creditcard">信用卡</string>
     <string name="pm_deposit">存款</string>
     <string name="pm_directdebit">直接付款</string>
-    <string name="pm_type_credit">贷/收入（Credit)</string>
-    <string name="pm_type_debit">借/支出（Debit)</string>
-    <string name="pm_type_neutral">借或贷（Neutral)</string>
+    <string name="pm_type_credit">贷/收入（Credit）</string>
+    <string name="pm_type_debit">借/支出（Debit）</string>
+    <string name="pm_type_neutral">借或贷（Neutral）</string>
     <string name="pref_app_dir_title">备份和导出的文件夹</string>
     <string name="pref_auto_fill_summary">为同一交易对手方填写上一次交易的数据</string>
     <string name="pref_backup_summary">创建数据库与首选项的备份</string>
@@ -274,7 +274,7 @@
     <string name="restore_db_failure">数据库还原失败。</string>
     <string name="restore_db_success">数据库已从备份还原。</string>
     <string name="restore_preferences_failure">首选项还原失败</string>
-    <string name="restore_backup_file_not_found">文件 %1$s 未在压缩文件 \"%2$s\\ 内被找到</string>
+    <string name="restore_backup_file_not_found">文件 %1$s 未在压缩文件“%2$s”内被找到</string>
     <string name="restore_preferences_success">首选项已通过备份恢复</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d计划已从备份中还原</string>
     <string name="save_transaction_and_new_success">保存成功</string>
@@ -316,7 +316,7 @@
     <string name="unsplit_amount_greater_than_zero">还有一些金额没有拆分。</string>
     <string name="warning_backup">数据库和首选项将保存到“%1$s”</string>
     <string name="continue_confirmation">你要继续吗？</string>
-    <string name="warning_delete_account">\"%1$s\" 此账户与它的所有交易将被删除。</string>
+    <string name="warning_delete_account">“%1$s”此账户与它的所有交易将被删除。</string>
     <plurals name="warning_delete_main_category">
         <item quantity="other">您所选的 %1$d 个类别包含子类别，这些子类别也将被删除。</item>
     </plurals>
@@ -330,7 +330,7 @@
     <string name="move_category_success">一个类别已移动成功。</string>
     <string name="move_category_failure">一个类别未移动，因为目标上已经存在相同的标签。</string>
     <string name="warning_delete_reconciled">删除已对帐的交易会导致您的记录与银行对帐单不同。</string>
-    <string name="warning_balance_account">请核对 \"已入帐/已结算\" 的交易总额与银行对帐单期末结余。如果继续操作，\"已入帐/已结算\" 的交易将被标记为 \"已对帐\"。</string>
+    <string name="warning_balance_account">请核对“已入帐/已结算”的交易总额与银行对帐单期末结余。如果继续操作，“已入帐/已结算”的交易将被标记为“已对帐”。</string>
     <string name="warning_password_protected">应用程序被密码保护中。</string>
     <string name="warning_widget_disabled">您需要在设置中启用此微件。</string>
     <string name="warning_instantiate_template_from_widget_password_protected">只有 \"程序设置\"-&gt;\"保护设置\"-&gt;\"从小部件和快捷方式输入数据\"-&gt;\"无需密码即可允许此操作\" 的设置时，您才能从小部件widget上快速实例化模板。</string>
@@ -396,7 +396,7 @@
     <string name="folder_name">文件夹名</string>
     <string name="mark_void_instead_of_delete">不删除交易，而是将其标记成无效交易。</string>
     <string name="menu_undelete_transaction">取消删除</string>
-    <string name="slash_forbidden_in_filename">\" / \" 符号不允许作为文件名</string>
+    <string name="slash_forbidden_in_filename">“ / ”符号不允许作为文件名</string>
     <string name="io_error_unable_to_create_file">无法在文件夹%2$s中创建文件%1$s</string>
     <string name="export_to_format">导出为 %s</string>
     <string name="pref_csv_import_delimiter">分隔符</string>
@@ -507,7 +507,7 @@
     <string name="licence_removal_information">如果您不再需要此设备上的高级功能，则可以删除许可证密钥。这样可以释放密钥，以便在另一台设备上激活。该密钥最多可以在%d台设备上激活。</string>
     <string name="progress_removing_licence">删除许可证</string>
     <string name="licence_removal_success">许可证密钥已成功地从该设备释放。</string>
-    <string name="professional_key">专业版密钥（Professional Key)</string>
+    <string name="professional_key">专业版密钥（Professional Key）</string>
     <string name="n_months">%d个月</string>
     <string name="eu_vat_info">对于欧盟的居民，显示的价格不包括增值税。</string>
     <string name="valid_until">直到%s</string>
@@ -550,16 +550,16 @@
     <string name="split_transaction_group_success">%1$d 笔交易已成功地组成一个拆分交易。</string>
     <string name="split_transaction_not_possible">只有账户、交易对手方和状态相同的交易才能被组合成一个拆分交易。</string>
     <string name="pref_transaction_time_summary">允许设置确切的交易时间。</string>
-    <string name="pref_value_date_summary">除了 \"账面交易日期（booking date)\" 外，还可以设置 \"生效日期（value date)\"。交易时间将被隐藏。此设置不适用于现金账户。</string>
+    <string name="pref_value_date_summary">除了“账面交易日期（booking date）”外，还可以设置“生效日期（value date）”。交易时间将被隐藏。此设置不适用于现金账户。</string>
     
-    <string name="booking_date">账面交易日期（booking date)</string>
+    <string name="booking_date">账面交易日期（booking date）</string>
     
-    <string name="value_date">生效日期（value date)</string>
-    <string name="licence_expires_n_days">您的 \"专业版密钥（Professional Key)\" 将在%d天后过期。</string>
-    <string name="licence_expires_tomorrow">您的 \"专业版密钥（Professional Key)\" 将于明天到期。</string>
-    <string name="licence_expires_today">您的 \"专业版密钥（Professional Key)\" 今天到期。</string>
-    <string name="licence_expired_yesterday">您的 \"专业版密钥（Professional Key)\" 已在昨天过期。</string>
-    <string name="licence_has_expired_n_days">您的 \"专业版密钥（Professional Key)\" 已在%d天前过期。</string>
+    <string name="value_date">生效日期（value date）</string>
+    <string name="licence_expires_n_days">您的“专业版密钥（Professional Key）”将在%d天后过期。</string>
+    <string name="licence_expires_tomorrow">您的“专业版密钥（Professional Key）”将于明天到期。</string>
+    <string name="licence_expires_today">您的“专业版密钥（Professional Key）”今天到期。</string>
+    <string name="licence_expired_yesterday">您的“专业版密钥（Professional Key）”已在昨天过期。</string>
+    <string name="licence_has_expired_n_days">您的“专业版密钥（Professional Key）”已在%d天前过期。</string>
     <string name="gdpr_consent_button_no">支付无广告版本</string>
     <string name="sort_order">排序顺序</string>
     <string name="navigation_drawer_accounts_title">管理账户</string>
@@ -599,7 +599,7 @@
     <string name="currency_still_used">货币正在使用中，无法删除。</string>
     <string name="unmapped">无类别</string>
     <string name="unmapped_filter_only_single">“未分类项目”只能被单独筛选，不能包含在多个筛选条件中</string>
-    <string name="pref_security_export_passphrase_title">设置备份的密码短语（Passphrase)</string>
+    <string name="pref_security_export_passphrase_title">设置备份的密码短语（Passphrase）</string>
     <string name="pref_security_export_passphrase_summary">备份将使用此密码短语（Passphrase）进行加密</string>
     <string name="backup_is_encrypted">备份文件已加密。为了解密它，您需要输入它的密码短语（Passphrase）。</string>
     <string name="backup_wrong_password">备份文件似乎使用了不同的加密密码短语（Passphrase）。</string>
@@ -608,7 +608,7 @@
     <string name="sync_backend_wrong_passphrase">远程后端似乎使用不同的加密密码短语（Passphrase）。</string>
     <string name="sync_backend_is_not_encrypted">远程后端未加密。</string>
     <string name="warning_backup_protected">存储的文件将受到您的密码短语保护（Passphrase）。</string>
-    <string name="input_label_passphrase">密码短语（Passphrase)</string>
+    <string name="input_label_passphrase">密码短语（Passphrase）</string>
     <string name="button_label_no_encryption">没有加密</string>
     
     <string name="joining_or">或</string>
@@ -715,7 +715,7 @@
     <string name="scan_result_no_amount">找不到金额</string>
     <string name="scan_result_no_date">找不到日期</string>
     <string name="scan_result_no_payee">找不到收款人</string>
-    <string name="pref_feature_uninstall_title">要求卸载 \"功能\" 和 \"语言\"</string>
+    <string name="pref_feature_uninstall_title">要求卸载“功能”和“语言”</string>
     <string name="pref_feature_uninstall_summary">Google Play 商店 尝试在后台删除这些模块。</string>
     
     <string name="select_package">请选择一个许可证包。</string>
@@ -859,17 +859,11 @@
     <string name="archive_warning">所选日期范围内的所有交易（%d）将被归档。</string>
     <string name="asset_quantity_at_price">%1$s @ %2$s</string>
     <string name="asset_type_commodity">商品</string>
-    <plurals name="asset_type_commodity_plural">
-        <item quantity="one">商品</item>
-        <item quantity="other">商品</item>
-    </plurals>
+    <string name="asset_type_commodity_plural">多个商品</string>
     <string name="asset_type_crypto">加密货币</string>
     <string name="asset_type_fiat_plural">货币</string>
     <string name="asset_type_security">证券</string>
-    <plurals name="asset_type_security_plural">
-        <item quantity="one">证券</item>
-        <item quantity="other">证券</item>
-    </plurals>
+    <string name="asset_type_security_plural">多个证券</string>
     <string name="batch_download">批量下载</string>
     <string name="batch_download_result">已下载 %d 个价格并存储到数据库中。</string>
     <string name="budget_deleted">预算已删除</string>
