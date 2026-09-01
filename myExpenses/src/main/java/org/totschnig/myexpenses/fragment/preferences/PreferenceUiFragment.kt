@@ -329,7 +329,7 @@ class PreferenceUiFragment : BasePreferenceFragment() {
         //that might get set in ListPreference onRestoreInstanceState, when activity is recreated
         //due to user changing app language in Android 13 system settings
         findPreference<ListPreference>(PrefKey.UI_LANGUAGE)?.apply {
-            entries = getLocaleArray()
+            entries = requireContext().getLocaleArray()
             value = AppCompatDelegate.getApplicationLocales()[0]?.toLanguageTag()
                 ?: MyApplication.DEFAULT_LANGUAGE
             onPreferenceChangeListener =
@@ -347,18 +347,10 @@ class PreferenceUiFragment : BasePreferenceFragment() {
     }
 
 
-    private fun getLocaleArray() =
-        requireContext().resources.getStringArray(R.array.pref_ui_language_values)
-            .map(this::getLocaleDisplayName)
+    private fun Context.getLocaleArray() =
+        resources.getStringArray(R.array.pref_ui_language_values)
+            .map { getLocaleDisplayName(it) }
             .toTypedArray()
-
-    private fun getLocaleDisplayName(localeString: String) =
-        if (localeString == "default") {
-            requireContext().getString(R.string.system_default)
-        } else {
-            val locale = Locale.forLanguageTag(localeString)
-            locale.getDisplayName(locale)
-        }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
         when (key) {
@@ -377,6 +369,13 @@ class PreferenceUiFragment : BasePreferenceFragment() {
     companion object {
         fun Context.compactItemRendererTitle() =
             "${getString(R.string.style)} : ${getString(R.string.compact)}"
+
+        fun Context.getLocaleDisplayName(localeString: String): String =
+            if (localeString == "default") {
+                getString(R.string.system_default)
+            } else {
+                Locale.forLanguageTag(localeString).getDisplayName(Locale.getDefault())
+            }
     }
 }
 
