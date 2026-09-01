@@ -9,7 +9,7 @@
     <string name="help_MyExpenses_fab_long_press">Hold nede på den flydende handlingsknap for at åbne en menu til at forberede formularen til overførsel, opdelt transaktion eller indtægt.</string>
     <string name="menu_distribution_help_text">Vis fordelingen af dine udgifter per kategori. Du kan også holde nede på en gruppeoverskrift for at se fordelingen for en bestemt periode.</string>
     <string name="menu_print_help_text">Genererer en udskrivbar visning af de aktuelt viste transaktioner.</string>
-    <string name="menu_search_help_text">Denne post åbner en undermenu, der lader dig definere søgekriterier baseret på kategori, beløb, kommentar, status, betaler/modtager og betalingsmetode. Når et søgefilter er aktivt, kan du blot klikke på dets post i undermenuen for at deaktivere det.</string>
+    <string name="menu_search_help_text">Denne post åbner en undermenu, der lader dig definere søgekriterier baseret på kategori, beløb, kommentar, status, betaler/modtager og betalingsmetode.</string>
     <string name="cab_split_help_text">Du kan senere redigere transaktionen for at oprette yderligere dele efter behov.</string>
     <string name="menu_scan_mode_help_text">Aktivér scantilstand for hurtigt at scanne kvitteringer.</string>
     <string name="help_contextual_actions_help">Menuen til kontekstuelle handlinger vises ved at holde nede på en listeindgang.</string>

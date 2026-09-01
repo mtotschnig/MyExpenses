@@ -18,7 +18,7 @@
     <string name="menu_manage_plans_help_text">Buka senarai templat dan plan, yang mana anda boleh laksana, sunting atau padam ia, dan juga takrifkan plan untuk transaksi akan datang dan berulang.</string>
     <string name="menu_balance_help_text">Perintah ini membuka satu dialog yang memaparkan baki tersesuai dan baki selesai. Anda boleh bandingkan kemudian dengan penyata bank anda, dan tandakan semua transaksi selesai sebagai disesuaikan. Atau anda boleh cadang untuk padamkan transaksi tersesuai.</string>
     <string name="menu_print_help_text">Jana paparan boleh cetak bagi transaksi semasa yang dipapar.</string>
-    <string name="menu_search_help_text">Masukan ini membuka satu submenu yang membolehkan anda takrif kriteria gelintar berasaskan kategori, amaun, ulasan, status, pembayar/penerima dan kaedah pembayaran. Bila penapis gelintar diaktifkan, andah hanya klik pada masukannya pada submenu untuk dinyahaktifkan.</string>
+    <string name="menu_search_help_text">Masukan ini membuka satu submenu yang membolehkan anda takrif kriteria gelintar berasaskan kategori, amaun, ulasan, status, pembayar/penerima dan kaedah pembayaran.</string>
     <string name="cab_create_template_from_transaction_help_text">Takrif templat baharu yang berdasarkan pada transaksi terpilih. Akan maklumkan anda untuk masukkan tajuk templat tersebut.</string>
     <string name="cab_clone_transaction_help_text">Transaksi terpilih akan diklonkan dengan tarikh dan waktu semasa. Anda boleh buat perubahan sebelum menyimpan salinan tersebut.</string>
     <string name="cab_split_help_text">Anda boleh sunting transaksi kemudian untuk mencipta bahagian tambahan yang diperlukan.</string>

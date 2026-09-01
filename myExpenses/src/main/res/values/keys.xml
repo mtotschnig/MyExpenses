@@ -311,4 +311,5 @@
     <string name="trade_import_format_hint">Format (Header required): Date,Type,Asset,Quantity,Price,Total,Fee. Provide at least 2 of Quantity, Price, Total.</string>
     <string name="pref_default_action_key">default_action</string>
     <string name="whats_new_411_4" tools:ignore="UnusedResources">Mutual TLS / Client Certificate Support for WebDAV Sync </string>
+    <string name="menu_sync">@string/menu_sync_now</string>
 </resources>

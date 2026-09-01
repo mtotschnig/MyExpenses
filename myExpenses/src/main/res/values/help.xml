@@ -21,12 +21,11 @@
     <string name="cab_delete_help_text">Delete the selected items.</string>
     <string name="cab_edit_help_text">Edit the selected item.</string>
     <string name="help_MyExpenses_title">Transaction list</string>
-    <string name="help_MyExpensesV2_accounts_info"><![CDATA[Manage your accounts and track your net worth. Switch between the account list and the balance sheet using the toolbar dropdown. Use the <img src="tune"> <b>Options</b> menu to group and sort accounts, and the <img src="data"> <b>Data</b> menu to configure types and flags. Tap an account to see its summary, or the <img src="ic_chevron_end"> icon to view its transactions. The <img src="more"> icon provides additional actions for each account.]]></string>
+    <string name="help_MyExpensesV2_accounts_info"><![CDATA[Manage your accounts and track your net worth. Switch between the account list and the balance sheet using the toolbar dropdown. Use the <img src="tune"> <b>Options</b> menu to group and sort accounts, and the <img src="data"> <b>Data</b> menu to configure types, flags and currencies. Tap an account to see its summary, or the <img src="ic_chevron_end"> icon to view its transactions. The <img src="more"> icon provides additional actions for each account.]]></string>
     <string name="help_MyExpensesV2_transactions_info">View and manage transactions for the selected account. Use the floating action button to add new transactions.</string>
-    <string name="help_MyExpensesV2_portfolio_info">Track your investments in this portfolio. You can import trades and view your asset distribution.</string>
-    <string name="menu_tune_help_text">Customize your view: toggle navigation modes, adjust grouping, and manage which actions appear in your quick-access menus.</string>
+    <string name="help_MyExpensesV2_portfolio_info">Track your investments in this portfolio. You can import trades and view your asset distribution. The account summary links to the prices screen, where the current price of an asset can be set.</string>
     <string name="menu_import_trades_help_text">Import investment trades from a CSV file into your portfolio.</string>
-    <string name="menu_sync_now_help_text">Trigger immediate synchronization with the cloud service configured for the current account.</string>
+    <string name="menu_sync_help_text">Trigger immediate synchronization with the cloud service configured for the current account.</string>
     <string name="help_MyExpenses_info">This screen lists all transactions for the current account. Use the floating action button to open the form for creating a new transaction.</string>
     <string name="help_MyExpenses_fab_long_press">Long press on the floating action button opens a menu that allows to prepare the form for transfer, split transaction or income.</string>
     <string name="popup_MyExpenses_toolbar_intro">Tapping on the toolbar (account label or current balance) pops up a menu with the following entries:</string>
@@ -42,7 +41,7 @@
     <string name="menu_manage_plans_help_text">Opens the list of templates and plans, where you can apply, edit or delete them, and also define plans for future and recurrent transactions.</string>
     <string name="menu_balance_help_text">This command opens a dialog displaying the last reconciled balance and the cleared balance. You can compare the latter to your bank statement, and mark all cleared transactions as reconciled. Optionally you can decide to delete reconciled transactions.</string>
     <string name="menu_print_help_text">Generates a printable view of the transactions currently displayed.</string>
-    <string name="menu_search_help_text">This entry opens a submenu which allows you to define search criteria based on category, amount, comment, status, payer/payee and payment method. When a search filter is active, you can simply click on its entry in the submenu to deactivate it.</string>
+    <string name="menu_search_help_text">This entry opens a submenu which allows you to define search criteria based on category, amount, comment, status, payer/payee and payment method.</string>
     <string name="cab_create_template_from_transaction_help_text">Define a new template based on the selected transaction. Will prompt you for the title of the template.</string>
     <string name="cab_clone_transaction_help_text">The selected transactions will be cloned with the current date and time. You can make changes before saving the copy.</string>
     <string name="cab_split_help_text">You can later edit the transaction to create additional parts as needed.</string>

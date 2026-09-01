@@ -36,7 +36,7 @@
     <string name="menu_manage_plans_help_text">Abre a lista de modelos e planos, onde os pode aplicar, editar ou eliminar, e também definir planos para transações futuras e recorrentes.</string>
     <string name="menu_balance_help_text">Este comando abre um diálogo que exibe o último saldo reconciliado e o saldo liquidado. Pode comparar o último com o seu extrato bancário. Opcionalmente pode optar por eliminar transações reconciliadas.</string>
     <string name="menu_print_help_text">Cria uma vista imprimível das transações atualmente exibidas.</string>
-    <string name="menu_search_help_text">Esta entrada abre um submenu que lhe permite definir critérios de pesquisa baseados na categoria, quantia, comentário, estado, pagador/beneficiário e método de pagamento. Quando um filtro de pesquisa estiver ativo, pode simplesmente clicar na respetiva entrada no submenu para o desativar.</string>
+    <string name="menu_search_help_text">Esta entrada abre um submenu que lhe permite definir critérios de pesquisa baseados na categoria, quantia, comentário, estado, pagador/beneficiário e método de pagamento.</string>
     <string name="cab_create_template_from_transaction_help_text">Definir um novo modelo baseado na transação selecionada. Ser-lhe-á pedido um título para o modelo.</string>
     <string name="cab_clone_transaction_help_text">As transações selecionadas serão clonadas com a data e hora atual. Pode fazer alterações antes de guardar a cópia.</string>
     <string name="cab_split_help_text">Posteriormente, pode editar a transação para criar partes adicionais, conforme necessário.</string>

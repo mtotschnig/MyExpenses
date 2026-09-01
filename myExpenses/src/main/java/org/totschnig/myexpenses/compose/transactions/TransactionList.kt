@@ -67,16 +67,17 @@ import kotlinx.coroutines.launch
 import myiconpack.IcActionTemplateAdd
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
-import org.totschnig.myexpenses.compose.PagingErrorItem
-import org.totschnig.myexpenses.compose.PagingErrorPage
 import org.totschnig.myexpenses.compose.DonutInABox
 import org.totschnig.myexpenses.compose.ExpansionHandle
+import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.LocalColors
 import org.totschnig.myexpenses.compose.LocalCurrencyFormatter
 import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.delete
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.edit
 import org.totschnig.myexpenses.compose.MenuEntry.Companion.select
+import org.totschnig.myexpenses.compose.PagingErrorItem
+import org.totschnig.myexpenses.compose.PagingErrorPage
 import org.totschnig.myexpenses.compose.SubMenuEntry
 import org.totschnig.myexpenses.compose.SumDetails
 import org.totschnig.myexpenses.compose.TEST_TAG_GROUP_SUMMARY
@@ -201,6 +202,15 @@ interface TransactionEventHandler {
     operator fun invoke(event: TransactionEvent, transaction: Transaction2)
 }
 
+enum class HeaderEvent {
+    Distribution,
+    Print
+}
+
+interface HeaderEventHandler {
+    operator fun invoke(event: HeaderEvent, row: HeaderRow)
+}
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TransactionList(
@@ -210,6 +220,7 @@ fun TransactionList(
     budgetData: State<BudgetData?>,
     selectionHandler: SelectionHandler?,
     onEvent: TransactionEventHandler,
+    onHeaderEvent: HeaderEventHandler? = null,
     futureCriterion: FutureCriterion,
     expansionHandler: org.totschnig.myexpenses.compose.ExpansionHandler?,
     onBudgetClick: (Long, Int) -> Unit,
@@ -394,7 +405,8 @@ fun TransactionList(
                                                 {
                                                     headerCorrection.value = -it
                                                 }
-                                            } else null
+                                            } else null,
+                                            onHeaderEvent = onHeaderEvent
                                         ) {
                                             headersWithSumDetails[headerId] = it
                                         }
@@ -586,6 +598,7 @@ fun HeaderData(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HeaderRenderer(
     account: PageAccount,
@@ -599,8 +612,11 @@ fun HeaderRenderer(
     showSumDetails: Boolean,
     showOnlyDelta: Boolean,
     onHeaderSize: ((Int) -> Unit)? = null,
+    onHeaderEvent: HeaderEventHandler? = null,
     updateShowSumDetails: (Boolean) -> Unit = {},
 ) {
+
+    val showMenu = remember { mutableStateOf(false) }
 
     Surface(
         modifier = Modifier
@@ -609,6 +625,9 @@ fun HeaderRenderer(
                 onGloballyPositioned { layoutCoordinates ->
                     onHeaderSize(layoutCoordinates.size.height)
                 }
+            }
+            .conditional(onHeaderEvent != null) {
+                clickable { showMenu.value = true }
             },
         color = MaterialTheme.colorScheme.surfaceContainer,
         tonalElevation = 2.dp, // Adds a subtle primary-themed tint
@@ -662,6 +681,26 @@ fun HeaderRenderer(
                         showSumDetails,
                         showOnlyDelta,
                         updateShowSumDetails
+                    )
+                }
+                onHeaderEvent?.let {
+                    HierarchicalMenu(
+                        expanded = showMenu,
+                        menu = buildList {
+                            add(
+                                MenuEntry(
+                                    label = R.string.menu_distribution,
+                                    command = "distribution",
+                                    icon = Icons.Default.Search,
+                                    action = {
+                                        onHeaderEvent(
+                                            HeaderEvent.Distribution,
+                                            headerRow
+                                        )
+                                    }
+                                )
+                            )
+                        }
                     )
                 }
             }

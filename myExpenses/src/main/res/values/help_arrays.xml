@@ -19,13 +19,13 @@
         <item>search</item>
         <item>distribution</item>
         <item>history</item>
-        <item>sync_now</item>
+        <item>sync</item>
         <item>balance</item>
         <item>reset</item>
         <item>print</item>
         <item>archive</item>
-        <item>tune</item>
         <item>status_handle</item>
+        <item>tune</item>
     </string-array>
 
     <string-array name="MyExpensesV2_transactions_fabactions">
@@ -41,6 +41,11 @@
         <item>menu_balance_sheet_help_text_date</item>
     </string-array>
 
+    <string-array name="menu_tune_help_text">
+        <item>menu_sort_direction_help_text</item>
+        <item>menu_grouping_help_text</item>
+    </string-array>
+
     <string-array name="MyExpensesV2_transactions_cabitems">
         <item>edit</item>
         <item>delete</item>
@@ -50,13 +55,6 @@
         <item>ungroup_split_transaction</item>
         <item>remap</item>
         <item>link</item>
-    </string-array>
-
-    <string-array name="MyExpensesV2_portfolio_menuitems">
-        <item>search</item>
-        <item>import_trades</item>
-        <item>tune</item>
-        <item>archive</item>
     </string-array>
 
     <string-array name="MyExpensesV2_portfolio_fabactions">

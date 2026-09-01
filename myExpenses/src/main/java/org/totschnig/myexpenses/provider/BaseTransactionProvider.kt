@@ -59,6 +59,7 @@ import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_BY_AGGRE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_DIRECTION_AGGREGATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.DAY_START_JULIAN
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_DEPENDENT
+import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_PEER
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_RELATED
 import org.totschnig.myexpenses.provider.DatabaseConstants.weekStart
@@ -1522,9 +1523,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 add(KEY_SUM_TRANSFERS)
             }
 
-            //previously we started distribution from group header and needed to know if there were mapped categories
-            //maybe we add this functionality back later
-            //MAPPED_CATEGORIES;
+            add(KEY_MAPPED_CATEGORIES)
             if (withJulianStart) {
                 add(
                     (if (group === Grouping.WEEK) weekStartJulian else DAY_START_JULIAN)
@@ -1546,14 +1545,14 @@ abstract class BaseTransactionProvider : ContentProvider() {
         }.toTypedArray()
 
         val sql = buildTransactionGroupCte(
-            accountQuery,
-            selection,
-            forHome,
-            typeWithFallBack,
-            breakdownByAccount,
-            group,
-            includeTransfers,
-            aggregateFunction
+            accountQuery = accountQuery,
+            selection = selection,
+            forHome = forHome,
+            typeWithFallBack = typeWithFallBack,
+            breakdownByAccount = breakdownByAccount,
+            group = group,
+            includeTransfers = includeTransfers,
+            aggregateFunction = aggregateFunction
         ) + " " +
                 SupportSQLiteQueryBuilder.builder(if (breakdownByAccount) "with_market_rate" else CTE_TRANSACTION_GROUPS)
                     .columns(projection)

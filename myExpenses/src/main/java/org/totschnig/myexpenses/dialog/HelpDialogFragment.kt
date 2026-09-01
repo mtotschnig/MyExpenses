@@ -79,6 +79,7 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
             "sort_direction" to R.drawable.ic_menu_sort,
             "grouping" to R.drawable.ic_action_group,
             "create_sync_backend" to R.drawable.ic_menu_add,
+            "sync" to R.drawable.ic_sync,
             "sync_now" to null,
             "remove" to null,
             "sync_download" to null,
