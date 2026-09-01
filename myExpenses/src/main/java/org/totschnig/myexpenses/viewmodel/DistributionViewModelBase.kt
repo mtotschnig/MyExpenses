@@ -59,13 +59,15 @@ import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.DateInfoExtra
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 
-private const val KEY_GROUPING_INFO = "groupingInfo"
-
 abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
     application: Application,
     savedStateHandle: SavedStateHandle
 ) :
     CategoryViewModel(application, savedStateHandle) {
+
+    companion object {
+        const val KEY_GROUPING_INFO = "groupingInfo"
+    }
 
     val selectionState: MutableState<Category?> = mutableStateOf(null)
     val expansionState: SnapshotStateList<Category> = SnapshotStateList()
@@ -78,6 +80,16 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
     val groupingInfoFlow: Flow<GroupingInfo?>
         get() = savedStateHandle.getLiveData<GroupingInfo?>(KEY_GROUPING_INFO, null).asFlow()
 
+    fun setGrouping(grouping: Grouping) {
+        if (grouping == Grouping.NONE) {
+            groupingInfo = GroupingInfo(grouping)
+        } else {
+            viewModelScope.launch {
+                groupingInfo = GroupingNavigator.current(grouping, dateInfo.first())
+            }
+        }
+    }
+
     val grouping: Grouping
         get() = groupingInfo?.grouping ?: Grouping.NONE
 
@@ -88,15 +100,6 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
             savedStateHandle[KEY_GROUPING_INFO] = value
         }
 
-    fun setGrouping(grouping: Grouping) {
-        if (grouping == Grouping.NONE) {
-            groupingInfo = GroupingInfo(grouping)
-        } else {
-            viewModelScope.launch {
-                groupingInfo = GroupingNavigator.current(grouping, dateInfo.first())
-            }
-        }
-    }
 
     suspend fun nextGrouping() = groupingInfo?.let {
         GroupingNavigator.next(

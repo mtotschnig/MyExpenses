@@ -894,6 +894,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                     recordUsage(feature)
                     startActivity(Intent(this, DistributionActivity::class.java).apply {
                         forwardCurrentConfiguration(it)
+                        putExtra(DistributionViewModelBase.KEY_GROUPING_INFO, tag)
                     })
                 }
             }
@@ -1211,15 +1212,6 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
 
     private fun selectAll() {
         viewModel.selectAllState.value = true
-    }
-
-    fun selectAllListTooLarge() {
-        showSnackBar(
-            getString(
-                R.string.select_all_list_too_large,
-                getString(android.R.string.selectAll)
-            )
-        )
     }
 
     private fun linkTransfer() {
@@ -1777,12 +1769,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
         when (event) {
             HeaderEvent.Distribution -> {
                 if (row.mappedCategories) {
-                    startActivity(Intent(this, DistributionActivity::class.java).apply {
-                        forwardCurrentConfiguration(account)
-                        putExtra(DistributionViewModelBase.KEY_GROUPING_INFO,
-                            GroupingInfo(account.grouping, row.year, row.second)
-                        )
-                    })
+                    contribFeatureRequested(ContribFeature.DISTRIBUTION, GroupingInfo(account.grouping, row.year, row.second))
                 } else {
                     showSnackBar(R.string.no_mapped_transactions)
                 }

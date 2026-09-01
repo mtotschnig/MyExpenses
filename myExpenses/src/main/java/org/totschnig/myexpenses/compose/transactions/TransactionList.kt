@@ -91,6 +91,7 @@ import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.compose.scrollbar.STICKY_HEADER_CONTENT_TYPE
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
 import org.totschnig.myexpenses.model.sort.SortDirection
@@ -626,7 +627,7 @@ fun HeaderRenderer(
                     onHeaderSize(layoutCoordinates.size.height)
                 }
             }
-            .conditional(onHeaderEvent != null) {
+            .conditional(onHeaderEvent != null && account.grouping != Grouping.NONE) {
                 clickable { showMenu.value = true }
             },
         color = MaterialTheme.colorScheme.surfaceContainer,
