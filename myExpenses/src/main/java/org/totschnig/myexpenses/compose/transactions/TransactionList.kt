@@ -886,7 +886,7 @@ private fun transactionMenu(
                     }
                     if (transaction.tagList.isNotEmpty()) {
                         val label =
-                            transaction.tagList.joinToString { it.second }
+                            transaction.tagList.joinToString { it.label }
                         add(
                             MenuEntry(
                                 label = UiText.StringValue(

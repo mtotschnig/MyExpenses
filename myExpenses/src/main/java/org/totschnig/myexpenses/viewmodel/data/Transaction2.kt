@@ -118,7 +118,7 @@ data class Transaction2(
     val status: Int = STATUS_NONE,
     val accountLabel: String? = null,
     val accountType: Long?,
-    val tagList: List<Triple<Long, String, Int?>> = emptyList(),
+    val tagList: List<Tag> = emptyList(),
     val year: Int,
     val month: Int,
     val week: Int,
@@ -289,7 +289,7 @@ data class Transaction2(
                 transferPeerIsArchived = cursor.getBooleanIfExists(KEY_TRANSFER_PEER_IS_ARCHIVED),
                 transferPeerIsPortfolio = cursor.getBooleanIfExists(KEY_TRANSFER_PEER_IS_PORTFOLIO),
                 tagList = cursor.splitStringList(KEY_TAGLIST).mapNotNull { id ->
-                    tags[id]?.let { Triple(id.toLong(), it.first, it.second) }
+                    tags[id]?.let { Tag(id.toLong(), it.first, it.second) }
                 },
                 color = cursor.getIntIfExists(KEY_COLOR),
                 status = cursor.getInt(KEY_STATUS),

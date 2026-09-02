@@ -42,6 +42,7 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.ui.asDateTimeFormatter
 import org.totschnig.myexpenses.util.ui.setNightMode
 import org.totschnig.myexpenses.viewmodel.OnBoardingUiViewModel
+import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
@@ -147,7 +148,7 @@ class OnboardingUiFragment : OnboardingFragment() {
                 day = 0,
                 week = 0,
                 tagList = listOf(
-                    Triple(
+                    Tag(
                         1,
                         stringResource(id = R.string.testData_tag_project),
                         ResourcesCompat.getColor(resources, R.color.appDefault, null)
