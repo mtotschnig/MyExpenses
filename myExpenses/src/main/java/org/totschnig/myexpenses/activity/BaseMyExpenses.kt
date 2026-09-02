@@ -1492,8 +1492,8 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
 
             TransactionEvent.AddFilterTag -> addFilterCriterion(
                 TagCriterion(
-                    transaction.tagList.joinToString { it.second },
-                    transaction.tagList.map { it.first }
+                    transaction.tagList.joinToString { it.label },
+                    transaction.tagList.map { it.id }
                 )
             )
 

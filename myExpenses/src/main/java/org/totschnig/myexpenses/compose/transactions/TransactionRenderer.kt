@@ -48,6 +48,7 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
@@ -77,7 +78,6 @@ import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.Icon
 import org.totschnig.myexpenses.compose.LocalColors
 import org.totschnig.myexpenses.compose.Menu
-import org.totschnig.myexpenses.compose.calculateOnColor
 import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.compose.emToDp
 import org.totschnig.myexpenses.compose.optional
@@ -94,6 +94,7 @@ import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.STATUS_ARCHIVE
 import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.viewmodel.ResolvedExtraInfo
+import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.viewmodel.data.TradeType
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import org.totschnig.myexpenses.viewmodel.data.getIndicatorCharForLabel
@@ -103,6 +104,7 @@ import java.time.format.FormatStyle
 import kotlin.text.Typography.ellipsis
 
 val inlineIconSize = 13.sp
+const val ANNOTATION_TAG = "TAG_BG"
 
 abstract class ItemRenderer(
     private val withCategoryIcon: Boolean,
@@ -147,6 +149,7 @@ abstract class ItemRenderer(
         }
     }
 
+    @Composable
     fun Transaction2.buildSecondaryInfo(
         context: Context,
         withTags: Boolean,
@@ -185,23 +188,15 @@ abstract class ItemRenderer(
                 if (length > 0) {
                     append(COMMENT_SEPARATOR)
                 }
+                val tagStyle = MaterialTheme.typography.bodySmall.toSpanStyle()
                 list.forEachIndexed { index, pair ->
-                    if (pair.third == null) {
-                        append(pair.second)
-                    } else {
-                        val userColor = Color(pair.third!!)
-                        pushStringAnnotation(tag = "TAG_BG", annotation = pair.third.toString())
-                        withStyle(
-                            style = SpanStyle(
-                                color = userColor.calculateOnColor(),
-                            )
-                        ) {
-                            append("\u00A0")
-                            append(pair.second)
-                            append("\u00A0")
-                        }
-                        pop()
+                    pushStringAnnotation(tag = ANNOTATION_TAG, annotation = pair.color?.toString() ?: "null")
+                    withStyle(style = tagStyle) {
+                        append("\u00A0")
+                        append(pair.label)
+                        append("\u00A0")
                     }
+                    pop()
                     if (index < list.size - 1) {
                         append(" ")
                     }
@@ -406,15 +401,21 @@ abstract class ItemRenderer(
         icons: List<String>,
     ) {
         var layoutResult by remember { mutableStateOf<TextLayoutResult?>(null) }
+        val onSurface = MaterialTheme.colorScheme.onSurface
         Text(
             modifier = modifier.drawBehind {
                 layoutResult?.let { result ->
-                    text.getStringAnnotations("TAG_BG", 0, text.length).forEach { annotation ->
-                        val color = Color(annotation.item.toInt())
+                    text.getStringAnnotations(ANNOTATION_TAG, 0, text.length).forEach { annotation ->
+                        val color = if (annotation.item == "null") {
+                            onSurface
+                        } else {
+                            Color(annotation.item.toInt())
+                        }
                         val firstLine = result.getLineForOffset(annotation.start)
                         val lastLine = result.getLineForOffset(annotation.end - 1)
                         val verticalPadding = 1.dp.toPx()
                         val horizontalPadding = 1.dp.toPx()
+                        val strokeWidth = 1.5.dp.toPx()
                         for (line in firstLine..lastLine) {
                             val left = (if (line == firstLine) result.getHorizontalPosition(
                                 annotation.start,
@@ -430,7 +431,8 @@ abstract class ItemRenderer(
                                 color = color,
                                 topLeft = Offset(left, top + verticalPadding),
                                 size = Size(right - left, bottom - top - 2 * verticalPadding),
-                                cornerRadius = CornerRadius(4.dp.toPx())
+                                cornerRadius = CornerRadius(8.dp.toPx()),
+                                style = Stroke(width = strokeWidth)
                             )
                         }
                     }
@@ -683,8 +685,9 @@ class SampleProvider : PreviewParameterProvider<Transaction2> {
             week = 1,
             crStatus = CrStatus.VOID,
             tagList = listOf(
-                Triple(1, "Hund", android.graphics.Color.RED),
-                Triple(2, "Katz", android.graphics.Color.GREEN)
+                Tag(1, "Hund", android.graphics.Color.RED),
+                Tag(2, "Katz", android.graphics.Color.GREEN),
+                Tag(3, "Colorless")
             ),
             accountType = 0
         ),
@@ -701,8 +704,9 @@ class SampleProvider : PreviewParameterProvider<Transaction2> {
             day = 1,
             week = 1,
             tagList = listOf(
-                Triple(1, "Hund", android.graphics.Color.RED),
-                Triple(2, "Katz", android.graphics.Color.GREEN)
+                Tag(1, "Hund", android.graphics.Color.RED),
+                Tag(2, "Katz", android.graphics.Color.GREEN),
+                Tag(3, "Colorless")
             ),
             accountType = 0
         )
