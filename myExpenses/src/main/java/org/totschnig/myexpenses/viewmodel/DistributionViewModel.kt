@@ -73,20 +73,19 @@ class DistributionViewModel(application: Application, savedStateHandle: SavedSta
             }
         }
         viewModelScope.launch {
-            accountInfo
-                .filterNotNull()
-                .flatMapLatest { account ->
-                    dataStore.data.map {
-                        enumValueOrDefault(it[getGroupingPrefKey(account)], defaultGrouping)
-                    }
-                        .distinctUntilChanged()
-                }
-                .collect { setGrouping(it) }
+            val account = accountInfo.filterNotNull().first()
+            if (groupingInfo == null) {
+                val prefGrouping = dataStore.data.map {
+                    enumValueOrDefault(it[getGroupingPrefKey(account)], defaultGrouping)
+                }.first()
+                setGrouping(prefGrouping)
+            }
         }
         _whereFilter.update { whereFilter }
     }
 
     fun persistGrouping(grouping: Grouping) {
+        setGrouping(grouping)
         accountInfo.value?.let {
             viewModelScope.launch {
                 dataStore.edit { preference ->

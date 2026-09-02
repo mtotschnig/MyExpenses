@@ -10,13 +10,14 @@ import org.totschnig.myexpenses.model.Grouping.WEEK
 import org.totschnig.myexpenses.model.Grouping.YEAR
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
 import org.totschnig.myexpenses.viewmodel.data.DateInfoExtra
+import java.io.Serializable
 
 @Parcelize
 data class GroupingInfo(
     val grouping: Grouping = NONE,
     val year: Int = -1,
     val second: Int = -1
-) : Parcelable
+) : Parcelable, Serializable
 
 object GroupingNavigator {
     fun current(grouping: Grouping, dateInfo: DateInfo) = with(dateInfo) {

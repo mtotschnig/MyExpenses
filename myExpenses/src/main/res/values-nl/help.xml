@@ -31,7 +31,7 @@
     <string name="menu_history_help_text">Geef een cashflowdiagram weer: hoe evolueerden je uitgaven en inkomsten over dagen, weken, maanden of jaren?</string>
     <string name="menu_balance_help_text">Deze opdracht opent een dialoogvenster met het laatste afgestemde saldo en het gewiste saldo. Je kunt dit laatste vergelijken met je bankafschrift en alle vereffende transacties markeren als afgestemd. Optioneel kun je ervoor kiezen om afgestemde transacties te verwijderen.</string>
     <string name="menu_print_help_text">Genereert een afdrukbare weergave van de transacties die momenteel worden weergegeven.</string>
-    <string name="menu_search_help_text">Dit item opent een submenu waarin je zoekcriteria kunt definiëren op basis van categorie, bedrag, opmerking, status, betaler/begunstigde en betalingsmethode. Wanneer een zoekfilter actief is, kun je eenvoudig op het item in het submenu klikken om het te deactiveren.</string>
+    <string name="menu_search_help_text">Dit item opent een submenu waarin je zoekcriteria kunt definiëren op basis van categorie, bedrag, opmerking, status, betaler/begunstigde en betalingsmethode.</string>
     <string name="cab_create_template_from_transaction_help_text">Definieer een nieuw sjabloon gebaseerd op de geselecteerde transactie. Zal je om de titel van de sjabloon vragen.</string>
     <string name="cab_clone_transaction_help_text">De geselecteerde transacties worden gekloond met de huidige datum en tijd. Je kunt wijzigingen aanbrengen voordat je de kopie opslaat.</string>
     <string name="cab_link_help_text">Een uitgave op de ene rekening kan worden gekoppeld aan een inkomen op een andere rekening. Als de rekeningen dezelfde valuta hebben, moeten de twee transacties identieke bedragen hebben.</string>

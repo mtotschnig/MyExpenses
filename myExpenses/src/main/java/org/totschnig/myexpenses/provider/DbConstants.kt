@@ -936,6 +936,8 @@ fun buildTransactionGroupCte(
             append(",$KEY_EXCHANGE_RATE")
             append(",${periodEndExpression(group)} as $KEY_PERIOD_END")
         }
+        //For the moment, we report only categories that are not defined as transfers
+        append(",count(CASE WHEN  $KEY_CATID > 0 AND $WHERE_NOT_VOID  AND effective_type != $FLAG_TRANSFER THEN 1 ELSE null END) as $KEY_MAPPED_CATEGORIES")
         append(" FROM $CTE_SEARCH ")
         append(" WHERE $WHERE_NOT_SPLIT AND ${if (withFilter) WHERE_NOT_ARCHIVE else WHERE_NOT_ARCHIVED} AND $selection")
         val groupBy = when (group) {

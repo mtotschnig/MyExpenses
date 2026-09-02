@@ -21,6 +21,11 @@
     <string name="cab_delete_help_text">Delete the selected items.</string>
     <string name="cab_edit_help_text">Edit the selected item.</string>
     <string name="help_MyExpenses_title">Transaction list</string>
+    <string name="help_MyExpensesV2_accounts_info"><![CDATA[Manage your accounts and track your net worth. Switch between the account list and the balance sheet using the toolbar dropdown. Use the <img src="tune"> <b>Options</b> menu to group and sort accounts, and the <img src="data"> <b>Data</b> menu to configure types, flags and currencies. Tap an account to see its summary, or the <img src="ic_chevron_end"> icon to view its transactions. The <img src="more"> icon provides additional actions for each account.]]></string>
+    <string name="help_MyExpensesV2_transactions_info">View and manage transactions for the selected account. Use the floating action button to add new transactions.</string>
+    <string name="help_MyExpensesV2_portfolio_info">Track your investments in this portfolio. You can import trades and view your asset distribution. The account summary links to the prices screen, where the current price of an asset can be set.</string>
+    <string name="menu_import_trades_help_text">Import investment trades from a CSV file into your portfolio.</string>
+    <string name="menu_sync_help_text">Trigger immediate synchronization with the cloud service configured for the current account.</string>
     <string name="help_MyExpenses_info">This screen lists all transactions for the current account. Use the floating action button to open the form for creating a new transaction.</string>
     <string name="help_MyExpenses_fab_long_press">Long press on the floating action button opens a menu that allows to prepare the form for transfer, split transaction or income.</string>
     <string name="popup_MyExpenses_toolbar_intro">Tapping on the toolbar (account label or current balance) pops up a menu with the following entries:</string>
@@ -36,7 +41,7 @@
     <string name="menu_manage_plans_help_text">Opens the list of templates and plans, where you can apply, edit or delete them, and also define plans for future and recurrent transactions.</string>
     <string name="menu_balance_help_text">This command opens a dialog displaying the last reconciled balance and the cleared balance. You can compare the latter to your bank statement, and mark all cleared transactions as reconciled. Optionally you can decide to delete reconciled transactions.</string>
     <string name="menu_print_help_text">Generates a printable view of the transactions currently displayed.</string>
-    <string name="menu_search_help_text">This entry opens a submenu which allows you to define search criteria based on category, amount, comment, status, payer/payee and payment method. When a search filter is active, you can simply click on its entry in the submenu to deactivate it.</string>
+    <string name="menu_search_help_text">This entry opens a submenu which allows you to define search criteria based on category, amount, comment, status, payer/payee and payment method.</string>
     <string name="cab_create_template_from_transaction_help_text">Define a new template based on the selected transaction. Will prompt you for the title of the template.</string>
     <string name="cab_clone_transaction_help_text">The selected transactions will be cloned with the current date and time. You can make changes before saving the copy.</string>
     <string name="cab_split_help_text">You can later edit the transaction to create additional parts as needed.</string>
@@ -221,6 +226,18 @@
     <string name="menu_aggregate_neutral_categories_help_text">Transactions mapped to income categories are always counted as income, transactions mapped to expense categories are always counted as expense. This option allows you to configure how transactions mapped to neutral categories are counted: By default if they are positive they represent an income, if they are negative an expense. But if this option is activated, they are always included into both the sums of your income and expense.</string>
     <string name="cab_MyExpenses_filter_help_text">Search for transactions with same properties.</string>
     <string name="menu_archive_help_text">After selecting a date range, all transactions for this period will be rolled up into a summary archive transaction. This will clear up the transaction list, but the transactions in the archive can still be inspected, and, if needed, unpacked again.</string>
+    <string name="fab_create_account_help_text">@string/menu_create_account_help_text</string>
+    <string name="fab_create_portfolio_help_text">Create a portfolio to track investments, stocks, or other non-cash assets. The free version is limited to one portfolio.</string>
+    <string name="fab_expense_help_text">Create a new expense transaction.</string>
+    <string name="fab_income_help_text">Create a new income transaction.</string>
+    <string name="fab_transfer_help_text">Create a transfer between two accounts.</string>
+    <string name="fab_split_help_text">Create a split transaction to categorize parts of a single expense or income separately.</string>
+    <string name="fab_scan_help_text">Scan a receipt to automatically extract data using OCR.</string>
+    <string name="fab_trade_buy_help_text">Record the purchase of an asset in your portfolio.</string>
+    <string name="fab_trade_sell_help_text">Record the sale of an asset in your portfolio.</string>
+    <string name="fab_trade_deposit_help_text">Add cash to your portfolio balance.</string>
+    <string name="fab_trade_withdraw_help_text">Remove cash from your portfolio balance.</string>
+    <string name="fab_trade_transfer_help_text">Transfer assets between portfolios.</string>
     <string name="menu_ManageBudgets_grouping_help_text">The budget list can be grouped either by account or by type of budget.</string>
     <string name="help_PriceHistory_info">Foreign currency accounts can be configured to use dynamic exchange rates. For every day you can either download or enter a specific rate relative to your home currency. This screen lists stored rates for a given currency for every day back to the date of the oldest transaction. The source of the rate is indicated as follows:</string>
     <string name="cab_PriceHistory_download_help_text">Download the rate for the given date from the configured provider. Some providers will not provide rates for every date, e.g. for week ends or public holidays, and instead return an earlier rate.</string>
@@ -245,6 +262,7 @@
         \n\u2022 Prioritize favorite accounts in the account selection on the transaction form.
         \nYou can also use flags to indicate accounts belonging to a specific purpose, like household versus personal accounts, and then alternatively only show one or the other.</string>
     <string name="menu_balance_sheet_help_text">"The balance sheet shows the net worth of all your accounts as the difference between your Assets (what you own) and your Liabilities (what you owe). It reflects your financial position at a chosen moment — whether in the past, the present, or even in the future. The balance sheet presentation is also influenced by flags (which can change the inclusion of accounts in totals)."</string>
+    <string name="menu_balance_sheet_help_text_date">Click on the date in order to select a different date.</string>
     <string name="cab_flag_help_text">Assign a flag to the selected account, e.g. Favorite or Inactive.</string>
     <string name="form_payer_or_payee_help_text"><![CDATA[This field allows you to select or create a Payer/Payee. Begin typing the name, and suggestions will appear. If no suggestion is selected, a new party is created. If a suggestion is selected, it is displayed as a chip.
         <br><img src="ic_menu_edit"> Modify the details of the selected party.

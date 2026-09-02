@@ -149,7 +149,6 @@ fun AccountsScreen(
                             )
                         }
                     }
-
                 }
             )
         },

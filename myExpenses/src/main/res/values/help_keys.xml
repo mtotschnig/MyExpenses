@@ -71,4 +71,21 @@
     <string name="menu_account_types">@string/account_types</string>
     <string name="menu_balance_sheet">@string/balance_sheet</string>
     <string name="cab_exclude_from_totals_help_text">@string/menu_exclude_from_totals_help_text</string>
+    <string name="menu_tune">@string/options</string>
+    <string name="menu_import_trades">TODO</string>
+    <string name="help_MyExpensesV2_accounts_title">@string/accounts</string>
+    <string name="help_MyExpensesV2_transactions_title">@string/import_select_transactions</string>
+    <string name="help_MyExpensesV2_portfolio_title">Portfolio</string>
+    <string name="help_MyExpensesV2_balanceSheet_title">@string/balance_sheet</string>
+    <string name="menu_expense">@string/expense</string>
+    <string name="menu_income">@string/income</string>
+    <string name="menu_transfer">@string/transfer</string>
+    <string name="menu_split">@string/split_transaction</string>
+    <string name="menu_scan">@string/button_scan</string>
+    <string name="menu_trade_buy">@string/trade_buy</string>
+    <string name="menu_trade_sell">@string/trade_sell</string>
+    <string name="menu_trade_deposit">@string/trade_deposit</string>
+    <string name="menu_trade_withdraw">@string/trade_withdraw</string>
+    <string name="menu_trade_transfer">@string/trade_transfer</string>
+    <string name="cab_close_reopen_help_text">@string/cab_NavigationDrawer_close_reopen_help_text</string>
 </resources>

@@ -61,7 +61,7 @@
     <string name="menu_balance_help_text">Aquesta ordre obre un diàleg mostrant l\'últim balanç reconciliat i el balanç net. També permet comparar amb el teu extracte bancari, assenyalar totes les transaccions netes com a reconciliades. Opcionalment també pots decidir eleminar les transaccions reconciliades.</string>
     <string name="menu_distribution_help_text">Mostra la distribució de les despeses per categoria. També pots tocar prolongadament una capçalera de grup per veure\'n els detalls de distribució en un període de temps.</string>
     <string name="menu_history_help_text">Mostra un diagarma de flux de caixa: Com han evolucionat les seves despeses al llarg dels dies, setmanes, mesos o anys?</string>
-    <string name="menu_search_help_text">Aquesta entrada obre un submenú que permet definir criteris de cerca basats en categoria, quantitat, comentari, estatus, pagador/beneficiari, i mètode de pagament. Mentre els filtres de cerca siguin actius, es pot tocar l\'entrada del submenú per a desactivar-los.</string>
+    <string name="menu_search_help_text">Aquesta entrada obre un submenú que permet definir criteris de cerca basats en categoria, quantitat, comentari, estatus, pagador/beneficiari, i mètode de pagament.</string>
     <string name="cab_split_help_text">Pot editar la transacció més tard per afegir-hi parts que hi manquin.</string>
     <string name="cab_link_help_text">Un despesa a un compte pot ser vinculada a un ingrés d\'un altre compte. Si els comptes tenen la mateixa divisa, les dues transaccions han de tenir quantitats idèntiques.</string>
     <string name="help_ManageParties_select_filter_info">Seleccioneu totes les parts que vulgueu utilitzar per filtrar la llista de transaccions.</string>

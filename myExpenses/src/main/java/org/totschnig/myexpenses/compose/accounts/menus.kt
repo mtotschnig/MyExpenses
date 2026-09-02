@@ -70,12 +70,15 @@ fun ManageEntitiesMenu(onEvent: AppEventHandler) {
         tooltip = stringResource(R.string.data),
         imageVector = Icons.Default.DataObject,
         menu = listOf(
-            MenuEntry(
-                label = UiText.StringResource(R.string.menu_account_types)
-            ) { onEvent(AppEvent.MenuItemClicked(R.id.MANAGE_ACCOUNT_TYPES_COMMAND)) },
-            MenuEntry(
-                label = UiText.StringResource(R.string.menu_account_flags)
-            ) { onEvent(AppEvent.MenuItemClicked(R.id.ACCOUNT_FLAGS_COMMAND)) }
-        )
+            MenuEntry(label = UiText.StringResource(R.string.menu_account_types)) {
+                onEvent(AppEvent.MenuItemClicked(R.id.MANAGE_ACCOUNT_TYPES_COMMAND))
+            },
+            MenuEntry(label = UiText.StringResource(R.string.menu_account_flags)) {
+                onEvent(AppEvent.MenuItemClicked(R.id.ACCOUNT_FLAGS_COMMAND))
+            },
+            MenuEntry(label = UiText.StringResource(R.string.asset_type_fiat_plural)) {
+                onEvent(AppEvent.MenuItemClicked(R.id.CURRENCIES_COMMAND))
+            }
+            )
     )
 }
