@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">账户</string>
-    
+    <string name="help_floating_action_button">帮助</string>
     <string name="account_types">账户类型</string>
     <string name="account_type_asset">其他资产</string>
     <string name="account_type_bank">银行账户</string>
