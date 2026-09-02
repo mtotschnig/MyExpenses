@@ -44,6 +44,17 @@
             android:orientation="vertical" />
 
         <TextView
+            android:id="@+id/fab_actions_heading"
+            style="@style/headingStyle.WithMargin"
+            android:text="@string/help_floating_action_button" />
+
+        <LinearLayout
+            android:id="@+id/fab_actions_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+        <TextView
             android:id="@+id/menu_commands_heading"
             style="@style/headingStyle.WithMargin"
             android:text="@string/help_menu_commands" />

@@ -6,7 +6,9 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,7 +28,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.PrimaryTabRow
+import androidx.compose.material3.PrimaryScrollableTabRow
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
@@ -151,39 +153,43 @@ class ManageCurrencies : ProtectedFragmentActivity() {
 
                 Scaffold(
                     topBar = {
-                        TopAppBar(
-                            navigationIcon = {
-                                IconButton(onClick = { finish() }) {
-                                    Icon(
-                                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                        contentDescription = stringResource(R.string.menu_back)
-                                    )
-                                }
-                            },
-                            title = {
-                                PrimaryTabRow(selectedTabIndex = pagerState.currentPage) {
-                                    tabs.forEachIndexed { index, type ->
-                                        Tab(
-                                            selected = pagerState.currentPage == index,
-                                            onClick = {
-                                                scope.launch {
-                                                    pagerState.animateScrollToPage(index)
-                                                }
-                                            },
-                                            text = { Text(stringResource(type.labelPlural)) }
+                        Column {
+                            TopAppBar(
+                                modifier = Modifier.height(56.dp),
+                                navigationIcon = {
+                                    IconButton(onClick = { finish() }) {
+                                        Icon(
+                                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                            contentDescription = stringResource(R.string.menu_back)
+                                        )
+                                    }
+                                },
+                                title = {
+                                    Text(stringResource(R.string.asset_type_fiat_plural))
+                                },
+                                actions = {
+                                    IconButton(onClick = { doHelp(null) }) {
+                                        Icon(
+                                            imageVector = Icons.AutoMirrored.Filled.HelpOutline,
+                                            contentDescription = stringResource(R.string.menu_help)
                                         )
                                     }
                                 }
-                            },
-                            actions = {
-                                IconButton(onClick = { doHelp(null) }) {
-                                    Icon(
-                                        imageVector = Icons.AutoMirrored.Filled.HelpOutline,
-                                        contentDescription = stringResource(R.string.menu_help)
+                            )
+                            PrimaryScrollableTabRow(selectedTabIndex = pagerState.currentPage) {
+                                tabs.forEachIndexed { index, type ->
+                                    Tab(
+                                        selected = pagerState.currentPage == index,
+                                        onClick = {
+                                            scope.launch {
+                                                pagerState.animateScrollToPage(index)
+                                            }
+                                        },
+                                        text = { Text(stringResource(type.labelPlural)) }
                                     )
                                 }
                             }
-                        )
+                        }
                     },
                     floatingActionButton = {
                         FloatingActionButton(onClick = { openEditDialog(null) }) {

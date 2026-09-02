@@ -6,6 +6,7 @@ import androidx.compose.runtime.Stable
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.provider.KEY_MAPPED_CATEGORIES
 import org.totschnig.myexpenses.provider.KEY_SECOND_GROUP
 import org.totschnig.myexpenses.provider.KEY_SUM_EXPENSES
 import org.totschnig.myexpenses.provider.KEY_SUM_INCOME
@@ -64,6 +65,7 @@ data class HeaderRow(
     val delta: Money,
     val interimBalance: Money,
     val weekStart: LocalDate?,
+    val mappedCategories: Boolean = false
 ) {
 
     companion object {
@@ -77,18 +79,20 @@ data class HeaderRow(
             transferSum: Long,
             previousBalance: Long,
             weekStart: LocalDate?,
+            mappedCategories: Boolean
         ): HeaderRow {
             val delta = incomeSum + expenseSum + transferSum
             return HeaderRow(
-                year,
-                second,
-                Money(currency, incomeSum),
-                Money(currency, expenseSum),
-                Money(currency, transferSum),
-                Money(currency, previousBalance),
-                Money(currency, delta),
-                Money(currency, previousBalance + delta),
-                weekStart
+                year = year,
+                second = second,
+                incomeSum = Money(currency, incomeSum),
+                expenseSum = Money(currency, expenseSum),
+                transferSum = Money(currency, transferSum),
+                previousBalance = Money(currency, previousBalance),
+                delta = Money(currency, delta),
+                interimBalance = Money(currency, previousBalance + delta),
+                weekStart = weekStart,
+                mappedCategories = mappedCategories
             )
         }
 
@@ -100,7 +104,8 @@ data class HeaderRow(
             expenseSum = cursor.getLong(KEY_SUM_EXPENSES),
             transferSum = cursor.getLong(KEY_SUM_TRANSFERS),
             previousBalance = previousBalance,
-            weekStart = cursor.getLocalDateIfExists(KEY_WEEK_START)
+            weekStart = cursor.getLocalDateIfExists(KEY_WEEK_START),
+            mappedCategories = cursor.getInt(KEY_MAPPED_CATEGORIES) > 0
         )
     }
 }

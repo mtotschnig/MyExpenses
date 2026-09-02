@@ -1,5 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources tools:ignore="UnusedResources" xmlns:tools="http://schemas.android.com/tools">
+
+    <string-array name="MyExpensesV2_accounts_fabactions">
+        <item>create_account</item>
+        <item>create_portfolio</item>
+    </string-array>
+
+    <string-array name="MyExpensesV2_accounts_cabitems">
+        <item>edit</item>
+        <item>delete</item>
+        <item>close.reopen</item>
+        <item>flag</item>
+        <item>exclude_from_totals</item>
+        <item>dynamic_exchange_rate</item>
+    </string-array>
+
+    <string-array name="MyExpensesV2_transactions_menuitems">
+        <item>search</item>
+        <item>distribution</item>
+        <item>history</item>
+        <item>sync</item>
+        <item>balance</item>
+        <item>reset</item>
+        <item>print</item>
+        <item>archive</item>
+        <item>status_handle</item>
+        <item>tune</item>
+    </string-array>
+
+    <string-array name="MyExpensesV2_transactions_fabactions">
+        <item>expense</item>
+        <item>income</item>
+        <item>transfer</item>
+        <item>split</item>
+        <item>scan</item>
+    </string-array>
+
+    <string-array name="help_MyExpensesV2_balanceSheet_info">
+        <item>menu_balance_sheet_help_text</item>
+        <item>menu_balance_sheet_help_text_date</item>
+    </string-array>
+
+    <string-array name="menu_tune_help_text">
+        <item>menu_sort_direction_help_text</item>
+        <item>menu_grouping_help_text</item>
+    </string-array>
+
+    <string-array name="MyExpensesV2_transactions_cabitems">
+        <item>edit</item>
+        <item>delete</item>
+        <item>create_template_from_transaction</item>
+        <item>clone_transaction</item>
+        <item>split_transaction</item>
+        <item>ungroup_split_transaction</item>
+        <item>remap</item>
+        <item>link</item>
+    </string-array>
+
+    <string-array name="MyExpensesV2_portfolio_fabactions">
+        <item>trade_buy</item>
+        <item>trade_sell</item>
+        <item>trade_deposit</item>
+        <item>trade_withdraw</item>
+        <item>trade_transfer</item>
+    </string-array>
+
+    <string-array name="MyExpensesV2_portfolio_cabitems">
+        <item>edit</item>
+        <item>delete</item>
+    </string-array>
+
     <string-array name="MyExpenses_menuitems">
         <item>search</item>
         <item>manage_plans</item>

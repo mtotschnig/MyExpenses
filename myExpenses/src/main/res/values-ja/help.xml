@@ -18,7 +18,7 @@
     <string name="menu_manage_plans_help_text">テンプレートと計画のリストを開いて、適用、編集または削除することができます。また、将来の計画や繰り返し取引を定義することができます。</string>
     <string name="menu_balance_help_text">このコマンドは、最後に照合した残高や消込した残高を表示するダイアログを開きます。あなたは銀行取引明細書と、照合済としてすべて消込済にマークした取引と比較することができます。オプションで、照合済の取引を削除することを指定することができます。</string>
     <string name="menu_print_help_text">現在表示されている取引の印刷可能なビューを生成します。</string>
-    <string name="menu_search_help_text">このエントリーは、分類、金額、コメント、ステータス、支払人/受取人および支払方法に基づいて、検索基準を定義できるサブメニューが開きます。検索フィルターが有効な場合、サブメニュー内のエントリーをクリックするだけで、無効にすることができます。</string>
+    <string name="menu_search_help_text">このエントリーは、分類、金額、コメント、ステータス、支払人/受取人および支払方法に基づいて、検索基準を定義できるサブメニューが開きます。</string>
     <string name="cab_create_template_from_transaction_help_text">選択した取引に基づいて新しいテンプレートを定義します。テンプレートのタイトルを入力するように求められます。</string>
     <string name="cab_clone_transaction_help_text">選択された取引は、現在の日付と時刻で複製されます。その複製を保存する前に変更することができます。</string>
     <string name="cab_split_help_text">後で取引を編集して、必要に応じて追加の部分を作成することができます。</string>

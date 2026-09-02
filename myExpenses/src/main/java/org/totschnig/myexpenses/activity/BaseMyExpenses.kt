@@ -46,6 +46,8 @@ import org.totschnig.myexpenses.compose.filter.TYPE_COMPLEX
 import org.totschnig.myexpenses.compose.transactions.CompactTransactionRenderer
 import org.totschnig.myexpenses.compose.transactions.DateTimeFormatInfo
 import org.totschnig.myexpenses.compose.transactions.FutureCriterion
+import org.totschnig.myexpenses.compose.transactions.HeaderEvent
+import org.totschnig.myexpenses.compose.transactions.HeaderEventHandler
 import org.totschnig.myexpenses.compose.transactions.ItemRenderer
 import org.totschnig.myexpenses.compose.transactions.NewTransactionRenderer
 import org.totschnig.myexpenses.compose.transactions.RenderType
@@ -83,6 +85,7 @@ import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.isAggregate
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_AMOUNT
@@ -113,6 +116,7 @@ import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.ui.SnackbarAction
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ContribUtils
+import org.totschnig.myexpenses.util.GroupingInfo
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
@@ -126,6 +130,7 @@ import org.totschnig.myexpenses.viewmodel.AccountSealedException
 import org.totschnig.myexpenses.viewmodel.CompletedAction
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.DeleteState.DeleteComplete
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.DeleteState.DeleteProgress
+import org.totschnig.myexpenses.viewmodel.DistributionViewModelBase
 import org.totschnig.myexpenses.viewmodel.ExportViewModel
 import org.totschnig.myexpenses.viewmodel.KEY_ROW_IDS
 import org.totschnig.myexpenses.viewmodel.ModalProgressViewModel
@@ -139,6 +144,7 @@ import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.HeaderDataEmpty
+import org.totschnig.myexpenses.viewmodel.data.HeaderRow
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import timber.log.Timber
@@ -487,6 +493,10 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
 
             R.id.ACCOUNT_FLAGS_COMMAND -> {
                 startActivity(Intent(this, ManageAccountFlags::class.java))
+            }
+
+            R.id.CURRENCIES_COMMAND -> {
+                startActivity(Intent(this, ManageCurrencies::class.java))
             }
 
             R.id.BALANCE_COMMAND -> {
@@ -855,15 +865,16 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
         putExtra(KEY_SECOND_GROUP, groupingSecond)
     }
 
-    private fun Intent.forwardCurrentConfiguration(currentAccount: BaseAccount) {
+    private fun Intent.forwardCurrentConfiguration(currentAccount: DataBaseAccount) {
         if (currentAccount is AggregateAccount) {
-            putExtra(KEY_ACCOUNT_GROUPING, currentAccount.accountGrouping.name)
+            val accountGrouping = currentAccount.accountGrouping
+            putExtra(KEY_ACCOUNT_GROUPING, accountGrouping.name)
             putExtra(
                 KEY_ACCOUNT_GROUPING_GROUP,
-                when (currentAccount.accountGrouping) {
+                when (accountGrouping) {
                     AccountGrouping.CURRENCY -> currentAccount.currency
-                    AccountGrouping.FLAG -> currentAccount.flag.id.toString()
-                    AccountGrouping.TYPE -> currentAccount.type.id.toString()
+                    AccountGrouping.FLAG -> currentAccount.flagId.toString()
+                    AccountGrouping.TYPE -> currentAccount.typeId.toString()
                     else -> "Unit"
                 }
             )
@@ -883,6 +894,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                     recordUsage(feature)
                     startActivity(Intent(this, DistributionActivity::class.java).apply {
                         forwardCurrentConfiguration(it)
+                        putExtra(DistributionViewModelBase.KEY_GROUPING_INFO, tag)
                     })
                 }
             }
@@ -1200,15 +1212,6 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
 
     private fun selectAll() {
         viewModel.selectAllState.value = true
-    }
-
-    fun selectAllListTooLarge() {
-        showSnackBar(
-            getString(
-                R.string.select_all_list_too_large,
-                getString(android.R.string.selectAll)
-            )
-        )
     }
 
     private fun linkTransfer() {
@@ -1665,6 +1668,11 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                                 handleTransactionEvent(event, transaction, isCurrentPage)
                             }
                         },
+                        onHeaderEvent = object : HeaderEventHandler {
+                            override fun invoke(event: HeaderEvent, row: HeaderRow) {
+                                handleHeaderEvent(event, row, account)
+                            }
+                        },
                         futureCriterion = viewModel.futureCriterion.collectAsState(initial = FutureCriterion.EndOfDay).value,
                         expansionHandler = viewModel.expansionHandlerForTransactionGroups(account),
                         onBudgetClick = { budgetId, headerId ->
@@ -1754,6 +1762,19 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
             is OpenAction -> startActionView(action.targets[index ?: 0], action.mimeType)
 
             else -> {}
+        }
+    }
+
+    fun handleHeaderEvent(event: HeaderEvent, row: HeaderRow, account: PageAccount) {
+        when (event) {
+            HeaderEvent.Distribution -> {
+                if (row.mappedCategories) {
+                    contribFeatureRequested(ContribFeature.DISTRIBUTION, GroupingInfo(account.grouping, row.year, row.second))
+                } else {
+                    showSnackBar(R.string.no_mapped_transactions)
+                }
+            }
+            //HeaderEvent.Print -> {}
         }
     }
 

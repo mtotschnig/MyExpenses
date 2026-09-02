@@ -87,6 +87,6 @@
     <string name="cab_flag_help_text">Tilldela det valda kontot en flagga, t.ex. Favorit eller Inaktivt.</string>
     <string name="cab_ManageCategories_select_help_text">Koppla den valda kategorin till transaktionen och återvänd till tranaktionsformuläret.</string>
     <string name="form_BudgetEdit_filter_help_text">Budgetar kan filtreras med avseende på kategorier, motparter, metoder eller statusar. Endast transaktioner som uppfyller dessa filterkriterier kommer beaktas.</string>
-    <string name="menu_search_help_text">Det här alternativet öppnar en undermeny som låter dig formulera sökkriterier baserade på kategori, belopp, kommentar, status, betalare/mottagare och betalningsmetod. När ett sökfilter är aktivt kan du helt enkelt klicka på dess post i undermenyn för att inaktivera det.</string>
+    <string name="menu_search_help_text">Det här alternativet öppnar en undermeny som låter dig formulera sökkriterier baserade på kategori, belopp, kommentar, status, betalare/mottagare och betalningsmetod.</string>
     <string name="help_ManageCategories_select_mapping_info">Utöver de åtgärder du kan vidta när du hanterar kategorier från inställningsskärmen (skapa, redigera, radera) kan du på denna skärm koppla en transaktion till en vald kategori genom att helt enkelt klicka på den.</string>
 </resources>

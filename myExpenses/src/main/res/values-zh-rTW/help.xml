@@ -56,7 +56,7 @@
     <string name="menu_budget_help_text">管理目前顯示帳戶的每日、每週、每月或每年預算。</string>
     <string name="menu_manage_plans_help_text">開啟範本和計畫列表，您可以在此套用、編輯或刪除它們，還可以定義未來和循環交易的計畫。</string>
     <string name="menu_balance_help_text">此指令會開啟一個對話框，顯示最後核對的餘額和已清算的餘額。您可以將後者與銀行對帳單進行比對，並將所有已清算的交易標記為已核對。您可以選擇刪除已核對的交易。</string>
-    <string name="menu_search_help_text">此項目會開啟一個子選單，讓您可以根據類別、金額、註解、狀態、付款人／收款人和付款方式定義搜尋條件。當搜尋篩選器啟用時，您只需點選子選單中的對應項目即可停用它。</string>
+    <string name="menu_search_help_text">此項目會開啟一個子選單，讓您可以根據類別、金額、註解、狀態、付款人／收款人和付款方式定義搜尋條件。</string>
     <string name="cab_create_template_from_transaction_help_text">根據所選交易定義新範本。系統會提示您輸入範本標題。</string>
     <string name="cab_clone_transaction_help_text">所選交易將會複製，並使用目前的日期和時間。您可以在儲存副本之前進行變更。</string>
     <string name="cab_split_help_text">您可以稍後編輯交易，以視需要建立額外的分割部分。</string>

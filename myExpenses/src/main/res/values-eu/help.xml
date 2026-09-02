@@ -18,7 +18,7 @@
     <string name="menu_manage_plans_help_text">Txantiloi eta planen zerrenda irekitzen du, han aplikatu, editatu edo ezabatu ditzakezu, bai eta etorkizunerako planak eta transakzio errepikakorrak zehaztu. </string>
     <string name="menu_balance_help_text">Komando honek berdinkatutako azken saldoa eta kitatutako saldoa bistaratzen dien elkarrizketa-koadro bat irekitzen du. Zure bankuko saldoarekin konparatu dezakezu eta kitatutako transakzioak berdinkatuta gisa markatu. Aukeran berdinkatutako transakzioak ezabatzea erabaki dezakezu.</string>
     <string name="menu_print_help_text">Unean bistaratuta dauden transakzioen inprimatzeko ikuspegi bat sortzen du.</string>
-    <string name="menu_search_help_text">Sarrera honek azpi-menu bat irekitzen du non bilaketa irizpide bat zehaztu dezakezun kopurua, iruzkina, egoera, onuradun/ordaintzailea ala ordainketa metodoaren arabera  </string>
+    <string name="menu_search_help_text">Sarrera honek azpi-menu bat irekitzen du non bilaketa irizpide bat zehaztu dezakezun kopurua, iruzkina, egoera, onuradun/ordaintzailea ala ordainketa metodoaren arabera.</string>
     <string name="cab_create_template_from_transaction_help_text">Definitu txantiloi berri bat aukeratutako transakzioan oinarrituta. Txantiloiaren izena eskatuko dizu.</string>
     <string name="cab_clone_transaction_help_text">Aukeratutako transakzioak oraingo data eta orduarekin klonatuko dira. Aldaketak egin ditzakezu kopia gorde aurretik</string>
     <string name="cab_split_help_text">Transakzioa beranduago editatzea duzu zati gehigarriak behar dituzun neurrian sortzeko.</string>
