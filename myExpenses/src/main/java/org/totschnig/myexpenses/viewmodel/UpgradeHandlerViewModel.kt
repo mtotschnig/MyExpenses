@@ -682,6 +682,14 @@ class UpgradeHandlerViewModel(application: Application) :
                     }
                 }
 
+                if (fromVersion < 880) {
+                    val menuContext = MenuItem.MenuContext.V2Navigation
+                    val currentMenu = dataStore.menu(menuContext).first()
+                    if (currentMenu != null && !currentMenu.contains(MenuItem.Help)) {
+                        dataStore.persistMenu(menuContext, currentMenu + MenuItem.Help)
+                    }
+                }
+
                 prefHandler.putInt(PrefKey.CURRENT_VERSION, toVersion)
                 _upgradeInfo.update {
                     UpgradeSuccess(migrationInfos)
