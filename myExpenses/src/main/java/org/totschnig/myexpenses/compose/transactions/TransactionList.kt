@@ -205,7 +205,7 @@ interface TransactionEventHandler {
 
 enum class HeaderEvent {
     Distribution,
-    Print
+    //Print
 }
 
 interface HeaderEventHandler {

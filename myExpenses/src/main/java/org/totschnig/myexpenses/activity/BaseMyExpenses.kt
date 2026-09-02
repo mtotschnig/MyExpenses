@@ -1774,9 +1774,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                     showSnackBar(R.string.no_mapped_transactions)
                 }
             }
-            HeaderEvent.Print -> {
-                // TODO: implement print for specific group
-            }
+            //HeaderEvent.Print -> {}
         }
     }
 

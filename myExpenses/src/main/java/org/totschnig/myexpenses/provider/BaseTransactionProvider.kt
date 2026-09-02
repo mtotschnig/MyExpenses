@@ -59,7 +59,6 @@ import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_BY_AGGRE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.SORT_DIRECTION_AGGREGATE
 import org.totschnig.myexpenses.provider.DatabaseConstants.DAY_START_JULIAN
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_DEPENDENT
-import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_PEER
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_SELF_OR_RELATED
 import org.totschnig.myexpenses.provider.DatabaseConstants.weekStart
