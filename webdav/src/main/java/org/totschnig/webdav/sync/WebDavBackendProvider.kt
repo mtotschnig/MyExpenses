@@ -208,8 +208,8 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
 
     @get:Throws(IOException::class)
     override val isEmpty: Boolean
-        get() = webDavClient.getFolderMembers().count { resource ->
-            resource.fileNameV2()?.takeIf { it.isNotEmpty() }?.startsWith(".") == false } == 0
+        get() = webDavClient.getFolderMembers().none { resource ->
+            resource.fileNameV2()?.takeIf { it.isNotEmpty() }?.startsWith(".") == false }
 
     @Throws(IOException::class)
     override fun saveUriToCollection(
