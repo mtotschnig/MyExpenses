@@ -1458,12 +1458,10 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
             }
         }
 
-    open fun onEditTransactionResult() {}
+    open fun onEditTransactionResult(isOk: Boolean) {}
 
     private val editLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == RESULT_OK) {
-            onEditTransactionResult()
-        }
+        onEditTransactionResult(result.resultCode == RESULT_OK)
     }
 
     protected val calledFromOnboarding: Boolean

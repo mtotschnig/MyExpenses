@@ -1249,8 +1249,9 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
         }
     }
 
-    override fun onEditTransactionResult() {
-        if (!adHandler.onEditTransactionResult()) {
+    override fun onEditTransactionResult(isOk: Boolean) {
+        floatingActionButton.show()
+        if (isOk && !adHandler.onEditTransactionResult()) {
             reviewManager.onEditTransactionResult(this)
         }
     }
