@@ -1,6 +1,5 @@
 package at.bitfire.dav4android
 
-import android.text.TextUtils
 import at.bitfire.dav4android.exception.HttpException
 import at.bitfire.dav4android.property.GetETag
 import at.bitfire.dav4android.property.ResourceType
@@ -16,32 +15,24 @@ import java.io.IOException
 class LockableDavResource(httpClient: OkHttpClient, location: HttpUrl) :
     DavResource(httpClient, location) {
 
-    /**
-     * @param body     content to be written to resource
-     * @param ifHeader DAV compliant If header
-     */
-    @Throws(IOException::class, HttpException::class)
     fun put(body: RequestBody, ifHeader: String?) {
-        val response: Response?
         val builder = Request.Builder()
             .put(body)
             .url(location)
+            .apply {
+                if (ifHeader != null) header("If", ifHeader)
+            }
 
-        if (ifHeader != null) {
-            builder.header("If", ifHeader)
-        }
-
-        response = httpClient.newCall(builder.build()).execute()
-
+        val response = httpClient.newCall(builder.build()).execute()
         checkStatus(response, true)
         if (response.code == 207) {
-            /* Apache mod_dav returns 207 if update fails due to collection being locked
-       * we need to verify if 207 can also be returned in some cases of success */
+            // Apache mod_dav returns 207 if update fails due to collection being locked.
+            // TODO: verify whether 207 can also indicate success in some cases.
             throw HttpException(response)
         }
 
         val eTag = response.header("ETag")
-        if (TextUtils.isEmpty(eTag)) properties.remove(GetETag.NAME)
+        if (eTag.isNullOrEmpty()) properties.remove(GetETag.NAME)
         else properties.put(GetETag.NAME, GetETag(eTag))
     }
 
@@ -50,33 +41,30 @@ class LockableDavResource(httpClient: OkHttpClient, location: HttpUrl) :
      * a HEAD request to it. A resource is supposed to exist unless the server explicitly returns 404
      */
     @Throws(IOException::class)
-    private fun head(): Boolean {
-        val request = Request.Builder()
+    private fun head() = httpClient.newCall(
+        Request.Builder()
             .url(location)
             .head()
             .build()
-        return httpClient.newCall(request).execute().use { response ->
-            response.code != 404
-        }
+    ).execute()
+        .use { response -> response.code != 404 }
 
     /**
      * calls [.head] without throwing exception
-     * 
+     *
      * @return true if head request succeeds
      */
-    fun exists(): Boolean {
-        try {
-            return head()
-        } catch (_: IOException) {
-            return false
-        }
+    fun exists() = try {
+        head()
+    } catch (_: IOException) {
+        false
     }
 
     /**
      * Tests first if collection exists. As a workaround for
      * Webservers where testing for existence with HEAD request does not work, as a fallback we check
      * if MKCOL request returned 405 which would indicate that folder already existed
-     * 
+     *
      * @param ifHeader DAV compliant If header
      */
     @Throws(IOException::class)
@@ -124,11 +112,13 @@ class LockableDavResource(httpClient: OkHttpClient, location: HttpUrl) :
         }
 
         //From io.ktor.http.Url.kt
-        fun DavResource.segments(): List<String>  {
+        fun DavResource.segments(): List<String> {
             val pathSegments = this.location.pathSegments
             if (pathSegments.isEmpty()) return emptyList()
             val start = if (pathSegments.first().isEmpty() && pathSegments.size > 1) 1 else 0
-            val end = if (pathSegments.last().isEmpty()) pathSegments.lastIndex else pathSegments.lastIndex + 1
+            val end = if (pathSegments.last()
+                    .isEmpty()
+            ) pathSegments.lastIndex else pathSegments.lastIndex + 1
             return pathSegments.subList(start, end)
         }
     }
