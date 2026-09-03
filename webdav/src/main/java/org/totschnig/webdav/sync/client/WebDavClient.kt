@@ -19,6 +19,7 @@ import android.content.Context
 import at.bitfire.dav4android.BasicDigestAuthHandler
 import at.bitfire.dav4android.DavResource
 import at.bitfire.dav4android.LockableDavResource
+import at.bitfire.dav4android.LockableDavResource.Companion.isCollection
 import at.bitfire.dav4android.UrlUtils
 import at.bitfire.dav4android.XmlUtils
 import at.bitfire.dav4android.exception.DavException
@@ -57,14 +58,14 @@ import javax.net.ssl.SSLHandshakeException
 import javax.net.ssl.SSLSession
 
 class WebDavClient(
-    private val context: Context,
+    context: Context,
     appComponent: AppComponent?,
     baseUrl: String,
     userName: String?,
     password: String?,
     trustedCertificate: X509Certificate?,
     allowUnverified: Boolean,
-    clientCertAlias: String? = null
+    clientCertAlias: String? = null,
 ) {
     private val MIME_XML: MediaType = "application/xml; charset=utf-8".toMediaTypeOrNull()!!
     private val httpClient: OkHttpClient
@@ -125,7 +126,7 @@ class WebDavClient(
         fileName: String,
         requestBody: RequestBody?,
         parent: DavResource,
-        withLock: Boolean = true
+        withLock: Boolean = true,
     ): LockableDavResource {
         val resource = LockableDavResource(httpClient, buildResourceUri(fileName, parent.location))
         try {
@@ -202,7 +203,7 @@ class WebDavClient(
 
     fun lock(folderName: String): Boolean {
         currentLockToken = null
-        val lockXml: RequestBody =  """<?xml version="1.0" encoding="utf-8" ?>
+        val lockXml: RequestBody = """<?xml version="1.0" encoding="utf-8" ?>
 <D:lockinfo xmlns:D="DAV:">
   <D:lockscope><D:exclusive/></D:lockscope>
   <D:locktype><D:write/></D:locktype>
@@ -320,7 +321,7 @@ class WebDavClient(
             val baseResource = LockableDavResource(httpClient, mBaseUri)
             baseResource.options()
             baseResource.propfind(1, ResourceType.NAME)
-            if (!baseResource.isCollection) {
+            if (!baseResource.isCollection()) {
                 throw IOException("Not a folder")
             }
             if (!baseResource.capabilities.contains("2")) {
@@ -349,7 +350,7 @@ class WebDavClient(
 
     @Throws(Exception::class)
     fun testClass2Locking() {
-        val folderName = "testClass2Locking"
+        val folderName = ".testClass2Locking"
         mkCol(folderName)
         val folder = LockableDavResource(httpClient, buildCollectionUri(folderName))
         try {
@@ -366,8 +367,9 @@ class WebDavClient(
         } finally {
             try {
                 folder.delete(null)
-            } catch (_: Exception) {
+            } catch (e: Exception) {
                 //this can fail, if the unlocking mechanism does not work. We live with not being able to delete the test folder
+                report(e)
             }
         }
     }
@@ -380,4 +382,4 @@ class WebDavClient(
 
 private fun IOException.isTimeout(): Boolean =
     this is SocketTimeoutException || this is InterruptedIOException ||
-        cause is SocketTimeoutException || cause is InterruptedIOException
+            cause is SocketTimeoutException || cause is InterruptedIOException

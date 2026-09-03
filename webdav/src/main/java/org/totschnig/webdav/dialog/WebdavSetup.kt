@@ -115,6 +115,7 @@ class WebdavSetup : EditActivity() {
             result.onSuccess {
                 finish(false)
             }.onFailure { throwable ->
+                Timber.d(throwable)
                 when (throwable) {
                     is UntrustedCertificateException -> {
                         binding.certificateContainer.isVisible = true
