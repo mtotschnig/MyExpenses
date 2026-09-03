@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources><!-- Main category -->
+<resources>
+    <!-- Main category -->
     <string name="Main_1">অন্যান্য আয়</string>
     <!-- Subcategory under "Other income" -->
     <string name="Sub_1_1">বেকারভাতা</string>
@@ -46,7 +47,7 @@
     <!-- Subcategory under "Misc. income" -->
     <string name="Sub_5_1">উপহার</string>
     <!-- Subcategory under "Misc. income" -->
-    <string name="Sub_5_2"></string>
+    <string name="Sub_5_2">রিফান্ড</string>
     <!-- Subcategory under "Misc. income" -->
     <string name="Sub_5_3">সেকেন্ড হ্যান্ড বিক্রি</string>
     <!-- Main category -->
