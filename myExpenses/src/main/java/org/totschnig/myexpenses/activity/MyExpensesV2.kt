@@ -128,11 +128,14 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
         }
     }
 
-    override fun onEditTransactionResult() {
-        val adHandled = shouldShowAds && adHandler.onEditTransactionResult(this)
+    override fun onEditTransactionResult(isOk: Boolean) {
 
-        if (!adHandled) {
-            reviewManager.onEditTransactionResult(this)
+        if (isOk) {
+            val adHandled = shouldShowAds && adHandler.onEditTransactionResult(this)
+
+            if (!adHandled) {
+                reviewManager.onEditTransactionResult(this)
+            }
         }
     }
 
