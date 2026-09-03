@@ -55,9 +55,9 @@ class LockableDavResource(httpClient: OkHttpClient, location: HttpUrl) :
             .url(location)
             .head()
             .build()
-        val response = httpClient.newCall(request).execute()
-        return response.code != 404
-    }
+        return httpClient.newCall(request).execute().use { response ->
+            response.code != 404
+        }
 
     /**
      * calls [.head] without throwing exception
