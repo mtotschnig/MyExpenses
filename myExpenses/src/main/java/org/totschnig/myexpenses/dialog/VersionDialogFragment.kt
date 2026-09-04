@@ -111,7 +111,7 @@ class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCli
                     (upgradeInfo as UpgradeHandlerViewModel.UpgradeSuccess).migrationInfos.forEach {
                         item {
                             if (it.id == 1) {
-                                MigrationAnnouncementCard()
+                                //MigrationAnnouncementCard()
                             }
                         }
                     }
@@ -234,59 +234,5 @@ class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCli
                 }
                 isCancelable = false
             }
-    }
-}
-
-@Preview
-@Composable
-private fun MigrationAnnouncementCard() {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer
-        )
-    ) {
-        Column(Modifier.padding(16.dp)) {
-            Text(
-                text = stringResource(R.string.migration_v2_title),
-                style = MaterialTheme.typography.headlineSmall,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
-            Text(
-                text = stringResource(R.string.migration_v2_intro),
-                modifier = Modifier.padding(vertical = 8.dp),
-                style = MaterialTheme.typography.bodyMedium
-            )
-            val features = listOf(
-                R.string.migration_v2_feature_1,
-                R.string.migration_v2_feature_2,
-                R.string.migration_v2_feature_3,
-                R.string.migration_v2_feature_4,
-                R.string.migration_v2_feature_5
-            )
-            features.forEach { feature ->
-                Row(
-                    modifier = Modifier.padding(vertical = 2.dp),
-                    verticalAlignment = Alignment.Top
-                ) {
-                    Text(
-                        text = "• ",
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = stringResource(feature),
-                        style = MaterialTheme.typography.bodyMedium
-                    )
-                }
-            }
-            Text(
-                text = stringResource(R.string.migration_v2_footer),
-                modifier = Modifier.padding(vertical = 8.dp),
-                style = MaterialTheme.typography.bodyMedium
-            )
-        }
     }
 }

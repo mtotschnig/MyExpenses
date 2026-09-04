@@ -301,7 +301,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 .body(body)
                 .start()
         ) {
-            showMessage(message = body, title = subject)
+            showMessage(getString(R.string.no_app_handling_email_available))
         }
     }
 

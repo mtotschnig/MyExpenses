@@ -448,4 +448,5 @@
     <string name="menu_templates">템플렛들</string>
     <string name="pref_plan_executor_time_title">알림 시간</string>
     <string name="rounding">반올림</string>
+    <string name="important_upgrade_information_heading">중요한 정보</string>
 </resources>

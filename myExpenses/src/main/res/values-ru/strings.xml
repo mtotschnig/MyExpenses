@@ -1075,4 +1075,5 @@
     <string name="parse_error_at_line">Ошибка в строке %1$d: %2$s</string>
     <string name="rounding">Округление</string>
     <string name="trade_transfer">Перевод</string>
+    <string name="important_upgrade_information_heading">Важная информация</string>
 </resources>

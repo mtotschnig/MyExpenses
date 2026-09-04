@@ -736,4 +736,5 @@
     <string name="pref_account_list_display_configuration_title">アカウント一覧</string>
     <string name="menu_templates">テンプレート</string>
     <string name="rounding">丸め</string>
+    <string name="important_upgrade_information_heading">重要な情報</string>
 </resources>

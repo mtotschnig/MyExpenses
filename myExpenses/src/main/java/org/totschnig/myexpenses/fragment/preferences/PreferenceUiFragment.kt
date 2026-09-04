@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.fragment.preferences
 
 import android.content.Context
-import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
@@ -44,6 +43,7 @@ import org.totschnig.myexpenses.dialog.AccountListDisplayConfigurationDialogFrag
 import org.totschnig.myexpenses.dialog.ComposeBaseDialogFragment
 import org.totschnig.myexpenses.dialog.CustomizeMenuDialogFragment
 import org.totschnig.myexpenses.dialog.MenuItem
+import org.totschnig.myexpenses.dialog.SunsetV1DialogFragment
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PopupMenuPreference
@@ -219,10 +219,10 @@ class PreferenceUiFragment : BasePreferenceFragment() {
         }
 
         childFragmentManager.setFragmentResultListener(
-            LegacyUIDialogFragment.REQUEST_KEY,
+            SunsetV1DialogFragment.REQUEST_KEY,
             this
         ) { _, bundle ->
-            if (bundle.getBoolean(LegacyUIDialogFragment.RESULT_CONFIRMED)) {
+            if (bundle.getBoolean(SunsetV1DialogFragment.RESULT_CONFIRMED)) {
                 requirePreference<ListPreference>(PrefKey.UI_MAIN_SCREEN_VERSION).value =
                     Version.V1.name
                 configureUiVersionDependencies()
@@ -232,7 +232,7 @@ class PreferenceUiFragment : BasePreferenceFragment() {
         with(requirePreference<Preference>(PrefKey.UI_MAIN_SCREEN_VERSION)) {
             onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
                 if (newValue == Version.V2.name) true else {
-                    LegacyUIDialogFragment().show(childFragmentManager, "LEGACY_UI")
+                    SunsetV1DialogFragment.newInstance(fromSettings = true).show(childFragmentManager, "SUNSET_V1")
                     false
                 }
             }
@@ -376,67 +376,5 @@ class PreferenceUiFragment : BasePreferenceFragment() {
             } else {
                 Locale.forLanguageTag(localeString).getDisplayName(Locale.getDefault())
             }
-    }
-}
-
-class LegacyUIDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnClickListener {
-    @Composable
-    override fun BuildContent() {
-        MigrationFeedbackCard()
-    }
-
-    @Composable
-    private fun MigrationFeedbackCard() {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp),
-            colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)
-        ) {
-            Column(Modifier.padding(16.dp)) {
-                Text(
-                    text = stringResource(R.string.migration_v2_opt_out_title),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onErrorContainer
-                )
-                Text(
-                    text = stringResource(R.string.migration_v2_opt_out_warning),
-                    style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier.padding(vertical = 4.dp)
-                )
-            }
-        }
-    }
-
-    override fun initBuilder(): AlertDialog.Builder =
-        super.initBuilder().apply {
-            setNegativeButton(android.R.string.cancel, null)
-            setPositiveButton(R.string.migration_v2_confirm_opt_out, this@LegacyUIDialogFragment)
-            setNeutralButton(R.string.feedback, this@LegacyUIDialogFragment)
-        }
-
-    override fun onClick(dialog: DialogInterface?, which: Int) {
-        when (which) {
-            AlertDialog.BUTTON_POSITIVE -> {
-                prefHandler.mainScreenLegacy = true
-                setFragmentResult(REQUEST_KEY, bundleOf(RESULT_CONFIRMED to true))
-                dismiss()
-            }
-
-            AlertDialog.BUTTON_NEUTRAL -> {
-
-                (requireActivity() as BaseActivity).sendEmail(
-                    recipient = getString(R.string.support_email),
-                    subject = "[" + getString(R.string.app_name) + "] " +
-                            getString(R.string.feedback) + " : " + getString(R.string.migration_v2_feedback_title),
-                    body = ""
-                )
-            }
-        }
-    }
-
-    companion object {
-        const val REQUEST_KEY = "LEGACY_UI_REQUEST"
-        const val RESULT_CONFIRMED = "confirmed"
     }
 }

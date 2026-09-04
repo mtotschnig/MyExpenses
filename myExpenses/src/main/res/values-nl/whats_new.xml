@@ -27,16 +27,7 @@
     <string name="whats_new_401">De transactielijst toont nu meer details voor gesplitste transacties.</string>
     <string name="whats_new_402">Accounttypes kunnen worden aangepast</string>
     <string name="whats_new_403">Met accountvlaggen kun je de zichtbaarheid en prioriteit van je account aanpassen.</string>
-    <string name="migration_v2_feature_1">Moderne Material Design-navigatie</string>
-    <string name="migration_v2_title">Welkom bij V2!</string>
-    <string name="migration_v2_intro">We hebben Mijn Uitgaven opnieuw ontworpen om het gebruiksgemak te vergroten en meer functies te bieden:</string>
-    <string name="migration_v2_feature_2">Groepering en totalen voor vlaggen</string>
-    <string name="migration_v2_feature_3">Verbeterde balansintegratie</string>
-    <string name="migration_v2_feature_4">Gestroomlijnde accountlijst</string>
-    <string name="migration_v2_feature_5">…en er komen nog meer functies aan!</string>
-    <string name="migration_v2_footer">Je kunt in de instellingen terugkeren naar het oude ontwerp. Houd er rekening mee dat versie 1 in een toekomstige update uitgefaseerd zal worden.</string>
-    <string name="migration_v2_opt_out_title">Terugschakelen naar versie 1?</string>
-    <string name="migration_v2_opt_out_warning">Versie 1 zal in een toekomstige update worden uitgefaseerd. We horen graag wat er niet goed werkt, zodat we versie 2 kunnen verbeteren.</string>
+    <string name="migration_v2_opt_out_warning">We horen graag wat er niet goed werkt, zodat we versie 2 kunnen verbeteren.</string>
     <string name="migration_v2_feedback_title">Wat werkt er niet in V2?</string>
     <string name="migration_v2_confirm_opt_out">Ga terug naar V1</string>
     <string name="whats_new_407">Natuurlijk sorteren voor tags, categorieën, rekeningen en partijen.</string>

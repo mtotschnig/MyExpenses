@@ -27,16 +27,7 @@
     <string name="whats_new_401">רשימת התנועות מציגה כעת פרטים נוספים עבור תנועות מפוצלות.</string>
     <string name="whats_new_402">ניתן להתאים את סוגי החשבון אישית</string>
     <string name="whats_new_403">דגלי חשבון מרחיבים את ההתאמה האישית של הנראות והעדיפות של חשבון.</string>
-    <string name="migration_v2_feature_1">ניווט מודרני של Material Design</string>
-    <string name="migration_v2_intro">עיצבנו מחדש את ההוצאות שלי כדי להיות קלה יותר לשימוש ולהציע יותר תכונות:</string>
-    <string name="migration_v2_title">ברוך בואך לגרסה 2!</string>
-    <string name="migration_v2_feature_2">קיבוץ וסכומים עבור דגלים</string>
-    <string name="migration_v2_feature_3">שילוב גיליון יתרה משופר</string>
-    <string name="migration_v2_feature_4">רשימת חשבון מסודרת</string>
-    <string name="migration_v2_feature_5">…ועוד יכולות בדרך!</string>
-    <string name="migration_v2_footer">אפשר לחזור לעיצוב הישן בהגדרות. נא לשים לב שגרסה 1 תצא משימוש באחד העדכונים בעתיד.</string>
-    <string name="migration_v2_opt_out_title">לחזור לגרסה 1?</string>
-    <string name="migration_v2_opt_out_warning">גרסה 1 תופסק בעדכון עתידי. נשמח לדעת מה לא עובד כדי שנוכל לשפר את גרסה 2.</string>
+    <string name="migration_v2_opt_out_warning">נשמח לדעת מה לא עובד כדי שנוכל לשפר את גרסה 2.</string>
     <string name="migration_v2_feedback_title">מה לא עובד בגרסה 2?</string>
     <string name="migration_v2_confirm_opt_out">חזרה לגרסה 1</string>
     <string name="whats_new_407">מיון טבעי לתגים, קטגוריות, חשבונות וצדדים.</string>

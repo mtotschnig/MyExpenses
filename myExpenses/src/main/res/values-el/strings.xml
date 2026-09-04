@@ -1009,4 +1009,5 @@
     <string name="supports_reconciliation">Υποστήριξη συμφωνίας λογαριασμών</string>
     <string name="asset_quantity_at_price">%1$s στα %2$s</string>
     <string name="rounding">Στρογγυλοποίηση</string>
+    <string name="important_upgrade_information_heading">Σημαντικές πληροφορίες</string>
 </resources>

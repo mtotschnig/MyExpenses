@@ -877,4 +877,5 @@
     <string name="pref_account_list_display_configuration_title">Senarai akaun</string>
     <string name="menu_templates">Templat</string>
     <string name="rounding">Pembulatan</string>
+    <string name="important_upgrade_information_heading">Maklumat penting</string>
 </resources>

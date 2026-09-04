@@ -116,4 +116,5 @@
     <string name="template">Šablonas</string>
     <string name="new_version">Nauja versija</string>
     <string name="add_shortcut">Pridėti trumpinį</string>
+    <string name="important_upgrade_information_heading">Svarbi informacija</string>
 </resources>

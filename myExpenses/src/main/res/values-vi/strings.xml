@@ -881,4 +881,5 @@
     <string name="pref_ui_start_screen_last_visited">Màn hình gần nhất</string>
     <string name="asset_quantity_at_price">%1$s với giá %2$s</string>
     <string name="rounding">Làm tròn</string>
+    <string name="important_upgrade_information_heading">Thông tin quan trọng</string>
 </resources>

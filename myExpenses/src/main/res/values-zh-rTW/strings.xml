@@ -841,4 +841,5 @@
     <string name="pref_ui_start_screen_title">起始頁面</string>
     <string name="pref_ui_start_screen_last_visited">上次訪問的頁面</string>
     <string name="rounding">舍入</string>
+    <string name="important_upgrade_information_heading">重要消息</string>
 </resources>

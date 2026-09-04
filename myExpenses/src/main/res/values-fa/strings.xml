@@ -619,4 +619,5 @@
     <string name="pref_protection_device_lock_screen_title">صفحه قفل دستگاه</string>
     <string name="menu_history_totals">نمایش جمع‌ها</string>
     <string name="grand_total">جمع کل</string>
+    <string name="important_upgrade_information_heading">اطلاعات مهم</string>
 </resources>

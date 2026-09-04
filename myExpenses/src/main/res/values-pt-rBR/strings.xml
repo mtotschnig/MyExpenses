@@ -1086,4 +1086,5 @@
     <string name="pref_content_based_colors_summary">Derivar cores do tema a partir da cor da conta atual. Desative se o texto ficar difícil de ler.</string>
     <string name="service_starting">Iniciando…</string>
     <string name="rounding">Arredondamento</string>
+    <string name="important_upgrade_information_heading">Informações importantes</string>
 </resources>
