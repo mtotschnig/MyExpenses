@@ -1165,4 +1165,5 @@
     <string name="premium_nudge_portfolio_message">You can manage one portfolio for free. Upgrade to manage multiple portfolios and unlock advanced tracking features.</string>
     <string name="rounding">Rounding</string>
     <string name="help_floating_action_button">Floating action button</string>
+    <string name="important_upgrade_information_heading">Important information</string>
 </resources>

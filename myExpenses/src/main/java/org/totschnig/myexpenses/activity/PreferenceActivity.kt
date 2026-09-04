@@ -66,9 +66,6 @@ import javax.inject.Inject
 class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace,
     SortUtilityDialogFragment.OnConfirmListener {
 
-    @Inject
-    lateinit var configurator: Configurator
-
     @State
     var resultCode: Int = RESULT_OK
 

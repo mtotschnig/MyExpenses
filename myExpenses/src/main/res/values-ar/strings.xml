@@ -1100,4 +1100,5 @@
     <string name="trade_transfer">تحويل</string>
     <string name="asset_type_commodity">سلعة</string>
     <string name="asset_type_commodity_plural">السلع</string>
+    <string name="important_upgrade_information_heading">معلومات مهمة</string>
 </resources>

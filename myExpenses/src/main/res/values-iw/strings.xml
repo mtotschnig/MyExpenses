@@ -967,4 +967,5 @@
     <string name="pref_ui_start_screen_title">מסך התחלה</string>
     <string name="pref_ui_start_screen_last_visited">המסך האחרון שנצפה</string>
     <string name="rounding">עיגול</string>
+     <string name="important_upgrade_information_heading">מידע חשוב</string>
 </resources>

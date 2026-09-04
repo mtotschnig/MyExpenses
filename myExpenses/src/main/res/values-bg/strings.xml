@@ -1069,4 +1069,5 @@
     <string name="asset_type_commodity">Стока</string>
     <string name="asset_type_commodity_plural">Стоки</string>
     <string name="trade_transfer">Прeвод</string>
+    <string name="important_upgrade_information_heading">Важна информация</string>
 </resources>

@@ -1069,4 +1069,5 @@
     </plurals>
     <string name="service_starting">Wird gestartet…</string>
     <string name="trade_transfer">Übertrag</string>
+    <string name="important_upgrade_information_heading">Wichtige Information</string>
 </resources>

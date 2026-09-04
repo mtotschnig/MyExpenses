@@ -34,16 +34,17 @@
     <string name="whats_new_411_3">History Screen for aggregate accounts now reflects change in value of foreign currencies</string>
 
     <!-- Migration V2 Strings -->
-    <string name="migration_v2_title">Welcome to V2!</string>
-    <string name="migration_v2_intro">We\'ve redesigned My Expenses to be easier to use and to offer more features:</string>
-    <string name="migration_v2_feature_1">Modern Material Design Navigation</string>
-    <string name="migration_v2_feature_2">Grouping and totals for flags</string>
-    <string name="migration_v2_feature_3">Improved balance sheet integration</string>
-    <string name="migration_v2_feature_4">Streamlined account list</string>
-    <string name="migration_v2_feature_5">…and more features on the way!</string>
-    <string name="migration_v2_footer">You can return to the old design in Settings. Note that V1 will be phased out in a future update.</string>
-    <string name="migration_v2_opt_out_title">Switching back to V1?</string>
-    <string name="migration_v2_opt_out_warning">V1 will be phased out in a future update. We\'d love to know what\'s not working so we can improve V2.</string>
+    <string name="migration_v2_opt_out_warning">We\'d love to know what\'s not working so we can improve V2.</string>
     <string name="migration_v2_feedback_title">What\'s not working in V2?</string>
     <string name="migration_v2_confirm_opt_out">Go back to V1</string>
+
+    <!-- Sunset V1 Strings -->
+    <string name="sunset_v1_intro">This is the last version with V1. It will be removed in version 4.1.3.</string>
+    <string name="sunset_v1_message_1_intro">Help Us Improve V2:</string>
+    <string name="sunset_v1_message_2_intro">Exclusive V2 Features:</string>
+    <string name="sunset_v1_message_2_body">Discover new tools available only in V2, such as investment portfolio tracking.</string>
+    <string name="sunset_v1_message_3_intro">Staying on V1:</string>
+    <!--app_name and store are programmatically filled in and need not be translated -->
+    <string name="sunset_v1_message_3_body">To keep using V1, please disable automatic updates for {app_name} in {store}.</string>
+    <string name="switch_to_v2">Switch to V2</string>
 </resources>

@@ -1069,4 +1069,5 @@
     <string name="trade_transfer">Transfer</string>
     <string name="asset_type_commodity">Emtia</string>
     <string name="asset_type_commodity_plural">Emtialar</string>
+    <string name="important_upgrade_information_heading">Önemli bilgi</string>
 </resources>

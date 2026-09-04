@@ -28,16 +28,7 @@
     <string name="whats_new_402">Jenis akun dapat disesuaikan</string>
     <string name="whats_new_403">Penanda akun memperluas penyesuaian visibilitas dan prioritas akun.</string>
     <string name="whats_new_407">Pengurutan alami untuk tag, kategori, akun, dan pihak.</string>
-    <string name="migration_v2_title">Selamat datang di V2!</string>
-    <string name="migration_v2_intro">Kami telah mendesain ulang My Expenses agar lebih mudah digunakan dan menawarkan lebih banyak fitur:</string>
-    <string name="migration_v2_feature_1">Navigasi Material Design modern</string>
-    <string name="migration_v2_feature_2">Pengelompokan dan total untuk penanda</string>
-    <string name="migration_v2_feature_3">Integrasi neraca yang ditingkatkan</string>
-    <string name="migration_v2_feature_4">Daftar akun yang lebih ringkas</string>
-    <string name="migration_v2_feature_5">…dan lebih banyak fitur akan segera hadir!</string>
-    <string name="migration_v2_footer">Anda dapat kembali ke desain lama di Pengaturan. Perlu diketahui bahwa V1 akan dihentikan secara bertahap pada pembaruan mendatang.</string>
-    <string name="migration_v2_opt_out_title">Beralih kembali ke V1?</string>
-    <string name="migration_v2_opt_out_warning">V1 akan dihentikan secara bertahap pada pembaruan mendatang. Kami ingin mengetahui apa yang tidak berfungsi agar kami dapat meningkatkan V2.</string>
+    <string name="migration_v2_opt_out_warning">Kami ingin mengetahui apa yang tidak berfungsi agar kami dapat meningkatkan V2.</string>
     <string name="migration_v2_feedback_title">Apa yang tidak berfungsi di V2?</string>
     <string name="migration_v2_confirm_opt_out">Kembali ke V1</string>
 </resources>

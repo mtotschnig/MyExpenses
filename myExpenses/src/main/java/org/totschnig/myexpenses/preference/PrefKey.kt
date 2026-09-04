@@ -226,7 +226,8 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     FAB_STYLE(R.string.pref_fab_style_key),
     CONTENT_BASED_COLORS(R.string.pref_content_based_colors_key),
     DEFAULT_ACTION(R.string.pref_default_action_key),
-    PREMIUM_NUDGE_DISMISSED("premium_nudge_dismissed")
+    PREMIUM_NUDGE_DISMISSED("premium_nudge_dismissed"),
+    SUNSET_V1_DISMISSED("sunset_v1_dismissed")
     ;
 
     @Deprecated("")

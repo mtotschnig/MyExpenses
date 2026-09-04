@@ -967,4 +967,5 @@
     <string name="contrib_feature_portfolio_tracking">Acompanhamento de carteira</string>
     <string name="premium_nudge_portfolio_message">Pode gerir uma carteira gratuitamente. Atualize para gerir várias carteiras e desbloquear funcionalidades de acompanhamento avançadas.</string>
     <string name="rounding">Arredondamento</string>
+    <string name="important_upgrade_information_heading">Informações importantes</string>
 </resources>
