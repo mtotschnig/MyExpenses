@@ -42,6 +42,7 @@ import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.IOException
+import androidx.core.content.edit
 
 open class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
 
@@ -158,12 +159,10 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
             ).filter { it !in userData.keySet() }.forEach {
                 accountManager.setUserData(account, it, null)
             }
-            getApplication<MyApplication>().let { app ->
-                app.getSharedPreferences("webdav_sync", 0).edit()
-                    .remove("lockToken")
+            getApplication<MyApplication>().getSharedPreferences("webdav_sync", 0).edit {
+                remove("lockToken")
                     .remove("lockOwnedByUs")
                     .remove("lockTimestamp")
-                    .apply()
             }
             emit(true)
         }
@@ -172,7 +171,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
         args: Bundle,
         shouldQueryLocalAccounts: Boolean,
         shouldReturnBackups: Boolean,
-        shouldQueryRemoteAccounts: Boolean
+        shouldQueryRemoteAccounts: Boolean,
     ): LiveData<Result<SyncAccountData>> =
         liveData(context = coroutineContext()) {
             val accountName = args.getString(KEY_ACCOUNT_NAME)!!
@@ -234,7 +233,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
         val label: String,
         val uuid: String,
         val isSynced: Boolean,
-        val isSealed: Boolean
+        val isSealed: Boolean,
     ) : Parcelable
 
     private suspend fun buildResult(
@@ -242,7 +241,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
         shouldReturnBackups: Boolean,
         shouldQueryLocalAccounts: Boolean,
         create: Boolean,
-        shouldQueryRemoteAccounts: Boolean = true
+        shouldQueryRemoteAccounts: Boolean = true,
     ): Result<SyncAccountData> {
         //noinspection Recycle
         val localAccounts = if (shouldQueryLocalAccounts) contentResolver.query(
@@ -300,7 +299,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
 
     fun setupFromSyncAccounts(
         accountUuids: List<String>,
-        accountName: String
+        accountName: String,
     ): LiveData<Result<Unit>> =
         liveData(context = coroutineContext()) {
             getSyncBackendProvider(
@@ -358,6 +357,6 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
         val accountName: String,
         val remoteAccounts: List<AccountMetaData>,
         val backups: List<String>,
-        val localAccountsNotSynced: List<LocalAccount>
+        val localAccountsNotSynced: List<LocalAccount>,
     ) : Parcelable
 }

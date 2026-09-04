@@ -4,7 +4,7 @@ MyExpenses
 GPL licenced Android Expense Tracking App.
 
 *My Expenses* is an Android app designed to keep track of your expenses and income.
-Works on Android 5.0 and above.
+Works on Android 8.0 and above.
  
 <a href="https://f-droid.org/packages/org.totschnig.myexpenses" target="_blank">
 <img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="90"/></a>

@@ -7,6 +7,8 @@ import android.content.Context
 import android.net.Uri
 import at.bitfire.dav4android.DavResource
 import at.bitfire.dav4android.LockableDavResource
+import at.bitfire.dav4android.LockableDavResource.Companion.fileNameV2
+import at.bitfire.dav4android.LockableDavResource.Companion.isCollection
 import at.bitfire.dav4android.exception.DavException
 import at.bitfire.dav4android.exception.HttpException
 import okhttp3.HttpUrl
@@ -35,7 +37,6 @@ import java.io.IOException
 import java.io.InterruptedIOException
 import java.net.SocketTimeoutException
 import java.security.cert.CertificateException
-import java.security.cert.X509Certificate
 
 class WebDavBackendProvider @SuppressLint("MissingPermission") internal constructor(
     context: Context,
@@ -45,8 +46,6 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
 
     private var webDavClient: WebDavClient
     private var fallbackToClass1: Boolean
-    private val accountManagerRef: AccountManager = accountManager
-    private val accountRef: Account = account
 
     override val accountRes: DavResource
         get() = webDavClient.getCollection(accountUuid)
@@ -201,23 +200,16 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
             accountUuid
         )
 
-    override fun nameForResource(resource: DavResource): String? = resource.fileName()
+    override fun nameForResource(resource: DavResource): String? = resource.fileNameV2()
 
-    override fun isCollection(resource: DavResource) = LockableDavResource.isCollection(resource)
+    override fun isCollection(resource: DavResource) = resource.isCollection()
 
     override val sharedPreferencesName = "webdav"
 
-    fun clearLockState() {
-        sharedPreferences.edit()
-            .remove("lockToken")
-            .remove("lockOwnedByUs")
-            .remove("lockTimestamp")
-            .apply()
-    }
-
     @get:Throws(IOException::class)
     override val isEmpty: Boolean
-        get() = webDavClient.getFolderMembers().isEmpty()
+        get() = webDavClient.getFolderMembers().none { resource ->
+            resource.fileNameV2()?.takeIf { it.isNotEmpty() }?.startsWith(".") == false }
 
     @Throws(IOException::class)
     override fun saveUriToCollection(
@@ -309,7 +301,7 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
     override val remoteAccountList: List<Result<AccountMetaData>>
         get() = webDavClient.getFolderMembers()
             .asSequence()
-            .filter(LockableDavResource::isCollection)
+            .filter { it.isCollection() }
             .filter { verifyRemoteAccountFolderName(getLastPathSegment(it.location)) }
             .map { webDavClient.getResource(it.location, accountMetadataFilename) }
             .filter { it.exists() }
