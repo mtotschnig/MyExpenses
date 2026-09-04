@@ -1055,4 +1055,5 @@
     <string name="asset_quantity_at_price">%1$s @ %2$s</string>
     <string name="contrib_feature_portfolio_tracking">Śledzenie portfela</string>
     <string name="premium_nudge_portfolio_message">Możesz zarządzać jednym portfolio za darmo. Ulepsz się, aby zarządzać wieloma portfelami i odblokować zaawansowane funkcje śledzenia.</string>
+    <string name="important_upgrade_information_heading">Ważna informacja</string>
 </resources>

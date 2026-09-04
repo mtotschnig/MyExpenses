@@ -1087,4 +1087,5 @@
     <string name="trade_transfer">Transfert</string>
     <string name="asset_type_commodity">Matière première</string>
     <string name="asset_type_commodity_plural">Matières premières</string>
+    <string name="important_upgrade_information_heading">Information importante</string>
 </resources>

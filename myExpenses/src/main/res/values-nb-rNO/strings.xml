@@ -268,4 +268,5 @@
     <string name="decimal_separator">Desimaltegn</string>
     <string name="menu_edit_transfer">Rediger overføring</string>
     <string name="add_shortcut">Legg til snarvei</string>
+    <string name="important_upgrade_information_heading">Viktig info</string>
 </resources>

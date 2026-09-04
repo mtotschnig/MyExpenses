@@ -120,6 +120,8 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.util.config.Configurator
+import org.totschnig.myexpenses.util.config.get
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_COLOR
@@ -301,7 +303,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
                 .body(body)
                 .start()
         ) {
-            showMessage(message = body, title = subject)
+            showMessage(getString(R.string.no_app_handling_email_available))
         }
     }
 
@@ -369,6 +371,9 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
 
     @Inject
     lateinit var prefHandler: PrefHandler
+
+    @Inject
+    lateinit var configurator: Configurator
 
     @Inject
     lateinit var tracker: Tracker

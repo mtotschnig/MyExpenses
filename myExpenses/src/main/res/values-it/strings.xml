@@ -1082,4 +1082,5 @@
     <string name="pref_content_based_colors_summary">Ricava i colori del tema dal colore del conto corrente. Disattiva se il testo è difficile da leggere.</string>
     <string name="service_starting">Iniziando…</string>
     <string name="trade_transfer">Trasferimento</string>
+    <string name="important_upgrade_information_heading">Informazioni importanti</string>
 </resources>

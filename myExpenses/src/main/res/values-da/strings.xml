@@ -917,4 +917,5 @@
     <string name="pref_account_list_display_configuration_title">Kontoliste</string>
     <string name="menu_templates">Skabeloner</string>
     <string name="rounding">Afrunding</string>
+    <string name="important_upgrade_information_heading">Vigtige oplysninger</string>
 </resources>

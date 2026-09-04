@@ -867,4 +867,5 @@
     <string name="pref_account_list_display_configuration_title">Llista de comptes</string>
     <string name="menu_templates">Plantilles</string>
     <string name="rounding">Arredoniment</string>
+    <string name="important_upgrade_information_heading">Informació important</string>
 </resources>

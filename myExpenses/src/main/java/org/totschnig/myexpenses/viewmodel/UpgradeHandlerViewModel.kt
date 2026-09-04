@@ -659,12 +659,6 @@ class UpgradeHandlerViewModel(application: Application) :
                     }
                 }
 
-                if (fromVersion < 838) {
-                    migrationInfos.add(
-                        MigrationInfo(1)
-                    )
-                }
-
                 if (fromVersion < 840) {
                     val key = prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING)
                     val grouping = dataStore.data.first()[key]

@@ -77,6 +77,7 @@ import org.totschnig.myexpenses.dialog.CriterionInfo
 import org.totschnig.myexpenses.dialog.CriterionReachedDialogFragment
 import org.totschnig.myexpenses.dialog.HelpDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
+import org.totschnig.myexpenses.dialog.SunsetV1DialogFragment
 import org.totschnig.myexpenses.dialog.TransactionListComposeDialogFragment
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.injector
@@ -84,6 +85,8 @@ import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.util.config.Configurator
+import org.totschnig.myexpenses.util.config.get
 import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.retrofit.Vote
@@ -240,6 +243,13 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
         super.onPostCreate(savedInstanceState)
         // Sync the toggle state after onRestoreInstanceState has occurred.
         drawerToggle?.syncState()
+        if (savedInstanceState == null &&
+            !prefHandler.getBoolean(PrefKey.SUNSET_V1_DISMISSED, false) &&
+            configurator[Configurator.Configuration.SUNSET_V1_ENABLED, false]
+        ) {
+            SunsetV1DialogFragment.newInstance(fromSettings = false)
+                .show(supportFragmentManager, "SUNSET_V1")
+        }
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
