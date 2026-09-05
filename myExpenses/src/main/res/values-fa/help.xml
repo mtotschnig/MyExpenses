@@ -76,7 +76,7 @@
     <string name="help_ExpenseEdit_templateSplit_title">فرم برای تقسیم الگوها</string>
     <string name="help_ExpenseEdit_templateCategory_info">از این فرم برای وارد کردن یک الگوی جدید یا ویرایش یک الگوی موجود استفاده کنید. از منوی کشویی در نوار عمل برای جابه‌جایی بین قالب‌های تراکنش، انتقال و تقسیم استفاده کنید.</string>
     <string name="form_account_help_text">حسابی که تراکنش به آن تعلق دارد را انتخاب کنید.</string>
-    <string name="form_date_time_help_text_link">اگر وضعیت &lt;img src=ic_hchain&gt;/&lt;img src=ic_hchain_broken&gt; در حالت پیوندی باشد، تنظیم تاریخ ارزش یا تاریخ ثبت، تاریخ دیگر را نیز به‌روزرسانی می‌کند.</string>
+    <string name="form_date_time_help_text_link"><![CDATA[اگر وضعیت <img src=ic_hchain>/<img src=ic_hchain_broken> در حالت پیوندی باشد، تنظیم تاریخ ارزش یا تاریخ ثبت، تاریخ دیگر را نیز به‌روزرسانی می‌کند.]]></string>
     <string name="form_default_action_help_text">برای هر الگو، می‌توانید پیکربندی کنید که یک ضربه کوتاه روی آن در لیست الگو، نمونه را بلافاصله ذخیره می‌کند یا فرم ویرایش آن را وارد می‌کنید که می‌توانید قبل از ذخیره آن را تغییر دهید. همیشه می توانید از طریق یک ضربه طولانی به هر دو عملکرد دسترسی داشته باشید.</string>
     <string name="form_split_parts_heading_help_text_3"> تنها در صورتی می توانید تراکنش تهسیم شده را ذخیره کنید، در صورتی که مبلغ تراکنش دقیقاً تعیین شده باشد.</string>
     <string name="form_plan_help_text_advanced">پس از اینکه الگو را ذخیره کردید، می توانید با استفاده از برنامه تقویم خود، انواع پیشرفته تری از تکرار را پیکربندی کنید.</string>
@@ -89,14 +89,14 @@
     <string name="help_ManageParties_select_filter_info"/>
     <string name="help_ManageTemplates_planner_title">بازرخدادهای آتی</string>
     <string name="help_ManageTemplates_plans_intro">هر تاریخ برجسته شده نمونه ای از طرح را نشان می دهد.</string>
-    <string name="form_attach_image_help_text">دکمه &lt;img src=android:ic_menu_camera&gt; به شما امکان می دهد یک تصویر (مثلاً از گالری یا دوربین) را به موضوع متصل کنید.</string>
+    <string name="form_attach_image_help_text"><![CDATA[دکمه <img src=android:ic_menu_camera> به شما امکان می دهد یک تصویر (مثلاً از گالری یا دوربین) را به موضوع متصل کنید.]]></string>
     <string name="help_ExpenseEdit_templateCategory_title">فرم الگوهای تراکنش</string>
     <string name="help_ExpenseEdit_templateTransfer_title">فرم الگوهای انتقال</string>
     <string name="help_ExpenseEdit_split_info">تسهیم تراکنش یک تراکنش منفرد است که به بخش‌هایی تقسیم می‌شود، که در آن هر بخش می‌تواند به دسته‌ای اختصاص داده شود یا به حساب دیگری منتقل شود.</string>
     <string name="form_date_time_help_text">تاریخ و زمان انجام معامله را وارد کنید.</string>
     <string name="form_date_time_help_text_configuration">در تنظیمات می توانید ورودی زمان را غیرفعال کنید و تمایز بین تاریخ ثبت و تاریخ ارزش را فعال کنید.</string>
     <string name="form_amount_switch_help_text">از سوئیچ برای جابجایی بین هزینه و درآمد استفاده کنید.</string>
-    <string name="form_calculator_help_text">دکمه &lt;img src=?calcIcon&gt; ماشین حساب را باز می کند.</string>
+    <string name="form_calculator_help_text"><![CDATA[دکمه <img src=?calcIcon> ماشین حساب را باز می کند.]]></string>
     <string name="form_comment_help_text">هر گونه یادداشتی را در مورد این موضوع وارد کنید.</string>
     <string name="form_category_help_text">این دکمه فهرست دسته‌ها را باز می‌کند، جایی که می‌توانید دسته‌ای را که می‌خواهید به تراکنش نگاشت کنید، انتخاب کنید.</string>
     <string name="form_transfer_from_account_transfer_to_account_help_text">حساب هایی را که این مورد، از یا به آن منتقل می شود را تعیین کنید.</string>
@@ -107,7 +107,7 @@
     <string name="help_ManageCategories_select_filter_info">برای شروع انتخاب چندگانه روی یک ورودی کلیک کنید.</string>
     <string name="cab_ManageCategories_create_sub_cat_help_text">یک پنجره برای ایجاد یک زیرمجموعه جدید پایین دسته انتخاب شده، باز می‌شود. زیرمجموعه را می توان با عمق دلخواه تودرتو کرد.</string>
     <string name="cab_ManageCategories_move_help_text">هر دسته ای (به همراه زیر مجموعه های آن) را می توان به دسته بندی والد جدید منتقل کرد. زیر مجموعه ها را می توان به دسته های اصلی تبدیل کرد.</string>
-    <string name="help_ManageCategories_expand_collapse">روی نماد &lt;img src=ic_expand_more&gt;/&lt;img src=ic_expand_less&gt; کلیک کنید تا یک دسته را بزرگ یا کوچک کنید.</string>
+    <string name="help_ManageCategories_expand_collapse"><![CDATA[روی نماد <img src=ic_expand_more>/<img src=ic_expand_less> کلیک کنید تا یک دسته را بزرگ یا کوچک کنید.]]></string>
     <string name="help_ManageCategories_manage_context">برای نمایش منوی متنی بر روی یک ورودی کلیک کنید. برای شروع انتخاب چندگانه، ضربه بزنید و نگه دارید.</string>
     <string name="cab_ManageCategories_select_help_text">اتصال دسته انتخاب شده به معامله و بازگشت به فرم معامله.</string>
     <string name="form_method_help_text">این قسمت فقط در صورتی در دسترس است که حساب جاری مرتبط با هر نوع روش پرداخت باشد. به طور پیش فرض فقط حساب های بانکی به روش های پرداخت (چک، کارت اعتباری، سپرده، بدهی مستقیم) مرتبط هستند. برای پیکربندی ارتباط بین انواع حساب و روش‌های پرداخت، به تنظیمات -&gt; مدیریت -&gt; روش‌های پرداخت بروید. هنگامی که روشی را انتخاب می کنید که به عنوان شماره تعریف شده است، یک قسمت اضافی برای وارد کردن شماره مرجع در دسترس خواهد بود.</string>
