@@ -39,7 +39,7 @@
     <string name="help_ExpenseEdit_templateSplit_title">分割範本表單</string>
     <string name="help_ExpenseEdit_transaction_info">使用此表單輸入新交易或編輯現有交易。使用動作列中的下拉式選單切換至新增轉帳或分割交易的表單。</string>
     <string name="help_ExpenseEdit_templateCategory_info">使用此表單輸入新範本或編輯現有範本。使用動作列中的下拉式選單在交易、轉帳和分割的範本之間切換。</string>
-    <string name="form_calculator_help_text">&lt;img src=?calcIcon&gt; 按鈕會開啟計算機。</string>
+    <string name="form_calculator_help_text"><![CDATA[<img src=?calcIcon> 按鈕會開啟計算機。]]></string>
     <string name="form_comment_help_text">輸入任何關於此物件的備註。</string>
     <string name="form_ExpenseEdit_splitPartCategory_category_help_text">為此分割部分選擇一個類別。</string>
     <string name="form_ExpenseEdit_templateTransfer_foreign_currency_help_text">如果「來源」和「目的地」帳戶的貨幣不同，您只需指定其中一個的金額。另一個金額將在您從範本建立實例時計算。</string>
@@ -66,7 +66,7 @@
     <string name="help_ManageParties_select_mapping_info">點選即可選擇交易對象。</string>
     <string name="help_ManageParties_mergeMode_info_2">系統會提示您選擇要保留哪個版本。</string>
     <string name="menu_merge_help_text">如果同一個交易對象在列表中以不同的拼寫方式出現多次，您可以將它們合併。</string>
-    <string name="help_ManageTemplates_templates_info">&lt;img src=ic_menu_template&gt;雖然範本可以透過交易的捷徑選單衍生而來，但您也可以在這裡點選浮動動作按鈕從頭開始建立新範本（適用於交易或轉帳）。點選範本將會建立一個實例。&lt;br&gt;&lt;img src=ic_event&gt;計畫是您在規劃行事曆中建立的事件（單次或循環）的範本。點選計畫將會開啟行事曆檢視，其中會顯示計畫過去和即將發生的實例。</string>
+    <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=ic_menu_template>雖然範本可以透過交易的捷徑選單衍生而來，但您也可以在這裡點選浮動動作按鈕從頭開始建立新範本（適用於交易或轉帳）。點選範本將會建立一個實例。<br><img src=ic_event>計畫是您在規劃行事曆中建立的事件（單次或循環）的範本。點選計畫將會開啟行事曆檢視，其中會顯示計畫過去和即將發生的實例。]]></string>
     <string name="help_ManageTemplates_plans_intro">每個醒目提示的日期代表計畫的一個實例。</string>
     <string name="help_ManageTemplates_plans_info_header">實例的狀態由以下圖示指示：</string>
     <string name="help_ManageTemplates_plans_info_open">該實例尚未套用。</string>
@@ -80,7 +80,7 @@
     <string name="help_ManageCategories_select_mapping_info">除了您在「偏好設定」畫面中管理類別時可以執行的動作（建立、編輯、刪除）之外，您也可以在此畫面上透過點選，將交易對應到所選類別。</string>
     <string name="help_ManageCategories_select_filter_info">點選一個項目即可開始多選。</string>
     <string name="help_ManageCategories_manage_info">此畫面允許建立、編輯和刪除類別。預設情況下，類別列表中的主要排序準則是您使用類別的次數（次要準則是字母順序）。這讓您可以快速存取最常用的類別。</string>
-    <string name="help_ManageCategories_expand_collapse">點選 &lt;img src=ic_expand_more&gt;/&lt;img src=ic_expand_less&gt; 圖示即可展開或收合類別。</string>
+    <string name="help_ManageCategories_expand_collapse"><![CDATA[點選 <img src=ic_expand_more>/<img src=ic_expand_less> 圖示即可展開或收合類別。]]></string>
     <string name="help_ManageCategories_manage_context">點選一個項目以顯示其捷徑選單。長按即可開始多選。</string>
     <string name="menu_ManageCategories_distribution_grouping_help_text">設定群組類型，並顯示每日、每月、每週或每年的分佈。</string>
     <string name="menu_back_help_text">瀏覽至上一個群組。也可以透過從左向右滑動手勢來完成。</string>
@@ -96,7 +96,7 @@
     <string name="form_account_help_text">選擇交易所屬的帳戶。</string>
     <string name="form_date_time_help_text">輸入交易發生的日期和時間。</string>
     <string name="form_date_time_help_text_configuration">您可以在設定中停用時間輸入，並啟用記帳日期和價值日期之間的區分。</string>
-    <string name="form_date_time_help_text_link">如果 &lt;img src=ic_hchain&gt;/&lt;img src=ic_hchain_broken&gt; 切換鈕處於連結狀態，則設定價值日期或記帳日期也會更新另一個日期。</string>
+    <string name="form_date_time_help_text_link"><![CDATA[如果 <img src=ic_hchain>/<img src=ic_hchain_broken> 切換鈕處於連結狀態，則設定價值日期或記帳日期也會更新另一個日期。]]></string>
     <string name="form_amount_switch_help_text">使用切換鈕在支出和收入之間切換。</string>
     <string name="form_crstatus_help_text">對於屬於銀行帳戶的交易，您可以將交易狀態變更為已清算。要將其設定為已核對，您必須使用交易列表中的「平衡帳戶」指令。如果狀態設定為無效，則不會計算該交易。</string>
     <string name="form_method_help_text">僅當目前帳戶的類型連結至任何付款方式時，此欄位才可用。預設情況下，只有銀行帳戶連結至付款方式（支票、信用卡、存款、直接扣款）。前往「設定」-&gt;「管理」-&gt;「付款方式」以設定帳戶類型與付款方式之間的關聯。當您選擇定義為編號的方式時，會顯示一個額外的欄位，用於輸入參考編號。</string>
@@ -116,8 +116,8 @@
     <string name="menu_exclude_from_totals_help_text">如果您勾選此選項，則此帳戶將不會包含在每種貨幣的總計中。</string>
     <string name="help_MethodEdit_title">付款方式表單</string>
     <string name="help_ManageStaleImages_info">此畫面可讓您處理已刪除交易遺留下來的影像檔。長按項目即可刪除它們，或將它們從（可能是內部）儲存資料夾移至外部儲存空間上的備份資料夾 (%s)。</string>
-    <string name="help_CsvImportActivity_info">選擇要匯入的檔案後，您需要設定檔案的編碼方式（UTF-8 或 ISO-8859-1）、哪個字元分隔欄位（逗號、分號或定位鍵），以及日期的格式。資料可以匯入到現有帳戶或新帳戶中，您可以在新帳戶中設定貨幣和帳戶類型。&lt;br&gt;&lt;br&gt;按下動作列中的「剖析」按鈕後，資料將以表格形式呈現給您。在透過動作列中的按鈕觸發匯入之前，您可以選擇要捨棄的列，並且必須將欄位對應到相應的資料欄位。&lt;br&gt;&lt;br&gt;當您捨棄第一列時，系統會提示您是否要將其視為標題列。如果是，則 *My Expenses* 會嘗試根據標題儲存格的內容自動對應欄位。它還會記住您根據標題列所做的對應，並在下次匯入具有相同標題格式的檔案時還原該對應。</string>
-    <string name="help_ExportDialog_date_format">可以使用單引號 (\') 引用文字，以避免解讀。\'\'（兩個單引號）代表一個單引號。有關更多詳細資訊，請參閱完整的 &lt;a href=%s&gt;規格&lt;/a&gt;，或聯絡 support@myexpenses.mobi 尋求協助。</string>
+    <string name="help_CsvImportActivity_info"><![CDATA[選擇要匯入的檔案後，您需要設定檔案的編碼方式（UTF-8 或 ISO-8859-1）、哪個字元分隔欄位（逗號、分號或定位鍵），以及日期的格式。資料可以匯入到現有帳戶或新帳戶中，您可以在新帳戶中設定貨幣和帳戶類型。<br><br>按下動作列中的「剖析」按鈕後，資料將以表格形式呈現給您。在透過動作列中的按鈕觸發匯入之前，您可以選擇要捨棄的列，並且必須將欄位對應到相應的資料欄位。<br><br>當您捨棄第一列時，系統會提示您是否要將其視為標題列。如果是，則 *My Expenses* 會嘗試根據標題儲存格的內容自動對應欄位。它還會記住您根據標題列所做的對應，並在下次匯入具有相同標題格式的檔案時還原該對應。]]></string>
+    <string name="help_ExportDialog_date_format"><![CDATA[可以使用單引號 (\') 引用文字，以避免解讀。\'\'（兩個單引號）代表一個單引號。有關更多詳細資訊，請參閱完整的 <a href=%s>規格</a>，或聯絡 support@myexpenses.mobi 尋求協助。]]></string>
     <string name="cab_NavigationDrawer_close_reopen_help_text">透過關閉帳戶，您可以防止對其資料進行任何變更（新增、刪除、編輯），但仍允許將其納入所有統計計算中。</string>
     <string name="help_ManageSyncBackends_intro">My Expenses 允許為每個帳戶設定不同的同步後端。例如，您可以將一個帳戶與共用資料夾同步，同時將另一個帳戶與私人資料夾同步。在此畫面上，您可以新增或移除同步後端，開始或停止與遠端可用的帳戶同步。雖然同步會定期自動進行，但您也可以在這裡手動觸發與後端的同步。請注意，My Expenses 需要完全控制遠端資料夾。您不應該使用其他工具或介面來變更其內容，因為這很可能會導致同步失敗。</string>
     <string name="help_ManageSyncBackends_saf">此選項允許透過 Android 的檔案選擇器對話框選擇資料夾。如果您安裝了支援選擇資料夾來儲存內容的雲端儲存應用程式（例如 NextCloud），則此選項主要很有用。</string>
@@ -156,7 +156,7 @@
     <string name="menu_forward_help_text">瀏覽至下一個群組。也可以透過從右向左滑動手勢來完成。</string>
     <string name="menu_ManageCategories_search_help_text">只會顯示符合您查詢的主類別和子類別。</string>
     <string name="menu_categories_setup_default_help_text">將會匯入一組預設類別。</string>
-    <string name="form_attach_image_help_text">&lt;img src=android:ic_menu_camera&gt; 按鈕可讓您將影像（例如，從圖庫或相機）附加到物件。</string>
+    <string name="form_attach_image_help_text"><![CDATA[<img src=android:ic_menu_camera> 按鈕可讓您將影像（例如，從圖庫或相機）附加到物件。]]></string>
     <string name="form_split_parts_heading_help_text_1">使用 + 圖示輸入所需數量的分割部分。</string>
     <string name="form_plan_help_text_mode">計畫可以設定為自動或手動。當自動計畫的實例發生時，系統會建立交易，您也會收到通知。當計畫為手動時，您也會收到通知，讓您可以選擇取消、修改或套用範本。</string>
     <string name="menu_save_help_text">儲存資料並關閉表單。</string>
