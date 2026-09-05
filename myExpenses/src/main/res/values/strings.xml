@@ -217,7 +217,7 @@
     <string name="payer_or_payee">Counterparty</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Plan</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where they can cancel the execution or edit the instance -->
     <string name="plan_automatic">automatic</string>
     <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
     <string name="plan_calendar_name">{app_name} planner</string>
@@ -644,7 +644,7 @@
     <string name="unmapped">Unmapped</string>
     <!-- In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
-    but we warn the user if he includes this special item in the selection.   -->
+    but we warn the user if they include this special item in the selection.   -->
     <string name="unmapped_filter_only_single">\'Unmapped\' filter cannot be included into multiple selection</string>
     <string name="pref_security_export_passphrase_title">Passphrase for backups</string>
     <string name="pref_security_export_passphrase_summary">Backups will be encrypted with this passphrase</string>
@@ -713,7 +713,7 @@
     <!-- If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
         because no payment method is configured for all of the given account types.-->
     <string name="remap_empty_list">No item was found, that can be mapped to all of the selected transactions.</string>
-    <!-- The label for the button, where user confirms that he wants to clone the selected transactions and then remap them. -->
+    <!-- The label for the button, where user confirms that they want to clone the selected transactions and then remap them. -->
     <string name="button_label_clone_and_remap">Clone and remap</string>
     <!-- The summary of a preference toggle. If switched on cloned transactions have the date set to the current date -->
     <string name="pref_clone_with_current_date_summary_on">Cloned transactions have current date</string>
@@ -810,7 +810,7 @@
     <string name="account_widget_configuration">Account widget configuration</string>
     <!-- Title of dialogue that allows to configure budget widget -->
     <string name="budget_widget_configuration">Select budget</string>
-    <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
+    <!-- When user selects duplicate parties to be merged, they see this prompt asking them to select which name should be selected for the merged party -->
     <string name="merge_parties_select">Select name of merged party</string>
     <!-- This is the label for a field for accounts. Active tags are automatically added to new transactions when an account is selected. -->
     <string name="active_tags">Active Tags</string>
@@ -1121,7 +1121,7 @@
     <string name="pref_fab_style_title">Floating Action Button Style</string>
     <string name="pref_fab_style_standard_description">Standard (Tap arrow for menu)</string>
     <string name="pref_fab_style_compact_description">Compact (Tap and hold for menu)</string>
-    <!-- Error shown too user if he enters a number that is larger than allowed -->
+    <!-- Error shown too user if they enter a number that is larger than allowed -->
     <string name="number_too_large">Number too large</string>
     <!-- Label of checkbox: If checked, specific user defined order of flags is the primary sorting factor for accounts.  -->
     <string name="prioritize_flag_order">Prioritize flag order</string>
