@@ -321,8 +321,8 @@
     <string name="thank_you">Köszönjük a támogatását!</string>
     <string name="time">Idő</string>
     <string name="title">Cím</string>
-    <string name="total_cleared">Törölve összesen</string>
-    <string name="total_reconciled">Összesen egyeztetett</string>
+    <string name="total_cleared">Rendezett összesen</string>
+    <string name="total_reconciled">Egyeztetett összesen</string>
     <string name="transaction">Tranzakció</string>
     <string name="transfer">Átutalás</string>
     <string name="transfer_from_account">Innen</string>

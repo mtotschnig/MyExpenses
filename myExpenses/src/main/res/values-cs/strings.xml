@@ -316,10 +316,10 @@
     <string name="split_parts_heading">Rozdělení stran</string>
     <string name="split_transaction">Rozdělení transakce</string>
     <string name="status">Stav</string>
-    <string name="status_cleared">zrušeno</string>
-    <string name="status_reconciled">odsouhlasen</string>
-    <string name="status_unreconciled">neodsouhlasené</string>
-    <string name="status_void">prázdné</string>
+    <string name="status_cleared">zaúčtováno</string>
+    <string name="status_reconciled">odsouhlaseno</string>
+    <string name="status_unreconciled">neodsouhlaseno</string>
+    <string name="status_void">zrušeno</string>
     <string name="subcategory">Podkategorie</string>
     <string name="sum_expenses">Výdaje</string>
     <string name="sum_income">Příjem</string>
@@ -329,8 +329,8 @@
     <string name="thank_you">Děkujeme vám za vaši podporu!</string>
     <string name="time">Čas</string>
     <string name="title">Titul</string>
-    <string name="total_cleared">Vymazáno celkem</string>
-    <string name="total_reconciled">Vyrovnaný součet</string>
+    <string name="total_cleared">Zaúčtováno celkem</string>
+    <string name="total_reconciled">Odsouhlaseno celkem</string>
     <string name="transaction">Transakce</string>
     <string name="transfer">Převod</string>
     <string name="transfer_from_account">Od</string>
@@ -999,8 +999,8 @@
     <string name="equivalent_amount_plural">Ekvivalentní částky</string>
     <string name="recalculate_equivalent_amounts_warning">Ekvivalentní částky budou (znovu)vypočítány, pokud jsou k dispozici příslušné uložené směnné kurzy.</string>
     <string name="account_closed">Účet je uzavřen</string>
-    <string name="mark_as_cleared">Označeno jako schváleno</string>
-    <string name="mark_as_unreconciled">Mark jako nesmířený</string>
+    <string name="mark_as_cleared">Označit jako zaúčtované</string>
+    <string name="mark_as_unreconciled">Označit jako neodsouhlasené</string>
     <string name="pref_equivalent_amounts_automatic_update_title">Automaticky aktualizujte ekvivalentní částky při změně cen</string>
     <string name="sort_direction">Směr řazení</string>
     <string name="batch_download">Hromadné stahování</string>
