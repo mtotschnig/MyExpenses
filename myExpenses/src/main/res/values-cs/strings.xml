@@ -973,9 +973,9 @@
     <string name="warning_backend_deactivated">Backend není připraven na synchronizaci.</string>
     <string name="button_activate_again">Aktivujte znovu</string>
     <string name="credit_limit_reached">Dosáhli jste svého kreditního limitu.</string>
-    <string name="saving_goal_reached">Splnili jste svůj cíl úspor.</string>
+    <string name="saving_goal_reached">Dosáhli jste svého cíle spoření.</string>
     <string name="credit_limit_exceeded">Překročil jste svůj kreditní limit.</string>
-    <string name="saving_goal_exceeded">Překročil jsi svůj cíl úspor.</string>
+    <string name="saving_goal_exceeded">Překročili jste svůj cíl spoření.</string>
     <string name="overage">Překročení</string>
     <string name="credit_limit_available_credit">Dostupné kredity</string>
     <string name="saving_goal_short_fall">Schodek</string>
