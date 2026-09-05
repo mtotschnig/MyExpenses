@@ -55,7 +55,7 @@
     <string name="help_ExpenseEdit_splitPartTransfer_title">Formular repartizări transfer terţi</string>
     <string name="form_account_help_text">Selectați contul din care aparține tranzacția.</string>
     <string name="form_date_time_help_text">Introduceți data și ora la care a avut loc tranzacția.</string>
-    <string name="form_calculator_help_text">butonul deschide calculatorul.</string>
+    <string name="form_calculator_help_text"><![CDATA[butonul deschide calculatorul.]]></string>
     <string name="form_comment_help_text">Introduceți orice adnotare despre obiect.</string>
     <string name="form_exchange_rate_help_text">Puteți specifica rata de conversie în ambele direcții ale transferului. Rata inversă și suma corespunzătoare a cursului de schimb valutar sunt calculate automat.</string>
     <string name="form_title_help_text">Introduceţi un titlu care identifică unic şablonul.</string>
