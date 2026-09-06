@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -231,6 +232,7 @@ abstract class ItemRenderer(
         selectionHandler: SelectionHandler? = null,
         menuGenerator: (Transaction2) -> Menu? = { null },
         resolvedExtraInfo: ResolvedExtraInfo? = null,
+        padding: PaddingValues = PaddingValues(horizontal = mainScreenPadding, vertical = 3.dp),
     ) {
         val showMenu = rememberSaveable { mutableStateOf(false) }
         val activatedBackgroundColor = colorResource(id = R.color.activatedBackground)
@@ -259,7 +261,7 @@ abstract class ItemRenderer(
                     background(activatedBackgroundColor)
                 }
                 .voidMarker(transaction.crStatus)
-                .padding(horizontal = mainScreenPadding, vertical = 3.dp),
+                .padding(padding),
             verticalAlignment = Alignment.CenterVertically
         ) {
             RenderInner(
