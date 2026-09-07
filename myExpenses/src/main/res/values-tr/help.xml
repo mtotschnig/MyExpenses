@@ -227,4 +227,22 @@
     <string name="form_payer_or_payee_help_text"><![CDATA[Bu alan, Ödeyen/Alacaklı seçmenize veya oluşturmanıza olanak tanır. Adı yazmaya başladığınızda öneriler görünür. Hiçbir öneri seçilmezse, yeni bir taraf oluşturulur. Bir öneri seçilirse, bir fiş olarak görüntülenir..
         <br><img src="ic_menu_edit"> Seçilen tarafın ayrıntılarını değiştirin.
         <br><img src="ic_menu_close_clear_cancel"> Geçerli seçimi kaldırın. Metin alanı yeniden görünecektir.]]></string>
+    <string name="help_MyExpensesV2_accounts_info"><![CDATA[Hesaplarınızı yönetin ve net varlığınızı takip edin. Araç çubuğundaki açılır menüyü kullanarak hesap listesi ile bilanço arasında geçiş yapın. Hesapları gruplandırmak ve sıralamak için <img src=\"tune\"> <b>Seçenekler</b> menüsünü, türleri, işaretleri ve para birimlerini yapılandırmak için ise <img src=\"data\"> <b>Veriler</b> menüsünü kullanın. Bir hesabın özetini görmek için hesaba dokunun veya işlemlerini görüntülemek için <img src=\"ic_chevron_end\"> simgesine dokunun. <img src=\"more\"> simgesi, her hesap için ek işlemler sunar.]]></string>
+    <string name="help_MyExpensesV2_transactions_info">Seçilen hesaba ait işlemleri görüntüleyin ve yönetin. Yeni işlemler eklemek için kayan eylem düğmesini kullanın.</string>
+    <string name="help_MyExpensesV2_portfolio_info">Bu portföydeki yatırımlarınızı takip edin. İşlemlerinizi içe aktarabilir ve varlık dağılımınızı görüntüleyebilirsiniz. Hesap özeti, bir varlığın geçerli fiyatının ayarlanabileceği fiyat ekranına bağlantı sağlar.</string>
+    <string name="menu_import_trades_help_text">CSV dosyasından yatırım işlemlerini portföyünüze aktarın.</string>
+    <string name="menu_sync_help_text">Geçerli hesap için yapılandırılan bulut hizmetiyle anında eşzamanlamayı başlatın.</string>
+    <string name="fab_create_account_help_text">\@string/menu_create_account_help_text</string>
+    <string name="fab_create_portfolio_help_text">Yatırımlarınızı, hisse senetlerinizi veya diğer nakit dışı varlıklarınızı takip etmek için bir portföy oluşturun. Ücretsiz sürümde yalnızca bir portföy oluşturabilirsiniz.</string>
+    <string name="fab_expense_help_text">Yeni bir gider işlemi oluşturun.</string>
+    <string name="fab_income_help_text">Yeni bir gelir işlemi oluşturun.</string>
+    <string name="fab_transfer_help_text">İki hesap arasında bir transfer oluşturun.</string>
+    <string name="fab_split_help_text">Tek bir gider veya gelirin farklı kısımlarını ayrı ayrı sınıflandırmak için bölünmüş işlem oluşturun.</string>
+    <string name="fab_scan_help_text">Bir makbuzu tarayarak OCR kullanarak verileri otomatik olarak ayıklayın.</string>
+    <string name="fab_trade_buy_help_text">Portföyünüzdeki bir varlığın alımını kaydedin.</string>
+    <string name="fab_trade_sell_help_text">Portföyünüzdeki bir varlığın satışını kaydedin.</string>
+    <string name="fab_trade_deposit_help_text">Portföy bakiyenize nakit ekleyin.</string>
+    <string name="fab_trade_withdraw_help_text">Portföy bakiyenizden nakit tutarı çıkarın.</string>
+    <string name="fab_trade_transfer_help_text">Portföyler arasında varlık aktarımı yapın.</string>
+    <string name="menu_balance_sheet_help_text_date">Farklı bir tarih seçmek için tarihin üzerine tıklayın.</string>
 </resources>
