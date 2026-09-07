@@ -34,4 +34,11 @@
     <string name="whats_new_411_1">Bölünmüş muameleler</string>
     <string name="whats_new_411_2">Portföyler arası varlık aktarımları</string>
     <string name="whats_new_411_3">Toplam hesaplar için Tarih Ekranı artık yabancı para birimlerinin değerindeki değişiklikleri yansıtıyor</string>
+    <string name="sunset_v1_intro">Bu, V1 ile son sürümdür. 4.1.3 sürümünde kaldırılacaktır.</string>
+    <string name="sunset_v1_message_1_intro">V2\'yi İyileştirmemize Yardım Edin:</string>
+    <string name="sunset_v1_message_2_intro">V2\'ye Özel Özellikler:</string>
+    <string name="sunset_v1_message_2_body">Yatırım portföyü takibi gibi, yalnızca V2 sürümünde bulunan yeni araçları keşfedin.</string>
+    <string name="sunset_v1_message_3_intro">V1\'de kalmak:</string>
+    <string name="sunset_v1_message_3_body">V1 sürümünü kullanmaya devam etmek için lütfen {store}\'da {app_name} için otomatik güncellemelerini devre dışı bırakın.</string>
+    <string name="switch_to_v2">V2’ye geçiş</string>
 </resources>
