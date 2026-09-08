@@ -177,7 +177,7 @@
     <string name="cab_debts_help_text">Ce sous-menu permet de définir de nouvelles dettes associées au tiers sélectionné, et de gérer les dettes existantes.</string>
     <string name="help_debt_managment">Associer les dettes aux tiers, inspecter la liste des transactions et calculer le solde restant.</string>
     <string name="help_SetupSync_info">Cet écran vous permet de sélectionner les données que vous souhaitez synchroniser entre l\'appareil et le backend. Il répertorie tous les comptes de votre appareil qui ne sont pas encore synchronisés avec d\'autres backends, ainsi que tous les comptes stockés sur le backend. Cliquez sur &lt;img src=ic_hchain_broken&gt; / &lt;img src=ic_hchain&gt; pour sélectionner ou désélectionner un compte à synchroniser. Si vous sélectionnez un compte qui existe déjà à la fois localement et à distance, vous devez décider si initialement les données sur votre appareil doivent remplacer les données existantes sur le backend, ou l\'inverse.</string>
-    <string name="help_ManageCategories_expand_collapse"><![CDATA[Cliquez sur l\'icône <img src=ic_expand_more>/<img src=ic_expand_less> pour agrandir ou réduire une catégorie.]]></string>
+    <string name="help_ManageCategories_expand_collapse"><![CDATA[Cliquez sur l\'icône <img src=\"ic_expand_more\">/<img src=\"ic_expand_less\"> pour agrandir ou réduire une catégorie.]]></string>
     <string name="help_Budget_spent_click">En cliquant sur les montants dépensés, on obtient la liste de toutes les transactions pertinentes pour le budget actuel et la catégorie correspondante.</string>
     <string name="help_ManageCategories_manage_context">Cliquez sur une entrée pour afficher son menu contextuel. Appuyez longuement pour lancer la multi-sélection.</string>
     <string name="help_ManageCategories_select_filter_info">Cliquez sur une entrée pour lancer la multi-sélection.</string>
@@ -228,4 +228,22 @@
     <string name="form_payer_or_payee_help_text"><![CDATA[Ce champ vous permet de sélectionner ou de créer un payeur/bénéficiaire. Commencez à taper le nom, et des suggestions apparaîtront. Si aucune suggestion n’est sélectionnée, un nouveau tiers est créé. Si une suggestion est sélectionnée, elle est affichée sous forme de puce. 
         <br><img src="ic_menu_edit"> Modifier les détails du tiers sélectionné.
 <br><img src="ic_menu_close_clear_cancel"> Supprimez la sélection actuelle. Le champ texte réapparaîtra alors.]]></string>
+    <string name="help_MyExpensesV2_accounts_info"><![CDATA[Gérez vos comptes et suivez votre patrimoine net. Basculez entre la liste des comptes et le bilan à l’aide du menu déroulant de la barre d’outils. Utilisez le menu <img src=\"tune\"> <b>Options</b> pour regrouper et trier les comptes, et le menu <img src=\"data\"> <b>Données</b> pour configurer les types, les drapeaux et les devises. Touchez un compte pour afficher son résumé, ou l’icône <img src=\"ic_chevron_end\"> pour consulter ses transactions. L’icône <img src=\"more\"> offre des actions supplémentaires pour chaque compte.]]></string>
+    <string name="help_MyExpensesV2_transactions_info">Afficher et gérer les transactions du compte sélectionné. Utilisez le bouton d’action flottant pour ajouter de nouvelles transactions.</string>
+    <string name="help_MyExpensesV2_portfolio_info">Suivez vos investissements dans ce portefeuille. Vous pouvez importer des opérations et consulter la répartition de vos actifs. Le résumé du compte est lié à l\'écran des prix, où le prix actuel d\'un actif peut être défini.</string>
+    <string name="menu_import_trades_help_text">Importer des opérations d\'investissement depuis un fichier CSV dans votre portefeuille.</string>
+    <string name="menu_sync_help_text">Déclencher la synchronisation immédiate avec le service cloud configuré pour le compte actuel.</string>
+    <string name="fab_create_account_help_text">\@string/menu_create_account_help_text</string>
+    <string name="fab_create_portfolio_help_text">Créer un portefeuille pour suivre vos investissements, actions ou autres actifs non monétaires. La version gratuite est limitée à un seul portefeuille.</string>
+    <string name="fab_expense_help_text">Créer une nouvelle transaction de dépense.</string>
+    <string name="fab_income_help_text">Créer une nouvelle transaction de revenu.</string>
+    <string name="fab_transfer_help_text">Créer un virement entre deux comptes.</string>
+    <string name="fab_split_help_text">Créer une transaction fractionnée pour catégoriser séparément les différentes parties d\'une seule dépense ou d\'un seul revenu.</string>
+    <string name="fab_scan_help_text">Scanner un reçu pour extraire automatiquement les données à l\'aide de la reconnaissance optique de caractères (OCR).</string>
+    <string name="fab_trade_buy_help_text">Enregistrer l\'achat d\'un actif dans votre portefeuille.</string>
+    <string name="fab_trade_sell_help_text">Enregistrer la vente d\'un actif dans votre portefeuille.</string>
+    <string name="fab_trade_deposit_help_text">Ajouter des liquidités à votre solde de portefeuille.</string>
+    <string name="fab_trade_withdraw_help_text">Retirer des liquidités du solde de votre portefeuille.</string>
+    <string name="fab_trade_transfer_help_text">Transférer des actifs entre les portefeuilles.</string>
+    <string name="menu_balance_sheet_help_text_date">Cliquez sur la date pour sélectionner une autre date.</string>
 </resources>
