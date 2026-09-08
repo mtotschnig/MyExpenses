@@ -34,4 +34,11 @@
     <string name="whats_new_411_1">Transferts ventilés</string>
     <string name="whats_new_411_2">Transferts d’actifs entre portefeuilles</string>
     <string name="whats_new_411_3">Écran d’historique pour les comptes agrégés reflète désormais la variation de la valeur des devises étrangères</string>
+    <string name="sunset_v1_intro">Ceci est la dernière version avec V1. Elle sera supprimée dans la version 4.1.3.</string>
+    <string name="sunset_v1_message_1_intro">Aidez-nous à améliorer la V2 :</string>
+    <string name="sunset_v1_message_2_intro">Fonctionnalités exclusives de la V2 :</string>
+    <string name="sunset_v1_message_2_body">Découvrez de nouveaux outils disponibles uniquement dans la V2, tels que le suivi des portefeuilles d\'investissement.</string>
+    <string name="sunset_v1_message_3_intro">Rester sur V1 :</string>
+    <string name="sunset_v1_message_3_body">Pour continuer à utiliser V1, veuillez désactiver les mises à jour automatiques pour {app_name} dans {store}.</string>
+    <string name="switch_to_v2">Passer à la V2</string>
 </resources>
