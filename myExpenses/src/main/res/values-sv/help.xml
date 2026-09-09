@@ -89,4 +89,6 @@
     <string name="form_BudgetEdit_filter_help_text">Budgetar kan filtreras med avseende på kategorier, motparter, metoder eller statusar. Endast transaktioner som uppfyller dessa filterkriterier kommer beaktas.</string>
     <string name="menu_search_help_text">Det här alternativet öppnar en undermeny som låter dig formulera sökkriterier baserade på kategori, belopp, kommentar, status, betalare/mottagare och betalningsmetod.</string>
     <string name="help_ManageCategories_select_mapping_info">Utöver de åtgärder du kan vidta när du hanterar kategorier från inställningsskärmen (skapa, redigera, radera) kan du på denna skärm koppla en transaktion till en vald kategori genom att helt enkelt klicka på den.</string>
+    <string name="help_MyExpensesV2_portfolio_info">Följ dina investeringar i denna portfölj. Du kan importera dina transaktioner och se hur dina tillgångar är fördelade. Kontoöversikten länkar till prisskärmen, där det aktuella priset för en tillgång kan anges.</string>
+    <string name="menu_import_trades_help_text">Importera investeringstransaktioner till din portfölj från en CSV-fil.</string>
 </resources>
