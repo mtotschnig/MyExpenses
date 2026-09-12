@@ -50,7 +50,14 @@ class HistoryViewModel(application: Application, val savedStateHandle: SavedStat
             DataBaseAccount.isHomeAggregate(accountId) -> repository.loadOpeningBalancesPerAccountV1(accountId)
             accountId == 0L && extras.containsKey(KEY_ACCOUNT_GROUPING) && extras.getString(KEY_ACCOUNT_GROUPING) != AccountGrouping.CURRENCY.name ->
                 repository.loadOpeningBalancesPerAccountV2(extras)
-            else -> account(extras).map { mapOf(it.id to AccountOpeningInfo(it.currency, it.openingBalance, it.dynamicExchangeRates, it.exchangeRate)) }
+            else -> account(extras).map { mapOf(it.id to
+                    AccountOpeningInfo(
+                        it.currency,
+                        it.openingBalance,
+                        false, //single account is shown in account currency, no conversion needed
+                        1.0
+                    )
+            ) }
         }
     }
 
