@@ -31,4 +31,6 @@
     <string name="whats_new_403">Kontoflaggor utökar möjligheterna att anpassa kontons synlighet och prioritet.</string>
     <string name="whats_new_407">Naturlig sortering av etiketter, kategorier, konton och parter.</string>
     <string name="whats_new_400_2">Prishistorik: Massnedladdning av saknade poster</string>
+    <string name="switch_to_v2">Gå över till V2</string>
+    <string name="sunset_v1_message_3_body">För att fortsätta använda V1, vänligen inaktivera automatiska uppdateringar av {app_name} i {store}.</string>
 </resources>
