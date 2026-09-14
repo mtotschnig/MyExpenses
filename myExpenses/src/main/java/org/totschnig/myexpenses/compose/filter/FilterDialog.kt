@@ -288,7 +288,10 @@ fun FilterDialog(
                         }
                     }
 
-                    val filters: List<DisplayInfo> = listOfNotNull(
+                    val filters: List<DisplayInfo> = if (account.isPortfolio) listOf(
+                        AmountCriterion, CommentCriterion, DateCriterion
+                    )
+                    else listOfNotNull(
                         if (sumInfo.mappedCategories) CategoryCriterion else null,
                         AmountCriterion,
                         CommentCriterion,

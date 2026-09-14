@@ -1020,15 +1020,20 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                     transaction.transferPeerIsArchived == true -> {
                         showSnackBar(R.string.warning_archived_transfer_cannot_be_edited)
                     }
+
                     transaction.isPortfolio || transaction.transferPeerIsPortfolio == true -> {
                         (this@BaseMyExpenses as? MyExpensesV2)?.editTrade(
                             transaction.transferPeerParent ?: transaction.id
                         )
                     }
+
                     else -> {
                         startEdit(
                             Intent(this@BaseMyExpenses, ExpenseEdit::class.java).apply {
-                                putExtra(KEY_ROWID, transaction.transferPeerParent ?: transaction.id)
+                                putExtra(
+                                    KEY_ROWID,
+                                    transaction.transferPeerParent ?: transaction.id
+                                )
                                 putExtra(
                                     KEY_COLOR,
                                     transaction.color ?: currentAccount?.color(resources)
@@ -1167,21 +1172,26 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
     }
 
     fun BaseAccount?.isMenuItemVisible(itemId: Int): Boolean {
-        val isReal = this is FullAccount && !isAggregate
-        return if ((this as? FullAccount)?.isPortfolio == true) when(itemId) {
-            R.id.IMPORT_TRADES_COMMAND, R.id.TUNE_COMMAND -> true
-            else -> false
-        } else when (itemId) {
-            R.id.SYNC_COMMAND -> (this as? FullAccount)?.syncAccountName != null
-            R.id.HISTORY_COMMAND, R.id.RESET_COMMAND, R.id.PRINT_COMMAND -> hasItems
-            R.id.DISTRIBUTION_COMMAND -> sumInfo.value.mappedCategories
-            R.id.BALANCE_COMMAND -> isReal && type.supportsReconciliation && !sealed
-            R.id.FINTS_SYNC_COMMAND -> (this as? FullAccount)?.bankId != null
-            R.id.ARCHIVE_COMMAND -> isReal && !sealed && hasItems
+        return when (itemId) {
             R.id.SEARCH_COMMAND -> hasItems
-            R.id.SHOW_STATUS_HANDLE_COMMAND -> (this as? FullAccount)?.reconciliationAvailable == true
-            R.id.IMPORT_TRADES_COMMAND ->  false
-            else -> true
+            else -> if ((this as? FullAccount)?.isPortfolio == true) when (itemId) {
+                R.id.IMPORT_TRADES_COMMAND, R.id.TUNE_COMMAND -> true
+                else -> false
+            } else {
+                val isReal = this is FullAccount && !isAggregate
+                when (itemId) {
+                    R.id.SYNC_COMMAND -> (this as? FullAccount)?.syncAccountName != null
+                    R.id.HISTORY_COMMAND, R.id.RESET_COMMAND, R.id.PRINT_COMMAND -> hasItems
+                    R.id.DISTRIBUTION_COMMAND -> sumInfo.value.mappedCategories
+                    R.id.BALANCE_COMMAND -> isReal && type.supportsReconciliation && !sealed
+                    R.id.FINTS_SYNC_COMMAND -> (this as? FullAccount)?.bankId != null
+                    R.id.ARCHIVE_COMMAND -> isReal && !sealed && hasItems
+                    R.id.SEARCH_COMMAND -> hasItems
+                    R.id.SHOW_STATUS_HANDLE_COMMAND -> (this as? FullAccount)?.reconciliationAvailable == true
+                    R.id.IMPORT_TRADES_COMMAND -> false
+                    else -> true
+                }
+            }
         }
     }
 
@@ -1607,7 +1617,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                     val lazyPagingItems =
                         viewModel.getTransactions(account).collectAsLazyPagingItems()
 
-                    if (!account.sealed  && isCurrentPage) {
+                    if (!account.sealed && isCurrentPage) {
 
                         LaunchedEffect(viewModel.selectAllState.value) {
                             if (viewModel.selectAllState.value) {
@@ -1769,7 +1779,10 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
         when (event) {
             HeaderEvent.Distribution -> {
                 if (row.mappedCategories) {
-                    contribFeatureRequested(ContribFeature.DISTRIBUTION, GroupingInfo(account.grouping, row.year, row.second))
+                    contribFeatureRequested(
+                        ContribFeature.DISTRIBUTION,
+                        GroupingInfo(account.grouping, row.year, row.second)
+                    )
                 } else {
                     showSnackBar(R.string.no_mapped_transactions)
                 }

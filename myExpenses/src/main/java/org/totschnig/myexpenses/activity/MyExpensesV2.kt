@@ -42,6 +42,8 @@ import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.accounts.AccountEvent
 import org.totschnig.myexpenses.compose.accounts.AccountEventHandler
 import org.totschnig.myexpenses.compose.accounts.PortfolioSetupDialog
+import org.totschnig.myexpenses.compose.filter.FilterDialog
+import org.totschnig.myexpenses.compose.filter.TYPE_COMPLEX
 import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.main.AppEventHandler
 import org.totschnig.myexpenses.compose.main.MainScreenAdaptive
@@ -69,6 +71,7 @@ import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
+import timber.log.Timber
 import java.math.RoundingMode
 import java.util.Optional
 import javax.inject.Inject
@@ -461,7 +464,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                             isNavigationVisible = isNavigationVisible
                         ) { pageAccount, isCurrent ->
                             if (pageAccount.isPortfolio) {
-                                PortfolioPage(pageAccount)
+                                PortfolioPage(pageAccount, isCurrent)
                             } else {
                                 Page(
                                     pageAccount,
@@ -579,7 +582,33 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
     }
 
     @Composable
-    fun PortfolioPage(account: PageAccount) {
+    fun PortfolioPage(account: PageAccount, isCurrentPage: Boolean) {
+
+        val coroutineScope = rememberCoroutineScope()
+        val preferredSearchType =
+            viewModel.preferredSearchType.flow.collectAsState(TYPE_COMPLEX).value
+        if (showFilterDialog && isCurrentPage) {
+            Timber.d("showFilterDialog for page ${account.label}")
+            FilterDialog(
+                account = account,
+                sumInfo = sumInfo.value,
+                //we are only interested in the current value, since as soon as we persist new value,
+                //the dialog is dismissed
+                //noinspection StateFlowValueCalledInComposition
+                criterion = currentFilter.whereFilter.value,
+                initialPreferredSearchType = preferredSearchType,
+                onDismissRequest = {
+                    showFilterDialog = false
+                }, onConfirmRequest = { preferredSearchType, criterion ->
+                    coroutineScope.launch {
+                        viewModel.preferredSearchType.set(preferredSearchType)
+                        currentFilter.persist(criterion)
+                        showFilterDialog = false
+                        invalidateOptionsMenu()
+                    }
+                }
+            )
+        }
         val renderType by viewModel.renderer.collectAsState(initial = RenderType.New)
         val lazyPagingItems = viewModel.getTrades(account).collectAsLazyPagingItems()
 
