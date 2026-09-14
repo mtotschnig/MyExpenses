@@ -523,13 +523,13 @@
     <string name="warning_instantiate_template_from_widget_password_protected">Snabb instansiering av mallar från denna widget fungerar bara om du tillåter datainmatning från widgets utan lösenord i appens inställningar.</string>
     <string name="warning_password_contrib">Att ange en säkerhetsfråga låter dig låsa upp appen ifall du glömmer ditt lösenord.</string>
     <string name="warning_reset_account">Om du fortsätter kommer alla transaktioner på detta konto att tas bort från databasen och kan inte återställas.</string>
-    <string name="warning_reset_account_all">Om du går vidare kommer transaktioner för alla konton%1$satt tas bort från databasen och kan inte återställas.</string>
+    <string name="warning_reset_account_all">Om du går vidare kommer transaktioner för alla konton%1$s att tas bort från databasen och kan inte återställas.</string>
     <string name="warning_reset_account_matched">Om du fortsätter kommer transaktioner som matchas av det aktuella filtret att raderas från databasen och kan inte återställas.</string>
     <string name="warning_restore">Databas och inställningar återställs från filen \"%1$s\". Den aktuella datan kommer att raderas.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Var vänlig ange ett nummer mellan %1$d och %2$d</string>
     <string name="warning_change_fraction_digits_1">Beloppen i databasen måste uppdateras för att matcha det nya antalet bråksiffror.</string>
-    <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Om belopp inte uppdateras visas de som multiplicerat med %d efter ändringen.</string>
-    <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Om belopp inte uppdateras visas de som delade med %d efter ändringen.</string>
+    <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Om belopp inte uppdateras kommer de visas som multiplicerat med %d efter ändringen.</string>
+    <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Om belopp inte uppdateras kommer de visas som delade med %d efter ändringen.</string>
     <string name="warning_change_fraction_digits_3">Om beloppen uppdateras förlorar du informationen om deras deldel.</string>
     <string name="import_categories_success" tools:ignore="PluralsCandidate">%1$d kategorier har importerats.</string>
     <string name="import_parties_success" tools:ignore="PluralsCandidate">%1$d motparter har importerats.</string>
@@ -544,7 +544,7 @@
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Köpet misslyckades eller avbröts.</string>
     <string name="hint_auto_fill">Ska data fyllas i automatiskt från senaste transaktion med samma motpart? Du kan alltid ändra detta beteende från inställningarna.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d konton med valutan %2$s har uppdaterats.</string>
-    <string name="pref_manage_stale_images_title">Gamla bilder</string>
+    <string name="pref_manage_stale_images_title">Kvarblivna bilder</string>
     <string name="pref_manage_stale_images_summary">Hantera bilder som blivit kvar från raderade transaktioner</string>
     <string name="account_deleted">Kontot har raderats</string>
     <string name="budget_deleted">Budgeten har raderats</string>
@@ -556,7 +556,7 @@
     <string name="io_error_unable_to_create_file">Kan inte skapa filen %1$s i mappen %2$s</string>
     <string name="menu_parse">Parse</string>
     <string name="csv_import_field_mapped_more_than_once">%s är kopplad mer än en gång.</string>
-    <string name="csv_import_subcategory_requires_category">Om du kartlägger underkategori måste du också kartlägga kategorin.</string>
+    <string name="csv_import_subcategory_requires_category">Om du kopplar underkategorin måste du också koppla kategorin.</string>
     <string name="cvs_import_set_first_line_as_header">Ska första raden behandlas som en rubrik?</string>
     <string name="csv_import_no_mapping_found_for_amount">Vänligen koppla en kolumn antingen till belopp, inkomst eller kostnad.</string>
     <string name="pref_custom_decimal_format_summary">Om du inte är nöjd med standardformatet för din plats, anpassa det efter dina behov. Lämna tomt för att återställa till standardformatet.</string>
@@ -564,7 +564,7 @@
     <string name="pref_auto_backup_summary">Säkerhetskopiera databasen dagligen vid angiven tidpunkt (endast om data har ändrats).</string>
     <string name="calendar_permission_required"><i>{app_name}</i> behöver behörighet att komma åt din kalender för att kunna skapa planer för framtida och återkommande transaktioner.</string>
     <string name="pref_sort_order_custom">Anpassad</string>
-    <string name="plan_instance_state_open">Öppet</string>
+    <string name="plan_instance_state_open">öppen</string>
     <string name="plan_instance_state_cancelled">inställd</string>
     <string name="plan_instance_state_applied">tillämpad</string>
     <string name="warning_cannot_move_split_transaction">Denna uppdelade transaktion kan inte flyttas till konto %1$s eftersom det finns överföringsdelar som hänvisar till denna konto.</string>
@@ -577,9 +577,9 @@
     <string name="crash_dialog_comment_prompt">Du kan lägga till dina kommentarer om problemet nedan:</string>
     <string name="no_sync_backends">Ingen synkroniseringsbackends</string>
     <string name="menu_create_sync_backend">Ny synkroniseringsbackend</string>
-    <string name="pref_sync_frequency_summary">Hur ofta ska data synkroniseras (i timmar)?</string>
+    <string name="pref_sync_frequency_summary">Hur ofta data ska synkroniseras (i timmar).</string>
     <string name="pref_sync_frequency_summary_0">Ställ in på 0 för att inaktivera automatisk synkning.</string>
-    <string name="dialog_confirm_sync_unlink">Om du kopplar bort denna konto från %sförloras synkroniseringsstatusen. Att länka dem igen senare kräver en fullständig synkronisering för att utföras igen.</string>
+    <string name="dialog_confirm_sync_unlink">Om du kopplar bort detta konto från %s förloras synkroniseringsstatusen. Att länka dem igen senare kräver att en fullständig synkronisering genomförs.</string>
     <string name="dialog_sync_link">En konto med uuid %s finns både i den lokala databasen och på den fjärranslutna backend. När du kopplar båda måste du bestämma om du initialt vill ladda upp lokal data till den fjärranslutna backenden eller ladda ner fjärrdata till den lokala databasen.</string>
     <string name="dialog_command_sync_link_remote">Ladda ner från fjärrkontrollen</string>
     <string name="dialog_synced_to_other">En konto med uuid %s finns redan i den lokala databasen och är kopplad till en annan fjärrbackend.</string>
@@ -598,7 +598,7 @@
     <string name="sync_state_could_not_be_restored" tools:ignore="PluralsCandidate">Synkroniseringstillståndet kunde inte återställas för %d konton.</string>
     <string name="onboarding_ui_title">{app_name} anpassar sig efter dina önskemål</string>
     <string name="onboarding_data_title">Låt oss skapa ditt första konto</string>
-    <string name="contributed_by">Bidragit av %s</string>
+    <string name="contributed_by">Bidrag från %s</string>
     <string name="pref_sync_notification_summary">Meddela om synkroniseringsframsteg</string>
     <string name="pref_debug_logging_summary">Skriv felsökningsinformation i systemloggen</string>
     <string name="plan_custom_recurrence_info">Vänligen spara mallen först. Planen öppnas sedan i kalenderappen, där du kan ställa in en anpassad återkomst.</string>
@@ -624,7 +624,7 @@
     <string name="synchronization_end_success" tools:ignore="PluralsCandidate">%1$d fjärrändringar skrevs till den lokala databasen. %2$d lokala ändringar skrevs till fjärrbackend.</string>
     <string name="eu_vat_info">För invånare i Europeiska unionen inkluderar de priser som visas inte moms.</string>
     <string name="extend_until">Förläng till %1$s för %2$s</string>
-    <string name="extended_upgrade_goodie_github" tools:ignore="PluralsCandidate">Ytterligare %d månader ges en gång till användare som redan äger den utökade licensen</string>
+    <string name="extended_upgrade_goodie_github" tools:ignore="PluralsCandidate">Användare som redan äger den utökade licensen ges vid ett tillfälle ytterligare %d månader</string>
     <string name="switch_to_yearly" tools:ignore="UnusedResources">Byt till årsprenumeration</string>
     <string name="switch_to_monthly" tools:ignore="UnusedResources">Byt till månadsprenumeration</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">Hämtar data från fjärrbackend. Detta kan ta lite tid.</string>
@@ -637,7 +637,7 @@
     </plurals>
     <string name="feature_deprecated">Föråldrad</string>
     <string name="pref_warning_only_one_protection">Innan du kan använda skydd genom %1$småste du stänga av skyddet genom %2$s.</string>
-    <string name="warning_device_lock_screen_not_set_up_1">Låsskärmen för säkra enheter har inte satts upp.</string>
+    <string name="warning_device_lock_screen_not_set_up_1">Ingen låsskärm för säkra enheter har ställts in.</string>
     <string name="history_chart_in_label">Intäkter</string>
     <string name="menu_history_totals">Visa summor</string>
     <string name="grand_total">Totalsumma</string>
@@ -649,7 +649,7 @@
     <string name="split_transaction_group_success" tools:ignore="PluralsCandidate">%1$d transaktioner grupperades framgångsrikt till en delad transaktion.</string>
     <string name="split_transaction_not_possible">Endast transaktioner som har samma konto, motpart och status kan grupperas i en delad transaktion.</string>
     <string name="pref_transaction_time_summary">Tillåt inställning av exakt transaktionstid.</string>
-    <string name="pref_value_date_summary">Sätt att sätta värdedatum utöver bokningsdatum. Transaktionstiden kommer att vara dold. Denna inställning gäller inte för kontantkonton.</string>
+    <string name="pref_value_date_summary">Tillåt att sätta värdedatum utöver bokningsdatum. Transaktionstiden kommer att vara dold. Denna inställning gäller inte för kontantkonton.</string>
     <string name="value_date">Värdedatum</string>
     <string name="licence_expires_n_days" tools:ignore="PluralsCandidate">Din yrkesnyckel går ut om %d dagar.</string>
     <string name="licence_expires_tomorrow">Din yrkesnyckel går ut imorgon.</string>
@@ -695,7 +695,7 @@
     <string name="warning_synced_account_cannot_be_closed">Ett konto som är kopplat till synkronisering kan inte avslutas</string>
     <string name="content_description_dates_are_linked">Bokningsdatum och värdedatum uppdateras tillsammans</string>
     <string name="content_description_dates_are_not_linked">Bokningsdatum och värdedatum uppdateras inte tillsammans</string>
-    <string name="roadmap_vote">Omröstning om färdplan</string>
+    <string name="roadmap_vote">Rösträtt angående färdplanen</string>
     <string name="warning_account_for_transaction_is_closed">Minst en av de valda transaktionerna kan inte redigeras:</string>
     <string name="object_sealed">Objektet refererar till ett avslutat konto.</string>
     <string name="content_description_download_exchange_rate">Ladda ner växelkurs</string>
@@ -739,7 +739,7 @@
     </plurals>
     <string name="dialog_multi_tag_append">Lägg till nya etiketter till befintliga</string>
     <string name="dialog_multi_tag_replace">Ersätt befintliga etiketter med nya</string>
-    <string name="language_download_requested">Översättningar för språk %s begärs från Play Store</string>
+    <string name="language_download_requested">Översättningar för %s språket begärs från Play Store</string>
     <string name="pref_planner_manual_time_title">Tid för manuellt applicerad schemalagd transaktion</string>
     <string name="pref_planner_manual_time_noon">12:00 (middag)</string>
     <string name="pref_planner_manual_time_current">Appliceringstid</string>
@@ -779,7 +779,7 @@
     <string name="warning_plan_instance_delete">Transaktionen som skapats för det valda datumet kommer att raderas.</string>
     <string name="crash_reports_user_info">{app_name} skickar automatiskt rapporter om applikationskrascher till sina utvecklare, vilket gör att de kan åtgärda problem snabbare.</string>
     <string name="pref_enable_acra">Tillåt automatisk sändning av kraschrapporter</string>
-    <string name="pref_acra_user_email">Användarens e-postadress ska inkluderas i kraschrapporten</string>
+    <string name="pref_acra_user_email">Användarens e-postadress som ska inkluderas i kraschrapporten</string>
     <string name="pref_acra_user_email_summary">Vänligen ange din e-postadress om du vill hjälpa till med felsökning och låt oss kontakta dig.</string>
     <string name="ui_refinement">Förfining av användargränssnittet</string>
     <string name="performance_enhancement" tools:ignore="UnusedResources">Prestandaförbättring</string>
@@ -790,14 +790,14 @@
         <item quantity="other">Skuld %1$s har %2$d kartlagda transaktioner.</item>
     </plurals>
     <string name="object_sealed_debt">Objekt syftar på en avslutad skuld.</string>
-    <string name="cb_label_merge_accounts">Sammanslagna konton</string>
+    <string name="cb_label_merge_accounts">Slå samman konton</string>
     <string name="pref_mlkit_script_title">Skript för MlKit</string>
     <string name="setup_completed">Installationen har slutförts</string>
     <string name="menu_parent_category_selection">Välj föräldrakategori på kort tryck</string>
     <string name="purge_backups">Följande gamla säkerhetskopior kommer att raderas:</string>
     <plurals name="purge_backup_success">
-        <item quantity="one">En gammal backupfil raderades.</item>
-        <item quantity="other">%d gamla säkerhetskopior raderades.</item>
+        <item quantity="one">En gammal säkerhetskopia rensades ut.</item>
+        <item quantity="other">%d gamla säkerhetskopior rensades ut.</item>
     </plurals>
     <plurals name="purge_backup_failure">
         <item quantity="one">En gammal säkerhetskopia kunde inte raderas.</item>
@@ -805,7 +805,7 @@
     </plurals>
     <string name="pref_purge_backup_keep_title">Maximalt antal senaste säkerhetskopior att behålla</string>
     <string name="pref_purge_backup_require_confirmation_summary">Visa bekräftelseprompt innan filer rensas</string>
-    <string name="webui_warning_move_transaction">Transaktionen flyttas till konto {konto}.</string>
+    <string name="webui_warning_move_transaction">Transaktionen kommer att flyttas till kontot {konto}.</string>
     <string name="pref_csv_export_split_categories_summary">Använd separata kolumner för varje nivå i kategorihierarkin</string>
     <string name="pref_csv_export_split_amount_summary">Använd separata kolumner för intäkter och utgifter</string>
     <string name="pref_csv_export_split_date_time_summary">Använd separata kolumner för datum och tid</string>
@@ -828,7 +828,7 @@
     <string name="debt_balance_i_owe">Jag är nu skyldig %s.</string>
     <string name="debt_balance_they_owe">%1$s är nu skyldig %2$s.</string>
     <string name="optimize_image_file_size">Optimera bildfilstorlek</string>
-    <string name="image_optimize_quality_summary">Kvalitet 0 betyder komprimera för minsta storlek. 100 betyder komprimera för maximal visuell kvalitet.</string>
+    <string name="image_optimize_quality_summary">Kvalitet 0 innebär komprimering för minsta möjliga storlek. 100 innebär komprimering för maximal visuell kvalitet.</string>
     <string name="orphaned_transaction_info">En transaktion är kopplad till planen för detta datum, men ingen händelseinstans existerar vid detta datum.</string>
     <string name="orphaned_transaction_relink">Transaktionen kan kopplas om till händelseinstansen på %s.</string>
     <string name="orphaned_transaction_align_date">Valfritt kan datumet som lagras med transaktionen också justeras med instansdatumet.</string>
@@ -851,10 +851,10 @@
     <string name="warning_transform_to_transfer">Den valda transaktionen ersätts av en överföring från %1$s till %2$s.</string>
     <string name="remap_date">På alla valda transaktioner sätts datumet till %s.</string>
     <string name="merge_categories_dialog_title">Sammanfoga kategorier</string>
-    <string name="subcategories_merged_recursively">Om någon av de sammanslagna kategorierna har underkategorier med samma etikett, slås dessa ihop först, rekursivt.</string>
+    <string name="subcategories_merged_recursively">Om några av de sammanslagna kategorierna har underkategorier med samma etikett, slås dessa ihop först, rekursivt.</string>
     <string name="merge_categories_prompt">Välj den kategori du vill behålla</string>
     <string name="pref_csv_export_category_separator_summary">Separator mellan nivåerna i kategorihierarkin</string>
-    <string name="warning_unarchive">Arkivet kommer att packas upp. Alla innehållna transaktioner kommer att läggas in i listan igen.</string>
+    <string name="warning_unarchive">Arkivet kommer att packas upp. Alla transaktioner det innehåller kommer att läggas in i listan igen.</string>
     <string name="warning_delete_archive">Alla transaktioner som finns i detta arkiv (%d) kommer att raderas.</string>
     <string name="dialog_title_warning_delete_archive">Radera arkivet?</string>
     <string name="archive_warning">Alla transaktioner (%d) inom det valda datumintervallet kommer att arkiveras.</string>
@@ -873,7 +873,7 @@
     <string name="warning_archived_transfer_cannot_be_edited">Överföringen kan inte redigeras eftersom dess andra sida är arkiverad.</string>
     <string name="warning_budget_sync_import">Konfigurationen av denna budget importeras från synkroniseringsbackend. Alla lokala förändringar kommer att gå förlorade.</string>
     <string name="budget_import_cannot_be_imported">Följande budgetar avser konton som inte är synkroniserade:</string>
-    <string name="webui_download_no_data">Efter utskrift, export eller skapande av säkerhetskopior i appen kommer filer att finnas tillgängliga härifrån för nedladdning.</string>
+    <string name="webui_download_no_data">Efter utskrift, export eller skapande av säkerhetskopior i appen kommer filer att finnas tillgängliga för nedladdning härifrån.</string>
     <string name="filter_dialog_empty">Inga kriterier tillagda än. Tryck på knapparna ovan för att definiera din sökning och förfina dina resultat.</string>
     <string name="enable_automatic_daily_exchange_rate_download">Automatisk daglig nedladdning av växelkurs</string>
     <string name="dynamic_exchange_rate">Dynamisk växelkurs</string>
@@ -887,7 +887,7 @@
     <string name="balance_sheet_net_worth">Nettovärde</string>
     <string name="mark_as_cleared">Markera som avstämd</string>
     <string name="mark_as_unreconciled">Markera som ej avstämd</string>
-    <string name="roadmap_intro">Omröstningen om %d Roadmap är nu öppen! Rösta på de funktioner och förbättringar som betyder mest för dig.</string>
+    <string name="roadmap_intro">%d års omröstning om färdplanen är nu öppen! Rösta för de funktioner och förbättringar som betyder mest för dig.</string>
     <string name="pref_equivalent_amounts_automatic_update_title">Uppdatera automatiskt motsvarande belopp när priserna ändras</string>
     <string name="batch_download">Flerfils nedladdning</string>
     <string name="warning_batch_download_quota">Batchnedladdning från %s innebär risken att din användningsgräns töms.</string>
@@ -912,7 +912,7 @@
         <item quantity="one">, innehåller en underkategori av nivå %2$d.</item>
         <item quantity="other">, innehåller %1$d underkategorier av nivå %2$d.</item>
     </plurals>
-    <string name="pref_print_layout_summary">Konfigurera bredd och sammansättning av kolumner</string>
+    <string name="pref_print_layout_summary">Konfigurera bredd och fördelning av kolumner</string>
     <string name="supports_reconciliation">Stöder försoning</string>
     <string name="aggregate_invisible">Inkludera osynliga konton i aggregerade konton och balansräkning</string>
     <string name="select_accounts_for_flag">Välj konton för flaggan %s</string>
