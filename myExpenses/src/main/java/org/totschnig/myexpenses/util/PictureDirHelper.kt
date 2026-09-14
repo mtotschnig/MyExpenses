@@ -3,9 +3,7 @@ package org.totschnig.myexpenses.util
 import android.content.Context
 import android.net.Uri
 import android.os.Environment
-import androidx.core.content.ContextCompat
 import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.exception.ExternalStorageNotAvailableException
 import org.totschnig.myexpenses.util.AppDirHelper.cacheDir
 import org.totschnig.myexpenses.util.AppDirHelper.getContentUriForFile
 import org.totschnig.myexpenses.util.AppDirHelper.getFileProviderAuthority
@@ -50,7 +48,7 @@ object PictureDirHelper {
         mediaStorageDir = (
                 if (temp) cacheDir(application) else
                     getPictureDir(application, application.isProtected)
-                ) ?: throw ExternalStorageNotAvailableException(),
+                ),
         checkUnique = checkUnique,
         extension = extension
     )
@@ -108,21 +106,15 @@ object PictureDirHelper {
         }${extension?.let { ".$it" } ?: "" }"
 
     @JvmStatic
-    fun getPictureDir(context: Context, secure: Boolean): File? {
-        val result: File? = if (secure) {
+    fun getPictureDir(context: Context, secure: Boolean): File {
+        val result: File = if (secure) {
             File(context.filesDir, "images")
         } else {
             //https://stackoverflow.com/a/43497841/1199911
-            ContextCompat.getExternalFilesDirs(context, Environment.DIRECTORY_PICTURES)[0]
+            context.getExternalFilesDirs(Environment.DIRECTORY_PICTURES)[0]
         }
-        if (result == null) return null
-        result.mkdir()
-        return if (result.exists()) result else null
-    }
-
-    @Throws(IllegalArgumentException::class)
-    fun doesPictureExist(context: Context, pictureUri: Uri): Boolean {
-        return getFileForUri(context, pictureUri).exists()
+        result.mkdirs()
+        return if (result.exists() && result.canWrite()) result else File(context.filesDir, "images").apply { mkdirs() }
     }
 
     @JvmStatic
