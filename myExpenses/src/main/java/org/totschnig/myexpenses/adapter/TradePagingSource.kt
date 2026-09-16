@@ -91,13 +91,6 @@ class TradePagingSource(
         val actualOffset = if (isAmountSort) 0 else offset
 
         val (totalCount, trades) = withContext(Dispatchers.IO) {
-            val count = contentResolver.query(
-                uri, arrayOf("count(*)"), WHERE_NOT_SPLIT_PART, null, null
-            )!!.use {
-                it.moveToFirst()
-                it.getInt(0)
-            }
-
             var selection = WHERE_NOT_SPLIT_PART
             var selectionArgs: Array<String>? = null
             criterion?.let { filter ->
@@ -106,6 +99,13 @@ class TradePagingSource(
                     selection += " AND $selectionForParents"
                     selectionArgs = filter.getSelectionArgs(false).takeIf { it.isNotEmpty() }
                 }
+            }
+
+            val count = contentResolver.query(
+                uri, arrayOf("count(*)"), selection, selectionArgs, null
+            )!!.use {
+                it.moveToFirst()
+                it.getInt(0)
             }
 
             // 2. Get IDs for parent transactions for this page
