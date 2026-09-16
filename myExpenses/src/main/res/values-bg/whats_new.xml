@@ -31,7 +31,14 @@
     <string name="migration_v2_feedback_title">Какво не работи във V2?</string>
     <string name="migration_v2_confirm_opt_out">Връщане към V1</string>
     <string name="whats_new_407">Естествено сортиране за маркери, категории, сметки, страни.</string>
-    <string name="whats_new_411_1">Разделени трансфери</string>
+    <string name="whats_new_411_1">Разпределени преводи</string>
     <string name="whats_new_411_2">Прехвърляне на активи между портфейли</string>
-    <string name="whats_new_411_3">Историческият екран за агрегирани сметки сега отразява промяната в стойността на чуждестранните валути</string>
+    <string name="whats_new_411_3">Екрана с история за агрегирани сметки сега отразява промяната в стойността на чуждестранните валути</string>
+    <string name="sunset_v1_intro">Това е последната версия от V1. Ще бъде премахната във версия 4.1.3.</string>
+    <string name="sunset_v1_message_1_intro">Помогнете ни да подобрим V2:</string>
+    <string name="sunset_v1_message_2_intro">Ексклузивни функции на V2:</string>
+    <string name="sunset_v1_message_2_body">Открийте нови инструменти, достъпни само във V2, като например проследяване на инвестиционен портфейл.</string>
+    <string name="sunset_v1_message_3_intro">Оставане на V1:</string>
+    <string name="sunset_v1_message_3_body">За да продължите да ползвате V1, моля, забранете автоматично обновяване на {app_name} в {store}.</string>
+    <string name="switch_to_v2">Превключете към V2</string>
 </resources>
