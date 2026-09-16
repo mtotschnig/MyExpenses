@@ -85,8 +85,6 @@ import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.util.config.Configurator
-import org.totschnig.myexpenses.util.config.get
 import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.retrofit.Vote
@@ -96,6 +94,8 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.ads.AdHandler
 import org.totschnig.myexpenses.util.ads.NoOpAdHandler
 import org.totschnig.myexpenses.util.checkMenuIcon
+import org.totschnig.myexpenses.util.config.Configurator
+import org.totschnig.myexpenses.util.config.get
 import org.totschnig.myexpenses.util.configureSortDirectionMenu
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.isGithub

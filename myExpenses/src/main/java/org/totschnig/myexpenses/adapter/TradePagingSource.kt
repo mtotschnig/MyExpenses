@@ -6,7 +6,12 @@ import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import androidx.paging.PagingState
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.drop
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.loadTrades
@@ -16,7 +21,9 @@ import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_SEARCH
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
+import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.withLimit
 import org.totschnig.myexpenses.viewmodel.data.Trade
 
@@ -24,12 +31,16 @@ class TradePagingSource(
     context: Context,
     private val repository: Repository,
     private val account: DataBaseAccount,
+    val whereFilter: StateFlow<Criterion?>,
     private val pageSize: Int,
+    coroutineScope: CoroutineScope,
 ) : ClearingPagingSource<Int, Trade, TradePagingSource>() {
 
     private val contentResolver = context.contentResolver
     private val uri: Uri =
-        TRANSACTIONS_URI.buildUpon().appendQueryParameter(KEY_ACCOUNTID, account.id.toString())
+        TRANSACTIONS_URI.buildUpon()
+            .appendQueryParameter(KEY_ACCOUNTID, account.id.toString())
+            .appendQueryParameter(QUERY_PARAMETER_SEARCH, "1")
             .build()
 
     private val observer = object : ContentObserver(Handler(Looper.getMainLooper())) {
@@ -38,27 +49,37 @@ class TradePagingSource(
         }
     }
 
+    private var criterion: Criterion? = null
+    private var hasNewCriterion: Boolean = false
+    private val filterJob: Job
+
     init {
         contentResolver.registerContentObserver(uri, true, observer)
         registerInvalidatedCallback {
             clear()
         }
+        criterion = whereFilter.value
+        filterJob = coroutineScope.launch {
+            whereFilter.drop(1).collect {
+                invalidate()
+            }
+        }
     }
 
     override fun clear() {
         contentResolver.unregisterContentObserver(observer)
+        filterJob.cancel()
     }
 
     override fun compareWithLast(lastPagingSource: TradePagingSource?) {
-        // Simple implementation, could be more complex if needed
+        hasNewCriterion = criterion != lastPagingSource?.criterion
     }
 
-    override fun getRefreshKey(state: PagingState<Int, Trade>): Int? {
-        return state.anchorPosition?.let { anchorPosition ->
+    override fun getRefreshKey(state: PagingState<Int, Trade>) =
+        if (hasNewCriterion) null else state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(pageSize)
                 ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(pageSize)
         }
-    }
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Trade> = try {
         val position = params.key ?: 0
@@ -77,11 +98,21 @@ class TradePagingSource(
                 it.getInt(0)
             }
 
+            var selection = WHERE_NOT_SPLIT_PART
+            var selectionArgs: Array<String>? = null
+            criterion?.let { filter ->
+                val selectionForParents = filter.getSelectionForParents()
+                if (selectionForParents.isNotEmpty()) {
+                    selection += " AND $selectionForParents"
+                    selectionArgs = filter.getSelectionArgs(false).takeIf { it.isNotEmpty() }
+                }
+            }
+
             // 2. Get IDs for parent transactions for this page
             val ids = contentResolver.query(
                 uri.withLimit(actualLoadSize, actualOffset),
                 arrayOf(KEY_ROWID),
-                WHERE_NOT_SPLIT_PART, null,
+                selection, selectionArgs,
                 if (account.sortBy == KEY_DATE) account.sortOrder else null,
                 null
             )!!.use { cursor ->
