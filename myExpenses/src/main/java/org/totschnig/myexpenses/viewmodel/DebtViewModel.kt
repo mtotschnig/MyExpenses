@@ -36,6 +36,7 @@ import kotlinx.html.unsafe
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_AMOUNT_HOME_EQUIVALENT
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.provider.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.KEY_PARENTID
@@ -92,7 +93,8 @@ open class DebtViewModel(application: Application) : PrintViewModel(application)
                 TransactionProvider.QUERY_PARAMETER_INCLUDE_ALL, "1"
             ).build(),
             projection = arrayOf(
-                KEY_ROWID, KEY_DATE, KEY_AMOUNT, KEY_AMOUNT_HOME_EQUIVALENT, KEY_PARENTID
+                KEY_ROWID, KEY_DATE, KEY_AMOUNT, KEY_AMOUNT_HOME_EQUIVALENT, KEY_PARENTID,
+                KEY_CURRENCY
             ),
             selection = "$KEY_DEBT_ID = ?",
             selectionArgs = arrayOf(debt.id.toString()),
@@ -103,7 +105,8 @@ open class DebtViewModel(application: Application) : PrintViewModel(application)
         }.mapToList {
             val amount = it.getLong(2)
             val equivalentAmount = it.getLong(3)
-            runningTotal -= amount
+            val currency = it.getString(5)
+            runningTotal -= if (currency == debt.currency.code) amount else equivalentAmount
             runningEquivalentTotal -= equivalentAmount
             Transaction(
                 id = it.getLong(0),
@@ -112,7 +115,8 @@ open class DebtViewModel(application: Application) : PrintViewModel(application)
                 runningTotal = runningTotal,
                 parentId = it.getLongOrNull(4),
                 equivalentAmount = equivalentAmount,
-                equivalentRunningTotal = runningEquivalentTotal
+                equivalentRunningTotal = runningEquivalentTotal,
+                currency = currency
             )
         }
     }
@@ -157,7 +161,15 @@ open class DebtViewModel(application: Application) : PrintViewModel(application)
         debt: DisplayDebt,
     ): List<Triple<String, String, String>> {
         val transactions = buildList {
-            add(Transaction(0, epoch2LocalDate(debt.date), 0, debt.amount))
+            add(
+                Transaction(
+                    id = 0,
+                    date = epoch2LocalDate(epochSecond = debt.date),
+                    amount = 0,
+                    currency = debt.currency.code,
+                    runningTotal = debt.amount
+                )
+            )
             transactionsFlow(debt).take(1).collect {
                 addAll(it)
             }
@@ -166,9 +178,10 @@ open class DebtViewModel(application: Application) : PrintViewModel(application)
         return transactions.map { transaction ->
             Triple(
                 dateFormatter.format(transaction.date),
-                transaction.amount.takeIf { it != 0L }?.let {
-                    currencyFormatter.convAmount(it, debt.currency)
-                } ?: "",
+                (if (transaction.currency == debt.currency.code) transaction.amount else transaction.equivalentAmount)
+                    .takeIf { it != 0L }
+                    ?.let { currencyFormatter.convAmount(it, debt.currency) }
+                    ?: "",
                 currencyFormatter.convAmount(transaction.runningTotal, debt.currency)
             )
         }
@@ -268,6 +281,7 @@ open class DebtViewModel(application: Application) : PrintViewModel(application)
         val id: Long,
         val date: LocalDate,
         val amount: Long,
+        val currency: String,
         val runningTotal: Long,
         val parentId: Long? = null,
         val equivalentAmount: Long = 0,

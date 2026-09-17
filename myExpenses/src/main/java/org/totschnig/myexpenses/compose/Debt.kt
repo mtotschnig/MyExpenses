@@ -326,13 +326,13 @@ private fun SingleDebtPreview() {
     )
     val transactions = listOf(
         DebtViewModel.Transaction(
-            1, LocalDate.now(), 100, 100, 1
+            1, LocalDate.now(), 100, "EUR", 100, 1
         ),
         DebtViewModel.Transaction(
-            1, LocalDate.now(), 3000, 1000, 0
+            1, LocalDate.now(), 3000, "EUR",1000, 0
         ),
         DebtViewModel.Transaction(
-            1, LocalDate.now(), 10000, 10000, 1
+            1, LocalDate.now(), 10000, "EUR",10000, 1
         )
     )
     Column(
