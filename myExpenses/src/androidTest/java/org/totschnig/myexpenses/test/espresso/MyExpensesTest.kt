@@ -25,6 +25,7 @@ import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey
+import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -115,10 +116,9 @@ class MyExpensesTest : BaseMyExpensesTest() {
 
     @Test
     fun helpDialogIsOpened() {
-        TODO()
- /*       openActionBarOverflowMenu()
-        onData(hasToString(getString(R.string.menu_help))).perform(click())
-        onView(withText(R.string.help_MyExpenses_title))
+        selectNavigationItem(MenuItem.Help.testTag)
+        onView(withText(R.string.import_select_transactions))
+            .inRoot(isDialog())
             .check(matches(isDisplayed()))
         onView(
             allOf(
@@ -126,7 +126,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
                 withText(Matchers.`is`(app.getString(android.R.string.ok)))
             )
         )
-            .check(matches(isDisplayed()))*/
+            .check(matches(isDisplayed()))
     }
 
     @Test
