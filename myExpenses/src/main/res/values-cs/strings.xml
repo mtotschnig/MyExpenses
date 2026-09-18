@@ -718,7 +718,7 @@
     <string name="dialog_multi_tag">Všechny vybrané transakce budou označeny štítkem %s.</string>
     <string name="dialog_multi_tag_clear">Z vybraných transakcí budou odebrány všechny štítky.</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">Štítek %1$s je namapován na jednu transakci. Měl by být smazán?</item>
+        <item quantity="one">Štítek %1$s je namapován na %2$d transakci. Měl by být smazán?</item>
         <item quantity="few">Štítek %1$s je namapován na %2$d transakcí. Měl by být smazán?</item>
         <item quantity="many">Štítek %1$s je namapován na %2$d transakcí. Měl by být smazán?</item>
         <item quantity="other">Štítek %1$s je namapován na %2$d transakcí. Měl by být smazán?</item>

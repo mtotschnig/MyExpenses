@@ -685,7 +685,7 @@
     <string name="debt_managment">Кіраванне доўгам</string>
     <string name="dialog_multi_tag">Усе выбраныя транзакцыі будуць пазначаны тэгам %s.</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">Тэг %1$s супастаўлены з адной транзакцыяй. Ці павінен ён быць выдалены?</item>
+        <item quantity="one">Тэг %1$s супастаўлены з %2$d транзакцыяй. Ці павінен ён быць выдалены?</item>
         <item quantity="few">Тэг %1$s супастаўлены з транзакцыямі %2$d. Ці павінен ён быць выдалены?</item>
         <item quantity="many">Тэг %1$s супастаўлены з транзакцыямі %2$d. Ці павінен ён быць выдалены?</item>
         <item quantity="other">Тэг %1$s супастаўлены з транзакцыямі %2$d. Ці павінен ён быць выдалены?</item>

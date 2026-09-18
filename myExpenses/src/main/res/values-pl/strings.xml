@@ -786,8 +786,7 @@
     <string name="remap_method">Wszystkie wybrane transakcje zostaną zmapowane do metody %s.</string>
     <string name="pref_clone_with_current_date_title">Data sklonowanych transakcji</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">Tag %1$s jest mapowany na jedną transakcję. Czy należy go usunąć?</item>
-        <item quantity="few"/>
+        <item quantity="one">Tag %1$s jest mapowany na %2$d transakcję. Czy należy go usunąć?</item>
         <item quantity="many">Tag %1$s jest mapowany na %2$d transakcje. Czy należy go usunąć?</item>
         <item quantity="other">Tag %1$s jest mapowany na %2$d transakcje. Czy należy go usunąć?</item>
     </plurals>

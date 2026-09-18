@@ -809,7 +809,7 @@
     <string name="dialog_title_warning_delete_tag">Ștergeți eticheta?</string>
     <string name="pref_clone_with_current_date_summary_on">Tranzacțiile clonate au data curentă</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">Eticheta %1$s este mapată la o singură tranzacție. Ar trebui șters?</item>
+        <item quantity="one">Eticheta %1$s este mapată la %2$d tranzacție. Ar trebui șters?</item>
         <item quantity="few">Eticheta %1$s este mapată la %2$d tranzacții. Ar trebui șters?</item>
         <item quantity="other">Eticheta %1$s este mapată la %2$d de tranzacții. Ar trebui șters?</item>
     </plurals>

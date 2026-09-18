@@ -635,7 +635,7 @@
     <string name="dialog_multi_tag_append">ఇప్పటికే ఉన్న ట్యాగ్‌లకు క్రొత్త ట్యాగ్‌లను జోడించండి</string>
     <string name="new_tag_hint">క్రొత్త ట్యాగ్‌ను నమోదు చేయండి</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">ట్యాగ్ %1$s ఒక లావాదేవీకి మ్యాప్ చేయబడింది. దీన్ని తొలగించాలా\?</item>
+        <item quantity="one">ట్యాగ్ %1$s %2$d లావాదేవీకి మ్యాప్ చేయబడింది. దీన్ని తొలగించాలా\?</item>
         <item quantity="other">ట్యాగ్ %1$s ని %2$d లావాదేవీలకు మ్యాప్ చేయబడింది. దీన్ని తొలగించాలా\?</item>
     </plurals>
     <string name="dialog_multi_tag_clear">ఎంచుకున్న లావాదేవీల నుండి అన్ని ట్యాగ్‌లు తొలగించబడతాయి.</string>

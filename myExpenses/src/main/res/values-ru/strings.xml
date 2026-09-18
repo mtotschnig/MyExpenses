@@ -715,7 +715,7 @@
     <string name="dialog_multi_tag">Все выбранные операции будут помечены тегом %s.</string>
     <string name="dialog_multi_tag_clear">Все теги будут удалены из выбранных трансакций.</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">Тег %1$s сопоставлен с одной транзакцией. Должен ли он быть удален?</item>
+        <item quantity="one">Тег %1$s сопоставлен с %2$d транзакцией. Должен ли он быть удален?</item>
         <item quantity="few">Тег %1$s сопоставлен с транзакциями %2$d. Должен ли он быть удален?</item>
         <item quantity="many">Тег %1$s сопоставлен с транзакциями %2$d. Должен ли он быть удален?</item>
         <item quantity="other">Тег %1$s связаный с трансакциями %2$d. Должен ли он быть удален?</item>

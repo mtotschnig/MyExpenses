@@ -805,7 +805,7 @@
     <string name="pref_csv_export_split_amount_summary">Використовувати окремі колонки для доходів і витрат</string>
     <string name="pref_debug_logging_share_summary">Поділитись файлами журналів</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">Мітка %1$s зіставлено з однією транзакцією. Чи потрібно його видалити?</item>
+        <item quantity="one">Мітка %1$s зіставлено з %2$d транзакцією. Чи потрібно його видалити?</item>
         <item quantity="few">Мітка %1$s зіставлено з %2$d транзакціями. Чи потрібно його видалити?</item>
         <item quantity="many">Мітка %1$s зіставлено з %2$d транзакціями. Чи потрібно його видалити?</item>
         <item quantity="other">Мітка %1$s зіставлено з %2$d транзакціями. Чи потрібно його видалити?</item>

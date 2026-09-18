@@ -449,4 +449,8 @@
     <string name="pref_plan_executor_time_title">알림 시간</string>
     <string name="rounding">반올림</string>
     <string name="important_upgrade_information_heading">중요한 정보</string>
+    <string name="dialog_title_warning_delete_tag">태그를 삭제하시겠습니까?</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="other">%1$s 태그가 %2$d개 거래에 연결되어 있습니다. 삭제하시겠습니까?</item>
+    </plurals>
 </resources>

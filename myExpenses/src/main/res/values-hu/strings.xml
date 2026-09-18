@@ -704,7 +704,7 @@
     <string name="dialog_multi_tag">Az összes kiválasztott tranzakció %s címkével lesz ellátva.</string>
     <string name="dialog_multi_tag_clear">Az összes címke eltávolításra kerül a kiválasztott tranzakciókból.</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">A(z) %1$s címke egy tranzakcióhoz van hozzárendelve. Kerüljön törlésre?</item>
+        <item quantity="one">A(z) %1$s címke %2$d tranzakcióhoz van hozzárendelve. Kerüljön törlésre?</item>
         <item quantity="other">A(z) %1$s címke %2$d tranzakcióhoz van hozzárendelve. Kerüljön törlésre?</item>
     </plurals>
     <string name="dialog_multi_tag_append">Új címkék hozzáadása a meglévő címkékhez</string>
