@@ -2,8 +2,10 @@ package org.totschnig.myexpenses.dialog.select
 
 import android.net.Uri
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.provider.KEY_IS_PORTFOLIO
 import org.totschnig.myexpenses.provider.KEY_LABEL
 import org.totschnig.myexpenses.provider.KEY_PARENTID
+import org.totschnig.myexpenses.provider.PORTFOLIO_ASSET
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.AssetCriterion
 import org.totschnig.myexpenses.provider.filter.KEY_CRITERION
@@ -17,7 +19,7 @@ class SelectAssetDialogFragment :
     override val dialogTitle: Int
         get() = R.string.search_asset
     override val selection: String
-        get() = "$KEY_PARENTID = ?"
+        get() = "$KEY_PARENTID = ? AND $KEY_IS_PORTFOLIO = $PORTFOLIO_ASSET"
     override val selectionArgs: Array<String>
         get() = arrayOf(requireArguments().getLong(KEY_PARENTID).toString())
 
