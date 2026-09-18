@@ -145,9 +145,9 @@ kotlin.sourceSets.configureEach {
     languageSettings.optIn("kotlin.RequiresOptIn")
 }
 
-//uncomment if you want to have Android log in stdout
 tasks.withType(Test).configureEach {
     systemProperty "robolectric.logging", "stdout"
+    jvmArgs("--add-opens=java.base/jdk.internal.access=ALL-UNNAMED")
 }
 
 dependencies {
