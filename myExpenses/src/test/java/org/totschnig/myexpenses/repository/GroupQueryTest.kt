@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
+import org.totschnig.myexpenses.provider.KEY_MAPPED_CATEGORIES
 import org.totschnig.myexpenses.provider.KEY_SECOND_GROUP
 import org.totschnig.myexpenses.provider.KEY_SUM_EXPENSES
 import org.totschnig.myexpenses.provider.KEY_SUM_INCOME
@@ -73,7 +74,8 @@ class GroupQueryTest : BaseTestWithRepository() {
                 KEY_SECOND_GROUP,
                 KEY_SUM_EXPENSES,
                 KEY_SUM_INCOME,
-                KEY_SUM_TRANSFERS
+                KEY_SUM_TRANSFERS,
+                KEY_MAPPED_CATEGORIES
             )
             movesToFirst()
             hasInt(0, 1)
@@ -81,6 +83,7 @@ class GroupQueryTest : BaseTestWithRepository() {
             hasLong(2, 0)
             hasLong(3, 100)
             hasLong(4, 0)
+            hasInt(5, 1)
         }
     }
 
@@ -103,7 +106,8 @@ class GroupQueryTest : BaseTestWithRepository() {
                 KEY_SECOND_GROUP,
                 KEY_SUM_EXPENSES,
                 KEY_SUM_INCOME,
-                KEY_SUM_TRANSFERS
+                KEY_SUM_TRANSFERS,
+                KEY_MAPPED_CATEGORIES
             )
             movesToFirst()
             hasInt(0, 1)
@@ -111,6 +115,7 @@ class GroupQueryTest : BaseTestWithRepository() {
             hasLong(2, 0)
             hasLong(3, 400)
             hasLong(4, 0)
+            hasInt(5, 1)
         }
     }
 
@@ -130,7 +135,8 @@ class GroupQueryTest : BaseTestWithRepository() {
                 KEY_SECOND_GROUP,
                 KEY_SUM_EXPENSES,
                 KEY_SUM_INCOME,
-                KEY_SUM_TRANSFERS
+                KEY_SUM_TRANSFERS,
+                KEY_MAPPED_CATEGORIES
             )
             movesToFirst()
             hasInt(0, 1)
@@ -138,6 +144,7 @@ class GroupQueryTest : BaseTestWithRepository() {
             hasLong(2, -200)
             hasLong(3, 500)
             hasLong(4, 800)
+            hasInt(5, 3)
         }
     }
 
@@ -165,7 +172,8 @@ class GroupQueryTest : BaseTestWithRepository() {
                 KEY_SECOND_GROUP,
                 KEY_SUM_EXPENSES,
                 KEY_SUM_INCOME,
-                KEY_SUM_TRANSFERS
+                KEY_SUM_TRANSFERS,
+                KEY_MAPPED_CATEGORIES
             )
             movesToFirst()
             hasInt(0, 2024)
@@ -173,6 +181,7 @@ class GroupQueryTest : BaseTestWithRepository() {
             hasLong(2, 0)
             hasLong(3, 0)
             hasLong(4, 0)
+            hasInt(5, 0)
         }
     }
 }
