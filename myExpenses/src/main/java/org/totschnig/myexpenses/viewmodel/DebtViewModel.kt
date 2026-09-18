@@ -46,6 +46,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.convAmount
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.util.getDateTimeFormatter
 import org.totschnig.myexpenses.viewmodel.data.Debt
@@ -106,7 +107,12 @@ open class DebtViewModel(application: Application) : PrintViewModel(application)
             val amount = it.getLong(2)
             val equivalentAmount = it.getLong(3)
             val currency = it.getString(5)
-            runningTotal -= if (currency == debt.currency.code) amount else equivalentAmount
+            runningTotal -= if (currency == debt.currency.code) amount else {
+                if (currency != currencyContext.homeCurrencyString) {
+                    CrashHandler.report(IllegalStateException("Currency mismatch in debt transactions, debt currency is not home currency"))
+                    0
+                } else equivalentAmount
+            }
             runningEquivalentTotal -= equivalentAmount
             Transaction(
                 id = it.getLong(0),
