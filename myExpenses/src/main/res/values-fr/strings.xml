@@ -710,7 +710,7 @@
     <string name="dialog_multi_tag">Toutes les opérations sélectionnées seront étiquetées avec %s.</string>
     <string name="dialog_multi_tag_clear">Toutes les étiquettes seront supprimées des opérations sélectionnées.</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">La balise %1$s est mise en correspondance avec une opération. Doit-elle être supprimée \?</item>
+        <item quantity="one">L\'étiquette %1$s est mise en correspondance avec %2$d opération. Doit-elle être supprimée \?</item>
         <item quantity="many">L\'étiquette %1$s est mise en correspondance avec %2$d opérations. Doit-elle être supprimée \?</item>
         <item quantity="other">L\'étiquette %1$s est mise en correspondance avec %2$d opérations. Doit-elle être supprimée \?</item>
     </plurals>

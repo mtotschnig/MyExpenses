@@ -582,4 +582,8 @@
     <string name="menu_templates">Txantiloiak</string>
     <string name="pref_plan_executor_time_title">Jakinarazpen-ordua</string>
     <string name="important_upgrade_information_heading">Informazio garrantzitsua</string>
+    <string name="dialog_title_warning_delete_tag">Etiketa ezabatu?</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="other">%1$s etiketa %2$d transakziorekin lotuta dago. Ezabatu egin behar da?</item>
+    </plurals>
 </resources>

@@ -703,7 +703,7 @@
     <string name="onboarding_privacy_title">آپ کا ڈیٹا آپ کے ہاتھ میں رہتا ہے</string>
     <string name="budget_filter_all_methods">تمام طریقے</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">ٹیگ %1$s کو ایک ٹرانزیکشن میں میپ کیا گیا ہے کیا اسے حذف کر دینا چاہیے؟</item>
+        <item quantity="one">ٹیگ %1$s کو %2$d ٹرانزیکشن میں میپ کیا گیا ہے کیا اسے حذف کر دینا چاہیے؟</item>
         <item quantity="other">ٹیگ %1$s کو %2$d ٹرانزیکشنز پر میپ کیا گیا ہے کیا اسے حذف کر دینا چاہیے؟</item>
     </plurals>
     <string name="dialog_multi_tag">تمام منتخب ٹرانزیکشنز کو %s کے ساتھ ٹیگ کیا جائے گا.</string>

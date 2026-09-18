@@ -393,4 +393,9 @@
     <string name="total_cleared">क्लियर्ड टोटल</string>
     <string name="sum_transfer">ट्रांसफर्स</string>
     <string name="important_upgrade_information_heading">महत्वपूर्ण जानकारी</string>
+    <string name="dialog_title_warning_delete_tag">टैग हटाएँ?</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="one">टैग %1$s %2$d लेन-देन से जुड़ा हुआ है। क्या इसे हटाया जाना चाहिए?</item>
+        <item quantity="other">टैग %1$s %2$d लेन-देन से जुड़ा हुआ है। क्या इसे हटाया जाना चाहिए?</item>
+    </plurals>
 </resources>

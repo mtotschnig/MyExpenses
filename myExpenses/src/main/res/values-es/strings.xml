@@ -710,7 +710,7 @@
     <string name="dialog_multi_tag">Todas las transacciones seleccionadas serás etiquetadas con %s.</string>
     <string name="dialog_multi_tag_clear">Se eliminarán todas las etiquetas en las transacciones eliminadas.</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">La etiqueta %1$s está asignada a una transacción. ¿Debe eliminarse\?</item>
+        <item quantity="one">La etiqueta %1$s está asignada a %2$d transacción. ¿Debe eliminarse\?</item>
         <item quantity="many">La etiqueta %1$s está asignada a %2$d transacciones. ¿Debe eliminarse\?</item>
         <item quantity="other">La etiqueta %1$s está asignada a %2$d transacciones. ¿Debe eliminarse\?</item>
     </plurals>

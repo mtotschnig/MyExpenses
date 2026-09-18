@@ -269,4 +269,9 @@
     <string name="menu_edit_transfer">Rediger overføring</string>
     <string name="add_shortcut">Legg til snarvei</string>
     <string name="important_upgrade_information_heading">Viktig info</string>
+    <string name="dialog_title_warning_delete_tag">Slette merkelapp?</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="one">Merkelappen %1$s er knyttet til %2$d transaksjon. Skal den slettes?</item>
+        <item quantity="other">Merkelappen %1$s er knyttet til %2$d transaksjoner. Skal den slettes?</item>
+    </plurals>
 </resources>

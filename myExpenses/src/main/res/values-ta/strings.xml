@@ -702,7 +702,7 @@
     <string name="dialog_multi_tag">தேர்ந்தெடுக்கப்பட்ட அனைத்து பரிவர்த்தனைகளும் %s உடன் குறிக்கப்படும்.</string>
     <string name="dialog_multi_tag_clear">தேர்ந்தெடுக்கப்பட்ட பரிவர்த்தனைகளிலிருந்து அனைத்து குறிச்சொற்களும் அகற்றப்படும்.</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">%1$s குறிச்சொல் ஒரு பரிவர்த்தனைக்கு மாற்றப்பட்டது. அதை நீக்க வேண்டுமா?</item>
+        <item quantity="one">%1$s குறிச்சொல் %2$d பரிவர்த்தனைக்கு மாற்றப்பட்டது. அதை நீக்க வேண்டுமா?</item>
         <item quantity="other">%1$s குறிச்சொல் %2$d பரிவர்த்தனைகளுக்கு மாற்றப்பட்டது. அதை நீக்க வேண்டுமா?</item>
     </plurals>
     <string name="dialog_multi_tag_append">இருக்கும் குறிச்சொற்களுடன் புதிய குறிச்சொற்களைச் சேர்</string>

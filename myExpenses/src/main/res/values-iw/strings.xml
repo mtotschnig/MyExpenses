@@ -712,7 +712,7 @@
     <string name="dialog_multi_tag">כל התנועות שנבחרו יתויגו עם %s.</string>
     <string name="dialog_multi_tag_clear">כל התגים יוסרו מהעסקאות שנבחרו.</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">תג %1$s ממופה לעסקה אחת. האם יש למחוק אותו?</item>
+        <item quantity="one">תג %1$s ממופה ל-%2$d עסקה. האם יש למחוק אותו?</item>
         <item quantity="two">תג %1$s ממופה לעסקאות %2$d. האם יש למחוק אותו?</item>
         <item quantity="other">תג %1$s ממופה לעסקאות %2$d. האם יש למחוק אותו?</item>
     </plurals>

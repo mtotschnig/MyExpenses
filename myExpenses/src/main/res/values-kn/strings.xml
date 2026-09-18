@@ -698,7 +698,7 @@
     <string name="dialog_multi_tag">ಎಲ್ಲಾ ಆಯ್ದ ವಹಿವಾಟುಗಳನ್ನು %s ನೊಂದಿಗೆ ಟ್ಯಾಗ್ ಮಾಡಲಾಗುತ್ತದೆ.</string>
     <string name="dialog_multi_tag_clear">ಆಯ್ದ ವಹಿವಾಟಿನಿಂದ ಎಲ್ಲಾ ಟ್ಯಾಗ್‌ಗಳನ್ನು ತೆಗೆದುಹಾಕಲಾಗುತ್ತದೆ.</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">ಟ್ಯಾಗ್ %1$s ಅನ್ನು ಒಂದು ವಹಿವಾಟಿಗೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿದೆ. ಅದನ್ನು ಅಳಿಸಬೇಕೇ?</item>
+        <item quantity="one">ಟ್ಯಾಗ್ %1$s ಅನ್ನು %2$d ವಹಿವಾಟಿಗೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿದೆ. ಅದನ್ನು ಅಳಿಸಬೇಕೇ?</item>
         <item quantity="other">ಟ್ಯಾಗ್ %1$s ಅನ್ನು %2$d ವಹಿವಾಟುಗಳಿಗೆ ಮ್ಯಾಪ್ ಮಾಡಲಾಗಿದೆ. ಅದನ್ನು ಅಳಿಸಬೇಕೇ?</item>
     </plurals>
     <string name="dialog_multi_tag_append">ಅಸ್ತಿತ್ವದಲ್ಲಿರುವ ಟ್ಯಾಗ್‌ಗಳಿಗೆ ಹೊಸ ಟ್ಯಾಗ್‌ಗಳನ್ನು ಸೇರಿಸಿ</string>

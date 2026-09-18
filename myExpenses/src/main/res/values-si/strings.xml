@@ -339,4 +339,9 @@
     <string name="menu_templates">සැකිලි</string>
     <string name="pref_plan_executor_time_title">දැනුම්දීමේ වේලාව</string>
     <string name="payer_or_payee">අනෙක් පාර්ශවය</string>
+    <string name="dialog_title_warning_delete_tag">ටැගය මකාදමන්නද?</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="one">%1$s ටැගය ගනුදෙනු %2$d කට සම්බන්ධ කර ඇත. එය මකා දැමිය යුතුද?</item>
+        <item quantity="other">%1$s ටැගය ගනුදෙනු %2$d කට සම්බන්ධ කර ඇත. එය මකා දැමිය යුතුද?</item>
+    </plurals>
 </resources>

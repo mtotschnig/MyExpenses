@@ -726,7 +726,7 @@
     <string name="dialog_multi_tag">সমস্ত নির্বাচিত লেনদেন %s দিয়ে ট্যাগ করা হবে।</string>
     <string name="dialog_multi_tag_clear">নির্বাচিত লেনদেন থেকে সমস্ত ট্যাগ সরানো হবে।</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">ট্যাগ %1$s একটি লেনদেনের সাথে ম্যাপ করা হয়েছে। এটি মুছে ফেলতে হবে?</item>
+        <item quantity="one">ট্যাগ %1$s %2$d লেনদেনের সাথে ম্যাপ করা হয়েছে। এটি মুছে ফেলতে হবে?</item>
         <item quantity="other">ট্যাগ %1$s %2$d লেনদেনের সাথে ম্যাপ করা হয়েছে। এটি মুছে ফেলতে হবে?</item>
     </plurals>
     <string name="dialog_multi_tag_append">বিদ্যমান ট্যাগে নতুন ট্যাগ যোগ করুন</string>

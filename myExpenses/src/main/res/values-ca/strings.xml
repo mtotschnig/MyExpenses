@@ -682,9 +682,9 @@
     <string name="setup_completed">S\'ha completat la configuració</string>
     <string name="contact_us">Contacti amb nosaltres</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">L\'etiqueta %1$s està assignada a una operació. Hauria de suprimir-se?</item>
+        <item quantity="one">L\'etiqueta %1$s està assignada a %2$d operació. Hauria de suprimir-se?</item>
         <item quantity="many">L\'etiqueta %1$s està assignada a %2$d operacions. Hauria de suprimir-se?</item>
-        <item quantity="other"/>
+        <item quantity="other">L\'etiqueta %1$s està assignada a %2$d operacions. Hauria de suprimir-se?</item>
     </plurals>
     <plurals name="purge_backup_failure">
         <item quantity="one">No s\'ha pogut suprimir un fitxer antic de còpia de seguretat.</item>

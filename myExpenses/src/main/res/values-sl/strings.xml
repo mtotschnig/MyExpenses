@@ -25,4 +25,11 @@
     <string name="pm_creditcard">Kreditna kartica</string>
     <string name="new_version">Nova različica</string>
     <string name="add_shortcut">Dodaj bližnico</string>
+    <string name="dialog_title_warning_delete_tag">Izbrišem oznako?</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="one">Oznaka %1$s je povezana z %2$d transakcijo. Ali naj se izbriše?</item>
+        <item quantity="two">Oznaka %1$s je povezana z %2$d transakcijama. Ali naj se izbriše?</item>
+        <item quantity="few">Oznaka %1$s je povezana z %2$d transakcijami. Ali naj se izbriše?</item>
+        <item quantity="other">Oznaka %1$s je povezana z %2$d transakcijami. Ali naj se izbriše?</item>
+    </plurals>
 </resources>

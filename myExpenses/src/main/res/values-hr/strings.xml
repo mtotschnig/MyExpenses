@@ -607,7 +607,7 @@
     <string name="dialog_multi_tag_replace">Zamijeni postojeće oznake s novim oznakama</string>
     <string name="dialog_multi_tag_append">Dodaj novu oznaku postojećim oznakama</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">Oznaka %1$s je povezana s jednom transakcijom. Treba li se izbrisati\?</item>
+        <item quantity="one">Oznaka %1$s je povezana s %2$d transakcijom. Treba li se izbrisati\?</item>
         <item quantity="few">Oznaka %1$s je povezana s %2$d transakcije. Treba li se izbrisati\?</item>
         <item quantity="other">Oznaka %1$s je povezana s %2$d transakcija. Treba li se izbrisati\?</item>
     </plurals>

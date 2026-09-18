@@ -227,4 +227,9 @@
     <string name="new_version">Versión nova</string>
     <string name="add_shortcut">Engadir atallo</string>
     <string name="important_upgrade_information_heading">Información importante</string>
+    <string name="dialog_title_warning_delete_tag">Eliminar etiqueta?</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="one">A etiqueta %1$s está asignada a %2$d transacción. Debe eliminarse?</item>
+        <item quantity="other">A etiqueta %1$s está asignada a %2$d transaccións. Debe eliminarse?</item>
+    </plurals>
 </resources>

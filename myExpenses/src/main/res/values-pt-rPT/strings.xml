@@ -554,7 +554,7 @@
     <string name="dialog_multi_tag_replace">Substituir as etiquetas existentes pelas novas</string>
     <string name="dialog_multi_tag_append">Adicionar novas etiquetas às já existentes</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">A etiqueta %1$s está mapeada em uma transação. Ela deve ser excluída\?</item>
+        <item quantity="one">A etiqueta %1$s está mapeada em %2$d transação. Ela deve ser excluída\?</item>
         <item quantity="other">A etiqueta %1$s está mapeada em %2$d transações. Ela deve ser excluída\?</item>
     </plurals>
     <string name="dialog_multi_tag_clear">Todas as etiquetas serão removidas das transações selecionadas.</string>

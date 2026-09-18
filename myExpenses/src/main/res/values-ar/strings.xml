@@ -734,8 +734,8 @@
     <string name="dialog_multi_tag_clear">ستتم إزالة جميع العلامات من المعاملات المحددة.</string>
     <plurals name="warning_delete_tag">
         <item quantity="zero">الوسم %1$s غير مرتبط بأي معاملات. هل يجب حذفه؟</item>
-        <item quantity="one">الوسم %1$s مرتبط بمعاملة واحدة. هل يجب حذفه؟</item>
-        <item quantity="two">الوسم %1$s مرتبط بمعاملتين. هل يجب حذفه؟</item>
+        <item quantity="one">الوسم %1$s مرتبط بـ %2$d معاملة. هل يجب حذفه؟</item>
+        <item quantity="two">الوسم %1$s مرتبط بـ %2$d معاملة. هل يجب حذفه؟</item>
         <item quantity="few">الوسم %1$s مرتبط بـ %2$d معاملات. هل يجب حذفه؟</item>
         <item quantity="many">الوسم %1$s مرتبط بـ %2$d معاملة. هل يجب حذفه؟</item>
         <item quantity="other">الوسم %1$s مرتبط بـ %2$d معاملة. هل يجب حذفه؟</item>

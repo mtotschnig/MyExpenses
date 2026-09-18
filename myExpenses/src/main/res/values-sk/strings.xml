@@ -42,4 +42,11 @@
     <string name="pref_acra_user_email_summary">Zadajte prosím Vašu e-mailovú adresu, ak ste ochotní pomôcť ladiť program a povoľujete nám Vás kontaktovať.</string>
     <string name="new_version">Nová verzia</string>
     <string name="add_shortcut">Pridať skratku</string>
+    <string name="dialog_title_warning_delete_tag">Vymazať štítok?</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="one">Štítok %1$s je priradený k %2$d transakcii. Má sa vymazať?</item>
+        <item quantity="few">Štítok %1$s je priradený k %2$d transakciám. Má sa vymazať?</item>
+        <item quantity="many">Štítok %1$s je priradený k %2$d transakcii. Má sa vymazať?</item>
+        <item quantity="other">Štítok %1$s je priradený k %2$d transakciám. Má sa vymazať?</item>
+    </plurals>
 </resources>

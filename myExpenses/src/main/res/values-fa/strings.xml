@@ -620,4 +620,9 @@
     <string name="menu_history_totals">نمایش جمع‌ها</string>
     <string name="grand_total">جمع کل</string>
     <string name="important_upgrade_information_heading">اطلاعات مهم</string>
+    <string name="dialog_title_warning_delete_tag">حذف برچسب؟</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="one">برچسب %1$s با %2$d تراکنش مرتبط است. آیا باید حذف شود؟</item>
+        <item quantity="other">برچسب %1$s با %2$d تراکنش مرتبط است. آیا باید حذف شود؟</item>
+    </plurals>
 </resources>

@@ -680,7 +680,7 @@
     <string name="pref_category_title_crash_reports">Crashrapporten</string>
     <string name="dialog_title_purge_backups">Verwijder oude back-ups</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">Tag %1$s is toegewezen aan één transactie. Moet het verwijderd worden\?</item>
+        <item quantity="one">Tag %1$s is toegewezen aan %2$d transactie. Moet het verwijderd worden\?</item>
         <item quantity="other">Tag %1$s is toegewezen aan %2$d transacties. Moet het verwijderd worden\?</item>
     </plurals>
     <string name="purge_backups">De volgende oude back-upbestanden worden verwijderd:</string>

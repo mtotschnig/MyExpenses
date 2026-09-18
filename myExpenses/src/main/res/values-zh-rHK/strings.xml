@@ -447,4 +447,8 @@
     <string name="pref_account_list_display_configuration_title">帳戶清單</string>
     <string name="menu_templates">範本</string>
     <string name="important_upgrade_information_heading">重要資訊</string>
+    <string name="dialog_title_warning_delete_tag">確定刪除標籤？</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="other">%1$s此標籤已被%2$d個交易用來標記。它應該被刪除嗎？</item>
+    </plurals>
 </resources>

@@ -340,4 +340,8 @@
     <string name="menu_templates">ពុម្ព</string>
     <string name="pref_plan_executor_time_title">ម៉ោងជូនដំណឹង</string>
     <string name="important_upgrade_information_heading">ព័ត៌​មាន​សំខាន់</string>
+    <string name="dialog_title_warning_delete_tag">លុបស្លាក?</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="other">ស្លាក %1$s ត្រូវបានភ្ជាប់ទៅ %2$d ប្រតិបត្តិការ។ តើគួរលុបវាចោលឬទេ?</item>
+    </plurals>
 </resources>
