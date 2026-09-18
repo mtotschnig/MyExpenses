@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.ui
 import android.content.Context
 import android.content.res.Configuration
 import android.os.LocaleList
-import androidx.annotation.RequiresApi
 import java.util.Locale
 
 //https://stackoverflow.com/a/40849142/1199911

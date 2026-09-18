@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.testutils
 
-import android.content.Context
 import android.os.Build
 import androidx.compose.ui.test.filter
 import androidx.compose.ui.test.hasText
@@ -18,7 +17,6 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import org.hamcrest.Matchers.containsString
 import org.junit.After
 import org.junit.AfterClass
-import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Rule
 import org.junit.rules.RuleChain
@@ -32,8 +30,6 @@ import org.totschnig.myexpenses.util.distrib.DistributionHelper.versionNumber
 import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.cleanstatusbar.CleanStatusBar
 import tools.fastlane.screengrab.locale.LocaleTestRule
-import tools.fastlane.screengrab.locale.LocaleUtil
-import java.util.Locale
 
 
 abstract class TestMain(locale: String?) : BaseMyExpensesTest() {
@@ -47,15 +43,6 @@ abstract class TestMain(locale: String?) : BaseMyExpensesTest() {
         )
 
     open val shouldTakeScreenShot = false
-
-
-    @Before
-    fun configureLocale() {
-        LocaleUtil.localeFromString(LocaleUtil.getTestLocale())?.let {
-            //targetContext.updateWith(it)
-            testContext.updateWith(it)
-        }
-    }
 
     @After
     fun cleanUp() {
@@ -160,12 +147,6 @@ abstract class TestMain(locale: String?) : BaseMyExpensesTest() {
         prefHandler.putInt(PrefKey.CURRENT_VERSION, versionNumber)
         prefHandler.putInt(PrefKey.FIRST_INSTALL_VERSION, versionNumber)
         launch(app.fixture.account1.id)
-    }
-
-    private fun Context.updateWith(locale: Locale) {
-        val config = resources.configuration
-        config.setLocale(locale)
-        resources.updateConfiguration(config, resources.displayMetrics)
     }
 
     private fun takeScreenshot(fileName: String) {

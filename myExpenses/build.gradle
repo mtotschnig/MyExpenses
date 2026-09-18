@@ -133,8 +133,9 @@ android {
 
     bundle {
         language {
-            //TODO find out how we can set enableSplit to false only when running tests
-            //enableSplit = false
+            enableSplit = !project.gradle.startParameter.taskNames.any {
+                it.contains("Test") || it.contains("Debug") || it.contains("Connected")
+            }
         }
     }
 
