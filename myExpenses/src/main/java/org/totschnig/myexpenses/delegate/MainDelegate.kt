@@ -534,15 +534,17 @@ abstract class MainDelegate(
         super.configureAccountDependent(account, isInitialSetup)
         val currencyUnit = account.currency
         viewBinding.OriginalAmount.configureExchange(currencyUnit)
-        val needsEquivalentAmount = !isSplitPart && !isTemplate &&
+        val isDynamic = !isSplitPart && !isTemplate &&
                 !hasHomeCurrency(account) &&
                 account.isDynamic
-        viewBinding.EquivalentAmountRow.isVisible = needsEquivalentAmount
-        if (needsEquivalentAmount) {
-            viewBinding.EquivalentAmount.configureExchange(currencyUnit, homeCurrency)
+        viewBinding.EquivalentAmountRow.isVisible = isDynamic
+        viewBinding.EquivalentAmount.configureExchange(currencyUnit, homeCurrency)
+        if (isDynamic) {
             if (isInitialSetup) {
                 loadPrice()
             }
+        } else {
+            viewBinding.EquivalentAmount.exchangeRate = account.exchangeRate
         }
     }
 
