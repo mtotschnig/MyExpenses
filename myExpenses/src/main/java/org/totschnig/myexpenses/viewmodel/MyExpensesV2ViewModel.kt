@@ -470,7 +470,14 @@ open class MyExpensesV2ViewModel(
         }
     }
 
-    fun createPortfolio(label: String, currency: String, color: Int, exchangeRate: Double, dynamicExchangeRates: Boolean, type: AccountType) {
+    fun createPortfolio(
+        label: String,
+        currency: String,
+        color: Int,
+        exchangeRate: Double,
+        dynamicExchangeRates: Boolean,
+        type: AccountType,
+    ) {
         viewModelScope.launch(coroutineDispatcher) {
             val portfolio = Account(
                 label = label,
@@ -490,7 +497,15 @@ open class MyExpensesV2ViewModel(
         }
     }
 
-    fun updatePortfolio(id: Long, label: String, currency: String, color: Int, exchangeRate: Double, dynamicExchangeRates: Boolean, type: AccountType) {
+    fun updatePortfolio(
+        id: Long,
+        label: String,
+        currency: String,
+        color: Int,
+        exchangeRate: Double,
+        dynamicExchangeRates: Boolean,
+        type: AccountType,
+    ) {
         viewModelScope.launch(coroutineDispatcher) {
             repository.updateAccount(id) {
                 put(KEY_LABEL, label)
@@ -537,7 +552,10 @@ open class MyExpensesV2ViewModel(
     }
 
     fun getRoundingMode(accountId: Long): Flow<RoundingMode> = dataStore.data.map {
-        enumValueOrDefault(it[stringPreferencesKey("rounding_mode_$accountId")], RoundingMode.HALF_UP)
+        enumValueOrDefault(
+            it[stringPreferencesKey("rounding_mode_$accountId")],
+            RoundingMode.HALF_UP
+        )
     }
 
     fun setRoundingMode(accountId: Long, mode: RoundingMode) {
@@ -629,13 +647,15 @@ open class MyExpensesV2ViewModel(
         totalOutlay: BigDecimal,
         date: LocalDateTime,
         currencyUnit: CurrencyUnit,
-        isBuy: Boolean
+        isBuy: Boolean,
     ): Flow<List<Transaction2>> {
         val targetAmount = if (isBuy) totalOutlay.negate() else totalOutlay
-        val amountMinor = Money.buildWithMajor(currencyUnit, targetAmount).getOrNull()?.amountMinor ?: 0L
+        val amountMinor =
+            Money.buildWithMajor(currencyUnit, targetAmount).getOrNull()?.amountMinor ?: 0L
 
         val startOfDay = date.toLocalDate().atStartOfDay(ZoneId.systemDefault()).toEpochSecond()
-        val endOfDay = date.toLocalDate().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toEpochSecond() - 1
+        val endOfDay =
+            date.toLocalDate().plusDays(1).atStartOfDay(ZoneId.systemDefault()).toEpochSecond() - 1
 
         return contentResolver.observeQuery(
             projection = Transaction2.projection(
@@ -643,10 +663,16 @@ open class MyExpensesV2ViewModel(
                 grouping = Grouping.NONE,
                 prefHandler = prefHandler,
             ),
-            uri = TransactionProvider.EXTENDED_URI.buildUpon().appendQueryParameter(QUERY_PARAMETER_SEARCH, "1").build(),
+            uri = TransactionProvider.EXTENDED_URI.buildUpon()
+                .appendQueryParameter(QUERY_PARAMETER_SEARCH, "1").build(),
             selection = "$KEY_ACCOUNTID = ? AND $KEY_DISPLAY_AMOUNT = ? AND $KEY_DATE BETWEEN ? AND ? " +
                     "AND $KEY_TRANSFER_PEER IS NULL AND $KEY_PARENTID IS NULL",
-            selectionArgs = arrayOf(accountId.toString(), amountMinor.toString(), startOfDay.toString(), endOfDay.toString())
+            selectionArgs = arrayOf(
+                accountId.toString(),
+                amountMinor.toString(),
+                startOfDay.toString(),
+                endOfDay.toString()
+            )
         ).mapToList { cursor ->
             Transaction2.fromCursor(
                 currencyContext = currencyContext,
@@ -681,7 +707,7 @@ open class MyExpensesV2ViewModel(
     suspend fun saveTrades(
         currentAccount: FullAccount,
         intents: List<TradeIntent>,
-        onProgress: (Int) -> Unit = {}
+        onProgress: (Int) -> Unit = {},
     ) {
         withContext(coroutineDispatcher) {
             repository.bulkStart()
@@ -777,23 +803,29 @@ open class MyExpensesV2ViewModel(
             -totalImpact
         }
 
-        val fundingTransferAccountId = if (intent.linkedTransactionId != null) null else when (intent.fundingSource) {
-            FundingSource.ACCOUNT -> intent.peerAccountId
-            FundingSource.PORTFOLIO -> findOrCreateCashAccount(
-                currentAccount.id,
-                currentAccount.currency,
-                currentAccount.color,
-                knownSubaccounts
-            )
-            FundingSource.EXTERNAL -> null
-        }
+        val fundingTransferAccountId =
+            if (intent.linkedTransactionId != null) null else when (intent.fundingSource) {
+                FundingSource.ACCOUNT -> intent.peerAccountId
+                FundingSource.PORTFOLIO -> findOrCreateCashAccount(
+                    currentAccount.id,
+                    currentAccount.currency,
+                    currentAccount.color,
+                    knownSubaccounts
+                )
+
+                FundingSource.EXTERNAL -> null
+            }
 
         val fundingLegUuid = generateUuid()
         parts.add(
             TransactionEditData(
                 accountId = currentAccount.id,
                 amount = fundingLegHubAmount,
-                transferEditData = fundingTransferAccountId?.let { TransferEditData(transferAccountId = it) },
+                transferEditData = fundingTransferAccountId?.let {
+                    TransferEditData(
+                        transferAccountId = it
+                    )
+                },
                 isSplitPart = true,
                 uuid = fundingLegUuid,
                 categoryId = if (intent.linkedTransactionId != null) null else transferCategory
@@ -875,10 +907,17 @@ open class MyExpensesV2ViewModel(
         if (existingQueryKey != queryKey) {
             // Sort order or grouping changed: Recreate Pager and clear old factory
             tradePagerCache[stableId]?.factory?.clear()
-                val factory: ClearingLastPagingSourceFactory<Int, Trade, TradePagingSource> =
-                    ClearingLastPagingSourceFactory {
-                        TradePagingSource(getApplication(), repository, account, pageSize)
-                    }
+            val factory: ClearingLastPagingSourceFactory<Int, Trade, TradePagingSource> =
+                ClearingLastPagingSourceFactory {
+                    TradePagingSource(
+                        getApplication(),
+                        repository,
+                        account,
+                        filterPersistence.getValue(account.id).whereFilter,
+                        pageSize,
+                        viewModelScope
+                    )
+                }
             val flow = Pager(
                 config = PagingConfig(
                     pageSize = pageSize,
@@ -895,7 +934,7 @@ open class MyExpensesV2ViewModel(
     private fun findOrCreateAssetAccount(
         portfolioId: Long,
         asset: CurrencyUnit,
-        knownSubaccounts: MutableList<FullAccount>
+        knownSubaccounts: MutableList<FullAccount>,
     ): Long {
         return knownSubaccounts.find { it.currency == asset.code && it.parentId == portfolioId }?.id
             ?: run {
@@ -925,7 +964,7 @@ open class MyExpensesV2ViewModel(
         portfolioId: Long,
         portfolioCurrency: String,
         portfolioColor: Int,
-        knownSubaccounts: MutableList<FullAccount>
+        knownSubaccounts: MutableList<FullAccount>,
     ): Long {
         return knownSubaccounts.find { it.type.isCashAccount && it.parentId == portfolioId }?.id
             ?: run {
@@ -954,7 +993,7 @@ open class MyExpensesV2ViewModel(
     private fun saveAssetTransfer(
         currentPortfolio: FullAccount,
         intent: TradeIntent,
-        knownSubaccounts: MutableList<FullAccount>
+        knownSubaccounts: MutableList<FullAccount>,
     ) {
         val otherPortfolioId = intent.peerAccountId ?: return
         val otherPortfolio = repository.loadAccount(otherPortfolioId) ?: return
@@ -1001,7 +1040,7 @@ open class MyExpensesV2ViewModel(
             targetKnownSubaccounts
         )
 
-        val oldParent = intent.tradeId?.let { repository.loadTransaction(it)  }
+        val oldParent = intent.tradeId?.let { repository.loadTransaction(it) }
         val oldSiblingParent = intent.tradeId?.let { repository.findSiblingParentId(it) }?.let {
             repository.loadTransaction(it)
         }
@@ -1009,7 +1048,9 @@ open class MyExpensesV2ViewModel(
         val oldRepoTrans1 = intent.tradeId?.let { if (isIncoming) oldSiblingParent else oldParent }
         val oldRepoTrans2 = intent.tradeId?.let { if (isIncoming) oldParent else oldSiblingParent }
 
-        val hubToHubUuid = oldRepoTrans1?.splitParts?.find { it.data.transferAccountId == targetPortfolio.id }?.data?.uuid ?: generateUuid()
+        val hubToHubUuid =
+            oldRepoTrans1?.splitParts?.find { it.data.transferAccountId == targetPortfolio.id }?.data?.uuid
+                ?: generateUuid()
 
         // --- Source Portfolio Split ---
         val sourceParts = mutableListOf<Pair<Transaction, Transaction?>>()
@@ -1031,7 +1072,10 @@ open class MyExpensesV2ViewModel(
         val legA1Peer = Transaction(
             id = oldA1?.transferPeer?.id ?: 0L,
             accountId = sourceAssetAccountId,
-            amount = Money.convertBigDecimal(quantity.amountMajor.negate(), intent.targetAsset.fractionDigits),
+            amount = Money.convertBigDecimal(
+                quantity.amountMajor.negate(),
+                intent.targetAsset.fractionDigits
+            ),
             transferAccountId = sourcePortfolio.id,
             categoryId = transferCategory,
             date = dateEpoch,
@@ -1044,17 +1088,22 @@ open class MyExpensesV2ViewModel(
 
         // Leg A2: External Link (Source Hub -> Target Hub)
         val oldA2 = oldParts1.find { it.data.transferAccountId == targetPortfolio.id }
-        sourceParts.add(Transaction(
-            id = oldA2?.id ?: 0L,
-            accountId = sourcePortfolio.id,
-            amount = Money.convertBigDecimal(valuation.amountMajor.negate(), sourceCurrency.fractionDigits),
-            transferAccountId = targetPortfolio.id,
-            uuid = hubToHubUuid,
-            categoryId = transferCategory,
-            date = dateEpoch,
-            valueDate = dateEpoch,
-            transferPeerId = oldA2?.transferPeer?.id
-        ) to null)
+        sourceParts.add(
+            Transaction(
+                id = oldA2?.id ?: 0L,
+                accountId = sourcePortfolio.id,
+                amount = Money.convertBigDecimal(
+                    valuation.amountMajor.negate(),
+                    sourceCurrency.fractionDigits
+                ),
+                transferAccountId = targetPortfolio.id,
+                uuid = hubToHubUuid,
+                categoryId = transferCategory,
+                date = dateEpoch,
+                valueDate = dateEpoch,
+                transferPeerId = oldA2?.transferPeer?.id
+            ) to null
+        )
 
         val parentA = Transaction(
             id = oldRepoTrans1?.id ?: 0L,
@@ -1074,24 +1123,32 @@ open class MyExpensesV2ViewModel(
 
         // Leg B1: External Link (Source Hub -> Target Hub)
         val oldB1 = oldParts2.find { it.data.transferAccountId == sourcePortfolio.id }
-        targetParts.add(Transaction(
-            id = oldB1?.id ?: 0L,
-            accountId = targetPortfolio.id,
-            amount = Money.convertBigDecimal(valuation.amountMajor, targetCurrency.fractionDigits),
-            transferAccountId = sourcePortfolio.id,
-            uuid = hubToHubUuid,
-            categoryId = transferCategory,
-            date = dateEpoch,
-            valueDate = dateEpoch,
-            transferPeerId = oldB1?.transferPeer?.id
-        ) to null)
+        targetParts.add(
+            Transaction(
+                id = oldB1?.id ?: 0L,
+                accountId = targetPortfolio.id,
+                amount = Money.convertBigDecimal(
+                    valuation.amountMajor,
+                    targetCurrency.fractionDigits
+                ),
+                transferAccountId = sourcePortfolio.id,
+                uuid = hubToHubUuid,
+                categoryId = transferCategory,
+                date = dateEpoch,
+                valueDate = dateEpoch,
+                transferPeerId = oldB1?.transferPeer?.id
+            ) to null
+        )
 
         // Leg B2: Internal Spoke (Hub -> Asset)
         val oldB2 = oldParts2.find { it.data.transferAccountId == targetAssetAccountId }
         val legB2Source = Transaction(
             id = oldB2?.id ?: 0L,
             accountId = targetPortfolio.id,
-            amount = Money.convertBigDecimal(valuation.amountMajor.negate(), targetCurrency.fractionDigits),
+            amount = Money.convertBigDecimal(
+                valuation.amountMajor.negate(),
+                targetCurrency.fractionDigits
+            ),
             transferAccountId = targetAssetAccountId,
             uuid = oldB2?.data?.uuid ?: generateUuid(),
             categoryId = transferCategory,
@@ -1102,7 +1159,10 @@ open class MyExpensesV2ViewModel(
         val legB2Peer = Transaction(
             id = oldB2?.transferPeer?.id ?: 0L,
             accountId = targetAssetAccountId,
-            amount = Money.convertBigDecimal(quantity.amountMajor, intent.targetAsset.fractionDigits),
+            amount = Money.convertBigDecimal(
+                quantity.amountMajor,
+                intent.targetAsset.fractionDigits
+            ),
             transferAccountId = targetPortfolio.id,
             categoryId = transferCategory,
             date = dateEpoch,
@@ -1127,8 +1187,12 @@ open class MyExpensesV2ViewModel(
 
         if (intent.tradeId != null) {
             repository.updateDualSplitTransaction(
-                RepositoryTransaction(parentA, splitParts = sourceParts.map { RepositoryTransaction(it.first, it.second) }),
-                RepositoryTransaction(parentB, splitParts = targetParts.map { RepositoryTransaction(it.first, it.second) })
+                RepositoryTransaction(
+                    parentA,
+                    splitParts = sourceParts.map { RepositoryTransaction(it.first, it.second) }),
+                RepositoryTransaction(
+                    parentB,
+                    splitParts = targetParts.map { RepositoryTransaction(it.first, it.second) })
             )
         } else {
             repository.createDualSplitTransaction(parentA, sourceParts, parentB, targetParts)

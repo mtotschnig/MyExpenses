@@ -30,12 +30,14 @@ import org.totschnig.myexpenses.activity.PickTagContract
 import org.totschnig.myexpenses.dialog.AmountFilterDialog
 import org.totschnig.myexpenses.dialog.DateFilterDialog
 import org.totschnig.myexpenses.dialog.KEY_RESULT_FILTER
+import org.totschnig.myexpenses.dialog.select.SelectAssetDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectMethodDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectMultipleAccountDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectTransferAccountDialogFragment
 import org.totschnig.myexpenses.provider.filter.AccountCriterion
 import org.totschnig.myexpenses.provider.filter.AmountCriterion
+import org.totschnig.myexpenses.provider.filter.AssetCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CommentCriterion
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
@@ -52,6 +54,7 @@ import kotlin.reflect.KClass
 
 interface FilterHandlerScope {
     fun handleAmountEdit(amountCriterion: AmountCriterion?)
+    fun handleAssetEdit(assetCriterion: AssetCriterion?)
     fun handleCrStatusEdit(crStCriterion: CrStatusCriterion?)
     fun handleDateEdit(dateCriterion: DateCriterion?)
     fun handleAccountEdit(accountCriterion: AccountCriterion?)
@@ -67,6 +70,7 @@ interface FilterHandlerScope {
             is NotCriterion -> handleEdit(criterion.criterion)
             is AccountCriterion -> handleAccountEdit(criterion)
             is AmountCriterion -> handleAmountEdit(criterion)
+            is AssetCriterion -> handleAssetEdit(criterion)
             is CategoryCriterion -> handleCategoryEdit(criterion)
             is CommentCriterion -> handleCommentEdit(criterion)
             is CrStatusCriterion -> handleCrStatusEdit(criterion)
@@ -83,6 +87,7 @@ interface FilterHandlerScope {
         when(clazz) {
             AccountCriterion::class -> handleAccountEdit(null)
             AmountCriterion::class -> handleAmountEdit(null)
+            AssetCriterion::class -> handleAssetEdit(null)
             CategoryCriterion::class -> handleCategoryEdit(null)
             CommentCriterion::class -> handleCommentEdit(null)
             CrStatusCriterion::class -> handleCrStatusEdit(null)
@@ -149,6 +154,14 @@ fun FilterHandler(
             AmountFilterDialog.newInstance(requestKey,
                 account.currencyUnit, amountCriterion
             ).show(activity.supportFragmentManager, "AMOUNT_FILTER")
+        }
+
+        override fun handleAssetEdit(assetCriterion: AssetCriterion?) {
+            SelectAssetDialogFragment.newInstance(
+                requestKey,
+                account.id,
+                assetCriterion
+            ).show(activity.supportFragmentManager, "ASSET_FILTER")
         }
 
         override fun handleCommentEdit(commentCriterion: CommentCriterion?) {

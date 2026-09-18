@@ -22,6 +22,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -42,6 +43,10 @@ import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.accounts.AccountEvent
 import org.totschnig.myexpenses.compose.accounts.AccountEventHandler
 import org.totschnig.myexpenses.compose.accounts.PortfolioSetupDialog
+import org.totschnig.myexpenses.compose.filter.FilterCard
+import org.totschnig.myexpenses.compose.filter.FilterDialog
+import org.totschnig.myexpenses.compose.filter.FilterHandler
+import org.totschnig.myexpenses.compose.filter.TYPE_COMPLEX
 import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.main.AppEventHandler
 import org.totschnig.myexpenses.compose.main.MainScreenAdaptive
@@ -69,6 +74,7 @@ import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
 import org.totschnig.myexpenses.viewmodel.data.BaseAccount
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
+import timber.log.Timber
 import java.math.RoundingMode
 import java.util.Optional
 import javax.inject.Inject
@@ -461,7 +467,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                             isNavigationVisible = isNavigationVisible
                         ) { pageAccount, isCurrent ->
                             if (pageAccount.isPortfolio) {
-                                PortfolioPage(pageAccount)
+                                PortfolioPage(pageAccount, isCurrent)
                             } else {
                                 Page(
                                     pageAccount,
@@ -579,11 +585,71 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
     }
 
     @Composable
-    fun PortfolioPage(account: PageAccount) {
+    fun PortfolioPage(account: PageAccount, isCurrentPage: Boolean) {
+
+        val coroutineScope = rememberCoroutineScope()
+        val preferredSearchType =
+            viewModel.preferredSearchType.flow.collectAsState(TYPE_COMPLEX).value
+        if (showFilterDialog && isCurrentPage) {
+            Timber.d("showFilterDialog for page ${account.label}")
+            FilterDialog(
+                account = account,
+                sumInfo = sumInfo.value,
+                //we are only interested in the current value, since as soon as we persist new value,
+                //the dialog is dismissed
+                //noinspection StateFlowValueCalledInComposition
+                criterion = currentFilter.whereFilter.value,
+                initialPreferredSearchType = preferredSearchType,
+                onDismissRequest = {
+                    showFilterDialog = false
+                }, onConfirmRequest = { preferredSearchType, criterion ->
+                    coroutineScope.launch {
+                        viewModel.preferredSearchType.set(preferredSearchType)
+                        currentFilter.persist(criterion)
+                        showFilterDialog = false
+                        invalidateOptionsMenu()
+                    }
+                }
+            )
+        }
         val renderType by viewModel.renderer.collectAsState(initial = RenderType.New)
         val lazyPagingItems = viewModel.getTrades(account).collectAsLazyPagingItems()
+        val isProcessingFilter = remember { mutableStateOf(false) }
 
         Column(modifier = Modifier.fillMaxSize()) {
+            val persistence =
+                remember(account.id) { viewModel.filterPersistence.getValue(account.id) }
+            val filter = persistence.whereFilter.collectAsState(null)
+            filter.value?.let { filter ->
+                FilterHandler(account, "confirmFilterDirect_${account.id}", { oldValue, newValue ->
+                    if (newValue != null && oldValue != null) {
+                        lifecycleScope.launch {
+                            persistence.replaceCriterion(oldValue, newValue)
+                        }
+                    }
+                }) {
+                    FilterCard(
+                        filter,
+                        editFilter = { handleEdit(it) },
+                        clearAllFilter = { confirmClearFilter() },
+                        clearFilter = {
+                            if (isProcessingFilter.value) {
+                                Timber.d("double click: ignoring filter clear request")
+                            } else {
+                                isProcessingFilter.value = true
+                                lifecycleScope.launch {
+                                    try {
+                                        persistence.removeCriterion(it)
+                                        invalidateOptionsMenu()
+                                    } finally {
+                                        isProcessingFilter.value = false
+                                    }
+                                }
+                            }
+                        }
+                    )
+                }
+            }
             TradeList(
                 trades = lazyPagingItems,
                 modifier = Modifier.weight(1f),

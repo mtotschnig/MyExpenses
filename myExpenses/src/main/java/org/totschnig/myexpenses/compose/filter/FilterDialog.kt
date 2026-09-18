@@ -89,6 +89,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.provider.filter.AccountCriterion
 import org.totschnig.myexpenses.provider.filter.AmountCriterion
 import org.totschnig.myexpenses.provider.filter.AndCriterion
+import org.totschnig.myexpenses.provider.filter.AssetCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CommentCriterion
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
@@ -288,7 +289,10 @@ fun FilterDialog(
                         }
                     }
 
-                    val filters: List<DisplayInfo> = listOfNotNull(
+                    val filters: List<DisplayInfo> = if (account.isPortfolio) listOf(
+                        AssetCriterion, AmountCriterion, CommentCriterion, DateCriterion
+                    )
+                    else listOfNotNull(
                         if (sumInfo.mappedCategories) CategoryCriterion else null,
                         AmountCriterion,
                         CommentCriterion,
