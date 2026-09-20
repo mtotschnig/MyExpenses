@@ -180,6 +180,12 @@ class VersionInfo(val code: Int, val name: String, val tickets: String? = null) 
                 "${t(R.string.pref_translation_title)} : ${Locale("id").displayLanguage}"
             )
 
+            "412" -> arrayOf(
+                // @formatter:off
+                "${t(R.string.contrib_feature_portfolio_tracking)} : ${t(R.string.menu_search)} (${t(R.string.trade_target_asset)}, ${t(R.string.amount)}, ${t(R.string.comment)}, ${t(R.string.date)})"
+                // @formatter:on
+            )
+
             else -> {
                 //noinspection DiscouragedApi
                 val resId = res.getIdentifier(
@@ -211,7 +217,7 @@ class VersionInfo(val code: Int, val name: String, val tickets: String? = null) 
     }
 
     @SuppressLint("DiscouragedApi")
-    private fun resolveMoreInfo(ctx: Context, resPrefix: String, ): Int? {
+    private fun resolveMoreInfo(ctx: Context, resPrefix: String): Int? {
         return ctx.resources.getIdentifier(
             resPrefix + nameCondensed,
             "string",
@@ -227,10 +233,10 @@ class VersionInfo(val code: Int, val name: String, val tickets: String? = null) 
 
     fun githubUrl(context: Context) = if (tickets != null) null else githubLink(context)?.let {
         (if (code < 740) "https://github.com/mtotschnig/MyExpenses/projects/" else "https://github.com/users/mtotschnig/projects/") + it
-        }
+    }
 
     fun mastodonUrl(context: Context) = mastodonLink(context)?.let {
-            "https://mastodon.social/@myexpenses/$it"
-        }
+        "https://mastodon.social/@myexpenses/$it"
+    }
 
 }

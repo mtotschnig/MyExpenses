@@ -75,7 +75,7 @@
     <string name="menu_import_trades">TODO</string>
     <string name="help_MyExpensesV2_accounts_title">@string/accounts</string>
     <string name="help_MyExpensesV2_transactions_title">@string/import_select_transactions</string>
-    <string name="help_MyExpensesV2_portfolio_title">Portfolio</string>
+    <string name="help_MyExpensesV2_portfolio_title">@string/contrib_feature_portfolio_tracking</string>
     <string name="help_MyExpensesV2_balanceSheet_title">@string/balance_sheet</string>
     <string name="menu_expense">@string/expense</string>
     <string name="menu_income">@string/income</string>
