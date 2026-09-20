@@ -275,6 +275,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                                     fundingAccounts = accounts
                                         .filter {
                                             !it.isPortfolio &&
+                                                    !it.sealed &&
                                                     it.currencyUnit.code == fullAccount.currencyUnit.code
                                         }
                                         .map {
@@ -654,16 +655,23 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                 trades = lazyPagingItems,
                 modifier = Modifier.weight(1f),
                 renderType = renderType,
-                onEvent = { event, trade ->
-                    when (event) {
-                        TradeEvent.Edit -> {
-                            viewModel.editTrade(trade)
-                        }
+                onEvent = if (account.sealed) null else {
 
-                        TradeEvent.Delete -> {
-                            lifecycleScope.launch {
-                                // Trades are usually unreconciled upon creation
-                                delete(listOf(trade.id to CrStatus.UNRECONCILED))
+                    { event, trade ->
+                        when (event) {
+                            TradeEvent.Edit -> {
+                                lifecycleScope.launch {
+                                    if (checkSealed(listOf(trade.id))) {
+                                        viewModel.editTrade(trade)
+                                    }
+                                }
+                            }
+
+                            TradeEvent.Delete -> {
+                                lifecycleScope.launch {
+                                    // Trades are usually unreconciled upon creation
+                                    delete(listOf(trade.id to CrStatus.UNRECONCILED))
+                                }
                             }
                         }
                     }

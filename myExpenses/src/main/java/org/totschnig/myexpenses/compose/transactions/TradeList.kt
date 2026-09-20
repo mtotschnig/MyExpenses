@@ -79,7 +79,7 @@ fun TradeList(
     trades: LazyPagingItems<Trade>,
     modifier: Modifier = Modifier,
     renderType: RenderType = RenderType.New,
-    onEvent: (TradeEvent, Trade) -> Unit,
+    onEvent: ((TradeEvent, Trade) -> Unit)?,
 ) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
@@ -87,9 +87,13 @@ fun TradeList(
     ) {
         items(trades.itemCount) { index ->
             trades[index]?.let { trade ->
-                TradeRow(trade = trade, renderType = renderType) {
-                    onEvent(it, trade)
-                }
+                TradeRow(
+                    trade = trade,
+                    renderType = renderType,
+                    onEvent = onEvent?.let { onEvent ->
+                        { event -> onEvent(event, trade) }
+                    }
+                )
                 HorizontalDivider()
             }
         }
@@ -100,14 +104,16 @@ fun TradeList(
 fun TradeRow(
     trade: Trade,
     renderType: RenderType = RenderType.New,
-    onEvent: (TradeEvent) -> Unit
+    onEvent: ((TradeEvent) -> Unit)?
 ) {
     val showMenu = rememberSaveable { mutableStateOf(false) }
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { showMenu.value = true }
+            .conditional(onEvent != null) {
+                clickable { showMenu.value = true }
+            }
             .conditional(renderType == RenderType.New) {
                 heightIn(min = 48.dp)
             }
@@ -235,7 +241,9 @@ fun TradeRow(
                 )
             }
         }
-        HierarchicalMenu(showMenu, tradeMenu(trade, onEvent))
+        onEvent?.let {
+            HierarchicalMenu(showMenu, tradeMenu(trade, it))
+        }
     }
 }
 
