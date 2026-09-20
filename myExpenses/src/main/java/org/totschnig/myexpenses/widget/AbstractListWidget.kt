@@ -6,14 +6,13 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
+import androidx.core.net.toUri
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.PrefKey
 import timber.log.Timber
-import androidx.core.net.toUri
 
 const val KEY_CLICK_ACTION = "clickAction"
 const val WIDGET_CONTEXT_CHANGED = "org.totschnig.myexpenses.CONTEXT_CHANGED"
@@ -33,11 +32,14 @@ fun updateWidgets(
     action: String,
     appWidgetIds: IntArray = AppWidgetManager.getInstance(context)
         .getAppWidgetIds(ComponentName(context, provider)),
-) =
-    context.sendBroadcast(Intent(context, provider).apply {
-        this.action = action
-        putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
-    })
+) {
+    if (appWidgetIds.isNotEmpty()) {
+        context.sendBroadcast(Intent(context, provider).apply {
+            this.action = action
+            putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
+        })
+    }
+}
 
 abstract class AbstractListWidget(
     private val clazz: Class<out RemoteViewsService>,
