@@ -245,8 +245,11 @@ fun Repository.loadTemplate(
         cursor.moveToFirst() -> Template.fromCursor(cursor).let { template ->
             val tags = if (withTags) loadTagsForTemplate(template.id) else null
             val plan = template.planId?.let {
-                //noinspection MissingPermission
-                loadPlan(it)
+                try {
+                    loadPlan(it)
+                } catch (_: SecurityException) {
+                    null
+                }
             }
             RepositoryTemplate(
                 data = template.copy(

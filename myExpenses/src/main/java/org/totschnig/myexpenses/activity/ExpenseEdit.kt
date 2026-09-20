@@ -20,6 +20,7 @@ import android.app.NotificationManager
 import android.content.ActivityNotFoundException
 import android.content.ContentUris
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.database.ContentObserver
 import android.net.Uri
 import android.os.Bundle
@@ -43,6 +44,7 @@ import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.PopupMenu.OnMenuItemClickListener
 import androidx.appcompat.widget.TooltipCompat
+import androidx.core.app.ActivityCompat
 import androidx.core.content.IntentCompat
 import androidx.core.os.BundleCompat
 import androidx.lifecycle.Lifecycle
@@ -383,7 +385,6 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
     }
 
-    @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHelpVariant(HELP_VARIANT_TRANSACTION, false)
@@ -431,7 +432,18 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             setHelpVariant(delegate.helpVariant)
             setTitle()
             if (isTemplate) {
-                refreshPlanData(false)
+                if (ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.WRITE_CALENDAR
+                    ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.READ_CALENDAR
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    refreshPlanData(false)
+                } else {
+                    CrashHandler.report(IllegalStateException("Calendar permissions not granted"))
+                }
             }
             floatingActionButton.show()
             updateOnBackPressedCallbackEnabled()
