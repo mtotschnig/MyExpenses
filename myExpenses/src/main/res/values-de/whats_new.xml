@@ -34,4 +34,11 @@
     <string name="whats_new_411_1">Mehrteilige Umbuchungen</string>
     <string name="whats_new_411_2">Vermögensübertragungen zwischen Portfolios</string>
     <string name="whats_new_411_3">History Screen für aggregierte Konten spiegelt nun die Wertänderung von Fremdwährungen wider</string>
+    <string name="sunset_v1_intro">Dies ist die letzte Version mit Version 1. Sie wird in Version 4.1.3 entfernt.</string>
+    <string name="sunset_v1_message_1_intro">Hilf uns, V2 zu verbessern:</string>
+    <string name="sunset_v1_message_2_intro">Funktionen, die es nur in V2 gibt:</string>
+    <string name="sunset_v1_message_2_body">Entdecken Sie neue Funktionen, die nur in Version 2 verfügbar sind, wie zum Beispiel Anlageportfolios.</string>
+    <string name="sunset_v1_message_3_intro">V1 weiter verwenden:</string>
+    <string name="sunset_v1_message_3_body">Um weiterhin Version 1 nutzen zu können, deaktivieren Sie bitte die automatischen Updates für {app_name} im {store}.</string>
+    <string name="switch_to_v2">Wechsel zu V2</string>
 </resources>

@@ -1071,4 +1071,5 @@
     <string name="asset_type_commodity_plural">Emtialar</string>
     <string name="important_upgrade_information_heading">Önemli bilgi</string>
     <string name="help_floating_action_button">Yüzen eylem düğmesi</string>
+    <string name="search_asset">Varlık ara</string>
 </resources>
