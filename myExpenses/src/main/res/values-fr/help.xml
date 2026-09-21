@@ -233,7 +233,6 @@
     <string name="help_MyExpensesV2_portfolio_info">Suivez vos investissements dans ce portefeuille. Vous pouvez importer des opérations et consulter la répartition de vos actifs. Le résumé du compte est lié à l\'écran des prix, où le prix actuel d\'un actif peut être défini.</string>
     <string name="menu_import_trades_help_text">Importer des opérations d\'investissement depuis un fichier CSV dans votre portefeuille.</string>
     <string name="menu_sync_help_text">Déclencher la synchronisation immédiate avec le service cloud configuré pour le compte actuel.</string>
-    <string name="fab_create_account_help_text">\@string/menu_create_account_help_text</string>
     <string name="fab_create_portfolio_help_text">Créer un portefeuille pour suivre vos investissements, actions ou autres actifs non monétaires. La version gratuite est limitée à un seul portefeuille.</string>
     <string name="fab_expense_help_text">Créer une nouvelle transaction de dépense.</string>
     <string name="fab_income_help_text">Créer une nouvelle transaction de revenu.</string>
