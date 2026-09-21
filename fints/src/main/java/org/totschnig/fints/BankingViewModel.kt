@@ -12,6 +12,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -116,6 +117,54 @@ fun AccountInformation.gv(default: GV) =
     enumValueOrDefault<GV>(geschaeftsVorfall, default)
 
 class BankingViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
+
+    init {
+        System.setProperty(
+            "javax.xml.parsers.DocumentBuilderFactory",
+            "org.apache.xerces.jaxp.DocumentBuilderFactoryImpl"
+        )
+
+        // Pre-load bank list on background thread
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                // 1. Init with dummy callback to trigger refreshBLZList
+                HBCIUtils.init(hbciProperties, object : AbstractHBCICallback() {
+                    override fun log(
+                        p0: String?,
+                        p1: Int,
+                        p2: Date?,
+                        p3: StackTraceElement?,
+                    ) {
+                        //noop
+                    }
+
+                    override fun callback(
+                        p0: HBCIPassport?,
+                        p1: Int,
+                        p2: String?,
+                        p3: Int,
+                        p4: StringBuffer?,
+                    ) {
+                        //noop
+                    }
+
+                    override fun status(
+                        p0: HBCIPassport?,
+                        p1: Int,
+                        p2: Array<out Any?>?,
+                    ) {
+                        //noop
+                    }
+                })
+
+                // 2. Clear thread group callback so doHBCI can re-init later
+                HBCIUtils.doneThread()
+            } catch (e: Exception) {
+                log(e)
+            }
+        }
+    }
+
     @Inject
     lateinit var tracker: Tracker
 
@@ -123,13 +172,6 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
     lateinit var configurator: Configurator
 
     var importedAccountsJob: Job? = null
-
-    init {
-        System.setProperty(
-            "javax.xml.parsers.DocumentBuilderFactory",
-            "org.apache.xerces.jaxp.DocumentBuilderFactoryImpl"
-        )
-    }
 
     private val hbciProperties = Properties().also {
         it["client.product.name"] = "02F84CA8EC793B72255C747B4"
@@ -423,7 +465,11 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     }
                     if (bankingCredentials.isNew) {
                         _workState.value =
-                            WorkState.AccountsLoaded(bank, supportedGvs, accounts.map { it to null })
+                            WorkState.AccountsLoaded(
+                                bank = bank,
+                                supportedGvs = supportedGvs,
+                                accounts = accounts.map { it to null }
+                            )
                     } else {
                         repository.importedAccounts(bankingCredentials.bank!!.id)
                             .collect { accountInfoList ->
@@ -947,6 +993,15 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
             SharingStarted.WhileSubscribedWithTimeout,
             emptyList()
         )
+    }
+
+    /**
+     * Searches banks using HBCIUtils built-in search
+     */
+    fun searchBanks(query: String): List<BankInfo> {
+        val q = query.trim()
+        if (q.length < 3) return emptyList()
+        return HBCIUtils.searchBankInfo(q)
     }
 
 }

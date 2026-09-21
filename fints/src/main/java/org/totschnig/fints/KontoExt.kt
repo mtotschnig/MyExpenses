@@ -33,7 +33,7 @@ val Konto.kontoType
     get() = KontoType.find(acctype?.trim()?.ifEmpty { null }?.toInt())
 
 val KontoType.isSupported: Boolean
-    get() = when(this) {
+    get() = when (this) {
         KontoType.WERTPAPIERDEPOT, KontoType.FONDSDEPOT -> false
         else -> true
     }

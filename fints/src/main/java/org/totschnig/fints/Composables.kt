@@ -26,6 +26,10 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
+import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -59,38 +63,90 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.createBitmap
+import androidx.core.graphics.set
 import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
+import org.kapott.hbci.manager.BankInfo
 import org.totschnig.myexpenses.compose.optional
 import org.totschnig.myexpenses.model2.Bank
 import org.totschnig.myexpenses.util.safeMessage
 import kotlin.random.Random
 import org.totschnig.myexpenses.R as RB
-import androidx.core.graphics.createBitmap
-import androidx.core.graphics.set
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ColumnScope.BankingCredentials(
     bankingCredentials: MutableState<BankingCredentials>,
     onDone: (BankingCredentials) -> Unit,
+    searchBanks: (String) -> List<BankInfo> = { emptyList() },
 ) {
     val credentials = bankingCredentials.value
     credentials.bank?.let { Text(it.bankName) } ?: run {
-        OutlinedTextField(
+        var expanded by remember { mutableStateOf(false) }
+        val searchResults = remember(credentials.bankLeitZahl) {
+            searchBanks(credentials.bankLeitZahl)
+        }
+
+        ExposedDropdownMenuBox(
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            enabled = credentials.isNew,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Next,
-            ),
-            value = credentials.bankLeitZahl,
-            onValueChange = {
-                bankingCredentials.value = credentials.copy(bankLeitZahl = it.trim())
-            },
-            label = { Text(text = stringResource(id = R.string.bankleitzahl)) },
-            singleLine = true
-        )
+            expanded = expanded && searchResults.isNotEmpty(),
+            onExpandedChange = { expanded = it }
+        ) {
+            OutlinedTextField(
+                modifier = Modifier.menuAnchor(ExposedDropdownMenuAnchorType.PrimaryEditable),
+                enabled = credentials.isNew,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next,
+                ),
+                value = credentials.bankLeitZahl,
+                onValueChange = {
+                    bankingCredentials.value = credentials.copy(bankLeitZahl = it.trim())
+                    expanded = true
+                },
+                label = { Text(text = stringResource(id = R.string.bankleitzahl)) },
+                singleLine = true
+            )
+            if (searchResults.isNotEmpty()) {
+                ExposedDropdownMenu(
+                    expanded = expanded && searchResults.isNotEmpty(),
+                    onDismissRequest = { expanded = false }
+                ) {
+                    searchResults.forEach { bankInfo ->
+                        DropdownMenuItem(
+                            text = {
+                                Column {
+                                    Text(
+                                        text = bankInfo.name ?: "",
+                                        style = MaterialTheme.typography.bodyLarge
+                                    )
+                                    val subText = buildString {
+                                        append("BLZ: ").append(bankInfo.blz)
+                                        bankInfo.bic?.takeIf { it.isNotEmpty() }?.let {
+                                            append(" | BIC: ").append(it)
+                                        }
+                                        bankInfo.location?.takeIf { it.isNotEmpty() }?.let {
+                                            append(" (").append(it).append(")")
+                                        }
+                                    }
+                                    Text(
+                                        text = subText,
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
+                            },
+                            onClick = {
+                                bankingCredentials.value = credentials.copy(bankLeitZahl = bankInfo.blz)
+                                expanded = false
+                            }
+                        )
+                    }
+                }
+            }
+        }
     }
     OutlinedTextField(
         modifier = Modifier.align(Alignment.CenterHorizontally)
