@@ -232,4 +232,16 @@
     <string name="help_MyExpensesV2_portfolio_info">Verfolgen Sie Ihre Investitionen in diesem Portfolio. Sie können Käufe/Verkäufe importieren und Ihre Vermögensverteilung einsehen. Die Konto-Zusammenfassung ist mit der Preisliste verknüpft, wo der aktuelle Preis eines Vermögenswerts festgelegt werden kann.</string>
     <string name="menu_import_trades_help_text">Importiere Investmentgeschäfte aus einer CSV-Datei in dein Portfolio.</string>
     <string name="menu_sync_help_text">Starte sofort die Synchronisation mit dem Cloud-Dienst, der für das aktuelle Konto konfiguriert ist.</string>
+    <string name="fab_create_portfolio_help_text">Erstellen Sie ein Portfolio, um Investitionen, Aktien oder andere nicht-liquide Vermögenswerte zu verfolgen. Die kostenlose Version ist auf ein Portfolio beschränkt.</string>
+    <string name="fab_expense_help_text">Erstellen Sie eine neue Buchung für eine Ausgabe.</string>
+    <string name="fab_income_help_text">Erstellen Sie eine neue Buchung für eine Einnahme.</string>
+    <string name="fab_transfer_help_text">Erstellen Sie eine neue Umbuchung zwischen zwei Konten.</string>
+    <string name="fab_split_help_text">Erstellen Sie eine aufgeteilte Transaktion, um Teile einer einzelnen Ausgabe oder Einnahme separat zu kategorisieren.</string>
+    <string name="fab_scan_help_text">Scannen Sie einen Kassenbon, um die Daten automatisch mit OCR zu extrahieren.</string>
+    <string name="fab_trade_buy_help_text">Erfassen Sie den Kauf eines Vermögenswerts in Ihrem Depot.</string>
+    <string name="fab_trade_sell_help_text">Erfassen Sie den Verkauf eines Vermögenswerts in Ihrem Depot.</string>
+    <string name="fab_trade_deposit_help_text">Fügen Sie dem Depot Geld hinzu.</string>
+    <string name="fab_trade_withdraw_help_text">Entziehen Sie Bargeld aus dem Depot.</string>
+    <string name="fab_trade_transfer_help_text">Transferiere Vermögenswerte zwischen Depots.</string>
+    <string name="menu_balance_sheet_help_text_date">Klicken Sie auf das Datum, um ein anderes Datum auszuwählen.</string>
 </resources>
