@@ -109,6 +109,7 @@
     <string name="version_more_info_409">116633341553126335</string>
     <string name="version_more_info_410">116937723305133542</string>
     <string name="version_more_info_411">117118348237320813</string>
+    <string name="version_more_info_412">117310535080938737</string>
 
     <!-- Github -->
     <!-- Legacy -->
@@ -165,8 +166,7 @@
     <string name="project_board_409">187</string>
     <string name="project_board_410">189</string>
     <string name="project_board_411">192</string>
-    <string name="project_board_4111">194</string>
-    <string name="project_board_4112">195</string>
+    <string name="project_board_412">196</string>
 
     <string-array name="whats_new_361">
         <item>@string/whats_new_361_1</item>
