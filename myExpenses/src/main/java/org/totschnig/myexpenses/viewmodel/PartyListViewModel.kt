@@ -113,9 +113,9 @@ class PartyListViewModel(
             .distinctUntilChanged()
             .flatMapLatest { filter ->
                 val (selection, selectionArgs) = joinQueryAndAccountFilter(
-                    filter,
+                    filter to KEY_PAYEE_NAME_NORMALIZED,
                     savedStateHandle,
-                    KEY_PAYEE_NAME_NORMALIZED, KEY_PAYEEID, TABLE_PAYEES
+                    KEY_PAYEEID, TABLE_PAYEES
                 )
                 contentResolver.observeQuery(
                     PAYEES_URI.buildUpon().also {

@@ -47,7 +47,6 @@ import org.totschnig.myexpenses.provider.KEY_COLOR
 import org.totschnig.myexpenses.provider.KEY_HAS_DESCENDANTS
 import org.totschnig.myexpenses.provider.KEY_ICON
 import org.totschnig.myexpenses.provider.KEY_LABEL
-import org.totschnig.myexpenses.provider.KEY_LABEL_NORMALIZED
 import org.totschnig.myexpenses.provider.KEY_MAPPED_BUDGETS
 import org.totschnig.myexpenses.provider.KEY_MAPPED_TEMPLATES
 import org.totschnig.myexpenses.provider.KEY_MAPPED_TRANSACTIONS
@@ -73,6 +72,7 @@ import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.sync.GenericAccountService
+import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.failure
@@ -154,15 +154,18 @@ class ManageCategoriesViewModel(application: Application, savedStateHandle: Save
         val (selection, selectionArgs) = joinQueryAndAccountFilter(
             null,
             savedStateHandle,
-            KEY_LABEL_NORMALIZED, KEY_CATID, "_Tree_"
+            KEY_CATID, "_Tree_"
         )
+        val normalizedFilter = Utils.normalize(filter)
         categoryTree(
             selection = selection,
             selectionArgs = selectionArgs?.let { it + it } ?: emptyArray(),
             sortOrder = sortOrder.toOrderByWithDefault(defaultSort, collate),
             queryParameter = type?.let { mapOf(KEY_TYPE to type.toString()) } ?: emptyMap(),
             projection = null,
-            keepCriterion = { it.label.contains(filter, ignoreCase = true) },
+            keepCriterion = if (normalizedFilter.isNullOrEmpty()) null else {
+                { Utils.normalize(it.label)?.contains(normalizedFilter) == true }
+            },
             withColors = false
         )
     }

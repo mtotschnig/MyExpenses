@@ -6,7 +6,6 @@ import android.content.ContentProviderOperation
 import android.content.ContentResolver
 import android.database.sqlite.SQLiteConstraintException
 import android.os.Bundle
-import android.text.TextUtils
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.lifecycle.LiveData
@@ -416,16 +415,16 @@ open class ContentResolvingAndroidViewModel(application: Application) :
     )
 
     fun joinQueryAndAccountFilter(
-        filter: String?,
+        filter: Pair<String?, String>?,
         savedStateHandle: SavedStateHandle,
-        filterColumn: String,
         linkColumn: String,
         tableName: String,
     ): Pair<String?, Array<String>?> {
+        val (filterText, filterColumn) = filter ?: (null to null)
         val filterSelection =
-            if (TextUtils.isEmpty(filter)) null else "$filterColumn LIKE ?"
-        val filterSelectionArgs: Array<String>? = if (TextUtils.isEmpty(filter)) null else
-            arrayOf("%${Utils.escapeSqlLikeExpression(Utils.normalize(filter))}%")
+            if (filterText.isNullOrEmpty()) null else "$filterColumn LIKE ?"
+        val filterSelectionArgs: Array<String>? = if (filterText.isNullOrEmpty()) null else
+            arrayOf("%${Utils.escapeSqlLikeExpression(Utils.normalize(filterText))}%")
         val accountId: Long? = savedStateHandle[KEY_ACCOUNTID]
         val isV2 = savedStateHandle.contains(KEY_ACCOUNT_GROUPING)
         val (accountSelection, accountSelectionArgs) = if (accountId == null) {
