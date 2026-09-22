@@ -326,7 +326,6 @@ sealed class MenuItem(
 
             MenuContext.V2Transactions -> listOf(
                 Search,
-                ImportTrades,
                 Distribution,
                 History,
                 Sync,
@@ -337,6 +336,7 @@ sealed class MenuItem(
                 Tune,
                 Archive,
                 ShowStatusHandle,
+                ImportTrades,
             )
         }
 

@@ -88,4 +88,5 @@
     <string name="menu_trade_withdraw">@string/trade_withdraw</string>
     <string name="menu_trade_transfer">@string/trade_transfer</string>
     <string name="cab_close_reopen_help_text">@string/cab_NavigationDrawer_close_reopen_help_text</string>
+    <string name="fab_create_account_help_text">@string/menu_create_account_help_text</string>
 </resources>

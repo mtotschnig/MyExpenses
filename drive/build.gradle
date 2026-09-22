@@ -16,6 +16,13 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
+
+    packagingOptions {
+        resources {
+            excludes += ["/META-INF/INDEX.LIST"]
+        }
+    }
+
     namespace 'org.totschnig.drive'
 }
 

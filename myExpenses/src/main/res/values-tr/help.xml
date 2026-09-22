@@ -232,7 +232,6 @@
     <string name="help_MyExpensesV2_portfolio_info">Bu portföydeki yatırımlarınızı takip edin. İşlemlerinizi içe aktarabilir ve varlık dağılımınızı görüntüleyebilirsiniz. Hesap özeti, bir varlığın geçerli fiyatının ayarlanabileceği fiyat ekranına bağlantı sağlar.</string>
     <string name="menu_import_trades_help_text">CSV dosyasından yatırım işlemlerini portföyünüze aktarın.</string>
     <string name="menu_sync_help_text">Geçerli hesap için yapılandırılan bulut hizmetiyle anında eşzamanlamayı başlatın.</string>
-    <string name="fab_create_account_help_text">\@string/menu_create_account_help_text</string>
     <string name="fab_create_portfolio_help_text">Yatırımlarınızı, hisse senetlerinizi veya diğer nakit dışı varlıklarınızı takip etmek için bir portföy oluşturun. Ücretsiz sürümde yalnızca bir portföy oluşturabilirsiniz.</string>
     <string name="fab_expense_help_text">Yeni bir gider işlemi oluşturun.</string>
     <string name="fab_income_help_text">Yeni bir gelir işlemi oluşturun.</string>

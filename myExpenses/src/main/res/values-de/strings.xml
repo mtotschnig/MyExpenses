@@ -1070,4 +1070,6 @@
     <string name="service_starting">Wird gestartet…</string>
     <string name="trade_transfer">Übertrag</string>
     <string name="important_upgrade_information_heading">Wichtige Information</string>
+    <string name="search_asset">Suche nach Vermögenswert</string>
+    <string name="help_floating_action_button">Schwebende Aktionsschaltfläche</string>
 </resources>
