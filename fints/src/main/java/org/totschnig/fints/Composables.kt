@@ -30,6 +30,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -103,15 +104,25 @@ fun ColumnScope.BankingCredentials(
                 ),
                 value = credentials.bankLeitZahl,
                 onValueChange = {
-                    bankingCredentials.value = credentials.copy(bankLeitZahl = it.trim())
+                    bankingCredentials.value = credentials.copy(bankLeitZahl = it)
                     expanded = true
                 },
-                label = { Text(text = stringResource(id = R.string.bankleitzahl)) },
+                label = { Text(text = stringResource(R.string.bankleitzahl_or_name)) },
+                supportingText = {
+                    if (credentials.bankLeitZahl.isNotEmpty() && credentials.bankLeitZahl.length < 3) {
+                        Text(text = stringResource(R.string.bank_search_min_chars))
+                    } else {
+                        Text(text = stringResource(R.string.bank_search_hint))
+                    }
+                },
+                trailingIcon = {
+                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                },
                 singleLine = true
             )
             if (searchResults.isNotEmpty()) {
                 ExposedDropdownMenu(
-                    expanded = expanded && searchResults.isNotEmpty(),
+                    expanded = expanded,
                     onDismissRequest = { expanded = false }
                 ) {
                     searchResults.forEach { bankInfo ->
