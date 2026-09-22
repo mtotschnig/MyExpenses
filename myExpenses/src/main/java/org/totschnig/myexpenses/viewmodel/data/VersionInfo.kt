@@ -182,7 +182,8 @@ class VersionInfo(val code: Int, val name: String, val tickets: String? = null) 
 
             "412" -> arrayOf(
                 // @formatter:off
-                "${t(R.string.contrib_feature_portfolio_tracking)} : ${t(R.string.menu_search)} (${t(R.string.trade_target_asset)}, ${t(R.string.amount)}, ${t(R.string.comment)}, ${t(R.string.date)})"
+                "${t(R.string.contrib_feature_portfolio_tracking)} : ${t(R.string.menu_search)} (${t(R.string.trade_target_asset)}, ${t(R.string.amount)}, ${t(R.string.comment)}, ${t(R.string.date)})",
+                t(R.string.whats_new_412)
                 // @formatter:on
             )
 
