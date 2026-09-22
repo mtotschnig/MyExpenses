@@ -56,4 +56,8 @@
     <string name="change_protocol">Select protocol</string>
     <string name="account_is_already_imported">Account is already imported.</string>
     <string name="account_type_not_supported">Account type %s is not supported.</string>
+    <string name="bankleitzahl_or_name">Bank number or name</string>
+    <string name="bank_search_hint">Search by bank name, BLZ, or BIC</string>
+    <string name="bank_search_min_chars">Type at least 3 characters to search</string>
+
 </resources>

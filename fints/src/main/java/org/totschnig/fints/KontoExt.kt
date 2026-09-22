@@ -37,3 +37,10 @@ val KontoType.isSupported: Boolean
         KontoType.WERTPAPIERDEPOT, KontoType.FONDSDEPOT -> false
         else -> true
     }
+
+//https://github.com/willuhn/hibiscus/pull/158/changes
+private val CREDIT_CARD_NUMBER_REGEX = Regex("[0-9]{12,19}")
+
+val Konto.isCreditCardAccount: Boolean
+    get() = kontoType == KontoType.KREDITKARTE ||
+            number?.replace(" ", "")?.replace("-", "")?.matches(CREDIT_CARD_NUMBER_REGEX) == true

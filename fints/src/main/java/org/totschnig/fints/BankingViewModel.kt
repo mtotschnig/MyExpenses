@@ -123,46 +123,6 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
             "javax.xml.parsers.DocumentBuilderFactory",
             "org.apache.xerces.jaxp.DocumentBuilderFactoryImpl"
         )
-
-        // Pre-load bank list on background thread
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                // 1. Init with dummy callback to trigger refreshBLZList
-                HBCIUtils.init(hbciProperties, object : AbstractHBCICallback() {
-                    override fun log(
-                        p0: String?,
-                        p1: Int,
-                        p2: Date?,
-                        p3: StackTraceElement?,
-                    ) {
-                        //noop
-                    }
-
-                    override fun callback(
-                        p0: HBCIPassport?,
-                        p1: Int,
-                        p2: String?,
-                        p3: Int,
-                        p4: StringBuffer?,
-                    ) {
-                        //noop
-                    }
-
-                    override fun status(
-                        p0: HBCIPassport?,
-                        p1: Int,
-                        p2: Array<out Any?>?,
-                    ) {
-                        //noop
-                    }
-                })
-
-                // 2. Clear thread group callback so doHBCI can re-init later
-                HBCIUtils.doneThread()
-            } catch (e: Exception) {
-                log(e)
-            }
-        }
     }
 
     @Inject
@@ -461,7 +421,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     _workState.value = WorkState.Abort
                 } else {
                     accounts.forEach {
-                        log("Konto: %s", it.toString())
+                        log("Konto: %s", it.name)
                     }
                     if (bankingCredentials.isNew) {
                         _workState.value =
@@ -550,6 +510,13 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                                 setParam("my", konto)
                                 log("Setting my param to $konto")
                                 setStartParam(accountInformation.lastSynced!!)
+                                if (gv == GV.DKKKU) {
+                                    if (!setCreditCardParameters(konto)) {
+                                        error("Das Kreditkartenkonto besitzt keine Kartennummer")
+                                        _workState.value = WorkState.Abort
+                                        return@doHBCI
+                                    }
+                                }
                                 addToQueue()
                             }
                     }
@@ -643,6 +610,23 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         )
     }
 
+    private fun HBCIJob<*>.setCreditCardParameters(konto: Konto): Boolean {
+        val cardNumber = konto.number
+        if (cardNumber == null || cardNumber.isBlank()) return false
+
+        setParam("cardnumber", cardNumber)
+
+        val cardSubNumber = konto.subnumber
+        if (cardSubNumber != null && !cardSubNumber.isBlank()) {
+            setParam("cardsubnumber", cardSubNumber)
+        }
+        setParam(
+            "enddate",
+            Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant())
+        )
+        return true
+    }
+
     private fun HBCIPassport.supportedGvs() =
         GV.entries.filter { bpd.supports(it) }
 
@@ -673,7 +657,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                         _workState.value = WorkState.Loading(
                             getString(
                                 RF.string.progress_importing_account,
-                                konto.iban
+                                konto.iban ?: konto.number
                             )
                         )
                         val umsatzJob = handle.newJob(targetAccountConfig.gv.jobName)
@@ -684,7 +668,14 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                         }
                         log("Setting my param to $kontoParam")
                         umsatzJob.setParam("my", kontoParam)
-                        startDate?.let { umsatzJob.setStartParam(startDate) }
+
+                        startDate ?.let { umsatzJob.setStartParam(startDate) }
+                        if (targetAccountConfig.gv == GV.DKKKU) {
+                            if (!umsatzJob.setCreditCardParameters(konto)) {
+                                error("Das Kreditkartenkonto besitzt keine Kartennummer")
+                                return@doHBCI
+                            }
+                        }
 
                         try {
                             umsatzJob.addToQueue()
@@ -717,7 +708,10 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                             ?.let { config -> config.targetAccountId to this@BankingViewModel.accounts.value.first { it.id == config.targetAccountId }.type!! }
                             ?: run {
                                 val accountType =
-                                    repository.findAccountType(AccountType.BANK.name)!!
+                                    repository.findAccountType(
+                                        (if (targetAccountConfig.gv == GV.DKKKU) AccountType.CCARD
+                                        else AccountType.BANK).name
+                                    )!!
                                 repository.createAccount(
                                     konto.toAccount(
                                         bank,

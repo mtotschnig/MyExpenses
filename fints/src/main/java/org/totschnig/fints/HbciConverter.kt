@@ -101,7 +101,9 @@ class HbciConverter(val repository: Repository) {
             extractAttribute(transfer, this, Tag.KREF, FinTsAttribute.KREF)
             extractAttribute(transfer, this, Tag.CRED, FinTsAttribute.CRED)
             extractAttribute(transfer, this, Tag.DBET, FinTsAttribute.DBET)
-            put(FinTsAttribute.SALDO, saldo.value.bigDecimalValue.toString())
+            saldo?.let {
+                put(FinTsAttribute.SALDO, it.value.bigDecimalValue.toString())
+            }
             put(FinTsAttribute.CHECKSUM, this@toTransaction.checkSum().toString())
         }
     }
