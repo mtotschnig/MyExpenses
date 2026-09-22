@@ -12,7 +12,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CompletableDeferred
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -309,8 +308,8 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
     @WorkerThread
     private fun <T> doHBCI(
         bankingCredentials: BankingCredentials,
-        work: (BankInfo, HBCIPassport, HBCIHandler) -> T,
         forceNewFile: Boolean = false,
+        work: (BankInfo, HBCIPassport, HBCIHandler) -> T,
     ): Result<T> {
         val info = initHBCI(bankingCredentials) ?: run {
             HBCIUtils.doneThread()
@@ -387,22 +386,21 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         importedAccountsJob = viewModelScope.launch(context = coroutineContext()) {
             doHBCI(
                 bankingCredentials,
-                forceNewFile = bankingCredentials.isNew,
-                work = { info, passport, _ ->
+                forceNewFile = bankingCredentials.isNew
+            ) { info, passport, _ ->
 
-                    Triple(
-                        info,
-                        passport.accounts.apply {
-                            forEach {
-                                if (it.bic == null) {
-                                    it.bic = info.bic
-                                }
+                Triple(
+                    info,
+                    passport.accounts.apply {
+                        forEach {
+                            if (it.bic == null) {
+                                it.bic = info.bic
                             }
-                        },
-                        passport.supportedGvs()
-                    )
-                }
-            ).onSuccess { (info, accounts, supportedGvs) ->
+                        }
+                    },
+                    passport.supportedGvs()
+                )
+            }.onSuccess { (info, accounts, supportedGvs) ->
 
                 val bank = if (bankingCredentials.isNew) {
                     logEvent(Tracker.EVENT_FINTS_BANK_ADDED, bankingCredentials)
@@ -484,99 +482,98 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
             }
 
             doHBCI(
-                credentials,
-                work = { _, passport, handle ->
+                credentials
+            ) { _, passport, handle ->
 
-                    val jobs = accounts.associateWith { accountInformation ->
-                        val konto = Konto(
-                            "DE",
-                            accountInformation.blz ?: credentials.blz,
-                            accountInformation.number,
-                            accountInformation.subnumber
-                        ).also {
-                            it.name = accountInformation.name
-                            it.iban = accountInformation.iban
-                            it.bic = accountInformation.bic ?: credentials.bank?.bic
-                        }
-                        val supportedGvs = passport.supportedGvs()
-                        if (supportedGvs.isEmpty()) {
-                            error("Bank unterstützt weder HKCAZ noch HKKAZ")
-                            _workState.value = WorkState.Abort
-                            return@doHBCI
-                        }
-                        val gv = accountInformation.gv(supportedGvs.first())
-                        handle.newJob(gv.jobName)
-                            .apply {
-                                setParam("my", konto)
-                                log("Setting my param to $konto")
-                                setStartParam(accountInformation.lastSynced!!)
-                                if (gv == GV.DKKKU) {
-                                    if (!setCreditCardParameters(konto)) {
-                                        error("Das Kreditkartenkonto besitzt keine Kartennummer")
-                                        _workState.value = WorkState.Abort
-                                        return@doHBCI
-                                    }
-                                }
-                                addToQueue()
-                            }
+                val jobs = accounts.associateWith { accountInformation ->
+                    val konto = Konto(
+                        "DE",
+                        accountInformation.blz ?: credentials.blz,
+                        accountInformation.number,
+                        accountInformation.subnumber
+                    ).also {
+                        it.name = accountInformation.name
+                        it.iban = accountInformation.iban
+                        it.bic = accountInformation.bic ?: credentials.bank?.bic
                     }
-
-                    val status: HBCIExecStatus = handle.execute()
-
-                    if (!status.isOK) {
-                        error(status.toString())
+                    val supportedGvs = passport.supportedGvs()
+                    if (supportedGvs.isEmpty()) {
+                        error("Bank unterstützt weder HKCAZ noch HKKAZ")
                         _workState.value = WorkState.Abort
                         return@doHBCI
                     }
-
-                    var importCount = 0
-                    jobs.forEach { (accountInformation, umsatzJob) ->
-                        val result = umsatzJob.jobResult as GVRKUms
-                        if (!result.isOK) {
-                            error(result.toString())
-                            _workState.value = WorkState.Abort
-                            return@doHBCI
-                        }
-                        for (umsLine in result.flatData) {
-                            with(converter) {
-                                val (transaction, attributes: Map<out Attribute, String>) =
-                                    umsLine.toTransaction(
-                                        currencyContext,
-                                        accountInformation.accountId,
-                                        1
-                                    )
-                                if (!isDuplicate(
-                                        transaction,
-                                        attributes[FinTsAttribute.CHECKSUM]!!
-                                    )
-                                ) {
-                                    val id = repository.createTransaction(transaction).id
-                                    repository.saveTransactionAttributes(id, attributes)
-
-                                    importCount++
+                    val gv = accountInformation.gv(supportedGvs.first())
+                    handle.newJob(gv.jobName)
+                        .apply {
+                            setParam("my", konto)
+                            log("Setting my param to $konto")
+                            setStartParam(accountInformation.lastSynced!!)
+                            if (gv == GV.DKKKU) {
+                                if (!setCreditCardParameters(konto)) {
+                                    error("Das Kreditkartenkonto besitzt keine Kartennummer")
+                                    _workState.value = WorkState.Abort
+                                    return@doHBCI
                                 }
                             }
+                            addToQueue()
                         }
-                        setAccountLastSynced(accountInformation.accountId)
-
-                    }
-                    _workState.value =
-                        WorkState.Success(
-                            if (importCount > 0)
-                                getQuantityString(
-                                    R.plurals.transactions_imported,
-                                    importCount,
-                                    importCount
-                                )
-                            else
-                                getString(R.string.transactions_imported_none)
-                        )
-                    logEvent(Tracker.EVENT_FINTS_TRANSACTIONS_LOADED, credentials)
-                    if (credentials.bank?.asWellKnown == null) {
-                        CrashHandler.report(Exception("Unknown bank: ${credentials.blz}"))
-                    }
                 }
-            ).onFailure {
+
+                val status: HBCIExecStatus = handle.execute()
+
+                if (!status.isOK) {
+                    error(status.toString())
+                    _workState.value = WorkState.Abort
+                    return@doHBCI
+                }
+
+                var importCount = 0
+                jobs.forEach { (accountInformation, umsatzJob) ->
+                    val result = umsatzJob.jobResult as GVRKUms
+                    if (!result.isOK) {
+                        error(result.toString())
+                        _workState.value = WorkState.Abort
+                        return@doHBCI
+                    }
+                    for (umsLine in result.flatData) {
+                        with(converter) {
+                            val (transaction, attributes: Map<out Attribute, String>) =
+                                umsLine.toTransaction(
+                                    currencyContext,
+                                    accountInformation.accountId,
+                                    1
+                                )
+                            if (!isDuplicate(
+                                    transaction,
+                                    attributes[FinTsAttribute.CHECKSUM]!!
+                                )
+                            ) {
+                                val id = repository.createTransaction(transaction).id
+                                repository.saveTransactionAttributes(id, attributes)
+
+                                importCount++
+                            }
+                        }
+                    }
+                    setAccountLastSynced(accountInformation.accountId)
+
+                }
+                _workState.value =
+                    WorkState.Success(
+                        if (importCount > 0)
+                            getQuantityString(
+                                R.plurals.transactions_imported,
+                                importCount,
+                                importCount
+                            )
+                        else
+                            getString(R.string.transactions_imported_none)
+                    )
+                logEvent(Tracker.EVENT_FINTS_TRANSACTIONS_LOADED, credentials)
+                if (credentials.bank?.asWellKnown == null) {
+                    CrashHandler.report(Exception("Unknown bank: ${credentials.blz}"))
+                }
+            }.onFailure {
                 error(it, credentials)
                 _workState.value = WorkState.Abort
             }
@@ -651,95 +648,94 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         viewModelScope.launch(context = coroutineContext()) {
             accounts.forEach { (konto, targetAccountConfig) ->
                 doHBCI(
-                    bankingCredentials,
-                    work = { _, _, handle ->
+                    bankingCredentials
+                ) { _, _, handle ->
 
-                        _workState.value = WorkState.Loading(
-                            getString(
-                                RF.string.progress_importing_account,
-                                konto.iban ?: konto.number
-                            )
+                    _workState.value = WorkState.Loading(
+                        getString(
+                            RF.string.progress_importing_account,
+                            konto.iban ?: konto.number
                         )
-                        val umsatzJob = handle.newJob(targetAccountConfig.gv.jobName)
-                        val kontoParam = konto.also {
-                            if (it.bic == null) {
-                                it.bic = bankingCredentials.bank?.bic
-                            }
+                    )
+                    val umsatzJob = handle.newJob(targetAccountConfig.gv.jobName)
+                    val kontoParam = konto.also {
+                        if (it.bic == null) {
+                            it.bic = bankingCredentials.bank?.bic
                         }
-                        log("Setting my param to $kontoParam")
-                        umsatzJob.setParam("my", kontoParam)
-
-                        startDate ?.let { umsatzJob.setStartParam(startDate) }
-                        if (targetAccountConfig.gv == GV.DKKKU) {
-                            if (!umsatzJob.setCreditCardParameters(konto)) {
-                                error("Das Kreditkartenkonto besitzt keine Kartennummer")
-                                return@doHBCI
-                            }
-                        }
-
-                        try {
-                            umsatzJob.addToQueue()
-                        } catch (e: Exception) {
-                            error(e, bankingCredentials)
-                            return@doHBCI
-                        }
-
-                        val status: HBCIExecStatus = handle.execute()
-
-                        if (!status.isOK) {
-                            error(status.toString())
-                            return@doHBCI
-                        }
-
-                        val result = umsatzJob.jobResult as GVRKUms
-
-                        if (!result.isOK) {
-                            _workState.value = WorkState.Abort
-                            error(result.toString())
-                            return@doHBCI
-                        }
-
-                        val (accountId, accountType) = targetAccountConfig.takeIf { it.targetAccountId != 0L }
-                            ?.also {
-                                repository.updateAccount(it.targetAccountId) {
-                                    put(KEY_BANK_ID, bank.id)
-                                }
-                            }
-                            ?.let { config -> config.targetAccountId to this@BankingViewModel.accounts.value.first { it.id == config.targetAccountId }.type!! }
-                            ?: run {
-                                val accountType =
-                                    repository.findAccountType(
-                                        (if (targetAccountConfig.gv == GV.DKKKU) AccountType.CCARD
-                                        else AccountType.BANK).name
-                                    )!!
-                                repository.createAccount(
-                                    konto.toAccount(
-                                        bank,
-                                        result.dataPerDay.firstOrNull()?.start?.value?.longValue
-                                            ?: 0L
-                                    ).copy(type = accountType)
-                                ).id to accountType
-                            }
-
-                        repository.saveAccountAttributes(
-                            accountId,
-                            konto.getAsAttributes(targetAccountConfig.gv)
-                        )
-
-                        for (umsLine in result.flatData) {
-                            with(converter) {
-                                val (transaction, transactionAttributes: Map<out Attribute, String>) = umsLine.toTransaction(
-                                    currencyContext, accountId, accountType.id
-                                )
-                                val id = repository.createTransaction(transaction).id
-                                repository.saveTransactionAttributes(id, transactionAttributes)
-                            }
-                        }
-                        setAccountLastSynced(accountId)
-                        logEvent(Tracker.EVENT_FINTS_ACCOUNT_IMPORTED, bankingCredentials)
-                        successCount++
                     }
-                ).onFailure {
+                    log("Setting my param to $kontoParam")
+                    umsatzJob.setParam("my", kontoParam)
+
+                    startDate?.let { umsatzJob.setStartParam(startDate) }
+                    if (targetAccountConfig.gv == GV.DKKKU) {
+                        if (!umsatzJob.setCreditCardParameters(konto)) {
+                            error("Das Kreditkartenkonto besitzt keine Kartennummer")
+                            return@doHBCI
+                        }
+                    }
+
+                    try {
+                        umsatzJob.addToQueue()
+                    } catch (e: Exception) {
+                        error(e, bankingCredentials)
+                        return@doHBCI
+                    }
+
+                    val status: HBCIExecStatus = handle.execute()
+
+                    if (!status.isOK) {
+                        error(status.toString())
+                        return@doHBCI
+                    }
+
+                    val result = umsatzJob.jobResult as GVRKUms
+
+                    if (!result.isOK) {
+                        _workState.value = WorkState.Abort
+                        error(result.toString())
+                        return@doHBCI
+                    }
+
+                    val (accountId, accountType) = targetAccountConfig.takeIf { it.targetAccountId != 0L }
+                        ?.also {
+                            repository.updateAccount(it.targetAccountId) {
+                                put(KEY_BANK_ID, bank.id)
+                            }
+                        }
+                        ?.let { config -> config.targetAccountId to this@BankingViewModel.accounts.value.first { it.id == config.targetAccountId }.type!! }
+                        ?: run {
+                            val accountType =
+                                repository.findAccountType(
+                                    (if (targetAccountConfig.gv == GV.DKKKU) AccountType.CCARD
+                                    else AccountType.BANK).name
+                                )!!
+                            repository.createAccount(
+                                konto.toAccount(
+                                    bank,
+                                    result.dataPerDay.firstOrNull()?.start?.value?.longValue
+                                        ?: 0L
+                                ).copy(type = accountType)
+                            ).id to accountType
+                        }
+
+                    repository.saveAccountAttributes(
+                        accountId,
+                        konto.getAsAttributes(targetAccountConfig.gv)
+                    )
+
+                    for (umsLine in result.flatData) {
+                        with(converter) {
+                            val (transaction, transactionAttributes: Map<out Attribute, String>) = umsLine.toTransaction(
+                                currencyContext, accountId, accountType.id
+                            )
+                            val id = repository.createTransaction(transaction).id
+                            repository.saveTransactionAttributes(id, transactionAttributes)
+                        }
+                    }
+                    setAccountLastSynced(accountId)
+                    logEvent(Tracker.EVENT_FINTS_ACCOUNT_IMPORTED, bankingCredentials)
+                    successCount++
+                }.onFailure {
                     error(it, bankingCredentials)
                     _workState.value = WorkState.Abort
                 }
@@ -949,18 +945,17 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
             suspendCoroutine { cont ->
                 doHBCI(
                     bankingCredentials = BankingCredentials.fromBank(bank)
-                        .copy(password = passphrase),
-                    work = { _, _, _ ->
-                        val passphraseRepository = getPassPhraseRepository(bank.blz, bank.userId)
-                        passphraseRepository.storePassphrase(passphrase.toByteArray(Charsets.UTF_8))
-                        contentResolver.update(
-                            ContentUris.withAppendedId(TransactionProvider.BANKS_URI, bank.id),
-                            ContentValues().also { it.put(KEY_VERSION, 2) },
-                            null, null
-                        )
-                        cont.resume(ResultUnit)
-                    }
-                ).onFailure {
+                        .copy(password = passphrase)
+                ) { _, _, _ ->
+                    val passphraseRepository = getPassPhraseRepository(bank.blz, bank.userId)
+                    passphraseRepository.storePassphrase(passphrase.toByteArray(Charsets.UTF_8))
+                    contentResolver.update(
+                        ContentUris.withAppendedId(TransactionProvider.BANKS_URI, bank.id),
+                        ContentValues().also { it.put(KEY_VERSION, 2) },
+                        null, null
+                    )
+                    cont.resume(ResultUnit)
+                }.onFailure {
                     cont.resume(Result.failure(it))
                 }
             }
@@ -998,4 +993,16 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
         return HBCIUtils.searchBankInfo(q)
     }
 
+    fun syncBPD(credentials: BankingCredentials) {
+        _workState.value = WorkState.Loading()
+        viewModelScope.launch(context = coroutineContext()) {
+            _workState.value = WorkState.Loading()
+            doHBCI(
+                bankingCredentials = credentials
+            ) { _, _, handle ->
+                handle.sync(true)
+                _workState.value = WorkState.Success(getString(org.totschnig.myexpenses.R.string.done_label))
+            }
+        }
+    }
 }

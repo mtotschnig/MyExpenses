@@ -123,7 +123,7 @@ class Banking : ProtectedFragmentActivity() {
     private val viewModel: BankingViewModel by viewModels()
 
     enum class DialogState {
-        NoShow, Credentials, CredentialsForSync, Loading, AccountSelection, Done
+        NoShow, Credentials, CredentialsForFetch, CredentialsForSync, Loading, AccountSelection, Done
     }
 
     @OptIn(ExperimentalMaterial3Api::class)
@@ -255,8 +255,8 @@ class Banking : ProtectedFragmentActivity() {
                                                     bankingCredentials.value =
                                                         BankingCredentials.fromBank(it)
                                                 },
-                                                onSync = {
-                                                    dialogState = DialogState.CredentialsForSync
+                                                onFetch = {
+                                                    dialogState = DialogState.CredentialsForFetch
                                                     bankingCredentials.value =
                                                         BankingCredentials.fromBank(it)
                                                 },
@@ -266,7 +266,12 @@ class Banking : ProtectedFragmentActivity() {
                                                 onResetTanMechanism =
                                                     if (viewModel.hasStoredTanMech(bank.id)) {
                                                         { viewModel.resetTanMechanism(it.id) }
-                                                    } else null
+                                                    } else null,
+                                                onSync = {
+                                                    dialogState = DialogState.CredentialsForSync
+                                                    bankingCredentials.value =
+                                                        BankingCredentials.fromBank(it)
+                                                }
                                             )
                                         }
                                     }
@@ -490,8 +495,22 @@ class Banking : ProtectedFragmentActivity() {
                 )
             }
 
-            DialogState.Credentials, DialogState.CredentialsForSync -> {
+            DialogState.Credentials, DialogState.CredentialsForFetch, DialogState.CredentialsForSync -> {
                 val autofillManager = LocalAutofillManager.current
+                fun onConfirm() {
+                    autofillManager?.commit()
+                    when (dialogState) {
+                        DialogState.CredentialsForFetch -> viewModel.syncAccount(
+                            bankingCredentials.value,
+                            null
+                        )
+                        DialogState.CredentialsForSync -> viewModel.syncBPD(
+                            bankingCredentials.value
+                        )
+                        else -> viewModel.addBank(bankingCredentials.value)
+                    }
+                }
+
                 AlertDialog(
                     properties = DialogProperties(dismissOnClickOutside = false),
                     onDismissRequest = { dismiss(false) },
@@ -504,17 +523,11 @@ class Banking : ProtectedFragmentActivity() {
                     },
                     confirmButton = {
                         Button(
-                            onClick = {
-                                autofillManager?.commit()
-                                if (dialogState == DialogState.CredentialsForSync)
-                                    viewModel.syncAccount(bankingCredentials.value, null)
-                                else
-                                    viewModel.addBank(bankingCredentials.value)
-                            },
+                            onClick = ::onConfirm,
                             enabled = bankingCredentials.value.isComplete
                         ) {
                             Text(
-                                stringResource(RF.string.btn_load_accounts)
+                                stringResource(RF.string.load)
                             )
                         }
                     },
@@ -537,7 +550,7 @@ class Banking : ProtectedFragmentActivity() {
                             })
                             BankingCredentials(
                                 bankingCredentials = bankingCredentials,
-                                onDone = viewModel::addBank,
+                                onDone = ::onConfirm,
                                 searchBanks = viewModel::searchBanks
                             )
                         }
@@ -650,7 +663,8 @@ fun BankRow(
     onShow: (Bank) -> Unit = {},
     onResetTanMechanism: ((Bank) -> Unit)? = null,
     onMigrate: ((Bank) -> Unit)? = null,
-    onSync: (Bank) -> Unit = {},
+    onFetch: (Bank) -> Unit = {},
+    onSync: ((Bank) -> Unit) = {}
 ) {
     val showMenu = rememberSaveable { mutableStateOf(false) }
     Row(
@@ -683,7 +697,7 @@ fun BankRow(
                 label = RF.string.menu_sync_account,
                 command = "SYNC_ALL",
                 icon = Icons.Filled.Sync
-            ) { onSync(bank) }
+            ) { onFetch(bank) }
         )
         onMigrate?.let {
             add(
@@ -701,6 +715,12 @@ fun BankRow(
                 ) { onResetTanMechanism(bank) }
             )
         }
+        add(
+            MenuEntry(
+                label = RF.string.btn_syn_bpd,
+                command = "SYNC_BPD"
+            ) { onSync(bank) }
+        )
     })
 }
 

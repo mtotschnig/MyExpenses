@@ -80,7 +80,7 @@ import org.totschnig.myexpenses.R as RB
 @Composable
 fun ColumnScope.BankingCredentials(
     bankingCredentials: MutableState<BankingCredentials>,
-    onDone: (BankingCredentials) -> Unit,
+    onDone: () -> Unit,
     searchBanks: (String) -> List<BankInfo> = { emptyList() },
 ) {
     val credentials = bankingCredentials.value
@@ -150,7 +150,8 @@ fun ColumnScope.BankingCredentials(
                                 }
                             },
                             onClick = {
-                                bankingCredentials.value = credentials.copy(bankLeitZahl = bankInfo.blz)
+                                bankingCredentials.value =
+                                    credentials.copy(bankLeitZahl = bankInfo.blz)
                                 expanded = false
                             }
                         )
@@ -160,7 +161,8 @@ fun ColumnScope.BankingCredentials(
         }
     }
     OutlinedTextField(
-        modifier = Modifier.align(Alignment.CenterHorizontally)
+        modifier = Modifier
+            .align(Alignment.CenterHorizontally)
             .semantics { this.contentType = ContentType.Username },
         enabled = credentials.isNew,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -190,11 +192,10 @@ fun ColumnScope.BankingCredentials(
             keyboardType = KeyboardType.Password,
             imeAction = ImeAction.Done
         ),
-        keyboardActions = if (credentials.isComplete) KeyboardActions(
-            onDone = {
-                onDone(credentials)
-            }
-        ) else KeyboardActions.Default,
+        keyboardActions = if (credentials.isComplete)
+            KeyboardActions(onDone = { onDone() })
+        else
+            KeyboardActions.Default,
         value = credentials.password ?: "",
         onValueChange = {
             bankingCredentials.value = credentials.copy(password = it.trim())
@@ -218,7 +219,8 @@ fun PasswordVisibilityToggleIcon(
     onTogglePasswordVisibility: () -> Unit,
 ) {
     val image = if (showPassword) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
-    val contentDescription = stringResource(if (showPassword) RB.string.hide_password else RB.string.show_password)
+    val contentDescription =
+        stringResource(if (showPassword) RB.string.hide_password else RB.string.show_password)
 
     IconButton(onClick = onTogglePasswordVisibility) {
         Icon(imageVector = image, contentDescription = contentDescription)

@@ -7,7 +7,6 @@
     <string name="login_name">Login name</string>
     Der PIN wird nicht auf dem Gerät gespeichert und bei jeder weiteren Verbindung mit der Bank erneut abgefragt.
     <string name="pin_info">The Password is not stored on the device and is requested again for each connection to the bank.</string>
-    <string name="btn_load_accounts">Load accounts</string>
     <string name="no_bank_added_yet">No bank added yet.</string>
     <string name="import_maximum">Import maximum available transaction history</string>
     <!-- | is replaced with text input -->
@@ -59,5 +58,5 @@
     <string name="bankleitzahl_or_name">Bank number or name</string>
     <string name="bank_search_hint">Search by bank name, BLZ, or BIC</string>
     <string name="bank_search_min_chars">Type at least 3 characters to search</string>
-
+    <string name="btn_syn_bpd">Sync BPD</string>
 </resources>
