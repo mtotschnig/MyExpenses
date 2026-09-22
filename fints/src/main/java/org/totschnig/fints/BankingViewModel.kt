@@ -123,46 +123,6 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
             "javax.xml.parsers.DocumentBuilderFactory",
             "org.apache.xerces.jaxp.DocumentBuilderFactoryImpl"
         )
-
-        // Pre-load bank list on background thread
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                // 1. Init with dummy callback to trigger refreshBLZList
-                HBCIUtils.init(hbciProperties, object : AbstractHBCICallback() {
-                    override fun log(
-                        p0: String?,
-                        p1: Int,
-                        p2: Date?,
-                        p3: StackTraceElement?,
-                    ) {
-                        //noop
-                    }
-
-                    override fun callback(
-                        p0: HBCIPassport?,
-                        p1: Int,
-                        p2: String?,
-                        p3: Int,
-                        p4: StringBuffer?,
-                    ) {
-                        //noop
-                    }
-
-                    override fun status(
-                        p0: HBCIPassport?,
-                        p1: Int,
-                        p2: Array<out Any?>?,
-                    ) {
-                        //noop
-                    }
-                })
-
-                // 2. Clear thread group callback so doHBCI can re-init later
-                HBCIUtils.doneThread()
-            } catch (e: Exception) {
-                log(e)
-            }
-        }
     }
 
     @Inject
@@ -461,7 +421,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     _workState.value = WorkState.Abort
                 } else {
                     accounts.forEach {
-                        log("Konto: %s", it.toString())
+                        log("Konto: %s", it.name)
                     }
                     if (bankingCredentials.isNew) {
                         _workState.value =
