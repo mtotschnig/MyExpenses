@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.viewmodel.data
 
 import com.google.common.truth.Truth
 import org.junit.Test
+import org.totschnig.myexpenses.util.Utils
 
 class CategoryTreeTest {
 
@@ -99,5 +100,29 @@ class CategoryTreeTest {
             )
         )
         Truth.assertThat(category.pruneNonMatching()).isNull()
+    }
+
+    @Test
+    fun shouldKeepDiacriticInsensitiveMatch() {
+        val category = Category(
+            label = "ROOT", children = listOf(
+                Category(id = 1, label = "Café"),
+                Category(id = 2, label = "Über"),
+                Category(id = 3, label = "Restauración")
+            )
+        )
+
+        fun filterCategory(filterText: String): List<String> {
+            val normalizedFilter = Utils.normalize(filterText)
+            val pruned = category.pruneByCriterion {
+                Utils.normalize(it.label)?.contains(normalizedFilter) == true
+            }
+            return pruned?.children?.map { it.label } ?: emptyList()
+        }
+
+        Truth.assertThat(filterCategory("cafe")).containsExactly("Café")
+        Truth.assertThat(filterCategory("café")).containsExactly("Café")
+        Truth.assertThat(filterCategory("uber")).containsExactly("Über")
+        Truth.assertThat(filterCategory("restauracion")).containsExactly("Restauración")
     }
 }
