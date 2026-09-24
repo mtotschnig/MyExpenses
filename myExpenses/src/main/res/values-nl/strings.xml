@@ -117,10 +117,7 @@
     <string name="grouping_day">Dag</string>
     <string name="help_heading_whats_new">Wat is nieuw</string>
     <string name="import_select_transactions">Transacties</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Rekening verwijderen?</item>
-        <item quantity="other">%1$d rekeningen verwijderen?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Rekening verwijderen?</string>
     <string name="dialog_contrib_text_2">Draag bij door <i>{app_name}</i> te upgraden en krijg onbeperkte toegang tot de volgende functies:</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Met je huidige licentiestatus (%2$s) kun je %1$d rekeningen aanmaken.</string>
     <string name="dialog_export_not_yet_exported">Exporteer alleen transacties die nog niet zijn geëxporteerd</string>

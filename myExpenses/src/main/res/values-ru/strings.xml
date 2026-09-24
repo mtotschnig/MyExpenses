@@ -79,12 +79,7 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Баланс %1$s</string>
     <string name="dialog_title_contrib_feature">Премиум функция</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Удалить счёт\?</item>
-        <item quantity="few">Удалить %1$d счета\?</item>
-        <item quantity="many">Удалить %1$d счетов\?</item>
-        <item quantity="other">Удалить %1$d счетов\?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Удалить счёт\?</string>
     <string name="dialog_title_warning_delete_category">Удалить категорию?</string>
     <string name="dialog_title_warning_delete_template">Удалить шаблон?</string>
     <string name="dialog_title_warning_delete_transaction">Удалить операцию?</string>

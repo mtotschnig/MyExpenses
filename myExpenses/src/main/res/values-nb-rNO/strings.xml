@@ -226,10 +226,7 @@
     <string name="dialog_title_warning_delete_transaction">Slett overføring\?</string>
     <string name="dialog_title_warning_delete_template">Slett mal\?</string>
     <string name="dialog_title_warning_delete_category">Slett kategori\?</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Slett konto\?</item>
-        <item quantity="other">Slett %1$d kontoer\?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Slett konto\?</string>
     <string name="dialog_title_contrib_feature">Premiumsfunksjon</string>
     <string name="dialog_security_question">Spørsmål</string>
     <string name="dialog_security_answer">Svar</string>

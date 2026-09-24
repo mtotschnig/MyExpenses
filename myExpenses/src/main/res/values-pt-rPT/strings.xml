@@ -504,10 +504,7 @@
     <string name="image_capture_not_installed">Não foi encontrado nenhum app para tirar fotos.</string>
     <string name="button_label_close">Fechar</string>
     <string name="dialog_title_warning_delete_category">Excluir a categoria\?</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Excluir a conta\?</item>
-        <item quantity="other">Excluir %1$d contas\?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Excluir a conta\?</string>
     <string name="dialog_contrib_usage_limit_split_templates">O status atual da sua licença (%1$s) permite que você crie 1 modelo de divisão de transação.</string>
     <string name="single_feature_info">Como alternativa, você pode comprar acesso ilimitado apenas a este recurso.</string>
     <string name="title_webui">Interface web do utilizador</string>

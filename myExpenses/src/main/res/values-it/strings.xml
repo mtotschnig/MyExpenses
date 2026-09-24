@@ -79,11 +79,7 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Bilanciare %1$s</string>
     <string name="dialog_title_contrib_feature">Funzionalità premium</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Eliminare il conto\?</item>
-        <item quantity="many">Eliminare %1$d conti\?</item>
-        <item quantity="other">Eliminare %1$d conti\?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Eliminare il conto\?</string>
     <string name="dialog_title_warning_delete_category">Eliminare la categoria?</string>
     <string name="dialog_title_warning_delete_template">Eliminare modello ?</string>
     <string name="dialog_title_warning_delete_transaction">Eliminare transazione ?</string>

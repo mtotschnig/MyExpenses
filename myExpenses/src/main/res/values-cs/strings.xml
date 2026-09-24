@@ -79,12 +79,7 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Zůstatek účtu %1$s</string>
     <string name="dialog_title_contrib_feature">Prémiové funkce</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Chcete účet odstranit?</item>
-        <item quantity="few">Chcete odstranit %1$d účty?</item>
-        <item quantity="many">Chcete odstranit %1$d účtů?</item>
-        <item quantity="other">Chcete odstranit %1$d účtů?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Chcete účet odstranit?</string>
     <string name="dialog_title_warning_delete_category">Chcete odstranit kategorii?</string>
     <string name="dialog_title_warning_delete_template">Odstranit šablonu?</string>
     <string name="dialog_title_warning_delete_transaction">Odstranit transakci?</string>

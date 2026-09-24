@@ -68,11 +68,7 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Sold  %1$s</string>
     <string name="dialog_title_contrib_feature">Funcţionaliate premium</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Șterge cont?</item>
-        <item quantity="few">Ștergeți conturile %1$d?</item>
-        <item quantity="other">Ștergeți conturile %1$d?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Șterge cont?</string>
     <string name="dialog_title_warning_delete_template">Şterg şablon?</string>
     <string name="dialog_title_warning_delete_transaction">Şterg  tranzacţie?</string>
     <string name="expense">Cheltuială</string>

@@ -79,9 +79,7 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">結平%1$s </string>
     <string name="dialog_title_contrib_feature">高級功能</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="other">要刪除帳號%1$d嗎？</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">要刪除帳號%1$d嗎？</string>
     <string name="dialog_title_warning_delete_category">確定刪除類別？</string>
     <string name="dialog_title_warning_delete_template">要刪除模板嗎？</string>
     <string name="dialog_title_warning_delete_transaction">要刪除交易嗎？</string>

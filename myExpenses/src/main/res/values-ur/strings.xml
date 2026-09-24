@@ -69,10 +69,7 @@
     <string name="menu_aggregates">کل</string>
     <string name="menu_cancel_plan_instance">منسوخ کریں</string>
     <string name="dialog_title_warning_delete_category">زمرہ حذف کریں؟</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">اکاؤنٹ حذف کریں؟</item>
-        <item quantity="other">%1$d اکاؤنٹس حذف کریں؟</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">اکاؤنٹ حذف کریں؟</string>
     <string name="dialog_title_warning_delete_template">ٹیمپلیٹ کو حذف کریں؟</string>
     <string name="dialog_title_warning_delete_transaction">ٹرانزیکشن حذف کریں؟</string>
     <string name="expense">خرچہ</string>

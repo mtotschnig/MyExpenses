@@ -78,9 +78,7 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">%1$s 決算</string>
     <string name="dialog_title_contrib_feature">プレミアム機能</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="other">%1$d 勘定を削除しますか?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">%1$d 勘定を削除しますか?</string>
     <string name="dialog_title_warning_delete_category">分類を削除しますか?</string>
     <string name="dialog_title_warning_delete_template">テンプレートを削除しますか?</string>
     <string name="dialog_title_warning_delete_transaction">取引を削除しますか?</string>

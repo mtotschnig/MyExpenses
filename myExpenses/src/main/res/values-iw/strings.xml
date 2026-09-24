@@ -79,11 +79,7 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">יתרה בחשבון %1$s</string>
     <string name="dialog_title_contrib_feature">יכולת פרימיום</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">למחוק חשבון?</item>
-        <item quantity="two">למחוק שני חשבונות?</item>
-        <item quantity="other">למחוק %1$d חשבונות?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">למחוק חשבון?</string>
     <string name="dialog_title_warning_delete_category">למחוק קטגוריה?</string>
     <string name="dialog_title_warning_delete_template">למחוק תבנית?</string>
     <string name="dialog_title_warning_delete_transaction">למחוק את העסקה?</string>

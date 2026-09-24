@@ -408,10 +408,9 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
 
     protected fun confirmAccountDelete(account: FullAccount) {
         MessageDialogFragment.newInstance(
-            resources.getQuantityString(
-                R.plurals.dialog_title_warning_delete_account,
-                1,
-                1
+            getString(
+                if (account.sealed) R.string.dialog_title_warning_delete_closed_account else
+                    R.string.dialog_title_warning_delete_account
             ),
             getString(
                 R.string.warning_delete_account,

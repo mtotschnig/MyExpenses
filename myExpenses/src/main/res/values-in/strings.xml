@@ -162,9 +162,7 @@
     <string name="dialog_contrib_usage_limit_with_dialog">Dengan status lisensi Anda saat ini (%1$s), dialog ini akan ditampilkan setiap kali digunakan.</string>
     <string name="export_sdcard_failure">Ekspor ke file \"%1$s\" gagal: %2$s</string>
     <string name="dialog_remind_rate_yes">Beri penilaian sekarang</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="other">Hapus %1$d akun?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Hapus %1$d akun?</string>
     <string name="dialog_password_activate_protection">Aktifkan perlindungan kata sandi</string>
     <string name="help_heading_credits">Kredit</string>
     <string name="grisbi_import_parties_loading">Memuat pihak dari %1$s</string>

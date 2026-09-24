@@ -423,10 +423,7 @@
     <string name="dialog_contrib_usage_limit_with_dialog">Med din nuværende licensstatus (%1$s) vises denne dialog ved hvert brug.</string>
     <string name="button_label_close">Luk</string>
     <string name="no_calendar_app_installed">Ingen app til redigering af kalenderbegivenhed.</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Slet konto?</item>
-        <item quantity="other">Slet %1$d konti?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Slet konto?</string>
     <string name="dialog_contrib_trial_info_play">Denne gratis prøveperiode konverteres aldrig til nogen form for abonnement.</string>
     <string name="dialog_contrib_subscription_info_play">Dette abonnement træder i kraft med det samme, faktureres månedligt eller årligt og kan opsiges når som helst.</string>
     <string name="dialog_title_warning_delete_category">Slet kategori?</string>

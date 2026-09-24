@@ -79,10 +79,7 @@
     <!-- %1$s is replaced with account label -->
     <string name="dialog_title_balance_account">%1$s abstimmen</string>
     <string name="dialog_title_contrib_feature">Premium-Funktion</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Konto löschen?</item>
-        <item quantity="other">%1$d Konten löschen?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Konto löschen?</string>
     <string name="dialog_title_warning_delete_category">Kategorie löschen?</string>
     <string name="dialog_title_warning_delete_template">Vorlage löschen?</string>
     <string name="dialog_title_warning_delete_transaction">Buchung löschen?</string>

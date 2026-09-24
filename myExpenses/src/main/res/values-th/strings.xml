@@ -80,9 +80,7 @@
     <string name="dialog_remind_rate_1_suggest_improvement">กรุณาใช้เวลาสักครู่เพื่อส่งข้อเสนอแนะสำหรับการปรับปรุงให้เรา</string>
     <string name="dialog_security_answer">ให้คะแนน</string>
     <string name="dialog_title_contrib_feature">คุณสมบัติพรีเมียม</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="other">ลบ %1$d บัญชี?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">ลบ %1$d บัญชี?</string>
     <string name="dialog_title_balance_account">ยอดคงเหลือ %1$s</string>
     <string name="dialog_security_question">คำถาม</string>
     <string name="dialog_title_warning_delete_category">ลบหมวดหมู่?</string>

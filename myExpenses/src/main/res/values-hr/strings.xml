@@ -374,11 +374,7 @@
     <string name="contrib_feature_distribution_label">Kružni dijagram (distribucija po kategorijama)</string>
     <string name="currency_code_already_definded">Valuta je već definirana.</string>
     <string name="ungroup_split_transaction_success">Višedjelna transakcija je uspješno razgrupirana.</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Izbrisati %1$d račun\?</item>
-        <item quantity="few">Izbrisati %1$d računa\?</item>
-        <item quantity="other">Izbrisati %1$d računa\?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Izbrisati %1$d račun\?</string>
     <string name="licence_has_expired_n_days">Tvoj profesionalni ključ je istekao prije %d dana.</string>
     <string name="licence_expired_yesterday">Tvoj profesionalni ključ je jučer istekao.</string>
     <string name="licence_expires_today">Tvoj profesionalni ključ isteče danas.</string>

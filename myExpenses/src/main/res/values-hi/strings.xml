@@ -253,10 +253,7 @@
     <string name="plan_execution_canceled">योजना का क्रियान्वयन रद्द कर दिया गया</string>
     <string name="contrib_feature_category_tree_label">श्रेणी वृक्ष</string>
     <string name="dialog_command_disabled_balance">समाधान किए जाने के लिए कोई समाशोधित लेन-देन नहीं।</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">खाता हटा दो\?</item>
-        <item quantity="other">%1$d खाते हटाएं\?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">खाता हटा दो\?</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">चयनित वस्तु को लेन-देन के लिए मैप किया गया है और इसे हटाया नहीं जा सकता है।</item>
         <item quantity="other">%1$d ऑब्जेक्ट लेन-देन के लिए मैप किए गए हैं और हटाए नहीं जा सकते।</item>

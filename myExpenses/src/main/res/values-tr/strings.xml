@@ -79,10 +79,7 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">%1$s unsurunu uzlaştır</string>
     <string name="dialog_title_contrib_feature">Ücretli işlev</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Kategori silinsin mi?</item>
-        <item quantity="other">%1$d hesap silinsin mi?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Kategori silinsin mi?</string>
     <string name="dialog_title_warning_delete_category">Kategori silinsin mi?</string>
     <string name="dialog_title_warning_delete_template">Şablon silinsin mi?</string>
     <string name="dialog_title_warning_delete_transaction">Muamele silinsin mi?</string>

@@ -79,11 +79,7 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Rapprochement %1$s</string>
     <string name="dialog_title_contrib_feature">Fonction Premium</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Supprimer le compte \?</item>
-        <item quantity="many">Supprimer %1$d comptes \?</item>
-        <item quantity="other">Supprimer %1$d comptes \?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Supprimer le compte \?</string>
     <string name="dialog_title_warning_delete_category">Supprimer la catégorie \?</string>
     <string name="dialog_title_warning_delete_template">Supprimer le modèle ?</string>
     <string name="dialog_title_warning_delete_transaction">Supprimer l\'opération \?</string>

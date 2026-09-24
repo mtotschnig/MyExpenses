@@ -213,7 +213,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
     }
 
     private val dialogTitleWarningDeleteAccount: String
-        get() = getQuantityString(R.plurals.dialog_title_warning_delete_account, 1, 1)
+        get() = getString(R.string.dialog_title_warning_delete_account)
 
     @Test
     fun deleteConfirmationDialogCancelButtonCancels() {

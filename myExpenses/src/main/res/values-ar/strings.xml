@@ -79,14 +79,7 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">رصيد %1$s</string>
     <string name="dialog_title_contrib_feature">المميزات الكاملة</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="zero">هل تودّ حذف %1$d حسابات؟</item>
-        <item quantity="one">هل تودّ حذف الحساب؟</item>
-        <item quantity="two">هل تودّ حذف %1$d حسابات؟</item>
-        <item quantity="few">هل تودّ حذف %1$d حسابات؟</item>
-        <item quantity="many">هل تودّ حذف %1$d حسابات؟</item>
-        <item quantity="other">هل تودّ حذف %1$d حسابات؟</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">هل تودّ حذف الحساب؟</string>
     <string name="dialog_title_warning_delete_category">حذف الفئة؟</string>
     <string name="dialog_title_warning_delete_template">حذف نموذج؟</string>
     <string name="dialog_title_warning_delete_transaction">حذف عملية؟</string>

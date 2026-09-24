@@ -79,9 +79,7 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Baki %1$s</string>
     <string name="dialog_title_contrib_feature">Fitur premium</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="other">Padam akaun %1$d?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Padam akaun %1$d?</string>
     <string name="dialog_title_warning_delete_category">Padam kategori?</string>
     <string name="dialog_title_warning_delete_template">Padam templat?</string>
     <string name="dialog_title_warning_delete_transaction">Padam transaksi?</string>

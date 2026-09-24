@@ -425,9 +425,7 @@
     <string name="no_app_handling_mime_type_available">沒有可用的處理 %s 檔案的應用程式。</string>
     <string name="menu_share">告訴朋友</string>
     <string name="dialog_title_balance_account">平衡%1$s</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="other">刪除%1$d帳號？</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">刪除%1$d帳號？</string>
     <string name="app_dir_not_accessible">目前選擇的備份和匯出資料夾 (%1$s) 無法存取。請選擇一個不同的。</string>
     <string name="search_category">搜尋類別</string>
     <string name="search_comment">搜尋筆記</string>

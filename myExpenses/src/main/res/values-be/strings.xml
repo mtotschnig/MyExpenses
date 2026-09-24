@@ -346,12 +346,7 @@
     <string name="dialog_remind_rate_how_many_stars">Колькі зорачак вы б паставілі {app_name}?</string>
     <string name="password_security_answer_not_valid">Няправільны адказ. Паспрабуйце яшчэ раз!</string>
     <string name="move_category_success">Адна катэгорыя была паспяхова перамешчана.</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Выдаліць акаўнт?</item>
-        <item quantity="few">Выдаліць %1$d акаўнтаў?</item>
-        <item quantity="many">Выдаліць %1$d акаўнтаў?</item>
-        <item quantity="other">Выдаліць %1$d акаўнтаў?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Выдаліць акаўнт?</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">Ваш бягучы статус ліцэнзіі (%2$s) дазваляе вам ствараць %1$d планаў.</string>
     <string name="dialog_contrib_usage_limit_split_templates">Ваш бягучы статус ліцэнзіі (%1$s) дазваляе вам стварыць 1 падзелены шаблон.</string>
     <string name="dialog_export_delete">Выдаліць экспартаваныя транзакцыі</string>

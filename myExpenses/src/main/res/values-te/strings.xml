@@ -428,10 +428,7 @@
     <string name="dialog_title_warning_delete_transaction">లావాదేవీని తొలగించాలా\?</string>
     <string name="dialog_title_warning_delete_template">టెంప్లేట్‌ను తొలగించాలా\?</string>
     <string name="dialog_title_warning_delete_category">వర్గాన్ని తొలగించాలా\?</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">ఖాతాను తొలగించాలా\?</item>
-        <item quantity="other">%1$d ఖాతాలను తొలగించాలా\?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">ఖాతాను తొలగించాలా\?</string>
     <string name="dialog_title_contrib_feature">ప్రీమియం ఫీచర్</string>
     <string name="dialog_title_balance_account">బ్యాలెన్స్ %1$s</string>
     <string name="dialog_security_question">ప్రశ్న</string>

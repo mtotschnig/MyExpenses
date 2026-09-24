@@ -86,10 +86,7 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">ব্যালেন্স %1$s</string>
     <string name="dialog_title_contrib_feature">প্রিমিয়াম ফিচার</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">অ্যাকাউন্ট মুছবেন?</item>
-        <item quantity="other">%1$d অ্যাকাউন্ট মুছবেন?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">অ্যাকাউন্ট মুছবেন?</string>
     <string name="dialog_title_warning_delete_category">ক্যাটাগরি মুছবেন?</string>
     <string name="dialog_title_warning_delete_template">টেমপ্লেট মুছবেন?</string>
     <string name="dialog_title_warning_delete_transaction">লেনদেন মুছবেন?</string>

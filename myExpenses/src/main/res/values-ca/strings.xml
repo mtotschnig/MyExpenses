@@ -323,10 +323,7 @@
     <string name="payer_or_payee">Contrapart</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Cal contrasenya.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d projectes han estat restaurats de la còpia de seguretat</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Elminar compte\?</item>
-        <item quantity="other">Eliminar %1$d comptes\?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Elminar compte?</string>
     <string name="dialog_command_disabled_insert_transfer">Les transaccions requereixen un segon compte.</string>
     <string name="dialog_contrib_usage_limit_split_templates">L\'estat actual de la vostra llicència (%1$s) permet crear 1 plantilla dividida.</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Amb la vostra llicència actual (%1$s), aquest diàleg es mostrarà a cada ús.</string>

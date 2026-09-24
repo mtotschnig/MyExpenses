@@ -644,12 +644,7 @@
     <string name="debt_managment">Zarządzanie długiem</string>
     <string name="ui_refinement">Udoskonalenie interfejsu użytkownika</string>
     <string name="dialog_title_purge_backups">Wyczyść stare kopie zapasowe</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Usunąć konto\?</item>
-        <item quantity="few">Usunąć %1$d konta\?</item>
-        <item quantity="many">Usunąć %1$d kont\?</item>
-        <item quantity="other">Usunąć %1$d kont\?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Usunąć konto\?</string>
     <string name="menu_reconfigure">Rekonfiguracja</string>
     <string name="add_shortcut">Dodaj subskrypcję</string>
     <string name="dialog_contrib_trial_info">Aktualny stan licencji (%1$s) pozwala na wypróbowanie %2$s przez %3$d dni (do %4$s).</string>

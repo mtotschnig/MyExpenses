@@ -79,10 +79,7 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">இருப்பு %1$s</string>
     <string name="dialog_title_contrib_feature">மதிப்பு அம்சம்</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">கணக்கை நீக்கவா?</item>
-        <item quantity="other">%1$d கணக்குகளை நீக்கவா?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">கணக்கை நீக்கவா?</string>
     <string name="dialog_title_warning_delete_category">வகையை நீக்கவா?</string>
     <string name="dialog_title_warning_delete_template">வார்ப்புருவை நீக்கவா?</string>
     <string name="dialog_title_warning_delete_transaction">பரிவர்த்தனையை நீக்கவா?</string>

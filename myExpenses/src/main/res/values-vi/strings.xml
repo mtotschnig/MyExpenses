@@ -78,9 +78,7 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Số dư %1$s</string>
     <string name="dialog_title_contrib_feature">Tính năng trả phí</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="other">Xóa tài khoản %1$d?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Xóa tài khoản %1$d?</string>
     <string name="dialog_title_warning_delete_template">Xoá bản mẫu?</string>
     <string name="dialog_title_warning_delete_transaction">Xoá giao dịch?</string>
     <string name="expense">Chi</string>

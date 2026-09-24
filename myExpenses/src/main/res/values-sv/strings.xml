@@ -66,10 +66,7 @@
     <string name="category">Kategori</string>
     <string name="grouping_year">År</string>
     <string name="grouping_this_week">Den här veckan</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Ta bort kontot?</item>
-        <item quantity="other">Ta bort %1$d-konton?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Ta bort kontot?</string>
     <string name="contrib_feature_plans_unlimited_label">Obegränsat antalet abbonemang</string>
     <string name="dialog_password_new_password">Nytt lösenord</string>
     <string name="licence_validation_failure">Kunde inte bekräfta licensnyckeln.</string>

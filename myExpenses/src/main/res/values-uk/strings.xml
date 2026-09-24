@@ -668,12 +668,7 @@
     <string name="exchange_rate_not_supported">Налаштований провайдер не надає курс %1$s: %2$s. Ви можете спробувати вибрати іншого в налаштуваннях.</string>
     <string name="feature_downloaded">Функцію %s встановлено.</string>
     <string name="download_completed">Завантаження (%s) завершено.</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Видалити рахунок\?</item>
-        <item quantity="few">Видалити %1$d рахунки\?</item>
-        <item quantity="many">Видалити %1$d рахунків\?</item>
-        <item quantity="other">Видалити %1$d рахунків\?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Видалити рахунок\?</string>
     <string name="budget_filter_all_accounts">Усі рахунки</string>
     <string name="app_restart_required">Нова конфігурація вимагає перезапуску програми, щоб вступити в силу.</string>
     <string name="menu_save_and_new_content_description">Збережіть дані, залиште форму відкритою для створення нової транзакції з тими самими даними.</string>
