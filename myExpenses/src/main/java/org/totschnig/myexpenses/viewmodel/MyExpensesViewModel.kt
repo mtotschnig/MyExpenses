@@ -121,6 +121,7 @@ import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.KEY_UUID
 import org.totschnig.myexpenses.provider.KEY_VALUE
+import org.totschnig.myexpenses.provider.KEY_VALUE_DATE
 import org.totschnig.myexpenses.provider.KEY_VISIBLE
 import org.totschnig.myexpenses.provider.KEY_YEAR
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
@@ -781,14 +782,19 @@ open class MyExpensesViewModel(
         )
     }
 
-    fun cloneAndRemap(transactionIds: List<Long>, column: String, value: Long) {
+    fun cloneAndRemap(
+        transactionIds: List<Long>,
+        column: String,
+        value: Long,
+        updateValueDate: Boolean = false
+    ) {
         viewModelScope.launch(coroutineDispatcher) {
             var successCount = 0
             var failureCount = 0
             for (id in transactionIds) {
                 val transaction = repository.loadTransaction(id).clone()
                 val clone = repository.createTransaction(transaction)
-                val update = remapDo(listOf(clone.id), column, value)
+                val update = remapDo(listOf(clone.id), column, value, updateValueDate)
 
                 if (update > 0) {
                     repository.saveTagsForTransaction(
@@ -805,14 +811,24 @@ open class MyExpensesViewModel(
         }
     }
 
-    fun remap(transactionIds: List<Long>, column: String, value: Long): LiveData<Int> =
+    fun remap(
+        transactionIds: List<Long>,
+        column: String,
+        value: Long,
+        updateValueDate: Boolean = false
+    ): LiveData<Int> =
         liveData(context = coroutineDispatcher) {
             emit(run {
-                remapDo(transactionIds, column, value)
+                remapDo(transactionIds, column, value, updateValueDate)
             })
         }
 
-    private fun remapDo(transactionIds: List<Long>, column: String, value: Long): Int {
+    private fun remapDo(
+        transactionIds: List<Long>,
+        column: String,
+        value: Long,
+        updateValueDate: Boolean = false
+    ): Int {
         val list = transactionIds.joinToString()
         var selection = "$KEY_ROWID IN ($list)"
         if (column == KEY_ACCOUNTID) {
@@ -823,7 +839,12 @@ open class MyExpensesViewModel(
         }
         return contentResolver.update(
             TRANSACTIONS_URI,
-            ContentValues().apply { put(column, value.takeIf { it != NULL_ITEM_ID }) },
+            ContentValues().apply {
+                put(column, value.takeIf { it != NULL_ITEM_ID })
+                if (column == KEY_DATE && updateValueDate) {
+                    put(KEY_VALUE_DATE, value.takeIf { it != NULL_ITEM_ID })
+                }
+            },
             selection,
             null
         )

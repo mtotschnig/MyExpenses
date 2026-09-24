@@ -48,15 +48,25 @@ class RemapTest : BaseMyExpensesTest() {
 
     @Test
     fun remapDate() {
-        doRemapDate(false)
+        doRemapDate(clone = false, updateValueDate = false)
+    }
+
+    @Test
+    fun remapDateAndValueDate() {
+        doRemapDate(clone = false, updateValueDate = true)
     }
 
     @Test
     fun remapDateAndClone() {
-        doRemapDate(true)
+        doRemapDate(clone = true, updateValueDate = false)
     }
 
-    private fun doRemapDate(clone: Boolean) {
+    @Test
+    fun remapDateAndCloneAndValueDate() {
+        doRemapDate(clone = true, updateValueDate = true)
+    }
+
+    private fun doRemapDate(clone: Boolean, updateValueDate: Boolean = false) {
         val account1 = buildAccount("K1")
         val today = LocalDate.now()
         val remapDate = if (today.dayOfMonth > 15)
@@ -73,7 +83,7 @@ class RemapTest : BaseMyExpensesTest() {
         clickMenuItemCompose(R.id.REMAP_DATE_COMMAND)
         setDate(remapDate)
 
-        confirmRemap(clone)
+        confirmRemap(clone, updateValueDate)
         // 5. Assertions
         if (clone) {
             runBlocking {
@@ -81,13 +91,24 @@ class RemapTest : BaseMyExpensesTest() {
                 assertThat(transactions.size).isEqualTo(2)
                 val source = transactions.first { it.id == transaction.id }
                 assertThat(epoch2LocalDate(source.date)).isEqualTo(today)
-                val clone = transactions.first { it.id != transaction.id }
-                assertThat(epoch2LocalDate(clone.date)).isEqualTo(remapDate)
+                assertThat(epoch2LocalDate(source.valueDate)).isEqualTo(today)
+                val cloneTrans = transactions.first { it.id != transaction.id }
+                assertThat(epoch2LocalDate(cloneTrans.date)).isEqualTo(remapDate)
+                if (updateValueDate) {
+                    assertThat(epoch2LocalDate(cloneTrans.valueDate)).isEqualTo(remapDate)
+                } else {
+                    assertThat(epoch2LocalDate(cloneTrans.valueDate)).isEqualTo(today)
+                }
             }
         } else {
             val restored = repository.loadTransaction(transaction.id)
 
             assertThat(epoch2LocalDate(restored.data.date)).isEqualTo(remapDate)
+            if (updateValueDate) {
+                assertThat(epoch2LocalDate(restored.data.valueDate)).isEqualTo(remapDate)
+            } else {
+                assertThat(epoch2LocalDate(restored.data.valueDate)).isEqualTo(today)
+            }
         }
     }
 
@@ -211,16 +232,32 @@ class RemapTest : BaseMyExpensesTest() {
         confirmRemap(doClone)
     }
 
-    private fun confirmRemap(doClone: Boolean) {
+    private fun confirmRemap(doClone: Boolean, updateValueDate: Boolean = false) {
+        val cloneText = getString(R.string.menu_clone_transaction)
+        val updateValueDateText = getString(R.string.remap_update_value_date)
         if (doClone) {
-            onView(withId(R.id.checkBox)).inRoot(isDialog()).perform(click())
+            try {
+                onView(withId(R.id.checkBox)).inRoot(isDialog()).perform(click())
+            } catch (_: Throwable) {
+                composeTestRule.onNodeWithText(cloneText).performClick()
+            }
         }
-        onView(
-            allOf(
-                withId(android.R.id.button1),
-                withText(if (doClone) R.string.button_label_clone_and_remap else R.string.menu_remap),
-            )
-        ).inRoot(isDialog()).perform(ViewActions.scrollTo(), click())
+        if (updateValueDate) {
+            composeTestRule.onNodeWithText(updateValueDateText).performClick()
+        }
+        val targetText = getString(
+            if (doClone) R.string.button_label_clone_and_remap else R.string.menu_remap
+        )
+        try {
+            onView(
+                allOf(
+                    withId(android.R.id.button1),
+                    withText(targetText),
+                )
+            ).inRoot(isDialog()).perform(ViewActions.scrollTo(), click())
+        } catch (_: Throwable) {
+            composeTestRule.onNodeWithText(targetText).performClick()
+        }
     }
 
 }

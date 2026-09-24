@@ -14,10 +14,8 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity.Companion.PROGRESS_TAG
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_CHECKBOX_LABEL
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_POSITIVE_BUTTON_CHECKED_LABEL
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_TITLE_STRING
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
+import org.totschnig.myexpenses.dialog.RemapDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectSingleAccountDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectSingleMethodDialogFragment
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
@@ -61,7 +59,7 @@ class RemapHandler(val activity: BaseMyExpenses<*>) : FragmentResultListener {
                     LocalTime.NOON,
                     ZoneId.systemDefault()
                 ).toEpochSecond()
-                showConfirmationDialog(
+                showRemapConfirmationDialog(
                     getString(R.string.remap_date, dateFormatted),
                     KEY_DATE,
                     R.string.date,
@@ -119,7 +117,7 @@ class RemapHandler(val activity: BaseMyExpenses<*>) : FragmentResultListener {
 
             else -> throw IllegalStateException("Unexpected value: $requestKey")
         }
-        showConfirmationDialog(
+        showRemapConfirmationDialog(
             message = if (rowId == NULL_ITEM_ID) getString(confirmationStringResId) else getString(
                 confirmationStringResId,
                 label
@@ -130,28 +128,16 @@ class RemapHandler(val activity: BaseMyExpenses<*>) : FragmentResultListener {
         )
     }
 
-    private fun showConfirmationDialog(
+    private fun showRemapConfirmationDialog(
         message: String,
         column: String,
         columnStringResId: Int,
         value: Long,
     ) {
-        activity.showConfirmationDialog(
-            tag = "dialogRemap",
-            message = message + " " + getString(R.string.continue_confirmation),
-            commandPositive = R.id.REMAP_COMMAND,
-            commandPositiveLabel = R.string.menu_remap,
-            commandNegative = null
-        ) {
-            putString(KEY_COLUMN, column)
-            putLong(column, value)
-            putString(
-                KEY_TITLE_STRING,
-                getString(R.string.dialog_title_confirm_remap, getString(columnStringResId))
-            )
-            putInt(KEY_POSITIVE_BUTTON_CHECKED_LABEL, R.string.button_label_clone_and_remap)
-            putString(KEY_CHECKBOX_LABEL, getString(R.string.menu_clone_transaction))
-        }
+        val fullMessage = message + " " + getString(R.string.continue_confirmation)
+        val titleString = getString(R.string.dialog_title_confirm_remap, getString(columnStringResId))
+        val dialog = RemapDialogFragment.newInstance(titleString, fullMessage, column, value)
+        dialog.show(activity.supportFragmentManager, "dialogRemap")
     }
 
     fun remap(extras: Bundle, shouldClone: Boolean) {
@@ -159,6 +145,7 @@ class RemapHandler(val activity: BaseMyExpenses<*>) : FragmentResultListener {
             val checkedItemIds = selectionState.map { it.id }
             val column = extras.getString(KEY_COLUMN) ?: return
             val value = extras.getLong(column)
+            val shouldUpdateValueDate = extras.getBoolean(KEY_UPDATE_VALUE_DATE, false)
             if (shouldClone) {
                 val progressDialog = ProgressDialogFragment.newInstance(
                     getString(R.string.saving), null, ProgressDialog.STYLE_HORIZONTAL, false
@@ -171,10 +158,11 @@ class RemapHandler(val activity: BaseMyExpenses<*>) : FragmentResultListener {
                 viewModel.cloneAndRemap(
                     checkedItemIds,
                     column,
-                    value
+                    value,
+                    shouldUpdateValueDate
                 )
             } else {
-                viewModel.remap(checkedItemIds, column, value)
+                viewModel.remap(checkedItemIds, column, value, shouldUpdateValueDate)
                     .observe(this) { result: Int ->
                         val message =
                             if (result > 0) getString(R.string.remapping_result) else "No transactions were mapped"
@@ -313,6 +301,7 @@ class RemapHandler(val activity: BaseMyExpenses<*>) : FragmentResultListener {
 
     companion object {
         const val KEY_COLUMN = "column"
+        const val KEY_UPDATE_VALUE_DATE = "updateValueDate"
         const val MAP_CATEGORY_REQUEST = "mapCategory"
         const val MAP_PAYEE_REQUEST = "mapPayee"
         const val MAP_METHOD_REQUEST = "mapMethod"
