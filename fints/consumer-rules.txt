@@ -29,7 +29,7 @@
 -keep class org.kapott.hbci.sepa.jaxb.** { *; }
 
 # needed with R8 full mode
-#-dontwarn org.xmlpull.v1.**
+-dontwarn org.xmlpull.v1.**
 
 #via com.sun.xml.bind
 -dontwarn com.sun.xml.fastinfoset.sax.AttributesHolder
