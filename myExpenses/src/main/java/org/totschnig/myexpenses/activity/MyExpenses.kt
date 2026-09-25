@@ -245,7 +245,7 @@ open class MyExpenses : BaseMyExpenses<MyExpensesViewModel>(), OnDialogResultLis
         drawerToggle?.syncState()
         if (savedInstanceState == null &&
             !prefHandler.getBoolean(PrefKey.SUNSET_V1_DISMISSED, false) &&
-            configurator[Configurator.Configuration.SUNSET_V1_ENABLED, false]
+            configurator[Configurator.Configuration.SUNSET_V1_ENABLED, true]
         ) {
             SunsetV1DialogFragment.newInstance(fromSettings = false)
                 .show(supportFragmentManager, "SUNSET_V1")
