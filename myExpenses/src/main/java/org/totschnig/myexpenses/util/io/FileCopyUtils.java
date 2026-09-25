@@ -19,8 +19,16 @@ public class FileCopyUtils {
   public static boolean copy(File src, File dst) {
     try (FileInputStream srcStream = new FileInputStream(src);
          FileOutputStream dstStream = new FileOutputStream(dst)) {
-      dstStream.getChannel().transferFrom(srcStream.getChannel(), 0,
-          srcStream.getChannel().size());
+      long size = srcStream.getChannel().size();
+      long position = 0;
+      while (position < size) {
+        long transferred = dstStream.getChannel().transferFrom(
+            srcStream.getChannel(), position, size - position);
+        if (transferred <= 0) {
+          throw new IOException("Failed to transfer remaining bytes");
+        }
+        position += transferred;
+      }
       return true;
     } catch (IOException e) {
       CrashHandler.report(e);
