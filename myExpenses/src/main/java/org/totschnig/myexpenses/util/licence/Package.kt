@@ -42,15 +42,15 @@ sealed class Package(val defaultPrice: Long) : Parcelable {
 
     @Parcelize
     @Keep
-    data object Contrib : Package(1440)
+    data object Contrib : Package(1540)
 
     @Parcelize
     @Keep
-    data object Upgrade : Package(660)
+    data object Upgrade : Package(760)
 
     @Parcelize
     @Keep
-    data object Extended : Package(1890)
+    data object Extended : Package(1990)
 }
 
 @Suppress("ClassName")
@@ -62,15 +62,15 @@ sealed class ProfessionalPackage(defaultPrice: Long, val duration: Int) : Packag
 
     @Parcelize
     @Keep
-    data object Professional_6 : ProfessionalPackage(549, 6)
+    data object Professional_6 : ProfessionalPackage(659, 6)
 
     @Parcelize
     @Keep
-    data object Professional_12 : ProfessionalPackage(985, 12)
+    data object Professional_12 : ProfessionalPackage(1085, 12)
 
     @Parcelize
     @Keep
-    data object Professional_24 : ProfessionalPackage(1819, 24)
+    data object Professional_24 : ProfessionalPackage(1919, 24)
 
     @Parcelize
     @Keep
@@ -122,7 +122,7 @@ sealed class ProfessionalPackage(defaultPrice: Long, val duration: Int) : Packag
 sealed class AddOnPackage(
     val feature: ContribFeature,
     private val isContribFeature: Boolean = feature.licenceStatus == LicenceStatus.CONTRIB
-) : Package(490) {
+) : Package(590) {
 
     companion object {
         //We cannot use an initializer here, because the objects we want to list might not be constructed
