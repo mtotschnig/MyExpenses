@@ -112,7 +112,7 @@
     <string name="menu_back">Назад</string>
     <string name="menu_backup">Резервна копія</string>
     <!-- Balance: compare cleared balance in app with balance on statement received from bank -->
-    <string name="menu_balance">Залишок на рахунку</string>
+    <string name="menu_balance">Звірити рахунок</string>
     <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
     <string name="menu_cancel_plan_instance">Скасувати</string>
     <string name="menu_clone_transaction">Клонувати</string>
@@ -369,7 +369,7 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Якщо суми не оновити, після зміни вони відображатимуться як розділені на %d.</string>
     <string name="warning_change_fraction_digits_3">Якщо суми оновити, ви втратите інформацію про їх дробову частину.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Оновити суми в базі даних</string>
-    <string name="import_categories_success">Успішно імпортовано %1$d категорії.</string>
+    <string name="import_categories_success">Успішно імпортовано категорій: %1$d.</string>
     <string name="import_parties_success">Успішно імпортовано %1$d учасників.</string>
     <string name="import_accounts_success">Успішно імпортовано %1$d рахунки.</string>
     <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d транзакцій успішно імпортовано до рахунку %2$s</string>
@@ -510,7 +510,7 @@
     <string name="synchronization_end_success_none">Немає змін для синхронізації.</string>
     <string name="pref_webdav_timeout_title">WebDAV таймаут (у секундах)</string>
     <string name="sync_state_restored">Стан синхронізації відновлено для %d рахунків.</string>
-    <string name="sync_state_could_not_be_restored">Стан синхронізації не вдалося відновити %d рахунків.</string>
+    <string name="sync_state_could_not_be_restored">Стан синхронізації не вдалося відновити для %d рахунків.</string>
     <string name="onboarding_ui_title">{app_name} пристосовується до ваших уподобань</string>
     <string name="onboarding_data_title">Давайте налаштуємо ваш перший рахунок</string>
     <string name="onboarding_restore_from_cloud">Відновити з хмарної синхронізації</string>
@@ -576,7 +576,7 @@
     <string name="pref_transaction_time_summary">Дозволяти вказувати точний час транзакції.</string>
     <string name="pref_value_date_summary">Дозволити встановити дату валютування на додачу до дати бронювання. Час транзакції буде приховано. Цей параметр не застосовується до готівкових рахунків.</string>
     <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
-    <string name="booking_date">Дата бронювання</string>
+    <string name="booking_date">Дата проведення</string>
     <!-- the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date -->
     <string name="value_date">Дата проведення транзакції</string>
     <string name="licence_expires_n_days">Ваша підписка на Професійну версію закінчиться через %d днів.</string>
@@ -711,7 +711,7 @@
     <string name="select_payee">Виберіть контрагента</string>
     <string name="account_deleted">Рахунок видалено</string>
     <string name="account_widget_configuration_sum">Тип відображуваної суми</string>
-    <string name="auto_fill_focus">Зверніть увагу на одержувача</string>
+    <string name="auto_fill_focus">Фокусуватися на полі одержувача</string>
     <string name="warning_plan_instance_delete">Транзакцію, створену на вибрану дату, буде видалено.</string>
     <string name="account_widget_configuration_sum_total">Включіть майбутні транзакції</string>
     <string name="merge_parties_select">Виберіть назву об\'єднаного учасника</string>
@@ -780,7 +780,7 @@
     <string name="pref_clone_with_current_date_title">Дата клонованих транзакцій</string>
     <string name="single_feature_info">Крім того, ви можете придбати необмежений доступ тільки до цієї функції.</string>
     <string name="cb_label_merge_accounts">Обʼєднати рахунки</string>
-    <string name="pref_mlkit_script_title">Сценарій для MlKit</string>
+    <string name="pref_mlkit_script_title">Писемність для MlKit</string>
     <string name="warning_party_delete_debt">При видаленні цієї сторони також видаляються визначені для неї борги.</string>
     <string name="menu_parent_category_selection">Виберіть головну категорію коротким дотиком</string>
     <string name="template_default_action_without_amount_hint">Шаблон без суми може бути збереженим за замовчуванням \"Редагувати\"</string>
@@ -945,8 +945,8 @@
     <string name="balance_sheet">Балансовий звіт</string>
     <string name="balance_sheet_section_assets">Активи</string>
     <string name="balance_sheet_section_liabilities">Зобов\'язання</string>
-    <string name="balance_sheet_net_worth">Чиста вартість</string>
-    <string name="menu_show_equivalent_value">Одинакові значення</string>
+    <string name="balance_sheet_net_worth">Власний капітал</string>
+    <string name="menu_show_equivalent_value">Еквівалентна вартість</string>
     <string name="current_value">Поточне значення</string>
     <string name="initial_value">Початкове значення</string>
     <string name="total_value">Загальна вартість</string>
@@ -998,7 +998,7 @@
         <item quantity="other">Не вдалося обробити %d рядків.</item>
     </plurals>
     <plurals name="import_trades_missing_assets_message">
-        <item quantity="one">%1$d рядок посилається на невідомі активи: \\%2$s.</item>
+        <item quantity="one">%1$d рядок посилається на невідомі активи: %2$s.</item>
         <item quantity="few">%1$d рядки посилаються на невідомі активи: \\%2$s.</item>
         <item quantity="many">%1$d рядків посилаються на невідомі активи: \\%2$s.</item>
         <item quantity="other">%1$d рядків посилаються на невідомі активи: \\%2$s.</item>
@@ -1006,4 +1006,10 @@
     <string name="confirm_process_file_message">Ви дійсно бажаєте імпортувати ціни для «%1$s» із «%2$s»? Нові ціни можуть вплинути на наявні еквівалентні суми.</string>
     <string name="warning_expense_category_credit">Ви призначаєте категорію витрат до транзакції доходу. Як наслідок, транзакція зменшить суму ваших витрат і за замовчуванням буде відображатися червоним кольором.</string>
     <string name="warning_income_category_debit">Ви призначаєте категорію доходу витратній транзакції. Як наслідок, транзакція зменшить суму вашого доходу та за замовчуванням відображатиметься зеленим кольором.</string>
+    <string name="menu_account_flags">Прапорці</string>
+    <string name="menu_flag">Прапорець</string>
+    <string name="edit_account_flag">Редагувати прапорець</string>
+    <string name="new_account_flag">Новий прапорець</string>
+    <string name="flag_favorite">Улюблене</string>
+    <string name="select_accounts_for_flag">Оберіть рахунки для прапорця %s</string>
 </resources>
