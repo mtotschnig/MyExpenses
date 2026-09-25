@@ -9,6 +9,21 @@
 -keep class io.netty.util.concurrent.ConcurrentSkipListIntObjMultimap { *; }
 -keep class io.netty.util.concurrent.ConcurrentSkipListIntObjMultimap$** { *; }
 
+# Netty channels instantiated reflectively via ReflectiveChannelFactory in R8 fullMode
+-keep class * implements io.netty.channel.Channel {
+    public <init>(...);
+}
+
+# Preserve Netty @Sharable annotation on ChannelHandlers (prevents ChannelPipelineException)
+-keepattributes *Annotation*,RuntimeVisibleAnnotations,ElementValuePairs
+-keep interface io.netty.channel.ChannelHandler$Sharable { *; }
+-keep,allowobfuscation,allowshrinking @io.netty.channel.ChannelHandler$Sharable class *
+
+# Prevent R8 fullMode from mis-optimizing delegation loops in Netty HTTP & HTTP/2 codecs
+-keep,allowobfuscation,allowshrinking class io.netty.handler.codec.http2.** { *; }
+-keep,allowobfuscation,allowshrinking class io.netty.handler.codec.http.** { *; }
+
+
 -keep,allowobfuscation,allowshrinking class io.ktor.** { *; }
 
 -dontwarn io.netty.internal.tcnative.AsyncSSLPrivateKeyMethod
