@@ -1094,4 +1094,6 @@
     <string name="important_upgrade_information_heading">Information importante</string>
     <string name="help_floating_action_button">Bouton d\'action flottant</string>
     <string name="search_asset">Rechercher un actif</string>
+    <string name="dialog_title_warning_delete_closed_account">Supprimer le compte fermé ?</string>
+    <string name="remap_update_value_date">Mettre également à jour la date de valeur</string>
 </resources>
