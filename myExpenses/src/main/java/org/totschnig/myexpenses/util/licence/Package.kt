@@ -42,13 +42,13 @@ sealed class Package(val defaultPrice: Long) {
         currencyFormatter.formatMoney(Money(currencyUnit, defaultPrice))
 
     @Keep
-    data object Contrib : Package(1440)
+    data object Contrib : Package(1540)
 
     @Keep
-    data object Upgrade : Package(660)
+    data object Upgrade : Package(760)
 
     @Keep
-    data object Extended : Package(1890)
+    data object Extended : Package(1990)
 
     companion object {
         fun fromString(id: String): Package? {
@@ -74,13 +74,13 @@ sealed class ProfessionalPackage(defaultPrice: Long, val duration: Int) : Packag
     data object Professional_1 : ProfessionalPackage(100, 1)
 
     @Keep
-    data object Professional_6 : ProfessionalPackage(549, 6)
+    data object Professional_6 : ProfessionalPackage(659, 6)
 
     @Keep
-    data object Professional_12 : ProfessionalPackage(985, 12)
+    data object Professional_12 : ProfessionalPackage(1085, 12)
 
     @Keep
-    data object Professional_24 : ProfessionalPackage(1819, 24)
+    data object Professional_24 : ProfessionalPackage(1919, 24)
 
     @Keep
     data object Amazon : ProfessionalPackage(900, 0)
@@ -131,7 +131,7 @@ sealed class ProfessionalPackage(defaultPrice: Long, val duration: Int) : Packag
 sealed class AddOnPackage(
     val feature: ContribFeature,
     private val isContribFeature: Boolean = feature.licenceStatus == LicenceStatus.CONTRIB
-) : Package(490) {
+) : Package(590) {
 
     companion object {
         //We cannot use an initializer here, because the objects we want to list might not be constructed
