@@ -80,7 +80,9 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener,
         get() = binding.singleFeatureContainer.packageButton
 
     @State
-    var selectedPackage: Package? = null
+    var selectedPackageId: String? = null
+    val selectedPackage: Package?
+        get() = selectedPackageId?.let { Package.fromString(it) }
 
     @Inject
     lateinit var licenceHandler: LicenceHandler
@@ -366,30 +368,30 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener,
     override fun onClick(v: View) {
         val licenceStatus = licenceHandler.licenceStatus
         if (v.id == R.id.trial_info_card || v == trialButton) {
-            selectedPackage = null
+            selectedPackageId = null
             updateButtons(trialButton)
             setSelectedForA11y(binding.trialInfoCard)
         } else if (v.id == R.id.contrib_feature_container || v === contribButton) {
-            selectedPackage = Package.Contrib
+            selectedPackageId = Package.Contrib.id
             updateButtons(contribButton)
             setSelectedForA11y(binding.contribFeatureContainer.root)
         } else if (v.id == R.id.extended_feature_container || v === extendedButton) {
-            selectedPackage = if (licenceStatus == null) Package.Extended else Package.Upgrade
+            selectedPackageId = (if (licenceStatus == null) Package.Extended else Package.Upgrade).id
             updateButtons(extendedButton)
             setSelectedForA11y(binding.extendedFeatureContainer.root)
         } else if (v.id == R.id.single_feature_container || v === singleButton) {
-            selectedPackage = getSinglePackage()
+            selectedPackageId = getSinglePackage().id
             updateButtons(singleButton)
             setSelectedForA11y(binding.extendedFeatureContainer.root)
         } else {
             val proPackages = licenceHandler.proPackages
             if (proPackages.size == 1) {
-                selectedPackage = proPackages[0]
+                selectedPackageId = proPackages[0].id
                 updateButtons(professionalButton)
             } else {
                 val popup = PopupMenu(requireActivity(), professionalButton)
                 popup.setOnMenuItemClickListener { item: MenuItem ->
-                    selectedPackage = proPackages[item.itemId]
+                    selectedPackageId = proPackages[item.itemId].id
                     updateProPrice(licenceStatus)
                     updateButtons(professionalButton)
                     setSelectedForA11y(binding.professionalFeatureContainer.root)

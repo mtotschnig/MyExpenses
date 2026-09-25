@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.activity
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.lifecycle.lifecycleScope
@@ -24,6 +23,7 @@ import org.totschnig.myexpenses.util.licence.Package
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.tracking.Tracker
 import timber.log.Timber
+import androidx.core.net.toUri
 
 
 /**
@@ -80,7 +80,9 @@ class ContribInfoDialogActivity : IapActivity() {
 
     private val packageFromExtra: Package?
         get() {
-            return intent.getParcelableExtra(KEY_PACKAGE)
+            return intent.getStringExtra(KEY_PACKAGE)?.let {
+                Package.fromString(it)
+            }
         }
 
     private fun contribBuyGithub(aPackage: Package) {
@@ -126,7 +128,7 @@ class ContribInfoDialogActivity : IapActivity() {
         if (paymentOption == R.string.donate_button_paypal) {
             purchaseStarted = true
             val intent: CustomTabsIntent = CustomTabsIntent.Builder().build()
-            intent.launchUrl(this, Uri.parse(licenceHandler.getPaypalUri(aPackage)))
+            intent.launchUrl(this, licenceHandler.getPaypalUri(aPackage).toUri())
         } else if (paymentOption == R.string.donate_button_invoice) {
             sendInvoiceRequest(aPackage)
             finish()
@@ -180,7 +182,7 @@ class ContribInfoDialogActivity : IapActivity() {
             try {
                 val caller = Class.forName(callingActivity.className)
                 result = ContribIFace::class.java.isAssignableFrom(caller)
-            } catch (ignored: ClassNotFoundException) {
+            } catch (_: ClassNotFoundException) {
             }
         }
         return result
@@ -244,10 +246,10 @@ class ContribInfoDialogActivity : IapActivity() {
         fun getIntentFor(
             context: Context,
             aPackage: Package,
-            shouldReplaceExisting: Boolean
+            shouldReplaceExisting: Boolean,
         ) = Intent(context, ContribInfoDialogActivity::class.java).apply {
             action = Intent.ACTION_MAIN
-            putExtra(KEY_PACKAGE, aPackage)
+            putExtra(KEY_PACKAGE, aPackage.id)
             putExtra(KEY_SHOULD_REPLACE_EXISTING, shouldReplaceExisting)
         }
     }

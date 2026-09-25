@@ -46,7 +46,8 @@ class DonateDialogFragment : BaseDialogFragment() {
             .create()
     }
 
-    private fun requirePackage(): Package = requireArguments().getParcelable(KEY_PACKAGE)!!
+    private fun requirePackage(): Package =
+        Package.fromString(requireArguments().getString(KEY_PACKAGE)!!)!!
 
     private inner class DonationUriVisitor : DialogInterface.OnClickListener {
         override fun onClick(dialog: DialogInterface, which: Int) {
@@ -70,7 +71,7 @@ class DonateDialogFragment : BaseDialogFragment() {
         private const val KEY_PACKAGE = "package"
         fun newInstance(aPackage: Package) = DonateDialogFragment().apply {
             arguments = Bundle().apply {
-                putParcelable(KEY_PACKAGE, aPackage)
+                putString(KEY_PACKAGE, aPackage.id)
             }
         }
     }
