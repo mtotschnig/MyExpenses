@@ -189,6 +189,14 @@
         <item quantity="one">%1$d contas importadas satisfactoriamente.</item>
         <item quantity="other">%1$d contas importadas satisfactoriamente.</item>
     </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d partes importadas satisfactoriamente.</item>
+        <item quantity="other">%1$d partes importadas satisfactoriamente.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d transaccións importadas satisfactoriamente na conta %2$s</item>
+        <item quantity="other">%1$d transaccións importadas satisfactoriamente na conta %2$s</item>
+    </plurals>
     <string name="widget_title_accounts">As miñas contas</string>
     <string name="widget_title_templates">Os meus modelos</string>
     <string name="app_dir_not_accessible">O cartafol seleccionado para copias de seguranza e exportacións (%1$s) non está accesible. Selecciona, por favor, un outro distinto.</string>

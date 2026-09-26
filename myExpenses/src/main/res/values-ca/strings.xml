@@ -468,8 +468,8 @@
         <item quantity="other">%1$d comptes importats amb èxit.</item>
     </plurals>
     <plurals name="import_transactions_result">
-        <item quantity="one">%1$d opreacions importades amb èxit al compte %2$s</item>
-        <item quantity="other">%1$d opreacions importades amb èxit al compte %2$s</item>
+        <item quantity="one">%1$d operacions importades amb èxit al compte %2$s</item>
+        <item quantity="other">%1$d operacions importades amb èxit al compte %2$s</item>
     </plurals>
     <string name="import_source_select_error">Aporteu un fitxer del tipus %1$s</string>
     <string name="menu_categories_setup_default">Definir categories per defecte</string>

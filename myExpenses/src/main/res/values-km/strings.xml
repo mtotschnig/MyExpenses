@@ -296,6 +296,14 @@
         <item quantity="one">%1$d ភាគី​បាន​នាំចូល​ដោយជោគជ័យ</item>
         <item quantity="other">%1$d ភាគី​បាន​នាំចូល​ដោយជោគជ័យ</item>
     </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d គណនី​បាន​នាំចូល​ដោយជោគជ័យ</item>
+        <item quantity="other">%1$d គណនី​បាន​នាំចូល​ដោយជោគជ័យ</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d ប្រតិបត្តិការ​បាន​នាំចូល​ដោយជោគជ័យ​ទៅ​គណនី %2$s</item>
+        <item quantity="other">%1$d ប្រតិបត្តិការ​បាន​នាំចូល​ដោយជោគជ័យ​ទៅ​គណនី %2$s</item>
+    </plurals>
     <string name="import_source_select_error">សូមផ្តល់​ឯកសារមួយ​ក្នុងប្រភេទ %1$s</string>
     <string name="menu_categories_setup_default">ដាក់ប្រភេទលំនាំដើម</string>
     <string name="widget_title_accounts">គណនីរបស់ខ្ញុំ</string>
