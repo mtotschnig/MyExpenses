@@ -343,22 +343,22 @@
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Setează un număr între %1$d şi %2$d, te rog</string>
     <string name="warning_change_fraction_digits_checkbox_label">Actualizarea sumelor în baza de date</string>
     <plurals name="import_categories_result">
-        <item quantity="one">%1$d categorii importate.</item>
+        <item quantity="one">%1$d categorie importată.</item>
         <item quantity="few">%1$d categorii importate.</item>
         <item quantity="other">%1$d categorii importate.</item>
     </plurals>
     <plurals name="import_parties_result">
-        <item quantity="one">%1$d terţi importaţi.</item>
+        <item quantity="one">%1$d terţ importat.</item>
         <item quantity="few">%1$d terţi importaţi.</item>
         <item quantity="other">%1$d terţi importaţi.</item>
     </plurals>
     <plurals name="import_accounts_result">
-        <item quantity="one">%1$d conturi importate.</item>
+        <item quantity="one">%1$d cont importat.</item>
         <item quantity="few">%1$d conturi importate.</item>
         <item quantity="other">%1$d conturi importate.</item>
     </plurals>
     <plurals name="import_transactions_result">
-        <item quantity="one">%1$d tranzacţii importate în contul %2$s</item>
+        <item quantity="one">%1$d tranzacţie importată în contul %2$s</item>
         <item quantity="few">%1$d tranzacţii importate în contul %2$s</item>
         <item quantity="other">%1$d tranzacţii importate în contul %2$s</item>
     </plurals>
