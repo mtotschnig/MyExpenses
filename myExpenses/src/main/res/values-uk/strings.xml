@@ -371,18 +371,26 @@
     <string name="warning_change_fraction_digits_checkbox_label">Оновити суми в базі даних</string>
     <plurals name="import_categories_result">
         <item quantity="one">Успішно імпортовано категорій: %1$d.</item>
+        <item quantity="few">Успішно імпортовано категорій: %1$d.</item>
+        <item quantity="many">Успішно імпортовано категорій: %1$d.</item>
         <item quantity="other">Успішно імпортовано категорій: %1$d.</item>
     </plurals>
     <plurals name="import_parties_result">
         <item quantity="one">Успішно імпортовано %1$d учасників.</item>
+        <item quantity="few">Успішно імпортовано %1$d учасників.</item>
+        <item quantity="many">Успішно імпортовано %1$d учасників.</item>
         <item quantity="other">Успішно імпортовано %1$d учасників.</item>
     </plurals>
     <plurals name="import_accounts_result">
         <item quantity="one">Успішно імпортовано %1$d рахунки.</item>
+        <item quantity="few">Успішно імпортовано %1$d рахунки.</item>
+        <item quantity="many">Успішно імпортовано %1$d рахунки.</item>
         <item quantity="other">Успішно імпортовано %1$d рахунки.</item>
     </plurals>
     <plurals name="import_transactions_result">
         <item quantity="one">%1$d транзакцій успішно імпортовано до рахунку %2$s</item>
+        <item quantity="few">%1$d транзакцій успішно імпортовано до рахунку %2$s</item>
+        <item quantity="many">%1$d транзакцій успішно імпортовано до рахунку %2$s</item>
         <item quantity="other">%1$d транзакцій успішно імпортовано до рахунку %2$s</item>
     </plurals>
     <string name="import_source_select_error">Будь ласка, виберіть файл типу %1$s</string>

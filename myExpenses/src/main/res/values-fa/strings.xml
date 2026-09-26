@@ -285,8 +285,8 @@
         <item quantity="other">%1$d شخص با موفقیت درون ریزی شد</item>
     </plurals>
     <plurals name="import_accounts_result">
-        <item quantity="one">%1$dحساب با موفقیت درون‌ریزی شد</item>
-        <item quantity="other">%1$dحساب با موفقیت درون‌ریزی شد</item>
+        <item quantity="one">%1$d حساب با موفقیت درون‌ریزی شد</item>
+        <item quantity="other">%1$d حساب با موفقیت درون‌ریزی شد</item>
     </plurals>
     <plurals name="import_transactions_result">
         <item quantity="one">%1$d تراکنش با موفقیت به حساب %2$s درون‌ریزی شد</item>

@@ -373,18 +373,26 @@
     <string name="warning_change_fraction_digits_checkbox_label">Zaktualizuj kwoty w bazie danych</string>
     <plurals name="import_categories_result">
         <item quantity="one">Kategorie %1$d zostały zaimportowane pomyślnie.</item>
+        <item quantity="few">Kategorie %1$d zostały zaimportowane pomyślnie.</item>
+        <item quantity="many">Kategorie %1$d zostały zaimportowane pomyślnie.</item>
         <item quantity="other">Kategorie %1$d zostały zaimportowane pomyślnie.</item>
     </plurals>
     <plurals name="import_parties_result">
         <item quantity="one">Partie %1$d zostały zaimportowane pomyślnie.</item>
+        <item quantity="few">Partie %1$d zostały zaimportowane pomyślnie.</item>
+        <item quantity="many">Partie %1$d zostały zaimportowane pomyślnie.</item>
         <item quantity="other">Partie %1$d zostały zaimportowane pomyślnie.</item>
     </plurals>
     <plurals name="import_accounts_result">
         <item quantity="one">%1$d kont pomyślnie zaimportowano.</item>
+        <item quantity="few">%1$d kont pomyślnie zaimportowano.</item>
+        <item quantity="many">%1$d kont pomyślnie zaimportowano.</item>
         <item quantity="other">%1$d kont pomyślnie zaimportowano.</item>
     </plurals>
     <plurals name="import_transactions_result">
         <item quantity="one">%1$d transakcji pomyślnie zaimportowano do konta %2$s</item>
+        <item quantity="few">%1$d transakcji pomyślnie zaimportowano do konta %2$s</item>
+        <item quantity="many">%1$d transakcji pomyślnie zaimportowano do konta %2$s</item>
         <item quantity="other">%1$d transakcji pomyślnie zaimportowano do konta %2$s</item>
     </plurals>
     <string name="import_source_select_error">Proszę wskazać plik w formacie %1$s</string>

@@ -377,18 +377,22 @@
     <string name="warning_change_fraction_digits_checkbox_label">Aktualizovat částky v databázi</string>
     <plurals name="import_categories_result">
         <item quantity="one">%1$d kategorie byly úspěšně naimportovány.</item>
+        <item quantity="few">%1$d kategorie byly úspěšně naimportovány.</item>
         <item quantity="other">%1$d kategorie byly úspěšně naimportovány.</item>
     </plurals>
     <plurals name="import_parties_result">
         <item quantity="one">%1$d strany byly úspěšně naimportovány.</item>
+        <item quantity="few">%1$d strany byly úspěšně naimportovány.</item>
         <item quantity="other">%1$d strany byly úspěšně naimportovány.</item>
     </plurals>
     <plurals name="import_accounts_result">
         <item quantity="one">Účty (celkem %1$d) byly úspěšně importovány.</item>
+        <item quantity="few">Účty (celkem %1$d) byly úspěšně importovány.</item>
         <item quantity="other">Účty (celkem %1$d) byly úspěšně importovány.</item>
     </plurals>
     <plurals name="import_transactions_result">
         <item quantity="one">%1$d transakcí úspěšně importováno na účet %2$s</item>
+        <item quantity="few">%1$d transakcí úspěšně importováno na účet %2$s</item>
         <item quantity="other">%1$d transakcí úspěšně importováno na účet %2$s</item>
     </plurals>
     <string name="import_source_select_error">Poskytněte prosím soubor typu %1$s</string>

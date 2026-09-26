@@ -376,18 +376,26 @@
     <string name="warning_change_fraction_digits_checkbox_label">Обновить суммы в базе данных</string>
     <plurals name="import_categories_result">
         <item quantity="one">%1$d категорий успешно импортированы.</item>
+        <item quantity="few">%1$d категорий успешно импортированы.</item>
+        <item quantity="many">%1$d категорий успешно импортированы.</item>
         <item quantity="other">%1$d категорий успешно импортированы.</item>
     </plurals>
     <plurals name="import_parties_result">
         <item quantity="one">%1$d контрагентов успешно импортировано.</item>
+        <item quantity="few">%1$d контрагентов успешно импортировано.</item>
+        <item quantity="many">%1$d контрагентов успешно импортировано.</item>
         <item quantity="other">%1$d контрагентов успешно импортировано.</item>
     </plurals>
     <plurals name="import_accounts_result">
         <item quantity="one">%1$d счета успешно импортированы.</item>
+        <item quantity="few">%1$d счета успешно импортированы.</item>
+        <item quantity="many">%1$d счета успешно импортированы.</item>
         <item quantity="other">%1$d счета успешно импортированы.</item>
     </plurals>
     <plurals name="import_transactions_result">
         <item quantity="one">%1$d операций успешно импортированы в счёт %2$s</item>
+        <item quantity="few">%1$d операций успешно импортированы в счёт %2$s</item>
+        <item quantity="many">%1$d операций успешно импортированы в счёт %2$s</item>
         <item quantity="other">%1$d операций успешно импортированы в счёт %2$s</item>
     </plurals>
     <string name="import_source_select_error">Пожалуйста заполните тип файла %1$s</string>

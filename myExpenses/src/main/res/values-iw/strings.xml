@@ -374,16 +374,16 @@
         <item quantity="other">%1$d קטגוריות יובאו בהצלחה.</item>
     </plurals>
     <plurals name="import_parties_result">
-        <item quantity="one">%1$dעסקעות יובאו בהצלחה.</item>
-        <item quantity="other">%1$dעסקעות יובאו בהצלחה.</item>
+        <item quantity="one">%1$d עסקאות יובאו בהצלחה.</item>
+        <item quantity="other">%1$d עסקאות יובאו בהצלחה.</item>
     </plurals>
     <plurals name="import_accounts_result">
         <item quantity="one">%1$d חשבונות יובאו בהצלחה.</item>
         <item quantity="other">%1$d חשבונות יובאו בהצלחה.</item>
     </plurals>
     <plurals name="import_transactions_result">
-        <item quantity="one">%1$d עסקעות יובאו בהצלחה לחשבון %2$s</item>
-        <item quantity="other">%1$d עסקעות יובאו בהצלחה לחשבון %2$s</item>
+        <item quantity="one">%1$d עסקאות יובאו בהצלחה לחשבון %2$s</item>
+        <item quantity="other">%1$d עסקאות יובאו בהצלחה לחשבון %2$s</item>
     </plurals>
     <string name="import_source_select_error">אנא ספק  קובץ מסוג %1$s</string>
     <string name="menu_categories_setup_default">הגדר קטגוריות ברירת מחדל</string>
