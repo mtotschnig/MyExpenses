@@ -412,7 +412,7 @@
         <item quantity="other">تم استيراد %1$d حساب بنجاح.</item>
     </plurals>
     <plurals name="import_transactions_result">
-        <item quantity="zero">لم يتم استيراد %1$d معاملات إلى الحساب %2$s</item>
+        <item quantity="zero">تم استيراد %1$d معاملات بنجاح إلى الحساب %2$s</item>
         <item quantity="one">تم استيراد معاملة واحدة بنجاح إلى الحساب %2$s</item>
         <item quantity="two">تم استيراد معاملتين بنجاح إلى الحساب %2$s</item>
         <item quantity="few">تم استيراد %1$d معاملات بنجاح إلى الحساب %2$s</item>

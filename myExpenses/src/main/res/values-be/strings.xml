@@ -261,19 +261,27 @@
     <string name="move_category_failure">Адна катэгорыя не была перамешчаная, паколькі той жа ярлык ужо існуе ў мэтавым аб\'екце.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Абнаўленне сум у базе дадзеных</string>
     <plurals name="import_categories_result">
-        <item quantity="one">Паспяхова імпартавана %1$d катэгорый.</item>
+        <item quantity="one">Паспяхова імпартавана %1$d катэгорыя.</item>
+        <item quantity="few">Паспяхова імпартавана %1$d катэгорыі.</item>
+        <item quantity="many">Паспяхова імпартавана %1$d катэгорый.</item>
         <item quantity="other">Паспяхова імпартавана %1$d катэгорый.</item>
     </plurals>
     <plurals name="import_parties_result">
-        <item quantity="one">%1$d груп паспяхова імпартавана.</item>
+        <item quantity="one">%1$d група паспяхова імпартавана.</item>
+        <item quantity="few">%1$d групы паспяхова імпартавана.</item>
+        <item quantity="many">%1$d груп паспяхова імпартавана.</item>
         <item quantity="other">%1$d груп паспяхова імпартавана.</item>
     </plurals>
     <plurals name="import_accounts_result">
-        <item quantity="one">%1$d рахункаў паспяхова імпартавана.</item>
+        <item quantity="one">%1$d рахунак паспяхова імпартаваны.</item>
+        <item quantity="few">%1$d рахункі паспяхова імпартаваныя.</item>
+        <item quantity="many">%1$d рахункаў паспяхова імпартавана.</item>
         <item quantity="other">%1$d рахункаў паспяхова імпартавана.</item>
     </plurals>
     <plurals name="import_transactions_result">
-        <item quantity="one">%1$d транзакцый паспяхова імпартавана ў рахунак %2$s</item>
+        <item quantity="one">%1$d транзакцыя паспяхова імпартавана ў рахунак %2$s</item>
+        <item quantity="few">%1$d транзакцыі паспяхова імпартаваны ў рахунак %2$s</item>
+        <item quantity="many">%1$d транзакцый паспяхова імпартавана ў рахунак %2$s</item>
         <item quantity="other">%1$d транзакцый паспяхова імпартавана ў рахунак %2$s</item>
     </plurals>
     <string name="import_source_select_error">Калі ласка, прадастаўце файл тыпу %1$s</string>

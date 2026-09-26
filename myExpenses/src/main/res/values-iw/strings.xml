@@ -391,7 +391,7 @@
         <item quantity="other">%1$d חשבונות יובאו בהצלחה.</item>
     </plurals>
     <plurals name="import_transactions_result">
-        <item quantity="zero">לא יובאו %1$d עסקאות לחשבון %2$s.</item>
+        <item quantity="zero">%1$d עסקאות יובאו בהצלחה לחשבון %2$s</item>
         <item quantity="one">%1$d עסקה יובאה בהצלחה לחשבון %2$s</item>
         <item quantity="two">%1$d עסקאות יובאו בהצלחה לחשבון %2$s</item>
         <item quantity="many">%1$d עסקאות יובאו בהצלחה לחשבון %2$s</item>
