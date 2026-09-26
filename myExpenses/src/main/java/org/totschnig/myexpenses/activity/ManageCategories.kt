@@ -45,6 +45,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
@@ -238,13 +239,17 @@ class ManageCategories : ProtectedFragmentActivity(),
                 when (viewModel.dialogState) {
                     is ManageCategoriesViewModel.Edit -> CategoryEdit(
                         dialogState = viewModel.dialogState as ManageCategoriesViewModel.Edit,
-                        onDismissRequest = { viewModel.dialogState = ManageCategoriesViewModel.NoShow },
+                        onDismissRequest = {
+                            viewModel.dialogState = ManageCategoriesViewModel.NoShow
+                        },
                         onSave = viewModel::saveCategory
                     )
 
                     is ManageCategoriesViewModel.Merge -> CategoryMerge(
                         dialogState = viewModel.dialogState as ManageCategoriesViewModel.Merge,
-                        onDismissRequest = { viewModel.dialogState = ManageCategoriesViewModel.NoShow },
+                        onDismissRequest = {
+                            viewModel.dialogState = ManageCategoriesViewModel.NoShow
+                        },
                         onMerge = viewModel::mergeCategories
                     )
 
@@ -682,30 +687,38 @@ class ManageCategories : ProtectedFragmentActivity(),
     private fun observeImportResult() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.importResult.collect { pair ->
-                    pair?.let {
-                        showDismissibleSnackBar(
-                            if (pair.first == 0 && pair.second == 0) {
-                                getString(R.string.import_categories_none)
-                            } else {
-                                buildList {
-                                    pair.first.takeIf { it != 0 }?.let {
-                                        add(getString(R.string.import_categories_success, it))
-                                    }
-                                    pair.second.takeIf { it != 0 }?.let {
-                                        add(
-                                            resources.getQuantityString(
-                                                R.plurals.import_categories_icons_updated,
-                                                it,
-                                                it
-                                            )
-                                        )
-                                    }
-                                }.joinToString(separator = " ")
-                            },
-                            dismissCallback
-                        )
-                    }
+                viewModel.importResult.filterNotNull().collect { pair ->
+                    showDismissibleSnackBar(
+buildList {
+    pair.first.takeIf { it != 0 }?.let {
+        add(
+            resources.getQuantityString(
+                R.plurals.import_categories_result,
+                it,
+                it
+            )
+        )
+    }
+    pair.second.takeIf { it != 0 }?.let {
+        add(
+            resources.getQuantityString(
+                R.plurals.import_categories_icons_updated,
+                it,
+                it
+            )
+        )
+    }
+}.ifEmpty {
+    listOf(
+        resources.getQuantityString(
+            R.plurals.import_categories_result,
+            0,
+            0
+        )
+    )
+}.joinToString(separator = " ")
+                        dismissCallback
+                    )
                 }
             }
         }

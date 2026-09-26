@@ -273,7 +273,7 @@
     <string name="menu_history">Historik</string>
     <string name="pref_translation_title">Översättning</string>
     <plurals name="import_categories_icons_updated">
-        <item quantity="one">En kategori uppdaterades med en ikon.</item>
+        <item quantity="one">%1$d kategori uppdaterades med en ikon.</item>
         <item quantity="other">%1$d kategorier uppdaterades med ikoner.</item>
     </plurals>
     <string name="menu_undelete_transaction">Återställ</string>
@@ -390,9 +390,6 @@
     <string name="show_invisible">Dolda konton</string>
     <string name="menu_split_transaction">Omvandla till uppdelning</string>
     <string name="no_split_parts">Inga uppdelade delar.</string>
-    <string name="import_accounts_none">Inga konton importerade</string>
-    <string name="import_categories_none">Inga kategorier importerade</string>
-    <string name="import_parties_none">Inga parter importerade</string>
     <string name="menu_categories_setup_default">Ställ in standardkategorier</string>
     <string name="search_amount">Sök efter belopp</string>
     <string name="search_category">Sök efter kategori</string>
@@ -528,11 +525,22 @@
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Om belopp inte uppdateras kommer de visas som multiplicerat med %d efter ändringen.</string>
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Om belopp inte uppdateras kommer de visas som delade med %d efter ändringen.</string>
     <string name="warning_change_fraction_digits_3">Om beloppen uppdateras förlorar du informationen om deras deldel.</string>
-    <string name="import_categories_success" tools:ignore="PluralsCandidate">%1$d kategorier har importerats.</string>
-    <string name="import_parties_success" tools:ignore="PluralsCandidate">%1$d motparter har importerats.</string>
-    <string name="import_accounts_success" tools:ignore="PluralsCandidate">%1$d konton har importerats.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transaktioner har importerats till kontot %2$s</string>
-    <string name="import_transactions_none">Inga transaktioner importerade till kontot %1$s</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d kategorier har importerats.</item>
+        <item quantity="other">%1$d kategorier har importerats.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d motparter har importerats.</item>
+        <item quantity="other">%1$d motparter har importerats.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d konton har importerats.</item>
+        <item quantity="other">%1$d konton har importerats.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d transaktioner har importerats till kontot %2$s</item>
+        <item quantity="other">%1$d transaktioner har importerats till kontot %2$s</item>
+    </plurals>
     <string name="import_source_select_error">Vänligen bifoga en fil av typen %1$s</string>
     <string name="app_dir_not_accessible">Den för närvarande valda mappen för säkerhetskopiering och export (%1$s) är inte tillgänglig. Vänligen välj en annan.</string>
     <string name="search_comment">Sök efter noter</string>

@@ -286,12 +286,24 @@
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">បើ​អ្នក​បាន​ដំណើរការហើយ សម្រាប់​គណនី​ %1$s ប្រតិបត្តិការ​ទាំង​អស់ នឹង​ត្រូវបាន​លុប​ចេញពី​មូលដ្ឋាន​ទិន្នន័យ និង​មិន​អាច​យក​មកវិញ​បាន​ទេ។</string>
     <string name="warning_restore">មូលដ្ឋានទិន្នន័យ និងចំណង់ចំណូលចិត្ត នឹងត្រូវបានស្ដារឡើងវិញពីការបម្រុងទុក។ (%1$s) ទិន្នន័យបច្ចុប្បន្ន នឹងត្រូវបានលុប។</string>
-    <string name="import_categories_success">%1$d ចំណាត់ថ្នាក់ បាន​នាំចូល​ដោយជោគជ័យ</string>
-    <string name="import_parties_success">%1$d ភាគី​បាន​នាំចូល​ដោយជោគជ័យ</string>
     <string name="import_accounts_none">គ្មាន​គណនី​នាំចូលទេ</string>
-    <string name="import_categories_none">គ្មាន​ចំណាត់ថ្នាក់​កំណត់នាំចូលទេ</string>
-    <string name="import_parties_none">គ្មានចំណាត់​ផ្នែកនាំចូលទេ</string>
     <string name="import_transactions_none">គ្មាន​ប្រតិបត្តិការ​ណា​នាំចូល​ទៅគណនី %1$s</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d ចំណាត់ថ្នាក់ បាន​នាំចូល​ដោយជោគជ័យ</item>
+        <item quantity="other">%1$d ចំណាត់ថ្នាក់ បាន​នាំចូល​ដោយជោគជ័យ</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d ភាគី​បាន​នាំចូល​ដោយជោគជ័យ</item>
+        <item quantity="other">%1$d ភាគី​បាន​នាំចូល​ដោយជោគជ័យ</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d គណនី​បាន​នាំចូល​ដោយជោគជ័យ</item>
+        <item quantity="other">%1$d គណនី​បាន​នាំចូល​ដោយជោគជ័យ</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d ប្រតិបត្តិការ​បាន​នាំចូល​ដោយជោគជ័យ​ទៅ​គណនី %2$s</item>
+        <item quantity="other">%1$d ប្រតិបត្តិការ​បាន​នាំចូល​ដោយជោគជ័យ​ទៅ​គណនី %2$s</item>
+    </plurals>
     <string name="import_source_select_error">សូមផ្តល់​ឯកសារមួយ​ក្នុងប្រភេទ %1$s</string>
     <string name="menu_categories_setup_default">ដាក់ប្រភេទលំនាំដើម</string>
     <string name="widget_title_accounts">គណនីរបស់ខ្ញុំ</string>

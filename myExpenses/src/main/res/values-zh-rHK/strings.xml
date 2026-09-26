@@ -245,8 +245,6 @@
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">如果你繼續，所有帳戶%1$s和當中的所有交易都從數據庫中被刪除且無法恢復。</string>
     <string name="warning_restore">數據庫和喜好設定將會從備份中被恢復過來 (%1$s)。當前的數據會被刪除。</string>
-    <string name="import_categories_success">%1$d 類別  被匯入成功。</string>
-    <string name="import_parties_success">%1$d 貿易夥伴被匯入成功。</string>
     <string name="pref_auto_backup_title">啟用自動備份</string>
     <string name="pref_auto_backup_summary">每日在指定時間備份資料庫 (僅當數據已經改變)</string>
     <string name="pref_auto_backup_time_title">自動備份時間</string>
@@ -283,13 +281,11 @@
     <string name="contrib_feature_csv_import_label">CSV 導入</string>
     <string name="dialog_balance_delete">刪除對帳交易</string>
     <string name="dialog_command_disabled_insert_transfer">轉帳交易需要第二個帳戶。</string>
-    <string name="import_accounts_success" tools:ignore="PluralsCandidate">%1$d 帳戶已成功匯入。</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">從小部件和快捷方式輸入數據</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">無需密碼即可允許。</string>
     <string name="pref_restore_summary">選擇用於還原資料庫和首選項的備份。</string>
     <string name="total_cleared">已清除總數</string>
     <string name="warning_balance_account">請將清算總額與銀行對帳單中的期末餘額進行比較。如果繼續，已清算的交易將被標記為已調節。</string>
-    <string name="import_transactions_none">沒有交易導入帳戶 %1$s</string>
     <string name="dialog_command_disabled_balance">沒有已清算的交易需要對帳。</string>
     <string name="contrib_feature_ad_free_label">無廣告</string>
     <string name="default_account_name">預算書</string>
@@ -300,6 +296,22 @@
     <string name="pref_manage_sync_backends_summary">新增用於同步帳戶的後端 (%s)。</string>
     <string name="warning_delete_category_with_budget">對於至少一個選定的類別，有預算分配，該預算分配也將被刪除。</string>
     <string name="total_reconciled">調節總數</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d 類別 被匯入成功。</item>
+        <item quantity="other">%1$d 類別 被匯入成功。</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d 貿易夥伴被匯入成功。</item>
+        <item quantity="other">%1$d 貿易夥伴被匯入成功。</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d 帳戶已成功匯入。</item>
+        <item quantity="other">%1$d 帳戶已成功匯入。</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d交易已成功導入帳戶%2$s</item>
+        <item quantity="other">%1$d交易已成功導入帳戶%2$s</item>
+    </plurals>
     <string name="import_source_select_error">請提供 %1$s 類型的文件</string>
     <string name="qif_parse_failure_found_multiple_accounts">在 %s 檔案中找到多個帳戶。</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">無法將它們合併到現有帳戶中。</string>
@@ -307,9 +319,6 @@
         <item quantity="other">%1$d 選定的模板將會被刪除。</item>
     </plurals>
     <string name="warning_password_protected">應用程式受密碼保護。</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d交易已成功導入帳戶%2$s</string>
-    <string name="import_categories_none">沒有導入類別</string>
-    <string name="import_parties_none">沒有導入任何一方</string>
     <plurals name="save_transaction_from_template_success">
         <item quantity="other">%1$d 已成功從範本儲存新交易。</item>
     </plurals>
@@ -328,7 +337,6 @@
     <string name="warning_reset_account_matched">如果繼續，當前過濾器匹配的交易將從資料庫中刪除並且無法恢復。</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">您目前的許可證狀態 (%2$s) 可讓您建立 %1$d 計畫。</string>
     <string name="warning_widget_disabled">您需要在應用程式設定中啟用此小工具。</string>
-    <string name="import_accounts_none">沒有導入帳戶</string>
     <string name="contrib_feature_category_tree_label">類別樹</string>
     <string name="dialog_contrib_text_2">請透過升級 <i>{app_name}</i> 做出貢獻，並獲得對以下功能的無限存取：</string>
     <string name="dialog_contrib_trial_info" tools:ignore="PluralsCandidate">您目前的許可證狀態 (%1$s) 允許您嘗試 %2$s %3$d 天（直到 %4$s）。</string>

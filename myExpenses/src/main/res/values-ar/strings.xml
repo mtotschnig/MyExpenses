@@ -387,14 +387,38 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">إذا لم يتم تحديث المبالغ، فسيتم عرضها على أنها مقسومة على %d بعد التغيير.</string>
     <string name="warning_change_fraction_digits_3">إذا تم تحديث المبالغ، فستفقد المعلومات حول الجزء الكسري.</string>
     <string name="warning_change_fraction_digits_checkbox_label">تحديث المبالغ في قاعدة البيانات</string>
-    <string name="import_categories_success">تم استيراد %1$d فئات بنجاح.</string>
-    <string name="import_parties_success">تم استيراد %1$d أطراف بنجاح.</string>
-    <string name="import_accounts_success">تم استيراد %1$d من الحسابات بنجاح.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">تم استيراد %1$d معاملة بنجاح إلى الحساب %2$s</string>
-    <string name="import_accounts_none">لا يوجد حسابات مستوردة</string>
-    <string name="import_categories_none">لا توجد فئات مستوردة</string>
-    <string name="import_parties_none">لا توجد أطراف مستوردة</string>
-    <string name="import_transactions_none">لم يتم استيراد أي معاملات إلى الحساب %1$s</string>
+    <plurals name="import_categories_result">
+        <item quantity="zero">لم يتم استيراد أي فئات.</item>
+        <item quantity="one">تم استيراد فئة واحدة بنجاح.</item>
+        <item quantity="two">تم استيراد فئتين بنجاح.</item>
+        <item quantity="few">تم استيراد %1$d فئات بنجاح.</item>
+        <item quantity="many">تم استيراد %1$d فئة بنجاح.</item>
+        <item quantity="other">تم استيراد %1$d فئة بنجاح.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="zero">لم يتم استيراد أي أطراف.</item>
+        <item quantity="one">تم استيراد طرف واحد بنجاح.</item>
+        <item quantity="two">تم استيراد طرفين بنجاح.</item>
+        <item quantity="few">تم استيراد %1$d أطراف بنجاح.</item>
+        <item quantity="many">تم استيراد %1$d طرفًا بنجاح.</item>
+        <item quantity="other">تم استيراد %1$d طرف بنجاح.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="zero">لم يتم استيراد أي حسابات.</item>
+        <item quantity="one">تم استيراد حساب واحد بنجاح.</item>
+        <item quantity="two">تم استيراد حسابين بنجاح.</item>
+        <item quantity="few">تم استيراد %1$d حسابات بنجاح.</item>
+        <item quantity="many">تم استيراد %1$d حسابًا بنجاح.</item>
+        <item quantity="other">تم استيراد %1$d حساب بنجاح.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="zero">تم استيراد %1$d معاملات بنجاح إلى الحساب %2$s</item>
+        <item quantity="one">تم استيراد معاملة واحدة بنجاح إلى الحساب %2$s</item>
+        <item quantity="two">تم استيراد معاملتين بنجاح إلى الحساب %2$s</item>
+        <item quantity="few">تم استيراد %1$d معاملات بنجاح إلى الحساب %2$s</item>
+        <item quantity="many">تم استيراد %1$d معاملة بنجاح إلى الحساب %2$s</item>
+        <item quantity="other">تم استيراد %1$d معاملة بنجاح إلى الحساب %2$s</item>
+    </plurals>
     <string name="import_source_select_error">يرجى تقديم ملف من نوع %1$s</string>
     <string name="menu_categories_setup_default">إعداد الفئات الافتراضية</string>
     <string name="widget_title_accounts">حساباتي</string>

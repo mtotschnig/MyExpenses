@@ -363,14 +363,22 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Wenn Beträge nicht aktualisiert werden, erscheinen diese nach der Änderung als dividiert durch %d.</string>
     <string name="warning_change_fraction_digits_3">Wenn Beträge aktualisiert werden, verlieren Sie die Information über deren Bruchteil.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Beträge in der Datenbank aktualisieren</string>
-    <string name="import_categories_success">%1$d Kategorien erfolgreich importiert.</string>
-    <string name="import_parties_success">%1$d Parteien erfolgreich importiert.</string>
-    <string name="import_accounts_success">%1$d Konten erfolgreich importiert.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d Buchungen erfolgreich in das Konto %2$s importiert</string>
-    <string name="import_accounts_none">Keine Konten importiert</string>
-    <string name="import_categories_none">Keine Kategorien importiert</string>
-    <string name="import_parties_none">Keine Parteien importiert</string>
-    <string name="import_transactions_none">Keine Buchungen in das Konto %1$s importiert</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d Kategorien erfolgreich importiert.</item>
+        <item quantity="other">%1$d Kategorien erfolgreich importiert.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d Parteien erfolgreich importiert.</item>
+        <item quantity="other">%1$d Parteien erfolgreich importiert.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d Konten erfolgreich importiert.</item>
+        <item quantity="other">%1$d Konten erfolgreich importiert.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d Buchungen erfolgreich in das Konto %2$s importiert</item>
+        <item quantity="other">%1$d Buchungen erfolgreich in das Konto %2$s importiert</item>
+    </plurals>
     <string name="import_source_select_error">Bitte wählen Sie eine Datei des Typs %1$s</string>
     <string name="menu_categories_setup_default">Standard Kategorien einrichten</string>
     <string name="widget_title_accounts">Meine Konten</string>
@@ -817,7 +825,7 @@
     <string name="pref_mlkit_script_title">Skript für MlKit</string>
     <string name="cb_label_merge_accounts">Konten zusammenführen</string>
     <plurals name="import_categories_icons_updated">
-        <item quantity="one">Eine Kategorie wurde mit Symbol aktualisiert.</item>
+        <item quantity="one">%1$d Kategorie wurde mit Symbol aktualisiert.</item>
         <item quantity="other">%1$d Kategorien wurden mit Symbolen aktualisiert.</item>
     </plurals>
     <string name="setup_completed">Einrichtung abgeschlossen</string>

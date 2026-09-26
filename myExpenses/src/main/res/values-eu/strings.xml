@@ -360,14 +360,22 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Kopuruak eguneratzen ez badira, %d aldiz zatituta bistaratuko dira aldaketa eta gero.</string>
     <string name="warning_change_fraction_digits_3">Kopuruak eguneratzen badira, frakzioaren ataleko informazioa galduko duzu.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Eguneratu datu-baseko kopuruak</string>
-    <string name="import_categories_success">%1$d kategoria ondo inportatu dira.</string>
-    <string name="import_parties_success">%1$d onuradun/ordaintzaile ondo inportatu dira.</string>
-    <string name="import_accounts_success">%1$d kontu ondo inportatu dira.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transakzio ondo inportatu dira %2$s kontura</string>
-    <string name="import_accounts_none">Ez da konturik inportatu</string>
-    <string name="import_categories_none">Ez da kategoriarik inportatu</string>
-    <string name="import_parties_none">Ez da onuradun/ordaintzailerik inportatu</string>
-    <string name="import_transactions_none">Ez da transakziorik inportatu %1$s kontura</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d kategoria ondo inportatu dira.</item>
+        <item quantity="other">%1$d kategoria ondo inportatu dira.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d onuradun/ordaintzaile ondo inportatu dira.</item>
+        <item quantity="other">%1$d onuradun/ordaintzaile ondo inportatu dira.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d kontu ondo inportatu dira.</item>
+        <item quantity="other">%1$d kontu ondo inportatu dira.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d transakzio ondo inportatu dira %2$s kontura</item>
+        <item quantity="other">%1$d transakzio ondo inportatu dira %2$s kontura</item>
+    </plurals>
     <string name="import_source_select_error">Aukeratu %1$s motako fitxategi bat</string>
     <string name="menu_categories_setup_default">Ezarri lehenetsitako kategoriak</string>
     <string name="widget_title_accounts">Nire kontuak</string>

@@ -98,13 +98,23 @@
     <string name="search_amount">Søk etter beløp</string>
     <string name="widget_title_templates">Mine maler</string>
     <string name="widget_title_accounts">Mine kontoer</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">Importerte %1$d kategorier.</item>
+        <item quantity="other">Importerte %1$d kategorier.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">Importerte %1$d parter.</item>
+        <item quantity="other">Importerte %1$d parter.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">Importerte %1$d kontoer.</item>
+        <item quantity="other">Importerte %1$d kontoer.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">Importerte %1$d transaksjoner til konto %2$s.</item>
+        <item quantity="other">Importerte %1$d transaksjoner til konto %2$s.</item>
+    </plurals>
     <string name="import_source_select_error">Angi en fil av typen %1$s</string>
-    <string name="import_parties_none">Ingen parter importert</string>
-    <string name="import_categories_none">Ingen kategorier importert</string>
-    <string name="import_accounts_none">Ingen kontoer importert</string>
-    <string name="import_accounts_success">Importerte %1$d kontoer.</string>
-    <string name="import_parties_success">Importerte %1$d parter.</string>
-    <string name="import_categories_success">Importerte %1$d kategorier.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Velg et nummer mellom %1$d og %2$d</string>
     <string name="warning_password_protected">Programmet er passordbeskyttet.</string>
     <string name="continue_confirmation">Ønsker du å fortsette\?</string>

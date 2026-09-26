@@ -371,14 +371,30 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Jeśli kwoty nie zostaną zaktualizowane, po zmianie będą wyświetlane jako podzielone przez %d.</string>
     <string name="warning_change_fraction_digits_3">Jeśli kwoty zostaną zaktualizowane, utracisz informacje o ich ułamkowej części.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Zaktualizuj kwoty w bazie danych</string>
-    <string name="import_categories_success">Kategorie %1$d zostały zaimportowane pomyślnie.</string>
-    <string name="import_parties_success">Partie %1$d zostały zaimportowane pomyślnie.</string>
-    <string name="import_accounts_success">%1$d kont pomyślnie zaimportowano.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transakcji pomyślnie zaimportowano do konta %2$s</string>
-    <string name="import_accounts_none">Nie zaimportowano żadnych kont</string>
-    <string name="import_categories_none">Nie zaimportowano żadnych kategorii</string>
-    <string name="import_parties_none">Brak zaimportowanych partii</string>
-    <string name="import_transactions_none">Brak transakcji zaimportowanych na konto %1$s</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d kategoria została pomyślnie zaimportowana.</item>
+        <item quantity="few">%1$d kategorie zostały pomyślnie zaimportowane.</item>
+        <item quantity="many">%1$d kategorii zostało pomyślnie zaimportowanych.</item>
+        <item quantity="other">%1$d kategorii zostało pomyślnie zaimportowanych.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d strona została pomyślnie zaimportowana.</item>
+        <item quantity="few">%1$d strony zostały pomyślnie zaimportowane.</item>
+        <item quantity="many">%1$d stron zostało pomyślnie zaimportowanych.</item>
+        <item quantity="other">%1$d strony zostały pomyślnie zaimportowane.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d konto pomyślnie zaimportowano.</item>
+        <item quantity="few">%1$d konta pomyślnie zaimportowano.</item>
+        <item quantity="many">%1$d kont pomyślnie zaimportowano.</item>
+        <item quantity="other">%1$d kont pomyślnie zaimportowano.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d transakcję pomyślnie zaimportowano do konta %2$s</item>
+        <item quantity="few">%1$d transakcje pomyślnie zaimportowano do konta %2$s</item>
+        <item quantity="many">%1$d transakcji pomyślnie zaimportowano do konta %2$s</item>
+        <item quantity="other">%1$d transakcji pomyślnie zaimportowano do konta %2$s</item>
+    </plurals>
     <string name="import_source_select_error">Proszę wskazać plik w formacie %1$s</string>
     <string name="menu_categories_setup_default">Ustaw domyślne kategorie</string>
     <string name="widget_title_accounts">Moje konta</string>
@@ -873,8 +889,7 @@
     <string name="menu_new_debt">Nowe zadłużenie</string>
     <string name="move_category_failure">Jedna kategoria nie została przeniesiona, ponieważ ta sama etykieta już istnieje w miejscu docelowym.</string>
     <plurals name="import_categories_icons_updated">
-        <item quantity="one">Jedna kategoria została zaktualizowana o ikonę.</item>
-        <item quantity="few"/>
+        <item quantity="one">%1$d kategoria została zaktualizowana o ikonę.</item>
         <item quantity="many">%1$d kategorie zostały zaktualizowane o ikony.</item>
         <item quantity="other">%1$d kategorie zostały zaktualizowane o ikony.</item>
     </plurals>

@@ -240,7 +240,7 @@
     <string name="pref_planning_calendar_create_local">สร้างปฏิทินวางแผนใหม่ในเครื่อง</string>
     <string name="pref_perform_share_title">แบ่งปันการส่งออกและการสำรองข้อมูล</string>
     <string name="pref_restore_summary">เลือกข้อมูลสำรองเพื่อกู้คืนฐานข้อมูลและการตั้งค่า</string>
-    <string name="pref_share_target_summary">ปล่อยว่างไว้หากต้องการเลือกระหว่างแอปที่เหมาะสม (อีเมล, Dropbox, Google Docs, ...) หรือระบุ URL ในรูปแบบที่รองรับ</string>
+    <string name="pref_share_target_summary">ปล่อยว่างไว้หากต้องการเลือกระหว่างแอปที่เหมาะสม (อีเมล, Dropbox, Google Docs, …) หรือระบุ URL ในรูปแบบที่รองรับ</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">การป้อนข้อมูลจากวิดเจ็ตและทางลัด</string>
     <string name="pref_manage_sync_backends_summary">เพิ่มแบ็กเอนด์สำหรับซิงค์บัญชี (%s)</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">ไม่สามารถรวมเข้ากับบัญชีที่มีอยู่ได้</string>
@@ -307,7 +307,6 @@
     <string name="menu_sync_link">เริ่มการซิงค์</string>
     <string name="licence_has_expired_n_days" tools:ignore="PluralsCandidate">คีย์มืออาชีพของคุณหมดอายุไปแล้ว %d วัน</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">กรุณาตั้งค่าตัวเลขระหว่าง %1$d ถึง %2$d</string>
-    <string name="import_accounts_none">ไม่มีการนำเข้าบัญชี</string>
     <string name="after">หลัง %s</string>
     <string name="budget_deleted">ลบงบประมาณเรียบร้อยแล้ว</string>
     <string name="preferences_week_start_day_title">สัปดาห์เริ่มต้นในวัน</string>
@@ -334,12 +333,22 @@
     <string name="warning_restore">ฐานข้อมูลและการตั้งค่าจะถูกกู้คืนจากไฟล์ \"%1$s\" ข้อมูลปัจจุบันจะถูกลบ</string>
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">หากไม่มีการอัปเดตจำนวนเงิน จำนวนเงินจะแสดงผลเป็นหารด้วย %d หลังการเปลี่ยนแปลง</string>
     <string name="warning_change_fraction_digits_checkbox_label">อัปเดตจำนวนเงินในฐานข้อมูล</string>
-    <string name="import_parties_success" tools:ignore="PluralsCandidate">นำเข้า %1$d คู่กรณีเรียบร้อยแล้ว</string>
-    <string name="import_accounts_success" tools:ignore="PluralsCandidate">นำเข้า %1$d บัญชีเรียบร้อยแล้ว</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">นำเข้า %1$d รายการเรียบร้อยแล้วในบัญชี %2$s</string>
-    <string name="import_categories_none">ไม่มีการนำเข้าหมวดหมู่</string>
-    <string name="import_parties_none">ไม่มีการนำเข้าคู่กรณี</string>
-    <string name="import_transactions_none">ไม่มีการนำเข้ารายการในบัญชี %1$s</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">นำเข้า %1$d หมวดหมู่เรียบร้อยแล้ว</item>
+        <item quantity="other">นำเข้า %1$d หมวดหมู่เรียบร้อยแล้ว</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">นำเข้า %1$d คู่กรณีเรียบร้อยแล้ว</item>
+        <item quantity="other">นำเข้า %1$d คู่กรณีเรียบร้อยแล้ว</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">นำเข้า %1$d บัญชีเรียบร้อยแล้ว</item>
+        <item quantity="other">นำเข้า %1$d บัญชีเรียบร้อยแล้ว</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">นำเข้า %1$d รายการเรียบร้อยแล้วในบัญชี %2$s</item>
+        <item quantity="other">นำเข้า %1$d รายการเรียบร้อยแล้วในบัญชี %2$s</item>
+    </plurals>
     <string name="import_source_select_error">กรุณาให้ไฟล์ประเภท %1$s</string>
     <string name="menu_categories_setup_default">ตั้งค่าหมวดหมู่เริ่มต้น</string>
     <string name="search_amount">ค้นหาจำนวนเงิน</string>
@@ -559,7 +568,6 @@
     <string name="sub_budget_exceeded_error_1_2">จัดสรรจำนวนเงินไปยังหมวดหมู่ย่อยอื่นหมดแล้วในหมวดหมู่หลัก</string>
     <string name="sub_budget_under_allocated_error">%s ได้ถูกจัดสรรไปยังหมวดหมู่ย่อยแล้ว หากคุณไม่นำเงินออกจากหมวดหมู่ย่อยเหล่านั้น คุณต้องจัดสรรจำนวนนั้นอย่างน้อยให้กับหมวดหมู่หลัก</string>
     <string name="content_description_clear_category">ล้างหมวดหมู่</string>
-    <string name="import_categories_success" tools:ignore="PluralsCandidate">นำเข้า %1$d หมวดหมู่เรียบร้อยแล้ว</string>
     <string name="widget_title_accounts">บัญชีของฉัน</string>
     <string name="menu_undelete_transaction">ยกเลิกการลบ</string>
     <string name="sync_io_error_cannot_connect">ไม่สามารถเชื่อมต่อกับแบ็กเอนด์ซิงโครไนซ์ได้</string>

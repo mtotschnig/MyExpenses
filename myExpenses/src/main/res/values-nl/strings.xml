@@ -360,8 +360,6 @@
     <string name="pref_manage_stale_images_title">Verouderde afbeeldingen</string>
     <string name="export_handle_deleted_update_balance">Openingssaldo bijwerken</string>
     <string name="io_error_unable_to_create_file">Kan bestand %1$s niet maken in map %2$s</string>
-    <string name="import_accounts_success">%1$d rekeningen succesvol geïmporteerd.</string>
-    <string name="import_parties_none">Geen partijen geïmporteerd</string>
     <string name="pref_custom_decimal_format_summary">Als je niet tevreden bent met het standaardformaat voor je landinstelling, pas dit dan aan je behoeften aan. Laat leeg om het standaardformaat te herstellen.</string>
     <string name="warning_split_transactions">De geselecteerde transacties worden gegroepeerd in één gesplitste transactie. Hun datuminformatie gaat verloren, d.w.z. vervangen door hun gemiddelde.</string>
     <string name="split_transaction_not_possible">Alleen transacties met dezelfde rekening, begunstigde en status kunnen worden gegroepeerd in één gesplitste transactie.</string>
@@ -377,8 +375,6 @@
     <string name="menu_create_template_for_split">Nieuw gesplitst sjabloon</string>
     <string name="licence_removal_information">Indien je geen premium functionaliteit meer nodig heeft op dit apparaat, kun je de licentiesleutel verwijderen. Hierdoor wordt de sleutel vrijgemaakt voor activering op nog een ander apparaat. De sleutel kan op maximaal %d apparaten worden geactiveerd.</string>
     <string name="warning_ungroup_split_transactions">De geselecteerde gesplitste transacties worden gedegroepeerd, d.w.z. hun gesplitste delen worden normale transacties.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transacties succesvol geïmporteerd in rekening %2$s</string>
-    <string name="import_accounts_none">Geen rekeningen geïmporteerd</string>
     <string name="search_date">Zoek op datum</string>
     <string name="before">voor %s</string>
     <string name="folder_name">Mapnaam</string>
@@ -565,9 +561,6 @@
     <string name="export_to_format">Exporteer naar %s</string>
     <string name="pref_csv_export_split_categories_summary">Gebruik afzonderlijke kolommen voor elk niveau van de categoriehiërarchie</string>
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Als bedragen niet worden bijgewerkt, worden ze na de wijziging weergegeven als gedeeld door %d.</string>
-    <string name="import_parties_success">%1$d partijen succesvol geïmporteerd.</string>
-    <string name="import_categories_none">Geen categorieën geïmporteerd</string>
-    <string name="import_transactions_none">Geen transacties geïmporteerd in account %1$s</string>
     <string name="warning_change_fraction_digits_1">Bedragen in de database moeten worden bijgewerkt om overeen te komen met het nieuwe aantal breukcijfers.</string>
     <string name="widget_title_accounts">Mijn rekeningen</string>
     <string name="widget_title_templates">Mijn sjablonen</string>
@@ -661,6 +654,22 @@
     <string name="dialog_confirm_rollover_delete">Alle doorrolbedragen voor deze periode worden verwijderd.</string>
     <string name="content_description_attachment">Bijlage</string>
     <string name="menu_categories_setup_default">Stel standaard categorieën in</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d categorieën succesvol geïmporteerd.</item>
+        <item quantity="other">%1$d categorieën succesvol geïmporteerd.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d partijen succesvol geïmporteerd.</item>
+        <item quantity="other">%1$d partijen succesvol geïmporteerd.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d rekeningen succesvol geïmporteerd.</item>
+        <item quantity="other">%1$d rekeningen succesvol geïmporteerd.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d transacties succesvol geïmporteerd in rekening %2$s</item>
+        <item quantity="other">%1$d transacties succesvol geïmporteerd in rekening %2$s</item>
+    </plurals>
     <string name="import_source_select_error">Geef een bestand van het type %1$s op</string>
     <string name="comparison_operator_equal">gelijk aan</string>
     <string name="transform_subcategory_to_main">Transformeer naar hoofdcategorie</string>
@@ -682,7 +691,6 @@
     </plurals>
     <string name="purge_backups">De volgende oude back-upbestanden worden verwijderd:</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Als bedragen niet worden bijgewerkt, worden ze weergegeven als vermenigvuldigd met %d na de wijziging.</string>
-    <string name="import_categories_success">%1$d categorieën succesvol geïmporteerd.</string>
     <string name="comparison_operator_greater_than">groter dan</string>
     <string name="search_category">Zoek op categorie</string>
     <string name="plan_instance_state_applied">toegepast</string>
@@ -745,7 +753,7 @@
     <string name="value_date">Waarde datum</string>
     <string name="menu_budget">Budgettering</string>
     <plurals name="import_categories_icons_updated">
-        <item quantity="one">Eén categorie is bijgewerkt met een icoon.</item>
+        <item quantity="one">%1$d categorie is bijgewerkt met een icoon.</item>
         <item quantity="other">%1$d categorieën zijn bijgewerkt met iconen.</item>
     </plurals>
     <string name="extended_upgrade_goodie_github">Extra %d maanden worden eenmalig toegekend aan gebruikers die al in het bezit zijn van de Uitgebreide Licentie</string>

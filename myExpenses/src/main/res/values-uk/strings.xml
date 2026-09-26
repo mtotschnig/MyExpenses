@@ -369,14 +369,30 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Якщо суми не оновити, після зміни вони відображатимуться як розділені на %d.</string>
     <string name="warning_change_fraction_digits_3">Якщо суми оновити, ви втратите інформацію про їх дробову частину.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Оновити суми в базі даних</string>
-    <string name="import_categories_success">Успішно імпортовано категорій: %1$d.</string>
-    <string name="import_parties_success">Успішно імпортовано %1$d учасників.</string>
-    <string name="import_accounts_success">Успішно імпортовано %1$d рахунки.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d транзакцій успішно імпортовано до рахунку %2$s</string>
-    <string name="import_accounts_none">Не було імпортовано жодних рахунків</string>
-    <string name="import_categories_none">Не було імпортовано жодних категорій</string>
-    <string name="import_parties_none">Не було імпортовано жодних учасників</string>
-    <string name="import_transactions_none">Не було імпортовано жодних транзакцій до рахунку %1$s</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">Успішно імпортовано %1$d категорію.</item>
+        <item quantity="few">Успішно імпортовано %1$d категорії.</item>
+        <item quantity="many">Успішно імпортовано %1$d категорій.</item>
+        <item quantity="other">Успішно імпортовано %1$d категорії.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">Успішно імпортовано %1$d учасника.</item>
+        <item quantity="few">Успішно імпортовано %1$d учасники.</item>
+        <item quantity="many">Успішно імпортовано %1$d учасників.</item>
+        <item quantity="other">Успішно імпортовано %1$d учасника.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">Успішно імпортовано %1$d рахунок.</item>
+        <item quantity="few">Успішно імпортовано %1$d рахунки.</item>
+        <item quantity="many">Успішно імпортовано %1$d рахунків.</item>
+        <item quantity="other">Успішно імпортовано %1$d рахунка.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d транзакцію успішно імпортовано до рахунку %2$s</item>
+        <item quantity="few">%1$d транзакції успішно імпортовано до рахунку %2$s</item>
+        <item quantity="many">%1$d транзакцій успішно імпортовано до рахунку %2$s</item>
+        <item quantity="other">%1$d транзакції успішно імпортовано до рахунку %2$s</item>
+    </plurals>
     <string name="import_source_select_error">Будь ласка, виберіть файл типу %1$s</string>
     <string name="menu_categories_setup_default">Налаштувати категорії за замовчуванням</string>
     <string name="widget_title_accounts">Мої рахунки</string>

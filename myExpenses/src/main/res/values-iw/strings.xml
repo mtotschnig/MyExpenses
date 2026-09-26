@@ -369,14 +369,34 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">אם הסכומים אינם מעודכנים, הם יוצגו בחלוקה ב- %d לאחר השינוי.</string>
     <string name="warning_change_fraction_digits_3">אם הסכומים מעודכנים, תאבד את המידע על החלק החלקי שלהם.</string>
     <string name="warning_change_fraction_digits_checkbox_label">עדכן סכומים במסד הנתונים</string>
-    <string name="import_categories_success">%1$d קטגוריות יובאו בהצלחה.</string>
-    <string name="import_parties_success">%1$dעסקעות יובאו בהצלחה.</string>
-    <string name="import_accounts_success">%1$d חשבונות יובאו בהצלחה.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d עסקעות יובאו בהצלחה לחשבון %2$s</string>
-    <string name="import_accounts_none">לא יובאו חשבונות</string>
-    <string name="import_categories_none">לא יובאו קטגוריות</string>
-    <string name="import_parties_none">לא יובאו חלקים מפוצלים</string>
-    <string name="import_transactions_none">לא יובאו עסקאות לחשבון %1$s</string>
+    <plurals name="import_categories_result">
+        <item quantity="zero">לא יובאו קטגוריות.</item>
+        <item quantity="one">%1$d קטגוריה יובאה בהצלחה.</item>
+        <item quantity="two">%1$d קטגוריות יובאו בהצלחה.</item>
+        <item quantity="many">%1$d קטגוריות יובאו בהצלחה.</item>
+        <item quantity="other">%1$d קטגוריות יובאו בהצלחה.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="zero">לא יובאו צדדים.</item>
+        <item quantity="one">%1$d צד יובא בהצלחה.</item>
+        <item quantity="two">%1$d צדדים יובאו בהצלחה.</item>
+        <item quantity="many">%1$d צדדים יובאו בהצלחה.</item>
+        <item quantity="other">%1$d צדדים יובאו בהצלחה.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="zero">לא יובאו חשבונות.</item>
+        <item quantity="one">%1$d חשבון יובא בהצלחה.</item>
+        <item quantity="two">%1$d חשבונות יובאו בהצלחה.</item>
+        <item quantity="many">%1$d חשבונות יובאו בהצלחה.</item>
+        <item quantity="other">%1$d חשבונות יובאו בהצלחה.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="zero">%1$d עסקאות יובאו בהצלחה לחשבון %2$s</item>
+        <item quantity="one">%1$d עסקה יובאה בהצלחה לחשבון %2$s</item>
+        <item quantity="two">%1$d עסקאות יובאו בהצלחה לחשבון %2$s</item>
+        <item quantity="many">%1$d עסקאות יובאו בהצלחה לחשבון %2$s</item>
+        <item quantity="other">%1$d עסקאות יובאו בהצלחה לחשבון %2$s</item>
+    </plurals>
     <string name="import_source_select_error">אנא ספק  קובץ מסוג %1$s</string>
     <string name="menu_categories_setup_default">הגדר קטגוריות ברירת מחדל</string>
     <string name="widget_title_accounts">החשבונות שלי</string>
