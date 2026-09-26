@@ -333,6 +333,22 @@
     <string name="warning_restore">ฐานข้อมูลและการตั้งค่าจะถูกกู้คืนจากไฟล์ \"%1$s\" ข้อมูลปัจจุบันจะถูกลบ</string>
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">หากไม่มีการอัปเดตจำนวนเงิน จำนวนเงินจะแสดงผลเป็นหารด้วย %d หลังการเปลี่ยนแปลง</string>
     <string name="warning_change_fraction_digits_checkbox_label">อัปเดตจำนวนเงินในฐานข้อมูล</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">นำเข้า %1$d หมวดหมู่เรียบร้อยแล้ว</item>
+        <item quantity="other">นำเข้า %1$d หมวดหมู่เรียบร้อยแล้ว</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">นำเข้า %1$d คู่กรณีเรียบร้อยแล้ว</item>
+        <item quantity="other">นำเข้า %1$d คู่กรณีเรียบร้อยแล้ว</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">นำเข้า %1$d บัญชีเรียบร้อยแล้ว</item>
+        <item quantity="other">นำเข้า %1$d บัญชีเรียบร้อยแล้ว</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">นำเข้า %1$d รายการเรียบร้อยแล้วในบัญชี %2$s</item>
+        <item quantity="other">นำเข้า %1$d รายการเรียบร้อยแล้วในบัญชี %2$s</item>
+    </plurals>
     <string name="import_source_select_error">กรุณาให้ไฟล์ประเภท %1$s</string>
     <string name="menu_categories_setup_default">ตั้งค่าหมวดหมู่เริ่มต้น</string>
     <string name="search_amount">ค้นหาจำนวนเงิน</string>

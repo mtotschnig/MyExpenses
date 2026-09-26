@@ -181,6 +181,14 @@
     <string name="type">Tipo</string>
     <string name="warning_password_protected">Aplicación protexida por contrasinal.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Actualizar importes na base de datos</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d categorías importadas satisfactoriamente.</item>
+        <item quantity="other">%1$d categorías importadas satisfactoriamente.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d contas importadas satisfactoriamente.</item>
+        <item quantity="other">%1$d contas importadas satisfactoriamente.</item>
+    </plurals>
     <string name="widget_title_accounts">As miñas contas</string>
     <string name="widget_title_templates">Os meus modelos</string>
     <string name="app_dir_not_accessible">O cartafol seleccionado para copias de seguranza e exportacións (%1$s) non está accesible. Selecciona, por favor, un outro distinto.</string>

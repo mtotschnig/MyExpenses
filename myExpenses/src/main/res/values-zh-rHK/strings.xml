@@ -296,6 +296,22 @@
     <string name="pref_manage_sync_backends_summary">新增用於同步帳戶的後端 (%s)。</string>
     <string name="warning_delete_category_with_budget">對於至少一個選定的類別，有預算分配，該預算分配也將被刪除。</string>
     <string name="total_reconciled">調節總數</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d 類別  被匯入成功。</item>
+        <item quantity="other">%1$d 類別  被匯入成功。</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d 貿易夥伴被匯入成功。</item>
+        <item quantity="other">%1$d 貿易夥伴被匯入成功。</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d 帳戶已成功匯入。</item>
+        <item quantity="other">%1$d 帳戶已成功匯入。</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d交易已成功導入帳戶%2$s</item>
+        <item quantity="other">%1$d交易已成功導入帳戶%2$s</item>
+    </plurals>
     <string name="import_source_select_error">請提供 %1$s 類型的文件</string>
     <string name="qif_parse_failure_found_multiple_accounts">在 %s 檔案中找到多個帳戶。</string>
     <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">無法將它們合併到現有帳戶中。</string>

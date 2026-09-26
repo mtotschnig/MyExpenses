@@ -387,6 +387,22 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">إذا لم يتم تحديث المبالغ، فسيتم عرضها على أنها مقسومة على %d بعد التغيير.</string>
     <string name="warning_change_fraction_digits_3">إذا تم تحديث المبالغ، فستفقد المعلومات حول الجزء الكسري.</string>
     <string name="warning_change_fraction_digits_checkbox_label">تحديث المبالغ في قاعدة البيانات</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">تم استيراد %1$d فئات بنجاح.</item>
+        <item quantity="other">تم استيراد %1$d فئات بنجاح.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">تم استيراد %1$d أطراف بنجاح.</item>
+        <item quantity="other">تم استيراد %1$d أطراف بنجاح.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">تم استيراد %1$d من الحسابات بنجاح.</item>
+        <item quantity="other">تم استيراد %1$d من الحسابات بنجاح.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">تم استيراد %1$d معاملة بنجاح إلى الحساب %2$s</item>
+        <item quantity="other">تم استيراد %1$d معاملة بنجاح إلى الحساب %2$s</item>
+    </plurals>
     <string name="import_source_select_error">يرجى تقديم ملف من نوع %1$s</string>
     <string name="menu_categories_setup_default">إعداد الفئات الافتراضية</string>
     <string name="widget_title_accounts">حساباتي</string>

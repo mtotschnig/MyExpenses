@@ -220,6 +220,22 @@
     <string name="widget_title_templates">నా టెంప్లేట్లు</string>
     <string name="widget_title_accounts">నా ఖాతాలు</string>
     <string name="menu_categories_setup_default">డిఫాల్ట్ వర్గాలను సెటప్ చేయండి</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d వర్గాలు విజయవంతంగా దిగుమతి చేయబడ్డాయి.</item>
+        <item quantity="other">%1$d వర్గాలు విజయవంతంగా దిగుమతి చేయబడ్డాయి.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d పార్టీలు విజయవంతంగా దిగుమతి చేయబడ్డాయి.</item>
+        <item quantity="other">%1$d పార్టీలు విజయవంతంగా దిగుమతి చేయబడ్డాయి.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d ఖాతాలు విజయవంతంగా దిగుమతి చేయబడ్డాయి.</item>
+        <item quantity="other">%1$d ఖాతాలు విజయవంతంగా దిగుమతి చేయబడ్డాయి.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d లావాదేవీలు విజయవంతంగా %2$s లోకి దిగుమతి చేయబడ్డాయి</item>
+        <item quantity="other">%1$d లావాదేవీలు విజయవంతంగా %2$s లోకి దిగుమతి చేయబడ్డాయి</item>
+    </plurals>
     <string name="import_source_select_error">దయచేసి %1$s రకం ఫైల్‌ను అందించండి</string>
     <string name="warning_change_fraction_digits_checkbox_label">డేటాబేస్లో మొత్తాలను నవీకరించండి</string>
     <string name="warning_change_fraction_digits_3">మొత్తాలు నవీకరించబడితే, మీరు వారి పాక్షిక భాగం గురించి సమాచారాన్ని కోల్పోతారు.</string>

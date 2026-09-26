@@ -293,6 +293,22 @@
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">ඔබ ඉදිරියට ගියහොත් සියලුම ගිණුම්%1$s ,ඇති  දත්ත ගබඩාවේ සියලුම ගනුදෙනු මකා  දැමෙන අතර නැවත පිහිටුවීමට නොහැකිය.</string>
     <string name="warning_restore">\"%1$s\" ලිපිගොනුවෙන් මනාප සහ දත්ත ගබඩාව නැවත පිහිටුවන අතර. දැනට පවතින දත්ත සියල්ල මකා දැමේ.</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">ප්‍රබේධ %1$d සාර්ථකල ලෙස ආනයනය කරන ලදී.</item>
+        <item quantity="other">ප්‍රබේධ %1$d සාර්ථකල ලෙස ආනයනය කරන ලදී.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">පක්ෂ %1$d සාර්ථකල ලෙස ආනයනය කරන ලදී.</item>
+        <item quantity="other">පක්ෂ %1$d සාර්ථකල ලෙස ආනයනය කරන ලදී.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">ගිණුම් %1$d  සාර්ථකල ලෙස ආනයනය කරන ලදී.</item>
+        <item quantity="other">ගිණුම් %1$d  සාර්ථකල ලෙස ආනයනය කරන ලදී.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">ගනුදෙනු %1$d සාර්ථකල ලෙස %2$s ගිණුමට ආනයනය කරන ලදී </item>
+        <item quantity="other">ගනුදෙනු %1$d සාර්ථකල ලෙස %2$s ගිණුමට ආනයනය කරන ලදී </item>
+    </plurals>
     <string name="import_source_select_error">කරුණකර  %1$s ලිපිගොනු වර්ගයක් යොදන්න </string>
     <string name="menu_categories_setup_default">මුල් ප්‍රබේධ පිහිටුවන්න </string>
     <string name="widget_title_accounts">මගේ ගිණුම් </string>

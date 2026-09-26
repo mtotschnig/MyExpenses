@@ -525,6 +525,22 @@
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Om belopp inte uppdateras kommer de visas som multiplicerat med %d efter ändringen.</string>
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Om belopp inte uppdateras kommer de visas som delade med %d efter ändringen.</string>
     <string name="warning_change_fraction_digits_3">Om beloppen uppdateras förlorar du informationen om deras deldel.</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d kategorier har importerats.</item>
+        <item quantity="other">%1$d kategorier har importerats.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d motparter har importerats.</item>
+        <item quantity="other">%1$d motparter har importerats.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d konton har importerats.</item>
+        <item quantity="other">%1$d konton har importerats.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d transaktioner har importerats till kontot %2$s</item>
+        <item quantity="other">%1$d transaktioner har importerats till kontot %2$s</item>
+    </plurals>
     <string name="import_source_select_error">Vänligen bifoga en fil av typen %1$s</string>
     <string name="app_dir_not_accessible">Den för närvarande valda mappen för säkerhetskopiering och export (%1$s) är inte tillgänglig. Vänligen välj en annan.</string>
     <string name="search_comment">Sök efter noter</string>

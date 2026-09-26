@@ -654,6 +654,22 @@
     <string name="dialog_confirm_rollover_delete">Alle doorrolbedragen voor deze periode worden verwijderd.</string>
     <string name="content_description_attachment">Bijlage</string>
     <string name="menu_categories_setup_default">Stel standaard categorieën in</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d categorieën succesvol geïmporteerd.</item>
+        <item quantity="other">%1$d categorieën succesvol geïmporteerd.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d partijen succesvol geïmporteerd.</item>
+        <item quantity="other">%1$d partijen succesvol geïmporteerd.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d rekeningen succesvol geïmporteerd.</item>
+        <item quantity="other">%1$d rekeningen succesvol geïmporteerd.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d transacties succesvol geïmporteerd in rekening %2$s</item>
+        <item quantity="other">%1$d transacties succesvol geïmporteerd in rekening %2$s</item>
+    </plurals>
     <string name="import_source_select_error">Geef een bestand van het type %1$s op</string>
     <string name="comparison_operator_equal">gelijk aan</string>
     <string name="transform_subcategory_to_main">Transformeer naar hoofdcategorie</string>

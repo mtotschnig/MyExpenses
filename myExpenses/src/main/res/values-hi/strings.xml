@@ -322,6 +322,22 @@
     <string name="pref_ui_theme_light">रोशनी</string>
     <string name="restore_db_success">डेटाबेस को बैकअप से पुनर्स्थापित कर दिया गया है।</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d योजनाएँ बैकअप से पुनर्स्थापित कर दी गई हैं</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d श्रेणियाँ सफलतापूर्वक आयात की गईं।</item>
+        <item quantity="other">%1$d श्रेणियाँ सफलतापूर्वक आयात की गईं।</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d पार्टियाँ सफलतापूर्वक आयात की गईं</item>
+        <item quantity="other">%1$d पार्टियाँ सफलतापूर्वक आयात की गईं</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d खाते सफलतापूर्वक आयात किए गए</item>
+        <item quantity="other">%1$d खाते सफलतापूर्वक आयात किए गए</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d लेनदेन सफलतापूर्वक %2$s खाते में आयात किया गया</item>
+        <item quantity="other">%1$d लेनदेन सफलतापूर्वक %2$s खाते में आयात किया गया</item>
+    </plurals>
     <string name="import_source_select_error">कृपया %1$s प्रकार की एक फ़ाइल प्रदान करें</string>
     <string name="search_tag">टैग खोजें</string>
     <string name="warning_reset_account">यदि आप आगे बढ़ते हैं, तो इस खाते के सभी लेनदेन डेटाबेस से हटा दिए जाते हैं और उन्हें पुनर्स्थापित नहीं किया जा सकता है।</string>

@@ -363,6 +363,22 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Wenn Beträge nicht aktualisiert werden, erscheinen diese nach der Änderung als dividiert durch %d.</string>
     <string name="warning_change_fraction_digits_3">Wenn Beträge aktualisiert werden, verlieren Sie die Information über deren Bruchteil.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Beträge in der Datenbank aktualisieren</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d Kategorien erfolgreich importiert.</item>
+        <item quantity="other">%1$d Kategorien erfolgreich importiert.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d Parteien erfolgreich importiert.</item>
+        <item quantity="other">%1$d Parteien erfolgreich importiert.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d Konten erfolgreich importiert.</item>
+        <item quantity="other">%1$d Konten erfolgreich importiert.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d Buchungen erfolgreich in das Konto %2$s importiert</item>
+        <item quantity="other">%1$d Buchungen erfolgreich in das Konto %2$s importiert</item>
+    </plurals>
     <string name="import_source_select_error">Bitte wählen Sie eine Datei des Typs %1$s</string>
     <string name="menu_categories_setup_default">Standard Kategorien einrichten</string>
     <string name="widget_title_accounts">Meine Konten</string>

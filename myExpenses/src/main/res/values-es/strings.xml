@@ -369,6 +369,22 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Si no se actualizan los importes, se mostrarán como divididos por %d después del cambio.</string>
     <string name="warning_change_fraction_digits_3">Si se actualizan los importes, se perderá la información de la parte fraccionaria.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Actualizar los importes en la base de datos</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d categorías han sido importadas con éxito.</item>
+        <item quantity="other">%1$d categorías han sido importadas con éxito.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d grupos han sido importados con éxito.</item>
+        <item quantity="other">%1$d grupos han sido importados con éxito.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d cuentas han sido importadas con éxito.</item>
+        <item quantity="other">%1$d cuentas han sido importadas con éxito.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d transacciones importadas con éxito en la cuenta %2$s</item>
+        <item quantity="other">%1$d transacciones importadas con éxito en la cuenta %2$s</item>
+    </plurals>
     <string name="import_source_select_error">Por favor, proporcione un archivo de tipo %1$s</string>
     <string name="menu_categories_setup_default">Instalar categorías por defecto</string>
     <string name="widget_title_accounts">Mis cuentas</string>

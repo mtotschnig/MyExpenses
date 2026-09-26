@@ -328,6 +328,22 @@
     <string name="warning_reset_account_matched">Hvis du fortsætter, slettes alle transaktioner fra databasen, der svarer til det aktuelle filter, og kan ikke gendannes.</string>
     <string name="warning_restore">Databasen og indstillingerne gendannes fra filen \"%1$s\". De aktuelle data slettes.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Angiv venligst et tal mellem %1$d og %2$d</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d kategorier blev importeret.</item>
+        <item quantity="other">%1$d kategorier blev importeret.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d parter blev importeret.</item>
+        <item quantity="other">%1$d parter blev importeret.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d konti blev importeret.</item>
+        <item quantity="other">%1$d konti blev importeret.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d transaktioner blev importeret til konto %2$s</item>
+        <item quantity="other">%1$d transaktioner blev importeret til konto %2$s</item>
+    </plurals>
     <string name="import_source_select_error">Angiv venligst en fil af typen %1$s</string>
     <string name="menu_categories_setup_default">Opsæt standardkategorier</string>
     <string name="widget_title_accounts">Mine konti</string>

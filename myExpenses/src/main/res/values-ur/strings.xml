@@ -326,6 +326,22 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">اگر رقم کو اپ ڈیٹ نہیں کیا جاتا ہے، تو وہ تبدیلی کے بعد %d سے تقسیم کے طور پر دکھائی جائیں گی.</string>
     <string name="warning_change_fraction_digits_3">اگر رقم کو اپ ڈیٹ کیا جاتا ہے، تو آپ ان کے جزوی حصے کے بارے میں معلومات کھو دیں گے.</string>
     <string name="warning_change_fraction_digits_checkbox_label">ڈیٹا بیس میں رقم کو اپ ڈیٹ کریں</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d زمرے کامیابی کے ساتھ درآمد ہو گئے.</item>
+        <item quantity="other">%1$d زمرے کامیابی کے ساتھ درآمد ہو گئے.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d پارٹیاں کامیابی کے ساتھ درآمد ہو گئیں</item>
+        <item quantity="other">%1$d پارٹیاں کامیابی کے ساتھ درآمد ہو گئیں</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d اکاؤنٹس کامیابی کے ساتھ درآمد ہو گئے</item>
+        <item quantity="other">%1$d اکاؤنٹس کامیابی کے ساتھ درآمد ہو گئے</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d ٹرانزیکشنز کو کامیابی سے اکاؤنٹ %2$s میں درآمد کیا گیا</item>
+        <item quantity="other">%1$d ٹرانزیکشنز کو کامیابی سے اکاؤنٹ %2$s میں درآمد کیا گیا</item>
+    </plurals>
     <string name="import_source_select_error">براہ کرم %1$s قسم کی فائل فراہم کریں</string>
     <string name="menu_categories_setup_default">پہلے سے طے شدہ زمرے ترتیب دیں</string>
     <string name="widget_title_templates">میری ٹیمپلیٹس</string>

@@ -455,6 +455,22 @@
     <string name="csv_import_no_mapping_found_for_amount">Siusplau, assigneu una columna o bé a import, ingrés o despesa.</string>
     <string name="crash_dialog_title">{app_name} ha petat</string>
     <string name="warning_change_fraction_digits_3">Si les quantitats s\'actualitzen, prendreu la informació sobre la seva part fraccionaria.</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d categories importades amb èxit.</item>
+        <item quantity="other">%1$d categories importades amb èxit.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d tercers s\'han importat correctament.</item>
+        <item quantity="other">%1$d tercers s\'han importat correctament.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d comptes importats amb èxit.</item>
+        <item quantity="other">%1$d comptes importats amb èxit.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d opreacions importades amb èxit al compte %2$s</item>
+        <item quantity="other">%1$d opreacions importades amb èxit al compte %2$s</item>
+    </plurals>
     <string name="import_source_select_error">Aporteu un fitxer del tipus %1$s</string>
     <string name="menu_categories_setup_default">Definir categories per defecte</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Si les quantitats no s\'actualitzen, es mostraran multiplicades per %d després del canvi.</string>

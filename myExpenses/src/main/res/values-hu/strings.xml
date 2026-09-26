@@ -363,6 +363,22 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Ha az összegek nincsenek frissítve, akkor %d-el osztva jelennek meg a változás után.</string>
     <string name="warning_change_fraction_digits_3">Ha az összegek frissítésre kerülnek, ön elveszíti a törtrészekre vonatkozó információkat.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Összegek frissítése az adatbázisban</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d kategóriák sikeresen beolvasva.</item>
+        <item quantity="other">%1$d kategóriák sikeresen beolvasva.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d résztvevők sikeresen beolvasva.</item>
+        <item quantity="other">%1$d résztvevők sikeresen beolvasva.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d fiók sikeresen importálva.</item>
+        <item quantity="other">%1$d fiók sikeresen importálva.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d tranzakció sikeresen importálva %2$s fiókba</item>
+        <item quantity="other">%1$d tranzakció sikeresen importálva %2$s fiókba</item>
+    </plurals>
     <string name="import_source_select_error">Kérjük, adjon meg egy %1$s típusú fájlt</string>
     <string name="menu_categories_setup_default">Alapértelmezett kategóriák beállítása</string>
     <string name="widget_title_accounts">Saját fiókok</string>

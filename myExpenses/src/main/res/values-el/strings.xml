@@ -360,6 +360,22 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Εάν δεν γίνει ενημέρωση ποσών, θα εμφανίζονται διαιρεμένα με %d μετά την αλλαγή.</string>
     <string name="warning_change_fraction_digits_3">Εάν γίνει ενημέρωση ποσών, θα χαθεί πληροφορία για το δεκαδικό μέρος.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Ενημέρωση ποσών στην βάση δεδομένων</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d κατηγορίες που εισάγονται με επιτυχία.</item>
+        <item quantity="other">%1$d κατηγορίες που εισάγονται με επιτυχία.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d μέρη που εισάγονται με επιτυχία.</item>
+        <item quantity="other">%1$d μέρη που εισάγονται με επιτυχία.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d λογαριασμοί εισάχθηκαν με επιτυχία.</item>
+        <item quantity="other">%1$d λογαριασμοί εισάχθηκαν με επιτυχία.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d συναλλαγές εισήχθηκαν με επιτυχία στον λογαριασμό %2$s</item>
+        <item quantity="other">%1$d συναλλαγές εισήχθηκαν με επιτυχία στον λογαριασμό %2$s</item>
+    </plurals>
     <string name="import_source_select_error">Παρακαλείσθε να παράσχετε ένα αρχείο τύπου %1$s</string>
     <string name="menu_categories_setup_default">Εργοστασιακές ρυθμίσεις κατηγοριών</string>
     <string name="widget_title_accounts">Οι λογαριασμοί μου</string>

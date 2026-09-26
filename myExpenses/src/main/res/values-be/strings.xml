@@ -260,6 +260,22 @@
     <string name="save_transaction_error">Не атрымалася захаваць новую транзакцыю з шаблону.</string>
     <string name="move_category_failure">Адна катэгорыя не была перамешчаная, паколькі той жа ярлык ужо існуе ў мэтавым аб\'екце.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Абнаўленне сум у базе дадзеных</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">Паспяхова імпартавана %1$d катэгорый.</item>
+        <item quantity="other">Паспяхова імпартавана %1$d катэгорый.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d груп паспяхова імпартавана.</item>
+        <item quantity="other">%1$d груп паспяхова імпартавана.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d рахункаў паспяхова імпартавана.</item>
+        <item quantity="other">%1$d рахункаў паспяхова імпартавана.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d транзакцый паспяхова імпартавана ў рахунак %2$s</item>
+        <item quantity="other">%1$d транзакцый паспяхова імпартавана ў рахунак %2$s</item>
+    </plurals>
     <string name="import_source_select_error">Калі ласка, прадастаўце файл тыпу %1$s</string>
     <string name="file_name">Імя файла</string>
     <string name="slash_forbidden_in_filename">Сімвал / не дапускаецца ў назвах файлаў</string>

@@ -276,6 +276,22 @@
     <string name="warning_reset_account_matched">اگر ادامه بدهید، تراکنش‌های منطبق با این فیلتر از پایگاه داده حذف خواهند شد و قابل بازیابی نخواهند بود.</string>
     <string name="warning_restore">پایگاه داده و ترجیحات از فایل «%1$s» بازبابی خواهند شد. داده‌های فعلی حذف خواهند شد.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">لطفاً یک عدد از بین %1$d تا %2$d بگذارید</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d دسته‌بندی با موفقیت درون‌ریزی شد.</item>
+        <item quantity="other">%1$d دسته‌بندی با موفقیت درون‌ریزی شد.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d شخص با موفقیت درون ریزی شد</item>
+        <item quantity="other">%1$d شخص با موفقیت درون ریزی شد</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$dحساب با موفقیت درون‌ریزی شد</item>
+        <item quantity="other">%1$dحساب با موفقیت درون‌ریزی شد</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d تراکنش با موفقیت به حساب %2$s درون‌ریزی شد</item>
+        <item quantity="other">%1$d تراکنش با موفقیت به حساب %2$s درون‌ریزی شد</item>
+    </plurals>
     <string name="import_source_select_error">لطفاً یک فایل از نوع %1$s ارائه دهید</string>
     <string name="widget_title_accounts">حساب‌های من</string>
     <string name="widget_title_templates">قالب‌های من</string>
