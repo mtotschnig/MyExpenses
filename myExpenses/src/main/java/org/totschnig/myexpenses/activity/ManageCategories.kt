@@ -689,22 +689,34 @@ class ManageCategories : ProtectedFragmentActivity(),
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.importResult.filterNotNull().collect { pair ->
                     showDismissibleSnackBar(
-                        buildList {
-                            add(
-                                resources.getQuantityString(
-                                    R.plurals.import_categories_result,
-                                    pair.first,
-                                    pair.first
-                                )
-                            )
-                            add(
-                                resources.getQuantityString(
-                                    R.plurals.import_categories_icons_updated,
-                                    pair.second,
-                                    pair.second
-                                )
-                            )
-                        }.joinToString(separator = " "),
+buildList {
+    pair.first.takeIf { it != 0 }?.let {
+        add(
+            resources.getQuantityString(
+                R.plurals.import_categories_result,
+                it,
+                it
+            )
+        )
+    }
+    pair.second.takeIf { it != 0 }?.let {
+        add(
+            resources.getQuantityString(
+                R.plurals.import_categories_icons_updated,
+                it,
+                it
+            )
+        )
+    }
+}.ifEmpty {
+    listOf(
+        resources.getQuantityString(
+            R.plurals.import_categories_result,
+            0,
+            0
+        )
+    )
+}.joinToString(separator = " ")
                         dismissCallback
                     )
                 }
