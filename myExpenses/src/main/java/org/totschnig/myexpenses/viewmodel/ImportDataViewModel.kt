@@ -116,11 +116,9 @@ abstract class ImportDataViewModel(application: Application) :
         accountTitleToAccount[memo]?.let {
             insertTransactions(it, currencyUnit, transactions, autofill)
             publishProgress(
-                if (transactions.isEmpty()) getString(
-                    R.string.import_transactions_none,
-                    it.label
-                ) else getString(
-                    R.string.import_transactions_success,
+                getQuantityString(
+                    R.plurals.import_transactions_result,
+                    transactions.size,
                     transactions.size,
                     it.label
                 )
@@ -132,9 +130,10 @@ abstract class ImportDataViewModel(application: Application) :
     fun insertPayees(payees: Set<String>): Int {
         var count = 0
         for (payee in payees) {
-                (repository.findParty(payee) ?: repository.createParty(payee)?.also { count++ }?.id)?.let {
-                    payeeToId[payee] = it
-                }
+            (repository.findParty(payee) ?: repository.createParty(payee)
+                ?.also { count++ }?.id)?.let {
+                payeeToId[payee] = it
+            }
         }
         return count
     }
@@ -192,10 +191,17 @@ abstract class ImportDataViewModel(application: Application) :
         autofill: Boolean,
     ) {
         for (transaction in transactions) {
-            if (transaction.splits != null && transaction.splits.sumOf { it.amount }.compareTo(transaction.amount) != 0) {
+            if (transaction.splits != null && transaction.splits.sumOf { it.amount }
+                    .compareTo(transaction.amount) != 0) {
                 throw InvalidDataException("Sum of splits must equal parent amount.")
             }
-            val t = repository.createTransaction(transaction.toTransaction(account, currencyUnit, autofill))
+            val t = repository.createTransaction(
+                transaction.toTransaction(
+                    account,
+                    currencyUnit,
+                    autofill
+                )
+            )
 
             transaction.tags?.let { list ->
                 repository.saveTagsForTransaction(
@@ -227,4 +233,4 @@ abstract class ImportDataViewModel(application: Application) :
     }
 }
 
-class InvalidDataException(message: String): Exception(message)
+class InvalidDataException(message: String) : Exception(message)

@@ -16,7 +16,7 @@ import java.io.InputStreamReader
 
 class QifImportViewModel(application: Application) : ImportDataViewModel(application) {
 
-    override val format= "QIF"
+    override val format = "QIF"
 
     fun importData(
         uri: Uri,
@@ -41,12 +41,13 @@ class QifImportViewModel(application: Application) : ImportDataViewModel(applica
             ).use {
                 val parser = QifParser(it, qifDateFormat, currencyUnit)
                 parser.parse()
-                publishProgress(getString(
-                            R.string.qif_parse_result,
-                            parser.accounts.size.toString(),
-                            parser.categories.size.toString(),
-                            parser.payees.size.toString()
-                        )
+                publishProgress(
+                    getString(
+                        R.string.qif_parse_result,
+                        parser.accounts.size.toString(),
+                        parser.categories.size.toString(),
+                        parser.payees.size.toString()
+                    )
                 )
                 contentResolver.call(
                     TransactionProvider.DUAL_URI,
@@ -55,7 +56,16 @@ class QifImportViewModel(application: Application) : ImportDataViewModel(applica
                     null
                 )
                 try {
-                    doImport(parser, withParties, withCategories, withTransactions, accountId, currencyUnit, uri, autoFillCategories)
+                    doImport(
+                        parser,
+                        withParties,
+                        withCategories,
+                        withTransactions,
+                        accountId,
+                        currencyUnit,
+                        uri,
+                        autoFillCategories
+                    )
                 } finally {
                     contentResolver.call(
                         TransactionProvider.DUAL_URI,
@@ -81,17 +91,17 @@ class QifImportViewModel(application: Application) : ImportDataViewModel(applica
         if (withParties) {
             val totalParties = insertPayees(parser.payees)
             publishProgress(
-                if (totalParties == 0) getString(R.string.import_parties_none) else getString(
-                    R.string.import_parties_success,
-                    totalParties
+                getQuantityString(
+                    R.plurals.import_parties_result,
+                    totalParties, totalParties
                 )
             )
         }
         if (withCategories) {
             val totalCategories = insertCategories(parser.categories, true)
             publishProgress(
-                if (totalCategories == 0) getString(R.string.import_categories_none) else getString(
-                    R.string.import_categories_success,
+                getQuantityString(
+                    R.plurals.import_categories_result,
                     totalCategories
                 )
             )
@@ -100,9 +110,9 @@ class QifImportViewModel(application: Application) : ImportDataViewModel(applica
             if (accountId == 0L) {
                 val importedAccounts = insertAccounts(parser.accounts, currencyUnit, uri)
                 publishProgress(
-                    if (importedAccounts == 0) getString(R.string.import_accounts_none) else getString(
-                        R.string.import_accounts_success,
-                        importedAccounts
+                    getQuantityString(
+                        R.plurals.import_accounts_result,
+                        importedAccounts, importedAccounts
                     )
                 )
             } else {

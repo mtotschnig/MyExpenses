@@ -360,14 +360,6 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Εάν δεν γίνει ενημέρωση ποσών, θα εμφανίζονται διαιρεμένα με %d μετά την αλλαγή.</string>
     <string name="warning_change_fraction_digits_3">Εάν γίνει ενημέρωση ποσών, θα χαθεί πληροφορία για το δεκαδικό μέρος.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Ενημέρωση ποσών στην βάση δεδομένων</string>
-    <string name="import_categories_success">%1$d κατηγορίες που εισάγονται με επιτυχία.</string>
-    <string name="import_parties_success">%1$d μέρη που εισάγονται με επιτυχία.</string>
-    <string name="import_accounts_success">%1$d λογαριασμοί εισάχθηκαν με επιτυχία.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d συναλλαγές εισήχθηκαν με επιτυχία στον λογαριασμό %2$s</string>
-    <string name="import_accounts_none">Δεν έχουν εισαχθεί λογαριασμοί</string>
-    <string name="import_categories_none">Δεν έχουν εισαχθεί κατηγορίες</string>
-    <string name="import_parties_none">Δεν έχουν εισαχθεί μέρη</string>
-    <string name="import_transactions_none">Δεν έχουν εισαχθεί συναλλαγές στον λογαριασμό %1$s</string>
     <string name="import_source_select_error">Παρακαλείσθε να παράσχετε ένα αρχείο τύπου %1$s</string>
     <string name="menu_categories_setup_default">Εργοστασιακές ρυθμίσεις κατηγοριών</string>
     <string name="widget_title_accounts">Οι λογαριασμοί μου</string>
@@ -661,7 +653,7 @@
     <string name="licence_expires_today">Το επαγγελματικό σας κλειδί λήγει σήμερα.</string>
     <string name="budget_exceeded_error_1_1">Όλα εκτός από %s του προϋπολογισμού σας έχουν διατεθεί σε άλλες κατηγορίες.</string>
     <plurals name="import_categories_icons_updated">
-        <item quantity="one">Μια κατηγορία ενημερώθηκε με το εικονίδιο.</item>
+        <item quantity="one">%1$d κατηγορία ενημερώθηκε με το εικονίδιο.</item>
         <item quantity="other">%1$d κατηγορίες ενημερώθηκαν με τα εικονίδια.</item>
     </plurals>
     <string name="contributed_by">Συνεισφορά από %s</string>

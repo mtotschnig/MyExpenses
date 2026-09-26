@@ -342,14 +342,6 @@
     <string name="warning_restore">Baza de date si preferinţele  vor fi restaurate din fişierul \"%1$s\". Datele actuale vor fi şterse.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Setează un număr între %1$d şi %2$d, te rog</string>
     <string name="warning_change_fraction_digits_checkbox_label">Actualizarea sumelor în baza de date</string>
-    <string name="import_categories_success">%1$d categorii importate.</string>
-    <string name="import_parties_success">%1$d terţi importaţi.</string>
-    <string name="import_accounts_success">%1$d conturi importate.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d tranzacţii importate în contul %2$s</string>
-    <string name="import_accounts_none">Nici un cont importat</string>
-    <string name="import_categories_none">Nici o categorie importată</string>
-    <string name="import_parties_none">Nici un terţ importat</string>
-    <string name="import_transactions_none">Nici o tranzacţie importată in contul %1$s </string>
     <string name="import_source_select_error">Furnizaţi vă rog un fişier de tip %1$s</string>
     <string name="menu_categories_setup_default">Setare categorii implicite</string>
     <string name="widget_title_accounts">Conturile mele</string>
@@ -821,7 +813,7 @@
     <string name="warning_party_delete_debt">La ștergerea acestei părți, datoriile definite pentru aceasta vor fi șterse, de asemenea.</string>
     <string name="purge_backups">Următoarele fișiere vechi de rezervă vor fi șterse:</string>
     <plurals name="import_categories_icons_updated">
-        <item quantity="one">O categorie a fost actualizată cu pictograma.</item>
+        <item quantity="one">%1$d categorie a fost actualizată cu pictograma.</item>
         <item quantity="few">%1$d categorii au fost actualizate cu pictograme.</item>
         <item quantity="other">%1$d de categorii au fost actualizate cu pictograme.</item>
     </plurals>

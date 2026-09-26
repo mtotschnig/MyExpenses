@@ -362,14 +362,6 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">ಮೊತ್ತವನ್ನು ನವೀಕರಿಸದಿದ್ದರೆ, ಬದಲಾವಣೆಯ ನಂತರ ಅವುಗಳನ್ನು %d ನಿಂದ ಭಾಗಿಸಿದಂತೆ ಪ್ರದರ್ಶಿಸಲಾಗುತ್ತದೆ.</string>
     <string name="warning_change_fraction_digits_3">ಮೊತ್ತವನ್ನು ನವೀಕರಿಸಿದರೆ, ಅವುಗಳ ಭಾಗಶಃ ಮಾಹಿತಿಯನ್ನು ನೀವು ಕಳೆದುಕೊಳ್ಳುತ್ತೀರಿ.</string>
     <string name="warning_change_fraction_digits_checkbox_label">ಡೇಟಾಬೇಸ್‌ನಲ್ಲಿ ಮೊತ್ತವನ್ನು ನವೀಕರಿಸಿ</string>
-    <string name="import_categories_success">%1$d ವಿಭಾಗಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಆಮದು ಮಾಡಲಾಗಿದೆ.</string>
-    <string name="import_parties_success">%1$d ಪಕ್ಷಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಆಮದು ಮಾಡಲಾಗಿದೆ.</string>
-    <string name="import_accounts_success">%1$d ಖಾತೆಗಳನ್ನು ಯಶಸ್ವಿಯಾಗಿ ಆಮದು ಮಾಡಲಾಗಿದೆ.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d ವಹಿವಾಟುಗಳನ್ನು %2$s ಖಾತೆಗೆ ಯಶಸ್ವಿಯಾಗಿ ಆಮದು ಮಾಡಲಾಗಿದೆ</string>
-    <string name="import_accounts_none">ಯಾವುದೇ ಖಾತೆಗಳನ್ನು ಆಮದು ಮಾಡಿಕೊಳ್ಳಲಾಗಿಲ್ಲ</string>
-    <string name="import_categories_none">ಯಾವುದೇ ವರ್ಗಗಳನ್ನು ಆಮದು ಮಾಡಿಕೊಳ್ಳಲಾಗಿಲ್ಲ</string>
-    <string name="import_parties_none">ಯಾವುದೇ ಪಕ್ಷಗಳನ್ನು ಆಮದು ಮಾಡಿಕೊಂಡಿಲ್ಲ</string>
-    <string name="import_transactions_none">%1$s ಖಾತೆಗೆ ಯಾವುದೇ ವಹಿವಾಟುಗಳನ್ನು ಆಮದು ಮಾಡಿಕೊಳ್ಳಲಾಗಿಲ್ಲ</string>
     <string name="import_source_select_error">ದಯವಿಟ್ಟು %1$s ಪ್ರಕಾರದ ಫೈಲ್ ಅನ್ನು ಒದಗಿಸಿ</string>
     <string name="menu_categories_setup_default">ಡೀಫಾಲ್ಟ್ ವಿಭಾಗಗಳನ್ನು ಹೊಂದಿಸಿ</string>
     <string name="widget_title_accounts">ನನ್ನ ಖಾತೆಗಳು</string>

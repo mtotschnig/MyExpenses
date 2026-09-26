@@ -369,14 +369,6 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Si no se actualizan los importes, se mostrarán como divididos por %d después del cambio.</string>
     <string name="warning_change_fraction_digits_3">Si se actualizan los importes, se perderá la información de la parte fraccionaria.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Actualizar los importes en la base de datos</string>
-    <string name="import_categories_success">%1$d categorías han sido importadas con éxito.</string>
-    <string name="import_parties_success">%1$d grupos han sido importados con éxito.</string>
-    <string name="import_accounts_success">%1$d cuentas han sido importadas con éxito.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transacciones importadas con éxito en la cuenta %2$s</string>
-    <string name="import_accounts_none">Ninguna cuenta importada</string>
-    <string name="import_categories_none">Ninguna categoría importada</string>
-    <string name="import_parties_none">Ningún grupo importado</string>
-    <string name="import_transactions_none">Ninguna transacción fue importada a la cuenta %1$s</string>
     <string name="import_source_select_error">Por favor, proporcione un archivo de tipo %1$s</string>
     <string name="menu_categories_setup_default">Instalar categorías por defecto</string>
     <string name="widget_title_accounts">Mis cuentas</string>
@@ -820,7 +812,7 @@
     </plurals>
     <string name="title_activity_debt_overview">Vista general de la deuda</string>
     <plurals name="import_categories_icons_updated">
-        <item quantity="one">Se ha actualizado una categoría con un icono.</item>
+        <item quantity="one">Se ha actualizado %1$d categoría con un icono.</item>
         <item quantity="many">%1$d categorías fueron actualizadas con iconos.</item>
         <item quantity="other">%1$d categorías fueron actualizadas con iconos.</item>
     </plurals>

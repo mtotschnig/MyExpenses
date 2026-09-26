@@ -375,14 +375,6 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Pokud nedojde k aktualizaci částek, po změně se zobrazí jako rozdělené podle %d.</string>
     <string name="warning_change_fraction_digits_3">Pokud budou částky aktualizovány, přijdete o informace o jejich desetinné části.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Aktualizovat částky v databázi</string>
-    <string name="import_categories_success">%1$d kategorie byly úspěšně naimportovány.</string>
-    <string name="import_parties_success">%1$d strany byly úspěšně naimportovány.</string>
-    <string name="import_accounts_success">Účty (celkem %1$d) byly úspěšně importovány.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transakcí úspěšně importováno na účet %2$s</string>
-    <string name="import_accounts_none">Nebyly importovány žádné účty</string>
-    <string name="import_categories_none">Žádné importované kategorie</string>
-    <string name="import_parties_none">Nebyly importovány žádné strany</string>
-    <string name="import_transactions_none">Do účtu %1$s nebyly importovány žádné transakce</string>
     <string name="import_source_select_error">Poskytněte prosím soubor typu %1$s</string>
     <string name="menu_categories_setup_default">Nastavit výchozí kategorie</string>
     <string name="widget_title_accounts">Moje účty</string>
@@ -915,7 +907,7 @@
     <string name="auto_fill_focus">Nastavte zaměření na příjemce platby</string>
     <string name="debt">Dluh</string>
     <plurals name="import_categories_icons_updated">
-        <item quantity="one">Jedna kategorie byla aktualizována ikonou.</item>
+        <item quantity="one">%1$d kategorie byla aktualizována ikonou.</item>
         <item quantity="few">%1$d kategorie byly aktualizovány ikonami.</item>
         <item quantity="other">%1$d kategorie byly aktualizovány ikonami.</item>
     </plurals>

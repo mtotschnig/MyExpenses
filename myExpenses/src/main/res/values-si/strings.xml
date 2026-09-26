@@ -293,14 +293,6 @@
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">ඔබ ඉදිරියට ගියහොත් සියලුම ගිණුම්%1$s ,ඇති  දත්ත ගබඩාවේ සියලුම ගනුදෙනු මකා  දැමෙන අතර නැවත පිහිටුවීමට නොහැකිය.</string>
     <string name="warning_restore">\"%1$s\" ලිපිගොනුවෙන් මනාප සහ දත්ත ගබඩාව නැවත පිහිටුවන අතර. දැනට පවතින දත්ත සියල්ල මකා දැමේ.</string>
-    <string name="import_categories_success">ප්‍රබේධ %1$d සාර්ථකල ලෙස ආනයනය කරන ලදී.</string>
-    <string name="import_parties_success">පක්ෂ %1$d සාර්ථකල ලෙස ආනයනය කරන ලදී.</string>
-    <string name="import_accounts_success">ගිණුම් %1$d  සාර්ථකල ලෙස ආනයනය කරන ලදී.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">ගනුදෙනු %1$d සාර්ථකල ලෙස %2$s ගිණුමට ආනයනය කරන ලදී </string>
-    <string name="import_accounts_none">ගිණුම් ආනයන කරේ නැත </string>
-    <string name="import_categories_none">ප්‍රබේධ  ආනයන කරේ නැත </string>
-    <string name="import_parties_none">පක්ෂ ආනයන කරේ නැත </string>
-    <string name="import_transactions_none">කිසම ගනුදෙනුවක්  %1$s ගිණුමට ආනයනය කලේ නැත </string>
     <string name="import_source_select_error">කරුණකර  %1$s ලිපිගොනු වර්ගයක් යොදන්න </string>
     <string name="menu_categories_setup_default">මුල් ප්‍රබේධ පිහිටුවන්න </string>
     <string name="widget_title_accounts">මගේ ගිණුම් </string>

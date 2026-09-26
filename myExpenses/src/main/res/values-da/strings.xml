@@ -328,14 +328,6 @@
     <string name="warning_reset_account_matched">Hvis du fortsætter, slettes alle transaktioner fra databasen, der svarer til det aktuelle filter, og kan ikke gendannes.</string>
     <string name="warning_restore">Databasen og indstillingerne gendannes fra filen \"%1$s\". De aktuelle data slettes.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Angiv venligst et tal mellem %1$d og %2$d</string>
-    <string name="import_categories_success">%1$d kategorier blev importeret.</string>
-    <string name="import_parties_success">%1$d parter blev importeret.</string>
-    <string name="import_accounts_success">%1$d konti blev importeret.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transaktioner blev importeret til konto %2$s</string>
-    <string name="import_accounts_none">Ingen konti importeret</string>
-    <string name="import_categories_none">Ingen kategorier importeret</string>
-    <string name="import_parties_none">Ingen parter importeret</string>
-    <string name="import_transactions_none">Ingen transaktioner importeret til konto %1$s</string>
     <string name="import_source_select_error">Angiv venligst en fil af typen %1$s</string>
     <string name="menu_categories_setup_default">Opsæt standardkategorier</string>
     <string name="widget_title_accounts">Mine konti</string>
@@ -738,7 +730,7 @@
         <item quantity="other">Gælden %1$s har %2$d tilknyttede transaktioner.</item>
     </plurals>
     <plurals name="import_categories_icons_updated">
-        <item quantity="one">Én kategori blev opdateret med ikon.</item>
+        <item quantity="one">%1$d kategori blev opdateret med ikon.</item>
         <item quantity="other">%1$d kategorier blev opdateret med ikoner.</item>
     </plurals>
     <string name="debt_owes_me">%s skylder mig</string>

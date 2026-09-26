@@ -327,14 +327,6 @@
     <string name="warning_reset_account_all">Ako nastaviš, transakcije će se nepovratno izbrisati iz baze podataka za sve račune%1$s.</string>
     <string name="warning_restore">Baza podataka i osobne postavke obnovit će se iz datoteke „%1$s”. Sadašnji podaci će se izbrisati.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Odaberi broj između %1$d i %2$d</string>
-    <string name="import_categories_success">%1$d kategorije uspješno uvezene.</string>
-    <string name="import_parties_success">%1$d stranke uspješno uvezene.</string>
-    <string name="import_accounts_success">%1$d računi uspješno uvezeni.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transakcije uspješno uvezene u račun %2$s</string>
-    <string name="import_accounts_none">Nijedan račun nije uvezen</string>
-    <string name="import_categories_none">Nijedna kategorija nije uvezena</string>
-    <string name="import_parties_none">Nijedna stranka nije uvezena</string>
-    <string name="import_transactions_none">Nijedna transakcija nije uvezena u račun %1$s</string>
     <string name="import_source_select_error">Dokument mora biti vrste %1$s</string>
     <string name="menu_categories_setup_default">Postavi standardne kategorije</string>
     <string name="widget_title_accounts">Moji računi</string>

@@ -374,14 +374,6 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Если суммы не обновляются, они будут отображаться как разделенные на %d после изменения.</string>
     <string name="warning_change_fraction_digits_3">Если суммы будут обновлены, вы потеряете информацию об их дробной части.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Обновить суммы в базе данных</string>
-    <string name="import_categories_success">%1$d категорий успешно импортированы.</string>
-    <string name="import_parties_success">%1$d контрагентов успешно импортировано.</string>
-    <string name="import_accounts_success">%1$d счета успешно импортированы.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d операций успешно импортированы в счёт %2$s</string>
-    <string name="import_accounts_none">Нет импортированных счетов</string>
-    <string name="import_categories_none">Категории не импортированы</string>
-    <string name="import_parties_none">Контрагенты не импортированы</string>
-    <string name="import_transactions_none">Операции не импортированы в счёт %1$s</string>
     <string name="import_source_select_error">Пожалуйста заполните тип файла %1$s</string>
     <string name="menu_categories_setup_default">Установить категории по умолчанию</string>
     <string name="widget_title_accounts">Мои счета</string>
@@ -804,7 +796,7 @@
     <string name="cb_label_merge_accounts">Слияние счетов</string>
     <string name="pref_mlkit_script_title">Скрипт для MlKit</string>
     <plurals name="import_categories_icons_updated">
-        <item quantity="one">В одной категории была обновлена иконка.</item>
+        <item quantity="one">В %1$d категории была обновлена иконка.</item>
         <item quantity="few">В %1$d категориях была обновлена иконка.</item>
         <item quantity="many">В %1$d категориях была обновлена иконка.</item>
         <item quantity="other">В %1$d категориях была обновлена иконка.</item>

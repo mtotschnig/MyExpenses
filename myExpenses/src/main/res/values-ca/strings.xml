@@ -269,9 +269,6 @@
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Si continueu, per tots els comptes%1$s, les operacions s\'eliminaran de la base de dades i no es podran restaurar.</string>
     <string name="warning_restore">La base de dades i les preferències es restauraran des de la còpia de seguretat (%1$s). S\'esborraran les dades actuals.</string>
-    <string name="import_categories_success">%1$d categories importades amb èxit.</string>
-    <string name="import_parties_success">%1$d tercers s\'han importat correctament.</string>
-    <string name="import_accounts_none">No s\'ha importat cap compte</string>
     <string name="pref_auto_backup_title">Permetre còpia de seguretat automàtica</string>
     <string name="pref_auto_backup_summary">Còpia de seguretat de base de dades diària a l\'hora especificada (només si les dades han canviat).</string>
     <string name="pref_auto_backup_time_title">Hora de còpia de seguretat automàtica</string>
@@ -369,8 +366,6 @@
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Definiu un nombre entre %1$d i %2$d</string>
     <string name="warning_change_fraction_digits_checkbox_label">Actualitza quantitats a la base de dades</string>
     <string name="warning_widget_disabled">Cal activar aquest widget a la configuració de l\'aplicació.</string>
-    <string name="import_parties_none">Cap tercer importat</string>
-    <string name="import_transactions_none">Cap transacció importada al compte %1$s</string>
     <string name="search_status">Cerca estat</string>
     <string name="comparison_operator_between">entre</string>
     <string name="account_deleted">Compte eliminat</string>
@@ -400,7 +395,6 @@
     <string name="progress_validating_licence">Validant llicència</string>
     <string name="licence_validation_error_expired">Llicència caducada</string>
     <string name="before">abans de %s</string>
-    <string name="import_categories_none">Cap categoria importada</string>
     <string name="exchange_rate">Tipus de canvi</string>
     <string name="search_transfer">Cerca per transferència</string>
     <string name="menu_sync_unlink">Atura la sincronització</string>
@@ -461,8 +455,6 @@
     <string name="csv_import_no_mapping_found_for_amount">Siusplau, assigneu una columna o bé a import, ingrés o despesa.</string>
     <string name="crash_dialog_title">{app_name} ha petat</string>
     <string name="warning_change_fraction_digits_3">Si les quantitats s\'actualitzen, prendreu la informació sobre la seva part fraccionaria.</string>
-    <string name="import_accounts_success">%1$d comptes importats amb èxit.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d opreacions importades amb èxit al compte %2$s</string>
     <string name="import_source_select_error">Aporteu un fitxer del tipus %1$s</string>
     <string name="menu_categories_setup_default">Definir categories per defecte</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Si les quantitats no s\'actualitzen, es mostraran multiplicades per %d després del canvi.</string>
@@ -694,7 +686,7 @@
     <string name="budget_widget_configuration">Selecciona el pressupost</string>
     <string name="pref_mlkit_script_title">Script per al MlKit</string>
     <plurals name="import_categories_icons_updated">
-        <item quantity="one">Una categoria s\'ha actualitzat amb icona.</item>
+        <item quantity="one">%1$d categoria s\'ha actualitzat amb icona.</item>
         <item quantity="many">S\'han actualitzat %1$d categories amb icones.</item>
         <item quantity="other"/>
     </plurals>

@@ -363,14 +363,6 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Eğer meblağlar güncellenmezse, değişiklikten sonra %d ile bölünmüş olarak gösterileceklerdir.</string>
     <string name="warning_change_fraction_digits_3">Eğer meblağlar güncellenirse, onların kesirli bölümü hakkında bilgi kaybedersiniz.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Veri tabanındaki meblağları güncelle</string>
-    <string name="import_categories_success">%1$d kategori başarıyla içe aktarıldı.</string>
-    <string name="import_parties_success">%1$d bölüm başarıyla içe aktarıldı.</string>
-    <string name="import_accounts_success">%1$d hesap başarılı bir şekilde içe aktarıldı.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d muamele başarılı bir şekilde %2$s hesabına aktarıldı</string>
-    <string name="import_accounts_none">İçe aktarılan hesap yok</string>
-    <string name="import_categories_none">İçe aktarılan kategori yok</string>
-    <string name="import_parties_none">İçe aktarılan bölüm yok</string>
-    <string name="import_transactions_none">Hiçbir muamele %1$s hesabına aktarılmadı</string>
     <string name="import_source_select_error">Lütfen %1$s tipinde bir dosya verin</string>
     <string name="menu_categories_setup_default">Varsayılan kategorileri kur</string>
     <string name="widget_title_accounts">Hesaplarım</string>
@@ -817,7 +809,7 @@
     <string name="pref_mlkit_script_title">MlKit için alfabe</string>
     <string name="cb_label_merge_accounts">Hesapları birleştir</string>
     <plurals name="import_categories_icons_updated">
-        <item quantity="one">Bir kategori simgesiyle güncellendi.</item>
+        <item quantity="one">%1$d kategori simgesiyle güncellendi.</item>
         <item quantity="other">%1$d kategori simgesiyle güncellendi.</item>
     </plurals>
     <string name="setup_completed">Kurulum tamamlandı</string>

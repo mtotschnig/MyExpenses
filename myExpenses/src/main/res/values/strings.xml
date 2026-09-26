@@ -378,14 +378,22 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">If amounts are not updated, they will be displayed as divided by %d after the change.</string>
     <string name="warning_change_fraction_digits_3">If amounts are updated, you will lose the information about their fractional part.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Update amounts in database</string>
-    <string name="import_categories_success" tools:ignore="PluralsCandidate">%1$d categories successfully imported.</string>
-    <string name="import_parties_success" tools:ignore="PluralsCandidate">%1$d parties successfully imported.</string>
-    <string name="import_accounts_success" tools:ignore="PluralsCandidate">%1$d accounts successfully imported.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transactions successfully imported into account %2$s</string>
-    <string name="import_accounts_none">No accounts imported</string>
-    <string name="import_categories_none">No categories imported</string>
-    <string name="import_parties_none">No parties imported</string>
-    <string name="import_transactions_none">No transactions imported into account %1$s</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d category imported.</item>
+        <item quantity="other">%1$d categories imported.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d party imported.</item>
+        <item quantity="other">%1$d parties imported.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d account imported.</item>
+        <item quantity="other">%1$d accounts imported.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d transaction imported into account %2$s.</item>
+        <item quantity="other">%1$d transactions imported into account %2$s.</item>
+    </plurals>
     <string name="import_source_select_error">Please provide a file of type %1$s</string>
     <string name="menu_categories_setup_default">Setup default categories</string>
     <string name="widget_title_accounts">My accounts</string>
@@ -857,7 +865,7 @@
     <string name="pref_mlkit_script_title">Script for MlKit</string>
     <!-- When user imports the standard categories, this reports on the number of cases, where the category was already defined, but without icon. -->
     <plurals name="import_categories_icons_updated">
-        <item quantity="one">One category was updated with icon.</item>
+        <item quantity="one">%1$d category was updated with icon.</item>
         <item quantity="other">%1$d categories were updated with icons.</item>
     </plurals>
     <string name="setup_completed">Setup completed</string>
