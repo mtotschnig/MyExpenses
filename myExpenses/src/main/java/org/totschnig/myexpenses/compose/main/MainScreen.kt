@@ -479,6 +479,7 @@ fun MainScreenAdaptive(
                                 containerColor = Color.Transparent,
                                 availableFilters = availableFilters,
                                 selectedAccountId = selectedAccountId,
+                                accounts = accounts,
                                 viewModel = viewModel,
                                 onEvent = onAppEvent,
                                 onAccountEvent = onAccountEvent,

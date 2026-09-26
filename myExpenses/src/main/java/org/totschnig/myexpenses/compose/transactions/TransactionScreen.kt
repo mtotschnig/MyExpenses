@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.WindowInsetsSides.Companion
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -148,6 +147,7 @@ fun TransactionScreen(
     containerColor: Color = MaterialTheme.colorScheme.background,
     availableFilters: List<AccountGroupingKey>,
     selectedAccountId: Long,
+    accounts: List<FullAccount>,
     viewModel: MyExpensesV2ViewModel,
     bottomBar: @Composable () -> Unit = {},
     visibleActionItems: Int,
@@ -541,8 +541,7 @@ fun TransactionScreen(
             onRoundingModeChange = { viewModel.setRoundingMode(currentAccount.id, it) },
             reportingCurrency = currentAccount.currencyUnit,
             assets = allCurrencies,
-            fundingAccounts = accountList
-                .filterIsInstance<FullAccount>()
+            fundingAccounts = accounts
                 .filter {
                     !it.isPortfolio && !it.sealed &&
                             it.currencyUnit.code == currentAccount.currencyUnit.code &&
@@ -551,8 +550,7 @@ fun TransactionScreen(
                 .map {
                     it.id to it.labelV2(LocalContext.current)
                 },
-            targetPortfolios = accountList
-                .filterIsInstance<FullAccount>()
+            targetPortfolios = accounts
                 .filter { it.isPortfolio && it.id != currentAccount.id }
                 .map { it.id to it.labelV2(LocalContext.current) },
             initialAction = tradeAction,
