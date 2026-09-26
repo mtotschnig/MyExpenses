@@ -378,25 +378,25 @@
         <item quantity="one">Успешно импортирована %1$d категория.</item>
         <item quantity="few">Успешно импортированы %1$d категории.</item>
         <item quantity="many">Успешно импортировано %1$d категорий.</item>
-        <item quantity="other">Успешно импортировано %1$d категории.</item>
+        <item quantity="other">Успешно импортировано %1$d категорий.</item>
     </plurals>
     <plurals name="import_parties_result">
         <item quantity="one">Успешно импортирован %1$d контрагент.</item>
         <item quantity="few">Успешно импортированы %1$d контрагента.</item>
         <item quantity="many">Успешно импортировано %1$d контрагентов.</item>
-        <item quantity="other">Успешно импортировано %1$d контрагента.</item>
+        <item quantity="other">Успешно импортировано %1$d контрагентов.</item>
     </plurals>
     <plurals name="import_accounts_result">
         <item quantity="one">Успешно импортирован %1$d счёт.</item>
         <item quantity="few">Успешно импортированы %1$d счёта.</item>
         <item quantity="many">Успешно импортировано %1$d счетов.</item>
-        <item quantity="other">Успешно импортировано %1$d счёта.</item>
+        <item quantity="other">Успешно импортировано %1$d счетов.</item>
     </plurals>
     <plurals name="import_transactions_result">
         <item quantity="one">%1$d операция успешно импортирована в счёт %2$s</item>
         <item quantity="few">%1$d операции успешно импортированы в счёт %2$s</item>
         <item quantity="many">%1$d операций успешно импортировано в счёт %2$s</item>
-        <item quantity="other">%1$d операции успешно импортировано в счёт %2$s</item>
+        <item quantity="other">%1$d операций успешно импортировано в счёт %2$s</item>
     </plurals>
     <string name="import_source_select_error">Пожалуйста заполните тип файла %1$s</string>
     <string name="menu_categories_setup_default">Установить категории по умолчанию</string>

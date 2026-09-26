@@ -336,7 +336,7 @@
     </plurals>
     <plurals name="import_transactions_result">
         <item quantity="one">%1$d लेनदेन सफलतापूर्वक %2$s खाते में आयात किया गया</item>
-        <item quantity="other">%1$d लेनदेन सफलतापूर्वक %2$s खाते में आयात किया गया</item>
+        <item quantity="other">%1$d लेनदेन सफलतापूर्वक %2$s खाते में आयात किए गए</item>
     </plurals>
     <string name="import_source_select_error">कृपया %1$s प्रकार की एक फ़ाइल प्रदान करें</string>
     <string name="search_tag">टैग खोजें</string>
