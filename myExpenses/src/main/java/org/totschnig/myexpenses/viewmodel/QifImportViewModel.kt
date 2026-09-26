@@ -102,7 +102,7 @@ class QifImportViewModel(application: Application) : ImportDataViewModel(applica
             publishProgress(
                 getQuantityString(
                     R.plurals.import_categories_result,
-                    totalCategories
+totalCategories, totalCategories
                 )
             )
         }
