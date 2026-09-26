@@ -376,24 +376,24 @@
     <string name="warning_change_fraction_digits_3">Pokud budou částky aktualizovány, přijdete o informace o jejich desetinné části.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Aktualizovat částky v databázi</string>
     <plurals name="import_categories_result">
-        <item quantity="one">%1$d kategorie byly úspěšně naimportovány.</item>
-        <item quantity="few">%1$d kategorie byly úspěšně naimportovány.</item>
-        <item quantity="other">%1$d kategorie byly úspěšně naimportovány.</item>
+        <item quantity="one">%1$d kategorie byla úspěšně importována.</item>
+        <item quantity="few">%1$d kategorie byly úspěšně importovány.</item>
+        <item quantity="other">%1$d kategorií bylo úspěšně importováno.</item>
     </plurals>
     <plurals name="import_parties_result">
-        <item quantity="one">%1$d strany byly úspěšně naimportovány.</item>
-        <item quantity="few">%1$d strany byly úspěšně naimportovány.</item>
-        <item quantity="other">%1$d strany byly úspěšně naimportovány.</item>
+        <item quantity="one">%1$d strana byla úspěšně importována.</item>
+        <item quantity="few">%1$d strany byly úspěšně importovány.</item>
+        <item quantity="other">%1$d stran bylo úspěšně importováno.</item>
     </plurals>
     <plurals name="import_accounts_result">
-        <item quantity="one">Účty (celkem %1$d) byly úspěšně importovány.</item>
-        <item quantity="few">Účty (celkem %1$d) byly úspěšně importovány.</item>
-        <item quantity="other">Účty (celkem %1$d) byly úspěšně importovány.</item>
+        <item quantity="one">%1$d účet byl úspěšně importován.</item>
+        <item quantity="few">%1$d účty byly úspěšně importovány.</item>
+        <item quantity="other">%1$d účtů bylo úspěšně importováno.</item>
     </plurals>
     <plurals name="import_transactions_result">
-        <item quantity="one">%1$d transakcí úspěšně importováno na účet %2$s</item>
-        <item quantity="few">%1$d transakcí úspěšně importováno na účet %2$s</item>
-        <item quantity="other">%1$d transakcí úspěšně importováno na účet %2$s</item>
+        <item quantity="one">%1$d transakce byla úspěšně importována na účet %2$s</item>
+        <item quantity="few">%1$d transakce byly úspěšně importovány na účet %2$s</item>
+        <item quantity="other">%1$d transakcí bylo úspěšně importováno na účet %2$s</item>
     </plurals>
     <string name="import_source_select_error">Poskytněte prosím soubor typu %1$s</string>
     <string name="menu_categories_setup_default">Nastavit výchozí kategorie</string>

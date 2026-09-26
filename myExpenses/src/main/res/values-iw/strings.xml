@@ -374,8 +374,8 @@
         <item quantity="other">%1$d קטגוריות יובאו בהצלחה.</item>
     </plurals>
     <plurals name="import_parties_result">
-        <item quantity="one">%1$d עסקאות יובאו בהצלחה.</item>
-        <item quantity="other">%1$d עסקאות יובאו בהצלחה.</item>
+        <item quantity="one">%1$d צד יובא בהצלחה.</item>
+        <item quantity="other">%1$d צדדים יובאו בהצלחה.</item>
     </plurals>
     <plurals name="import_accounts_result">
         <item quantity="one">%1$d חשבונות יובאו בהצלחה.</item>

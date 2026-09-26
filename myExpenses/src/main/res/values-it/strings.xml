@@ -368,20 +368,20 @@
     <string name="warning_change_fraction_digits_3">Se gli importi sono aggiornati, si perderanno le informazioni sulla loro parte frazionaria.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Aggiorna gli importi nel database</string>
     <plurals name="import_categories_result">
-        <item quantity="one">%1$d categorie state importate.</item>
-        <item quantity="other">%1$d categorie state importate.</item>
+        <item quantity="one">È stata importata %1$d categoria.</item>
+        <item quantity="other">Sono state importate %1$d categorie.</item>
     </plurals>
     <plurals name="import_parties_result">
-        <item quantity="one">%1$d beneficiari state importate.</item>
-        <item quantity="other">%1$d beneficiari state importate.</item>
+        <item quantity="one">È stato importato %1$d beneficiario.</item>
+        <item quantity="other">Sono stati importati %1$d beneficiari.</item>
     </plurals>
     <plurals name="import_accounts_result">
-        <item quantity="one">%1$d conti importati correttamente.</item>
-        <item quantity="other">%1$d conti importati correttamente.</item>
+        <item quantity="one">È stato importato correttamente %1$d conto.</item>
+        <item quantity="other">Sono stati importati correttamente %1$d conti.</item>
     </plurals>
     <plurals name="import_transactions_result">
-        <item quantity="one">%1$d transazioni importate correttamente nel conto %2$s</item>
-        <item quantity="other">%1$d transazioni importate correttamente nel conto %2$s</item>
+        <item quantity="one">È stata importata correttamente %1$d transazione nel conto %2$s</item>
+        <item quantity="other">Sono state importate correttamente %1$d transazioni nel conto %2$s</item>
     </plurals>
     <string name="import_source_select_error">Si prega di fornire un file di tipo %1$s</string>
     <string name="menu_categories_setup_default">Imposta le categorie predefinite</string>
