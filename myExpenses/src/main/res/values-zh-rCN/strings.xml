@@ -370,8 +370,7 @@
         <item quantity="other">已成功导入 %1$d 个账户。</item>
     </plurals>
     <plurals name="import_transactions_result">
-        <item quantity="one">已成功导入 %1$d 笔交易至账户%2$s</item>
-        <item quantity="other">已成功导入 %1$d 笔交易至账户%2$s</item>
+        <item quantity="other">已成功导入 %1$d 笔交易至账户 %2$s。</item>
     </plurals>
     <string name="import_source_select_error">请提供 %1$s类型的文件</string>
     <string name="menu_categories_setup_default">设置应用程序默认的类别</string>
