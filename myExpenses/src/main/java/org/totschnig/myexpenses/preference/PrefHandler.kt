@@ -285,5 +285,5 @@ enum class ColorSource {
 }
 
 enum class TagStyle {
-    OUTLINE, <FILLED
+    OUTLINE, FILLED
 }
