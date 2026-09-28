@@ -283,3 +283,7 @@ enum class ColorSource {
         SIGN -> null
     }
 }
+
+enum class TagStyle {
+    OUTLINE, <FILLED
+}

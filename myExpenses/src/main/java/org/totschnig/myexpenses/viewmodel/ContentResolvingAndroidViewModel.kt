@@ -59,6 +59,7 @@ import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.TagStyle
 import org.totschnig.myexpenses.preference.dynamicExchangeRatesPerAccount
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
@@ -164,6 +165,15 @@ open class ContentResolvingAndroidViewModel(application: Application) :
             enumValueOrDefault(
                 it[prefHandler.getStringPreferencesKey(PrefKey.TRANSACTION_AMOUNT_COLOR_SOURCE)],
                 ColorSource.TYPE
+            )
+        }
+    }
+
+    val tagStyle: Flow<TagStyle> by lazy {
+        dataStore.data.map {
+            enumValueOrDefault(
+                it[prefHandler.getStringPreferencesKey(PrefKey.TAG_STYLE)],
+                TagStyle.OUTLINE
             )
         }
     }

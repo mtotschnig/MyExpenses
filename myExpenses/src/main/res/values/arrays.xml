@@ -461,6 +461,15 @@
         <item>@string/pref_fab_style_compact_description</item>
     </string-array>
 
+    <string-array name="pref_tag_style_values">
+        <item>OUTLINE</item>
+        <item>FILLED</item>
+    </string-array>
+    <string-array name="pref_tag_style_entries">
+        <item>@string/pref_tag_style_outline</item>
+        <item>@string/pref_tag_style_filled</item>
+    </string-array>
+
     <string-array name="pref_custom_date_format_new_transaction_list_entries">
         <item>FULL</item>
         <item>LONG</item>

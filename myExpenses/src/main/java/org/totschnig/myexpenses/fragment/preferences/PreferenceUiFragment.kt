@@ -103,6 +103,12 @@ class PreferenceUiFragment : BasePreferenceFragment() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
+                preferenceDataStore.handleList(requirePreference(PrefKey.TAG_STYLE))
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
                 preferenceDataStore.handleList(requirePreference(PrefKey.DEFAULT_ACTION))
             }
         }

@@ -87,10 +87,12 @@ import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.FLAG_TRANSFER
+import org.totschnig.myexpenses.compose.calculateOnColor
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.ColorSource
+import org.totschnig.myexpenses.preference.TagStyle
 import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.STATUS_ARCHIVE
 import org.totschnig.myexpenses.ui.DisplayParty
@@ -111,7 +113,8 @@ abstract class ItemRenderer(
     private val withCategoryIcon: Boolean,
     private val colorSource: ColorSource,
     private val onToggleCrStatus: ((Long) -> Unit)?,
-    protected val withAccountLabel: Boolean
+    protected val withAccountLabel: Boolean,
+    protected val tagStyle: TagStyle = TagStyle.OUTLINE
 ) {
 
     fun Transaction2.buildPrimaryInfo(
@@ -155,6 +158,7 @@ abstract class ItemRenderer(
         context: Context,
         withTags: Boolean,
         resolvedExtraInfo: ResolvedExtraInfo? = null,
+        tagStyle: TagStyle = TagStyle.OUTLINE,
     ): Pair<AnnotatedString, List<String>> {
         val attachmentIcon = if (attachmentCount > 0) "paperclip" else null
         val trade = (resolvedExtraInfo as? ResolvedExtraInfo.Trade)?.trade
@@ -189,10 +193,19 @@ abstract class ItemRenderer(
                 if (length > 0) {
                     append(COMMENT_SEPARATOR)
                 }
-                val tagStyle = MaterialTheme.typography.bodySmall.toSpanStyle()
+                val tagStyleSpan = MaterialTheme.typography.bodySmall.toSpanStyle()
                 list.forEachIndexed { index, pair ->
-                    pushStringAnnotation(tag = ANNOTATION_TAG, annotation = pair.color?.toString() ?: "null")
-                    withStyle(style = tagStyle) {
+                    pushStringAnnotation(
+                        tag = ANNOTATION_TAG,
+                        annotation = pair.color?.toString() ?: "null"
+                    )
+                    val textColor = if (tagStyle == TagStyle.FILLED) {
+                        val bgColor = pair.color?.let { Color(it) }
+                            ?: MaterialTheme.colorScheme.surfaceVariant
+                        bgColor.calculateOnColor()
+                    } else null
+                    val spanStyle = textColor?.let { tagStyleSpan.copy(color = it) } ?: tagStyleSpan
+                    withStyle(style = spanStyle) {
                         append("\u00A0")
                         append(pair.label)
                         append("\u00A0")
@@ -401,43 +414,61 @@ abstract class ItemRenderer(
         modifier: Modifier = Modifier,
         text: AnnotatedString,
         icons: List<String>,
+        tagStyle: TagStyle = TagStyle.OUTLINE,
     ) {
         var layoutResult by remember { mutableStateOf<TextLayoutResult?>(null) }
         val onSurface = MaterialTheme.colorScheme.onSurface
+        val surfaceVariant = MaterialTheme.colorScheme.surfaceVariant
         Text(
             modifier = modifier.drawBehind {
                 layoutResult?.let { result ->
-                    text.getStringAnnotations(ANNOTATION_TAG, 0, text.length).forEach { annotation ->
-                        val color = if (annotation.item == "null") {
-                            onSurface
-                        } else {
-                            Color(annotation.item.toInt())
+                    text.getStringAnnotations(ANNOTATION_TAG, 0, text.length)
+                        .forEach { annotation ->
+                            val color = if (annotation.item == "null") {
+                                if (tagStyle == TagStyle.FILLED) surfaceVariant else onSurface
+                            } else {
+                                Color(annotation.item.toInt())
+                            }
+                            val firstLine = result.getLineForOffset(annotation.start)
+                            val lastLine = result.getLineForOffset(annotation.end - 1)
+                            val verticalPadding = 1.dp.toPx()
+                            val horizontalPadding = 1.dp.toPx()
+                            val strokeWidth = 1.5.dp.toPx()
+                            for (line in firstLine..lastLine) {
+                                val left = (if (line == firstLine) result.getHorizontalPosition(
+                                    annotation.start,
+                                    false
+                                ) else result.getLineLeft(line)) - horizontalPadding
+                                val right = (if (line == lastLine) result.getHorizontalPosition(
+                                    annotation.end,
+                                    true
+                                ) else result.getLineRight(line)) + horizontalPadding
+                                val top = result.getLineTop(line)
+                                val bottom = result.getLineBottom(line)
+                                if (tagStyle == TagStyle.FILLED) {
+                                    drawRoundRect(
+                                        color = color,
+                                        topLeft = Offset(left, top + verticalPadding),
+                                        size = Size(
+                                            right - left,
+                                            bottom - top - 2 * verticalPadding
+                                        ),
+                                        cornerRadius = CornerRadius(8.dp.toPx())
+                                    )
+                                } else {
+                                    drawRoundRect(
+                                        color = color,
+                                        topLeft = Offset(left, top + verticalPadding),
+                                        size = Size(
+                                            right - left,
+                                            bottom - top - 2 * verticalPadding
+                                        ),
+                                        cornerRadius = CornerRadius(8.dp.toPx()),
+                                        style = Stroke(width = strokeWidth)
+                                    )
+                                }
+                            }
                         }
-                        val firstLine = result.getLineForOffset(annotation.start)
-                        val lastLine = result.getLineForOffset(annotation.end - 1)
-                        val verticalPadding = 1.dp.toPx()
-                        val horizontalPadding = 1.dp.toPx()
-                        val strokeWidth = 1.5.dp.toPx()
-                        for (line in firstLine..lastLine) {
-                            val left = (if (line == firstLine) result.getHorizontalPosition(
-                                annotation.start,
-                                false
-                            ) else result.getLineLeft(line)) - horizontalPadding
-                            val right = (if (line == lastLine) result.getHorizontalPosition(
-                                annotation.end,
-                                true
-                            ) else result.getLineRight(line)) + horizontalPadding
-                            val top = result.getLineTop(line)
-                            val bottom = result.getLineBottom(line)
-                            drawRoundRect(
-                                color = color,
-                                topLeft = Offset(left, top + verticalPadding),
-                                size = Size(right - left, bottom - top - 2 * verticalPadding),
-                                cornerRadius = CornerRadius(8.dp.toPx()),
-                                style = Stroke(width = strokeWidth)
-                            )
-                        }
-                    }
                 }
             },
             text = text,
@@ -497,7 +528,8 @@ class CompactTransactionRenderer(
     colorSource: ColorSource = ColorSource.TYPE,
     withAccountLabel: Boolean = false,
     onToggleCrStatus: ((Long) -> Unit)? = null,
-) : ItemRenderer(withCategoryIcon, colorSource, onToggleCrStatus, withAccountLabel) {
+    tagStyle: TagStyle = TagStyle.OUTLINE,
+) : ItemRenderer(withCategoryIcon, colorSource, onToggleCrStatus, withAccountLabel, tagStyle) {
 
     @Composable
     override fun RowScope.RenderInner(
@@ -505,7 +537,8 @@ class CompactTransactionRenderer(
         resolvedExtraInfo: ResolvedExtraInfo?,
     ) {
         val context = LocalContext.current
-        val secondaryInfo = transaction.buildSecondaryInfo(context, true, resolvedExtraInfo)
+        val secondaryInfo =
+            transaction.buildSecondaryInfo(context, true, resolvedExtraInfo, tagStyle)
         val description = buildAnnotatedString {
             val primaryInfo = transaction.buildPrimaryInfo(context, resolvedExtraInfo, true)
             if (primaryInfo.isNotEmpty()) {
@@ -534,7 +567,8 @@ class CompactTransactionRenderer(
                 .padding(horizontal = 5.dp)
                 .weight(1f),
             text = description,
-            icons = secondaryInfo.second
+            icons = secondaryInfo.second,
+            tagStyle = tagStyle
         )
         Column(horizontalAlignment = Alignment.End) {
             if (withOriginalAmount) {
@@ -553,8 +587,9 @@ class NewTransactionRenderer(
     withCategoryIcon: Boolean = true,
     colorSource: ColorSource = ColorSource.TYPE,
     onToggleCrStatus: ((Long) -> Unit)? = null,
-    withAccountLabel: Boolean = false
-) : ItemRenderer(withCategoryIcon, colorSource, onToggleCrStatus, withAccountLabel) {
+    withAccountLabel: Boolean = false,
+    tagStyle: TagStyle = TagStyle.OUTLINE,
+) : ItemRenderer(withCategoryIcon, colorSource, onToggleCrStatus, withAccountLabel, tagStyle) {
     @OptIn(ExperimentalLayoutApi::class)
     @Composable
     override fun RowScope.RenderInner(
@@ -563,7 +598,8 @@ class NewTransactionRenderer(
     ) {
         val context = LocalContext.current
         val primaryInfo = transaction.buildPrimaryInfo(context, resolvedExtraInfo, false)
-        val secondaryInfo = transaction.buildSecondaryInfo(context, false, resolvedExtraInfo)
+        val secondaryInfo =
+            transaction.buildSecondaryInfo(context, false, resolvedExtraInfo, tagStyle)
         transaction.CategoryIcon(resolvedExtraInfo)
         transaction.StatusToggle()
         Column(
@@ -582,14 +618,22 @@ class NewTransactionRenderer(
                     Text(text = info)
                 }
             secondaryInfo.first.takeIf { it.isNotEmpty() }?.let { info ->
-                TextWithInlineContent(text = info, icons = secondaryInfo.second)
+                TextWithInlineContent(
+                    text = info,
+                    icons = secondaryInfo.second,
+                    tagStyle = tagStyle
+                )
             }
             if (transaction.tagList.isNotEmpty()) {
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     transaction.tagList.forEach { (_, label, color) ->
-                        InlineChip(text = label, color = color?.let { Color(it) })
+                        InlineChip(
+                            text = label,
+                            color = color?.let { Color(it) },
+                            tagStyle = tagStyle
+                        )
                     }
                 }
             }
@@ -639,12 +683,27 @@ fun Modifier.voidMarker(crStatus: CrStatus): Modifier {
 }
 
 @Composable
-fun InlineChip(text: String, color: Color?) {
+fun InlineChip(text: String, color: Color?, tagStyle: TagStyle = TagStyle.OUTLINE) {
+    val chipModifier = when (tagStyle) {
+        TagStyle.OUTLINE -> Modifier.tagBorder(color ?: MaterialTheme.colorScheme.onSurface)
+        TagStyle.FILLED -> {
+            val bgColor = color ?: MaterialTheme.colorScheme.surfaceVariant
+            Modifier
+                .background(
+                    color = bgColor,
+                    shape = RoundedCornerShape(8.dp)
+                )
+                .padding(vertical = 4.dp, horizontal = 6.dp)
+        }
+    }
+    val textColor = when (tagStyle) {
+        TagStyle.OUTLINE -> Color.Unspecified
+        TagStyle.FILLED -> (color ?: MaterialTheme.colorScheme.surfaceVariant).calculateOnColor()
+    }
     Text(
         text = text,
-        modifier = Modifier
-            .tagBorder(color ?: MaterialTheme.colorScheme.onSurface)
-            .padding(bottom = 2.dp),
+        color = textColor,
+        modifier = chipModifier.padding(bottom = 2.dp),
         style = MaterialTheme.typography.bodySmall
     )
 }
@@ -663,6 +722,16 @@ private fun RenderCompact(@PreviewParameter(SampleProvider::class) transaction: 
         DateTimeFormatInfo(DateTimeFormatter.ofPattern("EEE"), 4f),
         withOriginalAmount = true
     ).Render(transaction)
+}
+
+@Preview
+@Composable
+private fun RenderTagStyleFilled() {
+    CompactTransactionRenderer(
+        DateTimeFormatInfo(DateTimeFormatter.ofPattern("EEE"), 4f),
+        withOriginalAmount = true,
+        tagStyle = TagStyle.FILLED
+    ).Render(SampleProvider().values.first())
 }
 
 class SampleProvider : PreviewParameterProvider<Transaction2> {
@@ -685,7 +754,6 @@ class SampleProvider : PreviewParameterProvider<Transaction2> {
             month = 1,
             day = 1,
             week = 1,
-            crStatus = CrStatus.VOID,
             tagList = listOf(
                 Tag(1, "Hund", android.graphics.Color.RED),
                 Tag(2, "Katz", android.graphics.Color.GREEN),
@@ -705,6 +773,7 @@ class SampleProvider : PreviewParameterProvider<Transaction2> {
             month = 1,
             day = 1,
             week = 1,
+            crStatus = CrStatus.VOID,
             tagList = listOf(
                 Tag(1, "Hund", android.graphics.Color.RED),
                 Tag(2, "Katz", android.graphics.Color.GREEN),

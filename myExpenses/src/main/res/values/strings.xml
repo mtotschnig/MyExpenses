@@ -1129,6 +1129,9 @@
     <string name="pref_fab_style_title">Floating Action Button Style</string>
     <string name="pref_fab_style_standard_description">Standard (Tap arrow for menu)</string>
     <string name="pref_fab_style_compact_description">Compact (Tap and hold for menu)</string>
+    <string name="pref_tag_style_title">Tag style</string>
+    <string name="pref_tag_style_outline">Colored border</string>
+    <string name="pref_tag_style_filled">Fully colored</string>
     <!-- Error shown too user if they enter a number that is larger than allowed -->
     <string name="number_too_large">Number too large</string>
     <!-- Label of checkbox: If checked, specific user defined order of flags is the primary sorting factor for accounts.  -->
