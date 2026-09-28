@@ -1177,4 +1177,6 @@
     <string name="rounding">Rounding</string>
     <string name="help_floating_action_button">Floating action button</string>
     <string name="important_upgrade_information_heading">Important information</string>
+    <string name="single_pane_view">Single pane</string>
+    <string name="split_pane_view">Split view</string>
 </resources>
