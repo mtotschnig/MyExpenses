@@ -26,6 +26,7 @@ import androidx.compose.material.icons.filled.CheckBoxOutlineBlank
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreHoriz
+import androidx.compose.material.icons.outlined.CropLandscape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -73,6 +74,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.core.layout.WindowSizeClass
 import kotlinx.coroutines.launch
+import myiconpack.PaneSplit
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.HELP_VARIANT_ACCOUNTS
 import org.totschnig.myexpenses.activity.HELP_VARIANT_BALANCE_SHEET
@@ -134,6 +136,7 @@ sealed class AppEvent {
         val action: Action,
         val transferEnabled: Boolean = true,
     ) : AppEvent()
+
     data class SetAccountGrouping(val newGrouping: AccountGrouping<*>) : AppEvent()
     data class SetTransactionGrouping(val grouping: Grouping) : AppEvent()
     data class SetTransactionSort(val transactionSort: TransactionSort) : AppEvent()
@@ -290,7 +293,7 @@ fun MainScreenAdaptive(
         val tag = when (this) {
             MenuItem.WebUI -> !isWebUiActive
             MenuItem.Help -> when (navigator.currentDestination?.pane) {
-                ListDetailPaneScaffoldRole.List -> if (viewModel.currentAccountsTab.value == AccountsScreenTab.BALANCE_SHEET ) HELP_VARIANT_BALANCE_SHEET else HELP_VARIANT_ACCOUNTS
+                ListDetailPaneScaffoldRole.List -> if (viewModel.currentAccountsTab.value == AccountsScreenTab.BALANCE_SHEET) HELP_VARIANT_BALANCE_SHEET else HELP_VARIANT_ACCOUNTS
                 ListDetailPaneScaffoldRole.Detail -> if ((viewModel.accountList.value.find { it.id == selectedAccountId } as? FullAccount)?.isPortfolio == true) HELP_VARIANT_PORTFOLIO else HELP_VARIANT_TRANSACTIONS
                 else -> null
             }
@@ -317,6 +320,10 @@ fun MainScreenAdaptive(
 
     val toggleableRail = preferredNavMode == MenuItem.NavigationMode.TOGGLEABLE_RAIL
 
+    val canTogglePane = adaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
+        WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND
+    )
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -326,18 +333,42 @@ fun MainScreenAdaptive(
         NavigationSuiteScaffold(
             layoutType = layoutType,
             navigationSuiteItems = {
-                if (toggleableRail && isNavigationVisible) {
+                if (canTogglePane) {
                     item(
                         icon = {
-                            IconButton(onClick = { onAppEvent(AppEvent.ToggleNavigation) }) {
-                                Icon(
-                                    Icons.Default.Close,
-                                    contentDescription = stringResource(R.string.drawer_close)
+                            Icon(
+                                imageVector = if (is2Pane) Icons.Outlined.CropLandscape else PaneSplit,
+                                contentDescription = stringResource(
+                                        if (is2Pane) R.string.single_pane_view else R.string.split_pane_view
+                                    )
+                            )
+                        },
+                        selected = false,
+                        onClick = {
+                            scope.launch {
+                                viewModel.accountPanelState.set(
+                                    when {
+                                        is2Pane && defaultIs2Pane -> AccountPanelState.COLLAPSED
+                                        !is2Pane && !defaultIs2Pane -> AccountPanelState.EXPANDED
+                                        else -> AccountPanelState.DEFAULT
+                                    }
                                 )
                             }
                         },
+                        label = {},
+                        alwaysShowLabel = false
+                    )
+                }
+                if (toggleableRail && isNavigationVisible) {
+                    item(
+                        icon = {
+                            Icon(
+                                Icons.Default.Close,
+                                contentDescription = stringResource(R.string.drawer_close)
+                            )
+                        },
                         selected = false,
-                        onClick = {}, // The IconButton handles the click
+                        onClick = { onAppEvent(AppEvent.ToggleNavigation) }, // The IconButton handles the click
                         label = null, // Optional, can be null
                         alwaysShowLabel = false,
                     )
@@ -441,24 +472,7 @@ fun MainScreenAdaptive(
                                 bankIcon = bankIcon,
                                 windowInsets = with(customInsets) {
                                     if (is2Pane) only(WindowInsetsSides.Vertical + WindowInsetsSides.Start) else this
-                                },
-                                isFullScreen = !is2Pane,
-                                onToggleFullScreen = if (adaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
-                                        WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND
-                                    )
-                                ) {
-                                    {
-                                        scope.launch {
-                                            viewModel.accountPanelState.set(
-                                                when {
-                                                    is2Pane && defaultIs2Pane -> AccountPanelState.COLLAPSED
-                                                    !is2Pane && !defaultIs2Pane -> AccountPanelState.EXPANDED
-                                                    else -> AccountPanelState.DEFAULT
-                                                }
-                                            )
-                                        }
-                                    }
-                                } else null
+                                }
                             ) {
                                 scope.launch {
                                     navigator.navigateTo(ListDetailPaneScaffoldRole.Detail)

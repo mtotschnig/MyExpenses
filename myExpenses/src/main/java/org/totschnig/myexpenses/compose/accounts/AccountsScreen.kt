@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.WindowInsetsSides.Companion
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -72,8 +71,6 @@ fun AccountsScreen(
     onAccountEvent: AccountEventHandler,
     bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
     windowInsets: WindowInsets = ScaffoldDefaults.contentWindowInsets,
-    isFullScreen: Boolean,
-    onToggleFullScreen: (() -> Unit)? = null,
     onNavigateToTransactions: () -> Unit,
 ) {
 
@@ -127,9 +124,7 @@ fun AccountsScreen(
                             ViewOptionsMenu(
                                 activeGrouping = accountGrouping,
                                 onGroupingChange = { onEvent(AppEvent.SetAccountGrouping(it)) },
-                                onSort = { onEvent(AppEvent.Sort) },
-                                isFullScreen = isFullScreen,
-                                onToggleFullScreen = onToggleFullScreen
+                                onSort = { onEvent(AppEvent.Sort) }
                             )
 
                             ManageEntitiesMenu(onEvent)
@@ -143,9 +138,7 @@ fun AccountsScreen(
                                 showZeroState.takeIf { accounts.any { it.currentBalance == 0L } },
                                 showChartState,
                                 highlight,
-                                onPrint = { onEvent(AppEvent.PrintBalanceSheet) },
-                                isFullScreen = isFullScreen,
-                                onToggleFullScreen = onToggleFullScreen
+                                onPrint = { onEvent(AppEvent.PrintBalanceSheet) }
                             )
                         }
                     }

@@ -23,9 +23,7 @@ import org.totschnig.myexpenses.model.AccountGrouping
 fun ViewOptionsMenu(
     activeGrouping: AccountGrouping<*>,
     onGroupingChange: (AccountGrouping<*>) -> Unit,
-    onSort: () -> Unit,
-    isFullScreen: Boolean,
-    onToggleFullScreen: (() -> Unit)?,
+    onSort: () -> Unit
 ) {
 
     val groupingOptions = remember { AccountGrouping.ALL_VALUES }
@@ -51,15 +49,7 @@ fun ViewOptionsMenu(
                 icon = Icons.Default.SortByAlpha,
                 command = "SORT",
                 action = onSort
-            ),
-            onToggleFullScreen?.let {
-                CheckableMenuEntry(
-                    label = R.string.full_screen,
-                    isChecked = isFullScreen,
-                    command = "FULL_SCREEN",
-                    action = onToggleFullScreen
-                )
-            }
+            )
         )
     )
 }
