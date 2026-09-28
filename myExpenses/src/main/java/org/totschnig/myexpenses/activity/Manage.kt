@@ -21,7 +21,6 @@ import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.util.enumValueOrDefault
-import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Tag
 

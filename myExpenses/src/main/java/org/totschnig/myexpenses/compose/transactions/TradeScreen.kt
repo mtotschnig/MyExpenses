@@ -1,5 +1,10 @@
 package org.totschnig.myexpenses.compose.transactions
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContract
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -19,7 +24,12 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.ui.text.style.TextOverflow
+import org.totschnig.myexpenses.viewmodel.data.CategoryRef
+import org.totschnig.myexpenses.viewmodel.data.CostLeg
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
@@ -76,6 +86,8 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.Action.SELECT_MAPPING
+import org.totschnig.myexpenses.activity.ManageCategories
 import org.totschnig.myexpenses.compose.AmountEdit
 import org.totschnig.myexpenses.compose.AmountText
 import org.totschnig.myexpenses.compose.LocalCurrencyFormatter
@@ -87,6 +99,8 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CommodityType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.util.calculateRealExchangeRate
 import org.totschnig.myexpenses.util.toEpochMillis
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
@@ -103,6 +117,11 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
 
+data class CostLegUiState(
+    val amount: BigDecimal? = null,
+    val category: CategoryRef? = null
+)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TradeScreen(
@@ -115,6 +134,7 @@ fun TradeScreen(
     targetPortfolios: List<Pair<Long, String>> = emptyList(), // ID to Label
     initialAction: Action? = null,
     initialTrade: Trade? = null,
+    initialCostCategoryRefs: List<CategoryRef> = emptyList(),
     onCreateAsset: suspend (code: String, symbol: String, fractionDigits: Int, label: String?, commodityType: CommodityType) -> CurrencyUnit? = { _, _, _, _, _ -> null },
     isCurrencyUsed: suspend (String) -> Boolean = { false },
     onLookupMatchingTransactions: (accountId: Long, total: BigDecimal, date: LocalDateTime, isBuy: Boolean) -> Flow<List<Transaction2>> = { _, _, _, _ -> emptyFlow() },
@@ -188,16 +208,61 @@ fun TradeScreen(
 
             LaunchedEffect(selectedAsset) {
                 if (initialTrade == null || selectedAsset?.code != initialTrade.assetSymbol) {
-                    portfolio.children.find { it.currencyUnit.code == selectedAsset?.code }?.let { assetAccount ->
-                        assetAccount.latestExchangeRate?.second?.let {
-                            price = calculateRealExchangeRate(it, assetAccount.currencyUnit, reportingCurrency)
+                    portfolio.children.find { it.currencyUnit.code == selectedAsset?.code }
+                        ?.let { assetAccount ->
+                            assetAccount.latestExchangeRate?.second?.let {
+                                price = calculateRealExchangeRate(
+                                    it,
+                                    assetAccount.currencyUnit,
+                                    reportingCurrency
+                                )
+                            }
                         }
+                }
+            }
+
+            val initialCostLegs = remember(initialTrade, if (initialTrade == null) initialCostCategoryRefs else null) {
+                if (initialTrade != null) {
+                    if (initialTrade.additionalCosts.isNotEmpty()) {
+                        initialTrade.additionalCosts.map { leg ->
+                            CostLegUiState(
+                                amount = leg.amount.amountMajor,
+                                category = leg.category
+                            )
+                        }
+                    } else if (initialTrade.fee != null && initialTrade.fee.amountMajor > BigDecimal.ZERO) {
+                        listOf(CostLegUiState(amount = initialTrade.fee.amountMajor))
+                    } else {
+                        emptyList()
+                    }
+                } else {
+                    if (initialCostCategoryRefs.isNotEmpty()) {
+                        initialCostCategoryRefs.map { ref ->
+                            CostLegUiState(category = ref)
+                        }
+                    } else {
+                        emptyList()
                     }
                 }
             }
-            var fee by rememberSaveable {
-                mutableStateOf(initialTrade?.fee?.amountMajor)
-            }
+            var costLegs by remember(initialCostLegs) { mutableStateOf(initialCostLegs) }
+
+            var activeCategoryRowIndex by remember { mutableStateOf<Int?>(null) }
+            val categoryLauncher =
+                rememberLauncherForActivityResult(PickCategoryContract()) { pair ->
+                    if (pair != null) {
+                        activeCategoryRowIndex?.let { index ->
+                            if (index in costLegs.indices) {
+                                costLegs = costLegs.toMutableList().apply {
+                                    this[index] = this[index].copy(
+                                        category = CategoryRef(pair.second, pair.first)
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    activeCategoryRowIndex = null
+                }
 
             var fundingSource by rememberSaveable {
                 mutableStateOf(initialTrade?.let { trade ->
@@ -244,11 +309,15 @@ fun TradeScreen(
                     ?: raw
             }
 
-            val totalAmount = remember(type, principalAmount, fee, roundingMode) {
+            val totalCostAmount = remember(costLegs) {
+                costLegs.fold(BigDecimal.ZERO) { acc, leg -> acc.add(leg.amount.orZero) }
+            }
+
+            val totalAmount = remember(type, principalAmount, totalCostAmount, roundingMode) {
                 val raw = if (type.isIncoming) {
-                    principalAmount.add(fee.orZero)
+                    principalAmount.add(totalCostAmount)
                 } else {
-                    principalAmount.subtract(fee.orZero)
+                    principalAmount.subtract(totalCostAmount)
                 }
                 Money.buildWithMajor(reportingCurrency, raw, roundingMode).getOrNull()?.amountMajor
                     ?: raw
@@ -265,11 +334,21 @@ fun TradeScreen(
                     val finalPrincipal =
                         Money.buildWithMajor(reportingCurrency, principalAmount, roundingMode)
                             .getOrThrow()
-                    val finalFee = if (type is TradeType.Transfer) Money(
-                        reportingCurrency,
-                        0
-                    ) else Money.buildWithMajor(reportingCurrency, fee.orZero, roundingMode)
-                        .getOrThrow()
+                    val finalAdditionalCosts = if (type is TradeType.Transfer) {
+                        emptyList()
+                    } else {
+                        costLegs.mapNotNull { leg ->
+                            leg.amount?.takeIf { it > BigDecimal.ZERO }?.let { amt ->
+                                Money.buildWithMajor(reportingCurrency, amt, roundingMode)
+                                    .getOrNull()?.let { money ->
+                                    CostLeg(
+                                        amount = money,
+                                        category = leg.category
+                                    )
+                                }
+                            }
+                        }
+                    }
                     TradeIntent(
                         type = type,
                         date = date,
@@ -278,7 +357,7 @@ fun TradeScreen(
                         price = finalPrice,
                         principal = finalPrincipal,
                         peerAccountId = peerAccountId,
-                        fee = finalFee,
+                        additionalCosts = finalAdditionalCosts,
                         comment = comment,
                         fundingSource = fundingSource,
                         linkedTransactionId = linkedTransactionId,
@@ -289,7 +368,11 @@ fun TradeScreen(
                     if (stayOpen) {
                         quantity = null
                         price = null
-                        fee = null
+                        costLegs = if (initialCostCategoryRefs.isNotEmpty()) {
+                            initialCostCategoryRefs.map { CostLegUiState(category = it) }
+                        } else {
+                            emptyList()
+                        }
                         comment = ""
                         linkedTransactionId = null
                     }
@@ -725,18 +808,104 @@ fun TradeScreen(
                         }
                     }
 
-                    // Fee
+                    // Additional Costs
                     if (type !is TradeType.Transfer) {
-                        Column {
-                            Text(
-                                stringResource(R.string.trade_fee),
-                                style = MaterialTheme.typography.labelMedium
-                            )
-                            AmountEdit(
-                                value = fee,
-                                onValueChange = { fee = it },
-                                fractionDigits = reportingCurrency.fractionDigits
-                            )
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    stringResource(R.string.trade_additional_costs),
+                                    style = MaterialTheme.typography.labelMedium
+                                )
+                                TextButton(
+                                    onClick = {
+                                        costLegs = costLegs + CostLegUiState()
+                                    }
+                                ) {
+                                    Icon(
+                                        Icons.Default.Add,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(18.dp)
+                                    )
+                                    Text(
+                                        stringResource(R.string.trade_add_cost),
+                                        style = MaterialTheme.typography.labelSmall
+                                    )
+                                }
+                            }
+
+                            costLegs.forEachIndexed { index, leg ->
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Box(modifier = Modifier.weight(1f)) {
+                                        AmountEdit(
+                                            value = leg.amount,
+                                            onValueChange = { newAmount ->
+                                                costLegs = costLegs.toMutableList().apply {
+                                                    this[index] =
+                                                        this[index].copy(amount = newAmount)
+                                                }
+                                            },
+                                            fractionDigits = reportingCurrency.fractionDigits
+                                        )
+                                    }
+
+                                    FilterChip(
+                                        selected = leg.category != null,
+                                        onClick = {
+                                            activeCategoryRowIndex = index
+                                            categoryLauncher.launch(Unit)
+                                        },
+                                        label = {
+                                            Text(
+                                                leg.category?.path
+                                                    ?: stringResource(R.string.select_category),
+                                                maxLines = 1,
+                                                overflow = TextOverflow.Ellipsis
+                                            )
+                                        },
+                                        trailingIcon = if (leg.category != null) {
+                                            {
+                                                Icon(
+                                                    Icons.Default.Close,
+                                                    contentDescription = stringResource(R.string.content_description_clear_category),
+                                                    modifier = Modifier
+                                                        .size(16.dp)
+                                                        .clickable {
+                                                            costLegs =
+                                                                costLegs.toMutableList().apply {
+                                                                    this[index] = this[index].copy(
+                                                                        category = null
+                                                                    )
+                                                                }
+                                                        }
+                                                )
+                                            }
+                                        } else null
+                                    )
+
+                                    IconButton(
+                                        onClick = {
+                                            costLegs = costLegs.toMutableList().apply {
+                                                removeAt(index)
+                                            }
+                                        }
+                                    ) {
+                                        Icon(
+                                            Icons.Default.Delete,
+                                            contentDescription = null
+                                        )
+                                    }
+                                }
+                            }
                         }
                     }
 
@@ -1143,6 +1312,27 @@ fun FundingSourceSelector(
 
 val BigDecimal?.orZero: BigDecimal
     get() = this ?: BigDecimal.ZERO
+
+private class PickCategoryContract :
+    ActivityResultContract<Unit, Pair<String, Long>?>() {
+    override fun createIntent(context: Context, input: Unit) =
+        Intent(
+            context, ManageCategories::class.java
+        ).apply {
+            action = SELECT_MAPPING.name
+        }
+
+    override fun parseResult(
+        resultCode: Int,
+        intent: Intent?
+    ): Pair<String, Long>? {
+        return intent.takeIf { resultCode == Activity.RESULT_OK }?.extras?.let {
+            it.getString(KEY_LABEL)!! to it.getLong(KEY_ROWID)
+        }
+    }
+
+
+}
 
 @Preview
 @Composable

@@ -554,6 +554,7 @@ fun TransactionScreen(
                 .filter { it.isPortfolio && it.id != currentAccount.id }
                 .map { it.id to it.labelV2(LocalContext.current) },
             initialAction = tradeAction,
+            initialCostCategoryRefs = viewModel.lastTradeFeeCategories.collectAsStateWithLifecycle().value,
             onCreateAsset = onCreateAsset,
             isCurrencyUsed = isCurrencyUsed,
             onLookupMatchingTransactions = { accountId, total, date, isBuy ->
