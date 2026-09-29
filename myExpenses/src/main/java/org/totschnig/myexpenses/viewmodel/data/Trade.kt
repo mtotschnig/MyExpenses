@@ -11,6 +11,7 @@ data class Trade(
     val quantity: Money,
     val principal: Money,
     val fee: Money?,
+    val additionalCosts: List<CostLeg> = emptyList(),
     val assetSymbol: String,
     val comment: String?,
     val price: BigDecimal,

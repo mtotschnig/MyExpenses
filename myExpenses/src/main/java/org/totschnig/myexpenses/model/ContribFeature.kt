@@ -15,6 +15,8 @@
 package org.totschnig.myexpenses.model
 
 import android.content.Context
+import android.icu.text.ListFormatter
+import android.os.Build
 import androidx.core.text.HtmlCompat
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.injector
@@ -24,6 +26,8 @@ import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler.Companion.TRIAL_DURATION_DAYS
 import org.totschnig.myexpenses.util.licence.LicenceStatus
 import java.util.Date
+import java.util.Locale
+
 
 class ContribFeatureNotAvailableException(message: String): Exception(message)
 
@@ -124,7 +128,20 @@ enum class ContribFeature(
                     currentLicence
                 )
 
-                PORTFOLIO -> context.getString(R.string.premium_nudge_portfolio_message)
+                PORTFOLIO -> {
+                    val features = listOf(R.string.trade_additional_costs)
+
+                    val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                        ListFormatter.getInstance(
+                            Locale.getDefault(),
+                            ListFormatter.Type.UNITS,
+                            ListFormatter.Width.NARROW
+                        ) else ListFormatter.getInstance()
+                    context.getString(
+                        R.string.premium_nudge_portfolio_message,
+                        formatter.format(features.map { context.getString(it) })
+                        )
+                }
 
                 else -> null
             }
@@ -177,6 +194,5 @@ enum class ContribFeature(
         const val FREE_PLANS = 3
         const val FREE_ACCOUNTS = 5
         const val FREE_SPLIT_TEMPLATES = 1
-        const val FREE_PORTFOLIO = 1
     }
 }

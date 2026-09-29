@@ -314,4 +314,5 @@
     <string name="whats_new_411_4" tools:ignore="UnusedResources">Mutual TLS / Client Certificate Support for WebDAV Sync </string>
     <string name="whats_new_412">FinTS: Credit card transactions</string>
     <string name="menu_sync">@string/menu_sync_now</string>
+    <string name="pro_badge">PRO</string>
 </resources>

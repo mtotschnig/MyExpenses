@@ -1147,6 +1147,8 @@
     <string name="trade_quantity">Quantity</string>
     <string name="trade_price">Price</string>
     <string name="trade_fee">Fee</string>
+    <string name="trade_additional_costs">Additional costs</string>
+    <string name="trade_add_cost">Add cost</string>
     <string name="trade_target_asset">Asset</string>
     <!-- Label for the action to create a new portfolio, which is a container for investment assets and cash -->
     <string name="menu_create_portfolio">New portfolio</string>
@@ -1173,7 +1175,8 @@
     <!-- Label for asset valuation: %1$s: Quantity, %2$s: Unit price in portfolio currency (e.g., "150.00 USD") -->
     <string name="asset_quantity_at_price">%1$s @ %2$s</string>
     <string name="contrib_feature_portfolio_tracking">Portfolio tracking</string>
-    <string name="premium_nudge_portfolio_message">You can manage one portfolio for free. Upgrade to manage multiple portfolios and unlock advanced tracking features.</string>
+    <!-- %s is replaced with list of features -->
+    <string name="premium_nudge_portfolio_message">You can manage one portfolio for free. Upgrade to manage multiple portfolios and unlock advanced tracking features (%1$s).</string>
     <string name="rounding">Rounding</string>
     <string name="help_floating_action_button">Floating action button</string>
     <string name="important_upgrade_information_heading">Important information</string>

@@ -20,16 +20,22 @@ import org.totschnig.myexpenses.model.CommodityType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.model2.Category
+import org.totschnig.myexpenses.db2.saveCategory
+import org.totschnig.myexpenses.db2.loadTrades
 import org.totschnig.myexpenses.provider.PORTFOLIO_CONTAINER
 import org.totschnig.myexpenses.provider.SPLIT_CATID
+import org.totschnig.myexpenses.viewmodel.data.CategoryRef
+import org.totschnig.myexpenses.viewmodel.data.CostLeg
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
+import org.totschnig.myexpenses.viewmodel.data.FundingSource
 import org.totschnig.myexpenses.viewmodel.data.TradeIntent
 import org.totschnig.myexpenses.viewmodel.data.TradeType
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
 @RunWith(AndroidJUnit4::class)
-class TradeTransferTest : BaseViewModelTest() {
+class TradeTest : BaseViewModelTest() {
 
     private lateinit var viewModel: MyExpensesV2ViewModel
     private lateinit var portfolioA: FullAccount
@@ -228,5 +234,146 @@ class TradeTransferTest : BaseViewModelTest() {
         val internalLegBPeer = repository.loadTransaction(internalLegB.transferPeerId!!)
         assertThat(internalLegB.amount).isEqualTo(-400000L)
         assertThat(internalLegBPeer.data.amount).isEqualTo(2000L)
+    }
+
+    @Test
+    fun testTradeWithMultipleCostLegs() = runTest {
+        val usd = currencyContext["USD"]
+        val cat1 = repository.saveCategory(Category(label = "Trading Fees"))!!
+        val cat2 = repository.saveCategory(Category(label = "Taxes"))!!
+
+        val cost1 = CostLeg(Money(usd, 1000L), CategoryRef(cat1, "Trading Fees"))
+        val cost2 = CostLeg(Money(usd, 250L), CategoryRef(cat2, "Taxes"))
+
+        val intent = TradeIntent(
+            targetAsset = aapl,
+            type = TradeType.AssetTrade.BUY,
+            date = LocalDateTime.now(),
+            quantity = Money(aapl, 1000L),
+            price = BigDecimal("150"),
+            principal = Money(usd, 150000L),
+            peerAccountId = null,
+            additionalCosts = listOf(cost1, cost2)
+        )
+
+        viewModel.saveTrades(portfolioA, listOf(intent))
+
+        val trades = repository.loadTrades(listOf(repository.loadTransactions(portfolioA.id)[0].id))
+        assertThat(trades).hasSize(1)
+        val loadedTrade = trades[0]
+
+        assertThat(loadedTrade.additionalCosts).hasSize(2)
+        assertThat(loadedTrade.additionalCosts[0].amount.amountMinor).isEqualTo(1000L)
+        assertThat(loadedTrade.additionalCosts[0].category?.id).isEqualTo(cat1)
+        assertThat(loadedTrade.additionalCosts[0].category?.path).isEqualTo("Trading Fees")
+        assertThat(loadedTrade.additionalCosts[1].amount.amountMinor).isEqualTo(250L)
+        assertThat(loadedTrade.additionalCosts[1].category?.id).isEqualTo(cat2)
+        assertThat(loadedTrade.additionalCosts[1].category?.path).isEqualTo("Taxes")
+        assertThat(loadedTrade.fee?.amountMinor).isEqualTo(1250L)
+    }
+
+    @Test
+    fun testSellWithExternalFunding() = runTest {
+        val usd = currencyContext["USD"]
+        val cat1 = repository.saveCategory(Category(label = "Trading Fees"))!!
+        val cat2 = repository.saveCategory(Category(label = "Taxes"))!!
+
+        val cost1 = CostLeg(Money(usd, 1000L), CategoryRef(cat1, "Trading Fees"))
+        val cost2 = CostLeg(Money(usd, 250L), CategoryRef(cat2, "Taxes"))
+
+        val intent = TradeIntent(
+            targetAsset = aapl,
+            type = TradeType.AssetTrade.SELL,
+            date = LocalDateTime.now(),
+            quantity = Money(aapl, 1000L),
+            price = BigDecimal("150"),
+            principal = Money(usd, 150000L),
+            peerAccountId = null,
+            additionalCosts = listOf(cost1, cost2),
+            fundingSource = FundingSource.EXTERNAL
+        )
+
+        viewModel.saveTrades(portfolioA, listOf(intent))
+
+        val trades = repository.loadTrades(listOf(repository.loadTransactions(portfolioA.id)[0].id))
+        assertThat(trades).hasSize(1)
+        val loadedTrade = trades[0]
+
+        assertThat(loadedTrade.additionalCosts).hasSize(2)
+        assertThat(loadedTrade.additionalCosts[0].amount.amountMinor).isEqualTo(1000L)
+        assertThat(loadedTrade.additionalCosts[0].category?.id).isEqualTo(cat1)
+        assertThat(loadedTrade.additionalCosts[0].category?.path).isEqualTo("Trading Fees")
+        assertThat(loadedTrade.additionalCosts[1].amount.amountMinor).isEqualTo(250L)
+        assertThat(loadedTrade.additionalCosts[1].category?.id).isEqualTo(cat2)
+        assertThat(loadedTrade.additionalCosts[1].category?.path).isEqualTo("Taxes")
+        assertThat(loadedTrade.fee?.amountMinor).isEqualTo(1250L)
+    }
+
+    @Test
+    fun testDepositWithFee() = runTest {
+        val usd = currencyContext["USD"]
+        val cat1 = repository.saveCategory(Category(label = "Deposit Fees"))!!
+        val cost1 = CostLeg(Money(usd, 1500L), CategoryRef(cat1, "Deposit Fees"))
+
+        val intent = TradeIntent(
+            targetAsset = usd,
+            type = TradeType.CashMovement.DEPOSIT,
+            date = LocalDateTime.now(),
+            quantity = Money(usd, 500000L),
+            price = BigDecimal.ONE,
+            principal = Money(usd, 500000L),
+            peerAccountId = null,
+            additionalCosts = listOf(cost1),
+            fundingSource = FundingSource.EXTERNAL
+        )
+
+        viewModel.saveTrades(portfolioA, listOf(intent))
+
+        val parentId = repository.loadTransactions(portfolioA.id)[0].id
+        val trades = repository.loadTrades(listOf(parentId))
+        assertThat(trades).hasSize(1)
+
+        val loadedTrade = trades[0]
+        assertThat(loadedTrade.type).isEqualTo(TradeType.CashMovement.DEPOSIT)
+        assertThat(loadedTrade.principal.amountMinor).isEqualTo(500000L)
+        assertThat(loadedTrade.additionalCosts).hasSize(1)
+        assertThat(loadedTrade.additionalCosts[0].amount.amountMinor).isEqualTo(1500L)
+        assertThat(loadedTrade.additionalCosts[0].category?.id).isEqualTo(cat1)
+        assertThat(loadedTrade.additionalCosts[0].category?.path).isEqualTo("Deposit Fees")
+        assertThat(loadedTrade.fee?.amountMinor).isEqualTo(1500L)
+    }
+
+    @Test
+    fun testWithdrawalWithFee() = runTest {
+        val usd = currencyContext["USD"]
+        val cat1 = repository.saveCategory(Category(label = "Withdrawal Fees"))!!
+        val cost1 = CostLeg(Money(usd, 2000L), CategoryRef(cat1, "Withdrawal Fees"))
+
+        val intent = TradeIntent(
+            targetAsset = usd,
+            type = TradeType.CashMovement.WITHDRAW,
+            date = LocalDateTime.now(),
+            quantity = Money(usd, 200000L),
+            price = BigDecimal.ONE,
+            principal = Money(usd, 200000L),
+            peerAccountId = null,
+            additionalCosts = listOf(cost1),
+            fundingSource = FundingSource.EXTERNAL
+        )
+
+        viewModel.saveTrades(portfolioA, listOf(intent))
+
+        val parentId = repository.loadTransactions(portfolioA.id)[0].id
+        val trades = repository.loadTrades(listOf(parentId))
+        assertThat(trades).hasSize(1)
+
+        val loadedTrade = trades[0]
+        assertThat(loadedTrade.type).isEqualTo(TradeType.CashMovement.WITHDRAW)
+        assertThat(loadedTrade.principal.amountMinor).isEqualTo(200000L)
+        assertThat(loadedTrade.additionalCosts).hasSize(1)
+        assertThat(loadedTrade.additionalCosts[0].amount.amountMinor).isEqualTo(2000L)
+        assertThat(loadedTrade.additionalCosts[0].category?.id).isEqualTo(cat1)
+        assertThat(loadedTrade.additionalCosts[0].category?.path).isEqualTo("Withdrawal Fees")
+        assertThat(loadedTrade.fee?.amountMinor).isEqualTo(2000L)
     }
 }

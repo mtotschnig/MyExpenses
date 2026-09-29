@@ -45,6 +45,8 @@ import org.totschnig.myexpenses.db2.createTransaction
 import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.findSiblingParentId
+import org.totschnig.myexpenses.db2.getCategoryPath
+import org.totschnig.myexpenses.viewmodel.data.CategoryRef
 import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.db2.loadSubAccounts
 import org.totschnig.myexpenses.db2.loadTrade
@@ -136,6 +138,21 @@ open class MyExpensesV2ViewModel(
 
     private val _tradeToEdit = MutableStateFlow<Trade?>(null)
     val tradeToEdit = _tradeToEdit.asStateFlow()
+
+    private val _lastTradeFeeCategories = MutableStateFlow<List<CategoryRef>>(emptyList())
+    val lastTradeFeeCategories: StateFlow<List<CategoryRef>> by lazy {
+        viewModelScope.launch(coroutineDispatcher) {
+            val saved = prefHandler.getString(PrefKey.LAST_TRADE_FEE_CATEGORIES)
+            if (!saved.isNullOrEmpty()) {
+                _lastTradeFeeCategories.value = saved.split(",")
+                    .mapNotNull { it.toLongOrNull() }
+                    .mapNotNull { catId ->
+                        repository.getCategoryPath(catId)?.let { path -> CategoryRef(catId, path) }
+                    }
+            }
+        }
+        _lastTradeFeeCategories.asStateFlow()
+    }
 
     fun handleIntent(intent: Intent) {
         viewModelScope.launch {
@@ -395,6 +412,9 @@ open class MyExpensesV2ViewModel(
             !hasAny || licenceHandler.hasAccessTo(ContribFeature.PORTFOLIO)
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, true)
     }
+
+    val canAddMultipleCostLegs: Boolean
+        get() = licenceHandler.hasAccessTo(ContribFeature.PORTFOLIO)
 
     val groupingMap: Map<String, PreferenceAccessor<Grouping, String>> = lazyMap {
         EnumPreferenceAccessor(
@@ -832,17 +852,23 @@ open class MyExpensesV2ViewModel(
             )
         )
 
-        // Part C: Fee (Expense)
-        if (intent.fee.amountMinor != 0L) {
+        // Part C: Additional Costs / Fees / Taxes (Expenses)
+        val validCosts = intent.additionalCosts.filter { it.amount.amountMinor != 0L }
+        for (costLeg in validCosts) {
             parts.add(
                 TransactionEditData(
                     accountId = currentAccount.id,
-                    amount = -intent.fee,
+                    amount = -costLeg.amount,
                     isSplitPart = true,
-                    uuid = generateUuid()
+                    uuid = generateUuid(),
+                    categoryId = costLeg.category?.id
                 )
             )
         }
+
+        val categoryIdsToSave = validCosts.mapNotNull { it.category?.id }
+        prefHandler.putString(PrefKey.LAST_TRADE_FEE_CATEGORIES, categoryIdsToSave.joinToString(","))
+        _lastTradeFeeCategories.value = validCosts.mapNotNull { it.category }
 
         // Parent transaction amount is the sum of all parts in Portfolio currency
         val totalPortfolioAmount = parts

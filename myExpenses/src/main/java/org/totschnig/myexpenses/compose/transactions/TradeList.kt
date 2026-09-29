@@ -215,6 +215,16 @@ fun TradeRow(
                         overflow = TextOverflow.Ellipsis
                     )
                 }
+                trade.fee?.takeIf { it.amountMinor > 0L }?.let { fee ->
+                    val currencyFormatter = LocalCurrencyFormatter.current
+                    Text(
+                        text = stringResource(R.string.trade_fee) + ": " + currencyFormatter.formatMoney(fee),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
             }
         }
 

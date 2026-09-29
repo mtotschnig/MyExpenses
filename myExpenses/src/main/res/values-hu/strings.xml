@@ -1072,6 +1072,6 @@
     <string name="trade_matching_transaction_found">A finanszírozási számlán talált egyező tranzakció. Válaszd a linket:</string>
     <string name="asset_quantity_at_price">%1$s – %2$s</string>
     <string name="contrib_feature_portfolio_tracking">Portfóliókövetés</string>
-    <string name="premium_nudge_portfolio_message">Egy portfóliót ingyen kezelhetsz. Frissíts, hogy több portfóliót kezelj, és oldd fel a fejlett követési funkciókat.</string>
+    <string name="premium_nudge_portfolio_message">Egy portfóliót ingyen kezelhetsz. Válts prémiumra több portfólió kezeléséhez, és oldd fel a fejlett funkciókat (%1$s).</string>
     <string name="help_floating_action_button">Lebegő akciógomb</string>
 </resources>

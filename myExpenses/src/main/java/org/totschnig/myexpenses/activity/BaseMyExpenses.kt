@@ -1175,6 +1175,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
     fun BaseAccount?.isMenuItemVisible(itemId: Int): Boolean {
         return when (itemId) {
             R.id.SEARCH_COMMAND -> hasItems
+            R.id.DISTRIBUTION_COMMAND -> sumInfo.value.mappedCategories
             else -> if ((this as? FullAccount)?.isPortfolio == true) when (itemId) {
                 R.id.IMPORT_TRADES_COMMAND, R.id.TUNE_COMMAND -> true
                 else -> false

@@ -54,15 +54,46 @@ data class TradeIntent(
     val principal: Money,
     val fundingSource: FundingSource = FundingSource.PORTFOLIO,
     val peerAccountId: Long?,
-    val fee: Money,
+    val additionalCosts: List<CostLeg> = emptyList(),
     val comment: String = "",
     val linkedTransactionId: Long? = null,
     //edit of existing trade
     val tradeId: Long? = null,
 ) {
+    constructor(
+        targetAsset: CurrencyUnit,
+        type: TradeType,
+        date: LocalDateTime,
+        quantity: Money,
+        price: BigDecimal,
+        principal: Money,
+        fundingSource: FundingSource = FundingSource.PORTFOLIO,
+        peerAccountId: Long?,
+        fee: Money,
+        comment: String = "",
+        linkedTransactionId: Long? = null,
+        tradeId: Long? = null,
+    ) : this(
+        targetAsset = targetAsset,
+        type = type,
+        date = date,
+        quantity = quantity,
+        price = price,
+        principal = principal,
+        fundingSource = fundingSource,
+        peerAccountId = peerAccountId,
+        additionalCosts = if (fee.amountMinor != 0L) listOf(CostLeg(fee)) else emptyList(),
+        comment = comment,
+        linkedTransactionId = linkedTransactionId,
+        tradeId = tradeId
+    )
+
     init {
         if (type is TradeType.CashMovement) {
             require(fundingSource != FundingSource.PORTFOLIO)
         }
     }
+
+    val fee: Money
+        get() = additionalCosts.fold(Money(principal.currencyUnit, 0L)) { acc, leg -> acc + leg.amount }
 }

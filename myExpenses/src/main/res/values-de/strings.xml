@@ -1065,7 +1065,7 @@
     <string name="trade_matching_transaction_found">Passende Buchung im Finanzierungskonto gefunden. Zum Verknüpfen auswählen:</string>
     <string name="asset_quantity_at_price">%1$s zu %2$s</string>
     <string name="contrib_feature_portfolio_tracking">Portfolio-Tracking</string>
-    <string name="premium_nudge_portfolio_message">Sie können ein Portfolio kostenlos verwalten. Holen Sie sich das Upgrade, um mehrere Portfolios zu verwalten und erweiterte Tracking-Funktionen freizuschalten.</string>
+    <string name="premium_nudge_portfolio_message">Sie können ein Portfolio kostenlos verwalten. Holen Sie sich das Upgrade, um mehrere Portfolios zu verwalten und erweiterte Funktionen (%1$s) freizuschalten.</string>
     <string name="rounding">Rundung</string>
     <string name="parse_error_at_line">Fehler bei Zeile %1$d: %2$s</string>
     <plurals name="import_trades_missing_assets_message">

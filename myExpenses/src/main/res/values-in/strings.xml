@@ -953,5 +953,5 @@
     <string name="trade_matching_transaction_found">Ditemukan transaksi yang cocok di akun pendanaan. Pilih untuk menautkan:</string>
     <string name="asset_quantity_at_price">%1$s @ %2$s</string>
     <string name="contrib_feature_portfolio_tracking">Pelacakan portofolio</string>
-    <string name="premium_nudge_portfolio_message">Anda dapat mengelola satu portofolio secara gratis. Tingkatkan untuk mengelola beberapa portofolio dan membuka fitur pelacakan lanjutan.</string>
+    <string name="premium_nudge_portfolio_message">Anda dapat mengelola satu portofolio secara gratis. Tingkatkan untuk mengelola beberapa portofolio dan membuka fitur lanjutan (%1$s).</string>
 </resources>
