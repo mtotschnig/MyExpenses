@@ -970,7 +970,7 @@
     <string name="trade_matching_transaction_found">Operação correspondente encontrada na conta de financiamento. Selecione para vincular:</string>
     <string name="asset_quantity_at_price">%1$s a %2$s</string>
     <string name="contrib_feature_portfolio_tracking">Acompanhamento de carteira</string>
-    <string name="premium_nudge_portfolio_message">Pode gerir uma carteira gratuitamente. Atualize para gerir várias carteiras e desbloquear funcionalidades de acompanhamento avançadas.</string>
+    <string name="premium_nudge_portfolio_message">Pode gerir uma carteira gratuitamente. Atualize para a versão Premium para gerir várias carteiras e desbloquear funcionalidades avançadas (%1$s).</string>
     <string name="rounding">Arredondamento</string>
     <string name="important_upgrade_information_heading">Informações importantes</string>
 </resources>

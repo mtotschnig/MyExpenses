@@ -19,6 +19,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
@@ -27,7 +29,9 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.sp
 import org.totschnig.myexpenses.viewmodel.data.CategoryRef
 import org.totschnig.myexpenses.viewmodel.data.CostLeg
 import androidx.compose.material3.AlertDialog
@@ -135,6 +139,8 @@ fun TradeScreen(
     initialAction: Action? = null,
     initialTrade: Trade? = null,
     initialCostCategoryRefs: List<CategoryRef> = emptyList(),
+    canAddMultipleCostLegs: Boolean = false,
+    onShowUpgrade: () -> Unit = {},
     onCreateAsset: suspend (code: String, symbol: String, fractionDigits: Int, label: String?, commodityType: CommodityType) -> CurrencyUnit? = { _, _, _, _, _ -> null },
     isCurrencyUsed: suspend (String) -> Boolean = { false },
     onLookupMatchingTransactions: (accountId: Long, total: BigDecimal, date: LocalDateTime, isBuy: Boolean) -> Flow<List<Transaction2>> = { _, _, _, _ -> emptyFlow() },
@@ -221,7 +227,10 @@ fun TradeScreen(
                 }
             }
 
-            val initialCostLegs = remember(initialTrade, if (initialTrade == null) initialCostCategoryRefs else null) {
+            val initialCostLegs = remember(
+                initialTrade,
+                if (initialTrade == null) initialCostCategoryRefs else null
+            ) {
                 if (initialTrade != null) {
                     if (initialTrade.additionalCosts.isNotEmpty()) {
                         initialTrade.additionalCosts.map { leg ->
@@ -236,13 +245,12 @@ fun TradeScreen(
                         emptyList()
                     }
                 } else {
-                    if (initialCostCategoryRefs.isNotEmpty()) {
-                        initialCostCategoryRefs.map { ref ->
-                            CostLegUiState(category = ref)
-                        }
-                    } else {
-                        emptyList()
-                    }
+                    if (initialCostCategoryRefs.isNotEmpty())
+                        (if (canAddMultipleCostLegs) initialCostCategoryRefs else
+                            initialCostCategoryRefs.take(1)
+                                )
+                            .map { ref -> CostLegUiState(category = ref) }
+                    else emptyList()
                 }
             }
             var costLegs by remember(initialCostLegs) { mutableStateOf(initialCostLegs) }
@@ -341,11 +349,11 @@ fun TradeScreen(
                             leg.amount?.takeIf { it > BigDecimal.ZERO }?.let { amt ->
                                 Money.buildWithMajor(reportingCurrency, amt, roundingMode)
                                     .getOrNull()?.let { money ->
-                                    CostLeg(
-                                        amount = money,
-                                        category = leg.category
-                                    )
-                                }
+                                        CostLeg(
+                                            amount = money,
+                                            category = leg.category
+                                        )
+                                    }
                             }
                         }
                     }
@@ -822,13 +830,18 @@ fun TradeScreen(
                                     stringResource(R.string.trade_additional_costs),
                                     style = MaterialTheme.typography.labelMedium
                                 )
+                                val allowAddCost = costLegs.isEmpty() || canAddMultipleCostLegs
                                 TextButton(
                                     onClick = {
-                                        costLegs = costLegs + CostLegUiState()
+                                        if (allowAddCost) {
+                                            costLegs = costLegs + CostLegUiState()
+                                        } else {
+                                            onShowUpgrade()
+                                        }
                                     }
                                 ) {
                                     Icon(
-                                        Icons.Default.Add,
+                                        imageVector = Icons.Default.Add,
                                         contentDescription = null,
                                         modifier = Modifier.size(18.dp)
                                     )
@@ -836,6 +849,26 @@ fun TradeScreen(
                                         stringResource(R.string.trade_add_cost),
                                         style = MaterialTheme.typography.labelSmall
                                     )
+                                    if (!allowAddCost) {
+                                        Spacer(Modifier.width(4.dp))
+                                        Surface(
+                                            color = MaterialTheme.colorScheme.primaryContainer,
+                                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                            shape = MaterialTheme.shapes.extraSmall
+                                        ) {
+                                            Text(
+                                                text = stringResource(R.string.pro_badge),
+                                                style = MaterialTheme.typography.labelSmall.copy(
+                                                    fontSize = 10.sp,
+                                                    fontWeight = FontWeight.Bold
+                                                ),
+                                                modifier = Modifier.padding(
+                                                    horizontal = 4.dp,
+                                                    vertical = 1.dp
+                                                )
+                                            )
+                                        }
+                                    }
                                 }
                             }
 

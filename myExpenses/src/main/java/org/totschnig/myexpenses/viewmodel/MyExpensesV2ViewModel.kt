@@ -413,6 +413,9 @@ open class MyExpensesV2ViewModel(
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, true)
     }
 
+    val canAddMultipleCostLegs: Boolean
+        get() = licenceHandler.hasAccessTo(ContribFeature.PORTFOLIO)
+
     val groupingMap: Map<String, PreferenceAccessor<Grouping, String>> = lazyMap {
         EnumPreferenceAccessor(
             dataStore = dataStore,

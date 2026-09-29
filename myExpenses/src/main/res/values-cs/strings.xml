@@ -1106,6 +1106,5 @@
     <string name="trade_withdraw">Výběr</string>
     <string name="trade_matching_transaction_found">Shodná transakce nalezená na účtu financování. Vyberte pro propojení:</string>
     <string name="contrib_feature_portfolio_tracking">Sledování portfolia</string>
-    <string name="premium_nudge_portfolio_message">Jedno portfolio můžete spravovat zdarma. Upgradujte na správu více portfolií a odemkněte pokročilé funkce sledování.</string>
-    <string name="help_floating_action_button">Plovoucí akční tlačítko</string>
+    <string name="premium_nudge_portfolio_message">Jedno portfolio můžete spravovat zdarma. Upgradujte na správu více portfolií a odemkněte pokročilé funkce (včetně %1$s).</string>    <string name="help_floating_action_button">Plovoucí akční tlačítko</string>
 </resources>
