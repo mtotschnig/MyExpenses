@@ -868,9 +868,7 @@ open class MyExpensesV2ViewModel(
 
         val categoryIdsToSave = validCosts.mapNotNull { it.category?.id }
         prefHandler.putString(PrefKey.LAST_TRADE_FEE_CATEGORIES, categoryIdsToSave.joinToString(","))
-        if (validCosts.isNotEmpty()) {
-            _lastTradeFeeCategories.value = validCosts.mapNotNull { it.category }
-        }
+        _lastTradeFeeCategories.value = validCosts.mapNotNull { it.category }
 
         // Parent transaction amount is the sum of all parts in Portfolio currency
         val totalPortfolioAmount = parts
