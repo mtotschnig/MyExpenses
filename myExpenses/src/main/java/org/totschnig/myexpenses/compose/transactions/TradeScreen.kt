@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.compose.transactions
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Parcelable
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.compose.foundation.clickable
@@ -75,6 +76,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.booleanResource
 import androidx.compose.ui.semantics.selected
@@ -89,6 +91,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
+import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.Action.SELECT_MAPPING
 import org.totschnig.myexpenses.activity.ManageCategories
@@ -120,11 +123,11 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
-
+@Parcelize
 data class CostLegUiState(
     val amount: BigDecimal? = null,
     val category: CategoryRef? = null
-)
+): Parcelable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -165,7 +168,7 @@ fun TradeScreen(
                             .fillMaxHeight(0.95f) // Take up to 95% of screen height
                     }, ifFalse = { fillMaxSize() }
                 ),
-            shape = if (isLarge) MaterialTheme.shapes.extraLarge else androidx.compose.ui.graphics.RectangleShape
+            shape = if (isLarge) MaterialTheme.shapes.extraLarge else RectangleShape
         ) {
             val currencyFormatter = LocalCurrencyFormatter.current
 
@@ -253,9 +256,9 @@ fun TradeScreen(
                     else emptyList()
                 }
             }
-            var costLegs by remember(initialCostLegs) { mutableStateOf(initialCostLegs) }
+            var costLegs by rememberSaveable(initialCostLegs) { mutableStateOf(initialCostLegs) }
 
-            var activeCategoryRowIndex by remember { mutableStateOf<Int?>(null) }
+            var activeCategoryRowIndex by rememberSaveable { mutableStateOf<Int?>(null) }
             val categoryLauncher =
                 rememberLauncherForActivityResult(PickCategoryContract()) { pair ->
                     if (pair != null) {
