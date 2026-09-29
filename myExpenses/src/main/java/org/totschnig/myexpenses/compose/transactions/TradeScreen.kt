@@ -937,7 +937,7 @@ fun TradeScreen(
                                     ) {
                                         Icon(
                                             Icons.Default.Delete,
-                                            contentDescription = null
+                                            contentDescription = stringResource(R.string.menu_delete),
                                         )
                                     }
                                 }
