@@ -17,8 +17,6 @@ import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model.sort.SortDirection
-import org.totschnig.myexpenses.viewmodel.data.CategoryRef
-import org.totschnig.myexpenses.viewmodel.data.CostLeg
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.uriBuilderForTransactionList
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT_PART
@@ -89,6 +87,8 @@ import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import org.totschnig.myexpenses.util.joinArrays
 import org.totschnig.myexpenses.util.toEpoch
 import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
+import org.totschnig.myexpenses.viewmodel.data.CategoryRef
+import org.totschnig.myexpenses.viewmodel.data.CostLeg
 import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.viewmodel.data.Trade
 import org.totschnig.myexpenses.viewmodel.data.TradeType
@@ -1064,19 +1064,7 @@ fun Repository.loadTrades(
         var cashPart: Pair<Transaction, Transaction>? = null
         var fundingPart: Pair<Transaction, Transaction?>
 
-        // Identify additional cost parts (negative amount, no transfer account)
-        val costParts = parts.filter { it.transferAccountId == null && it.amount < 0 }.sortedBy { it.id }
-        val additionalCosts = costParts.map { costPart ->
-            CostLeg(
-                amount = Money(currencyContext[parentCurrency], costPart.amount).absolute(),
-                category = costPart.categoryId?.let { catId ->
-                    CategoryRef(catId, costPart.categoryPath ?: "")
-                }
-            )
-        }
-        val totalFee = if (additionalCosts.isNotEmpty()) {
-            additionalCosts.fold(Money(currencyContext[parentCurrency], 0L)) { acc, leg -> acc + leg.amount }
-        } else null
+        val untransferredParts = parts.filter { it.transferPeerId == null && it.transferAccountId == null }.sortedBy { it.id }
 
         // Load all transfer peers once to identify roles
         val transferPeers = parts.filter { it.transferPeerId != null }
@@ -1090,7 +1078,21 @@ fun Repository.loadTrades(
             transferPeers.find { it.second.portfolioRole == PORTFOLIO_NONE }
         } else {
             transferPeers.find { it.second.portfolioRole != PORTFOLIO_ASSET }
-        } ?: ((parts.find { it.transferPeerId == null } ?: return@mapNotNull null) to null)
+        } ?: ((untransferredParts.firstOrNull()?: return@mapNotNull null) to null)
+
+        // Identify additional cost parts (negative amount, no transfer account)
+        val costParts = untransferredParts.filter { it != fundingPart.first && it.transferAccountId == null && it.amount < 0 }.sortedBy { it.id }
+        val additionalCosts = costParts.map { costPart ->
+            CostLeg(
+                amount = Money(currencyContext[parentCurrency], costPart.amount).absolute(),
+                category = costPart.categoryId?.let { catId ->
+                    CategoryRef(catId, costPart.categoryPath ?: "")
+                }
+            )
+        }
+        val totalFee = if (additionalCosts.isNotEmpty()) {
+            additionalCosts.fold(Money(currencyContext[parentCurrency], 0L)) { acc, leg -> acc + leg.amount }
+        } else null
 
 
         if (assetPart != null) {
@@ -1133,11 +1135,13 @@ fun Repository.loadTrades(
             )
         } else if (cashPart != null) {
             // --- Cash Movement (Deposit/Withdrawal) ---
-            // If fundingPart.amount < 0, money moved Portfolio -> Sub-account (Deposit)
+            val isDeposit = cashPart.first.amount < 0
             val tradeType =
-                if (cashPart.first.amount < 0) TradeType.CashMovement.DEPOSIT else TradeType.CashMovement.WITHDRAW
+                if (isDeposit) TradeType.CashMovement.DEPOSIT else TradeType.CashMovement.WITHDRAW
+
             val principal =
-                Money(currencyContext[parentCurrency], fundingPart.first.amount).absolute()
+                Money(currencyContext[parentCurrency], cashPart.first.amount).absolute()
+
 
             Trade(
                 id = parent.id,
