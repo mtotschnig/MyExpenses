@@ -120,12 +120,6 @@ fun withAccountGrouped(expectedAccount: String): Matcher<SpinnerItem.Item<Accoun
 fun withPositionInParent(parentViewId: Int, position: Int): Matcher<View> =
     allOf(withParent(withId(parentViewId)), withParentIndex(position))
 
-fun toolbarMainTitle(): ViewInteraction =
-    onView(withIdAndAncestor(R.id.title, R.id.toolbar))
-
-fun toolbarMainSubtitle(): ViewInteraction =
-    onView(withIdAndAncestor(R.id.subtitle, R.id.toolbar))
-
 fun toolbarTitle(): ViewInteraction =
     onView(allOf(instanceOf(TextView::class.java), withParent(withId(R.id.toolbar))))
 

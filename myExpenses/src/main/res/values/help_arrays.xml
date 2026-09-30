@@ -100,29 +100,12 @@
         <item>filter</item>
     </string-array>
 
-    <string-array name="NavigationDrawer_menuitems">
-        <item>create_account</item>
-        <item>account_types</item>
-        <item>account_flags</item>
-        <item>balance_sheet</item>
-        <item>show_equivalent_value</item>
-    </string-array>
-
     <string-array name="menu_account_types_help_text">
         <item>account_types_help_v2</item>
     </string-array>
 
     <string-array name="menu_account_flags_help_text">
         <item>account_flags_help_v2</item>
-    </string-array>
-
-    <string-array name="NavigationDrawer_cabitems">
-        <item>edit</item>
-        <item>delete</item>
-        <item>close.reopen</item>
-        <item>flag</item>
-        <item>exclude_from_totals</item>
-        <item>dynamic_exchange_rate</item>
     </string-array>
 
     <string-array name="ManageMethods_cabitems">

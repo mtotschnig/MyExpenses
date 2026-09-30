@@ -13,10 +13,13 @@ import org.totschnig.myexpenses.activity.CsvImportActivity
 import org.totschnig.myexpenses.activity.DebtEdit
 import org.totschnig.myexpenses.activity.DistributionActivity
 import org.totschnig.myexpenses.activity.ExpenseEdit
+import org.totschnig.myexpenses.activity.HELP_VARIANT_ACCOUNTS
+import org.totschnig.myexpenses.activity.HELP_VARIANT_BALANCE_SHEET
 import org.totschnig.myexpenses.activity.HELP_VARIANT_MANGE
 import org.totschnig.myexpenses.activity.HELP_VARIANT_MERGE_MODE
 import org.totschnig.myexpenses.activity.HELP_VARIANT_PLANNER
 import org.totschnig.myexpenses.activity.HELP_VARIANT_PLANS
+import org.totschnig.myexpenses.activity.HELP_VARIANT_PORTFOLIO
 import org.totschnig.myexpenses.activity.HELP_VARIANT_SELECT_FILTER
 import org.totschnig.myexpenses.activity.HELP_VARIANT_SELECT_MAPPING
 import org.totschnig.myexpenses.activity.HELP_VARIANT_SPLIT
@@ -27,6 +30,7 @@ import org.totschnig.myexpenses.activity.HELP_VARIANT_TEMPLATE_CATEGORY
 import org.totschnig.myexpenses.activity.HELP_VARIANT_TEMPLATE_SPLIT
 import org.totschnig.myexpenses.activity.HELP_VARIANT_TEMPLATE_TRANSFER
 import org.totschnig.myexpenses.activity.HELP_VARIANT_TRANSACTION
+import org.totschnig.myexpenses.activity.HELP_VARIANT_TRANSACTIONS
 import org.totschnig.myexpenses.activity.HELP_VARIANT_TRANSFER
 import org.totschnig.myexpenses.activity.HistoryActivity
 import org.totschnig.myexpenses.activity.ManageBudgets
@@ -169,6 +173,11 @@ class HelpDialogHelperTest(private val activity: Class<out ProtectedFragmentActi
                 HELP_VARIANT_TEMPLATES,
                 HELP_VARIANT_PLANS,
                 HELP_VARIANT_PLANNER
+            )
+
+            MyExpensesV2::class.java -> listOf(
+                HELP_VARIANT_BALANCE_SHEET, HELP_VARIANT_ACCOUNTS, HELP_VARIANT_TRANSACTIONS,
+                HELP_VARIANT_PORTFOLIO
             )
 
             else -> emptyList()

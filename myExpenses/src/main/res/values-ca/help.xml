@@ -103,7 +103,7 @@
     <string name="help_HistoryActivity_info">Aquesta pantalla mostra el teu flux de caixa, com evolucionen les teves despeses i ingressos al llarg d\'anys, mesos, setmanes o dies.</string>
     <string name="menu_BudgetActivity_edit_help_text">Canvieu la definició del pressupost.</string>
     <string name="form_plan_help_text">Quan creeu un pla per a una plantilla, s\'afegeix a un calendari privat gestionat per l\'aplicació Calendari. Pots definir el pla com un esdeveniment únic, o com un esdeveniment recurrent diari, setmanal, mensual o anual.</string>
-    <string name="cab_NavigationDrawer_close_reopen_help_text">En tancar un compte, eviteu canvis (addició, supressió, edició) en les seves dades. Tanmateix, permeteu que es tingui en compte per a tots els càlculs estadístics.</string>
+    <string name="cab_close_reopen_help_text">En tancar un compte, eviteu canvis (addició, supressió, edició) en les seves dades. Tanmateix, permeteu que es tingui en compte per a tots els càlculs estadístics.</string>
     <string name="menu_HistoryActivity_grouping_help_text">Canvia entre l\'agrupament diari, setmanal, mensual o anual de les dades del flux de caixa.</string>
     <string name="form_split_parts_heading_help_text_1">Utilitzeu la icona + per a introduir tantes parts dividides com sigui necessari.</string>
     <string name="form_split_parts_heading_help_text_3">Només podeu desar l\'operació desglossada, si l\'import de l\'operació s\'ha assignat exactament.</string>
@@ -143,7 +143,6 @@
     <string name="form_MethodEdit_type_help_text">A través del tipus de mètode, es determina si és aplicable per a despeses (dèbit), ingressos (crèdit) o ambdues (neutrals).</string>
     <string name="form_MethodEdit_numbered_help_text">Quan es numera un mètode, les operacions que s\'hi assignen, tindran un camp addicional per a introduir un número de referència.</string>
     <string name="help_ManageCurrencies_symbol">També podeu configurar el símbol de moneda, que s\'utilitza quan es formaten les quantitats en una moneda específica.</string>
-    <string name="help_NavigationDrawer_info">La llista de comptes permet navegar fàcilment entre comptes simplement fent clic en una entrada.</string>
     <string name="help_ManageSyncBackends_encryption">Per a cada servei, podeu definir una contrasenya diferent per a encriptar les dades de sincronització. No podeu canviar un servei existent de no xifrat a encriptat. Heu de recrear un servei nou en aquest cas. Si utilitzeu la característica d\'emmagatzemar còpies de seguretat automàtiques al servei de sincronització, aquests fitxers no s\'encripten amb la contrasenya específica del servei. En el seu lloc, podeu establir una contrasenya que s\'apliqui a tots els fitxers de còpia de seguretat, a la secció Seguretat de la pantalla de configuració.</string>
     <string name="help_ManageSyncBackends_saf">Aquesta opció permet seleccionar una carpeta mitjançant el diàleg de selector de fitxers d\'Android. És útil principalment si heu instal·lat una aplicació d\'emmagatzematge al núvol que admet seleccionar una carpeta per emmagatzemar contingut, com fa NextCloud.</string>
     <string name="menu_create_sync_backend_help_text">Des del submenú seleccioneu el tipus de servei de sincronització que voleu afegir i proporcioneu els detalls específics de cada un.</string>

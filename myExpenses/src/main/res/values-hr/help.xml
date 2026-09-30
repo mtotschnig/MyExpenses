@@ -149,10 +149,9 @@
     <string name="form_MethodEdit_type_help_text">Putem vrste načina određuješ je li primjenjivo za troškove, prihod ili oboje (neutralno).</string>
     <string name="help_ManageCurrencies_symbol">Možeš konfigurirati oznaku valute koji se koristi kada se formatiraju iznosi u određenoj valuti.</string>
     <string name="form_MethodEdit_numbered_help_text">Kada je način numeriran, transakcije koje su s njim povezane će imati dodatno polje za unos broja reference.</string>
-    <string name="cab_NavigationDrawer_close_reopen_help_text">Zatvaranjem računa možeš spriječiti sve vrste promjena (dodavanje, brisanje, uređivanje) njegovih podataka, ali i dalje dopustiti da se uzmu u obzir za sve statističke izračune.</string>
+    <string name="cab_close_reopen_help_text">Zatvaranjem računa možeš spriječiti sve vrste promjena (dodavanje, brisanje, uređivanje) njegovih podataka, ali i dalje dopustiti da se uzmu u obzir za sve statističke izračune.</string>
     <string name="form_AccountEdit_type_help_text">Možeš odrediti vrstu računa kao gotovina, banka, imovina, obveze, kreditna kartica. Vrsta određuje dostupne načine plaćanja koje možeš konfigurirati u Postavke -&gt; Upravljanje -&gt; Načini plaćanja.</string>
     <string name="form_MethodEdit_account_types_help_text">Odaberi vrste računa za koje se ovaj način primijenjuje.</string>
-    <string name="help_NavigationDrawer_info">Popis računa omogućuje jednostavnu navigaciju između računa pritiskom na unos.</string>
     <string name="cab_remove_help_text">Ukloni odabrani pozadinski sustav.</string>
     <string name="cab_ManageCategories_merge_help_text">Kategorije iste vrste mogu se spojiti.</string>
     <string name="help_ManageSyncBackends_drive">Odaberi bilo koju mapu koju posjeduješ ili koja se s tobom dijeli.</string>

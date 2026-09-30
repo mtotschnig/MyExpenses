@@ -118,7 +118,7 @@
     <string name="help_ManageStaleImages_info">此畫面可讓您處理已刪除交易遺留下來的影像檔。長按項目即可刪除它們，或將它們從（可能是內部）儲存資料夾移至外部儲存空間上的備份資料夾 (%s)。</string>
     <string name="help_CsvImportActivity_info"><![CDATA[選擇要匯入的檔案後，您需要設定檔案的編碼方式（UTF-8 或 ISO-8859-1）、哪個字元分隔欄位（逗號、分號或定位鍵），以及日期的格式。資料可以匯入到現有帳戶或新帳戶中，您可以在新帳戶中設定貨幣和帳戶類型。<br><br>按下動作列中的「剖析」按鈕後，資料將以表格形式呈現給您。在透過動作列中的按鈕觸發匯入之前，您可以選擇要捨棄的列，並且必須將欄位對應到相應的資料欄位。<br><br>當您捨棄第一列時，系統會提示您是否要將其視為標題列。如果是，則 *My Expenses* 會嘗試根據標題儲存格的內容自動對應欄位。它還會記住您根據標題列所做的對應，並在下次匯入具有相同標題格式的檔案時還原該對應。]]></string>
     <string name="help_ExportDialog_date_format"><![CDATA[可以使用單引號 (\') 引用文字，以避免解讀。\'\'（兩個單引號）代表一個單引號。有關更多詳細資訊，請參閱完整的 <a href=%s>規格</a>，或聯絡 support@myexpenses.mobi 尋求協助。]]></string>
-    <string name="cab_NavigationDrawer_close_reopen_help_text">透過關閉帳戶，您可以防止對其資料進行任何變更（新增、刪除、編輯），但仍允許將其納入所有統計計算中。</string>
+    <string name="cab_close_reopen_help_text">透過關閉帳戶，您可以防止對其資料進行任何變更（新增、刪除、編輯），但仍允許將其納入所有統計計算中。</string>
     <string name="help_ManageSyncBackends_intro">My Expenses 允許為每個帳戶設定不同的同步後端。例如，您可以將一個帳戶與共用資料夾同步，同時將另一個帳戶與私人資料夾同步。在此畫面上，您可以新增或移除同步後端，開始或停止與遠端可用的帳戶同步。雖然同步會定期自動進行，但您也可以在這裡手動觸發與後端的同步。請注意，My Expenses 需要完全控制遠端資料夾。您不應該使用其他工具或介面來變更其內容，因為這很可能會導致同步失敗。</string>
     <string name="help_ManageSyncBackends_saf">此選項允許透過 Android 的檔案選擇器對話框選擇資料夾。如果您安裝了支援選擇資料夾來儲存內容的雲端儲存應用程式（例如 NextCloud），則此選項主要很有用。</string>
     <string name="cab_sync_link_help_text">開始同步本機和遠端都存在的帳戶。您需要決定第一次同步時要保留本機資料還是遠端資料。</string>
@@ -170,7 +170,6 @@
     <string name="form_MethodEdit_account_types_help_text">選擇此方式適用的帳戶類型。</string>
     <string name="help_ManageCurrencies_info">對於每種貨幣，您都可以修改使用的小數位數。例如，如果對於歐元，您需要處理 1/10 分，即 1/1000 歐元，您應該將數字設定為 3。使用該貨幣的現有帳戶將切換到新的設定。</string>
     <string name="help_ManageCurrencies_symbol">您也可以設定貨幣符號，該符號用於格式化特定貨幣的金額時使用。</string>
-    <string name="help_NavigationDrawer_info">帳戶列表可讓您輕鬆地透過點選項目在帳戶之間瀏覽。</string>
     <string name="help_Budget_amount_click">點選預算金額即可變更它們。</string>
     <string name="cab_remap_help_text">如果您想變更所有選定交易的指定屬性（帳戶、類別、付款人／收款人或付款方式），請使用此子選單中的指令。</string>
     <string name="help_ManageSyncBackends_encryption">對於每個後端，您都可以設定不同的通行片語來加密同步資料。您無法將現有的後端從未加密切換為加密。在這種情況下，您需要重新建立新的後端。如果您使用在同步後端上儲存自動備份的功能，則這些檔案不會使用後端特定密碼加密。您可以改為在「設定」畫面的「安全性」區段中設定適用於所有備份檔案的密碼。</string>

@@ -13,7 +13,6 @@
     <string name="help_ManageParties_mergeMode_title">@string/menu_merge</string>
     <string name="help_ManageStaleImages_title">@string/pref_manage_stale_images_title</string>
     <string name="help_CsvImportActivity_title">@string/contrib_feature_csv_import_label</string>
-    <string name="help_NavigationDrawer_title">@string/navigation_drawer_accounts_title</string>
     <string name="help_ManageSyncBackends_title">@string/pref_manage_sync_backends_title</string>
     <string name="help_ExpenseEdit_plans_title">@string/help_ManageTemplates_plans_title</string>
     <string name="help_ExpenseEdit_templateTransfer_info">@string/help_ExpenseEdit_templateCategory_info</string>
@@ -87,6 +86,5 @@
     <string name="menu_trade_deposit">@string/trade_deposit</string>
     <string name="menu_trade_withdraw">@string/trade_withdraw</string>
     <string name="menu_trade_transfer">@string/trade_transfer</string>
-    <string name="cab_close_reopen_help_text">@string/cab_NavigationDrawer_close_reopen_help_text</string>
     <string name="fab_create_account_help_text">@string/menu_create_account_help_text</string>
 </resources>

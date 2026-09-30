@@ -187,6 +187,10 @@ class VersionInfo(val code: Int, val name: String, val tickets: String? = null) 
                 // @formatter:on
             )
 
+            "413" -> arrayOf(
+                "${t(R.string.contrib_feature_portfolio_tracking)} : ${t(R.string.trade_additional_costs)}"
+            )
+
             else -> {
                 //noinspection DiscouragedApi
                 val resId = res.getIdentifier(
