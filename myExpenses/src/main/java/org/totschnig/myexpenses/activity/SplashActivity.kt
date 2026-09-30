@@ -27,7 +27,7 @@ class SplashActivity : Activity() {
                             -1
                         ) == -1
                     ) OnboardingActivity::class.java
-                    else prefHandler.mainScreenClass
+                    else MyExpensesV2::class.java
                 ).apply {
                     flags = Intent.FLAG_ACTIVITY_REORDER_TO_FRONT
                 })

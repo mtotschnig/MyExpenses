@@ -120,8 +120,6 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.util.config.Configurator
-import org.totschnig.myexpenses.util.config.get
 import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_COLOR
@@ -143,6 +141,7 @@ import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.ads.AdHandlerFactory
+import org.totschnig.myexpenses.util.config.Configurator
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.getVersionInfo
@@ -1481,7 +1480,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         (application as MyApplication).invalidateHomeCurrency()
         if (!isFinishing) {
             finishAffinity()
-            startActivity(Intent(this, prefHandler.mainScreenClass).apply {
+            startActivity(Intent(this, MyExpensesV2::class.java).apply {
                 addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             })
         }
@@ -1804,5 +1803,6 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         const val RESULT_RESTORE_OK = RESULT_FIRST_USER + 1
         const val RESULT_INVALIDATE_OPTIONS_MENU = RESULT_FIRST_USER + 2
         const val KEY_IS_MANUAL_RECREATE = "IS_MANUAL_RECREATE"
+        const val DIALOG_TAG_OCR_DISAMBIGUATE = "DISAMBIGUATE"
     }
 }

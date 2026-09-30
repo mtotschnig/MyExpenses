@@ -967,7 +967,6 @@
     <string name="sort_direction">திசையை வரிசைப்படுத்துங்கள்</string>
     <string name="batch_download_result">%d விலைகள் பதிவிறக்கம் செய்யப்பட்டு தரவுத்தளத்தில் சேமிக்கப்பட்டன.</string>
     <string name="filter_dialog_empty">இதுவரை எந்த அளவுகோல்களும் சேர்க்கப்படவில்லை. உங்கள் வினவலை வரையறுக்கவும், உங்கள் முடிவுகளை செம்மைப்படுத்தவும் மேலே உள்ள பொத்தான்களைத் தட்டவும்.</string>
-    <string name="menu_show_equivalent_value">சமமான மதிப்பு</string>
     <string name="initial_value">தொடக்க மதிப்பு</string>
     <string name="current_value">தற்போதைய மதிப்பு</string>
     <string name="equivalent_amount_plural">சமமான அளவு</string>

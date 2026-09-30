@@ -911,7 +911,6 @@
     <string name="budget_import_none_found">Nenhum orçamento encontrado.</string>
     <string name="webui_download_no_data">Depois de imprimir, exportar ou criar backups na app, os ficheiros estarão disponíveis aqui para descarga.</string>
     <string name="filter_dialog_empty">Nenhum critério adicionado ainda. Toque nos botões acima para definir a sua consulta e refinar os seus resultados.</string>
-    <string name="menu_show_equivalent_value">Valor equivalente</string>
     <string name="initial_value">Valor inicial</string>
     <string name="current_value">Valor atual</string>
     <string name="total_value">Valor total</string>

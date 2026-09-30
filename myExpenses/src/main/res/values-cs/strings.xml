@@ -1000,7 +1000,6 @@
     <string name="budget_import_none_found">Žádné rozpočty nenalezeny.</string>
     <string name="webui_download_no_data">Po vytištění, exportu nebo vytvoření záloh v aplikaci budou soubory dostupné ke stažení zde.</string>
     <string name="filter_dialog_empty">Žádná kritéria zatím nebyla přidána. Klepněte na tlačítka výše, abyste definovali svůj dotaz a upřesnili výsledky.</string>
-    <string name="menu_show_equivalent_value">Ekvivalentní hodnota</string>
     <string name="initial_value">Počáteční hodnota</string>
     <string name="current_value">Současná hodnota</string>
     <string name="total_value">Celková hodnota</string>

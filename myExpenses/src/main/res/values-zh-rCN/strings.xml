@@ -79,7 +79,7 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">结平%1$s</string>
     <string name="dialog_title_contrib_feature">高级功能</string>
-    <string name="dialog_title_warning_delete_account">删除 %1$d 个账户？</string>
+    <string name="dialog_title_warning_delete_account">删除账户？</string>
     <string name="dialog_title_warning_delete_category">要删除类别吗?</string>
     <string name="dialog_title_warning_delete_template">要删除模板吗?</string>
     <string name="dialog_title_warning_delete_transaction">要删除交易吗?</string>
@@ -358,19 +358,15 @@
     <string name="warning_change_fraction_digits_3">如果金额被更新，您将丢失有关其小数部分的信息。</string>
     <string name="warning_change_fraction_digits_checkbox_label">更新数据库中的金额</string>
     <plurals name="import_categories_result">
-        <item quantity="one">已成功导入 %1$d 个类别。</item>
         <item quantity="other">已成功导入 %1$d 个类别。</item>
     </plurals>
     <plurals name="import_parties_result">
-        <item quantity="one">已成功导入 %1$d 个交易对象。</item>
         <item quantity="other">已成功导入 %1$d 个交易对象。</item>
     </plurals>
     <plurals name="import_accounts_result">
-        <item quantity="one">已成功导入 %1$d 个账户。</item>
         <item quantity="other">已成功导入 %1$d 个账户。</item>
     </plurals>
     <plurals name="import_transactions_result">
-        <item quantity="one">已成功导入 %1$d 笔交易至账户%2$s</item>
         <item quantity="other">已成功导入 %1$d 笔交易至账户%2$s</item>
     </plurals>
     <string name="import_source_select_error">请提供 %1$s类型的文件</string>

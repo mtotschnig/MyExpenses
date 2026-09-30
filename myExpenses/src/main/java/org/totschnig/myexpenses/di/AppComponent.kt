@@ -13,7 +13,6 @@ import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.activity.CsvImportActivity
 import org.totschnig.myexpenses.activity.EditActivity
 import org.totschnig.myexpenses.activity.ExpenseEdit
-import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.activity.MyExpensesV2
 import org.totschnig.myexpenses.activity.PreferenceActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
@@ -176,8 +175,6 @@ interface AppComponent {
     fun inject(application: MyApplication)
 
     fun inject(expenseEdit: ExpenseEdit)
-
-    fun inject(myExpenses: MyExpenses)
 
     fun inject(myExpenses: MyExpensesV2)
 

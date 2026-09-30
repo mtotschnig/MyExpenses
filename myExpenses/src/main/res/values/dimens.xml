@@ -23,7 +23,6 @@
     <dimen name="drawer_padding">16dp</dimen>
     <dimen tools:override="true" tools:ignore="UnusedResources" name="design_navigation_separator_vertical_padding">0dp</dimen>
 
-    <dimen name="drawerWidth">260sp</dimen>
     <dimen name="fab_related_bottom_padding">75dp</dimen>
     <dimen name="dateLink_padding">3dp</dimen>
     <dimen name="dateLink_minWidth">30dp</dimen>

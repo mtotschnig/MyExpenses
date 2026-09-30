@@ -79,7 +79,7 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Baki %1$s</string>
     <string name="dialog_title_contrib_feature">Fitur premium</string>
-    <string name="dialog_title_warning_delete_account">Padam akaun %1$d?</string>
+    <string name="dialog_title_warning_delete_account">Padam akaun?</string>
     <string name="dialog_title_warning_delete_category">Padam kategori?</string>
     <string name="dialog_title_warning_delete_template">Padam templat?</string>
     <string name="dialog_title_warning_delete_transaction">Padam transaksi?</string>
@@ -355,19 +355,15 @@
     <string name="warning_change_fraction_digits_3">Jika amaun dikemakinikan, anda akan kehilangan maklumat berkenaan bahagian pecahannya.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Kemaskini amaun dalam pangkalan data</string>
     <plurals name="import_categories_result">
-        <item quantity="one">%1$d kategori berjaya diimport.</item>
         <item quantity="other">%1$d kategori berjaya diimport.</item>
     </plurals>
     <plurals name="import_parties_result">
-        <item quantity="one">%1$d pihak berjaya diimport.</item>
         <item quantity="other">%1$d pihak berjaya diimport.</item>
     </plurals>
     <plurals name="import_accounts_result">
-        <item quantity="one">%1$d akaun berjaya diimport.</item>
         <item quantity="other">%1$d akaun berjaya diimport.</item>
     </plurals>
     <plurals name="import_transactions_result">
-        <item quantity="one">%1$d transaksi berjaya diimport ke dalam akaun %2$s</item>
         <item quantity="other">%1$d transaksi berjaya diimport ke dalam akaun %2$s</item>
     </plurals>
     <string name="import_source_select_error">Sila sediakan fail jenis %1$s</string>

@@ -886,7 +886,6 @@
     <string name="not_enough_data">Недастаткова дадзеных</string>
     <string name="archive">Архіў</string>
     <string name="warning_archive_inconsistent_state">Транзакцыі ў выбраным дыяпазоне дат маюць супярэчлівыя статусы (%s).</string>
-    <string name="menu_show_equivalent_value">Эквівалентнае значэнне</string>
     <string name="initial_value">Пачатковае значэнне</string>
     <string name="current_value">Бягучае значэнне</string>
     <string name="total_value">Агульны кошт</string>

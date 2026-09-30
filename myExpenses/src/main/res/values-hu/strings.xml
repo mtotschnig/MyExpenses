@@ -974,7 +974,6 @@
     <string name="budget_import_none_found">Nem találtak költségvetést.</string>
     <string name="webui_download_no_data">Nyomtatás, exportálás vagy biztonsági mentések készítése után a fájlok innen elérhetők lesznek letöltésre.</string>
     <string name="filter_dialog_empty">Még nincs hozzáadott kritérium. Érintsd meg a fenti gombokat, hogy meghatározd a lekérdezésedet és finomítsd az eredményeket.</string>
-    <string name="menu_show_equivalent_value">Ekvivalens érték</string>
     <string name="initial_value">Kezdeti érték</string>
     <string name="current_value">Jelenlegi érték</string>
     <string name="total_value">Összérték</string>

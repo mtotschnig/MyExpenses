@@ -374,7 +374,6 @@
     <string name="contact_us">Kontakta oss</string>
     <string name="bug_fixes" tools:ignore="UnusedResources">Buggfixar</string>
     <string name="credit_limit_available_credit">Tillgänglig kredit</string>
-    <string name="menu_show_equivalent_value">Motsvarande värde</string>
     <string name="initial_value">Ursprungligt värde</string>
     <string name="current_value">Aktuellt värde</string>
     <string name="total_value">Sammanlagt värde</string>

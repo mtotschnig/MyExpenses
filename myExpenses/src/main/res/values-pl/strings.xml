@@ -967,7 +967,6 @@
     <string name="budget_import_none_found">Nie znaleziono żadnych budżetów.</string>
     <string name="webui_download_no_data">Po wydrukowaniu, wyeksportowaniu lub utworzeniu kopii zapasowych w aplikacji, pliki będą dostępne do pobrania stąd.</string>
     <string name="filter_dialog_empty">Nie dodano jeszcze żadnych kryteriów. Stuknij powyższe przyciski, aby zdefiniować swoje zapytanie i dopracować wyniki.</string>
-    <string name="menu_show_equivalent_value">Wartość równoważna</string>
     <string name="initial_value">Wartość początkowa:</string>
     <string name="current_value">Obecna wartość</string>
     <string name="total_value">Całkowita wartość</string>

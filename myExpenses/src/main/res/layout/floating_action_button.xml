@@ -11,5 +11,4 @@
     app:elevation="6dp"
     app:fabSize="normal"
     app:srcCompat="@drawable/ic_menu_add_fab"
-    tools:ignore="ContentDescription"
-    tools:showIn="@layout/activity_main" />
+    tools:ignore="ContentDescription" />

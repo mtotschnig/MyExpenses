@@ -966,7 +966,6 @@
     <string name="budget_import_cannot_be_imported">I seguenti budget si riferiscono a conti non sincronizzati:</string>
     <string name="budget_import_none_found">Nessun budget trovato.</string>
     <string name="filter_dialog_empty">Non sono ancora stati aggiunti criteri. Tocca i pulsanti in alto per definire la query e perfezionare i risultati.</string>
-    <string name="menu_show_equivalent_value">Valore equivalente</string>
     <string name="initial_value">Valore iniziale</string>
     <string name="current_value">Valore attuale</string>
     <string name="enable_automatic_daily_exchange_rate_download">Scaricamento automatico del tasso di cambio giornaliero</string>

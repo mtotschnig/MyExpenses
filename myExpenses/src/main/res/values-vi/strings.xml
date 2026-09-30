@@ -78,7 +78,7 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Số dư %1$s</string>
     <string name="dialog_title_contrib_feature">Tính năng trả phí</string>
-    <string name="dialog_title_warning_delete_account">Xóa tài khoản %1$d?</string>
+    <string name="dialog_title_warning_delete_account">Xóa tài khoản?</string>
     <string name="dialog_title_warning_delete_template">Xoá bản mẫu?</string>
     <string name="dialog_title_warning_delete_transaction">Xoá giao dịch?</string>
     <string name="expense">Chi</string>
@@ -352,19 +352,15 @@
     <string name="warning_change_fraction_digits_3">Nếu số tiền được cập nhật, bạn sẽ mất các thông tin về phần thập phân của số tiền các giao dịch đó.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Cập nhật các số tiền</string>
     <plurals name="import_categories_result">
-        <item quantity="one">%1$d phân loại đã được nhập dữ liệu thành công.</item>
         <item quantity="other">%1$d phân loại đã được nhập dữ liệu thành công.</item>
     </plurals>
     <plurals name="import_parties_result">
-        <item quantity="one">%1$d nhóm đã được nhập dữ liệu thành công.</item>
         <item quantity="other">%1$d nhóm đã được nhập dữ liệu thành công.</item>
     </plurals>
     <plurals name="import_accounts_result">
-        <item quantity="one">%1$d tài khoản đã được nhập thành công.</item>
         <item quantity="other">%1$d tài khoản đã được nhập thành công.</item>
     </plurals>
     <plurals name="import_transactions_result">
-        <item quantity="one">%1$d giao dịch đã được nhập vào tài khoản %2$s</item>
         <item quantity="other">%1$d giao dịch đã được nhập vào tài khoản %2$s</item>
     </plurals>
     <string name="import_source_select_error">Hãy cung cấp một tập tin dạng %1$s</string>

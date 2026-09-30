@@ -79,7 +79,7 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">%1$s unsurunu uzlaştır</string>
     <string name="dialog_title_contrib_feature">Ücretli işlev</string>
-    <string name="dialog_title_warning_delete_account">Kategori silinsin mi?</string>
+    <string name="dialog_title_warning_delete_account">Hesap silinsin mi?</string>
     <string name="dialog_title_warning_delete_category">Kategori silinsin mi?</string>
     <string name="dialog_title_warning_delete_template">Şablon silinsin mi?</string>
     <string name="dialog_title_warning_delete_transaction">Muamele silinsin mi?</string>
@@ -1001,7 +1001,6 @@
     <string name="budget_import_none_found">Bütçe bulunamadı.</string>
     <string name="webui_download_no_data">Uygulamada yazdırma, dışa aktarma veya yedekleme işlemleri yapıldıktan sonra, dosyalar buradan indirilebilir.</string>
     <string name="filter_dialog_empty">Henüz bir ölçüt eklenmedi. Sorgunuzu tanımlamak ve sonuçlarınızı daraltmak için yukarıdaki düğmelere dokunun.</string>
-    <string name="menu_show_equivalent_value">Eş değer</string>
     <string name="initial_value">İlk değer</string>
     <string name="current_value">Güncel değer</string>
     <string name="total_value">Toplam değer</string>

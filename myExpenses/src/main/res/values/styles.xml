@@ -29,11 +29,6 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
-    <style name="newHeadingStyle">
-        <item name="android:textAppearance">?android:textAppearance</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
-    </style>
-
     <style name="about_text">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

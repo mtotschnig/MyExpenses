@@ -78,7 +78,7 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">%1$s 決算</string>
     <string name="dialog_title_contrib_feature">プレミアム機能</string>
-    <string name="dialog_title_warning_delete_account">%1$d 勘定を削除しますか?</string>
+    <string name="dialog_title_warning_delete_account">勘定を削除しますか?</string>
     <string name="dialog_title_warning_delete_category">分類を削除しますか?</string>
     <string name="dialog_title_warning_delete_template">テンプレートを削除しますか?</string>
     <string name="dialog_title_warning_delete_transaction">取引を削除しますか?</string>
@@ -356,19 +356,15 @@
     <string name="warning_change_fraction_digits_3">アカウントが更新された場合は、端数部分に関する情報を失います。</string>
     <string name="warning_change_fraction_digits_checkbox_label">データベースの金額を更新</string>
     <plurals name="import_categories_result">
-        <item quantity="one">%1$d 分類は正常にインポートされました。</item>
         <item quantity="other">%1$d 分類は正常にインポートされました。</item>
     </plurals>
     <plurals name="import_parties_result">
-        <item quantity="one">%1$d 取引先は正常にインポートされました。</item>
         <item quantity="other">%1$d 取引先は正常にインポートされました。</item>
     </plurals>
     <plurals name="import_accounts_result">
-        <item quantity="one">%1$d 勘定は正常にインポートされました。</item>
         <item quantity="other">%1$d 勘定は正常にインポートされました。</item>
     </plurals>
     <plurals name="import_transactions_result">
-        <item quantity="one">%1$d 取引は勘定 %2$s に正常にインポートされました</item>
         <item quantity="other">%1$d 取引は勘定 %2$s に正常にインポートされました</item>
     </plurals>
     <string name="import_source_select_error">種類 %1$s のファイルを入力してください</string>

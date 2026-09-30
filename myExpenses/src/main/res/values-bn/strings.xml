@@ -1014,7 +1014,6 @@
     <string name="budget_import_none_found">কোন বাজেট পাওয়া যায়নি।</string>
     <string name="webui_download_no_data">প্রিন্টিং, এক্সপোর্টিং বা অ্যাপে ব্যাকআপ তৈরি করার পরে, ফাইলগুলি এখান থেকে ডাউনলোডের জন্য উপলব্ধ হবে।</string>
     <string name="filter_dialog_empty">এখনো কোন মানদণ্ড যোগ করা হয়নি। আপনার কোয়েরি নির্ধারণ করতে এবং আপনার ফলাফল পরিমার্জন করতে উপরের বাটনগুলি ট্যাপ করুন।</string>
-    <string name="menu_show_equivalent_value">সমতুল্য মূল্য</string>
     <string name="initial_value">প্রাথমিক মূল্য</string>
     <string name="current_value">বর্তমান মূল্য</string>
     <string name="total_value">মোট মূল্য</string>

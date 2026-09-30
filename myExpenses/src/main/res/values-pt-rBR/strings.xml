@@ -960,7 +960,6 @@
     <string name="content_description_equivalent_amount">Defina o valor dessa transação em sua moeda de origem. Em vez de inserir o valor, você também pode inserir a taxa de câmbio para calculá-lo.</string>
     <string name="budget_import_can_be_imported">Os seguintes orçamentos podem ser importados:</string>
     <string name="webui_download_no_data">Depois de imprimir, exportar ou criar backups no aplicativo, os arquivos estarão disponíveis aqui para download.</string>
-    <string name="menu_show_equivalent_value">Valor equivalente</string>
     <string name="initial_value">Valor inicial</string>
     <string name="current_value">Valor atual</string>
     <string name="total_value">Valor total</string>

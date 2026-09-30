@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <bool name="showTransactionBulkActions">false</bool>
     <bool name="fints">false</bool>
     <bool name="allowFullScreen">false</bool>
     <bool name="isLarge">false</bool>

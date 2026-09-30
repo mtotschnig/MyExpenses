@@ -972,7 +972,6 @@
     <string name="pref_sync_frequency_summary_0">Réglez sur 0 afin de désactiver la synchronisation automatique.</string>
     <string name="webui_download_no_data">Après avoir imprimé, exporté ou créé des sauvegardes dans l\'application, les fichiers seront disponibles à partir d\'ici pour téléchargement.</string>
     <string name="filter_dialog_empty">Aucun critère n\'a encore été ajouté. Appuyez sur les boutons ci-dessus pour définir votre requête et affiner vos résultats.</string>
-    <string name="menu_show_equivalent_value">Valeur équivalente</string>
     <string name="initial_value">Valeur initiale</string>
     <string name="total_value">Valeur totale</string>
     <string name="enable_automatic_daily_exchange_rate_download">Téléchargement automatique du taux de change quotidien</string>

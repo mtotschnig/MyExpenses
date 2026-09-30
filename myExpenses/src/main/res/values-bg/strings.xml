@@ -964,7 +964,6 @@
     <string name="total_value">Обща стойност</string>
     <string name="enable_automatic_daily_exchange_rate_download">Автоматично зареждане на дневния обменен курс</string>
     <string name="price_history">История на обменния курс</string>
-    <string name="menu_show_equivalent_value">Еквивалентна стойност</string>
     <string name="progress_recalculating">Преизчисляване</string>
     <string name="filter_dialog_empty">Все още не са зададени критерии. Натиснете бутоните по-горе, за да определите заявката и да прецизирате резултатите.</string>
     <string name="dynamic_exchange_rate">Динамичен обменен курс</string>

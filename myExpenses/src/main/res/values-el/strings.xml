@@ -939,7 +939,6 @@
     <string name="budget_import_none_found">Δεν βρέθηκαν προϋπολογισμοί.</string>
     <string name="webui_download_no_data">Μετά την εκτύπωση, την εξαγωγή ή τη δημιουργία αντιγράφων ασφαλείας στην εφαρμογή, τα αρχεία θα είναι διαθέσιμα από εδώ για λήψη.</string>
     <string name="filter_dialog_empty">Δεν έχουν προστεθεί ακόμη κριτήρια. Πατήστε τα παραπάνω κουμπιά για να ορίσετε το ερώτημά σας και να βελτιώσετε τα αποτελέσματά σας.</string>
-    <string name="menu_show_equivalent_value">Ισοδύναμη αξία</string>
     <string name="initial_value">Αρχική αξία</string>
     <string name="current_value">Τρέχουσα αξία</string>
     <string name="total_value">Συνολική αξία</string>

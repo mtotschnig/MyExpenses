@@ -118,10 +118,6 @@
             android:name=".activity.OnboardingActivity"
             android:theme="@style/Onboarding" />
         <activity
-            android:name=".activity.MyExpenses"
-            android:launchMode="singleTop"
-            android:theme="@style/MyTheme" />
-        <activity
             android:name=".activity.DeepLinkActivity"
             android:excludeFromRecents="true"
             android:exported="true"
@@ -153,9 +149,8 @@
         <activity
             android:name=".activity.ExpenseEdit"
             android:exported="true"
-            android:parentActivityName=".activity.MyExpenses"
-            android:theme="@style/EditDialog"
-            tools:ignore="UnusedAttribute">
+            android:parentActivityName=".activity.MyExpensesV2"
+            android:theme="@style/EditDialog">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -171,10 +166,6 @@
                     android:path="/transactions"
                     android:scheme="content" />
             </intent-filter>
-
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.totschnig.myexpenses.activity.MyExpenses" />
         </activity>
         <activity
             android:name=".activity.AccountEdit"
@@ -259,9 +250,8 @@
         <activity
             android:name=".activity.ManageTemplates"
             android:exported="true"
-            android:parentActivityName=".activity.MyExpenses"
-            android:theme="@style/EditDialog"
-            tools:ignore="UnusedAttribute">
+            android:parentActivityName=".activity.MyExpensesV2"
+            android:theme="@style/EditDialog">
             <intent-filter>
                 <action android:name="android.provider.calendar.action.HANDLE_CUSTOM_EVENT" />
 
@@ -272,10 +262,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
-
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.totschnig.myexpenses.activity.MyExpenses" />
         </activity>
         <activity
             android:name=".activity.ManageMethods"

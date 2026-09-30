@@ -9,7 +9,6 @@ import androidx.preference.PreferenceFragmentCompat
 import kotlinx.serialization.json.Json
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.activity.MyExpensesV2
 import org.totschnig.myexpenses.activity.Version
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
@@ -36,7 +35,6 @@ import org.totschnig.myexpenses.viewmodel.ReferenceNumber
 import org.totschnig.myexpenses.viewmodel.Tags
 import java.util.Calendar
 import java.util.Locale
-import kotlin.jvm.java
 
 interface PrefHandler {
     fun getKey(key: PrefKey): String
@@ -198,9 +196,6 @@ interface PrefHandler {
             putString(PrefKey.UI_MAIN_SCREEN_VERSION, if (value) Version.V1.name else Version.V2.name)
         }
 
-    val mainScreenClass: Class<*>
-        get() = if (mainScreenLegacy) MyExpenses::class.java else MyExpensesV2::class.java
-
     fun createShowDetailsIntent(
         context: Context,
         requestCode: Int,
@@ -208,7 +203,7 @@ interface PrefHandler {
     ): PendingIntent = PendingIntent.getActivity(
         context,
         requestCode,
-        Intent(context, mainScreenClass).apply {
+        Intent(context, MyExpensesV2::class.java).apply {
             putExtra(KEY_ROWID, transaction.accountId)
             putExtra(KEY_TRANSACTIONID, transaction.id)
         },

@@ -971,7 +971,6 @@
     <string name="budget_import_none_found">No se han encontrado presupuestos.</string>
     <string name="quick_search">Búsqueda rápida</string>
     <string name="complex_search">Búsqueda compleja</string>
-    <string name="menu_show_equivalent_value">Valor equivalente</string>
     <string name="initial_value">Valor inicial</string>
     <string name="enable_automatic_daily_exchange_rate_download">Descarga automática del tipo de cambio diario</string>
     <string name="price_history">Historial de precios</string>

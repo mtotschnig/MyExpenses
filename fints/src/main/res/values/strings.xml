@@ -3,7 +3,6 @@
     <string name="add_new_bank">Add new bank</string>
     <string name="select_accounts">Select accounts</string>
     <string name="enter_pin">Enter Password</string>
-    <string name="bankleitzahl">Bank number</string>
     <string name="login_name">Login name</string>
     Der PIN wird nicht auf dem Gerät gespeichert und bei jeder weiteren Verbindung mit der Bank erneut abgefragt.
     <string name="pin_info">The Password is not stored on the device and is requested again for each connection to the bank.</string>

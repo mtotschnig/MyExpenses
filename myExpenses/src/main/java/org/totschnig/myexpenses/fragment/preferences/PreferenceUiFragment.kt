@@ -1,30 +1,15 @@
 package org.totschnig.myexpenses.fragment.preferences
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
 import android.os.Build
 import android.os.Bundle
 import androidx.annotation.Keep
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.core.content.res.ResourcesCompat.getColor
-import androidx.core.os.bundleOf
 import androidx.core.text.buildSpannedString
 import androidx.core.text.color
-import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -36,14 +21,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.BaseActivity
-import org.totschnig.myexpenses.activity.Version
 import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.dialog.AccountListDisplayConfigurationDialogFragment
-import org.totschnig.myexpenses.dialog.ComposeBaseDialogFragment
 import org.totschnig.myexpenses.dialog.CustomizeMenuDialogFragment
 import org.totschnig.myexpenses.dialog.MenuItem
-import org.totschnig.myexpenses.dialog.SunsetV1DialogFragment
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PopupMenuPreference
@@ -223,35 +204,6 @@ class PreferenceUiFragment : BasePreferenceFragment() {
             title =
                 getString(R.string.menu_grouping) + " / " + getString(R.string.display_options_sort_list_by)
         }
-
-        childFragmentManager.setFragmentResultListener(
-            SunsetV1DialogFragment.REQUEST_KEY,
-            this
-        ) { _, bundle ->
-            if (bundle.getBoolean(SunsetV1DialogFragment.RESULT_CONFIRMED)) {
-                requirePreference<ListPreference>(PrefKey.UI_MAIN_SCREEN_VERSION).value =
-                    Version.V1.name
-                configureUiVersionDependencies()
-            }
-        }
-
-        with(requirePreference<Preference>(PrefKey.UI_MAIN_SCREEN_VERSION)) {
-            onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
-                if (newValue == Version.V2.name) true else {
-                    SunsetV1DialogFragment.newInstance(fromSettings = true).show(childFragmentManager, "SUNSET_V1")
-                    false
-                }
-            }
-            lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.hasPortfolioAccounts.collect { result ->
-                       isVisible = !result
-                    }
-                }
-            }
-        }
-
-        configureUiVersionDependencies()
     }
 
     override fun onPreferenceTreeClick(preference: Preference) = when {
@@ -357,20 +309,6 @@ class PreferenceUiFragment : BasePreferenceFragment() {
         resources.getStringArray(R.array.pref_ui_language_values)
             .map { getLocaleDisplayName(it) }
             .toTypedArray()
-
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {
-        when (key) {
-            getKey(PrefKey.UI_MAIN_SCREEN_VERSION) -> configureUiVersionDependencies()
-        }
-    }
-
-    private fun configureUiVersionDependencies() {
-        val legacy = prefHandler.mainScreenLegacy
-        requirePreference<Preference>(PrefKey.CUSTOMIZE_MAIN_MENU).isVisible = legacy
-        requirePreference<Preference>(PrefKey.UI_START_SCREEN).isVisible = !legacy
-        requirePreference<Preference>(PrefKey.CUSTOMIZE_MENU_V2).isVisible = !legacy
-        requirePreference<Preference>(PrefKey.CATEGORY_ACCOUNT_LIST).isVisible = legacy
-    }
 
     companion object {
         fun Context.compactItemRendererTitle() =

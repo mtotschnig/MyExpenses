@@ -37,7 +37,6 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.MyExpenses.Companion.MANAGE_HIDDEN_FRAGMENT_TAG
 import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.compose.filter.FilterCard
 import org.totschnig.myexpenses.compose.filter.FilterDialog
@@ -611,11 +610,6 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
 
             R.id.DELETE_ACCOUNT_COMMAND_DO -> {
                 val accountIds = tag as LongArray
-                val manageHiddenFragment =
-                    supportFragmentManager.findFragmentByTag(MANAGE_HIDDEN_FRAGMENT_TAG)
-                if (manageHiddenFragment != null) {
-                    supportFragmentManager.beginTransaction().remove(manageHiddenFragment).commit()
-                }
                 showSnackBarIndefinite(R.string.progress_dialog_deleting)
                 viewModel.deleteAccounts(accountIds).observe(this) { result ->
                     result.onSuccess {

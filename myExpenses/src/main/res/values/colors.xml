@@ -32,7 +32,6 @@
     <color name="colorExpenseOnCard">#C62828</color>
     <color name="colorIncomeOnCard">#2D7B31</color>
 
-    <color name="drawerBackground">@android:color/white</color>
     <color name="cardBackground">#f0f0f0</color>
 
     <color name="material_indigo">#3F51B5</color>

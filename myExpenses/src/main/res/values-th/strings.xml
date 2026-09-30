@@ -80,7 +80,7 @@
     <string name="dialog_remind_rate_1_suggest_improvement">กรุณาใช้เวลาสักครู่เพื่อส่งข้อเสนอแนะสำหรับการปรับปรุงให้เรา</string>
     <string name="dialog_security_answer">ให้คะแนน</string>
     <string name="dialog_title_contrib_feature">คุณสมบัติพรีเมียม</string>
-    <string name="dialog_title_warning_delete_account">ลบ %1$d บัญชี?</string>
+    <string name="dialog_title_warning_delete_account">ลบ บัญชี?</string>
     <string name="dialog_title_balance_account">ยอดคงเหลือ %1$s</string>
     <string name="dialog_security_question">คำถาม</string>
     <string name="dialog_title_warning_delete_category">ลบหมวดหมู่?</string>
@@ -334,19 +334,15 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">หากไม่มีการอัปเดตจำนวนเงิน จำนวนเงินจะแสดงผลเป็นหารด้วย %d หลังการเปลี่ยนแปลง</string>
     <string name="warning_change_fraction_digits_checkbox_label">อัปเดตจำนวนเงินในฐานข้อมูล</string>
     <plurals name="import_categories_result">
-        <item quantity="one">นำเข้า %1$d หมวดหมู่เรียบร้อยแล้ว</item>
         <item quantity="other">นำเข้า %1$d หมวดหมู่เรียบร้อยแล้ว</item>
     </plurals>
     <plurals name="import_parties_result">
-        <item quantity="one">นำเข้า %1$d คู่กรณีเรียบร้อยแล้ว</item>
         <item quantity="other">นำเข้า %1$d คู่กรณีเรียบร้อยแล้ว</item>
     </plurals>
     <plurals name="import_accounts_result">
-        <item quantity="one">นำเข้า %1$d บัญชีเรียบร้อยแล้ว</item>
         <item quantity="other">นำเข้า %1$d บัญชีเรียบร้อยแล้ว</item>
     </plurals>
     <plurals name="import_transactions_result">
-        <item quantity="one">นำเข้า %1$d รายการเรียบร้อยแล้วในบัญชี %2$s</item>
         <item quantity="other">นำเข้า %1$d รายการเรียบร้อยแล้วในบัญชี %2$s</item>
     </plurals>
     <string name="import_source_select_error">กรุณาให้ไฟล์ประเภท %1$s</string>
@@ -775,7 +771,6 @@
     <string name="budget_import_can_be_imported">สามารถนำเข้างบประมาณต่อไปนี้:</string>
     <string name="webui_download_no_data">หลังจากพิมพ์ ส่งออก หรือสร้างข้อมูลสำรองในแอป ไฟล์จะพร้อมให้ดาวน์โหลดจากที่นี่</string>
     <string name="filter_dialog_empty">ยังไม่ได้เพิ่มเกณฑ์ แตะปุ่มด้านบนเพื่อกำหนดคำถามของคุณและปรับแต่งผลลัพธ์</string>
-    <string name="menu_show_equivalent_value">มูลค่าเทียบเท่า</string>
     <string name="initial_value">มูลค่าเริ่มต้น</string>
     <string name="current_value">มูลค่าปัจจุบัน</string>
     <string name="total_value">มูลค่ารวม</string>

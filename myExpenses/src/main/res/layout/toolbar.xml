@@ -5,5 +5,4 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    app:contentInsetStartWithNavigation="0dp"
-    tools:showIn="@layout/activity_main" />
+    app:contentInsetStartWithNavigation="0dp" />

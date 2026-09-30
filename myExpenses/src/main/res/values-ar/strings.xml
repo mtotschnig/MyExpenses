@@ -1013,7 +1013,6 @@
     <string name="warning_archived_transfer_cannot_be_edited">لا يمكن تحرير التحويل لأن جانبه الآخر مؤرشف.</string>
     <string name="budget_import_none_found">لم يتم العثور على ميزانيات.</string>
     <string name="webui_download_no_data">بعد الطباعة أو التصدير أو إنشاء نسخ احتياطية في التطبيق، ستتوفر الملفات هنا للتنزيل.</string>
-    <string name="menu_show_equivalent_value">القيمة المكافئة</string>
     <string name="initial_value">القيمة الأولية</string>
     <string name="current_value">القيمة الحالية</string>
     <string name="total_value">القيمة الإجمالية</string>
