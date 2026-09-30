@@ -367,7 +367,7 @@
         <item quantity="other">已成功导入 %1$d 个账户。</item>
     </plurals>
     <plurals name="import_transactions_result">
-        <item quantity="other">已成功导入 %1$d 笔交易至账户%2$s</item>
+        <item quantity="other">已成功导入 %1$d 笔交易至账户 %2$s。</item>
     </plurals>
     <string name="import_source_select_error">请提供 %1$s类型的文件</string>
     <string name="menu_categories_setup_default">设置应用程序默认的类别</string>
@@ -696,7 +696,7 @@
     <string name="dialog_multi_tag">所有选定的交易都将被标记为%s。</string>
     <string name="dialog_multi_tag_clear">所有的标签都将从选定的交易中删除。</string>
     <plurals name="warning_delete_tag">
-        <item quantity="other">%1$s此标签已被%2$d个交易用来标记。它应该被删除吗？</item>
+        <item quantity="other">%1$s 标签被映射到 %2$d 笔交易。它应该被删除吗？</item>
     </plurals>
     <string name="dialog_multi_tag_append">将新标签添加到现有标签中</string>
     <string name="dialog_multi_tag_replace">用新标签替换现有的标签</string>

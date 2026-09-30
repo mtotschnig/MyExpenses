@@ -1076,4 +1076,6 @@
     <string name="important_upgrade_information_heading">Önemli bilgi</string>
     <string name="help_floating_action_button">Yüzen eylem düğmesi</string>
     <string name="search_asset">Varlık ara</string>
+    <string name="dialog_title_warning_delete_closed_account">Kapatılan hesap silinsin mi?</string>
+    <string name="remap_update_value_date">Ayrıca değer tarihini güncelle</string>
 </resources>
