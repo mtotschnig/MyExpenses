@@ -1099,4 +1099,11 @@
     <string name="search_asset">Rechercher un actif</string>
     <string name="dialog_title_warning_delete_closed_account">Supprimer le compte fermé ?</string>
     <string name="remap_update_value_date">Mettre également à jour la date de valeur</string>
+    <string name="pref_tag_style_title">Style d\'étiquette</string>
+    <string name="pref_tag_style_outline">Bordure colorée</string>
+    <string name="pref_tag_style_filled">Entièrement coloré</string>
+    <string name="trade_additional_costs">Coûts supplémentaires</string>
+    <string name="trade_add_cost">Ajouter un coût</string>
+    <string name="single_pane_view">Panneau unique</string>
+    <string name="split_pane_view">Vue fractionnée</string>
 </resources>
