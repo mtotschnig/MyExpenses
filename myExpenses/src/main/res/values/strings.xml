@@ -1128,6 +1128,7 @@
     <string name="pref_fab_style_title">Floating Action Button Style</string>
     <string name="pref_fab_style_standard_description">Standard (Tap arrow for menu)</string>
     <string name="pref_fab_style_compact_description">Compact (Tap and hold for menu)</string>
+    <!-- Title of a preference where user configures how tags are displayed on the transaction list, either with colored border, or fully colored -->
     <string name="pref_tag_style_title">Tag style</string>
     <string name="pref_tag_style_outline">Colored border</string>
     <string name="pref_tag_style_filled">Fully colored</string>
