@@ -1078,4 +1078,11 @@
     <string name="help_floating_action_button">Schwebende Aktionsschaltfläche</string>
     <string name="dialog_title_warning_delete_closed_account">Geschlossenes Konto löschen?</string>
     <string name="remap_update_value_date">Auch Wertstellung aktualisieren</string>
+    <string name="pref_tag_style_title">Schlagwort-Stil</string>
+    <string name="pref_tag_style_outline">Farbiger Rand</string>
+    <string name="pref_tag_style_filled">Vollständig farbig</string>
+    <string name="trade_additional_costs">Zusätzliche Kosten</string>
+    <string name="trade_add_cost">Kosten hinzufügen</string>
+    <string name="single_pane_view">Einzelansicht</string>
+    <string name="split_pane_view">Geteilte Ansicht</string>
 </resources>
