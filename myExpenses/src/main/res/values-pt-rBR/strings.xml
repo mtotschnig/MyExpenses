@@ -1090,4 +1090,6 @@
     <string name="service_starting">Iniciando…</string>
     <string name="rounding">Arredondamento</string>
     <string name="important_upgrade_information_heading">Informações importantes</string>
+    <string name="single_pane_view">Painel único</string>
+    <string name="split_pane_view">Visualização dividida</string>
 </resources>
