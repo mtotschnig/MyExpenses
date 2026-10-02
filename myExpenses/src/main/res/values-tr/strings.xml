@@ -376,8 +376,8 @@
         <item quantity="other">%1$d hesap başarılı bir şekilde içe aktarıldı.</item>
     </plurals>
     <plurals name="import_transactions_result">
-        <item quantity="one">%1$d muamele başarılı bir şekilde %2$s hesabına aktarıldı</item>
-        <item quantity="other">%1$d muamele başarılı bir şekilde %2$s hesabına aktarıldı</item>
+        <item quantity="one">%1$d muamele başarılı bir şekilde %2$s hesabına aktarıldı.</item>
+        <item quantity="other">%1$d muamele başarılı bir şekilde %2$s hesabına aktarıldı.</item>
     </plurals>
     <string name="import_source_select_error">Lütfen %1$s tipinde bir dosya verin</string>
     <string name="menu_categories_setup_default">Varsayılan kategorileri kur</string>
@@ -1078,4 +1078,11 @@
     <string name="search_asset">Varlık ara</string>
     <string name="dialog_title_warning_delete_closed_account">Kapatılan hesap silinsin mi?</string>
     <string name="remap_update_value_date">Ayrıca değer tarihini güncelle</string>
+    <string name="pref_tag_style_title">Etiket biçimi</string>
+    <string name="pref_tag_style_outline">Renkli kenarlık</string>
+    <string name="pref_tag_style_filled">Tamamen renkli</string>
+    <string name="trade_additional_costs">Ek masraflar</string>
+    <string name="trade_add_cost">Masraf ekle</string>
+    <string name="single_pane_view">Tek ekran</string>
+    <string name="split_pane_view">Bölünmüş görünüm</string>
 </resources>

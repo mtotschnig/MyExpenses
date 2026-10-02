@@ -14,7 +14,7 @@
     <string name="toast_text_copied">"Metin kopyalandı"</string>
     <string name="copy_text">"Panoya kopyala"</string>
     <string name="stop">"Durdur"</string>
-    <string name="style">"Stil"</string>
+    <string name="style">Biçim</string>
     <string name="loading">"Yükleniyor…"</string>
     <string name="button_label_continue">Devam</string>
     <string name="discard">"Sil"</string>
