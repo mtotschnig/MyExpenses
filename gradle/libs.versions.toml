@@ -1,6 +1,6 @@
 [versions]
 accompanist = "0.37.3"
-acraVersion = "5.13.1"
+acraVersion = "5.14.2"
 activityCompose = "1.13.0"
 androidDesugar = "2.1.5"
 androidGradlePlugin = "9.4.1"
