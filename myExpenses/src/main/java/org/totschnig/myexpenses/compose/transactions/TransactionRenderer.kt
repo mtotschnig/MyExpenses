@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.compose.transactions
 
 import android.content.Context
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -10,7 +9,6 @@ import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
@@ -79,6 +77,7 @@ import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.Icon
 import org.totschnig.myexpenses.compose.LocalColors
 import org.totschnig.myexpenses.compose.Menu
+import org.totschnig.myexpenses.compose.calculateOnColor
 import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.compose.emToDp
 import org.totschnig.myexpenses.compose.optional
@@ -87,7 +86,6 @@ import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.FLAG_TRANSFER
-import org.totschnig.myexpenses.compose.calculateOnColor
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
@@ -193,7 +191,6 @@ abstract class ItemRenderer(
                 if (length > 0) {
                     append(COMMENT_SEPARATOR)
                 }
-                val tagStyleSpan = MaterialTheme.typography.bodySmall.toSpanStyle()
                 list.forEachIndexed { index, pair ->
                     pushStringAnnotation(
                         tag = ANNOTATION_TAG,
@@ -204,8 +201,13 @@ abstract class ItemRenderer(
                             ?: MaterialTheme.colorScheme.surfaceVariant
                         bgColor.calculateOnColor()
                     } else null
-                    val spanStyle = textColor?.let { tagStyleSpan.copy(color = it) } ?: tagStyleSpan
-                    withStyle(style = spanStyle) {
+                    if (textColor != null) {
+                        withStyle(style = SpanStyle(color = textColor)) {
+                            append("\u00A0")
+                            append(pair.label)
+                            append("\u00A0")
+                        }
+                    } else {
                         append("\u00A0")
                         append(pair.label)
                         append("\u00A0")
@@ -237,7 +239,6 @@ abstract class ItemRenderer(
 
     abstract fun Modifier.height(): Modifier
 
-    @OptIn(ExperimentalFoundationApi::class)
     @Composable
     fun Render(
         transaction: Transaction2,
@@ -590,7 +591,6 @@ class NewTransactionRenderer(
     withAccountLabel: Boolean = false,
     tagStyle: TagStyle = TagStyle.OUTLINE,
 ) : ItemRenderer(withCategoryIcon, colorSource, onToggleCrStatus, withAccountLabel, tagStyle) {
-    @OptIn(ExperimentalLayoutApi::class)
     @Composable
     override fun RowScope.RenderInner(
         transaction: Transaction2,
@@ -637,7 +637,6 @@ class NewTransactionRenderer(
                     }
                 }
             }
-
         }
         Column(horizontalAlignment = Alignment.End) {
             transaction.ColoredAmountText(
@@ -662,7 +661,7 @@ fun Modifier.tagBorder(color: Color) =
         border = BorderStroke(1.5.dp, color),
         shape = RoundedCornerShape(8.dp),
     )
-        .padding(vertical = 4.dp, horizontal = 6.dp)
+        .padding(vertical = 1.dp, horizontal = 4.dp)
 
 @Composable
 fun Modifier.voidMarker(crStatus: CrStatus): Modifier {
@@ -693,7 +692,7 @@ fun InlineChip(text: String, color: Color?, tagStyle: TagStyle = TagStyle.OUTLIN
                     color = bgColor,
                     shape = RoundedCornerShape(8.dp)
                 )
-                .padding(vertical = 4.dp, horizontal = 6.dp)
+                .padding(vertical = 1.dp, horizontal = 4.dp)
         }
     }
     val textColor = when (tagStyle) {
@@ -703,8 +702,7 @@ fun InlineChip(text: String, color: Color?, tagStyle: TagStyle = TagStyle.OUTLIN
     Text(
         text = text,
         color = textColor,
-        modifier = chipModifier.padding(bottom = 2.dp),
-        style = MaterialTheme.typography.bodySmall
+        modifier = chipModifier,
     )
 }
 
