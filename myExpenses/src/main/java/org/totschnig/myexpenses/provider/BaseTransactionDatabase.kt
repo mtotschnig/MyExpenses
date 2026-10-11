@@ -19,6 +19,7 @@ import org.totschnig.myexpenses.model.BalanceType
 import org.totschnig.myexpenses.model.CommodityType
 import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.model.DEFAULT_FLAG_ID
+import org.totschnig.myexpenses.model.DEFAULT_FRACTION_DIGITS
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_INACTIVE
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
@@ -29,6 +30,7 @@ import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
+import java.util.Currency
 import kotlin.math.pow
 
 const val DATABASE_VERSION = 190
@@ -1098,13 +1100,20 @@ abstract class BaseTransactionDatabase(
     }
 
     fun SupportSQLiteDatabase.upgradeTo175() {
-        val currencyContext = context.injector.currencyContext()
+        fun getFractionDigits(code: String): Int {
+            val prefFractionDigits = prefHandler.getInt(code + "CustomFractionDigits", -1)
+            if (prefFractionDigits != -1) return prefFractionDigits
+
+            val javaCurrency = runCatching { Currency.getInstance(code) }.getOrNull()
+            return javaCurrency?.defaultFractionDigits?.takeIf { it != -1 } ?: DEFAULT_FRACTION_DIGITS
+        }
+
         query("select distinct commodity, currency from prices").use { cursor ->
             cursor.asSequence.forEach {
                 val commodity = it.getString(0)
                 val currency = it.getString(1)
                 val delta =
-                    currencyContext[currency].fractionDigits - currencyContext[commodity].fractionDigits
+                    getFractionDigits(currency) - getFractionDigits(commodity)
                 if (delta != 0) {
                     val coefficient = 10.0.pow(delta)
                     execSQL("update prices set value = value * $coefficient where commodity = '$commodity' and currency = '$currency'")
