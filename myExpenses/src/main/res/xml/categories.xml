@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<categories>
+    <!-- INCOME CATEGORIES -->
+    <category type="income" uuid="c4e22afc-6c68-4f71-834d-bba275ccd0c5" icon="right-to-bracket" label="@string/Main_1">
+        <subcategory uuid="124f35e0-1ca5-4ca3-9446-c4a4d55b99aa" icon="unemployment" label="@string/Sub_1_1" />
+        <subcategory uuid="f92063a0-5405-4d28-b716-23d4d40bdecd" icon="family" label="@string/Sub_1_2" />
+        <subcategory uuid="0b7ef7e8-a7b1-4b43-8fc1-00d9db0c9822" icon="hand-holding-dollar" label="@string/Sub_1_3" />
+        <subcategory uuid="4980f66c-6bc9-42b7-bc38-4a5dbd7d1a5d" icon="dice" label="@string/Sub_1_4" />
+        <subcategory uuid="4312eb5a-6ce5-43eb-af10-023ff346e598" icon="handshake-angle" label="@string/Sub_1_5" />
+        <subcategory uuid="ced250b9-75ca-4491-aa45-127427d29c90" icon="user-shield" label="@string/Sub_1_6" />
+    </category>
+    <category type="income" uuid="6b364a96-8000-4968-97d2-581ac56de8da" icon="person-cane" label="@string/Main_2">
+        <subcategory uuid="50aab817-ceb0-4321-af17-d04fdb71a791" icon="retirement-2" label="@string/Sub_2_1" />
+        <subcategory uuid="e20d1a38-75f4-4956-aa00-5dee22059f68" icon="magnifying-glass-dollar" label="@string/Sub_2_2" />
+        <subcategory uuid="8c9a2f34-1e2b-4003-8c77-b0717e93da2c" icon="magnifying-glass-plus" label="@string/Sub_2_3" />
+    </category>
+    <category type="income" uuid="27c48df9-3157-464d-8e3e-3cad79e5ccd6" icon="funding" label="@string/Main_3">
+        <subcategory uuid="5bf55130-22e6-4020-9c3f-db6fb1919c95" icon="divide" label="@string/Sub_3_1" />
+        <subcategory uuid="6e75f783-9732-4838-921f-4531b3ae1ba0" icon="percent" label="@string/Sub_3_2" />
+        <subcategory uuid="ffd5840b-6df1-4470-b50c-dd3f164d3644" icon="chart-line" label="@string/Sub_3_3" />
+    </category>
+    <category type="income" uuid="e8b5f268-2de7-4245-8f67-dc9954edf109" icon="envelope" label="@string/Main_4">
+        <subcategory uuid="9af9f973-a913-448c-bd04-4332ae579c57" icon="business-time" label="@string/Sub_4_1" />
+        <subcategory uuid="6cc88341-5205-4cac-a5c7-7af2ab6e44e4" icon="calendar-minus" label="@string/Sub_4_2" />
+        <subcategory uuid="0ad8f565-581f-4b6b-8732-16e961214866" icon="award" label="@string/Sub_4_3" />
+        <subcategory uuid="8d646ff8-9a2b-4a0b-93dc-ffbf05d29bcc" icon="thumbs-up" label="@string/Sub_4_4" />
+        <subcategory uuid="b54209e3-1f58-4bf1-997c-824bd7507d99" icon="envelope" label="@string/Sub_4_5" />
+    </category>
+    <category type="income" uuid="e5181bcc-3072-49cd-8df3-2224dba39d0b" icon="right-to-bracket" label="@string/Main_5">
+        <subcategory uuid="355ed500-28fd-49aa-ac20-92ff07b8fff9" icon="gift" label="@string/Sub_5_1" />
+        <subcategory uuid="a6c7be8f-112e-4dc4-ad47-03783acaebc2" icon="retweet" label="@string/Sub_5_2" />
+        <subcategory uuid="b179f945-f41c-4348-b7ce-96e794b64b12" icon="recycle" label="@string/Sub_5_3" />
+    </category>
+
+    <!-- EXPENSE CATEGORIES -->
+    <category type="expense" uuid="d9184855-652b-44ca-bb7a-187f2e61a941" icon="pizza-slice" label="@string/Main_6">
+        <subcategory uuid="5db0590b-d68f-4849-829c-4d9ad3e16cc8" icon="whiskey-glass" label="@string/Sub_6_1" />
+        <subcategory uuid="40fb1d80-3ae4-4fa8-b2df-db6224196452" icon="bread-slice" label="@string/Sub_6_2" />
+        <subcategory uuid="f8ff8327-112a-4231-ac68-e0437b887f0f" icon="tray" label="@string/Sub_6_3" />
+        <subcategory uuid="3516e0c5-3c95-4920-af25-ca3d4ed9409e" icon="candy-cane" label="@string/Sub_6_4" />
+        <subcategory uuid="5122b54e-18ee-4a66-bd09-80dfd00d32b7" icon="basket-shopping" label="@string/Sub_6_5" />
+        <subcategory uuid="54983354-29f3-4ff5-b2dd-8851edbed476" icon="utensils" label="@string/Sub_6_6" />
+        <subcategory uuid="3f4b8e9a-dbbd-4ddf-a374-bba988f8b703" icon="bell-concierge" label="@string/Sub_6_7" />
+        <subcategory uuid="ea09c0b3-8f61-4546-b8c5-4b7b451320a9" icon="cart-shopping" label="@string/Sub_6_8" />
+    </category>
+    <category type="expense" uuid="b2bf387c-331b-4de9-bcdd-2deef99d6b03" icon="paw" label="@string/Main_7">
+        <subcategory uuid="88e9207a-efb6-458d-892c-d86285bb4edf" icon="bone" label="@string/Sub_7_1" />
+        <subcategory uuid="ad99ca31-23a9-4436-94d0-0d9b0b4e1a0a" icon="parachute-box" label="@string/Sub_7_2" />
+        <subcategory uuid="18f95752-3bde-4d7b-be30-0de4a3dbe210" icon="comb" label="@string/Sub_7_3" />
+        <subcategory uuid="6bef355c-f109-42b5-a016-151ba10b9a89" icon="syringe" label="@string/Sub_7_4" />
+    </category>
+    <category type="expense" uuid="7d2c9954-aced-4fc2-9717-14e91906db23" icon="shield-halved" label="@string/Main_8">
+        <subcategory uuid="aad65bd6-7e5b-4bb0-9c7b-7f19ea98a02a" icon="car-burst" label="@string/Sub_8_1" />
+        <subcategory uuid="5370b8af-b8c1-4c9d-96fe-dc9d33688e38" icon="notes-medical" label="@string/Sub_8_2" />
+        <subcategory uuid="d3454849-838a-410a-991b-1100cfa7a268" icon="house-chimney-crack" label="@string/Sub_8_3" />
+        <subcategory uuid="fa7818c9-5142-45a8-819a-6512f8f4741a" icon="heart-crack" label="@string/Sub_8_4" />
+        <subcategory uuid="774cfc7d-e905-4520-947c-ea79f3c80917" icon="user-shield" label="@string/Sub_8_5" />
+    </category>
+    <category type="expense" uuid="db1106db-0d20-4032-b37e-71f4a7740746" icon="car" label="@string/Main_9">
+        <subcategory uuid="02553494-1e49-4965-b693-4564d9600546" icon="gas-pump" label="@string/Sub_9_1" />
+        <subcategory uuid="d499e7f6-a9e8-4ca6-8869-796a8bed4a9a" icon="screwdriver-wrench" label="@string/Sub_9_2" />
+        <subcategory uuid="10891df5-e286-490a-aa3e-09bdbf884c9d" icon="car-battery" label="@string/Sub_9_3" />
+        <subcategory uuid="54502ce8-4b5a-4c09-b59d-ca9060c93727" icon="square-parking" label="@string/Sub_9_4" />
+        <subcategory uuid="87cc8743-85df-4985-956a-edfdbe7e3281" icon="gavel" label="@string/Sub_9_5" />
+    </category>
+    <category type="expense" uuid="09a9373c-88cd-4420-9a6c-4663b103f59b" icon="gift" label="@string/Main_10" />
+    <category type="expense" uuid="01b59329-fa18-43f2-9c40-959ebafdebea" icon="child" label="@string/Main_11">
+        <subcategory uuid="e553fb46-dbb2-4908-bcee-35e703dfa111" icon="bottle" label="@string/Sub_11_1" />
+        <subcategory uuid="0ff0dde0-247e-458e-befe-b4c30b96048e" icon="school" label="@string/Sub_11_2" />
+    </category>
+    <category type="expense" uuid="1cca7431-c33c-44e0-82dd-857147e3b933" icon="building-columns" label="@string/Main_12">
+        <subcategory uuid="6fe5713c-75e5-4351-91e6-17f738a77a91" icon="podium" label="@string/Sub_12_1" />
+        <subcategory uuid="c32278d3-5aab-47d3-854c-5c6b7c33d6a5" icon="user-graduate" label="@string/Sub_12_2" />
+        <subcategory uuid="e499bc72-95dd-46c8-8eea-d8988d8b32de" icon="book" label="@string/Sub_12_3" />
+    </category>
+    <category type="expense" uuid="7c114bca-fe60-48eb-a644-dbbf0f3f041c" icon="right-from-bracket" label="@string/Main_13">
+        <subcategory uuid="48e47f4e-f06a-434e-a35b-da7af806a386" icon="piggy-bank" label="@string/Sub_13_1" />
+        <subcategory uuid="e624a8c9-e9c6-4b59-bc6d-78021361be4f" icon="mortgage" label="@string/Sub_13_2" />
+        <subcategory uuid="d18820cf-19cf-4539-ba71-1d0b73da75b3" icon="battery-three-quarters" label="@string/Sub_13_3" />
+        <subcategory uuid="ccf193fd-08aa-4762-99dd-5f30c8d7df85" icon="retweet" label="@string/Sub_13_4" />
+    </category>
+    <category type="expense" uuid="89d05082-e26f-438e-be39-a12ad69af079" icon="user-tie" label="@string/Main_14">
+        <subcategory uuid="eed387f6-ac2c-4eb1-aa81-95f37631e70f" icon="retweet-cancel" label="@string/Sub_14_1" />
+        <subcategory uuid="84b9d742-f77f-485a-8e47-249806ed5aa8" icon="retweet" label="@string/Sub_14_2" />
+    </category>
+    <category type="expense" uuid="d221a436-2da1-4de5-bd9f-04ecdb72a163" icon="percent" label="@string/Main_15">
+        <subcategory uuid="384694c9-0d7f-4f85-a1f9-fa9bef3ec439" icon="taxes" label="@string/Sub_15_1" />
+        <subcategory uuid="46fa0f43-105a-4bd6-afef-0b414448a40e" icon="fence" label="@string/Sub_15_2" />
+        <subcategory uuid="43fe5aeb-6177-453a-8059-266bf522809e" icon="plus" label="@string/Sub_15_3" />
+    </category>
+    <category type="expense" uuid="fa80d0f4-4c6e-4d01-9cab-170ab2e8f50f" icon="house" label="@string/Main_16">
+        <subcategory uuid="6e04b2c1-dec1-44dd-bada-a3d64da5ab88" icon="hotel" label="@string/Sub_16_1" />
+        <subcategory uuid="189909e3-9695-4d5b-b5e6-f538e46f0fba" icon="key" label="@string/Sub_16_2" />
+        <subcategory uuid="97e682c5-b1a5-4ec8-80d7-7d48ec904fb3" icon="tv" label="@string/Sub_16_3" />
+        <subcategory uuid="3a30f0d5-6dee-4611-b811-9f367ef0a35c" icon="couch" label="@string/Sub_16_4" />
+        <subcategory uuid="1b0af696-352f-4d7f-8105-c7f583bd81fc" icon="battery-three-quarters" label="@string/Sub_16_5" />
+        <subcategory uuid="b10b1d4b-a85d-4971-ac6b-c6812d9094fd" icon="fire" label="@string/Sub_16_6" />
+        <subcategory uuid="f1f2cec7-3501-410b-992b-24ab976171c9" icon="decoration" label="@string/Sub_16_7" />
+        <subcategory uuid="e1da822b-edce-48cb-82f4-947b71a60634" icon="water" label="@string/Sub_16_8" />
+        <subcategory uuid="08388ddf-12d4-401c-bc31-e56e61626a0d" icon="bolt" label="@string/Sub_16_9" />
+        <subcategory uuid="ef2574fc-72dd-4bca-abd2-c270549ad02a" icon="appliance" label="@string/Sub_16_10" />
+        <subcategory uuid="a7f56337-6229-4860-97b7-6cf06ba3d946" icon="blender" label="@string/Sub_16_11" />
+        <subcategory uuid="7eb040d0-f5df-422c-a6d9-f15473904aaf" icon="fire-flame-simple" label="@string/Sub_16_12" />
+        <subcategory uuid="57f15dcb-90ba-405b-b796-ef92b23957d1" icon="garden" label="@string/Sub_16_13" />
+        <subcategory uuid="cd541383-6e96-466a-93dc-f69eff829962" icon="user-gear" label="@string/Sub_16_14" />
+        <subcategory uuid="094fb7a2-137a-42b8-9c75-53607793f326" icon="phone" label="@string/Sub_16_15" />
+        <subcategory uuid="1ad859ab-7ad2-494a-8f23-955819a117cb" icon="mobile" label="@string/Sub_16_16" />
+    </category>
+    <category type="expense" uuid="4e8dce96-2289-4506-891e-96d72100ca2c" icon="chess-board" label="@string/Main_17">
+        <subcategory uuid="335ce002-ab2e-4d39-b8af-a12750a6923f" icon="circle-dot" label="@string/Sub_17_1" />
+        <subcategory uuid="98c69bfc-fd87-47f1-a14c-21f3b0e9460b" icon="bowling-ball" label="@string/Sub_17_2" />
+        <subcategory uuid="281c3ee7-71ae-4110-a2ae-ce158fd5ea68" icon="film" label="@string/Sub_17_3" />
+        <subcategory uuid="d7b619e0-48fa-4f1c-9e44-c96db2b6d599" icon="martini-glass-citrus" label="@string/Sub_17_4" />
+        <subcategory uuid="f6ffa5df-1101-4778-8b50-1896a5357cb9" icon="gamepad" label="@string/Sub_17_5" />
+        <subcategory uuid="d0be5662-6d60-483f-a1ff-3dcc081498c0" icon="dice" label="@string/Sub_17_6" />
+        <subcategory uuid="822f344a-82b8-4c35-97b4-7a0d990e36ff" icon="book" label="@string/Sub_17_7" />
+        <subcategory uuid="3f0bc2b6-5922-4110-94d7-b1de0b45203b" icon="cloud-sun" label="@string/Sub_17_8" />
+        <subcategory uuid="104580f8-8da8-4029-9f96-fdb9cb888dc2" icon="music" label="@string/Sub_17_9" />
+        <subcategory uuid="203275c7-27b5-42dd-aa33-fb5aa873c1bc" icon="table-tennis-paddle-ball" label="@string/Sub_17_10" />
+        <subcategory uuid="d3d1d1e3-5f98-4a33-a080-0b2a7c0e3665" icon="video" label="@string/Sub_17_11" />
+        <subcategory uuid="d956e1cc-af5e-45bb-9580-2ced0b9bbd46" icon="route" label="@string/Sub_17_12" />
+        <subcategory uuid="76961ef7-e926-4945-88cb-907baed5670f" icon="campground" label="@string/Sub_17_13" />
+        <subcategory uuid="fe5076d1-cb56-4f71-8de2-52cd96cc5a68" icon="monument" label="@string/Sub_17_14" />
+    </category>
+    <category type="expense" uuid="22c3c24f-d4ae-487d-a2ac-22c3ba7e512b" icon="mortgage" label="@string/Main_18">
+        <subcategory uuid="6990f9a8-0bc0-43f2-a660-55764d5ddbaa" icon="money-bill" label="@string/Sub_18_1" />
+    </category>
+    <category type="expense" uuid="e0e22110-e8e6-4da1-9720-71c6473d137a" icon="suitcase-medical" label="@string/Main_19">
+        <subcategory uuid="0959e56e-8c32-4b46-a594-f28f386a5fbc" icon="notes-medical" label="@string/Sub_19_1" />
+        <subcategory uuid="56c41de4-d3bb-4cc6-86b8-a875b9bb6559" icon="tooth" label="@string/Sub_19_2" />
+        <subcategory uuid="f5f268db-dbab-41f8-8f26-1bdcba6aea52" icon="hospital" label="@string/Sub_19_3" />
+        <subcategory uuid="a8ed562a-4d58-4ce4-b0ab-96ce5bcf26a8" icon="person-walking" label="@string/Sub_19_4" />
+        <subcategory uuid="02115c21-3425-4d64-9451-e7817176bb53" icon="user-doctor" label="@string/Sub_19_5" />
+        <subcategory uuid="88b61760-bd4b-442d-a642-923c2a75dcbb" icon="glasses" label="@string/Sub_19_6" />
+        <subcategory uuid="604d62a9-2677-4dad-a622-c32be54d7761" icon="hands" label="@string/Sub_19_7" />
+        <subcategory uuid="cae62115-836f-4645-a9b6-987c8a7569b4" icon="prescription-bottle-medical" label="@string/Sub_19_8" />
+        <subcategory uuid="810643f8-f98b-4bc5-ab8c-2e8030c4a06f" icon="user-shield" label="@string/Sub_19_9" />
+    </category>
+    <category type="expense" uuid="7f24dd0a-499d-4e64-b836-c647b388e236" icon="image-portrait" label="@string/Main_20">
+        <subcategory uuid="389c2a1d-e85e-4697-be4d-16f9569b375b" icon="scissors" label="@string/Sub_20_1" />
+        <subcategory uuid="1a170066-15ee-4261-911a-18ec6c012f2f" icon="shirt" label="@string/Sub_20_2" />
+    </category>
+    <category type="expense" uuid="14df38db-3551-4f35-8044-a5cd939c84b4" icon="route" label="@string/Main_21">
+        <subcategory uuid="d6af1543-a008-462f-acbf-d2f85f51cc34" icon="bus" label="@string/Sub_21_1" />
+        <subcategory uuid="c51e0355-5d81-490b-84ff-23d1544f26d8" icon="train-subway" label="@string/Sub_21_2" />
+        <subcategory uuid="1b7df51f-7258-4eb0-955e-4327050a3671" icon="toll" label="@string/Sub_21_3" />
+        <subcategory uuid="d1ab55cd-5d7e-434b-9e25-bef274ba7837" icon="train" label="@string/Sub_21_4" />
+        <subcategory uuid="257c764e-d5a6-496e-9876-5a478d6fe07b" icon="cable-car" label="@string/Sub_21_5" />
+        <subcategory uuid="9c434014-529d-4a19-9e04-36c2aa229281" icon="plane" label="@string/Sub_21_6" />
+    </category>
+    <category type="expense" uuid="1baf786f-993b-4414-bc3f-9d85d14b988b" icon="cake-candles" label="@string/Main_22">
+        <subcategory uuid="03b335e0-2953-418f-a5f2-d9ad2de6297b" icon="house" label="@string/Sub_22_1" />
+        <subcategory uuid="fb7d2c2d-a90a-4d96-bb38-32d910b1213b" icon="monument" label="@string/Sub_22_2" />
+        <subcategory uuid="fcb1d08c-93c4-4cc4-a70b-2d2c3d72141b" icon="route" label="@string/Sub_22_3" />
+    </category>
+</categories>
