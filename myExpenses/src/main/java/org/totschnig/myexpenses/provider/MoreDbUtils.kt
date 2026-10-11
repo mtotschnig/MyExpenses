@@ -45,6 +45,7 @@ import org.totschnig.myexpenses.viewmodel.data.Category
 import timber.log.Timber
 import java.io.File
 import org.xmlpull.v1.XmlPullParser
+import org.xmlpull.v1.XmlPullParserException
 
 fun <T> SupportSQLiteDatabase.safeUpdateWithSealed(
     protectAccounts: Boolean = true,
@@ -310,6 +311,18 @@ private fun XmlResourceParser.resolveLabel(resources: Resources): String {
     return if (resId != 0) resources.getString(resId) else getAttributeValue(null, "label") ?: ""
 }
 
+private val ALLOWED_CATEGORY_ATTRS = setOf("type", "uuid", "icon", "label")
+private val ALLOWED_SUBCATEGORY_ATTRS = setOf("uuid", "icon", "label")
+
+private fun XmlResourceParser.validateAttributes(allowed: Set<String>) {
+    for (i in 0 until attributeCount) {
+        val attrName = getAttributeName(i)
+        if (attrName !in allowed) {
+            throw XmlPullParserException("Unexpected attribute '$attrName' on <$name> at line $lineNumber")
+        }
+    }
+}
+
 fun parseCategoriesFromXml(resources: Resources): List<CategoryTreeItem> {
     val parser = resources.getXml(R.xml.categories)
     val categories = mutableListOf<CategoryTreeItem>()
@@ -319,24 +332,49 @@ fun parseCategoriesFromXml(resources: Resources): List<CategoryTreeItem> {
     var currentMainIcon: String? = null
     var currentMainLabel: String? = null
     var currentSubcategories = mutableListOf<SubCategoryTreeItem>()
+    var inCategory = false
 
     var eventType = parser.eventType
     while (eventType != XmlPullParser.END_DOCUMENT) {
         if (eventType == XmlPullParser.START_TAG) {
             when (parser.name) {
+                "categories" -> {
+                    // Root tag
+                }
                 "category" -> {
+                    if (inCategory) {
+                        throw XmlPullParserException("Nested <category> tag is not supported at line ${parser.lineNumber}")
+                    }
+                    parser.validateAttributes(ALLOWED_CATEGORY_ATTRS)
                     val typeStr = parser.getAttributeValue(null, "type")
+                    if (typeStr != "income" && typeStr != "expense") {
+                        throw XmlPullParserException("Invalid or missing 'type' attribute ($typeStr) on <category> at line ${parser.lineNumber}")
+                    }
                     currentMainType = if (typeStr == "income") FLAG_INCOME else FLAG_EXPENSE
-                    currentMainUuid = parser.getAttributeValue(null, "uuid") ?: ""
-                    currentMainIcon = parser.getAttributeValue(null, "icon") ?: ""
-                    currentMainLabel = parser.resolveLabel(resources)
+                    currentMainUuid = parser.getAttributeValue(null, "uuid")?.takeIf { it.isNotEmpty() }
+                        ?: throw XmlPullParserException("Missing 'uuid' attribute on <category> at line ${parser.lineNumber}")
+                    currentMainIcon = parser.getAttributeValue(null, "icon")?.takeIf { it.isNotEmpty() }
+                        ?: throw XmlPullParserException("Missing 'icon' attribute on <category> at line ${parser.lineNumber}")
+                    currentMainLabel = parser.resolveLabel(resources).takeIf { it.isNotEmpty() }
+                        ?: throw XmlPullParserException("Missing 'label' attribute on <category> at line ${parser.lineNumber}")
                     currentSubcategories = mutableListOf()
+                    inCategory = true
                 }
                 "subcategory" -> {
-                    val subUuid = parser.getAttributeValue(null, "uuid") ?: ""
-                    val subIcon = parser.getAttributeValue(null, "icon") ?: ""
-                    val subLabel = parser.resolveLabel(resources)
+                    if (!inCategory) {
+                        throw XmlPullParserException("<subcategory> tag must be inside <category> at line ${parser.lineNumber}")
+                    }
+                    parser.validateAttributes(ALLOWED_SUBCATEGORY_ATTRS)
+                    val subUuid = parser.getAttributeValue(null, "uuid")?.takeIf { it.isNotEmpty() }
+                        ?: throw XmlPullParserException("Missing 'uuid' attribute on <subcategory> at line ${parser.lineNumber}")
+                    val subIcon = parser.getAttributeValue(null, "icon")?.takeIf { it.isNotEmpty() }
+                        ?: throw XmlPullParserException("Missing 'icon' attribute on <subcategory> at line ${parser.lineNumber}")
+                    val subLabel = parser.resolveLabel(resources).takeIf { it.isNotEmpty() }
+                        ?: throw XmlPullParserException("Missing 'label' attribute on <subcategory> at line ${parser.lineNumber}")
                     currentSubcategories.add(SubCategoryTreeItem(subLabel, subUuid, subIcon))
+                }
+                else -> {
+                    throw XmlPullParserException("Unexpected tag <${parser.name}> at line ${parser.lineNumber}")
                 }
             }
         } else if (eventType == XmlPullParser.END_TAG && parser.name == "category") {
@@ -351,6 +389,7 @@ fun parseCategoriesFromXml(resources: Resources): List<CategoryTreeItem> {
                     )
                 )
             }
+            inCategory = false
             currentMainType = null
             currentMainLabel = null
         }
