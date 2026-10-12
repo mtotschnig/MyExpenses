@@ -1,8 +1,10 @@
 package org.totschnig.myexpenses.provider
 
+import com.google.common.truth.Truth.assertWithMessage
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 
@@ -12,6 +14,31 @@ class CategoryTreeTest : BaseTestWithRepository() {
     @Test
     fun testCategoryDepth() {
         runDepthTest()
+    }
+
+    @Test
+    @Config(qualifiers = "en")
+    fun parseEnglishCategoriesFromXml() {
+        runParseTest()
+    }
+
+    @Test
+    @Config(qualifiers = "de")
+    fun parseGermanCategoriesFromXml() {
+        runParseTest()
+    }
+
+    private fun runParseTest() {
+        val categories = parseCategoriesFromXml(application.resources)
+        assertWithMessage("Categories should not be empty").that(categories).isNotEmpty()
+        for ((_, label, _, _, subcategories) in categories) {
+            assertWithMessage("Category label should not start with @: $label")
+                .that(label.startsWith("@")).isFalse()
+            for ((label1) in subcategories) {
+                assertWithMessage("Subcategory label should not start with @: $label1")
+                    .that(label1.startsWith("@")).isFalse()
+            }
+        }
     }
 
     private fun runDepthTest() {

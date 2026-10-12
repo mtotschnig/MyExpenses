@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<categories>
+    <!-- GERMAN INCOME CATEGORIES -->
+    <category type="income" uuid="def5848f-970e-4a9d-8abb-85dffe318cda" icon="right-to-bracket" label="Einkünfte">
+        <subcategory uuid="138d149b-f5c9-4105-b421-cdb0e9e76788" icon="family" label="Familienbeihilfe" />
+        <subcategory uuid="17170919-f111-402a-b7f1-be31b69e12bc" icon="child" label="Kindergeld" />
+        <subcategory uuid="94311cc6-18d7-4f77-bc9f-08c66997f35a" icon="scale-balanced" label="Steuerausgleich" />
+    </category>
+    <category type="income" uuid="9d6730b0-928d-4a6b-8bd8-0c863dbc9b6c" icon="funding" label="Erträge">
+        <subcategory uuid="7ad60bc0-52e1-4015-af92-f8ef318bde47" icon="divide" label="Dividenden" />
+        <subcategory uuid="0ebe7d63-3f8e-4f8f-bba8-882609a267bb" icon="chart-line" label="Kapitalertrag" />
+    </category>
+    <category type="income" uuid="6ce93bae-319c-4ca7-bb50-341dc49cc1ab" icon="envelope" label="Lohn">
+        <subcategory uuid="1bd555da-a087-4ffb-9692-82225f9da91b" icon="envelope" label="Nettogehalt" />
+        <subcategory uuid="3a6d8141-f24c-44b6-9a7e-c5adeeb66d02" icon="award" label="Prämien" />
+        <subcategory uuid="e867f0a7-2196-452d-8668-c52fd5261b84" icon="thumbs-up" label="Zuschläge" />
+    </category>
+    <category type="income" uuid="2c3ea1cf-8541-4685-a478-90ea15d37256" icon="person-cane" label="Pension">
+        <subcategory uuid="8df0677f-0236-4216-b1bb-7b07c082ac50" icon="magnifying-glass-plus" label="Private Rente" />
+        <subcategory uuid="2104af91-4583-42ed-91b5-7ed60f4e17a4" icon="magnifying-glass-dollar" label="Staatliche Rente" />
+        <subcategory uuid="3134165f-123c-472b-9c7d-efab902d4985" icon="person-walking-with-cane" label="Versehrtenrente" />
+    </category>
+    <category type="income" uuid="31668cc2-db10-4035-9887-73e0415ce1a0" icon="right-to-bracket" label="Sonstige Einnahmen">
+        <subcategory uuid="9445456c-0c04-4318-8487-69f320cbf6a0" icon="calendar-minus" label="Abfertigung" />
+        <subcategory uuid="e3cdcdf8-a237-409a-8a94-9c40b5cca6ff" icon="filter-circle-dollar" label="Alimente" />
+        <subcategory uuid="6c42612b-040f-493b-8164-9b9070927d3f" icon="unemployment" label="Arbeitslosengeld" />
+        <subcategory uuid="cd9e3ecf-4666-4f3a-a845-4ff6627058f9" icon="user-shield" label="Sozialhilfe" />
+        <subcategory uuid="382dcc81-dad1-48b3-ab7a-609d8ebef091" icon="gift" label="Geschenke" />
+    </category>
+
+    <!-- GERMAN EXPENSE CATEGORIES -->
+    <category type="expense" uuid="9c45be9d-60b1-4ae6-9734-d9e40814add9" icon="piggy-bank" label="Bankgebühren">
+        <subcategory uuid="bfdbedb1-c573-4204-a8f3-b2452aa5320e" icon="arrow-down" label="Depotgebühren" />
+        <subcategory uuid="42280c70-333a-4b91-97f4-28d4cf9f4174" icon="percent" label="Dispozinsen" />
+        <subcategory uuid="d621afca-39f9-4109-b353-c1e5a1580be3" icon="file-invoice-dollar" label="Kontoführung" />
+    </category>
+    <category type="expense" uuid="38ef3dd1-4049-40b5-a9d9-19e44b605700" icon="clothing" label="Bekleidung">
+        <subcategory uuid="696add61-a8cf-4652-a30b-f8c024fc1d4b" icon="shirt" label="Kleidung" />
+        <subcategory uuid="dbd450fa-87e5-4e5f-bdc3-68e3bfd49839" icon="shoe" label="Schuhe" />
+    </category>
+    <category type="expense" uuid="654fb6d5-0db6-465e-9e49-003e868e772a" icon="property" label="Eigenheim">
+        <subcategory uuid="e04322ed-37e7-4ae6-87a3-b5861c03145a" icon="house-chimney-crack" label="Eigenheimversicherung" />
+        <subcategory uuid="de3f823e-014d-4c89-8bff-62c6e210d403" icon="couch" label="Einrichtung" />
+        <subcategory uuid="abeb4fca-03f0-4a29-8a1b-6768388cf4b4" icon="garden" label="Garten" />
+        <subcategory uuid="ecaeae74-ac79-49f4-8d11-55ab4052ddbe" icon="town-hall" label="Gemeindeabgaben" />
+        <subcategory uuid="73a1dae7-c3d2-4600-ab8a-e1b911f0bbd2" icon="fence" label="Grundsteuer" />
+        <subcategory uuid="b0001914-acd1-4c3a-a06b-971386997e2e" icon="fire" label="Heizkosten" />
+        <subcategory uuid="cd2b2cd5-d117-4872-8fef-d65b5b6bd71c" icon="trash" label="Müllabfuhr" />
+        <subcategory uuid="dca5d358-346a-4a87-8b9f-8635e4d0f32f" icon="tv" label="Rundfunkgebühr" />
+        <subcategory uuid="b0d8a82d-e55d-4428-9fbb-d438386bb148" icon="bolt" label="Strom" />
+        <subcategory uuid="dfd8499e-c082-4335-9ec2-0c5c4fedef55" icon="phone" label="Telefon" />
+        <subcategory uuid="357a3fc4-0cba-4d36-ae7d-ac45d07dc3fb" icon="water" label="Wasser" />
+    </category>
+    <category type="expense" uuid="89c7e709-addb-4326-a3e6-09cf0bca9420" icon="chess-board" label="Freizeit">
+        <subcategory uuid="50080d1a-9cdd-43bb-bc8a-71f849189ab0" icon="book" label="Bücher" />
+        <subcategory uuid="24eb94ec-1c23-4ab9-b7ac-49eb637da85b" icon="video" label="Filme" />
+        <subcategory uuid="bdc8bb9b-654b-4430-9cba-aaea6123eefa" icon="wifi" label="Internet" />
+        <subcategory uuid="c65db7bb-416d-47ba-924f-afbecb82c38a" icon="film" label="Kino" />
+        <subcategory uuid="171d3fa6-e088-4c41-994b-1a2221edc025" icon="music" label="Konzerte" />
+        <subcategory uuid="1d2937d6-7f8f-4240-9471-0b1b547b5739" icon="mobile" label="Mobiltelefon" />
+        <subcategory uuid="8151f19e-e869-403e-accb-c3d0e60e84f8" icon="gamepad" label="Multimedia" />
+        <subcategory uuid="d8f35996-9eef-4fe2-aef7-b15635108dde" icon="monument" label="Museen" />
+        <subcategory uuid="9ec06074-7fbd-48eb-8f5c-f4b10c7cb025" icon="person-running" label="Sport" />
+        <subcategory uuid="4185b440-680e-4682-82f0-c4f2d5daf0c0" icon="table-tennis-paddle-ball" label="Sportartikel" />
+        <subcategory uuid="a9d12821-d8fa-4c81-865c-e17221a39d5b" icon="newspaper" label="Zeitschriften" />
+    </category>
+    <category type="expense" uuid="9b53d875-d8e0-4576-a683-521fc6ec435c" icon="suitcase-medical" label="Gesundheit">
+        <subcategory uuid="681a3d23-4fb4-4b47-9815-f874ce01b069" icon="prescription-bottle-medical" label="Apotheke" />
+        <subcategory uuid="c54e1a0d-d425-4b49-b013-a7edf9edc2a4" icon="user-doctor" label="Facharzt" />
+        <subcategory uuid="38caa54e-90b3-4056-999c-0bc8e8702553" icon="hospital" label="Krankenhaus" />
+        <subcategory uuid="8b9d9589-fcf8-448b-b850-218535306402" icon="notes-medical" label="Krankenversicherung" />
+        <subcategory uuid="4dcad576-b1cb-4738-bce8-0c1a077c7f08" icon="wheelchair" label="Pflege" />
+        <subcategory uuid="50f8d431-d124-479d-9f08-a3c42c7bcc50" icon="stethoscope" label="Praktischer Arzt" />
+    </category>
+    <category type="expense" uuid="b9c4f1cd-ce7e-4d99-af3b-5d28b47708c9" icon="house" label="Haushalt">
+        <subcategory uuid="cfe42777-f395-427f-8ae3-8ae55679c51c" icon="garden" label="Gartengeräte" />
+        <subcategory uuid="f76ebae4-3f4e-4349-96e9-f60c68eccbe8" icon="appliance" label="Haushaltsgeräte" />
+        <subcategory uuid="aed343db-3ab3-4930-bdd8-5d55118f8a2c" icon="screwdriver-wrench" label="Werkzeug" />
+    </category>
+    <category type="expense" uuid="a3d206fe-4ae6-4b81-aabc-9f4d20363e7e" icon="paw" label="Haustiere">
+        <subcategory uuid="f6472f72-b8ca-41a7-9f53-2f5b9d7fdd2a" icon="bone" label="Futter" />
+        <subcategory uuid="21361503-bd4a-4f66-9211-e7c13a1cbaf3" icon="syringe" label="Tierarzt" />
+    </category>
+    <category type="expense" uuid="de21658d-6098-4340-8661-f545ab786f9d" icon="car" label="Kfzkosten">
+        <subcategory uuid="12e8655f-3c72-4553-969a-7d4b3c1e98f0" icon="cart-shopping" label="Autokauf" />
+        <subcategory uuid="0826ed09-2c0a-4982-80d3-602f92c368da" icon="car-burst" label="Autoversicherung" />
+        <subcategory uuid="90dfbe14-ba0a-4495-a839-de5454bde89f" icon="gas-pump" label="Kraftstoff" />
+        <subcategory uuid="947862d2-8c51-4adf-92df-82d24d6cb7c1" icon="lease" label="Leasingraten" />
+        <subcategory uuid="ab46b3cd-3a8b-4dce-ba5f-c261d1e79aba" icon="toll" label="Mautgebühren" />
+        <subcategory uuid="145b91a4-92d4-4f5c-8fb8-87a93794d0c7" icon="square-parking" label="Parkgebühren" />
+        <subcategory uuid="90501347-9e29-4295-b189-117b484f1b39" icon="car-battery" label="Reparaturen" />
+    </category>
+    <category type="expense" uuid="25f2fb21-93a4-4a39-8151-491b3d7eada1" icon="child" label="Kinder">
+        <subcategory uuid="a4aee0e9-5343-48fa-b925-71a9e250bddc" icon="bottle" label="Betreuung" />
+        <subcategory uuid="7aa4759e-cf78-4b31-ae5e-b7fadef05175" icon="bed" label="Internat" />
+        <subcategory uuid="875490d0-253a-4343-a6e7-d52c1bb2427a" icon="baby-carriage" label="Kindergarten" />
+        <subcategory uuid="330636a5-15c2-4e1c-86b8-38646e4adac5" icon="school" label="Schulgeld" />
+        <subcategory uuid="5b9ead52-1b26-432d-914a-fa79c71d2b65" icon="toys" label="Spielzeug" />
+        <subcategory uuid="f7f699ad-9557-4096-a101-6c670b54dd52" icon="pocket" label="Taschengeld" />
+    </category>
+    <category type="expense" uuid="3e809ef7-72f3-4828-be9e-8f56d51c7886" icon="mortgage" label="Kredit">
+        <subcategory uuid="fe4f009c-921e-4824-8efb-18a58df62b93" icon="battery-three-quarters" label="Bearbeitungsgebühr" />
+        <subcategory uuid="461779c7-3139-4d10-a591-393601a9e99e" icon="divide" label="Kreditrate" />
+        <subcategory uuid="747d28cb-cef9-4b2d-8562-d688443411ab" icon="right-from-bracket" label="Kreditspesen" />
+        <subcategory uuid="d3e357e8-499d-4cb1-9a80-acc60f83ffe3" icon="shield-halved" label="Kreditversicherung" />
+        <subcategory uuid="73fc6c82-5bd1-4893-ac65-cb6a53f0aea2" icon="percent" label="Kreditzinsen" />
+    </category>
+    <category type="expense" uuid="2adfede8-f853-49c7-8d9a-51ec362322ae" icon="pizza-slice" label="Lebensmittel">
+        <subcategory uuid="508c3381-6ebd-4e94-9fb4-b9e0e6b990be" icon="apple-whole" label="Nahrungsmittel" />
+        <subcategory uuid="85b001fb-46df-49ee-9bf6-a22aeb2c6ee5" icon="utensils" label="Restaurant" />
+        <subcategory uuid="be93f109-b145-4133-ae17-7474762937b8" icon="cart-shopping" label="Supermarkt" />
+    </category>
+    <category type="expense" uuid="c48be6c0-2508-44e4-ab86-70f297de620a" icon="right-from-bracket" label="Sonstige Ausgaben">
+        <subcategory uuid="96a4d05f-d549-4be6-affc-52bd7a38bda8" icon="church" label="Kirchenbeitrag" />
+        <subcategory uuid="d7e00a2c-05a6-4542-8934-f5b29dd5c7f4" icon="piggy-bank" label="Sparbeträge" />
+        <subcategory uuid="23af8e7a-8427-4876-b5d3-d50573c10839" icon="circle-dollar-to-slot" label="Spenden" />
+        <subcategory uuid="afebd5d5-dd16-42d6-94a0-0be383d2077e" icon="filter-circle-dollar" label="Unterhalt" />
+    </category>
+    <category type="expense" uuid="df6b0a49-494f-478f-baa7-675fa34e7df0" icon="cake-candles" label="Urlaub">
+        <subcategory uuid="1c975a7c-957a-4ef5-b6ee-2eb345bfeb5e" icon="train" label="Bahnkarten" />
+        <subcategory uuid="2a9af607-7bb3-462b-be50-0ef7ae3c1458" icon="plane" label="Flugtickets" />
+        <subcategory uuid="398f3707-c6fa-4eec-8734-a7faa618f794" icon="hotel" label="Hotel" />
+        <subcategory uuid="84d5d74f-e78a-43e7-8ec6-9db4d2f25658" icon="card-travel" label="Reisebüro" />
+        <subcategory uuid="9fff06a5-e0b3-4022-b815-73371bdb0625" icon="monument" label="Sehenswürdigkeiten" />
+    </category>
+    <category type="expense" uuid="7aca8e0e-255b-451e-b40d-07ef7346bf03" icon="shield-halved" label="Versicherungen">
+        <subcategory uuid="fcf9764a-fa45-4da2-a919-29794ae96f18" icon="heart-crack" label="Haftpflichtversicherung" />
+        <subcategory uuid="36632542-0601-4054-a382-ee8ff6b09f56" icon="user-shield" label="Lebensversicherung" />
+        <subcategory uuid="ee8b3d73-c8b6-44de-9976-c3428110c73e" icon="scale-balanced" label="Rechtsschutzversicherung" />
+    </category>
+    <category type="expense" uuid="a80deeb4-9345-4199-b91b-9c7eed3b6132" icon="house" label="Wohnung">
+        <subcategory uuid="44b4ccbc-508f-40de-9190-3dfb11050b2e" icon="battery-three-quarters" label="Betriebskosten" />
+        <subcategory uuid="9c8cc539-8750-4d63-baac-3ca39288882f" icon="couch" label="Einrichtung" />
+        <subcategory uuid="f969714c-f788-4ac1-a309-66d6fe772978" icon="house-chimney-crack" label="Haushaltsversicherung" />
+        <subcategory uuid="9385e645-184a-47e1-9729-8e93ee40c522" icon="plug" label="Kabeltv" />
+        <subcategory uuid="3eb4fb1c-d925-4369-b9dc-c07ed44b8593" icon="key" label="Miete" />
+        <subcategory uuid="a43afae7-c133-41d9-b778-f1c23b95f9a0" icon="tv" label="Rundfunkgebühr" />
+        <subcategory uuid="a8c55d69-8f23-4eff-9049-a46208713bac" icon="bolt" label="Strom" />
+        <subcategory uuid="7b8d701d-db2b-4784-9cf5-4c39c4dc9514" icon="phone" label="Telefon" />
+        <subcategory uuid="f94df159-7e43-47bb-b9c8-4c72f58f0fd5" icon="water" label="Wasser" />
+    </category>
+    <category type="expense" uuid="ed8be4e1-084b-470c-9da7-1907ca385e85" icon="gift" label="Geschenke" />
+    <category type="expense" uuid="7975f282-223d-4865-a41d-be41be25aa33" icon="percent" label="Steuer">
+        <subcategory uuid="de57ef4e-f3a3-4214-a615-e0ed88620fcf" icon="taxes" label="Einkommenssteuer" />
+        <subcategory uuid="2a903b82-b153-4485-8393-3a7d945b2962" icon="fence" label="Grundsteuer" />
+        <subcategory uuid="3b4da543-5db8-4ea5-87d0-6392c8281b0a" icon="plus" label="Mehrwertsteuer" />
+    </category>
+</categories>
