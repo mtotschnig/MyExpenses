@@ -3,6 +3,9 @@
     android:id="@+id/text"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
+    android:padding="16dp"
+    android:textSize="18sp"
     android:background="?android:attr/colorBackground"
     android:textColor="?android:attr/textColorPrimary"
     android:theme="@style/Theme.Material3.DynamicColors.DayNight" />

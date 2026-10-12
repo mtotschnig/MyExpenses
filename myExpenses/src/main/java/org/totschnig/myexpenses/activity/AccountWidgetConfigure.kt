@@ -13,6 +13,7 @@ class AccountWidgetConfigure : BaseWidgetConfigure(), SortUtilityDialogFragment.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (isFinishing) return
         binding = AccountWidgetConfigureBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setResult(RESULT_CANCELED)

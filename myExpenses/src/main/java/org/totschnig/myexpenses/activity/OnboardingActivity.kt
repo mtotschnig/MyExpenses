@@ -31,6 +31,7 @@ import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.RestoreViewModel.Companion.KEY_BACKUP_FROM_SYNC
 import org.totschnig.myexpenses.viewmodel.RestoreViewModel.Companion.KEY_PASSWORD
 import org.totschnig.myexpenses.viewmodel.SyncViewModel.SyncAccountData
+import org.totschnig.myexpenses.widget.updateAllWidgets
 
 class OnboardingActivity : SyncBackendSetupActivity() {
     private lateinit var binding: OnboardingBinding
@@ -123,6 +124,7 @@ class OnboardingActivity : SyncBackendSetupActivity() {
     fun start() {
         prefHandler.putInt(PrefKey.CURRENT_VERSION, versionNumber)
         prefHandler.putInt(PrefKey.FIRST_INSTALL_VERSION, versionNumber)
+        updateAllWidgets(this)
         val intent = Intent(this, MyExpensesV2::class.java)
         startActivity(intent)
         finish()
