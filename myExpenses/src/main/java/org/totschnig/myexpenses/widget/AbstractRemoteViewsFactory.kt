@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.view.ContextThemeWrapper
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.isOnboardingCompleted
 import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.ui.UiUtils
@@ -50,6 +51,10 @@ abstract class AbstractRemoteViewsFactory(
 
     override fun onDataSetChanged() {
         cursor?.close()
+        if (!prefHandler.isOnboardingCompleted) {
+            cursor = null
+            return
+        }
         val token = Binder.clearCallingIdentity()
         try {
             cursor = buildCursor()

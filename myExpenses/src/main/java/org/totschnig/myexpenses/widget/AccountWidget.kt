@@ -92,7 +92,7 @@ class AccountWidget :
         appWidgetId: Int
     ) {
         val accountId = AccountRemoteViewsFactory.accountId(context, appWidgetId)
-        if (accountId != Long.MAX_VALUE.toString() && !isProtected(context)) {
+        if (accountId != Long.MAX_VALUE.toString() && !isProtected()) {
             updateSingleAccountWidget(context, appWidgetManager, appWidgetId, accountId)
         } else {
             super.updateWidgetDo(context, appWidgetManager, appWidgetId)
