@@ -8,9 +8,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.color.SimpleColorDialog
 import kotlinx.coroutines.launch
@@ -170,17 +167,11 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
 
         //type
         val typeAdapter = binding.AccountType.configureTypeSpinner()
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.accountTypes.collect { accountTypes ->
-                    typeAdapter.addAllAccountTypes(accountTypes)
-                    accountTypes.find { it.isCashAccount }?.let {
-                        binding.AccountType.setSelection(typeAdapter.getPosition(it.id))
-                    }
-                    nextButton.isEnabled = true
-                }
-            }
+        typeAdapter.addAllAccountTypes(AccountType.initialAccountTypes)
+        AccountType.initialAccountTypes.find { it.isCashAccount }?.let {
+            accountTypeSpinner.setSelection(typeAdapter.getPosition(it))
         }
+        nextButton.isEnabled = true
 
         //color
         binding.colorInput.setColor(viewModel.accountColor)
@@ -216,7 +207,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
         binding.MoreOptionsContainer.visibility = View.VISIBLE
     }
 
-    override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+    override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
         if (parent.id == R.id.Currency) {
             binding.Amount.setFractionDigits(selectedCurrency.fractionDigits)
         }

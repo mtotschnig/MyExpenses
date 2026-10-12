@@ -423,6 +423,10 @@ public class TransactionProvider extends BaseTransactionProvider {
   public static final String METHOD_CHECK_CURRENCY_IN_USE = "checkCurrencyInUse";
   public static final String METHOD_STORE_FRACTION_DIGITS = "storeFractionDigits";
 
+  public static final String METHOD_GET_DATABASE_INFO = "getDatabaseInfo";
+  public static final String KEY_SQLITE_VERSION = "sqliteVersion";
+  public static final String KEY_DATABASE_VENDOR = "databaseVendor";
+
   private static final UriMatcher URI_MATCHER;
 
   @Override
@@ -1823,6 +1827,9 @@ public class TransactionProvider extends BaseTransactionProvider {
         SupportSQLiteDatabase db = getHelper().getWritableDatabase();
         BaseTransactionProvider.Companion.storeFractionDigits(db, arg, extras);
         return null;
+      }
+      case METHOD_GET_DATABASE_INFO -> {
+        return getDatabaseInfo();
       }
     }
     return null;

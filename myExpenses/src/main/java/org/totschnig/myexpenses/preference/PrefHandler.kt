@@ -249,6 +249,13 @@ var PrefHandler.printLayoutColumnWidths: List<Int>
         saveIntList(PrefKey.PRINT_LAYOUT_COLUMN_WIDTH, value)
     }
 
+var PrefHandler.isOnboardingCompleted: Boolean
+    get() =  getBoolean(PrefKey.ONBOARDING_COMPLETED, false) ||
+            getInt(PrefKey.CURRENT_VERSION, -1) != -1
+    set(value) {
+        putBoolean(PrefKey.ONBOARDING_COMPLETED, value)
+    }
+
 enum class ColorSource {
     TYPE, SIGN, TYPE_WITH_SIGN;
 

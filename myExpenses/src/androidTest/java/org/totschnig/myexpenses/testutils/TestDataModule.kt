@@ -2,11 +2,15 @@ package org.totschnig.myexpenses.testutils
 
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.sqlite.db.SupportSQLiteOpenHelper
+import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.di.DataModule
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DatabaseVersionPeekHelper
+import org.totschnig.myexpenses.provider.TransactionDatabase
 import org.totschnig.myexpenses.util.ResultUnit
+import timber.log.Timber
 import java.util.UUID
 
 object TestDataModule: DataModule() {
@@ -24,4 +28,20 @@ object TestDataModule: DataModule() {
 
     override fun providePeekHelper(prefHandler: PrefHandler): DatabaseVersionPeekHelper =
         DatabaseVersionPeekHelper { _, _ -> ResultUnit }
+
+    // Bypass SQLCipher reflection in Robolectric tests
+    override fun provideSQLiteOpenHelper(
+        appContext: MyApplication,
+        prefHandler: PrefHandler,
+        provideDatabaseName: (Boolean) -> String
+    ): SupportSQLiteOpenHelper {
+        val encryptDatabase = prefHandler.encryptDatabase
+        Timber.w("building SupportSQLiteOpenHelper (encryptDatabase %b)", encryptDatabase)
+        return FrameworkSQLiteOpenHelperFactory().create(
+            SupportSQLiteOpenHelper.Configuration.builder(appContext)
+                .name(provideDatabaseName(encryptDatabase))
+                .callback(TransactionDatabase(appContext, prefHandler))
+                .build()
+        )
+    }
 }

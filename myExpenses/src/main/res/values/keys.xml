@@ -315,4 +315,5 @@
     <string name="whats_new_412">FinTS: Credit card transactions</string>
     <string name="menu_sync" tools:ignore="UnusedResources">@string/menu_sync_now</string>
     <string name="pro_badge">PRO</string>
+    <string name="database_info_format">%1$s\nSQLite %2$s</string>
 </resources>

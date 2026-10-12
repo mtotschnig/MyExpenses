@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.di
 
+import androidx.annotation.VisibleForTesting
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.google.gson.Gson
@@ -134,6 +135,10 @@ interface AppComponent {
     fun tracker(): Tracker
 
     fun prefHandler(): PrefHandler
+
+    @VisibleForTesting
+    @Named(DATABASE_NAME)
+    fun databaseNameProvider(): (Boolean) -> String
 
     fun licenceHandler(): LicenceHandler
 

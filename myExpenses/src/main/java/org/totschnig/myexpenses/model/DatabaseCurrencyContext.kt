@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.isOnboardingCompleted
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.KEY_CODE
 import org.totschnig.myexpenses.provider.KEY_COMMODITY_TYPE
@@ -137,8 +138,12 @@ open class DatabaseCurrencyContext(
         cursor.toCurrencyUnit()
     })
 
-    private fun fetchCurrency(currencyCode: String): CurrencyUnit =
-        contentResolver.query(
+    private fun fetchCurrency(currencyCode: String): CurrencyUnit {
+        if (!prefHandler.isOnboardingCompleted) {
+            return runCatching { CurrencyUnit(Currency.getInstance(currencyCode)) }
+                .getOrElse { CurrencyUnit(currencyCode, currencyCode, 2) }
+        }
+        return contentResolver.query(
             TransactionProvider.CURRENCIES_URI,
             null,
             "$KEY_CODE = ?",
@@ -148,6 +153,7 @@ open class DatabaseCurrencyContext(
             if (cursor.moveToFirst()) cursor.toCurrencyUnit() else null
         } ?: runCatching { CurrencyUnit(Currency.getInstance(currencyCode)) }
             .getOrElse { CurrencyUnit(currencyCode, currencyCode, 2) }
+    }
 
     override fun invalidate(currencyCode: String) {
         instances.remove(currencyCode)
@@ -181,8 +187,10 @@ open class DatabaseCurrencyContext(
         }
 
     override fun preload() {
-        scope.launch {
-            preloadCurrencies()
+        if (prefHandler.isOnboardingCompleted) {
+            scope.launch {
+                preloadCurrencies()
+            }
         }
     }
 }

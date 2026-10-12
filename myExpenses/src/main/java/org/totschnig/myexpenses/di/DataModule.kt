@@ -86,7 +86,7 @@ open class DataModule() {
     }
 
     @Provides
-    fun provideSQLiteOpenHelper(
+    open fun provideSQLiteOpenHelper(
         appContext: MyApplication,
         prefHandler: PrefHandler,
         @Named(AppComponent.DATABASE_NAME) provideDatabaseName: (@JvmSuppressWildcards Boolean) -> String,
