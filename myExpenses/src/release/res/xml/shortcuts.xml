@@ -7,12 +7,9 @@
         android:shortcutShortLabel="@string/transaction">
         <intent
             android:action="android.intent.action.MAIN"
-            android:targetClass="org.totschnig.myexpenses.activity.ExpenseEdit"
+            android:targetClass="org.totschnig.myexpenses.activity.SplashActivity"
             android:targetPackage="org.totschnig.myexpenses">
-            <extra android:name="autoFillMaySetAccount" android:value="true" />
-            <extra android:name="startFromWidget" android:value="true" />
             <extra android:name="startFromWidgetDataEntry" android:value="true" />
         </intent>
     </shortcut>
 </shortcuts>
-

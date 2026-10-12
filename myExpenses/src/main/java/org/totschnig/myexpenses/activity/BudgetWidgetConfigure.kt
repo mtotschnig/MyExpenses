@@ -47,6 +47,7 @@ class BudgetWidgetConfigure : BaseWidgetConfigure() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (isFinishing) return
         injector.inject(viewModel)
         setContent {
             AppTheme {

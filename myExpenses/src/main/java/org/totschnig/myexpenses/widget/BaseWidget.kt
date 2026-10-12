@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.isOnboardingCompleted
 import org.totschnig.myexpenses.util.ExchangeRateHandler
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -44,9 +45,8 @@ abstract class BaseWidget(private val protectionKey: PrefKey) : AppWidgetProvide
     @Inject
     lateinit var repository: Repository
 
-    protected open fun isProtected(context: Context) = prefHandler.isProtected &&
+    fun isProtected() = prefHandler.isProtected &&
             !prefHandler.getBoolean(protectionKey, false)
-
 
     abstract fun handleWidgetClick(context: Context, intent: Intent)
 
@@ -57,6 +57,7 @@ abstract class BaseWidget(private val protectionKey: PrefKey) : AppWidgetProvide
             WIDGET_CLICK -> handleWidgetClick(context, intent)
             WIDGET_CONTEXT_CHANGED -> intent.extras?.getIntArray(AppWidgetManager.EXTRA_APPWIDGET_IDS)
                 ?.let { onUpdate(context, AppWidgetManager.getInstance(context), it) }
+
             else -> super.onReceive(context, intent)
         }
     }
@@ -96,8 +97,29 @@ abstract class BaseWidget(private val protectionKey: PrefKey) : AppWidgetProvide
         appWidgetId: Int
     ) {
 
-        if (isProtected(context)) {
-            appWidgetManager.updateAppWidget(appWidgetId,
+        when {
+            !prefHandler.isOnboardingCompleted -> appWidgetManager.updateAppWidget(
+                appWidgetId,
+                RemoteViews(context.packageName, R.layout.widget_locked).apply {
+                    setOnClickPendingIntent(
+                        R.id.text,
+                        PendingIntent.getActivity(
+                            context,
+                            appWidgetId,
+                            Intent(
+                                context,
+                                org.totschnig.myexpenses.activity.SplashActivity::class.java
+                            ),
+                            PendingIntent.FLAG_IMMUTABLE
+                        )
+                    )
+                    setTextViewText(
+                        R.id.text, context.getString(R.string.onboarding_get_started)
+                    )
+                })
+
+            isProtected() -> appWidgetManager.updateAppWidget(
+                appWidgetId,
                 RemoteViews(context.packageName, R.layout.widget_locked).apply {
                     setOnClickPendingIntent(
                         R.id.text,
@@ -111,12 +133,13 @@ abstract class BaseWidget(private val protectionKey: PrefKey) : AppWidgetProvide
                         )
                     )
                     setTextViewText(
-                        R.id.text, context.getString(R.string.warning_password_protected) + " " +
+                        R.id.text,
+                        context.getString(R.string.warning_password_protected) + " " +
                                 context.getString(R.string.warning_widget_disabled)
                     )
                 })
-        } else {
-            updateWidgetDo(context, appWidgetManager, appWidgetId)
+
+            else -> updateWidgetDo(context, appWidgetManager, appWidgetId)
         }
     }
 
