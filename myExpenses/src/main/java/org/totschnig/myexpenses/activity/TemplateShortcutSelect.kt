@@ -40,6 +40,7 @@ class TemplateShortcutSelect : BaseWidgetConfigure() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (isFinishing) return
         title = getString(R.string.select_template)
         setContent {
             AppTheme {

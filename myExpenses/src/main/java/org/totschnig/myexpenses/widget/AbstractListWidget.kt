@@ -26,6 +26,14 @@ fun onConfigurationChanged(context: Context) {
     updateWidgets(context, TemplateWidget::class.java, WIDGET_CONTEXT_CHANGED)
 }
 
+
+fun updateAllWidgets(context: Context) {
+    updateWidgets(context, AccountWidget::class.java, AppWidgetManager.ACTION_APPWIDGET_UPDATE)
+    updateWidgets(context, TemplateWidget::class.java, AppWidgetManager.ACTION_APPWIDGET_UPDATE)
+    updateWidgets(context, BudgetWidget::class.java, AppWidgetManager.ACTION_APPWIDGET_UPDATE)
+}
+
+
 fun updateWidgets(
     context: Context,
     provider: Class<out AppWidgetProvider?>,
