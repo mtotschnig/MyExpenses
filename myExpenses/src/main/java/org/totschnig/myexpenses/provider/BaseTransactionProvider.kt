@@ -1156,6 +1156,36 @@ abstract class BaseTransactionProvider : ContentProvider() {
         )
     }
 
+    fun getDatabaseInfo(): Bundle {
+        val db = helper.readableDatabase
+        val sqliteVersion = try {
+            db.query("SELECT sqlite_version()").use { cursor ->
+                if (cursor.moveToFirst()) cursor.getString(0) else "Unknown"
+            }
+        } catch (_: Exception) {
+            "Unknown"
+        }
+
+        val cipherVersion = try {
+            db.query("PRAGMA cipher_version").use { cursor ->
+                if (cursor.moveToFirst() && !cursor.isNull(0)) cursor.getString(0) else null
+            }
+        } catch (_: Exception) {
+            null
+        }
+
+        val vendor = if (!cipherVersion.isNullOrEmpty()) {
+            "SQLCipher for Android ($cipherVersion)"
+        } else {
+            "Android SQLite"
+        }
+
+        return Bundle(2).apply {
+            putString(TransactionProvider.KEY_SQLITE_VERSION, sqliteVersion)
+            putString(TransactionProvider.KEY_DATABASE_VENDOR, vendor)
+        }
+    }
+
     private fun decrypt(currentDb: File, backupDir: File): Result<Unit> {
         val backupDb = getBackupDbFile(backupDir)
         DataModule.cryptProvider.decrypt(context!!, currentDb, backupDb)

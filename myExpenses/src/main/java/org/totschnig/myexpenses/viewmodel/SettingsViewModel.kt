@@ -98,6 +98,16 @@ class SettingsViewModel(
         TransactionProvider.METHOD_CHECK_CORRUPTED_DATA_987, null, null
     )?.getLongArray(TransactionProvider.KEY_RESULT)
 
+    fun getDatabaseInfo(): LiveData<Pair<String, String>> = liveData(kotlinx.coroutines.Dispatchers.IO) {
+        val bundle = contentResolver.call(
+            DUAL_URI,
+            TransactionProvider.METHOD_GET_DATABASE_INFO, null, null
+        )
+        val sqliteVersion = bundle?.getString(TransactionProvider.KEY_SQLITE_VERSION) ?: "Unknown"
+        val vendor = bundle?.getString(TransactionProvider.KEY_DATABASE_VENDOR) ?: "Unknown"
+        emit(Pair(vendor, sqliteVersion))
+    }
+
     fun dataCorrupted() = liveData(context = coroutineContext()) {
         corruptedIdList()?.let {
             emit(it.size)

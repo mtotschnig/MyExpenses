@@ -62,7 +62,10 @@ open class GroupedSpinnerAdapter<H, T : IdHolder>(
         notifyDataSetChanged()
     }
 
-    fun getPosition(item: T) = getPosition(item.id)
+    fun getPosition(item: T) = items.indexOfFirst {
+        val data = (it as? SpinnerItem.Item<*>)?.data
+        data == item || (item.id != 0L && data?.id == item.id)
+    }
     fun getPosition(id: Long) = items.indexOfFirst { it.itemId == id }
     fun getFirstSelectable(): IndexedValue<SpinnerItem>? = items.withIndex().firstOrNull { (_, item) -> item is SpinnerItem.Item<*> }
 

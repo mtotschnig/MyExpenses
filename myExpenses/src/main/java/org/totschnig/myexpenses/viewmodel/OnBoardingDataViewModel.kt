@@ -6,7 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.preference.isOnboardingCompleted
 
 private const val KEY_MORE_OPTIONS_SHOWN = "moreOptionsShown"
 private const val KEY_ACCOUNT_COLOR = "accountColor"
@@ -20,7 +22,9 @@ class OnBoardingDataViewModel(
     fun saveAccount(account: Account) {
         viewModelScope.launch(context = coroutineContext()) {
             _accountSaved.postValue(kotlin.runCatching {
-                account.createIn(repository)
+                prefHandler.isOnboardingCompleted = true
+                val accountType = account.type?.name?.let { repository.findAccountType(it) } ?: account.type
+                account.copy(type = accountType).createIn(repository)
                 Unit
             })
         }
