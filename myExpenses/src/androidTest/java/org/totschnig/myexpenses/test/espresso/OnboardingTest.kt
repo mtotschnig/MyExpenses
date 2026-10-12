@@ -19,7 +19,9 @@ import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions
 import com.google.common.truth.Truth.assertThat
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.After
+import org.junit.Assume
 import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyExpensesV2
@@ -27,6 +29,7 @@ import org.totschnig.myexpenses.activity.OnboardingActivity
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.TestShard4
+import org.totschnig.myexpenses.testutils.isOrchestrated
 import org.totschnig.myexpenses.util.Utils
 
 @TestShard4
@@ -95,8 +98,6 @@ class OnboardingTest : BaseUiTest<OnboardingActivity>() {
 
     @Test
     fun onboardingWithEncryption_savesDataToEncryptedDatabase() {
-        // 1. Launch OnboardingActivity
-        testScenario = ActivityScenario.launch(Intent(targetContext, OnboardingActivity::class.java))
 
         // 2. Navigate to Privacy Page (Page 1) and enable Encryption
         clickNextButton() // Move to Privacy
@@ -152,6 +153,15 @@ class OnboardingTest : BaseUiTest<OnboardingActivity>() {
                 }
             )
         )
+    }
+
+    companion object {
+        @JvmStatic
+        @BeforeClass
+        fun checkIsOrchestrated(): Unit {
+            //when testing via am instrument, precondition of a clean state is not met
+            Assume.assumeTrue(isOrchestrated)
+        }
     }
 }
 

@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.testutils.TestCoroutineModule
 import org.totschnig.myexpenses.testutils.TestDataModule
 import org.totschnig.myexpenses.testutils.TestFeatureModule
 import org.totschnig.myexpenses.testutils.TestViewModelModule
+import org.totschnig.myexpenses.testutils.withEncryption
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.time.Clock
@@ -55,7 +56,7 @@ class TestApp : MyApplication() {
     override fun buildAppComponent(): AppComponent = DaggerAppComponent.builder()
         .coroutineModule(TestCoroutineModule)
         .viewModelModule(TestViewModelModule)
-        .dataModule(TestDataModule)
+        .dataModule(TestDataModule { withEncryption })
         .featureModule(TestFeatureModule)
         .crashHandlerModule(object : CrashHandlerModule() {
             override fun providesCrashHandler(prefHandler: PrefHandler) = CrashHandler.NO_OP

@@ -5,6 +5,9 @@ import androidx.test.platform.app.InstrumentationRegistry
 val isOrchestrated: Boolean
     get() = !getBooleanInstrumentationArgument("withCleanup")
 
+val withEncryption: Boolean
+    get() = getBooleanInstrumentationArgument("withEncryption")
+
 fun getBooleanInstrumentationArgument(key: String) =
     getInstrumentationArgument(key, "false") == "true"
 
@@ -18,11 +21,13 @@ fun getInstrumentationArgument(key: String, defaultValue: String): String =
  * cleanup tasks by passing in argument "-e withCleanup true"
  *
  * ./gradlew clean :myExpenses:packageExternDebugUniversalApk assembleExternAndroidTest
- * a install myExpenses/build/outputs/apk_from_bundle/externDebug/myExpenses-extern-debug-universal.apk
- * a install myExpenses/build/outputs/apk/androidTest/extern/debug/myExpenses-extern-debug-androidTest.apk
- * for example run all tests in Espresso package:
- * ~/MyExpenses/myExpenses/src/androidTest/java/org/totschnig/myexpenses/test/espresso$ for i in *; do a shell am instrument --no-window-animation -w -e appendTimestamp false -e class org.totschnig.myexpenses.test.$(basename "$(pwd)").${i%.*} -e clearPackageData true -e withCleanup true org.totschnig.myexpenses.debug.test/org.totschnig.myexpenses.MyTestRunner; done
- */
+ * adb install myExpenses/build/outputs/apk_from_bundle/externDebug/myExpenses-extern-debug-universal.apk
+ * adb install myExpenses/build/outputs/apk/androidTest/extern/debug/myExpenses-extern-debug-androidTest.apk
+ *
+ * Run every test class across all subfolders in a separate am instrument call:
+ * for testClass in $(find myExpenses/src/androidTest/java/org/totschnig/myexpenses/test -type f \( -name "*Test.kt" -o -name "*Test.java" \) | sed 's|myExpenses/src/androidTest/java/||; s|/|.|g; s|\.kt$||; s|\.java$||'); do \
+ *   adb shell am instrument --no-window-animation -w -e clearPackageData true -e withCleanup true -e withEncryption true -e class "$testClass" org.totschnig.myexpenses.debug.test/org.totschnig.myexpenses.MyTestRunner; \
+ * done
 fun cleanup(work: () -> Unit) {
     if (!isOrchestrated) {
         work()
