@@ -1174,15 +1174,9 @@ abstract class BaseTransactionProvider : ContentProvider() {
             null
         }
 
-        val vendor = if (!cipherVersion.isNullOrEmpty()) {
-            "SQLCipher for Android ($cipherVersion)"
-        } else {
-            "Android SQLite"
-        }
-
         return Bundle(2).apply {
             putString(TransactionProvider.KEY_SQLITE_VERSION, sqliteVersion)
-            putString(TransactionProvider.KEY_DATABASE_VENDOR, vendor)
+            putString(TransactionProvider.KEY_CIPHER_VERSION, cipherVersion)
         }
     }
 

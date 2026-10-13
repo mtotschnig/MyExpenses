@@ -425,7 +425,7 @@ public class TransactionProvider extends BaseTransactionProvider {
 
   public static final String METHOD_GET_DATABASE_INFO = "getDatabaseInfo";
   public static final String KEY_SQLITE_VERSION = "sqliteVersion";
-  public static final String KEY_DATABASE_VENDOR = "databaseVendor";
+  public static final String KEY_CIPHER_VERSION = "cipherVersion";
 
   private static final UriMatcher URI_MATCHER;
 

@@ -28,11 +28,10 @@ class DatabaseEncryptionTest {
         )
 
         assertThat(bundle).isNotNull()
-        val vendor = bundle?.getString(TransactionProvider.KEY_DATABASE_VENDOR)
+        val cipherVersion = bundle?.getString(TransactionProvider.KEY_CIPHER_VERSION)
         val sqliteVersion = bundle?.getString(TransactionProvider.KEY_SQLITE_VERSION)
 
-        assertThat(vendor).isNotNull()
-        assertThat(vendor).contains("SQLCipher")
+        assertThat(cipherVersion).isNotNull()
         assertThat(sqliteVersion).isNotNull()
     }
 }

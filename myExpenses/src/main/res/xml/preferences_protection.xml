@@ -73,7 +73,6 @@
     <Preference
         android:key="@string/pref_encrypt_database_info_key"
         android:selectable="false"
-        android:summary="@string/database_is_encrypted"
         my:allowDividerAbove="true"
         my:isPreferenceVisible="false" />
     <PreferenceCategory

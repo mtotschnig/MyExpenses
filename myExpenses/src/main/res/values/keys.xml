@@ -315,7 +315,7 @@
     <string name="whats_new_412">FinTS: Credit card transactions</string>
     <string name="menu_sync" tools:ignore="UnusedResources">@string/menu_sync_now</string>
     <string name="pro_badge">PRO</string>
-    <string name="database_info_format">%1$s\nSQLite %2$s</string>
+    <string name="database_info_format">SQLite %1$s\nSQLCipher %2$s</string>
     <string name="database_encryption_notice_title">Important Notice on Database Encryption</string>
     <string name="database_encryption_notice_summary">If you enabled database encryption during initial setup on version 4.0.2 or later, please read the release announcement for version 4.1.3.1 for information on a critical security bug.</string>
 </resources>

@@ -24,10 +24,8 @@ import org.totschnig.myexpenses.provider.KEY_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_DATE
-import org.totschnig.myexpenses.provider.KEY_IS_PORTFOLIO
 import org.totschnig.myexpenses.provider.KEY_PLANID
 import org.totschnig.myexpenses.provider.KEY_ROWID
-import org.totschnig.myexpenses.provider.PORTFOLIO_NONE
 import org.totschnig.myexpenses.provider.PlannerUtils.Companion.checkLocalCalendar
 import org.totschnig.myexpenses.provider.PlannerUtils.Companion.deleteLocalCalendar
 import org.totschnig.myexpenses.provider.TransactionProvider
@@ -42,6 +40,7 @@ import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.io.displayName
 import java.io.File
 import java.util.concurrent.TimeUnit
+import kotlin.time.Duration.Companion.milliseconds
 
 class SettingsViewModel(
     application: Application,
@@ -55,6 +54,11 @@ class SettingsViewModel(
         val isDefault: Boolean
     )
 
+    data class DatabaseInfo(
+        val sqliteVersion: String,
+        val cipherVersion: String?
+    )
+
     private val _appDirInfo: MutableLiveData<Result<AppDirInfo>> = MutableLiveData()
     val appDirInfo: LiveData<Result<AppDirInfo>> = _appDirInfo
 
@@ -65,12 +69,6 @@ class SettingsViewModel(
         get() = contentResolver.observeQuery(
             TransactionProvider.STALE_IMAGES_URI,
             arrayOf("count(*)"), null, null, null, true
-        ).mapToOne { cursor -> cursor.getInt(0) > 0 }
-
-    val hasPortfolioAccounts: Flow<Boolean>
-        get() = contentResolver.observeQuery(
-            TransactionProvider.ACCOUNTS_MINIMAL_URI,
-            arrayOf("count(*)"), "$KEY_IS_PORTFOLIO != $PORTFOLIO_NONE", null, null, true
         ).mapToOne { cursor -> cursor.getInt(0) > 0 }
 
     fun logData() = liveData(context = coroutineContext()) {
@@ -98,14 +96,14 @@ class SettingsViewModel(
         TransactionProvider.METHOD_CHECK_CORRUPTED_DATA_987, null, null
     )?.getLongArray(TransactionProvider.KEY_RESULT)
 
-    fun getDatabaseInfo(): LiveData<Pair<String, String>> = liveData(kotlinx.coroutines.Dispatchers.IO) {
+    fun getDatabaseInfo(): LiveData<DatabaseInfo> = liveData(kotlinx.coroutines.Dispatchers.IO) {
         val bundle = contentResolver.call(
             DUAL_URI,
             TransactionProvider.METHOD_GET_DATABASE_INFO, null, null
         )
-        val sqliteVersion = bundle?.getString(TransactionProvider.KEY_SQLITE_VERSION) ?: "Unknown"
-        val vendor = bundle?.getString(TransactionProvider.KEY_DATABASE_VENDOR) ?: "Unknown"
-        emit(Pair(vendor, sqliteVersion))
+        emit(DatabaseInfo(bundle?.getString(TransactionProvider.KEY_SQLITE_VERSION) ?: "Unknown",
+            bundle?.getString(TransactionProvider.KEY_CIPHER_VERSION)
+        ))
     }
 
     fun dataCorrupted() = liveData(context = coroutineContext()) {
@@ -192,7 +190,7 @@ class SettingsViewModel(
         val start = System.nanoTime()
         val result = block()
         if (shouldWait(result)) {
-            delay(delayMillis - TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start))
+            delay((delayMillis - TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start)).milliseconds)
         }
         return result
     }
