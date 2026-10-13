@@ -464,6 +464,13 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
             .inRoot(isDialog())
             .perform(replaceText(time.format(DateTimeFormatter.ofPattern("mm"))))
 
+        if (!is24HourFormat) {
+            val periodId = if (time.hour < 12) RM.id.material_clock_period_am_button else RM.id.material_clock_period_pm_button
+            onView(allOf(withId(periodId), isDisplayed()))
+                .inRoot(isDialog())
+                .perform(click())
+        }
+
         onView(withId(RM.id.material_timepicker_ok_button))
             .inRoot(isDialog())
             .perform(click())
