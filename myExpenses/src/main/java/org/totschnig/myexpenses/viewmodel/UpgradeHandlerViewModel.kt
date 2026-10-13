@@ -677,6 +677,10 @@ class UpgradeHandlerViewModel(application: Application) :
                     }
                 }
 
+                if (fromVersion < 888 && prefHandler.encryptDatabase && prefHandler.getInt(PrefKey.FIRST_INSTALL_DB_SCHEMA_VERSION, -1) > 176) {
+                    migrationInfos.add(MigrationInfo(2))
+                }
+
                 prefHandler.putInt(PrefKey.CURRENT_VERSION, toVersion)
                 _upgradeInfo.update {
                     UpgradeSuccess(migrationInfos)
