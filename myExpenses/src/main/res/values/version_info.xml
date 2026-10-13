@@ -249,4 +249,7 @@
         <item>@string/whats_new_411_3</item>
         <item>@string/whats_new_411_4</item>
     </string-array>
+    <string-array name="whats_new_4131">
+        <item>@string/bug_fixes</item>
+    </string-array>
 </resources>
