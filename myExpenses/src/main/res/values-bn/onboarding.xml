@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="testData_account1Label">আমার ওয়ালেট</string>
+    <string name="testData_account1Description">দৈনন্দিন খরচ</string>
+    <string name="testData_account2Label">প্যারিসে উইকএন্ড</string>
+    <string name="testData_account3Label">ব্যাংক অ্যাকাউন্ট</string>
+    <string name="testData_account3Description">সোনালী ব্যাংক</string>
+    <string name="testData_transaction2Comment">ফলমূল ও শাকসবজি</string>
+    <string name="testData_transaction4Payee">পিৎজারিয়া আন্তোনেলা</string>
+    <string name="testData_templatePayee">রহিম শেখ</string>
+    <string name="testData_tag_project">শিরোনামহীন প্রজেক্ট</string>
+</resources>

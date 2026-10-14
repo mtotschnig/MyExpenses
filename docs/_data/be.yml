@@ -1,0 +1,32 @@
+be:
+  imprint: Выдавецкія звесткі
+  imprint_text: Адказнасць за змест гэтага сайта, распрацоўку, падтрымку і распаўсюджванне <i>{app_name}</i>
+  hero_main: Персанальны фінансавы менеджэр для Android
+  hero_sub:
+    use: Просты ў выкарыстанні
+    functionality: Багаты функцыянал
+    source: Адкрыты зыходны код
+  sections:
+    features: Магчымасці
+    premium: Атрымаць Premium
+    participate: Удзельнічаць
+    faq: FAQ
+    versionlist: Спіс змяненняў
+    credits: Падзякі
+    licence: Ліцэнзія
+    sourcecode: Зыходны код
+    links: Спасылкі
+  privacy_policy_heading: Палітыка прыватнасці
+  menu_title:
+    more_information: Дадатковая інфармацыя
+  screenshot_titles:
+    group: Групаванне па гадах, месяцах або тыднях
+    summarize: Плён усіх вашых рахункаў
+    budget: Гадавыя, штомесячныя і штотыднёвыя бюджэты
+    split: Падзел на некалькі катэгорый
+    distribution: Кругавая дыяграма
+    history: Гісторыя вашага фінансавага становішча
+    export: Экспарт у PDF, QIF і CSV
+    sync: Воблачная сінхранізацыя
+  store:
+    short_description: "Просты ў выкарыстанні фінансавы менеджэр: багаты функцыянал і адкрыты код"

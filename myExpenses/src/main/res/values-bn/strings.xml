@@ -24,7 +24,7 @@
     <string name="account_type_liability">দায়বদ্ধতা অ্যাকাউন্ট</string>
     <string name="already_defined">%1$s ইতিমধ্যে সংজ্ঞায়িত</string>
     <string name="amount">পরিমাণ</string>
-    <string name="app_name">My Expenses</string>
+    <string name="app_name">আমার খরচ</string>
     <string name="backup_success">ডাটাবেস এবং পছন্দসমূহ সফলভাবে \"%1$s\" এ লেখা হয়েছে।</string>
     <string name="category">ক্যাটাগরি</string>
     <string name="contrib_feature_ad_free_label">কোন বিজ্ঞাপন নেই</string>
