@@ -1,47 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  This file is part of My Expenses.
-  My Expenses is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-  
-  My Expenses is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public License
-  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- --><resources xmlns:tools="http://schemas.android.com/tools">
+<?xml version='1.0' encoding='utf-8'?>
+<resources xmlns:ns0="http://schemas.android.com/tools">
     <string name="account">账户</string>
-    <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">账户类型</string>
     <string name="account_type_asset">其他资产</string>
     <string name="account_type_bank">银行账户</string>
     <string name="account_type_cash">现金账户</string>
     <string name="account_type_ccard">信用卡</string>
     <string name="account_type_liability">其他负债账户</string>
+    <string name="account_type_investment">投资</string>
     <string name="already_defined">%1$s 已被定义</string>
     <string name="amount">金额</string>
     <string name="app_name">开支助手</string>
     <string name="backup_success">数据库与首选项已成功写入“%1$s”</string>
     <string name="category">类别</string>
-    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">无广告</string>
-    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">无限数量的账户</string>
-    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">可附加交易图片</string>
-    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">圆饼统计图 (会根据每个类别作出统计图表)</string>
-    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">无限数量的收支计划</string>
-    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">可将交易记录清单以PDF的文件型式导出</string>
-    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">导入 CSV</string>
-    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">无限数量的拆分款项模板</string>
-    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>电子邮件支持</b>，保证在2个工作日内回复</string>
-    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">对<b>程序开发路线图</b>的投票权</string>
-    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">收支历史图表</string>
+    <string name="contrib_feature_ad_free_label" ns0:ignore="UnusedResources">无广告</string>
+    <string name="contrib_feature_accounts_unlimited_label" ns0:ignore="UnusedResources">无限数量的账户</string>
+    <string name="contrib_feature_attach_picture_label" ns0:ignore="UnusedResources">可附加交易图片</string>
+    <string name="contrib_feature_distribution_label" ns0:ignore="UnusedResources">圆饼统计图 (会根据每个类别作出统计图表)</string>
+    <string name="contrib_feature_plans_unlimited_label" ns0:ignore="UnusedResources">无限数量的收支计划</string>
+    <string name="contrib_feature_print_label" ns0:ignore="UnusedResources">可将交易记录清单以PDF的文件型式导出</string>
+    <string name="contrib_feature_csv_import_label" ns0:ignore="UnusedResources">导入 CSV</string>
+    <string name="contrib_feature_split_template_label" ns0:ignore="UnusedResources">无限数量的拆分款项模板</string>
+    <string name="contrib_feature_pro_support_label" ns0:ignore="UnusedResources">
+        <b>电子邮件支持</b>，保证在2个工作日内回复</string>
+    <string name="contrib_feature_roadmap_voting_label" ns0:ignore="UnusedResources">对<b>程序开发路线图</b>的投票权</string>
+    <string name="contrib_feature_history_label" ns0:ignore="UnusedResources">收支历史图表</string>
+    <string name="contrib_feature_category_tree_label">任意深的类别层次结构</string>
+    <string name="contrib_feature_synchronization_label" ns0:ignore="UnusedResources">云同步</string>
     <string name="licence_status_free">免费版</string>
     <string name="contrib_key">贡献版密钥(Contrib Key)</string>
     <string name="extended_key">扩展版密钥</string>
-    <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
     <string name="contrib_key_requires">需要 %1$s.</string>
     <string name="currency">货币</string>
     <string name="current_balance">当前余额</string>
@@ -57,11 +45,16 @@
     <string name="dialog_command_disabled_balance">没有已结算或已入帐的交易需要去对帐。</string>
     <string name="dialog_command_disabled_insert_transfer">需要建立第二个账户才可以互相转账。</string>
     <string name="dialog_contrib_reminder_remove_limitation">移除这个限制并访问更多功能，方法是升级 <i>{app_name}</i>。</string>
-    <string name="dialog_contrib_text_1"><i>{app_name}</i>以开源方式提供。</string>
+    <string name="dialog_contrib_text_1">
+        <i>{app_name}</i>以开源方式提供。</string>
     <string name="dialog_contrib_text_2">请透过升级来赞助<i>{app_name}</i>，还可以解锁得到以下更多的功能:</string>
-    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">依据您目前许可证(%2$s)的权限，您可以建立%1$d个账户。</string>
-    <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">依据您目前的版本(%2$s)的权限，您可以创建%1$d个收支计划。</string>
+    <string name="dialog_contrib_trial_info" ns0:ignore="PluralsCandidate">你目前的许可证状态（%1$s）允许你试用 %2$s %3$d 天（直至 %4$s）。</string>
+    <string name="dialog_contrib_trial_info_play">此免费试用永远不会转换为任何类型的订阅。</string>
+    <string name="dialog_contrib_subscription_info_play">此订阅立即生效，按月或按年计费，并且可以随时取消。</string>
+    <string name="dialog_contrib_usage_limit_accounts" ns0:ignore="PluralsCandidate">依据您目前许可证(%2$s)的权限，您可以建立%1$d个账户。</string>
+    <string name="dialog_contrib_usage_limit_plans" ns0:ignore="PluralsCandidate">依据您目前的版本(%2$s)的权限，您可以创建%1$d个收支计划。</string>
     <string name="dialog_contrib_usage_limit_split_templates">依据您目前许可证(%1$s)的权限，您可以创建1个拆分款项的模板。</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">当前的许可证状态（%1$s）下，每次使用都将显示此对话框。</string>
     <string name="dialog_export_delete">删除已导出的交易</string>
     <string name="dialog_export_not_yet_exported">只导出尚未导出的交易</string>
     <string name="dialog_password_activate_protection">启用密码保护</string>
@@ -76,17 +69,15 @@
     <string name="dialog_remind_rate_yes">现在评分</string>
     <string name="dialog_security_answer">答案</string>
     <string name="dialog_security_question">安全问题</string>
-    <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">结平%1$s</string>
     <string name="dialog_title_contrib_feature">高级功能</string>
     <string name="dialog_title_warning_delete_account">删除账户？</string>
+    <string name="dialog_title_warning_delete_closed_account">确定要删除已关闭的账户？</string>
     <string name="dialog_title_warning_delete_category">要删除类别吗?</string>
     <string name="dialog_title_warning_delete_template">要删除模板吗?</string>
     <string name="dialog_title_warning_delete_transaction">要删除交易吗?</string>
     <string name="expense">支出</string>
-    <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure">开支导出到文件 %1$s 失败: %2$s</string>
-    <!-- 1$s is replaced with path to file -->
     <string name="export_sdcard_success">成功把数据导出到了文件 \"%1$s\\</string>
     <string name="feedback">意见反馈</string>
     <string name="ftp_uri_malformed">异常URI %1$s</string>
@@ -109,13 +100,10 @@
     <string name="licence_validation_success">授权密钥验证成功:</string>
     <string name="licence_validation_premium">高级功能已经解锁。</string>
     <string name="menu_aggregates">总计</string>
-    <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
     <string name="menu_apply_template">应用</string>
     <string name="menu_back">时间向前(过去)</string>
     <string name="menu_backup">备份</string>
-    <!-- Balance: compare cleared balance in app with balance on statement received from bank -->
     <string name="menu_balance">结平账户</string>
-    <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
     <string name="menu_cancel_plan_instance">取消</string>
     <string name="menu_clone_transaction">复制</string>
     <string name="menu_contrib">贡献</string>
@@ -153,12 +141,10 @@
     <string name="menu_forward">时间向后(未来)</string>
     <string name="menu_grouping">分组</string>
     <string name="menu_help">帮助</string>
-    <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">倒置</string>
     <string name="menu_manage_plans">模板与计划</string>
     <string name="menu_reset">导出和重置</string>
     <string name="menu_reset_all">导出和重置所有</string>
-    <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
     <string name="menu_reset_plan_instance">重置</string>
     <string name="menu_save">保存</string>
     <string name="menu_save_and_new">保存并新建</string>
@@ -192,6 +178,7 @@
     <string name="parse_error_grisbi_version_not_supported">不支持的Grisbi文件版本：%1$s</string>
     <string name="parse_error_other_exception">遇到错误: %1$s</string>
     <string name="parse_error_parse_exception">无法分析的文件</string>
+    <string name="parse_error_at_line">第 %1$d 行发生错误：%2$s</string>
     <string name="password_disabled_reenable">密码保护已被停用。您可以在设置中重新启用它。</string>
     <string name="password_lost">忘记密码</string>
     <string name="password_not_valid">密码无效。请再试一次!</string>
@@ -200,19 +187,14 @@
     <string name="payee">收款人</string>
     <string name="payer">付款人</string>
     <string name="payer_or_payee">交易对手</string>
-    <!-- Plan for future and recurring transactions -->
     <string name="plan">计划</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
     <string name="plan_automatic">自动应用</string>
-    <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
     <string name="plan_calendar_name">{app_name} 规划日历</string>
     <string name="planner_notification_channel_name">规划日历</string>
     <string name="plan_event_deleted">与此模板关联的计划已从日历中删除。</string>
-    <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">计划执行已取消</string>
     <string name="planner_create_calendar_failure">无法创建本地规划日历</string>
     <string name="planner_create_calendar_success">本地规划日历已成功创建</string>
-    <!-- payment methods -->
     <string name="pm_cheque">支票</string>
     <string name="pm_creditcard">信用卡</string>
     <string name="pm_deposit">存款</string>
@@ -234,10 +216,9 @@
     <string name="pref_export_format_title">数据格式</string>
     <string name="pref_import_from_grisbi_summary">从 Grisbi XML 文件导入类别和交易对象</string>
     <string name="pref_import_from_grisbi_title">从 Grisbi 导入</string>
-    <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_summary">从 %s 文件中导入交易项目、类别和交易对象</string>
-    <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">导入 %s</string>
+    <string name="pref_news_title">新闻</string>
     <string name="pref_manage_accounts_title">账户</string>
     <string name="pref_manage_categories_summary">添加、编辑或删除类别。</string>
     <string name="pref_manage_categories_title">类别</string>
@@ -246,12 +227,10 @@
     <string name="pref_manage_parties_summary">添加、编辑或删除交易对手方。</string>
     <string name="pref_manage_parties_title">交易对手</string>
     <string name="pref_manage_sync_backends_title">同步后端</string>
-    <!-- %s will be replaced with list of backends -->
     <string name="pref_manage_sync_backends_summary">添加用于同步账户的后端（%s）。</string>
     <string name="pref_more_info_dialog_title">许可 &amp; 鸣谢</string>
     <string name="pref_password_not_equal">密码不匹配</string>
     <string name="pref_perform_share_title">分享导出的备份文件</string>
-    <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">创建新的本地计划日历</string>
     <string name="pref_planning_calendar_summary">选择存储未来和定期交易计划的日历</string>
     <string name="pref_protection_delay_seconds_summary">在应用程序被密码锁定之前的闲置秒数。</string>
@@ -269,7 +248,6 @@
     <string name="pref_share_target_title">上载网址</string>
     <string name="pref_shortcut_summary">将快捷方式添加到主屏幕</string>
     <string name="pref_ui_home_screen_shortcuts">主屏快捷方式</string>
-    <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">语言</string>
     <string name="pref_ui_theme_dark">深色</string>
     <string name="pref_ui_theme_light">浅色</string>
@@ -287,7 +265,7 @@
     <string name="restore_preferences_failure">首选项还原失败</string>
     <string name="restore_backup_file_not_found">文件 %1$s 未在压缩文件 \"%2$s\\ 内被找到</string>
     <string name="restore_preferences_success">首选项已通过备份恢复</string>
-    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d计划已从备份中还原</string>
+    <string name="restore_calendar_success" ns0:ignore="PluralsCandidate">%d计划已从备份中还原</string>
     <string name="save_transaction_and_new_success">保存成功</string>
     <string name="save_transaction_error">无法从模板保存新的交易。</string>
     <plurals name="save_transaction_from_template_success">
@@ -310,7 +288,6 @@
     <string name="sum_expenses">支出</string>
     <string name="sum_income">收入</string>
     <string name="sum_transfer">转帐</string>
-    <!-- platform is replaced with Android or Blackberry -->
     <string name="tell_a_friend_message">{app_name}, 个人理财工具 {platform}版, {website}</string>
     <string name="thank_you">感谢您的支持!</string>
     <string name="time">时间</string>
@@ -321,7 +298,6 @@
     <string name="transfer">转帐</string>
     <string name="transfer_from_account">由</string>
     <string name="transfer_to_account">至</string>
-    <!-- Type refers to the type of an account, eg. Cash account, bank account -->
     <string name="type">类型</string>
     <string name="unsplit_amount">金额合并</string>
     <string name="unsplit_amount_greater_than_zero">还有一些金额没有拆分。</string>
@@ -347,14 +323,13 @@
     <string name="warning_instantiate_template_from_widget_password_protected">只有\"程序设置\"-&gt;\"保护设置\"-&gt;\"从小部件和快捷方式输入数据\"-&gt;\"无需密码即可允许此操作\"的设置时，您才能从小部件widget上快速实例化模板。</string>
     <string name="warning_password_contrib">设置安全问题可让您解锁应用程序，以防万一您忘记密码。</string>
     <string name="warning_reset_account">如果继续，此账户的所有交易将从数据库中删除，并且无法还原。</string>
-    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">如果继续，%1$s所有账户和当中的所有交易将从数据库中删除，并且无法还原。</string>
     <string name="warning_reset_account_matched">如果继续，与当前筛选器匹配的交易项目将从数据库中删除，并且无法还原。</string>
     <string name="warning_restore">数据库与首选项将通过文件“%1$s”恢复，当前数据将被删除</string>
-    <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">请在%1$d和%2$d之间设置一个数字</string>
+    <string name="validation_error_number_out_of_range" ns0:ignore="PluralsCandidate">请在%1$d和%2$d之间设置一个数字</string>
     <string name="warning_change_fraction_digits_1">需要更新数据库中的金额以匹配新的小数位数。</string>
-    <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">如果未更新金额，则更改后它们将显示为乘以%d。</string>
-    <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">如果未更新金额，则更改后它们将显示为除以%d。</string>
+    <string name="warning_change_fraction_digits_2_multiplied" ns0:ignore="PluralsCandidate">如果未更新金额，则更改后它们将显示为乘以%d。</string>
+    <string name="warning_change_fraction_digits_2_divided" ns0:ignore="PluralsCandidate">如果未更新金额，则更改后它们将显示为除以%d。</string>
     <string name="warning_change_fraction_digits_3">如果金额被更新，您将丢失有关其小数部分的信息。</string>
     <string name="warning_change_fraction_digits_checkbox_label">更新数据库中的金额</string>
     <plurals name="import_categories_result">
@@ -389,21 +364,18 @@
     <string name="comparison_operator_equal">等于</string>
     <string name="comparison_operator_greater_than">大于</string>
     <string name="comparison_operator_lesser_than">小于</string>
-    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions between two specified dates. -->
     <string name="comparison_operator_between">之间</string>
-    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions before a specified date.  -->
     <string name="comparison_operator_date_before">之前</string>
-    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">之后</string>
-    <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">购买失败或被取消。</string>
+    <string name="premium_failed_or_canceled" ns0:ignore="UnusedResources">购买失败或被取消。</string>
     <string name="hint_auto_fill">对于同一交易对手方是否自动填入上次交易的数据？您可以随时在设置中更改此行为。</string>
-    <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">货币为 %2$s 的账户 %1$d 已更新。</string>
+    <string name="change_fraction_digits_result" ns0:ignore="PluralsCandidate">货币为 %2$s 的账户 %1$d 已更新。</string>
     <string name="import_source_file">文件</string>
-    <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">陈旧图像</string>
     <string name="pref_manage_stale_images_summary">管理已删除交易后，所留下的图片</string>
     <string name="transaction_deleted">交易已删除</string>
     <string name="account_deleted">账户已被删除</string>
+    <string name="budget_deleted">预算已经被删除</string>
     <string name="dialog_export_applied_to_filter">只有与当前筛选器相匹配的交易才会被考虑。</string>
     <string name="export_handle_deleted_create_helper">创建交易助手</string>
     <string name="export_handle_deleted_update_balance">更新初始余额</string>
@@ -417,7 +389,7 @@
     <string name="pref_csv_import_delimiter">分隔符</string>
     <string name="menu_parse">分析</string>
     <string name="csv_import_field_mapped_more_than_once">%s已映射多次。</string>
-    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d 笔记录被放弃。</string>
+    <string name="csv_import_records_discarded" ns0:ignore="PluralsCandidate">%d 笔记录被放弃。</string>
     <string name="csv_import_subcategory_requires_category">如果您映射子类别，则还必须映射主类别。</string>
     <string name="cvs_import_set_first_line_as_header">是否应把第一行当作标题行？</string>
     <string name="csv_import_no_mapping_found_for_amount">请映射到金额、收入或支出其中一列。</string>
@@ -427,14 +399,14 @@
     <string name="pref_auto_backup_title">启用自动备份</string>
     <string name="pref_auto_backup_summary">每天在指定时间备份数据库（仅当数据已变更时）。</string>
     <string name="pref_auto_backup_time_title">自动备份的时间</string>
-    <string name="calendar_permission_required"><i>{app_name}</i>需要获得访问日历的权限，才能为将来和定期的交易创建计划。</string>
-    <string name="button_request_calendar_access" tools:ignore="UnusedResources">授权访问</string>
+    <string name="calendar_permission_required">
+        <i>{app_name}</i>需要获得访问日历的权限，才能为将来和定期的交易创建计划。</string>
+    <string name="button_request_calendar_access" ns0:ignore="UnusedResources">授权访问</string>
     <string name="menu_move">移动</string>
     <string name="dialog_title_select_target">选择目标</string>
     <string name="transform_subcategory_to_main">转换为主类别</string>
     <string name="preferences_week_start_day_title">周起始日</string>
     <string name="preferences_month_start_date_title">月起始日</string>
-    <!-- this is the title of the section in the preferences, where user can set start day for weekly and monthly groups -->
     <string name="pref_grouping_periods">分组起始日期</string>
     <string name="exchange_rate">汇率</string>
     <string name="date_format_hour">小时</string>
@@ -442,17 +414,15 @@
     <string name="pref_sort_order_last_used">最后使用的</string>
     <string name="pref_sort_order_custom">自定义</string>
     <string name="content_description_calculator">计算器</string>
-    <!-- describes the state of a plan instance that has not yet been applied, i.e. no transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_open">尚未被应用过</string>
-    <!-- describes the state of a plan instance that has been cancelled, i.e. it has been flagged it to be skipped. Used as content description for icon in list. -->
     <string name="plan_instance_state_cancelled">已取消</string>
-    <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">已应用</string>
     <string name="warning_cannot_move_split_transaction">此拆分交易无法移动到账户%1$s中，因为有部分转账已经引用到此账户。</string>
     <string name="content_description_calculator_delete_button">删除上一个数字</string>
     <string name="paypal_callback_info">您的交易已经完成，购买收据已经通过电子邮件发送给您。您可以从www.paypal.com登录您的账户以查看该交易的详细信息。</string>
     <string name="search_transfer">搜索转账</string>
-    <!-- Sort plans (recurring transactions) by the next instance  -->
+    <string name="search_account">搜索账户</string>
+    <string name="search_asset">搜索资产</string>
     <string name="pref_sort_order_next_instance">下一个实例</string>
     <string name="crash_dialog_title">{app_name}已故障崩溃</string>
     <string name="crash_dialog_text">一个意外错误的发生，导致应用程序被强制停止。请通过向我们发送错误数据来帮助我们解决此问题，您所要做的就是单击“确定”。</string>
@@ -466,6 +436,7 @@
     <string name="menu_sync_link">开始同步</string>
     <string name="menu_sync_download">下载并同步</string>
     <string name="pref_sync_frequency_summary">数据应多久同步一次（以小时为单位）。</string>
+    <string name="pref_sync_frequency_summary_0">设置为 0 以停用自动同步。</string>
     <string name="dialog_confirm_sync_unlink">如果您将该账户从%s取消链接，则同步状态将丢失。当您稍后再次链接它们时，则需要重新执行完整的同步。</string>
     <string name="dialog_sync_link">本地数据库和远程后端中都有 uuid 为 %s 的账户。当您链接两者时，首先要确认是要将本地数据上载到远程后端，还是要将远端数据下载到本地数据库。</string>
     <string name="dialog_command_sync_link_remote">从远程下载</string>
@@ -476,14 +447,14 @@
     <string name="dialog_confirm_sync_link_remote">该账户的本地数据将被删除。</string>
     <string name="warning_trial_limit_reached">%s功能的试用期已经结束。</string>
     <string name="warning_synchronization_folder_usage">{app_name}安装在不同设备上时，两者之间的数据同步在此文件夹里。请不要手动修改其任何内容。</string>
-    <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">您选择的文件夹对应于现有后端的一个账户。您需要选择其上层文件夹才能重用此后端。</string>
+    <string name="warning_synchronization_select_parent" ns0:ignore="UnusedResources">您选择的文件夹对应于现有后端的一个账户。您需要选择其上层文件夹才能重用此后端。</string>
     <string name="link_account_failure_2">具有相同uuid的账户已存在于远程后端上。</string>
     <string name="link_account_failure_3">可以从进入账户列表的快显菜单中手动解决冲突。</string>
     <string name="progress_dialog_checking_sync_backend">验证后端</string>
     <string name="template">模板</string>
-    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">云同步</string>
     <string name="all_contrib_key_features">贡献版密钥的所有功能</string>
     <string name="all_extended_key_features">扩展版密钥的所有功能</string>
+    <string name="buy">购买</string>
     <string name="pref_backup_cloud_summary">除了存储在本地设备之外，备份文件还可以复制到远程后端或云存储。</string>
     <string name="auto_backup_cloud_success">备份文件%1$s已成功存储在后端%2$s上。</string>
     <string name="number_of_fraction_digits">小数位数</string>
@@ -526,11 +497,10 @@
     <string name="n_months">%d个月</string>
     <string name="eu_vat_info">对于欧盟的居民，显示的价格不包括增值税。</string>
     <string name="valid_until">直到%s</string>
-    <!-- %1$s date, %2$s price  -->
     <string name="extend_until">延长至%1$s只要%2$s</string>
     <string name="extended_upgrade_goodie_github">已拥有“扩展版许可证”的用户，可享有一次额外的 %d 个月优惠</string>
-    <string name="switch_to_yearly" tools:ignore="UnusedResources">切换至年度订阅</string>
-    <string name="switch_to_monthly" tools:ignore="UnusedResources">切换到每月订阅</string>
+    <string name="switch_to_yearly" ns0:ignore="UnusedResources">切换至年度订阅</string>
+    <string name="switch_to_monthly" ns0:ignore="UnusedResources">切换到每月订阅</string>
     <string name="extend_validity">延长有效期</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">从远程后端获取数据中。这可能要花点时间。</string>
     <string name="donate_button_invoice">发票</string>
@@ -547,9 +517,7 @@
     <string name="menu_history_show_balance">显示收支结余</string>
     <string name="menu_history_transfers">包括转帐</string>
     <string name="menu_history">历史记录</string>
-    <!-- A label indicating the color for the sum of expenses -->
     <string name="history_chart_out_label">支出</string>
-    <!-- A label indicating the color for the sum of income -->
     <string name="history_chart_in_label">收入</string>
     <string name="menu_history_totals">显示总计</string>
     <string name="pref_home_currency_title">本国货币</string>
@@ -558,7 +526,6 @@
     <string name="menu_equivalent_amount">等价金额</string>
     <string name="warning_split_transactions">所选的交易将被组成一个拆分交易。它们原有的日期数据将会遗失，改由它们的平均值来替换。</string>
     <string name="warning_ungroup_split_transactions">所选的款项拆分交易将被取消分组，也就是说，它们的拆分款项将成为一般交易。</string>
-    <!-- This is the label for the action that breaks up a split transaction into its parts. -->
     <string name="menu_ungroup_split_transaction">取消交易拆分的分组</string>
     <string name="ungroup_split_transaction_success">已成功将 1 笔分拆交易变为未分组状态。</string>
     <string name="split_transaction_one_success">成功将交易转换为拆分款项。</string>
@@ -566,9 +533,7 @@
     <string name="split_transaction_not_possible">只有账户、交易对手方和状态相同的交易才能被组合成一个拆分交易。</string>
     <string name="pref_transaction_time_summary">允许设置确切的交易时间。</string>
     <string name="pref_value_date_summary">除了\"账面交易日期(booking date)\"外，还可以设置\"生效日期(value date)\"。交易时间将被隐藏。此设置不适用于现金账户。</string>
-    <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
     <string name="booking_date">账面交易日期(booking date)</string>
-    <!-- the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date -->
     <string name="value_date">生效日期(value date)</string>
     <string name="licence_expires_n_days">您的\"专业版密钥(Professional Key)\"将在%d天后过期。</string>
     <string name="licence_expires_tomorrow">您的\"专业版密钥(Professional Key)\"将于明天到期。</string>
@@ -581,18 +546,20 @@
     <string name="pref_sync_wifi_only_summary">仅在Wi-Fi上同步</string>
     <string name="pref_sync_changes_immediately_summary">立即将本地更改的数据写入后端</string>
     <string name="synchronization_postponed">同步被推迟。</string>
-    <!-- title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project -->
     <string name="pref_translation_title">翻译</string>
-    <!-- Short label for the amount input where user can set either saving goal or credit limit -->
     <string name="goal_or_limit">储蓄目标/信用额度</string>
     <string name="saving_goal">储蓄目标</string>
     <string name="credit_limit">信用额度</string>
     <string name="clear_all_filters">清除所有的筛选条件</string>
+    <string name="pref_scroll_to_current_date_title">将交易列表滚动至当前日期</string>
+    <string name="pref_scroll_to_current_date_app_launch">仅限应用程序启动时</string>
+    <string name="pref_scroll_to_current_date_account_open">每次导航至账户时</string>
     <string name="menu_budget">预算编制</string>
     <string name="dialog_title_edit_budget">编辑预算</string>
     <string name="budget_table_header_budgeted">预算</string>
     <string name="budget_table_header_allocated">已分配</string>
     <string name="budget_table_header_spent">已花费</string>
+    <string name="budget_table_header_overspent">超支</string>
     <string name="budget_allocated_amount">分配的金额</string>
     <string name="budget_exceeded_error_1_1">您的预算只剩下%s可以被分配，其他的金额都已分到其他类别了。</string>
     <string name="budget_exceeded_error_1_2">您的所有预算都已分配到其他类别。</string>
@@ -602,18 +569,14 @@
     <string name="sub_budget_exceeded_error_1_2">分配给主类别的所有金额已分配给其他子类别。</string>
     <string name="sub_budget_exceeded_error_2">请增加分配给主类别的金额，或从其他子类别中删除资金。</string>
     <string name="sub_budget_under_allocated_error">已经将%s分配给了子类别。若您打算减少主类别的预算，必须先调降子类别的金额。主类别的金额与子类别的总金额需要维持一致。</string>
-    <!-- Description for button that allows to clear the selected method -->
     <string name="content_description_clear_method">清除付款方法</string>
-    <!-- Description for button that allows to clear the selected category -->
     <string name="content_description_clear_category">清除类别</string>
+    <string name="content_description_remove_icon">移除图标</string>
     <string name="currency_code">代码</string>
     <string name="dialog_title_new_currency">新建货币</string>
     <string name="currency_code_already_definded">货币代码已经定义。</string>
     <string name="currency_still_used">货币正在使用中，无法删除。</string>
     <string name="unmapped">无类别</string>
-    <!-- In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
-    to search for transactions without category, payee or method. The UI allows selection of multiple items,
-    but we warn the user if he includes this special item in the selection.   -->
     <string name="unmapped_filter_only_single">“未分类项目”只能被单独筛选，不能包含在多个筛选条件中</string>
     <string name="pref_security_export_passphrase_title">设置备份的密码短语(Passphrase)</string>
     <string name="pref_security_export_passphrase_summary">备份将使用此密码短语(Passphrase)进行加密</string>
@@ -626,13 +589,9 @@
     <string name="warning_backup_protected">存储的文件将受到您的密码短语保护(Passphrase)。</string>
     <string name="input_label_passphrase">密码短语(Passphrase)</string>
     <string name="button_label_no_encryption">没有加密</string>
-    <!-- this resource is used to join a series of alternatives between which user can choose, like "A or B or C" -->
     <string name="joining_or">或</string>
-    <!-- Action of closing an account. A closed account does not allow any modifications on its data. -->
     <string name="menu_close">关闭</string>
-    <!-- Action of re-opening an account that had previously been closed. A closed account does not allow any modifications on its data. -->
     <string name="menu_reopen">重新开启</string>
-    <!-- Content description for icon that indicates that an account has been closed. A closed account does not allow any modifications on its data. -->
     <string name="content_description_closed">已关闭的</string>
     <string name="warning_synced_account_cannot_be_closed">链接到同步后端的账户无法关闭</string>
     <string name="translated_by">翻译者</string>
@@ -649,7 +608,6 @@
     <string name="pref_exchange_rates_api_key_summary">请在 %s 注册免费帐号后，在此输入注册后的 App ID</string>
     <string name="pref_plan_executor_time_title">通知时间</string>
     <string name="synchronization_select_folder_dialog_title">选择一个现有文件夹或创建一个新文件夹</string>
-    <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch">可以使用此开关钮切换记录支出或收入。</string>
     <string name="menu_create_budget">新建预算</string>
     <string name="budget_onetime">一次性</string>
@@ -668,31 +626,24 @@
     <string name="onboarding_privacy_title">您的数据掌握在您的手中</string>
     <string name="onboarding_privacy_intro">您的财务数据不会发送到任何由我们或任何第三方运营的服务器。</string>
     <string name="app_restart_required">新配置需要重启应用程序才能生效。</string>
-    <!-- Title of the submenu for changing the category, payer, payment method of multiple transactions. The entries of the submenu read "Category, "Payer", "Payment method" -->
     <string name="menu_remap">重新分配映射</string>
     <string name="dialog_title_confirm_remap">确定更改映射(%s)?</string>
     <string name="remap_category">所有选定的交易都将被分类到类别 %s。</string>
     <string name="remap_payee">所有选定的交易都将被映射到交易对手方 %s。</string>
+    <string name="remap_payee_null">将从所有选中的交易中移除交易对象。</string>
     <string name="remap_method">所有选定的交易都将被映射到付款方法 %s。</string>
     <string name="remap_account">所有选定的交易都将被映射到账户 %s。</string>
     <string name="remapping_result">所选交易已被重新分配映射。</string>
     <string name="clone_and_remap_result">所选交易已被复制并重新分配映射。</string>
-    <!-- If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
-        because no payment method is configured for all of the given account types.-->
     <string name="remap_empty_list">找不到一个项目可以映射到所有选定的交易。</string>
-    <!-- The label for the button, where user confirms that he wants to clone the selected transactions and then remap them. -->
     <string name="button_label_clone_and_remap">复制并重新分配映射</string>
-    <!-- The summary of a preference toggle. If switched on cloned transactions have the date set to the current date -->
     <string name="pref_clone_with_current_date_summary_on">复制的交易使用当前日期</string>
-    <!-- The summary of a preference toggle. If switched off cloned transactions keep the original date -->
     <string name="pref_clone_with_current_date_summary_off">复制的交易保留原本日期</string>
     <string name="tags_create_or_select">创建或选择标签</string>
     <string name="pref_manage_tags_summary">添加，编辑或删除标签。</string>
     <string name="dialog_title_warning_delete_tag">删除标签？</string>
     <string name="menu_edit_tag">编辑标签</string>
-    <!-- This appears in menu and on buttons and represent the action "to tag" as put a tag on a transaction -->
     <string name="menu_tag">标记标签</string>
-    <!-- %s will be replaced with the labels of all tags that user has selected. -->
     <string name="dialog_multi_tag">所有选定的交易都将被标记为%s。</string>
     <string name="dialog_multi_tag_clear">所有的标签都将从选定的交易中删除。</string>
     <plurals name="warning_delete_tag">
@@ -702,103 +653,91 @@
     <string name="dialog_multi_tag_replace">用新标签替换现有的标签</string>
     <string name="new_tag_hint">输入新标签</string>
     <string name="language_download_requested">要求 Google Play 商店 翻译%s语言</string>
-    <!-- Title for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
     <string name="pref_planner_manual_time_title">定期交易应用的时间</string>
-    <!-- Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction -->
     <string name="pref_planner_manual_time_noon">中午12时</string>
-    <!-- Option for a preference that allows to decide how the time will be set for a new instance of a recurring transaction (current time at moment of application) -->
     <string name="pref_planner_manual_time_current">当初创建定期交易的时间</string>
-    <!-- Title in Settings screen, and title of dynamically loaded feature module -->
     <string name="title_scan_receipt_feature">扫描收据</string>
     <string name="feature_download_requested">向 Google Play 商店 请求功能%s。</string>
     <string name="feature_downloaded">已安装功能%s。</string>
-    <!-- If this mode is active, the action button will open the camera for scanning a receipt  -->
     <string name="menu_scan_mode">扫描模式</string>
-    <!-- Button that triggers the scan operation -->
     <string name="button_scan">扫描</string>
     <string name="pref_ocr_total_indicators_title">总额指标</string>
     <string name="pref_ocr_total_indicators_summary">这是字符串列表，用来标识收据中的全部数值。请将每个数值放在新的一行上。若留置空白，可以恢复成默认格式。</string>
     <string name="pref_ocr_date_formats_title">日期格式</string>
     <string name="pref_ocr_time_formats_title">时间格式</string>
-    <!-- Title for a preference that allows user to decide if all transactions of the current day should be considered as past (future begins at end of day), or if the exact current time divides between past and future  -->
     <string name="pref_criterion_futur_title">未来交易的时间标准</string>
-    <!-- Option for a preference that allows to decide that all transactions until end of day are considered past transactions -->
     <string name="pref_criterion_future_end_of_day">一天的结束</string>
-    <!-- Option for a preference that allows to decide that only transactions before current time are considered past transactions -->
     <string name="pref_criterion_future_current">当前时间</string>
-    <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
     <string name="pref_category_title_features">功能</string>
-    <!-- After text recognition has been run on an image, if multiple strings are found that can be interpreted as date, amount or payee, a dialogue is shown allowing to select between these "candidates". This message is the title of this dialogue.  -->
     <string name="scan_result_multiple_candidates_dialog_title">找到多种待选项目。请选择：</string>
     <string name="scan_result_no_amount">找不到金额</string>
     <string name="scan_result_no_date">找不到日期</string>
     <string name="scan_result_no_payee">找不到收款人</string>
     <string name="pref_feature_uninstall_title">要求卸载\"功能\"和\"语言\"</string>
     <string name="pref_feature_uninstall_summary">Google Play 商店 尝试在后台删除这些模块。</string>
-    <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">请选择一个许可证包。</string>
-    <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">提前执行（以天为单位）</string>
     <string name="warning_balance_account_delete">如果继续，此账户的所有已对账交易将从数据库中删除，并且您将无法还原它们。</string>
-    <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
     <string name="confirmation_load_template_discard_data">现有的表格数据将被丢弃。</string>
     <string name="pref_clone_with_current_date_title">复制交易使用的日期</string>
     <string name="template_default_action_without_amount_hint">应该使用默认操作“编辑”来保存没有金额的模板</string>
     <string name="plan_automatic_without_amount_hint">没有金额的计划不应该将其储存成自动执行模式</string>
     <string name="content_description_edit_plan">在日历应用程序中编辑计划</string>
     <string name="menu_save_and_new_content_description">交易保存后，表单仍维持打开状态并保留相同的数据内容，方便多次新建类似的交易。</string>
-    <!-- Title of a preference where user can select between Ml Kit and Tesseract as Engine for Optical character recognition -->
     <string name="pref_ocr_engine_title">文字识别引擎</string>
-    <!-- Title of a preference where user can select language for text recognition with Tesseract -->
     <string name="pref_tesseract_language_title">Tesseract 的语言</string>
-    <!-- %s is replaced with language -->
     <string name="tesseract_download_confirmation">您是否要下载%s的文字识别数据？</string>
-    <!-- %s is replaced with language -->
     <string name="download_completed">下载（%s）已完成。</string>
-    <!-- %s is replaced with information on the engine or application used for running text recognition -->
     <string name="ocr_recognition_info">使用%s运行文字识别</string>
     <string name="ocr_download_info">文字识别功能由外部应用程序提供。</string>
-    <!-- %s is replaced with the title of the preference for setting a passphrase for backups (pref_security_export_passphrase_title) -->
     <string name="warning_unencrypted_backup">目前设备创建的是不加密的备份文件，它可以防止未经授权的访问。但若您要求加密的备份文件，请配置%s。</string>
-    <!-- Title of a preference switch that allows to configure display of group header. If switched on sums for income/expense/transfer are shown -->
     <string name="pref_group_header_show_details_summary">在分组标题中显示明细总和</string>
-    <!-- Title of a menu item and a dialogue that allow to adjust the current balance. User can enter the new balance, and transaction form is opened with the amount prefiled to the difference between old and new balance  -->
     <string name="new_balance">更新账户余额</string>
     <string name="title_webui">网络的用户界面</string>
     <string name="single_feature_info">或者，您可以购买仅此功能的无限制访问权限。</string>
-    <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">每月的最后一天</string>
     <string name="warning_link_transfer">选定的两笔交易将连接为转账。交易对手方和类别信息将被删除。</string>
-    <!-- This is the title of an entry on the configuration screen for the account widget. It allows to decide which number should be displayed for each account: the current balance or the total (which included future transactions) -->
     <string name="account_widget_configuration_sum">显示总金额的类型</string>
     <string name="account_widget_configuration_sum_total">包括未来交易</string>
-    <!-- Title of dialogue that allows to configure account widget -->
     <string name="account_widget_configuration">配置账户小部件widget</string>
-    <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
+    <string name="budget_widget_configuration">选择预算</string>
     <string name="merge_parties_select">请选择要合并的交易对象</string>
-    <string name="pref_category_title_crash_reports">故障报告</string>
-    <string name="backup_save_to_sync_backend">保存至%s</string>
-    <string name="pref_acra_user_email_summary">如果您愿意协助除错并允许我们联系您，请留下您的电子邮件地址。</string>
-    <string name="pref_enable_acra">允许自动发送崩溃报告</string>
-    <string name="crash_reports_user_info">{app_name} 将会自动向开发者发送应用程序崩溃报告，以便开发者可以快速解决问题。</string>
-    <string name="warning_plan_instance_delete">为选定日期创建的交易将被删除。</string>
-    <string name="new_version">新版本</string>
-    <string name="stability_improvements">稳定性改进</string>
-    <string name="performance_enhancement">性能增强</string>
-    <string name="bug_fixes">错误修复</string>
-    <string name="ui_refinement">用户界面的改进</string>
-    <string name="pref_acra_user_email">用户电子信箱地址将被包含在崩溃报告中</string>
-    <string name="auto_fill_focus">设置聚焦收款人字段</string>
-    <string name="request_for_invoice">请求发票</string>
     <string name="active_tags">活跃标签</string>
-    <string name="pref_news_title">新闻</string>
-    <string name="debt_managment">债务管理</string>
-    <string name="dialog_title_purge_backups">清除旧备份</string>
+    <string name="request_for_invoice">请求发票</string>
+    <string name="auto_fill_focus">设置聚焦收款人字段</string>
+    <string name="warning_plan_instance_delete">为选定日期创建的交易将被删除。</string>
+    <string name="crash_reports_user_info">{app_name} 将会自动向开发者发送应用程序崩溃报告，以便开发者可以快速解决问题。</string>
+    <string name="pref_category_title_crash_reports">故障报告</string>
+    <string name="pref_enable_acra">允许自动发送崩溃报告</string>
+    <string name="pref_acra_user_email">用户电子信箱地址将被包含在崩溃报告中</string>
+    <string name="pref_acra_user_email_summary">如果您愿意协助除错并允许我们联系您，请留下您的电子邮件地址。</string>
+    <string name="backup_save_to_sync_backend">保存至%s</string>
+    <string name="ui_refinement">用户界面的改进</string>
+    <string name="bug_fixes">错误修复</string>
+    <string name="performance_enhancement">性能增强</string>
+    <string name="stability_improvements">稳定性改进</string>
+    <string name="new_version">新版本</string>
+    <string name="menu_new_debt">新债务</string>
+    <string name="debt_owes_me">欠债人 %s</string>
+    <string name="debt_I_owe">债主 %s</string>
     <string name="debt">债务</string>
     <string name="debts">债务</string>
+    <string name="warning_party_delete_debt">删除该交易对象时，相关的债务也将一并删除。</string>
+    <plurals name="debt_mapped_transactions">
+        <item quantity="other">债务“%1$s”有 %2$d 笔映射交易。</item>
+    </plurals>
+    <string name="object_sealed_debt">对象是指已关闭的债务。</string>
+    <string name="debt_managment">债务管理</string>
+    <string name="title_activity_debt_overview">债务概览</string>
+    <string name="cb_label_merge_accounts">合并账户</string>
+    <string name="pref_mlkit_script_title">MlKit 脚本</string>
     <plurals name="import_categories_icons_updated">
         <item quantity="other">已更新 %1$d 个类别的图标</item>
     </plurals>
+    <string name="setup_completed">设置完成</string>
+    <string name="menu_parent_category_selection">短按选择父类别</string>
+    <string name="dialog_title_purge_backups">清除旧备份</string>
+    <string name="purge_backups">以下旧备份文件将被删除：</string>
     <plurals name="purge_backup_success">
         <item quantity="other">已清除 %d 个旧备份文件</item>
     </plurals>
@@ -807,66 +746,223 @@
     </plurals>
     <string name="pref_purge_backup_keep_title">最大备份文件数量</string>
     <string name="pref_purge_backup_require_confirmation_summary">清除文件之前显示确认提示</string>
-    <string name="purge_backups">以下旧备份文件将被删除：</string>
-    <string name="menu_new_debt">新债务</string>
-    <string name="debt_I_owe">债主 %s</string>
-    <plurals name="debt_mapped_transactions">
-        <item quantity="other">债务“%1$s”有 %2$d 笔映射交易。</item>
-    </plurals>
-    <string name="cb_label_merge_accounts">合并账户</string>
-    <string name="pref_mlkit_script_title">MlKit 脚本</string>
-    <string name="setup_completed">设置完成</string>
     <string name="pref_debug_logging_share_summary">分享日志文件</string>
-    <string name="contrib_feature_category_tree_label">任意深的类别层次结构</string>
-    <string name="dialog_contrib_usage_limit_with_dialog">当前的许可证状态（%1$s）下，每次使用都将显示此对话框。</string>
-    <string name="menu_parent_category_selection">短按选择父类别</string>
-    <string name="object_sealed_debt">对象是指已关闭的债务。</string>
-    <string name="title_activity_debt_overview">债务概览</string>
-    <string name="debt_owes_me">欠债人 %s</string>
-    <string name="warning_party_delete_debt">删除该交易对象时，相关的债务也将一并删除。</string>
     <string name="webui_warning_move_transaction">交易将移至账户 {account}。</string>
-    <string name="pref_csv_export_split_date_time_summary">日期和时间单独一列</string>
-    <string name="pref_csv_export_split_amount_summary">收入和支出单独一列</string>
-    <string name="budget_only_current_period">仅为“%s”设置</string>
-    <string name="rollover_edit_invalid">分配给一个类别的展期数额和分配给子类别的展期数额之和不能超过余额。</string>
-    <string name="budget_table_header_rollover">展期</string>
-    <string name="dialog_confirm_rollover_delete">此期间的所有展期金额将被删除。</string>
-    <string name="icons_for_categories">类别图标</string>
     <string name="pref_csv_export_split_categories_summary">每个类别层次结构级别单独一列</string>
+    <string name="pref_csv_export_split_amount_summary">收入和支出单独一列</string>
+    <string name="pref_csv_export_split_date_time_summary">日期和时间单独一列</string>
+    <string name="icons_for_categories">类别图标</string>
+    <string name="budget_only_current_period">仅为“%s”设置</string>
+    <string name="budget_table_header_rollover">展期</string>
+    <string name="rollover_edit_invalid">分配给一个类别的展期数额和分配给子类别的展期数额之和不能超过余额。</string>
+    <string name="dialog_confirm_rollover_delete">此期间的所有展期金额将被删除。</string>
     <string name="content_description_attachment">附件</string>
     <string name="redesign">重新设计</string>
     <string name="select_all_list_too_large">命令 %s 不可用，因为只加载了部分列表。请使用搜索功能以减少列表大小</string>
     <string name="menu_reconfigure">重新配置</string>
     <string name="encrypt_database">加密数据库</string>
-    <string name="database_is_encrypted">数据库已加密。</string>
-    <string name="github_sponsors"><![CDATA[Licence keys are also provided to <a href="%s">Github 赞助者</a>.]]></string>
     <string name="encrypt_database_info">数据库将通过无法从此设备提取的密码短语进行加密。该口令因而不会被你设备的备份服务所备份。</string>
-    <string name="notifications_permission_required_planner"><i>{app_name}</i> 需要获取权限才能在未来交易发生时向您发送通知</string>
+    <string name="database_is_encrypted">数据库已加密。</string>
+    <string name="github_sponsors">Licence keys are also provided to &lt;a href="%s"&gt;Github 赞助者&lt;/a&gt;.</string>
+    <string name="notifications_permission_required_planner">
+        <i>{app_name}</i> 需要获取权限才能在未来交易发生时向您发送通知</string>
+    <string name="notifications_permission_required_webui">通过授予发送通知的权限，你可以控制 Web 服务器的状态。</string>
+    <string name="notifications_permission_required_sync">通过授予发送通知的权限，您可以监控同步操作的进度</string>
+    <string name="notifications_permission_required_auto_backup">通过授予发送通知的权限，你将收到自动备份的通知。</string>
+    <string name="notifications_channel_required">请启用“%s”通知渠道</string>
     <string name="debt_installment_pay">我支付 %s 的分期付款</string>
     <string name="debt_installment_receive">我收到 %s 的分期付款</string>
     <string name="debt_lend_additional">我借出 %s</string>
-    <string name="notifications_permission_required_sync">通过授予发送通知的权限，您可以监控同步操作的进度</string>
-    <string name="notifications_channel_required">请启用“%s”通知渠道</string>
+    <string name="debt_borrow_additional">我借了 %s。</string>
+    <string name="debt_paid_off_other">%s 的债务已还清。</string>
+    <string name="debt_paid_off_self">我的债务已还清。</string>
+    <string name="debt_balance_i_owe">我现在欠 %s。</string>
+    <string name="debt_balance_they_owe">%1$s 现在欠 %2$s。</string>
+    <string name="pref_backup_file_prefix_title">文件前缀</string>
+    <string name="optimize_image_file_size">优化图片文件大小</string>
+    <string name="maximum_size">最大大小</string>
+    <string name="image_optimize_quality_summary">质量 0 表示压缩至最小文件大小；100 表示压缩以保持最大视觉质量。</string>
+    <string name="template_shortcut">模板快捷方式</string>
+    <string name="select_template">选择模板</string>
     <string name="add_shortcut">添加快捷方式</string>
+    <string name="orphaned_transaction_info">有一笔交易关联至此日期的计划，但该日期不存在事件实例。</string>
+    <string name="orphaned_transaction_relink">此交易可以重新关联至 %s 的事件实例。</string>
+    <string name="orphaned_transaction_align_date">可选择将交易中保存的日期与实例日期对齐。</string>
+    <string name="button_relink_keep_date">重新关联，但保留日期</string>
+    <string name="button_relink_update_date">重新关联并更新日期</string>
+    <string name="read_from_data">从数据读取</string>
+    <string name="merge_parties_strategy_delete">重复项已被删除。</string>
+    <string name="merge_parties_strategy_group">重复项已分组为附属项。</string>
+    <string name="show_duplicates">显示重复项</string>
+    <string name="remove_from_group">从分组中移除</string>
+    <string name="pref_attachment_mime_types_title">允许的附件 MIME 类型</string>
+    <string name="attachments">附件</string>
+    <string name="pref_copy_attachments_title">复制附件至应用程序文件夹</string>
+    <string name="pref_copy_attachments_summary_on">文件已复制至应用程序文件夹。</string>
+    <string name="pref_copy_attachments_summary_off">文件不会复制，仅保存引用。</string>
+    <string name="widget_title_budget">我的预算</string>
+    <string name="pref_unmapped_transaction_as_transfer_title">未映射的交易</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_off">计为支出 / 收入</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_on">计为转账</string>
+    <string name="menu_aggregate_neutral_categories">聚合中性类别</string>
     <string name="one_time_payment">一次性支付</string>
+    <string name="warning_delete_default_transfer_category">类别 %s 已设置为默认转账类别，不应删除。</string>
+    <string name="default_transfer_category">默认转账类别</string>
+    <string name="contact_us">联系我们</string>
+    <string name="pref_transaction_amount_color_source_title">金额颜色</string>
+    <string name="pref_sync_now_all_summary">%s 同步同一个后端的所有账户</string>
+    <string name="menu_unlink_transfer">取消转账关联</string>
+    <string name="warning_unlink_transfer">选中的转账将取消关联：两个账户中都将被替换为普通交易。</string>
+    <string name="menu_transform_to_transfer">转换为转账</string>
+    <string name="warning_transform_to_transfer">选中的交易将被替换为从 %1$s 至 %2$s 的转账。</string>
+    <string name="remap_date">在所有选中的交易中，日期将设置为 %s。</string>
+    <string name="remap_update_value_date">同时更新起息日</string>
+    <string name="roadmap_intro">%d 年路线图投票现已开启！为你最重要的功能和改进投票。</string>
+    <string name="merge_categories_dialog_title">合并类别</string>
+    <string name="subcategories_merged_recursively">若合并的类别包含同名的子类别，这些子类别将先进行递归合并。</string>
+    <string name="merge_categories_prompt">选择你想保留的类别</string>
+    <string name="pref_csv_export_category_separator_summary">类别层级各级别之间的分隔符</string>
+    <string name="not_enough_data">数据不足</string>
+    <string name="menu_unpack">解封存</string>
+    <string name="warning_unarchive">归档将被解开。其中包含的所有交易都将重新插入列表中。</string>
     <string name="archive">存档</string>
+    <string name="warning_delete_archive">此归档中包含的所有交易 (%d) 都将被删除。</string>
+    <string name="dialog_title_warning_delete_archive">删除归档？</string>
+    <string name="archive_warning">选中日期范围内的所有交易 (%d) 都将被归档。</string>
+    <string name="warning_nested_archives">不支持嵌套归档。</string>
+    <string name="warning_empty_archive">选中的日期范围内不存在交易。</string>
+    <string name="warning_archive_inconsistent_state">选中日期范围内的交易状态不一致 (%s)。</string>
+    <string name="warning_backend_deactivated">后端尚未准备好进行同步。</string>
+    <string name="button_activate_again">再次启用</string>
+    <string name="credit_limit_reached">你已达到信用额度上限。</string>
+    <string name="saving_goal_reached">你已达成储蓄目标。</string>
+    <string name="credit_limit_exceeded">你已超出信用额度。</string>
+    <string name="saving_goal_exceeded">你已超出储蓄目标。</string>
+    <string name="overage">超额</string>
+    <string name="credit_limit_available_credit">可用额度</string>
+    <string name="saving_goal_short_fall">距离目标差额</string>
+    <string name="content_description_original_amount">通过选择货币并输入金额来指定此交易的原始金额。你也可以指定用于计算有效金额的汇率。</string>
+    <string name="content_description_exchange_rate">1 %1$s 兑换 %2$s 的汇率</string>
+    <string name="content_description_equivalent_amount">以你的本国货币指定此交易的价值。除了直接输入金额，你也可以输入用于计算的汇率。</string>
+    <string name="warning_archived_transfer_cannot_be_edited">无法编辑转账，因为对应的另一端已被归档。</string>
+    <string name="warning_budget_sync_import">此预算的配置将从同步后端导入。所有本地更改都将丢失。</string>
+    <string name="budget_import_can_be_imported">可以导入以下预算：</string>
+    <string name="budget_import_cannot_be_imported">以下预算引用的账户未同步：</string>
+    <string name="budget_import_none_found">未找到预算。</string>
+    <string name="webui_download_no_data">在应用程序中打印、导出或创建备份后，文件将可在此处下载。</string>
+    <string name="filter_dialog_empty">尚未添加条件。轻按上方的按钮以定义查询并精确筛选结果。</string>
+    <string name="initial_value">初始值</string>
+    <string name="current_value">当前值</string>
+    <string name="total_value">总价值</string>
+    <string name="enable_automatic_daily_exchange_rate_download">自动每日下载汇率</string>
+    <string name="price_history">价格历史</string>
+    <string name="dynamic_exchange_rate">动态汇率</string>
+    <string name="progress_recalculating">正在重新计算</string>
+    <string name="equivalent_amount_plural">等值金额</string>
+    <string name="recalculate_equivalent_amounts_warning">如果有可用的保存汇率，将（重新）计算等值金额。</string>
     <string name="quick_search">快速搜索</string>
     <string name="complex_search">复杂搜索</string>
+    <string name="account_closed">账户已关闭</string>
     <string name="balance_sheet">资产负债表</string>
     <string name="balance_sheet_section_assets">资产</string>
     <string name="balance_sheet_section_liabilities">负债</string>
     <string name="balance_sheet_net_worth">净资产</string>
-    <string name="price_history">价格历史</string>
-    <string name="attachments">附件</string>
+    <string name="mark_as_cleared">标记为已对账</string>
+    <string name="mark_as_unreconciled">标记为未对账</string>
+    <string name="pref_equivalent_amounts_automatic_update_title">当价格变动时自动更新等值金额</string>
+    <string name="sort_direction">排序方向</string>
+    <string name="batch_download">批量下载</string>
+    <string name="warning_batch_download_quota">从 %s 批量下载可能会消耗你的使用配额。</string>
+    <string name="batch_download_result">已下载 %d 个价格并保存至数据库。</string>
+    <string name="pref_ui_home_screen_shortcuts_show_new_balance_title">保存交易后显示新余额</string>
+    <string name="print_configuration_empty">请至少添加一个要打印的列。</string>
+    <plurals name="import_prices_success_message">
+        <item quantity="other">在 %d 行中找到有效数据。</item>
+    </plurals>
+    <plurals name="import_prices_failure_message">
+        <item quantity="other">%d 行无法处理。</item>
+    </plurals>
+    <plurals name="import_trades_missing_assets_message">
+        <item quantity="other">%1$d 行引用了未知的资产：%2$s。</item>
+    </plurals>
+    <string name="confirm_process_file_message">确定要从“%2$s”导入“%1$s”的价格？新价格可能会影响现有的等值金额。</string>
+    <string name="warning_expense_category_credit">你正将支出类别分配给收入交易。因此，该交易将减少你的支出总额，且默认显示为红色。</string>
+    <string name="warning_income_category_debit">你正将收入类别分配给支出交易。因此，该交易将减少你的收入总额，且默认显示为绿色。</string>
+    <string name="pref_dynamic_exchange_rates_dynamic">所有账户使用动态汇率</string>
+    <string name="pref_dynamic_exchange_rates_static">所有账户使用静态汇率</string>
+    <string name="pref_dynamic_exchange_rates_per_account">单独配置每个账户</string>
+    <string name="category_type_main">主类别</string>
+    <string name="category_type_sub">子类别</string>
+    <string name="category_description_base">%1$s，层级 %2$d</string>
+    <plurals name="category_description_children_suffix">
+        <item quantity="other">，包含 %1$d 个层级为 %2$d 的子类别。</item>
+    </plurals>
+    <string name="edit_account_type">编辑账户类型</string>
+    <string name="new_account_type">新建账户类型</string>
     <string name="pref_account_list_display_configuration_title">账户列表</string>
+    <string name="pref_print_layout_summary">配置列宽和组合</string>
+    <string name="menu_account_flags">标记</string>
+    <string name="menu_flag">标记</string>
+    <string name="edit_account_flag">编辑标记</string>
+    <string name="new_account_flag">新建标记</string>
+    <string name="flag_unflagged">无标记</string>
+    <string name="flag_favorite">收藏</string>
+    <string name="supports_reconciliation">支持对账</string>
+    <string name="aggregate_invisible">将隐藏账户包含在合算账户与资产负债表中</string>
+    <string name="select_accounts_for_flag">为标记 %s 选择账户</string>
+    <string name="menu_cleanup">清理</string>
+    <plurals name="warning_cleanup_parties">
+        <item quantity="other">将删除 %d 个未使用的交易对象。</item>
+    </plurals>
+    <string name="show_invisible">隐藏的账户</string>
+    <string name="show_zero">余额为零的账户</string>
+    <string name="content_description_clear_party">清除选中的交易对象</string>
+    <string name="content_description_browse_device_files">浏览此设备上的文件</string>
+    <string name="content_description_select_recent_file">从最近的文件中选择</string>
+    <string name="content_description_show_balance_details">显示详细信息</string>
     <string name="menu_templates">模板</string>
     <string name="pref_ui_start_screen_title">起始页面</string>
     <string name="pref_ui_start_screen_last_visited">上次访问的页面</string>
-    <string name="rounding">舍入</string>
-    <string name="important_upgrade_information_heading">重要资讯</string>
+    <string name="main_navigation">主导航</string>
+    <string name="pref_fab_style_title">悬浮按钮样式</string>
+    <string name="pref_fab_style_standard_description">标准（轻按箭头显示菜单）</string>
+    <string name="pref_fab_style_compact_description">紧凑（长按显示菜单）</string>
     <string name="pref_tag_style_title">标签样式</string>
     <string name="pref_tag_style_outline">彩色边框</string>
     <string name="pref_tag_style_filled">全彩色</string>
+    <string name="number_too_large">数字过大</string>
+    <string name="prioritize_flag_order">优先采用标记顺序</string>
+    <string name="pref_content_based_colors_title">基于账户的动态颜色</string>
+    <string name="pref_content_based_colors_summary">根据当前账户的颜色衍生主题颜色。若文字难以阅读请关闭。</string>
+    <string name="service_starting">正在启动…</string>
+    <string name="trade_buy">买入</string>
+    <string name="trade_sell">卖出</string>
+    <string name="trade_transfer">转移</string>
+    <string name="trade_quantity">数量</string>
+    <string name="trade_price">价格</string>
+    <string name="trade_fee">手续费</string>
     <string name="trade_additional_costs">附加费用</string>
+    <string name="trade_add_cost">附加成本</string>
+    <string name="trade_target_asset">资产</string>
+    <string name="menu_create_portfolio">创建投资组合</string>
+    <string name="asset_type_fiat_plural">法定货币</string>
+    <string name="asset_type_security">证券</string>
+    <string name="asset_type_security_plural">证券</string>
+    <string name="asset_type_crypto">加密货币</string>
+    <string name="asset_type_commodity">大宗商品</string>
+    <string name="asset_type_commodity_plural">大宗商品</string>
+    <string name="trade_funding_source">资金来源</string>
+    <string name="trade_funding_portfolio">投资组合现金</string>
+    <string name="trade_funding_external_description">来自此应用程序未追踪来源的资金</string>
+    <string name="trade_deposit">存款</string>
+    <string name="trade_withdraw">取款</string>
+    <string name="trade_matching_transaction_found">在资金账户中找到匹配的交易。选择以进行关联：</string>
+    <string name="asset_quantity_at_price">%1$s @ %2$s</string>
     <string name="contrib_feature_portfolio_tracking">投资组合跟踪</string>
+    <string name="premium_nudge_portfolio_message">你可以免费管理一个投资组合。升级以管理多个投资组合并解锁高级追踪功能 (%1$s)。</string>
+    <string name="rounding">舍入</string>
+    <string name="help_floating_action_button">悬浮按钮</string>
+    <string name="important_upgrade_information_heading">重要资讯</string>
+    <string name="single_pane_view">单面板</string>
+    <string name="split_pane_view">分屏视图</string>
 </resources>
