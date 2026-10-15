@@ -920,12 +920,16 @@ open class MyExpensesViewModel(
 
     suspend fun resolveExtraInfo(transaction: Transaction2): ResolvedExtraInfo? {
         return withContext(Dispatchers.IO) {
-            if (transaction.isTrade) {
-                repository.loadTrade(transaction.id)?.let { ResolvedExtraInfo.Trade(it) }
-            } else if (transaction.isSplit) {
-                repository.calculateSplitSummary(transaction.id)
-                    ?.let { ResolvedExtraInfo.Split(it) }
-            } else null
+            runCatching {
+                if (transaction.isTrade) {
+                    repository.loadTrade(transaction.id)?.let { ResolvedExtraInfo.Trade(it) }
+                } else if (transaction.isSplit) {
+                    repository.calculateSplitSummary(transaction.id)
+                        ?.let { ResolvedExtraInfo.Split(it) }
+                } else null
+            }.onFailure {
+                CrashHandler.report(it)
+            }.getOrNull()
         }
     }
 
