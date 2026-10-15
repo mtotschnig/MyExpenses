@@ -97,19 +97,23 @@ suspend fun Repository.isCurrencyUsed(code: String): Boolean = withContext(Dispa
     result?.getBoolean(KEY_RESULT, false) ?: false
 }
 
-suspend fun Repository.storeCustomFractionDigits(currencyUnit: CurrencyUnit) {
-    storeCustomFractionDigits(currencyUnit.code, currencyUnit.fractionDigits)
-}
-
 suspend fun Repository.storeCustomFractionDigits(currencyCode: String, fractionDigits: Int?) {
     withContext(Dispatchers.IO) {
-        contentResolver.call(
-            DUAL_URI,
-            METHOD_STORE_FRACTION_DIGITS,
-            currencyCode,
-            Bundle().apply {
-                fractionDigits?.let { putInt(KEY_FRACTION_DIGITS, it) }
-            }
-        )
+        storeCustomFractionDigitsSync(currencyCode, fractionDigits)
     }
+}
+
+fun Repository.storeCustomFractionDigitsSync(currencyUnit: CurrencyUnit) {
+    storeCustomFractionDigitsSync(currencyUnit.code, currencyUnit.fractionDigits)
+}
+
+fun Repository.storeCustomFractionDigitsSync(currencyCode: String, fractionDigits: Int?) {
+    contentResolver.call(
+        DUAL_URI,
+        METHOD_STORE_FRACTION_DIGITS,
+        currencyCode,
+        Bundle().apply {
+            fractionDigits?.let { putInt(KEY_FRACTION_DIGITS, it) }
+        }
+    )
 }

@@ -1826,6 +1826,7 @@ public class TransactionProvider extends BaseTransactionProvider {
       case METHOD_STORE_FRACTION_DIGITS -> {
         SupportSQLiteDatabase db = getHelper().getWritableDatabase();
         BaseTransactionProvider.Companion.storeFractionDigits(db, arg, extras);
+        notifyChange(CURRENCIES_URI, false);
         return null;
       }
       case METHOD_GET_DATABASE_INFO -> {

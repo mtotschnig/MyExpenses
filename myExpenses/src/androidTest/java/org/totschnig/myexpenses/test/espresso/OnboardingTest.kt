@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.test.espresso
 
 import android.content.Intent
+import android.icu.util.Currency
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
@@ -27,10 +28,15 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.MyExpensesV2
 import org.totschnig.myexpenses.activity.OnboardingActivity
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.KEY_CODE
+import org.totschnig.myexpenses.provider.KEY_FRACTION_DIGITS
+import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.TestShard4
 import org.totschnig.myexpenses.testutils.isOrchestrated
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 
 @TestShard4
 class OnboardingTest : BaseUiTest<OnboardingActivity>() {
@@ -97,6 +103,30 @@ class OnboardingTest : BaseUiTest<OnboardingActivity>() {
     }
 
     @Test
+    fun onboarding_storesCustomFractionDigitsInDatabase() {
+        checkPage(0)
+        clickNextButton()
+        checkPage(1)
+        clickNextButton()
+        checkPage(2)
+        clickButton(R.id.suw_navbar_done)
+
+        val homeCurrency = prefHandler.getString(PrefKey.HOME_CURRENCY, null)
+        assertThat(homeCurrency).isNotNull()
+
+        targetContext.contentResolver.query(
+            TransactionProvider.CURRENCIES_URI,
+            arrayOf(KEY_FRACTION_DIGITS),
+            "$KEY_CODE = ?",
+            arrayOf(homeCurrency),
+            null
+        ).useAndAssert {
+            movesToFirst()
+            hasInt(0, Currency.getInstance(homeCurrency).defaultFractionDigits)
+        }
+    }
+
+    @Test
     fun onboardingWithEncryption_savesDataToEncryptedDatabase() {
 
         // 2. Navigate to Privacy Page (Page 1) and enable Encryption
@@ -158,7 +188,7 @@ class OnboardingTest : BaseUiTest<OnboardingActivity>() {
     companion object {
         @JvmStatic
         @BeforeClass
-        fun checkIsOrchestrated(): Unit {
+        fun checkIsOrchestrated() {
             //when testing via am instrument, precondition of a clean state is not met
             Assume.assumeTrue(isOrchestrated)
         }

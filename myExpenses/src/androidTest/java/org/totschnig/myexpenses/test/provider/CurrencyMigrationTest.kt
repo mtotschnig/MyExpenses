@@ -2,12 +2,16 @@ package org.totschnig.myexpenses.test.provider
 
 import android.content.ContentValues
 import org.totschnig.myexpenses.provider.KEY_CODE
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_FRACTION_DIGITS
+import org.totschnig.myexpenses.provider.KEY_LABEL
 import org.totschnig.myexpenses.provider.KEY_SYMBOL
+import org.totschnig.myexpenses.provider.KEY_TYPE
 import org.totschnig.myexpenses.provider.TABLE_CURRENCIES
 import org.totschnig.myexpenses.provider.TransactionDatabase
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.insert
 import org.totschnig.myexpenses.provider.update
 import org.totschnig.myexpenses.testutils.BaseDbTest
 
@@ -63,6 +67,39 @@ class CurrencyMigrationTest : BaseDbTest() {
             assertTrue(cursor.moveToFirst())
             assertEquals("$", cursor.getString(KEY_SYMBOL))
             assertEquals(2, cursor.getInt(KEY_FRACTION_DIGITS))
+        }
+    }
+
+    fun testUpgradeTo191() {
+        val currencyCode = "HUF"
+        // 1. Setup: Ensure currency exists with NULL fraction digits
+        val values = ContentValues().apply {
+            putNull(KEY_FRACTION_DIGITS)
+        }
+        mDb.update(TABLE_CURRENCIES, values, "$KEY_CODE = ?", arrayOf(currencyCode))
+
+        // 2. Setup: Create an account using this currency
+        val accountValues = ContentValues().apply {
+            put(KEY_LABEL, "HUF Account")
+            put(KEY_CURRENCY, currencyCode)
+            put(KEY_TYPE, 1)
+        }
+        mDb.insert("accounts", accountValues)
+
+        // 3. Execution: Call upgradeTo191
+        val transactionDatabase = TransactionDatabase(targetContext, prefHandler)
+        with(transactionDatabase) {
+            mDb.upgradeTo191()
+        }
+
+        // 4. Verification: KEY_FRACTION_DIGITS should be populated
+        mDb.query("SELECT $KEY_FRACTION_DIGITS FROM $TABLE_CURRENCIES WHERE $KEY_CODE = ?", arrayOf(currencyCode)).use { cursor ->
+            assertTrue(cursor.moveToFirst())
+            assertFalse(cursor.isNull(0))
+            val expectedDigits = java.util.Currency.getInstance(currencyCode).defaultFractionDigits.let {
+                if (it == -1) 8 else it
+            }
+            assertEquals(expectedDigits, cursor.getInt(KEY_FRACTION_DIGITS))
         }
     }
 }

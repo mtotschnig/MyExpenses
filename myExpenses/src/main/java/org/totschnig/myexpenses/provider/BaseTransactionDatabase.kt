@@ -33,7 +33,7 @@ import timber.log.Timber
 import java.util.Currency
 import kotlin.math.pow
 
-const val DATABASE_VERSION = 190
+const val DATABASE_VERSION = 191
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -1246,6 +1246,25 @@ abstract class BaseTransactionDatabase(
         update(TABLE_CURRENCIES, values, "$KEY_CODE IN (?, ?, ?, ?)",
             CurrencyEnum.PRECIOUS_METALS.toTypedArray()
         )
+    }
+
+    fun SupportSQLiteDatabase.upgradeTo191() {
+        query(
+            table = TABLE_ACCOUNTS,
+            columns = arrayOf("distinct $KEY_CURRENCY")
+        ).use { cursor ->
+            while (cursor.moveToNext()) {
+                val code = cursor.getString(0)
+                runCatching {
+                    Currency.getInstance(code)?.defaultFractionDigits?.takeIf { it != -1 }
+                }.getOrNull()?.let {
+                    val values = ContentValues(1).apply {
+                        put(KEY_FRACTION_DIGITS, it)
+                    }
+                    update(TABLE_CURRENCIES, values, "$KEY_CODE = ? AND $KEY_FRACTION_DIGITS IS NULL", arrayOf(code))
+                }
+            }
+        }
     }
 
     protected fun SupportSQLiteDatabase.createOrRefreshAccountTriggers() {
