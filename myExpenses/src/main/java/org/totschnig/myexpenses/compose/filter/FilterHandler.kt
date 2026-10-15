@@ -48,6 +48,7 @@ import org.totschnig.myexpenses.provider.filter.NotCriterion
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
+import org.totschnig.myexpenses.provider.filter.TransactionIdCriterion
 import org.totschnig.myexpenses.provider.filter.TransferCriterion
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import kotlin.reflect.KClass
@@ -79,6 +80,8 @@ interface FilterHandlerScope {
             is PayeeCriterion -> handlePayeeEdit(criterion)
             is TagCriterion -> handleTagEdit(criterion)
             is TransferCriterion -> handleTransferEdit(criterion)
+            // Set in code for a fixed set of transactions, it cannot be edited
+            is TransactionIdCriterion -> {}
             else -> throw IllegalStateException("Nested complex not supported")
         }
     }
