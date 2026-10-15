@@ -15,7 +15,6 @@
 package org.totschnig.myexpenses.activity
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.app.NotificationManager
 import android.content.ActivityNotFoundException
 import android.content.ContentUris
@@ -38,7 +37,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.annotation.MenuRes
-import androidx.annotation.RequiresPermission
 import androidx.annotation.VisibleForTesting
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
@@ -432,17 +430,8 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             setHelpVariant(delegate.helpVariant)
             setTitle()
             if (isTemplate) {
-                if (ActivityCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.WRITE_CALENDAR
-                    ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.READ_CALENDAR
-                    ) == PackageManager.PERMISSION_GRANTED
-                ) {
-                    refreshPlanData(false)
-                } else {
-                    CrashHandler.report(IllegalStateException("Calendar permissions not granted"))
+                delegate.planId?.let { planId ->
+                    refreshPlanData(planId, false)
                 }
             }
             floatingActionButton.show()
@@ -1389,18 +1378,27 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     }
 
     private inner class PlanObserver : ContentObserver(Handler()) {
-        @RequiresPermission(allOf = [Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR])
         override fun onChange(selfChange: Boolean) {
-            refreshPlanData(true)
+            delegate.planId?.let { planId ->
+                refreshPlanData(planId, true)
+            }
         }
     }
 
-    @RequiresPermission(allOf = [Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR])
-    private fun refreshPlanData(fromObserver: Boolean) {
-        delegate.planId?.let { planId ->
+    private fun refreshPlanData(planId: Long, fromObserver: Boolean) {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.WRITE_CALENDAR
+            ) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_CALENDAR
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
             viewModel.plan(planId).observe(this) { plan ->
                 plan?.let { delegate.configurePlan(it, fromObserver) }
             }
+        } else {
+            CrashHandler.report(IllegalStateException("Calendar permissions not granted"))
         }
     }
 
