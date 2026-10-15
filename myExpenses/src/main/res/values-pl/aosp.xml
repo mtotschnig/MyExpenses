@@ -18,7 +18,6 @@
     <string name="style">"Wygląd"</string>
     <string name="loading">"Wczytuję…"</string>
     <string name="button_label_continue">Dalej</string>
-    <string name="autofill">"Autouzupełnianie"</string>
     <string name="discard">"Odrzuć"</string>
     <string name="dialog_dismiss">"Zamknij"</string>
     <string name="details">"Szczegóły"</string>
@@ -32,7 +31,6 @@
     <string name="setup">"Konfiguracja"</string>
     <string name="customize">"Dostosuj"</string>
     <string name="compact">kompaktowa</string>
-    <string name="storage_description">"Pamięć lokalna"</string>
     <string name="encryption">"Szyfrowanie"</string>
     <string name="learn_more">"Więcej informacji"</string>
     <string name="show_all">"Pokaż wszystkie"</string>
@@ -154,7 +152,6 @@
     <string name="preview">"Podgląd"</string>
     <string name="show_password">"Pokaż hasło"</string>
     <string name="hide_password">"Ukryj hasło"</string>
-    <string name="user">"Własna"</string>
     <string name="source">"Źródło"</string>
     <string name="value">"Wartość"</string>
     <string name="done_label">"Gotowe"</string>
@@ -175,4 +172,7 @@
     <string name="already_exists">"Nazwa już istnieje"</string>
     <string name="flag_inactive">"Nieaktywna"</string>
     <string name="count">"Liczba"</string>
+    <string name="empty">"Pusty"</string>
+    <string name="options">"Opcje"</string>
+    <string name="actions">"Akcje"</string>
 </resources>

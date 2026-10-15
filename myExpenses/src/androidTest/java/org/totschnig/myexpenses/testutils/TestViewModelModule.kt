@@ -18,7 +18,7 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.viewmodel.AbstractSyncBackendViewModel
-import org.totschnig.myexpenses.viewmodel.MyExpensesViewModel
+import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 
@@ -26,14 +26,15 @@ object TestViewModelModule : ViewModelModule() {
     override fun provideSyncBackendViewModelClass(): Class<out AbstractSyncBackendViewModel> =
         FakeSyncBackendViewModel::class.java
 
-    override fun provideMyExpensesViewModelClass(): Class<out MyExpensesViewModel> {
+    override fun provideMyExpensesViewModelClass(): Class<out MyExpensesV2ViewModel> {
         return DecoratingMyExpensesViewModel::class.java
     }
 }
 
-class DecoratingMyExpensesViewModel(application: Application,
-                                    savedStateHandle: SavedStateHandle
-) : MyExpensesViewModel(application, savedStateHandle) {
+class DecoratingMyExpensesViewModel(
+    application: Application,
+    savedStateHandle: SavedStateHandle,
+) : MyExpensesV2ViewModel(application, savedStateHandle) {
     val countingResource = CountingIdlingResource("TransactionPaging", true)
 
     override fun buildTransactionPagingSource(account: PageAccount) =
@@ -62,7 +63,7 @@ class FakeSyncBackendViewModel(application: Application) :
 
     override fun accountMetadata(
         accountName: String,
-        isFeatureAvailable: Boolean
+        isFeatureAvailable: Boolean,
     ): LiveData<Result<List<Result<AccountMetaData>>>> = liveData {
         val syncedAccount = with(getApplication<TestApp>().fixture) {
             when (accountName) {
@@ -72,7 +73,18 @@ class FakeSyncBackendViewModel(application: Application) :
                 else -> throw IllegalStateException()
             }
         }
-        emit(Result.success(listOf(Result.success(AccountMetaData.from(syncedAccount, getApplication<MyApplication>().appComponent.currencyContext().homeCurrencyString)))))
+        emit(
+            Result.success(
+                listOf(
+                    Result.success(
+                        AccountMetaData.from(
+                            syncedAccount,
+                            getApplication<MyApplication>().appComponent.currencyContext().homeCurrencyString
+                        )
+                    )
+                )
+            )
+        )
     }
 }
 
@@ -84,7 +96,7 @@ class DecoratedTransactionPagingSource(
     currencyContext: CurrencyContext,
     coroutineScope: CoroutineScope,
     private val countingIdlingResource: CountingIdlingResource,
-    prefHandler: PrefHandler
+    prefHandler: PrefHandler,
 ) : TransactionPagingSource(
     context,
     account,

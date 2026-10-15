@@ -8,11 +8,11 @@ import com.dropbox.core.DbxRequestConfig
 import com.dropbox.core.android.Auth
 import com.evernote.android.state.State
 import org.totschnig.myexpenses.activity.AbstractSyncSetup
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.dropbox.sync.KEY_DBX_CREDENTIAL
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.dropbox.viewmodel.DropboxSetupViewModel
+import org.totschnig.myexpenses.provider.KEY_SYNC_ACCOUNT_NAME
 import timber.log.Timber
 
 const val APP_KEY = "09ctg08r5gnsh5c"
@@ -47,7 +47,7 @@ class DropboxSetup : AbstractSyncSetup<DropboxSetupViewModel>() {
                 if (intent.action == ACTION_RE_AUTHENTICATE) {
                     with(AccountManager.get(this)) {
                         setUserData(
-                            GenericAccountService.getAccount(intent.getStringExtra(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)!!),
+                            GenericAccountService.getAccount(intent.getStringExtra(KEY_SYNC_ACCOUNT_NAME)!!),
                             KEY_DBX_CREDENTIAL,
                             credentialSerialized
                         )

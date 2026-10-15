@@ -1,17 +1,17 @@
 package org.totschnig.myexpenses.db2
 
 import android.content.ContentUris
-import android.content.Context
-import android.database.DatabaseUtils
 import android.os.Bundle
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.Flow
 import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORTED_IDS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE_SORT_KEY
-import org.totschnig.myexpenses.provider.DatabaseConstants.METHOD_TYPE_SORT
+import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_SORTED_IDS
+import org.totschnig.myexpenses.provider.KEY_TYPE
+import org.totschnig.myexpenses.provider.KEY_TYPE_SORT_KEY
+import org.totschnig.myexpenses.provider.METHOD_TYPE_SORT
+import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTTYPES_METHODS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNT_TYPES_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
 import org.totschnig.myexpenses.provider.withAppendedId
@@ -57,6 +57,11 @@ fun Repository.updateAccountType(accountType: AccountType) {
 
 fun Repository.deleteAccountType(accountTypeId: Long) {
     contentResolver.delete(
+        ACCOUNTTYPES_METHODS_URI,
+        "$KEY_TYPE = ?",
+        arrayOf(accountTypeId.toString())
+    )
+    contentResolver.delete(
         ACCOUNT_TYPES_URI.withAppendedId(accountTypeId),
         null,
         null
@@ -75,18 +80,13 @@ null
     } else null
 }
 
-fun localizedLabelForAccountType(ctx: Context, keyLabel: String) =
-    StringBuilder().apply {
-        append("CASE ").append(keyLabel)
-        AccountType.initialAccountTypes.forEach {
-            append(" WHEN '").append(it.name).append("' THEN ")
-            DatabaseUtils.appendEscapedSQLString(this, it.localizedName(ctx))
-        }
-        append(" ELSE ").append(keyLabel).append(" END")
-    }.toString()
-
 fun Repository.saveAccountTypeOrder(sortedIds: LongArray) {
     contentResolver.call(DUAL_URI, METHOD_TYPE_SORT, null, Bundle().apply {
         putLongArray(KEY_SORTED_IDS, sortedIds)
     })
 }
+
+fun Repository.requireAccountTypeForSync(name: String): AccountType = findAccountType(name) ?:
+AccountType.initialAccountTypes.firstOrNull { it.nameForSyncLegacy == name }?.let {
+    findAccountType(it.name)
+} ?:  addAccountType(AccountType(name =name))

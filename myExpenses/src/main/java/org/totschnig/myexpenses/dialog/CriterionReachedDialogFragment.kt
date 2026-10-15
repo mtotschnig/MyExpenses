@@ -32,6 +32,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.Text
@@ -56,6 +57,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.booleanResource
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -83,7 +85,7 @@ import org.totschnig.myexpenses.dialog.CriterionReachedDialogFragment.Companion.
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.getLocale
 import org.totschnig.myexpenses.util.ui.DisplayProgress
@@ -107,7 +109,7 @@ data class CriterionInfo(
     val accountColor: Int,
     val currency: CurrencyUnit,
     val accountLabel: String,
-    val isSealed: Boolean
+    val isSealed: Boolean,
 ) : Parcelable {
 
     @IgnoredOnParcel
@@ -258,17 +260,19 @@ class CriterionReachedDialogFragment() : ComposeBaseDialogFragment3(), OnDialogR
                         Toast.LENGTH_LONG
                     ).show()
                 } else {
-                    val newCriterion = Money(currency, it).amountMinor * criterion.sign
-                    if (criterion.absoluteValue != newCriterion) {
-                        lifecycleScope.launch {
-                            withContext(Dispatchers.IO) {
-                                viewModel.updateCriterion(accountId, newCriterion)
+                    Money.buildWithMajor(currency, it).onSuccess {
+                        val newCriterion = it.amountMinor * criterion.sign
+                        if (criterion.absoluteValue != newCriterion) {
+                            lifecycleScope.launch {
+                                withContext(Dispatchers.IO) {
+                                    viewModel.updateCriterion(accountId, newCriterion)
+                                }
+                                viewModel.info = copy(
+                                    startBalance = newBalance,
+                                    transaction = 0,
+                                    criterion = newCriterion
+                                )
                             }
-                            viewModel.info = copy(
-                                startBalance = newBalance,
-                                transaction = 0,
-                                criterion = newCriterion
-                            )
                         }
                     }
                 }
@@ -499,9 +503,7 @@ fun ValueRow(
     amount: Money,
     percent: Float? = null,
 ) {
-    val percentFormat = NumberFormat.getPercentInstance(LocalContext.current.getLocale()).also {
-        it.setMinimumFractionDigits(2)
-    }
+
     val currencyFormatter = LocalCurrencyFormatter.current
     Row(verticalAlignment = Alignment.CenterVertically) {
         color?.let { Circle(radius = 4.dp, color = it) }
@@ -516,9 +518,20 @@ fun ValueRow(
         )
         Column(horizontalAlignment = Alignment.End) {
             Text(text = currencyFormatter.formatMoney(amount))
-            percent?.let { Text(text = percentFormat.format(it)) }
+            percent?.let { Percent(it) }
         }
     }
+}
+
+@Composable
+fun Percent(
+    percent: Float,
+    style: TextStyle = LocalTextStyle.current
+) {
+    val percentFormat = NumberFormat.getPercentInstance(LocalContext.current.getLocale()).also {
+        it.setMinimumFractionDigits(2)
+    }
+    Text(text = percentFormat.format(percent), style = style)
 }
 
 @Composable

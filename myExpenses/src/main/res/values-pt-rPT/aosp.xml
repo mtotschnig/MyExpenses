@@ -114,7 +114,6 @@
     <string name="preview">"Pré-vis."</string>
     <string name="show_password">"Mostrar palavra-passe"</string>
     <string name="hide_password">"Ocultar palavra-passe"</string>
-    <string name="user">"Utilizador"</string>
     <string name="source">"Origem"</string>
     <string name="value">"valor"</string>
     <string name="done_label">"Concluído"</string>
@@ -133,4 +132,7 @@
     <string name="already_exists">"O nome já existe"</string>
     <string name="flag_inactive">"Inativo"</string>
     <string name="count">"Número"</string>
+    <string name="empty">"Vazio"</string>
+    <string name="options">"Opções"</string>
+    <string name="actions">"Ações"</string>
 </resources>

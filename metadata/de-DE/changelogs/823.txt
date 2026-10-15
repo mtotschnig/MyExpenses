@@ -1,0 +1,4 @@
+Einige Banken in Deutschland haben im November die Unterstützung für den Geschäftsvorfall HKKAZ (Umsatzabfrage im MT940-Format) eingestellt. Meine Ausgaben unterstützt nun auch HKCAZ und ermöglicht damit die Umsatzabfrage im CAMT-Format.
+
+https://github.com/users/mtotschnig/projects/173
+https://mastodon.social/@myexpenses/115661336364646450

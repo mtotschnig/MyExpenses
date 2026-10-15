@@ -4,16 +4,17 @@ import android.content.Context
 import android.os.Bundle
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.CoroutineDispatcher
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.PreferencesCurrencyContext
+import org.totschnig.myexpenses.model.DatabaseCurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.licence.LicenceStatus
 import org.totschnig.myexpenses.util.tracking.Tracker
 import timber.log.Timber
-import java.util.*
+import java.util.Locale
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -60,7 +61,8 @@ open class AppModule {
     @Provides
     @Singleton
     open fun provideCurrencyContext(
+        application: MyApplication,
         prefHandler: PrefHandler,
-        application: MyApplication
-    ): CurrencyContext = PreferencesCurrencyContext(prefHandler, application)
+        dispatcher: CoroutineDispatcher
+    ): CurrencyContext = DatabaseCurrencyContext(prefHandler, application, dispatcher)
 }

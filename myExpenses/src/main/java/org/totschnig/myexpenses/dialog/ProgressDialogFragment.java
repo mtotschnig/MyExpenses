@@ -42,7 +42,8 @@ public class ProgressDialogFragment extends BaseDialogFragment {
   private AlertDialog mDialog;
   private boolean mTaskCompleted = false;
   private int progress = 0, max = 0;
-  private String title, message;
+  private String title;
+  private CharSequence message;
   private final int dialogButton = DialogInterface.BUTTON_POSITIVE;
 
 
@@ -58,10 +59,10 @@ public class ProgressDialogFragment extends BaseDialogFragment {
    * @return the dialog fragment
    */
   @Deprecated
-  public static ProgressDialogFragment newInstance(String title, String message, int progressStyle, boolean withButton) {
+  public static ProgressDialogFragment newInstance(String title, CharSequence message, int progressStyle, boolean withButton) {
     ProgressDialogFragment f = new ProgressDialogFragment();
     Bundle bundle = new Bundle();
-    bundle.putString(KEY_MESSAGE, message);
+    bundle.putCharSequence(KEY_MESSAGE, message);
     bundle.putString(KEY_TITLE, title);
     bundle.putInt(KEY_PROGRESS_STYLE, progressStyle);
     bundle.putBoolean(KEY_WITH_BUTTON, withButton);
@@ -74,7 +75,7 @@ public class ProgressDialogFragment extends BaseDialogFragment {
     super.onCreate(savedInstanceState);
     if (savedInstanceState != null) {
       mTaskCompleted = savedInstanceState.getBoolean(KEY_TASK_COMPLETED, false);
-      message = savedInstanceState.getString(KEY_MESSAGE);
+      message = savedInstanceState.getCharSequence(KEY_MESSAGE);
       title = savedInstanceState.getString(KEY_TITLE);
       progress = savedInstanceState.getInt(KEY_PROGRESS);
       max = savedInstanceState.getInt(KEY_MAX);
@@ -112,9 +113,10 @@ public class ProgressDialogFragment extends BaseDialogFragment {
   @NonNull
   @Override
   public Dialog onCreateDialog(Bundle savedInstanceState) {
-    int progressStyle = getArguments().getInt(KEY_PROGRESS_STYLE);
-    String messageFromArguments = getArguments().getString(KEY_MESSAGE);
-    String titleFromArguments = getArguments().getString(KEY_TITLE);
+    Bundle arguments = requireArguments();
+    int progressStyle = arguments.getInt(KEY_PROGRESS_STYLE);
+    String messageFromArguments = arguments.getString(KEY_MESSAGE);
+    String titleFromArguments = arguments.getString(KEY_TITLE);
     if (progressStyle == STYLE_SPINNER) {
       mDialog = new ScrollableProgressDialog(getActivity());
     } else {
@@ -122,7 +124,7 @@ public class ProgressDialogFragment extends BaseDialogFragment {
       progressDialog.setProgressStyle(progressStyle);
       mDialog = progressDialog;
     }
-    boolean withButton = getArguments().getBoolean(KEY_WITH_BUTTON);
+    boolean withButton = arguments.getBoolean(KEY_WITH_BUTTON);
     if (messageFromArguments != null) {
       //message might have been set through setMessage
       if (message == null) {
@@ -175,12 +177,9 @@ public class ProgressDialogFragment extends BaseDialogFragment {
     mDialog.setTitle(title);
   }
 
-  public void appendToMessage(@NonNull String newMessage) {
-    if (TextUtils.isEmpty(this.message)) {
-      this.message = newMessage;
-    } else {
-      this.message += "\n" + newMessage;
-    }
+  public void appendToMessage(@NonNull CharSequence newMessage) {
+    this.message = TextUtils.isEmpty(this.message) ? newMessage :
+            TextUtils.concat(this.message, "\n", newMessage);
     mDialog.setMessage(this.message);
   }
 
@@ -208,7 +207,7 @@ public class ProgressDialogFragment extends BaseDialogFragment {
     super.onSaveInstanceState(outState);
     outState.putBoolean(KEY_TASK_COMPLETED, mTaskCompleted);
     outState.putString(KEY_TITLE, title);
-    outState.putString(KEY_MESSAGE, message);
+    outState.putCharSequence(KEY_MESSAGE, message);
     outState.putInt(KEY_PROGRESS, progress);
     outState.putInt(KEY_MAX, max);
   }

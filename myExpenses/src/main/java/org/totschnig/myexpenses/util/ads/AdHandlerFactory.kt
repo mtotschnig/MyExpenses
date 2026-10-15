@@ -9,7 +9,12 @@ interface AdHandlerFactory {
     val isAdDisabled: Boolean
         get() = true
 
+    val isInitialized: Boolean
+        get() = true
+
     fun create(adContainer: ViewGroup, baseActivity: BaseActivity): AdHandler = NoOpAdHandler
+
+    fun createV2(): AdHandlerV2 = NoOpAdHandler
 
     /**
      * @param context   context in which callback action will be taken

@@ -30,7 +30,7 @@ enum class CrStatus(@ColorRes val color: Int, val symbol: Char?) {
 
     companion object {
         @JvmField
-        val JOIN: String = joinEnum(CrStatus::class.java)
+        val JOIN: String = joinEnum<CrStatus>()
 
         @JvmStatic
         fun fromQifName(qifName: String?) =

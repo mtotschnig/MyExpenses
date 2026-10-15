@@ -8,6 +8,7 @@ import com.vmadalin.easypermissions.EasyPermissions.somePermissionPermanentlyDen
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.ExtendProLicenceDialogFragment
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.PlannerUtils
@@ -16,13 +17,11 @@ import org.totschnig.myexpenses.util.distrib.DistributionHelper.isGithub
 import org.totschnig.myexpenses.util.licence.LicenceHandler.Companion.log
 import org.totschnig.myexpenses.util.licence.LicenceStatus
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
 @SuppressLint("CustomSplashScreen")
 abstract class LaunchActivity : IapActivity() {
 
-    @Inject
-    lateinit var plannerUtils: PlannerUtils
+    private val plannerUtils: PlannerUtils get() = injector.plannerUtils()
 
     override val shouldQueryIap: Boolean
         get() = true

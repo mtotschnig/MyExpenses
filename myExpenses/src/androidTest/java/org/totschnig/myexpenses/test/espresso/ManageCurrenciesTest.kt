@@ -1,18 +1,14 @@
 package org.totschnig.myexpenses.test.espresso
 
-import androidx.test.espresso.Espresso.onData
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.replaceText
-import androidx.test.espresso.action.ViewActions.scrollTo
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollToNode
+import androidx.compose.ui.test.performTextReplacement
 import androidx.test.ext.junit.rules.ActivityScenarioRule
-import com.adevinta.android.barista.interaction.BaristaCheckboxInteractions
 import com.google.common.truth.Truth.assertThat
-import org.hamcrest.Matchers
-import org.hamcrest.Matchers.containsString
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -23,22 +19,20 @@ import org.totschnig.myexpenses.db2.createAccount
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.getTransactionSum
+import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.loadAccount
-import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.db2.storeCustomFractionDigits
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
-import org.totschnig.myexpenses.model.PreferencesCurrencyContext
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.testutils.BaseUiTest
+import org.totschnig.myexpenses.testutils.BaseComposeTest
+import org.totschnig.myexpenses.testutils.TestShard3
 import org.totschnig.myexpenses.testutils.cleanup
-import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
 
-
-class ManageCurrenciesTest : BaseUiTest<ManageCurrencies>() {
+@TestShard3
+class ManageCurrenciesTest : BaseComposeTest<ManageCurrencies>() {
 
     @get:Rule
     var scenarioRule = ActivityScenarioRule(ManageCurrencies::class.java)
-
 
     lateinit var account: Account
 
@@ -50,8 +44,12 @@ class ManageCurrenciesTest : BaseUiTest<ManageCurrencies>() {
     @After
     fun clearDb() {
         cleanup {
-            repository.deleteAccount(account.id)
-            PreferencesCurrencyContext.resetFractionDigits(prefHandler, CURRENCY_CODE)
+            if (::account.isInitialized) {
+                repository.deleteAccount(account.id)
+            }
+            runBlocking {
+                repository.storeCustomFractionDigits(CURRENCY_CODE, null)
+            }
         }
     }
 
@@ -69,9 +67,6 @@ class ManageCurrenciesTest : BaseUiTest<ManageCurrencies>() {
         repository.loadAccount(account.id)!!.openingBalance + repository.getTransactionSum(account)
 
     private fun testHelper(withUpdate: Boolean) {
-        val appComponent = app.appComponent
-        val currencyContext = appComponent.currencyContext()
-        val currencyUnit = currencyContext[CURRENCY_CODE]
         account = repository.createAccount(
             Account(
                 label = "TEST ACCOUNT",
@@ -80,30 +75,45 @@ class ManageCurrenciesTest : BaseUiTest<ManageCurrencies>() {
                 type = repository.findAccountType(PREDEFINED_NAME_CASH)!!
             )
         )
-        val op = Transaction.getNewInstance(account.id, currencyUnit)
-        op.amount = Money(currencyUnit, -1200L)
-        op.save(contentResolver)
+        repository.insertTransaction(
+            accountId = account.id,
+            amount = -1200L
+        )
         val before = getTotalAccountBalance(account)
         assertThat(before).isEqualTo(3800)
-        val currency = create(CURRENCY_CODE, targetContext)
-        onData(Matchers.`is`(currency))
-            .inAdapterView(withId(android.R.id.list)).perform(click())
-        onView(withId(R.id.edt_currency_fraction_digits))
-            .perform(scrollTo(), replaceText("3"))
-        onView(withId(R.id.checkBox)).perform(scrollTo())
+
+        val expectedBefore = "${getString(R.string.number_of_fraction_digits)}: 2"
+        val expectedAfter = "${getString(R.string.number_of_fraction_digits)}: 3"
+
+        listNode.performScrollToNode(
+            hasText(CURRENCY_CODE) and hasText(expectedBefore)
+        )
+        composeTestRule.onNode(hasText(CURRENCY_CODE) and hasText(expectedBefore))
+            .performClick()
+
+        composeTestRule.onNodeWithText(getString(R.string.menu_edit)).performClick()
+
+        composeTestRule.onNodeWithText("2").performTextReplacement("3")
+
         if (withUpdate) {
-            BaristaCheckboxInteractions.check(R.id.checkBox)
-        } else {
-            BaristaCheckboxInteractions.uncheck(R.id.checkBox)
+            composeTestRule.onNodeWithText(getString(R.string.warning_change_fraction_digits_checkbox_label))
+                .performClick()
         }
-        onView(withId(android.R.id.button1)).perform(click())
-        onData(Matchers.`is`(currency))
-            .inAdapterView(withId(android.R.id.list)).check(matches(withText(containsString("3"))))
+
+        composeTestRule.onNodeWithText(getString(android.R.string.ok)).performClick()
+
+        listNode.performScrollToNode(
+            hasText(CURRENCY_CODE) and hasText(expectedAfter)
+        )
+
+        composeTestRule.onNode(hasText(CURRENCY_CODE) and hasText(expectedAfter))
+            .assertIsDisplayed()
+
         val after = getTotalAccountBalance(account)
         if (withUpdate) {
             assertThat(after).isEqualTo(before * 10)
         } else {
-            assertThat((after)).isEqualTo(before)
+            assertThat(after).isEqualTo(before)
         }
     }
 

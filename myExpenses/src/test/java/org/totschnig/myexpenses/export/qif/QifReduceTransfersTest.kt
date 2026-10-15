@@ -78,7 +78,6 @@ class QifReduceTransfersTest {
         val fromAccount = ImportAccount(memo = account1,
             transactions = listOf(
                 ImportTransaction.Builder()
-                    .toAccount(account2)
                     .date(now)
                     .amount(BigDecimal(-5))
                     .addSplit(ImportTransaction.Builder()
@@ -99,6 +98,7 @@ class QifReduceTransfersTest {
         assertThat(reduced[0].transactions[0].splits).isNotNull()
         assertThat(reduced[0].transactions[0].splits!!.size).isEqualTo(1)
         assertThat(reduced[0].transactions[0].splits!![0].isTransfer).isTrue()
+        assertThat(reduced[0].transactions[0].splits!![0].toAmount).isNotNull()
         assertThat(reduced[1].transactions.size).isEqualTo(0)
     }
 

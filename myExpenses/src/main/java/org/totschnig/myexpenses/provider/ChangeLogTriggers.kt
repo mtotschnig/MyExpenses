@@ -1,34 +1,6 @@
 package org.totschnig.myexpenses.provider
 
 import androidx.sqlite.db.SupportSQLiteDatabase
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENT_UUID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVED
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CHANGES
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_EQUIVALENT_AMOUNTS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.sync.json.TransactionChange
 
 private val DELETE_TRIGGER_ACTION =
@@ -53,14 +25,12 @@ private val DELETE_TRIGGER_ACTION_AFTER_TRANSFER_UPDATE =
 private val TRANSACTIONS_DELETE_AFTER_UPDATE_TRIGGER_CREATE =
     """CREATE TRIGGER delete_after_update_change_log AFTER UPDATE ON $TABLE_TRANSACTIONS WHEN 
         ${shouldWriteChangeTemplate("old")} AND 
-        old.$KEY_ACCOUNTID != new.$KEY_ACCOUNTID AND 
-        new.$KEY_STATUS != $STATUS_UNCOMMITTED
+        old.$KEY_ACCOUNTID != new.$KEY_ACCOUNTID
         $DELETE_TRIGGER_ACTION_AFTER_TRANSFER_UPDATE"""
 
 private val TRANSACTIONS_DELETE_TRIGGER_CREATE =
     """CREATE TRIGGER delete_change_log AFTER DELETE ON $TABLE_TRANSACTIONS 
-        WHEN ${shouldWriteChangeTemplate("old")} AND 
-        old.$KEY_STATUS != $STATUS_UNCOMMITTED AND 
+        WHEN ${shouldWriteChangeTemplate("old")} AND
         EXISTS (SELECT 1 FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = old.$KEY_ACCOUNTID)
         BEGIN
         $DELETE_TRIGGER_ACTION
@@ -74,11 +44,10 @@ private val TRANSACTIONS_DELETE_TRIGGER_CREATE =
  */
 val TRANSACTIONS_UPDATE_TRIGGER_CREATE =
     """CREATE TRIGGER update_change_log AFTER UPDATE ON $TABLE_TRANSACTIONS WHEN 
-        ${shouldWriteChangeTemplate("old")} AND 
-        old.$KEY_STATUS != $STATUS_UNCOMMITTED AND new.$KEY_STATUS != $STATUS_UNCOMMITTED AND 
+        ${shouldWriteChangeTemplate("old")} AND
         (new.$KEY_STATUS = old.$KEY_STATUS OR new.$KEY_STATUS = $STATUS_ARCHIVED) AND
-        new.$KEY_ACCOUNTID = old.$KEY_ACCOUNTID AND 
-        new.$KEY_TRANSFER_PEER IS old.$KEY_TRANSFER_PEER AND 
+        new.$KEY_ACCOUNTID = old.$KEY_ACCOUNTID AND
+        new.$KEY_TRANSFER_PEER IS old.$KEY_TRANSFER_PEER AND
         new.$KEY_UUID IS NOT NULL
         BEGIN INSERT INTO $TABLE_CHANGES($KEY_TYPE,$KEY_SYNC_SEQUENCE_LOCAL, $KEY_UUID, $KEY_ACCOUNTID, $KEY_PARENT_UUID, $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, $KEY_AMOUNT, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_CATID, $KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_CR_STATUS, $KEY_STATUS, $KEY_REFERENCE_NUMBER)
         VALUES ('${TransactionChange.Type.updated}', 
@@ -102,7 +71,7 @@ val TRANSACTIONS_UPDATE_TRIGGER_CREATE =
         END;"""
 
 val INSERT_TRIGGER_ACTION =
-    """INSERT INTO $TABLE_CHANGES($KEY_TYPE,$KEY_SYNC_SEQUENCE_LOCAL, $KEY_UUID, $KEY_PARENT_UUID, $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, $KEY_AMOUNT, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_CATID, $KEY_ACCOUNTID,$KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID,$KEY_CR_STATUS, $KEY_STATUS, $KEY_REFERENCE_NUMBER)
+    """INSERT INTO $TABLE_CHANGES($KEY_TYPE,$KEY_SYNC_SEQUENCE_LOCAL, $KEY_UUID, $KEY_PARENT_UUID, $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, $KEY_AMOUNT, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_CATID, $KEY_ACCOUNTID, $KEY_PAYEEID, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_CR_STATUS, $KEY_STATUS, $KEY_REFERENCE_NUMBER)
         VALUES ('${TransactionChange.Type.created}',
         ${sequenceNumberSelect("new")},
         new.$KEY_UUID,
@@ -112,8 +81,7 @@ val INSERT_TRIGGER_ACTION =
 val TRANSACTIONS_UUID_UPDATE_TRIGGER_CREATE =
     """CREATE TRIGGER uuid_update_change_log AFTER UPDATE ON $TABLE_TRANSACTIONS 
         WHEN ${shouldWriteChangeTemplate("new")} 
-        AND old.$KEY_UUID != new.$KEY_UUID 
-        AND new.$KEY_STATUS != $STATUS_UNCOMMITTED
+        AND old.$KEY_UUID != new.$KEY_UUID
         BEGIN
         $INSERT_TRIGGER_ACTION
         $DELETE_TRIGGER_ACTION
@@ -121,7 +89,7 @@ val TRANSACTIONS_UUID_UPDATE_TRIGGER_CREATE =
 
 val TRANSACTIONS_INSERT_TRIGGER_CREATE =
     """CREATE TRIGGER insert_change_log AFTER INSERT ON $TABLE_TRANSACTIONS
-    WHEN ${shouldWriteChangeTemplate("new")} AND new.$KEY_STATUS != $STATUS_UNCOMMITTED
+    WHEN ${shouldWriteChangeTemplate("new")}
     BEGIN
     $INSERT_TRIGGER_ACTION
     END
@@ -129,9 +97,8 @@ val TRANSACTIONS_INSERT_TRIGGER_CREATE =
 
 private val TRANSACTIONS_INSERT_AFTER_UPDATE_TRIGGER_CREATE =
     """CREATE TRIGGER insert_after_update_change_log AFTER UPDATE ON $TABLE_TRANSACTIONS
-    WHEN ${shouldWriteChangeTemplate("new")} AND 
-    ((old.$KEY_STATUS = $STATUS_UNCOMMITTED AND new.$KEY_STATUS != $STATUS_UNCOMMITTED) OR 
-    (old.$KEY_ACCOUNTID != new.$KEY_ACCOUNTID AND new.$KEY_STATUS != $STATUS_UNCOMMITTED))
+    WHEN ${shouldWriteChangeTemplate("new")} AND
+    old.$KEY_ACCOUNTID != new.$KEY_ACCOUNTID
     BEGIN
     $INSERT_TRIGGER_ACTION
     END"""

@@ -1,14 +1,26 @@
-imprint: ইমপ্রিন্টিং
-imprint_text: এই ওয়েবসাইটের বিষয়বস্তুর উন্নয়ন, রক্ষণাবেক্ষণ এবং বিতরণের জন্য দায়ী<i>{app_name}</i>
-hero_main: অ্যান্ড্রয়েড এর জন্য ব্যক্তিগত অর্থ ব্যবস্থাপক
-hero_sub:
-  source: ওপেন সোর্স
-  functionality: বর্ধিত সুবিধা
-  use: ব্যবহার করা সহজ
-sections:
-  features: বৈশিষ্ট্যসমূহ
-  premium: প্রিমিয়াম নিন
-  participate: অংশগ্রহণ
-privacy_policy_heading: গোপনীয়তার নীতি
-menu_title:
-  more_information: আরও তথ্য
+bn:
+  imprint: ইমপ্রিন্টিং
+  imprint_text: এই ওয়েবসাইটের বিষয়বস্তুর উন্নয়ন, রক্ষণাবেক্ষণ এবং বিতরণের জন্য দায়ী <i>{app_name}</i>
+  hero_main: অ্যান্ড্রয়েড এর জন্য ব্যক্তিগত অর্থ ব্যবস্থাপক
+  hero_sub:
+    source: ওপেন সোর্স
+    functionality: বর্ধিত সুবিধা
+    use: ব্যবহার করা সহজ
+  sections:
+    features: বৈশিষ্ট্যসমূহ
+    premium: প্রিমিয়াম নিন
+    participate: অংশগ্রহণ
+  privacy_policy_heading: গোপনীয়তার নীতি
+  menu_title:
+    more_information: আরও তথ্য
+  screenshot_titles:
+    group: বছর, মাস বা সপ্তাহ অনুযায়ী গ্রুপ করুন
+    summarize: আপনার সমস্ত অ্যাকাউন্টের যোগফল দেখুন
+    budget: বার্ষিক, মাসিক এবং সাপ্তাহিক বাজেট
+    split: একাধিক ক্যাটাগরিতে স্প্লিট করুন
+    distribution: পাই চার্ট ডায়াগ্রাম
+    history: আপনার আর্থিক অবস্থার ইতিহাস
+    export: PDF, QIF এবং CSV-তে এক্সপোর্ট করুন
+    sync: ক্লাউড সিঙ্ক
+  store:
+    short_description: "ব্যবহার করা সহজ ব্যক্তিগত অর্থ ব্যবস্থাপক: সমৃদ্ধ সুবিধা এবং ওপেন সোর্স"

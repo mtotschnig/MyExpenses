@@ -68,11 +68,7 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Sold  %1$s</string>
     <string name="dialog_title_contrib_feature">Funcţionaliate premium</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Șterge cont?</item>
-        <item quantity="few">Ștergeți conturile %1$d?</item>
-        <item quantity="other">Ștergeți conturile %1$d?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Șterge cont?</string>
     <string name="dialog_title_warning_delete_template">Şterg şablon?</string>
     <string name="dialog_title_warning_delete_transaction">Şterg  tranzacţie?</string>
     <string name="expense">Cheltuială</string>
@@ -135,7 +131,7 @@
     <string name="menu_edit_method">Editează metodă plată</string>
     <string name="menu_edit_party">Editează terţ</string>
     <string name="menu_edit_plan_instance">Editează scadenţa</string>
-    <string name="menu_edit_split">Editează repartizare</string>
+    <string name="menu_edit_split">Editați tranzacția repartizată</string>
     <string name="menu_edit_split_part_category">Editează categoria repartizare</string>
     <string name="menu_edit_split_part_transfer">Editează transfer repartizare</string>
     <string name="menu_edit_template">Editează şablon</string>
@@ -159,7 +155,6 @@
     <string name="menu_split_transaction">Transformă in repartizare</string>
     <string name="method">Modalitate de plată</string>
     <string name="no_app_handling_email_available">Nici o aplicaţie disponibilă pentru trimitere email.</string>
-    <string name="no_app_handling_ftp_available">Nici o aplicaţie disponibilă pentru ftp.Instalez <i>Trimit prinFTP</i>?</string>
     <string name="no_app_handling_mime_type_available">Nici o aplicaţie disponibilă pentru fişiere %s</string>
     <string name="no_categories">Nici o categorie.</string>
     <string name="no_expenses">Nici o cheltuială încă!</string>
@@ -193,7 +188,7 @@
     <string name="password_security_answer_not_valid">Răspuns greşit. Încearcă din nou!</string>
     <string name="payee">Beneficiar</string>
     <string name="payer">Plătitor</string>
-    <string name="payer_or_payee">Beneficiar/Plătitor</string>
+    <string name="payer_or_payee">Contraparte</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Scadenţă</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -223,7 +218,6 @@
     <string name="pref_category_title_more_information">Mai multe informaţii</string>
     <string name="pref_category_title_ui">Interfaţa utilizator</string>
     <string name="pref_contrib_purchase_title_upgrade">Actualizează cheia</string>
-    <string name="pref_custom_currency_title">Personalizează valutele</string>
     <string name="pref_enter_licence_title">Introduceţi cheia</string>
     <string name="pref_export_format_title">Format date</string>
     <string name="pref_import_from_grisbi_summary">Import categorii şi terţi din fişier Grisbi XML</string>
@@ -259,8 +253,6 @@
     <string name="pref_send_feedback_title">Trimiteţi feedback</string>
     <string name="pref_share_target_summary">Lăsaţi necompletat dacă doriţi să alegeţi dintre aplicaţiile adecvate (E-mail, Dropbox, Google Docs, …) sau furnizaţi URL într-una din schemele acceptate</string>
     <string name="pref_share_target_title">Upload URL</string>
-    <string name="pref_shortcut_added">Shortcut-ul a fost adăugată la Ecranul Home </string>
-    <string name="pref_shortcut_not_added">Niciun Ecran Home disponibil care acceptă shortcut-uri.</string>
     <string name="pref_shortcut_summary">Adăugă shortcut la Ecranul Home .</string>
     <string name="pref_ui_home_screen_shortcuts">Shortcut-uri ecran Home</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -285,9 +277,9 @@
     <string name="save_transaction_and_new_success">Salvată</string>
     <string name="save_transaction_error">Noua tranzacţia din şablon nu afost salvată</string>
     <plurals name="save_transaction_from_template_success">
-        <item quantity="one">Tranzacţie nouă salvată din şablon</item>
-        <item quantity="few">%1$d tranzacţii noi au fost salvate din şabloane</item>
-        <item quantity="other">%1$d tranzacţii noi au fost salvate din şabloane</item>
+        <item quantity="one">Tranzacţie nouă salvată din şablon.</item>
+        <item quantity="few">%1$d tranzacţii noi au fost salvate din şabloane.</item>
+        <item quantity="other">%1$d tranzacţii noi au fost salvate din şabloane.</item>
     </plurals>
     <string name="save_transaction_template_deleted">Şablonul a fost şters</string>
     <string name="select">Selectează </string>
@@ -348,17 +340,28 @@
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Dacă veţi continua, pentru toate conturile%1$s, tranzacţiile vor fi şterse din baza de date şi nu se vor putea restaura.</string>
     <string name="warning_restore">Baza de date si preferinţele  vor fi restaurate din fişierul \"%1$s\". Datele actuale vor fi şterse.</string>
-    <string name="warning_splitpartcategory_context">Transferurile care fac parte dintr-o repartizare pot fi editate numai în contextul repartizării.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Setează un număr între %1$d şi %2$d, te rog</string>
     <string name="warning_change_fraction_digits_checkbox_label">Actualizarea sumelor în baza de date</string>
-    <string name="import_categories_success">%1$d categorii importate.</string>
-    <string name="import_parties_success">%1$d terţi importaţi.</string>
-    <string name="import_accounts_success">%1$d conturi importate.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d tranzacţii importate în contul %2$s</string>
-    <string name="import_accounts_none">Nici un cont importat</string>
-    <string name="import_categories_none">Nici o categorie importată</string>
-    <string name="import_parties_none">Nici un terţ importat</string>
-    <string name="import_transactions_none">Nici o tranzacţie importată in contul %1$s </string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d categorie importată.</item>
+        <item quantity="few">%1$d categorii importate.</item>
+        <item quantity="other">%1$d categorii importate.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d terţ importat.</item>
+        <item quantity="few">%1$d terţi importaţi.</item>
+        <item quantity="other">%1$d terţi importaţi.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d cont importat.</item>
+        <item quantity="few">%1$d conturi importate.</item>
+        <item quantity="other">%1$d conturi importate.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d tranzacţie importată în contul %2$s</item>
+        <item quantity="few">%1$d tranzacţii importate în contul %2$s</item>
+        <item quantity="other">%1$d tranzacţii importate în contul %2$s</item>
+    </plurals>
     <string name="import_source_select_error">Furnizaţi vă rog un fişier de tip %1$s</string>
     <string name="menu_categories_setup_default">Setare categorii implicite</string>
     <string name="widget_title_accounts">Conturile mele</string>
@@ -423,7 +426,6 @@
     <string name="pref_sort_order_next_instance">Instanță următoare</string>
     <string name="synchronization">Sincronizare</string>
     <string name="synchronization_none">Fără sincronizare</string>
-    <string name="hint_url">URL</string>
     <string name="template">Şablon</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Sincronizare în cloud</string>
     <string name="professional_key">Cheie profesională</string>
@@ -475,7 +477,6 @@
     <string name="pref_auto_fill_summary">Completați datele din ultima tranzacție pentru același beneficiar/plătitor</string>
     <string name="warning_change_fraction_digits_1">Sumele din baza de date trebuie actualizate pentru a corespunde noului număr de fracții.</string>
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Dacă sumele nu sunt actualizate, acestea vor fi afișate împărțite la %d după modificare.</string>
-    <string name="app_dir_not_compatible_with_nougat">URI-ul configurat în prezent pentru backup și exporturi (%1$s) nu este acceptat cu Android Nougat. Vă rugăm să selectați din nou un dosar.</string>
     <string name="select_payee">Selectați plătitorul/beneficiarul</string>
     <string name="hint_auto_fill">Ar trebui să fie completate automat datele din ultima tranzacție pentru același beneficiar/plătitor? Puteți schimba oricând acest comportament din setări.</string>
     <string name="dialog_contrib_text_2">Contribuiți prin actualizarea <i>{app_name}</i> și obțineți acces nerestricționat la următoarele funcții:</string>
@@ -487,7 +488,6 @@
     <string name="cvs_import_set_first_line_as_header">Prima linie trebuie tratată ca o linie de antet?</string>
     <string name="csv_import_no_mapping_found_for_amount">Vă rugăm să mapați o coloană fie la sumă, la venituri sau la cheltuieli.</string>
     <string name="calendar_permission_required"><i>{app_name}</i> are nevoie de permisiune pentru a vă accesa calendarul, pentru a crea planuri pentru tranzacții viitoare și recurente.</string>
-    <string name="progress_dialog_updating_split_parts">Actualizarea părților divizate</string>
     <string name="io_error_unable_to_create_file">Imposibil de creat fișierul %1$s în folderul %2$s</string>
     <string name="contrib_feature_category_tree_label">Ierarhie de categorii arbitrar de profundă</string>
     <string name="warning_delete_category_with_budget">Pentru cel puțin o categorie selectată, există alocări bugetare, care vor fi, de asemenea, șterse.</string>
@@ -509,25 +509,18 @@
     <string name="menu_create_sync_backend">Noul backend de sincronizare</string>
     <string name="crash_dialog_title">{app_name} s-a blocat</string>
     <string name="crash_dialog_comment_prompt">Puteți adăuga comentariile dvs. despre problemă mai jos:</string>
-    <string name="description_webdav_trust_certificate">Site-ul web utilizează un certificat, care nu este de încredere pentru Android.</string>
-    <string name="validate_error_webdav_invalid_certificate">Nu se putea avea încredere în certificat. Pare invalid.</string>
     <string name="pref_sync_frequency_summary">Cât de des trebuie sincronizate datele (în ore).</string>
     <string name="dialog_sync_link">Un cont cu uuid %s există atât în baza de date locală, cât și pe backend-ul de la distanță. Când le conectați pe ambele, trebuie să decideți dacă, inițial, doriți să încărcați date locale în backend-ul de la distanță sau să descărcați date de la distanță în baza de date locală.</string>
     <string name="dialog_command_sync_link_remote">Descărcați de la distanță</string>
     <string name="validate_error_not_empty">Nu trebuie să fie goală</string>
     <string name="paypal_callback_info">Tranzacția dvs. a fost finalizată și o chitanță pentru achiziția dvs. v-a fost trimisă prin e-mail. Vă puteți conecta în contul dvs. la www.paypal.com pentru a vedea detaliile acestei tranzacții.</string>
-    <string name="label_trust_certificate">Autorizați acest certificat</string>
-    <string name="description_webdav_url">Vă rugăm să introduceți adresa URL a unui folder special de pe serverul dvs. WebDAV. {app_name} își va stoca datele în acest dosar, nu va atinge nimic din afara acestuia.</string>
-    <string name="url_not_valid">Adresa URL nu este validă</string>
     <string name="menu_sync_unlink">Opriți sincronizarea</string>
-    <string name="validate_error_webdav_not_compliant">URL-ul nu indică spre o resursă WebDAV.</string>
     <string name="menu_sync_download">Descărcați și sincronizați</string>
     <string name="crash_dialog_text">A apărut o eroare neașteptată forțând aplicația să se oprească. Vă rugăm să ne ajutați să remediem acest lucru trimițându-ne date de eroare, tot ce trebuie să faceți este să faceți clic pe OK.</string>
     <string name="content_description_calculator_delete_button">Ștergeți ultima cifră</string>
     <string name="dialog_confirm_sync_unlink">Dacă deconectați acest cont de la %s, starea de sincronizare se pierde. Legarea lor din nou mai târziu, necesită o sincronizare completă pentru a fi executată din nou.</string>
     <string name="dialog_command_sync_link_local">Încărcați din local</string>
     <string name="no_sync_backends">Fără backend-uri de sincronizare</string>
-    <string name="validate_error_webdav_404">URL-ul nu există pe server.</string>
     <string name="search_transfer">Caută transfer</string>
     <string name="search_account">Căutați cont</string>
     <string name="menu_sync_link">Începeți sincronizarea</string>
@@ -626,7 +619,6 @@
     <string name="licence_expires_tomorrow">Cheia profesională va expira mâine.</string>
     <string name="menu_ungroup_split_transaction">Anularea divizării grupului</string>
     <string name="split_transaction_not_possible">Numai tranzacțiile care au același cont, beneficiar și statut pot fi grupate într-o singură tranzacție.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Accesați %s pentru a configura un ecran de blocare.</string>
     <string name="menu_history_show_balance">Afișați echilibrul</string>
     <string name="history_chart_in_label">Venit</string>
     <string name="menu_history_totals">Afișează totalurile</string>
@@ -719,7 +711,7 @@
     <string name="pref_feature_uninstall_title">Solicitați dezinstalarea caracteristicilor și limbilor</string>
     <string name="template_default_action_without_amount_hint">Șablonul fără sumă ar trebui salvat cu acțiunea implicită „Editare”</string>
     <string name="plan_automatic_without_amount_hint">Planul fără sumă nu trebuie salvat cu execuția automată a planului</string>
-    <string name="github_sponsors">Cheile de licență sunt, de asemenea, furnizate &lt;unui href=%s&gt;Sponsorilor Github&lt;/a&gt;.</string>
+    <string name="github_sponsors"><![CDATA[Cheile de licență sunt, de asemenea, furnizate <unui href=%s>Sponsorilor Github</a>.]]></string>
     <string name="menu_tag">Etichetă</string>
     <string name="pref_ocr_time_formats_title">Formate de timp</string>
     <string name="content_description_download_exchange_rate">Descărcați cursul de schimb</string>
@@ -775,12 +767,11 @@
     <string name="budget_filter_all_parties">Toate părțile</string>
     <string name="warning_delete_budget">Bugetul „%1$s” va fi șters.</string>
     <string name="select_package">Vă rugăm să selectați un pachet de licențe.</string>
-    <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Atingeți și mențineți apăsat butonul de acțiune flotantă pentru a deschide direct formularul pentru transferuri, tranzacții împărțite sau venituri.</string>
     <string name="advance_exexcution_in_days">Execuție în avans (în zile)</string>
     <string name="account_widget_configuration_sum">Tipul sumei afișate</string>
     <string name="account_widget_configuration_sum_total">Includeți tranzacțiile viitoare</string>
     <string name="pref_exchange_rate_provider_summary">Selectați furnizorul pentru a descărca ratele de schimb</string>
-    <string name="pref_plan_executor_time_title">Ora de notificare a planificatorului</string>
+    <string name="pref_plan_executor_time_title">Ora de notificare</string>
     <string name="button_label_clone_and_remap">Clonați și remapați</string>
     <string name="pref_feature_uninstall_summary">Magazinul Play încearcă în cele din urmă să elimine acele module din fundal.</string>
     <string name="tesseract_download_confirmation">Doriți să descărcați date de recunoaștere a textului pentru %s?</string>
@@ -826,7 +817,7 @@
     <string name="dialog_title_warning_delete_tag">Ștergeți eticheta?</string>
     <string name="pref_clone_with_current_date_summary_on">Tranzacțiile clonate au data curentă</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">Eticheta %1$s este mapată la o singură tranzacție. Ar trebui șters?</item>
+        <item quantity="one">Eticheta %1$s este mapată la %2$d tranzacție. Ar trebui șters?</item>
         <item quantity="few">Eticheta %1$s este mapată la %2$d tranzacții. Ar trebui șters?</item>
         <item quantity="other">Eticheta %1$s este mapată la %2$d de tranzacții. Ar trebui șters?</item>
     </plurals>
@@ -842,7 +833,7 @@
     <string name="warning_party_delete_debt">La ștergerea acestei părți, datoriile definite pentru aceasta vor fi șterse, de asemenea.</string>
     <string name="purge_backups">Următoarele fișiere vechi de rezervă vor fi șterse:</string>
     <plurals name="import_categories_icons_updated">
-        <item quantity="one">O categorie a fost actualizată cu pictograma.</item>
+        <item quantity="one">%1$d categorie a fost actualizată cu pictograma.</item>
         <item quantity="few">%1$d categorii au fost actualizate cu pictograme.</item>
         <item quantity="other">%1$d de categorii au fost actualizate cu pictograme.</item>
     </plurals>
@@ -859,7 +850,7 @@
     </plurals>
     <string name="pref_purge_backup_require_confirmation_summary">Afișați promptul de confirmare înainte ca fișierele să fie curățate</string>
     <string name="pref_csv_export_split_amount_summary">Utilizați coloane separate pentru venituri și cheltuieli</string>
-    <string name="webui_warning_move_transaction">Tranzacția va fi mutată în cont {cont}.</string>
+    <string name="webui_warning_move_transaction">Tranzacția va fi mutată în cont {account}.</string>
     <string name="pref_csv_export_split_date_time_summary">Utilizați coloane separate pentru dată și oră</string>
     <string name="budget_only_current_period">Set numai pentru %s</string>
     <string name="budget_table_header_rollover">Rollover</string>
@@ -891,7 +882,7 @@
     <string name="default_transfer_category">Categoria de transfer implicită</string>
     <string name="menu_unlink_transfer">Deconectați transferul</string>
     <string name="menu_transform_to_transfer">Transformați în transfer</string>
-    <string name="roadmap_intro">Votul pentru foaia de parcurs 2024 este acum deschis! Votați pentru funcțiile și îmbunătățirile care contează cel mai mult pentru dvs.</string>
+    <string name="roadmap_intro">Votul pentru foaia de parcurs %d este acum deschis! Votați pentru funcțiile și îmbunătățirile care contează cel mai mult pentru dvs.</string>
     <string name="merge_categories_prompt">Selectați categoria pe care doriți să o păstrați</string>
     <string name="pref_csv_export_category_separator_summary">Separator între nivelurile ierarhiei categoriilor</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_on">sunt considerate drept transfer</string>
@@ -908,4 +899,13 @@
     <string name="balance_sheet_net_worth">Valoare netă</string>
     <string name="price_history">Istoricul prețurilor</string>
     <string name="pref_account_list_display_configuration_title">Listă de conturi</string>
+    <string name="menu_templates">Șabloane</string>
+    <string name="pref_ui_start_screen_title">Ecran de pornire</string>
+    <string name="pref_ui_start_screen_last_visited">Ultimul vizitat</string>
+    <string name="important_upgrade_information_heading">Informaţii importante</string>
+    <string name="pref_tag_style_title">Stil etichetă</string>
+    <string name="pref_tag_style_outline">Bordură colorată</string>
+    <string name="pref_tag_style_filled">Complet colorat</string>
+    <string name="trade_additional_costs">Costuri suplimentare</string>
+    <string name="contrib_feature_portfolio_tracking">Urmărirea portofoliului</string>
 </resources>

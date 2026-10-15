@@ -6,6 +6,7 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.content.res.Resources
+import android.content.res.XmlResourceParser
 import android.database.Cursor
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteDatabase
@@ -22,51 +23,15 @@ import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.localizedLabelForPaymentMethod
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Template
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE_LIST
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL_NORMALIZED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTTYES_METHODS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_TYPES
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CHANGES
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.PlannerUtils.Companion.copyEventData
+import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.pauseChangeTrigger
+import org.totschnig.myexpenses.provider.TransactionProvider.resumeChangeTrigger
 import org.totschnig.myexpenses.provider.filter.Operation
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccount
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountNames
@@ -75,31 +40,44 @@ import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.ColorUtils
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
 import org.totschnig.myexpenses.util.Utils
-import org.totschnig.myexpenses.util.calculateRealExchangeRate
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.data.Category
 import timber.log.Timber
 import java.io.File
+import org.xmlpull.v1.XmlPullParser
+import org.xmlpull.v1.XmlPullParserException
 
-fun <T> SupportSQLiteDatabase.safeUpdateWithSealed(runnable: () -> T): T {
+fun <T> SupportSQLiteDatabase.safeUpdateWithSealed(
+    protectAccounts: Boolean = true,
+    protectDebts: Boolean = true,
+    runnable: () -> T
+): T {
     beginTransaction()
     try {
-        ContentValues(1).apply {
-            put(KEY_SEALED, -1)
-            update(TABLE_ACCOUNTS, this, "$KEY_SEALED= ?", arrayOf("1"))
+        if (protectAccounts) {
+            ContentValues(1).apply {
+                put(KEY_SEALED, -1)
+                update(TABLE_ACCOUNTS, this, "$KEY_SEALED= ?", arrayOf("1"))
+            }
         }
-        ContentValues(1).apply {
-            put(KEY_SEALED, -1)
-            update(TABLE_DEBTS, this, "$KEY_SEALED= ?", arrayOf("1"))
+        if (protectDebts) {
+            ContentValues(1).apply {
+                put(KEY_SEALED, -1)
+                update(TABLE_DEBTS, this, "$KEY_SEALED= ?", arrayOf("1"))
+            }
         }
         val result = runnable()
-        ContentValues(1).apply {
-            put(KEY_SEALED, 1)
-            update(TABLE_ACCOUNTS, this, "$KEY_SEALED= ?", arrayOf("-1"))
+        if (protectAccounts) {
+            ContentValues(1).apply {
+                put(KEY_SEALED, 1)
+                update(TABLE_ACCOUNTS, this, "$KEY_SEALED= ?", arrayOf("-1"))
+            }
         }
-        ContentValues(1).apply {
-            put(KEY_SEALED, 1)
-            update(TABLE_DEBTS, this, "$KEY_SEALED= ?", arrayOf("-1"))
+        if (protectDebts) {
+            ContentValues(1).apply {
+                put(KEY_SEALED, 1)
+                update(TABLE_DEBTS, this, "$KEY_SEALED= ?", arrayOf("-1"))
+            }
         }
         setTransactionSuccessful()
         return result
@@ -117,7 +95,7 @@ fun unlinkTransfers(
         val result1 = db.update(TABLE_TRANSACTIONS, ContentValues().apply {
             putNull(KEY_TRANSFER_PEER)
             putNull(KEY_TRANSFER_ACCOUNT)
-            put(KEY_UUID, Model.generateUuid())
+            put(KEY_UUID, generateUuid())
         }, "$KEY_ROWID = ?", arrayOf(id))
         check(result1 == 1) {
             "Update by rowId yielded $result1 affected rows"
@@ -125,7 +103,7 @@ fun unlinkTransfers(
         val result2 = db.update(TABLE_TRANSACTIONS, ContentValues().apply {
             putNull(KEY_TRANSFER_PEER)
             putNull(KEY_TRANSFER_ACCOUNT)
-            put(KEY_UUID, Model.generateUuid())
+            put(KEY_UUID, generateUuid())
         }, "$KEY_TRANSFER_PEER = ?", arrayOf(id))
         check(result2 == 1) {
             "Update by transferPeer yielded $result2 affected rows"
@@ -145,7 +123,9 @@ fun linkTransfers(
 ): Int {
     db.beginTransaction()
     try {
+        pauseChangeTrigger(db)
         //both transactions get uuid from first transaction
+
         val sql = """UPDATE $TABLE_TRANSACTIONS SET
             $KEY_CATID = null,
             $KEY_PAYEEID = null,
@@ -155,9 +135,15 @@ fun linkTransfers(
             WHERE $KEY_UUID = ? AND EXISTS (SELECT 1 FROM $TABLE_TRANSACTIONS where $KEY_UUID = ?)"""
         db.compileStatement(sql).use {
             it.bindAllArgsAsStrings(listOf(uuid1, uuid2, uuid2, uuid1, uuid2))
-            val result1 = it.executeUpdateDelete()
-            check(result1 == 1) {
-                "Update for $uuid1 yielded $result1 affected rows"
+            when(val result1 = it.executeUpdateDelete()) {
+                0 -> {
+                    Timber.d("$uuid1 maybe already linked")
+                    return@use
+                }
+                1 -> {}
+                else -> {
+                    throw IllegalStateException("Update for $uuid1 yielded $result1 affected rows")
+                }
             }
             it.bindAllArgsAsStrings(listOf(uuid1, uuid1, uuid1, uuid2, uuid1))
             val result2 = it.executeUpdateDelete()
@@ -180,6 +166,7 @@ fun linkTransfers(
                 it.execute()
             }
         }
+        resumeChangeTrigger(db)
         db.setTransactionSuccessful()
     } finally {
         db.endTransaction()
@@ -199,8 +186,11 @@ fun transformToTransfer(
     return try {
         //insert transfer peer into transfer account
         val transferPeer = db.compileStatement(
-            """INSERT INTO $TABLE_TRANSACTIONS ($KEY_ACCOUNTID, $KEY_TRANSFER_ACCOUNT, $KEY_UUID, $KEY_TRANSFER_PEER, $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, $KEY_AMOUNT, $KEY_CATID)
-            SELECT $transferAccountId, $KEY_ACCOUNTID, $KEY_UUID, $transactionId, $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, -$KEY_AMOUNT, coalesce($KEY_CATID, ?) FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = ?
+            """INSERT INTO $TABLE_TRANSACTIONS (
+                   $KEY_ACCOUNTID,     $KEY_TRANSFER_ACCOUNT, $KEY_UUID, $KEY_TRANSFER_PEER, $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, $KEY_AMOUNT,  $KEY_CATID)
+            SELECT $transferAccountId, $KEY_ACCOUNTID,        $KEY_UUID, $transactionId,     $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, -$KEY_AMOUNT, coalesce($KEY_CATID, ?)
+            FROM $TABLE_TRANSACTIONS
+            WHERE $KEY_ROWID = ?
             """
         ).use {
             if (defaultTransferCategory != null) {
@@ -302,81 +292,153 @@ fun SupportSQLiteDatabase.findCategoryByUuid(uuid: String) = findCategory(
 )
 
 
-val incomeCategories = arrayOf(
-    Triple(R.array.Cat_I_1, R.array.Cat_I_1_Icons, R.array.Cat_I_1_Uuids),
-    Triple(R.array.Cat_I_2, R.array.Cat_I_2_Icons, R.array.Cat_I_2_Uuids),
-    Triple(R.array.Cat_I_3, R.array.Cat_I_3_Icons, R.array.Cat_I_3_Uuids),
-    Triple(R.array.Cat_I_4, R.array.Cat_I_4_Icons, R.array.Cat_I_4_Uuids),
-    Triple(R.array.Cat_I_5, R.array.Cat_I_5_Icons, R.array.Cat_I_5_Uuids)
+data class SubCategoryTreeItem(
+    val label: String,
+    val uuid: String,
+    val icon: String,
 )
 
-val expenseCategories = arrayOf(
-    Triple(R.array.Cat_E_1, R.array.Cat_E_1_Icons, R.array.Cat_E_1_Uuids),
-    Triple(R.array.Cat_E_2, R.array.Cat_E_2_Icons, R.array.Cat_E_2_Uuids),
-    Triple(R.array.Cat_E_3, R.array.Cat_E_3_Icons, R.array.Cat_E_3_Uuids),
-    Triple(R.array.Cat_E_4, R.array.Cat_E_4_Icons, R.array.Cat_E_4_Uuids),
-    Triple(R.array.Cat_E_5, R.array.Cat_E_5_Icons, R.array.Cat_E_5_Uuids),
-    Triple(R.array.Cat_E_6, R.array.Cat_E_6_Icons, R.array.Cat_E_6_Uuids),
-    Triple(R.array.Cat_E_7, R.array.Cat_E_7_Icons, R.array.Cat_E_7_Uuids),
-    Triple(R.array.Cat_E_8, R.array.Cat_E_8_Icons, R.array.Cat_E_8_Uuids),
-    Triple(R.array.Cat_E_9, R.array.Cat_E_9_Icons, R.array.Cat_E_9_Uuids),
-    Triple(R.array.Cat_E_10, R.array.Cat_E_10_Icons, R.array.Cat_E_10_Uuids),
-    Triple(R.array.Cat_E_11, R.array.Cat_E_11_Icons, R.array.Cat_E_11_Uuids),
-    Triple(R.array.Cat_E_12, R.array.Cat_E_12_Icons, R.array.Cat_E_12_Uuids),
-    Triple(R.array.Cat_E_13, R.array.Cat_E_13_Icons, R.array.Cat_E_13_Uuids),
-    Triple(R.array.Cat_E_14, R.array.Cat_E_14_Icons, R.array.Cat_E_14_Uuids),
-    Triple(R.array.Cat_E_15, R.array.Cat_E_15_Icons, R.array.Cat_E_15_Uuids),
-    Triple(R.array.Cat_E_16, R.array.Cat_E_16_Icons, R.array.Cat_E_16_Uuids),
-    Triple(R.array.Cat_E_17, R.array.Cat_E_17_Icons, R.array.Cat_E_17_Uuids)
+data class CategoryTreeItem(
+    val type: Byte,
+    val label: String,
+    val uuid: String,
+    val icon: String,
+    val subcategories: List<SubCategoryTreeItem>,
 )
+
+private fun XmlResourceParser.resolveLabel(resources: Resources): String {
+    val resId = getAttributeResourceValue(null, "label", 0)
+    return if (resId != 0) resources.getString(resId) else getAttributeValue(null, "label") ?: ""
+}
+
+private val ALLOWED_CATEGORY_ATTRS = setOf("type", "uuid", "icon", "label")
+private val ALLOWED_SUBCATEGORY_ATTRS = setOf("uuid", "icon", "label")
+
+private fun XmlResourceParser.validateAttributes(allowed: Set<String>) {
+    for (i in 0 until attributeCount) {
+        val attrName = getAttributeName(i)
+        if (attrName !in allowed) {
+            throw XmlPullParserException("Unexpected attribute '$attrName' on <$name> at line $lineNumber")
+        }
+    }
+}
+
+fun parseCategoriesFromXml(resources: Resources): List<CategoryTreeItem> {
+    val parser = resources.getXml(R.xml.categories)
+    val categories = mutableListOf<CategoryTreeItem>()
+
+    var currentMainType: Byte? = null
+    var currentMainUuid: String? = null
+    var currentMainIcon: String? = null
+    var currentMainLabel: String? = null
+    var currentSubcategories = mutableListOf<SubCategoryTreeItem>()
+    var inCategory = false
+
+    var eventType = parser.eventType
+    while (eventType != XmlPullParser.END_DOCUMENT) {
+        if (eventType == XmlPullParser.START_TAG) {
+            when (parser.name) {
+                "categories" -> {
+                    // Root tag
+                }
+                "category" -> {
+                    if (inCategory) {
+                        throw XmlPullParserException("Nested <category> tag is not supported at line ${parser.lineNumber}")
+                    }
+                    parser.validateAttributes(ALLOWED_CATEGORY_ATTRS)
+                    val typeStr = parser.getAttributeValue(null, "type")
+                    if (typeStr != "income" && typeStr != "expense") {
+                        throw XmlPullParserException("Invalid or missing 'type' attribute ($typeStr) on <category> at line ${parser.lineNumber}")
+                    }
+                    currentMainType = if (typeStr == "income") FLAG_INCOME else FLAG_EXPENSE
+                    currentMainUuid = parser.getAttributeValue(null, "uuid")?.takeIf { it.isNotEmpty() }
+                        ?: throw XmlPullParserException("Missing 'uuid' attribute on <category> at line ${parser.lineNumber}")
+                    currentMainIcon = parser.getAttributeValue(null, "icon")?.takeIf { it.isNotEmpty() }
+                        ?: throw XmlPullParserException("Missing 'icon' attribute on <category> at line ${parser.lineNumber}")
+                    currentMainLabel = parser.resolveLabel(resources).takeIf { it.isNotEmpty() }
+                        ?: throw XmlPullParserException("Missing 'label' attribute on <category> at line ${parser.lineNumber}")
+                    currentSubcategories = mutableListOf()
+                    inCategory = true
+                }
+                "subcategory" -> {
+                    if (!inCategory) {
+                        throw XmlPullParserException("<subcategory> tag must be inside <category> at line ${parser.lineNumber}")
+                    }
+                    parser.validateAttributes(ALLOWED_SUBCATEGORY_ATTRS)
+                    val subUuid = parser.getAttributeValue(null, "uuid")?.takeIf { it.isNotEmpty() }
+                        ?: throw XmlPullParserException("Missing 'uuid' attribute on <subcategory> at line ${parser.lineNumber}")
+                    val subIcon = parser.getAttributeValue(null, "icon")?.takeIf { it.isNotEmpty() }
+                        ?: throw XmlPullParserException("Missing 'icon' attribute on <subcategory> at line ${parser.lineNumber}")
+                    val subLabel = parser.resolveLabel(resources).takeIf { it.isNotEmpty() }
+                        ?: throw XmlPullParserException("Missing 'label' attribute on <subcategory> at line ${parser.lineNumber}")
+                    currentSubcategories.add(SubCategoryTreeItem(subLabel, subUuid, subIcon))
+                }
+                else -> {
+                    throw XmlPullParserException("Unexpected tag <${parser.name}> at line ${parser.lineNumber}")
+                }
+            }
+        } else if (eventType == XmlPullParser.END_TAG && parser.name == "category") {
+            if (currentMainType != null && currentMainLabel != null) {
+                categories.add(
+                    CategoryTreeItem(
+                        type = currentMainType,
+                        label = currentMainLabel,
+                        uuid = currentMainUuid ?: "",
+                        icon = currentMainIcon ?: "",
+                        subcategories = currentSubcategories,
+                    )
+                )
+            }
+            inCategory = false
+            currentMainType = null
+            currentMainLabel = null
+        }
+        eventType = parser.next()
+    }
+    return categories
+}
 
 fun getImportableCategories(
     database: SupportSQLiteDatabase,
     resources: Resources,
-) = Category(
-    children = (incomeCategories + expenseCategories)
-        .mapIndexedNotNull { indexMain, (categoriesResId, _, uuidResId) ->
-            val categories = resources.getStringArray(categoriesResId)
-            val uuids = resources.getStringArray(uuidResId)
-            if (categories.size != uuids.size) {
-                CrashHandler.report(Exception("Inconsistent category definitions"))
-                null
-            } else {
-                val mainLabel = categories[0]
-                val mainUUid = uuids[0]
-                val catIdMain = database.findMainCategory(mainLabel)
-                    ?: database.findCategoryByUuid(mainUUid)
-                val mainPath = if (catIdMain == null) mainLabel else
-                    database.query(categoryPathFromLeave(catIdMain.toString())).use { cursor ->
-                        cursor.asSequence.map { it.getString(KEY_LABEL) }.toList().asReversed()
-                    }.joinToString(DEFAULT_CATEGORY_PATH_SEPARATOR)
-                val subCategories = categories.drop(1).zip(uuids.drop(1))
-                    .mapIndexedNotNull { indexSub, (subLabel, subUuid) ->
-                        if ((catIdMain?.let { main ->
-                                database.findSubCategory(main, subLabel)
-                            } ?: database.findCategoryByUuid(subUuid)) == null) {
-                            Category(
-                                id = indexMain * 100L + indexSub + 1,
-                                parentId = indexMain.toLong(),
-                                label = subLabel,
-                                level = 2
-                            )
-                        } else null
-                    }
-                if (catIdMain != null && subCategories.isEmpty()) null else Category(
-                    id = indexMain.toLong() * 100L,
-                    label = mainPath,
-                    children = subCategories,
-                    level = 1
-                )
-            }
-        })
+): Category {
+    val categories = parseCategoriesFromXml(resources)
+    return Category(
+        children = categories.mapIndexedNotNull { indexMain, mainCategory ->
+            val mainLabel = mainCategory.label
+            val mainUuid = mainCategory.uuid
+            val catIdMain = database.findMainCategory(mainLabel)
+                ?: database.findCategoryByUuid(mainUuid)
+            val mainPath = if (catIdMain == null) mainLabel else
+                database.query(categoryPathFromLeave(catIdMain.toString())).use { cursor ->
+                    cursor.asSequence.map { it.getString(KEY_LABEL) }.toList().asReversed()
+                }.joinToString(DEFAULT_CATEGORY_PATH_SEPARATOR)
+            val subCategories = mainCategory.subcategories
+                .mapIndexedNotNull { indexSub, sub ->
+                    if ((catIdMain?.let { main ->
+                            database.findSubCategory(main, sub.label)
+                        } ?: database.findCategoryByUuid(sub.uuid)) == null) {
+                        Category(
+                            id = indexMain * 100L + indexSub + 1,
+                            parentId = indexMain.toLong(),
+                            label = sub.label,
+                            level = 2,
+                        )
+                    } else null
+                }
+            if (catIdMain != null && subCategories.isEmpty()) null else Category(
+                id = indexMain.toLong() * 100L,
+                label = mainPath,
+                children = subCategories,
+                level = 1,
+            )
+        }
+    )
+}
 
 private fun setupCategoriesInternal(
     database: SupportSQLiteDatabase,
-    resources: Resources,
-    categoryDefinitions: Array<Triple<Int, Int, Int>>,
-    typeFlag: Byte,
+    categoryDefinitions: List<CategoryTreeItem>,
 ): Pair<Int, Int> {
     var totalInserted = 0
     var totalUpdated = 0
@@ -389,18 +451,8 @@ private fun setupCategoriesInternal(
         "UPDATE $TABLE_CATEGORIES SET $KEY_ICON = ? WHERE $KEY_ICON IS NULL AND $KEY_ROWID = ?"
     )
 
-    for ((categoriesResId, iconsResId, uuidResId) in categoryDefinitions) {
-        val categories = resources.getStringArray(categoriesResId)
-        val icons = resources.getStringArray(iconsResId)
-        val uuids = resources.getStringArray(uuidResId)
-        if (categories.size != icons.size || categories.size != uuids.size) {
-            CrashHandler.report(Exception("Inconsistent category definitions"))
-            continue
-        }
-        val mainLabel = categories[0]
-        val mainIcon = icons[0]
-        val mainUUid = uuids[0]
-        catIdMain = database.findMainCategory(mainLabel) ?: database.findCategoryByUuid(mainUUid)
+    for ((mainType, mainLabel, mainUuid, mainIcon, subcategories) in categoryDefinitions) {
+        catIdMain = database.findMainCategory(mainLabel) ?: database.findCategoryByUuid(mainUuid)
         if (catIdMain != null) {
             Timber.i("category with label %s already defined", mainLabel)
             stmtUpdateIcon.bindString(1, mainIcon)
@@ -412,26 +464,19 @@ private fun setupCategoriesInternal(
             stmt.bindNull(3)
             stmt.bindLong(4, suggestNewCategoryColor(database).toLong())
             stmt.bindString(5, mainIcon)
-            stmt.bindString(6, mainUUid)
-            stmt.bindLong(7, typeFlag.toLong())
+            stmt.bindString(6, mainUuid)
+            stmt.bindLong(7, mainType.toLong())
             catIdMain = stmt.executeInsert().takeIf { it != -1L }
             if (catIdMain != null) {
                 totalInserted++
             } else {
-                // this should not happen
                 Timber.w("could neither retrieve nor store main category %s", mainLabel)
                 continue
             }
         }
-        val subLabels = categories.drop(1)
-        val subIconNames = icons.drop(1)
-        val subUuids = uuids.drop(1)
-        for (i in subLabels.indices) {
-            val subLabel = subLabels[i]
-            val subIcon = subIconNames[i]
-            val subUUid = subUuids[i]
+        for ((subLabel, subUuid, subIcon) in subcategories) {
             val catIdSub = database.findSubCategory(catIdMain, subLabel)
-                ?: database.findCategoryByUuid(subUUid)
+                ?: database.findCategoryByUuid(subUuid)
             if (catIdSub != null) {
                 Timber.i("category with label %s already defined", subLabel)
                 stmtUpdateIcon.bindString(1, subIcon)
@@ -443,7 +488,7 @@ private fun setupCategoriesInternal(
                 stmt.bindLong(3, catIdMain)
                 stmt.bindNull(4)
                 stmt.bindString(5, subIcon)
-                stmt.bindString(6, subUUid)
+                stmt.bindString(6, subUuid)
                 stmt.bindNull(7)
                 try {
                     if (stmt.executeInsert() != -1L) {
@@ -464,41 +509,24 @@ private fun setupCategoriesInternal(
     return totalInserted to totalUpdated
 }
 
-fun setupDefaultCategories(database: SupportSQLiteDatabase, resources: Resources): Pair<Int, Int> {
-    val expense = setupCategoriesInternal(database, resources, expenseCategories, FLAG_EXPENSE)
-    val income = setupCategoriesInternal(database, resources, incomeCategories, FLAG_INCOME)
-    return expense.first + income.first to expense.second + income.second
-}
+fun setupDefaultCategories(database: SupportSQLiteDatabase, resources: Resources): Pair<Int, Int> =
+    setupCategoriesInternal(database, parseCategoriesFromXml(resources))
 
 fun insertUuidsForDefaultCategories(database: SupportSQLiteDatabase, resources: Resources) {
     database.compileStatement(
         "UPDATE $TABLE_CATEGORIES SET $KEY_UUID = ? WHERE $KEY_UUID IS NULL AND $KEY_ROWID = ?"
     ).use { statement ->
         var catIdMain: Long?
-        for ((categoriesResId, _, uuidResId) in expenseCategories + incomeCategories) {
-            val categories = resources.getStringArray(categoriesResId)
-            val uuids = resources.getStringArray(uuidResId)
-            if (categories.size != uuids.size) {
-                CrashHandler.report(Exception("Inconsistent category definitions"))
-                continue
-            }
-            val mainLabel = categories[0]
-            val mainUUid = uuids[0]
+        for ((_, mainLabel, mainUuid, _, subcategories) in parseCategoriesFromXml(resources)) {
             catIdMain = database.findMainCategory(mainLabel)
             if (catIdMain != null) {
-                statement.bindString(1, mainUUid)
+                statement.bindString(1, mainUuid)
                 statement.bindLong(2, catIdMain)
                 statement.executeUpdateDelete()
-            }
-            val subLabels = categories.drop(1)
-            val subUuids = uuids.drop(1)
-            if (catIdMain != null) {
-                for (i in subLabels.indices) {
-                    val subLabel = subLabels[i]
-                    val subUUid = subUuids[i]
+                for ((subLabel, subUuid) in subcategories) {
                     val catIdSub = database.findSubCategory(catIdMain, subLabel)
                     if (catIdSub != null) {
-                        statement.bindString(1, subUUid)
+                        statement.bindString(1, subUuid)
                         statement.bindLong(2, catIdSub)
                         statement.executeUpdateDelete()
                     }
@@ -568,7 +596,7 @@ fun cacheEventData(context: Context, prefHandler: PrefHandler) {
         TransactionProvider.EVENT_CACHE_URI, null, null
     )
     cr.query(
-        Template.CONTENT_URI, arrayOf(
+        TEMPLATES_URI, arrayOf(
             KEY_PLANID
         ),
         "$KEY_PLANID IS NOT null", null, null
@@ -594,13 +622,14 @@ fun cacheEventData(context: Context, prefHandler: PrefHandler) {
     }
 }
 
+@JvmOverloads
 fun SupportSQLiteDatabase.update(
     table: String,
     values: ContentValues,
     whereClause: String?,
-    whereArgs: Array<Any>?,
-) = //https://github.com/sqlcipher/sqlcipher-android/issues/50
-    update(table, SQLiteDatabase.CONFLICT_NONE, values, whereClause, whereArgs ?: emptyArray())
+    whereArgs: Array<out Any>?,
+    conflictAlgorithm: Int = SQLiteDatabase.CONFLICT_NONE
+) = update(table, conflictAlgorithm, values, whereClause, whereArgs)
 
 fun SupportSQLiteDatabase.insert(table: String, values: ContentValues): Long =
     insert(table, SQLiteDatabase.CONFLICT_NONE, values)
@@ -716,40 +745,31 @@ fun insertEventAndUpdatePlan(
     val planValues = ContentValues()
     planValues.put(KEY_PLANID, planId)
     val updated = contentResolver.update(
-        ContentUris.withAppendedId(Template.CONTENT_URI, templateId),
+        ContentUris.withAppendedId(TEMPLATES_URI, templateId),
         planValues, null, null
     )
     return updated > 0
 }
 
 fun Cursor.calculateEquivalentAmount(homeCurrency: CurrencyUnit, baseAmount: Money) =
-    getLongOrNull(KEY_EQUIVALENT_AMOUNT)?.let { Money(homeCurrency, it) } ?: Money(
-        homeCurrency, baseAmount.amountMajor.multiply(
-            calculateRealExchangeRate(
-                getDouble(KEY_EXCHANGE_RATE),
-                baseAmount.currencyUnit, homeCurrency
-            )
-        )
-    )
+    getLongOrNull(KEY_AMOUNT_HOME_EQUIVALENT)?.let { Money(homeCurrency, it) }?.amountMajor
 
-fun SupportSQLiteDatabase.uuidForTransaction(id: Long): String = query(
+fun SupportSQLiteDatabase.uuidForTransaction(id: Long): String? = query(
     table = TABLE_TRANSACTIONS,
     columns = arrayOf(KEY_UUID),
     selection = "$KEY_ROWID = ?",
     selectionArgs = arrayOf(id)
 ).use {
-    it.moveToFirst()
-    it.getString(0)
+    if (it.moveToFirst()) it.getString(0) else null
 }
 
-fun SupportSQLiteDatabase.findTransactionByUuid(uuid: String) = query(
+fun SupportSQLiteDatabase.findTransactionByUuid(uuid: String): Long? = query(
     table = TABLE_TRANSACTIONS,
     columns = arrayOf(KEY_ROWID),
     selection = "$KEY_UUID = ?",
     selectionArgs = arrayOf(uuid)
 ).use {
-    it.moveToFirst()
-    it.getLong(0)
+    if (it.moveToFirst()) it.getLong(0) else null
 }
 
 fun SupportSQLiteDatabase.getForeignKeyInfoAsString(tableName: String) =

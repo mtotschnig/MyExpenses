@@ -21,21 +21,22 @@ import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import kotlin.reflect.KClass
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 
-const val ACCOUNT_COLUMN = DatabaseConstants.KEY_ACCOUNTID
+const val ACCOUNT_COLUMN = KEY_ACCOUNTID
 
 @Parcelize
 @Serializable
-@SerialName(DatabaseConstants.KEY_ACCOUNTID)
+@SerialName(KEY_ACCOUNTID)
 data class AccountCriterion(
     override val label: String,
-    override val values: List<Long>) : IdCriterion() {
+    override val values: List<Long>
+) : IdCriterion() {
     constructor(label: String, vararg values: Long) : this(label, values.asList())
 
     @IgnoredOnParcel
     override val id = R.id.FILTER_ACCOUNT_COMMAND
+
     @IgnoredOnParcel
     override val column = ACCOUNT_COLUMN
 
@@ -47,7 +48,7 @@ data class AccountCriterion(
         return "$column $selection"
     }
 
-    companion object: DisplayInfo {
+    companion object : DisplayInfo {
         fun fromStringExtra(extra: String) = parseStringExtra(extra)?.let {
             AccountCriterion(it.first, *it.second)
         }

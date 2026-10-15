@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,26 +17,33 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material3.Button
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconToggleButton
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults.pinnedScrollBehavior
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -49,13 +55,16 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.SortableItem
@@ -64,19 +73,19 @@ import org.totschnig.myexpenses.compose.ButtonDefinition
 import org.totschnig.myexpenses.compose.CheckBoxWithLabel
 import org.totschnig.myexpenses.compose.DialogFrame
 import org.totschnig.myexpenses.compose.DialogFrame2
-import org.totschnig.myexpenses.compose.HierarchicalMenu
 import org.totschnig.myexpenses.compose.IconSelectorDialog
-import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.MenuEntry
+import org.totschnig.myexpenses.compose.OverFlowMenu
+import org.totschnig.myexpenses.compose.size
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.viewmodel.AccountFlagsUiState
 import org.totschnig.myexpenses.viewmodel.AccountFlagsViewModel
 import org.totschnig.myexpenses.viewmodel.AccountForSelection
-import timber.log.Timber
 
-private const val WEIGHT_ICON = 1f
+private const val SIZE_ICON = 26f
+private const val PADDING_ICON = 4f
 private const val WEIGHT_LABEL = 7f
 private const val WEIGHT_VISIBLE = 2f
 
@@ -105,7 +114,7 @@ class ManageAccountFlags : ProtectedFragmentActivity(),
                         SortUtilityDialogFragment.newInstance(
                             ArrayList(
                                 uiState.accountFlags.map {
-                                    SortableItem(it.id, it.localizedLabel(this))
+                                    SortableItem(it.id, it.title(this))
                                 }
                             ))
                             .show(supportFragmentManager, "SORT_FLAGS")
@@ -147,16 +156,12 @@ fun ManageFlagsScreen(
     aggregateInvisible: Boolean,
     onSort: () -> Unit,
     onSetAggregateInvisible: (Boolean) -> Unit,
-    onSaveSelection: (Set<Long>) -> Unit
+    onSaveSelection: (Set<Long>) -> Unit,
 ) {
     var showConfigDialog by rememberSaveable { mutableStateOf(false) }
-
+    val scrollBehavior = pinnedScrollBehavior()
     Scaffold(
-        modifier = Modifier.padding(
-            horizontal = dimensionResource(
-                id = R.dimen.padding_main_screen
-            )
-        ),
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.menu_account_flags)) },
@@ -182,6 +187,7 @@ fun ManageFlagsScreen(
                         )
                     }
                 },
+                scrollBehavior = scrollBehavior
             )
         },
         floatingActionButton = {
@@ -193,6 +199,7 @@ fun ManageFlagsScreen(
             }
         }
     ) { paddingValues ->
+        val horizontalPadding = dimensionResource(id = R.dimen.padding_main_screen)
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -204,9 +211,9 @@ fun ManageFlagsScreen(
                 val layoutDirection = LocalLayoutDirection.current
 
                 val totalPadding = PaddingValues(
-                    start = paddingValues.calculateStartPadding(layoutDirection) + 0.dp, // Or add horizontal FAB padding if needed
-                    top = paddingValues.calculateTopPadding() + 0.dp,
-                    end = paddingValues.calculateEndPadding(layoutDirection) + 0.dp,   // Or add horizontal FAB padding if needed
+                    start = paddingValues.calculateStartPadding(layoutDirection) + horizontalPadding,
+                    top = paddingValues.calculateTopPadding(),
+                    end = paddingValues.calculateEndPadding(layoutDirection) + horizontalPadding,
                     bottom = paddingValues.calculateBottomPadding() + dimensionResource(R.dimen.fab_related_bottom_padding)
                 )
                 AccountFlagList(
@@ -235,11 +242,9 @@ fun ManageFlagsScreen(
     if (showConfigDialog) {
         DialogFrame(
             title = "${stringResource(R.string.menu_account_flags)} ${stringResource(R.string.settings_label)}",
+            onDismissRequest = { showConfigDialog = false },
             positiveButton = null,
-            negativeButton = ButtonDefinition(
-                text = R.string.menu_close,
-                onClick = { showConfigDialog = false }
-            )
+            negativeButtonLabel = R.string.menu_close
         ) {
             CheckBoxWithLabel(
                 label = stringResource(R.string.aggregate_invisible),
@@ -266,7 +271,7 @@ fun AccountFlagList(
     onDeleteClick: (Long) -> Unit,
     onToggleVisibility: (Long, Boolean) -> Unit,
     onStartSelection: (AccountFlag) -> Unit,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
 ) {
     Column(
         modifier = Modifier
@@ -277,8 +282,11 @@ fun AccountFlagList(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 4.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Spacer(modifier = Modifier.weight(WEIGHT_ICON))
+            Spacer(modifier = Modifier.size(SIZE_ICON.sp))
+            Spacer(modifier = Modifier.size(PADDING_ICON.sp))
             Text(
                 modifier = Modifier.weight(WEIGHT_LABEL),
                 text = "${stringResource(R.string.label)} (${stringResource(R.string.count)})",
@@ -286,18 +294,25 @@ fun AccountFlagList(
                 maxLines = 1
             )
             Text(
-                modifier = Modifier.weight(WEIGHT_VISIBLE),
+                modifier = Modifier
+                    .weight(WEIGHT_VISIBLE)
+                    .minimumInteractiveComponentSize()
+                    .wrapContentSize(unbounded = true),
                 text = stringResource(R.string.show),
                 fontWeight = FontWeight.SemiBold,
                 textAlign = TextAlign.Center,
-                maxLines = 1
+                maxLines = 1,
+                softWrap = false,
+                overflow = TextOverflow.Visible
             )
+            Spacer(modifier = Modifier.width(LocalMinimumInteractiveComponentSize.current))
         }
         HorizontalDivider()
         LazyColumn(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
-            items(list, key = { it.id }) { flag ->
+            itemsIndexed(list, key = { _, item -> item.id }) { index, flag ->
                 AccountFlagItem(
                     modifier = Modifier.animateItem(),
                     flag = flag,
@@ -314,6 +329,9 @@ fun AccountFlagList(
                         onStartSelection(flag)
                     }
                 )
+                if (index < list.lastIndex) {
+                    HorizontalDivider()
+                }
             }
         }
     }
@@ -326,20 +344,16 @@ fun AccountFlagItem(
     onToggleVisibility: (Boolean) -> Unit,
     onEditClick: () -> Unit,
     onDeleteClick: () -> Unit,
-    onStartSelection: () -> Unit
+    onStartSelection: () -> Unit,
 ) {
-    val showMenu = rememberSaveable { mutableStateOf(false) }
 
     Row(
         modifier = modifier
-            .fillMaxWidth()
-            .clickable {
-                showMenu.value = true
-            },
+            .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Box(modifier = Modifier.weight(WEIGHT_ICON)) {
+        Box(modifier = Modifier.size(SIZE_ICON.sp)) {
             if (flag.icon != null) {
                 org.totschnig.myexpenses.compose.Icon(
                     modifier = Modifier.align(Alignment.Center),
@@ -347,32 +361,41 @@ fun AccountFlagItem(
                 )
             }
         }
+        Spacer(Modifier.size(PADDING_ICON.sp))
         val context = LocalContext.current
         Text(
-            text = flag.localizedLabel(context) +
+            text = flag.title(context) +
                     ((flag.count ?: 0).takeIf { it > 0 }?.let { " ($it)" } ?: ""),
             modifier = Modifier
                 .weight(WEIGHT_LABEL),
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.titleMedium
         )
-        Checkbox(
+        IconToggleButton(
             modifier = Modifier.weight(WEIGHT_VISIBLE),
             checked = flag.isVisible,
             onCheckedChange = { onToggleVisibility(it) }
-        )
+        ) {
+            if (flag.isVisible) {
+                Icon(Icons.Filled.Visibility, contentDescription = stringResource(R.string.hide))
+            } else {
+                Icon(
+                    Icons.Outlined.VisibilityOff,
+                    contentDescription = stringResource(R.string.show)
+                )
+            }
+        }
         if (flag.id > 0) {
-            val menu = Menu(
-                buildList {
-                    add(MenuEntry.edit("EDIT_FLAG", onEditClick))
-                    if ((flag.count ?: 0) == 0) {
-                        add(MenuEntry.delete("DELETE_FLAG", onDeleteClick))
-                    }
-                    add(MenuEntry.select("SELECT_ACCOUNTS_FOR_FLAG") {
-                        onStartSelection()
-                    })
+            OverFlowMenu(menu = buildList {
+                add(MenuEntry.edit("EDIT_FLAG", onEditClick))
+                if ((flag.count ?: 0) == 0) {
+                    add(MenuEntry.delete("DELETE_FLAG", onDeleteClick))
                 }
-            )
-            HierarchicalMenu(showMenu, menu)
+                add(MenuEntry.select("SELECT_ACCOUNTS_FOR_FLAG") {
+                    onStartSelection()
+                })
+            })
+        } else {
+            Spacer(modifier = Modifier.width(LocalMinimumInteractiveComponentSize.current))
         }
     }
 }
@@ -383,11 +406,11 @@ private fun AddEditAccountFlagDialog(
     onDismiss: () -> Unit = {},
     onSave: (name: String, icon: String?) -> Unit =
         { _, _ -> },
-    allFlags: List<AccountFlag> = emptyList()
+    allFlags: List<AccountFlag> = emptyList(),
 ) {
     val context = LocalContext.current
 
-    var label by remember { mutableStateOf(editingAccountFlag.localizedLabel(context)) }
+    var label by remember { mutableStateOf(editingAccountFlag.title(context)) }
     val icon = rememberSaveable { mutableStateOf(editingAccountFlag.icon) }
 
     val showIconSelection = rememberSaveable { mutableStateOf(false) }
@@ -400,7 +423,7 @@ private fun AddEditAccountFlagDialog(
             AccountFlag.isReservedName(label) ||
                     allFlags.any {
                         it.id != editingAccountFlag.id &&
-                                (it.label == label || it.localizedLabel(context) == label)
+                                (it.label == label || it.title(context) == label)
                     }
         }
     }
@@ -446,7 +469,7 @@ private fun AddEditAccountFlagDialog(
 private fun AccountSelectionDialog(
     selectingAccountsForFlag: Pair<AccountFlag, List<AccountForSelection>>,
     onDismiss: () -> Unit,
-    onSave: (Set<Long>) -> Unit
+    onSave: (Set<Long>) -> Unit,
 ) {
     val (flag, accounts) = selectingAccountsForFlag
 
@@ -457,7 +480,7 @@ private fun AccountSelectionDialog(
     DialogFrame2(
         title = stringResource(
             R.string.select_accounts_for_flag,
-            flag.localizedLabel(LocalContext.current)
+            flag.title(LocalContext.current)
         ),
         positiveButton = ButtonDefinition(
             text = android.R.string.ok,
@@ -465,12 +488,7 @@ private fun AccountSelectionDialog(
                 onSave(selectedIds)
             }
         ),
-        negativeButton = ButtonDefinition(
-            text = android.R.string.cancel,
-            onClick = {
-                onDismiss()
-            }
-        )
+        onDismissRequest = onDismiss
     ) {
         items(accounts, key = { it.id }) { account ->
             CheckBoxWithLabel(

@@ -157,7 +157,6 @@
     <string name="button_label_close">بستن</string>
     <string name="method">روش پرداخت</string>
     <string name="no_app_handling_email_available">هیچ اپلیکیشنی برای استفاده از ایمیل دردسترس نیست</string>
-    <string name="no_app_handling_ftp_available">هیچ اپلیکیشنی برای استفاده از اف‌تی‌پی دردسترس نیست. <i>Send With FTP</i> نصب شود؟</string>
     <string name="no_categories">بدون دسته‌بندی</string>
     <string name="no_expenses">هنوز هیچ هزینه‌ای وجود ندارد!</string>
     <string name="no_exportable_expenses">هیچ تراکنشی که تابه‌حال استخراج نشده‌ باشد وجود ندارد.</string>
@@ -177,7 +176,6 @@
     <string name="password_security_answer_not_valid">جواب اشتباه است. لطفاً مجدداً تلاش کنید!</string>
     <string name="payee">گیرنده وجه</string>
     <string name="payer">پرداخت کننده</string>
-    <string name="payer_or_payee">گیرنده / پرداخت کننده</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">برنامه</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -207,7 +205,6 @@
     <string name="pref_category_title_more_information">اطلاعات بیشتر</string>
     <string name="pref_category_title_ui">رابط کاربری</string>
     <string name="pref_contrib_purchase_title_upgrade">کلید ارتقاء</string>
-    <string name="pref_custom_currency_title">سفارشی‌سازی واحد پول</string>
     <string name="pref_enter_licence_title">کلید را وارد کنید</string>
     <string name="pref_export_format_title">فرمت تاریخ</string>
     <!-- %s is replaced with QIF or CSV -->
@@ -227,8 +224,6 @@
     <string name="pref_security_question_title">سوال امنیتی</string>
     <string name="pref_send_feedback_title">ارسال بازخورد</string>
     <string name="pref_share_target_title">بارگیری URL</string>
-    <string name="pref_shortcut_added">میانبر به صفحهٔ اصلی اضافه شد</string>
-    <string name="pref_shortcut_not_added">صفحه اصلی شما از میانبر پشتیبانی نمی‌کند</string>
     <string name="pref_shortcut_summary">افزودن میانبر به صفحهٔ اصلی</string>
     <string name="pref_ui_home_screen_shortcuts">میانبرهای صفحهٔ اصلی</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -281,12 +276,22 @@
     <string name="warning_reset_account_matched">اگر ادامه بدهید، تراکنش‌های منطبق با این فیلتر از پایگاه داده حذف خواهند شد و قابل بازیابی نخواهند بود.</string>
     <string name="warning_restore">پایگاه داده و ترجیحات از فایل «%1$s» بازبابی خواهند شد. داده‌های فعلی حذف خواهند شد.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">لطفاً یک عدد از بین %1$d تا %2$d بگذارید</string>
-    <string name="import_categories_success">%1$d دسته‌بندی با موفقیت درون‌ریزی شد.</string>
-    <string name="import_accounts_success">%1$dحساب با موفقیت درون‌ریزی شد</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d تراکنش با موفقیت به حساب %2$s درون‌ریزی شد</string>
-    <string name="import_accounts_none">هیچ حسابی درون‌ریزی نشد</string>
-    <string name="import_categories_none">هیچ دسته‌بندی‌ای درون‌ریزی نشد</string>
-    <string name="import_transactions_none">هیچ تراکنشی به حساب %1$s درون‌ریزی نشد</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d دسته‌بندی با موفقیت درون‌ریزی شد.</item>
+        <item quantity="other">%1$d دسته‌بندی با موفقیت درون‌ریزی شد.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d شخص با موفقیت درون ریزی شد</item>
+        <item quantity="other">%1$d شخص با موفقیت درون ریزی شد</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d حساب با موفقیت درون‌ریزی شد</item>
+        <item quantity="other">%1$d حساب با موفقیت درون‌ریزی شد</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d تراکنش با موفقیت به حساب %2$s درون‌ریزی شد</item>
+        <item quantity="other">%1$d تراکنش با موفقیت به حساب %2$s درون‌ریزی شد</item>
+    </plurals>
     <string name="import_source_select_error">لطفاً یک فایل از نوع %1$s ارائه دهید</string>
     <string name="widget_title_accounts">حساب‌های من</string>
     <string name="widget_title_templates">قالب‌های من</string>
@@ -347,11 +352,7 @@
     <string name="crash_dialog_title">{app_name} بسته شد</string>
     <string name="crash_dialog_comment_prompt">اگر مایلید نظرتان را راجع به مشکل در زیر بیان کنید:</string>
     <string name="synchronization">همگام‌سازی</string>
-    <string name="label_trust_certificate">اعتماد کردن به این گواهی</string>
     <string name="validate_error_not_empty">نباید خالی باشد</string>
-    <string name="validate_error_webdav_invalid_certificate">به گواهی نمی‌شود اعتماد کرد. به‌نظر نامعتبر است.</string>
-    <string name="validate_error_webdav_not_compliant">URL به یک منبع WebDAV اشاره نمی کند.</string>
-    <string name="validate_error_webdav_404">URL در سرور وجود ندارد.</string>
     <string name="menu_sync_unlink">همگام‌سازی را متوقف کن</string>
     <string name="menu_sync_link">همگام‌سازی را شروع کن</string>
     <string name="menu_sync_download">بارگیری و همگام‌سازی</string>
@@ -417,10 +418,7 @@
     <string name="pref_acra_user_email">ایمیل کاربر در گزارش تصادف گنجانده شده است</string>
     <string name="pref_acra_user_email_summary">لطفا آدرس ایمیل خود را وارد کنید اگر مایل هستید که به اشکالزدایی کمک کنید و به ما اجازه دهید با شما تماس بگیریم</string>
     <string name="new_version">نسخه جدید</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">حساب حذف شود؟</item>
-        <item quantity="other">%1$d حساب حذف شود؟</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">حساب حذف شود؟</string>
     <string name="menu_create_split_part_category">بخش جدید دسته بندی</string>
     <string name="menu_create_split_part_transfer">بخش جدید انتقال</string>
     <string name="menu_edit_party">ویرایش دسته</string>
@@ -476,9 +474,7 @@
     <string name="csv_import_subcategory_requires_category">در صورت نگاشتن زیرشاخه، باید دسته بندی را نیز نگاشت کنید.</string>
     <string name="status_unreconciled">غیر قابل تطبیق</string>
     <string name="warning_reset_account_all">اگر ادامه دهید، برای همه حساب‌های %1$s، تراکنش‌ها از پایگاه داده حذف می‌شوند و قابل بازیابی نیستند.</string>
-    <string name="warning_splitpartcategory_context">نقل و انتقالاتی که بخشی از یک تسهیم هستند فقط در زمینه تسهیم قابل ویرایش هستند.</string>
     <string name="menu_categories_setup_default">دسته بندی های پیش فرض را تنظیم کنید</string>
-    <string name="app_dir_not_compatible_with_nougat">URI پیکربندی شده فعلی برای پشتیبان‌گیری و برون بری (%1$s) در اندروید نوقا پشتیبانی نمی‌شود. لطفاً دوباره یک پوشه را انتخاب کنید.</string>
     <string name="pref_manage_stale_images_title">تصاویر قدیمی</string>
     <string name="export_handle_deleted_update_balance">به روز رسانی موجودی افتتاحیه</string>
     <string name="csv_import_field_mapped_more_than_once">%s بیش از یک بار نگاشته شده است.</string>
@@ -487,16 +483,12 @@
     <string name="pref_sort_order_next_instance">نمونه بعدی</string>
     <string name="paypal_callback_info">تراکنش شما تکمیل شده است و رسید خرید شما برای شما ایمیل شده است. برای مشاهده جزئیات این تراکنش می توانید وارد حساب کاربری خود در www.paypal.com شوید.</string>
     <string name="synchronization_none">بدون همگام سازی</string>
-    <string name="description_webdav_trust_certificate">این وب سایت از گواهی‌ای استفاده می کند که مورد اعتماد اندروید نیست.</string>
-    <string name="hint_url">URL</string>
-    <string name="description_webdav_url">لطفاً URL را در یک پوشه خاص روی سرور WebDAV خود وارد کنید. {app_name} داده‌های خود را در این پوشه ذخیره می‌کند، به چیزی خارج از آن دسترسی ندارد.</string>
     <string name="dialog_confirm_sync_link_local">داده های روی سرور برای این حساب حذف خواهد شد. مطمئن شوید که هیچ دستگاه دیگری به آن متصل نیست.</string>
     <string name="dialog_command_sync_link_remote">بارگیری از سرور</string>
     <string name="dialog_command_sync_link_local">بارگذاری از داده های محلی</string>
     <string name="dialog_confirm_sync_unlink">اگر پیوند این حساب را از %s لغو کنید، وضعیت همگام‌سازی از بین می‌رود. پیوند دادن مجدد آنها بعداً، نیاز به همگام سازی کامل دارد تا دوباره اجرا شود.</string>
     <string name="pref_protection_delay_seconds_summary">با گذشت چند ثانیه از زمان بیکاری، کاره با رمز قفل خواهد شد.</string>
     <string name="warning_instantiate_template_from_widget_password_protected">نمونه‌برداری سریع از الگوها از این ویجت تنها در صورتی کار می‌کند که اجازه ورود داده‌ها از ویجت‌ها بدون رمز عبور را در تنظیمات برنامه بدهید.</string>
-    <string name="import_parties_success">%1$d شخص با موفقیت درون ریزی شد</string>
     <string name="warning_change_fraction_digits_1">مقادیر موجود در پایگاه داده باید به روز شوند تا با تعداد جدید ارقام کسری مطابقت داشته باشند.</string>
     <string name="menu_parse">تجزیه</string>
     <string name="dialog_synced_to_other">یک حساب با uuid %s از قبل در پایگاه داده محلی وجود دارد و به یک سرور دیگر پیوند داده شده است.</string>
@@ -510,13 +502,11 @@
     </plurals>
     <string name="move_category_success">یک دسته با موفقیت جابجا شد.</string>
     <string name="move_category_failure">یک دسته منتقل نشد، زیرا همان برچسب در مقصد نیز وجود دارد.</string>
-    <string name="import_parties_none">هیچ شخصی درون ریزی نشد</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d حساب با واحد پول %2$s به روز شده است.</string>
     <string name="cvs_import_set_first_line_as_header">آیا خط اول باید به عنوان یک خط سربرگ در نظر گرفته شود؟</string>
     <string name="csv_import_no_mapping_found_for_amount">لطفاً یک ستون را به مبلغ، درآمد یا هزینه اختصاص دهید.</string>
     <string name="button_request_calendar_access" tools:ignore="UnusedResources">اجازه دسترسی</string>
     <string name="search_transfer">جستجوی انتقال</string>
-    <string name="url_not_valid">URL معتبر نیست</string>
     <string name="menu_create_sync_backend">همگام سازی جدید با سرور</string>
     <string name="total_reconciled">مجموع تطبیق یافته</string>
     <string name="warning_delete_reconciled">حذف تراکنش های تطبیق شده باعث می شود سوابق شما با صورت حساب بانکی متفاوت باشد.</string>
@@ -539,7 +529,6 @@
     <string name="account_deleted">حساب حذف شده است</string>
     <string name="pref_custom_decimal_format_summary">اگر از قالب پیش‌فرض برای منطقه خود راضی نیستید، آن رامتناسب با نیازهای خود تغییر دهید. برای بازیابی قالب پیش فرض آن را خالی بگذارید.</string>
     <string name="pref_grouping_periods">گروه بندی دوره ها</string>
-    <string name="progress_dialog_updating_split_parts">در حال به‌روز رسانی بخش‌های تسهیم‌ شده</string>
     <string name="content_description_calculator_delete_button">حذف رقم آخر</string>
     <string name="dialog_confirm_sync_remove_backend">ارتباط با سرور %s از بین خواهد رفت. این روی داده‌های ذخیره‌شده به صورت محلی یا سرور تأثیری نمی‌گذارد، اما وضعیت همگام‌سازی از بین می‌رود.</string>
     <string name="crash_dialog_text">یک خطای غیرمنتظره روی داد که برنامه را مجبور به توقف کرد. لطفاً با ارسال داده های خطا به ما در رفع این مشکل کمک کنید، تنها کاری که باید انجام دهید این است که تأیید را کلیک کنید.</string>
@@ -621,7 +610,6 @@
     <string name="progress_dialog_fetching_data_from_sync_backend">دریافت اطلاعات از سرور. ممکن است کمی طول بکشد.</string>
     <string name="licence_removal_success">لایسنس با موفقیت از این دستگاه حذف شد.</string>
     <string name="pref_home_currency_title">ارز اصلی</string>
-    <string name="warning_device_lock_screen_not_set_up_2">به %s بروید و یک قفل تنظیم کنید</string>
     <plurals name="delete_success">
         <item quantity="one">یک شئ با موفقیت حذف شد.</item>
         <item quantity="other">%d شئ با موفقیت حذف شد.</item>
@@ -636,4 +624,10 @@
     <string name="pref_protection_device_lock_screen_title">صفحه قفل دستگاه</string>
     <string name="menu_history_totals">نمایش جمع‌ها</string>
     <string name="grand_total">جمع کل</string>
+    <string name="important_upgrade_information_heading">اطلاعات مهم</string>
+    <string name="dialog_title_warning_delete_tag">حذف برچسب؟</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="one">برچسب %1$s با %2$d تراکنش مرتبط است. آیا باید حذف شود؟</item>
+        <item quantity="other">برچسب %1$s با %2$d تراکنش مرتبط است. آیا باید حذف شود؟</item>
+    </plurals>
 </resources>

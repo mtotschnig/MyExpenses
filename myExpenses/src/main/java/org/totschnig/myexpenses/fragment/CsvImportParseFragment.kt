@@ -35,7 +35,6 @@ import org.totschnig.myexpenses.dialog.getDisplayName
 import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.util.ImportFileResultHandler
 import org.totschnig.myexpenses.util.ImportFileResultHandler.FileNameHostFragment
 import org.totschnig.myexpenses.util.linkInputsWithLabels
@@ -53,6 +52,8 @@ import org.totschnig.myexpenses.dialog.addAllAccountTypes
 import org.totschnig.myexpenses.dialog.configureCurrencySpinner
 import org.totschnig.myexpenses.dialog.configureTypeSpinner
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.ui.SpinnerHelper
 
 class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnItemSelectedListener,
     FileNameHostFragment {
@@ -89,6 +90,8 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
     private val typeAdapter: GroupedSpinnerAdapter<Boolean, AccountType>
         get() = binding.AccountTable.AccountType.adapter as GroupedSpinnerAdapter<Boolean, AccountType>
 
+    private lateinit var accountTypeSpinner: SpinnerHelper
+
     private var currency: String? = null
     private var type: AccountType? = null
 
@@ -98,7 +101,7 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
         savedInstanceState: Bundle?
     ): View {
         if (savedInstanceState != null) {
-            currency = savedInstanceState.getString(DatabaseConstants.KEY_CURRENCY)
+            currency = savedInstanceState.getString(KEY_CURRENCY)
         }
         _binding = ImportCsvParseBinding.inflate(inflater, container, false)
         _fileNameBinding = FilenameBinding.bind(binding.root)
@@ -149,6 +152,9 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
         }
 
         with(binding.AccountTable.AccountType) {
+            accountTypeSpinner = SpinnerHelper(this).also {
+                it.setOnItemSelectedListener(this@CsvImportParseFragment)
+            }
             val accountTypeAdapter = configureTypeSpinner()
             lifecycleScope.launch {
                 repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -160,7 +166,6 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
                     }
                 }
             }
-            onItemSelectedListener = this@CsvImportParseFragment
         }
 
         fileNameBinding.btnBrowse.setOnClickListener(this)
@@ -228,7 +233,7 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
         if (uri != null) {
             outState.putString(prefKey, uri.toString())
         }
-        outState.putString(DatabaseConstants.KEY_CURRENCY, currency)
+        outState.putString(KEY_CURRENCY, currency)
     }
 
     @Deprecated("Deprecated in Java")
@@ -296,8 +301,7 @@ class CsvImportParseFragment : Fragment(), View.OnClickListener, AdapterView.OnI
 
             R.id.AccountType -> {
                 if (viewModel.accountId == 0L) {
-                    @Suppress("UNCHECKED_CAST")
-                    type = (parent.selectedItem as SpinnerItem.Item<AccountType>).data
+                    type = (parent.selectedItem as? SpinnerItem.Item<AccountType>)?.data
                 }
                 return
             }

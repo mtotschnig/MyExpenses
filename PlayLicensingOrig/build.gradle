@@ -5,7 +5,6 @@ android {
   compileSdkVersion project.compileSdkVersion
   defaultConfig {
     minSdkVersion project.minSdkVersion
-    targetSdkVersion project.targetSdkVersion
   }
   sourceSets {
     main {

@@ -1,27 +1,25 @@
-<i>My Expenses</i> is your ultimate tool for effortless expense tracking and financial management, right at your fingertips!
+<b>My Expenses</b> is your ultimate, privacy-friendly personal finance manager—giving you total control over daily expense tracking, budgeting, and investment portfolios with open-source transparency.
 
-Key Features:
+<b>Key Features:</b>
 
-    • <b>Effortless Expense Tracking</b>: Keep tabs on your expenses and income seamlessly, whether you're on your smartphone or tablet.
-    • <b>Flexible Account Management</b>: Effortlessly manage multiple accounts, including transfers between different currencies.
-    • <b>Streamlined Financial Planning</b>: Easily set up plans for recurring transactions.
-    • <b>Seamless Data Management</b>: Export and import data with ease using QIF and CSV formats.
-    • <b>Enhanced Security</b>: Protect your data with password or device lock screen security.
-    • <b>Customizable Experience</b>: Tailor the app to your preferences with customizable themes and font sizes.
-    • <b>Bank Statement Reconciliation</b>: Easily compare transaction status with your bank statements for accurate financial tracking.
-    • <b>Quick Data Entry</b>: Enjoy convenient access with homescreen widgets and shortcuts.
-    • <b>Powerful Data Analysis</b>: Filter your data based on various criteria and visualize distribution and historical trends with dynamic graphs.
+• <b>Daily Expense & Budget Tracking</b>: Effortlessly keep tabs on income and expenses on your phone or tablet. Create budgets, split transactions, and set up recurring transaction plans.
+• <b>Investment & Portfolio Management</b>: Track stock, crypto, or custom asset portfolios, monitor price history, and manage multi-currency investments in real time.
+• <b>Bank Integration & Reconciliation</b>: Connect directly to supported banks via FinTS or reconcile transactions manually against your bank statements for pixel-perfect balance tracking.
+• <b>Smart Receipt Scanning (OCR)</b>: Automatically extract transaction details from photo receipts using advanced optical character recognition.
+• <b>Web Interface for Desktop</b>: Access and manage your transactions from any web browser on your local network.
+• <b>Powerful Analytics</b>: Visualize spending trends, distribution pie charts, and historical reports with customizable dynamic graphs.
+• <b>Flexible Sync & Data Control</b>: Export and import data easily in QIF and CSV formats. Sync seamlessly across devices using WebDAV, Nextcloud, Google Drive, Dropbox, or OneDrive with client certificate support.
+• <b>Privacy & Security First</b>: Open-source transparency, password or biometric lock screen security, and encrypted database protection.
 
-Unlock Premium Features:
+<b>Unlock Premium Features:</b>
 
-    • <i>Contrib Key</i>: Unlock unlimited accounts, recurring transaction plans, and more.
-    • <i>Extended Key</i>: Enjoy cloud synchronization, automated backups, and sophisticated CSV imports.
-    • <i>Professional Key</i>: Take your financial management to the next level with budgeting tools, receipt scanning, and email support.
+• <i>Contrib Key</i>: Highlights include unlocking unlimited accounts, unlimited recurring plans, PDF list exports, category distribution charts, and more.
+• <i>Extended Key</i>: Includes all Contrib features, plus automated cloud synchronization, and advanced CSV import rules.
+• <i>Professional Key</i>: Includes all Extended features, plus investment & portfolio tracking, history charts, budget monitoring, receipt OCR scanning, local web desktop interface, direct bank sync (Germany), and more.
 
-<i>My Expenses</i> requires the following <u>permissions</u>:
+<b>Permissions Transparency:</b>
 
-    • <i>Calendar</i>: Plans for future and recurrent transactions are stored either in a special local calendar or in any other calendar you assign.
-    • <i>Internet</i>: Anonymous usage tracking, Crash reports, Cloud synchronization.
-    • <i>Accounts</i>: Synchronization across devices via cloud services.
+• <i>Calendar</i>: Recurrent plans are saved to a dedicated local calendar or any calendar you assign.
+• <i>Internet</i>: Anonymous usage tracking (opt-in), cloud synchronization and crash reports (opt-in).
 
-Take control of your finances like never before using <i>My Expenses</i>!
+Take control of your money and net worth today with <i>My Expenses</i>!

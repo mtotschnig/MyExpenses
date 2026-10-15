@@ -1,7 +1,9 @@
 package org.totschnig.myexpenses.dialog
 
+import android.os.Bundle
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -11,14 +13,23 @@ import androidx.compose.material.icons.rounded.DragHandle
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.CollectionItemInfo
 import androidx.compose.ui.semantics.CustomAccessibilityAction
@@ -28,13 +39,18 @@ import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.os.BundleCompat
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.compose.ButtonRow
+import org.totschnig.myexpenses.compose.isTablet
 import org.totschnig.myexpenses.compose.optional
 import org.totschnig.myexpenses.compose.rememberMutableStateListOf
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
-import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.util.TextUtils
+import org.totschnig.myexpenses.preference.EnumPreferenceAccessor
+import org.totschnig.myexpenses.preference.menu
+import org.totschnig.myexpenses.preference.persistMenu
 import sh.calvin.reorderable.ReorderableCollectionItemScope
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
@@ -46,41 +62,112 @@ class CustomizeMenuDialogFragment : ComposeBaseDialogFragment3() {
     override val fullScreenIfNotLarge = true
 
     override val title: CharSequence
-        get() = TextUtils.concatResStrings(
-            requireContext(),
-            " : ",
-            R.string.menu,
-            R.string.customize
+        get() = getString(R.string.menu) + " : " + menuContext.title(requireContext())
+
+    suspend fun loadConfiguration(menuContext: MenuItem.MenuContext) =
+        dataStore.menu(menuContext).first() ?: MenuItem.getDefaultConfiguration(menuContext)
+
+    suspend fun saveConfiguration(menuContext: MenuItem.MenuContext, data: List<MenuItem>) {
+        dataStore.persistMenu(menuContext, data)
+    }
+
+    val navigationModeAccessor by lazy {
+        EnumPreferenceAccessor<MenuItem.NavigationMode>(
+            dataStore,
+            MenuItem.NavigationMode.PREFERENCE_KEY,
+            MenuItem.NavigationMode.DEFAULT
         )
+    }
+
+    val menuContext: MenuItem.MenuContext
+        get() = BundleCompat.getParcelable(
+            requireArguments(),
+            KEY_CONTEXT,
+            MenuItem.MenuContext::class.java
+        )!!
 
     @Composable
     override fun ColumnScope.MainContent() {
-        val activeItems = rememberMutableStateListOf(prefHandler.mainMenu)
-        val inactiveItems = rememberMutableStateListOf(MenuItem.values - activeItems)
 
-        MenuConfigurator(activeItems, inactiveItems, Modifier.weight(1f))
-        ButtonRow {
-            TextButton(onClick = { dismiss() }) {
-                Text(stringResource(id = android.R.string.cancel))
+        var loaded by remember { mutableStateOf(false) }
+
+        val all = MenuItem.all(menuContext)
+        val activeItems: SnapshotStateList<MenuItem> = rememberMutableStateListOf(emptyList())
+        val inactiveItems: SnapshotStateList<MenuItem> = rememberMutableStateListOf(emptyList())
+
+        LaunchedEffect(Unit) {
+            if (activeItems.isEmpty() && inactiveItems.isEmpty()) {
+                activeItems.addAll(loadConfiguration(menuContext))
+                inactiveItems.addAll(all - activeItems)
             }
-            TextButton(onClick = {
-                inactiveItems.clear()
-                activeItems.clear()
-                activeItems.addAll(MenuItem.defaultConfiguration)
-                inactiveItems.addAll(MenuItem.values - activeItems)
-            }) {
-                Text(stringResource(id = R.string.menu_reset_plan_instance))
+            loaded = true
+        }
+
+        if (menuContext == MenuItem.MenuContext.V2Navigation) {
+            val scope = rememberCoroutineScope()
+
+            val isTablet = isTablet
+
+            val navigationMode =
+                navigationModeAccessor.flow.collectAsState(initial = MenuItem.NavigationMode.DEFAULT)
+                    .value
+                    .validate(isTablet)
+
+            SingleChoiceSegmentedButtonRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp)
+            ) {
+
+                (if (isTablet) MenuItem.NavigationMode.forTablet else MenuItem.NavigationMode.forPhone).forEachIndexed { index, item ->
+                    SegmentedButton(
+                        selected = navigationMode == item,
+                        onClick = { scope.launch { navigationModeAccessor.set(item) } },
+                        shape = SegmentedButtonDefaults.itemShape(index = index, count = 2),
+                        label = { Text(item.label) }
+                    )
+                }
             }
-            TextButton(onClick = {
-                prefHandler.putOrderedStringSet(
-                    PrefKey.CUSTOMIZE_MAIN_MENU,
-                    LinkedHashSet(activeItems.map { it.name })
-                )
-                dismiss()
-            }) {
-                Text(stringResource(id = R.string.confirm))
+            HorizontalDivider(modifier = Modifier.padding(bottom = 8.dp))
+        }
+
+        if (loaded) {
+
+            MenuConfigurator(activeItems, inactiveItems, Modifier.weight(1f))
+            ButtonRow {
+                TextButton(onClick = { dismiss() }) {
+                    Text(stringResource(id = android.R.string.cancel))
+                }
+                TextButton(onClick = {
+                    inactiveItems.clear()
+                    activeItems.clear()
+                    activeItems.addAll(MenuItem.getDefaultConfiguration(menuContext))
+                    inactiveItems.addAll(all - activeItems)
+                }) {
+                    Text(stringResource(id = R.string.menu_reset_plan_instance))
+                }
+                val scope = rememberCoroutineScope()
+                TextButton(onClick = {
+                    scope.launch {
+                        saveConfiguration(menuContext, activeItems)
+                        dismiss()
+                    }
+                }) {
+                    Text(stringResource(id = R.string.confirm))
+                }
             }
         }
+    }
+
+    companion object {
+        const val KEY_CONTEXT = "context"
+
+        fun newInstance(menuContext: MenuItem.MenuContext) =
+            CustomizeMenuDialogFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(KEY_CONTEXT, menuContext)
+                }
+            }
     }
 }
 
@@ -111,7 +198,7 @@ private fun MenuConfigurator(
         itemsAvailable = MenuItem.values.size,
     ) {
         itemsIndexed(activeItems, key = { _, item -> item.id }) { index, item ->
-            ReorderableItem(reorderableLazyListState, key = item.id) { isDragging ->
+            ReorderableItem(reorderableLazyListState, key = item.id) { _ ->
                 val customActions = buildList {
                     if (index > 0) {
                         add(
@@ -200,14 +287,15 @@ private fun ItemRow(
     customActions: List<CustomAccessibilityAction>?,
 ) {
     Row(
-        modifier = Modifier.semantics {
-            collectionItemInfo = CollectionItemInfo(
-                rowIndex = index,
-                rowSpan = 1,
-                columnIndex =  0,
-                columnSpan = 1
-            )
-        }
+        modifier = Modifier
+            .semantics {
+                collectionItemInfo = CollectionItemInfo(
+                    rowIndex = index,
+                    rowSpan = 1,
+                    columnIndex = 0,
+                    columnSpan = 1
+                )
+            }
             .padding(12.dp)
             .toggleable(
                 value = checked,
@@ -221,13 +309,11 @@ private fun ItemRow(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Checkbox(checked = checked, enabled = onCheckedChange != null, onCheckedChange = null)
-        item.icon?.let {
-            Icon(
-                modifier = Modifier.padding(horizontal = 8.dp),
-                painter = painterResource(id = it),
-                contentDescription = null
-            )
-        }
+        Icon(
+            modifier = Modifier.padding(horizontal = 8.dp),
+            painter = item.painter,
+            contentDescription = null
+        )
         Text(
             text = item.getLabel(LocalContext.current),
             modifier = Modifier

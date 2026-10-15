@@ -43,10 +43,36 @@
 
                                     <tr class="odd:bg-white even:bg-slate-100 dark:odd:bg-neutral-900 dark:even:bg-neutral-800 cursor-pointer p-1 hover:bg-slate-200 dark:hover:bg-neutral-700"
                                         :class="(activeTransaction == item || (activeTransaction == null && item.id == id))  ? 'scale-100 shadow-xl !bg-green-50 dark:!bg-green-900' : ''"
-                                        @click="if (isEditable(item)) { if (!menuOpen) { positionPopup($event, $refs.menu); activeTransaction = item }; menuOpen = !menuOpen } else { menuOpen = false }">
+                                        @click="if (!menuOpen) { positionPopup($event, $refs.menu); activeTransaction = item }; menuOpen = !menuOpen">
                                         <td class="p-1" x-text="item.dateFormatted"></td>
                                         <td class="w-full p-1">
-                                            <div x-html="item.displayHtml"></div>
+                                            <div class="transaction-details">
+                                                <template x-if="item.number">
+                                                    <span x-text="'(' + item.number + ')'"></span>
+                                                </template>
+                                                <template x-if="item.category == 0">
+                                                    <span  x-text="messages.split_transaction"></span>
+                                                </template>
+                                                <template x-if="item.category != 0 && item.categoryPath">
+                                                    <span>
+                                                        <!-- Prepend transfer indicator if it's a transfer -->
+                                                        <span x-text="item.transferPeer != undefined ? (item.amount > 0 ? '← ' : '→ ') : ''"></span>
+                                                        <span x-text="item.categoryPath"></span>
+                                                    </span>
+                                                </template>
+
+                                                <template x-if="item.comment">
+                                                    <span><span class="italic" x-text="item.comment"></span></span>
+                                                </template>
+
+                                                <template x-if="item.partyName">
+                                                    <span><span class="underline" x-text="item.partyName"></span></span>
+                                                </template>
+
+                                                <template x-if="item.tagLabels && item.tagLabels.length > 0">
+                                                    <span><span class="font-semibold" x-text="item.tagLabels.join(', ')"></span></span>
+                                                </template>
+                                            </div>
                                         </td>
                                         <td class="text-end p-1 whitespace-nowrap"
                                             :class="item.amount > 0 ? 'text-green-500' : 'text-red-500'">
@@ -62,9 +88,9 @@
                              x-show="menuOpen">
                             <ul class="divide-y">
                                 <template x-for="item in menu" :key="item.id" hidden>
-                                    <li class="p-1 hover:bg-slate-100 dark:hover:bg-neutral-800">
+                                    <li class="p-1 hover:bg-slate-100 dark:hover:bg-neutral-800" x-show="!item.requiresEdit || isEditable(activeTransaction)">
                                         <a href="#" @click="menuOpen = false; contextAction(item.id);">
-                                            <span class="material-symbols-outlined mr-1 align-middle" x-text="item.icon">edit</span>
+                                            <span class="material-symbols-outlined mr-1 align-middle" x-text="item.icon"></span>
                                             <span x-text="messages[item.label]"></span>
                                         </a>
                                     </li>
@@ -155,7 +181,7 @@
                                 </template>
                             </select>
                             <input class="h-8 border py-2 px-3  align-middle"
-                                   x-show="method !=0 && data.methods.find(item => item.id == method).isNumbered"
+                                   x-show="method != null && data.methods.find(item => item.id == method).isNumbered"
                                    :placeholder="messages.reference_number"
                                    name="number" id="number" x-model="number">
                         </div>

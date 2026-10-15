@@ -1,18 +1,17 @@
 package org.totschnig.myexpenses.viewmodel.data
 
 import android.database.Cursor
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BIC
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_HAS_DESCENDANTS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IBAN
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_DEBTS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TEMPLATES
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAPPED_TRANSACTIONS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
+import org.totschnig.myexpenses.provider.KEY_BIC
+import org.totschnig.myexpenses.provider.KEY_IBAN
+import org.totschnig.myexpenses.provider.KEY_MAPPED_DEBTS
+import org.totschnig.myexpenses.provider.KEY_MAPPED_TEMPLATES
+import org.totschnig.myexpenses.provider.KEY_MAPPED_TRANSACTIONS
+import org.totschnig.myexpenses.provider.KEY_PARENTID
+import org.totschnig.myexpenses.provider.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_SHORT_NAME
+import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 import org.totschnig.myexpenses.provider.getBoolean
-import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
@@ -31,6 +30,9 @@ data class Party(
     val duplicates: List<Party> = emptyList(),
 ) {
     override fun toString() = name
+
+    val isUnused: Boolean
+        get() = id != NULL_ITEM_ID && !mappedTransactions && !mappedTemplates && !mappedDebts && duplicates.all { it.isUnused }
 
     companion object {
         fun fromCursor(cursor: Cursor) = Party(

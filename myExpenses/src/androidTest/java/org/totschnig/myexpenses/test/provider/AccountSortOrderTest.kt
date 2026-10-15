@@ -8,9 +8,9 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 import org.totschnig.myexpenses.provider.AccountInfo
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES
+import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_LAST_USED
+import org.totschnig.myexpenses.provider.KEY_USAGES
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.util.Utils

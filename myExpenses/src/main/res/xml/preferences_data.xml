@@ -62,7 +62,7 @@
     <PreferenceCategory
         android:key="@string/pref_category_currencies_key"
         android:title="@string/currencies_exchange">
-        <Preference android:title="@string/pref_custom_currency_title">
+        <Preference android:key="@string/pref_manage_currencies_key">
             <intent
                 android:targetClass="org.totschnig.myexpenses.activity.ManageCurrencies"
                 android:targetPackage="@string/application_id" />

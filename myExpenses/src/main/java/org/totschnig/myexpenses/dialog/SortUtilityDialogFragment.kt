@@ -15,6 +15,7 @@ import org.totschnig.myexpenses.adapter.helper.OnStartDragListener
 import org.totschnig.myexpenses.adapter.helper.SimpleItemTouchHelperCallback
 import java.util.*
 
+@Deprecated("Migrate to Compose based sort")
 class SortUtilityDialogFragment : BaseDialogFragment(), OnStartDragListener,
     DialogInterface.OnClickListener {
     private lateinit var mItemTouchHelper: ItemTouchHelper

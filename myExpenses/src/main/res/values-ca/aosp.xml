@@ -18,7 +18,6 @@
     <string name="style">"Estil"</string>
     <string name="loading">"S\'està carregant…"</string>
     <string name="button_label_continue">Continua</string>
-    <string name="autofill">"Emplenament automàtic"</string>
     <string name="discard">"Descarta"</string>
     <string name="dialog_dismiss">"Ignora"</string>
     <string name="details">"Detalls"</string>
@@ -32,7 +31,6 @@
     <string name="setup">"Configuració"</string>
     <string name="customize">"Personalitza"</string>
     <string name="compact">compacte</string>
-    <string name="storage_description">"Emmagatzematge local"</string>
     <string name="encryption">"Encriptació"</string>
     <string name="learn_more">"Més informació"</string>
     <string name="show_all">"Mostra-ho tot"</string>
@@ -152,7 +150,6 @@
     <string name="preview">"Previsual."</string>
     <string name="show_password">"Mostra la contrasenya"</string>
     <string name="hide_password">"Amaga la contrasenya"</string>
-    <string name="user">"Usuari"</string>
     <string name="source">"Origen"</string>
     <string name="value">"Valor"</string>
     <string name="done_label">"Fet"</string>
@@ -173,4 +170,7 @@
     <string name="already_exists">"Aquest nom ja existeix"</string>
     <string name="flag_inactive">"Inactiva"</string>
     <string name="count">"Compta"</string>
+    <string name="empty">"Buit"</string>
+    <string name="options">"Opcions"</string>
+    <string name="actions">"Accions"</string>
 </resources>

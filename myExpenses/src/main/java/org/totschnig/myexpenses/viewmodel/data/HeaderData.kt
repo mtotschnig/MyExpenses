@@ -6,7 +6,13 @@ import androidx.compose.runtime.Stable
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.KEY_MAPPED_CATEGORIES
+import org.totschnig.myexpenses.provider.KEY_SECOND_GROUP
+import org.totschnig.myexpenses.provider.KEY_SUM_EXPENSES
+import org.totschnig.myexpenses.provider.KEY_SUM_INCOME
+import org.totschnig.myexpenses.provider.KEY_SUM_TRANSFERS
+import org.totschnig.myexpenses.provider.KEY_WEEK_START
+import org.totschnig.myexpenses.provider.KEY_YEAR
 import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLocalDateIfExists
 import org.totschnig.myexpenses.provider.getLong
@@ -14,27 +20,27 @@ import java.time.LocalDate
 
 @Immutable
 @Stable
-sealed interface HeaderDataResult {
-    val account: PageAccount
-    fun calculateGroupId(transaction: Transaction2) = account.grouping.calculateGroupId(transaction)
-}
+sealed interface HeaderDataResult
 
-data class HeaderDataEmpty(override val account: PageAccount) : HeaderDataResult
-data class HeaderDataError(override val account: PageAccount) : HeaderDataResult
+object HeaderDataEmpty : HeaderDataResult
+object HeaderDataError : HeaderDataResult
 
 data class HeaderData(
-    override val account: PageAccount,
+    val account: PageAccount,
     val groups: Map<Int, HeaderRow>,
     val dateInfo: DateInfo,
-    val isFiltered: Boolean
+    val isFiltered: Boolean,
 ) : HeaderDataResult {
+
+    fun calculateGroupId(transaction: Transaction2) = account.grouping.calculateGroupId(transaction)
+
 
     companion object {
         fun fromSequence(
             openingBalance: Long,
             grouping: Grouping,
             currency: CurrencyUnit,
-            sequence: Sequence<Cursor>
+            sequence: Sequence<Cursor>,
         ): Map<Int, HeaderRow> =
             buildMap {
                 var previousBalance = openingBalance
@@ -58,7 +64,8 @@ data class HeaderRow(
     val previousBalance: Money,
     val delta: Money,
     val interimBalance: Money,
-    val weekStart: LocalDate?
+    val weekStart: LocalDate?,
+    val mappedCategories: Boolean = false
 ) {
 
     companion object {
@@ -71,19 +78,21 @@ data class HeaderRow(
             expenseSum: Long,
             transferSum: Long,
             previousBalance: Long,
-            weekStart: LocalDate?
+            weekStart: LocalDate?,
+            mappedCategories: Boolean
         ): HeaderRow {
             val delta = incomeSum + expenseSum + transferSum
             return HeaderRow(
-                year,
-                second,
-                Money(currency, incomeSum),
-                Money(currency, expenseSum),
-                Money(currency, transferSum),
-                Money(currency, previousBalance),
-                Money(currency, delta),
-                Money(currency, previousBalance + delta),
-                weekStart
+                year = year,
+                second = second,
+                incomeSum = Money(currency, incomeSum),
+                expenseSum = Money(currency, expenseSum),
+                transferSum = Money(currency, transferSum),
+                previousBalance = Money(currency, previousBalance),
+                delta = Money(currency, delta),
+                interimBalance = Money(currency, previousBalance + delta),
+                weekStart = weekStart,
+                mappedCategories = mappedCategories
             )
         }
 
@@ -95,7 +104,8 @@ data class HeaderRow(
             expenseSum = cursor.getLong(KEY_SUM_EXPENSES),
             transferSum = cursor.getLong(KEY_SUM_TRANSFERS),
             previousBalance = previousBalance,
-            weekStart = cursor.getLocalDateIfExists(KEY_WEEK_START)
+            weekStart = cursor.getLocalDateIfExists(KEY_WEEK_START),
+            mappedCategories = cursor.getInt(KEY_MAPPED_CATEGORIES) > 0
         )
     }
 }
@@ -106,5 +116,5 @@ data class BudgetRow(
     val headerId: Int,
     val amount: Long?,
     val rollOverPrevious: Long?,
-    val oneTime: Boolean
+    val oneTime: Boolean,
 )

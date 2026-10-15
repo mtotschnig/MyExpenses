@@ -10,14 +10,14 @@ import org.totschnig.myexpenses.db2.AutoFillInfo
 import org.totschnig.myexpenses.db2.FinTsAttribute
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.createParty
+import org.totschnig.myexpenses.db2.entities.Transaction
 import org.totschnig.myexpenses.db2.findParty
 import org.totschnig.myexpenses.db2.findPaymentMethod
 import org.totschnig.myexpenses.db2.writePaymentMethod
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model2.Party
 import java.util.zip.CRC32
 
@@ -33,7 +33,7 @@ val TEXT_REPLACEMENTS_UMSATZ = arrayOf(arrayOf("\n", "\r"), arrayOf("", ""))
 data class Transfer(
     val zweck: String?,
     val zweck2: String?,
-    val weitereVerwendungszwecke: Array<String>,
+    val weitereVerwendungszwecke: List<String>,
     val tags: Map<Tag, String>
 )
 
@@ -44,7 +44,7 @@ fun UmsLine.checkSum(): Long {
     return crc.value
 }
 
-class HbciConverter(val repository: Repository, private val eur: CurrencyUnit) {
+class HbciConverter(val repository: Repository) {
     private val methodToId: MutableMap<String, Long> = HashMap()
     private val payeeCache: MutableMap<Party, Pair<Long, AutoFillInfo>> = HashMap()
 
@@ -53,57 +53,59 @@ class HbciConverter(val repository: Repository, private val eur: CurrencyUnit) {
         accountId: Long,
         accountTypeId: Long,
     ): Pair<Transaction, Map<out Attribute, String>> {
-        val transaction = Transaction(accountId, Money(eur, value.longValue))
-        orig_value?.let {
-            transaction.originalAmount = Money(currencyContext[it.curr], it.longValue)
+        val origAmount = orig_value?.let {
+            with(currencyContext[it.curr]) {
+                this to Money(this, it.longValue).amountMinor
+            }
         }
-        transaction.crStatus = CrStatus.RECONCILED
-        transaction.setDate(bdate)
-        transaction.setValueDate(valuta)
-
         var lines = usage.toTypedArray()
         if (lines.isEmpty()) lines = VerwendungszweckUtil.parse(additional)
         lines = VerwendungszweckUtil.rewrap(HBCI_TRANSFER_USAGE_DB_MAXLENGTH, *lines)
+
         val transfer = VerwendungszweckUtil.apply(lines)
 
-
-        (getTag(transfer, Tag.ABWA)?.let { Party.create(name = it) }
+        val payeeInfo = (getTag(transfer, Tag.ABWA)?.let { Party.create(name = it) }
             ?: other?.takeIf { !(it.name.isNullOrBlank() && it.name2.isNullOrBlank()) }
                 ?.toParty())?.let { party ->
-            val payeeInfo = payeeCache[party] ?: run {
+            payeeCache[party] ?: run {
                 val payeeId = repository.findParty(party)
                 payeeId?.let { it to repository.autoFill(it) }
                     ?: repository.createParty(party)?.let {  it.id to null }
             }
-            transaction.payeeId = payeeInfo?.first
-            payeeInfo?.second?.categoryId?.let {
-                transaction.catId = it
-            }
         }
 
-        if (transfer != null) {
-            transaction.comment =
+        return Transaction(
+            accountId = accountId,
+            amount = value.longValue,
+            originalCurrency = origAmount?.first?.code,
+            originalAmount = origAmount?.second,
+            crStatus = CrStatus.RECONCILED,
+            date = bdate.time / 1000,
+            valueDate = valuta.time / 1000,
+            methodId = text?.let { clean(it) }
+                ?.let { extractMethodId(it, accountTypeId) },
+            comment = transfer?.let {
                 getTag(transfer, Tag.SVWZ)
-                    ?: arrayOf(
-                        transfer.zweck,
-                        transfer.zweck2,
-                        *transfer.weitereVerwendungszwecke
-                    ).joinToString("\n")
-        }
-
-        transaction.methodId = text?.let { clean(it) }?.let { extractMethodId(it, accountTypeId) }
-
-        val attributes = buildMap {
+                    ?: buildList {
+                        add(transfer.zweck)
+                        add(transfer.zweck2)
+                        addAll(transfer.weitereVerwendungszwecke)
+                    }.filterNotNull().joinToString("\n")
+            },
+            payeeId = payeeInfo?.first,
+            categoryId = payeeInfo?.second?.categoryId,
+            uuid = generateUuid()
+        ) to buildMap<FinTsAttribute, String> {
             extractAttribute(transfer, this, Tag.EREF, FinTsAttribute.EREF)
             extractAttribute(transfer, this, Tag.MREF, FinTsAttribute.MREF)
             extractAttribute(transfer, this, Tag.KREF, FinTsAttribute.KREF)
             extractAttribute(transfer, this, Tag.CRED, FinTsAttribute.CRED)
             extractAttribute(transfer, this, Tag.DBET, FinTsAttribute.DBET)
-            put(FinTsAttribute.SALDO, saldo.value.bigDecimalValue.toString())
-            put(FinTsAttribute.CHECKSUM, checkSum().toString())
+            saldo?.let {
+                put(FinTsAttribute.SALDO, it.value.bigDecimalValue.toString())
+            }
+            put(FinTsAttribute.CHECKSUM, this@toTransaction.checkSum().toString())
         }
-
-        return transaction to attributes
     }
 
     private fun extractAttribute(
@@ -134,7 +136,7 @@ class HbciConverter(val repository: Repository, private val eur: CurrencyUnit) {
             StringUtils.replaceEach(text, replacements[0], replacements[1])
 
 
-    private fun Konto.toParty(): Party {
+    private fun Konto.toParty(): Party? {
 
         var name: String = StringUtils.trimToEmpty(name)
         val name2: String = StringUtils.trimToEmpty(name2)

@@ -1,0 +1,603 @@
+package org.totschnig.myexpenses.compose.main
+
+import android.content.res.Configuration
+import androidx.activity.compose.BackHandler
+import androidx.annotation.IdRes
+import androidx.annotation.StringRes
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContent
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ReceiptLong
+import androidx.compose.material.icons.filled.AccountBalance
+import androidx.compose.material.icons.filled.CheckBox
+import androidx.compose.material.icons.filled.CheckBoxOutlineBlank
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.MoreHoriz
+import androidx.compose.material.icons.outlined.CropLandscape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.ScaffoldDefaults
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
+import androidx.compose.material3.adaptive.layout.AnimatedPane
+import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
+import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
+import androidx.compose.material3.adaptive.layout.ThreePaneScaffoldDestinationItem
+import androidx.compose.material3.adaptive.layout.ThreePaneScaffoldRole
+import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirective
+import androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator
+import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldDefaults
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.window.core.layout.WindowSizeClass
+import kotlinx.coroutines.launch
+import myiconpack.PaneSplit
+import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.HELP_VARIANT_ACCOUNTS
+import org.totschnig.myexpenses.activity.HELP_VARIANT_BALANCE_SHEET
+import org.totschnig.myexpenses.activity.HELP_VARIANT_PORTFOLIO
+import org.totschnig.myexpenses.activity.HELP_VARIANT_TRANSACTIONS
+import org.totschnig.myexpenses.activity.StartScreen
+import org.totschnig.myexpenses.compose.TEST_TAG_NAV_ACCOUNTS
+import org.totschnig.myexpenses.compose.TEST_TAG_NAV_OVERFLOW
+import org.totschnig.myexpenses.compose.TEST_TAG_NAV_TRANSACTIONS
+import org.totschnig.myexpenses.compose.accounts.AccountEventHandler
+import org.totschnig.myexpenses.compose.accounts.AccountsScreen
+import org.totschnig.myexpenses.compose.conditional
+import org.totschnig.myexpenses.compose.isPhone
+import org.totschnig.myexpenses.compose.isTablet
+import org.totschnig.myexpenses.compose.transactions.Action
+import org.totschnig.myexpenses.compose.transactions.TransactionScreen
+import org.totschnig.myexpenses.dialog.MenuItem
+import org.totschnig.myexpenses.model.AccountFlag
+import org.totschnig.myexpenses.model.AccountGrouping
+import org.totschnig.myexpenses.model.AccountGroupingKey
+import org.totschnig.myexpenses.model.CommodityType
+import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.model.sort.TransactionSort
+import org.totschnig.myexpenses.preference.PreferenceState
+import org.totschnig.myexpenses.viewmodel.AccountsScreenTab
+import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
+import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel.AccountPanelState
+import org.totschnig.myexpenses.viewmodel.data.FullAccount
+import org.totschnig.myexpenses.viewmodel.data.PageAccount
+import org.totschnig.myexpenses.viewmodel.data.TradeIntent
+
+sealed class Screen(
+    val icon: ImageVector,
+    @param:StringRes val resourceId: Int,
+    val paneRole: ThreePaneScaffoldRole,
+    val testTag: String,
+) {
+    object Accounts : Screen(
+        icon = Icons.Default.AccountBalance,
+        resourceId = R.string.accounts,
+        paneRole = ListDetailPaneScaffoldRole.List,
+        testTag = TEST_TAG_NAV_ACCOUNTS
+    )
+
+    object Transactions : Screen(
+        icon = Icons.AutoMirrored.Default.ReceiptLong,
+        resourceId = R.string.import_select_transactions,
+        paneRole = ListDetailPaneScaffoldRole.Detail,
+        testTag = TEST_TAG_NAV_TRANSACTIONS
+    )
+}
+
+sealed class AppEvent {
+    object CreateAccount : AppEvent()
+    object CreatePortfolio : AppEvent()
+    data class CreateTransaction(
+        val action: Action,
+        val transferEnabled: Boolean = true,
+    ) : AppEvent()
+
+    data class SetAccountGrouping(val newGrouping: AccountGrouping<*>) : AppEvent()
+    data class SetTransactionGrouping(val grouping: Grouping) : AppEvent()
+    data class SetTransactionSort(val transactionSort: TransactionSort) : AppEvent()
+    object PrintBalanceSheet : AppEvent()
+    data class ContextMenuItemClicked(@param:IdRes val itemId: Int) : AppEvent()
+    data class MenuItemClicked(@param:IdRes val itemId: Int, val tag: Any? = null) : AppEvent()
+    object Sort : AppEvent()
+    data class CopyToClipBoard(val text: String) : AppEvent()
+    object ToggleNavigation : AppEvent()
+    data class SaveTrade(val intent: TradeIntent) : AppEvent()
+    data class ShowUpgrade(val feature: ContribFeature) : AppEvent()
+}
+
+interface AppEventHandler {
+    operator fun invoke(event: AppEvent)
+}
+
+@OptIn(ExperimentalMaterial3AdaptiveApi::class)
+suspend fun ThreePaneScaffoldNavigator<*>.navigateToRoot(pane: ThreePaneScaffoldRole) {
+    if (currentDestination?.pane == pane) return
+    if (canNavigateBack()) {
+        navigateBack()
+    } else {
+        navigateTo(pane)
+    }
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3AdaptiveApi::class)
+@Composable
+fun MainScreenAdaptive(
+    viewModel: MyExpensesV2ViewModel,
+    accounts: List<FullAccount>,
+    allCurrencies: List<CurrencyUnit>,
+    availableFilters: List<AccountGroupingKey>,
+    selectedAccountId: Long,
+    onAppEvent: AppEventHandler,
+    onAccountEvent: AccountEventHandler,
+    onPrepareContextMenuItem: (itemId: Int) -> Boolean,
+    onPrepareMenuItem: (itemId: Int) -> Boolean,
+    flags: List<AccountFlag> = emptyList(),
+    bankIcon: (@Composable (Modifier, Long) -> Unit)? = null,
+    adView: @Composable (MutableState<Boolean>) -> Unit,
+    isNavigationVisible: Boolean,
+    isCurrencyUsed: suspend (String) -> Boolean = { false },
+    onCreateAsset: suspend (code: String, symbol: String, fractionDigits: Int, label: String?, commodityType: CommodityType) -> CurrencyUnit? = { _, _, _, _, _ -> null },
+    pageContent: @Composable (pageAccount: PageAccount, isCurrent: Boolean) -> Unit,
+) {
+
+    LaunchedEffect(Unit) {
+        viewModel.setStartFilter()
+    }
+
+    val scope = rememberCoroutineScope()
+
+    val forcedAccountPanelLoadingState = viewModel.accountPanelState.statefulFlow
+        .collectAsState(PreferenceState.Loading).value
+
+    val preferredNavModeLoadingState = viewModel.navigationMode.statefulFlow
+        .collectAsState(PreferenceState.Loading).value
+
+    val accountGroupingLoadingState = viewModel.accountGrouping.statefulFlow
+        .collectAsState(PreferenceState.Loading).value
+
+    val mainMenuLoadingState = viewModel.mainMenuAccessor.statefulFlow
+        .collectAsState(PreferenceState.Loading).value
+
+    if (forcedAccountPanelLoadingState !is PreferenceState.Loaded ||
+        preferredNavModeLoadingState !is PreferenceState.Loaded ||
+        accountGroupingLoadingState !is PreferenceState.Loaded ||
+        mainMenuLoadingState !is PreferenceState.Loaded
+    ) return
+
+    val forcedAccountPanelState = forcedAccountPanelLoadingState.value
+    val preferredNavMode = preferredNavModeLoadingState.value.validate(isTablet)
+    val accountGrouping = accountGroupingLoadingState.value
+
+    val adaptiveInfo = currentWindowAdaptiveInfoV2()
+
+    val defaultDirective = calculatePaneScaffoldDirective(adaptiveInfo)
+    val defaultIs2Pane = defaultDirective.maxHorizontalPartitions > 1
+
+    val navigator = rememberListDetailPaneScaffoldNavigator<FullAccount>(
+        scaffoldDirective = defaultDirective.run {
+            copy(
+                horizontalPartitionSpacerSize = 12.dp,
+                maxHorizontalPartitions = when (forcedAccountPanelState) {
+                    AccountPanelState.EXPANDED -> 2
+                    AccountPanelState.COLLAPSED -> 1
+                    AccountPanelState.DEFAULT -> maxHorizontalPartitions
+                },
+            )
+        },
+        initialDestinationHistory = listOf(
+            ThreePaneScaffoldDestinationItem(
+                pane = when (viewModel.startScreen) {
+                    StartScreen.Accounts, StartScreen.BalanceSheet -> ListDetailPaneScaffoldRole.List
+                    else -> ListDetailPaneScaffoldRole.Detail
+                }
+            )
+        ),
+        isDestinationHistoryAware = false
+    )
+
+    val intentEvents by viewModel.intentEvents.collectAsStateWithLifecycle(null)
+
+    LaunchedEffect(intentEvents) {
+        if (intentEvents != null) {
+            navigator.navigateToRoot(ListDetailPaneScaffoldRole.Detail)
+        }
+    }
+
+    val menuConfig = mainMenuLoadingState.value
+
+    val is2Pane = navigator.scaffoldDirective.maxHorizontalPartitions > 1
+    val isLandscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
+
+    var showBottomSheet by remember { mutableStateOf(false) }
+    val sheetState = rememberModalBottomSheetState()
+
+    val calculatedLayoutType = NavigationSuiteScaffoldDefaults.navigationSuiteType(adaptiveInfo)
+    val layoutType = when (preferredNavMode) {
+        MenuItem.NavigationMode.DEFAULT -> calculatedLayoutType // should not happen
+        MenuItem.NavigationMode.FIXED_BOTTOM -> calculatedLayoutType // which is either ShortNavigationBarCompact or ShortNavigationBarMedium for phone
+        MenuItem.NavigationMode.TOGGLEABLE_RAIL -> if (isNavigationVisible) NavigationSuiteType.NavigationRail else NavigationSuiteType.None
+        MenuItem.NavigationMode.ALWAYS_RAIL -> NavigationSuiteType.WideNavigationRailCollapsed
+        MenuItem.NavigationMode.ADAPTIVE -> if (isLandscape) {
+            NavigationSuiteType.WideNavigationRailCollapsed
+        } else {
+            NavigationSuiteType.ShortNavigationBarMedium
+        }
+    }
+
+    val isRail = layoutType.isRail()
+    val context = LocalContext.current
+    val isAdLoaded = remember { mutableStateOf(false) }
+    val fontScale = LocalDensity.current.fontScale
+
+    val splitMenu = isPhone && (
+            layoutType.isBar() ||
+                    isLandscape ||
+                    (isRail && fontScale >= 1.3f && isAdLoaded.value)
+            )
+
+    val maxQuickItems = if (
+        (layoutType == NavigationSuiteType.ShortNavigationBarMedium) || isRail) 2 else 1
+
+    val quickItems = menuConfig.take(maxQuickItems)
+    val overflowItems = menuConfig.drop(maxQuickItems)
+
+    val isWebUiActive by viewModel.isWebUiActive.collectAsState(false)
+
+    fun MenuItem.onMenuItemClicked() {
+        val tag = when (this) {
+            MenuItem.WebUI -> !isWebUiActive
+            MenuItem.Help -> when (navigator.currentDestination?.pane) {
+                ListDetailPaneScaffoldRole.List -> if (viewModel.currentAccountsTab.value == AccountsScreenTab.BALANCE_SHEET) HELP_VARIANT_BALANCE_SHEET else HELP_VARIANT_ACCOUNTS
+                ListDetailPaneScaffoldRole.Detail -> if ((viewModel.accountList.value.find { it.id == selectedAccountId } as? FullAccount)?.isPortfolio == true) HELP_VARIANT_PORTFOLIO else HELP_VARIANT_TRANSACTIONS
+                else -> null
+            }
+
+            else -> null
+        }
+        onAppEvent(
+            AppEvent.MenuItemClicked(id, tag)
+        )
+    }
+
+    @Composable
+    fun NavigationItem(label: String) {
+        val railOnPhonePortrait = isPhone && !isLandscape && isRail
+        Text(
+            label,
+            modifier = Modifier.conditional(railOnPhonePortrait) {
+                widthIn(max = 72.dp)
+            },
+            textAlign = TextAlign.Center,
+            maxLines = if (railOnPhonePortrait) 2 else 1
+        )
+    }
+
+    val toggleableRail = preferredNavMode == MenuItem.NavigationMode.TOGGLEABLE_RAIL
+
+    val canTogglePane = adaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
+        WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND
+    )
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .windowInsetsPadding(WindowInsets.statusBars)
+    ) {
+        adView(isAdLoaded)
+        NavigationSuiteScaffold(
+            layoutType = layoutType,
+            navigationSuiteItems = {
+                if (canTogglePane) {
+                    item(
+                        icon = {
+                            Icon(
+                                imageVector = if (is2Pane) Icons.Outlined.CropLandscape else PaneSplit,
+                                contentDescription = stringResource(
+                                        if (is2Pane) R.string.single_pane_view else R.string.split_pane_view
+                                    )
+                            )
+                        },
+                        selected = false,
+                        onClick = {
+                            scope.launch {
+                                viewModel.accountPanelState.set(
+                                    when {
+                                        is2Pane && defaultIs2Pane -> AccountPanelState.COLLAPSED
+                                        !is2Pane && !defaultIs2Pane -> AccountPanelState.EXPANDED
+                                        else -> AccountPanelState.DEFAULT
+                                    }
+                                )
+                            }
+                        },
+                        label = {},
+                        alwaysShowLabel = false
+                    )
+                }
+                if (toggleableRail && isNavigationVisible) {
+                    item(
+                        icon = {
+                            Icon(
+                                Icons.Default.Close,
+                                contentDescription = stringResource(R.string.drawer_close)
+                            )
+                        },
+                        selected = false,
+                        onClick = { onAppEvent(AppEvent.ToggleNavigation) }, // The IconButton handles the click
+                        label = null, // Optional, can be null
+                        alwaysShowLabel = false,
+                    )
+                }
+                if (!is2Pane) {
+                    listOfNotNull(
+                        Screen.Accounts,
+                        Screen.Transactions.takeIf { accounts.isNotEmpty() }
+                    ).forEach { screen ->
+                        item(
+                            selected = navigator.currentDestination?.pane == screen.paneRole,
+                            onClick = {
+                                scope.launch {
+                                    navigator.navigateToRoot(screen.paneRole)
+                                }
+                            },
+                            icon = { Icon(screen.icon, contentDescription = null) },
+                            label = {
+                                NavigationItem(stringResource(screen.resourceId))
+                            },
+                            modifier = Modifier.testTag(screen.testTag)
+                        )
+                    }
+                }
+
+                (if (splitMenu) quickItems else menuConfig).forEach {
+                    item(
+                        selected = if (it == MenuItem.WebUI) isWebUiActive else false,
+                        onClick = {
+                            it.onMenuItemClicked()
+                        },
+                        icon = { Icon(it.painter, null) },
+                        label = {
+                            NavigationItem(it.getLabel(context))
+                        },
+                        modifier = Modifier.testTag(it.testTag)
+                    )
+                }
+                if (splitMenu) {
+
+                    if (overflowItems.isNotEmpty()) {
+                        item(
+                            selected = showBottomSheet,
+                            onClick = { showBottomSheet = true },
+                            icon = { Icon(Icons.Default.MoreHoriz, null) },
+                            label = {
+                                NavigationItem(stringResource(com.android.setupwizardlib.R.string.suw_more_button_label))
+                            },
+                            modifier = Modifier.testTag(TEST_TAG_NAV_OVERFLOW)
+                        )
+                    }
+                }
+            }
+        ) {
+
+            BackHandler(enabled = !is2Pane && navigator.canNavigateBack()) {
+                scope.launch {
+                    navigator.navigateBack()
+                }
+            }
+
+            val customInsets = with(ScaffoldDefaults.contentWindowInsets) {
+                if (layoutType.isBar()) only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top) else this
+            }
+
+
+            val navigationIcon =
+                if (toggleableRail && !isNavigationVisible) {
+                    @Composable
+                    {
+                        IconButton(onClick = { onAppEvent(AppEvent.ToggleNavigation) }) {
+                            Icon(
+                                imageVector = Icons.Default.Menu,
+                                contentDescription = stringResource(R.string.drawer_open)
+                            )
+                        }
+                    }
+                } else {
+                    {}
+                }
+
+            ListDetailPaneScaffold(
+                directive = navigator.scaffoldDirective,
+                value = navigator.scaffoldValue,
+                listPane = {
+                    PaneSurface(
+                        isRail = isRail,
+                        extraPadding = !is2Pane
+                    ) {
+                        AnimatedPane {
+                            AccountsScreen(
+                                containerColor = Color.Transparent,
+                                navigationIcon = navigationIcon,
+                                accounts = accounts,
+                                accountGrouping = accountGrouping,
+                                selectedAccountId = selectedAccountId,
+                                viewModel = viewModel,
+                                onEvent = onAppEvent,
+                                onAccountEvent = onAccountEvent,
+                                flags = flags,
+                                bankIcon = bankIcon,
+                                windowInsets = with(customInsets) {
+                                    if (is2Pane) only(WindowInsetsSides.Vertical + WindowInsetsSides.Start) else this
+                                }
+                            ) {
+                                scope.launch {
+                                    navigator.navigateTo(ListDetailPaneScaffoldRole.Detail)
+                                }
+                            }
+                        }
+                    }
+                },
+                detailPane = {
+
+                    PaneSurface(
+                        isRail = isRail,
+                        extraPadding = true
+                    ) {
+                        AnimatedPane {
+
+                            TransactionScreen(
+                                containerColor = Color.Transparent,
+                                availableFilters = availableFilters,
+                                selectedAccountId = selectedAccountId,
+                                accounts = accounts,
+                                viewModel = viewModel,
+                                onEvent = onAppEvent,
+                                onAccountEvent = onAccountEvent,
+                                onPrepareContextMenuItem = onPrepareContextMenuItem,
+                                onPrepareMenuItem = onPrepareMenuItem,
+                                pageContent = pageContent,
+                                bankIcon = bankIcon,
+                                allCurrencies = allCurrencies,
+                                isCurrencyUsed = isCurrencyUsed,
+                                onCreateAsset = onCreateAsset,
+                                visibleActionItems = when {
+                                    adaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
+                                        WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND
+                                    ) -> if (is2Pane) 4 else 6
+
+                                    adaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
+                                        WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND
+                                    ) && !is2Pane -> 4
+
+                                    else -> when {
+                                        fontScale > 1.5f -> 0
+                                        fontScale > 1.1f -> if (toggleableRail) 0 else 1
+                                        else -> if (toggleableRail) 1 else 2
+                                    }
+                                },
+                                windowInsets = with(customInsets) {
+                                    if (is2Pane) only(WindowInsetsSides.Vertical + WindowInsetsSides.End) else this
+                                },
+                                isFramed = isRail,
+                                navigationIcon = navigationIcon,
+                            )
+                        }
+                    }
+                }
+            )
+        }
+    }
+
+    if (showBottomSheet) {
+        ModalBottomSheet(
+            onDismissRequest = { showBottomSheet = false },
+            sheetState = sheetState,
+            contentWindowInsets = { WindowInsets.navigationBars }
+        ) {
+
+            overflowItems
+                .forEach {
+                    ListItem(
+                        modifier = Modifier
+                            .testTag(it.testTag)
+                            .clickable {
+                                showBottomSheet = false
+                                it.onMenuItemClicked()
+                            },
+                        headlineContent = { Text(it.getLabel(LocalContext.current)) },
+                        leadingContent = {
+                            Icon(
+                                if (it == MenuItem.WebUI) {
+                                    rememberVectorPainter(
+                                        if (isWebUiActive) Icons.Filled.CheckBox
+                                        else Icons.Filled.CheckBoxOutlineBlank
+                                    )
+                                } else it.painter,
+                                contentDescription = null
+                            )
+                        },
+                    )
+                }
+        }
+    }
+}
+
+private fun NavigationSuiteType.isBar(): Boolean {
+    return this == NavigationSuiteType.NavigationBar ||
+            this == NavigationSuiteType.ShortNavigationBarMedium ||
+            this == NavigationSuiteType.ShortNavigationBarCompact
+}
+
+private fun NavigationSuiteType.isRail(): Boolean {
+    return this == NavigationSuiteType.NavigationRail ||
+            this == NavigationSuiteType.WideNavigationRailCollapsed ||
+            this == NavigationSuiteType.WideNavigationRailExpanded
+}
+
+
+@Composable
+private fun PaneSurface(
+    isRail: Boolean,
+    extraPadding: Boolean = false,
+    content: @Composable () -> Unit,
+) {
+    Surface(
+        modifier = Modifier
+            .conditional(isRail) {
+                conditional(extraPadding) { padding(end = 8.dp) }
+                    .windowInsetsPadding(WindowInsets.safeContent.only(WindowInsetsSides.Vertical))
+            },
+        shape = if (isRail) RoundedCornerShape(24.dp) else RectangleShape,
+        border = if (isRail) {
+            BorderStroke(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)
+            )
+        } else null,
+        content = content
+    )
+}

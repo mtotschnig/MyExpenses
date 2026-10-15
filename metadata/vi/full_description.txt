@@ -1,27 +1,25 @@
-<i>Quản lý chi tiêu</i> là công cụ tối ưu để bạn theo dõi chi phí và quản lý tài chính một cách dễ dàng, ngay trong tầm tay bạn!
+<b>Quản lý chi tiêu</b> là ứng dụng quản lý tài chính cá nhân tối ưu và bảo vệ quyền riêng tư—giúp bạn kiểm soát hoàn toàn việc theo dõi chi tiêu hàng ngày, ngân sách và danh mục đầu tư với sự minh bạch của mã nguồn mở.
 
-Các tính năng chính:
+<b>Tính năng chính:</b>
 
-     • <b>Theo dõi chi phí dễ dàng</b>: Theo dõi chi phí và thu nhập của bạn một cách liền mạch, cho dù bạn đang sử dụng điện thoại thông minh hay máy tính bảng.
-     • <b>Quản lý tài khoản linh hoạt</b>: Quản lý nhiều tài khoản một cách dễ dàng, bao gồm cả chuyển khoản giữa các loại tiền tệ khác nhau.
-     • <b>Lập kế hoạch tài chính hợp lý</b>: Dễ dàng thiết lập kế hoạch cho các giao dịch định kỳ.
-     • <b>Quản lý dữ liệu liền mạch</b>: Xuất và nhập dữ liệu dễ dàng bằng định dạng QIF và CSV.
-     • <b>Bảo mật nâng cao</b>: Bảo vệ dữ liệu của bạn bằng mật khẩu hoặc bảo mật màn hình khóa thiết bị.
-     • <b>Trải nghiệm có thể tùy chỉnh</b>: Điều chỉnh ứng dụng theo sở thích của bạn bằng các chủ đề và kích thước phông chữ có thể tùy chỉnh.
-     • <b>Đối chiếu sao kê ngân hàng</b>: Dễ dàng so sánh trạng thái giao dịch với sao kê ngân hàng của bạn để theo dõi tài chính chính xác.
-     • <b>Nhập dữ liệu nhanh</b>: Tận hưởng khả năng truy cập thuận tiện với các tiện ích và phím tắt trên màn hình chính.
-     • <b>Phân tích dữ liệu mạnh mẽ</b>: Lọc dữ liệu của bạn dựa trên các tiêu chí khác nhau và trực quan hóa xu hướng phân phối và lịch sử bằng biểu đồ động.
+• <b>Theo dõi chi tiêu & ngân sách hàng ngày</b>: Dễ dàng theo dõi thu nhập và chi tiêu trên điện thoại hoặc máy tính bảng. Tạo ngân sách, chia nhỏ giao dịch (giao dịch phân tách) và thiết lập kế hoạch cho các giao dịch định kỳ.
+• <b>Quản lý danh mục đầu tư</b>: Theo dõi danh mục cổ phiếu, tiền điện tử hoặc tài sản tùy chỉnh, giám sát lịch sử giá và quản lý đầu tư đa tiền tệ theo thời gian thực.
+• <b>Tích hợp ngân hàng & đối chiếu</b>: Kết nối trực tiếp với các ngân hàng được hỗ trợ qua FinTS hoặc đối chiếu giao dịch thủ công với sao kê ngân hàng để kiểm soát số dư chính xác.
+• <b>Quét hóa đơn thông minh (OCR)</b>: Tự động trích xuất thông tin giao dịch từ ảnh chụp hóa đơn bằng công nghệ nhận dạng ký tự quang học tiên tiến.
+• <b>Giao diện Web cho máy tính</b>: Truy cập và quản lý các giao dịch của bạn từ bất kỳ trình duyệt web nào trong mạng nội bộ.
+• <b>Phân tích mạnh mẽ</b>: Trực quan hóa xu hướng chi tiêu, biểu đồ tròn phân bổ và báo cáo lịch sử bằng biểu đồ động có thể tùy chỉnh.
+• <b>Đồng bộ linh hoạt & kiểm soát dữ liệu</b>: Xuất và nhập dữ liệu dễ dàng theo định dạng QIF và CSV. Đồng bộ mượt mà giữa các thiết bị bằng WebDAV, Nextcloud, Google Drive, Dropbox hoặc OneDrive có hỗ trợ chứng thư khách.
+• <b>Quyền riêng tư & bảo mật hàng đầu</b>: Minh bạch mã nguồn mở, bảo vệ bằng mật khẩu hoặc khóa sinh trắc học và cơ sở dữ liệu được mã hóa.
 
-Mở khóa các tính năng cao cấp:
+<b>Mở khóa tính năng Premium:</b>
 
-     • <i>Khóa đóng góp</i>: Mở khóa tài khoản không giới hạn, kế hoạch giao dịch định kỳ và hơn thế nữa.
-     • <i>Khóa mở rộng</i>: Tận hưởng đồng bộ hóa đám mây, sao lưu tự động và nhập CSV phức tạp.
-     • <i>Chìa khóa chuyên nghiệp</i>: Đưa việc quản lý tài chính của bạn lên một tầm cao mới bằng các công cụ lập ngân sách, quét biên lai và hỗ trợ qua email.
+• <i>Khóa đóng góp</i>: Các tính năng nổi bật bao gồm mở khóa tài khoản không giới hạn, kế hoạch định kỳ, xuất danh sách PDF, biểu đồ phân bổ danh mục và nhiều hơn nữa.
+• <i>Khóa mở rộng</i>: Bao gồm tất cả tính năng của Khóa đóng góp, cộng thêm đồng bộ hóa đám mây tự động và quy tắc nhập CSV nâng cao.
+• <i>Chìa khóa chuyên nghiệp</i>: Bao gồm tất cả tính năng của Khóa mở rộng, cộng thêm theo dõi đầu tư & danh mục, biểu đồ lịch sử, giám sát ngân sách, quét hóa đơn OCR, giao diện web nội bộ cho máy tính, đồng bộ ngân hàng trực tiếp (Đức) và nhiều hơn nữa.
 
-<i>Quản lý chi tiêu</i> yêu cầu <u>quyền</u> sau:
+<b>Minh bạch về quyền truy cập:</b>
 
-     • <i>Lịch</i>: Các kế hoạch cho các giao dịch trong tương lai và định kỳ được lưu trữ trong lịch địa phương đặc biệt hoặc trong bất kỳ lịch nào khác mà bạn chỉ định.
-     • <i>Internet</i>: Theo dõi sử dụng ẩn danh, Báo cáo sự cố, Đồng bộ hóa đám mây.
-     • <i>Tài khoản</i>: Đồng bộ hóa giữa các thiết bị thông qua dịch vụ đám mây.
+• <i>Lịch</i>: Kế hoạch cho các giao dịch định kỳ được lưu trong lịch nội bộ riêng hoặc bất kỳ lịch nào bạn chỉ định.
+• <i>Internet</i>: Thống kê sử dụng ẩn danh (tùy chọn), đồng bộ đám mây và báo cáo sự cố (tùy chọn).
 
-Kiểm soát tài chính của bạn hơn bao giờ hết bằng cách sử dụng <i>Quản lý chi tiêu</i>!
+Hãy kiểm soát tài chính và tài sản của bạn ngay hôm nay cùng <b>Quản lý chi tiêu</b>!

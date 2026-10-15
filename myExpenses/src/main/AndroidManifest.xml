@@ -84,6 +84,7 @@
         android:label="${appName}"
         android:largeHeap="true"
         android:localeConfig="@xml/locales_config"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
         android:theme="@style/MyTheme"
         tools:replace="android:label"
@@ -117,10 +118,6 @@
             android:name=".activity.OnboardingActivity"
             android:theme="@style/Onboarding" />
         <activity
-            android:name=".activity.MyExpenses"
-            android:launchMode="singleTop"
-            android:theme="@style/MyTheme" />
-        <activity
             android:name=".activity.DeepLinkActivity"
             android:excludeFromRecents="true"
             android:exported="true"
@@ -152,9 +149,8 @@
         <activity
             android:name=".activity.ExpenseEdit"
             android:exported="true"
-            android:parentActivityName=".activity.MyExpenses"
-            android:theme="@style/EditDialog"
-            tools:ignore="UnusedAttribute">
+            android:parentActivityName=".activity.MyExpensesV2"
+            android:theme="@style/EditDialog">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -170,10 +166,6 @@
                     android:path="/transactions"
                     android:scheme="content" />
             </intent-filter>
-
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.totschnig.myexpenses.activity.MyExpenses" />
         </activity>
         <activity
             android:name=".activity.AccountEdit"
@@ -258,9 +250,8 @@
         <activity
             android:name=".activity.ManageTemplates"
             android:exported="true"
-            android:parentActivityName=".activity.MyExpenses"
-            android:theme="@style/EditDialog"
-            tools:ignore="UnusedAttribute">
+            android:parentActivityName=".activity.MyExpensesV2"
+            android:theme="@style/EditDialog">
             <intent-filter>
                 <action android:name="android.provider.calendar.action.HANDLE_CUSTOM_EVENT" />
 
@@ -271,10 +262,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
-
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.totschnig.myexpenses.activity.MyExpenses" />
         </activity>
         <activity
             android:name=".activity.ManageMethods"
@@ -389,13 +376,14 @@
             android:theme="@style/EditDialog" />
 
         <activity
-            android:name="org.totschnig.myexpenses.activity.TemplateSaver"
+            android:name=".activity.TemplateSaver"
             android:exported="true"
+            android:excludeFromRecents="true"
             android:taskAffinity=""
             android:theme="@style/Translucent" />
 
-        <activity android:name="org.totschnig.myexpenses.activity.PriceHistory" />
-        <activity android:name="org.totschnig.myexpenses.activity.PrintLayoutConfiguration" android:label="Layout" />
+        <activity android:name=".activity.PriceHistory" />
+        <activity android:name=".activity.PrintLayoutConfiguration" android:label="Layout" />
 
         <activity
             android:name=".activity.ManageAccountTypes"
@@ -406,6 +394,10 @@
             android:name=".activity.ManageAccountFlags"
             android:exported="false"
             android:theme="@style/EditDialog"/>
+
+        <activity
+            android:name=".activity.MyExpensesV2"
+            android:launchMode="singleTop" />
 
         <service
             android:name=".sync.GenericAccountService"
@@ -437,17 +429,7 @@
             android:exported="false" />
 
         <receiver
-            android:name=".service.LegacyAccountChangedReceiver"
-            android:enabled="@bool/isBelow26"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.accounts.LOGIN_ACCOUNTS_CHANGED" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
             android:name=".service.AccountRemovedReceiver"
-            android:enabled="@bool/is26"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.accounts.action.ACCOUNT_REMOVED" />

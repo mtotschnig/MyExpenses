@@ -13,12 +13,15 @@
     <color name="caldroid_red_border">@color/caldroid_light_red</color>
     <color name="caldroid_state_date_prev_next_month">@color/caldroid_333</color>
     <color name="future_background">#11FFFFFF</color>
-    <color name="drawerBackground">#222</color>
     <color name="cardBackground">#444444</color>
     <color name="activatedBackground">@color/material_grey_700</color>
     <color name="activatedBackgroundPlanner">@color/material_grey_600</color>
     <color name="settings_two_pane_background_color">@android:color/transparent</color>
-    <color name="overspent">#ffb4a8</color>
+    <color name="overspent">#d32f2f</color>
     <color name="overspentDaily">#dddd00</color>
     <color name="inBudget">#02e600</color>
+    <color name="UNRECONCILED">#BDBDBD</color>
+    <color name="CLEARED">#82B1FF</color>
+    <color name="VOID">#FF5252</color>
+    <color name="RECONCILED">#69F0AE</color>
 </resources>

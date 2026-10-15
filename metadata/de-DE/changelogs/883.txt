@@ -1,0 +1,5 @@
+• Portfolio-Tracking : Suche (Vermögenswert, Betrag, Notizen, Datum)
+• FinTS: Kreditkartenumsätze
+
+https://github.com/users/mtotschnig/projects/196
+https://mastodon.social/@myexpenses/117310535080938737

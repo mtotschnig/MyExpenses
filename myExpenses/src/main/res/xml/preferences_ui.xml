@@ -39,14 +39,46 @@
         android:title="@string/pref_ui_language_title"
         my:useSimpleSummaryProvider="true" />
 
-    <Preference
-        android:key="@string/pref_customize_main_menu_key"
+    <ListPreference
+        android:defaultValue="V2"
+        android:entries="@array/pref_ui_main_screen_version_values"
+        android:entryValues="@array/pref_ui_main_screen_version_values"
+        android:key="@string/pref_ui_main_screen_version_key"
+        my:isPreferenceVisible="false"
+        my:useSimpleSummaryProvider="true"
+        android:title="Version" />
+
+    <org.totschnig.myexpenses.preference.PopupMenuPreference
+        android:key="@string/pref_customize_menu_v2_key"
         android:summary="@string/customize"
         android:title="@string/menu" />
 
-    <Preference
-        android:key="@string/pref_account_list_display_configuration_key"
-        android:title="@string/pref_account_list_display_configuration_title" />
+    <ListPreference
+        android:defaultValue="LastVisited"
+        android:entries="@array/pref_start_screen_entries"
+        android:entryValues="@array/pref_start_screen_values"
+        android:key="@string/pref_ui_start_screen_key"
+        android:title="@string/pref_ui_start_screen_title"
+        my:useSimpleSummaryProvider="true" />
+
+    <ListPreference
+        android:defaultValue="LastVisited"
+        android:entries="@array/pref_default_action_entries"
+        android:entryValues="@array/pref_default_action_values"
+        android:key="@string/pref_default_action_key"
+        android:title="@string/default_action"
+        my:useSimpleSummaryProvider="true" />
+
+
+    <PreferenceCategory
+        android:key="category_account_list"
+        android:title="@string/pref_account_list_display_configuration_title">
+
+        <Preference
+            android:key="@string/pref_account_list_display_configuration_key"
+            android:title="@string/pref_account_list_display_configuration_title" />
+
+    </PreferenceCategory>
 
     <PreferenceCategory
         android:key="category_auto_fill"
@@ -150,13 +182,29 @@
             android:title="@string/pref_criterion_futur_title"
             my:useSimpleSummaryProvider="true" />
 
+        <ListPreference
+            android:defaultValue="Standard"
+            android:key="@string/pref_fab_style_key"
+            android:entries="@array/pref_fab_style_entries"
+            android:entryValues="@array/pref_fab_style_values"
+            android:persistent="false"
+            android:title="@string/pref_fab_style_title"
+            my:useSimpleSummaryProvider="true" />
+
+        <org.totschnig.myexpenses.preference.TagStylePreference
+            android:defaultValue="OUTLINE"
+            android:key="@string/pref_tag_style_key"
+            android:entries="@array/pref_tag_style_entries"
+            android:entryValues="@array/pref_tag_style_values"
+            android:persistent="false"
+            android:title="@string/pref_tag_style_title" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
         android:key="category_home_screen_shortcuts"
         android:title="@string/pref_ui_home_screen_shortcuts"
-        my:initialExpandedChildrenCount="1"
-        my:isPreferenceVisible="@bool/pin_shortcut_support">
+        my:initialExpandedChildrenCount="1">
 
         <Preference
             android:key="@string/pref_shortcut_create_transaction_key"
@@ -177,8 +225,7 @@
 
         <Preference
             android:summary="@string/select_template"
-            android:title="@string/template"
-            my:isPreferenceVisible="@bool/is26">
+            android:title="@string/template">
             <intent
                 android:targetClass="org.totschnig.myexpenses.activity.TemplateShortcutSelect"
                 android:targetPackage="@string/application_id" />

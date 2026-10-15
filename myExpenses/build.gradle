@@ -11,12 +11,11 @@ buildscript {
 
 plugins {
     id 'com.android.application'
-    id 'kotlin-android'
     id 'kotlin-parcelize'
-    id 'kotlin-kapt'
     id 'com.google.devtools.ksp'
     id 'org.jetbrains.kotlin.plugin.compose'
     id 'org.jetbrains.kotlin.plugin.serialization'
+    id 'com.android.legacy-kapt'
 }
 
 def getPropertyIfDefined(property, defaultValue) {
@@ -51,9 +50,6 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
 
     /*signingConfigs {
         release {
@@ -68,6 +64,7 @@ android {
     buildTypes {
         release {
             minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-project.txt'
             //signingConfig signingConfigs.release
             manifestPlaceholders["appName"] = "@string/app_name"
@@ -109,12 +106,6 @@ android {
         }
     }
 
-    variantFilter { variant ->
-        if (project.hasProperty("buildType") && variant.buildType.name != project.ext.buildType) {
-            setIgnore(true)
-        }
-    }
-
     testOptions {
         execution 'ANDROIDX_TEST_ORCHESTRATOR'
         unitTests {
@@ -128,6 +119,7 @@ android {
     buildFeatures {
         viewBinding true
         compose true
+        buildConfig true
     }
     //It does not seem possible to define dynamicFeatures dependent on variant
     //If you want to build intern variant, you need to include mlkit (+ at least one of ':mlkit_latn', ':mlkit_han', ':mlkit_deva', ':mlkit_jpan', ':mlkit_kore') and/or tesseract module
@@ -139,22 +131,25 @@ android {
         checkDependencies true
         disable 'InvalidPackage', 'MissingQuantity', 'MissingTranslation', 'ImpliedQuantity', 'Instantiatable'
     }
-    namespace 'org.totschnig.myexpenses'
 
-/*    bundle {
-        packagingOptions {
-            merge 'root/META-INF/services/reactor.blockhound.integration.BlockHoundIntegration'
+    bundle {
+        language {
+            enableSplit = !project.gradle.startParameter.taskNames.any {
+                it.contains("Test") || it.contains("Debug") || it.contains("Connected")
+            }
         }
-    }*/
+    }
+
+    namespace 'org.totschnig.myexpenses'
 }
 
 kotlin.sourceSets.configureEach {
     languageSettings.optIn("kotlin.RequiresOptIn")
 }
 
-//uncomment if you want to have Android log in stdout
 tasks.withType(Test).configureEach {
     systemProperty "robolectric.logging", "stdout"
+    jvmArgs("--add-opens=java.base/jdk.internal.access=ALL-UNNAMED")
 }
 
 dependencies {
@@ -162,10 +157,13 @@ dependencies {
     //https://github.com/fastlane/fastlane/issues/19521#issuecomment-1170017435
     //debugImplementation libs.leakcanary.android
     api(libs.androidx.datastore.preferences)
+    implementation libs.androidx.compose.adaptive.navigation
+    implementation libs.androidx.compose.material3.adaptive.navigation.suite
     coreLibraryDesugaring libs.android.desugar
     implementation project(':transactionscontract')
-    implementation libs.phrase
+    api libs.phrase
     implementation platform(libs.androidx.compose.bom)
+    implementation(libs.androidx.navigation.compose)
     implementation libs.compose.ui
     implementation libs.compose.animation.graphics
     implementation libs.androidx.compose.material3
@@ -178,23 +176,13 @@ dependencies {
     implementation libs.accompanist.drawablepainter
     implementation libs.donut.compose
     implementation libs.donut
+    implementation libs.androidx.compose.material3.window.size
 
-    kapt libs.dagger.compiler
+    ksp libs.dagger.compiler
     implementation libs.dagger
     implementation libs.android.state
     kapt libs.android.state.processor
-    implementation libs.gson
-
-    api libs.auto.value.annotations
-    kapt libs.auto.value
-
-    kapt libs.auto.value.gson
-    api libs.auto.value.gson.runtime
-
-    kapt libs.auto.value.cursor
-    implementation libs.auto.value.cursor.annotations
-
-    kapt libs.auto.value.parcel
+    api libs.gson
 
     implementation project(':PlayLicensingOrig')
     implementation libs.itextpdf
@@ -209,8 +197,6 @@ dependencies {
     implementation libs.mpandroidchart
     implementation libs.caldroid
     api libs.simpledialogfragments
-
-    implementation libs.taptargetview
 
     implementation libs.commons.collections4
 
@@ -227,10 +213,11 @@ dependencies {
 
     api libs.material
 
+    api libs.androidx.documentfile
+
     implementation libs.androidx.gridlayout
     api project(':preferences')
     implementation libs.androidx.constraintlayout
-    implementation libs.androidx.drawer
 
     implementation libs.flexbox
 
@@ -369,4 +356,10 @@ tasks.register('echoPublishTag') {
 
 configurations.configureEach {
     exclude group: 'com.google.j2objc', module: 'j2objc-annotations'
+}
+
+tasks.register("r8Version") {
+    doLast {
+        println(com.android.tools.r8.Version.getVersionString())
+    }
 }

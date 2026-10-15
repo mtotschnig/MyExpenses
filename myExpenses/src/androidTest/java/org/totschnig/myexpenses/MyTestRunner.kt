@@ -3,9 +3,12 @@ package org.totschnig.myexpenses
 import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
+import android.os.Bundle
 import android.provider.Settings
 import android.provider.Settings.SettingNotFoundException
 import androidx.test.runner.AndroidJUnitRunner
+import tools.fastlane.screengrab.locale.LocaleUtil
+import java.util.Locale
 
 @Suppress("unused")
 class MyTestRunner : AndroidJUnitRunner() {
@@ -19,8 +22,35 @@ class MyTestRunner : AndroidJUnitRunner() {
         return super.newApplication(cl, TestApp::class.java.name, context)
     }
 
+    override fun onCreate(arguments: Bundle) {
+        val localeStr = arguments.getString("testLocale") ?: arguments.getString("locale")
+        localeStr?.takeIf { it.isNotEmpty() }?.let {
+            val targetLocale = LocaleUtil.localeFromString(it)
+            Locale.setDefault(targetLocale)
+        }
+
+        super.onCreate(arguments)
+
+        localeStr?.takeIf { it.isNotEmpty() }?.let {
+            val targetLocale = LocaleUtil.localeFromString(it)
+            val config = targetContext.resources.configuration
+            config.setLocale(targetLocale)
+            @Suppress("DEPRECATION")
+            targetContext.resources.updateConfiguration(config, targetContext.resources.displayMetrics)
+        }
+    }
+
     @SuppressLint("NewApi")
     override fun onStart() {
+        val config = targetContext.resources.configuration
+        val smallestScreenWidth = config.smallestScreenWidthDp
+
+        val minRequiredDp = 360
+        check(smallestScreenWidth >= minRequiredDp) {
+            "Display is too small ($smallestScreenWidth dp). " +
+                    "Minimum of $minRequiredDp dp required for reliable Espresso tests."
+        }
+
         if (!ANIMATION_SETTINGS_MANUALLY_CHECKED) {
             val animationSettings = arrayOf(
                 Settings.Global.TRANSITION_ANIMATION_SCALE,

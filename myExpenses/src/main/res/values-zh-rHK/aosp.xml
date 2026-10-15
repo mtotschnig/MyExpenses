@@ -17,7 +17,6 @@
     <string name="style">"樣式"</string>
     <string name="loading">"正在載入…"</string>
     <string name="button_label_continue">"繼續"</string>
-    <string name="autofill">"自動填入"</string>
     <string name="discard">"丟棄"</string>
     <string name="dialog_dismiss">"關閉"</string>
     <string name="details">"詳細資料"</string>
@@ -31,7 +30,6 @@
     <string name="setup">"設定"</string>
     <string name="customize">"自訂"</string>
     <string name="compact">精簡版</string>
-    <string name="storage_description">"本機儲存空間"</string>
     <string name="encryption">"加密"</string>
     <string name="learn_more">"瞭解詳情"</string>
     <string name="show_all">"全部顯示"</string>
@@ -118,7 +116,6 @@
     <string name="preview">"預覽"</string>
     <string name="show_password">"顯示密碼"</string>
     <string name="hide_password">"隱藏密碼"</string>
-    <string name="user">"使用者"</string>
     <string name="done_label">"完成"</string>
     <string name="action_move_top">"移至頂端"</string>
     <string name="action_move_bottom">"移到底端"</string>
@@ -127,4 +124,5 @@
     <string name="widgets">"小工具"</string>
     <string name="menu_import">"匯入"</string>
     <string name="flag_inactive">"未啟用"</string>
+    <string name="options">"選項"</string>
 </resources>

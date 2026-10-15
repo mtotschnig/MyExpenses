@@ -1,13 +1,9 @@
 package org.totschnig.myexpenses.test.espresso
 
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import org.hamcrest.CoreMatchers
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -15,27 +11,29 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.entities.Template.Action
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Template.Action
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
+import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_2
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
+import org.totschnig.myexpenses.testutils.TestShard5
 import org.totschnig.myexpenses.testutils.cleanup
 import java.util.Currency
 
+@TestShard5
 class TransferTemplateTest : BaseExpenseEditTest() {
     lateinit var account2: Account
 
     @Before
     fun fixture() {
         val currency = CurrencyUnit(Currency.getInstance("USD"))
-        val accountLabel1 = "Test label 1"
         account1 = buildAccount(
-            accountLabel1,
+            ACCOUNT_LABEL_1,
             currency = currency.code
         )
-        val accountLabel2 = "Test label 2"
         account2 = buildAccount(
-            accountLabel2,
+            ACCOUNT_LABEL_2,
             currency = currency.code
         )
     }
@@ -46,19 +44,6 @@ class TransferTemplateTest : BaseExpenseEditTest() {
             repository.deleteAccount(account1.id)
             repository.deleteAccount(account2.id)
         }
-    }
-
-    private fun setDefaultAction(defaultAction: Action) {
-        onView(withId(R.id.DefaultAction)).perform(scrollTo(), click())
-        Espresso.onData(
-            CoreMatchers.allOf(
-                CoreMatchers.instanceOf(String::class.java),
-                CoreMatchers.`is`(when(defaultAction) {
-                    Action.SAVE -> getString(R.string.menu_save)
-                    Action.EDIT -> getString(R.string.menu_edit)
-                })
-            )
-        ).perform(click())
     }
 
     private fun runTheTest(
@@ -86,21 +71,21 @@ class TransferTemplateTest : BaseExpenseEditTest() {
     @Test
     fun withAmountOnFirstAccountSave() {
         runTheTest(Action.SAVE, 3000) {
-            assertTemplate(account1.id, -300000)
+            assertTemplate(account1, -300000, expectedCategory = transferCategoryId)
         }
     }
 
     @Test
     fun withAmountOnFirstAccountEdit() {
         runTheTest(Action.EDIT, 3000) {
-            assertTemplate(account1.id, -300000)
+            assertTemplate(account1, -300000, expectedCategory = transferCategoryId)
         }
     }
 
     @Test
     fun withoutAmountEdit() {
         runTheTest(Action.EDIT, null) {
-            assertTemplate(account1.id, 0)
+            assertTemplate(account1, 0, expectedCategory = transferCategoryId)
         }
     }
 

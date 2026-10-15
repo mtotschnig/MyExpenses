@@ -28,8 +28,7 @@ import org.totschnig.myexpenses.fragment.AccountWidgetConfigurationFragment.Butt
 import org.totschnig.myexpenses.fragment.AccountWidgetConfigurationFragment.Button.Companion.unmarshall
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.SimpleValuePreference
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VISIBLE
+import org.totschnig.myexpenses.provider.KEY_VISIBLE
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel
 
 @Suppress("unused")

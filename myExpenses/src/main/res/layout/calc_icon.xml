@@ -7,7 +7,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical"
+    android:tooltipText="@string/content_description_calculator"
     android:contentDescription="@string/content_description_calculator"
     android:focusable="true"
     app:srcCompat="@drawable/ic_calculate"
-    tools:showIn="@layout/amount_input" />
+    tools:showIn="@layout/amount_input"
+    tools:ignore="UnusedAttribute" />

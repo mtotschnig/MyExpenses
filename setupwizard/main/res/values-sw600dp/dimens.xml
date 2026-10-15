@@ -17,6 +17,8 @@
 
 <resources>
 
+    <dimen name="suw_layout_margin_sides">40dp</dimen>
+
     <!-- General -->
     <!-- Calculated by (suw_glif_margin_sides - 4dp internal padding of button) -->
     <dimen name="suw_glif_button_margin_end">36dp</dimen>

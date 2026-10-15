@@ -16,7 +16,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC
+import org.totschnig.myexpenses.dialog.MenuItem
+import org.totschnig.myexpenses.provider.KEY_DYNAMIC
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.IOException
 import javax.inject.Inject
@@ -58,7 +59,7 @@ class PreferenceDataStore @Inject constructor(private val dataStore: DataStore<P
     @OptIn(ExperimentalCoroutinesApi::class)
     suspend fun handleList(
         preference: ListPreference,
-        onChanged: ((String) -> Unit)? = null
+        onChanged: ((String) -> Unit)? = null,
     ) {
         val prefKey = stringPreferencesKey(preference.key)
         val value = dataStore.data.first()[prefKey]
@@ -110,6 +111,8 @@ const val DYNAMIC_EXCHANGE_RATES_DEFAULT_KEY = "dynamic_exchange_rates_default"
 
 val dynamicExchangeRatesDefaultKey = stringPreferencesKey(DYNAMIC_EXCHANGE_RATES_DEFAULT_KEY)
 
+val webUiKey = booleanPreferencesKey("web_ui")
+
 /**
  * 1 if all accounts should have dynamic exchange rates,
  * 0 if none should have dynamic exchange rates,
@@ -117,7 +120,7 @@ val dynamicExchangeRatesDefaultKey = stringPreferencesKey(DYNAMIC_EXCHANGE_RATES
  */
 val DataStore<Preferences>.dynamicExchangeRates: Flow<String>
     get() = data.map { preferences ->
-        when(preferences[dynamicExchangeRatesDefaultKey]) {
+        when (preferences[dynamicExchangeRatesDefaultKey]) {
             "DYNAMIC" -> "1"
             "STATIC" -> "0"
             else -> KEY_DYNAMIC
@@ -126,3 +129,28 @@ val DataStore<Preferences>.dynamicExchangeRates: Flow<String>
 
 val DataStore<Preferences>.dynamicExchangeRatesPerAccount: Flow<Boolean>
     get() = dynamicExchangeRates.map { it == KEY_DYNAMIC }
+
+fun DataStore<Preferences>.menu(
+    menuContext: MenuItem.MenuContext,
+): Flow<List<MenuItem>?> = data
+    .map { preferences ->
+        preferences[menuContext.prefKey]?.let { MenuItem.mapper.fromPreference(it) }
+    }
+
+suspend fun DataStore<Preferences>.persistMenu(
+    menuContext: MenuItem.MenuContext,
+    data: List<MenuItem>,
+) {
+    edit { preferences ->
+        preferences[menuContext.prefKey] = MenuItem.mapper.toPreference(data)
+    }
+}
+
+val DataStore<Preferences>.isWebUiActive: Flow<Boolean>
+    get() = data.map { it[webUiKey] == true }
+
+suspend fun DataStore<Preferences>.setWebUiActive(active: Boolean) {
+    edit { preferences ->
+        preferences[webUiKey] = active
+    }
+}

@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.service
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.PendingIntent
@@ -8,6 +9,7 @@ import android.content.ContentUris
 import android.content.Context
 import android.content.Intent
 import android.provider.CalendarContract
+import androidx.annotation.RequiresPermission
 import androidx.work.ExistingWorkPolicy
 import androidx.work.OneTimeWorkRequest
 import androidx.work.OneTimeWorkRequestBuilder
@@ -17,20 +19,27 @@ import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
-import org.totschnig.myexpenses.activity.MyExpenses
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.createTransaction
 import org.totschnig.myexpenses.db2.getLabelForAccount
+import org.totschnig.myexpenses.db2.linkTemplateWithTransaction
+import org.totschnig.myexpenses.db2.loadTemplateForPlanIfInstanceIsOpen
+import org.totschnig.myexpenses.db2.planCount
 import org.totschnig.myexpenses.injector
-import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.model.planCount
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.TimePreference
 import org.totschnig.myexpenses.provider.CalendarProviderProxy
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
+import org.totschnig.myexpenses.provider.KEY_DATE
+import org.totschnig.myexpenses.provider.KEY_INSTANCEID
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_TEMPLATEID
+import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.PlannerUtils
+import org.totschnig.myexpenses.util.ExchangeRateHandler
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.util.PermissionHelper.PermissionGroup
@@ -38,8 +47,9 @@ import org.totschnig.myexpenses.util.PermissionHelper.hasCalendarPermission
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.util.epochMillis2LocalDate
 import org.totschnig.myexpenses.util.formatMoney
-import org.totschnig.myexpenses.util.toEpochMillis
 import org.totschnig.myexpenses.util.safeMessage
+import org.totschnig.myexpenses.util.toEpochMillis
+import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import timber.log.Timber
 import java.time.LocalDate
 import java.time.LocalTime
@@ -57,6 +67,10 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
     lateinit var repository: Repository
     @Inject
     lateinit var plannerUtils: PlannerUtils
+    @Inject
+    lateinit var currencyContext: CurrencyContext
+    @Inject
+    lateinit var exchangeRateHandler: ExchangeRateHandler
 
     val contentResolver: ContentResolver
         get() = repository.contentResolver
@@ -92,31 +106,30 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
             prefHandler: PrefHandler,
             forceImmediate: Boolean = false
         ) {
-            if (PermissionGroup.CALENDAR.hasPermission(context) && planCount(context.contentResolver) > 0) {
-
+            val hasPermission = PermissionGroup.CALENDAR.hasPermission(context)
+            val planCount = context.injector.repository().planCount()
+            if (hasPermission && planCount > 0) {
+                val scheduledTime = if (forceImmediate) null else TimePreference.getScheduledTime(
+                    prefHandler, PrefKey.PLANNER_EXECUTION_TIME
+                )
+                log("enqueueSelf %d", scheduledTime)
                 WorkManager.getInstance(context).enqueueUniqueWork(
                     WORK_NAME,
                     ExistingWorkPolicy.REPLACE,
-                    buildWorkRequest(
-                        if (forceImmediate) null else TimePreference.getScheduledTime(
-                            prefHandler, PrefKey.PLANNER_EXECUTION_TIME
-                        )
-                    )
+                    buildWorkRequest(scheduledTime)
                 )
+            } else {
+                log("not enqueueing, has calendar permission: %b, planCount: %d", hasPermission, planCount)
             }
         }
 
         fun cancel(context: Context) {
             WorkManager.getInstance(context).cancelUniqueWork(WORK_NAME)
         }
-    }
 
-    private fun log(e: java.lang.Exception) {
-        Timber.tag(TAG).w(e)
-    }
-
-    private fun log(message: String, vararg args: Any) {
-        Timber.tag(TAG).i(message, *args)
+        private fun log(message: String, vararg args: Any?) {
+            Timber.tag(TAG).i(message, *args)
+        }
     }
 
     private fun scheduleNextRun() {
@@ -128,6 +141,7 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
         notify(message)
     }
 
+    @RequiresPermission(allOf = [Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR])
     @SuppressLint("InlinedApi")
     override suspend fun doWork(): Result {
         val nowZDT = ZonedDateTime.now()
@@ -200,10 +214,10 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                     //3) execute the template
                     log("found instance %d of plan %d", instanceId, planId)
                     //TODO if we have multiple Event instances for one plan, we should maybe cache the template objects
-                    val template = Template.getInstanceForPlanIfInstanceIsOpen(contentResolver, planId, instanceId)
-                    if (!(template == null || template.isSealed)) {
-                        if (template.planExecutionAdvance >= diff) {
-                            val accountLabel = repository.getLabelForAccount(template.accountId)
+                    val template = repository.loadTemplateForPlanIfInstanceIsOpen(planId, instanceId)
+                    if (!(template == null || template.data.sealed)) {
+                        if (template.data.planExecutionAdvance >= diff) {
+                            val accountLabel = repository.getLabelForAccount(template.data.accountId)
                             if (accountLabel != null) {
                                 log("belongs to template %d", template.id)
                                 var notification: Notification
@@ -218,35 +232,22 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                                     .setSmallIcon(R.drawable.ic_stat_notification_sigma)
                                     .setContentTitle(title)
                                 builder.setWhen(date)
-                                var content: String = template.categoryPath?.let { "$it : " } ?: ""
-                                content += currencyFormatter.formatMoney(template.amount)
-                                builder.setContentText(content)
-                                if (template.isPlanExecutionAutomatic) {
-                                    val (t, second) = Transaction.getInstanceFromTemplateWithTags(
-                                        contentResolver, template
+                                var content: String = template.data.categoryPath?.let { "$it : " } ?: ""
+                                content += currencyFormatter.formatMoney(
+                                    Money(
+                                        currencyContext[template.data.currency!!],
+                                        template.data.amount
                                     )
-                                    t.originPlanInstanceId = instanceId
-                                    t.date = date / 1000
-                                    if (t.save(contentResolver, true) != null) {
-                                        t.saveTags(contentResolver, second)
-                                        val displayIntent: Intent =
-                                            Intent(applicationContext, MyExpenses::class.java)
-                                                .putExtra(
-                                                    DatabaseConstants.KEY_ROWID,
-                                                    template.accountId
-                                                )
-                                                .putExtra(
-                                                    DatabaseConstants.KEY_TRANSACTIONID,
-                                                    t.id
-                                                )
-                                        resultIntent = PendingIntent.getActivity(
-                                            applicationContext, notificationId, displayIntent,
-                                            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-                                        )
-                                        builder.setContentIntent(resultIntent)
-                                    } else {
-                                        builder.setContentText(wrappedContext.getString(R.string.save_transaction_error))
-                                    }
+                                )
+                                builder.setContentText(content)
+                                if (template.data.planExecutionAutomatic) {
+                                    val transaction = repository.createTransaction(template.instantiate(
+                                        currencyContext, exchangeRateHandler, PlanInstanceInfo(template.id, instanceId, date)
+                                    ))
+                                    repository.linkTemplateWithTransaction(template.id, transaction.id, instanceId)
+
+                                    resultIntent = prefHandler.createShowDetailsIntent(applicationContext, notificationId, transaction.data)
+                                    builder.setContentIntent(resultIntent)
                                     builder.setAutoCancel(true)
                                     notification = builder.build()
                                 } else {
@@ -261,16 +262,15 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                                                 notificationId
                                             )
                                             .putExtra(
-                                                DatabaseConstants.KEY_TEMPLATEID,
+                                                KEY_TEMPLATEID,
                                                 template.id
                                             )
                                             .putExtra(
-                                                DatabaseConstants.KEY_INSTANCEID,
+                                                KEY_INSTANCEID,
                                                 instanceId
                                             ) //we also put the title in the intent, because we need it while we update the notification
                                             .putExtra(KEY_TITLE, title)
                                     builder.addAction(
-                                        R.drawable.ic_menu_close_clear_cancel,
                                         R.drawable.ic_menu_close_clear_cancel,
                                         wrappedContext.getString(android.R.string.cancel),
                                         PendingIntent.getService(
@@ -287,17 +287,17 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                                                 notificationId
                                             )
                                             .putExtra(
-                                                DatabaseConstants.KEY_TEMPLATEID,
+                                                KEY_TEMPLATEID,
                                                 template.id
                                             )
-                                            .putExtra(DatabaseConstants.KEY_INSTANCEID, instanceId)
+                                            .putExtra(KEY_INSTANCEID, instanceId)
                                     val useDateFromPlan =
                                         "noon" == prefHandler.getString(
                                             PrefKey.PLANNER_MANUAL_TIME,
                                             "noon"
                                         )
                                     if (useDateFromPlan) {
-                                        editIntent.putExtra(DatabaseConstants.KEY_DATE, date / 1000)
+                                        editIntent.putExtra(KEY_DATE, date / 1000)
                                     }
                                     resultIntent = PendingIntent.getActivity(
                                         applicationContext,
@@ -306,7 +306,6 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                                         PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
                                     )
                                     builder.addAction(
-                                        R.drawable.ic_menu_edit,
                                         R.drawable.ic_menu_edit,
                                         wrappedContext.getString(R.string.menu_edit),
                                         resultIntent
@@ -320,15 +319,14 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                                         .putExtra(MyApplication.KEY_NOTIFICATION_ID, notificationId)
                                         .putExtra(KEY_TITLE, title)
                                         .putExtra(
-                                            DatabaseConstants.KEY_TEMPLATEID,
+                                            KEY_TEMPLATEID,
                                             template.id
                                         )
-                                        .putExtra(DatabaseConstants.KEY_INSTANCEID, instanceId)
+                                        .putExtra(KEY_INSTANCEID, instanceId)
                                     if (useDateFromPlan) {
-                                        applyIntent.putExtra(DatabaseConstants.KEY_DATE, date)
+                                        applyIntent.putExtra(KEY_DATE, date)
                                     }
                                     builder.addAction(
-                                        R.drawable.ic_menu_save,
                                         R.drawable.ic_menu_save,
                                         wrappedContext.getString(R.string.menu_apply_template),
                                         PendingIntent.getService(
@@ -351,7 +349,7 @@ class PlanExecutor(context: Context, workerParameters: WorkerParameters) :
                             log(
                                 "Instance is not ready yet (%d days in the future), advance execution is %d",
                                 diff,
-                                template.planExecutionAdvance
+                                template.data.planExecutionAdvance
                             )
                         }
                     } else {

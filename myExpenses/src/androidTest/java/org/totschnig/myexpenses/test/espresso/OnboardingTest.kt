@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.test.espresso
 
 import android.content.Intent
 import androidx.test.core.app.ActivityScenario
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.IdlingRegistry
@@ -10,26 +9,30 @@ import androidx.test.espresso.IdlingResource
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.swipeLeft
 import androidx.test.espresso.action.ViewActions.swipeRight
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.contrib.ViewPagerActions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.matcher.IntentMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.viewpager2.widget.ViewPager2
-import com.adevinta.android.barista.assertion.BaristaAssertions
 import com.adevinta.android.barista.assertion.BaristaVisibilityAssertions
+import com.google.common.truth.Truth.assertThat
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.After
+import org.junit.Assume
 import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Test
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.MyExpenses
+import org.totschnig.myexpenses.activity.MyExpensesV2
 import org.totschnig.myexpenses.activity.OnboardingActivity
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.testutils.BaseUiTest
+import org.totschnig.myexpenses.testutils.TestShard4
+import org.totschnig.myexpenses.testutils.isOrchestrated
 import org.totschnig.myexpenses.util.Utils
 
+@TestShard4
 class OnboardingTest : BaseUiTest<OnboardingActivity>() {
 
     private lateinit var viewPager2IdlingResource: ViewPager2IdlingResource
@@ -87,10 +90,38 @@ class OnboardingTest : BaseUiTest<OnboardingActivity>() {
         clickButton(R.id.suw_navbar_done)
         Intents.intended(
             IntentMatchers.hasComponent(
-                MyExpenses::class.java.name
+                MyExpensesV2::class.java.name
             )
         )
         Intents.release()
+    }
+
+    @Test
+    fun onboardingWithEncryption_savesDataToEncryptedDatabase() {
+
+        // 2. Navigate to Privacy Page (Page 1) and enable Encryption
+        clickNextButton() // Move to Privacy
+        onView(withText(R.string.experimental)).perform(click())
+        onView(withText(R.string.encrypt_database)).perform(click()) // Toggle Encrypt Database
+        pressBack() // Dismiss info dialog if shown
+
+        // 3. Navigate to Data Page (Page 2) and save account
+        clickNextButton() // Move to Data
+        clickButton(R.id.suw_navbar_done) // Save account and finish onboarding
+
+        // 4. Verify preference was saved
+        assertThat(prefHandler.encryptDatabase).isTrue()
+
+        // 5. Assert that the ENCRYPTED database file exists and contains the data,
+        // rather than the unencrypted database file.
+        val dbNameProvider = targetContext.injector.databaseNameProvider()
+        val unencryptedDb = targetContext.getDatabasePath(dbNameProvider(false))
+        val encryptedDb = targetContext.getDatabasePath(dbNameProvider(true))
+
+        // Bug verification: Under the bug, data went to unencryptedDb, and encryptedDb either doesn't exist or is empty.
+        assertThat(encryptedDb.exists()).isTrue()
+        assertThat(unencryptedDb.exists()).isFalse()
+
     }
 
     private fun swipeNext() {
@@ -122,6 +153,15 @@ class OnboardingTest : BaseUiTest<OnboardingActivity>() {
                 }
             )
         )
+    }
+
+    companion object {
+        @JvmStatic
+        @BeforeClass
+        fun checkIsOrchestrated(): Unit {
+            //when testing via am instrument, precondition of a clean state is not met
+            Assume.assumeTrue(isOrchestrated)
+        }
     }
 }
 

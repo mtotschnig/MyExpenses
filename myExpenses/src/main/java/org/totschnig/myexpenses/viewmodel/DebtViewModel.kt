@@ -5,6 +5,7 @@ import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
+import androidx.core.database.getLongOrNull
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
@@ -33,16 +34,19 @@ import kotlinx.html.td
 import kotlinx.html.tr
 import kotlinx.html.unsafe
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT_HOME_EQUIVALENT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
+import org.totschnig.myexpenses.provider.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_AMOUNT_HOME_EQUIVALENT
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_DATE
+import org.totschnig.myexpenses.provider.KEY_DEBT_ID
+import org.totschnig.myexpenses.provider.KEY_PARENTID
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_SEALED
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.convAmount
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.util.getDateTimeFormatter
 import org.totschnig.myexpenses.viewmodel.data.Debt
@@ -56,7 +60,7 @@ open class DebtViewModel(application: Application) : PrintViewModel(application)
     @Inject
     lateinit var currencyFormatter: ICurrencyFormatter
 
-    fun saveDebt(debt: Debt): LiveData<Unit> = liveData(context = coroutineContext()) {
+    fun saveDebt(debt: Debt): LiveData<Long> = liveData(context = coroutineContext()) {
         emit(repository.saveDebt(debt))
     }
 
@@ -69,51 +73,64 @@ open class DebtViewModel(application: Application) : PrintViewModel(application)
             null
         ).mapToOne {
             DisplayDebt.fromCursor(it, currencyContext)
-        }.stateIn(viewModelScope, SharingStarted.Lazily, null)
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, null)
 
     private fun singleDebtUri(debtId: Long) =
         ContentUris.withAppendedId(TransactionProvider.DEBTS_URI, debtId)
 
-/*    fun loadDebugTransactions(count: Int = 10): LiveData<List<Transaction>> = liveData {
-        emit(
-            List(count) {
-                Transaction(it.toLong(), LocalDate.now(), 4000L - it, 4000L - it * it, -1)
-            }
-        )
-    }*/
+    /*    fun loadDebugTransactions(count: Int = 10): LiveData<List<Transaction>> = liveData {
+            emit(
+                List(count) {
+                    Transaction(it.toLong(), LocalDate.now(), 4000L - it, 4000L - it * it, -1)
+                }
+            )
+        }*/
 
     private fun transactionsFlow(debt: DisplayDebt): Flow<List<Transaction>> {
         var runningTotal: Long = 0
         var runningEquivalentTotal: Long = 0
         return contentResolver.observeQuery(
             uri = TransactionProvider.EXTENDED_URI.buildUpon().appendQueryParameter(
-                TransactionProvider.QUERY_PARAMETER_INCLUDE_ALL, "1").build(),
-            projection = arrayOf(KEY_ROWID, KEY_DATE, KEY_AMOUNT, KEY_AMOUNT_HOME_EQUIVALENT),
+                TransactionProvider.QUERY_PARAMETER_INCLUDE_ALL, "1"
+            ).build(),
+            projection = arrayOf(
+                KEY_ROWID, KEY_DATE, KEY_AMOUNT, KEY_AMOUNT_HOME_EQUIVALENT, KEY_PARENTID,
+                KEY_CURRENCY
+            ),
             selection = "$KEY_DEBT_ID = ?",
             selectionArgs = arrayOf(debt.id.toString()),
             sortOrder = "$KEY_DATE ASC"
         ).onEach {
             runningTotal = debt.amount
-            runningEquivalentTotal = debt.equivalentAmount?: debt.amount
+            runningEquivalentTotal = debt.equivalentAmount ?: debt.amount
         }.mapToList {
             val amount = it.getLong(2)
             val equivalentAmount = it.getLong(3)
-            runningTotal -= amount
+            val currency = it.getString(5)
+            runningTotal -= if (currency == debt.currency.code) amount else {
+                if (currency != currencyContext.homeCurrencyString) {
+                    CrashHandler.report(IllegalStateException("Currency mismatch in debt transactions, debt currency is not home currency"))
+                    0
+                } else equivalentAmount
+            }
             runningEquivalentTotal -= equivalentAmount
             Transaction(
-                it.getLong(0),
-                epoch2LocalDate(it.getLong(1)),
-                -amount,
-                runningTotal,
-                equivalentAmount,
-                runningEquivalentTotal
+                id = it.getLong(0),
+                date = epoch2LocalDate(it.getLong(1)),
+                amount = -amount,
+                runningTotal = runningTotal,
+                parentId = it.getLongOrNull(4),
+                equivalentAmount = equivalentAmount,
+                equivalentRunningTotal = runningEquivalentTotal,
+                currency = currency
             )
         }
     }
 
-    private val transactionsLiveData: Map<DisplayDebt, LiveData<List<Transaction>>> = lazyMap { debt ->
-        transactionsFlow(debt).asLiveData(coroutineContext())
-    }
+    private val transactionsLiveData: Map<DisplayDebt, LiveData<List<Transaction>>> =
+        lazyMap { debt ->
+            transactionsFlow(debt).asLiveData(coroutineContext())
+        }
 
     fun loadTransactions(debt: DisplayDebt): LiveData<List<Transaction>> =
         transactionsLiveData.getValue(debt)
@@ -147,10 +164,18 @@ open class DebtViewModel(application: Application) : PrintViewModel(application)
 
     private suspend fun exportData(
         context: Context,
-        debt: DisplayDebt
+        debt: DisplayDebt,
     ): List<Triple<String, String, String>> {
         val transactions = buildList {
-            add(Transaction(0, epoch2LocalDate(debt.date), 0, debt.amount))
+            add(
+                Transaction(
+                    id = 0,
+                    date = epoch2LocalDate(epochSecond = debt.date),
+                    amount = 0,
+                    currency = debt.currency.code,
+                    runningTotal = debt.amount
+                )
+            )
             transactionsFlow(debt).take(1).collect {
                 addAll(it)
             }
@@ -159,9 +184,10 @@ open class DebtViewModel(application: Application) : PrintViewModel(application)
         return transactions.map { transaction ->
             Triple(
                 dateFormatter.format(transaction.date),
-                transaction.amount.takeIf { it != 0L }?.let {
-                    currencyFormatter.convAmount(it, debt.currency)
-                } ?: "",
+                (if (transaction.currency == debt.currency.code) transaction.amount else transaction.equivalentAmount)
+                    .takeIf { it != 0L }
+                    ?.let { currencyFormatter.convAmount(it, debt.currency) }
+                    ?: "",
                 currencyFormatter.convAmount(transaction.runningTotal, debt.currency)
             )
         }
@@ -261,7 +287,9 @@ open class DebtViewModel(application: Application) : PrintViewModel(application)
         val id: Long,
         val date: LocalDate,
         val amount: Long,
+        val currency: String,
         val runningTotal: Long,
+        val parentId: Long? = null,
         val equivalentAmount: Long = 0,
         val equivalentRunningTotal: Long = 0,
     )

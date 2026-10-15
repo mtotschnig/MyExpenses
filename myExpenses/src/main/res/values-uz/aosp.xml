@@ -65,7 +65,6 @@
     <string name="preview">"Oldindan ko‘rish"</string>
     <string name="show_password">"Parol berkitilmasin"</string>
     <string name="hide_password">"Parolni yashirish"</string>
-    <string name="user">"Foydalanuvchi"</string>
     <string name="source">Source"</string>
     <string name="value">Value"</string>
     <string name="done_label">"Tayyor"</string>
@@ -81,4 +80,6 @@
     <string name="already_exists">"Bunday nom allaqachon mavjud"</string>
     <string name="flag_inactive">"Nofaol"</string>
     <string name="count">"Miqdor"</string>
+    <string name="options">"Parametrlar"</string>
+    <string name="actions">Actions"</string>
 </resources>

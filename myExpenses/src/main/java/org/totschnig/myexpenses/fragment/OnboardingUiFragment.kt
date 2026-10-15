@@ -10,28 +10,29 @@ import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.viewModels
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
-import org.totschnig.myexpenses.adapter.FontSizeAdapter
 import org.totschnig.myexpenses.adapter.FontSizeAdapter.Companion.updateTextSize
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.CheckBoxWithLabel
-import org.totschnig.myexpenses.compose.CompactTransactionRenderer
-import org.totschnig.myexpenses.compose.DateTimeFormatInfo
-import org.totschnig.myexpenses.compose.GroupDivider
-import org.totschnig.myexpenses.compose.NewTransactionRenderer
-import org.totschnig.myexpenses.compose.RenderType
+import org.totschnig.myexpenses.compose.transactions.CompactTransactionRenderer
+import org.totschnig.myexpenses.compose.transactions.DateTimeFormatInfo
+import org.totschnig.myexpenses.compose.transactions.NewTransactionRenderer
+import org.totschnig.myexpenses.compose.transactions.RenderType
 import org.totschnig.myexpenses.databinding.OnboardingThemeSelectionBinding
 import org.totschnig.myexpenses.databinding.OnboardingWizzardUiBinding
 import org.totschnig.myexpenses.model.CurrencyContext
@@ -43,6 +44,7 @@ import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.ui.asDateTimeFormatter
 import org.totschnig.myexpenses.util.ui.setNightMode
 import org.totschnig.myexpenses.viewmodel.OnBoardingUiViewModel
+import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
@@ -148,7 +150,7 @@ class OnboardingUiFragment : OnboardingFragment() {
                 day = 0,
                 week = 0,
                 tagList = listOf(
-                    Triple(
+                    Tag(
                         1,
                         stringResource(id = R.string.testData_tag_project),
                         ResourcesCompat.getColor(resources, R.color.appDefault, null)
@@ -178,7 +180,7 @@ class OnboardingUiFragment : OnboardingFragment() {
 
                         )
                     }
-                    GroupDivider()
+                    HorizontalDivider()
                     (when (renderer) {
                         RenderType.Legacy -> {
                             CompactTransactionRenderer(
@@ -196,8 +198,8 @@ class OnboardingUiFragment : OnboardingFragment() {
                                 withCategoryIcon
                             )
                         }
-                    }).Render(demo)
-                    GroupDivider()
+                    }).Render(demo, padding = PaddingValues(horizontal = 0.dp, vertical = 3.dp))
+                    HorizontalDivider()
                 }
             }
         }

@@ -28,10 +28,9 @@ import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
+import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
 
 @Ignore("For unknown reason, testing for expense works, while testing for income fails. We run this test connected for the moment.")
@@ -69,20 +68,18 @@ class DistributionTest : BaseTestWithRepository() {
         baseFixture(showIncome, showExpense) {
             val categoryExpenseId = writeCategory("Expense", type = FLAG_EXPENSE)
             val categoryIncomeId = writeCategory("Income", type = FLAG_INCOME)
-            with(Transaction.getNewInstance(accountId, homeCurrency)) {
-                amount = Money(homeCurrency, 3400L)
-                catId = categoryIncomeId
-                save(contentResolver)
-            }
-            with(Transaction.getNewInstance(accountId, homeCurrency)) {
-                amount = Money(homeCurrency, -1200L)
-                catId = categoryExpenseId
-                save(contentResolver)
-            }
+            repository.insertTransaction(
+                accountId = accountId,
+                amount = 3400L,
+                categoryId = categoryIncomeId
+            )
+            repository.insertTransaction(
+                accountId = accountId,
+                amount = -1200L,
+                categoryId = categoryExpenseId
+            )
         }
     }
-
-    private val homeCurrency: CurrencyUnit by lazy { currencyContext.homeCurrencyUnit }
 
     private fun assertIncome() {
         onView(allOf(withText(containsString("Income")), withText(containsString("34"))))

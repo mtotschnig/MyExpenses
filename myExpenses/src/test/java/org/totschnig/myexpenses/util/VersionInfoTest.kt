@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.util
 
 import android.app.Application
 import androidx.test.core.app.ApplicationProvider
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import com.google.common.truth.Truth.assertWithMessage
 import okhttp3.OkHttpClient
@@ -18,8 +17,8 @@ import org.totschnig.myexpenses.viewmodel.data.VersionInfo
 @RunWith(RobolectricTestRunner::class)
 class VersionInfoTest {
 
-    val context
-        get() = ApplicationProvider.getApplicationContext<Application>()
+    val context: Application
+        get() = ApplicationProvider.getApplicationContext()
 
     val currentVersion
      get()= VersionInfo(context.resources.getStringArray(R.array.versions).first())
@@ -35,11 +34,15 @@ class VersionInfoTest {
     @Test
     fun testVersionLinksForCurrentVersion() {
         Assume.assumeFalse(BuildConfig.BETA)
+        if (currentVersion.tickets != null) return
         val context = ApplicationProvider.getApplicationContext<Application>()
-        if (!isBugFixVersion) {
-            urlReachable(currentVersion.mastodonUrl(context)!!)
-        }
         urlReachable(currentVersion.githubUrl(context)!!)
+        val mastodonUrl = currentVersion.mastodonUrl(context)
+        if (mastodonUrl != null) {
+            urlReachable(mastodonUrl)
+        } else  {
+            assertThat(isBugFixVersion).isTrue()
+        }
     }
 
     @Test
@@ -60,7 +63,7 @@ class VersionInfoTest {
 
         val response = client.newCall(request).execute()
 
-        Truth.assertWithMessage("Error retrieving $url").that(response.code).isEqualTo(200)
+        assertWithMessage("Error retrieving $url").that(response.code).isEqualTo(200)
     }
 
 }

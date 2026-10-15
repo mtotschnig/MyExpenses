@@ -26,37 +26,37 @@ import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.activity.BudgetWidgetConfigure
-import org.totschnig.myexpenses.compose.FutureCriterion
+import org.totschnig.myexpenses.compose.transactions.FutureCriterion
+import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.getGrouping
 import org.totschnig.myexpenses.db2.preDefinedName
+import org.totschnig.myexpenses.db2.updatePlan
 import org.totschnig.myexpenses.dialog.MenuItem
-import org.totschnig.myexpenses.dialog.name
-import org.totschnig.myexpenses.fragment.preferences.PreferenceUiFragment.Companion.compactItemRendererTitle
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyEnum
-import org.totschnig.myexpenses.model.Plan
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
-import org.totschnig.myexpenses.model.Sort
-import org.totschnig.myexpenses.model.Template
+import org.totschnig.myexpenses.model.sort.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enableAutoFill
 import org.totschnig.myexpenses.preference.enumValueOrDefault
+import org.totschnig.myexpenses.preference.menu
+import org.totschnig.myexpenses.preference.persistMenu
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.AGGREGATE_HOME_CURRENCY_CODE
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_DEFAULT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BUDGETS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES
 import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_CODE
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_GROUPING
+import org.totschnig.myexpenses.provider.KEY_ICON
+import org.totschnig.myexpenses.provider.KEY_IS_DEFAULT
+import org.totschnig.myexpenses.provider.KEY_PLANID
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.TABLE_BUDGETS
+import org.totschnig.myexpenses.provider.TABLE_CURRENCIES
 import org.totschnig.myexpenses.provider.TransactionProvider.BUDGETS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT
@@ -76,12 +76,13 @@ import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.service.BudgetWidgetUpdateWorker
 import org.totschnig.myexpenses.service.PlanExecutor
 import org.totschnig.myexpenses.sync.GenericAccountService
-import org.totschnig.myexpenses.ui.DiscoveryHelper
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
+import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.util.validateDateFormat
+import org.totschnig.myexpenses.viewmodel.data.mapper.TransactionMapper
 import org.totschnig.myexpenses.widget.BudgetWidget
 import timber.log.Timber
 import java.io.File
@@ -101,28 +102,30 @@ class UpgradeHandlerViewModel(application: Application) :
     @Inject
     lateinit var tracker: Tracker
 
-    private var upgradeInfoShowIndex: Int = -1
-    private val upgradeInfoList: MutableList<String> = mutableListOf()
+    @Inject
+    lateinit var currencyFormatter: ICurrencyFormatter
 
-    sealed class UpgradeInfo
+    data class MigrationInfo(val id: Int)
 
-    data class UpgradeSuccess(val info: String, val index: Int, val count: Int): UpgradeInfo()
+    sealed class UpgradeState
 
-    data class UpgradeError(val info: String): UpgradeInfo()
+    data class UpgradeSuccess(val migrationInfos: List<MigrationInfo>): UpgradeState()
 
-    data class UpgradePending(val fromVersion: Int, val toVersion: Int): UpgradeInfo()
+    data class UpgradeError(val info: String): UpgradeState()
 
-    private val _upgradeInfo: MutableStateFlow<UpgradeInfo?> = MutableStateFlow(null)
-    val upgradeInfo: StateFlow<UpgradeInfo?> = _upgradeInfo
+    object UpgradePending: UpgradeState()
+
+    private val _upgradeInfo: MutableStateFlow<UpgradeState> = MutableStateFlow(UpgradePending)
+    val upgradeInfo: StateFlow<UpgradeState> = _upgradeInfo
 
     fun upgrade(
         activity: BaseActivity,
         fromVersion: Int,
         toVersion: Int
     ) {
-        _upgradeInfo.update { UpgradePending(fromVersion, toVersion) }
 
         viewModelScope.launch(context = coroutineContext()) {
+            val migrationInfos = mutableListOf<MigrationInfo>()
             try {
                 if (fromVersion < 19) {
                     prefHandler.putString(
@@ -170,7 +173,7 @@ class UpgradeHandlerViewModel(application: Application) :
                                     edit.putString(
                                         key,
                                         `val`.substring(sepIndex + 1) + ";" + SimpleCriterion.escapeSeparator(
-                                            `val`.substring(0, sepIndex)
+                                            `val`.take(sepIndex)
                                         )
                                     )
                                 }
@@ -214,11 +217,11 @@ class UpgradeHandlerViewModel(application: Application) :
                     getApplication<MyApplication>().invalidateHomeCurrency()
                 }
 
-                if (fromVersion < 354 && GenericAccountService.getAccounts(getApplication())
+/*                if (fromVersion < 354 && GenericAccountService.getAccounts(getApplication())
                         .isNotEmpty()
                 ) {
                     upgradeInfoList.add(getString(R.string.upgrade_information_cloud_sync_storage_format))
-                }
+                }*/
 
                 if (fromVersion < 385) {
                     val hasIncomeColumn = "max(amount * (transfer_peer is null)) > 0 "
@@ -229,7 +232,7 @@ class UpgradeHandlerViewModel(application: Application) :
                     )?.use {
                         if (it.moveToFirst()) {
                             if (it.getInt(0) > 0) {
-                                discoveryHelper.markDiscovered(DiscoveryHelper.Feature.ExpenseIncomeSwitch)
+                                discoveryHelper.markDiscovered(IDiscoveryHelper.Feature.ExpenseIncomeSwitch)
                             }
                         }
                     }
@@ -275,12 +278,17 @@ class UpgradeHandlerViewModel(application: Application) :
                     try {
                         contentResolver.query(
                             TEMPLATES_URI, null, "$KEY_PLANID is not null", null, null
-                        )?.useAndMapToList { Template(it) }?.forEach {
-                            Plan.updateDescription(
-                                it.planId,
-                                it.compileDescription(getApplication()),
-                                contentResolver
-                            )
+                        )?.useAndMapToList {
+                            Template.fromCursor(it)
+                        }?.forEach {
+                            it.planId?.let { planId ->
+                                repository.updatePlan(
+                                    planId,
+                                    title = null,
+                                    description = TransactionMapper.map(it, currencyContext)
+                                        .compileDescription(localizedContext, currencyFormatter),
+                                )
+                            }
                         }
                     } catch (e: SecurityException) {
                         //permission missing
@@ -321,7 +329,7 @@ class UpgradeHandlerViewModel(application: Application) :
                     contentResolver.call(DUAL_URI, METHOD_CHECK_CORRUPTED_DATA_987, null, null)
                         ?.getLongArray(KEY_RESULT)?.size?.let { corruptedCount ->
                             if (corruptedCount > 0) {
-                                upgradeInfoList.add(getString(R.string.corrupted_data_detected))
+                                //upgradeInfoList.add(getString(R.string.corrupted_data_detected))
                                 CrashHandler.report(Exception("Bug 987: $corruptedCount corrupted transactions detected"))
                             }
                         }
@@ -438,13 +446,13 @@ class UpgradeHandlerViewModel(application: Application) :
                         prefHandler.remove(PrefKey.GROUP_HEADER)
                     }
 
-                    upgradeInfoList.add(
+/*                    upgradeInfoList.add(
                         getString(
                             R.string.upgrade_info_557,
                             getString(R.string.pref_category_title_ui),
                             "${getString(R.string.help_MyExpenses_title)} -> ${localizedContext.compactItemRendererTitle()}"
                         )
-                    )
+                    )*/
                 }
 
                 if (fromVersion < 563) {
@@ -587,6 +595,7 @@ class UpgradeHandlerViewModel(application: Application) :
                         prefHandler.putString(PrefKey.PRINT_FOOTER_RIGHT, "{page}")
                     }
                 }
+
                 if (fromVersion < 749) {
                     try {
                         prefHandler.putString(PrefKey.SCROLL_TO_CURRENT_DATE,
@@ -599,16 +608,13 @@ class UpgradeHandlerViewModel(application: Application) :
                         CrashHandler.report(e)
                     }
                 }
-                if (fromVersion < 754) {
-                    prefHandler.getOrderedStringSet(PrefKey.CUSTOMIZE_MAIN_MENU)?.let {
-                        prefHandler.putOrderedStringSet(PrefKey.CUSTOMIZE_MAIN_MENU,it + MenuItem.Archive.name)
-                    }
-                }
+
                 if (fromVersion < 774) {
                     prefHandler.getString("exchange_rate_provider")?.let {
                         prefHandler.putStringSet(PrefKey.EXCHANGE_RATE_PROVIDER, setOf(it))
                     }
                 }
+
                 if (fromVersion < 775) {
                     contentResolver.query(ACCOUNTS_MINIMAL_URI_WITH_AGGREGATES, null, null, null, null)
                         ?.use { cursor ->
@@ -624,6 +630,7 @@ class UpgradeHandlerViewModel(application: Application) :
                         migrateFilterHelper(cursor, BudgetViewModel::prefNameForCriteriaLegacy, BudgetViewModel::prefNameForCriteria)
                     }
                 }
+
                 if (fromVersion < 797) {
                     prefHandler.putString(PrefKey.SCROLL_TO_CURRENT_DATE,
                         try {
@@ -635,6 +642,7 @@ class UpgradeHandlerViewModel(application: Application) :
                     )
                     prefHandler.remove("scroll_to_current_date")
                 }
+
                 if (fromVersion < 803) {
                     if (prefHandler.isSet(PrefKey.ACCOUNT_GROUPING)) {
                         dataStore.edit {
@@ -643,14 +651,45 @@ class UpgradeHandlerViewModel(application: Application) :
                         }
                     }
                 }
+
+                if (fromVersion < 840) {
+                    val key = prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING)
+                    val grouping = dataStore.data.first()[key]
+                    if (grouping != null && grouping !in AccountGrouping.ALL_VALUES.map { it.name }) {
+                        CrashHandler.report(Exception("Repairing AccountGrouping $grouping"))
+                        dataStore.edit { it[key] = AccountGrouping.DEFAULT.name }
+                    }
+                }
+
+                if (fromVersion < 868) {
+                    val menuContext = MenuItem.MenuContext.V2Transactions
+                    val currentMenu = dataStore.menu(menuContext).first()
+                    if (currentMenu != null && !currentMenu.contains(MenuItem.ImportTrades)) {
+                        dataStore.persistMenu(menuContext, currentMenu + MenuItem.ImportTrades)
+                    }
+                }
+
+                if (fromVersion < 880) {
+                    val menuContext = MenuItem.MenuContext.V2Navigation
+                    val currentMenu = dataStore.menu(menuContext).first()
+                    if (currentMenu != null && !currentMenu.contains(MenuItem.Help)) {
+                        dataStore.persistMenu(menuContext, currentMenu + MenuItem.Help)
+                    }
+                }
+
+                if (fromVersion < 888 && prefHandler.encryptDatabase && prefHandler.getInt(PrefKey.FIRST_INSTALL_DB_SCHEMA_VERSION, -1) > 176) {
+                    migrationInfos.add(MigrationInfo(2))
+                }
+
                 prefHandler.putInt(PrefKey.CURRENT_VERSION, toVersion)
-                if (upgradeInfoList.isNotEmpty()) {
-                    postNextUpgradeInfo()
-                } else {
-                    _upgradeInfo.update { null }
+                _upgradeInfo.update {
+                    UpgradeSuccess(migrationInfos)
                 }
             } catch (e: Exception) {
-                CrashHandler.report(e)
+                CrashHandler.report(Exception(
+                    "upgrade from $fromVersion to $toVersion failed",
+                    e
+                ))
                 _upgradeInfo.update {
                     UpgradeError("upgrade from $fromVersion to $toVersion failed (${e.safeMessage}). Please contact ${getString(R.string.support_email)} .")
                 }
@@ -677,21 +716,5 @@ class UpgradeHandlerViewModel(application: Application) :
                 CrashHandler.report(e)
             }
         }
-    }
-
-    private fun postNextUpgradeInfo() {
-        val index = upgradeInfoShowIndex + 1
-        upgradeInfoList.getOrNull(index).let { info ->
-            upgradeInfoShowIndex = if (info == null) -1 else index
-            _upgradeInfo.update {
-                info?.let {
-                    UpgradeSuccess(it, index + 1, upgradeInfoList.size)
-                }
-            }
-        }
-    }
-
-    fun messageShown() {
-        postNextUpgradeInfo()
     }
 }

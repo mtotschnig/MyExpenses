@@ -52,7 +52,6 @@
     <string name="preview">"Алдын ала көрүү"</string>
     <string name="show_password">"Сырсөздү көрсөтүү"</string>
     <string name="hide_password">"Сырсөздү жашыруу"</string>
-    <string name="user">"Колдонуучу"</string>
     <string name="done_label">"Даяр"</string>
     <string name="action_move_top">"Башына жылдыруу"</string>
     <string name="action_move_bottom">"Аягына жылдыруу"</string>
@@ -61,4 +60,5 @@
     <string name="widgets">"Виджеттер"</string>
     <string name="menu_import">"Өткөрүп алуу"</string>
     <string name="flag_inactive">"Өчүрүлгөн"</string>
+    <string name="options">"Параметрлер"</string>
 </resources>

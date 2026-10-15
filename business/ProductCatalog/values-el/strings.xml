@@ -30,4 +30,5 @@
     <string name="splittransaction_description">Μια μεμονωμένη συναλλαγή μπορεί να χωριστεί σε πολλαπλά μέρη (κατηγορίες και μεταφορές).</string>
     <string name="print_description">Εκτύπωση της λίστας συναλλαγών σε αρχείο PDF</string>
     <string name="budget_description">Καθορίστε τα ποσά που σκοπεύετε να ξοδέψετε σε ετήσιους, μηνιαίους ή εβδομαδιαίους προϋπολογισμούς</string>
+    <string name="categorytree_description">Αυθαίρετα βαθιά ιεραρχία κατηγοριών</string>
 </resources>

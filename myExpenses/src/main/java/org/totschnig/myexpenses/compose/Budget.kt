@@ -39,6 +39,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -60,7 +62,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Sort
+import org.totschnig.myexpenses.model.sort.Sort
 import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Category
@@ -158,7 +160,7 @@ fun Budget(
                     HorizontalDivider(modifier = if (narrowScreen) Modifier.width(tableWidth) else Modifier)
                 }
                 category.children.forEach { model ->
-                    item {
+                    item(key = model.id) {
                         Budget(
                             modifier = Modifier.testTag(TEST_TAG_ROW),
                             category = model,
@@ -463,13 +465,19 @@ private fun RowScope.BudgetNumbers(
                 ?: category.budget.rollOverNext
         val rollOverTotal = rollOver + rollOverFromChildren
         val isError = rollOverTotal > remainder && rollOver > 0L
+        val isOverFlow = remember { mutableStateOf(false) }
+        val errorMessage = when {
+            isOverFlow.value -> R.string.number_too_large
+            isError -> R.string.rollover_edit_invalid
+            else -> null
+        }
         Row(
             modifier = Modifier.numberColumn(this, narrowScreen, isLast = true),
             horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            if (isError) {
+            errorMessage?.let {
                 val context = LocalActivity.current as BaseActivity
-                val message = stringResource(R.string.rollover_edit_invalid)
+                val message = stringResource(it)
                 Icon(
                     modifier = Modifier.clickable { context.showSnackBar(message) },
                     imageVector = Icons.Default.ErrorOutline,
@@ -483,9 +491,14 @@ private fun RowScope.BudgetNumbers(
                 if (editRollOver != null) {
                     AmountEdit(
                         value = Money(currency, rollOver).amountMajor,
-                        onValueChange = {
-                            val newRollOver = Money(currency, it).amountMinor
-                            editRollOver[category.id] = newRollOver
+                        onValueChange = { amountValue ->
+                            Money.buildWithMajor(currency, amountValue)
+                                .onSuccess {
+                                    editRollOver[category.id] = it.amountMinor
+                                    isOverFlow.value = false
+                                }.onFailure {
+                                    isOverFlow.value = true
+                                }
                         },
                         fractionDigits = currency.fractionDigits,
                         isError = isError

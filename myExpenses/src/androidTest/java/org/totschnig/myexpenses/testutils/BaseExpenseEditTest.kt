@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.testutils
 
 import android.content.Intent
 import android.widget.Button
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onData
@@ -15,33 +17,74 @@ import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isChecked
 import androidx.test.espresso.matcher.ViewMatchers.isNotChecked
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
+import androidx.test.espresso.matcher.ViewMatchers.withSubstring
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import com.google.common.truth.Truth.assertThat
+import com.adevinta.android.barista.internal.viewaction.NestedEnabledScrollToAction.nestedScrollToAction
 import org.hamcrest.CoreMatchers.allOf
+import org.hamcrest.CoreMatchers.containsString
 import org.hamcrest.CoreMatchers.instanceOf
+import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.Matchers
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.ExpenseEdit
+import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.ACTION_CREATE_FROM_TEMPLATE
+import org.totschnig.myexpenses.activity.ExpenseEdit.Companion.ACTION_CREATE_TEMPLATE_FROM_TRANSACTION
 import org.totschnig.myexpenses.activity.TestExpenseEdit
-import org.totschnig.myexpenses.contract.TransactionsContract
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
+import org.totschnig.myexpenses.db2.entities.Recurrence
+import org.totschnig.myexpenses.db2.entities.Template.Action
+import org.totschnig.myexpenses.db2.loadTransactions
 import org.totschnig.myexpenses.delegate.TransactionDelegate
-import org.totschnig.myexpenses.model.Template
+import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
-import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
-import org.totschnig.myexpenses.testutils.BaseComposeTest
-import org.totschnig.myexpenses.testutils.withIdAndParent
-import org.totschnig.myexpenses.testutils.withOperationType
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_TEMPLATEID
+import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 
 const val TEMPLATE_TITLE = "Espresso template"
+const val ACCOUNT_LABEL_1 = "Test label 1"
+const val ACCOUNT_LABEL_2 = "Test label 2"
+const val PARTY_NAME = "John"
+const val DEBT_LABEL = "Schuld"
+const val CATEGORY_LABEL = "Grocery"
+const val CATEGORY_ICON = "apple-whole"
+const val TAG_LABEL = "Wichtig"
 
 abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
     lateinit var account1: Account
 
-    val intentForNewTransaction
-        get() = intent.apply {
-            putExtra(KEY_ACCOUNTID, account1.id)
+    suspend fun load() = repository.loadTransactions(account1.id)
+
+
+    fun getBaseIntent(type: Int = TYPE_SPLIT): Intent =
+        getIntentForNewTransaction().apply {
+            putExtra(Transactions.OPERATION_TYPE, type)
+        }
+
+    fun getIntentForNewTransaction(accountId: Long = account1.id) = intent.apply {
+        putExtra(KEY_ACCOUNTID, accountId)
+    }
+
+    fun getIntentForEditTransaction(rowId: Long) = intent.apply {
+        putExtra(KEY_ROWID, rowId)
+    }
+
+    fun getIntentForEditTemplate(rowId: Long) = intent.apply {
+        putExtra(KEY_TEMPLATEID, rowId)
+    }
+
+    fun getIntentForTransactionFromTemplate(rowId: Long) = getIntentForEditTemplate(rowId).apply {
+        action = ACTION_CREATE_FROM_TEMPLATE
+    }
+
+    fun getIntentForTemplateFromTransaction(rowId: Long) =
+        getIntentForEditTransaction(rowId).apply {
+            action = ACTION_CREATE_TEMPLATE_FROM_TRANSACTION
         }
 
     val intent get() = Intent(targetContext, TestExpenseEdit::class.java)
@@ -76,7 +119,7 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
     }
 
     fun setStoredPayee(payee: String) {
-        typeToAndCloseKeyBoard(R.id.Payee, payee.first().toString())
+        typeToAndCloseKeyBoard(R.id.auto_complete_textview, payee.first().toString())
         onView(withText(payee))
             .inRoot(RootMatchers.isPlatformPopup())
             .perform(click())
@@ -87,10 +130,10 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
                 withText(R.string.response_yes)
             )
         ).perform(click())
-        onView(withId(R.id.Payee)).check(matches(withText(payee)))
+        onView(withId(R.id.auto_complete_textview)).check(matches(withText(payee)))
     }
 
-    fun setOperationType(@TransactionsContract.Transactions.TransactionType operationType: Int) {
+    fun setOperationType(@Transactions.TransactionType operationType: Int) {
         onView(withId(R.id.OperationType)).perform(click())
         onData(
             allOf(
@@ -106,38 +149,113 @@ abstract class BaseExpenseEditTest : BaseComposeTest<TestExpenseEdit>() {
         closeSoftKeyboard()
     }
 
-    protected fun assertTemplate(
-        expectedAccount: Long,
-        expectedAmount: Long,
-        templateTitle: String = TEMPLATE_TITLE,
-        expectedTags: List<String> = emptyList()
-    ) {
-        val templateId = contentResolver.query(
-            TEMPLATES_URI,
-            arrayOf(KEY_ROWID),
-            "$KEY_TITLE = ?",
-            arrayOf(templateTitle),
-            null
-        )!!.use {
-            it.moveToFirst()
-            it.getLong(0)
-        }
-        val (transaction, tags) = Template.getInstanceFromDbWithTags(contentResolver, templateId)!!
-        with(transaction as Template) {
-            assertThat(amount.amountMinor).isEqualTo(expectedAmount)
-            assertThat(title).isEqualTo(templateTitle)
-            assertThat(accountId).isEqualTo(expectedAccount)
-        }
-        assertThat(tags.map { it.label }).containsExactlyElementsIn(expectedTags)
+    protected fun selectRecurrenceFromSpinner(recurrence: Recurrence) {
+        onView(withId(R.id.Recurrence)).perform(scrollTo(), click())
+
+        onData(
+            allOf(
+                instanceOf(Recurrence::class.java),
+                `is`(recurrence)
+            )
+        ).perform(click())
+
+        onView(withId(R.id.Recurrence)).check(matches(withAdaptedData(`is`(recurrence))))
     }
 
-    protected fun launch(i: Intent): ActivityScenario<TestExpenseEdit> =
+    protected fun launch(i: Intent = getIntentForNewTransaction()): ActivityScenario<TestExpenseEdit> =
         ActivityScenario.launch<TestExpenseEdit>(i).also {
             testScenario = it
         }
 
-    protected fun launchForResult(i: Intent): ActivityScenario<TestExpenseEdit> =
+    protected fun launchForResult(i: Intent = getIntentForNewTransaction()): ActivityScenario<TestExpenseEdit> =
         ActivityScenario.launchActivityForResult<TestExpenseEdit>(i).also {
             testScenario = it
         }
+
+    fun launchNewTemplate(type: Int = TYPE_TRANSACTION) {
+        launchForResult(getBaseIntent(type).apply {
+            putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true)
+        })
+    }
+
+    fun setDebt() {
+        onView(withId(R.id.DebtCheckBox)).perform(click())
+        onView(withText(PARTY_NAME)).perform(click())
+        onView(withSubstring(DEBT_LABEL)).perform(click())
+    }
+
+    fun setCategory() {
+        onView(withId(R.id.Category)).perform(click())
+        composeTestRule.onNodeWithText(CATEGORY_LABEL).performClick()
+    }
+
+    fun setMethod(method: PreDefinedPaymentMethod) {
+        onView(withId(R.id.MethodSpinner)).perform(nestedScrollToAction(), click())
+        onData(
+            allOf(
+                instanceOf(PaymentMethod::class.java),
+                withMethod(getString(method.resId))
+            )
+        ).perform(click())
+    }
+
+    fun checkMethod(method: PreDefinedPaymentMethod) {
+        onView(withId(R.id.MethodSpinner)).check(
+            matches(
+                withSpinnerText(
+                    containsString(
+                        getString(
+                            method.resId
+                        )
+                    )
+                )
+            )
+        )
+    }
+
+    fun checkToolbarTitle(expected: Int) {
+        toolbarTitle().check(matches(withText(expected)))
+    }
+
+    fun checkToolbarTitleForTemplate(
+        edit: Boolean = false,
+        @Transactions.TransactionType transactionType: Int = TYPE_TRANSACTION,
+    ) {
+        toolbarTitle().check(
+            matches(
+                withText(
+                    if (edit) getString(
+                        R.string.menu_edit_template
+                    ) + " (" + getString(
+                        when (transactionType) {
+                            TYPE_TRANSACTION -> R.string.transaction
+                            TYPE_SPLIT -> R.string.split_transaction
+                            TYPE_TRANSFER -> R.string.transfer
+                            else -> throw IllegalArgumentException()
+                        }
+                    ) + ")" else getString(
+                        when (transactionType) {
+                            TYPE_TRANSACTION -> R.string.menu_create_template_for_transaction
+                            TYPE_SPLIT -> R.string.menu_create_template_for_split
+                            TYPE_TRANSFER -> R.string.menu_create_template_for_transfer
+                            else -> throw IllegalArgumentException()
+                        }
+                    )
+                )
+            )
+        )
+    }
+
+    fun setDefaultAction(defaultAction: Action) {
+        onView(withId(R.id.DefaultAction)).perform(scrollTo(), click())
+        onData(
+            allOf(
+                instanceOf(String::class.java),
+                `is`(when(defaultAction) {
+                    Action.SAVE -> getString(R.string.menu_save)
+                    Action.EDIT -> getString(R.string.menu_edit)
+                })
+            )
+        ).perform(click())
+    }
 }

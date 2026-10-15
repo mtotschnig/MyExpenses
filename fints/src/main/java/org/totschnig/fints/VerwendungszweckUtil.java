@@ -106,7 +106,7 @@ public class VerwendungszweckUtil
    */
   public static String[] split(String lines)
   {
-    if (lines == null || lines.length() == 0)
+    if (lines == null || lines.isEmpty())
       return new String[0];
     return lines.split("\n");
   }
@@ -118,7 +118,7 @@ public class VerwendungszweckUtil
    */
   public static String[] parse(String line)
   {
-    if (line == null || line.length() == 0)
+    if (line == null || line.isEmpty())
       return new String[0];
 
     // Java's Regex-Implementierung ist sowas von daemlich.
@@ -144,7 +144,7 @@ public class VerwendungszweckUtil
     // Bei den alten Buchungen gab es die Tags ja noch gar nicht.
     // Heisst: Wenn SVWZ angefordert wurde, der Auftrag aber gar keine
     // Tags enthaelt, wird der komplette originale Verwendungszweck zurueckgeliefert
-    if (t.getTags().size() == 0)
+    if (t.getTags().isEmpty())
     {
       if (tag == Tag.SVWZ)
         return toString(t);
@@ -185,7 +185,7 @@ public class VerwendungszweckUtil
   {
     // Wir parsen erstmal alles mit "+".
     Map<Tag,String> result = parse(true,'+',lines);
-    if (result.size() == 0)
+    if (result.isEmpty())
     {
       // Vielleicht enthaelt es ja nur Tags mit Doppelpunkt?
       return parse(true,':',lines);
@@ -272,7 +272,7 @@ public class VerwendungszweckUtil
       // Sprich: Der Verwendungszweck enthaelt zwar Tags, der Verwendungszweck selbst hat aber keines
       // sondern steht nur vorn dran.
       // Wenn wir Tags haben, SVWZ aber fehlt, nehmen wir als SVWZ den Text bis zum ersten Tag
-      if (leadingSvwz && result.size() > 0 && !result.containsKey(Tag.SVWZ) && first > 0)
+      if (leadingSvwz && !result.isEmpty() && !result.containsKey(Tag.SVWZ) && first > 0)
       {
         result.put(Tag.SVWZ,StringUtils.trimToEmpty(line.substring(0,first).replace("\n","")));
       }
@@ -315,10 +315,9 @@ public class VerwendungszweckUtil
       return null;
     
     List<String> l = clean(true,lines);
-    String zweck = l.size() > 0 ? l.remove(0) : null;
-    String zweck2 = l.size() > 0 ? l.remove(0) : null;
-    String[] weitereVerwendungszwecke = l.toArray(new String[0]);
-    return new Transfer(zweck, zweck2, weitereVerwendungszwecke, parse(toArray(zweck, zweck2, weitereVerwendungszwecke)));
+    String zweck = !l.isEmpty() ? l.remove(0) : null;
+    String zweck2 = !l.isEmpty() ? l.remove(0) : null;
+    return new Transfer(zweck, zweck2, l, parse(toArray(zweck, zweck2, l.toArray(new String[0]))));
   }
   
   /**
@@ -382,7 +381,7 @@ public class VerwendungszweckUtil
     }
 
     String result = sb.toString();
-    return result.length() == 0 ? null : result;
+    return result.isEmpty() ? null : result;
   }
   
   /**
@@ -392,7 +391,7 @@ public class VerwendungszweckUtil
    */
   public static String[] toArray(Transfer t)
   {
-    return toArray(t.getZweck(), t.getZweck2(), t.getWeitereVerwendungszwecke());
+    return toArray(t.getZweck(), t.getZweck2(), t.getWeitereVerwendungszwecke().toArray(new String[0]));
   }
 
   /**
@@ -480,7 +479,7 @@ public class VerwendungszweckUtil
   private static List<String> clean(boolean trim, List<String> lines)
   {
     List<String> result = new ArrayList<>();
-    if (lines == null || lines.size() == 0)
+    if (lines == null || lines.isEmpty())
       return result;
     
     for (String line:lines)
@@ -490,7 +489,7 @@ public class VerwendungszweckUtil
       
       if (trim)
         line = line.trim();
-      if (line.length() > 0)
+      if (!line.isEmpty())
         result.add(line);
     }
     

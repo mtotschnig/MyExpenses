@@ -17,18 +17,17 @@ class MethodViewModel(application: Application) : ContentResolvingAndroidViewMod
 
     suspend fun saveMethod(paymentMethod: PaymentMethod) {
         withContext(coroutineDispatcher) {
-            if(paymentMethod.id == 0L) {
+            if (paymentMethod.id == 0L) {
                 repository.createPaymentMethod(localizedContext, paymentMethod)
-            }
-            else {
+            } else {
                 repository.updatePaymentMethod(localizedContext, paymentMethod)
             }
         }
     }
 
     fun deleteMethods(methodsIs: List<Long>) {
-       methodsIs.forEach {
-           repository.deleteMethod(it)
-       }
+        methodsIs.forEach {
+            repository.deleteMethod(it)
+        }
     }
 }

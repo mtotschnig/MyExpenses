@@ -1,27 +1,25 @@
-<i>Mijn uitgaven</i> is uw ultieme hulpmiddel voor moeiteloos bijhouden van uitgaven en financieel beheer, binnen handbereik!
+<b>Mijn uitgaven</b> is uw ultieme, privacyvriendelijke persoonlijke financiënbeheerder—die u totale controle geeft over het dagelijks bijhouden van uitgaven, budgetten en beleggingsportefeuilles met de transparantie van open source.
 
-Belangrijkste kenmerken:
+<b>Belangrijkste kenmerken:</b>
 
-     • <b>Moeiteloos onkosten bijhouden</b>: houd uw uitgaven en inkomsten naadloos in de gaten, of u nu op uw smartphone of tablet werkt.
-     • <b>Flexibel accountbeheer</b>: beheer moeiteloos meerdere accounts, inclusief overboekingen tussen verschillende valuta's.
-     • <b>Gestroomlijnde financiële planning</b>: stel eenvoudig plannen in voor terugkerende transacties.
-     • <b>Naadloos gegevensbeheer</b>: exporteer en importeer gegevens eenvoudig met behulp van QIF- en CSV-formaten.
-     • <b>Verbeterde beveiliging</b>: bescherm uw gegevens met wachtwoord- of apparaatvergrendelingsschermbeveiliging.
-     • <b>Aanpasbare ervaring</b>: pas de app aan uw voorkeuren aan met aanpasbare thema's en lettergroottes.
-     • <b>Afstemming van bankafschriften</b>: vergelijk eenvoudig de transactiestatus met uw bankafschriften voor nauwkeurige financiële tracking.
-     • <b>Snelle gegevensinvoer</b>: geniet van gemakkelijke toegang met widgets en snelkoppelingen op het startscherm.
-     • <b>Krachtige gegevensanalyse</b>: filter uw gegevens op basis van verschillende criteria en visualiseer distributie en historische trends met dynamische grafieken.
+• <b>Dagelijkse uitgaven- en budgettracking</b>: Houd uw inkomsten en uitgaven moeiteloos bij op uw smartphone of tablet. Maak budgetten aan, splits transacties (gesplitste transacties) en stel plannen in voor terugkerende transacties.
+• <b>Portefeuille- en beleggingsbeheer</b>: Volg portefeuilles van aandelen, crypto of aangepaste activa, volg de koershistorie en beheer beleggingen in meerdere valuta's in real-time.
+• <b>Bankintegratie en afstemming</b>: Maak rechtstreeks verbinding met ondersteunde banken via FinTS of stem transacties handmatig af op uw bankafschriften voor een nauwkeurige saldo-tracking.
+• <b>Slimme bonnen scannen (OCR)</b>: Extraheer automatisch transactiedetails van foto's van kassabonnen met behulp van geavanceerde optische tekenherkenning.
+• <b>Webinterface voor desktop</b>: Bekijk en beheer uw transacties vanuit elke webbrowser op uw lokale netwerk.
+• <b>Krachtige analyses</b>: Visualiseer uitgaventrends, cirkeldiagrammen van de verdeling en historische rapporten met aanpasbare dynamische grafieken.
+• <b>Flexibele synchronisatie en gegevensbeheer</b>: Exporteer en importeer gegevens eenvoudig in QIF- en CSV-formaten. Synchroniseer naadloos tussen apparaten met behulp van WebDAV, Nextcloud, Google Drive, Dropbox of OneDrive met ondersteuning voor clientcertificaten.
+• <b>Privacy en beveiliging voorop</b>: Transparantie van open source, beveiliging met wachtwoord of biometrische schermvergrendeling en een versleutelde database.
 
-Ontgrendel premiumfuncties:
+<b>Ontgrendel Premiumfuncties:</b>
 
-     • <i>Bijdragen Sleutel</i>: ontgrendel onbeperkte accounts, terugkerende transactieplannen en meer.
-     • <i>Uitgebreide Sleutel</i>: Geniet van cloudsynchronisatie, geautomatiseerde back-ups en geavanceerde CSV-imports.
-     • <i>Professionele sleutel</i>: breng uw financieel beheer naar een hoger niveau met budgetteringstools, scannen van bonnen en e-mailondersteuning.
+• <i>Bijdragen Sleutel</i>: Hoogtepunten zijn onder meer het ontgrendelen van onbeperkte accounts, terugkerende plannen, PDF-lijstexport, categorieverdelingsdiagrammen en meer.
+• <i>Uitgebreide Sleutel</i>: Bevat alle functies van de Bijdragen Sleutel, plus automatische cloudsynchronisatie en geavanceerde CSV-importregels.
+• <i>Professionele Sleutel</i>: Bevat alle functies van de Uitgebreide Sleutel, plus beleggings- en portefeuillebeheer, historische grafieken, budgetbewaking, OCR-bonnen scannen, lokale webinterface voor desktop, directe banksynchronisatie (Duitsland) en meer.
 
-Voor <i>Mijn uitgaven</i> zijn de volgende <u>rechten</u> vereist:
+<b>Transparantie over machtigingen:</b>
 
-     • <i>Kalender</i>: Plannen voor toekomstige en terugkerende transacties worden opgeslagen in een speciale lokale agenda of in een andere agenda die u toewijst.
-     • <i>Internet</i>: anoniem gebruik volgen, crashrapporten, cloudsynchronisatie.
-     • <i>Accounts</i>: synchronisatie tussen apparaten via cloudservices.
+• <i>Agenda</i>: Terugkerende plannen worden opgeslagen in een speciale lokale agenda of een andere agenda die u toewijst.
+• <i>Internet</i>: Anoniem gebruiksstatistieken (optioneel), cloudsynchronisatie en crashrapporten (optioneel).
 
-Beheer uw financiën als nooit tevoren met <i>Mijn uitgaven</i>!
+Neem vandaag nog de controle over uw geld en vermogen met <b>Mijn uitgaven</b>!

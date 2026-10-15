@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="description_webdav_url">Por favor, introduzca la dirección web a la carpeta de su servidor WebDAV. {app_name} guardará la información en esta carpeta, sin tocar nada fuera de la misma.</string>
+    <string name="hint_url">Dirección web</string>
+    <string name="description_webdav_trust_certificate">La página web utiliza un certificado, pudiendo no en la lista de certificados de confianza de Android.</string>
+    <string name="label_trust_certificate">Confiar en este certificado</string>
+    <string name="validate_error_webdav_invalid_certificate">No se pudo confirmar el certificado. Parecer ser inválido.</string>
+    <string name="validate_error_webdav_not_compliant">La dirección web no señala a una fuente de WebDAV.</string>
+    <string name="validate_error_webdav_404">La dirección URL no existe en el servidor.</string>
+    <string name="url_not_valid">Dirección web no válida</string>
+</resources>

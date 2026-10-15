@@ -7,6 +7,6 @@
     <string name="testData_transaction2Comment">پھل اور سبزیاں</string>
     <string name="testData_transaction4Payee">پزیریا انٹونیلا</string>
     <string name="testData_account1Description">روزانہ کے اخراجات</string>
-    <string name="testData_account3Description">بینک آف امریکہ</string>
+    <string name="testData_account3Description">حبیب بینک</string>
     <string name="testData_tag_project">بلا عنوان پروجیکٹ</string>
 </resources>

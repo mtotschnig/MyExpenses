@@ -18,7 +18,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.text.InputType
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.Menu
@@ -39,15 +38,13 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
-import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener.BUTTON_POSITIVE
-import eltos.simpledialogfragment.form.Input
-import eltos.simpledialogfragment.form.SimpleFormDialog
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.Action
+import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.activity.DebtEdit
 import org.totschnig.myexpenses.activity.DebtOverview
 import org.totschnig.myexpenses.activity.HELP_VARIANT_MANGE
@@ -60,17 +57,19 @@ import org.totschnig.myexpenses.dialog.DebtDetailsDialogFragment
 import org.totschnig.myexpenses.dialog.MergePartiesDialogFragment
 import org.totschnig.myexpenses.dialog.MergePartiesDialogFragment.Companion.KEY_POSITION
 import org.totschnig.myexpenses.dialog.MergePartiesDialogFragment.Companion.KEY_STRATEGY
+import org.totschnig.myexpenses.dialog.buildPartyEditDialog
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_SHORT_NAME
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 import org.totschnig.myexpenses.provider.filter.preSelected
 import org.totschnig.myexpenses.util.ICurrencyFormatter
+import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
 import org.totschnig.myexpenses.util.configureSearch
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -142,6 +141,8 @@ class PartiesList : Fragment(), OnDialogResultListener {
                     text = "${party.bic} : ${party.iban}"
                 }
             }
+            binding.Unused.isVisible = party.isUnused
+
             binding.root.setOnClickListener { itemCallback.onItemClick(binding, party) }
         }
 
@@ -200,13 +201,17 @@ class PartiesList : Fragment(), OnDialogResultListener {
                     menu.add(Menu.NONE, SELECT_COMMAND, Menu.NONE, R.string.select)
                         .setIcon(R.drawable.ic_menu_done)
                 }
-                menu.add(Menu.NONE, EDIT_COMMAND, Menu.NONE, R.string.menu_edit)
-                    .setIcon(R.drawable.ic_menu_edit)
-                menu.add(Menu.NONE, DELETE_COMMAND, Menu.NONE, R.string.menu_delete)
-                    .setIcon(R.drawable.ic_menu_delete)
+                if (party.id != NULL_ITEM_ID) {
+                    menu.add(Menu.NONE, EDIT_COMMAND, Menu.NONE, R.string.menu_edit)
+                        .setIcon(R.drawable.ic_menu_edit)
+                    menu.add(Menu.NONE, DELETE_COMMAND, Menu.NONE, R.string.menu_delete)
+                        .setIcon(R.drawable.ic_menu_delete)
+                }
                 if (party.isDuplicate) {
-                    menu.add(Menu.NONE, REMOVE_FROM_GROUP_COMMAND, Menu.NONE,
-                        getString(R.string.remove_from_group))
+                    menu.add(
+                        Menu.NONE, REMOVE_FROM_GROUP_COMMAND, Menu.NONE,
+                        getString(R.string.remove_from_group)
+                    )
                         .setIcon(R.drawable.ic_group_remove)
                 }
                 if (action == Action.MANAGE) {
@@ -249,21 +254,19 @@ class PartiesList : Fragment(), OnDialogResultListener {
                                 }
                                 manageParties.showSnackBar(message)
                             } else if (party.mappedDebts) {
-                                SimpleDialog.build()
-                                    .extra(Bundle().apply {
+                                (requireActivity() as BaseActivity).showConfirmationDialog(
+                                    tag = "DELETE_PARTY",
+                                    message = concatResStrings(
+                                        requireContext(),
+                                        " ",
+                                        R.string.warning_party_delete_debt,
+                                        R.string.continue_confirmation
+                                    ),
+                                    commandPositive = R.id.DELETE_COMMAND,
+                                    tagPositive = Bundle(1).apply {
                                         putLong(KEY_ROWID, party.id)
-                                    })
-                                    .msg(
-                                        org.totschnig.myexpenses.util.TextUtils.concatResStrings(
-                                            requireContext(),
-                                            " ",
-                                            R.string.warning_party_delete_debt,
-                                            R.string.continue_confirmation
-                                        )
-                                    )
-                                    .pos(R.string.response_yes)
-                                    .neg(R.string.response_no)
-                                    .show(this@PartiesList, DIALOG_DELETE_PARTY)
+                                    }
+                                )
                             } else {
                                 doDelete(party.id)
                             }
@@ -279,6 +282,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                                 putExtra(KEY_PAYEE_NAME, party.name)
                             })
                         }
+
                         REMOVE_FROM_GROUP_COMMAND -> {
                             viewModel.removeDuplicateFromGroup(party.id)
                         }
@@ -340,7 +344,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
         )
     }
 
-    private fun doDelete(partyId: Long) {
+    fun doDelete(partyId: Long) {
         manageParties.showSnackBar(R.string.progress_dialog_deleting)
         viewModel.deleteParty(partyId)
             .observe(viewLifecycleOwner) { result ->
@@ -421,8 +425,10 @@ class PartiesList : Fragment(), OnDialogResultListener {
             menu.add(Menu.NONE, R.id.DEBT_COMMAND, 0, R.string.title_activity_debt_overview)
                 .setIcon(R.drawable.balance_scale)
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+            menu.add(Menu.NONE, R.id.CLEANUP_COMMAND, 0, R.string.menu_cleanup)
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER)
         }
-        configureSearch(requireActivity(), menu, ::onQueryTextChange)
+        configureSearch(requireActivity(), menu, callback = ::onQueryTextChange)
     }
 
     @Deprecated("Deprecated in Java")
@@ -441,6 +447,22 @@ class PartiesList : Fragment(), OnDialogResultListener {
                 true
             }
 
+            R.id.CLEANUP_COMMAND -> {
+                val unusedCount = viewModel.unusedCount.value
+                (requireActivity() as BaseActivity).showConfirmationDialog(
+                    tag = "CLEANUP_PARTIES",
+                    message =
+                        resources.getQuantityString(
+                            R.plurals.warning_cleanup_parties,
+                            unusedCount,
+                            unusedCount
+                        ) +
+                                " " + getString(R.string.continue_confirmation),
+                    commandPositive = R.id.CLEANUP_COMMAND_DO,
+                )
+                true
+            }
+
             else -> super.onOptionsItemSelected(item)
         }
 
@@ -449,7 +471,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
             invalidateOptionsMenu()
             configureFloatingActionButton()
             setFabEnabled(!mergeMode)
-            setHelpVariant(if(mergeMode) HELP_VARIANT_MERGE_MODE else HELP_VARIANT_MANGE)
+            setHelpVariant(if (mergeMode) HELP_VARIANT_MERGE_MODE else HELP_VARIANT_MANGE)
         }
     }
 
@@ -461,13 +483,16 @@ class PartiesList : Fragment(), OnDialogResultListener {
     @Deprecated("Deprecated in Java")
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        menu.findItem(R.id.MERGE_COMMAND)?.let {
-            it.setEnabledAndVisible(adapter.currentList.count { !it.isDuplicate } > 1)
-            it.isChecked = mergeMode
+        menu.findItem(R.id.MERGE_COMMAND)?.let { menuItem ->
+            menuItem.setEnabledAndVisible(adapter.currentList.count { !it.isDuplicate } > 1)
+            menuItem.isChecked = mergeMode
         }
         menu.prepareSearch(viewModel.filter)
         menu.findItem(R.id.DEBT_COMMAND)?.let { menuItem ->
-            menuItem.isVisible = adapter.currentList.any { it.mappedDebts }
+            menuItem.isVisible = viewModel.hasDebts
+        }
+        menu.findItem(R.id.CLEANUP_COMMAND)?.let { menuItem ->
+            menuItem.isVisible = viewModel.unusedCount.value > 0
         }
     }
 
@@ -515,7 +540,7 @@ class PartiesList : Fragment(), OnDialogResultListener {
                                     if (parties.isEmpty()) View.GONE else View.VISIBLE
                             }
                             adapter.submitList(
-                                if (action == Action.SELECT_FILTER)
+                                if (action != Action.MANAGE)
                                     listOf(Party(NULL_ITEM_ID, getString(R.string.unmapped))).plus(
                                         parties
                                     )
@@ -541,7 +566,6 @@ class PartiesList : Fragment(), OnDialogResultListener {
         const val DIALOG_DEBT_DETAILS = "DEBT_DETAILS"
         const val DIALOG_EDIT_PARTY = "dialogEditParty"
         const val DIALOG_MERGE_PARTY = "dialogMergeParty"
-        const val DIALOG_DELETE_PARTY = "dialogDeleteParty"
         const val SELECT_COMMAND = -1
         const val EDIT_COMMAND = -2
         const val DELETE_COMMAND = -3
@@ -581,10 +605,6 @@ class PartiesList : Fragment(), OnDialogResultListener {
                     }
                     return true
                 }
-
-                DIALOG_DELETE_PARTY -> {
-                    doDelete(extras.getLong(KEY_ROWID))
-                }
             }
         }
         return false
@@ -600,10 +620,6 @@ class PartiesList : Fragment(), OnDialogResultListener {
             } else {
                 requireActivity().apply {
                     setResult(Activity.RESULT_FIRST_USER, Intent().apply {
-                        putExtra(
-                            KEY_ACCOUNTID,
-                            requireActivity().intent.getLongExtra(KEY_ACCOUNTID, 0)
-                        )
                         putExtra(KEY_ROWID, itemIds.toLongArray())
                         putExtra(KEY_LABEL, labels.joinToString(separator = ","))
                     })
@@ -612,30 +628,19 @@ class PartiesList : Fragment(), OnDialogResultListener {
             }
         } else if (mergeMode) {
             val selected = adapter.getSelected().map { it.name }.toTypedArray()
-            MergePartiesDialogFragment.newInstance(selected).show(childFragmentManager, DIALOG_MERGE_PARTY)
+            MergePartiesDialogFragment.newInstance(selected)
+                .show(childFragmentManager, DIALOG_MERGE_PARTY)
         } else {
             showEditDialog(null)
         }
     }
 
     private fun showEditDialog(party: Party?) {
-        SimpleFormDialog.build()
-            .fields(
-                Input.name(KEY_PAYEE_NAME)
-                    .inputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-                    .required()
-                    .hint(R.string.full_name).text(party?.name),
-                Input.name(KEY_SHORT_NAME)
-                    .hint(R.string.nickname).text(party?.shortName)
-                    .inputType(InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_SENTENCES)
-            )
-            .title(if (party == null) R.string.menu_create_party else R.string.menu_edit_party)
-            .cancelable(false)
-            .pos(if (party == null) R.string.menu_add else R.string.menu_save)
-            .neut()
-            .extra(Bundle().apply {
-                putLong(KEY_ROWID, party?.id ?: 0L)
-            })
+        buildPartyEditDialog(party?.id, party?.name, party?.shortName)
             .show(this, DIALOG_EDIT_PARTY)
+    }
+
+    fun doCleanup() {
+        viewModel.cleanup()
     }
 }

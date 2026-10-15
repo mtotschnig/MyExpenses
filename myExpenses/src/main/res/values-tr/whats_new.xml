@@ -26,4 +26,9 @@
     <string name="whats_new_400_2">Fiyat Geçmişi: Eksik girişlerin toplu olarak indirilmesi</string>
     <string name="whats_new_401">İşlem listesi artık bölünmüş işlemler için daha fazla ayrıntı gösteriyor.</string>
     <string name="whats_new_402">Hesap türleri özelleştirilebilir</string>
+    <string name="whats_new_403">Hesap bayrakları, hesap görünürlüğünün ve önceliğinin özelleştirilmesini sağlar.</string>
+    <string name="whats_new_407">Etiketler, kategoriler, hesaplar ve bölümler için doğal sıralama.</string>
+    <string name="whats_new_411_1">Bölünmüş muameleler</string>
+    <string name="whats_new_411_2">Portföyler arası varlık aktarımları</string>
+    <string name="whats_new_411_3">Toplam hesaplar için Tarih Ekranı artık yabancı para birimlerinin değerindeki değişiklikleri yansıtıyor</string>
 </resources>

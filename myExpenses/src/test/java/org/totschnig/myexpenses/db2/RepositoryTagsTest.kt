@@ -13,14 +13,14 @@ class RepositoryTagsTest : BaseTestWithRepository() {
     @Test
     fun transactionStoreAndRemoveTags() {
         val testAccountId = insertAccount("Test account")
-        val transactionId = insertTransaction(testAccountId, 100).first
+        val transactionId = repository.insertTransaction(testAccountId, 100).id
         val tagId = repository.writeTag("Good Tag")
         val controlTag = Tag(tagId, "Good Tag")
-        repository.saveTagsForTransaction(listOf(controlTag), transactionId)
-        assertThat(contentResolver.loadTagsForTransaction(transactionId))
+        repository.saveTagsForTransaction(listOf(controlTag.id), transactionId)
+        assertThat(repository.loadTagsForTransaction(transactionId))
             .containsExactly(controlTag)
         repository.saveTagsForTransaction(emptyList(), transactionId)
-        assertThat(contentResolver.loadTagsForTransaction(transactionId)).isEmpty()
+        assertThat(repository.loadTagsForTransaction(transactionId)).isEmpty()
     }
 
 }

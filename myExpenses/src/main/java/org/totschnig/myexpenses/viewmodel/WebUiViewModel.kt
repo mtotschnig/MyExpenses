@@ -13,7 +13,6 @@ import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.feature.IWebInputService
 import org.totschnig.myexpenses.feature.ServerStateObserver
 import org.totschnig.myexpenses.feature.WebUiBinder
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 class WebUiViewModel(application: Application) : AndroidViewModel(application) {
     private var webInputService: IWebInputService? = null
@@ -45,8 +44,10 @@ class WebUiViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun bind(context: Context) {
-        serviceIntent?.let { context.bindService(it, serviceConnection, Context.BIND_AUTO_CREATE) }
+    fun bind(context: Context) = getServiceIntent().mapCatching {
+        if (!context.bindService(it, serviceConnection, Context.BIND_AUTO_CREATE)) {
+            throw Exception("Unable to bind to service $it")
+        }
     }
 
     fun unbind(context: Context) {
@@ -59,18 +60,17 @@ class WebUiViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     companion object {
-        val serviceIntent: Intent?
-            get() = try {
-                Class.forName("org.totschnig.webui.WebInputService")
-            } catch (e: ClassNotFoundException) {
-                CrashHandler.report(e)
-                null
-            }?.let {
-                Intent().apply {
-                    setClassName(BuildConfig.APPLICATION_ID, it.name)
-                }
+        fun getServiceIntent(require: Boolean = true): Result<Intent> = runCatching {
+            Intent().apply {
+                setClassName(
+                    BuildConfig.APPLICATION_ID,
+                    Class.forName("org.totschnig.webui.WebInputService").name
+                )
             }
-
-
+        }.onFailure {
+            if(require) {
+                IWebInputService.report(it)
+            }
+        }
     }
 }

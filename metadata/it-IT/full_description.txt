@@ -1,27 +1,25 @@
-<i>Le mie spese</i> è il tuo strumento definitivo per monitorare facilmente le spese e gestire le finanze, a portata di mano!
+<b>Le mie spese</b> è il tuo gestore delle finanze personali definitivo e attento alla privacy—ti offre il controllo totale su spese quotidiane, budget e portafogli di investimento con la trasparenza dell'open source.
 
-Caratteristiche principali:
+<b>Caratteristiche principali:</b>
 
-     • <b>Monitoraggio delle spese semplice</b>: tieni sotto controllo le tue spese e le tue entrate senza problemi, sia che tu sia sul tuo smartphone o tablet.
-     • <b>Gestione flessibile dei conti</b>: gestisci facilmente più conti, inclusi i trasferimenti tra valute diverse.
-     • <b>Pianificazione finanziaria semplificata</b>: imposta facilmente piani per transazioni ricorrenti.
-     • <b>Gestione perfetta dei dati</b>: esporta e importa facilmente i dati utilizzando i formati QIF e CSV.
-     • <b>Sicurezza avanzata</b>: proteggi i tuoi dati con la password o la sicurezza della schermata di blocco del dispositivo.
-     • <b>Esperienza personalizzabile</b>: personalizza l'app in base alle tue preferenze con temi e dimensioni dei caratteri personalizzabili.
-     • <b>Riconciliazione estratto conto bancario</b>: confronta facilmente lo stato delle transazioni con gli estratti conto bancari per un monitoraggio finanziario accurato.
-     • <b>Inserimento rapido dei dati</b>: goditi un comodo accesso con i widget e le scorciatoie della schermata iniziale.
-     • <b>Potente analisi dei dati</b>: filtra i tuoi dati in base a vari criteri e visualizza la distribuzione e le tendenze storiche con grafici dinamici.
+• <b>Monitoraggio quotidiano di spese e budget</b>: Tieni sotto controllo entrate e uscite con facilità su smartphone e tablet. Crea budget, dividi le transazioni (split) e imposta piani per transazioni ricorrenti.
+• <b>Gestione di portafogli e investimenti</b>: Monitora portafogli azionari, criptovalute o asset personalizzati, segui lo storico dei prezzi e gestisci investimenti multi-valuta in tempo reale.
+• <b>Integrazione bancaria e riconciliazione</b>: Connettiti direttamente alle banche supportate tramite FinTS o riconcilia manualmente le transazioni con i tuoi estratti conto per un controllo preciso dei saldi.
+• <b>Scansione intelligente delle ricevute (OCR)</b>: Estrai automaticamente i dettagli delle transazioni dalle foto dei tuoi scontrini grazie al riconoscimento ottico dei caratteri avanzato.
+• <b>Interfaccia web per desktop</b>: Accedi e gestisci le tue transazioni da qualsiasi browser web presente sulla tua rete locale.
+• <b>Analisi avanzate</b>: Visualizza le tendenze di spesa, i grafici a torta della distribuzione e i report storici con grafici dinamici e personalizzabili.
+• <b>Sincronizzazione flessibile e controllo dei dati</b>: Esporta e importa facilmente i dati nei formati QIF e CSV. Sincronizza senza problemi tra i dispositivi utilizzando WebDAV, Nextcloud, Google Drive, Dropbox o OneDrive con supporto per i certificati client.
+• <b>Privacy e sicurezza al primo posto</b>: Trasparenza dell'open source, protezione tramite password o sblocco biometrico e database crittografato.
 
-Sblocca funzionalità premium:
+<b>Sblocca le funzionalità Premium:</b>
 
-     • <i>Licenza Contributore</i>: sblocca account illimitati, piani di transazioni ricorrenti e altro ancora.
-     • <i>Chiave estesa</i>: goditi la sincronizzazione cloud, i backup automatizzati e le sofisticate importazioni CSV.
-     • <i>Chiave professionale</i>: porta la tua gestione finanziaria a un livello superiore con strumenti di budget, scansione di ricevute e supporto via email.
+• <i>Licenza Contributore</i>: Tra i punti di forza figurano lo sblocco di conti illimitati, piani ricorrenti illimitati, esportazione elenchi in PDF, grafici di distribuzione e altro ancora.
+• <i>Licenza Funzionalità Estese</i>: Include tutte le funzionalità della Licenza Contributore, oltre alla sincronizzazione automatica in cloud e regole avanzate per l'importazione CSV.
+• <i>Licenza Professionale</i>: Include tutte le funzionalità della Licenza Funzionalità Estese, oltre al monitoraggio di portafogli e investimenti, grafici dello storico, monitoraggio dei budget, scansione OCR delle ricevute, interfaccia web per desktop, sincronizzazione bancaria diretta (Germania) e altro ancora.
 
-<i>Le mie spese</i> richiede le seguenti <u>autorizzazioni</u>:
+<b>Trasparenza sulle autorizzazioni:</b>
 
-     • <i>Calendario</i>: i piani per le transazioni future e ricorrenti vengono archiviati in uno speciale calendario locale o in qualsiasi altro calendario assegnato da te.
-     • <i>Internet</i>: monitoraggio anonimo dell'utilizzo, rapporti sugli arresti anomali, sincronizzazione cloud.
-     • <i>Account</i>: sincronizzazione tra dispositivi tramite servizi cloud.
+• <i>Calendario</i>: I piani per le transazioni ricorrenti vengono salvati in un calendario locale dedicato o in un qualsiasi altro calendario assegnato.
+• <i>Internet</i>: Statistiche d'uso anonime (opzionali), sincronizzazione cloud e segnalazione di arresti anomali (opzionali).
 
-Prendi il controllo delle tue finanze come mai prima d'ora utilizzando <i>Le mie spese</i>!
+Prendi il controllo dei tuoi soldi e del tuo patrimonio oggi stesso con <i>Le mie spese</i>!

@@ -5,48 +5,56 @@ import android.database.Cursor
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.createAccount
+import org.totschnig.myexpenses.model.AccountFlag
+import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.SortDirection
+import org.totschnig.myexpenses.model.sort.SortDirection
 import org.totschnig.myexpenses.provider.DataBaseAccount
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BANK_ID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CRITERION
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCHANGE_RATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG_ICON
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG_SORT_KEY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_AGGREGATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_ASSET
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_BY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_DIRECTION
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUPPORTS_RECONCILIATION
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VISIBLE
+import org.totschnig.myexpenses.provider.KEY_ACCOUNT_TYPE_LABEL
+import org.totschnig.myexpenses.provider.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_BANK_ID
+import org.totschnig.myexpenses.provider.KEY_COLOR
+import org.totschnig.myexpenses.provider.KEY_CRITERION
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_DATE
+import org.totschnig.myexpenses.provider.KEY_DESCRIPTION
+import org.totschnig.myexpenses.provider.KEY_DYNAMIC
+import org.totschnig.myexpenses.provider.KEY_EXCHANGE_RATE
+import org.totschnig.myexpenses.provider.KEY_EXCLUDE_FROM_TOTALS
+import org.totschnig.myexpenses.provider.KEY_FLAG
+import org.totschnig.myexpenses.provider.KEY_FLAG_ICON
+import org.totschnig.myexpenses.provider.KEY_FLAG_LABEL
+import org.totschnig.myexpenses.provider.KEY_FLAG_SORT_KEY
+import org.totschnig.myexpenses.provider.KEY_GROUPING
+import org.totschnig.myexpenses.provider.KEY_IS_AGGREGATE
+import org.totschnig.myexpenses.provider.KEY_IS_ASSET
+import org.totschnig.myexpenses.provider.KEY_IS_PORTFOLIO
+import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_OPENING_BALANCE
+import org.totschnig.myexpenses.provider.KEY_PARENTID
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_SEALED
+import org.totschnig.myexpenses.provider.KEY_SORT_BY
+import org.totschnig.myexpenses.provider.KEY_SORT_DIRECTION
+import org.totschnig.myexpenses.provider.KEY_SUPPORTS_RECONCILIATION
+import org.totschnig.myexpenses.provider.KEY_SYNC_ACCOUNT_NAME
+import org.totschnig.myexpenses.provider.KEY_TYPE
+import org.totschnig.myexpenses.provider.KEY_TYPE_SORT_KEY
+import org.totschnig.myexpenses.provider.KEY_UUID
+import org.totschnig.myexpenses.provider.KEY_VISIBLE
+import org.totschnig.myexpenses.provider.PORTFOLIO_NONE
 import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.provider.getDoubleIfExists
 import org.totschnig.myexpenses.provider.getEnum
 import org.totschnig.myexpenses.provider.getInt
+import org.totschnig.myexpenses.provider.getIntIfExistsOr0
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongIfExists
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
+import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 import java.io.Serializable
 
 data class Account(
@@ -55,9 +63,9 @@ data class Account(
     val description: String = "",
     val openingBalance: Long = 0L,
     override val currency: String,
-    val type: AccountType,
-    val flagId: Long = 0L,
-    val color: Int = DEFAULT_COLOR,
+    val type: AccountType? = null,
+    val flag: AccountFlag? = null,
+    override val color: Int = DEFAULT_COLOR,
     val criterion: Long? = null,
     val syncAccountName: String? = null,
     val excludeFromTotals: Boolean = false,
@@ -71,13 +79,29 @@ data class Account(
     val exchangeRate: Double = 1.0,
     override val grouping: Grouping = Grouping.NONE,
     val bankId: Long? = null,
-    val dynamicExchangeRates: Boolean = false
-) : DataBaseAccount(), Serializable {
+    val dynamicExchangeRates: Boolean = false,
+    val parentId: Long? = null,
+    val portfolioRole: Int = PORTFOLIO_NONE,
+    override val accountGrouping: AccountGrouping<*>? =  null
+) : DataBaseAccount(), Serializable, DistributionAccountInfo {
+
+    override val flagId = flag?.id
+
+    override val typeId = type?.id
 
     fun createIn(repository: Repository) = repository.createAccount(this)
 
-    fun getLabelForScreenTitle(context: Context) =
-        if (isHomeAggregate) context.getString(R.string.grand_total) else label
+    override fun label(context: Context, currencyContext: CurrencyContext) =
+        when {
+            isHomeAggregate -> context.getString(R.string.grand_total)
+            else -> when(accountGrouping) {
+                AccountGrouping.CURRENCY -> currencyContext[currency].title(context)
+                AccountGrouping.FLAG -> flag!!.title(context)
+                AccountGrouping.NONE -> context.getString(R.string.grand_total)
+                AccountGrouping.TYPE -> type!!.title(context)
+                null -> label
+            }
+        }
 
     @Suppress("DeprecatedCallableAddReplaceWith")
     @Deprecated("Helper for legacy Java code")
@@ -101,7 +125,12 @@ data class Account(
             KEY_IS_ASSET,
             KEY_SUPPORTS_RECONCILIATION,
             KEY_TYPE,
-            KEY_SORT_KEY,
+            KEY_TYPE_SORT_KEY,
+            KEY_FLAG,
+            KEY_FLAG_LABEL,
+            KEY_VISIBLE,
+            KEY_FLAG_SORT_KEY,
+            KEY_FLAG_ICON,
             KEY_EXCLUDE_FROM_TOTALS,
             KEY_SYNC_ACCOUNT_NAME,
             KEY_UUID,
@@ -111,7 +140,9 @@ data class Account(
             KEY_CRITERION,
             KEY_SEALED,
             KEY_BANK_ID,
-            KEY_DYNAMIC
+            KEY_DYNAMIC,
+            KEY_PARENTID,
+            KEY_IS_PORTFOLIO
         )
 
         val PROJECTION_MINIMAL = arrayOf(
@@ -122,6 +153,7 @@ data class Account(
             KEY_IS_ASSET,
             KEY_SUPPORTS_RECONCILIATION,
             KEY_TYPE,
+            KEY_TYPE_SORT_KEY,
             KEY_FLAG,
             KEY_FLAG_LABEL,
             KEY_VISIBLE,
@@ -130,7 +162,7 @@ data class Account(
             "0 AS $KEY_IS_AGGREGATE"
         )
 
-        fun fromCursor(cursor: Cursor, accountType: AccountType): Account {
+        fun fromCursor(cursor: Cursor): Account {
             val sortBy = cursor.getString(KEY_SORT_BY)
                 .takeIf { it == KEY_DATE || it == KEY_AMOUNT }
                 ?: KEY_DATE
@@ -140,7 +172,8 @@ data class Account(
                 description = cursor.getString(KEY_DESCRIPTION),
                 openingBalance = cursor.getLong(KEY_OPENING_BALANCE),
                 currency = cursor.getString(KEY_CURRENCY),
-                type = accountType,
+                type = AccountType.fromAccountCursor(cursor),
+                flag = AccountFlag.fromAccountCursor(cursor),
                 color = cursor.getInt(KEY_COLOR),
                 criterion = cursor.getLong(KEY_CRITERION),
                 syncAccountName = cursor.getStringOrNull(KEY_SYNC_ACCOUNT_NAME),
@@ -155,7 +188,9 @@ data class Account(
                 sortBy = sortBy,
                 sortDirection = cursor.getEnum(KEY_SORT_DIRECTION, SortDirection.DESC),
                 bankId = cursor.getLongIfExists(KEY_BANK_ID),
-                dynamicExchangeRates = cursor.getBoolean(KEY_DYNAMIC)
+                dynamicExchangeRates = cursor.getBoolean(KEY_DYNAMIC),
+                parentId = cursor.getLongIfExists(KEY_PARENTID),
+                portfolioRole = cursor.getIntIfExistsOr0(KEY_IS_PORTFOLIO)
             )
         }
     }

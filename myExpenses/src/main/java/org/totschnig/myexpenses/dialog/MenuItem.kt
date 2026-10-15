@@ -2,15 +2,28 @@ package org.totschnig.myexpenses.dialog
 
 import android.content.Context
 import android.os.Parcelable
+import android.view.View.LAYOUT_DIRECTION_RTL
 import androidx.annotation.DrawableRes
 import androidx.annotation.IdRes
 import androidx.annotation.MenuRes
 import androidx.annotation.StringRes
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Tune
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.stringPreferencesKey
 import com.livefront.sealedenum.GenSealedEnum
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
+import org.totschnig.myexpenses.preference.Mapper
 import org.totschnig.myexpenses.util.TextUtils
 
 @Parcelize
@@ -18,11 +31,14 @@ import org.totschnig.myexpenses.util.TextUtils
 sealed class MenuItem(
     @param:IdRes val id: Int,
     @param:StringRes private val labelRes: Int,
-    @param:DrawableRes val icon: Int? = null,
+    @param:DrawableRes val icon: Int,
     @param:MenuRes val subMenu: Int? = null,
     val isCheckable: Boolean = false,
     val isEnabledByDefault: Boolean = true,
 ) : Parcelable {
+
+    val testTag: String get() = this::class.java.simpleName
+
     open fun getLabel(context: Context) = context.getString(labelRes)
 
     data object Search : MenuItem(
@@ -131,13 +147,6 @@ sealed class MenuItem(
         R.id.ARCHIVE_COMMAND,
         R.string.action_archive,
         R.drawable.ic_archive,
-        isEnabledByDefault = true
-    )
-
-    data object Share : MenuItem(
-        R.id.SHARE_COMMAND,
-        R.string.menu_share,
-        R.drawable.ic_share
     )
 
     data object Settings : MenuItem(
@@ -167,6 +176,12 @@ sealed class MenuItem(
         isCheckable = true
     )
 
+    data object ImportTrades : MenuItem(
+        R.id.IMPORT_TRADES_COMMAND,
+        R.string.menu_import,
+        R.drawable.ic_menu_download
+    )
+
     data object Restore : MenuItem(
         R.id.RESTORE_COMMAND,
         R.string.pref_restore_title,
@@ -174,9 +189,125 @@ sealed class MenuItem(
         isEnabledByDefault = false
     )
 
+    //V2
+    data object Tune : MenuItem(
+        R.id.TUNE_COMMAND,
+        R.string.options,
+        0
+    )
+
+    open val painter: Painter
+        @Composable get() = if (icon != 0)
+            painterResource(id = icon)
+        else
+            rememberVectorPainter(
+                when (this) {
+                    Tune -> Icons.Filled.Tune
+                    else -> throw IllegalArgumentException()
+                }
+            )
+
+
+    @Parcelize
+    sealed class MenuContext(private val _prefKey: String): Parcelable {
+
+        fun title(context: Context) = when (this) {
+            V2Navigation -> context.getString(R.string.main_navigation)
+            V2Transactions -> context.getString(R.string.import_select_transactions)
+        }
+
+        @IgnoredOnParcel
+        val prefKey: Preferences.Key<String> = stringPreferencesKey(_prefKey)
+
+        data object V2Navigation : MenuContext("customize_menu_v2_main")
+        data object V2Transactions : MenuContext("customize_menu_v2_transactions")
+    }
+
+    enum class NavigationMode {
+        DEFAULT,   // = Fixed_bottom on phone, Always rail on tablet
+        FIXED_BOTTOM,     // Traditional
+        TOGGLEABLE_RAIL,   // Data-first / Maximize vertical space
+        ALWAYS_RAIL,      // Consistent sidebar
+        ADAPTIVE;    // Rail in Landscape, BottomBar in Portrait
+
+        val label: String
+            @Composable get() = when (this) {
+                DEFAULT -> ""
+                FIXED_BOTTOM -> stringResource(R.string.bottom)
+                TOGGLEABLE_RAIL, ALWAYS_RAIL -> railPosition()
+                ADAPTIVE -> railPosition() +
+                        " (" + stringResource(R.string.landscape) + "), " +
+                        stringResource(R.string.bottom) +
+                        " (" + stringResource(R.string.portrait) + ")"
+            }
+
+        @Composable
+        private fun railPosition() =
+            stringResource(
+                if (LocalConfiguration.current.layoutDirection == LAYOUT_DIRECTION_RTL)
+                    R.string.right else R.string.left
+            )
+
+        fun validate(isTablet: Boolean) = if (isTablet) {
+            if (forTablet.contains(this)) this else ALWAYS_RAIL
+        } else {
+            if (forPhone.contains(this)) this else FIXED_BOTTOM
+        }
+
+        companion object {
+            val PREFERENCE_KEY = stringPreferencesKey("navigationMode")
+            val forPhone = listOf(FIXED_BOTTOM, TOGGLEABLE_RAIL)
+            val forTablet = listOf(ALWAYS_RAIL, ADAPTIVE)
+        }
+    }
+
     @GenSealedEnum
     companion object {
-        val defaultConfiguration: List<MenuItem>
-            get() = values.filter { it.isEnabledByDefault }
+
+        val mapper = object : Mapper<List<MenuItem>, String> {
+            override fun toPreference(userValue: List<MenuItem>): String =
+                userValue.joinToString(",") { it.name }
+
+            override fun fromPreference(persistedValue: String): List<MenuItem> =
+                persistedValue.split(',').mapNotNull {
+                    try {
+                        valueOf(it)
+                    } catch (_: IllegalArgumentException) {
+                        null
+                    }
+                }
+        }
+
+        fun all(menuContext: MenuContext) = when (menuContext) {
+
+            MenuContext.V2Navigation -> listOf(
+                Templates,
+                Budget,
+                Parties,
+                Settings,
+                Help,
+                Backup,
+                WebUI,
+                Restore
+            )
+
+            MenuContext.V2Transactions -> listOf(
+                Search,
+                Distribution,
+                History,
+                Sync,
+                FinTsSync,
+                Balance,
+                Reset,
+                Print,
+                Tune,
+                Archive,
+                ShowStatusHandle,
+                ImportTrades,
+            )
+        }
+
+        fun getDefaultConfiguration(menuContext: MenuContext): List<MenuItem> =
+            all(menuContext).filter { it.isEnabledByDefault }
     }
 }

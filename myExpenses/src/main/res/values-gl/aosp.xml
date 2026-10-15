@@ -85,7 +85,6 @@
     <string name="preview">"Vista previa"</string>
     <string name="show_password">"Mostrar contrasinal"</string>
     <string name="hide_password">"Ocultar contrasinal"</string>
-    <string name="user">"Usuario"</string>
     <string name="source">"Fonte"</string>
     <string name="value">"Valor"</string>
     <string name="done_label">"Feito"</string>
@@ -105,4 +104,7 @@
     <string name="already_exists">"Ese nome xa existe"</string>
     <string name="flag_inactive">"Inactiva"</string>
     <string name="count">"Conta"</string>
+    <string name="empty">"Baleiro"</string>
+    <string name="options">"Opcións"</string>
+    <string name="actions">"Accións"</string>
 </resources>

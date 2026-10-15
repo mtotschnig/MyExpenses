@@ -22,7 +22,9 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MultiChoiceSegmentedButtonRow
+import androidx.compose.material3.ProvideTextStyle
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.Surface
@@ -36,8 +38,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.luminance
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -55,10 +60,10 @@ import org.totschnig.myexpenses.compose.scrollbar.STICKY_HEADER_CONTENT_TYPE
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.ui.DisplayProgress
 import org.totschnig.myexpenses.util.ui.displayProgress
+import org.totschnig.myexpenses.viewmodel.data.BI_ARROW
 import java.text.DecimalFormat
 import kotlin.experimental.and
 import kotlin.experimental.inv
@@ -131,8 +136,9 @@ fun DonutInABox(
                 cap = 100f,
                 gapWidthDegrees = 0f,
                 gapAngleDegrees = 0f,
-                strokeWidth = context.resources.getDimension(R.dimen.progress_donut_stroke_width),
+                strokeWidth = LocalResources.current.getDimension(R.dimen.progress_donut_stroke_width),
                 strokeCap = StrokeCap.Butt,
+                backgroundLineColor = MaterialTheme.colorScheme.surfaceVariant,
                 sections = DisplayProgress.calcProgressVisualRepresentation(
                     progress.coerceAtLeast(
                         0f
@@ -140,16 +146,18 @@ fun DonutInABox(
                 ).forCompose(color, excessColor)
             )
         )
-
-        Text(
-            modifier = Modifier
-                .align(Alignment.Center)
-                .semantics {
-                    this.contentDescription = DisplayProgress.contentDescription(context, progress)
-                },
-            text = progress.displayProgress,
-            fontSize = fontSize,
-        )
+        ProvideTextStyle(MaterialTheme.typography.bodyMedium) {
+            Text(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .semantics {
+                        this.contentDescription =
+                            DisplayProgress.contentDescription(context, progress)
+                    },
+                text = progress.displayProgress,
+                fontSize = fontSize,
+            )
+        }
     }
 }
 
@@ -235,6 +243,7 @@ fun SumDetails(
         val configureExpenseSum: (DecimalFormat) -> Unit = remember {
             {
                 it.negativePrefix = ""
+                it.negativeSuffix = ""
                 it.positivePrefix = "+"
             }
         }
@@ -261,7 +270,7 @@ fun SumDetails(
                 .semantics {
                     contentDescription = "$transferSumLabel: $transferSumFormatted"
                 },
-            text = Transfer.BI_ARROW + " " + transferSumFormatted,
+            text = "$BI_ARROW $transferSumFormatted",
             color = LocalColors.current.transfer
         )
     }
@@ -294,3 +303,19 @@ fun LazyListScope.simpleStickyHeader(content: @Composable (Modifier) -> Unit) {
         }
     }
 }
+
+/**
+ * Returns a high-contrast content color (Black or White)
+ * for any arbitrary background color.
+ */
+fun Color.calculateOnColor(): Color {
+    // luminance() returns a value between 0.0 (Black) and 1.0 (White)
+    return if (this.luminance() > 0.5f) Color.Black else Color.White
+}
+
+
+val isTablet: Boolean
+    @Composable get() = LocalConfiguration.current.smallestScreenWidthDp >= 600
+
+val isPhone: Boolean
+    @Composable get() = !isTablet

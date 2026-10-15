@@ -22,7 +22,8 @@ import org.totschnig.myexpenses.fragment.OnBoardingPrivacyFragment
 import org.totschnig.myexpenses.fragment.OnboardingDataFragment
 import org.totschnig.myexpenses.fragment.OnboardingUiFragment
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.preference.isOnboardingCompleted
+import org.totschnig.myexpenses.provider.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.versionNumber
@@ -30,6 +31,7 @@ import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.RestoreViewModel.Companion.KEY_BACKUP_FROM_SYNC
 import org.totschnig.myexpenses.viewmodel.RestoreViewModel.Companion.KEY_PASSWORD
 import org.totschnig.myexpenses.viewmodel.SyncViewModel.SyncAccountData
+import org.totschnig.myexpenses.widget.updateAllWidgets
 
 class OnboardingActivity : SyncBackendSetupActivity() {
     private lateinit var binding: OnboardingBinding
@@ -51,6 +53,12 @@ class OnboardingActivity : SyncBackendSetupActivity() {
     override val drawToBottomEdge = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (prefHandler.isOnboardingCompleted) {
+            startActivity(Intent(this, MyExpensesV2::class.java))
+            finish()
+            return
+        }
         if (savedInstanceState == null) {
             try {
                 prefHandler.setDefaultValues(this)
@@ -62,7 +70,6 @@ class OnboardingActivity : SyncBackendSetupActivity() {
                 CrashHandler.report(e)
             }
         }
-        super.onCreate(savedInstanceState)
         binding = OnboardingBinding.inflate(layoutInflater)
         setContentView(binding.root)
         pagerAdapter = MyPagerAdapter(this)
@@ -117,7 +124,8 @@ class OnboardingActivity : SyncBackendSetupActivity() {
     fun start() {
         prefHandler.putInt(PrefKey.CURRENT_VERSION, versionNumber)
         prefHandler.putInt(PrefKey.FIRST_INSTALL_VERSION, versionNumber)
-        val intent = Intent(this, MyExpenses::class.java)
+        updateAllWidgets(this)
+        val intent = Intent(this, MyExpensesV2::class.java)
         startActivity(intent)
         finish()
     }
@@ -151,17 +159,19 @@ class OnboardingActivity : SyncBackendSetupActivity() {
     }
 
     fun setupFromBackup(backup: String?, password: String?) {
+        prefHandler.isOnboardingCompleted = true
         doRestore(Bundle(4).apply {
-            putString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, accountName)
+            putString(KEY_SYNC_ACCOUNT_NAME, accountName)
             putString(KEY_BACKUP_FROM_SYNC, backup)
             putString(KEY_PASSWORD, password)
         })
     }
 
     fun setupFromSyncAccounts(syncAccounts: List<AccountMetaData>) {
+        prefHandler.isOnboardingCompleted = true
         doWithEncryptionCheck {
             showSnackBarIndefinite(R.string.progress_dialog_fetching_data_from_sync_backend)
-            syncViewModel.setupFromSyncAccounts(syncAccounts.map { it.uuid() }, accountName!!)
+            syncViewModel.setupFromSyncAccounts(syncAccounts.map { it.uuid }, accountName!!)
                 .observe(this) { result ->
                     dismissSnackBar()
                     result.onSuccess {
@@ -173,7 +183,7 @@ class OnboardingActivity : SyncBackendSetupActivity() {
         }
     }
 
-    private inner class MyPagerAdapter(activity: FragmentActivity) :
+    private class MyPagerAdapter(activity: FragmentActivity) :
         FragmentStateAdapter(activity) {
         fun getFragmentName(currentPosition: Int): String {
             //https://stackoverflow.com/a/61178226/1199911
@@ -198,7 +208,11 @@ class OnboardingActivity : SyncBackendSetupActivity() {
     }
 
     override fun startBanking() {
-        startBanking.launch(Intent(this, bankingFeature.bankingActivityClass))
+        bankingFeature.bankingActivityClass?.let {
+            startBanking.launch(Intent(this, bankingFeature.bankingActivityClass))
+        } ?: run {
+            showSnackBar("BankingFeature not installed")
+        }
     }
 
     override val snackBarContainerId: Int

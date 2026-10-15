@@ -10,6 +10,8 @@ import androidx.annotation.XmlRes
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.fragment.app.viewModels
 import androidx.preference.ListPreference
 import androidx.preference.MultiSelectListPreferenceDialogFragment2
@@ -50,6 +52,9 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
 
     @Inject
     lateinit var prefHandler: PrefHandler
+
+    @Inject
+    lateinit var dataStore: DataStore<Preferences>
 
     @Inject
     lateinit var settings: SharedPreferences

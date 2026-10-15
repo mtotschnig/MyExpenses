@@ -1,6 +1,6 @@
 package org.totschnig.myexpenses.util
 
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.kotlin.any
@@ -24,32 +24,32 @@ class UiUtilsDateModeTest {
     fun withTimeAndWithValueDate() {
         mockPref(PrefKey.TRANSACTION_WITH_TIME, true)
         mockPref(PrefKey.TRANSACTION_WITH_VALUE_DATE, true)
-        Truth.assertThat(dateMode(AccountType.CASH)).isEqualTo(DateMode.DATE_TIME)
-        Truth.assertThat(dateMode(AccountType.BANK)).isEqualTo(DateMode.BOOKING_VALUE)
+        assertThat(dateMode(AccountType.CASH)).isEqualTo(DateMode.DATE_TIME)
+        assertThat(dateMode(AccountType.BANK)).isEqualTo(DateMode.BOOKING_VALUE)
     }
 
     @Test
     fun withTimeAndWithoutValueDate() {
         mockPref(PrefKey.TRANSACTION_WITH_TIME, true)
         mockPref(PrefKey.TRANSACTION_WITH_VALUE_DATE, false)
-        Truth.assertThat(dateMode(AccountType.CASH)).isEqualTo(DateMode.DATE_TIME)
-        Truth.assertThat(dateMode(AccountType.BANK)).isEqualTo(DateMode.DATE_TIME)
+        assertThat(dateMode(AccountType.CASH)).isEqualTo(DateMode.DATE_TIME)
+        assertThat(dateMode(AccountType.BANK)).isEqualTo(DateMode.DATE_TIME)
     }
 
     @Test
     fun withoutTimeAndWithValueDate() {
         mockPref(PrefKey.TRANSACTION_WITH_TIME, false)
         mockPref(PrefKey.TRANSACTION_WITH_VALUE_DATE, true)
-        Truth.assertThat(dateMode(AccountType.CASH)).isEqualTo(DateMode.DATE)
-        Truth.assertThat(dateMode(AccountType.BANK)).isEqualTo(DateMode.BOOKING_VALUE)
+        assertThat(dateMode(AccountType.CASH)).isEqualTo(DateMode.DATE)
+        assertThat(dateMode(AccountType.BANK)).isEqualTo(DateMode.BOOKING_VALUE)
     }
 
     @Test
     fun withoutTimeAndWithoutValueDate() {
         mockPref(PrefKey.TRANSACTION_WITH_TIME, false)
         mockPref(PrefKey.TRANSACTION_WITH_VALUE_DATE, false)
-        Truth.assertThat(dateMode(AccountType.CASH)).isEqualTo(DateMode.DATE)
-        Truth.assertThat(dateMode(AccountType.BANK)).isEqualTo(DateMode.DATE)
+        assertThat(dateMode(AccountType.CASH)).isEqualTo(DateMode.DATE)
+        assertThat(dateMode(AccountType.BANK)).isEqualTo(DateMode.DATE)
     }
 
     private fun dateMode(accountType: AccountType): DateMode {

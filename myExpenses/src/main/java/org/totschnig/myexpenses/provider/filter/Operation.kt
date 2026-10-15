@@ -3,10 +3,19 @@ package org.totschnig.myexpenses.provider.filter
 const val LIKE_ESCAPE_CHAR = "\\"
 
 enum class Operation(private val op: String?) {
-    NOPE(""), EQ("=?"), NEQ("!=?"), GT(">?"), GTE(">=?"), LT("<?"), LTE("<=?"), BTW(
-        "BETWEEN ? AND ?"
-    ),
-    ISNULL("is NULL"), LIKE("LIKE ? ESCAPE '$LIKE_ESCAPE_CHAR'"), IN(null);
+    NOPE(""),
+    EQ("=?"),
+    NEQ("!=?"),
+    GT(">?"),
+    GTE(">=?"),
+    LT("<?"),
+    LTE("<=?"),
+    BTW("BETWEEN ? AND ?"),
+    IS_NULL("is NULL"),
+    LIKE("LIKE ? ESCAPE '$LIKE_ESCAPE_CHAR'"),
+    IN(null),
+    IS_NULL_OR_BLANK("IFNULL(TRIM(column), '') = ''")
+    ;
 
     fun getOp(length: Int): String {
         if (this == IN) {

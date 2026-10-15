@@ -162,10 +162,17 @@ val SimpleDateFormat.asDateTimeFormatter: DateTimeFormatter
 fun dateTimeFormatter(account: PageAccount, prefHandler: PrefHandler, context: Context) =
     when (account.grouping) {
         Grouping.DAY -> timeFormatter(account.type, prefHandler, context)?.asDateTimeFormatter
-        else -> DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)
+        else -> DateTimeFormatter.ofLocalizedDate(getNewDateFormatStyle(prefHandler))
     }
 
-fun dateTimeFormatterLegacy(account: BaseAccount, prefHandler: PrefHandler, context: Context) =
+private fun getNewDateFormatStyle(prefHandler: PrefHandler) = when (prefHandler.getString(PrefKey.CUSTOM_DATE_FORMAT_NEW_TRANSACTION_LIST)) {
+    "FULL" -> FormatStyle.FULL
+    "LONG" -> FormatStyle.LONG
+    "SHORT" -> FormatStyle.SHORT
+    else -> FormatStyle.MEDIUM
+}
+
+fun dateTimeFormatterLegacy(account: PageAccount, prefHandler: PrefHandler, context: Context) =
     when (account.grouping) {
         Grouping.DAY -> {
             timeFormatter(account.type, prefHandler, context)?.let {
@@ -230,11 +237,7 @@ fun ImageView.setAttachmentInfo(info: AttachmentInfo) {
     if (info.thumbnail != null) {
         setImageBitmap(info.thumbnail)
     } else if (info.typeIcon != null) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            setImageIcon(info.typeIcon)
-        } else {
-            CrashHandler.report(IllegalStateException())
-        }
+        setImageIcon(info.typeIcon)
     } else {
         scaleType = ImageView.ScaleType.CENTER
         setImageResource(info.fallbackResource ?: 0)

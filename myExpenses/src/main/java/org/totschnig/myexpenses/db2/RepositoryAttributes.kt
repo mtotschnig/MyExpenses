@@ -6,12 +6,12 @@ import android.content.ContentValues
 import android.database.Cursor
 import android.net.Uri
 import androidx.sqlite.db.SupportSQLiteDatabase
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTRIBUTE_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CONTEXT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTRIBUTES
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_ATTRIBUTE_NAME
+import org.totschnig.myexpenses.provider.KEY_CONTEXT
+import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.KEY_VALUE
+import org.totschnig.myexpenses.provider.TABLE_ATTRIBUTES
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_ATTRIBUTES_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_ATTRIBUTES_URI
@@ -81,7 +81,7 @@ enum class FinTsAttribute(override val userVisible: Boolean = true) : Attribute 
 }
 
 enum class BankingAttribute : Attribute {
-    NAME, BLZ, IBAN, BIC, NUMBER, SUBNUMBER, LAST_SYCNED_WITH_BANK;
+    NAME, BLZ, IBAN, BIC, NUMBER, SUBNUMBER, LAST_SYCNED_WITH_BANK, GESCHAEFTS_VORFALL;
 
     companion object {
         const val CONTEXT = "Banking"

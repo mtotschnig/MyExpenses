@@ -7,8 +7,7 @@
         android:name="android.permission.AUTHENTICATE_ACCOUNTS"
         android:maxSdkVersion="22" />
     <application tools:ignore="MissingApplicationIcon">
-        <activity android:name=".activity.OneDriveSetup"
-            tools:targetApi="n" />
+        <activity android:name=".activity.OneDriveSetup" />
         <activity android:name="com.microsoft.identity.client.BrowserTabActivity"
             android:exported="true">
             <intent-filter>

@@ -18,53 +18,56 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
 import org.totschnig.myexpenses.provider.DatabaseConstants.IS_SAME_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTACHMENT_COUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DAY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DISPLAY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_SAME_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_ICON
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MONTH
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_IS_ARCHIVED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER_IS_PART
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
-import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_ACCOUNT_LABEL
+import org.totschnig.myexpenses.provider.KEY_ACCOUNT_TYPE
+import org.totschnig.myexpenses.provider.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_ATTACHMENT_COUNT
+import org.totschnig.myexpenses.provider.KEY_CATID
+import org.totschnig.myexpenses.provider.KEY_COLOR
+import org.totschnig.myexpenses.provider.KEY_COMMENT
+import org.totschnig.myexpenses.provider.KEY_CR_STATUS
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_DATE
+import org.totschnig.myexpenses.provider.KEY_DAY
+import org.totschnig.myexpenses.provider.KEY_DISPLAY_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_ICON
+import org.totschnig.myexpenses.provider.KEY_IS_SAME_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_METHODID
+import org.totschnig.myexpenses.provider.KEY_METHOD_ICON
+import org.totschnig.myexpenses.provider.KEY_METHOD_LABEL
+import org.totschnig.myexpenses.provider.KEY_MONTH
+import org.totschnig.myexpenses.provider.KEY_ORIGINAL_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_ORIGINAL_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_PARENTID
+import org.totschnig.myexpenses.provider.KEY_PATH
+import org.totschnig.myexpenses.provider.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.KEY_REFERENCE_NUMBER
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_SHORT_NAME
+import org.totschnig.myexpenses.provider.KEY_STATUS
+import org.totschnig.myexpenses.provider.KEY_TAGLIST
+import org.totschnig.myexpenses.provider.KEY_TRANSFER_ACCOUNT
+import org.totschnig.myexpenses.provider.KEY_TRANSFER_ACCOUNT_LABEL
+import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER
+import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER_IS_ARCHIVED
+import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER_IS_PORTFOLIO
+import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER_PARENT
+import org.totschnig.myexpenses.provider.KEY_TYPE
+import org.totschnig.myexpenses.provider.KEY_VALUE_DATE
+import org.totschnig.myexpenses.provider.KEY_WEEK
+import org.totschnig.myexpenses.provider.KEY_YEAR
+import org.totschnig.myexpenses.provider.SPLIT_CATID
+import org.totschnig.myexpenses.provider.STATUS_ARCHIVE
+import org.totschnig.myexpenses.provider.STATUS_NONE
 import org.totschnig.myexpenses.provider.DatabaseConstants.YEAR
-import org.totschnig.myexpenses.provider.DatabaseConstants.getMonth
-import org.totschnig.myexpenses.provider.DatabaseConstants.getWeek
-import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart
-import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart
+import org.totschnig.myexpenses.provider.DatabaseConstants.month
+import org.totschnig.myexpenses.provider.DatabaseConstants.week
+import org.totschnig.myexpenses.provider.DatabaseConstants.yearOfMonthStart
+import org.totschnig.myexpenses.provider.DatabaseConstants.yearOfWeekStart
 import org.totschnig.myexpenses.provider.DbUtils.typeWithFallBack
+import org.totschnig.myexpenses.provider.KEY_IS_PORTFOLIO
 import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.effectiveTypeExpression
 import org.totschnig.myexpenses.provider.getBooleanIfExists
@@ -77,6 +80,8 @@ import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringIfExists
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.provider.splitStringList
+import org.totschnig.myexpenses.ui.DisplayParty
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
 import java.time.ZonedDateTime
@@ -96,8 +101,7 @@ data class Transaction2(
     val comment: String? = null,
     val catId: Long? = null,
     val categoryPath: String? = null,
-    val payeeId: Long? = null,
-    val payee: String? = null,
+    val party: DisplayParty? = null,
     val transferPeer: Long? = null,
     val transferAccount: Long? = null,
     val transferAccountLabel: String? = null,
@@ -108,12 +112,13 @@ data class Transaction2(
     val crStatus: CrStatus = CrStatus.UNRECONCILED,
     val referenceNumber: String? = null,
     val color: Int? = null,
-    val transferPeerIsPart: Boolean? = null,
+    val transferPeerParent: Long? = null,
     val transferPeerIsArchived: Boolean? = null,
+    val transferPeerIsPortfolio: Boolean? = null,
     val status: Int = STATUS_NONE,
     val accountLabel: String? = null,
     val accountType: Long?,
-    val tagList: List<Triple<Long, String, Int?>> = emptyList(),
+    val tagList: List<Tag> = emptyList(),
     val year: Int,
     val month: Int,
     val week: Int,
@@ -121,11 +126,16 @@ data class Transaction2(
     val icon: String? = null,
     val attachmentCount: Int = 0,
     val type: Byte = FLAG_NEUTRAL,
-    val isSameCurrency: Boolean = true
+    val isSameCurrency: Boolean = true,
+    val isPortfolio: Boolean = false,
+    val headerId: Int = 0
 ) : Parcelable {
 
     val isSplit: Boolean
         get() = catId == SPLIT_CATID
+
+    val isTrade: Boolean
+        get() = isSplit && isPortfolio
 
     val isTransfer: Boolean
         get() = transferPeer != null
@@ -153,10 +163,10 @@ data class Transaction2(
     companion object {
 
         fun projection(
-            accountId: Long,
+            isAggregate: Boolean,
             grouping: Grouping,
             prefHandler: PrefHandler,
-            extended: Boolean = true
+            extended: Boolean = true,
         ) = buildList {
             addAll(
                 projection(
@@ -167,7 +177,7 @@ data class Transaction2(
             )
             add(KEY_ORIGINAL_CURRENCY)
             add(KEY_ORIGINAL_AMOUNT)
-            if (DataBaseAccount.isAggregate(accountId) && extended) {
+            if (isAggregate && extended) {
                 addAll(additionalAggregateColumns)
             }
         }.toTypedArray()
@@ -175,7 +185,7 @@ data class Transaction2(
         private fun projection(
             grouping: Grouping,
             extended: Boolean,
-            prefHandler: PrefHandler
+            prefHandler: PrefHandler,
         ): Array<String> =
             listOf(
                 KEY_ROWID,
@@ -190,6 +200,7 @@ data class Transaction2(
                 TRANSFER_ACCOUNT_LABEL,
                 KEY_PAYEEID,
                 KEY_PAYEE_NAME,
+                KEY_SHORT_NAME,
                 KEY_TRANSFER_PEER,
                 KEY_TRANSFER_ACCOUNT,
                 KEY_ACCOUNTID,
@@ -202,19 +213,20 @@ data class Transaction2(
                 KEY_TAGLIST,
                 KEY_PARENTID,
                 when (grouping) {
-                    Grouping.MONTH -> getYearOfMonthStart()
-                    Grouping.WEEK -> getYearOfWeekStart()
+                    Grouping.MONTH -> yearOfMonthStart
+                    Grouping.WEEK -> yearOfWeekStart
                     else -> YEAR
                 } + " AS $KEY_YEAR",
-                "${getMonth()} AS $KEY_MONTH",
-                "${getWeek()} AS $KEY_WEEK",
+                "$month AS $KEY_MONTH",
+                "$week AS $KEY_WEEK",
                 "$DAY AS $KEY_DAY",
                 KEY_ICON,
                 "${effectiveTypeExpression(typeWithFallBack(prefHandler))} AS $KEY_TYPE"
             ).let {
                 if (extended) it + listOf(
-                    KEY_TRANSFER_PEER_IS_PART,
+                    KEY_TRANSFER_PEER_PARENT,
                     KEY_TRANSFER_PEER_IS_ARCHIVED,
+                    KEY_TRANSFER_PEER_IS_PORTFOLIO,
                     KEY_ATTACHMENT_COUNT
                 ) else it
             }.toTypedArray()
@@ -223,14 +235,17 @@ data class Transaction2(
             KEY_COLOR,
             KEY_ACCOUNT_LABEL,
             KEY_ACCOUNT_TYPE,
+            KEY_IS_PORTFOLIO,
             "$IS_SAME_CURRENCY AS $KEY_IS_SAME_CURRENCY"
         )
 
         fun fromCursor(
             currencyContext: CurrencyContext,
             cursor: Cursor,
+            grouping: Grouping,
             tags: Map<String, Pair<String, Int?>>,
-            accountCurrency: CurrencyUnit? = null
+            accountLabel: String? = null,
+            accountCurrency: CurrencyUnit? = null,
         ): Transaction2 {
             val currency = cursor.getString(KEY_CURRENCY)
             val amountRaw = cursor.getLong(KEY_DISPLAY_AMOUNT)
@@ -242,14 +257,19 @@ data class Transaction2(
             return Transaction2(
                 id = cursor.getLongOrNull(KEY_ROWID) ?: 0,
                 currency = currency,
-                amount = if (accountCurrency != null && currencyUnit.code != accountCurrency.code) Money(currencyUnit, cursor.getLong(KEY_AMOUNT)) else null,
+                amount = if (accountCurrency != null && currencyUnit.code != accountCurrency.code)
+                    Money(
+                        currencyUnit,
+                        cursor.getLong(KEY_AMOUNT)
+                    )
+                else null,
                 displayAmount = displayAmount,
                 parentId = cursor.getLongOrNull(KEY_PARENTID),
                 _date = cursor.getLong(KEY_DATE),
                 _valueDate = cursor.getLong(KEY_VALUE_DATE),
                 comment = cursor.getStringOrNull(KEY_COMMENT),
                 catId = cursor.getLongOrNull(KEY_CATID),
-                payee = cursor.getStringOrNull(KEY_PAYEE_NAME),
+                party = DisplayParty.fromCursor(cursor),
                 methodLabel = cursor.getStringOrNull(KEY_METHOD_LABEL),
                 methodIcon = cursor.getStringIfExists(KEY_METHOD_ICON),
                 categoryPath = cursor.getStringOrNull(KEY_PATH, allowEmpty = true),
@@ -258,18 +278,18 @@ data class Transaction2(
                 transferAccountLabel = cursor.getStringOrNull(KEY_TRANSFER_ACCOUNT_LABEL),
                 accountId = cursor.getLong(KEY_ACCOUNTID),
                 methodId = cursor.getLongOrNull(KEY_METHODID),
-                payeeId = cursor.getLongOrNull(KEY_PAYEEID),
                 crStatus = enumValueOrDefault(
                     cursor.getString(KEY_CR_STATUS),
                     CrStatus.UNRECONCILED
                 ),
                 referenceNumber = cursor.getStringOrNull(KEY_REFERENCE_NUMBER),
-                accountLabel = cursor.getStringIfExists(KEY_ACCOUNT_LABEL),
+                accountLabel = cursor.getStringIfExists(KEY_ACCOUNT_LABEL) ?: accountLabel,
                 accountType = cursor.getLongIfExists(KEY_ACCOUNT_TYPE),
-                transferPeerIsPart = cursor.getBooleanIfExists(KEY_TRANSFER_PEER_IS_PART),
+                transferPeerParent = cursor.getLongIfExists(KEY_TRANSFER_PEER_PARENT),
                 transferPeerIsArchived = cursor.getBooleanIfExists(KEY_TRANSFER_PEER_IS_ARCHIVED),
+                transferPeerIsPortfolio = cursor.getBooleanIfExists(KEY_TRANSFER_PEER_IS_PORTFOLIO),
                 tagList = cursor.splitStringList(KEY_TAGLIST).mapNotNull { id ->
-                    tags[id]?.let { Triple(id.toLong(), it.first, it.second) }
+                    tags[id]?.let { Tag(id.toLong(), it.first, it.second) }
                 },
                 color = cursor.getIntIfExists(KEY_COLOR),
                 status = cursor.getInt(KEY_STATUS),
@@ -289,20 +309,42 @@ data class Transaction2(
                         if (typeRaw) it else -it
                     }
                     Money(currencyContext[currency], originalAmountRaw)
-                }
-            )
+                },
+                isPortfolio = cursor.getBooleanIfExists(KEY_IS_PORTFOLIO) ?: false,
+            ).let {
+                it.copy(headerId = grouping.calculateGroupId(it))
+            }
         }
     }
 }
 
-fun Iterable<Transaction2>.mergeTransfers(account: DataBaseAccount, homeCurrency: String): List<Transaction2> {
+fun Iterable<Transaction2>.mergeTransfers(
+    account: DataBaseAccount,
+    homeCurrency: String,
+): List<Transaction2> {
     require(account.isAggregate)
     return groupBy { max(it.id, it.transferPeer ?: 0) }
         .map { (_, list) ->
-            if (list.size == 1) list.first() else
-                (if (!account.isHomeAggregate) list.first() else
-                    list.firstOrNull { it.currency == homeCurrency }
-                        ?: list.first()).copy(type = FLAG_NEUTRAL)
+            if (list.size == 1)
+                list.first()
+            else list.pickForMerge(account, homeCurrency)
         }
+}
+
+fun List<Transaction2>.pickForMerge(
+    account: DataBaseAccount,
+    homeCurrency: String,
+): Transaction2 {
+    require(account.isAggregate)
+    return if (size != 2) {
+        CrashHandler.report(IllegalArgumentException("expected 2 sides of transfer"))
+        first()
+    } else {
+        val candidate = if (!account.isHomeAggregate)
+            first()
+        else
+            firstOrNull { it.currency == homeCurrency } ?: first()
+        candidate.copy(type = FLAG_NEUTRAL)
+    }
 }
 

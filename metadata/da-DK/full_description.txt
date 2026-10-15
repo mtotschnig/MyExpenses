@@ -1,27 +1,25 @@
-<i>Mine udgifter</i> er dit ultimative værktøj til ubesværet udgiftssporing og økonomisk styring lige ved hånden!
+<b>Mine udgifter</b> er din ultimative, privatlivsvenlige personlige økonomistyring—der giver dig fuld kontrol over daglig udgiftssporing, budgetter og investeringsporteføljer med åben kildekode-transparens.
 
-Nøglefunktioner:
+<b>Nøglefunktioner:</b>
 
-     • <b>Besværet udgiftssporing</b>: Hold øje med dine udgifter og indtægter problemfrit, uanset om du er på din smartphone eller tablet.
-     • <b>Fleksibel kontostyring</b>: Administrer ubesværet flere konti, inklusive overførsler mellem forskellige valutaer.
-     • <b>Strømlinet økonomisk planlægning</b>: Opsæt nemt planer for tilbagevendende transaktioner.
-     • <b>Sømløs datastyring</b>: Eksporter og importer nemt data ved hjælp af QIF- og CSV-formater.
-     • <b>Forbedret sikkerhed</b>: Beskyt dine data med adgangskode eller enhedslåseskærmssikkerhed.
-     • <b>Tilpasset oplevelse</b>: Skræddersy appen til dine præferencer med tilpassede temaer og skriftstørrelser.
-     • <b>Kontokontoafstemning</b>: Sammenlign nemt transaktionsstatus med dine kontoudtog for nøjagtig økonomisk sporing.
-     • <b>Hurtig dataindtastning</b>: Nyd bekvem adgang med widgets og genveje til startskærmen.
-     • <b>Kraftfuld dataanalyse</b>: Filtrer dine data baseret på forskellige kriterier og visualiser distribution og historiske tendenser med dynamiske grafer.
+• <b>Daglig udgifts- og budgetsporing</b>: Hold nemt styr på indtægter og udgifter på din telefon eller tablet. Opret budgetter, opdel transaktioner (split) og opsæt planer for tilbagevendende transaktioner.
+• <b>Portefølje- og investeringsstyring</b>: Spor aktie-, krypto- eller tilpassede aktivporteføljer, overvåg kurs-historik og administrer investeringer i flere valutaer i realtid.
+• <b>Bankintegration og afstemning</b>: Forbind direkte til understøttede banker via FinTS eller afstem transaktioner manuelt mod dine kontoudtog for præcis balancekontrol.
+• <b>Smart kvitteringsscanning (OCR)</b>: Udtræk automatisk transaktionsoplysninger fra billeder af kvitteringer ved hjælp af avanceret optisk tegnregistrering.
+• <b>Webgrænseflade til pc</b>: Få adgang til og administrer dine transaktioner fra enhver webbrowser på dit lokale netværk.
+• <b>Kraftfulde analyser</b>: Visualiser forbrugstendenser, fordelingscirkeldiagrammer og historiske rapporter med tilpasselige dynamiske grafer.
+• <b>Fleksibel synkronisering og datakontrol</b>: Eksporter og importer nemt data i QIF- og CSV-formater. Synkroniser sømløst mellem enheder ved hjælp af WebDAV, Nextcloud, Google Drive, Dropbox eller OneDrive med support til klientcertifikater.
+• <b>Privatliv og sikkerhed først</b>: Åben kildekode-transparens, beskyttelse med adgangskode eller biometrisk lås og en krypteret database.
 
-Lås op for premium-funktioner:
+<b>Lås op for premium-funktioner:</b>
 
-     • <i>Bidragsnøgle</i>: Lås op for ubegrænsede konti, tilbagevendende transaktionsplaner og mere.
-     • <i>Udvidet nøgle</i>: Nyd skysynkronisering, automatiserede sikkerhedskopier og sofistikeret CSV-import.
-     • <i>Professionel nøgle</i>: Tag din økonomistyring til næste niveau med budgetværktøjer, kvitteringsscanning og e-mailsupport.
+• <i>Bidragsnøgle</i>: Højdepunkterne inkluderer oplåsning af ubegrænsede konti, tilbagevendende planer, PDF-listeeksport, kategorifordelingsdiagrammer og mere.
+• <i>Udvidet Nøgle</i>: Indeholder alle funktioner fra Bidragsnøglen plus automatisk skysynkronisering og avancerede CSV-importregler.
+• <i>Professionel Nøgle</i>: Indeholder alle funktioner fra Den Udvidede Nøgle plus investerings- og porteføljestyring, historikdiagrammer, budgetovervågning, OCR-kvitteringsscanning, lokal webgrænseflade til pc, direkte banksynkronisering (Tyskland) og mere.
 
-<i>Mine udgifter</i> kræver følgende <u>tilladelser</u>:
+<b>Gennemsigtighed om tilladelser:</b>
 
-     • <i>Kalender</i>: Planer for fremtidige og tilbagevendende transaktioner gemmes enten i en særlig lokal kalender eller i en hvilken som helst anden kalender, du tildeler.
-     • <i>Internet</i>: Anonym brugssporing, nedbrudsrapporter, skysynkronisering.
-     • <i>Konti</i>: Synkronisering på tværs af enheder via skytjenester.
+• <i>Kalender</i>: Tilbagevendende planer gemmes i en dedikeret lokal kalender eller en anden kalender, du tildeler.
+• <i>Internet</i>: Anonym brugsstatistik (valgfrit), skysynkronisering og fejlrapporter (valgfrit).
 
-Tag kontrol over din økonomi som aldrig før ved at bruge <i>Mine udgifter</i>!
+Tag kontrollen over dine penge og din formue i dag med <b>Mine udgifter</b>!

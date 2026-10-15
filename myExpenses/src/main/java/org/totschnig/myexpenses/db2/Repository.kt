@@ -12,20 +12,21 @@ import androidx.datastore.preferences.core.Preferences
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_END
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_DEFAULT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_START
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_ACCOUNT_LABEL
+import org.totschnig.myexpenses.provider.KEY_CATID
+import org.totschnig.myexpenses.provider.KEY_COLOR
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_DESCRIPTION
+import org.totschnig.myexpenses.provider.KEY_END
+import org.totschnig.myexpenses.provider.KEY_GROUPING
+import org.totschnig.myexpenses.provider.KEY_IS_DEFAULT
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_START
+import org.totschnig.myexpenses.provider.KEY_SYNC_ACCOUNT_NAME
+import org.totschnig.myexpenses.provider.KEY_TITLE
+import org.totschnig.myexpenses.provider.KEY_UUID
+import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.AUTOFILL_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.DEBTS_URI
@@ -40,7 +41,6 @@ import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
-import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.viewmodel.data.Budget
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import javax.inject.Inject
@@ -50,15 +50,24 @@ import javax.inject.Singleton
 open class Repository @Inject constructor(
     val context: Context,
     val currencyContext: CurrencyContext,
-    val currencyFormatter: ICurrencyFormatter,
     val prefHandler: PrefHandler,
-    val dataStore: DataStore<Preferences>
+    val dataStore: DataStore<Preferences>,
+    val plannerUtils: PlannerUtils
 ) {
     companion object {
         const val UUID_SEPARATOR = ":"
+        const val RECORD_SEPARATOR = ''
     }
 
     val contentResolver: ContentResolver = context.contentResolver
+
+    fun bulkStart() {
+        contentResolver.call(TRANSACTIONS_URI, TransactionProvider.METHOD_BULK_START, null, null)
+    }
+
+    fun bulkEnd() {
+        contentResolver.call(TRANSACTIONS_URI, TransactionProvider.METHOD_BULK_END, null, null)
+    }
 
     //Payee
 
@@ -82,15 +91,16 @@ open class Repository @Inject constructor(
             if (it.moveToFirst()) it.getString(0) else null
         }
 
-    fun saveDebt(debt: Debt) {
-        if (debt.id == 0L) {
-            contentResolver.insert(DEBTS_URI, debt.toContentValues())
-        } else {
-            contentResolver.update(
-                ContentUris.withAppendedId(DEBTS_URI, debt.id),
-                debt.toContentValues(), null, null
-            )
+    fun saveDebt(debt: Debt): Long = if (debt.id == 0L) {
+        contentResolver.insert(DEBTS_URI, debt.toContentValues())!!.let {
+            ContentUris.parseId(it)
         }
+    } else {
+        contentResolver.update(
+            ContentUris.withAppendedId(DEBTS_URI, debt.id),
+            debt.toContentValues(), null, null
+        )
+        debt.id
     }
 
     fun deleteTransaction(id: Long, markAsVoid: Boolean = false, inBulk: Boolean = false): Boolean {

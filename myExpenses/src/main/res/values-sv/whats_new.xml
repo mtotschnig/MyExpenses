@@ -2,7 +2,7 @@
 <resources>
     <string name="whats_new_369_1">Överföringar kan mappas till kategorier.</string>
     <string name="whats_new_364_2">Ny strategi för att hantera dubbla uppgifter om betalare/förmånstagare</string>
-    <string name="whats_new_361_1">Listan för överföringar kan sorteras efter summa.</string>
+    <string name="whats_new_361_1">Listan för transaktioner kan sorteras efter summa.</string>
     <string name="whats_new_365">Bifoga valfritt antal bilder och dokument (PDF)</string>
     <string name="whats_new_366">Widgeten på huvudskärmen visar den aktuella statusen för din budget.</string>
     <string name="whats_new_364_1">Importera till flera konton från en CSV-fil</string>
@@ -10,4 +10,22 @@
     <string name="whats_new_367">Kategorier kan nu konfigureras som kostnads- eller intäktskategorier, vilket kommer att påverka hur kostnads- och intäktssummorna beräknas.</string>
     <string name="whats_new_361_2">Filer i applikationens mapp (säkerhetskopior och exporteringar) kan delas eller bli borttagna.</string>
     <string name="whats_new_370">Menyn på huvudskärmen kan anpassas fullt ut.</string>
+    <string name="whats_new_388">Transaktioner kan arkiveras.</string>
+    <string name="whats_new_374">Anpassade färger för taggar</string>
+    <string name="whats_new_376_1">Klona flera transaktioner med nytt datum.</string>
+    <string name="whats_new_376_2">Webbgränssnitt kan styras från huvudskärmen.</string>
+    <string name="whats_new_378">Diagram följer sökfilter.</string>
+    <string name="whats_new_382">%1$s-funktionen kan användas från widget %2$s.</string>
+    <string name="whats_new_384">Förenklad inställning av molnbackup</string>
+    <string name="whats_new_386">Fördelning per utgift och fördelning per inkomst kan visas tillsammans i dubbelringat ringdiagram.</string>
+    <string name="whats_new_395">Exporterade filer (PDF, backup, QIF, CSV, JSON) kan laddas ner via webbgränssnittet.</string>
+    <string name="whats_new_401">Teansaktionslistan visar nu mer detaljer för uppdelade transaktioner.</string>
+    <string name="whats_new_399">Förbättrad layout av exporterade PDF:er, fullt anpassningsbar med drag-och-släpp.</string>
+    <string name="whats_new_400_1">Cirkeldiagram som visar fördelningen av pengar mellan konton</string>
+    <string name="whats_new_402">Kontotyper kan anpassas</string>
+    <string name="whats_new_396">Förbättrad hantering av valutakonton med automatiska valutakursuppdateringar och värdeuppföljning i realtid.</string>
+    <string name="whats_new_398">Se dina tillgångar, skulder och nettoförmögenhet – allt på ett och samma ställe.</string>
+    <string name="whats_new_403">Kontoflaggor utökar möjligheterna att anpassa kontons synlighet och prioritet.</string>
+    <string name="whats_new_407">Naturlig sortering av etiketter, kategorier, konton och parter.</string>
+    <string name="whats_new_400_2">Prishistorik: Massnedladdning av saknade poster</string>
 </resources>

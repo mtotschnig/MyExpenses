@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.provider.filter
 
 import com.google.common.truth.Truth
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import org.junit.Test
 import org.totschnig.myexpenses.model.CrStatus
@@ -15,6 +14,7 @@ class CriteriaSerializationTest {
                 NotCriterion(
                     OrCriterion(
                         setOf(
+                            AssetCriterion("Gold", 1L),
                             AccountCriterion("Bank", 1L),
                             AmountCriterion(Operation.EQ, listOf(1), "EUR", true),
                             CategoryCriterion("Food", 1),

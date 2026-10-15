@@ -5,16 +5,22 @@ import android.content.ContentUris
 import android.content.ContentValues
 import androidx.annotation.VisibleForTesting
 import androidx.core.database.getLongOrNull
+import app.cash.copper.flow.observeQuery
+import kotlinx.coroutines.flow.Flow
 import org.totschnig.myexpenses.model2.Party
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IBAN
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.KEY_IBAN
+import org.totschnig.myexpenses.provider.KEY_PARENTID
+import org.totschnig.myexpenses.provider.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_CLEANUP_UNUSED_PAYEES
 import org.totschnig.myexpenses.provider.TransactionProvider.PAYEES_URI
+import org.totschnig.myexpenses.provider.mapToMap
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 fun Repository.createParty(party: Party) = contentResolver.createParty(party)
-fun Repository.createParty(party: String) = contentResolver.createParty(Party.create(name = party))
+fun Repository.createParty(party: String) = Party.create(name = party)
+    ?.let { contentResolver.createParty(it) }
 
 fun Repository.saveParty(party: Party) {
     contentResolver.update(
@@ -41,7 +47,8 @@ fun Repository.deleteParty(id: Long) {
 
 // legacy methods with ContentResolver receiver
 fun ContentResolver.requireParty(name: String): Long? {
-    return findParty(name) ?: createParty(Party.create(name = name))?.id
+    return findParty(name) ?: Party.create(name = name)
+        ?.let { createParty(it) }?.id
 }
 
 fun ContentResolver.createParty(party: Party) =
@@ -60,7 +67,7 @@ fun ContentResolver.createParty(party: Party) =
 
 fun ContentResolver.findParty(party: String, iban: String? = null) = query(
     PAYEES_URI,
-    arrayOf(DatabaseConstants.KEY_ROWID),
+    arrayOf(KEY_ROWID),
     KEY_PAYEE_NAME + " = ? AND " + KEY_IBAN + if (iban == null) " IS NULL" else " = ?",
     if (iban == null) arrayOf(party.trim()) else arrayOf(party, iban),
     null
@@ -71,12 +78,12 @@ fun Repository.unsetParentId(partyId: Long) {
 }
 
 fun Repository.getPartyName(partyId: Long) = contentResolver.query(
-        ContentUris.withAppendedId(PAYEES_URI, partyId),
-        arrayOf(KEY_PAYEE_NAME), null, null, null
-    )?.use {
-        it.moveToFirst()
-        it.getString(0)
-    }
+    ContentUris.withAppendedId(PAYEES_URI, partyId),
+    arrayOf(KEY_PAYEE_NAME), null, null, null
+)?.use {
+    it.moveToFirst()
+    it.getString(0)
+}
 
 @VisibleForTesting
 fun Repository.getParty(partyId: Long) = contentResolver.query(
@@ -98,4 +105,21 @@ fun Repository.setParentId(partyId: Long, parentId: Long?) {
     )
 }
 
+fun Repository.cleanupUnusedParties() {
+    contentResolver.call(
+        TransactionProvider.DUAL_URI,
+        METHOD_CLEANUP_UNUSED_PAYEES,
+        null,
+        null
+    )
+}
 
+
+fun Repository.observePayeeMap(): Flow<Map<Long, String>> {
+    return contentResolver.observeQuery(
+        PAYEES_URI,
+        arrayOf(KEY_ROWID, KEY_PAYEE_NAME)
+    ).mapToMap { cursor ->
+        cursor.getLong(0) to cursor.getString(1)
+    }
+}

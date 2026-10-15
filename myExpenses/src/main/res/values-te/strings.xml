@@ -68,7 +68,6 @@
     <string name="menu_history">చరిత్ర</string>
     <string name="menu_history_transfers">బదిలీలను చేర్చండి</string>
     <string name="menu_history_show_balance">బ్యాలెన్స్ చూపించు</string>
-    <string name="warning_device_lock_screen_not_set_up_2">లాక్ స్క్రీన్‌ను సెటప్ చేయడానికి %s కు వెళ్లండి.</string>
     <string name="warning_device_lock_screen_not_set_up_1">సురక్షిత పరికర లాక్ స్క్రీన్ సెటప్ చేయబడలేదు.</string>
     <string name="pref_warning_only_one_protection">మీరు %1$s ద్వారా రక్షణను ఉపయోగించే ముందు, మీరు %2$s ద్వారా రక్షణను ఆపివేయాలి.</string>
     <string name="pref_protection_device_lock_screen_title">పరికర లాక్ స్క్రీన్</string>
@@ -152,17 +151,9 @@
     <string name="menu_sync_download">డౌన్‌లోడ్ చేసి సమకాలీకరించండి</string>
     <string name="menu_sync_link">సమకాలీకరించడం ప్రారంభించండి</string>
     <string name="menu_sync_unlink">సమకాలీకరించడం ఆపు</string>
-    <string name="url_not_valid">URL చెల్లదు</string>
-    <string name="validate_error_webdav_404">URL సర్వర్‌లో లేదు.</string>
-    <string name="validate_error_webdav_not_compliant">URL వెబ్‌డావ్ వనరును సూచించదు.</string>
-    <string name="validate_error_webdav_invalid_certificate">ప్రమాణపత్రాన్ని విశ్వసించలేదు. ఇది చెల్లదు.</string>
     <string name="validate_error_not_empty">ఖాళీగా ఉండకూడదు</string>
     <string name="menu_create_sync_backend">క్రొత్త సమకాలీకరణ బ్యాకెండ్</string>
     <string name="no_sync_backends">సమకాలీకరణ బ్యాకెండ్‌లు లేవు</string>
-    <string name="label_trust_certificate">ఈ ప్రమాణపత్రాన్ని విశ్వసించండి</string>
-    <string name="description_webdav_trust_certificate">వెబ్‌సైట్ సర్టిఫికెట్‌ను ఉపయోగిస్తుంది, ఇది Android ద్వారా విశ్వసించబడదు.</string>
-    <string name="description_webdav_url">దయచేసి మీ వెబ్‌డావ్ సర్వర్‌లోని ప్రత్యేక ఫోల్డర్‌కు URL ను నమోదు చేయండి. {app_name} దాని డేటాను ఈ ఫోల్డర్‌లో నిల్వ చేస్తుంది, దాని వెలుపల దేనినీ తాకదు.</string>
-    <string name="hint_url">URL</string>
     <string name="synchronization_none">సమకాలీకరణ లేదు</string>
     <string name="synchronization">సమకాలీకరణ</string>
     <string name="crash_dialog_comment_prompt">మీరు క్రింద సమస్య గురించి మీ వ్యాఖ్యలను జోడించవచ్చు:</string>
@@ -173,7 +164,6 @@
     <string name="paypal_callback_info">మీ లావాదేవీ పూర్తయింది మరియు మీ కొనుగోలు కోసం రశీదు మీకు ఇమెయిల్ చేయబడింది. ఈ లావాదేవీ వివరాలను చూడటానికి మీరు www.paypal.com లోని మీ ఖాతాలోకి లాగిన్ అవ్వవచ్చు.</string>
     <string name="content_description_calculator_delete_button">చివరి అంకెను తొలగించండి</string>
     <string name="warning_cannot_move_split_transaction">ఈ విభజన లావాదేవీని %1$s ఖాతాకు తరలించలేము ఎందుకంటే ఈ ఖాతాను సూచించే బదిలీ భాగాలు ఉన్నాయి.</string>
-    <string name="progress_dialog_updating_split_parts">స్ప్లిట్ భాగాలను నవీకరిస్తోంది</string>
     <string name="plan_instance_state_applied">వర్తించబడింది</string>
     <string name="plan_instance_state_cancelled">రద్దు</string>
     <string name="plan_instance_state_open">తెరిచి ఉంది</string>
@@ -206,7 +196,7 @@
     <string name="pref_csv_import_delimiter">డీలిమిటర్</string>
     <string name="import_source_file">ఫైల్</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s కరెన్సీ ఉన్న%1$d ఖాతాలు నవీకరించబడ్డాయి.</string>
-    <string name="hint_auto_fill">అదే చెల్లింపుదారు / చెల్లించువారు కోసం చివరి లావాదేవీ నుండి డేటా స్వయంచాలకంగా నింపాలా\? మీరు ఈ ప్రవర్తనను ఎల్లప్పుడూ సెట్టింగ్‌ల నుండి మార్చవచ్చు.</string>
+    <string name="hint_auto_fill">అదే చెల్లింపుదారు / చెల్లించువారు కోసం చివరి లావాదేవీ నుండి డేటా స్వయంచాలకంగా నింపాలా? మీరు ఈ ప్రవర్తనను ఎల్లప్పుడూ సెట్టింగ్‌ల నుండి మార్చవచ్చు.</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">కొనుగోలు విఫలమైంది లేదా రద్దు చేయబడింది.</string>
     <string name="comparison_operator_date_after">తరువాత</string>
     <string name="comparison_operator_date_before">ముందు</string>
@@ -226,27 +216,33 @@
     <string name="search_comment">గమనికల కోసం శోధించండి</string>
     <string name="search_category">వర్గం కోసం శోధించండి</string>
     <string name="search_amount">మొత్తం కోసం శోధించండి</string>
-    <string name="app_dir_not_compatible_with_nougat">Android నౌగాట్ క్రింద బ్యాకప్‌లు మరియు ఎగుమతుల (%1$s) కోసం ప్రస్తుతం కాన్ఫిగర్ చేయబడిన URI కి మద్దతు లేదు. దయచేసి మళ్ళీ ఫోల్డర్‌ను ఎంచుకోండి.</string>
     <string name="app_dir_not_accessible">బ్యాకప్‌లు మరియు ఎగుమతుల (%1$s) కోసం ప్రస్తుతం ఎంచుకున్న ఫోల్డర్ ప్రాప్యత చేయబడదు. దయచేసి వేరేదాన్ని ఎంచుకోండి.</string>
     <string name="widget_title_templates">నా టెంప్లేట్లు</string>
     <string name="widget_title_accounts">నా ఖాతాలు</string>
     <string name="menu_categories_setup_default">డిఫాల్ట్ వర్గాలను సెటప్ చేయండి</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d వర్గాలు విజయవంతంగా దిగుమతి చేయబడ్డాయి.</item>
+        <item quantity="other">%1$d వర్గాలు విజయవంతంగా దిగుమతి చేయబడ్డాయి.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d పార్టీలు విజయవంతంగా దిగుమతి చేయబడ్డాయి.</item>
+        <item quantity="other">%1$d పార్టీలు విజయవంతంగా దిగుమతి చేయబడ్డాయి.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d ఖాతాలు విజయవంతంగా దిగుమతి చేయబడ్డాయి.</item>
+        <item quantity="other">%1$d ఖాతాలు విజయవంతంగా దిగుమతి చేయబడ్డాయి.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d లావాదేవీలు విజయవంతంగా %2$s లోకి దిగుమతి చేయబడ్డాయి</item>
+        <item quantity="other">%1$d లావాదేవీలు విజయవంతంగా %2$s లోకి దిగుమతి చేయబడ్డాయి</item>
+    </plurals>
     <string name="import_source_select_error">దయచేసి %1$s రకం ఫైల్‌ను అందించండి</string>
-    <string name="import_transactions_none">%1$s ఖాతాలోకి లావాదేవీలు దిగుమతి చేయబడలేదు</string>
-    <string name="import_parties_none">ఏ పార్టీలు దిగుమతి కాలేదు</string>
-    <string name="import_categories_none">వర్గాలు దిగుమతి చేయబడలేదు</string>
-    <string name="import_accounts_none">ఖాతాలు దిగుమతి చేయబడలేదు</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d లావాదేవీలు విజయవంతంగా %2$s లోకి దిగుమతి చేయబడ్డాయి</string>
-    <string name="import_accounts_success">%1$d ఖాతాలు విజయవంతంగా దిగుమతి చేయబడ్డాయి.</string>
-    <string name="import_parties_success">%1$d పార్టీలు విజయవంతంగా దిగుమతి చేయబడ్డాయి.</string>
-    <string name="import_categories_success">%1$d వర్గాలు విజయవంతంగా దిగుమతి చేయబడ్డాయి.</string>
     <string name="warning_change_fraction_digits_checkbox_label">డేటాబేస్లో మొత్తాలను నవీకరించండి</string>
     <string name="warning_change_fraction_digits_3">మొత్తాలు నవీకరించబడితే, మీరు వారి పాక్షిక భాగం గురించి సమాచారాన్ని కోల్పోతారు.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">మొత్తాలు నవీకరించబడకపోతే, మార్పు తర్వాత అవి %d గుణించబడతాయి.</string>
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">మొత్తాలు నవీకరించబడకపోతే, మార్పు తర్వాత అవి %d ద్వారా విభజించబడినట్లు ప్రదర్శించబడతాయి.</string>
     <string name="warning_change_fraction_digits_1">క్రొత్త సంఖ్యలో భిన్న అంకెలతో సరిపోలడానికి డేటాబేస్లోని మొత్తాలను నవీకరించాలి.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">దయచేసి %1$d మరియు %2$d మధ్య సంఖ్యను సెట్ చేయండి</string>
-    <string name="warning_splitpartcategory_context">స్ప్లిట్‌లో భాగమైన బదిలీలు స్ప్లిట్ సందర్భంలో మాత్రమే సవరించబడతాయి.</string>
     <string name="warning_restore">డేటాబేస్ మరియు ప్రాధాన్యతలు \"%1$s\" ఫైల్ నుండి పునరుద్ధరించబడతాయి. ప్రస్తుత డేటా తొలగించబడుతుంది.</string>
     <string name="warning_reset_account_all">మీరు కొనసాగితే, అన్ని ఖాతాల %1$s కోసం, లావాదేవీలు డేటాబేస్ నుండి తొలగించబడతాయి మరియు పునరుద్ధరించబడవు.</string>
     <string name="warning_reset_account_matched">మీరు కొనసాగితే, ప్రస్తుత ఫిల్టర్‌తో సరిపోలిన లావాదేవీలు డేటాబేస్ నుండి తొలగించబడతాయి మరియు పునరుద్ధరించబడవు.</string>
@@ -343,8 +339,6 @@
     <string name="pref_ui_language_title">భాష</string>
     <string name="pref_ui_home_screen_shortcuts">హోమ్ స్క్రీన్ సత్వరమార్గాలు</string>
     <string name="pref_shortcut_summary">హోమ్ స్క్రీన్‌కు సత్వరమార్గాన్ని జోడించండి.</string>
-    <string name="pref_shortcut_not_added">సత్వరమార్గాలను అంగీకరించే హోమ్ స్క్రీన్ అందుబాటులో లేదు.</string>
-    <string name="pref_shortcut_added">సత్వరమార్గం హోమ్ స్క్రీన్‌కు జోడించబడింది</string>
     <string name="pref_share_target_title">URL ని అప్‌లోడ్ చేయండి</string>
     <string name="pref_share_target_summary">మీరు తగిన అనువర్తనాల (ఇమెయిల్, డ్రాప్‌బాక్స్, గూగుల్ డాక్స్,…) మధ్య ఎంచుకోవాలనుకుంటే ఖాళీగా ఉంచండి లేదా మద్దతు ఉన్న పథకాల్లో ఒకదానిలో URL ను అందించండి</string>
     <string name="pref_send_feedback_title">అభిప్రాయాన్ని పంపండి</string>
@@ -378,7 +372,6 @@
     <string name="pref_import_from_grisbi_summary">గ్రిస్బీ XML ఫైల్ నుండి వర్గాలు మరియు పార్టీలను దిగుమతి చేయండి</string>
     <string name="pref_export_format_title">డేటా ఫార్మాట్</string>
     <string name="pref_enter_licence_title">కీని నమోదు చేయండి</string>
-    <string name="pref_custom_currency_title">కరెన్సీలను అనుకూలీకరించండి</string>
     <string name="pref_contrib_purchase_title_upgrade">కీని అప్‌గ్రేడ్ చేయండి</string>
     <string name="pref_category_title_ui">వినియోగ మార్గము</string>
     <string name="pref_category_title_more_information">మరింత సమాచారం</string>
@@ -404,7 +397,7 @@
     <string name="plan_calendar_name">{app_name} ప్లానర్</string>
     <string name="plan_automatic">ఆటోమేటిక్</string>
     <string name="plan">ప్రణాళిక</string>
-    <string name="payer_or_payee">చెల్లింపుదారుడు / చెల్లించేవాడు</string>
+    <string name="payer_or_payee">ప్రత్యర్థి పార్టీ</string>
     <string name="payer">చెల్లింపుదారులు</string>
     <string name="payee">చెల్లింపుదారుడు</string>
     <string name="password_security_answer_not_valid">తప్పు జవాబు. మళ్ళీ ప్రయత్నించండి!</string>
@@ -443,10 +436,7 @@
     <string name="dialog_title_warning_delete_transaction">లావాదేవీని తొలగించాలా\?</string>
     <string name="dialog_title_warning_delete_template">టెంప్లేట్‌ను తొలగించాలా\?</string>
     <string name="dialog_title_warning_delete_category">వర్గాన్ని తొలగించాలా\?</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">ఖాతాను తొలగించాలా\?</item>
-        <item quantity="other">%1$d ఖాతాలను తొలగించాలా\?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">ఖాతాను తొలగించాలా\?</string>
     <string name="dialog_title_contrib_feature">ప్రీమియం ఫీచర్</string>
     <string name="dialog_title_balance_account">బ్యాలెన్స్ %1$s</string>
     <string name="dialog_security_question">ప్రశ్న</string>
@@ -548,7 +538,6 @@
     <string name="no_expenses">ఇంకా ఖర్చులు లేవు!</string>
     <string name="no_categories">వర్గాలు లేవు.</string>
     <string name="no_app_handling_mime_type_available">%s ఫైల్‌లను నిర్వహించే అనువర్తనం అందుబాటులో లేదు.</string>
-    <string name="no_app_handling_ftp_available">అనువర్తన నిర్వహణ ftp అందుబాటులో లేదు. ఇన్‌స్టాల్ చేయండి <i> FTP తో పంపండి </i>\?</string>
     <string name="no_app_handling_email_available">అనువర్తన నిర్వహణ ఇమెయిల్ అందుబాటులో లేదు.</string>
     <string name="method">చెల్లింపు విధానము</string>
     <string name="menu_split_transaction">విడిపోవడానికి రూపాంతరం</string>
@@ -570,7 +559,7 @@
     <string name="menu_edit_template">మూసను సవరించండి</string>
     <string name="menu_edit_split_part_transfer">బదిలీ స్ప్లిట్ భాగాన్ని సవరించండి</string>
     <string name="menu_edit_split_part_category">వర్గం స్ప్లిట్ భాగాన్ని సవరించండి</string>
-    <string name="menu_edit_split">స్ప్లిట్ సవరించండి</string>
+    <string name="menu_edit_split">విభజన లావాదేవీని సవరించండి</string>
     <string name="menu_edit_plan_instance">ఒకే ప్రణాళిక సంభవించడాన్ని సవరించండి</string>
     <string name="menu_edit_party">పార్టీని సవరించండి</string>
     <string name="menu_edit_method">చెల్లింపు పద్ధతిని సవరించండి</string>
@@ -628,7 +617,6 @@
     <string name="confirmation_load_template_discard_data">ఇప్పటికే ఉన్న ఫారమ్ డేటా విస్మరించబడుతుంది.</string>
     <string name="warning_balance_account_delete">మీరు కొనసాగితే, ఈ ఖాతా యొక్క అన్ని రాజీ లావాదేవీలు డేటాబేస్ నుండి తొలగించబడతాయి మరియు మీరు వాటిని పునరుద్ధరించలేరు.</string>
     <string name="advance_exexcution_in_days">ముందస్తు అమలు (రోజుల్లో)</string>
-    <string name="discover_feature_fab_long_press">బదిలీలు, విభజన లావాదేవీలు లేదా ఆదాయం కోసం ఫారమ్‌ను నేరుగా తెరవడానికి ఫ్లోటింగ్ యాక్షన్ బటన్‌ని నొక్కి పట్టుకోండి.</string>
     <string name="select_package">దయచేసి లైసెన్స్ ప్యాకేజీని ఎంచుకోండి.</string>
     <string name="pref_feature_uninstall_summary">ప్లే స్టోర్ చివరికి ఆ మాడ్యూళ్ళను నేపథ్యంలో తొలగించడానికి ప్రయత్నిస్తుంది.</string>
     <string name="pref_feature_uninstall_title">లక్షణాలు మరియు భాషల తొలగింపును అభ్యర్థించండి</string>
@@ -652,7 +640,7 @@
     <string name="dialog_multi_tag_append">ఇప్పటికే ఉన్న ట్యాగ్‌లకు క్రొత్త ట్యాగ్‌లను జోడించండి</string>
     <string name="new_tag_hint">క్రొత్త ట్యాగ్‌ను నమోదు చేయండి</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">ట్యాగ్ %1$s ఒక లావాదేవీకి మ్యాప్ చేయబడింది. దీన్ని తొలగించాలా\?</item>
+        <item quantity="one">ట్యాగ్ %1$s %2$d లావాదేవీకి మ్యాప్ చేయబడింది. దీన్ని తొలగించాలా\?</item>
         <item quantity="other">ట్యాగ్ %1$s ని %2$d లావాదేవీలకు మ్యాప్ చేయబడింది. దీన్ని తొలగించాలా\?</item>
     </plurals>
     <string name="dialog_multi_tag_clear">ఎంచుకున్న లావాదేవీల నుండి అన్ని ట్యాగ్‌లు తొలగించబడతాయి.</string>
@@ -693,7 +681,7 @@
     <string name="menu_create_budget">కొత్త బడ్జెట్</string>
     <string name="discover_feature_expense_income_switch">ఆదాయాన్ని రికార్డ్ చేయడానికి ఈ స్విచ్ బటన్‌ను ఉపయోగించండి.</string>
     <string name="synchronization_select_folder_dialog_title">ఇప్పటికే ఉన్న ఫోల్డర్‌ను ఎంచుకోండి లేదా క్రొత్తదాన్ని సృష్టించండి</string>
-    <string name="pref_plan_executor_time_title">ప్లానర్ నోటిఫికేషన్ సమయం</string>
+    <string name="pref_plan_executor_time_title">నోటిఫికేషన్ సమయం</string>
     <string name="pref_exchange_rates_api_key_summary">దయచేసి %s లో ఉచిత ఖాతాను నమోదు చేసి, మీ App ID ని అందించండి</string>
     <string name="pref_exchange_rate_provider_title">మార్పిడి రేటు ప్రొవైడర్</string>
     <string name="pref_exchange_rate_provider_summary">మార్పిడి రేట్లను డౌన్‌లోడ్ చేయడానికి ప్రొవైడర్‌ను ఎంచుకోండి</string>
@@ -769,4 +757,11 @@
     <string name="balance_sheet_net_worth">నికర విలువ</string>
     <string name="price_history">ధర చరిత్ర</string>
     <string name="pref_account_list_display_configuration_title">ఖాతా జాబితా</string>
+    <string name="menu_templates">మూసలు</string>
+    <string name="important_upgrade_information_heading">ముఖ్యమైన సమాచారం</string>
+    <string name="pref_tag_style_title">ట్యాగ్ శైలి</string>
+    <string name="pref_tag_style_outline">రంగుల సరిహద్దు</string>
+    <string name="pref_tag_style_filled">పూర్తిగా రంగుల</string>
+    <string name="trade_additional_costs">అదనపు ఖర్చులు</string>
+    <string name="contrib_feature_portfolio_tracking">పోర్ట్‌ఫోలియో ట్రాకింగ్</string>
 </resources>

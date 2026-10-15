@@ -49,6 +49,7 @@
         <item>he</item>
         <item>hr</item>
         <item>hu</item>
+        <item>id</item>
         <item>it</item>
         <item>ja</item>
         <item>km</item>
@@ -62,6 +63,7 @@
         <item>ro</item>
         <item>ru</item>
         <item>si</item>
+        <item>sv</item>
         <item>ta</item>
         <item>te</item>
         <item>th</item>
@@ -115,6 +117,21 @@
         <item>keefeer</item>
     </string-array>
 
+    <string-array name="contributors_408" tools:ignore="UnusedResources">
+        <item>Kristoffer Grundström, Joel A</item>
+    </string-array>
+
+    <string-array name="contributors_409" tools:ignore="UnusedResources">
+        <item>Arif Budiman, Reza Almanda</item>
+    </string-array>
+
+    <string-array name="contributors_411" tools:ignore="UnusedResources">
+        <item />
+        <item />
+        <item />
+        <item>Carlson Büth</item>
+    </string-array>
+
     <string-array name="comparison_operator_entries">
         <item>@string/comparison_operator_equal</item>
         <item>@string/comparison_operator_greater_than</item>
@@ -153,15 +170,21 @@
         <item>y</item>
         <item>M</item>
         <item>d</item>
-        <item>H</item>
-        <item>m</item>
-        <item>a</item>
     </string-array>
 
     <string-array name="help_ExportDialog_date_format_components">
         <item>@string/grouping_year</item>
         <item>@string/grouping_month</item>
         <item>@string/grouping_day</item>
+    </string-array>
+
+    <string-array name="help_ExportDialog_time_format_letters">
+        <item>H</item>
+        <item>m</item>
+        <item>a</item>
+    </string-array>
+
+    <string-array name="help_ExportDialog_time_format_components">
         <item>@string/date_format_hour</item>
         <item>@string/date_format_minute</item>
         <item>@string/date_format_a</item>
@@ -211,6 +234,11 @@
         <item>@string/never</item>
         <item>@string/pref_scroll_to_current_date_app_launch</item>
         <item>@string/pref_scroll_to_current_date_account_open</item>
+    </string-array>
+
+    <string-array name="pref_ui_main_screen_version_values">
+        <item>V1</item>
+        <item>V2</item>
     </string-array>
 
     <string-array name="template_default_action_entries">
@@ -392,6 +420,61 @@
         <item>@string/pref_dynamic_exchange_rates_dynamic</item>
         <item>@string/pref_dynamic_exchange_rates_static</item>
         <item>@string/pref_dynamic_exchange_rates_per_account</item>
+    </string-array>
+
+    <string-array name="pref_start_screen_entries">
+        <item>@string/pref_ui_start_screen_last_visited</item>
+        <item>@string/accounts</item>
+        <item>@string/import_select_transactions</item>
+        <item>@string/balance_sheet</item>
+    </string-array>
+    <string-array name="pref_start_screen_values">
+        <item>LastVisited</item>
+        <item>Accounts</item>
+        <item>Transactions</item>
+        <item>BalanceSheet</item>
+    </string-array>
+
+    <string-array name="pref_default_action_entries">
+        <item>@string/pref_ui_start_screen_last_visited</item>
+        <item>@string/expense</item>
+        <item>@string/income</item>
+        <item>@string/transfer</item>
+        <item>@string/split_transaction</item>
+        <item>@string/button_scan</item>
+    </string-array>
+    <string-array name="pref_default_action_values">
+        <item>LastVisited</item>
+        <item>Expense</item>
+        <item>Income</item>
+        <item>Transfer</item>
+        <item>Split</item>
+        <item>Scan</item>
+    </string-array>
+
+    <string-array name="pref_fab_style_values">
+        <item>Standard</item>
+        <item>Compact</item>
+    </string-array>
+    <string-array name="pref_fab_style_entries">
+        <item>@string/pref_fab_style_standard_description</item>
+        <item>@string/pref_fab_style_compact_description</item>
+    </string-array>
+
+    <string-array name="pref_tag_style_values">
+        <item>OUTLINE</item>
+        <item>FILLED</item>
+    </string-array>
+    <string-array name="pref_tag_style_entries">
+        <item>@string/pref_tag_style_outline</item>
+        <item>@string/pref_tag_style_filled</item>
+    </string-array>
+
+    <string-array name="pref_custom_date_format_new_transaction_list_entries">
+        <item>FULL</item>
+        <item>LONG</item>
+        <item>MEDIUM</item>
+        <item>SHORT</item>
     </string-array>
 
 </resources>

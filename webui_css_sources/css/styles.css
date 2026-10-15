@@ -70,3 +70,8 @@ input:checked+.slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+
+.transaction-details > span ~ span::before {
+  content: "/";
+  margin: 0 0.4rem; /* Adds space around the separator */
+}

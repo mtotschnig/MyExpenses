@@ -1,8 +1,8 @@
 plugins {
     id 'com.android.dynamic-feature'
-    id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
+    id 'com.android.legacy-kapt'
 }
+
 android {
     compileSdk project.compileSdkVersion
 
@@ -15,10 +15,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     namespace 'org.totschnig.dropbox'
+
+    buildFeatures {
+        buildConfig true
+    }
 }
 
 dependencies {

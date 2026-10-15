@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.viewmodel
 import android.Manifest
 import android.app.Application
 import android.content.pm.PackageManager
-import android.os.Bundle
 import androidx.annotation.RequiresPermission
 import androidx.core.app.ActivityCompat
 import androidx.documentfile.provider.DocumentFile
@@ -19,20 +18,18 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SORT_KEY
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
+import org.totschnig.myexpenses.provider.KEY_ACCOUNT_LABEL
+import org.totschnig.myexpenses.provider.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_DATE
+import org.totschnig.myexpenses.provider.KEY_PLANID
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.PlannerUtils.Companion.checkLocalCalendar
 import org.totschnig.myexpenses.provider.PlannerUtils.Companion.deleteLocalCalendar
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
-import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_SORT_ACCOUNTS
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.Operation
 import org.totschnig.myexpenses.util.AppDirHelper
@@ -43,6 +40,7 @@ import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.io.displayName
 import java.io.File
 import java.util.concurrent.TimeUnit
+import kotlin.time.Duration.Companion.milliseconds
 
 class SettingsViewModel(
     application: Application,
@@ -54,6 +52,11 @@ class SettingsViewModel(
         val displayName: String,
         val isWriteable: Boolean,
         val isDefault: Boolean
+    )
+
+    data class DatabaseInfo(
+        val sqliteVersion: String,
+        val cipherVersion: String?
     )
 
     private val _appDirInfo: MutableLiveData<Result<AppDirInfo>> = MutableLiveData()
@@ -93,6 +96,16 @@ class SettingsViewModel(
         TransactionProvider.METHOD_CHECK_CORRUPTED_DATA_987, null, null
     )?.getLongArray(TransactionProvider.KEY_RESULT)
 
+    fun getDatabaseInfo(): LiveData<DatabaseInfo> = liveData(kotlinx.coroutines.Dispatchers.IO) {
+        val bundle = contentResolver.call(
+            DUAL_URI,
+            TransactionProvider.METHOD_GET_DATABASE_INFO, null, null
+        )
+        emit(DatabaseInfo(bundle?.getString(TransactionProvider.KEY_SQLITE_VERSION) ?: "Unknown",
+            bundle?.getString(TransactionProvider.KEY_CIPHER_VERSION)
+        ))
+    }
+
     fun dataCorrupted() = liveData(context = coroutineContext()) {
         corruptedIdList()?.let {
             emit(it.size)
@@ -114,7 +127,7 @@ class SettingsViewModel(
                     )
                             || repository.count(
                         TransactionProvider.TEMPLATES_URI,
-                        "${DatabaseConstants.KEY_PLANID} IS NOT NULL"
+                        "$KEY_PLANID IS NOT NULL"
                     ) == 0)
         )
     }
@@ -177,7 +190,7 @@ class SettingsViewModel(
         val start = System.nanoTime()
         val result = block()
         if (shouldWait(result)) {
-            delay(delayMillis - TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start))
+            delay((delayMillis - TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start)).milliseconds)
         }
         return result
     }
@@ -196,18 +209,4 @@ class SettingsViewModel(
     fun deleteLocalCalendar() = liveData(context = coroutineContext()) {
         emit(contentResolver.deleteLocalCalendar())
     }
-
-    fun sortAccounts(sortedIds: LongArray) {
-        viewModelScope.launch(context = coroutineContext()) {
-            contentResolver.call(
-                DUAL_URI,
-                METHOD_SORT_ACCOUNTS,
-                null,
-                Bundle(1).apply {
-                    putLongArray(KEY_SORT_KEY, sortedIds)
-                }
-            )
-        }
-    }
-
 }

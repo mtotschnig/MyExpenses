@@ -16,16 +16,31 @@ fun Konto.toAccount(bank: Bank, openingBalance: Long) = Account(
     color = bank.asWellKnown?.color ?: Account.DEFAULT_COLOR
 )
 
-val Konto.asAttributes
-    get() = buildMap {
-        name?.let { put(BankingAttribute.NAME, it) }
-        number?.let { put(BankingAttribute.NUMBER, it) }
-        subnumber?.let { put(BankingAttribute.SUBNUMBER, it) }
-        iban?.let { put(BankingAttribute.IBAN, it) }
-        bic?.let { put(BankingAttribute.BIC, it) }
-        blz?.let { put(BankingAttribute.BLZ, it) }
-    }
-
+fun Konto.getAsAttributes(gv: GV) = buildMap {
+    name?.let { put(BankingAttribute.NAME, it) }
+    number?.let { put(BankingAttribute.NUMBER, it) }
+    subnumber?.let { put(BankingAttribute.SUBNUMBER, it) }
+    iban?.let { put(BankingAttribute.IBAN, it) }
+    bic?.let { put(BankingAttribute.BIC, it) }
+    blz?.let { put(BankingAttribute.BLZ, it) }
+    put(BankingAttribute.GESCHAEFTS_VORFALL, gv.name)
+}
 
 val Konto.dbNumber: String
     get() = number + (subnumber?.let { "/$it" } ?: "")
+
+val Konto.kontoType
+    get() = KontoType.find(acctype?.trim()?.ifEmpty { null }?.toInt())
+
+val KontoType.isSupported: Boolean
+    get() = when (this) {
+        KontoType.WERTPAPIERDEPOT, KontoType.FONDSDEPOT -> false
+        else -> true
+    }
+
+//https://github.com/willuhn/hibiscus/pull/158/changes
+private val CREDIT_CARD_NUMBER_REGEX = Regex("[0-9]{12,19}")
+
+val Konto.isCreditCardAccount: Boolean
+    get() = kontoType == KontoType.KREDITKARTE ||
+            number?.replace(" ", "")?.replace("-", "")?.matches(CREDIT_CARD_NUMBER_REGEX) == true

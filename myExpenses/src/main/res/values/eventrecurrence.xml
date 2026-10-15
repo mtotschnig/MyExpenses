@@ -41,9 +41,6 @@
         <item quantity="one">Weekly on %2$s</item>
         <item quantity="other">Every %1$d weeks on %2$s</item>
     </plurals>
-
-    <!-- The common portion of a string describing how often an event repeats,
-         example: 'Monthly (on day 2)' -->
     <plurals name="monthly">
         <item quantity="one">Monthly</item>
         <item quantity="other">Every %d months</item>

@@ -11,27 +11,31 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentResultListener
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.datepicker.MaterialDatePicker
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity.Companion.PROGRESS_TAG
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_CHECKBOX_LABEL
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_POSITIVE_BUTTON_CHECKED_LABEL
-import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_TITLE_STRING
 import org.totschnig.myexpenses.dialog.ProgressDialogFragment
+import org.totschnig.myexpenses.dialog.RemapDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectSingleAccountDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectSingleMethodDialogFragment
-import org.totschnig.myexpenses.provider.CheckTransferAccountOfSplitPartsHandler
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_CATID
+import org.totschnig.myexpenses.provider.KEY_DATE
+import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_METHODID
+import org.totschnig.myexpenses.provider.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 import org.totschnig.myexpenses.util.epochMillis2LocalDate
 import org.totschnig.myexpenses.util.getDateTimeFormatter
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.ui.preferredDatePickerBuilder
+import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
-class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
+class RemapHandler(val activity: BaseMyExpenses<*>) : FragmentResultListener {
 
     init {
         for (requestKey in listOf(MAP_ACCOUNT_REQUEST, MAP_METHOD_REQUEST)) {
@@ -48,13 +52,19 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
         if (this is MaterialDatePicker<*>) {
             addOnPositiveButtonClickListener {
                 val localDate = epochMillis2LocalDate(it as Long, ZoneId.of("UTC"))
-                val dateFormatted = getDateTimeFormatter(this@RemapHandler.activity).format(localDate)
+                val dateFormatted =
+                    getDateTimeFormatter(this@RemapHandler.activity).format(localDate)
                 val persistedValue = ZonedDateTime.of(
                     localDate,
                     LocalTime.NOON,
                     ZoneId.systemDefault()
                 ).toEpochSecond()
-                showConfirmationDialog(getString(R.string.remap_date, dateFormatted), KEY_DATE, R.string.date, persistedValue)
+                showRemapConfirmationDialog(
+                    getString(R.string.remap_date, dateFormatted),
+                    KEY_DATE,
+                    R.string.date,
+                    persistedValue
+                )
             }
         }
     }
@@ -68,7 +78,7 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
         activity.getString(resId, *formatArgs)
 
     private fun parseResult(result: Bundle) =
-        result.getLong(KEY_ROWID) to result.getString(DatabaseConstants.KEY_LABEL)!!
+        result.getLong(KEY_ROWID) to result.getString(KEY_LABEL)!!
 
     override fun onFragmentResult(requestKey: String, result: Bundle) {
         onResult(requestKey, parseResult(result))
@@ -81,61 +91,53 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
         val column: String
         when (requestKey) {
             MAP_CATEGORY_REQUEST -> {
-                column = DatabaseConstants.KEY_CATID
+                column = KEY_CATID
                 columnStringResId = R.string.category
                 confirmationStringResId = R.string.remap_category
             }
 
             MAP_PAYEE_REQUEST -> {
-                column = DatabaseConstants.KEY_PAYEEID
+                column = KEY_PAYEEID
                 columnStringResId = R.string.payer_or_payee
-                confirmationStringResId = R.string.remap_payee
+                confirmationStringResId =
+                    if (rowId == NULL_ITEM_ID) R.string.remap_payee_null else R.string.remap_payee
             }
 
             MAP_METHOD_REQUEST -> {
-                column = DatabaseConstants.KEY_METHODID
+                column = KEY_METHODID
                 columnStringResId = R.string.method
                 confirmationStringResId = R.string.remap_method
             }
 
             MAP_ACCOUNT_REQUEST -> {
-                column = DatabaseConstants.KEY_ACCOUNTID
+                column = KEY_ACCOUNTID
                 columnStringResId = R.string.account
                 confirmationStringResId = R.string.remap_account
             }
 
             else -> throw IllegalStateException("Unexpected value: $requestKey")
         }
-        showConfirmationDialog(
-            message = getString(confirmationStringResId, label),
+        showRemapConfirmationDialog(
+            message = if (rowId == NULL_ITEM_ID) getString(confirmationStringResId) else getString(
+                confirmationStringResId,
+                label
+            ),
             column = column,
             columnStringResId = columnStringResId,
             value = rowId
         )
     }
 
-    private fun showConfirmationDialog(
+    private fun showRemapConfirmationDialog(
         message: String,
         column: String,
         columnStringResId: Int,
-        value: Long
+        value: Long,
     ) {
-        activity.showConfirmationDialog(
-            "dialogRemap",
-            message + " " + getString(R.string.continue_confirmation),
-            R.id.REMAP_COMMAND,
-            R.string.menu_remap,
-            commandNegative = null
-        ) {
-            putString(KEY_COLUMN, column)
-            putLong(column, value)
-            putString(
-                KEY_TITLE_STRING,
-                getString(R.string.dialog_title_confirm_remap, getString(columnStringResId))
-            )
-            putInt(KEY_POSITIVE_BUTTON_CHECKED_LABEL, R.string.button_label_clone_and_remap)
-            putString(KEY_CHECKBOX_LABEL, getString(R.string.menu_clone_transaction))
-        }
+        val fullMessage = message + " " + getString(R.string.continue_confirmation)
+        val titleString = getString(R.string.dialog_title_confirm_remap, getString(columnStringResId))
+        val dialog = RemapDialogFragment.newInstance(titleString, fullMessage, column, value)
+        dialog.show(activity.supportFragmentManager, "dialogRemap")
     }
 
     fun remap(extras: Bundle, shouldClone: Boolean) {
@@ -143,6 +145,7 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
             val checkedItemIds = selectionState.map { it.id }
             val column = extras.getString(KEY_COLUMN) ?: return
             val value = extras.getLong(column)
+            val shouldUpdateValueDate = extras.getBoolean(KEY_UPDATE_VALUE_DATE, false)
             if (shouldClone) {
                 val progressDialog = ProgressDialogFragment.newInstance(
                     getString(R.string.saving), null, ProgressDialog.STYLE_HORIZONTAL, false
@@ -155,10 +158,11 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
                 viewModel.cloneAndRemap(
                     checkedItemIds,
                     column,
-                    value
+                    value,
+                    shouldUpdateValueDate
                 )
             } else {
-                viewModel.remap(checkedItemIds, column, value)
+                viewModel.remap(checkedItemIds, column, value, shouldUpdateValueDate)
                     .observe(this) { result: Int ->
                         val message =
                             if (result > 0) getString(R.string.remapping_result) else "No transactions were mapped"
@@ -190,7 +194,7 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
 
     private fun onResult(requestKey: String, result: Bundle) {
         val rowId = result.getLong(KEY_ROWID)
-        val label = result.getString(DatabaseConstants.KEY_LABEL)
+        val label = result.getString(KEY_LABEL)
         if (rowId != 0L && label != null) {
             onResult(requestKey, rowId to label)
         }
@@ -199,24 +203,23 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
     private fun remapAccount() {
         with(activity) {
             val itemIds = selectionState.map { it.id }
-            checkSealed(itemIds) {
-                val transferAccountIds = selectionState.mapNotNull { it.transferAccount }
-                val excludedIds =
-                    if (currentAccount!!.id > 0) transferAccountIds + currentAccount!!.id
-                    else transferAccountIds
-                val splitIds = selectionState.filter { it.isSplit }.map { it.id }
-                CheckTransferAccountOfSplitPartsHandler(contentResolver).check(splitIds) { result ->
-                    lifecycleScope.launchWhenResumed {
-                        result.onSuccess {
-                            SelectSingleAccountDialogFragment.newInstance(
-                                R.string.menu_remap,
-                                R.string.remap_empty_list,
-                                excludedIds + it
-                            ).show(supportFragmentManager, "REMAP_ACCOUNT")
-                        }.onFailure {
-                            showSnackBar(it.safeMessage)
+            lifecycleScope.launch {
+                if (checkSealed(itemIds)) {
+                    val splitIds = selectionState.filter { it.isSplit }.map { it.id }
+                    val excludedFromSplit =
+                        viewModel.checkTransferAccountOfSplitParts(splitIds).getOrElse {
+                            showSnackBar(it.safeMessage); return@launch
                         }
-                    }
+                    val transferAccountIds = selectionState.mapNotNull { it.transferAccount }
+                    val currentId = currentAccount?.id ?: 0L
+                    val excludedIds =
+                        (transferAccountIds + currentId + excludedFromSplit).distinct()
+
+                    SelectSingleAccountDialogFragment.newInstance(
+                        R.string.menu_remap,
+                        R.string.remap_empty_list,
+                        excludedIds
+                    ).show(supportFragmentManager, "REMAP_ACCOUNT")
                 }
             }
         }
@@ -225,25 +228,27 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
     private fun remapMethod() {
         with(activity) {
             val itemIds = selectionState.map { it.id }
-            checkSealed(itemIds) {
-                val hasExpense = selectionState.any { it.amount.amountMinor < 0 }
-                val hasIncome = selectionState.any { it.amount.amountMinor > 0 }
-                val accountTypes = if (currentAccount!!.isAggregate)
-                    selectionState.mapNotNull { it.accountType }.distinct().toLongArray()
-                else longArrayOf(currentAccount!!.type.id)
-                val type = when {
-                    hasExpense && !hasIncome -> -1
-                    hasIncome && !hasExpense -> 1
-                    else -> 0
-                }
-                lifecycleScope.launchWhenResumed {
-                    val dialogFragment = SelectSingleMethodDialogFragment.newInstance(
-                        R.string.menu_remap,
-                        R.string.remap_empty_list,
-                        accountTypes,
-                        type
-                    )
-                    dialogFragment.show(supportFragmentManager, "REMAP_METHOD")
+            lifecycleScope.launch {
+                if (checkSealed(itemIds)) {
+                    val hasExpense = selectionState.any { it.amount.amountMinor < 0 }
+                    val hasIncome = selectionState.any { it.amount.amountMinor > 0 }
+                    currentAccount?.let { account ->
+                        val accountTypes = if (account.isAggregate)
+                            selectionState.mapNotNull { it.accountType }.distinct().toLongArray()
+                        else longArrayOf((account as FullAccount).type.id)
+                        val type = when {
+                            hasExpense && !hasIncome -> -1
+                            hasIncome && !hasExpense -> 1
+                            else -> 0
+                        }
+                        val dialogFragment = SelectSingleMethodDialogFragment.newInstance(
+                            R.string.menu_remap,
+                            R.string.remap_empty_list,
+                            accountTypes,
+                            type
+                        )
+                        dialogFragment.show(supportFragmentManager, "REMAP_METHOD")
+                    }
                 }
             }
         }
@@ -251,27 +256,33 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
 
     private fun remapPayee() {
         with(activity) {
-            checkSealed(selectionState.map { it.id }) {
-                getPayee.launch(Unit)
+            lifecycleScope.launch {
+                if (checkSealed(selectionState.map { it.id })) {
+                    getPayee.launch(Unit)
+                }
             }
         }
     }
 
     private fun remapCategory() {
         with(activity) {
-            checkSealed(selectionState.map { it.id }) {
-                getCategory.launch(Unit)
+            lifecycleScope.launch {
+                if (checkSealed(selectionState.map { it.id })) {
+                    getCategory.launch(Unit)
+                }
             }
         }
     }
 
     private fun remapDate() {
         with(activity) {
-            checkSealed(selectionState.map { it.id }) {
-                preferredDatePickerBuilder(activity)
-                    .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                    .build()
-                    .show(activity.supportFragmentManager, SELECT_DATE_TAG)
+            lifecycleScope.launch {
+                if (checkSealed(selectionState.map { it.id })) {
+                    preferredDatePickerBuilder(activity)
+                        .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                        .build()
+                        .show(supportFragmentManager, SELECT_DATE_TAG)
+                }
             }
         }
     }
@@ -290,6 +301,7 @@ class RemapHandler(val activity: BaseMyExpenses) : FragmentResultListener {
 
     companion object {
         const val KEY_COLUMN = "column"
+        const val KEY_UPDATE_VALUE_DATE = "updateValueDate"
         const val MAP_CATEGORY_REQUEST = "mapCategory"
         const val MAP_PAYEE_REQUEST = "mapPayee"
         const val MAP_METHOD_REQUEST = "mapMethod"

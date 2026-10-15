@@ -1,7 +1,9 @@
 package org.totschnig.myexpenses.testutils
 
 import android.content.ContentValues
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_PARENTID
+import org.totschnig.myexpenses.provider.KEY_TYPE
 
 internal data class CategoryInfo(
     val label: String,
@@ -12,10 +14,10 @@ internal data class CategoryInfo(
 
     val contentValues: ContentValues
         get() = ContentValues().apply {
-            put(DatabaseConstants.KEY_LABEL, label)
+            put(KEY_LABEL, label)
             if (parentId != null) {
-                put(DatabaseConstants.KEY_PARENTID, parentId)
+                put(KEY_PARENTID, parentId)
             }
-            put(DatabaseConstants.KEY_TYPE, type)
+            put(KEY_TYPE, type)
         }
 }

@@ -4,12 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.Keep
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.preference.ListPreference
 import androidx.preference.MultiSelectListPreference
 import androidx.preference.Preference
-import androidx.preference.PreferenceCategory
 import eltos.simpledialogfragment.SimpleDialog
 import eltos.simpledialogfragment.list.CustomListDialog
 import eltos.simpledialogfragment.list.SimpleListDialog
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
@@ -19,10 +21,9 @@ import org.totschnig.myexpenses.feature.Module
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.preference.LocalizedFormatEditTextPreference
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_PATH
 import org.totschnig.myexpenses.util.AppDirHelper
-import org.totschnig.myexpenses.util.distrib.DistributionHelper
-import org.totschnig.myexpenses.viewmodel.CategoryViewModel
+import org.totschnig.myexpenses.viewmodel.ManageCategoriesViewModel
 import timber.log.Timber
 import java.io.File
 import java.util.Locale
@@ -32,7 +33,7 @@ class PreferencesAdvancedFragment : BasePreferenceFragment(),
     LocalizedFormatEditTextPreference.OnValidationErrorListener,
     SimpleDialog.OnDialogResultListener {
 
-    private val categoryViewModel: CategoryViewModel by activityViewModels()
+    private val categoryViewModel: ManageCategoriesViewModel by activityViewModels()
 
     override val preferencesResId = R.xml.preferences_advanced
 
@@ -43,7 +44,7 @@ class PreferencesAdvancedFragment : BasePreferenceFragment(),
             SELECT_CATEGORY_REQUEST,
             this
         ) { _, bundle ->
-            setDefaultTransferCategoryPath(bundle.getString(DatabaseConstants.KEY_PATH)!!)
+            setDefaultTransferCategoryPath(bundle.getString(KEY_PATH)!!)
         }
     }
 
@@ -78,6 +79,9 @@ class PreferencesAdvancedFragment : BasePreferenceFragment(),
         categoryViewModel.defaultTransferCategory().observe(this) {
             setDefaultTransferCategoryPath(it)
         }
+
+        requirePreference<ListPreference>(PrefKey.CUSTOM_DATE_FORMAT_NEW_TRANSACTION_LIST)
+            .title = "${getString(R.string.date_format)} (${getString(R.string.help_MyExpenses_title)})"
     }
 
     private fun setDefaultTransferCategoryPath(path: String) {
@@ -144,17 +148,18 @@ class PreferencesAdvancedFragment : BasePreferenceFragment(),
     }
 
     private fun configureUninstallPrefs() {
-        configureMultiSelectListPref(
-            PrefKey.FEATURE_UNINSTALL_FEATURES,
-            featureManager.installedModules(requireContext(), prefHandler),
-            featureManager::uninstallModules
-        ) { Module.print(requireContext(), it) }
-
-        configureMultiSelectListPref(
-            PrefKey.FEATURE_UNINSTALL_LANGUAGES,
-            featureManager.installedLanguages() - "en",
-            featureManager::uninstallLanguages
-        ) { language -> Locale(language).let { it.getDisplayName(it) } }
+        lifecycleScope.launch {
+            configureMultiSelectListPref(
+                PrefKey.FEATURE_UNINSTALL_FEATURES,
+                featureManager.installedModules(requireContext(), prefHandler, dataStore),
+                featureManager::uninstallModules
+            ) { Module.print(requireContext(), it) }
+            configureMultiSelectListPref(
+                PrefKey.FEATURE_UNINSTALL_LANGUAGES,
+                featureManager.installedLanguages() - "en",
+                featureManager::uninstallLanguages
+            ) { language -> Locale(language).let { it.getDisplayName(it) } }
+        }
     }
 
     private fun configureMultiSelectListPref(
@@ -199,7 +204,7 @@ class PreferencesAdvancedFragment : BasePreferenceFragment(),
                                     File(logDir, it)
                                 )
                             })
-                        Timber.d("ATTACHMENTS" + arrayList.joinToString())
+                        Timber.d("ATTACHMENTS: %s", arrayList.joinToString())
                         putParcelableArrayListExtra(
                             Intent.EXTRA_STREAM,
                             arrayList

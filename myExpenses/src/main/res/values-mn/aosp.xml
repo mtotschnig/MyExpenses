@@ -69,7 +69,6 @@
     <string name="preview">"Урдьчилж харах"</string>
     <string name="show_password">"Нууц үгийг харуулах"</string>
     <string name="hide_password">"Нууц үгийг нуух"</string>
-    <string name="user">"Хэрэглэгч"</string>
     <string name="source">"Source"</string>
     <string name="value">"Утга"</string>
     <string name="done_label">"Дууссан"</string>
@@ -87,4 +86,7 @@
     <string name="already_exists">"Нэр аль хэдийн байна"</string>
     <string name="flag_inactive">"Идэвхгүй"</string>
     <string name="count">"Тоо"</string>
+    <string name="empty">Empty"</string>
+    <string name="options">"Сонголтууд"</string>
+    <string name="actions">"Үйлдлүүд"</string>
 </resources>

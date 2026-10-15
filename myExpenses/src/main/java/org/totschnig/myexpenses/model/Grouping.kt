@@ -1,14 +1,16 @@
 package org.totschnig.myexpenses.model
 
 import android.content.Context
+import android.text.format.DateFormat.getBestDateTimePattern
+import androidx.annotation.StringRes
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.util.TextUtils
+import org.totschnig.myexpenses.util.TextUtils.joinEnum
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import org.totschnig.myexpenses.util.ui.asDateTimeFormatter
 import org.totschnig.myexpenses.util.safeMessage
+import org.totschnig.myexpenses.util.ui.asDateTimeFormatter
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import java.text.SimpleDateFormat
@@ -23,14 +25,14 @@ import kotlin.math.min
 /**
  * grouping of transactions
  */
-enum class Grouping {
-    NONE,
-    DAY,
-    WEEK,
-    MONTH {
+enum class Grouping(@param:StringRes val label: Int) {
+    NONE(R.string.grouping_none),
+    DAY(R.string.grouping_day),
+    WEEK(R.string.grouping_week),
+    MONTH(R.string.grouping_month) {
         override val minValue = 0
     },
-    YEAR;
+    YEAR(R.string.grouping_year);
 
     open val minValue = 1
 
@@ -50,7 +52,7 @@ enum class Grouping {
      * @param groupYear           the year of the group to display
      * @param groupSecond         the number of the group in the second dimension (day, week or month)
      * @param dateInfo            information about the current date
-     * @return a human readable String representing the group as header or activity title
+     * @return a human-readable String representing the group as header or activity title
      */
     fun getDisplayTitle(
         ctx: Context,
@@ -129,8 +131,8 @@ enum class Grouping {
     val queryArgumentForThisSecond: String?
         get() = when (this) {
             DAY -> DatabaseConstants.THIS_DAY
-            WEEK -> DatabaseConstants.getThisWeek()
-            MONTH -> DatabaseConstants.getThisMonth()
+            WEEK -> DatabaseConstants.thisWeek
+            MONTH -> DatabaseConstants.thisMonth
             else -> null
         }
 
@@ -165,7 +167,9 @@ enum class Grouping {
             monthStarts: Int
         ): String {
             return if (monthStarts == 1) {
-                DateTimeFormatter.ofPattern("MMMM y")
+                val pattern = getBestDateTimePattern(userPreferredLocale, "yMMMM")
+                DateTimeFormatter.ofPattern(pattern)
+                    .withLocale(userPreferredLocale)
                     .format(YearMonth.of(groupYear, groupSecond + 1))
             } else {
                 val dateFormat =
@@ -176,6 +180,6 @@ enum class Grouping {
         }
 
         @JvmField
-        val JOIN: String = TextUtils.joinEnum(Grouping::class.java)
+        val JOIN: String = joinEnum<Grouping>()
     }
 }

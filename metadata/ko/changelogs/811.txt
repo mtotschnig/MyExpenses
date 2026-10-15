@@ -1,0 +1,4 @@
+• 계정 플래그는 계정 가시성 및 우선 순위의 사용자 지정을 확장합니다.
+
+https://github.com/users/mtotschnig/projects/166
+https://mastodon.social/@myexpenses/115099447789262389

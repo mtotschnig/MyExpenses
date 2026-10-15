@@ -2,9 +2,9 @@
 <resources>
     <string name="testData_account1Label">Mijn portefeuille</string>
     <string name="testData_account1Description">Dagelijkse uitgaven</string>
-    <string name="testData_account2Label">weekend in Parijs</string>
+    <string name="testData_account2Label">Weekend in Londen</string>
     <string name="testData_account3Label">Bankrekening</string>
-    <string name="testData_account3Description">Bank of America</string>
+    <string name="testData_account3Description">ING Bank</string>
     <string name="testData_transaction2Comment">Fruit &amp; Groenten</string>
     <string name="testData_transaction4Payee">Pizzeria Antonella</string>
     <string name="testData_templatePayee">John Doe</string>

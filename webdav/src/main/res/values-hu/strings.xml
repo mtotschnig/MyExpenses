@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="description_webdav_url">Írja be a különleges mappájának URL-címét a WebDAV szerveren. A(z) {app_name} ebben a mappában fogja tárolni az adatokat, a mappán kívül semmihez nem fog hozzáférni.</string>
+    <string name="hint_url">URL-cím</string>
+    <string name="description_webdav_trust_certificate">A honlap egy olyan tanúsítványt használ, amelyet az Android nem tart megbízhatónak.</string>
+    <string name="label_trust_certificate">Bízzon ebben a tanúsítványban</string>
+    <string name="validate_error_webdav_invalid_certificate">A tanúsítvány nem megbízható. Érvénytelennek tűnik.</string>
+    <string name="validate_error_webdav_not_compliant">Az URL nem mutat WebDAV forrásra.</string>
+    <string name="validate_error_webdav_404">Az URL nem létezik a szerveren.</string>
+    <string name="url_not_valid">Az URL érvénytelen</string>
+</resources>

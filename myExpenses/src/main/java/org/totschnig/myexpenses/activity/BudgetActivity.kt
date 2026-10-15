@@ -70,14 +70,14 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Sort
+import org.totschnig.myexpenses.model.sort.Sort
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
+import org.totschnig.myexpenses.provider.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_CATID
+import org.totschnig.myexpenses.provider.KEY_ONE_TIME
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_SECOND_GROUP
+import org.totschnig.myexpenses.provider.KEY_YEAR
 import org.totschnig.myexpenses.provider.filter.asSimpleList
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
@@ -100,7 +100,6 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
     }
 
     override val viewModel: BudgetViewModel2 by viewModels()
-    private lateinit var sortDelegate: SortDelegate
     private var hasRollovers: Boolean? = null
     private lateinit var chart: RadarChart
 
@@ -124,14 +123,6 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         }
         val binding = setupView()
         injector.inject(viewModel)
-        sortDelegate = SortDelegate(
-            defaultSortOrder = Sort.ALLOCATED,
-            prefKey = PrefKey.SORT_ORDER_BUDGET_CATEGORIES,
-            options = arrayOf(Sort.LABEL, Sort.ALLOCATED, Sort.SPENT, Sort.AVAILABLE),
-            prefHandler = prefHandler,
-            collate = collate
-        )
-        viewModel.setSortOrder(sortDelegate.currentSortOrder)
         val groupingYear = intent.getIntExtra(KEY_YEAR, 0)
         val groupingSecond = intent.getIntExtra(KEY_SECOND_GROUP, 0)
         viewModel.initWithBudget(budgetId, groupingYear, groupingSecond)
@@ -184,8 +175,9 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                     )
                 }
 
-                Box(modifier = Modifier
-                    .fillMaxSize()
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
                 ) {
                     if (category.value === Category.LOADING || budget == null) {
                         CircularProgressIndicator(
@@ -300,10 +292,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 narrowScreen = narrowScreen,
                 showChart = showChart.value,
                 currentSort = sort,
-                onChangeSort = {
-                    prefHandler.putString(sortDelegate.prefKey, it.name)
-                    viewModel.setSortOrder(it)
-                },
+                onChangeSort = viewModel::setSortOrder,
                 contentPadding = if (withContentPadding)
                     WindowInsets.navigationBars.asPaddingValues() else PaddingValues(0.dp)
             )
@@ -328,7 +317,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                         animateXY(1400, 1400, Easing.EaseInOutQuad)
 
                         with(xAxis) {
-                            setTextSize(9f)
+                            textSize = 9f
                             yOffset = 0f
                             xOffset = 0f
                             textColor = textColorSecondary.defaultColor
@@ -337,9 +326,9 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
 
                         with(yAxis) {
                             setLabelCount(5, false)
-                            setTextSize(9f)
+                            textSize = 9f
                             textColor = textColorSecondary.defaultColor
-                            setAxisMinimum(0f)
+                            axisMinimum = 0f
                         }
                         legend.isEnabled = false
                     }
@@ -422,12 +411,18 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
             when (dialogTag) {
                 EDIT_BUDGET_DIALOG -> {
                     BundleCompat.getSerializable(extras, KEY_AMOUNT, BigDecimal::class.java)?.let {
-                        viewModel.updateBudget(
-                            budget.id,
-                            extras.getLong(KEY_CATID),
-                            Money(this.currencyContext[budget.currency], it),
-                            extras.getBoolean(KEY_ONE_TIME)
-                        )
+                        Money.buildWithMajor(this.currencyContext[budget.currency], it)
+                            .onSuccess {
+                                viewModel.updateBudget(
+                                    budget.id,
+                                    extras.getLong(KEY_CATID),
+                                    it,
+                                    extras.getBoolean(KEY_ONE_TIME)
+                                )
+                            }
+                            .onFailure {
+                                showSnackBar(R.string.number_too_large)
+                            }
                     }
                     return true
                 }
@@ -578,22 +573,19 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem) = when {
-        item.itemId == Menu.NONE && item.groupId == R.id.SYNC_COMMAND -> {
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        Menu.NONE if item.groupId == R.id.SYNC_COMMAND -> {
             viewModel.exportBudget(item.title.toString())
             true
         }
-
-        item.itemId == R.id.SYNC_COMMAND_EXPORT -> {
+        R.id.SYNC_COMMAND_EXPORT -> {
             viewModel.exportBudget()
             true
         }
-
-        item.itemId == R.id.SYNC_COMMAND_IMPORT -> {
+        R.id.SYNC_COMMAND_IMPORT -> {
             showImportConfirmation.value = true
             true
         }
-
         else -> super.onOptionsItemSelected(item)
     }
 
@@ -680,20 +672,20 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                 xAxis.valueFormatter = IAxisValueFormatter { value, _ ->
                     labels[value.toInt() % labels.size]
                 }
-                setData(RadarData(buildList<RadarDataSet> {
+                data = RadarData(buildList<RadarDataSet> {
                     add(
                         RadarDataSet(
                             allocated,
                             getString(R.string.budget_table_header_allocated)
                         ).apply {
-                            setColor(ResourcesCompat.getColor(resources, R.color.colorIncome, null))
-                            setLineWidth(2f)
+                            color = ResourcesCompat.getColor(resources, R.color.colorIncome, null)
+                            lineWidth = 2f
                             isDrawHighlightCircleEnabled = true
                             setDrawHighlightIndicators(false)
                         })
                     add(RadarDataSet(spent, getString(R.string.budget_table_header_spent)).apply {
-                        setColor(ResourcesCompat.getColor(resources, R.color.colorExpense, null))
-                        setLineWidth(2f)
+                        color = ResourcesCompat.getColor(resources, R.color.colorExpense, null)
+                        lineWidth = 2f
                         isDrawHighlightCircleEnabled = true
                         setDrawHighlightIndicators(false)
                     })
@@ -701,7 +693,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
                     setValueTextSize(8f)
                     setDrawValues(false)
                     setValueTextColor(Color.WHITE)
-                })
+                }
                 invalidate()
             }
         }

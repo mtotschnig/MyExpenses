@@ -12,9 +12,9 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.LocalAccountInfo
 import org.totschnig.myexpenses.db2.findAccountByUuidWithExtraColumn
 import org.totschnig.myexpenses.db2.updateAccount
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.KEY_SEALED
+import org.totschnig.myexpenses.provider.KEY_SYNC_ACCOUNT_NAME
+import org.totschnig.myexpenses.provider.KEY_UUID
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_BASE_URI
 import org.totschnig.myexpenses.provider.getBoolean
 import org.totschnig.myexpenses.sync.GenericAccountService
@@ -67,7 +67,7 @@ abstract class AbstractSyncBackendViewModel(application: Application) :
         emit(GenericAccountService.getSyncBackendProvider(getApplication(), syncAccountName)
             .mapCatching { syncBackendProvider ->
                 if (syncBackendProvider.remoteAccountList.mapNotNull { it.getOrNull() }
-                        .any { it.uuid() == uuid }
+                        .any { it.uuid == uuid }
                 ) {
                     throw Exception(
                         TextUtils.concatResStrings(

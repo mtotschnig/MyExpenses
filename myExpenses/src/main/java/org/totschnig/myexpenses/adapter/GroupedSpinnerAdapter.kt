@@ -1,13 +1,16 @@
 package org.totschnig.myexpenses.adapter
 
 import android.content.Context
-import android.util.TypedValue
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
+import com.google.android.material.color.MaterialColors
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.model.AccountFlag
+import org.totschnig.myexpenses.viewmodel.data.Account
 
 sealed class SpinnerItem() {
     abstract val itemId: Long
@@ -59,13 +62,17 @@ open class GroupedSpinnerAdapter<H, T : IdHolder>(
         notifyDataSetChanged()
     }
 
-    fun getPosition(item: T) = getPosition(item.id)
+    fun getPosition(item: T) = items.indexOfFirst {
+        val data = (it as? SpinnerItem.Item<*>)?.data
+        data == item || (item.id != 0L && data?.id == item.id)
+    }
     fun getPosition(id: Long) = items.indexOfFirst { it.itemId == id }
+    fun getFirstSelectable(): IndexedValue<SpinnerItem>? = items.withIndex().firstOrNull { (_, item) -> item is SpinnerItem.Item<*> }
 
     open fun showHeader(header: H): Boolean = true
 
     override fun isEnabled(position: Int): Boolean =
-        items[position] !is SpinnerItem.Header<*>
+        items[position] is SpinnerItem.Item<*>
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val item = items[position]
@@ -106,13 +113,21 @@ open class GroupedSpinnerAdapter<H, T : IdHolder>(
                 View(context).apply {
                     layoutParams = ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
-                        10
+                        (2 * resources.displayMetrics.density).toInt()
                     )
-                    val typedValue = TypedValue()
-                    context.theme.resolveAttribute(android.R.attr.listDivider, typedValue, true)
-                    setBackgroundResource(typedValue.resourceId)
+                    val colorOutline = MaterialColors.getColor(context, com.google.android.material.R.attr.colorOutline,
+                        Color.GRAY)
+                    setBackgroundColor(colorOutline)
                 }
             }
         }
     }
+}
+
+class AccountAdapter(context: Context): GroupedSpinnerAdapter<AccountFlag, Account>(
+    context,
+    itemToString = { it.label },
+    headerToString = { if (it.id == 0L) "" else it.title(context) }
+) {
+    override fun showHeader(header: AccountFlag) = header.id != 0L
 }

@@ -77,9 +77,8 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_GROUPING
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.util.ColorUtils
@@ -179,7 +178,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         val whereFilter = IntentCompat.getParcelableExtra(intent, KEY_FILTER, Criterion::class.java)
         if (savedInstanceState == null) {
             viewModel.initWithAccount(
-                intent.getLongExtra(DatabaseConstants.KEY_ACCOUNTID, 0),
+                intent.extras!!,
                 intent.getSerializableExtra(KEY_GROUPING) as? Grouping ?: Grouping.NONE,
                 whereFilter
             )
@@ -188,7 +187,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.accountInfo.filterNotNull().collect {
-                    supportActionBar?.title = it.label(this@DistributionActivity)
+                    supportActionBar?.title = it.label(this@DistributionActivity, currencyContext)
                 }
             }
         }
@@ -209,15 +208,16 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
 
                 val typeFlags = viewModel.typeFlags.collectAsState(initial = false to true)
                 val (showIncome, showExpense) = typeFlags.value
+                val whereFilter = viewModel.whereFilter.collectAsState().value
                 when {
                     showIncome && showExpense -> {
-                        RenderCombined(viewModel.whereFilter.collectAsState().value, ::clearFilter)
+                        RenderCombined(whereFilter, ::clearFilter)
                     }
 
                     !showIncome && !showExpense -> throw IllegalStateException()
                     else -> RenderSingle(
                         showIncome,
-                        viewModel.whereFilter.collectAsState().value,
+                        whereFilter,
                         ::clearFilter
                     )
                 }
@@ -287,21 +287,24 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 val expansionMode = ExpansionMode.DefaultCollapsed(
                     rememberMutableStateListOf()
                 )
-                if (incomeTree.children.isEmpty() && expenseTree.children.isEmpty()) {
+                Column {
                     if (whereFilter != null) {
-                        FilterCard(whereFilter, clearFilter = clearFilter)
+                        FilterCard(whereFilter, clearAllFilter = clearFilter)
                     }
-                    Text(
-                        modifier = Modifier.align(Alignment.Center),
-                        text = stringResource(id = R.string.no_mapped_transactions),
-                        textAlign = TextAlign.Center
-                    )
-                } else {
                     val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
-                    Column {
-                        if (whereFilter != null) {
-                            FilterCard(whereFilter, clearFilter = clearFilter)
+                    if (incomeTree.children.isEmpty() && expenseTree.children.isEmpty()) {
+                        Box(
+                            modifier = Modifier.weight(1f),
+                            // This aligns the content of the Box (the Text) to the center
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.no_mapped_transactions),
+                                textAlign = TextAlign.Center
+                            )
                         }
+                    } else {
+
                         LayoutHelper(
                             data = { modifier, _ ->
                                 RenderTree(
@@ -339,8 +342,8 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                                 }
                             }
                         )
-                        RenderSumLine(accountInfo, sums)
                     }
+                    RenderSumLine(accountInfo, sums)
                 }
             }
         }
@@ -349,7 +352,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
     private suspend fun onSelectionChanged(
         chart: PieChart,
         tree: Category,
-        listState: LazyListState
+        listState: LazyListState,
     ) {
         val position = tree.children.indexOf(selectionState.value)
         if (position > -1) {
@@ -420,6 +423,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 .fillMaxSize()
                 .padding(WindowInsets.navigationBars.asPaddingValues())
         ) {
+            val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
             when {
                 categoryTree.value === Category.LOADING || accountInfo == null -> {
                     CircularProgressIndicator(
@@ -430,21 +434,28 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
                 }
 
                 categoryTree.value.children.isEmpty() -> {
-                    if (whereFilter != null) {
-                        FilterCard(whereFilter, clearFilter = clearFilter)
+                    Column {
+                        if (whereFilter != null) {
+                            FilterCard(whereFilter, clearAllFilter = clearFilter)
+                        }
+                        Box(
+                            modifier = Modifier.weight(1f),
+                            // This aligns the content of the Box (the Text) to the center
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.no_mapped_transactions),
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                        RenderSumLine(accountInfo, sums)
                     }
-                    Text(
-                        modifier = Modifier.align(Alignment.Center),
-                        text = stringResource(id = R.string.no_mapped_transactions),
-                        textAlign = TextAlign.Center
-                    )
                 }
 
                 else -> {
-                    val sums = viewModel.sums.collectAsState(initial = 0L to 0L).value
                     Column {
                         if (whereFilter != null) {
-                            FilterCard(whereFilter, clearFilter = clearFilter)
+                            FilterCard(whereFilter, clearAllFilter = clearFilter)
                         }
                         LayoutHelper(
                             data = { modifier, _ ->
@@ -525,7 +536,7 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
         choiceMode: ChoiceMode,
         expansionMode: ExpansionMode,
         accountInfo: DistributionAccountInfo,
-        listState: LazyListState
+        listState: LazyListState,
     ) {
         val nestedScrollInterop = rememberNestedScrollInteropConnection()
         Category(
@@ -537,34 +548,32 @@ class DistributionActivity : DistributionBaseActivity<DistributionViewModel>(),
             listState = listState,
             menuGenerator = remember {
                 { category ->
-                    org.totschnig.myexpenses.compose.Menu(
-                        buildList {
+                    buildList {
+                        add(
+                            MenuEntry(
+                                label = R.string.menu_show_transactions,
+                                command = "SHOW_TRANSACTIONS",
+                                icon = Icons.AutoMirrored.Filled.List
+                            ) {
+                                lifecycleScope.launch {
+                                    showTransactions(
+                                        category,
+                                        category.id.sign > 0
+                                    )
+                                }
+                            }
+                        )
+                        if (category.level == 1 && category.color != null)
                             add(
                                 MenuEntry(
-                                    Icons.AutoMirrored.Filled.List,
-                                    R.string.menu_show_transactions,
-                                    "SHOW_TRANSACTIONS"
+                                    label = R.string.color,
+                                    command = "COLOR",
+                                    icon = Icons.Filled.Palette
                                 ) {
-                                    lifecycleScope.launch {
-                                        showTransactions(
-                                            category,
-                                            category.id.sign > 0
-                                        )
-                                    }
+                                    editCategoryColor(category.id, category.color)
                                 }
                             )
-                            if (category.level == 1 && category.color != null)
-                                add(
-                                    MenuEntry(
-                                        Icons.Filled.Palette,
-                                        R.string.color,
-                                        "COLOR"
-                                    ) {
-                                        editCategoryColor(category.id, category.color)
-                                    }
-                                )
-                        }
-                    )
+                    }
                 }
             },
             withTypeColors = false

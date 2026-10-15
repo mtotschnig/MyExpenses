@@ -280,17 +280,13 @@
                     <TextView
                         android:id="@+id/PayeeLabel"
                         style="@style/FormLabel"
-                        android:labelFor="@+id/Payee"
+                        android:labelFor="@+id/auto_complete_textview"
                         android:text="@string/payee" />
 
-                    <AutoCompleteTextView
+                    <org.totschnig.myexpenses.ui.PartyInput
                         android:id="@+id/Payee"
                         style="@style/FormField"
-                        android:layout_height="wrap_content"
-                        android:completionThreshold="1"
-                        android:imeOptions="actionNext"
-                        android:inputType="textPersonName|textCapWords" />
-
+                        android:layout_height="wrap_content" />
                 </TableRow>
 
                 <TableRow
@@ -354,10 +350,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
+                            android:tooltipText="@string/content_description_clear_category"
                             android:contentDescription="@string/content_description_clear_category"
                             android:focusable="true"
                             android:visibility="gone"
-                            app:srcCompat="@drawable/ic_menu_delete" />
+                            app:srcCompat="@drawable/ic_menu_close_clear_cancel"
+                            tools:ignore="UnusedAttribute" />
                     </LinearLayout>
                 </TableRow>
 
@@ -486,11 +484,11 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:visibility="gone"
-                            app:layout_constraintEnd_toStartOf="@id/TB"
+                            app:layout_constraintEnd_toStartOf="@id/PlanExecution"
                             tools:ignore="MissingConstraints" />
 
                         <CheckBox
-                            android:id="@+id/TB"
+                            android:id="@+id/PlanExecution"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
@@ -507,14 +505,16 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
+                            android:tooltipText="@string/content_description_edit_plan"
                             android:contentDescription="@string/content_description_edit_plan"
                             android:focusable="true"
                             android:visibility="gone"
                             app:layout_constraintBottom_toBottomOf="@id/PB"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/TB"
+                            app:layout_constraintStart_toEndOf="@+id/PlanExecution"
                             app:layout_constraintTop_toTopOf="@id/PB"
-                            app:srcCompat="@drawable/ic_menu_edit" />
+                            app:srcCompat="@drawable/ic_menu_edit"
+                            tools:ignore="UnusedAttribute" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </TableRow>
 

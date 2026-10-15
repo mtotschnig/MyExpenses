@@ -35,4 +35,10 @@
     <string name="pref_acra_user_email">Кориснички е-маил биће укључен у извештају о отказивању</string>
     <string name="pref_acra_user_email_summary">Унесите е-маил адресу ако сте вољни да помогнете у исправљању грешака и омогућите нам да вас контактирамо.</string>
     <string name="new_version">Нова верзија</string>
+    <string name="dialog_title_warning_delete_tag">Избрисати ознаку?</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="one">Ознака %1$s је повезана са %2$d трансакцијом. Да ли је треба избрисати?</item>
+        <item quantity="few">Ознака %1$s је повезана са %2$d трансакције. Да ли је треба избрисати?</item>
+        <item quantity="other">Ознака %1$s је повезана са %2$d трансакција. Да ли је треба избрисати?</item>
+    </plurals>
 </resources>

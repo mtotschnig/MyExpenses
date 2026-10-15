@@ -1,9 +1,7 @@
 package org.totschnig.myexpenses.util.licence
 
 import android.content.Context
-import android.os.Parcelable
 import androidx.annotation.Keep
-import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
@@ -13,8 +11,11 @@ import org.totschnig.myexpenses.util.formatMoney
 import java.util.Locale
 
 @Keep
-sealed class Package(val defaultPrice: Long) : Parcelable {
+sealed class Package(val defaultPrice: Long) {
     open val optionName = "Licence"
+
+    val id: String
+        get() = this::class.java.simpleName
 
     open fun payPalButtonId(isSandBox: Boolean) =
         if (isSandBox) "TURRUESSCUG8N" else "LBUDF8DSWJAZ8"
@@ -40,39 +41,47 @@ sealed class Package(val defaultPrice: Long) : Parcelable {
     fun getFormattedPriceRaw(currencyUnit: CurrencyUnit, currencyFormatter: ICurrencyFormatter) =
         currencyFormatter.formatMoney(Money(currencyUnit, defaultPrice))
 
-    @Parcelize
     @Keep
-    data object Contrib : Package(1440)
+    data object Contrib : Package(1540)
 
-    @Parcelize
     @Keep
-    data object Upgrade : Package(660)
+    data object Upgrade : Package(760)
 
-    @Parcelize
     @Keep
-    data object Extended : Package(1890)
+    data object Extended : Package(1990)
+
+    companion object {
+        fun fromString(id: String): Package? {
+            return when (id) {
+                Contrib.id -> Contrib
+                Upgrade.id -> Upgrade
+                Extended.id -> Extended
+                ProfessionalPackage.Professional_1.id -> ProfessionalPackage.Professional_1
+                ProfessionalPackage.Professional_6.id -> ProfessionalPackage.Professional_6
+                ProfessionalPackage.Professional_12.id -> ProfessionalPackage.Professional_12
+                ProfessionalPackage.Professional_24.id -> ProfessionalPackage.Professional_24
+                ProfessionalPackage.Amazon.id -> ProfessionalPackage.Amazon
+                else -> AddOnPackage.values.find { it.id == id }
+            }
+        }
+    }
 }
 
 @Suppress("ClassName")
 @Keep
 sealed class ProfessionalPackage(defaultPrice: Long, val duration: Int) : Package(defaultPrice) {
-    @Parcelize
     @Keep
     data object Professional_1 : ProfessionalPackage(100, 1)
 
-    @Parcelize
     @Keep
-    data object Professional_6 : ProfessionalPackage(549, 6)
+    data object Professional_6 : ProfessionalPackage(659, 6)
 
-    @Parcelize
     @Keep
-    data object Professional_12 : ProfessionalPackage(985, 12)
+    data object Professional_12 : ProfessionalPackage(1085, 12)
 
-    @Parcelize
     @Keep
-    data object Professional_24 : ProfessionalPackage(1819, 24)
+    data object Professional_24 : ProfessionalPackage(1919, 24)
 
-    @Parcelize
     @Keep
     data object Amazon : ProfessionalPackage(900, 0)
 
@@ -122,7 +131,7 @@ sealed class ProfessionalPackage(defaultPrice: Long, val duration: Int) : Packag
 sealed class AddOnPackage(
     val feature: ContribFeature,
     private val isContribFeature: Boolean = feature.licenceStatus == LicenceStatus.CONTRIB
-) : Package(490) {
+) : Package(590) {
 
     companion object {
         //We cannot use an initializer here, because the objects we want to list might not be constructed
@@ -132,7 +141,7 @@ sealed class AddOnPackage(
             get() = listOf(
                 SplitTemplate, History, Budget, Ocr, WebUi, CategoryTree,
                 AccountsUnlimited, PlansUnlimited, SplitTransaction, Distribution, Print, AdFree,
-                CsvImport, Synchronization, Banking, AutomaticFxDownload
+                CsvImport, Synchronization, Banking, AutomaticFxDownload, Portfolio
             )
     }
 
@@ -144,71 +153,58 @@ sealed class AddOnPackage(
     override fun payPalButtonId(isSandBox: Boolean) =
         when {
             isSandBox -> if (isContribFeature) "UAWN7XUQNZ5PS" else "9VF4Z9KSLHXZN"
-            isContribFeature -> "48RQY4SKUHTAQ"
+            isContribFeature || this == Portfolio -> "48RQY4SKUHTAQ"
             else -> "FNEEWJWU5YJ44"
         }
 
-    @Parcelize
     @Keep
     data object SplitTemplate : AddOnPackage(ContribFeature.SPLIT_TEMPLATE)
 
-    @Parcelize
     @Keep
     data object History : AddOnPackage(ContribFeature.HISTORY)
 
-    @Parcelize
     @Keep
     data object Budget : AddOnPackage(ContribFeature.BUDGET)
 
-    @Parcelize
     @Keep
     data object Ocr : AddOnPackage(ContribFeature.OCR)
 
-    @Parcelize
     @Keep
     data object WebUi : AddOnPackage(ContribFeature.WEB_UI)
 
-    @Parcelize
     @Keep
     data object CategoryTree : AddOnPackage(ContribFeature.CATEGORY_TREE)
 
-    @Parcelize
     @Keep
     data object AccountsUnlimited : AddOnPackage(ContribFeature.ACCOUNTS_UNLIMITED)
 
-    @Parcelize
     @Keep
     data object PlansUnlimited : AddOnPackage(ContribFeature.PLANS_UNLIMITED)
 
-    @Parcelize
     @Keep
     data object SplitTransaction : AddOnPackage(ContribFeature.SPLIT_TRANSACTION)
 
-    @Parcelize
     @Keep
     data object Distribution : AddOnPackage(ContribFeature.DISTRIBUTION)
 
-    @Parcelize
     @Keep
     data object Print : AddOnPackage(ContribFeature.PRINT)
 
-    @Parcelize
     @Keep
     data object AdFree : AddOnPackage(ContribFeature.AD_FREE)
 
-    @Parcelize
     @Keep
     data object CsvImport : AddOnPackage(ContribFeature.CSV_IMPORT)
 
-    @Parcelize
     @Keep
     data object Synchronization : AddOnPackage(ContribFeature.SYNCHRONIZATION)
 
-    @Parcelize
     @Keep
     data object Banking : AddOnPackage(ContribFeature.BANKING)
 
-    @Parcelize
     @Keep
     data object AutomaticFxDownload: AddOnPackage(ContribFeature.AUTOMATIC_FX_DOWNLOAD)
+
+    @Keep
+    data object Portfolio: AddOnPackage(ContribFeature.PORTFOLIO)
 }

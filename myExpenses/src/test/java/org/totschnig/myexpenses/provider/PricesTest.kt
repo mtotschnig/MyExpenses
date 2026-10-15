@@ -6,8 +6,6 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.db2.savePrice
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SOURCE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
 import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert

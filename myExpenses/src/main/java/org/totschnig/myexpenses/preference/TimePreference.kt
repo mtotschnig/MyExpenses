@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.fragment.app.FragmentActivity
 import androidx.preference.Preference
+import org.totschnig.myexpenses.util.timeFormatter
 import org.totschnig.myexpenses.util.ui.preferredTimePickerBuilder
 import java.time.Clock
 import java.time.Duration
@@ -11,8 +12,6 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
 import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 import java.time.temporal.ChronoUnit
 
 class TimePreference(context: Context, attrs: AttributeSet) : Preference(context, attrs) {
@@ -26,7 +25,7 @@ class TimePreference(context: Context, attrs: AttributeSet) : Preference(context
         }
 
     override fun getSummary(): String = LocalTime.of(hour, minute)
-        .format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+        .format(context.timeFormatter)
 
     override fun onClick() {
         val picker = preferredTimePickerBuilder(context)

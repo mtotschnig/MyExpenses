@@ -125,7 +125,7 @@
     <string name="menu_edit_method">Rediger betalingsmetode</string>
     <string name="menu_edit_party">Rediger part</string>
     <string name="menu_edit_plan_instance">Rediger enkelt planforekomst</string>
-    <string name="menu_edit_split">Rediger opdeling</string>
+    <string name="menu_edit_split">Rediger opdelt transaktion</string>
     <string name="menu_edit_split_part_category">Rediger kategoriopdelt del</string>
     <string name="menu_edit_split_part_transfer">Rediger overførselsopdelt del</string>
     <string name="menu_edit_template">Rediger skabelon</string>
@@ -148,7 +148,6 @@
     <string name="menu_split_transaction">Omdan til opdeling</string>
     <string name="method">Betalingsmetode</string>
     <string name="no_app_handling_email_available">Ingen app til håndtering af e-mail.</string>
-    <string name="no_app_handling_ftp_available">Ingen app til håndtering af FTP. Installer <i>Send via FTP</i>\?</string>
     <string name="no_app_handling_mime_type_available">Ingen app til håndtering af %s-filer.</string>
     <string name="no_categories">Ingen kategorier.</string>
     <string name="no_expenses">Ingen udgifter endnu!</string>
@@ -180,7 +179,7 @@
     <string name="password_security_answer_not_valid">Forkert svar. Prøv igen!</string>
     <string name="payee">Modtager</string>
     <string name="payer">Betaler</string>
-    <string name="payer_or_payee">Modtager/betaler</string>
+    <string name="payer_or_payee">Modpart</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Plan</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -209,7 +208,6 @@
     <string name="pref_category_title_more_information">Flere oplysninger</string>
     <string name="pref_category_title_ui">Brugergrænseflade</string>
     <string name="pref_contrib_purchase_title_upgrade">Opgrader nøgle</string>
-    <string name="pref_custom_currency_title">Tilpas valutaer</string>
     <string name="pref_enter_licence_title">Indtast nøgle</string>
     <string name="pref_export_format_title">Dataformat</string>
     <string name="pref_import_from_grisbi_summary">Importér kategorier og parter fra Grisbi XML-fil</string>
@@ -245,8 +243,6 @@
     <string name="pref_send_feedback_title">Send feedback</string>
     <string name="pref_share_target_summary">Lad være tomt, hvis du vil vælge mellem passende apps (e-mail, Dropbox, Google Docs, …), eller angiv URL i et af de understøttede skemaer</string>
     <string name="pref_share_target_title">Upload URL</string>
-    <string name="pref_shortcut_added">Genvej er blevet føjet til startskærm</string>
-    <string name="pref_shortcut_not_added">Ingen tilgængelig startskærm, der accepterer genveje.</string>
     <string name="pref_shortcut_summary">Føj genvejen til startskærm.</string>
     <string name="pref_ui_home_screen_shortcuts">Genveje til startskærm</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -331,16 +327,23 @@
     <string name="warning_reset_account_all">Hvis du fortsætter, slettes alle transaktioner i alle konti %1$s fra databasen og kan ikke gendannes.</string>
     <string name="warning_reset_account_matched">Hvis du fortsætter, slettes alle transaktioner fra databasen, der svarer til det aktuelle filter, og kan ikke gendannes.</string>
     <string name="warning_restore">Databasen og indstillingerne gendannes fra filen \"%1$s\". De aktuelle data slettes.</string>
-    <string name="warning_splitpartcategory_context">Overførsler, der er en del af en opdeling, kan kun redigeres i forbindelse med opdelingen.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Angiv venligst et tal mellem %1$d og %2$d</string>
-    <string name="import_categories_success">%1$d kategorier blev importeret.</string>
-    <string name="import_parties_success">%1$d parter blev importeret.</string>
-    <string name="import_accounts_success">%1$d konti blev importeret.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transaktioner blev importeret til konto %2$s</string>
-    <string name="import_accounts_none">Ingen konti importeret</string>
-    <string name="import_categories_none">Ingen kategorier importeret</string>
-    <string name="import_parties_none">Ingen parter importeret</string>
-    <string name="import_transactions_none">Ingen transaktioner importeret til konto %1$s</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d kategorier blev importeret.</item>
+        <item quantity="other">%1$d kategorier blev importeret.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d parter blev importeret.</item>
+        <item quantity="other">%1$d parter blev importeret.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d konti blev importeret.</item>
+        <item quantity="other">%1$d konti blev importeret.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d transaktioner blev importeret til konto %2$s</item>
+        <item quantity="other">%1$d transaktioner blev importeret til konto %2$s</item>
+    </plurals>
     <string name="import_source_select_error">Angiv venligst en fil af typen %1$s</string>
     <string name="menu_categories_setup_default">Opsæt standardkategorier</string>
     <string name="widget_title_accounts">Mine konti</string>
@@ -428,10 +431,7 @@
     <string name="dialog_contrib_usage_limit_with_dialog">Med din nuværende licensstatus (%1$s) vises denne dialog ved hvert brug.</string>
     <string name="button_label_close">Luk</string>
     <string name="no_calendar_app_installed">Ingen app til redigering af kalenderbegivenhed.</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Slet konto?</item>
-        <item quantity="other">Slet %1$d konti?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Slet konto?</string>
     <string name="dialog_contrib_trial_info_play">Denne gratis prøveperiode konverteres aldrig til nogen form for abonnement.</string>
     <string name="dialog_contrib_subscription_info_play">Dette abonnement træder i kraft med det samme, faktureres månedligt eller årligt og kan opsiges når som helst.</string>
     <string name="dialog_title_warning_delete_category">Slet kategori?</string>
@@ -456,13 +456,11 @@
     <string name="warning_change_fraction_digits_checkbox_label">Opdater beløb i database</string>
     <string name="plan_instance_state_cancelled">annulleret</string>
     <string name="preferences_month_start_date_title">Måneden starter på</string>
-    <string name="validate_error_webdav_404">URL\'en eksisterer ikke på serveren.</string>
     <string name="dialog_command_sync_link_local">Upload fra lokal</string>
     <string name="pref_auto_backup_time_title">Auto-sikkerhedskopieringstidspunkt</string>
     <string name="exchange_rate">Valutakurs</string>
     <string name="menu_sync_link">Start synkronisering</string>
     <string name="warning_change_fraction_digits_1">Beløb i databasen skal opdateres for at matche det nye antal decimaler.</string>
-    <string name="app_dir_not_compatible_with_nougat">Den aktuelt konfigurerede URI til sikkerhedskopier og eksport (%1$s) understøttes ikke i Android Nougat. Vælg venligst en mappe igen.</string>
     <string name="pref_custom_decimal_format_title">Talformat</string>
     <string name="pref_auto_backup_title">Auto-sikkerhedskopiér</string>
     <string name="pref_auto_backup_summary">Sikkerhedskopiér databasen dagligt på det angivne tidspunkt (kun hvis data ændres).</string>
@@ -472,7 +470,6 @@
     <string name="pref_sort_order_custom">Tilpasset</string>
     <string name="plan_instance_state_open">åben</string>
     <string name="plan_instance_state_applied">anvendt</string>
-    <string name="progress_dialog_updating_split_parts">Opdaterer opdelte dele</string>
     <string name="content_description_calculator_delete_button">Slet sidste ciffer</string>
     <string name="paypal_callback_info">Din transaktion blev fuldført, og en kvittering for dit køb er blevet sendt til din e-mail. Du kan logge ind på din konto på www.paypal.com for at se detaljer om denne transaktion.</string>
     <string name="search_transfer">Søg efter overførsel</string>
@@ -481,15 +478,12 @@
     <string name="crash_dialog_text">Der opstod en uventet fejl, som tvang applikationen til at stoppe. Hjælp os med at rette det ved at sende os fejldata. Du skal bare klikke OK.</string>
     <string name="crash_dialog_comment_prompt">Du kan tilføje kommentarer om problemet nedenfor:</string>
     <string name="synchronization_none">Ingen synkronisering</string>
-    <string name="validate_error_webdav_not_compliant">URL\'en henviser ikke til en WebDAV-ressource.</string>
-    <string name="url_not_valid">Ugyldig URL</string>
     <string name="menu_sync_unlink">Stop synkronisering</string>
     <string name="menu_sync_download">Hent og synkroniser</string>
     <string name="pref_sync_frequency_summary">Hvor ofte data skal synkroniseres (i timer).</string>
     <string name="dialog_confirm_sync_remove_backend">Den eksterne backend %s fjernes. Dette påvirker ikke data, der er gemt lokalt eller eksternt, men synkroniseringsstatus går tabt.</string>
     <string name="transaction_deleted">Transaktionen blev slettet</string>
     <string name="date_format_minute">Minut</string>
-    <string name="description_webdav_trust_certificate">Hjemmesiden bruger et certifikat, som ikke er betroet af Android.</string>
     <string name="dialog_title_select_target">Vælg mål</string>
     <string name="date_format_hour">Time</string>
     <string name="pref_custom_decimal_format_summary">Er du ikke tilfreds med standardformatet for din lokalitet, kan du tilpasse det. Lad det være tomt for at gendanne standardformatet.</string>
@@ -498,11 +492,7 @@
     <string name="dialog_synced_to_other">En konto med UUID\'en %s findes allerede i den lokale database og er forbundet til en anden ekstern backend.</string>
     <string name="budget_deleted">Budgettet blev slettet</string>
     <string name="search_account">Søg efter konto</string>
-    <string name="description_webdav_url">Indtast venligst URL\'en til en særlig mappe på din WebDAV-server. {app_name} gemmer sine data i denne mappe og rører ikke ved noget uden for den.</string>
-    <string name="label_trust_certificate">Stol på dette certifikat</string>
-    <string name="validate_error_webdav_invalid_certificate">Certifikatet var ikke pålideligt. Det virker ugyldigt.</string>
     <string name="validate_error_not_empty">Må ikke være tomt</string>
-    <string name="hint_url">URL</string>
     <string name="app_dir_not_accessible">Den aktuelt valgte mappe til sikkerhedskopier og eksport (%1$s) er ikke tilgængelig. Vælg venligst en anden.</string>
     <string name="hint_auto_fill">Skal data udfyldes automatisk fra sidste transaktion for samme modtager/betaler? Du kan altid ændre denne adfærd i indstillingerne.</string>
     <string name="account_deleted">Kontoen blev slettet</string>
@@ -524,7 +514,6 @@
     <string name="switch_to_monthly" tools:ignore="UnusedResources">Skift til månedligt abonnement</string>
     <string name="budget_table_header_budgeted">Budgetteret</string>
     <string name="menu_create_template_for_split">Ny opdelingsskabelon</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Gå til %s for at indstille en låseskærm.</string>
     <string name="credit_limit">Kreditgrænse</string>
     <string name="goal_or_limit">Mål/grænse</string>
     <string name="split_transaction_one_success">Transaktion blev omdannet til en opdeling.</string>
@@ -651,7 +640,6 @@
     <string name="scan_result_no_payee">Ingen modtager fundet</string>
     <string name="menu_edit_tag">Rediger etiket</string>
     <string name="pref_planner_manual_time_title">Tidspunkt for manuelt anvendt planlagt transaktion</string>
-    <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Tryk og hold på den flydende handlingsknap for direkte at åbne formularen for overførsler, opdelte transaktioner eller indtægt.</string>
     <string name="pref_clone_with_current_date_title">Dato for klonede transaktioner</string>
     <string name="template_default_action_without_amount_hint">Skabeloner uden beløb bør gemmes med standardhandlingen \'Rediger\'</string>
     <string name="ocr_recognition_info">Kører tekstgenkendelse med %s</string>
@@ -704,7 +692,7 @@
     <string name="dialog_multi_tag">Alle de valgte transaktioner mærkes med %s.</string>
     <string name="tesseract_download_confirmation">Ønsker du at hente data til tekstgenkendelse for %s?</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">Etiketten %1$s er knyttet til én transaktion. Skal den slettes?</item>
+        <item quantity="one">Etiketten %1$s er knyttet til %2$d transaktion. Skal den slettes?</item>
         <item quantity="other">Etiketten %1$s er knyttet til %2$d transaktioner. Skal den slettes?</item>
     </plurals>
     <string name="dialog_contrib_usage_limit_split_templates">Din nuværende licensstatus (%1$s) lader dig oprette 1 opdelingsskabelon.</string>
@@ -758,7 +746,7 @@
         <item quantity="other">Gælden %1$s har %2$d tilknyttede transaktioner.</item>
     </plurals>
     <plurals name="import_categories_icons_updated">
-        <item quantity="one">Én kategori blev opdateret med ikon.</item>
+        <item quantity="one">%1$d kategori blev opdateret med ikon.</item>
         <item quantity="other">%1$d kategorier blev opdateret med ikoner.</item>
     </plurals>
     <string name="debt_owes_me">%s skylder mig</string>
@@ -801,7 +789,7 @@
     <string name="backup_wrong_password">Sikkerhedskopifilen ser ud til at være krypteret med en anden adgangssætning.</string>
     <string name="pref_security_export_passphrase_title">Adgangssætning til sikkerhedskopier</string>
     <string name="backup_is_encrypted">Sikkerhedskopifilen er krypteret. For at dekryptere den skal du angive adgangssætningen.</string>
-    <string name="pref_plan_executor_time_title">Planlæggerens notifikationstid</string>
+    <string name="pref_plan_executor_time_title">Notifikationstid</string>
     <string name="auto_fill_focus">Sæt fokus på modtager</string>
     <string name="menu_parent_category_selection">Vælg overordnet kategori ved kort tryk</string>
     <string name="purge_backups">Følgende gamle sikkerhedskopier slettes:</string>
@@ -816,7 +804,7 @@
     <string name="button_relink_update_date">Tilknyt igen, og opdater dato</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_on">tælles som overførsel</string>
     <string name="pref_sync_now_all_summary">%s synkroniserer alle konti for den samme backend</string>
-    <string name="roadmap_intro">Afstemningen i 2024 Udviklingsplan er nu åben! Stem på de funktioner og forbedringer, der betyder mest for dig.</string>
+    <string name="roadmap_intro">Afstemningen i %d Udviklingsplan er nu åben! Stem på de funktioner og forbedringer, der betyder mest for dig.</string>
     <string name="budget_only_current_period">Indstil kun til %s</string>
     <string name="budget_table_header_rollover">Fremførsel</string>
     <string name="rollover_edit_invalid">Summen af fremførelsen tildelt en kategori og fremførelser tildelt underkategorier må ikke overskride restbeløbet.</string>
@@ -909,7 +897,6 @@
     <string name="filter_dialog_empty">Ingen kriterier tilføjet endnu. Tryk på knapperne ovenfor for at definere din søgning og præcisere resultaterne.</string>
     <string name="pref_sync_frequency_summary_0">Sæt til 0 for at deaktivere automatisk synk.</string>
     <string name="webui_download_no_data">Efter udskrivning, eksport eller sikkerhedskopiering i appen kan filerne hentes herfra.</string>
-    <string name="menu_show_equivalent_value">Tilsvarende værdi</string>
     <string name="initial_value">Oprindelig værdi</string>
     <string name="current_value">Aktuel værdi</string>
     <string name="total_value">Samlet værdi</string>
@@ -932,4 +919,12 @@
     <string name="sort_direction">Sorteringsretning</string>
     <string name="batch_download_result">%d priser blev hentet og gemt i databasen.</string>
     <string name="pref_account_list_display_configuration_title">Kontoliste</string>
+    <string name="menu_templates">Skabeloner</string>
+    <string name="rounding">Afrunding</string>
+    <string name="important_upgrade_information_heading">Vigtige oplysninger</string>
+    <string name="pref_tag_style_title">Etiket-stil</string>
+    <string name="pref_tag_style_outline">Farvet kant</string>
+    <string name="pref_tag_style_filled">Helt farvet</string>
+    <string name="trade_additional_costs">Yderligere omkostninger</string>
+    <string name="contrib_feature_portfolio_tracking">Porteføljesporing</string>
 </resources>

@@ -16,9 +16,10 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.database.getLongOrNull
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.PlannerUtils.Companion.eventProjection
+import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
 import org.totschnig.myexpenses.service.PlanExecutor
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -303,10 +304,10 @@ const val INVALID_CALENDAR_ID = "-1"
                 val eventValues = ContentValues()
                 eventValues.put(CalendarContract.Events.CALENDAR_ID, newValue.toLong())
                 contentResolver.query(
-                    Template.CONTENT_URI, arrayOf(
-                        DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PLANID
+                    TEMPLATES_URI, arrayOf(
+                        KEY_ROWID, KEY_PLANID
                     ),
-                    DatabaseConstants.KEY_PLANID + " IS NOT null", null, null
+                    "$KEY_PLANID IS NOT null", null, null
                 )?.use { plan ->
                     if (plan.moveToFirst()) {
                         do {

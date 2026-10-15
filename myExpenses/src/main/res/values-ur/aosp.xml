@@ -14,7 +14,6 @@
     <string name="style">"طرز"</string>
     <string name="loading">"لوڈ ہو رہا ہے…"</string>
     <string name="button_label_continue">"جاری رکھیں"</string>
-    <string name="autofill">"آٹوفل"</string>
     <string name="discard">"مسترد کریں"</string>
     <string name="dialog_dismiss">"برخاست کریں"</string>
     <string name="details">"تفصیلات"</string>
@@ -28,7 +27,6 @@
     <string name="setup">"سیٹ اپ"</string>
     <string name="customize">"حسب ضرورت بنائیں"</string>
     <string name="compact">"کمپیکٹ"</string>
-    <string name="storage_description">"مقامی اسٹوریج"</string>
     <string name="encryption">"مرموز کاری"</string>
     <string name="learn_more">"مزید جانیں"</string>
     <string name="show_all">"سبھی دکھائیں"</string>
@@ -116,7 +114,6 @@
     <string name="preview">"پیش منظر"</string>
     <string name="show_password">"پاس ورڈ دکھائیں"</string>
     <string name="hide_password">"پاس ورڈ چھپائیں"</string>
-    <string name="user">"صارف"</string>
     <string name="value">"قیمت"</string>
     <string name="done_label">"ہو گیا"</string>
     <string name="action_move_top">"اوپر منتقل کریں"</string>
@@ -127,4 +124,6 @@
     <string name="menu_import">"درآمد کریں"</string>
     <string name="already_exists">"نام پہلے سے موجود ہے"</string>
     <string name="flag_inactive">"غیر فعال"</string>
+    <string name="options">"اختیارات"</string>
+    <string name="actions">Actions"</string>
 </resources>

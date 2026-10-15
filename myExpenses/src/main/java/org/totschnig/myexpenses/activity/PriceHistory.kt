@@ -71,7 +71,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_TAG_POSITIVE_BUNDLE
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
+import org.totschnig.myexpenses.provider.KEY_URI
 import org.totschnig.myexpenses.provider.fileName
 import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
@@ -115,7 +115,7 @@ class PriceHistory : ProtectedFragmentActivity() {
                 val nestedScrollInterop = rememberNestedScrollInteropConnection()
                 PriceListScreen(
                     viewModel.pricesWithMissingDates.collectAsState(initial = mapOf(LocalDate.now() to null)).value,
-                    currencyContext.homeCurrencyUnit,
+                    currencyContext[viewModel.baseCurrency],
                     Modifier
                         .nestedScroll(nestedScrollInterop)
                         .padding(horizontal = 8.dp),
@@ -227,9 +227,11 @@ class PriceHistory : ProtectedFragmentActivity() {
                 }
 
                 R.id.BATCH_DOWNLOAD_COMMAND -> {
-                    viewModel.effectiveSource?.let { source ->
+                    viewModel.effectiveSource?.also { source ->
                         BatchPriceDownloadDialogFragment.newInstance(source.name)
                             .show(supportFragmentManager, "BATCH_DOWNLOAD")
+                    } ?: run {
+                        showSnackBar(getString(R.string.exchange_rate_not_supported, viewModel.commodity, viewModel.homeCurrency))
                     }
                     true
                 }

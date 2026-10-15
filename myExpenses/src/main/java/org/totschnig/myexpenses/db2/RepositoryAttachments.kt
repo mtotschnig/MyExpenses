@@ -3,10 +3,10 @@ package org.totschnig.myexpenses.db2
 import android.content.ContentProviderOperation
 import android.net.Uri
 import android.os.Bundle
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTACHMENT_ID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI_LIST
+import org.totschnig.myexpenses.provider.KEY_ATTACHMENT_ID
+import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.KEY_URI
+import org.totschnig.myexpenses.provider.KEY_URI_LIST
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_RESULT

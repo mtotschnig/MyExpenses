@@ -1,0 +1,5 @@
+• Portfolio tracking : Search (Asset, Amount, Notes, Date)
+• FinTS: Credit card transactions
+
+https://github.com/users/mtotschnig/projects/196
+https://mastodon.social/@myexpenses/117310535080938737

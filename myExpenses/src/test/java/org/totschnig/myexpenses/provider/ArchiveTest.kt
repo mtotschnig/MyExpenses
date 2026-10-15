@@ -6,16 +6,11 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.db2.archive
+import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.unarchive
 import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVED
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_NONE
+import org.totschnig.myexpenses.model.PREDEFINED_NAME_BANK
+import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
 import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 import java.time.LocalDate
 
@@ -24,17 +19,17 @@ class ArchiveTest : BaseTestWithRepository() {
 
     private var testAccountId: Long = 0
 
-    fun setup(accountType: String = "_CASH_") {
+    fun setup(accountType: String = PREDEFINED_NAME_CASH) {
         testAccountId = insertAccount("Test account", accountType = accountType)
     }
 
     @Test
     fun createArchiveAndUnpack() {
         setup()
-        insertTransaction(testAccountId, 100)
-        insertTransaction(testAccountId, -200)
-        insertTransaction(testAccountId, 400)
-        insertTransaction(testAccountId, 800)
+        repository.insertTransaction(testAccountId, 100)
+        repository.insertTransaction(testAccountId, -200)
+        repository.insertTransaction(testAccountId, 400)
+        repository.insertTransaction(testAccountId, 800)
         val archiveId = repository.archive(testAccountId, LocalDate.now() to LocalDate.now())
         verifyArchive(archiveId, 1100)
         verifyArchivedChildren(archiveId, 4)
@@ -44,8 +39,8 @@ class ArchiveTest : BaseTestWithRepository() {
     @Test
     fun createArchiveWithInconsistentStatesForCashAccount() {
         setup()
-        insertTransaction(testAccountId, 100, crStatus = CrStatus.RECONCILED)
-        insertTransaction(testAccountId, -200, crStatus = CrStatus.CLEARED)
+        repository.insertTransaction(testAccountId, 100, crStatus = CrStatus.RECONCILED)
+        repository.insertTransaction(testAccountId, -200, crStatus = CrStatus.CLEARED)
         val archiveId = repository.archive(testAccountId, LocalDate.now() to LocalDate.now())
         verifyArchive(archiveId, -100)
         verifyArchivedChildren(archiveId, 2)
@@ -53,17 +48,17 @@ class ArchiveTest : BaseTestWithRepository() {
 
     @Test(expected = IllegalStateException::class)
     fun createArchiveWithInconsistentStatesForBankAccount() {
-        setup("_BANK_")
-        insertTransaction(testAccountId, 100, crStatus = CrStatus.RECONCILED)
-        insertTransaction(testAccountId, -200, crStatus = CrStatus.CLEARED)
+        setup(PREDEFINED_NAME_BANK)
+        repository.insertTransaction(testAccountId, 100, crStatus = CrStatus.RECONCILED)
+        repository.insertTransaction(testAccountId, -200, crStatus = CrStatus.CLEARED)
         repository.archive(testAccountId, LocalDate.now() to LocalDate.now())
     }
 
     @Test
     fun createArchiveWithVoidTransactions() {
         setup()
-        insertTransaction(testAccountId, 100, crStatus = CrStatus.RECONCILED)
-        insertTransaction(testAccountId, -200, crStatus = CrStatus.VOID)
+        repository.insertTransaction(testAccountId, 100, crStatus = CrStatus.RECONCILED)
+        repository.insertTransaction(testAccountId, -200, crStatus = CrStatus.VOID)
         val archiveId = repository.archive(testAccountId, LocalDate.now() to LocalDate.now())
         verifyArchive(archiveId, 100)
         verifyArchivedChildren(archiveId, 2)
@@ -73,9 +68,9 @@ class ArchiveTest : BaseTestWithRepository() {
     @Test
     fun createArchiveWithSplitTransactions() {
         setup()
-        val (splitId, _) = insertTransaction(testAccountId, 100)
-        insertTransaction(testAccountId, 50, parentId = splitId)
-        insertTransaction(testAccountId, 50, parentId = splitId)
+        val splitId = repository.insertTransaction(testAccountId, 100).id
+        repository.insertTransaction(testAccountId, 50, parentId = splitId)
+        repository.insertTransaction(testAccountId, 50, parentId = splitId)
         val archiveId = repository.archive(testAccountId, LocalDate.now() to LocalDate.now())
         verifyArchive(archiveId, 100)
         verifyArchivedChildren(archiveId, 1, splitId)

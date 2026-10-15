@@ -37,7 +37,7 @@ interface SqlCryptProvider {
 }
 
 @Module
-open class DataModule(private val shouldInsertDefaultTransferCategory: Boolean = true) {
+open class DataModule() {
     companion object {
         val cryptProvider: SqlCryptProvider by lazy {
             Class.forName("org.totschnig.sqlcrypt.SQLiteOpenHelperFactory")
@@ -86,7 +86,7 @@ open class DataModule(private val shouldInsertDefaultTransferCategory: Boolean =
     }
 
     @Provides
-    fun provideSQLiteOpenHelper(
+    open fun provideSQLiteOpenHelper(
         appContext: MyApplication,
         prefHandler: PrefHandler,
         @Named(AppComponent.DATABASE_NAME) provideDatabaseName: (@JvmSuppressWildcards Boolean) -> String,
@@ -101,8 +101,7 @@ open class DataModule(private val shouldInsertDefaultTransferCategory: Boolean =
                 .name(provideDatabaseName(encryptDatabase)).callback(
                     TransactionDatabase(
                         appContext,
-                        prefHandler,
-                        shouldInsertDefaultTransferCategory
+                        prefHandler
                     )
                 ).build()
         ).also {

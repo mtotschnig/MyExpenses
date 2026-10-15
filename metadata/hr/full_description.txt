@@ -1,27 +1,25 @@
-<i>Moji troškovi</i> vaš je vrhunski alat za jednostavno praćenje troškova i upravljanje financijama, nadohvat ruke!
+<b>Moji troškovi</b> je vaš ultimativni upravitelj osobnim financijama usmjeren na privatnost—pruža vam potpunu kontrolu nad svakodnevnim praćenjem troškova, budžetima i investicijskim portfeljima uz transparentnost otvorenog koda.
 
-Glavne značajke:
+<b>Ključne funkcije:</b>
 
-     • <b>Praćenje troškova bez napora</b>: Neometano pratite svoje troškove i prihode, bilo da koristite pametni telefon ili tablet.
-     • <b>Fleksibilno upravljanje računom</b>: Upravljajte s višestrukim računima bez napora, uključujući prijenose između različitih valuta.
-     • <b>Pojednostavljeno financijsko planiranje</b>: jednostavno postavite planove za ponavljajuće transakcije.
-     • <b>Besprijekorno upravljanje podacima</b>: Izvoz i uvoz podataka s lakoćom pomoću QIF i CSV formata.
-     • <b>Poboljšana sigurnost</b>: Zaštitite svoje podatke lozinkom ili sigurnošću zaključanog zaslona uređaja.
-     • <b>Prilagodljivo iskustvo</b>: Prilagodite aplikaciju svojim željama pomoću prilagodljivih tema i veličina fonta.
-     • <b>Usklađivanje bankovnih izvoda</b>: Jednostavno usporedite status transakcije sa svojim bankovnim izvodima za točno financijsko praćenje.
-     • <b>Brzi unos podataka</b>: Uživajte u praktičnom pristupu pomoću widgeta i prečaca na početnom zaslonu.
-     • <b>Moćna analiza podataka</b>: filtrirajte svoje podatke na temelju različitih kriterija i vizualizirajte distribuciju i povijesne trendove pomoću dinamičkih grafikona.
+• <b>Svakodnevno praćenje troškova i budžeta</b>: Jednostavno prati svoje prihode i rashode na mobitelu ili tabletu. Izradi budžete, podijeli transakcije (razdijeljene transakcije) i postavi planove za ponavljajuće transakcije.
+• <b>Upravljanje portfeljem i investicijama</b>: Prati portfelje dionica, kriptovaluta ili prilagođene imovine, prati povijest cijena i upravljaj vievalutnim ulaganjima u stvarnom vremenu.
+• <b>Bankovna integracija i usklađivanje</b>: Poveži se izravno sa podržanim bankama putem FinTS-a ili ručno uskladi transakcije s bankovnim izvodima za precizno praćenje stanja.
+• <b>Pametno skeniranje računa (OCR)</b>: Automatski izvuci detalje transakcija s fotografija računa pomoću naprednog optičkog prepoznavanja znakova.
+• <b>Web sučelje za računalo</b>: Pristupi i upravljaj svojim transakcijama iz bilo kojeg web preglednika u svojoj lokalnoj mreži.
+• <b>Napredna analiza</b>: Vizualiziraj trendove potrošnje, kružne dijagrame raspodjele i povijesna izvješća pomoću prilagodljivih dinamičnih grafikona.
+• <b>Fleksibilna sinkronizacija i kontrola podataka</b>: Jednostavno izvozi i uvozi podatke u QIF i CSV formatima. Bezprijekorno sinkroniziraj između uređaja koristeći WebDAV, Nextcloud, Google Drive, Dropbox ili OneDrive uz podršku za klijentske certifikate.
+• <b>Privatnost i sigurnost na prvom mjestu</b>: Transparentnost otvorenog koda, zaštita lozinkom ili biometrijskim zaključavanjem te šifrirana baza podataka.
 
-Otključajte Premium značajke:
+<b>Otključaj premium funkcije:</b>
 
-     • <i>Ključ doprinositelja</i>: Otključajte neograničene račune, planove ponavljajućih transakcija i još mnogo toga.
-     • <i>Prošireni ključ</i>: Uživajte u sinkronizaciji u oblaku, automatiziranim sigurnosnim kopijama i sofisticiranom CSV uvozu.
-     • <i>Profesionalni ključ</i>: Podignite svoje financijsko upravljanje na višu razinu s alatima za proračun, skeniranjem računa i podrškom putem e-pošte.
+• <i>Ključ doprinositelja</i>: Istaknute značajke uključuju otključavanje neograničenog broja računa, ponavljajuće planove, izvoz popisa u PDF, dijagrame raspodjele po kategorijama i više.
+• <i>Prošireni ključ</i>: Sadrži sve funkcije Ključa doprinositelja, uz automatsku sinkronizaciju u oblaku i napredna pravila za uvoz CSV-a.
+• <i>Profesionalni ključ</i>: Sadrži sve funkcije Proširenog ključa, uz praćenje investicija i portfelja, grafikon povijesti, praćenje budžeta, OCR skeniranje računa, lokalno web sučelje za računalo, izravnu bankovnu sinkronizaciju (Njemačka) i više.
 
-<i>Moji troškovi</i> zahtijevaju sljedeće <u>dozvole</u>:
+<b>Transparentnost dozvola:</b>
 
-     • <i>Kalendar</i>: Planovi za buduće i ponavljajuće transakcije pohranjuju se ili u poseban lokalni kalendar ili u bilo koji drugi kalendar koji dodijelite.
-     • <i>Internet</i>: Anonimno praćenje korištenja, izvješća o rušenju programa, sinkronizacija u oblaku.
-     • <i>Računi</i>: Sinkronizacija između uređaja putem usluga u oblaku.
+• <i>Kalendar</i>: Planovi za ponavljajuće transakcije spremaju se u poseban lokalni kalendar ili bilo koji drugi odabrani kalendar.
+• <i>Internet</i>: Anonimno praćenje korištenja (neobavezno), sinkronizacija u oblaku i izvješća o rušenju aplikacije (neobavezno).
 
-Preuzmite kontrolu nad svojim financijama kao nikada prije koristeći <i>Moje troškove</i>!
+Preuzmi kontrolu nad svojim novcem i imovinom već danas uz aplikaciju <b>Moji troškovi</b>!

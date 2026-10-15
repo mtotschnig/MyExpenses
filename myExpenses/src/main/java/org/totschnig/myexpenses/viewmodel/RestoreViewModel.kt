@@ -12,7 +12,6 @@ import android.text.TextUtils
 import androidx.core.os.BundleCompat
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -26,19 +25,22 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.BACKUP_DB_FILE_NAME
 import org.totschnig.myexpenses.provider.BACKUP_PREF_FILE_NAME
 import org.totschnig.myexpenses.provider.CALENDAR_FULL_PATH_PROJECTION
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
+import org.totschnig.myexpenses.provider.KEY_URI
 import org.totschnig.myexpenses.provider.DatabaseVersionPeekHelper
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.INVALID_CALENDAR_ID
+import org.totschnig.myexpenses.provider.KEY_PLANID
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_SYNC_ACCOUNT_NAME
+import org.totschnig.myexpenses.provider.KEY_UUID
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.PlannerUtils.Companion.copyEventData
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.checkSyncAccounts
 import org.totschnig.myexpenses.provider.getBackupDataStoreFile
@@ -116,7 +118,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
         viewModelScope.launch(coroutineDispatcher) {
             val fileUri: Uri? = BundleCompat.getParcelable(args, KEY_FILE_PATH, Uri::class.java)
             val syncAccountName: String? =
-                if (fileUri == null) args.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME) else null
+                if (fileUri == null) args.getString(KEY_SYNC_ACCOUNT_NAME) else null
             val backupFromSync: String? =
                 if (fileUri == null) args.getString(KEY_BACKUP_FROM_SYNC) else null
             val password: String? = args.getString(KEY_PASSWORD)
@@ -233,7 +235,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                             permissionRequestFuture = it
                         }.await()
                         _permissionRequested.postValue(null)
-                        if (granted != true) {
+                        if (!granted) {
                             failureResult(
                                 Utils.getTextWithAppName(
                                     getApplication(),
@@ -242,32 +244,32 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                             )
                             return@launch
                         }
-                        if (try {
-                                contentResolver.query(
-                                    CalendarContract.Calendars.CONTENT_URI,
-                                    arrayOf(CalendarContract.Calendars._ID),
-                                    "$CALENDAR_FULL_PATH_PROJECTION = ?",
-                                    arrayOf(calendarPath),
-                                    null
-                                )?.use {
-                                    it.moveToFirst()
-                                }
-                            } catch (e: SecurityException) {
-                                failureResult(e)
-                                return@launch
-                            } == false
-                        ) {
-                            //the calendar configured in the backup does not exist
-                            currentPlannerId = plannerUtils.checkPlanner()
-                            currentPlannerPath =
-                                prefHandler.getString(PrefKey.PLANNER_CALENDAR_PATH, "")
-                            if (INVALID_CALENDAR_ID == currentPlannerId) {
-                                //there is no locally configured calendar, we create a new one
-                                //noinspection MissingPermission
-                                currentPlannerId = plannerUtils.createPlanner(false)
-                                currentPlannerPath =
-                                    getCalendarPath(contentResolver, currentPlannerId)
+                    }
+                    if (try {
+                            contentResolver.query(
+                                CalendarContract.Calendars.CONTENT_URI,
+                                arrayOf(CalendarContract.Calendars._ID),
+                                "$CALENDAR_FULL_PATH_PROJECTION = ?",
+                                arrayOf(calendarPath),
+                                null
+                            )?.use {
+                                it.moveToFirst()
                             }
+                        } catch (e: SecurityException) {
+                            failureResult(e)
+                            return@launch
+                        } == false
+                    ) {
+                        //the calendar configured in the backup does not exist
+                        currentPlannerId = plannerUtils.checkPlanner()
+                        currentPlannerPath =
+                            prefHandler.getString(PrefKey.PLANNER_CALENDAR_PATH, "")
+                        if (INVALID_CALENDAR_ID == currentPlannerId) {
+                            //there is no locally configured calendar, we create a new one
+                            //noinspection MissingPermission
+                            currentPlannerId = plannerUtils.createPlanner(false)
+                            currentPlannerPath =
+                                getCalendarPath(contentResolver, currentPlannerId)
                         }
                     }
                 }
@@ -395,7 +397,7 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                     val backupFiles = backupPictureDir.listFiles() ?: emptyArray()
                     contentResolver.query(
                         TransactionProvider.ATTACHMENTS_URI,
-                        arrayOf(DatabaseConstants.KEY_ROWID, KEY_URI),
+                        arrayOf(KEY_ROWID, KEY_URI),
                         null,
                         null,
                         null
@@ -475,10 +477,10 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
         val accounts = listOf(*GenericAccountService.getAccountNames(application))
         val activeAccounts = mutableSetOf<String>()
         val projection =
-            arrayOf(DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)
+            arrayOf(KEY_ROWID, KEY_SYNC_ACCOUNT_NAME)
         contentResolver.query(
             TransactionProvider.ACCOUNTS_URI, projection,
-            DatabaseConstants.KEY_SYNC_ACCOUNT_NAME + " IS NOT null", null, null
+            "$KEY_SYNC_ACCOUNT_NAME IS NOT null", null, null
         )?.use {
             val sharedPreferences = application.settings
             val editor = sharedPreferences.edit()
@@ -582,11 +584,10 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                         calendarId
                     )
                     contentResolver.query(
-                        Template.CONTENT_URI, arrayOf(
-                            DatabaseConstants.KEY_ROWID, DatabaseConstants.KEY_PLANID,
-                            DatabaseConstants.KEY_UUID
-                        ), DatabaseConstants.KEY_PLANID
-                                + " IS NOT null", null, null
+                        TEMPLATES_URI, arrayOf(
+                            KEY_ROWID, KEY_PLANID,
+                            KEY_UUID
+                        ), "$KEY_PLANID IS NOT null", null, null
                     )?.use { plan ->
                         if (plan.moveToFirst()) {
                             do {
@@ -609,12 +610,12 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                                             )
                                             if (newPlanId != oldPlanId) {
                                                 planValues.put(
-                                                    DatabaseConstants.KEY_PLANID,
+                                                    KEY_PLANID,
                                                     newPlanId
                                                 )
                                                 val updated = contentResolver.update(
                                                     ContentUris.withAppendedId(
-                                                        Template.CONTENT_URI, templateId
+                                                        TEMPLATES_URI, templateId
                                                     ), planValues, null,
                                                     null
                                                 )
@@ -662,10 +663,10 @@ class RestoreViewModel(application: Application) : ContentResolvingAndroidViewMo
                                         } == false
                                     ) {
                                         //need to set eventId to null
-                                        planValues.putNull(DatabaseConstants.KEY_PLANID)
+                                        planValues.putNull(KEY_PLANID)
                                         contentResolver.update(
                                             ContentUris.withAppendedId(
-                                                Template.CONTENT_URI,
+                                                TEMPLATES_URI,
                                                 templateId
                                             ),
                                             planValues, null, null

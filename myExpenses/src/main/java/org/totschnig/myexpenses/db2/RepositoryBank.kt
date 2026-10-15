@@ -4,23 +4,26 @@ import android.content.ContentUris
 import android.content.ContentValues
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.map
 import org.totschnig.myexpenses.model2.Bank
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTRIBUTE_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BANK_ID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BANK_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BIC
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BLZ
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CONTEXT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USER_ID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VERSION
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_ATTRIBUTE_NAME
+import org.totschnig.myexpenses.provider.KEY_BANK_ID
+import org.totschnig.myexpenses.provider.KEY_BANK_NAME
+import org.totschnig.myexpenses.provider.KEY_BIC
+import org.totschnig.myexpenses.provider.KEY_BLZ
+import org.totschnig.myexpenses.provider.KEY_CONTEXT
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_TYPE
+import org.totschnig.myexpenses.provider.KEY_USER_ID
+import org.totschnig.myexpenses.provider.KEY_VALUE
+import org.totschnig.myexpenses.provider.KEY_VERSION
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.provider.asSequence
-import org.totschnig.myexpenses.provider.useAndMapToList
 import java.time.LocalDate
 
 fun Repository.loadBanks(): Flow<List<Bank>> {
@@ -64,48 +67,55 @@ fun Repository.deleteBank(id: Long) {
 }
 
 data class AccountInformation(
+    val accountId: Long,
+    val accountTypeId: Long,
     val name: String?,
     val blz: String?,
     val number: String?,
     val subnumber: String?,
     val iban: String?,
     val bic: String?,
-    val lastSynced: LocalDate?
+    val lastSynced: LocalDate?,
+    val geschaeftsVorfall: String?,
 ) {
     companion object {
-        fun fromMap(map: Map<Attribute, String>) = AccountInformation(
-            map[BankingAttribute.NAME],
-            map[BankingAttribute.BLZ],
-            map[BankingAttribute.NUMBER],
-            map[BankingAttribute.SUBNUMBER],
-            map[BankingAttribute.IBAN],
-            map[BankingAttribute.BIC],
-            map[BankingAttribute.LAST_SYCNED_WITH_BANK]?.let { LocalDate.parse(it) }
-        )
+        fun fromMap(accountId: Long, accountTypeId: Long, map: Map<Attribute, String>) =
+            AccountInformation(
+                accountId = accountId,
+                accountTypeId = accountTypeId,
+                name = map[BankingAttribute.NAME],
+                blz = map[BankingAttribute.BLZ],
+                number = map[BankingAttribute.NUMBER],
+                subnumber = map[BankingAttribute.SUBNUMBER],
+                iban = map[BankingAttribute.IBAN],
+                bic = map[BankingAttribute.BIC],
+                lastSynced = map[BankingAttribute.LAST_SYCNED_WITH_BANK]?.let { LocalDate.parse(it) },
+                geschaeftsVorfall = map[BankingAttribute.GESCHAEFTS_VORFALL]
+            )
     }
 }
 
-fun Repository.importedAccounts(bankId: Long): List<AccountInformation> =
-    contentResolver.query(
-        TransactionProvider.ACCOUNTS_ATTRIBUTES_URI,
-        arrayOf(KEY_ACCOUNTID, KEY_CONTEXT, KEY_ATTRIBUTE_NAME, KEY_VALUE),
-        "$KEY_ACCOUNTID IN (SELECT $KEY_ROWID FROM $TABLE_ACCOUNTS WHERE $KEY_BANK_ID = ?) AND $KEY_CONTEXT = '${BankingAttribute.CONTEXT}'",
+@OptIn(ExperimentalCoroutinesApi::class)
+fun Repository.importedAccounts(bankId: Long): Flow<List<AccountInformation>> =
+    contentResolver.observeQuery(
+        TransactionProvider.ACCOUNTS_URI,
+        arrayOf(KEY_ROWID, KEY_TYPE),
+        "$KEY_BANK_ID = ?",
         arrayOf(bankId.toString()),
-        KEY_ACCOUNTID
-    )?.use { cursor ->
-        cursor.asSequence.groupBy(
-            keySelector = { it.getLong(0) },
-            valueTransform = { Attribute.from(it) }
-        )
-    }?.map { (_, value) -> AccountInformation.fromMap(value.toMap()) } ?: emptyList()
+        KEY_ROWID
+    ).mapToList { cursor -> cursor.getLong(0) to cursor.getLong(1) }
+        .flatMapLatest { list ->
+            if (list.isEmpty()) flowOf(emptyList()) else
+                combine(list.map { (id, type) -> accountInformation(id, type) }) { it.toList() }
+        }
 
-//noinspection Recycle
-fun Repository.accountInformation(accountId: Long): AccountInformation? = contentResolver.query(
-    TransactionProvider.ACCOUNTS_ATTRIBUTES_URI,
-    arrayOf(KEY_CONTEXT, KEY_ATTRIBUTE_NAME, KEY_VALUE),
-    "$KEY_ACCOUNTID = ? AND $KEY_CONTEXT = '${BankingAttribute.CONTEXT}'",
-    arrayOf(accountId.toString()),
-    null
-)?.useAndMapToList { cursor -> Attribute.from(cursor) }?.let {
-    AccountInformation.fromMap(it.toMap())
-}
+
+fun Repository.accountInformation(accountId: Long, accountTypeId: Long): Flow<AccountInformation> =
+    contentResolver.observeQuery(
+        TransactionProvider.ACCOUNTS_ATTRIBUTES_URI,
+        arrayOf(KEY_CONTEXT, KEY_ATTRIBUTE_NAME, KEY_VALUE),
+        "$KEY_ACCOUNTID = ? AND $KEY_CONTEXT = '${BankingAttribute.CONTEXT}'",
+        arrayOf(accountId.toString()),
+        null
+    ).mapToList { cursor -> Attribute.from(cursor) }
+        .map { AccountInformation.fromMap(accountId, accountTypeId, it.toMap()) }

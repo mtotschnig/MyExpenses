@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="description_webdav_url">請輸入 WebDAV 伺服器上指定檔案夾的網址。 {app_name}會將其資料儲存在此檔案夾中，它不會觸及其外的任何內容。</string>
+    <string name="hint_url">網址</string>
+    <string name="description_webdav_trust_certificate">該網站使用的證書不受 Android 信任。</string>
+    <string name="label_trust_certificate">信任此證書</string>
+    <string name="validate_error_webdav_invalid_certificate">證書不可信。它似乎無效。</string>
+    <string name="validate_error_webdav_not_compliant">該網址不指向 WebDAV 資源。</string>
+    <string name="validate_error_webdav_404">該網址在伺服器上不存在。</string>
+    <string name="url_not_valid">無效網址</string>
+</resources>

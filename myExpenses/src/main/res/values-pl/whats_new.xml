@@ -22,4 +22,9 @@
     <string name="whats_new_400_2">Historia cen: Zbiorcze pobieranie brakujących wpisów</string>
     <string name="whats_new_401">Lista transakcji zawiera teraz więcej szczegółów dotyczących podzielonych transakcji.</string>
     <string name="whats_new_402">Typy kont można dostosować</string>
+    <string name="whats_new_403">Flagi konta rozszerzają dostosowywanie widoczności i priorytetu konta.</string>
+    <string name="whats_new_407">Naturalne sortowanie dla tagów, kategorii, kont i partii.</string>
+    <string name="whats_new_411_1">Transfery podzielone</string>
+    <string name="whats_new_411_2">Transfery aktywów między portfelami</string>
+    <string name="whats_new_411_3">Ekran historii dla rachunków agregowanych obecnie odzwierciedla zmiany wartości walut obcych</string>
 </resources>

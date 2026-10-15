@@ -4,7 +4,7 @@ MyExpenses
 GPL licenced Android Expense Tracking App.
 
 *My Expenses* is an Android app designed to keep track of your expenses and income.
-Works on Android 5.0 and above.
+Works on Android 8.0 and above.
  
 <a href="https://f-droid.org/packages/org.totschnig.myexpenses" target="_blank">
 <img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="90"/></a>
@@ -46,10 +46,6 @@ Credits
 - [Phrase](https://github.com/square/phrase)
 - [Dagger](https://google.github.io/dagger/)
 - [Gson](https://github.com/google/gson)
-- [AutoValue](https://github.com/google/auto/tree/master/value)
-- [AutoValue: Gson Extension](https://github.com/rharter/auto-value-gson)
-- [AutoValue: Cursor Extension](https://github.com/gabrielittner/auto-value-cursor)
-- [AutoValue: Parcel Extension](https://github.com/rharter/auto-value-parcel)
 - [OkHttp](http://square.github.io/okhttp/)
 - [Timber](https://github.com/JakeWharton/timber)
 - [SLF4J](https://www.slf4j.org/)
@@ -81,17 +77,22 @@ Code has also been contributed by:
 - [Ayman Abdelghany](https://github.com/AymanDF) (Applying Sonar code quality checks)
 - [eltos](https://github.com/eltos) (Improved Input Dialogs and Color Pickers)
 - [tillgraeger](https://github.com/tillgraeger) implemented several tickets ([#640](https://github.com/mtotschnig/MyExpenses/issues/640), [#704](https://github.com/mtotschnig/MyExpenses/issues/704), [#638](https://github.com/mtotschnig/MyExpenses/issues/638)) in the context of his internship.
+- [arnaldotecadm](https://github.com/arnaldotecadm) implemented JSON export
+- [cbueth](https://github.com/cbueth) implemented support for Mutual TLS for WebDAV
+- [mvanhorn] (Fix for [#1990](https://github.com/mtotschnig/MyExpenses/issues/1990)
 
 Build
 =====
 
 Requires Java 21
 
+Build with dynamic feature modules, and OCR feature depending on external OCR helper app:
+
 ```sh
 git clone https://github.com/mtotschnig/MyExpenses.git
 cd MyExpenses
 export ANDROID_HOME={sdk-dir}
-./gradlew build
+./gradlew myExpenses:packageExternReleaseUniversalApk
 ```
 
 Integrate

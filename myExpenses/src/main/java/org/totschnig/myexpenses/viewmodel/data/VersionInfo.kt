@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.viewmodel.data
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.icu.text.ListFormatter
+import android.os.Build
 import android.os.Parcelable
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
@@ -11,13 +13,21 @@ import org.totschnig.myexpenses.util.localizedQuote
 import java.util.Locale
 
 @Parcelize
-class VersionInfo(val code: Int, val name: String) : Parcelable {
+class VersionInfo(val code: Int, val name: String, val tickets: String? = null) : Parcelable {
     constructor(packedInfo: String) : this(packedInfo.split(';'))
-    private constructor(parts: List<String>) : this(parts[0].toInt(), parts[1])
+    private constructor(parts: List<String>) : this(
+        parts[0].toInt(),
+        parts[1],
+        parts.getOrNull(2)
+    )
 
     @IgnoredOnParcel
     val nameCondensed = name.replace(".", "")
-    fun getChanges(ctx: Context): Array<String>? {
+    fun getChanges(ctx: Context, withContributors: Boolean = true): Array<String>? {
+        if (tickets != null) {
+            return tickets.split(",").map { it.trim() }.filter { it.isNotEmpty() }
+                .map { if (it.all { c -> c.isDigit() }) "#$it" else it }.toTypedArray()
+        }
         val res = ctx.resources
         fun t(resId: Int) = ctx.getString(resId)
         val changesArray = when (nameCondensed) {
@@ -156,6 +166,44 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
                 "${t(R.string.price_history)} : ${t(R.string.pref_category_title_import)} / ${t(R.string.pref_category_title_export)}."
             )
 
+            "404" -> arrayOf(
+                "${t(R.string.payer_or_payee)}: ${t(R.string.ui_refinement)}"
+            )
+
+            "406" -> arrayOf(
+                "${t(R.string.redesign)}  (${t(R.string.experimental)})"
+            )
+
+            "408" -> arrayOf(
+                "${t(R.string.pref_translation_title)} : ${Locale("sv").displayLanguage}"
+            )
+
+            "409" -> arrayOf(
+                "${t(R.string.pref_translation_title)} : ${Locale("id").displayLanguage}"
+            )
+
+            "412" -> arrayOf(
+                // @formatter:off
+                "${t(R.string.contrib_feature_portfolio_tracking)} : ${t(R.string.menu_search)} (${t(R.string.trade_target_asset)}, ${t(R.string.amount)}, ${t(R.string.comment)}, ${t(R.string.date)})",
+                t(R.string.whats_new_412)
+                // @formatter:on
+            )
+
+            "413" -> {
+                val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                    ListFormatter.getInstance(
+                        Locale.getDefault(),
+                        ListFormatter.Type.OR,
+                        ListFormatter.Width.WIDE
+                    ) else ListFormatter.getInstance()
+                arrayOf(
+                    "${t(R.string.contrib_feature_portfolio_tracking)} : ${t(R.string.trade_additional_costs)}",
+                    t(R.string.pref_tag_style_title) + " : " + formatter.format(
+                        listOf(R.string.pref_tag_style_outline, R.string.pref_tag_style_filled).map { t(it) }
+                    )
+                )
+            }
+
             else -> {
                 //noinspection DiscouragedApi
                 val resId = res.getIdentifier(
@@ -171,7 +219,7 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
                 }
             }
         }
-        if (changesArray != null) {
+        if (changesArray != null && withContributors) {
             //noinspection DiscouragedApi
             val resId = res.getIdentifier("contributors_$nameCondensed", "array", ctx.packageName)
             if (resId != 0) {
@@ -187,7 +235,7 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
     }
 
     @SuppressLint("DiscouragedApi")
-    private fun resolveMoreInfo(ctx: Context, resPrefix: String, ): Int? {
+    private fun resolveMoreInfo(ctx: Context, resPrefix: String): Int? {
         return ctx.resources.getIdentifier(
             resPrefix + nameCondensed,
             "string",
@@ -201,12 +249,12 @@ class VersionInfo(val code: Int, val name: String) : Parcelable {
     fun mastodonLink(context: Context) =
         resolveMoreInfo(context, "version_more_info_")?.let { context.getString(it) }
 
-    fun githubUrl(context: Context) = githubLink(context)?.let {
+    fun githubUrl(context: Context) = if (tickets != null) null else githubLink(context)?.let {
         (if (code < 740) "https://github.com/mtotschnig/MyExpenses/projects/" else "https://github.com/users/mtotschnig/projects/") + it
-        }
+    }
 
     fun mastodonUrl(context: Context) = mastodonLink(context)?.let {
-            "https://mastodon.social/@myexpenses/$it"
-        }
+        "https://mastodon.social/@myexpenses/$it"
+    }
 
 }

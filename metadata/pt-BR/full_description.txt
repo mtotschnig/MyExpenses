@@ -1,0 +1,25 @@
+<b>Minhas Despesas</b> é o seu gerenciador de finanças pessoais definitivo e focado em privacidade—dando a você controle total sobre o rastreamento de despesas diárias, orçamentos e carteiras de investimento com a transparência do código aberto.
+
+<b>Principais Recursos:</b>
+
+• <b>Controle diário de despesas e orçamentos</b>: Acompanhe receitas e despesas facilmente no seu celular ou tablet. Crie orçamentos, divida transações e configure planos de transações recorrentes.
+• <b>Gestão de carteiras e investimentos</b>: Acompanhe carteiras de ações, criptomoedas ou ativos customizados, monitore o histórico de preços e gerencie investimentos em múltiplas moedas em tempo real.
+• <b>Integração bancária e reconciliação</b>: Conecte-se diretamente a bancos suportados via FinTS ou reconcilie transações manualmente com seus extratos bancários para um controle preciso de saldos.
+• <b>Escaneamento inteligente de recibos (OCR)</b>: Extraia automaticamente os detalhes das transações a partir de fotos de comprovantes e cupons fiscais usando reconhecimento óptico de caracteres.
+• <b>Interface web para computador</b>: Acesse e gerencie suas transações a partir de qualquer navegador web na sua rede local.
+• <b>Análises poderosas</b>: Visualize tendências de gastos, gráficos de pizza de distribuição e relatórios históricos com gráficos dinâmicos personalizáveis.
+• <b>Sincronização flexível e controle de dados</b>: Exporte e importe dados facilmente nos formatos QIF e CSV. Sincronize perfeitamente entre dispositivos usando WebDAV, Nextcloud, Google Drive, Dropbox ou OneDrive com suporte a certificados de cliente.
+• <b>Privacidade e segurança em primeiro lugar</b>: Transparência de código aberto, proteção por senha ou bloqueio biométrico e banco de dados criptografado.
+
+<b>Desbloqueie Recursos Premium:</b>
+
+• <i>Chave de contribuição</i>: Os destaques incluem o desbloqueio de contas ilimitadas, planos recorrentes ilimitados, exportação de listas em PDF, gráficos de distribuição e muito mais.
+• <i>Chave estendida</i>: Inclui todas as funcionalidades da Chave de contribuição, além de sincronização automática na nuvem e regras avançadas de importação CSV.
+• <i>Chave Profissional</i>: Inclui todas as funcionalidades da Chave estendida, além de acompanhamento de carteiras e investimentos, gráficos históricos, monitoramento de orçamentos, escaneamento OCR de recibos, interface web local para computador, sincronização bancária direta (Alemanha) e muito mais.
+
+<b>Transparência nas Permissões:</b>
+
+• <i>Calendário</i>: Os planos para transações recorrentes são salvos em um calendário local dedicado ou em qualquer outro calendário atribuído.
+• <i>Internet</i>: Rastreamento de uso anônimo (opcional), sincronização na nuvem e relatórios de falhas (opcional).
+
+Assuma o controle do seu dinheiro e do seu patrimônio hoje mesmo com <i>Minhas Despesas</i>!

@@ -1,111 +1,120 @@
 package org.totschnig.myexpenses.viewmodel
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.ContentUris
-import android.content.ContentValues
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
+import androidx.annotation.RequiresPermission
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.content.pm.ShortcutManagerCompat.FLAG_MATCH_PINNED
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.application
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
+import org.totschnig.myexpenses.db2.RepositoryTemplate
 import org.totschnig.myexpenses.db2.addAttachments
+import org.totschnig.myexpenses.db2.createPlan
+import org.totschnig.myexpenses.db2.createTemplate
+import org.totschnig.myexpenses.db2.createTransaction
 import org.totschnig.myexpenses.db2.deleteAttachments
-import org.totschnig.myexpenses.db2.getCategoryPath
+import org.totschnig.myexpenses.db2.entities.Plan
+import org.totschnig.myexpenses.db2.entities.Recurrence
+import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.getCurrencyUnitForAccount
 import org.totschnig.myexpenses.db2.getLastUsedOpenAccount
+import org.totschnig.myexpenses.db2.linkTemplateWithTransaction
 import org.totschnig.myexpenses.db2.loadActiveTagsForAccount
 import org.totschnig.myexpenses.db2.loadAttachments
+import org.totschnig.myexpenses.db2.loadPlan
+import org.totschnig.myexpenses.db2.loadTemplate
+import org.totschnig.myexpenses.db2.loadTransaction
+import org.totschnig.myexpenses.db2.requireParty
 import org.totschnig.myexpenses.db2.savePrice
+import org.totschnig.myexpenses.db2.updateNewPlanEnabled
+import org.totschnig.myexpenses.db2.updatePlan
+import org.totschnig.myexpenses.db2.updateTemplate
+import org.totschnig.myexpenses.db2.updateTransaction
 import org.totschnig.myexpenses.exception.UnknownPictureSaveException
-import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.ITransaction
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Plan
-import org.totschnig.myexpenses.model.Sort
-import org.totschnig.myexpenses.model.SplitTransaction
-import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.Transaction
-import org.totschnig.myexpenses.model.Transfer
+import org.totschnig.myexpenses.model.generateUuid
+import org.totschnig.myexpenses.model.sort.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
-import org.totschnig.myexpenses.provider.BaseTransactionProvider
+import org.totschnig.myexpenses.provider.CalendarProviderProxy
 import org.totschnig.myexpenses.provider.DatabaseConstants.CATEGORY_ICON
 import org.totschnig.myexpenses.provider.DatabaseConstants.CAT_AS_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENT_BALANCE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_CATID
+import org.totschnig.myexpenses.provider.KEY_COMMENT
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_DEBT_ID
+import org.totschnig.myexpenses.provider.KEY_ICON
+import org.totschnig.myexpenses.provider.KEY_IS_PORTFOLIO
+import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_METHODID
+import org.totschnig.myexpenses.provider.KEY_PARENTID
+import org.totschnig.myexpenses.provider.KEY_PLANID
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_SEALED
+import org.totschnig.myexpenses.provider.KEY_TITLE
+import org.totschnig.myexpenses.provider.PORTFOLIO_NONE
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.provider.ProviderUtils
-import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
+import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_FULL_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_ACCOUNT_TYPE_LIST
 import org.totschnig.myexpenses.provider.fileName
-import org.totschnig.myexpenses.provider.filter.KEY_CRITERION
-import org.totschnig.myexpenses.provider.getBoolean
-import org.totschnig.myexpenses.provider.getInt
-import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongIfExists
-import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringIfExists
 import org.totschnig.myexpenses.provider.isDebugAsset
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
+import org.totschnig.myexpenses.service.PlanExecutor
+import org.totschnig.myexpenses.ui.DisplayParty
+import org.totschnig.myexpenses.util.ExchangeRateHandler
+import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.ImageOptimizer
 import org.totschnig.myexpenses.util.PictureDirHelper
 import org.totschnig.myexpenses.util.ShortcutHelper
 import org.totschnig.myexpenses.util.asExtension
-import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.util.io.FileCopyUtils
 import org.totschnig.myexpenses.util.io.getFileExtension
 import org.totschnig.myexpenses.util.io.getNameWithoutExtension
 import org.totschnig.myexpenses.viewmodel.data.Account
+import org.totschnig.myexpenses.viewmodel.data.InitialPlanData
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
-import org.totschnig.myexpenses.viewmodel.data.SplitPart
+import org.totschnig.myexpenses.viewmodel.data.PlanLoadedData
+import org.totschnig.myexpenses.viewmodel.data.TemplateEditData
+import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
+import org.totschnig.myexpenses.viewmodel.data.TransactionEditResult
+import org.totschnig.myexpenses.viewmodel.data.TransferEditData
+import org.totschnig.myexpenses.viewmodel.data.mapper.TransactionMapper
 import java.io.IOException
 import java.math.BigDecimal
 import java.time.LocalDate
+import java.time.ZonedDateTime
 import javax.inject.Inject
 import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
 
@@ -115,12 +124,13 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
     @Inject
     lateinit var plannerUtils: PlannerUtils
 
-    private val splitPartLoader = MutableStateFlow<Pair<Long, Boolean>?>(null)
+    @Inject
+    lateinit var exchangeRateHandler: ExchangeRateHandler
+
+    @Inject
+    lateinit var currencyFormatter: ICurrencyFormatter
 
     private var loadMethodJob: Job? = null
-
-    private val _moveResult: MutableStateFlow<Boolean?> = MutableStateFlow(null)
-    val moveResult: StateFlow<Boolean?> = _moveResult
 
     private val _autoFillData: MutableStateFlow<AutoFillData?> = MutableStateFlow(null)
     val autoFillData: StateFlow<AutoFillData?> = _autoFillData
@@ -131,9 +141,9 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
     val accounts: Flow<List<Account>>
         get() = contentResolver.observeQuery(
             uri = ACCOUNTS_FULL_URI,
-            selection = "$KEY_SEALED = 0"
+            selection = "$KEY_SEALED = 0 AND $KEY_IS_PORTFOLIO = $PORTFOLIO_NONE AND $KEY_PARENTID IS NULL"
         ).mapToList {
-            buildAccount(it, currencyContext)
+            Account.fromCursor(it, currencyContext)
         }
 
     val templates: Flow<List<DataTemplate>>
@@ -148,9 +158,9 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             )
         ).mapToList { DataTemplate.fromCursor(it) }
 
-
-    fun plan(planId: Long): LiveData<Plan?> = liveData(context = coroutineContext()) {
-        emit(Plan.getInstanceFromDb(contentResolver, planId))
+    @RequiresPermission(allOf = [Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR])
+    fun plan(planId: Long): LiveData<PlanLoadedData?> = liveData(context = coroutineContext()) {
+        emit(repository.loadPlan(planId)?.let { TransactionMapper.mapPlan(it) })
     }
 
     fun loadMethods(isIncome: Boolean, type: AccountType) {
@@ -163,82 +173,172 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     .appendQueryParameter(QUERY_PARAMETER_ACCOUNT_TYPE_LIST, type.id.toString())
                     .build(), null, null, null, null, false
             )
-                .mapToList { PaymentMethod.create(it) }
+                .mapToList { PaymentMethod.from(it) }
                 .collect {
                     methods.postValue(it)
                 }
         }
     }
 
-    private fun buildAccount(cursor: Cursor, currencyContext: CurrencyContext): Account {
-        val currency =
-            currencyContext[cursor.getString(KEY_CURRENCY)]
-        return Account(
-            id = cursor.getLong(KEY_ROWID),
-            label = cursor.getString(KEY_LABEL),
-            currency,
-            color = cursor.getInt(KEY_COLOR),
-            type = AccountType.fromAccountCursor(cursor),
-            criterion = cursor.getLongOrNull(KEY_CRITERION),
-            isDynamic = cursor.getBoolean(KEY_DYNAMIC),
-            flag = AccountFlag.fromAccountCursor(cursor),
-            currentBalance = cursor.getLong(KEY_CURRENT_BALANCE)
-        )
+    private fun maybeCreateInitialPlan(
+        transaction: TransactionEditData,
+        initialPlan: InitialPlanData,
+    ): Pair<String, Plan?> {
+        val title = initialPlan.title
+            ?: transaction.party?.name
+            ?: transaction.categoryPath?.takeIf { it.isNotEmpty() }
+            ?: transaction.comment?.takeIf { it.isNotEmpty() }
+            ?: localizedContext.getString(R.string.menu_create_template)
+        //noinspection MissingPermission
+        return title to if (initialPlan.recurrence != Recurrence.NONE) repository.createPlan(
+            title,
+            transaction.compileDescription(localizedContext, currencyFormatter, initialPlan.uuid),
+            initialPlan.date,
+            initialPlan.recurrence
+        ) else null
     }
 
-    fun save(transaction: ITransaction, userSetExchangeRate: BigDecimal?): LiveData<Result<Unit>> =
-        liveData(context = coroutineContext()) {
-            emit(runCatching {
-
-                transaction.save(contentResolver, plannerUtils, true)
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && transaction is Template && transaction.id != 0L) {
-                    if (
-                        ShortcutManagerCompat.getShortcuts(getApplication(), FLAG_MATCH_PINNED)
-                            .any {
-                                it.id == ShortcutHelper.idTemplate(transaction.id)
-                            }
-                    ) {
-                        ShortcutManagerCompat.updateShortcuts(
-                            getApplication(),
-                            listOf(
-                                ShortcutHelper.buildTemplateShortcut(
-                                    getApplication(),
-                                    TemplateInfo.fromTemplate(transaction)
-                                )
-                            )
+    @SuppressLint("MissingPermission")
+    suspend fun save(
+        transaction: TransactionEditData,
+        userSetExchangeRate: BigDecimal?,
+    ): Result<TransactionEditResult> = withContext(coroutineContext()) {
+        runCatching {
+            val transaction = transaction.copy(
+                party = transaction.party?.let {
+                    (it.id ?: repository.requireParty(it.name))
+                        ?.let { id -> DisplayParty(id, it.name) }
+                }
+            )
+            val result = if (transaction.isTemplate) {
+                val initialPlanId = transaction.initialPlan?.let {
+                    maybeCreateInitialPlan(
+                        transaction,
+                        it
+                    ).second?.id
+                }
+                val template = TransactionMapper.mapTemplate(transaction).let {
+                    if (initialPlanId != null) it.copy(data = it.data.copy(planId = initialPlanId)) else it
+                }
+                val id = if (transaction.id == 0L) {
+                    val id = repository.createTemplate(template).id
+                    repository.updateNewPlanEnabled(licenceHandler)
+                    if (initialPlanId != null) {
+                        PlanExecutor.enqueueSelf(application, prefHandler, forceImmediate = true)
+                    }
+                    id
+                } else {
+                    repository.updateTemplate(template)
+                    if (transaction.planId != null) {
+                        repository.updatePlan(
+                            transaction.planId,
+                            template.title,
+                            transaction.compileDescription(localizedContext, currencyFormatter)
                         )
                     }
+                    transaction.id
                 }
-                tagsLiveData.value?.let { transaction.saveTags(contentResolver, it) }
+                TransactionEditResult(
+                    id = id,
+                    amount = template.data.amount,
+                    initialPlanId = initialPlanId
+                )
+            } else {
+                val repositoryTransaction = TransactionMapper.mapTransaction(transaction)
+                val saved = if (transaction.id == 0L) {
+                    repository.createTransaction(repositoryTransaction)
+                } else {
+                    repository.updateTransaction(repositoryTransaction)
+                    repositoryTransaction
+                }
+                val initialPlanId = transaction.initialPlan
+                    ?.let { maybeCreateInitialPlan(transaction, it) }
+                    ?.also { (title, plan) ->
+                        val template = repository.createTemplate(
+                            RepositoryTemplate.fromTransaction(
+                                repositoryTransaction,
+                                title,
+                                transaction.initialPlan.uuid
+                            ).let {
+                                if (plan?.id != null) it.copy(data = it.data.copy(planId = plan.id)) else it
+                            }
+                        )
+                        if (plan != null) {
+                            repository.linkTemplateWithTransaction(
+                                template.id,
+                                saved.id,
+                                CalendarProviderProxy.calculateId(plan.dtStart)
+                            )
+                        }
+                        repository.updateNewPlanEnabled(licenceHandler)
+                    }?.second?.id
+                if (transaction.planInstanceId != null && transaction.originTemplate != null) {
+                    repository.linkTemplateWithTransaction(
+                        transaction.originTemplate.templateId,
+                        saved.id,
+                        transaction.planInstanceId
+                    )
+                }
+                TransactionEditResult(
+                    id = saved.id,
+                    amount = repositoryTransaction.data.amount,
+                    transferPeer = saved.transferPeer?.id,
+                    transferAmount = repositoryTransaction.transferPeer?.amount,
+                    initialPlanId = initialPlanId
+                )
+            }
+            //Attachments
+            if (!transaction.isTemplate) {
                 (originalUris - attachmentUris.value.toSet()).takeIf { it.isNotEmpty() }?.let {
                     repository.deleteAttachments(transaction.id, it)
                 }
-
-                val attachments =
+                val newAttachmentUris =
                     (attachmentUris.value - originalUris.toSet()).map(::prepareUriForSave)
-                repository.addAttachments(transaction.id, attachments)
-                (transaction as? Transfer)?.transferPeer?.let {
-                    repository.addAttachments(
-                        it,
-                        attachments
+                repository.addAttachments(result.id, newAttachmentUris)
+                result.transferPeer?.let {
+                    repository.addAttachments(it, newAttachmentUris)
+                }
+            }
+
+            if (transaction.templateEditData != null && transaction.id != 0L) {
+                if (
+                    ShortcutManagerCompat.getShortcuts(getApplication(), FLAG_MATCH_PINNED)
+                        .any {
+                            it.id == ShortcutHelper.idTemplate(transaction.id)
+                        }
+                ) {
+                    ShortcutManagerCompat.updateShortcuts(
+                        getApplication(),
+                        listOf(
+                            ShortcutHelper.buildTemplateShortcut(
+                                getApplication(),
+                                TemplateInfo.fromTemplate(
+                                    transaction.id,
+                                    transaction.templateEditData.title,
+                                    transaction.templateEditData.defaultAction
+                                )
+                            )
+                        )
                     )
                 }
-                val date = epoch2LocalDate(transaction.date)
-                if (date <= LocalDate.now()) {
-                    userSetExchangeRate?.let {
+            }
+            val date = transaction.date.toLocalDate()
+            if (date <= LocalDate.now()) {
+                userSetExchangeRate
+                    ?.takeIf { it > BigDecimal.ZERO }
+                    ?.let {
                         repository.savePrice(
-                            currencyContext.homeCurrencyString,
-                            transaction.amount.currencyUnit.code,
+                            currencyContext.homeCurrencyUnit,
+                            transaction.amount.currencyUnit,
                             date,
                             ExchangeRateSource.User,
-                            it.toDouble()
+                            it
                         )
                     }
-                }
-                Unit
-            })
+            }
+            result
         }
+    }
 
     private val shouldCopyExternalUris
         get() = prefHandler.getBoolean(PrefKey.COPY_ATTACHMENT, true)
@@ -305,46 +405,29 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         }
     }
 
-    fun cleanupSplit(id: Long, isTemplate: Boolean): LiveData<Unit> =
-        liveData(context = coroutineContext()) {
-            emit(
-                if (isTemplate) Template.cleanupCanceledEdit(contentResolver, id) else
-                    SplitTransaction.cleanupCanceledEdit(contentResolver, id)
-            )
-        }
-
     fun loadActiveTags(id: Long) = viewModelScope.launch(coroutineContext()) {
         if (!userHasUpdatedTags) {
             updateTags(repository.loadActiveTagsForAccount(id), false)
         }
     }
 
-    private fun Transaction.applyDefaultTransferCategory() {
-        if (isTransfer) {
-            prefHandler.defaultTransferCategory?.let { id ->
-                repository.getCategoryPath(id)?.let { path ->
-                    catId = id
-                    categoryPath = path
-                }
-            }
-        }
-    }
-
     suspend fun newTemplate(
         operationType: Int,
         parentId: Long?,
-    ): Template? = withContext(coroutineContext()) {
+        defaultAction: Template.Action,
+    ): TransactionEditData? = withContext(coroutineContext()) {
         repository.getLastUsedOpenAccount()?.let {
-            Template.getTypedNewInstance(
-                contentResolver,
-                operationType,
-                it.first,
-                it.second,
-                true,
-                parentId
-            )?.apply {
-                applyDefaultTransferCategory()
-            }
+            TransactionEditData(
+                amount = Money(it.second, 0L),
+                accountId = it.first,
+                transferEditData = if (operationType == TYPE_TRANSFER) TransferEditData() else null,
+                categoryId = if (operationType == TYPE_SPLIT) SPLIT_CATID else null,
+                templateEditData = TemplateEditData(
+                    defaultAction = defaultAction
+                ),
+                parentId = parentId,
+                uuid = generateUuid()
+            ).applyDefaultTransferCategory()
         }
     }
 
@@ -367,143 +450,102 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         accountId: Long,
         currencyUnit: CurrencyUnit?,
         parentId: Long?,
-    ): Transaction? = ensureLoadData(accountId, currencyUnit)?.let { (accountId, currencyUnit) ->
-        Transaction.getNewInstance(accountId, currencyUnit, parentId)
-    }
+    ): TransactionEditData? =
+        ensureLoadData(accountId, currencyUnit)?.let { (accountId, currencyUnit) ->
+            TransactionEditData(
+                amount = Money(currencyUnit, 0L),
+                accountId = accountId,
+                parentId = parentId,
+                uuid = generateUuid(),
+            )
+        }
 
     suspend fun newTransfer(
         accountId: Long,
         currencyUnit: CurrencyUnit?,
-        transferAccountId: Long?,
+        transferAccountId: Long,
         parentId: Long?,
-    ): Transfer? = ensureLoadData(accountId, currencyUnit)?.let { (accountId, currencyUnit) ->
-        Transfer.getNewInstance(accountId, currencyUnit, transferAccountId, parentId).apply {
-            applyDefaultTransferCategory()
-        }
-    }
-
-    suspend fun newSplit(accountId: Long, currencyUnit: CurrencyUnit?): SplitTransaction? =
+    ): TransactionEditData? =
         ensureLoadData(accountId, currencyUnit)?.let { (accountId, currencyUnit) ->
-            SplitTransaction.getNewInstance(contentResolver, accountId, currencyUnit, true)
+            TransactionEditData(
+                amount = Money(currencyUnit, 0L),
+                accountId = accountId,
+                parentId = parentId,
+                uuid = generateUuid(),
+                transferEditData = TransferEditData(transferAccountId = transferAccountId)
+            ).applyDefaultTransferCategory()
         }
 
-    fun loadSplitParts(parentId: Long, parentIsTemplate: Boolean) {
-        splitPartLoader.tryEmit(parentId to parentIsTemplate)
-    }
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val splitParts = splitPartLoader.filterNotNull().flatMapLatest { (parentId, parentIsTemplate) ->
-        contentResolver.observeQuery(
-            uri = if (parentIsTemplate) TransactionProvider.TEMPLATES_UNCOMMITTED_URI
-            else TransactionProvider.UNCOMMITTED_URI,
-            projection = listOfNotNull(
-                KEY_ROWID,
-                KEY_AMOUNT,
-                KEY_COMMENT,
-                KEY_PATH,
-                KEY_TRANSFER_ACCOUNT,
-                TRANSFER_ACCOUNT_LABEL,
-                if (parentIsTemplate) null else BaseTransactionProvider.DEBT_LABEL_EXPRESSION,
-                KEY_TAGLIST,
-                KEY_ICON
-            ).toTypedArray(),
-            selection = "$KEY_PARENTID = ?",
-            selectionArgs = arrayOf(parentId.toString())
-        ).mapToList { SplitPart.fromCursor(it, contentResolver) }
-    }
-
-    fun moveUnCommittedSplitParts(transactionId: Long, accountId: Long, isTemplate: Boolean) {
-        _moveResult.update {
-            contentResolver.query(
-                if (isTemplate) TransactionProvider.TEMPLATES_UNCOMMITTED_URI else TransactionProvider.UNCOMMITTED_URI,
-                arrayOf("count(*)"),
-                "$KEY_PARENTID = ? AND $KEY_TRANSFER_ACCOUNT  = ?",
-                arrayOf(transactionId.toString(), accountId.toString()),
-                null
-            )?.use {
-                if (it.moveToFirst() && it.getInt(0) == 0) {
-                    val values = ContentValues()
-                    values.put(KEY_ACCOUNTID, accountId)
-                    contentResolver.update(
-                        if (isTemplate) TransactionProvider.TEMPLATES_URI else TransactionProvider.TRANSACTIONS_URI,
-                        values,
-                        "$KEY_PARENTID = ? AND $KEY_STATUS = $STATUS_UNCOMMITTED",
-                        arrayOf(transactionId.toString())
-                    )
-                    true
-                } else false
-            } == true
+    suspend fun newSplit(accountId: Long, currencyUnit: CurrencyUnit?): TransactionEditData? =
+        ensureLoadData(accountId, currencyUnit)?.let { (accountId, currencyUnit) ->
+            TransactionEditData(
+                amount = Money(currencyUnit, 0L),
+                accountId = accountId,
+                categoryId = SPLIT_CATID,
+                uuid = generateUuid(),
+            )
         }
-    }
 
-    fun moveResultProcessed() {
-        _moveResult.update {
-            null
-        }
-    }
-
-    fun transaction(
-        transactionId: Long,
+    /**
+     * as a side effect sets attachments
+     */
+    suspend fun read(
+        rowId: Long,
         task: InstantiationTask,
         clone: Boolean,
-        forEdit: Boolean,
         extras: Bundle?,
-    ): LiveData<Transaction?> = liveData(context = coroutineContext()) {
+    ): TransactionEditData? = withContext(context = coroutineContext()) {
+
+        if (task == InstantiationTask.TRANSACTION) {
+            val uriList = repository.loadAttachments(rowId)
+            //If we clone a transaction the attachments need to be considered new for the clone in order to get saved
+            if (clone) {
+                addAttachmentUris(*uriList.toTypedArray())
+            } else {
+                originalUris = ArrayList(uriList)
+            }
+        }
+
         when (task) {
-            InstantiationTask.TEMPLATE -> Template.getInstanceFromDbWithTags(
-                contentResolver,
-                transactionId
-            )
-
-            InstantiationTask.TRANSACTION_FROM_TEMPLATE ->
-                Transaction.getInstanceFromTemplateWithTags(contentResolver, transactionId)?.let {
-                    it.first to it.second
-                }
-
-            InstantiationTask.TRANSACTION -> Transaction.getInstanceFromDbWithTags(
-                contentResolver,
-                transactionId,
-                currencyContext.homeCurrencyUnit
-            )
-
-            InstantiationTask.FROM_INTENT_EXTRAS -> Pair(
-                ProviderUtils.buildFromExtras(
-                    repository,
-                    extras!!
-                )!!, emptyList()
-            )
-
-            InstantiationTask.TEMPLATE_FROM_TRANSACTION -> with(
-                Transaction.getInstanceFromDb(
-                    contentResolver, transactionId, currencyContext.homeCurrencyUnit
-                )
-            ) {
-                Pair(
-                    Template(contentResolver, this, payee ?: categoryPath),
-                    this.loadTags(contentResolver)
-                )
+            InstantiationTask.TEMPLATE -> repository.loadTemplate(rowId, withTags = true)?.let {
+                TransactionMapper.map(it, currencyContext)
             }
-        }?.also { pair ->
-            if (forEdit) {
-                pair.first.prepareForEdit(
-                    contentResolver,
-                    clone,
-                    clone && prefHandler.getBoolean(PrefKey.CLONE_WITH_CURRENT_DATE, true)
-                )
-            }
-            emit(pair.first)
-            pair.second?.takeIf { it.isNotEmpty() }?.let { updateTags(it, false) }
-            if (task == InstantiationTask.TRANSACTION) {
-                val uriList = repository.loadAttachments(transactionId)
-                //If we clone a transaction the attachments need to be considered new for the clone in order to get saved
-                if (clone) {
-                    addAttachmentUris(*uriList.toTypedArray())
-                } else {
-                    originalUris = ArrayList(uriList)
+
+            InstantiationTask.TRANSACTION_FROM_TEMPLATE -> {
+                val template = repository.loadTemplate(rowId, withTags = true, require = false)
+                template?.instantiate(currencyContext, exchangeRateHandler)?.let {
+                    TransactionMapper.map(it, currencyContext).copy(
+                        originTemplate = TransactionMapper.mapTemplateEditData(template)
+                    )
                 }
             }
-        } ?: run {
-            emit(null)
+
+            InstantiationTask.TRANSACTION -> repository.loadTransaction(rowId, withTags = true)
+                .let {
+                    val withCurrentDate =
+                        if (clone && prefHandler.getBoolean(PrefKey.CLONE_WITH_CURRENT_DATE, true))
+                            ZonedDateTime.now().toEpochSecond() else null
+                    TransactionMapper.map(
+                        if (clone) it.copy(
+                            data = it.data.copy(
+                                id = 0L,
+                                uuid = generateUuid(),
+                                date = withCurrentDate ?: it.data.date,
+                                valueDate = withCurrentDate ?: it.data.valueDate
+                            )
+                        ) else it, currencyContext
+                    )
+                }
+
+            InstantiationTask.FROM_INTENT_EXTRAS ->
+                ProviderUtils.buildFromExtras(repository, extras!!)
+
+
+            InstantiationTask.TEMPLATE_FROM_TRANSACTION -> RepositoryTemplate.fromTransaction(
+                repository.loadTransaction(rowId, withTransfer = true, withTags = true)
+            ).let {
+                TransactionMapper.map(it, currencyContext)
+            }
         }
     }
 

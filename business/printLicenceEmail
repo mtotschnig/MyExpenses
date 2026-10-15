@@ -50,7 +50,7 @@ then
 fi
 
 available_locales='ar bg cs de el en es eu fr he it ja kn ms pl pt ru tr vi'
-available_addons='SplitTemplate History Budget Ocr WebUi CategoryTree CsvImport Synchronization AccountsUnlimited PlansUnlimited SplitTransaction Distribution Print AdFree Banking'
+available_addons='SplitTemplate History Budget Ocr WebUi CategoryTree CsvImport Synchronization AccountsUnlimited PlansUnlimited SplitTransaction Distribution Print AdFree Banking Portfolio'
 
 if [[ -z "${lang// }" || ! " $available_locales " =~ .*\ $lang\ .* ]]
 then

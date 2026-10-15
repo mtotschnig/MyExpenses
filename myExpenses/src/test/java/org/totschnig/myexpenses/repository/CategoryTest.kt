@@ -12,6 +12,8 @@ import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.db2.FLAG_EXPENSE
 import org.totschnig.myexpenses.db2.FLAG_INCOME
 import org.totschnig.myexpenses.db2.budgetAllocation
+import org.totschnig.myexpenses.db2.deleteCategory
+import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.db2.loadCategory
 import org.totschnig.myexpenses.db2.mergeCategories
 import org.totschnig.myexpenses.db2.moveCategory
@@ -19,9 +21,9 @@ import org.totschnig.myexpenses.db2.saveCategory
 import org.totschnig.myexpenses.model2.Category
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.CATEGORY_TREE_URI
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.budgetAllocationUri
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
+import org.totschnig.myexpenses.provider.KEY_BUDGET
+import org.totschnig.myexpenses.provider.KEY_CATID
+import org.totschnig.myexpenses.provider.KEY_TYPE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
@@ -99,7 +101,7 @@ class CategoryTest : BaseTestWithRepository() {
         contentResolver.update(
             ContentUris.withAppendedId(TransactionProvider.CATEGORIES_URI, sub),
             ContentValues().apply {
-                put(DatabaseConstants.KEY_TYPE, FLAG_INCOME.toInt())
+                put(KEY_TYPE, FLAG_INCOME.toInt())
             },
             null,
             null
@@ -115,6 +117,9 @@ class CategoryTest : BaseTestWithRepository() {
         val subSub1 = Category(label = "SubSub", parentId = sub1.id).saveCopy
         Category(label = "SubSub", parentId = sub2.id).saveCopy
         repository.mergeCategories(listOf(main2.id!!), main1.id!!)
+        prefHandler.defaultTransferCategory?.let {
+            repository.deleteCategory(it)
+        }
         val cursor = contentResolver.query(
             CATEGORY_TREE_URI, null, null, null, null
         )!!
@@ -170,7 +175,7 @@ class CategoryTest : BaseTestWithRepository() {
         val testAccountId = insertAccount("Test account")
         val main1 = Category(label = "Main 1", type = FLAG_EXPENSE).saveCopy
         val main2 = Category(label = "Main 2", type = FLAG_EXPENSE).saveCopy
-        val transactionId = insertTransaction(testAccountId, 100, categoryId = main2.id!!).first
+        val transactionId = repository.insertTransaction(testAccountId, 100, categoryId = main2.id!!).id
         val templateId = insertTemplate(testAccountId, "Template", 100, main2.id)
         val budgetId = insertBudget(testAccountId, "Budget", 100)
         contentResolver.update(

@@ -141,7 +141,7 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
     /**
      * does not trigger call to registered ExchangeRateWatcher calculates rates based on two values
      */
-    fun calculateAndSetRate(amount1: BigDecimal?, amount2: BigDecimal?) {
+    fun calculateAndSetRate(amount1: BigDecimal?, amount2: BigDecimal?, fromUser: Boolean) {
         blockWatcher = true
         val exchangeRate: BigDecimal
         val inverseExchangeRate: BigDecimal
@@ -155,7 +155,9 @@ class ExchangeRateEdit(context: Context, attrs: AttributeSet?) : ConstraintLayou
             inverseExchangeRate = a1Abs.divide(a2Abs, MathContext.DECIMAL64)
             rate1Edit.setAmount(exchangeRate)
             rate2Edit.setAmount(inverseExchangeRate)
-            source = Source.User
+            if (fromUser) {
+                source = Source.User
+            }
         }
         blockWatcher = false
     }

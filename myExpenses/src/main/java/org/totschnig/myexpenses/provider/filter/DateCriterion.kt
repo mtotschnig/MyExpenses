@@ -31,7 +31,7 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.util.toEndOfDayEpoch
 import org.totschnig.myexpenses.util.toStartOfDayEpoch
 import java.time.Instant
@@ -49,7 +49,7 @@ object LocalDateSerializer : KSerializer<LocalDate> {
 
 @Parcelize
 @Serializable
-@SerialName(DatabaseConstants.KEY_DATE)
+@SerialName(KEY_DATE)
 data class DateCriterion(
     override val operation: Operation,
     override val values: List<@Serializable(with = LocalDateSerializer::class) LocalDate>
@@ -71,7 +71,7 @@ data class DateCriterion(
     @IgnoredOnParcel
     override val id = R.id.FILTER_DATE_COMMAND
     @IgnoredOnParcel
-    override val column = DatabaseConstants.KEY_DATE
+    override val column = KEY_DATE
 
     override val displayInfo: DisplayInfo
         get() = DateCriterion

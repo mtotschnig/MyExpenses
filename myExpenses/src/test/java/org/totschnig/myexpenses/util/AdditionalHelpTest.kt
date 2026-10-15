@@ -17,13 +17,4 @@ class AdditionalHelpTest: BaseHelpTest() {
     fun testHelpSetupSync() {
         assertThat(resolveStringOrArray("help_SetupSync_info")).isNotNull()
     }
-
-    @Test
-    fun testHelpNavigationDrawer() {
-        val context = "NavigationDrawer"
-        assertThat(resolveStringOrArray("help_${context}_title")).isNotNull()
-        assertThat(resolveStringOrArray("help_${context}_info")).isNotNull()
-        testMenuItems(context, null, resources.getStringArray(getArrayIdentifier(context + "_cabitems")), "cab")
-        testMenuItems(context, null, resources.getStringArray(getArrayIdentifier(context + "_menuitems")), "menu")
-    }
 }

@@ -79,9 +79,7 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Baki %1$s</string>
     <string name="dialog_title_contrib_feature">Fitur premium</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="other">Padam akaun %1$d?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Padam akaun?</string>
     <string name="dialog_title_warning_delete_category">Padam kategori?</string>
     <string name="dialog_title_warning_delete_template">Padam templat?</string>
     <string name="dialog_title_warning_delete_transaction">Padam transaksi?</string>
@@ -145,7 +143,7 @@
     <string name="menu_edit_method">Sunting kaedah pembayaran</string>
     <string name="menu_edit_party">Sunting pihak</string>
     <string name="menu_edit_plan_instance">Sunting kemunculan plan tunggal</string>
-    <string name="menu_edit_split">Sunting pengasingan</string>
+    <string name="menu_edit_split">Edit transaksi berpecah</string>
     <string name="menu_edit_split_part_category">Sunting bahagian pengasingan kategori</string>
     <string name="menu_edit_split_part_transfer">Sunting bahagian pengasingan pemindahan</string>
     <string name="menu_edit_template">Sunting Templat</string>
@@ -169,7 +167,6 @@
     <string name="menu_split_transaction">Ubah untuk diasingkan</string>
     <string name="method">Kaedah pembayaran</string>
     <string name="no_app_handling_email_available">Tiada emel pengendalian apl tersedia.</string>
-    <string name="no_app_handling_ftp_available">Tiada apl pengendalian ftp tersedia. Pasang <i>Hantar Dengan FTP</i>?</string>
     <string name="no_app_handling_mime_type_available">Tiada apl pengendalian fail %s tersedia.</string>
     <string name="no_categories">Tiada kategori.</string>
     <string name="no_expenses">Tiada Perbelanjaan Lagi!</string>
@@ -200,7 +197,7 @@
     <string name="password_security_answer_not_valid">Jawapan salah. Cuba lagi!</string>
     <string name="payee">Penerima bayaran</string>
     <string name="payer">Pembayar</string>
-    <string name="payer_or_payee">Penerima/Pembayar</string>
+    <string name="payer_or_payee">Pihak kaunter</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Plan</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -231,7 +228,6 @@
     <string name="pref_category_title_more_information">Lagi maklumat</string>
     <string name="pref_category_title_ui">Antaramuka pengguna</string>
     <string name="pref_contrib_purchase_title_upgrade">Kunci tatar</string>
-    <string name="pref_custom_currency_title">Suaikan matawang</string>
     <string name="pref_enter_licence_title">Masukkan kunci</string>
     <string name="pref_export_format_title">Format data</string>
     <string name="pref_import_from_grisbi_summary">Import kategori dan pihak dari fail XML Grisbi</string>
@@ -269,8 +265,6 @@
     <string name="pref_send_feedback_title">Hantar maklumbalas</string>
     <string name="pref_share_target_summary">Biarkan kosong jika anda mahu pilih diantara apl berkenaan (Emel, Dropbox, Google Docs, …) atau sediakan URL dalam salah satu skema yang disokong</string>
     <string name="pref_share_target_title">Muat Naik URL</string>
-    <string name="pref_shortcut_added">Pintasan telah ditambah ke Skrin Rumah</string>
-    <string name="pref_shortcut_not_added">Tiada Skrin Rumah tersedia yang menerima pintasan.</string>
     <string name="pref_shortcut_summary">Tambah pintasan ke Skrin Rumah.</string>
     <string name="pref_ui_home_screen_shortcuts">Pintasan Skrin Rumah</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -354,27 +348,29 @@
     <string name="warning_reset_account_all">Jika anda teruskan, untuk semua akaun %1$s, transaksi akan dipadam dari pangkalan data dan tidak dapat dipulihkan.</string>
     <string name="warning_reset_account_matched">Jika anda teruskan, transaksi yang sepada dengan penapis semasa akan dipadam dari pangkalan data dan tidak dapat dipulihkan.</string>
     <string name="warning_restore">Pangkalan data dan keutamaan akan dipulih dari fail \"%1$s\". Data semasa akan dipadam.</string>
-    <string name="warning_splitpartcategory_context">Pemindahan adalah sebahagian pengasingan hanya boleh disunting dalam konteks pengasingan.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Sila tetapkan nombor diantara %1$d hingga %2$d</string>
     <string name="warning_change_fraction_digits_1">Amaun dalam pangkalan data perlu dikemaskini untuk dipadanakn dengan bilangan baharu digit pecahan.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Jika amaun tidak dikemaskinikan, ia akan dipapar sebagai gandaan %d selepas perubahan.</string>
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Jika amaun tidak dikemaskinikan, ia akan dipapar sebagai per %d selepas perubahan.</string>
     <string name="warning_change_fraction_digits_3">Jika amaun dikemakinikan, anda akan kehilangan maklumat berkenaan bahagian pecahannya.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Kemaskini amaun dalam pangkalan data</string>
-    <string name="import_categories_success">%1$d kategori berjaya diimport.</string>
-    <string name="import_parties_success">%1$d pihak berjaya diimport.</string>
-    <string name="import_accounts_success">%1$d akaun berjaya diimport.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transaksi berjaya diimport ke dalam akaun %2$s</string>
-    <string name="import_accounts_none">Tiada akaun diimport</string>
-    <string name="import_categories_none">Tiada kategori diimport</string>
-    <string name="import_parties_none">Tiada pihak diimport</string>
-    <string name="import_transactions_none">Tiada transaksi dimport ke dalam akaun %1$s</string>
+    <plurals name="import_categories_result">
+        <item quantity="other">%1$d kategori berjaya diimport.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="other">%1$d pihak berjaya diimport.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="other">%1$d akaun berjaya diimport.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="other">%1$d transaksi berjaya diimport ke dalam akaun %2$s</item>
+    </plurals>
     <string name="import_source_select_error">Sila sediakan fail jenis %1$s</string>
     <string name="menu_categories_setup_default">Persediaan kategori lalai</string>
     <string name="widget_title_accounts">Akaun saya</string>
     <string name="widget_title_templates">Templat saya</string>
     <string name="app_dir_not_accessible">Folder terpilih semasa untuk sandar dan eksport (%1$s) tidak boleh dicapai. Sila pilih yang lain.</string>
-    <string name="app_dir_not_compatible_with_nougat">URI terkonfigur semasa untuk sandar dan eksport (%1$s) tidak disokong di bawah Android Nougat. Sila pilih folder yang lain.</string>
     <string name="search_amount">Gelintar amaun</string>
     <string name="search_category">Gelintar kategori</string>
     <string name="search_comment">Gelintar nota</string>
@@ -447,7 +443,6 @@
     <string name="plan_instance_state_cancelled">dibatalkan</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">dilaksanakan</string>
-    <string name="progress_dialog_updating_split_parts">Mengemaskini bahagian pengasingan</string>
     <string name="warning_cannot_move_split_transaction">Transaksi pengasingan ini tidak dapat dialih ke akaun %1$s kerana terdapat bahagian pemindahan yang merujuk pada akaun ini.</string>
     <string name="content_description_calculator_delete_button">Padam digit terakhir</string>
     <string name="paypal_callback_info">Transaksi anda telah selesai, dan satu resip pembelian anda telah diemelkan kepada anda. Anda boleh daftar masuk ke akaun anda di www.paypal.com untuk melihat perincian transaksi ini.</string>
@@ -459,17 +454,9 @@
     <string name="crash_dialog_comment_prompt">Anda boleh tambah ulasan berkenaan masalah yang berlaku di bawah:</string>
     <string name="synchronization">Penyegerakan</string>
     <string name="synchronization_none">Tiada penyegerakan</string>
-    <string name="hint_url">URL</string>
-    <string name="description_webdav_url">Sila masukkan URL ke folder khas dalam pelayan WebDAV anda. {app_name} akan menyimpan datanya di dalam folder ini, ia tidak akan menyentuh apa-apa diluarnya.</string>
-    <string name="description_webdav_trust_certificate">Laman sesawang menggunakan sijil, yang mana tidak dipercayai oleh Android.</string>
-    <string name="label_trust_certificate">Percayai sijil ini</string>
     <string name="no_sync_backends">Tiada bahagian belakang penyegerakan</string>
     <string name="menu_create_sync_backend">Bahagian belakang penyegerakan baharu</string>
     <string name="validate_error_not_empty">Tidak boleh kosong</string>
-    <string name="validate_error_webdav_invalid_certificate">Sijil tidak dipercayai. Ia kelihatan tidak sah.</string>
-    <string name="validate_error_webdav_not_compliant">URL tidak menuju ke sumber WebDAV.</string>
-    <string name="validate_error_webdav_404">URL tidak wujud dalam pelayan.</string>
-    <string name="url_not_valid">URL tidak sah</string>
     <string name="menu_sync_unlink">Henti menyegerak</string>
     <string name="menu_sync_link">Mula menyegerak</string>
     <string name="menu_sync_download">Muat turun dan segerak</string>
@@ -552,7 +539,6 @@
     <string name="pref_protection_device_lock_screen_title">Skrin kunci peranti</string>
     <string name="pref_warning_only_one_protection">Sebelum anda guna perlindungan oleh %1$s, anda mesti matikan perlindungan oleh %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Selamatkan skrin kunci peranti belum dipasangkan.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Pergi ke %s untuk tetapkan skrin kunci.</string>
     <string name="menu_history_show_balance">Tunjuk baki</string>
     <string name="menu_history_transfers">Sertakan pemindahan</string>
     <string name="menu_history">Sejarah</string>
@@ -643,7 +629,7 @@
     <string name="pref_exchange_rate_provider_summary">Pilih penyedia untuk memuat turun kadar pertukaran</string>
     <string name="pref_exchange_rate_provider_title">Penyedia Kadar Pertukaran</string>
     <string name="pref_exchange_rates_api_key_summary">Sila daftar satu akaun percuma pada %s dan sediakan ID Apl anda</string>
-    <string name="pref_plan_executor_time_title">Masa pemberitahuan perancang</string>
+    <string name="pref_plan_executor_time_title">Masa pemberitahuan</string>
     <string name="menu_create_budget">Belanjawan baharu</string>
     <string name="menu_edit_budget">Edit belanjawan</string>
     <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
@@ -854,8 +840,8 @@
     <string name="select_all_list_too_large">Perintah %s tidak tersedia kerana hanya sebahagian senarai dimuatkan. Sila gunakan fungsi Carian untuk mengurangkan saiz senarai.</string>
     <string name="pref_copy_attachments_summary_off">Fail tidak disalin, hanya rujukan disimpan.</string>
     <string name="pref_feature_uninstall_summary">Gedung Play cuba untuk akhirnya mengalih keluar modul tersebut di latar belakang.</string>
-    <string name="github_sponsors">Kunci lesen juga diberikan kepada &lt;a href=%s&gt;Penaja Github&lt;/a&gt;.</string>
-    <string name="roadmap_intro">Undian Pelan Hala Tuju 2024 kini dibuka! Undi untuk ciri dan penambahbaikan yang paling penting kepada anda.</string>
+    <string name="github_sponsors"><![CDATA[Kunci lesen juga diberikan kepada <a href=%s>Penaja Github</a>.]]></string>
+    <string name="roadmap_intro">Undian Pelan Hala Tuju %d kini dibuka! Undi untuk ciri dan penambahbaikan yang paling penting kepada anda.</string>
     <string name="subcategories_merged_recursively">Jika mana-mana kategori yang digabungkan mempunyai subkategori dengan label yang sama, kategori tersebut akan digabungkan terlebih dahulu, secara rekursif.</string>
     <string name="notifications_permission_required_auto_backup">Dengan memberikan kebenaran untuk menghantar pemberitahuan, anda akan dimaklumkan tentang auto-sandar.</string>
     <string name="exchange_rate_not_supported">Pembekal kadar pertukaran yang dikonfigurasikan tidak memberikan kadar %1$s : %2$s. Anda boleh cuba memilih yang lain dalam tetapan.</string>
@@ -863,7 +849,6 @@
         <item quantity="other">Tag %1$s dipetakan pada transaksi %2$d . Patutkah ia dipadamkan?</item>
     </plurals>
     <string name="sub_budget_exceeded_error_1_2">Semua jumlah yang diperuntukkan kepada kategori utama telah diperuntukkan kepada subkategori lain.</string>
-    <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Ketik dan tahan butang tindakan terapung untuk membuka terus borang untuk pemindahan, transaksi berpecah atau pendapatan.</string>
     <string name="warning_unencrypted_backup">Walaupun data anda dilindungi daripada akses tanpa kebenaran pada peranti ini, sandaran dibuat tanpa penyulitan, melainkan anda mengkonfigurasi %s.</string>
     <string name="pref_purge_backup_keep_title">Bilangan maksimum fail sandaran terbaharu untuk disimpan</string>
     <string name="pref_csv_export_split_categories_summary">Gunakan lajur berasingan untuk setiap peringkat hierarki kategori</string>
@@ -892,4 +877,12 @@
     <string name="balance_sheet_net_worth">Nilai bersih</string>
     <string name="price_history">Sejarah harga</string>
     <string name="pref_account_list_display_configuration_title">Senarai akaun</string>
+    <string name="menu_templates">Templat</string>
+    <string name="rounding">Pembulatan</string>
+    <string name="important_upgrade_information_heading">Maklumat penting</string>
+    <string name="pref_tag_style_title">Gaya tag</string>
+    <string name="pref_tag_style_outline">Sempadan berwarna</string>
+    <string name="pref_tag_style_filled">Berwarna penuh</string>
+    <string name="trade_additional_costs">Kos tambahan</string>
+    <string name="contrib_feature_portfolio_tracking">Penjejakan portfolio</string>
 </resources>

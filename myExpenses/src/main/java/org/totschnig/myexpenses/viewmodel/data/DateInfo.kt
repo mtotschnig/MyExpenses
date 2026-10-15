@@ -7,14 +7,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_MAX_VALUE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_DAY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_MONTH
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_WEEK
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR_OF_MONTH_START
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_THIS_YEAR_OF_WEEK_START
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_WEEK_START
+import org.totschnig.myexpenses.provider.KEY_MAX_VALUE
+import org.totschnig.myexpenses.provider.KEY_THIS_DAY
+import org.totschnig.myexpenses.provider.KEY_THIS_MONTH
+import org.totschnig.myexpenses.provider.KEY_THIS_WEEK
+import org.totschnig.myexpenses.provider.KEY_THIS_YEAR
+import org.totschnig.myexpenses.provider.KEY_THIS_YEAR_OF_MONTH_START
+import org.totschnig.myexpenses.provider.KEY_THIS_YEAR_OF_WEEK_START
+import org.totschnig.myexpenses.provider.KEY_WEEK_START
 import org.totschnig.myexpenses.provider.DbUtils
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getIntIfExistsOr0
@@ -34,11 +34,11 @@ data class DateInfo(
             contentResolver.query(
                 TransactionProvider.DUAL_URI,
                 arrayOf(
-                    "${DatabaseConstants.getThisYearOfWeekStart()} AS $KEY_THIS_YEAR_OF_WEEK_START",
-                    "${DatabaseConstants.getThisYearOfMonthStart()} AS $KEY_THIS_YEAR_OF_MONTH_START",
+                    "${DatabaseConstants.thisYearOfWeekStart} AS $KEY_THIS_YEAR_OF_WEEK_START",
+                    "${DatabaseConstants.thisYearOfMonthStart} AS $KEY_THIS_YEAR_OF_MONTH_START",
                     "${DatabaseConstants.THIS_YEAR} AS $KEY_THIS_YEAR",
-                    "${DatabaseConstants.getThisMonth()} AS $KEY_THIS_MONTH",
-                    "${DatabaseConstants.getThisWeek()} AS $KEY_THIS_WEEK",
+                    "${DatabaseConstants.thisMonth} AS $KEY_THIS_MONTH",
+                    "${DatabaseConstants.thisWeek} AS $KEY_THIS_WEEK",
                     "${DatabaseConstants.THIS_DAY} AS $KEY_THIS_DAY"
                 ),
                 null, null, null, null

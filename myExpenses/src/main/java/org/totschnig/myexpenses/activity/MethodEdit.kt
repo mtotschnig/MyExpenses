@@ -34,7 +34,7 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
 import org.totschnig.myexpenses.model2.PaymentMethod
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.viewmodel.MethodViewModel
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
@@ -48,7 +48,7 @@ class MethodEdit : EditActivity(), CompoundButton.OnCheckedChangeListener, OnIco
     private val viewModel by viewModels<MethodViewModel>()
 
     private val rowId: Long
-        get() = intent.extras?.getLong(DatabaseConstants.KEY_ROWID) ?: 0
+        get() = intent.extras?.getLong(KEY_ROWID) ?: 0
 
     @State
     var preDefined: PreDefinedPaymentMethod? = null
@@ -128,7 +128,7 @@ class MethodEdit : EditActivity(), CompoundButton.OnCheckedChangeListener, OnIco
     private fun setUpAccountTypeGrid(allTypes: List<AccountType>, checked: List<Long>?) {
         allTypes.forEach { accountType ->
             binding.AccountTypeGrid.addView(AppCompatCheckBox(this).also {
-                it.text = accountType.localizedName(this)
+                it.text = accountType.title(this)
                 it.isChecked = checked?.contains(accountType.id) == true
                 it.tag = accountType.id
                 it.setOnCheckedChangeListener(this)

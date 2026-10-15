@@ -17,11 +17,11 @@
     <string name="account">Rekening</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Soorten rekeningen</string>
-    <string name="account_type_asset">Vermogensrekening</string>
-    <string name="account_type_bank">Bankrekening</string>
-    <string name="account_type_cash">Geldrekening</string>
+    <string name="account_type_asset">Overige activa</string>
+    <string name="account_type_bank">Bank</string>
+    <string name="account_type_cash">Contant</string>
     <string name="account_type_ccard">Kredietkaart</string>
-    <string name="already_defined">%1$s is reeds gedefinieerd</string>
+    <string name="already_defined">%1$s is al gedefinieerd</string>
     <string name="amount">Bedrag</string>
     <string name="app_name">Mijn Uitgaven</string>
     <string name="backup_success">Database en voorkeuren succesvol geschreven naar \"%1$s\".</string>
@@ -40,7 +40,7 @@
     <string name="sum_income">Inkomsten</string>
     <string name="new_version">Nieuwe versie</string>
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Onbeperkt aantal gesplitste sjablonen</string>
-    <string name="account_type_liability">Schuldenrekening</string>
+    <string name="account_type_liability">Overige Schulden</string>
     <string name="date_format">Datumindeling</string>
     <string name="contrib_key">Bijdragen Sleutel</string>
     <string name="extended_key">Uitgebreide Sleutel</string>
@@ -117,10 +117,7 @@
     <string name="grouping_day">Dag</string>
     <string name="help_heading_whats_new">Wat is nieuw</string>
     <string name="import_select_transactions">Transacties</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Rekening verwijderen?</item>
-        <item quantity="other">%1$d rekeningen verwijderen?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Rekening verwijderen?</string>
     <string name="dialog_contrib_text_2">Draag bij door <i>{app_name}</i> te upgraden en krijg onbeperkte toegang tot de volgende functies:</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">Met je huidige licentiestatus (%2$s) kun je %1$d rekeningen aanmaken.</string>
     <string name="dialog_export_not_yet_exported">Exporteer alleen transacties die nog niet zijn geëxporteerd</string>
@@ -134,7 +131,6 @@
     <string name="menu_edit">Bewerken</string>
     <string name="menu_create_template_for_transaction">Nieuw transactiesjabloon</string>
     <string name="menu_edit_split_part_category">Categorie gesplitst deel bewerken</string>
-    <string name="no_app_handling_ftp_available">Geen app-afhandeling ftp beschikbaar. <i>Verzenden met FTP</i> installeren\?</string>
     <string name="no_app_handling_mime_type_available">Geen app die %s-bestanden verwerkt beschikbaar.</string>
     <string name="image_capture_not_installed">Geen app gevonden voor het maken van foto\'s.</string>
     <string name="no_exportable_expenses">Er zijn geen transacties die nog niet geëxporteerd zijn.</string>
@@ -165,12 +161,11 @@
     <string name="warning_reset_account">Als je doorgaat, worden alle transacties van dit account uit de database verwijderd en kunnen deze niet worden hersteld.</string>
     <string name="warning_password_contrib">Als je een beveiligingsvraag instelt, kun je de app ontgrendelen, voor het geval je jouw wachtwoord vergeet.</string>
     <string name="warning_restore">Database en voorkeuren worden hersteld vanuit het bestand \"%1$s\". De huidige gegevens worden verwijderd.</string>
-    <string name="warning_splitpartcategory_context">Overdrachten die deel uitmaken van een splitsing kunnen alleen worden bewerkt in de context van de splitsing.</string>
     <string name="menu_create_transaction">Nieuwe Transactie</string>
     <string name="menu_edit_method">Bewerk betaalwijze</string>
     <string name="menu_edit_party">Bewerk partij</string>
     <string name="menu_edit_plan_instance">Bewerk enkel plan exemplaar</string>
-    <string name="menu_edit_split">Bewerk splitsing</string>
+    <string name="menu_edit_split">Gesplitste transactie bewerken</string>
     <string name="menu_grouping">Groepering</string>
     <string name="menu_help">Help</string>
     <string name="menu_save">Opslaan</string>
@@ -223,13 +218,12 @@
     <string name="password_prompt">Vul je wachtwoord in</string>
     <string name="payee">Begunstigde</string>
     <string name="payer">Betaler</string>
-    <string name="payer_or_payee">Begunstigde/Betaler</string>
+    <string name="payer_or_payee">Tegenpartij</string>
     <string name="plan">Plannen</string>
     <string name="pm_type_credit">Krediet</string>
     <string name="pm_type_debit">Debet</string>
     <string name="pref_app_dir_title">Map voor back-ups en exports</string>
     <string name="pref_auto_fill_summary">Vul de gegevens in van de laatste transactie voor dezelfde begunstigde/betaler</string>
-    <string name="pref_custom_currency_title">Valuta\'s aanpassen</string>
     <string name="pref_import_summary">Importeer transacties, categorieën en partijen uit %s bestand</string>
     <string name="pref_import_title">%s importeren</string>
     <string name="pref_manage_accounts_title">Rekeningen</string>
@@ -292,8 +286,6 @@
     <string name="pm_type_neutral">Neutraal</string>
     <string name="pref_protection_enable_data_entry_from_widget_title">Gegevensinvoer via widgets en sneltoetsen</string>
     <string name="pref_protection_delay_seconds_title">Vertraging tot bescherming</string>
-    <string name="pref_shortcut_added">Snelkoppeling is toegevoegd aan het startscherm</string>
-    <string name="pref_shortcut_not_added">Geen startscherm beschikbaar dat snelkoppelingen accepteert.</string>
     <string name="pref_shortcut_summary">Voeg de snelkoppeling toe aan het startscherm.</string>
     <string name="time">Tijd</string>
     <string name="title">Titel</string>
@@ -348,7 +340,6 @@
         <item quantity="one">De geselecteerde transactie wordt verwijderd.</item>
         <item quantity="other">%1$d geselecteerde transacties worden verwijderd.</item>
     </plurals>
-    <string name="url_not_valid">URL niet geldig</string>
     <string name="pref_sync_frequency_summary">Hoe vaak moeten gegevens worden gesynchroniseerd (in uren).</string>
     <string name="dialog_command_sync_link_remote">Downloaden op afstand</string>
     <string name="button_label_no_encryption">Zonder versleuteling</string>
@@ -357,10 +348,8 @@
     <string name="import_source_file">Bestand</string>
     <string name="pref_auto_backup_title">Automatische back-up</string>
     <string name="pref_sort_order_last_used">Laatst gebruikt</string>
-    <string name="validate_error_webdav_not_compliant">De URL verwijst niet naar een WebDAV-bron.</string>
     <string name="link_account_failure_3">Het conflict kan handmatig worden opgelost vanuit het contextmenu van het item.</string>
     <string name="feature_deprecated">Verouderd</string>
-    <string name="progress_dialog_updating_split_parts">Gesplitste delen bijwerken</string>
     <string name="warning_change_fraction_digits_3">Als bedragen worden bijgewerkt, verlies je de informatie over hun fractionele deel.</string>
     <string name="search_payee">Zoek naar begunstigde/betaler</string>
     <string name="and">en</string>
@@ -368,16 +357,13 @@
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d rekeningen met munteenheid %2$s zijn bijgewerkt.</string>
     <string name="hint_auto_fill">Moeten de gegevens van de laatste transactie automatisch worden ingevuld voor dezelfde begunstigde/betaler? Je kunt dit gedrag altijd wijzigen via de instellingen.</string>
     <string name="dialog_export_applied_to_filter">Alleen transacties die overeenkomen met het huidige filter worden in aanmerking genomen.</string>
-    <string name="pref_manage_stale_images_title">Verouderde beelden</string>
+    <string name="pref_manage_stale_images_title">Verouderde afbeeldingen</string>
     <string name="export_handle_deleted_update_balance">Openingssaldo bijwerken</string>
     <string name="io_error_unable_to_create_file">Kan bestand %1$s niet maken in map %2$s</string>
-    <string name="import_accounts_success">%1$d rekeningen succesvol geïmporteerd.</string>
-    <string name="import_parties_none">Geen partijen geïmporteerd</string>
     <string name="pref_custom_decimal_format_summary">Als je niet tevreden bent met het standaardformaat voor je landinstelling, pas dit dan aan je behoeften aan. Laat leeg om het standaardformaat te herstellen.</string>
     <string name="warning_split_transactions">De geselecteerde transacties worden gegroepeerd in één gesplitste transactie. Hun datuminformatie gaat verloren, d.w.z. vervangen door hun gemiddelde.</string>
     <string name="split_transaction_not_possible">Alleen transacties met dezelfde rekening, begunstigde en status kunnen worden gegroepeerd in één gesplitste transactie.</string>
     <string name="date_format_hour">Uur</string>
-    <string name="validate_error_webdav_404">De URL bestaat niet op de server.</string>
     <string name="dialog_confirm_sync_unlink">Als je deze rekening ontkoppelt van %s, gaat de synchronisatiestatus verloren. Als je ze later opnieuw wilt koppelen, moet een volledige synchronisatie opnieuw worden uitgevoerd.</string>
     <string name="dialog_sync_link">Er bestaat een rekening met uuid %s zowel in de lokale database als op de externe backend. Wanneer je beide koppelt, moet je beslissen of je in eerste instantie lokale gegevens naar de externe backend wilt uploaden of externe gegevens naar de lokale database wilt downloaden.</string>
     <string name="warning_synchronization_folder_usage">Deze map wordt gebruikt voor het synchroniseren van gegevens tussen installaties van {app_name} op verschillende apparaten. Wijzig de inhoud niet handmatig.</string>
@@ -389,8 +375,6 @@
     <string name="menu_create_template_for_split">Nieuw gesplitst sjabloon</string>
     <string name="licence_removal_information">Indien je geen premium functionaliteit meer nodig heeft op dit apparaat, kun je de licentiesleutel verwijderen. Hierdoor wordt de sleutel vrijgemaakt voor activering op nog een ander apparaat. De sleutel kan op maximaal %d apparaten worden geactiveerd.</string>
     <string name="warning_ungroup_split_transactions">De geselecteerde gesplitste transacties worden gedegroepeerd, d.w.z. hun gesplitste delen worden normale transacties.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transacties succesvol geïmporteerd in rekening %2$s</string>
-    <string name="import_accounts_none">Geen rekeningen geïmporteerd</string>
     <string name="search_date">Zoek op datum</string>
     <string name="before">voor %s</string>
     <string name="folder_name">Mapnaam</string>
@@ -407,12 +391,9 @@
     <string name="search_transfer">Zoek naar overdracht</string>
     <string name="crash_dialog_comment_prompt">Je kunt hieronder je opmerkingen over het probleem toevoegen:</string>
     <string name="synchronization">Synchronisatie</string>
-    <string name="description_webdav_trust_certificate">De website gebruikt een certificaat, dat niet wordt vertrouwd door Android.</string>
-    <string name="label_trust_certificate">Vertrouw dit certificaat</string>
     <string name="no_sync_backends">Geen synchronisatie-backends</string>
     <string name="menu_create_sync_backend">Nieuwe synchronisatie-backend</string>
     <string name="validate_error_not_empty">Mag niet leeg zijn</string>
-    <string name="validate_error_webdav_invalid_certificate">Het certificaat kon niet worden vertrouwd. Het lijkt ongeldig.</string>
     <string name="menu_sync_unlink">Stop met synchroniseren</string>
     <string name="menu_sync_link">Begin met synchroniseren</string>
     <string name="dialog_command_sync_link_local">Uploaden van lokaal</string>
@@ -434,7 +415,6 @@
     <string name="professional_key">Professionele Sleutel</string>
     <string name="switch_to_yearly" tools:ignore="UnusedResources">Overstappen naar een jaarabonnement</string>
     <string name="pref_protection_device_lock_screen_title">Vergrendelscherm van apparaat</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Ga naar %s om een vergrendelscherm in te stellen.</string>
     <string name="menu_history_show_balance">Toon balans</string>
     <string name="menu_history">Geschiedenis</string>
     <string name="history_chart_out_label">Uitgaven</string>
@@ -506,7 +486,7 @@
         <item quantity="one">Eén oud back-upbestand is schoongemaakt.</item>
         <item quantity="other">%d oude back-upbestanden werden schoongemaakt.</item>
     </plurals>
-    <string name="webui_warning_move_transaction">De transactie wordt verplaatst naar rekening {rekening}.</string>
+    <string name="webui_warning_move_transaction">De transactie wordt verplaatst naar rekening {account}.</string>
     <string name="pref_csv_export_split_amount_summary">Gebruik aparte kolommen voor inkomsten en uitgaven</string>
     <string name="budget_table_header_rollover">Omrollen</string>
     <string name="redesign">Herontwerp</string>
@@ -547,7 +527,6 @@
     <string name="pref_ocr_total_indicators_summary">Een lijst met tekenreeksen die de totale waarde in een ontvangstbewijs identificeren. Zet elke waarde op een nieuwe regel. Laat leeg om de standaardwaarde te herstellen.</string>
     <string name="pref_criterion_futur_title">Criterium voor toekomstige transacties</string>
     <string name="scan_result_no_amount">Geen bedrag gevonden</string>
-    <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Houd de zwevende actieknop ingedrukt om het formulier voor overschrijvingen, gesplitste transacties of inkomsten direct te openen.</string>
     <string name="pref_tesseract_language_title">Taal voor Tesseract</string>
     <string name="account_widget_configuration_sum">Type getoonde som</string>
     <string name="request_for_invoice">Verzoek om factuur</string>
@@ -582,9 +561,6 @@
     <string name="export_to_format">Exporteer naar %s</string>
     <string name="pref_csv_export_split_categories_summary">Gebruik afzonderlijke kolommen voor elk niveau van de categoriehiërarchie</string>
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Als bedragen niet worden bijgewerkt, worden ze na de wijziging weergegeven als gedeeld door %d.</string>
-    <string name="import_parties_success">%1$d partijen succesvol geïmporteerd.</string>
-    <string name="import_categories_none">Geen categorieën geïmporteerd</string>
-    <string name="import_transactions_none">Geen transacties geïmporteerd in account %1$s</string>
     <string name="warning_change_fraction_digits_1">Bedragen in de database moeten worden bijgewerkt om overeen te komen met het nieuwe aantal breukcijfers.</string>
     <string name="widget_title_accounts">Mijn rekeningen</string>
     <string name="widget_title_templates">Mijn sjablonen</string>
@@ -622,7 +598,6 @@
     <string name="crash_dialog_title">{app_name} is gecrasht</string>
     <string name="crash_dialog_text">Er is een onverwachte fout opgetreden waardoor de toepassing moest stoppen. Help ons dit op te lossen door ons foutgegevens te sturen. Je hoeft alleen maar op OK te klikken.</string>
     <string name="menu_sync_download">Downloaden en synchroniseren</string>
-    <string name="description_webdav_url">Voer de URL in naar een speciale map op je WebDAV-server. {app_name} slaat zijn gegevens op in deze map, daarbuiten raakt hij niets aan.</string>
     <string name="warning_trial_limit_reached">De proefperiode voor het testen van functie %s is afgelopen.</string>
     <string name="progress_dialog_checking_sync_backend">Backend verifiëren</string>
     <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">Cloudsynchronisatie</string>
@@ -679,6 +654,22 @@
     <string name="dialog_confirm_rollover_delete">Alle doorrolbedragen voor deze periode worden verwijderd.</string>
     <string name="content_description_attachment">Bijlage</string>
     <string name="menu_categories_setup_default">Stel standaard categorieën in</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d categorieën succesvol geïmporteerd.</item>
+        <item quantity="other">%1$d categorieën succesvol geïmporteerd.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d partijen succesvol geïmporteerd.</item>
+        <item quantity="other">%1$d partijen succesvol geïmporteerd.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d rekeningen succesvol geïmporteerd.</item>
+        <item quantity="other">%1$d rekeningen succesvol geïmporteerd.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d transacties succesvol geïmporteerd in rekening %2$s</item>
+        <item quantity="other">%1$d transacties succesvol geïmporteerd in rekening %2$s</item>
+    </plurals>
     <string name="import_source_select_error">Geef een bestand van het type %1$s op</string>
     <string name="comparison_operator_equal">gelijk aan</string>
     <string name="transform_subcategory_to_main">Transformeer naar hoofdcategorie</string>
@@ -695,16 +686,13 @@
     <string name="pref_category_title_crash_reports">Crashrapporten</string>
     <string name="dialog_title_purge_backups">Verwijder oude back-ups</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">Tag %1$s is toegewezen aan één transactie. Moet het verwijderd worden\?</item>
+        <item quantity="one">Tag %1$s is toegewezen aan %2$d transactie. Moet het verwijderd worden\?</item>
         <item quantity="other">Tag %1$s is toegewezen aan %2$d transacties. Moet het verwijderd worden\?</item>
     </plurals>
     <string name="purge_backups">De volgende oude back-upbestanden worden verwijderd:</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Als bedragen niet worden bijgewerkt, worden ze weergegeven als vermenigvuldigd met %d na de wijziging.</string>
-    <string name="import_categories_success">%1$d categorieën succesvol geïmporteerd.</string>
     <string name="comparison_operator_greater_than">groter dan</string>
-    <string name="app_dir_not_compatible_with_nougat">De huidige geconfigureerde URI voor back-ups en exports (%1$s) wordt niet ondersteund onder Android Nougat. Selecteer opnieuw een map.</string>
     <string name="search_category">Zoek op categorie</string>
-    <string name="hint_url">URL</string>
     <string name="plan_instance_state_applied">toegepast</string>
     <string name="contributed_by">Bijgedragen door %s</string>
     <string name="pref_sync_notification_summary">Informeren over synchronisatievoortgang</string>
@@ -718,7 +706,7 @@
     <string name="budget_allocated_amount">Toegewezen bedrag</string>
     <string name="currency_code">Code</string>
     <string name="content_description_closed">Gesloten</string>
-    <string name="pref_plan_executor_time_title">Meldingstijd planner</string>
+    <string name="pref_plan_executor_time_title">Meldingstijd</string>
     <string name="synchronization_select_folder_dialog_title">Selecteer een bestaande map of maak een nieuwe aan</string>
     <string name="budget_filter_all_accounts">Alle rekeningen</string>
     <string name="remap_payee">Alle geselecteerde transacties worden toegewezen aan betaler/begunstigde %s.</string>
@@ -765,11 +753,11 @@
     <string name="value_date">Waarde datum</string>
     <string name="menu_budget">Budgettering</string>
     <plurals name="import_categories_icons_updated">
-        <item quantity="one">Eén categorie is bijgewerkt met een icoon.</item>
+        <item quantity="one">%1$d categorie is bijgewerkt met een icoon.</item>
         <item quantity="other">%1$d categorieën zijn bijgewerkt met iconen.</item>
     </plurals>
     <string name="extended_upgrade_goodie_github">Extra %d maanden worden eenmalig toegekend aan gebruikers die al in het bezit zijn van de Uitgebreide Licentie</string>
-    <string name="eu_vat_info">Voor inwoners van de Europese Unie zijn de getoonde prijzen exclusief BTW.</string>
+    <string name="eu_vat_info">Voor inwoners van de Europese Unie zijn de getoonde prijzen exclusief btw.</string>
     <string name="extend_until">Verlengen tot %1$s voor %2$s</string>
     <string name="input_label_passphrase">Wachtwoordzin</string>
     <string name="icons_for_categories">Iconen voor categorieën</string>
@@ -845,7 +833,7 @@
     <string name="menu_transform_to_transfer">Converteren naar overdracht</string>
     <string name="warning_transform_to_transfer">De geselecteerde transactie wordt vervangen door een overdracht van %1$s naar %2$s.</string>
     <string name="remap_date">Bij alle geselecteerde transacties wordt de datum ingesteld op %s.</string>
-    <string name="roadmap_intro">De stemming over de routekaart 2024 is nu geopend! Stem op de functies en verbeteringen die jij het belangrijkst vindt.</string>
+    <string name="roadmap_intro">De stemming over de routekaart %d is nu geopend! Stem op de functies en verbeteringen die jij het belangrijkst vindt.</string>
     <string name="merge_categories_dialog_title">Categorieën Samenvoegen</string>
     <string name="archive">Archief</string>
     <string name="subcategories_merged_recursively">Als een van de samengevoegde categorieën subcategorieën met hetzelfde label heeft, worden deze eerst recursief samengevoegd.</string>
@@ -887,7 +875,6 @@
     <string name="quick_search">Snel zoeken</string>
     <string name="complex_search">Complexe zoekopdracht</string>
     <string name="account_closed">Account is gesloten</string>
-    <string name="menu_show_equivalent_value">Equivalente waarde</string>
     <string name="initial_value">Beginwaarde</string>
     <string name="current_value">Huidige waarde</string>
     <string name="total_value">Totale waarde</string>
@@ -919,5 +906,57 @@
         <item quantity="other">%d regels konden niet worden verwerkt.</item>
     </plurals>
     <string name="confirm_process_file_message">Weet je zeker dat je de prijzen voor \'%1$s\' wilt importeren uit \'%2$s\'? Nieuwe prijzen kunnen van invloed zijn op bestaande equivalente bedragen.</string>
-    <string name="pref_account_list_display_configuration_title">Rekeninglijst</string>
+    <string name="pref_account_list_display_configuration_title">Accountlijst</string>
+    <string name="account_type_investment">Investeringen</string>
+    <string name="warning_expense_category_credit">Je wijst een kostencategorie toe aan een inkomstentransactie. Als gevolg hiervan verlaagt de transactie het totaal van je kosten en wordt deze standaard in het rood weergegeven.</string>
+    <string name="warning_income_category_debit">Je wijst een inkomstencategorie toe aan een kostentransactie. Als gevolg hiervan verlaagt de transactie je inkomsten en wordt deze standaard in het groen weergegeven.</string>
+    <string name="pref_dynamic_exchange_rates_dynamic">Dynamische tarieven voor alle rekeningen</string>
+    <string name="pref_dynamic_exchange_rates_static">Statische tarieven voor alle rekeningen</string>
+    <string name="pref_dynamic_exchange_rates_per_account">Configureer elk account afzonderlijk</string>
+    <string name="category_type_main">Hoofdcategorie</string>
+    <string name="category_type_sub">Subcategorie</string>
+    <string name="category_description_base">Basisbeschrijving voor een categorie. %1$s is het categorietype (bijv. vertaald als \"Hoofdcategorie\" of \"Subcategorie\"). %2$d is het huidige niveaunummer van de categorie. Voorbeeld: \"Hoofdcategorie, niveau 1\"</string>
+    <plurals name="category_description_children_suffix">
+        <item quantity="one">, bevat één subcategorie van niveau %2$d.</item>
+        <item quantity="other">, bevat %1$d subcategorieën van niveau %2$d.</item>
+    </plurals>
+    <string name="edit_account_type">Accounttype Bewerken</string>
+    <string name="new_account_type">Nieuw Accounttype</string>
+    <string name="pref_print_layout_summary">Breedte en samenstelling van kolommen configureren</string>
+    <string name="menu_account_flags">Vlaggen</string>
+    <string name="menu_flag">Vlag</string>
+    <string name="edit_account_flag">Bewerk Vlag</string>
+    <string name="new_account_flag">Nieuwe Vlag</string>
+    <string name="flag_unflagged">Geen vlag</string>
+    <string name="flag_favorite">Favoriet</string>
+    <string name="supports_reconciliation">Ondersteunt Verzoening</string>
+    <string name="aggregate_invisible">Neem onzichtbare rekeningen op in de totale rekeningen en de balans</string>
+    <string name="select_accounts_for_flag">Selecteer accounts voor vlag %s</string>
+    <string name="remap_payee_null">De betaler/ontvanger wordt uit alle geselecteerde transacties verwijderd.</string>
+    <string name="menu_cleanup">Opruimen</string>
+    <plurals name="warning_cleanup_parties">
+        <item quantity="one">%d ongebruikte partij wordt verwijderd.</item>
+        <item quantity="other">%d ongebruikte partijen worden verwijderd.</item>
+    </plurals>
+    <string name="show_invisible">Verborgen accounts</string>
+    <string name="show_zero">Rekeningen met een nulsaldo</string>
+    <string name="content_description_clear_party">Geselecteerde partij wissen</string>
+    <string name="content_description_browse_device_files">Blader door bestanden op dit apparaat</string>
+    <string name="content_description_select_recent_file">Selecteer uit recente bestanden</string>
+    <string name="menu_templates">Sjablonen</string>
+    <string name="pref_ui_start_screen_title">Beginscherm</string>
+    <string name="pref_ui_start_screen_last_visited">Laatst bezocht</string>
+    <string name="content_description_show_balance_details">Toon gedetailleerde informatie</string>
+    <string name="main_navigation">Hoofdnavigatie</string>
+    <string name="pref_fab_style_title">Zwevende actieknopstijl</string>
+    <string name="pref_fab_style_standard_description">Standaard (Tik op de pijl voor het menu)</string>
+    <string name="pref_fab_style_compact_description">Compact (Tik en houd ingedrukt voor het menu)</string>
+    <string name="number_too_large">Het getal is te groot</string>
+    <string name="asset_quantity_at_price">%1$s à %2$s</string>
+    <string name="rounding">Afronding</string>
+    <string name="pref_tag_style_title">Tag-stijl</string>
+    <string name="pref_tag_style_outline">Gekleurde rand</string>
+    <string name="pref_tag_style_filled">Volledig gekleurd</string>
+    <string name="trade_additional_costs">Aanvullende kosten</string>
+    <string name="contrib_feature_portfolio_tracking">Portefeuille-tracking</string>
 </resources>

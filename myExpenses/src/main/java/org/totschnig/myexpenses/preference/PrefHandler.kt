@@ -1,17 +1,22 @@
 package org.totschnig.myexpenses.preference
 
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.preference.PreferenceFragmentCompat
 import kotlinx.serialization.json.Json
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.activity.MyExpensesV2
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.FLAG_TRANSFER
-import org.totschnig.myexpenses.dialog.MenuItem
-import org.totschnig.myexpenses.dialog.valueOf
+import org.totschnig.myexpenses.db2.entities.Transaction
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.toDayOfWeek
 import org.totschnig.myexpenses.viewmodel.Account
 import org.totschnig.myexpenses.viewmodel.Amount
@@ -145,28 +150,43 @@ interface PrefHandler {
     val shouldSecureWindow
         get() = isProtected && !getBoolean(PrefKey.PROTECTION_ALLOW_SCREENSHOT, false)
 
-    val defaultTransferCategory: Long?
+    var defaultTransferCategory: Long?
         get() = getLong(PrefKey.DEFAULT_TRANSFER_CATEGORY, -1L).takeIf { it != -1L }
-
-    val mainMenu: List<MenuItem>
-        get() = getOrderedStringSet(PrefKey.CUSTOMIZE_MAIN_MENU)
-            ?.let { stored ->
-                stored.mapNotNull {
-                    try {
-                        MenuItem.valueOf(it)
-                    } catch (_: IllegalArgumentException) {
-                        null
-                    }
-                }
+        set(value) {
+            if (value?.takeIf { it > 0L } == null) {
+                remove(PrefKey.DEFAULT_TRANSFER_CATEGORY)
+            } else {
+                putLong(PrefKey.DEFAULT_TRANSFER_CATEGORY, value)
             }
-            ?: MenuItem.defaultConfiguration
+        }
 
     val shouldDebug: Boolean
         get() = getBoolean(PrefKey.DEBUG_LOGGING, BuildConfig.DEBUG)
 
-    val cloudStorage: String?
+    var cloudStorage: String?
         get() = getString(PrefKey.AUTO_BACKUP_CLOUD)
             ?.takeIf { it != AccountPreference.SYNCHRONIZATION_NONE }
+        set(value) {
+            if (value == null) {
+                remove(PrefKey.AUTO_BACKUP_CLOUD)
+            } else {
+                putString(PrefKey.AUTO_BACKUP_CLOUD, value)
+            }
+        }
+
+    fun createShowDetailsIntent(
+        context: Context,
+        requestCode: Int,
+        transaction: Transaction,
+    ): PendingIntent = PendingIntent.getActivity(
+        context,
+        requestCode,
+        Intent(context, MyExpensesV2::class.java).apply {
+            putExtra(KEY_ROWID, transaction.accountId)
+            putExtra(KEY_TRANSACTIONID, transaction.id)
+        },
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+    )
 
     companion object {
         const val AUTOMATIC_EXCHANGE_RATE_DOWNLOAD_PREF_KEY_PREFIX =
@@ -176,10 +196,10 @@ interface PrefHandler {
 }
 
 inline fun <reified T : Enum<T>> PrefHandler.enumValueOrDefault(prefKey: PrefKey, default: T): T =
-    org.totschnig.myexpenses.util.enumValueOrDefault(getStringSafe(prefKey, default.name), default)
+    enumValueOrDefault(getStringSafe(prefKey, default.name), default)
 
 inline fun <reified T : Enum<T>> PrefHandler.enumValueOrDefault(prefKey: String, default: T): T =
-    org.totschnig.myexpenses.util.enumValueOrDefault(getStringSafe(prefKey, default.name), default)
+    enumValueOrDefault(getStringSafe(prefKey, default.name), default)
 
 fun PrefHandler.getStringSafe(prefKey: PrefKey, default: String) = try {
     getString(prefKey, default)
@@ -227,6 +247,13 @@ var PrefHandler.printLayoutColumnWidths: List<Int>
         saveIntList(PrefKey.PRINT_LAYOUT_COLUMN_WIDTH, value)
     }
 
+var PrefHandler.isOnboardingCompleted: Boolean
+    get() =  getBoolean(PrefKey.ONBOARDING_COMPLETED, false) ||
+            getInt(PrefKey.CURRENT_VERSION, -1) != -1
+    set(value) {
+        putBoolean(PrefKey.ONBOARDING_COMPLETED, value)
+    }
+
 enum class ColorSource {
     TYPE, SIGN, TYPE_WITH_SIGN;
 
@@ -235,4 +262,8 @@ enum class ColorSource {
         TYPE_WITH_SIGN -> type.takeIf { it == FLAG_TRANSFER }
         SIGN -> null
     }
+}
+
+enum class TagStyle {
+    OUTLINE, FILLED
 }

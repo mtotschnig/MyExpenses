@@ -13,6 +13,7 @@ import org.totschnig.myexpenses.calendar.EventRecurrence;
 
 import org.totschnig.myexpenses.BuildConfig;
 
+import java.time.ZoneId;
 import java.util.TimeZone;
 
 import hirondelle.date4j.DateTime;
@@ -99,7 +100,7 @@ public class CalendarProviderProxy extends ContentProvider {
   }
 
   public static long calculateId(long date) {
-    return calculateId(DateTime.forInstant(date, TimeZone.getTimeZone("UTC")));
+    return calculateId(DateTime.forInstant(date, TimeZone.getTimeZone(ZoneId.systemDefault())));
   }
 
   public static long calculateId(DateTime dateTime) {

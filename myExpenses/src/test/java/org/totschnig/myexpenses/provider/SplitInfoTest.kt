@@ -7,10 +7,10 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.totschnig.myexpenses.BaseTestWithRepository
 import org.totschnig.myexpenses.db2.calculateSplitSummary
+import org.totschnig.myexpenses.db2.insertTransaction
 
 @RunWith(RobolectricTestRunner::class)
-
-class SplitInfoTest  : BaseTestWithRepository() {
+class SplitInfoTest : BaseTestWithRepository() {
     private var testAccountId: Long = 0
     private var main1: Long = 0
     private var main2: Long = 0
@@ -30,9 +30,9 @@ class SplitInfoTest  : BaseTestWithRepository() {
 
     @Test
     fun calculateForSiblings() {
-        val (splitId, _) = insertTransaction(testAccountId, 100)
-        insertTransaction(testAccountId, 50, parentId = splitId, categoryId = sub1)
-        insertTransaction(testAccountId, 50, parentId = splitId, categoryId = sub2)
+        val splitId = repository.insertTransaction(testAccountId, 100).id
+        repository.insertTransaction(testAccountId, 50, parentId = splitId, categoryId = sub1)
+        repository.insertTransaction(testAccountId, 50, parentId = splitId, categoryId = sub2)
         val list = repository.calculateSplitSummary(splitId)!!
         assertThat(list.map { it.first }).containsExactly("Sub", "Sub2")
         assertThat(list.map { it.second }).containsExactly("icon2", "icon3")
@@ -40,9 +40,9 @@ class SplitInfoTest  : BaseTestWithRepository() {
 
     @Test
     fun calculateForParentAndChild() {
-        val (splitId, _) = insertTransaction(testAccountId, 100)
-        insertTransaction(testAccountId, 50, parentId = splitId, categoryId = main1)
-        insertTransaction(testAccountId, 50, parentId = splitId, categoryId = sub2)
+        val splitId = repository.insertTransaction(testAccountId, 100).id
+        repository.insertTransaction(testAccountId, 50, parentId = splitId, categoryId = main1)
+        repository.insertTransaction(testAccountId, 50, parentId = splitId, categoryId = sub2)
         val list = repository.calculateSplitSummary(splitId)!!
         assertThat(list.map { it.first }).containsExactly("Main", "Sub2")
         assertThat(list.map { it.second }).containsExactly("icon1", "icon3")
@@ -50,9 +50,9 @@ class SplitInfoTest  : BaseTestWithRepository() {
 
     @Test
     fun calculateUnrelated() {
-        val (splitId, _) = insertTransaction(testAccountId, 100)
-        insertTransaction(testAccountId, 50, parentId = splitId, categoryId = sub1)
-        insertTransaction(testAccountId, 50, parentId = splitId, categoryId = sub3)
+        val splitId = repository.insertTransaction(testAccountId, 100).id
+        repository.insertTransaction(testAccountId, 50, parentId = splitId, categoryId = sub1)
+        repository.insertTransaction(testAccountId, 50, parentId = splitId, categoryId = sub3)
         val list = repository.calculateSplitSummary(splitId)!!
         assertThat(list.map { it.first }).containsExactly("Sub", "Sub3")
         assertThat(list.map { it.second }).containsExactly("icon2", "icon5")
@@ -60,8 +60,13 @@ class SplitInfoTest  : BaseTestWithRepository() {
 
     @Test
     fun shouldReturnNullForNoIcon() {
-        val (splitId, _) = insertTransaction(testAccountId, 100)
-        insertTransaction(testAccountId, 100, parentId = splitId, categoryId = writeCategory("noIcon"))
+        val splitId = repository.insertTransaction(testAccountId, 100).id
+        repository.insertTransaction(
+            testAccountId,
+            100,
+            parentId = splitId,
+            categoryId = writeCategory("noIcon")
+        )
         val list = repository.calculateSplitSummary(splitId)!!
         assertThat(list.map { it.first }).containsExactly("noIcon")
         assertThat(list.map { it.second }).containsExactly(null)
@@ -69,7 +74,7 @@ class SplitInfoTest  : BaseTestWithRepository() {
 
     @Test
     fun shouldReturnNullForNotSplit() {
-        val (transactionId, _) = insertTransaction(testAccountId, 100)
+        val transactionId = repository.insertTransaction(testAccountId, 100).id
         assertThat(repository.calculateSplitSummary(transactionId)).isNull()
     }
 }

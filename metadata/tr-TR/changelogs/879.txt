@@ -1,0 +1,10 @@
+• Bölünmüş muameleler
+• Portföyler arası varlık aktarımları
+• Toplam hesaplar için Tarih Ekranı artık yabancı para birimlerinin değerindeki değişiklikleri yansıtıyor
+• Mutual TLS / Client Certificate Support for WebDAV Sync (Katkıda bulunan: Carlson Büth)
+
+4.1.1: https://github.com/users/mtotschnig/projects/192
+4.1.1.1: https://github.com/users/mtotschnig/projects/194
+4.1.1.2: https://github.com/users/mtotschnig/projects/195
+
+https://mastodon.social/@myexpenses/117118348237320813

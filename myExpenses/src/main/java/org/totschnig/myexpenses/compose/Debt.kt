@@ -62,7 +62,7 @@ fun DebtCard(
     onDelete: (Int) -> Unit,
     onToggle: () -> Unit,
     onShare: (DebtViewModel.ExportFormat) -> Unit,
-    onTransactionClick: (Long) -> Unit
+    onTransactionClick: (Long) -> Unit,
 ) {
     val cornerSize = 8.dp
     val horizontalPadding = dimensionResource(id = R.dimen.padding_main_screen) - cornerSize
@@ -97,10 +97,10 @@ fun DebtRenderer(
     onDelete: (Int) -> Unit = {},
     onToggle: () -> Unit = {},
     onShare: (DebtViewModel.ExportFormat) -> Unit = {},
-    onTransactionClick: (Long) -> Unit = {}
+    onTransactionClick: (Long) -> Unit = {},
 ) {
 
-    val homeCurrency = LocalHomeCurrency.current
+    val homeCurrency = LocalCurrencyContext.current.homeCurrencyUnit
     val showEquivalentAmount =
         rememberSaveable { mutableStateOf((debt.currency.code == homeCurrency.code)) }
 
@@ -211,7 +211,11 @@ fun DebtRenderer(
                             runningTotal = runningTotal,
                             currency,
                             index == count - 1,
-                            onTransactionClick = { onTransactionClick(transaction.id) },
+                            onTransactionClick = {
+                                onTransactionClick(
+                                    transaction.parentId ?: transaction.id
+                                )
+                            },
                             trendIcon = trendIcon
                         )
                     }
@@ -220,7 +224,7 @@ fun DebtRenderer(
             if (expanded) {
                 OverFlowMenu(
                     modifier = Modifier.align(Alignment.TopEnd),
-                    menu = Menu(buildList {
+                    menu = buildList {
                         if (!debt.isSealed) {
                             add(edit("EDIT_DEBT") { onEdit() })
                         }
@@ -228,31 +232,30 @@ fun DebtRenderer(
                         add(delete("DELETE_DEBT") { onDelete(transactions.size) })
                         add(
                             SubMenuEntry(
-                                icon = Icons.Filled.Share,
                                 label = R.string.share,
-                                subMenu = Menu(
-                                    DebtViewModel.ExportFormat.entries.map { format ->
-                                        MenuEntry(
-                                            label = format.resId,
-                                            command = "SHARE_DEBT_$format"
-                                        ) {
-                                            onShare(format)
-                                        }
+                                subMenu = DebtViewModel.ExportFormat.entries.map { format ->
+                                    MenuEntry(
+                                        label = format.resId,
+                                        command = "SHARE_DEBT_$format"
+                                    ) {
+                                        onShare(format)
                                     }
-                                )
-                            ))
+                                },
+                                icon = Icons.Filled.Share
+                            )
+                        )
                         if (debt.currency.code != homeCurrency.code) {
                             add(
                                 CheckableMenuEntry(
                                     label = R.string.menu_equivalent_amount,
-                                    command = "DEBT_EQUIVALENT",
-                                    showEquivalentAmount.value
+                                    isChecked = showEquivalentAmount.value,
+                                    command = "DEBT_EQUIVALENT"
                                 ) {
                                     showEquivalentAmount.value = !showEquivalentAmount.value
                                 }
                             )
                         }
-                    })
+                    }
                 )
             }
         }
@@ -267,7 +270,7 @@ fun TransactionRenderer(
     currency: CurrencyUnit,
     boldBalance: Boolean,
     @DrawableRes trendIcon: Int? = null,
-    onTransactionClick: (() -> Unit)? = null
+    onTransactionClick: (() -> Unit)? = null,
 ) {
     Row(
         modifier = Modifier.optional(onTransactionClick) {
@@ -323,13 +326,13 @@ private fun SingleDebtPreview() {
     )
     val transactions = listOf(
         DebtViewModel.Transaction(
-            1, LocalDate.now(), 100, 100, 1
+            1, LocalDate.now(), 100, "EUR", 100, 1
         ),
         DebtViewModel.Transaction(
-            1, LocalDate.now(), 3000, 1000, 0
+            1, LocalDate.now(), 3000, "EUR",1000, 0
         ),
         DebtViewModel.Transaction(
-            1, LocalDate.now(), 10000, 10000, 1
+            1, LocalDate.now(), 10000, "EUR",10000, 1
         )
     )
     Column(

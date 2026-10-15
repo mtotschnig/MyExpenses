@@ -1,27 +1,25 @@
-<i>Harcamalarım</i>, parmaklarınızın ucunda, zahmetsiz gider takibi ve mali yönetim için mükemmel bir araçtır!
+<b>Harcamalarım</b>, açık kaynak şeffaflığıyla günlük gider takibi, bütçeleme ve yatırım portföyleriniz üzerinde tam kontrol sağlayan, gizlilik odaklı nihai kişisel finans yöneticinizdir.
 
-Ana Özellikler:
+<b>Ana Özellikler:</b>
 
-     • <b>Zahmetsiz Gider Takibi</b>: İster akıllı telefonunuzda ister tabletinizde olun, harcamalarınızı ve gelirinizi sorunsuz bir şekilde takip edin.
-     • <b>Esnek Hesap Yönetimi</b>: Farklı para birimleri arasındaki transferler de dahil olmak üzere birden fazla hesabı zahmetsizce yönetin.
-     • <b>Kolaylaştırılmış Finansal Planlama</b>: Yinelenen işlemler için kolayca planlar oluşturun.
-     • <b>Sorunsuz Veri Yönetimi</b>: QIF ve CSV formatlarını kullanarak verileri kolaylıkla dışa ve içe aktarın.
-     • <b>Gelişmiş Güvenlik</b>: Verilerinizi şifreyle veya cihaz kilit ekranı güvenliğiyle koruyun.
-     • <b>Özelleştirilebilir Deneyim</b>: Özelleştirilebilir temalar ve yazı tipi boyutlarıyla uygulamayı tercihlerinize göre uyarlayın.
-     • <b>Banka Ekstresi Mutabakatı</b>: Doğru mali takip için işlem durumunu banka ekstrelerinizle kolayca karşılaştırın.
-     • <b>Hızlı Veri Girişi</b>: Ana ekran widget'ları ve kısayollarıyla kolay erişimin keyfini çıkarın.
-     • <b>Güçlü Veri Analizi</b>: Verilerinizi çeşitli kriterlere göre filtreleyin ve dinamik grafiklerle dağılımı ve geçmiş eğilimleri görselleştirin.
+• <b>Günlük Gider ve Bütçe Takibi</b>: Akıllı telefonunuzda veya tabletinizde gelir ve giderlerinizi zahmetsizce takip edin. Bütçeler oluşturun, işlemleri bölün (bölünmüş işlemler) ve yinelenen işlem planları ayarlayın.
+• <b>Portföy ve Yatırım Yönetimi</b>: Hisse senedi, kripto veya özel varlık portföylerinizi takip edin, fiyat geçmişini izleyin ve çoklu para birimli yatırımları gerçek zamanlı yönetin.
+• <b>Banka Entegrasyonu ve Mutabakat</b>: FinTS aracılığıyla desteklenen bankalara doğrudan bağlanın veya tam bakiye takibi için işlemleri banka ekstrelerinizle manuel olarak mutabakat sağlayın.
+• <b>Akıllı Makbuz Tarama (OCR)</b>: Gelişmiş optik karakter tanıma teknolojisiyle fiş ve makbuz fotoğraflarından işlem ayrıntılarını otomatik olarak çıkarın.
+• <b>Masaüstü için Web Arayüzü</b>: Yerel ağınızdaki herhangi bir web tarayıcısından işlemlerinize erişin ve bunları yönetin.
+• <b>Güçlü Analizler</b>: Özelleştirilebilir dinamik grafiklerle harcama eğilimlerini, dağılım pasta grafiklerini ve geçmiş raporları görselleştirin.
+• <b>Esnek Senkronizasyon ve Veri Kontrolü</b>: Verileri QIF ve CSV formatlarında kolayca dışa ve içe aktarın. İstemci sertifikası desteğiyle WebDAV, Nextcloud, Google Drive, Dropbox veya OneDrive kullanarak cihazlar arasında sorunsuz senkronize edin.
+• <b>Önce Gizlilik ve Güvenlik</b>: Açık kaynak şeffaflığı, şifre veya biyometrik ekran kilidi koruması ve şifrelenmiş veritabanı güvenliği.
 
-Premium Özelliklerin Kilidini Açın:
+<b>Premium Özelliklerin Kilidini Açın:</b>
 
-     • <i>Katkı Anahtarı</i>:Sınırsız hesapların, yinelenen işlem planlarının ve daha fazlasının kilidini açın.
-     • <i>Genişletilmiş Anahtar</i>: Bulut senkronizasyonunun, otomatik yedeklemelerin ve gelişmiş CSV içe aktarmalarının keyfini çıkarın.
-     • <i>Profesyonel Anahtar</i>: Bütçeleme araçları, makbuz tarama ve e-posta desteğiyle mali yönetiminizi bir sonraki seviyeye taşıyın.
+• <i>Katkı Anahtarı</i>: Öne çıkan özellikler arasında sınırsız hesaplar, yinelenen planlar, PDF liste dışa aktarma, kategori dağılım grafikler ve daha fazlası yer alır.
+• <i>Genişletilmiş Anahtarı</i>: Katkı Anahtarının tüm özelliklerini, ayrıca otomatik bulut senkronizasyonunu ve gelişmiş CSV içe aktarma kurallarını içerir.
+• <i>Profesyonel Anahtar</i>: Genişletilmiş Anahtarın tüm özelliklerini, ayrıca yatırım ve portföy takibini, geçmiş grafiklerini, bütçe izlemeyi, OCR makbuz taramayı, yerel masaüstü web arayüzünü, doğrudan banka senkronizasyonunu (Almanya) ve daha fazlasını içerir.
 
-<i>Harcamalarım</i> aşağıdaki <u>izinleri</u> gerektirir:
+<b>İzin Şeffaflığı:</b>
 
-     • <i>Takvim</i>: Gelecekteki ve yinelenen işlemlere ilişkin planlar, özel bir yerel takvimde veya atadığınız herhangi bir takvimde saklanır.
-     • <i>İnternet</i>: Anonim kullanım takibi, Kilitlenme raporları, Bulut senkronizasyonu.
-     • <i>Hesaplar</i>: Bulut hizmetleri aracılığıyla cihazlar arasında senkronizasyon.
+• <i>Takvim</i>: Yinelenen işlem planları, özel bir yerel takvime veya atadığınız herhangi bir takvime kaydedilir.
+• <i>İnternet</i>: Anonim kullanım istatistikleri (isteğe bağlı), bulut senkronizasyonu ve kilitlenme raporları (isteğe bağlı).
 
-<i>Harcamalarım</i>'ı kullanarak mali durumunuzun kontrolünü daha önce hiç olmadığı kadar elinize alın!
+<b>Harcamalarım</b> ile paranızın ve birikimlerinizin kontrolünü bugün elinize alın!

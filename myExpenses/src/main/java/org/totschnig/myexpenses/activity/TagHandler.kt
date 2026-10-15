@@ -5,10 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.FragmentResultListener
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.fragment.ConfirmTagDialogFragment
 import org.totschnig.myexpenses.fragment.TagList.Companion.KEY_TAG_LIST
 
-class TagHandler(val activity: BaseMyExpenses): FragmentResultListener {
+class TagHandler(val activity: BaseMyExpenses<*>): FragmentResultListener {
 
     init {
         activity.supportFragmentManager.setFragmentResultListener(CONFIRM_MAP_TAG_REQUEST, activity, this)
@@ -25,10 +27,12 @@ class TagHandler(val activity: BaseMyExpenses): FragmentResultListener {
 
     fun tag() {
         with(activity) {
-            checkSealed(selectionState.map { it.id }) {
-                getTags.launch(Intent(this, ManageTags::class.java).apply {
-                    action = Action.SELECT_MAPPING.name
-                })
+            lifecycleScope.launch {
+                if (checkSealed(selectionState.map { it.id })) {
+                    getTags.launch(Intent(this@with, ManageTags::class.java).apply {
+                        action = Action.SELECT_MAPPING.name
+                    })
+                }
             }
         }
     }

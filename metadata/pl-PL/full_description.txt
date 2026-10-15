@@ -1,27 +1,25 @@
-<i>Moje Wydatki</i> to najlepsze narzędzie do łatwego śledzenia wydatków i zarządzania finansami, dostępne na wyciągnięcie ręki!
+<b>Moje Wydatki</b> to najlepszy, dbający o prywatność menedżer finansów osobistych—zapewniający pełną kontrolę nad codziennym śledzeniem wydatków, budżetami i portfelami inwestycyjnymi dzięki przejrzystości open source.
 
-Kluczowe cechy:
+<b>Główne funkcje:</b>
 
-     • <b>Łatwe śledzenie wydatków</b>: płynnie kontroluj swoje wydatki i dochody, niezależnie od tego, czy jesteś na smartfonie, czy na tablecie.
-     • <b>Elastyczne zarządzanie kontem</b>: Z łatwością zarządzaj wieloma kontami, w tym przelewami pomiędzy różnymi walutami.
-     • <b>Usprawnione planowanie finansowe</b>: łatwo konfiguruj plany transakcji cyklicznych.
-     • <b>Bezproblemowe zarządzanie danymi</b>: z łatwością eksportuj i importuj dane przy użyciu formatów QIF i CSV.
-     • <b>Większe bezpieczeństwo</b>: chroń swoje dane za pomocą hasła lub zabezpieczenia ekranu blokady urządzenia.
-     • <b>Możliwość dostosowania</b>: dostosuj aplikację do swoich preferencji dzięki dostosowywanym motywom i rozmiarom czcionek.
-     • <b>Uzgadnianie wyciągów bankowych</b>: łatwo porównuj status transakcji z wyciągami bankowymi, aby uzyskać dokładne śledzenie finansów.
-     • <b>Szybkie wprowadzanie danych</b>: ciesz się wygodnym dostępem dzięki widżetom i skrótom na ekranie głównym.
-     • <b>Zaawansowana analiza danych</b>: filtruj dane na podstawie różnych kryteriów i wizualizuj rozkład i trendy historyczne za pomocą dynamicznych wykresów.
+• <b>Codzienne śledzenie wydatków i budżetów</b>: Z łatwością kontroluj swoje dochody i wydatki na smartfonie lub tablecie. Twórz budżety, dziel transakcje (podział transakcji) i ustawiaj plany transakcji cyklicznych.
+• <b>Zarządzanie portfelem i inwestycjami</b>: Śledź portfele akcji, kryptowalut lub własnych aktywów, monitoruj historię cen i zarządzaj inwestycjami wielowalutowymi w czasie rzeczywistym.
+• <b>Integracja bankowa i uzgadnianie</b>: Łącz się bezpośrednio z obsługiwanymi bankami przez FinTS lub ręcznie porównuj transakcje z wyciągami bankowymi w celu dokładnego śledzenia salda.
+• <b>Inteligentne skanowanie paragonów (OCR)</b>: Automatycznie odczytuj szczegóły transakcji ze zdjęć paragonów za pomocą zaawansowanego rozpoznawania znaków.
+• <b>Interfejs WWW na komputer</b>: Przeglądaj i zarządzaj swoimi transakcjami z dowolnej przeglądarki internetowej w sieci lokalnej.
+• <b>Zaawansowane analizy</b>: Wizualizuj trendy wydatków, wykresy kołowe struktury i raporty historyczne za pomocą elastycznych wykresów dynamicznych.
+• <b>Elastyczna synchronizacja i kontrola danych</b>: Łatwo eksportuj i importuj dane w formatach QIF i CSV. Płynnie synchronizuj dane między urządzeniami za pomocą WebDAV, Nextcloud, Google Drive, Dropbox lub OneDrive z obsługą certyfikatów klienta.
+• <b>Prywatność i bezpieczeństwo na pierwszym miejscu</b>: Przejrzystość kodu open source, ochrona hasłem lub blokadą biometryczną oraz szyfrowana baza danych.
 
-Odblokuj funkcje premium:
+<b>Odblokuj funkcje Premium:</b>
 
-     • <i>Klucz Contrib</i>: odblokuj nieograniczoną liczbę kont, plany transakcji cyklicznych i nie tylko.
-     • <i>Klucz rozszerzony</i>: ciesz się synchronizacją w chmurze, automatycznymi kopiami zapasowymi i zaawansowanym importem CSV.
-     • <i>Klucz profesjonalny</i>: przenieś zarządzanie finansami na wyższy poziom dzięki narzędziom do budżetowania, skanowaniu paragonów i obsłudze e-mailowej.
+• <i>Klucz Contrib</i>: Główne zalety to odblokowanie nieograniczonej liczby kont, planów cyklicznych, eksportu list do PDF, wykresów struktury kategorii i wiele więcej.
+• <i>Klucz Rozszerzony</i>: Zawiera wszystkie funkcje Klucza Contrib, a także automatyczną synchronizację w chmurze i zaawansowane reguły importu CSV.
+• <i>Profesjonalny Klucz</i>: Zawiera wszystkie funkcje Klucza Rozszerzonego, a także śledzenie inwestycji i portfela, wykresy historii, monitorowanie budżetu, skanowanie paragonów OCR, lokalny interfejs WWW na komputer, bezpośrednią synchronizację z bankami (Niemcy) i wiele więcej.
 
-<i>Moje Wydatki</i> wymaga następujących <u>uprawnień</u>:
+<b>Przejrzystość uprawnień:</b>
 
-     • <i>Kalendarz</i>: plany przyszłych i powtarzających się transakcji są przechowywane w specjalnym kalendarzu lokalnym lub w dowolnym innym kalendarzu, który przydzielisz.
-     • <i>Internet</i>: anonimowe śledzenie użytkowania, raporty o awariach, synchronizacja z chmurą.
-     • <i>Konta</i>: synchronizacja między urządzeniami za pośrednictwem usług w chmurze.
+• <i>Kalendarz</i>: Plany transakcji cyklicznych są zapisywane w specjalnym kalendarzu lokalnym lub w dowolnym innym wskazanym kalendarzu.
+• <i>Internet</i>: Anonimowe statystyki użytkowania (opcjonalnie), synchronizacja w chmurze i raporty o błędach (opcjonalnie).
 
-Przejmij kontrolę nad swoimi finansami jak nigdy dotąd, korzystając z opcji <i>Moje Wydatki</i>!
+Przejmij kontrolę nad swoimi pieniędzmi i majątkiem już dziś dzięki <i>Moje Wydatki</i>!

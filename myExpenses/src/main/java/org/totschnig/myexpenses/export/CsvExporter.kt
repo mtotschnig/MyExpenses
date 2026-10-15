@@ -5,13 +5,15 @@ import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.ExportFormat
-import org.totschnig.myexpenses.model.SplitTransaction
 import org.totschnig.myexpenses.model.TransactionDTO
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_LEVEL
 import org.totschnig.myexpenses.provider.filter.Criterion
 import java.time.format.DateTimeFormatter
+
+const val CSV_INDICATOR = "*"
+const val CSV_PART_INDICATOR = "-"
 
 /**
  * @param account          Account to print
@@ -37,8 +39,11 @@ class CsvExporter(
     private val splitCategoryLevels: Boolean = false,
     private val splitAmount: Boolean = true,
     timeFormat: String? = null,
-    private val withOriginalAndEquivalentAmounts: Boolean = false,
-    override val categoryPathSeparator: String = " > "
+    private val withOriginalAmount: Boolean = false,
+    private val withEquivalentAmountHeader: Boolean = false,
+    override val withEquivalentAmount: Boolean = false,
+    override val categoryPathSeparator: String = " > ",
+    private val withCurrencyColumn: Boolean = false,
 ) :
     AbstractExporter(
         account, currencyContext, filter, notYetExportedP, dateFormat,
@@ -51,21 +56,17 @@ class CsvExporter(
     override fun export(
         context: Context,
         outputStream: Lazy<Result<DocumentFile>>,
-        append: Boolean
+        append: Boolean,
     ): Result<DocumentFile> {
         numberOfCategoryColumns = context.contentResolver.query(
-            BaseTransactionProvider.CATEGORY_TREE_URI,
-            arrayOf("max(${DatabaseConstants.KEY_LEVEL})"),
-            null, null, null
+            BaseTransactionProvider.CATEGORY_DEPTH_URI,
+            null, null, null, null
         )?.use {
             it.moveToFirst()
             it.getInt(0)
         } ?: numberOfCategoryColumns
         return super.export(context, outputStream, append)
     }
-
-    override val withEquivalentAmount: Boolean
-        get() = withOriginalAndEquivalentAmounts && account.currency != currencyContext.homeCurrencyString
 
     override val format = ExportFormat.CSV
 
@@ -85,6 +86,9 @@ class CsvExporter(
             } else {
                 add(context.getString(R.string.amount))
             }
+            if (withCurrencyColumn) {
+                add(context.getString(R.string.currency))
+            }
             if (splitCategoryLevels) {
                 repeat(numberOfCategoryColumns) {
                     add(context.getString(R.string.category) + " " + (it +1))
@@ -98,11 +102,11 @@ class CsvExporter(
             add(context.getString(R.string.reference_number))
             add(context.getString(R.string.attachments))
             add(context.getString(R.string.tags))
-            if (withOriginalAndEquivalentAmounts) {
+            if (withOriginalAmount) {
                 add(context.getString(R.string.menu_original_amount))
                 add(context.getString(R.string.menu_original_amount) + " (" + context.getString(R.string.currency) + ")")
             }
-            if (withEquivalentAmount) {
+            if (withEquivalentAmountHeader) {
                 add(context.getString(R.string.menu_equivalent_amount))
             }
         }
@@ -184,13 +188,17 @@ class CsvExporter(
             if (withAccountColumn) {
                 appendQ(account.label).append(delimiter)
             }
-            val splitIndicator = if (splits != null) SplitTransaction.CSV_INDICATOR else ""
+            val splitIndicator = if (splits != null) CSV_INDICATOR else ""
             appendQ(splitIndicator)
             append(delimiter)
             handleDateTime(this)
             appendQ(payee)
             append(delimiter)
             handleAmount(this)
+            if (withCurrencyColumn) {
+                appendQ(currency)
+                append(delimiter)
+            }
             handleLabel(this)
             appendQ(comment)
             append(delimiter)
@@ -203,7 +211,7 @@ class CsvExporter(
             handleList(attachmentFileNames)
             append(delimiter)
             handleList(tagList)
-            if (withOriginalAndEquivalentAmounts) {
+            if (withOriginalAmount) {
                 append(delimiter)
                 if (originalCurrency != null) {
                     appendQ(
@@ -215,7 +223,7 @@ class CsvExporter(
                     appendQ(originalCurrency)
                 }
             }
-            if (withEquivalentAmount) {
+            if (withEquivalentAmountHeader) {
                 append(delimiter)
                 equivalentAmount?.let {
                     appendQ(nfFormats.getValue(currencyContext.homeCurrencyUnit).format(it))
@@ -227,12 +235,16 @@ class CsvExporter(
                 if (withAccountColumn) {
                     appendQ("").append(delimiter)
                 }
-                appendQ(SplitTransaction.CSV_PART_INDICATOR)
+                appendQ(CSV_PART_INDICATOR)
                 append(delimiter)
                 it.handleDateTime(this@apply)
                 appendQ(payee)
                 append(delimiter)
                 it.handleAmount(this@apply)
+                if (withCurrencyColumn) {
+                    appendQ(currency)
+                    append(delimiter)
+                }
                 it.handleLabel(this@apply)
                 appendQ(it.comment)
                 append(delimiter)
@@ -245,6 +257,24 @@ class CsvExporter(
                 appendQ("")
                 append(delimiter)
                 handleList(it.tagList)
+                if (withOriginalAmount) {
+                    append(delimiter)
+                    if (it.originalCurrency != null) {
+                        appendQ(
+                            nfFormats.getValue(currencyContext[it.originalCurrency]).format(it.originalAmount)
+                        )
+                    }
+                    append(delimiter)
+                    if (it.originalCurrency != null) {
+                        appendQ(it.originalCurrency)
+                    }
+                }
+                if (withEquivalentAmountHeader) {
+                    append(delimiter)
+                    it.equivalentAmount?.let {
+                        appendQ(nfFormats.getValue(currencyContext.homeCurrencyUnit).format(it))
+                    }
+                }
             }
         }.toString()
 }

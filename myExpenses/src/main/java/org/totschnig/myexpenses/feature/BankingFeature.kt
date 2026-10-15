@@ -15,8 +15,8 @@ interface BankingFeature {
 
     }
 
-    val bankingActivityClass: Class<out Activity>
-        get()  { throw NotImplementedError() }
+    val bankingActivityClass: Class<out Activity>?
+        get() = null
 
     fun startSyncFragment(bankId: Long, accountId: Long, accountTypeId: Long, fragmentManager: FragmentManager) {}
 

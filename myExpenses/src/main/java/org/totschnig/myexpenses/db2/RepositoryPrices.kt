@@ -4,14 +4,13 @@ import android.content.ContentValues
 import android.os.Bundle
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SOURCE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
+import org.totschnig.myexpenses.provider.KEY_COMMODITY
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_DATE
+import org.totschnig.myexpenses.provider.KEY_SOURCE
+import org.totschnig.myexpenses.provider.KEY_VALUE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.priceSort
-import org.totschnig.myexpenses.retrofit.ExchangeRateApi
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.util.calculateRawExchangeRate
 import org.totschnig.myexpenses.util.calculateRealExchangeRate
@@ -79,7 +78,7 @@ fun Repository.loadPrice(
     base: CurrencyUnit,
     commodity: CurrencyUnit,
     date: LocalDate,
-    source: ExchangeRateApi?,
+    source: ExchangeRateSource?,
 ): BigDecimal? = contentResolver.query(
     TransactionProvider.PRICES_URI,
     arrayOf(KEY_VALUE),

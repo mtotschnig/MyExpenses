@@ -20,7 +20,11 @@ class ImportSourceViewModel(application: Application) : BaseViewModel(applicatio
                     dir.listFiles()
                         .filter { it.length() > 0 && !it.isDirectory }
                         .sortedByDescending { it.lastModified() }
-                        .filter { it.name != null && it.type != null && typeChecker(it.type!!, FileUtils.getExtension(it.name!!)) }
+                        .filter {
+                            val name = it.name
+                            val type = it.type
+                            name != null && type != null && typeChecker(type, FileUtils.getExtension(name))
+                        }
                 )
             }
         }

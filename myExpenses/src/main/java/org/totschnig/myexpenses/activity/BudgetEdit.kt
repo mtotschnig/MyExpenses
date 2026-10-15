@@ -30,7 +30,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.provider.DataBaseAccount
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.filter.AccountCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
@@ -332,7 +332,10 @@ class BudgetEdit : EditActivity(), AdapterView.OnItemSelectedListener,
                 val account: AccountMinimal = selectedAccount()
                 val currencyUnit = currencyContext[account.currency]
                 val initialAmount = if (budgetId == 0L) {
-                    Money(currencyUnit, allocation!!).amountMinor
+                    Money.buildWithMajor(currencyUnit, allocation!!).onFailure {
+                        showDismissibleSnackBar(R.string.number_too_large)
+                        return
+                    }.getOrNull()?.amountMinor
                 } else null
 
                 val budget = Budget(

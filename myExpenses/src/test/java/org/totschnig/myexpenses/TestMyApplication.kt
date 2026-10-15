@@ -9,6 +9,7 @@ import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.config.Configurator
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler
+import org.totschnig.myexpenses.util.tracking.Tracker
 import java.time.Clock
 
 //Used by Robolectric
@@ -26,6 +27,7 @@ class TestMyApplication : MyApplication() {
                     prefHandler: PrefHandler,
                     userCountry: String,
                     licenceHandler: LicenceHandler,
+                    tracker: Tracker,
                     configurator: Configurator
                 ) = object : AdHandlerFactory {}
             })
@@ -38,7 +40,6 @@ class TestMyApplication : MyApplication() {
             .coroutineModule(object: CoroutineModule() {
                 override fun provideCoroutineDispatcher() = Dispatchers.Main.immediate
             })
-            .dataModule(DataModule(false))
             .configurationModule(object : ConfigurationModule() {
                 override fun providesConfigurator(prefHandler: PrefHandler) = Configurator.NO_OP
             })

@@ -6,15 +6,19 @@ import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
-import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.db2.entities.Template
+import org.totschnig.myexpenses.provider.KEY_DEFAULT_ACTION
+import org.totschnig.myexpenses.provider.KEY_PARENTID
+import org.totschnig.myexpenses.provider.KEY_PLANID
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_TITLE
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getEnum
 
 data class TemplateInfo(val rowId: Long, val title: String, val defaultAction: Template.Action) {
     companion object {
-        fun fromTemplate(template: Template) =
-            TemplateInfo(template.id, template.title, template.defaultAction)
+        fun fromTemplate(id: Long, title: String, defaultAction: Template.Action) =
+            TemplateInfo(id, title, defaultAction)
     }
 }
 
@@ -33,5 +37,5 @@ class TemplateShortcutSelectViewModel(application: Application) :
                     it.getEnum(2, Template.Action.SAVE)
                 )
             }
-            .stateIn(viewModelScope, SharingStarted.Lazily, null)
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, null)
 }

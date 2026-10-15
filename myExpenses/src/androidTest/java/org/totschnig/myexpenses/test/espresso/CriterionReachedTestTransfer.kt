@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.test.espresso
 
-import android.content.ContentUris
 import androidx.compose.ui.test.isDisplayed
 import androidx.compose.ui.test.onNodeWithText
 import androidx.test.espresso.Espresso.onView
@@ -12,18 +11,19 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.findAccountType
+import org.totschnig.myexpenses.db2.insertTransfer
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
-import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
+import org.totschnig.myexpenses.testutils.TestShard1
 import org.totschnig.myexpenses.testutils.cleanup
 import java.util.Currency
 import kotlin.math.absoluteValue
 import kotlin.test.Test
 
+@TestShard1
 class CriterionReachedTestTransfer : BaseExpenseEditTest() {
     val currency = CurrencyUnit(Currency.getInstance("USD"))
 
@@ -146,12 +146,13 @@ class CriterionReachedTestTransfer : BaseExpenseEditTest() {
         expectedSnackBar: Int? = null,
     ) {
         fixture()
-        val transactionId = Transfer.getNewInstance(account1.id, currency, account2.id).let {
-            it.amount = Money(currency, -4000)
-            ContentUris.parseId(it.save(contentResolver)!!)
-        }
-        launchForResult(intentForNewTransaction.apply {
-            putExtra(DatabaseConstants.KEY_ROWID, transactionId)
+        val transactionId = repository.insertTransfer(
+            accountId = account1.id,
+            transferAccountId = account2.id,
+            amount = -4000
+        ).data.id
+        launchForResult(getIntentForNewTransaction().apply {
+            putExtra(KEY_ROWID, transactionId)
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
         }).use {
             setAmount(editedAmount)
@@ -171,12 +172,14 @@ class CriterionReachedTestTransfer : BaseExpenseEditTest() {
     @Test
     fun doTheTestWithInvertedTransfer() {
         fixture()
-        val transactionId = Transfer.getNewInstance(account1.id, currency, account2.id).let {
-            it.amount = Money(currency, 6000)
-            ContentUris.parseId(it.save(contentResolver)!!)
-        }
-        launchForResult(intentForNewTransaction.apply {
-            putExtra(DatabaseConstants.KEY_ROWID, transactionId)
+        val transactionId = repository.insertTransfer(
+            accountId = account1.id,
+            transferAccountId = account2.id,
+            amount = 6000
+        ).data.id
+
+        launchForResult(getIntentForNewTransaction().apply {
+            putExtra(KEY_ROWID, transactionId)
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
         }).use {
             clickMenuItem(R.id.INVERT_COMMAND)

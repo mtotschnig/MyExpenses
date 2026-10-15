@@ -2,8 +2,7 @@
 <!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
--->
-<resources>
+--><resources>
     <string name="drawer_open">"Открыть панель навигации"</string>
     <string name="drawer_close">"Закрыть панель навигации"</string>
     <string name="sort_direction_ascending">"По возрастанию"</string>
@@ -18,13 +17,12 @@
     <string name="style">"Стиль"</string>
     <string name="loading">"Загрузка…"</string>
     <string name="button_label_continue">Продолжить</string>
-    <string name="autofill">"Автозаполнение"</string>
     <string name="discard">"Отменить"</string>
     <string name="dialog_dismiss">"Закрыть"</string>
     <string name="details">"Информация"</string>
     <string name="response_yes">"Да"</string>
     <string name="response_no">"Нет"</string>
-     <string name="experimental">"Экспериментальная версия"</string>
+    <string name="experimental">"Экспериментальная версия"</string>
     <string name="add_widget">"Добавить виджет"</string>
     <string name="calendar">"Календарь"</string>
     <string name="permissions_label">"Разрешения"</string>
@@ -32,7 +30,6 @@
     <string name="setup">"Настройка"</string>
     <string name="customize">"Другой"</string>
     <string name="compact">компактная раскладка</string>
-    <string name="storage_description">"Локальное хранилище"</string>
     <string name="encryption">"Шифрование"</string>
     <string name="learn_more">"Подробнее"</string>
     <string name="show_all">"Показать все"</string>
@@ -46,10 +43,10 @@
     <string name="menu_search">"Поиск"</string>
     <string name="files_label">"Файлы"</string>
     <plurals name="delete_files_confirmation_message">
-      <item quantity="one">Удалить %1$d файл?</item>
-      <item quantity="few">Удалить %1$d файла?</item>
-      <item quantity="many">Удалить %1$d файлов?</item>
-      <item quantity="other">Удалить %1$d файла?</item>
+        <item quantity="one">Удалить %1$d файл?</item>
+        <item quantity="few">Удалить %1$d файла?</item>
+        <item quantity="many">Удалить %1$d файлов?</item>
+        <item quantity="other">Удалить %1$d файла?</item>
     </plurals>
     <string name="display_options_sort_list_by">"Сортировка"</string>
     <string name="data">"Данные"</string>
@@ -100,7 +97,7 @@
     <string name="required">"Необходимо"</string>
     <string name="file_format">"Формат файла"</string>
     <string name="quality">"Качество"</string>
-    <string name="no_data">"Нет данных."</string>
+    <string name="no_data">Нет данных</string>
     <string name="color_component_title">"Выберите цвет"</string>
     <string name="backups">"Резервные копии"</string>
     <string name="filter">"Фильтр"</string>
@@ -153,7 +150,6 @@
     <string name="preview">"Просмотр"</string>
     <string name="show_password">"Показать пароль"</string>
     <string name="hide_password">"Скрыть пароль"</string>
-    <string name="user">"Пользовательские настройки"</string>
     <string name="source">"Источник"</string>
     <string name="value">"Значение"</string>
     <string name="done_label">"Готово"</string>
@@ -174,4 +170,8 @@
     <string name="already_exists">"Имя уже используется"</string>
     <string name="flag_inactive">"Неактивна"</string>
     <string name="count">"Количество"</string>
+    <string name="empty">"Пусто"</string>
+    <string name="options">"Параметры"</string>
+    <string name="actions">"Действия"</string>
+    <string name="buttons">Кнопки</string>
 </resources>

@@ -3,10 +3,17 @@ package org.totschnig.myexpenses.test.espresso
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Intent
-import androidx.compose.ui.semantics.SemanticsActions
-import androidx.compose.ui.semantics.getOrNull
-import androidx.compose.ui.semantics.scrollBy
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.SemanticsNodeInteraction
+import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.filter
+import androidx.compose.ui.test.filterToOne
+import androidx.compose.ui.test.hasTestTag
+import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.swipeLeft
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
@@ -20,25 +27,34 @@ import org.hamcrest.CoreMatchers.containsString
 import org.junit.After
 import org.junit.Test
 import org.totschnig.myexpenses.activity.BudgetActivity
-import org.totschnig.myexpenses.compose.*
+import org.totschnig.myexpenses.compose.TEST_TAG_BUDGET_ALLOCATION
+import org.totschnig.myexpenses.compose.TEST_TAG_BUDGET_BUDGET
+import org.totschnig.myexpenses.compose.TEST_TAG_BUDGET_ROOT
+import org.totschnig.myexpenses.compose.TEST_TAG_BUDGET_SPENT
+import org.totschnig.myexpenses.compose.TEST_TAG_HEADER
+import org.totschnig.myexpenses.compose.TEST_TAG_ROW
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.deleteCategory
+import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_BUDGET
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_SECOND_GROUP
+import org.totschnig.myexpenses.provider.KEY_YEAR
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.test.R
 import org.totschnig.myexpenses.testutils.BaseComposeTest
+import org.totschnig.myexpenses.testutils.TestShard1
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.viewmodel.BudgetViewModel
 import timber.log.Timber
 import java.time.LocalDate
 
+@TestShard1
 class BudgetActivityTest : BaseComposeTest<BudgetActivity>() {
 
     lateinit var account: Account
@@ -53,10 +69,7 @@ class BudgetActivityTest : BaseComposeTest<BudgetActivity>() {
         catIgnore = writeCategory("ignore")
         mainCat1 = writeCategory("A", null)
         mainCat2 = writeCategory("B", null)
-        val op0 = Transaction.getNewInstance(account.id, homeCurrency)
-        op0.amount = Money(homeCurrency, -12300L)
-        op0.catId = mainCat1
-        op0.save(contentResolver)
+        repository.insertTransaction(account.id, -12300L, categoryId = mainCat1)
 
         val budgetId = createBudget(account)
 
@@ -73,7 +86,7 @@ class BudgetActivityTest : BaseComposeTest<BudgetActivity>() {
                 targetContext,
                 BudgetActivity::class.java
             ).apply {
-                putExtra(DatabaseConstants.KEY_ROWID, budgetId)
+                putExtra(KEY_ROWID, budgetId)
             })
     }
 
@@ -115,10 +128,10 @@ class BudgetActivityTest : BaseComposeTest<BudgetActivity>() {
 
     private fun setCategoryBudget(budgetId: Long, categoryId: Long, amount: Long) {
         val contentValues = ContentValues(1)
-        contentValues.put(DatabaseConstants.KEY_BUDGET, amount)
+        contentValues.put(KEY_BUDGET, amount)
         val now = LocalDate.now()
-        contentValues.put(DatabaseConstants.KEY_YEAR, now.year)
-        contentValues.put(DatabaseConstants.KEY_SECOND_GROUP, now.monthValue - 1)
+        contentValues.put(KEY_YEAR, now.year)
+        contentValues.put(KEY_SECOND_GROUP, now.monthValue - 1)
         val budgetUri = BaseTransactionProvider.budgetUri(budgetId)
         val result = repository.contentResolver.update(
             ContentUris.withAppendedId(budgetUri, categoryId),

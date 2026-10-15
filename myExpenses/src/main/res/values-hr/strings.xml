@@ -39,7 +39,7 @@
     <string name="date_format">Format datuma</string>
     <string name="date_format_illegal">Nedozvoljen format datuma</string>
     <string name="decimal_separator">Decimalni znak</string>
-    <string name="default_account_name">Proračunska knjiga</string>
+    <string name="default_account_name">Knjiga budžeta</string>
     <string name="description">Opis</string>
     <string name="dialog_balance_delete">Izbriši usklađene transakcije</string>
     <string name="dialog_command_disabled_balance">Nema odobrenih transakcija za usklađivanje.</string>
@@ -55,7 +55,7 @@
     <string name="dialog_remind_rate_1">Izdvoji trenutak za ocjenjivanje i recenziranje programa {app_name}.</string>
     <string name="dialog_remind_rate_2">Tvoji nam komentari pomažu poboljšati i unaprijediti program.</string>
     <string name="dialog_remind_rate_1_suggest_improvement">Izdvoji trenutak za slanje tvojih prijedloga za unapređivanje programa.</string>
-    <string name="dialog_remind_rate_yes">Ocijeni</string>
+    <string name="dialog_remind_rate_yes">Ocijeni sada</string>
     <string name="dialog_security_answer">Odgovor</string>
     <string name="dialog_security_question">Pitanje</string>
     <!-- %1$s is replace with account label -->
@@ -84,7 +84,7 @@
     <string name="help_heading_whats_new">Što je novo</string>
     <string name="import_select_transactions">Transakcije</string>
     <string name="income">Prihod</string>
-    <string name="label">Oznaka</string>
+    <string name="label">Etiketa</string>
     <string name="licence_validation_failure">Neuspjela provjera valjanosti licensnog ključa.</string>
     <string name="licence_validation_success">Licencni ključ je uspješno provjeren:</string>
     <string name="menu_aggregates">Ukupno</string>
@@ -103,10 +103,10 @@
     <string name="menu_create_instance_save">Primjeni i spremi</string>
     <string name="menu_create_main_cat">Nova glavna kategorija</string>
     <string name="menu_create_method">Novi način plaćanja</string>
-    <string name="menu_create_party">Nova stranka</string>
+    <string name="menu_create_party">Novi sudionik</string>
     <string name="menu_create_split">Nova višedjelna transakcija</string>
-    <string name="menu_create_split_part_category">Nova kategorija dijela višedjelne transakcije</string>
-    <string name="menu_create_split_part_transfer">Novi prijenos dijela višedjelne transakcije</string>
+    <string name="menu_create_split_part_category">Nova kategorija za dijelove višedjelne transakcije</string>
+    <string name="menu_create_split_part_transfer">Novi dio transakcije</string>
     <string name="menu_create_sub_cat">Nova podkategorija</string>
     <string name="menu_create_template">Novi predložak</string>
     <string name="menu_create_template_from_transaction">Spremi kao predložak</string>
@@ -120,11 +120,11 @@
     <string name="menu_edit_account">Uredi račun</string>
     <string name="menu_edit_cat">Uredi kategoriju</string>
     <string name="menu_edit_method">Uredi način plaćanja</string>
-    <string name="menu_edit_party">Uredi stranku</string>
+    <string name="menu_edit_party">Uredi sudionika</string>
     <string name="menu_edit_plan_instance">Uredi planirano pojavljivanje</string>
     <string name="menu_edit_split">Uredi višedjelnu transakciju</string>
-    <string name="menu_edit_split_part_category">Uredi kategoriju dijela višedjelne transakcije</string>
-    <string name="menu_edit_split_part_transfer">Uredi prijenos dijela višedjelne transakcije</string>
+    <string name="menu_edit_split_part_category">Uredi kategoriju za dijelove višedjelne transakcije</string>
+    <string name="menu_edit_split_part_transfer">Uredi dio transakcije</string>
     <string name="menu_edit_template">Uredi predložak</string>
     <string name="menu_edit_transaction">Uredi transakciju</string>
     <string name="menu_edit_transfer">Uredi prijenos</string>
@@ -144,7 +144,6 @@
     <string name="menu_share">Preporuči prijatelju</string>
     <string name="method">Način plaćanja</string>
     <string name="no_app_handling_email_available">Nema programa za email.</string>
-    <string name="no_app_handling_ftp_available">Nema programa za podršku ftp-a. Instalirati <i>Send With FTP</i>\?</string>
     <string name="no_app_handling_mime_type_available">Nema programa za čitanje %s datoteka.</string>
     <string name="no_categories">Nema kategorija.</string>
     <string name="no_expenses">Još nema troškova!</string>
@@ -153,7 +152,7 @@
     <string name="no_mapped_transactions">Nijedna transakcija nije povezana s kategorijama tijekom ovog razdoblja.</string>
     <string name="no_methods">Nema načina plaćanja.</string>
     <string name="no_parties">Nema stranki.</string>
-    <string name="no_split_parts">Nema dijelova višedjelne transakcije.</string>
+    <string name="no_split_parts">Nema dijelova.</string>
     <string name="no_templates">Nema predložaka.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="one">%1$d odabrani predmet je povezan s transakcijom i ne može se isbrisati.</item>
@@ -178,7 +177,7 @@
     <string name="password_security_answer_not_valid">Pogrešan odgovor. Pokušaj ponovo!</string>
     <string name="payee">Primalac</string>
     <string name="payer">Platiša</string>
-    <string name="payer_or_payee">Primalac/Platiša</string>
+    <string name="payer_or_payee">Protustranka</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Plan</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -204,9 +203,8 @@
     <string name="pref_category_title_export">Izvezi</string>
     <string name="pref_category_title_import">Uvezi</string>
     <string name="pref_category_title_manage">Upravljaj</string>
-    <string name="pref_category_title_more_information">VIše informacija</string>
+    <string name="pref_category_title_more_information">Više informacija</string>
     <string name="pref_category_title_ui">Korisničko sučelje</string>
-    <string name="pref_custom_currency_title">Prilagodi valute</string>
     <string name="pref_enter_licence_title">Upiši ključ</string>
     <string name="pref_export_format_title">Format podataka</string>
     <string name="pref_import_from_grisbi_summary">Uvezi kategorije i stranke iz Grisbi XML datoteke</string>
@@ -220,7 +218,7 @@
     <string name="pref_manage_categories_title">Kategorije</string>
     <string name="pref_manage_methods_summary">Stvori i uredi načine plaćanja te ih pridruži vrstama računa.</string>
     <string name="pref_manage_methods_title">Načini plaćanja</string>
-    <string name="pref_manage_parties_summary">Dodaj, uredi ili izbriši stranke (platiše i primaoce).</string>
+    <string name="pref_manage_parties_summary">Dodaj, uredi ili izbriši protustranke.</string>
     <string name="pref_manage_parties_title">Stranke</string>
     <string name="pref_manage_sync_backends_title">Pozadinski programi za sinkronizaciju</string>
     <string name="pref_more_info_dialog_title">Licence i zasluge</string>
@@ -231,7 +229,7 @@
     <string name="pref_planning_calendar_summary">Odaberi kalendar gdje se spremaju planovi za buduće i ponavljajuće transakcije</string>
     <string name="pref_protection_delay_seconds_summary">Vrijeme mirovanja u sekundama, nakon kojeg se program zaključava te zahtijeva lozinku za ponovno otključavanje.</string>
     <string name="pref_protection_delay_seconds_title">Odgoda do zaštite</string>
-    <string name="pref_protection_enable_data_entry_from_widget_title">Unos podataka putem widgeta i prečaca</string>
+    <string name="pref_protection_enable_data_entry_from_widget_title">Unos podataka putem widgeta i prečaci</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_on">Dozvoljeno bez lozinke.</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Potrebna je lozinka.</string>
     <string name="pref_qif_export_file_encoding_title">Kodiranje znakova</string>
@@ -242,8 +240,6 @@
     <string name="pref_send_feedback_title">Pošalji povratnu informaciju</string>
     <string name="pref_share_target_summary">Ostavi prazno ako želiš odabrati jednu od odgovarajućih programa (E-mail, Dropbox, Google Docs, …) ili zadaj URL u jednom od podržanih oblika</string>
     <string name="pref_share_target_title">Prenesi URL</string>
-    <string name="pref_shortcut_added">Prečac je dodan na početni ekran</string>
-    <string name="pref_shortcut_not_added">Nema početnog ekrana koji prihvaća prečace.</string>
     <string name="pref_shortcut_summary">Dodaj prečac na početnom ekranu.</string>
     <string name="pref_ui_home_screen_shortcuts">Prečaci na početnom ekranu</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -255,9 +251,9 @@
     <string name="pref_visit_website_title">Posjeti web stranicu</string>
     <string name="progress_dialog_deleting">Brisanje predmeta</string>
     <string name="progress_dialog_printing">Generiranje %s-a</string>
-    <string name="qif_parse_result">Obrađeno: %1$s računa; %2$s kategorije i %3$s stranke</string>
+    <string name="qif_parse_result">Analizirano: računi: %1$s; kategorije: %2$s; sudionici: %3$s</string>
     <string name="qif_parse_failure_found_multiple_accounts">Pronađeno je više računa u %s datoteci.</string>
-    <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Ne mogu se sjediniti u postojeći račun.</string>
+    <string name="qif_parse_failure_found_multiple_accounts_cannot_merge">Nije moguće ih spojiti u postojeći račun.</string>
     <string name="reference_number">Broj reference</string>
     <string name="restore_db_failure">Obnavljanje baze podataka nije uspjelo.</string>
     <string name="restore_db_success">Baza podataka je uspješno obnovljena iz sigurnosne kopije.</string>
@@ -277,7 +273,7 @@
     <string name="select_category">Odaberi kategoriju</string>
     <string name="share_scheme_not_supported">Shema %1$s nije podržana</string>
     <string name="share_sending">Pošalji datoteku izvoza</string>
-    <string name="split_parts_heading">Dijelovi višedjelne transakcije</string>
+    <string name="split_parts_heading">Dijelovi</string>
     <string name="split_transaction">Višedjelna transakcija</string>
     <string name="status">Stanje</string>
     <string name="status_cleared">odobreno</string>
@@ -328,18 +324,29 @@
     <string name="warning_password_contrib">Postavljanje sigurnosnog pitanja omogućuje otključavanje programa u slučaju da zaboraviš lozinku.</string>
     <string name="warning_reset_account">Ako nastaviš, sve transakcije na ovom računu će se nepovratno izbrisati iz baze podataka.</string>
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
-    <string name="warning_reset_account_all">Ako nastaviš, transakcije će se nepovratno izbrisati iz baze podataka za SVE račune%1$s.</string>
+    <string name="warning_reset_account_all">Ako nastaviš, transakcije će se nepovratno izbrisati iz baze podataka za sve račune%1$s.</string>
     <string name="warning_restore">Baza podataka i osobne postavke obnovit će se iz datoteke „%1$s”. Sadašnji podaci će se izbrisati.</string>
-    <string name="warning_splitpartcategory_context">Prijenosi koje su dio višedjelne transakcije mogu se urediti samo u kontekstu višedjelne transakcije.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Odaberi broj između %1$d i %2$d</string>
-    <string name="import_categories_success">%1$d kategorije uspješno uvezene.</string>
-    <string name="import_parties_success">%1$d stranke uspješno uvezene.</string>
-    <string name="import_accounts_success">%1$d računi uspješno uvezeni.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transakcije uspješno uvezene u račun %2$s</string>
-    <string name="import_accounts_none">Nijedan račun nije uvezen</string>
-    <string name="import_categories_none">Nijedna kategorija nije uvezena</string>
-    <string name="import_parties_none">Nijedna stranka nije uvezena</string>
-    <string name="import_transactions_none">Nijedna transakcija nije uvezena u račun %1$s</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d kategorija uspješno uvezena.</item>
+        <item quantity="few">%1$d kategorije uspješno uvezene.</item>
+        <item quantity="other">%1$d kategorija uspješno uvezeno.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d stranka uspješno uvezena.</item>
+        <item quantity="few">%1$d stranke uspješno uvezene.</item>
+        <item quantity="other">%1$d stranaka uspješno uvezeno.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d račun uspješno uvezen.</item>
+        <item quantity="few">%1$d računi uspješno uvezeni.</item>
+        <item quantity="other">%1$d računa uspješno uvezeno.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d transakcija uspješno uvezena u račun %2$s</item>
+        <item quantity="few">%1$d transakcije uspješno uvezene u račun %2$s</item>
+        <item quantity="other">%1$d transakcija uspješno uvezeno u račun %2$s</item>
+    </plurals>
     <string name="import_source_select_error">Dokument mora biti vrste %1$s</string>
     <string name="menu_categories_setup_default">Postavi standardne kategorije</string>
     <string name="widget_title_accounts">Moji računi</string>
@@ -348,7 +355,7 @@
     <string name="search_category">Traži kategoriju</string>
     <string name="search_comment">Traži bilješke</string>
     <string name="search_status">Traži stanje</string>
-    <string name="search_payee">Traži primaoca/platišu</string>
+    <string name="search_payee">Traži protustranku</string>
     <string name="search_method">Traži način</string>
     <string name="and">i</string>
     <string name="between_and">između %1$s i %2$s</string>
@@ -377,14 +384,9 @@
     <string name="roadmap_vote">Glas u planu razvoja</string>
     <string name="contrib_feature_roadmap_voting_label">Pravo glasanja u <b>planiranju razvoja</b></string>
     <string name="contrib_feature_distribution_label">Kružni dijagram (distribucija po kategorijama)</string>
-    <string name="discover_feature_fab_long_press">Dodirni i drži plutajući gumb radnje pritisnutim za izravno otvaranje obrasca za prijenose, višedjelne transakcije ili prihod.</string>
     <string name="currency_code_already_definded">Valuta je već definirana.</string>
     <string name="ungroup_split_transaction_success">Višedjelna transakcija je uspješno razgrupirana.</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Izbrisati %1$d račun\?</item>
-        <item quantity="few">Izbrisati %1$d računa\?</item>
-        <item quantity="other">Izbrisati %1$d računa\?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Izbrisati račun\?</string>
     <string name="licence_has_expired_n_days">Tvoj profesionalni ključ je istekao prije %d dana.</string>
     <string name="licence_expired_yesterday">Tvoj profesionalni ključ je jučer istekao.</string>
     <string name="licence_expires_today">Tvoj profesionalni ključ isteče danas.</string>
@@ -393,11 +395,11 @@
     <string name="value_date">Datum vrijednosti</string>
     <string name="booking_date">Datum uknjiženja</string>
     <string name="pref_transaction_time_summary">Dozvoli postavljanje točnog vremena transakcije.</string>
-    <string name="split_transaction_not_possible">U jednu višedjelnu transakciju mogu se grupirati samo transakcije koje imaju isti račun, primaoca i stanje.</string>
+    <string name="split_transaction_not_possible">U jednu višedjelnu transakciju se mogu grupirati samo transakcije koje imaju isti račun, protustranku i stanje.</string>
     <string name="split_transaction_group_success">%1$d transakcije su uspješno grupirane u jednu višedjelnu transakciju.</string>
     <string name="split_transaction_one_success">Transakcija je uspješno pretvorena u višedjelnu transakciju.</string>
     <string name="menu_ungroup_split_transaction">Razgrupiraj višedjelnu transakciju</string>
-    <string name="warning_ungroup_split_transactions">Odabrane višedjelne transakcije će se razgrupirati, tj. njihovi dijelovi će postati obične transakcije.</string>
+    <string name="warning_ungroup_split_transactions">Odabrane višedjelne transakcije će se razgrupirati, tj. njihove stavke će postati obične transakcije.</string>
     <string name="warning_split_transactions">Odabrane transakcije će se grupirati u jednu višedjelnu transakciju. Njihovi podaci o datumu će se izgubiti, tj. zamijeniti s njihovim prosjekom.</string>
     <string name="menu_equivalent_amount">Jednaki iznos</string>
     <string name="menu_original_amount">Izvorni iznos</string>
@@ -409,7 +411,6 @@
     <string name="menu_history">Povijest</string>
     <string name="menu_history_transfers">Uključi prijenose</string>
     <string name="menu_history_show_balance">Prikaži saldo</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Za postavljanje zaključano ekrana, idi na %s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Zaključavanje ekrana uređaja nije postavljeno.</string>
     <string name="pref_warning_only_one_protection">Za korištenje zaštite od %1$s, moraš isključiti zaštitu od %2$s.</string>
     <string name="pref_protection_device_lock_screen_title">Zaključavanje ekrana uređaja</string>
@@ -490,17 +491,9 @@
     <string name="menu_sync_download">Preuzmi i sinkroniziraj</string>
     <string name="menu_sync_link">Pokreni sinkronizaciju</string>
     <string name="menu_sync_unlink">Prekini sinkronizaciju</string>
-    <string name="url_not_valid">URL nije valjan</string>
-    <string name="validate_error_webdav_404">URL ne postoji na ovom poslužitelju.</string>
-    <string name="validate_error_webdav_not_compliant">URL ne upućuje na WebDAV resurs.</string>
-    <string name="validate_error_webdav_invalid_certificate">Vertifikatu se ne vjeruje. Čini se da je nevaljan.</string>
     <string name="validate_error_not_empty">Ne smije biti prazno</string>
     <string name="menu_create_sync_backend">Novi pozadinski sustav sinkronizacije</string>
     <string name="no_sync_backends">Bez pozadinskog sustava sinkronizacije</string>
-    <string name="label_trust_certificate">Vjeruj ovom crtifikatu</string>
-    <string name="description_webdav_trust_certificate">Web stranica koristi certifikat kojem Android ne vjeruje.</string>
-    <string name="description_webdav_url">Upiši URL posebne mape na tvom WebDAV poslužitelju. {app_name} će spremiti svoje podatke unutar ove mape i neće mijenjati ništa izvan nje.</string>
-    <string name="hint_url">URL</string>
     <string name="synchronization_none">Bez sinkronizacije</string>
     <string name="synchronization">Sinkronizacija</string>
     <string name="crash_dialog_comment_prompt">Niže dolje dodaj svoje komentare o problemu:</string>
@@ -509,7 +502,6 @@
     <string name="paypal_callback_info">Tvoja je transakcija gotova, a račun za kupnju poslan ti je putem emaila. Za prikaz detalja ove transakcije prijavi se na svoj račun na www.paypal.com.</string>
     <string name="content_description_calculator_delete_button">Izbriši zadnju znamenku</string>
     <string name="warning_cannot_move_split_transaction">Ova se višedjelna transakcija ne može premjestiti na račun %1$s, jer postoje dijelovi prijenosa koji se odnose na ovaj račun.</string>
-    <string name="progress_dialog_updating_split_parts">Aktualiziranje dijelova višedjelne transakcije</string>
     <string name="plan_instance_state_applied">primijenjeno</string>
     <string name="plan_instance_state_cancelled">prekinuto</string>
     <string name="plan_instance_state_open">otvoreno</string>
@@ -536,7 +528,7 @@
     <string name="csv_import_subcategory_requires_category">Ako povežeš podkategoriju, moraš povezati i kategoriju.</string>
     <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d zapisi su odbačeni.</string>
     <string name="csv_import_field_mapped_more_than_once">%s je povezano više od jednom.</string>
-    <string name="menu_parse">Obradi</string>
+    <string name="menu_parse">Analiziraj</string>
     <string name="pref_csv_import_delimiter">Znak razdvajanja</string>
     <string name="export_to_format">Izvezi u %s</string>
     <string name="io_error_unable_to_create_file">Neuspjelo stvaranje datoteke %1$s u mapi %2$s</string>
@@ -571,11 +563,11 @@
     <string name="auto_fill_focus">Postavi polje primaoca aktivnim</string>
     <string name="request_for_invoice">Zahtjev za račun</string>
     <string name="active_tags">Aktivne oznake</string>
-    <string name="merge_parties_select">Upiši ime sjedinjene stranke</string>
+    <string name="merge_parties_select">Odaberi ime spojenog sudionika</string>
     <string name="account_widget_configuration">Konfiguracija widgeta računa</string>
     <string name="account_widget_configuration_sum_total">Uključi buduće transakcije</string>
     <string name="account_widget_configuration_sum">Vrsta prikazanog zbroja</string>
-    <string name="warning_link_transfer">Dvije odabrane transakcije će se povezati kao prijenos. Informacije o primaocu/platiši i kategoriji će se ispustiti.</string>
+    <string name="warning_link_transfer">Dvije odabrane transakcije će se povezati kao prijenos. Informacije o protustranci i kategoriji se neće koristiti.</string>
     <string name="recurrence_last_day_of_month">Zadnji dan</string>
     <string name="single_feature_info">Alternativno možeš kupiti neograničeni pristup samo ovoj funkciji.</string>
     <string name="title_webui">Internetsko korisničko sučelje</string>
@@ -623,7 +615,7 @@
     <string name="dialog_multi_tag_replace">Zamijeni postojeće oznake s novim oznakama</string>
     <string name="dialog_multi_tag_append">Dodaj novu oznaku postojećim oznakama</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">Oznaka %1$s je povezana s jednom transakcijom. Treba li se izbrisati\?</item>
+        <item quantity="one">Oznaka %1$s je povezana s %2$d transakcijom. Treba li se izbrisati\?</item>
         <item quantity="few">Oznaka %1$s je povezana s %2$d transakcije. Treba li se izbrisati\?</item>
         <item quantity="other">Oznaka %1$s je povezana s %2$d transakcija. Treba li se izbrisati\?</item>
     </plurals>
@@ -636,22 +628,22 @@
     <string name="tags_create_or_select">Stvori ili odaberi oznake</string>
     <string name="pref_clone_with_current_date_summary_off">Kopije transakcije zadržavaju trenutačni datum</string>
     <string name="pref_clone_with_current_date_summary_on">Kopije transakcije imaju trenutačni datum</string>
-    <string name="button_label_clone_and_remap">Dupliciraj i poveži</string>
+    <string name="button_label_clone_and_remap">Dupliciraj i premapiraj</string>
     <string name="remap_empty_list">Nije pronađen nijedan element koji se može povezati sa svim odabranim transakcijama.</string>
     <string name="clone_and_remap_result">Odabrane transakcije su duplicirane i novo povezane.</string>
     <string name="remapping_result">Odabrane transakcije su novo povezane.</string>
     <string name="remap_account">Sve odabrane transakcije će se povezati s računom %s.</string>
-    <string name="remap_method">Sve odabrane transakcije će se povezati s metodom %s.</string>
-    <string name="remap_payee">Sve odabrane transakcije će se povezati s platišem/primaocem %s.</string>
+    <string name="remap_method">Sve odabrane transakcije će se mapirati načinu %s.</string>
+    <string name="remap_payee">Sve odabrane transakcije će se povezati s protustrankom %s.</string>
     <string name="remap_category">Sve odabrane transakcije će se povezati s kategorijom %s.</string>
     <string name="dialog_title_confirm_remap">Promijeniti povezivanje (%s)\?</string>
     <string name="menu_remap">Promijeni vezu</string>
     <string name="app_restart_required">Za preuzimanje nove konfiguracije program se mora ponovo pokrenuti.</string>
-    <string name="onboarding_privacy_intro">Tvoji se financijski podaci ne šalju na nijedan poslužitelj, niti itko drugi njima upravlja.</string>
+    <string name="onboarding_privacy_intro">Tvoji se financijski podaci ne šalju na nijedan poslužitelj niti itko drugi njima upravlja.</string>
     <string name="onboarding_privacy_title">Ti vladaš svojim podacima</string>
-    <string name="menu_edit_budget">Uredi proračun</string>
-    <string name="warning_delete_budget">Proračun „%1$s” će se izbrisati.</string>
-    <string name="dialog_title_warning_delete_budget">Izbrisati proračun\?</string>
+    <string name="menu_edit_budget">Uredi budžet</string>
+    <string name="warning_delete_budget">Budžet „%1$s” će se izbrisati.</string>
+    <string name="dialog_title_warning_delete_budget">Izbrisati budžet?</string>
     <string name="budget_filter_all_accounts">Svi računi</string>
     <string name="budget_filter_all_tags">Sve oznake</string>
     <string name="budget_filter_all_states">Sva stanja</string>
@@ -659,15 +651,15 @@
     <string name="budget_filter_all_parties">Sve stranke</string>
     <string name="budget_filter_all_categories">Sve kategorije</string>
     <string name="menu_budget_allocated_only">Prikaži samo kategorije s dodjelom</string>
-    <string name="budget_date_end_after_start">Datum kraja proračuna mora biti nakon datuma početka.</string>
-    <string name="no_budgets">Odredi svoj prvi proračun dodirom gumba +.</string>
+    <string name="budget_date_end_after_start">Datum kraja budžeta mora biti nakon datuma početka.</string>
+    <string name="no_budgets">Odredi svoj prvi budžet dodirom gumba +.</string>
     <string name="budget_onetime">Jednom</string>
-    <string name="menu_create_budget">Novi proračun</string>
+    <string name="menu_create_budget">Novi budžet</string>
     <string name="discover_feature_expense_income_switch">Koristi ovaj gumb za zapisivanje prihoda.</string>
     <string name="synchronization_select_folder_dialog_title">Odaberi postojeću mapu ili stvori novu</string>
-    <string name="pref_plan_executor_time_title">Vrijeme obavještavanja planera</string>
+    <string name="pref_plan_executor_time_title">Vrijeme obavijesti</string>
     <string name="pref_exchange_rates_api_key_summary">Registriraj besplatni račun na %s i navedi tvoj ID programa</string>
-    <string name="pref_exchange_rate_provider_title">Usluga za preuzimanje tečajeva</string>
+    <string name="pref_exchange_rate_provider_title">Pružatelj tečajeva</string>
     <string name="pref_exchange_rate_provider_summary">Odaberi uslugu za preuzimanje tečajeva</string>
     <string name="pref_category_exchange_rates">Tečajevi</string>
     <string name="exchange_rate_not_supported">Konfigurirana usluga tečajeva ne daje tečaj %1$s : %2$s. U postavkama možeš pokušati odabrati jednu drugu uslugu.</string>
@@ -703,16 +695,16 @@
     <string name="sub_budget_exceeded_error_2">Povećaj iznos koji je dodijeljen glavnoj kategoriji ili ukloni novac iz drugih podkategorija.</string>
     <string name="sub_budget_exceeded_error_1_2">Sav iznos koji je dodijeljen glavnoj kategoriji, dodijeljen je drugim podkategorijama.</string>
     <string name="sub_budget_exceeded_error_1_1">Sav iznos osim %s koji je dodijeljen glavnoj kategoriji, dodijeljen je drugim podkategorijama.</string>
-    <string name="budget_under_allocated_error">%s su već dodijeljeni kategorijama. Ako iz njih ne ukloniš novac, taj iznos moraš barem uračunati u proračun.</string>
-    <string name="budget_exceeded_error_2">Povećaj proračunati iznos ili ukloni novac iz drugih kategorija.</string>
-    <string name="budget_exceeded_error_1_2">Sav tvoj proračun dodijeljen je drugim kategorijama.</string>
-    <string name="budget_exceeded_error_1_1">Sav tvoj proračun osim %s dodijeljen je drugim kategorijama.</string>
+    <string name="budget_under_allocated_error">%s su već dodijeljeni kategorijama. Ako iz njih ne ukloniš novac, taj iznos moraš barem uračunati u budžet.</string>
+    <string name="budget_exceeded_error_2">Povećaj budžetirani iznos ili ukloni novac iz drugih kategorija.</string>
+    <string name="budget_exceeded_error_1_2">Sav tvoj budžet je dodijeljen drugim kategorijama.</string>
+    <string name="budget_exceeded_error_1_1">Sve osim %s tvog budžeta je dodijeljeno drugim kategorijama.</string>
     <string name="budget_allocated_amount">Dodijeljeni iznos</string>
     <string name="budget_table_header_spent">Potrošeno</string>
     <string name="budget_table_header_allocated">Dodijeljeno</string>
-    <string name="budget_table_header_budgeted">Proračunato</string>
-    <string name="dialog_title_edit_budget">Uredi proračun</string>
-    <string name="menu_budget">Izrada proračuna</string>
+    <string name="budget_table_header_budgeted">Budžetirano</string>
+    <string name="dialog_title_edit_budget">Uredi budžet</string>
+    <string name="menu_budget">Budžetiranje</string>
     <string name="clear_all_filters">Isprazni sve filtre</string>
     <string name="credit_limit">Kreditno ograničenje</string>
     <string name="saving_goal">Cilj štednje</string>
@@ -723,14 +715,13 @@
     <string name="navigation_drawer_accounts_title">Upravljaj računima</string>
     <string name="sort_order">Redoslijed razvrstavanja</string>
     <string name="gdpr_consent_button_no">Plati za verziju bez oglasa</string>
-    <string name="hint_auto_fill">Da li za automatsko ispunjavanje koristiti podatke iz zadnje transakcije za istog primaoca/platišu\? Može se promijeniti u postavkama.</string>
+    <string name="hint_auto_fill">Da li za automatsko ispunjavanje koristiti podatke iz zadnje transakcije za istu protustranku? Ponašanje se može u svakom trenutku promijeniti u postavkama.</string>
     <string name="comparison_operator_date_after">nakon</string>
     <string name="comparison_operator_date_before">prije</string>
     <string name="after">nakon %s</string>
     <string name="before">prije %s</string>
     <string name="search_tag">Traži oznaku</string>
     <string name="search_date">Traži datum</string>
-    <string name="app_dir_not_compatible_with_nougat">Trenutačno konfigurirani URI za sigurnosne kopije i izvoze (%1$s) nije podržan pod Android Nougatom. Ponovo odaberi jednu mapu.</string>
     <string name="app_dir_not_accessible">Trenutačno odabrana mapa za sigurnosne kopije i izvoz (%1$s) nije dostupna. Odaberi jednu drugu.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Aktualiziraj iznose u bazi podataka</string>
     <string name="warning_change_fraction_digits_3">Ako se iznosi aktualiziraju, izgubit ćeš podatke o njihovim decimalnim mjestima.</string>
@@ -739,14 +730,14 @@
     <string name="warning_change_fraction_digits_1">Iznosi u bazi podataka moraju se aktualizirati kako bi odgovarali novom broju decimalnih mjesta.</string>
     <string name="warning_reset_account_matched">Ako nastaviš, s trenutačnim filtrom pronađene transakcije će se nepovratno izbrisati iz baze podataka.</string>
     <string name="move_category_success">Jedna kategorija je uspješno premještena. </string>
-    <string name="move_category_failure">Jedna kategorija nije premještena, jer ista oznaka već postoji na cilju.</string>
-    <string name="warning_delete_category_with_budget">Za barem jednu odabranu kategoriju postoje dodijeljivanja proračunu koja će se također izbrisati.</string>
+    <string name="move_category_failure">Jedna kategorija nije premještena, jer ista etiketa već postoji na cilju.</string>
+    <string name="warning_delete_category_with_budget">Za barem jednu odabranu kategoriju postoje dodijeljivanja budžeta, koja će se također izbrisati.</string>
     <string name="status_void">anulirano</string>
-    <string name="select_payee">Odaberi platišu/primaoca</string>
+    <string name="select_payee">Odaberi protustranku</string>
     <string name="pref_manage_sync_backends_summary">Dodaj pozadinske sustave za sinkroniziranje računa (%s).</string>
     <string name="pref_contrib_purchase_title_upgrade">Nadogradi ključ</string>
     <string name="pref_sort_order_usages">Broj korištenja</string>
-    <string name="pref_auto_fill_summary">Ispuni podatke iz zadnje transakcije za istog primaoca/platišu</string>
+    <string name="pref_auto_fill_summary">Ispuni podatke iz zadnje transakcije za istu protustranku</string>
     <string name="no_accounts">Nema računa.</string>
     <string name="image_capture_not_installed">Nijedan program za slikanje nije pronađen.</string>
     <string name="no_calendar_app_installed">Nijedan program za uređivanje kalendarskog događaja nije pronađen.</string>
@@ -775,7 +766,7 @@
     <string name="debt_I_owe">Ja dugujem %s</string>
     <string name="debt_owes_me">%s mi duguje</string>
     <string name="menu_new_debt">Novi dug</string>
-    <string name="warning_party_delete_debt">Brisanjem ove strane brišu se i za nju definirani dugovi.</string>
+    <string name="warning_party_delete_debt">Brisanjem ovog sudionika brišu se i za njega definirani dugovi.</string>
     <string name="debt">Dug</string>
     <string name="title_activity_debt_overview">Pregled dugova</string>
     <plurals name="import_categories_icons_updated">
@@ -824,7 +815,7 @@
     <string name="debt_lend_additional">Posuđujem %s.</string>
     <string name="debt_borrow_additional">Uzajmljujem %s.</string>
     <string name="debt_paid_off_other">Dug od %s je otplaćen.</string>
-    <string name="github_sponsors"><![CDATA[Licencni ključevi se također daju <a href=%s>Github sponzorima</a>.]]></string>
+    <string name="github_sponsors"><![CDATA[Licencni ključevi se također dodaju <a href="%s">Github sponzorima</a>.]]></string>
     <string name="notifications_permission_required_webui">Davanjem dozvole za slanje obavijesti možeš kontrolirati stanje web poslužitelja.</string>
     <string name="notifications_permission_required_sync">Davanjem dozvole za slanje obavijesti možeš pratiti napredak sinkronizacije.</string>
     <string name="notifications_channel_required">Aktiviraj kanal %s.</string>
@@ -853,14 +844,14 @@
     <string name="pref_attachment_mime_types_title">Dopuštene MIME vrste za priloge</string>
     <string name="pref_copy_attachments_summary_on">Datoteke se kopiraju u mapu aplikacije.</string>
     <string name="attachments">Prilozi</string>
-    <string name="pref_copy_attachments_title">Kopiraj privitke u mapu aplikacije</string>
+    <string name="pref_copy_attachments_title">Kopiraj priloge u mapu aplikacije</string>
     <string name="read_from_data">Učitaj iz podataka</string>
-    <string name="merge_parties_strategy_group">Duplikati su grupirani zajedno.</string>
+    <string name="merge_parties_strategy_group">Duplikati se grupiraju zajedno.</string>
     <string name="pref_copy_attachments_summary_off">Datoteke se ne kopiraju. Sprema se samo referenca.</string>
     <string name="show_duplicates">Prikaži duplikate</string>
-    <string name="budget_deleted">Proračun je izbrisan</string>
-    <string name="widget_title_budget">Moj proračun</string>
-    <string name="budget_widget_configuration">Odaberi proračun</string>
+    <string name="budget_deleted">Budžet je izbrisan</string>
+    <string name="widget_title_budget">Moj budžet</string>
+    <string name="budget_widget_configuration">Odaberi budžet</string>
     <string name="budget_table_header_overspent">Prekoračeno</string>
     <string name="dialog_contrib_trial_info">Tvoje trenutačno stanje licence (%1$s) ti dozvoljava isprobati funkciju „%2$s” %3$d dana (do %4$s).</string>
     <string name="one_time_payment">Jednokratno plaćanje</string>
@@ -877,14 +868,14 @@
     <string name="pref_sync_now_all_summary">%s sinkronizira sve račune za isti pozadinski sustav</string>
     <string name="menu_unlink_transfer">Rastavi prijenos na dijelove</string>
     <string name="warning_unlink_transfer">Odabrani prijenos će se rastaviti na dijelove: zamijenit će se normalnim transakcijama na oba računa.</string>
-    <string name="subcategories_merged_recursively">Ako bilo koja od sjedinjenih kategorija ima potkategorije s istom oznakom, one će se najprije sjediniti, rekurzivno.</string>
-    <string name="merge_categories_dialog_title">Sjedini kategorije</string>
+    <string name="subcategories_merged_recursively">Ako bilo koja od spojenih kategorija ima potkategorije s istom etiketom, one će se najprije spojiti, rekurzivno.</string>
+    <string name="merge_categories_dialog_title">Spoji kategorije</string>
     <string name="warning_transform_to_transfer">Odabrana transakcija će se zamijenti prijenosom od %1$s na %2$s.</string>
     <string name="merge_categories_prompt">Odaberi kategoriju koju želiš zadržati</string>
     <string name="pref_csv_export_category_separator_summary">Znak odjeljivanja razina hijerarhije kategorija</string>
     <string name="remap_date">Za sve odabrane transakcije će se datum postaviti na %s.</string>
     <string name="menu_transform_to_transfer">Konvertiraj u prijenos</string>
-    <string name="roadmap_intro">Glasanje za plan razvoja aplikacije za 2024. je sada otvoreno! Glasaj za funkcije i poboljšanja koja su za tebe najvažnija.</string>
+    <string name="roadmap_intro">Glasanje za plan razvoja aplikacije za %d. je sada otvoreno! Glasaj za funkcije i poboljšanja koja su za tebe najvažnija.</string>
     <string name="not_enough_data">Nema dovoljno podataka</string>
     <string name="buy">Kupi</string>
     <string name="pref_scroll_to_current_date_app_launch">samo kada se aplikacija pokrene</string>
@@ -910,11 +901,11 @@
     <string name="overage">Premašeni iznos</string>
     <string name="content_description_exchange_rate">Tečaj za 1 %1$s u %2$s</string>
     <string name="warning_archived_transfer_cannot_be_edited">Prijenos se ne može uređivati jer je druga strana arhivirana.</string>
-    <string name="warning_budget_sync_import">Konfiguracija ovog proračunu će se uvesti iz pozadinskog sustava za sinkronizaciju. Svi lokalni unosi će se izgubiti.</string>
-    <string name="budget_import_can_be_imported">Sljedeći proračuni se mogu uvesti:</string>
-    <string name="budget_import_none_found">Nema proračuna.</string>
+    <string name="warning_budget_sync_import">Konfiguracija ovog budžeta će se uvesti iz pozadinskog sustava za sinkronizaciju. Svi lokalni unosi će se izgubiti.</string>
+    <string name="budget_import_can_be_imported">Sljedeći budžeti se mogu uvesti:</string>
+    <string name="budget_import_none_found">Nijedan budžet nije pronađen.</string>
     <string name="filter_dialog_empty">Još nema kriterija. Dodirni gornje gumbe za definiranje upita i za dobivanje preciznijih rezultata.</string>
-    <string name="budget_import_cannot_be_imported">Sljedeći proračuni se odnose na račune koji nisu sinkronizirani:</string>
+    <string name="budget_import_cannot_be_imported">Sljedeći budžeti se odnose na račune koji nisu sinkronizirani:</string>
     <string name="content_description_original_amount">Definiraj izvorni iznos ove transakcije odabirom valute i unosom iznosa. Za izračun stvarnog iznosa možeš definirati i tečaj koji će se koristiti.</string>
     <string name="pref_sync_frequency_summary_0">Postavi na 0 za deaktiviranje automatske sinkronizacije.</string>
     <string name="webui_download_no_data">Nakon ispisa, izvoza ili izrade sigurnosnih kopija u aplikaciji, datoteke će ovdje biti dostupne za preuzimanje.</string>
@@ -937,7 +928,6 @@
         <item quantity="other">%d redaka nije bilo moguće obraditi.</item>
     </plurals>
     <string name="recalculate_equivalent_amounts_warning">Ekvivalentni iznosi će se (ponovo) izračunati ako su primjenjivi spremljeni tečajevi dostupni.</string>
-    <string name="menu_show_equivalent_value">Ekvivalentna vrijednost</string>
     <string name="initial_value">Početna vrijednost</string>
     <string name="current_value">Aktualna vrijednost</string>
     <string name="total_value">Ukupna vrijednost</string>
@@ -958,4 +948,61 @@
     <string name="confirm_process_file_message">Stvarno želiš uvesti cijene za „%1$s” od „%2$s”? Nove cijene mogu utjecati na postojeće ekvivalentne iznose.</string>
     <string name="account_type_investment">Investicije</string>
     <string name="pref_account_list_display_configuration_title">Popis računa</string>
+    <string name="pref_dynamic_exchange_rates_dynamic">Dinamički tečajevi za sve račune</string>
+    <string name="pref_dynamic_exchange_rates_static">Statički tečajevi za sve račune</string>
+    <string name="pref_dynamic_exchange_rates_per_account">Konfiguriraj svaki račun pojedinačno</string>
+    <string name="category_type_main">Glavna kategorija</string>
+    <string name="category_type_sub">Podkategorija</string>
+    <string name="category_description_base">%1$s, razina %2$d</string>
+    <plurals name="category_description_children_suffix">
+        <item quantity="one">, sadrži jednu podkategoriju razine %2$d.</item>
+        <item quantity="few">, sadrži %1$d podkategorije razine %2$d.</item>
+        <item quantity="other">, sadrži %1$d podkategorija razine %2$d.</item>
+    </plurals>
+    <string name="edit_account_type">Uredi vrstu računa</string>
+    <string name="new_account_type">Nova vrsta računa</string>
+    <string name="pref_print_layout_summary">Konfiguriraj širinu i sastav stupaca</string>
+    <string name="flag_favorite">Favorit</string>
+    <string name="warning_expense_category_credit">Dodjeljuješ kategoriju troškova transakciji prihoda. Zbog toga će transakcija smanjiti zbroj tvojih troškova i standardno će se prikazati crvenom bojom.</string>
+    <string name="warning_income_category_debit">Dodjeljuješ kategoriju prihoda transakciji trošakova. Zbog toga će transakcija smanjiti zbroj tvojih prihoda i standardno će se prikazati zelenom bojom.</string>
+    <string name="menu_account_flags">Značke</string>
+    <string name="edit_account_flag">Uredi značku</string>
+    <string name="aggregate_invisible">Uključi nevidljive račune u zbrojene račune i bilancu</string>
+    <string name="menu_flag">Značka</string>
+    <string name="new_account_flag">Nova značka</string>
+    <string name="flag_unflagged">Bez značke</string>
+    <string name="select_accounts_for_flag">Odaberi račune za značku %s</string>
+    <string name="supports_reconciliation">Poržava usklađivanje</string>
+    <string name="remap_payee_null">Protustranka će se ukloniti iz svih transakcija.</string>
+    <plurals name="warning_cleanup_parties">
+        <item quantity="one">%d nekorišteni sudionik će se izbrisati.</item>
+        <item quantity="few">%d nekorištena sudionika će se izbrisati.</item>
+        <item quantity="other">%d nekorišteni sudionika će se izbrisati.</item>
+    </plurals>
+    <string name="content_description_clear_party">Ukloni odabranog sudionika</string>
+    <string name="menu_cleanup">Počisti</string>
+    <string name="show_invisible">Skriveni računi</string>
+    <string name="show_zero">Računi sa saldom od nula</string>
+    <string name="content_description_browse_device_files">Pregledaj datoteke na ovom uređaju</string>
+    <string name="content_description_select_recent_file">Odaberi iz nedavnih datoteka</string>
+    <string name="content_description_show_balance_details">Prikaži detaljne informacije</string>
+    <string name="menu_templates">Predlošci</string>
+    <string name="pref_ui_start_screen_title">Početni ekran</string>
+    <string name="pref_ui_start_screen_last_visited">Zadnje posjećeno</string>
+    <string name="main_navigation">Glavna navigacija</string>
+    <string name="pref_fab_style_title">Stil plutajućeg gumba za radnju</string>
+    <string name="pref_fab_style_standard_description">Standardno (Dodirni strelicu za otvaranje izbornika)</string>
+    <string name="pref_fab_style_compact_description">Kompaktno (Dodirni i zadrži dodirnuto za otvaranje izbornika)</string>
+    <string name="number_too_large">Broj je prevelik</string>
+    <string name="prioritize_flag_order">Prioriziraj redoslijed znački</string>
+    <string name="pref_content_based_colors_title">Dinamična boja na osnovi računa</string>
+    <string name="pref_content_based_colors_summary">Izvedi boje teme iz boje trenutačnog računa. Isključi ako je tekst teško čitljiv.</string>
+    <string name="service_starting">Pokretanje …</string>
+    <string name="rounding">Zaokruživanje</string>
+    <string name="important_upgrade_information_heading">Važne informacije</string>
+    <string name="pref_tag_style_title">Označi stil</string>
+    <string name="pref_tag_style_outline">Obojeni rub</string>
+    <string name="pref_tag_style_filled">Potpuno obojeno</string>
+    <string name="trade_additional_costs">Dodatni troškovi</string>
+    <string name="contrib_feature_portfolio_tracking">Praćenje portfelja</string>
 </resources>

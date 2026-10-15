@@ -10,15 +10,18 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.withContext
+import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.db2.asCategoryType
 import org.totschnig.myexpenses.db2.tagMapFlow
+import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
+import org.totschnig.myexpenses.provider.DataBaseAccount
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.uriBuilderForTransactionList
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DISPLAY_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_CATID
+import org.totschnig.myexpenses.provider.KEY_DISPLAY_AMOUNT
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_SPLIT
 import org.totschnig.myexpenses.provider.DatabaseConstants.WHERE_NOT_VOID
 import org.totschnig.myexpenses.provider.DbUtils
@@ -40,16 +43,29 @@ class TransactionListViewModel(
     data class LoadingInfo(
         val accountId: Long,
         val currency: CurrencyUnit,
+        val accountFlag: Long? = null,
+        val accountType: Long? = null,
+        val label: String,
         val catId: Long = 0,
-        val grouping: Grouping?,
-        val groupingClause: String?,
-        val groupingArgs: Array<String> = emptyArray(),
-        val label: String?,
-        val type: Boolean,
+        val grouping: Grouping = Grouping.NONE,
+        val groupingClause: String? = null,
+        val groupingArgs: List<String> = emptyList(),
+        val type: Boolean? = null,
         val aggregateNeutral: Boolean = false,
         val withTransfers: Boolean = false,
-        val icon: String? = null
-    ) : Parcelable
+        val icon: String? = null,
+        val withNewButton: Boolean = false,
+        val color: Int? = null
+    ) : Parcelable {
+        @IgnoredOnParcel
+        val accountGrouping = if (accountId == 0L) {
+            when {
+                accountFlag != null -> AccountGrouping.FLAG
+                accountType != null -> AccountGrouping.TYPE
+                else -> AccountGrouping.CURRENCY
+            }
+        } else null
+    }
 
     val sum: Flow<Long>
         get() = with(loadingInfo) {
@@ -63,8 +79,11 @@ class TransactionListViewModel(
 
     private val transactionUri
         get() = uriBuilderForTransactionList(
-            loadingInfo.accountId,
-            loadingInfo.currency.code,
+            accountId = loadingInfo.accountId,
+            currency = loadingInfo.currency.code,
+            flag = loadingInfo.accountFlag,
+            type = loadingInfo.accountType,
+            accountGrouping = loadingInfo.accountGrouping,
             shortenComment = true,
             extended = false
         ).apply {
@@ -82,8 +101,8 @@ class TransactionListViewModel(
                 flow2 = contentResolver.observeQuery(
                     transactionUri,
                     Transaction2.projection(
-                        accountId,
-                        Grouping.NONE,
+                        DataBaseAccount.isAggregate(accountId),
+                        grouping,
                         prefHandler,
                         extended = false
                     ),
@@ -97,10 +116,11 @@ class TransactionListViewModel(
                             while (cursor.moveToNext()) {
                                 add(
                                     Transaction2.fromCursor(
-                                        currencyContext,
-                                        cursor,
-                                        tags,
-                                        currency
+                                        currencyContext = currencyContext,
+                                        cursor = cursor,
+                                        tags = tags,
+                                        accountCurrency = currency,
+                                        grouping = grouping
                                     )
                                 )
                             }
@@ -123,12 +143,14 @@ class TransactionListViewModel(
                 selectionArgs.addAll(groupingArgs)
             }
             val typeWithFallback = DbUtils.typeWithFallBack(prefHandler)
-            val typeExpression = when {
-                aggregateNeutral -> "$typeWithFallback IN (${type.asCategoryType}, $FLAG_NEUTRAL)"
-                withTransfers -> effectiveTypeExpressionIncludeTransfers(typeWithFallback) + " = " + type.asCategoryType
-                else -> effectiveTypeExpression(typeWithFallback) + " = " + type.asCategoryType
+            if (type != null) {
+                val typeExpression = when {
+                    aggregateNeutral -> "$typeWithFallback IN (${type.asCategoryType}, $FLAG_NEUTRAL)"
+                    withTransfers -> effectiveTypeExpressionIncludeTransfers(typeWithFallback) + " = " + type.asCategoryType
+                    else -> effectiveTypeExpression(typeWithFallback) + " = " + type.asCategoryType
+                }
+                selectionParts += typeExpression
             }
-            selectionParts += typeExpression
             selectionParts.joinToString(" AND ") to selectionArgs.toTypedArray()
         }
 }

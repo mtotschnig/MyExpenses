@@ -5,22 +5,27 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.annotation.VisibleForTesting
+import androidx.core.net.toUri
 import androidx.lifecycle.viewModelScope
 import com.theartofdev.edmodo.cropper.CropImage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import okhttp3.*
+import okhttp3.Credentials
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody
+import okhttp3.Response
 import okhttp3.internal.closeQuietly
 import okio.BufferedSink
 import okio.source
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.getDisplayName
+import org.totschnig.myexpenses.preference.setWebUiActive
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -35,8 +40,9 @@ import javax.inject.Inject
 import kotlin.Result.Companion.failure
 import kotlin.Result.Companion.success
 
-class BaseFunctionalityViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
-    enum class Scheme { FTP, MAILTO, HTTP, HTTPS; }
+class BaseFunctionalityViewModel(application: Application) :
+    ContentResolvingAndroidViewModel(application) {
+    enum class Scheme { MAILTO, HTTP, HTTPS; }
 
     @Inject
     lateinit var okHttpBuilder: OkHttpClient.Builder
@@ -60,7 +66,6 @@ class BaseFunctionalityViewModel(application: Application) : ContentResolvingAnd
                         complain(ctx.getString(R.string.ftp_uri_malformed, target))
                     } else {
                         when (val scheme = enumValueOrNull<Scheme>(uri.scheme.uppercase())) {
-                            Scheme.FTP -> handleFtp(ctx, uriList, target, mimeType)
                             Scheme.MAILTO -> handleMailto(ctx, uriList, mimeType, uri)
                             Scheme.HTTP, Scheme.HTTPS -> handleHttp(
                                 uriList,
@@ -72,6 +77,7 @@ class BaseFunctionalityViewModel(application: Application) : ContentResolvingAnd
                                     }
                                 }
                             }.map { scheme }
+
                             null -> complain(
                                 ctx.getString(
                                     R.string.share_scheme_not_supported,
@@ -108,7 +114,7 @@ class BaseFunctionalityViewModel(application: Application) : ContentResolvingAnd
                 }
 
                 val builder: Request.Builder = Request.Builder()
-                Uri.parse(target).userInfo?.let {
+                target.toUri().userInfo?.let {
                     val (username, password) = it.split(":")
                     builder.header("Authorization", Credentials.basic(username, password))
                 }
@@ -122,7 +128,7 @@ class BaseFunctionalityViewModel(application: Application) : ContentResolvingAnd
                 val response: Response = okHttpBuilder.build().newCall(builder.build()).execute()
 
                 if (response.isSuccessful) {
-                    response.body?.let {
+                    response.body.let {
                         Timber.i(it.string())
                     }
                 } else {
@@ -134,7 +140,7 @@ class BaseFunctionalityViewModel(application: Application) : ContentResolvingAnd
     private fun handleGeneric(
         ctx: Context,
         fileUris: List<Uri>,
-        mimeType: String
+        mimeType: String,
     ): Result<Scheme?> {
         val intent = buildIntent(ctx, fileUris, mimeType, null)
         if (Utils.isIntentAvailable(ctx, intent)) {
@@ -150,7 +156,7 @@ class BaseFunctionalityViewModel(application: Application) : ContentResolvingAnd
         ctx: Context,
         fileUris: List<Uri>,
         mimeType: String,
-        uri: URI
+        uri: URI,
     ): Result<Scheme> {
         val intent = buildIntent(ctx, fileUris, mimeType, uri.schemeSpecificPart)
         if (Utils.isIntentAvailable(ctx, intent)) {
@@ -159,34 +165,6 @@ class BaseFunctionalityViewModel(application: Application) : ContentResolvingAnd
             return complain(ctx.getString(R.string.no_app_handling_email_available))
         }
         return success(Scheme.MAILTO)
-    }
-
-    private fun handleFtp(
-        ctx: Context,
-        fileUris: List<Uri>,
-        target: String,
-        mimeType: String
-    ): Result<Scheme> {
-        val intent: Intent
-        if (fileUris.size > 1) {
-            return complain("sending multiple file through ftp is not supported")
-        } else {
-            intent = Intent(Intent.ACTION_SENDTO)
-            val contentUri = AppDirHelper.ensureContentUri(fileUris[0], ctx)
-            intent.putExtra(Intent.EXTRA_STREAM, contentUri)
-            intent.setDataAndType(Uri.parse(target), mimeType)
-            ctx.grantUriPermission(
-                "org.totschnig.sendwithftp",
-                contentUri,
-                Intent.FLAG_GRANT_READ_URI_PERMISSION
-            )
-            if (Utils.isIntentAvailable(ctx, intent)) {
-                ctx.startActivity(intent)
-            } else {
-                return complain(ctx.getString(R.string.no_app_handling_ftp_available))
-            }
-        }
-        return success(Scheme.FTP)
     }
 
     private fun complain(string: String): Result<Scheme> {
@@ -204,7 +182,7 @@ class BaseFunctionalityViewModel(application: Application) : ContentResolvingAnd
                     if (scheme != null && ("mailto" == scheme || uri.host != null)) {
                         return uri
                     }
-                } catch (ignored: URISyntaxException) {
+                } catch (_: URISyntaxException) {
                 }
             }
             return null
@@ -215,7 +193,7 @@ class BaseFunctionalityViewModel(application: Application) : ContentResolvingAnd
             ctx: Context,
             fileUris: List<Uri>,
             mimeType: String?,
-            emailAddress: String?
+            emailAddress: String?,
         ) = Intent(Intent.ACTION_SEND_MULTIPLE).apply {
             putParcelableArrayListExtra(
                 Intent.EXTRA_STREAM,
@@ -237,4 +215,9 @@ class BaseFunctionalityViewModel(application: Application) : ContentResolvingAnd
         }
     }
 
+    fun toggleWebUi(enabled: Boolean) {
+        viewModelScope.launch {
+            dataStore.setWebUiActive(enabled)
+        }
+    }
 }

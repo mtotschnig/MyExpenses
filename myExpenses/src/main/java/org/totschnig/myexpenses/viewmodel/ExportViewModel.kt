@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.db2.hasSealed
+import org.totschnig.myexpenses.db2.checkSealedStatus
 import org.totschnig.myexpenses.db2.loadAccount
 import org.totschnig.myexpenses.db2.markAsExported
 import org.totschnig.myexpenses.export.CsvExporter
@@ -25,11 +25,13 @@ import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.DataBaseAccount
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_EXPORTED
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_EXCLUDE_FROM_TOTALS
+import org.totschnig.myexpenses.provider.KEY_FLAG
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_STATUS
+import org.totschnig.myexpenses.provider.KEY_TYPE
+import org.totschnig.myexpenses.provider.STATUS_EXPORTED
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
@@ -92,15 +94,24 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                     val filter = BundleCompat.getParcelable(args, KEY_FILTER, Criterion::class.java)
                     val fileName = args.getString(KEY_FILE_NAME)!!
                     val delimiter = args.getChar(KEY_DELIMITER)
+                    val flag = args.getLong(KEY_FLAG, -1)
+                    val type = args.getLong(KEY_TYPE, -1)
+
 
                     val accountIds = if (accountId > 0L) {
                         listOf(accountId)
                     } else {
-                        var selection = "${DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS} = 0"
+                        var selection = "$KEY_EXCLUDE_FROM_TOTALS = 0"
                         var selectionArgs: Array<String>? = null
                         if (currency != null) {
                             selection += " AND $KEY_CURRENCY = ?"
                             selectionArgs = arrayOf(currency)
+                        } else if (flag != -1L) {
+                            selection += " AND $KEY_FLAG = ?"
+                            selectionArgs = arrayOf(flag.toString())
+                        } else if (type != -1L) {
+                            selection += " AND $KEY_TYPE = ?"
+                            selectionArgs = arrayOf(type.toString())
                         }
                         //noinspection Recycle
                         application.contentResolver.query(
@@ -127,47 +138,58 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                             val successfullyExported = ArrayList<Account>()
                             val simpleDateFormat = SimpleDateFormat("yyyMMdd-HHmmss", Locale.US)
                             val now = Date()
+                            var append = false
                             for (i in accountIds.indices) {
                                 account = repository.loadAccount(accountIds[i])
                                 if (account == null) continue
                                 publishProgress(account.label + " ...")
                                 try {
-                                    val append = mergeP && i > 0
                                     val fileNameForAccount =
                                         if (oneFile) fileName else String.format(
                                             "%s-%s", Utils.escapeForFileName(account.label),
                                             simpleDateFormat.format(now)
                                         )
                                     val exporter = when (format) {
-                                        ExportFormat.CSV -> CsvExporter(
-                                            account,
-                                            currencyContext,
-                                            filter,
-                                            notYetExportedP,
-                                            dateFormat,
-                                            decimalSeparator,
-                                            encoding,
-                                            !append,
-                                            delimiter,
-                                            mergeP,
-                                            prefHandler.getBoolean(
-                                                PrefKey.CSV_EXPORT_SPLIT_CATEGORIES,
-                                                false
-                                            ),
-                                            prefHandler.getBoolean(
-                                                PrefKey.CSV_EXPORT_SPLIT_AMOUNT,
-                                                true
-                                            ),
-                                            timeFormat,
-                                            prefHandler.getBoolean(
+                                        ExportFormat.CSV -> {
+                                            val withOriginalAmountAndEquivalentAmount = prefHandler.getBoolean(
                                                 PrefKey.CSV_EXPORT_ORIGINAL_EQUIVALENT_AMOUNTS,
                                                 false
-                                            ),
-                                            prefHandler.requireString(
-                                                PrefKey.CSV_EXPORT_CATEGORY_SEPARATOR,
-                                                " > "
                                             )
-                                        )
+                                            val homeCurrencyString = currencyContext.homeCurrencyString
+                                            val withEquivalentAmountHeader = withOriginalAmountAndEquivalentAmount &&
+                                                    (account.currency != homeCurrencyString
+                                                            || (mergeP && (currency == null || currency != homeCurrencyString)))
+                                            val withEquivalentAmount = withOriginalAmountAndEquivalentAmount && account.currency != homeCurrencyString
+                                            CsvExporter(
+                                                account = account,
+                                                currencyContext = currencyContext,
+                                                filter = filter,
+                                                notYetExportedP = notYetExportedP,
+                                                dateFormat = dateFormat,
+                                                decimalSeparator = decimalSeparator,
+                                                encoding = encoding,
+                                                withHeader = !append,
+                                                delimiter = delimiter,
+                                                withAccountColumn = mergeP,
+                                                splitCategoryLevels = prefHandler.getBoolean(
+                                                    PrefKey.CSV_EXPORT_SPLIT_CATEGORIES,
+                                                    false
+                                                ),
+                                                splitAmount = prefHandler.getBoolean(
+                                                    PrefKey.CSV_EXPORT_SPLIT_AMOUNT,
+                                                    true
+                                                ),
+                                                timeFormat = timeFormat,
+                                                withOriginalAmount = withOriginalAmountAndEquivalentAmount,
+                                                withEquivalentAmountHeader = withEquivalentAmountHeader,
+                                                withEquivalentAmount = withEquivalentAmount,
+                                                categoryPathSeparator = prefHandler.requireString(
+                                                    PrefKey.CSV_EXPORT_CATEGORY_SEPARATOR,
+                                                    " > "
+                                                ),
+                                                withCurrencyColumn = accountId == 0L && currency == null
+                                            )
+                                        }
 
                                         ExportFormat.QIF -> QifExporter(
                                             account,
@@ -218,6 +240,7 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                                                 it.displayName
                                             )
                                         )
+                                        append = mergeP
                                     }.onFailure {
                                         publishProgress("... " + it.message)
                                     }
@@ -237,9 +260,9 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                                         val cannotResetConditions: List<Int> = if (a.isSealed) {
                                             listOf(R.string.account_closed)
                                         } else {
-                                            val (sealedTransfer, sealedDebt) = repository.hasSealed(
+                                            val (sealedTransfer, sealedDebt) = repository.checkSealedStatus(
                                                 a.id
-                                            )
+                                            ).getOrThrow()
                                             listOfNotNull(
                                                 if (sealedTransfer) R.string.object_sealed else null,
                                                 if (sealedDebt) R.string.object_sealed_debt else null

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="description_webdav_url">Idatzi mesedez zure WebDAV zerbitzariko karpeta berezi baten URLa. {app_name} bere datuak karpeta honetan gordeko ditu, ez du hortik kanpoko ezer ikutuko.</string>
+    <string name="hint_url">URLa</string>
+    <string name="description_webdav_trust_certificate">Webguneak ziurtagiri bat darabil, zeina Androidek ez duen fidagarritzat jotzen.</string>
+    <string name="label_trust_certificate">Fidatu ziurtagiri honetan</string>
+    <string name="validate_error_webdav_invalid_certificate">Ziurtagiria ezin izan da fidagarritzat jo. Baliogabea dirudi.</string>
+    <string name="validate_error_webdav_not_compliant">URLak ez darama WevDAV baliabide batetara.</string>
+    <string name="validate_error_webdav_404">URL helbidea ez dago zerbitzarian.</string>
+    <string name="url_not_valid">URL baliogabea</string>
+</resources>

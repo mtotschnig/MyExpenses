@@ -1,8 +1,8 @@
 package org.totschnig.myexpenses.viewmodel.data
 
 import android.database.Cursor
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_TITLE
 
 data class Template(val id: Long, val title: String) {
     companion object {

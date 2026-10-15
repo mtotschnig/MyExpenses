@@ -1,27 +1,25 @@
-A <i>Kiadásaim</i> az Ön tökéletes eszköze a könnyed költségkövetéshez és pénzügyi kezeléshez, közvetlenül az Ön keze ügyében!
+A <b>Kiadásaim</b> az Ön tökéletes, adatvédelmet szem előtt tartó személyes pénzügyi menedzsere—teljes ellenőrzést biztosítva a napi költségkövetés, a költségvetés-tervezés és az befektetési portfóliók felett, nyílt forráskódú átláthatósággal.
 
-Főbb jellemzők:
+<b>Főbb jellemzők:</b>
 
-     • <b>Egyszerű költségkövetés</b>: zökkenőmentesen nyomon követheti kiadásait és bevételeit, akár okostelefonját, akár táblagépét használja.
-     • <b>Rugalmas fiókkezelés</b>: Több fiók könnyed kezelése, beleértve a különböző pénznemek közötti átutalásokat is.
-     • <b>Egyszerű pénzügyi tervezés</b>: Könnyen beállíthat terveket az ismétlődő tranzakciókhoz.
-     • <b>Zökkenőmentes adatkezelés</b>: Egyszerűen exportálhat és importálhat adatokat QIF és CSV formátumok használatával.
-     • <b>Továbbfejlesztett biztonság</b>: Védje meg adatait jelszóval vagy az eszközzár képernyőjének biztonságával.
-     • <b>Személyre szabható élmény</b>: A testreszabható témákkal és betűméretekkel testreszabhatja az alkalmazást saját igényei szerint.
-     • <b>Bankszámlakivonat egyeztetés</b>: Könnyen összehasonlíthatja a tranzakció állapotát banki kivonataival a pontos pénzügyi követés érdekében.
-     • <b>Gyors adatbevitel</b>: Élvezze a kényelmes hozzáférést a kezdőképernyő widgetjeivel és parancsikonjaival.
-     • <b>Erőteljes adatelemzés</b>: Szűrje adatait különböző kritériumok alapján, és dinamikus grafikonokkal jelenítse meg az eloszlást és a történeti trendeket.
+• <b>Napi költség- és költségvetés-követés</b>: Könnyedén nyomon követheti bevételeit és kiadásait okostelefonján vagy táblagépén. Hozzon létre költségvetéseket, ossza meg a tranzakciókat és állítson be ismétlődő tranzakciós terveket.
+• <b>Portfólió- és befektetéskezelés</b>: Kövesse nyomon részvény-, kripto- vagy egyedi eszközportfólióit, figyelje az árelőzményeket és kezelje többdevizás befektetéseit valós időben.
+• <b>Banki integráció és egyeztetés</b>: Csatlakozzon közvetlenül a támogatott bankokhoz FinTS-en keresztül, vagy egyeztesse manuálisan a tranzakciókat a bankkivonatokkal a pontos egyenlegkövetés érdekében.
+• <b>Okos nyugtabeolvasás (OCR)</b>: Automatikusan kinyerheti a tranzakció részleteit a fényképezett nyugtákról a fejlett optikai karaktermegjelenítés segítségével.
+• <b>Webes felület számítógépre</b>: Érje el és kezelje tranzakcióit bármely webböngészőből a helyi hálózaton keresztül.
+• <b>Erőteljes elemzések</b>: Visualizálja a költési trendeket, a megoszlási kördiagramokat és a történeti jelentéseket testreszabható dinamikus grafikonokkal.
+• <b>Rugalmas szinkronizálás és adatellenőrzés</b>: Könnyen exportálhat és importálhat adatokat QIF és CSV formátumban. Zökkenőmentesen szinkronizálhat az eszközök között WebDAV, Nextcloud, Google Drive, Dropbox vagy OneDrive használatával, ügyfél-tanúsítvány támogatással.
+• <b>Adatvédelem és biztonság az első</b>: Nyílt forráskódú átláthatóság, jelszóval vagy biometrikus képernyőzárral történő védelem, valamint titkosított adatbázis-védelem.
 
-Prémium funkciók feloldása:
+<b>Prémium funkciók feloldása:</b>
 
-     • <i>Contrib Kulcs</i>: Nyisson fel korlátlan számú fiókot, ismétlődő tranzakciós terveket és sok mást.
-     • <i>Kibővített Kulcs</i>: Élvezze a felhőalapú szinkronizálást, az automatikus biztonsági mentéseket és a kifinomult CSV-importálást.
-     • <i>Professzionális Kulcs</i>: Emelje a következő szintre a pénzgazdálkodást a költségvetés-tervező eszközökkel, a nyugták beolvasásával és az e-mailes támogatással.
+• <i>Contrib Kulcs</i>: A főbb jellemzők közé tartozik a korlátlan számú fiók feloldása, ismétlődő tervek, listák PDF-exportálása, kategória-megoszlási diagramok és még sok más.
+• <i>Kiterjesztett Kulcs</i>: Tartalmazza a Contrib Kulcs összes funkcióját, plusz az automatikus felhőszinkronizálást és a haladó CSV-importálási szabályokat.
+• <i>Szakmai kulcs</i>: Tartalmazza a Kiterjesztett Kulcs összes funkcióját, plusz a befektetés- és portfóliókövetést, történeti grafikonokat, költségvetés-figyelést, nyugták OCR-beolvasását, helyi webes felületet számítógépre, közvetlen banki szinkronizálást (Németország) és még sok mást.
 
-A <i>My Expenses</i> programhoz a következő <u>engedélyek</u> szükségesek:
+<b>Engedélyek átláthatósága:</b>
 
-     • <i>Naptár</i>: A jövőbeni és ismétlődő tranzakciókra vonatkozó terveket a rendszer egy speciális helyi naptárban vagy bármely más, Ön által hozzárendelt naptárban tárolja.
-     • <i>Internet</i>: névtelen használat követése, összeomlási jelentések, felhő szinkronizálás.
-     • <i>Fiókok</i>: Szinkronizálás az eszközök között felhőszolgáltatásokon keresztül.
+• <i>Naptár</i>: Az ismétlődő tranzakciókra vonatkozó terveket egy speciális helyi naptárban vagy az Ön által kiválasztott bármely más naptárban tárolja.
+• <i>Internet</i>: Névtelen használatkövetés (választható), felhőszinkronizálás és összeomlási jelentések (választható).
 
-Vegye kézbe pénzügyeit, mint még soha a <i>Kiadásaim</i> használatával!
+Vegye kézbe pénzügyeit és vagyonát még ma a <b>Kiadásaim</b> segítségével!

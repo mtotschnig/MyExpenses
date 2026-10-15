@@ -13,7 +13,7 @@ import androidx.core.content.ContextCompat
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.CalculatorBinding
 import org.totschnig.myexpenses.databinding.OkCancelButtonsBinding
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.util.Utils
 import java.math.BigDecimal
 import java.math.MathContext
@@ -191,7 +191,7 @@ class CalculatorInput : ProtectedFragmentActivity(), View.OnClickListener {
         if ("0" == s || isRestart) {
             return
         }
-        var newDisplay = if (s.length > 1) s.substring(0, s.length - 1) else "0"
+        var newDisplay = if (s.length > 1) s.dropLast(1) else "0"
         if ("-" == newDisplay) {
             newDisplay = "0"
         }

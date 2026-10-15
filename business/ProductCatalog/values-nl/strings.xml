@@ -7,7 +7,7 @@
     <string name="ocr_title">Bon scannen</string>
     <string name="ocr_description">Haal automatisch bedrag, datum en begunstigde op</string>
     <string name="webui_title">Webgebruikersinterface</string>
-    <string name="webui_description">Gebruik uw desktopbrowser voor gegevensinvoer</string>
+    <string name="webui_description">Gebruik je desktopbrowser voor gegevensinvoer</string>
     <string name="categorytree_description">Willekeurig diepe categoriehiërarchie</string>
     <string name="adfree_title">Geen advertenties</string>
     <string name="csvimport_description">Geavanceerde, aanpasbare CSV-import (spreadsheettoepassingen)</string>

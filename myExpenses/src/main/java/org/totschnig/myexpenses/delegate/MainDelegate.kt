@@ -1,27 +1,21 @@
 package org.totschnig.myexpenses.delegate
 
-import android.database.Cursor
 import android.os.Build
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
-import android.text.TextWatcher
 import android.view.Menu
 import android.view.View
-import android.widget.AdapterView
-import android.widget.FilterQueryProvider
-import android.widget.ListPopupWindow
-import android.widget.SimpleCursorAdapter
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.text.bold
 import androidx.core.view.isVisible
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.FragmentActivity
 import com.evernote.android.state.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
+import org.totschnig.myexpenses.db2.entities.Recurrence
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_NEGATIVE
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_POSITIVE
@@ -30,39 +24,34 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_POSITIVE_BUTTON_LABEL
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_PREFKEY
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_TITLE
-import org.totschnig.myexpenses.model.ITransaction
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Plan
-import org.totschnig.myexpenses.model.Transfer
-import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.PrefKey.AUTO_FILL_HINT_SHOWN
 import org.totschnig.myexpenses.preference.shouldStartAutoFill
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.util.TextUtils.withAmountColor
-import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.config.Configurator.Configuration.AUTO_COMPLETE_DROPDOWN_SET_INPUT_METHOD_NEEDED
 import org.totschnig.myexpenses.util.config.get
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.formatMoney
-import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.util.ui.configurePopupAnchor
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.DisplayDebt
+import org.totschnig.myexpenses.viewmodel.data.RIGHT_ARROW
+import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
 import java.math.BigDecimal
+import java.time.LocalDateTime
 import kotlin.math.sign
 
 //Transaction or Split
-abstract class MainDelegate<T : ITransaction>(
+abstract class MainDelegate(
     viewBinding: OneExpenseBinding,
     dateEditBinding: DateEditBinding,
     methodRowBinding: MethodRowBinding,
     isTemplate: Boolean,
-) : TransactionDelegate<T>(
+) : TransactionDelegate(
     viewBinding,
     dateEditBinding,
     methodRowBinding,
@@ -78,15 +67,20 @@ abstract class MainDelegate<T : ITransaction>(
     val userSetExchangeRate: BigDecimal?
         get() = viewBinding.EquivalentAmount.userSetExchangeRate
 
-    private var debts: List<DisplayDebt> = emptyList()
-    private lateinit var payeeAdapter: SimpleCursorAdapter
+    var debts: List<DisplayDebt> = emptyList()
+        set(value) {
+            field = value
+            handleDebts()
+        }
 
+    val payeeId
+        get() = viewBinding.Payee.party?.id
 
     override fun bind(
-        transaction: T?,
+        transaction: TransactionEditData?,
         withTypeSpinner: Boolean,
         savedInstanceState: Bundle?,
-        recurrence: Plan.Recurrence?,
+        recurrence: Recurrence?,
         withAutoFill: Boolean,
     ) {
         super.bind(
@@ -97,11 +91,9 @@ abstract class MainDelegate<T : ITransaction>(
             withAutoFill
         )
 
-        payeeId = host.parentPayeeId
         viewBinding.EquivalentAmount.addTextChangedListener(amountChangeWatcher)
 
         if (isSplitPart) {
-            disableAccountSpinner()
             host.parentOriginalAmountExchangeRate?.let {
                 originalAmountVisible = true
                 originalCurrencyCode = it.second.code
@@ -173,41 +165,28 @@ abstract class MainDelegate<T : ITransaction>(
     override fun buildTransaction(
         forSave: Boolean,
         account: Account,
-    ): T? {
+    ): TransactionEditData? {
         val amount = validateAmountInput(forSave, currentAccount()!!.currency).getOrNull()
             ?: //Snackbar is shown in validateAmountInput
             return null
-        return buildMainTransaction(account).apply {
-            this.amount = amount
-            if (!isSplitPart) {
-                if (this@MainDelegate.payeeId != null) {
-                    this.payeeId = this@MainDelegate.payeeId
-                }
-                payee = viewBinding.Payee.text.toString().trim()
-            }
-            this.debtId = this@MainDelegate.debtId
-            this.methodId = this@MainDelegate.methodId
-            val selectedItem = viewBinding.OriginalAmount.selectedCurrency
-            if (selectedItem != null) {
-                val currency = selectedItem.code
-                val originalAmount = viewBinding.OriginalAmount.getAmount(
-                    currencyContext[currency]
-                )
-                originalAmount.onFailure {
-                    return null
-                }.onSuccess {
-                    prefHandler.putString(PrefKey.LAST_ORIGINAL_CURRENCY, currency)
-                    this.originalAmount = it
-                }
-            } else {
-                this.originalAmount = null
-            }
-            val equivalentAmount = viewBinding.EquivalentAmount.getAmount(homeCurrency)
-            equivalentAmount.onFailure {
-                return null
-            }.onSuccess {
-                this.equivalentAmount = if (isIncome) it else it?.negate()
-            }
+        return buildMainTransaction(account).let {
+            it.copy(
+                amount = amount,
+                party = if (!isSplitPart) viewBinding.Payee.partyForSave else null,
+                debtId = this@MainDelegate.debtId,
+                methodId = this@MainDelegate.methodId,
+                originalAmount = viewBinding.OriginalAmount.selectedCurrency?.let {
+                    val currency = it.code
+                    val currencyUnit = currencyContext[currency]
+                    viewBinding.OriginalAmount.getAmount(currencyUnit).getOrNull()
+                        ?: if (isTemplate && originalAmountVisible) Money(currencyUnit, 0L) else null
+                    //prefHandler.putString(PrefKey.LAST_ORIGINAL_CURRENCY, currency)
+                },
+                equivalentAmount = viewBinding.EquivalentAmount.getAmount(homeCurrency).getOrNull()
+                    ?.let {
+                        if (isIncome) it else -it
+                    }
+            )
         }
     }
 
@@ -220,17 +199,44 @@ abstract class MainDelegate<T : ITransaction>(
     }
 
     override fun createAdapters(withTypeSpinner: Boolean, withAutoFill: Boolean) {
-        createPayeeAdapter(withAutoFill)
-        createStatusAdapter()
-        if (withTypeSpinner) {
-            createOperationTypeAdapter()
+        viewBinding.Payee.createPayeeAdapter(
+            withInputMethodNeeded = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && configurator[AUTO_COMPLETE_DROPDOWN_SET_INPUT_METHOD_NEEDED, true]
+        ) { partyId ->
+            handleDebts()
+            if (partyId != null) {
+                if (withAutoFill && shouldAutoFill) {
+                    if (shouldStartAutoFill(prefHandler)) {
+                        host.startAutoFill(partyId, false)
+                    } else if (!prefHandler.getBoolean(AUTO_FILL_HINT_SHOWN, false)) {
+                        ConfirmationDialogFragment.newInstance(Bundle().apply {
+                            putLong(KEY_ROWID, partyId)
+                            putInt(KEY_TITLE, R.string.information)
+                            putString(
+                                KEY_MESSAGE,
+                                context.getString(R.string.hint_auto_fill)
+                            )
+                            putInt(KEY_COMMAND_POSITIVE, R.id.AUTO_FILL_COMMAND)
+                            putInt(KEY_COMMAND_NEGATIVE, R.id.AUTO_FILL_COMMAND)
+                            putString(
+                                KEY_PREFKEY,
+                                prefHandler.getKey(AUTO_FILL_HINT_SHOWN)
+                            )
+                            putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.response_yes)
+                            putInt(KEY_NEGATIVE_BUTTON_LABEL, R.string.response_no)
+                        }).show(
+                            (context as FragmentActivity).supportFragmentManager,
+                            "AUTO_FILL_HINT"
+                        )
+                    }
+                }
+            }
         }
-        createAccountAdapter()
+        super.createAdapters(withTypeSpinner, withAutoFill)
     }
 
-    override fun populateFields(transaction: T, withAutoFill: Boolean) {
+    override fun populateFields(transaction: TransactionEditData, withAutoFill: Boolean) {
         if (!isSplitPart) {
-            viewBinding.Payee.setText(transaction.payee)
+            viewBinding.Payee.party = transaction.party
         }
         transaction.equivalentAmount?.let {
             viewBinding.EquivalentAmount.setFractionDigits(it.currencyUnit.fractionDigits)
@@ -259,90 +265,19 @@ abstract class MainDelegate<T : ITransaction>(
         super.onSaveInstanceState(outState)
     }
 
-    abstract fun buildMainTransaction(account: Account): T
-
-    private fun createPayeeAdapter(withAutoFill: Boolean) {
-        payeeAdapter = SimpleCursorAdapter(
-            context,
-            androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,
-            null,
-            arrayOf(KEY_PAYEE_NAME),
-            intArrayOf(android.R.id.text1),
-            0
-        )
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && configurator[AUTO_COMPLETE_DROPDOWN_SET_INPUT_METHOD_NEEDED, true]) {
-            viewBinding.Payee.inputMethodMode = ListPopupWindow.INPUT_METHOD_NEEDED
-        }
-        viewBinding.Payee.setAdapter(payeeAdapter)
-        payeeAdapter.filterQueryProvider = FilterQueryProvider { constraint: CharSequence? ->
-            if (constraint != null) {
-                val (selection, selectArgs) =
-                    " AND ${Party.SELECTION}" to Party.selectionArgs(
-                        Utils.escapeSqlLikeExpression(Utils.normalize(constraint.toString()))
-                    )
-                context.contentResolver.query(
-                    TransactionProvider.PAYEES_URI,
-                    arrayOf(KEY_ROWID, KEY_PAYEE_NAME),
-                    "$KEY_PARENTID IS NULL $selection",
-                    selectArgs,
-                    null
-                )
-            } else null
-        }
-        payeeAdapter.stringConversionColumn = 1
-        viewBinding.Payee.onItemClickListener =
-            AdapterView.OnItemClickListener { _: AdapterView<*>?, _: View?, position: Int, _: Long ->
-                val c = payeeAdapter.getItem(position) as Cursor
-                if (c.moveToPosition(position)) {
-                    c.getLong(0).let {
-                        payeeId = it
-                        handleDebts()
-                        if (withAutoFill && shouldAutoFill) {
-                            if (shouldStartAutoFill(prefHandler)) {
-                                host.startAutoFill(it, false)
-                            } else if (!prefHandler.getBoolean(AUTO_FILL_HINT_SHOWN, false)) {
-                                ConfirmationDialogFragment.newInstance(Bundle().apply {
-                                    putLong(KEY_ROWID, it)
-                                    putInt(KEY_TITLE, R.string.information)
-                                    putString(
-                                        KEY_MESSAGE,
-                                        context.getString(R.string.hint_auto_fill)
-                                    )
-                                    putInt(KEY_COMMAND_POSITIVE, R.id.AUTO_FILL_COMMAND)
-                                    putInt(KEY_COMMAND_NEGATIVE, R.id.AUTO_FILL_COMMAND)
-                                    putString(
-                                        KEY_PREFKEY,
-                                        prefHandler.getKey(AUTO_FILL_HINT_SHOWN)
-                                    )
-                                    putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.response_yes)
-                                    putInt(KEY_NEGATIVE_BUTTON_LABEL, R.string.response_no)
-                                }).show(
-                                    (context as FragmentActivity).supportFragmentManager,
-                                    "AUTO_FILL_HINT"
-                                )
-                            }
-                        }
-                    }
-
-                }
-            }
-    }
+    open fun buildMainTransaction(account: Account): TransactionEditData =
+        if (isTemplate) buildTemplate(account, null) else
+            TransactionEditData(
+                categoryId = catId,
+                categoryPath = label,
+                amount = Money(account.currency, 0L),
+                date = LocalDateTime.now(),
+                accountId = account.id,
+                uuid = uuid
+            )
 
     override fun onDestroy() {
-        if (::payeeAdapter.isInitialized) {
-            payeeAdapter.cursor?.let {
-                if (!it.isClosed) {
-                    it.close()
-                }
-            }
-        } else {
-            CrashHandler.report(IllegalStateException("PayeeAdapter not initialized"))
-        }
-    }
-
-    fun setDebts(debts: List<DisplayDebt>) {
-        this.debts = debts
-        handleDebts()
+        viewBinding.Payee.onDestroy()
     }
 
     fun updateUiWithDebt() {
@@ -387,8 +322,16 @@ abstract class MainDelegate<T : ITransaction>(
             }
         else validateAmountInput()
 
-    private fun formatDebtHelp(debt: DisplayDebt, installment: BigDecimal) =
-        TextUtils.concat(*buildList {
+    private fun formatDebtHelp(debt: DisplayDebt, installment: BigDecimal): CharSequence? {
+        val installmentMoney = Money.buildWithMajor(debt.currency, installment.abs()).getOrElse {
+            return context.getString(R.string.number_too_large)
+        }
+        val currentBalance = Money(debt.currency, debt.currentBalance)
+        val futureBalance = Money.buildWithMajor(debt.currency, currentBalance.amountMajor - installment).getOrElse {
+            return context.getString(R.string.number_too_large)
+        }
+
+        return TextUtils.concat(*buildList {
             val installmentSign = installment.signum()
             val debtSign = debt.currentBalance.sign
 
@@ -411,12 +354,9 @@ abstract class MainDelegate<T : ITransaction>(
 
                         else -> throw IllegalStateException()
                     },
-                    currencyFormatter.formatMoney(Money(debt.currency, installment.abs()))
+                    currencyFormatter.formatMoney(installmentMoney)
                 )
             )
-
-            val currentBalance = Money(debt.currency, debt.currentBalance)
-            val futureBalance = Money(debt.currency, currentBalance.amountMajor - installment)
 
             val futureSign = futureBalance.amountMajor.signum()
 
@@ -429,7 +369,7 @@ abstract class MainDelegate<T : ITransaction>(
             }
 
             val futureBalanceAbs =
-                currencyFormatter.formatMoney(Money(debt.currency, futureBalance.amountMajor.abs()))
+                currencyFormatter.formatMoney(futureBalance.absolute())
             when (futureSign) {
                 1 -> context.getString(
                     R.string.debt_balance_they_owe,
@@ -442,6 +382,7 @@ abstract class MainDelegate<T : ITransaction>(
             }?.let { add(it) }
 
         }.toTypedArray())
+    }
 
     private fun formatDebt(debt: DisplayDebt, withInstallment: BigDecimal? = null): CharSequence {
         val amount = debt.currentBalance
@@ -454,14 +395,17 @@ abstract class MainDelegate<T : ITransaction>(
                     .withAmountColor(viewBinding.root.context.resources, amount.sign)
             )
             withInstallment?.let {
-                add(" ${Transfer.RIGHT_ARROW} ")
+                add(" $RIGHT_ARROW ")
                 val futureBalance = money.amountMajor - it
                 add(
-                    try {
-                        currencyFormatter.formatMoney(Money(debt.currency, futureBalance))
-                    } catch (e: ArithmeticException) {
-                        e.safeMessage
-                    }
+                    Money.buildWithMajor(debt.currency, futureBalance).fold(
+                        onSuccess = {
+                            currencyFormatter.formatMoney(it)
+                        },
+                        onFailure = {
+                            context.getString(R.string.number_too_large)
+                        }
+                    )
                         .withAmountColor(
                             viewBinding.root.context.resources,
                             futureBalance.signum()
@@ -477,23 +421,25 @@ abstract class MainDelegate<T : ITransaction>(
         updateUiWithDebt(debt)
         debtId = debt.id
         host.setDirty()
-        if (viewBinding.Payee.text.isEmpty()) {
+        val party = viewBinding.Payee.party
+        if (party == null) {
             val focussed: Boolean = viewBinding.Payee.hasFocus()
             if (focussed) {
                 viewBinding.Payee.clearFocus()
             }
-            viewBinding.Payee.setText(debt.payeeName)
+            viewBinding.Payee.party = DisplayParty(debt.payeeId, debt.payeeName)
             if (focussed) {
                 viewBinding.Amount.requestFocus()
             }
-            payeeId = debt.payeeId
         }
     }
 
-    private val applicableDebts: List<DisplayDebt>
-        get() = debts.filter { it.currency == currentAccount()?.currency || it.currency == homeCurrency }
+    protected open val applicableDebts: List<DisplayDebt>
+        get() = debts.filter {
+            it.currency == currentAccount()?.currency || it.currency == homeCurrency
+        }
 
-    private fun handleDebts() {
+    protected open fun handleDebts() {
         applicableDebts.let { debts ->
             val hasDebts = debts.isNotEmpty()
             viewBinding.DebtRow.visibility = if (hasDebts) View.VISIBLE else View.GONE
@@ -514,16 +460,6 @@ abstract class MainDelegate<T : ITransaction>(
 
     private fun singleDebtForPayee(debts: List<DisplayDebt>) =
         if (debts.size == 1) debts.first().takeIf { it.payeeId == payeeId } else null
-
-    override fun setupListeners(watcher: TextWatcher) {
-        super.setupListeners(watcher)
-        viewBinding.Payee.addTextChangedListener {
-            if (viewBinding.Payee.isFocused) {
-                payeeId = null
-                handleDebts()
-            }
-        }
-    }
 
     fun setupDebtChangedListener() {
         viewBinding.DebtCheckBox.setOnCheckedChangeListener { _, isChecked ->
@@ -598,15 +534,17 @@ abstract class MainDelegate<T : ITransaction>(
         super.configureAccountDependent(account, isInitialSetup)
         val currencyUnit = account.currency
         viewBinding.OriginalAmount.configureExchange(currencyUnit)
-        val needsEquivalentAmount = !isSplitPart && !isTemplate &&
+        val isDynamic = !isSplitPart && !isTemplate &&
                 !hasHomeCurrency(account) &&
                 account.isDynamic
-        viewBinding.EquivalentAmountRow.isVisible = needsEquivalentAmount
-        if (needsEquivalentAmount) {
-            viewBinding.EquivalentAmount.configureExchange(currencyUnit, homeCurrency)
+        viewBinding.EquivalentAmountRow.isVisible = isDynamic
+        viewBinding.EquivalentAmount.configureExchange(currencyUnit, homeCurrency)
+        if (isDynamic) {
             if (isInitialSetup) {
                 loadPrice()
             }
+        } else {
+            viewBinding.EquivalentAmount.exchangeRate = account.exchangeRate
         }
     }
 

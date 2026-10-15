@@ -36,7 +36,7 @@
     <string name="contrib_feature_csv_import_label">Импорт от CSV</string>
     <string name="contrib_feature_split_template_label">Неограничен брой шаблони за  разпределяне</string>
     <string name="contrib_feature_pro_support_label"><b>Поддръжка по имейл</b> с гарантиран отговор до 2 работни дни</string>
-    <string name="contrib_feature_roadmap_voting_label">Право да гласувате на <b> карта за развитие </b></string>
+    <string name="contrib_feature_roadmap_voting_label">Право да гласувате на <b>картата за развитие</b></string>
     <string name="contrib_feature_history_label">Графика на историята</string>
     <string name="licence_status_free">Безплатен</string>
     <string name="contrib_key">ключ за Основен вариант</string>
@@ -79,10 +79,7 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Баланс %1$s</string>
     <string name="dialog_title_contrib_feature">Допълнителна функция</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Да се изтрие ли профилът?</item>
-        <item quantity="other">Да се изтрият ли тези %1$d сметки?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Да се изтрие ли профилът?</string>
     <string name="dialog_title_warning_delete_category">Да се изтрие ли категорията?</string>
     <string name="dialog_title_warning_delete_template">Да изтрия ли шаблона?</string>
     <string name="dialog_title_warning_delete_transaction">Да изтрия ли транзакцията?</string>
@@ -129,8 +126,8 @@
     <string name="menu_create_method">Нов начин на плащане</string>
     <string name="menu_create_party">Нова страна</string>
     <string name="menu_create_split">Ново разпределяне</string>
-    <string name="menu_create_split_part_category">Разпредели в категория</string>
-    <string name="menu_create_split_part_transfer">Разпредели с превод</string>
+    <string name="menu_create_split_part_category">Разпредели в друга категория</string>
+    <string name="menu_create_split_part_transfer">Разпредели с нов превод</string>
     <string name="menu_create_sub_cat">Нова подкатегория</string>
     <string name="menu_create_template">Нов шаблон</string>
     <string name="menu_create_template_from_transaction">Запамети като шаблон</string>
@@ -146,7 +143,7 @@
     <string name="menu_edit_method">Редактирай начина на плащане</string>
     <string name="menu_edit_party">Редактирай страна</string>
     <string name="menu_edit_plan_instance">Редактирай плана</string>
-    <string name="menu_edit_split">Редактирай разпределяне</string>
+    <string name="menu_edit_split">Редактиране на разделена транзакция</string>
     <string name="menu_edit_split_part_category">Редактирай разпределяне по категория</string>
     <string name="menu_edit_split_part_transfer">Редактирай разпределяне с превод</string>
     <string name="menu_edit_template">Редактирай шаблон</string>
@@ -170,7 +167,6 @@
     <string name="menu_split_transaction">Преобразувай в разпределена</string>
     <string name="method">Начин на плащане</string>
     <string name="no_app_handling_email_available">Няма приложение за електронна поща.</string>
-    <string name="no_app_handling_ftp_available">Няма приложение за работа с ftp. Ще инсталирате ли <i>Send With FTP</i>?</string>
     <string name="no_app_handling_mime_type_available">Няма приложение за %s файлове.</string>
     <string name="no_categories">Няма категории.</string>
     <string name="no_expenses">Все още без разходи!</string>
@@ -205,7 +201,7 @@
     <string name="password_security_answer_not_valid">Грешно! Опитайте отново!</string>
     <string name="payee">Получател</string>
     <string name="payer">Платец</string>
-    <string name="payer_or_payee">Получател / платец</string>
+    <string name="payer_or_payee">Контрагент</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">План</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -227,7 +223,7 @@
     <string name="pm_type_debit">Дебит</string>
     <string name="pm_type_neutral">Неутрално</string>
     <string name="pref_app_dir_title">Папка за архивиране и експорт</string>
-    <string name="pref_auto_fill_summary">Попълни данните от последната транзакция за същия получател / платец</string>
+    <string name="pref_auto_fill_summary">Попълни данните от последната транзакция за същия контрагент</string>
     <string name="pref_backup_summary">Запиши сега резервно копие на базата данни и предпочитания.</string>
     <string name="pref_sort_order_usages">По брой използвания</string>
     <string name="pref_category_title_export">Експортиране</string>
@@ -236,7 +232,6 @@
     <string name="pref_category_title_more_information">Повече информация</string>
     <string name="pref_category_title_ui">Потребителски интерфейс</string>
     <string name="pref_contrib_purchase_title_upgrade">Надстройте ключ</string>
-    <string name="pref_custom_currency_title">Персонализирайте валути</string>
     <string name="pref_enter_licence_title">Въведете ключ</string>
     <string name="pref_export_format_title">Формат на данните</string>
     <string name="pref_import_from_grisbi_summary">Внасяне на категории и страни от Grisbi XML файл</string>
@@ -250,7 +245,7 @@
     <string name="pref_manage_categories_title">Категории</string>
     <string name="pref_manage_methods_summary">Създаване и редактиране на начините на плащане и свързване с видове сметки.</string>
     <string name="pref_manage_methods_title">Начини на плащане</string>
-    <string name="pref_manage_parties_summary">Добавяне, редактиране, изтриване на страни (платци и получатели).</string>
+    <string name="pref_manage_parties_summary">Добавяне, редактиране, изтриване на контрагенти.</string>
     <string name="pref_manage_parties_title">Страни</string>
     <string name="pref_manage_sync_backends_title">Отдалечени хранилища за архивиране и синхронизация</string>
     <!-- %s will be replaced with list of backends -->
@@ -274,8 +269,6 @@
     <string name="pref_send_feedback_title">Изпрати обратна връзка</string>
     <string name="pref_share_target_summary">Оставете празно, ако искате да изберете между съответните приложения (електронна поща, Dropbox, Google документи, …), или да предоставите URL адрес в една от поддържаните схеми</string>
     <string name="pref_share_target_title">Качване на URL адрес</string>
-    <string name="pref_shortcut_added">Добавен е шорткът на начален екран</string>
-    <string name="pref_shortcut_not_added">Няма свободно място на начален екран, където да поставя шорткът.</string>
     <string name="pref_shortcut_summary">Добавяне шорткът на начален екран.</string>
     <string name="pref_ui_home_screen_shortcuts">Шорткъти на начален екран</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -306,7 +299,7 @@
     <string name="save_transaction_template_deleted">Шаблонът е изтрит</string>
     <string name="select">Избери</string>
     <string name="select_category">Избери категория</string>
-    <string name="select_payee">Изберете платец / получател</string>
+    <string name="select_payee">Изберете контрагент</string>
     <string name="share_scheme_not_supported">Схема %1$s не се поддържа</string>
     <string name="share_sending">Избери файл за експорт</string>
     <string name="split_parts_heading">Разпределени суми</string>
@@ -364,33 +357,39 @@
     <string name="warning_reset_account_all">Ако продължите, всички транзакции с валута %1$s, по всички сметки, ще бъдат изтрити от базата данни и не могат да бъдат възстановени.</string>
     <string name="warning_reset_account_matched">Ако продължите, транзакциите, избрани с текущия филтър, ще бъдат изтрити от базата данни и не могат да бъдат възстановени.</string>
     <string name="warning_restore">База данни и предпочитания ще бъдат възстановени от файл „%1$s“. Текущите данни ще бъдат изтрити.</string>
-    <string name="warning_splitpartcategory_context">Преводите, които са част от разпределяне, могат да се редактират само в контекста на разпределянето.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Моля задайте число между %1$d и %2$d</string>
     <string name="warning_change_fraction_digits_1">Сумите в базата данни трябва да бъдат обновени, за да отговарят на новия брой дробни цифри.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Ако сумите не бъдат обновени, след промяната ще бъдат показвани като умножени по %d.</string>
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Ако сумите не бъдат обновени, след промяната ще бъдат показвани като разделени на %d.</string>
     <string name="warning_change_fraction_digits_3">Ако сумите бъдат обновени ще загубите информацията от тяхната дробна част.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Обнови сумите в базата данни</string>
-    <string name="import_categories_success">Успешно са внесени %1$d категории.</string>
-    <string name="import_parties_success">Успешно са внесени %1$d страни.</string>
-    <string name="import_accounts_success">Успешно са внесени %1$d сметки.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">Успешно са внесени %1$d транзакции в сметка %2$s</string>
-    <string name="import_accounts_none">Не са внесени сметки</string>
-    <string name="import_categories_none">Не са внесени категории</string>
-    <string name="import_parties_none">Не са внесени страни</string>
-    <string name="import_transactions_none">Не са внесени транзакции в сметка %1$s</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">Успешно е внесена %1$d категория.</item>
+        <item quantity="other">Успешно са внесени %1$d категории.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">Успешно е внесена %1$d страна.</item>
+        <item quantity="other">Успешно са внесени %1$d страни.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">Успешно е внесена %1$d сметка.</item>
+        <item quantity="other">Успешно са внесени %1$d сметки.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">Успешно е внесена %1$d транзакция в сметка %2$s.</item>
+        <item quantity="other">Успешно са внесени %1$d транзакции в сметка %2$s.</item>
+    </plurals>
     <string name="import_source_select_error">Моля, изберете файл от тип %1$s</string>
     <string name="menu_categories_setup_default">Въведи готови категории</string>
     <string name="widget_title_accounts">Моите сметки</string>
     <string name="widget_title_templates">Моите шаблони</string>
     <string name="app_dir_not_accessible">Посочената за архив и експорт папка (%1$s) не е достъпна. Моля, изберете друга.</string>
-    <string name="app_dir_not_compatible_with_nougat">Зададения за архив и експорт URL (%1$s)  е недостъпен за Android Nougat. Моля, изберете папка отново.</string>
     <string name="search_amount">Търсене на сума</string>
     <string name="search_category">Търсене на категория</string>
     <string name="search_comment">Търсене на бележка</string>
     <string name="search_date">Търсене на дата</string>
     <string name="search_status">Търсене на статус</string>
-    <string name="search_payee">Търсене на получател / платец</string>
+    <string name="search_payee">Търсене на контрагент</string>
     <string name="search_method">Търсене на начин на плащане</string>
     <string name="search_tag">Търсене на маркер</string>
     <string name="and">и</string>
@@ -407,7 +406,7 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">след</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Закупуването е неуспешно или отменено.</string>
-    <string name="hint_auto_fill">Да се попълват ли автоматично данните от последната транзакция за същия получател / платец? Винаги можете да промените това поведение от настройките.</string>
+    <string name="hint_auto_fill">Да се попълват ли автоматично данните от последната транзакция за същия контрагент? Винаги можете да промените това поведение от настройките.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">Актуализирани са %1$d сметки с валута %2$s .</string>
     <string name="import_source_file">Файл</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
@@ -459,7 +458,6 @@
     <string name="plan_instance_state_cancelled">отменен</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">приложен</string>
-    <string name="progress_dialog_updating_split_parts">Обновяване на разпределяните части</string>
     <string name="warning_cannot_move_split_transaction">Тази разпределена транзакция не може да бъде преместена в сметка %1$s, защото има отнесени към сметката нейни части.</string>
     <string name="content_description_calculator_delete_button">Изтрии последната цифра</string>
     <string name="paypal_callback_info">Транзакцията е завършена и квитанцията за покупката Ви е изпратена на електронната поща. За подробности по транзакцията вижте профила си във www.paypal.com.</string>
@@ -471,17 +469,9 @@
     <string name="crash_dialog_comment_prompt">По-долу може да добавите коментар относно този проблем:</string>
     <string name="synchronization">Синхронизиране</string>
     <string name="synchronization_none">Без синхронизиране</string>
-    <string name="hint_url">URL</string>
-    <string name="description_webdav_url">Въведете URL на специална папка от WebDAV сървър. {app_name} ще запази данните си в тази папка и няма да пипа нищо извън нея.</string>
-    <string name="description_webdav_trust_certificate">Сайтът използва сертификат, който не е доверен за Android.</string>
-    <string name="label_trust_certificate">Довери се на този сертификат</string>
     <string name="no_sync_backends">Няма отдалечено хранилище, с което да се прави синхронизация</string>
     <string name="menu_create_sync_backend">Ново отдалечено хранилище, с което да се прави синхронизация</string>
     <string name="validate_error_not_empty">Трябва да не е празно</string>
-    <string name="validate_error_webdav_invalid_certificate">На този сертификат не може да се доверим. Изглежда е невалиден.</string>
-    <string name="validate_error_webdav_not_compliant">Този URL не е WebDAV ресурс.</string>
-    <string name="validate_error_webdav_404">Посоченият URL не съществува на сървъра.</string>
-    <string name="url_not_valid">Невалиден URL</string>
     <string name="menu_sync_unlink">Спри синхронизирането</string>
     <string name="menu_sync_link">Започни синхронизиране</string>
     <string name="menu_sync_download">Зареждане и синхронизиране</string>
@@ -565,7 +555,6 @@
     <string name="pref_protection_device_lock_screen_title">Екран за заключено устройство</string>
     <string name="pref_warning_only_one_protection">Преди да можете да използвате защита от %1$s, трябва да изключите защитата от %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Защитният екран за заключено устройството не е настроен.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Отидете на %s, за да настроите заключен екран.</string>
     <string name="menu_history_show_balance">Показване на салдото</string>
     <string name="menu_history_transfers">Включи преводите</string>
     <string name="menu_history">История</string>
@@ -585,7 +574,7 @@
     <string name="ungroup_split_transaction_success">Сплит транзакцията бе успешно дегенерирана.</string>
     <string name="split_transaction_one_success">Успешно преобразувана в разпределена транзакция.</string>
     <string name="split_transaction_group_success"> %1$d транзакции са успешно групирани в една разпределена транзакция.</string>
-    <string name="split_transaction_not_possible">Само транзакции, които имат еднакви сметка, получател и статус, могат да бъдат групирани в една разпределена транзакция.</string>
+    <string name="split_transaction_not_possible">Само транзакции, които имат еднакви сметка, контрагент и статус, могат да бъдат групирани в една разпределена транзакция.</string>
     <string name="pref_transaction_time_summary">Позволява да зададете часовото време на транзакцията.</string>
     <string name="pref_value_date_summary">Позволява да зададете време на вальора освен датата на резервацията. Времето на транзакцията ще бъде скрито. Тази настройка не се прилага за касови сметки.</string>
     <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
@@ -669,7 +658,7 @@
     <string name="pref_exchange_rate_provider_summary">Изберете доставчик, за да изтеглите валутни курсове</string>
     <string name="pref_exchange_rate_provider_title">Доставчик на валутни курсове</string>
     <string name="pref_exchange_rates_api_key_summary">Моля, регистрирайте безплатен акаунт в %s и предоставете идентификационния номер на своето приложение</string>
-    <string name="pref_plan_executor_time_title">Планиране на време за уведомяване</string>
+    <string name="pref_plan_executor_time_title">Час за известие</string>
     <string name="synchronization_select_folder_dialog_title">Изберете съществуваща папка или създайте нова</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch">Използвайте този превключвател, за да запишете приход.</string>
@@ -694,7 +683,7 @@
     <string name="menu_remap">Групово редаактиране</string>
     <string name="dialog_title_confirm_remap">Да запиша ли \'%s\'?</string>
     <string name="remap_category">Избраните транзакции ще бъдат записани в категория %s.</string>
-    <string name="remap_payee">Избраните транзакции ще бъдат записани с платец / получател %s.</string>
+    <string name="remap_payee">Избраните транзакции ще бъдат записани с контрагент %s.</string>
     <string name="remap_method">Избраните транзакции ще бъдат записани с метод %s.</string>
     <string name="remap_account">Избраните транзакции ще бъдат записани в сметка %s.</string>
     <string name="remapping_result">Избраните транзакции бяха презаписани.</string>
@@ -718,7 +707,7 @@
     <string name="dialog_multi_tag">Всички избрани транзакции ще бъдат маркирани с %s.</string>
     <string name="dialog_multi_tag_clear">Всички маркери ще бъдат премахнати от избраните транзакции.</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">Маркер %1$s е картографиран в една транзакция. Трябва ли да бъде изтрит?</item>
+        <item quantity="one">Маркер %1$s е картографиран в %2$d транзакция. Трябва ли да бъде изтрит?</item>
         <item quantity="other">Маркерът %1$s е свързан с %2$d транзакции . Трябва ли да бъде изтрит?</item>
     </plurals>
     <string name="dialog_multi_tag_append">Добавяне на нови към съществуващите маркери</string>
@@ -760,8 +749,6 @@
     <string name="pref_feature_uninstall_summary">Play Store се опитва евентуално да премахне тези модули във фонов режим.</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Моля, изберете лицензен пакет.</string>
-    <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
-    <string name="discover_feature_fab_long_press">Задръжте натиснат плаващия бутон за да отворите направо формата за превод, разпределена транзакция или приход.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">Предварително действие (в дни)</string>
     <string name="warning_balance_account_delete">Ако продължите, всички съгласувани транзакции от тази сметка ще бъдат изтрити от базата данни и няма да можете да ги възстановите.</string>
@@ -793,7 +780,7 @@
     <string name="single_feature_info">Като алтернатива може да закупите неограничен достъп само за тази функция.</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">Последния ден</string>
-    <string name="warning_link_transfer">Двете избрани транзакции ще бъдат свързани като прехвърляне. Информацията за получател/платец и категория ще бъде премахната.</string>
+    <string name="warning_link_transfer">Двете избрани транзакции ще бъдат свързани като превод. Информацията за контрагент и категория ще бъде премахната.</string>
     <!-- This is the title of an entry on the configuration screen for the account widget. It allows to decide which number should be displayed for each account: the current balance or the total (which included future transactions) -->
     <string name="account_widget_configuration_sum">Показвана сума</string>
     <string name="account_widget_configuration_sum_total">Включи бъдещи транзакции</string>
@@ -838,7 +825,7 @@
     <string name="cb_label_merge_accounts">Всичко в една сметка</string>
     <string name="pref_mlkit_script_title">Скрипт за MlKit</string>
     <plurals name="import_categories_icons_updated">
-        <item quantity="one">Една категория е обновена с икона.</item>
+        <item quantity="one">%1$d категория е обновена с икона.</item>
         <item quantity="other">%1$d категории са обновени с икони.</item>
     </plurals>
     <string name="setup_completed">Настройката завърши</string>
@@ -932,7 +919,7 @@
     <string name="pref_transaction_amount_color_source_title">Оцветяване на суми</string>
     <string name="menu_transform_to_transfer">Превърни в превод</string>
     <string name="warning_transform_to_transfer">Избраната транзакция ще бъде заменена с превод от %1$s към %2$s.</string>
-    <string name="roadmap_intro">Отворено е гласуването в Пътната карта 2024! Избери функциите и подобренията, които са най-важни за теб.</string>
+    <string name="roadmap_intro">Отворено е гласуването в Пътната карта %d! Избери функциите и подобренията, които са най-важни за теб.</string>
     <string name="merge_categories_dialog_title">Обединяване на категории</string>
     <string name="warning_archived_transfer_cannot_be_edited">Преводът не може да бъде редактиран, защото отсрещната страна е архивирана.</string>
     <string name="warning_unlink_transfer">Избраният превод ще бъде заменен от нормални транзакции в двете сметки.</string>
@@ -977,7 +964,6 @@
     <string name="total_value">Обща стойност</string>
     <string name="enable_automatic_daily_exchange_rate_download">Автоматично зареждане на дневния обменен курс</string>
     <string name="price_history">История на обменния курс</string>
-    <string name="menu_show_equivalent_value">Еквивалентна стойност</string>
     <string name="progress_recalculating">Преизчисляване</string>
     <string name="filter_dialog_empty">Все още не са зададени критерии. Натиснете бутоните по-горе, за да определите заявката и да прецизирате резултатите.</string>
     <string name="dynamic_exchange_rate">Динамичен обменен курс</string>
@@ -1025,4 +1011,78 @@
     <string name="new_account_type">Нов тип на сметка</string>
     <string name="pref_account_list_display_configuration_title">Списък на сметките</string>
     <string name="pref_print_layout_summary">Настройка на ширината и разположението на колоните</string>
+    <string name="menu_account_flags">Флагове</string>
+    <string name="menu_flag">Флаг</string>
+    <string name="edit_account_flag">Редактиране на флаг</string>
+    <string name="new_account_flag">Нов флаг</string>
+    <string name="flag_unflagged">Без флагове</string>
+    <string name="flag_favorite">Предпочитани</string>
+    <string name="supports_reconciliation">Поддържа сверяване</string>
+    <string name="aggregate_invisible">Включи невидимите сметки в обобщените сметки и баланса</string>
+    <string name="select_accounts_for_flag">Изберете сметки за флага %s</string>
+    <string name="remap_payee_null">Контрагентът ще бъде премахнат от всички избрани транзакции.</string>
+    <string name="menu_cleanup">Почисти</string>
+    <plurals name="warning_cleanup_parties">
+        <item quantity="one">%d неизползван контрагент ще бъде премахнат.</item>
+        <item quantity="other">%d неизползвани контрагенти ще бъдат премахнати.</item>
+    </plurals>
+    <string name="show_invisible">Скрити сметки</string>
+    <string name="show_zero">Сметки с нулев баланс</string>
+    <string name="content_description_clear_party">Премахни избрания контрагент</string>
+    <string name="content_description_browse_device_files">Разгледайте файловете на това устройство</string>
+    <string name="content_description_select_recent_file">Изберете от последните файлове</string>
+    <string name="content_description_show_balance_details">Покажи подробна информация</string>
+    <string name="menu_templates">Шаблони</string>
+    <string name="pref_ui_start_screen_title">Начален екран</string>
+    <string name="pref_ui_start_screen_last_visited">Последно посетени</string>
+    <string name="main_navigation">Основна навигация</string>
+    <string name="pref_fab_style_title">Стил с плаващ бутон за действия</string>
+    <string name="number_too_large">Твърде голямо число</string>
+    <string name="pref_fab_style_standard_description">Стандартно (Докоснете стрелката за меню)</string>
+    <string name="pref_fab_style_compact_description">Компактно (Докоснете и задръжте за меню)</string>
+    <string name="prioritize_flag_order">Приоритет според флаговете</string>
+    <string name="pref_content_based_colors_title">Динамичен цвят на сметки</string>
+    <string name="pref_content_based_colors_summary">Цветове на темата според цвета на текущата сметка. Изключете, ако текстовете се четат трудно.</string>
+    <string name="service_starting">Стартиране…</string>
+    <string name="asset_quantity_at_price">%1$s по %2$s</string>
+    <string name="menu_create_portfolio">Нов портфейл</string>
+    <string name="asset_type_fiat_plural">Валути</string>
+    <string name="asset_type_security">Обезпечение</string>
+    <string name="asset_type_security_plural">Обезпечения</string>
+    <string name="asset_type_crypto">Крипто</string>
+    <string name="trade_funding_source">Източник на финансиране</string>
+    <string name="trade_funding_portfolio">В брой от портфейла</string>
+    <string name="trade_funding_external_description">Средства от източници, които не се проследяват в това приложение</string>
+    <string name="trade_deposit">Депозит</string>
+    <string name="trade_withdraw">Изтеглянe</string>
+    <string name="trade_matching_transaction_found">Намерена е съответстваща транзакция в сметката за финансиране. Изберете за свързване:</string>
+    <string name="contrib_feature_portfolio_tracking">Проследяване на портфейла</string>
+    <string name="premium_nudge_portfolio_message">Можете да управлявате един портфейл безплатно. Надстройте, за да управлявате няколко портфейла и да отключите разширени функции (като %1$s).</string>
+    <string name="trade_buy">Покупка</string>
+    <string name="trade_sell">Продажба</string>
+    <string name="trade_quantity">Количество</string>
+    <string name="trade_price">Цена</string>
+    <string name="trade_fee">Таксa</string>
+    <string name="trade_target_asset">Актив</string>
+    <plurals name="import_trades_missing_assets_message">
+        <item quantity="one">%1$d линия се отнася за непознат актив: %2$s.</item>
+        <item quantity="other">%1$d линии се отнасят за непознати активи: %2$s.</item>
+    </plurals>
+    <string name="rounding">Закръгляне</string>
+    <string name="parse_error_at_line">Грешка в линия %1$d: %2$s</string>
+    <string name="asset_type_commodity">Стока</string>
+    <string name="asset_type_commodity_plural">Стоки</string>
+    <string name="trade_transfer">Прeвод</string>
+    <string name="important_upgrade_information_heading">Важна информация</string>
+    <string name="help_floating_action_button">Плаващ бутон</string>
+    <string name="pref_tag_style_title">Стил на етикета</string>
+    <string name="pref_tag_style_outline">Цветен контур</string>
+    <string name="pref_tag_style_filled">Изцяло оцветен</string>
+    <string name="trade_additional_costs">Допълнителни разходи</string>
+    <string name="dialog_title_warning_delete_closed_account">Да изтрия ли затворената сметка?</string>
+    <string name="search_asset">Търсене на актив</string>
+    <string name="remap_update_value_date">Актуализирайте и датата на вальора</string>
+    <string name="trade_add_cost">Добавете цена</string>
+    <string name="single_pane_view">Единичен панел</string>
+    <string name="split_pane_view">Разделен изглед</string>
 </resources>

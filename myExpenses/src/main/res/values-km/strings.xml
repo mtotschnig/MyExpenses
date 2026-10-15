@@ -116,7 +116,7 @@
     <string name="menu_edit_method">កែ​វិធីសាស្ត្រ​ទូទាត់ប្រាក់</string>
     <string name="menu_edit_party">កែ​ភាគី</string>
     <string name="menu_edit_plan_instance">កែសម្រួលផែនការកើតឡើងតែមួយ</string>
-    <string name="menu_edit_split">កែការញែក</string>
+    <string name="menu_edit_split">កែសម្រួលប្រតិបត្តិការបំបែក</string>
     <string name="menu_edit_split_part_category">កែចំណាត់ថ្នាក់​​បែង​ចែក​ជាផ្នែក</string>
     <string name="menu_edit_split_part_transfer">កែ​ផ្នែក​ញែក​​ការផ្ទេរ​</string>
     <string name="menu_edit_template">កែសម្រួលទិន្នន័យគំរូ</string>
@@ -137,7 +137,6 @@
     <string name="menu_share">ប្រាប់​មិត្តម្នាក់</string>
     <string name="method">វិធី​សា​ស្រ្ត​ទូទាត់</string>
     <string name="no_app_handling_email_available">គ្មាន​កម្មវិធី​ដំណើការ​អ៊ីម៉ែល​ទេ</string>
-    <string name="no_app_handling_ftp_available">គ្មាន​កម្មវិធី​សម្រាប់ ftp ទេ។ សូម​បញ្ចូល​កម្មវិធី <i>Send With FTP</i>?</string>
     <string name="no_categories">គ្មាន​ចំណាត់ថ្នាក់​កំណត់។</string>
     <string name="no_expenses">គ្មាន​ទិន្នន័យចំណាយ​នៅឡើយទេ។</string>
     <string name="no_exportable_expenses">មិនមានប្រតិបត្តិការដែលមិនទាន់ត្រូវបាននាំចេញទេ។</string>
@@ -166,7 +165,7 @@
     <string name="password_security_answer_not_valid">ចម្លើយខុស។ សូមព្យាយាមម្តងទៀត!</string>
     <string name="payee">អ្នកទទួលប្រាក់</string>
     <string name="payer">អ្នកចេញការចំណាយ</string>
-    <string name="payer_or_payee">អ្នក​ទទួល/អ្នក​បង់ប្រាក់</string>
+    <string name="payer_or_payee">ភាគីផ្ទុយ</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">ផែនការ</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -222,7 +221,6 @@
     <string name="pref_send_feedback_title">ផ្ញើមតិយោបល់អ្នកប្រើ</string>
     <string name="pref_share_target_summary">ទុកឱ្យទទេ ប្រសិនបើអ្នកចង់ជ្រើស រវាងកម្មវិធី ដែលសមស្រប (Email, Dropbox, Google Docs, …)​ ឬផ្តល់នូវ URL មួយ​ដែល​មាន​ក្នុងគម្រោងគាំទ្រ</string>
     <string name="pref_share_target_title">URL ផ្ទុកឡើង</string>
-    <string name="pref_shortcut_added">Shortcut បាន​ដាក់​នៅផ្ទាំងខាងមុខ​ហើយ</string>
     <string name="pref_shortcut_summary">ដាក់ shortcut ទៅ​ផ្ទាំងខាងមុខ</string>
     <string name="pref_ui_home_screen_shortcuts">ផ្លូវកាត់​លើទំព័រ​ដើម</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -242,7 +240,7 @@
     <string name="save_transaction_and_new_success">រក្សាទុក​ដោយជោគជ័យ</string>
     <string name="save_transaction_error">មិន​អាច​រក្សា​ទុក​ ប្រតិបត្តិការ​ថ្មី​យក​ចេញ​ពី​ពុម្ព​បានទេ</string>
     <plurals name="save_transaction_from_template_success">
-        <item quantity="other">%1$d ប្រតិបត្តិការ​ថ្មីៗ​បាន​រក្សាទុក​ពី​ពុម្ព​គំរូ​ដោយ​ជោគជ័យ</item>
+        <item quantity="other">%1$d ប្រតិបត្តិការ​ថ្មីៗ​បាន​រក្សាទុក​ពី​ពុម្ព​គំរូ​ដោយ​ជោគជ័យ.</item>
     </plurals>
     <string name="save_transaction_template_deleted">ទិន្ន​ន័យ​គំរូ​ត្រូវ​បាន​លុបហើយ</string>
     <string name="select">ជ្រើសរើស</string>
@@ -288,13 +286,18 @@
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">បើ​អ្នក​បាន​ដំណើរការហើយ សម្រាប់​គណនី​ %1$s ប្រតិបត្តិការ​ទាំង​អស់ នឹង​ត្រូវបាន​លុប​ចេញពី​មូលដ្ឋាន​ទិន្នន័យ និង​មិន​អាច​យក​មកវិញ​បាន​ទេ។</string>
     <string name="warning_restore">មូលដ្ឋានទិន្នន័យ និងចំណង់ចំណូលចិត្ត នឹងត្រូវបានស្ដារឡើងវិញពីការបម្រុងទុក។ (%1$s) ទិន្នន័យបច្ចុប្បន្ន នឹងត្រូវបានលុប។</string>
-    <string name="warning_splitpartcategory_context">ការផ្លាស់ប្តូរដែលជាផ្នែកមួយ នៃការបំបែកអាចត្រូវបាន កែសម្រួល បានតែនៅក្នុងបរិបទនេះទេ។</string>
-    <string name="import_categories_success">%1$d ចំណាត់ថ្នាក់ បាន​នាំចូល​ដោយជោគជ័យ</string>
-    <string name="import_parties_success">%1$d ភាគី​បាន​នាំចូល​ដោយជោគជ័យ</string>
-    <string name="import_accounts_none">គ្មាន​គណនី​នាំចូលទេ</string>
-    <string name="import_categories_none">គ្មាន​ចំណាត់ថ្នាក់​កំណត់នាំចូលទេ</string>
-    <string name="import_parties_none">គ្មានចំណាត់​ផ្នែកនាំចូលទេ</string>
-    <string name="import_transactions_none">គ្មាន​ប្រតិបត្តិការ​ណា​នាំចូល​ទៅគណនី %1$s</string>
+    <plurals name="import_categories_result">
+        <item quantity="other">%1$d ចំណាត់ថ្នាក់ បាន​នាំចូល​ដោយជោគជ័យ</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="other">%1$d ភាគី​បាន​នាំចូល​ដោយជោគជ័យ</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="other">%1$d គណនី​បាន​នាំចូល​ដោយជោគជ័យ</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="other">%1$d ប្រតិបត្តិការ​បាន​នាំចូល​ដោយជោគជ័យ​ទៅ​គណនី %2$s</item>
+    </plurals>
     <string name="import_source_select_error">សូមផ្តល់​ឯកសារមួយ​ក្នុងប្រភេទ %1$s</string>
     <string name="menu_categories_setup_default">ដាក់ប្រភេទលំនាំដើម</string>
     <string name="widget_title_accounts">គណនីរបស់ខ្ញុំ</string>
@@ -340,4 +343,16 @@
     <string name="balance_sheet_net_worth">ទ្រព្យសម្បត្តិសុទ្ធ</string>
     <string name="price_history">ប្រវត្តិតម្លៃ</string>
     <string name="pref_account_list_display_configuration_title">បញ្ជីគណនី</string>
+    <string name="menu_templates">ពុម្ព</string>
+    <string name="pref_plan_executor_time_title">ម៉ោងជូនដំណឹង</string>
+    <string name="important_upgrade_information_heading">ព័ត៌​មាន​សំខាន់</string>
+    <string name="dialog_title_warning_delete_tag">លុបស្លាក?</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="other">ស្លាក %1$s ត្រូវបានភ្ជាប់ទៅ %2$d ប្រតិបត្តិការ។ តើគួរលុបវាចោលឬទេ?</item>
+    </plurals>
+    <string name="pref_tag_style_title">រចនាប័ទ្មស្លាក</string>
+    <string name="pref_tag_style_outline">ព្រំប្រទល់មានពណ៌</string>
+    <string name="pref_tag_style_filled">មានពណ៌ពេញ</string>
+    <string name="trade_additional_costs">ចំណាយបន្ថែម</string>
+    <string name="contrib_feature_portfolio_tracking">ការតាមដានផលប័ត្រ</string>
 </resources>

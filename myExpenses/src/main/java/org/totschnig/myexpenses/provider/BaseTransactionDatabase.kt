@@ -15,125 +15,25 @@ import org.totschnig.myexpenses.db2.FinTsAttribute
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.BalanceType
+import org.totschnig.myexpenses.model.CommodityType
 import org.totschnig.myexpenses.model.CurrencyEnum
 import org.totschnig.myexpenses.model.DEFAULT_FLAG_ID
-import org.totschnig.myexpenses.model.Model
+import org.totschnig.myexpenses.model.DEFAULT_FRACTION_DIGITS
+import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_INACTIVE
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTACHMENT_COUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTACHMENT_ID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTRIBUTE_ID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ATTRIBUTE_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BANK_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BIC
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BLZ
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMODITY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CONTEXT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CRITERION
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CR_STATUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEBT_ID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DESCRIPTION
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DYNAMIC
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EQUIVALENT_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_EXCLUDE_FROM_TOTALS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG_ICON
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG_SORT_KEY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IBAN
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_ASSET
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHODID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_ICON
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_METHOD_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_OPENING_BALANCE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENT_UUID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEEID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_REFERENCE_NUMBER
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SOURCE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_STATUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUPPORTS_RECONCILIATION
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_ACCOUNT_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SYNC_SEQUENCE_LOCAL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TAGLIST
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_PEER
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE_SORT_KEY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_URI
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USAGES
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_USER_ID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VALUE_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VERSION
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_VISIBLE
-import org.totschnig.myexpenses.provider.DatabaseConstants.NULL_CHANGE_INDICATOR
-import org.totschnig.myexpenses.provider.DatabaseConstants.NULL_ROW_ID
-import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVED
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_UNCOMMITTED
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNTS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_ATTRIBUTES
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_EXCHANGE_RATES
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_FLAGS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ACCOUNT_TYPES
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTACHMENTS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_ATTRIBUTES
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_BANKS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CATEGORIES
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CHANGES
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_CURRENCIES
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_DEBTS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_EQUIVALENT_AMOUNTS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_METHODS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PAYEES
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PLAN_INSTANCE_STATUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_PRICES
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_SYNC_STATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TAGS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTIONS_TAGS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTACHMENTS
-import org.totschnig.myexpenses.provider.DatabaseConstants.TABLE_TRANSACTION_ATTRIBUTES
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_ALL
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_CHANGES_EXTENDED
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_COMMITTED
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_EXTENDED
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_PRIORITIZED_PRICES
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_UNCOMMITTED
-import org.totschnig.myexpenses.provider.DatabaseConstants.VIEW_WITH_ACCOUNT
 import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
+import java.util.Currency
 import kotlin.math.pow
 
-const val DATABASE_VERSION = 180
+const val DATABASE_VERSION = 190
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -247,6 +147,34 @@ CREATE TRIGGER category_type_move
         UPDATE $TABLE_CATEGORIES SET $KEY_TYPE = (SELECT $KEY_TYPE FROM $TABLE_CATEGORIES WHERE $KEY_ROWID = new.$KEY_PARENTID) WHERE $KEY_ROWID = new.$KEY_ROWID;
     END
 """
+
+val ACCOUNTS_CREATE =
+    """CREATE TABLE $TABLE_ACCOUNTS (
+        $KEY_ROWID integer primary key autoincrement,
+        $KEY_LABEL text not null,
+        $KEY_OPENING_BALANCE integer,
+        $KEY_DESCRIPTION text,
+        $KEY_CURRENCY text not null references $TABLE_CURRENCIES($KEY_CODE),
+        $KEY_TYPE integer references $TABLE_ACCOUNT_TYPES($KEY_ROWID) NOT NULL,
+        $KEY_COLOR integer default -3355444,
+        $KEY_GROUPING text not null check ($KEY_GROUPING in (${Grouping.JOIN})) default '${Grouping.NONE.name}',
+        $KEY_USAGES integer default 0,
+        $KEY_LAST_USED datetime,
+        $KEY_SORT_KEY integer,
+        $KEY_SYNC_ACCOUNT_NAME text,
+        $KEY_SYNC_SEQUENCE_LOCAL integer default 0,
+        $KEY_EXCLUDE_FROM_TOTALS boolean default 0,
+        $KEY_UUID text,
+        $KEY_SORT_BY text default 'date',
+        $KEY_SORT_DIRECTION text not null check ($KEY_SORT_DIRECTION in ('ASC','DESC')) default 'DESC',
+        $KEY_CRITERION integer,
+        $KEY_FLAG integer references $TABLE_ACCOUNT_FLAGS($KEY_ROWID) NOT NULL default 0,
+        $KEY_SEALED boolean default 0,
+        $KEY_DYNAMIC boolean default 0,
+        $KEY_IS_PORTFOLIO boolean default 0,
+        $KEY_BANK_ID integer references $TABLE_BANKS($KEY_ROWID) ON DELETE SET NULL,
+        $KEY_PARENTID integer references $TABLE_ACCOUNTS($KEY_ROWID) ON DELETE CASCADE,
+        $KEY_BALANCE_TYPE not null check ($KEY_BALANCE_TYPE in (${BalanceType.JOIN})) default '${BalanceType.CURRENT.name}');"""
 
 const val BANK_CREATE = """
 CREATE TABLE $TABLE_BANKS ($KEY_ROWID integer primary key autoincrement, $KEY_BLZ text not null, $KEY_BIC text not null, $KEY_BANK_NAME text not null, $KEY_USER_ID text not null, $KEY_VERSION interger not null, unique($KEY_BLZ, $KEY_USER_ID))
@@ -499,7 +427,7 @@ fun SupportSQLiteDatabase.createOrRefreshTransactionLinkedTableTriggers() {
 
 fun SupportSQLiteDatabase.linkedTableTrigger(
     operation: String,
-    table: String
+    table: String,
 ) {
     val reference = when (operation) {
         "INSERT" -> "new"
@@ -564,7 +492,7 @@ const val UPDATE_ACCOUNT_SYNC_NULL_TRIGGER =
     "CREATE TRIGGER update_account_sync_null AFTER UPDATE ON $TABLE_ACCOUNTS WHEN new.$KEY_SYNC_ACCOUNT_NAME IS NULL AND old.$KEY_SYNC_ACCOUNT_NAME IS NOT NULL BEGIN UPDATE $TABLE_ACCOUNTS SET $KEY_SYNC_SEQUENCE_LOCAL = 0 WHERE $KEY_ROWID = old.$KEY_ROWID; DELETE FROM $TABLE_CHANGES WHERE $KEY_ACCOUNTID = old.$KEY_ROWID; END;"
 
 const val ACCOUNTS_TRIGGER_CREATE =
-    "CREATE TRIGGER sort_key_default AFTER INSERT ON $TABLE_ACCOUNTS BEGIN UPDATE $TABLE_ACCOUNTS SET ${DatabaseConstants.KEY_SORT_KEY} = (SELECT coalesce(max(${DatabaseConstants.KEY_SORT_KEY}),0) FROM $TABLE_ACCOUNTS) + 1 WHERE $KEY_ROWID = NEW.$KEY_ROWID; END"
+    "CREATE TRIGGER sort_key_default AFTER INSERT ON $TABLE_ACCOUNTS BEGIN UPDATE $TABLE_ACCOUNTS SET $KEY_SORT_KEY = (SELECT coalesce(max($KEY_SORT_KEY),0) FROM $TABLE_ACCOUNTS) + 1 WHERE $KEY_ROWID = NEW.$KEY_ROWID; END"
 
 const val UPDATE_ACCOUNT_METADATA_TRIGGER =
     """CREATE TRIGGER update_account_metadata AFTER UPDATE OF $KEY_LABEL,$KEY_OPENING_BALANCE,$KEY_DESCRIPTION,$KEY_CURRENCY,$KEY_TYPE,$KEY_COLOR,$KEY_EXCLUDE_FROM_TOTALS,$KEY_CRITERION ON $TABLE_ACCOUNTS 
@@ -582,9 +510,14 @@ val UPDATE_ACCOUNT_EXCHANGE_RATE_TRIGGER =
 const val DEFAULT_FLAG_TRIGGER =
     """CREATE TRIGGER protect_default_flag BEFORE DELETE ON $TABLE_ACCOUNT_FLAGS WHEN (OLD.$KEY_ROWID = 0) BEGIN SELECT RAISE (FAIL, 'default flag can not be deleted'); END;"""
 
+const val TRANSFER_PEER_TRIGGER =
+    """CREATE TRIGGER link_transfer_peer AFTER INSERT ON $TABLE_TRANSACTIONS WHEN new.$KEY_TRANSFER_PEER IS NOT NULL
+        BEGIN UPDATE $TABLE_TRANSACTIONS SET $KEY_TRANSFER_PEER = new.$KEY_ROWID WHERE $KEY_ROWID = new.$KEY_TRANSFER_PEER;
+        END;"""
+
 abstract class BaseTransactionDatabase(
     val context: Context,
-    val prefHandler: PrefHandler
+    val prefHandler: PrefHandler,
 ) :
     SupportSQLiteOpenHelper.Callback(DATABASE_VERSION) {
 
@@ -651,7 +584,7 @@ abstract class BaseTransactionDatabase(
                     cursor.asSequence.forEach {
                         execSQL(
                             "update accounts set uuid = ? where _id =?",
-                            arrayOf(Model.generateUuid(), it.getLong(0))
+                            arrayOf<Any>(generateUuid(), it.getLong(0))
                         )
                     }
                 }
@@ -794,7 +727,7 @@ abstract class BaseTransactionDatabase(
                 update(
                     "categories",
                     ContentValues(1).apply {
-                        put(KEY_UUID, Model.generateUuid())
+                        put(KEY_UUID, generateUuid())
                     },
                     "_id = ?",
                     arrayOf(it.getLong(0).toString())
@@ -846,7 +779,7 @@ abstract class BaseTransactionDatabase(
             attachmentValues.clear()
             joinValues.clear()
             attachmentValues.put(KEY_URI, uri)
-            attachmentValues.put(KEY_UUID, Model.generateUuid())
+            attachmentValues.put(KEY_UUID, generateUuid())
             val id = insert("attachments", attachmentValues)
             joinValues.put(KEY_ATTACHMENT_ID, id)
             transactionIds.forEach {
@@ -858,7 +791,7 @@ abstract class BaseTransactionDatabase(
             cursor.asSequence.forEach {
                 attachmentValues.clear()
                 attachmentValues.put(KEY_URI, it.getString(0))
-                attachmentValues.put(KEY_UUID, Model.generateUuid())
+                attachmentValues.put(KEY_UUID, generateUuid())
                 insert("attachments", attachmentValues)
             }
         }
@@ -960,7 +893,7 @@ abstract class BaseTransactionDatabase(
             insertDefaultTransferCategory(this, defaultTransferCategoryLabel)
         } else {
             if (conflictingEntry.second == FLAG_TRANSFER.toInt()) {
-                prefHandler.putLong(PrefKey.DEFAULT_TRANSFER_CATEGORY, conflictingEntry.first)
+                prefHandler.defaultTransferCategory = conflictingEntry.first
             } else {
                 insertDefaultTransferCategory(this, "_${defaultTransferCategoryLabel}_")
             }
@@ -1111,7 +1044,7 @@ abstract class BaseTransactionDatabase(
                 cursor.asSequence.forEach {
                     execSQL(
                         "update budgets set uuid = ? where _id =?",
-                        arrayOf(Model.generateUuid(), it.getLong(0))
+                        arrayOf<Any>(generateUuid(), it.getLong(0))
                     )
                 }
             }
@@ -1167,13 +1100,20 @@ abstract class BaseTransactionDatabase(
     }
 
     fun SupportSQLiteDatabase.upgradeTo175() {
-        val currencyContext = context.injector.currencyContext()
+        fun getFractionDigits(code: String): Int {
+            val prefFractionDigits = prefHandler.getInt(code + "CustomFractionDigits", -1)
+            if (prefFractionDigits != -1) return prefFractionDigits
+
+            val javaCurrency = runCatching { Currency.getInstance(code) }.getOrNull()
+            return javaCurrency?.defaultFractionDigits?.takeIf { it != -1 } ?: DEFAULT_FRACTION_DIGITS
+        }
+
         query("select distinct commodity, currency from prices").use { cursor ->
             cursor.asSequence.forEach {
                 val commodity = it.getString(0)
                 val currency = it.getString(1)
                 val delta =
-                    currencyContext[currency].fractionDigits - currencyContext[commodity].fractionDigits
+                    getFractionDigits(currency) - getFractionDigits(commodity)
                 if (delta != 0) {
                     val coefficient = 10.0.pow(delta)
                     execSQL("update prices set value = value * $coefficient where commodity = '$commodity' and currency = '$currency'")
@@ -1200,8 +1140,8 @@ abstract class BaseTransactionDatabase(
         """)
         execSQL("DROP TABLE accounts_old")
         execSQL("CREATE UNIQUE INDEX accounts_uuid ON accounts(uuid)")
-        createOrRefreshAccountTriggers();
-        createOrRefreshAccountMetadataTrigger();
+        createOrRefreshAccountTriggers()
+        createOrRefreshAccountMetadataTrigger()
 
         execSQL("ALTER TABLE accounttype_paymentmethod RENAME to accounttype_paymentmethod_old")
         execSQL("CREATE TABLE accounttype_paymentmethod (type integer references account_types(_id), method_id integer references paymentmethods(_id), primary key (type,method_id))")
@@ -1231,8 +1171,8 @@ abstract class BaseTransactionDatabase(
         """)
         execSQL("DROP TABLE accounts_old")
         execSQL("CREATE UNIQUE INDEX accounts_uuid ON accounts(uuid)")
-        createOrRefreshAccountTriggers();
-        createOrRefreshAccountMetadataTrigger();
+        createOrRefreshAccountTriggers()
+        createOrRefreshAccountMetadataTrigger()
     }
 
     fun SupportSQLiteDatabase.upgradeTo180() {
@@ -1240,6 +1180,72 @@ abstract class BaseTransactionDatabase(
         AccountType.initialAccountTypes.filter { it.sortKey != 0 }.forEach {
             execSQL("UPDATE account_types set type_sort_key = ? WHERE label = ?", arrayOf(it.sortKey.toString(), it.name))
         }
+    }
+
+    fun SupportSQLiteDatabase.upgradeTo182() {
+        execSQL(TRANSFER_PEER_TRIGGER)
+        execSQL("DROP VIEW IF EXISTS $VIEW_UNCOMMITTED")
+        execSQL("DROP VIEW IF EXISTS $VIEW_TEMPLATES_UNCOMMITTED")
+        execSQL("DROP VIEW IF EXISTS $VIEW_ALL")
+    }
+
+    fun SupportSQLiteDatabase.upgradeTo183() {
+        safeInsert("attributes", ContentValues().apply {
+            put("attribute_name", BankingAttribute.GESCHAEFTS_VORFALL.name)
+            put("context", BankingAttribute.GESCHAEFTS_VORFALL.context)
+        })
+    }
+
+    fun SupportSQLiteDatabase.upgradeTo185() {
+        execSQL("ALTER TABLE accounts ADD COLUMN balance_type text not null check (balance_type in ('CURRENT','TOTAL','CLEARED','RECONCILED','DELTA')) default 'CURRENT'")
+    }
+
+    fun SupportSQLiteDatabase.upgradeTo186() {
+        // 1. Enhance currency table for custom asset metadata
+        execSQL("ALTER TABLE $TABLE_CURRENCIES ADD COLUMN $KEY_FRACTION_DIGITS integer")
+        execSQL("ALTER TABLE $TABLE_CURRENCIES ADD COLUMN $KEY_SYMBOL text")
+        execSQL("ALTER TABLE $TABLE_CURRENCIES ADD COLUMN $KEY_COMMODITY_TYPE text")
+    }
+
+    fun SupportSQLiteDatabase.upgradeTo187() {
+        // 1. Add is_portfolio flag to accounts
+        execSQL("ALTER TABLE $TABLE_ACCOUNTS ADD COLUMN $KEY_IS_PORTFOLIO boolean default 0")
+        // 2. Add parent_id to accounts for hierarchy (Portfolio -> Asset)
+        execSQL("ALTER TABLE $TABLE_ACCOUNTS ADD COLUMN $KEY_PARENTID integer references $TABLE_ACCOUNTS($KEY_ROWID) ON DELETE CASCADE")
+    }
+
+    fun SupportSQLiteDatabase.upgradeTo189() {
+        query(table = TABLE_CURRENCIES, columns = arrayOf(KEY_CODE, KEY_SYMBOL, KEY_FRACTION_DIGITS)).use { cursor ->
+            cursor.asSequence.forEach {
+                val code = it.getString(KEY_CODE)
+                val dbSymbol = it.getStringOrNull(KEY_SYMBOL)
+                val dbFractionDigits = it.getIntOrNull(KEY_FRACTION_DIGITS)
+
+                val prefSymbol = prefHandler.getString(code + "CustomCurrencySymbol", null)
+                val prefFractionDigits = prefHandler.getInt(code + "CustomFractionDigits", -1)
+
+                val values = ContentValues()
+                if (dbSymbol == null && prefSymbol != null) {
+                    values.put(KEY_SYMBOL, prefSymbol)
+                }
+                if (dbFractionDigits == null && prefFractionDigits != -1) {
+                    values.put(KEY_FRACTION_DIGITS, prefFractionDigits)
+                }
+
+                if (values.size() > 0) {
+                    update(TABLE_CURRENCIES, values, "$KEY_CODE = ?", arrayOf(code))
+                }
+            }
+        }
+    }
+
+    fun SupportSQLiteDatabase.upgradeTo190() {
+        val values = ContentValues().apply {
+            put(KEY_COMMODITY_TYPE, CommodityType.COMMODITY.name)
+        }
+        update(TABLE_CURRENCIES, values, "$KEY_CODE IN (?, ?, ?, ?)",
+            CurrencyEnum.PRECIOUS_METALS.toTypedArray()
+        )
     }
 
     protected fun SupportSQLiteDatabase.createOrRefreshAccountTriggers() {
@@ -1282,7 +1288,7 @@ abstract class BaseTransactionDatabase(
 
     private fun SupportSQLiteDatabase.migrateCurrency(
         oldCurrency: String,
-        newCurrency: CurrencyEnum
+        newCurrency: CurrencyEnum,
     ) {
         if (query(
                 "accounts",
@@ -1340,7 +1346,7 @@ abstract class BaseTransactionDatabase(
     }
 
     fun SupportSQLiteDatabase.createOrRefreshCategoryMainCategoryUniqueLabel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && "robolectric" != Build.FINGERPRINT) {
+        if ("robolectric" != Build.FINGERPRINT) {
             execSQL("DROP INDEX if exists categories_label")
             execSQL(CATEGORY_LABEL_INDEX_CREATE)
         } else {
@@ -1378,7 +1384,7 @@ abstract class BaseTransactionDatabase(
                 cte: String,
                 aggregateExpression: String,
                 associationTable: String,
-                associated: Pair<String, String>? = null
+                associated: Pair<String, String>? = null,
             ): String {
                 return "$cte as (SELECT $KEY_TRANSACTIONID, $aggregateExpression FROM $associationTable " +
                         (associated?.let { "LEFT JOIN ${it.first} ON ${it.second} = ${it.first}.$KEY_ROWID" }
@@ -1404,13 +1410,14 @@ abstract class BaseTransactionDatabase(
                 )
             )
         }
-        append(" SELECT $tableName.*, coalesce($TABLE_PAYEES.$KEY_SHORT_NAME,$TABLE_PAYEES.$KEY_PAYEE_NAME) AS $KEY_PAYEE_NAME, ")
+        append(" SELECT $tableName.*, $TABLE_PAYEES.$KEY_SHORT_NAME, $TABLE_PAYEES.$KEY_PAYEE_NAME, ")
         append("$TABLE_METHODS.$KEY_LABEL AS $KEY_METHOD_LABEL, ")
         append("$TABLE_METHODS.$KEY_ICON AS $KEY_METHOD_ICON")
         if (tableName != TABLE_CHANGES) {
-            append(", Tree.$KEY_PATH, Tree.$KEY_ICON, Tree.$KEY_TYPE, $KEY_COLOR, $KEY_CURRENCY, $KEY_SEALED, $KEY_EXCLUDE_FROM_TOTALS, $KEY_DYNAMIC")
+            append(", Tree.$KEY_PATH, Tree.$KEY_ICON, Tree.$KEY_TYPE, $KEY_COLOR, $KEY_CURRENCY, $KEY_SEALED, $KEY_EXCLUDE_FROM_TOTALS, $KEY_DYNAMIC, $KEY_IS_PORTFOLIO")
             append(", $TABLE_ACCOUNTS.$KEY_TYPE AS $KEY_ACCOUNT_TYPE")
             append(", $TABLE_ACCOUNTS.$KEY_LABEL AS $KEY_ACCOUNT_LABEL")
+            append(", $TABLE_ACCOUNTS.$KEY_FLAG AS $KEY_FLAG")
         }
         if (tableName == TABLE_TRANSACTIONS) {
             append(", $TABLE_PLAN_INSTANCE_STATUS.$KEY_TEMPLATEID, ")
@@ -1433,17 +1440,14 @@ abstract class BaseTransactionDatabase(
     }
 
     fun insertDefaultTransferCategory(db: SupportSQLiteDatabase, label: String) {
-        prefHandler.putLong(
-            PrefKey.DEFAULT_TRANSFER_CATEGORY,
-            db.insert(
-                TABLE_CATEGORIES, SQLiteDatabase.CONFLICT_NONE,
-                ContentValues(3).apply {
-                    put(KEY_LABEL, label)
-                    put(KEY_TYPE, 0)
-                    put(KEY_COLOR, suggestNewCategoryColor(db))
-                    put(KEY_UUID, DEFAULT_TRANSFER_CATEGORY_UUID)
-                }
-            )
+        prefHandler.defaultTransferCategory = db.insert(
+            TABLE_CATEGORIES, SQLiteDatabase.CONFLICT_NONE,
+            ContentValues(3).apply {
+                put(KEY_LABEL, label)
+                put(KEY_TYPE, 0)
+                put(KEY_COLOR, suggestNewCategoryColor(db))
+                put(KEY_UUID, DEFAULT_TRANSFER_CATEGORY_UUID)
+            }
         )
     }
 
@@ -1459,7 +1463,7 @@ abstract class BaseTransactionDatabase(
         })
     }
 
-    fun SupportSQLiteDatabase.insertDefaultAccountTypes() =
+    fun SupportSQLiteDatabase.insertDefaultAccountTypes(): Map<String, Long> =
         AccountType.initialAccountTypes.associate {
             it.name to
                     insert(
@@ -1513,7 +1517,7 @@ abstract class BaseTransactionDatabase(
         }
 
 
-    fun SupportSQLiteDatabase.insertDefaultAccountTypesAndMethods() {
+    fun SupportSQLiteDatabase.insertDefaultAccountTypesAndMethods(): Map<String, Long> {
         val accountTypes = insertDefaultAccountTypes()
         val bank = accountTypes[AccountType.BANK.name]!!
         for (pm in PreDefinedPaymentMethod.entries) {
@@ -1522,18 +1526,32 @@ abstract class BaseTransactionDatabase(
                 ContentValues().apply {
                     put(KEY_LABEL, pm.name)
                     put(KEY_TYPE, pm.paymentType)
-                    put(DatabaseConstants.KEY_IS_NUMBERED, pm.isNumbered)
+                    put(KEY_IS_NUMBERED, pm.isNumbered)
                     put(KEY_ICON, pm.icon)
                 }
             )
             insert(
-                DatabaseConstants.TABLE_ACCOUNTTYES_METHODS,
+                TABLE_ACCOUNTTYES_METHODS,
                 SQLiteDatabase.CONFLICT_NONE,
                 ContentValues().apply {
                     put(KEY_METHODID, id)
                     put(KEY_TYPE, bank)
                 }
             )
+        }
+        return accountTypes
+    }
+
+    fun SupportSQLiteDatabase.checkDefaultTransferCategory() {
+        prefHandler.defaultTransferCategory?.let { transfer ->
+            if (!query(
+                    "SELECT 1 FROM $TABLE_CATEGORIES WHERE $KEY_ROWID = ?",
+                    arrayOf(transfer)
+                ).use { it.moveToFirst() }
+            ) {
+                prefHandler.defaultTransferCategory = null
+                CrashHandler.report(IllegalArgumentException("Default transfer category $transfer was stale and has been set to null."))
+            }
         }
     }
 }

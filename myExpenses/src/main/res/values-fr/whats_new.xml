@@ -26,4 +26,9 @@
     <string name="whats_new_400_2">Historique des prix : téléchargement en masse des entrées manquantes</string>
     <string name="whats_new_401">La liste des transactions affiche désormais plus de détails pour les opérations ventilées.</string>
     <string name="whats_new_402">Les types de comptes peuvent être personnalisés</string>
+    <string name="whats_new_403">Les indicateurs de compte étendent la personnalisation de la visibilité et de la priorité des comptes.</string>
+    <string name="whats_new_407">Tri naturel pour étiquettes, catégories, comptes, tiers.</string>
+    <string name="whats_new_411_1">Transferts ventilés</string>
+    <string name="whats_new_411_2">Transferts d’actifs entre portefeuilles</string>
+    <string name="whats_new_411_3">Écran d’historique pour les comptes agrégés reflète désormais la variation de la valeur des devises étrangères</string>
 </resources>

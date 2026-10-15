@@ -71,3 +71,4 @@
 -keep class javax.xml.datatype.Duration { *; }
 
 -dontwarn com.microsoft.device.display.DisplayMask
+-dontwarn com.google.auto.value.AutoValue

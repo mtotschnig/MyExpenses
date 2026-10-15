@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.ui
 
 import android.view.View
 import android.widget.AdapterView
+import android.widget.ListAdapter
 import android.widget.Spinner
 import android.widget.SpinnerAdapter
 
@@ -89,16 +90,16 @@ class SpinnerHelper(val spinner: Spinner) : AdapterView.OnItemSelectedListener {
 
     fun setOnItemSelectedListener(listener: AdapterView.OnItemSelectedListener?) {
         proxiedItemSelectedListener = listener
-        spinner.onItemSelectedListener = if (listener == null) null else this
+        spinner.onItemSelectedListener = this
     }
 
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         if (position != lastPosition) {
-            lastPosition = position
-            if (proxiedItemSelectedListener != null) {
-                proxiedItemSelectedListener!!.onItemSelected(
-                    parent, view, position, id
-                )
+            if ((parent?.adapter as? ListAdapter)?.isEnabled(position) != true) {
+                parent?.setSelection(lastPosition)
+            } else {
+                lastPosition = position
+                proxiedItemSelectedListener?.onItemSelected(parent, view, position, id)
             }
         }
     }
@@ -106,11 +107,7 @@ class SpinnerHelper(val spinner: Spinner) : AdapterView.OnItemSelectedListener {
     override fun onNothingSelected(parent: AdapterView<*>?) {
         if (-1 != lastPosition) {
             lastPosition = -1
-            if (proxiedItemSelectedListener != null) {
-                proxiedItemSelectedListener!!.onNothingSelected(
-                    parent
-                )
-            }
+            proxiedItemSelectedListener?.onNothingSelected(parent)
         }
     }
 

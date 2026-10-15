@@ -23,7 +23,9 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical"
+        android:tooltipText="@string/color_component_title"
         android:contentDescription="@string/color_component_title"
         android:focusable="true"
-        app:srcCompat="@drawable/ic_menu_edit" />
+        app:srcCompat="@drawable/ic_menu_edit"
+        tools:ignore="UnusedAttribute" />
 </LinearLayout>

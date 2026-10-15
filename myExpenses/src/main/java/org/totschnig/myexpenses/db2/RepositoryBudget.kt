@@ -8,31 +8,32 @@ import androidx.annotation.VisibleForTesting
 import kotlinx.coroutines.flow.first
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.Model
 import org.totschnig.myexpenses.model.PreDefinedPaymentMethod.Companion.translateIfPredefined
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model2.BudgetExport
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.budgetUri
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGETID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_NEXT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_GROUPING
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
-import org.totschnig.myexpenses.provider.DatabaseConstants.getMonth
-import org.totschnig.myexpenses.provider.DatabaseConstants.getThisYearOfMonthStart
-import org.totschnig.myexpenses.provider.DatabaseConstants.getThisYearOfWeekStart
-import org.totschnig.myexpenses.provider.DatabaseConstants.getWeek
-import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart
-import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart
+import org.totschnig.myexpenses.provider.DatabaseConstants.THIS_YEAR
+import org.totschnig.myexpenses.provider.DatabaseConstants.YEAR
+import org.totschnig.myexpenses.provider.KEY_BUDGET
+import org.totschnig.myexpenses.provider.KEY_BUDGETID
+import org.totschnig.myexpenses.provider.KEY_BUDGET_ROLLOVER_NEXT
+import org.totschnig.myexpenses.provider.KEY_BUDGET_ROLLOVER_PREVIOUS
+import org.totschnig.myexpenses.provider.KEY_CATID
+import org.totschnig.myexpenses.provider.KEY_GROUPING
+import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_ONE_TIME
+import org.totschnig.myexpenses.provider.KEY_SECOND_GROUP
+import org.totschnig.myexpenses.provider.KEY_SUM_EXPENSES
+import org.totschnig.myexpenses.provider.KEY_UUID
+import org.totschnig.myexpenses.provider.KEY_YEAR
+import org.totschnig.myexpenses.provider.DatabaseConstants.month
+import org.totschnig.myexpenses.provider.DatabaseConstants.thisYearOfMonthStart
+import org.totschnig.myexpenses.provider.DatabaseConstants.thisYearOfWeekStart
+import org.totschnig.myexpenses.provider.DatabaseConstants.week
+import org.totschnig.myexpenses.provider.DatabaseConstants.yearOfMonthStart
+import org.totschnig.myexpenses.provider.DatabaseConstants.yearOfWeekStart
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.BUDGETS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.BUDGET_ALLOCATIONS_URI
@@ -105,23 +106,23 @@ suspend fun Repository.sumLoaderForBudget(
 }
 
 private fun buildDateFilterClauseCurrentPeriod(budget: Budget): String {
-    val year = "${DatabaseConstants.YEAR} = ${DatabaseConstants.THIS_YEAR}"
+    val year = "$YEAR = $THIS_YEAR"
     return when (budget.grouping) {
         Grouping.YEAR -> year
         Grouping.DAY -> "$year AND $DAY = ${budget.grouping.queryArgumentForThisSecond}"
-        Grouping.WEEK -> "${getYearOfWeekStart()} = ${getThisYearOfWeekStart()} AND ${getWeek()} = ${budget.grouping.queryArgumentForThisSecond}"
-        Grouping.MONTH -> "${getYearOfMonthStart()} = ${getThisYearOfMonthStart()} AND ${getMonth()} = ${budget.grouping.queryArgumentForThisSecond}"
+        Grouping.WEEK -> "$yearOfWeekStart = $thisYearOfWeekStart AND $week = ${budget.grouping.queryArgumentForThisSecond}"
+        Grouping.MONTH -> "$yearOfMonthStart = $thisYearOfMonthStart AND $month = ${budget.grouping.queryArgumentForThisSecond}"
         Grouping.NONE -> budget.durationAsSqlFilter()
     }
 }
 
 fun dateFilterClause(grouping: Grouping, year: Int, second: Int): String {
-    val yearExpression = "${DatabaseConstants.YEAR} = $year"
+    val yearExpression = "$YEAR = $year"
     return when (grouping) {
         Grouping.YEAR -> yearExpression
         Grouping.DAY -> "$yearExpression AND $DAY = $second"
-        Grouping.WEEK -> "${getYearOfWeekStart()} = $year AND ${getWeek()} = $second"
-        Grouping.MONTH -> "${getYearOfMonthStart()} = $year AND ${getMonth()} = $second"
+        Grouping.WEEK -> "$yearOfWeekStart = $year AND $week = $second"
+        Grouping.MONTH -> "$yearOfMonthStart = $year AND $month = $second"
         else -> throw IllegalArgumentException()
     }
 }
@@ -277,7 +278,7 @@ fun Repository.deleteBudget(id: Long) =
 fun Repository.saveBudget(budget: Budget, initialAmount: Long?, uuid: String? = null): Long {
     val contentValues = budget.toContentValues(initialAmount)
     return if (budget.id == 0L) {
-        contentValues.put(KEY_UUID, uuid ?: Model.generateUuid())
+        contentValues.put(KEY_UUID, uuid ?: generateUuid())
         contentResolver.insert(BUDGETS_URI, contentValues)
             ?.let { ContentUris.parseId(it) } ?: -1
     } else {
@@ -290,14 +291,14 @@ fun Repository.saveBudget(budget: Budget, initialAmount: Long?, uuid: String? = 
     }
 }
 
-fun Repository.saveBudgetOp(
+fun saveBudgetOp(
     budget: Budget,
     initialAmount: Long?,
     uuid: String? = null,
 ): ContentProviderOperation {
     val contentValues = budget.toContentValues(initialAmount)
     return if (budget.id == 0L) {
-        contentValues.put(KEY_UUID, uuid ?: Model.generateUuid())
+        contentValues.put(KEY_UUID, uuid ?: generateUuid())
         ContentProviderOperation.newInsert(BUDGETS_URI)
             .withValues(contentValues)
             .build()

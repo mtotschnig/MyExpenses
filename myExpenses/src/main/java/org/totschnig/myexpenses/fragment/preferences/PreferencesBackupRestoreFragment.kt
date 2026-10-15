@@ -10,6 +10,7 @@ import org.totschnig.myexpenses.activity.BaseActivity.Companion.RESULT_RESTORE_O
 import org.totschnig.myexpenses.preference.AccountPreference
 import org.totschnig.myexpenses.preference.PopupMenuPreference
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 @Keep
 class PreferencesBackupRestoreFragment : BasePreferenceIOBRFragment() {
@@ -24,9 +25,18 @@ class PreferencesBackupRestoreFragment : BasePreferenceIOBRFragment() {
             setData(requireContext())
             val hasSyncBackends = entries.size >= 2
             isVisible = hasSyncBackends
-            accountName?.let {
-                value = it
-                callChangeListener(it)
+            if (hasSyncBackends) {
+                accountName?.let {
+                    value = it
+                    callChangeListener(it)
+                }
+            } else {
+                if (value != null) {
+                    value = null
+                }
+                if (accountName != null) {
+                    CrashHandler.report(IllegalStateException())
+                }
             }
             requirePreference<Preference>(PrefKey.AUTO_BACKUP_CLOUD_SETUP).isVisible = !hasSyncBackends
         }

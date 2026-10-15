@@ -48,7 +48,6 @@
         android:text="@string/help_MyExpenses_title" />
 
     <androidx.compose.ui.platform.ComposeView
-        android:layout_marginHorizontal="-40dp"
         android:id="@+id/design_preview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

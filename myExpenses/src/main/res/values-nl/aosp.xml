@@ -14,21 +14,19 @@
     <string name="style">"Stijl"</string>
     <string name="loading">"Laden…"</string>
     <string name="button_label_continue">Doorgaan</string>
-    <string name="autofill">Autom. aanvullen</string>
     <string name="discard">Ongedaan maken</string>
     <string name="dialog_dismiss">Sluiten</string>
     <string name="details">Details</string>
     <string name="response_yes">Ja</string>
     <string name="response_no">Nee</string>
     <string name="experimental">"Experimenteel"</string>
-    <string name="add_widget">Widget toevoegen.</string>
+    <string name="add_widget">Widget toevoegen</string>
     <string name="calendar">Agenda</string>
     <string name="permissions_label">Rechten</string>
     <string name="time_format">Tijdnotatie</string>
     <string name="setup">"Instellen"</string>
     <string name="customize">Aanpassen</string>
     <string name="compact">Compact</string>
-    <string name="storage_description">Lokale opslag</string>
     <string name="encryption">Versleuteling</string>
     <string name="learn_more">"Meer informatie"</string>
     <string name="show_all">"Alles weergeven"</string>
@@ -42,8 +40,8 @@
     <string name="menu_search">"Zoeken"</string>
     <string name="files_label">"Bestanden"</string>
     <plurals name="delete_files_confirmation_message">
-      <item quantity="other">%1$d bestanden verwijderen?</item>
-      <item quantity="one">%1$d bestand verwijderen?</item>
+        <item quantity="other">%1$d bestanden verwijderen?</item>
+        <item quantity="one">%1$d bestand verwijderen?</item>
     </plurals>
     <string name="display_options_sort_list_by">"Sorteren op"</string>
     <string name="data">"Gegevens"</string>
@@ -117,7 +115,7 @@
     <string name="button_try">"Nu proberen"</string>
     <string name="icon">"Icoon"</string>
     <string name="reset_all">"Alles resetten"</string>
-    <string name="remove">"Verwijderen"</string>
+    <string name="remove">Verplaatsen</string>
     <string name="currency_symbol">"Valutasymbool"</string>
     <string name="onboarding_get_started">"Aan de slag"</string>
     <string name="collapse">"Samenvouwen"</string>
@@ -148,7 +146,6 @@
     <string name="preview">"Voorbeeld"</string>
     <string name="show_password">"Wachtwoord tonen"</string>
     <string name="hide_password">"Wachtwoord verbergen"</string>
-    <string name="user">"Gebruiker"</string>
     <string name="source">"Bron"</string>
     <string name="value">"Waarde"</string>
     <string name="done_label">"Klaar"</string>
@@ -169,4 +166,7 @@
     <string name="already_exists">"Naam bestaat reeds"</string>
     <string name="flag_inactive">"Inactief"</string>
     <string name="count">"Aantal"</string>
+    <string name="empty">"Leeg"</string>
+    <string name="options">"Opties"</string>
+    <string name="actions">"Acties"</string>
 </resources>

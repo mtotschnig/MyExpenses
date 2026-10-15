@@ -21,7 +21,7 @@ data class BankingCredentials(
     }
 
     val isComplete: Boolean
-        get() = bankLeitZahl.isNotEmpty() && user.isNotEmpty() && !password.isNullOrEmpty()
+        get() = bankLeitZahl.all { it.isDigit() } && bankLeitZahl.length == 8 && user.isNotEmpty() && !password.isNullOrEmpty()
 
     val isNew: Boolean
         get() = bank == null
@@ -32,6 +32,9 @@ data class BankingCredentials(
     val blz: String
         get() = bankLeitZahl.filter { !it.isWhitespace() }
 
+    private val isIngDiba
+        get() = blz == WellKnownBank.ING.blz.getOrNull(0)
+
     val hbciVersion: HBCIVersion
-        get() = if (blz == WellKnownBank.ING.blz.getOrNull(0)) HBCIVersion.HBCI_PLUS else HBCIVersion.HBCI_300
+        get() = if (isIngDiba) HBCIVersion.HBCI_PLUS else HBCIVersion.HBCI_300
 }

@@ -27,14 +27,14 @@ import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_DISPLAY_AMOUNT
 import org.totschnig.myexpenses.util.formatMoney
 import kotlin.math.absoluteValue
-import kotlin.reflect.KClass
 
 @Parcelize
 @Serializable
-@SerialName(DatabaseConstants.KEY_AMOUNT)
+@SerialName(KEY_AMOUNT)
 data class AmountCriterion(
     override val operation: Operation,
     override val values: List<Long>,
@@ -54,15 +54,15 @@ data class AmountCriterion(
     override val id = R.id.FILTER_AMOUNT_COMMAND
 
     @IgnoredOnParcel
-    override val column = DatabaseConstants.KEY_DISPLAY_AMOUNT
+    override val column = KEY_DISPLAY_AMOUNT
 
     override val displayInfo get() = AmountCriterion
 
     override val columnForExport: String
-        get() = DatabaseConstants.KEY_AMOUNT
+        get() = KEY_AMOUNT
 
     override val key: String
-        get() = DatabaseConstants.KEY_AMOUNT
+        get() = KEY_AMOUNT
 
     override fun prettyPrint(context: Context): String {
         val currencyFormatter = context.injector.currencyFormatter()

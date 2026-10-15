@@ -58,8 +58,7 @@
                     android:layout_height="wrap_content"
                     android:importantForAutofill="no"
                     android:inputType="textCapWords"
-                    android:maxLines="1"
-                    tools:targetApi="o" />
+                    android:maxLines="1" />
             </TableRow>
 
             <TableRow>
@@ -76,8 +75,7 @@
                     android:layout_height="wrap_content"
                     android:importantForAutofill="no"
                     android:inputType="textCapSentences"
-                    android:maxLines="1"
-                    tools:targetApi="o" />
+                    android:maxLines="1" />
             </TableRow>
 
             <TableRow android:id="@+id/AmountRow">

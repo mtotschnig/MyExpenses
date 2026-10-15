@@ -1,2 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.imageview.ShapeableImageView style="@style/AttachmentStyle.Selectable" />
+<com.google.android.material.imageview.ShapeableImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/AttachmentItem"
+    style="@style/AttachmentStyle.Selectable" />

@@ -1,6 +1,7 @@
 package org.totschnig.myexpenses.viewmodel.data
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import androidx.annotation.AttrRes
 import androidx.annotation.DrawableRes
@@ -29,9 +30,9 @@ sealed interface IIconInfo {
                 null
             }
 
-        fun resolveIconsForCategory(context: Context, category: IconCategory): Map<String, IIconInfo> =
+        fun resolveIconsForCategory(resources: Resources, category: IconCategory): Map<String, IIconInfo> =
             buildMap {
-                context.resources.getStringArray(category.fontAweSomeIcons).forEach {
+                resources.getStringArray(category.fontAweSomeIcons).forEach {
                     put(
                         it,
                         FontAwesomeIcons[it]
@@ -39,7 +40,7 @@ sealed interface IIconInfo {
                     )
                 }
                 category.extraIcons?.let { resId ->
-                    context.resources.getStringArray(resId).forEach {
+                    resources.getStringArray(resId).forEach {
                         put(
                             it,
                             ExtraIcons[it]
@@ -49,9 +50,9 @@ sealed interface IIconInfo {
                 }
             }
 
-        fun searchIcons(context: Context, searchTerm: String) =
+        fun searchIcons(resources: Resources, searchTerm: String) =
             (FontAwesomeIcons + ExtraIcons).filter {
-                context.getString(it.value.label).contains(
+                resources.getString(it.value.label).contains(
                     searchTerm,
                     true
                 )

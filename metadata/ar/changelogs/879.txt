@@ -1,0 +1,10 @@
+• الانتقالات المنقسمة
+• تحويلات الأصول بين المحافظ
+• شاشة التاريخ للحسابات الإجمالية تعكس الآن التغير في قيمة العملات الأجنبية
+• Mutual TLS / Client Certificate Support for WebDAV Sync (تمت المساهمة بواسطة Carlson Büth)
+
+4.1.1: https://github.com/users/mtotschnig/projects/192
+4.1.1.1: https://github.com/users/mtotschnig/projects/194
+4.1.1.2: https://github.com/users/mtotschnig/projects/195
+
+https://mastodon.social/@myexpenses/117118348237320813

@@ -4,23 +4,27 @@ import android.widget.Spinner
 import com.google.common.truth.Truth.assertThat
 import org.junit.After
 import org.junit.Before
+import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.SpinnerItem
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.findAccountFlag
 import org.totschnig.myexpenses.db2.findAccountType
-import org.totschnig.myexpenses.db2.updateAccount
+import org.totschnig.myexpenses.db2.setAccountProperty
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_BANK
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_FAVORITE
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_INACTIVE
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_FLAG
+import org.totschnig.myexpenses.provider.KEY_FLAG
+import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
+import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
 import java.util.Currency
-import kotlin.test.Test
 
+@TestShard2
 class ExpenseEditAccountSpinnerTest: BaseExpenseEditTest() {
     private lateinit var favoriteAccount: Account
     private lateinit var hiddenAccount: Account
@@ -34,12 +38,15 @@ class ExpenseEditAccountSpinnerTest: BaseExpenseEditTest() {
         currency1 = CurrencyUnit(Currency.getInstance("USD"))
         currency2 = CurrencyUnit(Currency.getInstance("EUR"))
         val type = repository.findAccountType(PREDEFINED_NAME_BANK)!!
-        account1 = Account(label = "Test label 1", currency = currency1.code, type = type).createIn(repository)
+        account1 = Account(label = ACCOUNT_LABEL_1, currency = currency1.code, type = type).createIn(repository)
         favoriteAccount =
-            Account(label = "ZZZ", currency = currency2.code, type = type, flagId = favorite)
+            Account(label = "ZZZ", currency = currency2.code, type = type)
                 .createIn(repository)
+        repository.setAccountProperty(favoriteAccount.id, KEY_FLAG, favorite)
         hiddenAccount =
-            Account(label = "AAA", currency = "JPY", type = type, flagId = inactive).createIn(repository)
+            Account(label = "AAA", currency = "JPY", type = type).createIn(repository)
+        repository.setAccountProperty(hiddenAccount.id, KEY_FLAG, inactive)
+
     }
 
     @After
@@ -53,7 +60,7 @@ class ExpenseEditAccountSpinnerTest: BaseExpenseEditTest() {
 
     @Test
     fun hiddenAccountIsSortedLast() {
-        launch(intentForNewTransaction)
+        launch()
         testScenario.onActivity {
             val expectedOrder = listOf(favoriteAccount.id, account1.id, hiddenAccount.id)
             val actualOrder = buildList {
@@ -67,6 +74,14 @@ class ExpenseEditAccountSpinnerTest: BaseExpenseEditTest() {
                 }
             }
             assertThat(actualOrder).containsExactlyElementsIn(expectedOrder).inOrder()
+        }
+    }
+
+    //https://github.com/mtotschnig/MyExpenses/issues/1775
+    @Test
+    fun transferAccountSelectionIsValid() {
+        launch(getBaseIntent(Transactions.TYPE_TRANSFER)).use {
+            checkAccount("ZZZ", R.id.TransferAccount)
         }
     }
 }

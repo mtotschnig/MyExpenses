@@ -213,20 +213,6 @@ public class Utils {
     }
   }
 
-  @Nullable
-  public static Currency getInstance(@Nullable String strCurrency) {
-    if (strCurrency != null) {
-      if (strCurrency.equals(AGGREGATE_HOME_CURRENCY_CODE)) {
-        throw new IllegalArgumentException("AGGREGATE_HOME_CURRENCY_CODE needs to be resolved upfront");
-      }
-      try {
-        return Currency.getInstance(strCurrency);
-      } catch (IllegalArgumentException ignored) {
-      }
-    }
-    return null;
-  }
-
   /**
    * @param context The application's environment.
    * @param intent  The Intent action to check for availability.
@@ -379,8 +365,7 @@ public class Utils {
     for (int i = 0, partiesListSize = partiesList.size(); i < partiesListSize; i++) {
       String party = partiesList.get(i);
       if (RepositoryPartyKt.findParty(repository, party) == null) {
-        RepositoryPartyKt.createParty(repository, party);
-        total++;
+        if (RepositoryPartyKt.createParty(repository, party) != null) total++;
       }
       if (task != null && i % 10 == 0) {
         task.publishProgress(i);
@@ -414,7 +399,7 @@ public class Utils {
         "");
   }
 
-  public static String escapeSqlLikeExpression(String str) {
+  public static String escapeSqlLikeExpression(@NonNull String str) {
     return str
         .replace(LIKE_ESCAPE_CHAR,
             LIKE_ESCAPE_CHAR + LIKE_ESCAPE_CHAR)

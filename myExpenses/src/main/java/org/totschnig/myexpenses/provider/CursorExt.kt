@@ -5,6 +5,7 @@ import androidx.core.database.getDoubleOrNull
 import androidx.core.database.getIntOrNull
 import androidx.core.database.getLongOrNull
 import androidx.core.database.getStringOrNull
+import org.totschnig.myexpenses.db2.Repository.Companion.RECORD_SEPARATOR
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.util.enumValueOrNull
 import java.time.LocalDate
@@ -55,13 +56,13 @@ fun Cursor.getStringOrNull(column: String, allowEmpty: Boolean = false) =
 fun Cursor.getIntOrNull(column: String) = getIntOrNull(getColumnIndexOrThrow(column))
 fun Cursor.getLongOrNull(column: String) = getLongOrNull(getColumnIndexOrThrow(column))
 fun Cursor.requireLong(column: String) = getLongOrNull(getColumnIndexOrThrow(column)) ?: 0L
+
 fun Cursor.getIntIfExists(column: String) =
     getColumnIndex(column).takeIf { it != -1 }?.let { getInt(it) }
-
 fun Cursor.getIntIfExistsOr0(column: String) = getIntIfExists(column) ?: 0
+
 fun Cursor.getLongIfExists(column: String) =
     getColumnIndex(column).takeIf { it != -1 }?.let { getLongOrNull(it) }
-
 fun Cursor.getLongIfExistsOr0(column: String) =
     getColumnIndex(column).takeIf { it != -1 }?.let { getLong(it) } ?: 0L
 
@@ -69,8 +70,7 @@ fun Cursor.getStringIfExists(column: String) =
     getColumnIndex(column).takeIf { it != -1 }?.let { getStringOrNull(it) }
 
 fun Cursor.getDoubleIfExists(column: String) =
-    getColumnIndex(column).takeIf { it != -1 }?.let { getDouble(it) }
-
+    getColumnIndex(column).takeIf { it != -1 }?.let { getDoubleOrNull(it) }
 fun Cursor.getDoubleOrNull(column: String) = getDoubleOrNull(getColumnIndexOrThrow(column))
 
 
@@ -84,6 +84,9 @@ fun Cursor.isNull(column: String) = isNull(getColumnIndexOrThrow(column))
 inline fun <reified T : Enum<T>> Cursor.getEnum(column: String, default: T) =
     enumValueOrDefault(getString(column), default)
 
+inline fun <reified T : Enum<T>> Cursor.getEnumIfExists(column: String, default: T) =
+    enumValueOrDefault(getStringIfExists(column), default)
+
 inline fun <reified T : Enum<T>> Cursor.getEnum(columnIndex: Int, default: T) =
     enumValueOrDefault(getString(columnIndex), default)
 
@@ -93,12 +96,12 @@ inline fun <reified T : Enum<T>> Cursor.getEnumOrNull(columnIndex: Int) =
 /**
  * Splits the value of column by ASCII UnitSeparator char
  */
-fun Cursor.splitStringList(colum: String) = getString(colum)
-    .takeIf { it.isNotEmpty() }
-    ?.split('')
+fun Cursor.splitStringList(colum: String) = getStringIfExists(colum)
+    ?.takeIf { it.isNotEmpty() }
+    ?.split(RECORD_SEPARATOR)
     ?: emptyList()
 
-fun Cursor.getLocalDate(columnIndex: Int) = LocalDate.parse(getString(columnIndex))
-fun Cursor.getLocalDate(column: String) = getLocalDate(getColumnIndexOrThrow(column))
+fun Cursor.getLocalDate(columnIndex: Int): LocalDate = LocalDate.parse(getString(columnIndex))
+fun Cursor.getLocalDate(column: String): LocalDate = getLocalDate(getColumnIndexOrThrow(column))
 fun Cursor.getLocalDateIfExists(column: String) =
     getColumnIndex(column).takeIf { it != -1 }?.let { getLocalDate(it) }

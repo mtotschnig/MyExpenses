@@ -17,10 +17,6 @@
 <resources>
     <color name="colorErrorDialog">@color/design_default_color_error</color>
 
-    <color name="primaryColor">#0050a7</color>
-    <color name="primaryLightColor">#6085DC</color>
-    <color name="primaryDarkColor">#002977</color>
-
     <color name="appDefault">#ffc107</color>
     <color name="emphasis">#31b6e7</color>
     <color name="colorExpense">@color/colorExpenseDark</color>
@@ -36,7 +32,6 @@
     <color name="colorExpenseOnCard">#C62828</color>
     <color name="colorIncomeOnCard">#2D7B31</color>
 
-    <color name="drawerBackground">@android:color/white</color>
     <color name="cardBackground">#f0f0f0</color>
 
     <color name="material_indigo">#3F51B5</color>

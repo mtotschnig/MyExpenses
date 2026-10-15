@@ -1,0 +1,684 @@
+package org.totschnig.myexpenses.activity
+
+import android.content.Intent
+import android.os.Bundle
+import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.compose.collectAsLazyPagingItems
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.adapter.SortableItem
+import org.totschnig.myexpenses.compose.AppTheme
+import org.totschnig.myexpenses.compose.accounts.AccountEvent
+import org.totschnig.myexpenses.compose.accounts.AccountEventHandler
+import org.totschnig.myexpenses.compose.accounts.PortfolioSetupDialog
+import org.totschnig.myexpenses.compose.filter.FilterCard
+import org.totschnig.myexpenses.compose.filter.FilterDialog
+import org.totschnig.myexpenses.compose.filter.FilterHandler
+import org.totschnig.myexpenses.compose.filter.TYPE_COMPLEX
+import org.totschnig.myexpenses.compose.main.AppEvent
+import org.totschnig.myexpenses.compose.main.AppEventHandler
+import org.totschnig.myexpenses.compose.main.MainScreenAdaptive
+import org.totschnig.myexpenses.compose.transactions.Action
+import org.totschnig.myexpenses.compose.transactions.ImportTradesDialog
+import org.totschnig.myexpenses.compose.transactions.RenderType
+import org.totschnig.myexpenses.compose.transactions.TradeEvent
+import org.totschnig.myexpenses.compose.transactions.TradeList
+import org.totschnig.myexpenses.compose.transactions.TradeScreen
+import org.totschnig.myexpenses.dialog.SortSelect
+import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment
+import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.model.CommodityType
+import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.provider.KEY_COMMODITY
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_SORT_KEY
+import org.totschnig.myexpenses.util.ads.AdHandlerV2
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
+import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
+import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
+import org.totschnig.myexpenses.viewmodel.SumInfo
+import org.totschnig.myexpenses.viewmodel.data.AggregateAccount
+import org.totschnig.myexpenses.viewmodel.data.BaseAccount
+import org.totschnig.myexpenses.viewmodel.data.FullAccount
+import org.totschnig.myexpenses.viewmodel.data.PageAccount
+import timber.log.Timber
+import java.math.RoundingMode
+import java.util.Optional
+import javax.inject.Inject
+
+enum class StartScreen {
+    LastVisited, Accounts, Transactions, BalanceSheet
+}
+
+
+const val HELP_VARIANT_ACCOUNTS = "accounts"
+const val HELP_VARIANT_TRANSACTIONS = "transactions"
+const val HELP_VARIANT_PORTFOLIO = "portfolio"
+const val HELP_VARIANT_BALANCE_SHEET = "balanceSheet"
+
+/**
+ * Help,
+ */
+class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
+    SortUtilityDialogFragment.OnConfirmListener {
+
+    @Inject
+    lateinit var modelClass: Class<out MyExpensesV2ViewModel>
+
+    private val currencyViewModel: CurrencyViewModel by viewModels()
+
+    private lateinit var adHandler: AdHandlerV2
+
+    private var showPortfolioSetup by mutableStateOf(false)
+    private var portfolioToEditId by mutableStateOf<Long?>(null)
+
+    override fun handleRootWindowInsets() {}
+
+    override val currentAccount: BaseAccount?
+        get() = viewModel.accountList.value.find { it.id == selectedAccountId }
+
+    @get:Composable
+    override val transactionListWindowInsets: WindowInsets
+        get() = WindowInsets()
+
+    override val accountCount: Int
+        get() = viewModel.accountDataV2.value?.getOrNull()?.size ?: 0
+
+    override fun finishActionMode() {
+        viewModel.selectionState.value = emptyList()
+    }
+
+    val shouldShowAds
+        get() = !adHandlerFactory.isAdDisabled && adHandlerFactory.isInitialized
+
+    private fun maybeRequestNewInterstitial() {
+        if (shouldShowAds) {
+            try {
+                adHandler.maybeRequestNewInterstitial(this)
+            } catch (e: Exception) {
+                report(e)
+            }
+        }
+    }
+
+    override fun onEditTransactionResult(isOk: Boolean) {
+
+        if (isOk) {
+            val adHandled = shouldShowAds && adHandler.onEditTransactionResult(this)
+
+            if (!adHandled) {
+                reviewManager.onEditTransactionResult(this)
+            }
+        }
+    }
+
+    override fun editAccount(account: FullAccount) {
+        if (account.isPortfolio) {
+            portfolioToEditId = account.id
+        } else {
+            super.editAccount(account)
+        }
+    }
+
+    override fun injectDependencies() {
+        injector.inject(this)
+    }
+
+    @OptIn(ExperimentalMaterial3Api::class)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        viewModel = ViewModelProvider(this)[modelClass]
+
+        with(injector) {
+            inject(viewModel)
+            inject(currencyViewModel)
+        }
+
+        adHandler = adHandlerFactory.createV2()
+        maybeRequestNewInterstitial()
+
+        setContent {
+            AppTheme {
+                val result = viewModel.accountDataV2.collectAsStateWithLifecycle().value
+                val availableFilters =
+                    viewModel.availableGroupFilters.collectAsStateWithLifecycle().value
+                when {
+                    result?.isFailure == true -> {
+                        val (message, forceQuit) = result.exceptionOrNull()!!
+                            .processDataLoadingFailure()
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(dimensionResource(R.dimen.padding_main_screen)),
+                            // These two lines replace the Box's contentAlignment and the Column's horizontalAlignment
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(message)
+                            // Applying spacing manually since we are using Arrangement.Center
+                            // which takes precedence over Arrangement.spacedBy
+                            Spacer(modifier = Modifier.height(4.dp))
+                            if (!forceQuit) {
+                                Button(onClick = {
+                                    dispatchCommand(
+                                        R.id.SAFE_MODE_COMMAND,
+                                        null
+                                    )
+                                }) {
+                                    Text(stringResource(R.string.safe_mode))
+                                }
+                                Spacer(modifier = Modifier.height(4.dp))
+                            }
+
+                            Button(onClick = { dispatchCommand(R.id.QUIT_COMMAND, null) }) {
+                                Text(stringResource(R.string.button_label_close))
+                            }
+                        }
+
+                    }
+
+                    result == null || availableFilters == null -> {
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            CircularProgressIndicator()
+                        }
+                    }
+
+                    else -> {
+                        val selectedAccountIdFromState =
+                            viewModel.selectedAccountId.collectAsState().value
+                        LaunchedEffect(
+                            viewModel.accountList.collectAsState().value.isNotEmpty(),
+                            selectedAccountIdFromState,
+                            viewModel.activeFilter.collectAsState().value //reloading when filter changes, because aggregate accounts have same id (0)
+                        ) {
+                            with(currentAccount) {
+                                if (this != null) {
+                                    sumInfo.value = SumInfo.EMPTY
+                                    viewModel.sumInfo(toPageAccount(this@MyExpensesV2)).collect {
+                                        sumInfo.value = it
+                                    }
+                                }
+                            }
+                        }
+                        val accounts = result.getOrThrow()
+                        val banks = viewModel.banks.collectAsState()
+                        val showSortDialog = rememberSaveable { mutableStateOf(false) }
+                        var isNavigationVisible by rememberSaveable { mutableStateOf(false) }
+                        var showImportTrades by rememberSaveable { mutableStateOf(false) }
+                        val portfolioToEdit =
+                            portfolioToEditId?.let { id -> accounts.find { it.id == id } }
+
+                        val currencies by currencyViewModel.currencyUnits.collectAsState(emptyList())
+                        val accountTypes by viewModel.accountTypes.collectAsState(emptyList())
+                        val tradeToEdit by viewModel.tradeToEdit.collectAsStateWithLifecycle()
+
+                        tradeToEdit?.let { trade ->
+                            accounts.find { it.id == trade.portfolioId }?.let { fullAccount ->
+                                TradeScreen(
+                                    onDismiss = { viewModel.clearTradeToEdit() },
+                                    onSave = { intent, stayOpen ->
+                                        viewModel.saveTrade(fullAccount, intent)
+                                        if (stayOpen) {
+                                            report(
+                                                IllegalStateException("did not expect stayOpen to be true when editing trade")
+                                            )
+                                        }
+                                    },
+                                    portfolio = fullAccount,
+                                    roundingMode = viewModel.getRoundingMode(fullAccount.id)
+                                        .collectAsState(RoundingMode.HALF_UP).value,
+                                    onRoundingModeChange = {
+                                        viewModel.setRoundingMode(
+                                            fullAccount.id,
+                                            it
+                                        )
+                                    },
+                                    reportingCurrency = fullAccount.currencyUnit,
+                                    assets = currencies,
+                                    fundingAccounts = accounts
+                                        .filter {
+                                            !it.isPortfolio &&
+                                                    !it.sealed &&
+                                                    it.currencyUnit.code == fullAccount.currencyUnit.code
+                                        }
+                                        .map {
+                                            it.id to it.labelV2(this@MyExpensesV2)
+                                        },
+                                    targetPortfolios = accounts
+                                        .filter { it.isPortfolio && it.id != fullAccount.id }
+                                        .map { it.id to it.labelV2(this@MyExpensesV2) },
+                                    initialTrade = trade,
+                                    canAddMultipleCostLegs = viewModel.canAddMultipleCostLegs,
+                                    onShowUpgrade = { contribFeatureRequested(ContribFeature.PORTFOLIO) },
+                                    onLookupMatchingTransactions = { accountId, total, date, isBuy ->
+                                        viewModel.findMatchingTransactions(
+                                            accountId,
+                                            total,
+                                            date,
+                                            fullAccount.currencyUnit,
+                                            isBuy
+                                        )
+                                    }
+                                )
+                            }
+                        }
+
+                        if (showPortfolioSetup || portfolioToEditId != null) {
+                            PortfolioSetupDialog(
+                                onDismiss = {
+                                    showPortfolioSetup = false
+                                    portfolioToEditId = null
+                                },
+                                onDeleteAsset = { confirmAccountDelete(it) },
+                                onConfirm = { label, currency, color, exchangeRate, dynamicExchangeRates, type ->
+                                    if (portfolioToEditId != null) {
+                                        viewModel.updatePortfolio(
+                                            portfolioToEditId!!,
+                                            label,
+                                            currency,
+                                            color,
+                                            exchangeRate,
+                                            dynamicExchangeRates,
+                                            type
+                                        )
+                                    } else {
+                                        viewModel.createPortfolio(
+                                            label,
+                                            currency,
+                                            color,
+                                            exchangeRate,
+                                            dynamicExchangeRates,
+                                            type
+                                        )
+                                    }
+                                    showPortfolioSetup = false
+                                    portfolioToEditId = null
+                                },
+                                availableCurrencies = currencies.filter { it.commodityType == CommodityType.FIAT },
+                                availableAccountTypes = accountTypes,
+                                homeCurrency = currencyContext.homeCurrencyUnit,
+                                initialPortfolio = portfolioToEdit
+                            )
+                        }
+
+                        MainScreenAdaptive(
+                            viewModel,
+                            accounts,
+                            allCurrencies = currencies,
+                            availableFilters,
+                            selectedAccountId = selectedAccountIdFromState,
+                            isCurrencyUsed = { currencyViewModel.isCurrencyUsed(it) },
+                            onCreateAsset = { code, symbol, fractionDigits, label, type ->
+                                currencyViewModel.createAsset(
+                                    code,
+                                    symbol,
+                                    fractionDigits,
+                                    label,
+                                    type
+                                )
+                            },
+                            onAppEvent = object : AppEventHandler {
+                                override fun invoke(event: AppEvent) {
+                                    when (event) {
+
+                                        AppEvent.CreateAccount -> createAccount()
+                                        AppEvent.CreatePortfolio -> showPortfolioSetup = true
+                                        is AppEvent.CreateTransaction ->
+                                            if (preCreateRowCheckForSealed()) {
+                                                when (event.action) {
+                                                    Action.Scan -> contribFeatureRequested(
+                                                        ContribFeature.OCR,
+                                                        true
+                                                    )
+
+                                                    else -> createRow(
+                                                        event.action.type,
+                                                        event.transferEnabled,
+                                                        event.action == Action.Income || event.action == Action.Deposit
+                                                    )
+                                                }
+                                            }
+
+                                        is AppEvent.SetAccountGrouping -> viewModel.setGrouping(
+                                            event.newGrouping
+                                        )
+
+                                        is AppEvent.SetTransactionGrouping -> viewModel.persistGroupingV2(
+                                            event.grouping
+                                        )
+
+                                        is AppEvent.SetTransactionSort -> viewModel.persistSortV2(
+                                            event.transactionSort
+                                        )
+
+                                        AppEvent.PrintBalanceSheet -> printBalanceSheet()
+                                        is AppEvent.ContextMenuItemClicked -> onContextItemClicked(
+                                            event.itemId
+                                        )
+
+                                        is AppEvent.MenuItemClicked -> when (event.itemId) {
+                                            R.id.IMPORT_TRADES_COMMAND -> showImportTrades = true
+                                            else -> dispatchCommand(event.itemId, event.tag)
+                                        }
+
+                                        AppEvent.Sort -> showSortDialog.value = true
+
+                                        is AppEvent.CopyToClipBoard -> copyToClipboard(event.text)
+                                        AppEvent.ToggleNavigation -> isNavigationVisible =
+                                            !isNavigationVisible
+
+                                        is AppEvent.SaveTrade -> {
+                                            (currentAccount as? FullAccount)?.let {
+                                                viewModel.saveTrade(it, event.intent)
+                                            }
+                                        }
+
+                                        is AppEvent.ShowUpgrade -> contribFeatureRequested(
+                                            event.feature,
+                                            true
+                                        )
+                                    }
+                                }
+                            },
+                            onAccountEvent = object : AccountEventHandler {
+                                override fun invoke(
+                                    event: AccountEvent,
+                                    account: FullAccount,
+                                ) {
+                                    when (event) {
+                                        is AccountEvent.Delete -> confirmAccountDelete(account)
+                                        is AccountEvent.Edit -> editAccount(account)
+                                        is AccountEvent.SetFlag -> viewModel.setFlag(
+                                            account.id,
+                                            event.flagId
+                                        )
+
+                                        is AccountEvent.ToggleDynamicExchangeRate ->
+                                            toggleDynamicExchangeRate(account)
+
+                                        is AccountEvent.ToggleExcludeFromTotals -> toggleExcludeFromTotals(
+                                            account
+                                        )
+
+                                        is AccountEvent.ToggleSealed -> toggleAccountSealed(account)
+                                        is AccountEvent.ViewPriceHistory -> {
+                                            val intent = Intent(
+                                                this@MyExpensesV2,
+                                                PriceHistory::class.java
+                                            ).apply {
+                                                putExtra(KEY_COMMODITY, event.commodity)
+                                                putExtra(KEY_CURRENCY, account.currencyUnit.code)
+                                            }
+                                            startActivity(intent)
+                                        }
+                                    }
+                                }
+
+                            },
+                            onPrepareContextMenuItem = ::isContextMenuItemVisible,
+                            onPrepareMenuItem = { itemId -> currentAccount.isMenuItemVisible(itemId) },
+                            flags = viewModel.accountFlags.collectAsState(emptyList()).value,
+                            adView = { isLoadedState ->
+                                adHandler.Banner(isLoadedState)
+                            },
+                            bankIcon = { modifier, id ->
+                                banks.value.find { it.id == id }
+                                    ?.let { bank ->
+                                        bankingFeature.bankIconRenderer?.invoke(
+                                            modifier,
+                                            bank
+                                        )
+                                    }
+                            },
+                            isNavigationVisible = isNavigationVisible
+                        ) { pageAccount, isCurrent ->
+                            if (pageAccount.isPortfolio) {
+                                PortfolioPage(pageAccount, isCurrent)
+                            } else {
+                                Page(
+                                    pageAccount,
+                                    accounts.size,
+                                    isCurrent,
+                                    v2 = true
+                                )
+                            }
+                        }
+
+                        if (showImportTrades) {
+                            (currentAccount as? FullAccount)?.let { fullAccount ->
+                                ImportTradesDialog(
+                                    onDismiss = { showImportTrades = false },
+                                    onImport = { intents, onProgress ->
+                                        viewModel.saveTrades(
+                                            fullAccount,
+                                            intents,
+                                            onProgress = onProgress
+                                        )
+                                    },
+                                    portfolio = fullAccount,
+                                    roundingMode = viewModel.getRoundingMode(fullAccount.id)
+                                        .collectAsState(RoundingMode.HALF_UP).value,
+                                    assets = currencies,
+                                    fundingAccounts = accounts
+                                        .filter {
+                                            !it.isPortfolio &&
+                                                    it.currencyUnit.code == fullAccount.currencyUnit.code &&
+                                                    it.id != fullAccount.id
+                                        }
+                                        .map {
+                                            it.id to it.labelV2(this@MyExpensesV2)
+                                        }
+                                )
+                            }
+                        }
+
+                        if (showSortDialog.value) {
+                            val sortByFlagFirst = rememberSaveable {
+                                mutableStateOf(false)
+                            }
+                            LaunchedEffect(Unit) {
+                                sortByFlagFirst.value = viewModel.sortByFlagFirst.get()
+                            }
+
+                            val selectedSort = rememberSaveable {
+                                mutableStateOf(viewModel.sortOrderAccounts)
+                            }
+                            val scope = rememberCoroutineScope()
+                            AlertDialog(
+                                onDismissRequest = { showSortDialog.value = false },
+                                confirmButton = {
+                                    Button(onClick = {
+                                        viewModel.setSortOrderAccounts(
+                                            selectedSort.value,
+                                            sortByFlagFirst.value
+                                        )
+                                        showSortDialog.value = false
+                                    }) {
+                                        Text(stringResource(id = android.R.string.ok))
+                                    }
+                                },
+                                text = {
+                                    Column {
+                                        SortSelect(sortByFlagFirst, selectedSort) {
+                                            scope.launch {
+                                                SortUtilityDialogFragment.newInstance(
+                                                    ArrayList(
+                                                        viewModel.accountsMinimal(
+                                                            withAggregates = false,
+                                                            sortOrder = KEY_SORT_KEY,
+                                                            withPortfolios = true
+                                                        ).first()
+                                                            .map { SortableItem(it.id, it.label) }
+                                                    ))
+                                                    .show(supportFragmentManager, "SORT_ACCOUNTS")
+                                            }
+                                        }
+                                    }
+                                }
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    override suspend fun accountForNewTransaction() = Optional.ofNullable(
+        when (currentAccount) {
+            is FullAccount -> currentAccount as? FullAccount
+            is AggregateAccount -> viewModel.accountDataV2.value?.getOrNull()
+                ?.filter { it.currency == currentAccount?.currency }
+                ?.maxByOrNull { it.lastUsed }
+
+            null -> null
+        }
+    )
+
+    fun editTrade(transactionId: Long) {
+        viewModel.loadTrade(transactionId)
+    }
+
+    override fun onSortOrderConfirmed(sortedIds: LongArray) {
+        viewModel.sortAccounts(sortedIds)
+    }
+
+    //Short circuit calls we receive from BaseMyExpenses, can be removed, once V1 is abandoned
+    override fun invalidateOptionsMenu() {}
+
+    override fun handleIntent(intent: Intent) {
+        viewModel.handleIntent(intent)
+        showTransactionFromIntent(intent)
+    }
+
+    @Composable
+    fun PortfolioPage(account: PageAccount, isCurrentPage: Boolean) {
+
+        val coroutineScope = rememberCoroutineScope()
+        val preferredSearchType =
+            viewModel.preferredSearchType.flow.collectAsState(TYPE_COMPLEX).value
+        if (showFilterDialog && isCurrentPage) {
+            Timber.d("showFilterDialog for page ${account.label}")
+            FilterDialog(
+                account = account,
+                sumInfo = sumInfo.value,
+                //we are only interested in the current value, since as soon as we persist new value,
+                //the dialog is dismissed
+                //noinspection StateFlowValueCalledInComposition
+                criterion = currentFilter.whereFilter.value,
+                initialPreferredSearchType = preferredSearchType,
+                onDismissRequest = {
+                    showFilterDialog = false
+                }, onConfirmRequest = { preferredSearchType, criterion ->
+                    coroutineScope.launch {
+                        viewModel.preferredSearchType.set(preferredSearchType)
+                        currentFilter.persist(criterion)
+                        showFilterDialog = false
+                        invalidateOptionsMenu()
+                    }
+                }
+            )
+        }
+        val renderType by viewModel.renderer.collectAsState(initial = RenderType.New)
+        val lazyPagingItems = viewModel.getTrades(account).collectAsLazyPagingItems()
+        val isProcessingFilter = remember { mutableStateOf(false) }
+
+        Column(modifier = Modifier.fillMaxSize()) {
+            val persistence =
+                remember(account.id) { viewModel.filterPersistence.getValue(account.id) }
+            val filter = persistence.whereFilter.collectAsState(null)
+            filter.value?.let { filter ->
+                FilterHandler(account, "confirmFilterDirect_${account.id}", { oldValue, newValue ->
+                    if (newValue != null && oldValue != null) {
+                        lifecycleScope.launch {
+                            persistence.replaceCriterion(oldValue, newValue)
+                        }
+                    }
+                }) {
+                    FilterCard(
+                        filter,
+                        editFilter = { handleEdit(it) },
+                        clearAllFilter = { confirmClearFilter() },
+                        clearFilter = {
+                            if (isProcessingFilter.value) {
+                                Timber.d("double click: ignoring filter clear request")
+                            } else {
+                                isProcessingFilter.value = true
+                                lifecycleScope.launch {
+                                    try {
+                                        persistence.removeCriterion(it)
+                                        invalidateOptionsMenu()
+                                    } finally {
+                                        isProcessingFilter.value = false
+                                    }
+                                }
+                            }
+                        }
+                    )
+                }
+            }
+            TradeList(
+                trades = lazyPagingItems,
+                modifier = Modifier.weight(1f),
+                renderType = renderType,
+                onEvent = if (account.sealed) null else {
+
+                    { event, trade ->
+                        when (event) {
+                            TradeEvent.Edit -> {
+                                lifecycleScope.launch {
+                                    if (checkSealed(listOf(trade.id))) {
+                                        viewModel.editTrade(trade)
+                                    }
+                                }
+                            }
+
+                            TradeEvent.Delete -> {
+                                lifecycleScope.launch {
+                                    // Trades are usually unreconciled upon creation
+                                    delete(listOf(trade.id to CrStatus.UNRECONCILED))
+                                }
+                            }
+                        }
+                    }
+                }
+            )
+        }
+    }
+}

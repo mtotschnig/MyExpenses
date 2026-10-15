@@ -15,7 +15,6 @@
  -->
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -58,8 +57,7 @@
                     android:layout_height="wrap_content"
                     android:importantForAutofill="no"
                     android:inputType="textCapWords"
-                    android:maxLines="1"
-                    tools:targetApi="o" />
+                    android:maxLines="1" />
             </TableRow>
 
             <TableRow>
@@ -131,10 +129,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:tooltipText="@string/content_description_remove_icon"
                         android:contentDescription="@string/content_description_remove_icon"
                         android:focusable="true"
                         android:visibility="gone"
-                        app:srcCompat="@drawable/ic_menu_delete" />
+                        app:srcCompat="@drawable/ic_menu_close_clear_cancel"/>
                 </LinearLayout>
             </TableRow>
         </TableLayout>

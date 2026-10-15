@@ -8,9 +8,9 @@ import com.theartofdev.edmodo.cropper.CropImage
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.OcrResultFlat
 import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_COLOR
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import java.io.Serializable
 
 class OcrLauncher: ProtectedFragmentActivity() {

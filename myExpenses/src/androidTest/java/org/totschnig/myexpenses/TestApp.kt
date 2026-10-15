@@ -2,12 +2,13 @@ package org.totschnig.myexpenses
 
 import androidx.core.os.ConfigurationCompat
 import androidx.test.platform.app.InstrumentationRegistry
+import kotlinx.coroutines.CoroutineDispatcher
 import org.totschnig.myexpenses.di.AppComponent
 import org.totschnig.myexpenses.di.AppModule
 import org.totschnig.myexpenses.di.CrashHandlerModule
 import org.totschnig.myexpenses.di.DaggerAppComponent
 import org.totschnig.myexpenses.di.UiModule
-import org.totschnig.myexpenses.model.PreferencesCurrencyContext
+import org.totschnig.myexpenses.model.DatabaseCurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.testutils.Fixture
 import org.totschnig.myexpenses.testutils.MockLicenceModule
@@ -15,6 +16,7 @@ import org.totschnig.myexpenses.testutils.TestCoroutineModule
 import org.totschnig.myexpenses.testutils.TestDataModule
 import org.totschnig.myexpenses.testutils.TestFeatureModule
 import org.totschnig.myexpenses.testutils.TestViewModelModule
+import org.totschnig.myexpenses.testutils.withEncryption
 import org.totschnig.myexpenses.ui.IDiscoveryHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.time.Clock
@@ -22,7 +24,6 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.temporal.TemporalAmount
 import java.util.Currency
-
 
 class TestApp : MyApplication() {
     lateinit var fixture: Fixture
@@ -55,7 +56,7 @@ class TestApp : MyApplication() {
     override fun buildAppComponent(): AppComponent = DaggerAppComponent.builder()
         .coroutineModule(TestCoroutineModule)
         .viewModelModule(TestViewModelModule)
-        .dataModule(TestDataModule)
+        .dataModule(TestDataModule { withEncryption })
         .featureModule(TestFeatureModule)
         .crashHandlerModule(object : CrashHandlerModule() {
             override fun providesCrashHandler(prefHandler: PrefHandler) = CrashHandler.NO_OP
@@ -68,16 +69,21 @@ class TestApp : MyApplication() {
         .applicationContext(this)
         .appmodule(object : AppModule() {
             override fun provideCurrencyContext(
+                application: MyApplication,
                 prefHandler: PrefHandler,
-                application: MyApplication
-            ) = object : PreferencesCurrencyContext(prefHandler, application) {
+                dispatcher: CoroutineDispatcher
+            ) = object : DatabaseCurrencyContext(prefHandler, application, dispatcher) {
                 override val localCurrency: Currency
                     get() {
                         val locale =
                             ConfigurationCompat.getLocales(application.resources.configuration)
                                 .get(0)!!
-                        return if (locale.country == "VI") Currency.getInstance("VND") else
-                            Currency.getInstance(locale)
+                        return when (locale.country) {
+                            "VI" -> Currency.getInstance("VND")
+                            "BG" -> Currency.getInstance("EUR")
+                            else
+                                -> Currency.getInstance(locale)
+                        }
                     }
             }
         })

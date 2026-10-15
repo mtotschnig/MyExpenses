@@ -90,10 +90,10 @@ pt-br:
     sync: Sincronização na nuvem
     export: Exportar para PDF, QIF e CSV
     history: Histórico da sua situação financeira
-    distribution: Diagrama em gráfico de pizza
+    distribution: Distribuição em gráfico de pizza
     split: Dividir em várias categorias
     budget: Orçamentos anuais, mensais e semanais
-    summarize: Somar todas as suas contas
+    summarize: Resuma todas as suas contas
     group: Agrupar por ano, mês ou semana
   customer_support: Suporte ao cliente
   professional-key: Chave Profissional

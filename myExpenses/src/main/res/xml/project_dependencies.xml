@@ -97,26 +97,6 @@
         <licence>Apache License, Version 2.0</licence>
     </project>
     <project>
-        <name>AutoValue</name>
-        <url>https://github.com/google/auto/tree/master/value</url>
-        <licence>Apache License, Version 2.0</licence>
-    </project>
-    <project>
-        <name>AutoValue: Gson Extension</name>
-        <url>https://github.com/rharter/auto-value-gson</url>
-        <licence>Apache License, Version 2.0</licence>
-    </project>
-    <project>
-        <name>AutoValue: Cursor Extension</name>
-        <url>https://github.com/gabrielittner/auto-value-cursor</url>
-        <licence>Apache License, Version 2.0</licence>
-    </project>
-    <project>
-        <name>AutoValue: Parcel Extension</name>
-        <url>https://github.com/rharter/auto-value-parcel</url>
-        <licence>Apache License, Version 2.0</licence>
-    </project>
-    <project>
         <name>OkHttp</name>
         <url>http://square.github.io/okhttp/</url>
         <licence>Apache License, Version 2.0</licence>

@@ -1,26 +1,28 @@
 package org.totschnig.myexpenses.test.espresso
 
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.compose.TEST_TAG_FAB_TRANSACTIONS
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.updateAccount
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CODE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LAST_USED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_CODE
+import org.totschnig.myexpenses.provider.KEY_LAST_USED
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
+import org.totschnig.myexpenses.testutils.TestShard5
 import org.totschnig.myexpenses.testutils.cleanup
-import org.totschnig.myexpenses.testutils.toolbarMainTitle
 import kotlin.properties.Delegates
 
 //tests if account is selected in MyExpenses view pager
 //and which account is selected in form for new transaction
+@TestShard5
 class SelectAccountTest : BaseMyExpensesTest() {
 
     lateinit var accountUSD1: Account
@@ -73,28 +75,47 @@ class SelectAccountTest : BaseMyExpensesTest() {
 
     @Test
     fun shouldSelectAccountForCurrency() {
-        doTheTest(usdAggregate, accountUSD2, lazy { "USD" })
+        doTheTest(
+            id = usdAggregate,
+            currencyForLaunch = "USD",
+            currencyForTitle = "USD",
+            accountForForm = accountUSD2,
+            accountLabelForList = lazy { "USD (Σ)" },
+            expectedAccountCount = 3
+        )
     }
 
     @Test
     fun shouldSelectAccountForGrandTotal() {
-        doTheTest(HOME_AGGREGATE_ID, accountEUR, lazy { getString(R.string.grand_total) })
+        doTheTest(
+            id = HOME_AGGREGATE_ID,
+            currencyForTitle = homeCurrency.code,
+            accountForForm = if (homeCurrency.code == "USD") accountUSD2 else accountEUR,
+            accountLabelForList = lazy { getString(R.string.grand_total) })
     }
 
 
     private fun doTheTest(account: Account) {
-        doTheTest(account.id, account)
+        doTheTest(
+            id = account.id,
+            currencyForTitle = account.currency,
+            accountForForm = account
+        )
     }
 
     private fun doTheTest(
         id: Long,
+        currencyForTitle: String,
         accountForForm: Account,
-        accountLabelForList: Lazy<String> = lazy { accountForForm.label }
+        currencyForLaunch: String? = null,
+        accountLabelForList: Lazy<String> = lazy { accountForForm.label },
+        expectedAccountCount: Int = 4, //3 accounts, and Grand Total
     ) {
-        launch(id)
-        assertDataSize(5) //3 accounts, USD and Grand Total
-        toolbarMainTitle().check(matches(withText(accountLabelForList.value)))
-        clickFab()
+        launch(id, currencyForLaunch)
+        composeTestRule.waitForIdle()
+        assertDataSize(expectedAccountCount)
+        checkTitle(accountLabelForList.value, currencyContext[currencyForTitle])
+        composeTestRule.onNodeWithTag(TEST_TAG_FAB_TRANSACTIONS).performClick()
         checkAccount(accountForForm.label)
     }
 }

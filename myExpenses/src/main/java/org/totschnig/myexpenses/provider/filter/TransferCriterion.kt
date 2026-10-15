@@ -24,8 +24,9 @@ import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_TRANSFER_ACCOUNT
+import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER
 
 @Parcelize
 @Serializable
@@ -38,7 +39,7 @@ data class TransferCriterion(
 
     override fun getSelection(forExport: Boolean): String {
         val selection = operation.getOp(values.size)
-        return "${DatabaseConstants.KEY_TRANSFER_PEER} IS NOT NULL AND ($column $selection OR ${DatabaseConstants.KEY_ACCOUNTID} $selection)"
+        return "$KEY_TRANSFER_PEER IS NOT NULL AND ($column $selection OR $KEY_ACCOUNTID $selection)"
     }
 
     override val selectionArgs: Array<String>

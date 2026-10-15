@@ -6,16 +6,16 @@ import android.content.Intent
 import android.widget.RemoteViews
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
-import org.totschnig.myexpenses.activity.MyExpenses
+import org.totschnig.myexpenses.activity.MyExpensesV2
 import org.totschnig.myexpenses.activity.OcrLauncher
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.OPERATION_TYPE
 import org.totschnig.myexpenses.fragment.AccountWidgetConfigurationFragment
 import org.totschnig.myexpenses.fragment.AccountWidgetConfigurationFragment.Button
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_COLOR
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.doAsync
 import org.totschnig.myexpenses.widget.AccountRemoteViewsFactory.Companion.buttons
@@ -92,7 +92,7 @@ class AccountWidget :
         appWidgetId: Int
     ) {
         val accountId = AccountRemoteViewsFactory.accountId(context, appWidgetId)
-        if (accountId != Long.MAX_VALUE.toString() && !isProtected(context)) {
+        if (accountId != Long.MAX_VALUE.toString() && !isProtected()) {
             updateSingleAccountWidget(context, appWidgetManager, appWidgetId, accountId)
         } else {
             super.updateWidgetDo(context, appWidgetManager, appWidgetId)
@@ -103,8 +103,9 @@ class AccountWidget :
         val accountId = intent.getLongExtra(KEY_ROWID, 0)
         val startIntent = when (val clickAction = intent.getStringExtra(KEY_CLICK_ACTION)) {
             null -> {
-                Intent(context, MyExpenses::class.java).apply {
+                Intent(context, MyExpensesV2::class.java).apply {
                     putExtra(KEY_ROWID, accountId)
+                    putExtra(KEY_CURRENCY, intent.getStringExtra(KEY_CURRENCY))
                 }
             }
 

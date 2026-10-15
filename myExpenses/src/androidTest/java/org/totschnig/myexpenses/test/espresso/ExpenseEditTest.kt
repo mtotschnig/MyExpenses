@@ -1,47 +1,72 @@
 package org.totschnig.myexpenses.test.espresso
 
 import android.widget.Button
+import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
+import androidx.test.espresso.action.ViewActions.scrollTo
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.hasErrorText
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.rule.GrantPermissionRule
+import com.adevinta.android.barista.interaction.BaristaSeekBarInteractions
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
+import org.hamcrest.CoreMatchers.instanceOf
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.containsString
 import org.hamcrest.Matchers.`is`
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSACTION
+import org.totschnig.myexpenses.db2.createPlan
+import org.totschnig.myexpenses.db2.createTemplate
 import org.totschnig.myexpenses.db2.deleteAccount
+import org.totschnig.myexpenses.db2.deletePlan
+import org.totschnig.myexpenses.db2.deleteTemplate
+import org.totschnig.myexpenses.db2.entities.Recurrence
+import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.db2.getTransactionSum
+import org.totschnig.myexpenses.db2.insertTemplate
+import org.totschnig.myexpenses.db2.loadTemplate
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_BANK
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
-import org.totschnig.myexpenses.model.Template
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
+import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_2
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone
 import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible
+import org.totschnig.myexpenses.testutils.TEMPLATE_TITLE
+import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
-import org.totschnig.myexpenses.testutils.dateButtonHasDate
+import org.totschnig.myexpenses.testutils.withIdAndParent
+import org.totschnig.myexpenses.viewmodel.data.Currency as DisplayCurrency
 import java.time.LocalDate
 import java.util.Currency
 
+@TestShard2
 class ExpenseEditTest : BaseExpenseEditTest() {
     private lateinit var account2: Account
     private lateinit var yenAccount: Account
     private lateinit var currency1: CurrencyUnit
     private lateinit var currency2: CurrencyUnit
+
+    @get:Rule
+    var grantPermissionRule: GrantPermissionRule = buildGrantPermissionRule()
 
     @Before
     fun fixture() {
@@ -49,9 +74,13 @@ class ExpenseEditTest : BaseExpenseEditTest() {
         val accountTypeBank = repository.findAccountType(PREDEFINED_NAME_BANK)!!
         currency1 = CurrencyUnit(Currency.getInstance("USD"))
         currency2 = CurrencyUnit(Currency.getInstance("EUR"))
-        account1 = Account(label = "Test label 1", currency = currency1.code, type = accountTypeCash).createIn(repository)
+        account1 = Account(
+            label = ACCOUNT_LABEL_1,
+            currency = currency1.code,
+            type = accountTypeCash
+        ).createIn(repository)
         account2 =
-            Account(label = "Test label 2", currency = currency2.code, type = accountTypeBank)
+            Account(label = ACCOUNT_LABEL_2, currency = currency2.code, type = accountTypeBank)
                 .createIn(repository)
         yenAccount =
             Account(label = "Japan", currency = "JPY", type = accountTypeCash).createIn(repository)
@@ -68,8 +97,8 @@ class ExpenseEditTest : BaseExpenseEditTest() {
 
     @Test
     fun formForTransactionIsPrepared() {
-        launch(intentForNewTransaction.apply {
-            putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
+        launch(getIntentForNewTransaction().apply {
+            putExtra(Transactions.OPERATION_TYPE, TYPE_TRANSACTION)
         }).use {
             checkEffectiveVisible(
                 R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
@@ -94,7 +123,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
     @Test
     fun statusIsShownWhenBankAccountIsSelected() {
         launch(intent.apply {
-            putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
+            putExtra(Transactions.OPERATION_TYPE, TYPE_TRANSACTION)
             putExtra(KEY_ACCOUNTID, account2.id)
         }).use {
             checkEffectiveVisible(R.id.Status)
@@ -112,7 +141,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
 
     @Test
     fun helpDialogIsOpened() {
-        launch(intentForNewTransaction)
+        launch()
         clickMenuItem(R.id.HELP_COMMAND)
         onView(withText(containsString(getString(R.string.help_ExpenseEdit_transaction_title))))
             .check(matches(isDisplayed()))
@@ -127,7 +156,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
 
     @Test
     fun formForTransferIsPrepared() {
-        launch(intentForNewTransaction.apply {
+        launch(getIntentForNewTransaction().apply {
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSFER)
         }).use {
             checkEffectiveVisible(
@@ -138,13 +167,12 @@ class ExpenseEditTest : BaseExpenseEditTest() {
             clickMenuItem(R.id.CREATE_TEMPLATE_COMMAND)
             checkEffectiveVisible(R.id.TitleRow, R.id.Recurrence)
             checkAccountDependents()
-
         }
     }
 
     @Test
     fun formForSplitIsPrepared() {
-        launch(intentForNewTransaction.apply {
+        launch(getIntentForNewTransaction().apply {
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_SPLIT)
         }).use {
             checkEffectiveVisible(
@@ -162,7 +190,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
     fun formForTemplateIsPrepared() {
         //New Templates are created without account_id passed in via intent
         launch(intent.apply {
-            putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
+            putExtra(Transactions.OPERATION_TYPE, TYPE_TRANSACTION)
             putExtra(ExpenseEdit.KEY_NEW_TEMPLATE, true)
         }).use {
             checkEffectiveVisible(
@@ -178,7 +206,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
         val allAccounts = arrayOf(account1, account2)
         for (a in allAccounts) {
             val i = intent.apply {
-                putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
+                putExtra(Transactions.OPERATION_TYPE, TYPE_TRANSACTION)
                 putExtra(KEY_ACCOUNTID, a.id)
             }
             launch(i).use {
@@ -192,7 +220,7 @@ class ExpenseEditTest : BaseExpenseEditTest() {
         //We test with an account that is not sorted first, in order to verify that account is kept
         //after save and new fab is clicked
         launch(intent.apply {
-            putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
+            putExtra(Transactions.OPERATION_TYPE, TYPE_TRANSACTION)
             putExtra(KEY_ACCOUNTID, account2.id)
         }).use {
             val success = getString(R.string.save_transaction_and_new_success)
@@ -213,42 +241,113 @@ class ExpenseEditTest : BaseExpenseEditTest() {
     }
 
     @Test
-    fun shouldSaveTemplateWithAmount() {
-        val template =
-            Template.getTypedNewInstance(contentResolver, Transactions.TYPE_TRANSFER, account1.id, currency1, false, null)
-        template!!.setTransferAccountId(account2.id)
-        template.title = "Test template"
-        template.save(contentResolver)
-        launch(intent.apply {
-            putExtra(KEY_TEMPLATEID, template.id)
-        }).use {
-            val amount = 2
-            setAmount(amount)
-            clickFab()
-            val restored = Template.getInstanceFromDb(contentResolver, template.id)!!
-            Truth.assertThat(restored.operationType()).isEqualTo(Transactions.TYPE_TRANSFER)
-            Truth.assertThat(restored.amount.amountMinor).isEqualTo(-amount * 100L)
+    fun requireTemplateTitle() {
+        launchNewTemplate(TYPE_TRANSACTION)
+        setAmount(111)
+        clickFab()
+        onView(withId(R.id.Title))
+            .check(matches(hasErrorText(getString(R.string.required))))
+    }
+
+    @Test
+    fun saveTemplateData() {
+        launchNewTemplate(TYPE_TRANSACTION)
+        setAmount(111)
+        setTitle()
+        selectRecurrenceFromSpinner(Recurrence.DAILY)
+        //set execution to automatic
+        onView(withId(R.id.PlanExecution)).perform(scrollTo(), click())
+        BaristaSeekBarInteractions.setProgressTo(R.id.advanceExecutionSeek, 15)
+        clickFab()
+        assertTemplate(
+            expectedAccount = account1,
+            expectedAmount = -11100,
+            expectedPlanRecurrence = Recurrence.DAILY,
+            expectedPlanExecutionAutomatic = true,
+            expectedPlanExecutionAdvance = 15
+        ).also {
+            repository.deletePlan(it.data.planId!!)
         }
     }
 
     @Test
-    fun shouldChangeDate() {
-        launch(intentForNewTransaction).use {
-            val today = LocalDate.now()
-            onView(withId(R.id.DateButton))
-                .check(matches(dateButtonHasDate(today)))
-            onView(withId(R.id.DateButton)).perform(click())
-            val newDate = if (today.dayOfMonth == 1) today.plusDays(1) else today.minusDays(1)
-            onView(
-                allOf(
-                    withText(newDate.dayOfMonth.toString()), // The day number
-                    ViewMatchers.isDescendantOfA(withId(com.google.android.material.R.id.month_grid)), // Ensure it's within the calendar grid
-                    isDisplayed() // Ensure it's currently visible
-                )
-            ).perform(click())
-            onView(withId(com.google.android.material.R.id.confirm_button)).perform(click())
-            onView(withId(R.id.DateButton))
-                .check(matches(dateButtonHasDate(newDate)))
+    fun templateRetainsEnabledOriginalAmountWithoutValue() {
+        launchNewTemplate(TYPE_TRANSACTION)
+        setTitle()
+        clickMenuItem(R.id.ORIGINAL_AMOUNT_COMMAND)
+        onView(withIdAndParent(R.id.AmountCurrency, R.id.OriginalAmount))
+            .perform(scrollTo(), click())
+        onData(
+            allOf(
+                instanceOf(DisplayCurrency::class.java),
+                `is`(DisplayCurrency.create(currency2.code, app))
+            )
+        ).perform(click())
+        setDefaultAction(Template.Action.EDIT)
+        clickFab()
+
+        val template = assertTemplate(account1, 0)
+        assertThat(template.data.originalAmount).isEqualTo(0)
+        assertThat(template.data.originalCurrency).isEqualTo(currency2.code)
+
+        launch(getIntentForTransactionFromTemplate(template.id)).use {
+            onView(withId(R.id.OriginalAmountRow)).check(matches(isDisplayed()))
+            onView(withIdAndParent(R.id.AmountCurrency, R.id.OriginalAmount)).check(
+                matches(withSpinnerText(DisplayCurrency.create(currency2.code, app).toString()))
+            )
         }
+    }
+
+    @Test
+    fun shouldSaveTemplateWithAmount() {
+        val template = repository.insertTemplate(
+            accountId = account1.id,
+            amount = 0L,
+            title = "Test template",
+            transferAccountId = account2.id
+        )
+        launch(getIntentForEditTemplate(template.id)).use {
+            val amount = 2
+            setAmount(amount)
+            clickFab()
+            val restored = repository.loadTemplate(template.id)!!
+            assertThat(restored.data.isTransfer).isTrue()
+            assertThat(restored.data.amount).isEqualTo(-amount * 100L)
+        }
+    }
+
+    //https://github.com/mtotschnig/MyExpenses/issues/1803
+    @Test
+    fun loadAndSaveTemplateWithPlan() {
+        val planId = repository.createPlan(
+            TEMPLATE_TITLE,
+            description = "Description",
+            date = LocalDate.now(),
+            recurrence = Recurrence.WEEKLY
+        ).id
+
+        val data = Template(
+            accountId = account1.id,
+            title = TEMPLATE_TITLE,
+            amount = -90000L,
+            uuid = generateUuid(),
+            planId = planId
+        )
+        val template = repository.createTemplate(data)
+
+        launch(getIntentForEditTemplate(template.id)).use {
+            val amount = 2
+            setAmount(amount)
+            clickFab()
+        }
+        assertTemplate(
+            expectedAccount = account1,
+            expectedAmount = -200,
+            expectedPlan = planId,
+            expectedPlanRecurrence = Recurrence.WEEKLY
+        )
+
+        cleanup { repository.deleteTemplate(template.id) }
+        repository.deletePlan(planId)
     }
 }

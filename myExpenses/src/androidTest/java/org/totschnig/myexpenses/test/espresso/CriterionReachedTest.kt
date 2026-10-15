@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.test.espresso
 
-import android.content.ContentUris
 import androidx.compose.ui.test.isDisplayed
 import androidx.compose.ui.test.onNodeWithText
 import org.junit.After
@@ -9,13 +8,15 @@ import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.findAccountType
+import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_1
+import org.totschnig.myexpenses.testutils.ACCOUNT_LABEL_2
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
+import org.totschnig.myexpenses.testutils.TestShard1
 import org.totschnig.myexpenses.testutils.cleanup
 import java.util.Currency
 import kotlin.math.absoluteValue
@@ -23,12 +24,13 @@ import kotlin.math.sign
 import kotlin.test.Test
 
 
+@TestShard1
 class CriterionReachedTest : BaseExpenseEditTest() {
     val currency = CurrencyUnit(Currency.getInstance("USD"))
 
     fun fixture(criterion: Long, openingBalance: Long = 0) {
         account1 = Account(
-            label = "Test label 1",
+            label = ACCOUNT_LABEL_1,
             currency = currency.code,
             criterion = criterion,
             openingBalance = openingBalance,
@@ -189,7 +191,7 @@ class CriterionReachedTest : BaseExpenseEditTest() {
         repeat: Int = 1,
     ) {
         fixture(criterion, openingBalance)
-        launchForResult(intentForNewTransaction.apply {
+        launchForResult(getIntentForNewTransaction().apply {
             putExtra(ExpenseEdit.KEY_INCOME, amount > 0)
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
         }).use {
@@ -215,12 +217,12 @@ class CriterionReachedTest : BaseExpenseEditTest() {
         expectedTitle: Int?,
     ) {
         fixture(criterion)
-        val transactionId = Transaction.getNewInstance(account1.id, currency).let {
-            it.amount = Money(currency, existingAmount)
-            ContentUris.parseId(it.save(contentResolver)!!)
-        }
-        launchForResult(intentForNewTransaction.apply {
-            putExtra(DatabaseConstants.KEY_ROWID, transactionId)
+        val transactionId = repository.insertTransaction(
+            accountId = account1.id,
+            amount = existingAmount
+        ).id
+        launchForResult(getIntentForNewTransaction().apply {
+            putExtra(KEY_ROWID, transactionId)
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
         }).use {
             if (editedAmount.sign != existingAmount.sign) {
@@ -244,17 +246,17 @@ class CriterionReachedTest : BaseExpenseEditTest() {
     ) {
         fixture(criterion)
         val account2 = Account(
-            label = "Test label 2",
+            label = ACCOUNT_LABEL_2,
             currency = currency.code,
             criterion = criterion,
             type = repository.findAccountType(PREDEFINED_NAME_CASH)!!
         ).createIn(repository)
-        val transactionId = Transaction.getNewInstance(account1.id, currency).let {
-            it.amount = Money(currency, existingAmount)
-            ContentUris.parseId(it.save(contentResolver)!!)
-        }
-        launchForResult(intentForNewTransaction.apply {
-            putExtra(DatabaseConstants.KEY_ROWID, transactionId)
+        val transactionId = repository.insertTransaction(
+            accountId = account1.id,
+            amount = existingAmount
+        ).id
+        launchForResult(getIntentForNewTransaction().apply {
+            putExtra(KEY_ROWID, transactionId)
             putExtra(Transactions.OPERATION_TYPE, Transactions.TYPE_TRANSACTION)
         }).use {
             if (editedAmount.sign != existingAmount.sign) {

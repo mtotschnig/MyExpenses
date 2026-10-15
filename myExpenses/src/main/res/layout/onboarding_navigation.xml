@@ -22,8 +22,8 @@
         android:layout_centerVertical="true"
         android:layout_marginEnd="16dp"
         android:text="@string/suw_next_button_label"
-        tools:visibility="visible"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:visibility="visible" />
 
     <Button
         android:id="@+id/suw_navbar_done"
@@ -32,7 +32,8 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="16dp"
+        android:enabled="false"
         android:text="@string/onboarding_get_started"
-        tools:visibility="visible"
-        android:visibility="gone" />
+        android:visibility="gone"
+        tools:visibility="visible" />
 </RelativeLayout>

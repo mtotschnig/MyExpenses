@@ -15,7 +15,6 @@
 package org.totschnig.myexpenses.dialog
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
@@ -57,6 +56,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
@@ -80,9 +80,9 @@ import kotlinx.coroutines.flow.emptyFlow
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.activity.ExpenseEdit
+import org.totschnig.myexpenses.activity.MyExpensesV2
 import org.totschnig.myexpenses.activity.ViewIntentProvider
 import org.totschnig.myexpenses.compose.ButtonRow
-import org.totschnig.myexpenses.compose.COMMENT_SEPARATOR
 import org.totschnig.myexpenses.compose.ColoredAmountText
 import org.totschnig.myexpenses.compose.Icon
 import org.totschnig.myexpenses.compose.LocalDateFormatter
@@ -93,23 +93,23 @@ import org.totschnig.myexpenses.compose.emToDp
 import org.totschnig.myexpenses.compose.filter.FilterCard
 import org.totschnig.myexpenses.compose.scrollbar.LazyColumnWithScrollbar
 import org.totschnig.myexpenses.compose.size
-import org.totschnig.myexpenses.compose.voidMarker
+import org.totschnig.myexpenses.compose.transactions.COMMENT_SEPARATOR
+import org.totschnig.myexpenses.compose.transactions.voidMarker
 import org.totschnig.myexpenses.db2.FinTsAttribute
 import org.totschnig.myexpenses.feature.BankingFeature
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Plan
-import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.preference.ColorSource
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.STATUS_ARCHIVE
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.STATUS_ARCHIVE
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.FilterPersistence
 import org.totschnig.myexpenses.provider.filter.KEY_FILTER
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.epoch2ZonedDateTime
+import org.totschnig.myexpenses.util.timeFormatter
 import org.totschnig.myexpenses.util.ui.UiUtils.DateMode.BOOKING_VALUE
 import org.totschnig.myexpenses.util.ui.UiUtils.DateMode.DATE_TIME
 import org.totschnig.myexpenses.util.ui.getBestForeground
@@ -117,6 +117,7 @@ import org.totschnig.myexpenses.util.ui.getDateMode
 import org.totschnig.myexpenses.viewmodel.LoadResult
 import org.totschnig.myexpenses.viewmodel.TransactionDetailViewModel
 import org.totschnig.myexpenses.viewmodel.data.Transaction
+import org.totschnig.myexpenses.viewmodel.data.getIndicatorPrefixForLabel
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import javax.inject.Inject
@@ -313,20 +314,27 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                 ?.takeIf { !(it.crStatus == CrStatus.VOID || it.isSealed || it.isArchive) }
                 ?.let { transaction ->
                     TextButton(onClick = {
-                        if (transaction.isTransfer && transaction.transferPeerIsPart) {
-                            showSnackBar(
-                                if (transaction.transferPeerIsArchived) R.string.warning_archived_transfer_cannot_be_edited else R.string.warning_splitpartcategory_context
-                            )
-                        } else {
-                            dismiss()
-                            (requireActivity() as BaseActivity).startEdit(
-                                Intent(
-                                    requireActivity(),
-                                    ExpenseEdit::class.java
-                                ).apply {
-                                    putExtra(KEY_ROWID, transaction.id)
-                                }
-                            )
+                        when {
+                            transaction.transferPeerIsArchived -> {
+                                showSnackBar(
+                                    R.string.warning_archived_transfer_cannot_be_edited
+                                )
+                            }
+                            transaction.isPortfolio || transaction.transferPeerIsPortfolio -> {
+                                dismiss()
+                                (requireActivity() as? MyExpensesV2)?.editTrade(transaction.transferPeerParent ?: transaction.id)
+                            }
+                            else -> {
+                                dismiss()
+                                (requireActivity() as BaseActivity).startEdit(
+                                    Intent(
+                                        requireActivity(),
+                                        ExpenseEdit::class.java
+                                    ).apply {
+                                        putExtra(KEY_ROWID, transaction.transferPeerParent ?: transaction.id)
+                                    }
+                                )
+                            }
                         }
                     }) {
                         Text(stringResource(id = R.string.menu_edit))
@@ -361,7 +369,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
         if (!transaction.isArchive) {
             val dateMode = getDateMode(transaction.accountType, prefHandler)
             val dateFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.FULL)
-            val timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)
+            val timeFormatter = LocalContext.current.timeFormatter
 
             val dateText = buildString {
                 append(transaction.date.format(dateFormatter))
@@ -427,15 +435,17 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                 content = transaction.comment
             )
         }
-        if (transaction.payee != "" || transaction.debtLabel != null) {
+        if (transaction.party != null || transaction.debtLabel != null) {
             TableRow(
                 label = when {
-                    transaction.payee == "" -> R.string.debt
+                    transaction.party == null -> R.string.debt
                     isIncome -> R.string.payer
                     else -> R.string.payee
                 },
                 content = buildString {
-                    append(transaction.payee)
+                    transaction.party?.let {
+                        append(it.displayName)
+                    }
                     transaction.debtLabel?.let {
                         append(" ($it)")
                     }
@@ -469,12 +479,10 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
         if (transaction.originTemplate != null) {
             TableRow(
                 label = R.string.plan,
-                content = transaction.originTemplate.plan?.let {
-                    Plan.prettyTimeInfo(requireContext(), it.rRule, it.dtStart)
-                } ?: stringResource(R.string.plan_event_deleted)
+                content = transaction.originTemplate
             )
         }
-        if (transaction.tagList.isNotEmpty()) {
+        if (transaction.tags.isNotEmpty()) {
             val interactionSource = remember { NoRippleInteractionSource() }
             TableRow(stringResource(R.string.tags)) {
                 CompositionLocalProvider(
@@ -485,7 +493,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                         horizontalArrangement = Arrangement.spacedBy(4.dp),
                         verticalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
-                        for (tag in transaction.tagList) {
+                        for (tag in transaction.tags) {
                             SuggestionChip(
                                 colors = SuggestionChipDefaults.suggestionChipColors(
                                     containerColor = tag.color?.let { Color(it) }
@@ -531,7 +539,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                                     contentDescription = null
                                 )
 
-                                info.typeIcon != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ->
+                                info.typeIcon != null ->
                                     Image(
                                         modifier = Modifier
                                             .clickable(onClick = onClick)
@@ -618,8 +626,8 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                 text = buildAnnotatedString {
                     var isNotEmpty = false
                     when {
-                        part.isTransfer -> Transfer.getIndicatorPrefixForLabel(
-                            part.amountRaw
+                        part.isTransfer -> getIndicatorPrefixForLabel(
+                            part.amount.amountMinor
                         ) + part.transferAccount
                         part.isSplit -> getString(R.string.split_transaction)
                         else -> part.categoryPath
@@ -637,12 +645,12 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                         }
                     }
                     if (parentIsArchive) {
-                        part.payee.takeIf { it.isNotEmpty() }?.let {
+                        part.party?.let {
                             if (length > 0) {
                                 append(COMMENT_SEPARATOR)
                             }
                             withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
-                                append(it)
+                                append(it.displayName)
                             }
                         }
                     } else {
@@ -657,7 +665,7 @@ class TransactionDetailFragment : ComposeBaseDialogFragment3() {
                         }
                     }
 
-                    part.tagList.takeIf { it.isNotEmpty() }?.let {
+                    part.tags.takeIf { it.isNotEmpty() }?.let {
                         if (isNotEmpty) {
                             append(COMMENT_SEPARATOR)
                         }

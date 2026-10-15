@@ -1,12 +1,12 @@
 package org.totschnig.myexpenses.model2
 
 import android.content.ContentValues
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BIC
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IBAN
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME_NORMALIZED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SHORT_NAME
+import org.totschnig.myexpenses.provider.KEY_BIC
+import org.totschnig.myexpenses.provider.KEY_IBAN
+import org.totschnig.myexpenses.provider.KEY_PARENTID
+import org.totschnig.myexpenses.provider.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.KEY_PAYEE_NAME_NORMALIZED
+import org.totschnig.myexpenses.provider.KEY_SHORT_NAME
 import org.totschnig.myexpenses.util.Utils
 
 data class Party(
@@ -37,7 +37,18 @@ data class Party(
             "*[ (.;,]$search*"
         )
 
+        fun validate(name: String) = name.trim().takeIf { it.isNotEmpty() }
+
         fun create(
+            name: String,
+            shortName: String? = null,
+            id: Long = 0,
+            iban: String? = null,
+            bic: String? = null,
+            parentId: Long? = null
+        ) = validate(name)?.let { createInternal(name, shortName, id, iban, bic, parentId) }
+
+        private fun createInternal(
             name: String,
             shortName: String? = null,
             id: Long = 0,
@@ -47,7 +58,7 @@ data class Party(
         ) =
             Party(
                 id = id,
-                name = requireNotNull(name.trim().takeIf { it.isNotEmpty() }),
+                name = name,
                 shortName = shortName?.trim(),
                 iban = iban,
                 bic = bic,

@@ -1,0 +1,25 @@
+<b>Pengeluaran Saya</b> adalah manajer keuangan pribadi terbaik yang ramah privasi—memberikan Anda kendali penuh atas pelacakan pengeluaran harian, anggaran, dan portofolio investasi dengan transparansi sumber terbuka (open-source).
+
+<b>Fitur Utama:</b>
+
+• <b>Pelacakan Pengeluaran & Anggaran Harian</b>: Pantau pemasukan dan pengeluaran dengan mudah di ponsel atau tablet Anda. Buat anggaran, bagi transaksi (transaksi terpisah), dan atur rencana transaksi berulang.
+• <b>Manajemen Portofolio & Investasi</b>: Lacak portofolio saham, kripto, atau aset kustom, pantau riwayat harga, dan kelola investasi multimata uang secara real-time.
+• <b>Integrasi Bank & Rekonsiliasi</b>: Terhubung langsung ke bank yang didukung via FinTS atau rekonsiliasi transaksi secara manual dengan rekening koran untuk pelacakan saldo yang akurat.
+• <b>Pemindaian Struk Pintar (OCR)</b>: Ekstrak detail transaksi secara otomatis dari foto struk dan kuitansi menggunakan pengenalan karakter optik tingkat lanjut.
+• <b>Antarmuka Web untuk Komputer</b>: Akses dan kelola transaksi Anda dari peramban web apa pun di jaringan lokal Anda.
+• <b>Analisis Andal</b>: Visualisasikan tren pengeluaran, diagram lingkaran distribusi, dan laporan riwayat dengan grafik dinamis yang dapat disesuaikan.
+• <b>Sinkronisasi Fleksibel & Kontrol Data</b>: Ekspor dan impor data dengan mudah dalam format QIF dan CSV. Sinkronkan dengan mulus antarperangkat menggunakan WebDAV, Nextcloud, Google Drive, Dropbox, atau OneDrive dengan dukungan sertifikat klien.
+• <b>Utamakan Privasi & Keamanan</b>: Transparansi kode sumber terbuka, perlindungan kata sandi atau kunci biometrik, serta basis data terenkripsi.
+
+<b>Buka Fitur Premium:</b>
+
+• <i>Kunci Kontribusi</i>: Keunggulan utama mencakup membuka akun tak terbatas, rencana berulang, ekspor daftar PDF, diagram lingkaran distribusi, dan lainnya.
+• <i>Kunci Ekstensi</i>: Mencakup semua fitur Kunci Kontribusi, ditambah sinkronisasi awan otomatis dan aturan impor CSV tingkat lanjut.
+• <i>Kunci Profesional</i>: Mencakup semua fitur Kunci Ekstensi, ditambah pelacakan investasi & portofolio, grafik riwayat, pemantauan anggaran, pemindaian OCR struk, antarmuka web lokal untuk komputer, sinkronisasi bank langsung (Jerman), dan lainnya.
+
+<b>Transparansi Izin:</b>
+
+• <i>Kalender</i>: Rencana transaksi berulang disimpan di kalender lokal khusus atau kalender lain yang Anda tentukan.
+• <i>Internet</i>: Statistik penggunaan anonim (opsional), sinkronisasi awan, dan laporan kerusakan (opsional).
+
+Ambil alih kendali atas uang dan kekayaan Anda hari ini dengan <b>Pengeluaran Saya</b>!

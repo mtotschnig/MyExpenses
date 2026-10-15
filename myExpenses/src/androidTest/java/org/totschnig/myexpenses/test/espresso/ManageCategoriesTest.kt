@@ -21,7 +21,9 @@ import org.totschnig.myexpenses.db2.deleteAllCategories
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseComposeTest
 import org.totschnig.myexpenses.testutils.Espresso
+import org.totschnig.myexpenses.testutils.TestShard3
 
+@TestShard3
 class ManageCategoriesTest : BaseComposeTest<ManageCategories>() {
     @get:Rule
     var scenarioRule = ActivityScenarioRule(ManageCategories::class.java)

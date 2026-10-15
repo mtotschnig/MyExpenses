@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="description_webdav_url">Lütfen WebDAV sunucunuzdaki özel bir klasör için bağlantı girin. {app_name} verilerini bu klasör içinde saklayacak ve dışında hiçbir şeye dokunmayacaktır.</string>
+    <string name="hint_url">Bağlantı</string>
+    <string name="description_webdav_trust_certificate">Ağ sitesi Android tarafından güvenilmeyen bir sertifika kullanmaktadır.</string>
+    <string name="label_trust_certificate">Bu sertifikaya güven</string>
+    <string name="validate_error_webdav_invalid_certificate">Bu sertifikaya güvenilemedi. Geçersiz gibi görünüyor.</string>
+    <string name="validate_error_webdav_not_compliant">Bağlantı bir WebDAV kaynağına işaret etmemektedir.</string>
+    <string name="validate_error_webdav_404">Bağlantı (URL) sunucuda mevcut değildir.</string>
+    <string name="url_not_valid">Geçersiz bağlantı</string>
+</resources>

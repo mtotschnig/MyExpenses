@@ -3,9 +3,7 @@ package org.totschnig.onedrive.sync
 import android.accounts.AccountManager
 import android.content.Context
 import android.net.Uri
-import android.os.Build
 import android.provider.OpenableColumns
-import androidx.annotation.RequiresApi
 import com.microsoft.graph.http.GraphServiceException
 import com.microsoft.graph.logger.DefaultLogger
 import com.microsoft.graph.logger.LoggerLevel
@@ -50,7 +48,6 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-@RequiresApi(Build.VERSION_CODES.N)
 class OneDriveBackendProvider internal constructor(context: Context, folderName: String) :
     AbstractSyncBackendProvider<DriveItem>(context) {
     private lateinit var graphClient: GraphServiceClient<Request>
@@ -151,8 +148,7 @@ class OneDriveBackendProvider internal constructor(context: Context, folderName:
     override val isEmpty: Boolean
         get() = baseFolder.children().safeGet()?.currentPage?.isEmpty() == true
 
-    private fun Exception.asIO() = if (this is IOException) this else
-        IOException(this.also { CrashHandler.report(it) })
+    private fun Exception.asIO() = this as? IOException ?: IOException(this.also { CrashHandler.report(it) })
 
     private fun <T> safeWrite(write: () -> T): T = try {
         write()

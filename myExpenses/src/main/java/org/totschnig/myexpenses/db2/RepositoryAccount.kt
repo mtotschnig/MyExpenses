@@ -3,18 +3,64 @@ package org.totschnig.myexpenses.db2
 import android.content.ContentProviderOperation
 import android.content.ContentUris
 import android.content.ContentValues
+import android.os.Bundle
+import androidx.core.content.contentValuesOf
 import androidx.core.database.getStringOrNull
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
 import kotlinx.coroutines.flow.Flow
+import org.totschnig.myexpenses.model.AccountFlag
+import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.AccountType
+import org.totschnig.myexpenses.model.BalanceType
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.model.Model
-import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.model.KEY_ACCOUNT_GROUPING
+import org.totschnig.myexpenses.model.KEY_ACCOUNT_GROUPING_GROUP
+import org.totschnig.myexpenses.model.generateUuid
+import org.totschnig.myexpenses.model.sort.TransactionSort
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.*
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_BALANCE_TYPE
+import org.totschnig.myexpenses.provider.KEY_BANK_ID
+import org.totschnig.myexpenses.provider.KEY_COLOR
+import org.totschnig.myexpenses.provider.KEY_CRITERION
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_DESCRIPTION
+import org.totschnig.myexpenses.provider.KEY_DYNAMIC
+import org.totschnig.myexpenses.provider.KEY_EXCHANGE_RATE
+import org.totschnig.myexpenses.provider.KEY_EXCLUDE_FROM_TOTALS
+import org.totschnig.myexpenses.provider.KEY_IS_PORTFOLIO
+import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_LAST_USED
+import org.totschnig.myexpenses.provider.KEY_OPENING_BALANCE
+import org.totschnig.myexpenses.provider.KEY_PARENTID
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_SEALED
+import org.totschnig.myexpenses.provider.KEY_STATUS
+import org.totschnig.myexpenses.provider.KEY_SYNC_ACCOUNT_NAME
+import org.totschnig.myexpenses.provider.KEY_TRANSFER_ACCOUNT
+import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER
+import org.totschnig.myexpenses.provider.KEY_TYPE
+import org.totschnig.myexpenses.provider.KEY_UUID
+import org.totschnig.myexpenses.provider.STATUS_EXPORTED
+import org.totschnig.myexpenses.provider.STATUS_NONE
+import org.totschnig.myexpenses.provider.TABLE_ACCOUNTS
+import org.totschnig.myexpenses.provider.TABLE_TRANSACTIONS
+import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_AGGREGATE_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.AGGREGATE_V2_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_BREAKDOWN_BY_ACCOUNT
+import org.totschnig.myexpenses.provider.TransactionProvider.SORT_URI
+import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.filter.Criterion
+import org.totschnig.myexpenses.provider.getBoolean
+import org.totschnig.myexpenses.provider.getDouble
+import org.totschnig.myexpenses.provider.getDoubleOrNull
+import org.totschnig.myexpenses.provider.getLong
+import org.totschnig.myexpenses.provider.getString
+import org.totschnig.myexpenses.provider.mapToMap
+import org.totschnig.myexpenses.provider.withLimit
 import org.totschnig.myexpenses.util.joinArrays
 
 fun Repository.getCurrencyUnitForAccount(accountId: Long) =
@@ -27,7 +73,7 @@ fun Repository.getLabelForAccount(accountId: Long) = getStringValue(accountId, K
 private fun Repository.getStringValue(accountId: Long, column: String): String? {
     require(accountId > 0L)
     return contentResolver.query(
-        ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, accountId),
+        ContentUris.withAppendedId(ACCOUNTS_URI, accountId),
         arrayOf(column), null, null, null
     )!!.use {
         if (it.moveToFirst()) it.getStringOrNull(0) else null
@@ -36,7 +82,7 @@ private fun Repository.getStringValue(accountId: Long, column: String): String? 
 
 fun Repository.getLastUsedOpenAccount() =
     contentResolver.query(
-        TransactionProvider.ACCOUNTS_URI.withLimit(1),
+        ACCOUNTS_URI.withLimit(1),
         arrayOf(KEY_ROWID, KEY_CURRENCY),
         "$KEY_SEALED = 0",
         null,
@@ -47,7 +93,7 @@ fun Repository.getLastUsedOpenAccount() =
 
 
 fun Repository.findAccountByUuid(uuid: String) = contentResolver.query(
-    TransactionProvider.ACCOUNTS_URI,
+    ACCOUNTS_URI,
     arrayOf(KEY_ROWID),
     "$KEY_UUID = ?",
     arrayOf(uuid),
@@ -58,7 +104,7 @@ fun Repository.findAccountByUuid(uuid: String) = contentResolver.query(
 
 fun Repository.findAccountByUuidWithExtraColumn(uuid: String, extraColumn: String) =
     contentResolver.query(
-        TransactionProvider.ACCOUNTS_URI,
+        ACCOUNTS_URI,
         arrayOf(KEY_ROWID, extraColumn),
         "$KEY_UUID = ?",
         arrayOf(uuid),
@@ -70,31 +116,45 @@ fun Repository.findAccountByUuidWithExtraColumn(uuid: String, extraColumn: Strin
 fun Repository.loadAccount(accountId: Long): Account? {
     require(accountId > 0L)
     return contentResolver.query(
-        ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, accountId),
+        ContentUris.withAppendedId(ACCOUNTS_URI, accountId),
         Account.PROJECTION,
         null, null, null
     )?.use {
         if (it.moveToFirst()) {
-            Account.fromCursor(it, AccountType.fromAccountCursor(it))
+            Account.fromCursor(it)
         } else null
     }
 }
 
+fun Repository.loadSubAccounts(parentId: Long): List<Account> = contentResolver.query(
+    ACCOUNTS_URI,
+    Account.PROJECTION,
+    "$KEY_PARENTID = ?",
+    arrayOf(parentId.toString()),
+    null
+)?.use { cursor ->
+    val list = mutableListOf<Account>()
+    while (cursor.moveToNext()) {
+        list.add(Account.fromCursor(cursor))
+    }
+    list
+} ?: emptyList()
+
 fun Repository.loadAccountFlow(accountId: Long): Flow<Account> {
     require(accountId > 0L)
     return contentResolver.observeQuery(
-        ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, accountId),
+        ContentUris.withAppendedId(ACCOUNTS_URI, accountId),
         Account.PROJECTION,
         null, null, null
     ).mapToOne {
-        Account.fromCursor(it, AccountType.fromAccountCursor(it))
+        Account.fromCursor(it)
     }
 }
 
 fun Repository.loadAggregateAccountFlow(accountId: Long): Flow<Account> {
     require(accountId < 0L)
     return contentResolver.observeQuery(
-        ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_AGGREGATE_URI, accountId),
+        ContentUris.withAppendedId(ACCOUNTS_AGGREGATE_URI, accountId),
         null, null, null, null
     ).mapToOne {
         Account(
@@ -102,9 +162,76 @@ fun Repository.loadAggregateAccountFlow(accountId: Long): Flow<Account> {
             label = it.getString(KEY_LABEL),
             currency = it.getString(KEY_CURRENCY),
             openingBalance = it.getLong(KEY_OPENING_BALANCE),
-            grouping = it.getEnum(KEY_GROUPING, Grouping.NONE),
-            isSealed = it.getBoolean(KEY_SEALED),
-            type = AccountType(name = "Aggregate")
+        )
+    }
+}
+
+data class AccountOpeningInfo(val currency: String, val openingBalance: Long, val dynamic: Boolean, val openingRate: Double)
+
+fun Repository.loadOpeningBalancesPerAccountV1(accountId: Long): Flow<Map<Long, AccountOpeningInfo>> {
+    require(accountId < 0L)
+    val uri = ContentUris.withAppendedId(ACCOUNTS_AGGREGATE_URI, accountId).buildUpon()
+        .appendQueryParameter(QUERY_PARAMETER_BREAKDOWN_BY_ACCOUNT, "true")
+        .build()
+    return contentResolver.observeQuery(uri)
+        .mapToMap {
+            it.getLong(KEY_ROWID) to AccountOpeningInfo(
+                it.getString(KEY_CURRENCY),
+                it.getLong(KEY_OPENING_BALANCE),
+                it.getBoolean(KEY_DYNAMIC),
+                it.getDoubleOrNull(KEY_EXCHANGE_RATE) ?: 1.0
+            )
+        }
+}
+
+fun Repository.loadOpeningBalancesPerAccountV2(extras: Bundle): Flow<Map<Long, AccountOpeningInfo>> {
+    val accountGrouping = AccountGrouping.valueOf(extras.getString(KEY_ACCOUNT_GROUPING)!!)
+    val group = extras.getString(KEY_ACCOUNT_GROUPING_GROUP)!!
+    val uri = AGGREGATE_V2_URI
+        .buildUpon()
+        .appendPath(accountGrouping.name)
+        .appendPath(group)
+        .appendQueryParameter(QUERY_PARAMETER_BREAKDOWN_BY_ACCOUNT, "true")
+        .build()
+    return contentResolver.observeQuery(uri)
+        .mapToMap {
+            it.getLong(KEY_ROWID) to AccountOpeningInfo(
+                it.getString(KEY_CURRENCY),
+                it.getLong(KEY_OPENING_BALANCE),
+                it.getBoolean(KEY_DYNAMIC),
+                it.getDoubleOrNull(KEY_EXCHANGE_RATE) ?: 1.0
+            )
+        }
+}
+
+fun Repository.loadAggregateAccountFlowV2(extras: Bundle): Flow<Account> {
+    val accountGrouping = AccountGrouping.valueOf(extras.getString(KEY_ACCOUNT_GROUPING)!!)
+    val group = extras.getString(KEY_ACCOUNT_GROUPING_GROUP)!!
+    return contentResolver.observeQuery(
+        AGGREGATE_V2_URI
+            .buildUpon()
+            .appendPath(accountGrouping.name)
+            .appendPath(group)
+            .build(),
+        null, null, null, null
+    ).mapToOne {
+        val label = it.getString(KEY_LABEL)
+        Account(
+            id = 0,
+            label = label,
+            currency = if (accountGrouping == AccountGrouping.CURRENCY) group else it.getString(
+                KEY_CURRENCY
+            ),
+            openingBalance = it.getLong(KEY_OPENING_BALANCE),
+            type = if (accountGrouping == AccountGrouping.TYPE) AccountType(
+                id = group.toLong(),
+                name = label
+            ) else null,
+            accountGrouping = accountGrouping,
+            flag = if (accountGrouping == AccountGrouping.FLAG) AccountFlag(
+                id = group.toLong(),
+                label = label
+            ) else null,
         )
     }
 }
@@ -114,7 +241,9 @@ fun Account.toContentValues() = ContentValues().apply {
     put(KEY_OPENING_BALANCE, openingBalance)
     put(KEY_DESCRIPTION, description)
     put(KEY_CURRENCY, currency)
-    put(KEY_TYPE, type.id)
+    typeId?.let {
+        put(KEY_TYPE, it)
+    }
     put(KEY_COLOR, color)
     put(KEY_SYNC_ACCOUNT_NAME, syncAccountName)
     if (criterion != null) {
@@ -127,17 +256,20 @@ fun Account.toContentValues() = ContentValues().apply {
         put(KEY_BANK_ID, it)
     }
     put(KEY_DYNAMIC, dynamicExchangeRates)
-    put(KEY_FLAG, flagId)
+    put(KEY_PARENTID, parentId)
+    put(
+        KEY_IS_PORTFOLIO, portfolioRole
+    )
 }
 
 fun Repository.createAccount(account: Account): Account {
-    val uuid = account.uuid ?: Model.generateUuid()
+    val uuid = account.uuid ?: generateUuid()
     val initialValues = account.toContentValues().apply {
         put(KEY_UUID, uuid)
     }
     val id = ContentUris.parseId(
         contentResolver.insert(
-            TransactionProvider.ACCOUNTS_URI,
+            ACCOUNTS_URI,
             initialValues
         )!!
     )
@@ -146,7 +278,7 @@ fun Repository.createAccount(account: Account): Account {
 
 fun Repository.updateAccount(accountId: Long, data: ContentValues) {
     contentResolver.update(
-        ContentUris.withAppendedId(TransactionProvider.ACCOUNTS_URI, accountId),
+        ContentUris.withAppendedId(ACCOUNTS_URI, accountId),
         data, null, null
     )
 }
@@ -164,11 +296,28 @@ fun Repository.setGrouping(accountId: Long, grouping: Grouping) {
     )
 }
 
+fun Repository.setSort(accountId: Long, transactionSort: TransactionSort) {
+    contentResolver.update(
+        ContentUris.withAppendedId(SORT_URI, accountId)
+            .buildUpon()
+            .appendPath(transactionSort.column)
+            .appendPath(transactionSort.sortDirection.name)
+            .build(),
+        null, null, null
+    )
+}
+
+fun Repository.setBalanceType(accountId: Long, balanceType: BalanceType) {
+    updateAccount(accountId) {
+        put(KEY_BALANCE_TYPE, balanceType.name)
+    }
+}
+
 fun Repository.storeExchangeRate(
     accountId: Long,
     exchangeRate: Double,
     currency: String,
-    homeCurrency: String
+    homeCurrency: String,
 ) {
     contentResolver.insert(
         buildExchangeRateUri(accountId, currency, homeCurrency),
@@ -192,12 +341,12 @@ fun Repository.deleteAccount(accountId: Long): String? {
     val accountIdString = accountId.toString()
     updateTransferPeersForTransactionDelete(
         ops,
-        buildTransactionRowSelect(null),
+        "$KEY_TRANSFER_ACCOUNT = ?",
         arrayOf(accountIdString)
     )
     ops.add(
         ContentProviderOperation.newDelete(
-            TransactionProvider.ACCOUNTS_URI.buildUpon().appendPath(accountIdString).build()
+            ACCOUNTS_URI.buildUpon().appendPath(accountIdString).build()
         ).build()
     )
     contentResolver.applyBatch(TransactionProvider.AUTHORITY, ops)
@@ -220,7 +369,7 @@ fun Repository.markAsExported(accountId: Long, filter: Criterion?) {
             selectionArgs = joinArrays(selectionArgs, filter.getSelectionArgs(false))
         }
         add(
-            ContentProviderOperation.newUpdate(Transaction.CONTENT_URI)
+            ContentProviderOperation.newUpdate(TRANSACTIONS_URI)
                 .withValue(KEY_STATUS, STATUS_EXPORTED)
                 .withSelection(selection, selectionArgs)
                 .build()
@@ -254,7 +403,7 @@ fun Repository.findAnyOpenByCurrency(currency: String) =
     findAnyOpen(KEY_CURRENCY, currency)
 
 fun Repository.findAnyOpen(column: String? = null, search: String? = null) = contentResolver.query(
-    TransactionProvider.ACCOUNTS_URI,
+    ACCOUNTS_URI,
     arrayOf(KEY_ROWID),
     (if (column == null) "" else ("$column = ? AND  ")) + "$KEY_SEALED = 0",
     search?.let { arrayOf(it) },
@@ -264,10 +413,10 @@ fun Repository.findAnyOpen(column: String? = null, search: String? = null) = con
 fun updateTransferPeersForTransactionDelete(
     ops: java.util.ArrayList<ContentProviderOperation>,
     rowSelect: String,
-    selectionArgs: Array<String>?
+    selectionArgs: Array<String>?,
 ) {
     ops.add(
-        ContentProviderOperation.newUpdate(TransactionProvider.ACCOUNTS_URI)
+        ContentProviderOperation.newUpdate(ACCOUNTS_URI)
             .withValue(KEY_SEALED, -1)
             .withSelection("$KEY_SEALED = 1", null).build()
     )
@@ -276,16 +425,16 @@ fun updateTransferPeersForTransactionDelete(
         putNull(KEY_TRANSFER_PEER)
     }
     ops.add(
-        ContentProviderOperation.newUpdate(TransactionProvider.TRANSACTIONS_URI)
+        ContentProviderOperation.newUpdate(TRANSACTIONS_URI)
             .withValues(args)
             .withSelection(
-                "$KEY_TRANSFER_PEER IN ($rowSelect)",
+                rowSelect,
                 selectionArgs
             )
             .build()
     )
     ops.add(
-        ContentProviderOperation.newUpdate(TransactionProvider.ACCOUNTS_URI)
+        ContentProviderOperation.newUpdate(ACCOUNTS_URI)
             .withValue(KEY_SEALED, 1)
             .withSelection("$KEY_SEALED = -1", null).build()
     )
@@ -293,9 +442,20 @@ fun updateTransferPeersForTransactionDelete(
 
 fun Repository.countAccounts(selection: String? = null, selectionArgs: Array<String>? = null) =
     contentResolver.query(
-        TransactionProvider.ACCOUNTS_URI, arrayOf("count(*)"),
+        ACCOUNTS_URI, arrayOf("count(*)"),
         selection, selectionArgs, null
     )!!.use {
         it.moveToFirst()
         it.getInt(0)
     }
+
+fun Repository.setAccountProperty(accountId: Long, column: String, value: Any?) {
+    contentResolver.update(
+        ContentUris.withAppendedId(ACCOUNTS_URI, accountId),
+        contentValuesOf(
+            column to value
+        ),
+        null,
+        null
+    )
+}

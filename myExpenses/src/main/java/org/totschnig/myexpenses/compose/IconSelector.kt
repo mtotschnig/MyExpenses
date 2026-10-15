@@ -1,8 +1,8 @@
 package org.totschnig.myexpenses.compose
 
-import android.content.Context
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.content.res.Resources
 import android.os.Build
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.focusable
@@ -41,8 +41,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.booleanResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -60,22 +60,22 @@ import timber.log.Timber
 @Composable
 fun IconSelector(
     modifier: Modifier = Modifier,
-    iconsForCategory: (Context, IconCategory) -> Map<String, IIconInfo> = IIconInfo.Companion::resolveIconsForCategory,
-    iconsForSearch: (Context, String) -> Map<String, IIconInfo> = IIconInfo.Companion::searchIcons,
+    iconsForCategory: (Resources, IconCategory) -> Map<String, IIconInfo> = IIconInfo.Companion::resolveIconsForCategory,
+    iconsForSearch: (Resources, String) -> Map<String, IIconInfo> = IIconInfo.Companion::searchIcons,
     onIconSelected: (String) -> Unit,
 ) {
-    val context = LocalContext.current
+    val resources = LocalResources.current
     val categories = IconCategory.values
     var selectedTabIndex by rememberSaveable { mutableIntStateOf(1) }
     var searchTerm by rememberSaveable { mutableStateOf("") }
     val icons = remember {
         derivedStateOf {
             (if (selectedTabIndex > 0)
-                iconsForCategory(context, categories[selectedTabIndex - 1])
+                iconsForCategory(resources, categories[selectedTabIndex - 1])
             else
-                if (searchTerm.isNotEmpty()) iconsForSearch(context, searchTerm) else emptyMap()
+                if (searchTerm.isNotEmpty()) iconsForSearch(resources, searchTerm) else emptyMap()
                     )
-                .map { Triple(it.key, it.value, context.getString(it.value.label)) }
+                .map { Triple(it.key, it.value, resources.getString(it.value.label)) }
                 .sortedBy { it.third }
         }
     }

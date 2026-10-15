@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,12 +30,14 @@ import org.totschnig.myexpenses.activity.PickTagContract
 import org.totschnig.myexpenses.dialog.AmountFilterDialog
 import org.totschnig.myexpenses.dialog.DateFilterDialog
 import org.totschnig.myexpenses.dialog.KEY_RESULT_FILTER
+import org.totschnig.myexpenses.dialog.select.SelectAssetDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectCrStatusDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectMethodDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectMultipleAccountDialogFragment
 import org.totschnig.myexpenses.dialog.select.SelectTransferAccountDialogFragment
 import org.totschnig.myexpenses.provider.filter.AccountCriterion
 import org.totschnig.myexpenses.provider.filter.AmountCriterion
+import org.totschnig.myexpenses.provider.filter.AssetCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CommentCriterion
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
@@ -46,11 +49,12 @@ import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.provider.filter.TransferCriterion
-import org.totschnig.myexpenses.viewmodel.data.BaseAccount
+import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import kotlin.reflect.KClass
 
 interface FilterHandlerScope {
     fun handleAmountEdit(amountCriterion: AmountCriterion?)
+    fun handleAssetEdit(assetCriterion: AssetCriterion?)
     fun handleCrStatusEdit(crStCriterion: CrStatusCriterion?)
     fun handleDateEdit(dateCriterion: DateCriterion?)
     fun handleAccountEdit(accountCriterion: AccountCriterion?)
@@ -66,6 +70,7 @@ interface FilterHandlerScope {
             is NotCriterion -> handleEdit(criterion.criterion)
             is AccountCriterion -> handleAccountEdit(criterion)
             is AmountCriterion -> handleAmountEdit(criterion)
+            is AssetCriterion -> handleAssetEdit(criterion)
             is CategoryCriterion -> handleCategoryEdit(criterion)
             is CommentCriterion -> handleCommentEdit(criterion)
             is CrStatusCriterion -> handleCrStatusEdit(criterion)
@@ -82,6 +87,7 @@ interface FilterHandlerScope {
         when(clazz) {
             AccountCriterion::class -> handleAccountEdit(null)
             AmountCriterion::class -> handleAmountEdit(null)
+            AssetCriterion::class -> handleAssetEdit(null)
             CategoryCriterion::class -> handleCategoryEdit(null)
             CommentCriterion::class -> handleCommentEdit(null)
             CrStatusCriterion::class -> handleCrStatusEdit(null)
@@ -96,14 +102,24 @@ interface FilterHandlerScope {
 
 @Composable
 fun FilterHandler(
-    account: BaseAccount,
+    account: PageAccount,
     requestKey: String,
-    onResult: (SimpleCriterion<*>?) -> Unit,
+    onResult: (SimpleCriterion<*>?, SimpleCriterion<*>?) -> Unit,
     content: @Composable FilterHandlerScope.() -> Unit
 ) {
-    val getCategory = rememberLauncherForActivityResult(PickCategoryContract(), onResult)
-    val getPayee = rememberLauncherForActivityResult(PickPayeeContract(), onResult)
-    val getTags = rememberLauncherForActivityResult(PickTagContract(), onResult)
+    val currentEdit: MutableState<SimpleCriterion<*>?> = rememberSaveable {
+        mutableStateOf(null)
+    }
+
+    val getCategory = rememberLauncherForActivityResult(PickCategoryContract()) {
+        onResult(currentEdit.value, it)
+    }
+    val getPayee = rememberLauncherForActivityResult(PickPayeeContract()) {
+        onResult(currentEdit.value, it)
+    }
+    val getTags = rememberLauncherForActivityResult(PickTagContract()) {
+        onResult(currentEdit.value, it)
+    }
 
     var showCommentFilterPrompt by rememberSaveable { mutableStateOf<CommentCriterion?>(null) }
 
@@ -115,6 +131,7 @@ fun FilterHandler(
             requestKey, activity
         ) { _, result ->
             onResult(
+                currentEdit.value,
                 BundleCompat.getParcelable(
                     result,
                     KEY_RESULT_FILTER,
@@ -127,10 +144,24 @@ fun FilterHandler(
         }
     }
     val handler = object: FilterHandlerScope {
+
+        override fun handleEdit(criterion: Criterion) {
+            currentEdit.value = criterion as? SimpleCriterion<*>
+            super.handleEdit(criterion)
+        }
+
         override fun handleAmountEdit(amountCriterion: AmountCriterion?) {
             AmountFilterDialog.newInstance(requestKey,
                 account.currencyUnit, amountCriterion
             ).show(activity.supportFragmentManager, "AMOUNT_FILTER")
+        }
+
+        override fun handleAssetEdit(assetCriterion: AssetCriterion?) {
+            SelectAssetDialogFragment.newInstance(
+                requestKey,
+                account.id,
+                assetCriterion
+            ).show(activity.supportFragmentManager, "ASSET_FILTER")
         }
 
         override fun handleCommentEdit(commentCriterion: CommentCriterion?) {
@@ -157,26 +188,26 @@ fun FilterHandler(
         }
 
         override fun handleCategoryEdit(categoryCriterion: CategoryCriterion?) {
-            getCategory.launch(account.id to categoryCriterion)
+            getCategory.launch(account to categoryCriterion)
         }
 
         override fun handleMethodEdit(methodCriterion: MethodCriterion?) {
             SelectMethodDialogFragment.newInstance(
                 requestKey,
-                account.id, methodCriterion
+                account, methodCriterion
             ).show(activity.supportFragmentManager, "METHOD_FILTER")
         }
 
         override fun handlePayeeEdit(payeeCriterion: PayeeCriterion?) {
-            getPayee.launch(account.id to payeeCriterion)
+            getPayee.launch(account to payeeCriterion)
         }
 
         override fun handleTagEdit(tagCriterion: TagCriterion?) {
-            getTags.launch(account.id to tagCriterion)
+            getTags.launch(account to tagCriterion)
         }
 
         override fun handleTransferEdit(transferCriterion: TransferCriterion?) {
-            SelectTransferAccountDialogFragment.newInstance(requestKey,account.id, transferCriterion)
+            SelectTransferAccountDialogFragment.newInstance(requestKey,account, transferCriterion)
                 .show(activity.supportFragmentManager, "TRANSFER_FILTER")
         }
     }
@@ -189,13 +220,11 @@ fun FilterHandler(
         AlertDialog(
             onDismissRequest = {
                 showCommentFilterPrompt = null
-                onResult(null)
+                onResult(currentEdit.value, null)
             },
             confirmButton = {
                 Button(onClick = {
-                    if (search.isNotEmpty()) {
-                        onResult(CommentCriterion(search))
-                    }
+                    onResult(currentEdit.value, CommentCriterion(search?.takeIf { it.isNotBlank() }))
                     showCommentFilterPrompt = null
                 }) {
                     Text(stringResource(id = android.R.string.ok))
@@ -212,7 +241,7 @@ fun FilterHandler(
                                 keyboardController?.show()
                             }
                         },
-                    value = search,
+                    value = search ?: "",
                     onValueChange = {
                         search = it
                     },

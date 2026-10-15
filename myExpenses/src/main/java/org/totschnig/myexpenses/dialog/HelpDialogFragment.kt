@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.databinding.HelpDialogActionRowBinding
 import org.totschnig.myexpenses.databinding.HelpDialogBinding
 import org.totschnig.myexpenses.util.HelpDialogHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
+import timber.log.Timber
 
 /**
  * A Dialog Fragment that displays help information. The content is constructed from resources
@@ -78,6 +79,7 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
             "sort_direction" to R.drawable.ic_menu_sort,
             "grouping" to R.drawable.ic_action_group,
             "create_sync_backend" to R.drawable.ic_menu_add,
+            "sync" to R.drawable.ic_sync,
             "sync_now" to null,
             "remove" to null,
             "sync_download" to null,
@@ -115,7 +117,18 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
             "account_types" to R.drawable.category,
             "account_flags" to R.drawable.ic_flag,
             "flag" to R.drawable.ic_flag,
-            "balance_sheet" to R.drawable.ic_table_chart
+            "balance_sheet" to R.drawable.ic_table_chart,
+            "create_portfolio" to R.drawable.ic_menu_chart,
+            "expense" to R.drawable.ic_expense,
+            "income" to R.drawable.ic_menu_add,
+            "transfer" to R.drawable.ic_menu_forward,
+            "split" to R.drawable.ic_menu_split,
+            "scan" to R.drawable.ic_scan,
+            "trade_buy" to R.drawable.ic_debt_up,
+            "trade_sell" to R.drawable.ic_debt_down,
+            "trade_deposit" to R.drawable.ic_menu_add,
+            "trade_withdraw" to R.drawable.ic_expense,
+            "trade_transfer" to R.drawable.ic_menu_forward
         )
 
         @JvmStatic
@@ -134,6 +147,7 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
         context = args.getString(KEY_CONTEXT)
         variant = args.getString(KEY_VARIANT)
         if (context == null) return onError("context extra missing")
+        Timber.d("Help for $context / $variant")
         val builder = initBuilder {
             HelpDialogBinding.inflate(it)
         }
@@ -184,6 +198,16 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
                 handleMenuItems(menuItems, "menu", binding.menuCommandsContainer)
             }
 
+            // FAB actions
+            val fabResId = findComponentArray("fabactions")
+            menuItems.clear()
+            if (fabResId != 0) menuItems.addAll(listOf(*res.getStringArray(fabResId)))
+            if (menuItems.isEmpty()) {
+                binding.fabActionsHeading.visibility = View.GONE
+            } else {
+                handleMenuItems(menuItems, "fab", binding.fabActionsContainer)
+            }
+
             // Contextual action bar
             val cabResId = findComponentArray("cabitems")
             menuItems.clear()
@@ -224,7 +248,7 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
 
 
     private fun showLongTapHint(componentName: String) =
-        !arrayOf(
+        componentName !in arrayOf(
             "ManageTemplates_plans_cabitems",
             "ManageTemplates_planner_cabitems",
             "ManageParties_manage_cabitems",
@@ -232,9 +256,9 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
             "ManageCategories_select_filter_cabitems",
             "MyExpenses_cabitems",
             "RoadmapVoteActivity_cabitems",
-            "PriceHistory_cabitems"
+            "PriceHistory_cabitems",
+            "MyExpensesV2_accounts_cabitems"
         )
-            .contains(componentName)
 
     private fun findComponentArray(type: String) =
         helper.resolveArray(buildComponentName(type)).takeIf { it != 0 || variant == null }

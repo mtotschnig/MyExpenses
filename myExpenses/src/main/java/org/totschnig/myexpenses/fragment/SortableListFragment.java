@@ -4,7 +4,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import org.totschnig.myexpenses.R;
-import org.totschnig.myexpenses.model.Sort;
+import org.totschnig.myexpenses.model.sort.Sort;
 import org.totschnig.myexpenses.preference.PrefHandler;
 import org.totschnig.myexpenses.preference.PrefKey;
 

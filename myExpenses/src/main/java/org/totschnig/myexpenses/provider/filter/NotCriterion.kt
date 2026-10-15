@@ -18,7 +18,7 @@ data class NotCriterion(val criterion: Criterion): Criterion {
     ) = addIsNullCheck("NOT(${criterion.getSelectionForParents(tableName, forExport)})")
 
     private fun addIsNullCheck(selection: String) =
-        if (criterion is SimpleCriterion<*> && criterion.isNullable && criterion.isNull != true)
+        if (criterion is SimpleCriterion<*> && criterion.isNullable && !criterion.isNull)
             "($selection OR ${criterion.column} IS NULL)" else selection
 
     override fun prettyPrint(context: Context) = "¬(${criterion.prettyPrint(context)})"

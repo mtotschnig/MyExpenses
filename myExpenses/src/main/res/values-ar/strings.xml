@@ -17,14 +17,14 @@
     <string name="account">الحساب</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">أنواع الحسابات</string>
-    <string name="account_type_asset">حساب الاصول</string>
-    <string name="account_type_bank">حساب البنك</string>
-    <string name="account_type_cash">حساب النقد</string>
+    <string name="account_type_asset">أصول أخرى</string>
+    <string name="account_type_bank">البنك</string>
+    <string name="account_type_cash">النقد</string>
     <string name="account_type_ccard">بطاقة ائتمانية</string>
-    <string name="account_type_liability">حساب الالتزامات</string>
+    <string name="account_type_liability">التزامات أخرى</string>
     <string name="already_defined">%1$s معرّف مسبقاً</string>
     <string name="amount">القيمة</string>
-    <string name="app_name">نفقاتي</string>
+    <string name="app_name">مصروفاتي</string>
     <string name="backup_success">تم حفظ قاعدة البيانات والتفضيلات في الذاكرة بنجاح (%1$s).</string>
     <string name="category">التصنيف</string>
     <string name="contrib_feature_ad_free_label">بدون إعلانات</string>
@@ -79,14 +79,7 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">رصيد %1$s</string>
     <string name="dialog_title_contrib_feature">المميزات الكاملة</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="zero">هل تودّ حذف %1$d حسابات؟</item>
-        <item quantity="one">هل تودّ حذف الحساب؟</item>
-        <item quantity="two">هل تودّ حذف %1$d حسابات؟</item>
-        <item quantity="few">هل تودّ حذف %1$d حسابات؟</item>
-        <item quantity="many">هل تودّ حذف %1$d حسابات؟</item>
-        <item quantity="other">هل تودّ حذف %1$d حسابات؟</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">هل تودّ حذف الحساب؟</string>
     <string name="dialog_title_warning_delete_category">حذف الفئة؟</string>
     <string name="dialog_title_warning_delete_template">حذف نموذج؟</string>
     <string name="dialog_title_warning_delete_transaction">حذف عملية؟</string>
@@ -133,8 +126,8 @@
     <string name="menu_create_method">طريقة دفع جديدة</string>
     <string name="menu_create_party">طرف جديد</string>
     <string name="menu_create_split">تقسيم جديد</string>
-    <string name="menu_create_split_part_category">تقسيم تصنيف جديد</string>
-    <string name="menu_create_split_part_transfer">تقسيم تحويل جديد</string>
+    <string name="menu_create_split_part_category">تقسيم فئوي جديد</string>
+    <string name="menu_create_split_part_transfer">تقسيم تحويلات جديد</string>
     <string name="menu_create_sub_cat">تصنيف فرعي جديد</string>
     <string name="menu_create_template">نموذج جديد</string>
     <string name="menu_create_template_from_transaction">حفظ كنموذج</string>
@@ -150,9 +143,9 @@
     <string name="menu_edit_method">تعديل طريقة الدفع</string>
     <string name="menu_edit_party">تعديل طرف</string>
     <string name="menu_edit_plan_instance">تحرير مدى ورود خطة واحدة</string>
-    <string name="menu_edit_split">تعديل تقسيم</string>
-    <string name="menu_edit_split_part_category">تعديل تقسيم تصنيف</string>
-    <string name="menu_edit_split_part_transfer">تعديل تقسيم تحويل</string>
+    <string name="menu_edit_split">تعديل المعاملة المجزأة</string>
+    <string name="menu_edit_split_part_category">تعديل التقسيم الفئوي</string>
+    <string name="menu_edit_split_part_transfer">تعديل تقسيم التحويلات</string>
     <string name="menu_edit_template">تعديل نموذج</string>
     <string name="menu_edit_transaction">تعديل عملية</string>
     <string name="menu_edit_transfer">تعديل تحويل</string>
@@ -174,7 +167,6 @@
     <string name="menu_split_transaction">التحويل إلى معاملة مجزأة</string>
     <string name="method">طريقة الدفع او السداد</string>
     <string name="no_app_handling_email_available">لا يوجد تطبيق للبريد الالكتروني.</string>
-    <string name="no_app_handling_ftp_available">لا يوجد تطبيق لـ ftp. تثبيت <i>Send With FTP</i>؟</string>
     <string name="no_app_handling_mime_type_available">لا يوجد تطبيق لمعاينة ملفات ال%s.</string>
     <string name="no_categories">لا يوجد تصنيفات.</string>
     <string name="no_expenses">لا يوجد مصروفات حتى الأن!</string>
@@ -185,7 +177,7 @@
     <string name="no_mapped_transactions">لا يوجد عمليات لهذا التصنيف خلال هذه الفترة.</string>
     <string name="no_methods">لا يوجد طرق دفع.</string>
     <string name="no_parties">لا يوجد أطراف.</string>
-    <string name="no_split_parts">لا يوجد أجزاء مقسمة.</string>
+    <string name="no_split_parts">لا تقسيمات.</string>
     <string name="no_templates">لا يوجد نماذج.</string>
     <string name="no_accounts">لا توجد حسابات.</string>
     <plurals name="not_deletable_mapped_transactions">
@@ -217,7 +209,7 @@
     <string name="password_security_answer_not_valid">إجابة خاطئة. حاول مرة أخرى!</string>
     <string name="payee">المستفيد</string>
     <string name="payer">المشتري</string>
-    <string name="payer_or_payee">المستفيد / الدافع</string>
+    <string name="payer_or_payee">الطرف الآخر</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">خطة</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -248,7 +240,6 @@
     <string name="pref_category_title_more_information">المزيد من المعلومات</string>
     <string name="pref_category_title_ui">واجهة المستخدم</string>
     <string name="pref_contrib_purchase_title_upgrade">مفتاح الترقية </string>
-    <string name="pref_custom_currency_title">تخصيص العملات</string>
     <string name="pref_enter_licence_title">أدخل المفتاح</string>
     <string name="pref_export_format_title">تنسيق البيانات</string>
     <string name="pref_import_from_grisbi_summary">استيراد التصنيفات والأطراف  Grisbi XML </string>
@@ -286,8 +277,6 @@
     <string name="pref_send_feedback_title">ارسال ملاحظة أو تقييم</string>
     <string name="pref_share_target_summary">اتركه فارغا إذا أردت الاختيار بين التطبيقات المناسبة (البريد الالكتروني، دروب بوكس، مستندات قوقل، …) أو قم بإدخل رابط كأحد الطرق المدعومة</string>
     <string name="pref_share_target_title">رابط الرفع</string>
-    <string name="pref_shortcut_added">تمت إضافة اختصار للشاشة الرئيسية</string>
-    <string name="pref_shortcut_not_added">لا يوجد مكان للاختصار في الشاشة الرئيسية.</string>
     <string name="pref_shortcut_summary">إضافة اختصار للشاشة الرئيسية.</string>
     <string name="pref_ui_home_screen_shortcuts">اختصارات الشاشة الرئيسية</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -392,27 +381,49 @@
     <string name="warning_reset_account_all">إذا قمت بالمتابعة ، كل الحسابات والعمليات%1$s سيتم حذفها من قاعدة البيانات ولا يمكنك استرجاعها لاحقاً.</string>
     <string name="warning_reset_account_matched">إذا تابعت، فسيتم حذف المعاملات المطابقة بواسطة عامل التصفية الحالي من قاعدة البيانات ولا يمكن استعادتها.</string>
     <string name="warning_restore">سيتم استرجاع قاعدة البيانات والتفضيلات من النسخة احتياطية %1$s. سيتم حذف البيانات الحالية.</string>
-    <string name="warning_splitpartcategory_context">لا يمكن تعديل أو حذف التحويلات التي تكون جزء من تقسيم إلا إذا كانت في سياق التقسيم.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">يُرجى تعيين رقم بين %1$d و%2$d</string>
     <string name="warning_change_fraction_digits_1">يجب تحديث المبالغ الموجودة في قاعدة البيانات لمطابقة العدد الجديد لأرقام الكسور.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">إذا لم يتم تحديث المبالغ، فسيتم عرضها كمضروب في %d بعد التغيير.</string>
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">إذا لم يتم تحديث المبالغ، فسيتم عرضها على أنها مقسومة على %d بعد التغيير.</string>
     <string name="warning_change_fraction_digits_3">إذا تم تحديث المبالغ، فستفقد المعلومات حول الجزء الكسري.</string>
     <string name="warning_change_fraction_digits_checkbox_label">تحديث المبالغ في قاعدة البيانات</string>
-    <string name="import_categories_success">تم استيراد %1$d فئات بنجاح.</string>
-    <string name="import_parties_success">تم استيراد %1$d أطراف بنجاح.</string>
-    <string name="import_accounts_success">تم استيراد %1$d من الحسابات بنجاح.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">تم استيراد %1$d معاملة بنجاح إلى الحساب %2$s</string>
-    <string name="import_accounts_none">لا يوجد حسابات مستوردة</string>
-    <string name="import_categories_none">لا توجد فئات مستوردة</string>
-    <string name="import_parties_none">لا توجد أطراف مستوردة</string>
-    <string name="import_transactions_none">لم يتم استيراد أي معاملات إلى الحساب %1$s</string>
+    <plurals name="import_categories_result">
+        <item quantity="zero">لم يتم استيراد أي فئات.</item>
+        <item quantity="one">تم استيراد فئة واحدة بنجاح.</item>
+        <item quantity="two">تم استيراد فئتين بنجاح.</item>
+        <item quantity="few">تم استيراد %1$d فئات بنجاح.</item>
+        <item quantity="many">تم استيراد %1$d فئة بنجاح.</item>
+        <item quantity="other">تم استيراد %1$d فئة بنجاح.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="zero">لم يتم استيراد أي أطراف.</item>
+        <item quantity="one">تم استيراد طرف واحد بنجاح.</item>
+        <item quantity="two">تم استيراد طرفين بنجاح.</item>
+        <item quantity="few">تم استيراد %1$d أطراف بنجاح.</item>
+        <item quantity="many">تم استيراد %1$d طرفًا بنجاح.</item>
+        <item quantity="other">تم استيراد %1$d طرف بنجاح.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="zero">لم يتم استيراد أي حسابات.</item>
+        <item quantity="one">تم استيراد حساب واحد بنجاح.</item>
+        <item quantity="two">تم استيراد حسابين بنجاح.</item>
+        <item quantity="few">تم استيراد %1$d حسابات بنجاح.</item>
+        <item quantity="many">تم استيراد %1$d حسابًا بنجاح.</item>
+        <item quantity="other">تم استيراد %1$d حساب بنجاح.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="zero">تم استيراد %1$d معاملات بنجاح إلى الحساب %2$s</item>
+        <item quantity="one">تم استيراد معاملة واحدة بنجاح إلى الحساب %2$s</item>
+        <item quantity="two">تم استيراد معاملتين بنجاح إلى الحساب %2$s</item>
+        <item quantity="few">تم استيراد %1$d معاملات بنجاح إلى الحساب %2$s</item>
+        <item quantity="many">تم استيراد %1$d معاملة بنجاح إلى الحساب %2$s</item>
+        <item quantity="other">تم استيراد %1$d معاملة بنجاح إلى الحساب %2$s</item>
+    </plurals>
     <string name="import_source_select_error">يرجى تقديم ملف من نوع %1$s</string>
     <string name="menu_categories_setup_default">إعداد الفئات الافتراضية</string>
     <string name="widget_title_accounts">حساباتي</string>
     <string name="widget_title_templates">نماذجي</string>
     <string name="app_dir_not_accessible">لا يمكن الوصول إلى المجلد المحدد حالياً للنسخ الاحتياطية والتصدير (%1$s). يُرجى اختيار مجلد مختلف.</string>
-    <string name="app_dir_not_compatible_with_nougat">عنوان URI الذي تم تهيئته حالياً للنسخ الاحتياطي والتصدير (%1$s) غير مدعوم بواسطة أندرويد نوجا. يُرجى تحديد مجلد ما مرة أخرى.</string>
     <string name="search_amount">ابحث عن المبلغ</string>
     <string name="search_category">ابحث عن تصنيف</string>
     <string name="search_comment">ابحث عن ملاحظة</string>
@@ -486,7 +497,6 @@
     <string name="plan_instance_state_cancelled">تم الإلغاء</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">تم التطبيق</string>
-    <string name="progress_dialog_updating_split_parts">تحديث الأجزاء المنقسمة</string>
     <string name="warning_cannot_move_split_transaction">لا يمكن نقل هذه المعاملة المجزأة إلى الحساب %1$s نظراً لوجود أجزاء نقل تشير إلى هذا الحساب.</string>
     <string name="content_description_calculator_delete_button">احذف الرقم الأخير</string>
     <string name="paypal_callback_info">تم إتمام معاملتك، وتم إرسال إيصال الشراء عبر البريد الإلكتروني إليك. يمكنك تسجيل الدخول إلى حسابك على www.paypal.com لعرض تفاصيل هذه المعاملة.</string>
@@ -498,17 +508,9 @@
     <string name="crash_dialog_comment_prompt">يمكنك إضافة تعليقاتك حول المشكلة أدناه:</string>
     <string name="synchronization">التزامن</string>
     <string name="synchronization_none">لا توجد مزامنة</string>
-    <string name="hint_url">URL</string>
-    <string name="description_webdav_url">يُرجى إدخال URL إلى مجلد خاص على خادم WebDAV الخاص بك. سيخزن {app_name} بياناته داخل هذا المجلد، ولن يمس أي شيء خارجه.</string>
-    <string name="description_webdav_trust_certificate">يستخدم الموقع شهادة غير موثوق بها من قبل Android.</string>
-    <string name="label_trust_certificate">ثق بهذه الشهادة</string>
     <string name="no_sync_backends">لا يوجد تزامن خلفيات </string>
     <string name="menu_create_sync_backend">خلفية مزامنة جديدة</string>
     <string name="validate_error_not_empty">لا يجب أن تكون فارغة </string>
-    <string name="validate_error_webdav_invalid_certificate">لا يمكن الوثوق بالشهادة. تبدو غير صالحة.</string>
-    <string name="validate_error_webdav_not_compliant">لا يشير عنوان URL إلى مورد WebDAV.</string>
-    <string name="validate_error_webdav_404">عنوان URL غير موجود على الخادم.</string>
-    <string name="url_not_valid">الرابط غير صحيح</string>
     <string name="menu_sync_unlink">أوقف المزامنة</string>
     <string name="menu_sync_link">إبدأ المزامنة</string>
     <string name="menu_sync_download">تحميل و منزامنة</string>
@@ -596,7 +598,6 @@
     <string name="pref_protection_device_lock_screen_title">شاشة قفل الجهاز</string>
     <string name="pref_warning_only_one_protection">قبل أن تتمكن من استخدام الحماية بنسبة %1$s، يجب إيقاف تشغيل الحماية بنسبة %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">لم يتم إعداد شاشة تأمين الجهاز الآمن.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">انتقل إلى \"%s" لإعداد شاشة القفل.</string>
     <string name="menu_history_show_balance">إظهار الرصيد</string>
     <string name="menu_history_transfers">تضمين التحويلات</string>
     <string name="menu_history">السجل</string>
@@ -700,7 +701,7 @@
     <string name="pref_exchange_rate_provider_summary">حدد مزوداً لتنزيل أسعار الصرف</string>
     <string name="pref_exchange_rate_provider_title">مزود سعر الصرف</string>
     <string name="pref_exchange_rates_api_key_summary">يُرجى تسجيل حساب مجاني على %s وتقديم معرف التطبيق الخاص بك</string>
-    <string name="pref_plan_executor_time_title">وقت إعلام المخطط</string>
+    <string name="pref_plan_executor_time_title">وقت الإشعار</string>
     <string name="synchronization_select_folder_dialog_title">حدد مجلداً موجوداً أو أنشئ مجلداً جديداً</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch">استخدم زر التبديل هذا لتسجيل الدخل.</string>
@@ -750,8 +751,8 @@
     <string name="dialog_multi_tag_clear">ستتم إزالة جميع العلامات من المعاملات المحددة.</string>
     <plurals name="warning_delete_tag">
         <item quantity="zero">الوسم %1$s غير مرتبط بأي معاملات. هل يجب حذفه؟</item>
-        <item quantity="one">الوسم %1$s مرتبط بمعاملة واحدة. هل يجب حذفه؟</item>
-        <item quantity="two">الوسم %1$s مرتبط بمعاملتين. هل يجب حذفه؟</item>
+        <item quantity="one">الوسم %1$s مرتبط بـ %2$d معاملة. هل يجب حذفه؟</item>
+        <item quantity="two">الوسم %1$s مرتبط بـ %2$d معاملة. هل يجب حذفه؟</item>
         <item quantity="few">الوسم %1$s مرتبط بـ %2$d معاملات. هل يجب حذفه؟</item>
         <item quantity="many">الوسم %1$s مرتبط بـ %2$d معاملة. هل يجب حذفه؟</item>
         <item quantity="other">الوسم %1$s مرتبط بـ %2$d معاملة. هل يجب حذفه؟</item>
@@ -795,8 +796,6 @@
     <string name="pref_feature_uninstall_summary">يحاول متجر جوجل بلاي في النهاية إزالة هذه الوحدات في الخلفية.</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">يُرجى تحديد حزمة الترخيص.</string>
-    <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
-    <string name="discover_feature_fab_long_press">اضغط مع الاستمرار على زر الإجراء العائم من أجل فتح النموذج مباشرةً لعمليات التحويل أو تقسيم المعاملات أو الدخل.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">التنفيذ المسبق (بالأيام)</string>
     <string name="warning_balance_account_delete">إذا قمت بالمتابعة ، فسيتم حذف جميع المعاملات التي تمت تسويتها لهذا الحساب من قاعدة البيانات ولن تتمكن من استعادتها.</string>
@@ -966,7 +965,7 @@
     <string name="one_time_payment">دفعة مالية لمرة واحدة</string>
     <string name="dialog_contrib_trial_info_play">لن يتم تحويل هذه النسخة التجريبية المجانية  أبدًا إلى أي نوع من الاشتراكات.</string>
     <string name="dialog_contrib_subscription_info_play">يبدأ هذا الاشتراك فورًا، مع إصدار فاتورة شهرية أو سنوية، ويمكن إلغاؤه في أي وقت.</string>
-    <string name="roadmap_intro">تصويت خارطة الطريق لعام 2024 مفتوح الآن! شارك في التصويت على الميزات والتحسينات الأهم بالنسبة لك.</string>
+    <string name="roadmap_intro">تصويت خارطة الطريق لعام %d مفتوح الآن! شارك في التصويت على الميزات والتحسينات الأهم بالنسبة لك.</string>
     <string name="contact_us">اتصل بنا</string>
     <string name="default_transfer_category">فئة النقل الافتراضية</string>
     <string name="menu_aggregate_neutral_categories">تجميع الفئات المحايدة</string>
@@ -1014,7 +1013,6 @@
     <string name="warning_archived_transfer_cannot_be_edited">لا يمكن تحرير التحويل لأن جانبه الآخر مؤرشف.</string>
     <string name="budget_import_none_found">لم يتم العثور على ميزانيات.</string>
     <string name="webui_download_no_data">بعد الطباعة أو التصدير أو إنشاء نسخ احتياطية في التطبيق، ستتوفر الملفات هنا للتنزيل.</string>
-    <string name="menu_show_equivalent_value">القيمة المكافئة</string>
     <string name="initial_value">القيمة الأولية</string>
     <string name="current_value">القيمة الحالية</string>
     <string name="total_value">القيمة الإجمالية</string>
@@ -1041,4 +1039,125 @@
     <string name="batch_download_result">تم تنزيل %d الأسعار وتخزينها في قاعدة البيانات.</string>
     <string name="warning_batch_download_quota">ينطوي التنزيل الدفعي من %s على خطر استنفاد حد الاستخدام الخاص بك.</string>
     <string name="pref_account_list_display_configuration_title">قائمة الحسابات</string>
+    <string name="account_type_investment">الاستثمارات</string>
+    <string name="remap_payee_null">ستتم إزالة الدافع الدافع / المستفيد من جميع المعاملات المحددة.</string>
+    <string name="pref_ui_home_screen_shortcuts_show_new_balance_title">إظهار رصيد جديد بعد حفظ المعاملة</string>
+    <string name="print_configuration_empty">يرجى إضافة حقل واحد على الأقل ليتم طباعته.</string>
+    <string name="confirm_process_file_message">هل أنت متأكد من أنك تريد استيراد أسعار \"%1$s\" من \"%2$s\"؟ قد تؤثر الأسعار الجديدة على المبالغ المعادلة الحالية.</string>
+    <string name="warning_expense_category_credit">أنت تقوم بتعيين فئة مصروفات لحركة دخل. نتيجة لذلك ، ستقلل المعاملة من مجموع نفقاتك ، وستظهر افتراضيا باللون الأحمر.</string>
+    <string name="warning_income_category_debit">أنت تقوم بتعيين فئة دخل لحركة مصروفات. نتيجة لذلك ، ستقلل المعاملة من مجموع دخلك ، وستظهر افتراضيا باللون الأخضر.</string>
+    <string name="pref_dynamic_exchange_rates_dynamic">الأسعار الديناميكية لجميع الحسابات</string>
+    <string name="pref_dynamic_exchange_rates_static">أسعار ثابتة لجميع الحسابات</string>
+    <string name="pref_dynamic_exchange_rates_per_account">تكوين كل حساب على حدة</string>
+    <string name="category_type_main">الفئة الرئيسية</string>
+    <string name="category_type_sub">التصنيفات الفرعية</string>
+    <string name="category_description_base">%1$s، المستوى %2$d</string>
+    <plurals name="category_description_children_suffix">
+        <item quantity="zero">، لا تحتوي على أي فئة فرعية بالمستوى %2$d.</item>
+        <item quantity="one">، تحتوي على فئة فرعية واحدة بالمستوى %2$d.</item>
+        <item quantity="two">، تحتوي على فئتين فرعيتين بالمستوى %2$d.</item>
+        <item quantity="few">، تحتوي على %1$d فئات فرعية بالمستوى %2$d.</item>
+        <item quantity="many">، تحتوي على %1$d فئة فرعية بالمستوى %2$d.</item>
+        <item quantity="other">، تحتوي على %1$d فئة فرعية بالمستوى %2$d.</item>
+    </plurals>
+    <string name="edit_account_type">تعديل نوع حساب</string>
+    <string name="new_account_type">نوع الحساب الجديد</string>
+    <string name="pref_print_layout_summary">تكوين عرض الأعمدة وتكوينها</string>
+    <string name="menu_account_flags">الأعلام</string>
+    <string name="menu_flag">علم</string>
+    <string name="edit_account_flag">تحرير العلم</string>
+    <string name="new_account_flag">علم جديد</string>
+    <string name="flag_unflagged">لا يوجد علم</string>
+    <string name="flag_favorite">المفضلة</string>
+    <string name="supports_reconciliation">يدعم المصالحة</string>
+    <string name="aggregate_invisible">تضمين الحسابات غير المرئية في الحسابات المجمعة والميزانية العمومية</string>
+    <string name="select_accounts_for_flag">حدد حسابات الإبلاغ %s</string>
+    <string name="menu_cleanup">تنظيف</string>
+    <plurals name="warning_cleanup_parties">
+        <item quantity="zero">لن يتم حذف أي طرف غير مستخدم.</item>
+        <item quantity="one">سيتم حذف طرف واحد غير مستخدم.</item>
+        <item quantity="two">سيتم حذف طرفين غير مستخدمين.</item>
+        <item quantity="few">سيتم حذف %d أطراف غير مستخدمة.</item>
+        <item quantity="many">سيتم حذف %d طرفاً غير مستخدم.</item>
+        <item quantity="other">سيتم حذف %d طرف غير مستخدم.</item>
+    </plurals>
+    <string name="show_invisible">الحسابات المخفية</string>
+    <string name="show_zero">حسابات الرصيد الصفري</string>
+    <string name="content_description_clear_party">مسح المجموعة المحددة</string>
+    <string name="content_description_browse_device_files">تصفح الملفات على هذا الجهاز</string>
+    <string name="content_description_select_recent_file">اختر من الملفات الحديثة</string>
+    <plurals name="import_prices_success_message">
+        <item quantity="zero">تم العثور على بيانات</item>
+        <item quantity="one">تم العثور على بيانات</item>
+        <item quantity="two">تم العثور على بيانات</item>
+        <item quantity="few">تم العثور على بيانات</item>
+        <item quantity="many">تم العثور على بيانات</item>
+        <item quantity="other">تم العثور على بيانات</item>
+    </plurals>
+    <plurals name="import_prices_failure_message">
+        <item quantity="zero">تعذر معالجة أي سطر.</item>
+        <item quantity="one">تعذر معالجة سطر واحد.</item>
+        <item quantity="two">تعذر معالجة سطرين.</item>
+        <item quantity="few">تعذر معالجة %d أسطر.</item>
+        <item quantity="many">تعذر معالجة %d سطراً.</item>
+        <item quantity="other">تعذر معالجة %d سطر.</item>
+    </plurals>
+    <plurals name="import_trades_missing_assets_message">
+        <item quantity="zero">لا يشير أي سطر إلى أصول مجهولة: %2$s.</item>
+        <item quantity="one">يشير سطر واحد إلى أصول مجهولة: %2$s.</item>
+        <item quantity="two">يشير سطران إلى أصول مجهولة: %2$s.</item>
+        <item quantity="few">تشير %1$d أسطر إلى أصول مجهولة: %2$s.</item>
+        <item quantity="many">يشير %1$d سطراً إلى أصول مجهولة: %2$s.</item>
+        <item quantity="other">يشير %1$d سطر إلى أصول مجهولة: %2$s.</item>
+    </plurals>
+    <string name="menu_templates">القوالب</string>
+    <string name="pref_ui_start_screen_title">شاشة البداية</string>
+    <string name="pref_ui_start_screen_last_visited">آخر شاشة تمت زيارتها</string>
+    <string name="trade_buy">شراء</string>
+    <string name="trade_sell">بيع</string>
+    <string name="trade_quantity">الكمية</string>
+    <string name="trade_price">السعر</string>
+    <string name="trade_fee">الرسوم</string>
+    <string name="trade_target_asset">الأصل</string>
+    <string name="menu_create_portfolio">محفظة جديدة</string>
+    <string name="asset_type_fiat_plural">العملات</string>
+    <string name="asset_type_security">ورقة مالية</string>
+    <string name="asset_type_security_plural">أوراق مالية</string>
+    <string name="asset_type_crypto">كريبتو</string>
+    <string name="trade_funding_source">مصدر التمويل</string>
+    <string name="trade_funding_portfolio">نقد المحفظة</string>
+    <string name="trade_funding_external_description">أموال من مصادر لا يتم تتبعها في هذا التطبيق</string>
+    <string name="trade_deposit">إيداع</string>
+    <string name="trade_withdraw">سحب</string>
+    <string name="trade_matching_transaction_found">تم العثور على معاملة مطابقة في حساب التمويل. اختر للربط:</string>
+    <string name="asset_quantity_at_price">%1$s بسعر %2$s</string>
+    <string name="contrib_feature_portfolio_tracking">تتبع المحفظة</string>
+    <string name="premium_nudge_portfolio_message">يمكنك إدارة محفظة واحدة مجانًا. قم بالترقية لإدارة محافظ متعددة وإلغاء قفل ميزات متقدمة (بما في ذلك %1$s).</string>
+    <string name="rounding">تقريب</string>
+    <string name="parse_error_at_line">خطأ في السطر %1$d: %2$s</string>
+    <string name="content_description_show_balance_details">عرض معلومات مفصلة</string>
+    <string name="main_navigation">الابحار الرئسى</string>
+    <string name="pref_fab_style_title">أسلوب زر الحركة العائمة</string>
+    <string name="pref_fab_style_standard_description">عادي (اضغط على سهم للقائمة)</string>
+    <string name="pref_fab_style_compact_description">Compact (اضغط واضغط على القائمة)</string>
+    <string name="number_too_large">عدد كبير جدا</string>
+    <string name="prioritize_flag_order">إعطاء الأولوية لترتيب الأعلام</string>
+    <string name="pref_content_based_colors_title">لون ديناميكي قائم على حساب</string>
+    <string name="pref_content_based_colors_summary">اشتق ألوان الموضوع من لون حساب الجاري. أوقف النص إذا كان من الصعب قراءته.</string>
+    <string name="service_starting">يبدء.…</string>
+    <string name="trade_transfer">تحويل</string>
+    <string name="asset_type_commodity">سلعة</string>
+    <string name="asset_type_commodity_plural">السلع</string>
+    <string name="important_upgrade_information_heading">معلومات مهمة</string>
+    <string name="pref_tag_style_title">نمط الوسم</string>
+    <string name="pref_tag_style_outline">إطار ملون</string>
+    <string name="pref_tag_style_filled">ملون بالكامل</string>
+    <string name="trade_additional_costs">تكاليف إضافية</string>
+    <string name="dialog_title_warning_delete_closed_account">هل تريد حذف حساب مغلق؟</string>
+    <string name="search_asset">البحث عن الأصول</string>
+    <string name="remap_update_value_date">وأيضا تحديث تاريخ القيمة</string>
+    <string name="trade_add_cost">إضافة التكلفة</string>
+    <string name="help_floating_action_button">زر الحركة العائمة</string>
+    <string name="single_pane_view">لوحة واحدة</string>
+    <string name="split_pane_view">العرض المنقسم</string>
 </resources>

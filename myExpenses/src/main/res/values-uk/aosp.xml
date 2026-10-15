@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
      android-source/packages/apps/UnifiedEmail/res/values/strings.xml
--->
-<resources>
+--><resources>
     <string name="drawer_open">"Висунути навігаційну панель"</string>
     <string name="drawer_close">"Сховати навігаційну панель"</string>
     <string name="sort_direction_ascending">"За зростанням"</string>
@@ -18,7 +18,6 @@
     <string name="style">"Стиль"</string>
     <string name="loading">"Завантаження…"</string>
     <string name="button_label_continue">Продовжити</string>
-    <string name="autofill">"Автозаповнення"</string>
     <string name="discard">"Відхилити"</string>
     <string name="dialog_dismiss">"Закрити"</string>
     <string name="details">"Деталі"</string>
@@ -32,7 +31,6 @@
     <string name="setup">"Налаштування"</string>
     <string name="customize">"Налаштувати"</string>
     <string name="compact">компактна</string>
-    <string name="storage_description">"Локальна пам’ять"</string>
     <string name="encryption">"Шифрування"</string>
     <string name="learn_more">"Докладніше"</string>
     <string name="show_all">"Показати все"</string>
@@ -152,7 +150,6 @@
     <string name="preview">"Перегляд"</string>
     <string name="show_password">"Показати пароль"</string>
     <string name="hide_password">"Сховати пароль"</string>
-    <string name="user">"Параметри користувача"</string>
     <string name="source">"Джерело"</string>
     <string name="value">"Значення"</string>
     <string name="done_label">"Готово"</string>
@@ -172,4 +169,10 @@
     <string name="already_exists">"Назва вже використовується"</string>
     <string name="flag_inactive">"Неактивно"</string>
     <string name="count">"Кількість"</string>
+    <string name="empty">"Порожньо"</string>
+    <string name="options">"Параметри"</string>
+    <string name="actions">"Дії"</string>
+    <string name="preferences_calendar_delete_message">Ви справді бажаєте видалити цей календар?</string>
+    <string name="buttons">Кнопки</string>
+    <string name="negation">Заперечення</string>
 </resources>

@@ -60,14 +60,14 @@ object DbUtils {
     fun weekStartFromGroupSqlExpression(year: Int, week: Int): String {
         return String.format(
             Locale.US,
-            DatabaseConstants.getCountFromWeekStartZero() + " AS " + DatabaseConstants.KEY_WEEK_START,
+            DatabaseConstants.countFromWeekStartZero + " AS " + KEY_WEEK_START,
             year,
             week * 7
         )
     }
 
     fun maximumWeekExpression(year: Int): String {
-        return String.format(Locale.US, DatabaseConstants.getWeekMax(), year)
+        return String.format(Locale.US, DatabaseConstants.weekMax, year)
     }
 
     fun getSchemaDetails(contentResolver: ContentResolver): Map<String, String> = getTableDetails(
@@ -89,15 +89,15 @@ object DbUtils {
 
     fun storeSetting(contentResolver: ContentResolver, key: String?, value: String?): Uri? {
         val values = ContentValues(2)
-        values.put(DatabaseConstants.KEY_KEY, key)
-        values.put(DatabaseConstants.KEY_VALUE, value)
+        values.put(KEY_KEY, key)
+        values.put(KEY_VALUE, value)
         return contentResolver.insert(TransactionProvider.SETTINGS_URI, values)
     }
 
     fun loadSetting(contentResolver: ContentResolver, key: String) =
         contentResolver.query(
-            TransactionProvider.SETTINGS_URI, arrayOf(DatabaseConstants.KEY_VALUE),
-            DatabaseConstants.KEY_KEY + " = ?", arrayOf(key), null
+            TransactionProvider.SETTINGS_URI, arrayOf(KEY_VALUE),
+            "$KEY_KEY = ?", arrayOf(key), null
         )?.use {
             if (it.moveToFirst()) it.getString(0) else null
         }
@@ -110,6 +110,6 @@ object DbUtils {
 
     // @formatter:off
     fun typeWithFallBack(prefHandler: PrefHandler) =
-        """coalesce(${DatabaseConstants.KEY_TYPE}, CASE ${DatabaseConstants.KEY_CATID} WHEN ${DatabaseConstants.SPLIT_CATID} THEN $FLAG_NEUTRAL ELSE ${if (prefHandler.getBoolean(PrefKey.UNMAPPED_TRANSACTION_AS_TRANSFER, false)) FLAG_TRANSFER else FLAG_NEUTRAL} END)"""
+        """coalesce($KEY_TYPE, CASE $KEY_CATID WHEN $SPLIT_CATID THEN $FLAG_NEUTRAL ELSE ${if (prefHandler.getBoolean(PrefKey.UNMAPPED_TRANSACTION_AS_TRANSFER, false)) FLAG_TRANSFER else FLAG_NEUTRAL} END)"""
     // @formatter:on
 }

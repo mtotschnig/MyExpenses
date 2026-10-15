@@ -84,7 +84,6 @@
     <string name="preview">"Forskoða"</string>
     <string name="show_password">"Sýna aðgangsorð"</string>
     <string name="hide_password">"Fela aðgangsorð"</string>
-    <string name="user">"Notandi"</string>
     <string name="source">"Uppruni"</string>
     <string name="value">"Gildi"</string>
     <string name="done_label">"Lokið"</string>
@@ -105,4 +104,7 @@
     <string name="already_exists">"Nafn er þegar til"</string>
     <string name="flag_inactive">"Óvirkt"</string>
     <string name="count">"Fjöldi"</string>
+    <string name="empty">"Tómt"</string>
+    <string name="options">"Valkostir"</string>
+    <string name="actions">"Aðgerðir"</string>
 </resources>

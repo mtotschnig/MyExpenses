@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.serialization.json.Json
-import kotlin.collections.first
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 
 const val KEY_FILTER = "filter"
 
@@ -40,11 +40,13 @@ class FilterPersistence(
     suspend fun getValue() = data.first()
 
     suspend fun persist(list: Collection<Criterion>) {
-        persist(when(list.size) {
-            0 -> null
-            1 -> list.first()
-            else -> AndCriterion(list.toSet())
-        })
+        persist(
+            when (list.size) {
+                0 -> null
+                1 -> list.first()
+                else -> AndCriterion(list.toSet())
+            }
+        )
     }
 
     private fun MutablePreferences.persist(value: Criterion?) {
@@ -55,33 +57,67 @@ class FilterPersistence(
         }
     }
 
-    suspend fun update(transform: (Criterion?) -> Criterion) {
+    suspend fun update(transform: (Criterion?) -> Criterion?) =
         dataStore.edit { it.persist(transform(mapper(it))) }
+
+    suspend fun persist(value: Criterion?) = dataStore.edit { it.persist(value) }
+
+    suspend fun addCriterion(criterion: SimpleCriterion<*>) {
+        update { oldValue ->
+            when (oldValue) {
+                null -> criterion
+                is AndCriterion -> AndCriterion(oldValue.criteria + criterion)
+                is OrCriterion -> OrCriterion(oldValue.criteria + criterion)
+                else -> AndCriterion(setOf(oldValue, criterion))
+            }
+        }
     }
 
-    suspend fun persist(value: Criterion?) {
-        dataStore.edit { it.persist(value) }
-    }
 
-   suspend fun addCriterion(criterion: SimpleCriterion<*>) {
-      update { oldValue ->  when (oldValue) {
-          null -> criterion
-          is AndCriterion -> AndCriterion(oldValue.criteria + criterion)
-          is OrCriterion -> OrCriterion(oldValue.criteria + criterion)
-          else -> AndCriterion(setOf(oldValue, criterion))
-      }}
-    }
-
-    suspend fun replaceCriterion(criterion: SimpleCriterion<*>) {
-        update { oldValue ->  when (oldValue) {
-            null -> throw IllegalStateException()
-            is AndCriterion -> AndCriterion(oldValue.criteria.map {
-                if(it::class == criterion::class) criterion else it
+    private fun Criterion.replaceWith(oldCriterion: SimpleCriterion<*>, newCriterion: SimpleCriterion<*>): Criterion =
+        when (this) {
+            is AndCriterion -> AndCriterion(criteria.map {
+                it.replaceWith(oldCriterion, newCriterion)
             }.toSet())
-            is OrCriterion -> OrCriterion(oldValue.criteria.map {
-                if(it::class == criterion::class) criterion else it
+
+            is OrCriterion -> OrCriterion(criteria.map {
+                it.replaceWith(oldCriterion, newCriterion)
             }.toSet())
-            else -> criterion
-        }}
+
+            is NotCriterion -> if (criterion == oldCriterion) NotCriterion(newCriterion) else this
+
+            else -> if (this == oldCriterion) newCriterion else this
+        }
+
+    suspend fun replaceCriterion(oldCriterion: SimpleCriterion<*>, newCriterion: SimpleCriterion<*>) {
+        update { oldValue -> oldValue?.replaceWith(oldCriterion, newCriterion) }
+    }
+
+    suspend fun removeCriterion(criterion: Criterion) {
+        update { oldValue ->
+            when (oldValue) {
+                null -> {
+                    CrashHandler.report(IllegalStateException("Criterion $criterion not found in null"))
+                    null
+                }
+                is ComplexCriterion -> {
+                    val filtered = oldValue.criteria.filter { it != criterion }
+                    if (filtered.size == oldValue.criteria.size) {
+                        CrashHandler.report(IllegalStateException("Criterion $criterion not found in $oldValue"))
+                        oldValue
+                    } else {
+                        when (filtered.size) {
+                            0 -> null
+                            1 -> filtered.first() // Unwrap single criterion
+                            else -> if (oldValue is AndCriterion) AndCriterion(filtered.toSet()) else OrCriterion(filtered.toSet())
+                        }
+                    }
+                }
+                else -> if (oldValue == criterion) null else {
+                    CrashHandler.report(IllegalStateException("Criterion $criterion !=  $oldValue"))
+                    oldValue
+                }
+            }
+        }
     }
 }

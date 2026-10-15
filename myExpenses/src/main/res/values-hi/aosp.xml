@@ -69,7 +69,6 @@
     <string name="preview">"पूर्वावलोकन"</string>
     <string name="show_password">"पासवर्ड दिखाएं"</string>
     <string name="hide_password">"पासवर्ड छिपाएं"</string>
-    <string name="user">"उपयोगकर्ता"</string>
     <string name="source">"स्रोत"</string>
     <string name="value">"मान"</string>
     <string name="done_label">"हो गया"</string>
@@ -88,4 +87,7 @@
     <string name="already_exists">"फाइल का नाम पहले से मौजूद है"</string>
     <string name="flag_inactive">"बंद है"</string>
     <string name="count">"गिनती"</string>
+    <string name="empty">"रिक्त"</string>
+    <string name="options">"विकल्प"</string>
+    <string name="actions">"क्रिया सूची"</string>
 </resources>

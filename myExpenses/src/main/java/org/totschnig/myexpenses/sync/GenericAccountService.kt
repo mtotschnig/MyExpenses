@@ -31,9 +31,9 @@ import org.totschnig.myexpenses.activity.ManageSyncBackends
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
 import org.totschnig.myexpenses.provider.DbUtils
+import org.totschnig.myexpenses.provider.KEY_KEY
+import org.totschnig.myexpenses.provider.KEY_UUID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler
@@ -140,6 +140,10 @@ class GenericAccountService : Service() {
         private const val HOUR_IN_SECONDS = 3600L
         const val KEY_BROKEN = "broken"
         const val KEY_ENCRYPTED = "encrypted"
+        const val KEY_WEB_DAV_CERTIFICATE = "webDavCertificate"
+        const val KEY_WEB_DAV_FALLBACK_TO_CLASS1 = "fallbackToClass1"
+        const val KEY_ALLOW_UNVERIFIED = "allow_unverified"
+        const val KEY_CLIENT_CERT_ALIAS = "clientCertAlias"
 
         /**
          * @return true if sync was requested, false if account is not syncable (deactivated)
@@ -228,7 +232,7 @@ class GenericAccountService : Service() {
                     storePassword(context, account, it)
                     context.contentResolver.delete(
                         TransactionProvider.SETTINGS_URI,
-                        DatabaseConstants.KEY_KEY + " = ?", arrayOf(legacyPasswordKey)
+                        "$KEY_KEY = ?", arrayOf(legacyPasswordKey)
                     )
                 }
             }

@@ -1,0 +1,21 @@
+package org.totschnig.myexpenses.viewmodel.data
+
+import org.totschnig.myexpenses.model.Money
+import java.math.BigDecimal
+import java.time.ZonedDateTime
+
+data class Trade(
+    val id: Long,
+    val type: TradeType,
+    val date: ZonedDateTime,
+    val quantity: Money,
+    val principal: Money,
+    val fee: Money?,
+    val additionalCosts: List<CostLeg> = emptyList(),
+    val assetSymbol: String,
+    val comment: String?,
+    val price: BigDecimal,
+    val peerAccount: Pair<Long, String>?,
+    val currency: String, // Portfolio currency
+    val portfolioId: Long
+)

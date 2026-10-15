@@ -20,10 +20,12 @@
     <string name="whats_new_382">De functie %1$s kan worden aangeroepen vanuit widget %2$s.</string>
     <string name="whats_new_395">Geëxporteerde bestanden (PDF, back-up, QIF, CSV, JSON) kunnen worden gedownload via de webgebruikersinterface.</string>
     <string name="whats_new_396">Verbeterd beheer van rekeningen in vreemde valuta met automatische wisselkoersupdates en realtime waardetracering.</string>
-    <string name="whats_new_398">Bekijk uw activa, passiva en netto waarde — alles op één plek.</string>
+    <string name="whats_new_398">Bekijk je activa, passiva en netto waarde — alles op één plek.</string>
     <string name="whats_new_399">Verbeterde PDF-exportindeling, volledig aanpasbaar met slepen en neerzetten.</string>
     <string name="whats_new_400_2">Prijsgeschiedenis: Bulkdownload van ontbrekende items</string>
     <string name="whats_new_400_1">Cirkeldiagram dat de verdeling van geld tussen rekeningen weergeeft</string>
     <string name="whats_new_401">De transactielijst toont nu meer details voor gesplitste transacties.</string>
     <string name="whats_new_402">Accounttypes kunnen worden aangepast</string>
+    <string name="whats_new_403">Met accountvlaggen kun je de zichtbaarheid en prioriteit van je account aanpassen.</string>
+    <string name="whats_new_407">Natuurlijk sorteren voor tags, categorieën, rekeningen en partijen.</string>
 </resources>

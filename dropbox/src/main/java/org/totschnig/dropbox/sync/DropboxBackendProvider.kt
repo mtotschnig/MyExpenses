@@ -21,7 +21,7 @@ import org.totschnig.dropbox.activity.ACTION_RE_AUTHENTICATE
 import org.totschnig.dropbox.activity.DropboxSetup
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.sync.*
 import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.util.Preconditions
@@ -288,7 +288,7 @@ class DropboxBackendProvider internal constructor(context: Context, folderName: 
 
     private fun reAuthenticationIntent() = Intent(context, DropboxSetup::class.java).apply {
         action = ACTION_RE_AUTHENTICATE
-        putExtra(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, accountName)
+        putExtra(KEY_SYNC_ACCOUNT_NAME, accountName)
     }
 
     override fun suggestDelay(e: IOException, defaultDelay: Long): Long =

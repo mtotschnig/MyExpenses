@@ -132,7 +132,7 @@
     <string name="menu_edit_method">지불 방식 편집</string>
     <string name="menu_edit_party">구성원 편집</string>
     <string name="menu_edit_plan_instance">단일 재무 계획의 발생 사실 편집</string>
-    <string name="menu_edit_split">분할 거래 내역 편집</string>
+    <string name="menu_edit_split">분할 거래 편집</string>
     <string name="menu_edit_split_part_category">카테고리 분할 거래의 일부분 편집</string>
     <string name="menu_edit_split_part_transfer">이체 분할 거래의 일부분 편집</string>
     <string name="menu_edit_template">템플릿 편집</string>
@@ -155,7 +155,6 @@
     <string name="menu_split_transaction">분할 거래로 바꾸기</string>
     <string name="method">지불 방법</string>
     <string name="no_app_handling_email_available">이메일을 다룰 수 있는 앱이 없습니다.</string>
-    <string name="no_app_handling_ftp_available">FTP를 다룰 수 있는 앱이 없습니다. <i>Send With FTP</i>를 설치할까요?</string>
     <string name="no_app_handling_mime_type_available">%s 파일을 다룰 수 있는 앱이 없습니다.</string>
     <string name="no_categories">카테고리가 없습니다.</string>
     <string name="no_expenses">지출이 아직 없습니다!</string>
@@ -186,7 +185,7 @@
     <string name="password_security_answer_not_valid">정답이 아닙니다. 다시 시도하세요!</string>
     <string name="payee">수취인</string>
     <string name="payer">납부인</string>
-    <string name="payer_or_payee">수취인/납부인</string>
+    <string name="payer_or_payee">거래처</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">재무 계획</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -216,7 +215,6 @@
     <string name="pref_category_title_more_information">더 많은 정보</string>
     <string name="pref_category_title_ui">사용자 인터페이스</string>
     <string name="pref_contrib_purchase_title_upgrade">키 업그레이드</string>
-    <string name="pref_custom_currency_title">화폐 단위 설정</string>
     <string name="pref_enter_licence_title">기부 확인 키 입력</string>
     <string name="pref_export_format_title">데이터 형식</string>
     <string name="pref_import_from_grisbi_summary">Grisbi XML 파일에서 카테고리와 구성원 가져오기</string>
@@ -252,8 +250,6 @@
     <string name="pref_send_feedback_title">피드백 보내기</string>
     <string name="pref_share_target_summary">지원되는 구성 방안 중에서 하나의 URL을 입력하세요. 적절한 앱(이메일, Dropbox, Google Docs 등)을 선택하고자 하면 이 칸을 비워두세요.</string>
     <string name="pref_share_target_title">URL 업로드</string>
-    <string name="pref_shortcut_added">홈 스크린에 바로가기가 추가되었습니다.</string>
-    <string name="pref_shortcut_not_added">바로가기를 추가할 수 있는 홈 스크린이 없습니다.</string>
     <string name="pref_shortcut_summary">홈 스크린에 바로가기를 추가합니다.</string>
     <string name="pref_ui_home_screen_shortcuts">홈 스크린 바로가기</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -334,16 +330,19 @@
     <string name="warning_reset_account_all">계속 진행하면, 모든 계좌의%1$s 거래 내역은 데이터베이스에서 삭제되며 복원할 수 없습니다.</string>
     <string name="warning_reset_account_matched">계속 진행하면, 현재의 필터와 일치하는 거래 내역은 데이터베이스에서 삭제되며 복원할 수 없습니다.</string>
     <string name="warning_restore">데이터베이스 및 환경설정이 \"%1$s\" 파일에서 복원됩니다. 현재 데이터가 삭제됩니다.</string>
-    <string name="warning_splitpartcategory_context">분할 거래의 일부분인 이체 내역은 분할 거래의 맥락에서만 편집될 수 있습니다.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">%1$d과 %2$d 사이의 숫자를 설정하세요</string>
-    <string name="import_categories_success">%1$d 카테고리를 성공적으로 가져왔습니다.</string>
-    <string name="import_parties_success">%1$d 구성원을 성공적으로 가져왔습니다.</string>
-    <string name="import_accounts_success">%1$d 계좌를 성공적으로 가져왔습니다.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d 거래 내역을 %2$s 계좌로 성공적으로 가져왔습니다</string>
-    <string name="import_accounts_none">가져온 계좌가 없습니다</string>
-    <string name="import_categories_none">가져온 카테고리가 없습니다</string>
-    <string name="import_parties_none">가져온 구성원이 없습니다</string>
-    <string name="import_transactions_none">%1$s 계좌로 가져온 거래 내역이 없습니다</string>
+    <plurals name="import_categories_result">
+        <item quantity="other">%1$d 카테고리를 성공적으로 가져왔습니다.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="other">%1$d 구성원을 성공적으로 가져왔습니다.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="other">%1$d 계좌를 성공적으로 가져왔습니다.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="other">%1$d 거래 내역을 %2$s 계좌로 성공적으로 가져왔습니다</item>
+    </plurals>
     <string name="import_source_select_error">%1$s 형식의 파일을 제공해주세요</string>
     <string name="menu_categories_setup_default">기본 카테고리 설정</string>
     <string name="widget_title_accounts">내 계좌</string>
@@ -450,4 +449,23 @@
     <string name="balance_sheet_net_worth">순자산</string>
     <string name="price_history">가격 내역</string>
     <string name="pref_account_list_display_configuration_title">계정 목록</string>
+    <string name="menu_templates">템플렛들</string>
+    <string name="pref_plan_executor_time_title">알림 시간</string>
+    <string name="rounding">반올림</string>
+    <string name="important_upgrade_information_heading">중요한 정보</string>
+    <string name="dialog_title_warning_delete_tag">태그를 삭제하시겠습니까?</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="other">%1$s 태그가 %2$d개 거래에 연결되어 있습니다. 삭제하시겠습니까?</item>
+    </plurals>
+    <string name="pref_tag_style_title">태그 스타일</string>
+    <string name="pref_tag_style_outline">색상 테두리</string>
+    <string name="pref_tag_style_filled">전체 색상</string>
+    <string name="trade_additional_costs">추가 비용</string>
+    <string name="contrib_feature_portfolio_tracking">포트폴리오 추적</string>
+    <string name="account_type_investment">투자</string>
+    <string name="total_value">총 가치</string>
+    <string name="history_chart_out_label">지출</string>
+    <string name="history_chart_in_label">수익</string>
+    <string name="budget_table_header_allocated">배정</string>
+    <string name="budget_table_header_spent">지진</string>
 </resources>

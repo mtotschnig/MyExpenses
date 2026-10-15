@@ -1,27 +1,32 @@
 package org.totschnig.myexpenses.viewmodel
 
-import android.accounts.AccountManager.*
+import android.accounts.AccountManager.KEY_ACCOUNT_NAME
+import android.accounts.AccountManager.KEY_AUTHTOKEN
+import android.accounts.AccountManager.KEY_PASSWORD
+import android.accounts.AccountManager.KEY_USERDATA
+import android.accounts.AccountManager.get
 import android.accounts.AuthenticatorException
 import android.accounts.OperationCanceledException
 import android.app.Application
 import android.content.ContentValues
 import android.database.sqlite.SQLiteConstraintException
-import android.os.Build
 import android.os.Bundle
 import android.os.Parcelable
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.db2.addAccountType
 import org.totschnig.myexpenses.db2.createAccount
 import org.totschnig.myexpenses.db2.findAccountByUuid
-import org.totschnig.myexpenses.db2.findAccountType
+import org.totschnig.myexpenses.db2.loadAccount
+import org.totschnig.myexpenses.db2.requireAccountTypeForSync
 import org.totschnig.myexpenses.db2.storeExchangeRate
-import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_SEALED
+import org.totschnig.myexpenses.provider.KEY_SYNC_ACCOUNT_NAME
+import org.totschnig.myexpenses.provider.KEY_UUID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.Operation
 import org.totschnig.myexpenses.provider.useAndMapToList
@@ -37,31 +42,35 @@ import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.util.ResultUnit
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.io.IOException
+import androidx.core.content.edit
 
 open class SyncViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
 
-    fun syncLinkRemote(account: Account): LiveData<Result<Unit>> =
+    fun syncLinkRemote(uuid: String, syncAccountName: String): LiveData<Result<Unit>> =
         liveData(context = coroutineContext()) {
-            val accountId = repository.findAccountByUuid(account.uuid!!)
+            val accountId = repository.findAccountByUuid(uuid)
             if (accountId == null) {
-                emit(Result.failure(IllegalStateException("Account with uuid ${account.uuid} not found")))
+                emit(Result.failure(IllegalStateException("Account with uuid $uuid not found")))
             } else {
+                val account = repository.loadAccount(accountId)!!
                 emit(deleteAccountsInternal(longArrayOf(accountId)).also {
                     it.onSuccess {
-                        doSave(account)
+                        doSave(account.copy(
+                            syncAccountName = syncAccountName
+                        ))
                     }
                 })
             }
         }
 
-    fun syncLinkLocal(accountName: String, uuid: String): LiveData<Result<Unit>> =
+    fun syncLinkLocal(uuid: String, syncAccountName: String): LiveData<Result<Unit>> =
         liveData(context = coroutineContext()) {
             try {
-                configureLocalAccountForSync(accountName, uuid)
-            } catch (e: SQLiteConstraintException) {
+                configureLocalAccountForSync(syncAccountName, uuid)
+            } catch (_: SQLiteConstraintException) {
                 emit(Result.failure(AccountSealedException()))
             }
-            resetRemote(accountName, uuid)
+            resetRemote(syncAccountName, uuid)
             emit(ResultUnit)
         }
 
@@ -73,10 +82,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
     }
 
     protected fun doSave(accountIn: Account) {
-        val accountType = repository.findAccountType(accountIn.type.name) ?:
-            AccountType.initialAccountTypes.firstOrNull { it.nameForSyncLegacy == accountIn.type.name }?.let {
-                repository.findAccountType(it.name)
-            } ?:  repository.addAccountType(accountIn.type)
+        val accountType = repository.requireAccountTypeForSync(accountIn.type!!.name)
 
         val account = repository.createAccount(
             accountIn.copy(type = accountType)
@@ -110,11 +116,14 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
             val oldName = data.getString(KEY_ORIGINAL_ACCOUNT_NAME)!!
             var account = getAccount(oldName)
             val newName = data.getString(KEY_ACCOUNT_NAME)
-            if (data.getString(KEY_ORIGINAL_ACCOUNT_NAME) != newName) {
+            if (oldName != newName) {
                 val accountManagerFuture =
                     accountManager.renameAccount(account, newName, null, null)
                 account = accountManagerFuture.result
-                if (account.name != newName) emit(false)
+                if (account.name != newName) {
+                    emit(false)
+                    return@liveData
+                }
                 val contentValues = ContentValues(1).apply {
                     put(KEY_SYNC_ACCOUNT_NAME, newName)
                 }
@@ -137,6 +146,24 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
                 KEY_SYNC_PROVIDER_USERNAME,
                 userData.getString(KEY_SYNC_PROVIDER_USERNAME)
             )
+            userData.keySet().forEach { key ->
+                if (key != KEY_SYNC_PROVIDER_URL && key != KEY_SYNC_PROVIDER_USERNAME) {
+                    accountManager.setUserData(account, key, userData.getString(key))
+                }
+            }
+            setOf(
+                GenericAccountService.KEY_WEB_DAV_CERTIFICATE,
+                GenericAccountService.KEY_WEB_DAV_FALLBACK_TO_CLASS1,
+                GenericAccountService.KEY_ALLOW_UNVERIFIED,
+                GenericAccountService.KEY_CLIENT_CERT_ALIAS
+            ).filter { it !in userData.keySet() }.forEach {
+                accountManager.setUserData(account, it, null)
+            }
+            getApplication<MyApplication>().getSharedPreferences("webdav_sync", 0).edit {
+                remove("lockToken")
+                    .remove("lockOwnedByUs")
+                    .remove("lockTimestamp")
+            }
             emit(true)
         }
 
@@ -144,7 +171,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
         args: Bundle,
         shouldQueryLocalAccounts: Boolean,
         shouldReturnBackups: Boolean,
-        shouldQueryRemoteAccounts: Boolean
+        shouldQueryRemoteAccounts: Boolean,
     ): LiveData<Result<SyncAccountData>> =
         liveData(context = coroutineContext()) {
             val accountName = args.getString(KEY_ACCOUNT_NAME)!!
@@ -206,7 +233,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
         val label: String,
         val uuid: String,
         val isSynced: Boolean,
-        val isSealed: Boolean
+        val isSealed: Boolean,
     ) : Parcelable
 
     private suspend fun buildResult(
@@ -214,7 +241,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
         shouldReturnBackups: Boolean,
         shouldQueryLocalAccounts: Boolean,
         create: Boolean,
-        shouldQueryRemoteAccounts: Boolean = true
+        shouldQueryRemoteAccounts: Boolean = true,
     ): Result<SyncAccountData> {
         //noinspection Recycle
         val localAccounts = if (shouldQueryLocalAccounts) contentResolver.query(
@@ -243,7 +270,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
                 val syncAccounts = if (shouldQueryRemoteAccounts)
                     syncBackendProvider.remoteAccountList
                         .mapNotNull { it.getOrNull() }
-                        .filter { remoteAccount -> !localAccounts.any { it.isSynced && it.uuid == remoteAccount.uuid() } } else emptyList()
+                        .filter { remoteAccount -> !localAccounts.any { it.isSynced && it.uuid == remoteAccount.uuid } } else emptyList()
                 val backups =
                     if (shouldReturnBackups) syncBackendProvider.storedBackups else emptyList()
                 SyncAccountData(
@@ -272,7 +299,7 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
 
     fun setupFromSyncAccounts(
         accountUuids: List<String>,
-        accountName: String
+        accountName: String,
     ): LiveData<Result<Unit>> =
         liveData(context = coroutineContext()) {
             getSyncBackendProvider(
@@ -283,12 +310,11 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
                     syncBackendProvider.remoteAccountList
                         .asSequence()
                         .mapNotNull { it.getOrNull() }
-                        .filter { accountMetaData -> accountUuids.contains(accountMetaData.uuid()) }
+                        .filter { accountMetaData -> accountUuids.contains(accountMetaData.uuid) }
                         .map { accountMetaData ->
                             accountMetaData.toAccount(
                                 currencyContext.homeCurrencyString,
-                                accountName,
-                                repository
+                                accountName
                             )
                         }
                         .forEach {
@@ -314,7 +340,6 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
             )
         }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
     fun removeBackend(accountName: String) =
         get(getApplication()).removeAccountExplicitly(getAccount(accountName))
 
@@ -332,6 +357,6 @@ open class SyncViewModel(application: Application) : ContentResolvingAndroidView
         val accountName: String,
         val remoteAccounts: List<AccountMetaData>,
         val backups: List<String>,
-        val localAccountsNotSynced: List<LocalAccount>
+        val localAccountsNotSynced: List<LocalAccount>,
     ) : Parcelable
 }

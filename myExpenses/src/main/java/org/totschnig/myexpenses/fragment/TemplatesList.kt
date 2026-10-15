@@ -38,11 +38,13 @@ import android.view.ViewGroup
 import android.widget.AbsListView
 import android.widget.AdapterView
 import android.widget.AdapterView.AdapterContextMenuInfo
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.SimpleCursorAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.util.size
 import androidx.core.view.isVisible
@@ -62,45 +64,50 @@ import org.totschnig.myexpenses.activity.EDIT_REQUEST
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.ManageTemplates
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
-import org.totschnig.myexpenses.compose.COMMENT_SEPARATOR
+import org.totschnig.myexpenses.compose.transactions.COMMENT_SEPARATOR
 import org.totschnig.myexpenses.databinding.TemplatesListBinding
 import org.totschnig.myexpenses.db2.Repository
+import org.totschnig.myexpenses.db2.entities.Template
 import org.totschnig.myexpenses.db2.getCurrencyForAccount
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
-import org.totschnig.myexpenses.model.Sort
-import org.totschnig.myexpenses.model.Sort.Companion.preferredOrderByForTemplatesWithPlans
-import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.Transfer.RIGHT_ARROW
+import org.totschnig.myexpenses.model.sort.Sort
+import org.totschnig.myexpenses.model.sort.Sort.Companion.preferredOrderByForTemplatesWithPlans
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CATID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COMMENT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEFAULT_ACTION
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ORIGINAL_CURRENCY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PATH
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PAYEE_NAME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_INFO
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SEALED
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TITLE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSFER_ACCOUNT_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.SPLIT_CATID
+import org.totschnig.myexpenses.provider.KEY_ACCOUNT_LABEL
+import org.totschnig.myexpenses.provider.KEY_AMOUNT
+import org.totschnig.myexpenses.db2.FLAG_EXPENSE
+import org.totschnig.myexpenses.db2.FLAG_INCOME
+import org.totschnig.myexpenses.db2.FLAG_TRANSFER
+import org.totschnig.myexpenses.provider.KEY_CATID
+import org.totschnig.myexpenses.provider.KEY_COLOR
+import org.totschnig.myexpenses.provider.KEY_COMMENT
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_DATE
+import org.totschnig.myexpenses.provider.KEY_DEFAULT_ACTION
+import org.totschnig.myexpenses.provider.KEY_INSTANCEID
+import org.totschnig.myexpenses.provider.KEY_ORIGINAL_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_ORIGINAL_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_PARENTID
+import org.totschnig.myexpenses.provider.KEY_PATH
+import org.totschnig.myexpenses.provider.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.KEY_PLANID
+import org.totschnig.myexpenses.provider.KEY_PLAN_INFO
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_SEALED
+import org.totschnig.myexpenses.provider.KEY_TEMPLATEID
+import org.totschnig.myexpenses.provider.KEY_TITLE
+import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.KEY_TYPE
+import org.totschnig.myexpenses.provider.KEY_TRANSFER_ACCOUNT
+import org.totschnig.myexpenses.provider.KEY_TRANSFER_ACCOUNT_LABEL
+import org.totschnig.myexpenses.provider.KEY_UUID
+import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.appendBooleanQueryParameter
 import org.totschnig.myexpenses.provider.getInt
+import org.totschnig.myexpenses.provider.getIntIfExists
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
@@ -114,10 +121,12 @@ import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.enumValueOrDefault
+import org.totschnig.myexpenses.util.readPrimaryTextColor
 import org.totschnig.myexpenses.util.setEnabledAndVisible
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import org.totschnig.myexpenses.viewmodel.TemplatesListViewModel
+import org.totschnig.myexpenses.viewmodel.data.RIGHT_ARROW
 import timber.log.Timber
 import java.io.Serializable
 import java.lang.ref.WeakReference
@@ -436,7 +445,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                     .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_WITH_PLAN_INFO)
                     .build(),
                 null,
-                DatabaseConstants.KEY_PARENTID + " IS NULL",
+                "$KEY_PARENTID IS NULL",
                 null,
                 preferredOrderByForTemplatesWithPlans(prefHandler, Sort.USAGES, prefHandler.collate)
             )
@@ -489,14 +498,14 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                             missingUuids.add(
                                 templatesCursor.getString(
                                     templatesCursor.getColumnIndexOrThrow(
-                                        DatabaseConstants.KEY_UUID
+                                        KEY_UUID
                                     )
                                 )
                             )
                         }
                         templatesCursor.moveToNext()
                     }
-                    if (missingUuids.size > 0) {
+                    if (missingUuids.isNotEmpty()) {
                         RepairHandler(this).obtainMessage(
                             0, missingUuids.toTypedArray()
                         )
@@ -515,15 +524,38 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         } ?: run { (activity as ProtectedFragmentActivity).showSnackBar(msg) }
     }
 
+// In TemplatesList.kt
+
     fun showSnackbar(dialogFragment: DialogFragment, msg: String) {
-        dialogFragment.dialog?.window?.also {
-            val snackbar = Snackbar.make(it.decorView, msg, Snackbar.LENGTH_LONG)
-            UiUtils.increaseSnackbarMaxLines(snackbar)
-            snackbar.show()
-        } ?: run {
+        val dialog = dialogFragment.dialog
+        if (dialog == null || !dialogFragment.isAdded) {
             Toast.makeText(context, msg, Toast.LENGTH_LONG).show()
+            return
         }
+
+        val content = dialog.findViewById<FrameLayout>(android.R.id.content) ?: return
+
+        val coordinatorLayout = CoordinatorLayout(dialog.context).apply {
+            layoutParams = FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT
+            )
+        }
+
+        content.addView(coordinatorLayout)
+
+        val snackbar = Snackbar.make(coordinatorLayout, msg, Snackbar.LENGTH_LONG)
+            .addCallback(object : Snackbar.Callback() {
+                override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                    super.onDismissed(transientBottomBar, event)
+                    content.removeView(coordinatorLayout)
+                }
+            })
+
+        UiUtils.increaseSnackbarMaxLines(snackbar)
+        snackbar.show()
     }
+
 
     fun dispatchDeleteDo(tag: LongArray) {
         showSnackbar(getString(R.string.progress_dialog_deleting))
@@ -652,6 +684,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
             ResourcesCompat.getColor(resources, R.color.colorIncome, null)
         private val colorTransfer: Int =
             ResourcesCompat.getColor(resources, R.color.colorTransfer, null)
+        private val colorDefault: Int = readPrimaryTextColor(context)
 
         @SuppressLint("SetTextI18n")
         override fun bindView(view: View, context: Context, cursor: Cursor) {
@@ -660,10 +693,12 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
             val isTransfer = !cursor.isNull(KEY_TRANSFER_ACCOUNT)
             val tv1 = view.findViewById<TextView>(R.id.Amount)
             val amount = cursor.getLong(KEY_AMOUNT)
-            val amountColor = when {
-                isTransfer -> colorTransfer
-                amount < 0 -> colorExpense
-                else -> colorIncome
+            val type = cursor.getIntIfExists(KEY_TYPE)?.toByte()
+            val amountColor = when (type) {
+                FLAG_EXPENSE -> colorExpense
+                FLAG_INCOME -> colorIncome
+                FLAG_TRANSFER -> colorTransfer
+                else -> colorDefault
             }
             tv1.setTextColor(amountColor)
             tv1.text = currencyFormatter.convAmount(

@@ -20,8 +20,16 @@ import android.content.ContentUris
 import android.content.ContentValues
 import junit.framework.TestCase
 import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.KEY_COMMENT
+import org.totschnig.myexpenses.provider.KEY_CR_STATUS
+import org.totschnig.myexpenses.provider.KEY_DATE
+import org.totschnig.myexpenses.provider.KEY_DISPLAY_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_PAYEEID
+import org.totschnig.myexpenses.provider.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.PayeeInfo
+import org.totschnig.myexpenses.provider.TABLE_PAYEES
+import org.totschnig.myexpenses.provider.TABLE_TRANSACTIONS
 import org.totschnig.myexpenses.provider.TransactionInfo
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.insert
@@ -78,9 +86,7 @@ class TransactionTest : BaseDbTest() {
    * a dataset of records.
    */
     fun testQueriesOnTransactionUri() {
-        val projection = arrayOf(
-            KEY_COMMENT, KEY_DATE, KEY_PAYEEID
-        )
+        val projection = arrayOf(KEY_COMMENT, KEY_DATE, KEY_PAYEEID)
         val selection = "$KEY_COMMENT = ?"
         val selectionColumns = "$selection OR $selection OR $selection"
         val selectionArgs = arrayOf("Transaction 0", "Transaction 1", "Transaction 2")
@@ -247,8 +253,8 @@ class TransactionTest : BaseDbTest() {
         // Tries to insert this record into the table.
         try {
             mockContentResolver.insert(TransactionProvider.TRANSACTIONS_URI, values)
-            TestCase.fail("Expected insert failure for existing record but insert succeeded.")
-        } catch (e: Exception) {
+            fail("Expected insert failure for existing record but insert succeeded.")
+        } catch (_: Exception) {
             // succeeded, do nothing
         }
     }
@@ -266,8 +272,8 @@ class TransactionTest : BaseDbTest() {
                 TransactionProvider.TRANSACTIONS_URI,
                 transaction.contentValues
             )
-            TestCase.fail("Expected insert failure for link to non-existing account but insert succeeded.")
-        } catch (e: Exception) {
+            fail("Expected insert failure for link to non-existing account but insert succeeded.")
+        } catch (_: Exception) {
             // succeeded, so do nothing
         }
     }

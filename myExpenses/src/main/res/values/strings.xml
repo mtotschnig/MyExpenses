@@ -84,13 +84,11 @@
     <string name="dialog_remind_rate_yes">Rate now</string>
     <string name="dialog_security_answer">Answer</string>
     <string name="dialog_security_question">Question</string>
-    <!-- %1$s is replace with account label -->
+    <!-- %1$s is replaced with account label -->
     <string name="dialog_title_balance_account">Balance %1$s</string>
     <string name="dialog_title_contrib_feature">Premium feature</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Delete account?</item>
-        <item quantity="other">Delete %1$d accounts?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Delete account?</string>
+    <string name="dialog_title_warning_delete_closed_account">Delete closed account?</string>
     <string name="dialog_title_warning_delete_category">Delete category?</string>
     <string name="dialog_title_warning_delete_template">Delete template?</string>
     <string name="dialog_title_warning_delete_transaction">Delete transaction?</string>
@@ -137,8 +135,8 @@
     <string name="menu_create_method">New payment method</string>
     <string name="menu_create_party">New party</string>
     <string name="menu_create_split">New split</string>
-    <string name="menu_create_split_part_category">New category split part</string>
-    <string name="menu_create_split_part_transfer">New transfer split part</string>
+    <string name="menu_create_split_part_category">New category split</string>
+    <string name="menu_create_split_part_transfer">New transfer split</string>
     <string name="menu_create_sub_cat">New sub category</string>
     <string name="menu_create_template">New template</string>
     <string name="menu_create_template_from_transaction">Save as template</string>
@@ -154,9 +152,9 @@
     <string name="menu_edit_method">Edit payment method</string>
     <string name="menu_edit_party">Edit party</string>
     <string name="menu_edit_plan_instance">Edit single plan occurrence</string>
-    <string name="menu_edit_split">Edit split</string>
-    <string name="menu_edit_split_part_category">Edit category split part</string>
-    <string name="menu_edit_split_part_transfer">Edit transfer split part</string>
+    <string name="menu_edit_split">Edit split transaction</string>
+    <string name="menu_edit_split_part_category">Edit category split</string>
+    <string name="menu_edit_split_part_transfer">Edit transfer split</string>
     <string name="menu_edit_template">Edit Template</string>
     <string name="menu_edit_transaction">Edit Transaction</string>
     <string name="menu_edit_transfer">Edit Transfer</string>
@@ -178,7 +176,6 @@
     <string name="menu_split_transaction">Transform to split</string>
     <string name="method">Payment method</string>
     <string name="no_app_handling_email_available">No app handling email available.</string>
-    <string name="no_app_handling_ftp_available">No app handling ftp available. Install <i>Send With FTP</i>?</string>
     <!-- %s is replaced by extension, e.g. PDF or CSV -->
     <string name="no_app_handling_mime_type_available">No app handling %s files available.</string>
     <string name="no_categories">No categories.</string>
@@ -190,7 +187,7 @@
     <string name="no_mapped_transactions">No transactions have been mapped to categories during this period.</string>
     <string name="no_methods">No payment methods.</string>
     <string name="no_parties">No parties.</string>
-    <string name="no_split_parts">No split parts.</string>
+    <string name="no_split_parts">No splits.</string>
     <string name="no_templates">No templates.</string>
     <string name="no_accounts">No accounts.</string>
     <plurals name="not_deletable_mapped_transactions">
@@ -207,6 +204,7 @@
     <string name="parse_error_grisbi_version_not_supported">Unsupported Grisbi File Version: %1$s</string>
     <string name="parse_error_other_exception">An error occurred: %1$s</string>
     <string name="parse_error_parse_exception">Could not parse file</string>
+    <string name="parse_error_at_line">Error at line %1$d: %2$s</string>
     <string name="password_disabled_reenable">The password protection has been disabled. You can reenable it in the settings.</string>
     <string name="password_lost">Lost password</string>
     <string name="password_not_valid">Password invalid. Try again!</string>
@@ -214,10 +212,10 @@
     <string name="password_security_answer_not_valid">Wrong answer. Try again!</string>
     <string name="payee">Payee</string>
     <string name="payer">Payer</string>
-    <string name="payer_or_payee">Payee/Payer</string>
+    <string name="payer_or_payee">Counterparty</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Plan</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
+    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where they can cancel the execution or edit the instance -->
     <string name="plan_automatic">automatic</string>
     <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
     <string name="plan_calendar_name">{app_name} planner</string>
@@ -225,7 +223,6 @@
     <string name="plan_event_deleted">The plan associated with this template has been deleted from the calendar.</string>
     <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">Plan execution canceled</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance) -->
     <string name="planner_create_calendar_failure">Unable to create local planner calendar</string>
     <string name="planner_create_calendar_success">Local planner calendar successfully created</string>
     <!-- payment methods -->
@@ -237,7 +234,7 @@
     <string name="pm_type_debit">Debit</string>
     <string name="pm_type_neutral">Neutral</string>
     <string name="pref_app_dir_title">Folder for backups and exports</string>
-    <string name="pref_auto_fill_summary">Fill in data from last transaction for same payee/payer</string>
+    <string name="pref_auto_fill_summary">Fill in data from last transaction for same counterparty</string>
     <string name="pref_backup_summary">Create a backup of database and preferences.</string>
     <string name="pref_sort_order_usages">Count of usages</string>
     <string name="pref_category_title_export">Export</string>
@@ -246,7 +243,6 @@
     <string name="pref_category_title_more_information">More information</string>
     <string name="pref_category_title_ui">User interface</string>
     <string name="pref_contrib_purchase_title_upgrade">Upgrade key</string>
-    <string name="pref_custom_currency_title">Customize currencies</string>
     <string name="pref_enter_licence_title">Enter key</string>
     <string name="pref_export_format_title">Data format</string>
     <string name="pref_import_from_grisbi_summary">Import categories and parties from Grisbi XML file</string>
@@ -262,7 +258,7 @@
     <string name="pref_manage_categories_title">Categories</string>
     <string name="pref_manage_methods_summary">Create and edit payment methods and associate them with account types.</string>
     <string name="pref_manage_methods_title">Payment methods</string>
-    <string name="pref_manage_parties_summary" tools:ignore="UnusedResources">Add, edit, delete parties (payers and payees).</string>
+    <string name="pref_manage_parties_summary" tools:ignore="UnusedResources">Add, edit, delete counterparties.</string>
     <string name="pref_manage_parties_title">Parties</string>
     <string name="pref_manage_sync_backends_title">Synchronization backends</string>
     <!-- %s will be replaced with list of backends -->
@@ -286,8 +282,6 @@
     <string name="pref_send_feedback_title">Send feedback</string>
     <string name="pref_share_target_summary">Leave empty if you want to choose between appropriate apps (Email, Dropbox, Google Docs, …), or provide URL in one of the supported schemes</string>
     <string name="pref_share_target_title">Upload URL</string>
-    <string name="pref_shortcut_added">Shortcut has been added to Home Screen</string>
-    <string name="pref_shortcut_not_added">No Home Screen available that accepts shortcuts.</string>
     <string name="pref_shortcut_summary">Add the shortcut to Home Screen.</string>
     <string name="pref_ui_home_screen_shortcuts">Home Screen Shortcuts</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -320,10 +314,10 @@
     <string name="save_transaction_template_deleted">Template has been deleted</string>
     <string name="select">Select</string>
     <string name="select_category">Select category</string>
-    <string name="select_payee">Select payer/payee</string>
+    <string name="select_payee">Select counterparty</string>
     <string name="share_scheme_not_supported">Scheme %1$s not supported</string>
     <string name="share_sending">Send export file</string>
-    <string name="split_parts_heading">Split parts</string>
+    <string name="split_parts_heading">Splits</string>
     <string name="split_transaction">Split transaction</string>
     <string name="status">Status</string>
     <string name="status_cleared">cleared</string>
@@ -345,7 +339,7 @@
     <string name="transfer">Transfer</string>
     <string name="transfer_from_account">From</string>
     <string name="transfer_to_account">To</string>
-    <!-- Type refers to the type of an account, eg. Cash account, bank account -->
+    <!-- Type refers to the type of account, e.g. Cash account, bank account -->
     <string name="type">Type</string>
     <string name="unsplit_amount">Unsplit amount</string>
     <string name="unsplit_amount_greater_than_zero">There is still some amount left unsplit.</string>
@@ -378,33 +372,39 @@
     <string name="warning_reset_account_all">If you proceed, for all accounts%1$s, transactions will be deleted from the database and cannot be restored.</string>
     <string name="warning_reset_account_matched">If you proceed, transactions matched by the current filter will be deleted from the database and cannot be restored.</string>
     <string name="warning_restore">Database and preferences will be restored from file \"%1$s\". The current data will be deleted.</string>
-    <string name="warning_splitpartcategory_context">Transfers that are part of a split can only be edited in the context of the split.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Please set a number between %1$d and %2$d</string>
     <string name="warning_change_fraction_digits_1">Amounts in the database need to be updated in order to match the new number of fraction digits.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">If amounts are not updated, they will be displayed as multiplied by %d after the change.</string>
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">If amounts are not updated, they will be displayed as divided by %d after the change.</string>
     <string name="warning_change_fraction_digits_3">If amounts are updated, you will lose the information about their fractional part.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Update amounts in database</string>
-    <string name="import_categories_success" tools:ignore="PluralsCandidate">%1$d categories successfully imported.</string>
-    <string name="import_parties_success" tools:ignore="PluralsCandidate">%1$d parties successfully imported.</string>
-    <string name="import_accounts_success" tools:ignore="PluralsCandidate">%1$d accounts successfully imported.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transactions successfully imported into account %2$s</string>
-    <string name="import_accounts_none">No accounts imported</string>
-    <string name="import_categories_none">No categories imported</string>
-    <string name="import_parties_none">No parties imported</string>
-    <string name="import_transactions_none">No transactions imported into account %1$s</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d category imported.</item>
+        <item quantity="other">%1$d categories imported.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d party imported.</item>
+        <item quantity="other">%1$d parties imported.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d account imported.</item>
+        <item quantity="other">%1$d accounts imported.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d transaction imported into account %2$s.</item>
+        <item quantity="other">%1$d transactions imported into account %2$s.</item>
+    </plurals>
     <string name="import_source_select_error">Please provide a file of type %1$s</string>
     <string name="menu_categories_setup_default">Setup default categories</string>
     <string name="widget_title_accounts">My accounts</string>
     <string name="widget_title_templates">My templates</string>
     <string name="app_dir_not_accessible">The currently selected folder for backups and exports (%1$s) is not accessible. Please select a different one.</string>
-    <string name="app_dir_not_compatible_with_nougat">The currently configured URI for backups and exports (%1$s) is not supported under Android Nougat. Please select a folder again.</string>
     <string name="search_amount">Search for amount</string>
     <string name="search_category">Search for category</string>
     <string name="search_comment">Search for notes</string>
     <string name="search_date">Search for date</string>
     <string name="search_status">Search for status</string>
-    <string name="search_payee">Search for payee/payer</string>
+    <string name="search_payee">Search for counterparty</string>
     <string name="search_method">Search for method</string>
     <string name="search_tag">Search for tag</string>
     <string name="and">and</string>
@@ -421,7 +421,7 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">after</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">Purchasing failed or cancelled.</string>
-    <string name="hint_auto_fill">Should data be filled in automatically from last transaction for same payee/payer? You can always change this behaviour from the settings.</string>
+    <string name="hint_auto_fill">Should data be filled in automatically from last transaction for same counterparty? You can always change this behaviour from the settings.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d accounts with currency %2$s have been updated.</string>
     <string name="import_source_file">File</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
@@ -475,12 +475,12 @@
     <string name="plan_instance_state_cancelled">cancelled</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">applied</string>
-    <string name="progress_dialog_updating_split_parts">Updating split parts</string>
     <string name="warning_cannot_move_split_transaction">This split transaction cannot be moved to account %1$s because there are transfer parts that refer to this account.</string>
     <string name="content_description_calculator_delete_button">Delete last digit</string>
     <string name="paypal_callback_info">Your transaction has been completed, and a receipt for your purchase has been emailed to you. You may log into your account at www.paypal.com to view details of this transaction.</string>
     <string name="search_transfer">Search for transfer</string>
     <string name="search_account">Search for account</string>
+    <string name="search_asset">Search for asset</string>
     <!-- Sort plans (recurring transactions) by the next instance  -->
     <string name="pref_sort_order_next_instance">Next instance</string>
     <string name="crash_dialog_title">{app_name} has crashed</string>
@@ -488,17 +488,9 @@
     <string name="crash_dialog_comment_prompt">You might add your comments about the problem below:</string>
     <string name="synchronization">Synchronization</string>
     <string name="synchronization_none">No synchronization</string>
-    <string name="hint_url">URL</string>
-    <string name="description_webdav_url">Please enter the URL to a special folder on your WebDAV server. {app_name} will store its data inside this folder, it won\'t touch anything outside of it.</string>
-    <string name="description_webdav_trust_certificate">The website uses a certificate, which is not trusted by Android.</string>
-    <string name="label_trust_certificate">Trust this certificate</string>
     <string name="no_sync_backends">No synchronization backends</string>
     <string name="menu_create_sync_backend">New synchronization backend</string>
     <string name="validate_error_not_empty">Must not be empty</string>
-    <string name="validate_error_webdav_invalid_certificate">The certificate could not be trusted. It seems invalid.</string>
-    <string name="validate_error_webdav_not_compliant">The URL does not point to a WebDAV resource.</string>
-    <string name="validate_error_webdav_404">The URL does not exist on the server.</string>
-    <string name="url_not_valid">URL not valid</string>
     <string name="menu_sync_unlink">Stop syncing</string>
     <string name="menu_sync_link">Start syncing</string>
     <string name="menu_sync_download">Download and sync</string>
@@ -584,8 +576,6 @@
     <string name="pref_protection_device_lock_screen_title">Device lock screen</string>
     <string name="pref_warning_only_one_protection">Before you can use protection by %1$s, you must switch off protection by %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">Secure device lock screen hasn\'t been set up.</string>
-    <!-- %s is replaced with path to setup screen lock in device settings -->
-    <string name="warning_device_lock_screen_not_set_up_2">Go to %s to set up a lock screen.</string>
     <string name="menu_history_show_balance">Show balance</string>
     <string name="menu_history_transfers">Include transfers</string>
     <string name="menu_history">History</string>
@@ -599,13 +589,13 @@
     <string name="menu_original_amount">Original amount</string>
     <string name="menu_equivalent_amount">Equivalent amount</string>
     <string name="warning_split_transactions">The selected transactions will be grouped into one split transaction. Their date information will be lost, i.e. replaced by their average.</string>
-    <string name="warning_ungroup_split_transactions">The selected split transactions will be ungrouped, i.e. their split parts will become normal transactions.</string>
+    <string name="warning_ungroup_split_transactions">The selected split transactions will be ungrouped, i.e. their splits will become normal transactions.</string>
     <!-- This is the label for the action that breaks up a split transaction into its parts. -->
     <string name="menu_ungroup_split_transaction">Ungroup split</string>
     <string name="ungroup_split_transaction_success">Split Transaction was successfully ungrouped.</string>
     <string name="split_transaction_one_success">Transaction successfully transformed to split.</string>
     <string name="split_transaction_group_success" tools:ignore="PluralsCandidate">%1$d transactions were successfully grouped into one split transaction.</string>
-    <string name="split_transaction_not_possible">Only transactions that have same account, payee, and status can be grouped into one split transaction.</string>
+    <string name="split_transaction_not_possible">Only transactions that have same account, counterparty, and status can be grouped into one split transaction.</string>
     <string name="pref_transaction_time_summary">Allow to set exact transaction time.</string>
     <string name="pref_value_date_summary">Allow to set value date in addition to booking date. Transaction time will be hidden. This setting is not applied to cash accounts.</string>
     <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
@@ -661,7 +651,7 @@
     <string name="unmapped">Unmapped</string>
     <!-- In the filters for categories, payees and methods, there is a special "Unmapped" item allowing
     to search for transactions without category, payee or method. The UI allows selection of multiple items,
-    but we warn the user if he includes this special item in the selection.   -->
+    but we warn the user if they include this special item in the selection.   -->
     <string name="unmapped_filter_only_single">\'Unmapped\' filter cannot be included into multiple selection</string>
     <string name="pref_security_export_passphrase_title">Passphrase for backups</string>
     <string name="pref_security_export_passphrase_summary">Backups will be encrypted with this passphrase</string>
@@ -696,7 +686,7 @@
     <string name="pref_exchange_rate_provider_title">Exchange Rate Provider</string>
     <!-- %s is replaced with exchange rate provider URL (openexchangerates.org or coinapi.io) -->
     <string name="pref_exchange_rates_api_key_summary">Please register a free account on %s and provide your App ID</string>
-    <string name="pref_plan_executor_time_title">Planner notification time</string>
+    <string name="pref_plan_executor_time_title">Notification time</string>
     <string name="synchronization_select_folder_dialog_title">Select an existing folder or create a new one</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch" tools:ignore="UnusedResources">Use this switch button to record income.</string>
@@ -721,7 +711,8 @@
     <string name="menu_remap">Remap</string>
     <string name="dialog_title_confirm_remap">Change mapping (%s) ?</string>
     <string name="remap_category">All selected transactions will be mapped to category %s.</string>
-    <string name="remap_payee">All selected transactions will be mapped to payer/payee %s.</string>
+    <string name="remap_payee">All selected transactions will be mapped to counterparty %s.</string>
+    <string name="remap_payee_null">Counterparty will be removed from all selected transactions.</string>
     <string name="remap_method">All selected transactions will be mapped to method %s.</string>
     <string name="remap_account">All selected transactions will be mapped to account %s.</string>
     <string name="remapping_result">The selected transactions were remapped.</string>
@@ -729,7 +720,7 @@
     <!-- If user wants to remap multiple transactions to a new account or payment method, there might be no applicable item, e.g. because a transfer cannot me mapped to its transfer account, or
         because no payment method is configured for all of the given account types.-->
     <string name="remap_empty_list">No item was found, that can be mapped to all of the selected transactions.</string>
-    <!-- The label for the button, where user confirms that he wants to clone the selected transactions and then remap them. -->
+    <!-- The label for the button, where user confirms that they want to clone the selected transactions and then remap them. -->
     <string name="button_label_clone_and_remap">Clone and remap</string>
     <!-- The summary of a preference toggle. If switched on cloned transactions have the date set to the current date -->
     <string name="pref_clone_with_current_date_summary_on">Cloned transactions have current date</string>
@@ -745,7 +736,7 @@
     <string name="dialog_multi_tag">All selected transactions will be tagged with %s.</string>
     <string name="dialog_multi_tag_clear">All tags will be removed from the selected transactions.</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">Tag %1$s is mapped to one transaction. Should it be deleted?</item>
+        <item quantity="one">Tag %1$s is mapped to %2$d transaction. Should it be deleted?</item>
         <item quantity="other">Tag %1$s is mapped to %2$d transactions. Should it be deleted?</item>
     </plurals>
     <string name="dialog_multi_tag_append">Add new tags to existing tags</string>
@@ -787,8 +778,6 @@
     <string name="pref_feature_uninstall_summary">Play Store tries to eventually remove those modules in the background.</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Please select a licence package.</string>
-    <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
-    <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Tap and hold the floating action button in order to directly open the form for transfers, split transactions or income.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">Advance execution (in days)</string>
     <string name="warning_balance_account_delete">If you proceed, all reconciled transactions of this account will be deleted from the database and you will not be able to restore them.</string>
@@ -804,7 +793,7 @@
     <!-- Title of a preference where user can select language for text recognition with Tesseract -->
     <string name="pref_tesseract_language_title">Language for Tesseract</string>
     <!-- %s is replaced with language -->
-    <string name="tesseract_download_confirmation">Do you want to download text recognition data for %s ?</string>
+    <string name="tesseract_download_confirmation" tools:ignore="UnusedResources">Do you want to download text recognition data for %s ?</string>
     <!-- %s is replaced with language -->
     <string name="download_completed">Download (%s) has completed.</string>
     <!-- %s is replaced with information on the engine or application used for running text recognition -->
@@ -820,7 +809,7 @@
     <string name="single_feature_info">Alternatively you can buy unlimited access to only this feature.</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">Last day</string>
-    <string name="warning_link_transfer">The two selected transactions will be linked as transfer. Payee/Payer and category information will be dropped.</string>
+    <string name="warning_link_transfer">The two selected transactions will be linked as transfer. Counterparty and category information will be dropped.</string>
     <!-- This is the title of an entry on the configuration screen for the account widget. It allows to decide which number should be displayed for each account: the current balance or the total (which included future transactions) -->
     <string name="account_widget_configuration_sum">Type of displayed sum</string>
     <string name="account_widget_configuration_sum_total">Include future transactions</string>
@@ -828,7 +817,7 @@
     <string name="account_widget_configuration">Account widget configuration</string>
     <!-- Title of dialogue that allows to configure budget widget -->
     <string name="budget_widget_configuration">Select budget</string>
-    <!-- When user selects duplicate parties to be merged, he sees this prompt asking him to select which name should be selected for the merged party -->
+    <!-- When user selects duplicate parties to be merged, they see this prompt asking them to select which name should be selected for the merged party -->
     <string name="merge_parties_select">Select name of merged party</string>
     <!-- This is the label for a field for accounts. Active tags are automatically added to new transactions when an account is selected. -->
     <string name="active_tags">Active Tags</string>
@@ -856,6 +845,7 @@
     <string name="new_version">New version</string>
     <string name="menu_new_debt">New debt</string>
     <string name="debt_owes_me">%s owes me</string>
+    <!-- %s is replaced with the name of the party to whom the debt is owed -->
     <string name="debt_I_owe">I owe %s</string>
     <!-- Appears in the transaction form as label for the checkbox that allows to link the transaction to a debt  -->
     <string name="debt">Debt</string>
@@ -875,7 +865,7 @@
     <string name="pref_mlkit_script_title">Script for MlKit</string>
     <!-- When user imports the standard categories, this reports on the number of cases, where the category was already defined, but without icon. -->
     <plurals name="import_categories_icons_updated">
-        <item quantity="one">One category was updated with icon.</item>
+        <item quantity="one">%1$d category was updated with icon.</item>
         <item quantity="other">%1$d categories were updated with icons.</item>
     </plurals>
     <string name="setup_completed">Setup completed</string>
@@ -987,7 +977,9 @@
     <string name="menu_transform_to_transfer">Convert into transfer</string>
     <string name="warning_transform_to_transfer">The selected transaction will be replaced by a transfer from %1$s to %2$s.</string>
     <string name="remap_date">On all selected transactions, date will be set to %s.</string>
-    <string name="roadmap_intro">The 2024 Roadmap Vote is now open! Vote for the features and improvements that matter most to you.</string>
+    <string name="remap_update_value_date">Also update value date</string>
+    <!-- %d will be replaced with year -->
+    <string name="roadmap_intro">The %d Roadmap Vote is now open! Vote for the features and improvements that matter most to you.</string>
     <string name="merge_categories_dialog_title">Merge Categories</string>
     <string name="subcategories_merged_recursively">If any of the merged categories have subcategories with the same label, those will be merged first, recursively.</string>
     <string name="merge_categories_prompt">Select the category that you want to keep</string>
@@ -1030,7 +1022,6 @@
     <string name="budget_import_none_found">No budgets found.</string>
     <string name="webui_download_no_data">After printing, exporting or creating backups in the app, files will be available from here for download.</string>
     <string name="filter_dialog_empty">No criteria added yet. Tap the buttons above to define your query and refine your results.</string>
-    <string name="menu_show_equivalent_value">Equivalent value</string>
     <string name="initial_value">Initial value</string>
     <string name="current_value">Current value</string>
     <string name="total_value">Total value</string>
@@ -1066,6 +1057,11 @@
     <plurals name="import_prices_failure_message">
         <item quantity="one">%d line could not be processed.</item>
         <item quantity="other">%d lines could not be processed.</item>
+    </plurals>
+    <!--Message is shown when user tries to import trades into a portfolio, but assets traded have not been set up. -->
+    <plurals name="import_trades_missing_assets_message">
+        <item quantity="one">%1$d line refers to unknown assets: %2$s.</item>
+        <item quantity="other">%1$d lines refer to unknown assets: %2$s.</item>
     </plurals>
     <!-- Placeholder: 1 will be replaced with the description of the price pair, e.g. EUR:USD, 2 will be replaced with file name -->
     <string name="confirm_process_file_message">Are you sure you want to import prices for \'%1$s\' from \'%2$s\'? New prices may affect existing equivalent amounts.</string>
@@ -1107,4 +1103,83 @@
     <string name="supports_reconciliation">Supports Reconciliation</string>
     <string name="aggregate_invisible">Include invisible accounts into aggregate accounts and balance sheet</string>
     <string name="select_accounts_for_flag">Select accounts for flag %s</string>
+    <string name="menu_cleanup">Clean up</string>
+    <plurals name="warning_cleanup_parties">
+        <item quantity="one">%d unused party will be deleted.</item>
+        <item quantity="other">%d unused parties will be deleted.</item>
+    </plurals>
+    <!-- Label of a menu entry on the Balance Sheet Screen, which toggles visibility of accounts which are flagged as invisible -->
+    <string name="show_invisible">Hidden accounts</string>
+    <!-- Label of a menu entry on the Balance Sheet Screen, which toggles visibility of accounts where current balance is zero -->
+    <string name="show_zero">Zero balance accounts</string>
+    <!-- Description for button that allows to clear the selected party (payer /payee) from the currently edited transaction -->
+    <string name="content_description_clear_party">Clear selected party</string>
+    <string name="content_description_browse_device_files">Browse files on this device</string>
+    <string name="content_description_select_recent_file">Select from recent files</string>
+    <!-- Content description used by Talkback for the account title on the transaction screen, which when activated (tapped upon) opens a popup with detailed information about the account -->
+    <string name="content_description_show_balance_details">Show detailed information</string>
+    <string name="menu_templates">Templates</string>
+    <!-- Title of a preference where user configures if app starts with Account list, Balance Sheet, Transactions, or Last visited -->
+    <string name="pref_ui_start_screen_title">Start screen</string>
+    <!-- Preference option for having app start on last visited Screen -->
+    <string name="pref_ui_start_screen_last_visited">Last visited</string>
+    <!-- Entry in a list of preferences for customizing different menus, one of them being the "Main navigation" menu, where user switches between Accounts and Transactions screens, or selects other top level destinations, e.g. Templates -->
+    <string name="main_navigation">Main navigation</string>
+    <string name="pref_fab_style_title">Floating Action Button Style</string>
+    <string name="pref_fab_style_standard_description">Standard (Tap arrow for menu)</string>
+    <string name="pref_fab_style_compact_description">Compact (Tap and hold for menu)</string>
+    <!-- Title of a preference where user configures how tags are displayed on the transaction list, either with colored border, or fully colored -->
+    <string name="pref_tag_style_title">Tag style</string>
+    <string name="pref_tag_style_outline">Colored border</string>
+    <string name="pref_tag_style_filled">Fully colored</string>
+    <!-- Error shown too user if they enter a number that is larger than allowed -->
+    <string name="number_too_large">Number too large</string>
+    <!-- Label of checkbox: If checked, specific user defined order of flags is the primary sorting factor for accounts.  -->
+    <string name="prioritize_flag_order">Prioritize flag order</string>
+    <string name="pref_content_based_colors_title">Account-based dynamic color</string>
+    <string name="pref_content_based_colors_summary">Derive theme colors from the current account\'s color. Turn off if text is difficult to read.</string>
+    <!-- Shown to user while Web User Interface is starting -->
+    <string name="service_starting">Starting…</string>
+    <string name="trade_buy">Buy</string>
+    <string name="trade_sell">Sell</string>
+    <!-- Transfer of securities, might be translated differently than a transfer of money between accounts, e.g. in German (Depot-)Übertrag -->
+    <string name="trade_transfer">Transfer</string>
+    <string name="trade_quantity">Quantity</string>
+    <string name="trade_price">Price</string>
+    <string name="trade_fee">Fee</string>
+    <string name="trade_additional_costs">Additional costs</string>
+    <string name="trade_add_cost">Add cost</string>
+    <string name="trade_target_asset">Asset</string>
+    <!-- Label for the action to create a new portfolio, which is a container for investment assets and cash -->
+    <string name="menu_create_portfolio">New portfolio</string>
+    <!-- Label for the category of fiat currencies (e.g., USD, EUR). Plural. -->
+    <string name="asset_type_fiat_plural">Currencies</string>
+    <!-- Label for a financial security (e.g., a stock, bond, or option) in the singular. -->
+    <string name="asset_type_security">Security</string>
+    <!-- Label for a financial security (e.g., a stock, bond, or option) in the singular. -->
+    <string name="asset_type_security_plural">Securities</string>
+    <!-- Collective noun for cryptocurrencies (e.g., Bitcoin, Ethereum). Translators should use the common local term for this asset class. -->
+    <string name="asset_type_crypto">Crypto</string>
+    <!-- Label for a commodity (e.g. Gold, Silver) in the singular. -->
+    <string name="asset_type_commodity">Commodity</string>
+    <!-- Label for the category of commodities (e.g. Gold, Silver). Plural. -->
+    <string name="asset_type_commodity_plural">Commodities</string>
+    <!-- On the Screen, where Trades are recording, this refers to the dropdown for selecting how the cost is funded, or where the proceeds should land -->
+    <string name="trade_funding_source">Funding Source</string>
+    <!-- Option in the "Funding Source" selector for a trade, referring to the cash balance held within the portfolio itself. -->
+    <string name="trade_funding_portfolio">Portfolio Cash</string>
+    <string name="trade_funding_external_description">Funds from sources not tracked in this app</string>
+    <string name="trade_deposit">Deposit</string>
+    <string name="trade_withdraw">Withdrawal</string>
+    <string name="trade_matching_transaction_found">Matching transaction found in funding account. Select to link:</string>
+    <!-- Label for asset valuation: %1$s: Quantity, %2$s: Unit price in portfolio currency (e.g., "150.00 USD") -->
+    <string name="asset_quantity_at_price">%1$s @ %2$s</string>
+    <string name="contrib_feature_portfolio_tracking">Portfolio tracking</string>
+    <!-- %s is replaced with list of features -->
+    <string name="premium_nudge_portfolio_message">You can manage one portfolio for free. Upgrade to manage multiple portfolios and unlock advanced tracking features (%1$s).</string>
+    <string name="rounding">Rounding</string>
+    <string name="help_floating_action_button">Floating action button</string>
+    <string name="important_upgrade_information_heading">Important information</string>
+    <string name="single_pane_view">Single pane</string>
+    <string name="split_pane_view">Split view</string>
 </resources>

@@ -11,6 +11,7 @@ object TestFeatureModule: FeatureModule() {
 }
 
 object TestFeatureManager: FeatureManager() {
-    override fun isFeatureInstalled(feature: Feature, context: Context) = false
+    override fun isFeatureInstalled(feature: Feature, context: Context) =
+        feature == Feature.SQLCRYPT // we assume running with sqlcrypt installed, provideSQLiteOpenHelper in TestDataModule mocks an encrypted database just by virtue of the file name "data.enc"
 }
 

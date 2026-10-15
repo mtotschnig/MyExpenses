@@ -76,7 +76,6 @@
     <string name="preview">"გადახედვა"</string>
     <string name="show_password">"პაროლის გამოჩენა"</string>
     <string name="hide_password">"პაროლის დამალვა"</string>
-    <string name="user">"მომხმარებელი"</string>
     <string name="source">"წყარო"</string>
     <string name="value">"მნიშვნელობა"</string>
     <string name="done_label">"დასრულდა"</string>
@@ -97,4 +96,6 @@
     <string name="already_exists">"სახელი უკვე არსებობს"</string>
     <string name="flag_inactive">"არააქტიური"</string>
     <string name="count">"დათვლაA"</string>
+    <string name="options">"ვარიანტები"</string>
+    <string name="actions">"მონიშნულები"</string>
 </resources>

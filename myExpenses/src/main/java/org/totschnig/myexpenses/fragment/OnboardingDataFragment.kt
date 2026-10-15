@@ -8,9 +8,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import eltos.simpledialogfragment.SimpleDialog.OnDialogResultListener
 import eltos.simpledialogfragment.color.SimpleColorDialog
 import kotlinx.coroutines.launch
@@ -29,8 +26,9 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.sync.GenericAccountService.Companion.getAccountNames
+import org.totschnig.myexpenses.ui.SpinnerHelper
 import org.totschnig.myexpenses.ui.bindListener
 import org.totschnig.myexpenses.ui.setColor
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -46,6 +44,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
     OnDialogResultListener {
     private var _binding: OnboardingWizzardDataBinding? = null
     private val binding get() = _binding!!
+    private lateinit var accountTypeSpinner: SpinnerHelper
 
     @Inject
     lateinit var currencyContext: CurrencyContext
@@ -74,7 +73,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
         super.onSaveInstanceState(outState)
         val selectedItem = binding.Currency.selectedItem as? Currency
         if (selectedItem != null) {
-            outState.putString(DatabaseConstants.KEY_CURRENCY, selectedItem.code)
+            outState.putString(KEY_CURRENCY, selectedItem.code)
         }
         val label = binding.Label.text.toString()
         outState.putBoolean(
@@ -137,6 +136,9 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
             viewModel.moreOptionsShown = true
             showMoreOptions()
         }
+        accountTypeSpinner = SpinnerHelper(binding.AccountType).also {
+            it.setOnItemSelectedListener(null)
+        }
     }
 
     override fun onDestroyView() {
@@ -155,7 +157,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
 
         //currency
         val currencyAdapter = binding.Currency.configureCurrencySpinner(this)
-        val code = savedInstanceState?.getString(DatabaseConstants.KEY_CURRENCY)
+        val code = savedInstanceState?.getString(KEY_CURRENCY)
         val currency =
             if (code != null) create(code, requireActivity()) else currencyViewModel.default
         currencyAdapter.clear()
@@ -165,16 +167,11 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
 
         //type
         val typeAdapter = binding.AccountType.configureTypeSpinner()
-        lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.accountTypes.collect { accountTypes ->
-                    typeAdapter.addAllAccountTypes(accountTypes)
-                    accountTypes.find { it.isCashAccount }?.let {
-                        binding.AccountType.setSelection(typeAdapter.getPosition(it.id))
-                    }
-                }
-            }
+        typeAdapter.addAllAccountTypes(AccountType.initialAccountTypes)
+        AccountType.initialAccountTypes.find { it.isCashAccount }?.let {
+            accountTypeSpinner.setSelection(typeAdapter.getPosition(it))
         }
+        nextButton.isEnabled = true
 
         //color
         binding.colorInput.setColor(viewModel.accountColor)
@@ -210,7 +207,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
         binding.MoreOptionsContainer.visibility = View.VISIBLE
     }
 
-    override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+    override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
         if (parent.id == R.id.Currency) {
             binding.Amount.setFractionDigits(selectedCurrency.fractionDigits)
         }
@@ -220,6 +217,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
         get() = currencyContext[(binding.Currency.selectedItem as Currency).code]
 
     override fun onNothingSelected(parent: AdapterView<*>?) {}
+
     private fun buildAccount(): Account? {
         val currency = selectedCurrency
         return binding.Amount.getAmount(currency, showToUser = true).getOrNull()?.let { money ->
@@ -230,7 +228,7 @@ class OnboardingDataFragment : OnboardingFragment(), AdapterView.OnItemSelectedL
                 currency = currency.code,
                 openingBalance = money.amountMinor,
                 description = binding.Description.text.toString(),
-                type = (binding.AccountType.selectedItem as SpinnerItem.Item<AccountType>).data,
+                type = (accountTypeSpinner.selectedItem as SpinnerItem.Item<AccountType>).data,
                 color = viewModel.accountColor
             )
         }

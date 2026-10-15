@@ -8,6 +8,7 @@ data class TransactionDTO(
     val date: ZonedDateTime,
     val payee: String?,
     val amount: BigDecimal,
+    val currency: String,
     val catId: Long?,
     val transferAccount: String?,
     val comment: String?,

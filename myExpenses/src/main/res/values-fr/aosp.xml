@@ -2,8 +2,7 @@
 <!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
--->
-<resources>
+--><resources>
     <string name="drawer_open">"Ouvrir le panneau de navigation"</string>
     <string name="drawer_close">"Fermer le panneau de navigation"</string>
     <string name="sort_direction_ascending">"Croissant"</string>
@@ -18,7 +17,6 @@
     <string name="style">"Style"</string>
     <string name="loading">"Chargement…"</string>
     <string name="button_label_continue">Continuer</string>
-    <string name="autofill">"Saisie automatique"</string>
     <string name="discard">"Supprimer"</string>
     <string name="dialog_dismiss">"Supprimer"</string>
     <string name="details">"Détails"</string>
@@ -32,7 +30,6 @@
     <string name="setup">"Configurer"</string>
     <string name="customize">"Personnaliser"</string>
     <string name="compact">Compact</string>
-    <string name="storage_description">"Stockage local"</string>
     <string name="encryption">"Chiffrement"</string>
     <string name="learn_more">"En savoir plus"</string>
     <string name="show_all">"Tout afficher"</string>
@@ -46,8 +43,9 @@
     <string name="menu_search">"Recherche"</string>
     <string name="files_label">"Fichiers"</string>
     <plurals name="delete_files_confirmation_message">
-      <item quantity="one">Supprimer %1$d fichier ?</item>
-      <item quantity="other">Supprimer %1$d fichiers ?</item>
+        <item quantity="one">Supprimer %1$d fichier ?</item>
+        <item quantity="many">Supprimer %1$d fichiers ?</item>
+        <item quantity="other">Supprimer %1$d fichiers ?</item>
     </plurals>
     <string name="display_options_sort_list_by">"Trier par"</string>
     <string name="data">"Données"</string>
@@ -152,7 +150,6 @@
     <string name="preview">"Prévisualiser"</string>
     <string name="show_password">"Afficher le mot de passe"</string>
     <string name="hide_password">"Masquer le mot de passe"</string>
-    <string name="user">"Utilisateur"</string>
     <string name="source">"Source"</string>
     <string name="value">"Valeur"</string>
     <string name="done_label">"OK"</string>
@@ -173,4 +170,7 @@
     <string name="already_exists">"Ce nom existe déjà"</string>
     <string name="flag_inactive">"Inactif"</string>
     <string name="count">"Nombre"</string>
+    <string name="empty">"Vide"</string>
+    <string name="options">"Options"</string>
+    <string name="actions">"Actions"</string>
 </resources>

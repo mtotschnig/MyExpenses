@@ -7,7 +7,7 @@
   <string name="testData_account2Label">ಪ್ಯಾರಿಸ್ನಲ್ಲಿ ವಾರಾಂತ್ಯ</string>
   <!--Account 3 is a bank account at an institution well known in the locale region-->
   <string name="testData_account3Label">ಬ್ಯಾಂಕ್ ಖಾತೆ</string>
-  <string name="testData_account3Description">ಬ್ಯಾಂಕ್ ಆಫ್ ಅಮೇರಿಕಾ</string>
+  <string name="testData_account3Description">ಸ್ಟೇಟ್ ಬ್ಯಾಂಕ್ ಆಫ್ ಇಂಡಿಯಾ</string>
   <!--the cats must exist in the categories of the locale-->
   <!--just an example of how one could describe by a comment a specific purchase-->
   <string name="testData_transaction2Comment">ಹಣ್ಣುಗಳು ಮತ್ತು ತರಕಾರಿಗಳು</string>

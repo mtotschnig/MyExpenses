@@ -1,18 +1,19 @@
 package org.totschnig.fints
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.text.SpannableStringBuilder
 import android.text.TextUtils
 import android.widget.TextView
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -31,8 +32,12 @@ import androidx.compose.material.icons.filled.AccountBalance
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Checklist
 import androidx.compose.material.icons.filled.Link
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Sync
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FabPosition
@@ -62,6 +67,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalAutofillManager
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -74,8 +80,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.phrase.Phrase
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
+import kotlinx.parcelize.Parcelize
 import org.kapott.hbci.structures.Konto
 import org.totschnig.fints.BankingViewModel.WorkState.*
 import org.totschnig.myexpenses.MyApplication
@@ -84,22 +92,38 @@ import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.compose.DenseTextField
 import org.totschnig.myexpenses.compose.HierarchicalMenu
-import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.UiText
 import org.totschnig.myexpenses.compose.rememberMutableStateMapOf
 import org.totschnig.myexpenses.dialog.MessageDialogFragment
 import org.totschnig.myexpenses.model2.Bank
+import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import java.time.LocalDate
 import org.totschnig.fints.R as RF
+
+/**
+ * Geschäftsvorfall
+ */
+enum class GV(val jobName: String, val bpdName: String) {
+    HKCAZ("KUmsAllCamt", "KUmsZeitCamt"),
+    HKKAZ("KUmsAll", "KUmsZeit"),
+    DKKKU("KreditkartenUmsatz", "KreditkartenUmsatz"),
+}
+
+@Parcelize
+data class AccountImportConfig(
+    val alreadyImported: Boolean = false,
+    val isSelected: Boolean = false,
+    val targetAccountId: Long = 0L,
+    val gv: GV,
+) : Parcelable
 
 class Banking : ProtectedFragmentActivity() {
 
     private val viewModel: BankingViewModel by viewModels()
 
     enum class DialogState {
-        NoShow, Credentials, Loading, AccountSelection, Done
-
+        NoShow, Credentials, CredentialsForFetch, CredentialsForSync, Loading, AccountSelection, Done
     }
 
     @OptIn(ExperimentalMaterial3Api::class)
@@ -231,13 +255,23 @@ class Banking : ProtectedFragmentActivity() {
                                                     bankingCredentials.value =
                                                         BankingCredentials.fromBank(it)
                                                 },
+                                                onFetch = {
+                                                    dialogState = DialogState.CredentialsForFetch
+                                                    bankingCredentials.value =
+                                                        BankingCredentials.fromBank(it)
+                                                },
                                                 onMigrate = if (bank.version == 1) {
                                                     { migrationDialogShown.value = it }
                                                 } else null,
                                                 onResetTanMechanism =
-                                                if (viewModel.hasStoredTanMech(bank.id)) {
-                                                    { viewModel.resetTanMechanism(it.id) }
-                                                } else null
+                                                    if (viewModel.hasStoredTanMech(bank.id)) {
+                                                        { viewModel.resetTanMechanism(it.id) }
+                                                    } else null,
+                                                onSync = {
+                                                    dialogState = DialogState.CredentialsForSync
+                                                    bankingCredentials.value =
+                                                        BankingCredentials.fromBank(it)
+                                                }
                                             )
                                         }
                                     }
@@ -280,15 +314,14 @@ class Banking : ProtectedFragmentActivity() {
     ) {
         when (dialogState) {
             DialogState.AccountSelection -> {
-                val accounts = (workState as? AccountsLoaded)?.accounts
-                    ?: return
-                val selectedAccounts = rememberMutableStateMapOf<Int, Long>()
-                var nrDays: Long? by remember { mutableStateOf(null) }
+                val (bank, supportedGvs, accounts) = (workState as? AccountsLoaded ?: return)
+                val selectedAccounts = rememberMutableStateMapOf<Int, AccountImportConfig>()
+                var nrDays: Long? by rememberSaveable { mutableStateOf(null) }
                 val importMaxDuration = remember { derivedStateOf { nrDays == null } }
 
                 val availableAccounts =
                     viewModel.accounts.collectAsState()
-                val targetOptions = remember {
+                val targetOptions: State<List<Pair<Long, String>>> = remember {
                     derivedStateOf {
                         buildList {
                             add(0L to getString(R.string.menu_create_account))
@@ -313,9 +346,10 @@ class Banking : ProtectedFragmentActivity() {
                             onClick = {
                                 viewModel.importAccounts(
                                     bankingCredentials.value,
-                                    workState.bank,
-                                    workState.accounts.mapIndexedNotNull { index, pair ->
-                                        selectedAccounts[index]?.let { pair.first to it }
+                                    bank,
+                                    accounts.mapIndexedNotNull { index, pair ->
+                                        selectedAccounts[index]?.takeIf { it.isSelected }
+                                            ?.let { pair.first to it }
                                     },
                                     nrDays?.let { LocalDate.now().minusDays(it) }
                                 )
@@ -326,7 +360,10 @@ class Banking : ProtectedFragmentActivity() {
                         }
                     },
                     dismissButton = {
-                        TextButton(onClick = { dismiss(false) }) {
+                        TextButton(onClick = {
+                            viewModel.onSetupDialogDismissed()
+                            dismiss(false)
+                        }) {
                             Text(stringResource(id = android.R.string.cancel))
                         }
                     },
@@ -336,31 +373,54 @@ class Banking : ProtectedFragmentActivity() {
                         ) {
                             Error(errorMessage = errorState.value)
                             Help(buildList {
-                                add(RF.string.select_accounts_help_1)
+                                add(stringResource(RF.string.select_accounts_help_1))
                                 if (!calledFromOnboarding) {
-                                    add(RF.string.select_accounts_help_2)
+                                    add(stringResource(RF.string.select_accounts_help_2))
                                 }
-                                add(RF.string.select_accounts_help_3)
+                                add(
+                                    Phrase.from(LocalResources.current.getText(RF.string.select_accounts_help_3))
+                                        .put("update", stringResource(RF.string.menu_sync_account))
+                                        .format()
+                                )
                             })
 
                             accounts.forEachIndexed { index, account ->
+
                                 AccountRow(
-                                    account.first,
-                                    !account.second,
-                                    targetOptions.value.find { it.first == selectedAccounts[index] }?.second,
-                                    targetOptions.value.filterNot {
-                                        it.first != 0L && selectedAccounts.values.contains(
-                                            it.first
-                                        )
+                                    account = account.first,
+                                    supportedGvs = supportedGvs,
+                                    config = if (supportedGvs.isEmpty()) null else {
+                                        val standardGV = if (supportedGvs.contains(GV.DKKKU) && account.first.isCreditCardAccount)
+                                            GV.DKKKU else supportedGvs.first()
+                                        account.second?.let {
+                                            AccountImportConfig(
+                                                alreadyImported = true,
+                                                gv = it.gv(standardGV)
+                                            )
+                                        } ?: selectedAccounts.getOrPut(index) {
+                                            AccountImportConfig(gv = standardGV)
+                                        }
+                                    },
+                                    targetOptions = targetOptions.value.filter { (id) ->
+                                        id == 0L || selectedAccounts.none { it.key != index && it.value.targetAccountId == id }
                                     }
-                                ) { selected, accountId ->
-                                    if (selected) selectedAccounts[index] =
-                                        accountId else selectedAccounts.remove(
-                                        index
-                                    )
+                                ) { config ->
+                                    //if account has been imported in the past, we set new geschaeftsvorfall immediately
+                                    if (config.alreadyImported) {
+                                        account.second?.let {
+                                            viewModel.updateGv(
+                                                it.accountId,
+                                                config.gv
+                                            )
+                                        } ?: run {
+                                            CrashHandler.report(IllegalStateException("Expected non-null AccountInformation"))
+                                        }
+                                    } else {
+                                        selectedAccounts[index] = config
+                                    }
                                 }
                             }
-                            if (!accounts.all { it.second }) {
+                            if (!accounts.all { it.second != null }) {
                                 Column(Modifier.selectableGroup()) {
                                     Row(
                                         Modifier
@@ -435,8 +495,22 @@ class Banking : ProtectedFragmentActivity() {
                 )
             }
 
-            DialogState.Credentials -> {
+            DialogState.Credentials, DialogState.CredentialsForFetch, DialogState.CredentialsForSync -> {
                 val autofillManager = LocalAutofillManager.current
+                fun onConfirm() {
+                    autofillManager?.commit()
+                    when (dialogState) {
+                        DialogState.CredentialsForFetch -> viewModel.syncAccount(
+                            bankingCredentials.value,
+                            null
+                        )
+                        DialogState.CredentialsForSync -> viewModel.syncBPD(
+                            bankingCredentials.value
+                        )
+                        else -> viewModel.addBank(bankingCredentials.value)
+                    }
+                }
+
                 AlertDialog(
                     properties = DialogProperties(dismissOnClickOutside = false),
                     onDismissRequest = { dismiss(false) },
@@ -449,14 +523,11 @@ class Banking : ProtectedFragmentActivity() {
                     },
                     confirmButton = {
                         Button(
-                            onClick = {
-                                autofillManager?.commit()
-                                viewModel.addBank(bankingCredentials.value)
-                            },
+                            onClick = ::onConfirm,
                             enabled = bankingCredentials.value.isComplete
                         ) {
                             Text(
-                                stringResource(RF.string.btn_load_accounts)
+                                stringResource(RF.string.load)
                             )
                         }
                     },
@@ -472,14 +543,15 @@ class Banking : ProtectedFragmentActivity() {
                         ) {
                             Error(errorMessage = errorState.value)
                             Help(buildList {
-                                add(RF.string.fints_intro_1)
+                                add(stringResource(RF.string.fints_intro_1))
                                 if (calledFromOnboarding) {
-                                    add(RF.string.fints_intro_2)
+                                    add(stringResource(RF.string.fints_intro_2))
                                 }
                             })
                             BankingCredentials(
                                 bankingCredentials = bankingCredentials,
-                                onDone = viewModel::addBank
+                                onDone = ::onConfirm,
+                                searchBanks = viewModel::searchBanks
                             )
                         }
                     }
@@ -536,7 +608,7 @@ class Banking : ProtectedFragmentActivity() {
     }
 
     override fun dispatchCommand(command: Int, tag: Any?) =
-        if (super.dispatchCommand(command, tag)) true else when (command) {
+        super.dispatchCommand(command, tag) || when (command) {
             R.id.DELETE_BANK_COMMAND_DO -> {
                 viewModel.deleteBank(tag as Bank)
                 true
@@ -572,10 +644,8 @@ class Banking : ProtectedFragmentActivity() {
     }
 
     @Composable
-    fun Help(@StringRes resIds: List<Int>) {
-        val help = resIds.joinTo(SpannableStringBuilder(), " ") {
-            getText(it)
-        }
+    fun Help(parts: List<CharSequence>) {
+        val help = parts.joinTo(SpannableStringBuilder(), " ")
         AndroidView(
             modifier = Modifier
                 .width(OutlinedTextFieldDefaults.MinWidth)
@@ -593,6 +663,8 @@ fun BankRow(
     onShow: (Bank) -> Unit = {},
     onResetTanMechanism: ((Bank) -> Unit)? = null,
     onMigrate: ((Bank) -> Unit)? = null,
+    onFetch: (Bank) -> Unit = {},
+    onSync: ((Bank) -> Unit) = {}
 ) {
     val showMenu = rememberSaveable { mutableStateOf(false) }
     Row(
@@ -611,74 +683,191 @@ fun BankRow(
             Text(bank.userId)
         }
     }
-    val menu = Menu(
-        buildList {
-            add(MenuEntry.delete("DELETE_BANK") { onDelete(bank) })
+    HierarchicalMenu(showMenu, buildList {
+        add(MenuEntry.delete("DELETE_BANK") { onDelete(bank) })
+        add(
+            MenuEntry(
+                label = R.string.accounts,
+                command = "LIST_ACCOUNTS",
+                icon = Icons.Filled.Checklist
+            ) { onShow(bank) }
+        )
+        add(
+            MenuEntry(
+                label = RF.string.menu_sync_account,
+                command = "SYNC_ALL",
+                icon = Icons.Filled.Sync
+            ) { onFetch(bank) }
+        )
+        onMigrate?.let {
             add(
                 MenuEntry(
-                    command = "LIST_ACCOUNTS",
-                    label = R.string.accounts,
-                    icon = Icons.Filled.Checklist
-                ) { onShow(bank) }
+                    label = UiText.StringValue("v1 -> v2"),
+                    command = "MIGRATION"
+                ) { onMigrate(bank) }
             )
-            onMigrate?.let {
-                add(
-                    MenuEntry(
-                        command = "MIGRATION",
-                        label = UiText.StringValue("v1 -> v2")
-                    ) { onMigrate(bank) }
-                )
-            }
-            onResetTanMechanism?.let {
-                add(
-                    MenuEntry(
-                        command = "MIGRATION",
-                        label = RF.string.reset_stored_configuration
-                    ) { onResetTanMechanism(bank) }
-                )
-            }
         }
-    )
-    HierarchicalMenu(showMenu, menu)
+        onResetTanMechanism?.let {
+            add(
+                MenuEntry(
+                    label = RF.string.reset_stored_configuration,
+                    command = "RESET_TAN"
+                ) { onResetTanMechanism(bank) }
+            )
+        }
+        add(
+            MenuEntry(
+                label = RF.string.btn_syn_bpd,
+                command = "SYNC_BPD"
+            ) { onSync(bank) }
+        )
+    })
 }
 
 @Composable
 fun AccountRow(
     account: Konto,
-    selectable: Boolean,
-    selected: String?,
+    supportedGvs: List<GV> = GV.entries.toList(),
+    config: AccountImportConfig?,
     targetOptions: List<Pair<Long, String>>,
-    onSelectionChange: (Boolean, Long) -> Unit,
+    onConfigurationChange: (AccountImportConfig) -> Unit,
 ) {
-    Row {
-        if (selectable) {
-            val showMenu = rememberSaveable { mutableStateOf(false) }
-            Checkbox(checked = selected != null, onCheckedChange = {
-                if (targetOptions.size > 1 && it) {
-                    showMenu.value = true
+    var showAdvancedOptions by rememberSaveable { mutableStateOf(false) }
+    val kontoType = account.kontoType
+    val isSupported = kontoType?.isSupported != false
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+    ) {
+        Box {
+            Row(
+                // 2. Add padding inside the Card and center content vertically.
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 4.dp, vertical = 3.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                when {
+                    !isSupported || config == null -> {
+                        Spacer(Modifier.width(48.dp))
+                    }
+
+                    config.alreadyImported -> {
+                        Icon(
+                            modifier = Modifier.width(48.dp),
+                            imageVector = Icons.Filled.Link,
+                            contentDescription = stringResource(RF.string.account_is_already_imported)
+                        )
+                    }
+
+                    else -> {
+                        val showMenu = rememberSaveable { mutableStateOf(false) }
+                        Checkbox(checked = config.isSelected, onCheckedChange = { checked ->
+                            if (targetOptions.size > 1 && checked) {
+                                showMenu.value = true
+                            } else {
+                                onConfigurationChange(
+                                    config.copy(
+                                        isSelected = checked,
+                                        targetAccountId = 0L
+                                    )
+                                )
+                            }
+                            if (!checked) {
+                                showAdvancedOptions = false
+                            }
+                        })
+                        if (showMenu.value)
+                            HierarchicalMenu(
+                                expanded = showMenu,
+                                title = stringResource(id = RF.string.import_into),
+                                menu = targetOptions.map {
+                                    MenuEntry(label = UiText.StringValue(it.second)) {
+                                        onConfigurationChange(
+                                            config.copy(
+                                                isSelected = true,
+                                                targetAccountId = it.first
+                                            )
+                                        )
+                                    }
+                                }
+                            )
+                    }
                 }
-                onSelectionChange.invoke(it, 0)
-            })
-            if (showMenu.value)
-                HierarchicalMenu(
-                    expanded = showMenu, title = stringResource(id = RF.string.import_into),
-                    menu = Menu(targetOptions.map {
-                        MenuEntry(label = UiText.StringValue(it.second)) {
-                            onSelectionChange.invoke(true, it.first)
+                Column {
+                    Text(text = "${account.type} ${account.name}${account.name2?.let { " $it" } ?: ""}")
+                    Text(account.dbNumber)
+                    if (config?.isSelected == true) {
+                        targetOptions.find { it.first == config.targetAccountId }?.second?.let {
+                            Text(
+                                stringResource(id = RF.string.import_into) + " " + it
+                            )
                         }
-                    })
-                )
-        } else {
-            Icon(
-                modifier = Modifier.width(48.dp),
-                imageVector = Icons.Filled.Link,
-                contentDescription = "Account is already imported"
-            )
-        }
-        Column {
-            Text(text = "${account.type} ${account.name}${account.name2?.let { " $it" } ?: ""}")
-            Text(account.dbNumber)
-            selected?.let { Text(stringResource(id = RF.string.import_into) + " " + it) }
+                    }
+
+                    when {
+                        config == null -> {
+                            Text("Bank unterstützt weder HKCAZ noch HKKAZ")
+                        }
+
+                        isSupported -> {
+                            if (showAdvancedOptions) {
+                                Row(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .selectableGroup(),
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    supportedGvs.forEach { protocol ->
+                                        Row(
+                                            modifier = Modifier
+                                                .weight(1f)
+                                                .selectable(
+                                                    selected = (protocol == config.gv),
+                                                    onClick = {
+                                                        onConfigurationChange(config.copy(gv = protocol))
+                                                    },
+                                                    role = Role.RadioButton
+                                                ),
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            RadioButton(
+                                                selected = (protocol == config.gv),
+                                                onClick = null
+                                            )
+                                            Text(
+                                                text = protocol.name,
+                                                modifier = Modifier.weight(1f)
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        else -> {
+                            Text(
+                                stringResource(
+                                    RF.string.account_type_not_supported,
+                                    kontoType.label
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+            if (isSupported && supportedGvs.size > 1 && config != null && (config.alreadyImported || config.isSelected)) {
+                IconButton(
+                    modifier = Modifier.align(Alignment.TopEnd),
+                    onClick = { showAdvancedOptions = !showAdvancedOptions }) {
+                    Icon(
+                        imageVector = Icons.Default.Settings,
+                        contentDescription = stringResource(id = RF.string.change_protocol)
+                    )
+                }
+            }
         }
     }
 }
@@ -712,4 +901,33 @@ private fun BankDemo() {
             )
         )
     }
+}
+
+@Preview(widthDp = 250)
+@Composable
+private fun AccountRowDemo() {
+    AccountRow(
+        account = Konto().apply {
+            name = "Konto"
+            type = "Giro"
+            number = "123"
+        },
+        targetOptions = emptyList(),
+        config = AccountImportConfig(isSelected = true, gv = GV.HKCAZ)
+    ) { }
+}
+
+@Preview
+@Composable
+private fun AccountRowDisabledDemo() {
+    AccountRow(
+        account = Konto().apply {
+            name = "Konto"
+            type = "Giro"
+            number = "123"
+            acctype = "30" //Wertpapierdepot
+        },
+        targetOptions = emptyList(),
+        config = null
+    ) { }
 }

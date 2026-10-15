@@ -17,10 +17,12 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.viewbinding.ViewBinding
+import arrow.core.flatMap
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.CurrencyAdapter
 import org.totschnig.myexpenses.databinding.AmountInputAlternateBinding
 import org.totschnig.myexpenses.databinding.AmountInputBinding
+import org.totschnig.myexpenses.databinding.AmountInputCompactBinding
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
@@ -32,32 +34,56 @@ import timber.log.Timber
 import java.math.BigDecimal
 
 class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(context, attrs) {
-    fun typeButton() = ((viewBinding as? AmountInputAlternateBinding)?.TaType
-        ?: (viewBinding as AmountInputBinding).TaType).root
+    val typeButton
+        get() = when (viewBinding) {
+            is AmountInputAlternateBinding -> viewBinding.TaType
+            is AmountInputCompactBinding -> viewBinding.TaType
+            else -> (viewBinding as AmountInputBinding).TaType
+        }.root
 
-    private fun amountEditText() = ((viewBinding as? AmountInputAlternateBinding)?.AmountEditText
-        ?: (viewBinding as AmountInputBinding).AmountEditText).root
+    private val amountEditText
+        get() = when (viewBinding) {
+            is AmountInputAlternateBinding -> viewBinding.AmountEditText
+            is AmountInputCompactBinding -> viewBinding.AmountEditText
+            else -> (viewBinding as AmountInputBinding).AmountEditText
+        }.root
 
-    private fun calculator() = ((viewBinding as? AmountInputAlternateBinding)?.Calculator
-        ?: (viewBinding as AmountInputBinding).Calculator).root
+    private val calculator
+        get() = when (viewBinding) {
+            is AmountInputAlternateBinding -> viewBinding.Calculator
+            is AmountInputCompactBinding -> viewBinding.Calculator
+            else -> (viewBinding as AmountInputBinding).Calculator
+        }.root
 
-    private fun exchangeRateEdit() = ((viewBinding as? AmountInputAlternateBinding)?.AmountExchangeRate
-        ?: (viewBinding as AmountInputBinding).AmountExchangeRate).root
+    private val exchangeRateEdit
+        get() = when (viewBinding) {
+            is AmountInputAlternateBinding -> viewBinding.AmountExchangeRate
+            is AmountInputCompactBinding -> viewBinding.AmountExchangeRate
+            else -> (viewBinding as AmountInputBinding).AmountExchangeRate
+        }.root
 
-    private var viewBinding: ViewBinding? = null
+    private val currencySpinner
+        get() = when (viewBinding) {
+            is AmountInputAlternateBinding -> viewBinding.AmountCurrency
+            is AmountInputCompactBinding -> viewBinding.AmountCurrency
+            else -> (viewBinding as AmountInputBinding).AmountCurrency
+        }.root
+
+    private val viewBinding: ViewBinding
     private var withTypeSwitch = false
     private var withCurrencySelection = false
     private var withExchangeRate = false
     private var typeChangedListener: TypeChangedListener? = null
     private var initialized = false
-    private lateinit var currencyAdapter: CurrencyAdapter
-    val currencySpinner: SpinnerHelper
+    private val currencyAdapter: CurrencyAdapter?
+    val currencySpinnerHelper: SpinnerHelper
 
     private var downStreamDependency: AmountInput? = null
     private var downStreamDependencyRef = -1
     private var upStreamDependency: AmountInput? = null
     private var upStreamDependencyRef = -1
     private var blockWatcher = false
+    private var isUpdatingProgrammatically = false
 
     private val currencyContext
         get() = context.injector.currencyContext()
@@ -71,21 +97,29 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
 
     init {
         val ta = context.obtainStyledAttributes(attrs, R.styleable.AmountInput)
+        val isCompact = context.resources.getBoolean(R.bool.isCompact)
         withCurrencySelection = ta.getBoolean(R.styleable.AmountInput_withCurrencySelection, false)
         withExchangeRate = ta.getBoolean(R.styleable.AmountInput_withExchangeRate, false)
+        val withTypeSwitch = ta.getBoolean(R.styleable.AmountInput_withTypeSwitch, true)
         val alternateLayout = ta.getBoolean(R.styleable.AmountInput_alternateLayout, false)
+        if (withTypeSwitch && withCurrencySelection && alternateLayout)
+            throw IllegalArgumentException("alternateLayout cannot be used together with typeSwitch and currencySelection")
         val inflater = LayoutInflater.from(context)
-        viewBinding = if (alternateLayout) AmountInputAlternateBinding.inflate(
-            inflater,
-            this
-        ) else AmountInputBinding.inflate(inflater, this)
-        currencySpinner = SpinnerHelper(
-            (if (viewBinding is AmountInputAlternateBinding) (viewBinding as AmountInputAlternateBinding).AmountCurrency else (viewBinding as AmountInputBinding).AmountCurrency)
-                .getRoot()
-        )
+
+
+        viewBinding = when {
+            alternateLayout -> AmountInputAlternateBinding.inflate(inflater, this)
+            withTypeSwitch && withCurrencySelection && isCompact -> AmountInputCompactBinding.inflate(
+                inflater,
+                this
+            )
+
+            else -> AmountInputBinding.inflate(inflater, this)
+        }
+        currencySpinnerHelper = SpinnerHelper(currencySpinner)
         purpose = ta.getText(R.styleable.AmountInput_purpose)
         updateChildContentDescriptions()
-        setWithTypeSwitch(ta.getBoolean(R.styleable.AmountInput_withTypeSwitch, true))
+        setWithTypeSwitch(withTypeSwitch)
         if (withCurrencySelection) {
             currencyAdapter =
                 object : CurrencyAdapter(getContext(), android.R.layout.simple_spinner_item) {
@@ -105,8 +139,8 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
                         return view
                     }
                 }
-            currencySpinner.adapter = currencyAdapter
-            currencySpinner.setOnItemSelectedListener(object :
+            currencySpinnerHelper.adapter = currencyAdapter
+            currencySpinnerHelper.setOnItemSelectedListener(object :
                 AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(
                     parent: AdapterView<*>?,
@@ -114,7 +148,7 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
                     position: Int,
                     id: Long,
                 ) {
-                    val currency = (currencySpinner.selectedItem as Currency).code
+                    val currency = (currencySpinnerHelper.selectedItem as Currency).code
                     val currencyUnit: CurrencyUnit = currencyContext[currency]
                     configureCurrency(currencyUnit)
                     host.onCurrencySelectionChanged(currencyUnit)
@@ -123,33 +157,35 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             })
         } else {
-            currencySpinner.spinner.visibility = GONE
+            currencyAdapter = null
+            currencySpinnerHelper.spinner.visibility = GONE
         }
         if (withExchangeRate) {
             upStreamDependencyRef = ta.getResourceId(R.styleable.AmountInput_upStreamDependency, -1)
             downStreamDependencyRef =
                 ta.getResourceId(R.styleable.AmountInput_downStreamDependency, -1)
-            exchangeRateEdit().setExchangeRateWatcher { _, _ ->
+            exchangeRateEdit.setExchangeRateWatcher { _, _ ->
                 if (blockWatcher) return@setExchangeRateWatcher
                 updateDownStream()
                 updateFromUpStream()
             }
-            amountEditText().addTextChangedListener(object : MyTextWatcher() {
+            amountEditText.addTextChangedListener(object : MyTextWatcher() {
                 override fun afterTextChanged(s: Editable) {
                     if (blockWatcher) return
                     updateDownStream()
                     upStreamDependency?.let {
-                        exchangeRateEdit().calculateAndSetRate(
+                        exchangeRateEdit.calculateAndSetRate(
                             it.getAmount(false),
-                            getAmount(false)
+                            getAmount(false),
+                            !isUpdatingProgrammatically
                         )
                     }
                 }
             })
         } else {
-            exchangeRateEdit().visibility = GONE
+            exchangeRateEdit.visibility = GONE
         }
-        calculator().setOnClickListener {
+        calculator.setOnClickListener {
             host.showCalculator(getUntypedValue(false).getOrNull(), id)
         }
         ta.recycle()
@@ -162,7 +198,7 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
         downStreamDependency = context.getActivity()?.findViewById(downStreamDependencyRef)
         downStreamDependency?.addTextChangedListener(object : MyTextWatcher() {
             override fun afterTextChanged(s: Editable) {
-                if (!blockWatcher) updateFromDownStream()
+                if (!blockWatcher) updateFromDownStream(true)
             }
         })
         upStreamDependency?.addTextChangedListener(object : MyTextWatcher() {
@@ -170,7 +206,7 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
                 updateFromUpStream()
             }
         })
-        updateFromDownStream()
+        updateFromDownStream(false)
     }
 
     override fun setContentDescription(contentDescription: CharSequence) {
@@ -181,22 +217,22 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
     }
 
     val userSetExchangeRate: BigDecimal?
-        get() = exchangeRateEdit().userSetExchangeRate
+        get() = exchangeRateEdit.userSetExchangeRate
 
     var exchangeRate: BigDecimal?
-        get() = exchangeRateEdit().getRate(false)
+        get() = exchangeRateEdit.getRate(false)
         set(rate) {
-            exchangeRateEdit().setRate(rate, false)
+            exchangeRateEdit.setRate(rate, false)
         }
 
     private fun updateChildContentDescriptions() {
-        setContentDescriptionForChild(amountEditText(), context.getString(R.string.amount))
+        setContentDescriptionForChild(amountEditText, context.getString(R.string.amount))
         setContentDescriptionForChild(
-            calculator(),
+            calculator,
             context.getString(R.string.content_description_calculator)
         )
         setContentDescriptionForChild(
-            currencySpinner.spinner,
+            currencySpinnerHelper.spinner,
             context.getString(R.string.currency)
         )
         setContentDescriptionForTypeSwitch()
@@ -219,8 +255,8 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
 
     private fun setContentDescriptionForTypeSwitch() {
         setContentDescriptionForChild(
-            typeButton(), context.getString(
-                if (typeButton().isChecked) R.string.income else R.string.expense
+            typeButton, context.getString(
+                if (typeButton.isChecked) R.string.income else R.string.expense
             )
         )
     }
@@ -232,7 +268,7 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
     private fun updateDownStream() {
         downStreamDependency?.let {
             val input = getUntypedValue(false).getOrNull()
-            val rate = exchangeRateEdit().getRate(false)
+            val rate = exchangeRateEdit.getRate(false)
             if (input != null && rate != null) {
                 blockWatcher = true
                 it.setAmount(input.multiply(rate), updateType = false, blockWatcher = true)
@@ -243,77 +279,78 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
 
     private fun updateFromUpStream() {
         upStreamDependency?.getUntypedValue(false)?.getOrNull()?.let {
-            val rate = exchangeRateEdit().getRate(false)
+            val rate = exchangeRateEdit.getRate(false)
             if (rate != null) {
                 setAmount(it.multiply(rate), updateType = false, blockWatcher = true)
             }
         }
     }
 
-    private fun updateFromDownStream() {
+    private fun updateFromDownStream(fromUser: Boolean) {
         downStreamDependency?.let {
             val amount1 = getAmount(false)
             val amount2 = it.getAmount(false)
             Timber.i("self: %s, downStream: %s", amount1, amount2)
-            exchangeRateEdit().calculateAndSetRate(amount1, amount2)
+            exchangeRateEdit.calculateAndSetRate(amount1, amount2, fromUser)
         }
     }
 
     fun addTextChangedListener(textWatcher: TextWatcher?) {
-        amountEditText().addTextChangedListener(textWatcher)
+        amountEditText.addTextChangedListener(textWatcher)
     }
 
     fun setFractionDigits(i: Int) {
-        amountEditText().fractionDigits = i
+        amountEditText.fractionDigits = i
     }
 
     fun setWithTypeSwitch(withTypeSwitch: Boolean) {
         this.withTypeSwitch = withTypeSwitch
-        val button = typeButton()
-        if (withTypeSwitch) {
-            button.setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
-                setContentDescriptionForTypeSwitch()
-                if (typeChangedListener != null) {
-                    typeChangedListener!!.onTypeChanged(isChecked)
+        with(typeButton) {
+            if (withTypeSwitch) {
+                setOnCheckedChangeListener { _: CompoundButton?, isChecked: Boolean ->
+                    setContentDescriptionForTypeSwitch()
+                    if (typeChangedListener != null) {
+                        typeChangedListener!!.onTypeChanged(isChecked)
+                    }
                 }
+                visibility = VISIBLE
+            } else {
+                setOnCheckedChangeListener(null)
+                visibility = GONE
             }
-            button.visibility = VISIBLE
-        } else {
-            button.setOnCheckedChangeListener(null)
-            button.visibility = GONE
         }
     }
 
-    fun setAmount(amount: BigDecimal) {
-        setAmount(amount, true)
-    }
-
-    fun setAmount(amount: BigDecimal, updateType: Boolean, blockWatcher: Boolean = false) {
+    fun setAmount(amount: BigDecimal, updateType: Boolean = true, blockWatcher: Boolean = false) {
+        isUpdatingProgrammatically = true
         if (blockWatcher) {
             this.blockWatcher = true
         }
-        amountEditText().error = null
-        amountEditText().setAmount(amount.abs())
+        with(amountEditText) {
+            error = null
+            setAmount(amount.abs())
+        }
         if (updateType) {
             type = amount.signum() > -1
         }
         this.blockWatcher = false
+        isUpdatingProgrammatically = false
     }
 
     fun setRaw(text: String?) {
-        amountEditText().setText(text)
+        amountEditText.setText(text)
     }
 
     fun clear() {
-        amountEditText().setText("")
+        amountEditText.setText("")
     }
 
-    fun getUntypedValue(showToUser: Boolean) = amountEditText().getAmount(showToUser)
+    fun getUntypedValue(showToUser: Boolean) = amountEditText.getAmount(showToUser)
 
     val typedValue: BigDecimal
         get() = getTypedValue(showToUser = false).getOrNull() ?: BigDecimal.ZERO
 
-    private fun getTypedValue(showToUser: Boolean) =
+    fun getTypedValue(showToUser: Boolean) =
         getUntypedValue(showToUser).map {
             if (it != null && !type) it.negate() else it
         }
@@ -323,38 +360,37 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
     fun getAmount(
         currencyUnit: CurrencyUnit,
         showToUser: Boolean = true,
-    ): Result<Money?> = getTypedValue(showToUser).mapCatching { value ->
-        try {
-            (value ?: BigDecimal.ZERO.takeIf { !showToUser })?.let { Money(currencyUnit, it) }
-        } catch (e: ArithmeticException) {
-            if (showToUser) {
-                setError("Number too large.")
-            }
-            throw e
+    ): Result<Money?> = getTypedValue(showToUser).flatMap { value ->
+        (value ?: BigDecimal.ZERO.takeIf { !showToUser })?.let {
+            Money.buildWithMajor(currencyUnit, it)
+        } ?: Result.success(null)
+    }.onFailure {
+        if (showToUser) {
+            setError(context.getString(R.string.number_too_large))
         }
     }
 
     var type: Boolean
-        get() = !withTypeSwitch || typeButton().isChecked
+        get() = !withTypeSwitch || typeButton.isChecked
         set(type) {
-            typeButton().setChecked(type)
+            typeButton.setChecked(type)
         }
 
     fun hideTypeButton() {
-        typeButton().visibility = GONE
+        typeButton.visibility = GONE
     }
 
     fun setTypeEnabled(enabled: Boolean) {
-        typeButton().setEnabled(enabled)
+        typeButton.setEnabled(enabled)
     }
 
     fun toggle() {
-        typeButton().toggle()
+        typeButton.toggle()
     }
 
     fun setCurrencies(currencies: List<Currency?>) {
-        currencyAdapter.addAll(currencies)
-        currencySpinner.setSelection(0)
+        currencyAdapter?.addAll(currencies)
+        currencySpinnerHelper.setSelection(0)
     }
 
     private fun configureCurrency(currencyUnit: CurrencyUnit) {
@@ -363,8 +399,8 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
     }
 
     fun setSelectedCurrency(currency: CurrencyUnit) {
-        currencySpinner.setSelection(
-            currencyAdapter.getPosition(
+        currencySpinnerHelper.setSelection(
+            currencyAdapter!!.getPosition(
                 create(
                     currency.code,
                     context
@@ -376,7 +412,7 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
 
     fun configureExchange(currencyUnit: CurrencyUnit?, homeCurrency: CurrencyUnit?) {
         if (withExchangeRate) {
-            exchangeRateEdit().setCurrencies(currencyUnit, homeCurrency)
+            exchangeRateEdit.setCurrencies(currencyUnit, homeCurrency)
         }
     }
 
@@ -394,26 +430,26 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
     }
 
     fun loadExchangeRate() {
-        exchangeRateEdit().loadExchangeRate()
+        exchangeRateEdit.loadExchangeRate()
     }
 
     val selectedCurrency: Currency?
-        get() = currencySpinner.selectedItem as Currency?
+        get() = currencySpinnerHelper.selectedItem as Currency?
 
     fun disableCurrencySelection() {
-        currencySpinner.isEnabled = false
+        currencySpinnerHelper.isEnabled = false
     }
 
     fun disableExchangeRateEdit() {
-        exchangeRateEdit().setEnabled(false)
+        exchangeRateEdit.setEnabled(false)
     }
 
     fun selectAll() {
-        amountEditText().selectAll()
+        amountEditText.selectAll()
     }
 
     fun setError(error: CharSequence?) {
-        amountEditText().error = error
+        amountEditText.error = error
     }
 
     fun interface TypeChangedListener {
@@ -442,9 +478,12 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
         val superState = super.onSaveInstanceState()!!
         val focusedChild = deepestFocusedChild
         return SavedState(
-            superState, typeButton().onSaveInstanceState()!!,
-            amountEditText().onSaveInstanceState(), currencySpinner.spinner.onSaveInstanceState()!!,
-            exchangeRateEdit().getRate(false), focusedChild?.id ?: 0
+            superState,
+            typeButton.onSaveInstanceState()!!,
+            amountEditText.onSaveInstanceState(),
+            currencySpinnerHelper.spinner.onSaveInstanceState()!!,
+            exchangeRateEdit.getRate(false),
+            focusedChild?.id ?: 0
         )
     }
 
@@ -463,10 +502,10 @@ class AmountInput(context: Context, attrs: AttributeSet?) : ConstraintLayout(con
     override fun onRestoreInstanceState(state: Parcelable) {
         val savedState = state as SavedState
         super.onRestoreInstanceState(savedState.superState)
-        typeButton().onRestoreInstanceState(savedState.typeButtonState)
-        amountEditText().onRestoreInstanceState(savedState.amountEditTextState)
-        currencySpinner.spinner.onRestoreInstanceState(savedState.currencySpinnerState)
-        exchangeRateEdit().setRate(savedState.exchangeRateState, true)
+        typeButton.onRestoreInstanceState(savedState.typeButtonState)
+        amountEditText.onRestoreInstanceState(savedState.amountEditTextState)
+        currencySpinnerHelper.spinner.onRestoreInstanceState(savedState.currencySpinnerState)
+        exchangeRateEdit.setRate(savedState.exchangeRateState, true)
         if (savedState.focusedId != 0) {
             @Suppress("unused")
             host.setFocusAfterRestoreInstanceState(Pair(id, savedState.focusedId))

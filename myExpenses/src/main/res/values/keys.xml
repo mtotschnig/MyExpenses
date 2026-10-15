@@ -68,6 +68,7 @@
     <string name="pref_import_csv_header_to_field_map_key">import_csv_header_to_field_map</string>
     <string name="pref_custom_decimal_format_key">custom_decimal_format</string>
     <string name="pref_custom_date_format_key">custom_date_format</string>
+    <string name="pref_custom_date_format_new_transaction_list_key">custom_date_format_new_transaction_list</string>
     <string name="pref_grouping_start_key">grouping_start</string>
     <string name="pref_group_week_starts_key">group_week_start</string>
     <string name="pref_group_month_starts_key">group_month_start</string>
@@ -107,7 +108,6 @@
     <string name="pref_openexchangerates_app_id_key">openexchangerates_app_id</string>
     <string name="pref_coin_api_api_key_key">coin_api_api_key</string>
     <string name="pref_plan_executor_time_key">plan_executor_time</string>
-    <string name="pref_webdav_key">webdav</string>
     <string name="pref_webdav_allow_unverified_host_key">webdav_allow_unverified_host</string>
     <string name="pref_clone_with_current_date_key">clone_with_current_date</string>
     <string name="pref_feature_uninstall_key">feature_uninstall</string>
@@ -136,7 +136,9 @@
     <string name="pref_sync_now_all_key">sync_now_all</string>
     <string name="pref_automatic_exchange_rate_download_key">automatic_exchange_rate_download</string>
     <string name="pref_category_currencies_key">category_currencies</string>
+    <string name="pref_manage_currencies_key">manage_currencies</string>
     <string name="pref_category_prices_key">category_prices</string>
+    <string name="pref_category_account_list_key">category_account_list</string>
 
     <string name="help_licence_gpl">GNU General Public License version 3\nhttp://www.gnu.org/licenses/gpl.html .</string>
     <string-array name="additional_credits">
@@ -147,6 +149,7 @@
         <item>Implementing Input Dialogs and Color Pickers by eltos.</item>
         <item>tillgraeger implemented several tickets (#640, #704, #638) in the context of his internship.</item>
         <item>Alessandro Serafini consulted on the debt overview screen and contributed icons ic_debt_down, ic_debt_up and ic_swap_vert.</item>
+        <item>Carlson Büth implemented Mutual TLS / Client Certificate Support for WebDAV Sync</item>
     </string-array>
     <string-array name="noun_icon_credits_keys">
         <item>@drawable/appliance</item>
@@ -231,7 +234,7 @@
     <string name="menu_status_handle" tools:ignore="UnusedResources">@string/status</string>
     <string name="menu_rollover" tools:ignore="UnusedResources">@string/budget_table_header_rollover</string>
     <string name="menu_sort" tools:ignore="UnusedResources">@string/display_options_sort_list_by</string>
-    <string name="menu_archive">@string/action_archive</string>
+    <string name="menu_archive" tools:ignore="UnusedResources">@string/action_archive</string>
     <string name="roadmap_loading">Loading issues …</string>
     <string name="roadmap_submitting">Submitting vote …</string>
     <string name="db_error_cursor_null">Cursor is null</string>
@@ -246,7 +249,6 @@
     <string name="reminder_vote_update" tools:ignore="UnusedResources">The list of issues on the roadmap might have changed since you last voted. You might want to update your vote.</string>
     <!-- During onboarding, user can select to restore data from synchronized account-specific data . This is the title for the tab where the accounts are listed -->
     <string name="onboarding_restore_from_cloud_sync_accounts">@string/pref_manage_accounts_title</string>
-    <string name="pref_planner_advanced_key">planner_advanced</string>
     <string name="pref_planner_manual_time_key">planner_manual_time</string>
     <string name="pref_criterion_future_key">criterion_future</string>
     <string name="pref_ocr_total_indicators_key">ocr_total_indicators</string>
@@ -261,7 +263,6 @@
     <string name="uuid">UUID</string>
     <string name="pref_db_safe_mode_key">db_safe_mode</string>
     <string name="safe_mode">Safe mode</string>
-    <string name="corrupted_data_detected">Corrupted data detected: You can inspect the corrupted records from Settings -> Debug -> Corrupted Data. Contact support@myexpenses.mobi for assistance.</string>
     <string name="pref_debug_repair_987_key">debug_repair_987</string>
     <string name="pref_csv_export_key">csv_export</string>
     <string name="pref_csv_export_split_categories_key">csv_export_split_categories</string>
@@ -282,6 +283,7 @@
     <string name="pref_export_manage_files_key">export_manage_files</string>
     <string name="pref_help_key">help</string>
     <string name="pref_customize_main_menu_key">customize_main_menu</string>
+    <string name="pref_customize_menu_v2_key">customize_menu_v2</string>
     <string name="pref_remove_local_calendar_key">remove_local_calendar</string>
     <string name="pref_print_header_left_key">print_header_left</string>
     <string name="pref_print_header_center_key">print_header_center</string>
@@ -300,4 +302,20 @@
     <string name="orientation_landscape">LANDSCAPE</string>
     <string name="pref_equivalent_amounts_automatic_update_key">equivalent_amounts_automatic_update</string>
     <string name="pref_ui_home_screen_shortcuts_show_new_balance_key">ui_home_screen_shortcuts_show_new_balance</string>
+    <string name="autofill">Autofill</string>
+    <string name="pref_ui_main_screen_version_key">ui_main_screen_legacy</string>
+    <string name="pref_ui_start_screen_key">ui_start_screen</string>
+    <string name="pref_tell_a_friend_key">tell_a_friend</string>
+    <string name="pref_fab_style_key">fab_style</string>
+    <string name="pref_tag_style_key">tag_style</string>
+    <string name="pref_content_based_colors_key">dynamic_colors</string>
+    <string name="trade_import_format_hint">Format (Header required): Date,Type,Asset,Quantity,Price,Total,Fee. Provide at least 2 of Quantity, Price, Total.</string>
+    <string name="pref_default_action_key">default_action</string>
+    <string name="whats_new_411_4" tools:ignore="UnusedResources">Mutual TLS / Client Certificate Support for WebDAV Sync </string>
+    <string name="whats_new_412">FinTS: Credit card transactions</string>
+    <string name="menu_sync" tools:ignore="UnusedResources">@string/menu_sync_now</string>
+    <string name="pro_badge">PRO</string>
+    <string name="database_info_format">SQLite %1$s\nSQLCipher %2$s</string>
+    <string name="database_encryption_notice_title">Important Notice on Database Encryption</string>
+    <string name="database_encryption_notice_summary">If you enabled database encryption during initial setup on version 4.0.2 or later, please read the release announcement for version 4.1.3.1 for information on a critical security bug.</string>
 </resources>

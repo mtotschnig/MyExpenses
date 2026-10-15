@@ -4,7 +4,7 @@ import android.content.Context
 import eltos.simpledialogfragment.form.AmountInput
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_AMOUNT
 import org.totschnig.myexpenses.util.TextUtils.appendCurrencySymbol
 import java.math.BigDecimal
 import java.util.*
@@ -13,7 +13,7 @@ fun buildAmountField(
     amount: Money, max: BigDecimal?, min: BigDecimal?,
     level: Int, context: Context
 ): AmountInput? {
-    val amountInput = AmountInput.plain(DatabaseConstants.KEY_AMOUNT)
+    val amountInput = AmountInput.plain(KEY_AMOUNT)
         .label(appendCurrencySymbol(context, R.string.budget_allocated_amount, amount.currencyUnit))
         .fractionDigits(amount.currencyUnit.fractionDigits)
         .withTypeSwitch(null)

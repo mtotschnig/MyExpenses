@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   This file is part of My Expenses.
   My Expenses is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -12,8 +13,7 @@
 
   You should have received a copy of the GNU General Public License
   along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- -->
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
+ --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
     <string name="help_menu_commands">Menu commands</string>
     <string name="help_contextual_actions">Contextual actions</string>
     <string name="help_contextual_actions_help">The menu for contextual actions gets displayed by long tapping on a list entry.</string>
@@ -21,6 +21,11 @@
     <string name="cab_delete_help_text">Delete the selected items.</string>
     <string name="cab_edit_help_text">Edit the selected item.</string>
     <string name="help_MyExpenses_title">Transaction list</string>
+    <string name="help_MyExpensesV2_accounts_info"><![CDATA[Manage your accounts and track your net worth. Switch between the account list and the balance sheet using the toolbar dropdown. Use the <img src="tune"> <b>Options</b> menu to group and sort accounts, and the <img src="data"> <b>Data</b> menu to configure types, flags and currencies. Tap an account to see its summary, or the <img src="ic_chevron_end"> icon to view its transactions. The <img src="more"> icon provides additional actions for each account.]]></string>
+    <string name="help_MyExpensesV2_transactions_info">View and manage transactions for the selected account. Use the floating action button to add new transactions.</string>
+    <string name="help_MyExpensesV2_portfolio_info">Track your investments in this portfolio. You can import trades and view your asset distribution. The account summary links to the prices screen, where the current price of an asset can be set.</string>
+    <string name="menu_import_trades_help_text">Import investment trades from a CSV file into your portfolio.</string>
+    <string name="menu_sync_help_text">Trigger immediate synchronization with the cloud service configured for the current account.</string>
     <string name="help_MyExpenses_info">This screen lists all transactions for the current account. Use the floating action button to open the form for creating a new transaction.</string>
     <string name="help_MyExpenses_fab_long_press">Long press on the floating action button opens a menu that allows to prepare the form for transfer, split transaction or income.</string>
     <string name="popup_MyExpenses_toolbar_intro">Tapping on the toolbar (account label or current balance) pops up a menu with the following entries:</string>
@@ -32,11 +37,11 @@
     <string name="menu_sort_direction_help_text">Transactions can be sorted in ascending (oldest on top) or descending (latest on top) direction.</string>
     <string name="menu_distribution_help_text">Display the distribution of your expenses per category. You can also long click on a group header to inspect the distribution for a specific period of time.</string>
     <string name="menu_budget_help_text">Manage daily, weekly, monthly or yearly budgets for the currently displayed account.</string>
-    <string name="menu_history_help_text">Display a cash flow diagram: How did your expense and income evolve over days, weeks, months or years?</string>
+    <string name="menu_history_help_text">Display a cash flow diagram: How have your expenses and income evolved throughout the last days, weeks, months or years?</string>
     <string name="menu_manage_plans_help_text">Opens the list of templates and plans, where you can apply, edit or delete them, and also define plans for future and recurrent transactions.</string>
     <string name="menu_balance_help_text">This command opens a dialog displaying the last reconciled balance and the cleared balance. You can compare the latter to your bank statement, and mark all cleared transactions as reconciled. Optionally you can decide to delete reconciled transactions.</string>
     <string name="menu_print_help_text">Generates a printable view of the transactions currently displayed.</string>
-    <string name="menu_search_help_text">This entry opens a submenu which allows you to define search criteria based on category, amount, comment, status, payer/payee and payment method. When a search filter is active, you can simply click on its entry in the submenu to deactivate it.</string>
+    <string name="menu_search_help_text">This entry opens a submenu which allows you to define search criteria based on category, amount, comment, status, payer/payee and payment method.</string>
     <string name="cab_create_template_from_transaction_help_text">Define a new template based on the selected transaction. Will prompt you for the title of the template.</string>
     <string name="cab_clone_transaction_help_text">The selected transactions will be cloned with the current date and time. You can make changes before saving the copy.</string>
     <string name="cab_split_help_text">You can later edit the transaction to create additional parts as needed.</string>
@@ -83,7 +88,7 @@
     <string name="cab_ManageCategories_move_help_text">Any category (together with its sub-categories) can be moved to a new parent category. Sub-categories can be transformed to main categories.</string>
     <string name="cab_ManageCategories_merge_help_text">Categories of the same type can be merged.</string>
     <string name="menu_categories_setup_default_help_text">A set of default categories will be imported.</string>
-    <string name="menu_categories_export_help_text">Categories will be exported to QIF file.</string>
+    <string name="menu_categories_export_help_text">Categories will be exported to a QIF file.</string>
     <string name="menu_chart_help_text">Toggle the visibility of the chart.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">The selected categories will be used for filtering the transaction list.</string>
     <string name="menu_ManageCategories_search_help_text">Only main and sub categories which match your query will be displayed.</string>
@@ -104,7 +109,6 @@
     <string name="form_date_time_help_text">Enter the date and time when the transaction took place.</string>
     <string name="form_date_time_help_text_configuration">In the settings you can disable time input and enable differentiation between booking date and value date.</string>
     <string name="form_date_time_help_text_link"><![CDATA[If the <img src="ic_hchain">/<img src="ic_hchain_broken"> toggle is in its linked state, setting either value date or booking date will also update the other date.]]></string>
-    <string name="form_payer_or_payee_help_text">This field remembers the values you enter and will suggest them in the future.</string>
     <string name="form_amount_switch_help_text">Use the switch to toggle between expense and income.</string>
     <string name="form_calculator_help_text"><![CDATA[The <img src="?calcIcon"> button opens the calculator.]]></string>
     <string name="form_crstatus_help_text">For transactions belonging to bank accounts, you can change the transaction\'s status to cleared. For setting it to reconciled, you must use the \"Balance account\" command from the transaction list. If the status is set to void, the transaction will not be counted.</string>
@@ -155,9 +159,8 @@
     <string name="help_ManageStaleImages_info">This screen allows you to deal with image files that have been left over from deleted transactions. Long click on entries in order to either delete them, or move them out of the (possibly internal) storage folder to a backup folder (%s) on external storage.</string>
     <string name="help_CsvImportActivity_info"><![CDATA[After you select the file you want to import, you need to configure how  the file is encoded (UTF-8 or ISO-8859-1), which character separates fields (comma, semicolon or tab), and how dates are formated. Data can be either imported into an existing account, or a new one, where you can configure the currency and the account type.<br><br>After you hit the Parse button from the action bar, the data will be presented you in a table. Before triggering the import through the button in the action bar, you can select rows that you want to discard, and you have to map the columns to the respective data fields.<br><br>When you discard the first row, you are prompted if you want it to be treated as a header line, in which case <i>My Expenses</i> will try to automatically map the columns based on the content of the header cells. It will also remember your mapping based on the header line, and restore it, when you import a file with the same header format the next time.]]></string>
     <string name="help_ExportDialog_date_format"><![CDATA[Text can be quoted using single quotes (\') to avoid interpretation. \'\' (two single quotes) represent a single quote. Consult the full <a href="%s">specification</a> for more details, or contact support@myexpenses.mobi for help.]]></string>
-    <string name="help_NavigationDrawer_info">The account list allows you to easily navigate between accounts by simply clicking on an entry.</string>
     <string name="menu_create_account_help_text">Create a new account. The free version is limited to five accounts.</string>
-    <string name="cab_NavigationDrawer_close_reopen_help_text">By closing an account, you can prevent any changes (additions, deletions, edits) to its data, but still allow it to be taken into consideration for all statistical calculations.</string>
+    <string name="cab_close_reopen_help_text">By closing an account, you can prevent any changes (additions, deletions, edits) to its data, but still allow it to be taken into consideration for all statistical calculations.</string>
     <string name="help_ManageSyncBackends_intro">My Expenses allows to configure different synchronization backends for each account. For example, you can sync one account with a shared folder, while you sync another account with a private folder. On this screen you add or remove synchronization backends, start or stop synchronization with accounts available remotely. While synchronization happens automatically in a periodic manner, here you can also manually trigger it with a backend. Please be aware that My Expenses needs full control over the remote folder. You should not use other tools or interfaces for changing its contents, since this will most likely lead to failures during synchronization.</string>
     <string name="help_ManageSyncBackends_webdav">If your cloud storage provider supports this protocol, My Expenses will be able to sync data with it. Simply provide the URL to a folder with your username and password. If you use https and your webserver uses a self-signed certificate, you will be able to trust it explicitly.</string>
     <string name="help_ManageSyncBackends_drive">Pick any folder that you own or that is shared with you.</string>
@@ -222,6 +225,17 @@
     <string name="menu_aggregate_neutral_categories_help_text">Transactions mapped to income categories are always counted as income, transactions mapped to expense categories are always counted as expense. This option allows you to configure how transactions mapped to neutral categories are counted: By default if they are positive they represent an income, if they are negative an expense. But if this option is activated, they are always included into both the sums of your income and expense.</string>
     <string name="cab_MyExpenses_filter_help_text">Search for transactions with same properties.</string>
     <string name="menu_archive_help_text">After selecting a date range, all transactions for this period will be rolled up into a summary archive transaction. This will clear up the transaction list, but the transactions in the archive can still be inspected, and, if needed, unpacked again.</string>
+    <string name="fab_create_portfolio_help_text">Create a portfolio to track investments, stocks, or other non-cash assets. The free version is limited to one portfolio.</string>
+    <string name="fab_expense_help_text">Create a new expense transaction.</string>
+    <string name="fab_income_help_text">Create a new income transaction.</string>
+    <string name="fab_transfer_help_text">Create a transfer between two accounts.</string>
+    <string name="fab_split_help_text">Create a split transaction to categorize parts of a single expense or income separately.</string>
+    <string name="fab_scan_help_text">Scan a receipt to automatically extract data using OCR.</string>
+    <string name="fab_trade_buy_help_text">Record the purchase of an asset in your portfolio.</string>
+    <string name="fab_trade_sell_help_text">Record the sale of an asset in your portfolio.</string>
+    <string name="fab_trade_deposit_help_text">Add cash to your portfolio balance.</string>
+    <string name="fab_trade_withdraw_help_text">Remove cash from your portfolio balance.</string>
+    <string name="fab_trade_transfer_help_text">Transfer assets between portfolios.</string>
     <string name="menu_ManageBudgets_grouping_help_text">The budget list can be grouped either by account or by type of budget.</string>
     <string name="help_PriceHistory_info">Foreign currency accounts can be configured to use dynamic exchange rates. For every day you can either download or enter a specific rate relative to your home currency. This screen lists stored rates for a given currency for every day back to the date of the oldest transaction. The source of the rate is indicated as follows:</string>
     <string name="cab_PriceHistory_download_help_text">Download the rate for the given date from the configured provider. Some providers will not provide rates for every date, e.g. for week ends or public holidays, and instead return an earlier rate.</string>
@@ -243,8 +257,12 @@
         \nYou can add custom types and set their order, which mainly affects how they appear on the balance sheet.</string>
     <string name="account_flags_help_v2">Flags let you configure an account’s visibility and priority:
         \n\u2022 Hide rarely used accounts, while still choosing whether invisible accounts are included in aggregate accounts and the balance sheet.
-        \n\u2022 Configure the order in which accounts appear in the account selection on the transaction form.
+        \n\u2022 Prioritize favorite accounts in the account selection on the transaction form.
         \nYou can also use flags to indicate accounts belonging to a specific purpose, like household versus personal accounts, and then alternatively only show one or the other.</string>
     <string name="menu_balance_sheet_help_text">"The balance sheet shows the net worth of all your accounts as the difference between your Assets (what you own) and your Liabilities (what you owe). It reflects your financial position at a chosen moment — whether in the past, the present, or even in the future. The balance sheet presentation is also influenced by flags (which can change the inclusion of accounts in totals)."</string>
+    <string name="menu_balance_sheet_help_text_date">Click on the date in order to select a different date.</string>
     <string name="cab_flag_help_text">Assign a flag to the selected account, e.g. Favorite or Inactive.</string>
+    <string name="form_payer_or_payee_help_text"><![CDATA[This field allows you to select or create a Payer/Payee. Begin typing the name, and suggestions will appear. If no suggestion is selected, a new party is created. If a suggestion is selected, it is displayed as a chip.
+        <br><img src="ic_menu_edit"> Modify the details of the selected party.
+        <br><img src="ic_menu_close_clear_cancel"> Remove the current selection. The text field will then reappear.]]></string>
 </resources>

@@ -8,9 +8,12 @@ import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.core.os.BundleCompat
 import org.totschnig.myexpenses.fragment.TagList.Companion.KEY_TAG_LIST
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
+import org.totschnig.myexpenses.model.AccountGrouping
+import org.totschnig.myexpenses.model.KEY_ACCOUNT_GROUPING
+import org.totschnig.myexpenses.model.KEY_ACCOUNT_GROUPING_GROUP
+import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
+import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.IdCriterion
 import org.totschnig.myexpenses.provider.filter.KEY_SELECTION
@@ -18,6 +21,7 @@ import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.util.enumValueOrDefault
+import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Tag
 
 enum class Action {
@@ -30,12 +34,27 @@ const val HELP_VARIANT_SELECT_FILTER = "select_filter"
 
 val Intent.asAction get() = enumValueOrDefault(action, Action.SELECT_MAPPING)
 
-abstract class PickObjectContract : ActivityResultContract<Pair<Long?, IdCriterion?>, IdCriterion?>() {
+abstract class PickObjectContract : ActivityResultContract<Pair<PageAccount?, IdCriterion?>, IdCriterion?>() {
     abstract val activityClass: Class<out Activity>
-    override fun createIntent(context: Context, input: Pair<Long?, IdCriterion?>) =
+    override fun createIntent(context: Context, input: Pair<PageAccount?, IdCriterion?>) =
         Intent(context, activityClass).apply {
             action = Action.SELECT_FILTER.name
-            putExtra(KEY_ACCOUNTID, input.first)
+            input.first?.let { account ->
+                if (account.id == 0L) {
+                    putExtra(KEY_ACCOUNT_GROUPING, account.accountGrouping!!.name)
+                    putExtra(
+                        KEY_ACCOUNT_GROUPING_GROUP,
+                        when (account.accountGrouping) {
+                            AccountGrouping.CURRENCY -> account.currency
+                            AccountGrouping.FLAG -> account.flag.id.toString()
+                            AccountGrouping.TYPE -> account.type.id.toString()
+                            else -> "Unit"
+                        }
+                    )
+                } else {
+                    putExtra(KEY_ACCOUNTID, account.id)
+                }
+            }
             putExtra(KEY_SELECTION, input.second?.values?.toLongArray())
         }
 

@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.ContentValues
 import android.content.pm.ShortcutInfo
 import android.content.pm.ShortcutManager
-import android.os.Build
 import android.os.Parcelable
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.lifecycle.liveData
@@ -12,14 +11,14 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.MyApplication
-import org.totschnig.myexpenses.model.Template
-import org.totschnig.myexpenses.model.instantiateTemplate
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DEFAULT_ACTION
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_INSTANCEID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TEMPLATEID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.db2.entities.Template
+import org.totschnig.myexpenses.db2.instantiateTemplate
+import org.totschnig.myexpenses.provider.KEY_DATE
+import org.totschnig.myexpenses.provider.KEY_DEFAULT_ACTION
+import org.totschnig.myexpenses.provider.KEY_INSTANCEID
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_TEMPLATEID
+import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.PLAN_INSTANCE_STATUS_URI
 import org.totschnig.myexpenses.util.ExchangeRateHandler
@@ -57,7 +56,7 @@ class TemplatesListViewModel(application: Application) :
                 context,
                 ShortcutManagerCompat.FLAG_MATCH_PINNED
             )
-            if (result && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            if (result) {
                 itemIds.filter { itemId ->
                     shortcuts.any { it.id == ShortcutHelper.idTemplate(itemId) }
                 }.forEach {
@@ -78,14 +77,21 @@ class TemplatesListViewModel(application: Application) :
     fun newFromTemplate(vararg plans: PlanInstanceInfo) =
         liveData(context = coroutineContext()) {
             emit(plans.map { plan ->
-                instantiateTemplate(
-                    repository,
+                repository.instantiateTemplate(
                     exchangeRateHandler,
                     plan,
-                    currencyContext.homeCurrencyUnit
+                    currencyContext
                 )
-            }.sumBy { if (it == null) 0 else 1 })
+            }.sumOf { if (it.isFailure) 0 else 1 })
         }
+
+    fun instantiateTemplateForResult(templateId: Long) = liveData(context = coroutineContext()) {
+        emit(
+            repository.instantiateTemplate(
+                exchangeRateHandler, PlanInstanceInfo(templateId), currencyContext
+            )
+        )
+    }
 
     fun reset(instance: PlanInstanceInfo) {
         viewModelScope.launch(coroutineContext()) {

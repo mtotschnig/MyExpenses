@@ -1,14 +1,12 @@
 package org.totschnig.myexpenses.activity
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ExpandableListView.ExpandableListContextMenuInfo
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.os.BundleCompat
 import arrow.core.flatMap
 import com.evernote.android.state.State
 import org.totschnig.myexpenses.R
@@ -16,13 +14,12 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.SetupSyncDialogFragment
 import org.totschnig.myexpenses.fragment.SyncBackendList
 import org.totschnig.myexpenses.model.ContribFeature
-import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_SYNC_ACCOUNT_NAME
+import org.totschnig.myexpenses.provider.KEY_UUID
 import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.sync.SyncBackendProviderFactory.Companion.ACTION_RECONFIGURE
-import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.AccountSealedException
 import org.totschnig.myexpenses.viewmodel.SyncViewModel.SyncAccountData
@@ -98,49 +95,45 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
         super.onPositive(args, checked)
         when (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
             R.id.SYNC_UNLINK_COMMAND -> {
-                listFragment.syncUnlink(args.getString(DatabaseConstants.KEY_UUID)!!)
+                listFragment.syncUnlink(args.getString(KEY_UUID)!!)
             }
 
             R.id.SYNC_REMOVE_BACKEND_COMMAND -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    val accountName = args.getString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME)!!
-                    if (syncViewModel.removeBackend(accountName)) {
-                        listFragment.reloadAccountList()
-                        if (prefHandler.cloudStorage == accountName) {
-                            prefHandler.remove(PrefKey.AUTO_BACKUP_CLOUD)
-                        }
+                val accountName = args.getString(KEY_SYNC_ACCOUNT_NAME)!!
+                if (syncViewModel.removeBackend(accountName)) {
+                    listFragment.reloadAccountList()
+                    if (prefHandler.cloudStorage == accountName) {
+                        prefHandler.remove(PrefKey.AUTO_BACKUP_CLOUD)
                     }
-                } else {
-                    CrashHandler.report(IllegalStateException("Remove backend not supported on API 21"))
                 }
             }
 
             R.id.SYNC_LINK_COMMAND_LOCAL_DO -> {
-                BundleCompat.getSerializable(args, KEY_ACCOUNT, Account::class.java)?.let { account ->
-                    syncViewModel.syncLinkLocal(
-                        accountName = account.syncAccountName!!,
-                        uuid = account.uuid!!
-                    ).observe(this) { result ->
-                        result.onFailure {
-                            showSnackBar(
-                                if (it is AccountSealedException) getString(R.string.object_sealed) else it.safeMessage
-                            )
-                        }
+                val uuid = args.getString(KEY_UUID)!!
+                val syncAccountName = args.getString(KEY_SYNC_ACCOUNT_NAME)!!
+
+                syncViewModel.syncLinkLocal(uuid, syncAccountName).observe(this) { result ->
+                    result.onFailure {
+                        showSnackBar(
+                            if (it is AccountSealedException) getString(R.string.object_sealed) else it.safeMessage
+                        )
                     }
                 }
             }
 
             R.id.SYNC_LINK_COMMAND_REMOTE_DO -> {
-                BundleCompat.getSerializable(args, KEY_ACCOUNT, Account::class.java)?.let { account ->
-                    if (account.uuid == intent.getStringExtra(DatabaseConstants.KEY_UUID)) {
-                        incomingAccountDeleted = true
-                        onBackPressedCallback.isEnabled = true
-                    }
-                    syncViewModel.syncLinkRemote(account).observe(this) { result ->
-                        result.onFailure {
-                            if (it is AccountSealedException) {
-                                showSnackBar(R.string.object_sealed)
-                            }
+                val uuid = args.getString(KEY_UUID)!!
+                val syncAccountName = args.getString(KEY_SYNC_ACCOUNT_NAME)!!
+
+                if (uuid == intent.getStringExtra(KEY_UUID)) {
+                    incomingAccountDeleted = true
+                    onBackPressedCallback.isEnabled = true
+                }
+
+                syncViewModel.syncLinkRemote(uuid, syncAccountName).observe(this) { result ->
+                    result.onFailure {
+                        if (it is AccountSealedException) {
+                            showSnackBar(R.string.object_sealed)
                         }
                     }
                 }
@@ -167,41 +160,45 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
         }
         when (command) {
             R.id.SYNC_LINK_COMMAND_LOCAL -> {
-                val b = Bundle()
-                b.putString(
-                    ConfirmationDialogFragment.KEY_MESSAGE,
-                    getString(R.string.dialog_confirm_sync_link_local)
-                )
-                b.putInt(
-                    ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-                    R.id.SYNC_LINK_COMMAND_LOCAL_DO
-                )
-                b.putInt(
-                    ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
-                    R.string.dialog_command_sync_link_local
-                )
-                b.putSerializable(KEY_ACCOUNT, tag as Account?)
-                ConfirmationDialogFragment.newInstance(b)
+                val (uuid, syncAccountName) = tag as Pair<String, String>
+                ConfirmationDialogFragment.newInstance(Bundle().apply {
+                    putString(
+                        ConfirmationDialogFragment.KEY_MESSAGE,
+                        this@ManageSyncBackends.getString(R.string.dialog_confirm_sync_link_local)
+                    )
+                    putInt(
+                        ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                        R.id.SYNC_LINK_COMMAND_LOCAL_DO
+                    )
+                    putInt(
+                        ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
+                        R.string.dialog_command_sync_link_local
+                    )
+                    putString(KEY_UUID, uuid)
+                    putString(KEY_SYNC_ACCOUNT_NAME, syncAccountName)
+                })
                     .show(supportFragmentManager, "SYNC_LINK_LOCAL")
                 return true
             }
 
             R.id.SYNC_LINK_COMMAND_REMOTE -> {
-                val b = Bundle()
-                b.putString(
-                    ConfirmationDialogFragment.KEY_MESSAGE,
-                    getString(R.string.dialog_confirm_sync_link_remote)
-                )
-                b.putInt(
-                    ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-                    R.id.SYNC_LINK_COMMAND_REMOTE_DO
-                )
-                b.putInt(
-                    ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
-                    R.string.dialog_command_sync_link_remote
-                )
-                b.putSerializable(KEY_ACCOUNT, tag as Account?)
-                ConfirmationDialogFragment.newInstance(b)
+                val (uuid, syncAccountName) = tag as Pair<String, String>
+                ConfirmationDialogFragment.newInstance(Bundle().apply {
+                    putString(
+                        ConfirmationDialogFragment.KEY_MESSAGE,
+                        this@ManageSyncBackends.getString(R.string.dialog_confirm_sync_link_remote)
+                    )
+                    putInt(
+                        ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                        R.id.SYNC_LINK_COMMAND_REMOTE_DO
+                    )
+                    putInt(
+                        ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
+                        R.string.dialog_command_sync_link_remote
+                    )
+                    putString(KEY_UUID, uuid)
+                    putString(KEY_SYNC_ACCOUNT_NAME, syncAccountName)
+                })
                     .show(supportFragmentManager, "SYNC_LINK_REMOTE")
                 return true
             }
@@ -253,9 +250,5 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
         if (tag is Int) {
             startSetup(tag)
         }
-    }
-
-    companion object {
-        private const val KEY_ACCOUNT = "account"
     }
 }

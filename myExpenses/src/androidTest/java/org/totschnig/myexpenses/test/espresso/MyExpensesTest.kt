@@ -3,22 +3,29 @@ package org.totschnig.myexpenses.test.espresso
 import android.content.OperationApplicationException
 import android.os.RemoteException
 import android.widget.Button
-import androidx.annotation.StringRes
-import androidx.compose.ui.test.*
-import androidx.test.espresso.Espresso.onData
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.filter
+import androidx.compose.ui.test.filterToOne
+import androidx.compose.ui.test.hasAnyDescendant
+import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.onAllNodesWithTag
+import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onFirst
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
-import androidx.test.espresso.NoMatchingViewException
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.closeSoftKeyboard
 import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.contrib.DrawerActions
 import androidx.test.espresso.intent.Intents
 import androidx.test.espresso.intent.Intents.intended
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import androidx.test.espresso.intent.matcher.IntentMatchers.hasExtraWithKey
+import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -27,28 +34,35 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.google.common.truth.Truth.assertThat
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.allOf
-import org.hamcrest.Matchers.hasToString
 import org.hamcrest.Matchers.not
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.*
+import org.totschnig.myexpenses.activity.AccountEdit
+import org.totschnig.myexpenses.activity.ExpenseEdit
+import org.totschnig.myexpenses.activity.ManageTemplates
+import org.totschnig.myexpenses.activity.PreferenceActivity
 import org.totschnig.myexpenses.compose.TEST_TAG_ACCOUNTS
+import org.totschnig.myexpenses.compose.TEST_TAG_BALANCE_HEADER
+import org.totschnig.myexpenses.compose.TEST_TAG_DELETE_ACCOUNT
+import org.totschnig.myexpenses.compose.TEST_TAG_EDIT_ACCOUNT
+import org.totschnig.myexpenses.compose.TEST_TAG_FAB_ACCOUNTS
+import org.totschnig.myexpenses.compose.TEST_TAG_FAB_TRANSACTIONS
+import org.totschnig.myexpenses.compose.TEST_TAG_OVERFLOW_MENU
+import org.totschnig.myexpenses.compose.TEST_TAG_OVERFLOW_MENU_TRANSACTIONS
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.loadAccount
-import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.dialog.MenuItem
+import org.totschnig.myexpenses.dialog.MenuItem.Templates
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.preference.PrefKey
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
-import org.totschnig.myexpenses.testutils.Espresso.openActionBarOverflowMenu
+import org.totschnig.myexpenses.testutils.TestShard4
 import org.totschnig.myexpenses.testutils.cleanup
-import org.totschnig.myexpenses.testutils.toolbarMainSubtitle
-import org.totschnig.myexpenses.testutils.toolbarMainTitle
 import org.totschnig.myexpenses.testutils.withIdAndParent
-import org.totschnig.myexpenses.util.formatMoney
 
+@TestShard4
 class MyExpensesTest : BaseMyExpensesTest() {
     private lateinit var account1: Account
     private lateinit var account2: Account
@@ -56,7 +70,6 @@ class MyExpensesTest : BaseMyExpensesTest() {
 
     @Before
     fun fixture() {
-        prefHandler.putBoolean(PrefKey.ACCOUNT_PANEL_VISIBLE, true)
         account1 = buildAccount("Test account 1")
         account2 = buildAccount("Test account 2")
         account3 = buildAccount("Test account 3")
@@ -82,15 +95,15 @@ class MyExpensesTest : BaseMyExpensesTest() {
 
     @Test
     fun floatingActionButtonOpensForm() {
-        clickFab()
+        composeTestRule.onNodeWithTag(TEST_TAG_FAB_TRANSACTIONS).performClick()
         intended(hasComponent(ExpenseEdit::class.java.name))
         pressBack()
     }
 
     @Test
     fun newBalanceOpensForm() {
-        toolbarMainTitle().perform(click())
-        onView(withText(R.string.new_balance)).perform(click())
+        composeTestRule.onNodeWithTag(TEST_TAG_BALANCE_HEADER).performClick()
+        composeTestRule.onNodeWithText(getString(R.string.new_balance)).performClick()
         onView(
             withIdAndParent(
                 R.id.AmountEditText,
@@ -104,9 +117,9 @@ class MyExpensesTest : BaseMyExpensesTest() {
 
     @Test
     fun helpDialogIsOpened() {
-        openActionBarOverflowMenu()
-        onData(hasToString(getString(R.string.menu_help))).perform(click())
-        onView(withText(R.string.help_MyExpenses_title))
+        selectNavigationItem(MenuItem.Help.testTag)
+        onView(withText(R.string.import_select_transactions))
+            .inRoot(isDialog())
             .check(matches(isDisplayed()))
         onView(
             allOf(
@@ -119,68 +132,64 @@ class MyExpensesTest : BaseMyExpensesTest() {
 
     @Test
     fun settingsScreenIsOpened() {
-        openActionBarOverflowMenu()
-        onData(hasToString(getString(R.string.settings_label)))
-            .perform(click())
+        selectNavigationItem(MenuItem.Settings.testTag)
         intended(
             hasComponent(PreferenceActivity::class.java.name)
         )
     }
 
+    fun assertMenuItemHidden(vararg menuItems: MenuItem) {
+        val overflowNodes =
+            composeTestRule.onAllNodesWithTag(TEST_TAG_OVERFLOW_MENU_TRANSACTIONS).fetchSemanticsNodes()
+        if (overflowNodes.isNotEmpty()) {
+            composeTestRule.onNodeWithTag(TEST_TAG_OVERFLOW_MENU_TRANSACTIONS).performClick()
+
+            menuItems.forEach {
+                composeTestRule.onNodeWithTag(it.testTag).assertDoesNotExist()
+            }
+
+            pressBack()
+        }
+    }
+
     @Test
     fun inActiveItemsAreHidden() {
-        assertMenuItemHidden(R.id.RESET_COMMAND)
-        assertMenuItemHidden(R.id.DISTRIBUTION_COMMAND)
-        assertMenuItemHidden(R.id.PRINT_COMMAND)
+        assertMenuItemHidden(MenuItem.Reset, MenuItem.Distribution, MenuItem.Print)
     }
 
     @Test
     fun newAccountShowNew() {
-        openDrawer()
-        onView(withId(R.id.expansionTrigger)).perform(click())
+        navigateToAccounts()
+        composeTestRule.onNodeWithTag(TEST_TAG_FAB_ACCOUNTS).performClick()
         onView(withText(R.string.menu_create_account))
             .perform(click())
         intended(
             allOf(
                 hasComponent(AccountEdit::class.java.name),
-                not(hasExtraWithKey(DatabaseConstants.KEY_ROWID))
+                not(hasExtraWithKey(KEY_ROWID))
             )
         )
         onView(withId(R.id.Label)).perform(
             typeText("A"),
             closeSoftKeyboard()
         )
-        clickFab()
+        super.clickFab()
+        navigateToTransactions()
         checkTitle("A")
         cleanup {
             deleteAccount("A")
         }
     }
 
-    private fun openDrawer() {
-        try {
-            onView(withId(R.id.drawer)).perform(DrawerActions.open())
-        } catch (_: NoMatchingViewException) { /*drawerLess layout*/
-        }
-    }
-
-    private fun clickContextItem(@StringRes resId: Int) {
-        clickContextItem(
-            resId,
-            composeTestRule.onNodeWithTag(TEST_TAG_ACCOUNTS).onChildren().filterToOne(hasText("Test account 1")),
-            onLongClick = true
-        )
-    }
-
     @Test
     fun editAccountFormIsOpened() {
-        openDrawer()
-        clickContextItem(R.string.menu_edit)
+        navigateToAccounts()
+        clickContextItem(TEST_TAG_EDIT_ACCOUNT)
         intended(
             allOf(
                 hasComponent(
                     AccountEdit::class.java.name
-                ), hasExtraWithKey(DatabaseConstants.KEY_ROWID)
+                ), hasExtraWithKey(KEY_ROWID)
             )
         )
     }
@@ -188,8 +197,8 @@ class MyExpensesTest : BaseMyExpensesTest() {
     @Test
     @Throws(InterruptedException::class)
     fun deleteConfirmationDialogDeleteButtonDeletes() {
-        openDrawer()
-        clickContextItem(R.string.menu_delete)
+        navigateToAccounts()
+        clickContextItem(TEST_TAG_DELETE_ACCOUNT)
         onView(withText(dialogTitleWarningDeleteAccount))
             .check(matches(isDisplayed()))
         onView(
@@ -198,18 +207,19 @@ class MyExpensesTest : BaseMyExpensesTest() {
                 withText(Matchers.`is`(getString(R.string.menu_delete)))
             )
         ).perform(click())
+        navigateToTransactions()
         assertDataSize(3)
         //after deletion of Account 1, Account 2 should still be selected
         checkTitle("Test account 2")
     }
 
     private val dialogTitleWarningDeleteAccount: String
-        get() = getQuantityString(R.plurals.dialog_title_warning_delete_account, 1)
+        get() = getString(R.string.dialog_title_warning_delete_account)
 
     @Test
     fun deleteConfirmationDialogCancelButtonCancels() {
-        openDrawer()
-        clickContextItem(R.string.menu_delete)
+        navigateToAccounts()
+        clickContextItem(TEST_TAG_DELETE_ACCOUNT)
         onView(withText(dialogTitleWarningDeleteAccount))
             .check(matches(isDisplayed()))
         onView(
@@ -218,7 +228,18 @@ class MyExpensesTest : BaseMyExpensesTest() {
                 withText(Matchers.`is`(getString(android.R.string.cancel)))
             )
         ).perform(click())
+        navigateToTransactions()
         assertDataSize(4)
+    }
+
+    private fun clickContextItem(testTag: String, accountLabel: String = "Test account 1") {
+        composeTestRule.onNodeWithTag(TEST_TAG_ACCOUNTS, useUnmergedTree = true)
+            .onChildren()
+            .filterToOne(hasAnyDescendant(hasText(accountLabel)))
+            .performClick()
+        composeTestRule.onNodeWithTag(TEST_TAG_OVERFLOW_MENU)
+            .performClick()
+        composeTestRule.onNodeWithTag(testTag).performClick()
     }
 
     @Test
@@ -229,16 +250,20 @@ class MyExpensesTest : BaseMyExpensesTest() {
         val account1 = buildAccount(label1)
         val account2 = buildAccount(label2)
 
-        //we try to delete account 1
-        openDrawer()
-        //we select  label2, but call context on label 1 and make sure the correct account is deleted
-        composeTestRule.onNodeWithTag(TEST_TAG_ACCOUNTS).onChildren().filter(hasText(label2))
-            .onFirst().performClick()
-        composeTestRule.onNodeWithTag(TEST_TAG_ACCOUNTS).onChildren().filter(hasText(label1))
-            .onFirst().performTouchInput {
-                longClick()
-            }
-        composeTestRule.onNodeWithText(getString(R.string.menu_delete)).performClick()
+        navigateToAccounts()
+
+        composeTestRule.onNodeWithTag(TEST_TAG_ACCOUNTS)
+            .onChildren()
+            .filter(hasAnyDescendant(hasText(label2)))
+            .onFirst()
+            .onChildren()
+            .onFirst()
+            .onChildren()
+            .onFirst()
+            .performClick()
+
+        navigateToAccounts()
+        clickContextItem(TEST_TAG_DELETE_ACCOUNT, label1)
         onView(
             ViewMatchers.withSubstring(
                 getString(
@@ -262,7 +287,7 @@ class MyExpensesTest : BaseMyExpensesTest() {
 
     @Test
     fun templateScreenIsOpened() {
-        clickMenuItem(R.id.MANAGE_TEMPLATES_COMMAND)
+        composeTestRule.onNodeWithTag(Templates.testTag).performClick()
         intended(
             hasComponent(ManageTemplates::class.java.name)
         )
@@ -274,12 +299,5 @@ class MyExpensesTest : BaseMyExpensesTest() {
         doWithRotation {
             checkTitle("Test account 2")
         }
-    }
-
-    private fun checkTitle(label: String) {
-        val currencyFormatter = app.appComponent.currencyFormatter()
-        val balance = currencyFormatter.formatMoney(Money(homeCurrency, 0))
-        toolbarMainTitle().check(matches(withText(label)))
-        toolbarMainSubtitle().check(matches(withText(balance)))
     }
 }

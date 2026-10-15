@@ -15,9 +15,11 @@
  */
 package org.totschnig.webdav.sync.client
 
+import android.content.Context
 import at.bitfire.dav4android.BasicDigestAuthHandler
 import at.bitfire.dav4android.DavResource
 import at.bitfire.dav4android.LockableDavResource
+import at.bitfire.dav4android.LockableDavResource.Companion.isCollection
 import at.bitfire.dav4android.UrlUtils
 import at.bitfire.dav4android.XmlUtils
 import at.bitfire.dav4android.exception.DavException
@@ -39,12 +41,13 @@ import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.webdav.sync.DaggerWebDavComponent
-import org.totschnig.webdav.sync.client.CertificateHelper.createSocketFactory
-import org.totschnig.webdav.sync.client.CertificateHelper.createTrustManager
+import org.totschnig.webdav.sync.client.CertificateHelper.createSslSocketFactory
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 import timber.log.Timber
 import java.io.IOException
+import java.io.InterruptedIOException
+import java.net.SocketTimeoutException
 import java.security.cert.CertPathValidatorException
 import java.security.cert.X509Certificate
 import java.util.Locale
@@ -55,12 +58,14 @@ import javax.net.ssl.SSLHandshakeException
 import javax.net.ssl.SSLSession
 
 class WebDavClient(
+    context: Context,
     appComponent: AppComponent?,
     baseUrl: String,
     userName: String?,
     password: String?,
     trustedCertificate: X509Certificate?,
-    allowUnverified: Boolean
+    allowUnverified: Boolean,
+    clientCertAlias: String? = null,
 ) {
     private val MIME_XML: MediaType = "application/xml; charset=utf-8".toMediaTypeOrNull()!!
     private val httpClient: OkHttpClient
@@ -89,20 +94,28 @@ class WebDavClient(
             )
             builder.authenticator(authHandler).addNetworkInterceptor(authHandler)
         }
-        if (trustedCertificate != null) {
-            val trustManager = createTrustManager(trustedCertificate)
-            val sf = createSocketFactory(trustManager)
-            builder.sslSocketFactory(sf, trustManager)
-            builder.hostnameVerifier { _: String?, session: SSLSession ->
-                try {
-                    val certificate = session.peerCertificates[0] as X509Certificate
-                    return@hostnameVerifier certificate == trustedCertificate
-                } catch (e: SSLException) {
-                    return@hostnameVerifier false
+        if (clientCertAlias != null || trustedCertificate != null) {
+            val (sslSocketFactory, trustManager) = createSslSocketFactory(
+                context.applicationContext,
+                clientCertAlias,
+                trustedCertificate
+            )
+            builder.sslSocketFactory(sslSocketFactory, trustManager)
+            if (trustedCertificate != null) {
+                builder.hostnameVerifier { _: String?, session: SSLSession ->
+                    try {
+                        val certificate = session.peerCertificates[0] as X509Certificate
+                        return@hostnameVerifier certificate == trustedCertificate
+                    } catch (_: SSLException) {
+                        return@hostnameVerifier false
+                    }
                 }
             }
         } else if (allowUnverified) {
             builder.hostnameVerifier { hostname: String, _: SSLSession? -> mBaseUri.host == hostname }
+        }
+        if (clientCertAlias != null) {
+            builder.protocols(listOf(okhttp3.Protocol.HTTP_1_1))
         }
         builder.followRedirects(false)
         httpClient = builder.build()
@@ -113,10 +126,20 @@ class WebDavClient(
         fileName: String,
         requestBody: RequestBody?,
         parent: DavResource,
-        withLock: Boolean = true
+        withLock: Boolean = true,
     ): LockableDavResource {
         val resource = LockableDavResource(httpClient, buildResourceUri(fileName, parent.location))
-        resource.put(requestBody!!, if (withLock) buildIfHeader(parent.location) else null)
+        try {
+            resource.put(requestBody!!, if (withLock) buildIfHeader(parent.location) else null)
+        } catch (e: IOException) {
+            if (e.isTimeout()) {
+                if (resource.exists()) {
+                    Timber.d("Upload timed out but file exists on server: %s", fileName)
+                    return resource
+                }
+            }
+            throw e
+        }
         return resource
     }
 
@@ -180,13 +203,12 @@ class WebDavClient(
 
     fun lock(folderName: String): Boolean {
         currentLockToken = null
-        val lockXml: RequestBody = """<d:lockinfo xmlns:d="DAV:">
-<d:lockscope><d:exclusive/></d:lockscope>
-<d:locktype><d:write/></d:locktype>
-<d:owner>
-<d:href>http://www.myexpenses.mobi</d:href>
-</d:owner>
-</d:lockinfo>"""
+        val lockXml: RequestBody = """<?xml version="1.0" encoding="utf-8" ?>
+<D:lockinfo xmlns:D="DAV:">
+  <D:lockscope><D:exclusive/></D:lockscope>
+  <D:locktype><D:write/></D:locktype>
+  <D:owner>MyExpenses</D:owner>
+</D:lockinfo>"""
             .toRequestBody(MIME_XML)
         val request: Request = Request.Builder()
             .url(buildCollectionUri(folderName))
@@ -197,20 +219,29 @@ class WebDavClient(
         try {
             response = httpClient.newCall(request).execute()
             if (response.isSuccessful) {
-                var foundTokenNode = false
+                val bodyString = response.body.string()
+                Timber.d("Lock response: %s", bodyString)
                 val xpp = XmlUtils.newPullParser()
-                xpp.setInput(response.body!!.charStream())
-                while (xpp.eventType != XmlPullParser.END_DOCUMENT) {
-                    if (xpp.eventType == XmlPullParser.START_TAG) {
-                        if (xpp.namespace == NS_WEBDAV && xpp.name == "locktoken") {
-                            foundTokenNode = true
-                        } else if (foundTokenNode && xpp.namespace == NS_WEBDAV && xpp.name == "href") {
-                            //TODO persist lock token
+                xpp.setInput(bodyString.reader())
+
+                var eventType = xpp.eventType
+                var insideLockToken = false
+
+                while (eventType != XmlPullParser.END_DOCUMENT) {
+                    val name = xpp.name
+                    if (eventType == XmlPullParser.START_TAG) {
+                        if (NS_WEBDAV == xpp.namespace && "locktoken" == name) {
+                            insideLockToken = true
+                        } else if (insideLockToken && NS_WEBDAV == xpp.namespace && "href" == name) {
                             currentLockToken = xpp.nextText()
                             return true
                         }
+                    } else if (eventType == XmlPullParser.END_TAG) {
+                        if (NS_WEBDAV == xpp.namespace && "locktoken" == name) {
+                            insideLockToken = false
+                        }
                     }
-                    xpp.next()
+                    eventType = xpp.next()
                 }
             }
         } catch (e: IOException) {
@@ -235,7 +266,7 @@ class WebDavClient(
             response = httpClient.newCall(request).execute()
             currentLockToken = null
             response.isSuccessful
-        } catch (e: IOException) {
+        } catch (_: IOException) {
             false
         } finally {
             cleanUp(response)
@@ -290,7 +321,7 @@ class WebDavClient(
             val baseResource = LockableDavResource(httpClient, mBaseUri)
             baseResource.options()
             baseResource.propfind(1, ResourceType.NAME)
-            if (!baseResource.isCollection) {
+            if (!baseResource.isCollection()) {
                 throw IOException("Not a folder")
             }
             if (!baseResource.capabilities.contains("2")) {
@@ -304,7 +335,7 @@ class WebDavClient(
             if (innerEx != null) {
                 var cert: X509Certificate? = null
                 try {
-                    cert = (innerEx as CertPathValidatorException)
+                    cert = innerEx
                         .certPath
                         .certificates[0] as X509Certificate
                 } catch (e2: Exception) {
@@ -319,7 +350,7 @@ class WebDavClient(
 
     @Throws(Exception::class)
     fun testClass2Locking() {
-        val folderName = "testClass2Locking"
+        val folderName = ".testClass2Locking"
         mkCol(folderName)
         val folder = LockableDavResource(httpClient, buildCollectionUri(folderName))
         try {
@@ -336,8 +367,9 @@ class WebDavClient(
         } finally {
             try {
                 folder.delete(null)
-            } catch (ignore: Exception) {
+            } catch (e: Exception) {
                 //this can fail, if the unlocking mechanism does not work. We live with not being able to delete the test folder
+                report(e)
             }
         }
     }
@@ -347,3 +379,7 @@ class WebDavClient(
         private const val NS_WEBDAV = "DAV:"
     }
 }
+
+private fun IOException.isTimeout(): Boolean =
+    this is SocketTimeoutException || this is InterruptedIOException ||
+            cause is SocketTimeoutException || cause is InterruptedIOException

@@ -11,6 +11,7 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,6 +37,7 @@ fun AmountEdit(
     modifier: Modifier = Modifier,
     fractionDigits: Int = 2,
     isError: Boolean = false,
+    enabled: Boolean = true,
     allowNegative: Boolean = true,
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     trailingIcon: @Composable (() -> Unit)? = null,
@@ -44,7 +46,7 @@ fun AmountEdit(
     // TODO we should take into account the arab separator as well
     val otherSeparator = remember { if (decimalSeparator == '.') ',' else '.' }
 
-    val numberFormat = remember {
+    val numberFormat = remember(fractionDigits) {
         val symbols = DecimalFormatSymbols()
         symbols.decimalSeparator = decimalSeparator
         var pattern = "#0"
@@ -57,16 +59,27 @@ fun AmountEdit(
     }
 
     var text by rememberSaveable {
-        mutableStateOf(value?.let { numberFormat.format(it) })
+        mutableStateOf(value?.let { numberFormat.format(it) } ?: "")
+    }
+
+    LaunchedEffect(value) {
+        if (value == null) {
+            text = ""
+        } else {
+            val currentVal = Utils.validateNumber(numberFormat, text)
+            if (currentVal == null || currentVal.compareTo(value) != 0) {
+                text = numberFormat.format(value)
+            }
+        }
     }
 
     DenseTextField(
-        value = text ?: "",
+        value = text,
         onValueChange = { newValue ->
             val input = newValue.replace(otherSeparator, decimalSeparator)
             val decimalSeparatorCount = input.count { it == decimalSeparator }
             if (
-                input.all { it.isDigit() || it == decimalSeparator || (it == '-' && allowNegative)  } &&
+                input.all { it.isDigit() || it == decimalSeparator || (it == '-' && allowNegative) } &&
                 decimalSeparatorCount <= (if (fractionDigits == 0) 0 else 1) &&
                 (decimalSeparatorCount == 0 || input.substringAfter(decimalSeparator).length <= fractionDigits) &&
                 input.lastIndexOf('-') <= 0
@@ -83,9 +96,11 @@ fun AmountEdit(
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Done),
         keyboardActions = keyboardActions,
         trailingIcon = trailingIcon,
-        isError = isError
+        isError = isError,
+        enabled = enabled
     )
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DenseTextField(
@@ -96,7 +111,8 @@ fun DenseTextField(
     keyboardActions: KeyboardActions = KeyboardActions.Default,
     trailingIcon: @Composable (() -> Unit)? = null,
     isError: Boolean = false,
-    readOnly: Boolean = false
+    readOnly: Boolean = false,
+    enabled: Boolean = true,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val colors: TextFieldColors = OutlinedTextFieldDefaults.colors().copy(
@@ -109,7 +125,7 @@ fun DenseTextField(
         onValueChange = onValueChange,
         modifier = modifier,
         interactionSource = interactionSource,
-        enabled = true,
+        enabled = enabled,
         readOnly = readOnly,
         singleLine = true,
         keyboardOptions = keyboardOptions,
@@ -149,7 +165,7 @@ fun DenseTextField(
 @Composable
 private fun AmountEditPreview() {
     var value by remember {
-        mutableStateOf(BigDecimal.TEN)
+        mutableStateOf<BigDecimal?>(null)
     }
     AmountEdit(
         value = value,

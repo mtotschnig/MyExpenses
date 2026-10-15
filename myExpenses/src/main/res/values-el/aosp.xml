@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
--->
-<resources>
+--><resources>
     <string name="drawer_open">"Άνοιγμα συρταριού πλοήγησης"</string>
     <string name="drawer_close">"Κλείσιμο συρταριού πλοήγησης"</string>
     <string name="sort_direction_ascending">"Αύξουσα"</string>
@@ -17,7 +17,6 @@
     <string name="style">"Στυλ"</string>
     <string name="loading">"Φόρτωση…"</string>
     <string name="button_label_continue">Συνέχεια</string>
-    <string name="autofill">"Αυτόματη συμπλήρωση"</string>
     <string name="discard">"Απόρριψη"</string>
     <string name="dialog_dismiss">"Παράβλεψη"</string>
     <string name="details">"Λεπτομέρειες"</string>
@@ -31,7 +30,6 @@
     <string name="setup">"Ρύθμιση"</string>
     <string name="customize">"Προσαρμογή"</string>
     <string name="compact">Συμπαγές</string>
-    <string name="storage_description">"Τοπικός χώρος αποθήκευσης"</string>
     <string name="encryption">"Κρυπτογράφηση"</string>
     <string name="learn_more">"Μάθετε περισσότερα"</string>
     <string name="show_all">"Εμφάνιση όλων"</string>
@@ -148,10 +146,9 @@
     <string name="delimiter_tab">"Στηλοθέτης"</string>
     <string name="enabled">"Ενεργή"</string>
     <string name="disabled">"Ανενεργή"</string>
-    <string name="preview">"Προεπισκ."</string>
+    <string name="preview">Προεπισκόπηση</string>
     <string name="show_password">"Εμφάνιση κωδικού πρόσβασης"</string>
     <string name="hide_password">"Απόκρυψη κωδικού πρόσβασης"</string>
-    <string name="user">"Χρήστης"</string>
     <string name="source">"Πηγή"</string>
     <string name="value">"Τιμή"</string>
     <string name="done_label">"Τέλος"</string>
@@ -172,4 +169,7 @@
     <string name="already_exists">"Το όνομα ήδη υπάρχει"</string>
     <string name="flag_inactive">"Ανενεργή"</string>
     <string name="count">"Πλήθος"</string>
+    <string name="empty">"Κενό"</string>
+    <string name="options">"Επιλογές"</string>
+    <string name="actions">"Ενέργειες"</string>
 </resources>

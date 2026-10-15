@@ -18,7 +18,6 @@
     <string name="style">"Styl"</string>
     <string name="loading">"Načítání…"</string>
     <string name="button_label_continue">Pokračovat</string>
-    <string name="autofill">"Automatické vyplňování"</string>
     <string name="discard">"Zahodit"</string>
     <string name="dialog_dismiss">"Zavřít"</string>
     <string name="details">"Podrobnosti"</string>
@@ -32,7 +31,6 @@
     <string name="setup">"Nastavit"</string>
     <string name="customize">"Přizpůsobit"</string>
     <string name="compact">kompaktní</string>
-    <string name="storage_description">"Místní úložiště"</string>
     <string name="encryption">"Šifrování"</string>
     <string name="learn_more">"Další informace"</string>
     <string name="show_all">"Zobrazit vše"</string>
@@ -154,7 +152,6 @@
     <string name="preview">"Náhled"</string>
     <string name="show_password">"Zobrazovat heslo"</string>
     <string name="hide_password">"Skrýt heslo"</string>
-    <string name="user">"Uživatel"</string>
     <string name="source">"Zdroj"</string>
     <string name="value">"Hodnota"</string>
     <string name="done_label">"Hotovo"</string>
@@ -175,4 +172,7 @@
     <string name="already_exists">"Název již existuje"</string>
     <string name="flag_inactive">"Neaktivní"</string>
     <string name="count">"Počet čísel"</string>
+    <string name="empty">"Prázdné"</string>
+    <string name="options">"Možnosti"</string>
+    <string name="actions">"Akce"</string>
 </resources>

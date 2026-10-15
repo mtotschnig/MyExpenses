@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="description_webdav_url">దయచేసి మీ వెబ్‌డావ్ సర్వర్‌లోని ప్రత్యేక ఫోల్డర్‌కు URL ను నమోదు చేయండి. {app_name} దాని డేటాను ఈ ఫోల్డర్‌లో నిల్వ చేస్తుంది, దాని వెలుపల దేనినీ తాకదు.</string>
+    <string name="hint_url">URL</string>
+    <string name="description_webdav_trust_certificate">వెబ్‌సైట్ సర్టిఫికెట్‌ను ఉపయోగిస్తుంది, ఇది Android ద్వారా విశ్వసించబడదు.</string>
+    <string name="label_trust_certificate">ఈ ప్రమాణపత్రాన్ని విశ్వసించండి</string>
+    <string name="url_not_valid">URL చెల్లదు</string>
+    <string name="validate_error_webdav_404">URL సర్వర్‌లో లేదు.</string>
+    <string name="validate_error_webdav_not_compliant">URL వెబ్‌డావ్ వనరును సూచించదు.</string>
+    <string name="validate_error_webdav_invalid_certificate">ప్రమాణపత్రాన్ని విశ్వసించలేదు. ఇది చెల్లదు.</string>
+</resources>

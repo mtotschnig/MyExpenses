@@ -16,6 +16,7 @@ import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.io.isConnectedWifi
 import org.totschnig.myexpenses.util.safeMessage
+import org.totschnig.myexpenses.util.safeMessageWithClassName
 import org.totschnig.myexpenses.viewmodel.WebUiViewModel
 
 @Keep
@@ -69,7 +70,7 @@ class PreferencesWebUiFragment : BasePreferenceFragment() {
         super.onPreferenceTreeClick(preference) -> true
         matches(preference, PrefKey.UI_WEB) -> {
             if (serverIsRunning) {
-                prefHandler.putBoolean(PrefKey.UI_WEB, false)
+                preferenceActivity.baseViewModel.toggleWebUi(false)
                 preferenceActivity.resultCode = BaseActivity.RESULT_INVALIDATE_OPTIONS_MENU
             } else {
                 val prefKey = "wifi_not_connected_warning_shown"
@@ -99,6 +100,8 @@ class PreferencesWebUiFragment : BasePreferenceFragment() {
     }
 
     fun bindToWebUiService() {
-        webUiViewModel.bind(requireContext())
+        webUiViewModel.bind(requireContext()).onFailure {
+            preferenceActivity.showSnackBar(it.safeMessageWithClassName)
+        }
     }
 }

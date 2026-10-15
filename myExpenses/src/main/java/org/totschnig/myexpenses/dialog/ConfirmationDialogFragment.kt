@@ -112,7 +112,7 @@ class ConfirmationDialogFragment : BaseDialogFragment(), DialogInterface.OnClick
     }
 
     override fun onClick(dialog: DialogInterface, which: Int) {
-        val ctx = activity as ConfirmationDialogListener? ?: return
+        val ctx = activity as? ConfirmationDialogListener ?: return
         val arguments = requireArguments()
         val prefKey = arguments.getString(KEY_PREFKEY)
         if (prefKey != null && checkBox!!.isChecked) {

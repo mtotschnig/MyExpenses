@@ -2,8 +2,7 @@
 <!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
--->
-<resources>
+--><resources>
     <string name="drawer_open">"Abrir control de navegación"</string>
     <string name="drawer_close">"Cerrar control de navegación"</string>
     <string name="sort_direction_ascending">"Ascendente"</string>
@@ -15,10 +14,9 @@
     <string name="toast_text_copied">"Texto copiado"</string>
     <string name="copy_text">"Copiar en el portapapeles"</string>
     <string name="stop">"Detener"</string>
-     <string name="style">"Estilo"</string>
+    <string name="style">"Estilo"</string>
     <string name="loading">"Cargando…"</string>
     <string name="button_label_continue">Continuar</string>
-    <string name="autofill">"Autocompletar"</string>
     <string name="discard">"Descartar"</string>
     <string name="dialog_dismiss">"Aceptar"</string>
     <string name="details">"Detalles"</string>
@@ -32,7 +30,6 @@
     <string name="setup">"Configuración"</string>
     <string name="customize">"Personalizar"</string>
     <string name="compact">compacto</string>
-    <string name="storage_description">"Almacenamiento local"</string>
     <string name="encryption">"Cifrado"</string>
     <string name="learn_more">"Más información"</string>
     <string name="show_all">"Mostrar todo"</string>
@@ -152,7 +149,6 @@
     <string name="preview">"Vista previa"</string>
     <string name="show_password">"Mostrar contraseña"</string>
     <string name="hide_password">"Ocultar contraseña"</string>
-    <string name="user">"Usuario"</string>
     <string name="source">"Origen"</string>
     <string name="value">"Valor"</string>
     <string name="done_label">"Hecho"</string>
@@ -173,4 +169,7 @@
     <string name="already_exists">"El nombre ya existe"</string>
     <string name="flag_inactive">"Inactiva"</string>
     <string name="count">"Recuento"</string>
+    <string name="empty">"Vacío"</string>
+    <string name="options">"Opciones"</string>
+    <string name="actions">"Acciones"</string>
 </resources>

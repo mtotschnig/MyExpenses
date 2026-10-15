@@ -4,13 +4,14 @@ import android.content.Context
 import android.text.TextUtils
 import android.util.AttributeSet
 import androidx.preference.EditTextPreference
+import androidx.core.content.edit
 
 /**
  * an edit text preference that only stores values if they are different than a defined default value
  * This is meant for preferences with localized defaults, so that when the locale changes, we do not
  * end up with the persisted default from the previous locale
  */
-abstract class LocalizedFormatEditTextPreference constructor(context: Context, attrs: AttributeSet) :
+abstract class LocalizedFormatEditTextPreference(context: Context, attrs: AttributeSet) :
         EditTextPreference(context, attrs) {
     var onValidationErrorListener: OnValidationErrorListener? = null
 
@@ -36,9 +37,9 @@ abstract class LocalizedFormatEditTextPreference constructor(context: Context, a
     }
 
     private fun voidValue() {
-        preferenceManager.sharedPreferences!!.edit()
-                .remove(key)
-                .apply()
+        preferenceManager.sharedPreferences!!.edit {
+            remove(key)
+        }
     }
 
     override fun callChangeListener(newValue: Any?) = (newValue as? String)

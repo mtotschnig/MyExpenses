@@ -43,7 +43,6 @@
     <string name="help_ManageCurrencies_symbol">您还可配置货币符号，在对特定币种的金额进行格式调整时使用。</string>
     <string name="help_ManageCurrencies_info">对于每个币种，您均可以修改小数部分的位数。以欧元为例，如果您需要输入0.001欧元,应将小数部分设置到第三位。使用同一币种的现有账户将会切换为新设置。</string>
     <string name="form_MethodEdit_account_types_help_text">选择应用此方法的账户类型。</string>
-    <string name="help_NavigationDrawer_info">通过账户列表，您只需点击条目即可在账户之间进行切换（待定）。</string>
     <string name="cab_sync_now_help_text">与选定的后台立即同步。</string>
     <string name="cab_sync_unlink_help_text">选定的账户将不再同步到后台</string>
     <string name="cab_remove_help_text">移除已选定的后台。</string>
@@ -59,7 +58,7 @@
     <string name="help_ManageParties_mergeMode_info_2">您需按提示选择所要保存写法。</string>
     <string name="cab_clone_transaction_help_text">复制选定交易并将其设置当前日期和时间。您可在保存之前进行更改。</string>
     <string name="cab_split_help_text">您可以在之后编辑该条交易，按需创建额外部分。</string>
-    <string name="menu_search_help_text">通过该按钮可打开一子菜单，在此您可按类别、金额、备注、状态、付款人/收款人及支付方式确定搜索标准。在搜索筛选器处于启用状态时，您只需点击子菜单中的相应条目即可解除启用。</string>
+    <string name="menu_search_help_text">通过该按钮可打开一子菜单，在此您可按类别、金额、备注、状态、付款人/收款人及支付方式确定搜索标准。</string>
     <string name="menu_print_help_text">将当前显示的交易生成打印视图。</string>
     <string name="popup_MyExpenses_toolbar_new_balance">计算当前余额与新输入数值的差额。</string>
     <string name="menu_grouping_help_text">您可以按日、周、月或年对交易进行分组。每一组别单独计算并显示收入、开支或转账的总额。当您在点击组别表头时，该组别的交易将会折叠并仅显示表头部分。再次点击即可展开显示。</string>
@@ -73,7 +72,7 @@
     <string name="help_ManageBudgets_title">列明所有预算的清单</string>
     <string name="help_ManageSyncBackends_webdav">如果您的云存储提供商支持此项协议，则My Expenses能够与之进行数据同步。sync data with it. Simply provide the URL to a folder with your username and password. If you use https and your webserver uses a self-signed certificate, you will be able to trust it explicitly.</string>
     <string name="help_ManageSyncBackends_intro">My Expenses允许为每个账户配置不同的同步后台。例如，您可以将某一账户与共享文件夹同步，同时可以将另一账户与私人文件夹同步。在该界面上，您可以添加或移除同步后台，开始或停止与远程账户进行同步。同步会定期自动进行，您可在此处手动触发与某一后台进行同步。请注意，My Expenses需要对远程文件夹获得全权控制。您不得使用其他工具或接口更改该文件夹内容，因为该操作可能会导致同步失败。</string>
-    <string name="cab_NavigationDrawer_close_reopen_help_text">通过关闭账户，您可以阻止对该账户的数据做出任何更改（增加、删除、编辑），但仍然可在统计计算时将其纳入其中。</string>
+    <string name="cab_close_reopen_help_text">通过关闭账户，您可以阻止对该账户的数据做出任何更改（增加、删除、编辑），但仍然可在统计计算时将其纳入其中。</string>
     <string name="form_category_help_text">该按钮可打开类别列表，您可以选择某一类别来映射该交易。</string>
     <string name="form_transfer_from_account_transfer_to_account_help_text">指定该项目转出或转入的账户。</string>
     <string name="help_MethodEdit_title">支付方式表单</string>
@@ -85,10 +84,9 @@
     <string name="cab_link_help_text">一个账户内的支出可以与另一账户的收入建立关联。如果这两个账户的币种相同，则两项交易的金额必须一致。</string>
     <string name="form_BudgetEdit_amount_help_text">本预算中有多少可用资金。</string>
     <string name="form_crstatus_help_text">对于属于银行账户的交易，您可以将交易状态改为已结清。若要将其设置为已对账，您必须使用交易清单中的“余额账户”命令。若将状态设为无效，则相应交易将不被计入。</string>
-    <string name="form_calculator_help_text">该 &lt;img src=?calcIcon&gt; 按钮可打开计算器。</string>
+    <string name="form_calculator_help_text"><![CDATA[该 <img src=?calcIcon> 按钮可打开计算器。]]></string>
     <string name="form_amount_switch_help_text">使用开关键来切换支出和收入。</string>
-    <string name="form_payer_or_payee_help_text">该字段会记住您输入的数值，并在以后作出提示。</string>
-    <string name="form_date_time_help_text_link">如果 &lt;img src=ic_hchain&gt;/&lt;img src=ic_hchain_broken&gt; 切换键处于已关联状态，不论设置起息日还是记账日，另一日期也会发生更新。</string>
+    <string name="form_date_time_help_text_link"><![CDATA[如果 <img src=ic_hchain>/<img src=ic_hchain_broken> 切换键处于已关联状态，不论设置起息日还是记账日，另一日期也会发生更新。]]></string>
     <string name="form_date_time_help_text_configuration">在设置中，您可以禁用时间输入并区分记账日与计息日。</string>
     <string name="form_account_help_text">选择交易所属的账户。</string>
     <string name="form_date_time_help_text">输入交易发生的日期和时间。</string>
@@ -107,7 +105,7 @@
     <string name="help_BudgetEdit_title">预算表单</string>
     <string name="form_color_help_text">在账户交易列表，此颜色将作为用户界面的主题色。</string>
     <string name="menu_save_and_new_help_text">如果勾选此项，保存数据后会使用相同的数据创建一个新的交易。</string>
-    <string name="form_attach_image_help_text">&lt;img src=android:ic_menu_camera&gt; 此按钮可以给对象添加图片(例如：从相册选择或者使用相机) 。</string>
+    <string name="form_attach_image_help_text"><![CDATA[<img src=android:ic_menu_camera> 此按钮可以给对象添加图片(例如：从相册选择或者使用相机) 。]]></string>
     <string name="help_ExpenseEdit_transaction_info">使用此表单录入一个新的交易或者编辑已有交易。使用操作栏的下拉菜单可在添加新的转账和拆分交易的表单之间进行切换。</string>
     <string name="menu_forward_help_text">导航到下一组。也可以通过从右到左的滑动手势来实现。</string>
     <string name="menu_ManageCategories_distribution_grouping_help_text">设置分组类型，并以每天、每月、每周或每年为单位显示分布情况。</string>
@@ -125,7 +123,7 @@
     <string name="menu_BudgetActivity_edit_help_text">更改预算的定义。</string>
     <string name="help_ManageTags_manage_info">通过在文本字段中输入标签即可创建新标签。</string>
     <string name="help_ManageTags_select_mapping_info">轻按标签进行映射或取消映射。使用浮动操作按钮确认映射。</string>
-    <string name="help_ManageTemplates_templates_info">&lt;img src=ic_menu_template&gt;模板可以基于交易通过快捷菜单加以创建，此处您可以点击悬浮操作按钮，从头创建新的（交易或转账）模板。点击某一模板，即可创建基于该模板的实例。&lt;br&gt;&lt;img src=ic_event&gt;计划是指您在计划表日历中为之创建（单次或重复）事件的模板。点击某一计划，将会打开日历视图，显示某一计划的过去和即将到来的实例。</string>
+    <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=ic_menu_template>模板可以基于交易通过快捷菜单加以创建，此处您可以点击悬浮操作按钮，从头创建新的（交易或转账）模板。点击某一模板，即可创建基于该模板的实例。<br><img src=ic_event>计划是指您在计划表日历中为之创建（单次或重复）事件的模板。点击某一计划，将会打开日历视图，显示某一计划的过去和即将到来的实例。]]></string>
     <string name="help_ManageCategories_distribution_info">此界面显示您的支出和收入在每个类别、账户中的所有交易或特定组中的分布。如果您在列表中展开一个主要类别，饼图将显示其子类别的分布。如果您在列表中选择一个类别，它将在饼图中突出显示，反之亦然。长按一个类别，可显示映射到该类别的交易的汇总列表。</string>
     <string name="help_ManageCategories_select_mapping_info">除了从首选项界面管理类别时可以执行的操作(创建、编辑、删除)之外，在此界面上，您可以将某项交易映射到选定的类别。只需单击子类别。</string>
     <string name="help_ManageCategories_manage_info">此界面允许创建、编辑和删除类别。默认情况下，类别列表中的主要排序标准是您使用类别的次数(次要标准是字母顺序)。您可以借此快速访问最常使用的类别。</string>
@@ -160,12 +158,12 @@
     <string name="help_ManageCategories_select_filter_info">点击任一条目开启多选模式。</string>
     <string name="cab_ManageCategories_move_help_text">任何类别（连同其子类别）都可以移到新的父类别，子类别可以转换为主类别。</string>
     <string name="cab_ManageCategories_create_sub_cat_help_text">打开用于在所选类别下方新建子类别的对话框，子类别可以无限嵌套。</string>
-    <string name="help_ManageCategories_expand_collapse">点击 &lt;img src=ic_expand_more&gt;/&lt;img src=ic_expand_less&gt; 图标以展开或收起类别</string>
+    <string name="help_ManageCategories_expand_collapse"><![CDATA[点击 <img src=ic_expand_more>/<img src=ic_expand_less> 图标以展开或收起类别]]></string>
     <string name="help_ManageCategories_manage_context">点击条目显示其上下文菜单，长按进行多选</string>
     <string name="form_split_parts_heading_help_text_1">使用 + 图标可根据需要输入任意数量的拆分部分</string>
     <string name="form_split_parts_heading_help_text_2">除非手动输入金额，否则金额字段将自动更新为各部分总和。手动输入情况下，将显示各部分总和与金额（未拆分金额）之间的差额</string>
-    <string name="help_CsvImportActivity_info">选择要导入的文件后，需要配置其编码方式（UTF-8 或 ISO-8859-1）、字段分隔符（逗号、分号或制表符）以及日期格式。数据可导入现有账户或新账户，你可以在其中配置币种和账户类型。&lt;br&gt;&lt;br&gt;点击操作栏中的“解析”按钮后，数据将呈现在表格中。正式导入之前，你可以选择要丢弃的行，并且必须将列映射到相应的数据字段。&lt;br&gt;&lt;br&gt;丢弃第一行时，系统会提示你是否希望将其视为标题行，在这种情况下，&lt;i&gt;My Expenses&lt;/i&gt; 将尝试根据标题单元格的内容自动映射列。它还会根据标题行记住你的映射，并在下次导入具有相同标题格式的文件时恢复它。</string>
-    <string name="help_ExportDialog_date_format">可以使用单引号 (\') 引用文本避免诠释。\'\'（两个单引号）代表一个单引号。详情请参阅完整的&lt;a href=%s&gt;规范&lt;/a&gt;，或联系 support@myexpenses.mobi 寻求帮助。</string>
+    <string name="help_CsvImportActivity_info"><![CDATA[选择要导入的文件后，需要配置其编码方式（UTF-8 或 ISO-8859-1）、字段分隔符（逗号、分号或制表符）以及日期格式。数据可导入现有账户或新账户，你可以在其中配置币种和账户类型。<br><br>点击操作栏中的“解析”按钮后，数据将呈现在表格中。正式导入之前，你可以选择要丢弃的行，并且必须将列映射到相应的数据字段。<br><br>丢弃第一行时，系统会提示你是否希望将其视为标题行，在这种情况下，<i>My Expenses</i> 将尝试根据标题单元格的内容自动映射列。它还会根据标题行记住你的映射，并在下次导入具有相同标题格式的文件时恢复它。]]></string>
+    <string name="help_ExportDialog_date_format"><![CDATA[可以使用单引号 (\') 引用文本避免诠释。\'\'（两个单引号）代表一个单引号。详情请参阅完整的<a href=%s>规范</a>，或联系 support@myexpenses.mobi 寻求帮助。]]></string>
     <string name="help_ManageSyncBackends_encryption">你可以为每个后端设置不同的密码来加密同步数据。不可将现有后端从未加密切换到加密，遇到这种情况，你需要重新新建一个后端。若使用在同步后端存储自动备份的功能，这些文件不会使用后端特定密码进行加密；相反，你可以在“设置”页面的“安全”部分设置适用于所有备份文件的密码。</string>
     <string name="cab_sync_download_help_text">下载一个在后端可用的账户，将在本地创建一个账户并配置为与后端同步</string>
     <string name="help_HistoryActivity_info">此屏幕显示你的现金流，以及支出和收入按年、月、周或天的变化情况</string>

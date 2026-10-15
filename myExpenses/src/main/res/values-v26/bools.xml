@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <bool name="is26">true</bool>
-    <bool name="isBelow26">false</bool>
-    <bool name="pin_shortcut_support">true</bool>
-</resources>

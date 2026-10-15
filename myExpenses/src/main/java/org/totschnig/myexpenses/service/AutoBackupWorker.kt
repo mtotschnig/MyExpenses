@@ -86,7 +86,6 @@ class AutoBackupWorker(context: Context, workerParameters: WorkerParameters) :
                     )
                     builder.addAction(
                         0,
-                        0,
                         wrappedContext.getString(R.string.menu_delete),
                         PendingIntent.getBroadcast(
                             applicationContext,
@@ -99,7 +98,6 @@ class AutoBackupWorker(context: Context, workerParameters: WorkerParameters) :
                         )
                     )
                     builder.addAction(
-                        0,
                         0,
                         wrappedContext.getString(android.R.string.cancel),
                         PendingIntent.getBroadcast(

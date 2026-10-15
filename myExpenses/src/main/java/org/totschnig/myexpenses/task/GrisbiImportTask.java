@@ -177,17 +177,13 @@ public class GrisbiImportTask extends AsyncTask<Void, Integer, Result> {
     }
     String msg = "";
     if (totalImportedCat > -1) {
-      msg += totalImportedCat == 0 ?
-          context.getString(R.string.import_categories_none) :
-          context.getString(R.string.import_categories_success, totalImportedCat);
+      msg += context.getResources().getQuantityString(R.plurals.import_categories_result, totalImportedCat, totalImportedCat);
     }
     if (totalImportedParty > -1) {
       if (!TextUtils.isEmpty(msg)) {
         msg += "\n";
       }
-      msg += totalImportedParty == 0 ?
-          context.getString(R.string.import_parties_none) :
-          context.getString(R.string.import_parties_success, totalImportedParty);
+      msg += context.getResources().getQuantityString(R.plurals.import_parties_result, totalImportedParty, totalImportedParty);
     }
     return Result.ofSuccess(msg);
   }

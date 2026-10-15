@@ -19,9 +19,11 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.MyExpenses
+import org.totschnig.myexpenses.activity.BaseMyExpenses
 import org.totschnig.myexpenses.databinding.BalanceBinding
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_CLEARED_TOTAL
+import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_RECONCILED_TOTAL
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.ui.postScrollToBottom
 
@@ -32,9 +34,9 @@ class BalanceDialogFragment : DialogViewBinding<BalanceBinding>(), DialogInterfa
             BalanceBinding.inflate(it)
         }
         UiUtils.configureAmountTextViewForHebrew(binding.TotalReconciled)
-        binding.TotalReconciled.text = requireArguments().getString(DatabaseConstants.KEY_RECONCILED_TOTAL)
+        binding.TotalReconciled.text = requireArguments().getString(KEY_RECONCILED_TOTAL)
         UiUtils.configureAmountTextViewForHebrew(binding.TotalCleared)
-        binding.TotalCleared.text = requireArguments().getString(DatabaseConstants.KEY_CLEARED_TOTAL)
+        binding.TotalCleared.text = requireArguments().getString(KEY_CLEARED_TOTAL)
         binding.balanceDelete.setOnCheckedChangeListener { _, isChecked ->
             binding.balanceDeleteWarning.visibility = if (isChecked) View.VISIBLE else View.GONE
             if (isChecked) {
@@ -42,7 +44,7 @@ class BalanceDialogFragment : DialogViewBinding<BalanceBinding>(), DialogInterfa
             }
         }
         return builder
-                .setTitle(getString(R.string.dialog_title_balance_account, requireArguments().getString(DatabaseConstants.KEY_LABEL)))
+                .setTitle(getString(R.string.dialog_title_balance_account, requireArguments().getString(KEY_LABEL)))
                 .setView(dialogView)
                 .setNegativeButton(android.R.string.cancel, null)
                 .setPositiveButton(android.R.string.ok, this)
@@ -50,7 +52,7 @@ class BalanceDialogFragment : DialogViewBinding<BalanceBinding>(), DialogInterfa
     }
 
     override fun onClick(dialog: DialogInterface, which: Int) {
-        val ctx = activity as MyExpenses? ?: return
+        val ctx = activity as? BaseMyExpenses<*> ?: return
         requireArguments().putInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE, R.id.BALANCE_COMMAND_DO)
         ctx.onPositive(requireArguments(), binding.balanceDelete.isChecked)
     }

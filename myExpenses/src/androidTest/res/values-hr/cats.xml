@@ -5,7 +5,7 @@
     <string name="testData_transaction2SubCat">Namirnice</string>
     <string name="testData_transaction2MainCat">Hrana</string>
     <string name="testData_transaction3SubCat">Gorivo</string>
-    <string name="testData_transaction3MainCat">Vozilo</string>
+    <string name="testData_transaction3MainCat">Auto</string>
     <string name="testData_transaction4SubCat">Restoran</string>
     <string name="testData_transaction6MainCat">Pokloni</string>
     <string name="testData_templateMainCat">Udomljivanje</string>

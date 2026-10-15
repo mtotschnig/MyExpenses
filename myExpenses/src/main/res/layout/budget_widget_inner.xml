@@ -28,7 +28,8 @@
             style="@style/WidgetActionButton.Navigation"
             android:contentDescription="@string/menu_back"
             android:src="@drawable/ic_menu_back"
-            tools:ignore="ContentDescription" />
+            android:tint="?colorOnPrimaryContainer"
+            tools:ignore="ContentDescription,UseAppTint" />
 
         <TextView
             android:id="@+id/groupInfo"
@@ -45,7 +46,8 @@
             style="@style/WidgetActionButton.Navigation"
             android:contentDescription="@string/menu_forward"
             android:src="@drawable/ic_menu_forward"
-            tools:ignore="ContentDescription" />
+            android:tint="?colorOnPrimaryContainer"
+            tools:ignore="ContentDescription,UseAppTint" />
     </LinearLayout>
 
     <FrameLayout

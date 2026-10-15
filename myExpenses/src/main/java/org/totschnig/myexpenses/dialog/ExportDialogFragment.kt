@@ -17,7 +17,11 @@ package org.totschnig.myexpenses.dialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.text.*
+import android.text.Editable
+import android.text.InputFilter
+import android.text.Spanned
+import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.EditText
@@ -27,17 +31,22 @@ import androidx.core.text.HtmlCompat
 import androidx.core.view.isVisible
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.activity.MyExpenses
+import org.totschnig.myexpenses.activity.BaseMyExpenses
 import org.totschnig.myexpenses.databinding.ExportDialogBinding
 import org.totschnig.myexpenses.export.AbstractExporter.Companion.ENCODING_LATIN_1
 import org.totschnig.myexpenses.export.AbstractExporter.Companion.ENCODING_UTF_8
 import org.totschnig.myexpenses.export.AbstractExporter.Companion.ENCODING_UTF_8_BOM
+import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.ExportFormat
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
 import org.totschnig.myexpenses.provider.DataBaseAccount.Companion.HOME_AGGREGATE_ID
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_FLAG
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_TYPE
 import org.totschnig.myexpenses.util.Utils
+import org.totschnig.myexpenses.util.timeFormatterPattern
 import org.totschnig.myexpenses.util.ui.configurePopupAnchor
 import org.totschnig.myexpenses.util.ui.postScrollToBottom
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_CREATE_HELPER
@@ -82,19 +91,49 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
             ExportDialogBinding.inflate(it)
         }
 
-        if (accountInfo.id == HOME_AGGREGATE_ID) {
-            allP = true
-            warningText = getString(R.string.warning_reset_account_all, "")
-            fileName = "export-$now"
-        } else {
-            if (accountInfo.id < 0L) {
+        when (accountInfo.id) {
+            HOME_AGGREGATE_ID -> {
                 allP = true
-                fileName = "export-${accountInfo.currency}-$now"
-                warningText =
-                    getString(R.string.warning_reset_account_all, " (${accountInfo.currency})")
-            } else {
-                fileName = Utils.escapeForFileName(accountInfo.label) + "-" + now
-                warningText = getString(R.string.warning_reset_account)
+                warningText = getString(R.string.warning_reset_account_all, "")
+                fileName = "export-$now"
+            }
+            0L -> {
+                allP = true
+                when(AccountGrouping.valueOf(accountInfo.aggregate!!.first)) {
+                    AccountGrouping.CURRENCY -> {
+                        fileName = "export-${accountInfo.currency}-$now"
+                        warningText =
+                            getString(R.string.warning_reset_account_all, " (${accountInfo.currency})")
+                    }
+                    AccountGrouping.FLAG -> {
+                        val (flag, id) = accountInfo.aggregate.second!!
+                        fileName = "export-FLAG-$id-$now"
+                        warningText =
+                            getString(R.string.warning_reset_account_all, " ($flag)")
+                    }
+                    AccountGrouping.NONE -> {
+                        warningText = getString(R.string.warning_reset_account_all, "")
+                        fileName = "export-$now"
+                    }
+                    AccountGrouping.TYPE -> {
+                        val (type, id) = accountInfo.aggregate.second!!
+                        fileName = "export-TYPE-$id-$now"
+                        warningText =
+                            getString(R.string.warning_reset_account_all, " ($type)")
+                    }
+                }
+
+            }
+            else -> {
+                if (accountInfo.id < 0L) {
+                    allP = true
+                    fileName = "export-${accountInfo.currency}-$now"
+                    warningText =
+                        getString(R.string.warning_reset_account_all, " (${accountInfo.currency})")
+                } else {
+                    fileName = Utils.escapeForFileName(accountInfo.label) + "-" + now
+                    warningText = getString(R.string.warning_reset_account)
+                }
             }
         }
         if (accountInfo.isFiltered) {
@@ -153,11 +192,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
                 } catch (_: IllegalArgumentException) {
                     null
                 }) != null
-            } ?: DateTimeFormatterBuilder.getLocalizedDateTimePattern(
-            null,
-            FormatStyle.SHORT,
-            IsoChronology.INSTANCE, Locale.getDefault()
-        )
+            } ?: requireContext().timeFormatterPattern
         binding.timeFormat.setText(timeFormat)
         binding.timeFormat.addTextChangedListener(DateFormatWatcher(binding.timeFormat))
         configureDateTimeFormat()
@@ -271,9 +306,14 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
             binding.mergeAccounts.isChecked = mergeAccounts
         }
 
-        dialogView.findViewById<View>(R.id.date_format_help).configurePopupAnchor(
-            infoText = buildDateFormatHelpText()
+        binding.DateFormatHelp.configurePopupAnchor(
+            infoText = this.buildDateFormatHelpText(dateFormat = true, timeFormat = !splitDateTimeConfigured)
         )
+        if (splitDateTimeConfigured) {
+            binding.TimeFormatHelp.configurePopupAnchor(
+                infoText = this.buildDateFormatHelpText(dateFormat = false, timeFormat = true)
+            )
+        }
 
         builder.setTitle(if (allP) R.string.menu_reset_all else R.string.menu_reset)
             .setNegativeButton(android.R.string.cancel, null)
@@ -281,25 +321,33 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
         return builder.create()
     }
 
-    private val splitDateTime: Boolean
-        get() = prefHandler.getBoolean(PrefKey.CSV_EXPORT_SPLIT_DATE_TIME, false) &&
-                binding.format.checkedButtonId == R.id.csv
+    private val splitDateTimeConfigured: Boolean
+        get() = prefHandler.getBoolean(PrefKey.CSV_EXPORT_SPLIT_DATE_TIME, false)
+
+    private val splitDateTimeActive: Boolean
+        get() = splitDateTimeConfigured && binding.format.checkedButtonId == R.id.csv
 
     private fun configureDateTimeFormat() {
-        with(splitDateTime) {
-            binding.timeFormat.isVisible = this
-            binding.DateFormatLabel.text = getString(R.string.date_format) +
-                    if (this) " / " + getString(R.string.time_format) else ""
-        }
+        binding.TimeFormatRow.isVisible = splitDateTimeActive
     }
 
     private fun setFileNameLabel(oneFile: Boolean) {
         binding.fileNameLabel.setText(if (oneFile) R.string.file_name else R.string.folder_name)
     }
 
-    private fun buildDateFormatHelpText(): CharSequence {
-        val letters = resources.getStringArray(R.array.help_ExportDialog_date_format_letters)
-        val components = resources.getStringArray(R.array.help_ExportDialog_date_format_components)
+    private fun buildDateFormatHelpText(dateFormat: Boolean, timeFormat: Boolean): CharSequence {
+        val letters = buildList {
+            if (dateFormat)
+                addAll(resources.getStringArray(R.array.help_ExportDialog_date_format_letters))
+            if (timeFormat)
+                addAll(resources.getStringArray(R.array.help_ExportDialog_time_format_letters))
+        }
+        val components = buildList {
+            if (dateFormat)
+                addAll(resources.getStringArray(R.array.help_ExportDialog_date_format_components))
+            if (timeFormat)
+                addAll(resources.getStringArray(R.array.help_ExportDialog_time_format_components))
+        }
         val sb = StringBuilder()
         for (i in letters.indices) {
             sb.append(letters[i])
@@ -356,7 +404,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
         with(prefHandler) {
             putString(PrefKey.EXPORT_FORMAT, format.name)
             putString(PREF_KEY_EXPORT_DATE_FORMAT, dateFormat)
-            if (splitDateTime) {
+            if (splitDateTimeActive) {
                 putString(PREF_KEY_EXPORT_TIME_FORMAT, timeFormat)
             }
             putString(PREF_KEY_EXPORT_ENCODING, encoding)
@@ -364,16 +412,31 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
             putInt(KEY_DELIMITER, delimiter.code)
             putInt(KEY_EXPORT_HANDLE_DELETED, handleDeleted)
         }
-        (requireActivity() as MyExpenses).startExport(Bundle().apply {
+        (requireActivity() as BaseMyExpenses<*>).startExport(Bundle().apply {
             putInt(
                 ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
                 R.id.START_EXPORT_COMMAND
             )
             if (accountInfo.id > 0) {
-                putLong(DatabaseConstants.KEY_ROWID, accountInfo.id)
+                putLong(KEY_ROWID, accountInfo.id)
             } else {
                 if (accountInfo.id != HOME_AGGREGATE_ID) {
-                    putString(DatabaseConstants.KEY_CURRENCY, accountInfo.currency)
+                    if (accountInfo.id < 0) {
+                        putString(KEY_CURRENCY, accountInfo.currency)
+                    } else {
+                        when(AccountGrouping.valueOf(accountInfo.aggregate!!.first)) {
+                            AccountGrouping.CURRENCY -> {
+                                putString(KEY_CURRENCY, accountInfo.currency)
+                            }
+                            AccountGrouping.FLAG -> {
+                                putLong(KEY_FLAG, accountInfo.aggregate.second!!.second!!)
+                            }
+                            AccountGrouping.NONE -> {}
+                            AccountGrouping.TYPE -> {
+                                putLong(KEY_TYPE, accountInfo.aggregate.second!!.second!!)
+                            }
+                        }
+                    }
                 }
                 val mergeAccounts = binding.mergeAccounts.isChecked
                 putBoolean(KEY_MERGE_P, mergeAccounts)
@@ -383,7 +446,7 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
             putBoolean(KEY_DELETE_P, binding.exportDelete.isChecked)
             putBoolean(KEY_NOT_YET_EXPORTED_P, binding.exportNotYetExported.isChecked)
             putString(KEY_DATE_FORMAT, dateFormat)
-            if (splitDateTime) {
+            if (splitDateTimeActive) {
                 putString(KEY_TIME_FORMAT, timeFormat)
             }
             putChar(KEY_DECIMAL_SEPARATOR, decimalSeparator)
@@ -425,7 +488,8 @@ class ExportDialogFragment : DialogViewBinding<ExportDialogBinding>(),
         val currency: String,
         val cannotResetConditions: List<Int>,
         val hasExported: Boolean,
-        val isFiltered: Boolean
+        val isFiltered: Boolean,
+        val aggregate: Pair<String, Pair<String, Long?>?>? = null
     ) : Serializable
 
     companion object {

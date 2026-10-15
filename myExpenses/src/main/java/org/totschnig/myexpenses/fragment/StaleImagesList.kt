@@ -46,7 +46,7 @@ import org.totschnig.myexpenses.activity.BaseActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.activity.ViewIntentProvider
 import org.totschnig.myexpenses.databinding.ImagesListBinding
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_URI
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.ui.attachmentInfoMap
@@ -150,7 +150,7 @@ class StaleImagesList : ContextualActionBarFragment(), LoaderManager.LoaderCallb
         imagesCursor!!.moveToPosition(position)
         return Uri.parse(
             imagesCursor!!.getString(
-                imagesCursor!!.getColumnIndexOrThrow(DatabaseConstants.KEY_URI)
+                imagesCursor!!.getColumnIndexOrThrow(KEY_URI)
             )
         )
     }
@@ -164,7 +164,7 @@ class StaleImagesList : ContextualActionBarFragment(), LoaderManager.LoaderCallb
         _binding = ImagesListBinding.inflate(inflater, container, false)
 
         // Create an array to specify the fields we want to display in the list
-        val from = arrayOf(DatabaseConstants.KEY_URI)
+        val from = arrayOf(KEY_URI)
 
         // and an array of the fields we want to bind those fields to 
         val to = intArrayOf(R.id.image)

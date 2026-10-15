@@ -159,10 +159,15 @@ class StorageAccessFrameworkBackendProvider internal constructor(context: Contex
 
     @Throws(IOException::class)
     private fun saveFileContents(file: DocumentFile, fileContents: String, maybeEncrypt: Boolean) {
-        (contentResolver.openOutputStream(file.uri, "rwt") ?: throw IOException()).use { out ->
-            (if (maybeEncrypt) maybeEncrypt(out) else out).bufferedWriter().use {
-                it.write(fileContents)
+        try {
+            (contentResolver.openOutputStream(file.uri, "wt") ?: throw IOException("Failed to open output stream")).use { out ->
+                (if (maybeEncrypt) maybeEncrypt(out) else out).bufferedWriter().use {
+                    it.write(fileContents)
+                }
             }
+        } catch (e: Exception) {
+            // If it's already an IOException, rethrow it, otherwise wrap it
+            throw e as? IOException ?: IOException("Error saving file contents", e)
         }
     }
 

@@ -11,23 +11,17 @@ import android.test.ProviderTestCase2
 import android.test.RenamingDelegatingContext
 import android.test.mock.MockContentResolver
 import android.test.mock.MockContext
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.test.platform.app.InstrumentationRegistry
-import org.mockito.Mockito
 import org.totschnig.myexpenses.TestApp
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.deleteAccount
 import org.totschnig.myexpenses.db2.findAccountType
 import org.totschnig.myexpenses.model.AccountType
-import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.PREDEFINED_NAME_CASH
-import org.totschnig.myexpenses.model.Transaction
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.provider.TransactionProvider
-import org.totschnig.myexpenses.util.CurrencyFormatter
 import java.io.File
 
 open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(
@@ -55,10 +49,10 @@ open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(
     protected val repository: Repository
         get() = Repository(
             targetContextWrapper,
-            Mockito.mock(CurrencyContext::class.java),
-            Mockito.mock(CurrencyFormatter::class.java),
+            app.appComponent.currencyContext(),
             prefHandler,
-            Mockito.mock(DataStore::class.java) as DataStore<Preferences>
+            app.appComponent.preferencesDataStore(),
+            app.appComponent.plannerUtils()
         )
 
     val contentResolver: ContentResolver
@@ -80,9 +74,6 @@ open class BaseProviderTest : ProviderTestCase2<TransactionProvider>(
 
     val cashAccount: AccountType
         get() = repository.findAccountType(PREDEFINED_NAME_CASH)!!
-
-    fun getTransactionFromDb(id: Long): Transaction? =
-        Transaction.getInstanceFromDb(repository.contentResolver, id, homeCurrency)
 
     @Deprecated("Deprecated in Java")
     @Throws(Exception::class)

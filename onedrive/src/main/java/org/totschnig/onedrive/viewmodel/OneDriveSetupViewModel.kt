@@ -1,8 +1,6 @@
 package org.totschnig.onedrive.viewmodel
 
 import android.app.Application
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.SavedStateHandle
 import com.microsoft.graph.logger.DefaultLogger
 import com.microsoft.graph.logger.LoggerLevel
@@ -18,7 +16,6 @@ import org.totschnig.onedrive.BuildConfig
 import org.totschnig.onedrive.getAll
 import java.util.concurrent.CompletableFuture
 
-@RequiresApi(Build.VERSION_CODES.N)
 class OneDriveSetupViewModel(application: Application, savedStateHandle: SavedStateHandle) :
     AbstractSetupViewModel(BackendService.ONEDRIVE, application, savedStateHandle) {
 

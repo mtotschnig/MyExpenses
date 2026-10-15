@@ -69,10 +69,7 @@
     <string name="menu_aggregates">کل</string>
     <string name="menu_cancel_plan_instance">منسوخ کریں</string>
     <string name="dialog_title_warning_delete_category">زمرہ حذف کریں؟</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">اکاؤنٹ حذف کریں؟</item>
-        <item quantity="other">%1$d اکاؤنٹس حذف کریں؟</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">اکاؤنٹ حذف کریں؟</string>
     <string name="dialog_title_warning_delete_template">ٹیمپلیٹ کو حذف کریں؟</string>
     <string name="dialog_title_warning_delete_transaction">ٹرانزیکشن حذف کریں؟</string>
     <string name="expense">خرچہ</string>
@@ -106,7 +103,7 @@
     <string name="menu_create_main_cat">نیا مرکزی زمر</string>
     <string name="menu_edit_party">پارٹی میں ترمیم کریں</string>
     <string name="menu_edit_plan_instance">سنگل پلان کی موجودگی میں ترمیم کریں</string>
-    <string name="menu_edit_split">تقسیم میں ترمیم کریں</string>
+    <string name="menu_edit_split">تقسیم کے لین دین میں ترمیم کریں۔</string>
     <string name="menu_edit_transfer">منتقلی میں ترمیم کریں</string>
     <string name="menu_edit_template">ٹیمپلیٹ میں ترمیم کریں</string>
     <string name="menu_exclude_from_totals">ٹوٹل سے خارج کریں</string>
@@ -147,7 +144,6 @@
     <string name="button_label_close">بند کریں</string>
     <string name="menu_split_transaction">تقسیم میں تبدیل کریں</string>
     <string name="method">ادائیگی کا طریقہ</string>
-    <string name="no_app_handling_ftp_available">کوئی ایپ ہینڈلنگ ایف ٹی پی دستیاب نہیں ہے۔ انسٹال کریں <i>FTP کے ساتھ بھیجیں</i>؟</string>
     <string name="no_categories">کوئی زمرہ جات نہیں.</string>
     <string name="no_app_handling_email_available">کوئی ایپ ہینڈلنگ ای میل دستیاب نہیں ہے.</string>
     <string name="no_app_handling_mime_type_available">%s فائلوں کو ہینڈل کرنے والی کوئی ایپ دستیاب نہیں ہے.</string>
@@ -183,7 +179,7 @@
     <string name="password_security_answer_not_valid">غلط جواب. دوبارہ کوشش کریں!</string>
     <string name="payee">ادا کرنے والا</string>
     <string name="payer">ادا کرنے والا</string>
-    <string name="payer_or_payee">وصول کنندہ/ ادا کرنے والا</string>
+    <string name="payer_or_payee">دوسرا فریق</string>
     <string name="plan">منصوبہ</string>
     <string name="plan_automatic">خودکار</string>
     <string name="plan_calendar_name">{app_name} منصوبہ ساز</string>
@@ -209,7 +205,6 @@
     <string name="pref_category_title_more_information">مزید معلومات</string>
     <string name="pref_category_title_ui">یوزر انٹرفیس</string>
     <string name="pref_contrib_purchase_title_upgrade">اپ گریڈ کلید</string>
-    <string name="pref_custom_currency_title">کرنسیوں کو اپنی مرضی کے مطابق بنائیں</string>
     <string name="pref_enter_licence_title">کلید درج کریں</string>
     <string name="pref_export_format_title">ڈیٹا فارمیٹ</string>
     <string name="pref_import_from_grisbi_summary">Grisbi XML فائل سے زمرے اور پارٹیاں درآمد کریں</string>
@@ -237,8 +232,6 @@
     <string name="pref_security_question_title">سیکیورٹی سوال</string>
     <string name="pref_send_feedback_title">رائے بھیجیں</string>
     <string name="pref_share_target_title">URL اپ لوڈ کریں</string>
-    <string name="pref_shortcut_added">ہوم اسکرین میں شارٹ کٹ شامل کر دیا گیا ہے</string>
-    <string name="pref_shortcut_not_added">کوئی ہوم اسکرین دستیاب نہیں ہے جو شارٹ کٹس کو قبول کرتی ہو.</string>
     <string name="pref_shortcut_summary">ہوم اسکرین میں شارٹ کٹ شامل کریں.</string>
     <string name="pref_ui_language_title">زبان</string>
     <string name="pref_ui_theme_dark">اندھیرا</string>
@@ -333,11 +326,22 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">اگر رقم کو اپ ڈیٹ نہیں کیا جاتا ہے، تو وہ تبدیلی کے بعد %d سے تقسیم کے طور پر دکھائی جائیں گی.</string>
     <string name="warning_change_fraction_digits_3">اگر رقم کو اپ ڈیٹ کیا جاتا ہے، تو آپ ان کے جزوی حصے کے بارے میں معلومات کھو دیں گے.</string>
     <string name="warning_change_fraction_digits_checkbox_label">ڈیٹا بیس میں رقم کو اپ ڈیٹ کریں</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d ٹرانزیکشنز کو کامیابی سے اکاؤنٹ %2$s میں درآمد کیا گیا</string>
-    <string name="import_accounts_none">کوئی اکاؤنٹ درآمد نہیں کیا گیا</string>
-    <string name="warning_splitpartcategory_context">وہ منتقلی جو تقسیم کا حصہ ہیں صرف تقسیم کے تناظر میں ترمیم کی جا سکتی ہیں.</string>
-    <string name="import_categories_success">%1$d زمرے کامیابی کے ساتھ درآمد ہو گئے.</string>
-    <string name="import_parties_none">کوئی پارٹیاں درآمد نہیں کی گئیں</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d زمرے کامیابی کے ساتھ درآمد ہو گئے.</item>
+        <item quantity="other">%1$d زمرے کامیابی کے ساتھ درآمد ہو گئے.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d پارٹیاں کامیابی کے ساتھ درآمد ہو گئیں</item>
+        <item quantity="other">%1$d پارٹیاں کامیابی کے ساتھ درآمد ہو گئیں</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d اکاؤنٹس کامیابی کے ساتھ درآمد ہو گئے</item>
+        <item quantity="other">%1$d اکاؤنٹس کامیابی کے ساتھ درآمد ہو گئے</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d ٹرانزیکشنز کو کامیابی سے اکاؤنٹ %2$s میں درآمد کیا گیا</item>
+        <item quantity="other">%1$d ٹرانزیکشنز کو کامیابی سے اکاؤنٹ %2$s میں درآمد کیا گیا</item>
+    </plurals>
     <string name="import_source_select_error">براہ کرم %1$s قسم کی فائل فراہم کریں</string>
     <string name="menu_categories_setup_default">پہلے سے طے شدہ زمرے ترتیب دیں</string>
     <string name="widget_title_templates">میری ٹیمپلیٹس</string>
@@ -359,20 +363,15 @@
     <string name="search_method">طریقہ تلاش کریں</string>
     <string name="search_tag">ٹیگ تلاش کریں</string>
     <string name="warning_restore">ڈیٹا بیس اور ترجیحات کو فائل \"%1$s\" سے بحال کر دیا جائے گا۔ موجودہ ڈیٹا کو حذف کر دیا جائے گا.</string>
-    <string name="import_accounts_success">%1$d اکاؤنٹس کامیابی کے ساتھ درآمد ہو گئے</string>
     <string name="widget_title_accounts">میرے اکاؤنٹس</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">براہ کرم %1$d اور %2$d کے درمیان نمبر سیٹ کریں</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">اگر رقم کو اپ ڈیٹ نہیں کیا جاتا ہے، تو وہ تبدیلی کے بعد %d سے ضرب کے طور پر دکھائی جائیں گی.</string>
-    <string name="import_parties_success">%1$d پارٹیاں کامیابی کے ساتھ درآمد ہو گئیں</string>
-    <string name="import_transactions_none">اکاؤنٹ %1$s میں کوئی لین دین درآمد نہیں کیا گیا</string>
     <string name="app_dir_not_accessible">بیک اپ اور برآمدات (%1$s) کے لیے فی الحال منتخب کردہ فولڈر قابل رسائی نہیں ہے۔ براہ کرم ایک مختلف منتخب کریں.</string>
     <string name="comparison_operator_greater_than">سے بڑا</string>
     <string name="comparison_operator_between">کے درمیان</string>
     <string name="comparison_operator_date_before">پہلے</string>
     <string name="comparison_operator_date_after">کے بعد</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">خریداری ناکام یا منسوخ ہو گئی.</string>
-    <string name="import_categories_none">کوئی زمرہ درآمد نہیں کیا گیا</string>
-    <string name="app_dir_not_compatible_with_nougat">بیک اپ اور برآمدات (%1$s) کے لیے فی الحال کنفیگر کردہ URI Android Nougat کے تحت تعاون یافتہ نہیں ہے۔ براہ کرم ایک فولڈر دوبارہ منتخب کریں.</string>
     <string name="pref_manage_stale_images_summary">حذف شدہ لین دین سے بچ جانے والی تصاویر کا نظم کریں</string>
     <string name="transaction_deleted">لین دین کو حذف کر دیا گیا ہے</string>
     <string name="account_deleted">اکاؤنٹ حذف کر دیا گیا ہے</string>
@@ -401,8 +400,6 @@
     <string name="crash_dialog_comment_prompt">آپ ذیل میں مسئلہ کے بارے میں اپنے تبصرے شامل کر سکتے ہیں:</string>
     <string name="synchronization">ہم وقت سازی</string>
     <string name="synchronization_none">کوئی مطابقت پذیری نہیں ہے</string>
-    <string name="description_webdav_trust_certificate">ویب سائٹ ایک سرٹیفکیٹ استعمال کرتی ہے، جس پر اینڈرائیڈ کو بھروسہ نہیں ہے۔</string>
-    <string name="label_trust_certificate">اس سند پر بھروسہ کریں</string>
     <string name="menu_sync_download">ڈاؤن لوڈ اور مطابقت پذیری کریں</string>
     <string name="pref_sync_frequency_summary">ڈیٹا کتنی بار مطابقت پذیر ہونا چاہئے (گھنٹوں میں).</string>
     <string name="dialog_command_sync_link_remote">ریموٹ سے ڈاؤن لوڈ کریں</string>
@@ -486,7 +483,7 @@
     <string name="pref_exchange_rate_provider_summary">ایکسچینج ریٹ ڈاؤن لوڈ کرنے کے لیے فراہم کنندہ کو منتخب کریں</string>
     <string name="pref_exchange_rate_provider_title">ایکسچینج ریٹ فراہم کرنے والا</string>
     <string name="pref_exchange_rates_api_key_summary">براہ کرم %s پر ایک مفت اکاؤنٹ رجسٹر کریں اور اپنی App ID فراہم کریں</string>
-    <string name="pref_plan_executor_time_title">منصوبہ ساز کی اطلاع کا وقت</string>
+    <string name="pref_plan_executor_time_title">اطلاع کا وقت</string>
     <string name="synchronization_select_folder_dialog_title">ایک موجودہ فولڈر منتخب کریں یا نیا بنائیں</string>
     <string name="budget_onetime">ایک بار</string>
     <string name="dialog_multi_tag_append">موجودہ ٹیگز میں نئے ٹیگز شامل کریں</string>
@@ -580,17 +577,11 @@
     <string name="dialog_title_select_target">ہدف منتخب کریں</string>
     <string name="plan_instance_state_open">کھلا</string>
     <string name="plan_instance_state_applied">لاگو</string>
-    <string name="progress_dialog_updating_split_parts">تقسیم شدہ حصوں کو اپ ڈیٹ کرنا</string>
     <string name="warning_cannot_move_split_transaction">اس تقسیم شدہ ٹرانزیکشن کو اکاؤنٹ %1$s میں منتقل نہیں کیا جا سکتا ہے کیونکہ اس اکاؤنٹ کا حوالہ دینے والے ٹرانسفر پارٹس ہیں.</string>
     <string name="content_description_calculator_delete_button">آخری ہندسہ حذف کریں</string>
-    <string name="hint_url">URL</string>
     <string name="plan_instance_state_cancelled">منسوخ</string>
     <string name="no_sync_backends">کوئی مطابقت پذیری بیک اینڈ نہیں ہے</string>
     <string name="validate_error_not_empty">خالی نہیں ہونا چاہیے</string>
-    <string name="validate_error_webdav_invalid_certificate">سرٹیفکیٹ پر بھروسہ نہیں کیا جا سکتا۔ یہ ناجائز لگتا ہے.</string>
-    <string name="validate_error_webdav_not_compliant">URL کسی WebDAV وسائل کی طرف اشارہ نہیں کرتا.</string>
-    <string name="validate_error_webdav_404">URL سرور پر موجود نہیں ہے.</string>
-    <string name="url_not_valid">URL درست نہیں ہے</string>
     <string name="menu_sync_unlink">تماشہ بند کرو</string>
     <string name="menu_sync_link">مطابقت پذیری شروع کریں</string>
     <string name="menu_create_sync_backend">نیا سنکرونائزیشن پسدید</string>
@@ -717,7 +708,7 @@
     <string name="onboarding_privacy_title">آپ کا ڈیٹا آپ کے ہاتھ میں رہتا ہے</string>
     <string name="budget_filter_all_methods">تمام طریقے</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">ٹیگ %1$s کو ایک ٹرانزیکشن میں میپ کیا گیا ہے کیا اسے حذف کر دینا چاہیے؟</item>
+        <item quantity="one">ٹیگ %1$s کو %2$d ٹرانزیکشن میں میپ کیا گیا ہے کیا اسے حذف کر دینا چاہیے؟</item>
         <item quantity="other">ٹیگ %1$s کو %2$d ٹرانزیکشنز پر میپ کیا گیا ہے کیا اسے حذف کر دینا چاہیے؟</item>
     </plurals>
     <string name="dialog_multi_tag">تمام منتخب ٹرانزیکشنز کو %s کے ساتھ ٹیگ کیا جائے گا.</string>
@@ -733,7 +724,6 @@
     <string name="pref_criterion_future_end_of_day">دن کا اختتام</string>
     <string name="pref_criterion_future_current">موجودہ وقت</string>
     <string name="performance_enhancement" tools:ignore="UnusedResources">کارکردگی میں اضافہ</string>
-    <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">منتقلی، تقسیم لین دین یا آمدنی کے لیے فارم کو براہ راست کھولنے کے لیے تیرتے ہوئے ایکشن بٹن کو تھپتھپائیں اور دبائے رکھیں.</string>
     <string name="confirmation_load_template_discard_data">موجودہ فارم ڈیٹا کو ضائع کر دیا جائے گا.</string>
     <string name="account_widget_configuration_sum_total">مستقبل کے لین دین کو شامل کریں</string>
     <string name="warning_link_transfer">دو منتخب ٹرانزیکشنز کو ٹرانسفر کے طور پر منسلک کیا جائے گا. وصول کنندہ/ ادا کنندہ اور زمرہ کی معلومات چھوڑ دی جائیں گی.</string>
@@ -762,7 +752,6 @@
     <string name="pref_auto_backup_summary">روزانہ مخصوص وقت پر ڈیٹا بیس کا بیک اپ لیں (صرف اس صورت میں جب ڈیٹا تبدیل ہوا ہو).</string>
     <string name="calendar_permission_required"><i>{app_name}</i> کو آپ کے کیلنڈر تک رسائی حاصل کرنے کے لیے اجازت درکار ہے، تاکہ مستقبل اور اعادی لین دین کے لیے منصوبے بنائے جائیں.</string>
     <string name="paypal_callback_info">آپ کا لین دین مکمل ہو گیا، اور آپ کی خریداری کی آپ کو ای میل کر دی گئی۔ اس ٹرانزیکشن کی تفصیلات دیکھنے کے لیے آپ www.paypal.com پر اپنے اکاؤنٹ میں لاگ ان کر سکتے ہیں۔</string>
-    <string name="description_webdav_url">براہ کرم اپنے WebDAV سرور پر ایک خاص فولڈر میں URL درج کریں۔ {app_name} اس فولڈر کے اندر اپنا ڈیٹا اسٹور کرے گا، یہ اس کے باہر کسی چیز کو نہیں چھوئے گا.</string>
     <string name="dialog_confirm_sync_unlink">اگر آپ اس اکاؤنٹ کو %s سے ان لنک کرتے ہیں تو ہم آہنگی کی حیثیت ختم ہو جاتی ہے۔ انہیں بعد میں دوبارہ لنک کرنے کے لیے، دوبارہ عمل میں لانے کے لیے مکمل ہم وقت سازی کی ضرورت ہوتی ہے.</string>
     <string name="dialog_sync_link">uuid %s کے ساتھ ایک اکاؤنٹ مقامی ڈیٹا بیس اور ریموٹ بیک اینڈ دونوں پر موجود ہے۔ جب آپ دونوں کو لنک کرتے ہیں، تو آپ کو یہ فیصلہ کرنے کی ضرورت ہے، اگر، ابتدائی طور پر، آپ مقامی ڈیٹا کو ریموٹ بیک اینڈ پر اپ لوڈ کرنا چاہتے ہیں یا ریموٹ ڈیٹا کو مقامی ڈیٹا بیس میں ڈاؤن لوڈ کرنا چاہتے ہیں.</string>
     <string name="menu_reconfigure">دوبارہ ترتیب دیں</string>
@@ -773,4 +762,10 @@
     <string name="balance_sheet_section_liabilities">ذمہ داریاں</string>
     <string name="balance_sheet_net_worth">خالص مالیت</string>
     <string name="pref_account_list_display_configuration_title">اکاؤنٹ فہرست</string>
+    <string name="menu_templates">ٹیمپلیٹس</string>
+    <string name="pref_tag_style_title">ٹیگ کا انداز</string>
+    <string name="pref_tag_style_outline">رنگین بارڈر</string>
+    <string name="pref_tag_style_filled">مکمل رنگین</string>
+    <string name="trade_additional_costs">اضافی اخراجات</string>
+    <string name="contrib_feature_portfolio_tracking">پورٹ فولیو ٹریکنگ</string>
 </resources>

@@ -18,10 +18,12 @@ import android.content.DialogInterface
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -41,6 +43,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.activityViewModels
 import org.totschnig.myexpenses.MyApplication
@@ -69,16 +75,15 @@ class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCli
         super.onCreate(savedInstanceState)
         (requireActivity().application as MyApplication).appComponent.inject(this)
         versions = resources.getStringArray(R.array.versions)
-            .map { version: String -> version.split(";") }
-            .takeWhile { parts -> parts[0].toInt() > from }
-            .map { parts -> VersionInfo(parts[0].toInt(), parts[1]) }
+            .map { VersionInfo(it) }
+            .takeWhile { it.code > from }
     }
 
     @Composable
     override fun BuildContent() {
         val context = LocalContext.current
-        val upgradeInfo = upgradeHandlerViewModel.upgradeInfo.collectAsState()
-        val upgradeIsPending = upgradeInfo.value is UpgradeHandlerViewModel.UpgradePending
+        val upgradeInfo = upgradeHandlerViewModel.upgradeInfo.collectAsState().value
+        val upgradeIsPending = upgradeInfo is UpgradeHandlerViewModel.UpgradePending
         if (versions.isEmpty() || upgradeIsPending) {
             Column(Modifier.padding(start = 24.dp, end = 8.dp)) {
                 if (upgradeIsPending) {
@@ -92,31 +97,103 @@ class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCli
 
         } else {
             LazyColumn(Modifier.padding(start = 24.dp, end = 8.dp)) {
+                if (upgradeInfo is UpgradeHandlerViewModel.UpgradeError) {
+                    item {
+                        Text(
+                            text = upgradeInfo.info,
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.bodyLarge,
+                            modifier = Modifier
+                                .padding(vertical = 16.dp, horizontal = 4.dp)
+                                .fillMaxWidth()
+                        )
+                    }
+                } else {
+                    (upgradeInfo as UpgradeHandlerViewModel.UpgradeSuccess).migrationInfos.forEach {
+                        item {
+                            if (it.id == 2) {
+                                Card(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(vertical = 4.dp),
+                                    shape = RoundedCornerShape(8.dp),
+                                    colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.cardBackground))
+                                ) {
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(12.dp),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Column(modifier = Modifier.weight(1f)) {
+                                            Text(
+                                                text = stringResource(R.string.database_encryption_notice_title),
+                                                style = MaterialTheme.typography.titleMedium
+                                            )
+                                            Spacer(modifier = Modifier.height(4.dp))
+                                            Text(
+                                                text = stringResource(R.string.database_encryption_notice_summary),
+                                                style = MaterialTheme.typography.bodyMedium
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
                 items(versions.size) { position ->
                     val version = versions[position]
                     Card(
-                        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp),
                         shape = RoundedCornerShape(8.dp),
                         colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.cardBackground))
                     ) {
                         Row(Modifier.height(IntrinsicSize.Min)) {
-                            Column(Modifier.weight(1f).fillMaxHeight().padding(start=8.dp, top = 4.dp, bottom = 4.dp)) {
+                            Column(
+                                Modifier
+                                    .weight(1f)
+                                    .fillMaxHeight()
+                                    .padding(start = 8.dp, top = 4.dp, bottom = 4.dp)
+                            ) {
                                 Text(
                                     version.name,
                                     modifier = Modifier.padding(bottom = 0.dp),
                                     style = MaterialTheme.typography.titleLarge
                                 )
                                 version.getChanges(context)?.let { changes ->
-                                    Box(
+                                    Column(
                                         modifier = Modifier.weight(1f),
-                                        contentAlignment = Alignment.Center,
+                                        verticalArrangement = Arrangement.Center,
                                     ) {
-                                        Text(changes.joinToString(separator = "\n") { "\u25b6 $it" })
+                                        changes.forEach { change ->
+                                            val ticketNumber = change.removePrefix("#")
+                                            if (version.tickets != null && ticketNumber != change) {
+                                                Row(
+                                                    modifier = Modifier.clickable {
+                                                        showMoreInfo("https://github.com/mtotschnig/MyExpenses/issues/$ticketNumber")
+                                                    },
+                                                    verticalAlignment = Alignment.CenterVertically
+                                                ) {
+                                                    Text("\u25b6 ")
+                                                    Text(
+                                                        text = change,
+                                                        color = MaterialTheme.colorScheme.primary,
+                                                        style = MaterialTheme.typography.bodyMedium.copy(
+                                                            textDecoration = TextDecoration.Underline
+                                                        )
+                                                    )
+                                                }
+                                            } else {
+                                                Text("\u25b6 $change")
+                                            }
+                                        }
                                     }
-
                                 }
                             }
-                            Column (modifier = Modifier.align(Alignment.CenterVertically)){
+                            Column(modifier = Modifier.align(Alignment.CenterVertically)) {
                                 VersionInfoButton(
                                     uri = version.githubUrl(context),
                                     drawableRes = R.drawable.ic_github,
@@ -139,7 +216,7 @@ class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCli
     private fun VersionInfoButton(
         uri: String?,
         drawableRes: Int,
-        contentDescription: String
+        contentDescription: String,
     ) {
         uri?.let {
             IconButton(
@@ -160,12 +237,7 @@ class VersionDialogFragment : ComposeBaseDialogFragment(), DialogInterface.OnCli
             setTitle(
                 if (versions.isEmpty()) R.string.new_version else R.string.help_heading_whats_new
             )
-            setIcon(R.mipmap.ic_myexpenses)
             setNegativeButton(android.R.string.ok, null)
-            if (!licenceHandler.isContribEnabled) setPositiveButton(
-                R.string.menu_contrib,
-                this@VersionDialogFragment
-            )
         }
 
     private fun showMoreInfo(uri: String) {

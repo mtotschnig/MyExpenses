@@ -3,4 +3,5 @@
     <color name="material_red">#F44336</color>
     <color name="material_blue">#2196F3</color>
     <color name="material_cyan">#00BCD4</color>
+    <color name="material_amber">#FFC107</color>
 </resources>

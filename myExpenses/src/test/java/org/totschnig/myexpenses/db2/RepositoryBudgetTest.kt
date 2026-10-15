@@ -12,9 +12,9 @@ import org.totschnig.myexpenses.model2.BudgetAllocationExport
 import org.totschnig.myexpenses.model2.BudgetExport
 import org.totschnig.myexpenses.model2.CategoryInfo
 import org.totschnig.myexpenses.provider.BaseTransactionProvider.Companion.budgetAllocationUri
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SECOND_GROUP
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_YEAR
+import org.totschnig.myexpenses.provider.KEY_BUDGET_ROLLOVER_PREVIOUS
+import org.totschnig.myexpenses.provider.KEY_SECOND_GROUP
+import org.totschnig.myexpenses.provider.KEY_YEAR
 
 @RunWith(AndroidJUnit4::class)
 class RepositoryBudgetTest : BaseTestWithRepository() {

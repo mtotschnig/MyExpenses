@@ -18,7 +18,7 @@
     <string name="menu_manage_plans_help_text">Txantiloi eta planen zerrenda irekitzen du, han aplikatu, editatu edo ezabatu ditzakezu, bai eta etorkizunerako planak eta transakzio errepikakorrak zehaztu. </string>
     <string name="menu_balance_help_text">Komando honek berdinkatutako azken saldoa eta kitatutako saldoa bistaratzen dien elkarrizketa-koadro bat irekitzen du. Zure bankuko saldoarekin konparatu dezakezu eta kitatutako transakzioak berdinkatuta gisa markatu. Aukeran berdinkatutako transakzioak ezabatzea erabaki dezakezu.</string>
     <string name="menu_print_help_text">Unean bistaratuta dauden transakzioen inprimatzeko ikuspegi bat sortzen du.</string>
-    <string name="menu_search_help_text">Sarrera honek azpi-menu bat irekitzen du non bilaketa irizpide bat zehaztu dezakezun kopurua, iruzkina, egoera, onuradun/ordaintzailea ala ordainketa metodoaren arabera  </string>
+    <string name="menu_search_help_text">Sarrera honek azpi-menu bat irekitzen du non bilaketa irizpide bat zehaztu dezakezun kopurua, iruzkina, egoera, onuradun/ordaintzailea ala ordainketa metodoaren arabera.</string>
     <string name="cab_create_template_from_transaction_help_text">Definitu txantiloi berri bat aukeratutako transakzioan oinarrituta. Txantiloiaren izena eskatuko dizu.</string>
     <string name="cab_clone_transaction_help_text">Aukeratutako transakzioak oraingo data eta orduarekin klonatuko dira. Aldaketak egin ditzakezu kopia gorde aurretik</string>
     <string name="cab_split_help_text">Transakzioa beranduago editatzea duzu zati gehigarriak behar dituzun neurrian sortzeko.</string>
@@ -67,7 +67,6 @@
     <string name="help_ExpenseEdit_split_info">Transferentzia banatu bat zatitan banatutako transferentzia bakarra da, non zati bakoitza kategoria desberdin batera eslei edo kontu desberdin batera transferi daiteke.</string>
     <string name="form_account_help_text">Hautatu transakzioari dagokion kontua.</string>
     <string name="form_date_time_help_text">Sartu noiz egin zen transakzioa, eguna eta ordua.</string>
-    <string name="form_payer_or_payee_help_text">Eremu honek sartu dituzun balioak gogoratuko ditu eta hauek etorkizunean iradokiko ditu.</string>
     <string name="form_amount_switch_help_text">Erabili etengailua gastu eta irabazi artean txandakatzeko.</string>
     <string name="form_calculator_help_text"><![CDATA[The <img src=\"?calcIcon\"> botoiak kalkulagailua irekitzen du.]]></string>
     <string name="form_crstatus_help_text">Banku kontuei dagozkien transakzioentzako, transakzioen egoera garbitura aldatu dezakezu. Bateratu gisa ezartzeko, transakzio zerrendako \"Kontu balantzea\" komandoa erabili behar duzu. Egoera baliogabe gisa ezartzen bada, transakzioa ez da kontatuan izango.</string>

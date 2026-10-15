@@ -1,0 +1,10 @@
+• Разделени трансфери
+• Прехвърляне на активи между портфейли
+• Историческият екран за агрегирани сметки сега отразява промяната в стойността на чуждестранните валути
+• Mutual TLS / Client Certificate Support for WebDAV Sync (Принос чрез Carlson Büth)
+
+4.1.1: https://github.com/users/mtotschnig/projects/192
+4.1.1.1: https://github.com/users/mtotschnig/projects/194
+4.1.1.2: https://github.com/users/mtotschnig/projects/195
+
+https://mastodon.social/@myexpenses/117118348237320813

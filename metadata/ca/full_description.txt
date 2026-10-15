@@ -1,27 +1,25 @@
-<i>Les meves despeses</i> és la vostra eina definitiva per fer un seguiment de despeses i una gestió financera sense esforç, al vostre abast!
+<b>Les meves despeses</b> és el vostre gestor de finances personals definitiu i respectuós amb la privadesa: us ofereix un control total sobre el seguiment de les despeses diàries, els pressupostos i les carteres d'inversió amb la transparència del codi obert.
 
-Característiques clau:
+<b>Característiques principals:</b>
 
-     • <b>Seguiment de despeses sense esforç</b>: feu un seguiment de les vostres despeses i ingressos sense problemes, tant si esteu al vostre telèfon intel·ligent o a la tauleta.
-     • <b>Gestió de comptes flexible</b>: gestioneu sense esforç diversos comptes, incloses les transferències entre diferents monedes.
-     • <b>Planificació financera simplificada</b>: configureu fàcilment plans per a transaccions recurrents.
-     • <b>Gestió de dades perfecta</b>: exporteu i importeu dades amb facilitat mitjançant els formats QIF i CSV.
-     • <b>Seguretat millorada</b>: protegiu les vostres dades amb una contrasenya o amb la seguretat de la pantalla de bloqueig del dispositiu.
-     • <b>Experiència personalitzable</b>: adapteu l'aplicació a les vostres preferències amb temes i mides de lletra personalitzables.
-     • <b>Conciliació d'extractes bancaris</b>: compareu fàcilment l'estat de la transacció amb els vostres extractes bancaris per fer un seguiment financer precís.
-     • <b>Entrada ràpida de dades</b>: gaudeix d'un accés còmode amb ginys i dreceres de la pantalla d'inici.
-     • <b>Anàlisi de dades potent</b>: filtreu les vostres dades en funció de diversos criteris i visualitzeu la distribució i les tendències històriques amb gràfics dinàmics.
+• <b>Seguiment diari de despeses i pressupostos</b>: Controleu fàcilment els vostres ingressos i despeses des del telèfon o la tauleta. Creeu pressupostos, dividiu transaccions (transaccions dividides) i programeu plans de transaccions recurrents.
+• <b>Gestió de carteres i inversions</b>: Feu un seguiment de carteres d'accions, criptomonedes o actius personalitzats, consulteu l'historial de preus i gestioneu inversions multidivisa en temps real.
+• <b>Integració bancària i conciliació</b>: Connecteu-vos directament amb bancs compatibles mitjançant FinTS o concilieu transaccions manualment amb els vostres extractes bancaris per a un control exacte dels saldos.
+• <b>Escaneig intel·ligent de rebuts (OCR)</b>: Extraieu automàticament els detalls de les transaccions a partir de fotos dels tickets de compra mitjançant reconeixement òptic de caràcters.
+• <b>Interfície web per a ordinador</b>: Accediu i gestioneu les vostres transaccions des de qualsevol navegador web de la vostra xarxa local.
+• <b>Anàlisis potents</b>: Visualitzeu tendències de despesa, gràfics de sectors de distribució i informes històrics amb gràfics dinàmics i personalitzables.
+• <b>Sincronització flexible i control de dades</b>: Exporteu i importeu dades fàcilment en formats QIF i CSV. Sincronitzeu sense problemes entre dispositius utilitzant WebDAV, Nextcloud, Google Drive, Dropbox o OneDrive amb suport per a certificats de client.
+• <b>Privadesa i seguretat primer de tot</b>: Transparència de codi obert, protecció mitjançant contrasenya o bloqueig biomètric i base de dades encriptada.
 
-Desbloqueja les funcions premium:
+<b>Desbloquegeu les funcions Premium:</b>
 
-     • <i>Clau del Contribuïdor</i>: desbloquegeu comptes il·limitats, plans de transaccions recurrents i molt més.
-     • <i>Clau ampliada</i>: gaudeix de la sincronització al núvol, les còpies de seguretat automàtiques i les importacions CSV sofisticades.
-     • <i>Clau professional</i>: porteu la vostra gestió financera al següent nivell amb eines de pressupostos, escaneig de rebuts i assistència per correu electrònic.
+• <i>Clau del Contribuïdor</i>: Entre el més destacat s'inclou comptes il·limitats, plans de transaccions recurrents il·limitats, exportació de llistes a PDF, gràfics de distribució i més.
+• <i>Clau estesa</i>: Inclou totes les funcions de la Clau del Contribuïdor, a més de sincronització automàtica al núvol i regles avançades d'importació CSV.
+• <i>Clau professional</i>: Inclou totes les funcions de la Clau estesa, a més de seguiment de carteres i inversions, gràfics d'historial, seguiment de pressupostos, escaneig OCR de rebuts, interfície web local per a ordinador, sincronització bancaria directa (Alemanya) i més.
 
-<i>Les meves despeses</i> requereix els <u>permisos</u> següents:
+<b>Transparència de permisos:</b>
 
-     • <i>Calendari</i>: els plans per a transaccions futures i recurrents s'emmagatzemen en un calendari local especial o en qualsevol altre calendari que assigneu.
-     • <i>Internet</i>: seguiment anònim d'ús, informes d'error, sincronització al núvol.
-     • <i>Comptes</i>: sincronització entre dispositius mitjançant serveis al núvol.
+• <i>Calendari</i>: Els plans per a transaccions recurrents es desen en un calendari local dedicat o en qualsevol altre calendari assignat.
+• <i>Internet</i>: Seguiment d'ús anònim (opcional), sincronització al núvol i informes d'errors (opcional).
 
-Preneu el control de les vostres finances com mai abans utilitzant <i>Les meves despeses</i>!
+Preneu el control dels vostres diners i del vostre patrimoni avui mateix amb <b>Les meves despeses</b>!

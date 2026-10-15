@@ -5,7 +5,6 @@ import android.app.SearchManager
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.LayerDrawable
-import android.os.Build
 import android.text.TextUtils
 import android.view.Gravity
 import android.view.Menu
@@ -18,11 +17,12 @@ import androidx.core.view.get
 import androidx.core.view.size
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BaseActivity
-import org.totschnig.myexpenses.model.SortDirection
-import org.totschnig.myexpenses.model.SortDirection.ASC
-import org.totschnig.myexpenses.model.SortDirection.DESC
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_AMOUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_DATE
+import org.totschnig.myexpenses.model.sort.SortDirection
+import org.totschnig.myexpenses.model.sort.SortDirection.ASC
+import org.totschnig.myexpenses.model.sort.SortDirection.DESC
+import org.totschnig.myexpenses.model.sort.TransactionSort
+import org.totschnig.myexpenses.provider.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.ui.resolveThemeColor
@@ -101,7 +101,6 @@ fun createCheckedIconDrawable(context: Context, @DrawableRes icon: Int): LayerDr
 
     // Outer oval with stroke
     val shadowWidth = dp(1.5f)
-    val padding = dp(3f)
     val outerOval = GradientDrawable().apply {
         shape = GradientDrawable.OVAL
         setStroke(shadowWidth, colorOnSurface)
@@ -132,12 +131,10 @@ fun createCheckedIconDrawable(context: Context, @DrawableRes icon: Int): LayerDr
             shadowWidth,
             shadowWidth
         )
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            setLayerGravity(2, Gravity.CENTER)
-            setLayerSize(0, dp(24f), dp(24f))
-            setLayerSize(1, dp(21f), dp(21f))
-            setLayerSize(2, dp(18f), dp(18f))
-        }
+        setLayerGravity(2, Gravity.CENTER)
+        setLayerSize(0, dp(24f), dp(24f))
+        setLayerSize(1, dp(21f), dp(21f))
+        setLayerSize(2, dp(18f), dp(18f))
     }
 }
 
@@ -185,22 +182,4 @@ fun configureSortDirectionMenu(
     }
 }
 
-fun getSortDirectionFromMenuItemId(id: Int) = when (id) {
-    R.id.SORT_BY_DATE_ASCENDING_COMMAND -> {
-        KEY_DATE to ASC
-    }
-
-    R.id.SORT_BY_DATE_DESCENDING_COMMAND -> {
-        KEY_DATE to DESC
-    }
-
-    R.id.SORT_BY_AMOUNT_ASCENDING_COMMAND -> {
-        KEY_AMOUNT to ASC
-    }
-
-    R.id.SORT_BY_AMOUNT_DESCENDING_COMMAND -> {
-        KEY_AMOUNT to DESC
-    }
-
-    else -> null
-}
+fun getSortDirectionFromMenuItemId(id: Int) = TransactionSort.fromCommandId(id)

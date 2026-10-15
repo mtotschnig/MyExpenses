@@ -1,0 +1,4 @@
+Some banks in Germany discontinued support for the HKKAZ business transaction (MT940 format) in November. My Expenses now also supports HKCAZ, enabling transaction retrieval in the CAMT format.
+
+https://github.com/users/mtotschnig/projects/173
+https://mastodon.social/@myexpenses/115661336364646450

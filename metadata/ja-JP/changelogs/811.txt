@@ -1,0 +1,4 @@
+• アカウントフラグは、アカウントの可視性と優先度のカスタマイズを拡張します。
+
+https://github.com/users/mtotschnig/projects/166
+https://mastodon.social/@myexpenses/115099447789262389

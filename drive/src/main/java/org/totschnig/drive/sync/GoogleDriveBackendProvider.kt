@@ -59,7 +59,7 @@ class GoogleDriveBackendProvider internal constructor(
                     maybeDecrypt
                 )
             ).read()
-        } catch (e: FileNotFoundException) {
+        } catch (_: FileNotFoundException) {
             null
         }
     }
@@ -277,44 +277,35 @@ class GoogleDriveBackendProvider internal constructor(
             Timber.d("UUID property not set")
             return Result.failure(Exception("UUID property not set"))
         }
-        return kotlin.runCatching {
-            AccountMetaData.builder()
-                .setType(
-                    getPropertyWithDefault(
-                        appProperties,
-                        ACCOUNT_METADATA_TYPE_KEY,
-                        AccountType.CASH.name
-                    )
+        return runCatching {
+            AccountMetaData(
+                label = metadata.name,
+                currency = getPropertyWithDefault(
+                    appProperties, ACCOUNT_METADATA_CURRENCY_KEY,
+                    homeCurrency
+                ),
+                color =                     getPropertyWithDefault(
+                    appProperties,
+                    ACCOUNT_METADATA_COLOR_KEY,
+                    org.totschnig.myexpenses.model2.Account.DEFAULT_COLOR
+                ),
+                uuid = uuid,
+                openingBalance = getPropertyWithDefault(
+                    appProperties,
+                    ACCOUNT_METADATA_OPENING_BALANCE_KEY,
+                    0L
+                ),
+                description = getPropertyWithDefault(
+                    appProperties,
+                    ACCOUNT_METADATA_DESCRIPTION_KEY,
+                    ""
+                ),
+                type =                     getPropertyWithDefault(
+                    appProperties,
+                    ACCOUNT_METADATA_TYPE_KEY,
+                    AccountType.CASH.name
                 )
-                .setOpeningBalance(
-                    getPropertyWithDefault(
-                        appProperties,
-                        ACCOUNT_METADATA_OPENING_BALANCE_KEY,
-                        0L
-                    )
-                )
-                .setDescription(
-                    getPropertyWithDefault(
-                        appProperties,
-                        ACCOUNT_METADATA_DESCRIPTION_KEY,
-                        ""
-                    )
-                )
-                .setColor(
-                    getPropertyWithDefault(
-                        appProperties,
-                        ACCOUNT_METADATA_COLOR_KEY,
-                        org.totschnig.myexpenses.model2.Account.DEFAULT_COLOR
-                    )
-                )
-                .setCurrency(
-                    getPropertyWithDefault(
-                        appProperties, ACCOUNT_METADATA_CURRENCY_KEY,
-                        homeCurrency
-                    )
-                )
-                .setUuid(uuid)
-                .setLabel(metadata.name).build()
+            )
         }
     }
 

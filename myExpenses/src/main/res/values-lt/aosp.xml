@@ -77,7 +77,6 @@
     <string name="preview">"Peržiūrėti"</string>
     <string name="show_password">"Rodyti slaptažodį"</string>
     <string name="hide_password">"Slėpti slaptažodį"</string>
-    <string name="user">"Naudotojo"</string>
     <string name="source">"Šaltinis"</string>
     <string name="value">"Reikšmė"</string>
     <string name="done_label">"Atlikta"</string>
@@ -98,4 +97,7 @@
     <string name="already_exists">"Toks pavadinimas jau yra"</string>
     <string name="flag_inactive">"Neaktyvi"</string>
     <string name="count">"Kiekis"</string>
+    <string name="empty">"Tuščia"</string>
+    <string name="options">"Parinktys"</string>
+    <string name="actions">"Veiksmai"</string>
 </resources>

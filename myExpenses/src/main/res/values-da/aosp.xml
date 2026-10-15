@@ -18,7 +18,6 @@
     <string name="style">"Urtype"</string>
     <string name="loading">"Indlæser…"</string>
     <string name="button_label_continue">Fortsæt</string>
-    <string name="autofill">"Autofyld"</string>
     <string name="discard">"Kassér"</string>
     <string name="dialog_dismiss">"Luk"</string>
     <string name="details">"Detaljer"</string>
@@ -32,7 +31,6 @@
     <string name="setup">"Konfiguration"</string>
     <string name="customize">"Tilpas"</string>
     <string name="compact">kompakt</string>
-    <string name="storage_description">"Lokalt lager"</string>
     <string name="encryption">"Kryptering"</string>
     <string name="learn_more">"Få flere oplysninger"</string>
     <string name="show_all">"Vis alle"</string>
@@ -152,7 +150,6 @@
     <string name="preview">"Vis eks."</string>
     <string name="show_password">"Vis adgangskode"</string>
     <string name="hide_password">"Skjul adgangskoden"</string>
-    <string name="user">"Bruger"</string>
     <string name="source">"Kilde"</string>
     <string name="value">"Værdi"</string>
     <string name="done_label">"Udfør"</string>
@@ -173,4 +170,7 @@
     <string name="already_exists">"Navnet findes allerede"</string>
     <string name="flag_inactive">"Inaktiv"</string>
     <string name="count">"Tæl"</string>
+    <string name="empty">"Tom"</string>
+    <string name="options">"Valgmuligheder"</string>
+    <string name="actions">"Handlinger"</string>
 </resources>

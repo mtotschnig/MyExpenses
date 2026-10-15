@@ -89,6 +89,7 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.provider.filter.AccountCriterion
 import org.totschnig.myexpenses.provider.filter.AmountCriterion
 import org.totschnig.myexpenses.provider.filter.AndCriterion
+import org.totschnig.myexpenses.provider.filter.AssetCriterion
 import org.totschnig.myexpenses.provider.filter.CategoryCriterion
 import org.totschnig.myexpenses.provider.filter.CommentCriterion
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
@@ -104,8 +105,7 @@ import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.provider.filter.TransferCriterion
 import org.totschnig.myexpenses.provider.filter.asSet
 import org.totschnig.myexpenses.viewmodel.SumInfo
-import org.totschnig.myexpenses.viewmodel.data.BaseAccount
-import org.totschnig.myexpenses.viewmodel.data.FullAccount
+import org.totschnig.myexpenses.viewmodel.data.PageAccount
 
 const val COMPLEX_AND = 0
 const val COMPLEX_OR = 1
@@ -116,12 +116,12 @@ const val TYPE_COMPLEX = 1
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun FilterDialog(
-    account: BaseAccount,
+    account: PageAccount,
     sumInfo: SumInfo,
     initialPreferredSearchType: Int = TYPE_COMPLEX,
     criterion: Criterion? = null,
     onDismissRequest: () -> Unit = {},
-    onConfirmRequest: (Int, Criterion?) -> Unit = {_, _ -> },
+    onConfirmRequest: (Int, Criterion?) -> Unit = { _, _ -> },
 ) {
 
     val initialSet = criterion.asSet
@@ -153,16 +153,13 @@ fun FilterDialog(
     }
 
     var confirmDiscard by rememberSaveable { mutableStateOf(false) }
+    var confirmClear by rememberSaveable { mutableStateOf(false) }
 
-    val currentEdit: MutableState<Criterion?> = rememberSaveable {
-        mutableStateOf(null)
-    }
-
-    val onResult: (SimpleCriterion<*>?) -> Unit = remember(isComplexSearch) {
-        { newValue ->
+    val onResult: (SimpleCriterion<*>?, SimpleCriterion<*>?) -> Unit = remember(isComplexSearch) {
+        { oldValue, newValue ->
             if (newValue != null) {
                 if (isComplexSearch) {
-                    currentEdit.value?.also { current ->
+                    oldValue?.also { current ->
                         criteriaSet.value = criteriaSet.value.map {
                             if (it == current)
                                 if (it is NotCriterion) NotCriterion(newValue) else newValue
@@ -176,7 +173,6 @@ fun FilterDialog(
                     )
                 }
             }
-            currentEdit.value = null
         }
     }
 
@@ -205,11 +201,14 @@ fun FilterDialog(
                     isLarge,
                     ifTrue = { defaultMinSize(minHeight = 400.dp) },
                     ifFalse = { fillMaxSize() }
-                )) {
+                ),
+            shape = if (isLarge) MaterialTheme.shapes.extraLarge else androidx.compose.ui.graphics.RectangleShape
+        ) {
             FilterHandler(account, "confirmFilterDialog", onResult) {
 
                 Column(
-                    modifier = Modifier.windowInsetsPadding(WindowInsets.safeDrawing)
+                    modifier = Modifier
+                        .windowInsetsPadding(WindowInsets.safeDrawing)
                         .conditional(isLarge && criteriaSet.value.isEmpty()) {
                             height(400.dp)
                         }
@@ -249,7 +248,9 @@ fun FilterDialog(
                                 options.forEachIndexed { index, s ->
                                     DropdownMenuItem(
                                         text = { Text(s) },
-                                        enabled = index == 1 || criteriaSet.value.isSimple(selectedComplex),
+                                        enabled = index == 1 || criteriaSet.value.isSimple(
+                                            selectedComplex
+                                        ),
                                         onClick = {
                                             preferredSearchType = index
                                             expanded = false
@@ -272,7 +273,7 @@ fun FilterDialog(
                                     icon = Icons.Filled.ClearAll,
                                     enabled = criteriaSet.value.isNotEmpty()
                                 ) {
-                                    criteriaSet.value = emptySet()
+                                    confirmClear = true
                                 }
                                 ActionButton(
                                     hintText = stringResource(R.string.apply),
@@ -288,7 +289,10 @@ fun FilterDialog(
                         }
                     }
 
-                    val filters: List<DisplayInfo> = listOfNotNull(
+                    val filters: List<DisplayInfo> = if (account.isPortfolio) listOf(
+                        AssetCriterion, AmountCriterion, CommentCriterion, DateCriterion
+                    )
+                    else listOfNotNull(
                         if (sumInfo.mappedCategories) CategoryCriterion else null,
                         AmountCriterion,
                         CommentCriterion,
@@ -380,7 +384,6 @@ fun FilterDialog(
                                         { criteriaSet.value = criteriaSet.value.negate(index) }
                                     val delete = { criteriaSet.value -= criterion }
                                     val edit = {
-                                        currentEdit.value = criterion
                                         handleEdit(criterion)
                                     }
                                     val title = stringResource(criterion.displayTitle)
@@ -452,7 +455,8 @@ fun FilterDialog(
                         }
                     } else {
                         filters.forEach { info ->
-                            val definedCriterion = criteriaSet.value.find { it::class == info.clazz }
+                            val definedCriterion =
+                                criteriaSet.value.find { it::class == info.clazz }
                             val hasCriterion = definedCriterion != null
                             Row(
                                 Modifier
@@ -510,6 +514,29 @@ fun FilterDialog(
                 )
 
             }
+
+            if (confirmClear) {
+                AlertDialog(
+                    onDismissRequest = { confirmClear = false },
+                    confirmButton = {
+                        TextButton(onClick = {
+                            confirmClear = false
+                            criteriaSet.value = emptySet()
+                        }) {
+                            Text(stringResource(android.R.string.ok))
+                        }
+                    },
+                    dismissButton = {
+                        TextButton(onClick = { confirmClear = false }) {
+                            Text(stringResource(android.R.string.cancel))
+                        }
+                    },
+                    text = {
+                        Text(stringResource(R.string.clear_all_filters))
+                    }
+                )
+
+            }
         }
     }
 }
@@ -538,7 +565,7 @@ fun ActionButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     onClick: () -> Unit,
-    content:  @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     //workaround for https://issuetracker.google.com/issues/283821298
     Box(modifier = modifier) {
@@ -584,11 +611,11 @@ private fun Set<Criterion>.isSimple(selectedComplex: Int) =
 @Composable
 fun FilterDialogEmpty() {
     FilterDialog(
-        account = FullAccount(
+        account = PageAccount(
             id = 1,
             label = "Test account",
             currencyUnit = CurrencyUnit.DebugInstance,
-            type = AccountType.CASH
+            type = AccountType.CASH,
         ),
         sumInfo = SumInfo.EMPTY,
     )
@@ -598,7 +625,7 @@ fun FilterDialogEmpty() {
 @Composable
 fun FilterDialogPreview() {
     FilterDialog(
-        account = FullAccount(
+        account = PageAccount(
             id = 1,
             label = "Test account",
             currencyUnit = CurrencyUnit.DebugInstance,

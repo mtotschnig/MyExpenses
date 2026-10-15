@@ -10,12 +10,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="My Expenses, Open Source Android App for personal finance management">
     <meta name="author" content="Michael Totschnig">
-    <!-- <a href="https://plus.google.com/116736113799210525299" rel="publisher">Google+</a> -->
     <title>{{site.title[pagelang]}}</title>
 
     <!-- Bootstrap core CSS -->
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.5/css/lightbox.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="/css/jumbotron-narrow.css" rel="stylesheet">
     <link href="/css/styles.css" rel="stylesheet">
@@ -31,7 +31,7 @@
     <div class="container">
       <div class="header">
         <ul class="nav nav-pills pull-right">
-          <li><a href="https://mastodon.social/@myexpenses">News</a></li>
+          <li><a rel="me" href="https://mastodon.social/@myexpenses">News</a></li>
           <li><a href="https://github.com/mtotschnig/MyExpenses/wiki/FAQ">FAQ</a></li>
           <li id="menu-moreinfo" class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#" title="{% if msg.menu_title.more_information %}{{msg.menu_title.more_information}}{% else %}{{site.data.en.en.menu_title.more_information}}{% endif %}"><span class="glyphicon glyphicon-info-sign"></span><span class="caret"></span>
@@ -141,7 +141,9 @@
           <li><a class="featuretoc{% if forloop.index0 == 0 %} active{% endif %}" href="#{{feature}}">{% if msg.screenshots[feature] %}{{msg.screenshots[feature]}}{% else %}{{site.data.en.en.screenshots[feature]}}{% endif %}</a>
                     <article id="{{feature}}" class="target{% if forloop.index0 == 0 %} active{% endif %}">
             <figure>
-              <img src="{{screenshotdir}}{{feature}}_25.png">
+             <a href="{{screenshotdir}}{{feature}}.webp" data-lightbox="features" data-title="{% if msg.screenshots[feature] %}{{msg.screenshots[feature]}}{% else %}{{site.data.en.en.screenshots[feature]}}{% endif %}">
+              <img src="{{screenshotdir}}{{feature}}_25.webp" >
+              </a>
             </figure>
           </article>
           </li>
@@ -168,7 +170,9 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.5/js/lightbox.min.js"></script>
     <script type="text/javascript">
+
       $(document).ready(function(){
         // Credits: http://webdesignerwall.com/tutorials/animated-scroll-to-top
 
@@ -212,7 +216,7 @@
       });
       $('.featuretoc').click(function(event){
         event.preventDefault();
-        if ($(this).hasClass("active") && window.matchMedia("(max-width: 599px)").matches) {
+        if ($(this).hasClass("active")) {
           $(this).removeClass("active");
           $(this.hash).removeClass("active");
         } else {

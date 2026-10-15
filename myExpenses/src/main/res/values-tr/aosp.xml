@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
--->
-<resources>
+--><resources>
     <string name="drawer_open">"Gezinme menüsünü aç"</string>
     <string name="drawer_close">"Gezinme menüsünü kapat"</string>
     <string name="sort_direction_ascending">"Artan"</string>
@@ -14,10 +14,9 @@
     <string name="toast_text_copied">"Metin kopyalandı"</string>
     <string name="copy_text">"Panoya kopyala"</string>
     <string name="stop">"Durdur"</string>
-    <string name="style">"Stil"</string>
+    <string name="style">Biçim</string>
     <string name="loading">"Yükleniyor…"</string>
     <string name="button_label_continue">Devam</string>
-    <string name="autofill">"Otomatik Doldur"</string>
     <string name="discard">"Sil"</string>
     <string name="dialog_dismiss">"Kapat"</string>
     <string name="details">"Ayrıntılar"</string>
@@ -31,7 +30,6 @@
     <string name="setup">"Kur"</string>
     <string name="customize">"Özelleştir"</string>
     <string name="compact">Kompakt</string>
-    <string name="storage_description">"Yerel depolama"</string>
     <string name="encryption">"Şifreleme"</string>
     <string name="learn_more">"Daha fazla bilgi"</string>
     <string name="show_all">"Tümünü göster"</string>
@@ -150,7 +148,6 @@
     <string name="preview">"Önizle"</string>
     <string name="show_password">"Şifreyi göster"</string>
     <string name="hide_password">"Şifreyi gizle"</string>
-    <string name="user">"Kullanıcı"</string>
     <string name="source">"Kaynak"</string>
     <string name="value">"Değer"</string>
     <string name="done_label">"Bitti"</string>
@@ -171,4 +168,8 @@
     <string name="already_exists">"Bu ad mevcut"</string>
     <string name="flag_inactive">"Etkin değil"</string>
     <string name="count">"Say"</string>
+    <string name="empty">"Boş"</string>
+    <string name="options">"Seçenekler"</string>
+    <string name="actions">"Eylemler"</string>
+    <string name="buttons">Düğmeler</string>
 </resources>

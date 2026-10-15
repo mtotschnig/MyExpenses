@@ -1,13 +1,15 @@
 package org.totschnig.myexpenses.retrofit
 
 import okhttp3.ResponseBody
-import org.json.JSONObject
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import retrofit2.HttpException
 import java.io.IOException
 import java.time.LocalDate
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 
 sealed class ExchangeRateSource(val name: String) {
     object User : ExchangeRateSource("user")
@@ -40,6 +42,17 @@ sealed class ExchangeRateApi(val id: Int, name: String, val host: String) :
         extractError(body)?.let { IOException(it) }
     } ?: e
 
+    protected fun extractJsonError(body: ResponseBody, key: String): String? = try {
+        val content = body.string()
+        try {
+            Json.parseToJsonElement(content).jsonObject[key]?.jsonPrimitive?.content ?: content
+        } catch (_: Exception) {
+            content.takeIf { it.isNotEmpty() }
+        }
+    } catch (_: Exception) {
+        null
+    }
+
     abstract fun extractError(body: ResponseBody): String?
 
     open fun isSupported(vararg currency: String) = true
@@ -66,7 +79,7 @@ sealed class ExchangeRateApi(val id: Int, name: String, val host: String) :
     }
 
     data object Frankfurter :
-        ExchangeRateApi(R.id.FRANKFURTER_ID, "FRANKFURTER", "api.frankfurter.app") {
+        ExchangeRateApi(R.id.FRANKFURTER_ID, "FRANKFURTER", "api.frankfurter.dev") {
 
         override val limitToOneRequestPerDay = true
 
@@ -108,8 +121,7 @@ sealed class ExchangeRateApi(val id: Int, name: String, val host: String) :
             "ZAR"
         )
 
-        override fun extractError(body: ResponseBody): String =
-            JSONObject(body.string()).getString("message")
+        override fun extractError(body: ResponseBody): String? = extractJsonError(body, "message")
 
     }
 
@@ -132,8 +144,7 @@ sealed class ExchangeRateApi(val id: Int, name: String, val host: String) :
         name = "OPENEXCHANGERATES"
     ) {
         override val hasTimeSeriesRequest = false
-        override fun extractError(body: ResponseBody): String =
-            JSONObject(body.string()).getString("description")
+        override fun extractError(body: ResponseBody): String? = extractJsonError(body, "description")
     }
 
     data object CoinApi : SourceWithApiKey(
@@ -142,8 +153,7 @@ sealed class ExchangeRateApi(val id: Int, name: String, val host: String) :
         id = R.id.COIN_API_ID,
         name = "COIN_API"
     ) {
-        override fun extractError(body: ResponseBody): String =
-            JSONObject(body.string()).getString("error")
+        override fun extractError(body: ResponseBody): String? = extractJsonError(body, "error")
     }
 }
 

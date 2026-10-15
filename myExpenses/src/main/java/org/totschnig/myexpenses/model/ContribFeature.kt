@@ -15,6 +15,8 @@
 package org.totschnig.myexpenses.model
 
 import android.content.Context
+import android.icu.text.ListFormatter
+import android.os.Build
 import androidx.core.text.HtmlCompat
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.injector
@@ -24,6 +26,8 @@ import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler.Companion.TRIAL_DURATION_DAYS
 import org.totschnig.myexpenses.util.licence.LicenceStatus
 import java.util.Date
+import java.util.Locale
+
 
 class ContribFeatureNotAvailableException(message: String): Exception(message)
 
@@ -51,7 +55,8 @@ enum class ContribFeature(
     WEB_UI(licenceStatus = LicenceStatus.PROFESSIONAL),
     CATEGORY_TREE(TrialMode.UNLIMITED, LicenceStatus.PROFESSIONAL),
     BANKING(licenceStatus = LicenceStatus.PROFESSIONAL),
-    AUTOMATIC_FX_DOWNLOAD(licenceStatus = LicenceStatus.PROFESSIONAL)
+    AUTOMATIC_FX_DOWNLOAD(licenceStatus = LicenceStatus.PROFESSIONAL),
+    PORTFOLIO(TrialMode.NONE, LicenceStatus.PROFESSIONAL)
     ;
 
     enum class TrialMode {
@@ -87,7 +92,8 @@ enum class ContribFeature(
             WEB_UI -> R.string.contrib_feature_web_ui_label
             CATEGORY_TREE -> R.string.contrib_feature_category_tree_label
             BANKING -> R.string.title_fints
-            ContribFeature.AUTOMATIC_FX_DOWNLOAD -> R.string.enable_automatic_daily_exchange_rate_download
+            AUTOMATIC_FX_DOWNLOAD -> R.string.enable_automatic_daily_exchange_rate_download
+            PORTFOLIO -> R.string.contrib_feature_portfolio_tracking
         }
 
     fun getLimitReachedWarning(ctx: Context): String {
@@ -122,28 +128,45 @@ enum class ContribFeature(
                     currentLicence
                 )
 
+                PORTFOLIO -> {
+                    val features = listOf(R.string.trade_additional_costs)
+
+                    val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                        ListFormatter.getInstance(
+                            Locale.getDefault(),
+                            ListFormatter.Type.UNITS,
+                            ListFormatter.Width.NARROW
+                        ) else ListFormatter.getInstance()
+                    context.getString(
+                        R.string.premium_nudge_portfolio_message,
+                        formatter.format(features.map { context.getString(it) })
+                        )
+                }
+
                 else -> null
             }
 
             TrialMode.DURATION ->
-                if (licenceHandler.getEndOfTrial(this) < System.currentTimeMillis())
-                    getLimitReachedWarning(context) else HtmlCompat.fromHtml(
-                    buildString {
-                        append(context.getString(
-                            R.string.dialog_contrib_trial_info,
-                            currentLicence,
-                            "<i>" + context.getString(labelResId) + "</i>",
-                            TRIAL_DURATION_DAYS,
-                            Utils.getDateFormatSafe(context)
-                                .format(Date(licenceHandler.getEndOfTrial(this@ContribFeature)))
-                        ))
-                        if (isPlay) {
-                            append(" ")
-                            append(context.getString(R.string.dialog_contrib_trial_info_play))
-                        }
-                    },
-                    HtmlCompat.FROM_HTML_MODE_LEGACY
-                )
+                if (licenceHandler.usagesLeft(this))
+                    HtmlCompat.fromHtml(
+                        buildString {
+                            append(context.getString(
+                                R.string.dialog_contrib_trial_info,
+                                currentLicence,
+                                "<i>" + context.getString(labelResId) + "</i>",
+                                TRIAL_DURATION_DAYS,
+                                Utils.getDateFormatSafe(context)
+                                    .format(Date(licenceHandler.getEndOfTrial(this@ContribFeature)))
+                            ))
+                            if (isPlay) {
+                                append(" ")
+                                append(context.getString(R.string.dialog_contrib_trial_info_play))
+                            }
+                        },
+                        HtmlCompat.FROM_HTML_MODE_LEGACY
+                    )
+                else
+                    getLimitReachedWarning(context)
 
             TrialMode.UNLIMITED -> context.getString(
                 R.string.dialog_contrib_usage_limit_with_dialog,

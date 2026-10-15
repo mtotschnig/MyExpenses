@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.fragment
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.ContextMenu
 import android.view.ContextMenu.ContextMenuInfo
@@ -40,7 +39,7 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.SyncBackendProvider
 import org.totschnig.myexpenses.util.licence.LicenceHandler
@@ -205,13 +204,13 @@ class SyncBackendList : Fragment(), OnGroupExpandListener,
                         MessageDialogFragment.Button(
                             R.string.dialog_command_sync_link_remote,
                             R.id.SYNC_LINK_COMMAND_REMOTE,
-                            account
+                            account.uuid to account.syncAccountName
                         ),
                         MessageDialogFragment.nullButton(android.R.string.cancel),
                         MessageDialogFragment.Button(
                             R.string.dialog_command_sync_link_local,
                             R.id.SYNC_LINK_COMMAND_LOCAL,
-                            account
+                            account.uuid to account.syncAccountName
                         )
                     )
                         .show(parentFragmentManager, "SYNC_LINK")
@@ -219,28 +218,24 @@ class SyncBackendList : Fragment(), OnGroupExpandListener,
                 return true
             }
             R.id.SYNC_REMOVE_BACKEND_COMMAND -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                    val syncAccountName = syncBackendAdapter.getSyncAccountName(packedPosition)
-                    ConfirmationDialogFragment.newInstance(Bundle().apply {
-                        putString(
-                            ConfirmationDialogFragment.KEY_MESSAGE,
-                            (getString(R.string.dialog_confirm_sync_remove_backend, syncAccountName)
-                                    + " " + getString(R.string.continue_confirmation))
-                        )
-                        putInt(
-                            ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-                            R.id.SYNC_REMOVE_BACKEND_COMMAND
-                        )
-                        putInt(
-                            ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
-                            R.string.remove
-                        )
-                        putString(DatabaseConstants.KEY_SYNC_ACCOUNT_NAME, syncAccountName)
-                    })
-                        .show(parentFragmentManager, "SYNC_REMOVE_BACKEND")
-                } else {
-                    manageSyncBackends.showSnackBar("Account can be deleted from Android System Settings")
-                }
+                val syncAccountName = syncBackendAdapter.getSyncAccountName(packedPosition)
+                ConfirmationDialogFragment.newInstance(Bundle().apply {
+                    putString(
+                        ConfirmationDialogFragment.KEY_MESSAGE,
+                        (getString(R.string.dialog_confirm_sync_remove_backend, syncAccountName)
+                                + " " + getString(R.string.continue_confirmation))
+                    )
+                    putInt(
+                        ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+                        R.id.SYNC_REMOVE_BACKEND_COMMAND
+                    )
+                    putInt(
+                        ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
+                        R.string.remove
+                    )
+                    putString(KEY_SYNC_ACCOUNT_NAME, syncAccountName)
+                })
+                    .show(parentFragmentManager, "SYNC_REMOVE_BACKEND")
                 return true
             }
             R.id.SHOW_PASSWORD_COMMAND -> {

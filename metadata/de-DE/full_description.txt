@@ -1,27 +1,25 @@
-<i>Meine Ausgaben</i> ist Ihr ultimatives Tool für die mühelose Kostenverfolgung und Finanzverwaltung, direkt zur Hand!
+<b>Meine Ausgaben</b> ist Ihr ultimatives, datenschutzfreundliches Haushaltsbuch und Finanzmanager—für die volle Kontrolle über tägliche Ausgaben, Budgets und Investment-Portfolios mit Open-Source-Transparenz.
 
-Hauptmerkmale:
+<b>Hauptmerkmale:</b>
 
-     • <b>Mühelose Ausgabenverfolgung</b>: Behalten Sie Ihre Ausgaben und Einnahmen nahtlos im Auge, egal ob Sie auf Ihrem Smartphone oder Tablet sind.
-     • <b>Flexible Kontoverwaltung</b>: Verwalten Sie mühelos mehrere Konten, einschließlich Umbuchungen zwischen verschiedenen Währungen.
-     • <b>Optimierte Finanzplanung</b>: Erstellen Sie ganz einfach Pläne für wiederkehrende Transaktionen.
-     • <b>Nahtloses Datenmanagement</b>: Einfaches Exportieren und Importieren von Daten mithilfe der Formate QIF und CSV.
-     • <b>Erhöhte Sicherheit</b>: Schützen Sie Ihre Daten mit Passwort oder Gerätesperrbildschirmsicherheit.
-     • <b>Anpassbares Erlebnis</b>: Passen Sie die App mit anpassbaren Themen und Schriftgrößen an Ihre Vorlieben an.
-     • <b>Kontoauszugsabstimmung</b>: Vergleichen Sie den Transaktionsstatus ganz einfach mit Ihren Kontoauszügen, um eine genaue Finanzverfolgung zu ermöglichen.
-     • <b>Schnelle Dateneingabe</b>: Genießen Sie bequemen Zugriff mit Startbildschirm-Widgets und Verknüpfungen.
-     • <b>Leistungsstarke Datenanalyse</b>: Filtern Sie Ihre Daten anhand verschiedener Kriterien und visualisieren Sie Verteilung und historische Trends mit dynamischen Diagrammen.
+• <b>Täglich Ausgaben & Budgets verwalten</b>: Behalten Sie Ihre Einnahmen und Ausgaben auf dem Smartphone oder Tablet mühelos im Blick. Erstellen Sie Budgets, verwalten Sie Split-Buchungen und planen Sie wiederkehrende Transaktionen.
+• <b>Portfolio- & Depotverwaltung</b>: Verfolgen Sie Aktien-, Krypto- oder individuelle Wertpapier-Portfolios, überwachen Sie Kursverläufe und verwalten Sie Multi-Währungs-Investments in Echtzeit.
+• <b>Banken-Integration & Kontoabgleich</b>: Verbinden Sie sich direkt mit unterstützten Banken über FinTS oder gleichen Sie Buchungen manuell mit Ihren Kontoauszügen für exakt nachvollziehbare Kontostände ab.
+• <b>Intelligenter Belegscan (OCR)</b>: Extrahieren Sie Transaktionsdetails aus fotografierten Kassenbons automatisch mittels optischer Zeichenerkennung.
+• <b>Web-Interface für den Desktop</b>: Greifen Sie von jedem Webbrowser in Ihrem lokalen Netzwerk auf Ihre Transaktionen zu und verwalten Sie diese bequem am PC.
+• <b>Leistungsstarke Analysen</b>: Visualisieren Sie Ausgabentrends, Verteilungs-Diagramme und historische Berichte mit anpassbaren, dynamischen Grafiken.
+• <b>Flexible Synchronisierung & Datenkontrolle</b>: Exportieren und importieren Sie Daten einfach im QIF- und CSV-Format. Synchronisieren Sie nahtlos zwischen Geräten über WebDAV, Nextcloud, Google Drive, Dropbox oder OneDrive mit Unterstützung für Client-Zertifikate.
+• <b>Datenschutz & Sicherheit an erster Stelle</b>: Open-Source-Transparenz, Schutz durch Passwort oder biometrische Sperre sowie eine verschlüsselte Datenbank.
 
-Premium-Funktionen freischalten:
+<b>Premium-Funktionen freischalten:</b>
 
-     • <i>Contrib-Schlüssel</i>: Schalten Sie unbegrenzte Konten, wiederkehrende Transaktionspläne und mehr frei.
-     • <i>Erweiterter Schlüssel</i>: Genießen Sie Cloud-Synchronisierung, automatisierte Backups und anspruchsvolle CSV-Importe.
-     • <i>Professioneller Schlüssel</i>: Bringen Sie Ihr Finanzmanagement mit Budgetierungstools, Belegscannen und E-Mail-Support auf die nächste Stufe.
+• <i>Contrib-Schlüssel</i>: Zu den Highlights gehören unbegrenzte Konten, unbegrenzte wiederkehrende Buchungspläne, PDF-Listenexport, Kategorie-Verteilungsdiagramme und mehr.
+• <i>Erweiterungsschlüssel</i>: Enthält alle Funktionen des Contrib-Schlüssels plus automatische Cloud-Synchronisierung und erweiterte CSV-Importregeln.
+• <i>Professioneller Schlüssel</i>: Enthält alle Funktionen des Erweiterungsschlüssels plus Portfolio- & Depotverwaltung, Verlaufsdiagramme, Budgetüberwachung, Belegscan (OCR), lokale Web-Schnittstelle, direkter Banken-Sync (Deutschland) und mehr.
 
-Für <i>Meine Ausgaben</i> sind die folgenden <u>Berechtigungen</u> erforderlich:
+<b>Berechtigungen & Transparenz:</b>
 
-     • <i>Kalender</i>: Pläne für zukünftige und wiederkehrende Transaktionen werden entweder in einem speziellen lokalen Kalender oder in einem anderen von Ihnen zugewiesenen Kalender gespeichert.
-     • <i>Internet</i>: Anonyme Nutzungsverfolgung, Absturzberichte, Cloud-Synchronisierung.
-     • <i>Konten</i>: Synchronisierung zwischen Geräten über Cloud-Dienste.
+• <i>Kalender</i>: Wiederkehrende Buchungspläne werden in einem speziellen lokalen Kalender oder einem Kalender Ihrer Wahl gespeichert.
+• <i>Internet</i>: Anonyme Nutzungsstatistiken (opt-in), Cloud-Synchronisierung und Absturzberichte (opt-in).
 
-Übernehmen Sie mit <i>Meine Ausgaben</i> die Kontrolle über Ihre Finanzen wie nie zuvor!
+Übernehmen Sie noch heute die Kontrolle über Ihre Finanzen und Ihr Vermögen mit <i>Meine Ausgaben</i>!

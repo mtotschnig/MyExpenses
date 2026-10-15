@@ -12,7 +12,7 @@ import androidx.lifecycle.viewmodel.compose.saveable
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.select.DataHolder
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.NULL_ITEM_ID
 
@@ -44,7 +44,7 @@ class SelectFromTableViewModel(application: Application, savedStateHandle: Saved
         selectionArgs: Array<String>?,
         withNullItem: Boolean
     ) {
-        val projection = arrayOf(DatabaseConstants.KEY_ROWID, column)
+        val projection = arrayOf(KEY_ROWID, column)
         viewModelScope.launch(context = coroutineContext()) {
             internalState.value = LoadState.Result(
                 items = buildList {

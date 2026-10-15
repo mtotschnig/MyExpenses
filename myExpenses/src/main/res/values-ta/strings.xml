@@ -17,11 +17,11 @@
     <string name="account">கணக்கு</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">கணக்கு வகைகள்</string>
-    <string name="account_type_asset">சொத்து கணக்கு</string>
-    <string name="account_type_bank">வங்கி கணக்கு</string>
-    <string name="account_type_cash">பணக் கணக்கு</string>
+    <string name="account_type_asset">பிற சொத்துக்கள்</string>
+    <string name="account_type_bank">வைப்பகம்</string>
+    <string name="account_type_cash">பணம்</string>
     <string name="account_type_ccard">கடன் அட்டை</string>
-    <string name="account_type_liability">பொறுப்பு கணக்கு</string>
+    <string name="account_type_liability">பிற பொறுப்புகள்</string>
     <string name="already_defined">%1$s ஏற்கனவே வரையறுக்கப்பட்டுள்ளது</string>
     <string name="amount">தொகை</string>
     <string name="app_name">எனது செலவுகள்</string>
@@ -35,7 +35,7 @@
     <string name="contrib_feature_print_label">பரிவர்த்தனை பட்டியலை PDF ஆக ஏற்றுமதி</string>
     <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV இறக்குமதி</string>
     <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">வரம்பற்ற பிரிவு வார்ப்புருக்கள்</string>
-    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">2 வணிக நாட்களுக்குள் உத்தரவாத பதிலுடன் <b> மின்னஞ்சல் ஆதரவு </b></string>
+    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">2 வணிக நாட்களுக்குள் உத்தரவாத பதிலுடன் <b>மின்னஞ்சல் ஆதரவு</b></string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources"><b>மேம்பாட்டு  திட்டத்தில்</b> வாக்களிக்கும் உரிமை</string>
     <string name="contrib_feature_history_label" tools:ignore="UnusedResources">வரலாற்று விளக்கப்படம்</string>
     <string name="licence_status_free">இலவசம்</string>
@@ -79,10 +79,7 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">இருப்பு %1$s</string>
     <string name="dialog_title_contrib_feature">மதிப்பு அம்சம்</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">கணக்கை நீக்கவா?</item>
-        <item quantity="other">%1$d கணக்குகளை நீக்கவா?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">கணக்கை நீக்கவா?</string>
     <string name="dialog_title_warning_delete_category">வகையை நீக்கவா?</string>
     <string name="dialog_title_warning_delete_template">வார்ப்புருவை நீக்கவா?</string>
     <string name="dialog_title_warning_delete_transaction">பரிவர்த்தனையை நீக்கவா?</string>
@@ -146,8 +143,8 @@
     <string name="menu_edit_method">கட்டண முறையைத் திருத்து</string>
     <string name="menu_edit_party">தரப்பைத் திருத்து</string>
     <string name="menu_edit_plan_instance">ஒற்றைத் திட்டத்தின் நிகழ்வை திருத்து</string>
-    <string name="menu_edit_split">பிரிவைத் திருத்து</string>
-    <string name="menu_edit_split_part_category"> வகை பிரிவு பகுதியைத் திருத்து</string>
+    <string name="menu_edit_split">பிளவு பரிவர்த்தனையைத் திருத்து</string>
+    <string name="menu_edit_split_part_category">வகை பிரிவு பகுதியைத் திருத்து</string>
     <string name="menu_edit_split_part_transfer">பரிமாற்ற பிரிவு பகுதியைத் திருத்து</string>
     <string name="menu_edit_template">வார்ப்புருவைத் திருத்து</string>
     <string name="menu_edit_transaction">பரிவர்த்தனையைத் திருத்து</string>
@@ -170,7 +167,6 @@
     <string name="menu_split_transaction">பிரிவாக மாற்று</string>
     <string name="method">கட்டணம் செலுத்தும் முறை</string>
     <string name="no_app_handling_email_available">மின்னஞ்சல் கையாளும் செயலி ஏதும் இல்லை.</string>
-    <string name="no_app_handling_ftp_available">FTP கையாளும் செயலி ஏதும் இல்லை. <i>Send with FTP</i> நிறுவலாமா?</string>
     <string name="no_app_handling_mime_type_available">%s கோப்புகள் கையாளும் செயலி ஏதும் இல்லை.</string>
     <string name="no_categories">வகைகள் ஏதுமில்லை.</string>
     <string name="no_expenses">இன்னும் செலவுகள் ஏதுமில்லை!</string>
@@ -185,12 +181,12 @@
     <string name="no_templates">வார்ப்புருக்கள் ஏதும் இல்லை.</string>
     <string name="no_accounts">கணக்குகள் இல்லை.</string>
     <plurals name="not_deletable_mapped_transactions">
-        <item quantity="one">தேர்ந்தெடுக்கப்பட்ட பொருள் பரிவர்த்தனைக்கு மாப் செய்யப்பட்டது மற்றும் நீக்கப்பட முடியாது.</item>
-        <item quantity="other">%1$d பொருட்கள் பரிவர்த்தனையுடன் தொடர்புள்ளதால் அவைகளை நீக்க முடியாது.</item>
+        <item quantity="one">தேர்ந்தெடுக்கப்பட்ட பொருள் ஒரு பரிவர்த்தனைக்கு வரைபடமாக்கப்பட்டுள்ளது மற்றும் நீக்க முடியாது.</item>
+        <item quantity="other">%1$d பொருள்கள் பரிவர்த்தனைகளுக்கு வரைபடமாக்கப்பட்டுள்ளன, அவற்றை நீக்க முடியாது.</item>
     </plurals>
     <plurals name="not_deletable_mapped_templates">
-        <item quantity="one">தேர்ந்தெடுத்த பொருள் ஒரு டெம்ப்ளேட்டிற்கு மாற்றப்பட்டது மற்றும் நீக்க முடியாது.</item>
-        <item quantity="other">%1$d பொருட்கள் வார்ப்புருக்களுடன் தொடர்புள்ளதால் அவைகளை நீக்க முடியாது.</item>
+        <item quantity="one">தேர்ந்தெடுக்கப்பட்ட பொருள் ஒரு டெம்ப்ளேட்டிற்கு வரைபடமாக்கப்பட்டுள்ளது மற்றும் அதை நீக்க முடியாது.</item>
+        <item quantity="other">%1$d பொருள்கள் டெம்ப்ளேட்டுகளுக்கு மேப் செய்யப்பட்டுள்ளன, அவற்றை நீக்க முடியாது.</item>
     </plurals>
     <string name="numbered">எண்ணிடப்பட்ட</string>
     <string name="opening_balance">ஆரம்ப இருப்பு</string>
@@ -205,7 +201,7 @@
     <string name="password_security_answer_not_valid">தவறான பதில். மீண்டும் முயற்சி செய்க!</string>
     <string name="payee">பணம் பெறுபவர்</string>
     <string name="payer">பணம் செலுத்துபவர்</string>
-    <string name="payer_or_payee">பணம் பெறுபவர்/செலுத்துபவர்</string>
+    <string name="payer_or_payee">எதிர்தரப்பினர்</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">திட்டம்</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -236,7 +232,6 @@
     <string name="pref_category_title_more_information">மேலும் தகவல்</string>
     <string name="pref_category_title_ui">பயனர் இடைமுகம்</string>
     <string name="pref_contrib_purchase_title_upgrade">திறவுகோலை மேம்படுத்துதல்</string>
-    <string name="pref_custom_currency_title">நாணயங்களைத் தனி விருப்பமாக்குதல்</string>
     <string name="pref_enter_licence_title">திறவுகோலை உள்ளிடவும்</string>
     <string name="pref_export_format_title">தரவு வடிவம்</string>
     <string name="pref_import_from_grisbi_summary">Grisbi XML கோப்பிலிருந்து வகைகள் மற்றும் தரப்புகளை இறக்குமதி செய்</string>
@@ -250,7 +245,7 @@
     <string name="pref_manage_categories_title">வகைகள்</string>
     <string name="pref_manage_methods_summary">கட்டண முறைகளை உருவாக்கி மற்றும் திருத்தி அவற்றை கணக்கு வகைகளுடன் இணைக்கவும்.</string>
     <string name="pref_manage_methods_title">கட்டணம் செலுத்தும் முறைகள்</string>
-    <string name="pref_manage_parties_summary">தரப்புகளை (பணம்  செலுத்துபவர் மற்றும் பெறுபவர்) சேர், திருத்து, நீக்கு.</string>
+    <string name="pref_manage_parties_summary">தரப்புகளை (பணம் செலுத்துபவர் மற்றும் பெறுபவர்) சேர், திருத்து, நீக்கு.</string>
     <string name="pref_manage_parties_title">தரப்புகள்</string>
     <string name="pref_manage_sync_backends_title">ஒத்திசைவு பின்தளங்கள்</string>
     <!-- %s will be replaced with list of backends -->
@@ -274,8 +269,6 @@
     <string name="pref_send_feedback_title">கருத்தினை அனுப்பவும்</string>
     <string name="pref_share_target_summary">உரிய செயலிகளின் (மின்னஞ்சல், டிராப்பாக்ஸ், கூகுள் டாக்ஸ், …) இடையே தேர்வு செய்ய விரும்பினால் காலியாக விடவும் அல்லது ஆதரிக்கப்படும் திட்டங்களில் ஒன்றின்படி உரலி வழங்கவும்</string>
     <string name="pref_share_target_title">பதிவேற்ற உரலி</string>
-    <string name="pref_shortcut_added">முகப்பு திரைக்கு குறுக்குவழி சேர்க்கப்பட்டது</string>
-    <string name="pref_shortcut_not_added">குறுக்குவழிகளை ஏற்றுக்கொள்வதற்கான எந்த முகப்பு திரைகளும் கிடைக்கவில்லை.</string>
     <string name="pref_shortcut_summary">முகப்பு திரைக்கு குறுக்குவழியைச் சேர்க்கவும்.</string>
     <string name="pref_ui_home_screen_shortcuts">முகப்பு திரை குறுக்குவழிகள்</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -300,8 +293,8 @@
     <string name="save_transaction_and_new_success">வெற்றிகரமாக சேமிக்கப்பட்டது</string>
     <string name="save_transaction_error">வார்ப்புருவிலிருந்து புதிய பரிவர்த்தனையை சேமிக்க முடியவில்லை.</string>
     <plurals name="save_transaction_from_template_success">
-        <item quantity="one">புதிய பரிவர்த்தனை டெம்ப்ளேட் இலிருந்து வெற்றிகரமாக சேமிக்கப்பட்டது.</item>
-        <item quantity="other">%1$d புதிய பரிவர்த்தனைகள் வார்ப்புருவிலிருந்து வெற்றிகரமாக சேமிக்கப்பட்டன.</item>
+        <item quantity="one">புதிய பரிவர்த்தனை டெம்ப்ளேட்டிலிருந்து வெற்றிகரமாக சேமிக்கப்பட்டது.</item>
+        <item quantity="other">டெம்ப்ளேட்களில் இருந்து %1$d புதிய பரிவர்த்தனைகள் வெற்றிகரமாகச் சேமிக்கப்பட்டன.</item>
     </plurals>
     <string name="save_transaction_template_deleted">வார்ப்புரு நீக்கப்பட்டது</string>
     <string name="select">தேர்வு செய்க</string>
@@ -339,13 +332,13 @@
     <string name="continue_confirmation">தொடர விரும்புகிறீர்களா?</string>
     <string name="warning_delete_account">\"%1$s\" கணக்கு அதன் அனைத்து பரிமாற்றங்களுடன் நீக்கப்படும்.</string>
     <plurals name="warning_delete_main_category">
-        <item quantity="one">தேர்ந்தெடுக்கப்பட்ட வகைகள் ஒன்றில் துணை வகைகள் உள்ளன, அவை நீக்கப்படும்.</item>
-        <item quantity="other">தேர்ந்தெடுக்கப்பட்ட %1$d வகைகளில் துணை வகைகள் உள்ளன, அவையும் நீக்கப்படும்.</item>
+        <item quantity="one">தேர்ந்தெடுக்கப்பட்ட ஒரு பிரிவில் துணைப்பிரிவுகள் உள்ளன, அதுவும் நீக்கப்படும்.</item>
+        <item quantity="other">தேர்ந்தெடுக்கப்பட்ட %1$d வகைகளில் துணைப்பிரிவுகள் உள்ளன, அவையும் நீக்கப்படும்.</item>
     </plurals>
     <string name="warning_delete_category_with_budget">தேர்ந்தெடுக்கப்பட்ட ஒரு வகையிலாவது, திட்டமிடப்பட்ட ஒதுக்கீடுகள் உள்ளன, அவையும் நீக்கப்படும்.</string>
     <plurals name="warning_delete_template">
-        <item quantity="one">தேர்ந்தெடுக்கப்பட்ட வார்ப்புரு நீக்கப்படும்.</item>
-        <item quantity="other">தேர்ந்தெடுக்கப்பட்ட %1$d வார்ப்புருக்கள் நீக்கப்படும்.</item>
+        <item quantity="one">தேர்ந்தெடுக்கப்பட்ட டெம்ப்ளேட் நீக்கப்படும்.</item>
+        <item quantity="other">தேர்ந்தெடுக்கப்பட்ட %1$d டெம்ப்ளேட்கள் நீக்கப்படும்.</item>
     </plurals>
     <plurals name="warning_delete_transaction">
         <item quantity="one">தேர்ந்தெடுக்கப்பட்ட பரிவர்த்தனை நீக்கப்படும்.</item>
@@ -364,33 +357,39 @@
     <string name="warning_reset_account_all">நீங்கள் தொடர்ந்தால், எல்லா கணக்குகளுக்கும் %1$s, பரிவர்த்தனைகள் தரவுத்தளத்தில் இருந்து நீக்கப்படும். மேலும் அவற்றை மீட்டமைக்க முடியாது.</string>
     <string name="warning_reset_account_matched">நீங்கள் தொடர்ந்தால், தற்போதைய வடிப்பான் மூலம் பொருந்தும் பரிவர்த்தனைகள் தரவுத்தளத்தில் இருந்து நீக்கப்படும். மேலும் அவற்றை மீட்டமைக்க முடியாது.</string>
     <string name="warning_restore">தரவுத்தளம் மற்றும் விருப்பத்தேர்வுகள் \"%1$s\" கோப்பில் இருந்து மீட்டமைக்கப்படும். தற்போதைய தரவு நீக்கப்படும்.</string>
-    <string name="warning_splitpartcategory_context">ஒரு பிரிவின் பகுதியாக இருக்கும் பரிமாற்றங்கள் பிரிவின் பின்னணியில் மட்டுமே திருத்தப்பட முடியும்.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">%1$d மற்றும் %2$d இடையே ஒரு எண்ணை அமைக்கவும்</string>
     <string name="warning_change_fraction_digits_1">புதிய பின்ன இலக்கங்களின் எண்ணிக்கைக்கு பொருந்த தரவுத்தளத்தில் உள்ள தொகைகளை புதுப்பிக்க வேண்டும்.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">தொகைகள் புதுப்பிக்கப்படவில்லை என்றால், மாற்றத்திற்குப் பின் அவை %d மூலம் பெருக்கப்பட்டது போல் காட்டப்படும்.</string>
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">தொகைகள் புதுப்பிக்கப்படவில்லை என்றால், மாற்றத்திற்குப் பின் அவை %d மூலம் வகுக்கப்பட்டது போல் காட்டப்படும்.</string>
     <string name="warning_change_fraction_digits_3">தொகைகள் புதுப்பிக்கப்பட்டால், நீங்கள் அவைகளின் பின்ன பகுதியை பற்றிய தகவலை இழப்பீர்கள்.</string>
     <string name="warning_change_fraction_digits_checkbox_label">தரவுத்தளத்தில் உள்ள தொகைகளை புதுப்பி</string>
-    <string name="import_categories_success">%1$d வகைகள் வெற்றிகரமாக இறக்குமதி செய்யப்பட்டன.</string>
-    <string name="import_parties_success">%1$d தரப்புகள் வெற்றிகரமாக இறக்குமதி செய்யப்பட்டன.</string>
-    <string name="import_accounts_success">%1$d கணக்குகள் வெற்றிகரமாக இறக்குமதி செய்யப்பட்டன.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d பரிவர்த்தனைகள் வெற்றிகரமாக %2$s கணக்கிற்கு இறக்குமதி செய்யப்பட்டன</string>
-    <string name="import_accounts_none">எந்த கணக்குகளும் இறக்குமதி செய்யப்படவில்லை</string>
-    <string name="import_categories_none">எந்த வகைகளும் இறக்குமதி செய்யப்படவில்லை</string>
-    <string name="import_parties_none">எந்த தரப்புகளும் இறக்குமதி செய்யப்படவில்லை</string>
-    <string name="import_transactions_none">எந்த பரிவர்த்தனைகளும் %1$s கணக்கிற்கு இறக்குமதி செய்யப்படவில்லை</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d வகைகள் வெற்றிகரமாக இறக்குமதி செய்யப்பட்டன.</item>
+        <item quantity="other">%1$d வகைகள் வெற்றிகரமாக இறக்குமதி செய்யப்பட்டன.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d தரப்புகள் வெற்றிகரமாக இறக்குமதி செய்யப்பட்டன.</item>
+        <item quantity="other">%1$d தரப்புகள் வெற்றிகரமாக இறக்குமதி செய்யப்பட்டன.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d கணக்குகள் வெற்றிகரமாக இறக்குமதி செய்யப்பட்டன.</item>
+        <item quantity="other">%1$d கணக்குகள் வெற்றிகரமாக இறக்குமதி செய்யப்பட்டன.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d பரிவர்த்தனைகள் வெற்றிகரமாக %2$s கணக்கிற்கு இறக்குமதி செய்யப்பட்டன</item>
+        <item quantity="other">%1$d பரிவர்த்தனைகள் வெற்றிகரமாக %2$s கணக்கிற்கு இறக்குமதி செய்யப்பட்டன</item>
+    </plurals>
     <string name="import_source_select_error">தயவுசெய்து %1$s வகையில் ஒரு கோப்பை வழங்கவும்</string>
     <string name="menu_categories_setup_default">இயல்புநிலை வகைகளை அமைக்கவும்</string>
     <string name="widget_title_accounts">எனது கணக்குகள்</string>
     <string name="widget_title_templates">எனது வார்ப்புருக்கள்</string>
     <string name="app_dir_not_accessible">காப்புப்பிரதிக்கள் மற்றும் ஏற்றுமதிகளுக்காக தற்போது தேர்ந்தெடுக்கப்பட்டுள்ள கோப்புறையை (%1$s) அணுக முடியவில்லை. தயவு செய்து வேறொன்றைத் தேர்ந்தெடுக்கவும்.</string>
-    <string name="app_dir_not_compatible_with_nougat">காப்புப்பிரதிக்கள் மற்றும் ஏற்றுமதிகளுக்காக தற்போது விருப்பமைக்கப்பட்டURI (%1$s) ஆண்ட்ராய்டு நோகட்டில் ஆதரிக்கப்படவில்லை. தயவு செய்து மீண்டும் ஒரு கோப்புறையைத் தேர்ந்தெடுக்கவும்.</string>
     <string name="search_amount">தொகையைத் தேடவும்</string>
     <string name="search_category">வகையைத் தேடவும்</string>
     <string name="search_comment">குறிப்புக்களைத் தேடவும்</string>
     <string name="search_date">தேதியைத் தேடவும்</string>
     <string name="search_status">நிலையைத் தேடவும்</string>
-    <string name="search_payee">பணம் பெறுபவர்/செலுத்துபவரைத் தேடவும் </string>
+    <string name="search_payee">பணம் பெறுபவர்/செலுத்துபவரைத் தேடவும்</string>
     <string name="search_method">முறைகளைத் தேடவும்</string>
     <string name="search_tag">குறிச்சொல்லைத் தேடுங்கள்</string>
     <string name="and">மற்றும்</string>
@@ -407,7 +406,7 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">பின்</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">வாங்குதல் தோல்வியுற்றது அல்லது ரத்துசெய்யப்பட்டது.</string>
-    <string name="hint_auto_fill">அதே பணம் பெறுபவர்/செலுத்துபவர் கொண்ட முந்தய பரிவர்த்தனையிலிருந்து தரவு தானாகவே நிரப்பப்பட வேண்டுமா? இதை  அமைப்புகளிலிருந்து எப்போதும் மாற்றிக்கொள்ளலாம்.</string>
+    <string name="hint_auto_fill">அதே பணம் பெறுபவர்/செலுத்துபவர் கொண்ட முந்தய பரிவர்த்தனையிலிருந்து தரவு தானாகவே நிரப்பப்பட வேண்டுமா? இதை அமைப்புகளிலிருந்து எப்போதும் மாற்றிக்கொள்ளலாம்.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s-ஐ நாணயமாக கொண்ட %1$d கணக்குகள் புதுப்பிக்கப்பட்டன.</string>
     <string name="import_source_file">கோப்பு</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
@@ -459,7 +458,6 @@
     <string name="plan_instance_state_cancelled">ரத்துசெய்யப்பட்டது</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">பயன்படுத்தப்பட்டது</string>
-    <string name="progress_dialog_updating_split_parts">பிரிவு பகுதிகள் புதுப்பிக்கப்படுகின்றன</string>
     <string name="warning_cannot_move_split_transaction">இந்த பிரிவு பரிவர்த்தனையை %1$s கணக்கிற்கு நகர்த்த முடியாது, ஏனெனில் இதில் இந்த கணக்கை தொடர்புபடுத்தும் பரிமாற்ற பிரிவுகள் உள்ளன.</string>
     <string name="content_description_calculator_delete_button">கடைசி இலக்கத்தை நீக்கு</string>
     <string name="paypal_callback_info">உங்கள் பரிவர்த்தனை முடிக்கப்பட்டது, மேலும் நீங்கள் வாங்கியதற்கான ரசீது உங்களுக்கு மின்னஞ்சல் மூலம் அனுப்பப்பட்டது. நீங்கள் www.paypal.com இல் உங்கள் கணக்கில் உள்நுழைந்து இந்த பரிவர்த்தனை விவரங்களைப் பார்வையிடலாம். </string>
@@ -471,17 +469,9 @@
     <string name="crash_dialog_comment_prompt">சிக்கலைப் பற்றிய உங்கள் கருத்துகளை நீங்கள் சேர்க்கலாம்:</string>
     <string name="synchronization">ஒத்திசைவு</string>
     <string name="synchronization_none">ஒத்திசைக்காதே</string>
-    <string name="hint_url">உரலி</string>
-    <string name="description_webdav_url">உங்கள் WebDAV சேவையகத்தில் ஒரு பிரத்யேக கோப்புறைக்கான உரலியை உள்ளிடுக. {app_name} இந்த கோப்புறையினுள் அதன் தரவைச் சேமிக்கும், அதற்கு வெளியே அது எதையுமே தொடுவதில்லை.</string>
-    <string name="description_webdav_trust_certificate">வலைத்தளம் ஆண்ட்ராய்டின் நம்பகத்தன்மையற்ற சான்றிதழைப் பயன்படுத்துகிறது.</string>
-    <string name="label_trust_certificate">இந்த சான்றிதழை நம்புங்கள்</string>
     <string name="no_sync_backends">ஒத்திசைவு பின்தளங்கள் இல்லை</string>
     <string name="menu_create_sync_backend">புதிய ஒத்திசைவு பின்தளம்</string>
     <string name="validate_error_not_empty">காலியாக இருக்கக்கூடாது</string>
-    <string name="validate_error_webdav_invalid_certificate">சான்றிதழ் மேல் நம்பிக்கை வைக்க முடியவில்லை. இது தவறானதாகத் தெரிகிறது.</string>
-    <string name="validate_error_webdav_not_compliant">உரலி ஒரு WebDAV வளத்தை சுட்டவில்லை.</string>
-    <string name="validate_error_webdav_404">சேவையகத்தில் உரலி இல்லை.</string>
-    <string name="url_not_valid">செல்லுபடியாகாத உரலி</string>
     <string name="menu_sync_unlink">ஒத்திசைவை நிறுத்து</string>
     <string name="menu_sync_link">ஒத்திசைவை தொடங்கு</string>
     <string name="menu_sync_download">பதிவிறக்கு மற்றும் ஒத்திசை</string>
@@ -559,13 +549,12 @@
     <string name="sync_login_again">தயவு செய்து மீண்டும் புகுபதிகை செய்க.</string>
     <plurals name="delete_success">
         <item quantity="one">ஒரு பொருள் வெற்றிகரமாக நீக்கப்பட்டது.</item>
-        <item quantity="other">%d பொருட்கள் வெற்றிகரமாக நீக்கப்பட்டன.</item>
+        <item quantity="other">%d பொருள்கள் வெற்றிகரமாக நீக்கப்பட்டன.</item>
     </plurals>
     <string name="feature_deprecated">கைவிடப்பட்டது</string>
     <string name="pref_protection_device_lock_screen_title">கருவியின் பூட்டு திரை</string>
     <string name="pref_warning_only_one_protection">நீங்கள் %1$s மூலம் பாதுகாப்பைப் பயன்படுத்தும் முன், %2$s மூலம் பாதுகாப்பை நிறுத்த வேண்டும்.</string>
     <string name="warning_device_lock_screen_not_set_up_1">பாதுகாப்பான கருவி பூட்டு திரை அமைக்கப்படவில்லை.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">%s;-க்கு சென்று ஒரு பூட்டு திரையை அமைக்கவும்.</string>
     <string name="menu_history_show_balance">இருப்பை காட்டு</string>
     <string name="menu_history_transfers">பரிமாற்றங்களை உள்ளடக்கு</string>
     <string name="menu_history">வரலாறு</string>
@@ -669,7 +658,7 @@
     <string name="pref_exchange_rate_provider_summary">மாற்று விகிதங்களைப் பதிவிறக்க வழங்குநரைத் தேர்ந்தெடுக்கவும்</string>
     <string name="pref_exchange_rate_provider_title">மாற்று விகித வழங்குநர்</string>
     <string name="pref_exchange_rates_api_key_summary">%s இல் இலவச கணக்கைப் பதிவுசெய்து உங்களுடைய பயன்பாட்டு ஐடியை வழங்கவும்</string>
-    <string name="pref_plan_executor_time_title">இழைப்புளி அறிவிக்கை நேரம்</string>
+    <string name="pref_plan_executor_time_title">அறிவிப்பு நேரம்</string>
     <string name="synchronization_select_folder_dialog_title">ஏற்கனவே உள்ள கோப்புறையைத் தேர்ந்தெடுக்கவும் அல்லது புதியதை உருவாக்கவும்</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch">வருமானத்தை பதிவு செய்ய இந்த நிலைமாற்றியை பயன்படுத்தவும்.</string>
@@ -718,8 +707,8 @@
     <string name="dialog_multi_tag">தேர்ந்தெடுக்கப்பட்ட அனைத்து பரிவர்த்தனைகளும் %s உடன் குறிக்கப்படும்.</string>
     <string name="dialog_multi_tag_clear">தேர்ந்தெடுக்கப்பட்ட பரிவர்த்தனைகளிலிருந்து அனைத்து குறிச்சொற்களும் அகற்றப்படும்.</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">குறிச்சொல் %1$s ஒரு பரிவர்த்தனைக்கு மாற்றப்பட்டுள்ளது. அதை நீக்க வேண்டுமா?</item>
-        <item quantity="other">குறிச்சொல் %1$s, %2$d பரிவர்த்தனைகளுடன் தொடற்பு படுத்தப்பட்டுள்ளது. அதை நீக்க வேண்டுமா?</item>
+        <item quantity="one">%1$s குறிச்சொல் %2$d பரிவர்த்தனைக்கு மாற்றப்பட்டது. அதை நீக்க வேண்டுமா?</item>
+        <item quantity="other">%1$s குறிச்சொல் %2$d பரிவர்த்தனைகளுக்கு மாற்றப்பட்டது. அதை நீக்க வேண்டுமா?</item>
     </plurals>
     <string name="dialog_multi_tag_append">இருக்கும் குறிச்சொற்களுடன் புதிய குறிச்சொற்களைச் சேர்</string>
     <string name="dialog_multi_tag_replace">இருக்கும் குறிச்சொற்களை புதிய குறிச்சொற்களை கொண்டு மாற்றவும்</string>
@@ -760,8 +749,6 @@
     <string name="pref_feature_uninstall_summary">பின்னணியில் அந்த நிரல்கூறுகளை அகற்ற Play ஸ்டோர் முயற்சிக்கிறது.</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">உரிமத் தொகுப்பு ஒன்றைத் தேர்ந்தெடுக்கவும்.</string>
-    <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
-    <string name="discover_feature_fab_long_press">மிதக்கும் செயல் பொத்தானைத் தட்டிப் பிடிப்பதன் நிமித்தமாக, இடமாற்றங்கள், பிரிவுப் பரிவர்த்தனைகள் அல்லது வருமானத்திற்கான படிவத்தை நேரடியாகத் திறக்கவும்.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">முன்னதாக செயல்படுத்து (நாட்களில்)</string>
     <string name="warning_balance_account_delete">நீங்கள் தொடர்ந்தால், இந்த கணக்கின் அனைத்து நல்லிணக்கம் செய்யப்பட்ட பரிவர்த்தனைகளும் தரவுத்தளத்திலிருந்து நீக்கப்படும், மேலும் அவற்றை நீங்கள் மீட்டெடுக்க முடியாது.</string>
@@ -793,7 +780,7 @@
     <string name="single_feature_info">மாற்றாக இந்த அம்சத்திற்கு மட்டுமே நீங்கள் வரம்பற்ற அணுகலை வாங்க முடியும்.</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">கடைசி நாள்</string>
-    <string name="warning_link_transfer">தேர்ந்தெடுக்கப்பட்ட இரண்டு பரிவர்த்தனைகளும் பரிமாற்றமாக இணைக்கப்படும். பணம்  பெறுபவர் / செலுத்துபவர் மற்றும் வகை விவரங்கள் கைவிடப்படும்.</string>
+    <string name="warning_link_transfer">தேர்ந்தெடுக்கப்பட்ட இரண்டு பரிவர்த்தனைகளும் பரிமாற்றமாக இணைக்கப்படும். பணம் பெறுபவர் / செலுத்துபவர் மற்றும் வகை விவரங்கள் கைவிடப்படும்.</string>
     <!-- This is the title of an entry on the configuration screen for the account widget. It allows to decide which number should be displayed for each account: the current balance or the total (which included future transactions) -->
     <string name="account_widget_configuration_sum">காட்டப்படும் கூட்டு தொகையின் வகை</string>
     <string name="account_widget_configuration_sum_total">எதிர்கால பரிவர்த்தனைகளை உள்ளடக்கு</string>
@@ -824,8 +811,8 @@
     <string name="warning_party_delete_debt">இந்த தரப்பை நீக்கும்போது, அவருடன் தொடர்புடைய கடன்களும் நீக்கப்படும்.</string>
     <string name="pref_mlkit_script_title">MlKit க்கான ஸ்கிரிப்ட்</string>
     <plurals name="import_categories_icons_updated">
-        <item quantity="one">ஒரு வகை சின்னத்துடன் புதுப்பிக்கப்பட்டது.</item>
-        <item quantity="other">%1$d வகைகள் சின்னங்களுடன் புதுப்பிக்கப்பட்டன.</item>
+        <item quantity="one">ஒரு வகை ஐகானுடன் புதுப்பிக்கப்பட்டது.</item>
+        <item quantity="other">%1$d வகைகள் ஐகான்களுடன் புதுப்பிக்கப்பட்டன.</item>
     </plurals>
     <string name="debt_owes_me">%s எனக்கு கடன்பட்டிருக்கிறார்</string>
     <string name="new_version">புதிய பதிப்பு</string>
@@ -837,8 +824,8 @@
     <string name="debt_I_owe">நான் %s-க்கு கடன்பட்டிருக்கிறேன்</string>
     <string name="backup_save_to_sync_backend">%s இல் சேமி</string>
     <plurals name="debt_mapped_transactions">
-        <item quantity="one">கடன் %1$s உடன் ஒரு பரிவர்த்தனை தொடற்பு படுத்தப்பட்டுள்ளது.</item>
-        <item quantity="other">கடன் %1$s உடன் %2$d பரிவர்த்தனைகள் தொடற்பு படுத்தப்பட்டுள்ளன.</item>
+        <item quantity="one">%1$s கடனில் %2$d வரைபட பரிவர்த்தனை உள்ளது.</item>
+        <item quantity="other">%1$s கடன் %2$d வரைபடப் பரிமாற்றங்களைக் கொண்டுள்ளது.</item>
     </plurals>
     <string name="ui_refinement">பயனர் இடைமுகத்தை மெருகேற்றுதல்</string>
     <string name="setup_completed">அமைப்பு நிறைவடைந்தது</string>
@@ -923,19 +910,19 @@
     <string name="maximum_size">அதிகபட்ச அளவு</string>
     <string name="menu_parent_category_selection">குறுகிய தட்டில் பெற்றோர் வகையைத் தேர்ந்தெடுக்கவும்</string>
     <plurals name="purge_backup_success">
-        <item quantity="one">ஒரு பழைய காப்புப்பிரதி கோப்பு சுத்திகரிக்கப்பட்டது.</item>
-        <item quantity="other">%d பழைய காப்புப்பிரதி கோப்புகள் சுத்திகரிக்கப்பட்டன.</item>
+        <item quantity="one">ஒரு பழைய காப்பு கோப்பு சுத்தப்படுத்தப்பட்டது.</item>
+        <item quantity="other">%d பழைய காப்புப் பிரதி கோப்புகள் அகற்றப்பட்டன.</item>
     </plurals>
     <plurals name="purge_backup_failure">
         <item quantity="one">ஒரு பழைய காப்புப்பிரதி கோப்பை நீக்க முடியவில்லை.</item>
-        <item quantity="other">%d பழைய காப்புப்பிரதி கோப்புகளை நீக்க முடியவில்லை.</item>
+        <item quantity="other">%d பழைய காப்புப் பிரதி கோப்புகளை நீக்க முடியவில்லை.</item>
     </plurals>
     <string name="pref_purge_backup_keep_title">வைத்திருக்க மிக அண்மைக் கால காப்பு கோப்புகளின் அதிகபட்ச எண்ணிக்கை</string>
     <string name="pref_csv_export_split_date_time_summary">தேதி மற்றும் நேரத்திற்கு தனி நெடுவரிசைகளைப் பயன்படுத்தவும்</string>
     <string name="dialog_confirm_rollover_delete">இந்த காலத்திற்கான அனைத்து ரோல்ஓவர் தொகைகளும் நீக்கப்படும்.</string>
     <string name="content_description_attachment">இணைப்பு</string>
     <string name="database_is_encrypted">தரவுத்தளம் குறியாக்கம் செய்யப்பட்டுள்ளது.</string>
-    <string name="github_sponsors"><![CDATA[Licence keys are also provided to <a href="%s">அறிவிலிமையம் ஆதரவாளர்கள்</a>.]]></string>
+    <string name="github_sponsors"><![CDATA[<a href="%s">அறிவிலிமையம் ஆதரவாளர்களுக்கு</a> உரிம விசைகளும் வழங்கப்படுகின்றன.]]></string>
     <string name="pref_backup_file_prefix_title">கோப்பு முன்னொட்டு</string>
     <string name="orphaned_transaction_relink">பரிவர்த்தனையை %s இல் நிகழ்வு நிகழ்வுடன் மறுபரிசீலனை செய்யலாம்.</string>
     <string name="orphaned_transaction_align_date">விருப்பமாக பரிவர்த்தனையுடன் சேமிக்கப்பட்ட தேதியும் நிகழ்வு தேதியுடன் சீரமைக்கப்படலாம்.</string>
@@ -951,7 +938,7 @@
     <string name="pref_transaction_amount_color_source_title">தொகைகளுக்கான வண்ணங்கள்</string>
     <string name="warning_transform_to_transfer">தேர்ந்தெடுக்கப்பட்ட பரிவர்த்தனை %1$s இலிருந்து %2$s க்கு மாற்றுவதன் மூலம் மாற்றப்படும்.</string>
     <string name="menu_transform_to_transfer">பரிமாற்றமாக மாற்றவும்</string>
-    <string name="roadmap_intro">2024 சாலை வரைபட வாக்கெடுப்பு இப்போது திறந்திருக்கும்! உங்களுக்கு மிகவும் முக்கியத்துவம் வாய்ந்த நற்பொருத்தங்கள் மற்றும் மேம்பாடுகளுக்கு வாக்களியுங்கள்.</string>
+    <string name="roadmap_intro">%d சாலை வரைபட வாக்கெடுப்பு இப்போது திறந்திருக்கும்! உங்களுக்கு மிகவும் முக்கியத்துவம் வாய்ந்த நற்பொருத்தங்கள் மற்றும் மேம்பாடுகளுக்கு வாக்களியுங்கள்.</string>
     <string name="subcategories_merged_recursively">இணைக்கப்பட்ட வகைகளில் ஏதேனும் ஒரே லேபிளைக் கொண்ட துணைப்பிரிவுகளைக் கொண்டிருந்தால், அவை முதலில் மீண்டும் ஒன்றிணைக்கப்படும்.</string>
     <string name="merge_categories_prompt">நீங்கள் வைத்திருக்க விரும்பும் வகையைத் தேர்ந்தெடுக்கவும்</string>
     <string name="not_enough_data">போதுமான தரவு இல்லை</string>
@@ -980,7 +967,6 @@
     <string name="sort_direction">திசையை வரிசைப்படுத்துங்கள்</string>
     <string name="batch_download_result">%d விலைகள் பதிவிறக்கம் செய்யப்பட்டு தரவுத்தளத்தில் சேமிக்கப்பட்டன.</string>
     <string name="filter_dialog_empty">இதுவரை எந்த அளவுகோல்களும் சேர்க்கப்படவில்லை. உங்கள் வினவலை வரையறுக்கவும், உங்கள் முடிவுகளை செம்மைப்படுத்தவும் மேலே உள்ள பொத்தான்களைத் தட்டவும்.</string>
-    <string name="menu_show_equivalent_value">சமமான மதிப்பு</string>
     <string name="initial_value">தொடக்க மதிப்பு</string>
     <string name="current_value">தற்போதைய மதிப்பு</string>
     <string name="equivalent_amount_plural">சமமான அளவு</string>
@@ -998,4 +984,58 @@
     <string name="batch_download">தொகுதி பதிவிறக்கம்</string>
     <string name="warning_batch_download_quota">%s இலிருந்து தொகுதி பதிவிறக்கம் உங்கள் பயன்பாட்டு வரம்பைக் குறைக்கும் அபாயத்தை ஏற்படுத்துகிறது.</string>
     <string name="pref_account_list_display_configuration_title">கணக்கு பட்டியல்</string>
+    <string name="account_type_investment">முதலீடுகள்</string>
+    <string name="remap_payee_null">தேர்ந்தெடுக்கப்பட்ட அனைத்து பரிவர்த்தனைகளிலிருந்தும் பணம் செலுத்துபவர்/பணம் பெறுபவர் அகற்றப்படுவார்.</string>
+    <string name="pref_ui_home_screen_shortcuts_show_new_balance_title">பரிவர்த்தனை சேமிக்கப்பட்ட பிறகு புதிய இருப்பைக் காட்டு</string>
+    <string name="print_configuration_empty">அச்சிடுவதற்கு குறைந்தபட்சம் ஒரு புலத்தையாவது சேர்க்கவும்.</string>
+    <plurals name="import_prices_success_message">
+        <item quantity="one">%d வரியில் சரியான தரவு கண்டறியப்பட்டது.</item>
+        <item quantity="other">%d வரிகளில் சரியான தரவு கண்டறியப்பட்டது.</item>
+    </plurals>
+    <plurals name="import_prices_failure_message">
+        <item quantity="one">%d வரியைச் செயலாக்க முடியவில்லை.</item>
+        <item quantity="other">%d வரிகளை செயலாக்க முடியவில்லை.</item>
+    </plurals>
+    <string name="confirm_process_file_message">\'%2$s\' இலிருந்து \'%1$s\'க்கான விலைகளை நிச்சயமாக இறக்குமதி செய்ய விரும்புகிறீர்களா? புதிய விலைகள் ஏற்கனவே உள்ள சமமான தொகைகளை பாதிக்கலாம்.</string>
+    <string name="warning_expense_category_credit">வருமான பரிவர்த்தனைக்கு செலவு வகையை ஒதுக்குகிறீர்கள். இதன் விளைவாக, பரிவர்த்தனை உங்கள் செலவுகளின் தொகையைக் குறைக்கும், மேலும் இயல்பாக சிவப்பு நிறத்தில் காட்டப்படும்.</string>
+    <string name="warning_income_category_debit">செலவு பரிவர்த்தனைக்கு வருமான வகையை ஒதுக்குகிறீர்கள். இதன் விளைவாக, பரிவர்த்தனை உங்கள் வருமானத்தின் தொகையைக் குறைக்கும், மேலும் இயல்பாக பச்சை நிறத்தில் காட்டப்படும்.</string>
+    <string name="pref_dynamic_exchange_rates_dynamic">அனைத்து கணக்குகளுக்கும் மாறும் விகிதங்கள்</string>
+    <string name="pref_dynamic_exchange_rates_static">அனைத்து கணக்குகளுக்கும் நிலையான விகிதங்கள்</string>
+    <string name="pref_dynamic_exchange_rates_per_account">ஒவ்வொரு கணக்கையும் தனித்தனியாக உள்ளமைக்கவும்</string>
+    <string name="category_type_main">முக்கிய வகை</string>
+    <string name="category_type_sub">துணைப்பிரிவு</string>
+    <string name="category_description_base">%1$s, நிலை %2$d</string>
+    <plurals name="category_description_children_suffix">
+        <item quantity="one">, நிலை %2$d இன் ஒரு துணைப்பிரிவைக் கொண்டுள்ளது.</item>
+        <item quantity="other">, நிலை %2$d இன் %1$d துணைப்பிரிவுகள் உள்ளன.</item>
+    </plurals>
+    <string name="edit_account_type">கணக்கு வகையைத் திருத்தவும்</string>
+    <string name="new_account_type">புதிய கணக்கு வகை</string>
+    <string name="pref_print_layout_summary">நெடுவரிசைகளின் அகலம் மற்றும் கலவையை உள்ளமைக்கவும்</string>
+    <string name="menu_account_flags">கொடிகள்</string>
+    <string name="menu_flag">கொடி</string>
+    <string name="edit_account_flag">கொடியைத் திருத்தவும்</string>
+    <string name="new_account_flag">புதிய கொடி</string>
+    <string name="flag_unflagged">கொடி இல்லை</string>
+    <string name="flag_favorite">பிடித்தது</string>
+    <string name="supports_reconciliation">நல்லிணக்கத்தை ஆதரிக்கிறது</string>
+    <string name="aggregate_invisible">மொத்த கணக்குகள் மற்றும் இருப்புநிலைக் கணக்கில் கண்ணுக்கு தெரியாத கணக்குகளைச் சேர்க்கவும்</string>
+    <string name="select_accounts_for_flag">கொடி %sக்கான கணக்குகளைத் தேர்ந்தெடுக்கவும்</string>
+    <string name="menu_cleanup">தூய்மை வெற்றி</string>
+    <plurals name="warning_cleanup_parties">
+        <item quantity="one">%d பயன்படுத்தப்படாத பார்ட்டி நீக்கப்படும்.</item>
+        <item quantity="other">%d பயன்படுத்தப்படாத பார்ட்டிகள் நீக்கப்படும்.</item>
+    </plurals>
+    <string name="show_invisible">மறைக்கப்பட்ட கணக்குகள்</string>
+    <string name="show_zero">சீரோ பேலன்ச் கணக்குகள்</string>
+    <string name="content_description_clear_party">தேர்ந்தெடுக்கப்பட்ட கட்சியை அழிக்கவும்</string>
+    <string name="content_description_browse_device_files">இந்த சாதனத்தில் கோப்புகளை உலாவவும்</string>
+    <string name="content_description_select_recent_file">அண்மைக் கால கோப்புகளிலிருந்து தேர்ந்தெடுக்கவும்</string>
+    <string name="menu_templates">வார்ப்புருக்கள்</string>
+    <string name="important_upgrade_information_heading">முக்கிய தகவல்கள்</string>
+    <string name="pref_tag_style_title">குறிச்சொல் பாணி</string>
+    <string name="pref_tag_style_outline">வண்ண எல்லை</string>
+    <string name="pref_tag_style_filled">முழு வண்ணமயமான</string>
+    <string name="trade_additional_costs">கூடுதல் செலவுகள்</string>
+    <string name="contrib_feature_portfolio_tracking">போர்ட்ஃபோலியோ கண்காணிப்பு</string>
 </resources>

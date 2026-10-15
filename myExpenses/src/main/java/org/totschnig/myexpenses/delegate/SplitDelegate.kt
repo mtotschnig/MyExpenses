@@ -2,8 +2,8 @@ package org.totschnig.myexpenses.delegate
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.TooltipCompat
 import androidx.core.view.isVisible
-import com.evernote.android.state.State
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.HELP_VARIANT_SPLIT
 import org.totschnig.myexpenses.activity.HELP_VARIANT_TEMPLATE_SPLIT
@@ -12,12 +12,16 @@ import org.totschnig.myexpenses.contract.TransactionsContract
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
 import org.totschnig.myexpenses.databinding.OneExpenseBinding
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.db2.entities.Recurrence
+import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.viewmodel.data.Account
-import org.totschnig.myexpenses.viewmodel.data.SplitPart
+import org.totschnig.myexpenses.viewmodel.data.DisplayDebt
+import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
 
 class SplitDelegate(
     viewBinding: OneExpenseBinding,
@@ -25,7 +29,7 @@ class SplitDelegate(
     methodRowBinding: MethodRowBinding,
     isTemplate: Boolean
 ) :
-    MainDelegate<ISplit>(
+    MainDelegate(
         viewBinding,
         dateEditBinding,
         methodRowBinding,
@@ -43,35 +47,11 @@ class SplitDelegate(
     lateinit var adapter: SplitPartRVAdapter
     private var transactionSum: Long = 0
 
-    @State
-    var userSetAmount: Boolean = false
-
-    override fun bindUnsafe(
-        transaction: ITransaction?,
-        withTypeSpinner: Boolean,
-        savedInstanceState: Bundle?,
-        recurrence: Plan.Recurrence?,
-        withAutoFill: Boolean,
-        isCached: Boolean
-    ) {
-        super.bindUnsafe(
-            transaction,
-            withTypeSpinner,
-            savedInstanceState,
-            recurrence,
-            withAutoFill,
-            isCached
-        )
-        if (transaction?.amount?.amountMinor != 0L) {
-            userSetAmount = true
-        }
-    }
-
     override fun bind(
-        transaction: ISplit?,
+        transaction: TransactionEditData?,
         withTypeSpinner: Boolean,
         savedInstanceState: Bundle?,
-        recurrence: Plan.Recurrence?,
+        recurrence: Recurrence?,
         withAutoFill: Boolean
     ) {
         super.bind(
@@ -91,12 +71,14 @@ class SplitDelegate(
             )
         ) super.missingRecurrenceFeature() else ContribFeature.SPLIT_TEMPLATE
         with(viewBinding.CREATEPARTCOMMAND) {
-            contentDescription = concatResStrings(
+            val helpText = concatResStrings(
                 context, ". ",
                 R.string.menu_create_split_part_category, R.string.menu_create_split_part_transfer
             )
+            TooltipCompat.setTooltipText(this, helpText)
+            contentDescription = helpText
             setOnClickListener {
-                host.createRow(unsplitAmount?.amountMajor)
+                host.createRow(unsplitAmount)
             }
         }
         viewBinding.unsplitLine.setOnClickListener {
@@ -104,33 +86,58 @@ class SplitDelegate(
                 host.copyToClipboard(it)
             }
         }
+
+        transaction?.splitParts?.let { parts ->
+            splitParts.addAll(parts)
+        }
+    }
+
+    override fun prepareForNew(): Boolean {
+        super.prepareForNew()
+        splitParts.clear()
+        showSplits(splitParts)
+        return true
+    }
+
+    override fun handleDebts() {
+        super.handleDebts()
+        if (::adapter.isInitialized) {
+            showSplits(splitParts)
+        }
+    }
+
+    override val applicableDebts: List<DisplayDebt>
+        get() = super.applicableDebts.filter { splitParts.none { part -> part.debtId == it.id  } }
+
+    fun addSplitParts(parts: ArrayList<TransactionEditData>) {
+        parts.forEach { part ->
+            val existingIndex = splitParts.indexOfFirst { it.uuid == part.uuid }
+            if (existingIndex != -1) {
+                splitParts[existingIndex] = part
+            } else {
+                splitParts.add(part)
+            }
+        }
+        showSplits(splitParts)
+    }
+
+    fun removeSplitPart(position: Int) {
+        splitParts.removeAt(position)
+        showSplits(splitParts)
     }
 
     override fun onAmountChanged() {
         super.onAmountChanged()
-        if (!userSetAmount && !isProcessingLinkedAmountInputs) {
-            userSetAmount = true
-        }
         if (!isProcessingLinkedAmountInputs) {
             updateBalance()
         }
     }
 
-    override fun buildMainTransaction(account: Account): ISplit =
-        if (isTemplate) buildTemplate(account) else SplitTransaction(account.id)
-
-    override fun prepareForNew(): Boolean {
-        super.prepareForNew()
-        val account = currentAccount()!!
-        rowId = SplitTransaction.getNewInstance(
-            context.contentResolver,
-            account.id,
-            account.currency,
-            true
-        ).id
-        host.viewModel.loadSplitParts(rowId, isTemplate)
-        return true
-    }
+    override fun buildMainTransaction(account: Account): TransactionEditData =
+        super.buildMainTransaction(account).copy(
+            categoryId = SPLIT_CATID,
+            splitParts = splitParts
+        )
 
     override fun configureType() {
         super.configureType()
@@ -161,7 +168,7 @@ class SplitDelegate(
     val unsplitAmountFormatted: String?
         get() = unsplitAmount?.let { currencyFormatter.formatMoney(it) }
 
-    private val unsplitAmount: Money?
+    val unsplitAmount: Money?
         get() = host.amount?.let {
             Money(it.currencyUnit, it.amountMinor - transactionSum)
         }
@@ -172,58 +179,59 @@ class SplitDelegate(
     private fun requireAdapter() {
         if (!::adapter.isInitialized) {
             adapter = SplitPartRVAdapter(
-                context,
-                currentAccount()!!.currency,
-                currencyFormatter
-            ) { view, _ -> host.openContextMenu(view) }
+                context = context,
+                currencyUnit = currentAccount()!!.currency,
+                currencyFormatter = currencyFormatter,
+                onItemClicked = { host.editSplitPart(it) },
+                onItemLongClicked = { host.openContextMenu(it) }
+            )
             viewBinding.list.adapter = adapter
         }
+        showSplits(splitParts)
     }
 
     override fun updateAccount(account: Account, isInitialSetup: Boolean) {
         requireAdapter()
-        if (adapter.itemCount > 0) { //call background task for moving parts to new account
-            host.startMoveSplitParts(rowId, account.id)
-        } else {
-            updateAccountDo(account, isInitialSetup)
-        }
-    }
-
-    private fun updateAccountDo(account: Account, isInitialSetup: Boolean) {
-        super.updateAccount(account, isInitialSetup)
-        adapter.currencyUnit = account.currency
-        //noinspection NotifyDataSetChanged
-        adapter.notifyDataSetChanged()
-        updateBalance()
-    }
-
-    fun onUncommittedSplitPartsMoved(success: Boolean) {
-        val account = mAccounts[accountSpinner.selectedItemPosition]
-        if (success) {
-            super.updateAccount(account, false)
-        } else {
-            for ((index, a) in mAccounts.withIndex()) {
-                if (a.id == accountId) {
-                    accountSpinner.setSelection(index)
-                    break
-                }
-            }
+        if (adapter.itemCount > 0 && splitParts.any { it.transferEditData?.transferAccountId == account.id }) {
+            accountSpinner.setSelection(accountAdapter.getPosition(accountId!!))
             host.showSnackBar(
                 host.getString(
                     R.string.warning_cannot_move_split_transaction,
                     account.label
                 )
             )
+        } else {
+            super.updateAccount(account, isInitialSetup)
+            splitParts = splitParts.mapTo(ArrayList(splitParts.size)) {
+                it.copy(accountId = account.id)
+            }
+            adapter.currencyUnit = account.currency
+            //noinspection NotifyDataSetChanged
+            adapter.notifyDataSetChanged()
+            updateBalance()
         }
     }
 
     override fun missingRecurrenceFeature() = missingRecurrenceFeature
 
-    fun showSplits(transactions: List<SplitPart>) {
-        adapter.submitList(transactions)
+    fun showSplits(transactions: MutableList<TransactionEditData>) {
+        adapter.submitList(transactions.map { part ->
+            SplitPartRVAdapter.SplitPart(
+                uuid = part.uuid,
+                amount = part.amount,
+                comment = part.comment,
+                categoryPath = part.categoryPath,
+                transferAccount = part.transferEditData?.transferAccountId?.let { transferAccountId ->
+                    mAccounts.find { it.id == transferAccountId }
+                }?.label,
+                debtLabel = debts.find { it.id == part.debtId }?.label,
+                tags = part.tags,
+                icon = part.categoryIcon,
+            )
+        })
         viewBinding.empty.visibility = if (transactions.isEmpty()) View.VISIBLE else View.GONE
         viewBinding.list.visibility = if (transactions.isEmpty()) View.GONE else View.VISIBLE
-        transactionSum = transactions.sumOf { it.amountRaw }
+        transactionSum = transactions.sumOf { it.amount.amountMinor }
         updateBalance()
     }
 }

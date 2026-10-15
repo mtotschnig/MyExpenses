@@ -81,7 +81,6 @@
     <string name="password_prompt">Įveskite slaptažodį</string>
     <string name="payee">Gavėjas</string>
     <string name="payer">Mokėtojas</string>
-    <string name="payer_or_payee">Gavėjas/mokėtojas</string>
     <string name="pm_creditcard">Kreditinė kortelė</string>
     <string name="pref_category_title_more_information">Daugiau informacijos</string>
     <string name="pref_category_title_ui">Naudotojo sąsaja</string>
@@ -117,4 +116,12 @@
     <string name="template">Šablonas</string>
     <string name="new_version">Nauja versija</string>
     <string name="add_shortcut">Pridėti trumpinį</string>
+    <string name="important_upgrade_information_heading">Svarbi informacija</string>
+    <string name="dialog_title_warning_delete_tag">Ištrinti žymą?</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="one">Žyma %1$s susieta su %2$d operacija. Ar ją ištrinti?</item>
+        <item quantity="few">Žyma %1$s susieta su %2$d operacijomis. Ar ją ištrinti?</item>
+        <item quantity="many">Žyma %1$s susieta su %2$d operacijos. Ar ją ištrinti?</item>
+        <item quantity="other">Žyma %1$s susieta su %2$d operacijų. Ar ją ištrinti?</item>
+    </plurals>
 </resources>

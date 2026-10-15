@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import org.totschnig.myexpenses.R
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 
 class SelectTransformToTransferTargetDialogFragment : SelectSingleAccountDialogFragment() {
@@ -31,11 +31,13 @@ class SelectTransformToTransferTargetDialogFragment : SelectSingleAccountDialogF
     override fun buildExtras() = super.buildExtras()?.apply {
         putLong(KEY_TRANSACTIONID, transactionId)
         putBoolean(KEY_IS_INCOME, isIncome)
+        putString(KEY_SOURCE,  requireArguments().getString(KEY_SOURCE))
     }
 
     companion object {
         const val TRANSFORM_TO_TRANSFER_REQUEST = "transformToTransfer"
         const val KEY_IS_INCOME = "isIncome"
+        const val KEY_SOURCE = "from"
         fun newInstance(transaction: Transaction2) =
             SelectTransformToTransferTargetDialogFragment().apply {
                 arguments =
@@ -45,6 +47,7 @@ class SelectTransformToTransferTargetDialogFragment : SelectSingleAccountDialogF
                     ).apply {
                         putLong(KEY_TRANSACTIONID, transaction.id)
                         putBoolean(KEY_IS_INCOME, transaction.displayAmount.amountMinor > 0)
+                        putString(KEY_SOURCE, transaction.accountLabel)
                     }
             }
     }

@@ -10,7 +10,6 @@ import com.itextpdf.text.Chunk
 import com.itextpdf.text.Document
 import com.itextpdf.text.DocumentException
 import com.itextpdf.text.Element
-import com.itextpdf.text.Font
 import com.itextpdf.text.PageSize
 import com.itextpdf.text.Paragraph
 import com.itextpdf.text.Phrase
@@ -35,15 +34,15 @@ import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transfer
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.ColorSource
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.printLayout
 import org.totschnig.myexpenses.preference.printLayoutColumnWidths
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
+import org.totschnig.myexpenses.provider.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_PARENTID
+import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.util.AppDirHelper.timeStampedFile
@@ -67,10 +66,12 @@ import org.totschnig.myexpenses.viewmodel.Payee
 import org.totschnig.myexpenses.viewmodel.PrintLayoutConfigurationViewModel.Companion.asColumns
 import org.totschnig.myexpenses.viewmodel.ReferenceNumber
 import org.totschnig.myexpenses.viewmodel.Tags
+import org.totschnig.myexpenses.viewmodel.data.BI_ARROW
 import org.totschnig.myexpenses.viewmodel.data.DateInfo
-import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.HeaderData
+import org.totschnig.myexpenses.viewmodel.data.PageAccount
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
+import org.totschnig.myexpenses.viewmodel.data.getIndicatorPrefixForLabel
 import org.totschnig.myexpenses.viewmodel.data.mergeTransfers
 import timber.log.Timber
 import java.io.IOException
@@ -131,7 +132,7 @@ object PdfPrinter {
     @Throws(IOException::class, DocumentException::class)
     fun print(
         context: Context,
-        account: FullAccount,
+        account: PageAccount,
         destDir: DocumentFile,
         filter: Criterion?,
         colorSource: ColorSource,
@@ -160,8 +161,8 @@ object PdfPrinter {
             "application/pdf", "pdf"
         ) ?: throw createFileFailure(context, destDir, fileName)
         val document = getDocument(context, prefHandler)
-        val sortBy = if (DatabaseConstants.KEY_AMOUNT == account.sortBy) {
-            "abs(" + DatabaseConstants.KEY_AMOUNT + ")"
+        val sortBy = if (KEY_AMOUNT == account.sortBy) {
+            "abs($KEY_AMOUNT)"
         } else {
             account.sortBy
         }
@@ -170,7 +171,7 @@ object PdfPrinter {
             extended = true
         )
         val projection = Transaction2.projection(
-            account.id,
+            account.isAggregate,
             account.grouping,
             prefHandler
         )
@@ -261,6 +262,7 @@ object PdfPrinter {
                         null
                     )!!
                 }
+                helper.reportMissingCharacters()
             } finally {
                 document.close()
             }
@@ -281,7 +283,7 @@ object PdfPrinter {
         subTitle: Phrase,
         subTitle2: String?,
     ) {
-        val preface = PdfPTable(1)
+        val preface = helper.newTable(1)
         preface.addCell(helper.printToCell(title, FontType.TITLE))
         preface.addCell(helper.printToCell(subTitle))
         subTitle2?.let {
@@ -299,7 +301,7 @@ object PdfPrinter {
         transactionCursor: Cursor,
         helper: PdfHelper,
         context: Context,
-        account: FullAccount,
+        account: PageAccount,
         filter: Criterion?,
         currencyUnit: CurrencyUnit,
         currencyFormatter: ICurrencyFormatter,
@@ -333,10 +335,11 @@ object PdfPrinter {
 
         for (transaction in transactionCursor.asSequence.map {
             Transaction2.fromCursor(
-                currencyContext,
-                it,
-                tagMap,
-                accountCurrency = account.currencyUnit
+                currencyContext = currencyContext,
+                cursor = it,
+                tags = tagMap,
+                accountCurrency = account.currencyUnit,
+                grouping = account.grouping
             )
         }.asIterable().let {
             if (account.isAggregate) it.mergeTransfers(
@@ -391,7 +394,9 @@ object PdfPrinter {
                                     )
                                 )
                             }
-                        )
+                        ).apply {
+                            horizontalAlignment = if (helper.layoutDirectionFromLocaleIsRTL) Element.ALIGN_RIGHT else Element.ALIGN_LEFT
+                        }
                     )
                     groupSummary.addCell(helper.printToCell("Δ: $formattedDelta").apply {
                         horizontalAlignment = Element.ALIGN_CENTER
@@ -408,7 +413,7 @@ object PdfPrinter {
                                 )
                             }
                         ).apply {
-                            horizontalAlignment = Element.ALIGN_RIGHT
+                            horizontalAlignment = if (helper.layoutDirectionFromLocaleIsRTL) Element.ALIGN_LEFT else Element.ALIGN_RIGHT
                         })
                 } else {
                     groupSummary.addCell(helper.printToCell("Δ: $formattedDelta").apply {
@@ -469,6 +474,9 @@ object PdfPrinter {
                                 )
                             )
                         }).apply {
+                        if (helper.layoutDirectionFromLocaleIsRTL) {
+                            runDirection = PdfWriter.RUN_DIRECTION_RTL
+                        }
                         colspan = 3
                         horizontalAlignment = Element.ALIGN_CENTER
                         border = NO_BORDER
@@ -487,14 +495,14 @@ object PdfPrinter {
 
                 header2Table.addCell(
                     helper.printToCell(
-                        "- " + currencyFormatter.formatMoney(sumExpense.negate()),
+                        "- " + currencyFormatter.formatMoney(-sumExpense),
                         FontType.EXPENSE
                     ).apply {
                         horizontalAlignment = Element.ALIGN_CENTER
                     })
                 header2Table.addCell(
                     helper.printToCell(
-                        Transfer.BI_ARROW + " " + currencyFormatter.formatMoney(sumTransfer),
+                        "$BI_ARROW ${currencyFormatter.formatMoney(sumTransfer)}",
                         FontType.TRANSFER
                     ).apply {
                         horizontalAlignment = Element.ALIGN_CENTER
@@ -523,12 +531,11 @@ object PdfPrinter {
 
                 table = helper.newTable(columns.size)
 
-                // Header row
-                val headerFont = Font(Font.FontFamily.HELVETICA, 10f, Font.BOLD)
 
                 columns.forEachIndexed { index, fields ->
-                    val border =
-                        if (index == columns.lastIndex) NO_BORDER else Rectangle.RIGHT
+                    val border = if (index == columns.lastIndex) NO_BORDER else {
+                        if (helper.layoutDirectionFromLocaleIsRTL) Rectangle.LEFT else Rectangle.RIGHT
+                    }
                     val alignment = columnAlignment(fields)
                     val extra = Bundle(1).apply {
                         putBoolean(Date.KEY_IS_TIME_FIELD, account.grouping == Grouping.DAY)
@@ -536,8 +543,8 @@ object PdfPrinter {
                     if (fields.size == 1) {
                         table.addCell(
                             headerCell(
+                                helper,
                                 fields[0].toString(context, extra),
-                                headerFont,
                                 alignment,
                                 border
                             )
@@ -545,7 +552,7 @@ object PdfPrinter {
                     } else {
                         table.addCell(
                             complexHeaderCell(
-                                headerFont,
+                                helper,
                                 alignment,
                                 border,
                                 *fields.map { it.toString(context, extra) }.toTypedArray()
@@ -644,8 +651,8 @@ object PdfPrinter {
                     )
 
                     Notes -> listOf(comment)
-                    Payee -> listOf(payee)
-                    Tags -> listOf(tagList.joinToString { it.second })
+                    Payee -> listOf(party?.displayName)
+                    Tags -> listOf(tagList.joinToString { it.label })
 
                     ReferenceNumber -> listOf(referenceNumber)
                     Account -> listOf(buildString {
@@ -657,7 +664,7 @@ object PdfPrinter {
                             if (isNotEmpty()) {
                                 append(" ")
                             }
-                            append(Transfer.getIndicatorPrefixForLabel(displayAmount.amountMinor) + transferAccountLabel)
+                            append(getIndicatorPrefixForLabel(displayAmount.amountMinor) + transferAccountLabel)
                         }
                     })
                 }
@@ -665,29 +672,30 @@ object PdfPrinter {
                     .filter { it.isNotEmpty() }
             }
 
-            fun fontType(field: Field, isSplitPart: Boolean) = when (field) {
-                is Amount, OriginalAmount -> {
-                    if (account.id >= 0 || !transaction.isSameCurrency)
-                        (colorSource.transformType(transaction.type)
-                            ?: when (transaction.displayAmount.amountMinor.sign) {
-                                1 -> FLAG_INCOME
-                                -1 -> FLAG_EXPENSE
-                                else -> FLAG_NEUTRAL
-                            }).asFontType(isSplitPart) else FontType.NORMAL
-                }
-
-                else -> if (isSplitPart) FontType.SMALL else FontType.NORMAL
-            }
 
             fun Transaction2.print(paddingTop: Float = 5f, paddingBottom: Float = 5f, isSplitPart: Boolean = false) {
                 columns.forEachIndexed { index, fields ->
                     val finalFields = if (isSplitPart) fields.filter { it != Payee } else fields
-                    val border = (if (index == columns.lastIndex) 0 else Rectangle.RIGHT) +
-                            if (isSplitPart) 0 else Rectangle.TOP
+                    val sideBorder = if (index == columns.lastIndex) 0 else {
+                        if (helper.layoutDirectionFromLocaleIsRTL) Rectangle.LEFT else Rectangle.RIGHT
+                    }
+                    val border = sideBorder + if (isSplitPart) 0 else Rectangle.TOP
                     val rows: List<Pair<FontType, String>> = finalFields.flatMap { field ->
-                        print(field).map {
-                            fontType(field, isSplitPart) to it
+                        val fontType = when (field) {
+                            is Amount, OriginalAmount -> {
+                                if (account.id >= 0 || !isSameCurrency)
+                                    (colorSource.transformType(type)
+                                        ?: when (displayAmount.amountMinor.sign) {
+                                            1 -> FLAG_INCOME
+                                            -1 -> FLAG_EXPENSE
+                                            else -> FLAG_NEUTRAL
+                                        }).asFontType(isSplitPart) else FontType.NORMAL
+                            }
+
+                            else -> if (isSplitPart) FontType.SMALL else FontType.NORMAL
                         }
+
+                        print(field).map { fontType to it }
                     }
                     val cell =
                         helper.printToNestedCell(*rows.mapIndexed { index, (fontType, text) ->
@@ -718,14 +726,15 @@ object PdfPrinter {
 
             transaction.print()
 
-            if (DatabaseConstants.SPLIT_CATID == transaction.catId) {
+            if (SPLIT_CATID == transaction.catId) {
                 splitCursor(transaction.id).use { it ->
                     val list = it.asSequence.map {
                         Transaction2.fromCursor(
-                            currencyContext,
-                            it,
-                            tagMap,
-                            accountCurrency = account.currencyUnit
+                            currencyContext = currencyContext,
+                            cursor = it,
+                            tags = tagMap,
+                            accountCurrency = account.currencyUnit,
+                            grouping = account.grouping
                         )
                     }.toList()
                     list.forEachIndexed { index, split ->
@@ -755,12 +764,15 @@ object PdfPrinter {
     }
 
     private fun headerCell(
+        helper: PdfHelper,
         text: String,
-        font: Font,
         alignment: Int = Element.ALIGN_LEFT,
         border: Int = Rectangle.RIGHT,
         withPadding: Boolean = true,
-    ) = PdfPCell(Phrase(text, font)).apply {
+    ) = PdfPCell(helper.print(text, FontType.BOLD)).apply {
+        if (helper.layoutDirectionFromLocaleIsRTL || PdfHelper.hasAnyRtl(text)) {
+            runDirection = PdfWriter.RUN_DIRECTION_RTL
+        }
         setPadding(if (withPadding) 5f else 0f)
         horizontalAlignment = alignment
         verticalAlignment = Element.ALIGN_MIDDLE
@@ -768,17 +780,20 @@ object PdfPrinter {
     }
 
     private fun complexHeaderCell(
-        font: Font,
+        helper: PdfHelper,
         alignment: Int = Element.ALIGN_LEFT,
         border: Int = Rectangle.RIGHT,
         vararg texts: String,
     ) = PdfPCell(PdfPTable(1).apply {
+        if (helper.layoutDirectionFromLocaleIsRTL) {
+            runDirection = PdfWriter.RUN_DIRECTION_RTL
+        }
         widthPercentage = 100f
         texts.forEachIndexed { index, text ->
             addCell(
                 headerCell(
+                    helper,
                     text,
-                    font,
                     alignment,
                     NO_BORDER,
                     withPadding = false
@@ -790,6 +805,9 @@ object PdfPrinter {
             )
         }
     }).apply {
+        if (helper.layoutDirectionFromLocaleIsRTL) {
+            runDirection = PdfWriter.RUN_DIRECTION_RTL
+        }
         this.border = border
         setPadding(5f)
     }

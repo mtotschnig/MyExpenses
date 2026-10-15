@@ -115,7 +115,7 @@ open class NetworkModule {
             converterFactory: GsonConverterFactory
         ): Frankfurter {
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://api.frankfurter.app/")
+                .baseUrl("https://api.frankfurter.dev/v1/")
                 .addConverterFactory(converterFactory)
                 .client(builder.build())
                 .build()

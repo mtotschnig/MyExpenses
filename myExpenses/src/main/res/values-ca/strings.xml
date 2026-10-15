@@ -119,7 +119,7 @@
     <string name="menu_edit_method">Edita la forma de pagament</string>
     <string name="menu_edit_party">Modifica el tercer</string>
     <string name="menu_edit_plan_instance">Edita aquest element de la planificació</string>
-    <string name="menu_edit_split">Edita el repartiment</string>
+    <string name="menu_edit_split">Edita la transacció dividida</string>
     <string name="menu_edit_split_part_category">Edita la partició de la categoria</string>
     <string name="menu_edit_split_part_transfer">Modifica la partició de la transferència</string>
     <string name="menu_edit_template">Modifica la plantilla</string>
@@ -141,7 +141,6 @@
     <string name="button_label_close">Tanca</string>
     <string name="method">Forme de pagament</string>
     <string name="no_app_handling_email_available">No s\'ha trobat l\'aplicació del correu electrónic.</string>
-    <string name="no_app_handling_ftp_available">No s\'ha trobat cap aplicació de ftp. Voleu instal·lar <i>Envia amb FTP</i>?</string>
     <string name="no_categories">Encara no hi ha categories.</string>
     <string name="no_expenses">Encara no hi ha cap despesa!</string>
     <string name="no_exportable_expenses">No hi ha operacions que encara no hagin estat exportades.</string>
@@ -219,7 +218,6 @@
     <string name="pref_send_feedback_title">Envieu comentaris</string>
     <string name="pref_share_target_summary">Podeu deixar-ho en blanc, si voleu triar entre les aplicacions adequades (correu electrònic, Dropbox, Google Docs, …), o indicar una URL en un dels esquemes permesos</string>
     <string name="pref_share_target_title">Puja el fitxer (a una URL)</string>
-    <string name="pref_shortcut_added">S\'ha afegit la drecera a la pantalla Inicial</string>
     <string name="pref_shortcut_summary">Afegiu la drecera a la pantalla Inicial.</string>
     <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">Idioma</string>
@@ -271,10 +269,6 @@
     <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">Si continueu, per tots els comptes%1$s, les operacions s\'eliminaran de la base de dades i no es podran restaurar.</string>
     <string name="warning_restore">La base de dades i les preferències es restauraran des de la còpia de seguretat (%1$s). S\'esborraran les dades actuals.</string>
-    <string name="warning_splitpartcategory_context">Transferències que formen part d\'una transacció dividida només es poden editar en el marc de la divisió.</string>
-    <string name="import_categories_success">%1$d categories importades amb èxit.</string>
-    <string name="import_parties_success">%1$d tercers s\'han importat correctament.</string>
-    <string name="import_accounts_none">No s\'ha importat cap compte</string>
     <string name="pref_auto_backup_title">Permetre còpia de seguretat automàtica</string>
     <string name="pref_auto_backup_summary">Còpia de seguretat de base de dades diària a l\'hora especificada (només si les dades han canviat).</string>
     <string name="pref_auto_backup_time_title">Hora de còpia de seguretat automàtica</string>
@@ -323,14 +317,10 @@
     <string name="licence_status_free">Gratuït</string>
     <string name="number_format_illegal">Format de nombre il·legal</string>
     <string name="no_accounts">Sense comptes.</string>
-    <string name="payer_or_payee">Beneficiari/Pagador</string>
+    <string name="payer_or_payee">Contrapart</string>
     <string name="pref_protection_enable_data_entry_from_widget_summary_off">Cal contrasenya.</string>
-    <string name="pref_shortcut_not_added">No es diposa de pantalla d\'inici que accepti dreceres.</string>
     <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d projectes han estat restaurats de la còpia de seguretat</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Elminar compte\?</item>
-        <item quantity="other">Eliminar %1$d comptes\?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Eliminar compte?</string>
     <string name="dialog_command_disabled_insert_transfer">Les transaccions requereixen un segon compte.</string>
     <string name="dialog_contrib_usage_limit_split_templates">L\'estat actual de la vostra llicència (%1$s) permet crear 1 plantilla dividida.</string>
     <string name="dialog_contrib_usage_limit_with_dialog">Amb la vostra llicència actual (%1$s), aquest diàleg es mostrarà a cada ús.</string>
@@ -347,7 +337,6 @@
     <string name="pref_app_dir_title">Carpeta per còpia de seguretat i exportar</string>
     <string name="pref_auto_fill_summary">Omplir amb dades de l\'última transacció del mateix beneficiari/pagador</string>
     <string name="pref_contrib_purchase_title_upgrade">Millorar clau</string>
-    <string name="pref_custom_currency_title">Personalitzar divises</string>
     <string name="pref_import_summary">Importar transaccions, categories o parts des de l\'arxiu %s</string>
     <string name="pref_import_title">Importar %s</string>
     <string name="pref_manage_sync_backends_summary">Afegiu un servei per a la sincronització del compte (%s).</string>
@@ -372,15 +361,11 @@
     <string name="status_void">nul</string>
     <string name="export_handle_deleted_create_helper">Crea transacció d\'ajuda</string>
     <string name="export_handle_deleted_update_balance">Actualitza saldo inicial</string>
-    <string name="validate_error_webdav_not_compliant">L\'URL no condueix a cap recurs WebDAV.</string>
     <string name="dialog_confirm_sync_link_remote">Les dades locals d\'aquest compte s\'eliminaran.</string>
     <string name="progress_removing_licence">Suprimint llicència</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Definiu un nombre entre %1$d i %2$d</string>
     <string name="warning_change_fraction_digits_checkbox_label">Actualitza quantitats a la base de dades</string>
     <string name="warning_widget_disabled">Cal activar aquest widget a la configuració de l\'aplicació.</string>
-    <string name="import_parties_none">Cap tercer importat</string>
-    <string name="import_transactions_none">Cap transacció importada al compte %1$s</string>
-    <string name="app_dir_not_compatible_with_nougat">L\'URL assignada per a còpies de seguretat i exportacions (%1$s) no té suport a Android Nougat. Seleccioneu un fitxer de nou.</string>
     <string name="search_status">Cerca estat</string>
     <string name="comparison_operator_between">entre</string>
     <string name="account_deleted">Compte eliminat</string>
@@ -390,13 +375,7 @@
     <string name="plan_instance_state_open">obert</string>
     <string name="content_description_calculator_delete_button">Elimina últim digit</string>
     <string name="crash_dialog_comment_prompt">Pot afegir comentaris sobre el problema aquí:</string>
-    <string name="hint_url">URL</string>
-    <string name="description_webdav_url">Siusplau introdueixi URL per al fitxer especial al seu servidor WebDAV. {app_name} desarà dades a l\'interior de la carpeta, però no tocarà res fora de la mateixa.</string>
-    <string name="label_trust_certificate">Confia en aquest certificat</string>
     <string name="no_sync_backends">Sense serveis de sincronització</string>
-    <string name="validate_error_webdav_invalid_certificate">No es pot confiar en el certificat. Sembla invàlid.</string>
-    <string name="validate_error_webdav_404">L\'URL no existeix al servidor.</string>
-    <string name="url_not_valid">ULR invàlida</string>
     <string name="menu_sync_download">Descarrega i sincronitza</string>
     <string name="pref_sync_frequency_summary">Cada quant s\'han de sincronitzar les dades (en hores).</string>
     <string name="dialog_command_sync_link_remote">Descarrega del remot</string>
@@ -416,7 +395,6 @@
     <string name="progress_validating_licence">Validant llicència</string>
     <string name="licence_validation_error_expired">Llicència caducada</string>
     <string name="before">abans de %s</string>
-    <string name="import_categories_none">Cap categoria importada</string>
     <string name="exchange_rate">Tipus de canvi</string>
     <string name="search_transfer">Cerca per transferència</string>
     <string name="menu_sync_unlink">Atura la sincronització</string>
@@ -476,10 +454,23 @@
     <string name="search_date">Cerca data</string>
     <string name="csv_import_no_mapping_found_for_amount">Siusplau, assigneu una columna o bé a import, ingrés o despesa.</string>
     <string name="crash_dialog_title">{app_name} ha petat</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Vagi a %s per a establir el bloqueig de pantalla.</string>
     <string name="warning_change_fraction_digits_3">Si les quantitats s\'actualitzen, prendreu la informació sobre la seva part fraccionaria.</string>
-    <string name="import_accounts_success">%1$d comptes importats amb èxit.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d opreacions importades amb èxit al compte %2$s</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d categories importades amb èxit.</item>
+        <item quantity="other">%1$d categories importades amb èxit.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d tercers s\'han importat correctament.</item>
+        <item quantity="other">%1$d tercers s\'han importat correctament.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d comptes importats amb èxit.</item>
+        <item quantity="other">%1$d comptes importats amb èxit.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d operacions importades amb èxit al compte %2$s</item>
+        <item quantity="other">%1$d operacions importades amb èxit al compte %2$s</item>
+    </plurals>
     <string name="import_source_select_error">Aporteu un fitxer del tipus %1$s</string>
     <string name="menu_categories_setup_default">Definir categories per defecte</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Si les quantitats no s\'actualitzen, es mostraran multiplicades per %d després del canvi.</string>
@@ -497,7 +488,6 @@
     <string name="plan_instance_state_cancelled">cancel·lat</string>
     <string name="warning_cannot_move_split_transaction">La transacció dividida no s\'ha pogut moure al compte %1$s atès que hi ha parts de la transferència referides a aquest compte.</string>
     <string name="pref_sort_order_next_instance">Següent instància</string>
-    <string name="description_webdav_trust_certificate">La pàgina web utilitza un certificat que no figura al llistat de confiança d\'Android.</string>
     <string name="menu_create_sync_backend">Nou servei de sincronització</string>
     <string name="menu_sync_link">Arrenca la sincronització</string>
     <string name="validate_error_not_empty">No pot quedar buit</string>
@@ -536,7 +526,7 @@
     </plurals>
     <string name="warning_instantiate_template_from_widget_password_protected">Crear ràpidament plantilles a partir del widget requereix que autoritzeu l\'entrada de dades des de widgets sense contrasenya des de la configuració de l\'aplicació.</string>
     <string name="search_payee">Cerca pagador/beneficiari</string>
-    <string name="hint_auto_fill">Voleu omplir automàticament les dades amb l\'última transacció del mateix beneficiari/pagador\? Sempre podeu modificar aquesta opció a la configuració.</string>
+    <string name="hint_auto_fill">Voleu omplir automàticament les dades amb l\'última transacció del mateix beneficiari/pagador? Sempre podeu modificar aquesta opció a la configuració.</string>
     <string name="transaction_deleted">Transacció eliminada</string>
     <string name="comparison_operator_lesser_than">menor que</string>
     <string name="comparison_operator_date_before">abans</string>
@@ -545,7 +535,6 @@
     <string name="pref_manage_stale_images_summary">Gestiona imatges sobrants de transaccions eleminades</string>
     <string name="dialog_export_applied_to_filter">Només les transaccions que coincideixen amb el filtre actual es tenen en compte.</string>
     <string name="folder_name">Nom de la carpeta</string>
-    <string name="progress_dialog_updating_split_parts">Actualitzant parts dividides</string>
     <string name="plan_instance_state_applied">aplicat</string>
     <string name="pref_custom_decimal_format_summary">Si no us satisfà el format per defecte de la llengua, el podeu adaptar. Deixi en blanc per restaurar el format per defecte.</string>
     <string name="calendar_permission_required"><i>{app_name}</i> necessita permís per accedir al vostre calendari per tal de crear-hi projectes en un futur o bé transaccions recurrents.</string>
@@ -659,7 +648,7 @@
     <string name="warning_synced_account_cannot_be_closed">Un compte vinculat a la sincronització al sistema de servei no es pot tancar</string>
     <string name="content_description_dates_are_linked">La data de reserva i la data valor s\'actualitzen conjuntament</string>
     <string name="content_description_dates_are_not_linked">La data de reserva i la data valor no s\'actualitzen conjuntament</string>
-    <string name="pref_plan_executor_time_title">Hora de notificació al planificador</string>
+    <string name="pref_plan_executor_time_title">Hora de notificació</string>
     <string name="menu_create_budget">Nou pressupost</string>
     <string name="remap_category">S\'assignaran a la categoria %s totes les transaccions seleccionades.</string>
     <string name="dialog_title_confirm_remap">Canviar assignació (%s) \?</string>
@@ -698,14 +687,14 @@
     <string name="setup_completed">S\'ha completat la configuració</string>
     <string name="contact_us">Contacti amb nosaltres</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">L\'etiqueta %1$s està assignada a una operació. Hauria de suprimir-se?</item>
+        <item quantity="one">L\'etiqueta %1$s està assignada a %2$d operació. Hauria de suprimir-se?</item>
         <item quantity="many">L\'etiqueta %1$s està assignada a %2$d operacions. Hauria de suprimir-se?</item>
-        <item quantity="other"></item>
+        <item quantity="other">L\'etiqueta %1$s està assignada a %2$d operacions. Hauria de suprimir-se?</item>
     </plurals>
     <plurals name="purge_backup_failure">
         <item quantity="one">No s\'ha pogut suprimir un fitxer antic de còpia de seguretat.</item>
         <item quantity="many">No s\'han pogut suprimir %d fitxers antics de còpia de seguretat.</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <string name="menu_transform_to_transfer">Converteix en transferència</string>
     <string name="title_webui">Interfície d\'usuari web</string>
@@ -713,9 +702,9 @@
     <string name="budget_widget_configuration">Selecciona el pressupost</string>
     <string name="pref_mlkit_script_title">Script per al MlKit</string>
     <plurals name="import_categories_icons_updated">
-        <item quantity="one">Una categoria s\'ha actualitzat amb icona.</item>
+        <item quantity="one">%1$d categoria s\'ha actualitzat amb icona.</item>
         <item quantity="many">S\'han actualitzat %1$d categories amb icones.</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <string name="menu_parent_category_selection">Selecciona la categoria mare en tocar breument</string>
     <string name="purge_backups">Se suprimiran els fitxers de còpia de seguretat antics següents:</string>
@@ -767,7 +756,7 @@
     <plurals name="debt_mapped_transactions">
         <item quantity="one">El deute %1$s té %2$d operació assignada.</item>
         <item quantity="many">El deute %1$s té %2$d operacions assignades.</item>
-        <item quantity="other"></item>
+        <item quantity="other"/>
     </plurals>
     <string name="title_activity_debt_overview">Resum del deute</string>
     <plurals name="purge_backup_success">
@@ -820,7 +809,6 @@
     <string name="account_widget_configuration_sum">Tipus de suma mostrada</string>
     <string name="scan_result_no_date">No s\'ha trobat cap data</string>
     <string name="pref_feature_uninstall_summary">Play Store intenta eliminar eventualment els mòduls en segon pla.</string>
-    <string name="discover_feature_fab_long_press" tools:ignore="UnusedResources">Manteniu premut el botó d\'acció flotant per obrir directament el formulari de transferències, fraccionaments o ingressos.</string>
     <string name="advance_exexcution_in_days">Execució anticipada (en dies)</string>
     <string name="tesseract_download_confirmation">Voleu baixar les dades de reconeixement de text per a %s?</string>
     <string name="ocr_download_info">La capacitat de reconeixement de text ve proporcionada per una aplicació externa.</string>
@@ -834,7 +822,7 @@
     <string name="active_tags">Etiquetes actives</string>
     <string name="debt">Deute</string>
     <string name="select_all_list_too_large">L\'ordre %s no està disponible perquè la llista només està parcialment carregada. Utilitzeu la funcionalitat Cerca per a reduir la mida de la llista.</string>
-    <string name="github_sponsors">Les claus de llicència també es proporcionen a &lt;a href=%s&gt;Github Sponsors&lt;/a&gt;.</string>
+    <string name="github_sponsors"><![CDATA[Les claus de llicència també es proporcionen a <a href=%s>Github Sponsors</a>.]]></string>
     <string name="notifications_permission_required_planner"><i>{app_name}</i> necessita permís per enviar-vos notificacions, quan es publiquin transaccions futures.</string>
     <string name="notifications_permission_required_webui">En concedir el permís per enviar notificacions, podeu controlar l\'estat del servidor web.</string>
     <string name="notifications_permission_required_sync">En concedir el permís per a enviar notificacions, podeu controlar el progrés de les operacions de sincronització.</string>
@@ -854,7 +842,7 @@
     <string name="pref_unmapped_transaction_as_transfer_title">Operacions no assignades</string>
     <string name="warning_delete_default_transfer_category">La categoria %s està configurada com a categoria de transferència predeterminada i no s\'hauria d\'eliminar.</string>
     <string name="remap_date">En totes les operacions seleccionades, la data s\'establirà a %s.</string>
-    <string name="roadmap_intro">El vot sobre el full de ruta 2024 ja està obert! Vota les característiques i millores que més t\'estimes.</string>
+    <string name="roadmap_intro">El vot sobre el full de ruta %d ja està obert! Vota les característiques i millores que més t\'estimes.</string>
     <string name="subcategories_merged_recursively">Si alguna de les categories fusionades té subcategories amb la mateixa etiqueta, aquestes es fusionaran primer, recursivament.</string>
     <string name="pref_csv_export_category_separator_summary">Separador entre nivells de jerarquia de categories</string>
     <string name="pref_clone_with_current_date_summary_on">Les operacions clonades tindran la data actual</string>
@@ -882,4 +870,12 @@
     <string name="balance_sheet_net_worth">Patrimoni net</string>
     <string name="price_history">Historial de preus</string>
     <string name="pref_account_list_display_configuration_title">Llista de comptes</string>
+    <string name="menu_templates">Plantilles</string>
+    <string name="rounding">Arredoniment</string>
+    <string name="important_upgrade_information_heading">Informació important</string>
+    <string name="pref_tag_style_title">Estil d\'etiqueta</string>
+    <string name="pref_tag_style_outline">Vora acolorida</string>
+    <string name="pref_tag_style_filled">Totalment acolorit</string>
+    <string name="trade_additional_costs">Costos addicionals</string>
+    <string name="contrib_feature_portfolio_tracking">Seguiment de cartera</string>
 </resources>

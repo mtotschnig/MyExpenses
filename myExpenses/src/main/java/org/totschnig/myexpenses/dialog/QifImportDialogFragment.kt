@@ -22,7 +22,7 @@ import org.totschnig.myexpenses.adapter.CurrencyAdapter
 import org.totschnig.myexpenses.adapter.IdAdapter
 import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.model.ExportFormat
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.util.ui.checkNewAccountLimitation
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.ImportConfigurationViewModel
@@ -56,7 +56,7 @@ class QifImportDialogFragment : TextSourceDialogFragment(), AdapterView.OnItemSe
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         if (savedInstanceState != null) {
-            currency = savedInstanceState.getString(DatabaseConstants.KEY_CURRENCY)
+            currency = savedInstanceState.getString(KEY_CURRENCY)
         }
         return super.onCreateDialog(savedInstanceState)
     }
@@ -174,7 +174,7 @@ class QifImportDialogFragment : TextSourceDialogFragment(), AdapterView.OnItemSe
     override fun onNothingSelected(parent: AdapterView<*>?) {}
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putSerializable(DatabaseConstants.KEY_CURRENCY, currency)
+        outState.putSerializable(KEY_CURRENCY, currency)
     }
 
     companion object {

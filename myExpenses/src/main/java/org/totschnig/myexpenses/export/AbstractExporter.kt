@@ -2,16 +2,42 @@ package org.totschnig.myexpenses.export
 
 import android.content.Context
 import android.database.Cursor
-import android.net.Uri
 import androidx.core.net.toFile
+import androidx.core.net.toUri
 import androidx.documentfile.provider.DocumentFile
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.localizedLabelForPaymentMethod
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyContext
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.ExportFormat
+import org.totschnig.myexpenses.model.Money
+import org.totschnig.myexpenses.model.TransactionDTO
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.provider.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_AMOUNT_HOME_EQUIVALENT
+import org.totschnig.myexpenses.provider.KEY_CATID
+import org.totschnig.myexpenses.provider.KEY_COMMENT
+import org.totschnig.myexpenses.provider.KEY_CR_STATUS
+import org.totschnig.myexpenses.provider.KEY_DATE
+import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_METHOD_LABEL
+import org.totschnig.myexpenses.provider.KEY_ORIGINAL_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_ORIGINAL_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_PARENTID
+import org.totschnig.myexpenses.provider.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.KEY_REFERENCE_NUMBER
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_STATUS
+import org.totschnig.myexpenses.provider.KEY_TRANSACTIONID
+import org.totschnig.myexpenses.provider.KEY_TRANSFER_ACCOUNT_LABEL
+import org.totschnig.myexpenses.provider.KEY_URI
+import org.totschnig.myexpenses.provider.KEY_UUID
+import org.totschnig.myexpenses.provider.SPLIT_CATID
+import org.totschnig.myexpenses.provider.STATUS_NONE
 import org.totschnig.myexpenses.provider.TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_SEARCH
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_ATTACHMENTS_URI
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.calculateEquivalentAmount
@@ -47,7 +73,7 @@ abstract class AbstractExporter
     private val notYetExportedP: Boolean,
     private val dateFormat: String,
     private val decimalSeparator: Char,
-    private val encoding: String
+    private val encoding: String,
 ) {
 
     val currencyUnit = currencyContext[account.currency]
@@ -79,7 +105,7 @@ abstract class AbstractExporter
     open fun export(
         context: Context,
         outputStream: Lazy<Result<DocumentFile>>,
-        append: Boolean
+        append: Boolean,
     ): Result<DocumentFile> {
         context.contentResolver.query(
             TransactionProvider.CATEGORIES_URI,
@@ -111,10 +137,9 @@ abstract class AbstractExporter
             KEY_CR_STATUS,
             KEY_REFERENCE_NUMBER,
             TRANSFER_ACCOUNT_LABEL,
-            KEY_EQUIVALENT_AMOUNT,
+            KEY_AMOUNT_HOME_EQUIVALENT,
             KEY_ORIGINAL_CURRENCY,
             KEY_ORIGINAL_AMOUNT,
-            KEY_EXCHANGE_RATE
         )
 
         fun Cursor.ingestCategoryPaths() {
@@ -143,11 +168,11 @@ abstract class AbstractExporter
             val catId = getLongOrNull(KEY_CATID)
             val isSplit = SPLIT_CATID == catId
             val splitCursor = if (isSplit) context.contentResolver.query(
-                TransactionProvider.EXTENDED_URI,
-                projection,
-                "$KEY_PARENTID = ?",
-                arrayOf(rowId.toString()),
-                KEY_ROWID
+                TransactionProvider.EXTENDED_URI.buildUpon()
+                    .appendQueryParameter(KEY_PARENTID, rowId.toString())
+                    .appendQueryParameter(QUERY_PARAMETER_SEARCH, "1")
+                    .build(),
+                projection,null, null, KEY_ROWID
             ) else null
             val readCat =
                 splitCursor?.takeIf { useCategoryOfFirstPartForParent && it.moveToFirst() } ?: this
@@ -168,7 +193,7 @@ abstract class AbstractExporter
                 "$KEY_TRANSACTIONID = ?", arrayOf(rowId.toString()),
                 null
             )?.useAndMapToList {
-                val uri = Uri.parse(it.getString(0))
+                val uri = it.getString(0).toUri()
                 //We should only see file uri from unit test
                 if (uri.scheme == "file") uri.toFile().name else uri.fileName(context)
             }?.takeIf { it.isNotEmpty() }?.filterNotNull()
@@ -181,6 +206,7 @@ abstract class AbstractExporter
                 date = epoch2ZonedDateTime(getLong(KEY_DATE)),
                 payee = getStringOrNull(KEY_PAYEE_NAME),
                 amount = money.amountMajor,
+                currency = money.currencyUnit.code,
                 catId = readCat.getLongOrNull(KEY_CATID),
                 transferAccount = readCat.getStringOrNull(KEY_TRANSFER_ACCOUNT_LABEL),
                 comment = getStringOrNull(KEY_COMMENT)?.takeIf { it.isNotEmpty() },
@@ -204,16 +230,19 @@ abstract class AbstractExporter
                 },
                 originalCurrency = originalCurrency,
                 originalAmount = originalCurrency?.let {
-                    Money(currencyContext[originalCurrency],
-                        getLong(KEY_ORIGINAL_AMOUNT)).amountMajor
+                    Money(
+                        currencyContext[originalCurrency],
+                        getLong(KEY_ORIGINAL_AMOUNT)
+                    ).amountMajor
                 },
                 equivalentAmount = if (withEquivalentAmount)
-                    calculateEquivalentAmount(currencyContext.homeCurrencyUnit, money).amountMajor
+                    calculateEquivalentAmount(currencyContext.homeCurrencyUnit, money)
                 else null
             )
             splitCursor?.close()
             return transactionDTO
         }
+
 
         return context.contentResolver.query(
             account.uriForTransactionList(), projection, selection, selectionArgs, KEY_DATE
@@ -230,7 +259,10 @@ abstract class AbstractExporter
                     if (encoding == ENCODING_UTF_8_BOM && !append) {
                         outputStream.write(UTF_8_BOM)
                     }
-                    OutputStreamWriter(outputStream, if (encoding == ENCODING_UTF_8_BOM) ENCODING_UTF_8 else encoding).use { out ->
+                    OutputStreamWriter(
+                        outputStream,
+                        if (encoding == ENCODING_UTF_8_BOM) ENCODING_UTF_8 else encoding
+                    ).use { out ->
                         cursor.moveToFirst()
                         header(context)?.let { out.write(it) }
                         while (cursor.position < cursor.count) {
@@ -260,13 +292,17 @@ abstract class AbstractExporter
     open val categoryPathSeparator = ":"
 
     open fun sanitizeCategoryLabel(label: String) =
-        label.replace("/","\\u002F").replace(":","\\u003A")
+        label.replace("/", "\\u002F").replace(":", "\\u003A")
 
-    fun String.escapeNewLine() = split("\n").joinToString( " + " )
+    fun String.escapeNewLine() = split("\n").joinToString(" + ")
 
-    private fun TransactionDTO.categoryPath(categoryPaths: Map<Long, List<String>>) = catId?.let { cat ->
-        categoryPaths[cat]?.joinToString(categoryPathSeparator, transform = ::sanitizeCategoryLabel)
-    }
+    private fun TransactionDTO.categoryPath(categoryPaths: Map<Long, List<String>>) =
+        catId?.let { cat ->
+            categoryPaths[cat]?.joinToString(
+                categoryPathSeparator,
+                transform = ::sanitizeCategoryLabel
+            )
+        }
 
     companion object {
         const val ENCODING_UTF_8 = "UTF-8"

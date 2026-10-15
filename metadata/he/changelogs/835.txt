@@ -1,0 +1,4 @@
+• תיקוני באגים
+• חידוד ממשק המשתמש (v2)
+
+https://github.com/users/mtotschnig/projects/181

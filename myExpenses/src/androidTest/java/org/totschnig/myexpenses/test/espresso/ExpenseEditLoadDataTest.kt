@@ -1,22 +1,24 @@
 package org.totschnig.myexpenses.test.espresso
 
-import android.Manifest
 import android.content.ContentUris
 import android.content.ContentValues
 import android.content.Intent
 import android.view.View
 import android.view.ViewGroup
 import androidx.test.core.app.ActivityScenario
+import androidx.test.espresso.Espresso.closeSoftKeyboard
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
+import androidx.test.espresso.matcher.ViewMatchers.isChecked
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withParent
 import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.GrantPermissionRule
+import com.adevinta.android.barista.assertion.BaristaProgressBarAssertions.assertProgress
 import com.google.common.truth.Truth.assertThat
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.After
@@ -27,49 +29,72 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.ExpenseEdit
 import org.totschnig.myexpenses.activity.TestExpenseEdit
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
+import org.totschnig.myexpenses.db2.RepositoryTransaction
+import org.totschnig.myexpenses.db2.createPlan
+import org.totschnig.myexpenses.db2.createSplitTemplate
+import org.totschnig.myexpenses.db2.createSplitTransaction
+import org.totschnig.myexpenses.db2.createTemplate
+import org.totschnig.myexpenses.db2.createTransaction
 import org.totschnig.myexpenses.db2.deleteAccount
-import org.totschnig.myexpenses.model.*
+import org.totschnig.myexpenses.db2.deletePlan
+import org.totschnig.myexpenses.db2.entities.Recurrence
+import org.totschnig.myexpenses.db2.entities.Template
+import org.totschnig.myexpenses.db2.entities.Transaction
+import org.totschnig.myexpenses.db2.insertTemplate
+import org.totschnig.myexpenses.db2.insertTransaction
+import org.totschnig.myexpenses.db2.insertTransfer
+import org.totschnig.myexpenses.db2.loadTransaction
+import org.totschnig.myexpenses.db2.markAsExported
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.model2.Account
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_SEALED
+import org.totschnig.myexpenses.provider.KEY_TEMPLATEID
+import org.totschnig.myexpenses.provider.SPLIT_CATID
+import org.totschnig.myexpenses.provider.STATUS_EXPORTED
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseExpenseEditTest
-import org.totschnig.myexpenses.testutils.Espresso.*
+import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveGone
+import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible
+import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
-import org.totschnig.myexpenses.testutils.toolbarTitle
 import org.totschnig.myexpenses.testutils.withIdAndAncestor
 import org.totschnig.myexpenses.testutils.withIdAndParent
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
 import java.text.DecimalFormat
 import java.time.LocalDate
-import java.util.*
+import java.util.Currency
 
+@TestShard2
 class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     @get:Rule
-    var grantPermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR
-    )
+    var grantPermissionRule: GrantPermissionRule = buildGrantPermissionRule()
     private lateinit var foreignCurrency: CurrencyUnit
     private lateinit var account2: Account
-    private lateinit var transaction: Transaction
-    private lateinit var transfer: Transfer
+    private lateinit var transaction: RepositoryTransaction
+    private lateinit var transfer: RepositoryTransaction
 
     @Before
     fun fixture() {
-        //IdlingRegistry.getInstance().register(getIdlingResource());
         foreignCurrency = CurrencyUnit(Currency.getInstance("AUD"))
         check(foreignCurrency.code != homeCurrency.code)
         account1 = buildAccount("Test account 1")
         account2 = buildAccount("Test account 2")
-        transaction = Transaction.getNewInstance(account1.id, homeCurrency).apply {
-            amount = Money(homeCurrency, 500L)
-            save(contentResolver)
-        }
-        transfer = Transfer.getNewInstance(account1.id, homeCurrency, account2.id).apply {
-            setAmount(Money(homeCurrency, -600L))
-            save(contentResolver)
-        }
+        transaction = repository.createTransaction(
+            Transaction(
+                accountId = account1.id,
+                amount = 500L,
+                status = STATUS_EXPORTED,
+                uuid = generateUuid()
+            )
+        )
+
+        transfer = repository.insertTransfer(
+            amount = -600L, accountId = account1.id, transferAccountId = account2.id
+        )
     }
 
     @After
@@ -84,14 +109,14 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         buildAccount("Test account 2", currency = foreignCurrency.code, dynamicExchangeRates = true)
 
     private fun load(id: Long) = launchAndWait(intent.apply {
-        putExtra(DatabaseConstants.KEY_ROWID, id)
+        putExtra(KEY_ROWID, id)
     })
 
     @Test
     fun shouldPopulateWithTransactionAndPrepareForm() {
         load(transaction.id).use {
             checkEffectiveGone(R.id.OperationType)
-            toolbarTitle().check(matches(withText(R.string.menu_edit_transaction)))
+            checkToolbarTitle(R.string.menu_edit_transaction)
             checkEffectiveVisible(
                 R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
                 R.id.PayeeRow, R.id.AccountRow
@@ -102,11 +127,12 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldPopulateWithOriginalAmount() {
-        val transaction = Transaction.getNewInstance(account1.id, homeCurrency).apply {
-            amount = Money(homeCurrency, 500L)
-            originalAmount = Money(foreignCurrency, 1000)
-            save(contentResolver)
-        }
+        val transaction = repository.insertTransaction(
+            amount = 500L,
+            accountId = account1.id,
+            originalAmount = 1000,
+            originalCurrency = foreignCurrency.code
+        )
         load(transaction.id).use {
             checkAmount(5)
             onView(withId(R.id.OriginalAmountRow)).check(matches(isDisplayed()))
@@ -123,11 +149,10 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     @Test
     fun shouldPopulateWithEquivalentAmount() {
         val foreignAccount = buildForeignAccount()
-        val transaction = Transaction.getNewInstance(foreignAccount.id, foreignCurrency).apply {
-            amount = Money(foreignCurrency, 500L)
-            equivalentAmount = Money(homeCurrency, 1000)
-            save(contentResolver)
-        }
+        val transaction = repository.insertTransaction(
+            accountId = foreignAccount.id, amount = 500L, equivalentAmount = 1000
+        )
+
         load(transaction.id).use {
             checkAmount(5)
             onView(withId(R.id.EquivalentAmountRow)).check(matches(isDisplayed()))
@@ -144,12 +169,12 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldKeepStatusAndUuidAfterSave() {
+        repository.markAsExported(account1.id, null)
         load(transaction.id).use {
-            val uuid = transaction.uuid
-            val status = transaction.status
+            val uuid = transaction.data.uuid
             closeKeyboardAndSave()
-            val t = getTransactionFromDb(transaction.id)
-            assertThat(t.status).isEqualTo(status)
+            val t = repository.loadTransaction(transaction.id).data
+            assertThat(t.status).isEqualTo(STATUS_EXPORTED)
             assertThat(t.uuid).isEqualTo(uuid)
         }
     }
@@ -158,14 +183,10 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     @Throws(Exception::class)
     fun shouldPopulateWithForeignExchangeTransfer() {
         val foreignAccount = buildForeignAccount()
-        val foreignTransfer = Transfer.getNewInstance(account1.id, homeCurrency, foreignAccount.id)
-        foreignTransfer.setAmountAndTransferAmount(
-            Money(homeCurrency, 100L), Money(
-                foreignCurrency, 200L
-            )
+        val foreignTransfer = repository.insertTransfer(
+            account1.id, foreignAccount.id, 100L, 200L
         )
-        foreignTransfer.save(contentResolver)
-        load(foreignTransfer.id).use {
+        load(foreignTransfer.data.id).use {
             checkAmount(1)
             checkAmount(2, R.id.TransferAmount)
             onView(
@@ -182,7 +203,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             ).check(matches(withText(formatAmount(0.5f))))
         }
         cleanup {
-            repository.deleteTransaction(foreignTransfer.id)
+            repository.deleteTransaction(foreignTransfer.data.id)
             repository.deleteAccount(foreignAccount.id)
         }
     }
@@ -207,9 +228,9 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     }
 
     private fun testTransfer(loadFromPeer: Boolean) {
-        load((if (loadFromPeer) transfer.transferPeer else transfer.id)!!).use {
+        load((if (loadFromPeer) transfer.transferPeer!! else transfer.data).id).use {
             checkEffectiveGone(R.id.OperationType)
-            toolbarTitle().check(matches(withText(R.string.menu_edit_transfer)))
+            checkToolbarTitle(R.string.menu_edit_transfer)
             checkEffectiveVisible(
                 R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow,
                 R.id.TransferAccountRow
@@ -258,8 +279,8 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     private fun testTransferClone(loadFromPeer: Boolean) {
         launchAndWait(intent.apply {
             putExtra(
-                DatabaseConstants.KEY_ROWID,
-                if (loadFromPeer) transfer.transferPeer else transfer.id
+                KEY_ROWID,
+                (if (loadFromPeer) transfer.transferPeer!! else transfer.data).id
             )
             putExtra(ExpenseEdit.KEY_CLONE, true)
         }).use {
@@ -267,7 +288,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow,
                 R.id.TransferAccountRow
             )
-            toolbarTitle().check(matches(withText(R.string.menu_create_transfer)))
+            checkToolbarTitle(R.string.menu_create_transfer)
             checkAmount(6)
             checkTransferDirection(loadFromPeer)
         }
@@ -275,7 +296,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldSwitchAccountViewsForReceivingTransferPart() {
-        load(transfer.transferPeer!!).use {
+        load(transfer.transferPeer!!.id).use {
             testScenario.onActivity { activity: ExpenseEdit ->
                 assertThat((activity.findViewById<View>(R.id.Amount) as AmountInput).type).isTrue()
                 assertThat(
@@ -290,7 +311,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldKeepAccountViewsForGivingTransferPart() {
-        load(transfer.id).use {
+        load(transfer.data.id).use {
             testScenario.onActivity { activity: ExpenseEdit ->
                 assertThat((activity.findViewById<View>(R.id.Amount) as AmountInput).type).isFalse()
                 assertThat(
@@ -305,13 +326,17 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldPopulateWithSplitTransactionAndPrepareForm() {
-        val splitTransaction: Transaction =
-            SplitTransaction.getNewInstance(contentResolver, account1.id, homeCurrency)
-        splitTransaction.status = DatabaseConstants.STATUS_NONE
-        splitTransaction.save(contentResolver, true)
+        val splitTransaction = repository.createSplitTransaction(
+            Transaction(
+                amount = 0L,
+                accountId = account1.id,
+                categoryId = SPLIT_CATID,
+                uuid = generateUuid()
+            ), emptyList<Transaction>()
+        )
         load(splitTransaction.id).use {
             checkEffectiveGone(R.id.OperationType)
-            toolbarTitle().check(matches(withText(R.string.menu_edit_split)))
+            checkToolbarTitle(R.string.menu_edit_split)
             checkEffectiveVisible(
                 R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.SplitRow,
                 R.id.PayeeRow, R.id.AccountRow
@@ -323,12 +348,12 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     @Test
     fun shouldPopulateWithSplitTemplateAndLoadParts() {
         launchAndWait(intent.apply {
-            putExtra(DatabaseConstants.KEY_TEMPLATEID, buildSplitTemplate())
+            putExtra(KEY_TEMPLATEID, buildSplitTemplate())
         }).use {
             it.onActivity { activity: ExpenseEdit ->
                 assertThat(activity.isTemplate).isTrue()
             }
-            toolbarTitle().check(matches(ViewMatchers.withSubstring(getString(R.string.menu_edit_template))))
+            checkToolbarTitleForTemplate(true, Transactions.TYPE_SPLIT)
             checkEffectiveVisible(R.id.SplitRow)
             checkEffectiveGone(R.id.OperationType)
             onView(withId(R.id.list))
@@ -340,12 +365,12 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     fun shouldPopulateFromSplitTemplateAndLoadParts() {
         launchAndWait(intent.apply {
             action = ExpenseEdit.ACTION_CREATE_FROM_TEMPLATE
-            putExtra(DatabaseConstants.KEY_TEMPLATEID, buildSplitTemplate())
+            putExtra(KEY_TEMPLATEID, buildSplitTemplate())
         }).use {
             it.onActivity { activity: ExpenseEdit ->
                 assertThat(activity.isTemplate).isFalse()
             }
-            toolbarTitle().check(matches(ViewMatchers.withSubstring(getString(R.string.menu_create_split))))
+            checkToolbarTitle(R.string.menu_create_split)
             checkEffectiveVisible(R.id.SplitRow)
             onView(withId(R.id.list))
                 .check(matches(ViewMatchers.hasChildCount(1)))
@@ -354,49 +379,47 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     }
 
     private fun buildSplitTemplate(): Long {
-        val template =
-            Template.getTypedNewInstance(
-                contentResolver,
-                Transactions.TYPE_SPLIT,
-                account1.id,
-                homeCurrency,
-                false,
-                null
+        val template = repository.createSplitTemplate(
+            Template(
+                amount = 0L,
+                accountId = account1.id,
+                categoryId = SPLIT_CATID,
+                title = "Split",
+                uuid = generateUuid()
+            ), listOf(
+                Template(
+                    amount = 0L,
+                    accountId = account1.id,
+                    title = "Part",
+                    uuid = generateUuid()
+                )
             )
-        template!!.save(contentResolver, true)
-        val part = Template.getTypedNewInstance(
-            contentResolver,
-            Transactions.TYPE_SPLIT,
-            account1.id,
-            homeCurrency,
-            false,
-            template.id
         )
-        part!!.save(contentResolver)
         return template.id
     }
 
     @Test
     fun shouldPopulateWithPlanAndPrepareForm() {
-        val plan = Template.getTypedNewInstance(
-            contentResolver,
-            Transactions.TYPE_TRANSACTION,
-            account1.id,
-            homeCurrency,
-            false,
-            null
+        val template = Template(
+            accountId = account1.id,
+            title = "Daily plan",
+            amount = 700L,
+            uuid = generateUuid(),
+            planExecutionAutomatic = true,
+            planExecutionAdvance = 7
         )
-        plan!!.title = "Daily plan"
-        plan.amount = Money(homeCurrency, 700L)
-        plan.plan = Plan(
-            LocalDate.now(),
-            Plan.Recurrence.DAILY,
-            "Daily",
-            plan.compileDescription(app)
+        val eventId = repository.createPlan(
+            title = "Daily plan",
+            description = "description",
+            date = LocalDate.now(),
+            recurrence = Recurrence.DAILY
+        ).id
+        val plan = repository.createTemplate(
+            template.copy(planId = eventId)
         )
-        plan.save(contentResolver, plannerUtils, false)
+
         launchAndWait(intent.apply {
-            putExtra(DatabaseConstants.KEY_TEMPLATEID, plan.id)
+            putExtra(KEY_TEMPLATEID, plan.id)
         }).use {
             checkEffectiveVisible(
                 R.id.TitleRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
@@ -407,29 +430,26 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 assertThat(activity.isTemplate).isTrue()
             }
             checkAmount(7)
+            closeSoftKeyboard()
+            onView(withId(R.id.PlanExecution)).check(matches(isChecked()))
+            assertProgress(R.id.advanceExecutionSeek, 7)
             onView(withId(R.id.Title))
                 .check(matches(withText("Daily plan")))
 
         }
-        Plan.delete(contentResolver, plan.planId)
+        repository.deletePlan(eventId)
     }
 
     @Test
     fun shouldInstantiateFromTemplateAndPrepareForm() {
-        val template = Template.getTypedNewInstance(
-            contentResolver,
-            Transactions.TYPE_TRANSACTION,
-            account1.id,
-            homeCurrency,
-            false,
-            null
+        val template = repository.insertTemplate(
+            accountId = account1.id,
+            title =  "Nothing but a plan",
+            amount = 800,
         )
-        template!!.title = "Nothing but a plan"
-        template.amount = Money(homeCurrency, 800L)
-        template.save(contentResolver)
         launchAndWait(intent.apply {
             action = ExpenseEdit.ACTION_CREATE_FROM_TEMPLATE
-            putExtra(DatabaseConstants.KEY_TEMPLATEID, template.id)
+            putExtra(KEY_TEMPLATEID, template.id)
         }).use {
             checkEffectiveVisible(
                 R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
@@ -460,7 +480,7 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                     R.id.Amount
                 )
             ).check(matches(withText(formatAmount(1.23f))))
-            onView(withId(R.id.Payee))
+            onView(withId(R.id.auto_complete_textview))
                 .check(matches(withText("John Doe")))
             onView(withId(R.id.Comment))
                 .check(matches(withText("A note")))
@@ -473,11 +493,9 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     @Throws(Exception::class)
     fun shouldNotEditSealed() {
         val sealedAccount = buildAccount("Sealed account")
-        val sealed = Transaction.getNewInstance(sealedAccount.id, homeCurrency)
-        sealed.amount = Money(homeCurrency, 500L)
-        sealed.save(contentResolver)
+        val sealed = repository.insertTransaction(accountId = sealedAccount.id, amount = 500L)
         val values = ContentValues(1)
-        values.put(DatabaseConstants.KEY_SEALED, true)
+        values.put(KEY_SEALED, true)
         app.contentResolver.update(
             ContentUris.withAppendedId(
                 TransactionProvider.ACCOUNTS_URI,

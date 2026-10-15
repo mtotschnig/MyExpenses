@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.di
 
+import androidx.annotation.VisibleForTesting
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.google.gson.Gson
@@ -10,10 +11,10 @@ import kotlinx.coroutines.CoroutineDispatcher
 import okhttp3.OkHttpClient
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.activity.BaseActivity
-import org.totschnig.myexpenses.activity.BaseMyExpenses
 import org.totschnig.myexpenses.activity.CsvImportActivity
 import org.totschnig.myexpenses.activity.EditActivity
 import org.totschnig.myexpenses.activity.ExpenseEdit
+import org.totschnig.myexpenses.activity.MyExpensesV2
 import org.totschnig.myexpenses.activity.PreferenceActivity
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.db2.Repository
@@ -25,7 +26,6 @@ import org.totschnig.myexpenses.dialog.BaseDialogFragment
 import org.totschnig.myexpenses.dialog.ContribDialogFragment
 import org.totschnig.myexpenses.dialog.DebtDetailsDialogFragment
 import org.totschnig.myexpenses.dialog.DonateDialogFragment
-import org.totschnig.myexpenses.dialog.EditCurrencyDialog
 import org.totschnig.myexpenses.dialog.ExtendProLicenceDialogFragment
 import org.totschnig.myexpenses.dialog.RemindRateDialogFragment
 import org.totschnig.myexpenses.dialog.TransactionDetailFragment
@@ -38,7 +38,6 @@ import org.totschnig.myexpenses.feature.FeatureManager
 import org.totschnig.myexpenses.feature.OcrFeature
 import org.totschnig.myexpenses.fragment.CsvImportDataFragment
 import org.totschnig.myexpenses.fragment.CsvImportParseFragment
-import org.totschnig.myexpenses.fragment.CurrencyList
 import org.totschnig.myexpenses.fragment.HistoryChart
 import org.totschnig.myexpenses.fragment.OnBoardingPrivacyFragment
 import org.totschnig.myexpenses.fragment.OnboardingDataFragment
@@ -61,8 +60,9 @@ import org.totschnig.myexpenses.service.PlanExecutor
 import org.totschnig.myexpenses.service.PlanNotificationClickHandler
 import org.totschnig.myexpenses.sync.SyncAdapter
 import org.totschnig.myexpenses.task.GrisbiImportTask
+import org.totschnig.myexpenses.util.ExchangeRateHandler
 import org.totschnig.myexpenses.util.ICurrencyFormatter
-import org.totschnig.myexpenses.util.ads.BaseAdHandler
+import org.totschnig.myexpenses.util.ads.BaseAdHandlerImpl
 import org.totschnig.myexpenses.util.config.Configurator
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler
@@ -76,7 +76,6 @@ import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel
 import org.totschnig.myexpenses.viewmodel.CurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.DebtViewModel
 import org.totschnig.myexpenses.viewmodel.DistributionViewModel
-import org.totschnig.myexpenses.viewmodel.EditCurrencyViewModel
 import org.totschnig.myexpenses.viewmodel.ExportViewModel
 import org.totschnig.myexpenses.viewmodel.FeatureViewModel
 import org.totschnig.myexpenses.viewmodel.LicenceValidationViewModel
@@ -137,6 +136,10 @@ interface AppComponent {
 
     fun prefHandler(): PrefHandler
 
+    @VisibleForTesting
+    @Named(DATABASE_NAME)
+    fun databaseNameProvider(): (Boolean) -> String
+
     fun licenceHandler(): LicenceHandler
 
     @Named(USER_COUNTRY)
@@ -172,11 +175,13 @@ interface AppComponent {
 
     fun configurator(): Configurator
 
+    fun exchangeRateHandler(): ExchangeRateHandler
+
     fun inject(application: MyApplication)
 
     fun inject(expenseEdit: ExpenseEdit)
 
-    fun inject(myExpenses: BaseMyExpenses)
+    fun inject(myExpenses: MyExpensesV2)
 
     fun inject(preferenceActivity: PreferenceActivity)
 
@@ -192,7 +197,7 @@ interface AppComponent {
 
     fun inject(transactionListComposeDialogFragment: TransactionListComposeDialogFragment)
 
-    fun inject(adHandler: BaseAdHandler)
+    fun inject(adHandler: BaseAdHandlerImpl)
 
     fun inject(contribDialogFragment: ContribDialogFragment)
 
@@ -204,15 +209,9 @@ interface AppComponent {
 
     fun inject(syncBackendList: SyncBackendList)
 
-    fun inject(currencyList: CurrencyList)
-
-    fun inject(editCurrencyDialog: EditCurrencyDialog)
-
     fun inject(transactionProvider: BaseTransactionProvider)
 
     fun inject(onboardingDataFragment: OnboardingDataFragment)
-
-    fun inject(editCurrencyViewModel: EditCurrencyViewModel)
 
     fun inject(budgetViewModel: BudgetViewModel)
 
@@ -224,7 +223,7 @@ interface AppComponent {
 
     fun inject(transactionEditViewModel: TransactionEditViewModel)
 
-    fun inject(contentResolvingAndroidViewModel: CurrencyViewModel)
+    fun inject(currencyViewModel: CurrencyViewModel)
 
     fun inject(settingsViewModel: SettingsViewModel)
 

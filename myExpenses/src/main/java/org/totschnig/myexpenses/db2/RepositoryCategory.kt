@@ -12,15 +12,15 @@ import org.totschnig.myexpenses.model2.CategoryExport
 import org.totschnig.myexpenses.model2.CategoryInfo
 import org.totschnig.myexpenses.model2.CategoryPath
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
-import org.totschnig.myexpenses.provider.DatabaseConstants
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COLOR
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ICON
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PARENTID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_UUID
+import org.totschnig.myexpenses.provider.KEY_COLOR
+import org.totschnig.myexpenses.provider.KEY_COUNT
+import org.totschnig.myexpenses.provider.KEY_ICON
+import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_PARENTID
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_TYPE
+import org.totschnig.myexpenses.provider.KEY_UUID
+import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_CATEGORY
@@ -33,10 +33,8 @@ import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_ENSURE_CATEG
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_ENSURE_CATEGORY_TREE
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_MERGE_CATEGORIES
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_SAVE_CATEGORY
-import org.totschnig.myexpenses.provider.TransactionProvider.TAGS_URI
 import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.provider.getString
-import kotlin.collections.fold
 import kotlin.experimental.or
 
 const val FLAG_TRANSFER: Byte = 0
@@ -66,7 +64,7 @@ fun Repository.moveCategory(source: Long, target: Long?) = try {
         null,
         null
     ) > 0
-} catch (e: SQLiteConstraintException) {
+} catch (_: SQLiteConstraintException) {
     false
 }
 
@@ -182,7 +180,7 @@ fun Repository.loadCategory(id: Long): Category? = contentResolver.query(
 fun Repository.deleteAllCategories() {
     contentResolver.delete(
         TransactionProvider.CATEGORIES_URI,
-        "$KEY_ROWID != ${DatabaseConstants.SPLIT_CATID}",
+        "$KEY_ROWID != $SPLIT_CATID",
         null
     )
 }

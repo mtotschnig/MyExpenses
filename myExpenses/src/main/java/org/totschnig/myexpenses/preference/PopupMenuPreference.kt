@@ -16,7 +16,7 @@ class PopupMenuPreference(context: Context, attrs: AttributeSet) : Preference(co
         anchorView = holder.itemView
     }
 
-    fun showPopupMenu(vararg items: String, listener: PopupMenu.OnMenuItemClickListener) {
+    fun showPopupMenu(items: List<String>, listener: PopupMenu.OnMenuItemClickListener) {
         showPopupMenu(
             populateMenu = {
                 items.forEachIndexed { index, s ->

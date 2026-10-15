@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.dynamic-feature'
-    id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
+    id 'com.android.legacy-kapt'
 }
 android {
     compileSdk project.compileSdkVersion
@@ -9,23 +8,23 @@ android {
     defaultConfig {
         missingDimensionStrategy 'textRecognition', 'extern'
         minSdk project.minSdkVersion
-        consumerProguardFiles("consumer-rules.txt")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         resourceConfigurations = resConfig
+        proguardFiles 'consumer-rules.txt'
     }
     compileOptions {
         coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
     packagingOptions {
         resources {
             excludes += ["META-INF/services/reactor.blockhound.integration.BlockHoundIntegration"]
             merges -= "/META-INF/services/**"
         }
+    }
+    buildFeatures {
+        buildConfig true
     }
     namespace 'org.totschnig.onedrive'
 }
@@ -45,13 +44,10 @@ dependencies {
     implementation libs.microsoft.graph
 }
 
-configurations.configureEach {
-    exclude group:"com.google.guava", module:"guava"
-    //exclude group:"androidx.credentials", module:"credentials-play-services-auth"
 
-    resolutionStrategy {
-        dependencySubstitution {
-            substitute module("com.azure:azure-core") using module("com.github.mtotschnig.Azure-Core:azure-core:0ccd6e7285")
-        }
+configurations.configureEach {
+    if (name.contains("RuntimeClasspath")) {
+        exclude group:"com.google.guava", module:"guava"
+        //exclude group:"androidx.credentials", module:"credentials-play-services-auth"
     }
 }

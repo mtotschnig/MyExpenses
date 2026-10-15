@@ -7,6 +7,8 @@ import android.content.Context
 import android.net.Uri
 import at.bitfire.dav4android.DavResource
 import at.bitfire.dav4android.LockableDavResource
+import at.bitfire.dav4android.LockableDavResource.Companion.fileNameV2
+import at.bitfire.dav4android.LockableDavResource.Companion.isCollection
 import at.bitfire.dav4android.exception.DavException
 import at.bitfire.dav4android.exception.HttpException
 import okhttp3.HttpUrl
@@ -27,11 +29,14 @@ import org.totschnig.myexpenses.sync.json.AccountMetaData
 import org.totschnig.myexpenses.util.io.calculateSize
 import org.totschnig.myexpenses.util.io.getMimeType
 import org.totschnig.webdav.sync.client.CertificateHelper.fromString
+import org.totschnig.webdav.sync.client.ClientCertMissingException
 import org.totschnig.webdav.sync.client.InvalidCertificateException
 import org.totschnig.webdav.sync.client.WebDavClient
+import timber.log.Timber
 import java.io.IOException
+import java.io.InterruptedIOException
+import java.net.SocketTimeoutException
 import java.security.cert.CertificateException
-import java.security.cert.X509Certificate
 
 class WebDavBackendProvider @SuppressLint("MissingPermission") internal constructor(
     context: Context,
@@ -40,7 +45,7 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
 ) : AbstractSyncBackendProvider<DavResource>(context) {
 
     private var webDavClient: WebDavClient
-    private val fallbackToClass1: Boolean
+    private var fallbackToClass1: Boolean
 
     override val accountRes: DavResource
         get() = webDavClient.getCollection(accountUuid)
@@ -126,7 +131,9 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
             super.lock()
         } else {
             if (!webDavClient.lock(accountUuid)) {
-                throw IOException("Backend cannot be locked")
+                Timber.d("Class 2 lock failed, falling back to Class 1 for this session")
+                fallbackToClass1 = true
+                super.lock()
             }
         }
     }
@@ -136,13 +143,29 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
             lockFile.delete(null)
         } catch (e: HttpException) {
             throw IOException(e)
+        } catch (e: IOException) {
+            if (e.isTimeout()) {
+                if (!lockFile.exists()) {
+                    Timber.d("Lock file deletion timed out but file does not exist, continuing")
+                    return
+                }
+            }
+            throw e
         }
     }
 
     @Throws(IOException::class)
     override fun unlock() {
         if (fallbackToClass1) {
-            super.unlock()
+            try {
+                super.unlock()
+            } catch (e: IOException) {
+                if (e.isTimeout()) {
+                    Timber.d("Unlock timed out in Class 1 mode, proceeding anyway")
+                    return
+                }
+                throw e
+            }
         } else {
             if (!webDavClient.unlock(accountUuid)) {
                 throw IOException("Error while unlocking backend")
@@ -177,15 +200,16 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
             accountUuid
         )
 
-    override fun nameForResource(resource: DavResource): String? = resource.fileName()
+    override fun nameForResource(resource: DavResource): String? = resource.fileNameV2()
 
-    override fun isCollection(resource: DavResource) = LockableDavResource.isCollection(resource)
+    override fun isCollection(resource: DavResource) = resource.isCollection()
 
     override val sharedPreferencesName = "webdav"
 
     @get:Throws(IOException::class)
     override val isEmpty: Boolean
-        get() = webDavClient.getFolderMembers().isEmpty()
+        get() = webDavClient.getFolderMembers().none { resource ->
+            resource.fileNameV2()?.takeIf { it.isNotEmpty() }?.startsWith(".") == false }
 
     @Throws(IOException::class)
     override fun saveUriToCollection(
@@ -277,7 +301,7 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
     override val remoteAccountList: List<Result<AccountMetaData>>
         get() = webDavClient.getFolderMembers()
             .asSequence()
-            .filter(LockableDavResource::isCollection)
+            .filter { it.isCollection() }
             .filter { verifyRemoteAccountFolderName(getLastPathSegment(it.location)) }
             .map { webDavClient.getResource(it.location, accountMetadataFilename) }
             .filter { it.exists() }
@@ -288,9 +312,10 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         getAccountMetaDataFromInputStream(lockableDavResource[mimeTypeForData].byteStream())
 
     companion object {
-        const val KEY_WEB_DAV_CERTIFICATE = "webDavCertificate"
-        const val KEY_WEB_DAV_FALLBACK_TO_CLASS1 = "fallbackToClass1"
-        const val KEY_ALLOW_UNVERIFIED = "allow_unverified"
+        const val KEY_WEB_DAV_CERTIFICATE = GenericAccountService.KEY_WEB_DAV_CERTIFICATE
+        const val KEY_WEB_DAV_FALLBACK_TO_CLASS1 = GenericAccountService.KEY_WEB_DAV_FALLBACK_TO_CLASS1
+        const val KEY_ALLOW_UNVERIFIED = GenericAccountService.KEY_ALLOW_UNVERIFIED
+        const val KEY_CLIENT_CERT_ALIAS = GenericAccountService.KEY_CLIENT_CERT_ALIAS
     }
 
     init {
@@ -301,18 +326,24 @@ class WebDavBackendProvider @SuppressLint("MissingPermission") internal construc
         fallbackToClass1 =
             accountManager.getUserData(account, KEY_WEB_DAV_FALLBACK_TO_CLASS1) != null
         val allowUnverified = "true" == accountManager.getUserData(account, KEY_ALLOW_UNVERIFIED)
-        var certificate: X509Certificate? = null
-        if (accountManager.getUserData(account, KEY_WEB_DAV_CERTIFICATE) != null) {
-            certificate = try {
-                fromString(accountManager.getUserData(account, KEY_WEB_DAV_CERTIFICATE))
+        val certificate = accountManager.getUserData(account, KEY_WEB_DAV_CERTIFICATE)?.let {
+            try {
+                fromString(it)
             } catch (e: CertificateException) {
                 throw SyncParseException(e)
             }
         }
+        val clientCertAlias = accountManager.getUserData(account, KEY_CLIENT_CERT_ALIAS)
         webDavClient = try {
-            WebDavClient(context.injector, url, userName, password, certificate, allowUnverified)
+            WebDavClient(context, context.injector, url, userName, password, certificate, allowUnverified, clientCertAlias)
         } catch (e: InvalidCertificateException) {
+            throw SyncParseException(e)
+        } catch (e: ClientCertMissingException) {
             throw SyncParseException(e)
         }
     }
 }
+
+private fun IOException.isTimeout(): Boolean =
+    this is SocketTimeoutException || this is InterruptedIOException ||
+        cause is SocketTimeoutException || cause is InterruptedIOException

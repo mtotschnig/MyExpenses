@@ -31,22 +31,24 @@ import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.updateCategoryColor
 import org.totschnig.myexpenses.model.Grouping
-import org.totschnig.myexpenses.provider.DatabaseConstants
 import org.totschnig.myexpenses.provider.DatabaseConstants.DAY
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_NEXT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_BUDGET_ROLLOVER_PREVIOUS
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ONE_TIME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_EXPENSES
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUM_INCOME
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
 import org.totschnig.myexpenses.provider.DatabaseConstants.TREE_CATEGORIES
 import org.totschnig.myexpenses.provider.DatabaseConstants.YEAR
-import org.totschnig.myexpenses.provider.DatabaseConstants.getMonth
-import org.totschnig.myexpenses.provider.DatabaseConstants.getWeek
-import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfMonthStart
-import org.totschnig.myexpenses.provider.DatabaseConstants.getYearOfWeekStart
+import org.totschnig.myexpenses.provider.DatabaseConstants.month
+import org.totschnig.myexpenses.provider.DatabaseConstants.week
+import org.totschnig.myexpenses.provider.DatabaseConstants.yearOfMonthStart
+import org.totschnig.myexpenses.provider.DatabaseConstants.yearOfWeekStart
+import org.totschnig.myexpenses.provider.KEY_BUDGET
+import org.totschnig.myexpenses.provider.KEY_BUDGETID
+import org.totschnig.myexpenses.provider.KEY_BUDGET_ROLLOVER_NEXT
+import org.totschnig.myexpenses.provider.KEY_BUDGET_ROLLOVER_PREVIOUS
+import org.totschnig.myexpenses.provider.KEY_ONE_TIME
+import org.totschnig.myexpenses.provider.KEY_SECOND_GROUP
+import org.totschnig.myexpenses.provider.KEY_SUM
+import org.totschnig.myexpenses.provider.KEY_SUM_EXPENSES
+import org.totschnig.myexpenses.provider.KEY_SUM_INCOME
+import org.totschnig.myexpenses.provider.KEY_TYPE
+import org.totschnig.myexpenses.provider.KEY_YEAR
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.getLongIfExistsOr0
@@ -57,13 +59,15 @@ import org.totschnig.myexpenses.viewmodel.data.Category
 import org.totschnig.myexpenses.viewmodel.data.DateInfoExtra
 import org.totschnig.myexpenses.viewmodel.data.DistributionAccountInfo
 
-private const val KEY_GROUPING_INFO = "groupingInfo"
-
 abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
     application: Application,
     savedStateHandle: SavedStateHandle
 ) :
     CategoryViewModel(application, savedStateHandle) {
+
+    companion object {
+        const val KEY_GROUPING_INFO = "groupingInfo"
+    }
 
     val selectionState: MutableState<Category?> = mutableStateOf(null)
     val expansionState: SnapshotStateList<Category> = SnapshotStateList()
@@ -76,6 +80,16 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
     val groupingInfoFlow: Flow<GroupingInfo?>
         get() = savedStateHandle.getLiveData<GroupingInfo?>(KEY_GROUPING_INFO, null).asFlow()
 
+    fun setGrouping(grouping: Grouping) {
+        if (grouping == Grouping.NONE) {
+            groupingInfo = GroupingInfo(grouping)
+        } else {
+            viewModelScope.launch {
+                groupingInfo = GroupingNavigator.current(grouping, dateInfo.first())
+            }
+        }
+    }
+
     val grouping: Grouping
         get() = groupingInfo?.grouping ?: Grouping.NONE
 
@@ -86,15 +100,6 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
             savedStateHandle[KEY_GROUPING_INFO] = value
         }
 
-    fun setGrouping(grouping: Grouping) {
-        if (grouping == Grouping.NONE) {
-            groupingInfo = GroupingInfo(grouping)
-        } else {
-            viewModelScope.launch {
-                groupingInfo = GroupingNavigator.current(grouping, dateInfo.first())
-            }
-        }
-    }
 
     suspend fun nextGrouping() = groupingInfo?.let {
         GroupingNavigator.next(
@@ -130,7 +135,7 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
                 Grouping.MONTH -> DateInfoExtra(11, null)
                 else -> DateInfoExtra(0, null)
             }
-        }.stateIn(viewModelScope, SharingStarted.Lazily, null)
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, null)
 
     val displaySubTitle: Flow<String> = combine(
         groupingInfoFlow.filterNotNull(),
@@ -186,12 +191,12 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
                     put(it.first, it.second)
                 }
                 if (accountInfo is Budget) {
-                    put(DatabaseConstants.KEY_BUDGETID, accountInfo.id.toString())
+                    put(KEY_BUDGETID, accountInfo.id.toString())
                 }
                 if (groupingInfo.grouping != Grouping.NONE) {
-                    put(DatabaseConstants.KEY_YEAR, groupingInfo.year.toString())
+                    put(KEY_YEAR, groupingInfo.year.toString())
                     if (groupingInfo.grouping != Grouping.YEAR) {
-                        put(DatabaseConstants.KEY_SECOND_GROUP, groupingInfo.second.toString())
+                        put(KEY_SECOND_GROUP, groupingInfo.second.toString())
                     }
                 }
             },
@@ -222,8 +227,8 @@ abstract class DistributionViewModelBase<T : DistributionAccountInfo>(
         when (grouping) {
             Grouping.YEAR -> yearExpression
             Grouping.DAY -> "$yearExpression AND $DAY = $second"
-            Grouping.WEEK -> "${getYearOfWeekStart()} = $year AND ${getWeek()} = $second"
-            Grouping.MONTH -> "${getYearOfMonthStart()} = $year AND ${getMonth()} = $second"
+            Grouping.WEEK -> "$yearOfWeekStart = $year AND $week = $second"
+            Grouping.MONTH -> "$yearOfMonthStart = $year AND $month = $second"
             else -> null
         }
     }

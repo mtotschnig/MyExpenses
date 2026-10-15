@@ -25,5 +25,10 @@
     <string name="whats_new_400_2">היסטוריית מחירים: הורדה של ערכים חסרים במרוכז</string>
     <string name="whats_new_400_1">תרשים עוגה המציג את חלוקת הכסף בין חשבונות</string>
     <string name="whats_new_401">רשימת התנועות מציגה כעת פרטים נוספים עבור תנועות מפוצלות.</string>
-    <string name="whats_new_402">ניתן להתאים אישית סוגי חשבון</string>
+    <string name="whats_new_402">ניתן להתאים את סוגי החשבון אישית</string>
+    <string name="whats_new_403">דגלי חשבון מרחיבים את ההתאמה האישית של הנראות והעדיפות של חשבון.</string>
+    <string name="whats_new_407">מיון טבעי לתגים, קטגוריות, חשבונות וצדדים.</string>
+    <string name="whats_new_411_1">העברות מפוצלות</string>
+    <string name="whats_new_411_2">העברות נכסים בין תיקי השקעות</string>
+    <string name="whats_new_411_3">מסך ההיסטוריה לחשבונות מצטברים משקף מעתה שינוי בערך המטבעות הזרים</string>
 </resources>

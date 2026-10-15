@@ -1,27 +1,25 @@
-<i>Mes dépenses</i> est votre outil ultime pour un suivi des dépenses et une gestion financière sans effort, à portée de main !
+<b>Mes dépenses</b> est votre gestionnaire de finances personnelles ultime et respectueux de la vie privée—vous offrant un contrôle total sur le suivi des dépenses quotidiennes, la budgétisation et les portefeuilles d'investissement, avec la transparence de l'open source.
 
-Principales caractéristiques:
+<b>Fonctionnalités principales :</b>
 
-     • <b>Suivi des dépenses sans effort</b> : gardez un œil sur vos dépenses et vos revenus en toute transparence, que vous soyez sur votre smartphone ou votre tablette.
-     • <b>Gestion de compte flexible</b> : gérez sans effort plusieurs comptes, y compris les virements entre différentes devises.
-     • <b>Planification financière simplifiée</b> : établissez facilement des plans pour les transactions récurrentes.
-     • <b>Gestion transparente des données</b> : exportez et importez facilement des données à l'aide des formats QIF et CSV.
-     • <b>Sécurité améliorée</b> : protégez vos données avec un mot de passe ou une sécurité de l'écran de verrouillage de l'appareil.
-     • <b>Expérience personnalisable</b> : adaptez l'application à vos préférences avec des thèmes et des tailles de police personnalisables.
-     • <b>Rapprochement des relevés bancaires</b> : comparez facilement le statut des transactions avec vos relevés bancaires pour un suivi financier précis.
-     • <b>Saisie rapide des données</b> : bénéficiez d'un accès pratique grâce aux widgets et aux raccourcis de l'écran d'accueil.
-     • <b>Analyse de données puissante</b> : filtrez vos données en fonction de divers critères et visualisez la distribution et les tendances historiques avec des graphiques dynamiques.
+• <b>Suivi des dépenses quotidiennes et budgets</b> : Suivez facilement vos revenus et dépenses sur smartphone ou tablette. Créez des budgets, divisez vos transactions (scission) et planifiez des opérations récurrentes.
+• <b>Gestion de portefeuille et d'investissements</b> : Suivez vos portefeuilles d'actions, cryptomonnaies ou actifs personnalisés, surveillez l'historique des cours et gérez vos investissements multi-devises en temps réel.
+• <b>Intégration bancaire et rapprochement</b> : Connectez-vous directement aux banques compatibles via FinTS ou rapprochez manuellement vos transactions avec vos relevés bancaires pour un suivi précis de vos soldes.
+• <b>Numérisation intelligente des reçus (OCR)</b> : Extrayez automatiquement les détails de vos transactions à partir de photos de tickets de caisse grâce à la reconnaissance optique de caractères.
+• <b>Interface web pour ordinateur</b> : Accédez à vos transactions et gérez-les depuis n'importe quel navigateur web sur votre réseau local.
+• <b>Analyses puissantes</b> : Visualisez les tendances de dépenses, la répartition par diagrammes circulaires et les rapports historiques grâce à des graphiques dynamiques personnalisables.
+• <b>Synchronisation flexible et contrôle des données</b> : Exportez et importez facilement vos données aux formats QIF et CSV. Synchronisez de manière fluide entre vos appareils via WebDAV, Nextcloud, Google Drive, Dropbox ou OneDrive avec prise en charge des certificats clients.
+• <b>Confidentialité et sécurité avant tout</b> : Transparence de l'open source, protection par mot de passe ou verrouillage biométrique, et base de données chiffrée.
 
-Débloquez les fonctionnalités Premium :
+<b>Débloquez les fonctionnalités Premium :</b>
 
-     • <i>Clé Contrib</i> : débloquez des comptes illimités, des plans de transactions récurrents et bien plus encore.
-     • <i>Clé étendue</i> : profitez de la synchronisation dans le cloud, des sauvegardes automatisées et des importations CSV sophistiquées.
-     • <i>Clé professionnelle</i> : faites passer votre gestion financière au niveau supérieur grâce aux outils de budgétisation, à la numérisation des reçus et à l'assistance par e-mail.
+• <i>Clé Contrib</i> : Les fonctionnalités clés incluent le déblocage de comptes illimités, de plans récurrents illimités, l'exportation de listes en PDF, des graphiques de répartition, et bien plus encore.
+• <i>Clé étendue</i> : Inclut toutes les fonctionnalités de la Clé Contrib, plus la synchronisation cloud automatique et des règles d'importation CSV avancées.
+• <i>Clé professionnelle</i> : Inclut toutes les fonctionnalités de la Clé étendue, plus le suivi de portefeuille et d'investissements, des graphiques d'historique, le suivi des budgets, la numérisation OCR des reçus, l'interface web pour ordinateur, la synchronisation bancaire directe (Allemagne), et bien plus encore.
 
-<i>Mes dépenses</i> nécessite les <u>autorisations</u> suivantes :
+<b>Transparence des autorisations :</b>
 
-     • <i>Calendrier</i> : les plans pour les transactions futures et récurrentes sont stockés soit dans un calendrier local spécial, soit dans tout autre calendrier que vous attribuez.
-     • <i>Internet</i> : Suivi d'utilisation anonyme, Rapports de crash, Synchronisation Cloud.
-     • <i>Comptes</i> : synchronisation entre les appareils via les services cloud.
+• <i>Calendrier</i> : Les plans pour les transactions récurrentes sont enregistrés dans un calendrier local dédié ou dans le calendrier de votre choix.
+• <i>Internet</i> : Suivi d'utilisation anonyme (sur option), synchronisation cloud et rapports de plantage (sur option).
 
-Prenez le contrôle de vos finances comme jamais auparavant en utilisant <i>Mes dépenses</i> !
+Prenez le contrôle de votre argent et de votre patrimoine dès aujourd'hui avec <i>Mes dépenses</i> !

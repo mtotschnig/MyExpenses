@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.util.licence
 import android.app.Application
 import android.content.Context
 import android.net.Uri
-import android.os.Build
 import androidx.annotation.VisibleForTesting
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -30,9 +29,9 @@ import org.totschnig.myexpenses.activity.IapActivity
 import org.totschnig.myexpenses.compose.AppTheme
 import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.db2.countAccounts
+import org.totschnig.myexpenses.db2.updateNewPlanEnabled
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Template
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.sync.GenericAccountService
@@ -146,7 +145,7 @@ open class LicenceHandler(
     fun update() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                Template.updateNewPlanEnabled()
+                repository.updateNewPlanEnabled(this@LicenceHandler)
                 updateNewAccountEnabled()
             } catch (_: Exception) {
             }
@@ -155,9 +154,7 @@ open class LicenceHandler(
                 this@LicenceHandler,
                 prefHandler
             )
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-                ShortcutHelper.configureSplitShortcut(context, isContribEnabled)
-            }
+            ShortcutHelper.configureSplitShortcut(context, isContribEnabled)
         }
     }
 
@@ -375,7 +372,7 @@ open class LicenceHandler(
 
     suspend fun handleExpiration() {
         val licenceDuration = validUntilMillis - validSinceMillis
-        if (TimeUnit.MILLISECONDS.toDays(licenceDuration) > 240) { // roughly eight months
+        if (TimeUnit.MILLISECONDS.toDays(licenceDuration) > 760) { // roughly 25 months
             licenceStatus = LicenceStatus.EXTENDED_FALLBACK
             licenseStatusPrefs.putString(LICENSE_STATUS_KEY, LicenceStatus.EXTENDED_FALLBACK.name)
             licenseStatusPrefs.remove(LICENSE_VALID_UNTIL_KEY)

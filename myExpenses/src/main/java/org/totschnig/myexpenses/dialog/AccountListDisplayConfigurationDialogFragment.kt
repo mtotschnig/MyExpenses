@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -31,26 +32,38 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
+import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.html.Entities
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.SortableItem
 import org.totschnig.myexpenses.compose.ButtonRow
+import org.totschnig.myexpenses.compose.CheckBoxWithLabel
+import org.totschnig.myexpenses.compose.scrollbar.ColumnWithScrollbar
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountGrouping
-import org.totschnig.myexpenses.model.Sort
+import org.totschnig.myexpenses.model.sort.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.enumValueOrDefault
+import org.totschnig.myexpenses.provider.KEY_SORT_KEY
 import org.totschnig.myexpenses.provider.triggerAccountListRefresh
 import org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel
 
 class AccountListDisplayConfigurationDialogFragment : ComposeBaseDialogFragment3() {
 
     val viewModel: ContentResolvingAndroidViewModel by viewModels()
+
+    val accountGroupingKey: Preferences.Key<String>
+        get() = prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING)
+
+    val sortByFlagKey: Preferences.Key<Boolean>
+        get() = prefHandler.getBooleanPreferencesKey(PrefKey.SORT_ACCOUNT_LIST_BY_FLAG_FIRST)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         injector.inject(viewModel)
@@ -60,20 +73,22 @@ class AccountListDisplayConfigurationDialogFragment : ComposeBaseDialogFragment3
     @Composable
     override fun ColumnScope.MainContent() {
 
-        var selectedGrouping by rememberSaveable {
+        var selectedGrouping by rememberSaveable(stateSaver = AccountGrouping.Saver) {
             mutableStateOf(AccountGrouping.TYPE)
         }
 
-        LaunchedEffect(Unit) {
-            selectedGrouping =  dataStore.data.map {
-                org.totschnig.myexpenses.util.enumValueOrDefault(
-                    it[prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING)],
-                    AccountGrouping.TYPE
-                )
-            }.first()
+        val sortByFlagFirst = rememberSaveable {
+            mutableStateOf(false)
         }
 
-        var selectedSort by rememberSaveable {
+        LaunchedEffect(Unit) {
+            with(dataStore.data.first()) {
+                this[accountGroupingKey]?.let { selectedGrouping = AccountGrouping.valueOf(it) }
+                sortByFlagFirst.value = this[sortByFlagKey] != false
+            }
+        }
+
+        val selectedSort = rememberSaveable {
             mutableStateOf(
                 prefHandler.enumValueOrDefault(
                     PrefKey.SORT_ORDER_ACCOUNTS,
@@ -82,43 +97,47 @@ class AccountListDisplayConfigurationDialogFragment : ComposeBaseDialogFragment3
             )
         }
 
-        Text(stringResource(R.string.menu_grouping), style = MaterialTheme.typography.titleMedium)
-        Spacer(Modifier.height(4.dp))
-        RadioGroupSection(
-            options = AccountGrouping.entries.map { it.title },
-            selectedIndex = selectedGrouping.ordinal,
-            onOptionSelected = { selectedGrouping = AccountGrouping.entries[it] }
-        )
+        ColumnWithScrollbar(
+            modifier = Modifier.weight(1f)
+        ) {
 
-        Spacer(Modifier.height(16.dp))
+            Text(
+                stringResource(R.string.menu_grouping),
+                style = MaterialTheme.typography.titleMedium
+            )
 
-        Text(
-            stringResource(R.string.display_options_sort_list_by),
-            style = MaterialTheme.typography.titleMedium
-        )
-        Spacer(Modifier.height(4.dp))
-        val scope = rememberCoroutineScope()
-        RadioGroupSection(
-            options = Sort.accountSortLabels,
-            selectedIndex = Sort.accountSort.indexOf(selectedSort),
-            onOptionSelected = { selectedSort = Sort.accountSort[it] },
-            editableIndex = Sort.accountSort.indexOf(Sort.CUSTOM) to {
+            Spacer(Modifier.height(4.dp))
+
+            RadioGroupSection(
+                options = AccountGrouping.V1_VALUES.map { it.title },
+                selectedIndex = selectedGrouping.ordinal,
+                onOptionSelected = { selectedGrouping = AccountGrouping.V1_VALUES[it] }
+            )
+
+            Spacer(Modifier.height(16.dp))
+            val scope = rememberCoroutineScope()
+            SortSelect(sortByFlagFirst, selectedSort) {
                 scope.launch {
                     SortUtilityDialogFragment.newInstance(
                         ArrayList(
-                            viewModel.accountsMinimal(withAggregates = false).first()
+                            viewModel.accountsMinimal(
+                                withAggregates = false,
+                                sortOrder = KEY_SORT_KEY
+                            ).first()
                                 .map { SortableItem(it.id, it.label) }
                         ))
                         .show(childFragmentManager, "SORT_ACCOUNTS")
                 }
             }
-        )
+        }
+
         ButtonRow {
             TextButton(onClick = {
                 lifecycleScope.launch {
-                    prefHandler.putString(PrefKey.SORT_ORDER_ACCOUNTS, selectedSort.name)
+                    prefHandler.putString(PrefKey.SORT_ORDER_ACCOUNTS, selectedSort.value.name)
                     dataStore.edit { preference ->
-                        preference[prefHandler.getStringPreferencesKey(PrefKey.ACCOUNT_GROUPING)] = selectedGrouping.name
+                        preference[accountGroupingKey] = selectedGrouping.name
+                        preference[sortByFlagKey] = sortByFlagFirst.value
                     }
                     requireContext().contentResolver.triggerAccountListRefresh()
                     dismiss()
@@ -131,13 +150,41 @@ class AccountListDisplayConfigurationDialogFragment : ComposeBaseDialogFragment3
     }
 }
 
+@Suppress("UnusedReceiverParameter")
+@Composable
+fun ColumnScope.SortSelect(
+    sortByFlagFirst: MutableState<Boolean>,
+    selectedSort: MutableState<Sort>,
+    onCustomSort: () -> Unit,
+) {
+    Text(
+        stringResource(R.string.display_options_sort_list_by),
+        style = MaterialTheme.typography.titleMedium
+    )
+
+    Spacer(Modifier.height(4.dp))
+
+    CheckBoxWithLabel(
+        label = stringResource(R.string.prioritize_flag_order),
+        checked = sortByFlagFirst.value
+    ) {
+        sortByFlagFirst.value = it
+    }
+    RadioGroupSection(
+        options = Sort.accountSortLabels,
+        selectedIndex = Sort.accountSort.indexOf(selectedSort.value),
+        onOptionSelected = { selectedSort.value = Sort.accountSort[it] },
+        editableIndex = Sort.accountSort.indexOf(Sort.CUSTOM) to onCustomSort
+    )
+}
+
 @Composable
 private fun RadioGroupSection(
     options: List<Int>,
     selectedIndex: Int,
     onOptionSelected: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    editableIndex: Pair<Int, () -> Unit>? = null
+    editableIndex: Pair<Int, () -> Unit>? = null,
 ) {
     Column(modifier.selectableGroup()) {
         options.forEachIndexed { index, text ->

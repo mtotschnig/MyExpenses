@@ -69,7 +69,6 @@
     <string name="disabled">"Joaktiv"</string>
     <string name="show_password">"Shfaq fjalëkalimin"</string>
     <string name="hide_password">"Fshih fjalëkalimin"</string>
-    <string name="user">"Përdoruesi"</string>
     <string name="source">"Burimi"</string>
     <string name="value">"Vlera"</string>
     <string name="done_label">"U krye"</string>
@@ -89,4 +88,7 @@
     <string name="already_exists">"Ky emër ekziston tashmë"</string>
     <string name="flag_inactive">"Joaktive"</string>
     <string name="count">"Numëro"</string>
+    <string name="empty">"Bosh"</string>
+    <string name="options">"Opsionet"</string>
+    <string name="actions">"Veprimet"</string>
 </resources>

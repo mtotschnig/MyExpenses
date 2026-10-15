@@ -69,7 +69,6 @@
             android:key="print"
             android:title="@string/menu_print" />
         <Preference
-            my:isPreferenceVisible="@bool/is26"
             android:key="@string/pref_banking_fints_key"
             android:title="Multibanking" />
     </PreferenceCategory>

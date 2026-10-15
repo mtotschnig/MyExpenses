@@ -1,7 +1,8 @@
 package org.totschnig.myexpenses.util.cursor;
 
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLANID;
-import static org.totschnig.myexpenses.provider.DatabaseConstants.KEY_PLAN_INFO;
+import static org.totschnig.myexpenses.db2.entities.PlanKt.prettyTimeInfo;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_PLANID;
+import static org.totschnig.myexpenses.provider.ConstantsKt.KEY_PLAN_INFO;
 
 import android.content.ContentUris;
 import android.content.Context;
@@ -15,7 +16,6 @@ import androidx.collection.LongSparseArray;
 import androidx.collection.SparseArrayCompat;
 
 import org.totschnig.myexpenses.MyApplication;
-import org.totschnig.myexpenses.model.Plan;
 import org.totschnig.myexpenses.provider.CalendarProviderProxy;
 
 import java.util.ArrayList;
@@ -74,7 +74,7 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
           return lhNextInstance.compareTo(rhNextInstance);
         });
       }
-      if (plans.size() > 0) {
+      if (!plans.isEmpty()) {
         Cursor c = context.getContentResolver().query(Events.CONTENT_URI,
             new String[]{
                 Events._ID,
@@ -90,7 +90,7 @@ public class PlanInfoCursorWrapper extends CursorWrapperHelper {
             while (!c.isAfterLast()) {
               planInfo.put(
                   c.getLong(c.getColumnIndexOrThrow(Events._ID)),
-                  Plan.prettyTimeInfo(
+                  prettyTimeInfo(
                       context,
                       c.getString(c.getColumnIndexOrThrow(Events.RRULE)),
                       c.getLong(c.getColumnIndexOrThrow(Events.DTSTART))));

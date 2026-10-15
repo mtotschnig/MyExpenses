@@ -15,18 +15,29 @@ import android.widget.RemoteViewsService
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Sort
-import org.totschnig.myexpenses.model.Sort.Companion.preferredOrderByForTemplates
-import org.totschnig.myexpenses.model.Transfer
-import org.totschnig.myexpenses.preference.PrefHandler
-import org.totschnig.myexpenses.provider.DatabaseConstants.*
+import org.totschnig.myexpenses.model.sort.Sort
+import org.totschnig.myexpenses.model.sort.Sort.Companion.preferredOrderByForTemplates
+import org.totschnig.myexpenses.provider.KEY_ACCOUNT_LABEL
+import org.totschnig.myexpenses.provider.KEY_AMOUNT
+import org.totschnig.myexpenses.provider.KEY_COLOR
+import org.totschnig.myexpenses.provider.KEY_COMMENT
+import org.totschnig.myexpenses.provider.KEY_CURRENCY
+import org.totschnig.myexpenses.provider.KEY_PARENTID
+import org.totschnig.myexpenses.provider.KEY_PATH
+import org.totschnig.myexpenses.provider.KEY_PAYEE_NAME
+import org.totschnig.myexpenses.provider.KEY_PLANID
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_SEALED
+import org.totschnig.myexpenses.provider.KEY_TITLE
+import org.totschnig.myexpenses.provider.KEY_TRANSFER_ACCOUNT
+import org.totschnig.myexpenses.provider.KEY_TRANSFER_ACCOUNT_LABEL
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.getStringOrNull
 import org.totschnig.myexpenses.provider.requireLong
 import org.totschnig.myexpenses.util.formatMoney
+import org.totschnig.myexpenses.viewmodel.data.RIGHT_ARROW
 import java.util.Locale
-import javax.inject.Inject
 
 class TemplateWidgetService : RemoteViewsService() {
 
@@ -61,7 +72,7 @@ class TemplateRemoteViewsFactory(
         )
         val title = cursor.getString(KEY_TITLE)
         val currencyContext = context.injector.currencyContext()
-        val currency = currencyContext.get(cursor.getString(KEY_CURRENCY))
+        val currency = currencyContext[cursor.getString(KEY_CURRENCY)]
         val amount = Money(currency, cursor.requireLong(KEY_AMOUNT))
         val isTransfer = !(cursor.isNull(cursor.getColumnIndexOrThrow(KEY_TRANSFER_ACCOUNT)))
 
@@ -76,8 +87,8 @@ class TemplateRemoteViewsFactory(
             if (isTransfer) {
                 val accountLabel = cursor.getStringOrNull(KEY_ACCOUNT_LABEL)
                 val transferAccountLabel = cursor.getStringOrNull(KEY_TRANSFER_ACCOUNT_LABEL)
-                if (amount.amountMinor < 0) "$accountLabel ${Transfer.RIGHT_ARROW} $transferAccountLabel"
-                else "$transferAccountLabel ${Transfer.RIGHT_ARROW} $accountLabel"
+                if (amount.amountMinor < 0) "$accountLabel $RIGHT_ARROW $transferAccountLabel"
+                else "$transferAccountLabel $RIGHT_ARROW $accountLabel"
             } else cursor.getString(KEY_PATH)
         )
         if (!TextUtils.isEmpty(comment)) {

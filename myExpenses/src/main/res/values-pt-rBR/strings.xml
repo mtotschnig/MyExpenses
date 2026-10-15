@@ -17,11 +17,11 @@
     <string name="account">Conta</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">Tipos de conta</string>
-    <string name="account_type_asset">Conta de ativos</string>
-    <string name="account_type_bank">Conta bancária</string>
-    <string name="account_type_cash">Conta de dinheiro</string>
+    <string name="account_type_asset">Outros ativos</string>
+    <string name="account_type_bank">Banco</string>
+    <string name="account_type_cash">Dinheiro</string>
     <string name="account_type_ccard">Cartão de crédito</string>
-    <string name="account_type_liability">Conta de passivos</string>
+    <string name="account_type_liability">Outros passivos</string>
     <string name="already_defined">%1$s já definido</string>
     <string name="amount">Quantia</string>
     <string name="app_name">Minhas Despesas</string>
@@ -34,7 +34,7 @@
     <string name="contrib_feature_plans_unlimited_label">Número ilimitado de planos</string>
     <string name="contrib_feature_print_label">Exportar lista de transações para PDF</string>
     <string name="contrib_feature_csv_import_label">Importação CSV</string>
-    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Número ilimitado de modelos de divisão de transações</string>
+    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">Número ilimitado de modelos de transação dividida</string>
     <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources"><b>Suporte por e-mail</b> com garantia de resposta em até 2 dias úteis</string>
     <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">Direito de voto no <b>roteiro de desenvolvimento</b></string>
     <string name="contrib_feature_history_label" tools:ignore="UnusedResources">Diagrama histórico</string>
@@ -52,16 +52,16 @@
     <string name="decimal_separator">Separador decimal</string>
     <string name="default_account_name">Livro de orçamento</string>
     <string name="description">Descrição</string>
-    <string name="dialog_balance_delete">Apagar transações reconciliadas</string>
+    <string name="dialog_balance_delete">Apagar transações conciliadas</string>
     <string name="dialog_confirm_discard_changes">Descartar as alterações?</string>
-    <string name="dialog_command_disabled_balance">Não existe nenhuma transação compensada para ser reconciliada.</string>
+    <string name="dialog_command_disabled_balance">Não existe nenhuma transação compensada para ser conciliada.</string>
     <string name="dialog_command_disabled_insert_transfer">As transferências de transações requerem uma segunda conta.</string>
     <string name="dialog_contrib_reminder_remove_limitation">Remova essa limitação e acesso mais recursos atualizando o <i>{app_name}</i>.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> é oferecido com o código aberto.</string>
     <string name="dialog_contrib_text_2">Por favor, contribua atualizando o <i>{app_name}</i> e ganhe acesso irrestrito aos seguintes recursos:</string>
     <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">O estado atual da sua licença (%2$s) permite que crie %1$d contas.</string>
     <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">O estado atual da sua licença (%2$s) permite que crie %1$d planos.</string>
-    <string name="dialog_contrib_usage_limit_split_templates">O estado atual da sua licença (%1$s) permite que crie 1 modelo de divisão de transação.</string>
+    <string name="dialog_contrib_usage_limit_split_templates">O estado atual da sua licença (%1$s) permite que crie 1 modelo de transação dividida.</string>
     <string name="dialog_export_delete">Apagar transações exportadas</string>
     <string name="dialog_export_not_yet_exported">Exportar somente as transações que ainda não foram exportadas</string>
     <string name="dialog_password_activate_protection">Ativar proteção por palavra-passe</string>
@@ -79,11 +79,7 @@
     <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">Balanço de %1$s</string>
     <string name="dialog_title_contrib_feature">Recurso premium</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Excluir a conta\?</item>
-        <item quantity="many">Excluir %1$d contas\?</item>
-        <item quantity="other">Excluir %1$d contas\?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Excluir a conta\?</string>
     <string name="dialog_title_warning_delete_category">Apagar a categoria\?</string>
     <string name="dialog_title_warning_delete_template">Apagar o modelo\?</string>
     <string name="dialog_title_warning_delete_transaction">Apagar a transação\?</string>
@@ -147,7 +143,7 @@
     <string name="menu_edit_method">Editar forma de pagamento</string>
     <string name="menu_edit_party">Editar parceiro</string>
     <string name="menu_edit_plan_instance">Editar ocorrência única do plano</string>
-    <string name="menu_edit_split">Editar divisão</string>
+    <string name="menu_edit_split">Editar transação dividida</string>
     <string name="menu_edit_split_part_category">Editar divisão de categoria</string>
     <string name="menu_edit_split_part_transfer">Editar divisão de transferência</string>
     <string name="menu_edit_template">Editar modelo</string>
@@ -171,7 +167,6 @@
     <string name="menu_split_transaction">Transformar em transação dividida</string>
     <string name="method">Forma de pagamento</string>
     <string name="no_app_handling_email_available">Nenhum app de e-mail disponível.</string>
-    <string name="no_app_handling_ftp_available">Nenhum app de FTP disponível. Instalar o <i>Enviar com FTP</i>?</string>
     <string name="no_app_handling_mime_type_available">Nenhum app de %s disponível.</string>
     <string name="no_categories">Nenhuma categoria.</string>
     <string name="no_expenses">Nenhuma despesa ainda!</string>
@@ -208,7 +203,7 @@
     <string name="password_security_answer_not_valid">Resposta incorreta. Tente novamente!</string>
     <string name="payee">Beneficiário</string>
     <string name="payer">Pagador</string>
-    <string name="payer_or_payee">Beneficiário/pagador</string>
+    <string name="payer_or_payee">Contraparte</string>
     <!-- Plan for future and recurring transactions -->
     <string name="plan">Plano</string>
     <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
@@ -230,7 +225,7 @@
     <string name="pm_type_debit">Débito</string>
     <string name="pm_type_neutral">Neutro</string>
     <string name="pref_app_dir_title">Pasta para backups e exportações</string>
-    <string name="pref_auto_fill_summary">Preencha com dados da última transação para o mesmo beneficiário/pagador</string>
+    <string name="pref_auto_fill_summary">Preencha dados da última transação da mesma contraparte</string>
     <string name="pref_backup_summary">Cria um backup do banco de dados e das preferências.</string>
     <string name="pref_sort_order_usages">Contagem de usos</string>
     <string name="pref_category_title_export">Exportar</string>
@@ -239,7 +234,6 @@
     <string name="pref_category_title_more_information">Mais informações</string>
     <string name="pref_category_title_ui">Interface do utilizador</string>
     <string name="pref_contrib_purchase_title_upgrade">Atualizar chave</string>
-    <string name="pref_custom_currency_title">Personalizar moedas</string>
     <string name="pref_enter_licence_title">Digite a chave</string>
     <string name="pref_export_format_title">Formato dos dados</string>
     <string name="pref_import_from_grisbi_summary">Importa categorias e parceiros do ficheiro XML do Grisbi</string>
@@ -253,7 +247,7 @@
     <string name="pref_manage_categories_title">Categorias</string>
     <string name="pref_manage_methods_summary">Crie e edite formas de pagamento e associe-as aos tipos de conta.</string>
     <string name="pref_manage_methods_title">Formas de pagamento</string>
-    <string name="pref_manage_parties_summary">Adiciona, edita, apaga parceiros (pagadores e beneficiários).</string>
+    <string name="pref_manage_parties_summary">Adicionar, editar, apagar contrapartes.</string>
     <string name="pref_manage_parties_title">Parceiros</string>
     <string name="pref_manage_sync_backends_title">Destinos de sincronização</string>
     <!-- %s will be replaced with list of backends -->
@@ -277,8 +271,6 @@
     <string name="pref_send_feedback_title">Enviar feedback</string>
     <string name="pref_share_target_summary">Deixe em branco para escolher entre apps apropriadas (e-mail, Dropbox, Google Docs, etc.), ou forneça um URL num dos esquemas que tenham suporte</string>
     <string name="pref_share_target_title">Enviar URL</string>
-    <string name="pref_shortcut_added">O atalho foi adicionado ao ecrã inicial</string>
-    <string name="pref_shortcut_not_added">Não existe nenhum ecrã disponível que aceite atalhos.</string>
     <string name="pref_shortcut_summary">Adicionar o atalho ao ecrã inicial.</string>
     <string name="pref_ui_home_screen_shortcuts">Atalhos do ecrã inicial</string>
     <!-- Title of the preference for selecting the UI language -->
@@ -310,15 +302,15 @@
     <string name="save_transaction_template_deleted">O modelo foi apagado</string>
     <string name="select">Selecionar</string>
     <string name="select_category">Selecionar categoria</string>
-    <string name="select_payee">Selecionar pagador/beneficiário</string>
+    <string name="select_payee">Selecionar contraparte</string>
     <string name="share_scheme_not_supported">Não há suporte para o esquema %1$s</string>
     <string name="share_sending">Enviar o ficheiro de exportação</string>
     <string name="split_parts_heading">Divisões</string>
     <string name="split_transaction">Transação dividida</string>
     <string name="status">Estado</string>
     <string name="status_cleared">compensada</string>
-    <string name="status_reconciled">reconciliada</string>
-    <string name="status_unreconciled">não reconciliada</string>
+    <string name="status_reconciled">conciliada</string>
+    <string name="status_unreconciled">não conciliada</string>
     <string name="status_void">vazio</string>
     <string name="subcategory">Subcategoria</string>
     <string name="sum_expenses">Despesas</string>
@@ -330,7 +322,7 @@
     <string name="time">Horário</string>
     <string name="title">Título</string>
     <string name="total_cleared">Total compensado</string>
-    <string name="total_reconciled">Total reconciliado</string>
+    <string name="total_reconciled">Total conciliado</string>
     <string name="transaction">Transação</string>
     <string name="transfer">Transferência</string>
     <string name="transfer_from_account">De</string>
@@ -338,7 +330,7 @@
     <!-- Type refers to the type of an account, eg. Cash account, bank account -->
     <string name="type">Tipo</string>
     <string name="unsplit_amount">Quantia não dividida</string>
-    <string name="unsplit_amount_greater_than_zero">Existe ainda uma quantia sem divisão.</string>
+    <string name="unsplit_amount_greater_than_zero">Existe ainda uma quantia não dividida.</string>
     <string name="warning_backup">O banco de dados e as preferências serão salvos em \"%1$s\".</string>
     <string name="continue_confirmation">Deseja continuar?</string>
     <string name="warning_delete_account">A conta \"%1$s\" será apagada com todas as suas transações.</string>
@@ -360,8 +352,8 @@
     </plurals>
     <string name="move_category_success">Uma categoria foi movida com sucesso.</string>
     <string name="move_category_failure">Uma categoria não foi movida, porque o mesmo rótulo já existe no destino.</string>
-    <string name="warning_delete_reconciled">Excluir transações reconciliadas fará com que seus registros difiram do extrato bancário.</string>
-    <string name="warning_balance_account">Por favor, compare o total compensado com o saldo final em seu extrato bancário. Se você prosseguir, as transações compensadas serão marcadas como reconciliadas.</string>
+    <string name="warning_delete_reconciled">Excluir transações conciliadas fará com que seus registros difiram do extrato bancário.</string>
+    <string name="warning_balance_account">Por favor, compare o total compensado com o saldo final em seu extrato bancário. Se você prosseguir, as transações compensadas serão marcadas como conciliadas.</string>
     <string name="warning_password_protected">A app é protegida por palavra-passe.</string>
     <string name="warning_widget_disabled">Você precisa habilitar este widget nas configurações do app.</string>
     <string name="warning_instantiate_template_from_widget_password_protected">A instanciação rápida de modelos deste widget funciona somente se permitir a entrada de dados de widgets sem palavra-passe nas configurações da app.</string>
@@ -371,33 +363,39 @@
     <string name="warning_reset_account_all">Caso prossiga, as transações de todas as contas%1$s serão apagadas do banco de dados e não poderão ser restauradas.</string>
     <string name="warning_reset_account_matched">Caso prossiga, as transações correspondentes ao filtro atual serão apagadas do banco de dados e não poderão ser restauradas.</string>
     <string name="warning_restore">O banco de dados e as preferências serão restauradas do ficheiro \"%1$s\". Os dados atuais serão apagados.</string>
-    <string name="warning_splitpartcategory_context">Transferências que fazem parte de uma transação com divisões só podem ser editadas no contexto da divisão.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Por favor, defina um número entre %1$d e %2$d</string>
     <string name="warning_change_fraction_digits_1">As quantias no banco de dados precisam ser atualizadas para corresponder ao novo número de casas decimais.</string>
     <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">Se as quantias não forem atualizadas, elas serão exibidos como multiplicadas por %d após o câmbio.</string>
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Se as quantias não forem atualizadas, elas serão exibidos como multiplicadas por %d após o câmbio.</string>
     <string name="warning_change_fraction_digits_3">Se as quantias forem atualizadas, você perderá a informação acerca da sua parte fracionária.</string>
     <string name="warning_change_fraction_digits_checkbox_label">Atualizar quantias no banco de dados</string>
-    <string name="import_categories_success">%1$d categorias importadas com sucesso.</string>
-    <string name="import_parties_success">%1$d parceiros importados com sucesso.</string>
-    <string name="import_accounts_success">%1$d contas importadas com sucesso.</string>
-    <string name="import_transactions_success" tools:ignore="PluralsCandidate">%1$d transações importadas com sucesso na conta %2$s</string>
-    <string name="import_accounts_none">Não foi importada nenhuma conta</string>
-    <string name="import_categories_none">Não foi importada nenhuma categoria</string>
-    <string name="import_parties_none">Não foi importado nenhum parceiro</string>
-    <string name="import_transactions_none">Não foi importada nenhuma transação para a conta %1$s</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">%1$d categorias importadas com sucesso.</item>
+        <item quantity="other">%1$d categorias importadas com sucesso.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">%1$d parceiros importados com sucesso.</item>
+        <item quantity="other">%1$d parceiros importados com sucesso.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">%1$d contas importadas com sucesso.</item>
+        <item quantity="other">%1$d contas importadas com sucesso.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">%1$d transações importadas com sucesso na conta %2$s</item>
+        <item quantity="other">%1$d transações importadas com sucesso na conta %2$s</item>
+    </plurals>
     <string name="import_source_select_error">Por favor, forneça um ficheiro do tipo %1$s</string>
     <string name="menu_categories_setup_default">Configurar categorias padrão</string>
     <string name="widget_title_accounts">Minhas contas</string>
     <string name="widget_title_templates">Meus modelos</string>
     <string name="app_dir_not_accessible">A pasta atualmente selecionada para backups e exportações (%1$s) não está acessível. Por favor, selecione outra.</string>
-    <string name="app_dir_not_compatible_with_nougat">A URI atualmente configurada para backups e exportações (%1$s) não é suportada pelo Android Nougat. Por favor, selecione a pasta novamente.</string>
     <string name="search_amount">Pesquisar quantia</string>
     <string name="search_category">Pesquisar categoria</string>
     <string name="search_comment">Pesquisar notas</string>
     <string name="search_date">Pesquisar data</string>
     <string name="search_status">Pesquisar estado</string>
-    <string name="search_payee">Pesquisar beneficiário/pagador</string>
+    <string name="search_payee">Pesquisar contraparte</string>
     <string name="search_method">Pesquisar formas de pagamento</string>
     <string name="search_tag">Pesquisar pela etiqueta</string>
     <string name="and">e</string>
@@ -414,7 +412,7 @@
     <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">após</string>
     <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">A compra falhou ou foi cancelada.</string>
-    <string name="hint_auto_fill">Os dados devem ser automaticamente preenchidos baseados na última transação para o mesmo beneficiário/pagador? Esse comportamento pode ser alterado nas configurações.</string>
+    <string name="hint_auto_fill">Os dados devem ser automaticamente preenchidos baseados na última transação da mesma contraparte? Esse comportamento pode ser alterado nas configurações.</string>
     <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%1$d contas com a moeda %2$s foram atualizadas.</string>
     <string name="import_source_file">Arquivo</string>
     <!-- Stale refers to pictures left over from deleted transactions  -->
@@ -466,7 +464,6 @@
     <string name="plan_instance_state_cancelled">cancelada</string>
     <!-- describes the state of a plan instance that has been applied, i.e. a transaction has been entered into the database for it. Used as content description for icon in list. -->
     <string name="plan_instance_state_applied">aplicada</string>
-    <string name="progress_dialog_updating_split_parts">Atualizando as divisões</string>
     <string name="warning_cannot_move_split_transaction">Não foi possível mover esta transação dividida para a conta%1$s porque há transferências que se referem a esta conta.</string>
     <string name="content_description_calculator_delete_button">Apagar o último dígito</string>
     <string name="paypal_callback_info">A sua transação foi concluída e um recibo da sua compra foi enviado para o seu e-mail. Pode entrar na sua conta em www.paypal.com para ver os detalhes desta transação.</string>
@@ -478,17 +475,9 @@
     <string name="crash_dialog_comment_prompt">Você também pode adicionar os seus comentários sobre o problema abaixo:</string>
     <string name="synchronization">Sincronização</string>
     <string name="synchronization_none">Sem sincronização</string>
-    <string name="hint_url">URL</string>
-    <string name="description_webdav_url">Por favor digite a URL de uma pasta especial no seu servidor WebDAV. {app_name} guardará os dados dentro desta pasta, não tocando em nada fora dela.</string>
-    <string name="description_webdav_trust_certificate">O site usa um certificado que não é confiável para o Android.</string>
-    <string name="label_trust_certificate">Confiar neste certificado</string>
     <string name="no_sync_backends">Sem destinos de sincronização</string>
     <string name="menu_create_sync_backend">Novo destino de sincronização</string>
     <string name="validate_error_not_empty">Não pode ficar em branco</string>
-    <string name="validate_error_webdav_invalid_certificate">Não é possível confiar neste certificado. Aparenta ser inválido.</string>
-    <string name="validate_error_webdav_not_compliant">A URL não aponta para um recurso WebDAV.</string>
-    <string name="validate_error_webdav_404">Esta URL não existe no servidor.</string>
-    <string name="url_not_valid">URL inválida</string>
     <string name="menu_sync_unlink">Parar a sincronização</string>
     <string name="menu_sync_link">Começar a sincronização</string>
     <string name="menu_sync_download">Baixar e sincronizar</string>
@@ -573,7 +562,6 @@
     <string name="pref_protection_device_lock_screen_title">Ecrã de bloqueio do aparelho</string>
     <string name="pref_warning_only_one_protection">Antes de usar a proteção por %1$s, você deve desativar a proteção por %2$s.</string>
     <string name="warning_device_lock_screen_not_set_up_1">O ecrã de bloqueio de segurança do aparelho não foi configurado.</string>
-    <string name="warning_device_lock_screen_not_set_up_2">Vá para %s para definir um ecrã de bloqueio.</string>
     <string name="menu_history_show_balance">Exibir saldo</string>
     <string name="menu_history_transfers">Incluir transferências</string>
     <string name="menu_history">Histórico</string>
@@ -593,13 +581,13 @@
     <string name="ungroup_split_transaction_success">A transação dividida foi desagrupada com sucesso.</string>
     <string name="split_transaction_one_success">A transação foi transformada em dividida com sucesso.</string>
     <string name="split_transaction_group_success">%1$d transações foram agrupadas em uma transação dividida com sucesso.</string>
-    <string name="split_transaction_not_possible">Somente transações que possuam a mesma conta, beneficiário e estado podem ser agrupadas numa transação dividida.</string>
+    <string name="split_transaction_not_possible">Somente transações que possuam a mesma conta, contraparte e estado podem ser agrupadas numa transação dividida.</string>
     <string name="pref_transaction_time_summary">Permitir a definição da data exata da transação.</string>
-    <string name="pref_value_date_summary">Permite a definição de uma data da contabilização, além da data do pagamento. A data da transação ficará oculta. Essa configuração não se aplica a contas de dinheiro.</string>
+    <string name="pref_value_date_summary">Permite a definição de uma data de valor, além da data do lançamento. A data da transação ficará oculta. Essa configuração não se aplica a contas de dinheiro.</string>
     <!-- the date on which the transaction took place, aka transaction date, as opposed to value date -->
-    <string name="booking_date">Data do pagamento</string>
+    <string name="booking_date">Data do lançamento</string>
     <!-- the date when the entry to an account is considered effective in accounting (https://en.wikipedia.org/wiki/Value_date) as opposed to booking date -->
-    <string name="value_date">Data da contabilização</string>
+    <string name="value_date">Data de valor</string>
     <string name="licence_expires_n_days">A sua chave profissional irá expirar em %d dias.</string>
     <string name="licence_expires_tomorrow">A sua chave profissional irá expirar amanhã.</string>
     <string name="licence_expires_today">A sua chave profissional expira hoje.</string>
@@ -666,8 +654,8 @@
     <string name="content_description_closed">Encerrada</string>
     <string name="warning_synced_account_cannot_be_closed">Uma conta vinculada a um destino de sincronização não pode ser encerrada</string>
     <string name="translated_by">Traduzido por</string>
-    <string name="content_description_dates_are_linked">A data do pagamento e a data da contabilização são atualizadas juntas</string>
-    <string name="content_description_dates_are_not_linked">A data do pagamento e a data da contabilização não são atualizadas juntas</string>
+    <string name="content_description_dates_are_linked">A data do lançamento e a data de valor são atualizadas juntas</string>
+    <string name="content_description_dates_are_not_linked">A data do lançamento e a data de valor não são atualizadas juntas</string>
     <string name="roadmap_vote">Votar no roteiro</string>
     <string name="warning_account_for_transaction_is_closed">Pelo menos uma das transações selecionadas não pode ser editada:</string>
     <string name="object_sealed">O objeto se refere a uma conta encerrada.</string>
@@ -677,7 +665,7 @@
     <string name="pref_exchange_rate_provider_summary">Selecione o provedor para obter as taxas de câmbio</string>
     <string name="pref_exchange_rate_provider_title">Provedor de taxa de câmbio</string>
     <string name="pref_exchange_rates_api_key_summary">Por favor, registre uma conta gratuita em %s e forneça o ID do seu aplicativo</string>
-    <string name="pref_plan_executor_time_title">Horário de notificação do planejador</string>
+    <string name="pref_plan_executor_time_title">Horário de notificação</string>
     <string name="synchronization_select_folder_dialog_title">Selecione uma pasta existente ou crie uma nova</string>
     <!-- This message is shwon when we highlight the income / expense toogle, to make user aware of this feature  -->
     <string name="discover_feature_expense_income_switch">Use este botão para registrar a receita.</string>
@@ -702,7 +690,7 @@
     <string name="menu_remap">Remapear</string>
     <string name="dialog_title_confirm_remap">Alterar mapeamento (%s)?</string>
     <string name="remap_category">Todas as transações selecionadas serão mapeadas para a categoria %s.</string>
-    <string name="remap_payee">Todas as transações selecionadas serão mapeadas para pagador/beneficiário %s.</string>
+    <string name="remap_payee">Todas as transações selecionadas serão mapeadas para a contraparte %s.</string>
     <string name="remap_method">Todas as transações selecionadas serão mapeadas para a forma de pagamento %s.</string>
     <string name="remap_account">Todas as transações selecionadas serão mapeadas para a conta %s.</string>
     <string name="remapping_result">As transações selecionadas foram remapeadas.</string>
@@ -726,7 +714,7 @@
     <string name="dialog_multi_tag">Todas as transações selecionadas serão marcadas com %s.</string>
     <string name="dialog_multi_tag_clear">Todas as etiquetas serão removidas das transações selecionadas.</string>
     <plurals name="warning_delete_tag">
-        <item quantity="one">A etiqueta %1$s está mapeada em uma transação. Ela deve ser excluída\?</item>
+        <item quantity="one">A etiqueta %1$s está mapeada em %2$d transação. Ela deve ser excluída\?</item>
         <item quantity="many">A etiqueta %1$s está mapeada em %2$d transações. Ela deve ser excluída\?</item>
         <item quantity="other">A etiqueta %1$s está mapeada em %2$d transações. Ela deve ser excluída\?</item>
     </plurals>
@@ -769,11 +757,9 @@
     <string name="pref_feature_uninstall_summary">A Play Store, eventualmente, tenta remover esses módulos em segundo plano.</string>
     <!-- Toast message shown if user clicks on Upgrade button before having selected a licence -->
     <string name="select_package">Por favor, selecione uma licença.</string>
-    <!-- This message is shwon when we highlight the floating action button and educate user about the menu that shows upon long press (tap and hold)  -->
-    <string name="discover_feature_fab_long_press">Toque e segure o botão de ação flutuante para abrir, diretamente, as telas de transferência, divisão de transação ou inclusão de receita.</string>
     <!-- Label for a slider control that allows to configure a plan to be executed (added to the ledger) the give number of days in advance -->
     <string name="advance_exexcution_in_days">Adiantar execução (em dias)</string>
-    <string name="warning_balance_account_delete">Se continuar, todas as transações reconciliadas desta conta serão apagadas do banco de dados e não poderá restaurá-las.</string>
+    <string name="warning_balance_account_delete">Se continuar, todas as transações conciliadas desta conta serão apagadas do banco de dados e não poderá restaurá-las.</string>
     <!-- When user opens a template from the transaction form, existing data is discarded. This message appears in a dialgoue to confirm the action -->
     <string name="confirmation_load_template_discard_data">Os dados presentes no formulário serão descartados.</string>
     <string name="pref_clone_with_current_date_title">Data das transações clonadas</string>
@@ -802,7 +788,7 @@
     <string name="single_feature_info">Como alternativa, você pode comprar acesso ilimitado apenas a este recurso.</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">Último dia</string>
-    <string name="warning_link_transfer">As duas transações selecionadas serão vinculadas como uma transferência. As informações de beneficiário/pagador e da categoria serão descartadas.</string>
+    <string name="warning_link_transfer">As duas transações selecionadas serão vinculadas como uma transferência. As informações da contraparte e da categoria serão descartadas.</string>
     <!-- This is the title of an entry on the configuration screen for the account widget. It allows to decide which number should be displayed for each account: the current balance or the total (which included future transactions) -->
     <string name="account_widget_configuration_sum">Tipo de soma exibida</string>
     <string name="account_widget_configuration_sum_total">Incluir transações futuras</string>
@@ -848,7 +834,7 @@
     <string name="pref_mlkit_script_title">Script para MlKit</string>
     <string name="cb_label_merge_accounts">Fundir contas</string>
     <plurals name="import_categories_icons_updated">
-        <item quantity="one">Uma categoria foi atualizada com ícone.</item>
+        <item quantity="one">%1$d categoria foi atualizada com ícone.</item>
         <item quantity="many">%1$d categorias foram atualizadas com ícones.</item>
         <item quantity="other">%1$d categorias foram atualizadas com ícones.</item>
     </plurals>
@@ -939,7 +925,7 @@
     <string name="warning_delete_default_transfer_category">A categoria %s está configurada como categoria de transferência padrão e não deve ser apagada.</string>
     <string name="default_transfer_category">Categoria de transferência padrão</string>
     <string name="pref_unmapped_transaction_as_transfer_summary_off">são considerados como despesa / receita</string>
-    <string name="roadmap_intro">A votação do roteiro para 2024 já está aberta! Vote nos recursos e melhorias que são mais importantes para você.</string>
+    <string name="roadmap_intro">A votação do roteiro para %d já está aberta! Vote nos recursos e melhorias que são mais importantes para você.</string>
     <string name="pref_sync_now_all_summary">%s sincroniza todas as contas para o mesmo back-end</string>
     <string name="warning_unlink_transfer">A transferência selecionada será desvinculada: Ela será substituída por transações normais em ambas as contas.</string>
     <string name="menu_transform_to_transfer">Converter em transferência</string>
@@ -974,7 +960,6 @@
     <string name="content_description_equivalent_amount">Defina o valor dessa transação em sua moeda de origem. Em vez de inserir o valor, você também pode inserir a taxa de câmbio para calculá-lo.</string>
     <string name="budget_import_can_be_imported">Os seguintes orçamentos podem ser importados:</string>
     <string name="webui_download_no_data">Depois de imprimir, exportar ou criar backups no aplicativo, os arquivos estarão disponíveis aqui para download.</string>
-    <string name="menu_show_equivalent_value">Valor equivalente</string>
     <string name="initial_value">Valor inicial</string>
     <string name="current_value">Valor atual</string>
     <string name="total_value">Valor total</string>
@@ -1005,10 +990,112 @@
     <string name="balance_sheet_net_worth">Patrimônio líquido</string>
     <string name="pref_equivalent_amounts_automatic_update_title">Atualizar quantias equivalentes automaticamente quando os preços mudam</string>
     <string name="mark_as_cleared">Marcar como compensada</string>
-    <string name="mark_as_unreconciled">Marcar como não reconciliada</string>
+    <string name="mark_as_unreconciled">Marcar como não conciliada</string>
     <string name="sort_direction">Direção da ordenação</string>
     <string name="batch_download">Download em lote</string>
     <string name="warning_batch_download_quota">O download em lote do %s incorre no risco de esgotar seu limite de uso.</string>
     <string name="batch_download_result">%d preços foram baixados e armazenados no banco de dados.</string>
     <string name="pref_account_list_display_configuration_title">Lista de contas</string>
+    <string name="account_type_investment">Investimentos</string>
+    <string name="pref_ui_home_screen_shortcuts_show_new_balance_title">Mostrar novo saldo após a transação ser salva</string>
+    <string name="remap_payee_null">A contraparte será removida de todas as transações selecionadas.</string>
+    <string name="print_configuration_empty">Por favor, adicione pelo menos um campo para ser impresso.</string>
+    <plurals name="import_prices_success_message">
+        <item quantity="one">Dados válidos encontrados em %d linha.</item>
+        <item quantity="many">Dados válidos encontrados em %d de linhas.</item>
+        <item quantity="other">Dados válidos encontrados em %d linhas.</item>
+    </plurals>
+    <plurals name="import_prices_failure_message">
+        <item quantity="one">%d linha não pôde ser processada.</item>
+        <item quantity="many">Não foi possível processar %d linhas.</item>
+        <item quantity="other">Não foi possível processar %d linhas.</item>
+    </plurals>
+    <string name="confirm_process_file_message">Você tem certeza que deseja importar preços de \'%1$s\' de \'%2$s\'? Novos preços podem afetar valores equivalentes existentes.</string>
+    <string name="warning_expense_category_credit">Você está atribuindo uma categoria de despesa a uma transação de receita. Como consequência, a transação reduzirá a soma das suas despesas e, por padrão, será mostrada em vermelho.</string>
+    <string name="warning_income_category_debit">Você está atribuindo uma categoria de receita a uma transação de despesa. Como consequência, a transação reduzirá a soma da sua receita e, por padrão, será mostrada em verde.</string>
+    <string name="pref_dynamic_exchange_rates_dynamic">Taxas dinâmicas para todas as contas</string>
+    <string name="pref_dynamic_exchange_rates_static">Taxas estáticas para todas as contas</string>
+    <string name="pref_dynamic_exchange_rates_per_account">Configure cada conta individualmente</string>
+    <string name="category_type_main">Categoria principal</string>
+    <string name="category_type_sub">Subcategoria</string>
+    <string name="category_description_base">%1$s, nível %2$d</string>
+    <plurals name="category_description_children_suffix">
+        <item quantity="one">, contém una subcategoria de nível %2$d.</item>
+        <item quantity="many">, contém %1$d subcategorias de nível %2$d.</item>
+        <item quantity="other">, contém %1$d subcategorias de nível %2$d.</item>
+    </plurals>
+    <string name="edit_account_type">Editar tipo de conta</string>
+    <string name="new_account_type">Novo tipo de conta</string>
+    <string name="pref_print_layout_summary">Configurar largura e composição das colunas</string>
+    <string name="menu_account_flags">Marcadores</string>
+    <string name="menu_flag">Marcador</string>
+    <string name="edit_account_flag">Editar marcador</string>
+    <string name="new_account_flag">Novo marcador</string>
+    <string name="flag_unflagged">Sem marcador</string>
+    <string name="flag_favorite">Favorito</string>
+    <string name="supports_reconciliation">Suporta conciliação</string>
+    <string name="aggregate_invisible">Incluir contas invisíveis nas contas agregadas e no balanço patrimonial</string>
+    <string name="select_accounts_for_flag">Selecione as contas para o marcador %s</string>
+    <string name="menu_cleanup">Arrumar</string>
+    <plurals name="warning_cleanup_parties">
+        <item quantity="one">%d contraparte não utilizada será excluída.</item>
+        <item quantity="many">%d contrapartes não utilizadas serão excluídas.</item>
+        <item quantity="other">%d contrapartes não utilizadas serão excluídas.</item>
+    </plurals>
+    <string name="show_invisible">Contas ocultas</string>
+    <string name="show_zero">Contas com saldo zero</string>
+    <string name="content_description_clear_party">Limpar contraparte selecionada</string>
+    <string name="content_description_browse_device_files">Explorar arquivos neste dispositivo</string>
+    <string name="content_description_select_recent_file">Selecionar entre arquivos recentes</string>
+    <string name="menu_templates">Modelos</string>
+    <string name="pref_ui_start_screen_title">Ecrã inicial</string>
+    <string name="pref_ui_start_screen_last_visited">Último visitado</string>
+    <string name="trade_buy">Compra</string>
+    <string name="trade_sell">Venda</string>
+    <string name="trade_quantity">Quantidade</string>
+    <string name="trade_price">Preço</string>
+    <string name="trade_fee">Taxa</string>
+    <string name="trade_target_asset">Ativo</string>
+    <string name="menu_create_portfolio">Nova carteira</string>
+    <string name="asset_type_fiat_plural">Moedas</string>
+    <string name="asset_type_security">Título</string>
+    <string name="asset_type_security_plural">Títulos</string>
+    <string name="asset_type_crypto">Cripto</string>
+    <string name="asset_type_commodity">Matéria-prima</string>
+    <string name="asset_type_commodity_plural">Matérias-primas</string>
+    <string name="trade_funding_source">Fonte de financiamento</string>
+    <string name="trade_funding_portfolio">Dinheiro da carteira</string>
+    <string name="trade_funding_external_description">Fundos de fontes não rastreadas neste aplicativo</string>
+    <string name="trade_deposit">Depósito</string>
+    <string name="trade_withdraw">Saque</string>
+    <string name="trade_matching_transaction_found">Operação correspondente encontrada na conta de financiamento. Selecione para vincular:</string>
+    <string name="asset_quantity_at_price">%1$s a %2$s</string>
+    <string name="contrib_feature_portfolio_tracking">Acompanhamento de carteira</string>
+    <string name="premium_nudge_portfolio_message">Você pode gerenciar uma carteira gratuitamente. Faça upgrade para gerenciar várias carteiras e desbloquear recursos avançados (%1$s).</string>
+    <string name="parse_error_at_line">Erro na linha %1$d: %2$s</string>
+    <plurals name="import_trades_missing_assets_message">
+        <item quantity="one">%1$d line se refere a ativos desconhecidos: %2$s.</item>
+        <item quantity="many">%1$d line se refere a ativos desconhecidos: %2$s.</item>
+        <item quantity="other">%1$d line se refere a ativos desconhecidos: %2$s.</item>
+    </plurals>
+    <string name="content_description_show_balance_details">Mostrar informações detalhadas</string>
+    <string name="main_navigation">Menu principal</string>
+    <string name="pref_fab_style_title">Estilo do botão flutuante</string>
+    <string name="pref_fab_style_standard_description">Padrão (Toque na seta para abrir o menu)</string>
+    <string name="pref_fab_style_compact_description">Compacto (Toque e segure para abrir o menu)</string>
+    <string name="number_too_large">Número muito grande</string>
+    <string name="prioritize_flag_order">Priorizar ordem dos marcadores</string>
+    <string name="pref_content_based_colors_title">Cor dinâmica baseada na conta</string>
+    <string name="pref_content_based_colors_summary">Derivar cores do tema a partir da cor da conta atual. Desative se o texto ficar difícil de ler.</string>
+    <string name="service_starting">Iniciando…</string>
+    <string name="rounding">Arredondamento</string>
+    <string name="important_upgrade_information_heading">Informações importantes</string>
+    <string name="single_pane_view">Painel único</string>
+    <string name="split_pane_view">Visualização dividida</string>
+    <string name="pref_tag_style_title">Estilo da etiqueta</string>
+    <string name="pref_tag_style_outline">Borda colorida</string>
+    <string name="pref_tag_style_filled">Totalmente colorido</string>
+    <string name="trade_additional_costs">Custos adicionais</string>
+    <string name="dialog_title_warning_delete_closed_account">Excluir conta fechada?</string>
+    <string name="search_asset">Busca por um ativo</string>
 </resources>

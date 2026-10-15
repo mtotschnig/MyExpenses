@@ -1,18 +1,14 @@
 package org.totschnig.myexpenses.util;
 
-import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.graphics.drawable.Icon;
-import android.os.Build;
 
 import org.totschnig.myexpenses.R;
 import org.totschnig.myexpenses.util.ui.UiUtils;
-
-import androidx.core.app.NotificationCompat;
 
 public class NotificationBuilderWrapper {
   public static int NOTIFICATION_AUTO_BACKUP = -2;
@@ -26,14 +22,11 @@ public class NotificationBuilderWrapper {
   public static String CHANNEL_ID_DEFAULT = "default";
   public static String CHANNEL_ID_AUTO_BACKUP = "autoBackup";
   private final Context context;
-  private Notification.Builder api23Builder;
-  private NotificationCompat.Builder compatBuilder;
+  private final Notification.Builder api23Builder;
 
-  @TargetApi(Build.VERSION_CODES.O)
-  public static void createChannels(Context context) {
-    if (shouldUseChannel()) {
+    public static void createChannels(Context context) {
       NotificationManager mNotificationManager =
-          (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+              (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
       int importance = NotificationManager.IMPORTANCE_DEFAULT;
       NotificationChannel syncChannel = new NotificationChannel(CHANNEL_ID_SYNC, context.getString(R.string.synchronization),
           importance);
@@ -48,7 +41,6 @@ public class NotificationBuilderWrapper {
       mNotificationManager.createNotificationChannel(
               new NotificationChannel(CHANNEL_ID_AUTO_BACKUP, context.getString(R.string.pref_auto_backup_title),
                       importance));
-    }
   }
 
   public static NotificationBuilderWrapper defaultBigTextStyleBuilder(
@@ -66,117 +58,62 @@ public class NotificationBuilderWrapper {
 
   private NotificationBuilderWrapper setBigContentText(CharSequence content) {
     setContentText(content);
-    if (shouldUseNative()) {
       api23Builder.setStyle(new Notification.BigTextStyle().bigText(content));
-    } else {
-      compatBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(content));
-    }
-    return this;
-  }
-
-  private static boolean shouldUseNative() {
-    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
-  }
-
-  private static boolean shouldUseChannel() {
-    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.O;
+      return this;
   }
 
   public NotificationBuilderWrapper(Context context, String channel) {
     this.context = context;
-    if (shouldUseNative()) {
-      this.api23Builder = shouldUseChannel() ? new Notification.Builder(context, channel) :
-          new Notification.Builder(context);
-    } else {
-      //noinspection deprecation
-      this.compatBuilder = new NotificationCompat.Builder(context);
-    }
+      this.api23Builder = new Notification.Builder(context, channel);
   }
 
   public NotificationBuilderWrapper setSmallIcon(int smallIcon) {
-    if (shouldUseNative()) {
       api23Builder.setSmallIcon(smallIcon);
-    } else {
-      compatBuilder.setSmallIcon(smallIcon);
-    }
-    return this;
+      return this;
   }
 
   public NotificationBuilderWrapper setContentTitle(String title) {
-    if (shouldUseNative()) {
       api23Builder.setContentTitle(title);
-    } else {
-      compatBuilder.setContentTitle(title);
-    }
-    return this;
+      return this;
   }
 
   @SuppressWarnings("UnusedReturnValue")
   public NotificationBuilderWrapper setContentText(CharSequence content) {
-    if (shouldUseNative()) {
       api23Builder.setContentText(content);
-    } else {
-      compatBuilder.setContentText(content);
-    }
-    return this;
+      return this;
   }
 
   public NotificationBuilderWrapper setContentIntent(PendingIntent contentIntent) {
-    if (shouldUseNative()) {
       api23Builder.setContentIntent(contentIntent);
-    } else {
-      compatBuilder.setContentIntent(contentIntent);
-    }
-    return this;
+      return this;
   }
 
   public NotificationBuilderWrapper setDeleteIntent(PendingIntent deleteIntent) {
-    if (shouldUseNative()) {
       api23Builder.setDeleteIntent(deleteIntent);
-    } else {
-      compatBuilder.setDeleteIntent(deleteIntent);
-    }
-    return this;
+      return this;
   }
 
   @SuppressWarnings("UnusedReturnValue")
   public NotificationBuilderWrapper setAutoCancel(boolean autoCancel) {
-    if (shouldUseNative()) {
       api23Builder.setAutoCancel(autoCancel);
-    } else {
-      compatBuilder.setAutoCancel(autoCancel);
-    }
-    return this;
+      return this;
   }
 
   public NotificationBuilderWrapper setWhen(long when) {
-    if (shouldUseNative()) {
       api23Builder.setWhen(when);
       api23Builder.setShowWhen(true);
-    } else {
-      compatBuilder.setWhen(when);
-      compatBuilder.setShowWhen(true);
-    }
-    return this;
+      return this;
   }
 
-  public NotificationBuilderWrapper addAction(int iconCompat, int iconApi23, String title, PendingIntent intent) {
-    if (shouldUseNative()) {
+  public NotificationBuilderWrapper addAction(int icon, String title, PendingIntent intent) {
       api23Builder.addAction(new Notification.Action.Builder(
-          //the icon is only shown on API 23, starting with Nougat notification actions only show text. Hence light background is ok
-          iconApi23 == 0 ? null : Icon.createWithBitmap(UiUtils.getTintedBitmapForTheme(context, iconApi23, R.style.LightBackground)),
-          title, intent).build());
-    } else {
-      compatBuilder.addAction(iconCompat, title, intent);
-    }
-    return this;
+              //the icon is only shown on API 23, starting with Nougat notification actions only show text. Hence light background is ok
+              icon == 0 ? null : Icon.createWithBitmap(UiUtils.getTintedBitmapForTheme(context, icon, R.style.LightBackground)),
+              title, intent).build());
+      return this;
   }
 
   public Notification build() {
-    if (shouldUseNative()) {
       return api23Builder.build();
-    } else {
-      return compatBuilder.build();
-    }
   }
 }

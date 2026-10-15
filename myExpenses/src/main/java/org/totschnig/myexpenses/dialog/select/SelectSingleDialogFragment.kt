@@ -5,7 +5,8 @@ import android.os.Bundle
 import android.widget.AbsListView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.setFragmentResult
-import org.totschnig.myexpenses.provider.DatabaseConstants
+import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_ROWID
 
 abstract class SelectSingleDialogFragment : SelectFromTableDialogFragment(false) {
     override fun onClick(dialog: DialogInterface, which: Int) {
@@ -23,8 +24,8 @@ abstract class SelectSingleDialogFragment : SelectFromTableDialogFragment(false)
 
     open fun buildExtras() = dataViewModel.selection?.getOrNull(0)?.let {
         Bundle().apply {
-            putString(DatabaseConstants.KEY_LABEL, it.label)
-            putLong(DatabaseConstants.KEY_ROWID, it.id)
+            putString(KEY_LABEL, it.label)
+            putLong(KEY_ROWID, it.id)
         }
     }
 

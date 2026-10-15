@@ -18,7 +18,6 @@
     <string name="style">"スタイル"</string>
     <string name="loading">"読み込んでいます…"</string>
     <string name="button_label_continue">"次へ"</string>
-    <string name="autofill">"自動入力"</string>
     <string name="discard">"破棄"</string>
     <string name="dialog_dismiss">"閉じる"</string>
     <string name="details">"詳細"</string>
@@ -32,7 +31,6 @@
     <string name="setup">"設定"</string>
     <string name="customize">"カスタマイズ"</string>
     <string name="compact">コンパクト</string>
-    <string name="storage_description">"ローカル ストレージ"</string>
     <string name="encryption">"暗号化"</string>
     <string name="learn_more">"詳細"</string>
     <string name="show_all">"すべて表示"</string>
@@ -149,7 +147,6 @@
     <string name="preview">"プレビュー"</string>
     <string name="show_password">"パスワードを表示する"</string>
     <string name="hide_password">"パスワードを隠す"</string>
-    <string name="user">"ユーザー"</string>
     <string name="source">"ソース"</string>
     <string name="value">"値"</string>
     <string name="done_label">"完了"</string>
@@ -170,4 +167,7 @@
     <string name="already_exists">"この名前はすでに使われています。"</string>
     <string name="flag_inactive">"無効"</string>
     <string name="count">"数値の個数"</string>
+    <string name="empty">"空白"</string>
+    <string name="options">"オプション"</string>
+    <string name="actions">"アクション"</string>
 </resources>

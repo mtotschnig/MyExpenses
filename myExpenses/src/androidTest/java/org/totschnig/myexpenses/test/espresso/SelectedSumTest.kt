@@ -1,33 +1,32 @@
 package org.totschnig.myexpenses.test.espresso
 
+import androidx.compose.ui.test.assertTextContains
 import androidx.compose.ui.test.onChildren
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
-import androidx.test.espresso.Espresso
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
-import org.hamcrest.Matchers.containsString
+import androidx.test.espresso.Espresso.pressBack
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.totschnig.myexpenses.compose.TEST_TAG_CAB
 import org.totschnig.myexpenses.db2.deleteAccount
-import org.totschnig.myexpenses.model.CurrencyUnit
-import org.totschnig.myexpenses.model.Money
-import org.totschnig.myexpenses.model.Transaction
+import org.totschnig.myexpenses.db2.insertTransaction
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
+import org.totschnig.myexpenses.testutils.TestShard5
 import org.totschnig.myexpenses.testutils.cleanup
 
+@TestShard5
 class SelectedSumTest : BaseMyExpensesTest() {
     lateinit var account: org.totschnig.myexpenses.model2.Account
 
     @Before
     fun fixture() {
         account =  buildAccount("Test account 1")
-        val op0 = Transaction.getNewInstance(account.id, homeCurrency)
-        op0.amount = Money(CurrencyUnit.DebugInstance, -1200L)
-        op0.save(contentResolver)
-        repeat(5) {
-            op0.saveAsNew(contentResolver)
+        repeat(6) {
+            repository.insertTransaction(
+                accountId = account.id,
+                amount = -1200L
+            )
         }
         launch(account.id)
     }
@@ -42,7 +41,7 @@ class SelectedSumTest : BaseMyExpensesTest() {
     @Test
     fun testSelectedSum() {
         runTheTest()
-        clickMenuItem(androidx.appcompat.R.id.action_mode_close_button)
+        pressBack()
         runTheTest()
     }
 
@@ -57,8 +56,7 @@ class SelectedSumTest : BaseMyExpensesTest() {
     }
 
     private fun testTitle(sum: Int) {
-        Espresso.onView(withId(androidx.appcompat.R.id.action_bar_title))
-            .check(matches(withText(containsString(String.format("%.2f", sum.toFloat())))))
+        composeTestRule.onNodeWithTag(TEST_TAG_CAB).assertTextContains(String.format("%.2f", sum.toFloat()), substring = true)
     }
 
     private fun select(position: Int) {

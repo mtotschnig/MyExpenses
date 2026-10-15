@@ -4,10 +4,16 @@ import android.app.KeyguardManager
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
+import android.view.View
 import androidx.annotation.Keep
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
+import com.google.android.material.color.MaterialColors
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.ContribFeature
@@ -61,9 +67,30 @@ class PreferencesProtectionFragment : BasePreferenceFragment() {
                 }
             }
         }
+    }
 
-        requirePreference<Preference>(PrefKey.ENCRYPT_DATABASE_INFO).isVisible =
-            prefHandler.encryptDatabase
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val encryptInfoPref = requirePreference<Preference>(PrefKey.ENCRYPT_DATABASE_INFO)
+        val encryptDatabase = prefHandler.encryptDatabase
+        encryptInfoPref.isVisible = encryptDatabase
+        if (encryptDatabase) {
+            viewModel.getDatabaseInfo()
+                .observe(viewLifecycleOwner) { (sqliteVersion, cipherVersion) ->
+                    if (cipherVersion != null) {
+                        encryptInfoPref.setIcon(R.drawable.ic_lock)
+                        encryptInfoPref.title = getString(R.string.database_is_encrypted)
+                        encryptInfoPref.summary =
+                            getString(R.string.database_info_format, sqliteVersion, cipherVersion)
+                    } else {
+                        val errorColor = ContextCompat.getColor(requireContext(), R.color.colorErrorDialog)
+                        encryptInfoPref.setIcon(R.drawable.ic_warning)
+                        encryptInfoPref.title = SpannableString("Database is not encrypted").apply {
+                            setSpan(ForegroundColorSpan(errorColor), 0, length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+                        }
+                    }
+                }
+        }
     }
 
     private fun setProtectionDependentsState() {

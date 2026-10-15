@@ -1,0 +1,471 @@
+package org.totschnig.myexpenses.repository
+
+import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.totschnig.myexpenses.BaseTestWithRepository
+import org.totschnig.myexpenses.db2.RepositoryTemplate
+import org.totschnig.myexpenses.db2.createTemplate
+import org.totschnig.myexpenses.db2.deleteTemplate
+import org.totschnig.myexpenses.db2.entities.Template
+import org.totschnig.myexpenses.db2.findPaymentMethod
+import org.totschnig.myexpenses.db2.getTransactionSum
+import org.totschnig.myexpenses.db2.insertTemplate
+import org.totschnig.myexpenses.db2.insertTransaction
+import org.totschnig.myexpenses.db2.instantiateTemplate
+import org.totschnig.myexpenses.db2.loadSplitParts
+import org.totschnig.myexpenses.db2.loadTemplate
+import org.totschnig.myexpenses.db2.loadTemplateForPlanIfInstanceIsOpen
+import org.totschnig.myexpenses.db2.loadTemplateIfInstanceIsOpen
+import org.totschnig.myexpenses.db2.loadTransaction
+import org.totschnig.myexpenses.db2.loadTransactions
+import org.totschnig.myexpenses.db2.requireParty
+import org.totschnig.myexpenses.db2.writeTag
+import org.totschnig.myexpenses.model.CurrencyUnit
+import org.totschnig.myexpenses.model.PreDefinedPaymentMethod
+import org.totschnig.myexpenses.model.generateUuid
+import org.totschnig.myexpenses.provider.CalendarProviderProxy.calculateId
+import org.totschnig.myexpenses.provider.SPLIT_CATID
+import org.totschnig.myexpenses.util.toEpoch
+import org.totschnig.myexpenses.util.toEpochMillis
+import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
+import org.totschnig.shared_test.TransactionData
+import org.totschnig.shared_test.assertTransaction
+import java.time.LocalDate
+import java.time.LocalDateTime
+
+@RunWith(RobolectricTestRunner::class)
+class TemplateTest : BaseTestWithRepository() {
+
+    private var account1: Long = 0
+    private var account2: Long = 0
+    private var categoryId: Long = 0
+    private var payeeId: Long = 0
+    private var tagId: Long = 0
+
+    @Before
+    fun setUp() {
+        account1 = insertAccount(
+            label = "TestAccount 1",
+            openingBalance = 100,
+            currency = CurrencyUnit.DebugInstance.code
+        )
+        account2 = insertAccount(
+            label = "TestAccount 2",
+            currency = CurrencyUnit.DebugInstance.code,
+            openingBalance = 100,
+            description = "Secondary account"
+        )
+        categoryId = writeCategory("TestCategory", null)
+        payeeId = repository.requireParty("N.N")!!
+        tagId = repository.writeTag("Tag")
+    }
+
+    private fun RepositoryTemplate.instantiate(date: Long? = null) = runBlocking {
+        repository.instantiateTemplate(
+            exchangeRateHandler,
+            PlanInstanceInfo(templateId = data.id, date = date),
+            currencyContext
+        ).getOrThrow()
+    }
+
+
+    @Test
+    fun testTemplateFromTransaction() {
+        val start = repository.getTransactionSum(account1)
+        val amount = 100.toLong()
+        val op1 = repository.insertTransaction(
+            accountId = account1,
+            amount = amount,
+            comment = "test transaction"
+        )
+        assertThat(repository.getTransactionSum(account1)).isEqualTo(start + amount)
+        val t =
+            repository.createTemplate(RepositoryTemplate.fromTransaction(op1, "Test Transaction"))
+        runBlocking {
+
+        }
+        t.instantiate()
+        assertThat(repository.getTransactionSum(account1)).isEqualTo(start + 2 * amount)
+        repository.deleteTemplate(t.id)
+        Truth.assertWithMessage("Template deleted, but can still be retrieved")
+            .that(repository.loadTemplate(t.id, require = false)).isNull()
+    }
+
+    @Test
+    fun testTemplate() {
+        val template = buildTransactionTemplate()
+        with(repository.loadTemplate(template.id)!!) {
+            assertThat(title).isEqualTo(template.title)
+            assertThat(data.categoryId).isEqualTo(template.data.categoryId)
+            assertThat(data.accountId).isEqualTo(template.data.accountId)
+            assertThat(data.payeeId).isEqualTo(template.data.payeeId)
+            assertThat(data.methodId).isEqualTo(template.data.methodId)
+            assertThat(data.comment).isEqualTo(template.data.comment)
+            assertThat(data.isSplit).isFalse()
+            assertThat(data.isTransfer).isFalse()
+        }
+    }
+
+    @Test
+    fun testSplitTemplate() {
+        val template = buildSplitTemplateCategory()
+        with(repository.loadTemplate(template.id)!!) {
+            assertThat(title).isEqualTo(template.title)
+            assertThat(data.comment).isEqualTo("Some comment parent")
+            assertThat(splitParts).hasSize(1)
+            assertThat(splitParts!!.first().data.comment).isEqualTo("Some comment part 0")
+        }
+    }
+
+    @Test
+    fun testTransactionFromTemplate() {
+        val template = buildTransactionTemplate()
+        val transaction = template.instantiate().id
+        with(repository.loadTransaction(transaction).data) {
+            assertThat(categoryId).isEqualTo(template.data.categoryId)
+            assertThat(accountId).isEqualTo(template.data.accountId)
+            assertThat(payeeId).isEqualTo(template.data.payeeId)
+            assertThat(methodId).isEqualTo(template.data.methodId)
+            assertThat(comment).isEqualTo(template.data.comment)
+        }
+    }
+
+    @Test
+    fun testTransferFromTemplate() {
+        val template = buildTransferTemplate()
+        val transaction = template.instantiate().id
+        with(repository.loadTransaction(transaction)) {
+            assertThat(isTransfer).isTrue()
+            assertThat(data.accountId).isEqualTo(template.data.accountId)
+            assertThat(data.comment).isEqualTo(template.data.comment)
+            assertThat(data.transferAccountId).isEqualTo(template.data.transferAccountId)
+            assertThat(data.tagList).containsExactly(tagId)
+            assertThat(transferPeer!!.tagList).containsExactly(tagId)
+        }
+    }
+
+    @Test
+    fun testSplitFromTemplate() {
+        val template = buildSplitTemplateCategory()
+        val transaction = template.instantiate().id
+        repository.assertTransaction(
+            transaction,
+            TransactionData(
+                accountId = template.data.accountId,
+                amount = template.data.amount,
+                comment = template.data.comment,
+                splitParts = listOf(
+                    TransactionData(
+                        comment = template.splitParts!!.first().data.comment,
+                        category = template.splitParts.first().data.categoryId,
+                        tags = listOf(tagId),
+                        accountId = template.data.accountId,
+                        amount = template.splitParts.first().data.amount
+                    )
+                )
+            )
+        )
+    }
+
+    @Test
+    fun testSplitFromTemplateWithCategoryAndTransferPart() = runTest {
+        val template = buildSplitTemplateCategoryAndTransfer()
+        val transaction = template.instantiate().id
+        val peers = repository.loadTransactions(account2).sortedBy { it.id }
+        val transferPart = template.splitParts!![0]
+        val categoryPart = template.splitParts[1]
+        repository.assertTransaction(
+            transaction,
+            TransactionData(
+                accountId = template.data.accountId,
+                amount = template.data.amount,
+                comment = template.data.comment,
+                splitParts = listOf(
+                    TransactionData(
+                        comment = categoryPart.data.comment,
+                        category = categoryPart.data.categoryId,
+                        tags = listOf(tagId),
+                        accountId = template.data.accountId,
+                        amount = categoryPart.data.amount,
+                        transferAccount = null,
+                        transferPeer = null
+                    ),
+                    TransactionData(
+                        comment = transferPart.data.comment,
+                        category = transferPart.data.categoryId,
+                        tags = listOf(tagId),
+                        accountId = transferPart.data.accountId,
+                        amount = transferPart.data.amount,
+                        transferAccount = account2,
+                        transferPeer = peers[0].id
+                    )
+                )
+            )
+        )
+    }
+
+    @Test
+    fun testSplitFromTemplateWithTransferPartDualSplit() = runTest {
+        val template = buildSplitTemplateDualSplitTransfer()
+        val transaction = template.instantiate().id
+        val peers = repository.loadTransactions(account2).sortedBy { it.id }
+        assertThat(peers).hasSize(1)
+        val peerParts = repository.loadSplitParts(peers.first().id)
+        assertThat(peerParts).hasSize(2)
+        repository.assertTransaction(
+            transaction,
+            TransactionData(
+                accountId = template.data.accountId,
+                amount = template.data.amount,
+                comment = template.data.comment,
+                splitParts = List(2) {
+                    val templatePart = template.splitParts!![it]
+                    TransactionData(
+                        comment = templatePart.data.comment,
+                        category = templatePart.data.categoryId,
+                        tags = listOf(tagId),
+                        accountId = template.data.accountId,
+                        amount = templatePart.data.amount,
+                        transferAccount = account2,
+                        transferPeer = peerParts.first() { it.comment == templatePart.data.comment }.id
+                    )
+                }
+            )
+        )
+    }
+
+    @Test
+    fun instantiateWithDate() {
+        val template = buildTransactionTemplate()
+        val dateInThePast = LocalDateTime.now().minusDays(30)
+        val transaction = template.instantiate(dateInThePast.toEpochMillis()).data
+        assertThat(transaction.date).isEqualTo(dateInThePast.toEpoch())
+    }
+
+    @Test
+    fun instantiateTransferWithDate() {
+        val template = buildTransferTemplate()
+        val dateInThePast = LocalDateTime.now().minusDays(30)
+        val transaction = template.instantiate(dateInThePast.toEpochMillis()).data
+        assertThat(transaction.date).isEqualTo(dateInThePast.toEpoch())
+    }
+
+    @Test
+    fun instantiateSplitWithDate() {
+        val template = buildSplitTemplateCategory()
+        val dateInThePast = LocalDateTime.now().minusDays(30)
+        val transaction = template.instantiate(dateInThePast.toEpochMillis()).data
+        assertThat(transaction.date).isEqualTo(dateInThePast.toEpoch())
+    }
+
+    @Test
+    fun returnNullIfInstanceExists() = runTest {
+        val templateWithPlan = repository.createTemplate(
+            Template(
+                title = "Mock plan",
+                accountId = account1,
+                amount = 1234,
+                categoryId = categoryId,
+                uuid = generateUuid(),
+                payeeId = payeeId,
+                planId = 1001
+            )
+        )
+        val date = LocalDate.now().toEpoch()
+        val instanceId = calculateId(date * 1000)
+        repository.instantiateTemplate(
+            exchangeRateHandler,
+            PlanInstanceInfo(templateId = templateWithPlan.id, date = date, instanceId = instanceId),
+            currencyContext
+        )
+        assertThat(
+            repository.loadTemplateIfInstanceIsOpen(
+                templateWithPlan.id,
+                instanceId
+            )
+        ).isNull()
+    }
+
+    @Test
+    fun returnInstanceIfOpen() = runTest {
+        val templateWithPlan = repository.createTemplate(
+            Template(
+                title = "Mock plan",
+                accountId = account1,
+                amount = 1234,
+                categoryId = categoryId,
+                uuid = generateUuid(),
+                payeeId = payeeId,
+                planId = 1001
+            )
+        )
+        val date = LocalDate.now().toEpoch()
+        val instanceId = calculateId(date * 1000)
+        assertThat(
+            repository.loadTemplateIfInstanceIsOpen(
+                templateWithPlan.id,
+                instanceId
+            )
+        ).isNotNull()
+    }
+
+    @Test
+    fun returnNullForPlanIfExists() = runTest {
+        val planId = 1001L
+        val templateWithPlan = repository.createTemplate(
+            Template(
+                title = "Mock plan",
+                accountId = account1,
+                amount = 1234,
+                categoryId = categoryId,
+                uuid = generateUuid(),
+                payeeId = payeeId,
+                planId = planId
+            )
+        )
+
+        val date = LocalDate.now().toEpoch()
+        val instanceId = calculateId(date * 1000)
+        repository.instantiateTemplate(
+            exchangeRateHandler,
+            PlanInstanceInfo(templateId = templateWithPlan.id, date = date, instanceId = instanceId),
+            currencyContext
+        )
+        val template = repository.loadTemplateForPlanIfInstanceIsOpen(planId, instanceId)
+        assertThat(template).isNull()
+    }
+
+    @Test
+    fun loadTemplateForPlanIfOpenWithTags() = runTest {
+        val planId = 1001L
+        repository.createTemplate(
+            Template(
+                title = "Mock plan",
+                accountId = account1,
+                amount = 1234,
+                categoryId = categoryId,
+                uuid = generateUuid(),
+                payeeId = payeeId,
+                planId = planId,
+                tagList = listOf(tagId)
+            )
+        )
+        val date = LocalDate.now().toEpoch()
+        val instanceId = calculateId(date * 1000)
+        val template = repository.loadTemplateForPlanIfInstanceIsOpen(planId, instanceId)
+        assertThat(template).isNotNull()
+        assertThat(template!!.tags!!.map { it.id }).containsExactly(tagId)
+    }
+
+    private fun buildTransactionTemplate() = repository.insertTemplate(
+        accountId = account1,
+        categoryId = categoryId,
+        payeeId = payeeId,
+        comment = "Some comment",
+        methodId = repository.findPaymentMethod(PreDefinedPaymentMethod.CHEQUE.name).also {
+            assertThat(it).isGreaterThan(-1L)
+        },
+        title = "Template"
+    )
+
+    private fun buildTransferTemplate() = repository.insertTemplate(
+        accountId = account1,
+        transferAccountId = account2,
+        comment = "Some comment",
+        title = "Template",
+        tagList = listOf(tagId)
+    )
+
+    private fun buildSplitTemplateCategory(
+        splitPartCount: Int = 1,
+    ) = repository.createTemplate(
+        RepositoryTemplate(
+            data = Template(
+                amount = splitPartCount * 50L,
+                accountId = account1,
+                comment = "Some comment parent",
+                title = "Template",
+                categoryId = SPLIT_CATID,
+                uuid = generateUuid()
+            ),
+            splitParts = List(splitPartCount) { index ->
+                RepositoryTemplate(
+                    data = Template(
+                        amount = 50L,
+                        accountId = account1,
+                        comment = "Some comment part $index",
+                        title = "",
+                        categoryId = categoryId,
+                        transferAccountId = null,
+                        uuid = generateUuid(),
+                        tagList = listOf(tagId)
+                    )
+                )
+            }
+        )
+    )
+
+    private fun buildSplitTemplateCategoryAndTransfer(): RepositoryTemplate {
+        return repository.createTemplate(
+            RepositoryTemplate(
+                data = Template(
+                    amount = 100,
+                    accountId = account1,
+                    comment = "Some comment parent",
+                    title = "Template",
+                    categoryId = SPLIT_CATID,
+                    uuid = generateUuid()
+                ),
+                splitParts = List(2) { index ->
+                    RepositoryTemplate(
+                        data = Template(
+                            amount = 50L,
+                            accountId = account1,
+                            comment = "Some comment part $index",
+                            title = "",
+                            categoryId = if (index == 0) prefHandler.defaultTransferCategory else categoryId,
+                            transferAccountId = if (index == 0) account2 else null,
+                            uuid = generateUuid(),
+                            tagList = listOf(tagId)
+                        )
+                    )
+                }
+            )
+        )
+    }
+
+    private fun buildSplitTemplateDualSplitTransfer(): RepositoryTemplate {
+        return repository.createTemplate(
+            RepositoryTemplate(
+                data = Template(
+                    amount = 100,
+                    accountId = account1,
+                    comment = "Some comment parent",
+                    title = "Template",
+                    categoryId = SPLIT_CATID,
+                    uuid = generateUuid()
+                ),
+                splitParts = List(2) { index ->
+                    RepositoryTemplate(
+                        data = Template(
+                            amount = 50L,
+                            accountId = account1,
+                            comment = "Some comment part $index",
+                            title = "",
+                            categoryId = prefHandler.defaultTransferCategory,
+                            transferAccountId = account2,
+                            uuid = generateUuid(),
+                            tagList = listOf(tagId)
+                        )
+                    )
+                }
+            )
+        )
+    }
+}

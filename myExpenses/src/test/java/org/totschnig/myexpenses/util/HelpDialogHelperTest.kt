@@ -1,5 +1,6 @@
 package org.totschnig.myexpenses.util
 
+import android.content.res.Resources
 import com.google.common.truth.Truth.assertThat
 import com.google.common.truth.Truth.assertWithMessage
 import org.junit.Test
@@ -12,10 +13,13 @@ import org.totschnig.myexpenses.activity.CsvImportActivity
 import org.totschnig.myexpenses.activity.DebtEdit
 import org.totschnig.myexpenses.activity.DistributionActivity
 import org.totschnig.myexpenses.activity.ExpenseEdit
+import org.totschnig.myexpenses.activity.HELP_VARIANT_ACCOUNTS
+import org.totschnig.myexpenses.activity.HELP_VARIANT_BALANCE_SHEET
 import org.totschnig.myexpenses.activity.HELP_VARIANT_MANGE
 import org.totschnig.myexpenses.activity.HELP_VARIANT_MERGE_MODE
 import org.totschnig.myexpenses.activity.HELP_VARIANT_PLANNER
 import org.totschnig.myexpenses.activity.HELP_VARIANT_PLANS
+import org.totschnig.myexpenses.activity.HELP_VARIANT_PORTFOLIO
 import org.totschnig.myexpenses.activity.HELP_VARIANT_SELECT_FILTER
 import org.totschnig.myexpenses.activity.HELP_VARIANT_SELECT_MAPPING
 import org.totschnig.myexpenses.activity.HELP_VARIANT_SPLIT
@@ -26,6 +30,7 @@ import org.totschnig.myexpenses.activity.HELP_VARIANT_TEMPLATE_CATEGORY
 import org.totschnig.myexpenses.activity.HELP_VARIANT_TEMPLATE_SPLIT
 import org.totschnig.myexpenses.activity.HELP_VARIANT_TEMPLATE_TRANSFER
 import org.totschnig.myexpenses.activity.HELP_VARIANT_TRANSACTION
+import org.totschnig.myexpenses.activity.HELP_VARIANT_TRANSACTIONS
 import org.totschnig.myexpenses.activity.HELP_VARIANT_TRANSFER
 import org.totschnig.myexpenses.activity.HistoryActivity
 import org.totschnig.myexpenses.activity.ManageBudgets
@@ -38,7 +43,7 @@ import org.totschnig.myexpenses.activity.ManageSyncBackends
 import org.totschnig.myexpenses.activity.ManageTags
 import org.totschnig.myexpenses.activity.ManageTemplates
 import org.totschnig.myexpenses.activity.MethodEdit
-import org.totschnig.myexpenses.activity.MyExpenses
+import org.totschnig.myexpenses.activity.MyExpensesV2
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
 import org.totschnig.myexpenses.activity.RoadmapVoteActivity
 
@@ -68,7 +73,7 @@ class HelpDialogHelperTest(private val activity: Class<out ProtectedFragmentActi
             arrayOf(ManageTags::class.java),
             arrayOf(ManageTemplates::class.java),
             arrayOf(MethodEdit::class.java),
-            arrayOf(MyExpenses::class.java),
+            arrayOf(MyExpensesV2::class.java),
             arrayOf(RoadmapVoteActivity::class.java)
         )
     }
@@ -78,7 +83,11 @@ class HelpDialogHelperTest(private val activity: Class<out ProtectedFragmentActi
         var menuItemsIdentifier: Int
         val className = activity.simpleName
         assertThat(activity).isAssignableTo(ProtectedFragmentActivity::class.java)
-        val titleIdentifier = getStringIdentifier("help_" + className + "_title")
+        val title = try {
+            helper.getStringOrThrowIf0("help_" + className + "_title")
+        } catch (_: Resources.NotFoundException) {
+            null
+        }
         menuItemsIdentifier = getArrayIdentifier(className + "_menuitems")
         if (menuItemsIdentifier != 0) {
             testMenuItems(
@@ -103,19 +112,19 @@ class HelpDialogHelperTest(private val activity: Class<out ProtectedFragmentActi
         }
         val helpVariants = getHelpVariants(activity)
         if (helpVariants.isEmpty()) {
-            assertWithMessage("title not defined for $className").that(titleIdentifier)
-                .isNotEqualTo(0)
+            assertWithMessage("title not defined for $className").that(title)
+                .isNotNull()
             // info can be null, so we do not assert on it, but we test if it resolves without raising
             // exception
             resolveStringOrArray("help_" + className + "_" + "_info")
         } else {
             for (variantName in helpVariants) {
                 //if there is no generic title, variant specific ones are required
-                if (titleIdentifier == 0) assertWithMessage(
+                if (title == null) assertWithMessage(
                     "title not defined for $className, variant $variantName and no generic title exists"
                 ).that(
-                    getStringIdentifier("help_" + className + "_" + variantName + "_title")
-                ).isNotEqualTo(0)
+                    helper.getStringOrThrowIf0("help_" + className + "_" + variantName + "_title")
+                ).isNotNull()
                 // info can be null, so we do not assert on it, but we test if it resolves without raising
                 // exception
                 resolveStringOrArray("help_" + className + "_" + variantName + "_info")
@@ -164,6 +173,11 @@ class HelpDialogHelperTest(private val activity: Class<out ProtectedFragmentActi
                 HELP_VARIANT_TEMPLATES,
                 HELP_VARIANT_PLANS,
                 HELP_VARIANT_PLANNER
+            )
+
+            MyExpensesV2::class.java -> listOf(
+                HELP_VARIANT_BALANCE_SHEET, HELP_VARIANT_ACCOUNTS, HELP_VARIANT_TRANSACTIONS,
+                HELP_VARIANT_PORTFOLIO
             )
 
             else -> emptyList()

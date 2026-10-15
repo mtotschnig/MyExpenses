@@ -18,7 +18,7 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- General -->
-    <dimen name="suw_layout_margin_sides">40dp</dimen>
+    <dimen name="suw_layout_margin_sides">24dp</dimen>
 
     <dimen name="suw_glif_button_corner_radius">2dp</dimen>
     <!-- Calculated by (suw_glif_margin_sides - 4dp internal padding of button) -->

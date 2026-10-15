@@ -18,7 +18,6 @@
     <string name="style">"Estilo"</string>
     <string name="loading">"Carregando…"</string>
     <string name="button_label_continue">Continuar</string>
-    <string name="autofill">"Preenchimento automático"</string>
     <string name="discard">"Descartar"</string>
     <string name="dialog_dismiss">"Dispensar"</string>
     <string name="details">"Detalhes"</string>
@@ -32,7 +31,6 @@
     <string name="setup">"Configurar"</string>
     <string name="customize">"Personalizar"</string>
     <string name="compact">compacto</string>
-    <string name="storage_description">"Armazenamento local"</string>
     <string name="encryption">"Criptografia"</string>
     <string name="learn_more">"Saiba mais"</string>
     <string name="show_all">"Mostrar tudo"</string>
@@ -160,4 +158,7 @@
     <string name="already_exists">"O nome já existe"</string>
     <string name="flag_inactive">"Inativo"</string>
     <string name="count">"Número"</string>
+    <string name="empty">"Vazio"</string>
+    <string name="options">"Opções"</string>
+    <string name="actions">"Ações"</string>
 </resources>

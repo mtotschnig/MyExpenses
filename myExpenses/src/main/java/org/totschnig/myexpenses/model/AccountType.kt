@@ -11,15 +11,16 @@ import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.adapter.IdHolder
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ACCOUNT_TYPE_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_COUNT
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_IS_ASSET
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_LABEL
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_ROWID
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_SUPPORTS_RECONCILIATION
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE
-import org.totschnig.myexpenses.provider.DatabaseConstants.KEY_TYPE_SORT_KEY
+import org.totschnig.myexpenses.provider.KEY_ACCOUNT_TYPE_LABEL
+import org.totschnig.myexpenses.provider.KEY_COUNT
+import org.totschnig.myexpenses.provider.KEY_IS_ASSET
+import org.totschnig.myexpenses.provider.KEY_LABEL
+import org.totschnig.myexpenses.provider.KEY_ROWID
+import org.totschnig.myexpenses.provider.KEY_SUPPORTS_RECONCILIATION
+import org.totschnig.myexpenses.provider.KEY_TYPE
+import org.totschnig.myexpenses.provider.KEY_TYPE_SORT_KEY
 import org.totschnig.myexpenses.provider.getBoolean
+import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getIntIfExists
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString
@@ -39,7 +40,7 @@ data class AccountType(
     val isAsset: Boolean = true,
     val supportsReconciliation: Boolean = false,
     val count: Int? = null
-) : IdHolder, Parcelable {
+) : IdHolder, Parcelable, AccountGroupingKey {
     @IgnoredOnParcel
     val asContentValues: ContentValues
         get() = contentValuesOf(
@@ -62,7 +63,7 @@ data class AccountType(
     val isCashAccount: Boolean
         get() = name == PREDEFINED_NAME_CASH
 
-    fun localizedName(context: Context) = when (name) {
+    override fun title(context: Context) = when (name) {
         PREDEFINED_NAME_CASH -> R.string.account_type_cash
         PREDEFINED_NAME_BANK -> R.string.account_type_bank
         PREDEFINED_NAME_CCARD -> R.string.account_type_ccard
@@ -78,12 +79,12 @@ data class AccountType(
         val qifToInternalMap: BiMap<String, String> = HashBiMap.create()
 
         init {
-            qifToInternalMap.put("Cash", PREDEFINED_NAME_CASH)
-            qifToInternalMap.put("Bank", PREDEFINED_NAME_BANK)
-            qifToInternalMap.put("CCard", PREDEFINED_NAME_CCARD)
-            qifToInternalMap.put("Invst", PREDEFINED_NAME_INVESTMENT)
-            qifToInternalMap.put("Oth A", PREDEFINED_NAME_ASSET)
-            qifToInternalMap.put("Oth L", PREDEFINED_NAME_LIABILITY)
+            qifToInternalMap["Cash"] = PREDEFINED_NAME_CASH
+            qifToInternalMap["Bank"] = PREDEFINED_NAME_BANK
+            qifToInternalMap["CCard"] = PREDEFINED_NAME_CCARD
+            qifToInternalMap["Invst"] = PREDEFINED_NAME_INVESTMENT
+            qifToInternalMap["Oth A"] = PREDEFINED_NAME_ASSET
+            qifToInternalMap["Oth L"] = PREDEFINED_NAME_LIABILITY
         }
 
         fun qif2Internal(qifName: String) = qifToInternalMap[qifName]
@@ -104,7 +105,8 @@ data class AccountType(
             name = cursor.getString(KEY_LABEL),
             isAsset = cursor.getBoolean(KEY_IS_ASSET),
             supportsReconciliation = cursor.getBoolean(KEY_SUPPORTS_RECONCILIATION),
-            count = cursor.getIntIfExists(KEY_COUNT)
+            count = cursor.getIntIfExists(KEY_COUNT),
+            sortKey = cursor.getInt(KEY_TYPE_SORT_KEY)
         )
 
         fun withName(name: String) = AccountType(name = name)
@@ -113,7 +115,8 @@ data class AccountType(
             id = cursor.getLong(KEY_TYPE),
             name = cursor.getString(KEY_ACCOUNT_TYPE_LABEL),
             isAsset = cursor.getBoolean(KEY_IS_ASSET),
-            supportsReconciliation = cursor.getBoolean(KEY_SUPPORTS_RECONCILIATION)
+            supportsReconciliation = cursor.getBoolean(KEY_SUPPORTS_RECONCILIATION),
+            sortKey = cursor.getIntIfExists(KEY_TYPE_SORT_KEY) ?: 0
         )
 
         fun isReservedName(name: String) = name.startsWith("_") && name.endsWith("_")

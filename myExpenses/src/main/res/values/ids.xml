@@ -30,7 +30,6 @@
     <item name="EDIT_PLAN_INSTANCE_COMMAND" type="id" />
     <item name="EDIT_COMMAND" type="id" />
     <item name="FEEDBACK_COMMAND" type="id" />
-    <item name="FTP_DIALOG" type="id" />
     <item name="GROUPING_COMMAND" type="id" />
     <item name="HANDLE_RESTORE_ON_INSTALL_COMMAND" type="id" />
     <item name="HELP_COMMAND" type="id" />
@@ -193,7 +192,6 @@
     <item name="ROLLOVER_CLEAR" type="id" />
     <item name="SAFE_MODE_COMMAND" type="id" />
     <item name="EDIT_ACCOUNT_COMMAND" type="id" />
-    <item name="DELETE_ACCOUNT_COMMAND" type="id" />
     <item name="TOGGLE_SEALED_COMMAND" type="id" />
     <item name="RECONFIGURE_COMMAND" type="id" />
     <item name="ENCRYPT_CANCEL_COMMAND" type="id" />
@@ -234,4 +232,9 @@
     <item name="BATCH_DOWNLOAD_COMMAND" type="id" />
     <item name="IMPORT_COMMAND_DO" type="id" />
     <item name="MANAGE_ACCOUNT_TYPES_COMMAND" type="id" />
+    <item name="CLEANUP_COMMAND" type="id" />
+    <item name="CLEANUP_COMMAND_DO" type="id" />
+    <item name="TUNE_COMMAND" type="id" />
+    <item name="IMPORT_TRADES_COMMAND" type="id" />
+    <item name="CURRENCIES_COMMAND" type="id" />
 </resources>

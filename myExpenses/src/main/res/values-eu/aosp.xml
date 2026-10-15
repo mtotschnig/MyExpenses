@@ -19,7 +19,6 @@
     <string name="style">"Estiloa"</string>
     <string name="loading">"Kargatzen…"</string>
     <string name="button_label_continue">Jarraitu</string>
-    <string name="autofill">"Betetze automatikoa"</string>
     <string name="discard">"Baztertu"</string>
     <string name="dialog_dismiss">"Baztertu"</string>
     <string name="details">"Xehetasunak"</string>
@@ -33,7 +32,6 @@
     <string name="setup">"Konfigurazioa"</string>
     <string name="customize">"Pertsonalizatua"</string>
     <string name="compact">trinkoa</string>
-    <string name="storage_description">"Biltegi lokala"</string>
     <string name="encryption">"Enkriptatzea"</string>
     <string name="learn_more">"Lortu informazio gehiago"</string>
     <string name="show_all">"Erakutsi guztiak"</string>
@@ -149,7 +147,6 @@
     <string name="preview">"Aurreikusi"</string>
     <string name="show_password">"Erakutsi pasahitza"</string>
     <string name="hide_password">"Ezkutatu pasahitza"</string>
-    <string name="user">"Erabiltzailea"</string>
     <string name="source">"Iturburua"</string>
     <string name="value">"Balioa"</string>
     <string name="done_label">"Eginda"</string>
@@ -170,4 +167,7 @@
     <string name="already_exists">"Izen hori badago lehendik ere"</string>
     <string name="flag_inactive">"Inaktibo"</string>
     <string name="count">"Zenbakia"</string>
+    <string name="empty">"Hutsik"</string>
+    <string name="options">"Aukerak"</string>
+    <string name="actions">"Ekintzak"</string>
 </resources>

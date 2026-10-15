@@ -1,6 +1,5 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.library)
 }
 
 android {
@@ -8,6 +7,7 @@ android {
     compileSdk = project.compileSdkVersion
 
     defaultConfig {
+        missingDimensionStrategy 'textRecognition', 'extern'
         minSdk = 21
     }
 
@@ -15,11 +15,11 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "17"
-    }
 }
 
 dependencies {
-    implementation(libs.truth)
+    api(libs.truth)
+    implementation(project(":myExpenses"))
+    api(libs.androidx.test.core)
+    api(libs.junit)
 }

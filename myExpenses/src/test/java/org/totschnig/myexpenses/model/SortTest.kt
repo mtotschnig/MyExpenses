@@ -5,6 +5,7 @@ import org.junit.Test
 import org.mockito.kotlin.any
 import org.mockito.kotlin.eq
 import org.mockito.kotlin.whenever
+import org.totschnig.myexpenses.model.sort.Sort
 import org.totschnig.myexpenses.prefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 

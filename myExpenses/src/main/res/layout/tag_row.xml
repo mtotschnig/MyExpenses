@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/TagRow">
 
     <TextView
@@ -25,8 +26,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:tooltipText="@string/tags_create_or_select"
             android:contentDescription="@string/tags_create_or_select"
             android:focusable="true"
-            app:srcCompat="@drawable/ic_menu_add" />
+            app:srcCompat="@drawable/ic_menu_add"
+            tools:ignore="UnusedAttribute" />
     </LinearLayout>
 </TableRow>

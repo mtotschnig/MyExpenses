@@ -51,9 +51,7 @@
     <string name="menu_sync_download">Last ned og synkroniser</string>
     <string name="menu_sync_link">Start synkronisering</string>
     <string name="menu_sync_unlink">Stopp synkronisering</string>
-    <string name="url_not_valid">Nettadressen er ikke gyldig</string>
     <string name="validate_error_not_empty">Kan ikke være tom</string>
-    <string name="hint_url">Nettadresse</string>
     <string name="synchronization_none">Ingen synkronisering</string>
     <string name="synchronization">Synkronisering</string>
     <string name="content_description_calculator_delete_button">Slett siste siffer</string>
@@ -100,13 +98,23 @@
     <string name="search_amount">Søk etter beløp</string>
     <string name="widget_title_templates">Mine maler</string>
     <string name="widget_title_accounts">Mine kontoer</string>
+    <plurals name="import_categories_result">
+        <item quantity="one">Importerte %1$d kategorier.</item>
+        <item quantity="other">Importerte %1$d kategorier.</item>
+    </plurals>
+    <plurals name="import_parties_result">
+        <item quantity="one">Importerte %1$d parter.</item>
+        <item quantity="other">Importerte %1$d parter.</item>
+    </plurals>
+    <plurals name="import_accounts_result">
+        <item quantity="one">Importerte %1$d kontoer.</item>
+        <item quantity="other">Importerte %1$d kontoer.</item>
+    </plurals>
+    <plurals name="import_transactions_result">
+        <item quantity="one">Importerte %1$d transaksjoner til konto %2$s.</item>
+        <item quantity="other">Importerte %1$d transaksjoner til konto %2$s.</item>
+    </plurals>
     <string name="import_source_select_error">Angi en fil av typen %1$s</string>
-    <string name="import_parties_none">Ingen parter importert</string>
-    <string name="import_categories_none">Ingen kategorier importert</string>
-    <string name="import_accounts_none">Ingen kontoer importert</string>
-    <string name="import_accounts_success">Importerte %1$d kontoer.</string>
-    <string name="import_parties_success">Importerte %1$d parter.</string>
-    <string name="import_categories_success">Importerte %1$d kategorier.</string>
     <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">Velg et nummer mellom %1$d og %2$d</string>
     <string name="warning_password_protected">Programmet er passordbeskyttet.</string>
     <string name="continue_confirmation">Ønsker du å fortsette\?</string>
@@ -228,10 +236,7 @@
     <string name="dialog_title_warning_delete_transaction">Slett overføring\?</string>
     <string name="dialog_title_warning_delete_template">Slett mal\?</string>
     <string name="dialog_title_warning_delete_category">Slett kategori\?</string>
-    <plurals name="dialog_title_warning_delete_account">
-        <item quantity="one">Slett konto\?</item>
-        <item quantity="other">Slett %1$d kontoer\?</item>
-    </plurals>
+    <string name="dialog_title_warning_delete_account">Slett konto\?</string>
     <string name="dialog_title_contrib_feature">Premiumsfunksjon</string>
     <string name="dialog_security_question">Spørsmål</string>
     <string name="dialog_security_answer">Svar</string>
@@ -270,4 +275,10 @@
     <string name="decimal_separator">Desimaltegn</string>
     <string name="menu_edit_transfer">Rediger overføring</string>
     <string name="add_shortcut">Legg til snarvei</string>
+    <string name="important_upgrade_information_heading">Viktig info</string>
+    <string name="dialog_title_warning_delete_tag">Slette merkelapp?</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="one">Merkelappen %1$s er knyttet til %2$d transaksjon. Skal den slettes?</item>
+        <item quantity="other">Merkelappen %1$s er knyttet til %2$d transaksjoner. Skal den slettes?</item>
+    </plurals>
 </resources>
