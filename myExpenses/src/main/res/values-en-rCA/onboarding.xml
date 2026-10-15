@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="testData_account1Label">My wallet</string>
+    <string name="testData_account1Description">Daily expenses</string>
+    <string name="testData_account2Label">Weekend in London</string>
+    <string name="testData_account3Label">Chequing account</string>
+    <string name="testData_account3Description">RBC</string>
+    <string name="testData_transaction2Comment">Fruits &amp; Vegetables</string>
+    <string name="testData_transaction4Payee">Tim Hortons</string>
+    <string name="testData_templatePayee">John Tremblay</string>
+    <string name="testData_tag_project">Untitled project</string>
+</resources>

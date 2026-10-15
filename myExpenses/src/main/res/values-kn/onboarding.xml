@@ -4,7 +4,7 @@
   <string name="testData_account1Description">ದೈನಂದಿನ ವೆಚ್ಚಗಳು</string>
   <!--Account 2 is used as an example for a short term budget used for a travel to a country with
     a different currency-->
-  <string name="testData_account2Label">ಪ್ಯಾರಿಸ್ನಲ್ಲಿ ವಾರಾಂತ್ಯ</string>
+  <string name="testData_account2Label">ಲಂಡನ್‌ನಲ್ಲಿ ವಾರಾಂತ್ಯ</string>
   <!--Account 3 is a bank account at an institution well known in the locale region-->
   <string name="testData_account3Label">ಬ್ಯಾಂಕ್ ಖಾತೆ</string>
   <string name="testData_account3Description">ಸ್ಟೇಟ್ ಬ್ಯಾಂಕ್ ಆಫ್ ಇಂಡಿಯಾ</string>

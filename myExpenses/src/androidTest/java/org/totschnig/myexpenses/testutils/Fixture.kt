@@ -118,7 +118,7 @@ class Fixture(inst: Instrumentation) {
         this.repository = repository
         val currencyContext = appContext.appComponent.currencyContext()
         val foreignCurrency =
-            currencyContext[if (defaultCurrency.code == "EUR") "GBP" else "EUR"]
+            currencyContext[if (defaultCurrency.code == "GBP") "EUR" else "GBP"]
         val exchangeRate = when(defaultCurrency.code) {
             "USD" -> 1.17 //eur to usd
             "EUR" -> 1.16 //GBP to eur

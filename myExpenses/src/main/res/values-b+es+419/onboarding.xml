@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="testData_account1Label">Mi billetera</string>
+    <string name="testData_account1Description">Gastos diarios</string>
+    <string name="testData_account2Label">Viaje a Londres</string>
+    <string name="testData_account3Label">Cuenta bancaria</string>
+    <string name="testData_account3Description">BBVA</string>
+    <string name="testData_transaction2Comment">Frutas y verduras</string>
+    <string name="testData_transaction4Payee">Mercado Libre</string>
+    <string name="testData_templatePayee">Juan Pérez</string>
+    <string name="testData_tag_project">Proyecto sin título</string>
+</resources>

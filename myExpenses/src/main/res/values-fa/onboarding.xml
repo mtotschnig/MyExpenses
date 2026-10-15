@@ -2,7 +2,7 @@
 <resources>
     <string name="testData_account1Description">هزینه‌های روزانه</string>
     <string name="testData_account1Label">کیف پول من</string>
-    <string name="testData_account2Label">آخر هفته در پاریس</string>
+    <string name="testData_account2Label">آخر هفته در لندن</string>
     <string name="testData_account3Label">حساب بانک</string>
     <string name="testData_account3Description">بانک ملی ایران</string>
     <string name="testData_transaction2Comment">میوه و سبزیجات</string>

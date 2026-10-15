@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="testData_account1Label">My wallet</string>
+    <string name="testData_account1Description">Daily expenses</string>
+    <string name="testData_account2Label">Trip to London</string>
+    <string name="testData_account3Label">Bank account</string>
+    <string name="testData_account3Description">State Bank of India</string>
+    <string name="testData_transaction2Comment">Fruits &amp; Vegetables</string>
+    <string name="testData_transaction4Payee">Flipkart</string>
+    <string name="testData_templatePayee">Rahul Sharma</string>
+    <string name="testData_tag_project">Untitled project</string>
+</resources>

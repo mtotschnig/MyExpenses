@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="testData_account1Label">Mon portefeuille</string>
+    <string name="testData_account1Description">Dépenses quotidiennes</string>
+    <string name="testData_account2Label">Fin de semaine à Londres</string>
+    <string name="testData_account3Label">Compte chèques</string>
+    <string name="testData_account3Description">Desjardins</string>
+    <string name="testData_transaction2Comment">Fruits et légumes</string>
+    <string name="testData_transaction4Payee">Tim Hortons</string>
+    <string name="testData_templatePayee">Jean Tremblay</string>
+    <string name="testData_tag_project">Projet sans titre</string>
+</resources>

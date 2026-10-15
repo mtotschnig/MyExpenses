@@ -7,6 +7,6 @@
     <string name="testData_transaction4Payee">Pizzeria Antonella</string>
     <string name="testData_tag_project">Projekt utan titel</string>
     <string name="testData_templatePayee">John Doe</string>
-    <string name="testData_account2Label">helg i Paris</string>
+    <string name="testData_account2Label">helg i London</string>
     <string name="testData_account3Description">Swedbank</string>
 </resources>

@@ -4,7 +4,7 @@
   <string name="testData_account1Description">Dzienne wydatki</string>
   <!--Account 2 is used as an example for a short term budget used for a travel to a country with
     a different currency-->
-  <string name="testData_account2Label">weekend w Paryżu</string>
+  <string name="testData_account2Label">weekend w Londynie</string>
   <!--Account 3 is a bank account at an institution well known in the locale region-->
   <string name="testData_account3Label">Konto bankowe</string>
   <string name="testData_account3Description">PKO Bank Polski</string>
