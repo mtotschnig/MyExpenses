@@ -16,6 +16,8 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     PERFORM_SHARE(R.string.pref_perform_share_key),
     HELP(R.string.pref_help_key),
     SHARE_TARGET(R.string.pref_share_target_key),
+    SHARE_TARGET_USERNAME(R.string.pref_share_target_username_key),
+    SHARE_TARGET_PASSWORD(R.string.pref_share_target_password_key),
     UI_THEME(R.string.pref_ui_theme_key),
     UI_FONT_SIZE(R.string.pref_ui_fontsize_key),
     BACKUP(R.string.pref_backup_key),

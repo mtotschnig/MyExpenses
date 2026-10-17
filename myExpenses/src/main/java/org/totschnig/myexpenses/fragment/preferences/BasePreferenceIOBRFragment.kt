@@ -1,5 +1,7 @@
 package org.totschnig.myexpenses.fragment.preferences
 
+import android.text.InputType
+import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefKey
@@ -42,6 +44,23 @@ abstract class BasePreferenceIOBRFragment : BasePreferenceFragment() {
                     }
                 }
                 true
+            }
+        }
+
+        with(requirePreference<EditTextPreference>(PrefKey.SHARE_TARGET_USERNAME)) {
+            summaryProvider = EditTextPreference.SimpleSummaryProvider.getInstance()
+        }
+
+        with(requirePreference<EditTextPreference>(PrefKey.SHARE_TARGET_PASSWORD)) {
+            setOnBindEditTextListener { editText ->
+                editText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+            }
+            summaryProvider = Preference.SummaryProvider<EditTextPreference> { preference ->
+                if (preference.text.isNullOrEmpty()) {
+                    getString(androidx.preference.R.string.not_set)
+                } else {
+                    "••••••••"
+                }
             }
         }
     }
