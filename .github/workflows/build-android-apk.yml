@@ -24,7 +24,7 @@ jobs:
           java-version: '21'
           cache: gradle
 
-      - name: Install Android platform 36
+      - name: Install Android platform 37.2 Preview
         shell: bash
         run: |
           sdkmanager_path="$(find "$ANDROID_HOME/cmdline-tools" -type f -name sdkmanager | sort -V | tail -n 1)"
@@ -35,7 +35,7 @@ jobs:
           set +o pipefail
           yes | "$sdkmanager_path" --licenses >/dev/null
           set -o pipefail
-          "$sdkmanager_path" --install "platforms;android-36" "platform-tools"
+          "$sdkmanager_path" --install --channel=3 "platforms;android-37.2" "platform-tools"
 
       - name: Build APK
         run: ./gradlew --no-daemon myExpenses:packageExternReleaseUniversalApk
