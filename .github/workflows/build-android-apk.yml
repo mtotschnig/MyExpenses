@@ -27,7 +27,7 @@ jobs:
       - name: Install Android platform 37
         shell: bash
         run: |
-          sdkmanager_path="$(find "$ANDROID_HOME/cmdline-tools" -mindepth 2 -maxdepth 2 -type f -name sdkmanager | sort -V | tail -n 1)"
+          sdkmanager_path="$(find "$ANDROID_HOME/cmdline-tools" -type f -name sdkmanager | sort -V | tail -n 1)"
           if [ -z "$sdkmanager_path" ]; then
             echo "No Android sdkmanager found under $ANDROID_HOME/cmdline-tools" >&2
             exit 1
