@@ -32,7 +32,9 @@ jobs:
             echo "No Android sdkmanager found under $ANDROID_HOME/cmdline-tools" >&2
             exit 1
           fi
+          set +o pipefail
           yes | "$sdkmanager_path" --licenses >/dev/null
+          set -o pipefail
           "$sdkmanager_path" --install "platforms;android-37" "platform-tools"
 
       - name: Build APK
