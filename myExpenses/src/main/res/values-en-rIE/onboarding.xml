@@ -7,6 +7,6 @@
     <string name="testData_account3Description">Bank of Ireland</string>
     <string name="testData_transaction2Comment">Fruits &amp; Vegetables</string>
     <string name="testData_transaction4Payee">Dunnes Stores</string>
-    <string name="testData_templatePayee">Seán Murphy</string>
+    <string name="testData_templatePayee">Seán Citizen</string>
     <string name="testData_tag_project">Untitled project</string>
 </resources>

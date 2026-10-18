@@ -7,6 +7,6 @@
     <string name="testData_account3Description">State Bank of India</string>
     <string name="testData_transaction2Comment">Fruits &amp; Vegetables</string>
     <string name="testData_transaction4Payee">Flipkart</string>
-    <string name="testData_templatePayee">Rahul Sharma</string>
+    <string name="testData_templatePayee">Aam Aadmi</string>
     <string name="testData_tag_project">Untitled project</string>
 </resources>

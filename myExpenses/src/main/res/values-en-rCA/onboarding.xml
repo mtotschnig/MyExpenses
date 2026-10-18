@@ -7,6 +7,6 @@
     <string name="testData_account3Description">RBC</string>
     <string name="testData_transaction2Comment">Fruits &amp; Vegetables</string>
     <string name="testData_transaction4Payee">Tim Hortons</string>
-    <string name="testData_templatePayee">John Tremblay</string>
+    <string name="testData_templatePayee">G. Raymond</string>
     <string name="testData_tag_project">Untitled project</string>
 </resources>
