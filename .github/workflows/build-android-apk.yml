@@ -1,0 +1,39 @@
+name: Build Android APK
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-apk:
+    name: Build universal external APK
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: gradle
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android platform 37
+        run: sdkmanager --install "platforms;android-37" "platform-tools"
+
+      - name: Build APK
+        run: ./gradlew --no-daemon myExpenses:packageExternReleaseUniversalApk
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: MyExpenses-extern-release-universal-apk
+          path: myExpenses/build/outputs/apk/extern/release/*.apk
+          if-no-files-found: error
+          retention-days: 14
