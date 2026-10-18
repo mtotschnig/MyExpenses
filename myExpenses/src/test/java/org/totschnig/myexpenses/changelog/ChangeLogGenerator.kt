@@ -34,6 +34,8 @@ class ChangeLogGenerator {
         val allLanguages = arrayOf(
             "en-US",
             "ar",
+            "be",
+            "bn-BD",
             "bg",
             "ca",
             "cs-CZ",
