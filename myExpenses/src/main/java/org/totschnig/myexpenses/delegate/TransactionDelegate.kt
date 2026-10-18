@@ -533,16 +533,8 @@ abstract class TransactionDelegate(
     }
 
     private fun setReferenceNumberVisibility() {
-        if (isTemplate) return
-        //ignore first row "select" merged in
-        val position = methodSpinner.selectedItemPosition
-        val visibility = if (position > 0) {
-            val pm = methodsAdapter.getItem(position - 1)
-            if (pm != null && pm.isNumbered) View.VISIBLE else View.GONE
-        } else {
-            View.GONE
-        }
-        (methodRowBinding.ReferenceNumberRow ?: methodRowBinding.Number).visibility = visibility
+        (methodRowBinding.ReferenceNumberRow ?: methodRowBinding.Number).visibility =
+            if (isTemplate) View.GONE else View.VISIBLE
     }
 
     val context: Context

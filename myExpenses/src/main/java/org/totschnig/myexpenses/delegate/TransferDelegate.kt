@@ -183,29 +183,38 @@ class TransferDelegate(
     private fun switchAccountViews() {
         val accountSpinner = accountSpinner.spinner
         val transferAccountSpinner = transferAccountSpinner.spinner
-        with(viewBinding.Table) {
-            removeView(viewBinding.AmountRow)
-            removeView(viewBinding.TransferAmountRow)
-            if (isIncome) {
-                if (accountSpinner.parent === viewBinding.AccountRow && transferAccountSpinner.parent === viewBinding.TransferAccountRow) {
-                    viewBinding.AccountRow.removeView(accountSpinner)
-                    viewBinding.TransferAccountRow.removeView(transferAccountSpinner)
-                    viewBinding.AccountRow.addView(transferAccountSpinner)
-                    viewBinding.TransferAccountRow.addView(accountSpinner)
-                }
-                addView(viewBinding.TransferAmountRow, 2)
-                addView(viewBinding.AmountRow, 4)
-            } else {
-                if (accountSpinner.parent === viewBinding.TransferAccountRow && transferAccountSpinner.parent === viewBinding.AccountRow) {
-                    viewBinding.AccountRow.removeView(transferAccountSpinner)
-                    viewBinding.TransferAccountRow.removeView(accountSpinner)
-                    viewBinding.AccountRow.addView(accountSpinner)
-                    viewBinding.TransferAccountRow.addView(transferAccountSpinner)
-                }
-                addView(viewBinding.AmountRow, 2)
-                addView(viewBinding.TransferAmountRow, 4)
+        val table = viewBinding.Table
+        (viewBinding.AmountRow.parent as? android.view.ViewGroup)?.removeView(viewBinding.AmountRow)
+        table.removeView(viewBinding.TransferAmountRow)
+        viewBinding.DateTimeRow.layoutParams = android.widget.LinearLayout.LayoutParams(
+            android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+            android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        if (isIncome) {
+            if (accountSpinner.parent === viewBinding.AccountRow && transferAccountSpinner.parent === viewBinding.TransferAccountRow) {
+                viewBinding.AccountRow.removeView(accountSpinner)
+                viewBinding.TransferAccountRow.removeView(transferAccountSpinner)
+                viewBinding.AccountRow.addView(transferAccountSpinner)
+                viewBinding.TransferAccountRow.addView(accountSpinner)
             }
+        } else if (accountSpinner.parent === viewBinding.TransferAccountRow && transferAccountSpinner.parent === viewBinding.AccountRow) {
+            viewBinding.AccountRow.removeView(transferAccountSpinner)
+            viewBinding.TransferAccountRow.removeView(accountSpinner)
+            viewBinding.AccountRow.addView(accountSpinner)
+            viewBinding.TransferAccountRow.addView(transferAccountSpinner)
         }
+        val dateRowIndex = table.indexOfChild(viewBinding.DateAmountRow)
+        val insertAt = (dateRowIndex + 1).coerceAtLeast(0)
+        viewBinding.AmountRow.layoutParams = android.widget.LinearLayout.LayoutParams(
+            android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+            android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        viewBinding.TransferAmountRow.layoutParams = android.widget.LinearLayout.LayoutParams(
+            android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+            android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        table.addView(viewBinding.AmountRow, insertAt.coerceAtMost(table.childCount))
+        table.addView(viewBinding.TransferAmountRow, (insertAt + 1).coerceAtMost(table.childCount))
     }
 
     private inner class LinkedTransferAmountTextWatcher(

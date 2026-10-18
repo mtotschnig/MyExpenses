@@ -30,6 +30,15 @@ along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
         <item name="android:windowLightStatusBar">?isLightTheme</item>
     </style>
 
+    <style name="TransactionEditorTheme" parent="ThemeOverlay.Material3.Dark">
+        <item name="colorPrimary">@color/transaction_accent</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="colorSecondary">@color/transaction_accent</item>
+        <item name="colorSurface">@color/transaction_surface</item>
+        <item name="colorOnSurface">@color/transaction_text</item>
+        <item name="android:colorBackground">@color/transaction_background</item>
+    </style>
+
     <style name="DarkBackground">
         <item name="colorOnSurface">@android:color/white</item>
     </style>

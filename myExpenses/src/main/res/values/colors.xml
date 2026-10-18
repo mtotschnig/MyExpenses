@@ -60,4 +60,13 @@
     <color name="overspent">#c00100</color>
     <color name="overspentDaily">#dddd00</color>
     <color name="inBudget">#026e00</color>
+    <color name="transaction_background">#101010</color>
+    <color name="transaction_surface">#111111</color>
+    <color name="transaction_toolbar">#242424</color>
+    <color name="transaction_outline">#505050</color>
+    <color name="transaction_label">#BDBDBD</color>
+    <color name="transaction_text">#F5F5F5</color>
+    <color name="transaction_accent">#C84652</color>
+    <color name="transaction_accent_surface">#29191B</color>
+    <color name="transaction_button_text">#181818</color>
 </resources>

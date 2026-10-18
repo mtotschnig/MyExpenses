@@ -227,6 +227,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     @State
     var withTypeSpinner = false
 
+    private var syncingTypeTabs = false
+    private var syncingRecurringToggle = false
+
     @State
     var isSplitPart: Boolean = false
 
@@ -392,6 +395,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         methodRowBinding = MethodRowBinding.bind(rootBinding.root)
         setContentView(rootBinding.root)
         floatingActionButton = rootBinding.fab.CREATECOMMAND
+        floatingActionButton.visibility = View.GONE
+        rootBinding.SaveButton.setOnClickListener { doSave(false) }
+        rootBinding.SaveAndNewButton.setOnClickListener { doSave(true) }
         setupToolbarWithClose()
         mManager = LoaderManager.getInstance(this)
         val viewModelProvider = ViewModelProvider(this)
@@ -434,7 +440,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
                     refreshPlanData(planId, false)
                 }
             }
-            floatingActionButton.show()
+            floatingActionButton.visibility = View.GONE
             updateOnBackPressedCallbackEnabled()
         } else {
             areDatesLinked = prefHandler.getBoolean(PrefKey.DATES_ARE_LINKED, false)
@@ -988,11 +994,40 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         get() = if (isSplitPart) PrefKey.EXPENSE_EDIT_SAVE_AND_NEW_SPLIT_PART else PrefKey.EXPENSE_EDIT_SAVE_AND_NEW
 
     private fun setTitle() {
-        if (withTypeSpinner) {
-            supportActionBar!!.setDisplayShowTitleEnabled(false)
-        } else {
-            title = delegate.title(newInstance)
+        supportActionBar?.setDisplayShowTitleEnabled(true)
+        title = when {
+            withTypeSpinner && operationType == TYPE_TRANSFER -> getString(R.string.transaction_add_transfer)
+            withTypeSpinner && delegate.isIncome -> getString(R.string.transaction_add_income)
+            withTypeSpinner -> getString(R.string.transaction_add_expense)
+            else -> delegate.title(newInstance)
         }
+        syncTransactionTypeTabs()
+        syncRecurringToggle()
+    }
+
+    private fun syncTransactionTypeTabs() {
+        val showTabs = withTypeSpinner && !isTemplate && !isSplitPart
+        rootBinding.TransactionTypeTabs.isVisible = showTabs
+        rootBinding.toolbar.OperationType.visibility = View.GONE
+        if (showTabs) rootBinding.Amount.hideTypeButton()
+        if (showTabs && ::delegate.isInitialized) {
+            val checkedId = when {
+                operationType == TYPE_TRANSFER -> R.id.TabTransfer
+                delegate.isIncome -> R.id.TabIncome
+                else -> R.id.TabExpense
+            }
+            syncingTypeTabs = true
+            rootBinding.TransactionTypeTabs.check(checkedId)
+            syncingTypeTabs = false
+        }
+    }
+
+    private fun syncRecurringToggle() {
+        val showToggle = withTypeSpinner && !isTemplate && !isSplitPart
+        rootBinding.RecurringToggleRow.isVisible = showToggle
+        syncingRecurringToggle = true
+        rootBinding.RecurringToggle.isChecked = createTemplate
+        syncingRecurringToggle = false
     }
 
     override fun onValueSet(view: View) {
@@ -1024,6 +1059,34 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
     override fun setupListeners() {
         super.setupListeners()
         delegate.setupListeners(this)
+        rootBinding.TransactionTypeTabs.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (!isChecked || syncingTypeTabs || !withTypeSpinner) return@addOnButtonCheckedListener
+            when (checkedId) {
+                R.id.TabTransfer -> {
+                    if (operationType != TYPE_TRANSFER) {
+                        delegate.resetOperationType(TYPE_TRANSFER)
+                    }
+                }
+
+                R.id.TabExpense, R.id.TabIncome -> {
+                    val income = checkedId == R.id.TabIncome
+                    amountInput.type = income
+                    if (operationType != TYPE_TRANSACTION) {
+                        delegate.resetOperationType(TYPE_TRANSACTION)
+                        rootBinding.TransactionTypeTabs.post { syncTransactionTypeTabs() }
+                    } else {
+                        setTitle()
+                    }
+                }
+            }
+        }
+        rootBinding.RecurringToggle.setOnCheckedChangeListener { _, checked ->
+            if (!syncingRecurringToggle && checked != createTemplate) {
+                createTemplate = checked
+                delegate.setCreateTemplate(checked)
+                invalidateOptionsMenu()
+            }
+        }
     }
 
     @VisibleForTesting
@@ -1040,6 +1103,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
         discoveryHelper.markDiscovered(IDiscoveryHelper.Feature.ExpenseIncomeSwitch)
         showCategoryWarning()
+        if (withTypeSpinner) setTitle()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu): Boolean {
@@ -1076,6 +1140,9 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
+        if (withTypeSpinner && !isSplitPartOrTemplate) {
+            menu.add(Menu.NONE, R.id.TRANSACTION_SPLIT_MENU_COMMAND, 0, R.string.menu_create_split)
+        }
         if (!isTemplate) {
             menu.add(Menu.NONE, R.id.SAVE_AND_NEW_COMMAND, 0, R.string.menu_save_and_new)
                 .setCheckable(true)
@@ -1189,12 +1256,20 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
             return true
         }
         when (command) {
+            R.id.TRANSACTION_SPLIT_MENU_COMMAND -> {
+                if (::delegate.isInitialized) {
+                    delegate.resetOperationType(TYPE_SPLIT)
+                    return true
+                }
+            }
+
             R.id.CREATE_TEMPLATE_COMMAND -> {
                 if (::delegate.isInitialized) {
                     createTemplate = !createTemplate
                     delegate.setCreateTemplate(
                         createTemplate
                     )
+                    syncRecurringToggle()
                     invalidateOptionsMenu()
                 }
             }

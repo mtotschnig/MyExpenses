@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transaction_add_expense">إضافة مصروف</string>
+    <string name="transaction_add_income">إضافة دخل</string>
+    <string name="transaction_add_transfer">إضافة تحويل</string>
+    <string name="transaction_name">الاسم</string>
+    <string name="transaction_recurring">معاملة متكررة</string>
+    <string name="transaction_reminder">تذكير</string>
+</resources>

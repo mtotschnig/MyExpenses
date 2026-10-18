@@ -6,7 +6,7 @@
 
     <org.totschnig.myexpenses.ui.DateButton
         android:id="@+id/DateButton"
-        style="@style/SmallButton"
+        style="@style/TransactionFormSmallButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -29,7 +29,7 @@
 
     <org.totschnig.myexpenses.ui.DateButton
         android:id="@+id/Date2Button"
-        style="@style/SmallButton"
+        style="@style/TransactionFormSmallButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -38,7 +38,7 @@
 
     <org.totschnig.myexpenses.ui.TimeButton
         android:id="@+id/TimeButton"
-        style="@style/SmallButton"
+        style="@style/TransactionFormSmallButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"

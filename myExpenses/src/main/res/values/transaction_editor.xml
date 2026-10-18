@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="transaction_add_expense">Add Expense</string>
+    <string name="transaction_add_income">Add Income</string>
+    <string name="transaction_add_transfer">Add Transfer</string>
+    <string name="transaction_name">Name</string>
+    <string name="transaction_recurring">Recurring transaction</string>
+    <string name="transaction_reminder">Reminder</string>
+</resources>

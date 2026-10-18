@@ -1,46 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <TableRow xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/MethodRow"
-        tools:showIn="@layout/one_expense">
-
-        <TextView
-            style="@style/FormLabel"
-            android:labelFor="@+id/MethodSpinner"
-            android:text="@string/method" />
-
-        <LinearLayout
-            style="@style/FormField"
-            android:orientation="horizontal">
-
-            <include
-                android:id="@+id/Method"
-                layout="@layout/method_selection" />
-
-            <include
-                android:id="@+id/ClearMethod"
-                layout="@layout/clear_method" />
+<?xml version='1.0' encoding='utf-8'?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" xmlns:ns1="http://schemas.android.com/tools">
+    <LinearLayout android:id="@+id/MethodRow" ns1:showIn="@layout/one_expense" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginBottom="12dp">
+        <TextView style="@style/TransactionFormLabel" android:labelFor="@+id/MethodSpinner" android:text="@string/method" />
+        <LinearLayout style="@style/TransactionFormField" android:orientation="horizontal">
+            <include android:id="@+id/Method" layout="@layout/method_selection" />
+            <include android:id="@+id/ClearMethod" layout="@layout/clear_method" />
         </LinearLayout>
-    </TableRow>
-
-    <TableRow xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/ReferenceNumberRow"
-        android:visibility="gone"
-        tools:showIn="@layout/one_expense">
-
-        <TextView
-            android:id="@+id/ReferenceNumberLabel"
-            style="@style/FormLabel"
-            android:labelFor="@+id/Number"
-            android:text="@string/reference_number" />
-
-        <EditText
-            android:id="@+id/Number"
-            style="@style/FormField"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:maxLines="1"
-            tools:ignore="TextFields" />
-    </TableRow>
+    </LinearLayout>
+    <LinearLayout android:id="@+id/ReferenceNumberRow" android:visibility="visible" ns1:showIn="@layout/one_expense" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginBottom="12dp">
+        <TextView android:id="@+id/ReferenceNumberLabel" style="@style/TransactionFormLabel" android:labelFor="@+id/Number" android:text="@string/reference_number" />
+        <EditText android:id="@+id/Number" style="@style/TransactionFormField" android:importantForAutofill="no" android:inputType="text" android:maxLines="1" ns1:ignore="TextFields" android:hint="@string/reference_number" />
+    </LinearLayout>
 </merge>
