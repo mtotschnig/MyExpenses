@@ -40,10 +40,23 @@ jobs:
       - name: Build APK
         run: ./gradlew --no-daemon myExpenses:packageExternReleaseUniversalApk
 
+      - name: Locate APK output
+        id: apk
+        shell: bash
+        run: |
+          apk_path="$(find myExpenses/build/outputs -type f -name '*.apk' -print -quit)"
+          if [ -z "$apk_path" ]; then
+            echo "No APK was produced under myExpenses/build/outputs" >&2
+            find myExpenses/build/outputs -maxdepth 6 -type f -print || true
+            exit 1
+          fi
+          echo "APK found: $apk_path"
+          echo "path=$apk_path" >> "$GITHUB_OUTPUT"
+
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: MyExpenses-extern-release-universal-apk
-          path: myExpenses/build/outputs/apk/extern/release/*.apk
+          path: ${{ steps.apk.outputs.path }}
           if-no-files-found: error
           retention-days: 14
