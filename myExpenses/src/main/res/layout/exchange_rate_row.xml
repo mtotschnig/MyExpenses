@@ -11,10 +11,14 @@
     <TextView
         android:id="@+id/ExchangeRateLabel"
         style="@style/FormLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:labelFor="@+id/ExchangeRate"
         android:text="@string/exchange_rate"/>
 
     <org.totschnig.myexpenses.ui.ExchangeRateEdit
         android:id="@+id/ExchangeRate"
-        style="@style/FormField"/>
+        style="@style/FormField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </TableRow>
