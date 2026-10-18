@@ -1007,7 +1007,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     private fun syncTransactionTypeTabs() {
         val showTabs = withTypeSpinner && !isTemplate && !isSplitPart
-        rootBinding.TransactionTypeTabs.isVisible = showTabs
+        rootBinding.TransactionTypeTabs.visibility = if (showTabs) View.VISIBLE else View.GONE
         rootBinding.toolbar.OperationType.visibility = View.GONE
         if (showTabs) rootBinding.Amount.hideTypeButton()
         if (showTabs && ::delegate.isInitialized) {
@@ -1024,7 +1024,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
 
     private fun syncRecurringToggle() {
         val showToggle = withTypeSpinner && !isTemplate && !isSplitPart
-        rootBinding.RecurringToggleRow.isVisible = showToggle
+        rootBinding.RecurringToggleRow.visibility = if (showToggle) View.VISIBLE else View.GONE
         syncingRecurringToggle = true
         rootBinding.RecurringToggle.isChecked = createTemplate
         syncingRecurringToggle = false
