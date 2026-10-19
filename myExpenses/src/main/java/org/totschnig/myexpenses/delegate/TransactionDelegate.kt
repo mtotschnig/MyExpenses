@@ -65,6 +65,7 @@ import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.ui.addChipsBulk
 import org.totschnig.myexpenses.util.ExchangeRateHandler
 import org.totschnig.myexpenses.util.ui.getActivity
+import org.totschnig.myexpenses.util.ui.getDateMode
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 import org.totschnig.myexpenses.viewmodel.data.InitialPlanData
@@ -966,6 +967,7 @@ abstract class TransactionDelegate(
             )
 
             UiUtils.DateMode.DATE -> context.getString(R.string.date)
+            else -> context.getString(R.string.date)
         }
     }
 
