@@ -384,7 +384,7 @@ abstract class ItemRenderer(
                         modifier = Modifier.fillMaxSize()
                     )
 
-                    icon != null -> Icon(icon)
+                    icon != null -> Icon(icon, iconResolver = iconResolver)
 
                     isTransfer -> CharIcon(
                         char = if (accountLabel != null) '⬧' else getIndicatorCharForLabel(
@@ -498,7 +498,7 @@ abstract class ItemRenderer(
             placeholderVerticalAlign = PlaceholderVerticalAlign.TextCenter
         )
     ) {
-        Icon(icon, size = inlineIconSize)
+        Icon(icon, size = inlineIconSize, iconResolver = iconResolver)
     }
 
     @Composable
@@ -734,7 +734,9 @@ fun InlineChip(text: String, color: Color?, tagStyle: TagStyle = TagStyle.OUTLIN
 @Preview
 @Composable
 private fun RenderNew(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
-    NewTransactionRenderer(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+    NewTransactionRenderer(dateTimeFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT),
+        iconResolver = ExtraIcons::get
+    )
         .Render(transaction)
 }
 
@@ -742,7 +744,8 @@ private fun RenderNew(@PreviewParameter(SampleProvider::class) transaction: Tran
 @Composable
 private fun RenderCompact(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
     CompactTransactionRenderer(
-        DateTimeFormatInfo(DateTimeFormatter.ofPattern("EEE"), 4f),
+        dateTimeFormatInfo = DateTimeFormatInfo(DateTimeFormatter.ofPattern("EEE"), 4f),
+        iconResolver = ExtraIcons::get,
         withOriginalAmount = true
     ).Render(transaction)
 }
@@ -753,7 +756,8 @@ private fun RenderTagStyleFilled() {
     CompactTransactionRenderer(
         DateTimeFormatInfo(DateTimeFormatter.ofPattern("EEE"), 4f),
         withOriginalAmount = true,
-        tagStyle = TagStyle.FILLED
+        tagStyle = TagStyle.FILLED,
+        iconResolver = ExtraIcons::get
     ).Render(SampleProvider().values.first())
 }
 
@@ -815,13 +819,13 @@ class SampleProvider : PreviewParameterProvider<Transaction2> {
             displayAmount = Money(CurrencyUnit.DebugInstance, 8000),
             originalAmount = Money(originalCurrency, 1234500),
             methodLabel = "CHEQUE",
-            //methodIcon = "credit-card",
+            methodIcon = "funding",
             referenceNumber = "1",
             accountId = -1,
             catId = 1,
             categoryPath = "Obst und Gemüse",
             comment = "Erika Musterfrau",
-            //icon = "apple",
+            icon = "toys",
             year = 2022,
             month = 1,
             day = 1,
