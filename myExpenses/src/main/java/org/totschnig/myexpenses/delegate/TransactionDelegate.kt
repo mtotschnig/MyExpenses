@@ -63,7 +63,8 @@ import org.totschnig.myexpenses.util.config.Configurator
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.ui.UiUtils
 import org.totschnig.myexpenses.util.ui.addChipsBulk
-import org.totschnig.myexpenses.util.ui.getDateMode
+import org.totschnig.myexpenses.util.ExchangeRateHandler
+import org.totschnig.myexpenses.util.ui.getActivity
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 import org.totschnig.myexpenses.viewmodel.data.InitialPlanData
@@ -541,7 +542,7 @@ abstract class TransactionDelegate(
         get() = viewBinding.root.context
 
     val host: ExpenseEdit
-        get() = context as ExpenseEdit
+        get() = context.getActivity() as ExpenseEdit
 
     open fun createAdapters(withTypeSpinner: Boolean, withAutoFill: Boolean) {
         createStatusAdapter()
@@ -639,7 +640,7 @@ abstract class TransactionDelegate(
     override fun onNothingSelected(parent: AdapterView<*>?) {}
 
     override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-        val host = context as ExpenseEdit
+        val host = this@TransactionDelegate.host
         if (parent.id != R.id.OperationType) {
             host.setDirty()
         }
@@ -756,7 +757,7 @@ abstract class TransactionDelegate(
 
     private fun showCustomRecurrenceInfo() {
         if (recurrenceSpinner.selectedItem === Recurrence.CUSTOM) {
-            (context as ExpenseEdit).showDismissibleSnackBar(R.string.plan_custom_recurrence_info)
+            host.showDismissibleSnackBar(R.string.plan_custom_recurrence_info)
         }
     }
 
