@@ -30,8 +30,9 @@ fun Icon(
     modifier: Modifier = Modifier,
     size: TextUnit? = 24.sp,
     color: Color? = null,
+    iconResolver: (String) -> IIconInfo? = IIconInfo::resolveIcon
 ) {
-    val iconInfo = IIconInfo.resolveIcon(icon)
+    val iconInfo = iconResolver(icon)
     if (iconInfo == null) {
         Text(color = Color.Red, text = icon, modifier = modifier)
     } else {

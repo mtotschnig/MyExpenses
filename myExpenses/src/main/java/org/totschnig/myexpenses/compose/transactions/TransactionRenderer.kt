@@ -95,11 +95,16 @@ import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.STATUS_ARCHIVE
 import org.totschnig.myexpenses.ui.DisplayParty
 import org.totschnig.myexpenses.viewmodel.ResolvedExtraInfo
+import org.totschnig.myexpenses.viewmodel.data.ExtraIcons
+import org.totschnig.myexpenses.viewmodel.data.IIconInfo
 import org.totschnig.myexpenses.viewmodel.data.Tag
+import org.totschnig.myexpenses.viewmodel.data.Trade
 import org.totschnig.myexpenses.viewmodel.data.TradeType
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import org.totschnig.myexpenses.viewmodel.data.getIndicatorCharForLabel
 import org.totschnig.myexpenses.viewmodel.data.getIndicatorPrefixForLabel
+import java.math.BigDecimal
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import kotlin.text.Typography.ellipsis
@@ -112,7 +117,8 @@ abstract class ItemRenderer(
     private val colorSource: ColorSource,
     private val onToggleCrStatus: ((Long) -> Unit)?,
     protected val withAccountLabel: Boolean,
-    protected val tagStyle: TagStyle = TagStyle.OUTLINE
+    protected val tagStyle: TagStyle,
+    private val iconResolver: (String) -> IIconInfo?
 ) {
 
     fun Transaction2.buildPrimaryInfo(
@@ -342,7 +348,8 @@ abstract class ItemRenderer(
                                 modifier = Modifier
                                     .align(Alignment.TopStart)
                                     .fillMaxSize(0.5f),
-                                size = null
+                                size = null,
+                                iconResolver = iconResolver
                             )
                             icons.getOrNull(1)?.let {
                                 Icon(
@@ -350,7 +357,8 @@ abstract class ItemRenderer(
                                     modifier = Modifier
                                         .align(Alignment.TopEnd)
                                         .fillMaxSize(0.5f),
-                                    size = null
+                                    size = null,
+                                    iconResolver = iconResolver
                                 )
                             }
                             icons.getOrNull(2)?.let {
@@ -359,7 +367,8 @@ abstract class ItemRenderer(
                                     modifier = Modifier
                                         .align(Alignment.BottomStart)
                                         .fillMaxSize(0.5f),
-                                    size = null
+                                    size = null,
+                                    iconResolver = iconResolver
                                 )
                             }
                             Icon(
@@ -375,7 +384,7 @@ abstract class ItemRenderer(
                         modifier = Modifier.fillMaxSize()
                     )
 
-                    icon != null -> Icon(icon)
+                    icon != null -> Icon(icon, iconResolver = iconResolver)
 
                     isTransfer -> CharIcon(
                         char = if (accountLabel != null) '⬧' else getIndicatorCharForLabel(
@@ -489,7 +498,7 @@ abstract class ItemRenderer(
             placeholderVerticalAlign = PlaceholderVerticalAlign.TextCenter
         )
     ) {
-        Icon(icon, size = inlineIconSize)
+        Icon(icon, size = inlineIconSize, iconResolver = iconResolver)
     }
 
     @Composable
@@ -530,7 +539,15 @@ class CompactTransactionRenderer(
     withAccountLabel: Boolean = false,
     onToggleCrStatus: ((Long) -> Unit)? = null,
     tagStyle: TagStyle = TagStyle.OUTLINE,
-) : ItemRenderer(withCategoryIcon, colorSource, onToggleCrStatus, withAccountLabel, tagStyle) {
+    iconResolver: (String) -> IIconInfo? = IIconInfo::resolveIcon,
+) : ItemRenderer(
+    withCategoryIcon,
+    colorSource,
+    onToggleCrStatus,
+    withAccountLabel,
+    tagStyle,
+    iconResolver
+) {
 
     @Composable
     override fun RowScope.RenderInner(
@@ -590,7 +607,15 @@ class NewTransactionRenderer(
     onToggleCrStatus: ((Long) -> Unit)? = null,
     withAccountLabel: Boolean = false,
     tagStyle: TagStyle = TagStyle.OUTLINE,
-) : ItemRenderer(withCategoryIcon, colorSource, onToggleCrStatus, withAccountLabel, tagStyle) {
+    iconResolver: (String) -> IIconInfo? = IIconInfo::resolveIcon,
+) : ItemRenderer(
+    withCategoryIcon,
+    colorSource,
+    onToggleCrStatus,
+    withAccountLabel,
+    tagStyle,
+    iconResolver
+) {
     @Composable
     override fun RowScope.RenderInner(
         transaction: Transaction2,
@@ -709,7 +734,9 @@ fun InlineChip(text: String, color: Color?, tagStyle: TagStyle = TagStyle.OUTLIN
 @Preview
 @Composable
 private fun RenderNew(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
-    NewTransactionRenderer(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT))
+    NewTransactionRenderer(dateTimeFormatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT),
+        iconResolver = ExtraIcons::get
+    )
         .Render(transaction)
 }
 
@@ -717,7 +744,8 @@ private fun RenderNew(@PreviewParameter(SampleProvider::class) transaction: Tran
 @Composable
 private fun RenderCompact(@PreviewParameter(SampleProvider::class) transaction: Transaction2) {
     CompactTransactionRenderer(
-        DateTimeFormatInfo(DateTimeFormatter.ofPattern("EEE"), 4f),
+        dateTimeFormatInfo = DateTimeFormatInfo(DateTimeFormatter.ofPattern("EEE"), 4f),
+        iconResolver = ExtraIcons::get,
         withOriginalAmount = true
     ).Render(transaction)
 }
@@ -728,8 +756,58 @@ private fun RenderTagStyleFilled() {
     CompactTransactionRenderer(
         DateTimeFormatInfo(DateTimeFormatter.ofPattern("EEE"), 4f),
         withOriginalAmount = true,
-        tagStyle = TagStyle.FILLED
+        tagStyle = TagStyle.FILLED,
+        iconResolver = ExtraIcons::get
     ).Render(SampleProvider().values.first())
+}
+
+@Preview
+@Composable
+private fun RenderExtraInfoSplit() {
+    CompactTransactionRenderer(
+        DateTimeFormatInfo(DateTimeFormatter.ofPattern("EEE"), 4f),
+        withOriginalAmount = true,
+        tagStyle = TagStyle.FILLED,
+        iconResolver = ExtraIcons::get
+    ).Render(
+        SampleProvider().values.toList().get(1),
+        resolvedExtraInfo = ResolvedExtraInfo.Split(
+            items = listOf(
+                "A" to "shoe",
+                "B" to "bottle",
+                "C" to null
+            )
+        )
+    )
+}
+
+@Preview
+@Composable
+private fun RenderExtraInfoTrade() {
+    CompactTransactionRenderer(
+        DateTimeFormatInfo(DateTimeFormatter.ofPattern("EEE"), 4f),
+        withOriginalAmount = true,
+        tagStyle = TagStyle.FILLED,
+        iconResolver = ExtraIcons::get
+    ).Render(
+        SampleProvider().values.first(),
+        resolvedExtraInfo = ResolvedExtraInfo.Trade(
+            trade = Trade(
+                id = 1,
+                type = TradeType.AssetTrade.BUY,
+                date = ZonedDateTime.now(),
+                quantity = Money(CurrencyUnit.DebugInstance, 1),
+                principal = Money(CurrencyUnit.DebugInstance, 1),
+                fee = null,
+                assetSymbol = "x",
+                comment = null,
+                price = BigDecimal.ONE,
+                peerAccount = null,
+                currency = CurrencyUnit.DebugInstance.code,
+                portfolioId = 1
+            )
+        )
+    )
 }
 
 class SampleProvider : PreviewParameterProvider<Transaction2> {
@@ -741,13 +819,13 @@ class SampleProvider : PreviewParameterProvider<Transaction2> {
             displayAmount = Money(CurrencyUnit.DebugInstance, 8000),
             originalAmount = Money(originalCurrency, 1234500),
             methodLabel = "CHEQUE",
-            //methodIcon = "credit-card",
+            methodIcon = "funding",
             referenceNumber = "1",
             accountId = -1,
             catId = 1,
             categoryPath = "Obst und Gemüse",
             comment = "Erika Musterfrau",
-            //icon = "apple",
+            icon = "toys",
             year = 2022,
             month = 1,
             day = 1,
