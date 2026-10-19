@@ -19,6 +19,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import com.evernote.android.state.State
 import org.totschnig.myexpenses.R
@@ -139,7 +140,7 @@ abstract class EditActivity : ProtectedFragmentActivity(), TextWatcher, ButtonWi
     }
 
     protected fun linkInputsWithLabels() {
-        linkInputsWithLabels(findViewById(R.id.Table))
+        linkInputsWithLabels(findViewById<ViewGroup>(R.id.Table))
     }
 
     fun setDirty() {

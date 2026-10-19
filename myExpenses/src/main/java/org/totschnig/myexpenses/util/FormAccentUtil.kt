@@ -6,13 +6,12 @@ import android.view.View
 import android.view.View.OnFocusChangeListener
 import android.view.ViewGroup
 import android.widget.Spinner
-import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
 import org.totschnig.myexpenses.util.ui.findParentWithTypeRecursively
 import org.totschnig.myexpenses.util.ui.resolveThemeColor
 
-fun linkInputsWithLabels(table: TableLayout) {
+fun linkInputsWithLabels(table: ViewGroup) {
     val listener = OnFocusChangeListener { v: View, hasFocus: Boolean ->
         (findParentWithTypeRecursively(v, TableRow::class.java)?.getChildAt(0) as? TextView)?.apply {
             setTextColor(if (hasFocus) readPrimaryColor(table.context) else readPrimaryTextColor(table.context))
