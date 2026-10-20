@@ -127,10 +127,10 @@ pt-pt:
   customer_support: Suporte ao cliente
   screenshot_titles:
     group: Agrupar por ano, mês ou semana
-    summarize: Resuma as suas contas
+    summarize: Vista geral de todas as suas contas
     budget: Orçamentos anuais, mensais e semanais
     split: Dividir em várias categorias
-    distribution: Gráfico circular de distribuição
-    history: Histórico da sua situação financeira
+    distribution: Distribuição de despesas por categoria
+    history: Evolução financeira ao longo do tempo
     export: Exportar para PDF, QIF e CSV
-    sync: Sincronização na nuvem
+    sync: Sincronização segura na nuvem

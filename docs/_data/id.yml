@@ -87,8 +87,7 @@ id:
     one-time-payment: Pembayaran satu kali
     subscription: Langganan
   store:
-    short_description: 'Manajer keuangan pribadi yang mudah digunakan: fungsionalitas
-      kaya dan Sumber Terbuka'
+    short_description: 'Manajer keuangan pribadi mudah digunakan: kaya fitur dan sumber terbuka'
     full_description_intro: '{app_name} melacak pengeluaran dan pemasukan Anda, langsung
       di ponsel pintar dan tablet Anda.'
     full_description_contrib: 'Fitur premium dibuka dengan membeli salah satu kunci
@@ -123,10 +122,10 @@ id:
   customer_support: Dukungan pelanggan
   screenshot_titles:
     group: Kelompokkan berdasarkan tahun, bulan, atau minggu
-    summarize: Jumlahkan semua akun Anda
+    summarize: Ikhtisar semua akun Anda
     budget: Anggaran tahunan, bulanan, dan mingguan
     split: Bagi ke beberapa kategori
-    distribution: Diagram lingkaran
-    history: Riwayat situasi keuangan Anda
+    distribution: Rincian pengeluaran per kategori
+    history: Tren keuangan dari waktu ke waktu
     export: Ekspor ke PDF, QIF, dan CSV
-    sync: Sinkronisasi cloud
+    sync: Sinkronisasi cloud yang aman

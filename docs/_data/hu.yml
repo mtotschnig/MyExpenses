@@ -66,13 +66,13 @@ hu:
   professional-key: Szakmai kulcs
   screenshot_titles:
     group: Csoportosítás év, hónap vagy hét szerint
-    summarize: Összegezze az összes fiókját
+    summarize: Az összes fiók áttekintése
     budget: Éves, havi és heti költségvetés
     split: Több kategóriára osztható
-    distribution: Kördiagram diagram
-    history: Pénzügyi helyzetének története
+    distribution: Kiadások megoszlása kategóriánként
+    history: Pénzügyi trendek az idő múlásával
     export: Exportálás PDF, QIF és CSV formátumba
-    sync: Felhő szinkronizálás
+    sync: Biztonságos felhőszinkronizálás
   features:
     manage_accounts: Legfeljebb öt számla <b>átutalásokkal</b> (különböző pénznemek
       között is)

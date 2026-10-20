@@ -83,13 +83,13 @@ ro:
   professional-key: Cheie profesională
   screenshot_titles:
     group: Grupați după an, lună sau săptămână
-    summarize: Sumați toate conturile
+    summarize: Prezentare generală a tuturor conturilor
     budget: Bugetele anuale, lunare și săptămânale
     split: Împărțiți la mai multe categorii
-    distribution: Diagrama graficului de piese
-    history: Istoricul situației tale financiare
+    distribution: Defalcarea cheltuielilor pe categorii
+    history: Tendințe financiare în timp
     export: Exportați în PDF, QIF și CSV
-    sync: Sincronizare în cloud
+    sync: Sincronizare securizată în cloud
   screenshots:
     summarize: Adunați toate conturile dumneavoastră (Manipulare sofisticată a cursurilor
       de schimb pentru fiecare cont și pentru fiecare tranzacție)

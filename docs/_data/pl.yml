@@ -105,13 +105,13 @@ pl:
   all_extended_key_features: Wszystkie funkcje Extended Key
   screenshot_titles:
     group: Grupuj według roku, miesiąca lub tygodnia
-    summarize: Zsumuj wszystkie swoje konta
+    summarize: Przegląd wszystkich kont
     budget: Budżety roczne, miesięczne i tygodniowe
     split: Podziel na wiele kategorii
-    distribution: Wykres kołowy
-    history: Historia twojej sytuacji finansowej
+    distribution: Struktura wydatków według kategorii
+    history: Trendy finansowe w czasie
     export: Eksport do formatu PDF, QIF i CSV
-    sync: Synchronizacja w chmurze
+    sync: Bezpieczna synchronizacja w chmurze
   customer_support: Obsługa klienta
   screenshots:
     budget: Określ, ile zamierzasz wydać w budżetach rocznych, miesięcznych lub tygodniowych

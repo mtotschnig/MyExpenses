@@ -123,10 +123,10 @@ eu:
   customer_support: Bezeroarentzako arreta
   screenshot_titles:
     group: Taldeka, hilabetero edo astez
-    summarize: Labur itzazu zure kontu guztiak
+    summarize: Kontu guztien ikuspegi orokorra
     budget: Urtero, hilero eta astero aurrekontuak
     split: Zatitu kategoria askotan
-    distribution: Tarteen diagrama
-    history: Zure finantza egoeraren historia
+    distribution: Gastuen banaketa kategoriaren arabera
+    history: Joera finantzarioak denboran zehar
     export: PDF, QIF eta CSV-ra esportatu
-    sync: Sinkronizazioa hodeian
+    sync: Hodeiko sinkronizazio segurua

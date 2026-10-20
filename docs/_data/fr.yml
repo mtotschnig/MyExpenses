@@ -124,10 +124,10 @@ fr:
   customer_support: Service client
   screenshot_titles:
     group: Regroupez par année, mois ou semaine
-    summarize: Résumez tous vos comptes
+    summarize: Aperçu de tous vos comptes
     budget: Budgets annuels, mensuels et hebdomadaires
     split: Divisez en plusieurs catégories
-    distribution: Diagramme à secteurs
-    history: Historique de votre situation financière
+    distribution: Répartition des dépenses par catégorie
+    history: Évolution financière au fil du temps
     export: Exportez en PDF, QIF et CSV
-    sync: Synchronisation dans le cloud
+    sync: Synchronisation cloud sécurisée

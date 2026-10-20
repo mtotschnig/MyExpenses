@@ -40,10 +40,10 @@ vi:
   customer_support: Hỗ trợ khách hàng
   screenshot_titles:
     group: Nhóm theo năm, tháng hoặc tuần
-    summarize: Tổng hợp tất cả các tài khoản của bạn
+    summarize: Tổng quan về tất cả các tài khoản
     budget: Ngân sách hàng năm, hàng tháng và hàng tuần
     split: Chia thành nhiều loại
-    distribution: Biểu đồ hình tròn
-    history: Lịch sử tình hình tài chính của bạn
+    distribution: Phân tích chi tiêu theo danh mục
+    history: Xu hướng tài chính theo thời gian
     export: Xuất sang PDF, QIF và CSV
-    sync: Đồng bộ hoá đám mây
+    sync: Đồng bộ hoá đám mây an toàn

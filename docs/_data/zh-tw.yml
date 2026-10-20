@@ -38,14 +38,14 @@ zh-tw:
   all_extended_key_features: 延伸版密鑰的所有功能
   customer_support: 客戶支持
   screenshot_titles:
-    distribution: 餅圖展示
+    distribution: 按類別支出明細
     group: 按年、月或星期分組
     split: 拆分為多個分類
-    summarize: 匯總所有賬戶
+    summarize: 所有帳戶概覽
     budget: 年度、月度和每週預算
-    history: 你的財務狀況歷史
-    export: 導出為 PDF、QIF 和 CSV
-    sync: 云同步
+    history: 隨時間變化的財務趨勢
+    export: 匯出為 PDF、QIF 和 CSV
+    sync: 安全雲端同步
   imprint_text: 負責本網站的內容以及<i>{app_name}</i>的開發、維護和配置
   privacy_policy_heading: 隱私政策
   privacy_policy_text: 

@@ -73,13 +73,13 @@ hr:
   professional-key: Profesionalni ključ
   screenshot_titles:
     group: Grupiraj po godini, mjesecu ili tjednu
-    summarize: Zbroji sve tvoje račune
+    summarize: Pregled svih tvojih računa
     budget: Godišnji, mjesečni i tjedni budžeti
-    split: Podijeli u kategorije
-    distribution: Kružni dijagram
-    history: Povijest tvoje financijske situacije
+    split: Podijeli u više kategorija
+    distribution: Raspodjela potrošnje po kategorijama
+    history: Financijski trendovi kroz vrijeme
     export: Izvezi u PDF, QIF i CSV
-    sync: Sinhronizacija u oblaku
+    sync: Sigurna sinkronizacija u oblaku
   all_extended_key_features: Sve funkcije za prošireni ključ
   all_contrib_key_features: Sve funkcije za ključ doprinositelja
   customer_support: Korisnička podrška

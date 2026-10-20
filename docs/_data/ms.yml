@@ -119,10 +119,10 @@ ms:
   customer_support: Sokongan pengguna
   screenshot_titles:
     group: Kumpulkan mengikut tahun, bulan atau minggu
-    summarize: Jumlahkan semua akaun anda
+    summarize: Gambaran keseluruhan semua akaun anda
     budget: Anggaran tahunan, bulanan dan mingguan
     split: Terpisah kepada beberapa kategori
-    distribution: Gambarajah carta pai
-    history: Sejarah keadaan kewangan anda
+    distribution: Pecahan perbelanjaan mengikut kategori
+    history: Trend kewangan mengikut masa
     export: Eksport ke PDF, QIF dan CSV
-    sync: Penyegerakan awan
+    sync: Penyegerakan awan yang selamat

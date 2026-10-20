@@ -22,13 +22,13 @@ nl:
   professional-key: Professionele sleutel
   screenshot_titles:
     group: Groepeer op jaar, maand of week
-    summarize: Tel al je rekeningen bij elkaar op
+    summarize: Overzicht van al uw accounts
     budget: Jaarlijkse, maandelijkse en wekelijkse budgetten
     split: Opsplitsen in meerdere categorieën
-    sync: Cloud synchronisatie
-    distribution: Cirkeldiagram diagram
-    history: Geschiedenis van je financiële situatie
+    distribution: Uitgavenverdeling per categorie
+    history: Financiële trends in de loop van de tijd
     export: Exporteren naar PDF, QIF en CSV
+    sync: Veilige cloudsynchronisatie
   imprint_text: Verantwoordelijk voor de inhoud van deze website en voor 
     ontwikkeling, onderhoud en distributie van <i>{app_name}</i>
   imprint: Afdruk
