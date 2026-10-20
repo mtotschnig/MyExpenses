@@ -103,9 +103,33 @@ class CsvParserTest {
             .isEqualTo(DateTime.date(2026, 10, 1).atMidnight().asDate())
     }
 
+    @Test
+    fun shouldParseArabicNumeralsAndSemicolonDelimiter() {
+        val result = parseCSV(
+            fileContent = "\"١٨/١٠/٢٠٢٦\";\"Peter\";\"-١٤٠٠٠\";\"النقل\";\"\";\"Note\";\"2149591\"",
+            delimiter = ';',
+            dateFormat = QifDateFormat.EU,
+            columnToFieldMap = intArrayOf(
+                R.string.date,
+                R.string.payer_or_payee,
+                R.string.amount,
+                R.string.category,
+                R.string.subcategory,
+                R.string.notes,
+                R.string.reference_number
+            )
+        )
+        with(result.single().transactions.single()) {
+            assertThat(date).isEqualTo(DateTime.date(2026, 10, 18).atMidnight().asDate())
+            assertThat(amount).isEqualToIgnoringScale(-14000L)
+            assertThat(number).isEqualTo("2149591")
+        }
+    }
+
 
     private fun parseCSV(
         fileContent: String,
+        delimiter: Char = ',',
         dateFormat: QifDateFormat = QifDateFormat.US,
         columnToFieldMap: IntArray = intArrayOf(
             R.string.split_transaction,
@@ -121,7 +145,7 @@ class CsvParserTest {
             ByteArrayInputStream(fileContent.toByteArray()),
             StandardCharsets.UTF_8
         )
-        val records = CSVFormat.DEFAULT.parse(reader).records
+        val records = CSVFormat.DEFAULT.builder().setDelimiter(delimiter).build().parse(reader).records
         val p = CSVParser(
             mock(),
             records,

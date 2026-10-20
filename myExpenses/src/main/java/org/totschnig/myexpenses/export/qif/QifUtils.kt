@@ -71,7 +71,7 @@ object QifUtils {
 
     fun parseDateInternal(sDateTime: String, format: QifDateFormat): Calendar {
 
-        val s = sDateTime.trim().trim('"') // Also trim quotes for CSV
+        val s = normalizeNumericText(sDateTime.trim().trim('"')) // Also trim quotes for CSV
 
         // 2. Handle pure numeric YYYYMMDD
         if (s.length == 8 && s.all { it.isDigit() }) {
@@ -179,7 +179,7 @@ object QifUtils {
     @JvmStatic
     fun parseMoney(money: String, maxSize: Int): BigDecimal {
         var result: BigDecimal
-        val sMoney = money.trim().replace(" ", "") // to be safe
+        val sMoney = normalizeNumericText(money.trim().replace(" ", "")) // to be safe
         try {
             result = BigDecimal(sMoney)
         } catch (_: NumberFormatException) {
@@ -218,6 +218,17 @@ object QifUtils {
         }
         require(result.precision() - result.scale() <= maxSize) { "$result exceeds maximum size of $maxSize" }
         return result
+    }
+
+    private fun normalizeNumericText(value: String): String = buildString(value.length) {
+        value.forEach { character ->
+            when (val digit = Character.digit(character, 10)) {
+                in 0..9 -> append(digit)
+                else -> if (character !in '\u200E'..'\u200F' && character !in '\u202A'..'\u202E') {
+                    append(character)
+                }
+            }
+        }
     }
 
     @JvmStatic
