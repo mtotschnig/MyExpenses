@@ -60,13 +60,17 @@
     <color name="overspent">#c00100</color>
     <color name="overspentDaily">#dddd00</color>
     <color name="inBudget">#026e00</color>
-    <color name="transaction_background">#101010</color>
-    <color name="transaction_surface">#111111</color>
-    <color name="transaction_toolbar">#242424</color>
-    <color name="transaction_outline">#505050</color>
-    <color name="transaction_label">#BDBDBD</color>
-    <color name="transaction_text">#F5F5F5</color>
-    <color name="transaction_accent">#C84652</color>
-    <color name="transaction_accent_surface">#29191B</color>
-    <color name="transaction_button_text">#181818</color>
+    <color name="transaction_background">#FAFAFA</color>
+    <color name="transaction_surface">#FFFFFF</color>
+    <color name="transaction_toolbar">#F5F5F5</color>
+    <color name="transaction_outline">#757575</color>
+    <color name="transaction_label">#616161</color>
+    <color name="transaction_text">#212121</color>
+    <color name="transaction_accent">#B3261E</color>
+    <color name="transaction_accent_surface">#F9DEDC</color>
+    <color name="transaction_button_text">#FFFFFF</color>
+    <color name="transaction_button_background">#B3261E</color>
+    <color name="transaction_tab_text">#424242</color>
+    <color name="transaction_tab_background">#FFFFFF</color>
+    <color name="transaction_tab_stroke">#757575</color>
 </resources>
