@@ -45,6 +45,13 @@ class CSVParser(
     private fun saveGetFromRecord(record: CSVRecord, index: Int) =
         if (record.size() > index) record[index].trim() else ""
 
+    private fun saveGetDateFromRecord(record: CSVRecord, index: Int): String? =
+        saveGetFromRecord(record, index)
+            .replace("\u200E", "")
+            .replace("\u200F", "")
+            .replace(Regex("[\\u202A-\\u202E]"), "")
+            .takeIf { it.isNotEmpty() }
+
     fun parse() {
         val columnIndexAccount = columnToFieldMap.indexOf(R.string.account)
         val columnIndexAmount = columnToFieldMap.indexOf(R.string.amount)
@@ -122,10 +129,11 @@ class CSVParser(
                 }
             }
             val dateRecord =
-                columnIndexDate.takeIf { it != -1 }?.let { saveGetFromRecord(record, it) }
+                columnIndexDate.takeIf { it != -1 }?.let { saveGetDateFromRecord(record, it) }
 
             val timeRecord =
                 columnIndexTime.takeIf { it != -1 }?.let { saveGetFromRecord(record, it) }
+                    ?.takeIf { it.isNotEmpty() }
             if (dateRecord != null && timeRecord == null) {
                 transaction.date(
                     QifUtils.parseDate(dateRecord, dateFormat)

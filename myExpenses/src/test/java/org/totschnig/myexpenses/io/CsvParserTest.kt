@@ -82,6 +82,27 @@ class CsvParserTest {
         }
     }
 
+    @Test
+    fun shouldKeepDateWithBidiMarksAndEmptyTime() {
+        val result = parseCSV(
+            fileContent = ",1\u200F/10\u200F/2026,,Peter,100.00,0,Food,,Note",
+            dateFormat = QifDateFormat.EU,
+            columnToFieldMap = intArrayOf(
+                R.string.split_transaction,
+                R.string.date,
+                R.string.time,
+                R.string.payer_or_payee,
+                R.string.income,
+                R.string.expense,
+                R.string.category,
+                R.string.subcategory,
+                R.string.notes
+            )
+        )
+        assertThat(result.single().transactions.single().date)
+            .isEqualTo(DateTime.date(2026, 10, 1).atMidnight().asDate())
+    }
+
 
     private fun parseCSV(
         fileContent: String,
