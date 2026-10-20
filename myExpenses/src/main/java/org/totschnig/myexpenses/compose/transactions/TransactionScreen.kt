@@ -437,10 +437,13 @@ fun TransactionScreen(
                 .nestedScroll(tabRowState.nestedScrollConnection)
         ) {
             if (availableFilters.size > 1 || accountList.size > 1) {
+                val tabContainerColor = MaterialTheme.colorScheme.surfaceVariant
+                val selectedTextColor = MaterialTheme.colorScheme.onSurface
+                val unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
                 Row(
                     modifier = Modifier
                         .padding(horizontal = 12.dp, vertical = 8.dp)
-                        .background(Color(0xFF111416), RoundedCornerShape(12.dp))
+                        .background(tabContainerColor, RoundedCornerShape(12.dp))
                         .fillMaxWidth()
                         .optional(tabRowState.heightPx) {
                             height(with(LocalDensity.current) { it.toDp() })
@@ -467,8 +470,8 @@ fun TransactionScreen(
                                     tabRowState.maxHeightPx = size.height.toFloat()
                                 }
                             },
-                        containerColor = Color(0xFF111416),
-                        contentColor = Color.White,
+                        containerColor = tabContainerColor,
+                        contentColor = selectedTextColor,
                         edgePadding = 0.dp,
                         divider = {},
                         indicator = {
@@ -477,7 +480,7 @@ fun TransactionScreen(
                                     selectedTabIndex,
                                     matchContentSize = false
                                 ),
-                                color = Color(0xFF7AE38D),
+                                color = MaterialTheme.colorScheme.primary,
                                 height = 3.dp,
                             )
                         }
@@ -487,16 +490,17 @@ fun TransactionScreen(
                             with(density) { MaterialTheme.typography.labelLarge.fontSize.toDp() } * 10
                         Timber.d("maxTabWidth: $maxTabWidth")
                         accountList.forEachIndexed { index, account ->
+                            val isSelected = selectedTabIndex == index
                             Tab(
-                                selected = selectedTabIndex == index,
+                                selected = isSelected,
                                 onClick = {
                                     coroutineScope.launch {
                                         pagerState.animateScrollToPage(index)
                                     }
                                 },
                                 modifier = Modifier.height(40.dp),
-                                selectedContentColor = Color(0xFF0D1114),
-                                unselectedContentColor = Color.White,
+                                selectedContentColor = selectedTextColor,
+                                unselectedContentColor = unselectedTextColor,
                                 text = {
                                     Text(
                                         modifier = Modifier.widthIn(max = maxTabWidth),
@@ -504,7 +508,8 @@ fun TransactionScreen(
                                         maxLines = 1,
                                         overflow = TextOverflow.Ellipsis,
                                         fontSize = 14.sp,
-                                        fontWeight = if (selectedTabIndex == index) FontWeight.SemiBold else FontWeight.Normal,
+                                        fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal,
+                                        color = if (isSelected) selectedTextColor else unselectedTextColor,
                                     )
                                 }
                             )
