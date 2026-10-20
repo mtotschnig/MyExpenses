@@ -8,4 +8,10 @@
     <string name="validate_error_webdav_not_compliant">URL không trỏ đến tài nguyên WebDAV.</string>
     <string name="validate_error_webdav_404">URL không tồn tại trên máy chủ.</string>
     <string name="url_not_valid">URL không hợp lệ</string>
+    <string name="label_client_certificate">Chứng chỉ máy khách (mTLS)</string>
+    <string name="label_client_certificate_selected">Chứng chỉ: %s</string>
+    <string name="label_client_certificate_not_selected">Chưa chọn chứng chỉ máy khách</string>
+    <string name="label_select_certificate">Chọn chứng chỉ</string>
+    <string name="error_client_cert_missing">Chứng chỉ máy khách đã cấu hình không còn khả dụng trên thiết bị này. Vui lòng cấu hình lại WebDAV và chọn chứng chỉ mới.</string>
+    <string name="no_client_cert_available">Không có chứng chỉ máy khách nào khả dụng. Vui lòng cài đặt một chứng chỉ trong thông tin xác thực hệ thống của bạn.</string>
 </resources>

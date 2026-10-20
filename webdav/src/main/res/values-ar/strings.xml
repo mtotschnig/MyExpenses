@@ -8,4 +8,10 @@
     <string name="validate_error_webdav_not_compliant">لا يشير عنوان URL إلى مورد WebDAV.</string>
     <string name="validate_error_webdav_404">عنوان URL غير موجود على الخادم.</string>
     <string name="url_not_valid">الرابط غير صحيح</string>
+    <string name="label_client_certificate">شهادة العميل (mTLS)</string>
+    <string name="label_client_certificate_selected">الشهادة: %s</string>
+    <string name="label_client_certificate_not_selected">لم يتم تحديد شهادة عميل</string>
+    <string name="label_select_certificate">تحديد شهادة</string>
+    <string name="error_client_cert_missing">شهادة العميل المكوّنة لم تعد متوفرة على هذا الجهاز. يُرجى إعادة إعداد WebDAV وتحديد شهادة جديدة.</string>
+    <string name="no_client_cert_available">لا تتوفر شهادة عميل. يُرجى تثبيت واحدة في بيانات اعتماد النظام لديك.</string>
 </resources>

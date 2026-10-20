@@ -8,4 +8,10 @@
     <string name="validate_error_webdav_not_compliant">URL টি একটি WebDAV সংস্থানকে নির্দেশ করে না।</string>
     <string name="validate_error_webdav_404">URL টি সার্ভারে বিদ্যমান নেই।</string>
     <string name="url_not_valid">URL ভ্যালিড নয়</string>
+    <string name="label_client_certificate">ক্লায়েন্ট সার্টিফিকেট (mTLS)</string>
+    <string name="label_client_certificate_selected">সার্টিফিকেট: %s</string>
+    <string name="label_client_certificate_not_selected">কোনো ক্লায়েন্ট সার্টিফিকেট নির্বাচিত হয়নি</string>
+    <string name="label_select_certificate">সার্টিফিকেট নির্বাচন করুন</string>
+    <string name="error_client_cert_missing">কনফিগার করা ক্লায়েন্ট সার্টিফিকেটটি এই ডিভাইসে আর উপলব্ধ নেই। অনুগ্রহ করে WebDAV আবার কনফিগার করুন এবং একটি নতুন সার্টিফিকেট নির্বাচন করুন।</string>
+    <string name="no_client_cert_available">কোনো ক্লায়েন্ট সার্টিফিকেট উপলব্ধ নেই। অনুগ্রহ করে আপনার সিস্টেম শংসাপত্রে একটি ইনস্টল করুন।</string>
 </resources>

@@ -8,4 +8,10 @@
     <string name="validate_error_webdav_not_compliant">Этот URL не указывает на ресурс WebDAV.</string>
     <string name="validate_error_webdav_404">URL не существует на сервере.</string>
     <string name="url_not_valid">URL не действителен</string>
+    <string name="label_client_certificate">Клиентский сертификат (mTLS)</string>
+    <string name="label_client_certificate_selected">Сертификат: %s</string>
+    <string name="label_client_certificate_not_selected">Клиентский сертификат не выбран</string>
+    <string name="label_select_certificate">Выбрать сертификат</string>
+    <string name="error_client_cert_missing">Настроенный клиентский сертификат больше недоступен на этом устройстве. Пожалуйста, перенастройте WebDAV и выберите новый сертификат.</string>
+    <string name="no_client_cert_available">Нет доступного клиентского сертификата. Пожалуйста, установите его в системных учетных данных.</string>
 </resources>
