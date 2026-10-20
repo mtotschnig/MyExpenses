@@ -24,8 +24,8 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.text.InlineTextContent
 import androidx.compose.foundation.text.appendInlineContent
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.filled.ShowChart
-import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material.icons.filled.Functions
 import androidx.compose.material.icons.filled.Lock
@@ -294,7 +294,7 @@ private fun HeaderV2(
         } else {
             IconButton(onClick = onNavigate) {
                 Icon(
-                    Icons.Filled.ChevronRight,
+                    Icons.AutoMirrored.Filled.KeyboardArrowRight,
                     "VIEW ALL"
                 )
             }
@@ -469,7 +469,7 @@ fun AccountCardV2(
 
                 IconButton(onClick = onSelected) {
                     Icon(
-                        Icons.Filled.ChevronRight,
+                        Icons.AutoMirrored.Filled.KeyboardArrowRight,
                         contentDescription = stringResource(R.string.import_select_transactions)
                     )
                 }
