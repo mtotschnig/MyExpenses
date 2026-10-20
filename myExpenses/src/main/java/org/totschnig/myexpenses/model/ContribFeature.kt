@@ -28,7 +28,6 @@ import org.totschnig.myexpenses.util.licence.LicenceStatus
 import java.util.Date
 import java.util.Locale
 
-
 class ContribFeatureNotAvailableException(message: String): Exception(message)
 
 enum class ContribFeature(
@@ -96,84 +95,12 @@ enum class ContribFeature(
             PORTFOLIO -> R.string.contrib_feature_portfolio_tracking
         }
 
-    fun getLimitReachedWarning(ctx: Context): String {
-        return ctx.getString(
-            R.string.warning_trial_limit_reached,
-            ctx.getString(labelResId)
-        )
-    }
+    fun getLimitReachedWarning(ctx: Context): String = ""
 
     open fun buildTrialString(
         context: Context,
         licenceHandler: LicenceHandler = context.injector.licenceHandler()
-    ): CharSequence? {
-        val currentLicence = getCurrentLicence(context, licenceHandler)
-
-        return when (trialMode) {
-            TrialMode.NONE -> when (this) {
-                ACCOUNTS_UNLIMITED -> context.getString(
-                    R.string.dialog_contrib_usage_limit_accounts,
-                    FREE_ACCOUNTS,
-                    currentLicence
-                )
-
-                PLANS_UNLIMITED -> context.getString(
-                    R.string.dialog_contrib_usage_limit_plans,
-                    FREE_PLANS,
-                    currentLicence
-                )
-
-                SPLIT_TEMPLATE -> context.getString(
-                    R.string.dialog_contrib_usage_limit_split_templates,
-                    currentLicence
-                )
-
-                PORTFOLIO -> {
-                    val features = listOf(R.string.trade_additional_costs)
-
-                    val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-                        ListFormatter.getInstance(
-                            Locale.getDefault(),
-                            ListFormatter.Type.UNITS,
-                            ListFormatter.Width.NARROW
-                        ) else ListFormatter.getInstance()
-                    context.getString(
-                        R.string.premium_nudge_portfolio_message,
-                        formatter.format(features.map { context.getString(it) })
-                        )
-                }
-
-                else -> null
-            }
-
-            TrialMode.DURATION ->
-                if (licenceHandler.usagesLeft(this))
-                    HtmlCompat.fromHtml(
-                        buildString {
-                            append(context.getString(
-                                R.string.dialog_contrib_trial_info,
-                                currentLicence,
-                                "<i>" + context.getString(labelResId) + "</i>",
-                                TRIAL_DURATION_DAYS,
-                                Utils.getDateFormatSafe(context)
-                                    .format(Date(licenceHandler.getEndOfTrial(this@ContribFeature)))
-                            ))
-                            if (isPlay) {
-                                append(" ")
-                                append(context.getString(R.string.dialog_contrib_trial_info_play))
-                            }
-                        },
-                        HtmlCompat.FROM_HTML_MODE_LEGACY
-                    )
-                else
-                    getLimitReachedWarning(context)
-
-            TrialMode.UNLIMITED -> context.getString(
-                R.string.dialog_contrib_usage_limit_with_dialog,
-                currentLicence
-            )
-        }
-    }
+    ): CharSequence? = null
 
     protected fun getCurrentLicence(context: Context, licenceHandler: LicenceHandler) =
         context.getString(licenceHandler.licenceStatus?.resId ?: R.string.licence_status_free)
@@ -186,9 +113,9 @@ enum class ContribFeature(
     }
 
     val isExtended: Boolean
-        get() = licenceStatus === LicenceStatus.EXTENDED
+        get() = true
     val isProfessional: Boolean
-        get() = licenceStatus === LicenceStatus.PROFESSIONAL
+        get() = true
 
     companion object {
         const val FREE_PLANS = 3
