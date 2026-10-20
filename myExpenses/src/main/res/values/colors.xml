@@ -70,7 +70,4 @@
     <color name="transaction_accent_surface">#F9DEDC</color>
     <color name="transaction_button_text">#FFFFFF</color>
     <color name="transaction_button_background">#B3261E</color>
-    <color name="transaction_tab_text">#424242</color>
-    <color name="transaction_tab_background">#FFFFFF</color>
-    <color name="transaction_tab_stroke">#757575</color>
 </resources>
