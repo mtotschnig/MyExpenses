@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.compose.transactions
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,6 +24,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ContentCopy
@@ -437,6 +439,9 @@ fun TransactionScreen(
             if (availableFilters.size > 1 || accountList.size > 1) {
                 Row(
                     modifier = Modifier
+                        .padding(horizontal = 12.dp, vertical = 8.dp)
+                        .background(Color(0xFF111416), RoundedCornerShape(12.dp))
+                        .fillMaxWidth()
                         .optional(tabRowState.heightPx) {
                             height(with(LocalDensity.current) { it.toDp() })
                         },
@@ -455,19 +460,25 @@ fun TransactionScreen(
                     SecondaryScrollableTabRow(
                         selectedTabIndex = selectedTabIndex,
                         modifier = Modifier
+                            .weight(1f)
+                            .padding(2.dp)
                             .onSizeChanged { size ->
                                 if (size.height > (tabRowState.maxHeightPx ?: 0f)) {
                                     tabRowState.maxHeightPx = size.height.toFloat()
                                 }
                             },
+                        containerColor = Color(0xFF111416),
+                        contentColor = Color.White,
                         edgePadding = 0.dp,
+                        divider = {},
                         indicator = {
                             TabRowDefaults.SecondaryIndicator(
                                 modifier = Modifier.tabIndicatorOffset(
                                     selectedTabIndex,
                                     matchContentSize = false
                                 ),
-                                color = accountColor
+                                color = Color(0xFF7AE38D),
+                                height = 3.dp,
                             )
                         }
                     ) {
@@ -484,12 +495,16 @@ fun TransactionScreen(
                                     }
                                 },
                                 modifier = Modifier.height(40.dp),
+                                selectedContentColor = Color(0xFF0D1114),
+                                unselectedContentColor = Color.White,
                                 text = {
                                     Text(
                                         modifier = Modifier.widthIn(max = maxTabWidth),
                                         text = account.labelV2(LocalContext.current),
                                         maxLines = 1,
-                                        overflow = TextOverflow.Ellipsis
+                                        overflow = TextOverflow.Ellipsis,
+                                        fontSize = 14.sp,
+                                        fontWeight = if (selectedTabIndex == index) FontWeight.SemiBold else FontWeight.Normal,
                                     )
                                 }
                             )
@@ -519,7 +534,6 @@ fun TransactionScreen(
                             .graphicsLayer {
                                 val pageOffset =
                                     (pagerState.currentPage - page) + pagerState.currentPageOffsetFraction
-                                // Apply a slight shadow or dimming to non-focused pages
                                 alpha = (1f - pageOffset.absoluteValue).coerceIn(0f, 1f)
                             }
                     ) {
@@ -630,7 +644,6 @@ private fun BalanceHeader(
         ) {
 
             val isWideLayout = maxWidth > 300.dp
-            // Adaptive Content: Switch between Column and Row
             if (isWideLayout) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -653,7 +666,6 @@ private fun BalanceHeader(
             contentDescription = null
         )
 
-        // The Popup that shows the full summary
         if (isSummaryPopupVisible) {
 
             val currencyFormatter = LocalCurrencyFormatter.current
@@ -672,7 +684,6 @@ private fun BalanceHeader(
                     }
                 }
             ) {
-                //overwrite TitleTypography
                 ProvideTextStyle(MaterialTheme.typography.bodyMedium) {
                     Box(
                         modifier = Modifier
