@@ -170,7 +170,7 @@ class ExportViewModel(application: Application) : ContentResolvingAndroidViewMod
                                                 encoding = encoding,
                                                 withHeader = !append,
                                                 delimiter = delimiter,
-                                                withAccountColumn = mergeP,
+                                                withAccountColumn = true,
                                                 splitCategoryLevels = prefHandler.getBoolean(
                                                     PrefKey.CSV_EXPORT_SPLIT_CATEGORIES,
                                                     false
