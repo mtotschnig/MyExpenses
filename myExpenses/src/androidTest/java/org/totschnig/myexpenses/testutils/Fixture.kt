@@ -152,6 +152,10 @@ class Fixture(inst: Instrumentation) {
             "IDR" -> 24061.04
             "HKD" -> 10.46
             "AUD" -> 1.92
+            "SEK" -> 13.24
+            "THB" -> 44.92
+            "UAH" -> 60.13
+            "PKR" -> 368.93
             else -> throw IllegalArgumentException("Exchange rate missing for: ${defaultCurrency.code}")
         }
         val accountTypeCash = repository.findAccountType(PREDEFINED_NAME_CASH)!!
