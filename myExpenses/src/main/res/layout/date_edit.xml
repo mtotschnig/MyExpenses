@@ -10,7 +10,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:hint="@string/date" />
 
     <ImageView
@@ -44,5 +44,6 @@
         android:layout_gravity="center_vertical"
         android:layout_marginStart="4dp"
         android:layout_weight="1"
+        android:visibility="gone"
         android:hint="@string/time" />
 </merge>

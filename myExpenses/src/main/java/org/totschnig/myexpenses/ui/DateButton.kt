@@ -37,7 +37,9 @@ class DateButton @JvmOverloads constructor(
     @JvmField
     var date: LocalDate = LocalDate.now()
 
-    private val formatter: DateTimeFormatter = getDateTimeFormatter(context, shortYear = true)
+    private val formatter: DateTimeFormatter = ((org.totschnig.myexpenses.util.Utils.ensureDateFormatWithShortYear(context) as? java.text.SimpleDateFormat)?.toPattern())?.let {
+        DateTimeFormatter.ofPattern("EEE, $it", org.totschnig.myexpenses.util.Utils.localeFromContext(context))
+    } ?: DateTimeFormatter.ofLocalizedDate(java.time.format.FormatStyle.MEDIUM)
 
     init {
         this.setCompoundDrawablesRelativeWithIntrinsicBounds(
@@ -65,6 +67,7 @@ class DateButton @JvmOverloads constructor(
             }
             false
         }
+        update()
     }
 
 

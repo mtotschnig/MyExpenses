@@ -21,6 +21,7 @@ class TimeButton @JvmOverloads constructor(
 
     init {
         time = LocalTime.now()
+        update()
     }
 
     private val timeFormatter: DateTimeFormatter by lazy { context.timeFormatter }
