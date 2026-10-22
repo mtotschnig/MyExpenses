@@ -8,4 +8,10 @@
     <string name="validate_error_webdav_not_compliant">ವೆಬ್‌ಡಿಎವಿ ಸಂಪನ್ಮೂಲವನ್ನು URL ಸೂಚಿಸುವುದಿಲ್ಲ.</string>
     <string name="validate_error_webdav_404">ಸರ್ವರ್‌ನಲ್ಲಿ URL ಅಸ್ತಿತ್ವದಲ್ಲಿಲ್ಲ.</string>
     <string name="url_not_valid">URL ಮಾನ್ಯವಾಗಿಲ್ಲ</string>
+    <string name="label_client_certificate">ಕ್ಲೈಂಟ್ ಪ್ರಮಾಣಪತ್ರ (mTLS)</string>
+    <string name="label_client_certificate_selected">ಪ್ರಮಾಣಪತ್ರ: %s</string>
+    <string name="label_client_certificate_not_selected">ಯಾವುದೇ ಕ್ಲೈಂಟ್ ಪ್ರಮಾಣಪತ್ರವನ್ನು ಆಯ್ಕೆ ಮಾಡಲಾಗಿಲ್ಲ</string>
+    <string name="label_select_certificate">ಪ್ರಮಾಣಪತ್ರವನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="error_client_cert_missing">ಕಾನ್ಫಿಗರ್ ಮಾಡಲಾದ ಕ್ಲೈಂಟ್ ಪ್ರಮಾಣಪತ್ರವು ಈ ಸಾಧನದಲ್ಲಿ ಇನ್ನು ಮುಂದೆ ಲಭ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು WebDAV ಅನ್ನು ಮರುಕಾನ್ಫಿಗರ್ ಮಾಡಿ ಮತ್ತು ಹೊಸ ಪ್ರಮಾಣಪತ್ರವನ್ನು ಆಯ್ಕೆಮಾಡಿ.</string>
+    <string name="no_client_cert_available">ಯಾವುದೇ ಕ್ಲೈಂಟ್ ಪ್ರಮಾಣಪತ್ರ ಲಭ್ಯವಿಲ್ಲ. ದಯವಿಟ್ಟು ನಿಮ್ಮ ಸಿಸ್ಟಮ್ ರುಜುವಾತುಗಳಲ್ಲಿ ಒಂದನ್ನು ಸ್ಥಾಪಿಸಿ.</string>
 </resources>

@@ -128,10 +128,10 @@ de:
   customer_support: Kundendienst
   screenshot_titles:
     group: Gruppierung nach Jahr, Monat oder Woche
-    summarize: Zusammenfassung aller Konten
+    summarize: Übersicht über alle Konten
     budget: Jahres-, Monats- und Wochenbudgets
     split: Aufteilung in mehrere Kategorien
-    distribution: Kreisdiagramm
-    history: Verlauf Ihrer finanziellen Situation
+    distribution: Ausgabenverteilung nach Kategorie
+    history: Finanzielle Entwicklung im Zeitverlauf
     export: Export nach PDF, QIF und CSV
-    sync: Cloud-Synchronisierung
+    sync: Sichere Cloud-Synchronisierung

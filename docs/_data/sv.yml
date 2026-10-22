@@ -1,12 +1,12 @@
 screenshot_titles:
-  sync: Molnsynkronisering
-  history: Historik över din finansiella situation
+  sync: Säker molnsynkronisering
+  history: Finansiell utveckling över tid
   export: Exportera till PDF, QIF och CSV
   group: Gruppera efter år, månad eller vecka
-  summarize: Sammanställ alla dina konton
+  summarize: Översikt över alla dina konton
   split: Dela upp till flera kategorier
-  budget: Årligen, månadsvis och veckobaserade budgetar
-  distribution: Cirkeldiagram
+  budget: Årliga, månatliga och veckovisa budgetar
+  distribution: Utgiftsfördelning per kategori
 store:
   highlight_3: Sammanfatta din finansiella situation per dag, vecka eller år
   full_description_intro: '{app_name} håller koll på dina utgifter och din inkomst

@@ -8,4 +8,10 @@
     <string name="validate_error_webdav_not_compliant">URL は WebDAV リソースを指していません。</string>
     <string name="validate_error_webdav_404">URL がサーバーに存在しません</string>
     <string name="url_not_valid">URL が無効です</string>
+    <string name="label_client_certificate">クライアント証明書 (mTLS)</string>
+    <string name="label_client_certificate_selected">証明書: %s</string>
+    <string name="label_client_certificate_not_selected">クライアント証明書が選択されていません</string>
+    <string name="label_select_certificate">証明書を選択</string>
+    <string name="error_client_cert_missing">設定されたクライアント証明書はこのデバイスで利用できなくなりました。WebDAVを再設定し、新しい証明書を選択してください。</string>
+    <string name="no_client_cert_available">利用可能なクライアント証明書がありません。システムの認証情報にインストールしてください。</string>
 </resources>

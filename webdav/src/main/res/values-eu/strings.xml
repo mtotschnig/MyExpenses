@@ -8,4 +8,10 @@
     <string name="validate_error_webdav_not_compliant">URLak ez darama WevDAV baliabide batetara.</string>
     <string name="validate_error_webdav_404">URL helbidea ez dago zerbitzarian.</string>
     <string name="url_not_valid">URL baliogabea</string>
+    <string name="label_client_certificate">Bezero-ziurtagiria (mTLS)</string>
+    <string name="label_client_certificate_selected">Ziurtagiria: %s</string>
+    <string name="label_client_certificate_not_selected">Ez da bezero-ziurtagirik hautatu</string>
+    <string name="label_select_certificate">Hautatu ziurtagiria</string>
+    <string name="error_client_cert_missing">Konfiguratutako bezero-ziurtagiria ez dago jada erabilgarri gailu honetan. Mesedez, berriro konfiguratu WebDAV eta hautatu ziurtagiri berri bat.</string>
+    <string name="no_client_cert_available">Ez dago bezero-ziurtagirik erabilgarri. Mesedez, instalatu bat zure sistemako kredentzialetan.</string>
 </resources>

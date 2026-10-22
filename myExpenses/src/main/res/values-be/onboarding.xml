@@ -2,7 +2,7 @@
 <resources>
     <string name="testData_account1Label">Мой кашалёк</string>
     <string name="testData_account1Description">Штодзённыя выдаткі</string>
-    <string name="testData_account2Label">Уік-энд у Парыжы</string>
+    <string name="testData_account2Label">Уік-энд у Лондане</string>
     <string name="testData_account3Label">Банкаўскі рахунак</string>
     <string name="testData_account3Description">Беларусбанк</string>
     <string name="testData_transaction2Comment">Садавіна і гародніна</string>

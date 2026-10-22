@@ -8,4 +8,10 @@
     <string name="validate_error_webdav_not_compliant">Adres URL nie wskazuje na zasób WebDAV.</string>
     <string name="validate_error_webdav_404">Adres URL nie istnieje na serwerze.</string>
     <string name="url_not_valid">URL jest nieprawidłowy</string>
+    <string name="label_client_certificate">Certyfikat klienta (mTLS)</string>
+    <string name="label_client_certificate_selected">Certyfikat: %s</string>
+    <string name="label_client_certificate_not_selected">Nie wybrano certyfikatu klienta</string>
+    <string name="label_select_certificate">Wybierz certyfikat</string>
+    <string name="error_client_cert_missing">Skonfigurowany certyfikat klienta nie jest już dostępny na tym urządzeniu. Skonfiguruj ponownie WebDAV i wybierz nowy certyfikat.</string>
+    <string name="no_client_cert_available">Brak dostępnego certyfikatu klienta. Zainstaluj go w poświadczeniach systemowych.</string>
 </resources>

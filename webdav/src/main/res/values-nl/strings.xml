@@ -8,4 +8,10 @@
     <string name="url_not_valid">URL niet geldig</string>
     <string name="validate_error_webdav_not_compliant">De URL verwijst niet naar een WebDAV-bron.</string>
     <string name="validate_error_webdav_404">De URL bestaat niet op de server.</string>
+    <string name="label_client_certificate">Clientcertificaat (mTLS)</string>
+    <string name="label_client_certificate_selected">Certificaat: %s</string>
+    <string name="label_client_certificate_not_selected">Geen clientcertificaat geselecteerd</string>
+    <string name="label_select_certificate">Certificaat selecteren</string>
+    <string name="error_client_cert_missing">Het geconfigureerde clientcertificaat is niet langer beschikbaar op dit apparaat. Configureer WebDAV opnieuw en selecteer een nieuw certificaat.</string>
+    <string name="no_client_cert_available">Geen clientcertificaat beschikbaar. Installeer er een in je systeemreferenties.</string>
 </resources>

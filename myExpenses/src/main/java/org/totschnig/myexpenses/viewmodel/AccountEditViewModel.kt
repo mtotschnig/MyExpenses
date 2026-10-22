@@ -87,7 +87,6 @@ class AccountEditViewModel(application: Application, savedStateHandle: SavedStat
                     homeCurrency.code
                 )
             }
-            currencyUnit?.let { repository.storeCustomFractionDigits(it) }
             account.id to account.uuid!!
         })
     }

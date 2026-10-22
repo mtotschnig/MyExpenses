@@ -273,6 +273,7 @@ fun Repository.createAccount(account: Account): Account {
             initialValues
         )!!
     )
+    storeCustomFractionDigitsSync(currencyContext[account.currency])
     return account.copy(id = id, uuid = uuid)
 }
 
@@ -281,6 +282,11 @@ fun Repository.updateAccount(accountId: Long, data: ContentValues) {
         ContentUris.withAppendedId(ACCOUNTS_URI, accountId),
         data, null, null
     )
+    if (data.containsKey(KEY_CURRENCY)) {
+        data.getAsString(KEY_CURRENCY)?.let { currency ->
+            storeCustomFractionDigitsSync(currencyContext[currency])
+        }
+    }
 }
 
 fun Repository.updateAccount(accountId: Long, builder: ContentValues.() -> Unit) {

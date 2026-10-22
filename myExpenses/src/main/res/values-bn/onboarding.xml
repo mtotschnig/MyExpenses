@@ -2,7 +2,7 @@
 <resources>
     <string name="testData_account1Label">আমার ওয়ালেট</string>
     <string name="testData_account1Description">দৈনন্দিন খরচ</string>
-    <string name="testData_account2Label">প্যারিসে উইকএন্ড</string>
+    <string name="testData_account2Label">লন্ডনে উইকএন্ড</string>
     <string name="testData_account3Label">ব্যাংক অ্যাকাউন্ট</string>
     <string name="testData_account3Description">সোনালী ব্যাংক</string>
     <string name="testData_transaction2Comment">ফলমূল ও শাকসবজি</string>

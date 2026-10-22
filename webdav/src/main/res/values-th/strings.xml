@@ -8,4 +8,10 @@
     <string name="validate_error_webdav_404">URL ไม่มีอยู่บนเซิร์ฟเวอร์</string>
     <string name="url_not_valid">URL ไม่ถูกต้อง</string>
     <string name="validate_error_webdav_not_compliant">URL ไม่ชี้ไปยังทรัพยากร WebDAV</string>
+    <string name="label_client_certificate">ใบรับรองไคลเอ็นต์ (mTLS)</string>
+    <string name="label_client_certificate_selected">ใบรับรอง: %s</string>
+    <string name="label_client_certificate_not_selected">ไม่ได้เลือกใบรับรองไคลเอ็นต์</string>
+    <string name="label_select_certificate">เลือกใบรับรอง</string>
+    <string name="error_client_cert_missing">ใบรับรองไคลเอ็นต์ที่กำหนดค่าไว้ไม่สามารถใช้งานบนอุปกรณ์นี้ได้อีกต่อไป โปรดกำหนดค่า WebDAV ใหม่และเลือกใบรับรองใหม่</string>
+    <string name="no_client_cert_available">ไม่มีใบรับรองไคลเอ็นต์ที่ใช้งานได้ โปรดติดตั้งในข้อมูลประจำตัวของระบบของคุณ</string>
 </resources>

@@ -2,7 +2,7 @@
 <resources>
     <string name="testData_account1Label">Dompet saya</string>
     <string name="testData_account1Description">Pengeluaran harian</string>
-    <string name="testData_account2Label">akhir pekan di Paris</string>
+    <string name="testData_account2Label">akhir pekan di London</string>
     <string name="testData_account3Label">Rekening bank</string>
     <string name="testData_account3Description">Bank Mandiri</string>
     <string name="testData_transaction2Comment">Buah &amp; Sayuran</string>

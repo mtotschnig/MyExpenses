@@ -3,12 +3,10 @@ package org.totschnig.myexpenses.viewmodel
 import android.app.Application
 import android.content.ContentUris
 import android.content.ContentValues
-import android.content.res.Resources
 import android.database.sqlite.SQLiteConstraintException
 import android.database.sqlite.SQLiteException
 import android.os.Bundle
 import android.os.Parcelable
-import android.text.TextUtils.concat
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -81,7 +79,6 @@ import org.totschnig.myexpenses.export.pdf.PdfPrinter
 import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
-import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.generateUuid
@@ -122,15 +119,12 @@ import org.totschnig.myexpenses.provider.KEY_TRANSFER_PEER
 import org.totschnig.myexpenses.provider.KEY_UUID
 import org.totschnig.myexpenses.provider.KEY_VALUE
 import org.totschnig.myexpenses.provider.KEY_VALUE_DATE
-import org.totschnig.myexpenses.provider.KEY_VISIBLE
 import org.totschnig.myexpenses.provider.KEY_YEAR
-import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.DUAL_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.KEY_REPLACE
 import org.totschnig.myexpenses.provider.TransactionProvider.LATEST_PRICES_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.METHOD_SAVE_TRANSACTION_TAGS
 import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_MAPPED_OBJECTS
-import org.totschnig.myexpenses.provider.TransactionProvider.QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.UNSPLIT_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.URI_SEGMENT_LINK_TRANSFER
@@ -148,14 +142,10 @@ import org.totschnig.myexpenses.provider.getInt
 import org.totschnig.myexpenses.provider.getLocalDate
 import org.totschnig.myexpenses.provider.getLongOrNull
 import org.totschnig.myexpenses.provider.getString
-import org.totschnig.myexpenses.provider.mapToListCatching
 import org.totschnig.myexpenses.provider.mapToListWithExtra
 import org.totschnig.myexpenses.provider.triggerAccountListRefresh
 import org.totschnig.myexpenses.util.AppDirHelper
-import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.ResultUnit
-import org.totschnig.myexpenses.util.TextUtils.withAmountColor
-import org.totschnig.myexpenses.util.convAmount
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.enumValueOrDefault
 import org.totschnig.myexpenses.viewmodel.ExportViewModel.Companion.EXPORT_HANDLE_DELETED_UPDATE_BALANCE
@@ -173,7 +163,6 @@ import org.totschnig.myexpenses.viewmodel.data.Tag
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
 import timber.log.Timber
 import java.time.LocalDate
-import kotlin.math.sign
 
 enum class ScrollToCurrentDate { Never, AppLaunch, AccountOpen }
 
@@ -192,12 +181,6 @@ open class MyExpensesViewModel(
     val savedStateHandle: SavedStateHandle,
 ) : PrintViewModel(application) {
 
-    var showBalanceSheet: Boolean
-        get() = savedStateHandle.get<Boolean>("showBalanceSheet") == true
-        set(value) {
-            savedStateHandle["showBalanceSheet"] = value
-        }
-
     @OptIn(SavedStateHandleSaveableApi::class)
     var showFilterDialog: Boolean by savedStateHandle.saveable {
         mutableStateOf(false)
@@ -208,13 +191,6 @@ open class MyExpensesViewModel(
             dataStore,
             booleanPreferencesKey("showStatusHandle"),
             defaultValue = true
-        )
-    }
-
-    val showEquivalentWorth by lazy {
-        PreferenceAccessor(
-            dataStore,
-            booleanPreferencesKey("showEquivalentWorth"), defaultValue = false
         )
     }
 
@@ -267,21 +243,6 @@ open class MyExpensesViewModel(
 
     val selectedTransactionSum: Long
         get() = selectionState.value.sumOf { it.amount.amountMinor }
-
-    fun actionModeTitle(
-        currencyFormatter: ICurrencyFormatter,
-        currencyUnit: CurrencyUnit,
-        resources: Resources,
-    ): CharSequence =
-        concat(
-            selectionState.value.size.toString(),
-            " (Σ: ",
-            with(selectedTransactionSum) {
-                currencyFormatter.convAmount(this, currencyUnit)
-                    .withAmountColor(resources, sign)
-            },
-            ")"
-        )
 
     @Parcelize
     data class SelectionInfo(
@@ -496,7 +457,6 @@ open class MyExpensesViewModel(
             ScrollToCurrentDate.Never
         )
 
-    @OptIn(SavedStateHandleSaveableApi::class)
     var balanceDate =
         savedStateHandle.getLiveData<LocalDate>(BALANCE_DATE_KEY, LocalDate.now()).asFlow()
 
@@ -566,19 +526,6 @@ open class MyExpensesViewModel(
             nonAggregates.safeSortedWith(compareBy(getNaturalComparator()) { it.label }) + aggregates
         } else this
 
-    val accountData: StateFlow<Result<List<FullAccount>>?> by lazy {
-        contentResolver.observeQuery(
-            uri = ACCOUNTS_URI.buildUpon()
-                .appendBooleanQueryParameter(QUERY_PARAMETER_MERGE_CURRENCY_AGGREGATES)
-                .build(),
-            selection = "$KEY_VISIBLE = 1",
-            notifyForDescendants = true
-        )
-            .mapToListCatching { it.fromCursor(currencyContext) }
-            .map { result -> result.map { it.withNaturalSort } }
-            .stateIn(viewModelScope, SharingStarted.WhileSubscribedWithTimeout, null)
-    }
-
     fun headerData(account: PageAccount, v2: Boolean) = buildHeaderData(account, v2)
 
     fun budgetData(account: PageAccount): Flow<BudgetData?> =
@@ -612,12 +559,6 @@ open class MyExpensesViewModel(
 
     fun sumInfo(account: PageAccount) = sums.getValue(account)
 
-    fun persistGrouping(grouping: Grouping) {
-        viewModelScope.launch {
-            performPersistGrouping(grouping)
-        }
-    }
-
     suspend fun performPersistGrouping(grouping: Grouping) {
         withContext(coroutineContext()) {
             if (selectedAccountId.value == DataBaseAccount.HOME_AGGREGATE_ID) {
@@ -626,12 +567,6 @@ open class MyExpensesViewModel(
             } else {
                 repository.setGrouping(selectedAccountId.value, grouping)
             }
-        }
-    }
-
-    fun persistSort(transactionSort: TransactionSort) {
-        viewModelScope.launch(context = coroutineContext()) {
-            performPersistSort(transactionSort)
         }
     }
 
@@ -920,12 +855,16 @@ open class MyExpensesViewModel(
 
     suspend fun resolveExtraInfo(transaction: Transaction2): ResolvedExtraInfo? {
         return withContext(Dispatchers.IO) {
-            if (transaction.isTrade) {
-                repository.loadTrade(transaction.id)?.let { ResolvedExtraInfo.Trade(it) }
-            } else if (transaction.isSplit) {
-                repository.calculateSplitSummary(transaction.id)
-                    ?.let { ResolvedExtraInfo.Split(it) }
-            } else null
+            runCatching {
+                if (transaction.isTrade) {
+                    repository.loadTrade(transaction.id)?.let { ResolvedExtraInfo.Trade(it) }
+                } else if (transaction.isSplit) {
+                    repository.calculateSplitSummary(transaction.id)
+                        ?.let { ResolvedExtraInfo.Split(it) }
+                } else null
+            }.onFailure {
+                CrashHandler.report(it)
+            }.getOrNull()
         }
     }
 

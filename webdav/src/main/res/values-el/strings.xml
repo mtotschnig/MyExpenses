@@ -8,4 +8,10 @@
     <string name="validate_error_webdav_not_compliant">Η διεύθυνση URL δεν κατευθύνει σε έναν πόρο WebDAV.</string>
     <string name="validate_error_webdav_404">Το URL δεν υπάρχει στον εξυπηρετητή.</string>
     <string name="url_not_valid">Η διεύθυνση URL δεν είναι έγκυρη</string>
+    <string name="label_client_certificate">Πιστοποιητικό πελάτη (mTLS)</string>
+    <string name="label_client_certificate_selected">Πιστοποιητικό: %s</string>
+    <string name="label_client_certificate_not_selected">Δεν έχει επιλεγεί πιστοποιητικό πελάτη</string>
+    <string name="label_select_certificate">Επιλογή πιστοποιητικού</string>
+    <string name="error_client_cert_missing">Το διαμορφωμένο πιστοποιητικό πελάτη δεν είναι πλέον διαθέσιμο σε αυτήν τη συσκευή. Παρακαλούμε επαναδιαμορφώστε το WebDAV και επιλέξτε ένα νέο πιστοποιητικό.</string>
+    <string name="no_client_cert_available">Δεν υπάρχει διαθέσιμο πιστοποιητικό πελάτη. Παρακαλούμε εγκαταστήστε ένα στα διαπιστευτήρια του συστήματός σας.</string>
 </resources>

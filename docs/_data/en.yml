@@ -92,10 +92,10 @@ en:
   customer_support: Customer support
   screenshot_titles:
     group: Group by year, month or week
-    summarize: Sum up all your accounts
+    summarize: Overview of all your accounts
     budget: Yearly, monthly and weekly budgets
-    split: Split to multiple categories
-    distribution: Pie chart diagram
-    history: History of your financial situation
+    split: Split into multiple categories
+    distribution: Category spending breakdown
+    history: Financial trends over time
     export: Export to PDF, QIF and CSV
-    sync: Cloud synchronization
+    sync: Secure cloud sync

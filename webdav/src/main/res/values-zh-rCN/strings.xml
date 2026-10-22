@@ -8,4 +8,10 @@
     <string name="validate_error_webdav_not_compliant">该网址不指向WebDAV资源。</string>
     <string name="validate_error_webdav_404">该网址在服务器上不存在。</string>
     <string name="url_not_valid">网址无效</string>
+    <string name="label_client_certificate">客户端证书 (mTLS)</string>
+    <string name="label_client_certificate_selected">证书：%s</string>
+    <string name="label_client_certificate_not_selected">未选择客户端证书</string>
+    <string name="label_select_certificate">选择证书</string>
+    <string name="error_client_cert_missing">已配置的客户端证书在此设备上不再可用。请重新配置 WebDAV 并选择新证书。</string>
+    <string name="no_client_cert_available">没有可用的客户端证书。请在系统凭据中安装一个。</string>
 </resources>

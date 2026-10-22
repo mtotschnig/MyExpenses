@@ -8,4 +8,10 @@
     <string name="url_not_valid">Adresa URL nu este validă</string>
     <string name="validate_error_webdav_not_compliant">URL-ul nu indică spre o resursă WebDAV.</string>
     <string name="validate_error_webdav_404">URL-ul nu există pe server.</string>
+    <string name="label_client_certificate">Certificat client (mTLS)</string>
+    <string name="label_client_certificate_selected">Certificat: %s</string>
+    <string name="label_client_certificate_not_selected">Niciun certificat client selectat</string>
+    <string name="label_select_certificate">Selectați certificatul</string>
+    <string name="error_client_cert_missing">Certificatul client configurat nu mai este disponibil pe acest dispozitiv. Vă rugăm să Reconfigurați WebDAV și să selectați un certificat nou.</string>
+    <string name="no_client_cert_available">Niciun certificat client disponibil. Vă rugăm să instalați unul în credențialele de sistem.</string>
 </resources>

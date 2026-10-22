@@ -118,10 +118,10 @@ tr:
   customer_support: Müşteri desteği
   screenshot_titles:
     group: Senelik, aylık veya haftalık gruplamalar
-    summarize: Tüm hesapların toplamı
+    summarize: Tüm hesaplarınıza genel bakış
     budget: Senelik, aylık ve haftalık bütçeler
     split: Birden fazla kategoriye bölünme
-    distribution: Grafik diyagram
-    history: Finansal durumunuzun tarihçesi
+    distribution: Kategoriye göre harcama dağılımı
+    history: Zaman içindeki finansal eğilimler
     export: PDF, QIF ve CSV olarak dışa aktarma
-    sync: Bulut eşzamanlaması
+    sync: Güvenli bulut eşzamanlaması

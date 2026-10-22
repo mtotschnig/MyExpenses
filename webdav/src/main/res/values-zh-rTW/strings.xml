@@ -8,4 +8,10 @@
     <string name="validate_error_webdav_not_compliant">該網址不指向 WebDAV 資源。</string>
     <string name="validate_error_webdav_404">該網址在伺服器上不存在。</string>
     <string name="url_not_valid">無效網址</string>
+    <string name="label_client_certificate">用戶端證書 (mTLS)</string>
+    <string name="label_client_certificate_selected">證書：%s</string>
+    <string name="label_client_certificate_not_selected">未選擇用戶端證書</string>
+    <string name="label_select_certificate">選擇證書</string>
+    <string name="error_client_cert_missing">已配置的用戶端證書在此裝置上不再可用。請重新配置 WebDAV 並選擇新證書。</string>
+    <string name="no_client_cert_available">沒有可用的用戶端證書。請在系統憑據中安裝一個。</string>
 </resources>

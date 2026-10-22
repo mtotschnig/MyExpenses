@@ -91,10 +91,10 @@ ko:
   customer_support: 고객 지원
   screenshot_titles:
     group: 연도, 월 또는 주별로 그룹화
-    summarize: 모든 계정 요약
+    summarize: 모든 계정 개요
     budget: 연간, 월간 및 주별 예산
     split: 여러 카테고리로 분할
-    distribution: 파이 차트 다이어그램
-    history: 재정 상황의 역사
+    distribution: 카테고리별 지출 내역
+    history: 시간에 따른 재정 추이
     export: PDF, QIF 및 CSV로 내보내기
-    sync: 클라우드 동기화
+    sync: 안전한 클라우드 동기화

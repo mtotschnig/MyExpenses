@@ -8,4 +8,10 @@
     <string name="validate_error_webdav_404">URL ne postoji na ovom poslužitelju.</string>
     <string name="validate_error_webdav_not_compliant">URL ne upućuje na WebDAV resurs.</string>
     <string name="validate_error_webdav_invalid_certificate">Vertifikatu se ne vjeruje. Čini se da je nevaljan.</string>
+    <string name="label_client_certificate">Klijentski certifikat (mTLS)</string>
+    <string name="label_client_certificate_selected">Certifikat: %s</string>
+    <string name="label_client_certificate_not_selected">Nije odabran klijentski certifikat</string>
+    <string name="label_select_certificate">Odaberi certifikat</string>
+    <string name="error_client_cert_missing">Podešeni klijentski certifikat više nije dostupan na ovom uređaju. Ponovno podesite WebDAV i odaberite novi certifikat.</string>
+    <string name="no_client_cert_available">Nema dostupnog klijentskog certifikata. Instalirajte ga u vjerodajnicama sustava.</string>
 </resources>

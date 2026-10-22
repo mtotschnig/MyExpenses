@@ -39,12 +39,12 @@ cs:
   professional-key: Profesionální klíč
   screenshot_titles:
     group: Seskupit podle roku, měsíce nebo týdne
-    summarize: Sečtěte všechny své účty
+    summarize: Přehled všech vašich účtů
     budget: Roční, měsíční a týdenní rozpočty
     split: Rozdělit do více kategorií
-    distribution: Výsečový graf
-    history: Historie vaší finanční situace
+    distribution: Rozdělení výdajů podle kategorií
+    history: Finanční vývoj v čase
     export: Export do PDF, QIF a CSV
-    sync: Cloudová synchronizace
+    sync: Bezpečná cloudová synchronizace
   all_contrib_key_features: Všechny funkce přispěvatelského klíče
   all_extended_key_features: Všechny funkce Rozšířeného klíče

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hint_url">URL</string>
+    <string name="description_webdav_url">សូមបញ្ចូល URL ទៅកាន់ថតពិសេសនៅលើម៉ាស៊ីនបម្រើ WebDAV របស់អ្នក។ {app_name} នឹងរក្សាទុកទិន្នន័យរបស់វានៅក្នុងថតនេះ ហើយមិនប៉ះពាល់អ្វីទាំងអស់នៅខាងក្រៅវា។</string>
+    <string name="description_webdav_trust_certificate">គេហទំព័រនេះប្រើប្រាស់វិញ្ញាបនបត្រដែល Android មិនទុកចិត្ត។</string>
+    <string name="label_trust_certificate">ទុកចិត្តវិញ្ញាបនបត្រនេះ</string>
+    <string name="label_client_certificate">វិញ្ញាបនបត្រម៉ាស៊ីនភ្ញៀវ (mTLS)</string>
+    <string name="label_client_certificate_selected">វិញ្ញាបនបត្រ: %s</string>
+    <string name="label_client_certificate_not_selected">មិនបានជ្រើសរើសវិញ្ញាបនបត្រម៉ាស៊ីនភ្ញៀវទេ</string>
+    <string name="label_select_certificate">ជ្រើសរើសវិញ្ញាបនបត្រ</string>
+    <string name="error_client_cert_missing">វិញ្ញាបនបត្រម៉ាស៊ីនភ្ញៀវដែលបានកំណត់រចនាសម្ព័ន្ធលែងមាននៅលើឧបករណ៍នេះទៀតហើយ។ សូមកំណត់រចនាសម្ព័ន្ធ WebDAV ឡើងវិញ ហើយជ្រើសរើសវិញ្ញាបនបត្រថ្មី។</string>
+    <string name="validate_error_webdav_invalid_certificate">មិនអាចទុកចិត្តវិញ្ញាបនបត្របានទេ។ វាហាក់ដូចជាមិនត្រឹមត្រូវ។</string>
+    <string name="validate_error_webdav_not_compliant">URL មិនចង្អុលបង្ហាញទៅកាន់ធនធាន WebDAV ទេ។</string>
+    <string name="validate_error_webdav_404">URL មិនមាននៅលើម៉ាស៊ីនបម្រើទេ។</string>
+    <string name="url_not_valid">URL មិនត្រឹមត្រូវទេ</string>
+    <string name="no_client_cert_available">មិនមានវិញ្ញាបនបត្រម៉ាស៊ីនភ្ញៀវទេ។ សូមដំឡើងមួយនៅក្នុងព័ត៌មានសម្ងាត់ប្រព័ន្ធរបស់អ្នក។</string>
+</resources>

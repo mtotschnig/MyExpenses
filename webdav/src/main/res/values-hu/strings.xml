@@ -8,4 +8,10 @@
     <string name="validate_error_webdav_not_compliant">Az URL nem mutat WebDAV forrásra.</string>
     <string name="validate_error_webdav_404">Az URL nem létezik a szerveren.</string>
     <string name="url_not_valid">Az URL érvénytelen</string>
+    <string name="label_client_certificate">Kliens tanúsítvány (mTLS)</string>
+    <string name="label_client_certificate_selected">Tanúsítvány: %s</string>
+    <string name="label_client_certificate_not_selected">Nincs kiválasztva kliens tanúsítvány</string>
+    <string name="label_select_certificate">Tanúsítvány kiválasztása</string>
+    <string name="error_client_cert_missing">A beállított kliens tanúsítvány már nem érhető el ezen az eszközön. Kérjük, állítsa be újra a WebDAV-ot, és válasszon új tanúsítványt.</string>
+    <string name="no_client_cert_available">Nem áll rendelkezésre kliens tanúsítvány. Kérjük, telepítsen egyet a rendszer hitelesítő adataiba.</string>
 </resources>

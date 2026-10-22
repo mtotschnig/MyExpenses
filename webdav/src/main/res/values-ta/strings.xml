@@ -8,4 +8,10 @@
     <string name="validate_error_webdav_not_compliant">உரலி ஒரு WebDAV வளத்தை சுட்டவில்லை.</string>
     <string name="validate_error_webdav_404">சேவையகத்தில் உரலி இல்லை.</string>
     <string name="url_not_valid">செல்லுபடியாகாத உரலி</string>
+    <string name="label_client_certificate">கிளையண்ட் சான்றிதழ் (mTLS)</string>
+    <string name="label_client_certificate_selected">சான்றிதழ்: %s</string>
+    <string name="label_client_certificate_not_selected">கிளையண்ட் சான்றிதழ் எதுவும் தேர்ந்தெடுக்கப்படவில்லை</string>
+    <string name="label_select_certificate">சான்றிதழைத் தேர்ந்தெடுக்கவும்</string>
+    <string name="error_client_cert_missing">கட்டமைக்கப்பட்ட கிளையண்ட் சான்றிதழ் இந்த சாதனத்தில் இப்போது கிடைக்கவில்லை. WebDAV ஐ மீண்டும் கட்டமைத்து புதிய சான்றிதழைத் தேர்ந்தெடுக்கவும்.</string>
+    <string name="no_client_cert_available">கிளையண்ட் சான்றிதழ் எதுவும் கிடைக்கவில்லை. உங்கள் கணினி சான்றுகளில் ஒன்றை நிறுவுங்கள்.</string>
 </resources>

@@ -38,13 +38,13 @@ da:
   professional-key: Professionel Nøgle
   screenshot_titles:
     group: Gruppér efter år, måned eller uge
-    summarize: Opsummér alle dine konti
+    summarize: Oversigt over alle dine konti
     budget: Årlige, månedlige og ugentlige budgetter
     split: Opdel i flere kategorier
-    distribution: Cirkeldiagram
-    history: Historik om din økonomiske situation
+    distribution: Forbrugsfordeling pr. kategori
+    history: Økonomisk udvikling over tid
     export: Eksportér til PDF, QIF og CSV
-    sync: Cloud-synkronisering
+    sync: Sikker cloud-synkronisering
   contrib:
     feature:
       csv_import: Sofistikeret, brugerdefinerbar <b>CSV-import</b> (regnearksprogrammer)

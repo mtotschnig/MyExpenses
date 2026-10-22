@@ -118,31 +118,45 @@ class Fixture(inst: Instrumentation) {
         this.repository = repository
         val currencyContext = appContext.appComponent.currencyContext()
         val foreignCurrency =
-            currencyContext[if (defaultCurrency.code == "EUR") "GBP" else "EUR"]
+            currencyContext[if (defaultCurrency.code == "GBP") "EUR" else "GBP"]
+        // relative to EUR (in case of GBP) or GBP (in all other cases)
         val exchangeRate = when(defaultCurrency.code) {
-            "USD" -> 1.17 //eur to usd
-            "EUR" -> 1.16 //GBP to eur
-            "SAR" -> 4.38 //EUR to SAR
-            "BRL" -> 6.31 //EUR to BRL
-            "PLN" -> 4.26 //EUR to PLN
-            "RUB" -> 94.02 //EUR to RUB
-            "BGN" -> 1.96 //EUR to BGN
-            "CZK" -> 24.56 //EUR to CZK
-            "RON" -> 5.07 //EUR to RON
-            "HUF" -> 396.63 //EUR to HUF
-            "ILS" -> 3.89 //EUR to ILS
-            "TRY" -> 47.92 //EUR to TRY
-            "TWD" -> 35.61 //EUR to TWD
-            "DKK" -> 7.46 //EUR to DKK
-            "JPY" -> 171.48 // EUR to JPY
-            "KHR" -> 4678.0 // EUR to KHR
-            "INR" -> 102.25 // EUR to INR
-            "KRW" ->  1618.06 // EUR to KRW
-            "MYR" ->  4.92 // EUR to MYR
-            "LKR" -> 352.92 // EUR to LKR
-            "VND" -> 30786.00 // EUR to VND
-            "CNY" ->  8.33 // EUR to CNY
-            else -> 1.0
+            "USD" -> 1.33
+            "EUR" -> 1.19
+            "GBP" -> 0.84
+            "SAR" -> 5.01
+            "BRL" -> 6.73
+            "PLN" -> 5.18
+            "RUB" -> 111.87
+            "CZK" -> 28.85
+            "RON" -> 6.3
+            "HUF" -> 430.95
+            "ILS" -> 4.13
+            "TRY" -> 65.51
+            "TWD" -> 43.25
+            "DKK" -> 8.86
+            "JPY" -> 210.51
+            "KHR" -> 5421.09
+            "INR" -> 126.57
+            "KRW" ->  1774.56
+            "MYR" ->  5.44
+            "LKR" -> 441.73
+            "VND" -> 34514.50
+            "CNY" ->  8.9
+            "BYN" -> 4.02
+            "BDT" -> 164.07
+            "CAD" -> 1.88
+            "SGD" -> 1.71
+            "ZAR" -> 21.97
+            "MXN" -> 24.6
+            "IDR" -> 24061.04
+            "HKD" -> 10.46
+            "AUD" -> 1.92
+            "SEK" -> 13.24
+            "THB" -> 44.92
+            "UAH" -> 60.13
+            "PKR" -> 368.93
+            else -> throw IllegalArgumentException("Exchange rate missing for: ${defaultCurrency.code}")
         }
         val accountTypeCash = repository.findAccountType(PREDEFINED_NAME_CASH)!!
         val accountTypeBank = repository.findAccountType(PREDEFINED_NAME_BANK)!!

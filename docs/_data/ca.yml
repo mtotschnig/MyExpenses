@@ -74,13 +74,13 @@ ca_ES:
   professional-key: Clau professional
   screenshot_titles:
     group: Grup per any, mes o setmana
-    summarize: Resumeix tots els teus comptes
+    summarize: Visió general de tots els teus comptes
     budget: Pressupostos anuals, mensuals i setmanals
     split: Dividiu a diverses categories
-    distribution: Diagrama de gràfics
-    history: Historial de la vostra situació financera
+    distribution: Desglossament de despeses per categoria
+    history: Tendències financeres al llarg del temps
     export: Exporta a PDF, QIF i CSV
-    sync: Sincronització del núvol
+    sync: Sincronització del núvol segura
   imprint_text: Responsable del contingut d'aquesta web, del desenvolupament, manteniment
     i distribucció de <i>{app_name}</i>
   privacy_policy_text: <i>{app_name}</i> no accedeix a les dades del teu dispositiu

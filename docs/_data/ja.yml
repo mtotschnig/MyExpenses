@@ -91,10 +91,10 @@ ja:
   customer_support: 顧客サポート
   screenshot_titles:
     group: 年、月、または週でグループ化
-    summarize: すべてのアカウントをまとめます
+    summarize: 全口座の概要
     budget: 年間、毎月、毎週の予算
     split: 複数のカテゴリに分割
-    distribution: 円グラフ図
-    history: あなたの財政状況の歴史
+    distribution: カテゴリ別支出内訳
+    history: 時系列の財務トレンド
     export: PDF、QIF、CSVにエクスポート
-    sync: クラウド同期
+    sync: 安全なクラウド同期

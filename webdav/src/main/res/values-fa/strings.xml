@@ -8,4 +8,10 @@
     <string name="validate_error_webdav_not_compliant">URL به یک منبع WebDAV اشاره نمی کند.</string>
     <string name="validate_error_webdav_404">URL در سرور وجود ندارد.</string>
     <string name="url_not_valid">URL معتبر نیست</string>
+    <string name="label_client_certificate">گواهی کلاینت (mTLS)</string>
+    <string name="label_client_certificate_selected">گواهی: %s</string>
+    <string name="label_client_certificate_not_selected">هیچ گواهی کلاینتی انتخاب نشده است</string>
+    <string name="label_select_certificate">انتخاب گواهی</string>
+    <string name="error_client_cert_missing">گواهی کلاینت پیکربندی‌شده دیگر در این دستگاه در دسترس نیست. لطفاً WebDAV را دوباره پیکربندی کرده و گواهی جدیدی انتخاب کنید.</string>
+    <string name="no_client_cert_available">هیچ گواهی کلاینتی در دسترس نیست. لطفاً یکی را در اعتبارنامه‌های سیستم خود نصب کنید.</string>
 </resources>

@@ -89,11 +89,11 @@ zh-cn:
   all_extended_key_features: '扩展版密钥的所有功能'
   customer_support: 客户支持
   screenshot_titles:
-    sync: 云同步
+    sync: 安全云端同步
     export: 导出为 PDF、QIF 和 CSV
-    history: 你的财务状况历史
-    distribution: 饼图展示
+    history: 随时间变化的财务趋势
+    distribution: 按类别支出明细
     split: 拆分为多个分类
     budget: 年度、月度和每周预算
-    summarize: 汇总所有账户
+    summarize: 所有账户概览
     group: 按年、月或星期分组

@@ -8,4 +8,10 @@
     <string name="validate_error_webdav_404">URL సర్వర్‌లో లేదు.</string>
     <string name="validate_error_webdav_not_compliant">URL వెబ్‌డావ్ వనరును సూచించదు.</string>
     <string name="validate_error_webdav_invalid_certificate">ప్రమాణపత్రాన్ని విశ్వసించలేదు. ఇది చెల్లదు.</string>
+    <string name="label_client_certificate">క్లయింట్ ప్రమాణపత్రం (mTLS)</string>
+    <string name="label_client_certificate_selected">ప్రమాణపత్రం: %s</string>
+    <string name="label_client_certificate_not_selected">క్లయింట్ ప్రమాణపత్రం ఏదీ ఎంచుకోబడలేదు</string>
+    <string name="label_select_certificate">ప్రమాణపత్రాన్ని ఎంచుకోండి</string>
+    <string name="error_client_cert_missing">కాన్ఫిగర్ చేసిన క్లయింట్ ప్రమాణపత్రం ఈ పరికరంలో ఇకపై అందుబాటులో లేదు. దయచేసి WebDAV ను మళ్లీ కాన్ఫిగర్ చేసి, కొత్త ప్రమాణపత్రాన్ని ఎంచుకోండి.</string>
+    <string name="no_client_cert_available">క్లయింట్ ప్రమాణపత్రం ఏదీ అందుబాటులో లేదు. దయచేసి మీ సిస్టమ్ ఆధారాలలో ఒకదాన్ని ఇన్‌స్టాల్ చేయండి.</string>
 </resources>

@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="professional_benefit_3">ផែនទីអភិវឌ្ឍន៍</string>
+    <string name="splittemplate_title">ពុម្ពបំបែក</string>
+    <string name="splittemplate_description">ចំនួនពុម្ព និងផែនការមិនកំណត់សម្រាប់ប្រតិបត្តិការបំបែក</string>
+    <string name="history_title">គំនូសតាងប្រវត្តិ</string>
+    <string name="history_description">យល់ដឹងពីការផ្លាស់ប្តូរស្ថានភាពហិរញ្ញវត្ថុរបស់អ្នកតាមពេលវេលា</string>
+    <string name="budget_title">ការរៀបចំថវិកា</string>
+    <string name="budget_description">កំណត់ចំនួនប្រាក់ដែលអ្នកបម្រុងទុកចំណាយក្នុងថវិកាប្រចាំឆ្នាំ ប្រចាំខែ ឬប្រចាំសប្តាហ៍</string>
+    <string name="ocr_title">ស្កេនបង្កាន់ដៃ</string>
+    <string name="ocr_description">ស្រង់ចេញចំនួនប្រាក់ កាលបរិច្ឆេទ និងអ្នកទទួលប្រាក់ដោយស្វ័យប្រវត្តិ</string>
+    <string name="webui_title">ចំណុចប្រទាក់អ្នកប្រើគេហទំព័រ</string>
+    <string name="webui_description">ប្រើកម្មវិធីរុករកលើកុំព្យូទ័រសម្រាប់ការបញ្ចូលទិន្នន័យ</string>
+    <string name="categorytree_title">ដើមឈើចំណាត់ថ្នាក់</string>
+    <string name="categorytree_description">ឋានានុក្រមចំណាត់ថ្នាក់ជ្រៅតាមចិត្ត</string>
+    <string name="accountsunlimited_title">ចំនួនគណនីមិនកំណត់</string>
+    <string name="accountsunlimited_description">ដោះសោសមត្ថភាពក្នុងការបង្កើតគណនីច្រើនជាងប្រាំ។</string>
+    <string name="adfree_title">គ្មានពាណិជ្ជកម្ម</string>
+    <string name="adfree_description">គ្មានពាណិជ្ជកម្ម។</string>
+    <string name="csvimport_title">ការនាំចូល CSV</string>
+    <string name="csvimport_description">ការនាំចូល CSV ដែលមានភាពស្មុគស្មាញ និងអាចកែសម្រួលបាន (កម្មវិធីសន្លឹកកិច្ចការ)</string>
+    <string name="distribution_title">គំនូសតាងផ្លិត</string>
+    <string name="distribution_description">មើលការបែងចែកស្ថិតិនៃប្រតិបត្តិការតាមចំណាត់ថ្នាក់ក្នុងរយៈពេលផ្សេងៗគ្នា (ឆ្នាំ ខែ សប្តាហ៍ ថ្ងៃ)</string>
+    <string name="plansunlimited_title">ចំនួនផែនការមិនកំណត់</string>
+    <string name="plansunlimited_description">ដោះសោសមត្ថភាពក្នុងការបង្កើតផែនការច្រើនជាងបីសម្រាប់ប្រតិបត្តិការកើតឡើងជារឿយៗ។</string>
+    <string name="print_title">បោះពុម្ព</string>
+    <string name="print_description">បោះពុម្ពបញ្ជីប្រតិបត្តិការទៅជាឯកសារ PDF</string>
+    <string name="splittransaction_title">ប្រតិបត្តិការបំបែក</string>
+    <string name="splittransaction_description">ប្រតិបត្តិការតែមួយអាចបំបែកជាច្រើនផ្នែក (ចំណាត់ថ្នាក់ និងការផ្ទេរ)។</string>
+    <string name="synchronization_title">ការធ្វើសមកាលកម្មពពក</string>
+    <string name="synchronization_description">ទិន្នន័យអាចធ្វើសមកាលកម្មរវាងឧបករណ៍ជាច្រើន។</string>
     <string name="professional_benefit_1">ដោះសោមុខងារពិសេសទាំងអស់។</string>
     <string name="professional_benefit_2">ការគាំទ្រអ៊ីម៉ែល</string>
+    <string name="professional_benefit_3">ផែនទីអភិវឌ្ឍន៍</string>
 </resources>

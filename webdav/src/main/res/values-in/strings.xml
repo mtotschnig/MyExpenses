@@ -8,4 +8,10 @@
     <string name="validate_error_webdav_404">URL tidak ada di server.</string>
     <string name="validate_error_webdav_not_compliant">URL tidak mengarah ke sumber daya WebDAV.</string>
     <string name="validate_error_webdav_invalid_certificate">Sertifikat tidak dapat dipercaya. Tampaknya tidak valid.</string>
+    <string name="label_client_certificate">Sertifikat klien (mTLS)</string>
+    <string name="label_client_certificate_selected">Sertifikat: %s</string>
+    <string name="label_client_certificate_not_selected">Tidak ada sertifikat klien yang dipilih</string>
+    <string name="label_select_certificate">Pilih sertifikat</string>
+    <string name="error_client_cert_missing">Sertifikat klien yang dikonfigurasi tidak lagi tersedia di perangkat ini. Silakan konfigurasi ulang WebDAV dan pilih sertifikat baru.</string>
+    <string name="no_client_cert_available">Tidak ada sertifikat klien yang tersedia. Silakan pasang sertifikat di kredensial sistem Anda.</string>
 </resources>

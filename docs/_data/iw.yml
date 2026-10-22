@@ -103,10 +103,10 @@ iw:
   customer_support: שירות לקוחות
   screenshot_titles:
     group: קיבוץ לפי שנה, חודש או שבוע
-    summarize: סיכום כל החשבונות שלך
+    summarize: סקירה כללית של כל החשבונות שלך
     budget: תקציבים שנתיים, חודשיים ושבועיים
     split: פיצול למספר קטגוריות
-    distribution: תרשים עוגה
-    history: היסטוריה של המצב הכלכלי שלך
+    distribution: התפלגות הוצאות לפי קטגוריה
+    history: מגמות פיננסיות לאורך זמן
     export: ייצוא ל־PDF,‏ QIF ו־CSV
-    sync: סנכרון לענן
+    sync: סנכרון ענן מאובטח

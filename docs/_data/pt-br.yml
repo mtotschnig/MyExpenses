@@ -87,13 +87,13 @@ pt-br:
   all_extended_key_features: Todos os recursos da Chave Estendida
   all_contrib_key_features: Todos os recursos da Chave de Contribuição
   screenshot_titles:
-    sync: Sincronização na nuvem
+    sync: Sincronização segura na nuvem
     export: Exportar para PDF, QIF e CSV
-    history: Histórico da sua situação financeira
-    distribution: Distribuição em gráfico de pizza
+    history: Evolução financeira ao longo do tempo
+    distribution: Detalhamento de gastos por categoria
     split: Dividir em várias categorias
     budget: Orçamentos anuais, mensais e semanais
-    summarize: Resuma todas as suas contas
+    summarize: Visão geral de todas as suas contas
     group: Agrupar por ano, mês ou semana
   customer_support: Suporte ao cliente
   professional-key: Chave Profissional

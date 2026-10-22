@@ -106,10 +106,10 @@ ar:
   customer_support: دعم العملاء
   screenshot_titles:
     group: تصنيف حسب السنة، الشهر، أو الأسبوع
-    summarize: لخص جميع حساباتك
+    summarize: نظرة عامة على جميع حساباتك
     budget: ميزانيات سنوية، شهرية، وأسبوعية
     split: تقسيم إلى فئات متعددة
-    distribution: مخطط دائري
-    history: تاريخ الوضع المالي
+    distribution: توزيع النفقات حسب الفئة
+    history: الاتجاهات المالية عبر الوقت
     export: تصدير إلى PDF، QIF، وCSV
-    sync: المزامنة السحابية
+    sync: مزامنة سحابية آمنة
