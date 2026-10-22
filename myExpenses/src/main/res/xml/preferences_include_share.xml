@@ -27,6 +27,18 @@
             android:inputType="textUri"
             android:key="@string/pref_share_target_key"
             android:title="@string/pref_share_target_title" />
+
+        <EditTextPreference
+            android:dependency="@string/pref_perform_share_key"
+            android:inputType="text"
+            android:key="@string/pref_share_target_username_key"
+            android:title="@string/pref_share_target_username_title" />
+
+        <EditTextPreference
+            android:dependency="@string/pref_perform_share_key"
+            android:inputType="textPassword"
+            android:key="@string/pref_share_target_password_key"
+            android:title="@string/pref_share_target_password_title" />
         <Preference
             android:key="@string/pref_help_key"
             android:title="@string/menu_help"
