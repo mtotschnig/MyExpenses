@@ -8,6 +8,8 @@ import androidx.preference.PreferenceManager
 import org.totschnig.myexpenses.R
 import androidx.core.content.edit
 
+import org.totschnig.myexpenses.util.crypt.PrefKeyStoreEncryption
+
 open class PrefHandlerImpl(
     private val context: Application,
     private val sharedPreferences: SharedPreferences,
@@ -15,10 +17,22 @@ open class PrefHandlerImpl(
     override fun getKey(key: PrefKey) =
         if (key.resId == 0) key._key!! else context.getString(key.resId)
 
-    override fun getString(key: String, defValue: String?) =
-        sharedPreferences.getString(key, defValue)
+    override fun getString(key: String, defValue: String?): String? {
+        val raw = sharedPreferences.getString(key, defValue)
+        return if (key == getKey(PrefKey.SHARE_TARGET_PASSWORD) && raw != null) {
+            PrefKeyStoreEncryption.decrypt(raw)
+        } else {
+            raw
+        }
+    }
+
     override fun putString(key: String, value: String?) {
-        sharedPreferences.edit { putString(key, value) }
+        val toSave = if (key == getKey(PrefKey.SHARE_TARGET_PASSWORD) && value != null) {
+            PrefKeyStoreEncryption.encrypt(value)
+        } else {
+            value
+        }
+        sharedPreferences.edit { putString(key, toSave) }
     }
 
     override fun getBoolean(key: String, defValue: Boolean) =
