@@ -1,0 +1,4 @@
+interface:
+  display_name: "pdd-kit Verify"
+  short_description: "Check the code against the model and fix what you choose"
+  default_prompt: "Use $pdd-verify to check the current code against this Product Model, report every gap, and resolve the ones I choose."

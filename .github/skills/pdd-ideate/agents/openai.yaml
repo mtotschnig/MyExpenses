@@ -1,0 +1,4 @@
+interface:
+  display_name: "pdd-kit Ideate"
+  short_description: "Decide product changes and write them to the model"
+  default_prompt: "Use $pdd-ideate to decide what this Product or Capability should do and, after I approve the exact delta, write it into the pdd-kit Product Model."

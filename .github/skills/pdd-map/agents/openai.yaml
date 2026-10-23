@@ -1,0 +1,4 @@
+interface:
+  display_name: "pdd-kit Map"
+  short_description: "Map the existing product from code"
+  default_prompt: "Use $pdd-map to create or expand this repository’s pdd-kit Product Model from established behavior."

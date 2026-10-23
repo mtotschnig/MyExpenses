@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "package": "pdd-toolkit",
+  "version": "0.37.1",
+  "provider": "github",
+  "scope": "project",
+  "skills": [
+    "pdd-map",
+    "pdd-ideate",
+    "pdd-verify"
+  ],
+  "installedAt": "2026-10-22T18:47:14.457Z",
+  "updatedAt": "2026-10-22T18:47:14.457Z",
+  "orchestrate": "off"
+}
