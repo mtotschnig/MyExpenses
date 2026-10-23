@@ -76,6 +76,7 @@
     <item name="FILTER_METHOD_COMMAND" type="id" />
     <item name="FILTER_DATE_COMMAND" type="id" />
     <item name="FILTER_TAG_COMMAND" type="id" />
+    <item name="FILTER_FTS_COMMAND" type="id" />
     <item name="PRINT_COMMAND" type="id" />
     <item name="OPEN_PDF_COMMAND" type="id" />
     <item name="AUTO_FILL_COMMAND" type="id" />

@@ -33,7 +33,7 @@ import timber.log.Timber
 import java.util.Currency
 import kotlin.math.pow
 
-const val DATABASE_VERSION = 191
+const val DATABASE_VERSION = 192
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -1264,6 +1264,104 @@ abstract class BaseTransactionDatabase(
                     update(TABLE_CURRENCIES, values, "$KEY_CODE = ? AND $KEY_FRACTION_DIGITS IS NULL", arrayOf(code))
                 }
             }
+        }
+    }
+
+    fun SupportSQLiteDatabase.createOrRefreshFts() {
+        val created = runCatching {
+            execSQL("""
+                CREATE VIRTUAL TABLE IF NOT EXISTS $TABLE_TRANSACTIONS_FTS USING fts5(
+                    transaction_id UNINDEXED,
+                    comment,
+                    payee_name,
+                    category_name,
+                    tag_names,
+                    account_label,
+                    reference_number,
+                    tokenize = 'unicode61 remove_diacritics 2'
+                );
+            """.trimIndent())
+            true
+        }.getOrElse {
+            runCatching {
+                execSQL("""
+                    CREATE VIRTUAL TABLE IF NOT EXISTS $TABLE_TRANSACTIONS_FTS USING fts4(
+                        transaction_id,
+                        comment,
+                        payee_name,
+                        category_name,
+                        tag_names,
+                        account_label,
+                        reference_number,
+                        notindexed=transaction_id
+                    );
+                """.trimIndent())
+                true
+            }.getOrDefault(false)
+        }
+
+        if (!created) {
+            Timber.w("FTS table creation skipped: FTS module not supported in current SQLite environment")
+            return
+        }
+
+        execSQL("DROP TRIGGER IF EXISTS insert_fts")
+        execSQL("DROP TRIGGER IF EXISTS update_fts")
+        execSQL("DROP TRIGGER IF EXISTS delete_fts")
+
+        execSQL("""
+            CREATE TRIGGER insert_fts AFTER INSERT ON $TABLE_TRANSACTIONS
+            BEGIN
+                INSERT INTO $TABLE_TRANSACTIONS_FTS(transaction_id, comment, payee_name, category_name, tag_names, account_label, reference_number)
+                SELECT new.$KEY_ROWID,
+                       COALESCE(new.$KEY_COMMENT, ''),
+                       COALESCE((SELECT name FROM $TABLE_PAYEES WHERE _id = new.$KEY_PAYEEID), ''),
+                       COALESCE((SELECT label FROM $TABLE_CATEGORIES WHERE _id = new.$KEY_CATID), ''),
+                       COALESCE((SELECT GROUP_CONCAT(tg.label, ' ') FROM $TABLE_TRANSACTIONS_TAGS tt JOIN $TABLE_TAGS tg ON tt.tag_id = tg._id WHERE tt.transaction_id = new.$KEY_ROWID), ''),
+                       COALESCE((SELECT label FROM $TABLE_ACCOUNTS WHERE _id = new.$KEY_ACCOUNTID), ''),
+                       COALESCE(new.$KEY_REFERENCE_NUMBER, '');
+            END;
+        """.trimIndent())
+
+        execSQL("""
+            CREATE TRIGGER update_fts AFTER UPDATE ON $TABLE_TRANSACTIONS
+            BEGIN
+                UPDATE $TABLE_TRANSACTIONS_FTS SET
+                    comment = COALESCE(new.$KEY_COMMENT, ''),
+                    payee_name = COALESCE((SELECT name FROM $TABLE_PAYEES WHERE _id = new.$KEY_PAYEEID), ''),
+                    category_name = COALESCE((SELECT label FROM $TABLE_CATEGORIES WHERE _id = new.$KEY_CATID), ''),
+                    tag_names = COALESCE((SELECT GROUP_CONCAT(tg.label, ' ') FROM $TABLE_TRANSACTIONS_TAGS tt JOIN $TABLE_TAGS tg ON tt.tag_id = tg._id WHERE tt.transaction_id = new.$KEY_ROWID), ''),
+                    account_label = COALESCE((SELECT label FROM $TABLE_ACCOUNTS WHERE _id = new.$KEY_ACCOUNTID), ''),
+                    reference_number = COALESCE(new.$KEY_REFERENCE_NUMBER, '')
+                WHERE transaction_id = new.$KEY_ROWID;
+            END;
+        """.trimIndent())
+
+        execSQL("""
+            CREATE TRIGGER delete_fts AFTER DELETE ON $TABLE_TRANSACTIONS
+            BEGIN
+                DELETE FROM $TABLE_TRANSACTIONS_FTS WHERE transaction_id = old.$KEY_ROWID;
+            END;
+        """.trimIndent())
+    }
+
+    fun SupportSQLiteDatabase.upgradeTo192() {
+        createOrRefreshFts()
+        runCatching {
+            execSQL("""
+                INSERT INTO $TABLE_TRANSACTIONS_FTS(transaction_id, comment, payee_name, category_name, tag_names, account_label, reference_number)
+                SELECT t.$KEY_ROWID,
+                       COALESCE(t.$KEY_COMMENT, ''),
+                       COALESCE(p.name, ''),
+                       COALESCE(c.label, ''),
+                       COALESCE((SELECT GROUP_CONCAT(tg.label, ' ') FROM $TABLE_TRANSACTIONS_TAGS tt JOIN $TABLE_TAGS tg ON tt.tag_id = tg._id WHERE tt.transaction_id = t.$KEY_ROWID), ''),
+                       COALESCE(a.label, ''),
+                       COALESCE(t.$KEY_REFERENCE_NUMBER, '')
+                FROM $TABLE_TRANSACTIONS t
+                LEFT JOIN $TABLE_PAYEES p ON t.$KEY_PAYEEID = p._id
+                LEFT JOIN $TABLE_CATEGORIES c ON t.$KEY_CATID = c._id
+                LEFT JOIN $TABLE_ACCOUNTS a ON t.$KEY_ACCOUNTID = a._id;
+            """.trimIndent())
         }
     }
 

@@ -482,6 +482,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
     db.execSQL(PRICES_CREATE);
     db.execSQL(getPRIORITIZED_PRICES_CREATE());
+    upgradeTo192(db);
     super.onCreate(db);
   }
 
@@ -2132,6 +2133,10 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
       if (oldVersion < 191) {
         upgradeTo191(db);
+      }
+
+      if (oldVersion < 192) {
+        upgradeTo192(db);
       }
 
       TransactionProvider.resumeChangeTrigger(db);

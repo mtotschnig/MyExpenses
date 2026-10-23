@@ -43,6 +43,7 @@ import org.totschnig.myexpenses.provider.filter.CommentCriterion
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.DateCriterion
+import org.totschnig.myexpenses.provider.filter.FtsCriterion
 import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.NotCriterion
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
@@ -64,6 +65,7 @@ interface FilterHandlerScope {
     fun handleTagEdit(tagCriterion: TagCriterion?)
     fun handleTransferEdit(transferCriterion: TransferCriterion?)
     fun handleCommentEdit(commentCriterion: CommentCriterion?)
+    fun handleFtsEdit(ftsCriterion: FtsCriterion?)
 
     fun handleEdit(criterion: Criterion) {
         when (criterion) {
@@ -75,6 +77,7 @@ interface FilterHandlerScope {
             is CommentCriterion -> handleCommentEdit(criterion)
             is CrStatusCriterion -> handleCrStatusEdit(criterion)
             is DateCriterion -> handleDateEdit(criterion)
+            is FtsCriterion -> handleFtsEdit(criterion)
             is MethodCriterion -> handleMethodEdit(criterion)
             is PayeeCriterion -> handlePayeeEdit(criterion)
             is TagCriterion -> handleTagEdit(criterion)
@@ -92,6 +95,7 @@ interface FilterHandlerScope {
             CommentCriterion::class -> handleCommentEdit(null)
             CrStatusCriterion::class -> handleCrStatusEdit(null)
             DateCriterion::class -> handleDateEdit(null)
+            FtsCriterion::class -> handleFtsEdit(null)
             MethodCriterion::class -> handleMethodEdit(null)
             PayeeCriterion::class -> handlePayeeEdit(null)
             TagCriterion::class -> handleTagEdit(null)
@@ -122,6 +126,7 @@ fun FilterHandler(
     }
 
     var showCommentFilterPrompt by rememberSaveable { mutableStateOf<CommentCriterion?>(null) }
+    var showFtsFilterPrompt by rememberSaveable { mutableStateOf<FtsCriterion?>(null) }
 
     val activity = LocalActivity.current as FragmentActivity
 
@@ -166,6 +171,10 @@ fun FilterHandler(
 
         override fun handleCommentEdit(commentCriterion: CommentCriterion?) {
             showCommentFilterPrompt = commentCriterion ?: CommentCriterion("")
+        }
+
+        override fun handleFtsEdit(ftsCriterion: FtsCriterion?) {
+            showFtsFilterPrompt = ftsCriterion ?: FtsCriterion("")
         }
 
         override fun handleCrStatusEdit(crStCriterion: CrStatusCriterion?) {
@@ -246,6 +255,46 @@ fun FilterHandler(
                         search = it
                     },
                     label = { Text(text = stringResource(R.string.search_comment)) },
+                )
+                LaunchedEffect(Unit) {
+                    focusRequester.requestFocus()
+                }
+            }
+        )
+    }
+
+    showFtsFilterPrompt?.let { prompt ->
+        var search by rememberSaveable { mutableStateOf(prompt.searchString) }
+
+        AlertDialog(
+            onDismissRequest = {
+                showFtsFilterPrompt = null
+                onResult(currentEdit.value, null)
+            },
+            confirmButton = {
+                Button(onClick = {
+                    onResult(currentEdit.value, FtsCriterion(search?.takeIf { it.isNotBlank() }))
+                    showFtsFilterPrompt = null
+                }) {
+                    Text(stringResource(id = android.R.string.ok))
+                }
+            },
+            text = {
+                val focusRequester = remember { FocusRequester() }
+                val keyboardController = LocalSoftwareKeyboardController.current
+                OutlinedTextField(
+                    modifier = Modifier
+                        .focusRequester(focusRequester)
+                        .onFocusChanged {
+                            if (it.isFocused) {
+                                keyboardController?.show()
+                            }
+                        },
+                    value = search ?: "",
+                    onValueChange = {
+                        search = it
+                    },
+                    label = { Text(text = stringResource(R.string.search_full_text)) },
                 )
                 LaunchedEffect(Unit) {
                     focusRequester.requestFocus()

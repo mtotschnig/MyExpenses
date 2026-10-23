@@ -1033,6 +1033,8 @@
     <string name="recalculate_equivalent_amounts_warning">Equivalent amounts will be (re)calculated if applicable stored exchange rates are available.</string>
     <string name="quick_search">Quick search</string>
     <string name="complex_search">Complex search</string>
+    <string name="full_text_search">Full text search</string>
+    <string name="search_full_text">Search all fields</string>
     <!-- Message shown when user clicks on the floating action bar in an account that they have closed. -->
     <string name="account_closed">Account is closed</string>
     <string name="balance_sheet">Balance Sheet</string>

@@ -39,6 +39,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuAnchorType
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
@@ -102,6 +103,7 @@ import org.totschnig.myexpenses.provider.filter.OrCriterion
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
 import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
+import org.totschnig.myexpenses.provider.filter.FtsCriterion
 import org.totschnig.myexpenses.provider.filter.TransferCriterion
 import org.totschnig.myexpenses.provider.filter.asSet
 import org.totschnig.myexpenses.viewmodel.SumInfo
@@ -112,6 +114,7 @@ const val COMPLEX_OR = 1
 
 const val TYPE_QUICK = 0
 const val TYPE_COMPLEX = 1
+const val TYPE_FULL_TEXT = 2
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -219,7 +222,8 @@ fun FilterDialog(
                         var expanded by remember { mutableStateOf(false) }
                         val options = listOf(
                             stringResource(R.string.quick_search),
-                            stringResource(R.string.complex_search)
+                            stringResource(R.string.complex_search),
+                            stringResource(R.string.full_text_search)
                         )
                         ExposedDropdownMenuBox(
                             modifier = Modifier.align(Alignment.Center),
@@ -228,7 +232,7 @@ fun FilterDialog(
                             BasicTextField(
                                 modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable),
                                 readOnly = true,
-                                value = options[preferredSearchType],
+                                value = options.getOrElse(preferredSearchType) { options[0] },
                                 onValueChange = {},
                                 textStyle = MaterialTheme.typography.titleMedium.copy(
                                     color = LocalContentColor.current
@@ -248,7 +252,7 @@ fun FilterDialog(
                                 options.forEachIndexed { index, s ->
                                     DropdownMenuItem(
                                         text = { Text(s) },
-                                        enabled = index == 1 || criteriaSet.value.isSimple(
+                                        enabled = index == 1 || index == 2 || criteriaSet.value.isSimple(
                                             selectedComplex
                                         ),
                                         onClick = {
@@ -290,9 +294,10 @@ fun FilterDialog(
                     }
 
                     val filters: List<DisplayInfo> = if (account.isPortfolio) listOf(
-                        AssetCriterion, AmountCriterion, CommentCriterion, DateCriterion
+                        FtsCriterion, AssetCriterion, AmountCriterion, CommentCriterion, DateCriterion
                     )
                     else listOfNotNull(
+                        FtsCriterion,
                         if (sumInfo.mappedCategories) CategoryCriterion else null,
                         AmountCriterion,
                         CommentCriterion,
@@ -305,7 +310,48 @@ fun FilterDialog(
                         if (sumInfo.hasTags) TagCriterion else null,
                         if (account.isAggregate) AccountCriterion else null
                     )
-                    if (isComplexSearch) {
+                    if (preferredSearchType == TYPE_FULL_TEXT) {
+                        var ftsQuery by rememberSaveable {
+                            mutableStateOf((criterion as? FtsCriterion)?.searchString ?: "")
+                        }
+                        Column(
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .fillMaxWidth(),
+                            verticalArrangement = Arrangement.spacedBy(16.dp)
+                        ) {
+                            OutlinedTextField(
+                                modifier = Modifier.fillMaxWidth(),
+                                value = ftsQuery,
+                                onValueChange = { ftsQuery = it },
+                                label = { Text(stringResource(R.string.search_full_text)) },
+                                singleLine = true,
+                                trailingIcon = if (ftsQuery.isNotEmpty()) {
+                                    {
+                                        IconButton(onClick = { ftsQuery = "" }) {
+                                            Icon(Icons.Filled.Clear, contentDescription = null)
+                                        }
+                                    }
+                                } else null
+                            )
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.End
+                            ) {
+                                TextButton(onClick = onDismiss) {
+                                    Text(stringResource(android.R.string.cancel))
+                                }
+                                TextButton(onClick = {
+                                    onConfirmRequest(
+                                        TYPE_FULL_TEXT,
+                                        if (ftsQuery.isBlank()) null else FtsCriterion(ftsQuery.trim())
+                                    )
+                                }) {
+                                    Text(stringResource(R.string.apply))
+                                }
+                            }
+                        }
+                    } else if (isComplexSearch) {
                         FlowRow {
                             filters.forEach { info ->
                                 val accessibleButtonText =
