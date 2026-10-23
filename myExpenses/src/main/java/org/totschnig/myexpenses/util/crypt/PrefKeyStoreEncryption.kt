@@ -3,6 +3,7 @@ package org.totschnig.myexpenses.util.crypt
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import android.util.Base64
+import timber.log.Timber
 import java.security.KeyStore
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
@@ -13,6 +14,9 @@ object PrefKeyStoreEncryption {
     private const val ANDROID_KEY_STORE = "AndroidKeyStore"
     private const val KEY_ALIAS = "MyExpensesPrefKey"
     private const val TRANSFORMATION = "AES/GCM/NoPadding"
+    private const val GCM_IV_LENGTH = 12
+    private const val GCM_TAG_LENGTH = 128
+    private const val FORMAT_PREFIX = "ME_ENC_01:"
 
     private fun getOrCreateKey(): SecretKey {
         val keyStore = KeyStore.getInstance(ANDROID_KEY_STORE).apply { load(null) }
@@ -34,7 +38,7 @@ object PrefKeyStoreEncryption {
         return keyGenerator.generateKey()
     }
 
-    fun encrypt(plainText: String): String {
+    fun encrypt(plainText: String): String? {
         if (plainText.isEmpty()) return ""
         return try {
             val cipher = Cipher.getInstance(TRANSFORMATION)
@@ -44,24 +48,32 @@ object PrefKeyStoreEncryption {
             val combined = ByteArray(iv.size + encrypted.size)
             System.arraycopy(iv, 0, combined, 0, iv.size)
             System.arraycopy(encrypted, 0, combined, iv.size, encrypted.size)
-            Base64.encodeToString(combined, Base64.NO_WRAP)
-        } catch (_: Exception) {
-            plainText
+            FORMAT_PREFIX + Base64.encodeToString(combined, Base64.NO_WRAP)
+        } catch (e: Exception) {
+            Timber.e(e, "Encryption failed")
+            null
         }
     }
 
-    fun decrypt(cipherText: String): String {
+
+    fun decrypt(cipherText: String): String? {
         if (cipherText.isEmpty()) return ""
+        if (!cipherText.startsWith(FORMAT_PREFIX)) {
+            // Legacy unencrypted plaintext
+            return cipherText
+        }
         return try {
-            val combined = Base64.decode(cipherText, Base64.NO_WRAP)
+            val encodedPayload = cipherText.substring(FORMAT_PREFIX.length)
+            val combined = Base64.decode(encodedPayload, Base64.NO_WRAP)
             val cipher = Cipher.getInstance(TRANSFORMATION)
-            val gcmSpec = GCMParameterSpec(128, combined, 0, 12)
+            val gcmSpec = GCMParameterSpec(GCM_TAG_LENGTH, combined, 0, GCM_IV_LENGTH)
             val key = getOrCreateKey()
             cipher.init(Cipher.DECRYPT_MODE, key, gcmSpec)
-            val decrypted = cipher.doFinal(combined, 12, combined.size - 12)
+            val decrypted = cipher.doFinal(combined, GCM_IV_LENGTH, combined.size - GCM_IV_LENGTH)
             String(decrypted, Charsets.UTF_8)
-        } catch (_: Exception) {
-            cipherText
+        } catch (e: Exception) {
+            Timber.w(e, "Decryption failed for encrypted preference; key may belong to another installation")
+            null
         }
     }
 }

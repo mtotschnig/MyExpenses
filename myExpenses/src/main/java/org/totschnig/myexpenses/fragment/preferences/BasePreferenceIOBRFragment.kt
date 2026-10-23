@@ -5,6 +5,7 @@ import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.util.crypt.PrefKeyStoreEncryption
 import org.totschnig.myexpenses.util.enumValueOrNull
 import org.totschnig.myexpenses.viewmodel.BaseFunctionalityViewModel
 
@@ -49,6 +50,17 @@ abstract class BasePreferenceIOBRFragment : BasePreferenceFragment() {
 
         with(requirePreference<EditTextPreference>(PrefKey.SHARE_TARGET_USERNAME)) {
             summaryProvider = EditTextPreference.SimpleSummaryProvider.getInstance()
+            onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
+                val username = newValue as? String ?: ""
+                if (username.isNotEmpty()) {
+                    val encrypted = PrefKeyStoreEncryption.encrypt(username)
+                    if (encrypted == null) {
+                        preferenceActivity.showSnackBar(getString(R.string.encryption_error))
+                        return@OnPreferenceChangeListener false
+                    }
+                }
+                true
+            }
         }
 
         with(requirePreference<EditTextPreference>(PrefKey.SHARE_TARGET_PASSWORD)) {
@@ -61,6 +73,17 @@ abstract class BasePreferenceIOBRFragment : BasePreferenceFragment() {
                 } else {
                     "••••••••"
                 }
+            }
+            onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
+                val password = newValue as? String ?: ""
+                if (password.isNotEmpty()) {
+                    val encrypted = PrefKeyStoreEncryption.encrypt(password)
+                    if (encrypted == null) {
+                        preferenceActivity.showSnackBar(getString(R.string.encryption_error))
+                        return@OnPreferenceChangeListener false
+                    }
+                }
+                true
             }
         }
     }

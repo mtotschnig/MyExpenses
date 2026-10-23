@@ -17,18 +17,26 @@ open class PrefHandlerImpl(
     override fun getKey(key: PrefKey) =
         if (key.resId == 0) key._key!! else context.getString(key.resId)
 
+    private fun isEncryptedCredentialKey(key: String): Boolean =
+        matches(key, PrefKey.SHARE_TARGET_USERNAME, PrefKey.SHARE_TARGET_PASSWORD)
+
     override fun getString(key: String, defValue: String?): String? {
         val raw = sharedPreferences.getString(key, defValue)
-        return if (key == getKey(PrefKey.SHARE_TARGET_PASSWORD) && raw != null) {
-            PrefKeyStoreEncryption.decrypt(raw)
+        return if (isEncryptedCredentialKey(key) && raw != null) {
+            PrefKeyStoreEncryption.decrypt(raw) ?: defValue
         } else {
             raw
         }
     }
 
     override fun putString(key: String, value: String?) {
-        val toSave = if (key == getKey(PrefKey.SHARE_TARGET_PASSWORD) && value != null) {
-            PrefKeyStoreEncryption.encrypt(value)
+        val toSave = if (isEncryptedCredentialKey(key) && !value.isNullOrEmpty()) {
+            val encrypted = PrefKeyStoreEncryption.encrypt(value)
+            if (encrypted == null) {
+                timber.log.Timber.e("Rejecting credential save because encryption failed for key $key")
+                return
+            }
+            encrypted
         } else {
             value
         }
@@ -100,6 +108,6 @@ open class PrefHandlerImpl(
     }
 
     override fun preparePreferenceFragment(preferenceFragmentCompat: PreferenceFragmentCompat) {
-        //NOOP overridden in test
+        preferenceFragmentCompat.preferenceManager.preferenceDataStore = PrefHandlerDataStore(this)
     }
 }
