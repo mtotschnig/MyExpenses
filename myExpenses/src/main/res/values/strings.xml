@@ -282,6 +282,9 @@
     <string name="pref_send_feedback_title">Send feedback</string>
     <string name="pref_share_target_summary">Leave empty if you want to choose between appropriate apps (Email, Dropbox, Google Docs, …), or provide URL in one of the supported schemes</string>
     <string name="pref_share_target_title">Upload URL</string>
+    <string name="pref_share_target_username_title">Upload username</string>
+    <string name="pref_share_target_password_title">Upload password</string>
+    <string name="encryption_error">Encryption failed. Could not save password.</string>
     <string name="pref_shortcut_summary">Add the shortcut to Home Screen.</string>
     <string name="pref_ui_home_screen_shortcuts">Home Screen Shortcuts</string>
     <!-- Title of the preference for selecting the UI language -->

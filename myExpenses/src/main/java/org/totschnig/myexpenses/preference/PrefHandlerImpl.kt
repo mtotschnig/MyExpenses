@@ -8,6 +8,8 @@ import androidx.preference.PreferenceManager
 import org.totschnig.myexpenses.R
 import androidx.core.content.edit
 
+import org.totschnig.myexpenses.util.crypt.PrefKeyStoreEncryption
+
 open class PrefHandlerImpl(
     private val context: Application,
     private val sharedPreferences: SharedPreferences,
@@ -15,10 +17,30 @@ open class PrefHandlerImpl(
     override fun getKey(key: PrefKey) =
         if (key.resId == 0) key._key!! else context.getString(key.resId)
 
-    override fun getString(key: String, defValue: String?) =
-        sharedPreferences.getString(key, defValue)
+    private fun isEncryptedCredentialKey(key: String): Boolean =
+        matches(key, PrefKey.SHARE_TARGET_USERNAME, PrefKey.SHARE_TARGET_PASSWORD)
+
+    override fun getString(key: String, defValue: String?): String? {
+        val raw = sharedPreferences.getString(key, defValue)
+        return if (isEncryptedCredentialKey(key) && raw != null) {
+            PrefKeyStoreEncryption.decrypt(raw) ?: defValue
+        } else {
+            raw
+        }
+    }
+
     override fun putString(key: String, value: String?) {
-        sharedPreferences.edit { putString(key, value) }
+        val toSave = if (isEncryptedCredentialKey(key) && !value.isNullOrEmpty()) {
+            val encrypted = PrefKeyStoreEncryption.encrypt(value)
+            if (encrypted == null) {
+                timber.log.Timber.e("Rejecting credential save because encryption failed for key $key")
+                return
+            }
+            encrypted
+        } else {
+            value
+        }
+        sharedPreferences.edit { putString(key, toSave) }
     }
 
     override fun getBoolean(key: String, defValue: Boolean) =
@@ -86,6 +108,6 @@ open class PrefHandlerImpl(
     }
 
     override fun preparePreferenceFragment(preferenceFragmentCompat: PreferenceFragmentCompat) {
-        //NOOP overridden in test
+        preferenceFragmentCompat.preferenceManager.preferenceDataStore = PrefHandlerDataStore(this)
     }
 }

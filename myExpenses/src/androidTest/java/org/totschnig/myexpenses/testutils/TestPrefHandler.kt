@@ -23,6 +23,7 @@ class TestPrefHandler(
     }
 
     override fun preparePreferenceFragment(preferenceFragmentCompat: PreferenceFragmentCompat) {
+        super.preparePreferenceFragment(preferenceFragmentCompat)
         preferenceFragmentCompat.preferenceManager.sharedPreferencesName = databaseName
     }
 }

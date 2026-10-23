@@ -25,6 +25,7 @@ import okio.source
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.getDisplayName
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.setWebUiActive
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Utils
@@ -114,8 +115,15 @@ class BaseFunctionalityViewModel(application: Application) :
                 }
 
                 val builder: Request.Builder = Request.Builder()
-                target.toUri().userInfo?.let {
-                    val (username, password) = it.split(":")
+                val (username, password) = target.toUri().userInfo?.let { userInfo ->
+                    val parts = userInfo.split(":", limit = 2)
+                    Pair(parts.getOrNull(0) ?: "", parts.getOrNull(1) ?: "")
+                } ?: Pair(
+                    prefHandler.getString(PrefKey.SHARE_TARGET_USERNAME, "") ?: "",
+                    prefHandler.getString(PrefKey.SHARE_TARGET_PASSWORD, "") ?: ""
+                )
+
+                if (username.isNotEmpty() || password.isNotEmpty()) {
                     builder.header("Authorization", Credentials.basic(username, password))
                 }
                 builder
