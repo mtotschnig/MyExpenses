@@ -1,19 +1,19 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="testData_account1Label">Моят портфейл</string>
-  <string name="testData_account1Description">Дневни разходи</string>
-  <!--Account 2 is used as an example for a short term budget used for a travel to a country with
+    <string name="testData_account1Label">Моят портфейл</string>
+    <string name="testData_account1Description">Дневни разходи</string>
+    <!--Account 2 is used as an example for a short term budget used for a travel to a country with
     a different currency-->
   <string name="testData_account2Label">уикенд в Лондон</string>
-  <!--Account 3 is a bank account at an institution well known in the locale region-->
+    <!--Account 3 is a bank account at an institution well known in the locale region-->
   <string name="testData_account3Label">Банкова сметка</string>
-  <string name="testData_account3Description">Банка ДСК</string>
-  <!--the cats must exist in the categories of the locale-->
+    <string name="testData_account3Description">Банка на Америка (Bank of America)</string>
+    <!--the cats must exist in the categories of the locale-->
   <!--just an example of how one could describe by a comment a specific purchase-->
   <string name="testData_transaction2Comment">Плодове &amp; зеленчуци</string>
-  <!--should be the name of a typical restaurant-->
+    <!--should be the name of a typical restaurant-->
   <string name="testData_transaction4Payee">Пицария Антонела</string>
-  <!--a name typically used as example name-->
+    <!--a name typically used as example name-->
   <string name="testData_templatePayee">Джон Доу</string>
-  <string name="testData_tag_project">Без заглавие проект</string>
+    <string name="testData_tag_project">Без заглавие проект</string>
 </resources>
