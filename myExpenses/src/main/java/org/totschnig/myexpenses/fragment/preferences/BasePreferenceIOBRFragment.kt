@@ -4,6 +4,7 @@ import android.text.InputType
 import androidx.preference.EditTextPreference
 import androidx.preference.Preference
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.preference.PrefHandlerDataStore
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.crypt.PrefKeyStoreEncryption
 import org.totschnig.myexpenses.util.enumValueOrNull
@@ -49,6 +50,7 @@ abstract class BasePreferenceIOBRFragment : BasePreferenceFragment() {
         }
 
         with(requirePreference<EditTextPreference>(PrefKey.SHARE_TARGET_USERNAME)) {
+            preferenceDataStore = PrefHandlerDataStore(prefHandler)
             summaryProvider = EditTextPreference.SimpleSummaryProvider.getInstance()
             onPreferenceChangeListener = Preference.OnPreferenceChangeListener { _, newValue ->
                 val username = newValue as? String ?: ""
@@ -64,6 +66,7 @@ abstract class BasePreferenceIOBRFragment : BasePreferenceFragment() {
         }
 
         with(requirePreference<EditTextPreference>(PrefKey.SHARE_TARGET_PASSWORD)) {
+            preferenceDataStore = PrefHandlerDataStore(prefHandler)
             setOnBindEditTextListener { editText ->
                 editText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
             }
