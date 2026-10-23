@@ -91,4 +91,9 @@
     <string name="help_ManageCategories_select_mapping_info">Utöver de åtgärder du kan vidta när du hanterar kategorier från inställningsskärmen (skapa, redigera, radera) kan du på denna skärm koppla en transaktion till en vald kategori genom att helt enkelt klicka på den.</string>
     <string name="help_MyExpensesV2_portfolio_info">Följ dina investeringar i denna portfölj. Du kan importera dina transaktioner och se hur dina tillgångar är fördelade. Kontoöversikten länkar till prisskärmen, där det aktuella priset för en tillgång kan anges.</string>
     <string name="menu_import_trades_help_text">Importera investeringstransaktioner till din portfölj från en CSV-fil.</string>
+    <string name="help_ManageCategories_manage_info">Den här skärmen låter dig skapa, redigera och radera kategorier. Som standard är det primära sorteringskriteriet för kategorilistan antalet gånger du har använt en kategori (det sekundära kriteriet är alfabetisk ordning). Detta ger dig snabb tillgång till de kategorier du oftast använder.</string>
+    <string name="menu_back_help_text">Navigera till föregående grupp. Kan också uppnås med en svepgest från vänster till höger.</string>
+    <string name="menu_forward_help_text">Navigera till nästa grupp. Kan också uppnås med en svepgest från höger till vänster.</string>
+    <string name="form_amount_switch_help_text">Använd omkopplaren för att växla mellan utgift och intäkt.</string>
+    <string name="form_attach_image_help_text"><![CDATA[<img src=\"android:ic_menu_camera\">-knappen låter dig bifoga en bild (t.ex. från galleriet eller kameran) till objektet.]]></string>
 </resources>
