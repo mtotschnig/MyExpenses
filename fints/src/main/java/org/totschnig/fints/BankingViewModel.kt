@@ -76,6 +76,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.VIEW_EXTENDED
 import org.totschnig.myexpenses.provider.useAndMapToList
 import org.totschnig.myexpenses.util.ResultUnit
+import org.totschnig.myexpenses.util.TransactionImports
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.config.Configurator
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -569,6 +570,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                         else
                             getString(R.string.transactions_imported_none)
                     )
+                if (importCount > 0) TransactionImports.notifyImported()
                 logEvent(Tracker.EVENT_FINTS_TRANSACTIONS_LOADED, credentials)
                 if (credentials.bank?.asWellKnown == null) {
                     CrashHandler.report(Exception("Unknown bank: ${credentials.blz}"))
@@ -740,6 +742,7 @@ class BankingViewModel(application: Application) : ContentResolvingAndroidViewMo
                     _workState.value = WorkState.Abort
                 }
             }
+            if (successCount > 0) TransactionImports.notifyImported()
             licenceHandler.recordUsage(ContribFeature.BANKING)
             _workState.value = WorkState.Success(
                 getQuantityString(R.plurals.accounts_imported, successCount, successCount)

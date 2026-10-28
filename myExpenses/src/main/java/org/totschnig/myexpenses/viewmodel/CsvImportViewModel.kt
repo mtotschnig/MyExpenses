@@ -21,6 +21,7 @@ import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.ResultUnit
+import org.totschnig.myexpenses.util.TransactionImports
 import java.io.InputStreamReader
 
 data class AccountConfiguration(val id: Long, val currency: String, val type: AccountType)
@@ -195,6 +196,6 @@ class CsvImportViewModel(application: Application, val savedStateHandle: SavedSt
                     null
                 )
             }.filterNotNull()
-        })
+        }.onSuccess { TransactionImports.notifyImported() })
     }
 }
