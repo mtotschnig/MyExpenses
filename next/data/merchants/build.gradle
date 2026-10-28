@@ -1,0 +1,9 @@
+plugins {
+    id 'next.data'
+}
+
+android {
+    namespace 'org.totschnig.myexpenses.next.data.merchants'
+}
+
+// Known merchants with their kind, the logos loaded for them and what the user chose for payees.
