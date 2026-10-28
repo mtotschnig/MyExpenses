@@ -1,0 +1,71 @@
+@startuml architecture
+' Who computes what of the new UI, from level 0 at the top to the view models at the bottom,
+' see README.md in this package. Arrows point to what is read; dashed arrows to the facts offered.
+' Decisions of the user are kept in stores in the DataStore, left out here.
+' Each repository and view model computes its analyses in a Memo, again only for a new input.
+
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam defaultFontName sans-serif
+skinparam linetype ortho
+top to bottom direction
+
+database "Database\n(TransactionProvider)" as db
+
+package "shell: NextData (once per process)" as nextData {
+  [ProviderLedgerSource] as ledgerSourceImpl
+  [ContractRepository] as contractsRepo
+  [BalanceRepository] as balanceRepo
+}
+
+package "ledger" {
+  interface LedgerSource
+  artifact Ledger
+  artifact Catalog
+}
+
+package "facts" as factsPackage {
+  artifact ContractFacts
+}
+
+package "view models (…Feature of the shell)" as viewModels {
+  [ContractsViewModel] as contractsVM
+  [BalanceViewModel] as balanceVM
+  [FixedTransactionsViewModel] as fixedVM
+}
+
+note as memo
+  Each analysis: input (data class) →
+  **Memo** → result, computed again
+  only for a new input, see README
+end note
+
+note as composition
+  **NextData** creates the repositories once per
+  process, so widgets and notifications can read
+  them; the **…Feature** entries of the shell create
+  the view models with what they read (viewModelsOf).
+end note
+
+' Level 0: read once for all
+db <-- ledgerSourceImpl : transactions with tags\nand split parts, accounts,\nIBANs, categories, tags
+ledgerSourceImpl -down- LedgerSource : provides
+LedgerSource --> Ledger
+LedgerSource --> Catalog
+
+' Level 1
+contractsRepo -up-> LedgerSource
+contractsRepo ..> ContractFacts
+
+' Level 2
+balanceRepo -up-> ContractFacts
+
+' View models show their repository
+contractsVM -up-> contractsRepo
+balanceVM -up-> balanceRepo
+
+' View models that offer nothing read what they show themselves
+fixedVM -up-> db : paged transactions
+
+@enduml

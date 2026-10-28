@@ -6,10 +6,20 @@ import com.lemonappdev.konsist.api.verify.assertFalse
 import com.lemonappdev.konsist.api.verify.assertTrue
 import org.junit.Test
 
-/** Rules screen-no-alert-dialog, vm-constructor, vm-entry-points and vm-io-param of ui_next/ARCHITECTURE.md. */
+/** Rules analysis-data-class, screen-no-alert-dialog, vm-constructor, vm-entry-points and vm-io-param of ui_next/ARCHITECTURE.md. */
 class UiNextRulesTest {
 
     private val scope = nextScope
+
+    @Test
+    fun `analysis-data-class inputs and facts are data classes`() {
+        scope.classes()
+            .filter { it.name.endsWith("Input") || it.name.endsWith("Facts") }
+            .filterNot { it.name in NOT_ANALYSIS_INPUTS }
+            .assertTrue(additionalMessage = "analysis-data-class: inputs and facts are data classes, so that equal data compares equal") {
+                it.hasDataModifier
+            }
+    }
 
     @Test
     fun `screen-no-alert-dialog no AlertDialog in ui_next`() {
@@ -58,5 +68,10 @@ class UiNextRulesTest {
     private companion object {
         val ENTRY_POINTS = setOf("MyExpensesNext", "NextSettings")
         val VIEW_MODEL_OF_NEXT = Regex("""org\.totschnig\.myexpenses\.next(\.\w+)+\.\w+ViewModel""")
+
+        /** Named like an input, but not the input of an analysis. */
+        val NOT_ANALYSIS_INPUTS = setOf(
+            "AmountInput", // receipts: reads what is typed into an amount field
+        )
     }
 }

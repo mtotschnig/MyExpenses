@@ -180,6 +180,21 @@ reading of the ledger and the adapters of the features. The ledger, its facts an
 are described in
 [`ledger/README.md`](../next/core/model/src/main/java/org/totschnig/myexpenses/next/core/model/ledger/README.md).
 
+### `feat-read-data` — Features read the ledger and data modules, not each other's view models
+
+A feature reads the ledger (`core.model.ledger`) and the facts of other areas from their data
+modules, never their view models, screens or stores. Screens of another area are handed in by the
+entry of the area in the shell (`mod-feature-isolated`, `mod-shell-boundary`).
+
+**Why:** View models hold transient state and are tied to a lifecycle. Reading from them would
+couple one feature's state machine to another's, making both harder to change.
+
+**Check:** Gradle
+
+---
+
+---
+
 ### `feat-data-no-cycles` — No cycles between data modules
 
 **Why:** Cycles make the build graph ill-defined and force all involved modules to be rebuilt
@@ -235,6 +250,20 @@ A short README and a diagram pay back the time spent on them many times over.
 
 ---
 
+### `feat-readme-sync` — The README matches the code
+
+The README, the `.puml` files and the table of view models in `ledger/README.md` match the code:
+names, what reads what, what is offered.
+
+**Why:** A README that contradicts the code is worse than none: it misleads. Keeping it in sync is
+part of the commit that changes the code.
+
+**Check:** review
+
+---
+
+---
+
 ### `feat-root-shared` — Root packages hold only shared code
 
 Files in the root package of `:next:core:ui` (`…next.core.ui`) are shared by the screens of
@@ -243,6 +272,148 @@ them (router, main screen). Code of one area belongs into its modules.
 
 **Why:** The root package of a shared module is the most visible place in it. Putting area-specific
 code there hides its true home and makes the module harder to split later.
+
+**Check:** review
+
+---
+
+
+## Analyses and facts
+
+### `analysis-pure` — An analysis is a pure function of its input
+
+An analysis is a pure function of an input data class, tested without Android, e.g.
+`contractTransactions(ledger)`, `balanceTransactions(ledger, period)`.
+
+**Why:** A pure function can be tested exhaustively on the JVM. A function that reads global state
+can only be tested by setting up that state, which is slow and fragile.
+
+**Check:** review
+
+---
+
+---
+
+### `analysis-no-clock` — An analysis does not read the clock
+
+An analysis reads nothing outside its input, not even the clock: the day comes from
+`LedgerSource.today`, which changes at midnight and when the user sets the date, time or time zone,
+so that a result of yesterday is not taken for today. `LocalDate.now()` is fine for what the user
+does at a moment (e.g. the day a contract is cancelled) and for previews, not in an analysis.
+
+**Why:** A function that reads `LocalDate.now()` returns a different result for the same input
+depending on when it is called. That makes it impossible to test for a specific day and easy to
+show stale results.
+
+**Check:** review
+
+---
+
+---
+
+### `analysis-data-class` — Inputs and facts are data classes
+
+Inputs, facts, `Ledger` and `LedgerTransaction` are data classes, so that equal data compares
+equal. The test checks classes named `…Input` and `…Facts`.
+
+**Why:** The `Memo` (rule `analysis-memo`) skips a recomputation when the input has not changed.
+That comparison only works correctly if equal data produces equal objects — which requires
+`data class` and its generated `equals`.
+
+**Check:** Konsist
+
+---
+
+---
+
+### `analysis-memo` — Each analysis is computed with a `Memo` of its input
+
+The repository or view model computes each analysis with a `Memo` of its input, and the input holds
+only what the analysis reads.
+
+**Why:** Without memoization, an analysis reruns every time any state changes — even if the input
+did not change. Memoization avoids the work and prevents unnecessary recompositions.
+
+**Check:** review
+
+---
+
+---
+
+### `analysis-tested` — Each analysis has a test for when it recomputes
+
+Each analysis has a test that an unchanged input is not computed again and that a relevant change
+is, see `BalanceViewModelTest` and `ContractInputTest`.
+
+**Why:** The `Memo` is only valuable if the input is defined correctly. A test that checks
+re-computation catches an input that is too broad (reruns always) or too narrow (misses changes).
+
+**Check:** review
+
+---
+
+---
+
+### `analysis-shared-flow` — Facts other features read are shared flows
+
+Facts that other features read are a shared flow with `replay = 1` (`shareWhileShown`). A fact that
+is null means loading or no consent; screens turn it into an `AnalysisState` with
+`analysisState(consent, value)`.
+
+**Why:** A cold flow would restart its computation for each collector. A shared flow with replay
+means the latest value is available immediately to a new collector (e.g. a screen that appears)
+without restarting the analysis.
+
+**Check:** review
+
+---
+
+---
+
+### `analysis-pure-planner` — Work with side effects runs only on a new result, decided by a pure planner
+
+Work with side effects, e.g. automatic decisions about contracts, runs only for a new result, and
+is decided by a pure planner with tests (`AutomaticDecisions`).
+
+**Why:** A planner that can be tested separately from the repository that applies its decisions is
+easier to verify and change. Running side effects only on new results prevents re-applying a
+decision after a restart.
+
+**Check:** review
+
+---
+
+---
+
+### `analysis-in-repo` — Facts are computed in repositories, not view models
+
+Facts other features read, and what a widget or notification could show (balance, tips, pots), are
+computed in a repository of the data module (`…Repository`), with the `CoroutineScope` it is given.
+`NextData` in the shell creates the repositories once per process; view models read facts and the
+home currency (`NextData.homeCurrency`, which follows a change by the user) from there, never from
+another view model, so that the order in which `MyExpensesNext` creates them does not matter.
+
+**Why:** A view model is tied to a screen's lifecycle. If facts live in a view model, they vanish
+when the screen is off screen, and another feature cannot read them without importing the view
+model. A repository lives for the process, independent of any screen.
+
+**Check:** review
+
+---
+
+---
+
+### `analysis-decisions-in-repo` — Automatic decisions are applied in repositories, not view models
+
+Automatic decisions (decisions about contracts, the rules of tags, certain categories) are made in
+the repository of their area as a shared flow with the side effect, never in a view model.
+`NextData.applyAutomaticDecisions` collects them while `MyExpensesNext` is started and for a
+minute after `TransactionImports` tells of an import from the bank or a file, so that nothing is
+analysed in the background otherwise. A replayed result after a restart is not decided on again.
+
+**Why:** A view model is destroyed when the user leaves the screen. Automatic decisions that run
+there stop the moment the screen is dismissed. A repository that the shell drives keeps the
+decisions running for the lifetime of the app, not the screen.
 
 **Check:** review
 
@@ -263,6 +434,22 @@ them, and a `start()` method creates a window where the object is partially init
 of bugs.
 
 **Check:** Konsist
+
+---
+
+---
+
+### `vm-graph-owners` — Only `NextData` and the area entries own the dependency graph
+
+`NextData` creates the repositories, the entry of each area in the shell (`…Feature`, listed in
+`NextFeatures`) its view models with `viewModelsOf { … }`; together they are the only places that
+know the whole graph.
+
+**Why:** If many places create or look up view models and repositories, it becomes impossible to
+see at a glance what the app creates and how the pieces fit together. Two owners — one per layer —
+is the minimum that makes the graph readable.
+
+**Check:** test
 
 ---
 
