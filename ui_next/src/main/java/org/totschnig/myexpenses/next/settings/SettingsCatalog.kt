@@ -13,6 +13,7 @@ enum class SettingsGroup(val section: Section) {
     LISTS(Section.SETTINGS),
     ENTRY(Section.SETTINGS),
     DATA(Section.SETTINGS),
+    INSIGHTS(Section.SETTINGS),
     SYNC(Section.SETTINGS),
     BACKUP(Section.SETTINGS),
     SECURITY(Section.SETTINGS),
@@ -69,8 +70,14 @@ class InsightSetting(
     override fun toString() = id
 
     companion object {
-        /** Those of the areas, in the order of [NextFeatures.settings] */
-        val all: List<InsightSetting> get() = NextFeatures.settings.flatMap { it.settings }
+        /** Whether the transactions may be analysed at all, the consent the ledger asks for */
+        val CONSENT = InsightSetting(
+            "CONSENT", SettingsGroup.INSIGHTS, SettingKind.SWITCH,
+            NextR.string.next_settings_consent, NextR.string.next_settings_consent_summary
+        )
+
+        /** The consent and then those of the areas, in the order of [NextFeatures.settings] */
+        val all: List<InsightSetting> get() = listOf(CONSENT) + NextFeatures.settings.flatMap { it.settings }
     }
 }
 
@@ -237,6 +244,11 @@ object SettingsCatalog {
                     choice(PLANNER_MANUAL_TIME)
                     action(REMOVE_LOCAL_CALENDAR)
                 }
+            }
+        }
+        group(SettingsGroup.INSIGHTS) {
+            on(null) {
+                next(SettingsGroup.INSIGHTS)
             }
         }
         group(SettingsGroup.SYNC) {

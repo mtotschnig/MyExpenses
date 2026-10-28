@@ -17,6 +17,7 @@ import org.totschnig.myexpenses.next.settings.SettingsGroup
 import androidx.compose.runtime.ProvidedValue
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.totschnig.myexpenses.next.NextData
 import org.totschnig.myexpenses.next.NextFeature
 import org.totschnig.myexpenses.next.RowDecorations
 import org.totschnig.myexpenses.next.core.ui.merchants.LocalPayeeImages
@@ -30,14 +31,13 @@ import org.totschnig.myexpenses.next.feature.merchants.PayeeImageDialog
 import org.totschnig.myexpenses.next.viewModelsOf
 
 /** Icons and logos of payees, chosen by the user or loaded with their consent */
-class MerchantsFeature(activity: ComponentActivity) : NextFeature {
+class MerchantsFeature(activity: ComponentActivity, data: NextData) : NextFeature {
     val logos by activity.viewModelsOf {
-        val dataStore = activity.injector.preferencesDataStore()
         MerchantLogos(
             activity.contentResolver.rawPayees(),
-            MerchantLogoConsent(dataStore),
-            PayeeDomainStore(dataStore),
-            PayeeIconStore(dataStore),
+            MerchantLogoConsent(data.dataStore),
+            PayeeDomainStore(data.dataStore),
+            PayeeIconStore(data.dataStore),
             MerchantLogoStore(activity.noBackupFilesDir.resolve("merchant-logos"))
         )
     }

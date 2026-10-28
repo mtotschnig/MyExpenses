@@ -9,6 +9,7 @@ import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material.icons.outlined.Forum
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Insights
 import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.Share
@@ -23,6 +24,7 @@ val SettingsGroup.title: Int
         SettingsGroup.LISTS -> R.string.next_settings_lists
         SettingsGroup.ENTRY -> R.string.next_settings_entry
         SettingsGroup.DATA -> R.string.next_settings_data
+        SettingsGroup.INSIGHTS -> R.string.next_settings_insights
         SettingsGroup.SYNC -> R.string.next_settings_sync
         SettingsGroup.BACKUP -> R.string.next_settings_backup
         SettingsGroup.SECURITY -> R.string.next_settings_security
@@ -41,6 +43,7 @@ val SettingsGroup.summary: Int?
         SettingsGroup.LISTS -> R.string.next_settings_lists_summary
         SettingsGroup.ENTRY -> R.string.next_settings_entry_summary
         SettingsGroup.DATA -> R.string.next_settings_data_summary
+        SettingsGroup.INSIGHTS -> R.string.next_settings_insights_summary
         SettingsGroup.SYNC -> R.string.next_settings_sync_summary
         SettingsGroup.BACKUP -> R.string.next_settings_backup_summary
         SettingsGroup.SECURITY -> R.string.next_settings_security_summary
@@ -54,6 +57,7 @@ val SettingsGroup.icon: ImageVector
         SettingsGroup.LISTS -> Icons.AutoMirrored.Outlined.ViewList
         SettingsGroup.ENTRY -> Icons.Outlined.EditNote
         SettingsGroup.DATA -> Icons.Outlined.Folder
+        SettingsGroup.INSIGHTS -> Icons.Outlined.Insights
         SettingsGroup.SYNC -> Icons.Outlined.Sync
         SettingsGroup.BACKUP -> Icons.Outlined.Backup
         SettingsGroup.SECURITY -> Icons.Outlined.Lock

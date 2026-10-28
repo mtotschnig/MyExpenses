@@ -12,8 +12,8 @@ import org.totschnig.myexpenses.next.settings.NextSettings
  * given here, so they come first; [all] is the order in which the shell shows their parts, e.g. the
  * sections of the details and the tabs. Each area adds its entry here, see [NextFeature].
  */
-class NextFeatures(activity: BaseActivity) {
-    val merchants = MerchantsFeature(activity)
+class NextFeatures(activity: BaseActivity, data: NextData = NextData.of(activity)) {
+    val merchants = MerchantsFeature(activity, data)
 
     val all: List<NextFeature> = listOf(merchants)
 

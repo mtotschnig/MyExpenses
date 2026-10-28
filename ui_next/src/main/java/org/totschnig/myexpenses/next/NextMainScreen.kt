@@ -63,6 +63,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.core.layout.WindowSizeClass
 import androidx.navigation3.runtime.NavKey
 import org.totschnig.myexpenses.next.core.model.transactions.ShownTransaction
+import org.totschnig.myexpenses.next.core.ui.transactions.FixedTransactions
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
@@ -121,6 +122,8 @@ fun NextMainScreen(
     onCreateAsset: suspend (code: String, symbol: String, fractionDigits: Int, label: String?, commodityType: CommodityType) -> CurrencyUnit? = { _, _, _, _, _ -> null },
     pageContent: @Composable (pageAccount: PageAccount, isCurrent: Boolean) -> Unit,
     transactionList: @Composable (PageAccount, TransactionSearch) -> Unit,
+    /** Lists of transactions outside of the accounts, for the pages of the areas */
+    fixedTransactions: FixedTransactions,
     /** What all areas add to the details of a transaction, for the pages of the areas */
     transactionDetails: @Composable (ShownTransaction) -> Unit,
     /** What the areas add to the overview, their tabs and their pages, see [NextFeature] */
@@ -252,7 +255,7 @@ fun NextMainScreen(
     val tabs = listOf(NextTab.Overview) + features.mapNotNull { it.tab } + NextTab.Menu
     val selectedTab = tabs.firstOrNull { it.selects(backStack.last()) } ?: NextTab.Overview
     val badges = features.filter { it.tab != null && it.hasNews() }.mapNotNull { it.tab }.toSet()
-    val shell = NextShell(navigation, transactionDetails)
+    val shell = NextShell(navigation, fixedTransactions, transactionDetails)
 
     Column(
         modifier = Modifier

@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.next.transactions.RepositoryTransactionStore
@@ -21,7 +22,10 @@ import java.io.Serializable
 import org.totschnig.myexpenses.activity.MyExpensesV2
 import org.totschnig.myexpenses.compose.accounts.AccountEventHandler
 import org.totschnig.myexpenses.compose.main.AppEventHandler
+import org.totschnig.myexpenses.compose.transactions.TransactionEvent
+import org.totschnig.myexpenses.compose.transactions.TransactionEventHandler
 import org.totschnig.myexpenses.designsystem.ActionChipRow
+import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountFlag
 import org.totschnig.myexpenses.model.AccountGroupingKey
 import org.totschnig.myexpenses.model.CommodityType
@@ -30,12 +34,16 @@ import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Grouping
 import org.totschnig.myexpenses.next.search.SearchResult
 import org.totschnig.myexpenses.viewmodel.data.HeaderData
+import org.totschnig.myexpenses.next.transactions.AppFixedTransactions
+import org.totschnig.myexpenses.next.transactions.FixedTransactionsViewModel
 import org.totschnig.myexpenses.next.core.model.transactions.ShownTransaction
 import org.totschnig.myexpenses.next.transactions.toShown
+import org.totschnig.myexpenses.next.transactions.TransactionActions
 import org.totschnig.myexpenses.provider.KEY_DATE
 import org.totschnig.myexpenses.viewmodel.MyExpensesV2ViewModel
 import org.totschnig.myexpenses.viewmodel.data.FullAccount
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
+import org.totschnig.myexpenses.viewmodel.data.Transaction2
 
 /**
  * Entry point of the new UI, started from its own launcher icon ("MyExpenses Next").
@@ -48,8 +56,23 @@ import org.totschnig.myexpenses.viewmodel.data.PageAccount
  */
 class MyExpensesNext : MyExpensesV2() {
 
-    // The areas of the new UI, see [NextFeature]
-    private val features by lazy { NextFeatures(this) }
+    /** Actions on transactions shown outside of the list of an account, e.g. those of a contract */
+    private val transactionEvents = object : TransactionEventHandler {
+        override fun invoke(event: TransactionEvent, transaction: Transaction2) {
+            handleTransactionEvent(event, transaction, isCurrentPage = true)
+        }
+    }
+
+    /** The ledger of the process, shared with other screens, see [NextData] */
+    private val nextData get() = NextData.of(this)
+
+    // The features get the ledger, the facts of other features and the home currency from NextData,
+    // see the README of the ledger package, never from another view model.
+    private val features by lazy { NextFeatures(this, nextData) }
+
+    private val fixedTransactionsViewModel by viewModelsOf {
+        FixedTransactionsViewModel(application, injector.currencyContext(), prefHandler)
+    }
 
     // Changes transactions from their details, see [TransactionEditActions]
     private val transactionEditViewModel by viewModelsOf {
@@ -84,6 +107,8 @@ class MyExpensesNext : MyExpensesV2() {
         onCreateAsset: suspend (code: String, symbol: String, fractionDigits: Int, label: String?, commodityType: CommodityType) -> CurrencyUnit?,
         pageContent: @Composable (pageAccount: PageAccount, isCurrent: Boolean) -> Unit,
     ) {
+        val transactionActions = remember(accounts.size) { TransactionActions(transactionEvents, accounts.size) }
+        val fixedTransactions = remember(transactionActions) { AppFixedTransactions(fixedTransactionsViewModel, transactionActions) }
         // What the new UI adds to the details of a transaction, in the accounts and in lists of other screens
         val transactionDetails: @Composable (ShownTransaction) -> Unit = { transaction ->
             features.all.forEach { it.TransactionSections(transaction) }
@@ -134,6 +159,7 @@ class MyExpensesNext : MyExpensesV2() {
                         )
                     })
                 },
+                fixedTransactions = fixedTransactions,
                 transactionDetails = transactionDetails,
                 features = features.all
             )

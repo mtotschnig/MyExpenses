@@ -15,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -47,6 +48,7 @@ import org.totschnig.myexpenses.dialog.SelectDefaultTransferCategoryDialogFragme
 import org.totschnig.myexpenses.dialog.SelectDefaultTransferCategoryDialogFragment.Companion.SELECT_CATEGORY_REQUEST
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.next.NextData
 import org.totschnig.myexpenses.next.NextFeatures
 import org.totschnig.myexpenses.next.NextTheme
 import org.totschnig.myexpenses.next.core.common.R as NextR
@@ -99,6 +101,8 @@ class NextSettings : ProtectedFragmentActivity() {
     private var pickRequest by mutableStateOf<PickRequest?>(null)
 
     private val settingsViewModel: SettingsViewModel by viewModels()
+
+    private val ledgerSource get() = NextData.of(this).ledgerSource
 
     /** The settings of the areas of the new UI, e.g. the rules of categories */
     private val areaSettings by lazy { NextFeatures.settings.associateWith { it.create(this) } }
@@ -358,7 +362,16 @@ class NextSettings : ProtectedFragmentActivity() {
 
     @Composable
     private fun insightControl(setting: InsightSetting): SettingControl? =
-        areaSettings.values.firstNotNullOfOrNull { it.control(setting) }
+        if (setting == InsightSetting.CONSENT) {
+            SettingControl.Switch(
+                checked = ledgerSource.consent.collectAsState(null).value == true,
+                summary = stringResource(NextR.string.next_settings_consent_summary),
+                isEnabled = true,
+                onChange = ledgerSource::setConsent
+            )
+        } else {
+            areaSettings.values.firstNotNullOfOrNull { it.control(setting) }
+        }
 
     @Composable
     private fun InsightPage(setting: InsightSetting, close: () -> Unit) {

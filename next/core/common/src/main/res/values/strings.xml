@@ -61,6 +61,8 @@
     <string name="next_settings_entry_summary">Default action, autofill, date, photos, receipts</string>
     <string name="next_settings_data">Manage data</string>
     <string name="next_settings_data_summary">Categories, tags, methods, currencies, planner</string>
+    <string name="next_settings_insights">Insights</string>
+    <string name="next_settings_insights_summary">Analysis of transactions, category and tag rules, rejected suggestions</string>
     <string name="next_settings_sync">Synchronization</string>
     <string name="next_settings_sync_summary">With other devices, web UI, multibanking</string>
     <string name="next_settings_backup">Backup &amp; import</string>
@@ -169,6 +171,8 @@
     <string name="next_settings_explain_db_safe_mode">Adds up very large amounts without overflow. The app offers it when such an error occurs.</string>
     <string name="next_settings_explain_repair_987">Shows transactions damaged by a known error (#987).</string>
     <string name="next_settings_explain_remove_local_calendar">Deletes the calendar the app created on this device for planned transactions.</string>
+    <string name="next_settings_consent">Analyse transactions</string>
+    <string name="next_settings_consent_summary">Finds contracts, regular income, suggestions and saving tips. Only on your device.</string>
     <string name="next_settings_merchant_logos">Logos of shops</string>
     <string name="next_settings_merchant_logos_summary">Shows the logos of well-known shops and companies in the transaction list. Their web addresses, e.g. rewe.de, are sent to the icon service of DuckDuckGo, never amounts or transactions.</string>
     <string name="next_payee_logo_title">Logo of %s</string>
