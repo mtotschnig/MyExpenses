@@ -149,6 +149,13 @@
     <string name="next_settings_explain_db_safe_mode">Adds up very large amounts without overflow. The app offers it when such an error occurs.</string>
     <string name="next_settings_explain_repair_987">Shows transactions damaged by a known error (#987).</string>
     <string name="next_settings_explain_remove_local_calendar">Deletes the calendar the app created on this device for planned transactions.</string>
+    <string name="next_payee_logo_title">Logo of %s</string>
+    <string name="next_payee_logo_load">Load</string>
+    <string name="next_payee_logo_intro">Enter the web address of the payee to show the icon of its website. Only the address is sent to the icon service of DuckDuckGo.</string>
+    <string name="next_payee_logo_address">Web address</string>
+    <string name="next_payee_logo_not_found">No icon found for %s</string>
+    <string name="next_payee_logo_invalid">Not a web address</string>
+    <string name="next_payee_logo_remove">Remove web address</string>
     <string name="next_change">Change</string>
     <string name="next_icons_food">Food &amp; drink</string>
     <string name="next_icons_shopping">Shopping</string>
@@ -166,7 +173,11 @@
     <string name="next_icons_suggested">Suggested</string>
     <string name="next_icons_automatic">Automatic</string>
     <string name="next_icons_automatic_hint">Chosen by the app from name and category</string>
+    <string name="next_icons_title">Icon for %1$s</string>
     <string name="next_payee_image_change">Change icon or logo</string>
+    <string name="next_payee_image_automatic">Logo of a known merchant, else the first letter</string>
+    <string name="next_payee_image_address">Logo from web address</string>
+    <string name="next_payee_image_address_hint">E.g. for a local shop</string>
     <string name="next_search_placeholder">Payee, note, category or amount</string>
     <string name="next_search_close">End search</string>
     <string name="next_search_clear">Clear</string>

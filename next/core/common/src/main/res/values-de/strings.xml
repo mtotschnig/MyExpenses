@@ -149,6 +149,13 @@
     <string name="next_settings_explain_db_safe_mode">Summiert sehr große Beträge ohne Überlauf. Die App schlägt ihn vor, wenn ein solcher Fehler auftritt.</string>
     <string name="next_settings_explain_repair_987">Zeigt Buchungen, die ein bekannter Fehler (#987) beschädigt hat.</string>
     <string name="next_settings_explain_remove_local_calendar">Löscht den Kalender, den die App auf diesem Gerät für geplante Buchungen angelegt hat.</string>
+    <string name="next_payee_logo_title">Logo von %s</string>
+    <string name="next_payee_logo_load">Laden</string>
+    <string name="next_payee_logo_intro">Gib die Webadresse des Empfängers ein, um das Symbol seiner Website zu zeigen. Nur die Adresse wird an den Icon-Dienst von DuckDuckGo gesendet.</string>
+    <string name="next_payee_logo_address">Webadresse</string>
+    <string name="next_payee_logo_not_found">Kein Symbol für %s gefunden</string>
+    <string name="next_payee_logo_invalid">Keine Webadresse</string>
+    <string name="next_payee_logo_remove">Webadresse entfernen</string>
     <string name="next_change">Ändern</string>
     <string name="next_icons_food">Essen &amp; Trinken</string>
     <string name="next_icons_shopping">Einkaufen</string>
@@ -166,7 +173,11 @@
     <string name="next_icons_suggested">Vorschläge</string>
     <string name="next_icons_automatic">Automatisch</string>
     <string name="next_icons_automatic_hint">Von der App nach Name und Kategorie gewählt</string>
+    <string name="next_icons_title">Icon für %1$s</string>
     <string name="next_payee_image_change">Icon oder Logo ändern</string>
+    <string name="next_payee_image_automatic">Logo eines bekannten Händlers, sonst der Anfangsbuchstabe</string>
+    <string name="next_payee_image_address">Logo von Webadresse</string>
+    <string name="next_payee_image_address_hint">Z. B. für ein Geschäft vor Ort</string>
     <string name="next_search_placeholder">Empfänger, Notiz, Kategorie oder Betrag</string>
     <string name="next_search_close">Suche beenden</string>
     <string name="next_search_clear">Leeren</string>
