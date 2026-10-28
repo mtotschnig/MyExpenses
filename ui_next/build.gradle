@@ -39,8 +39,10 @@ dependencies {
     implementation libs.copper.flow
     implementation project(':designsystem')
     implementation project(':next:core:ui')
+    implementation project(':next:data:balance')
     implementation project(':next:data:contracts')
     implementation project(':next:data:merchants')
+    implementation project(':next:feature:balance')
     implementation project(':next:feature:contracts')
     implementation project(':next:feature:merchants')
     implementation libs.kotlinx.serialization.json

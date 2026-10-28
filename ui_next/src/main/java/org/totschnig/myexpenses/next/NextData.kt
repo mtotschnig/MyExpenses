@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.util.TransactionImports
 import kotlinx.coroutines.flow.StateFlow
 import org.totschnig.myexpenses.next.core.model.ledger.CurrencyInfo
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.next.data.balance.BalanceRepository
 import org.totschnig.myexpenses.next.data.contracts.ContractRepository
 import org.totschnig.myexpenses.next.data.contracts.ContractStore
 import org.totschnig.myexpenses.next.insights.ProviderLedgerSource
@@ -40,6 +41,8 @@ class NextData private constructor(context: Context) {
     val ledgerSource: LedgerSource = ProviderLedgerSource(context.contentResolver, dataStore, scope, today(context))
 
     val contracts = ContractRepository(ledgerSource, ContractStore(dataStore), scope)
+
+    val balance = BalanceRepository(ledgerSource, contracts.facts, scope)
 
     /**
      * Makes the automatic decisions of the areas while it runs, e.g. which transactions are

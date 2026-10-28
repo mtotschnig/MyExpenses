@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.next
 
 import androidx.compose.runtime.ProvidedValue
 import org.totschnig.myexpenses.activity.BaseActivity
+import org.totschnig.myexpenses.next.balance.BalanceFeature
 import org.totschnig.myexpenses.next.contracts.ContractsFeature
 import org.totschnig.myexpenses.next.merchants.MerchantSettings
 import org.totschnig.myexpenses.next.merchants.MerchantsFeature
@@ -16,8 +17,9 @@ import org.totschnig.myexpenses.next.settings.NextSettings
 class NextFeatures(activity: BaseActivity, data: NextData = NextData.of(activity)) {
     val merchants = MerchantsFeature(activity, data)
     val contracts = ContractsFeature(activity, data)
+    val balance = BalanceFeature(activity, data, contracts)
 
-    val all: List<NextFeature> = listOf(contracts, merchants)
+    val all: List<NextFeature> = listOf(contracts, merchants, balance)
 
     companion object {
         /** What the areas provide to all screens of the new UI, also outside of the main screen, see [NextTheme] */
