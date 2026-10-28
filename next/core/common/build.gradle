@@ -10,9 +10,14 @@ android {
 }
 
 // What the data and the screens of the new UI share without Compose: the texts
-// (org.totschnig.myexpenses.next.core.common.R) and the catalog of icons; for tests of the stores a
-// data store in memory (testFixtures).
+// (org.totschnig.myexpenses.next.core.common.R), the catalog of icons, the memo of analyses, sharing of flows,
+// timing logs and the JSON codec of the stores; for tests of the stores a data store in memory (testFixtures).
 dependencies {
     api project(':next:core:model')
+    api libs.timber
     api libs.androidx.datastore.preferences
+    testImplementation libs.junit
+    // The real implementation, android.jar only has stubs for org.json
+    testImplementation libs.org.json
+    testImplementation libs.kotlinx.coroutines.test
 }

@@ -1,11 +1,12 @@
 plugins {
     id 'next.jvm'
+    id 'java-test-fixtures'
 }
 
-// The shared types of the new UI that all areas read, e.g. the transaction shown in the details and
-// the currency of amounts. Plain Kotlin without Android and without types of :myExpenses, so that
-// the areas and their tests depend only on this.
-
+// The shared types of the new UI that all features read: the ledger of transactions, the catalog of
+// categories and tags, the state of an analysis. Plain Kotlin without Android and without types of
+// :myExpenses, so that features and their tests depend only on this.
 dependencies {
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:${libs.versions.coroutines.get()}"
     testImplementation libs.junit
 }

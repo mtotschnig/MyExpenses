@@ -1,0 +1,98 @@
+@startuml model
+' The types of the ledger package that all features share, see README.md in this package.
+
+skinparam shadowing false
+skinparam defaultFontName sans-serif
+hide empty members
+
+interface LedgerSource {
+  consent: Flow<Boolean?>
+  ledger: Flow<Ledger?>
+  catalog: Flow<Catalog>
+  today: Flow<LocalDate>
+  setConsent(consent: Boolean)
+}
+
+class Ledger {
+  transactions: List<LedgerTransaction>
+  ownAccounts: OwnAccounts
+  {static} HISTORY_MONTHS = 26
+}
+
+class LedgerTransaction {
+  id, date, accountId
+  amount: account currency
+  homeAmount: home currency
+  currency, originalCurrency
+  payeeId, payeeName, comment
+  categoryId, categoryPath, templateId
+  transferAccountId: transfer in the app
+  targetAccountId: movement to an own account
+  isSealed
+  tagIds
+  parts: of a split transaction
+  categoryParts: parts or itself
+  isForeign
+}
+
+class LedgerPart {
+  amount, homeAmount
+  categoryId
+  transferAccountId
+}
+
+class OwnAccounts {
+  dailyIds
+  labels
+}
+
+class Catalog {
+  categories: List<CategoryInfo>
+  tags: List<Tag>
+  categoryPaths
+  categoriesById
+}
+
+class CategoryInfo {
+  id, label, path
+  isExpense, isIncome
+  mainId
+}
+
+class "Memo<I, O>" as Memo {
+  of(input: I): O
+}
+
+class "AnalysisState<T>" as AnalysisState <<sealed>>
+class Loading
+class AskConsent
+class Declined
+class "Ready<T>" as Ready {
+  value: T
+}
+
+LedgerSource --> Ledger : null while loading\nor without consent
+LedgerSource --> Catalog : also without consent
+Ledger *-- "*" LedgerTransaction
+Ledger *-- OwnAccounts
+LedgerTransaction *-- "*" LedgerPart : only analyses\nby category use them
+Catalog *-- "*" CategoryInfo
+
+AnalysisState <|-- Loading
+AnalysisState <|-- AskConsent
+AnalysisState <|-- Declined
+AnalysisState <|-- Ready
+
+note bottom of Memo
+  Last input and result of an analysis.
+  An equal input gives the last result.
+  Flow<I?>.mapMemo(memo): Flow<O?>
+end note
+
+note bottom of AnalysisState
+  analysisState(consent, value):
+  null consent → AskConsent, false → Declined,
+  null value → Loading, else Ready(value)
+end note
+
+@enduml
