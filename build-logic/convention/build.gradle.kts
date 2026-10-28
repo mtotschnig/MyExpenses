@@ -23,6 +23,14 @@ gradlePlugin {
             id = "next.android.compose"
             implementationClass = "org.totschnig.myexpenses.buildlogic.AndroidComposeConventionPlugin"
         }
+        register("feature") {
+            id = "next.feature"
+            implementationClass = "org.totschnig.myexpenses.buildlogic.FeatureConventionPlugin"
+        }
+        register("data") {
+            id = "next.data"
+            implementationClass = "org.totschnig.myexpenses.buildlogic.DataConventionPlugin"
+        }
         register("jvm") {
             id = "next.jvm"
             implementationClass = "org.totschnig.myexpenses.buildlogic.JvmConventionPlugin"
