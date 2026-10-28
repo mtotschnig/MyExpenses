@@ -5,3 +5,7 @@ plugins {
 // The shared types of the new UI that all areas read, e.g. the transaction shown in the details and
 // the currency of amounts. Plain Kotlin without Android and without types of :myExpenses, so that
 // the areas and their tests depend only on this.
+
+dependencies {
+    testImplementation libs.junit
+}
