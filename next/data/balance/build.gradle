@@ -1,0 +1,12 @@
+plugins {
+    id 'next.data'
+}
+
+android {
+    namespace 'org.totschnig.myexpenses.next.data.balance'
+}
+
+// The balance of a month or of the time from salary to salary: income, contracts, savings and what is left.
+dependencies {
+    implementation project(':next:data:contracts')
+}
