@@ -541,4 +541,8 @@ private fun MenuSheet(
 sealed interface NextKey : NavKey {
     @Serializable
     data object Overview : NextKey
+
+    /** @param openContract signature of a contract shown from the start */
+    @Serializable
+    data class Contracts(val openContract: String? = null) : NextKey
 }

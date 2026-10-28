@@ -6,6 +6,11 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.launch
+import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -81,6 +86,14 @@ class MyExpensesNext : MyExpensesV2() {
             it,
             DecimalFormatSymbols.getInstance().decimalSeparator
         )
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // Automatic decisions for new transactions, while the app is shown, see NextData
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) { nextData.applyAutomaticDecisions() }
+        }
     }
 
     @Composable
