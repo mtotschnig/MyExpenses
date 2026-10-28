@@ -86,6 +86,25 @@
     <string name="next_contracts_edit_area">Edit area</string>
     <string name="next_contracts_delete_area">Delete area</string>
     <string name="next_contracts_delete_area_confirm">Contracts in “%1$s” go back to their automatic area.</string>
+    <string name="next_balance_title">Current month</string>
+    <string name="next_balance_income">Income</string>
+    <string name="next_balance_expenses">Expenses</string>
+    <string name="next_balance_available">available</string>
+    <plurals name="next_balance_until_salary">
+        <item quantity="one">until your next salary in %d day</item>
+        <item quantity="other">until your next salary in %d days</item>
+    </plurals>
+    <plurals name="next_balance_until_month_end">
+        <item quantity="one">until the end of the month in %d day</item>
+        <item quantity="other">until the end of the month in %d days</item>
+    </plurals>
+    <string name="next_balance_consent">See at a glance how much is left until your next salary. For this, regular payments are detected in your transactions. The analysis runs only on your device.</string>
+    <string name="next_balance_details">In detail</string>
+    <string name="next_balance_contracts_upcoming">%1$s of it still to come</string>
+    <string name="next_balance_savings">Reserves</string>
+    <string name="next_balance_other">Other expenses</string>
+    <string name="next_balance_available_total">Available</string>
+    <string name="next_balance_per_day">Ø %1$s / day</string>
     <string name="next_income_title">Regular income</string>
     <string name="next_income_per_month">Regular income per month</string>
     <plurals name="next_income_count">
@@ -101,7 +120,10 @@
     <string name="next_salary_automatic">Automatic (%1$s)</string>
     <string name="next_salary_none_detected">none detected</string>
     <string name="next_salary_explanation">The monthly balance runs from one salary to the next.</string>
+    <string name="next_balance_salary">Salary: %1$s</string>
+    <string name="next_balance_calendar_month">Calendar month</string>
     <string name="next_salary_none_hint">Without any, the calendar month is used.</string>
+    <string name="next_balance_income_upcoming">%1$s of it still expected</string>
     <string name="next_contracts_suggestions">Suggestions</string>
     <string name="next_contracts_suggestions_hint">Only included in the totals once you confirm them.</string>
     <string name="next_contracts_confirm">Is a contract</string>
