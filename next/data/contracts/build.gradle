@@ -1,0 +1,12 @@
+plugins {
+    id 'next.data'
+}
+
+android {
+    namespace 'org.totschnig.myexpenses.next.data.contracts'
+}
+
+// Contracts and incomes detected in the ledger, the decisions of the user about them, their news and the reserves for them.
+dependencies {
+    implementation project(':next:data:merchants')
+}
