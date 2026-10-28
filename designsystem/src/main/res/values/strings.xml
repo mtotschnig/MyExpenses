@@ -4,7 +4,9 @@
     <string name="ds_apply">Apply</string>
     <string name="ds_show_hint">Show explanation</string>
     <string name="ds_choose_several">Choose several</string>
+    <string name="ds_icon_search">Search icons</string>
     <string name="ds_icon_search_clear">Clear search</string>
+    <string name="ds_icon_none_found">No icon found</string>
     <string name="ds_close">Close</string>
     <string name="ds_search">Search</string>
     <string name="ds_none_found">Nothing found</string>

@@ -23,6 +23,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -366,3 +367,67 @@ private fun SearchShowcase() {
     }
 }
 
+
+@Preview(name = "Form dialog", showBackground = true)
+@Composable
+private fun FormDialogShowcase() {
+    DesignSystemTheme {
+        FormDialog(title = "Form dialog", onConfirm = {}, onDismiss = {}, intro = "What the values mean") {
+            OutlinedTextField(value = "Name", onValueChange = {}, label = { Text("Field") })
+            OutlinedTextField(value = "2,29", onValueChange = {}, label = { Text("Amount") })
+            DestructiveTextButton("Remove", onClick = {}, icon = Icons.Default.Delete)
+        }
+    }
+}
+
+@Preview(name = "Form dialog with proposal", showBackground = true)
+@Composable
+private fun FormDialogProposalShowcase() {
+    DesignSystemTheme {
+        FormDialog(
+            title = "Product type 1 of 3",
+            onConfirm = {},
+            onDismiss = {},
+            confirmLabel = "Apply",
+            dismissLabel = "Done",
+            secondaryLabel = "Skip",
+            onSecondary = {}
+        ) {
+            Text("OATLY HAFER BARISTA", style = MaterialTheme.typography.titleMedium)
+            ChoiceChips(options = listOf("Dairy", "Drinks", "Pantry"), selected = "Drinks", label = { it }, onSelect = {})
+        }
+    }
+}
+
+@Preview(name = "Icon picker", showBackground = true, heightDp = 640)
+@Preview(name = "Icon picker, dark", showBackground = true, heightDp = 640, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun IconPickerShowcase() {
+    val icons = mapOf(
+        "folder" to Icons.Outlined.Folder, "info" to Icons.Outlined.Info, "groups" to Icons.Outlined.Workspaces,
+        "search" to Icons.Default.Search, "edit" to Icons.Default.Edit, "add" to Icons.Default.Add
+    )
+    DesignSystemTheme {
+        Column(Modifier.background(MaterialTheme.colorScheme.surfaceContainer)) {
+            PageTopBar(onBack = {}, title = "Icon for Fitness")
+            IconPicker(
+                filters = listOf("Suggested", "Files", "Actions"),
+                sections = { _, _ ->
+                    listOf(
+                        IconSection("Suggested", listOf("groups", "info")),
+                        IconSection("Files", listOf("folder", "search")),
+                        IconSection("Actions", listOf("edit", "add"))
+                    )
+                },
+                selected = "info",
+                onSelect = {},
+                label = { it },
+                header = {
+                    IconPickerOption("Automatic", "Chosen from the name", isSelected = false, onClick = {}) {
+                        IconTile { Icon(Icons.Outlined.Palette, contentDescription = null) }
+                    }
+                }
+            ) { key -> Icon(icons.getValue(key), contentDescription = null) }
+        }
+    }
+}

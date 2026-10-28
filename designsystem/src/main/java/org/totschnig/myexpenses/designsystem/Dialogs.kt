@@ -2,7 +2,9 @@ package org.totschnig.myexpenses.designsystem
 
 import android.text.format.DateFormat
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,6 +13,8 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DatePicker
@@ -18,6 +22,7 @@ import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
@@ -202,6 +207,66 @@ fun DateDialog(
             }
         )
     }
+}
+
+/**
+ * Asks for several values at once, e.g. name and amount of an entry
+ *
+ * @param confirmLabel / [dismissLabel] instead of Apply / Cancel, e.g. "Skip" / "Done" when going
+ * through several entries one after the other
+ * @param intro shown above the fields, e.g. what the values mean
+ * @param secondaryLabel an action instead of dismissing next to confirm, shown if [onSecondary] is
+ * given, e.g. "Skip" when confirm takes over a proposed value; the dialog is then closed by a
+ * button in the title labelled [dismissLabel], so that it keeps two actions at the bottom
+ * @param content the fields, scrolls if they do not fit
+ */
+@Composable
+fun FormDialog(
+    title: String,
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit,
+    confirmEnabled: Boolean = true,
+    confirmLabel: String? = null,
+    dismissLabel: String? = null,
+    intro: String? = null,
+    secondaryLabel: String? = null,
+    onSecondary: (() -> Unit)? = null,
+    content: @Composable ColumnScope.() -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = {
+            if (onSecondary != null && secondaryLabel != null) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(title, Modifier.weight(1f))
+                    IconButton(onClick = onDismiss) {
+                        Icon(Icons.Default.Close, contentDescription = dismissLabel ?: stringResource(android.R.string.cancel))
+                    }
+                }
+            } else Text(title)
+        },
+        text = {
+            Column(
+                Modifier.verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                intro?.let { DialogIntro(it) }
+                content()
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onConfirm, enabled = confirmEnabled) {
+                Text(confirmLabel ?: stringResource(R.string.ds_apply))
+            }
+        },
+        dismissButton = {
+            if (onSecondary != null && secondaryLabel != null) {
+                TextButton(onClick = onSecondary) { Text(secondaryLabel) }
+            } else TextButton(onClick = onDismiss) {
+                Text(dismissLabel ?: stringResource(android.R.string.cancel))
+            }
+        }
+    )
 }
 
 /**
