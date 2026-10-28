@@ -8,12 +8,15 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -80,6 +83,47 @@ fun PageTopBar(
     }
 }
 
+/**
+ * An action on the right of a [PageTopBar], e.g. opening the settings of the page
+ */
+@Composable
+fun TopBarAction(icon: ImageVector, contentDescription: String, onClick: () -> Unit) {
+    IconButton(onClick = onClick) {
+        Icon(icon, contentDescription = contentDescription, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+    }
+}
+
+/**
+ * An action like [TopBarAction] with a number on it, e.g. of unread news. Without a number, it is
+ * a plain action.
+ *
+ * @param isAlert red for something new, else a calmer color, e.g. for suggestions to review
+ */
+@Composable
+fun BadgedTopBarAction(
+    icon: ImageVector,
+    contentDescription: String,
+    count: Int,
+    onClick: () -> Unit,
+    isAlert: Boolean = true,
+) {
+    // The badge is outside of the button, which clips its content to a circle, and is moved
+    // from the corner of the button to the corner of the icon
+    BadgedBox(badge = {
+        if (count > 0) Badge(
+            containerColor = if (isAlert) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.tertiary,
+            contentColor = if (isAlert) MaterialTheme.colorScheme.onError else MaterialTheme.colorScheme.onTertiary,
+            modifier = Modifier.offset(x = (-12).dp, y = 12.dp)
+        ) {
+            Text(if (count > 99) "99+" else count.toString())
+        }
+    }) {
+        IconButton(onClick = onClick) {
+            Icon(icon, contentDescription = contentDescription, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
+    }
+}
+
 /** An entry of a [MenuButton] */
 class MenuEntry(val label: String, val icon: ImageVector, val onClick: () -> Unit)
 
@@ -106,6 +150,19 @@ fun MenuButton(entries: List<MenuEntry>, contentDescription: String) {
             }
         }
     }
+}
+
+/**
+ * Line below the title of a [PageTopBar], e.g. the period shown
+ */
+@Composable
+fun PageSubtitle(text: String, modifier: Modifier = Modifier) {
+    Text(
+        text,
+        style = MaterialTheme.typography.bodyMedium,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        modifier = modifier
+    )
 }
 
 /**

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -51,9 +52,23 @@ import org.totschnig.myexpenses.designsystem.theme.LocalSemanticColors
 private fun Showcase() {
     DesignSystemTheme {
         DetailScaffold(onBack = {}, title = "Design system") {
-            PageTopBar(onBack = null, title = "Page without back")
+            PageTopBar(onBack = null, title = "Page without back", actions = {
+                TopBarAction(Icons.Default.Search, contentDescription = "Action", onClick = {})
+                BadgedTopBarAction(Icons.Default.Search, contentDescription = "With news", count = 3, onClick = {})
+                BadgedTopBarAction(Icons.Default.Search, contentDescription = "Calm", count = 12, onClick = {}, isAlert = false)
+            })
+            Banner(
+                title = "Banner",
+                messages = listOf("Asks for a decision or tells about something new"),
+                actions = {
+                    TextButton(onClick = {}) { Text("No") }
+                    Button(onClick = {}, modifier = Modifier.padding(start = 8.dp)) { Text("Yes") }
+                }
+            )
             Row(verticalAlignment = Alignment.CenterVertically) {
-                TextBadge("Badge")
+                LabelChip(text = "Insurance", placeholder = "Category", onClick = {})
+                LabelChip(text = null, placeholder = "Category", onClick = {}, modifier = Modifier.padding(start = 8.dp))
+                TextBadge("Badge", Modifier.padding(start = 8.dp))
                 TextBadge("Suggestion", Modifier.padding(start = 8.dp), style = BadgeStyle.Suggestion)
                 TextBadge("Group", Modifier.padding(start = 8.dp), style = BadgeStyle.Outlined)
                 TextBadge("Missing", Modifier.padding(start = 8.dp), style = BadgeStyle.Missing)
@@ -66,6 +81,9 @@ private fun Showcase() {
             }
             DetailCard {
                 Column(Modifier.padding(Spacing.content), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    ChipRow("Chip row") {
+                        LabelChip(text = "With icon", placeholder = "", onClick = {}, icon = Icons.Outlined.Folder)
+                    }
                     ChipRow("With hint", hint = "Explains the chips, shown after tapping the label") {
                         ToggleChip(text = "On", selected = true, onClick = {})
                         ToggleChip(text = "Off", selected = false, onClick = {})
@@ -90,11 +108,18 @@ private fun Showcase() {
             GroupTitle("Group with menu", action = {
                 MenuButton(listOf(MenuEntry("Entry", Icons.Outlined.Folder) {}), contentDescription = "More")
             })
+            ActionChipRow {
+                ActionChip("Rare action", Icons.Outlined.Folder, onClick = {})
+                ActionChip("Another one", Icons.Outlined.Info, onClick = {})
+            }
             SectionTitle("Rows")
             DetailCard {
                 InfoRow("Info", "Value", isFirst = true)
                 InfoRow("Changeable", "Tap to change", onClick = {})
                 HintRow("Warning about a consequence, e.g. no longer matching the bank", isWarning = true)
+                EditableRow("Editable", "Value", onClick = {})
+                EditableRow("Editable icon", onClick = {}) { IconTile { Icon(Icons.Outlined.Palette, contentDescription = null) } }
+                RemovableRow("Removable", "Value", removeLabel = "Remove", onRemove = {})
                 SwitchRow("Switch", checked = true, onCheckedChange = {}, supportingText = "Explanation")
                 LinkRow("Link", onClick = {})
                 LoadingRow()
@@ -153,6 +178,7 @@ private fun Showcase() {
             GroupTitle("Group title", action = {
                 IconButton(onClick = {}) { Icon(Icons.Default.Add, contentDescription = null) }
             })
+            HighlightCard { Text("Highlight card") }
             Row(verticalAlignment = Alignment.CenterVertically) {
                 IconTile { Icon(Icons.Default.Search, contentDescription = null) }
                 IconTile(Modifier.padding(start = 8.dp), isLarge = true) { Icon(Icons.Default.Search, contentDescription = null) }
@@ -178,6 +204,27 @@ private fun Showcase() {
                 confirmIcon = Icons.Default.Add
             )
             EmptyState("Nothing here", hint = "Shown instead of an empty list", modifier = Modifier.size(320.dp, 160.dp))
+            PromptCard(
+                icon = Icons.Default.Search,
+                title = "Prompt card",
+                text = "Asks the user to start something",
+                confirmLabel = "Start",
+                onConfirm = {},
+                dismissLabel = "Not now",
+                modifier = Modifier.height(360.dp)
+            )
+        }
+    }
+}
+
+@Preview(name = "Form dialog", showBackground = true)
+@Composable
+private fun FormDialogShowcase() {
+    DesignSystemTheme {
+        FormDialog(title = "Form dialog", onConfirm = {}, onDismiss = {}, intro = "What the values mean") {
+            OutlinedTextField(value = "Name", onValueChange = {}, label = { Text("Field") })
+            OutlinedTextField(value = "2,29", onValueChange = {}, label = { Text("Amount") })
+            DestructiveTextButton("Remove", onClick = {}, icon = Icons.Default.Delete)
         }
     }
 }
@@ -225,6 +272,25 @@ private fun TimeDialogShowcase() {
 private fun DateDialogShowcase() {
     DesignSystemTheme {
         DateDialog(initial = LocalDate.of(2026, 12, 24), onConfirm = {}, onDismiss = {}, onClear = {}, clearLabel = "No date")
+    }
+}
+
+@Preview(name = "Form dialog with proposal", showBackground = true)
+@Composable
+private fun FormDialogProposalShowcase() {
+    DesignSystemTheme {
+        FormDialog(
+            title = "Product type 1 of 3",
+            onConfirm = {},
+            onDismiss = {},
+            confirmLabel = "Apply",
+            dismissLabel = "Done",
+            secondaryLabel = "Skip",
+            onSecondary = {}
+        ) {
+            Text("OATLY HAFER BARISTA", style = MaterialTheme.typography.titleMedium)
+            ChoiceChips(options = listOf("Dairy", "Drinks", "Pantry"), selected = "Drinks", label = { it }, onSelect = {})
+        }
     }
 }
 
@@ -350,65 +416,6 @@ private fun PickDialogShowcase() {
     }
 }
 
-@Preview(name = "Search", showBackground = true, heightDp = 640)
-@Preview(name = "Search dark", showBackground = true, heightDp = 640, uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-private fun SearchShowcase() {
-    DesignSystemTheme {
-        Column(Modifier.background(MaterialTheme.colorScheme.surfaceContainer)) {
-            SearchTopBar(
-                query = "Rewe", onQueryChange = {}, placeholder = "Search transactions",
-                onClose = {}, closeLabel = "Close", clearLabel = "Clear"
-            )
-            SearchFilterRow {
-                SearchFilterChip("Period", value = "October 2026", onClick = {}, icon = Icons.Outlined.Info)
-                SearchFilterChip("Category", value = null, onClick = {}, icon = Icons.Outlined.Folder)
-                SearchFilterChip("Amount", value = null, onClick = {})
-            }
-            SearchResultRow("23 transactions · −412,30 €", actionLabel = "Reset", onAction = {})
-            SectionTitle("Content of a filter sheet")
-            OptionRow("Groceries", selected = true, onClick = {}, leading = {
-                IconTile { Icon(Icons.Outlined.Folder, contentDescription = null) }
-            })
-            OptionRow("Bakery", selected = false, onClick = {}, depth = 1)
-            OptionRow("This month", selected = true, onClick = {}, isMultiple = false, supportingText = "1 – 31 October")
-            SwitchRow("Exclude these", checked = false, onCheckedChange = {}, isFirst = true)
-        }
-    }
-}
-
-
-@Preview(name = "Form dialog", showBackground = true)
-@Composable
-private fun FormDialogShowcase() {
-    DesignSystemTheme {
-        FormDialog(title = "Form dialog", onConfirm = {}, onDismiss = {}, intro = "What the values mean") {
-            OutlinedTextField(value = "Name", onValueChange = {}, label = { Text("Field") })
-            OutlinedTextField(value = "2,29", onValueChange = {}, label = { Text("Amount") })
-            DestructiveTextButton("Remove", onClick = {}, icon = Icons.Default.Delete)
-        }
-    }
-}
-
-@Preview(name = "Form dialog with proposal", showBackground = true)
-@Composable
-private fun FormDialogProposalShowcase() {
-    DesignSystemTheme {
-        FormDialog(
-            title = "Product type 1 of 3",
-            onConfirm = {},
-            onDismiss = {},
-            confirmLabel = "Apply",
-            dismissLabel = "Done",
-            secondaryLabel = "Skip",
-            onSecondary = {}
-        ) {
-            Text("OATLY HAFER BARISTA", style = MaterialTheme.typography.titleMedium)
-            ChoiceChips(options = listOf("Dairy", "Drinks", "Pantry"), selected = "Drinks", label = { it }, onSelect = {})
-        }
-    }
-}
-
 @Preview(name = "Icon picker", showBackground = true, heightDp = 640)
 @Preview(name = "Icon picker, dark", showBackground = true, heightDp = 640, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
@@ -441,3 +448,31 @@ private fun IconPickerShowcase() {
         }
     }
 }
+
+@Preview(name = "Search", showBackground = true, heightDp = 640)
+@Preview(name = "Search dark", showBackground = true, heightDp = 640, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun SearchShowcase() {
+    DesignSystemTheme {
+        Column(Modifier.background(MaterialTheme.colorScheme.surfaceContainer)) {
+            SearchTopBar(
+                query = "Rewe", onQueryChange = {}, placeholder = "Search transactions",
+                onClose = {}, closeLabel = "Close", clearLabel = "Clear"
+            )
+            SearchFilterRow {
+                SearchFilterChip("Period", value = "October 2026", onClick = {}, icon = Icons.Outlined.Info)
+                SearchFilterChip("Category", value = null, onClick = {}, icon = Icons.Outlined.Folder)
+                SearchFilterChip("Amount", value = null, onClick = {})
+            }
+            SearchResultRow("23 transactions · −412,30 €", actionLabel = "Reset", onAction = {})
+            SectionTitle("Content of a filter sheet")
+            OptionRow("Groceries", selected = true, onClick = {}, leading = {
+                IconTile { Icon(Icons.Outlined.Folder, contentDescription = null) }
+            })
+            OptionRow("Bakery", selected = false, onClick = {}, depth = 1)
+            OptionRow("This month", selected = true, onClick = {}, isMultiple = false, supportingText = "1 – 31 October")
+            SwitchRow("Exclude these", checked = false, onCheckedChange = {}, isFirst = true)
+        }
+    }
+}
+

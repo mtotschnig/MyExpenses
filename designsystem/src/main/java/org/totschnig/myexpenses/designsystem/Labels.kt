@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.foundation.selection.toggleable
+import androidx.compose.material3.AssistChip
+import androidx.compose.material3.AssistChipDefaults
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.ui.semantics.Role
@@ -29,6 +31,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -113,6 +116,41 @@ fun TextBadge(
             )
         }
     }
+}
+
+/**
+ * A property as tappable box, e.g. the category of a contract. Without [text], an outlined box
+ * with a plus invites to set it.
+ *
+ * @param icon shown before [text], tells what kind of property it is, e.g. a category
+ */
+@Composable
+fun LabelChip(
+    text: String?,
+    placeholder: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    icon: ImageVector? = null,
+) {
+    val leading = if (text == null) Icons.Default.Add else icon
+    AssistChip(
+        onClick = onClick,
+        label = { Text(text ?: placeholder) },
+        modifier = modifier,
+        leadingIcon = leading?.let {
+            { Icon(it, contentDescription = null, modifier = Modifier.size(AssistChipDefaults.IconSize)) }
+        },
+        shape = Shapes.chip,
+        colors = if (text != null) AssistChipDefaults.assistChipColors(
+            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+            labelColor = MaterialTheme.colorScheme.onSecondaryContainer,
+            leadingIconContentColor = MaterialTheme.colorScheme.onSecondaryContainer
+        ) else AssistChipDefaults.assistChipColors(
+            labelColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            leadingIconContentColor = MaterialTheme.colorScheme.onSurfaceVariant
+        ),
+        border = if (text != null) null else AssistChipDefaults.assistChipBorder(enabled = true)
+    )
 }
 
 /**
@@ -229,6 +267,26 @@ fun ChipRow(
             }
         }
     }
+}
+
+/**
+ * Something that can be done with a thing but is rarely needed, e.g. scanning the receipt of a
+ * purchase: outlined, with an icon in the primary colour. Several of them sit in an [ActionChipRow].
+ */
+@Composable
+fun ActionChip(
+    text: String,
+    icon: ImageVector,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    AssistChip(
+        onClick = onClick,
+        label = { Text(text) },
+        modifier = modifier,
+        leadingIcon = { Icon(icon, contentDescription = null, modifier = Modifier.size(AssistChipDefaults.IconSize)) },
+        shape = Shapes.chip
+    )
 }
 
 /**

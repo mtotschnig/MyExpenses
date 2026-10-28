@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,8 +38,63 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+
+/**
+ * How strongly a [Banner] stands out
+ */
+enum class BannerStyle { Question, Alert }
+
+/**
+ * Tinted card that asks for a decision or tells about something new, with actions at the bottom
+ *
+ * @param messages one paragraph each
+ */
+@Composable
+fun Banner(
+    title: String,
+    messages: List<String>,
+    modifier: Modifier = Modifier,
+    style: BannerStyle = BannerStyle.Question,
+    actions: (@Composable RowScope.() -> Unit)? = null,
+) {
+    val (color, contentColor) = when (style) {
+        BannerStyle.Question -> MaterialTheme.colorScheme.tertiaryContainer to MaterialTheme.colorScheme.onTertiaryContainer
+        BannerStyle.Alert -> MaterialTheme.colorScheme.errorContainer to MaterialTheme.colorScheme.onErrorContainer
+    }
+    Surface(
+        shape = Shapes.card,
+        color = color,
+        contentColor = contentColor,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(bottom = Spacing.content)
+    ) {
+        Column(
+            Modifier.padding(
+                start = Spacing.content, end = Spacing.content, top = Spacing.content,
+                bottom = if (actions != null) 8.dp else Spacing.content
+            )
+        ) {
+            Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+            messages.forEach {
+                Text(it, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(top = 4.dp))
+            }
+            if (actions != null) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 8.dp),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically,
+                    content = actions
+                )
+            }
+        }
+    }
+}
 
 /**
  * Shown instead of an empty list
@@ -71,7 +127,35 @@ fun EmptyState(
 }
 
 /**
- * Card within a page that asks the user to start something, e.g. to add a first account
+ * Card in the middle of an otherwise empty page that asks the user to start something,
+ * e.g. to allow the analysis of transactions
+ *
+ * @param dismissLabel label of a second button below, e.g. "Not now", none if null
+ */
+@Composable
+fun PromptCard(
+    icon: ImageVector,
+    title: String,
+    text: String,
+    confirmLabel: String,
+    onConfirm: () -> Unit,
+    modifier: Modifier = Modifier,
+    dismissLabel: String? = null,
+    onDismiss: () -> Unit = {},
+) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(Spacing.screen),
+        contentAlignment = Alignment.Center
+    ) {
+        ActionCard(icon, title, text, confirmLabel, onConfirm, dismissLabel = dismissLabel, onDismiss = onDismiss)
+    }
+}
+
+/**
+ * Card within a page that asks the user to start something, e.g. to add a first account,
+ * see [PromptCard] for a page that is otherwise empty
  *
  * @param confirmIcon shown in the button before [confirmLabel]
  * @param dismissLabel label of a second button below, e.g. "Not now", none if null

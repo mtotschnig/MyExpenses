@@ -54,6 +54,24 @@ import java.time.LocalDate
 import java.time.ZoneOffset
 
 /**
+ * Asks for a name
+ *
+ * @param placeholder shown while the field is empty
+ * @param allowBlank whether an empty name can be confirmed, e.g. to go back to a default
+ */
+@Composable
+fun NameDialog(
+    title: String,
+    initialName: String,
+    onConfirm: (String) -> Unit,
+    onDismiss: () -> Unit,
+    placeholder: String? = null,
+    allowBlank: Boolean = false,
+) {
+    TextDialog(title, initialName, onConfirm, onDismiss, placeholder = placeholder, allowBlank = allowBlank)
+}
+
+/**
  * Asks for a text, e.g. the value of a setting
  *
  * @param placeholder shown while the field is empty

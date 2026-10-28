@@ -12,10 +12,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.RemoveCircleOutline
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.WarningAmber
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Switch
@@ -93,6 +96,52 @@ fun InfoRow(
                     .size(16.dp)
             )
         }
+    }
+}
+
+/**
+ * Like [InfoRow], with a pencil showing that tapping changes the value
+ */
+@Composable
+fun EditableRow(label: String, value: String, onClick: () -> Unit, isFirst: Boolean = false) {
+    EditableRow(label, onClick, isFirst) {
+        Text(
+            value,
+            style = MaterialTheme.typography.bodyLarge,
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.tertiary
+        )
+    }
+}
+
+/**
+ * [EditableRow] whose value is no text, e.g. the icon of a pot on its tile
+ */
+@Composable
+fun EditableRow(label: String, onClick: () -> Unit, isFirst: Boolean = false, value: @Composable () -> Unit) {
+    if (!isFirst) RowDivider()
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClickLabel = label, onClick = onClick)
+            .padding(horizontal = Spacing.content, vertical = 16.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            label,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.weight(1f)
+        )
+        value()
+        Icon(
+            Icons.Default.Edit,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.tertiary,
+            modifier = Modifier
+                .padding(start = 8.dp)
+                .size(16.dp)
+        )
     }
 }
 
@@ -354,4 +403,53 @@ fun IconNavigationRow(
 
 /** Of rows that another setting turns off */
 private const val DisabledAlpha = 0.38f
+
+/**
+ * Like [InfoRow], with a button to remove the entry
+ *
+ * @param removeLabel describes the button, null if the entry cannot be removed
+ */
+@Composable
+fun RemovableRow(
+    label: String,
+    value: String,
+    removeLabel: String?,
+    onRemove: () -> Unit,
+    isFirst: Boolean = false,
+) {
+    if (!isFirst) RowDivider()
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(start = Spacing.content, end = 4.dp, top = 4.dp, bottom = 4.dp)
+            .heightIn(min = 48.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            label,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Text(
+            value,
+            style = MaterialTheme.typography.bodyLarge,
+            fontWeight = FontWeight.SemiBold,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            textAlign = TextAlign.End,
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = Spacing.content)
+        )
+        if (removeLabel != null) {
+            IconButton(onClick = onRemove) {
+                Icon(
+                    Icons.Default.RemoveCircleOutline,
+                    contentDescription = removeLabel,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+    }
+}
 

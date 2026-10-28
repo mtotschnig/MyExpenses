@@ -199,6 +199,53 @@ fun SectionTitle(text: String, modifier: Modifier = Modifier, color: Color = Mat
 }
 
 /**
+ * Header of a group in a list: title with the number of items, optionally a value on the right,
+ * e.g. the sum of the group
+ */
+@Composable
+fun SectionHeader(
+    title: String,
+    modifier: Modifier = Modifier,
+    count: Int? = null,
+    trailing: String? = null,
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(start = 4.dp, end = 4.dp, top = Spacing.section, bottom = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            if (count != null) "$title ($count)" else title,
+            style = MaterialTheme.typography.titleSmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.weight(1f)
+        )
+        if (trailing != null) {
+            Text(
+                trailing,
+                style = MaterialTheme.typography.titleSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+    }
+}
+
+/**
+ * A card that stands out from the others on a page, e.g. the sum of a list
+ */
+@Composable
+fun HighlightCard(modifier: Modifier = Modifier, content: @Composable ColumnScope.() -> Unit) {
+    Surface(
+        shape = Shapes.card,
+        color = MaterialTheme.colorScheme.primaryContainer,
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Column(Modifier.padding(20.dp), content = content)
+    }
+}
+
+/**
  * The background of an icon that stands for an item: a circle in a list, a larger rounded square
  * in the header of its details
  */
