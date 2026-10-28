@@ -8,7 +8,7 @@ android {
 }
 
 // What the screens of all features of the new UI share beyond the design system: formats of dates
-// and amounts, the theme of previews, icons of payees and categories. Knows the types of next:core:model, not
+// and amounts, the theme of previews, icons of payees and categories, lists of fixed transactions. Knows the types of next:core:model, not
 // those of :myExpenses. The texts are in next:core:common.
 dependencies {
     api project(':next:core:common')
