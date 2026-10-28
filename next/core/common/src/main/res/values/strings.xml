@@ -149,6 +149,8 @@
     <string name="next_settings_explain_db_safe_mode">Adds up very large amounts without overflow. The app offers it when such an error occurs.</string>
     <string name="next_settings_explain_repair_987">Shows transactions damaged by a known error (#987).</string>
     <string name="next_settings_explain_remove_local_calendar">Deletes the calendar the app created on this device for planned transactions.</string>
+    <string name="next_settings_merchant_logos">Logos of shops</string>
+    <string name="next_settings_merchant_logos_summary">Shows the logos of well-known shops and companies in the transaction list. Their web addresses, e.g. rewe.de, are sent to the icon service of DuckDuckGo, never amounts or transactions.</string>
     <string name="next_payee_logo_title">Logo of %s</string>
     <string name="next_payee_logo_load">Load</string>
     <string name="next_payee_logo_intro">Enter the web address of the payee to show the icon of its website. Only the address is sent to the icon service of DuckDuckGo.</string>

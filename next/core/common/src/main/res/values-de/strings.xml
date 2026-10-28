@@ -149,6 +149,8 @@
     <string name="next_settings_explain_db_safe_mode">Summiert sehr große Beträge ohne Überlauf. Die App schlägt ihn vor, wenn ein solcher Fehler auftritt.</string>
     <string name="next_settings_explain_repair_987">Zeigt Buchungen, die ein bekannter Fehler (#987) beschädigt hat.</string>
     <string name="next_settings_explain_remove_local_calendar">Löscht den Kalender, den die App auf diesem Gerät für geplante Buchungen angelegt hat.</string>
+    <string name="next_settings_merchant_logos">Logos von Geschäften</string>
+    <string name="next_settings_merchant_logos_summary">Zeigt in der Buchungsliste die Logos bekannter Geschäfte und Firmen. Dafür werden deren Webadressen, z. B. rewe.de, an den Icon-Dienst von DuckDuckGo gesendet, nie Beträge oder Buchungen.</string>
     <string name="next_payee_logo_title">Logo von %s</string>
     <string name="next_payee_logo_load">Laden</string>
     <string name="next_payee_logo_intro">Gib die Webadresse des Empfängers ein, um das Symbol seiner Website zu zeigen. Nur die Adresse wird an den Icon-Dienst von DuckDuckGo gesendet.</string>

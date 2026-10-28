@@ -17,9 +17,25 @@ package "next/core" as pNextCore {
     [:ui] as mNextCoreUi
 }
 
+package "next/data" as pNextData {
+    [:merchants] as mNextDataMerchants
+}
+
+package "next/feature" as pNextFeature {
+    [:merchants] as mNextFeatureMerchants
+}
+
+' Layout only
+mNextDataMerchants -[hidden]--> pNextCore
+mNextFeatureMerchants -[hidden]--> pNextCore
+mNextFeatureMerchants -[hidden]--> pNextData
+
 mNextCoreCommon --> mNextCoreModel
 mNextCoreUi --> mDesignsystem
 mNextCoreUi --> mNextCoreCommon
+mNextDataMerchants --> mNextCoreCommon
+mNextFeatureMerchants --> mNextCoreUi
+mNextFeatureMerchants --> mNextDataMerchants
 mUiNext --> mMyExpenses
-mUiNext --> mNextCoreUi
+mUiNext --> mNextFeatureMerchants
 @enduml

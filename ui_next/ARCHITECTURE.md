@@ -66,6 +66,25 @@ module minimal makes it easier to track upstream and to submit some changes upst
 
 ---
 
+### `mod-feature-isolated` — Feature modules do not depend on each other
+
+A feature module `:next:feature:*` holds the screens and view models of an area. It depends only
+on the core modules `:next:core:*`, on data modules `:next:data:*`, on libraries and on the modules
+without app types (`:charts`, `:ocr-model`, `:item-group-model`), never on another feature,
+`:myExpenses` or `:ui_next`. A screen of another area, e.g. the incomes in the balance or the
+contract of a payment in a saving tip, is handed in by the entry of the area in the shell
+(`…Feature`) as a composable parameter. The plugin `next.feature` fails on such a dependency.
+
+**Why:** Features that depend on each other can only be tested and shipped together. Keeping them
+isolated means each feature can be built, reviewed and replaced independently. The shell wires them
+— the features never know of each other.
+
+**Check:** Gradle
+
+---
+
+---
+
 ### `mod-core-clean` — Core modules know no type of the app
 
 `:next:core:model` is plain Kotlin without Android; `:next:core:common` has no Compose and holds
@@ -75,6 +94,23 @@ the texts; no core module knows a type of `:myExpenses` or of a data module.
 would create coupling that makes the graph harder to understand and change.
 
 **Check:** Gradle
+
+---
+
+---
+
+### `mod-adapter-interfaces` — Features declare interfaces for what they need from the app
+
+What a feature needs of the app it declares as an interface (e.g. `CategoryWriting`,
+`TagDatabase`, `FixedTransactions`, `ReceiptDatabase`) or takes from a composition local of
+`:next:core:ui` (`LocalAmountFormatter`, `LocalFontIcons`). The shell implements it in a file of
+its own named after what it uses, e.g. `ProviderCategoryWriting`, `RepositoryTagDatabase`,
+`AppFixedTransactions`.
+
+**Why:** A feature that imports from `:myExpenses` directly cannot be built, tested or reviewed
+without the whole app. Interfaces keep the dependency boundary explicit and let tests supply fakes.
+
+**Check:** review
 
 ---
 
@@ -92,6 +128,23 @@ keeps `org.totschnig.myexpenses.next` and its sub-packages, since the launcher p
 code in any module, making the dependency graph opaque. Own packages make imports self-documenting.
 
 **Check:** Konsist
+
+---
+
+---
+
+### `mod-data-headless` — Data modules have no UI
+
+A data module `:next:data:*` holds the facts, analyses, stores and interfaces to the app of an
+area, without Compose, so that widgets and notifications can use them without a screen. It depends
+on core modules, on data modules of other areas without cycles and on the modules without app
+types, never on a feature, `:next:core:ui`, `:designsystem`, `:charts`, `:ui_next` or
+`:myExpenses`. The plugin `next.data` fails on such a dependency.
+
+**Why:** A widget or a notification cannot host a screen. Data that is only accessible via Compose
+cannot be shown there. Keeping Compose out of data modules also makes their logic faster to test.
+
+**Check:** Gradle
 
 ---
 
@@ -117,6 +170,85 @@ list makes the shell additive: one area = one package + two lines.
 ---
 
 
+## Features and packages
+
+An area, e.g. `contracts`, `tags`, `budgets`, has the modules `:next:data:<name>` (logic, package
+`org.totschnig.myexpenses.next.data.<name>`) and `:next:feature:<name>` (screens, package
+`org.totschnig.myexpenses.next.feature.<name>`).
+What only works with the app stays in the shell `:ui_next`: settings, onboarding, search, the
+reading of the ledger and the adapters of the features. The ledger, its facts and its view models
+are described in
+[`ledger/README.md`](../next/core/model/src/main/java/org/totschnig/myexpenses/next/core/model/ledger/README.md).
+
+### `feat-data-no-cycles` — No cycles between data modules
+
+**Why:** Cycles make the build graph ill-defined and force all involved modules to be rebuilt
+together. Breaking a cycle later is expensive. Forbidding them from the start keeps the graph a
+DAG.
+
+**Check:** Gradle
+
+---
+
+---
+
+### `feat-single-source` — Each concept lives in one place
+
+What only one area needs stays in its modules; its logic goes into its data module, even if only
+its screens use it. What more than one feature needs about a transaction goes into
+`LedgerTransaction` (e.g. whether it is sealed), not into a second query.
+
+**Why:** Duplication is the main source of inconsistencies over time. One place means one fix.
+
+**Check:** review
+
+---
+
+---
+
+### `feat-no-duplicate` — No duplicate computations
+
+Each concept lives in one place, e.g. the merchants in `Merchants`, the thresholds of a saving tip
+in the tip, which the guidance reuses. Code that computes the same thing a second time is a
+finding.
+
+**Why:** Two implementations of the same logic diverge. A bug fixed in one is not fixed in the
+other.
+
+**Check:** review
+
+---
+
+---
+
+### `feat-readme` — Features with many files have a README
+
+A feature with more than a few files has a `README.md` that says what it does and how its parts
+work together, with diagrams as `.puml` next to it, never ASCII art.
+
+**Why:** A feature without a README forces the next reader to reconstruct its design from the code.
+A short README and a diagram pay back the time spent on them many times over.
+
+**Check:** review
+
+---
+
+---
+
+### `feat-root-shared` — Root packages hold only shared code
+
+Files in the root package of `:next:core:ui` (`…next.core.ui`) are shared by the screens of
+several features (formats, layout, theme), files in the root package of the shell (`…next`) arrange
+them (router, main screen). Code of one area belongs into its modules.
+
+**Why:** The root package of a shared module is the most visible place in it. Putting area-specific
+code there hides its true home and makes the module harder to split later.
+
+**Check:** review
+
+---
+
+
 ## View models and stores
 
 ### `vm-constructor` — View models get their dependencies through the constructor
@@ -131,6 +263,23 @@ them, and a `start()` method creates a window where the object is partially init
 of bugs.
 
 **Check:** Konsist
+
+---
+
+---
+
+### `vm-stores` — User decisions live in stores, not view models
+
+Decisions of the user (rules, pots, closed hints) are kept in a store of the feature (`…Store`),
+not in the view model, and the store is tested with `withTestDataStore`. A view model does not read
+or write the DataStore itself.
+
+**Why:** A view model's state is lost when the screen leaves memory. A `DataStore` persists across
+process restarts. Keeping user decisions in a store means they survive and are backed up; keeping
+the view model unaware of the DataStore directly means the store can be tested and swapped
+independently.
+
+**Check:** review
 
 ---
 
