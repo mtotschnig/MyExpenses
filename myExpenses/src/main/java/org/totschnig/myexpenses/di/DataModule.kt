@@ -20,6 +20,7 @@ import org.totschnig.myexpenses.db2.Repository
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefHandlerImpl
+import org.totschnig.myexpenses.preference.SecurePreferenceDataStore
 import org.totschnig.myexpenses.provider.DATABASE_VERSION
 import org.totschnig.myexpenses.provider.DatabaseVersionPeekHelper
 import org.totschnig.myexpenses.provider.TransactionDatabase
@@ -83,6 +84,12 @@ open class DataModule() {
         return PreferenceDataStoreFactory.create(
             produceFile = { appContext.preferencesDataStoreFile(uiSettingsDataStoreName) }
         )
+    }
+
+    @Provides
+    @Singleton
+    fun provideSecurePreferenceDataStore(context: Context): SecurePreferenceDataStore {
+        return SecurePreferenceDataStore(context)
     }
 
     @Provides
