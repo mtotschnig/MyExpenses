@@ -33,7 +33,6 @@ import org.totschnig.myexpenses.preference.LegacyPasswordPreferenceDialogFragmen
 import org.totschnig.myexpenses.preference.PrefHandler
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.preference.PreferenceDataStore
-import org.totschnig.myexpenses.preference.SecurePreferenceDataStore
 import org.totschnig.myexpenses.preference.SecurityQuestionDialogFragmentCompat
 import org.totschnig.myexpenses.preference.SimplePasswordDialogFragmentCompat
 import org.totschnig.myexpenses.preference.SimplePasswordPreference
@@ -71,9 +70,6 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
 
     @Inject
     lateinit var currencyFormatter: ICurrencyFormatter
-
-    @Inject
-    lateinit var secureDataStore: SecurePreferenceDataStore
 
     @get:XmlRes
     abstract val preferencesResId: Int
