@@ -19,8 +19,7 @@ class SecurePreferenceDataStore(context: Context) : PreferenceDataStore() {
         context.getSharedPreferences("secure_user_prefs", Context.MODE_PRIVATE)
 
     private val keyAlias = "SecurePrefKeyAlias"
-    private val keyStore = KeyStore.getInstance("AndroidKeyStore").apply { load(null) }
-
+    private val keyStore by lazy { KeyStore.getInstance("AndroidKeyStore").apply { load(null) } }
     private fun getOrCreateSecretKey(): SecretKey {
         return (keyStore.getKey(keyAlias, null) as? SecretKey) ?: run {
             val keyGenerator = KeyGenerator.getInstance(
