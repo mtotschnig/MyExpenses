@@ -17,11 +17,11 @@
     <string name="account">অ্যাকাউন্ট</string>
     <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">অ্যাকাউন্টের ধরন</string>
-    <string name="account_type_asset">সম্পদ অ্যাকাউন্ট</string>
-    <string name="account_type_bank">ব্যাংক অ্যাকাউন্ট</string>
-    <string name="account_type_cash">নগদ অ্যাকাউন্ট</string>
+    <string name="account_type_asset">অন্যান্য হিসাব</string>
+    <string name="account_type_bank">ব্যাংক</string>
+    <string name="account_type_cash">নগদ</string>
     <string name="account_type_ccard">ক্রেডিট কার্ড</string>
-    <string name="account_type_liability">দায়বদ্ধতা অ্যাকাউন্ট</string>
+    <string name="account_type_liability">অন্যান্য দায়</string>
     <string name="already_defined">%1$s ইতিমধ্যে সংজ্ঞায়িত</string>
     <string name="amount">পরিমাণ</string>
     <string name="app_name">আমার খরচ</string>
@@ -133,7 +133,7 @@
     <string name="menu_create_method">নতুন পেমেন্ট মেথড</string>
     <string name="menu_create_party">নতুন পার্টি</string>
     <string name="menu_create_split">নতুন স্প্লিট</string>
-    <string name="menu_create_split_part_category">নতুন ক্যাটাগরি স্প্লিট পার্ট</string>
+    <string name="menu_create_split_part_category">নতুন ক্যাটাগরি স্প্লিট</string>
     <string name="menu_create_split_part_transfer">নতুন ট্রান্সফার স্প্লিট পার্ট</string>
     <string name="menu_create_sub_cat">নতুন সাব-ক্যাটাগরি</string>
     <string name="menu_create_template">নতুন টেমপ্লেট</string>
@@ -1043,4 +1043,6 @@
     <string name="pref_tag_style_filled">সম্পূর্ণ রঙিন</string>
     <string name="trade_additional_costs">অতিরিক্ত খরচ</string>
     <string name="contrib_feature_portfolio_tracking">পোর্টফোলিও ট্র্যাকিং</string>
+    <string name="account_type_investment">বিনিয়োগ</string>
+    <string name="dialog_title_warning_delete_closed_account">বন্ধ হিসাব মুছে ফেলবেন?</string>
 </resources>
