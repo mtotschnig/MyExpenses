@@ -25,6 +25,8 @@ import okio.source
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.getDisplayName
+import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.preference.SecurePreferenceDataStore
 import org.totschnig.myexpenses.preference.setWebUiActive
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.Utils
@@ -46,6 +48,9 @@ class BaseFunctionalityViewModel(application: Application) :
 
     @Inject
     lateinit var okHttpBuilder: OkHttpClient.Builder
+
+    @Inject
+    lateinit var securePreferenceDataStore: SecurePreferenceDataStore
 
     private val _shareResult: MutableStateFlow<Result<Scheme?>?> = MutableStateFlow(null)
     val shareResult: StateFlow<Result<Scheme?>?> = _shareResult
@@ -114,10 +119,28 @@ class BaseFunctionalityViewModel(application: Application) :
                 }
 
                 val builder: Request.Builder = Request.Builder()
-                target.toUri().userInfo?.let {
-                    val (username, password) = it.split(":")
+
+                val credentials = target.toUri().userInfo
+                    ?.split(":", limit = 2)
+                    ?.takeIf { it.size == 2 }
+                    ?: run {
+                        val userName = securePreferenceDataStore.getString(
+                            prefHandler.getKey(PrefKey.SHARE_TARGET_USERNAME),
+                            null
+                        )
+                        val passWord = securePreferenceDataStore.getString(
+                            prefHandler.getKey(PrefKey.SHARE_TARGET_PASSWORD),
+                            null
+                        )
+                        if (!userName.isNullOrBlank()) {
+                            listOf(userName, passWord.orEmpty())
+                        } else null
+                    }
+
+                credentials?.let { (username, password) ->
                     builder.header("Authorization", Credentials.basic(username, password))
                 }
+
                 builder
                     .put(requestBody)
                     .url(
