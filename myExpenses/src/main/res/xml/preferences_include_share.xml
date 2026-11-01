@@ -29,13 +29,11 @@
             android:title="@string/pref_share_target_title" />
 
         <org.totschnig.myexpenses.preference.SecureEditTextPreference
-            android:dependency="@string/pref_perform_share_key"
             android:inputType="text"
             android:key="@string/pref_share_target_username_key"
             android:title="@string/username" />
 
         <org.totschnig.myexpenses.preference.SecureEditTextPreference
-            android:dependency="@string/pref_perform_share_key"
             android:inputType="textPassword"
             android:key="@string/pref_share_target_password_key"
             android:title="@string/password" />
