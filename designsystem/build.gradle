@@ -1,0 +1,16 @@
+plugins {
+    id 'next.android.library'
+    id 'next.android.compose'
+}
+
+android {
+    namespace 'org.totschnig.myexpenses.designsystem'
+}
+
+// Building blocks of the new UI. Deliberately independent of the app: no texts of features,
+// no formatting of amounts, those are passed in.
+dependencies {
+    api libs.compose.ui
+    api libs.androidx.compose.material3
+    implementation libs.androidx.material.icons.extended
+}

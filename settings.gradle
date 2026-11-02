@@ -1,4 +1,6 @@
 pluginManagement {
+    // Convention plugins of the new UI (next.*), see build-logic/README.md
+    includeBuild "build-logic"
     repositories {
         google()
         mavenCentral()
@@ -38,6 +40,14 @@ include ':webdav'
 include ':sqlcrypt'
 include ':preferences'
 include ':fints'
+include ':ui_next'
+include ':next:core:model'
+include ':next:core:common'
+include ':next:core:ui'
+include ':next:data:merchants'
+include ':next:feature:merchants'
+include ':designsystem'
+include ':architecture-test'
 include ':shared-test'
 include ':onedrive'
 include ':jackson'

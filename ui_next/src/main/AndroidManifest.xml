@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution">
+
+    <!-- The apps that can take a photo, which the settings offer as camera app -->
+    <queries>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+    </queries>
+
+    <application tools:ignore="MissingApplicationIcon">
+        <!-- Own task affinity, so that the old (V2) and the new UI live in separate tasks
+             and switching launcher icons does not stack one UI on top of the other. -->
+        <activity
+            android:name="org.totschnig.myexpenses.next.MyExpensesNext"
+            android:exported="true"
+            android:label="MyExpenses Next"
+            tools:ignore="HardcodedText"
+            android:launchMode="singleTop"
+            android:taskAffinity="org.totschnig.myexpenses.next">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="org.totschnig.myexpenses.next.settings.NextSettings"
+            android:label="@string/settings_label" />
+    </application>
+
+    <dist:module dist:instant="false">
+        <dist:delivery>
+            <dist:install-time />
+        </dist:delivery>
+        <dist:fusing dist:include="true" />
+    </dist:module>
+</manifest>

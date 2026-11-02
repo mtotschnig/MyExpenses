@@ -1,0 +1,22 @@
+plugins {
+    id 'next.android.library'
+    id 'next.android.compose'
+}
+
+android {
+    namespace 'org.totschnig.myexpenses.next.core.ui'
+}
+
+// What the screens of all features of the new UI share beyond the design system: formats of dates
+// and amounts, the theme of previews, icons of payees and categories. Knows the types of next:core:model, not
+// those of :myExpenses. The texts are in next:core:common.
+dependencies {
+    api project(':next:core:common')
+    api project(':designsystem')
+    api libs.compose.ui
+    api libs.androidx.compose.material3
+    // Lists and the pages opened from them side by side in wide windows
+    api libs.androidx.navigation3.runtime
+    implementation libs.androidx.compose.adaptive.navigation3
+    implementation libs.androidx.material.icons.extended
+}

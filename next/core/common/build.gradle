@@ -1,0 +1,18 @@
+plugins {
+    id 'next.android.library'
+}
+
+android {
+    namespace 'org.totschnig.myexpenses.next.core.common'
+    testFixtures {
+        enable = true
+    }
+}
+
+// What the data and the screens of the new UI share without Compose: the texts
+// (org.totschnig.myexpenses.next.core.common.R) and the catalog of icons; for tests of the stores a
+// data store in memory (testFixtures).
+dependencies {
+    api project(':next:core:model')
+    api libs.androidx.datastore.preferences
+}

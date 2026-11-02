@@ -19,6 +19,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -59,9 +60,12 @@ import org.totschnig.myexpenses.compose.transactions.TradeScreen
 import org.totschnig.myexpenses.dialog.SortSelect
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment
 import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.model.AccountFlag
+import org.totschnig.myexpenses.model.AccountGroupingKey
 import org.totschnig.myexpenses.model.CommodityType
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.model.CrStatus
+import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.provider.KEY_COMMODITY
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_SORT_KEY
@@ -92,7 +96,7 @@ const val HELP_VARIANT_BALANCE_SHEET = "balanceSheet"
 /**
  * Help,
  */
-class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
+open class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
     SortUtilityDialogFragment.OnConfirmListener {
 
     @Inject
@@ -172,7 +176,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
         maybeRequestNewInterstitial()
 
         setContent {
-            AppTheme {
+            MainTheme {
                 val result = viewModel.accountDataV2.collectAsStateWithLifecycle().value
                 val availableFilters =
                     viewModel.availableGroupFilters.collectAsStateWithLifecycle().value
@@ -338,7 +342,7 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                             )
                         }
 
-                        MainScreenAdaptive(
+                        MainScreen(
                             viewModel,
                             accounts,
                             allCurrencies = currencies,
@@ -558,6 +562,57 @@ class MyExpensesV2 : BaseMyExpenses<MyExpensesV2ViewModel>(),
                 }
             }
         }
+    }
+
+    /**
+     * Hook for alternative UIs (module :ui_next): the theme wrapping the main screen.
+     */
+    @Composable
+    protected open fun MainTheme(content: @Composable () -> Unit) {
+        AppTheme(content = content)
+    }
+
+    /**
+     * Hook for alternative UIs (module :ui_next): the main screen rendered once account data
+     * is loaded. Parameters mirror [MainScreenAdaptive].
+     */
+    @Composable
+    protected open fun MainScreen(
+        viewModel: MyExpensesV2ViewModel,
+        accounts: List<FullAccount>,
+        allCurrencies: List<CurrencyUnit>,
+        availableFilters: List<AccountGroupingKey>,
+        selectedAccountId: Long,
+        onAppEvent: AppEventHandler,
+        onAccountEvent: AccountEventHandler,
+        onPrepareContextMenuItem: (itemId: Int) -> Boolean,
+        onPrepareMenuItem: (itemId: Int) -> Boolean,
+        flags: List<AccountFlag>,
+        bankIcon: (@Composable (Modifier, Long) -> Unit)?,
+        adView: @Composable (MutableState<Boolean>) -> Unit,
+        isNavigationVisible: Boolean,
+        isCurrencyUsed: suspend (String) -> Boolean,
+        onCreateAsset: suspend (code: String, symbol: String, fractionDigits: Int, label: String?, commodityType: CommodityType) -> CurrencyUnit?,
+        pageContent: @Composable (pageAccount: PageAccount, isCurrent: Boolean) -> Unit,
+    ) {
+        MainScreenAdaptive(
+            viewModel = viewModel,
+            accounts = accounts,
+            allCurrencies = allCurrencies,
+            availableFilters = availableFilters,
+            selectedAccountId = selectedAccountId,
+            onAppEvent = onAppEvent,
+            onAccountEvent = onAccountEvent,
+            onPrepareContextMenuItem = onPrepareContextMenuItem,
+            onPrepareMenuItem = onPrepareMenuItem,
+            flags = flags,
+            bankIcon = bankIcon,
+            adView = adView,
+            isNavigationVisible = isNavigationVisible,
+            isCurrencyUsed = isCurrencyUsed,
+            onCreateAsset = onCreateAsset,
+            pageContent = pageContent
+        )
     }
 
     override suspend fun accountForNewTransaction() = Optional.ofNullable(

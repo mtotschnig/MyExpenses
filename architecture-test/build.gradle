@@ -1,0 +1,28 @@
+plugins {
+    alias libs.plugins.kotlin.jvm
+}
+
+java {
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+    }
+}
+
+// Konsist tests for the rules marked "test" in ui_next/ARCHITECTURE.md. They read the sources of
+// the other modules, so this module depends on none of them.
+dependencies {
+    testImplementation libs.konsist
+    testImplementation libs.junit
+}
+
+tasks.named('test') {
+    // The sources of the checked modules are the input, so that the tests run again when they change.
+    def modules = ['ui_next', 'designsystem'].collect { file("$rootDir/$it") } +
+        fileTree("$rootDir/next") { include '**/build.gradle' }.collect { it.parentFile }
+    inputs.files(modules.collect { fileTree(new File(it, 'src/main')) { include '**/*.kt' } })
+}

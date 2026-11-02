@@ -1,0 +1,61 @@
+@startuml logos
+' Where the logo or icon of a payee in the transaction list comes from, see README.md in this package.
+
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam defaultFontName sans-serif
+top to bottom direction
+
+database "Database\n(payees)" as db
+database "DataStore" as ds
+cloud "icons.duckduckgo.com" as ddg
+folder "noBackupFilesDir/\nmerchant-logos" as files
+
+package "merchants" {
+  [Merchants\n(catalog)] as catalog
+  [MerchantLogoConsent] as consent
+  [PayeeDomainStore] as domainStore
+  [PayeeIconStore] as iconStore
+  [MerchantIcons] as merchantIcons
+  [PayeeImageDialog] as imageDialog
+  [PayeeLogoDialog] as dialog
+  [MerchantLogoStore] as store
+  [MerchantLogos] as merchantLogos
+}
+
+[other screens,\ne.g. of contracts] as screens
+
+package "next" {
+  [NextTransactionList\nand details] as list
+}
+
+package "icons" {
+  [CatalogIconPicker] as picker
+}
+
+package "designsystem" {
+  [PayeeTile] as tile
+}
+
+consent --> ds : consent
+domainStore --> ds : web address\nby payee
+iconStore --> ds : icon by payee
+merchantLogos --> domainStore : addresses entered
+merchantLogos --> iconStore : icons chosen
+merchantLogos --> merchantIcons : icon of a merchant\nwithout consent
+dialog --> merchantLogos : enter address,\nload at once
+imageDialog --> picker : icons, suggestions
+imageDialog --> dialog : logo from\nweb address
+imageDialog --> merchantLogos : choose icon\nor automatic
+list --> imageDialog : tap on the tile\nin the details
+screens --> merchantLogos : image by payee id\n(LocalPayeeImages)
+merchantLogos --> db : payees with\nname, short name, parent
+merchantLogos --> catalog : merchant of each payee
+merchantLogos --> consent
+merchantLogos --> store : logo of a domain,\nonce per domain
+store --> files : PNG or\n"missing" for 30 days
+store --> ddg : domain only, with consent\nor when the user asks
+list --> merchantLogos : logo or icon\nby payee id
+list --> tile : icon or logo, else monogram,\nelse category icon
+@enduml

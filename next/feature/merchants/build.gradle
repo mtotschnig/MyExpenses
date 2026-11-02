@@ -1,0 +1,12 @@
+plugins {
+    id 'next.feature'
+}
+
+android {
+    namespace 'org.totschnig.myexpenses.next.feature.merchants'
+}
+
+// The logos of the payees for the screens and the dialogs to choose a logo or icon for a payee.
+dependencies {
+    implementation project(':next:data:merchants')
+}
