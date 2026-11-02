@@ -1,0 +1,33 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:WebdavSetup.kt:WebdavSetup$override fun onCreate</ID>
+    <ID>EmptyFunctionBlock:WebdavSetup.kt:WebdavSetup.&lt;no name provided&gt;${}</ID>
+    <ID>ForbiddenComment:LockableDavResource.kt:LockableDavResource$// TODO: verify whether 207 can also indicate success in some cases.</ID>
+    <ID>LongMethod:WebdavSetup.kt:WebdavSetup$override fun onCreate</ID>
+    <ID>MagicNumber:LockableDavResource.kt:LockableDavResource$207</ID>
+    <ID>MagicNumber:LockableDavResource.kt:LockableDavResource$404</ID>
+    <ID>MagicNumber:LockableDavResource.kt:LockableDavResource$405</ID>
+    <ID>MaxLineLength:WebDavBackendProvider.kt:WebDavBackendProvider$WebDavClient(context, context.injector, url, userName, password, certificate, allowUnverified, clientCertAlias)</ID>
+    <ID>MaxLineLength:WebDavClient.kt:WebDavClient$//this can fail, if the unlocking mechanism does not work. We live with not being able to delete the test folder</ID>
+    <ID>MaxLineLength:WebdavSetupViewModel.kt:WebdavSetupViewModel$WebDavClient(app, app.appComponent, url, userName, passWord, certificate, allowUnverifiedHost, clientCertAlias)</ID>
+    <ID>NestedBlockDepth:WebDavClient.kt:WebDavClient$@Throws(Exception::class) fun testClass2Locking</ID>
+    <ID>NestedBlockDepth:WebDavClient.kt:WebDavClient$fun lock: Boolean</ID>
+    <ID>NewLineAtEndOfFile:CertificateHelper.kt:org.totschnig.webdav.sync.client.CertificateHelper.kt</ID>
+    <ID>NewLineAtEndOfFile:WebDavBackendProvider.kt:org.totschnig.webdav.sync.WebDavBackendProvider.kt</ID>
+    <ID>NewLineAtEndOfFile:WebDavBackendProviderFactory.kt:org.totschnig.webdav.sync.WebDavBackendProviderFactory.kt</ID>
+    <ID>NewLineAtEndOfFile:WebdavSetup.kt:org.totschnig.webdav.dialog.WebdavSetup.kt</ID>
+    <ID>NewLineAtEndOfFile:WebdavSetupViewModel.kt:org.totschnig.webdav.viewmodel.WebdavSetupViewModel.kt</ID>
+    <ID>SwallowedException:WebdavSetup.kt:WebdavSetup$e: Exception</ID>
+    <ID>ThrowsCount:CertificateHelper.kt:CertificateHelper$@JvmStatic @Throws(ClientCertMissingException::class) fun createKeyManager: KeyManager</ID>
+    <ID>ThrowsCount:WebDavClient.kt:WebDavClient$@Throws(IOException::class, HttpException::class, DavException::class) fun testLogin</ID>
+    <ID>TooGenericExceptionCaught:CertificateHelper.kt:CertificateHelper$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:WebDavClient.kt:WebDavClient$e2: Exception</ID>
+    <ID>TooGenericExceptionCaught:WebDavClient.kt:WebDavClient$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:WebdavSetup.kt:WebdavSetup$e: Exception</ID>
+    <ID>TooManyFunctions:WebDavBackendProvider.kt:WebDavBackendProvider : AbstractSyncBackendProvider</ID>
+    <ID>TooManyFunctions:WebDavClient.kt:WebDavClient</ID>
+    <ID>VariableNaming:WebDavClient.kt:WebDavClient$private val MIME_XML: MediaType = "application/xml; charset=utf-8".toMediaTypeOrNull()!!</ID>
+  </CurrentIssues>
+</SmellBaseline>

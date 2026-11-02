@@ -1,0 +1,121 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>ComplexCondition:Banking.kt:Banking$tanRequested.value == null &amp;&amp; tanMediumRequested.value == null &amp;&amp; pushTanRequested.value == null &amp;&amp; secMechRequested.value == null</ID>
+    <ID>ComplexCondition:Banking.kt:isSupported &amp;&amp; supportedGvs.size &gt; 1 &amp;&amp; config != null &amp;&amp; (config.alreadyImported || config.isSelected)</ID>
+    <ID>CyclomaticComplexMethod:Banking.kt:@Composable fun AccountRow</ID>
+    <ID>CyclomaticComplexMethod:Banking.kt:Banking$@Composable private fun SetupDialog</ID>
+    <ID>CyclomaticComplexMethod:Banking.kt:Banking$@OptIn(ExperimentalMaterial3Api::class) override fun onCreate</ID>
+    <ID>CyclomaticComplexMethod:BankingViewModel.kt:BankingViewModel$fun importAccounts</ID>
+    <ID>CyclomaticComplexMethod:BankingViewModel.kt:BankingViewModel$fun syncAccount</ID>
+    <ID>CyclomaticComplexMethod:BankingViewModel.kt:BankingViewModel.MyHBCICallback$override fun callback</ID>
+    <ID>CyclomaticComplexMethod:Composables.kt:@OptIn(ExperimentalMaterial3Api::class) @Composable fun ColumnScope.BankingCredentials</ID>
+    <ID>CyclomaticComplexMethod:HbciConverter.kt:HbciConverter$fun UmsLine.toTransaction: Pair&lt;Transaction, Map&lt;out Attribute, String&gt;&gt;</ID>
+    <ID>LargeClass:BankingViewModel.kt:BankingViewModel : ContentResolvingAndroidViewModel</ID>
+    <ID>LongMethod:Banking.kt:@Composable fun AccountRow</ID>
+    <ID>LongMethod:Banking.kt:Banking$@Composable private fun SetupDialog</ID>
+    <ID>LongMethod:Banking.kt:Banking$@OptIn(ExperimentalMaterial3Api::class) override fun onCreate</ID>
+    <ID>LongMethod:BankingViewModel.kt:BankingViewModel$fun addBank</ID>
+    <ID>LongMethod:BankingViewModel.kt:BankingViewModel$fun importAccounts</ID>
+    <ID>LongMethod:BankingViewModel.kt:BankingViewModel$fun syncAccount</ID>
+    <ID>LongMethod:BankingViewModel.kt:BankingViewModel.MyHBCICallback$override fun callback</ID>
+    <ID>LongMethod:Composables.kt:@Composable fun MigrationDialog</ID>
+    <ID>LongMethod:Composables.kt:@OptIn(ExperimentalMaterial3Api::class) @Composable fun ColumnScope.BankingCredentials</ID>
+    <ID>MagicNumber:BankingViewModel.kt:BankingViewModel$20</ID>
+    <ID>MagicNumber:BankingViewModel.kt:BankingViewModel$3</ID>
+    <ID>MagicNumber:BankingViewModel.kt:BankingViewModel$443</ID>
+    <ID>MagicNumber:HbciConverter.kt:HbciConverter$100</ID>
+    <ID>MagicNumber:HbciConverter.kt:HbciConverter$99</ID>
+    <ID>MagicNumber:KontoType.kt:KontoType.BAUSPAR$70</ID>
+    <ID>MagicNumber:KontoType.kt:KontoType.BAUSPAR$79</ID>
+    <ID>MagicNumber:KontoType.kt:KontoType.DARLEHEN$40</ID>
+    <ID>MagicNumber:KontoType.kt:KontoType.DARLEHEN$49</ID>
+    <ID>MagicNumber:KontoType.kt:KontoType.FESTGELD$20</ID>
+    <ID>MagicNumber:KontoType.kt:KontoType.FESTGELD$29</ID>
+    <ID>MagicNumber:KontoType.kt:KontoType.FONDSDEPOT$60</ID>
+    <ID>MagicNumber:KontoType.kt:KontoType.FONDSDEPOT$69</ID>
+    <ID>MagicNumber:KontoType.kt:KontoType.GIRO$9</ID>
+    <ID>MagicNumber:KontoType.kt:KontoType.KREDITKARTE$50</ID>
+    <ID>MagicNumber:KontoType.kt:KontoType.KREDITKARTE$59</ID>
+    <ID>MagicNumber:KontoType.kt:KontoType.SONSTIGE$90</ID>
+    <ID>MagicNumber:KontoType.kt:KontoType.SONSTIGE$99</ID>
+    <ID>MagicNumber:KontoType.kt:KontoType.SPAR$10</ID>
+    <ID>MagicNumber:KontoType.kt:KontoType.SPAR$19</ID>
+    <ID>MagicNumber:KontoType.kt:KontoType.VERSICHERUNG$80</ID>
+    <ID>MagicNumber:KontoType.kt:KontoType.VERSICHERUNG$89</ID>
+    <ID>MagicNumber:KontoType.kt:KontoType.WERTPAPIERDEPOT$30</ID>
+    <ID>MagicNumber:KontoType.kt:KontoType.WERTPAPIERDEPOT$39</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.COMDIRECT$245</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.COMDIRECT$255</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.COMMERZBANK$213</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.COMMERZBANK$254</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.COMMERZBANK$41</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.DEUTSCHE_BANK$168</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.DEUTSCHE_BANK$24</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.DIREKT1822$107</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.DIREKT1822$58</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.DKB$141</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.DKB$20</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.DKB$234</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.GLS$101</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.GLS$230</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.GLS$38</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.ING$255</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.ING$98</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.KD$162</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.KD$181</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.KD$45</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.LIGA$164</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.LIGA$41</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.MLP$170</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.MLP$182</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.MLP$190</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.POSTBANK$204</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.POSTBANK$255</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.PSD$102</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.PSD$153</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.RENAULT$128</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.SPARDA$168</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.SPARDA$92</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.SPARKASSE$255</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.TARGO$122</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.TARGO$156</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.TARGO$192</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.VOLKSBANK$101</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.VOLKSBANK$178</ID>
+    <ID>MaxLineLength:Banking.kt:Banking$CrashHandler.report(IllegalStateException("Expected non-null AccountInformation"))</ID>
+    <ID>MaxLineLength:Banking.kt:Banking$contentDescription = stringResource(id = androidx.appcompat.R.string.abc_action_bar_up_description)</ID>
+    <ID>MaxLineLength:Banking.kt:Banking$id == 0L || selectedAccounts.none { it.key != index &amp;&amp; it.value.targetAccountId == id }</ID>
+    <ID>MaxLineLength:Banking.kt:Banking$if</ID>
+    <ID>MaxLineLength:Banking.kt:Banking$text = stringResource(id = if (bankingCredentials.value.isNew) RF.string.add_new_bank else RF.string.enter_pin)</ID>
+    <ID>MaxLineLength:Banking.kt:Banking$val</ID>
+    <ID>MaxLineLength:Banking.kt:if</ID>
+    <ID>MaxLineLength:BankingCredentials.kt:BankingCredentials$get() = bankLeitZahl.all { it.isDigit() } &amp;&amp; bankLeitZahl.length == 8 &amp;&amp; user.isNotEmpty() &amp;&amp; !password.isNullOrEmpty()</ID>
+    <ID>MaxLineLength:BankingFeatureImpl.kt:BankingFeatureImpl$override val bankIconRenderer: @Composable() (Modifier, Bank) -&gt; Unit = { modifier, bank -&gt; BankIconImpl(modifier, bank) }</ID>
+    <ID>MaxLineLength:BankingSyncFragment.kt:BankingSyncFragment$BankingCredentials.fromBank((workState.value as BankingViewModel.WorkState.BankLoaded).bank)</ID>
+    <ID>MaxLineLength:BankingViewModel.kt:BankingViewModel$"(select $KEY_VALUE from $TABLE_TRANSACTION_ATTRIBUTES left join $TABLE_ATTRIBUTES on $KEY_ATTRIBUTE_ID = $TABLE_ATTRIBUTES.$KEY_ROWID WHERE $KEY_ATTRIBUTE_NAME = ? and $KEY_TRANSACTIONID = $VIEW_EXTENDED.$KEY_ROWID) = ? "</ID>
+    <ID>MaxLineLength:BankingViewModel.kt:BankingViewModel$?.</ID>
+    <ID>MaxLineLength:BankingViewModel.kt:BankingViewModel$if</ID>
+    <ID>MaxLineLength:BankingViewModel.kt:BankingViewModel$it.iban == konto.iban || (it.number == konto.number &amp;&amp; it.subnumber == konto.subnumber)</ID>
+    <ID>MaxLineLength:BankingViewModel.kt:BankingViewModel$val</ID>
+    <ID>MaxLineLength:BankingViewModel.kt:BankingViewModel.MyHBCICallback$throwAndReport(HBCI_Exception("Flicker not yet implemented for ${bankingCredentials.blz} Please contact support@myexpenses.mobi !"))</ID>
+    <ID>MaxLineLength:Composables.kt:Text(stringResource(id = if (migrationState == MigrationState.Success) android.R.string.ok else android.R.string.cancel))</ID>
+    <ID>NewLineAtEndOfFile:Banking.kt:org.totschnig.fints.Banking.kt</ID>
+    <ID>NewLineAtEndOfFile:BankingCredentials.kt:org.totschnig.fints.BankingCredentials.kt</ID>
+    <ID>NewLineAtEndOfFile:BankingFeatureImpl.kt:org.totschnig.fints.BankingFeatureImpl.kt</ID>
+    <ID>NewLineAtEndOfFile:BankingSyncFragment.kt:org.totschnig.fints.BankingSyncFragment.kt</ID>
+    <ID>NewLineAtEndOfFile:BankingViewModel.kt:org.totschnig.fints.BankingViewModel.kt</ID>
+    <ID>NewLineAtEndOfFile:FinTSComponent.kt:org.totschnig.fints.FinTSComponent.kt</ID>
+    <ID>NewLineAtEndOfFile:HbciConverter.kt:org.totschnig.fints.HbciConverter.kt</ID>
+    <ID>NewLineAtEndOfFile:KontoExt.kt:org.totschnig.fints.KontoExt.kt</ID>
+    <ID>NewLineAtEndOfFile:WellKnownBank.kt:org.totschnig.fints.WellKnownBank.kt</ID>
+    <ID>ReturnCount:BankingViewModel.kt:BankingViewModel$@WorkerThread private fun &lt;T&gt; doHBCI: Result&lt;T&gt;</ID>
+    <ID>ThrowsCount:BankingViewModel.kt:BankingViewModel.MyHBCICallback$override fun callback</ID>
+    <ID>TooGenericExceptionCaught:BankingViewModel.kt:BankingViewModel$e: Exception</ID>
+    <ID>TooGenericExceptionCaught:BankingViewModel.kt:BankingViewModel.MyHBCICallback$e: Exception</ID>
+    <ID>TooManyFunctions:BankingViewModel.kt:BankingViewModel : ContentResolvingAndroidViewModel</ID>
+    <ID>TooManyFunctions:Composables.kt:org.totschnig.fints.Composables.kt</ID>
+    <ID>WildcardImport:Banking.kt:import org.totschnig.fints.BankingViewModel.WorkState.*</ID>
+  </CurrentIssues>
+</SmellBaseline>
