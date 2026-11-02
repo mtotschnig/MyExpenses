@@ -77,4 +77,22 @@ class ManageCategoriesTest : BaseComposeTest<ManageCategories>() {
             )
         ).isEqualTo(1)
     }
+
+    @Test
+    fun shouldChangeParentOfExistingCategory() {
+        val parentId = writeCategory(label = "Parent Category")
+        writeCategory(label = "Sub Category")
+        composeTestRule.onNodeWithText("Sub Category").performClick()
+        composeTestRule.onNodeWithText(getString(R.string.menu_edit_cat)).performClick()
+        composeTestRule.onNodeWithText(getString(R.string.category_type_main)).performClick()
+        composeTestRule.onNodeWithText("Parent Category").performClick()
+        composeTestRule.onNodeWithTag(TEST_TAG_POSITIVE_BUTTON).performClick()
+        assertThat(
+            repository.count(
+                TransactionProvider.CATEGORIES_URI,
+                "$KEY_PARENTID = ?",
+                arrayOf(parentId.toString()),
+            )
+        ).isEqualTo(1)
+    }
 }
