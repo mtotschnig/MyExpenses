@@ -63,3 +63,17 @@ subprojects {
         }
     }
 }
+
+// Git hooks in config/git-hooks: ktlint on staged files before commit, detekt before push.
+// Every Gradle run (including the Android Studio sync) points git at them, unless a hooks path is
+// already configured (repository or global) or the build runs on CI. Skip once with --no-verify.
+if (System.getenv('CI') == null && file('.git').exists()) {
+    def hooksPath = providers.exec {
+        commandLine 'git', 'config', '--get', 'core.hooksPath'
+        ignoreExitValue = true
+    }.standardOutput.asText.get().trim()
+    if (hooksPath.isEmpty()) {
+        providers.exec { commandLine 'git', 'config', 'core.hooksPath', 'config/git-hooks' }.result.get()
+        logger.lifecycle('Git hooks installed from config/git-hooks')
+    }
+}
