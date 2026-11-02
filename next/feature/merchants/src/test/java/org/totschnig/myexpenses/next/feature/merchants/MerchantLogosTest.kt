@@ -12,7 +12,6 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 import org.totschnig.myexpenses.next.core.common.withTestDataStore
@@ -69,7 +68,7 @@ class MerchantLogosTest {
     fun keepsNoAddressWithoutLogo() = withLogos { logos, domains, _ ->
         val result = CompletableDeferred<Any?>()
         logos.enterDomain(1, "stadtwerke.example") { result.complete(it) }
-        assertNull(result.await())
+        assertEquals(MerchantLogoStore.Lookup.Missing, result.await())
         assertEquals(emptyMap<Long, String>(), domains.domains.first())
     }
 
@@ -77,7 +76,7 @@ class MerchantLogosTest {
     fun noDomainIsNoAddress() = withLogos { logos, domains, _ ->
         val result = CompletableDeferred<Any?>()
         logos.enterDomain(1, "no domain") { result.complete(it) }
-        assertNull(result.await())
+        assertEquals(MerchantLogoStore.Lookup.Missing, result.await())
         assertEquals(emptyMap<Long, String>(), domains.domains.first())
     }
 }

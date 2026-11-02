@@ -19,12 +19,13 @@ import java.util.concurrent.TimeUnit
  *
  * @param fetch the icon of a domain, [Fetched.Missing] if there is none, [Fetched.Failed] if it
  * could not be asked, e.g. without network
- * @param prepare a logo of the size shown from what [fetch] returned, null if it is unusable
+ * @param prepare a logo of the size shown from what [fetch] returned as [Lookup.Found], else why
+ * it is unusable
  */
 class MerchantLogoStore(
     private val dir: File,
     private val fetch: suspend (domain: String) -> Fetched = ::fetchFromDuckDuckGo,
-    private val prepare: (ByteArray) -> ByteArray? = ::preparePng,
+    private val prepare: (ByteArray) -> Lookup = ::preparePng,
     private val now: () -> Long = System::currentTimeMillis,
 ) {
     sealed interface Fetched {
@@ -33,26 +34,52 @@ class MerchantLogoStore(
         data object Failed : Fetched
     }
 
+    /** The logo of a domain, or why there is none, so that the user can be told */
+    sealed interface Lookup {
+        class Found(val bytes: ByteArray) : Lookup
+
+        /** The icon service has no icon for the domain */
+        data object Missing : Lookup
+
+        /** The icon is smaller than [MIN_SIZE], the monogram looks better */
+        data object TooSmall : Lookup
+
+        /** The icon is in a format Android cannot read */
+        data object Unreadable : Lookup
+
+        /** The icon service could not be asked, e.g. without network */
+        data object Failed : Lookup
+    }
+
     /**
      * The prepared logo of [domain], loaded if not stored yet, null if there is none. Callers ask
      * once per domain, see [MerchantLogos].
      *
      * @param retry asks again also for a domain that had no logo recently, when the user asks for it
      */
-    suspend fun logo(domain: String, retry: Boolean = false): ByteArray? = withContext(Dispatchers.IO) {
+    suspend fun logo(domain: String, retry: Boolean = false): ByteArray? =
+        (lookup(domain, retry) as? Lookup.Found)?.bytes
+
+    /**
+     * Like [logo], but says why there is none. A domain asked recently without usable logo is
+     * [Lookup.Missing], whatever the reason was.
+     */
+    suspend fun lookup(domain: String, retry: Boolean = false): Lookup = withContext(Dispatchers.IO) {
         val logo = File(dir, "$domain.png")
         val missing = File(dir, "$domain.missing")
         when {
-            logo.exists() -> logo.readBytes()
-            !retry && missing.exists() && now() - missing.lastModified() < RETRY_AFTER_MS -> null
+            logo.exists() -> Lookup.Found(logo.readBytes())
+            !retry && missing.exists() && now() - missing.lastModified() < RETRY_AFTER_MS -> Lookup.Missing
             else -> when (val fetched = fetch(domain)) {
-                is Fetched.Icon -> prepare(fetched.bytes)?.also {
-                    dir.mkdirs()
-                    logo.writeBytes(it)
-                    missing.delete()
-                } ?: null.also { markMissing(missing) }
-                Fetched.Missing -> null.also { markMissing(missing) }
-                Fetched.Failed -> null
+                is Fetched.Icon -> prepare(fetched.bytes).also {
+                    if (it is Lookup.Found) {
+                        dir.mkdirs()
+                        logo.writeBytes(it.bytes)
+                        missing.delete()
+                    } else markMissing(missing)
+                }
+                Fetched.Missing -> Lookup.Missing.also { markMissing(missing) }
+                Fetched.Failed -> Lookup.Failed
             }
         }
     }
@@ -109,15 +136,15 @@ private suspend fun fetchFromDuckDuckGo(domain: String): MerchantLogoStore.Fetch
 }
 
 /** Decodes an icon of any format Android reads, e.g. ICO, PNG, WebP, and stores it as PNG */
-private fun preparePng(bytes: ByteArray): ByteArray? {
-    val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size) ?: return null
-    if (minOf(bitmap.width, bitmap.height) < MerchantLogoStore.MIN_SIZE) return null
+private fun preparePng(bytes: ByteArray): MerchantLogoStore.Lookup {
+    val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size) ?: return MerchantLogoStore.Lookup.Unreadable
+    if (minOf(bitmap.width, bitmap.height) < MerchantLogoStore.MIN_SIZE) return MerchantLogoStore.Lookup.TooSmall
     val scale = MerchantLogoStore.MAX_SIZE.toFloat() / maxOf(bitmap.width, bitmap.height)
     val scaled = if (scale < 1) Bitmap.createScaledBitmap(
         bitmap, (bitmap.width * scale).toInt(), (bitmap.height * scale).toInt(), true
     ) else bitmap
-    return ByteArrayOutputStream().use {
+    return MerchantLogoStore.Lookup.Found(ByteArrayOutputStream().use {
         scaled.compress(Bitmap.CompressFormat.PNG, 100, it)
         it.toByteArray()
-    }
+    })
 }

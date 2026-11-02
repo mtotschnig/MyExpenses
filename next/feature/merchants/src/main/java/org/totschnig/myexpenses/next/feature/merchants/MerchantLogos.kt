@@ -20,6 +20,7 @@ import kotlinx.coroutines.withContext
 import org.totschnig.myexpenses.next.core.ui.merchants.PayeeImage
 import org.totschnig.myexpenses.next.data.merchants.MerchantLogoConsent
 import org.totschnig.myexpenses.next.data.merchants.MerchantLogoStore
+import org.totschnig.myexpenses.next.data.merchants.MerchantLogoStore.Lookup
 import org.totschnig.myexpenses.next.data.merchants.Merchants
 import org.totschnig.myexpenses.next.data.merchants.PayeeDomainStore
 import org.totschnig.myexpenses.next.data.merchants.PayeeIconStore
@@ -107,20 +108,23 @@ class MerchantLogos(
      * there is one. Asks again also if the domain had no logo recently. Goes on when the dialog
      * asking is closed before.
      *
-     * @param onResult gets the logo, null if the address is no domain or there is no logo for it
+     * @param onResult gets [Lookup.Found] with the logo, else why there is none; [Lookup.Missing]
+     * also if the address is no domain
      */
-    fun enterDomain(payeeId: Long, address: String, onResult: (ImageBitmap?) -> Unit) {
+    fun enterDomain(payeeId: Long, address: String, onResult: (Lookup) -> Unit) {
         viewModelScope.launch { onResult(loadEntered(payeeId, address)) }
     }
 
-    private suspend fun loadEntered(payeeId: Long, address: String): ImageBitmap? {
-        val domain = domainOf(address) ?: return null
-        val logo = decode(store.logo(domain, retry = true)) ?: return null
+    private suspend fun loadEntered(payeeId: Long, address: String): Lookup {
+        val domain = domainOf(address) ?: return Lookup.Missing
+        val found = store.lookup(domain, retry = true)
+        if (found !is Lookup.Found) return found
+        val logo = decode(found.bytes) ?: return Lookup.Unreadable
         requested += domain
         byDomain.update { it + (domain to logo) }
         domainStore.set(payeeId, domain)
         iconStore.set(payeeId, null)
-        return logo
+        return found
     }
 
     /** Forgets the web address entered for [payeeId], its merchant or the monogram is shown again */

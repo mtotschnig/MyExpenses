@@ -175,7 +175,10 @@
     <string name="next_payee_logo_load">Load</string>
     <string name="next_payee_logo_intro">Enter the web address of the payee to show the icon of its website. Only the address is sent to the icon service of DuckDuckGo.</string>
     <string name="next_payee_logo_address">Web address</string>
-    <string name="next_payee_logo_not_found">No icon found for %s</string>
+    <string name="next_payee_logo_not_found">DuckDuckGo has no icon for %s. Try the main address of the website.</string>
+    <string name="next_payee_logo_too_small">The icon of %s is too small and would look blurred.</string>
+    <string name="next_payee_logo_unreadable">The icon of %s is in a format that cannot be shown.</string>
+    <string name="next_payee_logo_failed">Could not ask DuckDuckGo for the icon of %s. Check your connection and try again.</string>
     <string name="next_payee_logo_invalid">Not a web address</string>
     <string name="next_payee_logo_remove">Remove web address</string>
     <string name="next_change">Change</string>

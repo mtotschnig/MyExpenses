@@ -175,7 +175,10 @@
     <string name="next_payee_logo_load">Laden</string>
     <string name="next_payee_logo_intro">Gib die Webadresse des Empfängers ein, um das Symbol seiner Website zu zeigen. Nur die Adresse wird an den Icon-Dienst von DuckDuckGo gesendet.</string>
     <string name="next_payee_logo_address">Webadresse</string>
-    <string name="next_payee_logo_not_found">Kein Symbol für %s gefunden</string>
+    <string name="next_payee_logo_not_found">DuckDuckGo kennt kein Symbol für %s. Versuch es mit der Hauptadresse der Website.</string>
+    <string name="next_payee_logo_too_small">Das Symbol von %s ist zu klein und würde unscharf aussehen.</string>
+    <string name="next_payee_logo_unreadable">Das Symbol von %s hat ein Format, das nicht angezeigt werden kann.</string>
+    <string name="next_payee_logo_failed">DuckDuckGo konnte nicht nach dem Symbol von %s gefragt werden. Prüf die Verbindung und versuch es noch mal.</string>
     <string name="next_payee_logo_invalid">Keine Webadresse</string>
     <string name="next_payee_logo_remove">Webadresse entfernen</string>
     <string name="next_change">Ändern</string>

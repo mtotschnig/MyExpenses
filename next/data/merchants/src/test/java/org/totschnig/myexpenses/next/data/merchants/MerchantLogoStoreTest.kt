@@ -9,6 +9,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import org.totschnig.myexpenses.next.data.merchants.MerchantLogoStore.Fetched
+import org.totschnig.myexpenses.next.data.merchants.MerchantLogoStore.Lookup
 
 class MerchantLogoStoreTest {
 
@@ -24,7 +25,7 @@ class MerchantLogoStoreTest {
     private fun store() = MerchantLogoStore(
         dir = folder.root.resolve("logos"),
         fetch = { asked += it; answer },
-        prepare = { if (it.contentEquals(icon)) prepared else null },
+        prepare = { if (it.contentEquals(icon)) Lookup.Found(prepared) else Lookup.Unreadable },
         now = { time }
     )
 
@@ -86,5 +87,17 @@ class MerchantLogoStoreTest {
         assertNull(store().logo("lidl.de"))
         assertArrayEquals(prepared, store().logo("lidl.de", retry = true))
         assertEquals(2, asked.size)
+    }
+
+    @Test
+    fun saysWhyThereIsNoLogo() = runTest {
+        answer = Fetched.Missing
+        assertEquals(Lookup.Missing, store().lookup("lidl.de", retry = true))
+        answer = Fetched.Icon(byteArrayOf(0))
+        assertEquals(Lookup.Unreadable, store().lookup("lidl.de", retry = true))
+        answer = Fetched.Failed
+        assertEquals(Lookup.Failed, store().lookup("lidl.de", retry = true))
+        // Without asking again, only that there was none
+        assertEquals(Lookup.Missing, store().lookup("lidl.de"))
     }
 }
