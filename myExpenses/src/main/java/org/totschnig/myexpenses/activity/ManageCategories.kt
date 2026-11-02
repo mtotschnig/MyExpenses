@@ -236,13 +236,25 @@ class ManageCategories : ProtectedFragmentActivity(),
                         ChoiceMode.MultiChoiceMode(selectionState, true)
                     }
                 }
+                val state = viewModel.categoryTree.collectAsState(initial = Category.LOADING).value
                 when (viewModel.dialogState) {
                     is ManageCategoriesViewModel.Edit -> CategoryEdit(
                         dialogState = viewModel.dialogState as ManageCategoriesViewModel.Edit,
+                        categories = (state as? LoadingState.Data)?.data?.flatten() ?: emptyList(),
                         onDismissRequest = {
                             viewModel.dialogState = ManageCategoriesViewModel.NoShow
                         },
-                        onSave = viewModel::saveCategory
+                        onSave = { label, icon, typeFlags, parentId ->
+                            val parent = (state as? LoadingState.Data)?.data?.flatten()?.find { it.id == parentId }
+                            if (parent != null && parent.level > 1 && !viewModel.licenceHandler.hasTrialAccessTo(ContribFeature.CATEGORY_TREE)) {
+                                contribFeatureRequested(
+                                    ContribFeature.CATEGORY_TREE,
+                                    R.id.CREATE_SUB_COMMAND to parent
+                                )
+                            } else {
+                                viewModel.saveCategory(label, icon, typeFlags, parentId)
+                            }
+                        }
                     )
 
                     is ManageCategoriesViewModel.Merge -> CategoryMerge(
@@ -255,7 +267,7 @@ class ManageCategories : ProtectedFragmentActivity(),
 
                     else -> {}
                 }
-                viewModel.categoryTree.collectAsState(initial = Category.LOADING).value.let { state ->
+                state.let { state ->
                     LaunchedEffect(state) {
                         finishActionMode()
                     }

@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
@@ -33,12 +34,15 @@ import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.FLAG_NEUTRAL
 import org.totschnig.myexpenses.viewmodel.ManageCategoriesViewModel
+import org.totschnig.myexpenses.viewmodel.data.Category
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CategoryEdit(
     dialogState: ManageCategoriesViewModel.Edit,
+    categories: List<Category> = emptyList(),
     onDismissRequest: () -> Unit = {},
-    onSave: (String, String?, Byte) -> Unit = { _, _, _ -> }
+    onSave: (label: String, icon: String?, typeFlags: Byte, parentId: Long?) -> Unit = { _, _, _, _ -> }
 ) {
     val fieldPadding = 12.dp
     val resources = LocalResources.current
@@ -49,6 +53,26 @@ fun CategoryEdit(
             dialogState.category?.typeFlags ?: FLAG_NEUTRAL
         )
     }
+
+    val excludedIds = remember(dialogState.category) {
+        dialogState.category?.flatten()?.map { it.id }?.toSet() ?: emptySet()
+    }
+    val eligibleParentCategories = remember(categories, excludedIds) {
+        categories.flatMap { it.flatten() }
+            .filter { it.id != 0L && !excludedIds.contains(it.id) }
+            .distinctBy { it.id }
+    }
+
+    val initialParent = remember(dialogState, categories) {
+        dialogState.parent ?: dialogState.category?.parentId?.let { parentId ->
+            categories.flatMap { it.flatten() }.find { it.id == parentId }
+        }
+    }
+    var selectedParent by rememberSaveable(dialogState) {
+        mutableStateOf(initialParent)
+    }
+
+    var parentDropdownExpanded by remember { mutableStateOf(false) }
     var shouldValidate by remember { mutableStateOf(false) }
     val showIconSelection = rememberSaveable { mutableStateOf(false) }
 
@@ -62,8 +86,8 @@ fun CategoryEdit(
 
     DialogFrame(
         title = if (dialogState.isNew) {
-            if (dialogState.parent == null) stringResource(R.string.menu_create_main_cat)
-            else stringResource(R.string.menu_create_sub_cat) + " (${dialogState.parent.label})"
+            if (selectedParent == null) stringResource(R.string.menu_create_main_cat)
+            else stringResource(R.string.menu_create_sub_cat) + " (${selectedParent!!.label})"
         } else stringResource(R.string.menu_edit_cat),
         onDismissRequest = onDismissRequest,
         cancelEnabled = !dialogState.saving,
@@ -73,11 +97,55 @@ fun CategoryEdit(
         ) {
             shouldValidate = true
             if (label.isNotBlank()) {
-                onSave(label, icon.value, typeFlags)
+                onSave(label, icon.value, typeFlags, selectedParent?.id)
             }
         }
     ) {
-        if (dialogState.category?.parentId == null && dialogState.parent == null) {
+        if (eligibleParentCategories.isNotEmpty() || selectedParent != null) {
+            ExposedDropdownMenuBox(
+                expanded = parentDropdownExpanded,
+                onExpandedChange = { parentDropdownExpanded = !parentDropdownExpanded },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                OutlinedTextField(
+                    modifier = Modifier
+                        .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
+                        .fillMaxWidth(),
+                    readOnly = true,
+                    label = { Text(stringResource(id = R.string.category)) },
+                    value = selectedParent?.path ?: stringResource(id = R.string.category_type_main),
+                    onValueChange = {},
+                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = parentDropdownExpanded) },
+                    colors = ExposedDropdownMenuDefaults.outlinedTextFieldColors()
+                )
+                ExposedDropdownMenu(
+                    expanded = parentDropdownExpanded,
+                    onDismissRequest = { parentDropdownExpanded = false }
+                ) {
+                    DropdownMenuItem(
+                        text = { Text(stringResource(id = R.string.category_type_main)) },
+                        onClick = {
+                            selectedParent = null
+                            parentDropdownExpanded = false
+                        },
+                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                    )
+                    eligibleParentCategories.forEach { cat ->
+                        DropdownMenuItem(
+                            text = { Text(cat.path) },
+                            onClick = {
+                                selectedParent = cat
+                                parentDropdownExpanded = false
+                            },
+                            contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
+                        )
+                    }
+                }
+            }
+            Spacer(modifier = Modifier.height(fieldPadding))
+        }
+
+        if (selectedParent == null) {
             TypeConfiguration(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
                 typeFlags = typeFlags,

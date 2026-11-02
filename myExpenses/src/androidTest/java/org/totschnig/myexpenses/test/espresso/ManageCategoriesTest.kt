@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.activity.ManageCategories
 import org.totschnig.myexpenses.compose.TEST_TAG_EDIT_TEXT
 import org.totschnig.myexpenses.compose.TEST_TAG_POSITIVE_BUTTON
 import org.totschnig.myexpenses.db2.deleteAllCategories
+import org.totschnig.myexpenses.provider.KEY_PARENTID
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.testutils.BaseComposeTest
 import org.totschnig.myexpenses.testutils.Espresso
@@ -57,5 +58,23 @@ class ManageCategoriesTest : BaseComposeTest<ManageCategories>() {
         composeTestRule.onNodeWithTag(TEST_TAG_POSITIVE_BUTTON).performClick()
         assertThat(repository.count(TransactionProvider.CATEGORIES_URI))
             .isEqualTo(1 + origCategoryCount)
+    }
+
+    @Test
+    fun shouldCreateSubCategoryFromParentDropdown() {
+        val parentId = writeCategory(label = "Parent Category")
+        clickFab()
+        composeTestRule.onNodeWithTag(TEST_TAG_EDIT_TEXT)
+            .performTextInput("Sub category")
+        composeTestRule.onNodeWithText(getString(R.string.category_type_main)).performClick()
+        composeTestRule.onNodeWithText("Parent Category").performClick()
+        composeTestRule.onNodeWithTag(TEST_TAG_POSITIVE_BUTTON).performClick()
+        assertThat(
+            repository.count(
+                TransactionProvider.CATEGORIES_URI,
+                "$KEY_PARENTID = ?",
+                arrayOf(parentId.toString()),
+            )
+        ).isEqualTo(1)
     }
 }
