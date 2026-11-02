@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -76,6 +77,7 @@ import org.totschnig.myexpenses.designsystem.InviteCard
 import org.totschnig.myexpenses.designsystem.MenuButton
 import org.totschnig.myexpenses.designsystem.MenuEntry
 import org.totschnig.myexpenses.designsystem.OverviewCard
+import sh.calvin.reorderable.ReorderableCollectionItemScope
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
 import org.totschnig.myexpenses.next.core.ui.icons.CatalogIcon
@@ -148,18 +150,8 @@ fun NextOverviewScreen(
     // which after persisting a move comes back in the same order.
     var orderedSections by remember(sections) { mutableStateOf(sections) }
 
-    // Accounts can only be moved within their section, since the section follows from their type
     fun move(fromId: Long, toId: Long): Boolean {
-        val sectionIndex = orderedSections.indexOfFirst { section -> section.accounts.any { it.id == fromId } }
-        val section = orderedSections.getOrNull(sectionIndex) ?: return false
-        val fromIndex = section.accounts.indexOfFirst { it.id == fromId }
-        val toIndex = section.accounts.indexOfFirst { it.id == toId }
-        if (toIndex == -1) return false
-        orderedSections = orderedSections.toMutableList().apply {
-            set(sectionIndex, section.copy(accounts = section.accounts.toMutableList().apply {
-                add(toIndex, removeAt(fromIndex))
-            }))
-        }
+        orderedSections = moveAccount(orderedSections, fromId, toId) ?: return false
         return true
     }
 
@@ -169,9 +161,6 @@ fun NextOverviewScreen(
 
     val haptic = LocalHapticFeedback.current
     val canReorder = orderedSections.sumOf { it.accounts.size } > 1
-    val addAccountLabel = stringResource(R.string.next_add_account)
-    val reorderLabel = stringResource(R.string.next_reorder_accounts)
-    val addBudgetLabel = stringResource(R.string.next_add_budget)
     val lazyListState = rememberLazyListState()
     val reorderableState = rememberReorderableLazyListState(lazyListState) { from, to ->
         val fromId = from.key as? Long ?: return@rememberReorderableLazyListState
@@ -198,28 +187,7 @@ fun NextOverviewScreen(
                     header(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp))
                 }
             }
-            // Nothing while loading, so that an invitation does not flash before the budgets
-            val shownBudgets = budgets?.budgets
-            if (budgets != null && !shownBudgets.isNullOrEmpty()) item(key = "budgets") {
-                BudgetCard(
-                    budgets = shownBudgets,
-                    onBudgetClick = budgets.onClick,
-                    onShowAll = budgets.onShowAll,
-                    onAdd = budgets.onAdd,
-                    summary = budgets.summary,
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
-            } else if (budgets != null && shownBudgets != null && !budgets.inviteDismissed) item(key = "budget_invite") {
-                InviteCard(
-                    icon = Icons.Default.Savings,
-                    title = stringResource(R.string.next_add_budget),
-                    text = stringResource(R.string.next_budget_invite_text),
-                    onClick = budgets.onAdd,
-                    onDismiss = budgets.onDismissInvite,
-                    dismissLabel = stringResource(R.string.next_budget_invite_dismiss),
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
-            }
+            if (budgets != null) budgetItem(budgets)
             if (orderedSections.isEmpty()) {
                 item(key = "no_accounts") {
                     ActionCard(
@@ -239,41 +207,23 @@ fun NextOverviewScreen(
                     // only take up the trailing end of the first section header
                     GroupTitle(
                         title = section.title,
-                        action = when {
-                            sectionIndex != 0 -> null
-                            isReordering -> {
-                                {
-                                    IconButton(onClick = { isReordering = false }) {
-                                        Icon(
-                                            Icons.Default.Check,
-                                            contentDescription = stringResource(R.string.next_done),
-                                            tint = MaterialTheme.colorScheme.primary
-                                        )
-                                    }
-                                }
+                        action = if (sectionIndex == 0) {
+                            {
+                                AccountsActions(
+                                    isReordering = isReordering,
+                                    onReorderingChange = { isReordering = it },
+                                    canReorder = canReorder,
+                                    onAddAccount = onAddAccount,
+                                    // Once the invitation is dismissed, budgets are added from here
+                                    onAddBudget = budgets?.takeIf { it.budgets?.isEmpty() == true && it.inviteDismissed }
+                                        ?.onAdd
+                                )
                             }
-
-                            else -> {
-                                {
-                                    MenuButton(
-                                        entries = listOfNotNull(
-                                            MenuEntry(addAccountLabel, Icons.Default.Add, onAddAccount),
-                                            MenuEntry(reorderLabel, Icons.Default.SwapVert) { isReordering = true }
-                                                .takeIf { canReorder },
-                                            budgets?.takeIf { it.budgets?.isEmpty() == true && it.inviteDismissed }
-                                                ?.let { MenuEntry(addBudgetLabel, Icons.Default.Savings, it.onAdd) }
-                                        ),
-                                        contentDescription = stringResource(R.string.next_accounts_more)
-                                    )
-                                }
-                            }
-                        }
+                        } else null
                     )
                 }
                 itemsIndexed(section.accounts, key = { _, account -> account.id }) { index, account ->
                     ReorderableItem(reorderableState, key = account.id, enabled = isReordering) { isDragging ->
-                        val moveUp = stringResource(org.totschnig.myexpenses.R.string.action_move_up)
-                        val moveDown = stringResource(org.totschnig.myexpenses.R.string.action_move_down)
                         AccountItem(
                             account = account,
                             isFirst = index == 0,
@@ -282,38 +232,13 @@ fun NextOverviewScreen(
                             bankIcon = bankIcon,
                             onClick = { onAccountClick(account) }.takeIf { !isReordering },
                             dragHandle = if (isReordering) {
-                                {
-                                    Icon(
-                                        Icons.Default.DragHandle,
-                                        contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                        modifier = Modifier
-                                            .draggableHandle(
-                                                onDragStarted = {
-                                                    haptic.performHapticFeedback(HapticFeedbackType.GestureThresholdActivate)
-                                                },
-                                                onDragStopped = {
-                                                    haptic.performHapticFeedback(HapticFeedbackType.GestureEnd)
-                                                    persistOrder()
-                                                }
-                                            )
-                                            .padding(12.dp)
-                                    )
-                                }
+                                { DragHandle(onDragStopped = ::persistOrder) }
                             } else null,
-                            // Dragging is not accessible, so screen reader users move accounts step by step
-                            accessibilityActions = if (isReordering) buildList {
-                                section.accounts.getOrNull(index - 1)?.let { previous ->
-                                    add(CustomAccessibilityAction(moveUp) {
-                                        move(account.id, previous.id).also { if (it) persistOrder() }
-                                    })
-                                }
-                                section.accounts.getOrNull(index + 1)?.let { next ->
-                                    add(CustomAccessibilityAction(moveDown) {
-                                        move(account.id, next.id).also { if (it) persistOrder() }
-                                    })
-                                }
-                            } else emptyList(),
+                            accessibilityActions = if (isReordering) moveActions(
+                                previous = section.accounts.getOrNull(index - 1),
+                                next = section.accounts.getOrNull(index + 1),
+                                onMove = { target -> move(account.id, target.id).also { if (it) persistOrder() } }
+                            ) else emptyList(),
                             modifier = Modifier.padding(horizontal = 16.dp)
                         )
                     }
@@ -322,6 +247,118 @@ fun NextOverviewScreen(
             item { Spacer(Modifier.padding(bottom = 16.dp)) }
         }
     }
+}
+
+/**
+ * [sections] with the account [fromId] moved to the place of [toId], or null when they are not in
+ * the same section. Accounts can only be moved within their section, since the section follows
+ * from their type.
+ */
+private fun moveAccount(sections: List<OverviewSection>, fromId: Long, toId: Long): List<OverviewSection>? {
+    val sectionIndex = sections.indexOfFirst { section -> section.accounts.any { it.id == fromId } }
+    val section = sections.getOrNull(sectionIndex) ?: return null
+    val fromIndex = section.accounts.indexOfFirst { it.id == fromId }
+    val toIndex = section.accounts.indexOfFirst { it.id == toId }
+    if (toIndex == -1) return null
+    return sections.toMutableList().apply {
+        set(sectionIndex, section.copy(accounts = section.accounts.toMutableList().apply {
+            add(toIndex, removeAt(fromIndex))
+        }))
+    }
+}
+
+private fun LazyListScope.budgetItem(budgets: OverviewBudgets) {
+    // Nothing while loading, so that an invitation does not flash before the budgets
+    val shownBudgets = budgets.budgets ?: return
+    if (shownBudgets.isNotEmpty()) item(key = "budgets") {
+        BudgetCard(
+            budgets = shownBudgets,
+            onBudgetClick = budgets.onClick,
+            onShowAll = budgets.onShowAll,
+            onAdd = budgets.onAdd,
+            summary = budgets.summary,
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
+    } else if (!budgets.inviteDismissed) item(key = "budget_invite") {
+        InviteCard(
+            icon = Icons.Default.Savings,
+            title = stringResource(R.string.next_add_budget),
+            text = stringResource(R.string.next_budget_invite_text),
+            onClick = budgets.onAdd,
+            onDismiss = budgets.onDismissInvite,
+            dismissLabel = stringResource(R.string.next_budget_invite_dismiss),
+            modifier = Modifier.padding(horizontal = 16.dp)
+        )
+    }
+}
+
+/** At the end of the first section header: done while reordering, otherwise a menu */
+@Composable
+private fun AccountsActions(
+    isReordering: Boolean,
+    onReorderingChange: (Boolean) -> Unit,
+    canReorder: Boolean,
+    onAddAccount: () -> Unit,
+    onAddBudget: (() -> Unit)?,
+) {
+    if (isReordering) {
+        IconButton(onClick = { onReorderingChange(false) }) {
+            Icon(
+                Icons.Default.Check,
+                contentDescription = stringResource(R.string.next_done),
+                tint = MaterialTheme.colorScheme.primary
+            )
+        }
+    } else {
+        val addAccountLabel = stringResource(R.string.next_add_account)
+        val reorderLabel = stringResource(R.string.next_reorder_accounts)
+        val addBudgetLabel = stringResource(R.string.next_add_budget)
+        MenuButton(
+            entries = listOfNotNull(
+                MenuEntry(addAccountLabel, Icons.Default.Add, onAddAccount),
+                MenuEntry(reorderLabel, Icons.Default.SwapVert) { onReorderingChange(true) }
+                    .takeIf { canReorder },
+                onAddBudget?.let { MenuEntry(addBudgetLabel, Icons.Default.Savings, it) }
+            ),
+            contentDescription = stringResource(R.string.next_accounts_more)
+        )
+    }
+}
+
+@Composable
+private fun ReorderableCollectionItemScope.DragHandle(onDragStopped: () -> Unit) {
+    val haptic = LocalHapticFeedback.current
+    Icon(
+        Icons.Default.DragHandle,
+        contentDescription = null,
+        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+        modifier = Modifier
+            .draggableHandle(
+                onDragStarted = {
+                    haptic.performHapticFeedback(HapticFeedbackType.GestureThresholdActivate)
+                },
+                onDragStopped = {
+                    haptic.performHapticFeedback(HapticFeedbackType.GestureEnd)
+                    onDragStopped()
+                }
+            )
+            .padding(12.dp)
+    )
+}
+
+/** Dragging is not accessible, so screen reader users move accounts step by step */
+@Composable
+private fun moveActions(
+    previous: OverviewAccount?,
+    next: OverviewAccount?,
+    onMove: (OverviewAccount) -> Boolean,
+): List<CustomAccessibilityAction> {
+    val moveUp = stringResource(org.totschnig.myexpenses.R.string.action_move_up)
+    val moveDown = stringResource(org.totschnig.myexpenses.R.string.action_move_down)
+    return listOfNotNull(
+        previous?.let { CustomAccessibilityAction(moveUp) { onMove(it) } },
+        next?.let { CustomAccessibilityAction(moveDown) { onMove(it) } },
+    )
 }
 
 @Composable

@@ -90,11 +90,9 @@ suspend fun ContentResolver.loadSearchOptions(kind: SearchKind, account: PageAcc
 
             SearchKind.Account -> {
                 val currency = account.currency.takeIf { !account.isHomeAggregate }
-                query(
-                    TransactionProvider.ACCOUNTS_BASE_URI,
-                    ("$KEY_PARENTID IS NULL" + if (currency == null) "" else " AND $KEY_CURRENCY = ?") to
-                            currency?.let { arrayOf(it) }
-                )
+                val selection = if (currency == null) "$KEY_PARENTID IS NULL"
+                else "$KEY_PARENTID IS NULL AND $KEY_CURRENCY = ?"
+                query(TransactionProvider.ACCOUNTS_BASE_URI, selection to currency?.let { arrayOf(it) })
             }
 
             else -> emptyList()

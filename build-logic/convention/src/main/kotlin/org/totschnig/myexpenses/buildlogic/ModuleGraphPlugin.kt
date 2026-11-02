@@ -232,92 +232,20 @@ internal fun transitiveReduction(edges: Set<Pair<String, String>>): Set<Pair<Str
  * top to bottom without adding visible arrows.
  */
 internal fun renderPlantUml(graph: ModuleGraph): String = buildString {
-    // PlantUML needs an identifier without ':' or '-' for the arrows, e.g. :next:core:ui → mNextCoreUi.
-    fun alias(path: String) = "m" + path.split(':', '-', '_').filter { it.isNotEmpty() }
-        .joinToString("") { it.replaceFirstChar(Char::uppercase) }
-    // Package alias, e.g. ":next:core" → "pNextCore".
-    fun pkgAlias(parent: String) = "p" + parent.removePrefix(":")
-        .split(':', '/', '-', '_').filter { it.isNotEmpty() }
-        .joinToString("") { it.replaceFirstChar(Char::uppercase) }
-    fun component(module: Module, name: String, indent: String) {
-        val label = listOfNotNull(name, module.kind?.let { "($it)" }).joinToString("\\n")
-        appendLine("$indent[$label] as ${alias(module.path)}")
-    }
-
-    val (grouped, single) = graph.modules.partition { it.path.count { c -> c == ':' } > 1 }
+    val (grouped, single) = graph.modules.partition { packageOf(it.path) != null }
     // packageMembers: parent path → sorted list of module paths in that package.
     val packageMembers: Map<String, List<String>> = grouped
         .groupBy { it.path.substringBeforeLast(':') }
         .mapValues { (_, ms) -> ms.map { it.path }.sorted() }
-    val allPaths = graph.modules.map { it.path }.toSet()
-
-    // Step 2: replace fan-out / fan-in edges with package edges.
-    // When ALL modules in a package have an edge to X (or from X), replace them with one package edge.
     val remainingEdges = graph.edges.toMutableSet()
-    val pkgEdgeList = mutableListOf<Pair<String, String>>()
-    for ((parent, members) in packageMembers.entries.sortedBy { it.key }) {
-        if (members.size < 2) continue
-        val membersSet = members.toSet()
-        for (x in (allPaths - membersSet).sorted()) {
-            if (membersSet.all { (it to x) in remainingEdges }) {      // P --> X
-                membersSet.forEach { remainingEdges.remove(it to x) }
-                pkgEdgeList += pkgAlias(parent) to alias(x)
-            }
-            if (membersSet.all { (x to it) in remainingEdges }) {      // X --> P
-                membersSet.forEach { remainingEdges.remove(x to it) }
-                pkgEdgeList += alias(x) to pkgAlias(parent)
-            }
-        }
-    }
-    val sortedPkgEdges = pkgEdgeList.sortedWith(compareBy({ it.first }, { it.second }))
+    val packageEdges = collapsePackageEdges(graph, packageMembers, remainingEdges)
+    val hiddenEdges = hiddenEdges(graph, packageMembers, packageEdges)
 
-    // Step 3: one hidden edge per package dependency to keep layers stacked without visible arrows.
-    // depthWithin: longest path from the roots of the package to this module, over internal edges only.
-    fun depthWithin(modulePath: String, members: Set<String>): Int {
-        val internal = graph.edges.filter { (a, b) -> a in members && b in members }
-        val dist = members.associateWith { 0 }.toMutableMap()
-        val inDeg = members.associateWith { m -> internal.count { it.second == m } }.toMutableMap()
-        val queue = ArrayDeque(members.filter { (inDeg[it] ?: 0) == 0 }.sorted())
-        while (queue.isNotEmpty()) {
-            val cur = queue.removeFirst()
-            internal.filter { it.first == cur }.sortedBy { it.second }.forEach { (_, next) ->
-                dist[next] = maxOf(dist[next] ?: 0, (dist[cur] ?: 0) + 1)
-                inDeg[next] = (inDeg[next] ?: 0) - 1
-                if ((inDeg[next] ?: 0) == 0) queue.addLast(next)
-            }
-        }
-        return dist[modulePath] ?: 0
-    }
-    // Package dependency graph: P → Q if any module in P has an edge to any module in Q.
-    val pkgDeps: Set<Pair<String, String>> = graph.edges.mapNotNull { (a, b) ->
-        val pa = if (a.count { it == ':' } > 1) a.substringBeforeLast(':') else null
-        val pb = if (b.count { it == ':' } > 1) b.substringBeforeLast(':') else null
-        if (pa != null && pb != null && pa != pb) pa to pb else null
-    }.toSet()
-    // Skip a pair when a package edge already connects P to a module inside Q.
-    val coveredPkgPairs: Set<Pair<String, String>> = sortedPkgEdges.mapNotNull { (from, to) ->
-        val fromPkg = packageMembers.keys.find { pkgAlias(it) == from } ?: return@mapNotNull null
-        val toMod = graph.modules.find { alias(it.path) == to } ?: return@mapNotNull null
-        val toPkg = if (toMod.path.count { it == ':' } > 1) toMod.path.substringBeforeLast(':') else null
-            ?: return@mapNotNull null
-        fromPkg to toPkg
-    }.toSet()
-    val hiddenEdges: List<String> = pkgDeps
-        .filter { it !in coveredPkgPairs }
-        .sortedWith(compareBy({ it.first }, { it.second }))
-        .map { (p, q) ->
-            val members = packageMembers.getValue(p).toSet()
-            // Bottom = module with the longest path from package roots; alphabetical on ties.
-            val bottom = members.maxWith(compareBy<String> { depthWithin(it, members) }.thenBy { it })
-            "${alias(bottom)} -[hidden]--> ${pkgAlias(q)}"
-        }
-
-    // --- Output ---
     appendLine("@startuml modules")
     appendLine("' Generated by the task moduleGraph of build-logic (ModuleGraphPlugin), do not edit.")
     appendLine("' Dependencies between the modules of the new UI, rule `mod-diagram` of ARCHITECTURE.md.")
     appendLine("' An edge that follows from a longer path is left out.")
-    if (sortedPkgEdges.isNotEmpty()) {
+    if (packageEdges.isNotEmpty()) {
         appendLine("' An edge from or to a package stands for an edge from or to every module in it.")
     }
     appendLine("skinparam componentStyle rectangle")
@@ -325,12 +253,12 @@ internal fun renderPlantUml(graph: ModuleGraph): String = buildString {
     appendLine("skinparam ranksep 80")
     appendLine("top to bottom direction")
     appendLine()
-    single.forEach { component(it, it.path, "") }
-    packageMembers.entries.sortedBy { it.key }.forEach { (parent, _) ->
+    single.forEach { appendComponent(it, it.path, "") }
+    packageMembers.keys.sorted().forEach { parent ->
         appendLine()
-        appendLine("package \"${parent.removePrefix(":").replace(':', '/')}\" as ${pkgAlias(parent)} {")
+        appendLine("package \"${parent.removePrefix(":").replace(':', '/')}\" as ${packageAlias(parent)} {")
         grouped.filter { it.path.substringBeforeLast(':') == parent }
-            .forEach { component(it, ":" + it.path.substringAfterLast(':'), "    ") }
+            .forEach { appendComponent(it, ":" + it.path.substringAfterLast(':'), "    ") }
         appendLine("}")
     }
     if (hiddenEdges.isNotEmpty()) {
@@ -339,7 +267,100 @@ internal fun renderPlantUml(graph: ModuleGraph): String = buildString {
         hiddenEdges.forEach { appendLine(it) }
     }
     appendLine()
-    sortedPkgEdges.forEach { (from, to) -> appendLine("$from --> $to") }
-    remainingEdges.forEach { (from, to) -> appendLine("${alias(from)} --> ${alias(to)}") }
+    packageEdges.forEach { (from, to) -> appendLine("$from --> $to") }
+    remainingEdges.forEach { (from, to) -> appendLine("${moduleAlias(from)} --> ${moduleAlias(to)}") }
     appendLine("@enduml")
+}
+
+// PlantUML needs an identifier without ':' or '-' for the arrows, e.g. :next:core:ui → mNextCoreUi.
+private fun moduleAlias(path: String) = "m" + path.split(':', '-', '_').filter { it.isNotEmpty() }
+    .joinToString("") { it.replaceFirstChar(Char::uppercase) }
+
+// Package alias, e.g. ":next:core" → "pNextCore".
+private fun packageAlias(parent: String) = "p" + parent.removePrefix(":")
+    .split(':', '/', '-', '_').filter { it.isNotEmpty() }
+    .joinToString("") { it.replaceFirstChar(Char::uppercase) }
+
+/** The package of a nested module, e.g. `:next:core` for `:next:core:ui`; null on the top level. */
+private fun packageOf(path: String): String? =
+    if (path.count { it == ':' } > 1) path.substringBeforeLast(':') else null
+
+private fun StringBuilder.appendComponent(module: Module, name: String, indent: String) {
+    val label = listOfNotNull(name, module.kind?.let { "($it)" }).joinToString("\\n")
+    appendLine("$indent[$label] as ${moduleAlias(module.path)}")
+}
+
+/**
+ * When ALL modules in a package have an edge to X (or from X), replaces them with one package edge.
+ * Removes the replaced edges from [remainingEdges] and returns the package edges as aliases, sorted.
+ */
+private fun collapsePackageEdges(
+    graph: ModuleGraph,
+    packageMembers: Map<String, List<String>>,
+    remainingEdges: MutableSet<Pair<String, String>>,
+): List<Pair<String, String>> {
+    val allPaths = graph.modules.map { it.path }.toSet()
+    val packageEdges = mutableListOf<Pair<String, String>>()
+    for ((parent, members) in packageMembers.entries.sortedBy { it.key }) {
+        if (members.size < 2) continue
+        val membersSet = members.toSet()
+        for (x in (allPaths - membersSet).sorted()) {
+            if (membersSet.all { Pair(it, x) in remainingEdges }) {      // P --> X
+                membersSet.forEach { remainingEdges.remove(it to x) }
+                packageEdges += packageAlias(parent) to moduleAlias(x)
+            }
+            if (membersSet.all { Pair(x, it) in remainingEdges }) {      // X --> P
+                membersSet.forEach { remainingEdges.remove(x to it) }
+                packageEdges += moduleAlias(x) to packageAlias(parent)
+            }
+        }
+    }
+    return packageEdges.sortedWith(compareBy({ it.first }, { it.second }))
+}
+
+/** Longest path from the roots of the package to [modulePath], over edges inside [members] only. */
+private fun depthWithin(graph: ModuleGraph, modulePath: String, members: Set<String>): Int {
+    val internal = graph.edges.filter { (a, b) -> a in members && b in members }
+    val dist = members.associateWith { 0 }.toMutableMap()
+    val inDeg = members.associateWith { m -> internal.count { it.second == m } }.toMutableMap()
+    val queue = ArrayDeque(members.filter { (inDeg[it] ?: 0) == 0 }.sorted())
+    while (queue.isNotEmpty()) {
+        val cur = queue.removeFirst()
+        internal.filter { it.first == cur }.sortedBy { it.second }.forEach { (_, next) ->
+            dist[next] = maxOf(dist[next] ?: 0, (dist[cur] ?: 0) + 1)
+            inDeg[next] = (inDeg[next] ?: 0) - 1
+            if ((inDeg[next] ?: 0) == 0) queue.addLast(next)
+        }
+    }
+    return dist[modulePath] ?: 0
+}
+
+/** One hidden edge per package dependency, to keep the layers stacked without visible arrows. */
+private fun hiddenEdges(
+    graph: ModuleGraph,
+    packageMembers: Map<String, List<String>>,
+    packageEdges: List<Pair<String, String>>,
+): List<String> {
+    // Package dependency graph: P → Q if any module in P has an edge to any module in Q.
+    val packageDeps: Set<Pair<String, String>> = graph.edges.mapNotNull { (a, b) ->
+        val pa = packageOf(a)
+        val pb = packageOf(b)
+        if (pa != null && pb != null && pa != pb) pa to pb else null
+    }.toSet()
+    // Skip a pair when a package edge already connects P to a module inside Q.
+    val covered: Set<Pair<String, String>> = packageEdges.mapNotNull { (from, to) ->
+        val fromPkg = packageMembers.keys.find { packageAlias(it) == from } ?: return@mapNotNull null
+        val toMod = graph.modules.find { moduleAlias(it.path) == to } ?: return@mapNotNull null
+        val toPkg = packageOf(toMod.path) ?: return@mapNotNull null
+        fromPkg to toPkg
+    }.toSet()
+    return packageDeps
+        .filter { it !in covered }
+        .sortedWith(compareBy({ it.first }, { it.second }))
+        .map { (p, q) ->
+            val members = packageMembers.getValue(p).toSet()
+            // Bottom = module with the longest path from package roots; alphabetical on ties.
+            val bottom = members.maxWith(compareBy<String> { depthWithin(graph, it, members) }.thenBy { it })
+            "${moduleAlias(bottom)} -[hidden]--> ${packageAlias(q)}"
+        }
 }

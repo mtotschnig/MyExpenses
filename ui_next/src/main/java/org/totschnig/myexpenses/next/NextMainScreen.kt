@@ -29,6 +29,7 @@ import org.totschnig.myexpenses.designsystem.SheetAction
 import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+import androidx.compose.material3.adaptive.WindowAdaptiveInfo
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
@@ -80,6 +81,7 @@ import org.totschnig.myexpenses.compose.isTablet
 import org.totschnig.myexpenses.compose.main.AppEvent
 import org.totschnig.myexpenses.compose.main.AppEventHandler
 import org.totschnig.myexpenses.dialog.MenuItem
+import org.totschnig.myexpenses.model.AccountGrouping
 import org.totschnig.myexpenses.model.CommodityType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.preference.PreferenceState
@@ -190,7 +192,6 @@ fun NextMainScreen(
 
     val menuConfig = mainMenuLoadingState.value
 
-    val is2Pane = navigator.scaffoldDirective.maxHorizontalPartitions > 1
     val isLandscape = LocalConfiguration.current.orientation == Configuration.ORIENTATION_LANDSCAPE
 
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -221,21 +222,14 @@ fun NextMainScreen(
         if (key != NextKey.Overview) backStack.add(key)
     }
 
-    val context = LocalContext.current
     val isAdLoaded = remember { mutableStateOf(false) }
-    val fontScale = LocalDensity.current.fontScale
 
     val isWebUiActive by viewModel.isWebUiActive.collectAsState(false)
 
     fun MenuItem.onMenuItemClicked() {
         val tag = when (this) {
             MenuItem.WebUI -> !isWebUiActive
-            MenuItem.Help -> when (navigator.currentDestination?.pane) {
-                ListDetailPaneScaffoldRole.List -> if (viewModel.currentAccountsTab.value == AccountsScreenTab.BALANCE_SHEET ) HELP_VARIANT_BALANCE_SHEET else HELP_VARIANT_ACCOUNTS
-                ListDetailPaneScaffoldRole.Detail -> if ((viewModel.accountList.value.find { it.id == selectedAccountId } as? FullAccount)?.isPortfolio == true) HELP_VARIANT_PORTFOLIO else HELP_VARIANT_TRANSACTIONS
-                else -> null
-            }
-
+            MenuItem.Help -> helpVariant(viewModel, navigator.currentDestination?.pane, selectedAccountId)
             else -> null
         }
         onAppEvent(
@@ -259,106 +253,6 @@ fun NextMainScreen(
     val selectedTab = tabs.firstOrNull { it.selects(backStack.last()) } ?: NextTab.Overview
     val badges = features.filter { it.tab != null && it.hasNews() }.mapNotNull { it.tab }.toSet()
     val shell = NextShell(navigation, transactionDetails)
-
-    /** The overview and the account page, side by side on wide screens */
-    @Composable
-    fun AccountPanes() {
-        BackHandler(enabled = !is2Pane && navigator.canNavigateBack()) {
-            scope.launch {
-                navigator.navigateBack()
-            }
-        }
-
-        // The rail and the box around the pages keep clear of the other sides
-        val customInsets = with(ScaffoldDefaults.contentWindowInsets) {
-            if (useNextBar) only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top) else only(WindowInsetsSides.Top)
-        }
-
-        ListDetailPaneScaffold(
-            directive = navigator.scaffoldDirective,
-            value = navigator.scaffoldValue,
-            listPane = {
-                Surface {
-                    AnimatedPane {
-                        LaunchedEffect(Unit) {
-                            viewModel.setLastVisited(StartScreen.Accounts)
-                        }
-                        val format = LocalCurrencyFormatter.current
-                        val resources = LocalResources.current
-                        Box(Modifier.fillMaxSize()) {
-                            NextOverviewScreen(
-                                header = { modifier ->
-                                    Column(modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                                        Column { features.forEach { it.OverviewBanner(navigation) } }
-                                        features.forEach { it.OverviewCard(navigation) }
-                                    }
-                                },
-                                budgets = features.mapNotNull { it.overviewBudgets(navigation) }.firstOrNull(),
-                                sections = overviewSections(
-                                    accounts.filter { it.visible }, accountGrouping, context, resources
-                                ) { amount, currency -> format.convAmount(amount, currency) },
-                                bankIcon = bankIcon,
-                                onAddAccount = { onAppEvent(AppEvent.CreateAccount) },
-                                onReorderAccounts = { shownIds ->
-                                    // Hidden accounts are not shown in the overview, they keep their relative order behind the shown ones
-                                    val hiddenIds = accounts.filter { !it.visible }.sortedBy { it.sortKey }.map { it.id }
-                                    viewModel.sortAccounts((shownIds + hiddenIds).toLongArray())
-                                },
-                                onAccountClick = {
-                                    viewModel.selectAccount(it.id)
-                                    scope.launch {
-                                        navigator.navigateTo(ListDetailPaneScaffoldRole.Detail)
-                                    }
-                                }
-                            )
-                            Box(
-                                Modifier
-                                    .align(Alignment.BottomEnd)
-                                    .padding(16.dp)
-                            ) { features.forEach { it.OverviewAction() } }
-                        }
-                    }
-                }
-            },
-            detailPane = {
-                Surface {
-                    AnimatedPane {
-                        NextAccountScreen(
-                            viewModel = viewModel,
-                            accounts = accounts,
-                            selectedAccountId = selectedAccountId,
-                            visibleActionItems = visibleActionItems(
-                                isExpanded = adaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
-                                    WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND
-                                ),
-                                isMedium = adaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
-                                    WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND
-                                ),
-                                is2Pane = is2Pane,
-                                fontScale = fontScale
-                            ),
-                            onEvent = onAppEvent,
-                            onAccountEvent = onAccountEvent,
-                            onPrepareContextMenuItem = onPrepareContextMenuItem,
-                            onPrepareMenuItem = onPrepareMenuItem,
-                            pageContent = pageContent,
-                            transactionList = transactionList,
-                            allCurrencies = allCurrencies,
-                            isCurrencyUsed = isCurrencyUsed,
-                            onCreateAsset = onCreateAsset,
-                            windowInsets = with(customInsets) {
-                                if (is2Pane) only(WindowInsetsSides.Vertical + WindowInsetsSides.End) else this
-                            },
-                            bankIcon = bankIcon,
-                            onBack = if (is2Pane) null else {
-                                { scope.launch { navigator.navigateToRoot(ListDetailPaneScaffoldRole.List) } }
-                            }
-                        )
-                    }
-                }
-            }
-        )
-    }
 
     Column(
         modifier = Modifier
@@ -392,7 +286,29 @@ fun NextMainScreen(
                     backStack = backStack,
                     onBack = { backStack.removeLastOrNull() },
                     entryProvider = entryProvider {
-                        entry<NextKey.Overview> { AccountPanes() }
+                        entry<NextKey.Overview> {
+                            AccountPanes(
+                                viewModel = viewModel,
+                                navigator = navigator,
+                                adaptiveInfo = adaptiveInfo,
+                                useNextBar = useNextBar,
+                                accounts = accounts,
+                                accountGrouping = accountGrouping,
+                                allCurrencies = allCurrencies,
+                                selectedAccountId = selectedAccountId,
+                                features = features,
+                                navigation = navigation,
+                                bankIcon = bankIcon,
+                                onAppEvent = onAppEvent,
+                                onAccountEvent = onAccountEvent,
+                                onPrepareContextMenuItem = onPrepareContextMenuItem,
+                                onPrepareMenuItem = onPrepareMenuItem,
+                                isCurrencyUsed = isCurrencyUsed,
+                                onCreateAsset = onCreateAsset,
+                                pageContent = pageContent,
+                                transactionList = transactionList
+                            )
+                        }
                         features.forEach { with(it) { pages(shell) } }
                     }
                 )
@@ -410,6 +326,168 @@ fun NextMainScreen(
             onClick = { it.onMenuItemClicked() },
             onDismiss = { showBottomSheet = false }
         )
+    }
+}
+
+/** The variant of the help for the shown pane */
+@OptIn(ExperimentalMaterial3AdaptiveApi::class)
+private fun helpVariant(viewModel: MyExpensesV2ViewModel, pane: ThreePaneScaffoldRole?, selectedAccountId: Long) =
+    when (pane) {
+        ListDetailPaneScaffoldRole.List ->
+            if (viewModel.currentAccountsTab.value == AccountsScreenTab.BALANCE_SHEET) HELP_VARIANT_BALANCE_SHEET
+            else HELP_VARIANT_ACCOUNTS
+        ListDetailPaneScaffoldRole.Detail ->
+            if ((viewModel.accountList.value.find { it.id == selectedAccountId } as? FullAccount)?.isPortfolio == true) HELP_VARIANT_PORTFOLIO
+            else HELP_VARIANT_TRANSACTIONS
+        else -> null
+    }
+
+/** The overview and the account page, side by side on wide screens */
+@OptIn(ExperimentalMaterial3AdaptiveApi::class)
+@Composable
+private fun AccountPanes(
+    viewModel: MyExpensesV2ViewModel,
+    navigator: ThreePaneScaffoldNavigator<FullAccount>,
+    adaptiveInfo: WindowAdaptiveInfo,
+    useNextBar: Boolean,
+    accounts: List<FullAccount>,
+    accountGrouping: AccountGrouping<*>,
+    allCurrencies: List<CurrencyUnit>,
+    selectedAccountId: Long,
+    features: List<NextFeature>,
+    navigation: NextNavigation,
+    bankIcon: (@Composable (Modifier, Long) -> Unit)?,
+    onAppEvent: AppEventHandler,
+    onAccountEvent: AccountEventHandler,
+    onPrepareContextMenuItem: (itemId: Int) -> Boolean,
+    onPrepareMenuItem: (itemId: Int) -> Boolean,
+    isCurrencyUsed: suspend (String) -> Boolean,
+    onCreateAsset: suspend (code: String, symbol: String, fractionDigits: Int, label: String?, commodityType: CommodityType) -> CurrencyUnit?,
+    pageContent: @Composable (pageAccount: PageAccount, isCurrent: Boolean) -> Unit,
+    transactionList: @Composable (PageAccount, TransactionSearch) -> Unit,
+) {
+    val scope = rememberCoroutineScope()
+    val is2Pane = navigator.scaffoldDirective.maxHorizontalPartitions > 1
+    val fontScale = LocalDensity.current.fontScale
+    BackHandler(enabled = !is2Pane && navigator.canNavigateBack()) {
+        scope.launch {
+            navigator.navigateBack()
+        }
+    }
+
+    // The rail and the box around the pages keep clear of the other sides
+    val customInsets = with(ScaffoldDefaults.contentWindowInsets) {
+        if (useNextBar) only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top) else only(WindowInsetsSides.Top)
+    }
+
+    ListDetailPaneScaffold(
+        directive = navigator.scaffoldDirective,
+        value = navigator.scaffoldValue,
+        listPane = {
+            Surface {
+                AnimatedPane {
+                    OverviewPane(
+                        viewModel = viewModel,
+                        accounts = accounts,
+                        accountGrouping = accountGrouping,
+                        features = features,
+                        navigation = navigation,
+                        bankIcon = bankIcon,
+                        onAppEvent = onAppEvent,
+                        onAccountClick = {
+                            viewModel.selectAccount(it.id)
+                            scope.launch {
+                                navigator.navigateTo(ListDetailPaneScaffoldRole.Detail)
+                            }
+                        }
+                    )
+                }
+            }
+        },
+        detailPane = {
+            Surface {
+                AnimatedPane {
+                    NextAccountScreen(
+                        viewModel = viewModel,
+                        accounts = accounts,
+                        selectedAccountId = selectedAccountId,
+                        visibleActionItems = visibleActionItems(
+                            isExpanded = adaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
+                                WindowSizeClass.WIDTH_DP_EXPANDED_LOWER_BOUND
+                            ),
+                            isMedium = adaptiveInfo.windowSizeClass.isWidthAtLeastBreakpoint(
+                                WindowSizeClass.WIDTH_DP_MEDIUM_LOWER_BOUND
+                            ),
+                            is2Pane = is2Pane,
+                            fontScale = fontScale
+                        ),
+                        onEvent = onAppEvent,
+                        onAccountEvent = onAccountEvent,
+                        onPrepareContextMenuItem = onPrepareContextMenuItem,
+                        onPrepareMenuItem = onPrepareMenuItem,
+                        pageContent = pageContent,
+                        transactionList = transactionList,
+                        allCurrencies = allCurrencies,
+                        isCurrencyUsed = isCurrencyUsed,
+                        onCreateAsset = onCreateAsset,
+                        windowInsets = with(customInsets) {
+                            if (is2Pane) only(WindowInsetsSides.Vertical + WindowInsetsSides.End) else this
+                        },
+                        bankIcon = bankIcon,
+                        onBack = if (is2Pane) null else {
+                            { scope.launch { navigator.navigateToRoot(ListDetailPaneScaffoldRole.List) } }
+                        }
+                    )
+                }
+            }
+        }
+    )
+}
+
+/** The overview with what the areas add to it */
+@Composable
+private fun OverviewPane(
+    viewModel: MyExpensesV2ViewModel,
+    accounts: List<FullAccount>,
+    accountGrouping: AccountGrouping<*>,
+    features: List<NextFeature>,
+    navigation: NextNavigation,
+    bankIcon: (@Composable (Modifier, Long) -> Unit)?,
+    onAppEvent: AppEventHandler,
+    onAccountClick: (OverviewAccount) -> Unit,
+) {
+    LaunchedEffect(Unit) {
+        viewModel.setLastVisited(StartScreen.Accounts)
+    }
+    val context = LocalContext.current
+    val format = LocalCurrencyFormatter.current
+    val resources = LocalResources.current
+    Box(Modifier.fillMaxSize()) {
+        NextOverviewScreen(
+            header = { modifier ->
+                Column(modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                    Column { features.forEach { it.OverviewBanner(navigation) } }
+                    features.forEach { it.OverviewCard(navigation) }
+                }
+            },
+            budgets = features.mapNotNull { it.overviewBudgets(navigation) }.firstOrNull(),
+            sections = overviewSections(
+                accounts.filter { it.visible }, accountGrouping, context, resources
+            ) { amount, currency -> format.convAmount(amount, currency) },
+            bankIcon = bankIcon,
+            onAddAccount = { onAppEvent(AppEvent.CreateAccount) },
+            onReorderAccounts = { shownIds ->
+                // Hidden accounts are not shown in the overview, they keep their relative order behind the shown ones
+                val hiddenIds = accounts.filter { !it.visible }.sortedBy { it.sortKey }.map { it.id }
+                viewModel.sortAccounts((shownIds + hiddenIds).toLongArray())
+            },
+            onAccountClick = onAccountClick
+        )
+        Box(
+            Modifier
+                .align(Alignment.BottomEnd)
+                .padding(16.dp)
+        ) { features.forEach { it.OverviewAction() } }
     }
 }
 

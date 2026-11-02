@@ -254,8 +254,9 @@ class NextSettings : ProtectedFragmentActivity() {
             val stored = dataStorePreferences
             val key = prefHandler.getKey(prefKey)
             val default = native.defaultValue?.invoke(this@NextSettings) ?: spec.defaultValue
-            val isEnabled = (spec.dependency?.let { settings.getBoolean(it, specs.defaultOf(it) == "true") } ?: true) &&
-                    (native.isEnabled?.invoke(values) ?: true) &&
+            val dependencyMet = spec.dependency?.let { settings.getBoolean(it, specs.defaultOf(it) == "true") } ?: true
+            val nativeEnabled = native.isEnabled?.invoke(values) ?: true
+            val isEnabled = dependencyMet && nativeEnabled &&
                     // until the values of the data store are read
                     (native.storage == Storage.PREFERENCES || stored != null)
             return when (entry.kind) {
@@ -322,7 +323,7 @@ class NextSettings : ProtectedFragmentActivity() {
                 )
                 SettingKind.SLIDER -> SettingControl.Slider(
                     value = settings.getInt(key, default?.toIntOrNull() ?: 0),
-                    range = native.range ?: ((spec.min ?: 0)..(spec.max ?: 100)),
+                    range = native.range ?: (spec.min ?: 0)..(spec.max ?: 100),
                     isEnabled = isEnabled,
                     onChange = { settings.edit().putInt(key, it).apply() },
                     isStepped = native.range != null,

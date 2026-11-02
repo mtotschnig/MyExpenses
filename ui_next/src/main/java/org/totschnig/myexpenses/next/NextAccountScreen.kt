@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
@@ -155,7 +156,6 @@ fun NextAccountScreen(
         ?: accountList.firstOrNull()
         ?: return
     val isPortfolio = (currentAccount as? FullAccount)?.isPortfolio == true
-    val accountColor = Color(currentAccount.color(LocalResources.current))
     val context = LocalContext.current
     val pageAccount = remember(currentAccount) { currentAccount.toPageAccount(context) }
     val search = rememberTransactionSearch(
@@ -207,91 +207,36 @@ fun NextAccountScreen(
                         windowInsets = windowInsets.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top),
                     )
                 } else {
-                    TopAppBar(
-                        windowInsets = windowInsets.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top),
-                        colors = TopAppBarDefaults.topAppBarColors(
-                            containerColor = MaterialTheme.colorScheme.surfaceContainer
-                        ),
-                        navigationIcon = {
-                            if (onBack != null) {
-                                TooltipIconButton(
-                                    tooltip = stringResource(R.string.menu_close),
-                                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                    onClick = onBack
-                                )
-                            }
-                        },
-                        title = {
-                            Text(
-                                text = currentAccount.labelV2(context),
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis
-                            )
-                        },
-                        actions = {
-                            AccountActions(
-                                viewModel = viewModel,
-                                currentAccount = currentAccount,
-                                selectedAccountId = selectedAccountId,
-                                visibleActionItems = visibleActionItems,
-                                onEvent = onEvent,
-                                onPrepareMenuItem = onPrepareMenuItem,
-                                onSearch = if (isPortfolio) null else search::open
-                            )
-                        }
-                    )
+                    AccountTopBar(
+                        title = currentAccount.labelV2(context),
+                        windowInsets = windowInsets,
+                        onBack = onBack
+                    ) {
+                        AccountActions(
+                            viewModel = viewModel,
+                            currentAccount = currentAccount,
+                            selectedAccountId = selectedAccountId,
+                            visibleActionItems = visibleActionItems,
+                            onEvent = onEvent,
+                            onPrepareMenuItem = onPrepareMenuItem,
+                            onSearch = if (isPortfolio) null else search::open
+                        )
+                    }
                 }
             }
         },
         floatingActionButton = {
             if ((currentAccount as? FullAccount)?.sealed == true) {
-                FloatingActionButton(
-                    onClick = { },
-                    modifier = Modifier
-                        .testTag(TEST_TAG_FAB_TRANSACTIONS)
-                        .semantics { disabled() },
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
-                    contentColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f),
-                    elevation = FloatingActionButtonDefaults.elevation(
-                        defaultElevation = 0.dp,
-                        pressedElevation = 0.dp
-                    )
-                ) {
-                    Icon(Icons.Default.Lock, stringResource(R.string.account_closed))
-                }
+                SealedFab()
             } else {
-                // A fixed action from the settings is started by a tap, otherwise a tap opens the menu
-                val staticAction = if (isPortfolio) null else
-                    viewModel.defaultAction.collectAsState("LastVisited").value
-                        .takeIf { it != "LastVisited" }
-                        ?.let { enumValueOrDefault(it, Action.Expense) }
-                fun start(action: Action) {
-                    if (action in Action.PORTFOLIO_ACTIONS) {
-                        showTradeScreen = action
-                    } else {
-                        onEvent(AppEvent.CreateTransaction(action = action, transferEnabled = accounts.size > 1))
-                    }
-                }
-                val actions = if (isPortfolio) Action.PORTFOLIO_ACTIONS
-                else Action.STANDARD_ACTIONS.filter { it != Action.Transfer || accounts.size > 1 }
-                MenuFab(
-                    label = staticAction?.let { stringResource(it.label) } ?: stringResource(NextR.string.next_fab_new),
-                    icon = Icons.Default.Add,
-                    items = actions.map { action ->
-                        FabMenuItem(
-                            label = stringResource(action.label),
-                            icon = action.imageVector,
-                            iconTint = action.tint ?: Color.Unspecified,
-                            onClick = { start(action) }
-                        )
-                    },
-                    menuLabel = stringResource(NextR.string.next_fab_menu),
-                    closeLabel = stringResource(R.string.menu_close),
-                    onClick = staticAction?.let { { start(it) } },
+                NewTransactionFab(
+                    viewModel = viewModel,
+                    isPortfolio = isPortfolio,
+                    transferEnabled = accounts.size > 1,
                     isExtended = isFabExtended,
-                    containerColor = accountColor,
-                    contentColor = accountColor.calculateOnColor(),
-                    modifier = Modifier.testTag(TEST_TAG_FAB_TRANSACTIONS)
+                    accountColor = Color(currentAccount.color(LocalResources.current)),
+                    onEvent = onEvent,
+                    onTrade = { showTradeScreen = it }
                 )
             }
         }
@@ -326,42 +271,166 @@ fun NextAccountScreen(
     }
 
     showTradeScreen?.let { tradeAction ->
-        TradeScreen(
-            onDismiss = { showTradeScreen = null },
-            onSave = { intent, stayOpen ->
-                onEvent(AppEvent.SaveTrade(intent))
-                if (!stayOpen) showTradeScreen = null
-            },
+        PortfolioTradeScreen(
+            viewModel = viewModel,
             portfolio = currentAccount as FullAccount,
-            roundingMode = viewModel.getRoundingMode(currentAccount.id)
-                .collectAsState(RoundingMode.HALF_UP).value,
-            onRoundingModeChange = { viewModel.setRoundingMode(currentAccount.id, it) },
-            reportingCurrency = currentAccount.currencyUnit,
-            assets = allCurrencies,
-            fundingAccounts = accounts
-                .filter {
-                    !it.isPortfolio && !it.sealed &&
-                            it.currencyUnit.code == currentAccount.currencyUnit.code &&
-                            it.id != currentAccount.id
-                }
-                .map { it.id to it.labelV2(context) },
-            targetPortfolios = accounts
-                .filter { it.isPortfolio && it.id != currentAccount.id }
-                .map { it.id to it.labelV2(context) },
+            accounts = accounts,
+            allCurrencies = allCurrencies,
             initialAction = tradeAction,
+            onEvent = onEvent,
             onCreateAsset = onCreateAsset,
             isCurrencyUsed = isCurrencyUsed,
-            onLookupMatchingTransactions = { accountId, total, date, isBuy ->
-                viewModel.findMatchingTransactions(
-                    accountId,
-                    total,
-                    date,
-                    currentAccount.currencyUnit,
-                    isBuy
-                )
-            }
+            onDismiss = { showTradeScreen = null }
         )
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun AccountTopBar(
+    title: String,
+    windowInsets: WindowInsets,
+    onBack: (() -> Unit)?,
+    actions: @Composable RowScope.() -> Unit,
+) {
+    TopAppBar(
+        windowInsets = windowInsets.only(WindowInsetsSides.Horizontal + WindowInsetsSides.Top),
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainer
+        ),
+        navigationIcon = {
+            if (onBack != null) {
+                TooltipIconButton(
+                    tooltip = stringResource(R.string.menu_close),
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    onClick = onBack
+                )
+            }
+        },
+        title = {
+            Text(
+                text = title,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+        },
+        actions = actions
+    )
+}
+
+/** No new transactions in a closed account */
+@Composable
+private fun SealedFab() {
+    FloatingActionButton(
+        onClick = { },
+        modifier = Modifier
+            .testTag(TEST_TAG_FAB_TRANSACTIONS)
+            .semantics { disabled() },
+        containerColor = MaterialTheme.colorScheme.surfaceVariant,
+        contentColor = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.38f),
+        elevation = FloatingActionButtonDefaults.elevation(
+            defaultElevation = 0.dp,
+            pressedElevation = 0.dp
+        )
+    ) {
+        Icon(Icons.Default.Lock, stringResource(R.string.account_closed))
+    }
+}
+
+@Composable
+private fun NewTransactionFab(
+    viewModel: MyExpensesV2ViewModel,
+    isPortfolio: Boolean,
+    transferEnabled: Boolean,
+    isExtended: Boolean,
+    accountColor: Color,
+    onEvent: AppEventHandler,
+    /** Opens the trade screen for an action of a portfolio */
+    onTrade: (Action) -> Unit,
+) {
+    // A fixed action from the settings is started by a tap, otherwise a tap opens the menu
+    val staticAction = if (isPortfolio) null else
+        viewModel.defaultAction.collectAsState("LastVisited").value
+            .takeIf { it != "LastVisited" }
+            ?.let { enumValueOrDefault(it, Action.Expense) }
+    fun start(action: Action) {
+        if (action in Action.PORTFOLIO_ACTIONS) {
+            onTrade(action)
+        } else {
+            onEvent(AppEvent.CreateTransaction(action = action, transferEnabled = transferEnabled))
+        }
+    }
+    val actions = if (isPortfolio) Action.PORTFOLIO_ACTIONS
+    else Action.STANDARD_ACTIONS.filter { it != Action.Transfer || transferEnabled }
+    MenuFab(
+        label = staticAction?.let { stringResource(it.label) } ?: stringResource(NextR.string.next_fab_new),
+        icon = Icons.Default.Add,
+        items = actions.map { action ->
+            FabMenuItem(
+                label = stringResource(action.label),
+                icon = action.imageVector,
+                iconTint = action.tint ?: Color.Unspecified,
+                onClick = { start(action) }
+            )
+        },
+        menuLabel = stringResource(NextR.string.next_fab_menu),
+        closeLabel = stringResource(R.string.menu_close),
+        onClick = staticAction?.let { { start(it) } },
+        isExtended = isExtended,
+        containerColor = accountColor,
+        contentColor = accountColor.calculateOnColor(),
+        modifier = Modifier.testTag(TEST_TAG_FAB_TRANSACTIONS)
+    )
+}
+
+@Composable
+private fun PortfolioTradeScreen(
+    viewModel: MyExpensesV2ViewModel,
+    portfolio: FullAccount,
+    accounts: List<FullAccount>,
+    allCurrencies: List<CurrencyUnit>,
+    initialAction: Action,
+    onEvent: AppEventHandler,
+    onCreateAsset: suspend (code: String, symbol: String, fractionDigits: Int, label: String?, commodityType: CommodityType) -> CurrencyUnit?,
+    isCurrencyUsed: suspend (String) -> Boolean,
+    onDismiss: () -> Unit,
+) {
+    val context = LocalContext.current
+    TradeScreen(
+        onDismiss = onDismiss,
+        onSave = { intent, stayOpen ->
+            onEvent(AppEvent.SaveTrade(intent))
+            if (!stayOpen) onDismiss()
+        },
+        portfolio = portfolio,
+        roundingMode = viewModel.getRoundingMode(portfolio.id)
+            .collectAsState(RoundingMode.HALF_UP).value,
+        onRoundingModeChange = { viewModel.setRoundingMode(portfolio.id, it) },
+        reportingCurrency = portfolio.currencyUnit,
+        assets = allCurrencies,
+        fundingAccounts = accounts
+            .filter {
+                !it.isPortfolio && !it.sealed &&
+                        it.currencyUnit.code == portfolio.currencyUnit.code &&
+                        it.id != portfolio.id
+            }
+            .map { it.id to it.labelV2(context) },
+        targetPortfolios = accounts
+            .filter { it.isPortfolio && it.id != portfolio.id }
+            .map { it.id to it.labelV2(context) },
+        initialAction = initialAction,
+        onCreateAsset = onCreateAsset,
+        isCurrencyUsed = isCurrencyUsed,
+        onLookupMatchingTransactions = { accountId, total, date, isBuy ->
+            viewModel.findMatchingTransactions(
+                accountId,
+                total,
+                date,
+                portfolio.currencyUnit,
+                isBuy
+            )
+        }
+    )
 }
 
 /**

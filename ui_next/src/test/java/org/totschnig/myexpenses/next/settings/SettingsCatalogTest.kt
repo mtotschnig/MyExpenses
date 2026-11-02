@@ -151,7 +151,8 @@ class SettingsCatalogTest {
     @Test
     fun textsInEverydayWordsAreForEntriesOfTheCatalog() {
         val keys = SettingsCatalog.entries.mapNotNull { (it.key as? SettingKey.Pref)?.prefKey }.toSet()
-        assertEquals(emptySet<PrefKey>(), (SettingTexts.titles.keys + SettingTexts.explanations.keys) - keys)
+        val explained = SettingTexts.titles.keys + SettingTexts.explanations.keys
+        assertEquals(emptySet<PrefKey>(), explained - keys)
     }
 
     @Test

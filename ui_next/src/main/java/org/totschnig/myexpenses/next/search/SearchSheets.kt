@@ -262,57 +262,71 @@ private fun OptionsSheet(
     val options by produceState<List<SearchOption>?>(null, kind, account) {
         value = contentResolver.loadSearchOptions(kind, account)
     }
-    // Transactions without tag, transfer or account cannot be searched
-    val withNone = kind == SearchKind.Method || kind == SearchKind.Category || kind == SearchKind.Payee
-    var query by rememberSaveable { mutableStateOf("") }
     val initial = (part?.criterion as? IdCriterion)?.values?.ifEmpty { listOf(NONE_ID) }.orEmpty()
     var selected by rememberSaveable { mutableStateOf(initial.toSet()) }
-    val labels = options.orEmpty().associate { it.id to it.label }
-    val criterion = selected.takeIf { it.isNotEmpty() }?.let { ids ->
-        val label = ids.mapNotNull { labels[it] }.joinToString(", ")
-        val none = NONE_ID in ids
-        when (kind) {
-            SearchKind.Method -> if (none) MethodCriterion() else MethodCriterion(label, ids.toList())
-            SearchKind.Category -> if (none) CategoryCriterion() else CategoryCriterion(label, ids.toList())
-            SearchKind.Payee -> if (none) PayeeCriterion() else PayeeCriterion(label, ids.toList())
-            SearchKind.Tag -> TagCriterion(label, ids.toList())
-            SearchKind.Transfer -> TransferCriterion(label, ids.toList())
-            else -> AccountCriterion(label, ids.toList())
-        }
-    }
+    val criterion = optionsCriterion(kind, selected, options.orEmpty())
     KindSheet(kind, part, criterion.takeIf { options != null }, onApply, onDismiss) {
         val loaded = options
         if (loaded == null) {
             LoadingRow()
         } else {
-            if (loaded.size > SEARCHABLE_SIZE) {
-                SearchField(
-                    query = query,
-                    onQueryChange = { query = it },
-                    placeholder = stringResource(R.string.next_search_find, stringResource(kind.label)),
-                    clearLabel = stringResource(R.string.next_search_clear),
-                    modifier = Modifier.padding(horizontal = Spacing.screen, vertical = 8.dp)
-                )
-            }
-            if (withNone && query.isBlank()) {
-                OptionRow(
-                    label = stringResource(R.string.next_search_none),
-                    selected = NONE_ID in selected,
-                    // Transactions without method cannot be searched together with methods
-                    onClick = { selected = if (NONE_ID in selected) emptySet() else setOf(NONE_ID) }
-                )
-            }
-            loaded.matching(query).forEach { option ->
-                OptionRow(
-                    label = option.label,
-                    depth = option.depth,
-                    selected = option.id in selected,
-                    onClick = {
-                        selected = if (option.id in selected) selected - option.id else selected - NONE_ID + option.id
-                    }
-                )
-            }
+            OptionList(kind, loaded, selected, onSelectedChange = { selected = it })
         }
+    }
+}
+
+@Composable
+private fun OptionList(
+    kind: SearchKind,
+    options: List<SearchOption>,
+    selected: Set<Long>,
+    onSelectedChange: (Set<Long>) -> Unit,
+) {
+    // Transactions without tag, transfer or account cannot be searched
+    val withNone = kind == SearchKind.Method || kind == SearchKind.Category || kind == SearchKind.Payee
+    var query by rememberSaveable { mutableStateOf("") }
+    if (options.size > SEARCHABLE_SIZE) {
+        SearchField(
+            query = query,
+            onQueryChange = { query = it },
+            placeholder = stringResource(R.string.next_search_find, stringResource(kind.label)),
+            clearLabel = stringResource(R.string.next_search_clear),
+            modifier = Modifier.padding(horizontal = Spacing.screen, vertical = 8.dp)
+        )
+    }
+    if (withNone && query.isBlank()) {
+        OptionRow(
+            label = stringResource(R.string.next_search_none),
+            selected = NONE_ID in selected,
+            // Transactions without method cannot be searched together with methods
+            onClick = { onSelectedChange(if (NONE_ID in selected) emptySet() else setOf(NONE_ID)) }
+        )
+    }
+    options.matching(query).forEach { option ->
+        OptionRow(
+            label = option.label,
+            depth = option.depth,
+            selected = option.id in selected,
+            onClick = {
+                onSelectedChange(if (option.id in selected) selected - option.id else selected - NONE_ID + option.id)
+            }
+        )
+    }
+}
+
+/** The criterion for the picked options; null when nothing is picked */
+private fun optionsCriterion(kind: SearchKind, ids: Set<Long>, options: List<SearchOption>): SimpleCriterion<*>? {
+    if (ids.isEmpty()) return null
+    val labels = options.associate { it.id to it.label }
+    val label = ids.mapNotNull { labels[it] }.joinToString(", ")
+    val none = NONE_ID in ids
+    return when (kind) {
+        SearchKind.Method -> if (none) MethodCriterion() else MethodCriterion(label, ids.toList())
+        SearchKind.Category -> if (none) CategoryCriterion() else CategoryCriterion(label, ids.toList())
+        SearchKind.Payee -> if (none) PayeeCriterion() else PayeeCriterion(label, ids.toList())
+        SearchKind.Tag -> TagCriterion(label, ids.toList())
+        SearchKind.Transfer -> TransferCriterion(label, ids.toList())
+        else -> AccountCriterion(label, ids.toList())
     }
 }
 

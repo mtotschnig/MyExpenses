@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -37,6 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -113,151 +116,199 @@ fun NextTransactionList(
 ) {
     val lazyPagingItems = content.lazyPagingItems
     var openedId by rememberSaveable { mutableStateOf<Long?>(null) }
-    // The last version found is kept while the list reloads, e.g. after editing the transaction
-    // from its details. Not observed, it only bridges until the list has the transaction again.
-    val lastOpened = remember { arrayOfNulls<Transaction2>(1) }
-    val opened = openedId?.let { id ->
-        lazyPagingItems.itemSnapshotList.find { it?.id == id } ?: lastOpened[0]?.takeIf { it.id == id }
+    if (detailsContent != null) {
+        OpenedTransaction(
+            content = content,
+            openedId = openedId,
+            onClose = { openedId = null },
+            isReadOnly = isReadOnly,
+            categoryChip = categoryChip,
+            tagChips = tagChips,
+            payeeImage = payeeImage,
+            payeeImageDialog = payeeImageDialog,
+            detailsContent = detailsContent
+        )
     }
-    lastOpened[0] = opened
-    val context = LocalContext.current
-    val currencyFormatter = LocalCurrencyFormatter.current
-    var logoPayee by rememberSaveable { mutableStateOf<DisplayParty?>(null) }
-    logoPayee?.let { payee -> payeeImageDialog?.invoke(payee, opened) { logoPayee = null } }
-    if (detailsContent != null) opened?.let { transaction ->
-        TransactionDetailSheet(
-            transaction = transaction,
-            image = transaction.party?.id?.let(payeeImage),
-            onImageClick = transaction.party?.takeIf { it.id != null && payeeImageDialog != null && !isReadOnly }
-                ?.let { payee -> { logoPayee = payee } },
-            menu = {
-                transactionMenu(
-                    content.modificationAllowed,
-                    content.accountCount,
-                    context,
-                    currencyFormatter,
-                    transaction,
-                    object : TransactionEventHandler {
-                        override fun invoke(event: TransactionEvent, transaction: Transaction2) {
-                            // Nothing left to show
-                            if (event == TransactionEvent.Delete) openedId = null
-                            content.onEvent(event, transaction)
-                        }
-                    }
-                ).let { if (isReadOnly) it.withoutListActions() else it }
-            }.takeIf { !isReadOnly || content.modificationAllowed },
-            onDismiss = { openedId = null },
-            categoryChip = categoryChip(transaction),
-            tagChips = tagChips(transaction).takeIf { !isReadOnly }
-        ) {
-            detailsContent(transaction)
-        }
-    }
-    val headerData = content.headerData as? HeaderData
-    val withDayHeaders = headerData?.account?.grouping == Grouping.DAY
 
     if (lazyPagingItems.itemCount == 0) {
         if (lazyPagingItems.loadState.refresh !is LoadState.Loading) {
-            if (content.isFiltered) {
-                Text(
-                    text = stringResource(R.string.next_no_matching_transactions),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = modifier
-                        .fillMaxSize()
-                        .wrapContentSize()
-                )
-            } else {
-                // The first start: what makes the transactions useful later
-                EmptyState(
-                    title = stringResource(R.string.next_no_transactions),
-                    hint = stringResource(R.string.next_no_transactions_hint),
-                    modifier = modifier
-                )
-            }
+            NoTransactions(content.isFiltered, modifier)
         }
         return
     }
 
-    val futureCriterionDate = when (content.futureCriterion) {
-        FutureCriterion.Current -> ZonedDateTime.now(ZoneId.systemDefault())
-        FutureCriterion.EndOfDay -> LocalDate.now().plusDays(1).atStartOfDay().atZone(ZoneId.systemDefault())
-    }
+    val context = LocalContext.current
+    val currencyFormatter = LocalCurrencyFormatter.current
+    val futureCriterionDate = content.futureCriterion.startOfFuture()
 
     LazyColumn(
         modifier = modifier,
         // Keep the last transaction clear of the FAB
         contentPadding = PaddingValues(bottom = 88.dp)
     ) {
-        val snapshot = lazyPagingItems.itemSnapshotList
-        val firstLoadedIndex = snapshot.indexOfFirst { it != null }.coerceAtLeast(0)
-        val lastLoadedIndex = snapshot.indexOfLast { it != null }
+        transactionItems(lazyPagingItems, content.headerData as? HeaderData) { transaction, isFirst, isLast ->
+            TransactionItem(
+                transaction = transaction,
+                isFirst = isFirst,
+                isLast = isLast,
+                isFuture = transaction.date >= futureCriterionDate,
+                isReadOnly = isReadOnly,
+                showDateAndAccount = showDateAndAccount,
+                suggestedCategory = if (transaction.catId == null) suggestedCategory(transaction.id) else null,
+                isMarker = isMarker,
+                image = transaction.party?.id?.let(payeeImage),
+                onOpen = if (detailsContent != null) {
+                    { openedId = transaction.id }
+                } else null,
+                selectionHandler = content.selectionHandler,
+                menu = {
+                    transactionMenu(
+                        content.modificationAllowed,
+                        content.accountCount,
+                        context,
+                        currencyFormatter,
+                        transaction,
+                        content.onEvent
+                    )
+                },
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+        }
+    }
+}
 
-        // Paging requires a stable number of items to keep up with refreshes in the middle of the list,
-        // so unloaded transactions and their headers before the loaded range get empty placeholders
-        if (firstLoadedIndex > 0) {
-            items(count = firstLoadedIndex, key = { "p_$it" }) {}
+/** The details of the transaction [openedId], if any, with the dialog for the image of its payee */
+@Composable
+private fun OpenedTransaction(
+    content: TransactionListContent,
+    openedId: Long?,
+    onClose: () -> Unit,
+    isReadOnly: Boolean,
+    categoryChip: (Transaction2) -> (@Composable (Modifier) -> Unit)?,
+    tagChips: (Transaction2) -> (@Composable (Modifier) -> Unit)?,
+    payeeImage: (payeeId: Long) -> PayeeImage?,
+    payeeImageDialog: (@Composable (payee: DisplayParty, transaction: Transaction2?, onDismiss: () -> Unit) -> Unit)?,
+    detailsContent: @Composable (Transaction2) -> Unit,
+) {
+    // The last version found is kept while the list reloads, e.g. after editing the transaction
+    // from its details. Not observed, it only bridges until the list has the transaction again.
+    val lastOpened = remember { arrayOfNulls<Transaction2>(1) }
+    val opened = openedId?.let { id ->
+        content.lazyPagingItems.itemSnapshotList.find { it?.id == id } ?: lastOpened[0]?.takeIf { it.id == id }
+    }
+    lastOpened[0] = opened
+    val context = LocalContext.current
+    val currencyFormatter = LocalCurrencyFormatter.current
+    var logoPayee by rememberSaveable { mutableStateOf<DisplayParty?>(null) }
+    logoPayee?.let { payee -> payeeImageDialog?.invoke(payee, opened) { logoPayee = null } }
+    val transaction = opened ?: return
+    TransactionDetailSheet(
+        transaction = transaction,
+        image = transaction.party?.id?.let(payeeImage),
+        onImageClick = transaction.party?.takeIf { it.id != null && payeeImageDialog != null && !isReadOnly }
+            ?.let { payee -> { logoPayee = payee } },
+        menu = {
+            transactionMenu(
+                content.modificationAllowed,
+                content.accountCount,
+                context,
+                currencyFormatter,
+                transaction,
+                object : TransactionEventHandler {
+                    override fun invoke(event: TransactionEvent, transaction: Transaction2) {
+                        // Nothing left to show
+                        if (event == TransactionEvent.Delete) onClose()
+                        content.onEvent(event, transaction)
+                    }
+                }
+            ).let { if (isReadOnly) it.withoutListActions() else it }
+        }.takeIf { !isReadOnly || content.modificationAllowed },
+        onDismiss = onClose,
+        categoryChip = categoryChip(transaction),
+        tagChips = tagChips(transaction).takeIf { !isReadOnly }
+    ) {
+        detailsContent(transaction)
+    }
+}
+
+@Composable
+private fun NoTransactions(isFiltered: Boolean, modifier: Modifier) {
+    if (isFiltered) {
+        Text(
+            text = stringResource(R.string.next_no_matching_transactions),
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = modifier
+                .fillMaxSize()
+                .wrapContentSize()
+        )
+    } else {
+        // The first start: what makes the transactions useful later
+        EmptyState(
+            title = stringResource(R.string.next_no_transactions),
+            hint = stringResource(R.string.next_no_transactions_hint),
+            modifier = modifier
+        )
+    }
+}
+
+/** From when on transactions are shown as planned */
+private fun FutureCriterion.startOfFuture(): ZonedDateTime = when (this) {
+    FutureCriterion.Current -> ZonedDateTime.now(ZoneId.systemDefault())
+    FutureCriterion.EndOfDay -> LocalDate.now().plusDays(1).atStartOfDay().atZone(ZoneId.systemDefault())
+}
+
+/**
+ * The loaded transactions, with a header above each day if the account is grouped by day.
+ * [itemContent] gets whether a transaction is the first and the last of its group.
+ */
+private fun LazyListScope.transactionItems(
+    lazyPagingItems: LazyPagingItems<Transaction2>,
+    headerData: HeaderData?,
+    itemContent: @Composable (transaction: Transaction2, isFirst: Boolean, isLast: Boolean) -> Unit,
+) {
+    val withDayHeaders = headerData?.account?.grouping == Grouping.DAY
+    val snapshot = lazyPagingItems.itemSnapshotList
+    val firstLoadedIndex = snapshot.indexOfFirst { it != null }.coerceAtLeast(0)
+    val lastLoadedIndex = snapshot.indexOfLast { it != null }
+
+    // Paging requires a stable number of items to keep up with refreshes in the middle of the list,
+    // so unloaded transactions and their headers before the loaded range get empty placeholders
+    if (firstLoadedIndex > 0) {
+        items(count = firstLoadedIndex, key = { "p_$it" }) {}
+    }
+
+    var lastHeaderId: Int? = null
+    for (index in firstLoadedIndex..lastLoadedIndex) {
+        val item = snapshot[index] ?: continue
+        val headerId = item.headerId
+
+        if (withDayHeaders && lastHeaderId == null) {
+            val placeholderCount = headerData.groups.keys.count {
+                if (headerData.account.sortDirection == SortDirection.DESC) it > headerId else it < headerId
+            }
+            repeat(placeholderCount) {
+                item(key = "placeholder_header_$it") {}
+            }
         }
 
-        var lastHeaderId: Int? = null
-        for (index in firstLoadedIndex..lastLoadedIndex) {
-            val item = snapshot[index] ?: continue
-            val headerId = item.headerId
-
-            if (withDayHeaders && lastHeaderId == null) {
-                val placeholderCount = headerData.groups.keys.count {
-                    if (headerData.account.sortDirection == SortDirection.DESC) it > headerId else it < headerId
-                }
-                repeat(placeholderCount) {
-                    item(key = "placeholder_header_$it") {}
-                }
+        val isFirstInGroup = if (withDayHeaders) headerId != lastHeaderId else lastHeaderId == null
+        if (withDayHeaders && isFirstInGroup) {
+            item(key = "header_$headerId") {
+                DayHeader(
+                    date = item.date.toLocalDate(),
+                    balance = headerData.groups[headerId]?.interimBalance
+                )
             }
-
-            val isFirstInGroup = if (withDayHeaders) headerId != lastHeaderId else lastHeaderId == null
-            if (withDayHeaders && isFirstInGroup) {
-                item(key = "header_$headerId") {
-                    DayHeader(
-                        date = item.date.toLocalDate(),
-                        balance = headerData.groups[headerId]?.interimBalance
-                    )
-                }
-            }
-
-            val nextItem = if (index + 1 < lazyPagingItems.itemCount) lazyPagingItems.peek(index + 1) else null
-            val isLastInGroup = nextItem == null || (withDayHeaders && nextItem.headerId != headerId)
-
-            item(key = "trans_${item.id}") {
-                // Accessing the item through the index triggers loading of further pages
-                lazyPagingItems[index]?.let { transaction ->
-                    TransactionItem(
-                        transaction = transaction,
-                        isFirst = isFirstInGroup,
-                        isLast = isLastInGroup,
-                        isFuture = transaction.date >= futureCriterionDate,
-                        isReadOnly = isReadOnly,
-                        showDateAndAccount = showDateAndAccount,
-                        suggestedCategory = if (transaction.catId == null) suggestedCategory(transaction.id) else null,
-                        isMarker = isMarker,
-                        image = transaction.party?.id?.let(payeeImage),
-                        onOpen = if (detailsContent != null) {
-                            { openedId = transaction.id }
-                        } else null,
-                        selectionHandler = content.selectionHandler,
-                        menu = {
-                            transactionMenu(
-                                content.modificationAllowed,
-                                content.accountCount,
-                                context,
-                                currencyFormatter,
-                                transaction,
-                                content.onEvent
-                            )
-                        },
-                        modifier = Modifier.padding(horizontal = 16.dp)
-                    )
-                }
-            }
-            lastHeaderId = headerId
         }
+
+        val nextItem = if (index + 1 < lazyPagingItems.itemCount) lazyPagingItems.peek(index + 1) else null
+        val isLastInGroup = nextItem == null || (withDayHeaders && nextItem.headerId != headerId)
+
+        item(key = "trans_${item.id}") {
+            // Accessing the item through the index triggers loading of further pages
+            lazyPagingItems[index]?.let { itemContent(it, isFirstInGroup, isLastInGroup) }
+        }
+        lastHeaderId = headerId
     }
 }
 
@@ -381,47 +432,59 @@ private fun TransactionItem(
                 // The category as badge, as in the list of contracts; a suggestion is outlined
                 val badge = category?.let { it to BadgeStyle.Filled }
                     ?: suggestedCategory?.let { it.lastCategoryPart() to BadgeStyle.Suggestion }
-                // Groups and markers next to the category, each the first one and how many more
-                val (markers, groups) = transaction.tagList.partition { isMarker(it.id) }
-                val tagBadges = listOf(groups to LabelIcons.group, markers to LabelIcons.marker)
-                    .mapNotNull { (tags, icon) ->
-                        tags.firstOrNull()?.let { (if (tags.size > 1) "${it.label} +${tags.size - 1}" else it.label) to icon }
-                    }
-                if (subtitle != null || badge != null || tagBadges.isNotEmpty()) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        if (subtitle != null) {
-                            Text(
-                                text = subtitle,
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
-                                modifier = Modifier.weight(1f, fill = false)
-                            )
-                        }
-                        if (badge != null) {
-                            TextBadge(
-                                badge.first,
-                                Modifier.padding(start = if (subtitle != null) Spacing.small else 0.dp),
-                                style = badge.second
-                            )
-                        }
-                        tagBadges.forEachIndexed { index, (text, icon) ->
-                            TextBadge(
-                                text,
-                                Modifier.padding(start = if (subtitle != null || badge != null || index > 0) Spacing.small else 0.dp),
-                                style = BadgeStyle.Outlined,
-                                icon = icon
-                            )
-                        }
-                    }
-                }
+                TransactionSubtitle(subtitle, badge, tagBadges(transaction, isMarker))
             }
             SignedAmount(
                 money = transaction.displayAmount,
                 modifier = Modifier.padding(start = 8.dp)
             )
             MenuActionSheet(showMenu, menu, title = title)
+        }
+    }
+}
+
+/** Groups and markers next to the category, each the first one and how many more */
+private fun tagBadges(transaction: Transaction2, isMarker: (tagId: Long) -> Boolean): List<Pair<String, ImageVector>> {
+    val (markers, groups) = transaction.tagList.partition { isMarker(it.id) }
+    return listOf(groups to LabelIcons.group, markers to LabelIcons.marker)
+        .mapNotNull { (tags, icon) ->
+            tags.firstOrNull()?.let { (if (tags.size > 1) "${it.label} +${tags.size - 1}" else it.label) to icon }
+        }
+}
+
+/** Second line of a transaction: details, category badge and tag badges, nothing if all are missing */
+@Composable
+private fun TransactionSubtitle(
+    subtitle: String?,
+    badge: Pair<String, BadgeStyle>?,
+    tagBadges: List<Pair<String, ImageVector>>,
+) {
+    if (subtitle == null && badge == null && tagBadges.isEmpty()) return
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        if (subtitle != null) {
+            Text(
+                text = subtitle,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.weight(1f, fill = false)
+            )
+        }
+        if (badge != null) {
+            TextBadge(
+                badge.first,
+                Modifier.padding(start = if (subtitle != null) Spacing.small else 0.dp),
+                style = badge.second
+            )
+        }
+        tagBadges.forEachIndexed { index, (text, icon) ->
+            TextBadge(
+                text,
+                Modifier.padding(start = if (subtitle != null || badge != null || index > 0) Spacing.small else 0.dp),
+                style = BadgeStyle.Outlined,
+                icon = icon
+            )
         }
     }
 }
