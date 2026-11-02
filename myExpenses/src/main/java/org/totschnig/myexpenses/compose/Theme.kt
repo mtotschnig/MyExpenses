@@ -2,6 +2,7 @@ package org.totschnig.myexpenses.compose
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
@@ -21,10 +22,12 @@ import org.totschnig.myexpenses.util.getDateTimeFormatter
 fun AppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = true,
+    /** If set, used instead of the dynamic or default color scheme */
+    colorScheme: ColorScheme? = null,
     content: @Composable () -> Unit
 ) {
     val context = LocalContext.current
-    val colorScheme = when {
+    val effectiveColorScheme = colorScheme ?: when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
@@ -35,7 +38,7 @@ fun AppTheme(
     }
 
     MaterialTheme(
-        colorScheme = colorScheme
+        colorScheme = effectiveColorScheme
     ) {
         val injector = context.injector
         CompositionLocalProvider(

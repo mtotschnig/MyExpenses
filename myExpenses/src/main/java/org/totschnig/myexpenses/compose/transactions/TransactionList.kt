@@ -175,6 +175,21 @@ private fun LazyPagingItems<Transaction2>.getCurrentPosition(
 
 const val COMMENT_SEPARATOR = " / "
 
+/**
+ * What [org.totschnig.myexpenses.activity.BaseMyExpenses.Page] hands to a custom transaction list,
+ * which replaces [TransactionList] while filters, selection and transaction events keep being handled by the page.
+ */
+class TransactionListContent(
+    val lazyPagingItems: LazyPagingItems<Transaction2>,
+    val headerData: HeaderDataResult,
+    val selectionHandler: SelectionHandler?,
+    val onEvent: TransactionEventHandler,
+    val modificationAllowed: Boolean,
+    val accountCount: Int,
+    val isFiltered: Boolean,
+    val futureCriterion: FutureCriterion,
+)
+
 enum class FutureCriterion {
     EndOfDay, Current
 }
@@ -730,7 +745,7 @@ interface SelectionHandler {
     }
 }
 
-private fun transactionMenu(
+fun transactionMenu(
     modificationAllowed: Boolean,
     accountCount: Int,
     context: Context,

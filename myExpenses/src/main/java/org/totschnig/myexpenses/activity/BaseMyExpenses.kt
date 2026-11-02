@@ -10,6 +10,7 @@ import androidx.activity.viewModels
 import androidx.annotation.IdRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
@@ -53,6 +54,7 @@ import org.totschnig.myexpenses.compose.transactions.RenderType
 import org.totschnig.myexpenses.compose.transactions.TransactionEvent
 import org.totschnig.myexpenses.compose.transactions.TransactionEventHandler
 import org.totschnig.myexpenses.compose.transactions.TransactionList
+import org.totschnig.myexpenses.compose.transactions.TransactionListContent
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_SPLIT
 import org.totschnig.myexpenses.contract.TransactionsContract.Transactions.TYPE_TRANSFER
@@ -1430,7 +1432,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
     val hasItems
         get() = sumInfo.value.hasItems
 
-    private fun handleTransactionEvent(
+    protected fun handleTransactionEvent(
         event: TransactionEvent,
         transaction: Transaction2,
         isCurrentPage: Boolean,
@@ -1517,11 +1519,15 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
         accountCount: Int,
         isCurrentPage: Boolean,
         v2: Boolean = false,
+        /** Replaces the default [TransactionList], e.g. in the redesigned UI */
+        transactionList: (@Composable ColumnScope.(TransactionListContent) -> Unit)? = null,
+        /** False if the caller shows the filter itself, e.g. the search of the redesigned UI */
+        withFilterUi: Boolean = true,
     ) {
         val coroutineScope = rememberCoroutineScope()
         val preferredSearchType =
             viewModel.preferredSearchType.flow.collectAsState(TYPE_COMPLEX).value
-        if (showFilterDialog && isCurrentPage) {
+        if (withFilterUi && showFilterDialog && isCurrentPage) {
             Timber.d("showFilterDialog for page ${account.label}")
             FilterDialog(
                 account = account,
@@ -1576,7 +1582,7 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
             val persistence =
                 remember(account.id) { viewModel.filterPersistence.getValue(account.id) }
             val filter = persistence.whereFilter.collectAsState(null)
-            filter.value?.let { filter ->
+            filter.value?.takeIf { withFilterUi }?.let { filter ->
                 FilterHandler(account, "confirmFilterDirect_${account.id}", { oldValue, newValue ->
                     if (newValue != null && oldValue != null) {
                         lifecycleScope.launch {
@@ -1663,6 +1669,30 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                             )
                         }
                     }
+                    val onTransactionEvent = object : TransactionEventHandler {
+                        override fun invoke(
+                            event: TransactionEvent,
+                            transaction: Transaction2,
+                        ) {
+                            handleTransactionEvent(event, transaction, isCurrentPage)
+                        }
+                    }
+                    val futureCriterion = viewModel.futureCriterion.collectAsState(initial = FutureCriterion.EndOfDay).value
+                    if (transactionList != null) {
+                        transactionList(
+                            TransactionListContent(
+                                lazyPagingItems = lazyPagingItems,
+                                headerData = headerData,
+                                selectionHandler = if (modificationAllowed) viewModel.selectionHandler else null,
+                                onEvent = onTransactionEvent,
+                                modificationAllowed = modificationAllowed,
+                                accountCount = accountCount,
+                                isFiltered = filter.value != null,
+                                futureCriterion = futureCriterion
+                            )
+                        )
+                        return@let
+                    }
                     TransactionList(
                         modifier = Modifier.weight(1f),
                         lazyPagingItems = lazyPagingItems,
@@ -1670,20 +1700,13 @@ abstract class BaseMyExpenses<T : MyExpensesViewModel> : LaunchActivity(),
                         budgetData = remember(account.grouping) { viewModel.budgetData(account) }
                             .collectAsState(null),
                         selectionHandler = if (modificationAllowed) viewModel.selectionHandler else null,
-                        onEvent = object : TransactionEventHandler {
-                            override fun invoke(
-                                event: TransactionEvent,
-                                transaction: Transaction2,
-                            ) {
-                                handleTransactionEvent(event, transaction, isCurrentPage)
-                            }
-                        },
+                        onEvent = onTransactionEvent,
                         onHeaderEvent = object : HeaderEventHandler {
                             override fun invoke(event: HeaderEvent, row: HeaderRow) {
                                 handleHeaderEvent(event, row, account)
                             }
                         },
-                        futureCriterion = viewModel.futureCriterion.collectAsState(initial = FutureCriterion.EndOfDay).value,
+                        futureCriterion = futureCriterion,
                         expansionHandler = viewModel.expansionHandlerForTransactionGroups(account),
                         onBudgetClick = { budgetId, headerId ->
                             contribFeatureRequested(ContribFeature.BUDGET, budgetId to headerId)
