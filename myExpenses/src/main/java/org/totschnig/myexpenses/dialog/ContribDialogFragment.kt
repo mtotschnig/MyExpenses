@@ -42,6 +42,7 @@ import org.totschnig.myexpenses.databinding.ContribDialogBinding
 import org.totschnig.myexpenses.dialog.LicenceKeyDialogFragment.Companion.VALIDATION_SUCCESS
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.ContribPayload
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.TextUtils.concatResStrings
 import org.totschnig.myexpenses.util.TextUtils.getContribFeatureLabelsAsList
@@ -55,7 +56,6 @@ import org.totschnig.myexpenses.util.licence.LicenceStatus
 import org.totschnig.myexpenses.util.licence.Package
 import org.totschnig.myexpenses.util.licence.ProfessionalPackage
 import org.totschnig.myexpenses.util.tracking.Tracker
-import java.io.Serializable
 import javax.inject.Inject
 
 class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener,
@@ -444,10 +444,10 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener,
         const val KEY_KEY = "key"
 
         @JvmStatic
-        fun newInstance(feature: String?, tag: Serializable?) = ContribDialogFragment().apply {
+        fun newInstance(feature: String?, tag: ContribPayload?) = ContribDialogFragment().apply {
             arguments = Bundle().apply {
                 putString(ContribInfoDialogActivity.KEY_FEATURE, feature)
-                putSerializable(ContribInfoDialogActivity.KEY_TAG, tag)
+                putParcelable(ContribInfoDialogActivity.KEY_TAG, tag)
             }
         }
     }

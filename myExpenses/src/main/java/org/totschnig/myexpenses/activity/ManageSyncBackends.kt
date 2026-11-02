@@ -14,6 +14,7 @@ import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.SetupSyncDialogFragment
 import org.totschnig.myexpenses.fragment.SyncBackendList
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.ContribPayload
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.KEY_SYNC_ACCOUNT_NAME
 import org.totschnig.myexpenses.provider.KEY_UUID
@@ -23,7 +24,6 @@ import org.totschnig.myexpenses.sync.SyncBackendProviderFactory.Companion.ACTION
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.AccountSealedException
 import org.totschnig.myexpenses.viewmodel.SyncViewModel.SyncAccountData
-import java.io.Serializable
 
 class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
 
@@ -85,7 +85,7 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (getBackendServiceById(item.itemId) != null) {
-            contribFeatureRequested(ContribFeature.SYNCHRONIZATION, item.itemId)
+            contribFeatureRequested(ContribFeature.SYNCHRONIZATION, ContribPayload.Synchronization(item.itemId))
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -246,9 +246,10 @@ class ManageSyncBackends : SyncBackendSetupActivity(), ContribIFace {
         return super.onContextItemSelected(item)
     }
 
-    override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
-        if (tag is Int) {
-            startSetup(tag)
+    override fun contribFeatureCalled(feature: ContribFeature, tag: ContribPayload?) {
+        val itemId = (tag as? ContribPayload.Synchronization)?.itemId
+        if (itemId != null) {
+            startSetup(itemId)
         }
     }
 }

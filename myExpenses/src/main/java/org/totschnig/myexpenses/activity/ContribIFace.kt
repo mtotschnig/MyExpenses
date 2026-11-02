@@ -15,13 +15,13 @@
 package org.totschnig.myexpenses.activity
 
 import org.totschnig.myexpenses.model.ContribFeature
-import java.io.Serializable
+import org.totschnig.myexpenses.model.ContribPayload
 
 interface ContribIFace {
     /**
      * called when the user clicks on "not yet", and calls the requested feature, or if he has access
      */
-    fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?)
+    fun contribFeatureCalled(feature: ContribFeature, tag: ContribPayload? = null)
 
     /**
      * the user can either click on "Buy" or cancel the dialog

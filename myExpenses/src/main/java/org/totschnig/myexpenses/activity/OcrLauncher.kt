@@ -8,20 +8,20 @@ import com.theartofdev.edmodo.cropper.CropImage
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.feature.OcrResultFlat
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.ContribPayload
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
 import org.totschnig.myexpenses.provider.KEY_COLOR
 import org.totschnig.myexpenses.provider.KEY_CURRENCY
-import java.io.Serializable
 
 class OcrLauncher: ProtectedFragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
-            contribFeatureRequested(ContribFeature.OCR, true)
+            contribFeatureRequested(ContribFeature.OCR)
         }
     }
 
-    override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
+    override fun contribFeatureCalled(feature: ContribFeature, tag: ContribPayload?) {
         if (feature == ContribFeature.OCR) {
             if (featureViewModel.isFeatureAvailable(this, Feature.OCR)) {
                 startMediaChooserDo("SCAN")
