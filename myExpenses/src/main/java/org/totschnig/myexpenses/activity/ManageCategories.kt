@@ -239,7 +239,9 @@ class ManageCategories : ProtectedFragmentActivity(),
 
                 when (viewModel.dialogState) {
                     is ManageCategoriesViewModel.Edit -> {
-                        (viewModel.categoryTreeForSelect.collectAsState(initial = LoadingState.Loading).value as? LoadingState.Data)?.data?.flatten()?.let { categories ->
+                        val categoryState = viewModel.categoryTreeForSelect.collectAsState(initial = LoadingState.Loading).value
+                        if (categoryState is LoadingState.Result) {
+                            val categories = (categoryState as? LoadingState.Data)?.data?.flatten().orEmpty()
                             CategoryEdit(
                                 dialogState = viewModel.dialogState as ManageCategoriesViewModel.Edit,
                                 categories = categories,
