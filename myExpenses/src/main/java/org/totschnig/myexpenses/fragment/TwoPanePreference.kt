@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.core.view.doOnLayout
 import androidx.preference.*
 import androidx.slidingpanelayout.widget.SlidingPaneLayout
@@ -18,6 +19,10 @@ class TwoPanePreference : PreferenceHeaderFragmentCompat() {
 
     private val initialScreen: String?
         get() = arguments?.getString(KEY_INITIAL_SCREEN)
+
+    /** Only the [initialScreen] without the list of all screens, back leaves the settings */
+    private val isSingleScreen: Boolean
+        get() = arguments?.getBoolean(KEY_SINGLE_SCREEN) == true
 
     override fun selectInitialDetailPreference(headerFragment: PreferenceFragmentCompat) =
         if ((requireActivity() as PreferenceActivity).calledFromSystemSettings) null else
@@ -78,6 +83,13 @@ class TwoPanePreference : PreferenceHeaderFragmentCompat() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (isSingleScreen) {
+            view.findViewById<View>(R.id.preferences_header).visibility = View.GONE
+            requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+                (requireActivity() as PreferenceActivity).doHome()
+            }
+        }
+
         slidingPaneLayout.addPanelSlideListener(object :
             SlidingPaneLayout.SimplePanelSlideListener() {
             override fun onPanelClosed(panel: View) {
@@ -88,7 +100,12 @@ class TwoPanePreference : PreferenceHeaderFragmentCompat() {
 
         slidingPaneLayout.doOnLayout {
             headerFragment.isSlideable = slidingPaneLayout.isSlideable
-            if (slidingPaneLayout.isSlideable) {
+            if (isSingleScreen) {
+                if (slidingPaneLayout.isSlideable && !slidingPaneLayout.isOpen) {
+                    slidingPaneLayout.openPane()
+                }
+                ensureTitle()
+            } else if (slidingPaneLayout.isSlideable) {
                 if (slidingPaneLayout.isOpen) {
                     ensureTitle()
                 } else {
@@ -108,26 +125,31 @@ class TwoPanePreference : PreferenceHeaderFragmentCompat() {
     }
 
     fun doHome(): Boolean =
-        if (slidingPaneLayout.isSlideable) {
-            if (childFragmentManager.backStackEntryCount > 0) {
-                childFragmentManager.popBackStackImmediate()
-                ensureTitle()
-                true
-            } else {
-                slidingPaneLayout.closePane().also {
-                    if (it) {
-                        setHeaderFocusable(true)
-                    }
+        if (isSingleScreen) {
+            popDetail()
+        } else if (slidingPaneLayout.isSlideable) {
+            popDetail() || slidingPaneLayout.closePane().also {
+                if (it) {
+                    setHeaderFocusable(true)
                 }
             }
         } else false
 
+    private fun popDetail() = (childFragmentManager.backStackEntryCount > 0).also {
+        if (it) {
+            childFragmentManager.popBackStackImmediate()
+            ensureTitle()
+        }
+    }
+
     companion object {
         const val KEY_INITIAL_SCREEN = "initialScreen"
-        fun newInstance(initialScreen: String?) = TwoPanePreference().apply {
+        const val KEY_SINGLE_SCREEN = "singleScreen"
+        fun newInstance(initialScreen: String?, singleScreen: Boolean = false) = TwoPanePreference().apply {
             initialScreen?.let {
                 arguments = Bundle().apply {
                     putString(KEY_INITIAL_SCREEN, it)
+                    putBoolean(KEY_SINGLE_SCREEN, singleScreen)
                 }
             }
         }

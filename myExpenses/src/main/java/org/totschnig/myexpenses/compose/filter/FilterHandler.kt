@@ -46,6 +46,7 @@ import org.totschnig.myexpenses.provider.filter.DateCriterion
 import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.NotCriterion
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
+import org.totschnig.myexpenses.provider.filter.SearchTextCriterion
 import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.provider.filter.TransferCriterion
@@ -79,6 +80,8 @@ interface FilterHandlerScope {
             is PayeeCriterion -> handlePayeeEdit(criterion)
             is TagCriterion -> handleTagEdit(criterion)
             is TransferCriterion -> handleTransferEdit(criterion)
+            // The free text search of the new UI is edited there, here it can only be removed
+            is SearchTextCriterion -> Unit
             else -> throw IllegalStateException("Nested complex not supported")
         }
     }

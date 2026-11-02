@@ -21,10 +21,10 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
 import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment
-import org.totschnig.myexpenses.dialog.progress.NewProgressDialogFragment
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.fragment.TwoPanePreference
 import org.totschnig.myexpenses.fragment.TwoPanePreference.Companion.KEY_INITIAL_SCREEN
+import org.totschnig.myexpenses.fragment.TwoPanePreference.Companion.KEY_SINGLE_SCREEN
 import org.totschnig.myexpenses.fragment.preferences.BasePreferenceFragment
 import org.totschnig.myexpenses.fragment.preferences.PreferenceDataFragment
 import org.totschnig.myexpenses.fragment.preferences.PreferencesAdvancedFragment
@@ -36,14 +36,12 @@ import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
-import org.totschnig.myexpenses.provider.TransactionProvider.DYNAMIC_CURRENCIES_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.TRANSACTIONS_URI
 import org.totschnig.myexpenses.service.AutoBackupWorker
 import org.totschnig.myexpenses.service.DailyExchangeRateDownloadService
 import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.LazyFontSelector
 import org.totschnig.myexpenses.util.PermissionHelper
-import org.totschnig.myexpenses.util.TextUtils
 import org.totschnig.myexpenses.util.config.Configurator
 import org.totschnig.myexpenses.util.config.Configurator.Configuration.USE_SET_DECOR_PADDING_WORKAROUND
 import org.totschnig.myexpenses.util.config.get
@@ -120,7 +118,10 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace,
         injector.inject(licenceValidationViewModel)
         injector.inject(priceCalculationViewModel)
         setupWithFragment(savedInstanceState == null, false) {
-            TwoPanePreference.newInstance(intent.getStringExtra(KEY_INITIAL_SCREEN))
+            TwoPanePreference.newInstance(
+                intent.getStringExtra(KEY_INITIAL_SCREEN),
+                intent.getBooleanExtra(KEY_SINGLE_SCREEN, false)
+            )
         }
         setupToolbar()
         title = getString(R.string.settings_label)
@@ -144,7 +145,7 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace,
     val twoPanePreference: TwoPanePreference
         get() = supportFragmentManager.findFragmentById(R.id.fragment_container) as TwoPanePreference
 
-    override fun doHome() {
+    public override fun doHome() {
         if (!twoPanePreference.doHome()) {
             setResult(resultCode)
             finish()
@@ -157,37 +158,7 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace,
 
             R.id.CHANGE_COMMAND -> {
                 val currencyCode = tag as String
-                supportFragmentManager.beginTransaction()
-                    .add(
-                        NewProgressDialogFragment.newInstance(
-                            getString(R.string.pref_home_currency_title) + ": " + currencyContext[currencyCode].description
-                        ).apply { isCancelable = false },
-                        PROGRESS_TAG
-                    )
-                    .commitNow()
-                lifecycleScope.launch {
-                    progressViewModel.appendToMessage(
-                        TextUtils.concatResStrings(
-                            this@PreferenceActivity,
-                            ": ",
-                            R.string.progress_recalculating,
-                            R.string.price_history
-                        )
-                    )
-                    val updatedPrices = priceCalculationViewModel.reCalculatePrices(currencyCode)
-                    progressViewModel.appendToMessage(updatedPrices.toString())
-                    progressViewModel.appendToMessage(
-                        TextUtils.concatResStrings(
-                            this@PreferenceActivity,
-                            ": ",
-                            R.string.progress_recalculating,
-                            R.string.equivalent_amount_plural
-                        )
-                    )
-                    val updatedTransactions =
-                        priceCalculationViewModel.reCalculateEquivalentAmounts(currencyCode)
-                    progressViewModel.appendToMessage(updatedTransactions.let { (it.first + it.second) }
-                        .toString())
+                changeHomeCurrency(currencyCode, progressViewModel, priceCalculationViewModel) {
                     val dataFragment: PreferenceDataFragment? =
                         twoPanePreference.getDetailFragment()
                     if (dataFragment != null) {
@@ -195,11 +166,6 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace,
                     } else {
                         prefHandler.putString(PrefKey.HOME_CURRENCY, currencyCode)
                     }
-                    requireApplication().invalidateHomeCurrency()
-                    contentResolver.notifyChange(DYNAMIC_CURRENCIES_URI, null, false)
-
-                    progressViewModel.appendToMessage(getString(R.string.done_label))
-                    progressViewModel.onTaskCompleted(emptyList())
                 }
                 true
             }
@@ -467,9 +433,14 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace,
     }
 
     companion object {
-        fun getIntent(context: Context, initialScreen: String? = null) =
+        /**
+         * @param singleScreen shows only [initialScreen] without the list of all screens, e.g.
+         * for the settings of the new UI, which have their own list
+         */
+        fun getIntent(context: Context, initialScreen: String? = null, singleScreen: Boolean = false) =
             Intent(context, PreferenceActivity::class.java)
                 .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 .putExtra(KEY_INITIAL_SCREEN, initialScreen)
+                .putExtra(KEY_SINGLE_SCREEN, singleScreen)
     }
 }
