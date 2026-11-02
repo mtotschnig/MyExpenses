@@ -164,7 +164,10 @@ private fun Showcase() {
                 PayeeTile(null, logo = null, Modifier.padding(end = 8.dp)) {
                     Icon(Icons.Default.Search, contentDescription = null)
                 }
-                PayeeTile("REWE", logo = null, isLarge = true) {}
+                PayeeTile("REWE", logo = null, Modifier.padding(end = 16.dp), isLarge = true) {}
+                EditableTile(onClick = {}, onClickLabel = "Change", background = MaterialTheme.colorScheme.surface) {
+                    PayeeTile("REWE", logo = null, isLarge = true) {}
+                }
             }
             ActionCard(
                 icon = Icons.Default.Search,
