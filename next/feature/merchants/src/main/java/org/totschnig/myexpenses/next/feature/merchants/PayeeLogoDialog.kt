@@ -28,6 +28,7 @@ import org.totschnig.myexpenses.designsystem.FormDialog
 import org.totschnig.myexpenses.designsystem.PayeeTile
 import org.totschnig.myexpenses.next.core.common.R as NextR
 import org.totschnig.myexpenses.next.core.ui.merchants.PayeeImage
+import org.totschnig.myexpenses.next.data.merchants.MerchantLogoStore.Lookup
 import org.totschnig.myexpenses.next.data.merchants.Payee
 import org.totschnig.myexpenses.next.data.merchants.domainOf
 
@@ -43,7 +44,8 @@ fun PayeeLogoDialog(logos: MerchantLogos, payee: Payee, onDismiss: () -> Unit) {
     var address by rememberSaveable { mutableStateOf(entered ?: "") }
     // Not saved: after a rotation the answer goes to the dialog shown before, the logo still comes
     var isLoading by remember { mutableStateOf(false) }
-    var notFound by rememberSaveable { mutableStateOf<String?>(null) }
+    // Why the domain has no logo, as the message and the domain it names
+    var notFound by rememberSaveable { mutableStateOf<Pair<Int, String>?>(null) }
     val domain = domainOf(address)
     val load = {
         if (domain != null && !isLoading) {
@@ -51,7 +53,7 @@ fun PayeeLogoDialog(logos: MerchantLogos, payee: Payee, onDismiss: () -> Unit) {
             notFound = null
             logos.enterDomain(payeeId, address) { found ->
                 isLoading = false
-                if (found != null) onDismiss() else notFound = domain
+                if (found is Lookup.Found) onDismiss() else notFound = reasonOf(found) to domain
             }
         }
     }
@@ -78,7 +80,7 @@ fun PayeeLogoDialog(logos: MerchantLogos, payee: Payee, onDismiss: () -> Unit) {
                 placeholder = { Text("example.com") },
                 isError = notFound != null || (address.isNotBlank() && domain == null),
                 supportingText = when {
-                    notFound != null -> stringResource(NextR.string.next_payee_logo_not_found, notFound!!)
+                    notFound != null -> notFound!!.let { (reason, domain) -> stringResource(reason, domain) }
                     address.isNotBlank() && domain == null -> stringResource(NextR.string.next_payee_logo_invalid)
                     else -> null
                 }?.let { { Text(it) } },
@@ -100,4 +102,12 @@ fun PayeeLogoDialog(logos: MerchantLogos, payee: Payee, onDismiss: () -> Unit) {
             )
         }
     }
+}
+
+/** The message telling why there is no logo, with the domain as argument */
+private fun reasonOf(lookup: Lookup) = when (lookup) {
+    Lookup.TooSmall -> NextR.string.next_payee_logo_too_small
+    Lookup.Unreadable -> NextR.string.next_payee_logo_unreadable
+    Lookup.Failed -> NextR.string.next_payee_logo_failed
+    Lookup.Missing, is Lookup.Found -> NextR.string.next_payee_logo_not_found
 }
