@@ -25,10 +25,10 @@ import org.totschnig.myexpenses.contract.TransactionsContract.Transactions
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
 import org.totschnig.myexpenses.fragment.TemplatesList
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.ContribPayload
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
-import java.io.Serializable
 
 const val HELP_VARIANT_TEMPLATES = "templates"
 const val HELP_VARIANT_PLANS = "plans"
@@ -129,12 +129,16 @@ class ManageTemplates : ProtectedFragmentActivity(), ConfirmationDialogListener,
         }
     }
 
-    override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
+    override fun contribFeatureCalled(feature: ContribFeature, tag: ContribPayload?) {
         if (feature == ContribFeature.SPLIT_TRANSACTION) {
-            if (tag is Long) {
-                mListFragment.dispatchCreateInstanceEditDo((tag as Long?)!!)
-            } else if (tag is LongArray) {
-                mListFragment.dispatchCreateInstanceSaveDo((tag as LongArray?)!!)
+            when (tag) {
+                is ContribPayload.InstantiateSplitTemplateEdit -> {
+                    mListFragment.dispatchCreateInstanceEditDo(tag.templateId)
+                }
+                is ContribPayload.InstantiateSplitTemplateSave -> {
+                    tag.rowIds?.let { mListFragment.dispatchCreateInstanceSaveDo(it) }
+                }
+                else -> {}
             }
         }
     }

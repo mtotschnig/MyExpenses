@@ -1947,9 +1947,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
                 put(KEY_COLOR, category.color.takeIf { it != 0 } ?: suggestNewCategoryColor(db))
             }
             put(KEY_ICON, category.icon)
-            if (category.id == null) {
-                put(KEY_PARENTID, category.parentId)
-            }
+            put(KEY_PARENTID, category.parentId)
             if (category.parentId == null) {
                 put(KEY_TYPE, (category.type ?: FLAG_NEUTRAL))
             }

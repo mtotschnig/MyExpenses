@@ -99,6 +99,7 @@ import org.totschnig.myexpenses.fragment.PlanMonthFragment
 import org.totschnig.myexpenses.fragment.TemplatesList
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.ContribPayload
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model.generateUuid
 import org.totschnig.myexpenses.preference.PrefKey
@@ -157,7 +158,6 @@ import org.totschnig.myexpenses.viewmodel.data.TemplateEditData
 import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
 import org.totschnig.myexpenses.viewmodel.data.TransactionEditResult
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET
-import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDate
 import javax.inject.Inject
@@ -1571,7 +1571,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         )
     }
 
-    override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
+    override fun contribFeatureCalled(feature: ContribFeature, tag: ContribPayload?) {
         if (feature === ContribFeature.SPLIT_TRANSACTION) {
             delegate.restartWithType(TYPE_SPLIT)
         }
@@ -1634,7 +1634,7 @@ open class ExpenseEdit : AmountActivity<TransactionEditViewModel>(), ContribIFac
         }
     }
 
-    override fun contribFeatureRequested(feature: ContribFeature, tag: Serializable?) {
+    override fun contribFeatureRequested(feature: ContribFeature, tag: ContribPayload?) {
         hideKeyboard()
         super.contribFeatureRequested(feature, tag)
     }

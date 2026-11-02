@@ -28,6 +28,8 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import androidx.core.content.IntentCompat;
+import org.totschnig.myexpenses.model.ContribPayload;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.Menu;
@@ -244,7 +246,7 @@ public abstract class ProtectedFragmentActivity extends BaseActivity
       ContribFeature contribFeature = ContribFeature.valueOf(intent.getStringExtra(KEY_FEATURE));
       if (resultCode == RESULT_OK) {
         ((ContribIFace) this).contribFeatureCalled(contribFeature,
-            intent.getSerializableExtra(ContribInfoDialogActivity.KEY_TAG));
+            IntentCompat.getParcelableExtra(intent, ContribInfoDialogActivity.KEY_TAG, ContribPayload.class));
       } else if (resultCode == RESULT_CANCELED) {
         this.contribFeatureNotCalled(contribFeature);
       }

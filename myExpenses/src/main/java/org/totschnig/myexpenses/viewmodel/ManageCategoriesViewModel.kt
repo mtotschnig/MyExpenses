@@ -175,14 +175,14 @@ class ManageCategoriesViewModel(application: Application, savedStateHandle: Save
         categoryTree(sortOrder = sortOrder.value.toOrderByWithDefault(defaultSort, collate))
     }
 
-    fun saveCategory(label: String, icon: String?, typeFlags: Byte) {
+    fun saveCategory(label: String, icon: String?, typeFlags: Byte, parentId: Long? = null) {
         viewModelScope.launch(context = coroutineContext()) {
             (dialogState as? Edit)?.takeIf { !it.saving }?.let { edit ->
                 val category = org.totschnig.myexpenses.model2.Category(
                     id = edit.category?.id?.takeIf { it != 0L },
                     label = label,
                     icon = icon,
-                    parentId = edit.parent?.id ?: edit.category?.parentId,
+                    parentId = parentId,
                     type = typeFlags
                 )
                 dialogState = edit.copy(saving = true)

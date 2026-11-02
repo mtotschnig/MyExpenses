@@ -116,6 +116,7 @@ import org.totschnig.myexpenses.feature.Payee
 import org.totschnig.myexpenses.feature.values
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.ContribPayload
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.myApplication
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -158,7 +159,6 @@ import org.totschnig.myexpenses.viewmodel.FeatureViewModel
 import org.totschnig.myexpenses.viewmodel.OcrViewModel
 import org.totschnig.myexpenses.viewmodel.data.EventObserver
 import org.totschnig.myexpenses.widget.EXTRA_START_FROM_WIDGET_DATA_ENTRY
-import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.LocalTime
@@ -320,7 +320,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
-    override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
+    override fun contribFeatureCalled(feature: ContribFeature, tag: ContribPayload?) {
         when (feature) {
             ContribFeature.BANKING -> {
                 if (featureViewModel.isFeatureAvailable(this, Feature.FINTS)) {
@@ -1213,7 +1213,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this)
     }
 
-    open fun contribFeatureRequested(feature: ContribFeature, tag: Serializable? = null) {
+    open fun contribFeatureRequested(feature: ContribFeature, tag: ContribPayload? = null) {
         if (licenceHandler.hasAccessTo(feature)) {
             (this as ContribIFace).contribFeatureCalled(feature, tag)
         } else {
@@ -1221,7 +1221,7 @@ abstract class BaseActivity : AppCompatActivity(), MessageDialogFragment.Message
         }
     }
 
-    open fun showContribDialog(feature: ContribFeature? = null, tag: Serializable? = null) {
+    open fun showContribDialog(feature: ContribFeature? = null, tag: ContribPayload? = null) {
         startActivityForResult(getIntentFor(this, feature).apply {
             putExtra(ContribInfoDialogActivity.KEY_TAG, tag)
         }, CONTRIB_REQUEST)

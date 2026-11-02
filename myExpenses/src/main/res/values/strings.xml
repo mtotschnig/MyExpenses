@@ -1074,6 +1074,7 @@
     <string name="category_type_main">Main category</string>
     <!-- Type of category. Used in the string "category_description_base" -->
     <string name="category_type_sub">Subcategory</string>
+    <string name="parent_category">Parent category</string>
     <!-- Base description for a category.
         %1$s is the category type (e.g., "Main category" or "Subcategory" translated).
         %2$d is the category's current level number.
