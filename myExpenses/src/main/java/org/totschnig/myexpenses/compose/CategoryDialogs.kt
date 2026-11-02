@@ -112,7 +112,7 @@ fun CategoryEdit(
                         .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable)
                         .fillMaxWidth(),
                     readOnly = true,
-                    label = { Text(stringResource(id = R.string.category)) },
+                    label = { Text(stringResource(id = R.string.parent_category)) },
                     value = selectedParent?.path ?: stringResource(id = R.string.category_type_main),
                     onValueChange = {},
                     trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = parentDropdownExpanded) },
