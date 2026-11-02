@@ -1,0 +1,415 @@
+# Architecture of the new UI
+
+This file holds the rules for the modules of the new UI: the shell `:ui_next`, the modules below
+`next/` (`:next:core:*`, the data of the areas `:next:data:*` and the features `:next:feature:*`),
+`:designsystem`, `:charts`, `:ocr-model`, `:mlkit-core`, `:fixturecollector`, and what the new UI
+changes in `:myExpenses`.
+Each rule has a tag, so that a review can name it and a test can say which rule it guards.
+
+How a rule is checked:
+
+- **Konsist**: guarded by a test in `:architecture-test`, run with `./gradlew :architecture-test:test`
+- **Gradle**: the build fails, e.g. a dependency that is not allowed cannot be resolved
+- **test**: mechanical, to be guarded by a Konsist or Gradle test, not written yet
+- **review**: needs judgement, checked in code review
+
+The READMEs of the packages explain how a feature works. A rule is written here once and the
+READMEs link to it, so that it cannot drift.
+
+## Modules
+
+The diagram [`modules.puml`](modules.puml) shows the dependencies between the modules. It is
+generated from the build files with `./gradlew :ui_next:moduleGraph` (`ModuleGraphPlugin` in
+`build-logic`) and never edited by hand. An edge that follows from a longer path is left out.
+Render it with the PlantUML plugin of Android Studio or `java -jar plantuml.jar modules.puml`.
+
+### `mod-diagram` — Module diagram is generated, never edited by hand
+
+`:ui_next:checkModuleGraph`, part of `check`, fails until the diagram is regenerated after a
+dependency change. A new edge needs a reason in the commit message.
+
+**Why:** A hand-edited diagram drifts from the actual dependencies. Generating it keeps it
+trustworthy as documentation.
+
+**Check:** Gradle
+
+---
+
+---
+
+### `mod-ds-pure` — `:designsystem` depends only on libraries
+
+It does not depend on `:charts`, so that screens without charts do not get them. It knows no type
+of the app (no `Transaction`, `Contract`, `Money`, …), only strings, numbers, icons and lambdas.
+
+**Why:** The design system is the shared vocabulary of all screens. Polluting it with domain types
+or optional chart dependencies would force every screen to carry both, and make the design system
+harder to reuse or test.
+
+**Check:** Konsist
+
+---
+
+---
+
+### `mod-upstream-hooks` — `:myExpenses` gets only small, additive hooks for the new UI
+
+An optional parameter with a default, a member made public, a callback. No logic of the new UI
+goes there, and no code of the main module is copied into `:ui_next` to avoid such a hook.
+
+**Why:** The new UI is a fork-in-progress alongside the existing UI. Keeping changes to the main
+module minimal makes it easier to track upstream and to submit some changes upstream later.
+
+**Check:** review
+
+---
+
+---
+
+### `mod-core-clean` — Core modules know no type of the app
+
+`:next:core:model` is plain Kotlin without Android; `:next:core:common` has no Compose and holds
+the texts; no core module knows a type of `:myExpenses` or of a data module.
+
+**Why:** Core modules are shared across all features. Domain types or data-layer knowledge in core
+would create coupling that makes the graph harder to understand and change.
+
+**Check:** Gradle
+
+---
+
+---
+
+### `mod-own-packages` — Each module has packages of its own
+
+Packages start with the module's namespace: `org.totschnig.myexpenses.next.core.model.ledger`,
+`…next.data.contracts`, `…next.feature.contracts`. No two modules share a package. Only the shell
+keeps `org.totschnig.myexpenses.next` and its sub-packages, since the launcher points at
+`org.totschnig.myexpenses.next.MyExpensesNext`. The texts are
+`org.totschnig.myexpenses.next.core.common.R`.
+
+**Why:** Shared packages mean that `import org.totschnig.myexpenses.next.foo.Bar` could refer to
+code in any module, making the dependency graph opaque. Own packages make imports self-documenting.
+
+**Check:** Konsist
+
+---
+
+---
+
+### `mod-shell-boundary` — The shell knows an area only through its package
+
+The shell knows an area only in its own package (`org.totschnig.myexpenses.next.<area>`, named like
+the modules of the area): its entry `…Feature` with what it adds to the main screen, its settings
+(`AreaSettings`) and the adapters to the app. Besides them only `NextFeatures`, which lists the
+areas, and `NextData`, which creates their repositories, import `next.feature.*` or `next.data.*`.
+The main screen, overview, list, theme, settings, the first start and `MyExpensesNext` show what
+the entries give them ([`NextFeature`], [`AreaSettings`]), so that an area is added or left out
+with its modules, its package and its lines in `NextFeatures` and `NextData`. Facts an area reads from an area that may be left out go
+through one value of `NextData` with an empty value, e.g. `receiptFacts`.
+
+**Why:** If the main screen imported feature classes directly, adding or removing a feature would
+require changes throughout the shell. Routing everything through a package boundary and a feature
+list makes the shell additive: one area = one package + two lines.
+
+**Check:** Konsist
+
+---
+
+
+## View models and stores
+
+### `vm-constructor` — View models get their dependencies through the constructor
+
+View models of the new UI are plain `ViewModel`s (or `AndroidViewModel` when they need the
+application) with constructor parameters: their repository, or the `LedgerSource` and one parameter
+per kind of facts, their store and what they take from `injector`. No field injection, no `by
+lazy`, no `start()`. `injector.inject` is only used for view models of the main module.
+
+**Why:** Constructor injection makes the dependencies explicit and testable. Field injection hides
+them, and a `start()` method creates a window where the object is partially initialised — a source
+of bugs.
+
+**Check:** Konsist
+
+---
+
+---
+
+### `vm-entry-points` — View models are imported only by entry points
+
+View models are imported only by `MyExpensesNext`, `NextSettings`, the entries of the areas in the
+shell (`…Feature`) and the entry composables (`…Flow`). A screen below them gets state and actions,
+not the view model.
+
+**Why:** A screen that imports a view model cannot be previewed, tested as a composable or reused
+in a different context. Entry points own the view model; screens below them receive plain data.
+
+**Check:** Konsist
+
+---
+
+---
+
+### `vm-scope-for-effects` — Writes and network calls run in the scope of a view model or repository
+
+Writes and network calls run in the scope of a view model or repository, never in
+`rememberCoroutineScope`, so that a rotation or a closed dialog does not cancel them. The screen
+gets the result as a callback; a composable scope is fine for reads, navigation and snackbars.
+
+**Why:** `rememberCoroutineScope` is cancelled when the composable leaves the composition — which
+happens on a rotation. A write that is cancelled halfway leaves the data in an inconsistent state.
+The scope of a view model survives rotations.
+
+**Check:** review
+
+---
+
+---
+
+### `vm-saved-state` — Surviving state goes into the `SavedStateHandle`
+
+What the user is entering and what waits for another activity (the document scanner, the licence
+dialog) is kept in the `SavedStateHandle` that `viewModelsOf` hands to the view model, so that it
+survives when Android ends the process. A callback kept in a field of the activity or a state held
+only in memory is lost then.
+
+**Why:** Android can end the process of a backgrounded app at any moment. The `SavedStateHandle`
+is serialised and restored by the OS. State that is only in memory is gone after such a kill, and
+the user has to start over.
+
+**Check:** review
+
+---
+
+---
+
+### `vm-io-param` — A view model that does IO takes its dispatcher as a parameter
+
+A view model that reads the database, files or the network takes its dispatcher as a parameter
+(`io: CoroutineDispatcher = Dispatchers.IO`) and what it needs of Android as interfaces or
+functions, e.g. `ItemGroupModels` or a photo loader, so that it is a plain `ViewModel` that tests
+run in the JVM, see `ReceiptViewModelTest`.
+
+**Why:** A view model that calls `Dispatchers.IO` directly cannot be tested without a coroutine
+test dispatcher. Taking it as a parameter lets tests inject `UnconfinedTestDispatcher` and run
+without emulator.
+
+**Check:** Konsist
+
+---
+
+
+## Screens
+
+### `screen-single-entry` — Each feature opens through one entry composable
+
+Each feature opens through one entry composable (`…Flow`). The entry of its area in the shell
+(`…Feature`) puts it on a page of the back stack (`pages`, one `NextKey` each) and brings its tab;
+`NextMainScreen` only arranges the tabs, pages and overview parts of the features listed in
+`NextFeatures`.
+
+**Why:** A single entry point is the only place where a feature's view model is created and its
+state is initialised. Multiple entry points would duplicate that setup and make it hard to reason
+about the feature's lifecycle.
+
+**Check:** review
+
+---
+
+---
+
+### `screen-actions-interface` — One actions interface per feature
+
+What a user can do on the screens of a feature is one interface (`…Actions`), implemented by the
+view model, rather than a callback per action.
+
+**Why:** A callback per action scales poorly: a screen with ten actions gets ten lambdas in its
+signature. An interface groups them, makes the contract explicit and allows the view model to be
+passed to previews as a fake implementation.
+
+**Check:** review
+
+---
+
+---
+
+### `screen-from-ds` — Screens are built from the design system
+
+Screens are built from the components of `:designsystem`. A pattern it does not have, or one that
+appears twice, is added there with an entry in `Showcase.kt`, not built by hand in a feature.
+
+**Why:** A pattern built by hand in a feature will look slightly different from the same pattern in
+another feature. Adding it to the design system means one implementation, one look, one place to
+fix.
+
+**Check:** review
+
+---
+
+---
+
+### `screen-no-alert-dialog` — No `AlertDialog` in `:ui_next`
+
+Dialogs come from the dialogs of the design system.
+
+**Why:** Material 3's `AlertDialog` and the design system's dialogs have different styling. Using
+the raw component bypasses the design system and creates inconsistencies.
+
+**Check:** Konsist
+
+---
+
+---
+
+### `screen-pure-ui` — Composables hold no business logic
+
+Composables show state and call actions. A computation longer than a few lines belongs into a pure
+function of the feature, which can be tested.
+
+**Why:** Logic in a composable is hard to test without a UI test and impossible to test without
+Android. Moving it into a pure function means a JVM test can cover it.
+
+**Check:** review
+
+---
+
+---
+
+### `screen-strings-next` — Texts of the new UI are string resources prefixed `next_`
+
+Texts of the new UI are string resources of `:next:core:common` in English and German, prefixed
+`next_`. In the UI a tag is called "Gruppe", the area of a contract "Bereich".
+
+**Why:** The prefix separates new-UI strings from the existing ones in `:myExpenses`, preventing
+name collisions and making it easy to find and translate all new strings.
+
+**Check:** review
+
+---
+
+---
+
+### `screen-use-formats` — Dates and amounts are formatted with `Formats.kt`
+
+Dates and amounts are formatted with the helpers of `next/Formats.kt`, not with formatters created
+ad hoc.
+
+**Why:** Ad-hoc formatters use different locales, date patterns and rounding. A shared helper
+formats consistently across all screens.
+
+**Check:** review
+
+---
+
+---
+
+### `screen-nav3-stack` — Each feature uses a Navigation 3 back stack
+
+The screens a feature opens within itself (details, lists below it) are entries of a Navigation 3
+back stack, one `@Serializable` key per screen in a sealed `…Key`, so that back and predictive
+back return to where a screen was opened from. No flags with `BackHandler` for that; dialogs and
+edit modes stay local state. A page whose content is looked up in the state of the feature leaves
+itself with `shownOrLeave` once its content is gone. Done in `contracts`, `budgets`, `analysis`,
+`balance`, `tips` and the settings (`SettingsKey`, the pages behind entries as
+`SettingControl.Page`). The shell has one too (`NextKey`): the tabs, the budget and the balance are
+pages on top of the overview, a jump between features, e.g. from a saving tip to a contract, puts a
+page on top, and a feature gets where to start, e.g. the contract to show, as part of the key
+instead of a flag it has to reset.
+
+**Why:** A `BackHandler` flag approach requires the feature to manage its own back-stack manually,
+which diverges per feature. Navigation 3's back stack gives correct predictive back animations and
+serialisable state for free.
+
+**Check:** review
+
+---
+
+---
+
+### `screen-dialog-vs-sheet` — Dialogs for one decision, sheets for choice or form
+
+A dialog asks for one decision or one short value: confirming, a name or text, a date or time, a
+short single choice. A choice of several, a filter, a form about something that stays visible below
+(e.g. an item of a receipt), the details of a transaction and the actions of something are sheets
+of the design system (`AdaptiveSheet`, `MultiChoiceSheet`, `FilterSheet`, `FormSheet`,
+`ActionSheet`). In wide windows they come in from the side. No `ModalBottomSheet` outside
+`:designsystem`.
+
+**Why:** The distinction between dialog and sheet maps to what the user is doing: a dialog demands
+an answer before anything else; a sheet is a panel that can coexist with the screen below. Using
+the design system's sheets also gives the correct adaptive behaviour in wide windows for free.
+
+**Check:** review
+
+---
+
+---
+
+### `screen-adaptive` — Wide windows show list and detail side by side
+
+Wide windows (`isWideWindow`, tablets and phones in landscape) show the same new design:
+`NextMainScreen` puts the tabs in a rail instead of the bar, and a feature whose start page is a
+list (`contracts`, `budgets`, `tips`, the settings) puts it and the page opened from it side by
+side with `rememberListDetailPages` and `ListPage`/`DetailPage`/`ExtraPage` on the entries of its
+back stack (rule `screen-nav3-stack`). A screen with two parts that belong together, e.g. the photo
+of a receipt and its rows, may show them side by side there.
+
+**Why:** A bottom navigation bar and a full-screen list waste space on a tablet. The list-detail
+layout is the standard adaptive pattern for wide screens and is expected by users of those devices.
+
+**Check:** review
+
+---
+
+
+## Data of the app
+
+### `data-bank-import` — The new UI assumes transactions come from a bank import
+
+The new UI assumes that transactions come from a bank import (FinTS or CSV). It does not port plans
+or the calendar, and contracts never create transactions.
+
+**Why:** The import-first model simplifies the transaction flow. Plans and calendar entries are a
+separate mental model; porting them would add complexity without serving the core use case that the
+new UI is designed around.
+
+**Check:** review
+
+---
+
+---
+
+### `data-backup` — User-entered data is backed up; downloaded data is not
+
+Data the user enters (rules, pots, closed hints) is part of the backup. Downloaded or derived data
+(logos, models) lies in `noBackupFilesDir` and can be loaded again.
+
+**Why:** Backing up downloaded data wastes backup quota and slows the backup. Data the user entered
+would be lost without a backup; data that can be re-downloaded would not.
+
+**Check:** review
+
+---
+
+---
+
+### `data-consent` — Nothing leaves the device without explicit user consent
+
+Nothing leaves the device without a consent the user gave for it, and only what the consent names
+(e.g. the domain of a merchant, never amounts).
+
+**Why:** The app handles financial data. Users must be able to trust that it does not send their
+data anywhere without their knowledge. Consent must be specific: agreeing to logo lookup does not
+cover sending amounts.
+
+**Check:** review
+
+---
+
+
+## Changing a rule
+
+A rule that no longer fits is changed here, in the same commit as the code, with a sentence why in
+the commit message. A finding that is accepted as an exception gets a comment in the code naming
+the rule tag, e.g. `// Exception to analysis-no-clock: …`.

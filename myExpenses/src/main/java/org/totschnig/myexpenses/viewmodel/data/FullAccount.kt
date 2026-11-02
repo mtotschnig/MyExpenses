@@ -52,6 +52,7 @@ import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.KEY_SEALED
 import org.totschnig.myexpenses.provider.KEY_SORT_BY
 import org.totschnig.myexpenses.provider.KEY_SORT_DIRECTION
+import org.totschnig.myexpenses.provider.KEY_SORT_KEY
 import org.totschnig.myexpenses.provider.KEY_SUM_EXPENSES
 import org.totschnig.myexpenses.provider.KEY_SUM_INCOME
 import org.totschnig.myexpenses.provider.KEY_SUM_TRANSFERS
@@ -224,6 +225,8 @@ data class FullAccount(
     override val isSingleCurrency: Boolean = true,
     val childrenValuation: Long = 0,
     val equivalentChildrenValuation: Long = childrenValuation,
+    /** Position in the custom account order, new accounts are appended at the end */
+    val sortKey: Int = 0,
 ) : BaseAccount(), AccountWithGroupingKey {
 
     override val accountGrouping: AccountGrouping<*>? = null
@@ -340,6 +343,7 @@ data class FullAccount(
                 parentId = getLongIfExists(KEY_PARENTID),
                 isVisible = getBooleanIfExists(KEY_VISIBLE) ?: true,
                 portfolioRole = portfolioRole,
+                sortKey = getIntIfExists(KEY_SORT_KEY) ?: 0,
                 //in V2 this is only called for real accounts, in V1 we need to set isSingleCurrency to false for home aggregate
                 isSingleCurrency = !isHomeAggregate(id)
             )

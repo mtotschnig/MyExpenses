@@ -1,0 +1,64 @@
+@startuml search
+' How the search of the transactions of an account works, see README.md in this package.
+
+skinparam componentStyle rectangle
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam defaultFontName sans-serif
+skinparam linetype ortho
+top to bottom direction
+
+database "DataStore\n(filter per account)" as ds
+database "Database" as db
+
+package "next" {
+  [NextAccountScreen] as screen
+  [MyExpensesNext\ntransaction list] as list
+}
+
+package "search" {
+  [TransactionSearch] as state
+  [SearchFilterChips] as chips
+  [SearchKindSheet] as sheets
+  [SearchResult] as result
+  artifact "SearchFilter\nSimple | Advanced" as model
+  [loadSearchOptions] as options
+}
+
+package "main module" {
+  [FilterPersistence] as persistence
+  artifact "Criterion\nincl. SearchTextCriterion" as criterion
+  [BaseMyExpenses.Page\nwithFilterUi = false] as page
+}
+
+package "designsystem" {
+  [SearchTopBar\nSearchFilterRow\nFilterSheet\nSearchResultRow] as ds_search
+}
+
+screen --> state
+screen --> chips
+screen --> list
+chips --> sheets
+sheets --> options
+options --> db
+list --> page
+list --> result
+state --> model
+model --> criterion
+state --> persistence
+persistence --> ds
+page --> persistence
+page --> db
+
+note right of model
+  reads and writes the stored criterion:
+  one filter per kind, AND between kinds,
+  OR within a kind, each can be excluded
+end note
+
+note bottom of ds_search
+  used by screen, chips,
+  sheets and result
+end note
+
+@enduml

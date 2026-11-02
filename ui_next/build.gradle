@@ -1,0 +1,45 @@
+plugins {
+    id 'next.android.feature'
+    id 'next.android.compose'
+    alias libs.plugins.kotlin.serialization
+    id 'next.module-graph'
+}
+
+// modules.puml (rule M1) is generated: ./gradlew :ui_next:moduleGraph
+moduleGraph {
+    roots = [':ui_next']
+}
+
+android {
+    namespace "org.totschnig.myexpenses.next.shell"
+
+    defaultConfig {
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/*'
+        }
+    }
+}
+
+dependencies {
+    implementation libs.compose.ui
+    implementation(libs.androidx.compose.material3)
+    implementation libs.androidx.activity.compose
+    implementation libs.androidx.material.icons.extended
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.compose.adaptive.navigation
+    implementation libs.androidx.navigation3.runtime
+    implementation libs.androidx.navigation3.ui
+    implementation libs.androidx.compose.material3.adaptive.navigation.suite
+    implementation libs.androidx.lifecycle.runtime.compose
+    implementation libs.reorderable
+    implementation libs.androidx.paging.compose
+    implementation libs.copper.flow
+    implementation project(':designsystem')
+    implementation project(':next:core:ui')
+    implementation libs.kotlinx.serialization.json
+
+    testImplementation libs.junit
+}

@@ -1,0 +1,13 @@
+plugins {
+    id 'next.android.library'
+}
+
+android {
+    namespace 'org.totschnig.myexpenses.next.core.common'
+}
+
+// What the data and the screens of the new UI share without Compose: the texts
+// (org.totschnig.myexpenses.next.core.common.R).
+dependencies {
+    api project(':next:core:model')
+}
