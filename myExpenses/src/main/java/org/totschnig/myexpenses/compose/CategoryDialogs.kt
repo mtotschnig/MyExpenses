@@ -57,6 +57,7 @@ fun CategoryEdit(
     val excludedIds = remember(dialogState.category) {
         dialogState.category?.flatten()?.map { it.id }?.toSet() ?: emptySet()
     }
+
     val eligibleParentCategories = remember(categories, excludedIds) {
         categories.flatMap { it.flatten() }
             .filter { it.id != 0L && !excludedIds.contains(it.id) }
@@ -68,7 +69,7 @@ fun CategoryEdit(
             categories.flatMap { it.flatten() }.find { it.id == parentId }
         }
     }
-    var selectedParent by rememberSaveable(dialogState) {
+    var selectedParent by rememberSaveable(dialogState.category?.id, dialogState.parent?.id) {
         mutableStateOf(initialParent)
     }
 
@@ -126,6 +127,7 @@ fun CategoryEdit(
                         text = { Text(stringResource(id = R.string.category_type_main)) },
                         onClick = {
                             selectedParent = null
+                            shouldValidate = false
                             parentDropdownExpanded = false
                         },
                         contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
@@ -135,6 +137,7 @@ fun CategoryEdit(
                             text = { Text(cat.path) },
                             onClick = {
                                 selectedParent = cat
+                                shouldValidate = false
                                 parentDropdownExpanded = false
                             },
                             contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding

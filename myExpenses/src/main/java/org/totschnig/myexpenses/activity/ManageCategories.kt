@@ -236,29 +236,33 @@ class ManageCategories : ProtectedFragmentActivity(),
                         ChoiceMode.MultiChoiceMode(selectionState, true)
                     }
                 }
-                val state = viewModel.categoryTree.collectAsState(initial = Category.LOADING).value
+
                 when (viewModel.dialogState) {
-                    is ManageCategoriesViewModel.Edit -> CategoryEdit(
-                        dialogState = viewModel.dialogState as ManageCategoriesViewModel.Edit,
-                        categories = (state as? LoadingState.Data)?.data?.flatten() ?: emptyList(),
-                        onDismissRequest = {
-                            viewModel.dialogState = ManageCategoriesViewModel.NoShow
-                        },
-                        onSave = { label, icon, typeFlags, parentId ->
-                            val parent = (state as? LoadingState.Data)?.data?.flatten()?.find { it.id == parentId }
-                            if (parent != null && parent.level > 1) {
-                                contribFeatureRequested(
-                                    ContribFeature.CATEGORY_TREE,
-                                    ContribPayload.CategoryTree(
-                                        R.id.CREATE_SUB_COMMAND_DO,
-                                        saveParams = ContribPayload.SaveCategoryParams(label, icon, typeFlags, parentId)
-                                    )
-                                )
-                            } else {
-                                viewModel.saveCategory(label, icon, typeFlags, parentId)
-                            }
+                    is ManageCategoriesViewModel.Edit -> {
+                        (viewModel.categoryTreeForSelect.collectAsState(initial = LoadingState.Loading).value as? LoadingState.Data)?.data?.flatten()?.let { categories ->
+                            CategoryEdit(
+                                dialogState = viewModel.dialogState as ManageCategoriesViewModel.Edit,
+                                categories = categories,
+                                onDismissRequest = {
+                                    viewModel.dialogState = ManageCategoriesViewModel.NoShow
+                                },
+                                onSave = { label, icon, typeFlags, parentId ->
+                                    val parent = categories.find { it.id == parentId }
+                                    if (parent != null && parent.level > 1) {
+                                        contribFeatureRequested(
+                                            ContribFeature.CATEGORY_TREE,
+                                            ContribPayload.CategoryTree(
+                                                R.id.CREATE_SUB_COMMAND_DO,
+                                                saveParams = ContribPayload.SaveCategoryParams(label, icon, typeFlags, parentId)
+                                            )
+                                        )
+                                    } else {
+                                        viewModel.saveCategory(label, icon, typeFlags, parentId)
+                                    }
+                                }
+                            )
                         }
-                    )
+                    }
 
                     is ManageCategoriesViewModel.Merge -> CategoryMerge(
                         dialogState = viewModel.dialogState as ManageCategoriesViewModel.Merge,
@@ -270,7 +274,7 @@ class ManageCategories : ProtectedFragmentActivity(),
 
                     else -> {}
                 }
-                state.let { state ->
+                viewModel.categoryTree.collectAsState().value.let { state ->
                     LaunchedEffect(state) {
                         finishActionMode()
                     }
@@ -387,14 +391,7 @@ class ManageCategories : ProtectedFragmentActivity(),
                                                             command = "CREATE_SUBCATEGORY",
                                                             icon = Icons.Filled.Add
                                                         ) {
-                                                            if (cat.level > 1) {
-                                                                contribFeatureRequested(
-                                                                    ContribFeature.CATEGORY_TREE,
-                                                                    ContribPayload.CategoryTree(R.id.CREATE_SUB_COMMAND, category = cat)
-                                                                )
-                                                            } else {
-                                                                createCat(cat)
-                                                            }
+                                                            createCat(cat)
                                                         },
                                                         MenuEntry(
                                                             label = R.string.menu_move,
