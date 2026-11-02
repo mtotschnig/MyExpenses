@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.next
 
 import org.totschnig.myexpenses.next.core.ui.merchants.TransactionTile
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,6 +25,7 @@ import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.designsystem.AdaptiveSheet
 import org.totschnig.myexpenses.designsystem.ChipRow
 import org.totschnig.myexpenses.designsystem.DetailCard
+import org.totschnig.myexpenses.designsystem.EditableTile
 import org.totschnig.myexpenses.designsystem.InfoRow
 import org.totschnig.myexpenses.designsystem.Spacing
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
@@ -126,16 +126,13 @@ private fun Header(
         modifier = Modifier.padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        TransactionTile(
-            transaction.party?.displayName,
-            image,
-            transaction.icon,
-            modifier = if (onImageClick != null) Modifier.clickable(
-                onClickLabel = stringResource(R.string.next_payee_image_change),
-                onClick = onImageClick
-            ) else Modifier,
-            isLarge = true
-        )
+        if (onImageClick != null) {
+            EditableTile(onImageClick, stringResource(R.string.next_payee_image_change)) {
+                TransactionTile(transaction.party?.displayName, image, transaction.icon, isLarge = true)
+            }
+        } else {
+            TransactionTile(transaction.party?.displayName, image, transaction.icon, isLarge = true)
+        }
         Spacer(Modifier.width(16.dp))
         Column(Modifier.weight(1f)) {
             Text(
