@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>NewLineAtEndOfFile:DropboxBackendProvider.kt:org.totschnig.dropbox.sync.DropboxBackendProvider.kt</ID>
+    <ID>NewLineAtEndOfFile:DropboxProviderFactory.kt:org.totschnig.dropbox.sync.DropboxProviderFactory.kt</ID>
+    <ID>NewLineAtEndOfFile:DropboxSetup.kt:org.totschnig.dropbox.activity.DropboxSetup.kt</ID>
+    <ID>NewLineAtEndOfFile:DropboxSetupViewModel.kt:org.totschnig.dropbox.viewmodel.DropboxSetupViewModel.kt</ID>
+    <ID>TooGenericExceptionCaught:DropboxSetupViewModel.kt:DropboxSetupViewModel$e: Exception</ID>
+    <ID>TooGenericExceptionThrown:DropboxSetupViewModel.kt:DropboxSetupViewModel$throw Exception("Dropbox client not set up")</ID>
+    <ID>TooManyFunctions:DropboxBackendProvider.kt:DropboxBackendProvider : AbstractSyncBackendProvider</ID>
+    <ID>WildcardImport:DropboxBackendProvider.kt:import org.totschnig.myexpenses.sync.*</ID>
+  </CurrentIssues>
+</SmellBaseline>

@@ -1,0 +1,42 @@
+name: Code quality
+
+# ktlint and detekt on every pull request. Findings already listed in the per-module
+# baselines (detekt-baseline.xml, ktlint-baseline.xml) do not fail the build, new ones do.
+on:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: code-quality-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: ktlint and detekt
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - uses: gradle/actions/setup-gradle@v5
+
+      - name: Run ktlint and detekt
+        run: ./gradlew --continue ktlintCheck detekt
+
+      - name: Upload reports
+        if: failure()
+        uses: actions/upload-artifact@v5
+        with:
+          name: code-quality-reports
+          path: |
+            **/build/reports/ktlint/
+            **/build/reports/detekt/
+          if-no-files-found: ignore

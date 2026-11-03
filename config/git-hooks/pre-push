@@ -1,0 +1,10 @@
+#!/bin/sh
+# Runs detekt on all modules before pushing; existing findings are in the baselines.
+# Installed by the root build.gradle (core.hooksPath)
+# Skip once with: git push --no-verify
+
+echo "detekt: checking all modules"
+./gradlew --quiet detekt || {
+    echo "detekt found issues, see build/reports/detekt in the affected module. Skip with --no-verify."
+    exit 1
+}

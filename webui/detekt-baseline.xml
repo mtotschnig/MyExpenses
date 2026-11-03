@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>CyclomaticComplexMethod:WebInputService.kt:WebInputService$override fun onStartCommand: Int</ID>
+    <ID>CyclomaticComplexMethod:WebInputService.kt:WebInputService$private fun Route.serve</ID>
+    <ID>LongMethod:WebInputService.kt:WebInputService$override fun onStartCommand: Int</ID>
+    <ID>LongMethod:WebInputService.kt:WebInputService$private fun Route.serve</ID>
+    <ID>MagicNumber:Certificates.kt:0x0500</ID>
+    <ID>MagicNumber:Certificates.kt:0x10</ID>
+    <ID>MagicNumber:Certificates.kt:0x17</ID>
+    <ID>MagicNumber:Certificates.kt:0x18</ID>
+    <ID>MagicNumber:Certificates.kt:0x7f</ID>
+    <ID>MagicNumber:Certificates.kt:0x80</ID>
+    <ID>MagicNumber:Certificates.kt:0xff</ID>
+    <ID>MagicNumber:Certificates.kt:0xffff</ID>
+    <ID>MagicNumber:Certificates.kt:0xffffff</ID>
+    <ID>MagicNumber:Certificates.kt:16</ID>
+    <ID>MagicNumber:Certificates.kt:24</ID>
+    <ID>MagicNumber:Certificates.kt:3</ID>
+    <ID>MagicNumber:Certificates.kt:30</ID>
+    <ID>MagicNumber:Certificates.kt:39</ID>
+    <ID>MagicNumber:Certificates.kt:4</ID>
+    <ID>MagicNumber:Certificates.kt:6</ID>
+    <ID>MagicNumber:Certificates.kt:7</ID>
+    <ID>MagicNumber:Certificates.kt:8</ID>
+    <ID>MagicNumber:WebInputService.kt:WebInputService$9000</ID>
+    <ID>MagicNumber:WebInputService.kt:WebInputService$9050</ID>
+    <ID>NewLineAtEndOfFile:TransactionDTO.kt:org.totschnig.webui.TransactionDTO.kt</ID>
+    <ID>NewLineAtEndOfFile:WebInputService.kt:org.totschnig.webui.WebInputService.kt</ID>
+    <ID>NewLineAtEndOfFile:WebUiComponent.kt:org.totschnig.webui.WebUiComponent.kt</ID>
+    <ID>ReturnCount:WebInputService.kt:WebInputService$override fun onStartCommand: Int</ID>
+    <ID>TooManyFunctions:Certificates.kt:org.totschnig.webui.Certificates.kt</ID>
+    <ID>TooManyFunctions:WebInputService.kt:WebInputService : LifecycleServiceIWebInputService</ID>
+  </CurrentIssues>
+</SmellBaseline>

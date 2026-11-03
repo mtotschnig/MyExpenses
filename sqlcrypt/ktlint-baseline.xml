@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<baseline version="1.0">
+    <file name="src/main/java/org/totschnig/sqlcrypt/SQLiteOpenHelperFactory.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="82" column="17" source="standard:multiline-if-else" />
+        <error line="108" column="1" source="standard:final-newline" />
+    </file>
+</baseline>

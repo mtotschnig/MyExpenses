@@ -1,0 +1,14 @@
+#!/bin/sh
+# Runs ktlint on the staged Kotlin files (ktlint-gradle git filter).
+# Checks the files as they are in the working tree, including unstaged changes.
+# Installed by the root build.gradle (core.hooksPath)
+# Skip once with: git commit --no-verify
+
+CHANGED_FILES="$(git --no-pager diff --name-status --no-color --cached | awk '$1 != "D" && $NF ~ /\.kts?$/ { print $NF }')"
+[ -z "$CHANGED_FILES" ] && exit 0
+
+echo "ktlint: checking staged Kotlin files"
+./gradlew --console=plain ktlintCheck -PinternalKtlintGitFilter="$CHANGED_FILES" || {
+    echo "ktlint found issues. Fix them in Android Studio (Reformat code) or skip with --no-verify."
+    exit 1
+}

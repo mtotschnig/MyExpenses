@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<baseline version="1.0">
+    <file name="src/extern/java/org/totschnig/ocr/OcrFeatureImpl.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="14" column="71" source="standard:colon-spacing" />
+        <error line="15" column="30" source="standard:parameter-list-wrapping" />
+        <error line="15" column="46" source="standard:parameter-list-wrapping" />
+        <error line="15" column="50" source="standard:function-signature" />
+        <error line="15" column="74" source="standard:argument-list-wrapping" />
+        <error line="15" column="83" source="standard:argument-list-wrapping" />
+        <error line="15" column="101" source="standard:max-line-length" />
+        <error line="15" column="135" source="standard:argument-list-wrapping" />
+        <error line="19" column="1" source="standard:indent" />
+        <error line="20" column="1" source="standard:indent" />
+        <error line="21" column="1" source="standard:indent" />
+        <error line="21" column="46" source="standard:argument-list-wrapping" />
+        <error line="21" column="72" source="standard:argument-list-wrapping" />
+        <error line="21" column="99" source="standard:argument-list-wrapping" />
+        <error line="21" column="101" source="standard:max-line-length" />
+        <error line="21" column="103" source="standard:argument-list-wrapping" />
+        <error line="22" column="1" source="standard:indent" />
+        <error line="23" column="1" source="standard:indent" />
+        <error line="23" column="20" source="standard:wrapping" />
+        <error line="23" column="21" source="standard:argument-list-wrapping" />
+        <error line="27" column="44" source="standard:argument-list-wrapping" />
+        <error line="27" column="56" source="standard:argument-list-wrapping" />
+        <error line="27" column="95" source="standard:argument-list-wrapping" />
+        <error line="27" column="101" source="standard:argument-list-wrapping" />
+        <error line="27" column="101" source="standard:max-line-length" />
+        <error line="31" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/extern/java/org/totschnig/ocr/OcrHandlerImpl.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="14" column="42" source="standard:parameter-list-wrapping" />
+        <error line="14" column="68" source="standard:parameter-list-wrapping" />
+        <error line="14" column="94" source="standard:parameter-list-wrapping" />
+        <error line="14" column="98" source="standard:class-signature" />
+        <error line="14" column="101" source="standard:max-line-length" />
+        <error line="14" column="121" source="standard:argument-list-wrapping" />
+        <error line="14" column="134" source="standard:argument-list-wrapping" />
+        <error line="14" column="145" source="standard:argument-list-wrapping" />
+        <error line="15" column="37" source="standard:parameter-list-wrapping" />
+        <error line="15" column="51" source="standard:parameter-list-wrapping" />
+        <error line="15" column="55" source="standard:binary-expression-wrapping" />
+        <error line="15" column="55" source="standard:function-signature" />
+        <error line="15" column="82" source="standard:argument-list-wrapping" />
+        <error line="15" column="90" source="standard:argument-list-wrapping" />
+        <error line="15" column="101" source="standard:max-line-length" />
+        <error line="20" column="1" source="standard:indent" />
+        <error line="22" column="84" source="standard:function-expression-body" />
+        <error line="25" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/intern/java/org/totschnig/ocr/Engine.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="14" column="36" source="standard:no-multi-spaces" />
+        <error line="14" column="37" source="standard:class-signature" />
+        <error line="21" column="22" source="standard:colon-spacing" />
+        <error line="23" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/intern/java/org/totschnig/ocr/OcrFeatureImpl.kt">
+        <error line="31" column="9" source="standard:function-signature" />
+        <error line="32" column="9" source="standard:function-signature" />
+        <error line="32" column="30" source="standard:function-signature" />
+        <error line="51" column="13" source="standard:multiline-if-else" />
+        <error line="53" column="13" source="standard:multiline-if-else" />
+        <error line="54" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/intern/java/org/totschnig/ocr/OcrHandlerImpl.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="13" column="98" source="standard:class-signature" />
+        <error line="13" column="100" source="standard:max-line-length" />
+        <error line="13" column="121" source="standard:argument-list-wrapping" />
+        <error line="13" column="134" source="standard:argument-list-wrapping" />
+        <error line="13" column="145" source="standard:argument-list-wrapping" />
+        <error line="15" column="1" source="standard:indent" />
+        <error line="15" column="23" source="standard:argument-list-wrapping" />
+        <error line="15" column="32" source="standard:argument-list-wrapping" />
+        <error line="15" column="43" source="standard:argument-list-wrapping" />
+        <error line="15" column="50" source="standard:function-literal" />
+        <error line="15" column="51" source="standard:wrapping" />
+        <error line="15" column="81" source="standard:argument-list-wrapping" />
+        <error line="15" column="88" source="standard:argument-list-wrapping" />
+        <error line="15" column="93" source="standard:argument-list-wrapping" />
+        <error line="15" column="101" source="standard:max-line-length" />
+        <error line="15" column="102" source="standard:argument-list-wrapping" />
+        <error line="15" column="113" source="standard:argument-list-wrapping" />
+        <error line="15" column="116" source="standard:argument-list-wrapping" />
+        <error line="15" column="129" source="standard:argument-list-wrapping" />
+        <error line="15" column="131" source="standard:function-literal" />
+        <error line="15" column="133" source="standard:binary-expression-wrapping" />
+        <error line="15" column="174" source="standard:argument-list-wrapping" />
+        <error line="15" column="192" source="standard:argument-list-wrapping" />
+        <error line="17" column="64" source="standard:function-expression-body" />
+        <error line="21" column="56" source="standard:function-expression-body" />
+        <error line="22" column="1" source="standard:indent" />
+        <error line="27" column="48" source="standard:function-signature" />
+        <error line="27" column="62" source="standard:argument-list-wrapping" />
+        <error line="27" column="72" source="standard:argument-list-wrapping" />
+        <error line="27" column="89" source="standard:argument-list-wrapping" />
+        <error line="27" column="92" source="standard:argument-list-wrapping" />
+        <error line="27" column="100" source="standard:max-line-length" />
+        <error line="27" column="102" source="standard:argument-list-wrapping" />
+        <error line="27" column="115" source="standard:argument-list-wrapping" />
+        <error line="27" column="116" source="standard:argument-list-wrapping" />
+        <error line="30" column="23" source="standard:argument-list-wrapping" />
+        <error line="30" column="50" source="standard:argument-list-wrapping" />
+        <error line="30" column="59" source="standard:argument-list-wrapping" />
+        <error line="30" column="70" source="standard:argument-list-wrapping" />
+        <error line="30" column="71" source="standard:argument-list-wrapping" />
+        <error line="30" column="73" source="standard:binary-expression-wrapping" />
+        <error line="30" column="101" source="standard:max-line-length" />
+        <error line="38" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/org/totschnig/ocr/AbstractOcrHandlerImpl.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="38" column="1" source="standard:no-consecutive-blank-lines" />
+        <error line="78" column="1" source="standard:indent" />
+        <error line="98" column="23" source="standard:argument-list-wrapping" />
+        <error line="98" column="29" source="standard:argument-list-wrapping" />
+        <error line="133" column="70" source="standard:wrapping" />
+        <error line="133" column="73" source="standard:multiline-if-else" />
+        <error line="154" column="13" source="standard:comment-spacing" />
+        <error line="155" column="20" source="standard:wrapping" />
+        <error line="155" column="46" source="standard:wrapping" />
+        <error line="156" column="78" source="standard:argument-list-wrapping" />
+        <error line="156" column="92" source="standard:binary-expression-wrapping" />
+        <error line="156" column="101" source="standard:max-line-length" />
+        <error line="156" column="125" source="standard:argument-list-wrapping" />
+        <error line="162" column="13" source="standard:wrapping" />
+        <error line="186" column="27" source="standard:wrapping" />
+        <error line="186" column="28" source="standard:argument-list-wrapping" />
+        <error line="210" column="18" source="standard:wrapping" />
+        <error line="219" column="21" source="standard:wrapping" />
+        <error line="220" column="1" source="standard:indent" />
+        <error line="265" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/org/totschnig/ocr/OcrComponent.kt">
+        <error line="27" column="1" source="standard:indent" />
+        <error line="28" column="1" source="standard:indent" />
+    </file>
+    <file name="src/main/java/org/totschnig/ocr/OcrFeature.kt">
+        <error line="11" column="26" source="standard:colon-spacing" />
+        <error line="15" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/org/totschnig/ocr/OcrHandler.kt">
+        <error line="12" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/org/totschnig/ocr/ScanPreviewFragment.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="54" column="31" source="standard:wrapping" />
+        <error line="54" column="32" source="standard:argument-list-wrapping" />
+        <error line="54" column="60" source="standard:argument-list-wrapping" />
+        <error line="91" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/org/totschnig/ocr/ScanPreviewViewModel.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="32" column="51" source="standard:argument-list-wrapping" />
+        <error line="32" column="94" source="standard:argument-list-wrapping" />
+        <error line="32" column="101" source="standard:max-line-length" />
+        <error line="32" column="111" source="standard:argument-list-wrapping" />
+        <error line="32" column="115" source="standard:argument-list-wrapping" />
+        <error line="42" column="38" source="standard:argument-list-wrapping" />
+        <error line="42" column="50" source="standard:function-literal" />
+        <error line="42" column="82" source="standard:argument-list-wrapping" />
+        <error line="42" column="91" source="standard:argument-list-wrapping" />
+        <error line="42" column="99" source="standard:argument-list-wrapping" />
+        <error line="42" column="101" source="standard:function-literal" />
+        <error line="42" column="101" source="standard:max-line-length" />
+        <error line="42" column="102" source="standard:argument-list-wrapping" />
+        <error line="49" column="41" source="standard:paren-spacing" />
+        <error line="50" column="1" source="standard:indent" />
+        <error line="51" column="1" source="standard:indent" />
+        <error line="52" column="1" source="standard:indent" />
+        <error line="53" column="1" source="standard:indent" />
+        <error line="53" column="19" source="standard:wrapping" />
+        <error line="53" column="20" source="standard:argument-list-wrapping" />
+        <error line="53" column="30" source="standard:wrapping" />
+        <error line="53" column="31" source="standard:argument-list-wrapping" />
+        <error line="58" column="30" source="standard:argument-list-wrapping" />
+        <error line="58" column="42" source="standard:function-literal" />
+        <error line="58" column="43" source="standard:wrapping" />
+        <error line="58" column="66" source="standard:binary-expression-wrapping" />
+        <error line="58" column="66" source="standard:argument-list-wrapping" />
+        <error line="58" column="73" source="standard:binary-expression-wrapping" />
+        <error line="58" column="92" source="standard:argument-list-wrapping" />
+        <error line="58" column="101" source="standard:max-line-length" />
+        <error line="58" column="114" source="standard:argument-list-wrapping" />
+        <error line="58" column="115" source="standard:argument-list-wrapping" />
+        <error line="58" column="117" source="standard:function-literal" />
+        <error line="58" column="118" source="standard:argument-list-wrapping" />
+        <error line="63" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/org/totschnig/ocr/Text.kt">
+        <error line="10" column="49" source="standard:colon-spacing" />
+        <error line="14" column="44" source="standard:colon-spacing" />
+        <error line="18" column="87" source="standard:colon-spacing" />
+        <error line="22" column="61" source="standard:colon-spacing" />
+        <error line="22" column="72" source="standard:final-newline" />
+    </file>
+    <file name="src/test/java/org/totschnig/ocr/OcrHandlerImplTest.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="16" column="49" source="standard:multiline-if-else" />
+        <error line="17" column="13" source="standard:multiline-if-else" />
+        <error line="23" column="39" source="standard:op-spacing" />
+        <error line="141" column="1" source="standard:final-newline" />
+    </file>
+</baseline>

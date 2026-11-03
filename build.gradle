@@ -6,6 +6,8 @@ plugins {
     alias libs.plugins.compose.compiler apply false
     alias libs.plugins.kotlin.serialization apply false
     alias libs.plugins.legacy.kapt apply false
+    alias libs.plugins.detekt apply false
+    alias libs.plugins.ktlint apply false
     //drive
     //id 'com.google.gms.google-services' version '4.4.0' apply false
 }
@@ -27,3 +29,51 @@ allprojects { // Or subprojects {
     }
 }
 
+
+// Static analysis (detekt) and formatting (ktlint) for every module with Kotlin sources.
+// Existing findings are kept in per-module baselines, so only new findings fail the build.
+// Run: ./gradlew detekt ktlintCheck
+// Refresh baselines: ./gradlew detektBaseline ktlintGenerateBaseline
+def ktlintProperties = new Properties()
+file("ktlint-plugins.properties").withInputStream { ktlintProperties.load(it) }
+def ktlintVersion = ktlintProperties.getProperty("ktlint-version")
+
+subprojects {
+    ['com.android.application', 'com.android.library', 'com.android.dynamic-feature', 'org.jetbrains.kotlin.jvm'].each { id ->
+        pluginManager.withPlugin(id) {
+            if (pluginManager.hasPlugin('dev.detekt')) return
+            pluginManager.apply(libs.plugins.detekt.get().pluginId)
+            pluginManager.apply(libs.plugins.ktlint.get().pluginId)
+
+            detekt {
+                buildUponDefaultConfig = true
+                config.setFrom(rootProject.file('config/detekt/detekt.yml'))
+                baseline = file('detekt-baseline.xml')
+                parallel = true
+            }
+
+            ktlint {
+                // Shared with the Android Studio ktlint plugin
+                version = ktlintVersion
+                baseline = file('ktlint-baseline.xml')
+                filter {
+                    exclude { it.file.path.contains("${File.separator}build${File.separator}") }
+                }
+            }
+        }
+    }
+}
+
+// Git hooks in config/git-hooks: ktlint on staged files before commit, detekt before push.
+// Every Gradle run (including the Android Studio sync) points git at them, unless a hooks path is
+// already configured (repository or global) or the build runs on CI. Skip once with --no-verify.
+if (System.getenv('CI') == null && file('.git').exists()) {
+    def hooksPath = providers.exec {
+        commandLine 'git', 'config', '--get', 'core.hooksPath'
+        ignoreExitValue = true
+    }.standardOutput.asText.get().trim()
+    if (hooksPath.isEmpty()) {
+        providers.exec { commandLine 'git', 'config', 'core.hooksPath', 'config/git-hooks' }.result.get()
+        logger.lifecycle('Git hooks installed from config/git-hooks')
+    }
+}

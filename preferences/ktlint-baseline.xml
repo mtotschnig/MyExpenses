@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<baseline version="1.0">
+    <file name="src/androidTest/java/androidx/preference/tests/PreferenceDialogFragmentCompatTest.kt">
+        <error line="47" column="32" source="standard:function-expression-body" />
+        <error line="105" column="12" source="standard:statement-wrapping" />
+        <error line="105" column="77" source="standard:statement-wrapping" />
+        <error line="110" column="12" source="standard:statement-wrapping" />
+        <error line="110" column="66" source="standard:statement-wrapping" />
+        <error line="114" column="12" source="standard:statement-wrapping" />
+        <error line="114" column="68" source="standard:statement-wrapping" />
+        <error line="119" column="14" source="standard:function-expression-body" />
+    </file>
+    <file name="src/androidTest/java/androidx/preference/tests/PreferenceFragmentCompatInterfaceTest.kt">
+        <error line="336" column="9" source="standard:function-signature" />
+        <error line="336" column="42" source="standard:function-signature" />
+        <error line="412" column="9" source="standard:function-signature" />
+        <error line="413" column="9" source="standard:function-signature" />
+        <error line="413" column="25" source="standard:function-signature" />
+        <error line="414" column="9" source="standard:function-signature" />
+        <error line="417" column="9" source="standard:function-signature" />
+        <error line="418" column="9" source="standard:function-signature" />
+        <error line="418" column="31" source="standard:function-signature" />
+        <error line="419" column="9" source="standard:function-signature" />
+        <error line="422" column="9" source="standard:function-signature" />
+        <error line="423" column="9" source="standard:function-signature" />
+        <error line="423" column="25" source="standard:function-signature" />
+        <error line="424" column="9" source="standard:function-signature" />
+        <error line="440" column="9" source="standard:function-signature" />
+        <error line="441" column="9" source="standard:function-signature" />
+        <error line="441" column="25" source="standard:function-signature" />
+        <error line="442" column="9" source="standard:function-signature" />
+        <error line="445" column="9" source="standard:function-signature" />
+        <error line="446" column="9" source="standard:function-signature" />
+        <error line="446" column="31" source="standard:function-signature" />
+        <error line="447" column="9" source="standard:function-signature" />
+        <error line="450" column="9" source="standard:function-signature" />
+        <error line="451" column="9" source="standard:function-signature" />
+        <error line="451" column="25" source="standard:function-signature" />
+        <error line="452" column="9" source="standard:function-signature" />
+        <error line="486" column="27" source="standard:property-naming" />
+        <error line="487" column="9" source="standard:spacing-between-declarations-with-comments" />
+        <error line="493" column="9" source="standard:spacing-between-declarations-with-comments" />
+        <error line="515" column="5" source="standard:class-signature" />
+        <error line="559" column="13" source="standard:function-signature" />
+        <error line="560" column="13" source="standard:function-signature" />
+        <error line="560" column="29" source="standard:function-signature" />
+        <error line="561" column="13" source="standard:function-signature" />
+        <error line="569" column="13" source="standard:function-signature" />
+        <error line="570" column="13" source="standard:function-signature" />
+        <error line="570" column="29" source="standard:function-signature" />
+        <error line="571" column="13" source="standard:function-signature" />
+        <error line="595" column="9" source="standard:function-signature" />
+        <error line="596" column="9" source="standard:function-signature" />
+        <error line="596" column="25" source="standard:function-signature" />
+        <error line="597" column="9" source="standard:function-signature" />
+        <error line="600" column="9" source="standard:function-signature" />
+        <error line="601" column="9" source="standard:function-signature" />
+        <error line="601" column="31" source="standard:function-signature" />
+        <error line="602" column="9" source="standard:function-signature" />
+        <error line="605" column="9" source="standard:function-signature" />
+        <error line="606" column="9" source="standard:function-signature" />
+        <error line="606" column="25" source="standard:function-signature" />
+        <error line="607" column="9" source="standard:function-signature" />
+    </file>
+    <file name="src/androidTest/java/androidx/preference/tests/SeekBarPreferenceTest.kt">
+        <error line="251" column="43" source="standard:function-expression-body" />
+        <error line="285" column="65" source="standard:function-expression-body" />
+    </file>
+    <file name="src/main/java/androidx/preference/PreferenceHeaderFragmentCompat.kt">
+        <error line="105" column="9" source="standard:class-signature" />
+        <error line="105" column="59" source="standard:class-signature" />
+        <error line="107" column="9" source="standard:class-signature" />
+        <error line="244" column="1" source="standard:indent" />
+        <error line="254" column="5" source="standard:comment-spacing" />
+    </file>
+</baseline>
