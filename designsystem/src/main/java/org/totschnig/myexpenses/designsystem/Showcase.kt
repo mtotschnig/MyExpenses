@@ -92,10 +92,17 @@ private fun Showcase() {
             SectionTitle("Rows")
             DetailCard {
                 InfoRow("Info", "Value", isFirst = true)
+                InfoRow("Changeable", "Tap to change", onClick = {})
+                HintRow("Warning about a consequence, e.g. no longer matching the bank", isWarning = true)
                 SwitchRow("Switch", checked = true, onCheckedChange = {}, supportingText = "Explanation")
                 LinkRow("Link", onClick = {})
                 LoadingRow()
             }
+            SectionTitle("Form")
+            FormTextField("Text", value = "Typed", onValueChange = {})
+            FormTextField("Amount", value = "4x", onValueChange = {}, isError = true, supportingText = "Not an amount", trailing = { Text("€") })
+            FormTextField("Long text", value = "", onValueChange = {}, singleLine = false)
+            FormPickerField("Picked", value = "Tuesday, 3 November", onClick = {})
             SectionTitle("Settings")
             SearchField(query = "", onQueryChange = {}, placeholder = "Search", clearLabel = "Clear")
             IconNavigationRow(Icons.Outlined.Palette, "Icon navigation", onClick = {}, supportingText = "Lists what can be found there")

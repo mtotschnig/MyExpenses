@@ -43,6 +43,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -108,6 +110,8 @@ fun isWideWindow(): Boolean = with(LocalDensity.current) {
  * @param skipPartiallyExpanded false lets a sheet from the bottom stop at half the height first
  * @param closeLabel shown as a close button next to the title, e.g. when the actions have no way
  * to dismiss; a side sheet always has one
+ * @param snackbarHostState shows snackbars at the bottom of the sheet, e.g. to undo a change made in
+ * it; the snackbars of the screen below would be hidden behind the sheet
  * @param content scrolls if it does not fit
  */
 @OptIn(ExperimentalMaterial3Api::class)
@@ -119,11 +123,12 @@ fun AdaptiveSheet(
     scrollable: Boolean = true,
     skipPartiallyExpanded: Boolean = true,
     closeLabel: String? = null,
+    snackbarHostState: SnackbarHostState? = null,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     if (isWideWindow()) {
         SideSheet(onDismiss = onDismiss, title = title, closeLabel = closeLabel) {
-            SheetBody(actions, scrollable, content)
+            SheetBody(actions, scrollable, snackbarHostState, content)
         }
     } else {
         ModalBottomSheet(
@@ -134,7 +139,7 @@ fun AdaptiveSheet(
             if (closeLabel != null) {
                 TitleRow(title, closeLabel, onDismiss)
             } else title?.let { SheetTitle(it, Modifier.padding(horizontal = Spacing.screen, vertical = 8.dp)) }
-            SheetBody(actions, scrollable, content)
+            SheetBody(actions, scrollable, snackbarHostState, content)
         }
     }
 }
@@ -240,6 +245,7 @@ private fun SheetTitle(title: String, modifier: Modifier = Modifier) {
 internal fun ColumnScope.SheetBody(
     actions: (@Composable RowScope.() -> Unit)?,
     scrollable: Boolean,
+    snackbarHostState: SnackbarHostState? = null,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     Column(
@@ -259,6 +265,7 @@ internal fun ColumnScope.SheetBody(
             content = actions
         )
     }
+    snackbarHostState?.let { SnackbarHost(it) }
 }
 
 /**

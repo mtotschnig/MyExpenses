@@ -12,7 +12,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.WarningAmber
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
@@ -45,13 +47,22 @@ import androidx.compose.ui.unit.dp
  * Label on the left, value on the right
  *
  * @param valueColor e.g. for amounts, see [org.totschnig.myexpenses.designsystem.theme.SemanticColors.amountColor]
+ * @param onClick changes the value, e.g. picks another date; a small pencil after the value shows
+ * that it can be changed. Null for a value that is only shown.
  */
 @Composable
-fun InfoRow(label: String, value: String, isFirst: Boolean = false, valueColor: Color = Color.Unspecified) {
+fun InfoRow(
+    label: String,
+    value: String,
+    isFirst: Boolean = false,
+    valueColor: Color = Color.Unspecified,
+    onClick: (() -> Unit)? = null,
+) {
     if (!isFirst) RowDivider()
     Row(
         modifier = Modifier
             .fillMaxWidth()
+            .then(if (onClick != null) Modifier.clickable(onClickLabel = label, onClick = onClick) else Modifier)
             .padding(horizontal = Spacing.content, vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -72,6 +83,16 @@ fun InfoRow(label: String, value: String, isFirst: Boolean = false, valueColor: 
                 .weight(1f)
                 .padding(start = Spacing.content)
         )
+        if (onClick != null) {
+            Icon(
+                Icons.Outlined.Edit,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier
+                    .padding(start = Spacing.small)
+                    .size(16.dp)
+            )
+        }
     }
 }
 
@@ -239,9 +260,17 @@ fun SliderRow(
 
 /**
  * Explains something within a card, e.g. that backups to the cloud are not encrypted
+ *
+ * @param isWarning about a consequence the user should know before going on, e.g. that a change
+ * no longer matches the bank: a warning sign in the color of errors and the text in full contrast
  */
 @Composable
-fun HintRow(text: String, isFirst: Boolean = false, icon: ImageVector = Icons.Outlined.Info) {
+fun HintRow(
+    text: String,
+    isFirst: Boolean = false,
+    icon: ImageVector = Icons.Outlined.Info,
+    isWarning: Boolean = false,
+) {
     if (!isFirst) RowDivider()
     Row(
         modifier = Modifier
@@ -249,15 +278,15 @@ fun HintRow(text: String, isFirst: Boolean = false, icon: ImageVector = Icons.Ou
             .padding(horizontal = Spacing.content, vertical = 12.dp)
     ) {
         Icon(
-            icon,
+            if (isWarning && icon == Icons.Outlined.Info) Icons.Outlined.WarningAmber else icon,
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            tint = if (isWarning) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.size(20.dp)
         )
         Text(
             text,
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            color = if (isWarning) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.padding(start = Spacing.content)
         )
     }
