@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import org.totschnig.myexpenses.compose.Menu
 import org.totschnig.myexpenses.designsystem.AdaptiveSheet
 import org.totschnig.myexpenses.designsystem.ChipRow
-import org.totschnig.myexpenses.designsystem.DetailCard
 import org.totschnig.myexpenses.designsystem.InfoRow
 import org.totschnig.myexpenses.designsystem.Spacing
 import org.totschnig.myexpenses.viewmodel.data.Transaction2
@@ -36,7 +35,7 @@ import org.totschnig.myexpenses.next.core.common.R
 import org.totschnig.myexpenses.next.core.ui.rememberDateFormatter
 
 /**
- * Details of a transaction in a sheet above the list, laid out like the details of a contract:
+ * Details of a transaction in a sheet above the list, the rows straight on the sheet:
  * from the bottom, first up to half the height, or from the side in wide windows.
  * The actions of the transaction (edit, delete, …) are in the menu next to the payee.
  *
@@ -75,43 +74,45 @@ private fun TransactionDetails(
     content: @Composable () -> Unit,
 ) {
     val dateFormatter = rememberDateFormatter(FormatStyle.FULL)
-    Column(Modifier.padding(start = Spacing.screen, end = Spacing.screen, bottom = Spacing.screen)) {
-        DetailCard {
-            Header(transaction, image, onImageClick) {
-                if (menu != null) {
-                    val showMenu = rememberSaveable { mutableStateOf(false) }
-                    IconButton(onClick = { showMenu.value = true }) {
-                        Icon(Icons.Default.MoreVert, contentDescription = stringResource(R.string.next_transaction_actions))
-                    }
-                    MenuActionSheet(showMenu, menu, title = transaction.party?.displayName)
+    // Straight on the sheet: a card would highlight the details, but in the sheet they are all
+    // there is. The rows pad themselves, header, chips and the added content are padded here.
+    Column(Modifier.padding(bottom = Spacing.screen)) {
+        Header(transaction, image, onImageClick) {
+            if (menu != null) {
+                val showMenu = rememberSaveable { mutableStateOf(false) }
+                IconButton(onClick = { showMenu.value = true }) {
+                    Icon(Icons.Default.MoreVert, contentDescription = stringResource(R.string.next_transaction_actions))
                 }
-            }
-            if (categoryChip != null || tagChips != null) {
-                Column(
-                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    categoryChip?.let { chip ->
-                        ChipRow(stringResource(R.string.next_details_category)) { chip(Modifier) }
-                    }
-                    tagChips?.invoke(Modifier)
-                }
-            }
-            InfoRow(stringResource(R.string.next_transaction_date), dateFormatter.format(transaction.date))
-            transaction.accountLabel?.takeIf { it.isNotBlank() }?.let {
-                InfoRow(stringResource(R.string.next_transaction_account), it)
-            }
-            if (categoryChip == null) transaction.categoryPath?.let {
-                InfoRow(stringResource(R.string.next_contracts_transaction_category), it)
-            }
-            transaction.methodLabel?.let {
-                InfoRow(stringResource(R.string.next_transaction_method), it)
-            }
-            transaction.comment?.takeIf { it.isNotBlank() }?.let {
-                InfoRow(stringResource(R.string.next_transaction_comment), it)
+                MenuActionSheet(showMenu, menu, title = transaction.party?.displayName)
             }
         }
-        content()
+        if (categoryChip != null || tagChips != null) {
+            Column(
+                modifier = Modifier.padding(start = Spacing.screen, end = Spacing.screen, bottom = 16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                categoryChip?.let { chip ->
+                    ChipRow(stringResource(R.string.next_details_category)) { chip(Modifier) }
+                }
+                tagChips?.invoke(Modifier)
+            }
+        }
+        InfoRow(stringResource(R.string.next_transaction_date), dateFormatter.format(transaction.date))
+        transaction.accountLabel?.takeIf { it.isNotBlank() }?.let {
+            InfoRow(stringResource(R.string.next_transaction_account), it)
+        }
+        if (categoryChip == null) transaction.categoryPath?.let {
+            InfoRow(stringResource(R.string.next_contracts_transaction_category), it)
+        }
+        transaction.methodLabel?.let {
+            InfoRow(stringResource(R.string.next_transaction_method), it)
+        }
+        transaction.comment?.takeIf { it.isNotBlank() }?.let {
+            InfoRow(stringResource(R.string.next_transaction_comment), it)
+        }
+        Column(Modifier.padding(horizontal = Spacing.screen)) {
+            content()
+        }
     }
 }
 
@@ -123,7 +124,8 @@ private fun Header(
     actions: @Composable () -> Unit,
 ) {
     Row(
-        modifier = Modifier.padding(16.dp),
+        // Little space at the top, the drag handle of the sheet already keeps its distance
+        modifier = Modifier.padding(start = Spacing.screen, end = Spacing.screen, top = 0.dp, bottom = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         TransactionTile(
