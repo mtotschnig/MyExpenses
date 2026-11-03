@@ -28,4 +28,7 @@
     <string name="whats_new_402">Vrste računa se mogu prilagoditi</string>
     <string name="whats_new_403">Značke računa proširuju prilagodbu vidljivosti i prioriteta računa.</string>
     <string name="whats_new_407">Prirodno sortiranje za oznake, kategorije, račune, stranke.</string>
+    <string name="whats_new_411_1">Višedjelni prijenosi</string>
+    <string name="whats_new_411_2">Prijenosi imovine između portfelja</string>
+    <string name="whats_new_411_3">Ekran povijesti za agregirane račune sada odražava promjenu vrijednosti stranih valuta</string>
 </resources>
