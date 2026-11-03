@@ -127,3 +127,7 @@ private fun Long.onDay(day: LocalDate, zone: ZoneId): Long {
     val time = Instant.ofEpochSecond(this).atZone(zone).toLocalTime()
     return day.atTime(time).atZone(zone).toEpochSecond()
 }
+
+/** Whether amount, day or payee of [other] differ from these values, what the bank reports */
+fun EditValues.differsInBankFields(other: EditValues, zone: ZoneId) =
+    amount != other.amount || date.toDay(zone) != other.date.toDay(zone) || payee != other.payee

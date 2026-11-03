@@ -74,6 +74,16 @@ class TransactionEditingTest {
     }
 
     @Test
+    fun onlyAmountDayAndPayeeDifferFromTheBank() {
+        val values = transaction().values
+        assertEquals(false, values.differsInBankFields(values.copy(comment = "Notiz", methodId = 3), zone))
+        assertEquals(false, values.differsInBankFields(values.copy(date = values.date + 60), zone))
+        assertEquals(true, values.differsInBankFields(values.copy(amount = -1), zone))
+        assertEquals(true, values.differsInBankFields(values.copy(payee = "Lidl"), zone))
+        assertEquals(true, values.differsInBankFields(values.withDay(LocalDate.of(2026, 3, 2), zone), zone))
+    }
+
+    @Test
     fun noValuesForAnAmountThatCannotBeRead() {
         val transaction = transaction(amount = -4290)
         assertNull(transaction.apply(transaction.toDraft(',', zone).copy(amountText = "4x"), zone))

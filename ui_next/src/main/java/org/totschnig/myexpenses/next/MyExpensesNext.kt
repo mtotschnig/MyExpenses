@@ -11,6 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.totschnig.myexpenses.injector
+import org.totschnig.myexpenses.next.transactions.RepositoryTransactionStore
+import org.totschnig.myexpenses.next.transactions.TransactionEditViewModel
+import java.text.DecimalFormatSymbols
 import androidx.compose.ui.Modifier
 import java.io.Serializable
 import org.totschnig.myexpenses.activity.MyExpensesV2
@@ -46,6 +51,15 @@ class MyExpensesNext : MyExpensesV2() {
     // The areas of the new UI, see [NextFeature]
     private val features by lazy { NextFeatures(this) }
 
+    // Changes transactions from their details, see [TransactionEditActions]
+    private val transactionEditViewModel by viewModelsOf {
+        TransactionEditViewModel(
+            RepositoryTransactionStore(injector.repository()),
+            it,
+            DecimalFormatSymbols.getInstance().decimalSeparator
+        )
+    }
+
     @Composable
     override fun MainTheme(content: @Composable () -> Unit) {
         NextTheme(content = content)
@@ -76,6 +90,7 @@ class MyExpensesNext : MyExpensesV2() {
             ActionChipRow { features.all.forEach { it.TransactionChips(transaction) } }
         }
         val rows = features.all.mapNotNull { it.rowDecorations() }
+        val editState by transactionEditViewModel.state.collectAsStateWithLifecycle()
         CompositionLocalProvider(*features.all.flatMap { it.provided() }.toTypedArray()) {
             NextMainScreen(
                 viewModel = viewModel,
@@ -113,7 +128,9 @@ class MyExpensesNext : MyExpensesV2() {
                             tagChips = rows.firstNotNullOfOrNull { it.tagChips } ?: { null },
                             isMarker = rows.firstNotNullOfOrNull { it.isMarker } ?: { false },
                             payeeImage = rows.firstNotNullOfOrNull { it.payeeImage } ?: { null },
-                            payeeImageDialog = rows.firstNotNullOfOrNull { it.payeeImageDialog }
+                            payeeImageDialog = rows.firstNotNullOfOrNull { it.payeeImageDialog },
+                            editState = editState,
+                            editActions = transactionEditViewModel
                         )
                     })
                 },

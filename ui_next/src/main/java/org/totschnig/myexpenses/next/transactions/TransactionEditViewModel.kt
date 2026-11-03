@@ -20,6 +20,8 @@ import java.time.ZoneId
  *
  * @param transaction the opened transaction, null while it loads or if the details cannot change
  * it (see [TransactionStore.load])
+ * @param loadedId the transaction whose loading has finished, so that a [transaction] of null means
+ * that the details cannot change it
  * @param methods payment methods to choose from, for the sign of the transaction or of the draft
  * @param draft what is typed in the edit mode, null outside of it
  * @param isAmountInvalid the amount of the draft cannot be read, it is not saved then
@@ -27,6 +29,7 @@ import java.time.ZoneId
  */
 data class TransactionEditState(
     val transaction: EditableTransaction? = null,
+    val loadedId: Long? = null,
     val methods: List<MethodOption> = emptyList(),
     val draft: EditDraft? = null,
     val isAmountInvalid: Boolean = false,
@@ -77,7 +80,7 @@ class TransactionEditViewModel(
         openedId = transactionId
         // A draft only belongs to the transaction it was started for
         if (_state.value.draft?.id != transactionId) setDraft(null)
-        _state.update { it.copy(transaction = null, methods = emptyList(), undo = null) }
+        _state.update { it.copy(transaction = null, loadedId = null, methods = emptyList(), undo = null) }
         loadJob?.cancel()
         loadJob = viewModelScope.launch { reload(transactionId) }
     }
@@ -165,7 +168,7 @@ class TransactionEditViewModel(
     private suspend fun reload(id: Long) {
         val transaction = withContext(io) { store.load(id) }
         if (openedId != id) return
-        _state.update { it.copy(transaction = transaction) }
+        _state.update { it.copy(transaction = transaction, loadedId = id) }
         if (transaction == null) setDraft(null)
         else loadMethods(transaction, _state.value.draft?.isIncome ?: (transaction.values.amount > 0))
     }

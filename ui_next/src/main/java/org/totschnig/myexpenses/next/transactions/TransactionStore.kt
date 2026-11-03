@@ -18,6 +18,7 @@ import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.getLong
 import org.totschnig.myexpenses.provider.getString
 import org.totschnig.myexpenses.provider.useAndMapToList
+import org.totschnig.myexpenses.viewmodel.data.Transaction2
 
 /** Loads and saves what the details of a transaction can change */
 interface TransactionStore {
@@ -86,3 +87,10 @@ class RepositoryTransactionStore(private val repository: Repository) : Transacti
         )
     }
 }
+
+/**
+ * Whether the details may be able to change this transaction, before [TransactionStore.load] tells
+ * for sure; the others go to the classic form at once
+ */
+fun Transaction2.isEditableInDetails() =
+    !isSplit && !isTransfer && !isSplitPart && !isArchive && crStatus != CrStatus.VOID
