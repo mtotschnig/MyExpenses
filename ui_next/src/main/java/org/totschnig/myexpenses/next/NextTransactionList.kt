@@ -49,7 +49,9 @@ import kotlin.math.absoluteValue
 import org.totschnig.myexpenses.compose.LocalColors
 import org.totschnig.myexpenses.compose.LocalCurrencyFormatter
 import org.totschnig.myexpenses.compose.Menu
+import org.totschnig.myexpenses.compose.MenuEntry
 import org.totschnig.myexpenses.compose.SubMenuEntry
+import org.totschnig.myexpenses.compose.UiText
 import org.totschnig.myexpenses.compose.conditional
 import org.totschnig.myexpenses.compose.transactions.FutureCriterion
 import org.totschnig.myexpenses.compose.transactions.SelectionHandler
@@ -237,6 +239,7 @@ private fun OpenedTransaction(
                     }
                 }
             ).let { if (isReadOnly) it.withoutListActions() else it }
+                .let { if (canEdit) it.forEditingDetails() else it }
         }.takeIf { !isReadOnly || content.modificationAllowed },
         onDismiss = onClose,
         categoryChip = categoryChip(transaction),
@@ -571,3 +574,13 @@ private fun String.lastCategoryPart() = substringAfterLast('>').trim()
  */
 private fun Menu.withoutListActions() = filterNot { it.command == "SELECT_TRANSACTION" || it is SubMenuEntry }
 
+
+/**
+ * The menu of details that change the transaction themselves: no entry to show the details, and
+ * editing in the classic form is left as the way for what the details cannot change
+ */
+private fun Menu.forEditingDetails() = filterNot { it.command == "DETAILS" }.map { entry ->
+    if (entry is MenuEntry && entry.command == "EDIT_TRANSACTION")
+        entry.copy(label = UiText.StringResource(R.string.next_transaction_edit_classic))
+    else entry
+}
