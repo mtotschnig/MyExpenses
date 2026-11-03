@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -123,31 +124,34 @@ private fun Header(
     onImageClick: (() -> Unit)?,
     actions: @Composable () -> Unit,
 ) {
-    Row(
+    Column(
         // Little space at the top, the drag handle of the sheet already keeps its distance
         modifier = Modifier.padding(start = Spacing.screen, end = Spacing.screen, top = 0.dp, bottom = 16.dp),
-        verticalAlignment = Alignment.CenterVertically
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TransactionTile(
-            transaction.party?.displayName,
-            image,
-            transaction.icon,
-            modifier = if (onImageClick != null) Modifier.clickable(
-                onClickLabel = stringResource(R.string.next_payee_image_change),
-                onClick = onImageClick
-            ) else Modifier,
-            isLarge = true
-        )
-        Spacer(Modifier.width(16.dp))
-        Column(Modifier.weight(1f)) {
+        // The amount first, centered above payee and menu and about twice as large as the name
+        SignedAmount(transaction.displayAmount, style = MaterialTheme.typography.displayMedium)
+        Spacer(Modifier.height(16.dp))
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            TransactionTile(
+                transaction.party?.displayName,
+                image,
+                transaction.icon,
+                modifier = if (onImageClick != null) Modifier.clickable(
+                    onClickLabel = stringResource(R.string.next_payee_image_change),
+                    onClick = onImageClick
+                ) else Modifier,
+                isLarge = true
+            )
+            Spacer(Modifier.width(16.dp))
             Text(
                 transaction.party?.name ?: transaction.categoryPath ?: NO_NAME,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.weight(1f)
             )
-            SignedAmount(transaction.displayAmount, style = MaterialTheme.typography.titleMedium)
+            actions()
         }
-        actions()
     }
 }
