@@ -193,7 +193,7 @@
     <!-- payment methods -->
     <string name="pm_cheque">Ček</string>
     <string name="pm_creditcard">Kreditna kartica</string>
-    <string name="pm_deposit">Polog</string>
+    <string name="pm_deposit">Uplata</string>
     <string name="pm_directdebit">Izravno terećenje</string>
     <string name="pm_type_credit">Potraživanje</string>
     <string name="pm_type_debit">Terećenje</string>
@@ -343,9 +343,9 @@
         <item quantity="other">%1$d računa uspješno uvezeno.</item>
     </plurals>
     <plurals name="import_transactions_result">
-        <item quantity="one">%1$d transakcija uspješno uvezena u račun %2$s</item>
-        <item quantity="few">%1$d transakcije uspješno uvezene u račun %2$s</item>
-        <item quantity="other">%1$d transakcija uspješno uvezeno u račun %2$s</item>
+        <item quantity="one">%1$d transakcija uvezena u račun %2$s.</item>
+        <item quantity="few">%1$d transakcije uvezene u račun %2$s.</item>
+        <item quantity="other">%1$d transakcija uvezeno u račun %2$s.</item>
     </plurals>
     <string name="import_source_select_error">Dokument mora biti vrste %1$s</string>
     <string name="menu_categories_setup_default">Postavi standardne kategorije</string>
@@ -770,7 +770,7 @@
     <string name="debt">Dug</string>
     <string name="title_activity_debt_overview">Pregled dugova</string>
     <plurals name="import_categories_icons_updated">
-        <item quantity="one">%1$d kategorija je aktualizirana s ikonama.</item>
+        <item quantity="one">%1$d kategorija je aktualizirana s ikonom.</item>
         <item quantity="few">%1$d kategorije su aktualizirane s ikonama.</item>
         <item quantity="other">%1$d kategorija je aktualizirano s ikonama.</item>
     </plurals>
@@ -913,7 +913,7 @@
     <string name="quick_search">Brza pretraga</string>
     <string name="complex_search">Složena pretraga</string>
     <string name="balance_sheet">Bilanca</string>
-    <string name="balance_sheet_section_assets">Imovina</string>
+    <string name="balance_sheet_section_assets">Imovine</string>
     <string name="balance_sheet_section_liabilities">Obveze</string>
     <string name="balance_sheet_net_worth">Neto vrijednost</string>
     <string name="price_history">Povijest cijene</string>
@@ -1000,9 +1000,44 @@
     <string name="service_starting">Pokretanje …</string>
     <string name="rounding">Zaokruživanje</string>
     <string name="important_upgrade_information_heading">Važne informacije</string>
-    <string name="pref_tag_style_title">Označi stil</string>
+    <string name="pref_tag_style_title">Stil oznake</string>
     <string name="pref_tag_style_outline">Obojeni rub</string>
     <string name="pref_tag_style_filled">Potpuno obojeno</string>
     <string name="trade_additional_costs">Dodatni troškovi</string>
     <string name="contrib_feature_portfolio_tracking">Praćenje portfelja</string>
+    <string name="dialog_title_warning_delete_closed_account">Izbrisati zatvoreni račun?</string>
+    <string name="parse_error_at_line">Greška u retku %1$d: %2$s</string>
+    <string name="search_asset">Traži imovinu</string>
+    <string name="remap_update_value_date">Također aktualiziraj datum vrijednosti</string>
+    <plurals name="import_trades_missing_assets_message">
+        <item quantity="one">%1$d redak se referira na nepoznate resurse: %2$s.</item>
+        <item quantity="few">%1$d retka se referiraju na nepoznate resurse: %2$s.</item>
+        <item quantity="other">%1$d redaka se referiraju na nepoznate resurse: %2$s.</item>
+    </plurals>
+    <string name="trade_buy">Kupi</string>
+    <string name="trade_sell">Prodaj</string>
+    <string name="trade_transfer">Prijenos</string>
+    <string name="trade_quantity">Količina</string>
+    <string name="trade_price">Cijena</string>
+    <string name="trade_fee">Naknada</string>
+    <string name="trade_add_cost">Dodaj trošak</string>
+    <string name="trade_target_asset">Imovina</string>
+    <string name="menu_create_portfolio">Novi portfolio</string>
+    <string name="asset_type_fiat_plural">Valute</string>
+    <string name="asset_type_security">Vrijednosni papir</string>
+    <string name="asset_type_security_plural">Vrijednosni papiri</string>
+    <string name="asset_type_crypto">Kripto</string>
+    <string name="asset_type_commodity">Roba</string>
+    <string name="asset_type_commodity_plural">Robe</string>
+    <string name="trade_funding_source">Izvor financiranja</string>
+    <string name="trade_funding_portfolio">Gotovina portfelja</string>
+    <string name="trade_funding_external_description">Sredstva iz izvora koji se ne prate u ovoj aplikaciji</string>
+    <string name="trade_deposit">Uplata</string>
+    <string name="trade_withdraw">Podizanje</string>
+    <string name="trade_matching_transaction_found">Na računu za uplatu je pronađena odgovarajuća transakcija. Odaberi za povezivanje:</string>
+    <string name="asset_quantity_at_price">%1$s @ %2$s</string>
+    <string name="premium_nudge_portfolio_message">Može besplatno upravljati jednim portfeljem. Nadogradi za upravljanje više portfelja i otključavanje naprednih funkcija praćenja (%1$s).</string>
+    <string name="help_floating_action_button">Plutajući gumb za radnju</string>
+    <string name="split_pane_view">Podijeljeni prikaz</string>
+    <string name="single_pane_view">Jednostruki prikaz</string>
 </resources>
