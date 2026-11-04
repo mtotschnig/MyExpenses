@@ -228,7 +228,9 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     CONTENT_BASED_COLORS(R.string.pref_content_based_colors_key),
     DEFAULT_ACTION(R.string.pref_default_action_key),
     PREMIUM_NUDGE_DISMISSED("premium_nudge_dismissed"),
-    LAST_TRADE_FEE_CATEGORIES("last_trade_fee_categories")
+    LAST_TRADE_FEE_CATEGORIES("last_trade_fee_categories"),
+    SHARE_TARGET_USERNAME(R.string.pref_share_target_username_key),
+    SHARE_TARGET_PASSWORD(R.string.pref_share_target_password_key),
     ;
 
     @Deprecated("")

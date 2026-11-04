@@ -68,6 +68,7 @@ import org.totschnig.myexpenses.dialog.SelectCategoryMoveTargetDialogFragment
 import org.totschnig.myexpenses.dialog.SetupCategoriesConfirmDialogFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.ContribPayload
 import org.totschnig.myexpenses.model.sort.Sort
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.KEY_ACCOUNTID
@@ -89,7 +90,6 @@ import org.totschnig.myexpenses.viewmodel.ManageCategoriesViewModel
 import org.totschnig.myexpenses.viewmodel.ManageCategoriesViewModel.DeleteResult.OperationComplete
 import org.totschnig.myexpenses.viewmodel.ManageCategoriesViewModel.DeleteResult.OperationPending
 import org.totschnig.myexpenses.viewmodel.data.Category
-import java.io.Serializable
 
 class ManageCategories : ProtectedFragmentActivity(),
     ContribIFace {
@@ -219,7 +219,7 @@ class ManageCategories : ProtectedFragmentActivity(),
                                 if (it.level > 2) {
                                     contribFeatureRequested(
                                         ContribFeature.CATEGORY_TREE,
-                                        R.id.SELECT_COMMAND to it
+                                        ContribPayload.CategoryTree(R.id.SELECT_COMMAND, category = it)
                                     )
                                 } else {
                                     doSingleSelection(it)
@@ -236,14 +236,35 @@ class ManageCategories : ProtectedFragmentActivity(),
                         ChoiceMode.MultiChoiceMode(selectionState, true)
                     }
                 }
+
                 when (viewModel.dialogState) {
-                    is ManageCategoriesViewModel.Edit -> CategoryEdit(
-                        dialogState = viewModel.dialogState as ManageCategoriesViewModel.Edit,
-                        onDismissRequest = {
-                            viewModel.dialogState = ManageCategoriesViewModel.NoShow
-                        },
-                        onSave = viewModel::saveCategory
-                    )
+                    is ManageCategoriesViewModel.Edit -> {
+                        val categoryState = viewModel.categoryTreeForSelect.collectAsState(initial = LoadingState.Loading).value
+                        if (categoryState is LoadingState.Result) {
+                            val categories = (categoryState as? LoadingState.Data)?.data?.flatten().orEmpty()
+                            CategoryEdit(
+                                dialogState = viewModel.dialogState as ManageCategoriesViewModel.Edit,
+                                categories = categories,
+                                onDismissRequest = {
+                                    viewModel.dialogState = ManageCategoriesViewModel.NoShow
+                                },
+                                onSave = { label, icon, typeFlags, parentId ->
+                                    val parent = categories.find { it.id == parentId }
+                                    if (parent != null && parent.level > 1) {
+                                        contribFeatureRequested(
+                                            ContribFeature.CATEGORY_TREE,
+                                            ContribPayload.CategoryTree(
+                                                R.id.CREATE_SUB_COMMAND_DO,
+                                                saveParams = ContribPayload.SaveCategoryParams(label, icon, typeFlags, parentId)
+                                            )
+                                        )
+                                    } else {
+                                        viewModel.saveCategory(label, icon, typeFlags, parentId)
+                                    }
+                                }
+                            )
+                        }
+                    }
 
                     is ManageCategoriesViewModel.Merge -> CategoryMerge(
                         dialogState = viewModel.dialogState as ManageCategoriesViewModel.Merge,
@@ -255,7 +276,7 @@ class ManageCategories : ProtectedFragmentActivity(),
 
                     else -> {}
                 }
-                viewModel.categoryTree.collectAsState(initial = Category.LOADING).value.let { state ->
+                viewModel.categoryTree.collectAsState().value.let { state ->
                     LaunchedEffect(state) {
                         finishActionMode()
                     }
@@ -372,14 +393,7 @@ class ManageCategories : ProtectedFragmentActivity(),
                                                             command = "CREATE_SUBCATEGORY",
                                                             icon = Icons.Filled.Add
                                                         ) {
-                                                            if (cat.level > 1) {
-                                                                contribFeatureRequested(
-                                                                    ContribFeature.CATEGORY_TREE,
-                                                                    R.id.CREATE_SUB_COMMAND to cat
-                                                                )
-                                                            } else {
-                                                                createCat(cat)
-                                                            }
+                                                            createCat(cat)
                                                         },
                                                         MenuEntry(
                                                             label = R.string.menu_move,
@@ -836,13 +850,14 @@ class ManageCategories : ProtectedFragmentActivity(),
             ManageCategoriesViewModel.Edit(category = category)
     }
 
-    override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
-        if (feature == ContribFeature.CATEGORY_TREE) {
-            val (command, category) = tag as Pair<Int, Category>
-            if (command == R.id.CREATE_SUB_COMMAND) {
-                createCat(category)
-            } else if (command == R.id.SELECT_COMMAND) {
-                doSingleSelection(category)
+    override fun contribFeatureCalled(feature: ContribFeature, tag: ContribPayload?) {
+        if (feature == ContribFeature.CATEGORY_TREE && tag is ContribPayload.CategoryTree) {
+            when (tag.command) {
+                R.id.CREATE_SUB_COMMAND -> tag.category?.let { createCat(it) }
+                R.id.CREATE_SUB_COMMAND_DO -> tag.saveParams?.let { (label, icon, typeFlags, parentId) ->
+                    viewModel.saveCategory(label, icon, typeFlags, parentId)
+                }
+                R.id.SELECT_COMMAND -> tag.category?.let { doSingleSelection(it) }
             }
         }
     }

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<baseline version="1.0">
+    <file name="src/androidTest/java/org/totschnig/webdav/util/AppNameLocalizationTest.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="18" column="57" source="standard:wrapping" />
+        <error line="18" column="65" source="standard:wrapping" />
+        <error line="19" column="1" source="standard:indent" />
+        <error line="20" column="9" source="standard:wrapping" />
+        <error line="24" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/at/bitfire/dav4android/LockableDavResource.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="35" column="35" source="standard:multiline-if-else" />
+        <error line="36" column="14" source="standard:multiline-if-else" />
+        <error line="110" column="47" source="standard:function-expression-body" />
+        <error line="114" column="9" source="standard:comment-spacing" />
+        <error line="121" column="15" source="standard:multiline-if-else" />
+        <error line="121" column="43" source="standard:multiline-if-else" />
+    </file>
+    <file name="src/main/java/org/totschnig/webdav/dialog/WebdavSetup.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="69" column="35" source="standard:binary-expression-wrapping" />
+        <error line="69" column="63" source="standard:argument-list-wrapping" />
+        <error line="69" column="72" source="standard:argument-list-wrapping" />
+        <error line="69" column="101" source="standard:max-line-length" />
+        <error line="69" column="115" source="standard:argument-list-wrapping" />
+        <error line="70" column="62" source="standard:argument-list-wrapping" />
+        <error line="70" column="71" source="standard:argument-list-wrapping" />
+        <error line="70" column="101" source="standard:max-line-length" />
+        <error line="70" column="116" source="standard:argument-list-wrapping" />
+        <error line="79" column="59" source="standard:binary-expression-wrapping" />
+        <error line="79" column="80" source="standard:argument-list-wrapping" />
+        <error line="79" column="101" source="standard:argument-list-wrapping" />
+        <error line="79" column="101" source="standard:max-line-length" />
+        <error line="79" column="105" source="standard:argument-list-wrapping" />
+        <error line="94" column="23" source="standard:argument-list-wrapping" />
+        <error line="102" column="35" source="standard:argument-list-wrapping" />
+        <error line="102" column="49" source="standard:argument-list-wrapping" />
+        <error line="102" column="84" source="standard:argument-list-wrapping" />
+        <error line="102" column="101" source="standard:max-line-length" />
+        <error line="102" column="104" source="standard:argument-list-wrapping" />
+        <error line="126" column="1" source="standard:blank-line-between-when-conditions" />
+        <error line="130" column="1" source="standard:blank-line-between-when-conditions" />
+        <error line="139" column="1" source="standard:blank-line-between-when-conditions" />
+        <error line="142" column="1" source="standard:blank-line-between-when-conditions" />
+        <error line="143" column="40" source="standard:argument-list-wrapping" />
+        <error line="143" column="46" source="standard:argument-list-wrapping" />
+        <error line="143" column="82" source="standard:argument-list-wrapping" />
+        <error line="143" column="99" source="standard:argument-list-wrapping" />
+        <error line="143" column="101" source="standard:max-line-length" />
+        <error line="147" column="1" source="standard:blank-line-between-when-conditions" />
+        <error line="149" column="44" source="standard:binary-expression-wrapping" />
+        <error line="149" column="88" source="standard:binary-expression-wrapping" />
+        <error line="149" column="101" source="standard:max-line-length" />
+        <error line="164" column="45" source="standard:binary-expression-wrapping" />
+        <error line="164" column="56" source="standard:argument-list-wrapping" />
+        <error line="164" column="100" source="standard:argument-list-wrapping" />
+        <error line="164" column="101" source="standard:max-line-length" />
+        <error line="164" column="105" source="standard:argument-list-wrapping" />
+        <error line="167" column="45" source="standard:binary-expression-wrapping" />
+        <error line="167" column="56" source="standard:argument-list-wrapping" />
+        <error line="167" column="101" source="standard:max-line-length" />
+        <error line="167" column="102" source="standard:argument-list-wrapping" />
+        <error line="198" column="101" source="standard:max-line-length" />
+        <error line="212" column="1" source="standard:no-empty-first-line-in-method-block" />
+        <error line="213" column="19" source="standard:wrapping" />
+        <error line="213" column="29" source="standard:wrapping" />
+        <error line="225" column="22" source="standard:wrapping" />
+        <error line="225" column="50" source="standard:wrapping" />
+        <error line="247" column="13" source="standard:wrapping" />
+        <error line="248" column="9" source="standard:wrapping" />
+        <error line="253" column="9" source="standard:class-signature" />
+        <error line="254" column="40" source="standard:function-expression-body" />
+        <error line="258" column="42" source="standard:function-signature" />
+        <error line="261" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/org/totschnig/webdav/sync/WebDavBackendProvider.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="41" column="28" source="standard:annotation" />
+        <error line="41" column="63" source="standard:annotation" />
+        <error line="79" column="65" source="standard:function-expression-body" />
+        <error line="105" column="13" source="standard:multiline-if-else" />
+        <error line="107" column="13" source="standard:multiline-if-else" />
+        <error line="107" column="48" source="standard:wrapping" />
+        <error line="107" column="49" source="standard:argument-list-wrapping" />
+        <error line="114" column="16" source="standard:function-expression-body" />
+        <error line="199" column="22" source="standard:binary-expression-wrapping" />
+        <error line="199" column="29" source="standard:multiline-if-else" />
+        <error line="199" column="59" source="standard:argument-list-wrapping" />
+        <error line="199" column="65" source="standard:argument-list-wrapping" />
+        <error line="199" column="72" source="standard:multiline-if-else" />
+        <error line="199" column="101" source="standard:max-line-length" />
+        <error line="212" column="88" source="standard:wrapping" />
+        <error line="212" column="89" source="standard:statement-wrapping" />
+        <error line="260" column="16" source="standard:multiline-if-else" />
+        <error line="268" column="27" source="standard:parameter-list-wrapping" />
+        <error line="268" column="27" source="standard:function-signature" />
+        <error line="268" column="49" source="standard:parameter-list-wrapping" />
+        <error line="268" column="49" source="standard:function-signature" />
+        <error line="269" column="32" source="standard:parameter-list-wrapping" />
+        <error line="269" column="32" source="standard:function-signature" />
+        <error line="273" column="53" source="standard:multiline-if-else" />
+        <error line="274" column="52" source="standard:function-expression-body" />
+        <error line="287" column="16" source="standard:multiline-if-else" />
+        <error line="311" column="51" source="standard:function-signature" />
+        <error line="311" column="91" source="standard:function-signature" />
+        <error line="311" column="100" source="standard:max-line-length" />
+        <error line="316" column="101" source="standard:max-line-length" />
+        <error line="338" column="26" source="standard:argument-list-wrapping" />
+        <error line="338" column="35" source="standard:argument-list-wrapping" />
+        <error line="338" column="53" source="standard:argument-list-wrapping" />
+        <error line="338" column="58" source="standard:argument-list-wrapping" />
+        <error line="338" column="68" source="standard:argument-list-wrapping" />
+        <error line="338" column="78" source="standard:argument-list-wrapping" />
+        <error line="338" column="91" source="standard:argument-list-wrapping" />
+        <error line="338" column="101" source="standard:max-line-length" />
+        <error line="338" column="108" source="standard:argument-list-wrapping" />
+        <error line="338" column="123" source="standard:argument-list-wrapping" />
+        <error line="349" column="74" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/org/totschnig/webdav/sync/WebDavBackendProviderFactory.kt">
+        <error line="15" column="9" source="standard:function-signature" />
+        <error line="16" column="9" source="standard:function-signature" />
+        <error line="17" column="9" source="standard:function-signature" />
+        <error line="17" column="39" source="standard:function-signature" />
+        <error line="18" column="9" source="standard:function-signature" />
+        <error line="21" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="22" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/org/totschnig/webdav/sync/WebDavComponent.kt">
+        <error line="26" column="1" source="standard:indent" />
+    </file>
+    <file name="src/main/java/org/totschnig/webdav/sync/client/CertificateHelper.kt">
+        <error line="18" column="1" source="standard:import-ordering" />
+        <error line="52" column="55" source="standard:function-literal" />
+        <error line="52" column="77" source="standard:argument-list-wrapping" />
+        <error line="52" column="90" source="standard:argument-list-wrapping" />
+        <error line="52" column="92" source="standard:function-literal" />
+        <error line="53" column="1" source="standard:spacing-between-declarations-with-annotations" />
+        <error line="73" column="1" source="standard:indent" />
+        <error line="95" column="39" source="standard:argument-list-wrapping" />
+        <error line="95" column="60" source="standard:argument-list-wrapping" />
+        <error line="95" column="85" source="standard:argument-list-wrapping" />
+        <error line="95" column="86" source="standard:argument-list-wrapping" />
+        <error line="95" column="101" source="standard:max-line-length" />
+        <error line="102" column="18" source="standard:wrapping" />
+        <error line="105" column="13" source="standard:wrapping" />
+        <error line="107" column="18" source="standard:wrapping" />
+        <error line="108" column="1" source="standard:indent" />
+        <error line="108" column="25" source="standard:chain-wrapping" />
+        <error line="108" column="56" source="standard:wrapping" />
+        <error line="151" column="63" source="standard:argument-list-wrapping" />
+        <error line="151" column="100" source="standard:max-line-length" />
+        <error line="151" column="102" source="standard:argument-list-wrapping" />
+        <error line="152" column="42" source="standard:no-multi-spaces" />
+        <error line="201" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/main/java/org/totschnig/webdav/sync/client/ClientCertMissingException.kt">
+        <error line="3" column="62" source="standard:class-signature" />
+        <error line="4" column="80" source="standard:argument-list-wrapping" />
+    </file>
+    <file name="src/main/java/org/totschnig/webdav/sync/client/WebDavClient.kt">
+        <error line="18" column="1" source="standard:import-ordering" />
+        <error line="68" column="36" source="standard:trailing-comma-on-declaration-site" />
+        <error line="70" column="17" source="standard:property-naming" />
+        <error line="93" column="55" source="standard:argument-list-wrapping" />
+        <error line="93" column="65" source="standard:argument-list-wrapping" />
+        <error line="115" column="74" source="standard:function-literal" />
+        <error line="115" column="101" source="standard:max-line-length" />
+        <error line="115" column="102" source="standard:function-literal" />
+        <error line="129" column="33" source="standard:trailing-comma-on-declaration-site" />
+        <error line="146" column="61" source="standard:function-expression-body" />
+        <error line="149" column="16" source="standard:multiline-if-else" />
+        <error line="150" column="1" source="standard:indent" />
+        <error line="169" column="71" source="standard:function-expression-body" />
+        <error line="176" column="13" source="standard:comment-spacing" />
+        <error line="189" column="95" source="standard:function-expression-body" />
+        <error line="196" column="91" source="standard:function-expression-body" />
+        <error line="200" column="84" source="standard:function-expression-body" />
+        <error line="235" column="84" source="standard:binary-expression-wrapping" />
+        <error line="235" column="101" source="standard:max-line-length" />
+        <error line="280" column="54" source="standard:function-expression-body" />
+        <error line="284" column="72" source="standard:function-expression-body" />
+        <error line="288" column="72" source="standard:function-expression-body" />
+        <error line="300" column="86" source="standard:function-expression-body" />
+        <error line="314" column="82" source="standard:function-expression-body" />
+        <error line="371" column="17" source="standard:comment-spacing" />
+        <error line="385" column="1" source="standard:indent" />
+    </file>
+    <file name="src/main/java/org/totschnig/webdav/viewmodel/WebdavSetupViewModel.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="28" column="31" source="standard:wrapping" />
+        <error line="30" column="30" source="standard:argument-list-wrapping" />
+        <error line="30" column="35" source="standard:argument-list-wrapping" />
+        <error line="30" column="53" source="standard:argument-list-wrapping" />
+        <error line="30" column="58" source="standard:argument-list-wrapping" />
+        <error line="30" column="68" source="standard:argument-list-wrapping" />
+        <error line="30" column="78" source="standard:argument-list-wrapping" />
+        <error line="30" column="91" source="standard:argument-list-wrapping" />
+        <error line="30" column="101" source="standard:max-line-length" />
+        <error line="30" column="112" source="standard:argument-list-wrapping" />
+        <error line="30" column="127" source="standard:argument-list-wrapping" />
+        <error line="34" column="13" source="standard:wrapping" />
+        <error line="37" column="1" source="standard:final-newline" />
+    </file>
+    <file name="src/test/java/org/totschnig/webdav/sync/client/CertificateHelperTest.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+    </file>
+    <file name="src/test/java/org/totschnig/webdav/sync/client/X500PrincipalHelperTest.kt">
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="75" column="24" source="standard:property-wrapping" />
+        <error line="75" column="39" source="standard:argument-list-wrapping" />
+        <error line="75" column="101" source="standard:max-line-length" />
+        <error line="75" column="108" source="standard:argument-list-wrapping" />
+    </file>
+</baseline>

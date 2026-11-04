@@ -27,6 +27,17 @@
             android:inputType="textUri"
             android:key="@string/pref_share_target_key"
             android:title="@string/pref_share_target_title" />
+
+        <org.totschnig.myexpenses.preference.SecureEditTextPreference
+            android:inputType="text"
+            android:key="@string/pref_share_target_username_key"
+            android:title="@string/username" />
+
+        <org.totschnig.myexpenses.preference.SecureEditTextPreference
+            android:inputType="textPassword"
+            android:key="@string/pref_share_target_password_key"
+            android:title="@string/password" />
+
         <Preference
             android:key="@string/pref_help_key"
             android:title="@string/menu_help"

@@ -52,6 +52,7 @@ import org.totschnig.myexpenses.dialog.configureTypeSpinner
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.ContribPayload
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.model2.Account
@@ -76,7 +77,6 @@ import org.totschnig.myexpenses.viewmodel.SyncBackendViewModel
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
 import org.totschnig.myexpenses.viewmodel.data.Tag
-import java.io.Serializable
 import java.math.BigDecimal
 
 /**
@@ -504,7 +504,7 @@ class AccountEdit : AmountActivity<AccountEditViewModel>(), ExchangeRateEdit.Hos
         binding.Criterion.addTextChangedListener(this)
     }
 
-    override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
+    override fun contribFeatureCalled(feature: ContribFeature, tag: ContribPayload?) {
         if (syncSpinner.selectedItemPosition > 0) {
             val syncAccountName = syncSpinner.selectedItem as String
             if (!newInstance) {

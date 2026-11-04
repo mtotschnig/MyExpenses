@@ -13,6 +13,8 @@ import org.totschnig.myexpenses.dialog.ContribDialogFragment
 import org.totschnig.myexpenses.dialog.DonateDialogFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.ContribPayload
+import androidx.core.content.IntentCompat
 import org.totschnig.myexpenses.util.ShortcutHelper
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler.Companion.report
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
@@ -49,7 +51,7 @@ class ContribInfoDialogActivity : IapActivity() {
             } ?: run {
                 ContribDialogFragment.newInstance(
                     intent.getStringExtra(KEY_FEATURE),
-                    intent.getSerializableExtra(KEY_TAG)
+                    IntentCompat.getParcelableExtra(intent, KEY_TAG, ContribPayload::class.java)
                 )
                     .show(supportFragmentManager, "CONTRIB")
                 supportFragmentManager.executePendingTransactions()
@@ -74,7 +76,7 @@ class ContribInfoDialogActivity : IapActivity() {
         super.onNewIntent(intent)
         setIntent(intent.also {
             it.putExtra(KEY_FEATURE, this.intent.getStringExtra(KEY_FEATURE))
-            it.putExtra(KEY_TAG, this.intent.getSerializableExtra(KEY_TAG))
+            it.putExtra(KEY_TAG, IntentCompat.getParcelableExtra(this.intent, KEY_TAG, ContribPayload::class.java))
         })
     }
 
@@ -155,7 +157,7 @@ class ContribInfoDialogActivity : IapActivity() {
             if (callerIsContribIface()) {
                 val i = Intent()
                 i.putExtra(KEY_FEATURE, featureStringFromExtra)
-                i.putExtra(KEY_TAG, intent.getSerializableExtra(KEY_TAG))
+                i.putExtra(KEY_TAG, IntentCompat.getParcelableExtra(intent, KEY_TAG, ContribPayload::class.java))
                 if (shouldCallFeature) {
                     setResult(RESULT_OK, i)
                 } else {

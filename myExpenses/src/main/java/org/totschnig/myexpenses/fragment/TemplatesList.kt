@@ -33,6 +33,7 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import org.totschnig.myexpenses.model.ContribPayload
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
@@ -128,7 +129,6 @@ import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import org.totschnig.myexpenses.viewmodel.TemplatesListViewModel
 import org.totschnig.myexpenses.viewmodel.data.RIGHT_ARROW
 import timber.log.Timber
-import java.io.Serializable
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 import kotlin.math.absoluteValue
@@ -225,13 +225,13 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
                         )
                         if (defaultAction == Template.Action.SAVE) {
                             if (splitAtPosition) {
-                                requestSplitTransaction(longArrayOf(id))
+                                requestSplitTransaction(ContribPayload.InstantiateSplitTemplateSave(longArrayOf(id)))
                             } else {
                                 dispatchCreateInstanceSaveDo(longArrayOf(id))
                             }
                         } else {
                             if (splitAtPosition) {
-                                requestSplitTransaction(id)
+                                requestSplitTransaction(ContribPayload.InstantiateSplitTemplateEdit(id))
                             } else {
                                 dispatchCreateInstanceEditDo(id)
                             }
@@ -323,7 +323,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
 
             R.id.CREATE_INSTANCE_SAVE_COMMAND -> {
                 if (hasSplitAtPositions(positions)) {
-                    requestSplitTransaction(itemIds)
+                    requestSplitTransaction(ContribPayload.InstantiateSplitTemplateSave(itemIds))
                 } else {
                     dispatchCreateInstanceSaveDo(itemIds)
                 }
@@ -343,7 +343,7 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
         val i: Intent
         if (command == R.id.CREATE_INSTANCE_EDIT_COMMAND) {
             if (isSplitAtPosition(menuInfo.position)) {
-                requestSplitTransaction(menuInfo.id)
+                requestSplitTransaction(ContribPayload.InstantiateSplitTemplateEdit(menuInfo.id))
             } else {
                 dispatchCreateInstanceEditDo(menuInfo.id)
             }
@@ -377,13 +377,12 @@ class TemplatesList : SortableListFragment(), LoaderManager.LoaderCallbacks<Curs
      * calls [ProtectedFragmentActivity.contribFeatureRequested]
      * for feature [ContribFeature.SPLIT_TRANSACTION]
      *
-     * @param tag if tag holds a single long the new instance will be edited, if tag holds an array of longs
-     * new instances will be immediately saved for each
+     * @param payload either [ContribPayload.InstantiateSplitTemplateSave] or [ContribPayload.InstantiateSplitTemplateEdit]
      */
-    private fun requestSplitTransaction(tag: Serializable?) {
+    private fun requestSplitTransaction(payload: ContribPayload?) {
         (requireActivity() as ProtectedFragmentActivity).contribFeatureRequested(
             ContribFeature.SPLIT_TRANSACTION,
-            tag
+            payload
         )
     }
 

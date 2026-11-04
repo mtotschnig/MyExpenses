@@ -525,20 +525,20 @@
     <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">Om belopp inte uppdateras kommer de visas som delade med %d efter ändringen.</string>
     <string name="warning_change_fraction_digits_3">Om beloppen uppdateras förlorar du informationen om deras deldel.</string>
     <plurals name="import_categories_result">
-        <item quantity="one">%1$d kategorier har importerats.</item>
+        <item quantity="one">%1$d kategori har importerats.</item>
         <item quantity="other">%1$d kategorier har importerats.</item>
     </plurals>
     <plurals name="import_parties_result">
-        <item quantity="one">%1$d motparter har importerats.</item>
+        <item quantity="one">%1$d motpart har importerats.</item>
         <item quantity="other">%1$d motparter har importerats.</item>
     </plurals>
     <plurals name="import_accounts_result">
-        <item quantity="one">%1$d konton har importerats.</item>
+        <item quantity="one">%1$d konto har importerats.</item>
         <item quantity="other">%1$d konton har importerats.</item>
     </plurals>
     <plurals name="import_transactions_result">
-        <item quantity="one">%1$d transaktioner har importerats till kontot %2$s</item>
-        <item quantity="other">%1$d transaktioner har importerats till kontot %2$s</item>
+        <item quantity="one">%1$d transaktion har importerats till kontot %2$s.</item>
+        <item quantity="other">%1$d transaktioner har importerats till kontot %2$s.</item>
     </plurals>
     <string name="import_source_select_error">Vänligen bifoga en fil av typen %1$s</string>
     <string name="app_dir_not_accessible">Den för närvarande valda mappen för säkerhetskopiering och export (%1$s) är inte tillgänglig. Vänligen välj en annan.</string>
@@ -739,7 +739,7 @@
     <string name="dialog_multi_tag_clear">Alla etiketter kommer att tas bort från de valda transaktionerna.</string>
     <plurals name="warning_delete_tag">
         <item quantity="one">Etiketten %1$s är kopplad till %2$d transaktion. Vill du ta bort den?</item>
-        <item quantity="other">Etiketten %1$s är kopplad till %2$d transaktion. Vill du ta bort den?</item>
+        <item quantity="other">Etiketten %1$s är kopplad till %2$d transaktioner. Vill du ta bort den?</item>
     </plurals>
     <string name="dialog_multi_tag_append">Lägg till nya etiketter till befintliga</string>
     <string name="dialog_multi_tag_replace">Ersätt befintliga etiketter med nya</string>

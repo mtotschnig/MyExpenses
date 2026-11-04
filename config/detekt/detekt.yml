@@ -1,0 +1,14 @@
+# Only deviations from the detekt default config (buildUponDefaultConfig = true).
+# Formatting is left to ktlint, see .editorconfig.
+
+naming:
+  FunctionNaming:
+    # Composables are named like types (PascalCase).
+    ignoreAnnotated:
+      - Composable
+
+complexity:
+  LongParameterList:
+    # Composables take state and callbacks as parameters.
+    ignoreAnnotated:
+      - Composable

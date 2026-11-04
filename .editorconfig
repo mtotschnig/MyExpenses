@@ -1,0 +1,7 @@
+root = true
+
+[*.{kt,kts}]
+# Style checked by ktlint (./gradlew ktlintCheck); Android Studio reads the same settings.
+ktlint_code_style = android_studio
+# Composables are named like types (PascalCase).
+ktlint_function_naming_ignore_when_annotated_with = Composable

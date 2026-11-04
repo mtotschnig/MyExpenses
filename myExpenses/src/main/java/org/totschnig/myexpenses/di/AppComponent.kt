@@ -52,6 +52,7 @@ import org.totschnig.myexpenses.fragment.preferences.PreferencesContribFragment
 import org.totschnig.myexpenses.model.CurrencyContext
 import org.totschnig.myexpenses.preference.CalendarListPreferenceDialogFragmentCompat
 import org.totschnig.myexpenses.preference.PrefHandler
+import org.totschnig.myexpenses.preference.SecurePreferenceDataStore
 import org.totschnig.myexpenses.provider.BaseTransactionProvider
 import org.totschnig.myexpenses.provider.PlannerUtils
 import org.totschnig.myexpenses.retrofit.ExchangeRateService
@@ -172,6 +173,8 @@ interface AppComponent {
     fun coroutineDispatcher(): CoroutineDispatcher
 
     fun preferencesDataStore(): DataStore<Preferences>
+
+    fun securePreferenceDataStore(): SecurePreferenceDataStore
 
     fun configurator(): Configurator
 

@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>MaxLineLength:OneDriveBackendProvider.kt:OneDriveBackendProvider.&lt;no name provided&gt;.&lt;no name provided&gt;$"Unable to retrieve Microsoft Account. Remove backend and add again."</ID>
+    <ID>MaxLineLength:OneDriveBackendProvider.kt:OneDriveBackendProvider.&lt;no name provided&gt;.&lt;no name provided&gt;.&lt;no name provided&gt;$override</ID>
+    <ID>NewLineAtEndOfFile:OneDriveBackendProvider.kt:org.totschnig.onedrive.sync.OneDriveBackendProvider.kt</ID>
+    <ID>NewLineAtEndOfFile:OneDriveHelper.kt:org.totschnig.onedrive.OneDriveHelper.kt</ID>
+    <ID>NewLineAtEndOfFile:OneDriveProviderFactory.kt:org.totschnig.onedrive.sync.OneDriveProviderFactory.kt</ID>
+    <ID>NewLineAtEndOfFile:OneDriveSetup.kt:org.totschnig.onedrive.activity.OneDriveSetup.kt</ID>
+    <ID>NewLineAtEndOfFile:OneDriveSetupViewModel.kt:org.totschnig.onedrive.viewmodel.OneDriveSetupViewModel.kt</ID>
+    <ID>TooGenericExceptionCaught:OneDriveBackendProvider.kt:OneDriveBackendProvider$e: Exception</ID>
+    <ID>TooManyFunctions:OneDriveBackendProvider.kt:OneDriveBackendProvider : AbstractSyncBackendProvider</ID>
+  </CurrentIssues>
+</SmellBaseline>

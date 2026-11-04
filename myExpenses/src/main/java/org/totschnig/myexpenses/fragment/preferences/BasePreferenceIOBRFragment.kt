@@ -12,6 +12,14 @@ import org.totschnig.myexpenses.viewmodel.BaseFunctionalityViewModel
 abstract class BasePreferenceIOBRFragment : BasePreferenceFragment() {
 
     fun configureShareTargetPreference() {
+        requirePreference<Preference>(PrefKey.PERFORM_SHARE).onPreferenceChangeListener =
+            Preference.OnPreferenceChangeListener { _, newValue ->
+                updateShareTargetCredentialsEnabled(
+                    performShare = newValue as Boolean,
+                )
+                true
+            }
+
         with(requirePreference<Preference>(PrefKey.SHARE_TARGET)) {
             summary = getString(R.string.pref_share_target_summary) + " " +
                     BaseFunctionalityViewModel.Scheme.entries.joinToString(
@@ -41,8 +49,32 @@ abstract class BasePreferenceIOBRFragment : BasePreferenceFragment() {
                         return@OnPreferenceChangeListener false
                     }
                 }
+                updateShareTargetCredentialsEnabled(shareTarget = target.trim())
                 true
             }
+        }
+
+        updateShareTargetCredentialsEnabled()
+    }
+
+    private fun updateShareTargetCredentialsEnabled(
+        performShare: Boolean = prefHandler.getBoolean(PrefKey.PERFORM_SHARE, defValue = false),
+        shareTarget: String = prefHandler.requireString(PrefKey.SHARE_TARGET, "").trim()
+    ) {
+        val enabled = performShare && isHttpUrlWithoutCredentials(shareTarget)
+        requirePreference<Preference>(PrefKey.SHARE_TARGET_USERNAME).isEnabled = enabled
+        requirePreference<Preference>(PrefKey.SHARE_TARGET_PASSWORD).isEnabled = enabled
+    }
+
+    companion object {
+        fun isHttpUrlWithoutCredentials(target: String): Boolean {
+            if (target.isBlank()) return false
+            val uri = BaseFunctionalityViewModel.parseUri(target) ?: return false
+            val scheme = uri.scheme ?: return false
+            val schemeEnum = enumValueOrNull<BaseFunctionalityViewModel.Scheme>(scheme.uppercase())
+            val isHttp = (schemeEnum == BaseFunctionalityViewModel.Scheme.HTTP ||
+                    schemeEnum == BaseFunctionalityViewModel.Scheme.HTTPS)
+            return isHttp && uri.userInfo.isNullOrEmpty()
         }
     }
 }

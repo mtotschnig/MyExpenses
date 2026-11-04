@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<SmellBaseline>
+  <ManuallySuppressedIssues/>
+  <CurrentIssues>
+    <ID>EmptyFunctionBlock:PreferenceHeaderFragmentCompat.kt:PreferenceHeaderFragmentCompat.InnerOnBackPressedCallback${}</ID>
+    <ID>ForbiddenComment:PreferenceHeaderFragmentCompat.kt:PreferenceHeaderFragmentCompat$// TODO: Change to use WindowManager ActivityView API</ID>
+    <ID>ReturnCount:PreferenceHeaderFragmentCompat.kt:PreferenceHeaderFragmentCompat$@CallSuper override fun onPreferenceStartFragment: Boolean</ID>
+    <ID>ReturnCount:PreferenceHeaderFragmentCompat.kt:PreferenceHeaderFragmentCompat$open fun selectInitialDetailPreference: Preference?</ID>
+  </CurrentIssues>
+</SmellBaseline>

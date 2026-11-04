@@ -1,6 +1,5 @@
 package org.totschnig.myexpenses.activity
 
-import android.annotation.SuppressLint
 import android.app.Dialog
 import android.appwidget.AppWidgetProvider
 import android.content.Context
@@ -19,7 +18,6 @@ import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
-import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.SortUtilityDialogFragment
 import org.totschnig.myexpenses.dialog.progress.NewProgressDialogFragment
 import org.totschnig.myexpenses.feature.Feature
@@ -34,6 +32,7 @@ import org.totschnig.myexpenses.fragment.preferences.PreferencesOcrFragment
 import org.totschnig.myexpenses.fragment.preferences.PreferencesWebUiFragment
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.ContribPayload
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.TransactionProvider.ACCOUNTS_URI
 import org.totschnig.myexpenses.provider.TransactionProvider.DYNAMIC_CURRENCIES_URI
@@ -44,7 +43,6 @@ import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.LazyFontSelector
 import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.TextUtils
-import org.totschnig.myexpenses.util.config.Configurator
 import org.totschnig.myexpenses.util.config.Configurator.Configuration.USE_SET_DECOR_PADDING_WORKAROUND
 import org.totschnig.myexpenses.util.config.get
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -60,8 +58,6 @@ import org.totschnig.myexpenses.widget.TemplateWidget
 import org.totschnig.myexpenses.widget.WIDGET_CONTEXT_CHANGED
 import org.totschnig.myexpenses.widget.updateWidgets
 import timber.log.Timber
-import java.io.Serializable
-import javax.inject.Inject
 
 class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace,
     SortUtilityDialogFragment.OnConfirmListener {
@@ -407,7 +403,7 @@ class PreferenceActivity : SyncBackendSetupActivity(), ContribIFace,
         }
     }
 
-    override fun contribFeatureCalled(feature: ContribFeature, tag: Serializable?) {
+    override fun contribFeatureCalled(feature: ContribFeature, tag: ContribPayload?) {
         when (feature) {
             ContribFeature.CSV_IMPORT -> {
                 startActivity(Intent(this, CsvImportActivity::class.java))
