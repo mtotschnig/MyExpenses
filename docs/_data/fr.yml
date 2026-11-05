@@ -1,7 +1,7 @@
 fr:
   imprint: Informations légales
-  imprint_text: Responsable du contenu de ce site Web et du développement, de la maintenance
-    et de la distribution de <i>{app_name}</i>
+  imprint_text: Responsable du contenu de ce site Web et du développement, de la
+    maintenance et de la distribution de <i>{app_name}</i>
   privacy_policy_heading: Règles de confidentialité
   privacy_policy_text: "<i> {app_name}</i> n'accède à aucune donnée sur votre appareil
     autre que sa propre base de données, son propre dossier sur la carte SD. Si vous
@@ -26,39 +26,40 @@ fr:
     links: Liens
   screenshots:
     group: Groupez vos transactions par jour, semaine, mois et année
-    summarize: Faites la synthèse de tous vos comptes (traitement sophistiqué des
-      taux de change par compte et par opération)
-    budget: Définissez combien vous comptez dépenser en budgets annuels, mensuels
-      ou hebdomadaires
+    summarize: Faites la synthèse de tous vos comptes (traitement sophistiqué 
+      des taux de change par compte et par opération)
+    budget: Définissez combien vous comptez dépenser en budgets annuels, 
+      mensuels ou hebdomadaires
     split: Diviser une opération en plusieurs catégories
     distribution: Visualiser la distribution par catégorie
     history: Comprendre comment votre situation financière évolue avec le temps
     export: Imprimer en PDF et échanger via QIF et CSV.
-    sync: Synchronisez les données de compte chiffrées sur plusieurs appareils via
-      des services de cloud privé ou public.
+    sync: Synchronisez les données de compte chiffrées sur plusieurs appareils 
+      via des services de cloud privé ou public.
   features:
-    manage_accounts: Jusqu'à cinq comptes avec <b>virements</b> (également entre différentes
-      monnaies)
-    plans: Nombre illimité de <b>modèles</b> et échéancier avec jusqu'à trois échéances
-      pour les opérations <b>périodiques</b>
+    manage_accounts: Jusqu'à cinq comptes avec <b>virements</b> (également entre
+      différentes monnaies)
+    plans: Nombre illimité de <b>modèles</b> et échéancier avec jusqu'à trois 
+      échéances pour les opérations <b>périodiques</b>
     export: <b>Export</b> vers QIF et CSV. <b>Import</b> à partir de QIF
-    password: Les données peuvent être protégées par <b>mot de passe</b> ou par <b>l'écran
-      de verrouillage</b> de l'appareil
-    light_theme: <b>Thème</b> (sombre et clair) et <b>taille de police</b> peuvent
-      être personnalisés
+    password: Les données peuvent être protégées par <b>mot de passe</b> ou par 
+      <b>l'écran de verrouillage</b> de l'appareil
+    light_theme: <b>Thème</b> (sombre et clair) et <b>taille de police</b> 
+      peuvent être personnalisés
     reconciliation: "<b>Rapprochement</b> : comparez facilement l'état des opérations
       avec vos relevés bancaires"
-    homescreen: Sur l'écran d'accueil, <b>widget</b> et <b>raccourcis</b> permettent
-      une saisie rapide des données
+    homescreen: Sur l'écran d'accueil, <b>widget</b> et <b>raccourcis</b> 
+      permettent une saisie rapide des données
   contrib:
     thank_you: |
       Avec votre contribution, vous soutenez la continuité du développement de Mes dépenses. Merci !
     feature-list-title: "S'il vous plaît, contribuez par la mise à niveau de <i>{app_name}</i>
       et vous aurez accès sans restriction aux caractéristiques suivantes :"
     feature:
-      accounts_unlimited: Déverrouiller la possibilité de créer plus de cinq comptes
-      plans_unlimited: Déverrouiller la possibilité de créer plus de trois plans pour
-        les transactions récurrentes
+      accounts_unlimited: Déverrouiller la possibilité de créer plus de cinq 
+        comptes
+      plans_unlimited: Déverrouiller la possibilité de créer plus de trois plans
+        pour les transactions récurrentes
       distribution: "<b>Diagramme circulaire</b> : Visualisez la distribution statistique
         des opérations par catégorie sur différentes périodes (années, mois, semaines,
         jours)"
@@ -66,15 +67,16 @@ fr:
         divisée en plusieurs parties (catégories et transferts)"
       print: <b>Imprimer</b> la liste des opérations dans un fichier PDF
       ad_free: <b>Sans publicité</b>
-      csv_import: <b>Import CSV</b> sophistiqué et personnalisable (applications tableur)
-      auto_backup: <b>Sauvegarde automatique</b> quotidienne avec téléchargement facultatif
-        vers le stockage dans le cloud
+      csv_import: <b>Import CSV</b> sophistiqué et personnalisable (applications
+        tableur)
+      auto_backup: <b>Sauvegarde automatique</b> quotidienne avec téléchargement
+        facultatif vers le stockage dans le cloud
       cloud_sync: "<b>Synchronisation dans le cloud</b> : les données peuvent être
         synchronisées entre plusieurs appareils"
-      split_template: Nombre illimité <b>de modèles et d'échéances pour les opérations
-        ventilées</b>
-      email_support: <b>Assistance par e-mail</b> avec réponse garantie sous 2 jours
-        ouvrables
+      split_template: Nombre illimité <b>de modèles et d'échéances pour les 
+        opérations ventilées</b>
+      email_support: <b>Assistance par e-mail</b> avec réponse garantie sous 2 
+        jours ouvrables
       roadmap_voting: Voter sur la <b>feuille de route pour le développement</b>
       history_chart: <b>Graphique historique</b> (flux de trésorerie)
       budgeting: "<b>Budgétisation</b> : comparez vos dépenses aux limites que vous
@@ -83,8 +85,10 @@ fr:
       scan_receipt: "<b>Numériser les reçus</b> : extraire automatiquement le montant,
         la date et le bénéficiaire"
       webui: <b>Interface utilisateur Web</b>
-      category_tree: Profondeur illimitée de <b>l'arborescence des catégories</b>
-      banking: Télécharger les opérations des banques en Allemagne (<b>FinTS</b>)
+      category_tree: Profondeur illimitée de <b>l'arborescence des 
+        catégories</b>
+      banking: Télécharger les opérations des banques en Allemagne 
+        (<b>FinTS</b>)
     one-time-payment: Paiement unique
     subscription: Abonnement
   store:
@@ -105,8 +109,9 @@ fr:
     heading: <i>{app_name}</i> demande les <u>permissions</u> suivantes
     calendar:
       label: Agenda
-      explanation: Les échéances d'opérations futures et périodiques seront stockées
-        dans un calendrier local spécial ou dans celui que vous lui préciserez.
+      explanation: Les échéances d'opérations futures et périodiques seront 
+        stockées dans un calendrier local spécial ou dans celui que vous lui 
+        préciserez.
     internet:
       label: Internet
       explanation_usage_tracking: Suivi d'utilisation anonyme
@@ -126,7 +131,7 @@ fr:
     group: Regroupez par année, mois ou semaine
     summarize: Aperçu de tous vos comptes
     budget: Budgets annuels, mensuels et hebdomadaires
-    split: Divisez en plusieurs catégories
+    split: Diviser en plusieurs catégories
     distribution: Répartition des dépenses par catégorie
     history: Évolution financière au fil du temps
     export: Exportez en PDF, QIF et CSV
