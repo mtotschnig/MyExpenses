@@ -965,4 +965,5 @@
     <string name="important_upgrade_information_heading">重要资讯</string>
     <string name="single_pane_view">单面板</string>
     <string name="split_pane_view">分屏视图</string>
+    <string name="parent_category">上级类别</string>
 </resources>
