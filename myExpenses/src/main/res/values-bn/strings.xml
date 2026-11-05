@@ -507,8 +507,8 @@
     <string name="link_account_failure_3">এন্ট্রির কন্টেক্সট মেনু থেকে দ্বন্দ্ব ম্যানুয়ালি সমাধান করা যেতে পারে।</string>
     <string name="progress_dialog_checking_sync_backend">ব্যাকএন্ড যাচাই করছে</string>
     <string name="template">টেমপ্লেট</string>
-    <string name="all_contrib_key_features">কনট্রিব কী এর সমস্ত ফিচার</string>
-    <string name="all_extended_key_features">এক্সটেন্ডেড কী এর সমস্ত ফিচার</string>
+    <string name="all_contrib_key_features">কনট্রিব কী-এর সমস্ত বৈশিষ্ট্য</string>
+    <string name="all_extended_key_features">এক্সটেন্ডেড কী-এর সমস্ত বৈশিষ্ট্য</string>
     <!-- button leading user to purchase flow for licence keys -->
     <string name="buy">কিনুন</string>
     <string name="pref_backup_cloud_summary">ডিভাইসে লোকাল স্টোরেজের পাশাপাশি, ব্যাকআপ ফাইল রিমোট ব্যাকএন্ডে কপি করা যেতে পারে।</string>
@@ -804,7 +804,7 @@
     <string name="single_feature_info">বিকল্পভাবে আপনি শুধুমাত্র এই ফিচারের জন্য আনলিমিটেড অ্যাকসেস কিনতে পারেন।</string>
     <!-- This refers to a plan that recurs every last day of the month. It is shown next to a checkbox allowing user to select this type of recurrence. -->
     <string name="recurrence_last_day_of_month">শেষ দিন</string>
-    <string name="warning_link_transfer">নির্বাচিত দুটি লেনদেন ট্রান্সফার অ্যাকাউন্টে লিঙ্ক করা হবে। প্রাপক/প্রদানকারী এবং ক্যাটাগরি সম্পর্কিত তথ্য বাদ দেওয়া হবে।</string>
+    <string name="warning_link_transfer">নির্বাচিত দুটি লেনদেন ট্রান্সফার হিসেবে লিঙ্ক করা হবে। কাউন্টারপার্টি এবং ক্যাটাগরি সম্পর্কিত তথ্য বাদ দেওয়া হবে।</string>
     <!-- This is the title of an entry on the configuration screen for the account widget. It allows to decide which number should be displayed for each account: the current balance or the total (which included future transactions) -->
     <string name="account_widget_configuration_sum">প্রদর্শিত যোগফলের ধরন</string>
     <string name="account_widget_configuration_sum_total">ভবিষ্যত লেনদেন অন্তর্ভুক্ত করুন</string>
@@ -859,8 +859,8 @@
     <string name="pref_mlkit_script_title">MlKit এর জন্য স্ক্রিপ্ট</string>
     <!-- When user imports the standard categories, this reports on the number of cases, where the category was already defined, but without icon. -->
     <plurals name="import_categories_icons_updated">
-        <item quantity="one">একটি ক্যাটাগরি আইকন দিয়ে আপডেট করা হয়েছে।</item>
-        <item quantity="other">%1$d ক্যাটাগরিগুলি আইকন দিয়ে আপডেট করা হয়েছে।</item>
+        <item quantity="one">%1$dটি ক্যাটাগরি আইকন দিয়ে আপডেট করা হয়েছে।</item>
+        <item quantity="other">%1$dটি ক্যাটাগরি আইকন দিয়ে আপডেট করা হয়েছে।</item>
     </plurals>
     <string name="setup_completed">সেটআপ সম্পন্ন</string>
     <string name="menu_parent_category_selection">শর্ট ট্যাপে প্যারেন্ট ক্যাটাগরি নির্বাচন করুন</string>
@@ -1047,4 +1047,100 @@
     <string name="dialog_title_warning_delete_closed_account">বন্ধ হিসাব মুছে ফেলবেন?</string>
     <string name="parse_error_at_line">%1$d লাইনে ত্রুটি: %2$s</string>
     <string name="search_asset">অ্যাসেট অনুসন্ধান করুন</string>
+    <string name="remap_payee_null">সমস্ত নির্বাচিত লেনদেন থেকে কাউন্টারপার্টি মুছে ফেলা হবে।</string>
+    <string name="remap_update_value_date">ভ্যালু ডেটও আপডেট করুন</string>
+    <string name="pref_equivalent_amounts_automatic_update_title">দাম পরিবর্তিত হলে সমমূল্যের পরিমাণ স্বয়ংক্রিয়ভাবে আপডেট করুন</string>
+    <string name="sort_direction">সাজানোর দিক</string>
+    <string name="batch_download">ব্যাচ ডাউনলোড</string>
+    <string name="warning_batch_download_quota">%s থেকে ব্যাচ ডাউনলোড করলে আপনার ব্যবহারের সীমা শেষ হয়ে যাওয়ার ঝুঁকি রয়েছে।</string>
+    <string name="batch_download_result">%dটি মূল্য ডাউনলোড করে ডাটাবেসে সংরক্ষণ করা হয়েছে।</string>
+    <string name="pref_ui_home_screen_shortcuts_show_new_balance_title">লেনদেন সংরক্ষণ করার পর নতুন ব্যালেন্স দেখান</string>
+    <string name="print_configuration_empty">প্রিন্ট করার জন্য অনুগ্রহ করে অন্তত একটি ক্ষেত্র যোগ করুন।</string>
+    <plurals name="import_prices_success_message">
+        <item quantity="one">%dটি লাইনে বৈধ ডেটা পাওয়া গেছে।</item>
+        <item quantity="other">%dটি লাইনে বৈধ ডেটা পাওয়া গেছে।</item>
+    </plurals>
+    <plurals name="import_prices_failure_message">
+        <item quantity="one">%dটি লাইন প্রক্রিয়া করা যায়নি।</item>
+        <item quantity="other">%dটি লাইন প্রক্রিয়া করা যায়নি।</item>
+    </plurals>
+    <plurals name="import_trades_missing_assets_message">
+        <item quantity="one">%1$dটি লাইন অজানা সম্পদকে নির্দেশ করে: %2$s।</item>
+        <item quantity="other">%1$dটি লাইন অজানা সম্পদগুলিকে নির্দেশ করে: %2$s।</item>
+    </plurals>
+    <string name="confirm_process_file_message">আপনি কি নিশ্চিত যে আপনি \'%2$s\' থেকে \'%1$s\'-এর জন্য মূল্য আমদানি করতে চান? নতুন মূল্য বিদ্যমান সমমূল্যের পরিমাণকে প্রভাবিত করতে পারে।</string>
+    <string name="warning_expense_category_credit">আপনি একটি আয় লেনদেনে ব্যয়ের ক্যাটাগরি বরাদ্দ করছেন। এর ফলে, লেনদেনটি আপনার মোট ব্যয়ের পরিমাণ কমিয়ে দেবে এবং ডিফল্টভাবে লাল রঙে দেখানো হবে।</string>
+    <string name="warning_income_category_debit">আপনি একটি ব্যয় লেনদেনে আয়ের ক্যাটাগরি বরাদ্দ করছেন। এর ফলে, লেনদেনটি আপনার মোট আয়ের পরিমাণ কমিয়ে দেবে এবং ডিফল্টভাবে সবুজ রঙে দেখানো হবে।</string>
+    <string name="pref_dynamic_exchange_rates_dynamic">সমস্ত অ্যাকাউন্টের জন্য ডায়নামিক রেট</string>
+    <string name="pref_dynamic_exchange_rates_static">সমস্ত অ্যাকাউন্টের জন্য স্ট্যাটিক রেট</string>
+    <string name="pref_dynamic_exchange_rates_per_account">প্রতিটি অ্যাকাউন্ট আলাদাভাবে কনফিগার করুন</string>
+    <string name="category_type_main">প্রধান ক্যাটাগরি</string>
+    <string name="category_type_sub">সাবক্যাটাগরি</string>
+    <string name="parent_category">পেরেন্ট ক্যাটাগরি</string>
+    <string name="category_description_base">%1$s, লেভেল %2$d</string>
+    <plurals name="category_description_children_suffix">
+        <item quantity="one">, %2$d লেভেলের একটি সাবক্যাটাগরি রয়েছে।</item>
+        <item quantity="other">, %2$d লেভেলের %1$dটি সাবক্যাটাগরি রয়েছে।</item>
+    </plurals>
+    <string name="edit_account_type">অ্যাকাউন্টের ধরন সম্পাদনা করুন</string>
+    <string name="new_account_type">নতুন অ্যাকাউন্টের ধরন</string>
+    <string name="pref_print_layout_summary">কলামের প্রস্থ এবং গঠন কনফিগার করুন</string>
+    <string name="menu_account_flags">ফ্ল্যাগ</string>
+    <string name="menu_flag">ফ্ল্যাগ</string>
+    <string name="edit_account_flag">ফ্ল্যাগ সম্পাদনা করুন</string>
+    <string name="new_account_flag">নতুন ফ্ল্যাগ</string>
+    <string name="flag_unflagged">কোনো ফ্ল্যাগ নেই</string>
+    <string name="flag_favorite">পছন্দের</string>
+    <string name="supports_reconciliation">রিকনসিলিয়েশন সমর্থন করে</string>
+    <string name="aggregate_invisible">অদৃশ্য অ্যাকাউন্টগুলিকে সামগ্রিক অ্যাকাউন্ট এবং ব্যালেন্স শীটে অন্তর্ভুক্ত করুন</string>
+    <string name="select_accounts_for_flag">%s ফ্ল্যাগের জন্য অ্যাকাউন্ট নির্বাচন করুন</string>
+    <string name="menu_cleanup">পরিষ্কার করুন</string>
+    <plurals name="warning_cleanup_parties">
+        <item quantity="one">%dটি অব্যবহৃত পক্ষ মুছে ফেলা হবে।</item>
+        <item quantity="other">%dটি অব্যবহৃত পক্ষ মুছে ফেলা হবে।</item>
+    </plurals>
+    <string name="show_invisible">লুকানো অ্যাকাউন্ট</string>
+    <string name="show_zero">শূন্য ব্যালেন্সের অ্যাকাউন্ট</string>
+    <string name="content_description_clear_party">নির্বাচিত পক্ষ সরান</string>
+    <string name="content_description_browse_device_files">এই ডিভাইসের ফাইলগুলি ব্রাউজ করুন</string>
+    <string name="content_description_select_recent_file">সাম্প্রতিক ফাইলগুলি থেকে নির্বাচন করুন</string>
+    <string name="content_description_show_balance_details">বিস্তারিত তথ্য দেখান</string>
+    <string name="pref_ui_start_screen_title">শুরুর স্ক্রিন</string>
+    <string name="pref_ui_start_screen_last_visited">সর্বশেষ দেখা</string>
+    <string name="main_navigation">প্রধান নেভিগেশন</string>
+    <string name="pref_fab_style_title">ভাসমান অ্যাকশন বোতামের শৈলী</string>
+    <string name="pref_fab_style_standard_description">সাধারণ (মেনুর জন্য তীরে ট্যাপ করুন)</string>
+    <string name="pref_fab_style_compact_description">কমপ্যাক্ট (মেনুর জন্য ট্যাপ করে ধরে রাখুন)</string>
+    <string name="number_too_large">সংখ্যাটি খুব বড়</string>
+    <string name="prioritize_flag_order">ফ্ল্যাগের ক্রমকে অগ্রাধিকার দিন</string>
+    <string name="pref_content_based_colors_title">অ্যাকাউন্ট-ভিত্তিক ডায়নামিক রঙ</string>
+    <string name="pref_content_based_colors_summary">বর্তমান অ্যাকাউন্টের রঙ থেকে থিমের রঙ নির্ধারণ করুন। লেখা পড়তে অসুবিধা হলে বন্ধ রাখুন।</string>
+    <string name="service_starting">শুরু হচ্ছে…</string>
+    <string name="trade_buy">ক্রয়</string>
+    <string name="trade_sell">বিক্রয়</string>
+    <string name="trade_transfer">ট্রান্সফার</string>
+    <string name="trade_quantity">সংখ্যা</string>
+    <string name="trade_price">মূল্য</string>
+    <string name="trade_fee">ফি</string>
+    <string name="trade_add_cost">খরচ যোগ করুন</string>
+    <string name="trade_target_asset">সম্পদ</string>
+    <string name="menu_create_portfolio">নতুন পোর্টফোলিও</string>
+    <string name="asset_type_fiat_plural">মুদ্রাসমূহ</string>
+    <string name="asset_type_security">সিকিউরিটি</string>
+    <string name="asset_type_security_plural">সিকিউরিটিসমূহ</string>
+    <string name="asset_type_crypto">ক্রিপ্টো</string>
+    <string name="asset_type_commodity">পণ্য</string>
+    <string name="asset_type_commodity_plural">পণ্যসমূহ</string>
+    <string name="trade_funding_source">তহবিলের উৎস</string>
+    <string name="trade_funding_portfolio">পোর্টফোলিও নগদ</string>
+    <string name="trade_funding_external_description">এই অ্যাপে ট্র্যাক না করা উৎস থেকে তহবিল</string>
+    <string name="trade_deposit">জমা</string>
+    <string name="trade_withdraw">উত্তোলন</string>
+    <string name="trade_matching_transaction_found">তহবিল হিসাবে মিল থাকা লেনদেন পাওয়া গেছে। লিঙ্ক করতে নির্বাচন করুন:</string>
+    <string name="asset_quantity_at_price">%1$s @ %2$s</string>
+    <string name="premium_nudge_portfolio_message">আপনি বিনামূল্যে একটি পোর্টফোলিও পরিচালনা করতে পারেন। একাধিক পোর্টফোলিও পরিচালনা করতে এবং উন্নত ট্র্যাকিং বৈশিষ্ট্যগুলি আনলক করতে আপগ্রেড করুন (%1$s)।</string>
+    <string name="help_floating_action_button">ভাসমান অ্যাকশন বোতাম</string>
+    <string name="important_upgrade_information_heading">গুরুত্বপূর্ণ তথ্য</string>
+    <string name="single_pane_view">একক ফলক</string>
+    <string name="split_pane_view">বিভক্ত দৃশ্য</string>
 </resources>
