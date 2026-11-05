@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="drawer_open">"রুটগুলি দেখান"</string>
-    <string name="drawer_close">"রুটগুলি লুকান"</string>
+    <string name="drawer_open">নেভিগেশন ড্রয়ার খুলুন</string>
+    <string name="drawer_close">নেভিগেশন ড্রয়ার বন্ধ করুন</string>
     <string name="sort_direction_ascending">"ঊর্ধ্বক্রম"</string>
     <string name="sort_direction_descending">"নিম্নক্রম"</string>
     <plurals name="delete_files_confirmation_message" formatted="false" msgid="4866664063250034142">
