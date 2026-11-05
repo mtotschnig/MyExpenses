@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.compose.filter
 
 import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
@@ -21,6 +23,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.core.os.BundleCompat
 import androidx.fragment.app.FragmentActivity
 import org.totschnig.myexpenses.R
@@ -67,6 +70,7 @@ interface FilterHandlerScope {
     fun handleCommentEdit(commentCriterion: CommentCriterion?)
     fun handleFtsEdit(ftsCriterion: FtsCriterion?)
 
+    @Suppress("CyclomaticComplexMethod")
     fun handleEdit(criterion: Criterion) {
         when (criterion) {
             is NotCriterion -> handleEdit(criterion.criterion)
@@ -87,7 +91,7 @@ interface FilterHandlerScope {
     }
 
     fun handleEdit(clazz: KClass<out SimpleCriterion<*>>) {
-        when(clazz) {
+        when (clazz) {
             AccountCriterion::class -> handleAccountEdit(null)
             AmountCriterion::class -> handleAmountEdit(null)
             AssetCriterion::class -> handleAssetEdit(null)
@@ -148,7 +152,7 @@ fun FilterHandler(
             supportFragmentManager.clearFragmentResultListener(requestKey)
         }
     }
-    val handler = object: FilterHandlerScope {
+    val handler = object : FilterHandlerScope {
 
         override fun handleEdit(criterion: Criterion) {
             currentEdit.value = criterion as? SimpleCriterion<*>
@@ -156,7 +160,8 @@ fun FilterHandler(
         }
 
         override fun handleAmountEdit(amountCriterion: AmountCriterion?) {
-            AmountFilterDialog.newInstance(requestKey,
+            AmountFilterDialog.newInstance(
+                requestKey,
                 account.currencyUnit, amountCriterion
             ).show(activity.supportFragmentManager, "AMOUNT_FILTER")
         }
@@ -216,7 +221,7 @@ fun FilterHandler(
         }
 
         override fun handleTransferEdit(transferCriterion: TransferCriterion?) {
-            SelectTransferAccountDialogFragment.newInstance(requestKey,account, transferCriterion)
+            SelectTransferAccountDialogFragment.newInstance(requestKey, account, transferCriterion)
                 .show(activity.supportFragmentManager, "TRANSFER_FILTER")
         }
     }
@@ -233,7 +238,10 @@ fun FilterHandler(
             },
             confirmButton = {
                 Button(onClick = {
-                    onResult(currentEdit.value, CommentCriterion(search?.takeIf { it.isNotBlank() }))
+                    onResult(
+                        currentEdit.value,
+                        CommentCriterion(search?.takeIf { it.isNotBlank() })
+                    )
                     showCommentFilterPrompt = null
                 }) {
                     Text(stringResource(id = android.R.string.ok))
@@ -273,7 +281,13 @@ fun FilterHandler(
             },
             confirmButton = {
                 Button(onClick = {
-                    onResult(currentEdit.value, FtsCriterion(search?.takeIf { it.isNotBlank() }))
+                    onResult(
+                        currentEdit.value,
+                        FtsCriterion(
+                            search?.takeIf { it.isNotBlank() },
+                            includeAccountLabel = account.isAggregate
+                        )
+                    )
                     showFtsFilterPrompt = null
                 }) {
                     Text(stringResource(id = android.R.string.ok))
@@ -295,6 +309,15 @@ fun FilterHandler(
                         search = it
                     },
                     label = { Text(text = stringResource(R.string.search_full_text)) },
+                    supportingText = {
+                        Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                            Text(text = stringResource(R.string.search_fts_help_and))
+                            Text(text = stringResource(R.string.search_fts_help_not))
+                            Text(text = stringResource(R.string.search_fts_help_or))
+                            Text(text = stringResource(R.string.search_fts_help_phrase))
+                            Text(text = stringResource(R.string.search_fts_help_prefix))
+                        }
+                    }
                 )
                 LaunchedEffect(Unit) {
                     focusRequester.requestFocus()

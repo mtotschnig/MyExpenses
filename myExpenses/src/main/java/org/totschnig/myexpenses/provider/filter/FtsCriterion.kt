@@ -29,7 +29,10 @@ import org.totschnig.myexpenses.provider.TABLE_TRANSACTIONS_FTS
 @Parcelize
 @Serializable
 @SerialName(KEY_FTS)
-data class FtsCriterion(val searchString: String?) : SimpleCriterion<String>() {
+data class FtsCriterion(
+    val searchString: String?,
+    val includeAccountLabel: Boolean = true
+) : SimpleCriterion<String>() {
 
     @IgnoredOnParcel
     override val id = R.id.FILTER_FTS_COMMAND
@@ -49,36 +52,40 @@ data class FtsCriterion(val searchString: String?) : SimpleCriterion<String>() {
     override val isNull: Boolean
         get() = searchString == null
 
-    override fun prettyPrint(context: Context) =
-        searchString ?: context.getString(R.string.empty)
+    override fun prettyPrint(context: Context) = searchString ?: context.getString(R.string.empty)
 
     override fun getSelection(forExport: Boolean): String {
-        return if (searchString.isNullOrBlank()) {
-            "1 = 1"
-        } else {
+        if (searchString.isNullOrBlank()) return "1 = 1"
+        return if (includeAccountLabel) {
             "$KEY_ROWID IN (SELECT transaction_id FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?)"
+        } else {
+            "$KEY_ROWID IN (SELECT transaction_id FROM $TABLE_TRANSACTIONS_FTS WHERE comment MATCH ? OR payee_name MATCH ? OR category_name MATCH ? OR tag_names MATCH ? OR reference_number MATCH ?)"
         }
     }
 
     override val values: List<String>
-        get() = listOfNotNull(searchString?.takeIf { it.isNotBlank() }?.let { sanitizeFtsQuery(it) })
+        get() {
+            val sanitized = searchString?.takeIf { it.isNotBlank() }?.let { sanitizeFtsQuery(it) }
+                ?: return emptyList()
+            return if (includeAccountLabel) listOf(sanitized) else List(5) { sanitized }
+        }
 
     companion object : DisplayInfo {
 
         fun sanitizeFtsQuery(query: String): String {
             val trimmed = query.trim()
-            if (trimmed.isEmpty()) return ""
-            // If already quoted or using explicit FTS syntax, leave as is
-            if (trimmed.startsWith("\"") && trimmed.endsWith("\"")) {
-                return trimmed
-            }
-            // Escape double quotes inside terms
-            val escaped = trimmed.replace("\"", "\"\"")
-            // Wrap terms or tokenize simple keywords for wildcard prefix search if single word
-            return if (!escaped.contains(" ") && !escaped.contains("*") && !escaped.contains("\"") && !escaped.startsWith("-")) {
-                "$escaped*"
-            } else {
-                escaped
+            return when {
+                trimmed.startsWith("\"") && trimmed.endsWith("\"") -> trimmed
+
+                else -> trimmed.split("\\s+".toRegex())
+                    .filter { it.isNotBlank() }
+                    .joinToString(" ") { token ->
+                        if (token.contains(":") && !token.startsWith("\"")) {
+                            "\"${token.replace("\"", "\"\"")}\""
+                        } else {
+                            token.replace("\"", "\"\"")
+                        }
+                    }
             }
         }
 

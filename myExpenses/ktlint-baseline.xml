@@ -231,8 +231,6 @@
     </file>
     <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/ExpenseEditDateTimeInputTest.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="40" column="5" source="standard:class-signature" />
-        <error line="40" column="35" source="standard:class-signature" />
         <error line="41" column="2" source="standard:colon-spacing" />
         <error line="129" column="9" source="standard:comment-spacing" />
         <error line="130" column="50" source="standard:binary-expression-wrapping" />
@@ -1325,7 +1323,6 @@
     </file>
     <file name="src/androidTest/java/org/totschnig/myexpenses/testutils/BaseProviderTest.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="27" column="31" source="standard:class-signature" />
         <error line="93" column="45" source="standard:no-multi-spaces" />
         <error line="94" column="13" source="standard:comment-spacing" />
         <error line="95" column="22" source="standard:no-multi-spaces" />
@@ -1509,9 +1506,6 @@
     </file>
     <file name="src/androidTest/java/org/totschnig/myexpenses/testutils/TestDataModule.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="17" column="5" source="standard:class-signature" />
-        <error line="17" column="73" source="standard:class-signature" />
-        <error line="18" column="5" source="standard:class-signature" />
         <error line="27" column="37" source="standard:function-signature" />
         <error line="27" column="61" source="standard:function-signature" />
         <error line="27" column="97" source="standard:function-signature" />
@@ -1553,11 +1547,7 @@
     </file>
     <file name="src/androidTest/java/org/totschnig/myexpenses/testutils/TestViewModelModule.kt">
         <error line="29" column="86" source="standard:function-expression-body" />
-        <error line="35" column="5" source="standard:class-signature" />
-        <error line="36" column="5" source="standard:class-signature" />
         <error line="36" column="39" source="standard:trailing-comma-on-declaration-site" />
-        <error line="36" column="40" source="standard:class-signature" />
-        <error line="37" column="5" source="standard:class-signature" />
         <error line="66" column="36" source="standard:trailing-comma-on-declaration-site" />
         <error line="82" column="101" source="standard:max-line-length" />
         <error line="99" column="29" source="standard:trailing-comma-on-declaration-site" />
@@ -1603,10 +1593,7 @@
     <file name="src/debug/java/org/totschnig/myexpenses/testutils/CursorTracking.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="12" column="1" source="standard:comment-spacing" />
-        <error line="14" column="5" source="standard:class-signature" />
-        <error line="15" column="5" source="standard:class-signature" />
         <error line="15" column="25" source="standard:parameter-list-wrapping" />
-        <error line="15" column="43" source="standard:class-signature" />
         <error line="35" column="29" source="standard:parameter-list-wrapping" />
         <error line="35" column="29" source="standard:function-signature" />
         <error line="36" column="29" source="standard:parameter-list-wrapping" />
@@ -1669,7 +1656,6 @@
         <error line="29" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/eltos/simpledialogfragment/form/AmountInputViewHolder.kt">
-        <error line="14" column="60" source="standard:class-signature" />
         <error line="14" column="95" source="standard:argument-list-wrapping" />
         <error line="14" column="100" source="standard:argument-list-wrapping" />
         <error line="14" column="100" source="standard:max-line-length" />
@@ -1741,9 +1727,7 @@
     <file name="src/main/java/org/totschnig/myexpenses/MyApplication.kt">
         <error line="17" column="1" source="standard:import-ordering" />
         <error line="90" column="27" source="standard:wrapping" />
-        <error line="90" column="28" source="standard:class-signature" />
         <error line="90" column="42" source="standard:wrapping" />
-        <error line="90" column="43" source="standard:class-signature" />
         <error line="163" column="1" source="standard:no-consecutive-blank-lines" />
         <error line="184" column="61" source="standard:wrapping" />
         <error line="184" column="72" source="standard:function-literal" />
@@ -1778,7 +1762,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/activity/AbstractSyncSetup.kt">
         <error line="21" column="63" source="standard:wrapping" />
-        <error line="21" column="64" source="standard:class-signature" />
         <error line="57" column="19" source="standard:wrapping" />
         <error line="57" column="19" source="standard:argument-list-wrapping" />
         <error line="57" column="29" source="standard:wrapping" />
@@ -1805,13 +1788,9 @@
     <file name="src/main/java/org/totschnig/myexpenses/activity/AccountEdit.kt">
         <error line="17" column="1" source="standard:import-ordering" />
         <error line="87" column="20" source="standard:wrapping" />
-        <error line="87" column="21" source="standard:class-signature" />
         <error line="87" column="60" source="standard:wrapping" />
-        <error line="87" column="61" source="standard:class-signature" />
         <error line="88" column="40" source="standard:wrapping" />
-        <error line="88" column="41" source="standard:class-signature" />
         <error line="88" column="54" source="standard:wrapping" />
-        <error line="88" column="55" source="standard:class-signature" />
         <error line="204" column="22" source="standard:wrapping" />
         <error line="205" column="69" source="standard:wrapping" />
         <error line="231" column="19" source="standard:argument-list-wrapping" />
@@ -1842,8 +1821,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/activity/AccountWidgetConfigure.kt">
         <error line="10" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="11" column="32" source="standard:class-signature" />
-        <error line="11" column="55" source="standard:class-signature" />
         <error line="24" column="50" source="standard:argument-list-wrapping" />
         <error line="24" column="75" source="standard:argument-list-wrapping" />
         <error line="24" column="101" source="standard:max-line-length" />
@@ -1855,9 +1832,7 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/activity/BackupRestoreActivity.kt">
         <error line="45" column="30" source="standard:wrapping" />
-        <error line="45" column="31" source="standard:class-signature" />
         <error line="45" column="49" source="standard:wrapping" />
-        <error line="45" column="50" source="standard:class-signature" />
         <error line="65" column="66" source="standard:argument-list-wrapping" />
         <error line="65" column="93" source="standard:argument-list-wrapping" />
         <error line="65" column="97" source="standard:binary-expression-wrapping" />
@@ -1962,19 +1937,12 @@
     <file name="src/main/java/org/totschnig/myexpenses/activity/BaseActivity.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="169" column="30" source="standard:wrapping" />
-        <error line="169" column="31" source="standard:class-signature" />
         <error line="169" column="51" source="standard:wrapping" />
-        <error line="169" column="52" source="standard:class-signature" />
         <error line="170" column="32" source="standard:wrapping" />
-        <error line="170" column="33" source="standard:class-signature" />
         <error line="170" column="69" source="standard:wrapping" />
-        <error line="170" column="70" source="standard:class-signature" />
         <error line="170" column="87" source="standard:wrapping" />
-        <error line="170" column="88" source="standard:class-signature" />
         <error line="171" column="28" source="standard:wrapping" />
-        <error line="171" column="29" source="standard:class-signature" />
         <error line="171" column="62" source="standard:wrapping" />
-        <error line="171" column="63" source="standard:class-signature" />
         <error line="175" column="17" source="standard:backing-property-naming" />
         <error line="295" column="9" source="standard:function-signature" />
         <error line="296" column="9" source="standard:function-signature" />
@@ -2116,7 +2084,6 @@
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="168" column="23" source="standard:trailing-comma-on-declaration-site" />
         <error line="171" column="57" source="standard:wrapping" />
-        <error line="171" column="58" source="standard:class-signature" />
         <error line="340" column="19" source="standard:argument-list-wrapping" />
         <error line="357" column="13" source="standard:comment-spacing" />
         <error line="401" column="1" source="standard:no-blank-line-before-rbrace" />
@@ -2300,8 +2267,6 @@
     <file name="src/main/java/org/totschnig/myexpenses/activity/BudgetActivity.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="94" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="95" column="24" source="standard:class-signature" />
-        <error line="95" column="70" source="standard:class-signature" />
         <error line="170" column="48" source="standard:argument-list-wrapping" />
         <error line="170" column="83" source="standard:argument-list-wrapping" />
         <error line="170" column="92" source="standard:binary-expression-wrapping" />
@@ -2372,15 +2337,12 @@
     <file name="src/main/java/org/totschnig/myexpenses/activity/BudgetEdit.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="49" column="19" source="standard:wrapping" />
-        <error line="49" column="20" source="standard:class-signature" />
         <error line="49" column="35" source="standard:wrapping" />
-        <error line="49" column="36" source="standard:class-signature" />
         <error line="273" column="9" source="standard:comment-spacing" />
         <error line="326" column="28" source="standard:binary-expression-wrapping" />
         <error line="326" column="77" source="standard:binary-expression-wrapping" />
         <error line="326" column="101" source="standard:max-line-length" />
         <error line="339" column="24" source="standard:multiline-if-else" />
-        <error line="362" column="43" source="standard:class-signature" />
         <error line="363" column="14" source="standard:argument-list-wrapping" />
         <error line="363" column="52" source="standard:argument-list-wrapping" />
         <error line="384" column="33" source="standard:argument-list-wrapping" />
@@ -2406,8 +2368,6 @@
     <file name="src/main/java/org/totschnig/myexpenses/activity/CalculatorInput.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="25" column="1" source="standard:comment-spacing" />
-        <error line="29" column="25" source="standard:class-signature" />
-        <error line="29" column="54" source="standard:class-signature" />
         <error line="128" column="58" source="standard:comment-spacing" />
         <error line="287" column="24" source="standard:argument-list-wrapping" />
         <error line="287" column="35" source="standard:argument-list-wrapping" />
@@ -2466,8 +2426,6 @@
     <file name="src/main/java/org/totschnig/myexpenses/activity/CsvImportActivity.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="31" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="32" column="27" source="standard:class-signature" />
-        <error line="32" column="45" source="standard:class-signature" />
         <error line="61" column="1" source="standard:no-blank-line-before-rbrace" />
         <error line="84" column="1" source="standard:blank-line-between-when-conditions" />
         <error line="88" column="1" source="standard:blank-line-between-when-conditions" />
@@ -2517,8 +2475,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/activity/DebtEdit.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="25" column="18" source="standard:class-signature" />
-        <error line="25" column="34" source="standard:class-signature" />
         <error line="62" column="1" source="standard:no-empty-first-line-in-method-block" />
         <error line="94" column="1" source="standard:no-blank-line-before-rbrace" />
         <error line="143" column="80" source="standard:multiline-if-else" />
@@ -2578,7 +2534,6 @@
     <file name="src/main/java/org/totschnig/myexpenses/activity/DistributionActivity.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="96" column="29" source="standard:wrapping" />
-        <error line="96" column="30" source="standard:class-signature" />
         <error line="109" column="70" source="standard:function-expression-body" />
         <error line="152" column="1" source="standard:blank-line-between-when-conditions" />
         <error line="203" column="1" source="standard:no-empty-first-line-in-method-block" />
@@ -2668,11 +2623,8 @@
     <file name="src/main/java/org/totschnig/myexpenses/activity/EditActivity.kt">
         <error line="17" column="1" source="standard:import-ordering" />
         <error line="37" column="30" source="standard:wrapping" />
-        <error line="37" column="31" source="standard:class-signature" />
         <error line="37" column="59" source="standard:wrapping" />
-        <error line="37" column="60" source="standard:class-signature" />
         <error line="37" column="72" source="standard:wrapping" />
-        <error line="37" column="73" source="standard:class-signature" />
         <error line="77" column="48" source="standard:paren-spacing" />
         <error line="81" column="48" source="standard:argument-list-wrapping" />
         <error line="81" column="64" source="standard:argument-list-wrapping" />
@@ -2686,7 +2638,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/activity/EditSplitPartContract.kt">
         <error line="12" column="1" source="standard:spacing-between-declarations-with-comments" />
-        <error line="19" column="40" source="standard:class-signature" />
         <error line="19" column="101" source="standard:max-line-length" />
         <error line="24" column="1" source="standard:no-empty-first-line-in-method-block" />
         <error line="27" column="1" source="standard:no-empty-first-line-in-method-block" />
@@ -2701,13 +2652,9 @@
         <error line="17" column="1" source="standard:import-ordering" />
         <error line="167" column="1" source="standard:no-consecutive-blank-lines" />
         <error line="182" column="25" source="standard:wrapping" />
-        <error line="182" column="26" source="standard:class-signature" />
         <error line="182" column="69" source="standard:wrapping" />
-        <error line="182" column="70" source="standard:class-signature" />
         <error line="183" column="32" source="standard:wrapping" />
-        <error line="183" column="33" source="standard:class-signature" />
         <error line="183" column="55" source="standard:wrapping" />
-        <error line="183" column="56" source="standard:class-signature" />
         <error line="277" column="46" source="standard:argument-list-wrapping" />
         <error line="277" column="86" source="standard:argument-list-wrapping" />
         <error line="277" column="101" source="standard:max-line-length" />
@@ -2843,8 +2790,6 @@
     <file name="src/main/java/org/totschnig/myexpenses/activity/IapActivity.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="12" column="27" source="standard:colon-spacing" />
-        <error line="12" column="29" source="standard:class-signature" />
-        <error line="12" column="58" source="standard:class-signature" />
         <error line="36" column="26" source="standard:argument-list-wrapping" />
         <error line="36" column="46" source="standard:argument-list-wrapping" />
         <error line="36" column="77" source="standard:argument-list-wrapping" />
@@ -2876,7 +2821,6 @@
     <file name="src/main/java/org/totschnig/myexpenses/activity/Manage.kt">
         <error line="28" column="21" source="standard:enum-wrapping" />
         <error line="28" column="36" source="standard:enum-wrapping" />
-        <error line="37" column="37" source="standard:class-signature" />
         <error line="37" column="100" source="standard:max-line-length" />
         <error line="75" column="64" source="standard:multiline-if-else" />
         <error line="76" column="17" source="standard:multiline-if-else" />
@@ -2888,7 +2832,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/activity/ManageAccountFlags.kt">
         <error line="92" column="27" source="standard:wrapping" />
-        <error line="92" column="28" source="standard:class-signature" />
         <error line="114" column="63" source="standard:paren-spacing" />
         <error line="119" column="29" source="standard:wrapping" />
         <error line="119" column="30" source="standard:argument-list-wrapping" />
@@ -2933,7 +2876,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/activity/ManageAccountTypes.kt">
         <error line="76" column="27" source="standard:wrapping" />
-        <error line="76" column="28" source="standard:class-signature" />
         <error line="96" column="63" source="standard:paren-spacing" />
         <error line="101" column="29" source="standard:wrapping" />
         <error line="101" column="30" source="standard:argument-list-wrapping" />
@@ -3014,7 +2956,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/activity/ManageCategories.kt">
         <error line="94" column="25" source="standard:wrapping" />
-        <error line="94" column="26" source="standard:class-signature" />
         <error line="154" column="16" source="standard:multiline-if-else" />
         <error line="160" column="17" source="standard:multiline-if-else" />
         <error line="160" column="52" source="standard:multiline-if-else" />
@@ -3169,8 +3110,6 @@
         <error line="32" column="101" source="standard:max-line-length" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/activity/ManageSyncBackends.kt">
-        <error line="28" column="28" source="standard:class-signature" />
-        <error line="28" column="56" source="standard:class-signature" />
         <error line="88" column="37" source="standard:argument-list-wrapping" />
         <error line="88" column="69" source="standard:argument-list-wrapping" />
         <error line="88" column="100" source="standard:argument-list-wrapping" />
@@ -3211,9 +3150,6 @@
         <error line="55" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/activity/ManageTemplates.kt">
-        <error line="37" column="25" source="standard:class-signature" />
-        <error line="37" column="54" source="standard:class-signature" />
-        <error line="37" column="82" source="standard:class-signature" />
         <error line="44" column="1" source="standard:no-consecutive-blank-lines" />
         <error line="58" column="56" source="standard:comment-spacing" />
         <error line="59" column="55" source="standard:comment-spacing" />
@@ -3227,9 +3163,6 @@
         <error line="149" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/activity/MethodEdit.kt">
-        <error line="44" column="20" source="standard:class-signature" />
-        <error line="44" column="36" source="standard:class-signature" />
-        <error line="44" column="76" source="standard:class-signature" />
         <error line="130" column="45" source="standard:wrapping" />
         <error line="135" column="13" source="standard:wrapping" />
         <error line="194" column="27" source="standard:argument-list-wrapping" />
@@ -3244,7 +3177,6 @@
         <error line="84" column="42" source="standard:enum-wrapping" />
         <error line="87" column="1" source="standard:no-consecutive-blank-lines" />
         <error line="96" column="21" source="standard:wrapping" />
-        <error line="96" column="22" source="standard:class-signature" />
         <error line="139" column="1" source="standard:no-empty-first-line-in-method-block" />
         <error line="212" column="1" source="standard:no-blank-line-before-rbrace" />
         <error line="230" column="75" source="standard:comment-spacing" />
@@ -3346,9 +3278,7 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/activity/PreferenceActivity.kt">
         <error line="62" column="27" source="standard:wrapping" />
-        <error line="62" column="28" source="standard:class-signature" />
         <error line="62" column="55" source="standard:wrapping" />
-        <error line="62" column="56" source="standard:class-signature" />
         <error line="80" column="13" source="standard:function-signature" />
         <error line="81" column="13" source="standard:function-signature" />
         <error line="81" column="23" source="standard:trailing-comma-on-declaration-site" />
@@ -3565,8 +3495,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/activity/RoadmapVoteActivity.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="39" column="29" source="standard:class-signature" />
-        <error line="39" column="58" source="standard:class-signature" />
         <error line="143" column="37" source="standard:no-multi-spaces" />
         <error line="201" column="56" source="standard:wrapping" />
         <error line="218" column="17" source="standard:wrapping" />
@@ -3615,7 +3543,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/activity/SyncBackendSetupActivity.kt">
         <error line="28" column="42" source="standard:wrapping" />
-        <error line="28" column="43" source="standard:class-signature" />
         <error line="85" column="47" source="standard:argument-list-wrapping" />
         <error line="85" column="101" source="standard:max-line-length" />
         <error line="85" column="102" source="standard:argument-list-wrapping" />
@@ -3689,11 +3616,7 @@
         <error line="16" column="35" source="standard:function-expression-body" />
         <error line="27" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/main/java/org/totschnig/myexpenses/adapter/CrStatusAdapter.kt">
-        <error line="12" column="43" source="standard:class-signature" />
-    </file>
     <file name="src/main/java/org/totschnig/myexpenses/adapter/FontSizeAdapter.kt">
-        <error line="14" column="43" source="standard:class-signature" />
         <error line="28" column="23" source="standard:argument-list-wrapping" />
         <error line="29" column="42" source="standard:argument-list-wrapping" />
         <error line="37" column="60" source="standard:argument-list-wrapping" />
@@ -3709,7 +3632,6 @@
         <error line="41" column="111" source="standard:argument-list-wrapping" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/adapter/GroupedSpinnerAdapter.kt">
-        <error line="15" column="25" source="standard:class-signature" />
         <error line="43" column="9" source="standard:comment-spacing" />
         <error line="70" column="60" source="standard:function-signature" />
         <error line="70" column="92" source="standard:function-literal" />
@@ -3729,7 +3651,6 @@
         <error line="119" column="34" source="standard:wrapping" />
         <error line="119" column="35" source="standard:argument-list-wrapping" />
         <error line="127" column="39" source="standard:colon-spacing" />
-        <error line="127" column="41" source="standard:class-signature" />
         <error line="133" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/adapter/IdAdapter.kt">
@@ -3742,7 +3663,6 @@
         <error line="27" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/adapter/RecurrenceAdapter.kt">
-        <error line="10" column="46" source="standard:class-signature" />
         <error line="10" column="72" source="standard:wrapping" />
         <error line="10" column="72" source="standard:argument-list-wrapping" />
         <error line="10" column="83" source="standard:argument-list-wrapping" />
@@ -3763,16 +3683,10 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/adapter/RecyclerListAdapter.kt">
         <error line="18" column="1" source="standard:import-ordering" />
-        <error line="37" column="5" source="standard:class-signature" />
-        <error line="38" column="5" source="standard:class-signature" />
-        <error line="39" column="5" source="standard:class-signature" />
-        <error line="39" column="35" source="standard:class-signature" />
-        <error line="51" column="65" source="standard:class-signature" />
         <error line="53" column="1" source="standard:no-consecutive-blank-lines" />
         <error line="70" column="1" source="standard:no-consecutive-blank-lines" />
         <error line="90" column="38" source="standard:function-expression-body" />
         <error line="98" column="64" source="standard:wrapping" />
-        <error line="98" column="65" source="standard:class-signature" />
         <error line="109" column="41" source="standard:argument-list-wrapping" />
         <error line="109" column="77" source="standard:argument-list-wrapping" />
         <error line="109" column="101" source="standard:max-line-length" />
@@ -3780,7 +3694,6 @@
         <error line="109" column="105" source="standard:argument-list-wrapping" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/adapter/SplitPartRVAdapter.kt">
-        <error line="33" column="5" source="standard:class-signature" />
         <error line="37" column="83" source="standard:function-expression-body" />
         <error line="70" column="35" source="standard:function-literal" />
         <error line="70" column="36" source="standard:wrapping" />
@@ -3799,7 +3712,6 @@
         <error line="129" column="91" source="standard:function-expression-body" />
         <error line="133" column="94" source="standard:function-expression-body" />
         <error line="148" column="7" source="standard:no-multi-spaces" />
-        <error line="148" column="8" source="standard:class-signature" />
         <error line="152" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/adapter/SyncBackendAdapter.kt">
@@ -4059,11 +3971,7 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/compose/CompositionLocal.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="18" column="5" source="standard:class-signature" />
-        <error line="19" column="5" source="standard:class-signature" />
-        <error line="20" column="5" source="standard:class-signature" />
         <error line="20" column="24" source="standard:trailing-comma-on-declaration-site" />
-        <error line="20" column="25" source="standard:class-signature" />
         <error line="33" column="37" source="standard:trailing-comma-on-call-site" />
         <error line="59" column="1" source="standard:final-newline" />
     </file>
@@ -4274,10 +4182,6 @@
     <file name="src/main/java/org/totschnig/myexpenses/compose/UiText.kt">
         <error line="7" column="1" source="standard:comment-spacing" />
         <error line="12" column="1" source="standard:spacing-between-declarations-with-annotations" />
-        <error line="16" column="9" source="standard:class-signature" />
-        <error line="17" column="9" source="standard:class-signature" />
-        <error line="17" column="29" source="standard:class-signature" />
-        <error line="18" column="9" source="standard:class-signature" />
         <error line="26" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/compose/accounts/AccountList.kt">
@@ -4552,89 +4456,80 @@
         <error line="190" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/compose/filter/FilterDialog.kt">
-        <error line="124" column="62" source="standard:trailing-comma-on-declaration-site" />
-        <error line="126" column="1" source="standard:no-empty-first-line-in-method-block" />
-        <error line="165" column="33" source="standard:multiline-if-else" />
-        <error line="166" column="34" source="standard:multiline-if-else" />
-        <error line="172" column="85" source="standard:binary-expression-wrapping" />
-        <error line="172" column="85" source="standard:argument-list-wrapping" />
-        <error line="172" column="101" source="standard:max-line-length" />
-        <error line="172" column="104" source="standard:binary-expression-wrapping" />
-        <error line="172" column="113" source="standard:argument-list-wrapping" />
-        <error line="196" column="1" source="standard:no-empty-first-line-in-method-block" />
-        <error line="205" column="101" source="standard:max-line-length" />
-        <error line="208" column="1" source="standard:no-empty-first-line-in-method-block" />
-        <error line="217" column="59" source="standard:trailing-comma-on-call-site" />
-        <error line="227" column="71" source="standard:wrapping" />
-        <error line="227" column="72" source="standard:argument-list-wrapping" />
-        <error line="246" column="72" source="standard:trailing-comma-on-call-site" />
-        <error line="258" column="101" source="standard:max-line-length" />
-        <error line="258" column="104" source="standard:trailing-comma-on-call-site" />
-        <error line="266" column="55" source="standard:argument-list-wrapping" />
-        <error line="266" column="101" source="standard:max-line-length" />
-        <error line="266" column="122" source="standard:argument-list-wrapping" />
-        <error line="292" column="79" source="standard:multiline-if-else" />
-        <error line="293" column="41" source="standard:argument-list-wrapping" />
-        <error line="293" column="58" source="standard:argument-list-wrapping" />
-        <error line="293" column="76" source="standard:argument-list-wrapping" />
-        <error line="295" column="26" source="standard:multiline-if-else" />
-        <error line="300" column="29" source="standard:multiline-if-else" />
-        <error line="300" column="52" source="standard:multiline-if-else" />
-        <error line="313" column="1" source="standard:indent" />
-        <error line="350" column="1" source="standard:no-empty-first-line-in-method-block" />
-        <error line="360" column="47" source="standard:wrapping" />
-        <error line="360" column="48" source="standard:argument-list-wrapping" />
-        <error line="381" column="1" source="standard:no-empty-first-line-in-method-block" />
-        <error line="391" column="56" source="standard:wrapping" />
-        <error line="392" column="52" source="standard:wrapping" />
-        <error line="489" column="71" source="standard:wrapping" />
-        <error line="489" column="72" source="standard:argument-list-wrapping" />
-        <error line="515" column="1" source="standard:no-blank-line-before-rbrace" />
-        <error line="538" column="1" source="standard:no-blank-line-before-rbrace" />
-        <error line="551" column="24" source="standard:trailing-comma-on-declaration-site" />
-        <error line="568" column="36" source="standard:trailing-comma-on-declaration-site" />
-        <error line="570" column="5" source="standard:comment-spacing" />
-        <error line="575" column="43" source="standard:trailing-comma-on-call-site" />
-        <error line="585" column="12" source="standard:multiline-if-else" />
-        <error line="601" column="60" source="standard:function-signature" />
-        <error line="603" column="1" source="standard:indent" />
-        <error line="604" column="1" source="standard:indent" />
-        <error line="605" column="1" source="standard:indent" />
-        <error line="605" column="64" source="standard:binary-expression-wrapping" />
-        <error line="605" column="73" source="standard:function-literal" />
-        <error line="605" column="85" source="standard:function-literal" />
-        <error line="605" column="91" source="standard:function-literal" />
-        <error line="605" column="101" source="standard:max-line-length" />
-        <error line="605" column="109" source="standard:binary-expression-wrapping" />
-        <error line="605" column="112" source="standard:function-literal" />
-        <error line="606" column="1" source="standard:indent" />
-        <error line="607" column="1" source="standard:indent" />
-        <error line="608" column="1" source="standard:indent" />
-        <error line="618" column="36" source="standard:trailing-comma-on-call-site" />
-        <error line="620" column="32" source="standard:trailing-comma-on-call-site" />
-        <error line="632" column="36" source="standard:trailing-comma-on-call-site" />
-        <error line="642" column="1" source="standard:final-newline" />
+        <error line="3" column="1" source="standard:import-ordering" />
+        <error line="127" column="62" source="standard:trailing-comma-on-declaration-site" />
+        <error line="129" column="1" source="standard:no-empty-first-line-in-method-block" />
+        <error line="168" column="33" source="standard:multiline-if-else" />
+        <error line="169" column="34" source="standard:multiline-if-else" />
+        <error line="175" column="85" source="standard:binary-expression-wrapping" />
+        <error line="175" column="85" source="standard:argument-list-wrapping" />
+        <error line="175" column="101" source="standard:max-line-length" />
+        <error line="175" column="104" source="standard:binary-expression-wrapping" />
+        <error line="175" column="113" source="standard:argument-list-wrapping" />
+        <error line="199" column="1" source="standard:no-empty-first-line-in-method-block" />
+        <error line="208" column="101" source="standard:max-line-length" />
+        <error line="211" column="1" source="standard:no-empty-first-line-in-method-block" />
+        <error line="220" column="59" source="standard:trailing-comma-on-call-site" />
+        <error line="231" column="71" source="standard:wrapping" />
+        <error line="231" column="72" source="standard:argument-list-wrapping" />
+        <error line="250" column="72" source="standard:trailing-comma-on-call-site" />
+        <error line="255" column="51" source="standard:binary-expression-wrapping" />
+        <error line="255" column="78" source="standard:binary-expression-wrapping" />
+        <error line="255" column="101" source="standard:max-line-length" />
+        <error line="262" column="101" source="standard:max-line-length" />
+        <error line="262" column="104" source="standard:trailing-comma-on-call-site" />
+        <error line="270" column="55" source="standard:argument-list-wrapping" />
+        <error line="270" column="101" source="standard:max-line-length" />
+        <error line="270" column="122" source="standard:argument-list-wrapping" />
+        <error line="296" column="79" source="standard:multiline-if-else" />
+        <error line="303" column="26" source="standard:multiline-if-else" />
+        <error line="309" column="29" source="standard:multiline-if-else" />
+        <error line="309" column="52" source="standard:multiline-if-else" />
+        <error line="348" column="40" source="standard:multiline-if-else" />
+        <error line="360" column="65" source="standard:multiline-if-else" />
+        <error line="361" column="45" source="standard:multiline-if-else" />
+        <error line="376" column="1" source="standard:indent" />
+        <error line="413" column="1" source="standard:no-empty-first-line-in-method-block" />
+        <error line="423" column="47" source="standard:wrapping" />
+        <error line="423" column="48" source="standard:argument-list-wrapping" />
+        <error line="444" column="1" source="standard:no-empty-first-line-in-method-block" />
+        <error line="454" column="56" source="standard:wrapping" />
+        <error line="455" column="52" source="standard:wrapping" />
+        <error line="552" column="71" source="standard:wrapping" />
+        <error line="552" column="72" source="standard:argument-list-wrapping" />
+        <error line="578" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="601" column="1" source="standard:no-blank-line-before-rbrace" />
+        <error line="614" column="24" source="standard:trailing-comma-on-declaration-site" />
+        <error line="631" column="36" source="standard:trailing-comma-on-declaration-site" />
+        <error line="633" column="5" source="standard:comment-spacing" />
+        <error line="638" column="43" source="standard:trailing-comma-on-call-site" />
+        <error line="648" column="12" source="standard:multiline-if-else" />
+        <error line="664" column="60" source="standard:function-signature" />
+        <error line="666" column="1" source="standard:indent" />
+        <error line="667" column="1" source="standard:indent" />
+        <error line="668" column="1" source="standard:indent" />
+        <error line="668" column="64" source="standard:binary-expression-wrapping" />
+        <error line="668" column="73" source="standard:function-literal" />
+        <error line="668" column="85" source="standard:function-literal" />
+        <error line="668" column="91" source="standard:function-literal" />
+        <error line="668" column="101" source="standard:max-line-length" />
+        <error line="668" column="109" source="standard:binary-expression-wrapping" />
+        <error line="668" column="112" source="standard:function-literal" />
+        <error line="669" column="1" source="standard:indent" />
+        <error line="670" column="1" source="standard:indent" />
+        <error line="671" column="1" source="standard:indent" />
+        <error line="681" column="36" source="standard:trailing-comma-on-call-site" />
+        <error line="683" column="32" source="standard:trailing-comma-on-call-site" />
+        <error line="695" column="36" source="standard:trailing-comma-on-call-site" />
+        <error line="705" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/compose/filter/FilterHandler.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="87" column="13" source="standard:keyword-spacing" />
-        <error line="131" column="25" source="standard:argument-list-wrapping" />
-        <error line="146" column="25" source="standard:colon-spacing" />
-        <error line="154" column="44" source="standard:wrapping" />
-        <error line="154" column="44" source="standard:argument-list-wrapping" />
-        <error line="155" column="39" source="standard:argument-list-wrapping" />
-        <error line="197" column="26" source="standard:argument-list-wrapping" />
-        <error line="210" column="72" source="standard:comma-spacing" />
-        <error line="227" column="30" source="standard:argument-list-wrapping" />
-        <error line="227" column="49" source="standard:argument-list-wrapping" />
-        <error line="227" column="66" source="standard:argument-list-wrapping" />
-        <error line="227" column="81" source="standard:function-literal" />
-        <error line="227" column="99" source="standard:function-literal" />
-        <error line="227" column="100" source="standard:argument-list-wrapping" />
-        <error line="227" column="101" source="standard:argument-list-wrapping" />
-        <error line="227" column="101" source="standard:max-line-length" />
-        <error line="248" column="85" source="standard:trailing-comma-on-call-site" />
-        <error line="258" column="1" source="standard:no-consecutive-blank-lines" />
+        <error line="140" column="25" source="standard:argument-list-wrapping" />
+        <error line="165" column="39" source="standard:argument-list-wrapping" />
+        <error line="211" column="26" source="standard:argument-list-wrapping" />
+        <error line="265" column="85" source="standard:trailing-comma-on-call-site" />
+        <error line="330" column="1" source="standard:no-consecutive-blank-lines" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/compose/listState.kt">
         <error line="1" column="1" source="standard:filename" />
@@ -4684,11 +4579,7 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/compose/main/MainScreen.kt">
         <error line="115" column="24" source="standard:trailing-comma-on-declaration-site" />
-        <error line="136" column="9" source="standard:class-signature" />
-        <error line="137" column="9" source="standard:class-signature" />
         <error line="137" column="44" source="standard:trailing-comma-on-declaration-site" />
-        <error line="137" column="45" source="standard:class-signature" />
-        <error line="138" column="9" source="standard:class-signature" />
         <error line="167" column="1" source="standard:no-consecutive-blank-lines" />
         <error line="185" column="19" source="standard:parameter-wrapping" />
         <error line="185" column="29" source="standard:parameter-list-wrapping" />
@@ -4831,8 +4722,6 @@
         <error line="312" column="50" source="standard:trailing-comma-on-call-site" />
         <error line="316" column="1" source="standard:no-consecutive-blank-lines" />
         <error line="320" column="41" source="standard:trailing-comma-on-declaration-site" />
-        <error line="336" column="67" source="standard:class-signature" />
-        <error line="337" column="5" source="standard:class-signature" />
         <error line="368" column="41" source="standard:trailing-comma-on-declaration-site" />
         <error line="375" column="1" source="standard:indent" />
         <error line="384" column="44" source="standard:trailing-comma-on-call-site" />
@@ -4859,12 +4748,8 @@
         <error line="117" column="22" source="standard:function-signature" />
         <error line="121" column="15" source="standard:trailing-comma-on-call-site" />
         <error line="123" column="11" source="standard:trailing-comma-on-call-site" />
-        <error line="132" column="5" source="standard:class-signature" />
         <error line="132" column="35" source="standard:trailing-comma-on-declaration-site" />
-        <error line="132" column="36" source="standard:class-signature" />
-        <error line="141" column="5" source="standard:class-signature" />
         <error line="141" column="26" source="standard:trailing-comma-on-declaration-site" />
-        <error line="141" column="27" source="standard:class-signature" />
         <error line="145" column="19" source="standard:trailing-comma-on-declaration-site" />
         <error line="158" column="5" source="standard:function-signature" />
         <error line="159" column="5" source="standard:function-signature" />
@@ -5100,11 +4985,7 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/compose/transactions/TradeScreen.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="128" column="5" source="standard:class-signature" />
-        <error line="129" column="5" source="standard:class-signature" />
-        <error line="129" column="38" source="standard:class-signature" />
         <error line="130" column="2" source="standard:colon-spacing" />
-        <error line="130" column="4" source="standard:class-signature" />
         <error line="147" column="19" source="standard:parameter-wrapping" />
         <error line="147" column="29" source="standard:parameter-list-wrapping" />
         <error line="147" column="43" source="standard:parameter-list-wrapping" />
@@ -5272,7 +5153,6 @@
         <error line="1327" column="94" source="standard:statement-wrapping" />
         <error line="1339" column="28" source="standard:multiline-if-else" />
         <error line="1341" column="80" source="standard:statement-wrapping" />
-        <error line="1353" column="5" source="standard:class-signature" />
         <error line="1354" column="63" source="standard:function-signature" />
         <error line="1356" column="22" source="standard:argument-list-wrapping" />
         <error line="1362" column="9" source="standard:function-signature" />
@@ -5432,10 +5312,7 @@
         <error line="523" column="62" source="standard:argument-list-wrapping" />
         <error line="523" column="90" source="standard:argument-list-wrapping" />
         <error line="523" column="101" source="standard:max-line-length" />
-        <error line="530" column="5" source="standard:class-signature" />
-        <error line="531" column="5" source="standard:class-signature" />
         <error line="531" column="22" source="standard:trailing-comma-on-declaration-site" />
-        <error line="531" column="23" source="standard:class-signature" />
         <error line="542" column="66" source="standard:trailing-comma-on-declaration-site" />
         <error line="555" column="46" source="standard:trailing-comma-on-declaration-site" />
         <error line="593" column="49" source="standard:function-literal" />
@@ -5585,12 +5462,7 @@
         <error line="158" column="21" source="standard:argument-list-wrapping" />
         <error line="158" column="27" source="standard:argument-list-wrapping" />
         <error line="164" column="61" source="standard:trailing-comma-on-call-site" />
-        <error line="169" column="31" source="standard:class-signature" />
-        <error line="169" column="53" source="standard:class-signature" />
-        <error line="169" column="79" source="standard:class-signature" />
         <error line="169" column="100" source="standard:max-line-length" />
-        <error line="169" column="101" source="standard:class-signature" />
-        <error line="169" column="124" source="standard:class-signature" />
         <error line="171" column="48" source="standard:function-signature" />
         <error line="171" column="63" source="standard:function-signature" />
         <error line="171" column="100" source="standard:max-line-length" />
@@ -6271,10 +6143,7 @@
         <error line="1421" column="5" source="standard:function-signature" />
         <error line="1421" column="20" source="standard:trailing-comma-on-declaration-site" />
         <error line="1421" column="21" source="standard:function-signature" />
-        <error line="1429" column="5" source="standard:class-signature" />
-        <error line="1430" column="5" source="standard:class-signature" />
         <error line="1430" column="31" source="standard:trailing-comma-on-declaration-site" />
-        <error line="1430" column="32" source="standard:class-signature" />
         <error line="1436" column="26" source="standard:trailing-comma-on-declaration-site" />
         <error line="1446" column="25" source="standard:argument-list-wrapping" />
         <error line="1446" column="36" source="standard:argument-list-wrapping" />
@@ -6321,7 +6190,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/db2/entities/Template.kt">
         <error line="81" column="3" source="standard:no-multi-spaces" />
-        <error line="81" column="4" source="standard:class-signature" />
         <error line="169" column="15" source="standard:enum-wrapping" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/delegate/CategoryDelegate.kt">
@@ -6389,7 +6257,6 @@
         <error line="539" column="1" source="standard:indent" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/delegate/SplitDelegate.kt">
-        <error line="32" column="5" source="standard:class-signature" />
         <error line="72" column="11" source="standard:multiline-if-else" />
         <error line="72" column="49" source="standard:multiline-if-else" />
         <error line="75" column="26" source="standard:argument-list-wrapping" />
@@ -6566,7 +6433,6 @@
     <file name="src/main/java/org/totschnig/myexpenses/delegate/TransferDelegate.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="38" column="24" source="standard:trailing-comma-on-declaration-site" />
-        <error line="40" column="5" source="standard:class-signature" />
         <error line="89" column="30" source="standard:trailing-comma-on-declaration-site" />
         <error line="129" column="1" source="standard:no-blank-line-before-rbrace" />
         <error line="190" column="72" source="standard:binary-expression-wrapping" />
@@ -6616,7 +6482,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/di/DataModule.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="41" column="22" source="standard:class-signature" />
         <error line="63" column="21" source="standard:string-template" />
         <error line="69" column="45" source="standard:trailing-comma-on-declaration-site" />
         <error line="75" column="9" source="standard:function-signature" />
@@ -6812,8 +6677,6 @@
         <error line="97" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/dialog/BalanceDialogFragment.kt">
-        <error line="30" column="31" source="standard:class-signature" />
-        <error line="30" column="68" source="standard:class-signature" />
         <error line="47" column="1" source="standard:indent" />
         <error line="47" column="27" source="standard:argument-list-wrapping" />
         <error line="47" column="37" source="standard:argument-list-wrapping" />
@@ -6878,8 +6741,6 @@
         <error line="58" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/dialog/ConfirmationDialogFragment.kt">
-        <error line="37" column="36" source="standard:class-signature" />
-        <error line="37" column="58" source="standard:class-signature" />
         <error line="124" column="1" source="standard:blank-line-between-when-conditions" />
         <error line="125" column="1" source="standard:blank-line-between-when-conditions" />
         <error line="167" column="1" source="standard:final-newline" />
@@ -6887,9 +6748,7 @@
     <file name="src/main/java/org/totschnig/myexpenses/dialog/ContribDialogFragment.kt">
         <error line="17" column="1" source="standard:import-ordering" />
         <error line="61" column="30" source="standard:wrapping" />
-        <error line="61" column="31" source="standard:class-signature" />
         <error line="61" column="52" source="standard:wrapping" />
-        <error line="61" column="53" source="standard:class-signature" />
         <error line="114" column="9" source="standard:comment-spacing" />
         <error line="146" column="9" source="standard:comment-spacing" />
         <error line="163" column="9" source="standard:comment-spacing" />
@@ -6929,9 +6788,6 @@
         <error line="138" column="1" source="standard:indent" />
         <error line="147" column="46" source="standard:multiline-if-else" />
         <error line="151" column="12" source="standard:multiline-if-else" />
-        <error line="158" column="37" source="standard:class-signature" />
-        <error line="158" column="42" source="standard:class-signature" />
-        <error line="158" column="72" source="standard:class-signature" />
         <error line="184" column="35" source="standard:multiline-if-else" />
         <error line="228" column="42" source="standard:trailing-comma-on-declaration-site" />
         <error line="229" column="12" source="standard:function-signature" />
@@ -7010,8 +6866,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/dialog/DateFilterDialog.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="19" column="26" source="standard:class-signature" />
-        <error line="19" column="66" source="standard:class-signature" />
         <error line="26" column="42" source="standard:parameter-list-wrapping" />
         <error line="26" column="42" source="standard:function-signature" />
         <error line="27" column="32" source="standard:parameter-list-wrapping" />
@@ -7068,7 +6922,6 @@
     <file name="src/main/java/org/totschnig/myexpenses/dialog/ExportDialogFragment.kt">
         <error line="17" column="1" source="standard:import-ordering" />
         <error line="75" column="29" source="standard:wrapping" />
-        <error line="75" column="30" source="standard:class-signature" />
         <error line="100" column="1" source="standard:blank-line-between-when-conditions" />
         <error line="102" column="21" source="standard:keyword-spacing" />
         <error line="106" column="39" source="standard:argument-list-wrapping" />
@@ -7136,8 +6989,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/dialog/ExtendProLicenceDialogFragment.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="20" column="40" source="standard:class-signature" />
-        <error line="20" column="58" source="standard:class-signature" />
         <error line="44" column="1" source="standard:indent" />
         <error line="45" column="1" source="standard:indent" />
         <error line="46" column="1" source="standard:indent" />
@@ -7187,8 +7038,6 @@
         <error line="15" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/dialog/GrisbiSourcesDialogFragment.kt">
-        <error line="9" column="37" source="standard:class-signature" />
-        <error line="9" column="65" source="standard:class-signature" />
         <error line="41" column="56" source="standard:function-expression-body" />
         <error line="45" column="1" source="standard:final-newline" />
     </file>
@@ -7215,9 +7064,7 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/dialog/ImportSourceDialogFragment.kt">
         <error line="30" column="44" source="standard:wrapping" />
-        <error line="30" column="45" source="standard:class-signature" />
         <error line="31" column="37" source="standard:wrapping" />
-        <error line="31" column="38" source="standard:class-signature" />
         <error line="44" column="79" source="standard:function-expression-body" />
         <error line="52" column="9" source="standard:comment-spacing" />
         <error line="143" column="5" source="standard:comment-spacing" />
@@ -7342,8 +7189,6 @@
         <error line="88" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/dialog/QifImportDialogFragment.kt">
-        <error line="33" column="33" source="standard:class-signature" />
-        <error line="33" column="61" source="standard:class-signature" />
         <error line="40" column="1" source="standard:spacing-between-declarations-with-annotations" />
         <error line="118" column="47" source="standard:argument-list-wrapping" />
         <error line="118" column="65" source="standard:argument-list-wrapping" />
@@ -7378,10 +7223,7 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/dialog/RemindRateDialogFragment.kt">
         <error line="17" column="1" source="standard:import-ordering" />
-        <error line="39" column="34" source="standard:class-signature" />
-        <error line="39" column="74" source="standard:class-signature" />
         <error line="39" column="100" source="standard:max-line-length" />
-        <error line="39" column="107" source="standard:class-signature" />
         <error line="53" column="37" source="standard:binary-expression-wrapping" />
         <error line="53" column="63" source="standard:argument-list-wrapping" />
         <error line="53" column="81" source="standard:argument-list-wrapping" />
@@ -7436,7 +7278,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/dialog/RestoreFromCloudDialogFragment.kt">
         <error line="25" column="39" source="standard:wrapping" />
-        <error line="25" column="40" source="standard:class-signature" />
         <error line="46" column="66" source="standard:argument-list-wrapping" />
         <error line="61" column="68" source="standard:argument-list-wrapping" />
         <error line="97" column="68" source="standard:function-expression-body" />
@@ -7476,8 +7317,6 @@
         <error line="66" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/dialog/SetupSyncDialogFragment.kt">
-        <error line="64" column="33" source="standard:class-signature" />
-        <error line="64" column="62" source="standard:class-signature" />
         <error line="72" column="30" source="standard:trailing-comma-on-declaration-site" />
         <error line="79" column="76" source="standard:function-signature" />
         <error line="86" column="58" source="standard:multiline-if-else" />
@@ -7541,9 +7380,7 @@
     <file name="src/main/java/org/totschnig/myexpenses/dialog/SortUtilityDialogFragment.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="19" column="34" source="standard:wrapping" />
-        <error line="19" column="35" source="standard:class-signature" />
         <error line="19" column="56" source="standard:wrapping" />
-        <error line="19" column="57" source="standard:class-signature" />
         <error line="36" column="1" source="standard:indent" />
         <error line="36" column="25" source="standard:chain-wrapping" />
         <error line="77" column="1" source="standard:spacing-between-declarations-with-annotations" />
@@ -7612,7 +7449,6 @@
     <file name="src/main/java/org/totschnig/myexpenses/dialog/TransactionListComposeDialogFragment.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="40" column="45" source="standard:wrapping" />
-        <error line="40" column="46" source="standard:class-signature" />
         <error line="48" column="1" source="standard:no-consecutive-blank-lines" />
         <error line="60" column="1" source="standard:indent" />
         <error line="72" column="101" source="standard:max-line-length" />
@@ -7628,8 +7464,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/dialog/VersionDialogFragment.kt">
         <error line="17" column="1" source="standard:import-ordering" />
-        <error line="62" column="31" source="standard:class-signature" />
-        <error line="62" column="60" source="standard:class-signature" />
         <error line="90" column="47" source="standard:argument-list-wrapping" />
         <error line="90" column="73" source="standard:argument-list-wrapping" />
         <error line="90" column="101" source="standard:argument-list-wrapping" />
@@ -7689,14 +7523,11 @@
         <error line="30" column="39" source="standard:function-signature" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/dialog/select/SelectCrStatusDialogFragment.kt">
-        <error line="29" column="38" source="standard:class-signature" />
-        <error line="29" column="60" source="standard:class-signature" />
         <error line="64" column="56" source="standard:comma-spacing" />
         <error line="72" column="37" source="standard:trailing-comma-on-declaration-site" />
         <error line="80" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/dialog/select/SelectFilterDialog.kt">
-        <error line="18" column="5" source="standard:class-signature" />
         <error line="50" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/dialog/select/SelectFromMappedTableDialogFragment.kt">
@@ -7727,7 +7558,6 @@
         <error line="106" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/dialog/select/SelectFromTableDialogFragment.kt">
-        <error line="36" column="34" source="standard:class-signature" />
         <error line="141" column="82" source="standard:wrapping" />
         <error line="141" column="83" source="standard:argument-list-wrapping" />
         <error line="145" column="74" source="standard:wrapping" />
@@ -7735,7 +7565,6 @@
         <error line="169" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/dialog/select/SelectMethodDialogFragment.kt">
-        <error line="24" column="36" source="standard:class-signature" />
         <error line="25" column="11" source="standard:argument-list-wrapping" />
         <error line="32" column="81" source="standard:function-expression-body" />
         <error line="33" column="61" source="standard:multiline-if-else" />
@@ -7801,7 +7630,6 @@
         <error line="30" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/dialog/select/SelectTransferAccountDialogFragment.kt">
-        <error line="23" column="45" source="standard:class-signature" />
         <error line="32" column="83" source="standard:function-expression-body" />
         <error line="42" column="1" source="standard:final-newline" />
     </file>
@@ -7812,7 +7640,6 @@
         <error line="54" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/exception/Exceptions.kt">
-        <error line="8" column="92" source="standard:class-signature" />
         <error line="8" column="100" source="standard:max-line-length" />
         <error line="8" column="124" source="standard:argument-list-wrapping" />
         <error line="8" column="125" source="standard:final-newline" />
@@ -7880,7 +7707,6 @@
     <file name="src/main/java/org/totschnig/myexpenses/export/CsvExporter.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="46" column="52" source="standard:trailing-comma-on-declaration-site" />
-        <error line="48" column="5" source="standard:class-signature" />
         <error line="49" column="18" source="standard:argument-list-wrapping" />
         <error line="49" column="35" source="standard:argument-list-wrapping" />
         <error line="49" column="43" source="standard:argument-list-wrapping" />
@@ -7925,7 +7751,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/export/JSONExporter.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="39" column="5" source="standard:class-signature" />
         <error line="40" column="18" source="standard:argument-list-wrapping" />
         <error line="40" column="35" source="standard:argument-list-wrapping" />
         <error line="40" column="43" source="standard:argument-list-wrapping" />
@@ -7949,7 +7774,6 @@
         <error line="102" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/export/QifExporter.kt">
-        <error line="19" column="5" source="standard:class-signature" />
         <error line="19" column="22" source="standard:argument-list-wrapping" />
         <error line="19" column="31" source="standard:argument-list-wrapping" />
         <error line="19" column="48" source="standard:argument-list-wrapping" />
@@ -8292,7 +8116,6 @@
     <file name="src/main/java/org/totschnig/myexpenses/feature/FeatureManager.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="75" column="1" source="standard:no-blank-line-before-rbrace" />
-        <error line="79" column="9" source="standard:class-signature" />
         <error line="84" column="12" source="standard:function-signature" />
         <error line="97" column="12" source="standard:function-signature" />
         <error line="107" column="12" source="standard:function-signature" />
@@ -8322,14 +8145,10 @@
     <file name="src/main/java/org/totschnig/myexpenses/feature/OcrFeature.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="35" column="22" source="standard:parameter-list-wrapping" />
-        <error line="35" column="22" source="standard:class-signature" />
         <error line="35" column="58" source="standard:parameter-list-wrapping" />
-        <error line="35" column="58" source="standard:class-signature" />
         <error line="35" column="101" source="standard:max-line-length" />
         <error line="35" column="113" source="standard:parameter-list-wrapping" />
-        <error line="35" column="113" source="standard:class-signature" />
         <error line="35" column="145" source="standard:parameter-list-wrapping" />
-        <error line="35" column="145" source="standard:class-signature" />
         <error line="35" column="146" source="standard:colon-spacing" />
         <error line="36" column="33" source="standard:binary-expression-wrapping" />
         <error line="36" column="33" source="standard:function-signature" />
@@ -8349,14 +8168,10 @@
         <error line="38" column="141" source="standard:argument-list-wrapping" />
         <error line="38" column="142" source="standard:argument-list-wrapping" />
         <error line="42" column="26" source="standard:parameter-list-wrapping" />
-        <error line="42" column="26" source="standard:class-signature" />
         <error line="42" column="47" source="standard:parameter-list-wrapping" />
-        <error line="42" column="47" source="standard:class-signature" />
         <error line="42" column="87" source="standard:parameter-list-wrapping" />
-        <error line="42" column="87" source="standard:class-signature" />
         <error line="42" column="101" source="standard:max-line-length" />
         <error line="42" column="104" source="standard:parameter-list-wrapping" />
-        <error line="42" column="104" source="standard:class-signature" />
         <error line="42" column="105" source="standard:colon-spacing" />
         <error line="48" column="49" source="standard:colon-spacing" />
     </file>
@@ -8397,9 +8212,6 @@
         <error line="51" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/fragment/ContextualActionBarFragment.kt">
-        <error line="35" column="46" source="standard:class-signature" />
-        <error line="35" column="58" source="standard:class-signature" />
-        <error line="35" column="80" source="standard:class-signature" />
         <error line="35" column="101" source="standard:max-line-length" />
         <error line="42" column="44" source="standard:wrapping" />
         <error line="42" column="44" source="standard:argument-list-wrapping" />
@@ -8555,7 +8367,6 @@
         <error line="267" column="25" source="standard:comment-spacing" />
         <error line="271" column="25" source="standard:comment-wrapping" />
         <error line="281" column="36" source="standard:wrapping" />
-        <error line="281" column="37" source="standard:class-signature" />
         <error line="297" column="60" source="standard:wrapping" />
         <error line="319" column="21" source="standard:wrapping" />
         <error line="320" column="48" source="standard:argument-list-wrapping" />
@@ -8572,11 +8383,8 @@
     <file name="src/main/java/org/totschnig/myexpenses/fragment/CsvImportParseFragment.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="58" column="31" source="standard:wrapping" />
-        <error line="58" column="32" source="standard:class-signature" />
         <error line="58" column="43" source="standard:wrapping" />
-        <error line="58" column="44" source="standard:class-signature" />
         <error line="58" column="65" source="standard:wrapping" />
-        <error line="58" column="66" source="standard:class-signature" />
         <error line="91" column="101" source="standard:max-line-length" />
         <error line="149" column="63" source="standard:argument-list-wrapping" />
         <error line="149" column="91" source="standard:argument-list-wrapping" />
@@ -8616,8 +8424,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/fragment/HistoryChart.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="87" column="22" source="standard:class-signature" />
-        <error line="87" column="34" source="standard:class-signature" />
         <error line="161" column="36" source="standard:trailing-comma-on-declaration-site" />
         <error line="165" column="39" source="standard:argument-list-wrapping" />
         <error line="165" column="72" source="standard:argument-list-wrapping" />
@@ -8718,9 +8524,7 @@
     <file name="src/main/java/org/totschnig/myexpenses/fragment/OnboardingDataFragment.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="43" column="31" source="standard:wrapping" />
-        <error line="43" column="32" source="standard:class-signature" />
         <error line="43" column="53" source="standard:wrapping" />
-        <error line="43" column="54" source="standard:class-signature" />
         <error line="118" column="1" source="standard:blank-line-between-when-conditions" />
         <error line="121" column="1" source="standard:blank-line-between-when-conditions" />
         <error line="124" column="1" source="standard:blank-line-between-when-conditions" />
@@ -8754,8 +8558,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/fragment/PartiesList.kt">
         <error line="17" column="1" source="standard:import-ordering" />
-        <error line="85" column="21" source="standard:class-signature" />
-        <error line="85" column="33" source="standard:class-signature" />
         <error line="107" column="68" source="standard:argument-list-wrapping" />
         <error line="107" column="71" source="standard:argument-list-wrapping" />
         <error line="107" column="74" source="standard:argument-list-wrapping" />
@@ -8765,7 +8567,6 @@
         <error line="126" column="134" source="standard:argument-list-wrapping" />
         <error line="128" column="54" source="standard:binary-expression-wrapping" />
         <error line="128" column="101" source="standard:max-line-length" />
-        <error line="159" column="56" source="standard:class-signature" />
         <error line="187" column="41" source="standard:function-signature" />
         <error line="212" column="36" source="standard:argument-list-wrapping" />
         <error line="212" column="63" source="standard:argument-list-wrapping" />
@@ -8808,8 +8609,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/fragment/PlanMonthFragment.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="54" column="27" source="standard:class-signature" />
-        <error line="54" column="47" source="standard:class-signature" />
         <error line="62" column="5" source="standard:comment-spacing" />
         <error line="63" column="5" source="standard:comment-spacing" />
         <error line="153" column="85" source="standard:function-expression-body" />
@@ -8822,9 +8621,7 @@
         <error line="224" column="45" source="standard:wrapping" />
         <error line="228" column="21" source="standard:wrapping" />
         <error line="251" column="28" source="standard:parameter-list-wrapping" />
-        <error line="251" column="28" source="standard:class-signature" />
         <error line="251" column="40" source="standard:parameter-list-wrapping" />
-        <error line="251" column="40" source="standard:class-signature" />
         <error line="255" column="18" source="standard:argument-list-wrapping" />
         <error line="255" column="25" source="standard:argument-list-wrapping" />
         <error line="255" column="31" source="standard:argument-list-wrapping" />
@@ -8879,8 +8676,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/fragment/StaleImagesList.kt">
         <error line="17" column="1" source="standard:import-ordering" />
-        <error line="58" column="25" source="standard:class-signature" />
-        <error line="58" column="56" source="standard:class-signature" />
         <error line="93" column="1" source="standard:indent" />
         <error line="103" column="40" source="standard:parameter-list-wrapping" />
         <error line="103" column="40" source="standard:function-signature" />
@@ -8903,9 +8698,7 @@
     <file name="src/main/java/org/totschnig/myexpenses/fragment/SyncBackendList.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="50" column="24" source="standard:wrapping" />
-        <error line="50" column="25" source="standard:class-signature" />
         <error line="50" column="36" source="standard:wrapping" />
-        <error line="50" column="37" source="standard:class-signature" />
         <error line="101" column="29" source="standard:binary-expression-wrapping" />
         <error line="101" column="49" source="standard:argument-list-wrapping" />
         <error line="101" column="67" source="standard:argument-list-wrapping" />
@@ -8941,8 +8734,6 @@
         <error line="347" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/fragment/TagList.kt">
-        <error line="47" column="17" source="standard:class-signature" />
-        <error line="47" column="29" source="standard:class-signature" />
         <error line="63" column="36" source="standard:trailing-comma-on-declaration-site" />
         <error line="81" column="47" source="standard:trailing-comma-on-declaration-site" />
         <error line="125" column="20" source="standard:wrapping" />
@@ -8958,9 +8749,7 @@
     <file name="src/main/java/org/totschnig/myexpenses/fragment/TemplatesList.kt">
         <error line="17" column="1" source="standard:import-ordering" />
         <error line="141" column="22" source="standard:wrapping" />
-        <error line="141" column="23" source="standard:class-signature" />
         <error line="141" column="46" source="standard:wrapping" />
-        <error line="141" column="47" source="standard:class-signature" />
         <error line="201" column="36" source="standard:trailing-comma-on-declaration-site" />
         <error line="210" column="47" source="standard:function-literal" />
         <error line="210" column="67" source="standard:function-literal" />
@@ -9098,7 +8887,6 @@
     <file name="src/main/java/org/totschnig/myexpenses/fragment/preferences/BasePreferenceFragment.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="47" column="40" source="standard:wrapping" />
-        <error line="47" column="41" source="standard:class-signature" />
         <error line="86" column="36" source="standard:trailing-comma-on-declaration-site" />
         <error line="87" column="21" source="standard:function-expression-body" />
         <error line="147" column="1" source="standard:no-consecutive-blank-lines" />
@@ -9145,7 +8933,6 @@
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="9" column="1" source="standard:no-wildcard-imports" />
         <error line="23" column="31" source="standard:wrapping" />
-        <error line="23" column="32" source="standard:class-signature" />
         <error line="122" column="1" source="standard:no-consecutive-blank-lines" />
         <error line="123" column="5" source="standard:comment-spacing" />
         <error line="127" column="56" source="standard:wrapping" />
@@ -9249,7 +9036,6 @@
     <file name="src/main/java/org/totschnig/myexpenses/fragment/preferences/PreferencesAdvancedFragment.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="32" column="36" source="standard:wrapping" />
-        <error line="32" column="37" source="standard:class-signature" />
         <error line="84" column="21" source="standard:binary-expression-wrapping" />
         <error line="84" column="35" source="standard:argument-list-wrapping" />
         <error line="84" column="55" source="standard:argument-list-wrapping" />
@@ -9466,8 +9252,6 @@
         <error line="103" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/model/AccountType.kt">
-        <error line="43" column="15" source="standard:class-signature" />
-        <error line="43" column="27" source="standard:class-signature" />
         <error line="92" column="19" source="standard:property-wrapping" />
         <error line="92" column="32" source="standard:argument-list-wrapping" />
         <error line="92" column="61" source="standard:argument-list-wrapping" />
@@ -9538,7 +9322,6 @@
         <error line="28" column="42" source="standard:parameter-list-wrapping" />
         <error line="28" column="63" source="standard:parameter-list-wrapping" />
         <error line="28" column="86" source="standard:parameter-list-wrapping" />
-        <error line="28" column="90" source="standard:class-signature" />
         <error line="28" column="101" source="standard:max-line-length" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/model/CrStatus.kt">
@@ -9565,7 +9348,6 @@
         <error line="24" column="107" source="standard:argument-list-wrapping" />
         <error line="24" column="109" source="standard:function-literal" />
         <error line="36" column="30" source="standard:trailing-comma-on-declaration-site" />
-        <error line="37" column="17" source="standard:class-signature" />
         <error line="39" column="32" source="standard:argument-list-wrapping" />
         <error line="39" column="49" source="standard:argument-list-wrapping" />
         <error line="58" column="1" source="standard:final-newline" />
@@ -9707,8 +9489,6 @@
     <file name="src/main/java/org/totschnig/myexpenses/model2/Account.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="85" column="57" source="standard:no-multi-spaces" />
-        <error line="86" column="24" source="standard:class-signature" />
-        <error line="86" column="38" source="standard:class-signature" />
         <error line="94" column="77" source="standard:function-signature" />
         <error line="97" column="1" source="standard:blank-line-between-when-conditions" />
         <error line="97" column="25" source="standard:keyword-spacing" />
@@ -9719,7 +9499,6 @@
     <file name="src/main/java/org/totschnig/myexpenses/model2/Bank.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="32" column="2" source="standard:colon-spacing" />
-        <error line="32" column="16" source="standard:class-signature" />
         <error line="33" column="37" source="standard:function-expression-body" />
         <error line="48" column="1" source="standard:final-newline" />
     </file>
@@ -9761,7 +9540,6 @@
     <file name="src/main/java/org/totschnig/myexpenses/model2/PaymentMethod.kt">
         <error line="16" column="1" source="standard:no-consecutive-blank-lines" />
         <error line="25" column="3" source="standard:no-multi-spaces" />
-        <error line="25" column="4" source="standard:class-signature" />
         <error line="27" column="58" source="standard:function-signature" />
         <error line="30" column="35" source="standard:binary-expression-wrapping" />
         <error line="30" column="35" source="standard:function-signature" />
@@ -9818,19 +9596,14 @@
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="17" column="1" source="standard:comment-spacing" />
         <error line="18" column="1" source="standard:comment-spacing" />
-        <error line="21" column="33" source="standard:class-signature" />
         <error line="46" column="1" source="standard:no-consecutive-blank-lines" />
         <error line="66" column="13" source="standard:comment-spacing" />
         <error line="100" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/preference/HeaderPreference.kt">
-        <error line="9" column="5" source="standard:class-signature" />
-        <error line="10" column="5" source="standard:class-signature" />
-        <error line="10" column="24" source="standard:class-signature" />
         <error line="16" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/preference/LegacyPasswordPreference.kt">
-        <error line="8" column="73" source="standard:class-signature" />
         <error line="8" column="90" source="standard:argument-list-wrapping" />
         <error line="8" column="99" source="standard:argument-list-wrapping" />
         <error line="8" column="100" source="standard:max-line-length" />
@@ -9838,9 +9611,7 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/preference/LegacyPasswordPreferenceDialogFragmentCompat.kt">
         <error line="20" column="53" source="standard:wrapping" />
-        <error line="20" column="54" source="standard:class-signature" />
         <error line="20" column="87" source="standard:wrapping" />
-        <error line="20" column="88" source="standard:class-signature" />
         <error line="126" column="26" source="standard:wrapping" />
         <error line="128" column="13" source="standard:wrapping" />
     </file>
@@ -9974,9 +9745,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/preference/SafePreference.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="13" column="5" source="standard:class-signature" />
-        <error line="14" column="5" source="standard:class-signature" />
-        <error line="14" column="24" source="standard:class-signature" />
         <error line="24" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/preference/SecureEditTextPreference.kt">
@@ -9998,9 +9766,6 @@
         <error line="26" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/preference/SimpleValuePreference.kt">
-        <error line="11" column="5" source="standard:class-signature" />
-        <error line="12" column="5" source="standard:class-signature" />
-        <error line="12" column="24" source="standard:class-signature" />
         <error line="20" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/preference/TagStylePreference.kt">
@@ -10102,10 +9867,7 @@
         <error line="468" column="101" source="standard:max-line-length" />
         <error line="479" column="82" source="standard:function-signature" />
         <error line="490" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="519" column="5" source="standard:class-signature" />
-        <error line="520" column="5" source="standard:class-signature" />
         <error line="520" column="33" source="standard:trailing-comma-on-declaration-site" />
-        <error line="520" column="34" source="standard:class-signature" />
         <error line="539" column="9" source="standard:comment-spacing" />
         <error line="542" column="1" source="standard:indent" />
         <error line="543" column="1" source="standard:indent" />
@@ -10341,86 +10103,113 @@
         <error line="1264" column="112" source="standard:argument-list-wrapping" />
         <error line="1264" column="116" source="standard:argument-list-wrapping" />
         <error line="1264" column="117" source="standard:argument-list-wrapping" />
-        <error line="1290" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="1310" column="34" source="standard:trailing-comma-on-declaration-site" />
-        <error line="1329" column="9" source="standard:comment-spacing" />
-        <error line="1330" column="20" source="standard:wrapping" />
-        <error line="1330" column="61" source="standard:wrapping" />
-        <error line="1332" column="13" source="standard:wrapping" />
-        <error line="1332" column="21" source="standard:wrapping" />
-        <error line="1406" column="57" source="standard:trailing-comma-on-declaration-site" />
-        <error line="1407" column="23" source="standard:function-expression-body" />
-        <error line="1408" column="101" source="standard:max-line-length" />
-        <error line="1409" column="1" source="standard:indent" />
-        <error line="1409" column="26" source="standard:wrapping" />
-        <error line="1409" column="42" source="standard:function-literal" />
-        <error line="1409" column="101" source="standard:max-line-length" />
-        <error line="1409" column="109" source="standard:function-literal" />
-        <error line="1410" column="1" source="standard:indent" />
-        <error line="1410" column="33" source="standard:wrapping" />
-        <error line="1411" column="1" source="standard:indent" />
-        <error line="1432" column="16" source="standard:argument-list-wrapping" />
-        <error line="1432" column="101" source="standard:max-line-length" />
-        <error line="1432" column="102" source="standard:argument-list-wrapping" />
-        <error line="1436" column="20" source="standard:argument-list-wrapping" />
-        <error line="1436" column="101" source="standard:max-line-length" />
-        <error line="1436" column="169" source="standard:argument-list-wrapping" />
-        <error line="1455" column="20" source="standard:argument-list-wrapping" />
-        <error line="1455" column="101" source="standard:max-line-length" />
-        <error line="1455" column="134" source="standard:argument-list-wrapping" />
-        <error line="1457" column="20" source="standard:argument-list-wrapping" />
-        <error line="1457" column="101" source="standard:max-line-length" />
-        <error line="1457" column="110" source="standard:argument-list-wrapping" />
-        <error line="1463" column="31" source="standard:argument-list-wrapping" />
-        <error line="1474" column="9" source="standard:comment-spacing" />
-        <error line="1475" column="16" source="standard:wrapping" />
-        <error line="1475" column="59" source="standard:wrapping" />
-        <error line="1478" column="9" source="standard:wrapping" />
-        <error line="1479" column="16" source="standard:wrapping" />
-        <error line="1479" column="60" source="standard:wrapping" />
-        <error line="1482" column="9" source="standard:wrapping" />
-        <error line="1488" column="1" source="standard:indent" />
-        <error line="1489" column="1" source="standard:indent" />
-        <error line="1490" column="1" source="standard:indent" />
-        <error line="1491" column="1" source="standard:indent" />
-        <error line="1492" column="1" source="standard:indent" />
-        <error line="1498" column="1" source="standard:indent" />
-        <error line="1499" column="1" source="standard:indent" />
-        <error line="1500" column="1" source="standard:indent" />
-        <error line="1501" column="1" source="standard:indent" />
-        <error line="1502" column="1" source="standard:indent" />
-        <error line="1503" column="1" source="standard:indent" />
-        <error line="1504" column="1" source="standard:indent" />
-        <error line="1505" column="1" source="standard:indent" />
-        <error line="1506" column="1" source="standard:indent" />
-        <error line="1509" column="60" source="standard:function-signature" />
-        <error line="1512" column="1" source="standard:indent" />
-        <error line="1513" column="1" source="standard:indent" />
-        <error line="1514" column="1" source="standard:indent" />
-        <error line="1515" column="1" source="standard:indent" />
-        <error line="1516" column="1" source="standard:indent" />
-        <error line="1522" column="1" source="standard:indent" />
-        <error line="1523" column="1" source="standard:indent" />
-        <error line="1524" column="1" source="standard:indent" />
-        <error line="1525" column="1" source="standard:indent" />
-        <error line="1526" column="1" source="standard:indent" />
-        <error line="1527" column="1" source="standard:indent" />
-        <error line="1528" column="1" source="standard:indent" />
-        <error line="1529" column="1" source="standard:indent" />
-        <error line="1530" column="1" source="standard:indent" />
-        <error line="1531" column="1" source="standard:indent" />
-        <error line="1532" column="1" source="standard:indent" />
-        <error line="1533" column="1" source="standard:indent" />
-        <error line="1534" column="1" source="standard:indent" />
-        <error line="1535" column="1" source="standard:indent" />
-        <error line="1538" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="1544" column="32" source="standard:argument-list-wrapping" />
-        <error line="1572" column="37" source="standard:argument-list-wrapping" />
-        <error line="1572" column="62" source="standard:argument-list-wrapping" />
-        <error line="1572" column="101" source="standard:max-line-length" />
-        <error line="1572" column="135" source="standard:argument-list-wrapping" />
-        <error line="1572" column="136" source="standard:argument-list-wrapping" />
-        <error line="1578" column="1" source="standard:no-consecutive-blank-lines" />
+        <error line="1278" column="21" source="standard:wrapping" />
+        <error line="1289" column="28" source="standard:wrapping" />
+        <error line="1294" column="25" source="standard:wrapping" />
+        <error line="1306" column="32" source="standard:wrapping" />
+        <error line="1313" column="22" source="standard:argument-list-wrapping" />
+        <error line="1313" column="101" source="standard:max-line-length" />
+        <error line="1313" column="106" source="standard:argument-list-wrapping" />
+        <error line="1337" column="17" source="standard:wrapping" />
+        <error line="1349" column="24" source="standard:wrapping" />
+        <error line="1351" column="17" source="standard:wrapping" />
+        <error line="1362" column="24" source="standard:wrapping" />
+        <error line="1364" column="17" source="standard:wrapping" />
+        <error line="1369" column="24" source="standard:wrapping" />
+        <error line="1373" column="17" source="standard:wrapping" />
+        <error line="1380" column="24" source="standard:wrapping" />
+        <error line="1382" column="17" source="standard:wrapping" />
+        <error line="1389" column="24" source="standard:wrapping" />
+        <error line="1391" column="17" source="standard:wrapping" />
+        <error line="1398" column="24" source="standard:wrapping" />
+        <error line="1402" column="17" source="standard:wrapping" />
+        <error line="1409" column="24" source="standard:wrapping" />
+        <error line="1411" column="17" source="standard:wrapping" />
+        <error line="1418" column="24" source="standard:wrapping" />
+        <error line="1420" column="17" source="standard:wrapping" />
+        <error line="1427" column="24" source="standard:wrapping" />
+        <error line="1433" column="21" source="standard:wrapping" />
+        <error line="1446" column="28" source="standard:wrapping" />
+        <error line="1470" column="1" source="standard:no-consecutive-blank-lines" />
+        <error line="1490" column="34" source="standard:trailing-comma-on-declaration-site" />
+        <error line="1509" column="9" source="standard:comment-spacing" />
+        <error line="1510" column="20" source="standard:wrapping" />
+        <error line="1510" column="61" source="standard:wrapping" />
+        <error line="1512" column="13" source="standard:wrapping" />
+        <error line="1512" column="21" source="standard:wrapping" />
+        <error line="1586" column="57" source="standard:trailing-comma-on-declaration-site" />
+        <error line="1587" column="23" source="standard:function-expression-body" />
+        <error line="1588" column="101" source="standard:max-line-length" />
+        <error line="1589" column="1" source="standard:indent" />
+        <error line="1589" column="26" source="standard:wrapping" />
+        <error line="1589" column="42" source="standard:function-literal" />
+        <error line="1589" column="101" source="standard:max-line-length" />
+        <error line="1589" column="109" source="standard:function-literal" />
+        <error line="1590" column="1" source="standard:indent" />
+        <error line="1590" column="33" source="standard:wrapping" />
+        <error line="1591" column="1" source="standard:indent" />
+        <error line="1612" column="16" source="standard:argument-list-wrapping" />
+        <error line="1612" column="101" source="standard:max-line-length" />
+        <error line="1612" column="102" source="standard:argument-list-wrapping" />
+        <error line="1616" column="20" source="standard:argument-list-wrapping" />
+        <error line="1616" column="101" source="standard:max-line-length" />
+        <error line="1616" column="169" source="standard:argument-list-wrapping" />
+        <error line="1635" column="20" source="standard:argument-list-wrapping" />
+        <error line="1635" column="101" source="standard:max-line-length" />
+        <error line="1635" column="134" source="standard:argument-list-wrapping" />
+        <error line="1637" column="20" source="standard:argument-list-wrapping" />
+        <error line="1637" column="101" source="standard:max-line-length" />
+        <error line="1637" column="110" source="standard:argument-list-wrapping" />
+        <error line="1643" column="31" source="standard:argument-list-wrapping" />
+        <error line="1654" column="9" source="standard:comment-spacing" />
+        <error line="1655" column="16" source="standard:wrapping" />
+        <error line="1655" column="59" source="standard:wrapping" />
+        <error line="1658" column="9" source="standard:wrapping" />
+        <error line="1659" column="16" source="standard:wrapping" />
+        <error line="1659" column="60" source="standard:wrapping" />
+        <error line="1662" column="9" source="standard:wrapping" />
+        <error line="1668" column="1" source="standard:indent" />
+        <error line="1669" column="1" source="standard:indent" />
+        <error line="1670" column="1" source="standard:indent" />
+        <error line="1671" column="1" source="standard:indent" />
+        <error line="1672" column="1" source="standard:indent" />
+        <error line="1678" column="1" source="standard:indent" />
+        <error line="1679" column="1" source="standard:indent" />
+        <error line="1680" column="1" source="standard:indent" />
+        <error line="1681" column="1" source="standard:indent" />
+        <error line="1682" column="1" source="standard:indent" />
+        <error line="1683" column="1" source="standard:indent" />
+        <error line="1684" column="1" source="standard:indent" />
+        <error line="1685" column="1" source="standard:indent" />
+        <error line="1686" column="1" source="standard:indent" />
+        <error line="1689" column="60" source="standard:function-signature" />
+        <error line="1692" column="1" source="standard:indent" />
+        <error line="1693" column="1" source="standard:indent" />
+        <error line="1694" column="1" source="standard:indent" />
+        <error line="1695" column="1" source="standard:indent" />
+        <error line="1696" column="1" source="standard:indent" />
+        <error line="1702" column="1" source="standard:indent" />
+        <error line="1703" column="1" source="standard:indent" />
+        <error line="1704" column="1" source="standard:indent" />
+        <error line="1705" column="1" source="standard:indent" />
+        <error line="1706" column="1" source="standard:indent" />
+        <error line="1707" column="1" source="standard:indent" />
+        <error line="1708" column="1" source="standard:indent" />
+        <error line="1709" column="1" source="standard:indent" />
+        <error line="1710" column="1" source="standard:indent" />
+        <error line="1711" column="1" source="standard:indent" />
+        <error line="1712" column="1" source="standard:indent" />
+        <error line="1713" column="1" source="standard:indent" />
+        <error line="1714" column="1" source="standard:indent" />
+        <error line="1715" column="1" source="standard:indent" />
+        <error line="1718" column="1" source="standard:no-consecutive-blank-lines" />
+        <error line="1724" column="32" source="standard:argument-list-wrapping" />
+        <error line="1752" column="37" source="standard:argument-list-wrapping" />
+        <error line="1752" column="62" source="standard:argument-list-wrapping" />
+        <error line="1752" column="101" source="standard:max-line-length" />
+        <error line="1752" column="135" source="standard:argument-list-wrapping" />
+        <error line="1752" column="136" source="standard:argument-list-wrapping" />
+        <error line="1758" column="1" source="standard:no-consecutive-blank-lines" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/provider/BaseTransactionProvider.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -11114,11 +10903,7 @@
         <error line="254" column="55" source="standard:function-signature" />
         <error line="257" column="101" source="standard:max-line-length" />
         <error line="294" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="296" column="5" source="standard:class-signature" />
-        <error line="297" column="5" source="standard:class-signature" />
-        <error line="298" column="5" source="standard:class-signature" />
         <error line="298" column="21" source="standard:trailing-comma-on-declaration-site" />
-        <error line="298" column="22" source="standard:class-signature" />
         <error line="306" column="49" source="standard:trailing-comma-on-declaration-site" />
         <error line="321" column="42" source="standard:argument-list-wrapping" />
         <error line="321" column="101" source="standard:max-line-length" />
@@ -11234,8 +11019,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/provider/PlannerUtils.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="35" column="5" source="standard:class-signature" />
-        <error line="36" column="5" source="standard:class-signature" />
         <error line="36" column="32" source="standard:wrapping" />
         <error line="36" column="33" source="standard:parameter-list-wrapping" />
         <error line="45" column="1" source="standard:indent" />
@@ -11348,19 +11131,15 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/provider/constants.kt">
         <error line="1" column="1" source="standard:filename" />
-        <error line="147" column="18" source="standard:comment-spacing" />
-        <error line="301" column="1" source="standard:comment-spacing" />
-        <error line="304" column="1" source="standard:comment-spacing" />
-        <error line="305" column="1" source="standard:spacing-between-declarations-with-comments" />
-        <error line="336" column="1" source="standard:comment-spacing" />
-        <error line="341" column="1" source="standard:comment-spacing" />
-        <error line="352" column="28" source="standard:final-newline" />
+        <error line="149" column="18" source="standard:comment-spacing" />
+        <error line="303" column="1" source="standard:comment-spacing" />
+        <error line="306" column="1" source="standard:comment-spacing" />
+        <error line="307" column="1" source="standard:spacing-between-declarations-with-comments" />
+        <error line="338" column="1" source="standard:comment-spacing" />
+        <error line="343" column="1" source="standard:comment-spacing" />
+        <error line="354" column="28" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/provider/filter/AccountCriterion.kt">
-        <error line="32" column="5" source="standard:class-signature" />
-        <error line="33" column="5" source="standard:class-signature" />
-        <error line="33" column="36" source="standard:class-signature" />
-        <error line="34" column="5" source="standard:class-signature" />
         <error line="61" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/provider/filter/AmountCriterion.kt">
@@ -11404,18 +11183,8 @@
         <error line="17" column="1" source="standard:spacing-between-declarations-with-annotations" />
         <error line="19" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/main/java/org/totschnig/myexpenses/provider/filter/AssetCriterion.kt">
-        <error line="31" column="5" source="standard:class-signature" />
-        <error line="32" column="5" source="standard:class-signature" />
-        <error line="32" column="36" source="standard:class-signature" />
-        <error line="33" column="5" source="standard:class-signature" />
-    </file>
     <file name="src/main/java/org/totschnig/myexpenses/provider/filter/CategoryCriterion.kt">
-        <error line="35" column="5" source="standard:class-signature" />
-        <error line="36" column="5" source="standard:class-signature" />
         <error line="36" column="36" source="standard:trailing-comma-on-declaration-site" />
-        <error line="36" column="37" source="standard:class-signature" />
-        <error line="37" column="5" source="standard:class-signature" />
         <error line="52" column="60" source="standard:function-signature" />
         <error line="55" column="16" source="standard:multiline-if-else" />
         <error line="64" column="21" source="standard:colon-spacing" />
@@ -11547,10 +11316,7 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/provider/filter/FilterPersistenceLegacy.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="19" column="5" source="standard:class-signature" />
-        <error line="20" column="5" source="standard:class-signature" />
         <error line="20" column="36" source="standard:trailing-comma-on-declaration-site" />
-        <error line="20" column="37" source="standard:class-signature" />
         <error line="87" column="1" source="standard:no-blank-line-before-rbrace" />
         <error line="88" column="1" source="standard:final-newline" />
     </file>
@@ -11563,10 +11329,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/provider/filter/MethodCriterion.kt">
         <error line="14" column="3" source="standard:no-trailing-spaces" />
-        <error line="33" column="5" source="standard:class-signature" />
-        <error line="34" column="5" source="standard:class-signature" />
-        <error line="34" column="36" source="standard:class-signature" />
-        <error line="35" column="5" source="standard:class-signature" />
         <error line="40" column="1" source="standard:spacing-between-declarations-with-annotations" />
         <error line="48" column="21" source="standard:colon-spacing" />
         <error line="49" column="45" source="standard:function-signature" />
@@ -11597,10 +11359,6 @@
         <error line="18" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/provider/filter/PayeeCriterion.kt">
-        <error line="36" column="5" source="standard:class-signature" />
-        <error line="37" column="5" source="standard:class-signature" />
-        <error line="37" column="36" source="standard:class-signature" />
-        <error line="38" column="5" source="standard:class-signature" />
         <error line="46" column="1" source="standard:spacing-between-declarations-with-annotations" />
         <error line="52" column="59" source="standard:function-expression-body" />
         <error line="57" column="14" source="standard:wrapping" />
@@ -11617,8 +11375,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/provider/filter/SimpleCriterion.kt">
         <error line="20" column="1" source="standard:import-ordering" />
-        <error line="44" column="41" source="standard:class-signature" />
-        <error line="44" column="52" source="standard:class-signature" />
         <error line="65" column="1" source="standard:indent" />
         <error line="78" column="17" source="standard:argument-list-wrapping" />
         <error line="78" column="101" source="standard:max-line-length" />
@@ -11638,10 +11394,6 @@
         <error line="129" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/provider/filter/TagCriterion.kt">
-        <error line="19" column="5" source="standard:class-signature" />
-        <error line="20" column="5" source="standard:class-signature" />
-        <error line="20" column="36" source="standard:class-signature" />
-        <error line="21" column="5" source="standard:class-signature" />
         <error line="25" column="101" source="standard:max-line-length" />
         <error line="32" column="1" source="standard:spacing-between-declarations-with-annotations" />
         <error line="38" column="21" source="standard:colon-spacing" />
@@ -11659,10 +11411,6 @@
         <error line="49" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/provider/filter/TransferCriterion.kt">
-        <error line="35" column="5" source="standard:class-signature" />
-        <error line="36" column="5" source="standard:class-signature" />
-        <error line="36" column="36" source="standard:class-signature" />
-        <error line="37" column="5" source="standard:class-signature" />
         <error line="42" column="101" source="standard:max-line-length" />
         <error line="50" column="1" source="standard:spacing-between-declarations-with-annotations" />
         <error line="56" column="21" source="standard:colon-spacing" />
@@ -11677,14 +11425,10 @@
     <file name="src/main/java/org/totschnig/myexpenses/retrofit/CoinApi.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="41" column="35" source="standard:parameter-list-wrapping" />
-        <error line="41" column="35" source="standard:class-signature" />
         <error line="41" column="60" source="standard:parameter-list-wrapping" />
-        <error line="41" column="60" source="standard:class-signature" />
         <error line="41" column="78" source="standard:parameter-list-wrapping" />
-        <error line="41" column="78" source="standard:class-signature" />
         <error line="41" column="101" source="standard:max-line-length" />
         <error line="41" column="104" source="standard:parameter-list-wrapping" />
-        <error line="41" column="104" source="standard:class-signature" />
         <error line="45" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/retrofit/ExchangeRateService.kt">
@@ -11694,13 +11438,7 @@
         <error line="73" column="17" source="standard:multiline-if-else" />
         <error line="86" column="68" source="standard:function-expression-body" />
         <error line="125" column="1" source="standard:no-blank-line-before-rbrace" />
-        <error line="129" column="9" source="standard:class-signature" />
-        <error line="130" column="9" source="standard:class-signature" />
-        <error line="131" column="9" source="standard:class-signature" />
-        <error line="132" column="9" source="standard:class-signature" />
         <error line="132" column="29" source="standard:trailing-comma-on-declaration-site" />
-        <error line="132" column="30" source="standard:class-signature" />
-        <error line="133" column="9" source="standard:class-signature" />
         <error line="147" column="35" source="standard:parameter-list-wrapping" />
         <error line="147" column="53" source="standard:parameter-list-wrapping" />
         <error line="147" column="66" source="standard:function-signature" />
@@ -11758,11 +11496,6 @@
         <error line="12" column="9" source="standard:function-signature" />
         <error line="13" column="9" source="standard:function-signature" />
         <error line="13" column="36" source="standard:function-signature" />
-        <error line="33" column="9" source="standard:class-signature" />
-        <error line="34" column="9" source="standard:class-signature" />
-        <error line="34" column="39" source="standard:class-signature" />
-        <error line="39" column="9" source="standard:class-signature" />
-        <error line="39" column="55" source="standard:class-signature" />
         <error line="41" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/retrofit/OpenExchangeRates.kt">
@@ -11961,7 +11694,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/sync/AbstractSyncBackendProvider.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="60" column="26" source="standard:class-signature" />
         <error line="92" column="1" source="standard:no-blank-line-before-rbrace" />
         <error line="100" column="24" source="standard:trailing-comma-on-declaration-site" />
         <error line="128" column="48" source="standard:function-expression-body" />
@@ -12563,10 +12295,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/ui/AmountEditText.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="23" column="5" source="standard:class-signature" />
-        <error line="24" column="5" source="standard:class-signature" />
-        <error line="24" column="32" source="standard:class-signature" />
-        <error line="25" column="5" source="standard:class-signature" />
         <error line="42" column="17" source="standard:comment-spacing" />
         <error line="65" column="52" source="standard:function-expression-body" />
         <error line="79" column="98" source="standard:no-multi-spaces" />
@@ -12602,12 +12330,9 @@
         <error line="17" column="78" source="standard:paren-spacing" />
         <error line="18" column="1" source="standard:indent" />
         <error line="18" column="27" source="standard:parameter-list-wrapping" />
-        <error line="18" column="27" source="standard:class-signature" />
         <error line="18" column="56" source="standard:parameter-list-wrapping" />
-        <error line="18" column="56" source="standard:class-signature" />
         <error line="18" column="76" source="standard:wrapping" />
         <error line="18" column="77" source="standard:parameter-list-wrapping" />
-        <error line="18" column="77" source="standard:class-signature" />
         <error line="18" column="96" source="standard:argument-list-wrapping" />
         <error line="18" column="101" source="standard:max-line-length" />
         <error line="18" column="105" source="standard:argument-list-wrapping" />
@@ -12631,9 +12356,7 @@
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="24" column="1" source="standard:no-consecutive-blank-lines" />
         <error line="30" column="23" source="standard:parameter-list-wrapping" />
-        <error line="30" column="23" source="standard:class-signature" />
         <error line="30" column="52" source="standard:parameter-list-wrapping" />
-        <error line="30" column="52" source="standard:class-signature" />
         <error line="70" column="1" source="standard:no-consecutive-blank-lines" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/ui/ExchangeRateEdit.kt">
@@ -12712,9 +12435,7 @@
         <error line="7" column="1" source="standard:comment-spacing" />
         <error line="9" column="1" source="standard:indent" />
         <error line="9" column="27" source="standard:parameter-list-wrapping" />
-        <error line="9" column="27" source="standard:class-signature" />
         <error line="9" column="56" source="standard:parameter-list-wrapping" />
-        <error line="9" column="56" source="standard:class-signature" />
         <error line="13" column="13" source="standard:property-naming" />
         <error line="13" column="68" source="standard:paren-spacing" />
         <error line="14" column="1" source="standard:indent" />
@@ -12724,11 +12445,6 @@
         <error line="19" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/ui/PartyInput.kt">
-        <error line="45" column="5" source="standard:class-signature" />
-        <error line="46" column="5" source="standard:class-signature" />
-        <error line="47" column="5" source="standard:class-signature" />
-        <error line="47" column="34" source="standard:class-signature" />
-        <error line="48" column="5" source="standard:class-signature" />
         <error line="70" column="1" source="standard:no-consecutive-blank-lines" />
         <error line="159" column="1" source="standard:no-consecutive-blank-lines" />
         <error line="192" column="20" source="standard:multiline-if-else" />
@@ -12751,9 +12467,7 @@
     <file name="src/main/java/org/totschnig/myexpenses/ui/TimeButton.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="15" column="23" source="standard:parameter-list-wrapping" />
-        <error line="15" column="23" source="standard:class-signature" />
         <error line="15" column="52" source="standard:parameter-list-wrapping" />
-        <error line="15" column="52" source="standard:class-signature" />
         <error line="47" column="51" source="standard:argument-list-wrapping" />
         <error line="47" column="83" source="standard:argument-list-wrapping" />
         <error line="47" column="101" source="standard:max-line-length" />
@@ -12764,9 +12478,7 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/ui/filter/ScrollingChip.kt">
         <error line="14" column="23" source="standard:parameter-list-wrapping" />
-        <error line="14" column="23" source="standard:class-signature" />
         <error line="14" column="52" source="standard:parameter-list-wrapping" />
-        <error line="14" column="52" source="standard:class-signature" />
         <error line="52" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/util/AppDirHelper.kt">
@@ -13036,11 +12748,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/util/GroupingNavigator.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="17" column="5" source="standard:class-signature" />
-        <error line="18" column="5" source="standard:class-signature" />
-        <error line="19" column="5" source="standard:class-signature" />
-        <error line="19" column="25" source="standard:class-signature" />
-        <error line="20" column="17" source="standard:class-signature" />
         <error line="41" column="13" source="standard:keyword-spacing" />
         <error line="43" column="1" source="standard:blank-line-between-when-conditions" />
         <error line="44" column="1" source="standard:blank-line-between-when-conditions" />
@@ -13293,8 +13000,6 @@
         <error line="69" column="1" source="standard:blank-line-between-when-conditions" />
         <error line="69" column="101" source="standard:max-line-length" />
         <error line="70" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="74" column="9" source="standard:class-signature" />
-        <error line="74" column="45" source="standard:class-signature" />
         <error line="82" column="1" source="standard:spacing-between-declarations-with-annotations" />
         <error line="91" column="54" source="standard:function-expression-body" />
         <error line="96" column="69" source="standard:function-expression-body" />
@@ -13719,7 +13424,6 @@
         <error line="9" column="1" source="standard:no-wildcard-imports" />
         <error line="21" column="89" source="standard:colon-spacing" />
         <error line="22" column="1" source="standard:indent" />
-        <error line="22" column="7" source="standard:class-signature" />
         <error line="70" column="74" source="standard:function-signature" />
         <error line="70" column="83" source="standard:argument-list-wrapping" />
         <error line="70" column="100" source="standard:max-line-length" />
@@ -13729,11 +13433,6 @@
         <error line="93" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/AccountFlagsViewModel.kt">
-        <error line="33" column="5" source="standard:class-signature" />
-        <error line="34" column="5" source="standard:class-signature" />
-        <error line="35" column="5" source="standard:class-signature" />
-        <error line="35" column="26" source="standard:class-signature" />
-        <error line="45" column="57" source="standard:class-signature" />
         <error line="45" column="90" source="standard:argument-list-wrapping" />
         <error line="45" column="100" source="standard:max-line-length" />
         <error line="45" column="101" source="standard:argument-list-wrapping" />
@@ -13773,7 +13472,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/AccountTypeViewModel.kt">
         <error line="22" column="49" source="standard:value-parameter-comment" />
-        <error line="25" column="56" source="standard:class-signature" />
         <error line="25" column="89" source="standard:argument-list-wrapping" />
         <error line="25" column="100" source="standard:argument-list-wrapping" />
         <error line="25" column="100" source="standard:max-line-length" />
@@ -13800,11 +13498,8 @@
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/BackupViewModel.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="27" column="25" source="standard:parameter-list-wrapping" />
-        <error line="27" column="25" source="standard:class-signature" />
         <error line="27" column="101" source="standard:max-line-length" />
         <error line="27" column="116" source="standard:parameter-list-wrapping" />
-        <error line="27" column="116" source="standard:class-signature" />
-        <error line="28" column="13" source="standard:class-signature" />
         <error line="35" column="49" source="standard:function-expression-body" />
         <error line="43" column="39" source="standard:paren-spacing" />
         <error line="53" column="29" source="standard:multiline-if-else" />
@@ -14045,12 +13740,8 @@
         <error line="537" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/CriterionViewModel.kt">
-        <error line="11" column="5" source="standard:class-signature" />
-        <error line="12" column="5" source="standard:class-signature" />
         <error line="12" column="43" source="standard:trailing-comma-on-declaration-site" />
-        <error line="12" column="44" source="standard:class-signature" />
         <error line="13" column="2" source="standard:colon-spacing" />
-        <error line="13" column="4" source="standard:class-signature" />
         <error line="28" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/CsvImportViewModel.kt">
@@ -14166,7 +13857,6 @@
         <error line="176" column="1" source="standard:no-consecutive-blank-lines" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/DistributionViewModelBase.kt">
-        <error line="66" column="5" source="standard:class-signature" />
         <error line="74" column="19" source="standard:backing-property-naming" />
         <error line="77" column="19" source="standard:backing-property-naming" />
         <error line="96" column="1" source="standard:no-consecutive-blank-lines" />
@@ -14277,11 +13967,7 @@
         <error line="71" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/ImportConfigurationViewModel.kt">
-        <error line="11" column="41" source="standard:class-signature" />
-        <error line="11" column="67" source="standard:class-signature" />
         <error line="11" column="100" source="standard:max-line-length" />
-        <error line="11" column="105" source="standard:class-signature" />
-        <error line="12" column="5" source="standard:class-signature" />
         <error line="26" column="33" source="standard:binary-expression-wrapping" />
         <error line="26" column="43" source="standard:argument-list-wrapping" />
         <error line="26" column="71" source="standard:argument-list-wrapping" />
@@ -14348,10 +14034,7 @@
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="86" column="94" source="standard:colon-spacing" />
         <error line="99" column="35" source="standard:trailing-comma-on-declaration-site" />
-        <error line="107" column="9" source="standard:class-signature" />
-        <error line="108" column="9" source="standard:class-signature" />
         <error line="108" column="36" source="standard:trailing-comma-on-declaration-site" />
-        <error line="108" column="37" source="standard:class-signature" />
         <error line="115" column="36" source="standard:trailing-comma-on-declaration-site" />
         <error line="121" column="39" source="standard:trailing-comma-on-declaration-site" />
         <error line="157" column="24" source="standard:argument-list-wrapping" />
@@ -14410,23 +14093,11 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/ModalProgressViewModel.kt">
         <error line="15" column="19" source="standard:colon-spacing" />
-        <error line="27" column="5" source="standard:class-signature" />
-        <error line="28" column="5" source="standard:class-signature" />
-        <error line="28" column="23" source="standard:class-signature" />
-        <error line="29" column="5" source="standard:class-signature" />
-        <error line="32" column="5" source="standard:class-signature" />
-        <error line="33" column="5" source="standard:class-signature" />
-        <error line="33" column="23" source="standard:class-signature" />
-        <error line="34" column="5" source="standard:class-signature" />
         <error line="56" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/MyExpensesV2ViewModel.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="132" column="5" source="standard:class-signature" />
-        <error line="133" column="5" source="standard:class-signature" />
         <error line="133" column="39" source="standard:trailing-comma-on-declaration-site" />
-        <error line="133" column="40" source="standard:class-signature" />
-        <error line="134" column="5" source="standard:class-signature" />
         <error line="165" column="25" source="standard:comment-spacing" />
         <error line="186" column="26" source="standard:argument-list-wrapping" />
         <error line="186" column="44" source="standard:binary-expression-wrapping" />
@@ -14518,11 +14189,7 @@
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/MyExpensesViewModel.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="172" column="11" source="standard:property-naming" />
-        <error line="180" column="5" source="standard:class-signature" />
-        <error line="181" column="5" source="standard:class-signature" />
         <error line="181" column="43" source="standard:trailing-comma-on-declaration-site" />
-        <error line="181" column="44" source="standard:class-signature" />
-        <error line="182" column="5" source="standard:class-signature" />
         <error line="200" column="55" source="standard:argument-list-wrapping" />
         <error line="207" column="61" source="standard:argument-list-wrapping" />
         <error line="214" column="62" source="standard:argument-list-wrapping" />
@@ -14634,10 +14301,6 @@
         <error line="30" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/PartyListViewModel.kt">
-        <error line="74" column="5" source="standard:class-signature" />
-        <error line="75" column="5" source="standard:class-signature" />
-        <error line="75" column="43" source="standard:class-signature" />
-        <error line="76" column="5" source="standard:class-signature" />
         <error line="108" column="1" source="standard:no-consecutive-blank-lines" />
         <error line="118" column="34" source="standard:argument-list-wrapping" />
         <error line="122" column="74" source="standard:argument-list-wrapping" />
@@ -14782,7 +14445,6 @@
         <error line="324" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/PrintViewModel.kt">
-        <error line="9" column="55" source="standard:class-signature" />
         <error line="9" column="88" source="standard:argument-list-wrapping" />
         <error line="9" column="99" source="standard:argument-list-wrapping" />
         <error line="9" column="100" source="standard:max-line-length" />
@@ -14925,13 +14587,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/SettingsViewModel.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="46" column="5" source="standard:class-signature" />
-        <error line="47" column="5" source="standard:class-signature" />
-        <error line="47" column="43" source="standard:class-signature" />
-        <error line="48" column="5" source="standard:class-signature" />
-        <error line="58" column="9" source="standard:class-signature" />
-        <error line="59" column="9" source="standard:class-signature" />
-        <error line="59" column="35" source="standard:class-signature" />
         <error line="71" column="34" source="standard:argument-list-wrapping" />
         <error line="71" column="40" source="standard:argument-list-wrapping" />
         <error line="71" column="46" source="standard:argument-list-wrapping" />
@@ -15017,7 +14672,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/SumInfo.kt">
         <error line="19" column="3" source="standard:no-multi-spaces" />
-        <error line="19" column="4" source="standard:class-signature" />
         <error line="21" column="41" source="standard:function-signature" />
         <error line="39" column="1" source="standard:final-newline" />
     </file>
@@ -15082,16 +14736,11 @@
         <error line="362" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/TagBaseViewModel.kt">
-        <error line="7" column="5" source="standard:class-signature" />
-        <error line="8" column="5" source="standard:class-signature" />
-        <error line="8" column="43" source="standard:class-signature" />
-        <error line="9" column="5" source="standard:class-signature" />
         <error line="24" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/TagHandlingViewModel.kt">
         <error line="8" column="94" source="standard:colon-spacing" />
         <error line="9" column="1" source="standard:indent" />
-        <error line="9" column="7" source="standard:class-signature" />
         <error line="11" column="22" source="standard:colon-spacing" />
         <error line="39" column="1" source="standard:final-newline" />
     </file>
@@ -15425,7 +15074,6 @@
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/data/Account.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="36" column="29" source="standard:trailing-comma-on-declaration-site" />
-        <error line="37" column="15" source="standard:class-signature" />
         <error line="38" column="37" source="standard:function-expression-body" />
         <error line="60" column="1" source="standard:final-newline" />
     </file>
@@ -15456,7 +15104,6 @@
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/data/BudgetAllocation.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="22" column="25" source="standard:trailing-comma-on-declaration-site" />
-        <error line="23" column="17" source="standard:class-signature" />
         <error line="37" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/data/BudgetProgress.kt">
@@ -15465,7 +15112,6 @@
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/data/Category.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="35" column="39" source="standard:trailing-comma-on-declaration-site" />
-        <error line="36" column="17" source="standard:class-signature" />
         <error line="43" column="67" source="standard:function-signature" />
         <error line="48" column="28" source="standard:binary-expression-wrapping" />
         <error line="48" column="43" source="standard:function-literal" />
@@ -15498,43 +15144,24 @@
         <error line="97" column="13" source="standard:wrapping" />
         <error line="121" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/main/java/org/totschnig/myexpenses/viewmodel/data/CostLeg.kt">
-        <error line="9" column="5" source="standard:class-signature" />
-        <error line="10" column="5" source="standard:class-signature" />
-        <error line="10" column="21" source="standard:class-signature" />
-        <error line="15" column="5" source="standard:class-signature" />
-        <error line="16" column="5" source="standard:class-signature" />
-        <error line="16" column="38" source="standard:class-signature" />
-    </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/data/Currency.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="21" column="5" source="standard:class-signature" />
-        <error line="22" column="5" source="standard:class-signature" />
-        <error line="23" column="5" source="standard:class-signature" />
         <error line="23" column="24" source="standard:trailing-comma-on-declaration-site" />
-        <error line="23" column="25" source="standard:class-signature" />
-        <error line="24" column="17" source="standard:class-signature" />
         <error line="55" column="32" source="standard:trailing-comma-on-call-site" />
         <error line="69" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/data/DateInfo.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="27" column="19" source="standard:parameter-list-wrapping" />
-        <error line="27" column="19" source="standard:class-signature" />
         <error line="27" column="34" source="standard:parameter-list-wrapping" />
-        <error line="27" column="34" source="standard:class-signature" />
         <error line="27" column="50" source="standard:parameter-list-wrapping" />
-        <error line="27" column="50" source="standard:class-signature" />
         <error line="28" column="31" source="standard:parameter-list-wrapping" />
-        <error line="28" column="31" source="standard:class-signature" />
         <error line="33" column="53" source="standard:function-signature" />
         <error line="44" column="23" source="standard:argument-list-wrapping" />
         <error line="44" column="29" source="standard:argument-list-wrapping" />
         <error line="44" column="35" source="standard:argument-list-wrapping" />
-        <error line="65" column="5" source="standard:class-signature" />
         <error line="65" column="24" source="standard:parameter-list-wrapping" />
         <error line="65" column="49" source="standard:trailing-comma-on-declaration-site" />
-        <error line="65" column="50" source="standard:class-signature" />
         <error line="73" column="51" source="standard:binary-expression-wrapping" />
         <error line="73" column="101" source="standard:max-line-length" />
         <error line="73" column="103" source="standard:binary-expression-wrapping" />
@@ -17630,13 +17257,8 @@
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="133" column="64" source="standard:trailing-comma-on-declaration-site" />
         <error line="173" column="31" source="standard:trailing-comma-on-declaration-site" />
-        <error line="177" column="5" source="standard:class-signature" />
-        <error line="178" column="5" source="standard:class-signature" />
-        <error line="179" column="5" source="standard:class-signature" />
         <error line="179" column="36" source="standard:trailing-comma-on-declaration-site" />
-        <error line="179" column="37" source="standard:class-signature" />
         <error line="226" column="62" source="standard:trailing-comma-on-declaration-site" />
-        <error line="227" column="20" source="standard:class-signature" />
         <error line="277" column="1" source="standard:indent" />
         <error line="278" column="1" source="standard:indent" />
         <error line="279" column="1" source="standard:indent" />
@@ -17667,7 +17289,6 @@
         <error line="406" column="100" source="standard:max-line-length" />
         <error line="434" column="5" source="standard:comment-spacing" />
         <error line="437" column="39" source="standard:trailing-comma-on-declaration-site" />
-        <error line="438" column="24" source="standard:class-signature" />
         <error line="445" column="31" source="standard:multiline-if-else" />
         <error line="446" column="14" source="standard:multiline-if-else" />
         <error line="450" column="1" source="standard:final-newline" />
@@ -18007,10 +17628,6 @@
         <error line="50" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/data/PaymentMethod.kt">
-        <error line="12" column="5" source="standard:class-signature" />
-        <error line="13" column="5" source="standard:class-signature" />
-        <error line="14" column="5" source="standard:class-signature" />
-        <error line="14" column="28" source="standard:class-signature" />
         <error line="16" column="37" source="standard:function-expression-body" />
         <error line="21" column="49" source="standard:function-expression-body" />
     </file>
@@ -18051,13 +17668,7 @@
         <error line="47" column="35" source="standard:function-signature" />
         <error line="49" column="1" source="standard:indent" />
         <error line="50" column="1" source="standard:indent" />
-        <error line="79" column="31" source="standard:class-signature" />
-        <error line="79" column="53" source="standard:class-signature" />
-        <error line="79" column="75" source="standard:class-signature" />
         <error line="79" column="100" source="standard:max-line-length" />
-        <error line="79" column="108" source="standard:class-signature" />
-        <error line="79" column="134" source="standard:class-signature" />
-        <error line="79" column="151" source="standard:class-signature" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/data/Price.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -18065,8 +17676,6 @@
         <error line="15" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/data/Tag.kt">
-        <error line="24" column="5" source="standard:class-signature" />
-        <error line="24" column="17" source="standard:class-signature" />
         <error line="39" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/data/Template.kt">
@@ -18082,7 +17691,6 @@
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/data/TradeIntent.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="20" column="1" source="standard:spacing-between-declarations-with-annotations" />
-        <error line="23" column="92" source="standard:class-signature" />
         <error line="23" column="100" source="standard:max-line-length" />
         <error line="25" column="1" source="standard:spacing-between-declarations-with-annotations" />
         <error line="28" column="1" source="standard:indent" />
@@ -18148,17 +17756,9 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/data/TransactionEditData.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="28" column="5" source="standard:class-signature" />
-        <error line="29" column="5" source="standard:class-signature" />
-        <error line="30" column="5" source="standard:class-signature" />
         <error line="30" column="23" source="standard:trailing-comma-on-declaration-site" />
-        <error line="30" column="24" source="standard:class-signature" />
         <error line="38" column="21" source="standard:trailing-comma-on-declaration-site" />
-        <error line="43" column="5" source="standard:class-signature" />
-        <error line="44" column="5" source="standard:class-signature" />
         <error line="44" column="34" source="standard:trailing-comma-on-declaration-site" />
-        <error line="44" column="35" source="standard:class-signature" />
-        <error line="45" column="5" source="standard:class-signature" />
         <error line="53" column="37" source="standard:trailing-comma-on-declaration-site" />
         <error line="60" column="38" source="standard:trailing-comma-on-declaration-site" />
         <error line="75" column="40" source="standard:comment-spacing" />
@@ -18308,10 +17908,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/widget/AbstractRemoteViewsFactory.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="22" column="5" source="standard:class-signature" />
-        <error line="23" column="5" source="standard:class-signature" />
-        <error line="23" column="19" source="standard:class-signature" />
-        <error line="24" column="5" source="standard:class-signature" />
         <error line="88" column="25" source="standard:keyword-spacing" />
         <error line="100" column="39" source="standard:function-signature" />
         <error line="100" column="59" source="standard:wrapping" />
@@ -18345,10 +17941,6 @@
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="35" column="1" source="standard:no-consecutive-blank-lines" />
         <error line="38" column="71" source="standard:function-expression-body" />
-        <error line="44" column="5" source="standard:class-signature" />
-        <error line="45" column="5" source="standard:class-signature" />
-        <error line="45" column="19" source="standard:class-signature" />
-        <error line="46" column="5" source="standard:class-signature" />
         <error line="92" column="17" source="standard:multiline-if-else" />
         <error line="92" column="42" source="standard:multiline-if-else" />
         <error line="123" column="34" source="standard:wrapping" />
@@ -18438,7 +18030,6 @@
         <error line="331" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/widget/TemplateWidget.kt">
-        <error line="24" column="24" source="standard:class-signature" />
         <error line="34" column="39" source="standard:wrapping" />
         <error line="37" column="17" source="standard:wrapping" />
         <error line="44" column="43" source="standard:argument-list-wrapping" />
@@ -18454,10 +18045,6 @@
     <file name="src/main/java/org/totschnig/myexpenses/widget/TemplateWidgetService.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="44" column="71" source="standard:function-expression-body" />
-        <error line="50" column="5" source="standard:class-signature" />
-        <error line="51" column="5" source="standard:class-signature" />
-        <error line="51" column="19" source="standard:class-signature" />
-        <error line="52" column="5" source="standard:class-signature" />
         <error line="58" column="41" source="standard:function-expression-body" />
         <error line="60" column="48" source="standard:argument-list-wrapping" />
         <error line="60" column="53" source="standard:wrapping" />
@@ -18479,10 +18066,6 @@
         <error line="158" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/widget/WidgetObserver.kt">
-        <error line="10" column="5" source="standard:class-signature" />
-        <error line="11" column="5" source="standard:class-signature" />
-        <error line="11" column="49" source="standard:class-signature" />
-        <error line="12" column="5" source="standard:class-signature" />
         <error line="33" column="30" source="standard:function-signature" />
         <error line="33" column="48" source="standard:function-signature" />
         <error line="33" column="82" source="standard:function-signature" />
@@ -18971,8 +18554,8 @@
     </file>
     <file name="src/test/java/org/totschnig/myexpenses/provider/filter/CriteriaSerializationTest.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="27" column="58" source="standard:trailing-comma-on-call-site" />
-        <error line="39" column="1" source="standard:final-newline" />
+        <error line="28" column="58" source="standard:trailing-comma-on-call-site" />
+        <error line="40" column="1" source="standard:final-newline" />
     </file>
     <file name="src/test/java/org/totschnig/myexpenses/provider/filter/OperationTest.kt">
         <error line="12" column="1" source="standard:final-newline" />
@@ -19667,8 +19250,6 @@
     </file>
     <file name="src/test/java/org/totschnig/myexpenses/viewmodel/ImportDataViewModelTest.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="30" column="5" source="standard:class-signature" />
-        <error line="30" column="29" source="standard:class-signature" />
         <error line="81" column="1" source="standard:no-consecutive-blank-lines" />
         <error line="117" column="1" source="standard:no-consecutive-blank-lines" />
         <error line="151" column="27" source="standard:wrapping" />

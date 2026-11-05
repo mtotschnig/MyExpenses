@@ -40,7 +40,6 @@
         <error line="486" column="27" source="standard:property-naming" />
         <error line="487" column="9" source="standard:spacing-between-declarations-with-comments" />
         <error line="493" column="9" source="standard:spacing-between-declarations-with-comments" />
-        <error line="515" column="5" source="standard:class-signature" />
         <error line="559" column="13" source="standard:function-signature" />
         <error line="560" column="13" source="standard:function-signature" />
         <error line="560" column="29" source="standard:function-signature" />
@@ -67,9 +66,6 @@
         <error line="285" column="65" source="standard:function-expression-body" />
     </file>
     <file name="src/main/java/androidx/preference/PreferenceHeaderFragmentCompat.kt">
-        <error line="105" column="9" source="standard:class-signature" />
-        <error line="105" column="59" source="standard:class-signature" />
-        <error line="107" column="9" source="standard:class-signature" />
         <error line="244" column="1" source="standard:indent" />
         <error line="254" column="5" source="standard:comment-spacing" />
     </file>

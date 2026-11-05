@@ -34,7 +34,6 @@
         <error line="14" column="42" source="standard:parameter-list-wrapping" />
         <error line="14" column="68" source="standard:parameter-list-wrapping" />
         <error line="14" column="94" source="standard:parameter-list-wrapping" />
-        <error line="14" column="98" source="standard:class-signature" />
         <error line="14" column="101" source="standard:max-line-length" />
         <error line="14" column="121" source="standard:argument-list-wrapping" />
         <error line="14" column="134" source="standard:argument-list-wrapping" />
@@ -53,7 +52,6 @@
     <file name="src/intern/java/org/totschnig/ocr/Engine.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="14" column="36" source="standard:no-multi-spaces" />
-        <error line="14" column="37" source="standard:class-signature" />
         <error line="21" column="22" source="standard:colon-spacing" />
         <error line="23" column="1" source="standard:final-newline" />
     </file>
@@ -67,7 +65,6 @@
     </file>
     <file name="src/intern/java/org/totschnig/ocr/OcrHandlerImpl.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="13" column="98" source="standard:class-signature" />
         <error line="13" column="100" source="standard:max-line-length" />
         <error line="13" column="121" source="standard:argument-list-wrapping" />
         <error line="13" column="134" source="standard:argument-list-wrapping" />

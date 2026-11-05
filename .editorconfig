@@ -5,3 +5,6 @@ root = true
 ktlint_code_style = android_studio
 # Composables are named like types (PascalCase).
 ktlint_function_naming_ignore_when_annotated_with = Composable
+
+# Allow Android Studio's class header & constructor formatting
+ktlint_standard_class-signature = disabled

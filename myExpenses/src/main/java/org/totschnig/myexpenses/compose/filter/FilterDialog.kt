@@ -294,7 +294,11 @@ fun FilterDialog(
                     }
 
                     val filters: List<DisplayInfo> = if (account.isPortfolio) listOf(
-                        FtsCriterion, AssetCriterion, AmountCriterion, CommentCriterion, DateCriterion
+                        FtsCriterion,
+                        AssetCriterion,
+                        AmountCriterion,
+                        CommentCriterion,
+                        DateCriterion
                     )
                     else listOfNotNull(
                         FtsCriterion,
@@ -325,6 +329,15 @@ fun FilterDialog(
                                 value = ftsQuery,
                                 onValueChange = { ftsQuery = it },
                                 label = { Text(stringResource(R.string.search_full_text)) },
+                                supportingText = {
+                                    Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                                        Text(stringResource(R.string.search_fts_help_and))
+                                        Text(stringResource(R.string.search_fts_help_not))
+                                        Text(stringResource(R.string.search_fts_help_or))
+                                        Text(stringResource(R.string.search_fts_help_phrase))
+                                        Text(stringResource(R.string.search_fts_help_prefix))
+                                    }
+                                },
                                 singleLine = true,
                                 trailingIcon = if (ftsQuery.isNotEmpty()) {
                                     {
@@ -344,7 +357,11 @@ fun FilterDialog(
                                 TextButton(onClick = {
                                     onConfirmRequest(
                                         TYPE_FULL_TEXT,
-                                        if (ftsQuery.isBlank()) null else FtsCriterion(ftsQuery.trim())
+                                        if (ftsQuery.isBlank()) null else
+                                            FtsCriterion(
+                                                ftsQuery.trim(),
+                                                includeAccountLabel = account.isAggregate
+                                            )
                                     )
                                 }) {
                                     Text(stringResource(R.string.apply))

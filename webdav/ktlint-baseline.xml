@@ -69,7 +69,6 @@
         <error line="225" column="50" source="standard:wrapping" />
         <error line="247" column="13" source="standard:wrapping" />
         <error line="248" column="9" source="standard:wrapping" />
-        <error line="253" column="9" source="standard:class-signature" />
         <error line="254" column="40" source="standard:function-expression-body" />
         <error line="258" column="42" source="standard:function-signature" />
         <error line="261" column="1" source="standard:final-newline" />
@@ -156,7 +155,6 @@
         <error line="201" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/webdav/sync/client/ClientCertMissingException.kt">
-        <error line="3" column="62" source="standard:class-signature" />
         <error line="4" column="80" source="standard:argument-list-wrapping" />
     </file>
     <file name="src/main/java/org/totschnig/webdav/sync/client/WebDavClient.kt">

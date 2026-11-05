@@ -1268,6 +1268,12 @@ abstract class BaseTransactionDatabase(
     }
 
     fun SupportSQLiteDatabase.createOrRefreshFts() {
+        if (!createFtsTable()) return
+        dropFtsTriggers()
+        createFtsTriggers()
+    }
+
+    private fun SupportSQLiteDatabase.createFtsTable(): Boolean {
         val created = runCatching {
             execSQL("""
                 CREATE VIRTUAL TABLE IF NOT EXISTS $TABLE_TRANSACTIONS_FTS USING fts5(
@@ -1278,9 +1284,10 @@ abstract class BaseTransactionDatabase(
                     tag_names,
                     account_label,
                     reference_number,
-                    tokenize = 'unicode61 remove_diacritics 2'
+                    tokenize = 'unicode61 remove_diacritics 1'
                 );
             """.trimIndent())
+            Timber.i("Set up FTS5")
             true
         }.getOrElse {
             runCatching {
@@ -1293,22 +1300,40 @@ abstract class BaseTransactionDatabase(
                         tag_names,
                         account_label,
                         reference_number,
-                        notindexed=transaction_id
+                        notindexed=transaction_id,
+                        tokenize=unicode61
                     );
                 """.trimIndent())
+                Timber.i("Set up FTS4")
                 true
             }.getOrDefault(false)
         }
 
         if (!created) {
             Timber.w("FTS table creation skipped: FTS module not supported in current SQLite environment")
-            return
         }
+        return created
+    }
 
+    private fun SupportSQLiteDatabase.dropFtsTriggers() {
         execSQL("DROP TRIGGER IF EXISTS insert_fts")
         execSQL("DROP TRIGGER IF EXISTS update_fts")
         execSQL("DROP TRIGGER IF EXISTS delete_fts")
+        execSQL("DROP TRIGGER IF EXISTS insert_transactions_tags_fts")
+        execSQL("DROP TRIGGER IF EXISTS delete_transactions_tags_fts")
+        execSQL("DROP TRIGGER IF EXISTS update_tags_fts")
+        execSQL("DROP TRIGGER IF EXISTS update_payee_fts")
+        execSQL("DROP TRIGGER IF EXISTS update_categories_fts")
+        execSQL("DROP TRIGGER IF EXISTS update_accounts_fts")
+    }
 
+    private fun SupportSQLiteDatabase.createFtsTriggers() {
+        createFtsTransactionTriggers()
+        createFtsTagTriggers()
+        createFtsEntityTriggers()
+    }
+
+    private fun SupportSQLiteDatabase.createFtsTransactionTriggers() {
         execSQL("""
             CREATE TRIGGER insert_fts AFTER INSERT ON $TABLE_TRANSACTIONS
             BEGIN
@@ -1317,7 +1342,7 @@ abstract class BaseTransactionDatabase(
                        COALESCE(new.$KEY_COMMENT, ''),
                        COALESCE((SELECT name FROM $TABLE_PAYEES WHERE _id = new.$KEY_PAYEEID), ''),
                        COALESCE((SELECT label FROM $TABLE_CATEGORIES WHERE _id = new.$KEY_CATID), ''),
-                       COALESCE((SELECT GROUP_CONCAT(tg.label, ' ') FROM $TABLE_TRANSACTIONS_TAGS tt JOIN $TABLE_TAGS tg ON tt.tag_id = tg._id WHERE tt.transaction_id = new.$KEY_ROWID), ''),
+                       '',
                        COALESCE((SELECT label FROM $TABLE_ACCOUNTS WHERE _id = new.$KEY_ACCOUNTID), ''),
                        COALESCE(new.$KEY_REFERENCE_NUMBER, '');
             END;
@@ -1330,7 +1355,6 @@ abstract class BaseTransactionDatabase(
                     comment = COALESCE(new.$KEY_COMMENT, ''),
                     payee_name = COALESCE((SELECT name FROM $TABLE_PAYEES WHERE _id = new.$KEY_PAYEEID), ''),
                     category_name = COALESCE((SELECT label FROM $TABLE_CATEGORIES WHERE _id = new.$KEY_CATID), ''),
-                    tag_names = COALESCE((SELECT GROUP_CONCAT(tg.label, ' ') FROM $TABLE_TRANSACTIONS_TAGS tt JOIN $TABLE_TAGS tg ON tt.tag_id = tg._id WHERE tt.transaction_id = new.$KEY_ROWID), ''),
                     account_label = COALESCE((SELECT label FROM $TABLE_ACCOUNTS WHERE _id = new.$KEY_ACCOUNTID), ''),
                     reference_number = COALESCE(new.$KEY_REFERENCE_NUMBER, '')
                 WHERE transaction_id = new.$KEY_ROWID;
@@ -1341,6 +1365,64 @@ abstract class BaseTransactionDatabase(
             CREATE TRIGGER delete_fts AFTER DELETE ON $TABLE_TRANSACTIONS
             BEGIN
                 DELETE FROM $TABLE_TRANSACTIONS_FTS WHERE transaction_id = old.$KEY_ROWID;
+            END;
+        """.trimIndent())
+    }
+
+    private fun SupportSQLiteDatabase.createFtsTagTriggers() {
+        execSQL("""
+            CREATE TRIGGER insert_transactions_tags_fts AFTER INSERT ON $TABLE_TRANSACTIONS_TAGS
+            BEGIN
+                UPDATE $TABLE_TRANSACTIONS_FTS SET
+                    tag_names = COALESCE((SELECT GROUP_CONCAT(tg.label, ' ') FROM $TABLE_TRANSACTIONS_TAGS tt JOIN $TABLE_TAGS tg ON tt.tag_id = tg._id WHERE tt.transaction_id = new.transaction_id), '')
+                WHERE transaction_id = new.transaction_id;
+            END;
+        """.trimIndent())
+
+        execSQL("""
+            CREATE TRIGGER delete_transactions_tags_fts AFTER DELETE ON $TABLE_TRANSACTIONS_TAGS
+            BEGIN
+                UPDATE $TABLE_TRANSACTIONS_FTS SET
+                    tag_names = COALESCE((SELECT GROUP_CONCAT(tg.label, ' ') FROM $TABLE_TRANSACTIONS_TAGS tt JOIN $TABLE_TAGS tg ON tt.tag_id = tg._id WHERE tt.transaction_id = old.transaction_id), '')
+                WHERE transaction_id = old.transaction_id;
+            END;
+        """.trimIndent())
+
+        execSQL("""
+            CREATE TRIGGER update_tags_fts AFTER UPDATE OF label ON $TABLE_TAGS
+            BEGIN
+                UPDATE $TABLE_TRANSACTIONS_FTS SET
+                    tag_names = COALESCE((SELECT GROUP_CONCAT(tg.label, ' ') FROM $TABLE_TRANSACTIONS_TAGS tt JOIN $TABLE_TAGS tg ON tt.tag_id = tg._id WHERE tt.transaction_id = $TABLE_TRANSACTIONS_FTS.transaction_id), '')
+                WHERE transaction_id IN (SELECT transaction_id FROM $TABLE_TRANSACTIONS_TAGS WHERE tag_id = new._id);
+            END;
+        """.trimIndent())
+    }
+
+    private fun SupportSQLiteDatabase.createFtsEntityTriggers() {
+        execSQL("""
+            CREATE TRIGGER update_payee_fts AFTER UPDATE OF name ON $TABLE_PAYEES
+            BEGIN
+                UPDATE $TABLE_TRANSACTIONS_FTS SET
+                    payee_name = COALESCE(new.name, '')
+                WHERE transaction_id IN (SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_PAYEEID = new._id);
+            END;
+        """.trimIndent())
+
+        execSQL("""
+            CREATE TRIGGER update_categories_fts AFTER UPDATE OF label ON $TABLE_CATEGORIES
+            BEGIN
+                UPDATE $TABLE_TRANSACTIONS_FTS SET
+                    category_name = COALESCE(new.label, '')
+                WHERE transaction_id IN (SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_CATID = new._id);
+            END;
+        """.trimIndent())
+
+        execSQL("""
+            CREATE TRIGGER update_accounts_fts AFTER UPDATE OF label ON $TABLE_ACCOUNTS
+            BEGIN
+                UPDATE $TABLE_TRANSACTIONS_FTS SET
+                    account_label = COALESCE(new.label, '')
+                WHERE transaction_id IN (SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_ACCOUNTID = new._id);
             END;
         """.trimIndent())
     }

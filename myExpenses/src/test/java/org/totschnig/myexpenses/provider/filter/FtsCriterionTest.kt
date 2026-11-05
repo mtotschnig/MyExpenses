@@ -8,11 +8,30 @@ import org.totschnig.myexpenses.provider.TABLE_TRANSACTIONS_FTS
 class FtsCriterionTest {
 
     @Test
-    fun testSelectionQuery() {
-        val criterion = FtsCriterion("coffee")
+    fun testSelectionQueryIncludeAccountLabel() {
+        val criterion = FtsCriterion("coffee", includeAccountLabel = true)
         val selection = criterion.getSelection(false)
         assertThat(selection).isEqualTo(
             "$KEY_ROWID IN (SELECT transaction_id FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?)"
+        )
+        assertThat(criterion.values).containsExactly("coffee")
+    }
+
+    @Test
+    fun testSelectionQueryExcludeAccountLabel() {
+        val criterion = FtsCriterion("coffee", includeAccountLabel = false)
+        val selection = criterion.getSelection(false)
+        assertThat(selection).isEqualTo(
+            "$KEY_ROWID IN (SELECT transaction_id FROM $TABLE_TRANSACTIONS_FTS WHERE " +
+                "comment MATCH ? OR payee_name MATCH ? OR category_name MATCH ? OR " +
+                "tag_names MATCH ? OR reference_number MATCH ?)"
+        )
+        assertThat(criterion.values).containsExactly(
+            "coffee",
+            "coffee",
+            "coffee",
+            "coffee",
+            "coffee"
         )
     }
 
@@ -23,9 +42,21 @@ class FtsCriterionTest {
     }
 
     @Test
-    fun testSanitizeSingleWordQueryAddsWildcard() {
+    fun testSanitizeSingleWordQuery() {
         val sanitized = FtsCriterion.sanitizeFtsQuery("coffee")
-        assertThat(sanitized).isEqualTo("coffee*")
+        assertThat(sanitized).isEqualTo("coffee")
+    }
+
+    @Test
+    fun testSanitizeNonAsciiUmlautWord() {
+        val sanitized = FtsCriterion.sanitizeFtsQuery("Österreich")
+        assertThat(sanitized).isEqualTo("Österreich")
+    }
+
+    @Test
+    fun testSanitizeExplicitWildcardPreservesWildcard() {
+        val sanitized = FtsCriterion.sanitizeFtsQuery("Öster*")
+        assertThat(sanitized).isEqualTo("Öster*")
     }
 
     @Test
@@ -35,14 +66,20 @@ class FtsCriterionTest {
     }
 
     @Test
-    fun testSanitizeMultipleWordsPreservesSpace() {
+    fun testSanitizeTokenWithColonEnclosesInQuotes() {
+        val sanitized = FtsCriterion.sanitizeFtsQuery("payee_name:xxx")
+        assertThat(sanitized).isEqualTo("\"payee_name:xxx\"")
+    }
+
+    @Test
+    fun testSanitizeMultipleWords() {
         val sanitized = FtsCriterion.sanitizeFtsQuery("coffee starbucks")
         assertThat(sanitized).isEqualTo("coffee starbucks")
     }
 
     @Test
-    fun testValuesList() {
-        val criterion = FtsCriterion("coffee")
-        assertThat(criterion.values).containsExactly("coffee*")
+    fun testSanitizeMultipleWordsWithUmlauts() {
+        val sanitized = FtsCriterion.sanitizeFtsQuery("Österreich Wien")
+        assertThat(sanitized).isEqualTo("Österreich Wien")
     }
 }
