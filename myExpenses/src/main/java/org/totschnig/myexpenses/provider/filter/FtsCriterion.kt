@@ -153,7 +153,8 @@ data class FtsCriterion(val searchString: String?) : SimpleCriterion<String>() {
 
         fun isMalformedFtsQuery(query: String): Boolean {
             val trimmed = query.trim()
-            val tokens = trimmed.split("\\s+".toRegex()).filter { it.isNotBlank() }
+            val tokens = "-?(?:[A-Za-z_]+:)?\"[^\"]*\"|\\S+".toRegex()
+                .findAll(trimmed).map { it.value }.toList()
 
             return when {
                 trimmed.isEmpty() || tokens.isEmpty() -> false
@@ -163,7 +164,10 @@ data class FtsCriterion(val searchString: String?) : SimpleCriterion<String>() {
                 tokens.first() == "OR" || tokens.last() == "OR" || tokens.last() == "-" -> true
 
                 else -> (0 until tokens.size - 1).any { i ->
-                    tokens[i] == "OR" && (tokens[i + 1] == "OR" || tokens[i + 1].startsWith("-"))
+                    tokens[i] == "OR" && (
+                        tokens[i + 1] == "OR" || tokens[i + 1].startsWith("-") ||
+                            (i > 0 && tokens[i - 1].startsWith("-"))
+                        )
                 }
             }
         }
