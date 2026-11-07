@@ -98,4 +98,5 @@
     <string name="count">"დათვლაA"</string>
     <string name="options">"ვარიანტები"</string>
     <string name="actions">"მონიშნულები"</string>
+    <string name="search_clear_desc">"ძიების ტექსტის წაშლა"</string>
 </resources>

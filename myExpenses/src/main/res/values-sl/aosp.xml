@@ -74,4 +74,5 @@
     <string name="menu_import">"Uvozi"</string>
     <string name="flag_inactive">"Neaktivna"</string>
     <string name="options">"Možnosti"</string>
+    <string name="search_clear_desc">"Počisti besedilo v iskalni vrstici"</string>
 </resources>

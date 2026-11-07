@@ -173,4 +173,5 @@
     <string name="empty">"Tom"</string>
     <string name="options">"Valgmuligheder"</string>
     <string name="actions">"Handlinger"</string>
+    <string name="search_clear_desc">"Ryd søgeteksten"</string>
 </resources>

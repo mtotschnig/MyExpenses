@@ -166,4 +166,5 @@
     <string name="count">"Đếm"</string>
     <string name="options">"Tùy chọn"</string>
     <string name="actions">"Hành động"</string>
+    <string name="search_clear_desc">"Xóa văn bản tìm kiếm"</string>
 </resources>

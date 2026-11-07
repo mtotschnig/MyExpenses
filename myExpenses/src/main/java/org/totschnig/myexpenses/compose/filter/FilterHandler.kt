@@ -4,6 +4,8 @@ import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.LocalContentColor
@@ -303,44 +305,46 @@ fun FilterHandler(
             text = {
                 val focusRequester = remember { FocusRequester() }
                 val keyboardController = LocalSoftwareKeyboardController.current
-                OutlinedTextField(
-                    modifier = Modifier
-                        .focusRequester(focusRequester)
-                        .onFocusChanged {
-                            if (it.isFocused) {
-                                keyboardController?.show()
-                            }
+                Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                    OutlinedTextField(
+                        modifier = Modifier
+                            .focusRequester(focusRequester)
+                            .onFocusChanged {
+                                if (it.isFocused) {
+                                    keyboardController?.show()
+                                }
+                            },
+                        value = search ?: "",
+                        onValueChange = {
+                            search = it
                         },
-                    value = search ?: "",
-                    onValueChange = {
-                        search = it
-                    },
-                    isError = isMalformed,
-                    label = { Text(text = stringResource(R.string.search_full_text)) },
-                    supportingText = {
-                        Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                            if (isMalformed) {
-                                Text(
-                                    text = stringResource(R.string.search_fts_error_malformed),
-                                    color = MaterialTheme.colorScheme.error
-                                )
-                            }
-                            CompositionLocalProvider(
-                                LocalContentColor provides
-                                    MaterialTheme.colorScheme.onSurfaceVariant
-                            ) {
-                                Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                                    Text(text = stringResource(R.string.search_fts_help_and))
-                                    Text(text = stringResource(R.string.search_fts_help_not))
-                                    Text(text = stringResource(R.string.search_fts_help_or))
-                                    Text(text = stringResource(R.string.search_fts_help_phrase))
-                                    Text(text = stringResource(R.string.search_fts_help_prefix))
-                                    Text(text = stringResource(R.string.search_fts_help_column))
+                        isError = isMalformed,
+                        label = { Text(text = stringResource(R.string.search_full_text)) },
+                        supportingText = {
+                            Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                                if (isMalformed) {
+                                    Text(
+                                        text = stringResource(R.string.search_fts_error_malformed),
+                                        color = MaterialTheme.colorScheme.error
+                                    )
+                                }
+                                CompositionLocalProvider(
+                                    LocalContentColor provides
+                                        MaterialTheme.colorScheme.onSurfaceVariant
+                                ) {
+                                    Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                                        Text(text = stringResource(R.string.search_fts_help_and))
+                                        Text(text = stringResource(R.string.search_fts_help_not))
+                                        Text(text = stringResource(R.string.search_fts_help_or))
+                                        Text(text = stringResource(R.string.search_fts_help_phrase))
+                                        Text(text = stringResource(R.string.search_fts_help_prefix))
+                                        Text(text = stringResource(R.string.search_fts_help_column))
+                                    }
                                 }
                             }
                         }
-                    }
-                )
+                    )
+                }
                 LaunchedEffect(Unit) {
                     focusRequester.requestFocus()
                 }

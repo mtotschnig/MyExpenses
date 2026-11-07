@@ -103,4 +103,5 @@
     <string name="empty">"Դատարկ"</string>
     <string name="options">"Ընտրանքներ"</string>
     <string name="actions">"Գործողություններ"</string>
+    <string name="search_clear_desc">"Մաքրել որոնման տեքստը"</string>
 </resources>

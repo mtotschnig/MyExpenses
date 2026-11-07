@@ -159,4 +159,5 @@
     <string name="empty">"Gol"</string>
     <string name="options">"Opțiuni"</string>
     <string name="actions">"Acțiuni"</string>
+    <string name="search_clear_desc">"Ștergeți textul căutării"</string>
 </resources>

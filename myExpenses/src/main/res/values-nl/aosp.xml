@@ -169,4 +169,5 @@
     <string name="empty">"Leeg"</string>
     <string name="options">"Opties"</string>
     <string name="actions">"Acties"</string>
+    <string name="search_clear_desc">"Tekst zoekopdracht wissen"</string>
 </resources>

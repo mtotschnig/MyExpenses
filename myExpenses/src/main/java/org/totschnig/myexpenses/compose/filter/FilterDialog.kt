@@ -343,7 +343,8 @@ fun FilterDialog(
                         Column(
                             modifier = Modifier
                                 .padding(16.dp)
-                                .fillMaxWidth(),
+                                .fillMaxWidth()
+                                .verticalScroll(rememberScrollState()),
                             verticalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
                             OutlinedTextField(
@@ -379,7 +380,10 @@ fun FilterDialog(
                                 trailingIcon = if (ftsQuery.isNotEmpty()) {
                                     {
                                         IconButton(onClick = { ftsQuery = "" }) {
-                                            Icon(Icons.Filled.Clear, contentDescription = null)
+                                            Icon(
+                                                Icons.Filled.Clear,
+                                                contentDescription = stringResource(R.string.search_clear_desc)
+                                            )
                                         }
                                     }
                                 } else {
@@ -704,7 +708,7 @@ private fun Set<Criterion>.wrap(selectedComplex: Int = COMPLEX_AND) = when (size
  * - there are no criteria
  * - there are no negated criteria
  * - there is only 1 criterion
- * - criteria are joined with AND and there are no 2 criteria of the same type
+ * - criteria are joined with AND, and there are no 2 criteria of the same type
  */
 private fun Set<Criterion>.isSimple(selectedComplex: Int) = isEmpty() || (
     none { it is NotCriterion } && (

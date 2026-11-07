@@ -84,4 +84,5 @@
     <string name="empty">"കാലി"</string>
     <string name="options">"ഓപ്ഷനുകൾ"</string>
     <string name="actions">"പ്രവര്‍ത്തികള്‍"</string>
+    <string name="search_clear_desc">"തിരയൽ ടെക്‌സ്റ്റ് മായ്ക്കുക"</string>
 </resources>

@@ -84,4 +84,5 @@
     <string name="empty">"रिकामे"</string>
     <string name="options">"पर्याय"</string>
     <string name="actions">"कृती"</string>
+    <string name="search_clear_desc">"शोध मजकूर साफ करा"</string>
 </resources>

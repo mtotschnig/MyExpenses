@@ -4268,15 +4268,6 @@
         <error line="125" column="22" source="standard:argument-list-wrapping" />
         <error line="131" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/main/java/org/totschnig/myexpenses/compose/filter/FilterCard.kt">
-        <error line="55" column="47" source="standard:trailing-comma-on-declaration-site" />
-        <error line="101" column="47" source="standard:trailing-comma-on-declaration-site" />
-        <error line="120" column="1" source="standard:no-empty-first-line-in-method-block" />
-        <error line="146" column="40" source="standard:trailing-comma-on-declaration-site" />
-        <error line="175" column="16" source="standard:multiline-if-else" />
-        <error line="186" column="44" source="standard:trailing-comma-on-call-site" />
-        <error line="190" column="1" source="standard:final-newline" />
-    </file>
     <file name="src/main/java/org/totschnig/myexpenses/compose/listState.kt">
         <error line="1" column="1" source="standard:filename" />
         <error line="20" column="34" source="standard:binary-expression-wrapping" />

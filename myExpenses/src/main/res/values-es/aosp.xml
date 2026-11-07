@@ -172,4 +172,5 @@
     <string name="empty">"Vacío"</string>
     <string name="options">"Opciones"</string>
     <string name="actions">"Acciones"</string>
+    <string name="search_clear_desc">"Borrar el texto de la búsqueda"</string>
 </resources>

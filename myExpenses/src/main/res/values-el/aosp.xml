@@ -172,4 +172,5 @@
     <string name="empty">"Κενό"</string>
     <string name="options">"Επιλογές"</string>
     <string name="actions">"Ενέργειες"</string>
+    <string name="search_clear_desc">"Εκκαθάριση κειμένου αναζήτησης"</string>
 </resources>

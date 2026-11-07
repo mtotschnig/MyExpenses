@@ -144,4 +144,5 @@
     <string name="empty">"ఖాళీ"</string>
     <string name="options">"ఆప్షన్‌లు"</string>
     <string name="actions">"చర్యలు"</string>
+    <string name="search_clear_desc">"శోధన వచనాన్ని క్లియర్ చేయి"</string>
 </resources>

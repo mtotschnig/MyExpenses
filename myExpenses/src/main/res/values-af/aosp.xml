@@ -101,4 +101,5 @@
     <string name="empty">"Leeg"</string>
     <string name="options">"Opsies"</string>
     <string name="actions">"Aksies"</string>
+    <string name="search_clear_desc">"Maak soekteks skoon"</string>
 </resources>

@@ -173,4 +173,5 @@
     <string name="empty">"Празни"</string>
     <string name="options">"Опции"</string>
     <string name="actions">"Действия"</string>
+    <string name="search_clear_desc">"Изчистване на текста за търсене"</string>
 </resources>

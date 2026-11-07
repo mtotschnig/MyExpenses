@@ -175,4 +175,5 @@
     <string name="empty">"Prázdné"</string>
     <string name="options">"Možnosti"</string>
     <string name="actions">"Akce"</string>
+    <string name="search_clear_desc">"Vymazat text vyhledávání"</string>
 </resources>

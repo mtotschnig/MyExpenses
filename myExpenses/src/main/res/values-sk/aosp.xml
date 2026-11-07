@@ -109,4 +109,5 @@
     <string name="empty">"Prázdne"</string>
     <string name="options">"Možnosti"</string>
     <string name="actions">"Akcie"</string>
+    <string name="search_clear_desc">"Vymazať text vyhľadávania"</string>
 </resources>

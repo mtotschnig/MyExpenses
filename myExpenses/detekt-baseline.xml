@@ -1388,7 +1388,6 @@
     <ID>NewLineAtEndOfFile:FeatureTest.kt:org.totschnig.myexpenses.feature.FeatureTest.kt</ID>
     <ID>NewLineAtEndOfFile:FeatureViewModel.kt:org.totschnig.myexpenses.viewmodel.FeatureViewModel.kt</ID>
     <ID>NewLineAtEndOfFile:FileUtils.kt:org.totschnig.myexpenses.util.io.FileUtils.kt</ID>
-    <ID>NewLineAtEndOfFile:FilterCard.kt:org.totschnig.myexpenses.compose.filter.FilterCard.kt</ID>
     <ID>NewLineAtEndOfFile:FilterConstants.kt:org.totschnig.myexpenses.dialog.FilterConstants.kt</ID>
     <ID>NewLineAtEndOfFile:FilterPersistence.kt:org.totschnig.myexpenses.provider.filter.FilterPersistence.kt</ID>
     <ID>NewLineAtEndOfFile:FilterPersistenceLegacy.kt:org.totschnig.myexpenses.provider.filter.FilterPersistenceLegacy.kt</ID>

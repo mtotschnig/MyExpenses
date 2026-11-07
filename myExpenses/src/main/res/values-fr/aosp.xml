@@ -173,4 +173,5 @@
     <string name="empty">"Vide"</string>
     <string name="options">"Options"</string>
     <string name="actions">"Actions"</string>
+    <string name="search_clear_desc">"Effacer le texte de la recherche"</string>
 </resources>

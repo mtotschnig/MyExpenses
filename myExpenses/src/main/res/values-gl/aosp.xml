@@ -107,4 +107,5 @@
     <string name="empty">"Baleiro"</string>
     <string name="options">"Opcións"</string>
     <string name="actions">"Accións"</string>
+    <string name="search_clear_desc">"Borra o texto da busca"</string>
 </resources>

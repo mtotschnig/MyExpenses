@@ -100,4 +100,5 @@
     <string name="empty">"Tuščia"</string>
     <string name="options">"Parinktys"</string>
     <string name="actions">"Veiksmai"</string>
+    <string name="search_clear_desc">"Išvalyti paieškos tekstą"</string>
 </resources>

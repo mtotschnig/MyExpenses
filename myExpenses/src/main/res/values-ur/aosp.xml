@@ -126,4 +126,5 @@
     <string name="flag_inactive">"غیر فعال"</string>
     <string name="options">"اختیارات"</string>
     <string name="actions">Actions"</string>
+    <string name="search_clear_desc">"تلاش کا متن صاف کریں"</string>
 </resources>

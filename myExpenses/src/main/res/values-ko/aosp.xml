@@ -162,4 +162,5 @@
     <string name="empty">"비어있음"</string>
     <string name="options">"옵션"</string>
     <string name="actions">"동작"</string>
+    <string name="search_clear_desc">"검색 텍스트를 지웁니다."</string>
 </resources>

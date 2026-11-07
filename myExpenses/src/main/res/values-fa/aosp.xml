@@ -87,4 +87,5 @@
     <string name="count">"تعداد"</string>
     <string name="options">"گزینه‌ها"</string>
     <string name="actions">"اقدامات"</string>
+    <string name="search_clear_desc">"پاک کردن نوشتار جستجو"</string>
 </resources>
