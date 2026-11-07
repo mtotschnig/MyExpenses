@@ -55,7 +55,7 @@ data class FtsCriterion(val searchString: String?) : SimpleCriterion<String>() {
         val trimmed = searchString?.trim().orEmpty()
         if (trimmed.isEmpty()) return "" to emptyList()
 
-        val regex = "-?\"[^\"]*\"|\\S+".toRegex()
+        val regex = "-?(?:[A-Za-z_]+:)?\"[^\"]*\"|\\S+".toRegex()
         val matches = regex.findAll(trimmed).map { it.value }.toList()
 
         val positiveTokens = mutableListOf<String>()
