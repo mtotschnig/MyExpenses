@@ -52,7 +52,7 @@ data class FtsCriterion(val searchString: String?) : SimpleCriterion<String>() {
     override fun prettyPrint(context: Context) = searchString ?: context.getString(R.string.empty)
 
     private fun parseTerms(): Pair<String, List<String>> {
-        val trimmed = searchString?.trim() ?: return "" to emptyList()
+        val trimmed = searchString?.trim().orEmpty()
         if (trimmed.isEmpty()) return "" to emptyList()
 
         val regex = "-?\"[^\"]*\"|\\S+".toRegex()
@@ -76,6 +76,7 @@ data class FtsCriterion(val searchString: String?) : SimpleCriterion<String>() {
         return positiveQuery to negativeTokens
     }
 
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     override fun getSelection(forExport: Boolean): String {
         if (searchString.isNullOrBlank()) return "1 = 1"
         val (positiveQuery, negativeTokens) = parseTerms()
