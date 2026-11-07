@@ -133,50 +133,39 @@ data class FtsCriterion(val searchString: String?) : SimpleCriterion<String>() {
 
         fun sanitizeFtsQuery(query: String): String {
             var trimmed = query.trim()
-            if (trimmed.isEmpty()) return ""
-
-            // Auto-balance unmatched quotes if user typed a single quote
             if (trimmed.count { it == '"' } % 2 != 0) {
                 trimmed += "\""
             }
 
             val tokens = trimmed.split("\\s+".toRegex()).filter { it.isNotBlank() }
-            if (tokens.isEmpty()) return ""
-
-            // Strip leading 'OR' operators
             val startIdx = tokens.indexOfFirst { it != "OR" }
-            if (startIdx == -1) return ""
 
-            // Strip trailing 'OR' operators
-            var endIdx = tokens.size - 1
-            while (endIdx >= startIdx && tokens[endIdx] == "OR") {
-                endIdx--
+            return if (startIdx == -1) {
+                ""
+            } else {
+                var endIdx = tokens.size - 1
+                while (endIdx >= startIdx && tokens[endIdx] == "OR") {
+                    endIdx--
+                }
+                tokens.subList(startIdx, endIdx + 1).joinToString(" ")
             }
-
-            return tokens.subList(startIdx, endIdx + 1).joinToString(" ")
         }
 
         fun isMalformedFtsQuery(query: String): Boolean {
             val trimmed = query.trim()
-            if (trimmed.isEmpty()) return false
-
-            if (trimmed.count { it == '"' } % 2 != 0) return true
-
             val tokens = trimmed.split("\\s+".toRegex()).filter { it.isNotBlank() }
-            if (tokens.isEmpty()) return false
 
-            val last = tokens.last()
-            if (last == "OR" || last == "-") return true
-            if (tokens.first() == "OR") return true
+            return when {
+                trimmed.isEmpty() || tokens.isEmpty() -> false
 
-            for (i in 0 until tokens.size - 1) {
-                if (tokens[i] == "OR") {
-                    val next = tokens[i + 1]
-                    if (next == "OR" || next.startsWith("-")) return true
+                trimmed.count { it == '"' } % 2 != 0 -> true
+
+                tokens.first() == "OR" || tokens.last() == "OR" || tokens.last() == "-" -> true
+
+                else -> (0 until tokens.size - 1).any { i ->
+                    tokens[i] == "OR" && (tokens[i + 1] == "OR" || tokens[i + 1].startsWith("-"))
                 }
             }
-
-            return false
         }
 
         fun fromStringExtra(extra: String) = FtsCriterion(extra)

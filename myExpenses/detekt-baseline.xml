@@ -67,7 +67,7 @@
     <ID>CyclomaticComplexMethod:ExportDialogFragment.kt:ExportDialogFragment$override fun onClick</ID>
     <ID>CyclomaticComplexMethod:ExportDialogFragment.kt:ExportDialogFragment$override fun onCreateDialog: Dialog</ID>
     <ID>CyclomaticComplexMethod:ExportViewModel.kt:ExportViewModel$fun startExport</ID>
-    <ID>CyclomaticComplexMethod:FilterDialog.kt:@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class) @Composable fun FilterDialog</ID>
+    <ID>CyclomaticComplexMethod:FilterDialog.kt:@OptIn(ExperimentalMaterial3Api::class) @Suppress( "MaxLineLength", "ktlint:standard:max-line-length", "ktlint:standard:argument-list-wrapping" ) @Composable fun FilterDialog</ID>
     <ID>CyclomaticComplexMethod:Grouping.kt:Grouping$fun getDisplayTitle: String</ID>
     <ID>CyclomaticComplexMethod:HelpDialogFragment.kt:HelpDialogFragment$override fun onCreateDialog: Dialog</ID>
     <ID>CyclomaticComplexMethod:HelpDialogHelper.kt:HelpDialogHelper$@Throws(Resources.NotFoundException::class) fun getStringOrThrowIf0: CharSequence</ID>
@@ -301,7 +301,7 @@
     <ID>LongMethod:ExportDialogFragment.kt:ExportDialogFragment$override fun onCreateDialog: Dialog</ID>
     <ID>LongMethod:ExportTest.kt:ExportTest$private fun insertData1: Account</ID>
     <ID>LongMethod:ExportViewModel.kt:ExportViewModel$fun startExport</ID>
-    <ID>LongMethod:FilterDialog.kt:@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class) @Composable fun FilterDialog</ID>
+    <ID>LongMethod:FilterDialog.kt:@OptIn(ExperimentalMaterial3Api::class) @Suppress( "MaxLineLength", "ktlint:standard:max-line-length", "ktlint:standard:argument-list-wrapping" ) @Composable fun FilterDialog</ID>
     <ID>LongMethod:FilterHandler.kt:@Composable fun FilterHandler</ID>
     <ID>LongMethod:FloatingActionButtonMenu.kt:@Composable fun &lt;T: FabMenuAction&gt; FloatingActionButtonMenu</ID>
     <ID>LongMethod:HelpDialogFragment.kt:HelpDialogFragment$override fun onCreateDialog: Dialog</ID>
@@ -1478,7 +1478,6 @@
     <ID>NewLineAtEndOfFile:NewProgressDialogFragment.kt:org.totschnig.myexpenses.dialog.progress.NewProgressDialogFragment.kt</ID>
     <ID>NewLineAtEndOfFile:NoOpAdHandler.kt:org.totschnig.myexpenses.util.ads.NoOpAdHandler.kt</ID>
     <ID>NewLineAtEndOfFile:NonScrollListView.kt:org.totschnig.myexpenses.ui.NonScrollListView.kt</ID>
-    <ID>NewLineAtEndOfFile:NotCriterion.kt:org.totschnig.myexpenses.provider.filter.NotCriterion.kt</ID>
     <ID>NewLineAtEndOfFile:NotifyingBaseWorker.kt:org.totschnig.myexpenses.service.NotifyingBaseWorker.kt</ID>
     <ID>NewLineAtEndOfFile:NumberFormatPreference.kt:org.totschnig.myexpenses.preference.NumberFormatPreference.kt</ID>
     <ID>NewLineAtEndOfFile:OcrViewModel.kt:org.totschnig.myexpenses.viewmodel.OcrViewModel.kt</ID>
