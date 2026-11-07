@@ -19,6 +19,7 @@ class CriteriaSerializationTest {
                             AmountCriterion(Operation.EQ, listOf(1), "EUR", true),
                             CategoryCriterion("Food", 1),
                             CommentCriterion("suche"),
+                            FtsCriterion("coffee"),
                             CrStatusCriterion(listOf(CrStatus.VOID)),
                             DateCriterion(LocalDate.now(), LocalDate.now().plusDays(1)),
                             MethodCriterion("CHEQUE", 1),

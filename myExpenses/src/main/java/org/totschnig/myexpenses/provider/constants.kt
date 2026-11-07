@@ -17,6 +17,8 @@ const val TABLE_SETTINGS: String = "settings"
 const val TABLE_ACCOUNT_EXCHANGE_RATES: String = "account_exchangerates"
 const val TABLE_TAGS: String = "tags"
 const val TABLE_TRANSACTIONS_TAGS: String = "transactions_tags"
+const val TABLE_TRANSACTIONS_FTS: String = "transactions_fts"
+const val KEY_FTS: String = "fts"
 const val TABLE_ACCOUNTS_TAGS: String = "accounts_tags"
 const val TABLE_TEMPLATES_TAGS: String = "templates_tags"
 

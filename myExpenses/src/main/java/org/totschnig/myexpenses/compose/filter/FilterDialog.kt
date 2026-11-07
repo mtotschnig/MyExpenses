@@ -39,6 +39,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuAnchorType
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
@@ -95,7 +96,7 @@ import org.totschnig.myexpenses.provider.filter.CommentCriterion
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.DateCriterion
-import org.totschnig.myexpenses.provider.filter.DisplayInfo
+import org.totschnig.myexpenses.provider.filter.FtsCriterion
 import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.NotCriterion
 import org.totschnig.myexpenses.provider.filter.OrCriterion
@@ -112,6 +113,7 @@ const val COMPLEX_OR = 1
 
 const val TYPE_QUICK = 0
 const val TYPE_COMPLEX = 1
+const val TYPE_FULL_TEXT = 2
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -121,9 +123,8 @@ fun FilterDialog(
     initialPreferredSearchType: Int = TYPE_COMPLEX,
     criterion: Criterion? = null,
     onDismissRequest: () -> Unit = {},
-    onConfirmRequest: (Int, Criterion?) -> Unit = { _, _ -> },
+    onConfirmRequest: (Int, Criterion?) -> Unit = { _, _ -> }
 ) {
-
     val initialSet = criterion.asSet
     val initialSelectedComplex = if (criterion is OrCriterion) COMPLEX_OR else COMPLEX_AND
 
@@ -161,15 +162,21 @@ fun FilterDialog(
                 if (isComplexSearch) {
                     oldValue?.also { current ->
                         criteriaSet.value = criteriaSet.value.map {
-                            if (it == current)
+                            if (it == current) {
                                 if (it is NotCriterion) NotCriterion(newValue) else newValue
-                            else it
+                            } else {
+                                it
+                            }
                         }.toSet()
                     } ?: run { criteriaSet.value += newValue }
                 } else {
                     onConfirmRequest(
                         TYPE_QUICK,
-                        if (criteriaSet.value.isEmpty()) newValue else AndCriterion(criteriaSet.value + newValue)
+                        if (criteriaSet.value.isEmpty()) {
+                            newValue
+                        } else {
+                            AndCriterion(criteriaSet.value + newValue)
+                        }
                     )
                 }
             }
@@ -193,7 +200,6 @@ fun FilterDialog(
         ),
         onDismissRequest = onDismiss
     ) {
-
         Surface(
             modifier = Modifier
                 .testTag(TEST_TAG_DIALOG)
@@ -202,10 +208,13 @@ fun FilterDialog(
                     ifTrue = { defaultMinSize(minHeight = 400.dp) },
                     ifFalse = { fillMaxSize() }
                 ),
-            shape = if (isLarge) MaterialTheme.shapes.extraLarge else androidx.compose.ui.graphics.RectangleShape
+            shape = if (isLarge) {
+                MaterialTheme.shapes.extraLarge
+            } else {
+                androidx.compose.ui.graphics.RectangleShape
+            }
         ) {
             FilterHandler(account, "confirmFilterDialog", onResult) {
-
                 Column(
                     modifier = Modifier
                         .windowInsetsPadding(WindowInsets.safeDrawing)
@@ -214,21 +223,23 @@ fun FilterDialog(
                         }
                 ) {
                     Box(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth()
                     ) {
                         var expanded by remember { mutableStateOf(false) }
                         val options = listOf(
                             stringResource(R.string.quick_search),
-                            stringResource(R.string.complex_search)
+                            stringResource(R.string.complex_search),
+                            stringResource(R.string.full_text_search)
                         )
                         ExposedDropdownMenuBox(
                             modifier = Modifier.align(Alignment.Center),
                             expanded = expanded,
-                            onExpandedChange = { expanded = !expanded }) {
+                            onExpandedChange = { expanded = !expanded }
+                        ) {
                             BasicTextField(
                                 modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable),
                                 readOnly = true,
-                                value = options[preferredSearchType],
+                                value = options.getOrElse(preferredSearchType) { options[0] },
                                 onValueChange = {},
                                 textStyle = MaterialTheme.typography.titleMedium.copy(
                                     color = LocalContentColor.current
@@ -243,19 +254,20 @@ fun FilterDialog(
                             }
                             ExposedDropdownMenu(
                                 expanded = expanded,
-                                onDismissRequest = { expanded = false },
+                                onDismissRequest = { expanded = false }
                             ) {
                                 options.forEachIndexed { index, s ->
                                     DropdownMenuItem(
                                         text = { Text(s) },
-                                        enabled = index == 1 || criteriaSet.value.isSimple(
-                                            selectedComplex
-                                        ),
+                                        enabled =
+                                            index == 1 || index == 2 || criteriaSet.value.isSimple(
+                                                selectedComplex
+                                            ),
                                         onClick = {
                                             preferredSearchType = index
                                             expanded = false
                                         },
-                                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
+                                        contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
                                     )
                                 }
                             }
@@ -263,7 +275,9 @@ fun FilterDialog(
                         ActionButton(
                             hintText = stringResource(android.R.string.cancel),
                             icon = Icons.Filled.Clear,
-                            modifier = Modifier.align(if (isComplexSearch) Alignment.CenterStart else Alignment.CenterEnd),
+                            modifier = Modifier.align(
+                                if (isComplexSearch) Alignment.CenterStart else Alignment.CenterEnd
+                            ),
                             onClick = onDismiss
                         )
                         if (isComplexSearch) {
@@ -289,28 +303,98 @@ fun FilterDialog(
                         }
                     }
 
-                    val filters: List<DisplayInfo> = if (account.isPortfolio) listOf(
-                        AssetCriterion, AmountCriterion, CommentCriterion, DateCriterion
-                    )
-                    else listOfNotNull(
-                        if (sumInfo.mappedCategories) CategoryCriterion else null,
-                        AmountCriterion,
-                        CommentCriterion,
-                        if (account.isAggregate || account.type.supportsReconciliation)
-                            CrStatusCriterion else null,
-                        if (sumInfo.mappedPayees) PayeeCriterion else null,
-                        if (sumInfo.mappedMethods) MethodCriterion else null,
-                        DateCriterion,
-                        if (sumInfo.hasTransfers) TransferCriterion else null,
-                        if (sumInfo.hasTags) TagCriterion else null,
-                        if (account.isAggregate) AccountCriterion else null
-                    )
-                    if (isComplexSearch) {
+                    val filters = if (account.isPortfolio) {
+                        listOf(
+                            FtsCriterion,
+                            AssetCriterion,
+                            AmountCriterion,
+                            CommentCriterion,
+                            DateCriterion
+                        )
+                    } else {
+                        listOfNotNull(
+                            FtsCriterion,
+                            if (sumInfo.mappedCategories) CategoryCriterion else null,
+                            AmountCriterion,
+                            CommentCriterion,
+                            if (account.isAggregate || account.type.supportsReconciliation) {
+                                CrStatusCriterion
+                            } else {
+                                null
+                            },
+                            if (sumInfo.mappedPayees) PayeeCriterion else null,
+                            if (sumInfo.mappedMethods) MethodCriterion else null,
+                            DateCriterion,
+                            if (sumInfo.hasTransfers) TransferCriterion else null,
+                            if (sumInfo.hasTags) TagCriterion else null,
+                            if (account.isAggregate) AccountCriterion else null
+                        )
+                    }
+                    if (preferredSearchType == TYPE_FULL_TEXT) {
+                        var ftsQuery by rememberSaveable {
+                            mutableStateOf((criterion as? FtsCriterion)?.searchString ?: "")
+                        }
+                        Column(
+                            modifier = Modifier
+                                .padding(16.dp)
+                                .fillMaxWidth(),
+                            verticalArrangement = Arrangement.spacedBy(16.dp)
+                        ) {
+                            OutlinedTextField(
+                                modifier = Modifier.fillMaxWidth(),
+                                value = ftsQuery,
+                                onValueChange = { ftsQuery = it },
+                                label = { Text(stringResource(R.string.search_full_text)) },
+                                supportingText = {
+                                    Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                                        Text(stringResource(R.string.search_fts_help_and))
+                                        Text(stringResource(R.string.search_fts_help_not))
+                                        Text(stringResource(R.string.search_fts_help_or))
+                                        Text(stringResource(R.string.search_fts_help_phrase))
+                                        Text(stringResource(R.string.search_fts_help_prefix))
+                                        Text(stringResource(R.string.search_fts_help_column))
+                                    }
+                                },
+                                singleLine = true,
+                                trailingIcon = if (ftsQuery.isNotEmpty()) {
+                                    {
+                                        IconButton(onClick = { ftsQuery = "" }) {
+                                            Icon(Icons.Filled.Clear, contentDescription = null)
+                                        }
+                                    }
+                                } else {
+                                    null
+                                }
+                            )
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.End
+                            ) {
+                                TextButton(onClick = onDismiss) {
+                                    Text(stringResource(android.R.string.cancel))
+                                }
+                                TextButton(onClick = {
+                                    onConfirmRequest(
+                                        TYPE_FULL_TEXT,
+                                        if (ftsQuery.isBlank()) {
+                                            null
+                                        } else {
+                                            FtsCriterion(
+                                                ftsQuery.trim()
+                                            )
+                                        }
+                                    )
+                                }) {
+                                    Text(stringResource(R.string.apply))
+                                }
+                            }
+                        }
+                    } else if (isComplexSearch) {
                         FlowRow {
                             filters.forEach { info ->
                                 val accessibleButtonText =
                                     stringResource(R.string.add_filter) + ": " +
-                                            stringResource(info.extendedTitle)
+                                        stringResource(info.extendedTitle)
                                 TextButton(
                                     modifier = Modifier.clearAndSetSemantics {
                                         contentDescription = accessibleButtonText
@@ -347,7 +431,6 @@ fun FilterDialog(
                                 horizontalArrangement = Arrangement.spacedBy(4.dp),
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
-
                                 val options = listOf(R.string.matchAll, R.string.matchAny)
                                 options.forEachIndexed { index, labelRes ->
                                     Row(
@@ -357,7 +440,8 @@ fun FilterDialog(
                                                 selected = index == selectedComplex,
                                                 onClick = { selectedComplex = index },
                                                 role = Role.RadioButton
-                                            ), verticalAlignment = Alignment.CenterVertically
+                                            ),
+                                        verticalAlignment = Alignment.CenterVertically
                                     ) {
                                         RadioButton(
                                             onClick = null,
@@ -378,7 +462,6 @@ fun FilterDialog(
                                         collectionInfo = CollectionInfo(criteriaSet.value.size, 1)
                                     }
                             ) {
-
                                 criteriaSet.value.forEachIndexed { index, criterion ->
                                     val negate =
                                         { criteriaSet.value = criteriaSet.value.negate(index) }
@@ -388,8 +471,10 @@ fun FilterDialog(
                                     }
                                     val title = stringResource(criterion.displayTitle)
                                     val symbol = criterion.displaySymbol.first
-                                    val prettyPrint = ((criterion as? NotCriterion)?.criterion
-                                        ?: criterion).prettyPrint(LocalContext.current)
+                                    val prettyPrint = (
+                                        (criterion as? NotCriterion)?.criterion
+                                            ?: criterion
+                                        ).prettyPrint(LocalContext.current)
                                     val contentDescription =
                                         criterion.contentDescription(LocalContext.current)
                                     val labelNegate = stringResource(R.string.negation)
@@ -486,7 +571,8 @@ fun FilterDialog(
                                 )
                                 Text(
                                     definedCriterion?.prettyPrint(LocalContext.current)
-                                        ?: stringResource(info.title), Modifier.weight(1f)
+                                        ?: stringResource(info.title),
+                                    Modifier.weight(1f)
                                 )
                                 Checkbox(checked = hasCriterion, onCheckedChange = null)
                             }
@@ -512,7 +598,6 @@ fun FilterDialog(
                         Text(stringResource(R.string.dialog_confirm_discard_changes))
                     }
                 )
-
             }
 
             if (confirmClear) {
@@ -535,7 +620,6 @@ fun FilterDialog(
                         Text(stringResource(R.string.clear_all_filters))
                     }
                 )
-
             }
         }
     }
@@ -548,7 +632,7 @@ fun ActionButton(
     icon: ImageVector,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    onClick: () -> Unit,
+    onClick: () -> Unit
 ) {
     ActionButton(hintText, modifier, enabled, onClick) {
         Icon(
@@ -565,14 +649,14 @@ fun ActionButton(
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
     onClick: () -> Unit,
-    content: @Composable () -> Unit,
+    content: @Composable () -> Unit
 ) {
-    //workaround for https://issuetracker.google.com/issues/283821298
+    // workaround for https://issuetracker.google.com/issues/283821298
     Box(modifier = modifier) {
         TooltipBox(
             positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
             tooltip = { PlainTooltip { Text(hintText) } },
-            state = rememberTooltipState(),
+            state = rememberTooltipState()
         ) {
             IconButton(onClick = onClick, enabled = enabled, content = content)
         }
@@ -582,7 +666,9 @@ fun ActionButton(
 private fun Set<Criterion>.negate(atIndex: Int) = mapIndexed { index, criterion ->
     if (index == atIndex) {
         if (criterion is NotCriterion) criterion.criterion else NotCriterion(criterion)
-    } else criterion
+    } else {
+        criterion
+    }
 }.toSet()
 
 private fun Set<Criterion>.wrap(selectedComplex: Int = COMPLEX_AND) = when (size) {
@@ -598,14 +684,14 @@ private fun Set<Criterion>.wrap(selectedComplex: Int = COMPLEX_AND) = when (size
  * - there is only 1 criterion
  * - criteria are joined with AND and there are no 2 criteria of the same type
  */
-private fun Set<Criterion>.isSimple(selectedComplex: Int) =
-    isEmpty() || (
-            none { it is NotCriterion } && (
-                    (size == 1) || (
-                            (selectedComplex == COMPLEX_AND) && groupBy { it::class }.all { it.value.size == 1 }
-                            )
-                    )
+private fun Set<Criterion>.isSimple(selectedComplex: Int) = isEmpty() || (
+    none { it is NotCriterion } && (
+        (size == 1) || (
+            (selectedComplex == COMPLEX_AND) &&
+                groupBy { it::class }.all { it.value.size == 1 }
             )
+        )
+    )
 
 @Preview
 @Composable
@@ -615,9 +701,9 @@ fun FilterDialogEmpty() {
             id = 1,
             label = "Test account",
             currencyUnit = CurrencyUnit.DebugInstance,
-            type = AccountType.CASH,
+            type = AccountType.CASH
         ),
-        sumInfo = SumInfo.EMPTY,
+        sumInfo = SumInfo.EMPTY
     )
 }
 
@@ -629,7 +715,7 @@ fun FilterDialogPreview() {
             id = 1,
             label = "Test account",
             currencyUnit = CurrencyUnit.DebugInstance,
-            type = AccountType.CASH,
+            type = AccountType.CASH
         ),
         sumInfo = SumInfo.EMPTY,
         criterion = AndCriterion(
