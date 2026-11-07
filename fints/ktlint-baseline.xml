@@ -149,27 +149,19 @@
         <error line="132" column="39" source="standard:parameter-list-wrapping" />
         <error line="132" column="56" source="standard:parameter-list-wrapping" />
         <error line="132" column="75" source="standard:parameter-list-wrapping" />
-        <error line="132" column="79" source="standard:function-signature" />
         <error line="132" column="101" source="standard:max-line-length" />
         <error line="140" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/fints/BankingViewModel.kt">
         <error line="3" column="1" source="standard:import-ordering" />
-        <error line="115" column="41" source="standard:function-signature" />
-        <error line="145" column="42" source="standard:function-signature" />
-        <error line="148" column="40" source="standard:function-signature" />
         <error line="167" column="1" source="standard:no-consecutive-blank-lines" />
         <error line="173" column="33" source="standard:wrapping" />
         <error line="176" column="9" source="standard:wrapping" />
-        <error line="183" column="34" source="standard:function-signature" />
-        <error line="183" column="55" source="standard:function-signature" />
         <error line="183" column="100" source="standard:max-line-length" />
         <error line="185" column="39" source="standard:wrapping" />
         <error line="188" column="9" source="standard:wrapping" />
         <error line="197" column="37" source="standard:wrapping" />
         <error line="200" column="9" source="standard:wrapping" />
-        <error line="207" column="32" source="standard:function-signature" />
-        <error line="207" column="54" source="standard:function-signature" />
         <error line="207" column="100" source="standard:max-line-length" />
         <error line="209" column="37" source="standard:wrapping" />
         <error line="212" column="9" source="standard:wrapping" />
@@ -177,7 +169,6 @@
         <error line="277" column="26" source="standard:wrapping" />
         <error line="277" column="32" source="standard:wrapping" />
         <error line="282" column="9" source="standard:wrapping" />
-        <error line="294" column="58" source="standard:function-signature" />
         <error line="297" column="31" source="standard:string-template" />
         <error line="312" column="57" source="standard:trailing-comma-on-declaration-site" />
         <error line="340" column="24" source="standard:multiline-if-else" />
@@ -197,10 +188,7 @@
         <error line="438" column="115" source="standard:binary-expression-wrapping" />
         <error line="440" column="37" source="standard:wrapping" />
         <error line="440" column="38" source="standard:argument-list-wrapping" />
-        <error line="452" column="9" source="standard:function-signature" />
-        <error line="453" column="9" source="standard:function-signature" />
         <error line="453" column="35" source="standard:trailing-comma-on-declaration-site" />
-        <error line="453" column="36" source="standard:function-signature" />
         <error line="464" column="31" source="standard:wrapping" />
         <error line="467" column="36" source="standard:argument-list-wrapping" />
         <error line="467" column="46" source="standard:argument-list-wrapping" />
@@ -215,7 +203,6 @@
         <error line="585" column="24" source="standard:argument-list-wrapping" />
         <error line="592" column="82" source="standard:function-expression-body" />
         <error line="597" column="62" source="standard:argument-list-wrapping" />
-        <error line="627" column="46" source="standard:function-signature" />
         <error line="638" column="30" source="standard:trailing-comma-on-declaration-site" />
         <error line="699" column="79" source="standard:function-literal" />
         <error line="699" column="100" source="standard:max-line-length" />
@@ -276,10 +263,7 @@
         <error line="198" column="13" source="standard:multiline-if-else" />
         <error line="211" column="77" source="standard:wrapping" />
         <error line="211" column="78" source="standard:argument-list-wrapping" />
-        <error line="218" column="5" source="standard:function-signature" />
-        <error line="219" column="5" source="standard:function-signature" />
         <error line="219" column="43" source="standard:trailing-comma-on-declaration-site" />
-        <error line="219" column="44" source="standard:function-signature" />
         <error line="282" column="55" source="standard:trailing-comma-on-call-site" />
         <error line="316" column="45" source="standard:trailing-comma-on-declaration-site" />
         <error line="319" column="80" source="standard:function-literal" />

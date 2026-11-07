@@ -24,9 +24,6 @@
         <error line="165" column="50" source="standard:trailing-comma-on-call-site" />
         <error line="211" column="1" source="standard:blank-line-between-when-conditions" />
         <error line="215" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="249" column="5" source="standard:function-signature" />
-        <error line="250" column="5" source="standard:function-signature" />
-        <error line="250" column="35" source="standard:function-signature" />
         <error line="316" column="38" source="standard:trailing-comma-on-declaration-site" />
         <error line="321" column="101" source="standard:max-line-length" />
         <error line="458" column="1" source="standard:blank-line-between-when-conditions" />
@@ -104,7 +101,6 @@
         <error line="507" column="1" source="standard:blank-line-between-when-conditions" />
         <error line="614" column="1" source="standard:blank-line-between-when-conditions" />
         <error line="652" column="26" source="standard:trailing-comma-on-declaration-site" />
-        <error line="653" column="8" source="standard:function-signature" />
         <error line="676" column="12" source="standard:multiline-if-else" />
         <error line="725" column="1" source="standard:final-newline" />
     </file>

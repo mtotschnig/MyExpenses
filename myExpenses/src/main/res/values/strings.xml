@@ -1040,6 +1040,12 @@
     <string name="search_fts_help_or">• coffee OR tea : finds transactions with either coffee or tea</string>
     <string name="search_fts_help_phrase">• \"coffee and tea\" : finds the exact phrase \"coffee and tea\"</string>
     <string name="search_fts_help_prefix">• coff* : finds words starting with coff (e.g. coffee, coffeeshop)</string>
+    <!--
+        Translator Note: Do NOT translate the prefix keywords before the colons (comment:, payee:, category:, tag:, reference:).
+        They are exact FTS column keywords in SQLite.
+        Only translate the descriptive text explaining what each keyword searches.
+    -->
+    <string name="search_fts_help_column">• Prefix query term to restrict search to specific column (e.g. payee:walmart, category:food, tag:work). Available: \'comment\' (notes), \'payee\' (counterparty), \'category\' (category), \'tag\' (tags), \'ref\' (reference number)</string>
     <!-- Message shown when user clicks on the floating action bar in an account that they have closed. -->
     <string name="account_closed">Account is closed</string>
     <string name="balance_sheet">Balance Sheet</string>

@@ -29,10 +29,7 @@ import org.totschnig.myexpenses.provider.TABLE_TRANSACTIONS_FTS
 @Parcelize
 @Serializable
 @SerialName(KEY_FTS)
-data class FtsCriterion(
-    val searchString: String?,
-    val includeAccountLabel: Boolean = true
-) : SimpleCriterion<String>() {
+data class FtsCriterion(val searchString: String?) : SimpleCriterion<String>() {
 
     @IgnoredOnParcel
     override val id = R.id.FILTER_FTS_COMMAND
@@ -54,39 +51,50 @@ data class FtsCriterion(
 
     override fun prettyPrint(context: Context) = searchString ?: context.getString(R.string.empty)
 
+    private val isStandaloneNegation: Boolean
+        get() {
+            val trimmed = searchString?.trim() ?: return false
+            if (trimmed.isEmpty() ||
+                (trimmed.startsWith("\"") && trimmed.endsWith("\""))
+            ) {
+                return false
+            }
+            val tokens = trimmed.split("\\s+".toRegex()).filter { it.isNotBlank() }
+            return tokens.isNotEmpty() && tokens.all { it.startsWith("-") && it.length > 1 }
+        }
+
     override fun getSelection(forExport: Boolean): String {
         if (searchString.isNullOrBlank()) return "1 = 1"
-        return if (includeAccountLabel) {
-            "$KEY_ROWID IN (SELECT transaction_id FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?)"
-        } else {
-            "$KEY_ROWID IN (SELECT transaction_id FROM $TABLE_TRANSACTIONS_FTS WHERE comment MATCH ? OR payee_name MATCH ? OR category_name MATCH ? OR tag_names MATCH ? OR reference_number MATCH ?)"
-        }
+        val op = if (isStandaloneNegation) "NOT IN" else "IN"
+        @Suppress("ktlint:standard:max-line-length")
+        return "$KEY_ROWID $op (SELECT rowid FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?)"
     }
 
     override val values: List<String>
         get() {
-            val sanitized = searchString?.takeIf { it.isNotBlank() }?.let { sanitizeFtsQuery(it) }
-                ?: return emptyList()
-            return if (includeAccountLabel) listOf(sanitized) else List(5) { sanitized }
+            val trimmed = searchString?.takeIf { it.isNotBlank() }?.trim() ?: return emptyList()
+            return if (isStandaloneNegation) {
+                val cleanQuery = trimmed.split("\\s+".toRegex())
+                    .filter { it.isNotBlank() }
+                    .joinToString(" OR ") { it.removePrefix("-") }
+                listOf(sanitizeFtsQuery(cleanQuery))
+            } else {
+                listOf(sanitizeFtsQuery(trimmed))
+            }
         }
 
     companion object : DisplayInfo {
 
         fun sanitizeFtsQuery(query: String): String {
-            val trimmed = query.trim()
-            return when {
-                trimmed.startsWith("\"") && trimmed.endsWith("\"") -> trimmed
+            var trimmed = query.trim()
+            if (trimmed.isEmpty()) return ""
 
-                else -> trimmed.split("\\s+".toRegex())
-                    .filter { it.isNotBlank() }
-                    .joinToString(" ") { token ->
-                        if (token.contains(":") && !token.startsWith("\"")) {
-                            "\"${token.replace("\"", "\"\"")}\""
-                        } else {
-                            token.replace("\"", "\"\"")
-                        }
-                    }
+            // Auto-balance unmatched quotes if user typed a single quote
+            if (trimmed.count { it == '"' } % 2 != 0) {
+                trimmed += "\""
             }
+
+            return trimmed
         }
 
         fun fromStringExtra(extra: String) = FtsCriterion(extra)

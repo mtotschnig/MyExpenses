@@ -8,31 +8,23 @@ import org.totschnig.myexpenses.provider.TABLE_TRANSACTIONS_FTS
 class FtsCriterionTest {
 
     @Test
-    fun testSelectionQueryIncludeAccountLabel() {
-        val criterion = FtsCriterion("coffee", includeAccountLabel = true)
+    fun testSelectionQuery() {
+        val criterion = FtsCriterion("coffee")
         val selection = criterion.getSelection(false)
         assertThat(selection).isEqualTo(
-            "$KEY_ROWID IN (SELECT transaction_id FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?)"
+            "$KEY_ROWID IN (SELECT rowid FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?)"
         )
         assertThat(criterion.values).containsExactly("coffee")
     }
 
     @Test
-    fun testSelectionQueryExcludeAccountLabel() {
-        val criterion = FtsCriterion("coffee", includeAccountLabel = false)
+    fun testStandaloneNegationSelectionQuery() {
+        val criterion = FtsCriterion("-coffee")
         val selection = criterion.getSelection(false)
         assertThat(selection).isEqualTo(
-            "$KEY_ROWID IN (SELECT transaction_id FROM $TABLE_TRANSACTIONS_FTS WHERE " +
-                "comment MATCH ? OR payee_name MATCH ? OR category_name MATCH ? OR " +
-                "tag_names MATCH ? OR reference_number MATCH ?)"
+            "$KEY_ROWID NOT IN (SELECT rowid FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?)"
         )
-        assertThat(criterion.values).containsExactly(
-            "coffee",
-            "coffee",
-            "coffee",
-            "coffee",
-            "coffee"
-        )
+        assertThat(criterion.values).containsExactly("coffee")
     }
 
     @Test
@@ -66,9 +58,20 @@ class FtsCriterionTest {
     }
 
     @Test
-    fun testSanitizeTokenWithColonEnclosesInQuotes() {
-        val sanitized = FtsCriterion.sanitizeFtsQuery("payee_name:xxx")
-        assertThat(sanitized).isEqualTo("\"payee_name:xxx\"")
+    fun testSanitizeUnmatchedQuotesAutoBalances() {
+        val sanitized = FtsCriterion.sanitizeFtsQuery("\"office supplies")
+        assertThat(sanitized).isEqualTo("\"office supplies\"")
+    }
+
+    @Test
+    fun testSanitizePreservesColumnDirectives() {
+        val sanitized =
+            FtsCriterion.sanitizeFtsQuery(
+                "category:food payee:walmart comment:tea tag:vacation reference:123"
+            )
+        assertThat(
+            sanitized
+        ).isEqualTo("category:food payee:walmart comment:tea tag:vacation reference:123")
     }
 
     @Test

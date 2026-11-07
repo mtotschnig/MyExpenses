@@ -17,7 +17,6 @@
         <error line="25" column="1" source="standard:no-wildcard-imports" />
         <error line="71" column="1" source="standard:no-blank-line-before-rbrace" />
         <error line="120" column="65" source="standard:function-expression-body" />
-        <error line="166" column="68" source="standard:function-signature" />
         <error line="166" column="83" source="standard:argument-list-wrapping" />
         <error line="166" column="100" source="standard:max-line-length" />
         <error line="166" column="103" source="standard:argument-list-wrapping" />
@@ -27,7 +26,6 @@
         <error line="231" column="54" source="standard:multiline-if-else" />
         <error line="234" column="16" source="standard:multiline-if-else" />
         <error line="234" column="29" source="standard:wrapping" />
-        <error line="258" column="71" source="standard:function-signature" />
         <error line="271" column="44" source="standard:function-literal" />
         <error line="271" column="84" source="standard:binary-expression-wrapping" />
         <error line="271" column="101" source="standard:max-line-length" />
@@ -36,11 +34,6 @@
         <error line="297" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/dropbox/sync/DropboxProviderFactory.kt">
-        <error line="17" column="9" source="standard:function-signature" />
-        <error line="18" column="9" source="standard:function-signature" />
-        <error line="19" column="9" source="standard:function-signature" />
-        <error line="19" column="39" source="standard:function-signature" />
-        <error line="20" column="9" source="standard:function-signature" />
         <error line="26" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/dropbox/viewmodel/DropboxSetupViewModel.kt">

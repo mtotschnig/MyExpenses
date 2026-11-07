@@ -26,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.os.BundleCompat
 import androidx.fragment.app.FragmentActivity
+import kotlin.reflect.KClass
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.PickCategoryContract
 import org.totschnig.myexpenses.activity.PickPayeeContract
@@ -54,7 +55,6 @@ import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.provider.filter.TransferCriterion
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
-import kotlin.reflect.KClass
 
 interface FilterHandlerScope {
     fun handleAmountEdit(amountCriterion: AmountCriterion?)
@@ -137,7 +137,8 @@ fun FilterHandler(
     val supportFragmentManager = activity.supportFragmentManager
     DisposableEffect(onResult) {
         supportFragmentManager.setFragmentResultListener(
-            requestKey, activity
+            requestKey,
+            activity
         ) { _, result ->
             onResult(
                 currentEdit.value,
@@ -162,7 +163,8 @@ fun FilterHandler(
         override fun handleAmountEdit(amountCriterion: AmountCriterion?) {
             AmountFilterDialog.newInstance(
                 requestKey,
-                account.currencyUnit, amountCriterion
+                account.currencyUnit,
+                amountCriterion
             ).show(activity.supportFragmentManager, "AMOUNT_FILTER")
         }
 
@@ -208,7 +210,8 @@ fun FilterHandler(
         override fun handleMethodEdit(methodCriterion: MethodCriterion?) {
             SelectMethodDialogFragment.newInstance(
                 requestKey,
-                account, methodCriterion
+                account,
+                methodCriterion
             ).show(activity.supportFragmentManager, "METHOD_FILTER")
         }
 
@@ -262,7 +265,7 @@ fun FilterHandler(
                     onValueChange = {
                         search = it
                     },
-                    label = { Text(text = stringResource(R.string.search_comment)) },
+                    label = { Text(text = stringResource(R.string.search_comment)) }
                 )
                 LaunchedEffect(Unit) {
                     focusRequester.requestFocus()
@@ -283,10 +286,7 @@ fun FilterHandler(
                 Button(onClick = {
                     onResult(
                         currentEdit.value,
-                        FtsCriterion(
-                            search?.takeIf { it.isNotBlank() },
-                            includeAccountLabel = account.isAggregate
-                        )
+                        FtsCriterion(search?.takeIf { it.isNotBlank() })
                     )
                     showFtsFilterPrompt = null
                 }) {
@@ -316,6 +316,7 @@ fun FilterHandler(
                             Text(text = stringResource(R.string.search_fts_help_or))
                             Text(text = stringResource(R.string.search_fts_help_phrase))
                             Text(text = stringResource(R.string.search_fts_help_prefix))
+                            Text(text = stringResource(R.string.search_fts_help_column))
                         }
                     }
                 )
@@ -326,8 +327,3 @@ fun FilterHandler(
         )
     }
 }
-
-
-
-
-
