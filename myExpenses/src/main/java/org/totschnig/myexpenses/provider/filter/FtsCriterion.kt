@@ -102,6 +102,26 @@ data class FtsCriterion(val searchString: String?) : SimpleCriterion<String>() {
         return if (clauses.isEmpty()) "1 = 1" else clauses.joinToString(" AND ")
     }
 
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
+    override fun getSelectionForParts(tableName: String?): String {
+        if (searchString.isNullOrBlank()) return "1 = 1"
+        val (positiveQuery, negativeTokens) = parseTerms()
+
+        val basePosSelection = super.getSelectionForParts(tableName)
+        val clauses = mutableListOf<String>()
+
+        if (positiveQuery.isNotBlank()) {
+            clauses.add(basePosSelection)
+        }
+        for (neg in negativeTokens) {
+            if (neg.isNotBlank()) {
+                clauses.add("NOT ($basePosSelection)")
+            }
+        }
+
+        return if (clauses.isEmpty()) "1 = 1" else clauses.joinToString(" AND ")
+    }
+
     override fun getSelectionArgs(queryParts: Boolean): Array<String> {
         if (searchString.isNullOrBlank()) return emptyArray()
         val (positiveQuery, negativeTokens) = parseTerms()

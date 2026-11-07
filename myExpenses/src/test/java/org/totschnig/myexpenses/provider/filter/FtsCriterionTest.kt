@@ -49,6 +49,15 @@ class FtsCriterionTest {
     }
 
     @Test
+    fun testSelectionForPartsWithNegationAndQueryParts() {
+        val criterion = FtsCriterion("coffee -tea")
+        val selectionForParts = criterion.getSelectionForParts("transactions_extended")
+        assertThat(selectionForParts).contains("AND NOT (")
+        val args = criterion.getSelectionArgs(queryParts = true).toList()
+        assertThat(args).containsExactly("coffee", "coffee", "tea", "tea")
+    }
+
+    @Test
     fun testOrWithNegatedTermSelectionQuery() {
         val criterion = FtsCriterion("coffee OR -tea")
         val selection = criterion.getSelectionForParents("transactions")
