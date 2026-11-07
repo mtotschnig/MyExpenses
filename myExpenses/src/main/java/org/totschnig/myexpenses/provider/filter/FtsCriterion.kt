@@ -51,36 +51,67 @@ data class FtsCriterion(val searchString: String?) : SimpleCriterion<String>() {
 
     override fun prettyPrint(context: Context) = searchString ?: context.getString(R.string.empty)
 
-    private val isStandaloneNegation: Boolean
-        get() {
-            val trimmed = searchString?.trim() ?: return false
-            if (trimmed.isEmpty() ||
-                (trimmed.startsWith("\"") && trimmed.endsWith("\""))
-            ) {
-                return false
+    private fun parseTerms(): Pair<String, List<String>> {
+        val trimmed = searchString?.trim() ?: return "" to emptyList()
+        if (trimmed.isEmpty()) return "" to emptyList()
+
+        val regex = "-?\"[^\"]*\"|\\S+".toRegex()
+        val matches = regex.findAll(trimmed).map { it.value }.toList()
+
+        val positiveTokens = mutableListOf<String>()
+        val negativeTokens = mutableListOf<String>()
+
+        for (rawToken in matches) {
+            val isNegated = rawToken.startsWith("-") && rawToken.length > 1
+            val token = if (isNegated) rawToken.substring(1) else rawToken
+
+            if (isNegated) {
+                negativeTokens.add(token)
+            } else {
+                positiveTokens.add(token)
             }
-            val tokens = trimmed.split("\\s+".toRegex()).filter { it.isNotBlank() }
-            return tokens.isNotEmpty() && tokens.all { it.startsWith("-") && it.length > 1 }
         }
+
+        val positiveQuery = positiveTokens.joinToString(" ")
+        return positiveQuery to negativeTokens
+    }
 
     override fun getSelection(forExport: Boolean): String {
         if (searchString.isNullOrBlank()) return "1 = 1"
-        val op = if (isStandaloneNegation) "NOT IN" else "IN"
-        @Suppress("ktlint:standard:max-line-length")
-        return "$KEY_ROWID $op (SELECT rowid FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?)"
+        val (positiveQuery, negativeTokens) = parseTerms()
+
+        val clauses = mutableListOf<String>()
+        if (positiveQuery.isNotBlank()) {
+            clauses.add(
+                "$KEY_ROWID IN (SELECT rowid FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?)"
+            )
+        }
+        for (neg in negativeTokens) {
+            if (neg.isNotBlank()) {
+                clauses.add(
+                    "$KEY_ROWID NOT IN (SELECT rowid FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?)"
+                )
+            }
+        }
+
+        return if (clauses.isEmpty()) "1 = 1" else clauses.joinToString(" AND ")
     }
 
     override val values: List<String>
         get() {
-            val trimmed = searchString?.takeIf { it.isNotBlank() }?.trim() ?: return emptyList()
-            return if (isStandaloneNegation) {
-                val cleanQuery = trimmed.split("\\s+".toRegex())
-                    .filter { it.isNotBlank() }
-                    .joinToString(" OR ") { it.removePrefix("-") }
-                listOf(sanitizeFtsQuery(cleanQuery))
-            } else {
-                listOf(sanitizeFtsQuery(trimmed))
+            if (searchString.isNullOrBlank()) return emptyList()
+            val (positiveQuery, negativeTokens) = parseTerms()
+
+            val result = mutableListOf<String>()
+            if (positiveQuery.isNotBlank()) {
+                result.add(sanitizeFtsQuery(positiveQuery))
             }
+            for (neg in negativeTokens) {
+                if (neg.isNotBlank()) {
+                    result.add(sanitizeFtsQuery(neg))
+                }
+            }
+            return result
         }
 
     companion object : DisplayInfo {

@@ -1380,36 +1380,19 @@ abstract class BaseTransactionDatabase(
         val created = runCatching {
             execSQL(
                 """
-                CREATE VIRTUAL TABLE IF NOT EXISTS $TABLE_TRANSACTIONS_FTS USING fts5(
+                CREATE VIRTUAL TABLE IF NOT EXISTS $TABLE_TRANSACTIONS_FTS USING fts4(
                     comment,
                     payee,
                     category,
                     tag,
                     ref,
-                    tokenize = 'unicode61 remove_diacritics 1'
+                    tokenize=unicode61
                 );
                 """.trimIndent()
             )
-            Timber.i("Set up FTS5")
+            Timber.i("Set up FTS4")
             true
-        }.getOrElse {
-            runCatching {
-                execSQL(
-                    """
-                    CREATE VIRTUAL TABLE IF NOT EXISTS $TABLE_TRANSACTIONS_FTS USING fts4(
-                        comment,
-                        payee,
-                        category,
-                        tag,
-                        ref,
-                        tokenize=unicode61
-                    );
-                    """.trimIndent()
-                )
-                Timber.i("Set up FTS4")
-                true
-            }.getOrDefault(false)
-        }
+        }.getOrDefault(false)
 
         if (!created) {
             Timber.w(

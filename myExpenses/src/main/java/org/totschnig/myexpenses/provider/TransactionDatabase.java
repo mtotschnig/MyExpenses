@@ -482,7 +482,7 @@ public class TransactionDatabase extends BaseTransactionDatabase {
 
     db.execSQL(PRICES_CREATE);
     db.execSQL(getPRIORITIZED_PRICES_CREATE());
-    upgradeTo192(db);
+    createOrRefreshFts(db);
     super.onCreate(db);
   }
 

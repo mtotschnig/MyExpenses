@@ -28,6 +28,56 @@ class FtsCriterionTest {
     }
 
     @Test
+    fun testBinaryNegationSelectionQuery() {
+        val criterion = FtsCriterion("coffee -tea")
+        val selection = criterion.getSelection(false)
+        @Suppress("ktlint:standard:max-line-length")
+        assertThat(selection).isEqualTo(
+            "$KEY_ROWID IN (SELECT rowid FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?) AND " +
+                "$KEY_ROWID NOT IN (SELECT rowid FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?)"
+        )
+        assertThat(criterion.values).containsExactly("coffee", "tea")
+    }
+
+    @Test
+    fun testHyphenatedWordQuery() {
+        val criterion = FtsCriterion("copy-shop")
+        val selection = criterion.getSelection(false)
+        assertThat(selection).isEqualTo(
+            "$KEY_ROWID IN (SELECT rowid FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?)"
+        )
+        assertThat(criterion.values).containsExactly("copy-shop")
+    }
+
+    @Test
+    fun testComplexQuery() {
+        val criterion = FtsCriterion(
+            """
+            "copy shop" -tea
+            """.trimIndent()
+        )
+        val selection = criterion.getSelection(false)
+        @Suppress("ktlint:standard:max-line-length")
+        assertThat(selection).isEqualTo(
+            "$KEY_ROWID IN (SELECT rowid FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?) AND " +
+                "$KEY_ROWID NOT IN (SELECT rowid FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?)"
+        )
+        assertThat(criterion.values).containsExactly("\"copy shop\"", "tea")
+    }
+
+    @Test
+    fun testQuotedPhraseWithHyphenAndNegation() {
+        val criterion = FtsCriterion("""tea "copy -shop" -milk""")
+        val selection = criterion.getSelection(false)
+        @Suppress("ktlint:standard:max-line-length")
+        assertThat(selection).isEqualTo(
+            "$KEY_ROWID IN (SELECT rowid FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?) AND " +
+                "$KEY_ROWID NOT IN (SELECT rowid FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?)"
+        )
+        assertThat(criterion.values).containsExactly("""tea "copy -shop"""", "milk")
+    }
+
+    @Test
     fun testNullOrBlankSelectionQuery() {
         val criterion = FtsCriterion("")
         assertThat(criterion.getSelection(false)).isEqualTo("1 = 1")
