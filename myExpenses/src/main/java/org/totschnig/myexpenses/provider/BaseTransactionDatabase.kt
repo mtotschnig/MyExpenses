@@ -1513,19 +1513,25 @@ abstract class BaseTransactionDatabase(
             """.trimIndent()
         )
 
-        // Self updating category id fires the update_fts trigger on transactions for every affected
-        // transaction.
+        // Refresh category paths without firing transaction-update triggers.
         execSQL(
             """
             CREATE TRIGGER update_categories_fts AFTER UPDATE OF label, parent_id ON $TABLE_CATEGORIES
             BEGIN
-                UPDATE $TABLE_TRANSACTIONS SET $KEY_CATID = $KEY_CATID WHERE $KEY_CATID IN (
-                    WITH RECURSIVE affected_cats(id) AS (
-                        SELECT new._id
-                        UNION ALL
-                        SELECT c._id FROM $TABLE_CATEGORIES c JOIN affected_cats ac ON c.parent_id = ac.id
+                UPDATE $TABLE_TRANSACTIONS_FTS SET category = (
+                    SELECT ${catPathForFTS("t")}
+                    FROM $TABLE_TRANSACTIONS t
+                    WHERE t.$KEY_ROWID = $TABLE_TRANSACTIONS_FTS.rowid
+                )
+                WHERE rowid IN (
+                    SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_CATID IN (
+                        WITH RECURSIVE affected_cats(id) AS (
+                            SELECT new._id
+                            UNION ALL
+                            SELECT c._id FROM $TABLE_CATEGORIES c JOIN affected_cats ac ON c.parent_id = ac.id
+                        )
+                        SELECT id FROM affected_cats
                     )
-                    SELECT id FROM affected_cats
                 );
             END;
             """.trimIndent()
