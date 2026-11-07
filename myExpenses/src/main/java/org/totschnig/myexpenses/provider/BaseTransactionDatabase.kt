@@ -1444,7 +1444,7 @@ abstract class BaseTransactionDatabase(
 
         execSQL(
             """
-            CREATE TRIGGER update_fts AFTER UPDATE ON $TABLE_TRANSACTIONS
+            CREATE TRIGGER update_fts AFTER UPDATE OF $KEY_COMMENT, $KEY_PAYEEID, $KEY_CATID, $KEY_REFERENCE_NUMBER ON $TABLE_TRANSACTIONS
             BEGIN
                 UPDATE $TABLE_TRANSACTIONS_FTS SET
                     comment = COALESCE(new.$KEY_COMMENT, ''),
