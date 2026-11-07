@@ -107,7 +107,7 @@ data class FtsCriterion(val searchString: String?) : SimpleCriterion<String>() {
         val (positiveQuery, negativeTokens) = parseTerms()
 
         val multiplier = when {
-            queryParts || (shouldApplyToSplitTransactions xor shouldApplyToArchive) -> 2
+            queryParts || shouldApplyToSplitTransactions xor shouldApplyToArchive -> 2
             shouldApplyToSplitTransactions && shouldApplyToArchive -> 3
             else -> 1
         }

@@ -648,7 +648,6 @@ fun FilterDialog(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ActionButton(
     hintText: String,
@@ -710,7 +709,7 @@ private fun Set<Criterion>.wrap(selectedComplex: Int = COMPLEX_AND) = when (size
 private fun Set<Criterion>.isSimple(selectedComplex: Int) = isEmpty() || (
     none { it is NotCriterion } && (
         (size == 1) || (
-            (selectedComplex == COMPLEX_AND) &&
+            selectedComplex == COMPLEX_AND &&
                 groupBy { it::class }.all { it.value.size == 1 }
             )
         )

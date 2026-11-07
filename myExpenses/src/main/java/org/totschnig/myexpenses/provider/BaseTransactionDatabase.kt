@@ -1,3 +1,5 @@
+@file:Suppress("standard:max-line-length")
+
 package org.totschnig.myexpenses.provider
 
 import android.content.ContentValues
@@ -547,12 +549,10 @@ abstract class BaseTransactionDatabase(
                 "primary key (template_id, instance_id));"
         )
         execSQL(
-            (
-                "INSERT OR IGNORE INTO planinstance_transaction " +
-                    "(template_id,instance_id,transaction_id)" +
-                    "SELECT " +
-                    "template_id,instance_id,transaction_id FROM planinstance_transaction_old"
-                )
+            "INSERT OR IGNORE INTO planinstance_transaction " +
+                "(template_id,instance_id,transaction_id)" +
+                "SELECT " +
+                "template_id,instance_id,transaction_id FROM planinstance_transaction_old"
         )
         execSQL("DROP TABLE planinstance_transaction_old")
     }
