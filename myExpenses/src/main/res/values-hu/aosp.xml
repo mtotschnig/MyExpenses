@@ -174,4 +174,5 @@
     <string name="empty">"Üres"</string>
     <string name="options">"Lehetőségek"</string>
     <string name="actions">"Műveletek"</string>
+    <string name="search_clear_desc">"Keresési kifejezés törlése"</string>
 </resources>

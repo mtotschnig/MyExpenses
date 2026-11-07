@@ -108,4 +108,5 @@
     <string name="empty">"Tyhjä"</string>
     <string name="options">"Asetukset"</string>
     <string name="actions">"Toiminnot"</string>
+    <string name="search_clear_desc">"Tyhjennä hakuteksti"</string>
 </resources>

@@ -172,4 +172,5 @@
     <string name="options">"Seçenekler"</string>
     <string name="actions">"Eylemler"</string>
     <string name="buttons">Düğmeler</string>
+    <string name="search_clear_desc">"Arama metnini temizle"</string>
 </resources>

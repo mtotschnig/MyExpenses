@@ -317,4 +317,7 @@
     <string name="options">Options</string>
     <!-- LibreOffice sw/messages.po JtzA4 -->
     <string name="actions">Actions</string>
+    <!-- UnifiedEmail: grep -r search_clear_desc |  sed 's/ msgid="[[:digit:]]*"//' | aosp_helper
+ -->
+    <string name="search_clear_desc">Clear search text</string>
 </resources>

@@ -69,9 +69,7 @@
         <error line="225" column="50" source="standard:wrapping" />
         <error line="247" column="13" source="standard:wrapping" />
         <error line="248" column="9" source="standard:wrapping" />
-        <error line="253" column="9" source="standard:class-signature" />
         <error line="254" column="40" source="standard:function-expression-body" />
-        <error line="258" column="42" source="standard:function-signature" />
         <error line="261" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/webdav/sync/WebDavBackendProvider.kt">
@@ -94,16 +92,11 @@
         <error line="212" column="89" source="standard:statement-wrapping" />
         <error line="260" column="16" source="standard:multiline-if-else" />
         <error line="268" column="27" source="standard:parameter-list-wrapping" />
-        <error line="268" column="27" source="standard:function-signature" />
         <error line="268" column="49" source="standard:parameter-list-wrapping" />
-        <error line="268" column="49" source="standard:function-signature" />
         <error line="269" column="32" source="standard:parameter-list-wrapping" />
-        <error line="269" column="32" source="standard:function-signature" />
         <error line="273" column="53" source="standard:multiline-if-else" />
         <error line="274" column="52" source="standard:function-expression-body" />
         <error line="287" column="16" source="standard:multiline-if-else" />
-        <error line="311" column="51" source="standard:function-signature" />
-        <error line="311" column="91" source="standard:function-signature" />
         <error line="311" column="100" source="standard:max-line-length" />
         <error line="316" column="101" source="standard:max-line-length" />
         <error line="338" column="26" source="standard:argument-list-wrapping" />
@@ -119,11 +112,6 @@
         <error line="349" column="74" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/webdav/sync/WebDavBackendProviderFactory.kt">
-        <error line="15" column="9" source="standard:function-signature" />
-        <error line="16" column="9" source="standard:function-signature" />
-        <error line="17" column="9" source="standard:function-signature" />
-        <error line="17" column="39" source="standard:function-signature" />
-        <error line="18" column="9" source="standard:function-signature" />
         <error line="21" column="1" source="standard:no-blank-line-before-rbrace" />
         <error line="22" column="1" source="standard:final-newline" />
     </file>
@@ -156,7 +144,6 @@
         <error line="201" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/webdav/sync/client/ClientCertMissingException.kt">
-        <error line="3" column="62" source="standard:class-signature" />
         <error line="4" column="80" source="standard:argument-list-wrapping" />
     </file>
     <file name="src/main/java/org/totschnig/webdav/sync/client/WebDavClient.kt">

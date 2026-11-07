@@ -107,4 +107,5 @@
     <string name="empty">"Tómt"</string>
     <string name="options">"Valkostir"</string>
     <string name="actions">"Aðgerðir"</string>
+    <string name="search_clear_desc">"Hreinsa leitartexta"</string>
 </resources>

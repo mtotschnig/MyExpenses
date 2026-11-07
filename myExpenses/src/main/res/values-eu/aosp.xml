@@ -170,4 +170,5 @@
     <string name="empty">"Hutsik"</string>
     <string name="options">"Aukerak"</string>
     <string name="actions">"Ekintzak"</string>
+    <string name="search_clear_desc">"Garbitu bilaketa-eremua"</string>
 </resources>

@@ -109,4 +109,5 @@
     <string name="empty">"Tom"</string>
     <string name="options">"Alternativer"</string>
     <string name="actions">"Handlinger"</string>
+    <string name="search_clear_desc">"Fjern søketekst"</string>
 </resources>

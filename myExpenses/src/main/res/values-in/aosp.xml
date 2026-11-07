@@ -168,4 +168,5 @@
     <string name="menu_merge">Gabungkan</string>
     <string name="buttons">Tombol</string>
     <string name="count">Jumlah</string>
+    <string name="search_clear_desc">"Hapus teks penelusuran"</string>
 </resources>

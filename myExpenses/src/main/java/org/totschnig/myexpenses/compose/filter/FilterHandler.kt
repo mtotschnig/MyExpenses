@@ -2,11 +2,18 @@ package org.totschnig.myexpenses.compose.filter
 
 import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -21,8 +28,10 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.core.os.BundleCompat
 import androidx.fragment.app.FragmentActivity
+import kotlin.reflect.KClass
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.PickCategoryContract
 import org.totschnig.myexpenses.activity.PickPayeeContract
@@ -43,6 +52,7 @@ import org.totschnig.myexpenses.provider.filter.CommentCriterion
 import org.totschnig.myexpenses.provider.filter.CrStatusCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.DateCriterion
+import org.totschnig.myexpenses.provider.filter.FtsCriterion
 import org.totschnig.myexpenses.provider.filter.MethodCriterion
 import org.totschnig.myexpenses.provider.filter.NotCriterion
 import org.totschnig.myexpenses.provider.filter.PayeeCriterion
@@ -50,7 +60,6 @@ import org.totschnig.myexpenses.provider.filter.SimpleCriterion
 import org.totschnig.myexpenses.provider.filter.TagCriterion
 import org.totschnig.myexpenses.provider.filter.TransferCriterion
 import org.totschnig.myexpenses.viewmodel.data.PageAccount
-import kotlin.reflect.KClass
 
 interface FilterHandlerScope {
     fun handleAmountEdit(amountCriterion: AmountCriterion?)
@@ -64,7 +73,9 @@ interface FilterHandlerScope {
     fun handleTagEdit(tagCriterion: TagCriterion?)
     fun handleTransferEdit(transferCriterion: TransferCriterion?)
     fun handleCommentEdit(commentCriterion: CommentCriterion?)
+    fun handleFtsEdit(ftsCriterion: FtsCriterion?)
 
+    @Suppress("CyclomaticComplexMethod")
     fun handleEdit(criterion: Criterion) {
         when (criterion) {
             is NotCriterion -> handleEdit(criterion.criterion)
@@ -75,6 +86,7 @@ interface FilterHandlerScope {
             is CommentCriterion -> handleCommentEdit(criterion)
             is CrStatusCriterion -> handleCrStatusEdit(criterion)
             is DateCriterion -> handleDateEdit(criterion)
+            is FtsCriterion -> handleFtsEdit(criterion)
             is MethodCriterion -> handleMethodEdit(criterion)
             is PayeeCriterion -> handlePayeeEdit(criterion)
             is TagCriterion -> handleTagEdit(criterion)
@@ -84,7 +96,7 @@ interface FilterHandlerScope {
     }
 
     fun handleEdit(clazz: KClass<out SimpleCriterion<*>>) {
-        when(clazz) {
+        when (clazz) {
             AccountCriterion::class -> handleAccountEdit(null)
             AmountCriterion::class -> handleAmountEdit(null)
             AssetCriterion::class -> handleAssetEdit(null)
@@ -92,6 +104,7 @@ interface FilterHandlerScope {
             CommentCriterion::class -> handleCommentEdit(null)
             CrStatusCriterion::class -> handleCrStatusEdit(null)
             DateCriterion::class -> handleDateEdit(null)
+            FtsCriterion::class -> handleFtsEdit(null)
             MethodCriterion::class -> handleMethodEdit(null)
             PayeeCriterion::class -> handlePayeeEdit(null)
             TagCriterion::class -> handleTagEdit(null)
@@ -122,13 +135,15 @@ fun FilterHandler(
     }
 
     var showCommentFilterPrompt by rememberSaveable { mutableStateOf<CommentCriterion?>(null) }
+    var showFtsFilterPrompt by rememberSaveable { mutableStateOf<FtsCriterion?>(null) }
 
     val activity = LocalActivity.current as FragmentActivity
 
     val supportFragmentManager = activity.supportFragmentManager
     DisposableEffect(onResult) {
         supportFragmentManager.setFragmentResultListener(
-            requestKey, activity
+            requestKey,
+            activity
         ) { _, result ->
             onResult(
                 currentEdit.value,
@@ -143,7 +158,7 @@ fun FilterHandler(
             supportFragmentManager.clearFragmentResultListener(requestKey)
         }
     }
-    val handler = object: FilterHandlerScope {
+    val handler = object : FilterHandlerScope {
 
         override fun handleEdit(criterion: Criterion) {
             currentEdit.value = criterion as? SimpleCriterion<*>
@@ -151,8 +166,10 @@ fun FilterHandler(
         }
 
         override fun handleAmountEdit(amountCriterion: AmountCriterion?) {
-            AmountFilterDialog.newInstance(requestKey,
-                account.currencyUnit, amountCriterion
+            AmountFilterDialog.newInstance(
+                requestKey,
+                account.currencyUnit,
+                amountCriterion
             ).show(activity.supportFragmentManager, "AMOUNT_FILTER")
         }
 
@@ -166,6 +183,10 @@ fun FilterHandler(
 
         override fun handleCommentEdit(commentCriterion: CommentCriterion?) {
             showCommentFilterPrompt = commentCriterion ?: CommentCriterion("")
+        }
+
+        override fun handleFtsEdit(ftsCriterion: FtsCriterion?) {
+            showFtsFilterPrompt = ftsCriterion ?: FtsCriterion("")
         }
 
         override fun handleCrStatusEdit(crStCriterion: CrStatusCriterion?) {
@@ -194,7 +215,8 @@ fun FilterHandler(
         override fun handleMethodEdit(methodCriterion: MethodCriterion?) {
             SelectMethodDialogFragment.newInstance(
                 requestKey,
-                account, methodCriterion
+                account,
+                methodCriterion
             ).show(activity.supportFragmentManager, "METHOD_FILTER")
         }
 
@@ -207,7 +229,7 @@ fun FilterHandler(
         }
 
         override fun handleTransferEdit(transferCriterion: TransferCriterion?) {
-            SelectTransferAccountDialogFragment.newInstance(requestKey,account, transferCriterion)
+            SelectTransferAccountDialogFragment.newInstance(requestKey, account, transferCriterion)
                 .show(activity.supportFragmentManager, "TRANSFER_FILTER")
         }
     }
@@ -224,7 +246,10 @@ fun FilterHandler(
             },
             confirmButton = {
                 Button(onClick = {
-                    onResult(currentEdit.value, CommentCriterion(search?.takeIf { it.isNotBlank() }))
+                    onResult(
+                        currentEdit.value,
+                        CommentCriterion(search?.takeIf { it.isNotBlank() })
+                    )
                     showCommentFilterPrompt = null
                 }) {
                     Text(stringResource(id = android.R.string.ok))
@@ -245,7 +270,7 @@ fun FilterHandler(
                     onValueChange = {
                         search = it
                     },
-                    label = { Text(text = stringResource(R.string.search_comment)) },
+                    label = { Text(text = stringResource(R.string.search_comment)) }
                 )
                 LaunchedEffect(Unit) {
                     focusRequester.requestFocus()
@@ -253,9 +278,77 @@ fun FilterHandler(
             }
         )
     }
+
+    showFtsFilterPrompt?.let { prompt ->
+        var search by rememberSaveable { mutableStateOf(prompt.searchString) }
+        val isMalformed = FtsCriterion.isMalformedFtsQuery(search ?: "")
+
+        AlertDialog(
+            onDismissRequest = {
+                showFtsFilterPrompt = null
+                onResult(currentEdit.value, null)
+            },
+            confirmButton = {
+                Button(
+                    enabled = !isMalformed,
+                    onClick = {
+                        onResult(
+                            currentEdit.value,
+                            FtsCriterion(search?.takeIf { it.isNotBlank() })
+                        )
+                        showFtsFilterPrompt = null
+                    }
+                ) {
+                    Text(stringResource(id = android.R.string.ok))
+                }
+            },
+            text = {
+                val focusRequester = remember { FocusRequester() }
+                val keyboardController = LocalSoftwareKeyboardController.current
+                Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                    OutlinedTextField(
+                        modifier = Modifier
+                            .focusRequester(focusRequester)
+                            .onFocusChanged {
+                                if (it.isFocused) {
+                                    keyboardController?.show()
+                                }
+                            },
+                        value = search ?: "",
+                        onValueChange = {
+                            search = it
+                        },
+                        isError = isMalformed,
+                        label = { Text(text = stringResource(R.string.search_full_text)) },
+                        supportingText = {
+                            Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                                if (isMalformed) {
+                                    Text(
+                                        text = stringResource(R.string.search_fts_error_malformed),
+                                        color = MaterialTheme.colorScheme.error
+                                    )
+                                }
+                                CompositionLocalProvider(
+                                    LocalContentColor provides
+                                        MaterialTheme.colorScheme.onSurfaceVariant
+                                ) {
+                                    Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                                        Text(text = stringResource(R.string.search_fts_help_and))
+                                        Text(text = stringResource(R.string.search_fts_help_not))
+                                        Text(text = stringResource(R.string.search_fts_help_or))
+                                        Text(text = stringResource(R.string.search_fts_help_phrase))
+                                        Text(text = stringResource(R.string.search_fts_help_prefix))
+                                        Text(text = stringResource(R.string.search_fts_help_column))
+                                    }
+                                }
+                            }
+                        }
+                    )
+                }
+                LaunchedEffect(Unit) {
+                    focusRequester.requestFocus()
+                }
+            }
+        )
+    }
 }
-
-
-
-
-

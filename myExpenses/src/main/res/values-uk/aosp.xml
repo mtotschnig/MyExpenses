@@ -175,4 +175,5 @@
     <string name="preferences_calendar_delete_message">Ви справді бажаєте видалити цей календар?</string>
     <string name="buttons">Кнопки</string>
     <string name="negation">Заперечення</string>
+    <string name="search_clear_desc">"Очистити пошуковий запит"</string>
 </resources>

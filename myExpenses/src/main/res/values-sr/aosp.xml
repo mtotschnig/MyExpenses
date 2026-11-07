@@ -85,4 +85,5 @@
     <string name="empty">"Празно"</string>
     <string name="options">"Опције"</string>
     <string name="actions">"Радње"</string>
+    <string name="search_clear_desc">"Обришите текст претраге"</string>
 </resources>

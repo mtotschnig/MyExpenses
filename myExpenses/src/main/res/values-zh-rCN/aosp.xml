@@ -170,4 +170,5 @@
     <string name="empty">"空"</string>
     <string name="options">"选项"</string>
     <string name="actions">"操作"</string>
+    <string name="search_clear_desc">"清除搜索文字"</string>
 </resources>

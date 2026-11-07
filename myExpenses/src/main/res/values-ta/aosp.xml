@@ -152,4 +152,5 @@
     <string name="empty">"காலி"</string>
     <string name="options">"விருப்பங்கள்"</string>
     <string name="actions">"செயல்கள்"</string>
+    <string name="search_clear_desc">"தேடல் உரையை அழி"</string>
 </resources>

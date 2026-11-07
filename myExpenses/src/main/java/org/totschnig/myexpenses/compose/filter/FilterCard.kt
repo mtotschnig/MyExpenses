@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.compose.filter
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,7 +13,6 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Icon
 import androidx.compose.material3.InputChip
 import androidx.compose.material3.SwipeToDismissBox
-import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
@@ -46,13 +44,12 @@ import org.totschnig.myexpenses.provider.filter.ComplexCriterion
 import org.totschnig.myexpenses.provider.filter.Criterion
 import org.totschnig.myexpenses.provider.filter.NotCriterion
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun FilterCard(
     whereFilter: Criterion,
     editFilter: ((Criterion) -> Unit)? = null,
     clearAllFilter: (() -> Unit)? = null,
-    clearFilter: ((Criterion) -> Unit)? = null,
+    clearFilter: ((Criterion) -> Unit)? = null
 ) {
     val scope = rememberCoroutineScope()
     if (clearAllFilter != null) {
@@ -93,12 +90,11 @@ fun FilterCard(
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun FilterCardImpl(
     whereFilter: Criterion,
     editFilter: ((Criterion) -> Unit)?,
-    clearFilter: ((Criterion) -> Unit)? = null,
+    clearFilter: ((Criterion) -> Unit)? = null
 ) {
     FlowRow(
         modifier = Modifier
@@ -117,7 +113,6 @@ private fun FilterCardImpl(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-
         if (whereFilter is ComplexCriterion) {
             val separatorDescription = stringResource(whereFilter.description)
             whereFilter.criteria.forEachIndexed { index, criterion ->
@@ -143,7 +138,7 @@ fun FilterItemImpl(
     criterion: Criterion,
     index: Int? = null,
     editFilter: ((Criterion) -> Unit)?,
-    clearFilter: ((Criterion) -> Unit)?,
+    clearFilter: ((Criterion) -> Unit)?
 ) {
     val contentDescription = criterion.contentDescription(LocalContext.current)
     InputChip(
@@ -172,7 +167,9 @@ fun FilterItemImpl(
                     contentDescription = null
                 )
             }
-        } else null
+        } else {
+            null
+        }
     )
 }
 
@@ -183,7 +180,7 @@ fun FilterCardPreview() {
         AndCriterion(
             setOf(
                 NotCriterion(CommentCriterion("search")),
-                CommentCriterion("search1"),
+                CommentCriterion("search1")
             )
         )
     )

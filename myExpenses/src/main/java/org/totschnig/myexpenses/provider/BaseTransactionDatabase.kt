@@ -1,3 +1,5 @@
+@file:Suppress("standard:max-line-length")
+
 package org.totschnig.myexpenses.provider
 
 import android.content.ContentValues
@@ -7,6 +9,8 @@ import android.os.Build
 import androidx.core.content.contentValuesOf
 import androidx.sqlite.db.SupportSQLiteDatabase
 import androidx.sqlite.db.SupportSQLiteOpenHelper
+import java.util.Currency
+import kotlin.math.pow
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Attribute
 import org.totschnig.myexpenses.db2.BankingAttribute
@@ -30,10 +34,8 @@ import org.totschnig.myexpenses.retrofit.ExchangeRateSource
 import org.totschnig.myexpenses.sync.json.TransactionChange
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import timber.log.Timber
-import java.util.Currency
-import kotlin.math.pow
 
-const val DATABASE_VERSION = 191
+const val DATABASE_VERSION = 192
 
 private const val RAISE_UPDATE_SEALED_DEBT = "SELECT RAISE (FAIL, 'attempt to update sealed debt');"
 private const val RAISE_INCONSISTENT_CATEGORY_HIERARCHY =
@@ -212,7 +214,7 @@ CREATE TABLE $TABLE_ACCOUNT_FLAGS (
 )
 """
 
-//the unique index on ($KEY_PAYEE_NAME, $KEY_IBAN) does not prevent duplicate names when iban is null
+// the unique index on ($KEY_PAYEE_NAME, $KEY_IBAN) does not prevent duplicate names when iban is null
 const val PAYEE_UNIQUE_INDEX = """
 CREATE UNIQUE INDEX payee_name ON $TABLE_PAYEES($KEY_PAYEE_NAME) WHERE $KEY_IBAN IS NULL;
 """
@@ -306,7 +308,7 @@ fun priceSort(alias: String? = null): String {
                 ELSE 2
             END,
             $prefix$KEY_SOURCE DESC
-""".trimIndent()
+    """.trimIndent()
 }
 
 const val TRANSACTIONS_ATTACHMENTS_CREATE = """
@@ -362,7 +364,7 @@ const val TRANSACTIONS_SEALED_INSERT_TRIGGER_CREATE =
  WHEN (SELECT $KEY_SEALED FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = new.$KEY_ACCOUNTID) = 1
  BEGIN $RAISE_UPDATE_SEALED_ACCOUNT END"""
 
-//we allow update of status
+// we allow update of status
 const val TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE =
     """CREATE TRIGGER sealed_account_transaction_update
  BEFORE UPDATE OF $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, $KEY_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID, $KEY_PAYEEID, $KEY_TRANSFER_PEER, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_PARENTID, $KEY_REFERENCE_NUMBER, $KEY_UUID, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_DEBT_ID, $KEY_CR_STATUS
@@ -370,7 +372,7 @@ const val TRANSACTIONS_SEALED_UPDATE_TRIGGER_CREATE =
  WHEN (SELECT max($KEY_SEALED) FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID IN (new.$KEY_ACCOUNTID,old.$KEY_ACCOUNTID)) = 1
  BEGIN $RAISE_UPDATE_SEALED_ACCOUNT END"""
 
-//we allow update of cr_status and status
+// we allow update of cr_status and status
 const val TRANSFER_SEALED_UPDATE_TRIGGER_CREATE =
     """CREATE TRIGGER sealed_account_tranfer_update
  BEFORE UPDATE OF $KEY_COMMENT, $KEY_DATE, $KEY_VALUE_DATE, $KEY_AMOUNT, $KEY_CATID, $KEY_ACCOUNTID, $KEY_PAYEEID, $KEY_TRANSFER_PEER, $KEY_TRANSFER_ACCOUNT, $KEY_METHODID, $KEY_PARENTID, $KEY_REFERENCE_NUMBER, $KEY_UUID, $KEY_ORIGINAL_AMOUNT, $KEY_ORIGINAL_CURRENCY, $KEY_DEBT_ID
@@ -427,7 +429,7 @@ fun SupportSQLiteDatabase.createOrRefreshTransactionLinkedTableTriggers() {
 
 fun SupportSQLiteDatabase.linkedTableTrigger(
     operation: String,
-    table: String,
+    table: String
 ) {
     val reference = when (operation) {
         "INSERT" -> "new"
@@ -465,7 +467,10 @@ fun shouldWriteChangeTemplate(reference: String, table: String = TABLE_TRANSACTI
 
 private fun referenceForTable(reference: String, table: String, column: String) = when (table) {
     TABLE_TRANSACTIONS -> "$reference.$column"
-    TABLE_TRANSACTIONS_TAGS, TABLE_TRANSACTION_ATTACHMENTS, TABLE_EQUIVALENT_AMOUNTS -> "(SELECT $column FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = $reference.$KEY_TRANSACTIONID)"
+
+    TABLE_TRANSACTIONS_TAGS, TABLE_TRANSACTION_ATTACHMENTS, TABLE_EQUIVALENT_AMOUNTS ->
+        "(SELECT $column FROM $TABLE_TRANSACTIONS WHERE $KEY_ROWID = $reference.$KEY_TRANSACTIONID)"
+
     else -> throw IllegalArgumentException()
 }
 
@@ -486,7 +491,6 @@ fun parentUuidExpression(reference: String, table: String = TABLE_TRANSACTIONS) 
             WHERE $KEY_ROWID = ${referenceForTable(reference, table, KEY_PARENTID)}
         )
        END"""
-
 
 const val UPDATE_ACCOUNT_SYNC_NULL_TRIGGER =
     "CREATE TRIGGER update_account_sync_null AFTER UPDATE ON $TABLE_ACCOUNTS WHEN new.$KEY_SYNC_ACCOUNT_NAME IS NULL AND old.$KEY_SYNC_ACCOUNT_NAME IS NOT NULL BEGIN UPDATE $TABLE_ACCOUNTS SET $KEY_SYNC_SEQUENCE_LOCAL = 0 WHERE $KEY_ROWID = old.$KEY_ROWID; DELETE FROM $TABLE_CHANGES WHERE $KEY_ACCOUNTID = old.$KEY_ROWID; END;"
@@ -517,7 +521,7 @@ const val TRANSFER_PEER_TRIGGER =
 
 abstract class BaseTransactionDatabase(
     val context: Context,
-    val prefHandler: PrefHandler,
+    val prefHandler: PrefHandler
 ) :
     SupportSQLiteOpenHelper.Callback(DATABASE_VERSION) {
 
@@ -536,25 +540,27 @@ abstract class BaseTransactionDatabase(
 
     fun SupportSQLiteDatabase.upgradeTo118() {
         execSQL("ALTER TABLE planinstance_transaction RENAME to planinstance_transaction_old")
-        //make sure we have only one instance per template
+        // make sure we have only one instance per template
         execSQL(
             "CREATE TABLE planinstance_transaction " +
-                    "(template_id integer references templates(_id) ON DELETE CASCADE, " +
-                    "instance_id integer, " +
-                    "transaction_id integer unique references transactions(_id) ON DELETE CASCADE," +
-                    "primary key (template_id, instance_id));"
+                "(template_id integer references templates(_id) ON DELETE CASCADE, " +
+                "instance_id integer, " +
+                "transaction_id integer unique references transactions(_id) ON DELETE CASCADE," +
+                "primary key (template_id, instance_id));"
         )
         execSQL(
-            ("INSERT OR IGNORE INTO planinstance_transaction " +
-                    "(template_id,instance_id,transaction_id)" +
-                    "SELECT " +
-                    "template_id,instance_id,transaction_id FROM planinstance_transaction_old")
+            "INSERT OR IGNORE INTO planinstance_transaction " +
+                "(template_id,instance_id,transaction_id)" +
+                "SELECT " +
+                "template_id,instance_id,transaction_id FROM planinstance_transaction_old"
         )
         execSQL("DROP TABLE planinstance_transaction_old")
     }
 
     fun SupportSQLiteDatabase.upgradeTo119() {
-        execSQL("ALTER TABLE transactions add column debt_id integer references debts (_id) ON DELETE SET NULL")
+        execSQL(
+            "ALTER TABLE transactions add column debt_id integer references debts (_id) ON DELETE SET NULL"
+        )
         execSQL(
             "CREATE TABLE debts (_id integer primary key autoincrement, payee_id integer references payee(_id) ON DELETE CASCADE, date datetime not null, label text not null, amount integer, currency text not null, description text, sealed boolean default 0);"
         )
@@ -567,7 +573,7 @@ abstract class BaseTransactionDatabase(
     }
 
     fun SupportSQLiteDatabase.upgradeTo122() {
-        //repair transactions corrupted due to bug https://github.com/mtotschnig/MyExpenses/issues/921
+        // repair transactions corrupted due to bug https://github.com/mtotschnig/MyExpenses/issues/921
         repairWithSealedAccountsAndDebts {
             execSQL(
                 "update transactions set transfer_account = (select account_id from transactions peer where _id = transactions.transfer_peer);"
@@ -596,24 +602,27 @@ abstract class BaseTransactionDatabase(
         execSQL(
             "CREATE TABLE categories (_id integer primary key autoincrement, label text not null, label_normalized text, parent_id integer references categories(_id) ON DELETE CASCADE, usages integer default 0, last_used datetime, color integer, icon string, UNIQUE (label,parent_id));"
         )
-        execSQL("INSERT INTO categories (_id, label, label_normalized, parent_id, usages, last_used, color, icon) SELECT _id, label, label_normalized, parent_id, usages, last_used, color, icon FROM categories_old")
+        execSQL(
+            "INSERT INTO categories (_id, label, label_normalized, parent_id, usages, last_used, color, icon) SELECT _id, label, label_normalized, parent_id, usages, last_used, color, icon FROM categories_old"
+        )
         execSQL("DROP TABLE categories_old")
         createOrRefreshCategoryMainCategoryUniqueLabel()
         createOrRefreshCategoryHierarchyTrigger()
     }
 
     fun SupportSQLiteDatabase.upgradeTo126() {
-        //trigger caused a hanging query, because it did not check if parent_id was updated
+        // trigger caused a hanging query, because it did not check if parent_id was updated
         createOrRefreshCategoryHierarchyTrigger()
-        //subcategories should not have a color
+        // subcategories should not have a color
         update(
             "categories",
             ContentValues(1).apply {
                 putNull("color")
             },
-            "parent_id IS NOT NULL", null
+            "parent_id IS NOT NULL",
+            null
         )
-        //main categories need a color
+        // main categories need a color
         query(
             "categories",
             arrayOf("_id"),
@@ -639,7 +648,8 @@ abstract class BaseTransactionDatabase(
     fun SupportSQLiteDatabase.upgradeTo128() {
         execSQL("UPDATE categories SET icon = replace(icon,'_','-')")
         upgradeIcons(
-            this, mapOf(
+            this,
+            mapOf(
                 "apple-alt" to "apple-whole",
                 "balance-scale" to "scale-balanced",
                 "birthday-cake" to "cake-candles",
@@ -688,11 +698,21 @@ abstract class BaseTransactionDatabase(
     }
 
     fun SupportSQLiteDatabase.upgradeTo129() {
-        execSQL("CREATE TABLE budgets_neu (_id integer primary key autoincrement, title text not null default '', description text not null, grouping text not null check (grouping in ('NONE','DAY','WEEK','MONTH','YEAR')), account_id integer references accounts(_id) ON DELETE CASCADE, currency text, start datetime, `end` datetime)")
-        execSQL("CREATE TABLE budget_allocations (budget_id integer not null references budgets(_id) ON DELETE CASCADE, cat_id integer not null references categories(_id) ON DELETE CASCADE, year integer, second integer, budget integer, rollOverPrevious integer, rollOverNext integer, oneTime boolean default 0, primary key (budget_id,cat_id,year,second))")
-        execSQL("INSERT INTO budgets_neu (_id, title, description, grouping, account_id, currency, start, `end`) SELECT _id, title, coalesce(description,''), grouping, account_id, currency, start, `end` FROM budgets")
-        execSQL("INSERT INTO budget_allocations (budget_id, cat_id, budget) SELECT _id, 0, budget FROM budgets")
-        execSQL("INSERT INTO budget_allocations (budget_id, cat_id, budget) SELECT budget_id, cat_id, budget FROM budget_categories")
+        execSQL(
+            "CREATE TABLE budgets_neu (_id integer primary key autoincrement, title text not null default '', description text not null, grouping text not null check (grouping in ('NONE','DAY','WEEK','MONTH','YEAR')), account_id integer references accounts(_id) ON DELETE CASCADE, currency text, start datetime, `end` datetime)"
+        )
+        execSQL(
+            "CREATE TABLE budget_allocations (budget_id integer not null references budgets(_id) ON DELETE CASCADE, cat_id integer not null references categories(_id) ON DELETE CASCADE, year integer, second integer, budget integer, rollOverPrevious integer, rollOverNext integer, oneTime boolean default 0, primary key (budget_id,cat_id,year,second))"
+        )
+        execSQL(
+            "INSERT INTO budgets_neu (_id, title, description, grouping, account_id, currency, start, `end`) SELECT _id, title, coalesce(description,''), grouping, account_id, currency, start, `end` FROM budgets"
+        )
+        execSQL(
+            "INSERT INTO budget_allocations (budget_id, cat_id, budget) SELECT _id, 0, budget FROM budgets"
+        )
+        execSQL(
+            "INSERT INTO budget_allocations (budget_id, cat_id, budget) SELECT budget_id, cat_id, budget FROM budget_categories"
+        )
         execSQL("DROP TABLE budgets")
         execSQL("DROP TABLE budget_categories")
         execSQL("ALTER TABLE budgets_neu RENAME to budgets")
@@ -737,22 +757,36 @@ abstract class BaseTransactionDatabase(
     }
 
     fun SupportSQLiteDatabase.upgradeTo145() {
-        execSQL("CREATE TABLE banks (_id integer primary key autoincrement, blz text not null, bic text not null, name text not null, user_id text not null, unique(blz, user_id))")
-        execSQL("ALTER TABLE accounts add column bank_id integer references banks(_id) ON DELETE SET NULL")
+        execSQL(
+            "CREATE TABLE banks (_id integer primary key autoincrement, blz text not null, bic text not null, name text not null, user_id text not null, unique(blz, user_id))"
+        )
+        execSQL(
+            "ALTER TABLE accounts add column bank_id integer references banks(_id) ON DELETE SET NULL"
+        )
         execSQL("ALTER TABLE payee RENAME to payee_old")
         execSQL(
             "CREATE TABLE payee (_id integer primary key autoincrement, name text not null, iban text, bic text, name_normalized text, unique(name, iban))"
         )
-        execSQL("INSERT INTO payee (_id, name, name_normalized) SELECT _id, name, name_normalized FROM payee_old")
+        execSQL(
+            "INSERT INTO payee (_id, name, name_normalized) SELECT _id, name, name_normalized FROM payee_old"
+        )
         execSQL("DROP TABLE payee_old")
-        execSQL("CREATE TABLE attributes (_id integer primary key autoincrement,attribute_name text not null,context text not null, unique (attribute_name, context))")
-        Attribute.initDatabaseInternal(
-            this, FinTsAttribute::class.java,
-            "attributes", "attribute_name", "context"
+        execSQL(
+            "CREATE TABLE attributes (_id integer primary key autoincrement,attribute_name text not null,context text not null, unique (attribute_name, context))"
         )
         Attribute.initDatabaseInternal(
-            this, BankingAttribute::class.java,
-            "attributes", "attribute_name", "context"
+            this,
+            FinTsAttribute::class.java,
+            "attributes",
+            "attribute_name",
+            "context"
+        )
+        Attribute.initDatabaseInternal(
+            this,
+            BankingAttribute::class.java,
+            "attributes",
+            "attribute_name",
+            "context"
         )
         execSQL(
             "CREATE TABLE transaction_attributes (transaction_id integer references transactions(_id) ON DELETE CASCADE,attribute_id integer references attributes(_id) ON DELETE CASCADE,value text not null,primary key (transaction_id, attribute_id))"
@@ -763,10 +797,14 @@ abstract class BaseTransactionDatabase(
     }
 
     fun SupportSQLiteDatabase.upgradeTo148() {
-        execSQL("CREATE TABLE attachments (_id integer primary key autoincrement, uri text not null unique, uuid text not null unique)")
-        execSQL("CREATE TABLE transaction_attachments (transaction_id integer references transactions(_id) ON DELETE CASCADE, attachment_id integer references attachments(_id), primary key (transaction_id, attachment_id))")
+        execSQL(
+            "CREATE TABLE attachments (_id integer primary key autoincrement, uri text not null unique, uuid text not null unique)"
+        )
+        execSQL(
+            "CREATE TABLE transaction_attachments (transaction_id integer references transactions(_id) ON DELETE CASCADE, attachment_id integer references attachments(_id), primary key (transaction_id, attachment_id))"
+        )
         execSQL("DROP TRIGGER IF EXISTS cache_stale_uri")
-        //insert existing attachments from transaction table into attachments table
+        // insert existing attachments from transaction table into attachments table
         val attachmentValues = ContentValues(2)
         val joinValues = ContentValues(2)
         query(
@@ -800,32 +838,32 @@ abstract class BaseTransactionDatabase(
             execSQL("ALTER TABLE transactions RENAME to transactions_old")
             execSQL(
                 "CREATE TABLE transactions(" +
-                        "_id integer primary key autoincrement, " +
-                        "comment text, " +
-                        "date datetime not null, " +
-                        "value_date datetime not null, " +
-                        "amount integer not null, " +
-                        "cat_id integer references categories(_id), " +
-                        "account_id integer not null references accounts(_id) ON DELETE CASCADE, " +
-                        "payee_id integer references payee(_id), " +
-                        "transfer_peer integer references transactions(_id), " +
-                        "transfer_account integer references accounts(_id)," +
-                        "method_id integer references paymentmethods(_id)," +
-                        "parent_id integer references transactions(_id) ON DELETE CASCADE, " +
-                        "status integer default 0, " +
-                        "cr_status text not null check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID')) default 'RECONCILED', " +
-                        "number text, " +
-                        "uuid text, " +
-                        "original_amount integer, " +
-                        "original_currency text, " +
-                        "equivalent_amount integer, " +
-                        "debt_id integer references debts(_id) ON DELETE SET NULL)"
+                    "_id integer primary key autoincrement, " +
+                    "comment text, " +
+                    "date datetime not null, " +
+                    "value_date datetime not null, " +
+                    "amount integer not null, " +
+                    "cat_id integer references categories(_id), " +
+                    "account_id integer not null references accounts(_id) ON DELETE CASCADE, " +
+                    "payee_id integer references payee(_id), " +
+                    "transfer_peer integer references transactions(_id), " +
+                    "transfer_account integer references accounts(_id)," +
+                    "method_id integer references paymentmethods(_id)," +
+                    "parent_id integer references transactions(_id) ON DELETE CASCADE, " +
+                    "status integer default 0, " +
+                    "cr_status text not null check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID')) default 'RECONCILED', " +
+                    "number text, " +
+                    "uuid text, " +
+                    "original_amount integer, " +
+                    "original_currency text, " +
+                    "equivalent_amount integer, " +
+                    "debt_id integer references debts(_id) ON DELETE SET NULL)"
             )
             execSQL(
                 "INSERT INTO transactions (" +
-                        "_id,comment,date,value_date,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status,number,uuid,original_amount,original_currency,equivalent_amount,debt_id) " +
-                        "SELECT " +
-                        "_id,comment,date,coalesce(value_date,date),amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status,number,uuid,original_amount,original_currency,equivalent_amount,debt_id FROM transactions_old"
+                    "_id,comment,date,value_date,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status,number,uuid,original_amount,original_currency,equivalent_amount,debt_id) " +
+                    "SELECT " +
+                    "_id,comment,date,coalesce(value_date,date),amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status,number,uuid,original_amount,original_currency,equivalent_amount,debt_id FROM transactions_old"
             )
             execSQL("DROP TABLE transactions_old")
             createOrRefreshTransactionUsageTriggers()
@@ -837,31 +875,31 @@ abstract class BaseTransactionDatabase(
             execSQL("ALTER TABLE changes RENAME to changes_old")
             execSQL(
                 "CREATE TABLE changes (" +
-                        "account_id integer not null references accounts(_id) ON DELETE CASCADE," +
-                        "type text not null check (type in ('created','updated','deleted','unsplit','metadata','link')), " +
-                        "sync_sequence_local integer, " +
-                        "uuid text not null, " +
-                        "timestamp datetime DEFAULT (strftime('%s','now')), " +
-                        "parent_uuid text, " +
-                        "comment text, " +
-                        "date datetime, " +
-                        "value_date datetime, " +
-                        "amount integer, " +
-                        "original_amount integer, " +
-                        "original_currency text, " +
-                        "equivalent_amount integer, " +
-                        "cat_id integer references categories(_id) ON DELETE SET NULL, " +
-                        "payee_id integer references payee(_id) ON DELETE SET NULL, " +
-                        "transfer_account integer references accounts(_id) ON DELETE SET NULL," +
-                        "method_id integer references paymentmethods(_id) ON DELETE SET NULL," +
-                        "cr_status text check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID'))," +
-                        "number text)"
+                    "account_id integer not null references accounts(_id) ON DELETE CASCADE," +
+                    "type text not null check (type in ('created','updated','deleted','unsplit','metadata','link')), " +
+                    "sync_sequence_local integer, " +
+                    "uuid text not null, " +
+                    "timestamp datetime DEFAULT (strftime('%s','now')), " +
+                    "parent_uuid text, " +
+                    "comment text, " +
+                    "date datetime, " +
+                    "value_date datetime, " +
+                    "amount integer, " +
+                    "original_amount integer, " +
+                    "original_currency text, " +
+                    "equivalent_amount integer, " +
+                    "cat_id integer references categories(_id) ON DELETE SET NULL, " +
+                    "payee_id integer references payee(_id) ON DELETE SET NULL, " +
+                    "transfer_account integer references accounts(_id) ON DELETE SET NULL," +
+                    "method_id integer references paymentmethods(_id) ON DELETE SET NULL," +
+                    "cr_status text check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID'))," +
+                    "number text)"
             )
             execSQL(
                 "INSERT INTO changes (" +
-                        "account_id,type,sync_sequence_local,uuid,timestamp,parent_uuid,comment,date,value_date,amount,original_amount,original_currency,equivalent_amount,cat_id,payee_id,transfer_account,method_id,cr_status,number) " +
-                        "SELECT " +
-                        "account_id,type,sync_sequence_local,uuid,timestamp,parent_uuid,comment,date,value_date,amount,original_amount,original_currency,equivalent_amount,cat_id,payee_id,transfer_account,method_id,cr_status,number FROM changes_old"
+                    "account_id,type,sync_sequence_local,uuid,timestamp,parent_uuid,comment,date,value_date,amount,original_amount,original_currency,equivalent_amount,cat_id,payee_id,transfer_account,method_id,cr_status,number) " +
+                    "SELECT " +
+                    "account_id,type,sync_sequence_local,uuid,timestamp,parent_uuid,comment,date,value_date,amount,original_amount,original_currency,equivalent_amount,cat_id,payee_id,transfer_account,method_id,cr_status,number FROM changes_old"
             )
             execSQL("DROP TABLE changes_old")
         } else {
@@ -901,10 +939,12 @@ abstract class BaseTransactionDatabase(
     }
 
     fun SupportSQLiteDatabase.upgradeTo156() {
-        //repair split transactions corrupted due to bug https://github.com/mtotschnig/MyExpenses/issues/1333
+        // repair split transactions corrupted due to bug https://github.com/mtotschnig/MyExpenses/issues/1333
         repairWithSealedAccountsAndDebts {
             val affected =
-                query("select _id,account_id from transactions where cat_id = 0 and exists(select 1 from transactions parts where parts.parent_id = transactions._id and parts.account_id != transactions.account_id)").use { cursor ->
+                query(
+                    "select _id,account_id from transactions where cat_id = 0 and exists(select 1 from transactions parts where parts.parent_id = transactions._id and parts.account_id != transactions.account_id)"
+                ).use { cursor ->
                     cursor.asSequence.map { it.getLong(0) to it.getLong(1) }.toList()
                 }
             if (affected.isNotEmpty()) {
@@ -919,7 +959,9 @@ abstract class BaseTransactionDatabase(
                         )
                     )
                 }
-                CrashHandler.report(Exception("Found and repaired ${affected.size} corrupted split transactions"))
+                CrashHandler.report(
+                    Exception("Found and repaired ${affected.size} corrupted split transactions")
+                )
             }
         }
     }
@@ -927,20 +969,26 @@ abstract class BaseTransactionDatabase(
     fun SupportSQLiteDatabase.upgradeTo157() {
         repairWithSealedAccountsAndDebts {
             prefHandler.defaultTransferCategory?.let {
-                execSQL("UPDATE transactions SET cat_id = $it WHERE cat_id IS NULL AND transfer_peer is not null")
+                execSQL(
+                    "UPDATE transactions SET cat_id = $it WHERE cat_id IS NULL AND transfer_peer is not null"
+                )
             }
         }
     }
 
     fun SupportSQLiteDatabase.upgradeTo158() {
         prefHandler.defaultTransferCategory?.let {
-            execSQL("UPDATE categories SET uuid = '$DEFAULT_TRANSFER_CATEGORY_UUID' WHERE _id = $it")
+            execSQL(
+                "UPDATE categories SET uuid = '$DEFAULT_TRANSFER_CATEGORY_UUID' WHERE _id = $it"
+            )
         }
     }
 
     fun SupportSQLiteDatabase.upgradeTo159() {
         prefHandler.defaultTransferCategory?.let {
-            execSQL("UPDATE templates SET cat_id = $it WHERE cat_id IS NULL AND transfer_account is not null")
+            execSQL(
+                "UPDATE templates SET cat_id = $it WHERE cat_id IS NULL AND transfer_account is not null"
+            )
         }
     }
 
@@ -952,7 +1000,7 @@ abstract class BaseTransactionDatabase(
 
     fun SupportSQLiteDatabase.upgradeTo161() {
         execSQL("DROP VIEW IF EXISTS $VIEW_CHANGES_EXTENDED")
-        //add new change type
+        // add new change type
         execSQL("ALTER TABLE changes RENAME to changes_old")
         execSQL(
             "CREATE TABLE changes (account_id integer not null references accounts(_id) ON DELETE CASCADE,type text not null check (type in ('created','updated','deleted','unsplit','metadata','link','tags','attachments')), sync_sequence_local integer, uuid text not null, timestamp datetime DEFAULT (strftime('%s','now')), parent_uuid text, comment text, date datetime, value_date datetime, amount integer, original_amount integer, original_currency text, equivalent_amount integer, cat_id integer references categories(_id) ON DELETE SET NULL, payee_id integer references payee(_id) ON DELETE SET NULL, transfer_account integer references accounts(_id) ON DELETE SET NULL,method_id integer references paymentmethods(_id) ON DELETE SET NULL,cr_status text check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID')),number text)"
@@ -971,10 +1019,13 @@ abstract class BaseTransactionDatabase(
     }
 
     fun SupportSQLiteDatabase.upgradeTo164() {
-        safeInsert("attributes", ContentValues().apply {
-            put("attribute_name", BankingAttribute.BLZ.name)
-            put("context", BankingAttribute.BLZ.context)
-        })
+        safeInsert(
+            "attributes",
+            ContentValues().apply {
+                put("attribute_name", BankingAttribute.BLZ.name)
+                put("context", BankingAttribute.BLZ.context)
+            }
+        )
     }
 
     fun SupportSQLiteDatabase.upgradeTo165() {
@@ -983,28 +1034,34 @@ abstract class BaseTransactionDatabase(
     }
 
     fun SupportSQLiteDatabase.upgradeTo167() {
-        safeInsert("attributes", ContentValues().apply {
-            put("attribute_name", BankingAttribute.NAME.name)
-            put("context", BankingAttribute.NAME.context)
-        })
-        safeInsert("attributes", ContentValues().apply {
-            put("attribute_name", BankingAttribute.BIC.name)
-            put("context", BankingAttribute.BIC.context)
-        })
+        safeInsert(
+            "attributes",
+            ContentValues().apply {
+                put("attribute_name", BankingAttribute.NAME.name)
+                put("context", BankingAttribute.NAME.context)
+            }
+        )
+        safeInsert(
+            "attributes",
+            ContentValues().apply {
+                put("attribute_name", BankingAttribute.BIC.name)
+                put("context", BankingAttribute.BIC.context)
+            }
+        )
     }
 
     fun SupportSQLiteDatabase.upgradeTo168() {
         execSQL("DROP VIEW IF EXISTS $VIEW_CHANGES_EXTENDED")
-        //add new change type
+        // add new change type
         execSQL("ALTER TABLE changes RENAME to changes_old")
         execSQL(
             "CREATE TABLE changes (account_id integer not null references accounts(_id) ON DELETE CASCADE,type text not null check (type in ('created','updated','deleted','unsplit','metadata','link','tags','attachments','unarchive')), sync_sequence_local integer, uuid text not null, timestamp datetime DEFAULT (strftime('%s','now')), parent_uuid text, comment text, date datetime, value_date datetime, amount integer, original_amount integer, original_currency text, equivalent_amount integer, cat_id integer references categories(_id) ON DELETE SET NULL, payee_id integer references payee(_id) ON DELETE SET NULL, transfer_account integer references accounts(_id) ON DELETE SET NULL,method_id integer references paymentmethods(_id) ON DELETE SET NULL,cr_status text check (cr_status in ('UNRECONCILED','CLEARED','RECONCILED','VOID')), status integer default 0, number text)"
         )
         execSQL(
             "INSERT INTO changes (" +
-                    "account_id,type,sync_sequence_local,uuid,timestamp,parent_uuid,comment,date,value_date,amount,original_amount,original_currency,equivalent_amount,cat_id,payee_id,transfer_account,method_id,cr_status,status,number) " +
-                    "SELECT " +
-                    "account_id,type,sync_sequence_local,uuid,timestamp,parent_uuid,comment,date,value_date,amount,original_amount,original_currency,equivalent_amount,cat_id,payee_id,transfer_account,method_id,cr_status,0,number FROM changes_old"
+                "account_id,type,sync_sequence_local,uuid,timestamp,parent_uuid,comment,date,value_date,amount,original_amount,original_currency,equivalent_amount,cat_id,payee_id,transfer_account,method_id,cr_status,status,number) " +
+                "SELECT " +
+                "account_id,type,sync_sequence_local,uuid,timestamp,parent_uuid,comment,date,value_date,amount,original_amount,original_currency,equivalent_amount,cat_id,payee_id,transfer_account,method_id,cr_status,0,number FROM changes_old"
         )
         execSQL("DROP TABLE changes_old")
         execSQL("CREATE VIEW " + VIEW_CHANGES_EXTENDED + buildViewDefinitionExtended(TABLE_CHANGES))
@@ -1051,19 +1108,25 @@ abstract class BaseTransactionDatabase(
     }
 
     fun SupportSQLiteDatabase.upgradeTo173() {
-        //create new tables
-        execSQL("CREATE TABLE prices (commodity text NOT NULL, currency text NOT NULL references currency(code) ON DELETE CASCADE, date datetime NOT NULL, source text NOT NULL, type text default 'unknown', value real not NULL, primary key(commodity, currency, date, source, type));")
-        execSQL("CREATE TABLE equivalent_amounts (transaction_id integer not null references transactions(_id) ON DELETE CASCADE, currency text not null references currency (code) ON DELETE CASCADE, equivalent_amount integer not null, primary key (transaction_id, currency));")
-        //ADD column dynamic
+        // create new tables
+        execSQL(
+            "CREATE TABLE prices (commodity text NOT NULL, currency text NOT NULL references currency(code) ON DELETE CASCADE, date datetime NOT NULL, source text NOT NULL, type text default 'unknown', value real not NULL, primary key(commodity, currency, date, source, type));"
+        )
+        execSQL(
+            "CREATE TABLE equivalent_amounts (transaction_id integer not null references transactions(_id) ON DELETE CASCADE, currency text not null references currency (code) ON DELETE CASCADE, equivalent_amount integer not null, primary key (transaction_id, currency));"
+        )
+        // ADD column dynamic
         execSQL("ALTER TABLE accounts add column dynamic boolean default 0;")
-        //set dynamic flag for accounts where we have equivalent amounts
-        execSQL("UPDATE accounts set dynamic = 1 where exists (SELECT 1 from transactions where account_id = accounts._id and equivalent_amount is not null)")
-        //Migrate equivalent amounts from transactions table to new join table
+        // set dynamic flag for accounts where we have equivalent amounts
+        execSQL(
+            "UPDATE accounts set dynamic = 1 where exists (SELECT 1 from transactions where account_id = accounts._id and equivalent_amount is not null)"
+        )
+        // Migrate equivalent amounts from transactions table to new join table
         execSQL(
             "INSERT INTO equivalent_amounts (transaction_id, currency, equivalent_amount) SELECT _id, '${context.injector.currencyContext().homeCurrencyString}', equivalent_amount FROM transactions WHERE equivalent_amount IS NOT NULL;"
         )
         createOrRefreshEquivalentAmountTriggers()
-        //DROP column equivalent_amount
+        // DROP column equivalent_amount
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             execSQL("ALTER TABLE transactions RENAME TO transactions_old")
             execSQL(
@@ -1071,9 +1134,9 @@ abstract class BaseTransactionDatabase(
             )
             execSQL(
                 "INSERT INTO transactions (" +
-                        "_id,comment,date,value_date,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status,number,uuid,original_amount,original_currency,debt_id) " +
-                        "SELECT " +
-                        "_id,comment,date,value_date,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status,number,uuid,original_amount,original_currency,debt_id FROM transactions_old"
+                    "_id,comment,date,value_date,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status,number,uuid,original_amount,original_currency,debt_id) " +
+                    "SELECT " +
+                    "_id,comment,date,value_date,amount,cat_id,account_id,payee_id,transfer_peer,transfer_account,method_id,parent_id,status,cr_status,number,uuid,original_amount,original_currency,debt_id FROM transactions_old"
             )
             execSQL("DROP TABLE transactions_old")
             createOrRefreshTransactionUsageTriggers()
@@ -1105,7 +1168,8 @@ abstract class BaseTransactionDatabase(
             if (prefFractionDigits != -1) return prefFractionDigits
 
             val javaCurrency = runCatching { Currency.getInstance(code) }.getOrNull()
-            return javaCurrency?.defaultFractionDigits?.takeIf { it != -1 } ?: DEFAULT_FRACTION_DIGITS
+            return javaCurrency?.defaultFractionDigits?.takeIf { it != -1 }
+                ?: DEFAULT_FRACTION_DIGITS
         }
 
         query("select distinct commodity, currency from prices").use { cursor ->
@@ -1116,44 +1180,58 @@ abstract class BaseTransactionDatabase(
                     getFractionDigits(currency) - getFractionDigits(commodity)
                 if (delta != 0) {
                     val coefficient = 10.0.pow(delta)
-                    execSQL("update prices set value = value * $coefficient where commodity = '$commodity' and currency = '$currency'")
+                    execSQL(
+                        "update prices set value = value * $coefficient where commodity = '$commodity' and currency = '$currency'"
+                    )
                 }
             }
         }
     }
 
     fun SupportSQLiteDatabase.upgradeTo177() {
-        execSQL("CREATE TABLE account_types (_id integer primary key autoincrement, label text not null, isAsset boolean not null, supportsReconciliation boolean not null)")
+        execSQL(
+            "CREATE TABLE account_types (_id integer primary key autoincrement, label text not null, isAsset boolean not null, supportsReconciliation boolean not null)"
+        )
         val accountTypes = insertDefaultAccountTypesForMigration()
         val cash = accountTypes[AccountType.CASH.name]!!
         val bank = accountTypes[AccountType.BANK.name]!!
         val ccard = accountTypes[AccountType.CCARD.name]!!
         val asset = accountTypes[AccountType.ASSET.name]!!
         val liability = accountTypes[AccountType.LIABILITY.name]!!
-        val migrateTypeCaseStatement = "CASE type WHEN 'CASH' THEN $cash WHEN 'BANK' THEN $bank WHEN 'CCARD' THEN $ccard WHEN 'ASSET' THEN $asset WHEN 'LIABILITY' THEN $liability ELSE $cash END"
-
+        val migrateTypeCaseStatement =
+            "CASE type WHEN 'CASH' THEN $cash WHEN 'BANK' THEN $bank WHEN 'CCARD' THEN $ccard WHEN 'ASSET' THEN $asset WHEN 'LIABILITY' THEN $liability ELSE $cash END"
 
         execSQL("ALTER TABLE accounts RENAME to accounts_old")
-        execSQL("CREATE TABLE accounts (_id integer primary key autoincrement, label text not null, opening_balance integer, description text, currency text not null  references currency(code), type integer references account_types(_id), color integer default -3355444, grouping text not null check (grouping in ('NONE','DAY','WEEK','MONTH','YEAR')) default 'NONE', usages integer default 0,last_used datetime, sort_key integer, sync_account_name text, sync_sequence_local integer default 0,exclude_from_totals boolean default 0, uuid text, sort_by text default 'date', sort_direction text not null check (sort_direction in ('ASC','DESC')) default 'DESC',criterion integer,hidden boolean default 0,sealed boolean default 0,dynamic boolean default 0,bank_id integer references banks(_id) ON DELETE SET NULL)")
-        execSQL("""INSERT INTO accounts (_id, label, opening_balance, description, currency, type, color, grouping, usages, last_used, sort_key, sync_account_name, sync_sequence_local, exclude_from_totals, uuid, sort_by, sort_direction, criterion, hidden, sealed, dynamic, bank_id)
+        execSQL(
+            "CREATE TABLE accounts (_id integer primary key autoincrement, label text not null, opening_balance integer, description text, currency text not null  references currency(code), type integer references account_types(_id), color integer default -3355444, grouping text not null check (grouping in ('NONE','DAY','WEEK','MONTH','YEAR')) default 'NONE', usages integer default 0,last_used datetime, sort_key integer, sync_account_name text, sync_sequence_local integer default 0,exclude_from_totals boolean default 0, uuid text, sort_by text default 'date', sort_direction text not null check (sort_direction in ('ASC','DESC')) default 'DESC',criterion integer,hidden boolean default 0,sealed boolean default 0,dynamic boolean default 0,bank_id integer references banks(_id) ON DELETE SET NULL)"
+        )
+        execSQL(
+            """INSERT INTO accounts (_id, label, opening_balance, description, currency, type, color, grouping, usages, last_used, sort_key, sync_account_name, sync_sequence_local, exclude_from_totals, uuid, sort_by, sort_direction, criterion, hidden, sealed, dynamic, bank_id)
             SELECT _id, label, opening_balance, description, currency, $migrateTypeCaseStatement, color, grouping, usages, last_used, sort_key, sync_account_name, sync_sequence_local, exclude_from_totals, uuid, sort_by, sort_direction, criterion, hidden, sealed, dynamic, bank_id FROM accounts_old;
-        """)
+        """
+        )
         execSQL("DROP TABLE accounts_old")
         execSQL("CREATE UNIQUE INDEX accounts_uuid ON accounts(uuid)")
         createOrRefreshAccountTriggers()
         createOrRefreshAccountMetadataTrigger()
 
         execSQL("ALTER TABLE accounttype_paymentmethod RENAME to accounttype_paymentmethod_old")
-        execSQL("CREATE TABLE accounttype_paymentmethod (type integer references account_types(_id), method_id integer references paymentmethods(_id), primary key (type,method_id))")
-        execSQL("""INSERT INTO accounttype_paymentmethod (type, method_id)
+        execSQL(
+            "CREATE TABLE accounttype_paymentmethod (type integer references account_types(_id), method_id integer references paymentmethods(_id), primary key (type,method_id))"
+        )
+        execSQL(
+            """INSERT INTO accounttype_paymentmethod (type, method_id)
             SELECT $migrateTypeCaseStatement, method_id FROM accounttype_paymentmethod_old;
-        """)
+        """
+        )
         execSQL("DROP TABLE accounttype_paymentmethod_old")
     }
 
     fun SupportSQLiteDatabase.upgradeTo178() {
         repairWithSealedAccountsAndDebts {
-            execSQL("update transactions set payee_id = null where parent_id in (select _id from transactions where cat_id = 0 and status != 4)")
+            execSQL(
+                "update transactions set payee_id = null where parent_id in (select _id from transactions where cat_id = 0 and status != 4)"
+            )
         }
     }
 
@@ -1165,10 +1243,14 @@ abstract class BaseTransactionDatabase(
         execSQL(DEFAULT_FLAG_TRIGGER)
         val inactive = accountFlags[PREDEFINED_NAME_INACTIVE]
         execSQL("ALTER TABLE accounts RENAME to accounts_old")
-        execSQL("CREATE TABLE accounts (_id integer primary key autoincrement, label text not null, opening_balance integer, description text, currency text not null  references currency(code), type integer references account_types(_id), color integer default -3355444, grouping text not null check (grouping in ('NONE','DAY','WEEK','MONTH','YEAR')) default 'NONE', usages integer default 0,last_used datetime, sort_key integer, sync_account_name text, sync_sequence_local integer default 0,exclude_from_totals boolean default 0, uuid text, sort_by text default 'date', sort_direction text not null check (sort_direction in ('ASC','DESC')) default 'DESC',criterion integer,flag integer references account_flags(_id) NOT NULL default 0,sealed boolean default 0,dynamic boolean default 0,bank_id integer references banks(_id) ON DELETE SET NULL)")
-        execSQL("""INSERT INTO accounts (_id, label, opening_balance, description, currency, type, color, grouping, usages, last_used, sort_key, sync_account_name, sync_sequence_local, exclude_from_totals, uuid, sort_by, sort_direction, criterion, flag, sealed, dynamic, bank_id)
+        execSQL(
+            "CREATE TABLE accounts (_id integer primary key autoincrement, label text not null, opening_balance integer, description text, currency text not null  references currency(code), type integer references account_types(_id), color integer default -3355444, grouping text not null check (grouping in ('NONE','DAY','WEEK','MONTH','YEAR')) default 'NONE', usages integer default 0,last_used datetime, sort_key integer, sync_account_name text, sync_sequence_local integer default 0,exclude_from_totals boolean default 0, uuid text, sort_by text default 'date', sort_direction text not null check (sort_direction in ('ASC','DESC')) default 'DESC',criterion integer,flag integer references account_flags(_id) NOT NULL default 0,sealed boolean default 0,dynamic boolean default 0,bank_id integer references banks(_id) ON DELETE SET NULL)"
+        )
+        execSQL(
+            """INSERT INTO accounts (_id, label, opening_balance, description, currency, type, color, grouping, usages, last_used, sort_key, sync_account_name, sync_sequence_local, exclude_from_totals, uuid, sort_by, sort_direction, criterion, flag, sealed, dynamic, bank_id)
             SELECT _id, label, opening_balance, description, currency, type, color, grouping, usages, last_used, sort_key, sync_account_name, sync_sequence_local, exclude_from_totals, uuid, sort_by, sort_direction, criterion, case when hidden then $inactive else 0 end, sealed, dynamic, bank_id FROM accounts_old;
-        """)
+        """
+        )
         execSQL("DROP TABLE accounts_old")
         execSQL("CREATE UNIQUE INDEX accounts_uuid ON accounts(uuid)")
         createOrRefreshAccountTriggers()
@@ -1178,7 +1260,10 @@ abstract class BaseTransactionDatabase(
     fun SupportSQLiteDatabase.upgradeTo180() {
         execSQL("ALTER TABLE account_types add column type_sort_key integer not null default 0")
         AccountType.initialAccountTypes.filter { it.sortKey != 0 }.forEach {
-            execSQL("UPDATE account_types set type_sort_key = ? WHERE label = ?", arrayOf(it.sortKey.toString(), it.name))
+            execSQL(
+                "UPDATE account_types set type_sort_key = ? WHERE label = ?",
+                arrayOf(it.sortKey.toString(), it.name)
+            )
         }
     }
 
@@ -1190,14 +1275,19 @@ abstract class BaseTransactionDatabase(
     }
 
     fun SupportSQLiteDatabase.upgradeTo183() {
-        safeInsert("attributes", ContentValues().apply {
-            put("attribute_name", BankingAttribute.GESCHAEFTS_VORFALL.name)
-            put("context", BankingAttribute.GESCHAEFTS_VORFALL.context)
-        })
+        safeInsert(
+            "attributes",
+            ContentValues().apply {
+                put("attribute_name", BankingAttribute.GESCHAEFTS_VORFALL.name)
+                put("context", BankingAttribute.GESCHAEFTS_VORFALL.context)
+            }
+        )
     }
 
     fun SupportSQLiteDatabase.upgradeTo185() {
-        execSQL("ALTER TABLE accounts ADD COLUMN balance_type text not null check (balance_type in ('CURRENT','TOTAL','CLEARED','RECONCILED','DELTA')) default 'CURRENT'")
+        execSQL(
+            "ALTER TABLE accounts ADD COLUMN balance_type text not null check (balance_type in ('CURRENT','TOTAL','CLEARED','RECONCILED','DELTA')) default 'CURRENT'"
+        )
     }
 
     fun SupportSQLiteDatabase.upgradeTo186() {
@@ -1211,11 +1301,16 @@ abstract class BaseTransactionDatabase(
         // 1. Add is_portfolio flag to accounts
         execSQL("ALTER TABLE $TABLE_ACCOUNTS ADD COLUMN $KEY_IS_PORTFOLIO boolean default 0")
         // 2. Add parent_id to accounts for hierarchy (Portfolio -> Asset)
-        execSQL("ALTER TABLE $TABLE_ACCOUNTS ADD COLUMN $KEY_PARENTID integer references $TABLE_ACCOUNTS($KEY_ROWID) ON DELETE CASCADE")
+        execSQL(
+            "ALTER TABLE $TABLE_ACCOUNTS ADD COLUMN $KEY_PARENTID integer references $TABLE_ACCOUNTS($KEY_ROWID) ON DELETE CASCADE"
+        )
     }
 
     fun SupportSQLiteDatabase.upgradeTo189() {
-        query(table = TABLE_CURRENCIES, columns = arrayOf(KEY_CODE, KEY_SYMBOL, KEY_FRACTION_DIGITS)).use { cursor ->
+        query(
+            table = TABLE_CURRENCIES,
+            columns = arrayOf(KEY_CODE, KEY_SYMBOL, KEY_FRACTION_DIGITS)
+        ).use { cursor ->
             cursor.asSequence.forEach {
                 val code = it.getString(KEY_CODE)
                 val dbSymbol = it.getStringOrNull(KEY_SYMBOL)
@@ -1243,7 +1338,10 @@ abstract class BaseTransactionDatabase(
         val values = ContentValues().apply {
             put(KEY_COMMODITY_TYPE, CommodityType.COMMODITY.name)
         }
-        update(TABLE_CURRENCIES, values, "$KEY_CODE IN (?, ?, ?, ?)",
+        update(
+            TABLE_CURRENCIES,
+            values,
+            "$KEY_CODE IN (?, ?, ?, ?)",
             CurrencyEnum.PRECIOUS_METALS.toTypedArray()
         )
     }
@@ -1261,9 +1359,201 @@ abstract class BaseTransactionDatabase(
                     val values = ContentValues(1).apply {
                         put(KEY_FRACTION_DIGITS, it)
                     }
-                    update(TABLE_CURRENCIES, values, "$KEY_CODE = ? AND $KEY_FRACTION_DIGITS IS NULL", arrayOf(code))
+                    update(
+                        TABLE_CURRENCIES,
+                        values,
+                        "$KEY_CODE = ? AND $KEY_FRACTION_DIGITS IS NULL",
+                        arrayOf(code)
+                    )
                 }
             }
+        }
+    }
+
+    fun SupportSQLiteDatabase.createOrRefreshFts() {
+        if (!createFtsTable()) return
+        dropFtsTriggers()
+        createFtsTriggers()
+    }
+
+    private fun SupportSQLiteDatabase.createFtsTable(): Boolean {
+        val created = runCatching {
+            execSQL(
+                """
+                CREATE VIRTUAL TABLE IF NOT EXISTS $TABLE_TRANSACTIONS_FTS USING fts4(
+                    comment,
+                    payee,
+                    category,
+                    tag,
+                    ref,
+                    tokenize=unicode61
+                );
+                """.trimIndent()
+            )
+            Timber.i("Set up FTS4")
+            true
+        }.getOrDefault(false)
+
+        if (!created) {
+            Timber.w(
+                "FTS table creation skipped: FTS module not supported in current SQLite environment"
+            )
+        }
+        return created
+    }
+
+    private fun SupportSQLiteDatabase.dropFtsTriggers() {
+        execSQL("DROP TRIGGER IF EXISTS insert_fts")
+        execSQL("DROP TRIGGER IF EXISTS update_fts")
+        execSQL("DROP TRIGGER IF EXISTS delete_fts")
+        execSQL("DROP TRIGGER IF EXISTS insert_transactions_tags_fts")
+        execSQL("DROP TRIGGER IF EXISTS delete_transactions_tags_fts")
+        execSQL("DROP TRIGGER IF EXISTS update_tags_fts")
+        execSQL("DROP TRIGGER IF EXISTS update_payee_fts")
+        execSQL("DROP TRIGGER IF EXISTS update_categories_fts")
+    }
+
+    private fun SupportSQLiteDatabase.createFtsTriggers() {
+        createFtsTransactionTriggers()
+        createFtsTagTriggers()
+        createFtsEntityTriggers()
+    }
+
+    fun catPathForFTS(reference: String) = """COALESCE((
+    WITH RECURSIVE cat_path(id, label, parent_id) AS (
+        SELECT $KEY_ROWID, $KEY_LABEL, $KEY_PARENTID FROM $TABLE_CATEGORIES WHERE $KEY_ROWID = $reference.$KEY_CATID AND $KEY_ROWID != $SPLIT_CATID
+        UNION ALL
+        SELECT c.$KEY_ROWID, c.$KEY_LABEL, c.$KEY_PARENTID FROM $TABLE_CATEGORIES c JOIN cat_path cp ON c.$KEY_ROWID = cp.parent_id
+    ) SELECT GROUP_CONCAT(label, ' ') FROM cat_path), '')
+    """.trimIndent()
+
+    private fun SupportSQLiteDatabase.createFtsTransactionTriggers() {
+        execSQL(
+            """
+            CREATE TRIGGER insert_fts AFTER INSERT ON $TABLE_TRANSACTIONS
+            BEGIN
+                INSERT INTO $TABLE_TRANSACTIONS_FTS(rowid, comment, payee, category, ref)
+                SELECT new.$KEY_ROWID,
+                       COALESCE(new.$KEY_COMMENT, ''),
+                       COALESCE((SELECT name FROM $TABLE_PAYEES WHERE _id = new.$KEY_PAYEEID), ''),
+                       ${catPathForFTS("new")},
+                       COALESCE(new.$KEY_REFERENCE_NUMBER, '');
+            END;
+            """.trimIndent()
+        )
+
+        execSQL(
+            """
+            CREATE TRIGGER update_fts AFTER UPDATE OF $KEY_COMMENT, $KEY_PAYEEID, $KEY_CATID, $KEY_REFERENCE_NUMBER ON $TABLE_TRANSACTIONS
+            BEGIN
+                UPDATE $TABLE_TRANSACTIONS_FTS SET
+                    comment = COALESCE(new.$KEY_COMMENT, ''),
+                    payee = COALESCE((SELECT name FROM $TABLE_PAYEES WHERE _id = new.$KEY_PAYEEID), ''),
+                    category = ${catPathForFTS("new")},
+                    ref = COALESCE(new.$KEY_REFERENCE_NUMBER, '')
+                WHERE rowid = new.$KEY_ROWID;
+            END;
+            """.trimIndent()
+        )
+
+        execSQL(
+            """
+            CREATE TRIGGER delete_fts AFTER DELETE ON $TABLE_TRANSACTIONS
+            BEGIN
+                DELETE FROM $TABLE_TRANSACTIONS_FTS WHERE rowid = old.$KEY_ROWID;
+            END;
+            """.trimIndent()
+        )
+    }
+
+    private fun SupportSQLiteDatabase.createFtsTagTriggers() {
+        execSQL(
+            """
+            CREATE TRIGGER insert_transactions_tags_fts AFTER INSERT ON $TABLE_TRANSACTIONS_TAGS
+            BEGIN
+                UPDATE $TABLE_TRANSACTIONS_FTS SET
+                    tag = COALESCE((SELECT GROUP_CONCAT(tg.label, ' ') FROM $TABLE_TRANSACTIONS_TAGS tt JOIN $TABLE_TAGS tg ON tt.tag_id = tg._id WHERE tt.transaction_id = new.transaction_id), '')
+                WHERE rowid = new.transaction_id;
+            END;
+            """.trimIndent()
+        )
+
+        execSQL(
+            """
+            CREATE TRIGGER delete_transactions_tags_fts AFTER DELETE ON $TABLE_TRANSACTIONS_TAGS
+            BEGIN
+                UPDATE $TABLE_TRANSACTIONS_FTS SET
+                    tag = COALESCE((SELECT GROUP_CONCAT(tg.label, ' ') FROM $TABLE_TRANSACTIONS_TAGS tt JOIN $TABLE_TAGS tg ON tt.tag_id = tg._id WHERE tt.transaction_id = old.transaction_id), '')
+                WHERE rowid = old.transaction_id;
+            END;
+            """.trimIndent()
+        )
+
+        execSQL(
+            """
+            CREATE TRIGGER update_tags_fts AFTER UPDATE OF label ON $TABLE_TAGS
+            BEGIN
+                UPDATE $TABLE_TRANSACTIONS_FTS SET
+                    tag = COALESCE((SELECT GROUP_CONCAT(tg.label, ' ') FROM $TABLE_TRANSACTIONS_TAGS tt JOIN $TABLE_TAGS tg ON tt.tag_id = tg._id WHERE tt.transaction_id = $TABLE_TRANSACTIONS_FTS.rowid), '')
+                WHERE rowid IN (SELECT transaction_id FROM $TABLE_TRANSACTIONS_TAGS WHERE tag_id = new._id);
+            END;
+            """.trimIndent()
+        )
+    }
+
+    private fun SupportSQLiteDatabase.createFtsEntityTriggers() {
+        execSQL(
+            """
+            CREATE TRIGGER update_payee_fts AFTER UPDATE OF name ON $TABLE_PAYEES
+            BEGIN
+                UPDATE $TABLE_TRANSACTIONS_FTS SET
+                    payee = COALESCE(new.name, '')
+                WHERE rowid IN (SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_PAYEEID = new._id);
+            END;
+            """.trimIndent()
+        )
+
+        // Refresh category paths without firing transaction-update triggers.
+        execSQL(
+            """
+            CREATE TRIGGER update_categories_fts AFTER UPDATE OF label, parent_id ON $TABLE_CATEGORIES
+            BEGIN
+                UPDATE $TABLE_TRANSACTIONS_FTS SET category = (
+                    SELECT ${catPathForFTS("t")}
+                    FROM $TABLE_TRANSACTIONS t
+                    WHERE t.$KEY_ROWID = $TABLE_TRANSACTIONS_FTS.rowid
+                )
+                WHERE rowid IN (
+                    SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_CATID IN (
+                        WITH RECURSIVE affected_cats(id) AS (
+                            SELECT new._id
+                            UNION ALL
+                            SELECT c._id FROM $TABLE_CATEGORIES c JOIN affected_cats ac ON c.parent_id = ac.id
+                        )
+                        SELECT id FROM affected_cats
+                    )
+                );
+            END;
+            """.trimIndent()
+        )
+    }
+
+    fun SupportSQLiteDatabase.upgradeTo192() {
+        createOrRefreshFts()
+        runCatching {
+            execSQL(
+                """
+                INSERT INTO $TABLE_TRANSACTIONS_FTS(rowid, comment, payee, category, tag, ref)
+                SELECT t.$KEY_ROWID,
+                       COALESCE(t.$KEY_COMMENT, ''),
+                       COALESCE(p.$KEY_PAYEE_NAME, ''),
+                        ${catPathForFTS("t")},
+                       COALESCE((SELECT GROUP_CONCAT(tg.$KEY_LABEL, ' ') FROM $TABLE_TRANSACTIONS_TAGS tt JOIN $TABLE_TAGS tg ON tt.$KEY_TAGID = tg.$KEY_ROWID WHERE tt.$KEY_TRANSACTIONID = t.$KEY_ROWID), ''),
+                       COALESCE(t.$KEY_REFERENCE_NUMBER, '')
+                FROM $TABLE_TRANSACTIONS t
+                LEFT JOIN $TABLE_PAYEES p ON t.$KEY_PAYEEID = p._id;
+                """.trimIndent()
+            )
         }
     }
 
@@ -1287,7 +1577,6 @@ abstract class BaseTransactionDatabase(
         execSQL(UPDATE_ACCOUNT_EXCHANGE_RATE_TRIGGER)
     }
 
-
     override fun onCreate(db: SupportSQLiteDatabase) {
         prefHandler.putInt(PrefKey.FIRST_INSTALL_DB_SCHEMA_VERSION, DATABASE_VERSION)
     }
@@ -1307,7 +1596,7 @@ abstract class BaseTransactionDatabase(
 
     private fun SupportSQLiteDatabase.migrateCurrency(
         oldCurrency: String,
-        newCurrency: CurrencyEnum,
+        newCurrency: CurrencyEnum
     ) {
         if (query(
                 "accounts",
@@ -1326,10 +1615,15 @@ abstract class BaseTransactionDatabase(
         } else if (delete("currency", "code = ?", arrayOf(oldCurrency)) == 1) {
             Timber.d("Currency %s deleted", oldCurrency)
         }
-        //if new currency is already defined, error is logged
-        if (insert("currency", SQLiteDatabase.CONFLICT_NONE, ContentValues().apply {
-                put("code", newCurrency.name)
-            }) != -1L) {
+        // if new currency is already defined, error is logged
+        if (insert(
+                "currency",
+                SQLiteDatabase.CONFLICT_NONE,
+                ContentValues().apply {
+                    put("code", newCurrency.name)
+                }
+            ) != -1L
+        ) {
             Timber.d("Currency %s inserted", newCurrency.name)
         }
     }
@@ -1403,13 +1697,16 @@ abstract class BaseTransactionDatabase(
                 cte: String,
                 aggregateExpression: String,
                 associationTable: String,
-                associated: Pair<String, String>? = null,
-            ): String {
-                return "$cte as (SELECT $KEY_TRANSACTIONID, $aggregateExpression FROM $associationTable " +
-                        (associated?.let { "LEFT JOIN ${it.first} ON ${it.second} = ${it.first}.$KEY_ROWID" }
-                            ?: "") +
-                        " GROUP BY $KEY_TRANSACTIONID)"
-            }
+                associated: Pair<String, String>? = null
+            ): String =
+                "$cte as (SELECT $KEY_TRANSACTIONID, $aggregateExpression FROM $associationTable " +
+                    (
+                        associated?.let {
+                            "LEFT JOIN ${it.first} ON ${it.second} = ${it.first}.$KEY_ROWID"
+                        }
+                            ?: ""
+                        ) +
+                    " GROUP BY $KEY_TRANSACTIONID)"
             append(",")
             append(
                 associationCTE(
@@ -1429,11 +1726,15 @@ abstract class BaseTransactionDatabase(
                 )
             )
         }
-        append(" SELECT $tableName.*, $TABLE_PAYEES.$KEY_SHORT_NAME, $TABLE_PAYEES.$KEY_PAYEE_NAME, ")
+        append(
+            " SELECT $tableName.*, $TABLE_PAYEES.$KEY_SHORT_NAME, $TABLE_PAYEES.$KEY_PAYEE_NAME, "
+        )
         append("$TABLE_METHODS.$KEY_LABEL AS $KEY_METHOD_LABEL, ")
         append("$TABLE_METHODS.$KEY_ICON AS $KEY_METHOD_ICON")
         if (tableName != TABLE_CHANGES) {
-            append(", Tree.$KEY_PATH, Tree.$KEY_ICON, Tree.$KEY_TYPE, $KEY_COLOR, $KEY_CURRENCY, $KEY_SEALED, $KEY_EXCLUDE_FROM_TOTALS, $KEY_DYNAMIC, $KEY_IS_PORTFOLIO")
+            append(
+                ", Tree.$KEY_PATH, Tree.$KEY_ICON, Tree.$KEY_TYPE, $KEY_COLOR, $KEY_CURRENCY, $KEY_SEALED, $KEY_EXCLUDE_FROM_TOTALS, $KEY_DYNAMIC, $KEY_IS_PORTFOLIO"
+            )
             append(", $TABLE_ACCOUNTS.$KEY_TYPE AS $KEY_ACCOUNT_TYPE")
             append(", $TABLE_ACCOUNTS.$KEY_LABEL AS $KEY_ACCOUNT_LABEL")
             append(", $TABLE_ACCOUNTS.$KEY_FLAG AS $KEY_FLAG")
@@ -1452,15 +1753,20 @@ abstract class BaseTransactionDatabase(
             append(" LEFT JOIN Tree ON $KEY_CATID = Tree.$KEY_ROWID")
         }
         if (tableName == TABLE_TRANSACTIONS) {
-            append(" LEFT JOIN $TABLE_PLAN_INSTANCE_STATUS ON $tableName.$KEY_ROWID = $TABLE_PLAN_INSTANCE_STATUS.$KEY_TRANSACTIONID")
+            append(
+                " LEFT JOIN $TABLE_PLAN_INSTANCE_STATUS ON $tableName.$KEY_ROWID = $TABLE_PLAN_INSTANCE_STATUS.$KEY_TRANSACTIONID"
+            )
             append(" LEFT JOIN cte_tags ON cte_tags.$KEY_TRANSACTIONID = $tableName.$KEY_ROWID")
-            append(" LEFT JOIN cte_attachments ON cte_attachments.$KEY_TRANSACTIONID = $tableName.$KEY_ROWID")
+            append(
+                " LEFT JOIN cte_attachments ON cte_attachments.$KEY_TRANSACTIONID = $tableName.$KEY_ROWID"
+            )
         }
     }
 
     fun insertDefaultTransferCategory(db: SupportSQLiteDatabase, label: String) {
         prefHandler.defaultTransferCategory = db.insert(
-            TABLE_CATEGORIES, SQLiteDatabase.CONFLICT_NONE,
+            TABLE_CATEGORIES,
+            SQLiteDatabase.CONFLICT_NONE,
             ContentValues(3).apply {
                 put(KEY_LABEL, label)
                 put(KEY_TYPE, 0)
@@ -1471,77 +1777,85 @@ abstract class BaseTransactionDatabase(
     }
 
     fun SupportSQLiteDatabase.insertNullRows() {
-        //rows that allow us to record changes where payee or method gets set to null
-        insert(TABLE_PAYEES, SQLiteDatabase.CONFLICT_NONE, ContentValues().apply {
-            put(KEY_ROWID, NULL_ROW_ID)
-            put(KEY_PAYEE_NAME, NULL_CHANGE_INDICATOR)
-        })
-        insert(TABLE_METHODS, SQLiteDatabase.CONFLICT_NONE, ContentValues().apply {
-            put(KEY_ROWID, NULL_ROW_ID)
-            put(KEY_LABEL, NULL_CHANGE_INDICATOR)
-        })
+        // rows that allow us to record changes where payee or method gets set to null
+        insert(
+            TABLE_PAYEES,
+            SQLiteDatabase.CONFLICT_NONE,
+            ContentValues().apply {
+                put(KEY_ROWID, NULL_ROW_ID)
+                put(KEY_PAYEE_NAME, NULL_CHANGE_INDICATOR)
+            }
+        )
+        insert(
+            TABLE_METHODS,
+            SQLiteDatabase.CONFLICT_NONE,
+            ContentValues().apply {
+                put(KEY_ROWID, NULL_ROW_ID)
+                put(KEY_LABEL, NULL_CHANGE_INDICATOR)
+            }
+        )
     }
 
     fun SupportSQLiteDatabase.insertDefaultAccountTypes(): Map<String, Long> =
         AccountType.initialAccountTypes.associate {
             it.name to
-                    insert(
-                        TABLE_ACCOUNT_TYPES,
-                        SQLiteDatabase.CONFLICT_NONE,
-                        it.asContentValues
-                    )
+                insert(
+                    TABLE_ACCOUNT_TYPES,
+                    SQLiteDatabase.CONFLICT_NONE,
+                    it.asContentValues
+                )
         }
 
     fun SupportSQLiteDatabase.insertDefaultAccountTypesForMigration() =
         AccountType.initialAccountTypes.associate {
             it.name to
-                    insert(
-                        "account_types",
-                        SQLiteDatabase.CONFLICT_NONE,
-                        contentValuesOf(
-                            KEY_LABEL to it.name,
-                            KEY_IS_ASSET to it.isAsset,
-                            KEY_SUPPORTS_RECONCILIATION to it.supportsReconciliation
-                        )
+                insert(
+                    "account_types",
+                    SQLiteDatabase.CONFLICT_NONE,
+                    contentValuesOf(
+                        KEY_LABEL to it.name,
+                        KEY_IS_ASSET to it.isAsset,
+                        KEY_SUPPORTS_RECONCILIATION to it.supportsReconciliation
                     )
+                )
         }
 
     fun SupportSQLiteDatabase.insertDefaultAccountFlags() =
         AccountFlag.initialFlags.associate {
             it.label to
-                    insert(
-                        TABLE_ACCOUNT_FLAGS,
-                        SQLiteDatabase.CONFLICT_NONE,
-                        it.asContentValues
-                    )
+                insert(
+                    TABLE_ACCOUNT_FLAGS,
+                    SQLiteDatabase.CONFLICT_NONE,
+                    it.asContentValues
+                )
         }
 
     fun SupportSQLiteDatabase.insertDefaultAccountFlagsForMigration() =
         AccountFlag.initialFlags.associate {
             it.label to
-                    insert(
-                        "account_flags",
-                        SQLiteDatabase.CONFLICT_NONE,
-                        contentValuesOf(
-                            KEY_FLAG_LABEL to it.label,
-                            KEY_FLAG_SORT_KEY to it.sortKey,
-                            KEY_FLAG_ICON to it.icon,
-                            KEY_VISIBLE to it.isVisible
-                        ).apply {
-                            if (it.label == "_DEFAULT_") {
-                                put(KEY_ROWID, DEFAULT_FLAG_ID)
-                            }
+                insert(
+                    "account_flags",
+                    SQLiteDatabase.CONFLICT_NONE,
+                    contentValuesOf(
+                        KEY_FLAG_LABEL to it.label,
+                        KEY_FLAG_SORT_KEY to it.sortKey,
+                        KEY_FLAG_ICON to it.icon,
+                        KEY_VISIBLE to it.isVisible
+                    ).apply {
+                        if (it.label == "_DEFAULT_") {
+                            put(KEY_ROWID, DEFAULT_FLAG_ID)
                         }
-                    )
+                    }
+                )
         }
-
 
     fun SupportSQLiteDatabase.insertDefaultAccountTypesAndMethods(): Map<String, Long> {
         val accountTypes = insertDefaultAccountTypes()
         val bank = accountTypes[AccountType.BANK.name]!!
         for (pm in PreDefinedPaymentMethod.entries) {
             val id = insert(
-                TABLE_METHODS, SQLiteDatabase.CONFLICT_NONE,
+                TABLE_METHODS,
+                SQLiteDatabase.CONFLICT_NONE,
                 ContentValues().apply {
                     put(KEY_LABEL, pm.name)
                     put(KEY_TYPE, pm.paymentType)
@@ -1569,9 +1883,12 @@ abstract class BaseTransactionDatabase(
                 ).use { it.moveToFirst() }
             ) {
                 prefHandler.defaultTransferCategory = null
-                CrashHandler.report(IllegalArgumentException("Default transfer category $transfer was stale and has been set to null."))
+                CrashHandler.report(
+                    IllegalArgumentException(
+                        "Default transfer category $transfer was stale and has been set to null."
+                    )
+                )
             }
         }
     }
 }
-

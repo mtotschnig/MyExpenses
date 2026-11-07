@@ -162,4 +162,5 @@
     <string name="empty">"ว่าง"</string>
     <string name="options">"ตัวเลือก"</string>
     <string name="actions">"การกระทำ"</string>
+    <string name="search_clear_desc">"ล้างข้อความค้นหา"</string>
 </resources>

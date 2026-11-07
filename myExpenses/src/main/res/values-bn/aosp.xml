@@ -169,4 +169,5 @@
     <string name="at_end">শেষ</string>
     <string name="count">গণনা</string>
     <string name="empty">খালি</string>
+    <string name="search_clear_desc">"অনুসন্ধান পাঠ্য সাফ করুন"</string>
 </resources>

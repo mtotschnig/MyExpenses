@@ -83,4 +83,5 @@
     <string name="count">"ນັບ"</string>
     <string name="options">"ຕົວເລືອກ"</string>
     <string name="actions">Actions"</string>
+    <string name="search_clear_desc">"ລ້າງ​ຂໍ້​ຄວາມ​ການຊອກ​ຫາ"</string>
 </resources>

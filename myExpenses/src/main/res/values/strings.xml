@@ -1033,6 +1033,20 @@
     <string name="recalculate_equivalent_amounts_warning">Equivalent amounts will be (re)calculated if applicable stored exchange rates are available.</string>
     <string name="quick_search">Quick search</string>
     <string name="complex_search">Complex search</string>
+    <string name="full_text_search">Full text search</string>
+    <string name="search_full_text">Search all fields</string>
+    <string name="search_fts_help_and">• coffee tea : finds transactions with both coffee and tea</string>
+    <string name="search_fts_help_not">• coffee -tea : finds transactions with coffee, but without tea</string>
+    <string name="search_fts_help_or">• coffee OR tea : finds transactions with either coffee or tea</string>
+    <string name="search_fts_help_phrase">• \"coffee and tea\" : finds the exact phrase \"coffee and tea\"</string>
+    <string name="search_fts_help_prefix">• coff* : finds words starting with coff (e.g. coffee, coffeeshop)</string>
+    <!--
+        Translator Note: Do NOT translate the prefix keywords before the colons (comment:, payee:, category:, tag:, reference:).
+        They are exact FTS column keywords in SQLite.
+        Only translate the descriptive text explaining what each keyword searches.
+    -->
+    <string name="search_fts_help_column">• Prefix query term to restrict search to specific column (e.g. payee:walmart, category:food, tag:work). Available: \'comment\' (notes), \'payee\' (counterparty), \'category\' (category), \'tag\' (tags), \'ref\' (reference number)</string>
+    <string name="search_fts_error_malformed">Incomplete search operator or unmatched quotes</string>
     <!-- Message shown when user clicks on the floating action bar in an account that they have closed. -->
     <string name="account_closed">Account is closed</string>
     <string name="balance_sheet">Balance Sheet</string>

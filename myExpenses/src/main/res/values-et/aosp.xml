@@ -110,4 +110,5 @@
     <string name="empty">"Tühi"</string>
     <string name="options">"Valikud"</string>
     <string name="actions">"Toimingud"</string>
+    <string name="search_clear_desc">"Otsinguteksti kustutamine"</string>
 </resources>

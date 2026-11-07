@@ -99,4 +99,5 @@
     <string name="empty">"Tukšs"</string>
     <string name="options">"Opcijas"</string>
     <string name="actions">"Darbības"</string>
+    <string name="search_clear_desc">"Notīrīt meklēšanas vaicājumu"</string>
 </resources>

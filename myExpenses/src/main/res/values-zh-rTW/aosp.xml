@@ -169,4 +169,5 @@
     <string name="empty">"空白"</string>
     <string name="options">"選項"</string>
     <string name="actions">"動作"</string>
+    <string name="search_clear_desc">"清除搜尋文字"</string>
 </resources>

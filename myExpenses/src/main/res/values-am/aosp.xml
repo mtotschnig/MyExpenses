@@ -101,4 +101,5 @@
     <string name="empty">"ባዶ"</string>
     <string name="options">"አማራጮች"</string>
     <string name="actions">"ተግባሮች"</string>
+    <string name="search_clear_desc">"የፍለጋ ጽሑፍ ያጽዱ"</string>
 </resources>
