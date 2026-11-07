@@ -20,6 +20,7 @@ package org.totschnig.myexpenses.provider.filter
 import android.content.Context
 import android.os.Parcelable
 import androidx.compose.ui.graphics.vector.ImageVector
+import kotlin.reflect.KClass
 import kotlinx.serialization.Serializable
 import org.totschnig.myexpenses.provider.CTE_SEARCH
 import org.totschnig.myexpenses.provider.KEY_CATID
@@ -29,7 +30,6 @@ import org.totschnig.myexpenses.provider.KEY_STATUS
 import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.STATUS_ARCHIVE
 import org.totschnig.myexpenses.provider.TABLE_TRANSACTIONS
-import kotlin.reflect.KClass
 
 interface DisplayInfo {
     val title: Int
@@ -62,7 +62,7 @@ sealed class SimpleCriterion<T : Any> : Criterion, Parcelable {
 
     open fun getSelection(forExport: Boolean): String =
         (if (forExport) columnForExport else column) +
-                " " + operation.getOp(selectionArgs.size)
+            " " + operation.getOp(selectionArgs.size)
 
     fun size(): Int = values.size
 

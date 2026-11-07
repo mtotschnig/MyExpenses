@@ -14,29 +14,53 @@ class FtsCriterionTest {
         assertThat(selection).isEqualTo(
             "$KEY_ROWID IN (SELECT rowid FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?)"
         )
-        assertThat(criterion.values).containsExactly("coffee")
+        assertThat(criterion.getSelectionArgs(false).toList()).containsExactly(
+            "coffee",
+            "coffee",
+            "coffee"
+        )
     }
 
     @Test
     fun testStandaloneNegationSelectionQuery() {
         val criterion = FtsCriterion("-coffee")
-        val selection = criterion.getSelection(false)
-        assertThat(selection).isEqualTo(
-            "$KEY_ROWID NOT IN (SELECT rowid FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?)"
+        val selection = criterion.getSelectionForParents("transactions")
+        assertThat(selection).startsWith("NOT (")
+        assertThat(criterion.getSelectionArgs(false).toList()).containsExactly(
+            "coffee",
+            "coffee",
+            "coffee"
         )
-        assertThat(criterion.values).containsExactly("coffee")
     }
 
     @Test
     fun testBinaryNegationSelectionQuery() {
         val criterion = FtsCriterion("coffee -tea")
-        val selection = criterion.getSelection(false)
-        @Suppress("ktlint:standard:max-line-length")
-        assertThat(selection).isEqualTo(
-            "$KEY_ROWID IN (SELECT rowid FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?) AND " +
-                "$KEY_ROWID NOT IN (SELECT rowid FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?)"
+        val selection = criterion.getSelectionForParents("transactions")
+        assertThat(selection).contains("AND NOT (")
+        assertThat(criterion.getSelectionArgs(false).toList()).containsExactly(
+            "coffee",
+            "coffee",
+            "coffee",
+            "tea",
+            "tea",
+            "tea"
         )
-        assertThat(criterion.values).containsExactly("coffee", "tea")
+    }
+
+    @Test
+    fun testOrWithNegatedTermSelectionQuery() {
+        val criterion = FtsCriterion("coffee OR -tea")
+        val selection = criterion.getSelectionForParents("transactions")
+        assertThat(selection).contains("AND NOT (")
+        assertThat(criterion.getSelectionArgs(false).toList()).containsExactly(
+            "coffee",
+            "coffee",
+            "coffee",
+            "tea",
+            "tea",
+            "tea"
+        )
     }
 
     @Test
@@ -46,35 +70,11 @@ class FtsCriterionTest {
         assertThat(selection).isEqualTo(
             "$KEY_ROWID IN (SELECT rowid FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?)"
         )
-        assertThat(criterion.values).containsExactly("copy-shop")
-    }
-
-    @Test
-    fun testComplexQuery() {
-        val criterion = FtsCriterion(
-            """
-            "copy shop" -tea
-            """.trimIndent()
+        assertThat(criterion.getSelectionArgs(false).toList()).containsExactly(
+            "copy-shop",
+            "copy-shop",
+            "copy-shop"
         )
-        val selection = criterion.getSelection(false)
-        @Suppress("ktlint:standard:max-line-length")
-        assertThat(selection).isEqualTo(
-            "$KEY_ROWID IN (SELECT rowid FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?) AND " +
-                "$KEY_ROWID NOT IN (SELECT rowid FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?)"
-        )
-        assertThat(criterion.values).containsExactly("\"copy shop\"", "tea")
-    }
-
-    @Test
-    fun testQuotedPhraseWithHyphenAndNegation() {
-        val criterion = FtsCriterion("""tea "copy -shop" -milk""")
-        val selection = criterion.getSelection(false)
-        @Suppress("ktlint:standard:max-line-length")
-        assertThat(selection).isEqualTo(
-            "$KEY_ROWID IN (SELECT rowid FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?) AND " +
-                "$KEY_ROWID NOT IN (SELECT rowid FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?)"
-        )
-        assertThat(criterion.values).containsExactly("""tea "copy -shop"""", "milk")
     }
 
     @Test
@@ -84,8 +84,33 @@ class FtsCriterionTest {
     }
 
     @Test
+    fun testIsMalformedFtsQuery() {
+        assertThat(FtsCriterion.isMalformedFtsQuery("coffee OR")).isTrue()
+        assertThat(FtsCriterion.isMalformedFtsQuery("OR coffee")).isTrue()
+        assertThat(FtsCriterion.isMalformedFtsQuery("coffee OR OR tea")).isTrue()
+        assertThat(FtsCriterion.isMalformedFtsQuery("coffee OR -tea")).isTrue()
+        assertThat(FtsCriterion.isMalformedFtsQuery("tea OR -")).isTrue()
+        assertThat(FtsCriterion.isMalformedFtsQuery("tea -")).isTrue()
+        assertThat(FtsCriterion.isMalformedFtsQuery("\"coffee tea")).isTrue()
+        assertThat(FtsCriterion.isMalformedFtsQuery("coffee OR tea")).isFalse()
+        assertThat(FtsCriterion.isMalformedFtsQuery("\"coffee tea\"")).isFalse()
+    }
+
+    @Test
     fun testSanitizeSingleWordQuery() {
         val sanitized = FtsCriterion.sanitizeFtsQuery("coffee")
+        assertThat(sanitized).isEqualTo("coffee")
+    }
+
+    @Test
+    fun testSanitizeDanglingOrOperatorStripped() {
+        val sanitized = FtsCriterion.sanitizeFtsQuery("coffee OR")
+        assertThat(sanitized).isEqualTo("coffee")
+    }
+
+    @Test
+    fun testSanitizeLeadingOrOperatorStripped() {
+        val sanitized = FtsCriterion.sanitizeFtsQuery("OR coffee")
         assertThat(sanitized).isEqualTo("coffee")
     }
 

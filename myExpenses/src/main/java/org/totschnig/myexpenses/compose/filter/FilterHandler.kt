@@ -6,9 +6,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -276,6 +279,7 @@ fun FilterHandler(
 
     showFtsFilterPrompt?.let { prompt ->
         var search by rememberSaveable { mutableStateOf(prompt.searchString) }
+        val isMalformed = FtsCriterion.isMalformedFtsQuery(search ?: "")
 
         AlertDialog(
             onDismissRequest = {
@@ -283,13 +287,16 @@ fun FilterHandler(
                 onResult(currentEdit.value, null)
             },
             confirmButton = {
-                Button(onClick = {
-                    onResult(
-                        currentEdit.value,
-                        FtsCriterion(search?.takeIf { it.isNotBlank() })
-                    )
-                    showFtsFilterPrompt = null
-                }) {
+                Button(
+                    enabled = !isMalformed,
+                    onClick = {
+                        onResult(
+                            currentEdit.value,
+                            FtsCriterion(search?.takeIf { it.isNotBlank() })
+                        )
+                        showFtsFilterPrompt = null
+                    }
+                ) {
                     Text(stringResource(id = android.R.string.ok))
                 }
             },
@@ -308,15 +315,29 @@ fun FilterHandler(
                     onValueChange = {
                         search = it
                     },
+                    isError = isMalformed,
                     label = { Text(text = stringResource(R.string.search_full_text)) },
                     supportingText = {
                         Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                            Text(text = stringResource(R.string.search_fts_help_and))
-                            Text(text = stringResource(R.string.search_fts_help_not))
-                            Text(text = stringResource(R.string.search_fts_help_or))
-                            Text(text = stringResource(R.string.search_fts_help_phrase))
-                            Text(text = stringResource(R.string.search_fts_help_prefix))
-                            Text(text = stringResource(R.string.search_fts_help_column))
+                            if (isMalformed) {
+                                Text(
+                                    text = stringResource(R.string.search_fts_error_malformed),
+                                    color = MaterialTheme.colorScheme.error
+                                )
+                            }
+                            CompositionLocalProvider(
+                                LocalContentColor provides
+                                    MaterialTheme.colorScheme.onSurfaceVariant
+                            ) {
+                                Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                                    Text(text = stringResource(R.string.search_fts_help_and))
+                                    Text(text = stringResource(R.string.search_fts_help_not))
+                                    Text(text = stringResource(R.string.search_fts_help_or))
+                                    Text(text = stringResource(R.string.search_fts_help_phrase))
+                                    Text(text = stringResource(R.string.search_fts_help_prefix))
+                                    Text(text = stringResource(R.string.search_fts_help_column))
+                                }
+                            }
                         }
                     }
                 )

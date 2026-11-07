@@ -79,41 +79,55 @@ data class FtsCriterion(val searchString: String?) : SimpleCriterion<String>() {
     @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
     override fun getSelection(forExport: Boolean): String {
         if (searchString.isNullOrBlank()) return "1 = 1"
+        return "$KEY_ROWID IN (SELECT rowid FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?)"
+    }
+
+    @Suppress("MaxLineLength", "ktlint:standard:max-line-length")
+    override fun getSelectionForParents(tableName: String?, forExport: Boolean): String {
+        if (searchString.isNullOrBlank()) return "1 = 1"
         val (positiveQuery, negativeTokens) = parseTerms()
 
+        val basePosSelection = super.getSelectionForParents(tableName, forExport)
         val clauses = mutableListOf<String>()
+
         if (positiveQuery.isNotBlank()) {
-            clauses.add(
-                "$KEY_ROWID IN (SELECT rowid FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?)"
-            )
+            clauses.add(basePosSelection)
         }
         for (neg in negativeTokens) {
             if (neg.isNotBlank()) {
-                clauses.add(
-                    "$KEY_ROWID NOT IN (SELECT rowid FROM $TABLE_TRANSACTIONS_FTS WHERE $TABLE_TRANSACTIONS_FTS MATCH ?)"
-                )
+                clauses.add("NOT ($basePosSelection)")
             }
         }
 
         return if (clauses.isEmpty()) "1 = 1" else clauses.joinToString(" AND ")
     }
 
-    override val values: List<String>
-        get() {
-            if (searchString.isNullOrBlank()) return emptyList()
-            val (positiveQuery, negativeTokens) = parseTerms()
+    override fun getSelectionArgs(queryParts: Boolean): Array<String> {
+        if (searchString.isNullOrBlank()) return emptyArray()
+        val (positiveQuery, negativeTokens) = parseTerms()
 
-            val result = mutableListOf<String>()
-            if (positiveQuery.isNotBlank()) {
-                result.add(sanitizeFtsQuery(positiveQuery))
-            }
-            for (neg in negativeTokens) {
-                if (neg.isNotBlank()) {
-                    result.add(sanitizeFtsQuery(neg))
-                }
-            }
-            return result
+        val multiplier = when {
+            queryParts || (shouldApplyToSplitTransactions xor shouldApplyToArchive) -> 2
+            shouldApplyToSplitTransactions && shouldApplyToArchive -> 3
+            else -> 1
         }
+
+        val result = mutableListOf<String>()
+        if (positiveQuery.isNotBlank()) {
+            val sanitized = sanitizeFtsQuery(positiveQuery)
+            repeat(multiplier) { result.add(sanitized) }
+        }
+        for (neg in negativeTokens) {
+            if (neg.isNotBlank()) {
+                val sanitized = sanitizeFtsQuery(neg)
+                repeat(multiplier) { result.add(sanitized) }
+            }
+        }
+        return result.toTypedArray()
+    }
+
+    override val values: List<String>
+        get() = getSelectionArgs(false).toList()
 
     companion object : DisplayInfo {
 
@@ -126,7 +140,43 @@ data class FtsCriterion(val searchString: String?) : SimpleCriterion<String>() {
                 trimmed += "\""
             }
 
-            return trimmed
+            val tokens = trimmed.split("\\s+".toRegex()).filter { it.isNotBlank() }
+            if (tokens.isEmpty()) return ""
+
+            // Strip leading 'OR' operators
+            val startIdx = tokens.indexOfFirst { it != "OR" }
+            if (startIdx == -1) return ""
+
+            // Strip trailing 'OR' operators
+            var endIdx = tokens.size - 1
+            while (endIdx >= startIdx && tokens[endIdx] == "OR") {
+                endIdx--
+            }
+
+            return tokens.subList(startIdx, endIdx + 1).joinToString(" ")
+        }
+
+        fun isMalformedFtsQuery(query: String): Boolean {
+            val trimmed = query.trim()
+            if (trimmed.isEmpty()) return false
+
+            if (trimmed.count { it == '"' } % 2 != 0) return true
+
+            val tokens = trimmed.split("\\s+".toRegex()).filter { it.isNotBlank() }
+            if (tokens.isEmpty()) return false
+
+            val last = tokens.last()
+            if (last == "OR" || last == "-") return true
+            if (tokens.first() == "OR") return true
+
+            for (i in 0 until tokens.size - 1) {
+                if (tokens[i] == "OR") {
+                    val next = tokens[i + 1]
+                    if (next == "OR" || next.startsWith("-")) return true
+                }
+            }
+
+            return false
         }
 
         fun fromStringExtra(extra: String) = FtsCriterion(extra)

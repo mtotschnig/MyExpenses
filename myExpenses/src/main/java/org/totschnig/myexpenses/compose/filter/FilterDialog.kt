@@ -3,7 +3,6 @@ package org.totschnig.myexpenses.compose.filter
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
@@ -50,6 +49,7 @@ import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -115,7 +115,12 @@ const val TYPE_QUICK = 0
 const val TYPE_COMPLEX = 1
 const val TYPE_FULL_TEXT = 2
 
-@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class)
+@Suppress(
+    "MaxLineLength",
+    "ktlint:standard:max-line-length",
+    "ktlint:standard:argument-list-wrapping"
+)
 @Composable
 fun FilterDialog(
     account: PageAccount,
@@ -334,6 +339,7 @@ fun FilterDialog(
                         var ftsQuery by rememberSaveable {
                             mutableStateOf((criterion as? FtsCriterion)?.searchString ?: "")
                         }
+                        val isMalformed = FtsCriterion.isMalformedFtsQuery(ftsQuery)
                         Column(
                             modifier = Modifier
                                 .padding(16.dp)
@@ -344,15 +350,29 @@ fun FilterDialog(
                                 modifier = Modifier.fillMaxWidth(),
                                 value = ftsQuery,
                                 onValueChange = { ftsQuery = it },
+                                isError = isMalformed,
                                 label = { Text(stringResource(R.string.search_full_text)) },
                                 supportingText = {
                                     Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                                        Text(stringResource(R.string.search_fts_help_and))
-                                        Text(stringResource(R.string.search_fts_help_not))
-                                        Text(stringResource(R.string.search_fts_help_or))
-                                        Text(stringResource(R.string.search_fts_help_phrase))
-                                        Text(stringResource(R.string.search_fts_help_prefix))
-                                        Text(stringResource(R.string.search_fts_help_column))
+                                        if (isMalformed) {
+                                            Text(
+                                                text = stringResource(R.string.search_fts_error_malformed),
+                                                color = MaterialTheme.colorScheme.error
+                                            )
+                                        }
+                                        CompositionLocalProvider(
+                                            LocalContentColor provides
+                                                MaterialTheme.colorScheme.onSurfaceVariant
+                                        ) {
+                                            Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                                                Text(stringResource(R.string.search_fts_help_and))
+                                                Text(stringResource(R.string.search_fts_help_not))
+                                                Text(stringResource(R.string.search_fts_help_or))
+                                                Text(stringResource(R.string.search_fts_help_phrase))
+                                                Text(stringResource(R.string.search_fts_help_prefix))
+                                                Text(stringResource(R.string.search_fts_help_column))
+                                            }
+                                        }
                                     }
                                 },
                                 singleLine = true,
@@ -373,18 +393,21 @@ fun FilterDialog(
                                 TextButton(onClick = onDismiss) {
                                     Text(stringResource(android.R.string.cancel))
                                 }
-                                TextButton(onClick = {
-                                    onConfirmRequest(
-                                        TYPE_FULL_TEXT,
-                                        if (ftsQuery.isBlank()) {
-                                            null
-                                        } else {
-                                            FtsCriterion(
-                                                ftsQuery.trim()
-                                            )
-                                        }
-                                    )
-                                }) {
+                                TextButton(
+                                    enabled = !isMalformed,
+                                    onClick = {
+                                        onConfirmRequest(
+                                            TYPE_FULL_TEXT,
+                                            if (ftsQuery.isBlank()) {
+                                                null
+                                            } else {
+                                                FtsCriterion(
+                                                    ftsQuery.trim()
+                                                )
+                                            }
+                                        )
+                                    }
+                                ) {
                                     Text(stringResource(R.string.apply))
                                 }
                             }

@@ -1046,6 +1046,7 @@
         Only translate the descriptive text explaining what each keyword searches.
     -->
     <string name="search_fts_help_column">• Prefix query term to restrict search to specific column (e.g. payee:walmart, category:food, tag:work). Available: \'comment\' (notes), \'payee\' (counterparty), \'category\' (category), \'tag\' (tags), \'ref\' (reference number)</string>
+    <string name="search_fts_error_malformed">Incomplete search operator or unmatched quotes</string>
     <!-- Message shown when user clicks on the floating action bar in an account that they have closed. -->
     <string name="account_closed">Account is closed</string>
     <string name="balance_sheet">Balance Sheet</string>
