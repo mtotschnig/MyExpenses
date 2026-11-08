@@ -236,4 +236,10 @@
     <string name="fab_income_help_text">Crea una nuova transazione di reddito.</string>
     <string name="fab_transfer_help_text">Crea un trasferimento tra due conti.</string>
     <string name="fab_split_help_text">Crea una Operazione frazionata per categorizzare separatamente parti di una singola spesa o reddito.</string>
+    <string name="fab_scan_help_text">Scansiona una ricevuta per estrarre automaticamente i dati usando OCR.</string>
+    <string name="fab_trade_buy_help_text">Registra l\'acquisto di un asset nel tuo portafoglio.</string>
+    <string name="fab_trade_sell_help_text">Registra la vendita di un bene nel tuo portafoglio.</string>
+    <string name="fab_trade_deposit_help_text">Aggiungi denaro al saldo del tuo portafoglio.</string>
+    <string name="fab_trade_withdraw_help_text">Rimuovi il denaro dal saldo del tuo portafoglio.</string>
+    <string name="fab_trade_transfer_help_text">Trasferire asset tra portafogli.</string>
 </resources>
