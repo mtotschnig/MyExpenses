@@ -1084,4 +1084,6 @@
     <string name="trade_add_cost">Kosten hinzufügen</string>
     <string name="single_pane_view">Einzelansicht</string>
     <string name="split_pane_view">Geteilte Ansicht</string>
+    <string name="full_text_search">Volltextsuche</string>
+    <string name="search_full_text">Alle Felder durchsuchen</string>
 </resources>
