@@ -576,7 +576,6 @@
     <string name="move_category_failure">Una categoria no s\'ha desplaçat, atès que la mateixa etiqueat ja existeix al destí.</string>
     <string name="pref_home_currency_title">Divisa local</string>
     <string name="budget_table_header_budgeted">Pressupostat</string>
-    <string name="navigation_drawer_accounts_title">Gestionar comptes</string>
     <string name="budget_exceeded_error_1_1">La totalitat del pressupost excepte %s ha estat assignat a altres categories.</string>
     <string name="pref_sync_changes_immediately_summary">Escriu immediatament els canvis locals al sistema de servei</string>
     <string name="pref_sync_wifi_only_summary">Sincronitza només quan tingui Wi-Fi</string>

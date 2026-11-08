@@ -712,7 +712,6 @@
     <string name="synchronization_postponed">Sinkronizacija se odgađa.</string>
     <string name="pref_sync_changes_immediately_summary">Zapiši lokalne promjene odmah na pozadinski sustav</string>
     <string name="pref_sync_wifi_only_summary">Sinkroniziraj samo kad koristiš Wi-Fi mrežu</string>
-    <string name="navigation_drawer_accounts_title">Upravljaj računima</string>
     <string name="sort_order">Redoslijed razvrstavanja</string>
     <string name="gdpr_consent_button_no">Plati za verziju bez oglasa</string>
     <string name="hint_auto_fill">Da li za automatsko ispunjavanje koristiti podatke iz zadnje transakcije za istu protustranku? Ponašanje se može u svakom trenutku promijeniti u postavkama.</string>

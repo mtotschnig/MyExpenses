@@ -605,7 +605,6 @@
     <string name="licence_has_expired_n_days" tools:ignore="PluralsCandidate">আপনার প্রফেশনাল কী %d দিন আগে মেয়াদ উত্তীর্ণ হয়েছে।</string>
     <string name="gdpr_consent_button_no">বিজ্ঞাপন-মুক্ত ভার্সনের জন্য ফি প্রদান করুন</string>
     <string name="sort_order">সাজানোর ক্রম</string>
-    <string name="navigation_drawer_accounts_title">অ্যাকাউন্ট পরিচালনা করুন</string>
     <string name="pref_sync_wifi_only_summary">শুধুমাত্র ওয়াই-ফাই সংযোগ থাকলে সিঙ্ক করুন</string>
     <string name="pref_sync_changes_immediately_summary">লোকাল পরিবর্তন অবিলম্বে ব্যাকএন্ডে লিখুন</string>
     <string name="synchronization_postponed">সিঙ্ক্রোনাইজেশন স্থগিত করা হয়েছে।</string>

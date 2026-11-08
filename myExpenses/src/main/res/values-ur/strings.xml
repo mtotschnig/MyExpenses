@@ -614,7 +614,6 @@
     <string name="split_transaction_one_success">لین دین کامیابی کے ساتھ تقسیم میں تبدیل ہو گیا.</string>
     <string name="gdpr_consent_button_no">اشتہار سے پاک ورژن کے لیے ادائیگی کریں</string>
     <string name="sort_order">ترتیب</string>
-    <string name="navigation_drawer_accounts_title">اکاؤنٹس کا نظم کریں</string>
     <string name="pref_sync_wifi_only_summary">صرف Wi-Fi پر ہونے پر مطابقت پذیری کریں</string>
     <string name="pref_translation_title">ترجمہ</string>
     <string name="synchronization_postponed">مطابقت پذیری ملتوی ہے.</string>

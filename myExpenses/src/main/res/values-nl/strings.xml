@@ -426,7 +426,6 @@
     <string name="split_transaction_group_success">%1$d transacties zijn met succes gegroepeerd in één gesplitste transactie.</string>
     <string name="licence_expires_n_days">Je professionele sleutel verloopt over %d dagen.</string>
     <string name="licence_expired_yesterday">Je professionele sleutel is gisteren verlopen.</string>
-    <string name="navigation_drawer_accounts_title">Rekeningen beheren</string>
     <string name="pref_translation_title">Vertaling</string>
     <string name="goal_or_limit">Doel/ Limiet</string>
     <string name="saving_goal">Doel opslaan</string>

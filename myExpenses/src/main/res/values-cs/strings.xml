@@ -610,7 +610,6 @@
     <string name="licence_has_expired_n_days">Platnost vašeho profesionálního klíče vypršela před %d dny.</string>
     <string name="gdpr_consent_button_no">Zaplaťte si verzi bez reklam</string>
     <string name="sort_order">Pořadí řazení</string>
-    <string name="navigation_drawer_accounts_title">Spravovat účty</string>
     <string name="pref_sync_wifi_only_summary">Synchronizovat pouze při připojení k síti Wi-Fi</string>
     <string name="pref_sync_changes_immediately_summary">Okamžitě zapsat místní změny na back-end</string>
     <string name="synchronization_postponed">Synchronizace je odložena.</string>

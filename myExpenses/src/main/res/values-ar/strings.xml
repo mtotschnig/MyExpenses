@@ -631,7 +631,6 @@
     <string name="licence_has_expired_n_days">انتهت صلاحية مفتاحك المهني قبل %d يوم.</string>
     <string name="gdpr_consent_button_no">ادفع مقابل النسخة الخالية من الإعلانات</string>
     <string name="sort_order">ترتيب الفرز</string>
-    <string name="navigation_drawer_accounts_title">إدارة الحسابات</string>
     <string name="pref_sync_wifi_only_summary">مزامنة فقط عند الاتصال بشبكة Wi-Fi</string>
     <string name="pref_sync_changes_immediately_summary">اكتب التغييرات المحلية على الفور في الخلفية</string>
     <string name="synchronization_postponed">تم تأجيل التزامن.</string>

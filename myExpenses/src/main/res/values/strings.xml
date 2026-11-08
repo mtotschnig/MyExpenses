@@ -609,7 +609,6 @@
     <string name="licence_has_expired_n_days" tools:ignore="PluralsCandidate">Your professional key has expired %d days ago.</string>
     <string name="gdpr_consent_button_no">Pay for the ad-free version</string>
     <string name="sort_order">Sort order</string>
-    <string name="navigation_drawer_accounts_title">Manage accounts</string>
     <string name="pref_sync_wifi_only_summary">Sync only when on Wi-Fi</string>
     <string name="pref_sync_changes_immediately_summary">Write local changes immediately to backend</string>
     <string name="synchronization_postponed">Synchronization is postponed.</string>

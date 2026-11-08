@@ -332,7 +332,6 @@
     <string name="menu_equivalent_amount">Motsvarande belopp</string>
     <string name="booking_date">Bokföringsdatum</string>
     <string name="sort_order">Sorteringsordning</string>
-    <string name="navigation_drawer_accounts_title">Hantera konton</string>
     <string name="credit_limit">Kreditgräns</string>
     <string name="dialog_title_edit_budget">Redigera budget</string>
     <string name="content_description_clear_category">Töm kategori</string>

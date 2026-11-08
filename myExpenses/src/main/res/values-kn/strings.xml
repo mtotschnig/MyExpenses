@@ -586,7 +586,6 @@
     <string name="licence_has_expired_n_days">ನಿಮ್ಮ ವೃತ್ತಿಪರ ಕೀಲಿಯು %d ದಿನಗಳ ಹಿಂದೆ ಅವಧಿ ಮೀರಿದೆ.</string>
     <string name="gdpr_consent_button_no">ಜಾಹೀರಾತು-ಮುಕ್ತ ಆವೃತ್ತಿಗೆ ಪಾವತಿಸಿ</string>
     <string name="sort_order">ವಿಂಗಡಣೆ ಆದೇಶ</string>
-    <string name="navigation_drawer_accounts_title">ಖಾತೆಗಳನ್ನು ನಿರ್ವಹಿಸಿ</string>
     <string name="pref_sync_wifi_only_summary">ವೈ-ಫೈನಲ್ಲಿರುವಾಗ ಮಾತ್ರ ಸಿಂಕ್ ಮಾಡಿ</string>
     <string name="pref_sync_changes_immediately_summary">ಸ್ಥಳೀಯ ಬದಲಾವಣೆಗಳನ್ನು ತಕ್ಷಣ ಬ್ಯಾಕೆಂಡ್‌ಗೆ ಬರೆಯಿರಿ</string>
     <string name="synchronization_postponed">ಸಿಂಕ್ರೊನೈಸೇಶನ್ ಮುಂದೂಡಲ್ಪಟ್ಟಿದೆ.</string>

@@ -588,7 +588,6 @@
     <string name="licence_has_expired_n_days">உங்கள் நிபுணத்துவ திறவுகோல் %d நாட்களுக்கு முன்பு காலாவதியாகிவிட்டது.</string>
     <string name="gdpr_consent_button_no">விளம்பரம் இல்லாத பதிப்பிற்கு பணம் செலுத்து</string>
     <string name="sort_order">வரிசைப்படுத்தும் முறை</string>
-    <string name="navigation_drawer_accounts_title">கணக்குகளை நிர்வகி</string>
     <string name="pref_sync_wifi_only_summary">Wi-Fi இல் மட்டுமே ஒத்திசை</string>
     <string name="pref_sync_changes_immediately_summary">உள் மாற்றங்களை உடனடியாக பின்தளத்திற்கு எழுதவும்</string>
     <string name="synchronization_postponed">ஒத்திசைவு தள்ளி வைக்கப்படுகிறது.</string>

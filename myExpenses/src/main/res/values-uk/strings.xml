@@ -602,7 +602,6 @@
     <string name="licence_has_expired_n_days">Ваша підписка на Професійну версію закінчилась %d днів тому.</string>
     <string name="gdpr_consent_button_no">Сплатити за версію без реклами</string>
     <string name="sort_order">Порядок сортування</string>
-    <string name="navigation_drawer_accounts_title">Керувати рахунками</string>
     <string name="pref_sync_wifi_only_summary">Синхронізувати лише під час використання Wi-Fi</string>
     <string name="synchronization_postponed">Синхронізацію призупинено.</string>
     <!-- title of an entry on the Settings screen that shows information on how to contribute to the My Expenses Translations Project -->

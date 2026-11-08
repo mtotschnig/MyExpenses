@@ -28,7 +28,6 @@
     <string name="saving_goal">Lagrer mål</string>
     <string name="pref_translation_title">Oversettelse</string>
     <string name="pref_sync_wifi_only_summary">Kun synkroniser på Wi-Fi</string>
-    <string name="navigation_drawer_accounts_title">Håndter kontoer</string>
     <string name="sort_order">Sorteringsrekkefølge</string>
     <string name="gdpr_consent_button_no">Betal for den reklamefrie versjonen</string>
     <string name="menu_equivalent_amount">Motsvarende beløp</string>

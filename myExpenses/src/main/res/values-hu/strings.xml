@@ -589,7 +589,6 @@
     <string name="licence_has_expired_n_days">Professzionális kulcsa %d napja lejárt.</string>
     <string name="gdpr_consent_button_no">Fizessen a reklámmentes verzióért</string>
     <string name="sort_order">Rendezési sorrend</string>
-    <string name="navigation_drawer_accounts_title">Fiókok kezelése</string>
     <string name="pref_sync_wifi_only_summary">Szinkronizálás csak Wi-Fi-n keresztül</string>
     <string name="pref_sync_changes_immediately_summary">Írja azonnal a helyi módosításokat a háttérprogramba</string>
     <string name="synchronization_postponed">A szinkronizálás elhalasztva.</string>

@@ -607,7 +607,6 @@
     <string name="remap_payee">Усе выбраныя транзакцыі будуць супастаўлены з контрагентам %s.</string>
     <string name="sync_login_again">Калі ласка, увайдзіце зноў.</string>
     <string name="pref_home_currency_title">Унутраная валюта</string>
-    <string name="navigation_drawer_accounts_title">Кіраванне акаўнтамі</string>
     <string name="translated_by">Пераклаў</string>
     <string name="exchange_rate_not_supported">Настроены пастаўшчык абменных курсаў не прадастаўляе курс %1$s : %2$s. Вы можаце паспрабаваць выбраць іншы ў наладах.</string>
     <string name="menu_edit_budget">Рэдагаваць бюджэт</string>

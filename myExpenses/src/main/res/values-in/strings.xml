@@ -590,7 +590,6 @@
     <string name="licence_has_expired_n_days" tools:ignore="PluralsCandidate">Kunci profesional Anda telah kedaluwarsa %d hari yang lalu.</string>
     <string name="gdpr_consent_button_no">Bayar untuk versi tanpa iklan</string>
     <string name="sort_order">Urutan pengurutan</string>
-    <string name="navigation_drawer_accounts_title">Kelola akun</string>
     <string name="pref_sync_wifi_only_summary">Sinkronkan hanya saat menggunakan Wi-Fi</string>
     <string name="pref_sync_changes_immediately_summary">Tulis perubahan lokal segera ke backend</string>
     <string name="synchronization_postponed">Sinkronisasi ditunda.</string>

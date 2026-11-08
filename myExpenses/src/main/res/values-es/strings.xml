@@ -595,7 +595,6 @@
     <string name="licence_has_expired_n_days">Su licencia profesional expiró hace %d días.</string>
     <string name="gdpr_consent_button_no">Pagar por la versión libre de anuncios</string>
     <string name="sort_order">Orden de clasificación</string>
-    <string name="navigation_drawer_accounts_title">Administrar cuentas</string>
     <string name="pref_sync_wifi_only_summary">Sincronizar sólo con Wi-Fi</string>
     <string name="pref_sync_changes_immediately_summary">Escribir los cambios locales inmediatamente en el servicio de sincronización</string>
     <string name="synchronization_postponed">Se pospone la sincronización.</string>

@@ -595,7 +595,6 @@
     <string name="licence_has_expired_n_days">A sua chave profissional expirou %d dias atrás.</string>
     <string name="gdpr_consent_button_no">Pagar pela versão sem anúncios</string>
     <string name="sort_order">Ordem de classificação</string>
-    <string name="navigation_drawer_accounts_title">Gerir contas</string>
     <string name="pref_sync_wifi_only_summary">Sincronizar somente via wi-fi</string>
     <string name="pref_sync_changes_immediately_summary">Escreve as alterações locais imediatamente no destino</string>
     <string name="synchronization_postponed">A sincronização foi adiada.</string>

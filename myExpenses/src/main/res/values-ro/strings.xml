@@ -598,7 +598,6 @@
     <string name="grand_total">Totalul mare</string>
     <string name="warning_split_transactions">Tranzacțiile selectate vor fi grupate într-o singură tranzacție divizată. Informațiile privind data acestora se vor pierde, adică vor fi înlocuite cu media lor.</string>
     <string name="booking_date">Data rezervării</string>
-    <string name="navigation_drawer_accounts_title">Administrați conturile</string>
     <string name="pref_sync_wifi_only_summary">Sincronizați numai când este conectat la Wi-Fi</string>
     <string name="menu_equivalent_amount">Suma echivalentă</string>
     <string name="licence_expired_yesterday">Cheia profesională a expirat ieri.</string>

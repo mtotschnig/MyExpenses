@@ -543,7 +543,6 @@
     <string name="licence_has_expired_n_days">您的\"專業版金鑰(Professional Key)\"已在%d天前過期。</string>
     <string name="gdpr_consent_button_no">支付無廣告版本</string>
     <string name="sort_order">排序順序</string>
-    <string name="navigation_drawer_accounts_title">管理帳戶</string>
     <string name="pref_sync_wifi_only_summary">僅在連接 Wi-Fi 時同步</string>
     <string name="pref_sync_changes_immediately_summary">立即將本機變更的資料寫入後端</string>
     <string name="synchronization_postponed">資料同步已被推遲。</string>

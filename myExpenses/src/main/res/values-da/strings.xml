@@ -575,7 +575,6 @@
     <string name="licence_expires_tomorrow">Din professionelle nøgle udløber i morgen.</string>
     <string name="licence_expired_yesterday">Din professionelle nøgle udløb i går.</string>
     <string name="sort_order">Sorteringsrækkefølge</string>
-    <string name="navigation_drawer_accounts_title">Administrer konti</string>
     <string name="pref_sync_wifi_only_summary">Synkroniser kun på Wi-Fi</string>
     <string name="pref_sync_changes_immediately_summary">Skriv lokale ændringer til backend med det samme</string>
     <string name="synchronization_postponed">Synkronisering er udskudt.</string>

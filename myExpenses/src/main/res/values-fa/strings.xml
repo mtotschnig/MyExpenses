@@ -579,7 +579,6 @@
     <string name="ungroup_split_transaction_success">تراکنش چندبخشی با موفقیت تجزیه شد.</string>
     <string name="pref_transaction_time_summary">اجازه دادن به تنظیم دقیق زمان تراکنش.</string>
     <string name="split_transaction_group_success">%1$d تراکنش با موفقیت به چندبخشی تبدیل شدند.</string>
-    <string name="navigation_drawer_accounts_title">مدیریت حساب ها</string>
     <string name="sub_budget_exceeded_error_2">مقدار تخصیص یافته به دسته اصلی را افزایش دهید یا پول را از زیردسته‌های دیگر حذف کنید.</string>
     <string name="warning_ungroup_split_transactions">تراکنش‌های چند‌بخشی انتخاب شده تجزیه خواهند شد. به این صورت که بخش‌های آن‌ها تبدیل به تراکنش های عادی می‌شوند.</string>
     <string name="pref_sync_wifi_only_summary">فقط هنگام اتصال به Wi-Fi همگام‌سازی شود</string>

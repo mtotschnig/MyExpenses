@@ -542,7 +542,6 @@
     <string name="licence_has_expired_n_days">您的\"专业版密钥(Professional Key)\"已在%d天前过期。</string>
     <string name="gdpr_consent_button_no">支付无广告版本</string>
     <string name="sort_order">排序顺序</string>
-    <string name="navigation_drawer_accounts_title">管理账户</string>
     <string name="pref_sync_wifi_only_summary">仅在Wi-Fi上同步</string>
     <string name="pref_sync_changes_immediately_summary">立即将本地更改的数据写入后端</string>
     <string name="synchronization_postponed">同步被推迟。</string>

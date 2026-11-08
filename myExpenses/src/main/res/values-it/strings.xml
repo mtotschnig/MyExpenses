@@ -592,7 +592,6 @@
     <string name="licence_has_expired_n_days">La tua Licenza Professionale è scaduta %d giorni fa.</string>
     <string name="gdpr_consent_button_no">Paga per la versione senza pubblicità</string>
     <string name="sort_order">Ordinamento</string>
-    <string name="navigation_drawer_accounts_title">Gestione dei conti</string>
     <string name="pref_sync_wifi_only_summary">Sincronizza solo quando su Wi-Fi</string>
     <string name="pref_sync_changes_immediately_summary">Salva immediatamente le modifiche in locale sul back-end remoto</string>
     <string name="synchronization_postponed">La sincronizzazione è posticipata.</string>

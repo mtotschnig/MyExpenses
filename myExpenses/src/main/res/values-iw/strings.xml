@@ -599,7 +599,6 @@
     <string name="licence_has_expired_n_days">המפתח המקצועי שלך פג לפני %d ימים.</string>
     <string name="gdpr_consent_button_no">שלם עבור הגרסה ללא מודעות</string>
     <string name="sort_order">סדר המיון</string>
-    <string name="navigation_drawer_accounts_title">נהל חשבונות</string>
     <string name="pref_sync_wifi_only_summary">סנכרן רק באמצעות  Wi-Fi</string>
     <string name="pref_sync_changes_immediately_summary">רשום אוטומטית שינויים מקומיים ל- backend</string>
     <string name="synchronization_postponed">הסנכרון הושהה.</string>

@@ -480,7 +480,6 @@
     <string name="licence_expires_tomorrow">คีย์มืออาชีพของคุณจะหมดอายุพรุ่งนี้</string>
     <string name="licence_expires_n_days" tools:ignore="PluralsCandidate">คีย์มืออาชีพของคุณจะหมดอายุในอีก %d วัน</string>
     <string name="sort_order">ลำดับการจัดเรียง</string>
-    <string name="navigation_drawer_accounts_title">จัดการบัญชี</string>
     <string name="goal_or_limit">เป้าหมาย / ขีดจำกัด</string>
     <string name="credit_limit">วงเงินเครดิต</string>
     <string name="dialog_title_edit_budget">แก้ไขงบประมาณ</string>

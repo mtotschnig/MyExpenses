@@ -588,7 +588,6 @@
     <string name="licence_has_expired_n_days">Profesyonel anahtarınızın geçerliliği %d gün önce sona erdi.</string>
     <string name="gdpr_consent_button_no">Reklamsız sürüm için ödeme yap</string>
     <string name="sort_order">Sıralama düzeni</string>
-    <string name="navigation_drawer_accounts_title">Hesapları yönet</string>
     <string name="pref_sync_wifi_only_summary">Yalnızca Wi-Fi üzerindeyken eşzamanla</string>
     <string name="pref_sync_changes_immediately_summary">Yerel değişimleri derhal arka uca yaz</string>
     <string name="synchronization_postponed">Eşzamanlama ertelendi.</string>

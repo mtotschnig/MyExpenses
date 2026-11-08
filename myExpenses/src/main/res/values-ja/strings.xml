@@ -574,7 +574,6 @@
     <string name="licence_has_expired_n_days">プロフェッショナルキーは %d 日前に期限が切れています。</string>
     <string name="gdpr_consent_button_no">広告なしバージョンを購入します</string>
     <string name="sort_order">ソート順</string>
-    <string name="navigation_drawer_accounts_title">勘定の管理</string>
     <string name="pref_sync_wifi_only_summary">Wi-Fi 接続時のみ同期</string>
     <string name="pref_sync_changes_immediately_summary">ローカルの変更をすぐにバックエンドに書き込みます</string>
     <string name="synchronization_postponed">同期は延期されます。</string>

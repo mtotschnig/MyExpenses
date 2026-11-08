@@ -553,7 +553,6 @@
     <string name="licence_has_expired_n_days" tools:ignore="PluralsCandidate">កូនសោវិជ្ជាជីវៈរបស់អ្នកបានផុតកំណត់កាលពី %d ថ្ងៃមុន។</string>
     <string name="gdpr_consent_button_no">បង់ប្រាក់សម្រាប់កំណែគ្មានពាណិជ្ជកម្ម</string>
     <string name="sort_order">លំដាប់តម្រៀប</string>
-    <string name="navigation_drawer_accounts_title">គ្រប់គ្រងគណនី</string>
     <string name="pref_sync_wifi_only_summary">ធ្វើសមកាលកម្មលុះត្រាតែប្រើ Wi-Fi</string>
     <string name="pref_sync_changes_immediately_summary">សរសេរការផ្លាស់ប្តូរក្នុងស្រុកភ្លាមៗទៅកាន់ផ្នែកខាងក្រោយ</string>
     <string name="synchronization_postponed">ការធ្វើសមកាលកម្មត្រូវបានពន្យារពេល។</string>
