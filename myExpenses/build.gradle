@@ -329,9 +329,16 @@ dependencies {
     testImplementation libs.snakeyaml
 }
 
-static def getDate() {
-    def formattedDate = "java.time.LocalDateTime.of(" + "git show --no-patch --format=%cd --date=format-local:%Y,%-m,%-d,%-H,%-M".execute().text.trim() + ")"
-    return formattedDate
+def getDate() {
+    def out = providers.exec {
+        commandLine 'git', 'show', '--no-patch', '--format=%cd', '--date=format-local:%Y,%-m,%-d,%-H,%-M'
+    }.standardOutput.asText.map { it.trim() }.get()
+
+    if (!out) {
+        throw new IllegalStateException("Failed to query git commit date")
+    }
+
+    return "java.time.LocalDateTime.of(${out})"
 }
 
 //apply plugin: 'com.jakewharton.hugo'
@@ -361,5 +368,11 @@ configurations.configureEach {
 tasks.register("r8Version") {
     doLast {
         println(com.android.tools.r8.Version.getVersionString())
+    }
+}
+
+tasks.register("printLastcommitDate") {
+    doLast {
+        println(getDate())
     }
 }
