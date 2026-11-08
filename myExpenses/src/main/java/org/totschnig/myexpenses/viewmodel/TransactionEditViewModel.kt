@@ -19,6 +19,11 @@ import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.observeQuery
+import java.io.IOException
+import java.math.BigDecimal
+import java.time.LocalDate
+import java.time.ZonedDateTime
+import javax.inject.Inject
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -106,17 +111,12 @@ import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.InitialPlanData
 import org.totschnig.myexpenses.viewmodel.data.PaymentMethod
 import org.totschnig.myexpenses.viewmodel.data.PlanLoadedData
+import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
 import org.totschnig.myexpenses.viewmodel.data.TemplateEditData
 import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
 import org.totschnig.myexpenses.viewmodel.data.TransactionEditResult
 import org.totschnig.myexpenses.viewmodel.data.TransferEditData
 import org.totschnig.myexpenses.viewmodel.data.mapper.TransactionMapper
-import java.io.IOException
-import java.math.BigDecimal
-import java.time.LocalDate
-import java.time.ZonedDateTime
-import javax.inject.Inject
-import org.totschnig.myexpenses.viewmodel.data.Template as DataTemplate
 
 class TransactionEditViewModel(application: Application, savedStateHandle: SavedStateHandle) :
     TagHandlingViewModel(application, savedStateHandle) {
@@ -149,7 +149,8 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
     val templates: Flow<List<DataTemplate>>
         get() = contentResolver.observeQuery(
             uri = TransactionProvider.TEMPLATES_URI.buildUpon()
-                .build(), projection = arrayOf(KEY_ROWID, KEY_TITLE),
+                .build(),
+            projection = arrayOf(KEY_ROWID, KEY_TITLE),
             selection = "$KEY_PLANID is null AND $KEY_PARENTID is null AND $KEY_SEALED = 0",
             sortOrder = Sort.preferredOrderByForTemplatesWithPlans(
                 prefHandler,
@@ -158,7 +159,9 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             )
         ).mapToList { DataTemplate.fromCursor(it) }
 
-    @RequiresPermission(allOf = [Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR])
+    @RequiresPermission(
+        allOf = [Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR]
+    )
     fun plan(planId: Long): LiveData<PlanLoadedData?> = liveData(context = coroutineContext()) {
         emit(repository.loadPlan(planId)?.let { TransactionMapper.mapPlan(it) })
     }
@@ -171,7 +174,12 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     .appendPath(TransactionProvider.URI_SEGMENT_TYPE_FILTER)
                     .appendPath(if (isIncome) "1" else "-1")
                     .appendQueryParameter(QUERY_PARAMETER_ACCOUNT_TYPE_LIST, type.id.toString())
-                    .build(), null, null, null, null, false
+                    .build(),
+                null,
+                null,
+                null,
+                null,
+                false
             )
                 .mapToList { PaymentMethod.from(it) }
                 .collect {
@@ -182,7 +190,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     private fun maybeCreateInitialPlan(
         transaction: TransactionEditData,
-        initialPlan: InitialPlanData,
+        initialPlan: InitialPlanData
     ): Pair<String, Plan?> {
         val title = initialPlan.title
             ?: transaction.party?.name
@@ -190,18 +198,26 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             ?: transaction.comment?.takeIf { it.isNotEmpty() }
             ?: localizedContext.getString(R.string.menu_create_template)
         //noinspection MissingPermission
-        return title to if (initialPlan.recurrence != Recurrence.NONE) repository.createPlan(
-            title,
-            transaction.compileDescription(localizedContext, currencyFormatter, initialPlan.uuid),
-            initialPlan.date,
-            initialPlan.recurrence
-        ) else null
+        return title to if (initialPlan.recurrence != Recurrence.NONE) {
+            repository.createPlan(
+                title,
+                transaction.compileDescription(
+                    localizedContext,
+                    currencyFormatter,
+                    initialPlan.uuid
+                ),
+                initialPlan.date,
+                initialPlan.recurrence
+            )
+        } else {
+            null
+        }
     }
 
     @SuppressLint("MissingPermission")
     suspend fun save(
         transaction: TransactionEditData,
-        userSetExchangeRate: BigDecimal?,
+        userSetExchangeRate: BigDecimal?
     ): Result<TransactionEditResult> = withContext(coroutineContext()) {
         runCatching {
             val transaction = transaction.copy(
@@ -218,7 +234,13 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     ).second?.id
                 }
                 val template = TransactionMapper.mapTemplate(transaction).let {
-                    if (initialPlanId != null) it.copy(data = it.data.copy(planId = initialPlanId)) else it
+                    if (initialPlanId !=
+                        null
+                    ) {
+                        it.copy(data = it.data.copy(planId = initialPlanId))
+                    } else {
+                        it
+                    }
                 }
                 val id = if (transaction.id == 0L) {
                     val id = repository.createTemplate(template).id
@@ -260,7 +282,13 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                                 title,
                                 transaction.initialPlan.uuid
                             ).let {
-                                if (plan?.id != null) it.copy(data = it.data.copy(planId = plan.id)) else it
+                                if (plan?.id !=
+                                    null
+                                ) {
+                                    it.copy(data = it.data.copy(planId = plan.id))
+                                } else {
+                                    it
+                                }
                             }
                         )
                         if (plan != null) {
@@ -287,7 +315,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                     initialPlanId = initialPlanId
                 )
             }
-            //Attachments
+            // Attachments
             if (!transaction.isTemplate) {
                 (originalUris - attachmentUris.value.toSet()).takeIf { it.isNotEmpty() }?.let {
                     repository.deleteAttachments(transaction.id, it)
@@ -345,15 +373,16 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     private fun prepareUriForSave(uri: Uri): Uri {
         val pictureUriBase: String = PictureDirHelper.getPictureUriBase(false, getApplication())
-        return if (uri.toString().startsWith(pictureUriBase) || uri.isDebugAsset) uri
-        else {
-
+        return if (uri.toString().startsWith(pictureUriBase) || uri.isDebugAsset) {
+            uri
+        } else {
             val pictureUriTemp = PictureDirHelper.getPictureUriBase(true, getApplication())
             val isInTempFolder = uri.toString().startsWith(pictureUriTemp)
             val isExternal = !isInTempFolder
 
-            if (isExternal && !shouldCopyExternalUris) uri else {
-
+            if (isExternal && !shouldCopyExternalUris) {
+                uri
+            } else {
                 val result = if (contentResolver.getType(uri)?.startsWith("image") == true &&
                     prefHandler.getBoolean(PrefKey.OPTIMIZE_PICTURE, true)
                 ) {
@@ -368,7 +397,6 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                         extension = format.asExtension
                     )
                     try {
-
                         val maxSize =
                             prefHandler.getInt(PrefKey.OPTIMIZE_PICTURE_MAX_SIZE, 1000)
                         val quality = prefHandler.getInt(PrefKey.OPTIMIZE_PICTURE_QUALITY, 80)
@@ -414,7 +442,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
     suspend fun newTemplate(
         operationType: Int,
         parentId: Long?,
-        defaultAction: Template.Action,
+        defaultAction: Template.Action
     ): TransactionEditData? = withContext(coroutineContext()) {
         repository.getLastUsedOpenAccount()?.let {
             TransactionEditData(
@@ -433,30 +461,34 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     private suspend fun ensureLoadData(
         accountId: Long,
-        currencyUnit: CurrencyUnit?,
-    ): Pair<Long, CurrencyUnit>? {
-        return if (accountId > 0 && currencyUnit != null)
-            accountId to currencyUnit
-        else withContext(coroutineContext()) {
-            (if (accountId > 0) {
-                repository.getCurrencyUnitForAccount(accountId)?.let {
-                    accountId to it
+        currencyUnit: CurrencyUnit?
+    ): Pair<Long, CurrencyUnit>? = if (accountId > 0 && currencyUnit != null) {
+        accountId to currencyUnit
+    } else {
+        withContext(coroutineContext()) {
+            (
+                if (accountId > 0) {
+                    repository.getCurrencyUnitForAccount(accountId)?.let {
+                        accountId to it
+                    }
+                } else {
+                    null
                 }
-            } else null) ?: repository.getLastUsedOpenAccount()
+                ) ?: repository.getLastUsedOpenAccount()
         }
     }
 
     suspend fun newTransaction(
         accountId: Long,
         currencyUnit: CurrencyUnit?,
-        parentId: Long?,
+        parentId: Long?
     ): TransactionEditData? =
         ensureLoadData(accountId, currencyUnit)?.let { (accountId, currencyUnit) ->
             TransactionEditData(
                 amount = Money(currencyUnit, 0L),
                 accountId = accountId,
                 parentId = parentId,
-                uuid = generateUuid(),
+                uuid = generateUuid()
             )
         }
 
@@ -464,7 +496,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         accountId: Long,
         currencyUnit: CurrencyUnit?,
         transferAccountId: Long,
-        parentId: Long?,
+        parentId: Long?
     ): TransactionEditData? =
         ensureLoadData(accountId, currencyUnit)?.let { (accountId, currencyUnit) ->
             TransactionEditData(
@@ -482,7 +514,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
                 amount = Money(currencyUnit, 0L),
                 accountId = accountId,
                 categoryId = SPLIT_CATID,
-                uuid = generateUuid(),
+                uuid = generateUuid()
             )
         }
 
@@ -493,12 +525,11 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         rowId: Long,
         task: InstantiationTask,
         clone: Boolean,
-        extras: Bundle?,
+        extras: Bundle?
     ): TransactionEditData? = withContext(context = coroutineContext()) {
-
         if (task == InstantiationTask.TRANSACTION) {
             val uriList = repository.loadAttachments(rowId)
-            //If we clone a transaction the attachments need to be considered new for the clone in order to get saved
+            // If we clone a transaction the attachments need to be considered new for the clone in order to get saved
             if (clone) {
                 addAttachmentUris(*uriList.toTypedArray())
             } else {
@@ -523,23 +554,34 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
             InstantiationTask.TRANSACTION -> repository.loadTransaction(rowId, withTags = true)
                 .let {
                     val withCurrentDate =
-                        if (clone && prefHandler.getBoolean(PrefKey.CLONE_WITH_CURRENT_DATE, true))
-                            ZonedDateTime.now().toEpochSecond() else null
-                    TransactionMapper.map(
-                        if (clone) it.copy(
-                            data = it.data.copy(
-                                id = 0L,
-                                uuid = generateUuid(),
-                                date = withCurrentDate ?: it.data.date,
-                                valueDate = withCurrentDate ?: it.data.valueDate
+                        if (clone && prefHandler.getBoolean(
+                                PrefKey.CLONE_WITH_CURRENT_DATE,
+                                true
                             )
-                        ) else it, currencyContext
+                        ) {
+                            ZonedDateTime.now().toEpochSecond()
+                        } else {
+                            null
+                        }
+                    TransactionMapper.map(
+                        if (clone) {
+                            it.copy(
+                                data = it.data.copy(
+                                    id = 0L,
+                                    uuid = generateUuid(),
+                                    date = withCurrentDate ?: it.data.date,
+                                    valueDate = withCurrentDate ?: it.data.valueDate
+                                )
+                            )
+                        } else {
+                            it
+                        },
+                        currencyContext
                     )
                 }
 
             InstantiationTask.FROM_INTENT_EXTRAS ->
                 ProviderUtils.buildFromExtras(repository, extras!!)
-
 
             InstantiationTask.TEMPLATE_FROM_TRANSACTION -> RepositoryTemplate.fromTransaction(
                 repository.loadTransaction(rowId, withTransfer = true, withTags = true)
@@ -556,12 +598,12 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
 
     fun startAutoFill(id: Long, overridePreferences: Boolean, autoFillAccountFromExtra: Boolean) {
         val dataToLoad = buildList {
-
             val autoFillAccountFromPreference =
                 prefHandler.getString(PrefKey.AUTO_FILL_ACCOUNT, "aggregate")
             val mayLoadAccount =
-                overridePreferences && autoFillAccountFromExtra || autoFillAccountFromPreference == "always" ||
-                        autoFillAccountFromPreference == "aggregate" && autoFillAccountFromExtra
+                (overridePreferences && autoFillAccountFromExtra) ||
+                    (autoFillAccountFromPreference == "always") ||
+                    ((autoFillAccountFromPreference == "aggregate") && autoFillAccountFromExtra)
             if (overridePreferences || prefHandler.getBoolean(PrefKey.AUTO_FILL_AMOUNT, true)) {
                 add(KEY_CURRENCY)
                 add(KEY_AMOUNT)
@@ -595,7 +637,10 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         viewModelScope.launch(coroutineContext()) {
             contentResolver.query(
                 ContentUris.withAppendedId(TransactionProvider.AUTOFILL_URI, id),
-                dataToLoad.toTypedArray(), null, null, null
+                dataToLoad.toTypedArray(),
+                null,
+                null,
+                null
             )?.use {
                 if (it.moveToFirst()) {
                     _autoFillData.tryEmit(AutoFillData.fromCursor(it, currencyContext))
@@ -619,10 +664,12 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         savedStateHandle.getStateFlow(KEY_ATTACHMENT_URIS, ArrayList())
 
     fun addAttachmentUris(vararg uris: Uri) {
-        savedStateHandle[KEY_ATTACHMENT_URIS] = ArrayList(mutableSetOf<Uri>().apply {
-            addAll(attachmentUris.value)
-            addAll(uris)
-        })
+        savedStateHandle[KEY_ATTACHMENT_URIS] = ArrayList(
+            mutableSetOf<Uri>().apply {
+                addAll(attachmentUris.value)
+                addAll(uris)
+            }
+        )
     }
 
     fun removeAttachmentUri(uri: Uri) {
@@ -639,7 +686,7 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         val amount: Money?,
         val methodId: Long?,
         val accountId: Long?,
-        val debtId: Long?,
+        val debtId: Long?
     ) {
         companion object {
             fun fromCursor(cursor: Cursor, currencyContext: CurrencyContext) = AutoFillData(
@@ -657,7 +704,11 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
         }
     }
 
-    enum class InstantiationTask { TRANSACTION, TEMPLATE, TRANSACTION_FROM_TEMPLATE, FROM_INTENT_EXTRAS, TEMPLATE_FROM_TRANSACTION }
+    enum class InstantiationTask {
+        TRANSACTION,
+        TEMPLATE,
+        TRANSACTION_FROM_TEMPLATE,
+        FROM_INTENT_EXTRAS,
+        TEMPLATE_FROM_TRANSACTION
+    }
 }
-
-
