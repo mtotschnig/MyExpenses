@@ -1085,4 +1085,5 @@
     <string name="trade_add_cost">Masraf ekle</string>
     <string name="single_pane_view">Tek ekran</string>
     <string name="split_pane_view">Bölünmüş görünüm</string>
+    <string name="parent_category">Üst kategori</string>
 </resources>

@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
      Copyright (C) 2011 Google Inc.
      Licensed to The Android Open Source Project.
--->
-<resources>
+--><resources>
     <string name="drawer_open">开启导航抽屉</string>
     <string name="drawer_close">关闭导航抽屉</string>
     <string name="sort_direction_ascending">"升序"</string>
@@ -125,7 +125,7 @@
     <string name="hide">"隐藏"</string>
     <string name="show">"显示"</string>
     <string name="debug">"调试"</string>
-    <string name="wifi_not_connected">"此 WLAN 网络无法连接到互联网"</string>
+    <string name="wifi_not_connected">Wi-Fi 未连接到互联网</string>
     <string name="action_archive">"归档"</string>
     <string name="percent_long">"{value,plural, =1{百分之 1}other{百分之 #}}"</string>
     <string name="matchAll">"满足所有以下条件"</string>
@@ -170,5 +170,6 @@
     <string name="empty">"空"</string>
     <string name="options">"选项"</string>
     <string name="actions">"操作"</string>
+    <string name="buttons">按钮</string>
     <string name="search_clear_desc">"清除搜索文字"</string>
 </resources>
