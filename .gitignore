@@ -7,3 +7,4 @@ fastlane
 ChangeLog.install
 google-services.json
 .kotlin
+.agents
