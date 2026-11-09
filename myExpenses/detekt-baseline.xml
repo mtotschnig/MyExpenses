@@ -127,7 +127,6 @@
     <ID>CyclomaticComplexMethod:TransactionDetailFragment.kt:TransactionDetailFragment$@Composable fun CondensedRenderer</ID>
     <ID>CyclomaticComplexMethod:TransactionDetailFragment.kt:TransactionDetailFragment$@Composable override fun ColumnScope.MainContent</ID>
     <ID>CyclomaticComplexMethod:TransactionDetailFragment.kt:TransactionDetailFragment$@OptIn(ExperimentalLayoutApi::class) @Composable fun ExpandedRenderer</ID>
-    <ID>CyclomaticComplexMethod:TransactionEditViewModel.kt:TransactionEditViewModel$@SuppressLint("MissingPermission") suspend fun save: Result&lt;TransactionEditResult&gt;</ID>
     <ID>CyclomaticComplexMethod:TransactionEditViewModel.kt:TransactionEditViewModel$fun startAutoFill</ID>
     <ID>CyclomaticComplexMethod:TransactionEditViewModel.kt:TransactionEditViewModel$suspend fun read: TransactionEditData?</ID>
     <ID>CyclomaticComplexMethod:TransactionList.kt:@OptIn(ExperimentalFoundationApi::class) @Composable fun TransactionList</ID>
@@ -393,7 +392,6 @@
     <ID>LongMethod:TransactionDetailFragment.kt:TransactionDetailFragment$@Composable fun CondensedRenderer</ID>
     <ID>LongMethod:TransactionDetailFragment.kt:TransactionDetailFragment$@Composable override fun ColumnScope.MainContent</ID>
     <ID>LongMethod:TransactionDetailFragment.kt:TransactionDetailFragment$@OptIn(ExperimentalLayoutApi::class) @Composable fun ExpandedRenderer</ID>
-    <ID>LongMethod:TransactionEditViewModel.kt:TransactionEditViewModel$@SuppressLint("MissingPermission") suspend fun save: Result&lt;TransactionEditResult&gt;</ID>
     <ID>LongMethod:TransactionList.kt:@OptIn(ExperimentalFoundationApi::class) @Composable fun HeaderRenderer</ID>
     <ID>LongMethod:TransactionList.kt:@OptIn(ExperimentalFoundationApi::class) @Composable fun TransactionList</ID>
     <ID>LongMethod:TransactionList.kt:private fun transactionMenu</ID>
@@ -1109,7 +1107,6 @@
     <ID>MaxLineLength:TransactionDelegate.kt:TransactionDelegate$valueDate = if (dateEditBinding.Date2Button.isVisible) dateEditBinding.Date2Button.date else date.toLocalDate()</ID>
     <ID>MaxLineLength:TransactionDelegate.kt:TransactionDelegate$}</ID>
     <ID>MaxLineLength:TransactionDetailFragment.kt:TransactionDetailFragment$(requireActivity() as? MyExpensesV2)?.editTrade(transaction.transferPeerParent ?: transaction.id)</ID>
-    <ID>MaxLineLength:TransactionEditViewModel.kt:TransactionEditViewModel$InstantiationTask</ID>
     <ID>MaxLineLength:TransactionList.kt://paging library requires a stable number of items in order to keep up with refreshes in the middle of the list</ID>
     <ID>MaxLineLength:TransactionList.kt:IllegalStateException("Category path is null for ${transaction.id} / ${transaction.catId}")</ID>
     <ID>MaxLineLength:TransactionList.kt:if</ID>
