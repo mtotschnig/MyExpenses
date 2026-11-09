@@ -12,6 +12,15 @@ references:
 - kind: code
   role: implementation
   target: myExpenses/src/main/java/org/totschnig/myexpenses/compose/transactions/TransactionRenderer.kt
+- kind: code
+  role: implementation
+  target: myExpenses/src/main/java/org/totschnig/myexpenses/compose/filter/FilterDialog.kt#FilterDialog
+- kind: code
+  role: implementation
+  target: myExpenses/src/main/java/org/totschnig/myexpenses/compose/filter/FilterHandler.kt#FilterHandler
+- kind: code
+  role: implementation
+  target: myExpenses/src/main/java/org/totschnig/myexpenses/provider/filter/FtsCriterion.kt#FtsCriterion
 ---
 
 # Browse transactions

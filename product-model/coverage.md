@@ -2,13 +2,13 @@
 scope: The My Expenses Android app's accounts, transactions, transfers, splits, reconciliation, archives, export, templates and plans, budgets, categories, QIF and CSV import and home currency, at 3e9cf57aa18bc08f140faa1443e3851ac85ace67.
 method: Static inspection of source, resources and supporting documentation; nothing was run.
 covered:
-- description: Main screen, account and transaction activities, transaction form and its delegates.
-  paths: [myExpenses/src/main/java/org/totschnig/myexpenses/activity/, myExpenses/src/main/java/org/totschnig/myexpenses/delegate/, myExpenses/src/main/java/org/totschnig/myexpenses/compose/accounts/, myExpenses/src/main/java/org/totschnig/myexpenses/compose/transactions/, myExpenses/src/main/java/org/totschnig/myexpenses/compose/main/]
+- description: Main screen, account and transaction activities, transaction form and its delegates, filter dialogs and criteria.
+  paths: [myExpenses/src/main/java/org/totschnig/myexpenses/activity/, myExpenses/src/main/java/org/totschnig/myexpenses/delegate/, myExpenses/src/main/java/org/totschnig/myexpenses/compose/accounts/, myExpenses/src/main/java/org/totschnig/myexpenses/compose/transactions/, myExpenses/src/main/java/org/totschnig/myexpenses/compose/main/, myExpenses/src/main/java/org/totschnig/myexpenses/compose/filter/]
 - description: View models for accounts, transactions, templates, plans, budgets, categories, export and import.
   paths: [myExpenses/src/main/java/org/totschnig/myexpenses/viewmodel/]
 - description: Repository functions for accounts, transactions, templates, plans, budgets and categories.
   paths: [myExpenses/src/main/java/org/totschnig/myexpenses/db2/]
-- description: Database schema, triggers, content provider, archive and transfer operations.
+- description: Database schema, triggers, content provider, archive and transfer operations, and search filter criteria.
   paths: [myExpenses/src/main/java/org/totschnig/myexpenses/provider/]
 - description: Dialogs and fragments for balancing, archiving, export, templates, planner and CSV import.
   paths: [myExpenses/src/main/java/org/totschnig/myexpenses/dialog/, myExpenses/src/main/java/org/totschnig/myexpenses/fragment/]
