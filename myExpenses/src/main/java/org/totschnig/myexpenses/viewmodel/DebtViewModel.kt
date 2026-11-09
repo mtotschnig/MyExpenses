@@ -10,16 +10,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import app.cash.copper.flow.mapToList
 import app.cash.copper.flow.mapToOne
 import app.cash.copper.flow.observeQuery
+import java.io.File
+import java.time.LocalDate
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlinx.html.b
 import kotlinx.html.body
 import kotlinx.html.br
@@ -43,6 +46,7 @@ import org.totschnig.myexpenses.provider.KEY_PARENTID
 import org.totschnig.myexpenses.provider.KEY_ROWID
 import org.totschnig.myexpenses.provider.KEY_SEALED
 import org.totschnig.myexpenses.provider.TransactionProvider
+import org.totschnig.myexpenses.provider.asSequence
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.convAmount
@@ -51,9 +55,6 @@ import org.totschnig.myexpenses.util.epoch2LocalDate
 import org.totschnig.myexpenses.util.getDateTimeFormatter
 import org.totschnig.myexpenses.viewmodel.data.Debt
 import org.totschnig.myexpenses.viewmodel.data.DisplayDebt
-import java.io.File
-import java.time.LocalDate
-import javax.inject.Inject
 
 open class DebtViewModel(application: Application) : PrintViewModel(application) {
 
@@ -86,46 +87,66 @@ open class DebtViewModel(application: Application) : PrintViewModel(application)
             )
         }*/
 
-    private fun transactionsFlow(debt: DisplayDebt): Flow<List<Transaction>> {
-        var runningTotal: Long = 0
-        var runningEquivalentTotal: Long = 0
-        return contentResolver.observeQuery(
+    private fun transactionsFlow(debt: DisplayDebt): Flow<List<Transaction>> =
+        contentResolver.observeQuery(
             uri = TransactionProvider.EXTENDED_URI.buildUpon().appendQueryParameter(
-                TransactionProvider.QUERY_PARAMETER_INCLUDE_ALL, "1"
+                TransactionProvider.QUERY_PARAMETER_INCLUDE_ALL,
+                "1"
             ).build(),
             projection = arrayOf(
-                KEY_ROWID, KEY_DATE, KEY_AMOUNT, KEY_AMOUNT_HOME_EQUIVALENT, KEY_PARENTID,
+                KEY_ROWID,
+                KEY_DATE,
+                KEY_AMOUNT,
+                KEY_AMOUNT_HOME_EQUIVALENT,
+                KEY_PARENTID,
                 KEY_CURRENCY
             ),
             selection = "$KEY_DEBT_ID = ?",
             selectionArgs = arrayOf(debt.id.toString()),
-            sortOrder = "$KEY_DATE ASC"
-        ).onEach {
-            runningTotal = debt.amount
-            runningEquivalentTotal = debt.equivalentAmount ?: debt.amount
-        }.mapToList {
-            val amount = it.getLong(2)
-            val equivalentAmount = it.getLong(3)
-            val currency = it.getString(5)
-            runningTotal -= if (currency == debt.currency.code) amount else {
-                if (currency != currencyContext.homeCurrencyString) {
-                    CrashHandler.report(IllegalStateException("Currency mismatch in debt transactions, debt currency is not home currency"))
-                    0
-                } else equivalentAmount
+            sortOrder = "$KEY_DATE ASC, $KEY_ROWID ASC"
+        ).transform { query ->
+            val result = withContext(coroutineDispatcher) {
+                query.run()?.use { cursor ->
+                    var runningTotal = debt.amount
+                    var runningEquivalentTotal = debt.equivalentAmount ?: debt.amount
+                    cursor.asSequence.map { row ->
+                        val amount = row.getLong(2)
+                        val equivalentAmount = row.getLong(3)
+                        val currency = row.getString(5)
+                        val deduction = if (currency == debt.currency.code) {
+                            amount
+                        } else {
+                            if (currency != currencyContext.homeCurrencyString &&
+                                debt.currency.code != currencyContext.homeCurrencyString
+                            ) {
+                                // this can happen when user changes home currency
+                                CrashHandler.report(
+                                    IllegalStateException(
+                                        "Currency mismatch in debt transactions, debt currency is not home currency"
+                                    )
+                                )
+                                0L
+                            } else {
+                                equivalentAmount
+                            }
+                        }
+                        runningTotal -= deduction
+                        runningEquivalentTotal -= equivalentAmount
+                        Transaction(
+                            id = row.getLong(0),
+                            date = epoch2LocalDate(row.getLong(1)),
+                            amount = -amount,
+                            runningTotal = runningTotal,
+                            parentId = row.getLongOrNull(4),
+                            equivalentAmount = -equivalentAmount,
+                            equivalentRunningTotal = runningEquivalentTotal,
+                            currency = currency
+                        )
+                    }.toList()
+                }
             }
-            runningEquivalentTotal -= equivalentAmount
-            Transaction(
-                id = it.getLong(0),
-                date = epoch2LocalDate(it.getLong(1)),
-                amount = -amount,
-                runningTotal = runningTotal,
-                parentId = it.getLongOrNull(4),
-                equivalentAmount = equivalentAmount,
-                equivalentRunningTotal = runningEquivalentTotal,
-                currency = currency
-            )
+            if (result != null) emit(result)
         }
-    }
 
     private val transactionsLiveData: Map<DisplayDebt, LiveData<List<Transaction>>> =
         lazyMap { debt ->
@@ -159,12 +180,14 @@ open class DebtViewModel(application: Application) : PrintViewModel(application)
         ContentUris.withAppendedId(TransactionProvider.DEBTS_URI, debtId),
         ContentValues(1).apply {
             put(KEY_SEALED, isSealed)
-        }, null, null
+        },
+        null,
+        null
     )
 
     private suspend fun exportData(
         context: Context,
-        debt: DisplayDebt,
+        debt: DisplayDebt
     ): List<Triple<String, String, String>> {
         val transactions = buildList {
             add(
@@ -184,7 +207,15 @@ open class DebtViewModel(application: Application) : PrintViewModel(application)
         return transactions.map { transaction ->
             Triple(
                 dateFormatter.format(transaction.date),
-                (if (transaction.currency == debt.currency.code) transaction.amount else transaction.equivalentAmount)
+                (
+                    if (transaction.currency ==
+                        debt.currency.code
+                    ) {
+                        transaction.amount
+                    } else {
+                        transaction.equivalentAmount
+                    }
+                    )
                     .takeIf { it != 0L }
                     ?.let { currencyFormatter.convAmount(it, debt.currency) }
                     ?: "",
@@ -212,8 +243,8 @@ open class DebtViewModel(application: Application) : PrintViewModel(application)
             exportData.forEach {
                 stringBuilder.appendLine(
                     it.first.padStart(columnWidths.first) + " | " +
-                            it.second.padStart(columnWidths.second) + " | " +
-                            it.third.padStart(columnWidths.third)
+                        it.second.padStart(columnWidths.second) + " | " +
+                        it.third.padStart(columnWidths.third)
                 )
             }
             emit(stringBuilder.toString())
@@ -291,10 +322,11 @@ open class DebtViewModel(application: Application) : PrintViewModel(application)
         val runningTotal: Long,
         val parentId: Long? = null,
         val equivalentAmount: Long = 0,
-        val equivalentRunningTotal: Long = 0,
+        val equivalentRunningTotal: Long = 0
     )
 
     enum class ExportFormat(val mimeType: String, val resId: Int) {
-        HTML("text/html", R.string.html), TXT("text/plain", R.string.txt)
+        HTML("text/html", R.string.html),
+        TXT("text/plain", R.string.txt)
     }
 }

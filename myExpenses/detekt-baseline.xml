@@ -468,7 +468,6 @@
     <ID>MagicNumber:DebtOverviewPdfGenerator.kt:DebtOverviewPdfGenerator$100f</ID>
     <ID>MagicNumber:DebtOverviewPdfGenerator.kt:DebtOverviewPdfGenerator$10f</ID>
     <ID>MagicNumber:DebtOverviewPdfGenerator.kt:DebtOverviewPdfGenerator$3f</ID>
-    <ID>MagicNumber:DebtViewModel.kt:DebtViewModel$4</ID>
     <ID>MagicNumber:DisplayProgress.kt:DisplayProgress.Companion$100</ID>
     <ID>MagicNumber:DisplayProgress.kt:DisplayProgress.Companion$100f</ID>
     <ID>MagicNumber:DisplayProgress.kt:DisplayProgress.Companion$200</ID>
@@ -847,7 +846,6 @@
     <ID>MaxLineLength:DbConstants.kt:else -&gt; if (breakdownByAccount) "$KEY_YEAR, $KEY_SECOND_GROUP, $KEY_ACCOUNTID" else "$KEY_YEAR, $KEY_SECOND_GROUP"</ID>
     <ID>MaxLineLength:Debt.kt:amount = if (showEquivalentAmount.value) transaction.equivalentAmount else transaction.amount</ID>
     <ID>MaxLineLength:DebtActivity.kt:DebtActivity$(supportFragmentManager.findFragmentByTag(PartiesList.DIALOG_DEBT_DETAILS) as? DebtDetailsDialogFragment)?.dismiss()</ID>
-    <ID>MaxLineLength:DebtViewModel.kt:DebtViewModel$CrashHandler.report(IllegalStateException("Currency mismatch in debt transactions, debt currency is not home currency"))</ID>
     <ID>MaxLineLength:DeepLinkActivity.kt:DeepLinkActivity$if</ID>
     <ID>MaxLineLength:DistributionBaseActivity.kt:DistributionBaseActivity$accountId = if (accountInfo.accountId == 0L &amp;&amp; accountInfo.accountGrouping == AccountGrouping.NONE) HOME_AGGREGATE_ID else accountInfo.accountId</ID>
     <ID>MaxLineLength:DistributionTest.kt:DistributionTest$@Ignore("For unknown reason, testing for expense works, while testing for income fails. We run this test connected for the moment.")</ID>
@@ -1341,7 +1339,6 @@
     <ID>NewLineAtEndOfFile:DebtEdit.kt:org.totschnig.myexpenses.activity.DebtEdit.kt</ID>
     <ID>NewLineAtEndOfFile:DebtOverViewViewModel.kt:org.totschnig.myexpenses.viewmodel.DebtOverViewViewModel.kt</ID>
     <ID>NewLineAtEndOfFile:DebtOverviewPdfGenerator.kt:org.totschnig.myexpenses.export.pdf.DebtOverviewPdfGenerator.kt</ID>
-    <ID>NewLineAtEndOfFile:DebtViewModel.kt:org.totschnig.myexpenses.viewmodel.DebtViewModel.kt</ID>
     <ID>NewLineAtEndOfFile:DeepLinkActivity.kt:org.totschnig.myexpenses.activity.DeepLinkActivity.kt</ID>
     <ID>NewLineAtEndOfFile:DefaultAdHandlerFactory.kt:org.totschnig.myexpenses.util.ads.DefaultAdHandlerFactory.kt</ID>
     <ID>NewLineAtEndOfFile:DialogViewBinding.kt:org.totschnig.myexpenses.dialog.DialogViewBinding.kt</ID>
