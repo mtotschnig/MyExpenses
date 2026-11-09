@@ -1106,4 +1106,13 @@
     <string name="single_pane_view">Panneau unique</string>
     <string name="split_pane_view">Vue fractionnée</string>
     <string name="parent_category">Catégorie parente</string>
+    <string name="full_text_search">Recherche en texte intégral</string>
+    <string name="search_full_text">Rechercher dans tous les champs</string>
+    <string name="search_fts_help_and">• café thé : trouve les opérations contenant à la fois café et thé</string>
+    <string name="search_fts_help_not">• café -thé : trouve les opérations contenant café mais pas thé</string>
+    <string name="search_fts_help_or">• café OU thé : trouve les opérations contenant soit café, soit thé</string>
+    <string name="search_fts_help_phrase">• \"café et thé\" : trouve l\'expression exacte « café et thé »</string>
+    <string name="search_fts_help_prefix">• thé* : trouve les mots commençant par thé (par ex. thé, théière)</string>
+    <string name="search_fts_help_column">• Préfixer le terme de recherche pour restreindre la recherche à une colonne spécifique (ex. payee:carrefour, category:alimentation, tag:travail). Disponible : \'comment\' (notes), \'payee\' (bénéficiaire), \'category\' (catégorie), \'tag\' (tags), \'ref\' (numéro de référence)</string>
+    <string name="search_fts_error_malformed">Opérateur de recherche incomplet ou guillemets non fermés</string>
 </resources>
