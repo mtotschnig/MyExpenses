@@ -1,0 +1,13 @@
+scenarioKinds:
+  - id: primary
+    name: Primary
+    description: The established successful path.
+  - id: alternative
+    name: Alternative
+    description: Another successful way through the same ability.
+  - id: validation
+    name: Validation / refusal
+    description: Invalid input or a refusal of who may act.
+  - id: edge
+    name: Edge
+    description: Conflicts, repeats, expiry, unavailable dependencies and partial outcomes.
