@@ -1086,4 +1086,12 @@
     <string name="split_pane_view">Geteilte Ansicht</string>
     <string name="full_text_search">Volltextsuche</string>
     <string name="search_full_text">Alle Felder durchsuchen</string>
+    <string name="search_fts_help_and">• Kaffee Tee: findet Transaktionen mit Kaffee und Tee</string>
+    <string name="search_fts_help_not">• Kaffee -Tee : Findet Transaktionen mit Kaffee, aber ohne Tee</string>
+    <string name="search_fts_help_or">• Kaffee OR Tee: findet Transaktionen mit entweder Kaffee oder Tee</string>
+    <string name="search_fts_help_phrase">• \"Kaffee und Tee\": Findet den genauen Ausdruck \"Kaffee und Tee\"</string>
+    <string name="search_fts_help_prefix">• kaff*: findet Wörter beginnend mit Kaff (z.B. Kaffee, Kaffehaus)</string>
+    <string name="search_fts_help_column">• Verwenden Sie ein Präfix für den Suchbegriff, um die Suche auf eine bestimmte Spalte zu beschränken (z. B. payee:walmart, category:food, tag:work). Verfügbare Begriffe: \'comment\' (Notizen), \'payee\' (Zahlungsempfänger), \'category\' (Kategorie), \'tag\' (Schlagworte), \'ref\' (Referenznummer)</string>
+    <string name="search_fts_error_malformed">Unvollständiger Suchoperator oder nicht übereinstimmende Anführungszeichen</string>
+    <string name="parent_category">Übergeordnete Kategorie</string>
 </resources>
