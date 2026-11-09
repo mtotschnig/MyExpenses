@@ -1062,7 +1062,8 @@
     <!--
         Do NOT translate the prefix keywords before the colons (comment:, payee:, category:, tag:, reference:).
         They are exact FTS column keywords in SQLite.
-        Only translate the descriptive text explaining what each keyword searches.
+        Only translate the descriptive text explaining what each keyword searches, and the terms in the examples
+        (e.g. in German: payee:aldi, category:Essen, tag:Arbeit)
     -->
     <string name="search_fts_help_column">• Prefix query term to restrict search to specific column (e.g. payee:walmart, category:food, tag:work). Available: \'comment\' (notes), \'payee\' (counterparty), \'category\' (category), \'tag\' (tags), \'ref\' (reference number)</string>
     <string name="search_fts_error_malformed">Incomplete search operator or unmatched quotes</string>
