@@ -9,6 +9,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import androidx.annotation.RequiresPermission
+import androidx.annotation.WorkerThread
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.content.pm.ShortcutManagerCompat.FLAG_MATCH_PINNED
 import androidx.lifecycle.LiveData
@@ -141,7 +142,8 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
     val accounts: Flow<List<Account>>
         get() = contentResolver.observeQuery(
             uri = ACCOUNTS_FULL_URI,
-            selection = "$KEY_SEALED = 0 AND $KEY_IS_PORTFOLIO = $PORTFOLIO_NONE AND $KEY_PARENTID IS NULL"
+            selection =
+                "$KEY_SEALED = 0 AND $KEY_IS_PORTFOLIO = $PORTFOLIO_NONE AND $KEY_PARENTID IS NULL"
         ).mapToList {
             Account.fromCursor(it, currencyContext)
         }
@@ -218,154 +220,166 @@ class TransactionEditViewModel(application: Application, savedStateHandle: Saved
     suspend fun save(
         transaction: TransactionEditData,
         userSetExchangeRate: BigDecimal?
-    ): Result<TransactionEditResult> = withContext(coroutineContext()) {
-        runCatching {
-            val transaction = transaction.copy(
-                party = transaction.party?.let {
-                    (it.id ?: repository.requireParty(it.name))
-                        ?.let { id -> DisplayParty(id, it.name) }
-                }
-            )
-            val result = if (transaction.isTemplate) {
-                val initialPlanId = transaction.initialPlan?.let {
-                    maybeCreateInitialPlan(
-                        transaction,
-                        it
-                    ).second?.id
-                }
-                val template = TransactionMapper.mapTemplate(transaction).let {
-                    if (initialPlanId !=
-                        null
-                    ) {
-                        it.copy(data = it.data.copy(planId = initialPlanId))
-                    } else {
-                        it
-                    }
-                }
-                val id = if (transaction.id == 0L) {
-                    val id = repository.createTemplate(template).id
-                    repository.updateNewPlanEnabled(licenceHandler)
-                    if (initialPlanId != null) {
-                        PlanExecutor.enqueueSelf(application, prefHandler, forceImmediate = true)
-                    }
-                    id
-                } else {
-                    repository.updateTemplate(template)
-                    if (transaction.planId != null) {
-                        repository.updatePlan(
-                            transaction.planId,
-                            template.title,
-                            transaction.compileDescription(localizedContext, currencyFormatter)
-                        )
-                    }
-                    transaction.id
-                }
-                TransactionEditResult(
-                    id = id,
-                    amount = template.data.amount,
-                    initialPlanId = initialPlanId
-                )
-            } else {
-                val repositoryTransaction = TransactionMapper.mapTransaction(transaction)
-                val saved = if (transaction.id == 0L) {
-                    repository.createTransaction(repositoryTransaction)
-                } else {
-                    repository.updateTransaction(repositoryTransaction)
-                    repositoryTransaction
-                }
-                val initialPlanId = transaction.initialPlan
-                    ?.let { maybeCreateInitialPlan(transaction, it) }
-                    ?.also { (title, plan) ->
-                        val template = repository.createTemplate(
-                            RepositoryTemplate.fromTransaction(
-                                repositoryTransaction,
-                                title,
-                                transaction.initialPlan.uuid
-                            ).let {
-                                if (plan?.id !=
-                                    null
-                                ) {
-                                    it.copy(data = it.data.copy(planId = plan.id))
-                                } else {
-                                    it
-                                }
-                            }
-                        )
-                        if (plan != null) {
-                            repository.linkTemplateWithTransaction(
-                                template.id,
-                                saved.id,
-                                CalendarProviderProxy.calculateId(plan.dtStart)
-                            )
-                        }
-                        repository.updateNewPlanEnabled(licenceHandler)
-                    }?.second?.id
-                if (transaction.planInstanceId != null && transaction.originTemplate != null) {
-                    repository.linkTemplateWithTransaction(
-                        transaction.originTemplate.templateId,
-                        saved.id,
-                        transaction.planInstanceId
-                    )
-                }
-                TransactionEditResult(
-                    id = saved.id,
-                    amount = repositoryTransaction.data.amount,
-                    transferPeer = saved.transferPeer?.id,
-                    transferAmount = repositoryTransaction.transferPeer?.amount,
-                    initialPlanId = initialPlanId
-                )
-            }
-            // Attachments
-            if (!transaction.isTemplate) {
-                (originalUris - attachmentUris.value.toSet()).takeIf { it.isNotEmpty() }?.let {
-                    repository.deleteAttachments(transaction.id, it)
-                }
-                val newAttachmentUris =
-                    (attachmentUris.value - originalUris.toSet()).map(::prepareUriForSave)
-                repository.addAttachments(result.id, newAttachmentUris)
-                result.transferPeer?.let {
-                    repository.addAttachments(it, newAttachmentUris)
-                }
-            }
-
-            if (transaction.templateEditData != null && transaction.id != 0L) {
-                if (
-                    ShortcutManagerCompat.getShortcuts(getApplication(), FLAG_MATCH_PINNED)
-                        .any {
-                            it.id == ShortcutHelper.idTemplate(transaction.id)
-                        }
-                ) {
-                    ShortcutManagerCompat.updateShortcuts(
-                        getApplication(),
-                        listOf(
-                            ShortcutHelper.buildTemplateShortcut(
-                                getApplication(),
-                                TemplateInfo.fromTemplate(
-                                    transaction.id,
-                                    transaction.templateEditData.title,
-                                    transaction.templateEditData.defaultAction
-                                )
-                            )
-                        )
-                    )
-                }
-            }
-            val date = transaction.date.toLocalDate()
-            if (date <= LocalDate.now()) {
-                userSetExchangeRate
-                    ?.takeIf { it > BigDecimal.ZERO }
-                    ?.let {
-                        repository.savePrice(
-                            currencyContext.homeCurrencyUnit,
-                            transaction.amount.currencyUnit,
-                            date,
-                            ExchangeRateSource.User,
-                            it
-                        )
-                    }
-            }
-            result
+    ): Result<TransactionEditResult> {
+        val originalList = originalUris.toList()
+        val currentList = attachmentUris.value.toList()
+        return withContext(coroutineContext()) {
+            Result.success(doSave(transaction, userSetExchangeRate, originalList, currentList))
         }
+    }
+
+    @WorkerThread
+    private fun doSave(
+        transaction: TransactionEditData,
+        userSetExchangeRate: BigDecimal?,
+        originalUrisList: List<Uri>,
+        attachmentUrisList: List<Uri>
+    ): TransactionEditResult {
+        val transaction = transaction.copy(
+            party = transaction.party?.let {
+                (it.id ?: repository.requireParty(it.name))
+                    ?.let { id -> DisplayParty(id, it.name) }
+            }
+        )
+        val result = if (transaction.isTemplate) {
+            val initialPlanId = transaction.initialPlan?.let {
+                maybeCreateInitialPlan(
+                    transaction,
+                    it
+                ).second?.id
+            }
+            val template = TransactionMapper.mapTemplate(transaction).let {
+                if (initialPlanId !=
+                    null
+                ) {
+                    it.copy(data = it.data.copy(planId = initialPlanId))
+                } else {
+                    it
+                }
+            }
+            val id = if (transaction.id == 0L) {
+                val id = repository.createTemplate(template).id
+                repository.updateNewPlanEnabled(licenceHandler)
+                if (initialPlanId != null) {
+                    PlanExecutor.enqueueSelf(application, prefHandler, forceImmediate = true)
+                }
+                id
+            } else {
+                repository.updateTemplate(template)
+                if (transaction.planId != null) {
+                    repository.updatePlan(
+                        transaction.planId,
+                        template.title,
+                        transaction.compileDescription(localizedContext, currencyFormatter)
+                    )
+                }
+                transaction.id
+            }
+            TransactionEditResult(
+                id = id,
+                amount = template.data.amount,
+                initialPlanId = initialPlanId
+            )
+        } else {
+            val repositoryTransaction = TransactionMapper.mapTransaction(transaction)
+            val saved = if (transaction.id == 0L) {
+                repository.createTransaction(repositoryTransaction)
+            } else {
+                repository.updateTransaction(repositoryTransaction)
+                repositoryTransaction
+            }
+            val initialPlanId = transaction.initialPlan
+                ?.let { maybeCreateInitialPlan(transaction, it) }
+                ?.also { (title, plan) ->
+                    val template = repository.createTemplate(
+                        RepositoryTemplate.fromTransaction(
+                            repositoryTransaction,
+                            title,
+                            transaction.initialPlan.uuid
+                        ).let {
+                            if (plan?.id !=
+                                null
+                            ) {
+                                it.copy(data = it.data.copy(planId = plan.id))
+                            } else {
+                                it
+                            }
+                        }
+                    )
+                    if (plan != null) {
+                        repository.linkTemplateWithTransaction(
+                            template.id,
+                            saved.id,
+                            CalendarProviderProxy.calculateId(plan.dtStart)
+                        )
+                    }
+                    repository.updateNewPlanEnabled(licenceHandler)
+                }?.second?.id
+            if (transaction.planInstanceId != null && transaction.originTemplate != null) {
+                repository.linkTemplateWithTransaction(
+                    transaction.originTemplate.templateId,
+                    saved.id,
+                    transaction.planInstanceId
+                )
+            }
+            TransactionEditResult(
+                id = saved.id,
+                amount = repositoryTransaction.data.amount,
+                transferPeer = saved.transferPeer?.id,
+                transferAmount = repositoryTransaction.transferPeer?.amount,
+                initialPlanId = initialPlanId
+            )
+        }
+        // Attachments
+        if (!transaction.isTemplate) {
+            (originalUrisList - attachmentUrisList.toSet()).takeIf { it.isNotEmpty() }?.let {
+                repository.deleteAttachments(transaction.id, it)
+            }
+            val newAttachmentUris =
+                (attachmentUrisList - originalUrisList.toSet()).map(::prepareUriForSave)
+            repository.addAttachments(result.id, newAttachmentUris)
+            result.transferPeer?.let {
+                repository.addAttachments(it, newAttachmentUris)
+            }
+        }
+
+        if (transaction.templateEditData != null && transaction.id != 0L) {
+            if (
+                ShortcutManagerCompat.getShortcuts(getApplication(), FLAG_MATCH_PINNED)
+                    .any {
+                        it.id == ShortcutHelper.idTemplate(transaction.id)
+                    }
+            ) {
+                ShortcutManagerCompat.updateShortcuts(
+                    getApplication(),
+                    listOf(
+                        ShortcutHelper.buildTemplateShortcut(
+                            getApplication(),
+                            TemplateInfo.fromTemplate(
+                                transaction.id,
+                                transaction.templateEditData.title,
+                                transaction.templateEditData.defaultAction
+                            )
+                        )
+                    )
+                )
+            }
+        }
+        val date = transaction.date.toLocalDate()
+        if (date <= LocalDate.now()) {
+            userSetExchangeRate
+                ?.takeIf { it > BigDecimal.ZERO }
+                ?.let {
+                    repository.savePrice(
+                        currencyContext.homeCurrencyUnit,
+                        transaction.amount.currencyUnit,
+                        date,
+                        ExchangeRateSource.User,
+                        it
+                    )
+                }
+        }
+        return result
     }
 
     private val shouldCopyExternalUris
