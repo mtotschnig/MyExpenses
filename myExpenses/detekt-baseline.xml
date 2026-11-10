@@ -962,8 +962,6 @@
     <ID>MaxLineLength:MoreDbUtils.kt:throw XmlPullParserException("Invalid or missing 'type' attribute ($typeStr) on &lt;category&gt; at line ${parser.lineNumber}")</ID>
     <ID>MaxLineLength:MoreDbUtils.kt:throw XmlPullParserException("Nested &lt;category&gt; tag is not supported at line ${parser.lineNumber}")</ID>
     <ID>MaxLineLength:MoreInfoDialogFragment.kt:MoreInfoDialogFragment$Utils.makeBulletList(context, resources.getStringArray(R.array.additional_credits).toList(), R.drawable.ic_menu_forward)</ID>
-    <ID>MaxLineLength:MoreUiUtils.kt://without setting background drawable, popup does not close on back button or touch outside, on older API levels</ID>
-    <ID>MaxLineLength:MoreUiUtils.kt:private</ID>
     <ID>MaxLineLength:MyExpensesV2.kt:MyExpensesV2$IllegalStateException("did not expect stayOpen to be true when editing trade")</ID>
     <ID>MaxLineLength:MyExpensesV2.kt:MyExpensesV2$viewModel.activeFilter.collectAsState().value</ID>
     <ID>MaxLineLength:MyExpensesV2ViewModel.kt:MyExpensesV2ViewModel$MutableStateFlow(if (startScreen == StartScreen.BalanceSheet) AccountsScreenTab.BALANCE_SHEET else AccountsScreenTab.LIST)</ID>
@@ -1005,7 +1003,6 @@
     <ID>MaxLineLength:PreferenceDataFragment.kt:PreferenceDataFragment$title = if (base.code == homeCurrency) commodity.description else "${commodity.description} (${base.code})"</ID>
     <ID>MaxLineLength:PreferenceUiFragment.kt:PreferenceUiFragment$if</ID>
     <ID>MaxLineLength:PreferencesProtectionFragment.kt:PreferencesProtectionFragment$if</ID>
-    <ID>MaxLineLength:PreferencesSyncFragment.kt:PreferencesSyncFragment$TextUtils.concatResStrings(requireContext(), R.string.pref_sync_frequency_summary, R.string.pref_sync_frequency_summary_0)</ID>
     <ID>MaxLineLength:PreferencesWebUiFragment.kt:PreferencesWebUiFragment$TextUtils.concatResStrings(requireContext(), R.string.wifi_not_connected, R.string.continue_confirmation)</ID>
     <ID>MaxLineLength:PriceCalculationViewModelTest.kt:PriceCalculationViewModelTest$private suspend</ID>
     <ID>MaxLineLength:PriceCalculationViewModelTest.kt:PriceCalculationViewModelTest$val transactionId = repository.insertTransaction(accountId, 100, date = LocalDateTime.now().minusDays(1), equivalentAmount = 190).id</ID>
@@ -1060,7 +1057,6 @@
     <ID>MaxLineLength:SyncAdapter.kt:SyncAdapter$"$KEY_TRANSACTIONID = (SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?)"</ID>
     <ID>MaxLineLength:SyncAdapter.kt:SyncAdapter$"The backend could not be instantiated. Reason: ${throwable.message}. Please try to delete and recreate it."</ID>
     <ID>MaxLineLength:SyncAdapter.kt:SyncAdapter$//in case of failed syncs due to non-available backends, sequence number might already be higher than nextSequence</ID>
-    <ID>MaxLineLength:SyncBackendSetupActivity.kt:SyncBackendSetupActivity$showMessage("On some Xiaomi devices, synchronization does not work without AutoStart permission. Visit &lt;a href=\"https://faq.myexpenses.mobi/sync-xiaomi\"&gt;MyExpenses FAQ&lt;/a&gt; for more information.")</ID>
     <ID>MaxLineLength:SyncDelegate.kt:SyncDelegate$attachments = if ((pictureUri != null || attachments != null) &amp;&amp; (merged.pictureUri != null || merged.attachments != null) &amp;&amp; (merged.pictureUri != pictureUri || merged.attachments != attachments)) null else attachments</ID>
     <ID>MaxLineLength:SyncDelegate.kt:SyncDelegate$categoryInfo = if ((label != null || categoryInfo != null) &amp;&amp; (merged.label != null || merged.categoryInfo != null) &amp;&amp; (merged.label != label || merged.categoryInfo != categoryInfo)) null else categoryInfo</ID>
     <ID>MaxLineLength:SyncDelegate.kt:SyncDelegate$crStatus = if (crStatus != null &amp;&amp; merged.crStatus != null &amp;&amp; merged.crStatus != crStatus) null else crStatus</ID>
@@ -1227,7 +1223,6 @@
     <ID>NewLineAtEndOfFile:BaseDialogFragment.kt:org.totschnig.myexpenses.dialog.BaseDialogFragment.kt</ID>
     <ID>NewLineAtEndOfFile:BaseFunctionalityViewModel.kt:org.totschnig.myexpenses.viewmodel.BaseFunctionalityViewModel.kt</ID>
     <ID>NewLineAtEndOfFile:BaseHelpTest.kt:org.totschnig.myexpenses.util.BaseHelpTest.kt</ID>
-    <ID>NewLineAtEndOfFile:BasePreferenceFragment.kt:org.totschnig.myexpenses.fragment.preferences.BasePreferenceFragment.kt</ID>
     <ID>NewLineAtEndOfFile:BasePreferenceIOBRFragment.kt:org.totschnig.myexpenses.fragment.preferences.BasePreferenceIOBRFragment.kt</ID>
     <ID>NewLineAtEndOfFile:BaseTestWithRepository.kt:org.totschnig.myexpenses.BaseTestWithRepository.kt</ID>
     <ID>NewLineAtEndOfFile:BaseTransactionProvider.kt:org.totschnig.myexpenses.provider.BaseTransactionProvider.kt</ID>
@@ -1298,7 +1293,6 @@
     <ID>NewLineAtEndOfFile:ContextHelper.kt:org.totschnig.myexpenses.ui.ContextHelper.kt</ID>
     <ID>NewLineAtEndOfFile:ContextualActionBarFragment.kt:org.totschnig.myexpenses.fragment.ContextualActionBarFragment.kt</ID>
     <ID>NewLineAtEndOfFile:ContribDialogFragment.kt:org.totschnig.myexpenses.dialog.ContribDialogFragment.kt</ID>
-    <ID>NewLineAtEndOfFile:ContribFeature.kt:org.totschnig.myexpenses.model.ContribFeature.kt</ID>
     <ID>NewLineAtEndOfFile:ContribInfoDialogActivity.kt:org.totschnig.myexpenses.activity.ContribInfoDialogActivity.kt</ID>
     <ID>NewLineAtEndOfFile:CoroutineModule.kt:org.totschnig.myexpenses.di.CoroutineModule.kt</ID>
     <ID>NewLineAtEndOfFile:CrStatus.kt:org.totschnig.myexpenses.model.CrStatus.kt</ID>
@@ -1445,7 +1439,6 @@
     <ID>NewLineAtEndOfFile:ManageMethods.kt:org.totschnig.myexpenses.activity.ManageMethods.kt</ID>
     <ID>NewLineAtEndOfFile:ManageParties.kt:org.totschnig.myexpenses.activity.ManageParties.kt</ID>
     <ID>NewLineAtEndOfFile:ManagePartiesTest.kt:org.totschnig.myexpenses.activity.ManagePartiesTest.kt</ID>
-    <ID>NewLineAtEndOfFile:ManageSyncBackends.kt:org.totschnig.myexpenses.activity.ManageSyncBackends.kt</ID>
     <ID>NewLineAtEndOfFile:ManageTags.kt:org.totschnig.myexpenses.activity.ManageTags.kt</ID>
     <ID>NewLineAtEndOfFile:ManageTemplates.kt:org.totschnig.myexpenses.activity.ManageTemplates.kt</ID>
     <ID>NewLineAtEndOfFile:MaterialSpinnerAdapter.kt:org.totschnig.myexpenses.adapter.MaterialSpinnerAdapter.kt</ID>
@@ -1477,7 +1470,6 @@
     <ID>NewLineAtEndOfFile:OnBoardingDataViewModel.kt:org.totschnig.myexpenses.viewmodel.OnBoardingDataViewModel.kt</ID>
     <ID>NewLineAtEndOfFile:OnBoardingPrivacyFragment.kt:org.totschnig.myexpenses.fragment.OnBoardingPrivacyFragment.kt</ID>
     <ID>NewLineAtEndOfFile:OnBoardingUiViewModel.kt:org.totschnig.myexpenses.viewmodel.OnBoardingUiViewModel.kt</ID>
-    <ID>NewLineAtEndOfFile:OnboardingActivity.kt:org.totschnig.myexpenses.activity.OnboardingActivity.kt</ID>
     <ID>NewLineAtEndOfFile:OnboardingDataFragment.kt:org.totschnig.myexpenses.fragment.OnboardingDataFragment.kt</ID>
     <ID>NewLineAtEndOfFile:OnboardingFragment.kt:org.totschnig.myexpenses.fragment.OnboardingFragment.kt</ID>
     <ID>NewLineAtEndOfFile:OnboardingUiFragment.kt:org.totschnig.myexpenses.fragment.OnboardingUiFragment.kt</ID>
@@ -1518,14 +1510,12 @@
     <ID>NewLineAtEndOfFile:PreferenceUiFragment.kt:org.totschnig.myexpenses.fragment.preferences.PreferenceUiFragment.kt</ID>
     <ID>NewLineAtEndOfFile:PreferencesAdvancedFragment.kt:org.totschnig.myexpenses.fragment.preferences.PreferencesAdvancedFragment.kt</ID>
     <ID>NewLineAtEndOfFile:PreferencesAttachPictureFragment.kt:org.totschnig.myexpenses.fragment.preferences.PreferencesAttachPictureFragment.kt</ID>
-    <ID>NewLineAtEndOfFile:PreferencesBackupRestoreFragment.kt:org.totschnig.myexpenses.fragment.preferences.PreferencesBackupRestoreFragment.kt</ID>
     <ID>NewLineAtEndOfFile:PreferencesContribFragment.kt:org.totschnig.myexpenses.fragment.preferences.PreferencesContribFragment.kt</ID>
     <ID>NewLineAtEndOfFile:PreferencesFeedbackFragment.kt:org.totschnig.myexpenses.fragment.preferences.PreferencesFeedbackFragment.kt</ID>
     <ID>NewLineAtEndOfFile:PreferencesIOFragment.kt:org.totschnig.myexpenses.fragment.preferences.PreferencesIOFragment.kt</ID>
     <ID>NewLineAtEndOfFile:PreferencesOcrFragment.kt:org.totschnig.myexpenses.fragment.preferences.PreferencesOcrFragment.kt</ID>
     <ID>NewLineAtEndOfFile:PreferencesPrintFragment.kt:org.totschnig.myexpenses.fragment.preferences.PreferencesPrintFragment.kt</ID>
     <ID>NewLineAtEndOfFile:PreferencesProtectionFragment.kt:org.totschnig.myexpenses.fragment.preferences.PreferencesProtectionFragment.kt</ID>
-    <ID>NewLineAtEndOfFile:PreferencesSyncFragment.kt:org.totschnig.myexpenses.fragment.preferences.PreferencesSyncFragment.kt</ID>
     <ID>NewLineAtEndOfFile:PreferencesWebUiFragment.kt:org.totschnig.myexpenses.fragment.preferences.PreferencesWebUiFragment.kt</ID>
     <ID>NewLineAtEndOfFile:Price.kt:org.totschnig.myexpenses.viewmodel.data.Price.kt</ID>
     <ID>NewLineAtEndOfFile:PriceCalculationViewModel.kt:org.totschnig.myexpenses.viewmodel.PriceCalculationViewModel.kt</ID>
@@ -1636,7 +1626,6 @@
     <ID>NewLineAtEndOfFile:SyncBackendList.kt:org.totschnig.myexpenses.fragment.SyncBackendList.kt</ID>
     <ID>NewLineAtEndOfFile:SyncBackendProvider.kt:org.totschnig.myexpenses.sync.SyncBackendProvider.kt</ID>
     <ID>NewLineAtEndOfFile:SyncBackendProviderFactory.kt:org.totschnig.myexpenses.sync.SyncBackendProviderFactory.kt</ID>
-    <ID>NewLineAtEndOfFile:SyncBackendSetupActivity.kt:org.totschnig.myexpenses.activity.SyncBackendSetupActivity.kt</ID>
     <ID>NewLineAtEndOfFile:SyncBackendViewModel.kt:org.totschnig.myexpenses.viewmodel.SyncBackendViewModel.kt</ID>
     <ID>NewLineAtEndOfFile:SyncHandler.kt:org.totschnig.myexpenses.provider.SyncHandler.kt</ID>
     <ID>NewLineAtEndOfFile:SyncHandlerTest.kt:org.totschnig.myexpenses.provider.SyncHandlerTest.kt</ID>
@@ -1772,7 +1761,6 @@
     <ID>SwallowedException:CalendarListPreferenceDialogFragmentCompat.kt:CalendarListPreferenceDialogFragmentCompat$e: SecurityException</ID>
     <ID>SwallowedException:ConfigurationModule.kt:ConfigurationModule$e: Exception</ID>
     <ID>SwallowedException:PlannerFragment.kt:PlannerFragment$ise: IllegalStateException</ID>
-    <ID>SwallowedException:SyncBackendSetupActivity.kt:SyncBackendSetupActivity$e: NoSuchElementException</ID>
     <ID>ThrowingExceptionsWithoutMessageOrCause:AmountCriterion.kt:AmountCriterion$IllegalArgumentException()</ID>
     <ID>ThrowingExceptionsWithoutMessageOrCause:ArchiveDialogFragment.kt:ArchiveDialogFragment$IllegalStateException()</ID>
     <ID>ThrowingExceptionsWithoutMessageOrCause:BackupViewModel.kt:BackupViewModel$IllegalStateException()</ID>
