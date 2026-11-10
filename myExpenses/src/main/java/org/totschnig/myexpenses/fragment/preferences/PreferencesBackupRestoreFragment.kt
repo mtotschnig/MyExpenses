@@ -68,7 +68,10 @@ class PreferencesBackupRestoreFragment : BasePreferenceIOBRFragment() {
     }
 
     override fun onPreferenceStoredInDatabase(preference: Preference, value: Any) {
-        if (matches(preference, PrefKey.AUTO_BACKUP_CLOUD) && value != SYNCHRONIZATION_NONE) {
+        if (matches(preference, PrefKey.AUTO_BACKUP_CLOUD) &&
+            value != SYNCHRONIZATION_NONE &&
+            !licenceHandler.hasAccessTo(ContribFeature.SYNCHRONIZATION)
+        ) {
             preferenceActivity.showSnackBar(
                 ContribFeature.SYNCHRONIZATION.fullInfo(requireContext())
             )
