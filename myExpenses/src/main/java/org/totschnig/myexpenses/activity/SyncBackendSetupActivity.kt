@@ -249,9 +249,10 @@ abstract class SyncBackendSetupActivity :
         }
 
     override fun contribFeatureCalled(feature: ContribFeature, tag: ContribPayload?) {
-        val itemId = (tag as? ContribPayload.Synchronization)?.itemId
-        if (itemId != null) {
-            startSetup(itemId)
+        if (feature == ContribFeature.SYNCHRONIZATION) {
+            (tag as? ContribPayload.Synchronization)?.itemId?.let(::startSetup)
+        } else {
+            super.contribFeatureCalled(feature, tag)
         }
     }
 
