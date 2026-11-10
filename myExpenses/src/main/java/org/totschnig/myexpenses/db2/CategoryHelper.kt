@@ -19,14 +19,16 @@ object CategoryHelper {
         name: String,
         categoryToId: MutableMap<String, Long>,
         stripQifCategoryClass: Boolean,
-        typeFlags: Byte = FLAG_NEUTRAL
+        typeFlags: Byte = FLAG_NEUTRAL,
+        delimiter: String = ":"
     ): Int {
         countInserted = 0
         insertCategory(
             repository,
-            parse(if (stripQifCategoryClass) stripCategoryClass(name) else name),
+            parse(if (stripQifCategoryClass) stripCategoryClass(name) else name, delimiter),
             categoryToId,
-            typeFlags
+            typeFlags,
+            delimiter
         )
         return countInserted
     }
@@ -35,21 +37,25 @@ object CategoryHelper {
         val i = name.indexOf('/')
         return if (i != -1) {
             name.substring(0, i)
-        } else name
+        } else {
+            name
+        }
     }
 
-    private fun parse(name: String) = name.split(":".toRegex())
+    private fun parse(name: String, delimiter: String) =
+        if (delimiter.isEmpty()) listOf(name) else name.split(delimiter)
 
     private fun insertCategory(
         repository: Repository,
         name: List<String>,
         categoryToId: MutableMap<String, Long>,
-        typeFlags: Byte = FLAG_NEUTRAL
+        typeFlags: Byte = FLAG_NEUTRAL,
+        delimiter: String = ":"
     ) {
         var parentId: Long? = null
         var path = ""
         name.forEach {
-            if (path.isNotEmpty()) path += ":"
+            if (path.isNotEmpty()) path += delimiter
             path += it
             var id = categoryToId[path]
             if (id == null) {
@@ -84,5 +90,4 @@ object CategoryHelper {
         }
         return id
     }
-
 }

@@ -1,6 +1,9 @@
 package org.totschnig.myexpenses.io
 
 import android.content.Context
+import java.math.BigDecimal
+import java.time.LocalTime
+import java.util.Calendar
 import org.apache.commons.csv.CSVRecord
 import org.apache.commons.text.StringTokenizer
 import org.apache.commons.text.matcher.StringMatcherFactory
@@ -13,9 +16,6 @@ import org.totschnig.myexpenses.export.qif.QifUtils
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.timeFormatter
-import java.math.BigDecimal
-import java.time.LocalTime
-import java.util.Calendar
 
 class CSVParser(
     private val context: Context,
@@ -23,7 +23,8 @@ class CSVParser(
     private val columnToFieldMap: IntArray,
     private val dateFormat: QifDateFormat,
     private val currency: CurrencyUnit,
-    private val type: AccountType
+    private val type: AccountType,
+    private val categorySeparator: String = ":"
 ) {
 
     private val accountBuilders: MutableSet<ImportAccount.Builder> = mutableSetOf()
@@ -37,7 +38,8 @@ class CSVParser(
     val tags: MutableSet<String> = mutableSetOf()
 
     private fun requireAccount(label: String) =
-        accountBuilders.find { it.memo == label } ?: ImportAccount.Builder().memo(label).typeInternal(type.name)
+        accountBuilders.find { it.memo == label } ?: ImportAccount.Builder().memo(label)
+            .typeInternal(type.name)
             .also {
                 accountBuilders.add(it)
             }
@@ -80,18 +82,28 @@ class CSVParser(
                     if (columnIndexAmount != -1) {
                         QifUtils.parseMoney(saveGetFromRecord(record, columnIndexAmount), currency)
                     } else {
-                        val income = if (columnIndexIncome != -1) QifUtils.parseMoney(
-                            saveGetFromRecord(
-                                record,
-                                columnIndexIncome
-                            ), currency
-                        ).abs() else BigDecimal(0)
-                        val expense = if (columnIndexExpense != -1) QifUtils.parseMoney(
-                            saveGetFromRecord(
-                                record,
-                                columnIndexExpense
-                            ), currency
-                        ).abs() else BigDecimal(0)
+                        val income = if (columnIndexIncome != -1) {
+                            QifUtils.parseMoney(
+                                saveGetFromRecord(
+                                    record,
+                                    columnIndexIncome
+                                ),
+                                currency
+                            ).abs()
+                        } else {
+                            BigDecimal(0)
+                        }
+                        val expense = if (columnIndexExpense != -1) {
+                            QifUtils.parseMoney(
+                                saveGetFromRecord(
+                                    record,
+                                    columnIndexExpense
+                                ),
+                                currency
+                            ).abs()
+                        } else {
+                            BigDecimal(0)
+                        }
                         income.subtract(expense)
                     }
                 } catch (_: IllegalArgumentException) {
@@ -102,10 +114,14 @@ class CSVParser(
             if (!isSplitParent && columnIndexCategory != -1) {
                 val category: String = saveGetFromRecord(record, columnIndexCategory)
                 if (category != "") {
-                    val subCategory = if (columnIndexSubcategory != -1) saveGetFromRecord(
-                        record,
-                        columnIndexSubcategory
-                    ) else ""
+                    val subCategory = if (columnIndexSubcategory != -1) {
+                        saveGetFromRecord(
+                            record,
+                            columnIndexSubcategory
+                        )
+                    } else {
+                        ""
+                    }
                     if (category == context.getString(R.string.transfer) &&
                         subCategory != "" &&
                         QifUtils.isTransferCategory(subCategory)
@@ -115,7 +131,10 @@ class CSVParser(
                         transaction.toAccount(category.substring(1, category.length - 1))
                     } else {
                         val category1 = category +
-                                (subCategory.takeIf { it.isNotEmpty() }?.let { ":$it" } ?: "")
+                            (
+                                subCategory.takeIf { it.isNotEmpty() }
+                                    ?.let { "$categorySeparator$it" } ?: ""
+                                )
                         categories.add(CategoryInfo(category1))
                         transaction.category(category1)
                     }
@@ -160,7 +179,8 @@ class CSVParser(
                         saveGetFromRecord(
                             record,
                             columnIndexValueDate
-                        ), dateFormat
+                        ),
+                        dateFormat
                     )
                 )
             }
@@ -199,9 +219,13 @@ class CSVParser(
             if (isSplitPart) {
                 splitParent?.addSplit(transaction)
             } else {
-                (if (columnIndexAccount != -1) {
-                    requireAccount(saveGetFromRecord(record, columnIndexAccount))
-                } else defaultAccount)
+                (
+                    if (columnIndexAccount != -1) {
+                        requireAccount(saveGetFromRecord(record, columnIndexAccount))
+                    } else {
+                        defaultAccount
+                    }
+                    )
                     .addTransaction(transaction)
             }
         }

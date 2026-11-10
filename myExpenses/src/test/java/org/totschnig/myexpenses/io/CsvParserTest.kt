@@ -1,6 +1,10 @@
 package org.totschnig.myexpenses.io
 
 import com.google.common.truth.Truth.assertThat
+import java.io.ByteArrayInputStream
+import java.io.InputStreamReader
+import java.nio.charset.StandardCharsets
+import java.util.Date
 import org.apache.commons.csv.CSVFormat
 import org.junit.Test
 import org.mockito.kotlin.mock
@@ -9,13 +13,9 @@ import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.DateTime
-import java.io.ByteArrayInputStream
-import java.io.InputStreamReader
-import java.nio.charset.StandardCharsets
-import java.util.Date
 
 class CsvParserTest {
-    
+
     private val referenceDate: Date
         get() = DateTime.date(2023, 9, 6).atMidnight().asDate()
 
@@ -24,7 +24,7 @@ class CsvParserTest {
         val result = parseCSV(
             fileContent = """
                          "","9/6/23","Peter","0","1.00","Food:Baker","Notiz"
-                        """.trimIndent()
+            """.trimIndent()
         )
         assertThat(result).hasSize(1)
         val account = result[0]
@@ -40,9 +40,11 @@ class CsvParserTest {
 
     @Test
     fun shouldParseTransfer() {
-        val result = parseCSV("""
+        val result = parseCSV(
+            """
             "","9/6/23","","0","122.00","[Budget Book]"
-        """.trimIndent())
+            """.trimIndent()
+        )
         assertThat(result).hasSize(1)
         val account = result[0]
         assertThat(account.transactions).hasSize(1)
@@ -55,12 +57,14 @@ class CsvParserTest {
 
     @Test
     fun shouldParseSplitTransaction() {
-        val result = parseCSV("""
+        val result = parseCSV(
+            """
             "*","9/6/23","","0","100.00",""
             "-","9/6/23","","0","50.00","Salary:Leave allowance"
             "-","9/6/23","","0","50.00","[Budget Book]"
 
-        """.trimIndent())
+            """.trimIndent()
+        )
         assertThat(result).hasSize(1)
         val account = result[0]
         assertThat(account.transactions).hasSize(1)
@@ -82,10 +86,36 @@ class CsvParserTest {
         }
     }
 
+    @Test
+    fun shouldParseSubcategoryWithCustomSeparator() {
+        val result = parseCSV(
+            fileContent = """
+                         "","9/6/23","Peter","0","1.00","Food","Baker","Notiz"
+            """.trimIndent(),
+            categorySeparator = " > ",
+            columnToFieldMap = intArrayOf(
+                R.string.split_transaction,
+                R.string.date,
+                R.string.payer_or_payee,
+                R.string.income,
+                R.string.expense,
+                R.string.category,
+                R.string.subcategory,
+                R.string.notes
+            )
+        )
+        assertThat(result).hasSize(1)
+        val account = result[0]
+        assertThat(account.transactions).hasSize(1)
+        with(account.transactions[0]) {
+            assertThat(category).isEqualTo("Food > Baker")
+        }
+    }
 
     private fun parseCSV(
         fileContent: String,
         dateFormat: QifDateFormat = QifDateFormat.US,
+        categorySeparator: String = ":",
         columnToFieldMap: IntArray = intArrayOf(
             R.string.split_transaction,
             R.string.date,
@@ -107,7 +137,8 @@ class CsvParserTest {
             columnToFieldMap,
             dateFormat,
             CurrencyUnit.DebugInstance,
-            AccountType.BANK
+            AccountType.BANK,
+            categorySeparator
         )
         p.parse()
         return p.accounts

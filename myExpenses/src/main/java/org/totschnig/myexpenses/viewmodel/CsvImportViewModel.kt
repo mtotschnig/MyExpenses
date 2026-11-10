@@ -7,6 +7,7 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.liveData
+import java.io.InputStreamReader
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,9 +20,9 @@ import org.totschnig.myexpenses.export.qif.QifDateFormat
 import org.totschnig.myexpenses.io.CSVParser
 import org.totschnig.myexpenses.model.AccountType
 import org.totschnig.myexpenses.model2.Account
+import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.util.ResultUnit
-import java.io.InputStreamReader
 
 data class AccountConfiguration(val id: Long, val currency: String, val type: AccountType)
 
@@ -45,7 +46,7 @@ class CsvImportViewModel(application: Application, val savedStateHandle: SavedSt
     val dataFlow: StateFlow<List<CSVRecord>> = _dataFlow
 
     private fun setDataInternal(data: List<CSVRecord>, fromProcessDeath: Boolean) {
-        if(!fromProcessDeath) {
+        if (!fromProcessDeath) {
             selectedRows = BooleanArray(data.size) { true }
             headerLine = -1
             mapping = null
@@ -115,14 +116,15 @@ class CsvImportViewModel(application: Application, val savedStateHandle: SavedSt
     fun parseFile(
         uri: Uri,
         delimiter: Char,
-        encoding: String,
+        encoding: String
     ): LiveData<Result<Unit>> {
         this.uri = uri
         this.delimiter = delimiter
         this.encoding = encoding
         return liveData(Dispatchers.IO) {
             try {
-                doParse(uri, delimiter, encoding) ?: throw java.lang.Exception("OpenInputStream returned null")
+                doParse(uri, delimiter, encoding)
+                    ?: throw java.lang.Exception("OpenInputStream returned null")
                 emit(ResultUnit)
             } catch (e: Exception) {
                 emit(Result.failure(e))
@@ -130,7 +132,12 @@ class CsvImportViewModel(application: Application, val savedStateHandle: SavedSt
         }
     }
 
-    private fun doParse(uri: Uri, delimiter: Char, encoding: String, fromProcessDeath: Boolean = false) =
+    private fun doParse(
+        uri: Uri,
+        delimiter: Char,
+        encoding: String,
+        fromProcessDeath: Boolean = false
+    ) =
         contentResolver.openInputStream(uri)?.use {
             setDataInternal(
                 CSVFormat.DEFAULT.withDelimiter(delimiter)
@@ -145,56 +152,65 @@ class CsvImportViewModel(application: Application, val savedStateHandle: SavedSt
         dateFormat: QifDateFormat,
         autoFill: Boolean,
         accountConfiguration: AccountConfiguration,
-        uri: Uri,
+        uri: Uri
     ): LiveData<Result<List<ImportResult>>> = liveData(context = coroutineContext()) {
+        emit(
+            runCatching {
+                val currencyUnit = currencyContext[accountConfiguration.currency]
+                val categorySeparator = prefHandler.requireString(
+                    PrefKey.CSV_EXPORT_CATEGORY_SEPARATOR,
+                    " > "
+                )
+                val parser = CSVParser(
+                    localizedContext,
+                    data,
+                    columnToFieldMap,
+                    dateFormat,
+                    currencyUnit,
+                    accountConfiguration.type,
+                    categorySeparator
+                )
+                parser.parse()
+                val accounts = parser.accounts
 
-        emit(runCatching {
-            val currencyUnit = currencyContext[accountConfiguration.currency]
-            val parser = CSVParser(
-                localizedContext,
-                data,
-                columnToFieldMap,
-                dateFormat,
-                currencyUnit,
-                accountConfiguration.type
-            )
-            parser.parse()
-            val accounts = parser.accounts
-
-            contentResolver.call(
-                TransactionProvider.DUAL_URI,
-                TransactionProvider.METHOD_BULK_START,
-                null,
-                null
-            )
-
-            try {
-                if (columnToFieldMap.indexOf(R.string.account) > -1) {
-                    insertAccounts(accounts, currencyUnit, uri)
-                } else {
-                    accountTitleToAccount[accounts[0].memo] = if (accountConfiguration.id == 0L)
-                        Account(
-                            label = getString(R.string.pref_import_title, "CSV"),
-                            currency = accountConfiguration.currency,
-                            openingBalance = 0,
-                            type = accountConfiguration.type
-                        ).createIn(repository)
-                    else repository.loadAccount(accountConfiguration.id)!!
-                }
-
-                insertPayees(parser.payees)
-                repository.extractTagIds(parser.tags, tagToId)
-                insertCategories(parser.categories, false)
-
-                insertTransactions(accounts, currencyUnit, autoFill)
-            } finally {
                 contentResolver.call(
                     TransactionProvider.DUAL_URI,
-                    TransactionProvider.METHOD_BULK_END,
+                    TransactionProvider.METHOD_BULK_START,
                     null,
                     null
                 )
-            }.filterNotNull()
-        })
+
+                try {
+                    if (columnToFieldMap.indexOf(R.string.account) > -1) {
+                        insertAccounts(accounts, currencyUnit, uri)
+                    } else {
+                        accountTitleToAccount[accounts[0].memo] =
+                            if (accountConfiguration.id == 0L) {
+                                Account(
+                                    label = getString(R.string.pref_import_title, "CSV"),
+                                    currency = accountConfiguration.currency,
+                                    openingBalance = 0,
+                                    type = accountConfiguration.type
+                                ).createIn(repository)
+                            } else {
+                                repository.loadAccount(accountConfiguration.id)!!
+                            }
+                    }
+
+                    insertPayees(parser.payees)
+                    repository.extractTagIds(parser.tags, tagToId)
+                    insertCategories(parser.categories, false, categorySeparator)
+
+                    insertTransactions(accounts, currencyUnit, autoFill)
+                } finally {
+                    contentResolver.call(
+                        TransactionProvider.DUAL_URI,
+                        TransactionProvider.METHOD_BULK_END,
+                        null,
+                        null
+                    )
+                }.filterNotNull()
+            }
+        )
     }
 }

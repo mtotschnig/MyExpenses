@@ -5,6 +5,9 @@ import androidx.core.net.toUri
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
+import java.math.BigDecimal
+import java.time.LocalDate
+import java.util.Date
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
@@ -21,9 +24,6 @@ import org.totschnig.myexpenses.io.ImportTransaction
 import org.totschnig.myexpenses.model.CrStatus
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.util.epoch2LocalDate
-import java.math.BigDecimal
-import java.time.LocalDate
-import java.util.Date
 
 // Concrete implementation for testing
 class TestImportDataViewModel(
@@ -78,7 +78,6 @@ class ImportDataViewModelTest : BaseTestWithRepository() {
         // Arrange
         val importAccounts = listOf(ImportAccount(memo = "")) // Empty label
 
-
         // Act
         val importCount = viewModel.insertAccounts(importAccounts, testCurrency, uri)
 
@@ -114,7 +113,6 @@ class ImportDataViewModelTest : BaseTestWithRepository() {
             )
         )
 
-
         // Act
         val importCount = viewModel.insertAccounts(importAccounts, testCurrency, uri)
 
@@ -144,11 +142,23 @@ class ImportDataViewModelTest : BaseTestWithRepository() {
     }
 
     @Test
+    fun `insertCategories creates parent and child categories with custom separator`() {
+        runBlocking {
+            viewModel.insertCategories(setOf(CategoryInfo("Food > Baker")), false, " > ")
+            val parentCategory = repository.findCategory("Food")
+            val childCategory = repository.findCategory("Baker", parentCategory)
+            assertThat(parentCategory).isNotNull()
+            assertThat(childCategory).isNotNull()
+        }
+    }
+
+    @Test
     fun insertTransfer() {
         // Arrange
         val date = Date()
         val importAccounts = listOf(
-            ImportAccount(memo = "test2",
+            ImportAccount(
+                memo = "test2",
                 transactions = listOf(
                     ImportTransaction(
                         date = date,
@@ -165,7 +175,8 @@ class ImportDataViewModelTest : BaseTestWithRepository() {
                         method = null,
                         tags = null,
                         splits = null
-                    ))
+                    )
+                )
             ),
             ImportAccount(
                 memo = "test",
@@ -189,7 +200,6 @@ class ImportDataViewModelTest : BaseTestWithRepository() {
                 )
             )
         )
-
 
         // Act
         val importCount = viewModel.insertAccounts(importAccounts, testCurrency, uri)
@@ -274,7 +284,6 @@ class ImportDataViewModelTest : BaseTestWithRepository() {
             )
         )
 
-
         // Act
         val importCount = viewModel.insertAccounts(importAccounts, testCurrency, uri)
 
@@ -283,7 +292,10 @@ class ImportDataViewModelTest : BaseTestWithRepository() {
         val account = repository.findAnyOpenByLabel("test")
         assertThat(account).isNotNull()
         runBlocking {
-            viewModel.insertCategories(setOf(CategoryInfo("Grocery"), CategoryInfo("Sports")), false)
+            viewModel.insertCategories(
+                setOf(CategoryInfo("Grocery"), CategoryInfo("Sports")),
+                false
+            )
             viewModel.insertPayees(setOf("Joe"))
             viewModel.insertTransactions(importAccounts, testCurrency, false)
             val transactions = repository.loadTransactions(account!!)
@@ -305,12 +317,18 @@ class ImportDataViewModelTest : BaseTestWithRepository() {
             val splitTransaction = repository.loadTransaction(transaction.id)
             val parts = splitTransaction.splitParts
             assertThat(parts).hasSize(2)
-            assertThat(parts!!.count { (data, _, _) ->
-                data.amount == 500L && data.comment == "Comment 1" && data.categoryId == category1
-            }).isEqualTo(1)
-            assertThat(parts.count { (data, _, _) ->
-                data.amount == 500L && data.comment == "Comment 2" && data.categoryId == category2
-            }).isEqualTo(1)
+            assertThat(
+                parts!!.count { (data, _, _) ->
+                    data.amount == 500L && data.comment == "Comment 1" &&
+                        data.categoryId == category1
+                }
+            ).isEqualTo(1)
+            assertThat(
+                parts.count { (data, _, _) ->
+                    data.amount == 500L && data.comment == "Comment 2" &&
+                        data.categoryId == category2
+                }
+            ).isEqualTo(1)
         }
     }
 }

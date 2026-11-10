@@ -9,7 +9,7 @@ import org.junit.runner.RunWith
 import org.totschnig.myexpenses.BaseTestWithRepository
 
 @RunWith(AndroidJUnit4::class)
-class CategoryHelperTest: BaseTestWithRepository() {
+class CategoryHelperTest : BaseTestWithRepository() {
 
     private lateinit var categoryToId: MutableMap<String, Long>
 
@@ -57,6 +57,13 @@ class CategoryHelperTest: BaseTestWithRepository() {
         insert("abc/", false)
         assertNull(categoryToId["abc"])
         assertNotNull(categoryToId["abc/"])
+    }
+
+    @Test
+    fun shouldInsertTwoLevelsWithCustomDelimiter() {
+        CategoryHelper.insert(repository, "abc > def", categoryToId, false, delimiter = " > ")
+        assertNotNull(categoryToId["abc > def"])
+        assertNotNull(categoryToId["abc"])
     }
 
     private fun insert(label: String, stripQifCategoryClass: Boolean) {

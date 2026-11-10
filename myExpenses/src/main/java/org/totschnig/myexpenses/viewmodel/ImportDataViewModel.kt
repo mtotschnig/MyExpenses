@@ -69,11 +69,18 @@ abstract class ImportDataViewModel(application: Application) :
         var importCount = 0
         for (account: ImportAccount in accounts) {
             val dbAccountId =
-                if (TextUtils.isEmpty(account.memo)) null else repository.findAnyOpenByLabel(account.memo)
+                if (TextUtils.isEmpty(
+                        account.memo
+                    )
+                ) {
+                    null
+                } else {
+                    repository.findAnyOpenByLabel(account.memo)
+                }
             val dbAccount = if (dbAccountId != null) {
                 repository.loadAccount(dbAccountId) ?: throw Exception(
                     "Exception during QIF import. Did not get instance from DB for id " +
-                            dbAccountId
+                        dbAccountId
                 )
             } else {
                 val accountType = account.type?.let {
@@ -89,13 +96,13 @@ abstract class ImportDataViewModel(application: Application) :
                                 R.string.qif_parse_failure_found_multiple_accounts,
                                 format
                             ) + " " +
-                                    ContribFeature.ACCOUNTS_UNLIMITED.trialInfo(
-                                        localizedContext
-                                    ) +
-                                    ContribFeature.ACCOUNTS_UNLIMITED.upgradeInfo(
-                                        localizedContext,
-                                        false
-                                    )
+                                ContribFeature.ACCOUNTS_UNLIMITED.trialInfo(
+                                    localizedContext
+                                ) +
+                                ContribFeature.ACCOUNTS_UNLIMITED.upgradeInfo(
+                                    localizedContext,
+                                    false
+                                )
                         )
                     }
                     repository.createAccount(
@@ -111,7 +118,7 @@ abstract class ImportDataViewModel(application: Application) :
     suspend fun insertTransactions(
         accounts: List<ImportAccount>,
         currencyUnit: CurrencyUnit,
-        autofill: Boolean,
+        autofill: Boolean
     ) = reduceTransfers(accounts).map { (_, memo, _, _, transactions) ->
         accountTitleToAccount[memo]?.let {
             insertTransactions(it, currencyUnit, transactions, autofill)
@@ -130,17 +137,30 @@ abstract class ImportDataViewModel(application: Application) :
     fun insertPayees(payees: Set<String>): Int {
         var count = 0
         for (payee in payees) {
-            (repository.findParty(payee) ?: repository.createParty(payee)
-                ?.also { count++ }?.id)?.let {
+            (
+                repository.findParty(payee) ?: repository.createParty(payee)
+                    ?.also { count++ }?.id
+                )?.let {
                 payeeToId[payee] = it
             }
         }
         return count
     }
 
-    fun insertCategories(categories: Set<CategoryInfo>, stripQifCategoryClass: Boolean) =
+    fun insertCategories(
+        categories: Set<CategoryInfo>,
+        stripQifCategoryClass: Boolean,
+        categorySeparator: String = ":"
+    ) =
         categories.sumOf {
-            CategoryHelper.insert(repository, it.name, categoryToId, stripQifCategoryClass, it.type)
+            CategoryHelper.insert(
+                repository,
+                it.name,
+                categoryToId,
+                stripQifCategoryClass,
+                it.type,
+                categorySeparator
+            )
         }
 
     fun ImportTransaction.toTransaction(
@@ -160,24 +180,31 @@ abstract class ImportDataViewModel(application: Application) :
                 referenceNumber = number,
                 amount = Money.buildWithMajor(currencyUnit, amount).getOrThrow().amountMinor,
                 accountId = a.id,
-                categoryId = if (isSplit) SPLIT_CATID else
-                    findCategory(payeeId, autofill),
+                categoryId = if (isSplit) {
+                    SPLIT_CATID
+                } else {
+                    findCategory(payeeId, autofill)
+                },
                 payeeId = payeeId,
                 transferAccountId = transferAccount?.id,
                 methodId = findMethod(),
                 uuid = uuid
 
             ),
-            transferPeer = if (transferAccount != null && toAmount != null) Transaction(
-                date = date,
-                amount = Money.buildWithMajor(
-                    currencyContext[transferAccount.currency],
-                    toAmount
-                ).getOrThrow().amountMinor,
-                accountId = transferAccount.id,
-                transferAccountId = a.id,
-                uuid = uuid
-            ) else null,
+            transferPeer = if (transferAccount != null && toAmount != null) {
+                Transaction(
+                    date = date,
+                    amount = Money.buildWithMajor(
+                        currencyContext[transferAccount.currency],
+                        toAmount
+                    ).getOrThrow().amountMinor,
+                    accountId = transferAccount.id,
+                    transferAccountId = a.id,
+                    uuid = uuid
+                )
+            } else {
+                null
+            },
             splitParts = splits?.map {
                 it.toTransaction(a, currencyUnit, autofill)
             }
@@ -188,11 +215,12 @@ abstract class ImportDataViewModel(application: Application) :
         account: Account,
         currencyUnit: CurrencyUnit,
         transactions: List<ImportTransaction>,
-        autofill: Boolean,
+        autofill: Boolean
     ) {
         for (transaction in transactions) {
             if (transaction.splits != null && transaction.splits.sumOf { it.amount }
-                    .compareTo(transaction.amount) != 0) {
+                    .compareTo(transaction.amount) != 0
+            ) {
                 throw InvalidDataException("Sum of splits must equal parent amount.")
             }
             val t = repository.createTransaction(
@@ -217,11 +245,14 @@ abstract class ImportDataViewModel(application: Application) :
     private fun ImportTransaction.findCategory(payeeId: Long?, autofill: Boolean) =
         categoryToId[category] ?: when {
             autofill -> payeeId?.let {
-                (autoFillCache[it] ?: repository.autoFill(it)
-                    ?.apply { autoFillCache[it] = this })?.categoryId
+                (
+                    autoFillCache[it] ?: repository.autoFill(it)
+                        ?.apply { autoFillCache[it] = this }
+                    )?.categoryId
             }
 
             isTransfer -> prefHandler.defaultTransferCategory
+
             else -> null
         }
 
