@@ -230,7 +230,8 @@ fun View.configurePopupAnchor(
         PopupWindow(infoTextView).apply {
             isOutsideTouchable = true
             isFocusable = true
-            // without setting background drawable, popup does not close on back button or touch outside, on older API levels
+            // without setting background drawable, popup does not close on back button or touch
+            // outside, on older API levels
             setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
             width = ViewGroup.LayoutParams.WRAP_CONTENT
             height = ViewGroup.LayoutParams.WRAP_CONTENT
