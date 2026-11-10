@@ -145,7 +145,7 @@ class PreferenceDataFragment : BasePreferenceFragment() {
         with(requirePreference<TwoStatePreference>(PrefKey.AUTOMATIC_EXCHANGE_RATE_DOWNLOAD)) {
             isVisible = currencies.isNotEmpty()
             isEnabled = providers.isNotEmpty()
-            summary = ContribFeature.AUTOMATIC_FX_DOWNLOAD.buildRequiresString(requireActivity())
+            summary = ContribFeature.AUTOMATIC_FX_DOWNLOAD.requiresInfo(requireActivity())
             onPreferenceChangeListener = OnPreferenceChangeListener { _, newValue ->
                 if (newValue as Boolean) {
                     preferenceActivity.contribFeatureRequested(ContribFeature.AUTOMATIC_FX_DOWNLOAD)

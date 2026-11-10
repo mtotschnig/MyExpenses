@@ -5,6 +5,8 @@
     android:title="@string/synchronization">
     <org.totschnig.myexpenses.preference.HeaderPreference />
     <Preference
+        android:key="disclaimer"/>
+    <Preference
         android:key="@string/pref_manage_sync_backends_key"
         android:title="@string/pref_manage_sync_backends_title">
 

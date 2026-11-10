@@ -18,6 +18,7 @@ import androidx.preference.MultiSelectListPreferenceDialogFragment2
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.recyclerview.widget.RecyclerView
+import javax.inject.Inject
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.Help
 import org.totschnig.myexpenses.activity.PreferenceActivity
@@ -42,9 +43,9 @@ import org.totschnig.myexpenses.util.ads.AdHandlerFactory
 import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.tracking.Tracker
 import org.totschnig.myexpenses.viewmodel.SettingsViewModel
-import javax.inject.Inject
 
-abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
+abstract class BasePreferenceFragment :
+    PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener {
 
     @Inject
@@ -83,19 +84,17 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
     override fun onCreateRecyclerView(
         inflater: LayoutInflater,
         parent: ViewGroup,
-        savedInstanceState: Bundle?,
-    ): RecyclerView {
-        return super.onCreateRecyclerView(inflater, parent, savedInstanceState).apply {
-            clipToPadding = false
-            ViewCompat.setOnApplyWindowInsetsListener(this) { v, insets ->
-                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+        savedInstanceState: Bundle?
+    ): RecyclerView = super.onCreateRecyclerView(inflater, parent, savedInstanceState).apply {
+        clipToPadding = false
+        ViewCompat.setOnApplyWindowInsetsListener(this) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
 
-                v.updatePadding(
-                    top = systemBars.top,
-                    bottom = systemBars.bottom
-                )
-                insets
-            }
+            v.updatePadding(
+                top = systemBars.top,
+                bottom = systemBars.bottom
+            )
+            insets
         }
     }
 
@@ -118,10 +117,16 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
             viewModel.storeSetting(preference.key, newValue.toString())
                 .observe(this@BasePreferenceFragment) { result ->
                     preferenceActivity.dismissSnackBar()
-                    if ((!result)) preferenceActivity.showSnackBar("ERROR")
+                    if (result) {
+                        onPreferenceStoredInDatabase(preference, newValue)
+                    } else {
+                        preferenceActivity.showSnackBar("ERROR")
+                    }
                 }
             true
         }
+
+    open fun onPreferenceStoredInDatabase(preference: Preference, value: Any) {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         with(injector) {
@@ -144,18 +149,17 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String?) {}
 
-
     override fun onDisplayPreferenceDialog(preference: Preference) {
         val key = preference.key
         if (matches(preference, PrefKey.AUTO_BACKUP_CLOUD)) {
             if ((preference as ListPreference).entries.size == 1) {
-
                 preferenceActivity.showSnackBar(R.string.no_sync_backends)
                 return
             }
         }
         val fragment = when {
             preference is FontSizeDialogPreference -> FontSizeDialogFragmentCompat.newInstance(key)
+
             preference is SimplePasswordPreference ->
                 SimplePasswordDialogFragmentCompat.newInstance(key)
 
@@ -202,10 +206,14 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
     protected fun showOnlyOneProtectionWarning(legacyProtectionByPasswordIsActive: Boolean) {
         val lockScreen = getString(R.string.pref_protection_device_lock_screen_title)
         val passWord = getString(R.string.pref_protection_password_title)
-        val formatArgs: Array<String> = if (legacyProtectionByPasswordIsActive) arrayOf(
-            lockScreen,
-            passWord
-        ) else arrayOf(passWord, lockScreen)
+        val formatArgs: Array<String> = if (legacyProtectionByPasswordIsActive) {
+            arrayOf(
+                lockScreen,
+                passWord
+            )
+        } else {
+            arrayOf(passWord, lockScreen)
+        }
         //noinspection StringFormatMatches
         preferenceActivity.showSnackBar(
             getString(
@@ -218,10 +226,8 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
     fun <T : Preference> findPreference(prefKey: PrefKey): T? =
         findPreference(getKey(prefKey))
 
-    fun <T : Preference> requirePreference(prefKey: PrefKey): T {
-        return findPreference(prefKey)
-            ?: throw IllegalStateException("Preference not found")
-    }
+    fun <T : Preference> requirePreference(prefKey: PrefKey): T = findPreference(prefKey)
+        ?: throw IllegalStateException("Preference not found")
 
     fun matches(preference: Preference, vararg prefKey: PrefKey) =
         preference.key?.let { prefHandler.matches(it, *prefKey) } == true
@@ -236,14 +242,16 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
             preference.summary?.takeIf { it.isNotEmpty() }?.also {
                 preferenceActivity.startActionView(it.toString())
             } ?: run {
-                startActivity(Intent(requireContext(), Help::class.java).apply {
-                    putExtra(HelpDialogFragment.KEY_CONTEXT, preferenceScreen.key)
-                    putExtra(
-                        HelpDialogFragment.KEY_TITLE,
-                        preferenceScreen.title
-                    )
-                    putExtra(HelpDialogFragment.KEY_EXTRA, helpExtra)
-                })
+                startActivity(
+                    Intent(requireContext(), Help::class.java).apply {
+                        putExtra(HelpDialogFragment.KEY_CONTEXT, preferenceScreen.key)
+                        putExtra(
+                            HelpDialogFragment.KEY_TITLE,
+                            preferenceScreen.title
+                        )
+                        putExtra(HelpDialogFragment.KEY_EXTRA, helpExtra)
+                    }
+                )
             }
             return true
         }
@@ -260,18 +268,22 @@ abstract class BasePreferenceFragment : PreferenceFragmentCompat(),
         if (matches(preference, prefKey)) {
             preferenceActivity.contribFeatureRequested(feature)
             true
-        } else false
+        } else {
+            false
+        }
 
     open fun showPreference(prefKey: String) {
         findPreference<Preference>(prefKey)?.let { onDisplayPreferenceDialog(it) }
     }
 
     val ioTitle: String
-        get() = getString(R.string.pref_category_title_import) + " / " + getString(R.string.pref_category_title_export)
+        get() = getString(R.string.pref_category_title_import) + " / " +
+            getString(R.string.pref_category_title_export)
 
     val backupRestoreTitle: String
         get() = getString(R.string.menu_backup) + " / " + getString(R.string.pref_restore_title)
 
     val protectionTitle: String
-        get() = getString(R.string.security_settings_title) + " / " + getString(R.string.privacy_header)
+        get() = getString(R.string.security_settings_title) + " / " +
+            getString(R.string.privacy_header)
 }

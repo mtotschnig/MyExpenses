@@ -63,10 +63,10 @@ class OnboardingActivity : SyncBackendSetupActivity() {
             try {
                 prefHandler.setDefaultValues(this)
             } catch (e: Exception) {
-                //According to report, setDefaultValues fails in some scenario
-                //where there is a value of the wrong type already present
-                //java.lang.ClassCastException: java.lang.Boolean cannot be cast to java.lang.String
-                //maybe when data is restored via Play Store app backup
+                // According to report, setDefaultValues fails in some scenario
+                // where there is a value of the wrong type already present
+                // java.lang.ClassCastException: java.lang.Boolean cannot be cast to java.lang.String
+                // maybe when data is restored via Play Store app backup
                 CrashHandler.report(e)
             }
         }
@@ -78,7 +78,7 @@ class OnboardingActivity : SyncBackendSetupActivity() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.pageIndicatorView) { v, insets ->
             val bars = insets.getInsets(
                 WindowInsetsCompat.Type.systemBars()
-                        or WindowInsetsCompat.Type.displayCutout()
+                    or WindowInsetsCompat.Type.displayCutout()
             )
             v.updateLayoutParams<MarginLayoutParams> {
                 topMargin = bars.top
@@ -92,7 +92,6 @@ class OnboardingActivity : SyncBackendSetupActivity() {
                     binding.viewPager.currentItem = currentItem - 1
                 } else {
                     onBackPressedDispatcher.onBackPressed()
-
                 }
             }
         }
@@ -105,7 +104,7 @@ class OnboardingActivity : SyncBackendSetupActivity() {
         })
     }
 
-    override fun onCreateOptionsMenu(menu: Menu) = false //skip help
+    override fun onCreateOptionsMenu(menu: Menu) = false // skip help
 
     fun navigateNext() {
         val currentItem = binding.viewPager.currentItem
@@ -160,11 +159,13 @@ class OnboardingActivity : SyncBackendSetupActivity() {
 
     fun setupFromBackup(backup: String?, password: String?) {
         prefHandler.isOnboardingCompleted = true
-        doRestore(Bundle(4).apply {
-            putString(KEY_SYNC_ACCOUNT_NAME, accountName)
-            putString(KEY_BACKUP_FROM_SYNC, backup)
-            putString(KEY_PASSWORD, password)
-        })
+        doRestore(
+            Bundle(4).apply {
+                putString(KEY_SYNC_ACCOUNT_NAME, accountName)
+                putString(KEY_BACKUP_FROM_SYNC, backup)
+                putString(KEY_PASSWORD, password)
+            }
+        )
     }
 
     fun setupFromSyncAccounts(syncAccounts: List<AccountMetaData>) {
@@ -186,10 +187,9 @@ class OnboardingActivity : SyncBackendSetupActivity() {
     private class MyPagerAdapter(activity: FragmentActivity) :
         FragmentStateAdapter(activity) {
         fun getFragmentName(currentPosition: Int): String {
-            //https://stackoverflow.com/a/61178226/1199911
+            // https://stackoverflow.com/a/61178226/1199911
             return "f" + getItemId(currentPosition)
         }
-
 
         override fun createFragment(position: Int) = when (position) {
             0 -> OnboardingUiFragment.newInstance()
@@ -201,7 +201,9 @@ class OnboardingActivity : SyncBackendSetupActivity() {
     }
 
     override fun onNegative(args: Bundle) {
-        if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE) == R.id.ENCRYPT_CANCEL_COMMAND) {
+        if (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_NEGATIVE) ==
+            R.id.ENCRYPT_CANCEL_COMMAND
+        ) {
             prefHandler.putBoolean(PrefKey.ENCRYPT_DATABASE, false)
             privacyFragment?.setupMenu()
         }

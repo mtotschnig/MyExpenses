@@ -7,7 +7,10 @@ import androidx.preference.Preference
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.BackupRestoreActivity
 import org.totschnig.myexpenses.activity.BaseActivity.Companion.RESULT_RESTORE_OK
+import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.ContribPayload
 import org.totschnig.myexpenses.preference.AccountPreference
+import org.totschnig.myexpenses.preference.AccountPreference.Companion.SYNCHRONIZATION_NONE
 import org.totschnig.myexpenses.preference.PopupMenuPreference
 import org.totschnig.myexpenses.preference.PrefKey
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
@@ -22,7 +25,7 @@ class PreferencesBackupRestoreFragment : BasePreferenceIOBRFragment() {
 
     fun loadSyncAccountData(accountName: String? = null) {
         with(requirePreference<AccountPreference>(PrefKey.AUTO_BACKUP_CLOUD)) {
-            setData(requireContext())
+            setData()
             val hasSyncBackends = entries.size >= 2
             isVisible = hasSyncBackends
             if (hasSyncBackends) {
@@ -38,7 +41,8 @@ class PreferencesBackupRestoreFragment : BasePreferenceIOBRFragment() {
                     CrashHandler.report(IllegalStateException())
                 }
             }
-            requirePreference<Preference>(PrefKey.AUTO_BACKUP_CLOUD_SETUP).isVisible = !hasSyncBackends
+            requirePreference<Preference>(PrefKey.AUTO_BACKUP_CLOUD_SETUP).isVisible =
+                !hasSyncBackends
         }
     }
 
@@ -63,15 +67,28 @@ class PreferencesBackupRestoreFragment : BasePreferenceIOBRFragment() {
         configureShareTargetPreference()
     }
 
+    override fun onPreferenceStoredInDatabase(preference: Preference, value: Any) {
+        if (matches(preference, PrefKey.AUTO_BACKUP_CLOUD) && value != SYNCHRONIZATION_NONE) {
+            preferenceActivity.showSnackBar(
+                ContribFeature.SYNCHRONIZATION.fullInfo(requireContext())
+            )
+        }
+    }
+
     override fun onPreferenceTreeClick(preference: Preference) = when {
         super.onPreferenceTreeClick(preference) -> true
+
         matches(preference, PrefKey.RESTORE) -> {
             restore.launch(preference.intent)
             true
         }
+
         matches(preference, PrefKey.BACKUP) -> {
             preference.intent?.also {
-                it.putExtra(BackupRestoreActivity.EXTRA_LENIENT_MODE, preferenceActivity.calledFromSystemSettings)
+                it.putExtra(
+                    BackupRestoreActivity.EXTRA_LENIENT_MODE,
+                    preferenceActivity.calledFromSystemSettings
+                )
                 startActivity(it)
             }
             true
@@ -81,7 +98,10 @@ class PreferencesBackupRestoreFragment : BasePreferenceIOBRFragment() {
             (preference as PopupMenuPreference).showPopupMenu({
                 preferenceActivity.addSyncProviderMenuEntries(it)
             }) {
-                preferenceActivity.startSetup(it.itemId)
+                preferenceActivity.contribFeatureRequested(
+                    ContribFeature.SYNCHRONIZATION,
+                    ContribPayload.Synchronization(it.itemId)
+                )
                 true
             }
             true
