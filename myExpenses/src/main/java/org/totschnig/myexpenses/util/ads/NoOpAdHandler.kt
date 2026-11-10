@@ -1,3 +1,3 @@
 package org.totschnig.myexpenses.util.ads
 
-object NoOpAdHandler : AdHandler, AdHandlerV2
+object NoOpAdHandler : AdHandlerV2

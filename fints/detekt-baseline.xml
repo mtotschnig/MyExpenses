@@ -51,6 +51,9 @@
     <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.COMMERZBANK$213</ID>
     <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.COMMERZBANK$254</ID>
     <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.COMMERZBANK$41</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.CONSORS$180</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.CONSORS$204</ID>
+    <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.CONSORS$5</ID>
     <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.DEUTSCHE_BANK$168</ID>
     <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.DEUTSCHE_BANK$24</ID>
     <ID>MagicNumber:WellKnownBank.kt:WellKnownBank.DIREKT1822$107</ID>
@@ -109,7 +112,6 @@
     <ID>NewLineAtEndOfFile:FinTSComponent.kt:org.totschnig.fints.FinTSComponent.kt</ID>
     <ID>NewLineAtEndOfFile:HbciConverter.kt:org.totschnig.fints.HbciConverter.kt</ID>
     <ID>NewLineAtEndOfFile:KontoExt.kt:org.totschnig.fints.KontoExt.kt</ID>
-    <ID>NewLineAtEndOfFile:WellKnownBank.kt:org.totschnig.fints.WellKnownBank.kt</ID>
     <ID>ReturnCount:BankingViewModel.kt:BankingViewModel$@WorkerThread private fun &lt;T&gt; doHBCI: Result&lt;T&gt;</ID>
     <ID>ThrowsCount:BankingViewModel.kt:BankingViewModel.MyHBCICallback$override fun callback</ID>
     <ID>TooGenericExceptionCaught:BankingViewModel.kt:BankingViewModel$e: Exception</ID>

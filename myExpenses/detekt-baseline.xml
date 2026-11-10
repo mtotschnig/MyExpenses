@@ -6,7 +6,6 @@
     <ID>ComplexCondition:AccountList.kt:showEquivalent &amp;&amp; isFx &amp;&amp; account.equivalentOpeningBalance != 0L &amp;&amp; account.initialExchangeRate != null</ID>
     <ID>ComplexCondition:AmountEdit.kt:input.all { it.isDigit() || it == decimalSeparator || (it == '-' &amp;&amp; allowNegative) } &amp;&amp; decimalSeparatorCount &lt;= (if (fractionDigits == 0) 0 else 1) &amp;&amp; (decimalSeparatorCount == 0 || input.substringAfter(decimalSeparator).length &lt;= fractionDigits) &amp;&amp; input.lastIndexOf('-') &lt;= 0</ID>
     <ID>ComplexCondition:BackupSourcesDialogFragment.kt:BackupSourcesDialogFragment$typeParts[0] == "application" &amp;&amp; ((typeParts[1] == "zip") || (typeParts[1]) == "octet-stream") &amp;&amp; (extension == "" || extension == "zip" || extension == "enc")</ID>
-    <ID>ComplexCondition:BaseAdHandlerImpl.kt:BaseAdHandlerImpl$(prefHandler.getBoolean(PrefKey.DEBUG_ADS, false) || ( System.currentTimeMillis() - prefHandler.getLong( PrefKey.INTERSTITIAL_LAST_SHOWN, 0 ) &gt; DateUtils.MINUTE_IN_MILLIS * 10 &amp;&amp; prefHandler.getInt( PrefKey.ENTRIES_CREATED_SINCE_LAST_INTERSTITIAL, 0 ) &gt; INTERSTITIAL_MIN_INTERVAL )) &amp;&amp; !shouldHideAd</ID>
     <ID>ComplexCondition:CategoryDelegate.kt:CategoryDelegate$withAutoFill &amp;&amp; !isTemplate &amp;&amp; !isSplitPart &amp;&amp; shouldStartAutoFillWithFocus(prefHandler)</ID>
     <ID>ComplexCondition:DeepLinkActivity.kt:DeepLinkActivity$existingKey == "" || existingKey == key &amp;&amp; existingEmail == email || !licenceHandler.isContribEnabled</ID>
     <ID>ComplexCondition:ExchangeRateEdit.kt:ExchangeRateEdit$amount1 != null &amp;&amp; amount2 != null &amp;&amp; amount1.compareTo(nullValue) != 0 &amp;&amp; amount2.compareTo( nullValue ) != 0</ID>
@@ -429,7 +428,6 @@
     <ID>MagicNumber:BalanceSheetPdfGenerator.kt:BalanceSheetPdfGenerator$100f</ID>
     <ID>MagicNumber:BalanceSheetPdfGenerator.kt:BalanceSheetPdfGenerator$10f</ID>
     <ID>MagicNumber:BalanceSheetPdfGenerator.kt:BalanceSheetPdfGenerator$3f</ID>
-    <ID>MagicNumber:BaseAdHandlerImpl.kt:BaseAdHandlerImpl$10</ID>
     <ID>MagicNumber:BaseTransactionDatabase.kt:BaseTransactionDatabase$3</ID>
     <ID>MagicNumber:BaseTransactionDatabase.kt:BaseTransactionDatabase$5</ID>
     <ID>MagicNumber:BaseTransactionProvider.kt:BaseTransactionProvider$3</ID>
@@ -1187,8 +1185,6 @@
     <ID>NewLineAtEndOfFile:AcraCrashHandler.kt:org.totschnig.myexpenses.util.crashreporting.AcraCrashHandler.kt</ID>
     <ID>NewLineAtEndOfFile:Action.kt:org.totschnig.myexpenses.compose.accounts.Action.kt</ID>
     <ID>NewLineAtEndOfFile:Action.kt:org.totschnig.myexpenses.compose.transactions.Action.kt</ID>
-    <ID>NewLineAtEndOfFile:AdHandler.kt:org.totschnig.myexpenses.util.ads.AdHandler.kt</ID>
-    <ID>NewLineAtEndOfFile:AdHandlerFactory.kt:org.totschnig.myexpenses.util.ads.AdHandlerFactory.kt</ID>
     <ID>NewLineAtEndOfFile:AdditionalHelpTest.kt:org.totschnig.myexpenses.util.AdditionalHelpTest.kt</ID>
     <ID>NewLineAtEndOfFile:Amount.kt:org.totschnig.myexpenses.compose.Amount.kt</ID>
     <ID>NewLineAtEndOfFile:AmountActivity.kt:org.totschnig.myexpenses.activity.AmountActivity.kt</ID>
@@ -1219,7 +1215,6 @@
     <ID>NewLineAtEndOfFile:Bank.kt:org.totschnig.myexpenses.model2.Bank.kt</ID>
     <ID>NewLineAtEndOfFile:BankingFeature.kt:org.totschnig.myexpenses.feature.BankingFeature.kt</ID>
     <ID>NewLineAtEndOfFile:BaseActivity.kt:org.totschnig.myexpenses.activity.BaseActivity.kt</ID>
-    <ID>NewLineAtEndOfFile:BaseAdHandlerImpl.kt:org.totschnig.myexpenses.util.ads.BaseAdHandlerImpl.kt</ID>
     <ID>NewLineAtEndOfFile:BaseDialogFragment.kt:org.totschnig.myexpenses.dialog.BaseDialogFragment.kt</ID>
     <ID>NewLineAtEndOfFile:BaseFunctionalityViewModel.kt:org.totschnig.myexpenses.viewmodel.BaseFunctionalityViewModel.kt</ID>
     <ID>NewLineAtEndOfFile:BaseHelpTest.kt:org.totschnig.myexpenses.util.BaseHelpTest.kt</ID>
@@ -1462,7 +1457,6 @@
     <ID>NewLineAtEndOfFile:NetworkModule.kt:org.totschnig.myexpenses.di.NetworkModule.kt</ID>
     <ID>NewLineAtEndOfFile:NewDialogUtils.kt:org.totschnig.myexpenses.dialog.NewDialogUtils.kt</ID>
     <ID>NewLineAtEndOfFile:NewProgressDialogFragment.kt:org.totschnig.myexpenses.dialog.progress.NewProgressDialogFragment.kt</ID>
-    <ID>NewLineAtEndOfFile:NoOpAdHandler.kt:org.totschnig.myexpenses.util.ads.NoOpAdHandler.kt</ID>
     <ID>NewLineAtEndOfFile:NonScrollListView.kt:org.totschnig.myexpenses.ui.NonScrollListView.kt</ID>
     <ID>NewLineAtEndOfFile:NotifyingBaseWorker.kt:org.totschnig.myexpenses.service.NotifyingBaseWorker.kt</ID>
     <ID>NewLineAtEndOfFile:NumberFormatPreference.kt:org.totschnig.myexpenses.preference.NumberFormatPreference.kt</ID>
@@ -1687,7 +1681,6 @@
     <ID>NewLineAtEndOfFile:ViewIntentProvider.kt:org.totschnig.myexpenses.activity.ViewIntentProvider.kt</ID>
     <ID>NewLineAtEndOfFile:ViewModelModule.kt:org.totschnig.myexpenses.di.ViewModelModule.kt</ID>
     <ID>NewLineAtEndOfFile:Vote.kt:org.totschnig.myexpenses.retrofit.Vote.kt</ID>
-    <ID>NewLineAtEndOfFile:WaterfallAdHandler.kt:org.totschnig.myexpenses.util.ads.WaterfallAdHandler.kt</ID>
     <ID>NewLineAtEndOfFile:WebUiFeature.kt:org.totschnig.myexpenses.feature.WebUiFeature.kt</ID>
     <ID>NewLineAtEndOfFile:WebUiViewModel.kt:org.totschnig.myexpenses.viewmodel.WebUiViewModel.kt</ID>
     <ID>NewLineAtEndOfFile:WhereFilter.kt:org.totschnig.myexpenses.provider.filter.WhereFilter.kt</ID>
@@ -1803,7 +1796,6 @@
     <ID>TooGenericExceptionCaught:BackupUtils.kt:e: Exception</ID>
     <ID>TooGenericExceptionCaught:BackupUtils.kt:e: Throwable</ID>
     <ID>TooGenericExceptionCaught:BaseActivity.kt:BaseActivity$e: RuntimeException</ID>
-    <ID>TooGenericExceptionCaught:BaseAdHandlerImpl.kt:BaseAdHandlerImpl$e: Exception</ID>
     <ID>TooGenericExceptionCaught:BaseTransactionProvider.kt:BaseTransactionProvider$e: Exception</ID>
     <ID>TooGenericExceptionCaught:BaseTransactionProvider.kt:BaseTransactionProvider$e: Throwable</ID>
     <ID>TooGenericExceptionCaught:BatchPriceDownloadDialogFragment.kt:BatchPriceDownloadDialogFragment$e: Exception</ID>

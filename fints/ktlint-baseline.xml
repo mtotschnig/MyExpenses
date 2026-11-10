@@ -316,7 +316,4 @@
         <error line="76" column="52" source="standard:trailing-comma-on-declaration-site" />
         <error line="92" column="1" source="standard:no-consecutive-blank-lines" />
     </file>
-    <file name="src/main/java/org/totschnig/fints/WellKnownBank.kt">
-        <error line="38" column="5" source="standard:final-newline" />
-    </file>
 </baseline>

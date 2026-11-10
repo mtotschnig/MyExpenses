@@ -1,8 +1,6 @@
 package org.totschnig.myexpenses.util.ads
 
 import android.app.Activity
-import android.view.ViewGroup
-import org.totschnig.myexpenses.activity.BaseActivity
 
 interface AdHandlerFactory {
     suspend fun isPrivacyOptionsRequired(activity: Activity) = false
@@ -11,8 +9,6 @@ interface AdHandlerFactory {
 
     val isInitialized: Boolean
         get() = true
-
-    fun create(adContainer: ViewGroup, baseActivity: BaseActivity): AdHandler = NoOpAdHandler
 
     fun createV2(): AdHandlerV2 = NoOpAdHandler
 

@@ -54,26 +54,11 @@ interface AdHandlerBase {
     fun track(event: String, type: String, provider: String, errorCode: String? = null) {}
 }
 
-interface AdHandler: AdHandlerBase {
-    fun startBanner() {}
-
-    fun maybeRequestNewInterstitial() {}
-
-    fun maybeShowInterstitial(): Boolean = false
-
-    fun onEditTransactionResult(): Boolean = false
-
-    fun onResume() {}
-
-    fun onDestroy() {}
-
-    fun onPause() {}
-
-}
-
-interface AdHandlerV2: AdHandlerBase {
+interface AdHandlerV2 : AdHandlerBase {
     fun maybeRequestNewInterstitial(context: Context) {}
     fun onEditTransactionResult(context: Activity): Boolean = false
+
     @Composable
-    fun Banner(isLoadedState: MutableState<Boolean>) {}
+    fun Banner(isLoadedState: MutableState<Boolean>) {
+    }
 }
