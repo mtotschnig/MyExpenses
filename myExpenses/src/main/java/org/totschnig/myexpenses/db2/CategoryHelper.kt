@@ -42,7 +42,8 @@ object CategoryHelper {
         }
     }
 
-    private fun parse(name: String, delimiter: String) = name.split(delimiter)
+    private fun parse(name: String, delimiter: String) =
+        if (delimiter.isEmpty()) listOf(name) else name.split(delimiter)
 
     private fun insertCategory(
         repository: Repository,
