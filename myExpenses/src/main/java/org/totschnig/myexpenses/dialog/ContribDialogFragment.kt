@@ -111,10 +111,10 @@ class ContribDialogFragment : BaseDialogFragment(), View.OnClickListener,
         _binding = ContribDialogBinding.inflate(LayoutInflater.from(builder.context))
         dialogView = binding.root
 
-        //prepare trial card
+        // prepare trial card
         feature?.let { feature ->
-            feature.buildTrialString(ctx, licenceHandler)?.also { trialString ->
-                val removePhrase = feature.buildRemoveLimitation(requireContext(), true)
+            feature.trialInfo(ctx)?.also { trialString ->
+                val removePhrase = feature.upgradeInfo(requireContext(), true)
                 if (licenceHandler.hasTrialAccessTo(feature)) {
                     binding.intro.text = removePhrase
                     binding.trialInfoCard.isVisible = true

@@ -18,11 +18,18 @@ class PreferencesSyncFragment : BasePreferenceFragment() {
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         super.onCreatePreferences(savedInstanceState, rootKey)
 
-        requirePreference<Preference>(PrefKey.MANAGE_SYNC_BACKENDS).summary = (getString(
+        findPreference<Preference>("disclaimer")?.let {
+            if (licenceHandler.hasAccessTo(ContribFeature.SYNCHRONIZATION)) {
+                it.isVisible = false
+            } else {
+                it.summary = ContribFeature.SYNCHRONIZATION.fullInfo(requireContext())
+            }
+        }
+
+        requirePreference<Preference>(PrefKey.MANAGE_SYNC_BACKENDS).summary = getString(
             R.string.pref_manage_sync_backends_summary,
             BackendService.allAvailable(requireContext()).joinToString { it.label }
-        ) +
-                " " + ContribFeature.SYNCHRONIZATION.buildRequiresString(requireActivity()))
+        )
 
         requirePreference<Preference>(PrefKey.SYNC_NOTIFICATION).onPreferenceChangeListener =
             storeInDatabaseChangeListener
@@ -36,6 +43,10 @@ class PreferencesSyncFragment : BasePreferenceFragment() {
                 preferenceActivity.localizedQuote(getString(R.string.menu_sync_now))
             )
         requirePreference<Preference>(PrefKey.SYNC_FREQUCENCY).summary =
-            TextUtils.concatResStrings(requireContext(), R.string.pref_sync_frequency_summary, R.string.pref_sync_frequency_summary_0)
+            TextUtils.concatResStrings(
+                requireContext(),
+                R.string.pref_sync_frequency_summary,
+                R.string.pref_sync_frequency_summary_0
+            )
     }
 }

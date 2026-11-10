@@ -55,7 +55,7 @@ fun PremiumNudgeCard(
                     )
                     Spacer(modifier = Modifier.width(12.dp))
                     Text(
-                        text = ContribFeature.PORTFOLIO.buildTrialString(LocalContext.current).toString(),
+                        text = ContribFeature.PORTFOLIO.trialInfo(LocalContext.current).toString(),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSecondaryContainer,
                         modifier = Modifier

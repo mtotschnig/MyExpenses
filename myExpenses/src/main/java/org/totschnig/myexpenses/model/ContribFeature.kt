@@ -18,18 +18,16 @@ import android.content.Context
 import android.icu.text.ListFormatter
 import android.os.Build
 import androidx.core.text.HtmlCompat
+import java.util.Date
+import java.util.Locale
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.distrib.DistributionHelper.isPlay
-import org.totschnig.myexpenses.util.licence.LicenceHandler
 import org.totschnig.myexpenses.util.licence.LicenceHandler.Companion.TRIAL_DURATION_DAYS
 import org.totschnig.myexpenses.util.licence.LicenceStatus
-import java.util.Date
-import java.util.Locale
 
-
-class ContribFeatureNotAvailableException(message: String): Exception(message)
+class ContribFeatureNotAvailableException(message: String) : Exception(message)
 
 enum class ContribFeature(
     val trialMode: TrialMode = TrialMode.DURATION,
@@ -60,17 +58,110 @@ enum class ContribFeature(
     ;
 
     enum class TrialMode {
-        NONE, DURATION, UNLIMITED
+        NONE {
+            override fun trialInfo(
+                feature: ContribFeature,
+                context: Context,
+                currentLicence: String
+            ): CharSequence? = when (feature) {
+                ACCOUNTS_UNLIMITED -> context.getString(
+                    R.string.dialog_contrib_usage_limit_accounts,
+                    FREE_ACCOUNTS,
+                    currentLicence
+                )
+
+                PLANS_UNLIMITED -> context.getString(
+                    R.string.dialog_contrib_usage_limit_plans,
+                    FREE_PLANS,
+                    currentLicence
+                )
+
+                SPLIT_TEMPLATE -> context.getString(
+                    R.string.dialog_contrib_usage_limit_split_templates,
+                    currentLicence
+                )
+
+                PORTFOLIO -> {
+                    val features = listOf(R.string.trade_additional_costs)
+                    val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        ListFormatter.getInstance(
+                            Locale.getDefault(),
+                            ListFormatter.Type.UNITS,
+                            ListFormatter.Width.NARROW
+                        )
+                    } else {
+                        ListFormatter.getInstance()
+                    }
+                    context.getString(
+                        R.string.premium_nudge_portfolio_message,
+                        formatter.format(features.map { context.getString(it) })
+                    )
+                }
+
+                else -> null
+            }
+        },
+        DURATION {
+            override fun trialInfo(
+                feature: ContribFeature,
+                context: Context,
+                currentLicence: String
+            ): CharSequence {
+                val licenceHandler = context.injector.licenceHandler()
+                return if (licenceHandler.usagesLeft(feature)) {
+                    HtmlCompat.fromHtml(
+                        buildString {
+                            append(
+                                context.getString(
+                                    R.string.dialog_contrib_trial_info,
+                                    currentLicence,
+                                    "<i>" + context.getString(feature.labelResId) + "</i>",
+                                    TRIAL_DURATION_DAYS,
+                                    Utils.getDateFormatSafe(context)
+                                        .format(
+                                            Date(licenceHandler.getEndOfTrial(feature))
+                                        )
+                                )
+                            )
+                            if (isPlay) {
+                                append(" ")
+                                append(context.getString(R.string.dialog_contrib_trial_info_play))
+                            }
+                        },
+                        HtmlCompat.FROM_HTML_MODE_LEGACY
+                    )
+                } else {
+                    feature.trialExpiredWarning(context)
+                }
+            }
+        },
+        UNLIMITED {
+            override fun trialInfo(
+                feature: ContribFeature,
+                context: Context,
+                currentLicence: String
+            ): CharSequence = context.getString(
+                R.string.dialog_contrib_usage_limit_with_dialog,
+                currentLicence
+            )
+        };
+
+        abstract fun trialInfo(
+            feature: ContribFeature,
+            context: Context,
+            currentLicence: String
+        ): CharSequence?
     }
 
-    override fun toString(): String {
-        return name.lowercase()
-    }
+    override fun toString(): String = name.lowercase()
 
     val prefKey: String
         get() = "FEATURE_${name}_FIRST_USAGE"
 
-    fun buildRequiresString(ctx: Context) =
+    fun fullInfo(ctx: Context) =
+        requiresInfo(ctx) + " " + trialInfo(ctx)
+
+    fun requiresInfo(ctx: Context) =
         ctx.getString(R.string.contrib_key_requires, ctx.getString(licenceStatus.resId))
 
     val labelResId
@@ -96,93 +187,29 @@ enum class ContribFeature(
             PORTFOLIO -> R.string.contrib_feature_portfolio_tracking
         }
 
-    fun getLimitReachedWarning(ctx: Context): String {
-        return ctx.getString(
-            R.string.warning_trial_limit_reached,
-            ctx.getString(labelResId)
+    fun trialExpiredWarning(ctx: Context): String = ctx.getString(
+        R.string.warning_trial_limit_reached,
+        ctx.getString(labelResId)
+    )
+
+    open fun trialInfo(context: Context): CharSequence? =
+        trialMode.trialInfo(this, context, getCurrentLicence(context))
+
+    private fun getCurrentLicence(context: Context) =
+        context.getString(
+            context.injector.licenceHandler().licenceStatus?.resId ?: R.string.licence_status_free
         )
-    }
 
-    open fun buildTrialString(
-        context: Context,
-        licenceHandler: LicenceHandler = context.injector.licenceHandler()
-    ): CharSequence? {
-        val currentLicence = getCurrentLicence(context, licenceHandler)
-
-        return when (trialMode) {
-            TrialMode.NONE -> when (this) {
-                ACCOUNTS_UNLIMITED -> context.getString(
-                    R.string.dialog_contrib_usage_limit_accounts,
-                    FREE_ACCOUNTS,
-                    currentLicence
-                )
-
-                PLANS_UNLIMITED -> context.getString(
-                    R.string.dialog_contrib_usage_limit_plans,
-                    FREE_PLANS,
-                    currentLicence
-                )
-
-                SPLIT_TEMPLATE -> context.getString(
-                    R.string.dialog_contrib_usage_limit_split_templates,
-                    currentLicence
-                )
-
-                PORTFOLIO -> {
-                    val features = listOf(R.string.trade_additional_costs)
-
-                    val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
-                        ListFormatter.getInstance(
-                            Locale.getDefault(),
-                            ListFormatter.Type.UNITS,
-                            ListFormatter.Width.NARROW
-                        ) else ListFormatter.getInstance()
-                    context.getString(
-                        R.string.premium_nudge_portfolio_message,
-                        formatter.format(features.map { context.getString(it) })
-                        )
-                }
-
-                else -> null
-            }
-
-            TrialMode.DURATION ->
-                if (licenceHandler.usagesLeft(this))
-                    HtmlCompat.fromHtml(
-                        buildString {
-                            append(context.getString(
-                                R.string.dialog_contrib_trial_info,
-                                currentLicence,
-                                "<i>" + context.getString(labelResId) + "</i>",
-                                TRIAL_DURATION_DAYS,
-                                Utils.getDateFormatSafe(context)
-                                    .format(Date(licenceHandler.getEndOfTrial(this@ContribFeature)))
-                            ))
-                            if (isPlay) {
-                                append(" ")
-                                append(context.getString(R.string.dialog_contrib_trial_info_play))
-                            }
-                        },
-                        HtmlCompat.FROM_HTML_MODE_LEGACY
-                    )
-                else
-                    getLimitReachedWarning(context)
-
-            TrialMode.UNLIMITED -> context.getString(
-                R.string.dialog_contrib_usage_limit_with_dialog,
-                currentLicence
+    fun upgradeInfo(ctx: Context, asHTML: Boolean): CharSequence {
+        val resId = R.string.dialog_contrib_reminder_remove_limitation
+        return if (asHTML) {
+            Utils.getTextWithAppName(ctx, resId)
+        } else {
+            ctx.getString(resId).replace(
+                String.format("{%s}", Utils.PLACEHOLDER_APP_NAME),
+                ctx.getString(R.string.app_name)
             )
         }
-    }
-
-    protected fun getCurrentLicence(context: Context, licenceHandler: LicenceHandler) =
-        context.getString(licenceHandler.licenceStatus?.resId ?: R.string.licence_status_free)
-
-    fun buildRemoveLimitation(ctx: Context, asHTML: Boolean): CharSequence {
-        val resId = R.string.dialog_contrib_reminder_remove_limitation
-        return if (asHTML) Utils.getTextWithAppName(ctx, resId) else ctx.getString(resId).replace(
-            String.format("{%s}", Utils.PLACEHOLDER_APP_NAME), ctx.getString(R.string.app_name)
-        )
     }
 
     val isExtended: Boolean

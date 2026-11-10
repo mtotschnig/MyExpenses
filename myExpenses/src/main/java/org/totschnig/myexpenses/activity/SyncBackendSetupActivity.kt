@@ -1,7 +1,6 @@
 package org.totschnig.myexpenses.activity
 
 import android.accounts.AccountManager
-import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -17,6 +16,7 @@ import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.feature.Feature
 import org.totschnig.myexpenses.injector
 import org.totschnig.myexpenses.model.ContribFeature
+import org.totschnig.myexpenses.model.ContribPayload
 import org.totschnig.myexpenses.sync.BackendService
 import org.totschnig.myexpenses.sync.BackendService.Companion.allAvailable
 import org.totschnig.myexpenses.sync.GenericAccountService
@@ -25,7 +25,8 @@ import org.totschnig.myexpenses.util.PermissionHelper
 import org.totschnig.myexpenses.util.safeMessage
 import org.totschnig.myexpenses.viewmodel.SyncViewModel
 
-abstract class SyncBackendSetupActivity : RestoreActivity(),
+abstract class SyncBackendSetupActivity :
+    RestoreActivity(),
     OnDialogResultListener {
 
     private lateinit var backendProviders: List<BackendService>
@@ -63,7 +64,7 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
 
     private val startSetup =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
+            if (result.resultCode == RESULT_OK) {
                 result.data?.let {
                     createAccount(
                         it.getStringExtra(AccountManager.KEY_ACCOUNT_NAME)!!,
@@ -82,7 +83,9 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
                 !NotificationManagerCompat.from(this).areNotificationsEnabled()
             ) {
-                requestNotificationPermission(PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_SYNC)
+                requestNotificationPermission(
+                    PermissionHelper.PERMISSIONS_REQUEST_NOTIFICATIONS_SYNC
+                )
             } else {
                 startSetupDo()
             }
@@ -104,7 +107,9 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
 
     override fun onFeatureAvailable(feature: Feature) {
         super.onFeatureAvailable(feature)
-        if (selectedFactoryId != 0 && getBackendServiceByIdOrThrow(selectedFactoryId).feature == feature) {
+        if (selectedFactoryId != 0 &&
+            getBackendServiceByIdOrThrow(selectedFactoryId).feature == feature
+        ) {
             startSetupCheckPrerequisites()
         }
     }
@@ -165,7 +170,10 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
                 dismissSnackBar()
                 recordUsage(ContribFeature.SYNCHRONIZATION)
                 if ("xiaomi".equals(Build.MANUFACTURER, ignoreCase = true)) {
-                    showMessage("On some Xiaomi devices, synchronization does not work without AutoStart permission. Visit <a href=\"https://faq.myexpenses.mobi/sync-xiaomi\">MyExpenses FAQ</a> for more information.")
+                    @Suppress("MaxLineLength")
+                    showMessage(
+                        "On some Xiaomi devices, synchronization does not work without AutoStart permission. Visit <a href=\"https://faq.myexpenses.mobi/sync-xiaomi\">MyExpenses FAQ</a> for more information."
+                    )
                 }
                 onReceiveSyncAccountData(it)
             }.onFailure { throwable ->
@@ -215,7 +223,7 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
 
     fun getBackendServiceById(id: Int) = try {
         getBackendServiceByIdOrThrow(id)
-    } catch (e: NoSuchElementException) {
+    } catch (_: NoSuchElementException) {
         null
     }
 
@@ -225,8 +233,9 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
     override fun onResult(dialogTag: String, which: Int, extras: Bundle) =
         when {
             super.onResult(dialogTag, which, extras) -> true
+
             DIALOG_TAG_PASSWORD == dialogTag -> {
-                if (which != OnDialogResultListener.BUTTON_POSITIVE || "" == extras.getString(
+                if (which != BUTTON_POSITIVE || "" == extras.getString(
                         GenericAccountService.KEY_PASSWORD_ENCRYPTION
                     )
                 ) {
@@ -238,6 +247,14 @@ abstract class SyncBackendSetupActivity : RestoreActivity(),
 
             else -> false
         }
+
+    override fun contribFeatureCalled(feature: ContribFeature, tag: ContribPayload?) {
+        if (feature == ContribFeature.SYNCHRONIZATION) {
+            (tag as? ContribPayload.Synchronization)?.itemId?.let(::startSetup)
+        } else {
+            super.contribFeatureCalled(feature, tag)
+        }
+    }
 
     companion object {
         private const val DIALOG_TAG_PASSWORD = "password"

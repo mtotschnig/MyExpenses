@@ -149,7 +149,7 @@ class PreferenceUiFragment : BasePreferenceFragment() {
                 isEnabled = true
             } else {
                 summary =
-                    ContribFeature.SPLIT_TRANSACTION.buildRequiresString(requireActivity())
+                    ContribFeature.SPLIT_TRANSACTION.requiresInfo(requireActivity())
             }
         }
 
