@@ -21,7 +21,8 @@ enum class WellKnownBank(@DrawableRes val icon: Int, val color: Int, vararg val 
     DIREKT1822(R.drawable.direkt1822_96, Color.rgb(0, 58, 107), "50050222"),
     PSD(R.drawable.psd, Color.rgb(1, 153, 102)),
     COMMERZBANK(R.drawable.commerz, Color.rgb(254, 213, 41)),
-    KD(R.drawable.kd, Color.rgb(162, 181, 45), "10061006", "44064406", "81068106", "35060190")
+    KD(R.drawable.kd, Color.rgb(162, 181, 45), "10061006", "44064406", "81068106", "35060190"),
+    CONSORS(R.drawable.consors, Color.rgb(5, 180, 204), "76030080")
 }
 
 val Bank.asWellKnown: WellKnownBank?
