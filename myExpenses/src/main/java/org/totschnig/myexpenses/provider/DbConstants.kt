@@ -80,7 +80,7 @@ fun checkSealedWithAlias(baseTable: String) =
     "max(" + checkForSealedAccount(
         baseTable,
         TABLE_TRANSACTIONS
-    ) + ", " + checkForSealedDebt(baseTable) + ") AS " + KEY_SEALED
+    ) + ", " + checkForSealedDebt(baseTable, TABLE_TRANSACTIONS) + ") AS " + KEY_SEALED
 
 /**
  * we check if the object is linked to a sealed account, either via its account, it transfer_account, or its children.
@@ -101,7 +101,7 @@ const val checkForSealedDebt =
 /**
  * we check if the object (or any of its children) is linked to a sealed debt.
  */
-fun checkForSealedDebt(baseTable: String) =
+fun checkForSealedDebt(baseTable: String, innerTable: String) =
     "coalesce ((SELECT max($KEY_SEALED) FROM $TABLE_DEBTS WHERE $KEY_ROWID = $KEY_DEBT_ID OR $KEY_ROWID in (SELECT $KEY_DEBT_ID FROM $TABLE_TRANSACTIONS WHERE $KEY_PARENTID = $baseTable.$KEY_ROWID)), 0)"
 
 fun categoryTreeSelect(

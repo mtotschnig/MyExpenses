@@ -332,7 +332,7 @@ abstract class BaseTransactionProvider : ContentProvider() {
             KEY_DISPLAY_AMOUNT -> if (expandDisplayAmount)
                 "${getAmountHomeEquivalent(table, homeCurrency)} AS $it" else it
 
-            KEY_HAS_SEALED_DEBT -> "MAX(${checkForSealedDebt(table)})"
+            KEY_HAS_SEALED_DEBT -> "MAX(${checkForSealedDebt(table, TABLE_TRANSACTIONS)})"
             KEY_HAS_SEALED_ACCOUNT -> """
                 MAX(${checkForSealedAccount(table, TABLE_TRANSACTIONS, false)})
                 """.trimIndent()
@@ -2284,7 +2284,8 @@ abstract class BaseTransactionProvider : ContentProvider() {
             add(KEY_CURRENCY)
             add(KEY_METHOD_LABEL)
             add("$dynamicExchangeRatesDefault AS $KEY_DYNAMIC")
-            add("${checkForSealedAccount(baseTable, TABLE_TEMPLATES, true)} AS $KEY_SEALED")
+            add("${checkForSealedAccount(baseTable, TABLE_TEMPLATES, true)} AS $KEY_HAS_SEALED_ACCOUNT")
+            add("${checkForSealedDebt(baseTable, TABLE_TEMPLATES)} AS $KEY_HAS_SEALED_DEBT")
         }
     }.toTypedArray()
 
