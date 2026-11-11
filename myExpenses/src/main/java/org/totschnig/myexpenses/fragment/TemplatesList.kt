@@ -36,7 +36,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AbsListView
-import android.widget.AdapterView
 import android.widget.AdapterView.AdapterContextMenuInfo
 import android.widget.FrameLayout
 import android.widget.ImageView
@@ -210,80 +209,80 @@ class TemplatesList :
         mAdapter = MyAdapter(ctx)
         binding.list.adapter = mAdapter
         binding.list.emptyView = binding.empty
-        binding.list.setOnItemClickListener {
-                _: AdapterView<*>?,
-                _: View?,
-                position: Int,
-                id: Long
-            ->
-            if (_templatesCursor == null ||
-                !templatesCursor.moveToPosition(position)
-            ) {
-                return@setOnItemClickListener
-            }
-            val sealedAccount = templatesCursor.getInt(KEY_HAS_SEALED_ACCOUNT) != 0
-            val sealedDebt = templatesCursor.getInt(KEY_HAS_SEALED_DEBT) != 0
-            if (sealedAccount || sealedDebt) {
-                ctx.showSnackBar(
-                    listOfNotNull(
-                        if (sealedAccount) R.string.object_sealed else null,
-                        if (sealedDebt) R.string.object_sealed_debt else null
-                    ).joinToString(" ") { getText(it) }
-                )
-            }
-            if (templatesCursor.isNull(KEY_PLANID)) {
-                if (!(sealedAccount || sealedDebt)) {
-                    if (isForeignExchangeTransfer(position)) {
-                        dispatchCreateInstanceEditDo(id)
-                    } else {
-                        val splitAtPosition = isSplitAtPosition(position)
-                        val defaultAction: Template.Action = enumValueOrDefault(
-                            templatesCursor.getString(KEY_DEFAULT_ACTION),
-                            Template.Action.SAVE
-                        )
-                        if (defaultAction == Template.Action.SAVE) {
-                            if (splitAtPosition) {
-                                requestSplitTransaction(
-                                    ContribPayload.InstantiateSplitTemplateSave(
-                                        longArrayOf(id)
-                                    )
-                                )
-                            } else {
-                                dispatchCreateInstanceSaveDo(longArrayOf(id))
-                            }
-                        } else {
-                            if (splitAtPosition) {
-                                requestSplitTransaction(
-                                    ContribPayload.InstantiateSplitTemplateEdit(
-                                        id
-                                    )
-                                )
-                            } else {
-                                dispatchCreateInstanceEditDo(id)
-                            }
-                        }
-                    }
-                }
-            } else {
-                if (isCalendarPermissionGranted) {
-                    val planMonthFragment = PlanMonthFragment.newInstance(
-                        templatesCursor.getString(KEY_TITLE),
-                        id,
-                        templatesCursor.getLong(KEY_PLANID),
-                        templatesCursor.getInt(KEY_COLOR),
-                        sealedAccount || sealedDebt,
-                        prefHandler
-                    )
-                    if (!childFragmentManager.isStateSaved) {
-                        planMonthFragment.show(childFragmentManager, CALDROID_DIALOG_FRAGMENT_TAG)
-                    }
-                } else {
-                    ctx.requestCalendarPermission()
-                }
-            }
+        binding.list.setOnItemClickListener { _, _, position, id ->
+            onItemClick(position, id)
         }
         registerForContextualActionBar(binding.list)
         return binding.root
+    }
+
+    private fun onItemClick(position: Int, id: Long) {
+        val cursor = _templatesCursor ?: return
+        if (!cursor.moveToPosition(position)) return
+
+        val sealedAccount = cursor.getInt(KEY_HAS_SEALED_ACCOUNT) != 0
+        val sealedDebt = cursor.getInt(KEY_HAS_SEALED_DEBT) != 0
+        val isSealed = sealedAccount || sealedDebt
+
+        if (isSealed) {
+            val message = listOfNotNull(
+                if (sealedAccount) R.string.object_sealed else null,
+                if (sealedDebt) R.string.object_sealed_debt else null
+            ).joinToString(" ") { getText(it) }
+            (requireActivity() as ProtectedFragmentActivity).showSnackBar(message)
+        }
+
+        if (cursor.isNull(KEY_PLANID)) {
+            if (!isSealed) {
+                instantiateTemplate(id, position, cursor)
+            }
+        } else {
+            showPlanMonth(id, cursor, isSealed)
+        }
+    }
+
+    private fun instantiateTemplate(id: Long, position: Int, cursor: Cursor) {
+        if (isForeignExchangeTransfer(position)) {
+            dispatchCreateInstanceEditDo(id)
+            return
+        }
+        val splitAtPosition = isSplitAtPosition(position)
+        val defaultAction: Template.Action = enumValueOrDefault(
+            cursor.getString(KEY_DEFAULT_ACTION),
+            Template.Action.SAVE
+        )
+        val isSave = defaultAction == Template.Action.SAVE
+        when {
+            isSave && splitAtPosition -> requestSplitTransaction(
+                ContribPayload.InstantiateSplitTemplateSave(longArrayOf(id))
+            )
+
+            isSave -> dispatchCreateInstanceSaveDo(longArrayOf(id))
+
+            splitAtPosition -> requestSplitTransaction(
+                ContribPayload.InstantiateSplitTemplateEdit(id)
+            )
+
+            else -> dispatchCreateInstanceEditDo(id)
+        }
+    }
+
+    private fun showPlanMonth(id: Long, cursor: Cursor, isSealed: Boolean) {
+        if (isCalendarPermissionGranted) {
+            val planMonthFragment = PlanMonthFragment.newInstance(
+                cursor.getString(KEY_TITLE),
+                id,
+                cursor.getLong(KEY_PLANID),
+                cursor.getInt(KEY_COLOR),
+                isSealed,
+                prefHandler
+            )
+            if (!childFragmentManager.isStateSaved) {
+                planMonthFragment.show(childFragmentManager, CALDROID_DIALOG_FRAGMENT_TAG)
+            }
+        } else {
+            (requireActivity() as ProtectedFragmentActivity).requestCalendarPermission()
+        }
     }
 
     private val isCalendarPermissionGranted: Boolean
