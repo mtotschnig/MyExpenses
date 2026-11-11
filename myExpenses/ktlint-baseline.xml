@@ -9387,7 +9387,6 @@
         <error line="91" column="9" source="standard:multiline-if-else" />
         <error line="92" column="10" source="standard:multiline-if-else" />
         <error line="98" column="11" source="standard:property-naming" />
-        <error line="114" column="34" source="standard:trailing-comma-on-declaration-site" />
         <error line="123" column="11" source="standard:property-naming" />
         <error line="149" column="13" source="standard:wrapping" />
         <error line="149" column="31" source="standard:multiline-if-else" />

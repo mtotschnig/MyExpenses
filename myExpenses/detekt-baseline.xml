@@ -203,7 +203,7 @@
     <ID>ForbiddenComment:CalendarListPreferenceDialogFragmentCompat.kt:CalendarListPreferenceDialogFragmentCompat$//TODO: use Async Task Strict Mode violation</ID>
     <ID>ForbiddenComment:ContextualActionBarFragment.kt:ContextualActionBarFragment.&lt;no name provided&gt;$//TODO:should we convert the flat positions here?</ID>
     <ID>ForbiddenComment:ImportSourceDialogFragment.kt:ImportSourceDialogFragment$//TODO: we should not depend on activity implementing MessageDialogListener</ID>
-    <ID>ForbiddenComment:TemplatesList.kt:TemplatesList.MyAdapter$//TODO: simplify confer TemplateWidget</ID>
+    <ID>ForbiddenComment:TemplatesList.kt:TemplatesList.MyAdapter$// TODO: simplify confer TemplateWidget</ID>
     <ID>FunctionNaming:BaseTransactionProvider.kt:BaseTransactionProvider.Companion$fun LIVE_ATTACHMENT_SELECTION</ID>
     <ID>FunctionNaming:SyncAdapter.kt:SyncAdapter.Companion$@JvmStatic fun KEY_LAST_SYNCED_LOCAL: String</ID>
     <ID>FunctionNaming:SyncAdapter.kt:SyncAdapter.Companion$@JvmStatic fun KEY_LAST_SYNCED_REMOTE: String</ID>
@@ -1073,8 +1073,6 @@
     <ID>MaxLineLength:TabbedActivity.kt:TabbedActivity$rightMargin = insets.getInsets(WindowInsetsCompat.Type.systemBars() + WindowInsetsCompat.Type.displayCutout()).right</ID>
     <ID>MaxLineLength:TagStylePreference.kt:color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.5f)</ID>
     <ID>MaxLineLength:TagStylePreference.kt:color = if (isSelected) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.25f) else MaterialTheme.colorScheme.surface</ID>
-    <ID>MaxLineLength:TemplatesList.kt:TemplatesList$)</ID>
-    <ID>MaxLineLength:TemplatesList.kt:TemplatesList.MyAdapter$if (isSealed) R.drawable.ic_lock else if (doesHavePlan) R.drawable.ic_event else R.drawable.ic_menu_template</ID>
     <ID>MaxLineLength:TextUtilsTest.kt:TextUtilsTest$/* @Test fun getDisplayNameForScript() { arrayOf("CN", "HK", "TW").forEach { //arrayOf("ar", "bg", "ca", "cs", "da", "de", "el", "es", "eu", "fr", "hr", "hu", "it", "iw", "ja", "km", "kn", "ko", "ms", "pl", "pt", "ro", "ru", "si", "ta", "te", "tr", "uk", "vi").forEach { val locale= Locale("zh", it) //val locale = Locale(it) println() println(it) println() arrayOf("Latn", "Han", "Deva", "Jpan", "Kore").forEach { println( "&lt;string name=\"title_mlkit_${it.lowercase(Locale.ROOT)}\"&gt;ML Kit ${ getDisplayNameForScript( locale, it ) }&lt;/string&gt;" ) } } }*/</ID>
     <ID>MaxLineLength:TimePreference.kt:TimePreference.Companion$val</ID>
     <ID>MaxLineLength:TradeList.kt:style = if (renderType == RenderType.Legacy) MaterialTheme.typography.bodySmall else MaterialTheme.typography.bodyLarge</ID>
@@ -1642,7 +1640,6 @@
     <ID>NewLineAtEndOfFile:TemplateTest.kt:org.totschnig.myexpenses.repository.TemplateTest.kt</ID>
     <ID>NewLineAtEndOfFile:TemplateWidget.kt:org.totschnig.myexpenses.widget.TemplateWidget.kt</ID>
     <ID>NewLineAtEndOfFile:TemplateWidgetService.kt:org.totschnig.myexpenses.widget.TemplateWidgetService.kt</ID>
-    <ID>NewLineAtEndOfFile:TemplatesList.kt:org.totschnig.myexpenses.fragment.TemplatesList.kt</ID>
     <ID>NewLineAtEndOfFile:TemplatesListViewModel.kt:org.totschnig.myexpenses.viewmodel.TemplatesListViewModel.kt</ID>
     <ID>NewLineAtEndOfFile:TestMyApplication.kt:org.totschnig.myexpenses.TestMyApplication.kt</ID>
     <ID>NewLineAtEndOfFile:TextCriterion.kt:org.totschnig.myexpenses.provider.filter.TextCriterion.kt</ID>
