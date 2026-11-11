@@ -1095,4 +1095,7 @@
     <string name="remap_update_value_date">Aggiorna anche la Data di valuta</string>
     <string name="trade_add_cost">Aggiungi costo</string>
     <string name="help_floating_action_button">Pulsante azione fluttuante</string>
+    <string name="full_text_search">Ricerca a testo intero</string>
+    <string name="search_full_text">Cerca in tutti i campi</string>
+    <string name="search_fts_help_and">• caffè tè: trova transazioni sia con caffè che con tè</string>
 </resources>
