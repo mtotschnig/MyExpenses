@@ -1103,4 +1103,6 @@
     <string name="search_fts_help_phrase">\"caffè e tè\" : trova l\'espressione esatta \"caffè e tè\"</string>
     <string name="search_fts_help_prefix">caff* : trova parole che iniziano con caff (ad es. caffè, caffetteria)</string>
     <string name="search_fts_help_column">Prefissa il termine di ricerca per limitarla a una colonna specifica (ad es. payee:supermercato, category:cibo, tag:lavoro). Disponibili: \'comment\' (note), \'payee\' (beneficiario), \'category\' (categoria), \'tag\' (tag), \'ref\' (numero di riferimento)</string>
+    <string name="parent_category">Categoria superiore</string>
+    <string name="search_fts_error_malformed">Operatore di ricerca incompleto o preventivi non corrispondenti</string>
 </resources>
