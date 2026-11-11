@@ -1038,34 +1038,34 @@
         This is part of a series of examples explaining the allowed syntax for the Full-text Search query.
         The terms "coffee" and "tea" should be translated.
     -->
-    <string name="search_fts_help_and">• coffee tea : finds transactions with both coffee and tea</string>
+    <string name="search_fts_help_and">coffee tea : finds transactions with both coffee and tea</string>
     <!--
         This is part of a series of examples explaining the allowed syntax for the Full-text Search query.
         The terms "coffee" and "tea" should be translated. The - sign should prefix the translation for tea
     -->
-    <string name="search_fts_help_not">• coffee -tea : finds transactions with coffee, but without tea</string>
+    <string name="search_fts_help_not">coffee -tea : finds transactions with coffee, but without tea</string>
     <!--
         This is part of a series of examples explaining the allowed syntax for the Full-text Search query.
         The terms "coffee" and "tea" should be translated, and joined by the expression "OR" which should not be translated.
     -->
-    <string name="search_fts_help_or">• coffee OR tea : finds transactions with either coffee or tea</string>
+    <string name="search_fts_help_or">coffee OR tea : finds transactions with either coffee or tea</string>
     <!--
         This is part of a series of examples explaining the allowed syntax for the Full-text Search query.
         The expression "coffee and tea" should be translated as a whole and quoted.
     -->
-    <string name="search_fts_help_phrase">• \"coffee and tea\" : finds the exact phrase \"coffee and tea\"</string>
+    <string name="search_fts_help_phrase">\"coffee and tea\" : finds the exact phrase \"coffee and tea\"</string>
     <!--
         This is part of a series of examples explaining the allowed syntax for the Full-text Search query.
         Please use an equivalent example, e.g. in german coff* -> kaff*, coffee -> Kaffee, coffeeshop -> Kaffehaus
     -->
-    <string name="search_fts_help_prefix">• coff* : finds words starting with coff (e.g. coffee, coffeeshop)</string>
+    <string name="search_fts_help_prefix">coff* : finds words starting with coff (e.g. coffee, coffeeshop)</string>
     <!--
         Do NOT translate the prefix keywords before the colons (comment:, payee:, category:, tag:, reference:).
         They are exact FTS column keywords in SQLite.
         Only translate the descriptive text explaining what each keyword searches, and the terms in the examples
         (e.g. in German: payee:aldi, category:Essen, tag:Arbeit)
     -->
-    <string name="search_fts_help_column">• Prefix query term to restrict search to specific column (e.g. payee:walmart, category:food, tag:work). Available: \'comment\' (notes), \'payee\' (counterparty), \'category\' (category), \'tag\' (tags), \'ref\' (reference number)</string>
+    <string name="search_fts_help_column">Prefix query term to restrict search to specific column (e.g. payee:walmart, category:food, tag:work). Available: \'comment\' (notes), \'payee\' (counterparty), \'category\' (category), \'tag\' (tags), \'ref\' (reference number)</string>
     <string name="search_fts_error_malformed">Incomplete search operator or unmatched quotes</string>
     <!-- Message shown when user clicks on the floating action bar in an account that they have closed. -->
     <string name="account_closed">Account is closed</string>

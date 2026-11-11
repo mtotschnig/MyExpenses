@@ -965,4 +965,10 @@
     <string name="important_upgrade_information_heading">重要消息</string>
     <string name="single_pane_view">單面板</string>
     <string name="split_pane_view">分割視圖</string>
+    <string name="search_fts_help_and">咖啡 茶 : 尋找同時包含咖啡和茶的交易</string>
+    <string name="search_fts_help_not">咖啡 -茶 : 尋找包含咖啡但不包含茶的交易</string>
+    <string name="search_fts_help_or">咖啡 OR 茶 : 尋找包含咖啡或茶的交易</string>
+    <string name="search_fts_help_phrase">\"咖啡與茶\" : 尋找完全匹配的短語 \"咖啡與茶\"</string>
+    <string name="search_fts_help_prefix">咖啡* : 尋找以咖啡開頭的詞彙（例如 咖啡、咖啡館）</string>
+    <string name="search_fts_help_column">在搜尋詞前加上前綴以限定搜尋特定欄位（例如 payee:全聯, category:餐飲, tag:工作）。可用欄位：\'comment\'（備註）、\'payee\'（交易對象）、\'category\'（類別）、\'tag\'（標籤）、\'ref\'（參考編號）</string>
 </resources>

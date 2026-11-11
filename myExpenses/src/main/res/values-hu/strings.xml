@@ -1076,4 +1076,10 @@
     <string name="pref_tag_style_outline">Színes keret</string>
     <string name="pref_tag_style_filled">Teljesen színes</string>
     <string name="trade_additional_costs">További költségek</string>
+    <string name="search_fts_help_and">kávé tea : kávét és teát is tartalmazó tranzakciókat keres</string>
+    <string name="search_fts_help_not">kávé -tea : kávét tartalmazó, de tea nélküli tranzakciókat keres</string>
+    <string name="search_fts_help_or">kávé OR tea : kávét vagy teát tartalmazó tranzakciókat keres</string>
+    <string name="search_fts_help_phrase">\"kávé és tea\" : a pontos \"kávé és tea\" kifejezést keresi</string>
+    <string name="search_fts_help_prefix">káv* : káv karakterekkel kezdődő szavakat keres (pl. kávé, kávézó)</string>
+    <string name="search_fts_help_column">Előtag használatával korlátozhatja a keresést egy adott oszlopra (pl. payee:bolt, category:étel, tag:munka). Elérhető: \'comment\' (jegyzett), \'payee\' (kedvezményezett), \'category\' (kategória), \'tag\' (címkék), \'ref\' (hivatkozási szám)</string>
 </resources>

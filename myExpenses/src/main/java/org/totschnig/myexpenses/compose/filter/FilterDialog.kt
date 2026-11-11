@@ -49,7 +49,6 @@ import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -361,19 +360,7 @@ fun FilterDialog(
                                                 color = MaterialTheme.colorScheme.error
                                             )
                                         }
-                                        CompositionLocalProvider(
-                                            LocalContentColor provides
-                                                MaterialTheme.colorScheme.onSurfaceVariant
-                                        ) {
-                                            Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                                                Text(stringResource(R.string.search_fts_help_and))
-                                                Text(stringResource(R.string.search_fts_help_not))
-                                                Text(stringResource(R.string.search_fts_help_or))
-                                                Text(stringResource(R.string.search_fts_help_phrase))
-                                                Text(stringResource(R.string.search_fts_help_prefix))
-                                                Text(stringResource(R.string.search_fts_help_column))
-                                            }
-                                        }
+                                        FtsHelpList()
                                     }
                                 },
                                 singleLine = true,

@@ -1097,4 +1097,10 @@
     <string name="trade_additional_costs">Custos adicionais</string>
     <string name="dialog_title_warning_delete_closed_account">Excluir conta fechada?</string>
     <string name="search_asset">Busca por um ativo</string>
+    <string name="search_fts_help_and">café chá : encontra transações com café e chá</string>
+    <string name="search_fts_help_not">café -chá : encontra transações com café, mas sem chá</string>
+    <string name="search_fts_help_or">café OR chá : encontra transações com café ou chá</string>
+    <string name="search_fts_help_phrase">\"café e chá\" : encontra a frase exata \"café e chá\"</string>
+    <string name="search_fts_help_prefix">caf* : encontra palavras que começam por caf (ex. café, cafeteria)</string>
+    <string name="search_fts_help_column">Adicione um prefixo para restringir a busca a uma coluna específica (ex. payee:supermercado, category:alimentacao, tag:trabalho). Disponíveis: \'comment\' (notas), \'payee\' (beneficiário), \'category\' (categoria), \'tag\' (etiquetas), \'ref\' (número de referência)</string>
 </resources>

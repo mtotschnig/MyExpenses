@@ -1097,5 +1097,10 @@
     <string name="help_floating_action_button">Pulsante azione fluttuante</string>
     <string name="full_text_search">Ricerca a testo intero</string>
     <string name="search_full_text">Cerca in tutti i campi</string>
-    <string name="search_fts_help_and">• caffè tè: trova transazioni sia con caffè che con tè</string>
+    <string name="search_fts_help_and">• caffè tè: trova le transazioni sia con caffè che con tè</string>
+    <string name="search_fts_help_not">caffè -tè : trova le transazioni con caffè, ma senza tè</string>
+    <string name="search_fts_help_or">caffè OR tè : trova le transazioni con caffè o tè</string>
+    <string name="search_fts_help_phrase">\"caffè e tè\" : trova l\'espressione esatta \"caffè e tè\"</string>
+    <string name="search_fts_help_prefix">caff* : trova parole che iniziano con caff (ad es. caffè, caffetteria)</string>
+    <string name="search_fts_help_column">Prefissa il termine di ricerca per limitarla a una colonna specifica (ad es. payee:supermercato, category:cibo, tag:lavoro). Disponibili: \'comment\' (note), \'payee\' (beneficiario), \'category\' (categoria), \'tag\' (tag), \'ref\' (numero di riferimento)</string>
 </resources>

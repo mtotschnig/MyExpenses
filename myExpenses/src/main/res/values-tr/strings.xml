@@ -1085,4 +1085,10 @@
     <string name="single_pane_view">Tek ekran</string>
     <string name="split_pane_view">Bölünmüş görünüm</string>
     <string name="parent_category">Üst kategori</string>
+    <string name="search_fts_help_and">kahve çay : hem kahve hem çay içeren işlemleri bulur</string>
+    <string name="search_fts_help_not">kahve -çay : kahve içeren ancak çay içermeyen işlemleri bulur</string>
+    <string name="search_fts_help_or">kahve OR çay : kahve veya çay içeren işlemleri bulur</string>
+    <string name="search_fts_help_phrase">\"kahve ve çay\" : tam olarak \"kahve ve çay\" ifadesini bulur</string>
+    <string name="search_fts_help_prefix">kahv* : kahv ile başlayan kelimeleri bulur (örn. kahve, kahvehane)</string>
+    <string name="search_fts_help_column">Aramayı belirli bir sütunla sınırlandırmak için ön ek kullanın (örn. payee:market, category:gıda, tag:iş). Kullanılabilir: \'comment\' (notlar), \'payee\' (alacaklı/borçlu), \'category\' (kategori), \'tag\' (etiketler), \'ref\' (referans numarası)</string>
 </resources>

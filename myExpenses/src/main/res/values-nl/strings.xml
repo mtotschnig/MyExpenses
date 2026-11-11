@@ -958,4 +958,10 @@
     <string name="pref_tag_style_filled">Volledig gekleurd</string>
     <string name="trade_additional_costs">Aanvullende kosten</string>
     <string name="contrib_feature_portfolio_tracking">Portefeuille-tracking</string>
+    <string name="search_fts_help_and">koffie thee : vindt transacties met zowel koffie als thee</string>
+    <string name="search_fts_help_not">koffie -thee : vindt transacties met koffie, maar zonder thee</string>
+    <string name="search_fts_help_or">koffie OR thee : vindt transacties met koffie of thee</string>
+    <string name="search_fts_help_phrase">\"koffie en thee\" : vindt de exacte woordgroep \"koffie en thee\"</string>
+    <string name="search_fts_help_prefix">koff* : vindt woorden die beginnen met koff (bijv. koffie, koffiehuis)</string>
+    <string name="search_fts_help_column">Gebruik een voorvoegsel om de zoekopdracht zuiver tot een specifieke kolom te beperken (bijv. payee:supermarkt, category:voeding, tag:werk). Beschikbaar: \'comment\' (notities), \'payee\' (tegenpartij), \'category\' (categorie), \'tag\' (labels), \'ref\' (referentienummer)</string>
 </resources>

@@ -1159,4 +1159,10 @@
     <string name="help_floating_action_button">زر الحركة العائمة</string>
     <string name="single_pane_view">لوحة واحدة</string>
     <string name="split_pane_view">العرض المنقسم</string>
+    <string name="search_fts_help_and">قهوة شاي : يبحث عن المعاملات التي تحتوي على القهوة والشاي معا</string>
+    <string name="search_fts_help_not">قهوة -شاي : يبحث عن المعاملات التي تحتوي على القهوة وبدون شاي</string>
+    <string name="search_fts_help_or">قهوة OR شاي : يبحث عن المعاملات التي تحتوي على القهوة أو الشاي</string>
+    <string name="search_fts_help_phrase">\"قهوة وشاي\" : يبحث عن العبارة الدقيقة \"قهوة وشاي\"</string>
+    <string name="search_fts_help_prefix">قهو* : يبحث عن الكلمات التي تبدأ بـ قهو (مثل قهوة، مقهى)</string>
+    <string name="search_fts_help_column">أضف بادئة لتقييد البحث في عمود محدد (مثال payee:سوبرماركت, category:طعام, tag:عمل). المتاح: \'comment\' (ملاحظات), \'payee\' (المستفيد), \'category\' (الفئة), \'tag\' (العلامات), \'ref\' (رقم المرجع)</string>
 </resources>

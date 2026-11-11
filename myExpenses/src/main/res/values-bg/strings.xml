@@ -1084,4 +1084,10 @@
     <string name="trade_add_cost">Добавете цена</string>
     <string name="single_pane_view">Единичен панел</string>
     <string name="split_pane_view">Разделен изглед</string>
+    <string name="search_fts_help_and">кафе чай : намира транзакции с кафе и чай</string>
+    <string name="search_fts_help_not">кафе -чай : намира транзакции с кафе, но без чай</string>
+    <string name="search_fts_help_or">кафе OR чай : намира транзакции с кафе или чай</string>
+    <string name="search_fts_help_phrase">\"кафе и чай\" : намира точната фраза \"кафе и чай\"</string>
+    <string name="search_fts_help_prefix">каф* : намира думи, започващи с каф (напр. кафе, кафене)</string>
+    <string name="search_fts_help_column">Добавете префикс, за да ограничите търсенето до определена колона (напр. payee:магазин, category:храна, tag:работа). Достъпни: \'comment\' (бележки), \'payee\' (получател/платци), \'category\' (категория), \'tag\' (етикети), \'ref\' (референтен номер)</string>
 </resources>

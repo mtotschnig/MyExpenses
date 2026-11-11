@@ -1067,4 +1067,10 @@
     <string name="pref_tag_style_outline">Kolorowa ramka</string>
     <string name="pref_tag_style_filled">Pełny kolor</string>
     <string name="trade_additional_costs">Dodatkowe koszty</string>
+    <string name="search_fts_help_and">kawa herbata : znajduje transakcje zawierające zarówno kawę, jak i herbatę</string>
+    <string name="search_fts_help_not">kawa -herbata : znajduje transakcje z kawą, ale bez herbaty</string>
+    <string name="search_fts_help_or">kawa OR herbata : znajduje transakcje z kawą lub herbatą</string>
+    <string name="search_fts_help_phrase">\"kawa i herbata\" : znajduje dokładną frazę \"kawa i herbata\"</string>
+    <string name="search_fts_help_prefix">kaw* : znajduje słowa rozpoczynające się od kaw (np. kawa, kawiarnia)</string>
+    <string name="search_fts_help_column">Dodaj prefiks, aby ograniczyć wyszukiwanie do określonej kolumny (np. payee:sklep, category:jedzenie, tag:praca). Dostępne: \'comment\' (notatki), \'payee\' (odbiorca/płatnik), \'category\' (kategoria), \'tag\' (tagi), \'ref\' (numer referencyjny)</string>
 </resources>

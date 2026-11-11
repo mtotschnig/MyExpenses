@@ -1110,4 +1110,10 @@
     <string name="pref_tag_style_outline">Barevný okraj</string>
     <string name="pref_tag_style_filled">Plně barevné</string>
     <string name="trade_additional_costs">Dodatečné náklady</string>
+    <string name="search_fts_help_and">káva čaj : najde transakce obsahující kávu i čaj</string>
+    <string name="search_fts_help_not">káva -čaj : najde transakce s kávou, ale bez čaje</string>
+    <string name="search_fts_help_or">káva OR čaj : najde transakce s kávou nebo čajem</string>
+    <string name="search_fts_help_phrase">\"káva a čaj\" : najde přesnou frázi \"káva a čaj\"</string>
+    <string name="search_fts_help_prefix">káv* : najde slova začínající na káv (např. káva, kavárna)</string>
+    <string name="search_fts_help_column">Použijte předponu pro omezení vyhledávání na konkrétní sloupec (např. payee:obchod, category:jídlo, tag:práce). Dostupné: \'comment\' (poznámky), \'payee\' (příjemce/platce), \'category\' (kategorie), \'tag\' (štítky), \'ref\' (referenční číslo)</string>
 </resources>

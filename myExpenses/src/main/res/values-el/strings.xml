@@ -1018,4 +1018,10 @@
     <string name="pref_tag_style_filled">Πλήρως χρωματισμένο</string>
     <string name="trade_additional_costs">Πρόσθετα έξοδα</string>
     <string name="contrib_feature_portfolio_tracking">Παρακολούθηση χαρτοφυλακίου</string>
+    <string name="search_fts_help_and">καφές τσάι : βρίσκει συναλλαγές με καφέ και τσάι</string>
+    <string name="search_fts_help_not">καφές -τσάι : βρίσκει συναλλαγές με καφέ, αλλά χωρίς τσάι</string>
+    <string name="search_fts_help_or">καφές OR τσάι : βρίσκει συναλλαγές είτε με καφέ είτε με τσάι</string>
+    <string name="search_fts_help_phrase">\"καφές και τσάι\" : βρίσκει την ακριβή φράση \"καφές και τσάι\"</string>
+    <string name="search_fts_help_prefix">καφ* : βρίσκει λέξεις που ξεκινάνε από καφ (π.χ. καφές, καφετέρια)</string>
+    <string name="search_fts_help_column">Προσθέστε πρόθεμα για να περιορίσετε την αναζήτηση σε συγκεκριμένη στήλη (π.χ. payee:supermarket, category:φαγητό, tag:εργασία). Διαθέσιμα: \'comment\' (σημειώσεις), \'payee\' (δικαιούχος), \'category\' (κατηγορία), \'tag\' (ετικέτες), \'ref\' (αριθμός αναφοράς)</string>
 </resources>

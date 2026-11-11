@@ -907,4 +907,10 @@
     <string name="pref_tag_style_filled">Complet colorat</string>
     <string name="trade_additional_costs">Costuri suplimentare</string>
     <string name="contrib_feature_portfolio_tracking">Urmărirea portofoliului</string>
+    <string name="search_fts_help_and">cafea ceai : găsește tranzacțiile cu cafea și ceai</string>
+    <string name="search_fts_help_not">cafea -ceai : găsește tranzacțiile cu cafea, dar fără ceai</string>
+    <string name="search_fts_help_or">cafea OR ceai : găsește tranzacțiile cu cafea sau ceai</string>
+    <string name="search_fts_help_phrase">\"cafea și ceai\" : găsește expresia exactă \"cafea și ceai\"</string>
+    <string name="search_fts_help_prefix">caf* : găsește cuvinte care încep cu caf (de ex. cafea, cafenea)</string>
+    <string name="search_fts_help_column">Adăugați un prefix pentru a limita căutarea la o anumită coloană (de ex. payee:supermarket, category:mâncare, tag:muncă). Disponibile: \'comment\' (note), \'payee\' (beneficiar), \'category\' (categorie), \'tag\' (etichete), \'ref\' (număr de referință)</string>
 </resources>

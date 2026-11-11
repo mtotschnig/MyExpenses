@@ -8,12 +8,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -328,19 +326,7 @@ fun FilterHandler(
                                         color = MaterialTheme.colorScheme.error
                                     )
                                 }
-                                CompositionLocalProvider(
-                                    LocalContentColor provides
-                                        MaterialTheme.colorScheme.onSurfaceVariant
-                                ) {
-                                    Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                                        Text(text = stringResource(R.string.search_fts_help_and))
-                                        Text(text = stringResource(R.string.search_fts_help_not))
-                                        Text(text = stringResource(R.string.search_fts_help_or))
-                                        Text(text = stringResource(R.string.search_fts_help_phrase))
-                                        Text(text = stringResource(R.string.search_fts_help_prefix))
-                                        Text(text = stringResource(R.string.search_fts_help_column))
-                                    }
-                                }
+                                FtsHelpList()
                             }
                         }
                     )

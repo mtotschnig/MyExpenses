@@ -1089,4 +1089,10 @@
     <string name="pref_tag_style_outline">Цветная рамка</string>
     <string name="pref_tag_style_filled">Полностью цветной</string>
     <string name="trade_additional_costs">Дополнительные расходы</string>
+    <string name="search_fts_help_and">кофе чай : находит транзакции с кофе и чаем</string>
+    <string name="search_fts_help_not">кофе -чай : находит транзакции с кофе, но без чая</string>
+    <string name="search_fts_help_or">кофе OR чай : находит транзакции либо с кофе, либо с чаем</string>
+    <string name="search_fts_help_phrase">\"кофе и чай\" : находит точную фразу \"кофе и чай\"</string>
+    <string name="search_fts_help_prefix">коф* : находит слова, начинающиеся с коф (например: кофе, кофейня)</string>
+    <string name="search_fts_help_column">Используйте префикс, чтобы ограничить поиск конкретным столбцом (например: payee:магазин, category:еда, tag:работа). Доступные столбцы: \'comment\' (заметки), \'payee\' (получатель/плательщик), \'category\' (категория), \'tag\' (теги), \'ref\' (номер ссылки)</string>
 </resources>

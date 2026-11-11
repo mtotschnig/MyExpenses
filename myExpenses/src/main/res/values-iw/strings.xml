@@ -980,4 +980,10 @@
     <string name="pref_tag_style_filled">צבעוני מלא</string>
     <string name="trade_additional_costs">עלויות נוספות</string>
     <string name="contrib_feature_portfolio_tracking">מעקב תיק השקעות</string>
+    <string name="search_fts_help_and">קפה תה : מוצא עסקאות המכילות גם קפה וגם תה</string>
+    <string name="search_fts_help_not">קפה -תה : מוצא עסקאות עם קפה, אך ללא תה</string>
+    <string name="search_fts_help_or">קפה OR תה : מוצא עסקאות המכילות קפה או תה</string>
+    <string name="search_fts_help_phrase">\"קפה ותה\" : מוצא את הביטוי המדויק \"קפה ותה\"</string>
+    <string name="search_fts_help_prefix">קפ* : מוצא מילים המתחילות ב-קפ (למשל קפה, בית קפה)</string>
+    <string name="search_fts_help_column">הוסף קידומת כדי להגביל את החיפוש לעמודה מסוימת (למשל payee:סופרמרקט, category:אוכל, tag:עבודה). זמין: \'comment\' (הערות), \'payee\' (מוטב), \'category\' (קטגוריה), \'tag\' (תגיות), \'ref\' (מספר אסמכתא)</string>
 </resources>

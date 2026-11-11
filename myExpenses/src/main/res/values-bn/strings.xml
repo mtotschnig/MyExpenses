@@ -1144,11 +1144,11 @@
     <string name="split_pane_view">বিভক্ত দৃশ্য</string>
     <string name="full_text_search">সম্পূর্ণ টেক্সট অনুসন্ধান</string>
     <string name="search_full_text">সমস্ত ক্ষেত্রে অনুসন্ধান করুন</string>
-    <string name="search_fts_help_and">• কফি চা : কফি এবং চা উভয় যুক্ত লেনদেন খুঁজে বের করে</string>
-    <string name="search_fts_help_not">• কফি -চা : কফি যুক্ত কিন্তু চা ছাড়া লেনদেন খুঁজে বের করে</string>
-    <string name="search_fts_help_or">• কফি OR চা : কফি বা চা যেকোনো একটি যুক্ত লেনদেন খুঁজে বের করে</string>
-    <string name="search_fts_help_phrase">• \"কফি এবং চা\" : হুবহু \"কফি এবং চা\" বাক্যাংশটি খুঁজে বের করে</string>
-    <string name="search_fts_help_prefix">• কফ* : কফ দিয়ে শুরু হওয়া শব্দগুলি খুঁজে বের করে (যেমন কফি, কফিশপ)</string>
-    <string name="search_fts_help_column">• নির্দিষ্ট কলামে অনুসন্ধান সীমাবদ্ধ করতে অনুসন্ধান শব্দের আগে প্রিফিক্স যুক্ত করুন (যেমন payee:ওয়ালমার্ট, category:খাবার, tag:কাজ)। উপলব্ধ: \'comment\' (নোট), \'payee\' (পক্ষ), \'category\' (বিভাগ), \'tag\' (ট্যাগ), \'ref\' (রেফারেন্স নম্বর)</string>
+    <string name="search_fts_help_and">কফি চা : কফি এবং চা উভয় যুক্ত লেনদেন খুঁজে বের করে</string>
+    <string name="search_fts_help_not">কফি -চা : কফি যুক্ত কিন্তু চা ছাড়া লেনদেন খুঁজে বের করে</string>
+    <string name="search_fts_help_or">কফি OR চা : কফি বা চা যেকোনো একটি যুক্ত লেনদেন খুঁজে বের করে</string>
+    <string name="search_fts_help_phrase">\"কফি এবং চা\" : হুবহু \"কফি এবং চা\" বাক্যাংশটি খুঁজে বের করে</string>
+    <string name="search_fts_help_prefix">কফ* : কফ দিয়ে শুরু হওয়া শব্দগুলি খুঁজে বের করে (যেমন কফি, কফিশপ)</string>
+    <string name="search_fts_help_column">নির্দিষ্ট কলামে অনুসন্ধান সীমাবদ্ধ করতে অনুসন্ধান শব্দের আগে প্রিফিক্স যুক্ত করুন (যেমন payee:ওয়ালমার্ট, category:খাবার, tag:কাজ)। উপলব্ধ: \'comment\' (নোট), \'payee\' (পক্ষ), \'category\' (বিভাগ), \'tag\' (ট্যাগ), \'ref\' (রেফারেন্স নম্বর)</string>
     <string name="search_fts_error_malformed">অসম্পূর্ণ অনুসন্ধান অপারেটর বা অমিল উদ্ধৃতি চিহ্ন</string>
 </resources>

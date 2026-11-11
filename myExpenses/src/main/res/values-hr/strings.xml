@@ -1039,4 +1039,10 @@
     <string name="help_floating_action_button">Plutajući gumb za radnju</string>
     <string name="split_pane_view">Podijeljeni prikaz</string>
     <string name="single_pane_view">Jednostruki prikaz</string>
+    <string name="search_fts_help_and">kava čaj : pronalazi transakcije koje sadrže i kavu i čaj</string>
+    <string name="search_fts_help_not">kava -čaj : pronalazi transakcije s kavom, ali bez čaja</string>
+    <string name="search_fts_help_or">kava OR čaj : pronalazi transakcije s kavom ili čajem</string>
+    <string name="search_fts_help_phrase">\"kava i čaj\" : pronalazi točan izraz \"kava i čaj\"</string>
+    <string name="search_fts_help_prefix">kav* : pronalazi riječi koje počinju s kav (npr. kava, kafić)</string>
+    <string name="search_fts_help_column">Upotrijebite prefiks za ograničavanje pretraživanja na određeni stupac (npr. payee:trgovina, category:hrana, tag:posao). Dostupno: \'comment\' (bilješke), \'payee\' (primatelj/platitelj), \'category\' (kategorija), \'tag\' (oznake), \'ref\' (referentni broj)</string>
 </resources>

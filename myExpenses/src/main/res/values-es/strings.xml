@@ -1100,4 +1100,10 @@
     <string name="remap_update_value_date">También actualizar la Fecha de valor</string>
     <string name="trade_add_cost">Añade coste</string>
     <string name="help_floating_action_button">Botón de Acción Flotante</string>
+    <string name="search_fts_help_and">café té : encuentra transacciones con café y té</string>
+    <string name="search_fts_help_not">café -té : encuentra transacciones con café, pero sin té</string>
+    <string name="search_fts_help_or">café OR té : encuentra transacciones con café o té</string>
+    <string name="search_fts_help_phrase">\"café y té\" : encuentra la frase exacta \"café y té\"</string>
+    <string name="search_fts_help_prefix">caf* : encuentra palabras que empiezan con caf (p. ej. café, cafetería)</string>
+    <string name="search_fts_help_column">Añada un prefijo para restringir la búsqueda a una columna específica (p. ej. payee:supermercado, category:comida, tag:trabajo). Disponibles: \'comment\' (notas), \'payee\' (beneficiario), \'category\' (categoría), \'tag\' (etiquetas), \'ref\' (número de referencia)</string>
 </resources>
