@@ -964,4 +964,8 @@
     <string name="search_fts_help_phrase">\"koffie en thee\" : vindt de exacte woordgroep \"koffie en thee\"</string>
     <string name="search_fts_help_prefix">koff* : vindt woorden die beginnen met koff (bijv. koffie, koffiehuis)</string>
     <string name="search_fts_help_column">Gebruik een voorvoegsel om de zoekopdracht zuiver tot een specifieke kolom te beperken (bijv. payee:supermarkt, category:voeding, tag:werk). Beschikbaar: \'comment\' (notities), \'payee\' (tegenpartij), \'category\' (categorie), \'tag\' (labels), \'ref\' (referentienummer)</string>
+    <string name="full_text_search">Volledige tekst zoeken</string>
+    <string name="search_full_text">Doorzoek alle velden</string>
+    <string name="search_fts_error_malformed">Onvolledige zoekoperator of niet-overeenkomende aanhalingstekens</string>
+    <string name="parent_category">Bovenliggende categorie</string>
 </resources>

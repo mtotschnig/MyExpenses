@@ -1106,4 +1106,8 @@
     <string name="search_fts_help_phrase">\"café y té\" : encuentra la frase exacta \"café y té\"</string>
     <string name="search_fts_help_prefix">caf* : encuentra palabras que empiezan con caf (p. ej. café, cafetería)</string>
     <string name="search_fts_help_column">Añada un prefijo para restringir la búsqueda a una columna específica (p. ej. payee:supermercado, category:comida, tag:trabajo). Disponibles: \'comment\' (notas), \'payee\' (beneficiario), \'category\' (categoría), \'tag\' (etiquetas), \'ref\' (número de referencia)</string>
+    <string name="full_text_search">Búsqueda de texto completo</string>
+    <string name="search_full_text">Buscar en todos los campos</string>
+    <string name="search_fts_error_malformed">Operador de búsqueda incompleto o comillas sin cerrar</string>
+    <string name="parent_category">Categoría principal</string>
 </resources>

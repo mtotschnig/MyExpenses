@@ -1045,4 +1045,8 @@
     <string name="search_fts_help_phrase">\"kava i čaj\" : pronalazi točan izraz \"kava i čaj\"</string>
     <string name="search_fts_help_prefix">kav* : pronalazi riječi koje počinju s kav (npr. kava, kafić)</string>
     <string name="search_fts_help_column">Upotrijebite prefiks za ograničavanje pretraživanja na određeni stupac (npr. payee:trgovina, category:hrana, tag:posao). Dostupno: \'comment\' (bilješke), \'payee\' (primatelj/platitelj), \'category\' (kategorija), \'tag\' (oznake), \'ref\' (referentni broj)</string>
+    <string name="full_text_search">Pretraživanje punog teksta</string>
+    <string name="search_full_text">Pretraži sva polja</string>
+    <string name="search_fts_error_malformed">Nekompletan operator pretraživanja ili neupareni navodnici</string>
+    <string name="parent_category">Nadređena kategorija</string>
 </resources>

@@ -1091,4 +1091,7 @@
     <string name="search_fts_help_phrase">\"kahve ve çay\" : tam olarak \"kahve ve çay\" ifadesini bulur</string>
     <string name="search_fts_help_prefix">kahv* : kahv ile başlayan kelimeleri bulur (örn. kahve, kahvehane)</string>
     <string name="search_fts_help_column">Aramayı belirli bir sütunla sınırlandırmak için ön ek kullanın (örn. payee:market, category:gıda, tag:iş). Kullanılabilir: \'comment\' (notlar), \'payee\' (alacaklı/borçlu), \'category\' (kategori), \'tag\' (etiketler), \'ref\' (referans numarası)</string>
+    <string name="full_text_search">Tam metin araması</string>
+    <string name="search_full_text">Tüm alanlarda ara</string>
+    <string name="search_fts_error_malformed">Eksik arama işleci veya eşleşmeyen tırnak işaretleri</string>
 </resources>

@@ -1116,4 +1116,8 @@
     <string name="search_fts_help_phrase">\"káva a čaj\" : najde přesnou frázi \"káva a čaj\"</string>
     <string name="search_fts_help_prefix">káv* : najde slova začínající na káv (např. káva, kavárna)</string>
     <string name="search_fts_help_column">Použijte předponu pro omezení vyhledávání na konkrétní sloupec (např. payee:obchod, category:jídlo, tag:práce). Dostupné: \'comment\' (poznámky), \'payee\' (příjemce/platce), \'category\' (kategorie), \'tag\' (štítky), \'ref\' (referenční číslo)</string>
+    <string name="full_text_search">Celotextové vyhledávání</string>
+    <string name="search_full_text">Hledat ve všech polích</string>
+    <string name="search_fts_error_malformed">Neúplný vyhledávací operátor nebo neuzavřené uvozovky</string>
+    <string name="parent_category">Nadřazená kategorie</string>
 </resources>

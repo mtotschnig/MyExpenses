@@ -913,4 +913,8 @@
     <string name="search_fts_help_phrase">\"cafea și ceai\" : găsește expresia exactă \"cafea și ceai\"</string>
     <string name="search_fts_help_prefix">caf* : găsește cuvinte care încep cu caf (de ex. cafea, cafenea)</string>
     <string name="search_fts_help_column">Adăugați un prefix pentru a limita căutarea la o anumită coloană (de ex. payee:supermarket, category:mâncare, tag:muncă). Disponibile: \'comment\' (note), \'payee\' (beneficiar), \'category\' (categorie), \'tag\' (etichete), \'ref\' (număr de referință)</string>
+    <string name="full_text_search">Căutare în text integral</string>
+    <string name="search_full_text">Căutați în toate câmpurile</string>
+    <string name="search_fts_error_malformed">Operator de căutare incomplet sau ghilimele neînchise</string>
+    <string name="parent_category">Categorie părinte</string>
 </resources>

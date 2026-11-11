@@ -981,4 +981,8 @@
     <string name="search_fts_help_phrase">\"café e chá\" : encontra a frase exata \"café e chá\"</string>
     <string name="search_fts_help_prefix">caf* : encontra palavras que começam por caf (ex. café, cafeteria)</string>
     <string name="search_fts_help_column">Adicione um prefixo para restringir a pesquisa a uma coluna específica (ex. payee:supermercado, category:alimentacao, tag:etiquetas). Disponíveis: \'comment\' (notas), \'payee\' (beneficiário), \'category\' (categoria), \'tag\' (etiquetas), \'ref\' (número de referência)</string>
+    <string name="full_text_search">Pesquisa de texto completo</string>
+    <string name="search_full_text">Pesquisar em todos os campos</string>
+    <string name="search_fts_error_malformed">Operador de pesquisa incompleto ou aspas não correspondentes</string>
+    <string name="parent_category">Categoria mãe</string>
 </resources>

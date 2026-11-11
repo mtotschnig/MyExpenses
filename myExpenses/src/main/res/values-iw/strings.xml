@@ -986,4 +986,8 @@
     <string name="search_fts_help_phrase">\"קפה ותה\" : מוצא את הביטוי המדויק \"קפה ותה\"</string>
     <string name="search_fts_help_prefix">קפ* : מוצא מילים המתחילות ב-קפ (למשל קפה, בית קפה)</string>
     <string name="search_fts_help_column">הוסף קידומת כדי להגביל את החיפוש לעמודה מסוימת (למשל payee:סופרמרקט, category:אוכל, tag:עבודה). זמין: \'comment\' (הערות), \'payee\' (מוטב), \'category\' (קטגוריה), \'tag\' (תגיות), \'ref\' (מספר אסמכתא)</string>
+    <string name="full_text_search">חיפוש טקסט מלא</string>
+    <string name="search_full_text">חיפוש בכל השדות</string>
+    <string name="search_fts_error_malformed">אופרטור חיפוש לא שלם או מירכאות לא תואמות</string>
+    <string name="parent_category">קטגוריית הורה</string>
 </resources>

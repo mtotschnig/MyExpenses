@@ -971,4 +971,8 @@
     <string name="search_fts_help_phrase">\"咖啡與茶\" : 尋找完全匹配的短語 \"咖啡與茶\"</string>
     <string name="search_fts_help_prefix">咖啡* : 尋找以咖啡開頭的詞彙（例如 咖啡、咖啡館）</string>
     <string name="search_fts_help_column">在搜尋詞前加上前綴以限定搜尋特定欄位（例如 payee:全聯, category:餐飲, tag:工作）。可用欄位：\'comment\'（備註）、\'payee\'（交易對象）、\'category\'（類別）、\'tag\'（標籤）、\'ref\'（參考編號）</string>
+    <string name="full_text_search">全文搜尋</string>
+    <string name="search_full_text">搜尋所有欄位</string>
+    <string name="search_fts_error_malformed">搜尋運算子不完整或未配對的引號</string>
+    <string name="parent_category">父類別</string>
 </resources>

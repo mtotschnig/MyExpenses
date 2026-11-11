@@ -1082,4 +1082,8 @@
     <string name="search_fts_help_phrase">\"kávé és tea\" : a pontos \"kávé és tea\" kifejezést keresi</string>
     <string name="search_fts_help_prefix">káv* : káv karakterekkel kezdődő szavakat keres (pl. kávé, kávézó)</string>
     <string name="search_fts_help_column">Előtag használatával korlátozhatja a keresést egy adott oszlopra (pl. payee:bolt, category:étel, tag:munka). Elérhető: \'comment\' (jegyzett), \'payee\' (kedvezményezett), \'category\' (kategória), \'tag\' (címkék), \'ref\' (hivatkozási szám)</string>
+    <string name="full_text_search">Teljes szöveges keresés</string>
+    <string name="search_full_text">Keresés minden mezőben</string>
+    <string name="search_fts_error_malformed">Hiányos keresési operátor vagy páratlan idézőjelek</string>
+    <string name="parent_category">Szülőkategória</string>
 </resources>

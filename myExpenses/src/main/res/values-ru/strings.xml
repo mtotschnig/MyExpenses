@@ -1095,4 +1095,8 @@
     <string name="search_fts_help_phrase">\"кофе и чай\" : находит точную фразу \"кофе и чай\"</string>
     <string name="search_fts_help_prefix">коф* : находит слова, начинающиеся с коф (например: кофе, кофейня)</string>
     <string name="search_fts_help_column">Используйте префикс, чтобы ограничить поиск конкретным столбцом (например: payee:магазин, category:еда, tag:работа). Доступные столбцы: \'comment\' (заметки), \'payee\' (получатель/плательщик), \'category\' (категория), \'tag\' (теги), \'ref\' (номер ссылки)</string>
+    <string name="full_text_search">Полнотекстовый поиск</string>
+    <string name="search_full_text">Искать во всех полях</string>
+    <string name="search_fts_error_malformed">Неполный оператор поиска или незакрытые кавычки</string>
+    <string name="parent_category">Родительская категория</string>
 </resources>

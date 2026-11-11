@@ -894,4 +894,8 @@
     <string name="search_fts_help_phrase">\"cà phê và trà\" : tìm chính xác cụm từ \"cà phê và trà\"</string>
     <string name="search_fts_help_prefix">cà* : tìm các từ bắt đầu bằng cà (ví dụ: cà phê, quán cà phê)</string>
     <string name="search_fts_help_column">Thêm tiền tố để giới hạn tìm kiếm ở một cột cụ thể (ví dụ: payee:siêu thị, category:ăn uống, tag:công việc). Các cột khả dụng: \'comment\' (ghi chú), \'payee\' (người nhận/trả), \'category\' (danh mục), \'tag\' (thẻ), \'ref\' (mã tham chiếu)</string>
+    <string name="full_text_search">Tìm kiếm toàn văn</string>
+    <string name="search_full_text">Tìm kiếm tất cả các trường</string>
+    <string name="search_fts_error_malformed">Toán tử tìm kiếm không đầy đủ hoặc dấu ngoặc kép không khớp</string>
+    <string name="parent_category">Danh mục mẹ</string>
 </resources>

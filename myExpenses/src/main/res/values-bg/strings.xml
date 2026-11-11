@@ -1090,4 +1090,8 @@
     <string name="search_fts_help_phrase">\"кафе и чай\" : намира точната фраза \"кафе и чай\"</string>
     <string name="search_fts_help_prefix">каф* : намира думи, започващи с каф (напр. кафе, кафене)</string>
     <string name="search_fts_help_column">Добавете префикс, за да ограничите търсенето до определена колона (напр. payee:магазин, category:храна, tag:работа). Достъпни: \'comment\' (бележки), \'payee\' (получател/платци), \'category\' (категория), \'tag\' (етикети), \'ref\' (референтен номер)</string>
+    <string name="full_text_search">Пълнотекстово търсене</string>
+    <string name="search_full_text">Търсене във всички полета</string>
+    <string name="search_fts_error_malformed">Непълен оператор за търсене или несъответстващи кавички</string>
+    <string name="parent_category">Родителска категория</string>
 </resources>

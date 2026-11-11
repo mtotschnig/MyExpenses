@@ -1073,4 +1073,8 @@
     <string name="search_fts_help_phrase">\"kawa i herbata\" : znajduje dokładną frazę \"kawa i herbata\"</string>
     <string name="search_fts_help_prefix">kaw* : znajduje słowa rozpoczynające się od kaw (np. kawa, kawiarnia)</string>
     <string name="search_fts_help_column">Dodaj prefiks, aby ograniczyć wyszukiwanie do określonej kolumny (np. payee:sklep, category:jedzenie, tag:praca). Dostępne: \'comment\' (notatki), \'payee\' (odbiorca/płatnik), \'category\' (kategoria), \'tag\' (tagi), \'ref\' (numer referencyjny)</string>
+    <string name="full_text_search">Wyszukiwanie pełnotekstowe</string>
+    <string name="search_full_text">Szukaj we wszystkich polach</string>
+    <string name="search_fts_error_malformed">Niezupełny operator wyszukiwania lub niedopasowane cudzysłowy</string>
+    <string name="parent_category">Kategoria nadrzędna</string>
 </resources>

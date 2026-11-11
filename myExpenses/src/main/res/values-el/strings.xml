@@ -1024,4 +1024,8 @@
     <string name="search_fts_help_phrase">\"καφές και τσάι\" : βρίσκει την ακριβή φράση \"καφές και τσάι\"</string>
     <string name="search_fts_help_prefix">καφ* : βρίσκει λέξεις που ξεκινάνε από καφ (π.χ. καφές, καφετέρια)</string>
     <string name="search_fts_help_column">Προσθέστε πρόθεμα για να περιορίσετε την αναζήτηση σε συγκεκριμένη στήλη (π.χ. payee:supermarket, category:φαγητό, tag:εργασία). Διαθέσιμα: \'comment\' (σημειώσεις), \'payee\' (δικαιούχος), \'category\' (κατηγορία), \'tag\' (ετικέτες), \'ref\' (αριθμός αναφοράς)</string>
+    <string name="full_text_search">Αναζήτηση πλήρους κειμένου</string>
+    <string name="search_full_text">Αναζήτηση σε όλα τα πεδία</string>
+    <string name="search_fts_error_malformed">Μη ολοκληρωμένος τελεστής αναζήτησης ή μη αντιστοιχισμένα εισαγωγικά</string>
+    <string name="parent_category">Γονική κατηγορία</string>
 </resources>

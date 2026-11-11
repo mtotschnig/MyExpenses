@@ -1165,4 +1165,8 @@
     <string name="search_fts_help_phrase">\"قهوة وشاي\" : يبحث عن العبارة الدقيقة \"قهوة وشاي\"</string>
     <string name="search_fts_help_prefix">قهو* : يبحث عن الكلمات التي تبدأ بـ قهو (مثل قهوة، مقهى)</string>
     <string name="search_fts_help_column">أضف بادئة لتقييد البحث في عمود محدد (مثال payee:سوبرماركت, category:طعام, tag:عمل). المتاح: \'comment\' (ملاحظات), \'payee\' (المستفيد), \'category\' (الفئة), \'tag\' (العلامات), \'ref\' (رقم المرجع)</string>
+    <string name="full_text_search">البحث في النص الكامل</string>
+    <string name="search_full_text">البحث في جميع الحقول</string>
+    <string name="search_fts_error_malformed">مشغل بحث غير مكتمل أو علامات تنصيص غير متطابقة</string>
+    <string name="parent_category">الفئة الأصل</string>
 </resources>
