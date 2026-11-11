@@ -242,4 +242,5 @@
     <string name="fab_trade_deposit_help_text">Aggiungi denaro al saldo del tuo portafoglio.</string>
     <string name="fab_trade_withdraw_help_text">Rimuovi il denaro dal saldo del tuo portafoglio.</string>
     <string name="fab_trade_transfer_help_text">Trasferire asset tra portafogli.</string>
+    <string name="menu_balance_sheet_help_text_date">Clicca sulla data per selezionare un\'altra data.</string>
 </resources>
