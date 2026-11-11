@@ -14,6 +14,9 @@ import androidx.sqlite.db.SupportSQLiteOpenHelper
 import androidx.sqlite.db.framework.FrameworkSQLiteOpenHelperFactory
 import dagger.Module
 import dagger.Provides
+import java.io.File
+import javax.inject.Named
+import javax.inject.Singleton
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.db2.Repository
@@ -27,9 +30,6 @@ import org.totschnig.myexpenses.provider.TransactionDatabase
 import org.totschnig.myexpenses.retrofit.ExchangeRateService
 import org.totschnig.myexpenses.util.ExchangeRateHandler
 import timber.log.Timber
-import java.io.File
-import javax.inject.Named
-import javax.inject.Singleton
 
 interface SqlCryptProvider {
     fun provideEncryptedDatabase(context: Context): SupportSQLiteOpenHelper.Factory
@@ -38,7 +38,7 @@ interface SqlCryptProvider {
 }
 
 @Module
-open class DataModule() {
+open class DataModule {
     companion object {
         val cryptProvider: SqlCryptProvider by lazy {
             Class.forName("org.totschnig.sqlcrypt.SQLiteOpenHelperFactory")
@@ -60,19 +60,19 @@ open class DataModule() {
     @Singleton
     @JvmSuppressWildcards
     fun provideDatabaseName(): (Boolean) -> String =
-        { if (it) "${databaseName}.enc" else databaseName }
+        { if (it) "$databaseName.enc" else databaseName }
 
     @Provides
     @Singleton
     open fun providePrefHandler(
         context: MyApplication,
-        sharedPreferences: SharedPreferences,
+        sharedPreferences: SharedPreferences
     ): PrefHandler = PrefHandlerImpl(context, sharedPreferences)
 
     @Singleton
     @Provides
     open fun provideSharedPreferences(
-        application: MyApplication,
+        application: MyApplication
     ): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(application)
 
     @Singleton
@@ -80,23 +80,23 @@ open class DataModule() {
     fun providePreferencesDataStore(
         appContext: MyApplication,
         @Named(AppComponent.UI_SETTINGS_DATASTORE_NAME) uiSettingsDataStoreName: String
-    ): DataStore<Preferences> {
-        return PreferenceDataStoreFactory.create(
-            produceFile = { appContext.preferencesDataStoreFile(uiSettingsDataStoreName) }
-        )
-    }
+    ): DataStore<Preferences> = PreferenceDataStoreFactory.create(
+        produceFile = { appContext.preferencesDataStoreFile(uiSettingsDataStoreName) }
+    )
 
     @Provides
     @Singleton
-    fun provideSecurePreferenceDataStore(context: Context): SecurePreferenceDataStore {
-        return SecurePreferenceDataStore(context)
-    }
+    fun provideSecurePreferenceDataStore(
+        context: Context
+    ): SecurePreferenceDataStore = SecurePreferenceDataStore(context)
 
     @Provides
     open fun provideSQLiteOpenHelper(
         appContext: MyApplication,
         prefHandler: PrefHandler,
-        @Named(AppComponent.DATABASE_NAME) provideDatabaseName: (@JvmSuppressWildcards Boolean) -> String,
+        @Named(AppComponent.DATABASE_NAME) provideDatabaseName: (
+            @JvmSuppressWildcards Boolean
+        ) -> String
     ): SupportSQLiteOpenHelper {
         val encryptDatabase = prefHandler.encryptDatabase
         Timber.w("building SupportSQLiteOpenHelper (encryptDatabase %b)", encryptDatabase)
@@ -121,20 +121,26 @@ open class DataModule() {
     open fun providePeekHelper(prefHandler: PrefHandler): DatabaseVersionPeekHelper =
         DatabaseVersionPeekHelper { context, path ->
             runCatching {
-                val version = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY).use { database ->
-                    database.version.also {
-                        if (it > DATABASE_VERSION)
-                            throw Throwable(
-                                context.getString(
-                                    R.string.restore_cannot_downgrade, it, DATABASE_VERSION
+                val version = SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY)
+                    .use { database ->
+                        database.version.also {
+                            if (it > DATABASE_VERSION) {
+                                throw Throwable(
+                                    context.getString(
+                                        R.string.restore_cannot_downgrade,
+                                        it,
+                                        DATABASE_VERSION
+                                    )
                                 )
-                            )
+                            }
+                        }
                     }
-                }
                 if ((version == 132 || version == 133) && Build.VERSION.SDK_INT == 30) {
-                    throw Throwable("Updating from database schema version 132 or 133 is no longer supported. Please contact support@myexpenses.mobi for assistance.")
+                    throw Throwable(
+                        "Updating from database schema version 132 or 133 is no longer supported. Please contact support@myexpenses.mobi for assistance."
+                    )
                 }
-                SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READONLY).use {
+                SQLiteDatabase.openDatabase(path, null, SQLiteDatabase.OPEN_READWRITE).use {
                     if (!try {
                             it.isDatabaseIntegrityOk
                         } catch (_: SQLiteDatabaseCorruptException) {

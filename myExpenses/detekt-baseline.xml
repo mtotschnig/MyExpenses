@@ -150,7 +150,6 @@
     <ID>DestructuringDeclarationWithTooManyEntries:MoreDbUtils.kt:(mainType, mainLabel, mainUuid, mainIcon, subcategories)</ID>
     <ID>DestructuringDeclarationWithTooManyEntries:MyExpensesV2ViewModel.kt:MyExpensesV2ViewModel$(accounts, activeFilter, grouping, aggregateAccountBalanceType)</ID>
     <ID>EmptyDefaultConstructor:CriterionReachedDialogFragment.kt:CriterionReachedDialogFragment</ID>
-    <ID>EmptyDefaultConstructor:DataModule.kt:DataModule</ID>
     <ID>EmptyDefaultConstructor:GroupedSpinnerAdapter.kt:SpinnerItem</ID>
     <ID>EmptyFunctionBlock:AbstractRemoteViewsFactory.kt:AbstractRemoteViewsFactory${}</ID>
     <ID>EmptyFunctionBlock:AccountEdit.kt:AccountEdit${}</ID>
@@ -817,7 +816,7 @@
     <ID>MaxLineLength:CurrencyFormatterTest.kt:CurrencyFormatterTest$assertThat(currencyFormatter.formatMoney(Money(eur, 150))).isEqualTo(if (javaVersion &gt;= 10) "1,50 €" else "1,50 €")</ID>
     <ID>MaxLineLength:CustomizeMenuDialogFragment.kt:CustomizeMenuDialogFragment$(if (isTablet) MenuItem.NavigationMode.forTablet else MenuItem.NavigationMode.forPhone)</ID>
     <ID>MaxLineLength:DailyExchangeRateDownloadService.kt:DailyExchangeRateDownloadService$"${datastore.dynamicExchangeRates.first()} AND $KEY_CURRENCY != ? AND NOT EXISTS(SELECT 1 from $TABLE_PRICES where $KEY_COMMODITY = $TABLE_ACCOUNTS.$KEY_CURRENCY and $KEY_DATE = date('now'))"</ID>
-    <ID>MaxLineLength:DataModule.kt:DataModule$throw Throwable("Updating from database schema version 132 or 133 is no longer supported. Please contact support@myexpenses.mobi for assistance.")</ID>
+    <ID>MaxLineLength:DataModule.kt:DataModule$"Updating from database schema version 132 or 133 is no longer supported. Please contact support@myexpenses.mobi for assistance."</ID>
     <ID>MaxLineLength:DatabaseConstants.kt:DatabaseConstants$"CAST((strftime('%j',date,'unixepoch','localtime','weekday $nextWeekEndSqlite', '-6 day') - 1) / 7 + 1 AS integer)"</ID>
     <ID>MaxLineLength:DatabaseConstants.kt:DatabaseConstants$//in sqlite julian days are calculated from noon, in order to make sure that the returned julian day matches the day we need, we set the time to noon.</ID>
     <ID>MaxLineLength:DatabaseConstants.kt:DatabaseConstants$const val WHERE_DEPENDENT: String = ("$KEY_PARENTID = ? OR $KEY_ROWID IN (SELECT $KEY_TRANSFER_PEER FROM $TABLE_TRANSACTIONS WHERE $KEY_PARENTID= ?)")</ID>
@@ -1241,15 +1240,12 @@
     <ID>NewLineAtEndOfFile:BudgetWidgetUpdateWorkerTest.kt:org.totschnig.myexpenses.service.BudgetWidgetUpdateWorkerTest.kt</ID>
     <ID>NewLineAtEndOfFile:ButtonOnShowDisabler.kt:org.totschnig.myexpenses.dialog.ButtonOnShowDisabler.kt</ID>
     <ID>NewLineAtEndOfFile:ButtonWithDialog.kt:org.totschnig.myexpenses.ui.ButtonWithDialog.kt</ID>
-    <ID>NewLineAtEndOfFile:CSVParser.kt:org.totschnig.myexpenses.io.CSVParser.kt</ID>
     <ID>NewLineAtEndOfFile:CalculatorInput.kt:org.totschnig.myexpenses.activity.CalculatorInput.kt</ID>
     <ID>NewLineAtEndOfFile:Category.kt:org.totschnig.myexpenses.viewmodel.data.Category.kt</ID>
     <ID>NewLineAtEndOfFile:CategoryCriterion.kt:org.totschnig.myexpenses.provider.filter.CategoryCriterion.kt</ID>
     <ID>NewLineAtEndOfFile:CategoryDelegate.kt:org.totschnig.myexpenses.delegate.CategoryDelegate.kt</ID>
     <ID>NewLineAtEndOfFile:CategoryDialogs.kt:org.totschnig.myexpenses.compose.CategoryDialogs.kt</ID>
     <ID>NewLineAtEndOfFile:CategoryExporter.kt:org.totschnig.myexpenses.export.CategoryExporter.kt</ID>
-    <ID>NewLineAtEndOfFile:CategoryHelper.kt:org.totschnig.myexpenses.db2.CategoryHelper.kt</ID>
-    <ID>NewLineAtEndOfFile:CategoryHelperTest.kt:org.totschnig.myexpenses.db2.CategoryHelperTest.kt</ID>
     <ID>NewLineAtEndOfFile:CategoryInfo.kt:org.totschnig.myexpenses.export.CategoryInfo.kt</ID>
     <ID>NewLineAtEndOfFile:CategoryInfo.kt:org.totschnig.myexpenses.model2.CategoryInfo.kt</ID>
     <ID>NewLineAtEndOfFile:CategoryInfoSubject.kt:org.totschnig.myexpenses.CategoryInfoSubject.kt</ID>
@@ -1300,8 +1296,6 @@
     <ID>NewLineAtEndOfFile:CsvImportActivity.kt:org.totschnig.myexpenses.activity.CsvImportActivity.kt</ID>
     <ID>NewLineAtEndOfFile:CsvImportDataFragment.kt:org.totschnig.myexpenses.fragment.CsvImportDataFragment.kt</ID>
     <ID>NewLineAtEndOfFile:CsvImportParseFragment.kt:org.totschnig.myexpenses.fragment.CsvImportParseFragment.kt</ID>
-    <ID>NewLineAtEndOfFile:CsvImportViewModel.kt:org.totschnig.myexpenses.viewmodel.CsvImportViewModel.kt</ID>
-    <ID>NewLineAtEndOfFile:CsvParserTest.kt:org.totschnig.myexpenses.io.CsvParserTest.kt</ID>
     <ID>NewLineAtEndOfFile:Currency.kt:org.totschnig.myexpenses.viewmodel.data.Currency.kt</ID>
     <ID>NewLineAtEndOfFile:CurrencyFormatter.kt:org.totschnig.myexpenses.util.CurrencyFormatter.kt</ID>
     <ID>NewLineAtEndOfFile:CurrencyFormatterTest.kt:org.totschnig.myexpenses.util.CurrencyFormatterTest.kt</ID>
@@ -1310,7 +1304,6 @@
     <ID>NewLineAtEndOfFile:DailyExchangeRateDownloadService.kt:org.totschnig.myexpenses.service.DailyExchangeRateDownloadService.kt</ID>
     <ID>NewLineAtEndOfFile:DataBaseAccount.kt:org.totschnig.myexpenses.provider.DataBaseAccount.kt</ID>
     <ID>NewLineAtEndOfFile:DataHolder.kt:org.totschnig.myexpenses.dialog.select.DataHolder.kt</ID>
-    <ID>NewLineAtEndOfFile:DataModule.kt:org.totschnig.myexpenses.di.DataModule.kt</ID>
     <ID>NewLineAtEndOfFile:DataStoreExpansionHandler.kt:org.totschnig.myexpenses.compose.DataStoreExpansionHandler.kt</ID>
     <ID>NewLineAtEndOfFile:DatabaseCurrencyContext.kt:org.totschnig.myexpenses.model.DatabaseCurrencyContext.kt</ID>
     <ID>NewLineAtEndOfFile:DatabaseVersionPeekHelper.kt:org.totschnig.myexpenses.provider.DatabaseVersionPeekHelper.kt</ID>
@@ -1408,7 +1401,6 @@
     <ID>NewLineAtEndOfFile:ImageOptimizer.kt:org.totschnig.myexpenses.util.ImageOptimizer.kt</ID>
     <ID>NewLineAtEndOfFile:ImportAccount.kt:org.totschnig.myexpenses.io.ImportAccount.kt</ID>
     <ID>NewLineAtEndOfFile:ImportConfigurationViewModel.kt:org.totschnig.myexpenses.viewmodel.ImportConfigurationViewModel.kt</ID>
-    <ID>NewLineAtEndOfFile:ImportDataViewModel.kt:org.totschnig.myexpenses.viewmodel.ImportDataViewModel.kt</ID>
     <ID>NewLineAtEndOfFile:ImportSourceDialogFragment.kt:org.totschnig.myexpenses.dialog.ImportSourceDialogFragment.kt</ID>
     <ID>NewLineAtEndOfFile:ImportsourceViewModel.kt:org.totschnig.myexpenses.viewmodel.ImportsourceViewModel.kt</ID>
     <ID>NewLineAtEndOfFile:JSONExporter.kt:org.totschnig.myexpenses.export.JSONExporter.kt</ID>
@@ -1847,9 +1839,9 @@
     <ID>TooGenericExceptionThrown:BaseTransactionProvider.kt:BaseTransactionProvider$throw Exception("Missing uuid")</ID>
     <ID>TooGenericExceptionThrown:BaseTransactionProvider.kt:BaseTransactionProvider$throw Throwable( "Unable to copy file from " + (if (copyPrefSuccess) preferencesDataStoreFile else sharedPrefFile).path + " to " + (if (copyPrefSuccess) backupDataStoreFile else backupPrefFile).path )</ID>
     <ID>TooGenericExceptionThrown:BaseTransactionProvider.kt:BaseTransactionProvider$throw Throwable(message)</ID>
+    <ID>TooGenericExceptionThrown:DataModule.kt:DataModule$throw Throwable( "Updating from database schema version 132 or 133 is no longer supported. Please contact support@myexpenses.mobi for assistance." )</ID>
     <ID>TooGenericExceptionThrown:DataModule.kt:DataModule$throw Throwable( context.getString( R.string.restore_cannot_downgrade, it, DATABASE_VERSION ) )</ID>
     <ID>TooGenericExceptionThrown:DataModule.kt:DataModule$throw Throwable("Database integrity check failed")</ID>
-    <ID>TooGenericExceptionThrown:DataModule.kt:DataModule$throw Throwable("Updating from database schema version 132 or 133 is no longer supported. Please contact support@myexpenses.mobi for assistance.")</ID>
     <ID>TooGenericExceptionThrown:ImportDataViewModel.kt:ImportDataViewModel$throw Exception( "Exception during QIF import. Did not get instance from DB for id " + dbAccountId )</ID>
     <ID>TooGenericExceptionThrown:ImportFileResultHandler.kt:ImportFileResultHandler$throw Throwable(errorMsg)</ID>
     <ID>TooGenericExceptionThrown:PdfPrinter.kt:PdfPrinter$throw Exception("No data")</ID>
