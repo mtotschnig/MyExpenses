@@ -1008,7 +1008,7 @@
     </plurals>
     <string name="category_type_main">קטגוריה ראשית</string>
     <string name="category_type_sub">תת-קטגוריה</string>
-    <string name="confirm_process_file_message">האם אתה בטוח שברצונך לייבא מחירים עבור '%1$s' מ-'%2$s'? מחירים חדשים עשויים להשפיע על סכומים שווי ערך קיימים.</string>
+    <string name="confirm_process_file_message">האם אתה בטוח שברצונך לייבא מחירים עבור \'%1$s\' מ-\'%2$s\'? מחירים חדשים עשויים להשפיע על סכומים שווי ערך קיימים.</string>
     <string name="contact_us">צור קשר</string>
     <string name="content_description_browse_device_files">עיין בקבצים במכשיר זה</string>
     <string name="content_description_clear_party">נקה צד נבחר</string>
