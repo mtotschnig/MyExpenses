@@ -1099,4 +1099,11 @@
     <string name="search_full_text">Искать во всех полях</string>
     <string name="search_fts_error_malformed">Неполный оператор поиска или незакрытые кавычки</string>
     <string name="parent_category">Родительская категория</string>
+    <string name="dialog_title_warning_delete_closed_account">Удалить закрытый счет?</string>
+    <string name="help_floating_action_button">Плавающая кнопка действия</string>
+    <string name="remap_update_value_date">Также обновить дату валютирования</string>
+    <string name="search_asset">Поиск актива</string>
+    <string name="single_pane_view">Одиночная панель</string>
+    <string name="split_pane_view">Разделенный вид</string>
+    <string name="trade_add_cost">Добавить расходы</string>
 </resources>

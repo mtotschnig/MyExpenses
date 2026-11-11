@@ -1086,4 +1086,10 @@
     <string name="search_full_text">Keresés minden mezőben</string>
     <string name="search_fts_error_malformed">Hiányos keresési operátor vagy páratlan idézőjelek</string>
     <string name="parent_category">Szülőkategória</string>
+    <string name="dialog_title_warning_delete_closed_account">Törli a lezárt számlát?</string>
+    <string name="remap_update_value_date">Az értéknap frissítése is</string>
+    <string name="search_asset">Ezköz keresése</string>
+    <string name="single_pane_view">Egypaneles nézet</string>
+    <string name="split_pane_view">Osztott nézet</string>
+    <string name="trade_add_cost">Költség hozzáadása</string>
 </resources>

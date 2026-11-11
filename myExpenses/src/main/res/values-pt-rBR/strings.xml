@@ -1107,4 +1107,8 @@
     <string name="search_full_text">Pesquisar em todos os campos</string>
     <string name="search_fts_error_malformed">Operador de pesquisa incompleto ou aspas não correspondentes</string>
     <string name="parent_category">Categoria mãe</string>
+    <string name="help_floating_action_button">Botão de ação flutuante</string>
+    <string name="remap_update_value_date">Também atualizar a data de valor</string>
+    <string name="trade_add_cost">Adicionar custo</string>
+    <string name="trade_transfer">Transferência</string>
 </resources>

@@ -1120,4 +1120,10 @@
     <string name="search_full_text">Hledat ve všech polích</string>
     <string name="search_fts_error_malformed">Neúplný vyhledávací operátor nebo neuzavřené uvozovky</string>
     <string name="parent_category">Nadřazená kategorie</string>
+    <string name="dialog_title_warning_delete_closed_account">Smazat uzavřený účet?</string>
+    <string name="remap_update_value_date">Taktéž aktualizovat datum valuty</string>
+    <string name="search_asset">Hledat aktivum</string>
+    <string name="single_pane_view">Jednoduchý panel</string>
+    <string name="split_pane_view">Rozdělené zobrazení</string>
+    <string name="trade_add_cost">Přidat náklad</string>
 </resources>

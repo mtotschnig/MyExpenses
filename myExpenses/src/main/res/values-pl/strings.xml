@@ -1077,4 +1077,23 @@
     <string name="search_full_text">Szukaj we wszystkich polach</string>
     <string name="search_fts_error_malformed">Niezupełny operator wyszukiwania lub niedopasowane cudzysłowy</string>
     <string name="parent_category">Kategoria nadrzędna</string>
+    <plurals name="category_description_children_suffix">
+        <item quantity="one">, zawiera 1 podkategorię poziomu %2$d.</item>
+        <item quantity="few">, zawiera %1$d podkategorie poziomu %2$d.</item>
+        <item quantity="many">, zawiera %1$d podkategorii poziomu %2$d.</item>
+        <item quantity="other">, zawiera %1$d podkategorii poziomu %2$d.</item>
+    </plurals>
+    <string name="dialog_title_warning_delete_closed_account">Usunąć zamknięte konto?</string>
+    <string name="help_floating_action_button">Pływający przycisk akcji</string>
+    <string name="remap_update_value_date">Zaktualizuj także datę waluty</string>
+    <string name="search_asset">Szukaj aktywa</string>
+    <string name="single_pane_view">Pojedynczy panel</string>
+    <string name="split_pane_view">Widok dzielony</string>
+    <string name="trade_add_cost">Dodaj koszt</string>
+    <plurals name="warning_cleanup_parties">
+        <item quantity="one">%d nieużywany podmiot zostanie usunięty.</item>
+        <item quantity="few">%d nieużywane podmioty zostaną usunięte.</item>
+        <item quantity="many">%d nieużywanych podmiotów zostanie usuniętych.</item>
+        <item quantity="other">%d nieużywanych podmiotów zostanie usuniętych.</item>
+    </plurals>
 </resources>
