@@ -2,6 +2,8 @@ package org.totschnig.myexpenses.repository
 
 import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
+import java.time.LocalDate
+import java.time.LocalDateTime
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
@@ -36,8 +38,6 @@ import org.totschnig.myexpenses.util.toEpochMillis
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import org.totschnig.shared_test.TransactionData
 import org.totschnig.shared_test.assertTransaction
-import java.time.LocalDate
-import java.time.LocalDateTime
 
 @RunWith(RobolectricTestRunner::class)
 class TemplateTest : BaseTestWithRepository() {
@@ -74,7 +74,6 @@ class TemplateTest : BaseTestWithRepository() {
         ).getOrThrow()
     }
 
-
     @Test
     fun testTemplateFromTransaction() {
         val start = repository.getTransactionSum(account1)
@@ -88,7 +87,6 @@ class TemplateTest : BaseTestWithRepository() {
         val t =
             repository.createTemplate(RepositoryTemplate.fromTransaction(op1, "Test Transaction"))
         runBlocking {
-
         }
         t.instantiate()
         assertThat(repository.getTransactionSum(account1)).isEqualTo(start + 2 * amount)
@@ -233,7 +231,9 @@ class TemplateTest : BaseTestWithRepository() {
                         accountId = template.data.accountId,
                         amount = templatePart.data.amount,
                         transferAccount = account2,
-                        transferPeer = peerParts.first() { it.comment == templatePart.data.comment }.id
+                        transferPeer = peerParts.first {
+                            it.comment == templatePart.data.comment
+                        }.id
                     )
                 }
             )
@@ -281,7 +281,11 @@ class TemplateTest : BaseTestWithRepository() {
         val instanceId = calculateId(date * 1000)
         repository.instantiateTemplate(
             exchangeRateHandler,
-            PlanInstanceInfo(templateId = templateWithPlan.id, date = date, instanceId = instanceId),
+            PlanInstanceInfo(
+                templateId = templateWithPlan.id,
+                date = date,
+                instanceId = instanceId
+            ),
             currencyContext
         )
         assertThat(
@@ -334,7 +338,11 @@ class TemplateTest : BaseTestWithRepository() {
         val instanceId = calculateId(date * 1000)
         repository.instantiateTemplate(
             exchangeRateHandler,
-            PlanInstanceInfo(templateId = templateWithPlan.id, date = date, instanceId = instanceId),
+            PlanInstanceInfo(
+                templateId = templateWithPlan.id,
+                date = date,
+                instanceId = instanceId
+            ),
             currencyContext
         )
         val template = repository.loadTemplateForPlanIfInstanceIsOpen(planId, instanceId)
@@ -383,7 +391,7 @@ class TemplateTest : BaseTestWithRepository() {
     )
 
     private fun buildSplitTemplateCategory(
-        splitPartCount: Int = 1,
+        splitPartCount: Int = 1
     ) = repository.createTemplate(
         RepositoryTemplate(
             data = Template(
@@ -411,8 +419,8 @@ class TemplateTest : BaseTestWithRepository() {
         )
     )
 
-    private fun buildSplitTemplateCategoryAndTransfer(): RepositoryTemplate {
-        return repository.createTemplate(
+    private fun buildSplitTemplateCategoryAndTransfer(): RepositoryTemplate =
+        repository.createTemplate(
             RepositoryTemplate(
                 data = Template(
                     amount = 100,
@@ -429,7 +437,13 @@ class TemplateTest : BaseTestWithRepository() {
                             accountId = account1,
                             comment = "Some comment part $index",
                             title = "",
-                            categoryId = if (index == 0) prefHandler.defaultTransferCategory else categoryId,
+                            categoryId = if (index ==
+                                0
+                            ) {
+                                prefHandler.defaultTransferCategory
+                            } else {
+                                categoryId
+                            },
                             transferAccountId = if (index == 0) account2 else null,
                             uuid = generateUuid(),
                             tagList = listOf(tagId)
@@ -438,10 +452,9 @@ class TemplateTest : BaseTestWithRepository() {
                 }
             )
         )
-    }
 
-    private fun buildSplitTemplateDualSplitTransfer(): RepositoryTemplate {
-        return repository.createTemplate(
+    private fun buildSplitTemplateDualSplitTransfer(): RepositoryTemplate =
+        repository.createTemplate(
             RepositoryTemplate(
                 data = Template(
                     amount = 100,
@@ -467,5 +480,4 @@ class TemplateTest : BaseTestWithRepository() {
                 }
             )
         )
-    }
 }

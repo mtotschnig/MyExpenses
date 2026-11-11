@@ -6,6 +6,9 @@ import android.content.ContentUris
 import android.content.ContentValues
 import androidx.annotation.VisibleForTesting
 import androidx.core.content.contentValuesOf
+import java.lang.UnsupportedOperationException
+import java.time.LocalDate
+import kotlin.math.roundToLong
 import org.totschnig.myexpenses.db2.Repository.Companion.RECORD_SEPARATOR
 import org.totschnig.myexpenses.db2.entities.Plan
 import org.totschnig.myexpenses.db2.entities.Template
@@ -58,43 +61,38 @@ import org.totschnig.myexpenses.viewmodel.AccountSealedException
 import org.totschnig.myexpenses.viewmodel.PlanInstanceInfo
 import org.totschnig.myexpenses.viewmodel.data.PlanInstance
 import org.totschnig.myexpenses.viewmodel.data.Tag
-import java.lang.UnsupportedOperationException
-import java.time.LocalDate
-import kotlin.math.roundToLong
 
-fun Template.asContentValues(forInsert: Boolean): ContentValues {
-    return ContentValues().apply {
-        put(KEY_TITLE, title)
-        put(KEY_AMOUNT, amount)
-        // Storing currency is not in TEMPLATE_CREATE, but it is in `fromCursor`.
-        // We assume currency comes from the account.
-        put(KEY_COMMENT, comment)
-        put(KEY_ACCOUNTID, accountId)
-        put(KEY_CATID, categoryId)
-        put(KEY_PAYEEID, payeeId)
-        put(KEY_METHODID, methodId)
-        put(KEY_TRANSFER_ACCOUNT, transferAccountId)
-        put(KEY_PARENTID, parentId)
-        put(KEY_PLANID, planId)
-        put(KEY_PLAN_EXECUTION, if (planExecutionAutomatic) 1 else 0)
-        put(KEY_PLAN_EXECUTION_ADVANCE, planExecutionAdvance)
-        put(KEY_DEFAULT_ACTION, defaultAction.name)
-        put(KEY_ORIGINAL_AMOUNT, originalAmount)
-        put(KEY_ORIGINAL_CURRENCY, originalCurrency)
-        put(KEY_DEBT_ID, debtId)
-        if (forInsert) {
-            require(uuid.isNotBlank())
-            put(KEY_UUID, uuid)
-        }
-        put(KEY_TAGLIST, tagList.joinToString("$RECORD_SEPARATOR"))
+fun Template.asContentValues(forInsert: Boolean): ContentValues = ContentValues().apply {
+    put(KEY_TITLE, title)
+    put(KEY_AMOUNT, amount)
+    // Storing currency is not in TEMPLATE_CREATE, but it is in `fromCursor`.
+    // We assume currency comes from the account.
+    put(KEY_COMMENT, comment)
+    put(KEY_ACCOUNTID, accountId)
+    put(KEY_CATID, categoryId)
+    put(KEY_PAYEEID, payeeId)
+    put(KEY_METHODID, methodId)
+    put(KEY_TRANSFER_ACCOUNT, transferAccountId)
+    put(KEY_PARENTID, parentId)
+    put(KEY_PLANID, planId)
+    put(KEY_PLAN_EXECUTION, if (planExecutionAutomatic) 1 else 0)
+    put(KEY_PLAN_EXECUTION_ADVANCE, planExecutionAdvance)
+    put(KEY_DEFAULT_ACTION, defaultAction.name)
+    put(KEY_ORIGINAL_AMOUNT, originalAmount)
+    put(KEY_ORIGINAL_CURRENCY, originalCurrency)
+    put(KEY_DEBT_ID, debtId)
+    if (forInsert) {
+        require(uuid.isNotBlank())
+        put(KEY_UUID, uuid)
     }
+    put(KEY_TAGLIST, tagList.joinToString("$RECORD_SEPARATOR"))
 }
 
 data class RepositoryTemplate(
     val data: Template,
     val splitParts: List<RepositoryTemplate>? = null,
     val plan: Plan? = null,
-    val tags: List<Tag>? = null,
+    val tags: List<Tag>? = null
 ) {
     val id: Long
         get() = data.id
@@ -108,7 +106,7 @@ data class RepositoryTemplate(
     suspend fun instantiate(
         currencyContext: CurrencyContext,
         exchangeRateHandler: ExchangeRateHandler,
-        planInstanceInfo: PlanInstanceInfo? = null,
+        planInstanceInfo: PlanInstanceInfo? = null
     ): RepositoryTransaction {
         val date = planInstanceInfo?.date?.div(1000)
         val uuid = generateUuid()
@@ -121,7 +119,9 @@ data class RepositoryTemplate(
                 Transaction(
                     accountId = data.transferAccountId!!,
                     transferAccountId = data.accountId,
-                    amount = if (data.currency == data.transferAccountCurrency) -data.amount else {
+                    amount = if (data.currency == data.transferAccountCurrency) {
+                        -data.amount
+                    } else {
                         try {
                             val currency = currencyContext[data.currency!!]
                             val transferCurrency = currencyContext[data.transferAccountCurrency!!]
@@ -131,7 +131,10 @@ data class RepositoryTemplate(
                                 transferCurrency,
                                 LocalDate.now()
                             )
-                            Money.buildWithMajor(transferCurrency, -amount.amountMajor.multiply(rate))
+                            Money.buildWithMajor(
+                                transferCurrency,
+                                -amount.amountMajor.multiply(rate)
+                            )
                                 .getOrThrow().amountMinor
                         } catch (e: Exception) {
                             if (e !is UnsupportedOperationException) {
@@ -148,7 +151,9 @@ data class RepositoryTemplate(
                     uuid = uuid,
                     tagList = data.tagList
                 )
-            } else null,
+            } else {
+                null
+            },
             splitParts = splitParts?.map {
                 it.instantiate(
                     currencyContext,
@@ -164,7 +169,7 @@ data class RepositoryTemplate(
         fun fromTransaction(
             t: RepositoryTransaction,
             title: String = "",
-            uuid: String = generateUuid(),
+            uuid: String = generateUuid()
         ) = RepositoryTemplate(
             data = Template.deriveFrom(t.data, title, uuid),
             splitParts = t.splitParts?.map {
@@ -184,7 +189,7 @@ fun Repository.getPayeeForTemplate(id: Long) = contentResolver.findBySelection(
 private fun ContentResolver.findBySelection(
     selection: String,
     selectionArgs: Array<String>,
-    column: String,
+    column: String
 ) =
     query(
         TEMPLATES_URI,
@@ -195,7 +200,6 @@ private fun ContentResolver.findBySelection(
     )?.use {
         if (it.moveToFirst()) it.getLong(0) else null
     } ?: -1
-
 
 fun Repository.planCount(): Int = contentResolver.query(
     TEMPLATES_URI,
@@ -233,7 +237,7 @@ fun Repository.loadTemplate(
     selection: String? = "$KEY_ROWID = ?",
     selectionArgs: Array<String>? = arrayOf(requireNotNull(templateId).toString()),
     require: Boolean = true,
-    withTags: Boolean = false,
+    withTags: Boolean = false
 ) = contentResolver.query(
     TEMPLATES_URI,
     null,
@@ -256,33 +260,40 @@ fun Repository.loadTemplate(
                     tagList = tags?.map { it.id } ?: emptyList(),
                     planId = if (plan == null) null else template.planId
                 ),
-                splitParts = if (template.isSplit)
-                    loadSplitPartsForTemplate(template.id).map {
-                        val tags = if (withTags) loadTagsForTemplate(it.id) else null
+                splitParts = if (template.isSplit) {
+                    loadSplitPartsForTemplate(template.id).map { part ->
+                        val tags = if (withTags) loadTagsForTemplate(part.id) else null
                         RepositoryTemplate(
-                            data = it.copy(tagList = tags?.map { it.id } ?: emptyList()),
+                            data = part.copy(tagList = tags?.map { it.id } ?: emptyList()),
                             tags = tags
                         )
                     }
-                else null,
+                } else {
+                    null
+                },
                 plan = plan,
                 tags = tags
             )
         }
 
         require -> throw IllegalArgumentException("Transaction not found")
+
         else -> null
     }
 }
 
 private fun Repository.loadSplitPartsForTemplate(templateId: Long) = contentResolver.query(
-    TEMPLATES_URI, null, "$KEY_PARENTID = ?", arrayOf(templateId.toString()), null
+    TEMPLATES_URI,
+    null,
+    "$KEY_PARENTID = ?",
+    arrayOf(templateId.toString()),
+    null
 )!!.useAndMapToList {
     Template.fromCursor(it)
 }
 
 fun Repository.updateTemplate(
-    repositoryTransaction: RepositoryTemplate,
+    repositoryTransaction: RepositoryTemplate
 ) = when {
     repositoryTransaction.isSplit -> updateSplitTemplate(
         repositoryTransaction.data,
@@ -293,12 +304,21 @@ fun Repository.updateTemplate(
 }
 
 fun Repository.updateSplitTemplate(
-    parentTemplate: Template, splitParts: List<Template>,
+    parentTemplate: Template,
+    splitParts: List<Template>
 ): Boolean {
     // --- Validation ---
     require(parentTemplate.isSplit) { "Parent transaction must be a split." }
-    require(splitParts.sumOf { it.amount } == parentTemplate.amount) { "Sum of splits must equal parent amount." }
-    require(splitParts.all { it.accountId == parentTemplate.accountId }) { "All splits must be in the same account." }
+    require(
+        splitParts.sumOf {
+            it.amount
+        } == parentTemplate.amount
+    ) { "Sum of splits must equal parent amount." }
+    require(
+        splitParts.all {
+            it.accountId == parentTemplate.accountId
+        }
+    ) { "All splits must be in the same account." }
 
     val operations = ArrayList<ContentProviderOperation>()
 
@@ -326,7 +346,6 @@ fun Repository.updateSplitTemplate(
         )
     }
 
-
     // --- 2. Update Parent Transaction ---
     operations.add(
         ContentProviderOperation.newUpdate(
@@ -345,7 +364,8 @@ fun Repository.updateSplitTemplate(
                     template.asContentValues(true)
                         .apply {
                             put(KEY_PARENTID, parentTemplate.id)
-                        })
+                        }
+                )
         } else {
             // EXISTING: This part already exists, so update it.
             ContentProviderOperation.newUpdate(
@@ -358,24 +378,26 @@ fun Repository.updateSplitTemplate(
 
     val results = contentResolver.applyBatch(TransactionProvider.AUTHORITY, operations)
     return results.mapIndexed { index, result ->
-        //first result is delete, others either insert or update
+        // first result is delete, others either insert or update
         if (index == 0) true else result.uri != null || result.count == 1
     }.all { it }
 }
 
 fun Repository.updateTemplate(
-    template: Template,
+    template: Template
 ) = contentResolver.update(
     ContentUris.withAppendedId(TEMPLATES_URI, template.id),
     template.asContentValues(false),
-    null, null
+    null,
+    null
 ) == 1
 
 fun Repository.createTemplate(template: RepositoryTemplate) =
     when {
         template.isSplit -> createSplitTemplate(
             template.data,
-            template.splitParts!!.map { it.data })
+            template.splitParts!!.map { it.data }
+        )
 
         else -> createTemplate(template.data)
     }.also { template ->
@@ -402,11 +424,15 @@ fun Repository.createTemplate(template: Template): RepositoryTemplate {
 @VisibleForTesting
 fun Repository.createSplitTemplate(
     parentTemplate: Template,
-    splits: List<Template>,
+    splits: List<Template>
 ): RepositoryTemplate {
     // --- Validation ---
     require(parentTemplate.isSplit) { "Parent transaction must be a split." }
-    require(splits.sumOf { it.amount } == parentTemplate.amount) { "Sum of splits must equal parent amount." }
+    require(
+        splits.sumOf {
+            it.amount
+        } == parentTemplate.amount
+    ) { "Sum of splits must equal parent amount." }
 
     val operations = ArrayList<ContentProviderOperation>()
 
@@ -457,18 +483,23 @@ suspend fun Repository.instantiateTemplate(
     exchangeRateHandler: ExchangeRateHandler,
     planInstanceInfo: PlanInstanceInfo,
     currencyContext: CurrencyContext,
-    ifOpen: Boolean = false,
+    ifOpen: Boolean = false
 ): Result<RepositoryTransaction> {
-    val template = (if (ifOpen) loadTemplateIfInstanceIsOpen(
-        planInstanceInfo.templateId,
-        planInstanceInfo.instanceId!!
-    ) else loadTemplate(planInstanceInfo.templateId, withTags = true, require = false))
+    val template = (
+        if (ifOpen) {
+            loadTemplateIfInstanceIsOpen(
+                planInstanceInfo.templateId,
+                planInstanceInfo.instanceId!!
+            )
+        } else {
+            loadTemplate(planInstanceInfo.templateId, withTags = true, require = false)
+        }
+        )
         ?: return Result.failure(Exception("Template not found"))
 
     val account = loadAccount(template.data.accountId)!!
 
     if (account.isSealed) return Result.failure(AccountSealedException())
-
 
     val t = createTransaction(
         template.instantiate(currencyContext, exchangeRateHandler, planInstanceInfo)
@@ -489,14 +520,19 @@ suspend fun Repository.instantiateTemplate(
                                     homeCurrency,
                                     date
                                 )
-                                Money.buildWithMajor(homeCurrency, amount.amountMajor.multiply(rate))
+                                Money.buildWithMajor(
+                                    homeCurrency,
+                                    amount.amountMajor.multiply(rate)
+                                )
                                     .getOrThrow().amountMinor
                             } catch (_: Exception) {
                                 (amount.amountMinor * account.exchangeRate).roundToLong()
                             }
                         )
                     )
-                } else transaction
+                } else {
+                    transaction
+                }
             }
     )
     if (planInstanceInfo.instanceId != null) {
@@ -556,13 +592,14 @@ fun Repository.deleteTemplate(id: Long, deletePlan: Boolean = false) {
 
 fun Repository.getPlanInstance(
     planId: Long,
-    date: Long,
+    date: Long
 ) = contentResolver.query(
     TEMPLATES_URI.buildUpon().appendQueryParameter(
         TransactionProvider.QUERY_PARAMETER_WITH_INSTANCE,
         CalendarProviderProxy.calculateId(date).toString()
     ).build(),
-    null, "$KEY_PLANID= ?",
+    null,
+    "$KEY_PLANID= ?",
     arrayOf(planId.toString()),
     null
 )?.useAndMapToOne { c ->
@@ -590,7 +627,7 @@ fun Repository.getPlanInstance(
 fun Repository.linkTemplateWithTransaction(
     templateId: Long,
     transactionId: Long,
-    instanceId: Long,
+    instanceId: Long
 ) {
     contentResolver.insert(
         PLAN_INSTANCE_STATUS_URI,

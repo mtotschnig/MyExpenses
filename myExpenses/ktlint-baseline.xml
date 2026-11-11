@@ -5408,88 +5408,6 @@
         <error line="194" column="57" source="standard:function-expression-body" />
         <error line="201" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/main/java/org/totschnig/myexpenses/db2/RepositoryTemplate.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="65" column="65" source="standard:function-expression-body" />
-        <error line="97" column="32" source="standard:trailing-comma-on-declaration-site" />
-        <error line="111" column="51" source="standard:trailing-comma-on-declaration-site" />
-        <error line="124" column="81" source="standard:multiline-if-else" />
-        <error line="134" column="50" source="standard:argument-list-wrapping" />
-        <error line="134" column="68" source="standard:argument-list-wrapping" />
-        <error line="134" column="97" source="standard:argument-list-wrapping" />
-        <error line="134" column="101" source="standard:argument-list-wrapping" />
-        <error line="134" column="101" source="standard:max-line-length" />
-        <error line="134" column="102" source="standard:argument-list-wrapping" />
-        <error line="151" column="20" source="standard:multiline-if-else" />
-        <error line="167" column="42" source="standard:trailing-comma-on-declaration-site" />
-        <error line="187" column="19" source="standard:trailing-comma-on-declaration-site" />
-        <error line="199" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="236" column="30" source="standard:trailing-comma-on-declaration-site" />
-        <error line="260" column="21" source="standard:multiline-if-else" />
-        <error line="267" column="22" source="standard:multiline-if-else" />
-        <error line="274" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="279" column="20" source="standard:argument-list-wrapping" />
-        <error line="279" column="26" source="standard:argument-list-wrapping" />
-        <error line="279" column="47" source="standard:argument-list-wrapping" />
-        <error line="279" column="79" source="standard:argument-list-wrapping" />
-        <error line="285" column="46" source="standard:trailing-comma-on-declaration-site" />
-        <error line="296" column="31" source="standard:parameter-list-wrapping" />
-        <error line="296" column="57" source="standard:trailing-comma-on-declaration-site" />
-        <error line="300" column="13" source="standard:argument-list-wrapping" />
-        <error line="300" column="30" source="standard:function-literal" />
-        <error line="300" column="31" source="standard:wrapping" />
-        <error line="300" column="42" source="standard:function-literal" />
-        <error line="300" column="68" source="standard:argument-list-wrapping" />
-        <error line="300" column="70" source="standard:function-literal" />
-        <error line="300" column="71" source="standard:wrapping" />
-        <error line="300" column="101" source="standard:max-line-length" />
-        <error line="300" column="114" source="standard:function-literal" />
-        <error line="301" column="13" source="standard:argument-list-wrapping" />
-        <error line="301" column="28" source="standard:function-literal" />
-        <error line="301" column="29" source="standard:wrapping" />
-        <error line="301" column="71" source="standard:function-literal" />
-        <error line="301" column="72" source="standard:argument-list-wrapping" />
-        <error line="301" column="74" source="standard:function-literal" />
-        <error line="301" column="75" source="standard:wrapping" />
-        <error line="301" column="101" source="standard:max-line-length" />
-        <error line="301" column="118" source="standard:function-literal" />
-        <error line="329" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="344" column="29" source="standard:paren-spacing" />
-        <error line="348" column="25" source="standard:wrapping" />
-        <error line="348" column="26" source="standard:argument-list-wrapping" />
-        <error line="361" column="9" source="standard:comment-spacing" />
-        <error line="367" column="23" source="standard:trailing-comma-on-declaration-site" />
-        <error line="371" column="11" source="standard:argument-list-wrapping" />
-        <error line="378" column="49" source="standard:wrapping" />
-        <error line="378" column="50" source="standard:argument-list-wrapping" />
-        <error line="405" column="27" source="standard:trailing-comma-on-declaration-site" />
-        <error line="409" column="13" source="standard:argument-list-wrapping" />
-        <error line="409" column="26" source="standard:function-literal" />
-        <error line="409" column="27" source="standard:wrapping" />
-        <error line="409" column="38" source="standard:function-literal" />
-        <error line="409" column="64" source="standard:argument-list-wrapping" />
-        <error line="409" column="66" source="standard:function-literal" />
-        <error line="409" column="67" source="standard:wrapping" />
-        <error line="409" column="101" source="standard:max-line-length" />
-        <error line="409" column="110" source="standard:function-literal" />
-        <error line="460" column="28" source="standard:trailing-comma-on-declaration-site" />
-        <error line="462" column="21" source="standard:wrapping" />
-        <error line="462" column="33" source="standard:multiline-if-else" />
-        <error line="465" column="12" source="standard:multiline-if-else" />
-        <error line="465" column="86" source="standard:wrapping" />
-        <error line="472" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="492" column="54" source="standard:argument-list-wrapping" />
-        <error line="492" column="68" source="standard:argument-list-wrapping" />
-        <error line="492" column="96" source="standard:argument-list-wrapping" />
-        <error line="492" column="100" source="standard:argument-list-wrapping" />
-        <error line="492" column="101" source="standard:argument-list-wrapping" />
-        <error line="492" column="101" source="standard:max-line-length" />
-        <error line="499" column="24" source="standard:multiline-if-else" />
-        <error line="559" column="15" source="standard:trailing-comma-on-declaration-site" />
-        <error line="565" column="11" source="standard:argument-list-wrapping" />
-        <error line="593" column="21" source="standard:trailing-comma-on-declaration-site" />
-        <error line="632" column="1" source="standard:final-newline" />
-    </file>
     <file name="src/main/java/org/totschnig/myexpenses/db2/RepositoryTransaction.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="104" column="33" source="standard:trailing-comma-on-declaration-site" />
@@ -5720,10 +5638,6 @@
         <error line="89" column="12" source="standard:no-multi-spaces" />
         <error line="102" column="10" source="standard:no-multi-spaces" />
         <error line="105" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/main/java/org/totschnig/myexpenses/db2/entities/Template.kt">
-        <error line="81" column="3" source="standard:no-multi-spaces" />
-        <error line="169" column="15" source="standard:enum-wrapping" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/delegate/CategoryDelegate.kt">
         <error line="64" column="59" source="standard:binary-expression-wrapping" />
@@ -16780,32 +16694,6 @@
         <error line="83" column="31" source="standard:argument-list-wrapping" />
         <error line="83" column="37" source="standard:argument-list-wrapping" />
         <error line="91" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/test/java/org/totschnig/myexpenses/repository/TemplateTest.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="77" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="91" column="1" source="standard:no-blank-line-before-rbrace" />
-        <error line="91" column="1" source="standard:no-empty-first-line-in-method-block" />
-        <error line="236" column="55" source="standard:unnecessary-parentheses-before-trailing-lambda" />
-        <error line="236" column="58" source="standard:function-literal" />
-        <error line="236" column="100" source="standard:function-literal" />
-        <error line="236" column="101" source="standard:max-line-length" />
-        <error line="284" column="30" source="standard:argument-list-wrapping" />
-        <error line="284" column="64" source="standard:argument-list-wrapping" />
-        <error line="284" column="77" source="standard:argument-list-wrapping" />
-        <error line="284" column="100" source="standard:argument-list-wrapping" />
-        <error line="284" column="101" source="standard:max-line-length" />
-        <error line="337" column="30" source="standard:argument-list-wrapping" />
-        <error line="337" column="64" source="standard:argument-list-wrapping" />
-        <error line="337" column="77" source="standard:argument-list-wrapping" />
-        <error line="337" column="100" source="standard:argument-list-wrapping" />
-        <error line="337" column="101" source="standard:max-line-length" />
-        <error line="386" column="32" source="standard:trailing-comma-on-declaration-site" />
-        <error line="414" column="77" source="standard:function-expression-body" />
-        <error line="432" column="54" source="standard:binary-expression-wrapping" />
-        <error line="432" column="101" source="standard:max-line-length" />
-        <error line="443" column="75" source="standard:function-expression-body" />
-        <error line="471" column="1" source="standard:final-newline" />
     </file>
     <file name="src/test/java/org/totschnig/myexpenses/repository/TransactionTest.kt">
         <error line="3" column="1" source="standard:import-ordering" />

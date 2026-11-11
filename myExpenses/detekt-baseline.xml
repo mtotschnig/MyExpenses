@@ -1540,7 +1540,6 @@
     <ID>NewLineAtEndOfFile:RepositoryPrices.kt:org.totschnig.myexpenses.db2.RepositoryPrices.kt</ID>
     <ID>NewLineAtEndOfFile:RepositoryTags.kt:org.totschnig.myexpenses.db2.RepositoryTags.kt</ID>
     <ID>NewLineAtEndOfFile:RepositoryTagsTest.kt:org.totschnig.myexpenses.db2.RepositoryTagsTest.kt</ID>
-    <ID>NewLineAtEndOfFile:RepositoryTemplate.kt:org.totschnig.myexpenses.db2.RepositoryTemplate.kt</ID>
     <ID>NewLineAtEndOfFile:RepositoryTransaction.kt:org.totschnig.myexpenses.db2.RepositoryTransaction.kt</ID>
     <ID>NewLineAtEndOfFile:ResourceStorage.kt:org.totschnig.myexpenses.sync.ResourceStorage.kt</ID>
     <ID>NewLineAtEndOfFile:ResourceStorageTest.kt:org.totschnig.myexpenses.sync.ResourceStorageTest.kt</ID>
@@ -1629,7 +1628,6 @@
     <ID>NewLineAtEndOfFile:Template.kt:org.totschnig.myexpenses.viewmodel.data.Template.kt</ID>
     <ID>NewLineAtEndOfFile:TemplateSaver.kt:org.totschnig.myexpenses.activity.TemplateSaver.kt</ID>
     <ID>NewLineAtEndOfFile:TemplateShortcutSelect.kt:org.totschnig.myexpenses.activity.TemplateShortcutSelect.kt</ID>
-    <ID>NewLineAtEndOfFile:TemplateTest.kt:org.totschnig.myexpenses.repository.TemplateTest.kt</ID>
     <ID>NewLineAtEndOfFile:TemplateWidget.kt:org.totschnig.myexpenses.widget.TemplateWidget.kt</ID>
     <ID>NewLineAtEndOfFile:TemplateWidgetService.kt:org.totschnig.myexpenses.widget.TemplateWidgetService.kt</ID>
     <ID>NewLineAtEndOfFile:TemplatesListViewModel.kt:org.totschnig.myexpenses.viewmodel.TemplatesListViewModel.kt</ID>

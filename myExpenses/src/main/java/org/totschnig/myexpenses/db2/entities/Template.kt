@@ -11,6 +11,8 @@ import org.totschnig.myexpenses.provider.KEY_CURRENCY
 import org.totschnig.myexpenses.provider.KEY_DEBT_ID
 import org.totschnig.myexpenses.provider.KEY_DEFAULT_ACTION
 import org.totschnig.myexpenses.provider.KEY_DYNAMIC
+import org.totschnig.myexpenses.provider.KEY_HAS_SEALED_ACCOUNT
+import org.totschnig.myexpenses.provider.KEY_HAS_SEALED_DEBT
 import org.totschnig.myexpenses.provider.KEY_METHODID
 import org.totschnig.myexpenses.provider.KEY_METHOD_LABEL
 import org.totschnig.myexpenses.provider.KEY_ORIGINAL_AMOUNT
@@ -78,7 +80,7 @@ data class Template(
      * Read-only property holding type of category
      */
     val type: Byte = FLAG_NEUTRAL
-)  {
+) {
 
     val isTransfer: Boolean = transferAccountId != null
 
@@ -128,6 +130,7 @@ data class Template(
                 uuid = uuid
             )
         }
+
         fun fromCursor(cursor: Cursor) = with(cursor) {
             Template(
                 id = getLong(KEY_ROWID),
@@ -152,7 +155,7 @@ data class Template(
                 dynamic = getBoolean(KEY_DYNAMIC),
                 categoryPath = getStringOrNull(KEY_PATH),
                 categoryIcon = getStringOrNull(KEY_ICON),
-                sealed = getBoolean(KEY_SEALED),
+                sealed = getBoolean(KEY_HAS_SEALED_ACCOUNT) || getBoolean(KEY_HAS_SEALED_DEBT),
                 currency = getStringOrNull(KEY_CURRENCY),
                 payeeName = getStringOrNull(KEY_PAYEE_NAME),
                 transferAccountCurrency = getStringOrNull(KEY_TRANSFER_ACCOUNT_CURRENCY),
@@ -166,7 +169,8 @@ data class Template(
      * Based on the table's CHECK constraint.
      */
     enum class Action {
-        SAVE, EDIT;
+        SAVE,
+        EDIT;
 
         companion object {
             @JvmField
