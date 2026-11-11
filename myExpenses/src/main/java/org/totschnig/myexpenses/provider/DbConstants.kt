@@ -102,7 +102,7 @@ const val checkForSealedDebt =
  * we check if the object (or any of its children) is linked to a sealed debt.
  */
 fun checkForSealedDebt(baseTable: String, innerTable: String) =
-    "coalesce ((SELECT max($KEY_SEALED) FROM $TABLE_DEBTS WHERE $KEY_ROWID = $KEY_DEBT_ID OR $KEY_ROWID in (SELECT $KEY_DEBT_ID FROM $TABLE_TRANSACTIONS WHERE $KEY_PARENTID = $baseTable.$KEY_ROWID)), 0)"
+    "coalesce ((SELECT max($KEY_SEALED) FROM $TABLE_DEBTS WHERE $KEY_ROWID = $KEY_DEBT_ID OR $KEY_ROWID in (SELECT $KEY_DEBT_ID FROM $innerTable WHERE $KEY_PARENTID = $baseTable.$KEY_ROWID)), 0)"
 
 fun categoryTreeSelect(
     sortOrder: String? = null,
@@ -111,7 +111,7 @@ fun categoryTreeSelect(
     selection: String? = null,
     rootExpression: String? = null,
     categorySeparator: String? = null,
-    typeParameter: String? = null,
+    typeParameter: String? = null
 ) = "WITH " + categoryTreeCTE(
     rootExpression = rootExpression,
     sortOrder = sortOrder,
