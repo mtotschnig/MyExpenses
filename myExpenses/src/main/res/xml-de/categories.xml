@@ -281,7 +281,7 @@
     <category type="expense" uuid="3e809ef7-72f3-4828-be9e-8f56d51c7886" icon="mortgage" label="Kredit">
         <subcategory uuid="fe4f009c-921e-4824-8efb-18a58df62b93" icon="battery-three-quarters" label="Bearbeitungsgebühr" />
         <subcategory uuid="461779c7-3139-4d10-a591-393601a9e99e" icon="divide" label="Kreditrate" />
-        <subcategory uuid="747d28cb-cef9-4b2d-8562-d688443411ab" icon="right-from-bracket" label="Kreditspesen" />
+        <subcategory uuid="747d28cb-cef9-4b2d-8562-d688443411ab" icon="right-from-bracket" label="Kreditgebühren" />
         <subcategory uuid="d3e357e8-499d-4cb1-9a80-acc60f83ffe3" icon="shield-halved" label="Kreditversicherung" />
         <subcategory uuid="73fc6c82-5bd1-4893-ac65-cb6a53f0aea2" icon="percent" label="Kreditzinsen" />
         <subcategory uuid="7d4a9bd9-2741-49ba-bdd0-ccb2d23e2b3e" icon="money-bill-wave" label="Sondertilgung" />
