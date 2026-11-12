@@ -23,6 +23,15 @@ import android.os.Bundle
 import android.os.RemoteException
 import android.util.SparseArray
 import androidx.annotation.StringRes
+import androidx.core.net.toUri
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.time.LocalTime
+import java.util.Date
+import java.util.Locale
+import java.util.concurrent.TimeUnit
+import javax.inject.Inject
+import javax.inject.Provider
 import kotlinx.coroutines.runBlocking
 import org.totschnig.myexpenses.BuildConfig
 import org.totschnig.myexpenses.R
@@ -78,20 +87,11 @@ import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.isConnectedWifi
 import org.totschnig.myexpenses.util.safeMessage
 import timber.log.Timber
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.time.LocalTime
-import java.util.Date
-import java.util.Locale
-import java.util.concurrent.TimeUnit
-import javax.inject.Inject
-import javax.inject.Provider
-import androidx.core.net.toUri
 
 class SyncAdapter @JvmOverloads constructor(
     context: Context,
     autoInitialize: Boolean,
-    allowParallelSyncs: Boolean = false,
+    allowParallelSyncs: Boolean = false
 ) : AbstractThreadedSyncAdapter(context, autoInitialize, allowParallelSyncs) {
     private var shouldNotify = true
 
@@ -113,14 +113,19 @@ class SyncAdapter @JvmOverloads constructor(
 
     @Suppress("SameParameterValue")
     private fun getUserDataWithDefault(
-        accountManager: AccountManager, account: Account,
-        key: String, defaultValue: String,
+        accountManager: AccountManager,
+        account: Account,
+        key: String,
+        defaultValue: String
     ): String = accountManager.getUserData(account, key) ?: defaultValue
 
     @SuppressLint("MissingPermission")
     override fun onPerformSync(
-        account: Account, extras: Bundle, authority: String,
-        provider: ContentProviderClient, syncResult: SyncResult,
+        account: Account,
+        extras: Bundle,
+        authority: String,
+        provider: ContentProviderClient,
+        syncResult: SyncResult
     ) {
         lastSynStart = LocalTime.now()
         currentAccount = account
@@ -155,7 +160,9 @@ class SyncAdapter @JvmOverloads constructor(
                 context.getString(
                     R.string.feature_download_requested,
                     context.getString(missingFeature.labelResId)
-                ), account, true
+                ),
+                account,
+                true
             )
             return
         }
@@ -183,7 +190,9 @@ class SyncAdapter @JvmOverloads constructor(
                                 context,
                                 R.string.sync_io_error_cannot_connect,
                                 R.string.sync_error_will_try_again_later
-                            ), account, true
+                            ),
+                            account,
+                            true
                         )
                     }
                     return@runBlocking
@@ -234,7 +243,7 @@ class SyncAdapter @JvmOverloads constructor(
                                         null,
                                         null
                                     )
-                                    //make sure user data did not stick around after a user might have cleared data
+                                    // make sure user data did not stick around after a user might have cleared data
                                     accountManager.setUserData(
                                         account,
                                         KEY_LAST_SYNCED_LOCAL(accountId),
@@ -258,10 +267,12 @@ class SyncAdapter @JvmOverloads constructor(
                         }
                     }
 
-
                     try {
                         provider.query(
-                            TransactionProvider.ACCOUNTS_URI, projection, selection, selectionArgs,
+                            TransactionProvider.ACCOUNTS_URI,
+                            projection,
+                            selection,
+                            selectionArgs,
                             KEY_ROWID
                         )
                     } catch (e: RemoteException) {
@@ -275,16 +286,22 @@ class SyncAdapter @JvmOverloads constructor(
                                 val lastLocalSyncKey = KEY_LAST_SYNCED_LOCAL(accountId)
                                 val lastRemoteSyncKey = KEY_LAST_SYNCED_REMOTE(accountId)
                                 var lastSyncedLocal = getUserDataWithDefault(
-                                    accountManager, account,
-                                    lastLocalSyncKey, "0"
+                                    accountManager,
+                                    account,
+                                    lastLocalSyncKey,
+                                    "0"
                                 ).toLong()
                                 var lastSyncedRemote = parse(
                                     getUserDataWithDefault(
-                                        accountManager, account,
-                                        lastRemoteSyncKey, "0"
+                                        accountManager,
+                                        account,
+                                        lastRemoteSyncKey,
+                                        "0"
                                     )
                                 )
-                                log().i("lastSyncedLocal: $lastSyncedLocal; lastSyncedRemote: $lastSyncedRemote")
+                                log().i(
+                                    "lastSyncedLocal: $lastSyncedLocal; lastSyncedRemote: $lastSyncedRemote"
+                                )
                                 val instanceFromDb = repository.loadAccount(accountId)
                                     ?: // might have been deleted by user in the meantime
                                     continue
@@ -299,7 +316,9 @@ class SyncAdapter @JvmOverloads constructor(
                                             context.getString(
                                                 R.string.sync_success_reset_account_data,
                                                 instanceFromDb.label
-                                            ), account, true
+                                            ),
+                                            account,
+                                            true
                                         )
                                     } catch (e: IOException) {
                                         handleIoException(
@@ -316,7 +335,9 @@ class SyncAdapter @JvmOverloads constructor(
                                     context.getString(
                                         R.string.synchronization_start,
                                         instanceFromDb.label
-                                    ), account, true
+                                    ),
+                                    account,
+                                    true
                                 )
                                 try {
                                     backend.withAccount(instanceFromDb)
@@ -355,7 +376,9 @@ class SyncAdapter @JvmOverloads constructor(
                                             lastSyncedRemote = changeSetSince.sequenceNumber
                                             log().i("lastSyncedRemote: $lastSyncedRemote")
                                             changeSetSince.changes
-                                        } else emptyList()
+                                        } else {
+                                            emptyList()
+                                        }
                                     var localChanges: MutableList<TransactionChange> =
                                         mutableListOf()
                                     var sequenceToTest = lastSyncedLocal
@@ -380,8 +403,12 @@ class SyncAdapter @JvmOverloads constructor(
                                             remoteChanges =
                                                 syncDelegate.removeMetadataChange(remoteChanges)
                                         }
-                                        if (localMetadataChange != null && remoteMetadataChange != null) {
-                                            if (localMetadataChange.timeStamp > remoteMetadataChange.timeStamp) {
+                                        if (localMetadataChange != null &&
+                                            remoteMetadataChange != null
+                                        ) {
+                                            if (localMetadataChange.timeStamp >
+                                                remoteMetadataChange.timeStamp
+                                            ) {
                                                 remoteMetadataChange = null
                                             } else {
                                                 localMetadataChange = null
@@ -417,7 +444,8 @@ class SyncAdapter @JvmOverloads constructor(
                                         }
                                         val localChangesWasNotEmpty = localChanges.isNotEmpty()
                                         val remoteChangesWasNotEmpty = remoteChanges.isNotEmpty()
-                                        val mergeResult: Pair<List<TransactionChange>, List<TransactionChange>> =
+                                        val mergeResult:
+                                            Pair<List<TransactionChange>, List<TransactionChange>> =
                                             syncDelegate.mergeChangeSets(
                                                 localChanges,
                                                 remoteChanges
@@ -461,7 +489,9 @@ class SyncAdapter @JvmOverloads constructor(
                                                     lastRemoteSyncKey,
                                                     lastSyncedRemote.toString()
                                                 )
-                                                log().i("storing lastSyncedRemote: $lastSyncedRemote")
+                                                log().i(
+                                                    "storing lastSyncedRemote: $lastSyncedRemote"
+                                                )
                                                 successLocal2Remote = localChanges.size
                                             }
                                         }
@@ -500,7 +530,8 @@ class SyncAdapter @JvmOverloads constructor(
                                 } catch (e: Exception) {
                                     appendToNotification(
                                         "ERROR (${e.javaClass.simpleName}): ${e.message} ",
-                                        account, true
+                                        account,
+                                        true
                                     )
                                     report(e)
                                 } finally {
@@ -510,11 +541,15 @@ class SyncAdapter @JvmOverloads constructor(
                                                 R.string.synchronization_end_success,
                                                 successRemote2Local,
                                                 successLocal2Remote
-                                            ), account, false
+                                            ),
+                                            account,
+                                            false
                                         )
                                     } else if (completedWithoutError) {
                                         appendToNotification(
-                                            context.getString(R.string.synchronization_end_success_none),
+                                            context.getString(
+                                                R.string.synchronization_end_success_none
+                                            ),
                                             account,
                                             false
                                         )
@@ -542,7 +577,6 @@ class SyncAdapter @JvmOverloads constructor(
             if (BuildConfig.DEBUG) {
                 notifyUser("Debug", "InterruptedException")
             }
-
         }
     }
 
@@ -550,7 +584,7 @@ class SyncAdapter @JvmOverloads constructor(
     private fun updateAccountFromMetadata(
         provider: ContentProviderClient,
         accountId: Long,
-        accountMetaData: AccountMetaData,
+        accountMetaData: AccountMetaData
     ): Boolean {
         val ops = ArrayList<ContentProviderOperation>()
         ops.add(TransactionProvider.pauseChangeTrigger())
@@ -578,7 +612,9 @@ class SyncAdapter @JvmOverloads constructor(
         )
         val homeCurrency = prefHandler.getString(PrefKey.HOME_CURRENCY, null)
         val exchangeRate = accountMetaData.exchangeRate
-        if (exchangeRate != null && homeCurrency != null && homeCurrency == accountMetaData.exchangeRateOtherCurrency) {
+        if (exchangeRate != null && homeCurrency != null &&
+            homeCurrency == accountMetaData.exchangeRateOtherCurrency
+        ) {
             val uri =
                 ContentUris.appendId(
                     TransactionProvider.ACCOUNT_EXCHANGE_RATE_URI.buildUpon(),
@@ -607,13 +643,14 @@ class SyncAdapter @JvmOverloads constructor(
     private fun handleAutoBackupSync(
         account: Account,
         provider: ContentProviderClient,
-        backend: SyncBackendProvider,
+        backend: SyncBackendProvider
     ) {
         val autoBackupFileUri = getStringSetting(provider, KEY_UPLOAD_AUTO_BACKUP_URI)
         if (autoBackupFileUri != null) {
-            val autoBackupCloud =
-                getStringSetting(provider, prefHandler.getKey(PrefKey.AUTO_BACKUP_CLOUD))
-            if (autoBackupCloud != null && autoBackupCloud == account.name) {
+            val targetAccount =
+                getStringSetting(provider, KEY_UPLOAD_AUTO_BACKUP_TARGET_ACCOUNT)
+                    ?: getStringSetting(provider, prefHandler.getKey(PrefKey.AUTO_BACKUP_CLOUD))
+            if (targetAccount != null && targetAccount == account.name) {
                 var fileName = getStringSetting(provider, KEY_UPLOAD_AUTO_BACKUP_NAME)
                 try {
                     if (fileName == null) {
@@ -624,13 +661,15 @@ class SyncAdapter @JvmOverloads constructor(
                     backend.storeBackup(autoBackupFileUri.toUri(), fileName)
                     removeSetting(provider, KEY_UPLOAD_AUTO_BACKUP_URI)
                     removeSetting(provider, KEY_UPLOAD_AUTO_BACKUP_NAME)
+                    removeSetting(provider, KEY_UPLOAD_AUTO_BACKUP_TARGET_ACCOUNT)
                     maybeNotifyUser(
                         context.getString(R.string.pref_auto_backup_title),
                         context.getString(
                             R.string.auto_backup_cloud_success,
                             fileName,
                             account.name
-                        ), null
+                        ),
+                        null
                     )
                 } catch (e: Exception) {
                     if (e is IOException) {
@@ -642,9 +681,9 @@ class SyncAdapter @JvmOverloads constructor(
                         notifyUser(
                             context.getString(R.string.pref_auto_backup_title),
                             context.getString(
-                                R.string.write_fail_reason_cannot_write,
-                            )
-                                    + "(" + fileName + "): " + e.message
+                                R.string.write_fail_reason_cannot_write
+                            ) +
+                                "(" + fileName + "): " + e.message
                         )
                     }
                 }
@@ -658,7 +697,7 @@ class SyncAdapter @JvmOverloads constructor(
         backend: SyncBackendProvider,
         syncResult: SyncResult,
         @StringRes resId: Int,
-        defaultDelay: Long = IO_DEFAULT_DELAY_MILLIS,
+        defaultDelay: Long = IO_DEFAULT_DELAY_MILLIS
     ) {
         log().w(ioException)
         if (!handleAuthException(ioException, account)) {
@@ -737,10 +776,13 @@ class SyncAdapter @JvmOverloads constructor(
         title: String,
         content: CharSequence,
         account: Account? = null,
-        intent: Intent? = null,
+        intent: Intent? = null
     ) {
         val builder = NotificationBuilderWrapper.bigTextStyleBuilder(
-            context, NotificationBuilderWrapper.CHANNEL_ID_SYNC, title, content
+            context,
+            NotificationBuilderWrapper.CHANNEL_ID_SYNC,
+            title,
+            content
         )
         if (intent != null) {
             builder.setContentIntent(
@@ -759,15 +801,19 @@ class SyncAdapter @JvmOverloads constructor(
             //noinspection InlinedApi
             builder.setDeleteIntent(
                 PendingIntent.getService(
-                    context, 0,
-                    dismissIntent, PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
+                    context,
+                    0,
+                    dismissIntent,
+                    PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
                 )
             )
         }
         val notification = builder.build()
         notification.flags = Notification.FLAG_AUTO_CANCEL
         (context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).notify(
-            "SYNC", account?.hashCode() ?: 0, notification
+            "SYNC",
+            account?.hashCode() ?: 0,
+            notification
         )
     }
 
@@ -779,7 +825,8 @@ class SyncAdapter @JvmOverloads constructor(
         report(e)
         appendToNotification(
             context.getString(R.string.sync_database_error) + " " + e.message,
-            account, true
+            account,
+            true
         )
     }
 
@@ -788,7 +835,8 @@ class SyncAdapter @JvmOverloads constructor(
         deactivateSync(account)
         AccountManager.get(context).setUserData(account, GenericAccountService.KEY_BROKEN, "1")
         notifyUser(
-            "Synchronization backend deactivated", message,
+            "Synchronization backend deactivated",
+            message,
             null,
             manageSyncBackendsIntent
         )
@@ -799,8 +847,9 @@ class SyncAdapter @JvmOverloads constructor(
 
     @Throws(RemoteException::class)
     private fun getLocalChanges(
-        provider: ContentProviderClient, accountId: Long,
-        sequenceNumber: Long,
+        provider: ContentProviderClient,
+        accountId: Long,
+        sequenceNumber: Long
     ): List<TransactionChange> {
         val result: MutableList<TransactionChange> = mutableListOf()
         val changesUri = buildChangesUri(sequenceNumber, accountId)
@@ -809,8 +858,8 @@ class SyncAdapter @JvmOverloads constructor(
             val currentSyncIncrease = ContentValues(1)
             val nextSequence = sequenceNumber + 1
             currentSyncIncrease.put(KEY_SYNC_SEQUENCE_LOCAL, nextSequence)
-            //in case of failed syncs due to non-available backends, sequence number might already be higher than nextSequence
-            //we must take care to not decrease it here
+            // in case of failed syncs due to non-available backends, sequence number might already be higher than nextSequence
+            // we must take care to not decrease it here
             provider.update(
                 TransactionProvider.ACCOUNTS_URI.fromSyncAdapter(),
                 currentSyncIncrease,
@@ -825,7 +874,9 @@ class SyncAdapter @JvmOverloads constructor(
                             if (it.equivalentAmount != null) {
                                 val homeCurrency = currencyContext.homeCurrencyString
                                 it.copy(equivalentCurrency = homeCurrency)
-                            } else it
+                            } else {
+                                it
+                            }
                         }
                         changesCursor.getLongOrNull(KEY_CATID)?.let { catId ->
                             if (catId == NULL_ROW_ID) {
@@ -840,7 +891,10 @@ class SyncAdapter @JvmOverloads constructor(
                                         BaseTransactionProvider.CATEGORY_TREE_URI,
                                         catId
                                     ),
-                                    null, null, null, null
+                                    null,
+                                    null,
+                                    null,
+                                    null
                                 )?.use { cursor ->
                                     transactionChange = transactionChange.copy(
                                         categoryInfo = CategoryInfo.fromCursor(cursor)
@@ -850,10 +904,9 @@ class SyncAdapter @JvmOverloads constructor(
                         }
                         result.add(
                             when (transactionChange.type) {
-
                                 TransactionChange.Type.tags -> transactionChange.copy(
                                     type = TransactionChange.Type.updated,
-                                    tagsV2 =  provider.query(
+                                    tagsV2 = provider.query(
                                         TransactionProvider.TRANSACTIONS_TAGS_URI,
                                         null,
                                         "$KEY_TRANSACTIONID = (SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?)",
@@ -866,9 +919,10 @@ class SyncAdapter @JvmOverloads constructor(
                                         )
                                     } ?: emptySet()
                                 )
+
                                 TransactionChange.Type.attachments -> transactionChange.copy(
                                     type = TransactionChange.Type.updated,
-                                    attachments =                                         provider.query(
+                                    attachments = provider.query(
                                         TransactionProvider.ATTACHMENTS_URI
                                             .buildUpon()
                                             .appendQueryParameter(
@@ -882,6 +936,7 @@ class SyncAdapter @JvmOverloads constructor(
                                         null
                                     )?.useAndMapToSet { it.getString(0) } ?: emptySet()
                                 )
+
                                 else -> transactionChange
                             }
                         )
@@ -892,35 +947,33 @@ class SyncAdapter @JvmOverloads constructor(
         return result
     }
 
-    private fun buildChangesUri(currentSync: Long, accountId: Long): Uri {
-        return TransactionProvider.CHANGES_URI.buildUpon()
-            .appendQueryParameter(KEY_ACCOUNTID, accountId.toString())
-            .appendQueryParameter(
-                KEY_SYNC_SEQUENCE_LOCAL,
-                currentSync.toString()
-            )
-            .build()
-    }
+    private fun buildChangesUri(currentSync: Long, accountId: Long): Uri = TransactionProvider.CHANGES_URI.buildUpon()
+        .appendQueryParameter(KEY_ACCOUNTID, accountId.toString())
+        .appendQueryParameter(
+            KEY_SYNC_SEQUENCE_LOCAL,
+            currentSync.toString()
+        )
+        .build()
 
-    private fun buildInitializationUri(accountId: Long): Uri {
-        return TransactionProvider.CHANGES_URI.buildUpon()
-            .appendQueryParameter(KEY_ACCOUNTID, accountId.toString())
-            .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_INIT)
-            .build()
-    }
+    private fun buildInitializationUri(accountId: Long): Uri = TransactionProvider.CHANGES_URI.buildUpon()
+        .appendQueryParameter(KEY_ACCOUNTID, accountId.toString())
+        .appendBooleanQueryParameter(TransactionProvider.QUERY_PARAMETER_INIT)
+        .build()
 
     @Throws(RemoteException::class)
     private fun hasLocalChanges(provider: ContentProviderClient, changesUri: Uri) =
         provider.query(changesUri, arrayOf("count(*)"), null, null, null)?.use {
             if (it.moveToFirst()) {
                 it.getLong(0) > 0
-            } else false
+            } else {
+                false
+            }
         } == true
 
     private fun getBooleanSetting(
         provider: ContentProviderClient,
         prefKey: PrefKey,
-        defaultValue: Boolean,
+        defaultValue: Boolean
     ): Boolean {
         val value = getStringSetting(provider, prefHandler.getKey(prefKey))
         return if (value != null) value == java.lang.Boolean.TRUE.toString() else defaultValue
@@ -929,12 +982,17 @@ class SyncAdapter @JvmOverloads constructor(
     private fun getStringSetting(provider: ContentProviderClient, prefKey: String): String? {
         val result: String? = try {
             provider.query(
-                TransactionProvider.SETTINGS_URI, arrayOf(KEY_VALUE),
-                "$KEY_KEY = ?", arrayOf(prefKey), null
+                TransactionProvider.SETTINGS_URI,
+                arrayOf(KEY_VALUE),
+                "$KEY_KEY = ?",
+                arrayOf(prefKey),
+                null
             )?.use {
                 if (it.moveToFirst()) {
                     it.getString(0)
-                } else null
+                } else {
+                    null
+                }
             }
         } catch (remoteException: RemoteException) {
             report(remoteException)
@@ -971,6 +1029,7 @@ class SyncAdapter @JvmOverloads constructor(
         const val KEY_RESET_REMOTE_ACCOUNT = "reset_remote_account"
         const val KEY_UPLOAD_AUTO_BACKUP_URI = "upload_auto_backup_uri"
         const val KEY_UPLOAD_AUTO_BACKUP_NAME = "upload_auto_backup_name"
+        const val KEY_UPLOAD_AUTO_BACKUP_TARGET_ACCOUNT = "upload_auto_backup_target_account"
         const val KEY_AUTO_BACKUP_ONLY = "auto_backup_only"
 
         private val LOCK_TIMEOUT_MINUTES = if (BuildConfig.DEBUG) 1L else 5L
@@ -979,25 +1038,19 @@ class SyncAdapter @JvmOverloads constructor(
         const val TAG = "SyncAdapter"
 
         @JvmStatic
-        fun KEY_LAST_SYNCED_REMOTE(accountId: Long): String {
-            return "last_synced_remote_$accountId"
-        }
+        fun KEY_LAST_SYNCED_REMOTE(accountId: Long): String = "last_synced_remote_$accountId"
 
         @JvmStatic
-        fun KEY_LAST_SYNCED_LOCAL(accountId: Long): String {
-            return "last_synced_local_$accountId"
-        }
+        fun KEY_LAST_SYNCED_LOCAL(accountId: Long): String = "last_synced_local_$accountId"
 
         private fun getIoDelaySeconds(
-            backOffMillis: Long = IO_DEFAULT_DELAY_MILLIS,
+            backOffMillis: Long = IO_DEFAULT_DELAY_MILLIS
         ) = (System.currentTimeMillis() + backOffMillis) / 1000
 
         private val featureLoadDelaySeconds: Long
             get() = System.currentTimeMillis() / 1000 + 60
 
-        fun log(): Timber.Tree {
-            return Timber.tag(TAG)
-        }
+        fun log(): Timber.Tree = Timber.tag(TAG)
 
         private val notificationContent = SparseArray<MutableList<StringBuilder>?>()
 

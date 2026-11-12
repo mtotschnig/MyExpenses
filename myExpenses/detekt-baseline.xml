@@ -1052,7 +1052,7 @@
     <ID>MaxLineLength:StorageAccessFrameworkBackendProvider.kt:StorageAccessFrameworkBackendProvider$override fun getInputStream</ID>
     <ID>MaxLineLength:SyncAdapter.kt:SyncAdapter$"$KEY_TRANSACTIONID = (SELECT $KEY_ROWID FROM $TABLE_TRANSACTIONS WHERE $KEY_UUID = ?)"</ID>
     <ID>MaxLineLength:SyncAdapter.kt:SyncAdapter$"The backend could not be instantiated. Reason: ${throwable.message}. Please try to delete and recreate it."</ID>
-    <ID>MaxLineLength:SyncAdapter.kt:SyncAdapter$//in case of failed syncs due to non-available backends, sequence number might already be higher than nextSequence</ID>
+    <ID>MaxLineLength:SyncAdapter.kt:SyncAdapter$// in case of failed syncs due to non-available backends, sequence number might already be higher than nextSequence</ID>
     <ID>MaxLineLength:SyncDelegate.kt:SyncDelegate$attachments = if ((pictureUri != null || attachments != null) &amp;&amp; (merged.pictureUri != null || merged.attachments != null) &amp;&amp; (merged.pictureUri != pictureUri || merged.attachments != attachments)) null else attachments</ID>
     <ID>MaxLineLength:SyncDelegate.kt:SyncDelegate$categoryInfo = if ((label != null || categoryInfo != null) &amp;&amp; (merged.label != null || merged.categoryInfo != null) &amp;&amp; (merged.label != label || merged.categoryInfo != categoryInfo)) null else categoryInfo</ID>
     <ID>MaxLineLength:SyncDelegate.kt:SyncDelegate$crStatus = if (crStatus != null &amp;&amp; merged.crStatus != null &amp;&amp; merged.crStatus != crStatus) null else crStatus</ID>
@@ -1201,7 +1201,6 @@
     <ID>NewLineAtEndOfFile:BackendService.kt:org.totschnig.myexpenses.sync.BackendService.kt</ID>
     <ID>NewLineAtEndOfFile:BackupPurgeReceiver.kt:org.totschnig.myexpenses.service.BackupPurgeReceiver.kt</ID>
     <ID>NewLineAtEndOfFile:BackupSourcesDialogFragment.kt:org.totschnig.myexpenses.dialog.BackupSourcesDialogFragment.kt</ID>
-    <ID>NewLineAtEndOfFile:BackupViewModel.kt:org.totschnig.myexpenses.viewmodel.BackupViewModel.kt</ID>
     <ID>NewLineAtEndOfFile:BalanceDialogFragment.kt:org.totschnig.myexpenses.dialog.BalanceDialogFragment.kt</ID>
     <ID>NewLineAtEndOfFile:BalanceSheetPdfGenerator.kt:org.totschnig.myexpenses.export.pdf.BalanceSheetPdfGenerator.kt</ID>
     <ID>NewLineAtEndOfFile:BalanceType.kt:org.totschnig.myexpenses.model.BalanceType.kt</ID>
@@ -1367,7 +1366,6 @@
     <ID>NewLineAtEndOfFile:FractionDigitsInputFilterTest.kt:org.totschnig.myexpenses.ui.FractionDigitsInputFilterTest.kt</ID>
     <ID>NewLineAtEndOfFile:Frankfurter.kt:org.totschnig.myexpenses.retrofit.Frankfurter.kt</ID>
     <ID>NewLineAtEndOfFile:FullAccount.kt:org.totschnig.myexpenses.viewmodel.data.FullAccount.kt</ID>
-    <ID>NewLineAtEndOfFile:GenericAccountService.kt:org.totschnig.myexpenses.sync.GenericAccountService.kt</ID>
     <ID>NewLineAtEndOfFile:GrisbiImportHelper.kt:org.totschnig.myexpenses.task.GrisbiImportHelper.kt</ID>
     <ID>NewLineAtEndOfFile:GrisbiSourcesDialogFragment.kt:org.totschnig.myexpenses.dialog.GrisbiSourcesDialogFragment.kt</ID>
     <ID>NewLineAtEndOfFile:GroupQueryTest.kt:org.totschnig.myexpenses.repository.GroupQueryTest.kt</ID>
@@ -1594,7 +1592,6 @@
     <ID>NewLineAtEndOfFile:StorageAccessFrameworkBackendProviderFactory.kt:org.totschnig.myexpenses.sync.StorageAccessFrameworkBackendProviderFactory.kt</ID>
     <ID>NewLineAtEndOfFile:SumInfo.kt:org.totschnig.myexpenses.viewmodel.SumInfo.kt</ID>
     <ID>NewLineAtEndOfFile:SumQueryTest.kt:org.totschnig.myexpenses.repository.SumQueryTest.kt</ID>
-    <ID>NewLineAtEndOfFile:SyncAdapter.kt:org.totschnig.myexpenses.sync.SyncAdapter.kt</ID>
     <ID>NewLineAtEndOfFile:SyncAdapterBaseTest.kt:org.totschnig.myexpenses.sync.SyncAdapterBaseTest.kt</ID>
     <ID>NewLineAtEndOfFile:SyncAdapterMergeChangeSetsTest.kt:org.totschnig.myexpenses.sync.SyncAdapterMergeChangeSetsTest.kt</ID>
     <ID>NewLineAtEndOfFile:SyncAdapterMergeUpdatesTest.kt:org.totschnig.myexpenses.sync.SyncAdapterMergeUpdatesTest.kt</ID>

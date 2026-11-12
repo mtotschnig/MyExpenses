@@ -40,10 +40,12 @@ fun doBackup(
         backup(cacheDir, context, prefHandler, lenientMode).getOrThrow()
         try {
             ZipUtils.zipBackup(context, cacheDir, backupFile, password, lenientMode)
-            try {
-                sync(context.contentResolver, syncBackend, backupFile)
-            } catch (e: Exception) {
-                if (!lenientMode) throw e
+            syncBackend?.let {
+                try {
+                    sync(context.contentResolver, it, backupFile)
+                } catch (e: Exception) {
+                    if (!lenientMode) throw e
+                }
             }
             backupFile to listOldBackups(appDir, prefHandler)
         } catch (e: Throwable) {
@@ -85,31 +87,34 @@ fun listOldBackups(appDir: DocumentFile, prefHandler: PrefHandler): List<Documen
     }
 }
 
-private fun sync(contentResolver: ContentResolver, backend: String?, backupFile: DocumentFile) {
-    backend?.let {
-        var backupFileName = backupFile.name
-        if (backupFileName == null) {
-            CrashHandler.report(Exception("Could not get name from uri ${backupFile.uri}"))
-            backupFileName = "backup-" + SimpleDateFormat("yyyMMdd", Locale.US)
-                .format(Date())
-        }
-        DbUtils.storeSetting(
-            contentResolver,
-            SyncAdapter.KEY_UPLOAD_AUTO_BACKUP_NAME,
-            backupFileName
-        )
-        DbUtils.storeSetting(
-            contentResolver,
-            SyncAdapter.KEY_UPLOAD_AUTO_BACKUP_URI,
-            backupFile.uri.toString()
-        )
-        GenericAccountService.requestSync(
-            backend,
-            extras = Bundle().apply {
-                putBoolean(SyncAdapter.KEY_AUTO_BACKUP_ONLY, true)
-            }
-        )
+private fun sync(contentResolver: ContentResolver, backend: String, backupFile: DocumentFile) {
+    var backupFileName = backupFile.name
+    if (backupFileName == null) {
+        CrashHandler.report(Exception("Could not get name from uri ${backupFile.uri}"))
+        backupFileName = "backup-" + SimpleDateFormat("yyyMMdd", Locale.US)
+            .format(Date())
     }
+    DbUtils.storeSetting(
+        contentResolver,
+        SyncAdapter.KEY_UPLOAD_AUTO_BACKUP_NAME,
+        backupFileName
+    )
+    DbUtils.storeSetting(
+        contentResolver,
+        SyncAdapter.KEY_UPLOAD_AUTO_BACKUP_URI,
+        backupFile.uri.toString()
+    )
+    DbUtils.storeSetting(
+        contentResolver,
+        SyncAdapter.KEY_UPLOAD_AUTO_BACKUP_TARGET_ACCOUNT,
+        backend
+    )
+    GenericAccountService.requestSync(
+        backend,
+        extras = Bundle().apply {
+            putBoolean(SyncAdapter.KEY_AUTO_BACKUP_ONLY, true)
+        }
+    )
 }
 
 private fun requireBackupFile(
