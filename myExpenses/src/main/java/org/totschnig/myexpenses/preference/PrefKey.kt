@@ -34,7 +34,9 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     PROTECTION_ENABLE_ACCOUNT_WIDGET(R.string.pref_protection_enable_account_widget_key),
     PROTECTION_ENABLE_TEMPLATE_WIDGET(R.string.pref_protection_enable_template_widget_key),
     PROTECTION_ENABLE_BUDGET_WIDGET(R.string.pref_protection_enable_budget_widget_key),
-    PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET(R.string.pref_protection_enable_data_entry_from_widget_key),
+    PROTECTION_ENABLE_DATA_ENTRY_FROM_WIDGET(
+        R.string.pref_protection_enable_data_entry_from_widget_key
+    ),
     EXPORT_FORMAT(R.string.pref_export_format_key),
     SEND_FEEDBACK(R.string.pref_send_feedback_key),
     MORE_INFO_DIALOG(R.string.pref_more_info_dialog_key),
@@ -76,13 +78,15 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     TEMPLATE_CLICK_DEFAULT(R.string.pref_template_click_default_key),
     NEXT_REMINDER_RATE("nextReminderRate"),
     DISTRIBUTION_SHOW_CHART("distributionShowChart"),
-    BUDGEt_SHOW_CHART("budgethowChart"),
+    BUDGET_SHOW_CHART("budgethowChart"),
     DISTRIBUTION_AGGREGATE_TYPES("distributionAggregateTypes"),
     MANAGE_STALE_IMAGES(R.string.pref_manage_stale_images_key),
     CSV_IMPORT_HEADER_TO_FIELD_MAP(R.string.pref_import_csv_header_to_field_map_key),
     CUSTOM_DECIMAL_FORMAT(R.string.pref_custom_decimal_format_key),
     CUSTOM_DATE_FORMAT(R.string.pref_custom_date_format_key),
-    CUSTOM_DATE_FORMAT_NEW_TRANSACTION_LIST(R.string.pref_custom_date_format_new_transaction_list_key),
+    CUSTOM_DATE_FORMAT_NEW_TRANSACTION_LIST(
+        R.string.pref_custom_date_format_new_transaction_list_key
+    ),
     AUTO_BACKUP(R.string.pref_auto_backup_key),
     AUTO_BACKUP_TIME(R.string.pref_auto_backup_time_key),
     AUTO_BACKUP_DIRTY("auto_backup_dirty"),
@@ -150,6 +154,7 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     DATES_ARE_LINKED("dates_are_linked"),
     VOTE_REMINDER_LAST_CHECK("vote_reminder_last_check"),
     SAVE_TO_SYNC_BACKEND_CHECKED("save_to_sync_backend_checked"),
+    LAST_MANUAL_BACKUP_CLOUD("last_manual_backup_cloud"),
     NEWS(R.string.pref_news_key),
     DB_SAFE_MODE(R.string.pref_db_safe_mode_key),
     PARENT_CATEGORY_SELECTION_ON_TAP("parent_category_selection_on_tap"),
@@ -164,7 +169,9 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     CSV_EXPORT_CATEGORY_SEPARATOR(R.string.pref_csv_export_category_separator_key),
     CSV_EXPORT_SPLIT_AMOUNT(R.string.pref_csv_export_split_amount_key),
     CSV_EXPORT_SPLIT_DATE_TIME(R.string.pref_csv_export_split_date_time_key),
-    CSV_EXPORT_ORIGINAL_EQUIVALENT_AMOUNTS(R.string.pref_csv_export_original_equivalent_amounts_key),
+    CSV_EXPORT_ORIGINAL_EQUIVALENT_AMOUNTS(
+        R.string.pref_csv_export_original_equivalent_amounts_key
+    ),
     WEBUI_HTTPS(R.string.pref_web_ui_https_key),
     RUNNING_BALANCE(R.string.pref_running_balance_key),
     UI_ITEM_RENDERER_LEGACY(R.string.pref_ui_item_renderer_legacy_key),
@@ -212,7 +219,9 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     PRINT_MARGIN_LEFT(R.string.pref_print_margin_left_key),
     PRINT_MARGIN_RIGHT(R.string.pref_print_margin_right_key),
     EQUIVALENT_AMOUNTS_AUTOMATIC_UPDATE(R.string.pref_equivalent_amounts_automatic_update_key),
-    UI_HOME_SCREEN_SHORTCUTS_SHOW_NEW_BALANCE(R.string.pref_ui_home_screen_shortcuts_show_new_balance_key),
+    UI_HOME_SCREEN_SHORTCUTS_SHOW_NEW_BALANCE(
+        R.string.pref_ui_home_screen_shortcuts_show_new_balance_key
+    ),
     ACCOUNT_LIST_DISPLAY_CONFIGURATION(R.string.pref_account_list_display_configuration_key),
     INVISIBLE_ACCOUNTS_ARE_AGGREGATED("invisible_accounts_are_aggregated"),
     SORT_ACCOUNT_LIST_BY_FLAG_FIRST("sort_account_list_by_flag_first"),
@@ -228,18 +237,16 @@ enum class PrefKey(internal val resId: Int, internal val _key: String?) {
     PREMIUM_NUDGE_DISMISSED("premium_nudge_dismissed"),
     LAST_TRADE_FEE_CATEGORIES("last_trade_fee_categories"),
     SHARE_TARGET_USERNAME(R.string.pref_share_target_username_key),
-    SHARE_TARGET_PASSWORD(R.string.pref_share_target_password_key),
+    SHARE_TARGET_PASSWORD(R.string.pref_share_target_password_key)
     ;
 
     @Deprecated("")
-    fun getKey(): String? {
-        return if (resId == 0) _key else MyApplication.instance.getString(resId)
-    }
+    fun getKey(): String? = if (resId == 0) _key else MyApplication.instance.getString(resId)
 
     @Deprecated("")
-    fun getString(defValue: String?): String? {
-        return MyApplication.instance.settings.getString(getKey(), defValue)
-    }
+    fun getString(
+        defValue: String?
+    ): String? = MyApplication.instance.settings.getString(getKey(), defValue)
 
     constructor(resId: Int) : this(resId, null)
 

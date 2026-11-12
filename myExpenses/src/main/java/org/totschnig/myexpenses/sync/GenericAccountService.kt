@@ -50,18 +50,14 @@ class GenericAccountService : Service() {
         Timber.i("Service destroyed")
     }
 
-    override fun onBind(intent: Intent): IBinder? {
-        return mAuthenticator.iBinder
-    }
+    override fun onBind(intent: Intent): IBinder? = mAuthenticator.iBinder
 
     inner class Authenticator(private val mContext: Context) :
         AbstractAccountAuthenticator(mContext) {
         override fun editProperties(
             accountAuthenticatorResponse: AccountAuthenticatorResponse,
             s: String
-        ): Bundle {
-            throw UnsupportedOperationException()
-        }
+        ): Bundle = throw UnsupportedOperationException()
 
         override fun addAccount(
             accountAuthenticatorResponse: AccountAuthenticatorResponse,
@@ -69,9 +65,7 @@ class GenericAccountService : Service() {
             authTokenType: String?,
             requiredFeatures: Array<String>?,
             options: Bundle
-        ): Bundle {
-            return createManageSyncBackendIntentBundle()
-        }
+        ): Bundle = createManageSyncBackendIntentBundle()
 
         private fun createManageSyncBackendIntentBundle(): Bundle {
             val result = Bundle()
@@ -84,14 +78,15 @@ class GenericAccountService : Service() {
 
         override fun confirmCredentials(
             accountAuthenticatorResponse: AccountAuthenticatorResponse,
-            account: Account, bundle: Bundle
-        ): Bundle? {
-            return null
-        }
+            account: Account,
+            bundle: Bundle
+        ): Bundle? = null
 
         override fun getAuthToken(
             accountAuthenticatorResponse: AccountAuthenticatorResponse,
-            account: Account, authTokenType: String, bundle: Bundle
+            account: Account,
+            authTokenType: String,
+            bundle: Bundle
         ): Bundle {
             val accountManager = AccountManager.get(mContext)
             val authToken = accountManager.peekAuthToken(account, authTokenType)
@@ -102,23 +97,20 @@ class GenericAccountService : Service() {
             return result
         }
 
-        override fun getAuthTokenLabel(s: String): String {
-            throw UnsupportedOperationException()
-        }
+        override fun getAuthTokenLabel(s: String): String = throw UnsupportedOperationException()
 
         override fun updateCredentials(
             accountAuthenticatorResponse: AccountAuthenticatorResponse,
-            account: Account, s: String, bundle: Bundle
-        ): Bundle {
-            throw UnsupportedOperationException()
-        }
+            account: Account,
+            s: String,
+            bundle: Bundle
+        ): Bundle = throw UnsupportedOperationException()
 
         override fun hasFeatures(
             accountAuthenticatorResponse: AccountAuthenticatorResponse,
-            account: Account, strings: Array<String>
-        ): Bundle {
-            throw UnsupportedOperationException()
-        }
+            account: Account,
+            strings: Array<String>
+        ): Bundle = throw UnsupportedOperationException()
 
         override fun getAccountRemovalAllowed(
             response: AccountAuthenticatorResponse,
@@ -159,7 +151,8 @@ class GenericAccountService : Service() {
             return if (ContentResolver.getIsSyncable(account, TransactionProvider.AUTHORITY) > 0) {
                 ContentResolver.requestSync(
                     account,
-                    TransactionProvider.AUTHORITY, extras.apply {
+                    TransactionProvider.AUTHORITY,
+                    extras.apply {
                         if (manual) {
                             putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true)
                         }
@@ -172,7 +165,9 @@ class GenericAccountService : Service() {
                     }
                 )
                 true
-            } else false
+            } else {
+                false
+            }
         }
 
         /**
@@ -200,12 +195,15 @@ class GenericAccountService : Service() {
                 CrashHandler.report(it, "Provider", syncAccountName)
             }
 
-        fun getAccountNamesWithEncryption(context: Context): List<Pair<String, Boolean>> {
-            return getAccounts(context)
-                .map { account: Account ->
-                    account.name to (AccountManager.get(context).getUserData(account, KEY_ENCRYPTED) != null)
-                }
-        }
+        fun getAccountNamesWithEncryption(context: Context): List<Pair<String, Boolean>> = getAccounts(
+            context
+        )
+            .map { account: Account ->
+                account.name to (
+                    AccountManager.get(context)
+                        .getUserData(account, KEY_ENCRYPTED) != null
+                    )
+            }
 
         fun storePassword(
             context: Context,
@@ -216,13 +214,14 @@ class GenericAccountService : Service() {
                 .setUserData(account, KEY_PASSWORD_ENCRYPTION, encryptionPassword)
         }
 
-        fun loadPassword(context: Context, accountName: String): String? {
-            return loadPassword(context, getAccount(accountName))
-        }
+        fun loadPassword(context: Context, accountName: String): String? = loadPassword(
+            context,
+            getAccount(accountName)
+        )
 
-        fun loadPassword(context: Context, account: Account): String? {
-            return AccountManager.get(context).getUserData(account, KEY_PASSWORD_ENCRYPTION)
-        }
+        fun loadPassword(context: Context, account: Account): String? = AccountManager.get(
+            context
+        ).getUserData(account, KEY_PASSWORD_ENCRYPTION)
 
         fun migratePasswords(context: Context) {
             getAccounts(context).forEach { account ->
@@ -232,7 +231,8 @@ class GenericAccountService : Service() {
                     storePassword(context, account, it)
                     context.contentResolver.delete(
                         TransactionProvider.SETTINGS_URI,
-                        "$KEY_KEY = ?", arrayOf(legacyPasswordKey)
+                        "$KEY_KEY = ?",
+                        arrayOf(legacyPasswordKey)
                     )
                 }
             }
@@ -284,10 +284,16 @@ class GenericAccountService : Service() {
 
         fun configureAutomaticAndPeriod(account: Account, prefHandler: PrefHandler) {
             val pollFrequency = getSyncFrequency(prefHandler)
-            ContentResolver.setSyncAutomatically(account, TransactionProvider.AUTHORITY, pollFrequency > 0)
+            ContentResolver.setSyncAutomatically(
+                account,
+                TransactionProvider.AUTHORITY,
+                pollFrequency > 0
+            )
             if (pollFrequency > 0) {
                 ContentResolver.addPeriodicSync(
-                    account, TransactionProvider.AUTHORITY, Bundle.EMPTY,
+                    account,
+                    TransactionProvider.AUTHORITY,
+                    Bundle.EMPTY,
                     pollFrequency
                 )
             } else {
@@ -322,4 +328,6 @@ class GenericAccountService : Service() {
 
 fun AccountManager.getSyncProviderUrl(account: Account) =
     getUserData(account, GenericAccountService.KEY_SYNC_PROVIDER_URL)
-        ?: throw SyncBackendProvider.SyncParseException(NullPointerException("sync_provider_url is null"))
+        ?: throw SyncBackendProvider.SyncParseException(
+            NullPointerException("sync_provider_url is null")
+        )

@@ -42,17 +42,6 @@
                 android:targetPackage="@string/application_id" />
         </Preference>
 
-        <org.totschnig.myexpenses.preference.AccountPreference
-            android:key="@string/pref_auto_backup_cloud_key"
-            my:useSimpleSummaryProvider="true"
-            my:isPreferenceVisible="false"
-            android:title="@string/cloud_storage" />
-
-        <org.totschnig.myexpenses.preference.PopupMenuPreference
-            android:key="@string/pref_auto_backup_cloud_setup_key"
-            android:summary="@string/pref_backup_cloud_summary"
-            android:title="@string/cloud_storage" />
-
         <EditTextPreference
             android:defaultValue="myexpenses-backup"
             android:key="@string/pref_backup_file_prefix_key"
@@ -76,6 +65,16 @@
         <SwitchPreferenceCompat
             android:key="@string/pref_auto_backup_key"
             android:summary="@string/pref_auto_backup_summary" />
+        <org.totschnig.myexpenses.preference.AccountPreference
+            android:key="@string/pref_auto_backup_cloud_key"
+            my:useSimpleSummaryProvider="true"
+            my:isPreferenceVisible="false"
+            android:title="@string/cloud_storage" />
+
+        <org.totschnig.myexpenses.preference.PopupMenuPreference
+            android:key="@string/pref_auto_backup_cloud_setup_key"
+            android:summary="@string/pref_backup_cloud_summary"
+            android:title="@string/cloud_storage" />
         <org.totschnig.myexpenses.preference.TimePreference
             android:dependency="@string/pref_auto_backup_key"
             android:key="@string/pref_auto_backup_time_key"

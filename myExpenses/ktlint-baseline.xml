@@ -1775,57 +1775,6 @@
         <error line="30" column="32" source="standard:colon-spacing" />
         <error line="92" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/main/java/org/totschnig/myexpenses/activity/BackupRestoreActivity.kt">
-        <error line="45" column="30" source="standard:wrapping" />
-        <error line="45" column="49" source="standard:wrapping" />
-        <error line="65" column="66" source="standard:argument-list-wrapping" />
-        <error line="65" column="93" source="standard:argument-list-wrapping" />
-        <error line="65" column="97" source="standard:binary-expression-wrapping" />
-        <error line="65" column="101" source="standard:max-line-length" />
-        <error line="78" column="29" source="standard:chain-wrapping" />
-        <error line="79" column="29" source="standard:chain-wrapping" />
-        <error line="84" column="64" source="standard:wrapping" />
-        <error line="88" column="50" source="standard:argument-list-wrapping" />
-        <error line="88" column="70" source="standard:argument-list-wrapping" />
-        <error line="88" column="86" source="standard:argument-list-wrapping" />
-        <error line="88" column="104" source="standard:argument-list-wrapping" />
-        <error line="121" column="25" source="standard:wrapping" />
-        <error line="127" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="128" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="128" column="76" source="standard:function-literal" />
-        <error line="128" column="100" source="standard:function-literal" />
-        <error line="128" column="101" source="standard:max-line-length" />
-        <error line="129" column="66" source="standard:argument-list-wrapping" />
-        <error line="129" column="92" source="standard:argument-list-wrapping" />
-        <error line="129" column="96" source="standard:binary-expression-wrapping" />
-        <error line="129" column="101" source="standard:max-line-length" />
-        <error line="135" column="39" source="standard:argument-list-wrapping" />
-        <error line="146" column="76" source="standard:wrapping" />
-        <error line="153" column="72" source="standard:argument-list-wrapping" />
-        <error line="153" column="94" source="standard:argument-list-wrapping" />
-        <error line="153" column="97" source="standard:binary-expression-wrapping" />
-        <error line="153" column="101" source="standard:max-line-length" />
-        <error line="154" column="1" source="standard:indent" />
-        <error line="155" column="1" source="standard:indent" />
-        <error line="156" column="1" source="standard:indent" />
-        <error line="166" column="37" source="standard:wrapping" />
-        <error line="180" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="186" column="27" source="standard:wrapping" />
-        <error line="186" column="28" source="standard:argument-list-wrapping" />
-        <error line="201" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="203" column="45" source="standard:argument-list-wrapping" />
-        <error line="215" column="24" source="standard:wrapping" />
-        <error line="221" column="1" source="standard:indent" />
-        <error line="221" column="17" source="standard:chain-wrapping" />
-        <error line="221" column="65" source="standard:wrapping" />
-        <error line="261" column="41" source="standard:wrapping" />
-        <error line="261" column="56" source="standard:wrapping" />
-        <error line="265" column="17" source="standard:wrapping" />
-        <error line="309" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="312" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="350" column="9" source="standard:spacing-between-declarations-with-comments" />
-        <error line="355" column="1" source="standard:final-newline" />
-    </file>
     <file name="src/main/java/org/totschnig/myexpenses/activity/BalanceSheet.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="156" column="42" source="standard:trailing-comma-on-declaration-site" />
@@ -6116,7 +6065,6 @@
     <file name="src/main/java/org/totschnig/myexpenses/dialog/ConfirmationDialogFragment.kt">
         <error line="124" column="1" source="standard:blank-line-between-when-conditions" />
         <error line="125" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="167" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/dialog/ContribDialogFragment.kt">
         <error line="17" column="1" source="standard:import-ordering" />
@@ -8639,25 +8587,6 @@
         <error line="89" column="9" source="standard:comment-spacing" />
         <error line="91" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/main/java/org/totschnig/myexpenses/preference/PrefKey.kt">
-        <error line="37" column="46" source="standard:argument-list-wrapping" />
-        <error line="37" column="101" source="standard:max-line-length" />
-        <error line="37" column="104" source="standard:argument-list-wrapping" />
-        <error line="79" column="5" source="standard:enum-entry-name-case" />
-        <error line="85" column="45" source="standard:argument-list-wrapping" />
-        <error line="85" column="101" source="standard:max-line-length" />
-        <error line="85" column="102" source="standard:argument-list-wrapping" />
-        <error line="167" column="44" source="standard:argument-list-wrapping" />
-        <error line="167" column="100" source="standard:argument-list-wrapping" />
-        <error line="167" column="101" source="standard:max-line-length" />
-        <error line="215" column="47" source="standard:argument-list-wrapping" />
-        <error line="215" column="101" source="standard:max-line-length" />
-        <error line="215" column="106" source="standard:argument-list-wrapping" />
-        <error line="231" column="67" source="standard:trailing-comma-on-declaration-site" />
-        <error line="235" column="27" source="standard:function-expression-body" />
-        <error line="240" column="47" source="standard:function-expression-body" />
-        <error line="247" column="1" source="standard:final-newline" />
-    </file>
     <file name="src/main/java/org/totschnig/myexpenses/preference/PreferenceAccessor.kt">
         <error line="49" column="1" source="standard:no-consecutive-blank-lines" />
         <error line="67" column="37" source="standard:trailing-comma-on-declaration-site" />
@@ -8775,23 +8704,6 @@
         <error line="148" column="51" source="standard:wrapping" />
         <error line="158" column="9" source="standard:wrapping" />
         <error line="194" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/main/java/org/totschnig/myexpenses/provider/BackupUtils.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="53" column="27" source="standard:argument-list-wrapping" />
-        <error line="53" column="101" source="standard:max-line-length" />
-        <error line="53" column="102" source="standard:argument-list-wrapping" />
-        <error line="54" column="20" source="standard:multiline-if-else" />
-        <error line="72" column="34" source="standard:argument-list-wrapping" />
-        <error line="72" column="101" source="standard:max-line-length" />
-        <error line="72" column="115" source="standard:argument-list-wrapping" />
-        <error line="72" column="119" source="standard:binary-expression-wrapping" />
-        <error line="76" column="12" source="standard:multiline-if-else" />
-        <error line="97" column="43" source="standard:wrapping" />
-        <error line="97" column="51" source="standard:wrapping" />
-        <error line="99" column="9" source="standard:wrapping" />
-        <error line="107" column="18" source="standard:function-expression-body" />
-        <error line="118" column="90" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/provider/BaseTransactionDatabase.kt">
         <error line="854" column="101" source="standard:max-line-length" />
@@ -10006,21 +9918,6 @@
         <error line="40" column="32" source="standard:argument-list-wrapping" />
         <error line="48" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/main/java/org/totschnig/myexpenses/service/AutoBackupWorker.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="7" column="1" source="standard:no-wildcard-imports" />
-        <error line="60" column="38" source="standard:argument-list-wrapping" />
-        <error line="85" column="53" source="standard:argument-list-wrapping" />
-        <error line="85" column="88" source="standard:argument-list-wrapping" />
-        <error line="117" column="65" source="standard:wrapping" />
-        <error line="117" column="65" source="standard:argument-list-wrapping" />
-        <error line="127" column="59" source="standard:argument-list-wrapping" />
-        <error line="127" column="99" source="standard:argument-list-wrapping" />
-        <error line="129" column="37" source="standard:argument-list-wrapping" />
-        <error line="157" column="79" source="standard:wrapping" />
-        <error line="157" column="80" source="standard:argument-list-wrapping" />
-        <error line="163" column="1" source="standard:final-newline" />
-    </file>
     <file name="src/main/java/org/totschnig/myexpenses/service/BackupPurgeReceiver.kt">
         <error line="15" column="43" source="standard:argument-list-wrapping" />
         <error line="15" column="71" source="standard:argument-list-wrapping" />
@@ -10317,49 +10214,7 @@
         <error line="76" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/sync/GenericAccountService.kt">
-        <error line="53" column="51" source="standard:function-expression-body" />
-        <error line="62" column="19" source="standard:function-expression-body" />
-        <error line="72" column="19" source="standard:function-expression-body" />
-        <error line="87" column="31" source="standard:parameter-list-wrapping" />
-        <error line="88" column="20" source="standard:function-expression-body" />
-        <error line="94" column="31" source="standard:parameter-list-wrapping" />
-        <error line="94" column="54" source="standard:parameter-list-wrapping" />
-        <error line="105" column="59" source="standard:function-expression-body" />
-        <error line="111" column="31" source="standard:parameter-list-wrapping" />
-        <error line="111" column="42" source="standard:parameter-list-wrapping" />
-        <error line="112" column="19" source="standard:function-expression-body" />
-        <error line="118" column="31" source="standard:parameter-list-wrapping" />
-        <error line="119" column="19" source="standard:function-expression-body" />
-        <error line="162" column="51" source="standard:wrapping" />
-        <error line="162" column="52" source="standard:argument-list-wrapping" />
-        <error line="175" column="20" source="standard:multiline-if-else" />
-        <error line="203" column="90" source="standard:function-expression-body" />
-        <error line="206" column="36" source="standard:binary-expression-wrapping" />
-        <error line="206" column="57" source="standard:argument-list-wrapping" />
-        <error line="206" column="64" source="standard:argument-list-wrapping" />
-        <error line="206" column="78" source="standard:argument-list-wrapping" />
-        <error line="206" column="87" source="standard:argument-list-wrapping" />
-        <error line="206" column="100" source="standard:argument-list-wrapping" />
-        <error line="206" column="101" source="standard:max-line-length" />
-        <error line="206" column="104" source="standard:binary-expression-wrapping" />
-        <error line="219" column="74" source="standard:function-expression-body" />
-        <error line="223" column="71" source="standard:function-expression-body" />
-        <error line="235" column="41" source="standard:argument-list-wrapping" />
-        <error line="287" column="50" source="standard:argument-list-wrapping" />
-        <error line="287" column="59" source="standard:argument-list-wrapping" />
-        <error line="287" column="90" source="standard:binary-expression-wrapping" />
-        <error line="287" column="90" source="standard:argument-list-wrapping" />
-        <error line="287" column="101" source="standard:max-line-length" />
-        <error line="287" column="105" source="standard:binary-expression-wrapping" />
-        <error line="287" column="107" source="standard:argument-list-wrapping" />
-        <error line="290" column="30" source="standard:argument-list-wrapping" />
-        <error line="290" column="61" source="standard:argument-list-wrapping" />
-        <error line="325" column="57" source="standard:argument-list-wrapping" />
-        <error line="325" column="78" source="standard:argument-list-wrapping" />
-        <error line="325" column="101" source="standard:max-line-length" />
-        <error line="325" column="105" source="standard:argument-list-wrapping" />
-        <error line="325" column="106" source="standard:final-newline" />
-        <error line="325" column="106" source="standard:argument-list-wrapping" />
+        <error line="198" column="100" source="standard:max-line-length" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/sync/ResourceStorage.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -10441,109 +10296,10 @@
         <error line="26" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/sync/SyncAdapter.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="94" column="40" source="standard:trailing-comma-on-declaration-site" />
-        <error line="116" column="41" source="standard:parameter-list-wrapping" />
-        <error line="117" column="22" source="standard:parameter-list-wrapping" />
-        <error line="117" column="42" source="standard:trailing-comma-on-declaration-site" />
-        <error line="122" column="27" source="standard:parameter-list-wrapping" />
-        <error line="122" column="43" source="standard:parameter-list-wrapping" />
-        <error line="123" column="42" source="standard:parameter-list-wrapping" />
-        <error line="123" column="64" source="standard:trailing-comma-on-declaration-site" />
-        <error line="158" column="19" source="standard:wrapping" />
-        <error line="158" column="20" source="standard:argument-list-wrapping" />
-        <error line="158" column="29" source="standard:argument-list-wrapping" />
-        <error line="186" column="31" source="standard:wrapping" />
-        <error line="186" column="32" source="standard:argument-list-wrapping" />
-        <error line="186" column="41" source="standard:argument-list-wrapping" />
-        <error line="237" column="37" source="standard:comment-spacing" />
-        <error line="261" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="264" column="63" source="standard:argument-list-wrapping" />
-        <error line="264" column="75" source="standard:argument-list-wrapping" />
-        <error line="264" column="86" source="standard:argument-list-wrapping" />
-        <error line="278" column="53" source="standard:argument-list-wrapping" />
-        <error line="279" column="55" source="standard:argument-list-wrapping" />
-        <error line="283" column="57" source="standard:argument-list-wrapping" />
-        <error line="284" column="60" source="standard:argument-list-wrapping" />
-        <error line="287" column="41" source="standard:argument-list-wrapping" />
-        <error line="287" column="101" source="standard:max-line-length" />
-        <error line="287" column="113" source="standard:argument-list-wrapping" />
-        <error line="302" column="47" source="standard:wrapping" />
-        <error line="302" column="48" source="standard:argument-list-wrapping" />
-        <error line="302" column="57" source="standard:argument-list-wrapping" />
-        <error line="319" column="39" source="standard:wrapping" />
-        <error line="319" column="40" source="standard:argument-list-wrapping" />
-        <error line="319" column="49" source="standard:argument-list-wrapping" />
-        <error line="358" column="48" source="standard:multiline-if-else" />
-        <error line="383" column="75" source="standard:binary-expression-wrapping" />
-        <error line="383" column="99" source="standard:binary-expression-wrapping" />
-        <error line="383" column="101" source="standard:max-line-length" />
-        <error line="384" column="80" source="standard:binary-expression-wrapping" />
-        <error line="384" column="101" source="standard:max-line-length" />
-        <error line="420" column="57" source="standard:property-wrapping" />
-        <error line="420" column="101" source="standard:max-line-length" />
-        <error line="464" column="57" source="standard:argument-list-wrapping" />
-        <error line="464" column="101" source="standard:max-line-length" />
-        <error line="464" column="102" source="standard:argument-list-wrapping" />
-        <error line="503" column="50" source="standard:argument-list-wrapping" />
-        <error line="513" column="47" source="standard:wrapping" />
-        <error line="513" column="48" source="standard:argument-list-wrapping" />
-        <error line="513" column="57" source="standard:argument-list-wrapping" />
-        <error line="517" column="63" source="standard:argument-list-wrapping" />
-        <error line="517" column="101" source="standard:max-line-length" />
-        <error line="517" column="104" source="standard:argument-list-wrapping" />
-        <error line="545" column="1" source="standard:no-blank-line-before-rbrace" />
-        <error line="553" column="41" source="standard:trailing-comma-on-declaration-site" />
-        <error line="581" column="60" source="standard:binary-expression-wrapping" />
-        <error line="581" column="76" source="standard:binary-expression-wrapping" />
-        <error line="581" column="101" source="standard:max-line-length" />
-        <error line="610" column="37" source="standard:trailing-comma-on-declaration-site" />
-        <error line="633" column="27" source="standard:wrapping" />
-        <error line="633" column="28" source="standard:argument-list-wrapping" />
-        <error line="645" column="72" source="standard:trailing-comma-on-call-site" />
-        <error line="647" column="1" source="standard:indent" />
-        <error line="647" column="37" source="standard:chain-wrapping" />
-        <error line="661" column="53" source="standard:trailing-comma-on-declaration-site" />
-        <error line="740" column="31" source="standard:trailing-comma-on-declaration-site" />
-        <error line="743" column="22" source="standard:argument-list-wrapping" />
-        <error line="743" column="66" source="standard:argument-list-wrapping" />
-        <error line="743" column="73" source="standard:argument-list-wrapping" />
-        <error line="762" column="30" source="standard:argument-list-wrapping" />
-        <error line="763" column="36" source="standard:argument-list-wrapping" />
-        <error line="770" column="21" source="standard:argument-list-wrapping" />
-        <error line="770" column="47" source="standard:argument-list-wrapping" />
-        <error line="782" column="22" source="standard:argument-list-wrapping" />
-        <error line="791" column="52" source="standard:argument-list-wrapping" />
-        <error line="802" column="42" source="standard:parameter-list-wrapping" />
-        <error line="803" column="29" source="standard:trailing-comma-on-declaration-site" />
-        <error line="812" column="13" source="standard:comment-spacing" />
-        <error line="813" column="13" source="standard:comment-spacing" />
-        <error line="828" column="36" source="standard:multiline-if-else" />
-        <error line="843" column="43" source="standard:argument-list-wrapping" />
-        <error line="843" column="49" source="standard:argument-list-wrapping" />
-        <error line="843" column="55" source="standard:argument-list-wrapping" />
-        <error line="853" column="1" source="standard:no-empty-first-line-in-method-block" />
-        <error line="856" column="46" source="standard:no-multi-spaces" />
-        <error line="869" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="871" column="51" source="standard:no-multi-spaces" />
-        <error line="871" column="91" source="standard:binary-expression-wrapping" />
-        <error line="871" column="101" source="standard:max-line-length" />
-        <error line="885" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="895" column="74" source="standard:function-expression-body" />
-        <error line="905" column="62" source="standard:function-expression-body" />
-        <error line="917" column="20" source="standard:multiline-if-else" />
-        <error line="923" column="30" source="standard:trailing-comma-on-declaration-site" />
-        <error line="932" column="51" source="standard:argument-list-wrapping" />
-        <error line="933" column="33" source="standard:argument-list-wrapping" />
-        <error line="933" column="51" source="standard:argument-list-wrapping" />
-        <error line="937" column="24" source="standard:multiline-if-else" />
-        <error line="982" column="13" source="standard:function-naming" />
-        <error line="982" column="61" source="standard:function-expression-body" />
-        <error line="987" column="13" source="standard:function-naming" />
-        <error line="987" column="60" source="standard:function-expression-body" />
-        <error line="992" column="58" source="standard:trailing-comma-on-declaration-site" />
-        <error line="998" column="32" source="standard:function-expression-body" />
-        <error line="1008" column="1" source="standard:final-newline" />
+        <error line="950" column="100" source="standard:max-line-length" />
+        <error line="958" column="100" source="standard:max-line-length" />
+        <error line="1041" column="13" source="standard:function-naming" />
+        <error line="1044" column="13" source="standard:function-naming" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/sync/SyncBackendProvider.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -11743,25 +11499,6 @@
         <error line="35" column="114" source="standard:argument-list-wrapping" />
         <error line="35" column="115" source="standard:argument-list-wrapping" />
         <error line="59" column="1" source="standard:no-empty-first-line-in-method-block" />
-    </file>
-    <file name="src/main/java/org/totschnig/myexpenses/viewmodel/BackupViewModel.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="27" column="25" source="standard:parameter-list-wrapping" />
-        <error line="27" column="101" source="standard:max-line-length" />
-        <error line="27" column="116" source="standard:parameter-list-wrapping" />
-        <error line="35" column="49" source="standard:function-expression-body" />
-        <error line="43" column="39" source="standard:paren-spacing" />
-        <error line="53" column="29" source="standard:multiline-if-else" />
-        <error line="54" column="29" source="standard:multiline-if-else" />
-        <error line="60" column="21" source="standard:wrapping" />
-        <error line="60" column="22" source="standard:argument-list-wrapping" />
-        <error line="66" column="14" source="standard:paren-spacing" />
-        <error line="72" column="13" source="standard:wrapping" />
-        <error line="72" column="14" source="standard:argument-list-wrapping" />
-        <error line="84" column="39" source="standard:paren-spacing" />
-        <error line="99" column="21" source="standard:wrapping" />
-        <error line="99" column="22" source="standard:argument-list-wrapping" />
-        <error line="130" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/viewmodel/BaseFunctionalityViewModel.kt">
         <error line="3" column="1" source="standard:import-ordering" />

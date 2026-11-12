@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import arrow.core.Either
+import java.io.IOException
 import kotlinx.coroutines.launch
 import org.totschnig.myexpenses.MyApplication
 import org.totschnig.myexpenses.R
@@ -17,14 +18,16 @@ import org.totschnig.myexpenses.provider.doBackup
 import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.crypt.EncryptionHelper
 import org.totschnig.myexpenses.util.io.displayName
-import java.io.IOException
 
 class BackupViewModel(application: Application) : ContentResolvingAndroidViewModel(application) {
 
     sealed class BackupState {
         class Prepared(val appDir: Result<DocumentFile>) : BackupState()
         object Running : BackupState()
-        class Completed(val result: Result<Triple<DocumentFile, String, Either<List<DocumentFile>, List<Boolean>>>>) :
+        class Completed(
+            val result:
+            Result<Triple<DocumentFile, String, Either<List<DocumentFile>, List<Boolean>>>>
+        ) :
             BackupState()
 
         class Purged(val result: Result<Int>) : BackupState()
@@ -32,11 +35,9 @@ class BackupViewModel(application: Application) : ContentResolvingAndroidViewMod
 
     private val backupState = MutableLiveData<BackupState>()
 
-    fun getBackupState(): LiveData<BackupState> {
-        return backupState
-    }
+    fun getBackupState(): LiveData<BackupState> = backupState
 
-    fun doBackup(withSync: Boolean, lenientMode: Boolean) {
+    fun doBackup(syncBackend: String?, lenientMode: Boolean) {
         viewModelScope.launch(coroutineDispatcher) {
             backupState.postValue(BackupState.Running)
             backupState.postValue(
@@ -44,20 +45,23 @@ class BackupViewModel(application: Application) : ContentResolvingAndroidViewMod
                     doBackup(
                         getApplication(),
                         prefHandler,
-                        withSync,
+                        syncBackend,
                         lenientMode
                     ).mapCatching { (backupFile, oldBackups) ->
                         val requireConfirmation =
                             prefHandler.getBoolean(PrefKey.PURGE_BACKUP_REQUIRE_CONFIRMATION, true)
-                        val extraData = if (requireConfirmation || oldBackups.isEmpty())
-                            Either.Left(oldBackups) else
+                        val extraData = if (requireConfirmation || oldBackups.isEmpty()) {
+                            Either.Left(oldBackups)
+                        } else {
                             Either.Right(oldBackups.map { it.delete() })
+                        }
                         Triple(
                             backupFile,
                             backupFile.displayName,
                             extraData
                         )
-                    })
+                    }
+                )
             )
         }
     }
@@ -69,7 +73,8 @@ class BackupViewModel(application: Application) : ContentResolvingAndroidViewMod
                     if (it == null) throw IOException("Unable to open file $uri")
                     EncryptionHelper.isEncrypted(it)
                 }
-            })
+            }
+        )
     }
 
     fun prepare() {
@@ -80,12 +85,12 @@ class BackupViewModel(application: Application) : ContentResolvingAndroidViewMod
 
     fun purgeBackups() {
         viewModelScope.launch(coroutineDispatcher) {
-            (backupState.value as? BackupState.Completed)?.let {
+            (backupState.value as? BackupState.Completed)?.let { completed ->
                 backupState.postValue(
                     BackupState.Purged(
                         runCatching {
                             @Suppress("DEPRECATION")
-                            it.result.getOrThrow().third.fold(
+                            completed.result.getOrThrow().third.fold(
                                 ifLeft = { list ->
                                     list.sumBy {
                                         if (it.delete()) 1 else 0
@@ -96,7 +101,8 @@ class BackupViewModel(application: Application) : ContentResolvingAndroidViewMod
                                 }
                             )
                         }
-                    ))
+                    )
+                )
             }
         }
     }
