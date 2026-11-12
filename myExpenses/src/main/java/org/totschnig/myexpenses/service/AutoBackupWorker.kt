@@ -4,7 +4,12 @@ import android.app.Notification
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import androidx.work.*
+import androidx.work.ExistingWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.Operation
+import androidx.work.WorkManager
+import androidx.work.WorkerParameters
+import java.util.concurrent.TimeUnit
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.activity.PreferenceActivity
 import org.totschnig.myexpenses.preference.PrefHandler
@@ -16,7 +21,6 @@ import org.totschnig.myexpenses.util.AppDirHelper
 import org.totschnig.myexpenses.util.NotificationBuilderWrapper
 import org.totschnig.myexpenses.viewmodel.BackupViewModel
 import timber.log.Timber
-import java.util.concurrent.TimeUnit
 
 abstract class BaseAutoBackupWorker(context: Context, workerParameters: WorkerParameters) :
     NotifyingBaseWorker(context, workerParameters) {
@@ -57,7 +61,8 @@ class AutoBackupWorker(context: Context, workerParameters: WorkerParameters) :
             ) {
                 workManager.enqueue(
                     TimePreference.getScheduledTime(
-                        prefHandler, PrefKey.AUTO_BACKUP_TIME
+                        prefHandler,
+                        PrefKey.AUTO_BACKUP_TIME
                     )
                 )
             } else {
@@ -76,13 +81,21 @@ class AutoBackupWorker(context: Context, workerParameters: WorkerParameters) :
 
     override suspend fun doWork(): Result {
         Timber.w("now doWork $WORK_NAME")
-        doBackup(applicationContext, prefHandler, true).onSuccess { (_, oldBackups) ->
+        doBackup(
+            applicationContext,
+            prefHandler,
+            prefHandler.cloudStorage
+        ).onSuccess { (_, oldBackups) ->
             if (oldBackups.isNotEmpty()) {
                 val requireConfirmation =
                     prefHandler.getBoolean(PrefKey.PURGE_BACKUP_REQUIRE_CONFIRMATION, true)
                 if (requireConfirmation) {
                     val builder = buildMessage(
-                        "${wrappedContext.getString(R.string.dialog_title_purge_backups)} (${oldBackups.size})"
+                        "${
+                            wrappedContext.getString(
+                                R.string.dialog_title_purge_backups
+                            )
+                        } (${oldBackups.size})"
                     )
                     builder.addAction(
                         0,
@@ -114,7 +127,8 @@ class AutoBackupWorker(context: Context, workerParameters: WorkerParameters) :
                 } else {
                     notify(
                         buildMessage(
-                            BackupViewModel.purgeResult2Message(wrappedContext,
+                            BackupViewModel.purgeResult2Message(
+                                wrappedContext,
                                 oldBackups.map { it.delete() }
                             )
                         ).build()
@@ -124,9 +138,14 @@ class AutoBackupWorker(context: Context, workerParameters: WorkerParameters) :
         }.onFailure {
             prefHandler.putBoolean(PrefKey.AUTO_BACKUP, false)
             val content =
-                "${it.message} ${wrappedContext.getString(R.string.warning_auto_backup_deactivated)}"
+                "${it.message} ${
+                    wrappedContext.getString(
+                        R.string.warning_auto_backup_deactivated
+                    )
+                }"
             val preferenceIntent = PreferenceActivity.getIntent(
-                applicationContext, prefHandler.getKey(PrefKey.CATEGORY_BACKUP_RESTORE)
+                applicationContext,
+                prefHandler.getKey(PrefKey.CATEGORY_BACKUP_RESTORE)
             )
             val builder = buildMessage(content)
                 .setContentIntent(
@@ -154,7 +173,8 @@ class BackupPurgeWorker(context: Context, workerParameters: WorkerParameters) :
                 buildMessage(
                     BackupViewModel.purgeResult2Message(
                         applicationContext,
-                        listOldBackups(appDir, prefHandler).map { it.delete() })
+                        listOldBackups(appDir, prefHandler).map { it.delete() }
+                    )
                 ).build()
             )
         }

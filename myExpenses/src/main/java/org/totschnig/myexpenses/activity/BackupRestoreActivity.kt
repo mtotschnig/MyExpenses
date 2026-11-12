@@ -27,11 +27,14 @@ import eltos.simpledialogfragment.form.Input
 import eltos.simpledialogfragment.form.SimpleFormDialog
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.dialog.BackupSourcesDialogFragment
+import org.totschnig.myexpenses.dialog.ConfirmBackupDialogFragment
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_COMMAND_POSITIVE
+import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.Companion.KEY_POSITIVE_BUTTON_LABEL
 import org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.ConfirmationDialogListener
-import org.totschnig.myexpenses.dialog.DialogUtils
 import org.totschnig.myexpenses.dialog.getDisplayName
 import org.totschnig.myexpenses.preference.PrefKey
+import org.totschnig.myexpenses.sync.GenericAccountService
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.io.displayName
 import org.totschnig.myexpenses.util.safeMessage
@@ -42,7 +45,10 @@ import org.totschnig.myexpenses.viewmodel.RestoreViewModel.Companion.KEY_ENCRYPT
 import org.totschnig.myexpenses.viewmodel.RestoreViewModel.Companion.KEY_FILE_PATH
 import org.totschnig.myexpenses.viewmodel.RestoreViewModel.Companion.KEY_PASSWORD
 
-class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
+class BackupRestoreActivity :
+    RestoreActivity(),
+    ConfirmationDialogListener,
+    ConfirmBackupDialogFragment.ConfirmBackupDialogListener,
     OnDialogResultListener {
     private val backupViewModel: BackupViewModel by viewModels()
 
@@ -62,7 +68,9 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
             }
             when (backupState) {
                 is BackupState.Prepared -> backupState.appDir.onSuccess { file ->
-                    if (supportFragmentManager.findFragmentByTag(FRAGMENT_TAG_CONFIRM_BACKUP) == null) {
+                    if (supportFragmentManager.findFragmentByTag(FRAGMENT_TAG_CONFIRM_BACKUP) ==
+                        null
+                    ) {
                         val isProtected =
                             !TextUtils.isEmpty(prefHandler.getString(PrefKey.EXPORT_PASSWORD, null))
                         val message = StringBuilder().append(
@@ -74,116 +82,109 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
                             .append(" ")
                         if (isProtected) {
                             message.append(getString(R.string.warning_backup_protected)).append(" ")
-                        } else if (prefHandler.getBoolean(PrefKey.PROTECTION_LEGACY, false)
-                            || prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false)
-                            || prefHandler.encryptDatabase
+                        } else if (prefHandler.getBoolean(PrefKey.PROTECTION_LEGACY, false) ||
+                            prefHandler.getBoolean(PrefKey.PROTECTION_DEVICE_LOCK_SCREEN, false) ||
+                            prefHandler.encryptDatabase
                         ) {
                             message.append(unencryptedBackupWarning).append(" ")
                         }
                         message.append(getString(R.string.continue_confirmation))
-                        ConfirmationDialogFragment.newInstance(Bundle().apply {
-                            if (isProtected) {
-                                putString(
-                                    ConfirmationDialogFragment.KEY_TITLE_STRING,
-                                    "${getString(R.string.menu_backup)} (${getString(R.string.encrypted)})"
-                                )
-                            } else {
-                                putInt(
-                                    ConfirmationDialogFragment.KEY_TITLE,
-                                    R.string.menu_backup
-                                )
-                            }
-                            putString(
-                                ConfirmationDialogFragment.KEY_MESSAGE,
-                                message.toString()
-                            )
-                            putInt(
-                                ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-                                R.id.BACKUP_COMMAND
-                            )
-                            putInt(
-                                ConfirmationDialogFragment.KEY_ICON,
-                                if (isProtected) R.drawable.ic_lock else 0
-                            )
-                            prefHandler.cloudStorage?.let {
-                                putString(
-                                    ConfirmationDialogFragment.KEY_CHECKBOX_LABEL,
-                                    getString(R.string.backup_save_to_sync_backend, it)
-                                )
-                                putBoolean(
-                                    ConfirmationDialogFragment.KEY_CHECKBOX_INITIALLY_CHECKED,
-                                    prefHandler.getBoolean(
-                                        PrefKey.SAVE_TO_SYNC_BACKEND_CHECKED,
-                                        false
-                                    )
-                                )
-                            }
-                        })
-                            .show(supportFragmentManager, FRAGMENT_TAG_CONFIRM_BACKUP)
+                        val accounts =
+                            GenericAccountService.getAccountNames(this@BackupRestoreActivity)
+                        ConfirmBackupDialogFragment.newInstance(
+                            message.toString(),
+                            isProtected,
+                            accounts
+                        ).show(supportFragmentManager, FRAGMENT_TAG_CONFIRM_BACKUP)
                     }
                 }.onFailure {
                     abort(it.safeMessage)
                 }
+
                 is Running -> showSnackBarIndefinite(R.string.menu_backup)
-                is BackupState.Completed -> backupState.result.onSuccess { (file, path, extraData) ->
-                    if (supportFragmentManager.findFragmentByTag(FRAGMENT_TAG_CONFIRM_PURGE) == null) {
-                        var message = getString(R.string.backup_success, path)
-                        if (prefHandler.getBoolean(PrefKey.PERFORM_SHARE, false)) {
-                            val uris = ArrayList<Uri>()
-                            uris.add(file.uri)
-                            baseViewModel.share(
-                                this, uris,
-                                prefHandler.requireString(PrefKey.SHARE_TARGET, "").trim(),
-                                "application/zip"
+
+                is BackupState.Completed -> {
+                    backupState.result.onSuccess { (file, path, extraData) ->
+                        if (supportFragmentManager.findFragmentByTag(FRAGMENT_TAG_CONFIRM_PURGE) ==
+                            null
+                        ) {
+                            var message = getString(R.string.backup_success, path)
+                            if (prefHandler.getBoolean(PrefKey.PERFORM_SHARE, false)) {
+                                val uris = ArrayList<Uri>()
+                                uris.add(file.uri)
+                                baseViewModel.share(
+                                    this,
+                                    uris,
+                                    prefHandler.requireString(PrefKey.SHARE_TARGET, "").trim(),
+                                    "application/zip"
+                                )
+                            }
+                            extraData.fold(
+                                ifLeft = { purgeList ->
+                                    if (purgeList.isEmpty()) {
+                                        showDismissibleSnackBar(message, onDismissed)
+                                    } else {
+                                        dismissSnackBar()
+                                        ConfirmationDialogFragment.newInstance(
+                                            Bundle().apply {
+                                                putInt(
+                                                    ConfirmationDialogFragment.KEY_TITLE,
+                                                    R.string.dialog_title_purge_backups
+                                                )
+                                                putString(
+                                                    ConfirmationDialogFragment.KEY_MESSAGE,
+                                                    buildString {
+                                                        append(message)
+                                                        append("\n")
+                                                        append(getString(R.string.purge_backups))
+                                                        append("\n")
+                                                        append(
+                                                            purgeList.joinToString("\n") {
+                                                                " • " +
+                                                                    (
+                                                                        it.name
+                                                                            ?: it.uri.toString()
+                                                                        )
+                                                            }
+                                                        )
+                                                    }
+                                                )
+                                                putInt(
+                                                    KEY_COMMAND_POSITIVE,
+                                                    R.id.PURGE_BACKUPS_COMMAND
+                                                )
+                                                putInt(
+                                                    KEY_POSITIVE_BUTTON_LABEL,
+                                                    R.string.menu_delete
+                                                )
+                                            }
+                                        )
+                                            .show(
+                                                supportFragmentManager,
+                                                FRAGMENT_TAG_CONFIRM_PURGE
+                                            )
+                                    }
+                                },
+                                ifRight = { list ->
+                                    message += BackupViewModel.purgeResult2Message(this, list)
+                                    showDismissibleSnackBar(message, onDismissed)
+                                }
                             )
                         }
-                        extraData.fold(
-                            ifLeft = { purgeList ->
-                                if (purgeList.isEmpty()) {
-                                    showDismissibleSnackBar(message, onDismissed)
-                                } else {
-                                    dismissSnackBar()
-                                    ConfirmationDialogFragment.newInstance(Bundle().apply {
-                                        putInt(
-                                            ConfirmationDialogFragment.KEY_TITLE,
-                                            R.string.dialog_title_purge_backups
-                                        )
-                                        putString(
-                                            ConfirmationDialogFragment.KEY_MESSAGE,
-                                            message + "\n" + getString(R.string.purge_backups) + "\n" +
-                                                    purgeList.joinToString("\n") {
-                                                        " • " + (it.name ?: it.uri.toString())
-                                                    }
-                                        )
-                                        putInt(
-                                            ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
-                                            R.id.PURGE_BACKUPS_COMMAND
-                                        )
-                                        putInt(
-                                            ConfirmationDialogFragment.KEY_POSITIVE_BUTTON_LABEL,
-                                            R.string.menu_delete
-                                        )
-                                    })
-                                        .show(supportFragmentManager, FRAGMENT_TAG_CONFIRM_PURGE)
-                                }
-                            },
-                            ifRight = { list ->
-                                message += BackupViewModel.purgeResult2Message(this, list)
-                                showDismissibleSnackBar(message, onDismissed)
-                            }
-                        )
+                    }.onFailure {
+                        CrashHandler.report(it)
+                        showDismissibleSnackBar(it.safeMessage, onDismissed)
                     }
-                }.onFailure {
-                    CrashHandler.report(it)
-                    showDismissibleSnackBar(it.safeMessage, onDismissed)
                 }
+
                 is BackupState.Purged -> backupState.result.onSuccess {
                     showDismissibleSnackBar(
                         resources.getQuantityString(
                             R.plurals.purge_backup_success,
                             it,
                             it
-                        ), onDismissed
+                        ),
+                        onDismissed
                     )
                 }.onFailure {
                     CrashHandler.report(it)
@@ -198,9 +199,11 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
             ACTION_BACKUP -> {
                 backupViewModel.prepare()
             }
+
             ACTION_RESTORE, Intent.ACTION_VIEW -> {
                 BackupSourcesDialogFragment.newInstance(intent.data).show(
-                    supportFragmentManager, FRAGMENT_TAG_RESTORE
+                    supportFragmentManager,
+                    FRAGMENT_TAG_RESTORE
                 )
             }
         }
@@ -212,19 +215,21 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
 
     private fun showRestoreDialog(bundle: Bundle) {
         bundle.putInt(ConfirmationDialogFragment.KEY_TITLE, R.string.pref_restore_title)
-        val message = (getString(
-            R.string.warning_restore,
-            contentResolver.getDisplayName(
-                BundleCompat.getParcelable(bundle, KEY_FILE_PATH, Uri::class.java)!!
+        val message = (
+            getString(
+                R.string.warning_restore,
+                contentResolver.getDisplayName(
+                    BundleCompat.getParcelable(bundle, KEY_FILE_PATH, Uri::class.java)!!
+                )
+            ) +
+                " " + getString(R.string.continue_confirmation)
             )
-        )
-                + " " + getString(R.string.continue_confirmation))
         bundle.putString(
             ConfirmationDialogFragment.KEY_MESSAGE,
             message
         )
         bundle.putInt(
-            ConfirmationDialogFragment.KEY_COMMAND_POSITIVE,
+            KEY_COMMAND_POSITIVE,
             R.id.RESTORE_COMMAND
         )
         ConfirmationDialogFragment.newInstance(bundle).show(
@@ -258,11 +263,14 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
         val args = buildRestoreArgs(mUri, encrypt)
         backupViewModel.isEncrypted(mUri).observe(this) { result ->
             result.onFailure {
-                showDismissibleSnackBar(it.safeMessage, object : Snackbar.Callback() {
-                    override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
-                        finish()
+                showDismissibleSnackBar(
+                    it.safeMessage,
+                    object : Snackbar.Callback() {
+                        override fun onDismissed(transientBottomBar: Snackbar?, event: Int) {
+                            finish()
+                        }
                     }
-                })
+                )
             }.onSuccess {
                 if (it) {
                     SimpleFormDialog.build().msg(R.string.backup_is_encrypted)
@@ -299,16 +307,21 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
         return false
     }
 
+    override fun onConfirmBackup(syncBackend: String?) {
+        backupViewModel.doBackup(syncBackend, intent.getBooleanExtra(EXTRA_LENIENT_MODE, false))
+    }
+
+    override fun onCancelBackup() {
+        abort()
+    }
+
     override fun onPositive(args: Bundle, checked: Boolean) {
         super.onPositive(args, checked)
-        when (args.getInt(ConfirmationDialogFragment.KEY_COMMAND_POSITIVE)) {
-            R.id.BACKUP_COMMAND -> {
-                prefHandler.putBoolean(PrefKey.SAVE_TO_SYNC_BACKEND_CHECKED, checked)
-                backupViewModel.doBackup(checked, intent.getBooleanExtra(EXTRA_LENIENT_MODE, false))
-            }
+        when (args.getInt(KEY_COMMAND_POSITIVE)) {
             R.id.RESTORE_COMMAND -> {
                 doRestore(args)
             }
+
             R.id.PURGE_BACKUPS_COMMAND -> {
                 backupViewModel.purgeBackups()
             }
@@ -347,6 +360,7 @@ class BackupRestoreActivity : RestoreActivity(), ConfirmationDialogListener,
         private const val DIALOG_TAG_PASSWORD = "PASSWORD"
         const val ACTION_BACKUP = "BACKUP"
         const val ACTION_RESTORE = "RESTORE"
+
         // if this extra is passed in, backups will be done even if database cannot be opened
         // This should allow to back up data, even if app crashes on start due to a database upgrade failure
         // by starting settings screen from system settings

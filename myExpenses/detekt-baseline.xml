@@ -692,7 +692,6 @@
     <ID>MaxLineLength:Archive.kt:"UPDATE $TABLE_TRANSACTIONS SET $KEY_PARENTID = null, $KEY_STATUS = $STATUS_NONE WHERE $KEY_PARENTID = $rowIdSubSelect "</ID>
     <ID>MaxLineLength:Archive.kt://If we archive a cash account, where we find multiple states (which can happen when user updates account type),</ID>
     <ID>MaxLineLength:Archive.kt:query(TABLE_ACCOUNT_TYPES, null, "$KEY_ROWID = (SELECT $KEY_TYPE FROM $TABLE_ACCOUNTS WHERE $KEY_ROWID = ?)", arrayOf(accountId))</ID>
-    <ID>MaxLineLength:BackupUtils.kt:it.name?.matches("""${prefHandler.backupFilePrefix}-\d\d\d\d\d\d\d\d-\d\d\d\d\d\d\..+""".toRegex()) == true</ID>
     <ID>MaxLineLength:BaseActivity.kt:BaseActivity$//This should be an exceptional case, for example user has installed Dropbox # Jackson, then uninstalls Jackson.</ID>
     <ID>MaxLineLength:BaseActivity.kt:BaseActivity$//after the dynamic feature module has been installed, we need to check if data needed by the module (e.g. Tesseract) has been downloaded</ID>
     <ID>MaxLineLength:BaseActivity.kt:BaseActivity$//when later we need to install Jackson again, we no longer know for which feature to call onFeatureAvailable</ID>
@@ -1199,12 +1198,9 @@
     <ID>NewLineAtEndOfFile:ArchiveTest.kt:org.totschnig.myexpenses.provider.ArchiveTest.kt</ID>
     <ID>NewLineAtEndOfFile:ArrayUtils.kt:org.totschnig.myexpenses.util.ArrayUtils.kt</ID>
     <ID>NewLineAtEndOfFile:AttachmentInfo.kt:org.totschnig.myexpenses.viewmodel.data.AttachmentInfo.kt</ID>
-    <ID>NewLineAtEndOfFile:AutoBackupWorker.kt:org.totschnig.myexpenses.service.AutoBackupWorker.kt</ID>
     <ID>NewLineAtEndOfFile:BackendService.kt:org.totschnig.myexpenses.sync.BackendService.kt</ID>
     <ID>NewLineAtEndOfFile:BackupPurgeReceiver.kt:org.totschnig.myexpenses.service.BackupPurgeReceiver.kt</ID>
-    <ID>NewLineAtEndOfFile:BackupRestoreActivity.kt:org.totschnig.myexpenses.activity.BackupRestoreActivity.kt</ID>
     <ID>NewLineAtEndOfFile:BackupSourcesDialogFragment.kt:org.totschnig.myexpenses.dialog.BackupSourcesDialogFragment.kt</ID>
-    <ID>NewLineAtEndOfFile:BackupUtils.kt:org.totschnig.myexpenses.provider.BackupUtils.kt</ID>
     <ID>NewLineAtEndOfFile:BackupViewModel.kt:org.totschnig.myexpenses.viewmodel.BackupViewModel.kt</ID>
     <ID>NewLineAtEndOfFile:BalanceDialogFragment.kt:org.totschnig.myexpenses.dialog.BalanceDialogFragment.kt</ID>
     <ID>NewLineAtEndOfFile:BalanceSheetPdfGenerator.kt:org.totschnig.myexpenses.export.pdf.BalanceSheetPdfGenerator.kt</ID>
@@ -1276,7 +1272,6 @@
     <ID>NewLineAtEndOfFile:ConfigurationModule.kt:org.totschnig.myexpenses.di.ConfigurationModule.kt</ID>
     <ID>NewLineAtEndOfFile:Configurator.kt:org.totschnig.myexpenses.util.config.Configurator.kt</ID>
     <ID>NewLineAtEndOfFile:ConfirmTagDialogFragment.kt:org.totschnig.myexpenses.fragment.ConfirmTagDialogFragment.kt</ID>
-    <ID>NewLineAtEndOfFile:ConfirmationDialogFragment.kt:org.totschnig.myexpenses.dialog.ConfirmationDialogFragment.kt</ID>
     <ID>NewLineAtEndOfFile:ContentResolverExt.kt:org.totschnig.myexpenses.provider.ContentResolverExt.kt</ID>
     <ID>NewLineAtEndOfFile:ContentResolvingAndroidViewModel.kt:org.totschnig.myexpenses.viewmodel.ContentResolvingAndroidViewModel.kt</ID>
     <ID>NewLineAtEndOfFile:ContextHelper.kt:org.totschnig.myexpenses.ui.ContextHelper.kt</ID>
@@ -1487,7 +1482,6 @@
     <ID>NewLineAtEndOfFile:PreDefinedPaymentMethod.kt:org.totschnig.myexpenses.model.PreDefinedPaymentMethod.kt</ID>
     <ID>NewLineAtEndOfFile:PrefHandler.kt:org.totschnig.myexpenses.preference.PrefHandler.kt</ID>
     <ID>NewLineAtEndOfFile:PrefHandlerImpl.kt:org.totschnig.myexpenses.preference.PrefHandlerImpl.kt</ID>
-    <ID>NewLineAtEndOfFile:PrefKey.kt:org.totschnig.myexpenses.preference.PrefKey.kt</ID>
     <ID>NewLineAtEndOfFile:PreferenceActivity.kt:org.totschnig.myexpenses.activity.PreferenceActivity.kt</ID>
     <ID>NewLineAtEndOfFile:PreferenceDataFragment.kt:org.totschnig.myexpenses.fragment.preferences.PreferenceDataFragment.kt</ID>
     <ID>NewLineAtEndOfFile:PreferenceDataStore.kt:org.totschnig.myexpenses.preference.PreferenceDataStore.kt</ID>
@@ -1854,7 +1848,7 @@
     <ID>TooManyFunctions:AppComponent.kt:AppComponent</ID>
     <ID>TooManyFunctions:AppComponent.kt:AppComponent$Builder</ID>
     <ID>TooManyFunctions:AppDirHelper.kt:AppDirHelper</ID>
-    <ID>TooManyFunctions:BackupRestoreActivity.kt:BackupRestoreActivity : RestoreActivityConfirmationDialogListenerOnDialogResultListener</ID>
+    <ID>TooManyFunctions:BackupRestoreActivity.kt:BackupRestoreActivity : RestoreActivityConfirmationDialogListenerConfirmBackupDialogListenerOnDialogResultListener</ID>
     <ID>TooManyFunctions:BaseActivity.kt:BaseActivity : AppCompatActivityMessageDialogListenerConfirmationDialogListenerPermissionCallbacksHostContribIFaceOnDialogResultListenerOnSharedPreferenceChangeListenerOcrHost</ID>
     <ID>TooManyFunctions:BaseDialogFragment.kt:BaseDialogFragment : DialogFragment</ID>
     <ID>TooManyFunctions:BaseMyExpenses.kt:BaseMyExpenses&lt;T : MyExpensesViewModel&gt; : LaunchActivityHost</ID>
@@ -1959,7 +1953,6 @@
     <ID>VariableNaming:QifUtilParseDateTest.kt:QifUtilParseDateTest$private val VERIFICATION_FORMAT = SimpleDateFormat("yyyy-MM-dd")</ID>
     <ID>VariableNaming:QifUtilParseDateTest.kt:QifUtilParseDateTest$private val VERIFICATION_FORMAT_WITH_TIME = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")</ID>
     <ID>WildcardImport:AccountEditViewModel.kt:import org.totschnig.myexpenses.db2.*</ID>
-    <ID>WildcardImport:AutoBackupWorker.kt:import androidx.work.*</ID>
     <ID>WildcardImport:MainPreferenceFragment.kt:import androidx.preference.*</ID>
     <ID>WildcardImport:PackageTest.kt:import org.junit.Assert.*</ID>
     <ID>WildcardImport:StorageAccessFrameworkBackendProvider.kt:import java.io.*</ID>

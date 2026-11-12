@@ -103,7 +103,7 @@ class BudgetActivity : DistributionBaseActivity<BudgetViewModel2>(), OnDialogRes
     private var hasRollovers: Boolean? = null
     private lateinit var chart: RadarChart
 
-    override val showChartPrefKey = PrefKey.BUDGEt_SHOW_CHART
+    override val showChartPrefKey = PrefKey.BUDGET_SHOW_CHART
 
     override val showChartDefault = false
 
