@@ -7,7 +7,7 @@
     <string name="cab_delete_help_text">Supprimer les éléments sélectionnés.</string>
     <string name="cab_edit_help_text">Modifier l\'élément sélectionné.</string>
     <string name="help_MyExpenses_title">Liste des opérations</string>
-    <string name="popup_MyExpenses_toolbar_intro">En appuyant sur la barre d\'outils (libellé de compte ou solde actuel), un menu apparaît avec les entrées suivantes :</string>
+    <string name="popup_MyExpenses_toolbar_intro">En appuyant sur la barre d\'outils (libellé de compte ou solde actuel), un menu apparaît avec les entrées suivantes :</string>
     <string name="popup_MyExpenses_toolbar_copy_text">Copiez le solde actuel dans le presse-papiers.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">Calculez la différence entre le solde actuel et une nouvelle valeur.</string>
     <string name="menu_status_handle_help_text">L\'état de la transaction est indiquée par la couleur du rectangle : gris pour non-rapprochée, bleu pour pointé, vert pour rapprochée. Cliquer sur le rectangle modifie l\'état.</string>
