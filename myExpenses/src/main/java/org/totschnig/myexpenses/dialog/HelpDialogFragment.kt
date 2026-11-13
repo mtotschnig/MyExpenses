@@ -54,7 +54,7 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
             "clone_transaction" to R.drawable.ic_menu_copy,
             "create_instance_edit" to R.drawable.ic_action_apply_edit,
             "create_instance_save" to R.drawable.ic_action_apply_save,
-            "create_account" to R.drawable.ic_menu_add,
+            "create_account" to R.drawable.account_balance,
             "create_split" to R.drawable.ic_menu_split,
             "create_sub_cat" to R.drawable.ic_menu_add,
             "delete" to R.drawable.ic_menu_delete,
@@ -118,7 +118,7 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
             "account_flags" to R.drawable.ic_flag,
             "flag" to R.drawable.ic_flag,
             "balance_sheet" to R.drawable.ic_table_chart,
-            "create_portfolio" to R.drawable.ic_menu_chart,
+            "create_portfolio" to R.drawable.ic_history,
             "expense" to R.drawable.ic_expense,
             "income" to R.drawable.ic_menu_add,
             "transfer" to R.drawable.ic_menu_forward,
@@ -221,7 +221,13 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
                 binding.cabCommandsHelp.visibility = View.GONE
             }
             val titleResId =
-                if (variant != null) helper.resolveString("help_" + context + "_" + variant + "_title") else 0
+                if (variant !=
+                    null
+                ) {
+                    helper.resolveString("help_" + context + "_" + variant + "_title")
+                } else {
+                    0
+                }
             val title = args.getString(KEY_TITLE) ?: if (titleResId == 0) {
                 helper.getStringOrThrowIf0("help_" + context + "_title")
             } else {
@@ -246,7 +252,6 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
         .setMessage(message)
         .create()
 
-
     private fun showLongTapHint(componentName: String) =
         componentName !in arrayOf(
             "ManageTemplates_plans_cabitems",
@@ -254,18 +259,22 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
             "ManageParties_manage_cabitems",
             "ManageCategories_manage_cabitems",
             "ManageCategories_select_filter_cabitems",
-            "MyExpenses_cabitems",
             "RoadmapVoteActivity_cabitems",
             "PriceHistory_cabitems",
-            "MyExpensesV2_accounts_cabitems"
+            "MyExpensesV2_accounts_cabitems",
+            "MyExpensesV2_transactions_cabitems"
         )
 
     private fun findComponentArray(type: String) =
         helper.resolveArray(buildComponentName(type)).takeIf { it != 0 || variant == null }
             ?: helper.resolveArray(context + "_" + type)
 
-    private fun buildComponentName(type: String): String {
-        return if (variant != null) context + "_" + variant + "_" + type else context + "_" + type
+    private fun buildComponentName(type: String): String = if (variant !=
+        null
+    ) {
+        context + "_" + variant + "_" + type
+    } else {
+        context + "_" + type
     }
 
     /**
@@ -297,13 +306,13 @@ class HelpDialogFragment : DialogViewBinding<HelpDialogBinding>() {
                     }
                 } else {
                     rowBinding.listCheckbox.visibility = View.VISIBLE
-                    //menu entries without entries in the map are checkable
+                    // menu entries without entries in the map are checkable
                 }
             }
 
-            //we look for a help text specific to the variant first, then to the activity
-            //and last a generic one
-            //We look for an array first, which allows us to compose messages of parts
+            // we look for a help text specific to the variant first, then to the activity
+            // and last a generic one
+            // We look for an array first, which allows us to compose messages of parts
             val helpText = variant?.let {
                 helper.resolveStringOrArray(
                     prefix + "_" + context + "_" + it + "_" + item + "_help_text",

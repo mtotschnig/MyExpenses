@@ -7,8 +7,6 @@
     <string name="cab_delete_help_text">Hapus item yang dipilih.</string>
     <string name="cab_edit_help_text">Edit item yang dipilih.</string>
     <string name="help_MyExpenses_title">Daftar transaksi</string>
-    <string name="help_MyExpenses_info">Layar ini menampilkan semua transaksi untuk akun saat ini. Gunakan tombol aksi mengambang untuk membuka formulir pembuatan transaksi baru.</string>
-    <string name="help_MyExpenses_fab_long_press">Mengetuk panjang pada tombol aksi mengambang akan membuka menu yang memungkinkan Anda mempersiapkan formulir untuk transfer, transaksi terbagi, atau pemasukan.</string>
     <string name="popup_MyExpenses_toolbar_intro">Mengetuk toolbar (label akun atau saldo saat ini) akan memunculkan menu dengan entri-entri berikut:</string>
     <string name="popup_MyExpenses_toolbar_copy_text">Salin saldo saat ini ke clipboard.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">Hitung selisih antara saldo saat ini dengan nilai baru.</string>
@@ -214,10 +212,6 @@
     <string name="dynamic_exchange_rate_help_text_3">Opsi %s memungkinkan Anda melacak kekayaan bersih terbaru dari semua akun Anda.</string>
     <string name="help_user_exchange_rate">Nilai tukar ini diberikan oleh pengguna saat mengedit jumlah ekuivalen suatu transaksi.</string>
     <string name="help_calculated_exchange_rate">Nilai tukar ini dihitung secara otomatis dari nilai tukar yang ada, ketika mata uang utama dikonfigurasi ulang.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_intro">Dengan opsi ini dicentang, Anda dapat melihat bagaimana setiap akun mata uang asing berkontribusi terhadap total keseluruhan dalam mata uang utama Anda. Jika sebuah akun tidak menggunakan nilai tukar dinamis, nilainya dihitung berdasarkan nilai tukar yang ditetapkan dalam properti akun. Jika tidak:</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_1"><b>Nilai awal</b> didasarkan pada nilai tukar yang ditetapkan dalam properti akun.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_2"><b>Jumlah pemasukan dan pengeluaran</b> dihitung menggunakan jumlah ekuivalen yang ditentukan untuk setiap transaksi.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_3"><b>Nilai saat ini</b> didasarkan pada nilai tukar terbaru untuk mata uang akun.</string>
     <string name="help_PrintLayoutConfiguration_info">Kolom dapat diubah ukurannya dengan menyeret persegi panjang hitam di antara kolom. Ikon &lt;img src=add_column_start&gt; dan &lt;img src=add_column_end&gt; memungkinkan penambahan kolom baru. Bidang dapat diseret, lalu dijatuhkan ke posisi baru atau ke area daur ulang. Jika Anda menjatuhkan suatu bidang ke atas bidang lain, Anda membuat bidang gabungan, artinya kedua bidang akan dicetak bersama pada satu baris.</string>
     <string name="account_types_help_v2">Jenis akun mengklasifikasikan akun sebagai \n• <b>Aset</b> (sesuatu yang Anda miliki, seperti uang tunai, rekening bank, atau investasi) atau sebagai \n• <b>Liabilitas</b> (sesuatu yang Anda tanggung, seperti kartu kredit atau pinjaman). \nAnda dapat menambahkan jenis kustom dan mengatur urutannya, yang terutama memengaruhi bagaimana jenis tersebut ditampilkan pada neraca.</string>
     <string name="account_flags_help_v2">Flag memungkinkan Anda mengatur visibilitas dan prioritas akun: \n• Sembunyikan akun yang jarang digunakan, sambil tetap memilih apakah akun yang tidak terlihat disertakan dalam akun agregat dan neraca. \n• Prioritaskan akun favorit dalam pemilihan akun pada formulir transaksi. \nAnda juga dapat menggunakan flag untuk menandai akun yang dimiliki untuk tujuan tertentu, seperti akun rumah tangga versus pribadi, lalu secara bergantian hanya menampilkan salah satunya.</string>

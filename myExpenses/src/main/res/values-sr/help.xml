@@ -6,5 +6,4 @@
   <string name="cab_delete_help_text">Обрисати одабране ставке.</string>
   <string name="cab_edit_help_text">Измените изабрану ставку.</string>
   <string name="help_MyExpenses_title">Листа трансакција</string>
-  <string name="help_MyExpenses_info">Овај екран приказује све трансакције на текућем рачуну. Користите дугме плутајуће акције за отварање форме и стварање нове трансакцију.</string>
 </resources>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="help_menu_commands">Comandos de menú</string>
     <string name="help_contextual_actions">Acciones contextuales</string>
     <string name="help_contextual_actions_help">El menú contextual de acciones se muestra al realizar una pulsación prolongada en una entrada de la lista.</string>
@@ -7,8 +7,11 @@
     <string name="cab_delete_help_text">Eliminar los elementos seleccionados.</string>
     <string name="cab_edit_help_text">Editar el elemento seleccionado.</string>
     <string name="help_MyExpenses_title">Lista de transacciones</string>
-    <string name="help_MyExpenses_info">Esta pantalla muestra todas las transacciones de su actual cuenta corriente. Utilice el botón de acción flotante para abrir el formulario y crear una nueva transacción. </string>
-    <string name="help_MyExpenses_fab_long_press">Una pulsación prolongada del botón de acción flotante abre un menú que permite preparar el formulario para transferencia, división de la transacción o ingreso.</string>
+    <string name="help_MyExpensesV2_accounts_info"><![CDATA[Gestione sus cuentas y realice un seguimiento de su patrimonio neto. Cambie entre la lista de cuentas y el balance de situación mediante el menú desplegable de la barra de herramientas. Utilice el menú <img src="tune"> <b>%1$s</b> para agrupar y ordenar cuentas, y el menú <img src="data"> <b>%2$s</b> para configurar tipos, marcas y monedas. Toque una cuenta para ver su resumen, o el icono <img src="ic_chevron_end"> para ver sus transacciones. El icono <img src="more"> proporciona acciones adicionales para cada cuenta.]]></string>
+    <string name="help_MyExpensesV2_transactions_info">Vea y gestione las transacciones de la cuenta seleccionada. Utilice el botón de acción flotante para añadir nuevas transacciones.</string>
+    <string name="help_MyExpensesV2_portfolio_info">Realice un seguimiento de sus inversiones en esta cartera. Puede importar operaciones y ver la distribución de sus activos. El resumen de la cuenta enlaza con la pantalla de precios, donde se puede establecer el precio actual de un activo.</string>
+    <string name="menu_import_trades_help_text">Importe operaciones de inversión desde un archivo CSV a su cartera.</string>
+    <string name="menu_sync_help_text">Inicie una sincronización inmediata con el servicio en la nube configurado para la cuenta actual.</string>
     <string name="popup_MyExpenses_toolbar_intro">Al pulsar sobre la barra de herramientas (etiqueta de la cuenta o saldo actual) aparece un menú con las siguientes entradas:</string>
     <string name="popup_MyExpenses_toolbar_copy_text">Copiar el saldo actual en el portapapeles.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">Calcular la diferencia entre el saldo actual y un nuevo valor.</string>
@@ -33,8 +36,10 @@
     <string name="help_ManageParties_select_mapping_info">Seleccione un grupo pulsando sobre él.</string>
     <string name="help_ManageParties_select_filter_info">Seleccione todas las partes que desee utilizar para filtrar la lista de transacciones.</string>
     <string name="help_ManageParties_floating_action_button">Utilice el botón de acción flotante para añadir una nueva entrada.</string>
-    <string name="menu_merge_help_text">Si el mismo grupo aparece varias veces en la lista con diferentes variantes ortográficas, puede fusionarlas.</string>
+    <string name="help_fab_confirm_selection">Utilice el botón de acción flotante para confirmar la selección.</string>
+    <string name="help_ManageParties_mergeMode_info_1">Seleccione las partidas duplicadas que desea fusionar.</string>
     <string name="help_ManageParties_mergeMode_info_2">Se le pedirá que seleccione la variante que desea conservar.</string>
+    <string name="menu_merge_help_text">Si el mismo grupo aparece varias veces en la lista con diferentes variantes ortográficas, puede fusionarlas.</string>
     <string name="help_ManageTemplates_plans_title">Vista en calendario</string>
     <string name="help_ManageTemplates_planner_title">Nuevas actualizaciones</string>
     <string name="help_ManageTemplates_templates_info"><![CDATA[<img src=\"ic_menu_template\">Mientras que las plantillas pueden derivarse por las transacciones a través de su menú contextual, aquí puede crear nuevas plantillas desde cero (para transacciones o transferencias) haciendo clic en el botón de acción flotante. Al hacer clic en una plantilla, se crea una instancia para ello.<br><img src=\"ic_event\">Un proyecto es una plantilla con un evento (único o recurrente) en el planificador de calendario. Haga clic en un proyecto para abrir una vista de calendario, mostrando las pasadas y las próximas instancias de un proyecto.]]></string>
@@ -56,12 +61,19 @@
     <string name="menu_ManageTemplates_templates_sort_help_text">La lista de plantillas se puede ordenar por título (alfabéticamente), cantidad, frecuencia de uso o la última vez en que una transacción es creada en ella.</string>
     <string name="help_ManageCategories_distribution_info">Esta pantalla muestra la distribución de sus gastos e ingresos por categorías, para todas las transacciones en una cuenta o para un grupo específico. Si expande una categoría principal en la lista, el gráfico muestra la distribución de sus subcategorías. Si selecciona una categoría en la lista, se resaltará en el gráfico y viceversa. Una pulsación prolongada sobre una categoría, mostrará una lista agregada de las transacciones asignadas a él.</string>
     <string name="help_ManageCategories_select_mapping_info">Además de las acciones que se pueden realizar en la gestión de categorías desde Preferencias (crear, editar, borrar), en esta pantalla se puede asignar una transacción a una categoría seleccionada a través de un breve clic.</string>
+    <string name="help_ManageCategories_select_filter_info">Haga clic en una entrada para iniciar la multiselección.</string>
     <string name="help_ManageCategories_manage_info">Esta pantalla le permite crear, editar y eliminar categorías. Por defecto, el primer criterio de clasificación utiliza el número de usos de una categoría (el criterio secundario es el orden alfabético). De esta manera, podrá acceder de manera rápida a las categorías de uso más frecuente.</string>
+    <string name="help_ManageCategories_expand_collapse"><![CDATA[Haga clic en el icono <img src="ic_expand_more">/<img src="ic_expand_less"> para expandir o contraer una categoría.]]></string>
+    <string name="help_ManageCategories_manage_context">Pulse sobre una entrada para mostrar su menú contextual. Pulse prolongadamente para iniciar la selección múltiple.</string>
     <string name="menu_ManageCategories_distribution_grouping_help_text">Ajustar el tipo de agrupación y mostrar la distribución por días, meses, semanas o años.</string>
     <string name="menu_back_help_text">Acceder al grupo anterior. También se puede realizar mediante un gesto de desplazamiento de izquierda a derecha.</string>
     <string name="menu_forward_help_text">Ir al siguiente grupo. También se puede realizar mediante un gesto de desplazamiento de derecha a izquierda.</string>
+    <string name="cab_ManageCategories_create_sub_cat_help_text">Abre el diálogo para crear una nueva subcategoría debajo de la categoría seleccionada. Las subcategorías pueden añadirse con un nivel arbitrario.</string>
+    <string name="cab_ManageCategories_move_help_text">Cualquier categoría (junto con sus subcategorías) puede moverse a una nueva categoría principal. Las subcategorías pueden transformarse en categorías principales.</string>
+    <string name="cab_ManageCategories_merge_help_text">Se pueden fusionar categorías del mismo tipo.</string>
     <string name="menu_categories_setup_default_help_text">Se importarán un conjunto de categorías por defecto.</string>
     <string name="menu_categories_export_help_text">Las categorías se exportarán a un archivo QIF.</string>
+    <string name="menu_chart_help_text">Cambia la visibilidad del gráfico.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">Las categorías seleccionadas se utilizarán para filtrar la lista de transacciones.</string>
     <string name="menu_ManageCategories_search_help_text">Sólo se mostrarán las categorías principales y las subcategorías que coinciden con su consulta.</string>
     <string name="menu_ManageCategories_sort_help_text">La lista de categorías puede ordenarse por título (alfabéticamente), por la frecuencia de uso o por la última vez en que se le asignó una transacción.</string>
@@ -90,6 +102,7 @@
     <string name="form_default_action_help_text">Para cada plantilla, puede configurar si un breve toque en la lista de plantillas guardará la instancia inmediatamente o introducir su formulario de edición donde podrá modificarla antes de guardarla. Siempre puede acceder a ambas acciones a través de un toque largo.</string>
     <string name="form_category_help_text">Este botón abre la lista de categorías, donde puede seleccionar la categoría que desea asignar a la transacción.</string>
     <string name="form_split_parts_heading_help_text_1">Use el icono de \"+\" para ingresar tantas partes divididas como sean necesarias.</string>
+    <string name="form_split_parts_heading_help_text_2">El campo del importe se actualizará automáticamente con la suma de las partes, a menos que introduzca manualmente un importe; en cuyo caso se mostrará la diferencia entre la suma de las partes y el importe (no dividido).</string>
     <string name="form_split_parts_heading_help_text_3">Sólo podrá guardar la transacción dividida, si el total de la transacción ha sido asignada de forma exacta.</string>
     <string name="form_ExpenseEdit_splitPartCategory_category_help_text">Seleccione una categoría para esta parte dividida.</string>
     <string name="form_transfer_from_account_transfer_to_account_help_text">Asignar las cuentas desde o hacia las que se transfiere este objeto.</string>
@@ -136,6 +149,7 @@
     <string name="help_ManageSyncBackends_webdav">Si su servicio de almacenamiento en la nube soporta este protocolo, Mis Gastos podrá sincronizar la información con el mismo. Solamente tendrá que facilitar la dirección URL hacia la carpeta, con su usuario y contraseña. Si su servidor web o usted usan un certificado https o un certificado auto-firmado, tendrá que confirmarlo explícitamente.</string>
     <string name="help_ManageSyncBackends_drive">Selecciona cualquier carpeta que tenga o esté compartida.</string>
     <string name="help_ManageSyncBackends_encryption">Por cada servicio, puede configurar una contraseña diferente para encriptar la sincronización de datos. Sin embargo, no podrá cambiar un servicio existente de no encriptado a encriptado. Necesitará volver a crear un nuevo servicio para ello. Si usa la opción de almacenamiento de copias de seguridad automatizadas en la sincronización del servicio, estos archivos no se encriptarán con la contraseña específica del servicio. Para ello, necesitará configurar una contraseña que se aplique a todos los archivos de copias de seguridad, dentro de la sección Seguridad en la pantalla de Configuraciones.</string>
+    <string name="help_ManageSyncBackends_saf">Esta opción permite seleccionar una carpeta a través del diálogo de selección de archivos de Android. Es útil sobre todo si ha instalado una aplicación de almacenamiento en la nube que permite seleccionar una carpeta para almacenar contenido, como NextCloud.</string>
     <string name="menu_create_sync_backend_help_text">Desde el submenú seleccione el tipo de servicio de sincronización que quiere añadir y facilite los detalles específicos para cada apartado.</string>
     <string name="cab_sync_now_help_text">Activar la sincronización con el servicio de sincronización inmediatamente.</string>
     <string name="cab_remove_help_text">Eliminar el servicio seleccionado.</string>
@@ -146,13 +160,19 @@
     <string name="menu_HistoryActivity_grouping_help_text">Cambie entre diario, semanal, mensual o anual al agrupar la información del flujo de efectivo.</string>
     <string name="menu_HistoryActivity_history_show_balance_help_text">Cambie la visibilidad del balance.</string>
     <string name="menu_HistoryActivity_history_transfers_help_text">Cambie si las transferencias deberían de ser tratadas como un ingreso o gasto regular.</string>
-    <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">Al definir un presupuesto, define un monto total que quiere gastar durante un periodo determinado. También puede asignar montantes para categorías y sub-categorías. Más adelante, puede monitorizar cuánto ha gastado y cuánto le queda por gastar.</string>
+    <string name="help_BudgetActivity_info">Al definir un presupuesto, define un monto total que quiere gastar durante un periodo determinado. También puede asignar montantes para categorías y sub-categorías. Más adelante, puede monitorizar cuánto ha gastado y cuánto le queda por gastar.</string>
     <string name="help_Budget_amount_click">Hacer clic cobre un monto presupuestado le permite cambiarlo.</string>
+    <string name="help_Budget_amount_click_1">Cambiar una cantidad nunca afecta los períodos pasados. A menos que elija configurarlo solo para el período actual, afectará los períodos futuros.</string>
+    <string name="help_Budget_spent_click">Al hacer clic en los importes gastados, aparecen todas las transacciones relevantes para el presupuesto actual y la categoría correspondiente.</string>
     <string name="cab_show_transactions_help_text">Abrir una ventana con un listado de transacciones de la categoría seleccionada en la actual cuenta.</string>
     <string name="menu_BudgetActivity_back_forward_help_text">Comparar presupuestos con gastos de periodos de tiempo pasados y futuros.</string>
     <string name="menu_BudgetActivity_edit_help_text">Cambiar la definición del presupuesto.</string>
     <string name="menu_budget_allocated_only_help_text">Activando esta opción, sólo se mostrarán las categorías que hayan sido asignadas al mismo monto.</string>
     <string name="menu_BudgetActivity_delete_help_text">Se eliminará el actual presupuesto que se muestra.</string>
+    <string name="menu_BudgetActivity_rollover_help_text">Si gasta menos o más de su presupuesto, puede transferir la diferencia al próximo período, de modo que la cantidad que puede asignar allí aumente o disminuya. Hay tres opciones:</string>
+    <string name="menu_BudgetActivity_rollover_total">Solo se transfiere el resto del presupuesto total, por lo que solo aumenta o disminuye el presupuesto total para el siguiente período.</string>
+    <string name="menu_BudgetActivity_rollover_categories">El remanente de cada categoría se transfiere, y la asignación correspondiente en el próximo período se verá afectada.</string>
+    <string name="menu_BudgetActivity_rollover_edit">Esta opción le permite configurar con precisión los informes. Por ejemplo, puede establecer traspasos parciales solo para ciertas categorías o subcategorías y traspasar la parte restante al presupuesto total.</string>
     <string name="help_ManageBudgets_title">Lista de todos los presupuestos</string>
     <string name="help_ManageBudgets_info">Esta pantalla muestra un resumen de todos los presupuestos que ha creado. Use el botón de acción flotante para crear un nuevo presupuesto. Haciendo clic en una entrada de la lista mostrará un único presupuesto.</string>
     <string name="help_BudgetEdit_title">Formulario para presupuestos</string>
@@ -167,44 +187,38 @@
     <string name="help_ManageTags_select_filter_info">Filtre la lista de transacciones seleccionando y de-seleccionando etiquetas al presionar sobre ellas.</string>
     <string name="help_ManageTags_manage_info">Cree nuevas etiquetas introduciéndolas en el campo de texto.</string>
     <string name="help_ManageTags_select_mapping_info">Asigne o elimine etiquetas presionando sobre ella. Use el botón de acción flotante para confirmar la asignación.</string>
-    <string name="form_DebtEdit_amount_help_text">Introduzca el importe original de la deuda. Las transacciones vinculadas a la deuda disminuirán o aumentarán el saldo. Utilice el conmutador para distinguir entre las deudas que usted debe y las que se le deben a usted. Si selecciona una moneda distinta a la suya, la deuda sólo será visible en las cuentas con la misma moneda.</string>
-    <string name="cab_debts_help_text">Este submenú permite definir nuevas deudas asociadas a la cuenta seleccionada, así como gestionar las deudas existentes.</string>
+    <string name="help_ManageTags_context_menu_info">Toque el ícono &lt;img src=more&gt; para editar, asignar un color o eliminar una etiqueta.</string>
     <string name="help_debt_managment">Asociar deudas entre entidades, inspeccionar la lista de transacciones y calcular el saldo restante.</string>
-    <string name="form_DebtEdit_date_help_text">Introduzca la fecha en que se contrajo la deuda.</string>
+    <string name="cab_debts_help_text">Este submenú permite definir nuevas deudas asociadas a la cuenta seleccionada, así como gestionar las deudas existentes.</string>
     <string name="form_DebtEdit_label_help_text">La etiqueta permite seleccionar la deuda en el formulario para las transacciones, con el fin de marcar una transacción como un anticipo.</string>
-    <string name="cab_ManageCategories_select_help_text">Asignar la categoría seleccionada a la transacción y volver al formulario de transacción.</string>
-    <string name="help_ManageCategories_select_filter_info">Haga clic en una entrada para iniciar la multiselección.</string>
-    <string name="cab_ManageCategories_create_sub_cat_help_text">Abre el diálogo para crear una nueva subcategoría debajo de la categoría seleccionada. Las subcategorías pueden añadirse con un nivel arbitrario.</string>
-    <string name="cab_ManageCategories_move_help_text">Cualquier categoría (junto con sus subcategorías) puede moverse a una nueva categoría principal. Las subcategorías pueden transformarse en categorías principales.</string>
-    <string name="help_ManageCategories_manage_context">Pulse sobre una entrada para mostrar su menú contextual. Pulse prolongadamente para iniciar la selección múltiple.</string>
-    <string name="form_split_parts_heading_help_text_2">El campo del importe se actualizará automáticamente con la suma de las partes, a menos que introduzca manualmente un importe; en cuyo caso se mostrará la diferencia entre la suma de las partes y el importe (no dividido).</string>
-    <string name="help_ManageCategories_expand_collapse"><![CDATA[Haga clic en el icono <img src="ic_expand_more">/<img src="ic_expand_less"> para expandir o contraer una categoría.]]></string>
-    <string name="help_Budget_spent_click">Al hacer clic en los importes gastados, aparecen todas las transacciones relevantes para el presupuesto actual y la categoría correspondiente.</string>
+    <string name="form_DebtEdit_amount_help_text">Introduzca el importe original de la deuda. Las transacciones vinculadas a la deuda disminuirán o aumentarán el saldo. Utilice el conmutador para distinguir entre las deudas que usted debe y las que se le deben a usted. Si selecciona una moneda distinta a la suya, la deuda sólo será visible en las cuentas con la misma moneda.</string>
+    <string name="form_DebtEdit_date_help_text">Introduzca la fecha en que se contrajo la deuda.</string>
     <string name="help_SetupSync_info">Esta pantalla le permite seleccionar los datos que desea sincronizar entre el dispositivo y el servicio de sincronización. Enumera todas las cuentas de tu dispositivo que aún no están sincronizadas con otros servicios, y todas las cuentas almacenadas en el servicio de sincronización. Al hacer clic en &lt;img src=ic_hchain_broken&gt; / &lt;img src=ic_hchain&gt; se seleccionará o deseleccionará una cuenta para la sincronización. Si selecciona una cuenta que ya existe tanto local como remotamente, deberá decidir si inicialmente los datos de su dispositivo anulan los datos existentes en el servicio de sincronización, o al revés.</string>
     <string name="menu_parent_category_selection_help_text">Con esta opción se personaliza el toque sobre una categoría que tiene categorías secundarias. Si está marcada, un toque corto seleccionará la categoría; si está desmarcada, un toque corto expandirá/contraerá la categoría. En este último caso, la selección estará disponible en el menú contextual.</string>
-    <string name="help_WebUI_info_4">Al mostrar las transacciones para la cuenta seleccionada, la interfaz de usuario web utilizará los mismos filtros que has establecido con la aplicación en el dispositivo Android.</string>
+    <string name="cab_ManageCategories_select_help_text">Asignar la categoría seleccionada a la transacción y volver al formulario de transacción.</string>
     <string name="help_WebUI_info_1">Pasar la URL que aparece en el subtítulo desde un navegador web en el ordenador de sobremesa.</string>
     <string name="help_WebUI_info_2">Actualmente, la interfaz de usuario de la web no admite transferencias ni transacciones divididas.</string>
     <string name="help_WebUI_info_3">Puede configurar una contraseña para proteger el acceso. Sólo se tendrá en cuenta la contraseña en el diálogo presentado por el navegador web, el nombre de usuario será ignorado.</string>
-    <string name="menu_BudgetActivity_rollover_categories">El remanente de cada categoría se transfiere, y la asignación correspondiente en el próximo período se verá afectada.</string>
-    <string name="help_Budget_amount_click_1">Cambiar una cantidad nunca afecta los períodos pasados. A menos que elija configurarlo solo para el período actual, afectará los períodos futuros.</string>
-    <string name="menu_BudgetActivity_rollover_total">Solo se transfiere el resto del presupuesto total, por lo que solo aumenta o disminuye el presupuesto total para el siguiente período.</string>
-    <string name="menu_BudgetActivity_rollover_edit">Esta opción le permite configurar con precisión los informes. Por ejemplo, puede establecer traspasos parciales solo para ciertas categorías o subcategorías y traspasar la parte restante al presupuesto total.</string>
-    <string name="menu_BudgetActivity_rollover_help_text">Si gasta menos o más de su presupuesto, puede transferir la diferencia al próximo período, de modo que la cantidad que puede asignar allí aumente o disminuya. Hay tres opciones:</string>
+    <string name="help_WebUI_info_4">Al mostrar las transacciones para la cuenta seleccionada, la interfaz de usuario web utilizará los mismos filtros que has establecido con la aplicación en el dispositivo Android.</string>
     <string name="cab_MyExpenses_select_help_text">La selección múltiple se puede iniciar seleccionando este comando o tocando prolongadamente una entrada en la lista.</string>
-    <string name="help_ManageSyncBackends_saf">Esta opción permite seleccionar una carpeta a través del diálogo de selección de archivos de Android. Es útil sobre todo si ha instalado una aplicación de almacenamiento en la nube que permite seleccionar una carpeta para almacenar contenido, como NextCloud.</string>
     <string name="help_DebtOverview_info">Haga clic en una entrada para ampliarla o contraerla.</string>
     <string name="debt_help_overflow">Para cada deuda, utilice el menú de la esquina superior derecha para editarla, cerrarla, eliminarla o compartirla. Las deudas en moneda extranjera pueden listarse opcionalmente con importes equivalentes en la moneda nacional.</string>
     <string name="menu_show_all_help_text">Las deudas que han sido cerradas o pagadas (su saldo es 0), sólo se mostrarán, si esta opción está marcada.</string>
     <string name="menu_type_filter_help_text">Cuando esta opción está activada, puede seleccionar que sólo se muestren las categorías de gastos, ingresos o transferencias.</string>
     <string name="menu_aggregate_neutral_categories_help_text">Las transacciones asignadas a las categorías de ingresos siempre se cuentan como ingresos, las transacciones asignadas a las categorías de gastos siempre se cuentan como gastos. Esta opción le permite configurar cómo se contabilizan las transacciones asignadas a las categorías neutrales: Por defecto si son positivas representan un ingreso, si son negativas un gasto. Pero si se activa esta opción, siempre se incluyen en ambas sumas de ingresos y gastos.</string>
-    <string name="help_ManageParties_mergeMode_info_1">Seleccione las partidas duplicadas que desea fusionar.</string>
-    <string name="help_fab_confirm_selection">Utilice el botón de acción flotante para confirmar la selección.</string>
-    <string name="help_ManageTags_context_menu_info">Toque el ícono &lt;img src=more&gt; para editar, asignar un color o eliminar una etiqueta.</string>
-    <string name="cab_ManageCategories_merge_help_text">Se pueden fusionar categorías del mismo tipo.</string>
-    <string name="menu_chart_help_text">Cambia la visibilidad del gráfico.</string>
     <string name="cab_MyExpenses_filter_help_text">Buscar transacciones con las mismas propiedades.</string>
     <string name="menu_archive_help_text">Tras seleccionar un intervalo de fechas, todas las transacciones de este periodo se agruparán en una transacción de archivo resumida. Esto borrará la lista de transacciones, pero las transacciones en el archivo todavía pueden ser inspeccionadas y, si es necesario, desempaquetadas de nuevo.</string>
+    <string name="fab_create_portfolio_help_text">Cree una cartera para realizar un seguimiento de inversiones, acciones u otros activos no monetarios. La versión gratuita está limitada a una cartera.</string>
+    <string name="fab_expense_help_text">Cree una nueva transacción de gasto.</string>
+    <string name="fab_income_help_text">Cree una nueva transacción de ingreso.</string>
+    <string name="fab_transfer_help_text">Cree una transferencia entre dos cuentas.</string>
+    <string name="fab_split_help_text">Cree una transacción dividida para categorizar por separado las partes de un único gasto o ingreso.</string>
+    <string name="fab_scan_help_text">Escanee un recibo para extraer datos automáticamente mediante OCR.</string>
+    <string name="fab_trade_buy_help_text">Registre la compra de un activo en su cartera.</string>
+    <string name="fab_trade_sell_help_text">Registre la venta de un activo en su cartera.</string>
+    <string name="fab_trade_deposit_help_text">Añada efectivo al saldo de su cartera.</string>
+    <string name="fab_trade_withdraw_help_text">Retire efectivo del saldo de su cartera.</string>
+    <string name="fab_trade_transfer_help_text">Transfiera activos entre carteras.</string>
     <string name="menu_ManageBudgets_grouping_help_text">La lista de presupuestos puede agruparse por cuenta o por tipo de presupuesto.</string>
     <string name="help_PriceHistory_info">Las cuentas en moneda extranjera se pueden configurar para usar tipos de cambio dinámicos. Puede descargar o introducir un tipo de cambio específico para su moneda local cada día. Esta pantalla muestra los tipos de cambio guardados para una moneda determinada, desde la fecha de la transacción más antigua. El origen del tipo de cambio se indica a continuación:</string>
     <string name="cab_PriceHistory_download_help_text">Descargue la tarifa para la fecha especificada del proveedor configurado. Algunos proveedores no proporcionarán tarifas para todas las fechas, por ejemplo, para fines de semana o días festivos, y en su lugar devolverán una tarifa anterior.</string>
@@ -214,13 +228,13 @@
     <string name="dynamic_exchange_rate_help_text_3">La opción %s le permite realizar un seguimiento del patrimonio neto actualizado de todas sus cuentas.</string>
     <string name="help_user_exchange_rate">Esta tasa ha sido proporcionada por el usuario al editar el monto equivalente de una transacción.</string>
     <string name="help_calculated_exchange_rate">Esta tasa se ha calculado automáticamente a partir de las tasas existentes, cuando se reconfiguró la moneda local.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_intro">Con esta opción marcada, puede ver cómo cada cuenta en moneda extranjera contribuye al gran total en su moneda local. Si una cuenta no utiliza tipos de cambio dinámicos, su valor se calcula en función del tipo establecido en las propiedades de la cuenta. De otra manera:</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_1">El valor inicial <b/> se basa en la tasa establecida en las propiedades del cuenta.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_2"><b>Las sumas de ingresos y gastos</b> se calculan utilizando los importes equivalentes especificados para cada transacción.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_3">El valor actual <b/> se basa en los últimos tipo de cambio de la moneda del cuenta.</string>
     <string name="help_PrintLayoutConfiguration_info">Las columnas se pueden cambiar de tamaño arrastrando el rectángulo negro entre columnas. Los iconos &lt;img src=add_column_start&gt; y &lt;img src=add_column_end&gt; permiten agregar nuevas columnas. Los campos se pueden arrastrar y soltar en una nueva posición o en el área de reciclaje. Si suelta un campo en otro campo, crea un campo combinado, es decir, los dos campos se imprimirán juntos en una línea.</string>
     <string name="account_types_help_v2">Los tipos de cuentas clasifican las cuentas como \n• <b>Activos</b> (algo que posee, como efectivo, cuentas bancarias o inversiones) o como \n• <b>Pasivos</b> (algo que debe, como tarjetas de crédito o préstamos). \nPuede agregar tipos personalizados y establecer su orden, lo que afecta principalmente a la forma en que aparecen en el balance general.</string>
     <string name="account_flags_help_v2">Las marcas le permiten configurar la visibilidad y la prioridad de una cuenta: \n• Ocultar las cuentas que rara vez se utilizan, sin dejar de elegir si las cuentas invisibles se incluyen en las cuentas agregadas y en el balance general. \n• Priorice las cuentas favoritas en la selección de cuentas en el formulario de transacción. \nTambién puede usar indicadores para indicar cuentas que pertenecen a un propósito específico, como cuentas domésticas versus cuentas personales, y luego, alternativamente, mostrar solo una u otra.</string>
     <string name="menu_balance_sheet_help_text">El balance general muestra el patrimonio neto de todas sus cuentas como la diferencia entre sus activos (lo que posee) y sus pasivos (lo que debe). Refleja su posición financiera en un momento elegido, ya sea en el pasado, el presente o incluso en el futuro. La presentación del balance también está influenciada por las banderas (que pueden cambiar la inclusión de cuentas en los totales).</string>
+    <string name="menu_balance_sheet_help_text_date">Haga clic en la fecha para seleccionar una fecha diferente.</string>
     <string name="cab_flag_help_text">Asigne una marca a la cuenta seleccionada, por ejemplo, Favorito o Inactivo.</string>
+    <string name="form_payer_or_payee_help_text"><![CDATA[Este campo le permite seleccionar o crear un Pagador/Beneficiario. Comience a escribir el nombre y aparecerán sugerencias. Si no se selecciona ninguna sugerencia, se crea una nueva entidad. Si se selecciona una sugerencia, se muestra como una etiqueta.
+        <br><img src="ic_menu_edit"> Modificar los detalles de la entidad seleccionada.
+        <br><img src="ic_menu_close_clear_cancel"> Eliminar la selección actual. El campo de texto volverá a aparecer.]]></string>
 </resources>

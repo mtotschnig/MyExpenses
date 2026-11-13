@@ -7,8 +7,6 @@
     <string name="cab_delete_help_text">מחיקת הפריטים שנבחרו.</string>
     <string name="cab_edit_help_text">עריכת הפריט שנבחר.</string>
     <string name="help_MyExpenses_title">רשימת עסקאות</string>
-    <string name="help_MyExpenses_info">מסך זה מפרט את כל העסקאות בחשבון השוטף. יש להשתמש בלחצן הפעולה הצף כדי לפתוח את הטופס ליצירת עסקה חדשה.</string>
-    <string name="help_MyExpenses_fab_long_press">לחיצה ארוכה על כפתור הפעולה הצף פותחת תפריט המאפשר את הכנת הטופס להעברה, לעסקה מפוצלת או להכנסה.</string>
     <string name="popup_MyExpenses_toolbar_intro">הקשה על סרגל הכלים (תווית חשבון או יתרה נוכחית) תציג תפריט עם הערכים הבאים:</string>
     <string name="popup_MyExpenses_toolbar_copy_text">העתקת היתרה הנוכחית ללוח.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">חישוב ההפרש בין היתרה הנוכחית לערך חדש.</string>
@@ -212,10 +210,6 @@
     <string name="help_PriceHistory_info">ניתן להגדיר חשבונות במטבע חוץ לשימוש בשערי חליפין דינמיים. עבור כל יום אפשר להוריד או להזין שער מסוים ביחס למטבע הביתי שלך. מסך זה מציג תעריפים מאוחסנים עבור מטבע נתון עבור כל יום עד לתאריך העסקה הישנה ביותר. מקור התעריף מצוין כדלקמן:</string>
     <string name="dynamic_exchange_rate_help_text_2">הערך הנוכחי של חשבון מטבע חוץ עם שערי חליפין דינמיים מחושב על סמך שער החליפין העדכני ביותר.</string>
     <string name="menu_archive_help_text">לאחר בחירת טווח תאריכים, כל העסקאות לתקופה זו יתגלגלו לעסקת סיכום ארכיון. פעולה זו תנקה את רשימת העסקאות, אך עדיין ניתן לבדוק את העסקאות בארכיון, ובמידת הצורך לפרוק שוב.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_intro">כשאפשרות זו מסומנת, תוכל לראות כיצד כל חשבון במטבע חוץ תורם לסך הכולל במטבע הביתי שלך. אם חשבון אינו משתמש בשערי חליפין דינמיים, ערכו מחושב על סמך השער שנקבע במאפייני החשבון. אחרת:</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_1">ה<b>ערך הראשוני</b> מבוסס על התעריף שנקבע בנכסי החשבון.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_2"><b>סכומי הכנסות והוצאות</b> מחושבים לפי הסכומים השווים שצוינו עבור כל עסקה.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_3">ה<b>ערך הנוכחי</b> מבוסס על שער החליפין העדכני ביותר עבור מטבע החשבון.</string>
     <string name="menu_chart_help_text">החלפת מצב חשיפת התרשים.</string>
     <string name="menu_ManageBudgets_grouping_help_text">ניתן לקבץ את רשימת התקציבים לפי חשבון או לפי סוג תקציב.</string>
 </resources>

@@ -32,22 +32,28 @@ class HelpDialogHelper(val context: Context, val extra: CharSequence? = null) : 
 
     fun resolveTitle(
         item: String,
-        prefix: String,
+        prefix: String
     ): String =
         item.split(".").joinToString("/") {
             getStringOrThrowIf0((if (prefix == "form") "" else "menu_") + it)
         }
 
+    fun String.fromHtml() = parseAsHtml(
+        HtmlCompat.FROM_HTML_MODE_LEGACY,
+        this@HelpDialogHelper
+    )
+
+    fun toTitle(resId: Int): SpannableStringBuilder = SpannableStringBuilder()
+        .append(" ")
+        .bold { append(getString(resId)) }
+        .append(": ")
+
     fun resolveStringOrArray(
         resString: String,
-        separateComponentsByLineFeeds: Boolean,
-    ): CharSequence? {
-        fun toTitle(resId: Int) = SpannableStringBuilder()
-            .append(" ")
-            .bold { append(getString(resId)) }
-            .append(": ")
-        return when (resString) {
-            "menu_BudgetActivity_rollover_help_text" -> TextUtils.concat(*buildList {
+        separateComponentsByLineFeeds: Boolean
+    ) = when (resString) {
+        "menu_BudgetActivity_rollover_help_text" -> TextUtils.concat(
+            *buildList {
                 add(getString(R.string.menu_BudgetActivity_rollover_help_text))
                 add(toTitle(R.string.menu_aggregates))
                 add(getString(R.string.menu_BudgetActivity_rollover_total))
@@ -55,79 +61,82 @@ class HelpDialogHelper(val context: Context, val extra: CharSequence? = null) : 
                 add(getString(R.string.menu_BudgetActivity_rollover_categories))
                 add(toTitle(R.string.menu_edit))
                 add(getString(R.string.menu_BudgetActivity_rollover_edit))
-            }.toTypedArray())
+            }.toTypedArray()
+        )
 
-            "help_ManageStaleImages_info" -> getString(
-                R.string.help_ManageStaleImages_info,
-                "Documents/MyExpenses.Attachments.Archive"
-            )
+        "help_ManageStaleImages_info" -> getString(
+            R.string.help_ManageStaleImages_info,
+            "Documents/MyExpenses.Attachments.Archive"
+        )
 
-            "help_PriceHistory_info" -> TextUtils.concat(
-                getString(R.string.help_PriceHistory_info),
-                " ",
-                SpannableStringBuilder().apply {
-                    ExchangeRateApi.values.forEach {
-                        bold { append(it.name.first()) }
-                        append(" ")
-                        append(it.name)
-                        append(", ")
-                    }
-                },
-                "<img src=icon:user> ${getString(R.string.help_user_exchange_rate)}, <img src=ic_calculate> ${
-                    getString(
-                        R.string.help_calculated_exchange_rate
-                    )
-                }".parseAsHtml(HtmlCompat.FROM_HTML_MODE_LEGACY, this@HelpDialogHelper)
-            )
+        "help_PriceHistory_info" -> TextUtils.concat(
+            getString(R.string.help_PriceHistory_info),
+            " ",
+            SpannableStringBuilder().apply {
+                ExchangeRateApi.values.forEach {
+                    bold { append(it.name.first()) }
+                    append(" ")
+                    append(it.name)
+                    append(", ")
+                }
+            },
+            "<img src=icon:user> ${
+                getString(
+                    R.string.help_user_exchange_rate
+                )
+            }, <img src=ic_calculate> ${
+                getString(
+                    R.string.help_calculated_exchange_rate
+                )
+            }".fromHtml()
+        )
 
-            "menu_NavigationDrawer_show_equivalent_value_help_text" -> TextUtils.concat(
-                getString(R.string.menu_NavigationDrawer_show_equivalent_value_help_text_intro),
-                "\n• ",
-                resources.getText(R.string.menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_1),
-                "\n• ",
-                resources.getText(R.string.menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_2),
-                "\n• ",
-                resources.getText(R.string.menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_3)
-            )
+        "help_MyExpensesV2_accounts_info" -> getString(
+            R.string.help_MyExpensesV2_accounts_info,
+            getString(R.string.options),
+            getString(R.string.data)
+        ).fromHtml()
 
-            else -> {
-                val resIdString = resString.replace('.', '_')
-                val arrayId = resolveArray(resIdString)
-                if (arrayId == 0) {
-                    val stringId = resolveString(resIdString)
-                    if (stringId == 0) {
-                        null
-                    } else {
-                        if (isV2(resIdString)) resources.getText(stringId) else
-                            getString(stringId).parseAsHtml(HtmlCompat.FROM_HTML_MODE_LEGACY, this)
-                    }
+        else -> {
+            val resIdString = resString.replace('.', '_')
+            val arrayId = resolveArray(resIdString)
+            if (arrayId == 0) {
+                val stringId = resolveString(resIdString)
+                if (stringId == 0) {
+                    null
                 } else {
-
-                    val components = resources.getStringArray(arrayId)
-                        .filter { component -> !shouldSkip(component) }
-                        .map { component -> component to handle(component) }
-                    TextUtils.concat(*buildList {
+                    if (isV2(resIdString)) {
+                        resources.getText(stringId)
+                    } else {
+                        getString(stringId).fromHtml()
+                    }
+                }
+            } else {
+                val components = resources.getStringArray(arrayId)
+                    .filter { component -> !shouldSkip(component) }
+                    .map { component -> component to handle(component) }
+                TextUtils.concat(
+                    *buildList {
                         for (i in components.indices) {
                             val (component, text) = components[i]
                             add(
-                                if (isV2(component)) text else
-                                    text.toString().parseAsHtml(
-                                        HtmlCompat.FROM_HTML_MODE_LEGACY,
-                                        this@HelpDialogHelper
-                                    )
+                                if (isV2(component)) {
+                                    text
+                                } else {
+                                    text.toString().fromHtml()
+                                }
                             )
                             if (i < components.size - 1) {
                                 add(if (separateComponentsByLineFeeds) "\n" else " ")
                             }
                         }
-                    }.toTypedArray())
-                }
+                    }.toTypedArray()
+                )
             }
         }
     }
 
     private fun isV2(resIdString: String) = resIdString.contains("v2")
-
 
     private fun handle(component: String): CharSequence = if (component.startsWith("popup")) {
         TextUtils.concat(
@@ -143,8 +152,10 @@ class HelpDialogHelper(val context: Context, val extra: CharSequence? = null) : 
         )
     } else {
         TextUtils.concat(
-            (getStringOrNull(component + "_title")
-                ?.let { "<b>$it</b> " } ?: ""),
+            (
+                getStringOrNull(component + "_title")
+                    ?.let { "<b>$it</b> " } ?: ""
+                ),
             getStringOrThrowIf0(component)
         )
     }
@@ -179,6 +190,7 @@ class HelpDialogHelper(val context: Context, val extra: CharSequence? = null) : 
             ).joinToString("")
 
             "menu_categories_export" -> getString(R.string.export_to_format, "QIF")
+
             "help_ManageCategories_category_types" -> buildString {
                 append(toBold(R.string.expense))
                 append("/")
@@ -188,11 +200,16 @@ class HelpDialogHelper(val context: Context, val extra: CharSequence? = null) : 
 
             "dynamic_exchange_rate_help_text_3" -> getString(
                 R.string.dynamic_exchange_rate_help_text_3,
-                context.localizedQuote(getString(R.string.enable_automatic_daily_exchange_rate_download))
+                context.localizedQuote(
+                    getString(R.string.enable_automatic_daily_exchange_rate_download)
+                )
             )
 
-            "help_WebUI_info_1" -> if (extra == null || extra.startsWith("http"))
-                getString(R.string.help_WebUI_info_1) + (extra?.let { "($it)" } ?: "") else ""
+            "help_WebUI_info_1" -> if (extra == null || extra.startsWith("http")) {
+                getString(R.string.help_WebUI_info_1) + (extra?.let { "($it)" } ?: "")
+            } else {
+                ""
+            }
 
             "help_PrintLayoutConfiguration_title" -> context.screenTitle
 
@@ -217,7 +234,7 @@ class HelpDialogHelper(val context: Context, val extra: CharSequence? = null) : 
 
     private fun resolveSystem(
         resIdString: String,
-        @Suppress("SameParameterValue") defType: String,
+        @Suppress("SameParameterValue") defType: String
     ) = resolve(Resources.getSystem(), resIdString, defType, "android")
 
     @SuppressLint("DiscouragedApi")
@@ -225,38 +242,49 @@ class HelpDialogHelper(val context: Context, val extra: CharSequence? = null) : 
         resources: Resources,
         resIdString: String,
         defType: String,
-        packageName: String,
+        packageName: String
     ) = resources.getIdentifier(resIdString, defType, packageName)
 
-    override fun getDrawable(name: String) = (if (name.startsWith("icon:")) {
-        IIconInfo.resolveIcon(name.substringAfter(':'))?.asDrawable(context)
-    } else try {
-        //Keeping the legacy attribute reference in order to not have to update all translations
-        val resId = if (name.startsWith("?")) {
-            with(name.substring(1)) {
-                when (this) {
-                    "calcIcon" -> R.drawable.ic_calculate
-                    else -> {
-                        val value = TypedValue()
-                        context.theme.resolveAttribute(resolve(this, "attr"), value, true)
-                        value.resourceId
+    override fun getDrawable(name: String) = (
+        if (name.startsWith("icon:")) {
+            IIconInfo.resolveIcon(name.substringAfter(':'))?.asDrawable(context)
+        } else {
+            try {
+                // Keeping the legacy attribute reference in order to not have to update all translations
+                val resId = if (name.startsWith("?")) {
+                    with(name.substring(1)) {
+                        when (this) {
+                            "calcIcon" -> R.drawable.ic_calculate
+
+                            else -> {
+                                val value = TypedValue()
+                                context.theme.resolveAttribute(
+                                    resolve(this, "attr"),
+                                    value,
+                                    true
+                                )
+                                value.resourceId
+                            }
+                        }
+                    }
+                } else if (name.startsWith("android:")) {
+                    resolveSystem(name.substringAfter(':'), "drawable")
+                } else {
+                    when (name) {
+                        // Keeping the legacy drawable name
+                        "ic_hchain" -> R.drawable.ic_link
+
+                        "ic_hchain_broken" -> R.drawable.ic_link_off
+
+                        else -> resolve(name, "drawable")
                     }
                 }
-            }
-        } else if (name.startsWith("android:")) {
-            resolveSystem(name.substringAfter(':'), "drawable")
-        } else {
-            when (name) {
-                //Keeping the legacy drawable name
-                "ic_hchain" -> R.drawable.ic_link
-                "ic_hchain_broken" -> R.drawable.ic_link_off
-                else -> resolve(name, "drawable")
+                ResourcesCompat.getDrawable(resources, resId, context.theme)
+            } catch (_: Resources.NotFoundException) {
+                null
             }
         }
-        ResourcesCompat.getDrawable(resources, resId, context.theme)
-    } catch (_: Resources.NotFoundException) {
-        null
-    })?.apply {
+        )?.apply {
         val dimensionPixelSize =
             resources.getDimensionPixelSize(R.dimen.help_text_inline_icon_size)
         setBounds(0, 0, dimensionPixelSize, dimensionPixelSize)

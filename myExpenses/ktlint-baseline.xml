@@ -4047,11 +4047,6 @@
         <error line="274" column="17" source="standard:comment-spacing" />
         <error line="303" column="1" source="standard:no-consecutive-blank-lines" />
     </file>
-    <file name="src/main/java/org/totschnig/myexpenses/compose/accounts/Action.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="15" column="45" source="standard:trailing-comma-on-declaration-site" />
-        <error line="23" column="1" source="standard:final-newline" />
-    </file>
     <file name="src/main/java/org/totschnig/myexpenses/compose/accounts/EmptyState.kt">
         <error line="54" column="1" source="standard:final-newline" />
     </file>
@@ -6334,21 +6329,6 @@
     <file name="src/main/java/org/totschnig/myexpenses/dialog/GrisbiSourcesDialogFragment.kt">
         <error line="41" column="56" source="standard:function-expression-body" />
         <error line="45" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/main/java/org/totschnig/myexpenses/dialog/HelpDialogFragment.kt">
-        <error line="224" column="31" source="standard:binary-expression-wrapping" />
-        <error line="224" column="59" source="standard:binary-expression-wrapping" />
-        <error line="224" column="59" source="standard:argument-list-wrapping" />
-        <error line="224" column="94" source="standard:binary-expression-wrapping" />
-        <error line="224" column="101" source="standard:max-line-length" />
-        <error line="224" column="103" source="standard:argument-list-wrapping" />
-        <error line="249" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="267" column="58" source="standard:function-expression-body" />
-        <error line="300" column="21" source="standard:comment-spacing" />
-        <error line="304" column="13" source="standard:comment-spacing" />
-        <error line="305" column="13" source="standard:comment-spacing" />
-        <error line="306" column="13" source="standard:comment-spacing" />
-        <error line="330" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/dialog/IconSelectorDialogFragment.kt">
         <error line="13" column="1" source="standard:spacing-between-declarations-with-annotations" />
@@ -10910,53 +10890,6 @@
         <error line="57" column="1" source="standard:blank-line-between-when-conditions" />
         <error line="58" column="1" source="standard:blank-line-between-when-conditions" />
         <error line="67" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/main/java/org/totschnig/myexpenses/util/HelpDialogHelper.kt">
-        <error line="35" column="23" source="standard:trailing-comma-on-declaration-site" />
-        <error line="43" column="47" source="standard:trailing-comma-on-declaration-site" />
-        <error line="50" column="74" source="standard:wrapping" />
-        <error line="58" column="28" source="standard:wrapping" />
-        <error line="76" column="50" source="standard:argument-list-wrapping" />
-        <error line="76" column="82" source="standard:argument-list-wrapping" />
-        <error line="76" column="101" source="standard:max-line-length" />
-        <error line="86" column="35" source="standard:argument-list-wrapping" />
-        <error line="86" column="101" source="standard:max-line-length" />
-        <error line="86" column="107" source="standard:argument-list-wrapping" />
-        <error line="88" column="35" source="standard:argument-list-wrapping" />
-        <error line="88" column="101" source="standard:max-line-length" />
-        <error line="88" column="107" source="standard:argument-list-wrapping" />
-        <error line="90" column="35" source="standard:argument-list-wrapping" />
-        <error line="90" column="101" source="standard:max-line-length" />
-        <error line="90" column="107" source="standard:argument-list-wrapping" />
-        <error line="101" column="48" source="standard:multiline-if-else" />
-        <error line="102" column="29" source="standard:multiline-if-else" />
-        <error line="105" column="1" source="standard:no-empty-first-line-in-method-block" />
-        <error line="109" column="38" source="standard:wrapping" />
-        <error line="113" column="54" source="standard:multiline-if-else" />
-        <error line="114" column="37" source="standard:multiline-if-else" />
-        <error line="123" column="36" source="standard:wrapping" />
-        <error line="131" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="146" column="14" source="standard:wrapping" />
-        <error line="147" column="45" source="standard:wrapping" />
-        <error line="182" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="191" column="40" source="standard:argument-list-wrapping" />
-        <error line="191" column="50" source="standard:argument-list-wrapping" />
-        <error line="191" column="101" source="standard:max-line-length" />
-        <error line="191" column="104" source="standard:argument-list-wrapping" />
-        <error line="191" column="105" source="standard:argument-list-wrapping" />
-        <error line="195" column="17" source="standard:multiline-if-else" />
-        <error line="195" column="93" source="standard:multiline-if-else" />
-        <error line="220" column="56" source="standard:trailing-comma-on-declaration-site" />
-        <error line="228" column="28" source="standard:trailing-comma-on-declaration-site" />
-        <error line="231" column="47" source="standard:wrapping" />
-        <error line="233" column="12" source="standard:multiline-if-else" />
-        <error line="234" column="9" source="standard:comment-spacing" />
-        <error line="239" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="250" column="17" source="standard:comment-spacing" />
-        <error line="252" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="253" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="259" column="5" source="standard:wrapping" />
-        <error line="264" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/util/ImageOptimizer.kt">
         <error line="15" column="17" source="standard:keyword-spacing" />

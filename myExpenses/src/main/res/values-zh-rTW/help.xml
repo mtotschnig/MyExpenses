@@ -46,8 +46,6 @@
     <string name="form_synchronization_help_text_add">可以從「設定」畫面新增後端。</string>
     <string name="help_ManageTemplates_plans_title">計畫行事曆檢視</string>
     <string name="help_form_fields">表單欄位</string>
-    <string name="help_MyExpenses_info">此畫面列出目前帳戶的所有交易。使用浮動動作按鈕開啟新增交易的表單。</string>
-    <string name="help_MyExpenses_fab_long_press">長按浮動動作按鈕會開啟選單，讓您準備轉帳、分割交易或收入的表單。</string>
     <string name="popup_MyExpenses_toolbar_copy_text">將目前餘額複製到剪貼簿。</string>
     <string name="popup_MyExpenses_toolbar_new_balance">計算目前餘額與新數值之間的差額。</string>
     <string name="menu_reset_help_text">此指令會將目前帳戶的所有交易匯出成 QIF 或 CSV 格式的檔案，儲存到 SD 卡上。您可以選擇刪除已匯出的交易，在這種情況下，期初餘額會自動調整。或者，如果不刪除交易，它們會被標記為已匯出。如果您在設定中設定完成，My Expenses 可以在匯出後立即透過 FTP、電子郵件或任何其他檔案分享應用程式分享檔案。如果搜尋篩選器已啟用，則只會考量符合此篩選條件的交易。</string>

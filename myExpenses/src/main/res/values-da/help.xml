@@ -6,14 +6,12 @@
     <string name="cab_delete_help_text">Slet de valgte elementer.</string>
     <string name="cab_edit_help_text">Redigér det valgte element.</string>
     <string name="help_MyExpenses_title">Transaktionsliste</string>
-    <string name="help_MyExpenses_fab_long_press">Hold nede på den flydende handlingsknap for at åbne en menu til at forberede formularen til overførsel, opdelt transaktion eller indtægt.</string>
     <string name="menu_distribution_help_text">Vis fordelingen af dine udgifter per kategori. Du kan også holde nede på en gruppeoverskrift for at se fordelingen for en bestemt periode.</string>
     <string name="menu_print_help_text">Genererer en udskrivbar visning af de aktuelt viste transaktioner.</string>
     <string name="menu_search_help_text">Denne post åbner en undermenu, der lader dig definere søgekriterier baseret på kategori, beløb, kommentar, status, betaler/modtager og betalingsmetode.</string>
     <string name="cab_split_help_text">Du kan senere redigere transaktionen for at oprette yderligere dele efter behov.</string>
     <string name="menu_scan_mode_help_text">Aktivér scantilstand for hurtigt at scanne kvitteringer.</string>
     <string name="help_contextual_actions_help">Menuen til kontekstuelle handlinger vises ved at holde nede på en listeindgang.</string>
-    <string name="help_MyExpenses_info">Denne skærm viser alle transaktioner for den aktuelle konto. Brug den flydende handlingsknap for at oprette en ny transaktion.</string>
     <string name="popup_MyExpenses_toolbar_copy_text">Kopiér den aktuelle saldo til udklipsholderen.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">Beregn forskellen mellem den aktuelle saldo og en ny værdi.</string>
     <string name="menu_reset_help_text">Denne kommando eksporterer alle transaktioner fra den aktuelle konto til en fil på SD-kortet i QIF- eller CSV-format. Hvis du vælger at slette dem, justeres startsaldoen automatisk; ellers markeres de som eksporteret. Mine Udgifter kan dele filen øjeblikkeligt via FTP, e-mail eller andre fildelingsapps, hvis du har konfigureret det i Indstillinger. Hvis et søgefilter er aktivt, medtages kun de transaktioner, som filteret dækker.</string>
@@ -211,12 +209,8 @@
     <string name="dynamic_exchange_rate_help_text_2">Den aktuelle værdi af en udenlandsk valuta-konto med dynamiske valutakurser beregnes ud fra den seneste valutakurs.</string>
     <string name="help_user_exchange_rate">Denne kurs er blevet angivet af brugeren under redigering af en transaktions tilsvarende beløb.</string>
     <string name="help_calculated_exchange_rate">Denne kurs er blevet beregnet automatisk ud fra eksisterende kurser, da hjemmevalutaen blev omkonfigureret.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_1">Baseres <b>startværdien</b> på den kurs, der er angivet i kontoens egenskaber.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_2">Beregnes <b>indkomst- og udgiftsbeløb</b> ud fra de tilsvarende beløb, der er angivet for hver transaktion.</string>
     <string name="help_PriceHistory_info">Udenlandsk valuta-konti kan konfigureres til at bruge dynamiske valutakurser. Hver dag kan du enten hente eller indtaste en specifik kurs i forhold til din hjemmevaluta. Denne skærm viser gemte kurser for en given valuta fra den ældste transaktion og frem. Kursens kilde angives som følger:</string>
     <string name="dynamic_exchange_rate_help_text_3">Indstillingen %s lader dig følge den aktuelle nettoformue for alle dine konti.</string>
     <string name="cab_PriceHistory_download_help_text">Hent kursen for den givne dato fra den konfigurerede udbyder. Nogle udbydere leverer ikke kurser for alle datoer, f.eks. weekender eller helligdage, og returnerer i stedet en tidligere kurs.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_intro">Med denne indstilling aktiveret kan du se, hvordan hver udenlandsk valuta-konto bidrager til den samlede værdi i din hjemmevaluta. Hvis en konto ikke bruger dynamiske valutakurser, beregnes værdien ud fra den kurs, der er angivet i kontoens egenskaber. Ellers:</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_3">Baseres den <b>aktuelle værdi</b> på den seneste valutakurs for kontoens valuta.</string>
     <string name="help_PrintLayoutConfiguration_info">Kolonner kan ændres i størrelsen ved at trække i den sorte rektangel mellem dem. Ikonerne &lt;img src=add_column_start&gt; og &lt;img src=add_column_end&gt; giver mulighed for at tilføje nye kolonner. Felter kan trækkes og enten placeres et nyt sted eller smides i papirkurven. Hvis du slipper et felt oven på et andet, oprettes et kombineret felt – dvs. de to felter vises sammen på én linje.</string>
 </resources>

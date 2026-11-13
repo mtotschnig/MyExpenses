@@ -20,15 +20,15 @@
     <string name="help_form_fields">Form fields</string>
     <string name="cab_delete_help_text">Delete the selected items.</string>
     <string name="cab_edit_help_text">Edit the selected item.</string>
+    <!-- used on Advanced section in Settings -->
     <string name="help_MyExpenses_title">Transaction list</string>
-    <string name="help_MyExpensesV2_accounts_info"><![CDATA[Manage your accounts and track your net worth. Switch between the account list and the balance sheet using the toolbar dropdown. Use the <img src="tune"> <b>Options</b> menu to group and sort accounts, and the <img src="data"> <b>Data</b> menu to configure types, flags and currencies. Tap an account to see its summary, or the <img src="ic_chevron_end"> icon to view its transactions. The <img src="more"> icon provides additional actions for each account.]]></string>
+    <!-- %1$s is replaced with localized label of Options menu, %2$s is replaced with localized label of Data menu -->
+    <string name="help_MyExpensesV2_accounts_info"><![CDATA[Manage your accounts and track your net worth. Switch between the account list and the balance sheet using the toolbar dropdown. Use the <img src="tune"> <b>%1$s</b> menu to group and sort accounts, and the <img src="data"> <b>%2$s</b> menu to configure types, flags and currencies. Tap an account to see its summary, or the <img src="ic_chevron_end"> icon to view its transactions. The <img src="more"> icon provides additional actions for each account.]]></string>
     <string name="help_MyExpensesV2_transactions_info">View and manage transactions for the selected account. Use the floating action button to add new transactions.</string>
     <string name="help_MyExpensesV2_portfolio_info">Track your investments in this portfolio. You can import trades and view your asset distribution. The account summary links to the prices screen, where the current price of an asset can be set.</string>
     <string name="menu_import_trades_help_text">Import investment trades from a CSV file into your portfolio.</string>
     <string name="menu_sync_help_text">Trigger immediate synchronization with the cloud service configured for the current account.</string>
-    <string name="help_MyExpenses_info">This screen lists all transactions for the current account. Use the floating action button to open the form for creating a new transaction.</string>
-    <string name="help_MyExpenses_fab_long_press">Long press on the floating action button opens a menu that allows to prepare the form for transfer, split transaction or income.</string>
-    <string name="popup_MyExpenses_toolbar_intro">Tapping on the toolbar (account label or current balance) pops up a menu with the following entries:</string>
+    <string name="popup_MyExpenses_toolbar_intro">Tapping on the toolbar (account label or current balance) pops up a detailed account summary and a menu with the following entries:</string>
     <string name="popup_MyExpenses_toolbar_copy_text">Copy the current balance to the clipboard.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">Calculate the difference between the current balance and a new value.</string>
     <string name="menu_status_handle_help_text">The status of the transaction is indicated by a colored rectangle: gray for unreconciled, blue for clear, green for reconciled. Clicking on the rectangle, changes the status.</string>
@@ -246,10 +246,6 @@
     <string name="dynamic_exchange_rate_help_text_3">The option %s allows you to track the up-to-date net worth of all your accounts.</string>
     <string name="help_user_exchange_rate">This rate has been provided by the user while editing the equivalent amount of a transaction.</string>
     <string name="help_calculated_exchange_rate">This rate has been calculated automatically from existing rates, when the home currency was reconfigured.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_intro">With this option checked, you can see how each foreign currency account contributes to the grand total in your home currency. If an account does not use dynamic exchange rates, its value is calculated based on the rate set in the account’s properties. Otherwise:</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_1">The <b>initial value</b> is based on the rate set in the account’s properties.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_2"><b>Income and expense sums</b> are calculated using the equivalent amounts specified for each transaction.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_3">The <b>current value</b> is based on the latest exchange rate for the account’s currency.</string>
     <string name="help_PrintLayoutConfiguration_info">Columns can be resized by dragging the black rectangle between columns. The icons &lt;img src=add_column_start&gt; and &lt;img src=add_column_end&gt; allow to add new columns. Fields can be dragged, and either dropped to a new position or to the recycle area. If you drop a field onto another field, you create a combined field, i.e. the two fields will be printed together on one line.</string>
     <string name="account_types_help_v2">Account types classify accounts as
         \n\u2022 <b>Assets</b> (something you own, such as cash, bank accounts, or investments) or as

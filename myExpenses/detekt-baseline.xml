@@ -70,7 +70,7 @@
     <ID>CyclomaticComplexMethod:Grouping.kt:Grouping$fun getDisplayTitle: String</ID>
     <ID>CyclomaticComplexMethod:HelpDialogFragment.kt:HelpDialogFragment$override fun onCreateDialog: Dialog</ID>
     <ID>CyclomaticComplexMethod:HelpDialogHelper.kt:HelpDialogHelper$@Throws(Resources.NotFoundException::class) fun getStringOrThrowIf0: CharSequence</ID>
-    <ID>CyclomaticComplexMethod:HelpDialogHelper.kt:HelpDialogHelper$fun resolveStringOrArray: CharSequence?</ID>
+    <ID>CyclomaticComplexMethod:HelpDialogHelper.kt:HelpDialogHelper$fun resolveStringOrArray</ID>
     <ID>CyclomaticComplexMethod:HistoryChart.kt:HistoryChart$override fun onLoadFinished</ID>
     <ID>CyclomaticComplexMethod:ImportTradesDialog.kt:@OptIn(ExperimentalMaterial3Api::class) @Composable fun ImportTradesDialog</ID>
     <ID>CyclomaticComplexMethod:ImportTradesDialog.kt:private suspend fun parseCsv: ImportTradesParseResult</ID>
@@ -302,7 +302,7 @@
     <ID>LongMethod:FilterHandler.kt:@Composable fun FilterHandler</ID>
     <ID>LongMethod:FloatingActionButtonMenu.kt:@Composable fun &lt;T: FabMenuAction&gt; FloatingActionButtonMenu</ID>
     <ID>LongMethod:HelpDialogFragment.kt:HelpDialogFragment$override fun onCreateDialog: Dialog</ID>
-    <ID>LongMethod:HelpDialogHelper.kt:HelpDialogHelper$fun resolveStringOrArray: CharSequence?</ID>
+    <ID>LongMethod:HelpDialogHelper.kt:HelpDialogHelper$fun resolveStringOrArray</ID>
     <ID>LongMethod:HelpDialogHelperTest.kt:HelpDialogHelperTest$@Test fun testHelpStringResExists</ID>
     <ID>LongMethod:HistoryChart.kt:HistoryChart$override fun onCreateView: View</ID>
     <ID>LongMethod:HistoryChart.kt:HistoryChart$override fun onLoadFinished</ID>
@@ -1179,7 +1179,6 @@
     <ID>NewLineAtEndOfFile:AccountWidgetService.kt:org.totschnig.myexpenses.widget.AccountWidgetService.kt</ID>
     <ID>NewLineAtEndOfFile:AccountsMinimalTest.kt:org.totschnig.myexpenses.provider.AccountsMinimalTest.kt</ID>
     <ID>NewLineAtEndOfFile:AcraCrashHandler.kt:org.totschnig.myexpenses.util.crashreporting.AcraCrashHandler.kt</ID>
-    <ID>NewLineAtEndOfFile:Action.kt:org.totschnig.myexpenses.compose.accounts.Action.kt</ID>
     <ID>NewLineAtEndOfFile:Action.kt:org.totschnig.myexpenses.compose.transactions.Action.kt</ID>
     <ID>NewLineAtEndOfFile:AdditionalHelpTest.kt:org.totschnig.myexpenses.util.AdditionalHelpTest.kt</ID>
     <ID>NewLineAtEndOfFile:Amount.kt:org.totschnig.myexpenses.compose.Amount.kt</ID>
@@ -1375,8 +1374,6 @@
     <ID>NewLineAtEndOfFile:GroupingNavigatorTest.kt:org.totschnig.myexpenses.util.GroupingNavigatorTest.kt</ID>
     <ID>NewLineAtEndOfFile:HeaderPreference.kt:org.totschnig.myexpenses.preference.HeaderPreference.kt</ID>
     <ID>NewLineAtEndOfFile:Help.kt:org.totschnig.myexpenses.activity.Help.kt</ID>
-    <ID>NewLineAtEndOfFile:HelpDialogFragment.kt:org.totschnig.myexpenses.dialog.HelpDialogFragment.kt</ID>
-    <ID>NewLineAtEndOfFile:HelpDialogHelper.kt:org.totschnig.myexpenses.util.HelpDialogHelper.kt</ID>
     <ID>NewLineAtEndOfFile:HelpDialogHelperTest.kt:org.totschnig.myexpenses.util.HelpDialogHelperTest.kt</ID>
     <ID>NewLineAtEndOfFile:HistoryAccountInfo.kt:org.totschnig.myexpenses.viewmodel.data.HistoryAccountInfo.kt</ID>
     <ID>NewLineAtEndOfFile:HistoryActivity.kt:org.totschnig.myexpenses.activity.HistoryActivity.kt</ID>

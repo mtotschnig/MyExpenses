@@ -17,10 +17,8 @@
     <string name="help_form_fields">Формы палёў</string>
     <string name="cab_delete_help_text">Выдаліць выбраныя элементы.</string>
     <string name="cab_edit_help_text">Рэдагаваць выбраны элемент.</string>
-    <string name="help_MyExpenses_fab_long_press">Націск і ўтрыманне плавае кнопку дзеянні адкрывае меню падрыхтоўкі форму для пераводу, падзел транзакцыі і паступленняў.</string>
     <string name="popup_MyExpenses_toolbar_copy_text">Скапіяваць бягучы баланс у буфер абмену.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">Вылічыць розніцу паміж бягучым балансам і новым значэннем.</string>
-    <string name="help_MyExpenses_info">На гэтым экране пералічаны ўсе транзакцыі па бягучым рахунку. Выкарыстоўвайце плаваючую кнопку дзеяння, каб адкрыць форму для стварэння новай транзакцыі.</string>
     <string name="menu_sort_direction_help_text">Транзакцыі можна адсартаваць па ўзрастанні (найстарэйшыя зверху) або па змяншэнні (найноўшыя зверху).</string>
     <string name="menu_distribution_help_text">Пакажыце размеркаванне вашых выдаткаў па катэгорыях. Вы таксама можаце доўга націскаць на загаловак групы, каб праглядзець размеркаванне за пэўны перыяд часу.</string>
     <string name="menu_budget_help_text">Кіраванне штодзённым, штотыднёвым, штомесячным або штогадовым бюджэтам для адлюстроўваецца ў цяперашні час акаўнт.</string>
@@ -182,10 +180,6 @@
     <string name="cab_MyExpenses_select_help_text">Множны выбар можна запусціць, выбраўшы гэтую каманду або доўгім націскам на запіс у спісе.</string>
     <string name="cab_show_transactions_help_text">Адкрыйце дыялогавае акно са спісам усіх транзакцый, звязаных з выбранай катэгорыяй у бягучым акаўнце.</string>
     <string name="menu_BudgetActivity_edit_help_text">Змяніць вызначэнне бюджэту.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_intro">Калі гэтая опцыя ўключана, вы можаце бачыць, як кожны рахунак у замежнай валюце ўносіць свой уклад у агульную суму ў вашай нацыянальнай валюце. Калі рахунак не выкарыстоўвае дынамічныя абменныя курсы, яго кошт разлічваецца на аснове курсу, зададзенага ва ўласцівасцях рахунку. У адваротным выпадку:</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_1">Пачатковае значэнне <b/> разлічваецца на аснове стаўкі, усталяванай ва ўласцівасцях уліковага запісу.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_2"><b>Сумы даходаў і выдаткаў</b> разлічваюцца з выкарыстаннем эквівалентных сум, указаных для кожнай транзакцыі.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_3">Бягучае значэнне <b/> разлічваецца на аснове апошняга абменнага курсу валюты рахунку.</string>
     <string name="form_MethodEdit_numbered_help_text">Калі метад пранумараваны, транзакцыі, якія яму адпавядаюць, будуць мець дадатковае поле для ўводу нумара спасылкі.</string>
     <string name="form_MethodEdit_account_types_help_text">Выберыце тыпы рахункаў, для якіх гэты метад падыходзіць.</string>
     <string name="help_ManageSyncBackends_drive">Выберыце любую тэчку, якая вам належыць або да якой вам агулены доступ.</string>

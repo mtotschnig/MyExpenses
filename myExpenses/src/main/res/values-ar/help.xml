@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="help_menu_commands">أوامر القائمة</string>
     <string name="help_contextual_actions">الإجراءات السياقية</string>
     <string name="help_contextual_actions_help">تظهر قائمة الإجراءات السياقية عند الضغط المطول على إدخال في القائمة.</string>
@@ -7,8 +7,11 @@
     <string name="cab_delete_help_text">حذف العناصر المحددة.</string>
     <string name="cab_edit_help_text">تعديل العنصر المحدد.</string>
     <string name="help_MyExpenses_title">قائمة المعاملات</string>
-    <string name="help_MyExpenses_info">تعرض هذه الشاشة جميع المعاملات للحساب الحالي. استخدم زر الإجراء العائم لفتح نموذج إنشاء معاملة جديدة.</string>
-    <string name="help_MyExpenses_fab_long_press">الضغط المطول على زر الإجراء العائم يفتح قائمة تتيح تهيئة النموذج لإنشاء تحويل، معاملة مقسمة، أو دخل.</string>
+    <string name="help_MyExpensesV2_accounts_info"><![CDATA[إدارة حساباتك ومتابعة صافي قيمتك. التنقل بين قائمة الحسابات والميزانية العمومية باستخدام القائمة المنسدلة في شريط الأدوات. استخدم قائمة <img src="tune"> <b>%1$s</b> لتجميع وتجميع الحسابات، وقائمة <img src="data"> <b>%2$s</b> لتهيئة الأنواع والأعلام والعملات. انقر فوق حساب لرؤية ملخصه، أو أيقونة <img src="ic_chevron_end"> لعرض معاملاته. توفر أيقونة <img src="more"> إجراءات إضافية لكل حساب.]]></string>
+    <string name="help_MyExpensesV2_transactions_info">عرض وإدارة المعاملات للحساب المحدد. استخدم زر الإجراء العائم لإضافة معاملات جديدة.</string>
+    <string name="help_MyExpensesV2_portfolio_info">تتبع استثماراتك في هذه المحفظة. يمكنك استيراد الصفقات وعرض توزيع أصولك. يربط ملخص الحساب بشاشة الأسعار، حيث يمكن تحديد السعر الحالي للأصل.</string>
+    <string name="menu_import_trades_help_text">استيراد صفقات الاستثمار من ملف CSV إلى محفظتك.</string>
+    <string name="menu_sync_help_text">بدء المزامنة الفورية مع الخدمة السحابية المجهزة للحساب الحالي.</string>
     <string name="popup_MyExpenses_toolbar_intro">النقر على شريط الأدوات (تسمية الحساب أو الرصيد الحالي) يعرض قائمة بالخيارات التالية:</string>
     <string name="popup_MyExpenses_toolbar_copy_text">نسخ الرصيد الحالي إلى الحافظة.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">حساب الفرق بين الرصيد الحالي وقيمة جديدة.</string>
@@ -27,11 +30,16 @@
     <string name="cab_clone_transaction_help_text">يتم استنساخ المعاملات المحددة بالتاريخ والوقت الحاليين. يمكنك إجراء تغييرات قبل حفظ النسخة.</string>
     <string name="cab_split_help_text">يمكنك لاحقًا تعديل المعاملة لإضافة أجزاء إضافية حسب الحاجة.</string>
     <string name="menu_scan_mode_help_text">تفعيل وضع المسح لمسح الإيصالات بسرعة.</string>
+    <string name="cab_link_help_text">يمكن ربط مصروف في حساب مع دخل في حساب آخر. إذا كانت الحسابات بنفس العملة، يجب أن تكون المبالغ متطابقة.</string>
     <string name="help_ManageMethods_info">تعرض هذه الشاشة طرق الدفع المحددة مسبقًا (شيك، بطاقة ائتمان، إيداع، خصم مباشر) وتتيح إنشاء طرق جديدة. استخدم زر الإجراء العائم لفتح نموذج إنشاء طريقة جديدة.</string>
     <string name="help_ManageParties_manage_info">تعرض هذه الشاشة الأطراف المستخدمة للإكمال التلقائي لحقل الدافع/المدفوع له.</string>
     <string name="help_ManageParties_select_mapping_info">حدد طرفًا بالنقر عليه.</string>
     <string name="help_ManageParties_select_filter_info">حدد جميع الأطراف التي تريد استخدامها لتصفية قائمة المعاملات.</string>
     <string name="help_ManageParties_floating_action_button">استخدم زر الإجراء العائم لإضافة إدخال جديد.</string>
+    <string name="help_fab_confirm_selection">استخدم زر الإجراء العائم لتأكيد التحديد.</string>
+    <string name="help_ManageParties_mergeMode_info_1">اختر الأطراف المكررة التي تريد دمجها.</string>
+    <string name="help_ManageParties_mergeMode_info_2">سيُطلب منك اختيار المتغير الذي تريد الاحتفاظ به.</string>
+    <string name="menu_merge_help_text">إذا ظهر الطرف نفسه عدة مرات في القائمة بصيغ تهجئة مختلفة، يمكنك دمجه معًا.</string>
     <string name="help_ManageTemplates_plans_title">عرض تقويم الخطة</string>
     <string name="help_ManageTemplates_planner_title">التكرارات القادمة</string>
     <string name="help_ManageTemplates_templates_info"><![CDATA[<img src="ic_menu_template"> بينما يمكن إنشاء القوالب من المعاملات عبر قائمة السياق الخاصة بها، يمكنك هنا إنشاء قوالب جديدة من البداية (للمعاملات أو التحويلات) بالنقر على زر الإجراء العائم. النقر على قالب ينشئ مثيلًا له.<br><img src="ic_event"> الخطة هي قالب أنشأت له حدثًا (مرة واحدة أو متكرر) في تقويم المخطط. النقر على خطة يفتح عرض التقويم، الذي يعرض الحالات السابقة والقادمة للخطة.]]></string>
@@ -53,12 +61,19 @@
     <string name="menu_ManageTemplates_templates_sort_help_text">يمكن فرز قائمة القوالب حسب العنوان (أبجديًا)، المبلغ، تكرار الاستخدام، أو آخر مرة أُنشئت فيها معاملة منها.</string>
     <string name="help_ManageCategories_distribution_info">تعرض هذه الشاشة توزيع مصروفاتك وإيراداتك حسب الفئات، لجميع المعاملات في الحساب أو لمجموعة محددة. عند توسيع فئة رئيسية في القائمة، يعرض المخطط الدائري توزيع فئاتها الفرعية. عند تحديد فئة في القائمة، تُبرز في المخطط الدائري، والعكس صحيح. اضغط مطولًا على فئة لعرض قائمة مجمعة بالمعاملات المرتبطة بها.</string>
     <string name="help_ManageCategories_select_mapping_info">بالإضافة إلى الإجراءات المتاحة عند إدارة الفئات من شاشة التفضيلات (إنشاء، تعديل، حذف)، يمكنك في هذه الشاشة ربط معاملة بفئة محددة بالنقر عليها.</string>
+    <string name="help_ManageCategories_select_filter_info">انقر على إدخال لبدء التحديد المتعدد.</string>
     <string name="help_ManageCategories_manage_info">تتيح هذه الشاشة إنشاء، تعديل، وحذف الفئات. افتراضيًا، معيار الفرز الأساسي في قائمة الفئات هو عدد مرات استخدام الفئة (المعيار الثانوي هو الترتيب الأبجدي). يتيح ذلك الوصول السريع إلى الفئات الأكثر استخدامًا.</string>
+    <string name="help_ManageCategories_expand_collapse"><![CDATA[انقر على أيقونة <img src="ic_expand_more">/<img src="ic_expand_less"> لتوسيع أو طي فئة.]]></string>
+    <string name="help_ManageCategories_manage_context">انقر على إدخال لعرض قائمة السياق الخاصة به. اضغط مطولًا لبدء التحديد المتعدد.</string>
     <string name="menu_ManageCategories_distribution_grouping_help_text">حدد نوع التجميع وعرض التوزيع حسب اليوم، الشهر، الأسبوع، أو السنة.</string>
     <string name="menu_back_help_text">الانتقال إلى المجموعة السابقة. يمكن أيضًا القيام بذلك بحركة السحب من اليسار إلى اليمين.</string>
     <string name="menu_forward_help_text">الانتقال إلى المجموعة التالية. يمكن أيضًا القيام بذلك بحركة السحب من اليمين إلى اليسار.</string>
+    <string name="cab_ManageCategories_create_sub_cat_help_text">يفتح مربع حوار لإنشاء فئة فرعية جديدة تحت الفئة المحددة. يمكن أن تتداخل الفئات الفرعية بعمق غير محدود.</string>
+    <string name="cab_ManageCategories_move_help_text">يمكن نقل أي فئة (مع فئاتها الفرعية) إلى فئة رئيسية جديدة. يمكن تحويل الفئات الفرعية إلى فئات رئيسية.</string>
+    <string name="cab_ManageCategories_merge_help_text">يمكن دمج الفئات من نفس النوع.</string>
     <string name="menu_categories_setup_default_help_text">يتم استيراد مجموعة من الفئات الافتراضية.</string>
     <string name="menu_categories_export_help_text">سيتم تصدير الفئات إلى ملف QIF.</string>
+    <string name="menu_chart_help_text">تبديل رؤية المخطط.</string>
     <string name="cab_ManageCategories_select_filter_select_help_text">تُستخدم الفئات المحددة لتصفية قائمة المعاملات.</string>
     <string name="menu_ManageCategories_search_help_text">تُعرض الفئات الرئيسية والفرعية التي تطابق استعلامك فقط.</string>
     <string name="menu_ManageCategories_sort_help_text">يمكن فرز قائمة الفئات حسب العنوان (أبجديًا)، تكرار الاستخدام، أو آخر مرة تم فيها ربط معاملة بها.</string>
@@ -86,6 +101,8 @@
     <string name="form_attach_image_help_text"><![CDATA[الزر <img src="android:ic_menu_camera"> يتيح إرفاق صورة (مثل من المعرض أو الكاميرا) بالكائن.]]></string>
     <string name="form_default_action_help_text">لكل قالب، يمكنك تهيئته بحيث يؤدي النقر القصير عليه في قائمة القوالب إما إلى حفظ المثيل فورًا أو فتح نموذج التحرير الخاص به لتعديله قبل الحفظ. يمكنك دائمًا الوصول إلى كلا الإجراءين عبر الضغط المطول.</string>
     <string name="form_category_help_text">يفتح هذا الزر قائمة الفئات، حيث يمكنك تحديد الفئة التي تريد ربطها بالمعاملة.</string>
+    <string name="form_split_parts_heading_help_text_1">استخدم أيقونة + لإدخال العديد من الأجزاء المقسمة حسب الحاجة.</string>
+    <string name="form_split_parts_heading_help_text_2">يتم تحديث حقل المبلغ تلقائيًا بمجموع الأجزاء، ما لم تُدخل مبلغًا يدويًا، وفي هذه الحالة يظهر الفرق بين مجموع الأجزاء والمبلغ (المبلغ غير المقسم).</string>
     <string name="form_split_parts_heading_help_text_3">يمكنك حفظ المعاملة المقسمة فقط إذا تم تخصيص مبلغ المعاملة بالكامل.</string>
     <string name="form_ExpenseEdit_splitPartCategory_category_help_text">حدد فئة لهذا الجزء المقسم.</string>
     <string name="form_transfer_from_account_transfer_to_account_help_text">حدد الحسابات التي تم التحويل منها أو إليها.</string>
@@ -113,6 +130,7 @@
     <string name="form_color_help_text">في قائمة معاملات أي حساب، يُستخدم لونه كلون أساسي لواجهة المستخدم.</string>
     <string name="form_synchronization_help_text_select">حدد خلفية للمزامنة السحابية.</string>
     <string name="form_synchronization_help_text_add">يمكن إضافة الخلفيات من شاشة الإعدادات.</string>
+    <string name="form_AccountEdit_active_tags_help_text">يمكنك ربط علامة أو أكثر نشطة بكل حساب. عند إنشاء معاملة جديدة، تُضاف هذه العلامات تلقائيًا بناءً على الحساب المحدد.</string>
     <string name="menu_exclude_from_totals_help_text">إذا اخترت هذا الخيار، لن يُدرج هذا الحساب في الإجماليات لكل عملة.</string>
     <string name="help_MethodEdit_title">نموذج طرق الدفع</string>
     <string name="form_MethodEdit_label_help_text">تُعرّف التسمية الطريقة عند ربط معاملة بها.</string>
@@ -131,6 +149,7 @@
     <string name="help_ManageSyncBackends_webdav">إذا كان مزود التخزين السحابي يدعم بروتوكول WebDAV، يمكن لتطبيق نفقاتي مزامنة البيانات معه. قم بتوفير عنوان URL لمجلد مع اسم المستخدم وكلمة المرور. إذا كنت تستخدم https ويستخدم خادم الويب شهادة موقعة ذاتيًا، يمكنك الوثوق بها صراحةً.</string>
     <string name="help_ManageSyncBackends_drive">اختر أي مجلد تملكه أو تمت مشاركته معك.</string>
     <string name="help_ManageSyncBackends_encryption">لكل خلفية، يمكنك تعيين عبارة مرور مختلفة لتشفير بيانات المزامنة. لا يمكن تحويل خلفية موجودة من غير مشفرة إلى مشفرة. تحتاج إلى إنشاء خلفية جديدة في هذه الحالة. إذا كنت تستخدم ميزة تخزين النسخ الاحتياطية التلقائية على خلفية المزامنة، لا تُشفر هذه الملفات بكلمة المرور الخاصة بالخلفية. بدلاً من ذلك، يمكنك تعيين كلمة مرور تنطبق على جميع ملفات النسخ الاحتياطي في قسم الأمان بشاشة الإعدادات.</string>
+    <string name="help_ManageSyncBackends_saf">يتيح هذا الخيار اختيار مجلد عبر حوار اختيار الملفات في أندرويد. يُفيد بشكل رئيسي إذا كنت قد ثبت تطبيق تخزين سحابي يدعم اختيار مجلد لتخزين المحتوى، مثل NextCloud.</string>
     <string name="menu_create_sync_backend_help_text">من القائمة الفرعية، حدد نوع خلفية المزامنة التي تريد إضافتها، وقدم التفاصيل الخاصة بكل منها.</string>
     <string name="cab_sync_now_help_text">تشغيل المزامنة الفورية مع الخلفية المحددة.</string>
     <string name="cab_remove_help_text">إزالة الخلفية المحددة.</string>
@@ -141,13 +160,19 @@
     <string name="menu_HistoryActivity_grouping_help_text">التبديل بين التجميع اليومي، الأسبوعي، الشهري، أو السنوي لبيانات التدفق النقدي.</string>
     <string name="menu_HistoryActivity_history_show_balance_help_text">تبديل رؤية الرصيد.</string>
     <string name="menu_HistoryActivity_history_transfers_help_text">تبديل ما إذا كان يجب معاملة التحويلات كإيرادات أو مصروفات عادية.</string>
-    <string name="help_BudgetActivity_info" tools:ignore="UnusedResources">بتعريف ميزانية، تحدد المبلغ الإجمالي الذي تريد إنفاقه خلال فترة معينة. يمكنك أيضًا تخصيص مبالغ للفئات والفئات الفرعية. يمكنك بعد ذلك مراقبة المبلغ الذي أنفقته والمبلغ المتبقي للإنفاق.</string>
+    <string name="help_BudgetActivity_info">بتعريف ميزانية، تحدد المبلغ الإجمالي الذي تريد إنفاقه خلال فترة معينة. يمكنك أيضًا تخصيص مبالغ للفئات والفئات الفرعية. يمكنك بعد ذلك مراقبة المبلغ الذي أنفقته والمبلغ المتبقي للإنفاق.</string>
     <string name="help_Budget_amount_click">النقر على المبالغ المدرجة في الميزانية يتيح تغييرها.</string>
+    <string name="help_Budget_amount_click_1">تغيير مبلغ لن يؤثر على الفترات السابقة. ما لم تقرر تحديده للفترة الحالية فقط، سيؤثر على الفترات المستقبلية.</string>
+    <string name="help_Budget_spent_click">النقر على المبالغ المنفقة يسرد جميع المعاملات ذات الصلة بالميزانية الحالية والفئة المقابلة.</string>
     <string name="cab_show_transactions_help_text">فتح مربع حوار يسرد جميع المعاملات المرتبطة بالفئة المحددة في الحساب الحالي.</string>
     <string name="menu_BudgetActivity_back_forward_help_text">مقارنة الميزانية بإنفاق الفترات الزمنية الماضية والمستقبلية.</string>
     <string name="menu_BudgetActivity_edit_help_text">تغيير تعريف الميزانية.</string>
     <string name="menu_budget_allocated_only_help_text">بتفعيل هذا الخيار، تُعرض الفئات التي تم تخصيص مبلغ لها فقط.</string>
     <string name="menu_BudgetActivity_delete_help_text">تُحذف الميزانية المعروضة حاليًا.</string>
+    <string name="menu_BudgetActivity_rollover_help_text">إذا أنفقت أقل أو أكثر من ميزانيتك، يمكنك ترحيل الفرق إلى الفترة التالية، بحيث يزيد أو ينقص المبلغ المتاح هناك. هناك ثلاثة خيارات:</string>
+    <string name="menu_BudgetActivity_rollover_total">يُرحّل المتبقي للميزانية الإجمالية فقط، بحيث تتأثر الميزانية الإجمالية للفترة التالية فقط.</string>
+    <string name="menu_BudgetActivity_rollover_categories">يُرحّل المتبقي لكل فئة، ويؤثر على التخصيص المقابل في الفترة التالية.</string>
+    <string name="menu_BudgetActivity_rollover_edit">يتيح هذا الخيار تهيئة الترحيل بدقة. على سبيل المثال، يمكنك ضبط ترحيلات جزئية لبعض الفئات أو الفئات الفرعية، وترحيل الجزء المتبقي على الميزانية الإجمالية.</string>
     <string name="help_ManageBudgets_title">قائمة جميع الميزانيات</string>
     <string name="help_ManageBudgets_info">تعرض هذه الشاشة ملخصًا لجميع الميزانيات التي أنشأتها. استخدم زر الإجراء العائم لإنشاء ميزانية جديدة. النقر على إدخال في القائمة يعرض ميزانية واحدة.</string>
     <string name="help_BudgetEdit_title">نموذج الميزانيات</string>
@@ -160,65 +185,56 @@
     <string name="cab_remap_help_text">استخدم الأوامر في هذه القائمة الفرعية إذا كنت تريد تغيير الخاصية المحددة (الحساب، الفئة، الدافع/المدفوع له، أو طريقة الدفع) لجميع المعاملات المحددة.</string>
     <string name="form_tags_help_text">تتيح أيقونة + تحديد العلامات الموجودة وإنشاء علامات جديدة. تتيح أيقونة x على كل علامة إزالة الربط بين المعاملة والعلامة.</string>
     <string name="help_ManageTags_select_filter_info">حدد أو ألغِ تحديد العلامات لتصفية قائمة المعاملات بالنقر عليها.</string>
-    <string name="help_fab_confirm_selection">استخدم زر الإجراء العائم لتأكيد التحديد.</string>
     <string name="help_ManageTags_manage_info">أنشئ علامات جديدة بإدخالها في حقل النص.</string>
     <string name="help_ManageTags_select_mapping_info">اربط أو ألغِ ربط العلامات بالنقر عليها. استخدم زر الإجراء العائم لتأكيد الربط.</string>
-    <string name="cab_ManageCategories_select_help_text">ربط الفئة المحددة بالمعاملة والعودة إلى نموذج المعاملة.</string>
-    <string name="cab_link_help_text">يمكن ربط مصروف في حساب مع دخل في حساب آخر. إذا كانت الحسابات بنفس العملة، يجب أن تكون المبالغ متطابقة.</string>
-    <string name="help_ManageCategories_select_filter_info">انقر على إدخال لبدء التحديد المتعدد.</string>
-    <string name="menu_merge_help_text">إذا ظهر الطرف نفسه عدة مرات في القائمة بصيغ تهجئة مختلفة، يمكنك دمجه معًا.</string>
-    <string name="help_ManageParties_mergeMode_info_2">سيُطلب منك اختيار المتغير الذي تريد الاحتفاظ به.</string>
-    <string name="help_ManageCategories_expand_collapse"><![CDATA[انقر على أيقونة <img src="ic_expand_more">/<img src="ic_expand_less"> لتوسيع أو طي فئة.]]></string>
-    <string name="cab_ManageCategories_create_sub_cat_help_text">يفتح مربع حوار لإنشاء فئة فرعية جديدة تحت الفئة المحددة. يمكن أن تتداخل الفئات الفرعية بعمق غير محدود.</string>
-    <string name="cab_ManageCategories_move_help_text">يمكن نقل أي فئة (مع فئاتها الفرعية) إلى فئة رئيسية جديدة. يمكن تحويل الفئات الفرعية إلى فئات رئيسية.</string>
-    <string name="menu_show_all_help_text">الديون التي أُغلقت أو سُددت (رصيدها صفر) تظهر فقط إذا تم تحديد هذا الخيار.</string>
+    <string name="help_ManageTags_context_menu_info">اضغط على أيقونة &lt;img src=more&gt; لتعديل أو تعيين لون أو حذف الوسم.</string>
     <string name="help_debt_managment">ربط الديون بالأطراف، فحص قائمة المعاملات، وحساب الرصيد المتبقي.</string>
-    <string name="help_WebUI_info_2">حاليًا، لا تدعم واجهة المستخدم على الويب التحويلات أو المعاملات المقسمة.</string>
-    <string name="help_ManageCategories_manage_context">انقر على إدخال لعرض قائمة السياق الخاصة به. اضغط مطولًا لبدء التحديد المتعدد.</string>
-    <string name="form_split_parts_heading_help_text_1">استخدم أيقونة + لإدخال العديد من الأجزاء المقسمة حسب الحاجة.</string>
-    <string name="cab_MyExpenses_filter_help_text">البحث عن المعاملات ذات الخصائص نفسها.</string>
-    <string name="help_ManageParties_mergeMode_info_1">اختر الأطراف المكررة التي تريد دمجها.</string>
-    <string name="help_WebUI_info_1">استدعِ عنوان URL المعروض في العنوان الفرعي من متصفح ويب على جهاز الكمبيوتر الخاص بك.</string>
-    <string name="form_split_parts_heading_help_text_2">يتم تحديث حقل المبلغ تلقائيًا بمجموع الأجزاء، ما لم تُدخل مبلغًا يدويًا، وفي هذه الحالة يظهر الفرق بين مجموع الأجزاء والمبلغ (المبلغ غير المقسم).</string>
-    <string name="form_AccountEdit_active_tags_help_text">يمكنك ربط علامة أو أكثر نشطة بكل حساب. عند إنشاء معاملة جديدة، تُضاف هذه العلامات تلقائيًا بناءً على الحساب المحدد.</string>
-    <string name="help_ManageSyncBackends_saf">يتيح هذا الخيار اختيار مجلد عبر حوار اختيار الملفات في أندرويد. يُفيد بشكل رئيسي إذا كنت قد ثبت تطبيق تخزين سحابي يدعم اختيار مجلد لتخزين المحتوى، مثل NextCloud.</string>
-    <string name="help_Budget_amount_click_1">تغيير مبلغ لن يؤثر على الفترات السابقة. ما لم تقرر تحديده للفترة الحالية فقط، سيؤثر على الفترات المستقبلية.</string>
-    <string name="help_Budget_spent_click">النقر على المبالغ المنفقة يسرد جميع المعاملات ذات الصلة بالميزانية الحالية والفئة المقابلة.</string>
-    <string name="menu_BudgetActivity_rollover_help_text">إذا أنفقت أقل أو أكثر من ميزانيتك، يمكنك ترحيل الفرق إلى الفترة التالية، بحيث يزيد أو ينقص المبلغ المتاح هناك. هناك ثلاثة خيارات:</string>
-    <string name="menu_BudgetActivity_rollover_total">يُرحّل المتبقي للميزانية الإجمالية فقط، بحيث تتأثر الميزانية الإجمالية للفترة التالية فقط.</string>
-    <string name="menu_BudgetActivity_rollover_edit">يتيح هذا الخيار تهيئة الترحيل بدقة. على سبيل المثال، يمكنك ضبط ترحيلات جزئية لبعض الفئات أو الفئات الفرعية، وترحيل الجزء المتبقي على الميزانية الإجمالية.</string>
     <string name="cab_debts_help_text">تتيح هذه القائمة الفرعية تعريف ديون جديدة مرتبطة بالطرف المحدد، وإدارة الديون الموجودة: فحص سجل المعاملات، الرصيد المتبقي، وتعديل، إغلاق، أو حذف الديون.</string>
+    <string name="form_DebtEdit_label_help_text">تتيح التسمية اختيار الدين في نموذج المعاملات لتعليم معاملة كدفعة مقدمة.</string>
     <string name="form_DebtEdit_amount_help_text">أدخل المبلغ الأصلي للدين. تقلل أو تزيد المعاملات المرتبطة بالدين من الرصيد. استخدم المفتاح للتمييز بين الديون التي تدين بها والديون المستحقة لك. إذا اخترت عملة غير العملة الرئيسية، يظهر الدين فقط في الحسابات بنفس العملة.</string>
+    <string name="form_DebtEdit_date_help_text">أدخل تاريخ نشوء الدين.</string>
+    <string name="help_SetupSync_info">تتيح لك هذه الشاشة اختيار البيانات التي تريد مزامنتها بين الجهاز والنظام الخلفي. تعرض جميع الحسابات على جهازك التي لم تتم مزامنتها بعد مع أنظمة خلفية أخرى، وجميع الحسابات المخزنة على النظام الخلفي. النقر على &lt;img src=ic_hchain_broken&gt; / &lt;img src=ic_hchain&gt; سيحدد أو يلغي تحديد حساب للمزامنة. إذا قمت بتحديد حساب موجود محليًا وعن بُعد، تحتاج إلى اتخاذ قرار بشأن ما إذا كان يجب أن تتجاوز البيانات على جهازك البيانات الموجودة على النظام الخلفي، أو العكس.</string>
+    <string name="menu_parent_category_selection_help_text">يتيح هذا الخيار تخصيص النقر على فئة لها فئات فرعية: إذا تم تحديده، يختار النقر القصير الفئة؛ إذا لم يتم تحديده، يوسع/يطوي النقر القصير الفئة. في الحالة الأخيرة، يكون التحديد متاحًا من قائمة السياق.</string>
+    <string name="cab_ManageCategories_select_help_text">ربط الفئة المحددة بالمعاملة والعودة إلى نموذج المعاملة.</string>
+    <string name="help_WebUI_info_1">استدعِ عنوان URL المعروض في العنوان الفرعي من متصفح ويب على جهاز الكمبيوتر الخاص بك.</string>
+    <string name="help_WebUI_info_2">حاليًا، لا تدعم واجهة المستخدم على الويب التحويلات أو المعاملات المقسمة.</string>
     <string name="help_WebUI_info_3">يمكنك تعيين كلمة مرور لحماية الوصول. في مربع الحوار الذي يعرضه المتصفح، تؤخذ كلمة المرور فقط في الاعتبار، ويُتجاهل اسم المستخدم.</string>
     <string name="help_WebUI_info_4">عند عرض المعاملات للحساب المحدد، تستخدم واجهة المستخدم على الويب نفس الفلاتر التي قمت بتعيينها في التطبيق على جهاز أندرويد.</string>
     <string name="cab_MyExpenses_select_help_text">يمكن بدء التحديد المتعدد باختيار هذا الأمر، أو بالضغط المطول على إدخال في القائمة.</string>
+    <string name="help_DebtOverview_info">انقر على إدخال لتوسيعه/طيه.</string>
     <string name="debt_help_overflow">لكل دين، استخدم القائمة في الزاوية العلوية اليمنى لتعديله، إغلاقه، حذفه، أو مشاركته. يمكن إدراج الديون بالعملات الأجنبية اختياريًا بمبالغ مكافئة بالعملة الرئيسية.</string>
+    <string name="menu_show_all_help_text">الديون التي أُغلقت أو سُددت (رصيدها صفر) تظهر فقط إذا تم تحديد هذا الخيار.</string>
     <string name="menu_type_filter_help_text">عند تفعيل هذا الخيار، يمكنك اختيار عرض فئات المصروفات، الإيرادات، أو التحويلات فقط.</string>
     <string name="menu_aggregate_neutral_categories_help_text">تُحسب المعاملات المرتبطة بفئات الإيرادات دائمًا كإيرادات، والمرتبطة بفئات المصروفات دائمًا كمصروفات. يتيح هذا الخيار تهيئة كيفية احتساب المعاملات المرتبطة ب relaxes categories: افتراضيًا، إذا كانت إيجابية تُعتبر إيرادات، وإذا كانت سلبية تُعتبر مصروفات. لكن إذا تم تفعيل هذا الخيار، تُدرج دائمًا في مجموعي الإيرادات والمصروفات.</string>
+    <string name="cab_MyExpenses_filter_help_text">البحث عن المعاملات ذات الخصائص نفسها.</string>
+    <string name="menu_archive_help_text">بعد تحديد نطاق زمني، تُجمّع جميع المعاملات لهذه الفترة في معاملة أرشيف ملخصة. يؤدي ذلك إلى تنظيف قائمة المعاملات، لكن يمكن فحص المعاملات في الأرشيف، وإذا لزم الأمر، فك تجميعها مجددًا.</string>
+    <string name="fab_create_portfolio_help_text">إنشاء محفظة لتتبع الاستثمارات أو الأسهم أو الأصول غير النقدية الأخرى. تقتصر النسخة المجانية على محفظة واحدة.</string>
+    <string name="fab_expense_help_text">إنشاء معاملة مصروفات جديدة.</string>
+    <string name="fab_income_help_text">إنشاء معاملة دخل جديدة.</string>
+    <string name="fab_transfer_help_text">إنشاء تحويل بين حسابين.</string>
+    <string name="fab_split_help_text">إنشاء معاملة مقسمة لتصنيف أجزاء من مصروف أو دخل واحد بشكل منفصل.</string>
+    <string name="fab_scan_help_text">مسح إيصال ضوئيًا لاستخراج البيانات تلقائيًا باستخدام OCR.</string>
+    <string name="fab_trade_buy_help_text">تسجيل شراء أصل في محفظتك.</string>
+    <string name="fab_trade_sell_help_text">تسجيل بيع أصل في محفظتك.</string>
+    <string name="fab_trade_deposit_help_text">إضافة نقد إلى رصيد محفظتك.</string>
+    <string name="fab_trade_withdraw_help_text">سحب نقد من رصيد محفظتك.</string>
+    <string name="fab_trade_transfer_help_text">نقل الأصول بين المحافظ.</string>
+    <string name="menu_ManageBudgets_grouping_help_text">يمكن تجميع قائمة الميزانيات حسب الحساب أو نوع الميزانية.</string>
+    <string name="help_PriceHistory_info">يمكن تهيئة الحسابات بالعملات الأجنبية لاستخدام أسعار صرف ديناميكية. لكل يوم، يمكنك إما تنزيل أو إدخال سعر صرف محدد بالنسبة لعملتك الرئيسية. تعرض هذه الشاشة أسعار الصرف المخزنة لعملة معينة لكل يوم حتى تاريخ أقدم معاملة. يُشار إلى مصدر السعر كما يلي:</string>
+    <string name="cab_PriceHistory_download_help_text">تنزيل السعر للتاريخ المحدد من المزود المُهيأ. بعض المزودين لا يوفرون أسعارًا لكل تاريخ، مثل عطلات نهاية الأسبوع أو الأعياد، ويعيدون بدلاً من ذلك سعرًا سابقًا.</string>
+    <string name="cab_PriceHistory_add_help_text">إدخال السعر يدويًا للتاريخ المحدد. السعر المقدم من المستخدم له الأولوية على الأسعار المنزلة.</string>
     <string name="dynamic_exchange_rate_help_text_1">إذا تم تهيئة حساب بالعملة الأجنبية لاستخدام أسعار صرف ديناميكية، يمكنك تعيين مبلغ مكافئ محدد لكل معاملة.</string>
     <string name="dynamic_exchange_rate_help_text_2">تُحسب القيمة الحالية لحساب بالعملة الأجنبية بأسعار صرف ديناميكية بناءً على أحدث سعر صرف.</string>
     <string name="dynamic_exchange_rate_help_text_3">الخيار %s يتيح لك تتبع القيمة الصافية المحدثة لجميع حساباتك.</string>
     <string name="help_user_exchange_rate">تم توفير هذا السعر من المستخدم أثناء تعديل المبلغ المكافئ لمعاملة.</string>
     <string name="help_calculated_exchange_rate">تم حساب هذا السعر تلقائيًا من الأسعار الموجودة عند إعادة تهيئة العملة الرئيسية.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_intro">مع تحديد هذا الخيار، يمكنك رؤية كيف يساهم كل حساب بالعملة الأجنبية في الإجمالي الكلي بعملتك الرئيسية. إذا لم يستخدم الحساب أسعار صرف ديناميكية، تُحسب قيمته بناءً على السعر المحدد في خصائص الحساب. وإلا:</string>
-    <string name="help_PriceHistory_info">يمكن تهيئة الحسابات بالعملات الأجنبية لاستخدام أسعار صرف ديناميكية. لكل يوم، يمكنك إما تنزيل أو إدخال سعر صرف محدد بالنسبة لعملتك الرئيسية. تعرض هذه الشاشة أسعار الصرف المخزنة لعملة معينة لكل يوم حتى تاريخ أقدم معاملة. يُشار إلى مصدر السعر كما يلي:</string>
-    <string name="cab_PriceHistory_download_help_text">تنزيل السعر للتاريخ المحدد من المزود المُهيأ. بعض المزودين لا يوفرون أسعارًا لكل تاريخ، مثل عطلات نهاية الأسبوع أو الأعياد، ويعيدون بدلاً من ذلك سعرًا سابقًا.</string>
-    <string name="cab_PriceHistory_add_help_text">إدخال السعر يدويًا للتاريخ المحدد. السعر المقدم من المستخدم له الأولوية على الأسعار المنزلة.</string>
-    <string name="menu_archive_help_text">بعد تحديد نطاق زمني، تُجمّع جميع المعاملات لهذه الفترة في معاملة أرشيف ملخصة. يؤدي ذلك إلى تنظيف قائمة المعاملات، لكن يمكن فحص المعاملات في الأرشيف، وإذا لزم الأمر، فك تجميعها مجددًا.</string>
-    <string name="form_DebtEdit_date_help_text">أدخل تاريخ نشوء الدين.</string>
-    <string name="menu_BudgetActivity_rollover_categories">يُرحّل المتبقي لكل فئة، ويؤثر على التخصيص المقابل في الفترة التالية.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_1">تستند <b>القيمة الأولية</b> إلى السعر المحدد في خصائص الحساب.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_2">تُحسب <b>مجموعات الإيرادات والمصروفات</b> باستخدام المبالغ المكافئة المحددة لكل معاملة.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_3">تستند <b>القيمة الحالية</b> إلى أحدث سعر صرف لعملة الحساب.</string>
-    <string name="form_DebtEdit_label_help_text">تتيح التسمية اختيار الدين في نموذج المعاملات لتعليم معاملة كدفعة مقدمة.</string>
-    <string name="menu_parent_category_selection_help_text">يتيح هذا الخيار تخصيص النقر على فئة لها فئات فرعية: إذا تم تحديده، يختار النقر القصير الفئة؛ إذا لم يتم تحديده، يوسع/يطوي النقر القصير الفئة. في الحالة الأخيرة، يكون التحديد متاحًا من قائمة السياق.</string>
-    <string name="help_DebtOverview_info">انقر على إدخال لتوسيعه/طيه.</string>
-    <string name="menu_chart_help_text">تبديل رؤية المخطط.</string>
-    <string name="cab_ManageCategories_merge_help_text">يمكن دمج الفئات من نفس النوع.</string>
-    <string name="help_ManageTags_context_menu_info">اضغط على أيقونة &lt;img src=more&gt; لتعديل أو تعيين لون أو حذف الوسم.</string>
-    <string name="help_SetupSync_info">تتيح لك هذه الشاشة اختيار البيانات التي تريد مزامنتها بين الجهاز والنظام الخلفي. تعرض جميع الحسابات على جهازك التي لم تتم مزامنتها بعد مع أنظمة خلفية أخرى، وجميع الحسابات المخزنة على النظام الخلفي. النقر على &lt;img src=ic_hchain_broken&gt; / &lt;img src=ic_hchain&gt; سيحدد أو يلغي تحديد حساب للمزامنة. إذا قمت بتحديد حساب موجود محليًا وعن بُعد، تحتاج إلى اتخاذ قرار بشأن ما إذا كان يجب أن تتجاوز البيانات على جهازك البيانات الموجودة على النظام الخلفي، أو العكس.</string>
-    <string name="menu_ManageBudgets_grouping_help_text">يمكن تجميع قائمة الميزانيات حسب الحساب أو نوع الميزانية.</string>
     <string name="help_PrintLayoutConfiguration_info">يمكن تعديل حجم الأعمدة بسحب المستطيل الأسود بينها تتيح الأيقونتان &lt;img src=add_column_start&gt; و&lt;img src=add_column_end&gt; إضافة أعمدة جديدة\nكما يمكن سحب الحقول وإفلاتها إما في موضع جديد أو في منطقة إعادة التدوير بإفلات حقل على حقل آخر يتم إنشاء حقل مدمج أي سيتم طباعة الحقلين معًا على سطر واحد</string>
     <string name="account_types_help_v2">تصنِّف أنواع الحسابات الحسابات على النحو التالي: \n• <b>الأصول</b> (شيء تملكه، مثل النقد أو الحسابات المصرفية أو الاستثمارات) أو كـ \n• <b>الالتزامات</b> (شيء تدين به، مثل بطاقات الائتمان أو القروض). \nيمكنك إضافة أنواع مخصصة وتحديد ترتيبها، مما يؤثر بشكل أساسي على كيفية ظهورها في الميزانية العمومية.</string>
     <string name="account_flags_help_v2">تتيح لك الخيارات تحديد مستوى رؤية الحساب وأولويته: \n• إخفاء الحسابات قليلة الاستخدام، مع إمكانية اختيار ما إذا كانت الحسابات المخفية ستُدرج في الحسابات الإجمالية والميزانية العمومية. \n• إعطاء الأولوية للحسابات المفضلة عند اختيار الحساب في نموذج المعاملة. \nيمكنك أيضًا استخدام الخيارات لتحديد الحسابات التي تنتمي إلى غرض معين، مثل الحسابات العائلية مقابل الحسابات الشخصية، ثم عرض أحدهما فقط.</string>
+    <string name="menu_balance_sheet_help_text">"تعرض الميزانية العمومية صافي قيمة جميع حساباتك كفرق بين أصولك (ما تملكه) والتزاماتك (ما تدين به). وهي تعكس موقفك المالي في لحظة مختارة — سواء في الماضي أو الحاضر أو حتى في المستقبل. يتأثر عرض الميزانية العمومية أيضًا بالأعلام (التي يمكنها تغيير تضمين الحسابات في الإجماليات)."</string>
+    <string name="menu_balance_sheet_help_text_date">انقر على التاريخ لتحديد تاريخ آخر.</string>
+    <string name="cab_flag_help_text">تعيين علم للحساب المحدد، مثل مفضل أو غير نشط.</string>
+    <string name="form_payer_or_payee_help_text"><![CDATA[يتيح لك هذا الحقل تحديد أو إنشاء دافع/مستفيد. ابدأ بكتابة الاسم، وستظهر الاقتراحات. إذا لم يتم تحديد أي اقتراح، يتم إنشاء طرف جديد. إذا تم تحديد اقتراح، يتم عرضه كرقاقة (chip).
+        <br><img src="ic_menu_edit"> تعديل تفاصيل الطرف المحدد.
+        <br><img src="ic_menu_close_clear_cancel"> إزالة التحديد الحالي. ثم يظهر حقل النص مرة أخرى.]]></string>
 </resources>

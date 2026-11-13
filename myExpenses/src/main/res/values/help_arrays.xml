@@ -55,6 +55,8 @@
         <item>ungroup_split_transaction</item>
         <item>remap</item>
         <item>link</item>
+        <item>select</item>
+        <item>filter</item>
     </string-array>
 
     <string-array name="MyExpensesV2_portfolio_fabactions">
@@ -68,36 +70,6 @@
     <string-array name="MyExpensesV2_portfolio_cabitems">
         <item>edit</item>
         <item>delete</item>
-    </string-array>
-
-    <string-array name="MyExpenses_menuitems">
-        <item>search</item>
-        <item>manage_plans</item>
-        <item>budget</item>
-        <item>distribution</item>
-        <item>history</item>
-        <item>parties.debts</item>
-        <item>scan_mode</item>
-        <item>reset</item>
-        <item>grouping</item>
-        <item>sort_direction</item>
-        <item>status_handle</item>
-        <item>balance</item>
-        <item>print</item>
-        <item>archive</item>
-    </string-array>
-
-    <string-array name="MyExpenses_cabitems">
-        <item>edit</item>
-        <item>delete</item>
-        <item>create_template_from_transaction</item>
-        <item>clone_transaction</item>
-        <item>split_transaction</item>
-        <item>ungroup_split_transaction</item>
-        <item>remap</item>
-        <item>link</item>
-        <item>select</item>
-        <item>filter</item>
     </string-array>
 
     <string-array name="menu_account_types_help_text">
@@ -469,9 +441,8 @@
         <item>autofill</item>
     </string-array>
 
-    <string-array name="help_MyExpenses_info">
-        <item>help_MyExpenses_info</item>
-        <item>help_MyExpenses_fab_long_press</item>
+    <string-array name="help_MyExpensesV2_transactions_info">
+        <item>help_MyExpensesV2_transactions_info</item>
         <item>popup_MyExpenses_toolbar</item>
     </string-array>
 
