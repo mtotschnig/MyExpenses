@@ -20,6 +20,8 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
@@ -75,6 +77,7 @@ import androidx.compose.ui.semantics.collectionItemInfo
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -339,6 +342,22 @@ fun FilterDialog(
                             mutableStateOf((criterion as? FtsCriterion)?.searchString ?: "")
                         }
                         val isMalformed = FtsCriterion.isMalformedFtsQuery(ftsQuery)
+
+                        val submit = {
+                            if (!isMalformed) {
+                                onConfirmRequest(
+                                    TYPE_FULL_TEXT,
+                                    if (ftsQuery.isBlank()) {
+                                        null
+                                    } else {
+                                        FtsCriterion(
+                                            ftsQuery.trim()
+                                        )
+                                    }
+                                )
+                            }
+                        }
+
                         Column(
                             modifier = Modifier
                                 .padding(16.dp)
@@ -364,6 +383,8 @@ fun FilterDialog(
                                     }
                                 },
                                 singleLine = true,
+                                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                                keyboardActions = KeyboardActions(onSearch = { submit() }),
                                 trailingIcon = if (ftsQuery.isNotEmpty()) {
                                     {
                                         IconButton(onClick = { ftsQuery = "" }) {
@@ -386,18 +407,7 @@ fun FilterDialog(
                                 }
                                 TextButton(
                                     enabled = !isMalformed,
-                                    onClick = {
-                                        onConfirmRequest(
-                                            TYPE_FULL_TEXT,
-                                            if (ftsQuery.isBlank()) {
-                                                null
-                                            } else {
-                                                FtsCriterion(
-                                                    ftsQuery.trim()
-                                                )
-                                            }
-                                        )
-                                    }
+                                    onClick = submit
                                 ) {
                                     Text(stringResource(R.string.apply))
                                 }

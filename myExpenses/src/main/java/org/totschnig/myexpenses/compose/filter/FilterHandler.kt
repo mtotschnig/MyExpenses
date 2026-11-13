@@ -5,6 +5,8 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -26,6 +28,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.core.os.BundleCompat
 import androidx.fragment.app.FragmentActivity
@@ -237,19 +240,21 @@ fun FilterHandler(
     showCommentFilterPrompt?.let { prompt ->
         var search by rememberSaveable { mutableStateOf(prompt.searchString) }
 
+        val submit = {
+            onResult(
+                currentEdit.value,
+                CommentCriterion(search?.takeIf { it.isNotBlank() })
+            )
+            showCommentFilterPrompt = null
+        }
+
         AlertDialog(
             onDismissRequest = {
                 showCommentFilterPrompt = null
                 onResult(currentEdit.value, null)
             },
             confirmButton = {
-                Button(onClick = {
-                    onResult(
-                        currentEdit.value,
-                        CommentCriterion(search?.takeIf { it.isNotBlank() })
-                    )
-                    showCommentFilterPrompt = null
-                }) {
+                Button(onClick = submit) {
                     Text(stringResource(id = android.R.string.ok))
                 }
             },
@@ -268,7 +273,10 @@ fun FilterHandler(
                     onValueChange = {
                         search = it
                     },
-                    label = { Text(text = stringResource(R.string.search_comment)) }
+                    label = { Text(text = stringResource(R.string.search_comment)) },
+                    singleLine = true,
+                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                    keyboardActions = KeyboardActions(onSearch = { submit() })
                 )
                 LaunchedEffect(Unit) {
                     focusRequester.requestFocus()
@@ -281,6 +289,16 @@ fun FilterHandler(
         var search by rememberSaveable { mutableStateOf(prompt.searchString) }
         val isMalformed = FtsCriterion.isMalformedFtsQuery(search ?: "")
 
+        val submit = {
+            if (!isMalformed) {
+                onResult(
+                    currentEdit.value,
+                    FtsCriterion(search?.takeIf { it.isNotBlank() })
+                )
+                showFtsFilterPrompt = null
+            }
+        }
+
         AlertDialog(
             onDismissRequest = {
                 showFtsFilterPrompt = null
@@ -289,13 +307,7 @@ fun FilterHandler(
             confirmButton = {
                 Button(
                     enabled = !isMalformed,
-                    onClick = {
-                        onResult(
-                            currentEdit.value,
-                            FtsCriterion(search?.takeIf { it.isNotBlank() })
-                        )
-                        showFtsFilterPrompt = null
-                    }
+                    onClick = submit
                 ) {
                     Text(stringResource(id = android.R.string.ok))
                 }
@@ -328,7 +340,10 @@ fun FilterHandler(
                                 }
                                 FtsHelpList()
                             }
-                        }
+                        },
+                        singleLine = true,
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                        keyboardActions = KeyboardActions(onSearch = { submit() })
                     )
                 }
                 LaunchedEffect(Unit) {
