@@ -3,7 +3,7 @@
     <string name="cab_delete_help_text">刪除所選項目。</string>
     <string name="cab_edit_help_text">編輯所選項目。</string>
     <string name="help_MyExpenses_title">交易列表</string>
-    <string name="popup_MyExpenses_toolbar_intro">點選工具列（帳戶標籤或目前餘額）會彈出包含以下項目的選單：</string>
+    <string name="popup_MyExpenses_toolbar_intro">點選工具列（帳戶標籤或目前餘額）會彈出詳細的帳戶摘要和包含以下項目的選單：</string>
     <string name="menu_grouping_help_text">您可以按日、週、月或年將交易分組。系統會計算並顯示每個群組的收入、支出和轉帳總和。點選群組標題時，交易群組會收合，僅顯示標題。再次點選即可展開。</string>
     <string name="form_split_parts_heading_help_text_3">只有在交易金額已精確指派時，才能儲存分割交易。</string>
     <string name="menu_templates_help_text">開啟一個列出所有範本的選單，以便快速將它們載入表單。</string>

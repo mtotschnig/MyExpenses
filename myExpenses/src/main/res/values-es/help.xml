@@ -12,7 +12,7 @@
     <string name="help_MyExpensesV2_portfolio_info">Realice un seguimiento de sus inversiones en esta cartera. Puede importar operaciones y ver la distribución de sus activos. El resumen de la cuenta enlaza con la pantalla de precios, donde se puede establecer el precio actual de un activo.</string>
     <string name="menu_import_trades_help_text">Importe operaciones de inversión desde un archivo CSV a su cartera.</string>
     <string name="menu_sync_help_text">Inicie una sincronización inmediata con el servicio en la nube configurado para la cuenta actual.</string>
-    <string name="popup_MyExpenses_toolbar_intro">Al pulsar sobre la barra de herramientas (etiqueta de la cuenta o saldo actual) aparece un menú con las siguientes entradas:</string>
+    <string name="popup_MyExpenses_toolbar_intro">Al pulsar sobre la barra de herramientas (etiqueta de la cuenta o saldo actual) aparece un resumen detallado de la cuenta y un menú con las siguientes entradas:</string>
     <string name="popup_MyExpenses_toolbar_copy_text">Copiar el saldo actual en el portapapeles.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">Calcular la diferencia entre el saldo actual y un nuevo valor.</string>
     <string name="menu_status_handle_help_text">El estado de la transacción se indica mediante un rectángulo de color: gris para no conciliada, azul para despejada, verde para conciliada. Al hacer clic en el rectángulo, se cambia el estado.</string>

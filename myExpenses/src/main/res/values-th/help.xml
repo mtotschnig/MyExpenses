@@ -6,7 +6,7 @@
     <string name="cab_delete_help_text">ลบรายการที่เลือก</string>
     <string name="cab_edit_help_text">แก้ไขรายการที่เลือก</string>
     <string name="help_MyExpenses_title">รายการธุรกรรม</string>
-    <string name="popup_MyExpenses_toolbar_intro">การแตะที่แถบเครื่องมือ (ป้ายบัญชีหรือยอดคงเหลือปัจจุบัน) จะแสดงเมนูที่มีรายการดังต่อไปนี้:</string>
+    <string name="popup_MyExpenses_toolbar_intro">การแตะที่แถบเครื่องมือ (ป้ายบัญชีหรือยอดคงเหลือปัจจุบัน) จะแสดงสรุปรายละเอียดบัญชีและเมนูที่มีรายการดังต่อไปนี้:</string>
     <string name="popup_MyExpenses_toolbar_new_balance">คำนวณความแตกต่างระหว่างยอดคงเหลือปัจจุบันและค่าใหม่</string>
     <string name="menu_grouping_help_text">คุณสามารถจัดกลุ่มธุรกรรมตามวัน สัปดาห์ เดือน หรือปี สำหรับแต่ละกลุ่ม จะมีการคำนวณและแสดงผลรวมของรายได้ ค่าใช้จ่าย และการโอนเงิน เมื่อคุณคลิกที่หัวข้อกลุ่ม กลุ่มธุรกรรมจะถูกยุบและแสดงเฉพาะหัวข้อเท่านั้น คลิกอีกครั้งเพื่อขยาย</string>
     <string name="menu_print_help_text">สร้างมุมมองที่สามารถพิมพ์ได้ของธุรกรรมที่แสดงอยู่ในปัจจุบัน</string>

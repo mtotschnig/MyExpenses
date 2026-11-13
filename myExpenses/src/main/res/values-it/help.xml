@@ -7,7 +7,7 @@
     <string name="cab_delete_help_text">Elimina gli elementi selezionati.</string>
     <string name="cab_edit_help_text">Modifica l\'elemento selezionato.</string>
     <string name="help_MyExpenses_title">Elenco delle transazioni</string>
-    <string name="popup_MyExpenses_toolbar_intro">Toccando sulla barra degli strumenti (etichetta del conto o saldo corrente) si apre un menu con le seguenti voci:</string>
+    <string name="popup_MyExpenses_toolbar_intro">Toccando sulla barra degli strumenti (etichetta del conto o saldo corrente) si apre un riepilogo dettagliato del conto e un menu con le seguenti voci:</string>
     <string name="popup_MyExpenses_toolbar_copy_text">Copia il saldo corrente negli appunti.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">Calcola la differenza tra il saldo corrente e un nuovo valore.</string>
     <string name="menu_status_handle_help_text">Lo stato della transazione è indicato da un rettangolo colorato: grigio per non riconciliata, blu per compensata, verde per riconciliata . Facendo clic sul rettangolo si modifica lo stato.</string>

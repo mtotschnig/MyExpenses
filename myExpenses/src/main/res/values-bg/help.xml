@@ -7,7 +7,7 @@
     <string name="cab_delete_help_text">Изтриване на избраното.</string>
     <string name="cab_edit_help_text">Редактиране на избраното.</string>
     <string name="help_MyExpenses_title">Списък на транзакциите</string>
-    <string name="popup_MyExpenses_toolbar_intro">Докосване в лентата с инструменти (сметка или текущо салдо) показва меню със следните записи:</string>
+    <string name="popup_MyExpenses_toolbar_intro">Докосване в лентата с инструменти (сметка или текущо салдо) показва подробна сводка за сметката и меню със следните записи:</string>
     <string name="popup_MyExpenses_toolbar_copy_text">Копирай текущото салдо в клипборда.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">Изчисляване на разликата между текущото салдо и новата му стойност.</string>
     <string name="menu_status_handle_help_text">Статусът на транзакцията се показва от цветен правоъгълник: сив за несъгласувана, син за изчистена, зелен за съгласувана. С докосване на правоъгълника може да смените статуса.</string>

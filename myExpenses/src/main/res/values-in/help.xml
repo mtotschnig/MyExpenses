@@ -7,7 +7,7 @@
     <string name="cab_delete_help_text">Hapus item yang dipilih.</string>
     <string name="cab_edit_help_text">Edit item yang dipilih.</string>
     <string name="help_MyExpenses_title">Daftar transaksi</string>
-    <string name="popup_MyExpenses_toolbar_intro">Mengetuk toolbar (label akun atau saldo saat ini) akan memunculkan menu dengan entri-entri berikut:</string>
+    <string name="popup_MyExpenses_toolbar_intro">Mengetuk toolbar (label akun atau saldo saat ini) akan memunculkan ringkasan akun mendetail dan menu dengan entri-entri berikut:</string>
     <string name="popup_MyExpenses_toolbar_copy_text">Salin saldo saat ini ke clipboard.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">Hitung selisih antara saldo saat ini dengan nilai baru.</string>
     <string name="menu_status_handle_help_text">Status transaksi ditunjukkan oleh kotak persegi berwarna: abu-abu untuk belum direkonsiliasi, biru untuk sudah dikonfirmasi, hijau untuk sudah direkonsiliasi. Mengetuk kotak tersebut akan mengubah statusnya.</string>

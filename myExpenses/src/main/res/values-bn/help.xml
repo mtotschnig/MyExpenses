@@ -7,7 +7,7 @@
     <string name="cab_delete_help_text">নির্বাচিত আইটেমগুলো মুছে ফেলুন।</string>
     <string name="cab_edit_help_text">নির্বাচিত আইটেমটি সম্পাদনা করুন।</string>
     <string name="help_MyExpenses_title">লেনদেনের তালিকা</string>
-    <string name="popup_MyExpenses_toolbar_intro">টুলবারে (হিসাবের লেবেল বা বর্তমান ব্যালেন্স) ট্যাপ করলে নিচের এন্ট্রিগুলো সহ একটি মেনু দেখা যায়:</string>
+    <string name="popup_MyExpenses_toolbar_intro">টুলবারে (হিসাবের লেবেল বা বর্তমান ব্যালেন্স) ট্যাপ করলে একটি বিস্তারিত হিসাবের সারসংক্ষেপ এবং নিচের এন্ট্রিগুলো সহ একটি মেনু দেখা যায়:</string>
     <string name="popup_MyExpenses_toolbar_copy_text">বর্তমান ব্যালেন্স ক্লিপবোর্ডে কপি করুন।</string>
     <string name="popup_MyExpenses_toolbar_new_balance">বর্তমান ব্যালেন্স এবং একটি নতুন মানের মধ্যে পার্থক্য গণনা করুন।</string>
     <string name="menu_status_handle_help_text">লেনদেনের অবস্থা একটি রঙিন আয়তক্ষেত্র দিয়ে বোঝানো হয়: অমীমাংসিত-এর জন্য ধূসর, সম্পন্ন-এর জন্য নীল, মিটমাট-এর জন্য সবুজ। আয়তক্ষেত্রটিতে ক্লিক করলে অবস্থা পরিবর্তিত হয়।</string>

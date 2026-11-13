@@ -13,7 +13,7 @@
     <string name="menu_status_handle_help_text">Transaktionens status visas med en färglagd rektangel: grå för oavstämd, blå för bokförd, grön för avstämd. Statusen ändras vid tryck på rektangeln.</string>
     <string name="menu_budget_help_text">Hantera dagliga, veckovisa, månatliga eller årliga budgetar för det konto som visas för tillfället.</string>
     <string name="help_MyExpenses_title">Lista över transaktioner</string>
-    <string name="popup_MyExpenses_toolbar_intro">Vid tryck på (kontoetikett eller aktuellt saldo) så dyker en meny upp med följande inmatningar:</string>
+    <string name="popup_MyExpenses_toolbar_intro">Vid tryck på (kontoetikett eller aktuellt saldo) så dyker en detaljerad kontoöversikt och en meny upp med följande inmatningar:</string>
     <string name="menu_print_help_text">Genererar en utskriftsvänlig vy över de transaktioner som visas för tillfället.</string>
     <string name="help_ManageParties_manage_info">Den här skärmen listar alla parter som används för automatisk komplettering för Betalare/Betalningsmottagare-fältet.</string>
     <string name="menu_scan_mode_help_text">Aktivera skanningsläge för att snabbt kunna skanna kvitton.</string>

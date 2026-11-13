@@ -157,7 +157,7 @@
     <string name="menu_status_handle_help_text">లావాదేవీ యొక్క స్థితి రంగు దీర్ఘచతురస్రం ద్వారా సూచించబడుతుంది: రాజీపడని బూడిద, స్పష్టమైన నీలం, రాజీ కోసం ఆకుపచ్చ. దీర్ఘచతురస్రంపై క్లిక్ చేస్తే, స్థితిని మారుస్తుంది.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">ప్రస్తుత బ్యాలెన్స్ మరియు క్రొత్త విలువ మధ్య వ్యత్యాసాన్ని లెక్కించండి.</string>
     <string name="popup_MyExpenses_toolbar_copy_text">ప్రస్తుత బ్యాలెన్స్‌ను క్లిప్‌బోర్డ్‌కు కాపీ చేయండి.</string>
-    <string name="popup_MyExpenses_toolbar_intro">టూల్‌బార్‌పై నొక్కడం (ఖాతా లేబుల్ లేదా ప్రస్తుత బ్యాలెన్స్) కింది ఎంట్రీలతో మెనుని ఏర్పాటు చేస్తుంది:</string>
+    <string name="popup_MyExpenses_toolbar_intro">టూల్‌బార్‌పై నొక్కడం (ఖాతా లేబుల్ లేదా ప్రస్తుత బ్యాలెన్స్) వివరమైన ఖాతా సారాంశం మరియు కింది ఎంట్రీలతో మెనుని ఏర్పాటు చేస్తుంది:</string>
     <string name="help_MyExpenses_title">లావాదేవీల జాబితా</string>
     <string name="cab_edit_help_text">ఎంచుకున్న అంశాన్ని సవరించండి.</string>
     <string name="cab_delete_help_text">ఎంచుకున్న అంశాలను తొలగించండి.</string>

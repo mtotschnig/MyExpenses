@@ -25,7 +25,7 @@
     <string name="help_ManageCategories_select_filter_info">Pritisni na unos za pokretanje višestrukog odabira.</string>
     <string name="help_ManageCategories_manage_context">Pritisni na unos za prikaz kontekstualnog izbornika. Dugim dodirom pokreni višestruki odabir.</string>
     <string name="help_ManageCategories_expand_collapse"><![CDATA[Pritisni ikonu <img src="ic_expand_more">/<img src="ic_expand_less"> za rasklapanje ili sklapanje kategorije.]]></string>
-    <string name="popup_MyExpenses_toolbar_intro">Dodirom na alatnoj traci (etiketa računa ili trenutačni saldo) otvara se izbornik sa sljedećim unosima:</string>
+    <string name="popup_MyExpenses_toolbar_intro">Dodirom na alatnoj traci (etiketa računa ili trenutačni saldo) otvara se detaljni sažetak računa i izbornik sa sljedećim unosima:</string>
     <string name="menu_budget_help_text">Upravljaj dnevnim, tjednim, mjesečnim ili godišnjim budžetima za trenutačno prikazani račun.</string>
     <string name="menu_print_help_text">Generira prikaz ispisa trenutačno prikazanih transakcija.</string>
     <string name="cab_create_template_from_transaction_help_text">Definiraj novi predložak na temelju odabrane transakcije. Morat ćeš zadati naslov predloška.</string>

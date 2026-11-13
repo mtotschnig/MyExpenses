@@ -20,7 +20,7 @@
     <string name="menu_save_help_text">保存数据并且关闭表格。</string>
     <string name="menu_invert_transfer_help_text">交换 “From” 和 “To” 账户反转交易的方向。</string>
     <string name="menu_create_account_help_text">创建一个新账户。免费版仅可创建5个账户。</string>
-    <string name="popup_MyExpenses_toolbar_intro">轻按工具栏（账户文本标签或当前余额）弹出包含以下条目的菜单：</string>
+    <string name="popup_MyExpenses_toolbar_intro">轻按工具栏（账户文本标签或当前余额）弹出详细的账户摘要和包含以下条目的菜单：</string>
     <string name="menu_scan_mode_help_text">激活扫描模式，用以快速扫描收据。</string>
     <string name="popup_MyExpenses_toolbar_copy_text">将当前余额复制到粘贴板。</string>
     <string name="help_form_fields">表单字段</string>

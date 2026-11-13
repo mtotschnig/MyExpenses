@@ -12,7 +12,7 @@
     <string name="help_MyExpensesV2_portfolio_info">Śledź swoje inwestycje w tym portfelu. Możesz importować transakcje giełdowe i przeglądać alokację aktywów. Podsumowanie konta odsyła do ekranu cen, gdzie można ustawić aktualną cenę aktywa.</string>
     <string name="menu_import_trades_help_text">Importuj transakcje giełdowe z pliku CSV do swojego portfela.</string>
     <string name="menu_sync_help_text">Uruchom natychmiastową synchronizację z usługą w chmurze skonfigurowaną dla bieżącego konta.</string>
-    <string name="popup_MyExpenses_toolbar_intro">Dotknięcie paska narzędzi (etykiety konta lub bieżącego salda) powoduje wyświetlenie menu z następującymi pozycjami:</string>
+    <string name="popup_MyExpenses_toolbar_intro">Dotknięcie paska narzędzi (etykiety konta lub bieżącego salda) powoduje wyświetlenie szczegółowego podsumowania konta oraz menu z następującymi pozycjami:</string>
     <string name="popup_MyExpenses_toolbar_copy_text">Kopiowanie bieżącego salda do schowka.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">Oblicz różnicę między bieżącym saldem a nową wartością.</string>
     <string name="menu_status_handle_help_text">Stan transakcji jest oznaczony przez pokolorowany prostokąt: szary dla nieuzgodnionego, niebieski dla czystego, zielony dla uzgodnionego. Kliknięcie na prostokącie, zmienia jego stan.</string>

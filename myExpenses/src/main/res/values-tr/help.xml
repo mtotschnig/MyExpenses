@@ -7,7 +7,8 @@
     <string name="cab_delete_help_text">Seçilen unsurları sil.</string>
     <string name="cab_edit_help_text">Seçilen unsuru düzenle.</string>
     <string name="help_MyExpenses_title">Muamele listesi</string>
-    <string name="popup_MyExpenses_toolbar_intro">Araç çubuğuna (hesap etiketi veya güncel bakiye) dokunmak aşağıdaki unsurları içeren bir menü açar:</string>
+    <string name="popup_MyExpenses_toolbar_intro">Araç çubuğuna (hesap etiketi veya güncel bakiye) dokunmak ayrıntılı bir hesap özeti ve aşağıdaki unsurları içeren bir menü açar:</string>
+
     <string name="popup_MyExpenses_toolbar_copy_text">Güncel bakiyeyi panoya kopyala.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">Yeni bir değer ile güncel bakiye arasındaki fark hesaplanabilir.</string>
     <string name="menu_status_handle_help_text">Muamelenin durumu renkli bir dikdörtgen ile gösterilir: uzlaşmamış için gri, temiz için mavi, uzlaşmış için yeşil. Dikdörtgene tıklamak durumu değiştirir.</string>

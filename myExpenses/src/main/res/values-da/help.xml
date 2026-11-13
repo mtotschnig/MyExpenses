@@ -110,7 +110,7 @@
     <string name="menu_chart_help_text">Skift synligheden af diagrammet.</string>
     <string name="menu_status_handle_help_text">Transaktionens status angives med et farvet rektangel: grå for ikke afstemt, blå for afklaret, grøn for afstemt. Klik på rektanglet for at ændre statussen.</string>
     <string name="help_ManageTemplates_plans_title">Plan kalendervisning</string>
-    <string name="popup_MyExpenses_toolbar_intro">Tryk på værktøjslinjen (kontomærkat eller aktuel saldo) for at åbne en menu med følgende punkter:</string>
+    <string name="popup_MyExpenses_toolbar_intro">Tryk på værktøjslinjen (kontomærkat eller aktuel saldo) viser en detaljeret kontoversigt og en menu med følgende punkter:</string>
     <string name="help_ManageCategories_expand_collapse"><![CDATA[Klik på <img src="ic_expand_more">/<img src="ic_expand_less"> ikonet for at udvide eller minimere en kategori.]]></string>
     <string name="menu_ManageTemplates_templates_sort_help_text">Skabelonlisten kan sorteres efter titel (alfabetisk), beløb, brugsfrekvens eller sidste gang en transaktion blev oprettet fra den.</string>
     <string name="form_amount_switch_help_text">Brug knappen til at skifte mellem udgift og indtægt.</string>

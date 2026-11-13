@@ -7,7 +7,7 @@
     <string name="cab_delete_help_text">מחיקת הפריטים שנבחרו.</string>
     <string name="cab_edit_help_text">עריכת הפריט שנבחר.</string>
     <string name="help_MyExpenses_title">רשימת עסקאות</string>
-    <string name="popup_MyExpenses_toolbar_intro">הקשה על סרגל הכלים (תווית חשבון או יתרה נוכחית) תציג תפריט עם הערכים הבאים:</string>
+    <string name="popup_MyExpenses_toolbar_intro">הקשה על סרגל הכלים (תווית חשבון או יתרה נוכחית) תציג סיכום חשבון מפורט ותפריט עם הערכים הבאים:</string>
     <string name="popup_MyExpenses_toolbar_copy_text">העתקת היתרה הנוכחית ללוח.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">חישוב ההפרש בין היתרה הנוכחית לערך חדש.</string>
     <string name="menu_status_handle_help_text">הסטטוס של העסקה מסומן על ידי מלבן צבעוני: אפור עבור Unreconciled, כחול עבור Cleared, ירוק עבור Reconcieled. לחיצה על המלבן משנה את הסטטוס.</string>

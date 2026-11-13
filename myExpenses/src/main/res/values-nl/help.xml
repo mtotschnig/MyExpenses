@@ -4,7 +4,7 @@
     <string name="help_form_fields">Formulier velden</string>
     <string name="cab_edit_help_text">Bewerk het geselecteerde item.</string>
     <string name="help_MyExpenses_title">Transactie lijst</string>
-    <string name="popup_MyExpenses_toolbar_intro">Als je op de werkbalk (rekeninglabel of huidig saldo) tikt, verschijnt er een menu met de volgende items:</string>
+    <string name="popup_MyExpenses_toolbar_intro">Als je op de werkbalk (rekeninglabel of huidig saldo) tikt, verschijnt er een gedetailleerd rekeningoverzicht en een menu met de volgende items:</string>
     <string name="popup_MyExpenses_toolbar_new_balance">Bereken het verschil tussen het huidige saldo en een nieuwe waarde.</string>
     <string name="menu_status_handle_help_text">De status van de transactie wordt aangegeven door een gekleurde rechthoek: grijs voor niet afgestemd, blauw voor duidelijk, groen voor afgestemd. Door op de rechthoek te klikken, verandert de status.</string>
     <string name="menu_sort_direction_help_text">Transacties kunnen oplopend (oudste bovenaan) of aflopend (laatste bovenaan) gesorteerd worden.</string>

@@ -12,7 +12,7 @@
     <string name="help_MyExpensesV2_portfolio_info">تتبع استثماراتك في هذه المحفظة. يمكنك استيراد الصفقات وعرض توزيع أصولك. يربط ملخص الحساب بشاشة الأسعار، حيث يمكن تحديد السعر الحالي للأصل.</string>
     <string name="menu_import_trades_help_text">استيراد صفقات الاستثمار من ملف CSV إلى محفظتك.</string>
     <string name="menu_sync_help_text">بدء المزامنة الفورية مع الخدمة السحابية المجهزة للحساب الحالي.</string>
-    <string name="popup_MyExpenses_toolbar_intro">النقر على شريط الأدوات (تسمية الحساب أو الرصيد الحالي) يعرض قائمة بالخيارات التالية:</string>
+    <string name="popup_MyExpenses_toolbar_intro">النقر على شريط الأدوات (تسمية الحساب أو الرصيد الحالي) يعرض ملخصًا تفصيليًا للحساب وقائمة بالخيارات التالية:</string>
     <string name="popup_MyExpenses_toolbar_copy_text">نسخ الرصيد الحالي إلى الحافظة.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">حساب الفرق بين الرصيد الحالي وقيمة جديدة.</string>
     <string name="menu_status_handle_help_text">تُشير حالة المعاملة بمستطيل ملون: رمادي للغير مسوّى، أزرق للمسوّى، أخضر للمطابق. النقر على المستطيل يغيّر الحالة.</string>

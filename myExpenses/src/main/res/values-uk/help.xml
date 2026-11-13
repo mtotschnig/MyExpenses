@@ -5,7 +5,7 @@
     <string name="help_MyExpenses_title">Список транзакцій</string>
     <string name="popup_MyExpenses_toolbar_copy_text">Скопіюйте поточний баланс у буфер обміну.</string>
     <string name="menu_status_handle_help_text">Статус транзакції вказує кольоровий прямокутник: сірий для незвірених, синій для точних, зелений для узгоджених. Натискання на прямокутник змінює статус.</string>
-    <string name="popup_MyExpenses_toolbar_intro">Натискання на панелі інструментів (заголовок рахунку або поточного балансу) відкриває меню з такими пунктами:</string>
+    <string name="popup_MyExpenses_toolbar_intro">Натискання на панелі інструментів (заголовок рахунку або поточного балансу) відкриває докладний підсумок рахунку та меню з такими пунктами:</string>
     <string name="popup_MyExpenses_toolbar_new_balance">Обчисліть різницю між поточним балансом і новим значенням.</string>
     <string name="help_contextual_actions">Контекстні дії</string>
     <string name="help_menu_commands">Команди меню</string>

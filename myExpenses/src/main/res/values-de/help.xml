@@ -7,7 +7,7 @@
     <string name="cab_delete_help_text">Ausgewählte Elemente löschen.</string>
     <string name="cab_edit_help_text">Das ausgewählte Element verändern.</string>
     <string name="help_MyExpenses_title">Buchungsliste</string>
-    <string name="popup_MyExpenses_toolbar_intro">Durch Tippen auf die Symbolleiste (Kontobezeichnung oder aktueller Kontostand) wird ein Menü mit den folgenden Einträgen geöffnet:</string>
+    <string name="popup_MyExpenses_toolbar_intro">Durch Tippen auf die Symbolleiste (Kontobezeichnung oder aktueller Kontostand) wird eine detaillierte Kontoübersicht und ein Menü mit den folgenden Einträgen geöffnet:</string>
     <string name="popup_MyExpenses_toolbar_copy_text">Kopieren Sie den aktuellen Kontostand in die Zwischenablage.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">Berechnen Sie die Differenz zwischen dem aktuellen Kontostand und einem neuen Wert.</string>
     <string name="menu_status_handle_help_text">Der Status der Buchung wird durch ein farbiges Viereck angezeigt: grau für nicht abgestimmt, blau für verrechnet, grün für abgestimmt. Durch Klick auf das Viereck kann der Status verändert werden.</string>
