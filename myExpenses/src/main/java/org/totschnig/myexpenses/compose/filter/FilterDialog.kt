@@ -74,7 +74,6 @@ import androidx.compose.ui.semantics.collectionItemInfo
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -341,13 +340,14 @@ fun FilterDialog(
                         )
                     }
                     if (preferredSearchType == TYPE_FULL_TEXT) {
-                        var ftsQuery by rememberSaveable {
-                            mutableStateOf((criterion as? FtsCriterion)?.searchString ?: "")
-                        }
+                        val initialFtsQuery = (criterion as? FtsCriterion)?.searchString.orEmpty()
+                        var ftsQuery by rememberSaveable { mutableStateOf(initialFtsQuery) }
                         val isMalformed = FtsCriterion.isMalformedFtsQuery(ftsQuery)
+                        val hasActiveFts = initialFtsQuery.isNotBlank()
+                        val isApplyEnabled = !isMalformed && (ftsQuery.isNotBlank() || hasActiveFts)
 
                         val submit = {
-                            if (!isMalformed) {
+                            if (isApplyEnabled) {
                                 onConfirmRequest(
                                     TYPE_FULL_TEXT,
                                     if (ftsQuery.isBlank()) {
@@ -381,7 +381,7 @@ fun FilterDialog(
                                     Text(stringResource(android.R.string.cancel))
                                 }
                                 TextButton(
-                                    enabled = !isMalformed,
+                                    enabled = isApplyEnabled,
                                     onClick = submit
                                 ) {
                                     Text(stringResource(R.string.apply))
