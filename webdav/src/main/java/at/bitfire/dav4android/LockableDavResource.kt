@@ -3,6 +3,7 @@ package at.bitfire.dav4android
 import at.bitfire.dav4android.exception.HttpException
 import at.bitfire.dav4android.property.GetETag
 import at.bitfire.dav4android.property.ResourceType
+import java.io.IOException
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -10,7 +11,6 @@ import okhttp3.RequestBody
 import okhttp3.Response
 import org.totschnig.myexpenses.sync.SyncAdapter
 import timber.log.Timber.Forest.tag
-import java.io.IOException
 
 class LockableDavResource(httpClient: OkHttpClient, location: HttpUrl) :
     DavResource(httpClient, location) {
@@ -23,17 +23,20 @@ class LockableDavResource(httpClient: OkHttpClient, location: HttpUrl) :
                 if (ifHeader != null) header("If", ifHeader)
             }
 
-        val response = httpClient.newCall(builder.build()).execute()
-        checkStatus(response, true)
-        if (response.code == 207) {
-            // Apache mod_dav returns 207 if update fails due to collection being locked.
-            // TODO: verify whether 207 can also indicate success in some cases.
-            throw HttpException(response)
-        }
+        httpClient.newCall(builder.build()).execute().use { response ->
+            checkStatus(response, false)
+            if (response.code == 207) {
+                // Apache mod_dav returns 207 if update fails due to collection being locked.
+                throw HttpException(response)
+            }
 
-        val eTag = response.header("ETag")
-        if (eTag.isNullOrEmpty()) properties.remove(GetETag.NAME)
-        else properties.put(GetETag.NAME, GetETag(eTag))
+            val eTag = response.header("ETag")
+            if (eTag.isNullOrEmpty()) {
+                properties.remove(GetETag.NAME)
+            } else {
+                properties.put(GetETag.NAME, GetETag(eTag))
+            }
+        }
     }
 
     /**
@@ -87,7 +90,9 @@ class LockableDavResource(httpClient: OkHttpClient, location: HttpUrl) :
                         break
                     }
                 }
-                checkStatus(response, true)
+                response?.use {
+                    checkStatus(it, false) // <-- Pass false here as well
+                }
             } catch (e: HttpException) {
                 if (e.status != 405) {
                     throw IOException(e)
@@ -107,18 +112,20 @@ class LockableDavResource(httpClient: OkHttpClient, location: HttpUrl) :
             return type != null && type.types.contains(ResourceType.COLLECTION)
         }
 
-        fun DavResource.fileNameV2(): String? {
-            return segments().lastOrNull()
-        }
+        fun DavResource.fileNameV2(): String? = segments().lastOrNull()
 
-        //From io.ktor.http.Url.kt
+        // From io.ktor.http.Url.kt
         fun DavResource.segments(): List<String> {
             val pathSegments = this.location.pathSegments
             if (pathSegments.isEmpty()) return emptyList()
             val start = if (pathSegments.first().isEmpty() && pathSegments.size > 1) 1 else 0
             val end = if (pathSegments.last()
                     .isEmpty()
-            ) pathSegments.lastIndex else pathSegments.lastIndex + 1
+            ) {
+                pathSegments.lastIndex
+            } else {
+                pathSegments.lastIndex + 1
+            }
             return pathSegments.subList(start, end)
         }
     }
