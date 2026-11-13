@@ -2,7 +2,6 @@ package org.totschnig.myexpenses.compose.filter
 
 import androidx.activity.compose.LocalActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
@@ -10,7 +9,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,7 +27,6 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.unit.dp
 import androidx.core.os.BundleCompat
 import androidx.fragment.app.FragmentActivity
 import kotlin.reflect.KClass
@@ -288,12 +285,13 @@ fun FilterHandler(
     showFtsFilterPrompt?.let { prompt ->
         var search by rememberSaveable { mutableStateOf(prompt.searchString) }
         val isMalformed = FtsCriterion.isMalformedFtsQuery(search ?: "")
+        val isBlank = search.isNullOrBlank()
 
         val submit = {
-            if (!isMalformed) {
+            if (!isMalformed && !isBlank) {
                 onResult(
                     currentEdit.value,
-                    FtsCriterion(search?.takeIf { it.isNotBlank() })
+                    FtsCriterion(search!!.trim())
                 )
                 showFtsFilterPrompt = null
             }
@@ -306,7 +304,7 @@ fun FilterHandler(
             },
             confirmButton = {
                 Button(
-                    enabled = !isMalformed,
+                    enabled = !isMalformed && !isBlank,
                     onClick = submit
                 ) {
                     Text(stringResource(id = android.R.string.ok))
@@ -316,34 +314,16 @@ fun FilterHandler(
                 val focusRequester = remember { FocusRequester() }
                 val keyboardController = LocalSoftwareKeyboardController.current
                 Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                    OutlinedTextField(
-                        modifier = Modifier
-                            .focusRequester(focusRequester)
-                            .onFocusChanged {
-                                if (it.isFocused) {
-                                    keyboardController?.show()
-                                }
-                            },
-                        value = search ?: "",
-                        onValueChange = {
-                            search = it
-                        },
-                        isError = isMalformed,
-                        label = { Text(text = stringResource(R.string.search_full_text)) },
-                        supportingText = {
-                            Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                                if (isMalformed) {
-                                    Text(
-                                        text = stringResource(R.string.search_fts_error_malformed),
-                                        color = MaterialTheme.colorScheme.error
-                                    )
-                                }
-                                FtsHelpList()
+                    FtsInputField(
+                        modifier = Modifier.onFocusChanged {
+                            if (it.isFocused) {
+                                keyboardController?.show()
                             }
                         },
-                        singleLine = true,
-                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                        keyboardActions = KeyboardActions(onSearch = { submit() })
+                        value = search ?: "",
+                        onValueChange = { search = it },
+                        onSubmit = submit,
+                        focusRequester = focusRequester
                     )
                 }
                 LaunchedEffect(Unit) {
