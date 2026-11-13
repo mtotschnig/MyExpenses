@@ -20,8 +20,6 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
@@ -40,7 +38,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MenuAnchorType
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
@@ -77,7 +74,6 @@ import androidx.compose.ui.semantics.collectionItemInfo
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -193,7 +189,7 @@ fun FilterDialog(
     val isLarge = booleanResource(R.bool.isLarge)
 
     val onDismiss = {
-        if (isDirty) {
+        if (isComplexSearch && isDirty) {
             confirmDiscard = true
         } else {
             onDismissRequest()
@@ -273,6 +269,12 @@ fun FilterDialog(
                                         onClick = {
                                             preferredSearchType = index
                                             expanded = false
+                                            if (index == TYPE_QUICK && isDirty) {
+                                                onConfirmRequest(
+                                                    TYPE_QUICK,
+                                                    criteriaSet.value.wrap(selectedComplex)
+                                                )
+                                            }
                                         },
                                         contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding
                                     )
@@ -338,13 +340,14 @@ fun FilterDialog(
                         )
                     }
                     if (preferredSearchType == TYPE_FULL_TEXT) {
-                        var ftsQuery by rememberSaveable {
-                            mutableStateOf((criterion as? FtsCriterion)?.searchString ?: "")
-                        }
+                        val initialFtsQuery = (criterion as? FtsCriterion)?.searchString.orEmpty()
+                        var ftsQuery by rememberSaveable { mutableStateOf(initialFtsQuery) }
                         val isMalformed = FtsCriterion.isMalformedFtsQuery(ftsQuery)
+                        val hasActiveFts = initialFtsQuery.isNotBlank()
+                        val isApplyEnabled = !isMalformed && (ftsQuery.isNotBlank() || hasActiveFts)
 
                         val submit = {
-                            if (!isMalformed) {
+                            if (isApplyEnabled) {
                                 onConfirmRequest(
                                     TYPE_FULL_TEXT,
                                     if (ftsQuery.isBlank()) {
@@ -365,38 +368,10 @@ fun FilterDialog(
                                 .verticalScroll(rememberScrollState()),
                             verticalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
-                            OutlinedTextField(
-                                modifier = Modifier.fillMaxWidth(),
+                            FtsInputField(
                                 value = ftsQuery,
                                 onValueChange = { ftsQuery = it },
-                                isError = isMalformed,
-                                label = { Text(stringResource(R.string.search_full_text)) },
-                                supportingText = {
-                                    Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                                        if (isMalformed) {
-                                            Text(
-                                                text = stringResource(R.string.search_fts_error_malformed),
-                                                color = MaterialTheme.colorScheme.error
-                                            )
-                                        }
-                                        FtsHelpList()
-                                    }
-                                },
-                                singleLine = true,
-                                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                                keyboardActions = KeyboardActions(onSearch = { submit() }),
-                                trailingIcon = if (ftsQuery.isNotEmpty()) {
-                                    {
-                                        IconButton(onClick = { ftsQuery = "" }) {
-                                            Icon(
-                                                Icons.Filled.Clear,
-                                                contentDescription = stringResource(R.string.search_clear_desc)
-                                            )
-                                        }
-                                    }
-                                } else {
-                                    null
-                                }
+                                onSubmit = submit
                             )
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
@@ -406,7 +381,7 @@ fun FilterDialog(
                                     Text(stringResource(android.R.string.cancel))
                                 }
                                 TextButton(
-                                    enabled = !isMalformed,
+                                    enabled = isApplyEnabled,
                                     onClick = submit
                                 ) {
                                     Text(stringResource(R.string.apply))
