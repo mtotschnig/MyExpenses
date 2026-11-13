@@ -6,11 +6,9 @@
     <string name="cab_delete_help_text">Διαγραφή επιλεγμένων αντικειμένων.</string>
     <string name="cab_edit_help_text">Επεξεργασία επιλεγμένου αντικειμένου.</string>
     <string name="help_MyExpenses_title">Λίστα συναλλαγών</string>
-    <string name="help_MyExpenses_info">Αυτή η οθόνη εμφανίζει όλες τις συναλλαγές για τον τρέχοντα λογαριασμό. Χρησιμοποιήστε το αναδυώμενο κουμπί ενεργειών για να ανοίξετε την φόρμα δημιουργίας νέας συναλλαγής.</string>
     <string name="help_ManageTemplates_plans_title">Προβολή ημερολογίου σχεδίου</string>
     <string name="cab_MyExpenses_filter_help_text">Αναζήτηση συναλλαγών με ίδιες ιδιότητες.</string>
     <string name="help_contextual_actions_help">Το μενού ενεργειών εμφανίζεται πατώντας παρατεταμένα σε μια καταχώριση της λίστας.</string>
-    <string name="help_MyExpenses_fab_long_press">Πατώντας παρατεταμένα το πλωτό κουμπί δράσης ανοίγει ένα μενού που επιτρέπει την προετοιμασία της φόρμας για μεταφορά, διαχωρισμό συναλλαγής ή εισόδημα.</string>
     <string name="popup_MyExpenses_toolbar_intro">Πατώντας στη γραμμή εργαλείων (ετικέτα λογαριασμού ή τρέχον υπόλοιπο) εμφανίζεται ένα μενού με τις ακόλουθες καταχωρήσεις:</string>
     <string name="popup_MyExpenses_toolbar_copy_text">Αντιγράψτε το τρέχον υπόλοιπο στο πρόχειρο.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">Υπολογίστε τη διαφορά μεταξύ του τρέχοντος υπολοίπου και μιας νέας αξίας.</string>

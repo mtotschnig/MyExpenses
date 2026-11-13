@@ -7,8 +7,6 @@
     <string name="cab_delete_help_text">حذف العناصر المحددة.</string>
     <string name="cab_edit_help_text">تعديل العنصر المحدد.</string>
     <string name="help_MyExpenses_title">قائمة المعاملات</string>
-    <string name="help_MyExpenses_info">تعرض هذه الشاشة جميع المعاملات للحساب الحالي. استخدم زر الإجراء العائم لفتح نموذج إنشاء معاملة جديدة.</string>
-    <string name="help_MyExpenses_fab_long_press">الضغط المطول على زر الإجراء العائم يفتح قائمة تتيح تهيئة النموذج لإنشاء تحويل، معاملة مقسمة، أو دخل.</string>
     <string name="popup_MyExpenses_toolbar_intro">النقر على شريط الأدوات (تسمية الحساب أو الرصيد الحالي) يعرض قائمة بالخيارات التالية:</string>
     <string name="popup_MyExpenses_toolbar_copy_text">نسخ الرصيد الحالي إلى الحافظة.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">حساب الفرق بين الرصيد الحالي وقيمة جديدة.</string>

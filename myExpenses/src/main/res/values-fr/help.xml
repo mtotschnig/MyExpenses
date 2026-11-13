@@ -7,8 +7,6 @@
     <string name="cab_delete_help_text">Supprimer les éléments sélectionnés.</string>
     <string name="cab_edit_help_text">Modifier l\'élément sélectionné.</string>
     <string name="help_MyExpenses_title">Liste des opérations</string>
-    <string name="help_MyExpenses_info">Cet écran répertorie toutes les opérations du compte courant. Utilisez le bouton d\'action pour ouvrir le formulaire de création d\'une nouvelle opération.</string>
-    <string name="help_MyExpenses_fab_long_press">Un appui long sur le bouton d\'action flottant ouvre un menu qui permet de préparer le formulaire pour un transfert, une operátion ventilée ou du revenu.</string>
     <string name="popup_MyExpenses_toolbar_intro">En appuyant sur la barre d\'outils (libellé de compte ou solde actuel), un menu apparaît avec les entrées suivantes :</string>
     <string name="popup_MyExpenses_toolbar_copy_text">Copiez le solde actuel dans le presse-papiers.</string>
     <string name="popup_MyExpenses_toolbar_new_balance">Calculez la différence entre le solde actuel et une nouvelle valeur.</string>
@@ -227,7 +225,7 @@
     <string name="form_payer_or_payee_help_text"><![CDATA[Ce champ vous permet de sélectionner ou de créer un payeur/bénéficiaire. Commencez à taper le nom, et des suggestions apparaîtront. Si aucune suggestion n’est sélectionnée, un nouveau tiers est créé. Si une suggestion est sélectionnée, elle est affichée sous forme de puce. 
         <br><img src="ic_menu_edit"> Modifier les détails du tiers sélectionné.
 <br><img src="ic_menu_close_clear_cancel"> Supprimez la sélection actuelle. Le champ texte réapparaîtra alors.]]></string>
-    <string name="help_MyExpensesV2_accounts_info"><![CDATA[Gérez vos comptes et suivez votre patrimoine net. Basculez entre la liste des comptes et le bilan à l’aide du menu déroulant de la barre d’outils. Utilisez le menu <img src=\"tune\"> <b>Options</b> pour regrouper et trier les comptes, et le menu <img src=\"data\"> <b>Données</b> pour configurer les types, les drapeaux et les devises. Touchez un compte pour afficher son résumé, ou l’icône <img src=\"ic_chevron_end\"> pour consulter ses transactions. L’icône <img src=\"more\"> offre des actions supplémentaires pour chaque compte.]]></string>
+    <string name="help_MyExpensesV2_accounts_info"><![CDATA[Gérez vos comptes et suivez votre patrimoine net. Basculez entre la liste des comptes et le bilan à l’aide du menu déroulant de la barre d’outils. Utilisez le menu <img src=\"tune\"> <b>%1$s</b> pour regrouper et trier les comptes, et le menu <img src=\"data\"> <b>%2$s</b> pour configurer les types, les drapeaux et les devises. Touchez un compte pour afficher son résumé, ou l’icône <img src=\"ic_chevron_end\"> pour consulter ses transactions. L’icône <img src=\"more\"> offre des actions supplémentaires pour chaque compte.]]></string>
     <string name="help_MyExpensesV2_transactions_info">Afficher et gérer les transactions du compte sélectionné. Utilisez le bouton d’action flottant pour ajouter de nouvelles transactions.</string>
     <string name="help_MyExpensesV2_portfolio_info">Suivez vos investissements dans ce portefeuille. Vous pouvez importer des opérations et consulter la répartition de vos actifs. Le résumé du compte est lié à l\'écran des prix, où le prix actuel d\'un actif peut être défini.</string>
     <string name="menu_import_trades_help_text">Importer des opérations d\'investissement depuis un fichier CSV dans votre portefeuille.</string>

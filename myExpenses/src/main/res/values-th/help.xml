@@ -94,9 +94,7 @@
     <string name="help_user_exchange_rate">อัตรานี้ถูกระบุโดยผู้ใช้ขณะทำการแก้ไขจำนวนเงินที่เทียบเท่าของธุรกรรม</string>
     <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_1"><b>ค่าเริ่มต้น</b> จะอ้างอิงตามอัตราที่กำหนดไว้ในคุณสมบัติของบัญชี</string>
     <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_2"><b>ยอดรวมรายได้และรายจ่าย</b> คำนวณโดยใช้จำนวนเงินที่เทียบเท่าที่ระบุสำหรับแต่ละรายการ</string>
-    <string name="help_MyExpenses_info">หน้าจอนี้แสดงรายการธุรกรรมทั้งหมดสำหรับบัญชีปัจจุบัน ใช้ปุ่มการดำเนินการลอยเพื่อเปิดฟอร์มสำหรับสร้างธุรกรรมใหม่</string>
     <string name="help_contextual_actions_help">เมนูการดำเนินการตามบริบทจะแสดงขึ้นเมื่อกดค้างที่รายการในรายการ</string>
-    <string name="help_MyExpenses_fab_long_press">กดค้างที่ปุ่มการดำเนินการลอยเพื่อเปิดเมนูที่อนุญาตให้เตรียมฟอร์มสำหรับการโอนเงิน แยกธุรกรรม หรือรายได้</string>
     <string name="menu_manage_plans_help_text">เปิดรายการเทมเพลตและแผน ซึ่งคุณสามารถนำไปใช้ แก้ไข หรือลบได้ และยังสามารถกำหนดแผนสำหรับธุรกรรมในอนาคตและธุรกรรมที่เกิดขึ้นเป็นประจำ</string>
     <string name="popup_MyExpenses_toolbar_copy_text">คัดลอกยอดคงเหลือปัจจุบันไปยังคลิปบอร์ด</string>
     <string name="cab_clone_transaction_help_text">ธุรกรรมที่เลือกจะถูกทำซ้ำด้วยวันที่และเวลาปัจจุบัน คุณสามารถทำการเปลี่ยนแปลงก่อนบันทึกสำเนา</string>

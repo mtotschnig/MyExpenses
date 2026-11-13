@@ -158,8 +158,6 @@
     <string name="popup_MyExpenses_toolbar_new_balance">ప్రస్తుత బ్యాలెన్స్ మరియు క్రొత్త విలువ మధ్య వ్యత్యాసాన్ని లెక్కించండి.</string>
     <string name="popup_MyExpenses_toolbar_copy_text">ప్రస్తుత బ్యాలెన్స్‌ను క్లిప్‌బోర్డ్‌కు కాపీ చేయండి.</string>
     <string name="popup_MyExpenses_toolbar_intro">టూల్‌బార్‌పై నొక్కడం (ఖాతా లేబుల్ లేదా ప్రస్తుత బ్యాలెన్స్) కింది ఎంట్రీలతో మెనుని ఏర్పాటు చేస్తుంది:</string>
-    <string name="help_MyExpenses_fab_long_press">ఫ్లోటింగ్ యాక్షన్ బటన్‌పై ఎక్కువసేపు నొక్కితే బదిలీ, స్ప్లిట్ లావాదేవీ లేదా ఆదాయానికి ఫారమ్‌ను సిద్ధం చేయడానికి అనుమతించే మెను తెరుస్తుంది.</string>
-    <string name="help_MyExpenses_info">ఈ స్క్రీన్ ప్రస్తుత ఖాతా కోసం అన్ని లావాదేవీలను జాబితా చేస్తుంది. క్రొత్త లావాదేవీని సృష్టించడానికి ఫారమ్‌ను తెరవడానికి ఫ్లోటింగ్ యాక్షన్ బటన్‌ను ఉపయోగించండి.</string>
     <string name="help_MyExpenses_title">లావాదేవీల జాబితా</string>
     <string name="cab_edit_help_text">ఎంచుకున్న అంశాన్ని సవరించండి.</string>
     <string name="cab_delete_help_text">ఎంచుకున్న అంశాలను తొలగించండి.</string>
