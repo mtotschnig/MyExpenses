@@ -228,10 +228,6 @@
     <string name="dynamic_exchange_rate_help_text_3">Σας επιτρέπει να παρακολουθείτε την ενημερωμένη καθαρή αξία.</string>
     <string name="help_user_exchange_rate">Αυτή η ισοτιμία παρασχέθηκε από τον χρήστη.</string>
     <string name="help_calculated_exchange_rate">Αυτή η ισοτιμία υπολογίστηκε αυτόματα.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_intro">Δείτε πώς κάθε λογαριασμός σε ξένο νόμισμα συνεισφέρει στο γενικό σύνολο:</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_1"><![CDATA[Η <b>αρχική αξία</b> βασίζεται στην ισοτιμία του λογαριασμού.]]></string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_2"><![CDATA[Τα <b>αθροίσματα εσόδων και εξόδων</b> υπολογίζονται με τα ισοδύναμα ποσά.]]></string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_3"><![CDATA[Η <b>τρέχουσα αξία</b> βασίζεται στην τελευταία ισοτιμία.]]></string>
     <string name="help_PrintLayoutConfiguration_info"><![CDATA[Το μέγεθος των στηλών μπορεί να αλλάξει σύροντας το μαύρο ορθογώνιο.]]></string>
     <string name="account_types_help_v2">Οι τύποι λογαριασμών κατατάσσουν τους λογαριασμούς σε Περιουσιακά στοιχεία ή Υποχρεώσεις.</string>
     <string name="account_flags_help_v2">Οι σημάνσεις σας επιτρέπουν να διαμορφώσετε την ορατότητα και την προτεραιότητα ενός λογαριασμού.</string>

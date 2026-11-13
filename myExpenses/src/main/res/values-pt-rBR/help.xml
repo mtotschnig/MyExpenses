@@ -228,10 +228,6 @@
     <string name="dynamic_exchange_rate_help_text_3">A opção %s permite que você acompanhe o valor líquido atualizado de todas as suas contas.</string>
     <string name="help_user_exchange_rate">Essa taxa foi providenciada pelo usuário enquanto editava a quantia equivalente de uma transação.</string>
     <string name="help_calculated_exchange_rate">Essa taxa foi calculada automaticamente a partir de taxas existentes, quando a moeda de origem foi reconfigurada.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_intro">Com essa opção marcada, você pode ver como cada conta em moeda estrangeira contribui para o total geral em sua moeda de origem. Se uma conta não usa taxas de câmbio dinâmicas, seu valor é calculado baseado na taxa definida nas propriedades da conta. Caso contrário:</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_1">O <b>valor inicial</b> é baseado na taxa definida nas propriedades da conta.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_2"><b>Somas de receitas e despesas</b> são calculadas usando as quantias equivalentes especificadas para cada transação.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_3">O <b>valor atual</b> é baseado na taxa de câmbio mais recente para a moeda da conta.</string>
     <string name="help_PrintLayoutConfiguration_info">As colunas podem ser redimensionadas arrastando o retângulo preto entre as colunas. Os ícones &lt;img src=add_column_start&gt; e &lt;img src=add_column_end&gt; permitem adicionar novas colunas. Os campos podem ser arrastados e soltos em uma nova posição ou na área de reciclagem. Se você soltar um campo sobre outro, você criará um campo combinado, ou seja, os dois campos serão impressos juntos em uma linha.</string>
     <string name="account_types_help_v2">Os tipos de conta classificam as contas como
         

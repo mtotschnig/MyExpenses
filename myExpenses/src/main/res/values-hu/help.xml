@@ -228,10 +228,6 @@
     <string name="dynamic_exchange_rate_help_text_3">Lehetővé teszi az naprakész nettó vagyon nyomon követését.</string>
     <string name="help_user_exchange_rate">Ezt az árfolyamot a felhasználó adta meg.</string>
     <string name="help_calculated_exchange_rate">Ez az árfolyam automatikusan került kiszámításra.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_intro">Nézze meg, hogyan járul hozzá az egyes devizaszámlák a végösszeghez:</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_1"><![CDATA[Kezdőérték a számla tulajdonságainál beállított árfolyam alapján.]]></string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_2"><![CDATA[Bevételek és kiadások összege az egyenértékű összegekkel számolva.]]></string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_3"><![CDATA[Jelenlegi érték a legutóbbi árfolyam alapján.]]></string>
     <string name="help_PrintLayoutConfiguration_info"><![CDATA[Az oszlopok mérete a fekete téglalap húzásával módosítható.]]></string>
     <string name="account_types_help_v2">A számlatípusok Eszközök vagy Kötelezettségek kategóriába sorolják a számlákat.</string>
     <string name="account_flags_help_v2">A megjelölések lehetővé teszik a számlák láthatóságának és prioritásának beállítását.</string>

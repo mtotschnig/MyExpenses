@@ -210,10 +210,6 @@
     <string name="help_PriceHistory_info">ניתן להגדיר חשבונות במטבע חוץ לשימוש בשערי חליפין דינמיים. עבור כל יום אפשר להוריד או להזין שער מסוים ביחס למטבע הביתי שלך. מסך זה מציג תעריפים מאוחסנים עבור מטבע נתון עבור כל יום עד לתאריך העסקה הישנה ביותר. מקור התעריף מצוין כדלקמן:</string>
     <string name="dynamic_exchange_rate_help_text_2">הערך הנוכחי של חשבון מטבע חוץ עם שערי חליפין דינמיים מחושב על סמך שער החליפין העדכני ביותר.</string>
     <string name="menu_archive_help_text">לאחר בחירת טווח תאריכים, כל העסקאות לתקופה זו יתגלגלו לעסקת סיכום ארכיון. פעולה זו תנקה את רשימת העסקאות, אך עדיין ניתן לבדוק את העסקאות בארכיון, ובמידת הצורך לפרוק שוב.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_intro">כשאפשרות זו מסומנת, תוכל לראות כיצד כל חשבון במטבע חוץ תורם לסך הכולל במטבע הביתי שלך. אם חשבון אינו משתמש בשערי חליפין דינמיים, ערכו מחושב על סמך השער שנקבע במאפייני החשבון. אחרת:</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_1">ה<b>ערך הראשוני</b> מבוסס על התעריף שנקבע בנכסי החשבון.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_2"><b>סכומי הכנסות והוצאות</b> מחושבים לפי הסכומים השווים שצוינו עבור כל עסקה.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_3">ה<b>ערך הנוכחי</b> מבוסס על שער החליפין העדכני ביותר עבור מטבע החשבון.</string>
     <string name="menu_chart_help_text">החלפת מצב חשיפת התרשים.</string>
     <string name="menu_ManageBudgets_grouping_help_text">ניתן לקבץ את רשימת התקציבים לפי חשבון או לפי סוג תקציב.</string>
 </resources>

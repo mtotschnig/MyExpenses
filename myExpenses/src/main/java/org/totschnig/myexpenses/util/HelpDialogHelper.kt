@@ -91,22 +91,6 @@ class HelpDialogHelper(val context: Context, val extra: CharSequence? = null) : 
             }".fromHtml()
         )
 
-        "menu_NavigationDrawer_show_equivalent_value_help_text" -> TextUtils.concat(
-            getString(R.string.menu_NavigationDrawer_show_equivalent_value_help_text_intro),
-            "\n• ",
-            resources.getText(
-                R.string.menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_1
-            ),
-            "\n• ",
-            resources.getText(
-                R.string.menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_2
-            ),
-            "\n• ",
-            resources.getText(
-                R.string.menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_3
-            )
-        )
-
         "help_MyExpensesV2_accounts_info" -> getString(
             R.string.help_MyExpensesV2_accounts_info,
             getString(R.string.options),

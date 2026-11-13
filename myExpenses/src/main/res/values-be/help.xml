@@ -180,10 +180,6 @@
     <string name="cab_MyExpenses_select_help_text">Множны выбар можна запусціць, выбраўшы гэтую каманду або доўгім націскам на запіс у спісе.</string>
     <string name="cab_show_transactions_help_text">Адкрыйце дыялогавае акно са спісам усіх транзакцый, звязаных з выбранай катэгорыяй у бягучым акаўнце.</string>
     <string name="menu_BudgetActivity_edit_help_text">Змяніць вызначэнне бюджэту.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_intro">Калі гэтая опцыя ўключана, вы можаце бачыць, як кожны рахунак у замежнай валюце ўносіць свой уклад у агульную суму ў вашай нацыянальнай валюце. Калі рахунак не выкарыстоўвае дынамічныя абменныя курсы, яго кошт разлічваецца на аснове курсу, зададзенага ва ўласцівасцях рахунку. У адваротным выпадку:</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_1">Пачатковае значэнне <b/> разлічваецца на аснове стаўкі, усталяванай ва ўласцівасцях уліковага запісу.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_2"><b>Сумы даходаў і выдаткаў</b> разлічваюцца з выкарыстаннем эквівалентных сум, указаных для кожнай транзакцыі.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_3">Бягучае значэнне <b/> разлічваецца на аснове апошняга абменнага курсу валюты рахунку.</string>
     <string name="form_MethodEdit_numbered_help_text">Калі метад пранумараваны, транзакцыі, якія яму адпавядаюць, будуць мець дадатковае поле для ўводу нумара спасылкі.</string>
     <string name="form_MethodEdit_account_types_help_text">Выберыце тыпы рахункаў, для якіх гэты метад падыходзіць.</string>
     <string name="help_ManageSyncBackends_drive">Выберыце любую тэчку, якая вам належыць або да якой вам агулены доступ.</string>

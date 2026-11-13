@@ -228,10 +228,6 @@
     <string name="dynamic_exchange_rate_help_text_3">Opcja %s pozwala śledzić aktualną wartość netto wszystkich Twoich kont.</string>
     <string name="help_user_exchange_rate">Ten kurs został podany przez użytkownika podczas edycji ekwiwalentnej kwoty transakcji.</string>
     <string name="help_calculated_exchange_rate">Ten kurs został automatycznie przeliczony z istniejących kursów po ponownej konfiguracji waluty domowej.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_intro"><![CDATA[Gdy ta opcja jest zaznaczona, możesz zobaczyć, jak każde konto w walucie obcej przyczynia się do sumy końcowej w walucie bazowej. Jeśli konto nie używa dynamicznych kursów wymiany, jego wartość jest obliczana na podstawie kursu ustawionego we właściwościach konta. W przeciwnym razie:]]></string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_1"><![CDATA[<b>Wartość początkowa</b> opiera się na kursie ustawionym we właściwościach konta.]]></string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_2"><![CDATA[<b>Suma przychodów i wydatków</b> jest obliczana przy użyciu ekwiwalentnych kwot określonych dla każdej transakcji.]]></string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_3"><![CDATA[<b>Aktualna wartość</b> opiera się na najnowszym kursie wymiany waluty konta.]]></string>
     <string name="help_PrintLayoutConfiguration_info"><![CDATA[Kolumny można zmieniać, przeciągając czarny prostokąt między kolumnami. Ikony <img src="add_column_start"> i <img src="add_column_end"> pozwalają dodawać nowe kolumny. Pola można przeciągać i upuszczać w nowej pozycji lub w obszarze kosza. Jeśli upuścisz pole na inne pole, utworzysz pole połączone.]]></string>
     <string name="account_types_help_v2">Typy kont klasyfikują konta jako
         

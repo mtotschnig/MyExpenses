@@ -246,10 +246,6 @@
     <string name="dynamic_exchange_rate_help_text_3">The option %s allows you to track the up-to-date net worth of all your accounts.</string>
     <string name="help_user_exchange_rate">This rate has been provided by the user while editing the equivalent amount of a transaction.</string>
     <string name="help_calculated_exchange_rate">This rate has been calculated automatically from existing rates, when the home currency was reconfigured.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_intro">With this option checked, you can see how each foreign currency account contributes to the grand total in your home currency. If an account does not use dynamic exchange rates, its value is calculated based on the rate set in the account’s properties. Otherwise:</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_1">The <b>initial value</b> is based on the rate set in the account’s properties.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_2"><b>Income and expense sums</b> are calculated using the equivalent amounts specified for each transaction.</string>
-    <string name="menu_NavigationDrawer_show_equivalent_value_help_text_dynamic_3">The <b>current value</b> is based on the latest exchange rate for the account’s currency.</string>
     <string name="help_PrintLayoutConfiguration_info">Columns can be resized by dragging the black rectangle between columns. The icons &lt;img src=add_column_start&gt; and &lt;img src=add_column_end&gt; allow to add new columns. Fields can be dragged, and either dropped to a new position or to the recycle area. If you drop a field onto another field, you create a combined field, i.e. the two fields will be printed together on one line.</string>
     <string name="account_types_help_v2">Account types classify accounts as
         \n\u2022 <b>Assets</b> (something you own, such as cash, bank accounts, or investments) or as
