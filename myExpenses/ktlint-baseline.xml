@@ -646,24 +646,6 @@
         <error line="59" column="126" source="standard:argument-list-wrapping" />
         <error line="65" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/SettingsTest.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="74" column="18" source="standard:wrapping" />
-        <error line="74" column="18" source="standard:argument-list-wrapping" />
-        <error line="74" column="47" source="standard:paren-spacing" />
-        <error line="106" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="108" column="27" source="standard:argument-list-wrapping" />
-        <error line="108" column="62" source="standard:argument-list-wrapping" />
-        <error line="108" column="73" source="standard:binary-expression-wrapping" />
-        <error line="108" column="84" source="standard:argument-list-wrapping" />
-        <error line="108" column="101" source="standard:max-line-length" />
-        <error line="108" column="119" source="standard:argument-list-wrapping" />
-        <error line="188" column="19" source="standard:wrapping" />
-        <error line="188" column="20" source="standard:argument-list-wrapping" />
-        <error line="189" column="15" source="standard:wrapping" />
-        <error line="189" column="16" source="standard:argument-list-wrapping" />
-        <error line="192" column="1" source="standard:final-newline" />
-    </file>
     <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/SplitEditTest.kt">
         <error line="104" column="48" source="standard:trailing-comma-on-declaration-site" />
         <error line="144" column="19" source="standard:comment-spacing" />

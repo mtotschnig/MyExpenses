@@ -16,7 +16,9 @@ import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.rules.ActivityScenarioRule
+import kotlin.reflect.KClass
 import org.hamcrest.Matcher
+import org.hamcrest.Matchers.allOf
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -37,7 +39,6 @@ import org.totschnig.myexpenses.model.ContribFeature
 import org.totschnig.myexpenses.testutils.BaseUiTest
 import org.totschnig.myexpenses.testutils.TestShard5
 import org.totschnig.myexpenses.testutils.childAtPosition
-import kotlin.reflect.KClass
 
 @TestShard5
 class SettingsTest : BaseUiTest<PreferenceActivity>() {
@@ -71,7 +72,8 @@ class SettingsTest : BaseUiTest<PreferenceActivity>() {
     }
 
     private fun intended(clazz: KClass<*>) {
-        intended(hasComponent(clazz.java.name)
+        intended(
+            hasComponent(clazz.java.name)
         )
     }
 
@@ -103,15 +105,15 @@ class SettingsTest : BaseUiTest<PreferenceActivity>() {
     private val backupRestoreTitle: String
         get() = getString(R.string.menu_backup) + " / " + getString(R.string.pref_restore_title)
 
-
     private val ioTitle: String
-        get() = getString(R.string.pref_category_title_import) + " / " + getString(R.string.pref_category_title_export)
+        get() = getString(R.string.pref_category_title_import) + " / " +
+            getString(R.string.pref_category_title_export)
 
     @Test
     fun backup() {
         navigateTo(withText(backupRestoreTitle), withText(R.string.pref_backup_summary))
         intended(BackupRestoreActivity::class)
-        onView(withText(R.string.menu_backup))
+        onView(allOf(withId(android.R.id.button1), withText(R.string.menu_backup)))
             .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 
@@ -185,8 +187,10 @@ class SettingsTest : BaseUiTest<PreferenceActivity>() {
                 childAtPosition(
                     withId(fragmentId),
                     0
-                ), 0
-            ), 0
+                ),
+                0
+            ),
+            0
         )
     }
 }
