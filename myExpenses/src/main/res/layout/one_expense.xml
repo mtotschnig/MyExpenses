@@ -195,7 +195,7 @@
 
 
                             <org.totschnig.myexpenses.ui.ContextAwareRecyclerView
-                                android:id="@+id/list"
+                                android:id="@+id/split_part_list"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:nestedScrollingEnabled="false"
@@ -218,6 +218,7 @@
 
                             <RelativeLayout
                                 android:id="@+id/unsplit_line"
+                                android:background="?attr/selectableItemBackground"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"

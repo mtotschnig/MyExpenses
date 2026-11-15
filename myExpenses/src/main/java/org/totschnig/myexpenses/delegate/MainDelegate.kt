@@ -11,6 +11,9 @@ import androidx.core.text.bold
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentActivity
 import com.evernote.android.state.State
+import java.math.BigDecimal
+import java.time.LocalDateTime
+import kotlin.math.sign
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.databinding.DateEditBinding
 import org.totschnig.myexpenses.databinding.MethodRowBinding
@@ -36,21 +39,19 @@ import org.totschnig.myexpenses.util.config.get
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.formatMoney
 import org.totschnig.myexpenses.util.ui.configurePopupAnchor
+import org.totschnig.myexpenses.util.ui.expandTouchTarget
 import org.totschnig.myexpenses.viewmodel.data.Account
 import org.totschnig.myexpenses.viewmodel.data.Currency
 import org.totschnig.myexpenses.viewmodel.data.DisplayDebt
 import org.totschnig.myexpenses.viewmodel.data.RIGHT_ARROW
 import org.totschnig.myexpenses.viewmodel.data.TransactionEditData
-import java.math.BigDecimal
-import java.time.LocalDateTime
-import kotlin.math.sign
 
-//Transaction or Split
+// Transaction or Split
 abstract class MainDelegate(
     viewBinding: OneExpenseBinding,
     dateEditBinding: DateEditBinding,
     methodRowBinding: MethodRowBinding,
-    isTemplate: Boolean,
+    isTemplate: Boolean
 ) : TransactionDelegate(
     viewBinding,
     dateEditBinding,
@@ -81,7 +82,7 @@ abstract class MainDelegate(
         withTypeSpinner: Boolean,
         savedInstanceState: Bundle?,
         recurrence: Recurrence?,
-        withAutoFill: Boolean,
+        withAutoFill: Boolean
     ) {
         super.bind(
             transaction,
@@ -164,10 +165,10 @@ abstract class MainDelegate(
 
     override fun buildTransaction(
         forSave: Boolean,
-        account: Account,
+        account: Account
     ): TransactionEditData? {
         val amount = validateAmountInput(forSave, currentAccount()!!.currency).getOrNull()
-            ?: //Snackbar is shown in validateAmountInput
+            ?: // Snackbar is shown in validateAmountInput
             return null
         return buildMainTransaction(account).let {
             it.copy(
@@ -179,8 +180,15 @@ abstract class MainDelegate(
                     val currency = it.code
                     val currencyUnit = currencyContext[currency]
                     viewBinding.OriginalAmount.getAmount(currencyUnit).getOrNull()
-                        ?: if (isTemplate && originalAmountVisible) Money(currencyUnit, 0L) else null
-                    //prefHandler.putString(PrefKey.LAST_ORIGINAL_CURRENCY, currency)
+                        ?: if (isTemplate && originalAmountVisible) {
+                            Money(
+                                currencyUnit,
+                                0L
+                            )
+                        } else {
+                            null
+                        }
+                    // prefHandler.putString(PrefKey.LAST_ORIGINAL_CURRENCY, currency)
                 },
                 equivalentAmount = viewBinding.EquivalentAmount.getAmount(homeCurrency).getOrNull()
                     ?.let {
@@ -200,7 +208,9 @@ abstract class MainDelegate(
 
     override fun createAdapters(withTypeSpinner: Boolean, withAutoFill: Boolean) {
         viewBinding.Payee.createPayeeAdapter(
-            withInputMethodNeeded = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && configurator[AUTO_COMPLETE_DROPDOWN_SET_INPUT_METHOD_NEEDED, true]
+            withInputMethodNeeded =
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q &&
+                    configurator[AUTO_COMPLETE_DROPDOWN_SET_INPUT_METHOD_NEEDED, true]
         ) { partyId ->
             handleDebts()
             if (partyId != null) {
@@ -208,22 +218,24 @@ abstract class MainDelegate(
                     if (shouldStartAutoFill(prefHandler)) {
                         host.startAutoFill(partyId, false)
                     } else if (!prefHandler.getBoolean(AUTO_FILL_HINT_SHOWN, false)) {
-                        ConfirmationDialogFragment.newInstance(Bundle().apply {
-                            putLong(KEY_ROWID, partyId)
-                            putInt(KEY_TITLE, R.string.information)
-                            putString(
-                                KEY_MESSAGE,
-                                context.getString(R.string.hint_auto_fill)
-                            )
-                            putInt(KEY_COMMAND_POSITIVE, R.id.AUTO_FILL_COMMAND)
-                            putInt(KEY_COMMAND_NEGATIVE, R.id.AUTO_FILL_COMMAND)
-                            putString(
-                                KEY_PREFKEY,
-                                prefHandler.getKey(AUTO_FILL_HINT_SHOWN)
-                            )
-                            putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.response_yes)
-                            putInt(KEY_NEGATIVE_BUTTON_LABEL, R.string.response_no)
-                        }).show(
+                        ConfirmationDialogFragment.newInstance(
+                            Bundle().apply {
+                                putLong(KEY_ROWID, partyId)
+                                putInt(KEY_TITLE, R.string.information)
+                                putString(
+                                    KEY_MESSAGE,
+                                    context.getString(R.string.hint_auto_fill)
+                                )
+                                putInt(KEY_COMMAND_POSITIVE, R.id.AUTO_FILL_COMMAND)
+                                putInt(KEY_COMMAND_NEGATIVE, R.id.AUTO_FILL_COMMAND)
+                                putString(
+                                    KEY_PREFKEY,
+                                    prefHandler.getKey(AUTO_FILL_HINT_SHOWN)
+                                )
+                                putInt(KEY_POSITIVE_BUTTON_LABEL, R.string.response_yes)
+                                putInt(KEY_NEGATIVE_BUTTON_LABEL, R.string.response_no)
+                            }
+                        ).show(
                             (context as FragmentActivity).supportFragmentManager,
                             "AUTO_FILL_HINT"
                         )
@@ -266,7 +278,9 @@ abstract class MainDelegate(
     }
 
     open fun buildMainTransaction(account: Account): TransactionEditData =
-        if (isTemplate) buildTemplate(account, null) else
+        if (isTemplate) {
+            buildTemplate(account, null)
+        } else {
             TransactionEditData(
                 categoryId = catId,
                 categoryPath = label,
@@ -275,6 +289,7 @@ abstract class MainDelegate(
                 accountId = account.id,
                 uuid = uuid
             )
+        }
 
     override fun onDestroy() {
         viewBinding.Payee.onDestroy()
@@ -307,12 +322,16 @@ abstract class MainDelegate(
             viewBinding.DebtSummaryPopup.contentDescription = infoText
             viewBinding.DebtSummaryPopup.configurePopupAnchor(infoText)
             true
-        } else false
-
+        } else {
+            false
+        }
+        if (viewBinding.DebtSummaryPopup.isVisible) {
+            viewBinding.DebtSummaryPopup.expandTouchTarget()
+        }
     }
 
     private fun calculateInstallment(debt: DisplayDebt) =
-        if (debt.currency != currentAccount()!!.currency)
+        if (debt.currency != currentAccount()!!.currency) {
             with(
                 viewBinding.EquivalentAmount.getAmount(
                     showToUser = false
@@ -320,68 +339,74 @@ abstract class MainDelegate(
             ) {
                 if (isIncome) this else this.negate()
             }
-        else validateAmountInput()
+        } else {
+            validateAmountInput()
+        }
 
     private fun formatDebtHelp(debt: DisplayDebt, installment: BigDecimal): CharSequence? {
         val installmentMoney = Money.buildWithMajor(debt.currency, installment.abs()).getOrElse {
             return context.getString(R.string.number_too_large)
         }
         val currentBalance = Money(debt.currency, debt.currentBalance)
-        val futureBalance = Money.buildWithMajor(debt.currency, currentBalance.amountMajor - installment).getOrElse {
-            return context.getString(R.string.number_too_large)
-        }
+        val futureBalance =
+            Money.buildWithMajor(debt.currency, currentBalance.amountMajor - installment)
+                .getOrElse {
+                    return context.getString(R.string.number_too_large)
+                }
 
-        return TextUtils.concat(*buildList {
-            val installmentSign = installment.signum()
-            val debtSign = debt.currentBalance.sign
+        return TextUtils.concat(
+            *buildList {
+                val installmentSign = installment.signum()
+                val debtSign = debt.currentBalance.sign
 
-            add(
-                context.getString(
-                    when (installmentSign) {
-                        1 -> {
-                            when (debtSign) {
-                                1 -> R.string.debt_installment_receive
-                                else -> R.string.debt_borrow_additional
+                add(
+                    context.getString(
+                        when (installmentSign) {
+                            1 -> {
+                                when (debtSign) {
+                                    1 -> R.string.debt_installment_receive
+                                    else -> R.string.debt_borrow_additional
+                                }
                             }
-                        }
 
-                        -1 -> {
-                            when (debtSign) {
-                                -1 -> R.string.debt_installment_pay
-                                else -> R.string.debt_lend_additional
+                            -1 -> {
+                                when (debtSign) {
+                                    -1 -> R.string.debt_installment_pay
+                                    else -> R.string.debt_lend_additional
+                                }
                             }
-                        }
 
-                        else -> throw IllegalStateException()
-                    },
-                    currencyFormatter.formatMoney(installmentMoney)
+                            else -> throw IllegalStateException()
+                        },
+                        currencyFormatter.formatMoney(installmentMoney)
+                    )
                 )
-            )
 
-            val futureSign = futureBalance.amountMajor.signum()
+                val futureSign = futureBalance.amountMajor.signum()
 
-            if (futureSign != debtSign) {
-                when (debtSign) {
-                    1 -> context.getString(R.string.debt_paid_off_other, debt.payeeName)
-                    -1 -> context.getString(R.string.debt_paid_off_self)
+                if (futureSign != debtSign) {
+                    when (debtSign) {
+                        1 -> context.getString(R.string.debt_paid_off_other, debt.payeeName)
+                        -1 -> context.getString(R.string.debt_paid_off_self)
+                        else -> null
+                    }?.let { add(it) }
+                }
+
+                val futureBalanceAbs =
+                    currencyFormatter.formatMoney(futureBalance.absolute())
+                when (futureSign) {
+                    1 -> context.getString(
+                        R.string.debt_balance_they_owe,
+                        debt.payeeName,
+                        futureBalanceAbs
+                    )
+
+                    -1 -> context.getString(R.string.debt_balance_i_owe, futureBalanceAbs)
+
                     else -> null
                 }?.let { add(it) }
-            }
-
-            val futureBalanceAbs =
-                currencyFormatter.formatMoney(futureBalance.absolute())
-            when (futureSign) {
-                1 -> context.getString(
-                    R.string.debt_balance_they_owe,
-                    debt.payeeName,
-                    futureBalanceAbs
-                )
-
-                -1 -> context.getString(R.string.debt_balance_i_owe, futureBalanceAbs)
-                else -> null
-            }?.let { add(it) }
-
-        }.toTypedArray())
+            }.toTypedArray()
+        )
     }
 
     private fun formatDebt(debt: DisplayDebt, withInstallment: BigDecimal? = null): CharSequence {
@@ -466,7 +491,8 @@ abstract class MainDelegate(
             applicableDebts.let { debts ->
                 if (isChecked && !host.isFinishing) {
                     when (debts.size) {
-                        0 -> { /*should not happen*/
+                        0 -> {
+                            /*should not happen*/
                             CrashHandler.throwOrReport(
                                 "Debt checked without applicable debt"
                             )
@@ -477,17 +503,24 @@ abstract class MainDelegate(
                                 setDebt(it)
                             } ?: run {
                                 val sortedDebts =
-                                    debts.sortedWith(compareBy<DisplayDebt> { it.payeeId != payeeId }.thenBy { it.payeeId })
+                                    debts.sortedWith(
+                                        compareBy<DisplayDebt> {
+                                            it.payeeId != payeeId
+                                        }.thenBy { it.payeeId }
+                                    )
                                 with(PopupMenu(context, viewBinding.DebtCheckBox)) {
                                     var currentMenu: Menu? = null
                                     var currentPayee: Long? = null
                                     sortedDebts.forEachIndexed { index, debt ->
                                         if (debt.payeeId != currentPayee) {
                                             currentPayee = debt.payeeId
-                                            val subMenuTitle = if (debt.payeeId == payeeId)
-                                                SpannableStringBuilder().bold { append(debt.payeeName) }
-                                            else
+                                            val subMenuTitle = if (debt.payeeId == payeeId) {
+                                                SpannableStringBuilder().bold {
+                                                    append(debt.payeeName)
+                                                }
+                                            } else {
                                                 debt.payeeName
+                                            }
                                             currentMenu = menu.addSubMenu(
                                                 Menu.NONE,
                                                 -1,
@@ -535,8 +568,8 @@ abstract class MainDelegate(
         val currencyUnit = account.currency
         viewBinding.OriginalAmount.configureExchange(currencyUnit)
         val isDynamic = !isSplitPart && !isTemplate &&
-                !hasHomeCurrency(account) &&
-                account.isDynamic
+            !hasHomeCurrency(account) &&
+            account.isDynamic
         viewBinding.EquivalentAmountRow.isVisible = isDynamic
         viewBinding.EquivalentAmount.configureExchange(currencyUnit, homeCurrency)
         if (isDynamic) {

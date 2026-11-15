@@ -927,8 +927,6 @@
     <ID>MaxLineLength:ImportTradesDialog.kt:finalQuantity = Money.buildWithMajor(asset, total.divide(price, 10, roundingMode), roundingMode).getOrThrow()</ID>
     <ID>MaxLineLength:ImportTradesDialog.kt:parseResult?.takeIf { it.intents.isEmpty() &amp;&amp; it.parseFailures == 0 &amp;&amp; it.missingAssets.isEmpty() &amp;&amp; it.fatalError == null }</ID>
     <ID>MaxLineLength:LazyFontSelector.kt:LazyFontSelector$//Log.d("MyExpenses","Character " + c + " was found in font " + currentFont.getBaseFont().getPostscriptFontName());</ID>
-    <ID>MaxLineLength:MainDelegate.kt:MainDelegate$debts.sortedWith(compareBy&lt;DisplayDebt&gt; { it.payeeId != payeeId }.thenBy { it.payeeId })</ID>
-    <ID>MaxLineLength:MainDelegate.kt:MainDelegate$withInputMethodNeeded = Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.Q &amp;&amp; configurator[AUTO_COMPLETE_DROPDOWN_SET_INPUT_METHOD_NEEDED, true]</ID>
     <ID>MaxLineLength:MainScreen.kt:ListDetailPaneScaffoldRole.Detail -&gt; if ((viewModel.accountList.value.find { it.id == selectedAccountId } as? FullAccount)?.isPortfolio == true) HELP_VARIANT_PORTFOLIO else HELP_VARIANT_TRANSACTIONS</ID>
     <ID>MaxLineLength:MainScreen.kt:ListDetailPaneScaffoldRole.List -&gt; if (viewModel.currentAccountsTab.value == AccountsScreenTab.BALANCE_SHEET) HELP_VARIANT_BALANCE_SHEET else HELP_VARIANT_ACCOUNTS</ID>
     <ID>MaxLineLength:MainScreen.kt:MenuItem.NavigationMode.FIXED_BOTTOM -&gt; calculatedLayoutType</ID>
@@ -1185,7 +1183,6 @@
     <ID>NewLineAtEndOfFile:AmountActivity.kt:org.totschnig.myexpenses.activity.AmountActivity.kt</ID>
     <ID>NewLineAtEndOfFile:AmountCriterion.kt:org.totschnig.myexpenses.provider.filter.AmountCriterion.kt</ID>
     <ID>NewLineAtEndOfFile:AmountCriterionTransformationTest.kt:org.totschnig.myexpenses.provider.filter.AmountCriterionTransformationTest.kt</ID>
-    <ID>NewLineAtEndOfFile:AmountFilterDialog.kt:org.totschnig.myexpenses.dialog.AmountFilterDialog.kt</ID>
     <ID>NewLineAtEndOfFile:AmountInputHostDialog.kt:eltos.simpledialogfragment.form.AmountInputHostDialog.kt</ID>
     <ID>NewLineAtEndOfFile:AndCriterion.kt:org.totschnig.myexpenses.provider.filter.AndCriterion.kt</ID>
     <ID>NewLineAtEndOfFile:AppDirHelper.kt:org.totschnig.myexpenses.util.AppDirHelper.kt</ID>
@@ -1542,7 +1539,6 @@
     <ID>NewLineAtEndOfFile:RoadmapVoteActivity.kt:org.totschnig.myexpenses.activity.RoadmapVoteActivity.kt</ID>
     <ID>NewLineAtEndOfFile:SafSetup.kt:org.totschnig.myexpenses.activity.SafSetup.kt</ID>
     <ID>NewLineAtEndOfFile:SafePreference.kt:org.totschnig.myexpenses.preference.SafePreference.kt</ID>
-    <ID>NewLineAtEndOfFile:ScrollingChip.kt:org.totschnig.myexpenses.ui.filter.ScrollingChip.kt</ID>
     <ID>NewLineAtEndOfFile:SealedAccountMarkExportedTest.kt:org.totschnig.myexpenses.repository.SealedAccountMarkExportedTest.kt</ID>
     <ID>NewLineAtEndOfFile:SecurePreferenceDataStore.kt:org.totschnig.myexpenses.preference.SecurePreferenceDataStore.kt</ID>
     <ID>NewLineAtEndOfFile:SelectCategoryBaseDialogFragment.kt:org.totschnig.myexpenses.dialog.SelectCategoryBaseDialogFragment.kt</ID>
@@ -1581,7 +1577,6 @@
     <ID>NewLineAtEndOfFile:SortUtilityDialogFragment.kt:org.totschnig.myexpenses.dialog.SortUtilityDialogFragment.kt</ID>
     <ID>NewLineAtEndOfFile:SpinnerHelper.kt:org.totschnig.myexpenses.ui.SpinnerHelper.kt</ID>
     <ID>NewLineAtEndOfFile:SplashActivity.kt:org.totschnig.myexpenses.activity.SplashActivity.kt</ID>
-    <ID>NewLineAtEndOfFile:SplitDelegate.kt:org.totschnig.myexpenses.delegate.SplitDelegate.kt</ID>
     <ID>NewLineAtEndOfFile:SplitInfoTest.kt:org.totschnig.myexpenses.provider.SplitInfoTest.kt</ID>
     <ID>NewLineAtEndOfFile:SplitPartRVAdapter.kt:org.totschnig.myexpenses.adapter.SplitPartRVAdapter.kt</ID>
     <ID>NewLineAtEndOfFile:StaleImagesViewModel.kt:org.totschnig.myexpenses.viewmodel.StaleImagesViewModel.kt</ID>

@@ -66,11 +66,6 @@
         <error line="98" column="54" source="standard:function-literal" />
         <error line="109" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/ArchiveDetailWithSearchTest.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="81" column="1" source="standard:indent" />
-        <error line="89" column="1" source="standard:final-newline" />
-    </file>
     <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/BudgetActivityTest.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="67" column="9" source="standard:comment-spacing" />
@@ -227,97 +222,6 @@
         <error line="119" column="36" source="standard:trailing-comma-on-call-site" />
         <error line="125" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/ExpenseEditDateTimeInputTest.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="41" column="2" source="standard:colon-spacing" />
-        <error line="129" column="9" source="standard:comment-spacing" />
-        <error line="130" column="50" source="standard:binary-expression-wrapping" />
-        <error line="130" column="76" source="standard:argument-list-wrapping" />
-        <error line="130" column="78" source="standard:argument-list-wrapping" />
-        <error line="130" column="101" source="standard:max-line-length" />
-        <error line="130" column="106" source="standard:argument-list-wrapping" />
-        <error line="130" column="108" source="standard:argument-list-wrapping" />
-        <error line="155" column="20" source="standard:comment-spacing" />
-        <error line="166" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/ExpenseEditFlowTest.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="132" column="25" source="standard:wrapping" />
-        <error line="134" column="9" source="standard:wrapping" />
-        <error line="154" column="5" source="standard:comment-spacing" />
-        <error line="250" column="5" source="standard:comment-spacing" />
-        <error line="253" column="25" source="standard:wrapping" />
-        <error line="256" column="9" source="standard:wrapping" />
-        <error line="260" column="9" source="standard:comment-spacing" />
-        <error line="268" column="5" source="standard:comment-spacing" />
-        <error line="281" column="27" source="standard:argument-list-wrapping" />
-        <error line="291" column="5" source="standard:comment-spacing" />
-        <error line="314" column="27" source="standard:argument-list-wrapping" />
-        <error line="323" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/ExpenseEditLoadDataTest.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="96" column="29" source="standard:argument-list-wrapping" />
-        <error line="96" column="54" source="standard:argument-list-wrapping" />
-        <error line="111" column="48" source="standard:wrapping" />
-        <error line="113" column="5" source="standard:wrapping" />
-        <error line="121" column="35" source="standard:argument-list-wrapping" />
-        <error line="121" column="51" source="standard:argument-list-wrapping" />
-        <error line="121" column="68" source="standard:argument-list-wrapping" />
-        <error line="122" column="32" source="standard:argument-list-wrapping" />
-        <error line="153" column="44" source="standard:argument-list-wrapping" />
-        <error line="153" column="59" source="standard:argument-list-wrapping" />
-        <error line="187" column="26" source="standard:argument-list-wrapping" />
-        <error line="187" column="45" source="standard:argument-list-wrapping" />
-        <error line="187" column="51" source="standard:argument-list-wrapping" />
-        <error line="211" column="53" source="standard:function-expression-body" />
-        <error line="235" column="35" source="standard:argument-list-wrapping" />
-        <error line="235" column="51" source="standard:argument-list-wrapping" />
-        <error line="235" column="68" source="standard:argument-list-wrapping" />
-        <error line="240" column="1" source="standard:no-blank-line-before-rbrace" />
-        <error line="280" column="23" source="standard:wrapping" />
-        <error line="286" column="9" source="standard:wrapping" />
-        <error line="288" column="35" source="standard:argument-list-wrapping" />
-        <error line="288" column="51" source="standard:argument-list-wrapping" />
-        <error line="288" column="68" source="standard:argument-list-wrapping" />
-        <error line="335" column="15" source="standard:wrapping" />
-        <error line="335" column="16" source="standard:argument-list-wrapping" />
-        <error line="341" column="35" source="standard:argument-list-wrapping" />
-        <error line="341" column="51" source="standard:argument-list-wrapping" />
-        <error line="341" column="68" source="standard:argument-list-wrapping" />
-        <error line="342" column="32" source="standard:argument-list-wrapping" />
-        <error line="344" column="1" source="standard:no-blank-line-before-rbrace" />
-        <error line="350" column="23" source="standard:wrapping" />
-        <error line="352" column="9" source="standard:wrapping" />
-        <error line="366" column="23" source="standard:wrapping" />
-        <error line="369" column="9" source="standard:wrapping" />
-        <error line="377" column="1" source="standard:no-blank-line-before-rbrace" />
-        <error line="389" column="15" source="standard:wrapping" />
-        <error line="389" column="16" source="standard:argument-list-wrapping" />
-        <error line="421" column="23" source="standard:wrapping" />
-        <error line="423" column="9" source="standard:wrapping" />
-        <error line="425" column="32" source="standard:argument-list-wrapping" />
-        <error line="425" column="48" source="standard:argument-list-wrapping" />
-        <error line="425" column="65" source="standard:argument-list-wrapping" />
-        <error line="426" column="32" source="standard:argument-list-wrapping" />
-        <error line="426" column="49" source="standard:argument-list-wrapping" />
-        <error line="438" column="1" source="standard:no-blank-line-before-rbrace" />
-        <error line="447" column="21" source="standard:no-multi-spaces" />
-        <error line="448" column="25" source="standard:trailing-comma-on-call-site" />
-        <error line="450" column="23" source="standard:wrapping" />
-        <error line="453" column="9" source="standard:wrapping" />
-        <error line="455" column="35" source="standard:argument-list-wrapping" />
-        <error line="455" column="51" source="standard:argument-list-wrapping" />
-        <error line="455" column="68" source="standard:argument-list-wrapping" />
-        <error line="456" column="32" source="standard:argument-list-wrapping" />
-        <error line="468" column="23" source="standard:wrapping" />
-        <error line="475" column="9" source="standard:wrapping" />
-        <error line="503" column="15" source="standard:wrapping" />
-        <error line="503" column="16" source="standard:argument-list-wrapping" />
-        <error line="503" column="24" source="standard:argument-list-wrapping" />
-        <error line="503" column="30" source="standard:argument-list-wrapping" />
-        <error line="512" column="1" source="standard:final-newline" />
-    </file>
     <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/ExpenseEditMethodTest.kt">
         <error line="48" column="1" source="standard:no-empty-first-line-in-method-block" />
         <error line="65" column="1" source="standard:no-empty-first-line-in-method-block" />
@@ -468,18 +372,6 @@
         <error line="99" column="109" source="standard:argument-list-wrapping" />
         <error line="123" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/ManageTemplatesTest.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="57" column="1" source="standard:comment-spacing" />
-        <error line="108" column="23" source="standard:wrapping" />
-        <error line="108" column="24" source="standard:argument-list-wrapping" />
-        <error line="113" column="50" source="standard:trailing-comma-on-call-site" />
-        <error line="199" column="34" source="standard:trailing-comma-on-call-site" />
-        <error line="226" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="238" column="23" source="standard:argument-list-wrapping" />
-        <error line="238" column="29" source="standard:argument-list-wrapping" />
-        <error line="238" column="35" source="standard:argument-list-wrapping" />
-    </file>
     <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/MyExpensesAmountSearchFilterTest.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="59" column="60" source="standard:dot-spacing" />
@@ -532,29 +424,6 @@
         <error line="28" column="9" source="standard:comment-spacing" />
         <error line="34" column="1" source="standard:no-blank-line-before-rbrace" />
         <error line="35" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/MyExpensesPayeeFilterTest.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="29" column="32" source="standard:colon-spacing" />
-        <error line="42" column="19" source="standard:no-multi-spaces" />
-        <error line="73" column="1" source="standard:no-blank-line-before-rbrace" />
-        <error line="82" column="33" source="standard:comma-spacing" />
-        <error line="92" column="33" source="standard:comma-spacing" />
-        <error line="98" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="109" column="26" source="standard:wrapping" />
-        <error line="109" column="83" source="standard:paren-spacing" />
-        <error line="110" column="53" source="standard:argument-list-wrapping" />
-        <error line="110" column="83" source="standard:wrapping" />
-        <error line="110" column="84" source="standard:wrapping" />
-        <error line="110" column="84" source="standard:argument-list-wrapping" />
-        <error line="120" column="88" source="standard:argument-list-wrapping" />
-        <error line="120" column="100" source="standard:max-line-length" />
-        <error line="120" column="102" source="standard:argument-list-wrapping" />
-        <error line="120" column="120" source="standard:argument-list-wrapping" />
-        <error line="120" column="126" source="standard:argument-list-wrapping" />
-        <error line="120" column="127" source="standard:argument-list-wrapping" />
-        <error line="126" column="1" source="standard:no-blank-line-before-rbrace" />
-        <error line="127" column="1" source="standard:final-newline" />
     </file>
     <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/MyExpensesTagsTest.kt">
         <error line="17" column="25" source="standard:colon-spacing" />
@@ -645,57 +514,6 @@
         <error line="59" column="110" source="standard:argument-list-wrapping" />
         <error line="59" column="126" source="standard:argument-list-wrapping" />
         <error line="65" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/SplitEditTest.kt">
-        <error line="104" column="48" source="standard:trailing-comma-on-declaration-site" />
-        <error line="144" column="19" source="standard:comment-spacing" />
-        <error line="144" column="19" source="standard:comment-spacing" />
-        <error line="156" column="3" source="standard:block-comment-initial-star-alignment" />
-        <error line="159" column="55" source="standard:comment-spacing" />
-        <error line="165" column="19" source="standard:comment-spacing" />
-        <error line="165" column="19" source="standard:comment-spacing" />
-        <error line="169" column="19" source="standard:comment-spacing" />
-        <error line="169" column="19" source="standard:comment-spacing" />
-        <error line="359" column="57" source="standard:trailing-comma-on-call-site" />
-        <error line="371" column="34" source="standard:trailing-comma-on-declaration-site" />
-        <error line="387" column="62" source="standard:comment-spacing" />
-        <error line="388" column="28" source="standard:comment-spacing" />
-        <error line="390" column="23" source="standard:comment-spacing" />
-        <error line="390" column="23" source="standard:comment-spacing" />
-        <error line="407" column="27" source="standard:wrapping" />
-        <error line="407" column="28" source="standard:argument-list-wrapping" />
-        <error line="427" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="449" column="19" source="standard:comment-spacing" />
-        <error line="449" column="19" source="standard:comment-spacing" />
-        <error line="450" column="101" source="standard:max-line-length" />
-        <error line="452" column="19" source="standard:comment-spacing" />
-        <error line="452" column="19" source="standard:comment-spacing" />
-        <error line="473" column="5" source="standard:comment-spacing" />
-        <error line="482" column="101" source="standard:max-line-length" />
-        <error line="484" column="19" source="standard:comment-spacing" />
-        <error line="484" column="19" source="standard:comment-spacing" />
-        <error line="516" column="19" source="standard:comment-spacing" />
-        <error line="516" column="19" source="standard:comment-spacing" />
-        <error line="517" column="101" source="standard:max-line-length" />
-        <error line="519" column="19" source="standard:comment-spacing" />
-        <error line="519" column="19" source="standard:comment-spacing" />
-        <error line="532" column="5" source="standard:comment-spacing" />
-        <error line="541" column="101" source="standard:max-line-length" />
-        <error line="543" column="19" source="standard:comment-spacing" />
-        <error line="543" column="19" source="standard:comment-spacing" />
-        <error line="560" column="50" source="standard:comment-spacing" />
-        <error line="566" column="50" source="standard:comment-spacing" />
-        <error line="585" column="9" source="standard:comment-spacing" />
-        <error line="587" column="9" source="standard:comment-spacing" />
-        <error line="610" column="25" source="standard:wrapping" />
-        <error line="612" column="9" source="standard:wrapping" />
-        <error line="641" column="19" source="standard:comment-spacing" />
-        <error line="641" column="19" source="standard:comment-spacing" />
-        <error line="643" column="20" source="standard:comment-spacing" />
-        <error line="690" column="19" source="standard:comment-spacing" />
-        <error line="690" column="19" source="standard:comment-spacing" />
-        <error line="692" column="20" source="standard:comment-spacing" />
-        <error line="710" column="1" source="standard:final-newline" />
     </file>
     <file name="src/androidTest/java/org/totschnig/myexpenses/test/espresso/TransferTemplateTest.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -1159,10 +977,6 @@
         <error line="9" column="19" source="standard:colon-spacing" />
         <error line="15" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/androidTest/java/org/totschnig/myexpenses/test/screenshots/ScreenGrabTest.kt">
-        <error line="15" column="21" source="standard:colon-spacing" />
-        <error line="28" column="1" source="standard:final-newline" />
-    </file>
     <file name="src/androidTest/java/org/totschnig/myexpenses/test/util/AppDirHelperTest.kt">
         <error line="14" column="27" source="standard:argument-list-wrapping" />
         <error line="14" column="39" source="standard:argument-list-wrapping" />
@@ -1279,37 +1093,6 @@
         <error line="20" column="1" source="standard:no-empty-first-line-in-method-block" />
         <error line="64" column="1" source="standard:no-consecutive-blank-lines" />
         <error line="84" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/androidTest/java/org/totschnig/myexpenses/testutils/BaseUiTest.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="157" column="35" source="standard:trailing-comma-on-declaration-site" />
-        <error line="258" column="5" source="standard:comment-spacing" />
-        <error line="272" column="21" source="standard:comment-spacing" />
-        <error line="277" column="20" source="standard:argument-list-wrapping" />
-        <error line="277" column="47" source="standard:argument-list-wrapping" />
-        <error line="277" column="57" source="standard:argument-list-wrapping" />
-        <error line="277" column="94" source="standard:argument-list-wrapping" />
-        <error line="277" column="95" source="standard:argument-list-wrapping" />
-        <error line="277" column="96" source="standard:argument-list-wrapping" />
-        <error line="277" column="101" source="standard:max-line-length" />
-        <error line="291" column="13" source="standard:comment-spacing" />
-        <error line="311" column="36" source="standard:trailing-comma-on-declaration-site" />
-        <error line="353" column="29" source="standard:trailing-comma-on-declaration-site" />
-        <error line="409" column="5" source="standard:comment-spacing" />
-        <error line="421" column="5" source="standard:comment-spacing" />
-        <error line="468" column="43" source="standard:binary-expression-wrapping" />
-        <error line="468" column="101" source="standard:max-line-length" />
-        <error line="479" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="482" column="45" source="standard:trailing-comma-on-declaration-site" />
-        <error line="494" column="53" source="standard:trailing-comma-on-declaration-site" />
-        <error line="497" column="16" source="standard:wrapping" />
-        <error line="497" column="17" source="standard:argument-list-wrapping" />
-        <error line="523" column="35" source="standard:trailing-comma-on-declaration-site" />
-        <error line="594" column="1" source="standard:no-blank-line-before-rbrace" />
-        <error line="605" column="23" source="standard:argument-list-wrapping" />
-        <error line="605" column="29" source="standard:argument-list-wrapping" />
-        <error line="605" column="35" source="standard:argument-list-wrapping" />
-        <error line="614" column="1" source="standard:final-newline" />
     </file>
     <file name="src/androidTest/java/org/totschnig/myexpenses/testutils/CategoryInfo.kt">
         <error line="23" column="1" source="standard:final-newline" />
@@ -1455,21 +1238,6 @@
         <error line="13" column="26" source="standard:colon-spacing" />
         <error line="15" column="101" source="standard:max-line-length" />
         <error line="18" column="1" source="standard:no-consecutive-blank-lines" />
-    </file>
-    <file name="src/androidTest/java/org/totschnig/myexpenses/testutils/TestMain.kt">
-        <error line="39" column="1" source="standard:no-consecutive-blank-lines" />
-        <error line="66" column="17" source="standard:comment-spacing" />
-        <error line="69" column="1" source="standard:indent" />
-        <error line="95" column="21" source="standard:comment-spacing" />
-        <error line="124" column="25" source="standard:comment-spacing" />
-        <error line="125" column="25" source="standard:comment-spacing" />
-        <error line="149" column="17" source="standard:comment-spacing" />
-        <error line="150" column="17" source="standard:comment-spacing" />
-        <error line="177" column="51" source="standard:argument-list-wrapping" />
-        <error line="177" column="101" source="standard:max-line-length" />
-        <error line="177" column="117" source="standard:argument-list-wrapping" />
-        <error line="184" column="29" source="standard:comment-spacing" />
-        <error line="242" column="1" source="standard:final-newline" />
     </file>
     <file name="src/androidTest/java/org/totschnig/myexpenses/testutils/TestPrefHandler.kt">
         <error line="21" column="44" source="standard:wrapping" />
@@ -5574,77 +5342,9 @@
         <error line="92" column="101" source="standard:max-line-length" />
         <error line="111" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/main/java/org/totschnig/myexpenses/delegate/MainDelegate.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="48" column="1" source="standard:comment-spacing" />
-        <error line="53" column="24" source="standard:trailing-comma-on-declaration-site" />
-        <error line="84" column="30" source="standard:trailing-comma-on-declaration-site" />
-        <error line="167" column="25" source="standard:trailing-comma-on-declaration-site" />
-        <error line="170" column="16" source="standard:comment-spacing" />
-        <error line="182" column="45" source="standard:binary-expression-wrapping" />
-        <error line="182" column="75" source="standard:argument-list-wrapping" />
-        <error line="182" column="89" source="standard:argument-list-wrapping" />
-        <error line="182" column="91" source="standard:argument-list-wrapping" />
-        <error line="182" column="101" source="standard:max-line-length" />
-        <error line="183" column="21" source="standard:comment-spacing" />
-        <error line="203" column="37" source="standard:binary-expression-wrapping" />
-        <error line="203" column="86" source="standard:binary-expression-wrapping" />
-        <error line="203" column="101" source="standard:max-line-length" />
-        <error line="211" column="64" source="standard:wrapping" />
-        <error line="226" column="25" source="standard:wrapping" />
-        <error line="269" column="25" source="standard:multiline-if-else" />
-        <error line="270" column="13" source="standard:multiline-if-else" />
-        <error line="310" column="16" source="standard:multiline-if-else" />
-        <error line="311" column="1" source="standard:no-blank-line-before-rbrace" />
-        <error line="316" column="13" source="standard:multiline-if-else" />
-        <error line="323" column="14" source="standard:multiline-if-else" />
-        <error line="330" column="50" source="standard:argument-list-wrapping" />
-        <error line="330" column="65" source="standard:binary-expression-wrapping" />
-        <error line="330" column="65" source="standard:argument-list-wrapping" />
-        <error line="330" column="93" source="standard:binary-expression-wrapping" />
-        <error line="330" column="101" source="standard:max-line-length" />
-        <error line="330" column="105" source="standard:argument-list-wrapping" />
-        <error line="334" column="33" source="standard:wrapping" />
-        <error line="381" column="1" source="standard:blank-line-between-when-conditions" />
-        <error line="383" column="1" source="standard:no-blank-line-before-rbrace" />
-        <error line="384" column="24" source="standard:wrapping" />
-        <error line="469" column="31" source="standard:wrapping" />
-        <error line="480" column="54" source="standard:argument-list-wrapping" />
-        <error line="480" column="77" source="standard:function-literal" />
-        <error line="480" column="101" source="standard:function-literal" />
-        <error line="480" column="101" source="standard:max-line-length" />
-        <error line="480" column="110" source="standard:function-literal" />
-        <error line="480" column="123" source="standard:function-literal" />
-        <error line="480" column="124" source="standard:argument-list-wrapping" />
-        <error line="488" column="49" source="standard:multiline-if-else" />
-        <error line="488" column="79" source="standard:function-literal" />
-        <error line="488" column="88" source="standard:argument-list-wrapping" />
-        <error line="488" column="101" source="standard:max-line-length" />
-        <error line="488" column="102" source="standard:argument-list-wrapping" />
-        <error line="488" column="104" source="standard:function-literal" />
-        <error line="490" column="49" source="standard:multiline-if-else" />
-        <error line="538" column="1" source="standard:indent" />
-        <error line="539" column="1" source="standard:indent" />
-    </file>
     <file name="src/main/java/org/totschnig/myexpenses/delegate/SplitDelegate.kt">
-        <error line="72" column="11" source="standard:multiline-if-else" />
-        <error line="72" column="49" source="standard:multiline-if-else" />
-        <error line="75" column="26" source="standard:argument-list-wrapping" />
-        <error line="76" column="59" source="standard:argument-list-wrapping" />
-        <error line="110" column="95" source="standard:no-multi-spaces" />
-        <error line="195" column="37" source="standard:binary-expression-wrapping" />
-        <error line="195" column="53" source="standard:function-literal" />
-        <error line="195" column="54" source="standard:wrapping" />
-        <error line="195" column="96" source="standard:binary-expression-wrapping" />
-        <error line="195" column="101" source="standard:max-line-length" />
-        <error line="195" column="108" source="standard:function-literal" />
-        <error line="218" column="28" source="standard:wrapping" />
-        <error line="224" column="83" source="standard:function-literal" />
-        <error line="224" column="101" source="standard:function-literal" />
-        <error line="224" column="101" source="standard:max-line-length" />
-        <error line="229" column="41" source="standard:trailing-comma-on-call-site" />
-        <error line="231" column="9" source="standard:wrapping" />
-        <error line="237" column="1" source="standard:final-newline" />
+        <error line="236" column="29" source="standard:function-literal" />
+        <error line="236" column="46" source="standard:function-literal" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/delegate/TransactionDelegate.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -5931,21 +5631,6 @@
         <error line="45" column="37" source="standard:op-spacing" />
         <error line="46" column="1" source="standard:indent" />
         <error line="81" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/main/java/org/totschnig/myexpenses/dialog/AmountFilterDialog.kt">
-        <error line="27" column="36" source="standard:wrapping" />
-        <error line="27" column="36" source="standard:argument-list-wrapping" />
-        <error line="27" column="56" source="standard:argument-list-wrapping" />
-        <error line="28" column="36" source="standard:wrapping" />
-        <error line="28" column="37" source="standard:argument-list-wrapping" />
-        <error line="38" column="42" source="standard:parameter-list-wrapping" />
-        <error line="39" column="32" source="standard:parameter-list-wrapping" />
-        <error line="44" column="47" source="standard:argument-list-wrapping" />
-        <error line="44" column="81" source="standard:argument-list-wrapping" />
-        <error line="44" column="101" source="standard:max-line-length" />
-        <error line="84" column="16" source="standard:multiline-if-else" />
-        <error line="105" column="100" source="standard:max-line-length" />
-        <error line="113" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/dialog/ArchiveDialogFragment.kt">
         <error line="3" column="1" source="standard:import-ordering" />
@@ -10455,14 +10140,6 @@
         <error line="19" column="13" source="standard:property-naming" />
         <error line="58" column="1" source="standard:final-newline" />
     </file>
-    <file name="src/main/java/org/totschnig/myexpenses/ui/AmountEditText.kt">
-        <error line="3" column="1" source="standard:import-ordering" />
-        <error line="42" column="17" source="standard:comment-spacing" />
-        <error line="65" column="52" source="standard:function-expression-body" />
-        <error line="79" column="98" source="standard:no-multi-spaces" />
-        <error line="82" column="16" source="standard:multiline-if-else" />
-        <error line="106" column="1" source="standard:no-consecutive-blank-lines" />
-    </file>
     <file name="src/main/java/org/totschnig/myexpenses/ui/AmountInput.kt">
         <error line="3" column="1" source="standard:import-ordering" />
         <error line="106" column="13" source="standard:multiline-if-else" />
@@ -10496,10 +10173,6 @@
         <error line="18" column="124" source="standard:argument-list-wrapping" />
         <error line="34" column="52" source="standard:function-expression-body" />
         <error line="85" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/main/java/org/totschnig/myexpenses/ui/ContextAwareRecyclerView.kt">
-        <error line="16" column="1" source="standard:indent" />
-        <error line="18" column="65" source="standard:function-expression-body" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/ui/ContextHelper.kt">
         <error line="8" column="1" source="standard:comment-spacing" />
@@ -10618,11 +10291,6 @@
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/ui/ViewBinding.ext.kt">
         <error line="15" column="1" source="standard:final-newline" />
-    </file>
-    <file name="src/main/java/org/totschnig/myexpenses/ui/filter/ScrollingChip.kt">
-        <error line="14" column="23" source="standard:parameter-list-wrapping" />
-        <error line="14" column="52" source="standard:parameter-list-wrapping" />
-        <error line="52" column="1" source="standard:final-newline" />
     </file>
     <file name="src/main/java/org/totschnig/myexpenses/util/AppDirHelper.kt">
         <error line="3" column="1" source="standard:import-ordering" />

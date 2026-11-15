@@ -13,6 +13,7 @@
         android:id="@+id/auto_complete_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="@dimen/accessibility_clickable_minimum"
         android:completionThreshold="1"
         android:imeOptions="actionNext"
         android:inputType="textPersonName|textCapWords" />

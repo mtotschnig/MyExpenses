@@ -77,7 +77,8 @@
                         android:id="@+id/file_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="text" />
+                        android:inputType="text"
+                        android:minHeight="@dimen/accessibility_clickable_minimum" />
                 </LinearLayout>
             </TableRow>
 
@@ -181,18 +182,17 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:contentDescription="@string/date_format"
                         android:inputType="text"
+                        android:minHeight="@dimen/accessibility_clickable_minimum"
                         tools:ignore="TextFields" />
 
                     <ImageView
                         android:id="@+id/DateFormatHelp"
                         style="?actionButtonStyle"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:contentDescription="@string/menu_help"
-                        android:scaleType="centerCrop"
                         android:tooltipText="@string/menu_help"
                         app:srcCompat="@drawable/ic_menu_help" />
                 </LinearLayout>
@@ -216,18 +216,17 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:contentDescription="@string/date_format"
                         android:inputType="text"
+                        android:minHeight="@dimen/accessibility_clickable_minimum"
                         tools:ignore="TextFields" />
 
                     <ImageView
                         android:id="@+id/TimeFormatHelp"
                         style="?actionButtonStyle"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:contentDescription="@string/menu_help"
-                        android:scaleType="centerCrop"
                         android:tooltipText="@string/menu_help"
                         app:srcCompat="@drawable/ic_menu_help" />
                 </LinearLayout>

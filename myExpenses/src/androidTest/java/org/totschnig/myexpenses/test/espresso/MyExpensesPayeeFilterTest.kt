@@ -9,6 +9,7 @@ import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.hasDescendant
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
+import java.time.LocalDateTime
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -23,10 +24,9 @@ import org.totschnig.myexpenses.model2.Party
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.TestShard3
 import org.totschnig.myexpenses.testutils.cleanup
-import java.time.LocalDateTime
 
 @TestShard3
-class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
+class MyExpensesPayeeFilterTest : BaseMyExpensesTest() {
     private lateinit var account: Account
     private var payee1 = "John Doe"
     private var payee2 = "Hinz Finz"
@@ -39,7 +39,7 @@ class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
     fun fixture() {
         p1 = repository.createParty(Party(name = payee1))!!.id
         p2 = repository.createParty(Party(name = payee2))!!.id
-        account =  buildAccount("Test account 1")
+        account = buildAccount("Test account 1")
         repository.insertTransaction(
             accountId = account.id,
             amount = -1200L,
@@ -70,7 +70,6 @@ class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
             repository.deleteParty(p1)
             repository.deleteParty(p2)
             repository.deleteParty(d)
-
         }
     }
 
@@ -79,7 +78,7 @@ class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
         checkOriginalState()
         filterOn(payee1)
         assertListSize(1)
-        payeeIsDisplayed(payee1,0)
+        payeeIsDisplayed(payee1, 0)
         clearFilters()
         checkOriginalState()
     }
@@ -89,12 +88,11 @@ class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
         checkOriginalState()
         filterOn(payee2)
         assertListSize(2)
-        payeeIsDisplayed(payee2,0)
+        payeeIsDisplayed(payee2, 0)
         payeeIsDisplayed(duplicate, 1)
         clearFilters()
         checkOriginalState()
     }
-
 
     private fun checkOriginalState() {
         assertListSize(3)
@@ -106,8 +104,12 @@ class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
     private fun filterOn(payee: String) {
         selectFilter(R.string.payer_or_payee) {
             onView(withId(R.id.list))
-                .perform(RecyclerViewActions.actionOnItem<PartiesList.ViewHolder>(
-                    hasDescendant(withText(payee)), clickOnViewChild(R.id.checkBox)))
+                .perform(
+                    RecyclerViewActions.actionOnItem<PartiesList.ViewHolder>(
+                        hasDescendant(withText(payee)),
+                        clickOnViewChild(R.id.checkBox)
+                    )
+                )
             clickFab()
         }
     }
@@ -117,11 +119,11 @@ class MyExpensesPayeeFilterTest: BaseMyExpensesTest() {
 
         override fun getDescription() = "Click on a child view with specified id."
 
-        override fun perform(uiController: UiController, view: View) = click().perform(uiController, view.findViewById(viewId))
+        override fun perform(uiController: UiController, view: View) =
+            click().perform(uiController, view.findViewById(viewId))
     }
 
     private fun payeeIsDisplayed(payee: String, position: Int) {
         assertTextAtPosition(payee, position)
     }
-
 }

@@ -52,6 +52,7 @@
 
                 <Spinner
                     android:id="@+id/Operator"
+                    android:labelFor="@id/amount1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:entries="@array/comparison_operator_entries" />
@@ -59,7 +60,8 @@
                 <org.totschnig.myexpenses.ui.AmountEditText
                     android:id="@+id/amount1"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/accessibility_clickable_minimum" />
             </TableRow>
 
             <TableRow
@@ -74,7 +76,8 @@
                 <org.totschnig.myexpenses.ui.AmountEditText
                     android:id="@+id/amount2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/accessibility_clickable_minimum" />
             </TableRow>
         </TableLayout>
     </LinearLayout>

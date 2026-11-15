@@ -9,15 +9,15 @@ import androidx.appcompat.widget.AppCompatEditText
 import arrow.core.flatMap
 import com.evernote.android.state.State
 import com.evernote.android.state.StateSaver
+import java.math.BigDecimal
+import java.text.DecimalFormat
+import java.text.DecimalFormatSymbols
+import java.util.Objects
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.model.CurrencyUnit
 import org.totschnig.myexpenses.model.Money
 import org.totschnig.myexpenses.util.Utils
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
-import java.math.BigDecimal
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
-import java.util.Objects
 
 class AmountEditText(
     context: Context,
@@ -39,7 +39,7 @@ class AmountEditText(
                 numberFormat = DecimalFormat(pattern, symbols)
                 numberFormat.isGroupingUsed = false
                 configDecimalSeparator(decimalSeparator, value)
-                //if the new configuration has less fraction digits, we might have to truncate the input
+                // if the new configuration has less fraction digits, we might have to truncate the input
                 if (field != -1 && field > value) {
                     val currentText = Objects.requireNonNull(text).toString()
                     val decimalSeparatorIndex = currentText.indexOf(decimalSeparator)
@@ -62,9 +62,10 @@ class AmountEditText(
         }
     private var numberFormat = DecimalFormat()
 
-    override fun onSaveInstanceState(): Parcelable {
-        return StateSaver.saveInstanceState(this, super.onSaveInstanceState())
-    }
+    override fun onSaveInstanceState(): Parcelable = StateSaver.saveInstanceState(
+        this,
+        super.onSaveInstanceState()
+    )
 
     override fun onRestoreInstanceState(state: Parcelable) {
         super.onRestoreInstanceState(StateSaver.restoreInstanceState(this, state))
@@ -76,17 +77,19 @@ class AmountEditText(
 
     fun getAmount(showToUser: Boolean) = runCatching {
         val strAmount = Objects.requireNonNull(text).toString()
-        if (strAmount == "" || (strAmount.length == 1 && strAmount.first() == decimalSeparator))  {
+        if (strAmount == "" || (strAmount.length == 1 && strAmount.first() == decimalSeparator)) {
             if (showToUser) error = context.getString(R.string.required)
             null
-        } else Utils.validateNumber(numberFormat, strAmount).also { amount ->
-            if (amount == null) {
-                val errorMessage =
-                    "Expected format ${numberFormat.toPattern()}, instead got $strAmount"
-                if (showToUser) {
-                    error = errorMessage
-                    throw Exception(errorMessage).also {
-                        CrashHandler.report(it)
+        } else {
+            Utils.validateNumber(numberFormat, strAmount).also { amount ->
+                if (amount == null) {
+                    val errorMessage =
+                        "Expected format ${numberFormat.toPattern()}, instead got $strAmount"
+                    if (showToUser) {
+                        error = errorMessage
+                        throw Exception(errorMessage).also {
+                            CrashHandler.report(it)
+                        }
                     }
                 }
             }
@@ -103,9 +106,8 @@ class AmountEditText(
             } ?: Result.success(null)
         }
 
-
     private fun configDecimalSeparator(decimalSeparator: Char, fractionDigits: Int) {
-        // TODO we should take into account the arab separator as well
+        // TODO we should take into account the Arab separator as well
         val otherSeparator = if (decimalSeparator == '.') ',' else '.'
         setRawInputType(InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL)
         filters = arrayOf(

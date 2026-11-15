@@ -12,7 +12,7 @@ import tools.fastlane.screengrab.locale.LocaleTestRule
  * When not run from ScreenGrab, it runs with device locale
  */
 @LargeTest
-class ScreenGrabTest: TestMain(null) {
+class ScreenGrabTest : TestMain(null) {
 
     @Rule
     @JvmField

@@ -101,7 +101,7 @@ class SplitEditTest : BaseExpenseEditTest() {
     private fun launchWithAccountSetup(
         excludeFromTotals: Boolean = false,
         type: Int = Transactions.TYPE_SPLIT,
-        configureIntent: Intent.() -> Unit = {},
+        configureIntent: Intent.() -> Unit = {}
     ) {
         account1 = buildAccount(ACCOUNT_LABEL_1, excludeFromTotals = excludeFromTotals)
         launchForResult(getBaseIntent(type).apply(configureIntent))
@@ -141,7 +141,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         onData(
             withAccountGrouped(account2.label)
         ).perform(click())
-        clickFab()//save part
+        clickFab() // save part
         checkPartCount(1)
         setAccount(account2.label)
         checkAccount(account1.label)
@@ -153,20 +153,20 @@ class SplitEditTest : BaseExpenseEditTest() {
     /*
     Verify https://github.com/mtotschnig/MyExpenses/issues/1633 and
     resolution of https://github.com/mtotschnig/MyExpenses/issues/1664
- */
+     */
     @Test
     fun bug1664() {
-        val account2 = buildAccount("Test Account 2") //for transfer
+        val account2 = buildAccount("Test Account 2") // for transfer
         launchWithAccountSetup()
         setAmount(10)
         onView(withId(R.id.CREATE_PART_COMMAND)).perform(nestedScrollToAction(), click())
         clickMenuItem(R.id.SAVE_AND_NEW_COMMAND)
         setAmount(3)
-        clickFab()//save part and new
+        clickFab() // save part and new
         checkAmount(7)
         setOperationType(Transactions.TYPE_TRANSFER)
         checkAmount(7)
-        clickFab()//saves part and returns to main
+        clickFab() // saves part and returns to main
         checkPartCount(2)
         cleanup {
             repository.deleteAccount(account2.id)
@@ -343,7 +343,7 @@ class SplitEditTest : BaseExpenseEditTest() {
     }
 
     private fun checkPartCount(count: Int) {
-        onView(withId(R.id.list)).check(matches(hasChildCount(count)))
+        onView(withId(R.id.split_part_list)).check(matches(hasChildCount(count)))
     }
 
     private fun setupData(categoryType: Byte = FLAG_INCOME) {
@@ -356,7 +356,7 @@ class SplitEditTest : BaseExpenseEditTest() {
                 label = DEBT_LABEL,
                 description = "",
                 currency = homeCurrency,
-                date = System.currentTimeMillis() / 1000,
+                date = System.currentTimeMillis() / 1000
             )
         )
         categoryId = writeCategory(CATEGORY_LABEL, icon = CATEGORY_ICON, type = categoryType)
@@ -368,7 +368,7 @@ class SplitEditTest : BaseExpenseEditTest() {
         amount: Int = 50,
         toggleType: Boolean = false,
         initialChildCount: Int = 0,
-        extended: Boolean = false,
+        extended: Boolean = false
     ) {
         repeat(times) {
             closeSoftKeyboard()
@@ -384,13 +384,13 @@ class SplitEditTest : BaseExpenseEditTest() {
                 setDebt()
                 setCategory()
                 onView(withId(R.id.TagSelection)).perform(click())
-                onView(withText(TAG_LABEL)).perform(click()) //select
-                clickFab() //confirm tag selection
+                onView(withText(TAG_LABEL)).perform(click()) // select
+                clickFab() // confirm tag selection
             }
-            clickFab()//save part
+            clickFab() // save part
             checkPartCount(initialChildCount + it + 1)
             if (extended) {
-                onView(withId(R.id.list)).check(
+                onView(withId(R.id.split_part_list)).check(
                     withViewCount(
                         allOf(
                             isAssignableFrom(LinearLayout::class.java),
@@ -404,7 +404,8 @@ class SplitEditTest : BaseExpenseEditTest() {
                             hasDescendant(
                                 withCategoryIcon(CATEGORY_ICON)
                             )
-                        ), it + 1
+                        ),
+                        it + 1
                     )
                 )
             }
@@ -412,7 +413,7 @@ class SplitEditTest : BaseExpenseEditTest() {
     }
 
     private fun editSplitPart(position: Int = 0) {
-        onView(withId(R.id.list)).perform(
+        onView(withId(R.id.split_part_list)).perform(
             RecyclerViewActions.actionOnItemAtPosition<SplitPartRVAdapter.ViewHolder>(
                 position,
                 click()
@@ -424,9 +425,8 @@ class SplitEditTest : BaseExpenseEditTest() {
         contextActionOnSplitPart(R.id.DELETE_COMMAND, position)
     }
 
-
     private fun contextActionOnSplitPart(@IdRes action: Int, position: Int = 0) {
-        onView(withId(R.id.list)).perform(
+        onView(withId(R.id.split_part_list)).perform(
             RecyclerViewActions.actionOnItemAtPosition<SplitPartRVAdapter.ViewHolder>(
                 position,
                 longClick()
@@ -440,16 +440,17 @@ class SplitEditTest : BaseExpenseEditTest() {
         val id = launchEdit()
         checkPartCount(2)
         closeSoftKeyboard()
-        BaristaScrollInteractions.scrollTo(R.id.list)
+        BaristaScrollInteractions.scrollTo(R.id.split_part_list)
         editSplitPart()
         setAmount(150)
         onView(withId(R.id.MANAGE_TEMPLATES_COMMAND)).check(doesNotExist())
         onView(withId(R.id.CREATE_TEMPLATE_COMMAND)).check(doesNotExist())
         checkToolbarTitle(R.string.menu_edit_split_part_category)
-        clickFab()//save part
-        checkAmount(100) // amount should not be updated (https://github.com/mtotschnig/MyExpenses/issues/1349)
+        clickFab() // save part
+        // amount should not be updated (https://github.com/mtotschnig/MyExpenses/issues/1349)
+        checkAmount(100)
         setAmount(200)
-        clickFab()//save parent succeeds
+        clickFab() // save parent succeeds
         assertFinishing()
         assertTransaction(
             id = id,
@@ -470,18 +471,19 @@ class SplitEditTest : BaseExpenseEditTest() {
         )
     }
 
-    //delete one item, add another one
+    // delete one item, add another one
     @Test
     fun loadEditSaveSplit2() {
         val id = launchEdit()
         checkPartCount(2)
         closeSoftKeyboard()
-        BaristaScrollInteractions.scrollTo(R.id.list)
+        BaristaScrollInteractions.scrollTo(R.id.split_part_list)
         deleteSplitPart()
         createParts(1, 150, initialChildCount = 1)
-        checkAmount(100) // amount should not be updated (https://github.com/mtotschnig/MyExpenses/issues/1349)
+        // amount should not be updated (https://github.com/mtotschnig/MyExpenses/issues/1349)
+        checkAmount(100)
         setAmount(200)
-        clickFab()//save parent succeeds
+        clickFab() // save parent succeeds
         assertFinishing()
         assertTransaction(
             id = id,
@@ -507,16 +509,17 @@ class SplitEditTest : BaseExpenseEditTest() {
         launchEditTemplate()
         checkPartCount(2)
         closeSoftKeyboard()
-        BaristaScrollInteractions.scrollTo(R.id.list)
+        BaristaScrollInteractions.scrollTo(R.id.split_part_list)
         editSplitPart()
         setAmount(150)
         onView(withId(R.id.MANAGE_TEMPLATES_COMMAND)).check(doesNotExist())
         onView(withId(R.id.CREATE_TEMPLATE_COMMAND)).check(doesNotExist())
         checkToolbarTitleForTemplate(edit = true)
-        clickFab()//save part
-        checkAmount(100) // amount should not be updated (https://github.com/mtotschnig/MyExpenses/issues/1349)
+        clickFab() // save part
+        // amount should not be updated (https://github.com/mtotschnig/MyExpenses/issues/1349)
+        checkAmount(100)
         setAmount(200)
-        clickFab()//save parent succeeds
+        clickFab() // save parent succeeds
         assertFinishing()
         assertTemplate(
             expectedAccount = account1,
@@ -529,18 +532,19 @@ class SplitEditTest : BaseExpenseEditTest() {
         )
     }
 
-    //delete one item, add another one
+    // delete one item, add another one
     @Test
     fun loadEditSaveSplitTemplate2() {
         launchEditTemplate()
         checkPartCount(2)
         closeSoftKeyboard()
-        BaristaScrollInteractions.scrollTo(R.id.list)
+        BaristaScrollInteractions.scrollTo(R.id.split_part_list)
         deleteSplitPart()
         createParts(1, 150, initialChildCount = 1)
-        checkAmount(100) // amount should not be updated (https://github.com/mtotschnig/MyExpenses/issues/1349)
+        // amount should not be updated (https://github.com/mtotschnig/MyExpenses/issues/1349)
+        checkAmount(100)
         setAmount(200)
-        clickFab()//save parent succeeds
+        clickFab() // save parent succeeds
         assertFinishing()
         assertTemplate(
             expectedAccount = account1,
@@ -557,13 +561,13 @@ class SplitEditTest : BaseExpenseEditTest() {
     fun createSaveAndNew() {
         launchWithAccountSetup()
         createParts(1)
-        clickMenuItem(R.id.SAVE_AND_NEW_COMMAND) //toggle save and new on
+        clickMenuItem(R.id.SAVE_AND_NEW_COMMAND) // toggle save and new on
         clickFab()
         onView(withId(com.google.android.material.R.id.snackbar_text))
             .check(matches(withText(R.string.save_transaction_and_new_success)))
         waitForSnackbarDismissed()
         createParts(1)
-        clickMenuItem(R.id.SAVE_AND_NEW_COMMAND) //toggle save and new off
+        clickMenuItem(R.id.SAVE_AND_NEW_COMMAND) // toggle save and new off
         closeKeyboardAndSave()
         assertFinishing()
     }
@@ -582,9 +586,9 @@ class SplitEditTest : BaseExpenseEditTest() {
     fun keepTypeOfPart() {
         launchWithAccountSetup()
         setAmount(-100)
-        //create a negative part that exceeds parent amount
+        // create a negative part that exceeds parent amount
         createParts(1, 200)
-        //when we now create a part, the amount should be prefilled with a positive amount making up for the difference
+        // when we now create a part, the amount should be prefilled with a positive amount making up for the difference
         onView(withId(R.id.CREATE_PART_COMMAND)).perform(nestedScrollToAction(), click())
         checkAmount(100)
         checkType(true)
@@ -607,9 +611,11 @@ class SplitEditTest : BaseExpenseEditTest() {
     fun createPartsAndDelete() {
         account1 = buildAccount(ACCOUNT_LABEL_1)
         val account2 = buildAccount(ACCOUNT_LABEL_2)
-        launchForResult(getBaseIntent().apply {
-            putExtra(KEY_ACCOUNTID, account2.id)
-        })
+        launchForResult(
+            getBaseIntent().apply {
+                putExtra(KEY_ACCOUNTID, account2.id)
+            }
+        )
         createParts(2, 50)
         checkAccount(ACCOUNT_LABEL_2)
         deleteSplitPart()
@@ -638,9 +644,9 @@ class SplitEditTest : BaseExpenseEditTest() {
         onData(
             withAccountGrouped(account2.label)
         ).perform(click())
-        clickFab()//save part
+        clickFab() // save part
         checkPartCount(2)
-        clickFab() //save parent
+        clickFab() // save parent
         val newPeer = repository.loadTransactions(account2.id).first().id
         assertTransaction(
             id = repository.loadTransactions(account1.id).first().id,
@@ -687,9 +693,9 @@ class SplitEditTest : BaseExpenseEditTest() {
         onData(
             withAccountGrouped(account2.label)
         ).perform(click())
-        clickFab()//save part
+        clickFab() // save part
         checkPartCount(1)
-        clickFab() //save parent
+        clickFab() // save parent
         assertTemplate(
             expectedAccount = account1,
             expectedAmount = -7000,

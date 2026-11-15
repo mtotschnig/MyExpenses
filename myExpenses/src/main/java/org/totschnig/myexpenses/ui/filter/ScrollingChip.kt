@@ -8,10 +8,13 @@ import android.widget.HorizontalScrollView
 import androidx.annotation.ColorInt
 import com.google.android.material.chip.Chip
 import org.totschnig.myexpenses.R
+import org.totschnig.myexpenses.util.ui.expandTouchTarget
 import org.totschnig.myexpenses.util.ui.setColor
 
 class ScrollingChip @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
 ) : HorizontalScrollView(context, attrs, defStyleAttr) {
     fun setOnCloseIconClickListener(removeFilter: (View) -> Unit) {
         chip.setOnCloseIconClickListener(removeFilter)
@@ -48,5 +51,6 @@ class ScrollingChip @JvmOverloads constructor(
                 recycle()
             }
         }
+        expandTouchTarget()
     }
 }

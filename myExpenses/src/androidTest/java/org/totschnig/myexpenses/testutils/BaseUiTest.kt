@@ -18,6 +18,7 @@ import androidx.test.espresso.Espresso.onData
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.NoMatchingViewException
+import androidx.test.espresso.accessibility.AccessibilityChecks
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.replaceText
 import androidx.test.espresso.action.ViewActions.scrollTo
@@ -32,6 +33,7 @@ import androidx.test.espresso.matcher.ViewMatchers.isChecked
 import androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.isNotChecked
+import androidx.test.espresso.matcher.ViewMatchers.withClassName
 import androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withSpinnerText
@@ -42,14 +44,26 @@ import androidx.test.uiautomator.UiDevice
 import com.adevinta.android.barista.interaction.BaristaEditTextInteractions
 import com.adevinta.android.barista.interaction.BaristaScrollInteractions
 import com.adevinta.android.barista.internal.matcher.HelperMatchers.menuIdMatcher
+import com.google.android.apps.common.testing.accessibility.framework.AccessibilityCheckResultUtils.matchesCheck
+import com.google.android.apps.common.testing.accessibility.framework.AccessibilityCheckResultUtils.matchesViews
+import com.google.android.apps.common.testing.accessibility.framework.checks.SpeakableTextPresentCheck
+import com.google.android.material.R as RM
 import com.google.android.material.textfield.TextInputEditText
 import com.google.common.truth.Truth.assertThat
 import com.google.common.truth.Truth.assertWithMessage
+import com.roomorama.caldroid.CellView
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.util.concurrent.TimeoutException
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.containsString
+import org.hamcrest.Matchers.anyOf
+import org.hamcrest.Matchers.endsWith
 import org.hamcrest.Matchers.not
 import org.junit.Assume
 import org.junit.Before
+import org.junit.BeforeClass
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.TestApp
 import org.totschnig.myexpenses.activity.ProtectedFragmentActivity
@@ -86,6 +100,8 @@ import org.totschnig.myexpenses.provider.SPLIT_CATID
 import org.totschnig.myexpenses.provider.TABLE_ACCOUNTS
 import org.totschnig.myexpenses.provider.TransactionProvider
 import org.totschnig.myexpenses.provider.TransactionProvider.TEMPLATES_URI
+import org.totschnig.myexpenses.test.R as RT
+import org.totschnig.myexpenses.ui.AmountEditText
 import org.totschnig.myexpenses.util.ICurrencyFormatter
 import org.totschnig.myexpenses.util.distrib.DistributionHelper
 import org.totschnig.myexpenses.util.toEpoch
@@ -93,12 +109,6 @@ import org.totschnig.myexpenses.viewmodel.data.compileDescription
 import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
 import org.totschnig.shared_test.TransactionData
 import org.totschnig.shared_test.assertTransaction
-import java.time.LocalDate
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
-import java.util.concurrent.TimeoutException
-import com.google.android.material.R as RM
-import org.totschnig.myexpenses.test.R as RT
 
 abstract class BaseUiTest<A : ProtectedFragmentActivity> {
     var isLarge = false
@@ -154,7 +164,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         excludeFromTotals: Boolean = false,
         dynamicExchangeRates: Boolean = false,
         type: AccountType = AccountType.CASH,
-        color: Int = DEFAULT_COLOR,
+        color: Int = DEFAULT_COLOR
     ) =
         Account(
             label = label,
@@ -181,6 +191,41 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
     }
 
     fun getTransactionFromDb(id: Long): Transaction = repository.loadTransaction(id).data
+
+    companion object {
+        @BeforeClass
+        @JvmStatic
+        fun enableAccessibilityChecks() {
+            AccessibilityChecks.enable()
+                .setRunChecksFromRootView(true)
+                .setSuppressingResultMatcher(
+                    anyOf(
+                        allOf(
+                            matchesCheck(
+                                SpeakableTextPresentCheck::class.java
+                            ),
+                            anyOf(
+                                matchesViews(
+                                    withClassName(endsWith("AndroidComposeView"))
+                                ),
+                                matchesViews(
+                                    isAssignableFrom(AmountEditText::class.java)
+                                ),
+                                matchesViews(
+                                    isAssignableFrom(TextInputEditText::class.java)
+                                )
+                            )
+                        ),
+                        // Split part list on Edit screen
+                        matchesViews(withId(R.id.split_part_list)),
+                        // Caldorama legacy
+                        matchesViews(isAssignableFrom(CellView::class.java)),
+                        matchesViews(withId(com.caldroid.R.id.weekday_gridview)),
+                        matchesViews(isDescendantOfA(withId(com.caldroid.R.id.calendar_title_view)))
+                    )
+                )
+        }
+    }
 
     @Before
     fun setUp() {
@@ -255,7 +300,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         pressBack()
     }
 
-    //https://stackoverflow.com/a/41415288/1199911
+    // https://stackoverflow.com/a/41415288/1199911
     private val currentActivity: Activity?
         get() {
             val activity = arrayOfNulls<Activity>(1)
@@ -269,12 +314,14 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         if (!app.appComponent.licenceHandler().hasAccessTo(contribFeature!!)) {
             if (DistributionHelper.isPlay) {
                 try {
-                    //without play service a billing setup error dialog is displayed
+                    // without play service a billing setup error dialog is displayed
                     onView(withText(android.R.string.ok)).perform(click())
                 } catch (_: Exception) {
                 }
             }
-            onView(ViewMatchers.withSubstring(getString(R.string.dialog_title_contrib_feature))).check(
+            onView(
+                ViewMatchers.withSubstring(getString(R.string.dialog_title_contrib_feature))
+            ).check(
                 matches(isDisplayed())
             )
             onView(withText(R.string.button_try)).perform(scrollTo(), click())
@@ -288,7 +335,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         Assume.assumeTrue(device.isNaturalOrientation)
         device.setOrientationRight()
         try {
-            //without the sleep, actions might run before the orientation change
+            // without the sleep, actions might run before the orientation change
             Thread.sleep(500)
             actions()
         } finally {
@@ -308,7 +355,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
     protected fun getQuantityString(
         resId: Int,
         @Suppress("SameParameterValue") quantity: Int,
-        vararg formatArguments: Any,
+        vararg formatArguments: Any
     ): String {
         var result: String? = null
         testScenario.onActivity {
@@ -350,7 +397,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         label: String,
         parentId: Long? = null,
         type: Byte = FLAG_EXPENSE,
-        icon: String? = null,
+        icon: String? = null
     ) =
         repository.saveCategory(
             Category(
@@ -406,7 +453,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
             .perform(click())
     }
 
-    //select Date when MaterialDatePicker is open
+    // select Date when MaterialDatePicker is open
     fun setDate(date: LocalDate) {
         val locale = targetContext.resources.configuration.locales[0]
         val expectedContentDescription = getMonthDayOfWeekDay(date.toEpoch() * 1000, locale)
@@ -418,7 +465,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
             .perform(click())
     }
 
-    //select Time when MaterialTimePicker is open
+    // select Time when MaterialTimePicker is open
     fun setTime(time: LocalTime, is24HourFormat: Boolean) {
         // Check if the clock face is visible
         val isClockVisible = try {
@@ -465,7 +512,14 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
             .perform(replaceText(time.format(DateTimeFormatter.ofPattern("mm"))))
 
         if (!is24HourFormat) {
-            val periodId = if (time.hour < 12) RM.id.material_clock_period_am_button else RM.id.material_clock_period_pm_button
+            val periodId =
+                if (time.hour <
+                    12
+                ) {
+                    RM.id.material_clock_period_am_button
+                } else {
+                    RM.id.material_clock_period_pm_button
+                }
             onView(allOf(withId(periodId), isDisplayed()))
                 .inRoot(isDialog())
                 .perform(click())
@@ -476,10 +530,9 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
             .perform(click())
     }
 
-
     protected fun assertTransaction(
         id: Long,
-        expectedTransaction: TransactionData,
+        expectedTransaction: TransactionData
     ) {
         repository.assertTransaction(id, expectedTransaction)
     }
@@ -491,10 +544,11 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         expectedTransferAccount: Long,
         expectedPeer: Long,
         expectedTransferAmount: Long? = null,
-        expectedAttachments: List<Uri> = emptyList(),
+        expectedAttachments: List<Uri> = emptyList()
     ) {
         repository.assertTransaction(
-            id, TransactionData(
+            id,
+            TransactionData(
                 amount = expectedAmount,
                 accountId = expectedAccount,
                 transferAccount = expectedTransferAccount,
@@ -520,7 +574,7 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
         expectedPlanExecutionAdvance: Int = 0,
         checkPlanInstance: Boolean = false,
         expectedPlan: Long? = null,
-        expectedDebt: Long? = null,
+        expectedDebt: Long? = null
     ): RepositoryTemplate {
         val templateId = contentResolver.query(
             TEMPLATES_URI,
@@ -591,7 +645,6 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
                     template.data.uuid
                 )
             )
-
         } else {
             assertThat(template.data.planId).isNull()
             assertThat(template.plan).isNull()
@@ -602,7 +655,10 @@ abstract class BaseUiTest<A : ProtectedFragmentActivity> {
                     template.id,
                     CalendarProviderProxy.calculateId(template.plan!!.dtStart)
                 ),
-                null, null, null, null
+                null,
+                null,
+                null,
+                null
             ).useAndAssert {
                 hasCount(1)
                 movesToFirst()

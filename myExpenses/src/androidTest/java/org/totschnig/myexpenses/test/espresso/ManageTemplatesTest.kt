@@ -14,6 +14,8 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.GrantPermissionRule
 import com.google.common.truth.Truth.assertThat
 import com.google.common.truth.Truth.assertWithMessage
+import java.time.LocalTime
+import java.time.ZonedDateTime
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.After
 import org.junit.Rule
@@ -51,10 +53,8 @@ import org.totschnig.myexpenses.testutils.TestShard3
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.withDrawableState
 import org.totschnig.shared_test.CursorSubject.Companion.useAndAssert
-import java.time.LocalTime
-import java.time.ZonedDateTime
 
-//TODO test CAB actions
+// TODO test CAB actions
 @TestShard3
 class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
     @get:Rule
@@ -105,12 +105,13 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
                         amount = -1200L,
                         categoryId = SPLIT_CATID,
                         uuid = generateUuid()
-                    ), listOf(
+                    ),
+                    listOf(
                         Template(
                             accountId = account1.id,
                             amount = -1200L,
                             title = "",
-                            uuid = generateUuid(),
+                            uuid = generateUuid()
                         )
                     )
                 )
@@ -196,7 +197,7 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
             accountId = account1.id,
             title = title,
             amount = -1200L,
-            uuid = generateUuid(),
+            uuid = generateUuid()
         )
         val today = ZonedDateTime.now().with(LocalTime.NOON)
 
@@ -223,7 +224,6 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
                 withText(
                     when (action) {
                         Template.Action.SAVE -> R.string.menu_create_instance_save
-
                         Template.Action.EDIT -> R.string.menu_create_instance_edit
                     }
                 )
@@ -235,7 +235,10 @@ class ManageTemplatesTest : BaseUiTest<ManageTemplates>() {
             }
             contentResolver.query(
                 TransactionProvider.PLAN_INSTANCE_STATUS_URI,
-                null, null, null, null
+                null,
+                null,
+                null,
+                null
             ).useAndAssert {
                 hasCount(1)
                 movesToFirst()

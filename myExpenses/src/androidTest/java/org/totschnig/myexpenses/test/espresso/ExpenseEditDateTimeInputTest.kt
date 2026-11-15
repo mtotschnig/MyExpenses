@@ -5,6 +5,8 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import java.time.LocalDate
+import java.time.LocalTime
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,8 +22,6 @@ import org.totschnig.myexpenses.testutils.Espresso.checkEffectiveVisible
 import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.dateButtonHasDate
 import org.totschnig.shared_test.TransactionData
-import java.time.LocalDate
-import java.time.LocalTime
 
 data class TestConfig(
     val accountType: AccountType,
@@ -38,7 +38,7 @@ data class TestConfig(
 @RunWith(Parameterized::class)
 class ExpenseEditDateTimeInputTest(
     private val config: TestConfig
-): BaseExpenseEditTest() {
+) : BaseExpenseEditTest() {
 
     companion object {
         @JvmStatic
@@ -126,8 +126,9 @@ class ExpenseEditDateTimeInputTest(
         val today = LocalDate.now()
         val newDate = if (today.dayOfMonth == 1) today.plusDays(1) else today.minusDays(1)
         val newTime = LocalTime.of(13, 13)
-        //make sure newValueDate != today
-        val newValueDate = if (today.dayOfMonth < 15) today.withDayOfMonth(20) else today.withDayOfMonth(10)
+        // make sure newValueDate != today
+        val newValueDate =
+            if (today.dayOfMonth < 15) today.withDayOfMonth(20) else today.withDayOfMonth(10)
 
         onView(withId(R.id.DateButton))
             .check(matches(dateButtonHasDate(today)))
@@ -152,7 +153,7 @@ class ExpenseEditDateTimeInputTest(
         } else {
             checkEffectiveGone(R.id.Date2Button)
         }
-        clickFab() //save
+        clickFab() // save
         assertTransaction(
             id = repository.loadTransactions(account1.id).first().id,
             TransactionData(

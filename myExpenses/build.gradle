@@ -292,6 +292,7 @@ dependencies {
     androidTestImplementation platform(libs.androidx.compose.bom)
     androidTestImplementation libs.screengrab
     androidTestImplementation libs.androidx.espresso.core
+    androidTestImplementation libs.androidx.espresso.accessibility
     debugImplementation libs.androidx.espresso.idling.resource
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.runner
