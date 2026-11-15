@@ -163,4 +163,14 @@
     <string name="options">"옵션"</string>
     <string name="actions">"동작"</string>
     <string name="search_clear_desc">"검색 텍스트를 지웁니다."</string>
+    <string name="header_footer">"머리글 및 바닥글"</string>
+    <string name="top_left">"위쪽 왼쪽"</string>
+    <string name="top_center">"위쪽 가운데"</string>
+    <string name="top_right">"위쪽 오른쪽"</string>
+    <string name="bottom_left">"아래쪽 왼쪽"</string>
+    <string name="bottom_center">"아래쪽 가운데"</string>
+    <string name="bottom_right">"아래쪽 오른쪽"</string>
+    <string name="buttons">"버튼"</string>
+    <string name="contains">포함</string>
+    <string name="does_not_contain">포함하지 않음</string>
 </resources>

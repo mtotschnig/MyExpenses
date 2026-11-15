@@ -1,43 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  This file is part of My Expenses.
-  My Expenses is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-  
-  My Expenses is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-  
-  You should have received a copy of the GNU General Public License
-  along with My Expenses.  If not, see <http://www.gnu.org/licenses/>.
- --><resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <string name="account">계좌</string>
-    <!-- Label in form for payment method, where user checks for which account types the method is applicable -->
     <string name="account_types">계좌 타입</string>
     <string name="account_type_asset">자산 계좌</string>
     <string name="account_type_bank">은행 계좌</string>
     <string name="account_type_cash">현금 계좌</string>
     <string name="account_type_ccard">신용카드</string>
     <string name="account_type_liability">부채 계좌</string>
+    <string name="account_type_investment">투자</string>
     <string name="already_defined">%1$s 이미 정의됨</string>
     <string name="amount">금액</string>
     <string name="app_name">내 지출</string>
     <string name="backup_success">\"%1$s\"에 데이터베이스 및 환경설정을 성공적으로 기록했습니다.</string>
     <string name="category">카테고리</string>
-    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">광고 없음</string>
-    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">개수 제한 없는 계좌</string>
-    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">거래 내역에 이미지 첨부</string>
-    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">개수 제한 없는 재무 계획</string>
-    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">거래 내역 목록을 PDF로 내보내기</string>
-    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV 가져오기</string>
-    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">영업일 기준 2 일 이내에 응답이 보장되는 <b>이메일 지원</b></string>
-    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources"><b>개발 로드맵에</b> 바로 투표</string>
+    <string xmlns:ns0="http://schemas.android.com/tools" name="contrib_feature_ad_free_label" ns0:ignore="UnusedResources">광고 없음</string>
+    <string xmlns:ns0="http://schemas.android.com/tools" name="contrib_feature_accounts_unlimited_label" ns0:ignore="UnusedResources">개수 제한 없는 계좌</string>
+    <string xmlns:ns0="http://schemas.android.com/tools" name="contrib_feature_attach_picture_label" ns0:ignore="UnusedResources">거래 내역에 이미지 첨부</string>
+    <string name="contrib_feature_distribution_label">원형 차트 (카테고리별 분포)</string>
+    <string xmlns:ns0="http://schemas.android.com/tools" name="contrib_feature_plans_unlimited_label" ns0:ignore="UnusedResources">개수 제한 없는 재무 계획</string>
+    <string xmlns:ns0="http://schemas.android.com/tools" name="contrib_feature_print_label" ns0:ignore="UnusedResources">거래 내역 목록을 PDF로 내보내기</string>
+    <string xmlns:ns0="http://schemas.android.com/tools" name="contrib_feature_csv_import_label" ns0:ignore="UnusedResources">CSV 가져오기</string>
+    <string name="contrib_feature_split_template_label">개수 제한 없는 분할 템플릿</string>
+    <string xmlns:ns0="http://schemas.android.com/tools" name="contrib_feature_pro_support_label" ns0:ignore="UnusedResources">영업일 기준 2 일 이내에 응답이 보장되는 <b>이메일 지원</b></string>
+    <string xmlns:ns0="http://schemas.android.com/tools" name="contrib_feature_roadmap_voting_label" ns0:ignore="UnusedResources"><b>개발 로드맵에</b> 바로 투표</string>
+    <string name="contrib_feature_history_label">내역 차트</string>
+    <string name="contrib_feature_category_tree_label">임의의 깊은 범주 계층 구조</string>
+    <string xmlns:ns0="http://schemas.android.com/tools" name="contrib_feature_synchronization_label" ns0:ignore="UnusedResources">클라우드 동기화</string>
+    <string name="licence_status_free">무료</string>
     <string name="contrib_key">기부 확인 키</string>
     <string name="extended_key">확장 키</string>
-    <!-- Placeholder: 1 will be replace with either My Expenses Contrib Key or My Expenses Extended Key -->
     <string name="contrib_key_requires">%1$s가 필요합니다.</string>
     <string name="currency">화폐 단위</string>
     <string name="current_balance">현재 잔고</string>
@@ -51,8 +42,17 @@
     <string name="dialog_balance_delete">수지 결산을 맞춘 거래 내역 삭제</string>
     <string name="dialog_confirm_discard_changes">변경 사항을 취소할까요?</string>
     <string name="dialog_command_disabled_balance">삭제된 거래 내역이 없습니다.</string>
+    <string name="dialog_command_disabled_insert_transfer">이체 거래에는 두 번째 계좌가 필요합니다.</string>
+    <string name="dialog_contrib_reminder_remove_limitation">업그레이드하여 이 제한을 제거하고 <i>{app_name}</i>의 더 많은 기능을 이용하세요.</string>
     <string name="dialog_contrib_text_1"><i>{app_name}</i> 소스 코드가 공개되어 있습니다.</string>
     <string name="dialog_contrib_text_2"><i>{app_name}</i> 을(를) 업그레이드하여 기여하고 다음 기능에 제한없이 액세스하십시오:</string>
+    <string name="dialog_contrib_trial_info">현재 라이선스 상태(%1$s)로는 %3$d일 동안(%4$s까지) %2$s을(를) 사용해 볼 수 있습니다.</string>
+    <string name="dialog_contrib_trial_info_play">이 무료 체험은 어떤 유형의 구독으로도 전환되지 않습니다.</string>
+    <string name="dialog_contrib_subscription_info_play">이 구독은 즉시 적용되며 월별 또는 연별로 청구되고 언제든지 취소할 수 있습니다.</string>
+    <string name="dialog_contrib_usage_limit_accounts">현재 라이선스 상태(%2$s)로는 %1$d개의 계좌를 생성할 수 있습니다.</string>
+    <string name="dialog_contrib_usage_limit_plans">현재 라이선스 상태(%2$s)로는 %1$d개의 계획을 생성할 수 있습니다.</string>
+    <string name="dialog_contrib_usage_limit_split_templates">현재 라이선스 상태(%1$s)로는 1개의 분할 템플릿을 생성할 수 있습니다.</string>
+    <string name="dialog_contrib_usage_limit_with_dialog">현재 라이선스 상태(%1$s)에서는 사용할 때마다 이 대화 상자가 표시됩니다.</string>
     <string name="dialog_export_delete">내보낸 거래 내역 삭제</string>
     <string name="dialog_export_not_yet_exported">아직 내보내지 않은 거래 내역만 내보내기</string>
     <string name="dialog_password_activate_protection">암호 보안 사용하기</string>
@@ -67,15 +67,15 @@
     <string name="dialog_remind_rate_yes">지금 평가하기</string>
     <string name="dialog_security_answer">정답</string>
     <string name="dialog_security_question">질문</string>
-    <!-- %1$s is replace with account label -->
     <string name="dialog_title_balance_account">잔고 %1$s</string>
     <string name="dialog_title_contrib_feature">프리미엄 기능</string>
+    <string name="dialog_title_warning_delete_account">계좌를 삭제하시겠습니까?</string>
+    <string name="dialog_title_warning_delete_closed_account">닫힌 계좌를 삭제하시겠습니까?</string>
+    <string name="dialog_title_warning_delete_category">카테고리를 삭제하시겠습니까?</string>
     <string name="dialog_title_warning_delete_template">템플릿을 삭제할까요?</string>
     <string name="dialog_title_warning_delete_transaction">거래 내역을 삭제할까요?</string>
     <string name="expense">지출</string>
-    <!-- 1$s is replaced with path to file, 2$s with error message -->
     <string name="export_sdcard_failure">\"%1$s\" 파일으로 내보내기 실패: %2$s</string>
-    <!-- 1$s is replaced with path to file -->
     <string name="export_sdcard_success">\"%1$s\" 파일으로 데이터 내보내기 성공</string>
     <string name="feedback">피드백</string>
     <string name="ftp_uri_malformed">올바르지 않은 URI %1$s</string>
@@ -98,13 +98,10 @@
     <string name="licence_validation_success">라이선스 키의 유효성을 검사했습니다:</string>
     <string name="licence_validation_premium">프리미엄 기능이 잠금 해제되었습니다.</string>
     <string name="menu_aggregates">총계</string>
-    <!-- Shown in a notification; allows to apply a template (instantiate a new transaction from it) -->
     <string name="menu_apply_template">적용</string>
     <string name="menu_back">뒤로</string>
     <string name="menu_backup">백업</string>
-    <!-- Balance: compare cleared balance in app with balance on statement received from bank -->
     <string name="menu_balance">잔고 계좌</string>
-    <!-- Cancelling a plan instance means setting a flag so that this instance will not trigger the creation of a new transaction -->
     <string name="menu_cancel_plan_instance">취소</string>
     <string name="menu_clone_transaction">복제</string>
     <string name="menu_contrib">공헌하기</string>
@@ -142,16 +139,15 @@
     <string name="menu_forward">앞으로</string>
     <string name="menu_grouping">그룹화</string>
     <string name="menu_help">도움말</string>
-    <!-- This command inverts the direction of a transfer -->
     <string name="menu_invert_transfer">반전</string>
     <string name="menu_manage_plans">템플릿과 재무 계획</string>
     <string name="menu_reset">내보내기 및 초기화</string>
     <string name="menu_reset_all">내보내기 및 전체 초기화</string>
-    <!-- Resetting a plan instance means deleting a transaction that has been created for this instances, or removing the cancel flag -->
     <string name="menu_reset_plan_instance">초기화</string>
     <string name="menu_save">저장</string>
     <string name="menu_save_and_new">저장하고 새로 만들기</string>
     <string name="menu_share">친구에게 알려주기</string>
+    <string name="button_label_close">닫기</string>
     <string name="menu_split_transaction">분할 거래로 바꾸기</string>
     <string name="method">지불 방법</string>
     <string name="no_app_handling_email_available">이메일을 다룰 수 있는 앱이 없습니다.</string>
@@ -161,11 +157,13 @@
     <string name="no_exportable_expenses">아직 내보내지 않은 거래 내역이 없습니다.</string>
     <string name="no_filemanager_installed">설치된 파일 탐색기가 없습니다</string>
     <string name="no_calendar_app_installed">캘린더 일정 편집을 위한 앱이 발견되지 않았습니다.</string>
+    <string name="image_capture_not_installed">사진 촬영을 위한 앱을 찾을 수 없습니다.</string>
     <string name="no_mapped_transactions">이 기간동안 카테고리에 배치된 거래 내역이 없습니다.</string>
     <string name="no_methods">지불 방식이 없습니다.</string>
     <string name="no_parties">구성원이 없습니다.</string>
     <string name="no_split_parts">분할 거래의 일부분이 없습니다.</string>
     <string name="no_templates">템플릿이 없습니다.</string>
+    <string name="no_accounts">계좌가 없습니다.</string>
     <plurals name="not_deletable_mapped_transactions">
         <item quantity="other">%1$d 항목이 거래 내역에 배치되었으며 삭제할 수 없습니다.</item>
     </plurals>
@@ -178,6 +176,7 @@
     <string name="parse_error_grisbi_version_not_supported">지원하지 않는 Grisbi 파일 버전: %1$s</string>
     <string name="parse_error_other_exception">오류 발생: %1$s</string>
     <string name="parse_error_parse_exception">파일을 분석할 수 없습니다</string>
+    <string name="parse_error_at_line">%1$d행 오류: %2$s</string>
     <string name="password_disabled_reenable">암호 보안이 해제되었습니다. 설정 화면에서 다시 활성화할 수 있습니다.</string>
     <string name="password_lost">잊어버린 암호</string>
     <string name="password_not_valid">올바르지 않은 암호입니다. 다시 시도하세요!</string>
@@ -186,19 +185,14 @@
     <string name="payee">수취인</string>
     <string name="payer">납부인</string>
     <string name="payer_or_payee">거래처</string>
-    <!-- Plan for future and recurring transactions -->
     <string name="plan">재무 계획</string>
-    <!-- Label on the switch, where user decides if a plan should be executed automatically, or manually (i.e. user gets notification where he can cancel the execution or edit the instance -->
     <string name="plan_automatic">자동</string>
-    <!-- this is the label for the calendar where plans for future and recurrent transactions are stored -->
     <string name="plan_calendar_name">{app_name} 플래너</string>
     <string name="planner_notification_channel_name">플래너</string>
     <string name="plan_event_deleted">이 템플릿과 연관된 재무 계획이 캘린더에서 삭제되었습니다.</string>
-    <!-- This message is shown, after a user decides to not apply a manual plan -->
     <string name="plan_execution_canceled">재무 계획 실행 취소됨</string>
     <string name="planner_create_calendar_failure">로컬 플래너 캘린더를 만들 수 없습니다</string>
     <string name="planner_create_calendar_success">로컬 플래너 캘린더를 만들었습니다</string>
-    <!-- payment methods -->
     <string name="pm_cheque">수표</string>
     <string name="pm_creditcard">신용카드</string>
     <string name="pm_deposit">예금</string>
@@ -207,6 +201,7 @@
     <string name="pm_type_debit">직불 결제</string>
     <string name="pm_type_neutral">중립</string>
     <string name="pref_app_dir_title">백업 및 내보내기에 사용할 폴더</string>
+    <string name="pref_auto_fill_summary">동일한 거래처의 마지막 거래 데이터로 자동 완성</string>
     <string name="pref_backup_summary">데이터베이스 및 환경설정의 백업을 만듭니다.</string>
     <string name="pref_sort_order_usages">사용 빈도</string>
     <string name="pref_category_title_export">내보내기</string>
@@ -219,10 +214,9 @@
     <string name="pref_export_format_title">데이터 형식</string>
     <string name="pref_import_from_grisbi_summary">Grisbi XML 파일에서 카테고리와 구성원 가져오기</string>
     <string name="pref_import_from_grisbi_title">Grisbi에서 가져오기</string>
-    <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_summary">%s 파일에서 거래 내역, 카테고리, 구성원 가져오기</string>
-    <!-- %s is replaced with QIF or CSV -->
     <string name="pref_import_title">%s 가져오기</string>
+    <string name="pref_news_title">뉴스</string>
     <string name="pref_manage_accounts_title">계좌</string>
     <string name="pref_manage_categories_summary">카테고리를 추가, 편집, 삭제합니다.</string>
     <string name="pref_manage_categories_title">카테고리</string>
@@ -231,10 +225,10 @@
     <string name="pref_manage_parties_summary">구성원을 추가, 편집, 삭제하세요 (수취인/납부인).</string>
     <string name="pref_manage_parties_title">구성원</string>
     <string name="pref_manage_sync_backends_title">동기화 백엔드</string>
+    <string name="pref_manage_sync_backends_summary">계좌 동기화를 위한 백엔드 추가(%s).</string>
     <string name="pref_more_info_dialog_title">라이선스 및 크레딧</string>
     <string name="pref_password_not_equal">암호가 일치하지 않습니다</string>
     <string name="pref_perform_share_title">내보낸 파일과 백업을 공유</string>
-    <!-- This entry is added to the list of available calendars, if no local calendar has been set up yet -->
     <string name="pref_planning_calendar_create_local">새 로컬 플래닝 캘린더 만들기</string>
     <string name="pref_planning_calendar_summary">향후의 재무 계획과 반복 거래가 저장될 캘린더 선택</string>
     <string name="pref_protection_delay_seconds_summary">앱이 암호로 잠기기 전의 유휴 시간을 초 단위로 설정합니다.</string>
@@ -252,7 +246,6 @@
     <string name="pref_share_target_title">URL 업로드</string>
     <string name="pref_shortcut_summary">홈 스크린에 바로가기를 추가합니다.</string>
     <string name="pref_ui_home_screen_shortcuts">홈 스크린 바로가기</string>
-    <!-- Title of the preference for selecting the UI language -->
     <string name="pref_ui_language_title">언어</string>
     <string name="pref_ui_theme_dark">어두운 테마</string>
     <string name="pref_ui_theme_light">밝은 테마</string>
@@ -270,7 +263,7 @@
     <string name="restore_preferences_failure">환경설정 복원에 실패했습니다</string>
     <string name="restore_backup_file_not_found">%1$s 파일을 압축 파일 \"%2$s\"에서 찾을 수 없습니다</string>
     <string name="restore_preferences_success">환경설정이 백업에서 복원되었습니다.</string>
-    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d 재무 계획이 백업 파일으로부터 복원되었습니다.</string>
+    <string xmlns:ns0="http://schemas.android.com/tools" name="restore_calendar_success" ns0:ignore="PluralsCandidate">%d 재무 계획이 백업 파일으로부터 복원되었습니다.</string>
     <string name="save_transaction_and_new_success">성공적으로 저장됨</string>
     <string name="save_transaction_error">템플릿으로부터 새 거래 내역을 저장할 수 없습니다.</string>
     <plurals name="save_transaction_from_template_success">
@@ -279,6 +272,7 @@
     <string name="save_transaction_template_deleted">템플릿이 삭제되었습니다.</string>
     <string name="select">선택</string>
     <string name="select_category">카테고리 선택</string>
+    <string name="select_payee">거래처 선택</string>
     <string name="share_scheme_not_supported">%1$s 구성 방안은 지원되지 않습니다.</string>
     <string name="share_sending">내보내기 파일 전송</string>
     <string name="split_parts_heading">분할 거래의 일부분</string>
@@ -292,6 +286,7 @@
     <string name="sum_expenses">지출</string>
     <string name="sum_income">수입</string>
     <string name="sum_transfer">이체</string>
+    <string name="tell_a_friend_message">{platform}용 자산 관리자 {app_name}을(를) {website}에서 확인해 보세요</string>
     <string name="thank_you">지원해 주셔서 감사합니다!</string>
     <string name="time">시간</string>
     <string name="title">제목</string>
@@ -301,7 +296,6 @@
     <string name="transfer">이체</string>
     <string name="transfer_from_account">From</string>
     <string name="transfer_to_account">To</string>
-    <!-- Type refers to the type of an account, eg. Cash account, bank account -->
     <string name="type">종류</string>
     <string name="unsplit_amount">분할 잔여 금액</string>
     <string name="unsplit_amount_greater_than_zero">분할 이후의 금액이 아직 남아있습니다.</string>
@@ -311,6 +305,7 @@
     <plurals name="warning_delete_main_category">
         <item quantity="other">%1$d 선택된 카테고리는 하위 카테고리를 가지고 있으며, 함께 삭제됩니다.</item>
     </plurals>
+    <string name="warning_delete_category_with_budget">선택한 하나 이상의 카테고리에 예산 할당이 있으며 함께 삭제됩니다.</string>
     <plurals name="warning_delete_template">
         <item quantity="other">%1$d 선택된 템플릿이 삭제됩니다.</item>
     </plurals>
@@ -326,11 +321,15 @@
     <string name="warning_instantiate_template_from_widget_password_protected">앱 설정 화면에서 \'암호 없이 위젯에서 데이터 입력\'을 허가해야만 이 위젯에서 템플릿을 예시로 보여주는 기능을 사용할 수 있습니다.</string>
     <string name="warning_password_contrib">보안 질문을 설정하면 암호를 잊어버리더라도 앱을 잠금 해제할 수 있습니다.</string>
     <string name="warning_reset_account">계속 진행하면, 이 계좌의 모든 거래 내역은 데이터베이스에서 삭제되며 복원할 수 없습니다.</string>
-    <!-- the placeholder %1$s will hold a currency code in parenthesis, if the user calls the reset command from an aggregate account list -->
     <string name="warning_reset_account_all">계속 진행하면, 모든 계좌의%1$s 거래 내역은 데이터베이스에서 삭제되며 복원할 수 없습니다.</string>
     <string name="warning_reset_account_matched">계속 진행하면, 현재의 필터와 일치하는 거래 내역은 데이터베이스에서 삭제되며 복원할 수 없습니다.</string>
     <string name="warning_restore">데이터베이스 및 환경설정이 \"%1$s\" 파일에서 복원됩니다. 현재 데이터가 삭제됩니다.</string>
-    <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">%1$d과 %2$d 사이의 숫자를 설정하세요</string>
+    <string xmlns:ns0="http://schemas.android.com/tools" name="validation_error_number_out_of_range" ns0:ignore="PluralsCandidate">%1$d과 %2$d 사이의 숫자를 설정하세요</string>
+    <string name="warning_change_fraction_digits_1">새 소수점 자릿수와 일치하도록 데이터베이스의 금액을 업데이트해야 합니다.</string>
+    <string name="warning_change_fraction_digits_2_multiplied">금액을 업데이트하지 않으면 변경 후 %d배 곱해져 표시됩니다.</string>
+    <string name="warning_change_fraction_digits_2_divided">금액을 업데이트하지 않으면 변경 후 %d로 나눠져 표시됩니다.</string>
+    <string name="warning_change_fraction_digits_3">금액을 업데이트하면 소수 부분에 대한 정보가 손실됩니다.</string>
+    <string name="warning_change_fraction_digits_checkbox_label">데이터베이스의 금액 업데이트</string>
     <plurals name="import_categories_result">
         <item quantity="other">%1$d 카테고리를 성공적으로 가져왔습니다.</item>
     </plurals>
@@ -355,6 +354,7 @@
     <string name="search_status">상태 검색</string>
     <string name="search_payee">수취인/납부인 검색</string>
     <string name="search_method">지불 방식 선택</string>
+    <string name="search_tag">태그 검색</string>
     <string name="and">그리고</string>
     <string name="between_and">%1$s 와 %2$s 사이</string>
     <string name="before">%s 이전에</string>
@@ -362,18 +362,18 @@
     <string name="comparison_operator_equal">다음과 같음</string>
     <string name="comparison_operator_greater_than">다음보다 많음</string>
     <string name="comparison_operator_lesser_than">다음보다 적음</string>
-    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions between two specified dates. -->
     <string name="comparison_operator_between">사이에</string>
-    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions before a specified date.  -->
     <string name="comparison_operator_date_before">이전에</string>
-    <!-- Used in dialogue where user can filter transactions based on their date. This is one of three possible values populating a dropdown. Allows to select transactions after a specified date. -->
     <string name="comparison_operator_date_after">이후에</string>
-    <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">구매에 실패했거나 취소되었습니다.</string>
-    <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s 화폐의 %1$d 계좌가 업데이트 되었습니다.</string>
+    <string xmlns:ns0="http://schemas.android.com/tools" name="premium_failed_or_canceled" ns0:ignore="UnusedResources">구매에 실패했거나 취소되었습니다.</string>
+    <string name="hint_auto_fill">동일한 거래처의 마지막 거래 데이터를 자동으로 완성할까요? 설정에서 언제든지 이 동작을 변경할 수 있습니다.</string>
+    <string xmlns:ns0="http://schemas.android.com/tools" name="change_fraction_digits_result" ns0:ignore="PluralsCandidate">%2$s 화폐의 %1$d 계좌가 업데이트 되었습니다.</string>
     <string name="import_source_file">파일</string>
-    <!-- Stale refers to pictures left over from deleted transactions  -->
     <string name="pref_manage_stale_images_title">오래된 이미지</string>
     <string name="pref_manage_stale_images_summary">삭제된 거래 내역으로부터 남겨진 사진 관리</string>
+    <string name="transaction_deleted">거래가 삭제되었습니다</string>
+    <string name="account_deleted">계좌가 삭제되었습니다</string>
+    <string name="budget_deleted">예산이 삭제되었습니다</string>
     <string name="dialog_export_applied_to_filter">현재의 필터와 일치하는 거래 내역만이 고려됩니다.</string>
     <string name="export_handle_deleted_create_helper">보조 거래 내역 생성</string>
     <string name="export_handle_deleted_update_balance">개시 잔고 업데이트</string>
@@ -387,7 +387,7 @@
     <string name="pref_csv_import_delimiter">구획 문자</string>
     <string name="menu_parse">분석</string>
     <string name="csv_import_field_mapped_more_than_once">%s 항목은 한번 이상 배치되었습니다.</string>
-    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d 기록이 버려졌습니다.</string>
+    <string xmlns:ns0="http://schemas.android.com/tools" name="csv_import_records_discarded" ns0:ignore="PluralsCandidate">%d 기록이 버려졌습니다.</string>
     <string name="csv_import_subcategory_requires_category">만약 하위 카테고리를 배치했다면 카테고리도 배치해야 합니다.</string>
     <string name="cvs_import_set_first_line_as_header">첫번째 줄을 헤더 줄로 간주할까요?</string>
     <string name="csv_import_no_mapping_found_for_amount">하나의 열을 금액, 수입 또는 지출로 배치하세요.</string>
@@ -398,74 +398,556 @@
     <string name="pref_auto_backup_summary">데이터베이스를 매일 정해진 시간에 백업합니다(데이터가 변경된 경우에만).</string>
     <string name="pref_auto_backup_time_title">자동 백업 시간</string>
     <string name="calendar_permission_required"><i>{app_name}</i>는 향후의 재무 계획과 반복 거래를 만들기 위해서 캘린더에 접근할 수 있는 권한이 필요합니다.</string>
-    <string name="button_request_calendar_access" tools:ignore="UnusedResources">접근 허용</string>
+    <string xmlns:ns0="http://schemas.android.com/tools" name="button_request_calendar_access" ns0:ignore="UnusedResources">접근 허용</string>
     <string name="menu_move">옮기기</string>
     <string name="dialog_title_select_target">목적지 선택</string>
     <string name="transform_subcategory_to_main">기본 범주로 변환하기</string>
     <string name="preferences_week_start_day_title">주 시작일</string>
+    <string name="preferences_month_start_date_title">월 시작일</string>
+    <string name="pref_grouping_periods">그룹화 기간</string>
+    <string name="exchange_rate">환율</string>
+    <string name="date_format_hour">시간</string>
+    <string name="date_format_minute">분</string>
+    <string name="pref_sort_order_last_used">마지막으로 사용한 날짜</string>
+    <string name="pref_sort_order_custom">사용자 지정</string>
     <string name="content_description_calculator">계산기</string>
-    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">클라우드 동기화</string>
+    <string name="plan_instance_state_open">열기</string>
+    <string name="plan_instance_state_cancelled">취소됨</string>
+    <string name="plan_instance_state_applied">적용됨</string>
+    <string name="warning_cannot_move_split_transaction">이 계좌를 참조하는 이체 항목이 있으므로 이 분할 거래를 %1$s 계좌로 이동할 수 없습니다.</string>
+    <string name="content_description_calculator_delete_button">마지막 숫자 삭제하기</string>
+    <string name="paypal_callback_info">거래가 완료되었으며 구매 영수증이 이메일로 발송되었습니다. www.paypal.com에서 계정에 로그인하여 거래 세부정보를 볼 수 있습니다.</string>
+    <string name="search_transfer">이체 검색</string>
+    <string name="search_account">계좌 검색</string>
+    <string name="search_asset">자산 검색</string>
+    <string name="pref_sort_order_next_instance">다음 인스턴스</string>
+    <string name="crash_dialog_title">{app_name}이(가) 충돌했습니다</string>
+    <string name="crash_dialog_text">예상치 못한 오류가 발생하여 애플리케이션이 중지되었습니다. 확인을 클릭하여 오류 데이터를 보내주시면 문제 해결에 도움이 됩니다.</string>
+    <string name="crash_dialog_comment_prompt">아래에 문제에 대한 의견을 추가할 수 있습니다:</string>
+    <string name="synchronization">동기화</string>
+    <string name="synchronization_none">동기화 없음</string>
+    <string name="no_sync_backends">동기화 백엔드 없음</string>
+    <string name="menu_create_sync_backend">새 동기화 백엔드</string>
+    <string name="validate_error_not_empty">비어 둘 수 없습니다</string>
+    <string name="menu_sync_unlink">동기화 중지</string>
+    <string name="menu_sync_link">동기화 시작</string>
+    <string name="menu_sync_download">다운로드 및 동기화</string>
+    <string name="pref_sync_frequency_summary">데이터 동기화 주기(시간 단위).</string>
+    <string name="pref_sync_frequency_summary_0">자동 동기화를 비활성화하려면 0으로 설정하세요.</string>
+    <string name="dialog_confirm_sync_unlink">이 계좌를 %s에서 연결 해제하면 동기화 상태가 손실됩니다. 나중에 다시 연결하려면 전체 동기화를 다시 실행해야 합니다.</string>
+    <string name="dialog_sync_link">uuid가 %s인 계좌가 로컬 데이터베이스와 원격 백엔드 모두에 존재합니다. 두 계좌를 연결할 때 초기에 로컬 데이터를 원격 백엔드에 업로드할지, 원격 데이터를 로컬 데이터베이스에 다운로드할지 결정해야 합니다.</string>
+    <string name="dialog_command_sync_link_remote">원격에서 다운로드</string>
+    <string name="dialog_command_sync_link_local">로컬에서 업로드</string>
+    <string name="dialog_synced_to_other">uuid가 %s인 계좌가 이미 로컬 데이터베이스에 존재하며 다른 원격 백엔드에 연결되어 있습니다.</string>
+    <string name="dialog_confirm_sync_remove_backend">원격 백엔드 %s이(가) 제거됩니다. 로컬 또는 원격에 저장된 데이터에는 영향을 미치지 않지만 동기화 상태는 손실됩니다.</string>
+    <string name="dialog_confirm_sync_link_local">이 계좌의 원격 데이터가 삭제됩니다. 다른 기기가 이 계좌에 연결되어 있지 않은지 확인하세요.</string>
+    <string name="dialog_confirm_sync_link_remote">이 계좌의 로컬 데이터가 삭제됩니다.</string>
+    <string name="warning_trial_limit_reached">%s 기능 테스트를 위한 평가판 기간이 종료되었습니다.</string>
+    <string name="warning_synchronization_folder_usage">이 폴더는 여러 기기의 {app_name} 설치 간 데이터를 동기화하는 데 사용됩니다. 내용을 수동으로 수정하지 마세요.</string>
+    <string name="warning_synchronization_select_parent">선택한 폴더는 기존 백엔드의 한 계좌에 해당합니다. 이 백엔드를 재사용하려면 상위 폴더를 선택해야 합니다.</string>
+    <string name="link_account_failure_2">동일한 uuid를 가진 계좌가 원격 백엔드에 이미 존재합니다.</string>
+    <string name="link_account_failure_3">충돌은 항목의 컨텍스트 메뉴에서 수동으로 해결할 수 있습니다.</string>
+    <string name="progress_dialog_checking_sync_backend">백엔드 확인 중</string>
+    <string name="template">템플릿</string>
     <string name="all_contrib_key_features">Contrib Key의 모든 기능</string>
     <string name="all_extended_key_features">확장 키의 모든 기능</string>
+    <string name="buy">매수</string>
+    <string name="pref_backup_cloud_summary">기기의 로컬 저장소 외에도 백업 파일을 원격 백엔드로 복사할 수 있습니다.</string>
+    <string name="auto_backup_cloud_success">백업 파일 %1$s이(가) 백엔드 %2$s에 성공적으로 저장되었습니다.</string>
+    <string name="number_of_fraction_digits">소수점 자릿수</string>
+    <string name="warning_auto_backup_deactivated">자동 백업이 비활성화되었습니다. 문제를 해결한 후(예: 백업용 다른 폴더 선택) 설정에서 다시 켤 수 있습니다.</string>
+    <string name="pref_tracking_summary">개선을 계획하는 데 도움이 되는 사용 패턴에 대한 익명 데이터 수집을 허용합니다.</string>
+    <string name="pref_tracking_title">사용 데이터 수집</string>
+    <string name="sync_database_error">동기화 중 데이터베이스 오류가 발생했습니다.</string>
+    <string name="sync_io_error_cannot_connect">동기화 백엔드에 연결할 수 없습니다.</string>
+    <string name="sync_error_will_try_again_later">나중에 다시 시도합니다.</string>
+    <string name="sync_io_exception_reset_account_data">원격 계좌를 재설정하는 중 오류가 발생했습니다.</string>
+    <string name="sync_success_reset_account_data">계좌 %s의 원격 데이터가 삭제되었습니다.</string>
+    <string name="sync_io_exception_setup_remote_account">원격 계좌를 설정하는 중 오류가 발생했습니다.</string>
+    <string name="sync_io_exception_syncing">서버와 변경 사항을 동기화하는 중 오류가 발생했습니다.</string>
+    <string name="sync_io_exception_unlocking">원격 백엔드에서 잠금을 해제하는 중 오류가 발생했습니다.</string>
+    <string name="sync_io_exception_locking">원격 백엔드가 잠겨 있거나 잠글 수 없습니다.</string>
+    <string name="synchronization_start">계좌 %s 동기화 시작.</string>
+    <string name="synchronization_end_success">%1$d개의 원격 변경 사항이 로컬 데이터베이스에 기록되었습니다. %2$d개의 로컬 변경 사항이 원격 백엔드에 기록되었습니다.</string>
+    <string name="synchronization_end_success_none">동기화할 변경 사항이 없습니다.</string>
+    <string name="pref_webdav_timeout_title">WebDAV 타임아웃 (초)</string>
+    <string name="sync_state_restored">%d개 계좌의 동기화 상태가 복원되었습니다.</string>
+    <string name="sync_state_could_not_be_restored">%d개 계좌의 동기화 상태를 복원할 수 없습니다.</string>
+    <string name="onboarding_ui_title">{app_name}은(는) 귀하의 기본 설정을 따릅니다</string>
+    <string name="onboarding_data_title">첫 번째 계좌를 설정해 봅시다</string>
+    <string name="onboarding_restore_from_cloud">클라우드 동기화에서 복원</string>
+    <string name="onboarding_restore_from_local">로컬 백업 파일 복원</string>
+    <string name="contributed_by">기여자: %s</string>
+    <string name="pref_sync_notification_summary">동기화 진행 상황에 대해 알림</string>
+    <string name="pref_debug_logging_summary">디버깅 정보를 시스템 로그에 기록</string>
+    <string name="plan_custom_recurrence_info">먼저 템플릿을 저장하세요. 그런 다음 캘린더 앱에서 계획이 열려 사용자 지정 반복을 설정할 수 있습니다.</string>
+    <string name="menu_create_template_for_split">새 분할 템플릿</string>
+    <string name="progress_validating_licence">라이선스 검증 중</string>
+    <string name="licence_validation_error_expired">라이선스가 만료되었습니다</string>
+    <string name="licence_validation_error_device_limit_exceeded">기기 제한을 초과했습니다. 다른 기기에서 라이선스를 제거하세요.</string>
+    <string name="button_validate">검증</string>
+    <string name="licence_key">라이선스 키</string>
+    <string name="licence_removal_information">이 기기에서 프리미엄 기능이 더 이상 필요하지 않은 경우 라이선스 키를 제거할 수 있습니다. 이렇게 하면 다른 기기에서 활성화할 수 있도록 키가 해제됩니다. 키는 최대 %d개의 기기에서 활성화할 수 있습니다.</string>
+    <string name="progress_removing_licence">라이선스 제거 중</string>
+    <string name="licence_removal_success">이 기기에서 라이선스 키가 성공적으로 해제되었습니다.</string>
     <string name="professional_key">프로페셔널 키</string>
-    <string name="translated_by">번역</string>
-    <!-- Title of a section on the Settings screen where each entry corresponds to a subsection dedicated to one feature (functionality)  -->
-    <string name="pref_category_title_features">기능들</string>
+    <string name="n_months">%d개월</string>
+    <string name="eu_vat_info">유럽 연합 거주자의 경우 표시된 가격에 부가세가 포함되지 않습니다.</string>
+    <string name="valid_until">%s까지 유효</string>
+    <string name="extend_until">%2$s에 대해 %1$s까지 연장</string>
+    <string name="extended_upgrade_goodie_github">확장 라이선스를 이미 소유한 사용자에게는 1회에 한해 %d개월이 추가로 부여됩니다.</string>
+    <string name="switch_to_yearly">연간 구독으로 전환</string>
+    <string name="switch_to_monthly">월간 구독으로 전환</string>
+    <string name="extend_validity">유효 기간 연장</string>
+    <string name="progress_dialog_fetching_data_from_sync_backend">원격 백엔드에서 데이터를 가져오는 중입니다. 시간이 다소 걸릴 수 있습니다.</string>
+    <string name="donate_button_invoice">청구서</string>
+    <string name="auto_fill_account_from_aggregate_only">집계 계좌에서 시작할 때만.</string>
+    <string name="sync_auth_exception">인증에 실패했습니다.</string>
+    <string name="sync_login_again">다시 로그인하세요.</string>
+    <plurals name="delete_success"><item quantity="other">%d개의 개체가 성공적으로 삭제되었습니다.</item></plurals>
+    <string name="feature_deprecated">더 이상 사용되지 않음</string>
+    <string name="pref_protection_device_lock_screen_title">기기 화면 잠금</string>
+    <string name="pref_warning_only_one_protection">%1$s에 의한 보호를 사용하려면 먼저 %2$s에 의한 보호를 꺼야 합니다.</string>
+    <string name="warning_device_lock_screen_not_set_up_1">보안 기기 화면 잠금이 설정되지 않았습니다.</string>
+    <string name="menu_history_show_balance">잔고 표시</string>
+    <string name="menu_history_transfers">이체 포함</string>
+    <string name="menu_history">내역</string>
+    <string name="history_chart_out_label">지출</string>
+    <string name="history_chart_in_label">수익</string>
+    <string name="menu_history_totals">합계 표시</string>
+    <string name="pref_home_currency_title">주 통화</string>
+    <string name="grand_total">총계</string>
+    <string name="menu_original_amount">원래 금액</string>
+    <string name="menu_equivalent_amount">환산 금액</string>
+    <string name="warning_split_transactions">선택한 거래가 하나의 분할 거래로 그룹화됩니다. 날짜 정보가 손실되고 평균값으로 대체됩니다.</string>
+    <string name="warning_ungroup_split_transactions">선택한 분할 거래의 그룹이 해제되며, 분할 항목이 일반 거래가 됩니다.</string>
+    <string name="menu_ungroup_split_transaction">분할 그룹 해제</string>
+    <string name="ungroup_split_transaction_success">분할 거래의 그룹이 성공적으로 해제되었습니다.</string>
+    <string name="split_transaction_one_success">거래가 성공적으로 분할로 변환되었습니다.</string>
+    <string name="split_transaction_group_success">%1$d개의 거래가 하나의 분할 거래로 성공적으로 그룹화되었습니다.</string>
+    <string name="split_transaction_not_possible">동일한 계좌, 거래처 및 상태를 가진 거래만 하나의 분할 거래로 그룹화할 수 있습니다.</string>
+    <string name="pref_transaction_time_summary">정확한 거래 시간 설정을 허용합니다.</string>
+    <string name="pref_value_date_summary">전기 날짜 외에 가치 날짜 설정을 허용합니다. 거래 시간이 숨겨집니다. 이 설정은 현금 계좌에는 적용되지 않습니다.</string>
+    <string name="booking_date">전기 날짜</string>
+    <string name="value_date">가치 날짜</string>
+    <string name="licence_expires_n_days">프로페셔널 키가 %d일 후에 만료됩니다.</string>
+    <string name="licence_expires_tomorrow">프로페셔널 키가 내일 만료됩니다.</string>
+    <string name="licence_expires_today">프로페셔널 키가 오늘 만료됩니다.</string>
+    <string name="licence_expired_yesterday">프로페셔널 키가 어제 만료되었습니다.</string>
+    <string name="licence_has_expired_n_days">프로페셔널 키가 %d일 전에 만료되었습니다.</string>
+    <string name="gdpr_consent_button_no">광고 없는 버전 결제</string>
+    <string name="sort_order">정렬 순서</string>
+    <string name="pref_sync_wifi_only_summary">Wi-Fi에 연결되어 있을 때만 동기화</string>
+    <string name="pref_sync_changes_immediately_summary">로컬 변경 사항을 백엔드에 즉시 기록</string>
+    <string name="synchronization_postponed">동기화가 연기되었습니다.</string>
     <string name="pref_translation_title">번역</string>
+    <string name="goal_or_limit">목표 / 한도</string>
+    <string name="saving_goal">저축 목표</string>
+    <string name="credit_limit">신용 한도</string>
+    <string name="clear_all_filters"> 모든 필터 지우기</string>
+    <string name="pref_scroll_to_current_date_title">거래 목록을 현재 날짜로 스크롤</string>
+    <string name="pref_scroll_to_current_date_app_launch">앱이 실행될 때만</string>
+    <string name="pref_scroll_to_current_date_account_open">계좌로 이동할 때마다</string>
+    <string name="menu_budget">예산편성</string>
+    <string name="dialog_title_edit_budget">예산 편집</string>
+    <string name="budget_table_header_budgeted">예산액</string>
+    <string name="budget_table_header_allocated">배정</string>
+    <string name="budget_table_header_spent">지진</string>
+    <string name="budget_table_header_overspent">초과 지출</string>
+    <string name="budget_allocated_amount">할당된 금액</string>
+    <string name="budget_exceeded_error_1_1">예산 중 %s을(를) 제외한 모든 금액이 다른 카테고리에 할당되었습니다.</string>
+    <string name="budget_exceeded_error_1_2">예산의 모든 금액이 다른 카테고리에 할당되었습니다.</string>
+    <string name="budget_exceeded_error_2">예산 금액을 늘리거나 다른 카테고리에서 금액을 제거하세요.</string>
+    <string name="budget_under_allocated_error">%s이(가) 이미 카테고리에 할당되었습니다. 해당 금액을 제거하지 않는 한 최소한 그 금액을 예산으로 편성해야 합니다.</string>
+    <string name="sub_budget_exceeded_error_1_1">주 카테고리에 할당된 금액 중 %s을(를) 제외한 모든 금액이 다른 하위 카테고리에 할당되었습니다.</string>
+    <string name="sub_budget_exceeded_error_1_2">주 카테고리에 할당된 모든 금액이 다른 하위 카테고리에 할당되었습니다.</string>
+    <string name="sub_budget_exceeded_error_2">주 카테고리에 할당된 금액을 늘리거나 다른 하위 카테고리에서 금액을 제거하세요.</string>
+    <string name="sub_budget_under_allocated_error">%s이(가) 이미 하위 카테고리에 할당되었습니다. 해당 금액을 제거하지 않는 한 최소한 그 금액을 주 카테고리에 할당해야 합니다.</string>
+    <string name="content_description_clear_method">결제 수단 지우기</string>
+    <string name="content_description_clear_category">카테고리 지우기</string>
+    <string name="content_description_remove_icon">아이콘 제거</string>
+    <string name="currency_code">코드</string>
+    <string name="dialog_title_new_currency">새 통화</string>
+    <string name="currency_code_already_definded">통화 코드가 이미 정의되어 있습니다.</string>
+    <string name="currency_still_used">통화가 사용 중이므로 삭제할 수 없습니다.</string>
+    <string name="unmapped">매핑되지 않음</string>
+    <string name="unmapped_filter_only_single">\'매핑되지 않음\' 필터는 다중 선택에 포함될 수 없습니다</string>
+    <string name="pref_security_export_passphrase_title">백업 암호 문구</string>
+    <string name="pref_security_export_passphrase_summary">백업은 이 암호 문구로 암호화됩니다</string>
+    <string name="backup_is_encrypted">백업 파일이 암호화되었습니다. 암호를 해독하려면 암호 문구를 지정해야 합니다.</string>
+    <string name="backup_wrong_password">백업 파일이 다른 암호 문구로 암호화된 것 같습니다.</string>
+    <string name="passphrase_for_synchronization">이 백엔드의 동기화 데이터를 암호화하려면 암호 문구를 입력하세요.</string>
+    <string name="sync_backend_is_encrypted">원격 백엔드가 암호화되어 있습니다. 암호 문구를 지정해야 합니다.</string>
+    <string name="sync_backend_wrong_passphrase">원격 백엔드가 다른 암호 문구로 암호화된 것 같습니다.</string>
+    <string name="sync_backend_is_not_encrypted">원격 백엔드가 암호화되어 있지 않습니다.</string>
+    <string name="warning_backup_protected">백업이 암호 문구로 보호됩니다.</string>
+    <string name="input_label_passphrase">암호 문구</string>
+    <string name="button_label_no_encryption">암호화 없이</string>
+    <string name="joining_or">또는</string>
+    <string name="menu_close">닫기</string>
+    <string name="menu_reopen">다시 열기</string>
+    <string name="content_description_closed">닫힘</string>
+    <string name="warning_synced_account_cannot_be_closed">동기화 백엔드에 연결된 계좌는 닫을 수 없습니다</string>
+    <string name="translated_by">번역</string>
+    <string name="content_description_dates_are_linked">전기 날짜와 가치 날짜가 함께 업데이트됩니다</string>
+    <string name="content_description_dates_are_not_linked">전기 날짜와 가치 날짜가 함께 업데이트되지 않습니다</string>
+    <string name="roadmap_vote">로드맵 투표</string>
+    <string name="warning_account_for_transaction_is_closed">선택한 하나 이상의 거래를 편집할 수 없습니다:</string>
+    <string name="object_sealed">개체가 닫힌 계좌를 참조합니다.</string>
+    <string name="content_description_download_exchange_rate">환율 다운로드</string>
+    <string name="exchange_rate_not_supported">설정된 환율 제공자가 %1$s : %2$s 환율을 제공하지 않습니다. 설정에서 다른 제공자를 선택할 수 있습니다.</string>
+    <string name="pref_category_exchange_rates">환율</string>
+    <string name="pref_exchange_rate_provider_summary">환율 다운로드를 위한 제공자 선택</string>
+    <string name="pref_exchange_rate_provider_title">환율 제공자</string>
+    <string name="pref_exchange_rates_api_key_summary">%s에서 무료 계정을 등록하고 앱 ID를 입력하세요</string>
+    <string name="pref_plan_executor_time_title">알림 시간</string>
+    <string name="synchronization_select_folder_dialog_title">기존 폴더를 선택하거나 새 폴더 생성</string>
+    <string name="discover_feature_expense_income_switch">수입을 기록하려면 이 스위치 버튼을 사용하세요.</string>
+    <string name="menu_create_budget">새 예산</string>
+    <string name="budget_onetime">일회성</string>
+    <string name="no_budgets">+ 버튼을 탭하여 첫 예산을 정의하세요.</string>
+    <string name="budget_date_end_after_start">예산의 종료일은 시작일보다 나중이어야 합니다.</string>
+    <string name="menu_budget_allocated_only">할당된 카테고리만 표시</string>
+    <string name="budget_filter_all_categories">모든 카테고리</string>
+    <string name="budget_filter_all_parties">모든 거래처</string>
+    <string name="budget_filter_all_methods">모든 결제 수단</string>
+    <string name="budget_filter_all_states">모든 상태</string>
+    <string name="budget_filter_all_tags">모든 태그</string>
+    <string name="budget_filter_all_accounts">모든 계좌</string>
+    <string name="dialog_title_warning_delete_budget">예산을 삭제하시겠습니까?</string>
+    <string name="warning_delete_budget">예산 "%1$s"이(가) 삭제됩니다.</string>
+    <string name="menu_edit_budget">예산 편집</string>
+    <string name="onboarding_privacy_title">귀하의 데이터는 귀하의 손에 남아 있습니다</string>
+    <string name="onboarding_privacy_intro">귀하의 재무 데이터는 저희나 제3자가 운영하는 어떠한 서버로도 전송되지 않습니다.</string>
+    <string name="app_restart_required">새 설정을 적용하려면 앱을 다시 시작해야 합니다.</string>
+    <string name="menu_remap">다시 매핑</string>
+    <string name="dialog_title_confirm_remap">매핑 변경 (%s) ?</string>
+    <string name="remap_category">선택한 모든 거래가 %s 카테고리로 매핑됩니다.</string>
+    <string name="remap_payee">선택한 모든 거래가 %s 거래처로 매핑됩니다.</string>
+    <string name="remap_payee_null">선택한 모든 거래에서 거래처가 제거됩니다.</string>
+    <string name="remap_method">선택한 모든 거래가 %s 결제 수단으로 매핑됩니다.</string>
+    <string name="remap_account">선택한 모든 거래가 %s 계좌로 매핑됩니다.</string>
+    <string name="remapping_result">선택한 거래가 다시 매핑되었습니다.</string>
+    <string name="clone_and_remap_result">선택한 거래가 복제되고 다시 매핑되었습니다.</string>
+    <string name="remap_empty_list">선택한 모든 거래에 매핑할 수 있는 항목을 찾을 수 없습니다.</string>
+    <string name="button_label_clone_and_remap">복제 및 다시 매핑</string>
+    <string name="pref_clone_with_current_date_summary_on">복제된 거래가 현재 날짜를 가짐</string>
+    <string name="pref_clone_with_current_date_summary_off">복제된 거래가 원래 날짜를 유지함</string>
+    <string name="tags_create_or_select">태그 생성 또는 선택</string>
+    <string name="pref_manage_tags_summary">태그 추가, 편집, 삭제.</string>
+    <string name="dialog_title_warning_delete_tag">태그를 삭제하시겠습니까?</string>
+    <string name="menu_edit_tag">태그 편집</string>
+    <string name="menu_tag">태그</string>
+    <string name="dialog_multi_tag">선택한 모든 거래에 %s 태그가 지정됩니다.</string>
+    <string name="dialog_multi_tag_clear">선택한 거래에서 모든 태그가 제거됩니다.</string>
+    <plurals name="warning_delete_tag">
+        <item quantity="other">%1$s 태그가 %2$d개 거래에 연결되어 있습니다. 삭제하시겠습니까?</item>
+    </plurals>
+    <string name="dialog_multi_tag_append">기존 태그에 새 태그 추가</string>
+    <string name="dialog_multi_tag_replace">기존 태그를 새 태그로 교체</string>
+    <string name="new_tag_hint">새 태그 입력</string>
+    <string name="language_download_requested">%s 언어에 대한 번역이 Play Store에 요청되었습니다.</string>
+    <string name="pref_planner_manual_time_title">수동 적용 예정 거래 시간</string>
+    <string name="pref_planner_manual_time_noon">오후 12시 (정오)</string>
+    <string name="pref_planner_manual_time_current">적용 시간</string>
+    <string name="title_scan_receipt_feature">영수증 스캔</string>
+    <string name="feature_download_requested">Play Store에 %s 기능이 요청되었습니다.</string>
+    <string name="feature_downloaded">%s 기능이 설치되었습니다.</string>
+    <string name="menu_scan_mode">스캔 모드</string>
+    <string name="button_scan">스캔</string>
+    <string name="pref_ocr_total_indicators_title">총액 표시 문자열</string>
+    <string name="pref_ocr_total_indicators_summary">영수증의 총액을 식별하는 문자열 목록입니다. 각 값을 새 줄에 입력하세요. 기본값으로 복원하려면 비워 두세요.</string>
+    <string name="pref_ocr_date_formats_title">날짜 형식</string>
+    <string name="pref_ocr_time_formats_title">시간 형식</string>
+    <string name="pref_criterion_futur_title">향후 거래 기준</string>
+    <string name="pref_criterion_future_end_of_day">하루의 끝</string>
+    <string name="pref_criterion_future_current">현재 시간</string>
+    <string name="pref_category_title_features">기능들</string>
+    <string name="scan_result_multiple_candidates_dialog_title">여러 후보가 발견되었습니다. 선택하세요:</string>
+    <string name="scan_result_no_amount">금액을 찾을 수 없습니다</string>
+    <string name="scan_result_no_date">날짜를 찾을 수 없습니다</string>
+    <string name="scan_result_no_payee">거래처를 찾을 수 없습니다</string>
+    <string name="pref_feature_uninstall_title">기능 및 언어 제거 요청</string>
+    <string name="pref_feature_uninstall_summary">Play Store가 결국 백그라운드에서 해당 모듈을 제거하려고 시도합니다.</string>
+    <string name="select_package">라이선스 패키지를 선택하세요.</string>
+    <string name="advance_exexcution_in_days">사전 실행 (일 단위)</string>
+    <string name="warning_balance_account_delete">계속 진행하면 이 계좌의 모든 조정된 거래가 데이터베이스에서 삭제되며 복원할 수 없게 됩니다.</string>
+    <string name="confirmation_load_template_discard_data">기존 양식 데이터가 폐기됩니다.</string>
+    <string name="pref_clone_with_current_date_title">복제된 거래의 날짜</string>
+    <string name="template_default_action_without_amount_hint">금액이 없는 템플릿은 기본 동작 \'편집\'으로 저장되어야 합니다.</string>
+    <string name="plan_automatic_without_amount_hint">금액이 없는 계획은 자동 계획 실행으로 저장하면 안 됩니다.</string>
+    <string name="content_description_edit_plan">캘린더 앱에서 계획 편집</string>
+    <string name="menu_save_and_new_content_description">데이터를 저장하고 동일한 데이터로 새 거래를 생성하기 위해 양식을 열어 둡니다.</string>
+    <string name="pref_ocr_engine_title">텍스트 인식 엔진</string>
+    <string name="pref_tesseract_language_title">Tesseract용 언어</string>
+    <string name="tesseract_download_confirmation">%s에 대한 텍스트 인식 데이터를 다운로드하시겠습니까?</string>
+    <string name="download_completed">다운로드(%s)가 완료되었습니다.</string>
+    <string name="ocr_recognition_info">%s(으)로 텍스트 인식 실행 중</string>
+    <string name="ocr_download_info">텍스트 인식 기능은 외부 애플리케이션에서 제공합니다.</string>
+    <string name="warning_unencrypted_backup">%s을(를) 구성하지 않는 한 기기에서 데이터가 무단 접근으로부터 보호되더라도 백업은 암호화 없이 생성됩니다.</string>
+    <string name="pref_group_header_show_details_summary">그룹 헤더에 세부 합계 표시</string>
+    <string name="new_balance">새 잔고</string>
+    <string name="title_webui">웹 사용자 인터페이스</string>
+    <string name="single_feature_info">또는 이 기능에 대해서만 무제한 접근 권한을 구매할 수 있습니다.</string>
+    <string name="recurrence_last_day_of_month">마지막 날</string>
+    <string name="warning_link_transfer">선택한 두 거래가 이체로 연결됩니다. 거래처 및 카테고리 정보는 삭제됩니다.</string>
+    <string name="account_widget_configuration_sum">표시된 합계 유형</string>
+    <string name="account_widget_configuration_sum_total">향후 거래 포함</string>
+    <string name="account_widget_configuration">계좌 위젯 구성</string>
+    <string name="budget_widget_configuration">예산 선택</string>
+    <string name="merge_parties_select">병합할 거래처 이름 선택</string>
+    <string name="active_tags">활성 태그</string>
+    <string name="request_for_invoice">청구서 요청</string>
+    <string name="auto_fill_focus">거래처에 포커스 설정</string>
+    <string name="warning_plan_instance_delete">선택한 날짜에 대해 생성된 거래가 삭제됩니다.</string>
     <string name="crash_reports_user_info">{app_name}는 앱 충돌 오류와 관련된 보고서를 개발자에게 자동으로 전송해서 문제를 빨리 해결할 수 있도록 합니다.</string>
     <string name="pref_category_title_crash_reports">충돌 오류 보고서</string>
     <string name="pref_enable_acra">충돌 오류 보고서를 자동으로 전송하기</string>
     <string name="pref_acra_user_email">충돌 오류 보고서에 사용자 이메일 포함</string>
     <string name="pref_acra_user_email_summary">만약 디버그를 도와주시거나 연락을 받고 싶으시면 이메일 주소를 입력해주세요.</string>
-    <string name="new_version">새 버전</string>
-    <string name="pref_news_title">뉴스</string>
-    <string name="title_scan_receipt_feature">영수증 스캔</string>
-    <string name="debt_managment">부채 관리</string>
+    <string name="backup_save_to_sync_backend">%s에 저장</string>
     <string name="ui_refinement">사용자 인터페이스 개선</string>
-    <string name="synchronization">동기화</string>
-    <string name="bug_fixes" tools:ignore="UnusedResources">버그 수정</string>
-    <string name="menu_budget">예산편성</string>
-    <string name="content_description_calculator_delete_button">마지막 숫자 삭제하기</string>
-    <string name="date_format_hour">시간</string>
-    <string name="date_format_minute">분</string>
-    <string name="pref_sort_order_last_used">마지막으로 사용한 날짜</string>
-    <string name="plan_instance_state_cancelled">취소됨</string>
-    <string name="plan_instance_state_applied">적용됨</string>
-    <string name="pref_sort_order_next_instance">다음 인스턴스</string>
-    <string name="pref_grouping_periods">그룹화 기간</string>
-    <string name="exchange_rate">환율</string>
-    <string name="preferences_month_start_date_title">월 시작일</string>
-    <string name="pref_sort_order_custom">사용자 지정</string>
-    <string name="crash_dialog_title">{app_name}이(가) 충돌했습니다</string>
-    <string name="plan_instance_state_open">열기</string>
+    <string xmlns:ns0="http://schemas.android.com/tools" name="bug_fixes" ns0:ignore="UnusedResources">버그 수정</string>
+    <string name="performance_enhancement">성능 향상</string>
+    <string name="stability_improvements">안정성 향상</string>
+    <string name="new_version">새 버전</string>
+    <string name="menu_new_debt">새 채무</string>
+    <string name="debt_owes_me">%s이(가) 나에게 빚짐</string>
+    <string name="debt_I_owe">내가 %s에게 빚짐</string>
+    <string name="debt">채무</string>
+    <string name="debts">채무</string>
+    <string name="warning_party_delete_debt">이 거래처를 삭제하면 해당 거래처에 대해 정의된 채무도 삭제됩니다.</string>
+    <plurals name="debt_mapped_transactions"><item quantity="other">채무 "%1$s"에 %2$d개의 매핑된 거래가 있습니다.</item></plurals>
+    <string name="object_sealed_debt">개체가 닫힌 채무를 참조합니다.</string>
+    <string name="debt_managment">부채 관리</string>
+    <string name="title_activity_debt_overview">채무 개요</string>
+    <string name="cb_label_merge_accounts">계좌 병합</string>
+    <string name="pref_mlkit_script_title">MlKit 스크립트</string>
+    <plurals name="import_categories_icons_updated"><item quantity="other">%1$d개 카테고리가 아이콘으로 업데이트되었습니다.</item></plurals>
+    <string name="setup_completed">설정 완료</string>
+    <string name="menu_parent_category_selection">짧게 탭할 때 상위 카테고리 선택</string>
+    <string name="dialog_title_purge_backups">오래된 백업 삭제</string>
+    <string name="purge_backups">다음 오래된 백업 파일이 삭제됩니다:</string>
+    <plurals name="purge_backup_success"><item quantity="other">%d개의 오래된 백업 파일이 영구 삭제되었습니다.</item></plurals>
+    <plurals name="purge_backup_failure"><item quantity="other">%d개의 오래된 백업 파일을 삭제할 수 없습니다.</item></plurals>
+    <string name="pref_purge_backup_keep_title">유지할 최신 백업 파일의 최대 수</string>
+    <string name="pref_purge_backup_require_confirmation_summary">파일이 삭제되기 전에 확인 메시지 표시</string>
+    <string name="pref_debug_logging_share_summary">로그 파일 공유</string>
+    <string name="webui_warning_move_transaction">거래가 계좌 "{account}"(으)로 이동됩니다.</string>
+    <string name="pref_csv_export_split_categories_summary">카테고리 계층의 각 수준에 별도의 열 사용</string>
+    <string name="pref_csv_export_split_amount_summary">수입과 지출에 별도의 열 사용</string>
+    <string name="pref_csv_export_split_date_time_summary">날짜와 시간에 별도의 열 사용</string>
+    <string name="icons_for_categories">카테고리 아이콘</string>
+    <string name="budget_only_current_period">%s에 대해서만 설정</string>
+    <string name="budget_table_header_rollover">이월</string>
+    <string name="rollover_edit_invalid">카테고리에 할당된 이월금과 하위 카테고리에 할당된 이월금의 합계는 잔여액을 초과할 수 없습니다.</string>
+    <string name="dialog_confirm_rollover_delete">이 기간의 모든 이월 금액이 삭제됩니다.</string>
+    <string name="content_description_attachment">첨부파일</string>
+    <string name="redesign">디자인 개편</string>
+    <string name="select_all_list_too_large">목록이 부분적으로만 로드되었기 때문에 %s 명령을 사용할 수 없습니다. 목록 크기를 줄이려면 검색 기능을 사용하세요.</string>
+    <string name="menu_reconfigure">재구성</string>
+    <string name="encrypt_database">데이터베이스 암호화</string>
+    <string name="encrypt_database_info">데이터베이스는 이 기기에서 추출할 수 없는 암호 문구로 암호화됩니다. 따라서 기기의 백업 서비스에 의해 백업되지 않습니다.</string>
+    <string name="database_is_encrypted">데이터베이스가 암호화되었습니다.</string>
+    <string name="github_sponsors">라이선스 키는 &lt;a href="%s"&gt;Github 후원자&lt;/a&gt;에게도 제공됩니다.</string>
+    <string name="notifications_permission_required_planner">알림 보내기 권한을 허용하면 {app_name}에서 예정된 거래에 대한 알림을 받을 수 있습니다.</string>
+    <string name="notifications_permission_required_webui">알림 보내기 권한을 허용하면 웹 서버 상태를 제어할 수 있습니다.</string>
+    <string name="notifications_permission_required_sync">알림 보내기 권한을 허용하면 동기화 작업의 진행 상황을 모니터링할 수 있습니다.</string>
+    <string name="notifications_permission_required_auto_backup">알림 보내기 권한을 허용하면 자동 백업에 대한 안내를 받을 수 있습니다.</string>
+    <string name="notifications_channel_required">%s 채널을 활성화해 주세요.</string>
+    <string name="debt_installment_pay">내가 %s의 분할금을 납부합니다.</string>
+    <string name="debt_installment_receive">내가 %s의 분할금을 수령합니다.</string>
+    <string name="debt_lend_additional">내가 %s을(를) 더 빌려줍니다.</string>
+    <string name="debt_borrow_additional">내가 %s을(를) 더 빌립니다.</string>
+    <string name="debt_paid_off_other">%s의 채무가 상환되었습니다.</string>
+    <string name="debt_paid_off_self">내 채무가 상환되었습니다.</string>
+    <string name="debt_balance_i_owe">내가 이제 %s을(를) 빚지고 있습니다.</string>
+    <string name="debt_balance_they_owe">%1$s이(가) 이제 %2$s을(를) 빚지고 있습니다.</string>
+    <string name="pref_backup_file_prefix_title">파일 접두사</string>
+    <string name="optimize_image_file_size">이미지 파일 크기 최적화</string>
+    <string name="maximum_size">최대 크기</string>
+    <string name="image_optimize_quality_summary">품질 0은 가장 작은 크기로 압축함을 의미합니다. 100은 시각적 품질을 최대로 압축함을 의미합니다.</string>
+    <string name="template_shortcut">템플릿 바로가기</string>
+    <string name="select_template">템플릿 선택</string>
+    <string name="add_shortcut">바로가기 추가</string>
+    <string name="orphaned_transaction_info">이 날짜의 계획에 거래가 연결되어 있지만 이 날짜에 이벤트 인스턴스가 존재하지 않습니다.</string>
+    <string name="orphaned_transaction_relink">거래를 %s의 이벤트 인스턴스와 다시 연결할 수 있습니다.</string>
+    <string name="orphaned_transaction_align_date">옵션으로 거래와 함께 저장된 날짜를 인스턴스 날짜와 맞출 수도 있습니다.</string>
+    <string name="button_relink_keep_date">다시 연결하되 날짜 유지</string>
+    <string name="button_relink_update_date">다시 연결하고 날짜 업데이트</string>
+    <string name="read_from_data">데이터에서 읽기</string>
+    <string name="merge_parties_strategy_delete">중복 항목이 삭제됩니다.</string>
+    <string name="merge_parties_strategy_group">중복 항목이 종속 항목으로 그룹화됩니다.</string>
+    <string name="show_duplicates">중복 표시</string>
+    <string name="remove_from_group">그룹에서 제거</string>
+    <string name="pref_attachment_mime_types_title">첨부파일에 허용되는 MIME 유형</string>
+    <string name="attachments">첨부파일</string>
+    <string name="pref_copy_attachments_title">애플리케이션 폴더로 첨부파일 복사</string>
+    <string name="pref_copy_attachments_summary_on">파일이 애플리케이션 폴더로 복사됩니다.</string>
+    <string name="pref_copy_attachments_summary_off">파일이 복사되지 않고 참조만 저장됩니다.</string>
+    <string name="widget_title_budget">내 예산</string>
+    <string name="pref_unmapped_transaction_as_transfer_title">매핑되지 않은 거래</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_off">지출 / 수입으로 계산됨</string>
+    <string name="pref_unmapped_transaction_as_transfer_summary_on">이체로 계산됨</string>
+    <string name="menu_aggregate_neutral_categories">중립 카테고리 집계</string>
     <string name="one_time_payment">일회성 결제</string>
+    <string name="warning_delete_default_transfer_category">카테고리 %s은(는) 기본 이체 카테고리로 구성되어 있으므로 삭제해서는 안 됩니다.</string>
+    <string name="default_transfer_category">기본 이체 카테고리</string>
+    <string name="contact_us">문의하기</string>
+    <string name="pref_transaction_amount_color_source_title">금액 색상</string>
+    <string name="pref_sync_now_all_summary">%s이(가) 동일한 백엔드의 모든 계좌를 동기화합니다</string>
+    <string name="menu_unlink_transfer">이체 연결 해제</string>
+    <string name="warning_unlink_transfer">선택한 이체가 연결 해제됩니다. 두 계좌에서 일반 거래로 대체됩니다.</string>
+    <string name="menu_transform_to_transfer">이체로 변환</string>
+    <string name="warning_transform_to_transfer">선택한 거래가 %1$s에서 %2$s(으)로의 이체로 대체됩니다.</string>
+    <string name="remap_date">선택한 모든 거래의 날짜가 %s(으)로 설정됩니다.</string>
+    <string name="remap_update_value_date">가치 날짜도 업데이트</string>
+    <string name="roadmap_intro">%d 로드맵 투표가 시작되었습니다! 귀하에게 가장 중요한 기능과 개선 사항에 투표하세요.</string>
+    <string name="merge_categories_dialog_title">카테고리 병합</string>
+    <string name="subcategories_merged_recursively">병합된 카테고리에 레이블이 동일한 하위 카테고리가 있는 경우 해당 하위 카테고리가 재귀적으로 먼저 병합됩니다.</string>
+    <string name="merge_categories_prompt">유지하려는 카테고리를 선택하세요</string>
+    <string name="pref_csv_export_category_separator_summary">카테고리 계층 수준 간 구분 기호</string>
+    <string name="not_enough_data">데이터 부족</string>
+    <string name="menu_unpack">압축 풀기</string>
+    <string name="warning_unarchive">보관함의 압축이 풀립니다. 포함된 모든 거래가 목록에 다시 삽입됩니다.</string>
     <string name="archive">보관</string>
-    <string name="contrib_feature_category_tree_label">임의의 깊은 범주 계층 구조</string>
+    <string name="warning_delete_archive">이 보관함에 포함된 모든 거래(%d)가 삭제됩니다.</string>
+    <string name="dialog_title_warning_delete_archive">보관함을 삭제하시겠습니까?</string>
+    <string name="archive_warning">선택한 날짜 범위의 모든 거래(%d)가 보관 처리됩니다.</string>
+    <string name="warning_nested_archives">중첩된 보관함은 지원되지 않습니다.</string>
+    <string name="warning_empty_archive">선택한 날짜 범위에 거래가 존재하지 않습니다.</string>
+    <string name="warning_archive_inconsistent_state">선택한 날짜 범위의 거래 상태가 일치하지 않습니다(%s).</string>
+    <string name="warning_backend_deactivated">백엔드가 동기화할 준비가 되지 않았습니다.</string>
+    <string name="button_activate_again">다시 활성화</string>
+    <string name="credit_limit_reached">신용 한도에 도달했습니다.</string>
+    <string name="saving_goal_reached">저축 목표를 달성했습니다.</string>
+    <string name="credit_limit_exceeded">신용 한도를 초과했습니다.</string>
+    <string name="saving_goal_exceeded">저축 목표를 초과 달성했습니다.</string>
+    <string name="overage">초과액</string>
+    <string name="credit_limit_available_credit">이용 가능 신용</string>
+    <string name="saving_goal_short_fall">부족액</string>
+    <string name="content_description_original_amount">통화를 선택하고 금액을 입력하여 이 거래의 원래 금액을 정의합니다. 유효 금액을 계산하는 데 사용될 환율을 정의할 수도 있습니다.</string>
+    <string name="content_description_exchange_rate">1 %1$s 당 %2$s 환율</string>
+    <string name="content_description_equivalent_amount">주 통화로 이 거래의 가치를 정의합니다. 금액을 입력하는 대신 환율을 입력하여 계산할 수도 있습니다.</string>
+    <string name="warning_archived_transfer_cannot_be_edited">이체의 다른 쪽이 보관 처리되어 있어 이체를 편집할 수 없습니다.</string>
+    <string name="warning_budget_sync_import">이 예산의 구성은 동기화 백엔드에서 가져옵니다. 모든 로컬 변경 사항은 손실됩니다.</string>
+    <string name="budget_import_can_be_imported">다음 예산을 가져올 수 있습니다:</string>
+    <string name="budget_import_cannot_be_imported">다음 예산은 동기화되지 않은 계좌를 참조합니다:</string>
+    <string name="budget_import_none_found">예산을 찾을 수 없습니다.</string>
+    <string name="webui_download_no_data">앱에서 인쇄, 내보내기 또는 백업을 생성한 후 여기에서 다운로드할 수 있습니다.</string>
+    <string name="filter_dialog_empty">아직 추가된 기준이 없습니다. 위의 버튼을 탭하여 쿼리를 정의하고 결과를 구체화하세요.</string>
+    <string name="initial_value">초기 가치</string>
+    <string name="current_value">현재 가치</string>
+    <string name="total_value">총 가치</string>
+    <string name="enable_automatic_daily_exchange_rate_download">매일 일일 환율 자동 다운로드</string>
+    <string name="price_history">가격 내역</string>
+    <string name="dynamic_exchange_rate">동적 환율</string>
+    <string name="progress_recalculating">재계산 중</string>
+    <string name="equivalent_amount_plural">환산 금액</string>
+    <string name="recalculate_equivalent_amounts_warning">적용 가능한 저장된 환율이 있는 경우 환산 금액이 (재)계산됩니다.</string>
     <string name="quick_search">빠른 검색</string>
     <string name="complex_search">복잡한 검색</string>
+    <string name="full_text_search">전문 검색</string>
+    <string name="search_full_text">모든 필드 검색</string>
+    <string name="search_fts_help_and">커피 차 : 커피와 차가 모두 포함된 거래 찾기</string>
+    <string name="search_fts_help_not">커피 -차 : 커피는 있지만 차는 없는 거래 찾기</string>
+    <string name="search_fts_help_or">커피 OR 차 : 커피 또는 차 중 하나가 포함된 거래 찾기</string>
+    <string name="search_fts_help_phrase">"커피와 차" : 정확한 문구 "커피와 차" 찾기</string>
+    <string name="search_fts_help_prefix">커피* : 커피로 시작하는 단어 찾기 (예: 커피, 커피숍)</string>
+    <string name="search_fts_help_column">검색을 특정 열로 제한하려면 쿼리 용어에 접두사 추가 (예: payee:이마트, category:식비, tag:업무). 가능 항목: \'comment\' (메모), \'payee\' (거래처), \'category\' (카테고리), \'tag\' (태그), \'ref\' (참조 번호)</string>
+    <string name="search_fts_error_malformed">불완전한 검색 연산자 또는 따옴표 불일치</string>
+    <string name="account_closed">계좌가 닫힘</string>
     <string name="balance_sheet">대차 대조표</string>
     <string name="balance_sheet_section_assets">자산</string>
     <string name="balance_sheet_section_liabilities">부채</string>
     <string name="balance_sheet_net_worth">순자산</string>
-    <string name="price_history">가격 내역</string>
+    <string name="mark_as_cleared">처리됨으로 표시</string>
+    <string name="mark_as_unreconciled">미조정으로 표시</string>
+    <string name="pref_equivalent_amounts_automatic_update_title">가격 변경 시 환산 금액 자동 업데이트</string>
+    <string name="sort_direction">정렬 방향</string>
+    <string name="batch_download">일괄 다운로드</string>
+    <string name="warning_batch_download_quota">%s에서 일괄 다운로드하면 사용량 제한이 소진될 위험이 있습니다.</string>
+    <string name="batch_download_result">%d개의 가격이 다운로드되어 데이터베이스에 저장되었습니다.</string>
+    <string name="pref_ui_home_screen_shortcuts_show_new_balance_title">거래 저장 후 새 잔고 표시</string>
+    <string name="print_configuration_empty">인쇄할 필드를 하나 이상 추가하세요.</string>
+    <plurals name="import_prices_success_message"><item quantity="other">%d개 행에서 유효한 데이터를 찾았습니다.</item></plurals>
+    <plurals name="import_prices_failure_message"><item quantity="other">%d개 행을 처리할 수 없습니다.</item></plurals>
+    <plurals name="import_trades_missing_assets_message"><item quantity="other">%1$d개 행이 알 수 없는 자산을 참조합니다: %2$s.</item></plurals>
+    <string name="confirm_process_file_message">\'%2$s\'에서 \'%1$s\'의 가격을 가져오시겠습니까? 새 가격은 기존 환산 금액에 영향을 미칠 수 있습니다.</string>
+    <string name="warning_expense_category_credit">수입 거래에 지출 카테고리를 할당하고 있습니다. 결과적으로 거래는 지출 합계를 줄이고 기본적으로 빨간색으로 표시됩니다.</string>
+    <string name="warning_income_category_debit">지출 거래에 수입 카테고리를 할당하고 있습니다. 결과적으로 거래는 수입 합계를 줄이고 기본적으로 녹색으로 표시됩니다.</string>
+    <string name="pref_dynamic_exchange_rates_dynamic">모든 계좌에 대한 동적 환율</string>
+    <string name="pref_dynamic_exchange_rates_static">모든 계좌에 대한 고정 환율</string>
+    <string name="pref_dynamic_exchange_rates_per_account">각 계좌별로 개별 설정</string>
+    <string name="category_type_main">주 카테고리</string>
+    <string name="category_type_sub">하위 카테고리</string>
+    <string name="parent_category">상위 카테고리</string>
+    <string name="category_description_base">%1$s, %2$d단계</string>
+    <plurals name="category_description_children_suffix"><item quantity="other">, %2$d단계의 하위 카테고리 %1$d개를 포함합니다.</item></plurals>
+    <string name="edit_account_type">계좌 유형 편집</string>
+    <string name="new_account_type">새 계좌 유형</string>
     <string name="pref_account_list_display_configuration_title">계정 목록</string>
+    <string name="pref_print_layout_summary">열의 너비 및 구성 설정</string>
+    <string name="menu_account_flags">플래그</string>
+    <string name="menu_flag">플래그</string>
+    <string name="edit_account_flag">플래그 편집</string>
+    <string name="new_account_flag">새 플래그</string>
+    <string name="flag_unflagged">플래그 없음</string>
+    <string name="flag_favorite">즐겨찾기</string>
+    <string name="supports_reconciliation">조정 지원</string>
+    <string name="aggregate_invisible">보이지 않는 계좌를 집계 계좌 및 대차대조표에 포함</string>
+    <string name="select_accounts_for_flag">플래그 %s에 대한 계좌 선택</string>
+    <string name="menu_cleanup">정리</string>
+    <plurals name="warning_cleanup_parties"><item quantity="other">%d개의 사용되지 않는 거래처가 삭제됩니다.</item></plurals>
+    <string name="show_invisible">숨겨진 계좌</string>
+    <string name="show_zero">잔고 0인 계좌</string>
+    <string name="content_description_clear_party">선택한 거래처 지우기</string>
+    <string name="content_description_browse_device_files">이 기기의 파일 탐색</string>
+    <string name="content_description_select_recent_file">최근 파일에서 선택</string>
+    <string name="content_description_show_balance_details">상세 정보 표시</string>
     <string name="menu_templates">템플렛들</string>
-    <string name="pref_plan_executor_time_title">알림 시간</string>
-    <string name="rounding">반올림</string>
-    <string name="important_upgrade_information_heading">중요한 정보</string>
-    <string name="dialog_title_warning_delete_tag">태그를 삭제하시겠습니까?</string>
-    <plurals name="warning_delete_tag">
-        <item quantity="other">%1$s 태그가 %2$d개 거래에 연결되어 있습니다. 삭제하시겠습니까?</item>
-    </plurals>
+    <string name="pref_ui_start_screen_title">시작 화면</string>
+    <string name="pref_ui_start_screen_last_visited">마지막으로 방문한 화면</string>
+    <string name="main_navigation">주 탐색</string>
+    <string name="pref_fab_style_title">플로팅 작업 버튼 스타일</string>
+    <string name="pref_fab_style_standard_description">표준 (화살표 탭하여 메뉴 열기)</string>
+    <string name="pref_fab_style_compact_description">컴팩트 (길게 눌러 메뉴 열기)</string>
     <string name="pref_tag_style_title">태그 스타일</string>
     <string name="pref_tag_style_outline">색상 테두리</string>
     <string name="pref_tag_style_filled">전체 색상</string>
+    <string name="number_too_large">숫자가 너무 큽니다</string>
+    <string name="prioritize_flag_order">플래그 순서 우선 지정</string>
+    <string name="pref_content_based_colors_title">계좌 기반 동적 색상</string>
+    <string name="pref_content_based_colors_summary">현재 계좌의 색상에서 테마 색상을 도출합니다. 텍스트를 읽기 어려운 경우 끄세요.</string>
+    <string name="service_starting">시작 중…</string>
+    <string name="trade_buy">매수</string>
+    <string name="trade_sell">매도</string>
+    <string name="trade_transfer">이체</string>
+    <string name="trade_quantity">수량</string>
+    <string name="trade_price">가격</string>
+    <string name="trade_fee">수수료</string>
     <string name="trade_additional_costs">추가 비용</string>
+    <string name="trade_add_cost">비용 추가</string>
+    <string name="trade_target_asset">자산</string>
+    <string name="menu_create_portfolio">새 포트폴리오</string>
+    <string name="asset_type_fiat_plural">통화</string>
+    <string name="asset_type_security">유가증권</string>
+    <string name="asset_type_security_plural">유가증권</string>
+    <string name="asset_type_crypto">암호화폐</string>
+    <string name="asset_type_commodity">원자재</string>
+    <string name="asset_type_commodity_plural">원자재</string>
+    <string name="trade_funding_source">자금 출처</string>
+    <string name="trade_funding_portfolio">포트폴리오 현금</string>
+    <string name="trade_funding_external_description">이 앱에서 추적하지 않는 출처의 자금</string>
+    <string name="trade_deposit">입금</string>
+    <string name="trade_withdraw">인출</string>
+    <string name="trade_matching_transaction_found">자금 계좌에서 일치하는 거래를 찾았습니다. 연결하려면 선택하세요:</string>
+    <string name="asset_quantity_at_price">%1$s @ %2$s</string>
     <string name="contrib_feature_portfolio_tracking">포트폴리오 추적</string>
-    <string name="account_type_investment">투자</string>
-    <string name="total_value">총 가치</string>
-    <string name="history_chart_out_label">지출</string>
-    <string name="history_chart_in_label">수익</string>
-    <string name="budget_table_header_allocated">배정</string>
-    <string name="budget_table_header_spent">지진</string>
+    <string name="premium_nudge_portfolio_message">1개의 포트폴리오를 무료로 관리할 수 있습니다. 업그레이드하여 여러 포트폴리오를 관리하고 고급 추적 기능을 활용하세요(%1$s).</string>
+    <string name="rounding">반올림</string>
+    <string name="help_floating_action_button">플로팅 작업 버튼</string>
+    <string name="important_upgrade_information_heading">중요한 정보</string>
+    <string name="single_pane_view">단일 분할창</string>
+    <string name="split_pane_view">분할 보기</string>
 </resources>
