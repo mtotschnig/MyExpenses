@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="whats_new_361_1">يمكن فرز قائمة المعاملات حسب المبلغ.</string>
-    <string name="whats_new_361_2">يمكن مشاركة أو حذف الملفات الموجودة في مجلد التطبيق (النسخ الاحتياطية والصادرات).</string>
-    <string name="whats_new_364_1">الاستيراد إلى حسابات متعددة من ملف CSV واحد</string>
-    <string name="whats_new_364_2">استراتيجية جديدة لإدارة معلومات الدافع/المدفوع لأمره المكررة</string>
-    <string name="whats_new_365">إرفاق عدد عشوائي من الصور والمستندات (PDF)</string>
-    <string name="whats_new_366">أداة الشاشة الرئيسية تعرض الحالة الحالية للميزانية.</string>
-    <string name="whats_new_367">يمكن الآن تكوين الفئات كفئات مصروفات أو دخل، مما سيؤثر على كيفية حساب مبالغ المصروفات والدخل.</string>
-    <string name="whats_new_374">ألوان مخصصة للوسوم</string>
     <string name="whats_new_382">يمكن استدعاء %1$s الميزة من %2$sعنصر واجهة المستخدم.</string>
     <string name="whats_new_384">إعداد مبسط للنسخ الاحتياطي السحابي</string>
     <string name="whats_new_386">يمكن عرض توزيع النفقات وتوزيع الدخل معًا في مخطط دائري مزدوج.</string>
@@ -15,12 +7,6 @@
     <string name="whats_new_395">يمكن تنزيل الملفات المصدرة (PDF ، النسخ الاحتياطي ، QIF ، CSV ، JSON) عبر واجهة مستخدم الويب.</string>
     <string name="whats_new_396">إدارة محسنة حساب العملات الأجنبية مع تحديثات سعر الصرف التلقائية وتتبع القيمة في الوقت الفعلي.</string>
     <string name="whats_new_398">شاهد أصولك، التزاماتك، وصافي قيمتك — في مكان واحد.</string>
-    <string name="whats_new_376_1">استنساخ معاملات متعددة بتاريخ جديد.</string>
-    <string name="whats_new_376_2">يمكن التحكم في واجهة المستخدم على الويب من الشاشة الرئيسية.</string>
-    <string name="whats_new_369_1">يمكن ربط التحويلات بالفئات.</string>
-    <string name="whats_new_369_2">عند تفعيل قفل الشاشة، السماح بالانسحاب من تعطيل لقطات الشاشة.</string>
-    <string name="whats_new_370">يمكن تخصيص القائمة على الشاشة الرئيسية بالكامل.</string>
-    <string name="whats_new_378">تراعي الرسوم البيانية مرشح البحث.</string>
     <string name="whats_new_399">تخطيط تصدير PDF محسن قابل للتخصيص بالكامل مع السحب والإفلات.</string>
     <string name="whats_new_400_2">سجلّ الأسعار: تنزيل جماعي للإدخالات المفقودة</string>
     <string name="whats_new_400_1">مخطط دائري يوضح توزيع الأموال بين الحسابات</string>

@@ -5,12 +5,12 @@ import android.content.Context
 import android.icu.text.ListFormatter
 import android.os.Build
 import android.os.Parcelable
+import java.util.Locale
 import kotlinx.parcelize.IgnoredOnParcel
 import kotlinx.parcelize.Parcelize
 import org.totschnig.myexpenses.R
 import org.totschnig.myexpenses.util.crashreporting.CrashHandler
 import org.totschnig.myexpenses.util.localizedQuote
-import java.util.Locale
 
 @Parcelize
 class VersionInfo(val code: Int, val name: String, val tickets: String? = null) : Parcelable {
@@ -31,56 +31,6 @@ class VersionInfo(val code: Int, val name: String, val tickets: String? = null) 
         val res = ctx.resources
         fun t(resId: Int) = ctx.getString(resId)
         val changesArray = when (nameCondensed) {
-            "360" -> arrayOf(
-                "${t(R.string.help_ManageTemplates_plans_title)}: ${t(R.string.ui_refinement)}"
-            )
-
-            "362" -> arrayOf(
-                "${t(R.string.settings_label)}: ${t(R.string.ui_refinement)}"
-            )
-
-            "363" -> arrayOf(
-                "Multibanking (${Locale.GERMANY.displayCountry})"
-            )
-
-            "368" -> arrayOf(
-                "${t(R.string.menu_distribution)}, ${t(R.string.menu_budget)}: ${t(R.string.ui_refinement)}"
-            )
-
-            "371" -> arrayOf(
-                "${t(R.string.take_photo)}: ${t(R.string.ui_refinement)}"
-            )
-
-            "372" -> arrayOf(
-                "${t(R.string.synchronization)}: Microsoft OneDrive"
-            )
-
-            "373" -> arrayOf(
-                "${t(R.string.synchronization)}: ${t(R.string.stability_improvements)}",
-                "${t(R.string.help_MyExpenses_title)}: ${t(R.string.ui_refinement)}"
-            )
-
-            "376" -> arrayOf(
-                t(R.string.whats_new_376_1),
-                t(R.string.whats_new_376_2),
-                t(R.string.menu_transform_to_transfer),
-                "${ctx.getString(R.string.export_to_format, "CSV")}: MS Excel"
-            )
-
-            "377" -> arrayOf(
-                "${
-                    ctx.getString(
-                        R.string.export_to_format,
-                        "CSV"
-                    )
-                }: ${t(R.string.menu_original_amount)}, ${t(R.string.menu_equivalent_amount)}",
-                t(R.string.ui_refinement)
-            )
-
-            "379" -> arrayOf(
-                "${t(R.string.menu_original_amount)}: ${t(R.string.ui_refinement)}"
-            )
-
             "381" -> arrayOf(
                 // @formatter:off
                 "${t(R.string.menu_print)}: ${t(R.string.configuration)} (${t(R.string.paper_format)}, ${t(R.string.header_footer)})"
@@ -110,20 +60,24 @@ class VersionInfo(val code: Int, val name: String, val tickets: String? = null) 
 
             "389" -> arrayOf(
                 "${t(R.string.archive)}: ${t(R.string.ui_refinement)}",
-                "${t(R.string.title_activity_debt_overview)}: ${t(R.string.ui_refinement)}",
+                "${t(R.string.title_activity_debt_overview)}: ${t(R.string.ui_refinement)}"
             )
 
             "390" -> arrayOf(
-                "${t(R.string.saving_goal)} / ${t(R.string.credit_limit)}: ${t(R.string.ui_refinement)}",
+                "${
+                    t(
+                        R.string.saving_goal
+                    )
+                } / ${t(R.string.credit_limit)}: ${t(R.string.ui_refinement)}"
             )
 
             "391" -> arrayOf(
                 "${t(R.string.archive)}: ${t(R.string.ui_refinement)}",
-                "${t(R.string.menu_budget)}: ${t(R.string.ui_refinement)}",
+                "${t(R.string.menu_budget)}: ${t(R.string.ui_refinement)}"
             )
 
             "392" -> arrayOf(
-                "${t(R.string.menu_budget)}: ${t(R.string.synchronization)}",
+                "${t(R.string.menu_budget)}: ${t(R.string.synchronization)}"
             )
 
             "393" -> arrayOf(
@@ -162,8 +116,20 @@ class VersionInfo(val code: Int, val name: String, val tickets: String? = null) 
 
             "401" -> arrayOf(
                 t(R.string.whats_new_401),
-                "${t(R.string.menu_print)} : ${t(R.string.balance_sheet)}, ${t(R.string.title_activity_debt_overview)}.",
-                "${t(R.string.price_history)} : ${t(R.string.pref_category_title_import)} / ${t(R.string.pref_category_title_export)}."
+                "${
+                    t(
+                        R.string.menu_print
+                    )
+                } : ${t(R.string.balance_sheet)}, ${t(R.string.title_activity_debt_overview)}.",
+                "${
+                    t(
+                        R.string.price_history
+                    )
+                } : ${
+                    t(
+                        R.string.pref_category_title_import
+                    )
+                } / ${t(R.string.pref_category_title_export)}."
             )
 
             "404" -> arrayOf(
@@ -184,22 +150,34 @@ class VersionInfo(val code: Int, val name: String, val tickets: String? = null) 
 
             "412" -> arrayOf(
                 // @formatter:off
-                "${t(R.string.contrib_feature_portfolio_tracking)} : ${t(R.string.menu_search)} (${t(R.string.trade_target_asset)}, ${t(R.string.amount)}, ${t(R.string.comment)}, ${t(R.string.date)})",
+                "${t(R.string.contrib_feature_portfolio_tracking)} : ${t(R.string.menu_search)} (${t(
+                    R.string.trade_target_asset
+                )}, ${t(R.string.amount)}, ${t(R.string.comment)}, ${t(R.string.date)})",
                 t(R.string.whats_new_412)
                 // @formatter:on
             )
 
             "413" -> {
-                val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
+                val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     ListFormatter.getInstance(
                         Locale.getDefault(),
                         ListFormatter.Type.OR,
                         ListFormatter.Width.WIDE
-                    ) else ListFormatter.getInstance()
+                    )
+                } else {
+                    ListFormatter.getInstance()
+                }
                 arrayOf(
-                    "${t(R.string.contrib_feature_portfolio_tracking)} : ${t(R.string.trade_additional_costs)}",
+                    "${
+                        t(
+                            R.string.contrib_feature_portfolio_tracking
+                        )
+                    } : ${t(R.string.trade_additional_costs)}",
                     t(R.string.pref_tag_style_title) + " : " + formatter.format(
-                        listOf(R.string.pref_tag_style_outline, R.string.pref_tag_style_filled).map { t(it) }
+                        listOf(
+                            R.string.pref_tag_style_outline,
+                            R.string.pref_tag_style_filled
+                        ).map { t(it) }
                     )
                 )
             }
@@ -210,7 +188,7 @@ class VersionInfo(val code: Int, val name: String, val tickets: String? = null) 
                     "whats_new_$nameCondensed",
                     "array",
                     ctx.packageName
-                ) //new based on name
+                ) // new based on name
                 if (resId == 0) {
                     CrashHandler.report(Exception("missing change log entry for version $code"))
                     null
@@ -225,9 +203,11 @@ class VersionInfo(val code: Int, val name: String, val tickets: String? = null) 
             if (resId != 0) {
                 val contributorArray = res.getStringArray(resId)
                 return changesArray.mapIndexed { index, s ->
-                    s + (contributorArray[index].takeIf { it.isNotEmpty() }?.let {
-                        " (${ctx.getString(R.string.contributed_by, it)})"
-                    } ?: "")
+                    s + (
+                        contributorArray[index].takeIf { it.isNotEmpty() }?.let {
+                            " (${ctx.getString(R.string.contributed_by, it)})"
+                        } ?: ""
+                        )
                 }.toTypedArray()
             }
         }
@@ -235,13 +215,14 @@ class VersionInfo(val code: Int, val name: String, val tickets: String? = null) 
     }
 
     @SuppressLint("DiscouragedApi")
-    private fun resolveMoreInfo(ctx: Context, resPrefix: String): Int? {
-        return ctx.resources.getIdentifier(
-            resPrefix + nameCondensed,
-            "string",
-            ctx.packageName
-        ).takeIf { it != 0 }
-    }
+    private fun resolveMoreInfo(
+        ctx: Context,
+        resPrefix: String
+    ): Int? = ctx.resources.getIdentifier(
+        resPrefix + nameCondensed,
+        "string",
+        ctx.packageName
+    ).takeIf { it != 0 }
 
     fun githubLink(context: Context) =
         resolveMoreInfo(context, "project_board_")?.let { context.getString(it) }
@@ -249,12 +230,23 @@ class VersionInfo(val code: Int, val name: String, val tickets: String? = null) 
     fun mastodonLink(context: Context) =
         resolveMoreInfo(context, "version_more_info_")?.let { context.getString(it) }
 
-    fun githubUrl(context: Context) = if (tickets != null) null else githubLink(context)?.let {
-        (if (code < 740) "https://github.com/mtotschnig/MyExpenses/projects/" else "https://github.com/users/mtotschnig/projects/") + it
+    fun githubUrl(context: Context) = if (tickets != null) {
+        null
+    } else {
+        githubLink(context)?.let {
+            (
+                if (code <
+                    740
+                ) {
+                    "https://github.com/mtotschnig/MyExpenses/projects/"
+                } else {
+                    "https://github.com/users/mtotschnig/projects/"
+                }
+                ) + it
+        }
     }
 
     fun mastodonUrl(context: Context) = mastodonLink(context)?.let {
         "https://mastodon.social/@myexpenses/$it"
     }
-
 }

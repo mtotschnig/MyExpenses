@@ -1,19 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="whats_new_361_1">Daftar transaksi dapat diurutkan berdasarkan jumlah.</string>
-    <string name="whats_new_361_2">Berkas di folder aplikasi (cadangan dan ekspor) dapat dibagikan atau dihapus.</string>
-    <string name="whats_new_364_1">Impor ke beberapa akun dari satu berkas CSV</string>
-    <string name="whats_new_364_2">Strategi baru untuk mengelola informasi pembayar/penerima pembayaran yang duplikat</string>
-    <string name="whats_new_365">Lampirkan sejumlah gambar dan dokumen (PDF) tanpa batas.</string>
-    <string name="whats_new_366">Widget Layar Utama yang menampilkan kondisi anggaran saat ini.</string>
-    <string name="whats_new_367">Kategori kini dapat dikonfigurasi sebagai kategori pengeluaran atau pemasukan, yang akan memengaruhi cara jumlah pengeluaran dan pemasukan dihitung.</string>
-    <string name="whats_new_369_1">Transfer dapat dipetakan ke kategori.</string>
-    <string name="whats_new_369_2">Saat kunci layar diaktifkan, izinkan opsi untuk tidak menonaktifkan tangkapan layar.</string>
-    <string name="whats_new_370">Menu di layar utama dapat sepenuhnya disesuaikan.</string>
-    <string name="whats_new_374">Warna kustom untuk tag</string>
-    <string name="whats_new_376_1">Kloning beberapa transaksi dengan tanggal baru.</string>
-    <string name="whats_new_376_2">Antarmuka pengguna web dapat dikendalikan dari layar utama.</string>
-    <string name="whats_new_378">Bagan mengikuti filter pencarian.</string>
     <string name="whats_new_382">Fitur %1$s dapat dipanggil dari widget %2$s.</string>
     <string name="whats_new_384">Penyederhanaan pengaturan cadangan cloud</string>
     <string name="whats_new_386">Distribusi per pengeluaran dan distribusi per pemasukan dapat ditampilkan bersama dalam bagan donat cincin ganda.</string>

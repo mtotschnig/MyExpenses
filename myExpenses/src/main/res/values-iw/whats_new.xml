@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="whats_new_361_1">אפשר לסדר את רשימת העסקאות לפי סכום.</string>
-    <string name="whats_new_361_2">אפשר לשתף או למחוק את הקבצים בתיקיית היישום (גיבויים וייצוא).</string>
-    <string name="whats_new_364_1">ייבוא למגוון חשבונות מקובץ CSV יחיד</string>
-    <string name="whats_new_364_2">אסטרטגיה חדשה לניהול פרטי משלם/מוטב כפולים</string>
-    <string name="whats_new_365">צירוף מספר שרירותי של תמונות ומסמכים (PDF)</string>
-    <string name="whats_new_366">וידג׳ט מסך בית המציג את מצב התקציב הנוכחי.</string>
-    <string name="whats_new_367">אפשר להגדיר קטגוריות כהוצאה או הכנסה, מה שישפיע על איך מחושבים הסכומים של ההוצאות וההכנסות.</string>
-    <string name="whats_new_369_1">אפשר למפות העברות לקטגוריות.</string>
-    <string name="whats_new_370">התפריט במסך הרשת נתון לשינויים נרחבים.</string>
-    <string name="whats_new_369_2">כאשר נעילת מסך פעילה, לאפשר לסגת מהשבתת צילומי מסך.</string>
-    <string name="whats_new_374">צבעי תגיות מותאמים אישית</string>
-    <string name="whats_new_384">הגדרה פשוטה יותר של גיבוי בענן</string>
-    <string name="whats_new_376_1">שכפול מגוון עסקאות עם תאריך חדש.</string>
-    <string name="whats_new_376_2">אפשר לשלוט במנשר המשתמש דרך המסך הראשי.</string>
-    <string name="whats_new_378">תרשימים מכבדים את מסנן החיפוש.</string>
     <string name="whats_new_382">אפשר לקרוא ליכולת %1$s מהווידג׳ט %2$s.</string>
     <string name="whats_new_386">ניתן להציג התפלגות לפי הוצאות והתפלגות לפי הכנסה ביחד בטבלת טבעות כפולות.</string>
     <string name="whats_new_388">ניתן לאחסן עסקאות בארכיון.</string>

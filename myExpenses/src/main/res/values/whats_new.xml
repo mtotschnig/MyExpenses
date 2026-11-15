@@ -1,19 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="whats_new_361_1">Transaction list can be sorted by amount.</string>
-    <string name="whats_new_361_2">Files in application folder (backups and exports) can be shared or deleted.</string>
-    <string name="whats_new_364_1">Import into multiple accounts from one CSV file</string>
-    <string name="whats_new_364_2">New strategy for managing duplicate payer/payee information</string>
-    <string name="whats_new_365">Attach arbitrary number of images and documents (PDF)</string>
-    <string name="whats_new_366">Home Screen Widget displaying current state of budget.</string>
-    <string name="whats_new_367">Categories can now be configured as expense or income categories, which will impact how the expense and income sums are calculated.</string>
-    <string name="whats_new_369_1">Transfers can be mapped to categories.</string>
-    <string name="whats_new_369_2">When screen lock is enabled, allow to opt-out of disabling screenshots.</string>
-    <string name="whats_new_370">Menu on main screen can be fully customized.</string>
-    <string name="whats_new_374">Custom colors for tags</string>
-    <string name="whats_new_376_1">Clone multiple transactions with new date.</string>
-    <string name="whats_new_376_2">Web user interface can be controlled from main screen.</string>
-    <string name="whats_new_378">Charts honour search filter.</string>
     <!-- %1$s will be replaced with quoted label for "Scan receipt" functionality. %2$s will be replaced with quoted label for "My accounts widget-->
     <string name="whats_new_382">%1$s feature can be called from widget %2$s.</string>
     <string name="whats_new_384">Simplified setup of cloud backup</string>

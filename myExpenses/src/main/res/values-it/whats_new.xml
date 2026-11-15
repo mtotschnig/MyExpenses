@@ -1,19 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="whats_new_364_2">Nuova strategia per gestire informazioni duplicate su paganti/beneficiari</string>
-    <string name="whats_new_361_1">La lista delle transazioni può essere ordinata per importo.</string>
-    <string name="whats_new_365">Allega un numero arbitrario di immagini e documenti (PDF)</string>
-    <string name="whats_new_366">Il widget sulla schermata principale mostra lo stato attuale del tuo bilancio.</string>
-    <string name="whats_new_364_1">Importa all\'interno di diversi conti a partire da un file CSV</string>
-    <string name="whats_new_367">Ora le categorie possono essere configurate come categorie di spesa o di reddito, che avranno un impatto su come i totali delle spese e dei redditi vengono calcolati.</string>
-    <string name="whats_new_361_2">I file nella cartella dell\'applicazione (backup ed esportazioni) possono essere condivisi o eliminati.</string>
-    <string name="whats_new_369_1">I trasferimenti possono essere assegnati a categorie.</string>
-    <string name="whats_new_369_2">Quando il blocco schermo è abilitato, consenti la disabilitazione del blocco screenshot.</string>
-    <string name="whats_new_370">Il menù sulla schermata principale può essere completamente personalizzato.</string>
-    <string name="whats_new_374">Colori personalizzati per i tag</string>
-    <string name="whats_new_376_2">L\'interfaccia utente Web può essere controllata dalla schermata principale.</string>
-    <string name="whats_new_376_1">Clona più transazioni con una nuova data.</string>
-    <string name="whats_new_378">I grafici rispettano il filtro di ricerca.</string>
     <string name="whats_new_382">La funzione %1$s può essere richiamata dal widget %2$s.</string>
     <string name="whats_new_384">Configurazione semplificata del backup su cloud</string>
     <string name="whats_new_386">La distribuzione per spese e la distribuzione per reddito possono essere mostrate insieme nel grafico a ciambella a doppio anello.</string>
