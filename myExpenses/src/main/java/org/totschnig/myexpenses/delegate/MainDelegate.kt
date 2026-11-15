@@ -110,8 +110,6 @@ abstract class MainDelegate(
         if (originalAmountVisible) {
             configureOriginalAmountVisibility()
         }
-
-        viewBinding.DebtSummaryPopup.expandTouchTarget()
     }
 
     private fun configureOriginalAmountVisibility() {
@@ -326,6 +324,9 @@ abstract class MainDelegate(
             true
         } else {
             false
+        }
+        if (viewBinding.DebtSummaryPopup.isVisible) {
+            viewBinding.DebtSummaryPopup.expandTouchTarget()
         }
     }
 

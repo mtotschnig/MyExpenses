@@ -159,7 +159,6 @@ dependencies {
     api(libs.androidx.datastore.preferences)
     implementation libs.androidx.compose.adaptive.navigation
     implementation libs.androidx.compose.material3.adaptive.navigation.suite
-    implementation libs.androidx.espresso.accessibility
     coreLibraryDesugaring libs.android.desugar
     implementation project(':transactionscontract')
     api libs.phrase
@@ -293,6 +292,7 @@ dependencies {
     androidTestImplementation platform(libs.androidx.compose.bom)
     androidTestImplementation libs.screengrab
     androidTestImplementation libs.androidx.espresso.core
+    androidTestImplementation libs.androidx.espresso.accessibility
     debugImplementation libs.androidx.espresso.idling.resource
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.androidx.runner

@@ -50,6 +50,56 @@ class ExpenseEditDateTimeInputTest(
                 withValueDatePreference = true,
                 expectedTimeVisible = true,
                 expectedValueDateVisible = false
+            ),
+            TestConfig(
+                AccountType.CASH,
+                withTimePreference = true,
+                withValueDatePreference = false,
+                expectedTimeVisible = true,
+                expectedValueDateVisible = false
+            ),
+            TestConfig(
+                AccountType.CASH,
+                withTimePreference = false,
+                withValueDatePreference = true,
+                expectedTimeVisible = false,
+                expectedValueDateVisible = false
+            ),
+            TestConfig(
+                AccountType.CASH,
+                withTimePreference = false,
+                withValueDatePreference = false,
+                expectedTimeVisible = false,
+                expectedValueDateVisible = false
+            ),
+
+            TestConfig(
+                AccountType.BANK,
+                withTimePreference = true,
+                withValueDatePreference = true,
+                expectedTimeVisible = false,
+                expectedValueDateVisible = true
+            ),
+            TestConfig(
+                AccountType.BANK,
+                withTimePreference = true,
+                withValueDatePreference = false,
+                expectedTimeVisible = true,
+                expectedValueDateVisible = false
+            ),
+            TestConfig(
+                AccountType.BANK,
+                withTimePreference = false,
+                withValueDatePreference = true,
+                expectedTimeVisible = false,
+                expectedValueDateVisible = true
+            ),
+            TestConfig(
+                AccountType.BANK,
+                withTimePreference = false,
+                withValueDatePreference = false,
+                expectedTimeVisible = false,
+                expectedValueDateVisible = false
             )
         )
     }

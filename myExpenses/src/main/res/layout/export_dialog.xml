@@ -189,12 +189,10 @@
                     <ImageView
                         android:id="@+id/DateFormatHelp"
                         style="?actionButtonStyle"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:contentDescription="@string/menu_help"
-                        android:padding="12dp"
-                        android:scaleType="centerInside"
                         android:tooltipText="@string/menu_help"
                         app:srcCompat="@drawable/ic_menu_help" />
                 </LinearLayout>
@@ -225,11 +223,10 @@
                     <ImageView
                         android:id="@+id/TimeFormatHelp"
                         style="?actionButtonStyle"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:contentDescription="@string/menu_help"
-                        android:scaleType="centerCrop"
                         android:tooltipText="@string/menu_help"
                         app:srcCompat="@drawable/ic_menu_help" />
                 </LinearLayout>
