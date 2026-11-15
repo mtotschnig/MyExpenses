@@ -1,19 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="whats_new_364_2">Nova estratégia para gerenciamento de informações duplicadas de pagador/beneficiário</string>
-    <string name="whats_new_361_1">A lista de transações pode ser ordenada por valor.</string>
-    <string name="whats_new_365">Anexar um número arbitrário de imagens e documentos (PDF)</string>
-    <string name="whats_new_364_1">Importar em várias contas a partir de um arquivo CSV</string>
-    <string name="whats_new_361_2">Os arquivos na pasta do aplicativo (backups e exportações) podem ser compartilhados ou excluídos.</string>
-    <string name="whats_new_369_1">As transferências podem ser mapeadas para categorias.</string>
-    <string name="whats_new_370">O menu na tela principal pode ser totalmente personalizado.</string>
-    <string name="whats_new_366">Widget da tela inicial exibindo o estado atual do orçamento.</string>
-    <string name="whats_new_369_2">Quando o bloqueio de tela estiver ativado, permita cancelar a desativação de capturas de tela.</string>
-    <string name="whats_new_367">As categorias agora podem ser configuradas como categorias de despesa ou receita, o que afetará a forma como as somas de despesas e receitas são calculadas.</string>
-    <string name="whats_new_374">Cores personalizadas para etiquetas</string>
-    <string name="whats_new_376_2">A interface web do usuário pode ser controlada na tela principal.</string>
-    <string name="whats_new_376_1">Clone várias transações com nova data.</string>
-    <string name="whats_new_378">Os gráficos respeitam o filtro de pesquisa.</string>
     <string name="whats_new_382">O recurso %1$s pode ser chamado a partir do widget %2$s.</string>
     <string name="whats_new_384">Configuração simplificada do backup em nuvem</string>
     <string name="whats_new_386">A distribuição por despesas e a distribuição por receita podem ser mostradas juntas em um gráfico de rosca dupla.</string>

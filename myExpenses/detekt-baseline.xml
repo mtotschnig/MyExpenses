@@ -1113,12 +1113,8 @@
     <ID>MaxLineLength:UpgradeHandlerViewModel.kt:UpgradeHandlerViewModel$migrateFilterHelper(cursor,MyExpensesViewModel::prefNameForCriteriaLegacy, MyExpensesViewModel::prefNameForCriteria)</ID>
     <ID>MaxLineLength:VersionDialogFragment.kt:VersionDialogFragment$colors = CardDefaults.cardColors(containerColor = colorResource(id = R.color.cardBackground))</ID>
     <ID>MaxLineLength:VersionDialogFragment.kt:VersionDialogFragment$showMoreInfo("https://github.com/mtotschnig/MyExpenses/issues/$ticketNumber")</ID>
-    <ID>MaxLineLength:VersionInfo.kt:VersionInfo$"${t(R.string.contrib_feature_portfolio_tracking)} : ${t(R.string.menu_search)} (${t(R.string.trade_target_asset)}, ${t(R.string.amount)}, ${t(R.string.comment)}, ${t(R.string.date)})"</ID>
-    <ID>MaxLineLength:VersionInfo.kt:VersionInfo$"${t(R.string.menu_print)} : ${t(R.string.balance_sheet)}, ${t(R.string.title_activity_debt_overview)}."</ID>
     <ID>MaxLineLength:VersionInfo.kt:VersionInfo$"${t(R.string.menu_print)}: ${t(R.string.configuration)} (${t(R.string.paper_format)}, ${t(R.string.header_footer)})"</ID>
     <ID>MaxLineLength:VersionInfo.kt:VersionInfo$"${t(R.string.menu_print)}: ${t(R.string.configuration)} (${t(R.string.paper_format)}, ${t(R.string.orientation)}, ${t(R.string.title_font_size)})"</ID>
-    <ID>MaxLineLength:VersionInfo.kt:VersionInfo$"${t(R.string.price_history)} : ${t(R.string.pref_category_title_import)} / ${t(R.string.pref_category_title_export)}."</ID>
-    <ID>MaxLineLength:VersionInfo.kt:VersionInfo$(if (code &lt; 740) "https://github.com/mtotschnig/MyExpenses/projects/" else "https://github.com/users/mtotschnig/projects/") + it</ID>
     <ID>MaxLineLength:ViewModelModule.kt:ViewModelModule$open</ID>
     <ID>NestedBlockDepth:AbstractExporter.kt:AbstractExporter$@Throws(IOException::class) open fun export: Result&lt;DocumentFile&gt;</ID>
     <ID>NestedBlockDepth:BaseTransactionProvider.kt:BaseTransactionProvider$fun SupportSQLiteDatabase.updateCurrency: Bundle</ID>
@@ -1645,7 +1641,6 @@
     <ID>NewLineAtEndOfFile:UpgradeHandlerViewModel.kt:org.totschnig.myexpenses.viewmodel.UpgradeHandlerViewModel.kt</ID>
     <ID>NewLineAtEndOfFile:UriExt.kt:org.totschnig.myexpenses.provider.UriExt.kt</ID>
     <ID>NewLineAtEndOfFile:VersionDialogFragment.kt:org.totschnig.myexpenses.dialog.VersionDialogFragment.kt</ID>
-    <ID>NewLineAtEndOfFile:VersionInfo.kt:org.totschnig.myexpenses.viewmodel.data.VersionInfo.kt</ID>
     <ID>NewLineAtEndOfFile:VersionInfoTest.kt:org.totschnig.myexpenses.util.VersionInfoTest.kt</ID>
     <ID>NewLineAtEndOfFile:ViewBinding.ext.kt:org.totschnig.myexpenses.ui.ViewBinding.ext.kt</ID>
     <ID>NewLineAtEndOfFile:ViewIntentProvider.kt:org.totschnig.myexpenses.activity.ViewIntentProvider.kt</ID>

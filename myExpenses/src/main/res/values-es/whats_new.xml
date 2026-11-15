@@ -1,19 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="whats_new_361_1">La lista de transacciones puede ordenarse por importe.</string>
-    <string name="whats_new_361_2">Los archivos de la carpeta de la aplicación (copias de seguridad y exportaciones) se pueden compartir o eliminar.</string>
-    <string name="whats_new_364_2">Nueva estrategia de gestión de la información duplicada sobre pagadores / beneficiarios</string>
-    <string name="whats_new_364_1">Importar a varias cuentas desde un archivo CSV</string>
-    <string name="whats_new_365">Adjuntar un número arbitrario de las imágenes y los documentos (PDF)</string>
-    <string name="whats_new_366">Widget en la pantalla de inicio que muestra el estado actual del presupuesto.</string>
-    <string name="whats_new_367">Las categorías pueden configurarse ahora como categorías de gastos o de ingresos, lo que afectará a la forma en que se calculan las sumas de gastos e ingresos.</string>
-    <string name="whats_new_369_1">Las transferencias pueden asignarse a las categorías.</string>
-    <string name="whats_new_369_2">Cuando el bloqueo de pantalla está activado, permite optar por desactivar las capturas de pantalla.</string>
-    <string name="whats_new_370">El menú de la pantalla principal es totalmente personalizable.</string>
-    <string name="whats_new_374">Colores personalizados para etiquetas</string>
-    <string name="whats_new_376_1">Clonar múltiples transacciones con fecha nueva.</string>
-    <string name="whats_new_376_2">La interfaz del usuario puede controlarse desde la pantalla principal.</string>
-    <string name="whats_new_378">Los gráficos coinciden con el filtro de búsqueda.</string>
     <string name="whats_new_382">La función %1$s puede llamar desde el widget %2$s.</string>
     <string name="whats_new_384">Configuración simplificada de la copia de seguridad en la nube</string>
     <string name="whats_new_386">La distribución por gastos y la distribución por ingresos pueden mostrarse juntas en un gráfico de doble anillo.</string>

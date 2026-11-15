@@ -1,19 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="whats_new_361_1">Muamele listesi miktara göre sıralanabilir.</string>
-    <string name="whats_new_361_2">Uygulama klasöründeki dosyalar (yedeklemeler ve dışa aktarmalar) paylaşılabilir veya silinebilir.</string>
-    <string name="whats_new_364_1">Tek bir CSV dosyasından birden fazla hesaba aktar</string>
-    <string name="whats_new_364_2">Yinelenen ödeyen/alacaklı bilgilerini yönetmek için yeni yöntem</string>
-    <string name="whats_new_365">İstenilen sayıda resim ve belge (PDF) ekle</string>
-    <string name="whats_new_366">Bütçenin güncel durumunu gösteren ana ekran widget\'ı.</string>
-    <string name="whats_new_367">Kategoriler artık gider veya gelir kategorileri olarak yapılandırılabilir, bu da gider ve gelir toplamlarının nasıl hesaplandığını etkileyecektir.</string>
-    <string name="whats_new_369_1">Transferler kategorilerle ilişkilendirilebilir.</string>
-    <string name="whats_new_369_2">Ekran kilidi etkinleştirildiğinde, ekran görüntülerinin devre dışı bırakılmasına izin ver.</string>
-    <string name="whats_new_370">Ana ekrandaki menü tamamen özelleştirilebilir.</string>
-    <string name="whats_new_374">Etiketler için özel renkler</string>
-    <string name="whats_new_376_1">Birden fazla muameleyi yeni tarihle klonla.</string>
-    <string name="whats_new_376_2">Web kullanıcı arayüzü ana ekrandan denetlenebilir.</string>
-    <string name="whats_new_378">Grafikler arama filtresine uyuyor.</string>
     <string name="whats_new_382">%1$s özelliği, %2$s widget\'ından çağrılabilir.</string>
     <string name="whats_new_384">Bulut yedekleme için kurulum basitleştirildi</string>
     <string name="whats_new_386">Gider başına dağıtım ve gelir başına dağıtım çift halkalı simit grafiğinde birlikte gösterilebilir.</string>
