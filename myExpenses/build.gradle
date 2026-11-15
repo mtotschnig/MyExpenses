@@ -159,6 +159,7 @@ dependencies {
     api(libs.androidx.datastore.preferences)
     implementation libs.androidx.compose.adaptive.navigation
     implementation libs.androidx.compose.material3.adaptive.navigation.suite
+    implementation libs.androidx.espresso.accessibility
     coreLibraryDesugaring libs.android.desugar
     implementation project(':transactionscontract')
     api libs.phrase

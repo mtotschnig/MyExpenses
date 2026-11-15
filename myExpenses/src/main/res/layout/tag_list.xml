@@ -10,6 +10,7 @@
         android:id="@+id/tag_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="@dimen/accessibility_clickable_minimum"
         android:hint="@string/new_tag_hint"
         android:imeActionLabel="Add"
         android:imeOptions="actionDone"

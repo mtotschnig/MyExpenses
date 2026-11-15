@@ -6,6 +6,7 @@ import android.content.res.ColorStateList
 import android.content.res.Resources
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.Rect
 import android.net.Uri
 import android.os.Build
 import android.text.format.DateFormat
@@ -13,6 +14,7 @@ import android.text.method.LinkMovementMethod
 import android.util.Size
 import android.util.TypedValue
 import android.view.LayoutInflater
+import android.view.TouchDelegate
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
@@ -31,6 +33,7 @@ import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.AccessibilityDelegateCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
+import androidx.core.view.doOnLayout
 import androidx.core.widget.ImageViewCompat
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -88,6 +91,26 @@ fun <T : Itag> ChipGroup.addChipsBulk(
                 }
             }
         )
+    }
+}
+
+fun View.expandTouchTarget(targetMinDp: Int = 48) {
+    val parentView = parent as? View ?: return
+    parentView.doOnLayout {
+        val rect = Rect()
+        getHitRect(rect)
+        val targetPx = (targetMinDp * resources.displayMetrics.density).toInt()
+        val heightDiff = targetPx - rect.height()
+        if (heightDiff > 0) {
+            rect.top -= heightDiff / 2
+            rect.bottom += heightDiff / 2
+        }
+        val widthDiff = targetPx - rect.width()
+        if (widthDiff > 0) {
+            rect.left -= widthDiff / 2
+            rect.right += widthDiff / 2
+        }
+        parentView.touchDelegate = TouchDelegate(rect, this)
     }
 }
 

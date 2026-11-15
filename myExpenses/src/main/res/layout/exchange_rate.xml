@@ -16,6 +16,7 @@
         android:id="@+id/ExchangeRateText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:minHeight="@dimen/accessibility_clickable_minimum"
         android:layout_weight="3"
         android:paddingHorizontal="8dp" />
 

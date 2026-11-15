@@ -24,8 +24,11 @@ import org.totschnig.myexpenses.util.ui.withOkClick
 class AmountFilterDialog : DialogViewBinding<FilterAmountBinding>() {
 
     val currency: CurrencyUnit by lazy {
-        BundleCompat.getParcelable(requireArguments(), KEY_CURRENCY,
-            CurrencyUnit::class.java)!!
+        BundleCompat.getParcelable(
+            requireArguments(),
+            KEY_CURRENCY,
+            CurrencyUnit::class.java
+        )!!
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -35,13 +38,19 @@ class AmountFilterDialog : DialogViewBinding<FilterAmountBinding>() {
 
         binding.Operator.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
-                parent: AdapterView<*>?, view: View?,
-                position: Int, id: Long
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
             ) {
-                binding.amount1.contentDescription =
+                binding.amount1.hint =
                     resources.getStringArray(R.array.comparison_operator_entries)[position]
                 binding.Amount2Row.isVisible =
-                    (resources.getStringArray(R.array.comparison_operator_values)[position] == "BTW")
+                    (
+                        resources.getStringArray(
+                            R.array.comparison_operator_values
+                        )[position] == "BTW"
+                        )
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -81,7 +90,9 @@ class AmountFilterDialog : DialogViewBinding<FilterAmountBinding>() {
         val type = binding.type.checkedButtonId == R.id.income
         val amount2 = if (selectedOp == "BTW") {
             binding.amount2.getAmount(currency).getOrNull() ?: return
-        } else null
+        } else {
+            null
+        }
         parentFragmentManager.confirmFilter(
             requestKey,
             create(
@@ -102,7 +113,11 @@ class AmountFilterDialog : DialogViewBinding<FilterAmountBinding>() {
 
     companion object {
 
-        fun newInstance(requestKey: String, currency: CurrencyUnit?, amountCriterion: AmountCriterion?) =
+        fun newInstance(
+            requestKey: String,
+            currency: CurrencyUnit?,
+            amountCriterion: AmountCriterion?
+        ) =
             AmountFilterDialog().apply {
                 arguments = configureArguments(requestKey).apply {
                     putParcelable(KEY_CURRENCY, currency)

@@ -36,7 +36,6 @@ import tools.fastlane.screengrab.Screengrab
 import tools.fastlane.screengrab.cleanstatusbar.CleanStatusBar
 import tools.fastlane.screengrab.locale.LocaleTestRule
 
-
 abstract class TestMain(locale: String?) : BaseMyExpensesTest() {
 
     @Rule
@@ -63,10 +62,10 @@ abstract class TestMain(locale: String?) : BaseMyExpensesTest() {
         when (scenario) {
             "1" -> {
                 navigateToAccounts()
-                //Expand Portfolio
+                // Expand Portfolio
                 composeTestRule.onNode(
                     hasText(getString(R.string.Sub_2_1)) and
-                            hasAnyAncestor(hasTestTag(TEST_TAG_ACCOUNTS))
+                        hasAnyAncestor(hasTestTag(TEST_TAG_ACCOUNTS))
                 ).performClick()
                 if (shouldTakeScreenShot) {
                     Thread.sleep(1000)
@@ -92,7 +91,7 @@ abstract class TestMain(locale: String?) : BaseMyExpensesTest() {
                 pressBack()
                 clickContextItem(R.string.details)
                 if (Build.VERSION.SDK_INT == Build.VERSION_CODES.Q) {
-                    //https://github.com/android/android-test/issues/444
+                    // https://github.com/android/android-test/issues/444
                     Thread.sleep(500)
                 }
                 composeTestRule.onNodeWithText(getString(R.string.menu_edit)).performClick()
@@ -121,8 +120,8 @@ abstract class TestMain(locale: String?) : BaseMyExpensesTest() {
                 } else {
                     doWithRotation {
                         onIdle()
-                        //wait for sum to load IdlingResource is too cumbersome to set up, since
-                        //onActivity does not get us hold on BudgetActivity
+                        // wait for sum to load IdlingResource is too cumbersome to set up, since
+                        // onActivity does not get us hold on BudgetActivity
                         Thread.sleep(500)
                         takeScreenshot("5_budget")
                     }
@@ -146,8 +145,8 @@ abstract class TestMain(locale: String?) : BaseMyExpensesTest() {
             }
 
             "2" -> {
-                //tablet screenshots
-                //Expand Portfolio
+                // tablet screenshots
+                // Expand Portfolio
                 composeTestRule.onNodeWithText(getString(R.string.Sub_2_1)).performClick()
                 if (shouldTakeScreenShot) {
                     Thread.sleep(1000)
@@ -174,14 +173,16 @@ abstract class TestMain(locale: String?) : BaseMyExpensesTest() {
                 listNode.onChildren()
                     .filter(
                         hasText(
-                            testContext.getString(org.totschnig.myexpenses.test.R.string.testData_transaction1SubCat),
+                            testContext.getString(
+                                org.totschnig.myexpenses.test.R.string.testData_transaction1SubCat
+                            ),
                             substring = true
                         )
                     )
                     .onFirst()
                     .performClick()
                 composeTestRule.onNodeWithText(getString(R.string.menu_edit)).performClick()
-                pressBack() //close keyboard
+                pressBack() // close keyboard
                 onView(withPositionInParent(R.id.AttachmentGroup, 0))
                     .perform(click())
                 takeScreenshot("2_edit")
@@ -210,7 +211,6 @@ abstract class TestMain(locale: String?) : BaseMyExpensesTest() {
 
     companion object {
 
-        // Replace CleanStatusBar.enableWithDefaults() in TestMain.kt with:
         private fun enableCleanStatusBar() {
             val uiAutomation = InstrumentationRegistry.getInstrumentation().uiAutomation
             val commands = listOf(

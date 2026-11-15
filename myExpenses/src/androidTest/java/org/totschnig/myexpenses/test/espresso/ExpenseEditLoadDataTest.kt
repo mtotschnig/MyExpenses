@@ -20,6 +20,9 @@ import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.GrantPermissionRule
 import com.adevinta.android.barista.assertion.BaristaProgressBarAssertions.assertProgress
 import com.google.common.truth.Truth.assertThat
+import java.text.DecimalFormat
+import java.time.LocalDate
+import java.util.Currency
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.After
 import org.junit.Before
@@ -63,9 +66,6 @@ import org.totschnig.myexpenses.testutils.withIdAndAncestor
 import org.totschnig.myexpenses.testutils.withIdAndParent
 import org.totschnig.myexpenses.ui.AmountInput
 import org.totschnig.myexpenses.viewmodel.data.Currency.Companion.create
-import java.text.DecimalFormat
-import java.time.LocalDate
-import java.util.Currency
 
 @TestShard2
 class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
@@ -93,7 +93,9 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         )
 
         transfer = repository.insertTransfer(
-            amount = -600L, accountId = account1.id, transferAccountId = account2.id
+            amount = -600L,
+            accountId = account1.id,
+            transferAccountId = account2.id
         )
     }
 
@@ -108,9 +110,11 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     private fun buildForeignAccount(): Account =
         buildAccount("Test account 2", currency = foreignCurrency.code, dynamicExchangeRates = true)
 
-    private fun load(id: Long) = launchAndWait(intent.apply {
-        putExtra(KEY_ROWID, id)
-    })
+    private fun load(id: Long) = launchAndWait(
+        intent.apply {
+            putExtra(KEY_ROWID, id)
+        }
+    )
 
     @Test
     fun shouldPopulateWithTransactionAndPrepareForm() {
@@ -118,8 +122,12 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             checkEffectiveGone(R.id.OperationType)
             checkToolbarTitle(R.string.menu_edit_transaction)
             checkEffectiveVisible(
-                R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
-                R.id.PayeeRow, R.id.AccountRow
+                R.id.DateTimeRow,
+                R.id.AmountRow,
+                R.id.CommentRow,
+                R.id.CategoryRow,
+                R.id.PayeeRow,
+                R.id.AccountRow
             )
             checkAmount(5)
         }
@@ -150,7 +158,9 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     fun shouldPopulateWithEquivalentAmount() {
         val foreignAccount = buildForeignAccount()
         val transaction = repository.insertTransaction(
-            accountId = foreignAccount.id, amount = 500L, equivalentAmount = 1000
+            accountId = foreignAccount.id,
+            amount = 500L,
+            equivalentAmount = 1000
         )
 
         load(transaction.id).use {
@@ -184,7 +194,10 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     fun shouldPopulateWithForeignExchangeTransfer() {
         val foreignAccount = buildForeignAccount()
         val foreignTransfer = repository.insertTransfer(
-            account1.id, foreignAccount.id, 100L, 200L
+            account1.id,
+            foreignAccount.id,
+            100L,
+            200L
         )
         load(foreignTransfer.data.id).use {
             checkAmount(1)
@@ -208,9 +221,9 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
         }
     }
 
-    private fun formatAmount(amount: Float): String {
-        return DecimalFormat("0.##").format(amount.toDouble())
-    }
+    private fun formatAmount(amount: Float): String = DecimalFormat(
+        "0.##"
+    ).format(amount.toDouble())
 
     private fun launchAndWait(i: Intent) =
         ActivityScenario.launchActivityForResult<TestExpenseEdit>(i).also {
@@ -232,12 +245,14 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             checkEffectiveGone(R.id.OperationType)
             checkToolbarTitle(R.string.menu_edit_transfer)
             checkEffectiveVisible(
-                R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow,
+                R.id.DateTimeRow,
+                R.id.AmountRow,
+                R.id.CommentRow,
+                R.id.AccountRow,
                 R.id.TransferAccountRow
             )
             checkAmount(6)
             checkTransferDirection(loadFromPeer)
-
         }
     }
 
@@ -277,15 +292,20 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     }
 
     private fun testTransferClone(loadFromPeer: Boolean) {
-        launchAndWait(intent.apply {
-            putExtra(
-                KEY_ROWID,
-                (if (loadFromPeer) transfer.transferPeer!! else transfer.data).id
-            )
-            putExtra(ExpenseEdit.KEY_CLONE, true)
-        }).use {
+        launchAndWait(
+            intent.apply {
+                putExtra(
+                    KEY_ROWID,
+                    (if (loadFromPeer) transfer.transferPeer!! else transfer.data).id
+                )
+                putExtra(ExpenseEdit.KEY_CLONE, true)
+            }
+        ).use {
             checkEffectiveVisible(
-                R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.AccountRow,
+                R.id.DateTimeRow,
+                R.id.AmountRow,
+                R.id.CommentRow,
+                R.id.AccountRow,
                 R.id.TransferAccountRow
             )
             checkToolbarTitle(R.string.menu_create_transfer)
@@ -332,49 +352,56 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 accountId = account1.id,
                 categoryId = SPLIT_CATID,
                 uuid = generateUuid()
-            ), emptyList<Transaction>()
+            ),
+            emptyList<Transaction>()
         )
         load(splitTransaction.id).use {
             checkEffectiveGone(R.id.OperationType)
             checkToolbarTitle(R.string.menu_edit_split)
             checkEffectiveVisible(
-                R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.SplitRow,
-                R.id.PayeeRow, R.id.AccountRow
+                R.id.DateTimeRow,
+                R.id.AmountRow,
+                R.id.CommentRow,
+                R.id.SplitRow,
+                R.id.PayeeRow,
+                R.id.AccountRow
             )
-
         }
     }
 
     @Test
     fun shouldPopulateWithSplitTemplateAndLoadParts() {
-        launchAndWait(intent.apply {
-            putExtra(KEY_TEMPLATEID, buildSplitTemplate())
-        }).use {
+        launchAndWait(
+            intent.apply {
+                putExtra(KEY_TEMPLATEID, buildSplitTemplate())
+            }
+        ).use {
             it.onActivity { activity: ExpenseEdit ->
                 assertThat(activity.isTemplate).isTrue()
             }
             checkToolbarTitleForTemplate(true, Transactions.TYPE_SPLIT)
             checkEffectiveVisible(R.id.SplitRow)
             checkEffectiveGone(R.id.OperationType)
-            onView(withId(R.id.list))
+            onView(withId(R.id.split_part_list))
                 .check(matches(ViewMatchers.hasChildCount(1)))
         }
     }
 
     @Test
     fun shouldPopulateFromSplitTemplateAndLoadParts() {
-        launchAndWait(intent.apply {
-            action = ExpenseEdit.ACTION_CREATE_FROM_TEMPLATE
-            putExtra(KEY_TEMPLATEID, buildSplitTemplate())
-        }).use {
+        launchAndWait(
+            intent.apply {
+                action = ExpenseEdit.ACTION_CREATE_FROM_TEMPLATE
+                putExtra(KEY_TEMPLATEID, buildSplitTemplate())
+            }
+        ).use {
             it.onActivity { activity: ExpenseEdit ->
                 assertThat(activity.isTemplate).isFalse()
             }
             checkToolbarTitle(R.string.menu_create_split)
             checkEffectiveVisible(R.id.SplitRow)
-            onView(withId(R.id.list))
+            onView(withId(R.id.split_part_list))
                 .check(matches(ViewMatchers.hasChildCount(1)))
-
         }
     }
 
@@ -386,7 +413,8 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
                 categoryId = SPLIT_CATID,
                 title = "Split",
                 uuid = generateUuid()
-            ), listOf(
+            ),
+            listOf(
                 Template(
                     amount = 0L,
                     accountId = account1.id,
@@ -418,12 +446,19 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             template.copy(planId = eventId)
         )
 
-        launchAndWait(intent.apply {
-            putExtra(KEY_TEMPLATEID, plan.id)
-        }).use {
+        launchAndWait(
+            intent.apply {
+                putExtra(KEY_TEMPLATEID, plan.id)
+            }
+        ).use {
             checkEffectiveVisible(
-                R.id.TitleRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
-                R.id.PayeeRow, R.id.AccountRow, R.id.PB
+                R.id.TitleRow,
+                R.id.AmountRow,
+                R.id.CommentRow,
+                R.id.CategoryRow,
+                R.id.PayeeRow,
+                R.id.AccountRow,
+                R.id.PB
             )
             checkEffectiveGone(R.id.Recurrence)
             testScenario.onActivity { activity: ExpenseEdit ->
@@ -435,7 +470,6 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             assertProgress(R.id.advanceExecutionSeek, 7)
             onView(withId(R.id.Title))
                 .check(matches(withText("Daily plan")))
-
         }
         repository.deletePlan(eventId)
     }
@@ -444,16 +478,22 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
     fun shouldInstantiateFromTemplateAndPrepareForm() {
         val template = repository.insertTemplate(
             accountId = account1.id,
-            title =  "Nothing but a plan",
-            amount = 800,
+            title = "Nothing but a plan",
+            amount = 800
         )
-        launchAndWait(intent.apply {
-            action = ExpenseEdit.ACTION_CREATE_FROM_TEMPLATE
-            putExtra(KEY_TEMPLATEID, template.id)
-        }).use {
+        launchAndWait(
+            intent.apply {
+                action = ExpenseEdit.ACTION_CREATE_FROM_TEMPLATE
+                putExtra(KEY_TEMPLATEID, template.id)
+            }
+        ).use {
             checkEffectiveVisible(
-                R.id.DateTimeRow, R.id.AmountRow, R.id.CommentRow, R.id.CategoryRow,
-                R.id.PayeeRow, R.id.AccountRow
+                R.id.DateTimeRow,
+                R.id.AmountRow,
+                R.id.CommentRow,
+                R.id.CategoryRow,
+                R.id.PayeeRow,
+                R.id.AccountRow
             )
             checkEffectiveGone(R.id.PB, R.id.TitleRow)
             testScenario.onActivity { activity: ExpenseEdit ->
@@ -465,14 +505,16 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
 
     @Test
     fun shouldPopulateFromIntent() {
-        launchAndWait(intent.apply {
-            action = Intent.ACTION_INSERT
-            putExtra(Transactions.ACCOUNT_LABEL, account1.label)
-            putExtra(Transactions.AMOUNT_MICROS, 1230000L)
-            putExtra(Transactions.PAYEE_NAME, "John Doe")
-            putExtra(Transactions.CATEGORY_LABEL, "A")
-            putExtra(Transactions.COMMENT, "A note")
-        }).use {
+        launchAndWait(
+            intent.apply {
+                action = Intent.ACTION_INSERT
+                putExtra(Transactions.ACCOUNT_LABEL, account1.label)
+                putExtra(Transactions.AMOUNT_MICROS, 1230000L)
+                putExtra(Transactions.PAYEE_NAME, "John Doe")
+                putExtra(Transactions.CATEGORY_LABEL, "A")
+                putExtra(Transactions.COMMENT, "A note")
+            }
+        ).use {
             checkAccount(account1.label)
             onView(
                 withIdAndParent(
@@ -500,7 +542,10 @@ class ExpenseEditLoadDataTest : BaseExpenseEditTest() {
             ContentUris.withAppendedId(
                 TransactionProvider.ACCOUNTS_URI,
                 sealedAccount.id
-            ), values, null, null
+            ),
+            values,
+            null,
+            null
         )
         load(sealed.id).use {
             assertCanceled()

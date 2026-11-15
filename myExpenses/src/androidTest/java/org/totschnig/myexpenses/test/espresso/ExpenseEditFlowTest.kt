@@ -17,6 +17,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.rule.GrantPermissionRule
 import com.google.common.truth.Truth.assertThat
+import java.time.LocalDate
 import org.hamcrest.CoreMatchers.allOf
 import org.junit.After
 import org.junit.Before
@@ -49,7 +50,6 @@ import org.totschnig.myexpenses.testutils.TestShard2
 import org.totschnig.myexpenses.testutils.cleanup
 import org.totschnig.myexpenses.testutils.uriStartsWith
 import org.totschnig.myexpenses.testutils.withIdAndParent
-import java.time.LocalDate
 
 @TestShard2
 class ExpenseEditFlowTest : BaseExpenseEditTest() {
@@ -129,9 +129,11 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
     @Test
     fun categorySelectionMaintainsAccount() {
         val account2 = buildAccount(ACCOUNT_LABEL_2)
-        launchForResult(intent.apply {
-            putExtra(KEY_ACCOUNTID, account2.id)
-        })
+        launchForResult(
+            intent.apply {
+                putExtra(KEY_ACCOUNTID, account2.id)
+            }
+        )
         checkAccount(ACCOUNT_LABEL_2)
         closeSoftKeyboard()
         onView(withId(R.id.Category)).perform(click())
@@ -151,7 +153,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         checkAmount(5)
     }
 
-    //Bug https://github.com/mtotschnig/MyExpenses/issues/1408
+    // Bug https://github.com/mtotschnig/MyExpenses/issues/1408
     @Test
     fun saveAsTemplateCreatesTemplateWithTags() {
         launchForResult()
@@ -247,17 +249,19 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         clickFab()
     }
 
-    //Bug https://github.com/mtotschnig/MyExpenses/issues/1426
+    // Bug https://github.com/mtotschnig/MyExpenses/issues/1426
     @Test
     fun instantiateTemplateForEditDoesNotAffectTemplate() {
-        launchForResult(getIntentForNewTransaction().apply {
-            action = ACTION_CREATE_FROM_TEMPLATE
-            putExtra(KEY_TEMPLATEID, templateId)
-        })
+        launchForResult(
+            getIntentForNewTransaction().apply {
+                action = ACTION_CREATE_FROM_TEMPLATE
+                putExtra(KEY_TEMPLATEID, templateId)
+            }
+        )
         setAmount(5)
         linkWithTag()
         clickFab()
-        //asserts that template is still without tags
+        // asserts that template is still without tags
         val template = assertTemplate(account1, 500, templateTitle = "Template")
         cleanup {
             repository.deleteAllTags()
@@ -265,7 +269,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         }
     }
 
-    //https://github.com/mtotschnig/MyExpenses/issues/1793
+    // https://github.com/mtotschnig/MyExpenses/issues/1793
     @Test
     fun calculatePriceCorrectlyWhenFractionDigitsAreDifferent() {
         val account2 = buildAccount(
@@ -278,7 +282,8 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         setAmount(1, R.id.EquivalentAmount)
         clickFab()
         val price = repository.loadPrice(
-            homeCurrency, currencyContext["PYG"],
+            homeCurrency,
+            currencyContext["PYG"],
             LocalDate.now(),
             ExchangeRateSource.User
         )
@@ -288,7 +293,7 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         }
     }
 
-    //https://github.com/mtotschnig/MyExpenses/issues/1793
+    // https://github.com/mtotschnig/MyExpenses/issues/1793
     @Test
     fun doNotStorePriceWhenTransactionIsEditedButAmountIsUntouched() {
         val foreignCurrency = if (homeCurrency.code == "DKK") "GBP" else "DKK"
@@ -311,7 +316,8 @@ class ExpenseEditFlowTest : BaseExpenseEditTest() {
         closeSoftKeyboard()
         clickFab()
         val price = repository.loadPrice(
-            homeCurrency, currencyContext[foreignCurrency],
+            homeCurrency,
+            currencyContext[foreignCurrency],
             LocalDate.now(),
             ExchangeRateSource.User
         )

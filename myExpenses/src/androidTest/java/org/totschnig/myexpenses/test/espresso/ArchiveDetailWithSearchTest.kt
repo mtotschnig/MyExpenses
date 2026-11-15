@@ -12,6 +12,10 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.matcher.RootMatchers.isDialog
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
+import kotlin.math.absoluteValue
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -26,10 +30,6 @@ import org.totschnig.myexpenses.model2.Account
 import org.totschnig.myexpenses.testutils.BaseMyExpensesTest
 import org.totschnig.myexpenses.testutils.TestShard1
 import org.totschnig.myexpenses.testutils.cleanup
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.LocalTime
-import kotlin.math.absoluteValue
 
 @TestShard1
 class ArchiveDetailWithSearchTest : BaseMyExpensesTest() {
@@ -78,7 +78,7 @@ class ArchiveDetailWithSearchTest : BaseMyExpensesTest() {
         clickContextItem(R.string.details)
         composeTestRule.onNode(
             hasAnyAncestor(hasTestTag(TEST_TAG_DIALOG_ROOT)) and
-                    hasTestTag(TEST_TAG_FILTER_CARD)
+                hasTestTag(TEST_TAG_FILTER_CARD)
         ).assertExists()
         with(composeTestRule.onNodeWithTag(TEST_TAG_PART_LIST)) {
             assertTextAtPosition((AMOUNT1.absoluteValue / 100).toString(), 0, anyDescendant = true)

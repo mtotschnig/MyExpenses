@@ -4,7 +4,6 @@
   <CurrentIssues>
     <ID>CyclomaticComplexMethod:WebdavSetup.kt:WebdavSetup$override fun onCreate</ID>
     <ID>EmptyFunctionBlock:WebdavSetup.kt:WebdavSetup.&lt;no name provided&gt;${}</ID>
-    <ID>ForbiddenComment:LockableDavResource.kt:LockableDavResource$// TODO: verify whether 207 can also indicate success in some cases.</ID>
     <ID>LongMethod:WebdavSetup.kt:WebdavSetup$override fun onCreate</ID>
     <ID>MagicNumber:LockableDavResource.kt:LockableDavResource$207</ID>
     <ID>MagicNumber:LockableDavResource.kt:LockableDavResource$404</ID>
