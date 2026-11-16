@@ -906,7 +906,7 @@
     <string name="overage">Excedent</string>
     <string name="credit_limit_available_credit">Crèdit disponible</string>
     <string name="saving_goal_short_fall">Dèficit</string>
-    <string name="content_description_original_amount">Definiu l\'import original d\'aquesta transacció seleccionant una moneda i introduïnt l\'import. També podeu definir un tipus de canvi utilitzat per calcular l\'import real.</string>
+    <string name="content_description_original_amount">Definiu l\'import original d\'aquesta transacció seleccionant una moneda i introduint l\'import. També podeu definir un tipus de canvi utilitzat per calcular l\'import real.</string>
     <string name="content_description_exchange_rate">Tipus de canvi per a 1 %1$s en %2$s</string>
     <string name="content_description_equivalent_amount">Definiu el valor d\'aquesta transacció en la vostra moneda local. En lloc d\'introduir l\'import, també podeu introduir el tipus de canvi per calcular-lo.</string>
     <string name="warning_archived_transfer_cannot_be_edited">No es pot editar la transferència perquè l\'altra part està arxivada.</string>
