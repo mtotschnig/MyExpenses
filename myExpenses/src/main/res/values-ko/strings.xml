@@ -552,7 +552,7 @@
     <string name="dialog_title_edit_budget">예산 편집</string>
     <string name="budget_table_header_budgeted">예산액</string>
     <string name="budget_table_header_allocated">배정</string>
-    <string name="budget_table_header_spent">지진</string>
+    <string name="budget_table_header_spent">지출</string>
     <string name="budget_table_header_overspent">초과 지출</string>
     <string name="budget_allocated_amount">할당된 금액</string>
     <string name="budget_exceeded_error_1_1">예산 중 %s을(를) 제외한 모든 금액이 다른 카테고리에 할당되었습니다.</string>
@@ -905,7 +905,7 @@
     <string name="content_description_browse_device_files">이 기기의 파일 탐색</string>
     <string name="content_description_select_recent_file">최근 파일에서 선택</string>
     <string name="content_description_show_balance_details">상세 정보 표시</string>
-    <string name="menu_templates">템플렛들</string>
+    <string name="menu_templates">템플릿</string>
     <string name="pref_ui_start_screen_title">시작 화면</string>
     <string name="pref_ui_start_screen_last_visited">마지막으로 방문한 화면</string>
     <string name="main_navigation">주 탐색</string>
