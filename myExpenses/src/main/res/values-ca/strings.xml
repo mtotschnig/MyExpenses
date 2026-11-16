@@ -993,7 +993,7 @@
     <string name="content_description_select_recent_file">Selecciona entre els fitxers recents</string>
     <string name="content_description_show_balance_details">Mostra informació detallada</string>
     <string name="pref_ui_start_screen_title">Pantalla d\'inici</string>
-    <string name="pref_ui_start_screen_last_visited">Últim visitat</string>
+    <string name="pref_ui_start_screen_last_visited">Última pantalla visitada</string
     <string name="main_navigation">Navegació principal</string>
     <string name="pref_fab_style_title">Estil del botó d\'acció flotant</string>
     <string name="pref_fab_style_standard_description">Estàndard (Toqueu la fletxa per al menú)</string>
