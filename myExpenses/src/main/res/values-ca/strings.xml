@@ -897,7 +897,7 @@
     <string name="warning_nested_archives">No s\'admeten els arxius aniuats.</string>
     <string name="warning_empty_archive">No hi ha cap transacció a l\'interval de dates seleccionat.</string>
     <string name="warning_archive_inconsistent_state">Les transaccions de l\'interval de dates seleccionat tenen estats inconsistents (%s).</string>
-    <string name="warning_backend_deactivated">El servidor intermediari no està a punt per a la sincronització.</string>
+    <string name="warning_backend_deactivated">El servidor no està preparat per a la sincronització.</string>
     <string name="button_activate_again">Torna a activar</string>
     <string name="credit_limit_reached">Heu assolit el vostre límit de crèdit.</string>
     <string name="saving_goal_reached">Heu assolit el vostre objectiu d\'estalvi.</string>
