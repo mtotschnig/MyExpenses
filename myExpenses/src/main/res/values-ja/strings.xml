@@ -802,7 +802,7 @@
     <string name="title_webui">Web ユーザーインターフェース</string>
     <string name="single_feature_info">または、この機能のみへの無制限アクセスを購入することもできます。</string>
     <string name="recurrence_last_day_of_month">最終日</string>
-    <string name="warning_link_transfer">選択した取引は %s との振替に統合されます。</string>
+    <string name="warning_link_transfer">選択した2件の取引は振替としてリンクされます。取引先と分類の情報は削除されます。</string>
     <string name="account_widget_configuration_sum">表示する合計のタイプ</string>
     <string name="account_widget_configuration_sum_total">将来の取引を含める</string>
     <string name="account_widget_configuration">勘定ウィジェットの設定</string>
