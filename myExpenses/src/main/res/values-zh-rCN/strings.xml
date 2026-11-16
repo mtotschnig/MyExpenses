@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:ns0="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">账户</string>
     <string name="account_types">账户类型</string>
     <string name="account_type_asset">其他资产</string>
@@ -13,20 +13,20 @@
     <string name="app_name">开支助手</string>
     <string name="backup_success">数据库与首选项已成功写入“%1$s”</string>
     <string name="category">类别</string>
-    <string name="contrib_feature_ad_free_label" ns0:ignore="UnusedResources">无广告</string>
-    <string name="contrib_feature_accounts_unlimited_label" ns0:ignore="UnusedResources">无限数量的账户</string>
-    <string name="contrib_feature_attach_picture_label" ns0:ignore="UnusedResources">可附加交易图片</string>
-    <string name="contrib_feature_distribution_label" ns0:ignore="UnusedResources">圆饼统计图 (会根据每个类别作出统计图表)</string>
-    <string name="contrib_feature_plans_unlimited_label" ns0:ignore="UnusedResources">无限数量的收支计划</string>
-    <string name="contrib_feature_print_label" ns0:ignore="UnusedResources">可将交易记录清单以PDF的文件型式导出</string>
-    <string name="contrib_feature_csv_import_label" ns0:ignore="UnusedResources">导入 CSV</string>
-    <string name="contrib_feature_split_template_label" ns0:ignore="UnusedResources">无限数量的拆分款项模板</string>
-    <string name="contrib_feature_pro_support_label" ns0:ignore="UnusedResources">
+    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">无广告</string>
+    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">无限数量的账户</string>
+    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">可附加交易图片</string>
+    <string name="contrib_feature_distribution_label" tools:ignore="UnusedResources">圆饼统计图 (会根据每个类别作出统计图表)</string>
+    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">无限数量的收支计划</string>
+    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">可将交易记录清单以PDF的文件型式导出</string>
+    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">导入 CSV</string>
+    <string name="contrib_feature_split_template_label" tools:ignore="UnusedResources">无限数量的拆分款项模板</string>
+    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">
         <b>电子邮件支持</b>，保证在2个工作日内回复</string>
-    <string name="contrib_feature_roadmap_voting_label" ns0:ignore="UnusedResources">对<b>程序开发路线图</b>的投票权</string>
-    <string name="contrib_feature_history_label" ns0:ignore="UnusedResources">收支历史图表</string>
+    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources">对<b>程序开发路线图</b>的投票权</string>
+    <string name="contrib_feature_history_label" tools:ignore="UnusedResources">收支历史图表</string>
     <string name="contrib_feature_category_tree_label">任意深的类别层次结构</string>
-    <string name="contrib_feature_synchronization_label" ns0:ignore="UnusedResources">云同步</string>
+    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">云同步</string>
     <string name="licence_status_free">免费版</string>
     <string name="contrib_key">贡献版密钥(Contrib Key)</string>
     <string name="extended_key">扩展版密钥</string>
@@ -48,11 +48,11 @@
     <string name="dialog_contrib_text_1">
         <i>{app_name}</i>以开源方式提供。</string>
     <string name="dialog_contrib_text_2">请透过升级来赞助<i>{app_name}</i>，还可以解锁得到以下更多的功能:</string>
-    <string name="dialog_contrib_trial_info" ns0:ignore="PluralsCandidate">你目前的许可证状态（%1$s）允许你试用 %2$s %3$d 天（直至 %4$s）。</string>
+    <string name="dialog_contrib_trial_info" tools:ignore="PluralsCandidate">你目前的许可证状态（%1$s）允许你试用 %2$s %3$d 天（直至 %4$s）。</string>
     <string name="dialog_contrib_trial_info_play">此免费试用永远不会转换为任何类型的订阅。</string>
     <string name="dialog_contrib_subscription_info_play">此订阅立即生效，按月或按年计费，并且可以随时取消。</string>
-    <string name="dialog_contrib_usage_limit_accounts" ns0:ignore="PluralsCandidate">依据您目前许可证(%2$s)的权限，您可以建立%1$d个账户。</string>
-    <string name="dialog_contrib_usage_limit_plans" ns0:ignore="PluralsCandidate">依据您目前的版本(%2$s)的权限，您可以创建%1$d个收支计划。</string>
+    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">依据您目前许可证(%2$s)的权限，您可以建立%1$d个账户。</string>
+    <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">依据您目前的版本(%2$s)的权限，您可以创建%1$d个收支计划。</string>
     <string name="dialog_contrib_usage_limit_split_templates">依据您目前许可证(%1$s)的权限，您可以创建1个拆分款项的模板。</string>
     <string name="dialog_contrib_usage_limit_with_dialog">当前的许可证状态（%1$s）下，每次使用都将显示此对话框。</string>
     <string name="dialog_export_delete">删除已导出的交易</string>
@@ -265,7 +265,7 @@
     <string name="restore_preferences_failure">首选项还原失败</string>
     <string name="restore_backup_file_not_found">文件 %1$s 未在压缩文件 \"%2$s\\ 内被找到</string>
     <string name="restore_preferences_success">首选项已通过备份恢复</string>
-    <string name="restore_calendar_success" ns0:ignore="PluralsCandidate">%d计划已从备份中还原</string>
+    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d计划已从备份中还原</string>
     <string name="save_transaction_and_new_success">保存成功</string>
     <string name="save_transaction_error">无法从模板保存新的交易。</string>
     <plurals name="save_transaction_from_template_success">
@@ -326,10 +326,10 @@
     <string name="warning_reset_account_all">如果继续，%1$s所有账户和当中的所有交易将从数据库中删除，并且无法还原。</string>
     <string name="warning_reset_account_matched">如果继续，与当前筛选器匹配的交易项目将从数据库中删除，并且无法还原。</string>
     <string name="warning_restore">数据库与首选项将通过文件“%1$s”恢复，当前数据将被删除</string>
-    <string name="validation_error_number_out_of_range" ns0:ignore="PluralsCandidate">请在%1$d和%2$d之间设置一个数字</string>
+    <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">请在%1$d和%2$d之间设置一个数字</string>
     <string name="warning_change_fraction_digits_1">需要更新数据库中的金额以匹配新的小数位数。</string>
-    <string name="warning_change_fraction_digits_2_multiplied" ns0:ignore="PluralsCandidate">如果未更新金额，则更改后它们将显示为乘以%d。</string>
-    <string name="warning_change_fraction_digits_2_divided" ns0:ignore="PluralsCandidate">如果未更新金额，则更改后它们将显示为除以%d。</string>
+    <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">如果未更新金额，则更改后它们将显示为乘以%d。</string>
+    <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">如果未更新金额，则更改后它们将显示为除以%d。</string>
     <string name="warning_change_fraction_digits_3">如果金额被更新，您将丢失有关其小数部分的信息。</string>
     <string name="warning_change_fraction_digits_checkbox_label">更新数据库中的金额</string>
     <plurals name="import_categories_result">
@@ -367,9 +367,9 @@
     <string name="comparison_operator_between">之间</string>
     <string name="comparison_operator_date_before">之前</string>
     <string name="comparison_operator_date_after">之后</string>
-    <string name="premium_failed_or_canceled" ns0:ignore="UnusedResources">购买失败或被取消。</string>
+    <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">购买失败或被取消。</string>
     <string name="hint_auto_fill">对于同一交易对手方是否自动填入上次交易的数据？您可以随时在设置中更改此行为。</string>
-    <string name="change_fraction_digits_result" ns0:ignore="PluralsCandidate">货币为 %2$s 的账户 %1$d 已更新。</string>
+    <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">货币为 %2$s 的账户 %1$d 已更新。</string>
     <string name="import_source_file">文件</string>
     <string name="pref_manage_stale_images_title">陈旧图像</string>
     <string name="pref_manage_stale_images_summary">管理已删除交易后，所留下的图片</string>
@@ -389,7 +389,7 @@
     <string name="pref_csv_import_delimiter">分隔符</string>
     <string name="menu_parse">分析</string>
     <string name="csv_import_field_mapped_more_than_once">%s已映射多次。</string>
-    <string name="csv_import_records_discarded" ns0:ignore="PluralsCandidate">%d 笔记录被放弃。</string>
+    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d 笔记录被放弃。</string>
     <string name="csv_import_subcategory_requires_category">如果您映射子类别，则还必须映射主类别。</string>
     <string name="cvs_import_set_first_line_as_header">是否应把第一行当作标题行？</string>
     <string name="csv_import_no_mapping_found_for_amount">请映射到金额、收入或支出其中一列。</string>
@@ -401,7 +401,7 @@
     <string name="pref_auto_backup_time_title">自动备份的时间</string>
     <string name="calendar_permission_required">
         <i>{app_name}</i>需要获得访问日历的权限，才能为将来和定期的交易创建计划。</string>
-    <string name="button_request_calendar_access" ns0:ignore="UnusedResources">授权访问</string>
+    <string name="button_request_calendar_access" tools:ignore="UnusedResources">授权访问</string>
     <string name="menu_move">移动</string>
     <string name="dialog_title_select_target">选择目标</string>
     <string name="transform_subcategory_to_main">转换为主类别</string>
@@ -447,7 +447,7 @@
     <string name="dialog_confirm_sync_link_remote">该账户的本地数据将被删除。</string>
     <string name="warning_trial_limit_reached">%s功能的试用期已经结束。</string>
     <string name="warning_synchronization_folder_usage">{app_name}安装在不同设备上时，两者之间的数据同步在此文件夹里。请不要手动修改其任何内容。</string>
-    <string name="warning_synchronization_select_parent" ns0:ignore="UnusedResources">您选择的文件夹对应于现有后端的一个账户。您需要选择其上层文件夹才能重用此后端。</string>
+    <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">您选择的文件夹对应于现有后端的一个账户。您需要选择其上层文件夹才能重用此后端。</string>
     <string name="link_account_failure_2">具有相同uuid的账户已存在于远程后端上。</string>
     <string name="link_account_failure_3">可以从进入账户列表的快显菜单中手动解决冲突。</string>
     <string name="progress_dialog_checking_sync_backend">验证后端</string>
@@ -499,8 +499,8 @@
     <string name="valid_until">直到%s</string>
     <string name="extend_until">延长至%1$s只要%2$s</string>
     <string name="extended_upgrade_goodie_github">已拥有“扩展版许可证”的用户，可享有一次额外的 %d 个月优惠</string>
-    <string name="switch_to_yearly" ns0:ignore="UnusedResources">切换至年度订阅</string>
-    <string name="switch_to_monthly" ns0:ignore="UnusedResources">切换到每月订阅</string>
+    <string name="switch_to_yearly" tools:ignore="UnusedResources">切换至年度订阅</string>
+    <string name="switch_to_monthly" tools:ignore="UnusedResources">切换到每月订阅</string>
     <string name="extend_validity">延长有效期</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">从远程后端获取数据中。这可能要花点时间。</string>
     <string name="donate_button_invoice">发票</string>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">계좌</string>
     <string name="account_types">계좌 타입</string>
     <string name="account_type_asset">자산 계좌</string>
@@ -13,19 +13,19 @@
     <string name="app_name">내 지출</string>
     <string name="backup_success">\"%1$s\"에 데이터베이스 및 환경설정을 성공적으로 기록했습니다.</string>
     <string name="category">카테고리</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="contrib_feature_ad_free_label" ns0:ignore="UnusedResources">광고 없음</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="contrib_feature_accounts_unlimited_label" ns0:ignore="UnusedResources">개수 제한 없는 계좌</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="contrib_feature_attach_picture_label" ns0:ignore="UnusedResources">거래 내역에 이미지 첨부</string>
+    <string name="contrib_feature_ad_free_label" tools:ignore="UnusedResources">광고 없음</string>
+    <string name="contrib_feature_accounts_unlimited_label" tools:ignore="UnusedResources">개수 제한 없는 계좌</string>
+    <string name="contrib_feature_attach_picture_label" tools:ignore="UnusedResources">거래 내역에 이미지 첨부</string>
     <string name="contrib_feature_distribution_label">원형 차트 (카테고리별 분포)</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="contrib_feature_plans_unlimited_label" ns0:ignore="UnusedResources">개수 제한 없는 재무 계획</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="contrib_feature_print_label" ns0:ignore="UnusedResources">거래 내역 목록을 PDF로 내보내기</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="contrib_feature_csv_import_label" ns0:ignore="UnusedResources">CSV 가져오기</string>
+    <string name="contrib_feature_plans_unlimited_label" tools:ignore="UnusedResources">개수 제한 없는 재무 계획</string>
+    <string name="contrib_feature_print_label" tools:ignore="UnusedResources">거래 내역 목록을 PDF로 내보내기</string>
+    <string name="contrib_feature_csv_import_label" tools:ignore="UnusedResources">CSV 가져오기</string>
     <string name="contrib_feature_split_template_label">개수 제한 없는 분할 템플릿</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="contrib_feature_pro_support_label" ns0:ignore="UnusedResources">영업일 기준 2 일 이내에 응답이 보장되는 <b>이메일 지원</b></string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="contrib_feature_roadmap_voting_label" ns0:ignore="UnusedResources"><b>개발 로드맵에</b> 바로 투표</string>
+    <string name="contrib_feature_pro_support_label" tools:ignore="UnusedResources">영업일 기준 2 일 이내에 응답이 보장되는 <b>이메일 지원</b></string>
+    <string name="contrib_feature_roadmap_voting_label" tools:ignore="UnusedResources"><b>개발 로드맵에</b> 바로 투표</string>
     <string name="contrib_feature_history_label">내역 차트</string>
     <string name="contrib_feature_category_tree_label">임의의 깊은 범주 계층 구조</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="contrib_feature_synchronization_label" ns0:ignore="UnusedResources">클라우드 동기화</string>
+    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">클라우드 동기화</string>
     <string name="licence_status_free">무료</string>
     <string name="contrib_key">기부 확인 키</string>
     <string name="extended_key">확장 키</string>
@@ -263,7 +263,7 @@
     <string name="restore_preferences_failure">환경설정 복원에 실패했습니다</string>
     <string name="restore_backup_file_not_found">%1$s 파일을 압축 파일 \"%2$s\"에서 찾을 수 없습니다</string>
     <string name="restore_preferences_success">환경설정이 백업에서 복원되었습니다.</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="restore_calendar_success" ns0:ignore="PluralsCandidate">%d 재무 계획이 백업 파일으로부터 복원되었습니다.</string>
+    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d 재무 계획이 백업 파일으로부터 복원되었습니다.</string>
     <string name="save_transaction_and_new_success">성공적으로 저장됨</string>
     <string name="save_transaction_error">템플릿으로부터 새 거래 내역을 저장할 수 없습니다.</string>
     <plurals name="save_transaction_from_template_success">
@@ -324,7 +324,7 @@
     <string name="warning_reset_account_all">계속 진행하면, 모든 계좌의%1$s 거래 내역은 데이터베이스에서 삭제되며 복원할 수 없습니다.</string>
     <string name="warning_reset_account_matched">계속 진행하면, 현재의 필터와 일치하는 거래 내역은 데이터베이스에서 삭제되며 복원할 수 없습니다.</string>
     <string name="warning_restore">데이터베이스 및 환경설정이 \"%1$s\" 파일에서 복원됩니다. 현재 데이터가 삭제됩니다.</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="validation_error_number_out_of_range" ns0:ignore="PluralsCandidate">%1$d과 %2$d 사이의 숫자를 설정하세요</string>
+    <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">%1$d과 %2$d 사이의 숫자를 설정하세요</string>
     <string name="warning_change_fraction_digits_1">새 소수점 자릿수와 일치하도록 데이터베이스의 금액을 업데이트해야 합니다.</string>
     <string name="warning_change_fraction_digits_2_multiplied">금액을 업데이트하지 않으면 변경 후 %d배 곱해져 표시됩니다.</string>
     <string name="warning_change_fraction_digits_2_divided">금액을 업데이트하지 않으면 변경 후 %d로 나눠져 표시됩니다.</string>
@@ -365,9 +365,9 @@
     <string name="comparison_operator_between">사이에</string>
     <string name="comparison_operator_date_before">이전에</string>
     <string name="comparison_operator_date_after">이후에</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="premium_failed_or_canceled" ns0:ignore="UnusedResources">구매에 실패했거나 취소되었습니다.</string>
+    <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">구매에 실패했거나 취소되었습니다.</string>
     <string name="hint_auto_fill">동일한 거래처의 마지막 거래 데이터를 자동으로 완성할까요? 설정에서 언제든지 이 동작을 변경할 수 있습니다.</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="change_fraction_digits_result" ns0:ignore="PluralsCandidate">%2$s 화폐의 %1$d 계좌가 업데이트 되었습니다.</string>
+    <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate">%2$s 화폐의 %1$d 계좌가 업데이트 되었습니다.</string>
     <string name="import_source_file">파일</string>
     <string name="pref_manage_stale_images_title">오래된 이미지</string>
     <string name="pref_manage_stale_images_summary">삭제된 거래 내역으로부터 남겨진 사진 관리</string>
@@ -387,7 +387,7 @@
     <string name="pref_csv_import_delimiter">구획 문자</string>
     <string name="menu_parse">분석</string>
     <string name="csv_import_field_mapped_more_than_once">%s 항목은 한번 이상 배치되었습니다.</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="csv_import_records_discarded" ns0:ignore="PluralsCandidate">%d 기록이 버려졌습니다.</string>
+    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d 기록이 버려졌습니다.</string>
     <string name="csv_import_subcategory_requires_category">만약 하위 카테고리를 배치했다면 카테고리도 배치해야 합니다.</string>
     <string name="cvs_import_set_first_line_as_header">첫번째 줄을 헤더 줄로 간주할까요?</string>
     <string name="csv_import_no_mapping_found_for_amount">하나의 열을 금액, 수입 또는 지출로 배치하세요.</string>
@@ -398,7 +398,7 @@
     <string name="pref_auto_backup_summary">데이터베이스를 매일 정해진 시간에 백업합니다(데이터가 변경된 경우에만).</string>
     <string name="pref_auto_backup_time_title">자동 백업 시간</string>
     <string name="calendar_permission_required"><i>{app_name}</i>는 향후의 재무 계획과 반복 거래를 만들기 위해서 캘린더에 접근할 수 있는 권한이 필요합니다.</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="button_request_calendar_access" ns0:ignore="UnusedResources">접근 허용</string>
+    <string name="button_request_calendar_access" tools:ignore="UnusedResources">접근 허용</string>
     <string name="menu_move">옮기기</string>
     <string name="dialog_title_select_target">목적지 선택</string>
     <string name="transform_subcategory_to_main">기본 범주로 변환하기</string>
@@ -707,7 +707,7 @@
     <string name="pref_acra_user_email_summary">만약 디버그를 도와주시거나 연락을 받고 싶으시면 이메일 주소를 입력해주세요.</string>
     <string name="backup_save_to_sync_backend">%s에 저장</string>
     <string name="ui_refinement">사용자 인터페이스 개선</string>
-    <string xmlns:ns0="http://schemas.android.com/tools" name="bug_fixes" ns0:ignore="UnusedResources">버그 수정</string>
+    <string name="bug_fixes" tools:ignore="UnusedResources">버그 수정</string>
     <string name="performance_enhancement">성능 향상</string>
     <string name="stability_improvements">안정성 향상</string>
     <string name="new_version">새 버전</string>

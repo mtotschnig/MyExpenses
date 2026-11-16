@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<resources xmlns:ns0="http://schemas.android.com/tools">
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="account">帳戶</string>
     <string name="account_types">帳戶類型</string>
     <string name="account_type_asset">資產帳戶</string>
@@ -26,7 +26,7 @@
     <string name="contrib_feature_roadmap_voting_label">對<b>程式開發者的未來藍圖</b>進行投票</string>
     <string name="contrib_feature_history_label">收支歷史圖表</string>
     <string name="contrib_feature_category_tree_label">任意深度的類別階層</string>
-    <string name="contrib_feature_synchronization_label" ns0:ignore="UnusedResources">雲端同步</string>
+    <string name="contrib_feature_synchronization_label" tools:ignore="UnusedResources">雲端同步</string>
     <string name="licence_status_free">免費版</string>
     <string name="contrib_key">貢獻版金鑰 (Contrib Key)</string>
     <string name="extended_key">延伸版金鑰 (Extended Key)</string>
@@ -49,11 +49,11 @@
     <string name="dialog_contrib_text_1">
         <i>{app_name}</i> 提供開放原始碼。</string>
     <string name="dialog_contrib_text_2">請用升級來贊助<i>{app_name}</i>，還可以解鎖得到以下更多的功能：</string>
-    <string name="dialog_contrib_trial_info" ns0:ignore="PluralsCandidate">你目前的許可證狀態（%1$s）允許你試用 %2$s %3$d 天（直至 %4$s）。</string>
+    <string name="dialog_contrib_trial_info" tools:ignore="PluralsCandidate">你目前的許可證狀態（%1$s）允許你試用 %2$s %3$d 天（直至 %4$s）。</string>
     <string name="dialog_contrib_trial_info_play">此免費試用永遠不會轉換為任何類型的訂閱。</string>
     <string name="dialog_contrib_subscription_info_play">此訂閱立即生效，按月或按年計費，並且可以隨時取消。</string>
-    <string name="dialog_contrib_usage_limit_accounts" ns0:ignore="PluralsCandidate">依據您目前許可證 (%2$s) 的權限，您可以建立%1$d個帳戶。</string>
-    <string name="dialog_contrib_usage_limit_plans" ns0:ignore="PluralsCandidate">依據您目前的版本 (%2$s) 的權限，您可以建立%1$d個收支計畫。</string>
+    <string name="dialog_contrib_usage_limit_accounts" tools:ignore="PluralsCandidate">依據您目前許可證 (%2$s) 的權限，您可以建立%1$d個帳戶。</string>
+    <string name="dialog_contrib_usage_limit_plans" tools:ignore="PluralsCandidate">依據您目前的版本 (%2$s) 的權限，您可以建立%1$d個收支計畫。</string>
     <string name="dialog_contrib_usage_limit_split_templates">依據您目前許可證 (%1$s) 的權限，您可以建立 1 個分割款項的範本。</string>
     <string name="dialog_contrib_usage_limit_with_dialog">在您目前的許可證狀態（%1$s）下，每次使用都將顯示此對話方塊。</string>
     <string name="dialog_export_delete">刪除已輸出的交易</string>
@@ -266,7 +266,7 @@
     <string name="restore_preferences_failure">偏好設定還原失敗</string>
     <string name="restore_backup_file_not_found">在檔案夾“ %2$s”中找不到檔案%1$s</string>
     <string name="restore_preferences_success">偏好設定已從備份中還原。</string>
-    <string name="restore_calendar_success" ns0:ignore="PluralsCandidate">%d計畫已經從備份檔中還原</string>
+    <string name="restore_calendar_success" tools:ignore="PluralsCandidate">%d計畫已經從備份檔中還原</string>
     <string name="save_transaction_and_new_success">存檔成功</string>
     <string name="save_transaction_error">無法從範本儲存新的交易。</string>
     <plurals name="save_transaction_from_template_success">
@@ -327,10 +327,10 @@
     <string name="warning_reset_account_all">如果繼續此操作，%1$s所有帳戶和其中的所有交易項目將從資料庫中刪除，並且無法還原。</string>
     <string name="warning_reset_account_matched">如果繼續此操作，與目前篩選器相符合的交易項目將從資料庫中刪除，並且無法還原。</string>
     <string name="warning_restore">資料數據與偏好設定將會從檔案\"%1$s\"復原。而現有的資料將被刪除。</string>
-    <string name="validation_error_number_out_of_range" ns0:ignore="PluralsCandidate">請在%1$d與%2$d之間設定一個數字</string>
+    <string name="validation_error_number_out_of_range" tools:ignore="PluralsCandidate">請在%1$d與%2$d之間設定一個數字</string>
     <string name="warning_change_fraction_digits_1">需要更新資料庫中的金額以符合新的小數位數。</string>
-    <string name="warning_change_fraction_digits_2_multiplied" ns0:ignore="PluralsCandidate">如果不更新金額，則更改後，它們將顯示為乘以%d。</string>
-    <string name="warning_change_fraction_digits_2_divided" ns0:ignore="PluralsCandidate">如果不更新金額，則更改後，它們將顯示為除以 %d。</string>
+    <string name="warning_change_fraction_digits_2_multiplied" tools:ignore="PluralsCandidate">如果不更新金額，則更改後，它們將顯示為乘以%d。</string>
+    <string name="warning_change_fraction_digits_2_divided" tools:ignore="PluralsCandidate">如果不更新金額，則更改後，它們將顯示為除以 %d。</string>
     <string name="warning_change_fraction_digits_3">如果金額被更新，您將遺失有關其小數點部分的資訊。</string>
     <string name="warning_change_fraction_digits_checkbox_label">更新資料庫中的金額</string>
     <plurals name="import_categories_result">
@@ -368,9 +368,9 @@
     <string name="comparison_operator_between">之間</string>
     <string name="comparison_operator_date_before">之前</string>
     <string name="comparison_operator_date_after">之後</string>
-    <string name="premium_failed_or_canceled" ns0:ignore="UnusedResources">購買失敗或已取消。</string>
+    <string name="premium_failed_or_canceled" tools:ignore="UnusedResources">購買失敗或已取消。</string>
     <string name="hint_auto_fill">當交易對象 (收款人/付款人) 相同時，是否自動填入上次交易的內容？ 您始終可以透過\"程式設定\"更改此決定。</string>
-    <string name="change_fraction_digits_result" ns0:ignore="PluralsCandidate"> %2$s 貨幣的 %1$d 帳戶已經被更新了</string>
+    <string name="change_fraction_digits_result" tools:ignore="PluralsCandidate"> %2$s 貨幣的 %1$d 帳戶已經被更新了</string>
     <string name="import_source_file">檔案</string>
     <string name="pref_manage_stale_images_title">陳舊圖檔</string>
     <string name="pref_manage_stale_images_summary">管理已刪除的交易，所留下的圖片</string>
@@ -390,7 +390,7 @@
     <string name="pref_csv_import_delimiter">分隔符號</string>
     <string name="menu_parse">解析</string>
     <string name="csv_import_field_mapped_more_than_once">%s已對應多次。</string>
-    <string name="csv_import_records_discarded" ns0:ignore="PluralsCandidate">%d個紀錄被捨棄了。</string>
+    <string name="csv_import_records_discarded" tools:ignore="PluralsCandidate">%d個紀錄被捨棄了。</string>
     <string name="csv_import_subcategory_requires_category">如果您要對應子類別，則還必須對應主類別。</string>
     <string name="cvs_import_set_first_line_as_header">是否將第一行當作標題行？</string>
     <string name="csv_import_no_mapping_found_for_amount">請對應到金額、收入或支出其中一欄。</string>
@@ -402,7 +402,7 @@
     <string name="pref_auto_backup_time_title">自動備份的時間</string>
     <string name="calendar_permission_required">
         <i>{app_name}</i>此應用程式需要日曆的存取權限，才能新建未來交易計畫與定期交易計畫。</string>
-    <string name="button_request_calendar_access" ns0:ignore="UnusedResources">授予存取權限</string>
+    <string name="button_request_calendar_access" tools:ignore="UnusedResources">授予存取權限</string>
     <string name="menu_move">移動</string>
     <string name="dialog_title_select_target">選擇目標</string>
     <string name="transform_subcategory_to_main">轉換成主類別</string>
@@ -448,7 +448,7 @@
     <string name="dialog_confirm_sync_link_remote">該帳戶在本機的資料將被刪除。</string>
     <string name="warning_trial_limit_reached">試用版功能%s已經到期。</string>
     <string name="warning_synchronization_folder_usage">{app_name}安裝在不同裝置上時，兩者之間的資料同步在此檔案夾裡。請不要手動修改其任何內容。</string>
-    <string name="warning_synchronization_select_parent" ns0:ignore="UnusedResources">您所選的檔案夾已對應到此後端的一個帳戶。您需要選擇其上層檔案夾才能重用此後端。</string>
+    <string name="warning_synchronization_select_parent" tools:ignore="UnusedResources">您所選的檔案夾已對應到此後端的一個帳戶。您需要選擇其上層檔案夾才能重用此後端。</string>
     <string name="link_account_failure_2">具有相同\"通用唯一識別碼uuid\"的帳戶已存在於遠端後端上。</string>
     <string name="link_account_failure_3">可以從進入帳戶列表的快顯選單中手動解決衝突。</string>
     <string name="progress_dialog_checking_sync_backend">驗證後端</string>
@@ -500,8 +500,8 @@
     <string name="valid_until">直到%s</string>
     <string name="extend_until">延長至%1$s只要%2$s</string>
     <string name="extended_upgrade_goodie_github">已擁有\"延伸版金鑰(Extended Key)\"的使用者，將被授予一次額外的%d個月</string>
-    <string name="switch_to_yearly" ns0:ignore="UnusedResources">切換至年度訂閱</string>
-    <string name="switch_to_monthly" ns0:ignore="UnusedResources">切換到每月訂閱</string>
+    <string name="switch_to_yearly" tools:ignore="UnusedResources">切換至年度訂閱</string>
+    <string name="switch_to_monthly" tools:ignore="UnusedResources">切換到每月訂閱</string>
     <string name="extend_validity">延長有效期</string>
     <string name="progress_dialog_fetching_data_from_sync_backend">從遠端後端獲取資料中。這可能要花點時間。</string>
     <string name="donate_button_invoice">發票</string>
@@ -713,9 +713,9 @@
     <string name="pref_acra_user_email_summary">若您願意幫助程式除錯，並允許我們與您聯絡，請輸入您的電子郵件地址。</string>
     <string name="backup_save_to_sync_backend">儲存至 %s</string>
     <string name="ui_refinement">完善用户界面</string>
-    <string name="bug_fixes" ns0:ignore="UnusedResources">錯誤修復</string>
-    <string name="performance_enhancement" ns0:ignore="UnusedResources">效能提升</string>
-    <string name="stability_improvements" ns0:ignore="UnusedResources">穩定性提升</string>
+    <string name="bug_fixes" tools:ignore="UnusedResources">錯誤修復</string>
+    <string name="performance_enhancement" tools:ignore="UnusedResources">效能提升</string>
+    <string name="stability_improvements" tools:ignore="UnusedResources">穩定性提升</string>
     <string name="new_version">新版本</string>
     <string name="menu_new_debt">新債務</string>
     <string name="debt_owes_me">%s 欠我</string>
