@@ -944,8 +944,8 @@
     <string name="pref_ui_home_screen_shortcuts_show_new_balance_title">Mostra el nou saldo després de desar la transacció</string>
     <string name="print_configuration_empty">Afegiu almenys un camp per imprimir.</string>
     <plurals name="import_prices_success_message">
-            <item quantity="one">S\'han trobat dades vàlides a %d línia.</item>
-            <item quantity="other">S\'han trobat dades vàlides a %d línies.</item>
+            <item quantity="one">S\'han trobat dades vàlides en %d línia.</item>
+            <item quantity="other">S\'han trobat dades vàlides en %d línies.</item>
         </plurals>
     <plurals name="import_prices_failure_message">
             <item quantity="one">No s\'ha pogut processar %d línia.</item>
