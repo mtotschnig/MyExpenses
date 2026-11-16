@@ -886,7 +886,7 @@
     <string name="pref_scroll_to_current_date_title">Desplaça la llista de transaccions a la data actual</string>
     <string name="pref_scroll_to_current_date_app_launch">només quan s\'inicia l\'aplicació</string>
     <string name="pref_scroll_to_current_date_account_open">cada vegada que navegueu al compte</string>
-    <string name="remap_payee_null">Es treurà la contrapart de totes les transaccions seleccionades.</string>
+    <string name="remap_payee_null">Es traurà la contrapart de totes les transaccions seleccionades.</string
     <string name="remap_update_value_date">Actualitza també la data de valor</string>
     <string name="not_enough_data">No hi ha prou dades</string>
     <string name="menu_unpack">Desempaqueta</string>
